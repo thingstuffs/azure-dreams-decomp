@@ -24,7 +24,7 @@ typedef struct S_800D1C70_0 {
     s8 unk_9C;
 } S_800D1C70_0;
 
-void select_record_entry_and_value(void *, void *, s32);
+void select_record_entry_and_value(void *state, void *entries, short index);
 void *allocate_list_node(s32, void *);
 void register_node(void *, void *);
 void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *);

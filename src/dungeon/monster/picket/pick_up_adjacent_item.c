@@ -12,9 +12,9 @@ extern s32 D_8015CFE4[];
 typedef struct { s32 value; } ItemWord;
 
 
- s32 pick_up_adjacent_item(void *, void *) ;
+ void * pick_up_adjacent_item(void *, void *) ;
 /* Removes a nearby or carried item and passes it to the item handler. */
- s32 pick_up_adjacent_item(void *origin, void *actor) {
+ void * pick_up_adjacent_item(void *origin, void *actor) {
     u8 *origin_bytes = (u8 *)origin;
     u8 *actor_bytes = (u8 *)actor;
     s32 direction_offset;
@@ -34,7 +34,7 @@ typedef struct { s32 value; } ItemWord;
         item_slot = item_dest;
         *(ItemWord *)item_dest = *(ItemWord *)&((s32 *)dungeon_ground_items)[ground_slot];
         ((s32 *)dungeon_ground_items)[ground_slot] = 0;
-        return (s32)item_slot;
+        return item_slot;
     }
 
     target = probe_directional_neighbor(actor, *(u8 *)(origin_bytes + 0x24), *(u8 *)(origin_bytes + 0x25),
@@ -84,7 +84,7 @@ typedef struct { s32 value; } ItemWord;
 
 
                     clear_slot_and_update_linked_state(item_ptr, (void *)slot_index);
-                    return (s32)item_dest;
+                    return item_dest;
                 }
             }
         }
@@ -106,7 +106,7 @@ typedef struct { s32 value; } ItemWord;
             item_dest[0] = item_data;
 
             *(s32 *)((u8 *)target + 0x48) = 0;
-            return (s32)item_slot;
+            return item_slot;
         }
     }
     return 0;

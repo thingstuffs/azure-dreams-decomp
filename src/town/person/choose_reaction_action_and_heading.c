@@ -39,9 +39,9 @@ void choose_reaction_action_and_heading(Rec_func_800C9B44_arg0 *actor, EntityRec
                     continue;
                 }
                 if (direction == action) {
-                    s32 center_y = actor->unk_86;
+                    s32 target_y = actor->unk_86;
                     y_radius = actor->unk_8E;
-                    if (motion->y.w.i < (center_y + y_radius)) {
+                    if (motion->y.w.i < (target_y + y_radius)) {
                         actor->unk_72 = 0;
                         break;
                     }

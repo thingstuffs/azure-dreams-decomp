@@ -53,8 +53,7 @@ extern s32 generate_random_value(void);
 extern void set_or_clear_actor_status_slot(Func80BBB094PartC *, s32, s32);
 extern void initialize_actor_sprite_and_animation(Func80BBB094Object *, Func80BBB094PartA *,
                           Func80BBB094PartB *, s32);
-extern void try_move_actor_to_valid_position(Func80BBB094PartC *, Func80BBB094PartA *,
-                          Func80BBB094PartB *, Func80BBB094PartC *);
+extern void try_move_actor_to_valid_position(void *,void *,void *,void *);
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 

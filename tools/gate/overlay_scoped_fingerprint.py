@@ -462,6 +462,9 @@ def screening(m, levels, baseline, G):
     out = {}
     for a in G.all_members(m):
         data = a in m.get('data_members', [])
+        if data and G.Q.enabled(m):
+            out[a['id']] = {'ownership': 'separated_native_prefix', 'provenance': m['prefix_provenance']}
+            continue
         if data and G.Z.symbolic(m):
             out[a['id']] = {'ownership': 'registered_symbolic_table', 'owner': next(s['owner'] for _,s in G.Z.P.slots(m) if s['symbol']==a['symbol'])}
             continue

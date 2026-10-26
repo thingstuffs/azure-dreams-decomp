@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_node.h"
 
-extern void call_the_handler_selects_nonzero_entry(void *entries, void *record, s32 handler_param);
+extern void call_the_handler_selects_nonzero_entry(void *entries, void *record,void *handler_param);
 extern void clear_entity_record_fields(s32 record);
 
 extern u8 scene_object_payload_alias[];

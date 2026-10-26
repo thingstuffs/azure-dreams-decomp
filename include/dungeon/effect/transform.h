@@ -93,7 +93,7 @@ void register_node(void *, void *);
 void func_8004491C(void *, void *);
 s32 rand(void);
 void advance_sprite_animation_and_textures(void *record);
-s32 select_record_entry_and_value();
+void select_record_entry_and_value(void *state, void *entries, short index);
 extern u8 D_80024020[];
 extern u8 D_80024C78[];
 extern s32 D_80024264;

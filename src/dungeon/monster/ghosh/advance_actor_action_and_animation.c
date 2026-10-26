@@ -18,9 +18,9 @@ s16 get_tile_chebyshev_distance(void *, void *);
 s32 generate_random_value(void);
 void on_actor_status_updated(void *);
 void update_actor_status_and_mp(void *);
-void begin_pushed_actor_move(void *, s32, void *, void *);
-s32 begin_ready_actor_directional_action(void *, s32, void *, void *);
-void begin_actor_move_to_target_facing(void *, s32, void *, void *);
+void begin_pushed_actor_move(void *,void *, void *, void *);
+s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
+void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 void func_8016DAA4(void *, s32, void *, void *);
 
 extern u8 ghosh_action_resume_address[];
@@ -58,7 +58,7 @@ typedef struct S_8016D6F0_9 {
 } S_8016D6F0_9;   /* ((S_8016D6F0_2 *)base8008)->unk_14A8 in advance_actor_action_and_animation */
 
 /* Advance the actor's action state, directional animation, and completion callback. */
-void advance_actor_action_and_animation(S_8016D6F0_0 *actor, s32 actor_id, SpriteFrameState *sprite, ActorRecord *entity)
+void advance_actor_action_and_animation(S_8016D6F0_0 *actor, void *actor_id, SpriteFrameState *sprite, ActorRecord *entity)
 {
     TileObject *reference_pos;
     DungeonGlobalStatus *counter_base;

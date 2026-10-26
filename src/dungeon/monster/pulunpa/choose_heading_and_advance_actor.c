@@ -89,7 +89,7 @@ typedef struct {
 
 extern void update_actor_status_and_mp(void *);
 extern void update_actor_proximity_flag(void *, void *, s32, s32, void *);
-extern void *find_adjacent_actor(void *, s32, s32);
+extern void * find_adjacent_actor(void *, s32, s32);
 extern s32 get_rounded_facing_and_rounding_flag(s16, s16, s16, s16, void *);
 extern s32 generate_random_value(void);
 extern void *probe_directional_neighbor(void *, s32, s32, s32);

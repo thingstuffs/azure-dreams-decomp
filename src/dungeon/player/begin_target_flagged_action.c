@@ -11,7 +11,7 @@ extern u8 D_800E04E6[];
 
 extern void display_formatted_context_message(void *data_ptr);
 extern void adjust_source_value_and_finalize(void *context, const void *source);
-extern void select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s16 slot_value);
+extern void select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s16 slot_value);
 extern s16 get_special_table_data_index(s32 actor_value);
 extern void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
 

@@ -21,10 +21,10 @@ typedef struct S_801740F4_1 {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 
-extern s32 get_unused_text_buffer(void);
-extern s32 expand_text_control_codes();
-extern s32 clear_byte_and_advance();
-extern s32 append_entity_display_text();
+extern void *get_unused_text_buffer(void);
+extern u8 *expand_text_control_codes();
+extern void * clear_byte_and_advance();
+extern u8 *append_entity_display_text();
 #include "dungeon/player/object/action_state.h"
 extern s32 display_text_with_fullwidth_adjustment();
 extern s32 generate_random_value(void);
@@ -36,9 +36,9 @@ extern u8 D_8016EB0C[];
 void begin_actor_hit_reaction_slot_f(void *work, void *part_a, void *part_b, EntityRec *actor) {
     s32 flags;
     void *call_arg;
-    u32 pass_result;
-    s32 raw_result;
-    s32 result;
+    void *pass_result;
+    void *raw_result;
+    void *result;
     s32 field_60;
     u8 *table_base;
 

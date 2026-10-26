@@ -10,7 +10,7 @@
 
 void *resolve_attack_damage_and_effects();
 void set_record_integer_tile_center();
-s32 advance_status_timers();
+void advance_status_timers();
 s32 play_sound_if_enabled();
 void spend_actor_mp();
 void update_entity_actions_facing_and_animation(void *entity, s32 context, void *sprite, void *state);

@@ -14,7 +14,7 @@ typedef unsigned int u32;
 typedef int s32;
 typedef s32 M2C_UNK;
 
-extern void select_record_entry_and_value(void *, void *, s32);
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void play_sound_if_enabled(s32);
 void emit_randomized_relative_particles(void *emitter, Rec_func_800D4BD4_arg2 *position, s32 spawn_context);
 #include "shared/sprite_source.h"

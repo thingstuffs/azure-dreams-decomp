@@ -89,7 +89,7 @@ extern s32 generate_random_value(void);
 extern void on_actor_status_updated(void *);
 extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
-extern s32 begin_ready_actor_directional_action(void *, void *, void *, s32);
+extern s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void func_80173834(void *, void *, void *, void *);
@@ -98,7 +98,7 @@ extern u8 garuda_frame_set_1[];
 
 typedef struct S_80047784 S_80047784;
 struct SpriteFrameState;
-extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
+extern void select_sprite_entry(void *, s16, s16);
 extern u8 garuda_action_resume_address[];
 
 /* Functions defined in this translation unit. */

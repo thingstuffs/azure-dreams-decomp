@@ -25,7 +25,7 @@ void decrement_object_timer_and_update(Rec_func_80094268_arg0 *object, s32 callb
 /* extern */
 
 
-void install_object_handler_and_clear_slot_flag(Rec_func_80094268_arg0 *);
+void install_object_handler_and_clear_slot_flag(void *);
 /* Decrements the timer and calls the handler when its signed value is nonpositive. */
 void decrement_object_timer_and_call_handler(Rec_func_80094268_arg0 *object) {
     u16 remaining_ticks;

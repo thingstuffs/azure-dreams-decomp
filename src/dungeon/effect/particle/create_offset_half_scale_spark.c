@@ -28,7 +28,7 @@ typedef struct Object {
     void *callback;
 } Object;
 
-extern void select_record_entry_and_value(Sprite *, void *, s16);
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void register_node(Object *, void *);
 extern u8 D_80165580;
 

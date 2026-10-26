@@ -380,7 +380,7 @@ void draw_effect_and_restore_clip(void *effect, s32 unused, u8 *primitive) {
 }
 
 /* Creates an effect with randomized position offsets and initializes its rendering state. */
-void create_randomized_paletted_sprite(s32 unused_0, s32 unused_1, s32 unused_2, s16 x, s16 y, s16 z) {
+void create_randomized_paletted_sprite(void *unused_0, void *unused_1, void *unused_2, s16 x, s16 y, s16 z) {
     Effect *effect;
     EffectState *state;
     SpriteFrameState *render;

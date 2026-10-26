@@ -63,7 +63,9 @@ struct Dst {
 };
 
 /* Select an entry and reset the state's entry flags and value. */
-void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index) {
+void select_record_entry_and_value(void *state_data, void *entry_data, short index) {
+    struct Dst *state = state_data;
+    struct Elem *entries = entry_data;
     state->f0 = entries + index;
     state->f4 = index;
     state->f5 = entries->b0;

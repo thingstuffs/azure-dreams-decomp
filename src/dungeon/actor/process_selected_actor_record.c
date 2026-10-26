@@ -13,7 +13,7 @@ s32 get_entity_effect_value(void *, s32);
 s32 can_entity_gain_level(void *);
 void raise_entity_level(void *, s32);
 void play_sound_if_enabled(s32);
-void select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s16 slot_value);
+void select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s16 slot_value);
 extern s32 monster_species_table;
 extern s8 scene_music_hold;
 extern s8 D_80080AA0;
@@ -31,7 +31,7 @@ s32 process_selected_actor_record(s32 buffer_addr, s32 source, s32 unused, Actor
     eligible = 0;
     if (dungeon_floor_flags & 0x100000) {
         if ((g_dungeon_status.active_actor) != 0) {
-            if (((s32)g_dungeon_status.active_actor) == record) {
+            if (g_dungeon_status.active_actor == record) {
                 if (g_dungeon_status.activity_counts.parts.pending_action_count == 0) {
                     if (!(g_dungeon_status.flags & 8)) {
                         select_nearby_target_and_initialize_slot((void *)(buffer_addr - 0x20), source, 8, 0x300);

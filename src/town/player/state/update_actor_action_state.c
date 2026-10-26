@@ -4,7 +4,7 @@
 
 
 extern s32 init_height_interpolation_action(void *, void *, s32);
-extern void call_the_handler_selects_nonzero_entry(void *, void *, s32);
+extern void call_the_handler_selects_nonzero_entry(void *, void *,void *);
 extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(void *);
 extern s32 timed_scene_handler_entries;
 extern s32 D_800D00F0;

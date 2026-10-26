@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-extern s32 beldo_actor_nodes;
+extern void *beldo_actor_nodes[3];
 
 typedef struct S_8016F2BC_0 {
     u8 pad_00[0x96];
@@ -15,7 +15,7 @@ typedef struct S_8016F2BC_0 {
 void reset_multi_form_actor_action(void) {
     S_8016F2BC_0 *state;
 
-    state = beldo_actor_nodes + 0x20;
+    state = beldo_actor_nodes[0] + 0x20;
     state->unk_9A = 0;
     state->unk_9B = 0;
     state->unk_96 = 0;

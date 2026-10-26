@@ -12,7 +12,7 @@ typedef struct {
 
 
 /* Update actor state and dungeon count, or dispatch special handling. */
-s32 advance_actor_pending_action(void *actor_state, s32 action, void *status, void *actor) {
+s32 advance_actor_pending_action(void *actor_state, void *action, void *status, void *actor) {
 
     *(u8 *)((u8 *)actor + 0x71) &= 0x7F;
     if (g_dungeon_status.flags & 0x2008) {

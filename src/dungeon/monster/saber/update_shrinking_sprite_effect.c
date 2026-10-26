@@ -26,7 +26,7 @@ typedef struct {
     u16 size1;
 } Sprite;
 
-extern void advance_sprite_animation_and_textures(Sprite *);
+extern void advance_sprite_animation_and_textures(void *);
 
 /* Advance the actor, fade and shrink its sprite, and flag proximity or fade completion. */
 void update_shrinking_sprite_effect(Actor *actor, Vec3 *vec, SpriteFrameState *sprite)

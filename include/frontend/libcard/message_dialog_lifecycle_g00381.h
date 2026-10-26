@@ -18,10 +18,10 @@ typedef struct S_80022CD8_0_pre {
 
 /* the 0x10 bytes before arg0 in card_boot_activate_message_dialog, addressed as arg0[-1] */
 typedef struct S_80022CD8_0 {
-    s32 * unk_00;
+    s32 unk_00;
     u8 pad_04[0x4];
-    s32 * unk_08;
-    s32 * unk_0C;
+    s32 unk_08;
+    s32 unk_0C;
 } S_80022CD8_0;
 
 typedef struct S_800280B4 {
@@ -80,6 +80,6 @@ void card_boot_measure_five_line_message(u8 *text_block);
 void card_boot_bind_message_dialog_record(Rec_func_8002290C_arg0 *record, s32 value_14, s32 entry_index, s32 value_0c, s32 value_20);
 void card_boot_initialize_message_dialog_layout(s32 record, s32 value_14, s32 entry_index, s32 value_0c, s32 value_20);
 void card_boot_activate_message_dialog(void *object);
-u8 *card_boot_create_or_reset_message_dialog(s32 value_14, void *entry_index, void *value_0c, s32 value_20);
+u8 *card_boot_create_or_reset_message_dialog(s32 value_14, s32 entry_index, s32 value_0c, s32 value_20);
 
 #endif

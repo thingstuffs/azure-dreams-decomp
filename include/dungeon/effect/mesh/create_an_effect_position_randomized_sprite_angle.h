@@ -365,7 +365,7 @@ s32 play_sound_if_enabled();
 s16 sample_terrain_surface_height();
 static __inline__ s32 radial_coordinate(s32 center, s32 trig, s16 radius);
 void advance_shrinking_arc_effect(void *state, ovl_1930844_81910844_S_81910844_2 *motion, ovl_1930844_81910844_S_81910844_3 *visual);
-s32 create_an_effect_position_randomized_sprite_angle(Rec_func_80024170_arg0 *owner, void *source_position);
+void * create_an_effect_position_randomized_sprite_angle(Rec_func_80024170_arg0 *owner, void *source_position);
 void build_and_depth_sorts_five_radial_line_segments_effect(void *effect_data, void *origin, s16 step_index, s16 scale_factor);
 void build_and_enqueue_five_translucent_quads_between_interpolated_points(u8 *shape, void *position, s16 scale_num, s16 scale_den);
 void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(void *effect_in, ovl_1930844_819112CC_S_819112CC_1 *origin, s16 step_in, s16 duration_in);

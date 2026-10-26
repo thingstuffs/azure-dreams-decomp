@@ -12,7 +12,7 @@ void submit_object_resource_data();                         /* extern */
 struct Rec_func_80094268_arg0; void initialize_actor_position_interaction_action(struct Rec_func_80094268_arg0 *, s32, s32);     /* extern */
 struct ObjectPosition; void initialize_input_driven_scene_object(s32 * *, struct ObjectPosition *, s32);     /* extern */
 void initialize_action_callback_from_entry(s32 **record, void *ptr, void *ptr2);
-void initialize_busy_checked_countdown_action(Rec_func_80094268_arg0 *record, s32 unused, s32 setup_value);
+void initialize_busy_checked_countdown_action(Rec_func_80094268_arg0 *record,void *unused,void *setup_value);
 void init_timed_dispatch_action(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);
 s32 run_the_action_sequence_context_unless_flag_hex_a_5_set(s32);                          /* extern */
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"                      /* extern */

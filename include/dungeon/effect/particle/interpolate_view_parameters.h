@@ -194,7 +194,7 @@ void interpolate_view_parameters(B31_818C8824_EffectState *state, s32 *position,
 void advance_accelerating_particle(B31_818C8924_EffectState *effect, s32 *position, B31_818C8924_EffectObject *object);
 void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect, B31_818C8A70_S_818C8A70_4 *position);
 void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_func_818C8FD0_1 *state, B31_818C8FD0_S_func_818C8FD0_4 *output_pos, B31_818C8FD0_S_func_818C8FD0_5 *part);
-void select_record_entry_and_value(void *, void *, s32);
+void select_record_entry_and_value(void *state, void *entries, short index);
 extern const B31_818C8FD0_OffsetTable interpolation_direction_offsets;
 extern s16 moving_particle_effect_updated;
 s32 try_apply_confusion_status();        /* extern */

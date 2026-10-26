@@ -400,7 +400,7 @@ void damp_effect_motion_and_fade(void *effect, s32 *motion, SpriteFrameState *pr
 struct Dst;
 struct Elem;
 
-extern s32 select_record_entry_and_value(struct Dst *state, struct Elem *entries, s32 index);  /* extern */
+extern void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 rand();                                /* extern */
 extern s32 play_sound_if_enabled();
@@ -533,7 +533,7 @@ typedef struct CounterBlock {
     u16 count;
 } CounterBlock;
 
-s32 select_record_entry_and_value();        /* extern */
+void select_record_entry_and_value(void *state, void *entries, short index);        /* extern */
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 play_sound_if_enabled();
 extern s32 draw_linked_sprites_clipped();
@@ -633,15 +633,15 @@ void initialize_timed_motion_step(); /* Unprototyped: two or three arguments; re
 void request_scene_dispatch_state();
 s32 get_entity_class();
 void snapshot_inventory_and_familiars();
-s32 get_unused_text_buffer(void);
-s32 expand_text_control_codes();
-s32 copy_four_text_bytes();
+void *get_unused_text_buffer(void);
+u8 *expand_text_control_codes();
+void * copy_four_text_bytes();
 void clear_byte_and_advance();
-s32 write_text_byte_and_advance();
+void *write_text_byte_and_advance();
 void unlink_entity_node();
 void update_map_cell_flags_with_item_limit();
 void refresh_packed_grid_nibbles();
-void detach_record_and_update_slot_state();
+void * detach_record_and_update_slot_state();
 extern s32 play_sound_if_enabled();
 void display_text_with_fullwidth_adjustment();
 void check_action_boundary_and_set_flag();
@@ -674,8 +674,8 @@ void dispatch_action_callback_by_opcode(u8 *w) {
     s16 *tbl;
     s32 phase0;
     s32 phase;
-    s32 hnd;
-    s32 r;
+    void *hnd;
+    void *r;
     s32 v;
     s32 x, y, x1, y1, k;
     s32 t16;
@@ -1510,7 +1510,7 @@ typedef struct {
 
 typedef struct {
     u8 pad0[8];
-    DungeonCoord *coord;
+    ObjectPosition *coord;
     DungeonRender *render;
     void *callback;
     u8 pad20[12];
@@ -1677,7 +1677,8 @@ extern void update_target_tracking_and_transition(void *tracker);
 extern u8 camera_transition_timer[];
 
 /* Selects a nearby target, initializes its state slot, and returns change flags. */
-s32 select_nearby_target_and_initialize_slot(s32 slot_id, ObjectPosition *target, s32 target_id, s32 slot_value) {
+s32 select_nearby_target_and_initialize_slot(void *tracked_object, void *target_data, s32 target_id, s32 slot_value) {
+    ObjectPosition *target = target_data;
     s32 distance;
     s32 target_coord;
     s32 change_flags;
@@ -1707,7 +1708,7 @@ s32 select_nearby_target_and_initialize_slot(s32 slot_id, ObjectPosition *target
     state = &g_game_work.view;
     slot = (u8 *)state + 0xB8;
     previous_target = *(void **)(slot + 0xC);
-    *(s32 *)(slot + 0x34) = slot_id;
+    *(void **)(slot + 0x34) = tracked_object;
     *(void **)(slot + 0xC) = target;
     *(s32 *)(slot + 0x28) = 0;
     *(void **)slot = slot + 4;
@@ -1727,10 +1728,10 @@ s32 select_nearby_target_and_initialize_slot(s32 slot_id, ObjectPosition *target
 #include "shared/entity_objects.h"
 
 extern u16 effect_saved_position[];
-extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
+extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 
 /* Sets up the object at the supplied position if both planar distances are at most 192. */
-void setup_object_within_planar_range(s32 object, s32 x, s32 y, s32 height, s32 mode, s32 settings)
+void setup_object_within_planar_range(void *object, s32 x, s32 y, s32 height, s32 mode, s32 settings)
 {
     s32 saved_mode;
 
@@ -1750,7 +1751,7 @@ void setup_object_within_planar_range(s32 object, s32 x, s32 y, s32 height, s32 
             position[1] = x;
             position[3] = y;
             position[5] = height;
-            select_nearby_target_and_initialize_slot((void *)object, position, (s16)saved_mode, settings);
+            select_nearby_target_and_initialize_slot(object, position, (s16)saved_mode, settings);
         }
     }
 }
@@ -1784,10 +1785,10 @@ typedef struct S_800C7930_3 {
 extern u16 direction_x_offsets;
 extern u16 direction_y_offsets;
 extern u16 effect_saved_position[];
-extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
+extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 
 /* Apply table offsets to a position near the camera and pass it to select_nearby_target_and_initialize_slot. */
-s32 apply_camera_offset_and_select_target(s32 object_addr, void *source_pos, s32 helper_arg, s32 slot_value)
+s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value)
 {
     s32 delta;
     s32 source_coord;
@@ -1801,7 +1802,7 @@ s32 apply_camera_offset_and_select_target(s32 object_addr, void *source_pos, s32
     u8 *destination;
     register u8 *x_offsets;
     register u8 *y_offsets;
-    s32 object = object_addr;
+    void *object = object_addr;
     S_800C7930_1 *source = source_pos;
 
     camera = &view_reference_entity;
@@ -1841,7 +1842,7 @@ s32 apply_camera_offset_and_select_target(s32 object_addr, void *source_pos, s32
 #include "shared/entity_objects.h"
 
 extern u16 effect_saved_position[];
-extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
+extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 
 /* Process the midpoint of two objects when it is near the reference position. */
 void process_nearby_object_midpoint(u8 *start_obj, u8 *end_obj, s16 start_height, s16 end_height, s16 call_param, s32 call_arg) {
@@ -1917,7 +1918,7 @@ extern s16 camera_pitch_index;
 extern s16 camera_pitch_presets[];
 extern s16 camera_depth_target[5];
 
-extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
+extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 
 /* Blend toward the entity target, then dispatch the next state. */
 void blend_entity_toward_target_state(void *entity_data) {
@@ -1957,7 +1958,7 @@ void blend_entity_toward_target_state(void *entity_data) {
         entity->unk18 += 1;
         return;
     case 1:
-        select_nearby_target_and_initialize_slot((void *)(((s32)dungeon_actor_ring_anchor) - 0x20), ((u8 *)(&view_reference_entity)), 8, camera_depth_target[0]);
+        select_nearby_target_and_initialize_slot((u8 *)dungeon_actor_ring_anchor - 0x20, ((u8 *)(&view_reference_entity)), 8, camera_depth_target[0]);
         g_dungeon_status.activity_counts.parts.pending_action_count = g_dungeon_status.activity_counts.parts.pending_action_count - 1;
     }
 }

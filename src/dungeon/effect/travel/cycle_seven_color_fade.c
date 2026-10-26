@@ -60,7 +60,7 @@ extern s32 rand();
 extern u8 shared_sprite_entries[];
 
 /* Create an object with randomized rotation and a radial position offset. */
-s32 create_colored_offset_sprite(s32 context_value, void *source_state, s32 render_param, s32 ignored_context) {
+void * create_colored_offset_sprite(s32 context_value, void *source_state, s32 render_param, s32 ignored_context) {
     s16 offset_angle;
     SpriteFrameState *render_state;
     s32 *object_state;
@@ -90,7 +90,7 @@ s32 create_colored_offset_sprite(s32 context_value, void *source_state, s32 rend
         offset_angle = rand() % 0x1000;
         object_state[0] += (rcos(offset_angle) >> 4) * 0x1200;
         object_state[1] += (rsin(offset_angle) >> 4) * 0x1200;
-        return (s32)object;
+        return object;
     }
     return 0;
 }

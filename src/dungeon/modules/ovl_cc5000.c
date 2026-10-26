@@ -128,21 +128,21 @@ void *spawn_block_slot_d(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 spawn_heig
         part1->tile_x = tile_x;
 
         if (kind == 1) {
-            flags0 = ((ObjectNodeHeader *)result)->unk_14;
-            flags1 = *(s32 *)&((ObjectNodeHeader *)result)->pad_1C;
+            flags0 = ((ActorRecord *)result)->flags14;
+            flags1 = ((ActorRecord *)result)->flags1C;
             flags0 |= 0x6000;
             flags1 |= 0x6000;
-            ((ObjectNodeHeader *)result)->unk_14 = flags0;
-            *(s32 *)&((ObjectNodeHeader *)result)->pad_1C = flags1;
+            ((ActorRecord *)result)->flags14 = flags0;
+            ((ActorRecord *)result)->flags1C = flags1;
         } else if (kind >= 2) {
-            flags0 = ((ObjectNodeHeader *)result)->unk_14;
-            flags1 = *(s32 *)&((ObjectNodeHeader *)result)->pad_1C;
+            flags0 = ((ActorRecord *)result)->flags14;
+            flags1 = ((ActorRecord *)result)->flags1C;
             flags0 |= 0x2000;
             flags1 |= 0x2000;
-            ((ObjectNodeHeader *)result)->unk_14 = flags0;
-            *(s32 *)&((ObjectNodeHeader *)result)->pad_1C = flags1;
+            ((ActorRecord *)result)->flags14 = flags0;
+            ((ActorRecord *)result)->flags1C = flags1;
         } else if (((spawn_flags & -4) << 16) == 0 &&
-                   (((ObjectNodeHeader *)result)->unk_14 & ACTOR_RESIST_SLEEP) == 0 &&
+                   (((ActorRecord *)result)->flags14 & ACTOR_RESIST_SLEEP) == 0 &&
                    (generate_random_value() & 1) != 0) {
             set_or_clear_actor_status_slot(result, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
             part1->frameTable = cc5000_frame_set_1;

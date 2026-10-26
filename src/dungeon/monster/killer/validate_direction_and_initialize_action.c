@@ -52,10 +52,10 @@ extern s32 get_actor_height_difference(s32, void *);
 extern s32 probe_directional_neighbor(void *, u8, u8, s16);
 extern s32 try_claim_dungeon_action_slot(void *);
 extern s32 check_entity_interaction_compatibility(void *, s32);
-extern void apply_camera_offset_and_select_target(void *, s32, s32, s32);
+extern void apply_camera_offset_and_select_target(void *,void *, s32, s32);
 
 /* Validates the actor's direction and state, then initializes its action and animation. */
-s32 validate_direction_and_initialize_action(Arg0 *action_state, s32 action_id, SpriteFrameState *sprite, Arg3 *actor) {
+s32 validate_direction_and_initialize_action(Arg0 *action_state, void *action_id, SpriteFrameState *sprite, Arg3 *actor) {
     DungeonGlobalStatus *flags_base;
     u8 *direction_frames;
     u16 flags;

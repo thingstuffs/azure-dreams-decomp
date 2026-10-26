@@ -458,7 +458,7 @@ typedef struct B28_818B68B8_S_818B68B8_2 {
 } B28_818B68B8_S_818B68B8_2;
 void interpolate_view_parameters(EntityRec *target, s32 gain_param, void *record);
 void lower_animated_sprite(void *counter_state, B28_818B68B8_S_818B68B8_2 *value_state, SpriteFrameState *status);
-s32 create_colored_offset_sprite(s32 context_value, void *source_state, s32 render_param, s32 ignored_context);
+void * create_colored_offset_sprite(s32 context_value, void *source_state, s32 render_param, s32 ignored_context);
 void cycle_seven_color_fade(B28_818B6AFC_FxEffect *effect, s32 render_arg, B28_818B6AFC_FxColorOut *color_out);
 s32 draw_indexed_shaded_quad(s32 texture_index, u8 *color_source);
 s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264_S_80024A64_1 *center, s32 draw_arg);
@@ -468,7 +468,7 @@ s32 spawn_owner_random_variant_effect(B28_818B7BD0_S_818B7BD0_2 *owner, B28_818B
 void advance_spinning_effect_motion(B28_818B7D3C_OwnerState *owner, B28_818B7D3C_VecState *vec, SpriteFrameState *entity);
 s32 spawn_owned_random_spin_effect(void *owner, B28_818B7E14_DungeonSource *source);
 void advance_movement_toward_reachable_tile(void *state, void *motion_in, void *render);
-void select_record_entry_and_value(void *, void *, s32);
+void select_record_entry_and_value(void *state, void *entries, short index);
 extern u8 seven_color_sprite_data[];
 s32 draw_linked_sprites_clipped(u8 *first_data, s32 link_value, void *value_record);
 s32 func_80045C34(u8 *first_data, s32 link_value, void *value_record);

@@ -10,8 +10,9 @@
 /* Object shared with select_indirect_table_entry (its first parameter). */
 
 /* Select a table entry, set its rate, clear flags 0x6000, and update the object. */
-void select_sprite_entry(SpriteFrameState *object, s16 table_index, s16 entry_index)
+void select_sprite_entry(void *object_data, s16 table_index, s16 entry_index)
 {
+    SpriteFrameState *object = object_data;
     extern u8 animation_tick_scale;
 
     select_indirect_table_entry(object, table_index, entry_index);

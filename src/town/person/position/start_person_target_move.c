@@ -6,7 +6,7 @@
 
 /* advance_reaction_motion_to_limit declares this with an s16 result; the two
  * callers disagree, so the declaration stays with each caller. */
-extern s32 query_lowered_transform_position(ObjectPosition *);
+extern s32 query_lowered_transform_position(void *);
 
 /* Start movement toward the object's target, or place it immediately for speed -128. */
 void start_person_target_move(PersonObject *object, ObjectPosition *position, s8 *output) {

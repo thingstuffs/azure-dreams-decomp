@@ -16,7 +16,7 @@ typedef struct {
 
 
 
-extern void detach_record_and_update_slot_state(Entity *);
+extern void * detach_record_and_update_slot_state(Entity *);
 extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
 extern void unlink_entity_node(Entity *);
 

@@ -50,7 +50,7 @@ typedef struct S_80AC55DC_5 {
    /* ((S_80AC55DC_1 *)arg0)->unk_08 in create_returning_sprite_effect */
 
 extern void register_node(void *, void *);
-extern void select_record_entry_and_value(void *, void *, s32);
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 
 extern u8 shared_sprite_entries[];
 extern u8 saber_return_effect_update_address[];

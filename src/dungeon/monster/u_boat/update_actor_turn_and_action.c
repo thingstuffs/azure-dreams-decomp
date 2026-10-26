@@ -41,12 +41,12 @@ extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 en
 extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
-extern s32 begin_ready_actor_directional_action(void *, void *, void *, void *);
+extern s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
-extern s32 reset_actor_action_state(void *actor, s32 unused, void *sprite, u8 *direction_frames);
+extern s32 reset_actor_action_state(void *actor, void * unused, void *sprite, u8 *direction_frames);
 extern s32 process_selected_actor_record(void *, void *, void *, void *);
-extern void begin_actor_spell_action(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state);
+extern void begin_actor_spell_action(void *actor, void * effect_param, void *target, u8 *direction_table, void * next_state);
 extern void reset_action_and_decrement_actor_count(void *, void *, void *, void *);
 extern void create_owner_linked_directional_object(void *, void *, void *);
 extern void prepare_actor_directional_action(u8 *entity, s32 action_param, u8 *action_sprite, u8 *frame_table,

@@ -522,11 +522,11 @@ typedef struct S_func_81905FD0_13 {
 extern const u16 strip_texture_rect[4];
 extern const u16 strip_small_texture_rect[4];
 extern const s16 strip_direction_steps[8][2];
-extern s32 get_unused_text_buffer(s32, s32);
-extern s32 expand_text_control_codes(u8 *src, u8 *dst);
+extern void *get_unused_text_buffer(s32, s32);
+extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern void clear_byte_and_advance(s8 *byte_ptr);
-extern s32 write_text_byte_and_advance(s8 value, s8 *dest);
-extern s32 append_entity_display_text(void *record, u8 *out);
+extern void *write_text_byte_and_advance(s8 value, s8 *dest);
+extern u8 *append_entity_display_text(void *record, u8 *out);
 extern void adjust_source_value_and_finalize(u8 *, u8 *);
 #include "dungeon/effect/screen.h"
 extern void display_text_with_fullwidth_adjustment(s8 *text);

@@ -31,7 +31,7 @@ typedef struct S_800A378C_0 {
     s32 unk_34;
 } S_800A378C_0;
 
-extern void select_record_entry_and_value(void *, s32, s32);
+extern void select_record_entry_and_value(void *,void *, s32);
 extern void register_node(void *, void *);
 extern s32 rsin(s32);
 extern s32 rcos(s32);

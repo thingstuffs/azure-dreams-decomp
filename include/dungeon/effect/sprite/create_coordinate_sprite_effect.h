@@ -161,7 +161,7 @@ s32 get_random_scaled_value(s16 input_value);
 void apply_clamped_actor_value_delta(void *);
 void cap_pending_actor_value_delta(void *);
 void create_actor_value_popup(s32 flags, void *source_data, s16 value, u16 callback_mode);
-void select_record_entry_and_value(void *, void *, s32);
+void select_record_entry_and_value(void *state, void *entries, short index);
 void advance_sprite_animation_and_textures(void *);
 s32 rand(void);
 s32 register_node(void *, void *);

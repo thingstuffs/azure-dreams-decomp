@@ -12,7 +12,7 @@ struct RegistrationNode;
 
 typedef struct T_80172FFC_S_80172FFC_0 {
     u8 pad_00[0x8C];
-    s32 * unk_8C;
+    void (*unk_8C)();
     u8 pad_90[0x6];
     u16 timer;
     u8 pad_98[0x3];
@@ -92,7 +92,7 @@ extern void select_sprite_entry(SpriteFrameState *object, s16 table_index, s16 e
 extern void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
 extern s32 RotTransPers();
 extern void * resolve_attack_damage_and_effects();
-extern s32 advance_status_timers();
+extern void advance_status_timers();
 extern s32 play_sound_if_enabled();
 extern void spend_actor_mp(void *, s32);
 extern s8 view_direction_depth_biases[];

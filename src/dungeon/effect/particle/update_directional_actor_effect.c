@@ -147,7 +147,7 @@ void update_directional_actor_effect(DirectionalEffectWork *effect, ObjectPositi
         switch (mode) {
         case 0:
         {
-            s32 target;
+            void *target;
             s32 delta_x;
             s32 abs_y;
             if ((*effect->animation_flags & 0x80) != 0) {

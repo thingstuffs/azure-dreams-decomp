@@ -6,7 +6,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/object_links.h"
 void unlink_node_if_registered(void *block_data);
-void select_record_entry_and_value();
+void select_record_entry_and_value(void *state, void *entries, short index);
 void advance_sprite_animation_and_textures();
 #include "town/scene/object/unlink_scene_list_node_api.h"
 s32 update_state_when_active();

@@ -39,7 +39,7 @@ extern s16 get_entity_effect_value(Entity800B4194 *, s32);
 extern u8 *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(const u8 *, u8 *);
 extern u8 *clear_byte_and_advance(u8 *);
-extern u8 *append_entity_display_text(Entity800B4194 *, u8 *);
+extern u8 * append_entity_display_text(void *, u8 *);
 extern s16 set_or_clear_actor_status_slot(Entity800B4194 *, s32, s32);
 extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(u8 *);

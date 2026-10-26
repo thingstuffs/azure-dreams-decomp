@@ -82,7 +82,7 @@ static __inline__ void set_handler(ObjectNodeHeader *base) {
 }
 
 /* Creates or resets the entity, initializes its nodes and record, and installs its handler. */
-u8 *card_boot_create_or_reset_message_dialog(s32 value_14, void *entry_index, void *value_0c, s32 value_20) {
+u8 *card_boot_create_or_reset_message_dialog(s32 value_14, s32 entry_index, s32 value_0c, s32 value_20) {
     ObjectNodeHeader *base;
     u8 *context;
 
@@ -102,7 +102,7 @@ u8 *card_boot_create_or_reset_message_dialog(s32 value_14, void *entry_index, vo
 
         base->sprite = body + 0x8BC;
         ((S_80022D60_2 *)body)->unk_8C8 = card_boot_link_message_display_entries(body + 0x8CC);
-        card_boot_initialize_message_dialog_layout((s32)body, value_14, (s32)entry_index, (s32)value_0c, value_20);
+        card_boot_initialize_message_dialog_layout((s32)body, value_14, entry_index, value_0c, value_20);
     }
     set_handler(base);
     return base;

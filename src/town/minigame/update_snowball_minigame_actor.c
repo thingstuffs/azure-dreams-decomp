@@ -43,7 +43,7 @@ extern u8 snowball_actor_sprites[];
 
 extern void clear_resident_bit(s32);
 extern void set_resident_bit(s32);
-extern void select_record_entry_and_value(void *, void *, s32);
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void sound_set_cd_cue_parameters(s32, s32, s32, s32);
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);

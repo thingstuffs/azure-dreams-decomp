@@ -120,11 +120,11 @@ void build_entity_slot_snapshot();
 s32 get_entity_effect_value();
 s32 get_entity_class();
 void clear_slot_and_update_linked_state(s32 *slot);
-s32 get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
-s32 expand_text_control_codes();
+void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
+u8 * expand_text_control_codes();
 void *clear_byte_and_advance();
-s32 write_text_byte_and_advance();
-s32 append_entity_display_text();
+void * write_text_byte_and_advance();
+u8 * append_entity_display_text();
 void adjust_source_value_and_finalize(void *context, const void *source);
 void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
@@ -154,9 +154,9 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, SpriteFrame
     s32 actor_slot4;
     s32 object_id16;
     s32 object_id4;
-    s32 event_arg;
+    void *event_arg;
     s32 actor_flags;
-    s32 event_source;
+    void *event_source;
     u16 scale_x;
     u16 scale_y;
     u16 state4_count;
@@ -179,7 +179,7 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, SpriteFrame
     s32 state4_owner;
     s32 effect_actor_flags;
     void *state4_event;
-    register s32 state4_result;
+    register void *state4_result;
     s32 flags_mask;
 
     actor_flags = ((Rec_D_80082E80 *)actor)->unk_14.at00_s32.v;

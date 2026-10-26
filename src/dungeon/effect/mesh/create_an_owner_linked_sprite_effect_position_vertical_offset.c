@@ -34,7 +34,7 @@ typedef struct S_81977D08_5 {
     u8 unk_13;
 } S_81977D08_5;   /* ((S_81977D08_4 *)arg0)->unk_14 in create_an_owner_linked_sprite_effect_position_vertical_offset */
 
-extern s32 select_record_entry_and_value();
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void *allocate_list_node();
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 

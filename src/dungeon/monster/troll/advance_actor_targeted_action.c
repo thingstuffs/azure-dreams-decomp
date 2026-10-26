@@ -40,7 +40,7 @@ extern void *scan_actor_along_heading();
 extern void set_record_integer_tile_center();
 extern void advance_status_timers();
 extern void play_sound_if_enabled();
-extern s32 create_actor_spell_effect();
+extern void *create_actor_spell_effect();
 extern void spawn_random_color_burst_particle();
 extern void spawn_growing_rotating_flash();
 

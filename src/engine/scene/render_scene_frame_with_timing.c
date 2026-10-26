@@ -21,7 +21,6 @@ extern u8 scene_skip_vsync;
 extern s8 last_frame_ticks;
 extern s32 gpu_scratch_write_pointer;
 extern s32 gpu_scratch_buffer_base;
-extern u8 upper_draw_context[];
 extern u16 system_update_flags[];
 
 /* Present the frame, switch draw buffers, and synchronize frame timing. */

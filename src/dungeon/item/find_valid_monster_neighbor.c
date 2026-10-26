@@ -11,16 +11,16 @@
 #include "shared/dir_step.h"
 
 s32 check_diagonal_side_height(s32, u8, u8, s16);
-s32 find_eligible_actor_at_tile_and_height(void *, u16, u16, s16);
+void *find_eligible_actor_at_tile_and_height(void *, u16, u16, s16);
 
 /* Check eight neighboring positions in cyclic order and return the first result that passes the direction check. */
-s32 find_adjacent_actor(void *entity, u16 x, u16 y) {
+void *find_adjacent_actor(void *entity, u16 x, u16 y) {
     u16 *x_offsets;
     u16 *y_offsets;
     void *entity_data;
     u16 base_x;
     u16 base_y;
-    s32 result;
+    void *result;
     s32 attempt;
     s32 direction;
 

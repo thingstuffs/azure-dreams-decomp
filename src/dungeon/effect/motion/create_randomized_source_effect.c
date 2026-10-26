@@ -156,7 +156,7 @@ void advance_timed_effect_motion(void *object, Row_8191CA88_S_8191CA88_3 *motion
 
 /* Creates a rotating sprite with size and timing from the source, copies its motion, and adjusts
    vertical velocity. */
-s32 create_scaled_rotating_effect(void *params_input, void *transform_input) {
+void * create_scaled_rotating_effect(void *params_input, void *transform_input) {
     Row_8191CBCC_S_8191CBCC_2 *params = params_input;
     void *source_transform = transform_input;
     s16 depth_scale;
@@ -208,7 +208,7 @@ s32 create_scaled_rotating_effect(void *params_input, void *transform_input) {
             adjusted_depth = ((transform->velocity_z * depth_scale) -
                               (params->unk_10.u << 0x13)) / depth_scale;
             transform->velocity_z = adjusted_depth;
-            return (s32)object;
+            return object;
         }
     }
     return 0;

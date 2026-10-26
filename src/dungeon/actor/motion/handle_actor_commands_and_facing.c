@@ -12,7 +12,7 @@ struct SpriteFrameState;
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/actor.h"
 
-extern void select_record_entry_and_value();
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void request_scene_dispatch_state(s32);
 extern void apply_pending_byte_increase();
 extern void begin_player_menu_action();

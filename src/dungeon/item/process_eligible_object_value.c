@@ -19,12 +19,12 @@ extern u8 D_80088CA8[];
 extern s32 get_item_category_flags(Object *item);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern void *write_text_byte_and_advance(s8 value, s8 *dest);
-extern s32 append_typed_formatted_value(void *data, s32 buffer);
+extern u8 * append_typed_formatted_value(void *data,u8 *buffer);
 extern void clear_selected_item_flag_400(void *selection);
 
 /* Processes an eligible object in two stages and returns the resulting value. */
-s32 process_eligible_object_value(Object *object, s32 input_value) {
-    s32 result = input_value;
+u8 *process_eligible_object_value(Object *object, u8 *input_value) {
+    u8 *result = input_value;
 
     if (!(((u32)dungeon_actor_ring_anchor->flags1C) & ACTOR_BLIND)) {
         if ((object->flags & 0x80) || get_item_category_flags(object)) {

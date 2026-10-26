@@ -15,9 +15,9 @@ extern s32 D_80162FE4[];
 typedef struct { s32 value; } ItemWord;
 
 
- s32 move_eligible_item(void *, void *) ;
+ void * move_eligible_item(void *, void *) ;
 /* Moves an eligible item from a nearby slot or target into the shared item slot. */
- s32 move_eligible_item(void *origin, void *actor) {
+ void * move_eligible_item(void *origin, void *actor) {
     u8 *origin_bytes = (u8 *)origin;
     u8 *actor_bytes = (u8 *)actor;
     s32 direction_offset;
@@ -37,7 +37,7 @@ typedef struct { s32 value; } ItemWord;
         shared_slot = shared_base;
         *(ItemWord *)shared_base = *(ItemWord *)&((s32 *)dungeon_ground_items)[tile_slot];
         ((s32 *)dungeon_ground_items)[tile_slot] = 0;
-        return (s32)shared_slot;
+        return shared_slot;
     }
 
     target = probe_directional_neighbor(actor, *(u8 *)(origin_bytes + 0x24), *(u8 *)(origin_bytes + 0x25),
@@ -88,7 +88,7 @@ typedef struct { s32 value; } ItemWord;
 
 
                     clear_slot_and_update_linked_state(item_ptr, (void *)slot_index);
-                    return (s32)shared_base;
+                    return shared_base;
                 }
             }
         }
@@ -110,7 +110,7 @@ typedef struct { s32 value; } ItemWord;
             shared_base[0] = item_data;
 
             *(s32 *)((u8 *)target + 0x48) = 0;
-            return (s32)shared_slot;
+            return shared_slot;
         }
 entry_zero:
     }

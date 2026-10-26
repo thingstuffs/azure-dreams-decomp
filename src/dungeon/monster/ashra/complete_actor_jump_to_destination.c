@@ -25,7 +25,7 @@ typedef struct S_80172258_0 {
 
 s16 get_rounded_facing_and_rounding_flag();
 void set_record_integer_tile_center();
-s32 advance_status_timers();
+void advance_status_timers();
 void on_actor_status_updated(void *actor);
 void spend_actor_mp();
 

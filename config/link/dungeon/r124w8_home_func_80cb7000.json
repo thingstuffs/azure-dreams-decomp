@@ -1,0 +1,20 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/r124w8_home_func_80cb7000",
+  "container": "dungeon",
+  "foff": "0xcd707c",
+  "size": 164,
+  "vma": "0x8014c87c",
+  "entries": [
+    {
+      "row": "dungeon/func_80CB7000",
+      "home": "dungeon/func_80CB7000",
+      "tu": "src/dungeon/modules/ovl_cd7000.c",
+      "foff": "0xcd707c",
+      "vma": "0x8014c87c",
+      "size": 164,
+      "evidence": "docs/evidence/r124w_carve1_run12.md; independently recompiled legacy home, not new source coverage"
+    }
+  ],
+  "evidence": "docs/evidence/r124w_carve1_run12.md; complete existing registry home; diagnostic placement only, no loader occurrence claim"
+}

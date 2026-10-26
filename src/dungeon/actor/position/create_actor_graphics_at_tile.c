@@ -12,7 +12,7 @@ struct ObjectNodeHeader;
 
 #include "slus/gp_shared_81510.h"
 
-void select_record_entry_and_value();  /* extern */
+void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
 void *allocate_list_node();            /* extern */
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);                      /* extern */
@@ -35,7 +35,7 @@ typedef struct S_800D2CB4_0 {
     u8 pad_20[0x68];
     s16 unk_88;
     u8 pad_8A[0x2];
-    s32 * unk_8C;
+    void (*unk_8C)(s32,  s32,  s32,  u8 *);
     u8 pad_90[0xA];
     s8 unk_9A;
     u8 pad_9B[0x1];

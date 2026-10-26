@@ -11,7 +11,7 @@ typedef struct S_8001EFC4_0_pre {
 
 typedef struct S_8001EFC4_0 {
     u8 pad_00[0x20];
-    s32 unk_20;
+    void *unk_20;
     u8 pad_24[0x4];
     s32 unk_28;
     u8 pad_2C[0x4];
@@ -23,7 +23,7 @@ extern void func_80063FF8(s32 code);
 extern s32 func_80058FF0(s32 current, s32 direction, s32 amount);
 extern void submit_stored_and_queried_boot_values(void);
 extern void propagate_object_high_bit_flags(void *obj);
-extern void allocate_or_reuse_effect_and_install_callback(s32 current, s32 mode);
+extern void allocate_or_reuse_effect_and_install_callback(void *current,void *mode);
 extern volatile s32 boot_pad_state;
 extern volatile s32 boot_pressed_buttons;
 

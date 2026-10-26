@@ -220,9 +220,9 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
     entry_flags = (void *) ((entry_index * 4) + ((s32) entry_table));
     if ((((!((*((u8 *) (((s8 *) entry_flags) + 3))) & 0x80)) || (dungeon_floor_flags[0] & FLOOR_TRAPS_VISIBLE))
          && ((*((u8 *) (((s8 *) entry_flags) + 1))) != 0)) && ((*((u8 *) (((s8 *) entry_flags) + 0))) != 0)) {
-        u8 *entry_table;
-        entry_table = &dungeon_floor_object_positions;
-        sprite_entry = (entry_index * 0x18) + entry_table;
+        u8 *frame_table;
+        frame_table = &dungeon_floor_object_positions;
+        sprite_entry = (entry_index * 0x18) + frame_table;
         if ((*((u16 *) (((s8 *) sprite_entry) + 0x14))) & 0x40) {
             advance_sprite_animation_and_textures(sprite_entry);
         }

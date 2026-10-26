@@ -5,7 +5,7 @@
 
 
 
-s32 advance_status_timers();
+void advance_status_timers();
 
 void spend_actor_mp();
 

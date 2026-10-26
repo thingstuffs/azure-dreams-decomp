@@ -24,7 +24,7 @@ s32 play_sound_if_enabled(s32 query_value);                     /* extern */
 void *create_panel_effect_object(void *owner);                      /* extern */
 s32 create_familiar_selection_marker();                          /* extern */
 void update_selection_tile_markers();                 /* extern */
-s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);   /* extern */
+s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);   /* extern */
 extern u8 D_80012D6D;
 extern M2C_UNK familiar_menu_action_data;
 extern M2C_UNK D_80023C58;

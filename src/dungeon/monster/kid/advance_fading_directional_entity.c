@@ -10,7 +10,7 @@
 void unlink_entity_node();
 void update_map_cell_flags_with_item_limit();
 void distribute_experience_and_report_gains();
-s32 detach_record_and_update_slot_state();
+void * detach_record_and_update_slot_state();
 s32 play_sound_if_enabled();
 
 

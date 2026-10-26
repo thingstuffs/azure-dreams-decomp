@@ -648,7 +648,7 @@ typedef struct S_800B8D64_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    s32 * unk_10;
+    void (*unk_10)(void *, s32,  void *);
     u8 pad_14[0xE];
     s16 unk_22;
 } S_800B8D64_0;
@@ -1408,8 +1408,8 @@ typedef struct SubB_800B4204 {
 typedef struct Obj_800B4204 {
     u8 pad0[8];
     SubA_800B4204 *sub1;
-    SubB_800B4204 *sub2;
-    void (*stateFn)(void *);
+    SpriteFrameState *sub2;
+    void (*stateFn)(FamiliarMarkerWork *, ObjectPosition *, SpriteFrameState *);
     u8 pad14[0x20 - 0x14];
     void *owner;
 } Obj_800B4204;
@@ -1424,8 +1424,8 @@ extern s16 camera_depth_target[5];
 
 extern void *allocate_list_node();
 extern s32 draw_linked_sprites_clipped();
-extern void select_record_entry_and_value();
-extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
+extern void select_record_entry_and_value(void *state, void *entries, short index);
+extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 
 /* Creates and initializes a display object attached to the entity. */
 void *create_familiar_selection_marker(EntityHdr **entity_ref) {
@@ -1549,7 +1549,7 @@ struct S_800BA33C_0;
 extern s32 is_selectable_menu_target(struct S_800BA33C_0 *object);
 extern void advance_sprite_animation_and_textures();
 extern void append_packed_action_record();
-extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
+extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 
 /* Updates entity selection, interpolates its position, and animates the rendered output. */
 void update_item_target_marker(Work *work, Out *out, Render *render_arg)
@@ -1707,14 +1707,14 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
         if (work->mode == 0) {
             Node *state_node;
             s32 count;
-            Entity *entity;
+            Entity *target_entity;
             s32 *target_pos;
             count = 8;
             state_node = (*(Node **)((u8 *)work + 0));
             counter_base_2 = (u8 *)D_800E0000;
-            entity = state_node->entity;
-            target_pos = *(s32 **)((u8 *)entity - 0x18);
-            select_nearby_target_and_initialize_slot((u8 *)entity - 0x20, target_pos, count,
+            target_entity = state_node->entity;
+            target_pos = *(s32 **)((u8 *)target_entity - 0x18);
+            select_nearby_target_and_initialize_slot((u8 *)target_entity - 0x20, target_pos, count,
                           *(s16 *)(counter_base_2 - 0x319A));
             result = dispatch_dungeon_category_action(work->node->entity, work->handle, 0x15, 0);
             if ((s16)result < 0) {
@@ -1819,9 +1819,9 @@ typedef struct D_80083780_t {
 } D_80083780_t;
 
 extern s32 has_enough_available_runtime_nodes(s32);
-extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
+extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 extern s32 lookup_item_category_mapped_value(u8, u8);
-extern void select_record_entry_and_value();
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void *func_800BA110();
 extern void *func_800BA1D0();
 extern void *func_800BA224();
@@ -2285,7 +2285,7 @@ typedef struct S_func_800BA764_0 {
     u8 pad_00[0x8];
     void *unk_08;
     u8 pad_0C[0x4];
-    s32 *unk_10;
+    void (*unk_10)(void *, void *, void *);
     u8 pad_14[0x3C];
     s32 unk_50;
 } S_func_800BA764_0;
@@ -2741,7 +2741,7 @@ typedef struct S_800BB044_0 {
     u8 pad_00[0x8];
     s32 unk_08;
     u8 pad_0C[0x4];
-    s32 * unk_10;
+    void (*unk_10)(void *);
     u8 pad_14[0xC];
     void * unk_20;
     u8 pad_24[0x8];
@@ -3242,10 +3242,10 @@ s32 process_linked_menu_effect(u8 *buffer, s32 value, void *data) {
 #include "shared/entity_objects.h"
 #include "m2c_compat.h"
 
-extern void select_record_entry_and_value();
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void *allocate_list_node();
 extern s32 play_sound_if_enabled(s32 query_value);
-extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
+extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 struct S_800BB55C_2;
 extern void update_five_point_effect(void *effect, struct S_800BB55C_2 *position, s32 restore_link);
 extern s32 process_linked_menu_effect(u8 *buffer, s32 value, void *data);
@@ -3255,7 +3255,7 @@ typedef struct S_800BBA40_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    s32 * unk_10;
+    void (*unk_10)(void *, S_800BB55C_2 *, s32);
 } S_800BBA40_0;
 
 typedef struct S_800BBA40_1 {
@@ -3619,7 +3619,7 @@ typedef struct S_800BC0A8_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    s32 * unk_10;
+    void (*unk_10)(State *, Output *, Interp *);
     u8 pad_14[0xC];
     s32 unk_20;
 } S_800BC0A8_0;
@@ -3729,7 +3729,7 @@ extern void update_wrapped_texture_scroll(void *scrollState);
 
 typedef struct S_800BC228_0 {
     u8 pad_00[0x10];
-    s32 * unk_10;
+    void (*unk_10)(void *);
     u8 pad_14[0x18];
     s16 unk_2C;
 } S_800BC228_0;

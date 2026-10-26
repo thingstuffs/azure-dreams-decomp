@@ -9,9 +9,9 @@
 extern u8 *beldo_actor_nodes[3];
 extern u8 beldo_large_action_resume_address[];
 extern void *allocate_list_node(s32, u8 *);
-extern void register_node(u8 *, u8 *);
+extern void register_node(u8 *,void *);
 extern void initialize_actor_sprite_and_animation(u8 *, void *, void *, s32);
-extern void try_move_actor_to_valid_position(u8 *, void *, void *, u8 *);
+extern void try_move_actor_to_valid_position(void *, void *, void *,void *);
 extern s32 clear_center_tile_flags_when_enabled(void);
 
 extern M2C_UNK D_80173980;

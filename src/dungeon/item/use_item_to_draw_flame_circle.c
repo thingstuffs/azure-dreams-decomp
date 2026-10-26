@@ -32,7 +32,7 @@ void display_formatted_context_message(void *context);                   /* exte
 void place_actor_item();                 /* extern */
 void display_actor_item_status_message();            /* extern */
 s32 feed_actor_restore_mp();                /* extern */
-s32 create_five_point_effect(); /* extern */
+void * create_five_point_effect(); /* extern */
 extern s32 D_800C135C();
 extern u8 ribbon_sprite_entries[];
 extern u8 D_800E1482[];

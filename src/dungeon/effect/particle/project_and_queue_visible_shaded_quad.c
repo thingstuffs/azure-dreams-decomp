@@ -749,7 +749,7 @@ struct Bank1990800_19915d4_Object {
     s16 unk5A;
 };
 
-extern void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 s32 rand();
 extern u8 fading_sprite_entries[];
 

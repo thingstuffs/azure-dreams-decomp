@@ -11,8 +11,8 @@
 
 void *allocate_list_node();
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-s32 decode_fullwidth_text();
-s32 build_positioned_text_glyphs();
+void * decode_fullwidth_text();
+void * build_positioned_text_glyphs();
 extern char * func_8004E5A0(int value, unsigned short width, char *buf);
 s32 strlen();
 void *func_800B119C();
@@ -72,7 +72,7 @@ void *create_panel_effect_object(void *owner)
         prim = allocate_panel_offset_or_zero();
         *((void **) (((s8 *) panel_data) + 0x28)) = prim;
         if (prim != 0) {
-            void *owner_pos;
+            void *child_position;
             count_or_color = 3;
             {
                 s32 text_style;
@@ -131,12 +131,12 @@ void *create_panel_effect_object(void *owner)
             *((u8 *) (((s8 *) prim) + 0)) = prim_flags;
             count_or_color = 0x202020;
             blue_color = 0x402020;
-            owner_pos = 0x204020;
+            child_position = 0x204020;
             red_color = 0x200000;
             *((s32 *) (((s8 *) panel_data) + 0x18)) = count_or_color;
             red_color |= 0x2040;
             *((s32 *) (((s8 *) panel_data) + 0x1C)) = blue_color;
-            *((s32 *) (((s8 *) panel_data) + 0x20)) = owner_pos;
+            *((s32 *) (((s8 *) panel_data) + 0x20)) = child_position;
             *((s32 *) (((s8 *) panel_data) + 0x24)) = red_color;
             vertex_color = *((s32 *) (((s8 *) panel_data) + 0x18));
             *((s32 *) (((s8 *) prim) + 4)) = vertex_color;
@@ -167,7 +167,7 @@ void *create_panel_effect_object(void *owner)
  * allocation fails.
  */
 s32 allocate_panel_offset_or_zero(void) {
-    s32 value;
+    void *value;
     s32 adjusted_value;
 
     value = allocate_flagged_object_node(0);
@@ -589,7 +589,7 @@ extern s32 D_800DF03C[];
 
 extern void *allocate_list_node();
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern s32 build_positioned_text_glyphs(void *, s32, s32);
+extern void * build_positioned_text_glyphs(void *,u8 *, s32);
 extern s32 strlen(s32);
 extern s32 allocate_panel_offset_or_zero(void);
 
@@ -767,7 +767,7 @@ typedef struct S_800B1B10_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    s32 * unk_10;
+    void (*unk_10)(void *, s32,  void *);
     u8 pad_14[0xC];
     void * unk_20;
     u8 pad_24[0x34];
@@ -840,9 +840,9 @@ typedef struct S_800B1B10_7 {
 
 extern void *allocate_list_node();
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-s32 decode_fullwidth_text();
+void * decode_fullwidth_text();
 s32 strlen();
-s32 get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
+void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 s8 *append_typed_formatted_value();
 extern s32 allocate_panel_offset_or_zero(void);
 extern void update_fading_effect_scale(void *effect, s32 unused, void *render_arg);
@@ -859,7 +859,7 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
     u16 flags_held = flags;
     register s16 compact_s16;
     s32 offset;
-    s32 obj;
+    void *obj;
     s32 obj_2;
     s32 style_byte;
     s32 geom;
@@ -867,7 +867,7 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
     ObjectNodeHeader *alloc_data;
     s32 copy_a;
     s32 copy_b;
-    s32 value_4;
+    void *value_4;
     s32 value_5;
     s32 tail;
     void *sub;
@@ -879,7 +879,7 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
     call_kind = 0x12;
     saved_flags = flags_held;
     alloc_data = &scene_object_list_anchor;
-    obj = (s32) allocate_list_node(call_kind, alloc_data);
+    obj = allocate_list_node(call_kind, alloc_data);
     compact_s16 = compact_held;
     if (obj != 0) {
         meta = ((S_800B1B10_0 *)obj)->unk_0C;
@@ -1030,7 +1030,7 @@ extern void advance_cyclic_panel_entry(struct S_800B1E80_0 *state);
 
 typedef struct S_800B1F00_0 {
     u8 pad_00[0x10];
-    s32 * unk_10;
+    void (*unk_10)(S_800B1E80_0 *);
 } S_800B1F00_0;
 
 /* Create an object and assign advance_cyclic_panel_entry to its data pointer. */
@@ -1200,11 +1200,11 @@ s32 create_map_position_object(s32 world_x, s32 world_z) {
 }
 #include "common.h"
 
-extern void advance_sprite_animation_and_textures(s32);
+extern void advance_sprite_animation_and_textures(void *);
 extern struct { s32 unk0; s32 pad[2]; } D_800814A0;
 
 /* Advances the accumulator and decrements the counter, setting flags on underflow. */
-void advance_panel_accumulator(void *counter_state, void *accumulator, s32 update_arg) {
+void advance_panel_accumulator(void *counter_state, void *accumulator, void *update_arg) {
     s16 remaining;
 
     *((s32 *) accumulator + 2) = *((s32 *) accumulator + 2) + 0x8000;
@@ -1235,16 +1235,16 @@ typedef struct {
 typedef struct {
     u8 pad00[8];
     CopyBlock *copy_dst;
-    RenderPart *part;
+    SpriteFrameState *part;
     void *callback;
     u8 pad14[0x12];
     u16 kind;
 } Object;
 
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern void select_record_entry_and_value(RenderPart *part, void *data, s32 index);
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 
-extern void advance_panel_accumulator(void *counter_state, void *accumulator, s32 update_arg);
+extern void advance_panel_accumulator(void *counter_state, void *accumulator, void *update_arg);
 extern u8 shared_sprite_entries[16];
 
 /* Creates an object from the source block and initializes its render part. */

@@ -6,7 +6,7 @@
 struct Dst;
 struct Elem;
 
-void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);  /* extern */
+void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
 void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 s32 rsin();                             /* extern */
 s32 rcos();                             /* extern */

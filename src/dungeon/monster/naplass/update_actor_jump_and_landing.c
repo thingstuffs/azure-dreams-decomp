@@ -25,10 +25,10 @@ typedef struct S_80172288_0 {
 } S_80172288_0;   /* arg0 in update_actor_jump_and_landing */
 
 struct SpriteFrameState;
-void select_sprite_entry(struct SpriteFrameState *, s16, s16);
+void select_sprite_entry(void *, s16, s16);
 s16 get_rounded_facing_and_rounding_flag();
 void set_record_integer_tile_center();
-s32 advance_status_timers();
+void advance_status_timers();
 void on_actor_status_updated(void *actor);
 void spend_actor_mp();
 

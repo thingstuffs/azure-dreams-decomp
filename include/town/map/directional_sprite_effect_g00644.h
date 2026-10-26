@@ -64,7 +64,7 @@ s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads
 extern void D_800BC6CC();
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry town_directional_sprite_entries[];
-void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
+void select_record_entry_and_value(void *state,void *entries, short index);
 void configure_the_set_mode_n_1(struct Rec_func_8008F074_arg0 *, s32, s32);
 /* extern */
 extern void D_800BC764();

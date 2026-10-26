@@ -26,7 +26,7 @@ typedef struct {
 
 typedef struct func_8009F6D4_S_8009CE34_0 {
     u8 pad_00[0x10];
-    s32 * unk_10;
+    void (*unk_10)(void);
 } func_8009F6D4_S_8009CE34_0;
 
 typedef struct func_8009F788_S_8009CEE8_0 {
@@ -430,7 +430,7 @@ extern s32 func_8004B854(s32 first, void *data, s32 value);
 extern u32 strcpy();
 extern void *find_item_by_kind_and_type();
 void clear_global_80110_ec_0_global_80082_a_39(void);
-s32 open_twin_souko(s32 option);
+void * open_twin_souko(s32 option);
 extern void configure_the_set_mode_n_3();
 extern void initialize_entity_flags_transform_type_dependent_variant();
 extern s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41(void);

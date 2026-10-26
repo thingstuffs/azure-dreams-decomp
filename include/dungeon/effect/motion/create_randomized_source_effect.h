@@ -343,7 +343,7 @@ typedef struct Row_8191CD78_S_func_80024578_13 {
 /* Updates effect movement, target spinning, and completion across animation states. */
 s32 rsin();
 s32 rcos();
-s32 select_record_entry_and_value(void *, void *, s16);
+void select_record_entry_and_value(void *state, void *entries, short index);
 s32 register_node(void *, void *);
 s32 func_8004491C(void *, void *);
 s32 rand(void);
@@ -364,6 +364,6 @@ extern s32 clipped_sprite_renderer_address();
 void move_sprite_in_radial_direction(void *motion, Row_8191C848_S_8191C848_3 *position, SpriteFrameState *status);
 void *create_randomized_source_effect(Row_8191C938_S_8191C938_3 *source);
 void advance_timed_effect_motion(void *object, Row_8191CA88_S_8191CA88_3 *motion, Row_8191CA88_S_8191CA88_2 *effect);
-s32 create_scaled_rotating_effect(void *params_input, void *transform_input);
+void * create_scaled_rotating_effect(void *params_input, void *transform_input);
 void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_8191CD78_S_func_80024578_2 *position, void *render_data);
 #endif

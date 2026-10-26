@@ -9,6 +9,19 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F481800: img_cd1120_80152920; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_80CB107C",
+      "home": "dungeon/func_80CB7000",
+      "tu": "src/dungeon/modules/ovl_cd7000.c",
+      "foff": "0xCD107C",
+      "vma": "0x8015287C",
+      "size": 164,
+      "evidence": "docs/evidence/r124w_carve1_run12.md",
+      "bindings": {
+        "0x8004491C": "0x8004491C",
+        "0x80045340": "0x80045340"
+      }
+    },
+    {
       "row": "dungeon/func_80CB1120",
       "tu": "src/dungeon/monster/block/block.c",
       "home": "dungeon/func_80C93120",

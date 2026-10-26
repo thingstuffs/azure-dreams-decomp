@@ -62,7 +62,7 @@ typedef struct {
     EffectPayload payload;
 } EffectObject;
 
-extern void select_record_entry_and_value(RenderState *, void *, s16);
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void register_node(EffectObject *, void *);
 
 extern u8 ribbon_sprite_entries[];

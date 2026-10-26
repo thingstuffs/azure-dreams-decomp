@@ -37,7 +37,7 @@ void create_offset_colored_effect(s32,s32,s32,s32,s32,s32,s32,s32,s32,s32);
 void advance_particle_fade_and_cleanup(struct S_func_80026418_0 *effect);
 s32 register_node(void *, void *, ...);
 s32 func_8004491C(void *, void *, ...);
-s32 select_record_entry_and_value(void *, void *, s32);
+void select_record_entry_and_value(void *state, void *entries, short index);
 void ScaleMatrix(void *, void *);
 s32 play_sound_if_enabled(s32);
 extern s16 impact_effect_update_flag;

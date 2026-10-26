@@ -66,7 +66,7 @@ void advance_effect_state(void);
 void func_80047E30(void);
 
 /* select_indirect_table_entry.c */
-void select_indirect_table_entry(struct S_80047738 *state, s16 table_index, s16 entry_index);
+void select_indirect_table_entry(void *state, s16 table_index, s16 entry_index);
 
 /* texture_build_a_byte_two_color_swapped_pattern_blocks_returns_base.c */
 void *texture_build_a_hex_48_byte_two_color_swapped_pattern_blocks_returns_base(void *cursor, void *pattern_data);

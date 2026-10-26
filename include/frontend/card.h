@@ -450,19 +450,19 @@ void find_text_word_bounds(u8 *text, s32 limit, s32 *start_out, s32 *length_out,
 void select_card_slot_message(void *task);
 
 /* init_card_background_object.c */
-s32 init_card_background_object(s32 init_value, s32 config_value);
+void * init_card_background_object(s32 init_value, s32 config_value);
 
 /* init_card_info_object.c */
 void *init_card_info_object(s32 init_option, s32 info_value);
 
 /* init_card_options_object.c */
-s32 init_card_options_object(s32 option_param);
+void * init_card_options_object(s32 option_param);
 
 /* init_card_slot_object.c */
 void *init_card_slot_object(s32 init_option);
 
 /* init_card_sme_object.c */
-s32 init_card_sme_object(s32 init_option);
+void * init_card_sme_object(s32 init_option);
 
 /* init_card_window_slot_object.c */
 void init_card_window_slot_object(s32 init_value, s32 slot_index);

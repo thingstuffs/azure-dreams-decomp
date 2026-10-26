@@ -26,7 +26,7 @@ extern u8 player_wait_frames;
 extern u8 player_carry_frames[8];
 
 /* Reset state, update control flags, and select the entity's directional sprite. */
-void begin_player_wait_turn(void *state, s32 mode, void *sprite, EntityRec *entity) {
+void begin_player_wait_turn(void *state, void *mode, void *sprite, EntityRec *entity) {
     void *entity_arg;
     GameWork *flags;
     s32 initial_state;

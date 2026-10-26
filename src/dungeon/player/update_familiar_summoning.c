@@ -13,7 +13,7 @@
 
 typedef struct S_80095A10_0 {
     u8 pad_00[0x8C];
-    s32 * unk_8C;
+    void (*unk_8C)(void *, void *, void *, void *);
     u8 pad_90[0x6];
     u16 unk_96;
     u8 pad_98[0x3];
@@ -89,7 +89,7 @@ void resolve_familiar_deployment_request();
 void process_unflagged_linked_entries(s32 firstEntryBase);
 void process_unflagged_linked_entries_alt(s32 firstNodeBase);
 void *(*load_monster_resource_data())(s32, s8, s8, s16);
-s32 find_or_retain_sprite_resource_slot();
+u8 * find_or_retain_sprite_resource_slot();
 s32 play_sound_if_enabled(s32 query_value);
 extern s32 loaded_entity_sprite_resource;
 extern u8 player_wait_frames[];
@@ -102,8 +102,8 @@ extern s8 entity_resource_read_complete;
 void update_familiar_summoning(u8 *actor, MovingPosition *position, void *animation, u8 *context) {
 
     u8 *animation_table;
-    s32 load_resource;
-    s32 spawn_resource;
+    void *load_resource;
+    void *spawn_resource;
     u32 object_flags;
     u16 ticks_left;
     u16 animation_flags;

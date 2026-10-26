@@ -9,12 +9,12 @@
 #define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
 
 extern s32 test_resident_bitmap_bit(s32);
-extern void init_threshold_countdown_action(void *, void *, s32);
+extern void init_threshold_countdown_action(void *, void *,void *);
 extern void initialize_actor_action_state(void *, void *, s32);
 extern void initialize_action_object(void *, void *, s32);
-extern void initialize_action_handler_with_count_six(void *, void *, s32);
+extern void initialize_action_handler_with_count_six(void *, void *,void *);
 extern void initialize_action_object_with_counter(void *, void *, s32);
-extern void initialize_actor_movement_interaction_action(void *, void *, s32);
+extern void initialize_actor_movement_interaction_action(void *, void *,void *);
 extern void store_the_valid_shared_angle_in_offset_hex_10(void *);
 extern void move_both_components_toward_zero_direction_dependent_steps_clamping_zero(void *);
 extern s32 select_an_available_entry_matching_direction_returns_status(void *);

@@ -863,7 +863,7 @@ s32 check_actor_ahead_height(void *action_state, void *source_pos, void *sprite,
     }
 
     output = (u8 *)actor - 0x20;
-    apply_camera_offset_and_select_target((s32)output, source_pos, 8, 0x300);
+    apply_camera_offset_and_select_target(output, source_pos, 8, 0x300);
     if ((s16)try_claim_dungeon_action_slot(actor) != 0) {
         return -1;
     }
@@ -925,7 +925,7 @@ return_tail:
         s32 update_flags = 0x300;
         step_y = 8;
         ((E_801720EC_S_801720EC_0 *)actor)->unk_6D--;
-        select_nearby_target_and_initialize_slot((s32)output, source_pos, step_y, update_flags);
+        select_nearby_target_and_initialize_slot(output, source_pos, step_y, update_flags);
     }
     return 1;
 }
@@ -1961,7 +1961,7 @@ void advance_effect_record_counters(u16 *counter, s32 unused, SpriteFrameState *
 #include "shared/sprite_frame_state.h"
 
 /* Creates a growing gray sprite on the tile ahead and limits its height to the terrain surface. */
-s32 create_directional_effect_object(E_801742AC_S_80DE6AAC_2 *source, void *initial_position, E_801742AC_S_80DE6AAC_4 *tile_origin) {
+void * create_directional_effect_object(E_801742AC_S_80DE6AAC_2 *source, void *initial_position, E_801742AC_S_80DE6AAC_4 *tile_origin) {
     SpriteFrameState *sprite;
     E_801742AC_S_80DE6AAC_5 *position;
     E_801742AC_S_80DE6AAC_1 *effect_state;
@@ -2002,7 +2002,7 @@ s32 create_directional_effect_object(E_801742AC_S_80DE6AAC_2 *source, void *init
                 position->unk_08 = height_limit;
             }
         }
-        return (s32)effect;
+        return effect;
     }
     return 0;
 }

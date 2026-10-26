@@ -54,7 +54,7 @@ def slot_literal(slot,root):
   if len(found)!=1:raise ValueError('string ownership declaration differs')
   data=ast.literal_eval(found[0]).encode('latin1')+b'\0'
   if b'\0' in data[:-1]:raise ValueError('embedded NUL in typed string')
- elif kind=='function_pointers':
+ elif kind in ('function_pointers','typed_records'):
   data=P.source_words(slot,root)
  elif kind=='u32_words':
   found=re.findall(r'\bstatic\s+u32\s+'+name+r'\s*\[\s*([0-9]+)\s*\]\s*=\s*\{([^{}]*)\}\s*;',text)
@@ -98,7 +98,7 @@ def validate(m,root=None,region=None):
   for slot in a['slots']:
    if slot['symbol'] in names or slot['offset']!=(cursor+3)&~3:raise ValueError('slot order/alignment differs')
    names.add(slot['symbol'])
-   if slot['kind']!='function_pointers' and (slot['kind']=='typed_string' and a['section']!='.rodata' or slot['kind']!='typed_string' and a['section']!='.data'):raise ValueError('slot section/type differs')
+   if slot['kind'] not in ('function_pointers','typed_records') and (slot['kind']=='typed_string' and a['section']!='.rodata' or slot['kind']!='typed_string' and a['section']!='.data'):raise ValueError('slot section/type differs')
    if slot['source'] not in m['review_inputs']:raise ValueError('storage source is not fingerprinted')
    if root:slot_literal(slot,root)
    cursor=slot['offset']+slot['size']

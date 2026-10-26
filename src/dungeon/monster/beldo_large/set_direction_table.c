@@ -57,7 +57,7 @@ extern u8 beldo_large_frame_set_1[];
 extern u8 beldo_large_action_resume_address[];
 
 struct SpriteFrameState;
-extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
+extern void select_sprite_entry(void *, s16, s16);
 extern void set_record_integer_tile_center(DungeonWork *, u8, u8);
 extern void play_sound_if_enabled(s32);
 extern void create_layered_sprite_pulse(DungeonWork *);

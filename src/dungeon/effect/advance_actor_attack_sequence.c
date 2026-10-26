@@ -19,7 +19,7 @@ s32 resolve_attack_damage_and_effects();    /* extern */
 void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);              /* extern */
 s32 play_sound_if_enabled(s32 query_value);                     /* extern */
 s32 update_attached_effect_state();             /* extern */
-s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value); /* extern */
+s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value); /* extern */
 extern u8 actor_attack_frames[];
 extern u8 D_800DD068[];
 extern u8 D_800DD070[];
@@ -36,7 +36,7 @@ extern s16 D_800DF248[];
 
 typedef struct S_800B348C_0 {
     u8 pad_00[0x8C];
-    s32 * unk_8C;
+    void (*unk_8C)(void *, void *, void *, void *);
     u8 pad_90[0x6];
     union { u16 u; s16 s; } unk_96;   /* accessed as both */
     u16 unk_98;

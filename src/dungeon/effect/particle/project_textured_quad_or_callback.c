@@ -758,7 +758,7 @@ typedef struct S_func_81875B38_2 {
     u8 pad_00[0x8];
     void *unk_08;
     u8 pad_0C[0x4];
-    s32 unk_10;
+    void *unk_10;
 } S_func_81875B38_2;
 
 typedef struct S_func_81875B38_5 {
@@ -798,7 +798,7 @@ void create_terrain_seeking_point_effect(
 
     effect_ptr = allocate_list_node(0x211, source_obj);
     if (effect_ptr != NULL) {
-        effect_ptr->unk_10 = (s32)advance_point_effect_toward_terrain;
+        effect_ptr->unk_10 = advance_point_effect_toward_terrain;
         jitter = rand() & 0x1F;
         effect_pos = ((MovingPosition *)source_obj->unk_08)->x + jitter;
         effect_pos += x_offset - 0x10;

@@ -54,7 +54,7 @@ typedef struct {
 } StackRecord;
 
 /* extern */
-void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
+void select_record_entry_and_value(void *state,void *entries, short index);
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 /* extern */
 extern void D_800A86BC();

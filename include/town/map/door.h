@@ -1,6 +1,12 @@
 #ifndef MODULES_TOWN_DOOR_H
 #define MODULES_TOWN_DOOR_H
 
+struct S_800A092C_0;
+struct S_800A0958_0;
+struct S_800A0C30_0;
+struct S_800A0C30_1;
+struct S_800A0E3C_1;
+
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800A0668_arg0.h"
@@ -61,21 +67,21 @@ typedef struct {
 
 typedef struct S_800A08F0_0 {
     u8 pad_00[0x50];
-    s32 * unk_50;
+    void (*unk_50)(struct S_800A092C_0 *);
     u8 pad_54[0x1A];
     u16 unk_6E;
 } S_800A08F0_0;
 
 typedef struct S_800A092C_0 {
     u8 pad_00[0x50];
-    s32 * unk_50;
+    void (*unk_50)(struct S_800A0958_0 *);
     u8 pad_54[0x18];
     u16 unk_6C;
 } S_800A092C_0;
 
 typedef struct S_800A0958_0 {
     u8 pad_00[0x50];
-    s32 * unk_50;
+    void (*unk_50)(S800A3088Arg0 *, s32,  S800A3088Arg2 *);
     u8 pad_54[0x1A];
     u16 unk_6E;
 } S_800A0958_0;
@@ -112,7 +118,7 @@ typedef struct S_800A0A54_0 {
 
 typedef struct S_800A0A88_0 {
     u8 pad_00[0x50];
-    s32 * unk_50;
+    void (*unk_50)(u8 *, s32,  s32,  s32);
     u8 pad_54[0x3C];
     s16 unk_90;
 } S_800A0A88_0;
@@ -135,12 +141,12 @@ typedef struct S_800A0C30_1 {
 
 typedef struct S_800A0CC0_0 {
     u8 pad_00[0x50];
-    s32 * unk_50;
+    void (*unk_50)(struct S_800A0C30_0 *, void *, struct S_800A0C30_1 *);
 } S_800A0CC0_0;
 
 typedef struct S_800A0DAC_0 {
     u8 pad_00[0x50];
-    s32 * unk_50;
+    void (*unk_50)(Rec_func_800A0668_arg0 *, struct S_800A0E3C_1 *, s32,  s32);
     u8 pad_54[0x18];
     s16 unk_6C;
     u16 unk_6E;
@@ -185,7 +191,7 @@ s32 check_door_input_and_angle(Rec_func_800A0668_arg0 *object, s32 test_value);
 extern void unlink_node_if_registered(void *);
 extern void func_80033D08(void *);
 extern s32 classify_object_against_bounds(void *, void *);
-extern s32 create_object_with_shared_data(void *input_first, s32 input_second, s32 input_third, u8 input_fourth);
+extern void * create_object_with_shared_data(void *input_first, s32 input_second, s32 input_third, u8 input_fourth);
 extern void initialize_player_entity_callbacks(s32 entity_id, s32 x, s32 y);
 extern void initialize_entity_handlers_and_position(s16 actor_value, s16 position_value_1, s16 position_value_2);
 extern void change_map(struct InputRecord *input);

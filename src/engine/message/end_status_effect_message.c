@@ -177,10 +177,10 @@ void end_status_effect_message(S_80042BDC *ent, s16 action) {
                      * Found and documented by the Azure Dreams community
                      * (adrando.com/guide/bugs.html).
                      */
-                    begin_actor_move_to_target_facing(owned_ent, *(s32 *)&((ObjectNodeHeader *)((u8 *)spawn_result_2 - 0x20))->position,
-                        *(s32 *)&((ObjectNodeHeader *)((u8 *)spawn_result_2 - 0x20))->sprite, spawn_result_2);
-                    update_actor_transform_from_parent(spawn_result_2, *(s32 *)&((ObjectNodeHeader *)((u8 *)spawn_result_2 - 0x20))->position,
-                        *(s32 *)&((ObjectNodeHeader *)((u8 *)spawn_result_2 - 0x20))->sprite, spawn_result_2);
+                    begin_actor_move_to_target_facing(owned_ent, ((ObjectNodeHeader *)((u8 *)spawn_result_2 - 0x20))->position,
+                        ((ObjectNodeHeader *)((u8 *)spawn_result_2 - 0x20))->sprite, spawn_result_2);
+                    update_actor_transform_from_parent(spawn_result_2, ((ObjectNodeHeader *)((u8 *)spawn_result_2 - 0x20))->position,
+                        ((ObjectNodeHeader *)((u8 *)spawn_result_2 - 0x20))->sprite, spawn_result_2);
                 } else {
                     if (spawn_result_2->x25 == 0) {
                         g_dungeon_status.activity_counts.parts.pending_action_count += 1;
@@ -207,7 +207,7 @@ L_print4B:
     case STATUS_NO_TILE_OCCUPANCY - 1:
         child = *(S_80042BDC_child * *)&((ObjectNodeHeader *)((u8 *)ent - 0x20))->sprite;
         cycle_map_cell_flags(child->x24, child->x25, (ent->x1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
-        try_move_actor_to_valid_position(ent, *(s32 *)&((ObjectNodeHeader *)((u8 *)ent - 0x20))->position, child, ent);
+        try_move_actor_to_valid_position(ent, ((ObjectNodeHeader *)((u8 *)ent - 0x20))->position, child, ent);
         break;
     case STATUS_PLAYER_SIDE - 1:
         child = *(S_80042BDC_child * *)&((ObjectNodeHeader *)((u8 *)ent - 0x20))->sprite;

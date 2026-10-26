@@ -13,7 +13,7 @@ typedef struct {
 extern void select_sprite_entry(void *, s32, s32);
 
 /* Resets actor action state and selects a sprite frame for its facing direction. */
-s32 reset_actor_action_state(void *actor, s32 unused, SpriteFrameState *sprite, u8 *direction_frames)
+s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames)
 {
 
     *(u8 *)((u8 *)actor + 0x71) &= 0x7F;

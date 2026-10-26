@@ -10,7 +10,7 @@ typedef struct S_8004C010 {
 } S_8004C010;
 
 /* Apply an RGB tint in place with 7-bit scaling and saturation, skipping neutral tint, and return the color pointer. */
-s32 multiply_rgb_tint_saturated(u8 *color, S_8004C010 *tint)
+void * multiply_rgb_tint_saturated(u8 *color, S_8004C010 *tint)
 {
     s32 channel_index;
     u8 *color_channel;
@@ -19,7 +19,7 @@ s32 multiply_rgb_tint_saturated(u8 *color, S_8004C010 *tint)
 
     packed_tint = *(u32 *)tint;
     if ((packed_tint << 8) == 0x80808000) {
-        return (s32)color;
+        return color;
     }
 
     color_channel = color;
@@ -36,5 +36,5 @@ s32 multiply_rgb_tint_saturated(u8 *color, S_8004C010 *tint)
         tint_channel++;
     }
 
-    return (s32)color;
+    return color;
 }

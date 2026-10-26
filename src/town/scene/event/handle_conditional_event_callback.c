@@ -7,7 +7,7 @@
 
 extern s32 check_callback_record_bytes(s32, s32);
 extern void set_current_entry_script_flag(void);
-extern void apply_entry_position(void *, void *, s32, s32);
+extern void apply_entry_position(void *, void *,void *, s32);
 extern void set_script_flag_bit(s32);
 extern s32 get_script_flag_mask(s32);
 typedef struct ScenePositionEntry {

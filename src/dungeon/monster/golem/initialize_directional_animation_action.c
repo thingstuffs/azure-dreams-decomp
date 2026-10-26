@@ -5,14 +5,14 @@
 #include "dungeon/monster/golem.h"
 
 extern s32 try_claim_dungeon_action_slot(void *);
-extern void apply_camera_offset_and_select_target(void *, s32, s32, s32);
+extern void apply_camera_offset_and_select_target(void *,void *, s32, s32);
 extern void select_sprite_entry(void *, u8, s32);
 extern void advance_status_timers(void *);
 
 extern u8 D_80175F30[];
 
 /* Initialize the entity's action state and directional animation when allowed. */
-s32 initialize_directional_animation_action(void *state_ptr, s32 action_arg, void *sprite_ptr, void *entity_ptr) {
+s32 initialize_directional_animation_action(void *state_ptr, void *action_arg, void *sprite_ptr, void *entity_ptr) {
     u8 *state = state_ptr;
     SpriteFrameState *sprite= sprite_ptr;
     u8 *entity = entity_ptr;

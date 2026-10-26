@@ -70,3 +70,50 @@ python3 -m unittest discover -s tools/tests -p 'test_lint_build.py' -v
 Only a complete, failure-free run may write a baseline. Review its diff before
 committing; do not raise counts just to silence a regression. The bundled
 baseline was measured with the compiler/flags recorded in that file.
+
+## Callback and cross-unit soundness
+
+`soundness_check.py` shares this tool's TU census and original-header flag
+extraction. It never imports the private builder or repairs game source.
+Use a private port checkout at the version recorded with your baseline:
+
+```sh
+nice -n 10 python3 tools/lint/soundness_check.py --port "$PORT" \
+  --out work/soundness-gcc --mode callbacks --cc gcc
+nice -n 10 python3 tools/lint/soundness_check.py --port "$PORT" \
+  --out work/soundness-clang --mode callbacks --cc clang
+nice -n 10 python3 tools/lint/soundness_check.py --port "$PORT" \
+  --out work/soundness-lto --mode lto --cc gcc
+```
+
+Both modes use 32-bit pointers, `-fwrapv`, at most four compiler workers and
+niceness 10. GCC enables `-Wcast-function-type`; Clang additionally enables
+`-Wincompatible-function-pointer-types` and `-Wcast-function-type-strict`.
+LTO compiles every selected unit and materializes a relocatable GCC LTO link
+with `-Wlto-type-mismatch -Wodr`. Undefined externals may remain unresolved;
+duplicate definitions and compilation/link failures fail the run. Overlay
+namespace conflicts require triage; the tool never suppresses them. This is
+a type diagnostic link, not a runnable port or proof of retail byte identity.
+
+Each run writes findings, failures, sanitized logs and a summary. Keep the
+output ignored and private: it includes objects. `--only PATH...` is diagnostic
+and cannot check or establish a baseline. Add `--baseline FILE --check` to
+ratchet a reviewed full run; use `--write-baseline` to record it. Failed runs
+cannot write a baseline. Baselines pin compiler, flags and selected TU paths;
+every new diagnostic identity fails even if the total count stays equal. Schema 2
+also pins occurrence counts for each identity, so another identical bad cast in
+the same function fails. Reductions remain allowed.
+A missing baseline is an error, never an implicit clean starting point.
+Run `python3 -m unittest discover -s tools/tests -p test_soundness_check.py -v`
+for ratchet and real 32-bit LTO detection tests.
+
+Clang uses explicit `-Wno-error=` settings for the pre-existing GCC diagnostic
+classes (integer/pointer conversions, implicit declarations and return types).
+Those warnings remain in logs; the existing lint census owns their ratchet.
+Callback warnings remain enabled. Other Clang errors still fail the census.
+Clang function ownership is recovered with the existing C declaration scanner,
+so identical warnings in different functions retain separate identities.
+`lto-symbol-kind` also records GCC errors that redeclare a function as data or
+vice versa. Raw logs are preserved in full beneath the ignored output directory.
+The bundled `soundness_gcc_baseline.json` records the reviewed 5,993-TU GCC
+callback census (24 diagnostic groups, 29 occurrences); it is not an LTO or Clang baseline.

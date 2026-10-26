@@ -52,8 +52,8 @@ s32 can_entity_gain_level(void *entity) {
          /* Required for byte-exact code generation. */
     level = F(entity, u8, 0x11);
     table_offset = level << 2;
-    exp_table = (s32 *)entity_level_thresholds;
-    exp_entry = (u8 *)(table_offset + (u32)exp_table);
+    exp_table = entity_level_thresholds;
+    exp_entry = (u8 *)exp_table + table_offset;
          /* Required for byte-exact code generation. */
     if (*(u32 *)exp_entry <= F(entity, u32, 0x18)) {
         can_level_up++;
@@ -66,15 +66,15 @@ s32 can_entity_gain_level(void *entity) {
 #include "shared/sys_flags.h"
 #include "shared/dungeon_status.h"
 
-extern s32 format_unsigned_double_byte_decimal();
+extern u8 * format_unsigned_double_byte_decimal();
 extern s32 apply_entity_effects(); /* Slot contract: loading images do not establish one callee contract. */
 extern s32 SquareRoot12();
-extern s32 get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
-extern s32 expand_text_control_codes();
-extern s32 copy_four_text_bytes();
+extern void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
+extern u8 * expand_text_control_codes();
+extern void * copy_four_text_bytes();
 extern void * clear_byte_and_advance(s8 *byte_ptr);
-extern s32 write_text_byte_and_advance();
-extern s32 append_entity_display_text();
+extern void *write_text_byte_and_advance();
+extern u8 *append_entity_display_text();
 extern s32 display_text_with_fullwidth_adjustment();
 extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 
@@ -94,8 +94,8 @@ s32 raise_entity_level(void *entity_data, s32 show_message) {
     s32 prev_level;
     s32 species_id;
     s32 slot;
-    s32 message;
-    s32 text_end;
+    void *message;
+    void *text_end;
     s32 old_stat;
     s32 level_product;
     s32 level_product_2;
@@ -434,15 +434,15 @@ loop_0:
 
 #include "m2c_compat.h"
 
-extern s32 format_unsigned_double_byte_decimal();
+extern u8 * format_unsigned_double_byte_decimal();
 extern s32 apply_entity_effects(); /* Slot contract: loading images do not establish one callee contract. */
 extern s32 SquareRoot12();
-extern s32 get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
-extern s32 expand_text_control_codes();
-extern s32 copy_four_text_bytes();
+extern void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
+extern u8 * expand_text_control_codes();
+extern void * copy_four_text_bytes();
 extern void * clear_byte_and_advance(s8 *byte_ptr);
-extern s32 write_text_byte_and_advance();
-extern s32 append_entity_display_text();
+extern void * write_text_byte_and_advance();
+extern u8 * append_entity_display_text();
 extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 display_text_with_fullwidth_adjustment();
 extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
@@ -465,8 +465,8 @@ s32 lower_entity_level(void *entity_data, s32 show_message) {
     s32 level_offset;
     s32 monster_id;
     s32 spell_index;
-    s32 message_start;
-    s32 message_end;
+    void *message_start;
+    void *message_end;
     s32 lower_stat;
     s32 temp;
     s32 level_term_2;
@@ -1090,11 +1090,11 @@ s32 distribute_experience_awards(S_800A2DB8_0 *source)
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-s32 format_unsigned_double_byte_decimal();                        /* extern */
-s32 get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */                                /* extern */
-s32 expand_text_control_codes();                  /* extern */
+u8 * format_unsigned_double_byte_decimal();                        /* extern */
+void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */                                /* extern */
+u8 * expand_text_control_codes();                  /* extern */
 extern void * clear_byte_and_advance(s8 *byte_ptr);
-s32 append_entity_display_text();                     /* extern */
+u8 * append_entity_display_text();                     /* extern */
 s32 distribute_experience_awards(struct S_800A2DB8_0 *source);                          /* extern */
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
 extern void *monster_species_table;
@@ -1124,9 +1124,9 @@ typedef struct S_800A2FE0_4 {
 /* Awards experience when source and target flags permit it and displays the defeat and experience
    messages. */
 void distribute_experience_and_report_gains(EntityRec *entity) {
-    s32 selectionInputSecond;
-    s32 currentValue;
-    s32 selectionInputThird;
+    void *selectionInputSecond;
+    void *currentValue;
+    void *selectionInputThird;
     s32 flagBits;
     s32 flags14;
     s32 result;
@@ -1296,7 +1296,7 @@ extern void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 extern void mark_owned_linked_actor_actions(struct Entity *owner_entity);
 
 /* Detach a record from its slot, preserve its data, and update its count and state. */
-s32 detach_record_and_update_slot_state(void *record) {
+void * detach_record_and_update_slot_state(void *record) {
     s16 update_mode;
     DungeonGlobalStatus *counter_base;
     s32 slot_offset;
@@ -1380,10 +1380,10 @@ scan_slots:
                 }
                 update_mode = 2;
             } else {
-                DungeonGlobalStatus *counter_base;
-                counter_base = &g_dungeon_status;
-                if (counter_base->monster_count != 0) {
-                    counter_base->monster_count = (s16)(((u16)counter_base->monster_count) - 1);
+                DungeonGlobalStatus *end_counter;
+                end_counter = &g_dungeon_status;
+                if (end_counter->monster_count != 0) {
+                    end_counter->monster_count = (s16)(((u16)end_counter->monster_count) - 1);
                 }
                 update_mode = 1;
             }
@@ -1392,5 +1392,5 @@ scan_slots:
     if (!(((EntityRec *)record)->flags14 & 0x20000000)) {
         decrement_monster_entry_count((*(u8 *)((u8 *)&((EntityRec *)record)->unk_10 + 3)), update_mode);
     }
-    return (s32)entry;
+    return entry;
 }

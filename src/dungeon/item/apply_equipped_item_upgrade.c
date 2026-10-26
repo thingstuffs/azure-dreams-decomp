@@ -11,13 +11,13 @@ extern s32 begin_mode_selected_item_action();
 extern s32 begin_parameterized_actor_action();
 extern s32 process_record_and_update_linked_state(u8 *, s32);
 extern s32 clear_slot_and_update_linked_state();
-extern s32 get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
-extern s32 expand_text_control_codes();
-extern s32 clear_byte_and_advance();
-extern s32 append_typed_formatted_value();
+extern void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
+extern u8 * expand_text_control_codes();
+extern void * clear_byte_and_advance();
+extern u8 * append_typed_formatted_value();
 extern s32 display_formatted_context_message(); /* Unprototyped: one or three arguments; retail retains only the text context. */
-extern s32 copy_fullwidth_vowel_bytes();
-extern s32 append_value_seven_suffix();
+extern void * copy_fullwidth_vowel_bytes();
+extern void * append_value_seven_suffix();
 extern s32 display_text_with_fullwidth_adjustment();
 extern s32 place_actor_item();
 extern s32 display_actor_item_status_message();
@@ -33,10 +33,10 @@ extern u8 D_800E11D7[];
 /* Applies an item effect to its target and prepares the resulting message. */
 s32 apply_equipped_item_upgrade(u32 target_addr, u8 *item, s16 effect_type, s32 effect_value) {
     u8 *actor;
-    s32 text_target;
-    register s32 text_cursor;
+    u8 *text_target;
+    register void *text_cursor;
     u8 *linked_item;
-    register s32 text_start;
+    register void *text_start;
 
 
     if (effect_type == 0xD) {
@@ -82,11 +82,11 @@ s32 apply_equipped_item_upgrade(u32 target_addr, u8 *item, s16 effect_type, s32 
         }
 
         {
-            s32 text_end;
-            s32 message_end;
+            void *text_end;
+            void *message_end;
 
             if (!(linked_item[3] & 0x40)) {
-                s32 next_cursor;
+                void *next_cursor;
 
                 text_start = get_unused_text_buffer();
                 text_cursor = apply_type_based_entry_adjustments(linked_item, text_start);

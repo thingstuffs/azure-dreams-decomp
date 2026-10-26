@@ -52,13 +52,13 @@ typedef struct S_80174234_2 {
 /* the counter block at D_80083460 */
 
 
-extern void select_sprite_entry(S_80047784 *object, s16 table_index, s16 entry_index);         /* extern */
-s32 get_unused_text_buffer();                                /* extern */
-s32 expand_text_control_codes();                  /* extern */
+extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);         /* extern */
+void *get_unused_text_buffer();                                /* extern */
+u8 *expand_text_control_codes();                  /* extern */
 void *clear_byte_and_advance();                         /* extern */
-s32 write_text_byte_and_advance();                    /* extern */
+void *write_text_byte_and_advance();                    /* extern */
 u8 *append_typed_formatted_value();                 /* extern */
-s32 append_entity_display_text();                     /* extern */
+u8 *append_entity_display_text();                     /* extern */
 #include "dungeon/player/object/action_state.h"
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
 s32 generate_random_value();                                /* extern */
@@ -71,8 +71,8 @@ extern u8 picket_frame_set_8[];
 
 /* Start the actor's attack step: clear its 0x71 busy bit, latch the 0x400 link flag with a random facing nudge, run the animation chain for the sprite record it owns, then arm owner state 0x17 and point the part at the direction table. */
 void start_the_actor_s_attack_step_clear_hex_71_busy_bit_latch(S_80174234_0 *owner, void *unused, S_80174234_1 *part, S_80174234_2 *actor) {
-    s32 session;
-    s32 anim;
+    void *session;
+    void *anim;
     s32 link_flags;
     void *sprite;
 

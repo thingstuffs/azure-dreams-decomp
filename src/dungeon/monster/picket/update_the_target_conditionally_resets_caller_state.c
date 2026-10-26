@@ -11,7 +11,7 @@ typedef struct S_801724A8_0 {
 } S_801724A8_0;   /* arg0 in update_the_target_conditionally_resets_caller_state */
 
 
-s32 advance_status_timers();                     /* extern */
+void advance_status_timers();                     /* extern */
 void spend_actor_mp();            /* extern */
                 /* extern */
 void update_dungeon_actor_behavior_facing_animation_state(void *actor, void *context, void *sprite, ActorRecord *entity);

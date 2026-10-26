@@ -6,12 +6,12 @@
 
 typedef struct ActionActor { u8 pad[0x8C]; s32 action; } ActionActor;
 
-extern s32 dungeon_menu_action_state[];
+extern void *dungeon_menu_action_state[];
 
 extern void play_sound_if_enabled(u32);
 
 /* Initialize the actor action state or signal that the action is blocked. */
-void begin_player_menu_action(void *actor, s32 unused_1, s32 unused_2, s32 action_value) {
+void begin_player_menu_action(void *actor, void *unused_1, void *unused_2, void *action_value) {
     if (!(system_update_flags & 1)) {
         if (dungeon_floor_flags & 0x200000) {
             if ((g_game_work.pressed_buttons) & 0x80) {

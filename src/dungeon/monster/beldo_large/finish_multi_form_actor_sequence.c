@@ -17,7 +17,7 @@ typedef struct S_8016ED98_1 {
 
 typedef struct S_8016ED98_2 {
     u8 pad_00[0xAC];
-    s32 unk_AC;
+    u8 *unk_AC;
 } S_8016ED98_2;   /* D_800E3D7C + i * 4 in finish_multi_form_actor_sequence */
 
 
@@ -25,16 +25,16 @@ extern void func_8016ECFC(void);
 extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *);
 
 extern u16 system_update_flags[];
-extern s32 beldo_actor_nodes;
+extern u8 *beldo_actor_nodes[3];
 
 /* End the floor: clear the visible flags, run the two teardown passes and release both resident objects. */
 void finish_multi_form_actor_sequence(void)
 {
     s32 i;
-    s32 value;
+    u8 *value;
     S_8016ED98_1 *object;
 
-    object = (void *)(beldo_actor_nodes + 0x20);
+    object = (void *)(beldo_actor_nodes[0] + 0x20);
     g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
     object->unk_46 &= 0x7FFF;
     system_update_flags[0] &= 0xFFF6;

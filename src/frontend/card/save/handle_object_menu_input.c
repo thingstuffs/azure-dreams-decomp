@@ -4,7 +4,7 @@
 
 typedef struct S_80406368_0 {
     u8 pad_00[0x20];
-    s32 unk_20;
+    void *unk_20;
     u8 pad_24[0x4];
     s32 unk_28;
     u8 pad_2C[0x4];
@@ -24,7 +24,7 @@ extern void submit_stored_and_queried_boot_values(void);
 extern void invoke_indexed_object_callback(void *menu);
 extern void func_80406358(void *menu);
 extern void propagate_object_high_bit_flags(void *object);
-extern void allocate_or_reuse_effect_and_install_callback(s32 value0, s32 value1);
+extern void allocate_or_reuse_effect_and_install_callback(void *value0,void *value1);
 
 /* Handles menu navigation, button actions, and display refreshes. */
 void handle_object_menu_input(void *menu)

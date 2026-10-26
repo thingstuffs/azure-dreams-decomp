@@ -60,11 +60,11 @@ typedef struct {
 
 extern s32 rsin(s32 value);
 struct SpriteFrameState;
-extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
-extern void func_80047784(T_80172B6C_Sprite *sprite, u8 value, s32 zero);
+extern void select_sprite_entry(void *, s16, s16);
+extern void func_80047784(void *sprite, u8 value, s32 zero);
 extern void set_record_integer_tile_center(T_80172B6C_Motion *motion, u8 x, u8 y);
 extern void spend_actor_mp(T_80172B6C_Actor *actor, s32 value);
-extern void advance_status_timers(T_80172B6C_Actor *actor);
+extern void advance_status_timers(void *actor);
 extern s16 get_rounded_facing_and_rounding_flag(u8 x0, u8 y0, u8 x1, u8 y1, s16 *scratch);
 
 extern void on_actor_status_updated(T_80172B6C_Actor *actor);

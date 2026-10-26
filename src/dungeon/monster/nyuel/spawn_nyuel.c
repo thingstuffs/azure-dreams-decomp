@@ -27,7 +27,7 @@ typedef struct S_80170894_4 {
 } S_80170894_4;   /* actor in func_80170894 */
 
 extern void *allocate_list_node(s32, const void *);
-extern void register_node(void *, const void *);
+extern void register_node(void *,void *);
 extern s32 generate_random_value(void);
 extern void set_or_clear_actor_status_slot(void *, s32, s32);
 extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
@@ -86,20 +86,20 @@ void *spawn_mode_configured_monster(s32 spawn_flags, s8 tile_x, s16 tile_y, s16 
             s32 right_one;
 
             ((S_80170894_0 *)work)->unk_8C = update_entity_actions_facing_and_animation;
-            left_one = ((ObjectNodeHeader *)work)->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            right_one = *(s32 *)&((ObjectNodeHeader *)work)->pad_1C | 0x6000;
-            ((ObjectNodeHeader *)work)->unk_14 = left_one;
-            *(s32 *)&((ObjectNodeHeader *)work)->pad_1C = right_one;
+            left_one = ((ActorRecord *)work)->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            right_one = ((ActorRecord *)work)->flags1C | 0x6000;
+            ((ActorRecord *)work)->flags14 = left_one;
+            ((ActorRecord *)work)->flags1C = right_one;
             part_b->frameTable = func_80174ED8;
         } else if (kind >= 2) {
             s32 left_many;
             s32 right_many;
 
             ((S_80170894_0 *)work)->unk_8C = update_entity_actions_facing_and_animation;
-            left_many = ((ObjectNodeHeader *)work)->unk_14 | ACTOR_CLASS_ENABLED;
-            right_many = *(s32 *)&((ObjectNodeHeader *)work)->pad_1C | 0x2000;
-            ((ObjectNodeHeader *)work)->unk_14 = left_many;
-            *(s32 *)&((ObjectNodeHeader *)work)->pad_1C = right_many;
+            left_many = ((ActorRecord *)work)->flags14 | ACTOR_CLASS_ENABLED;
+            right_many = ((ActorRecord *)work)->flags1C | 0x2000;
+            ((ActorRecord *)work)->flags14 = left_many;
+            ((ActorRecord *)work)->flags1C = right_many;
             part_b->frameTable = func_80174ED8;
         } else {
             s32 test;
@@ -110,7 +110,7 @@ void *spawn_mode_configured_monster(s32 spawn_flags, s8 tile_x, s16 tile_y, s16 
             if (test != 0) {
                 callback_page = (u8 *)0x80170000;
             } else {
-                if (((ObjectNodeHeader *)work)->unk_14 & ACTOR_RESIST_SLEEP) {
+                if (((ActorRecord *)work)->flags14 & ACTOR_RESIST_SLEEP) {
                     callback_page = (u8 *)0x80170000;
                 } else if (!(generate_random_value() & 1)) {
                     callback_page = (u8 *)0x80170000;

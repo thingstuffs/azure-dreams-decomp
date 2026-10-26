@@ -29,4 +29,7 @@ typedef struct TrapFadeWork {
 } TrapFadeWork;
 void fade_trap_color_to_black(TrapFadeWork *fade, void *unused, SpriteFrameState *color);
 
+/* Both retail callers pass 0x10 in the second register; the helper ignores it. */
+void apply_mode_selected_trap_mask(void *target, s32 unused_mask);
+
 #endif

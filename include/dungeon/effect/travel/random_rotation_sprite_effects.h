@@ -144,7 +144,7 @@ extern void register_node(void *, void *);
 extern void func_8004491C(void *, void *);
 extern u8 D_80024E88[];
 extern void advance_sprite_animation_and_textures(void *target);
-void select_record_entry_and_value();
+void select_record_entry_and_value(void *state, void *entries, short index);
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry D_80024EF4[];
 #include "shared/sprite_source.h"

@@ -17,7 +17,6 @@ typedef struct S_8004F418_Node {
 } S_8004F418_Node;
 
 extern S_8004F418_Node menu_backdrop_node_storage;
-extern u8 upper_draw_context[0x10900];
 extern u8 menu_backdrop_tag[16];
 
 extern void *find_active_list_node(void *);

@@ -83,13 +83,13 @@ extern u16 direction_x_offsets[];
 extern u16 direction_y_offsets[];
 void *allocate_list_node();
 s32 rand(void);
-s32 get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
-s32 expand_text_control_codes();
+void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
+u8 * expand_text_control_codes();
 void *clear_byte_and_advance();
-s32 append_entity_display_text();
+u8 *append_entity_display_text();
 s16 get_tile_chebyshev_distance();
 s32 display_text_with_fullwidth_adjustment();
-s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
+s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 void setup_object_within_planar_range();
 void spend_actor_mp(struct S_800AD594_0 *entity, s32 base_reduction);
 extern u8 D_80089080[];
@@ -111,7 +111,7 @@ extern s32 D_800E58B0[];
 /* Functions defined in this translation unit. */
 s32 resolve_spell_effect_resource_id(s16 index);
 s16 resolve_alternate_spell_id(s32 tile_index);
-void *create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context);
+void *create_actor_spell_effect(void *actor, void *effect_record, s16 mode, void *context);
 s32 load_spell_effect_code(s32 selection_id, s32 alternate_table, s32 unused);
 
 #endif

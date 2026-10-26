@@ -2,7 +2,7 @@
 #include "shared/town_handler_entries.h"
 #include "shared/object_index_slots.h"
 
-extern void call_the_handler_selects_nonzero_entry(void *entries, void *record, s32 handler_param);
+extern void call_the_handler_selects_nonzero_entry(void *entries, void *record,void *handler_param);
 s16 clamp_transform_coordinate_deltas(s32 x, s32 y, void *origin);
 void forward_player_motion_state(void *state, s32 value, s32 mode);
 

@@ -3,7 +3,7 @@
 #include "dungeon/actor.h"
 #include "shared/dungeon_status.h"
 
-extern s32 advance_status_timers();
+extern void advance_status_timers();
 
 extern s32 spend_actor_mp();
 

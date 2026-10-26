@@ -486,7 +486,7 @@ void apply_capped_damage_and_hit_effect(ActorRecord *entity, Rec_func_800A5DFC_a
 extern s32 lookup_item_category_mapped_value(u8, u8);
 extern void clear_slot_and_update_linked_state(void *);
 extern s32 play_sound_if_enabled(s32);
-extern void place_item_at_valid_floor_position(u16, u16, s16, s32, void *);
+extern void place_item_at_valid_floor_position(u16, u16, s16, s32 , void *);
 
 /* Processes a target using the linked object's position, then decrements the shared count. */
 void place_actor_item(void *object_context, void *target) {
@@ -631,11 +631,11 @@ typedef struct S_800A613C_0 {
 } S_800A613C_0;
 
 /* Create an object, attach its descriptor, and initialize its data fields. */
-s32 create_expanding_screen_rectangle(void) {
-    s32 object;
+void * create_expanding_screen_rectangle(void) {
+    void *object;
     S_800A613C_0 *object_data;
 
-    object = (s32)allocate_flagged_object_node(0);
+    object = allocate_flagged_object_node(0);
     if (object != 0) {
         register_node(object, &D_800A5FC0);
         object_data = object + 0x20;
@@ -740,7 +740,7 @@ extern s32 D_800A624C();
 
 typedef struct S_800A634C_0 {
     u8 pad_00[0x10];
-    s32 * unk_10;
+    void (*unk_10)();
 } S_800A634C_0;
 
 typedef struct S_800A634C_1 {
@@ -781,7 +781,7 @@ extern u8 D_800E0A12[];
 void display_item_status_message(void *entity, void *item, s32 message_kind) {
     void *message;
 
-    s32 text_end;
+    void *text_end;
 
     message = get_unused_text_buffer(entity, item, message_kind);
     if ((s16)message_kind == 0x15) {
@@ -803,9 +803,9 @@ extern u8 fullwidth_period[];
 extern u8 D_800E0A1B[];
 
 void display_actor_item_status_message(void *actor, void *item) {
-    s32 original_value;
-    s32 current_value;
-    s32 adjusted_value;
+    void *original_value;
+    void *current_value;
+    void *adjusted_value;
 
     adjusted_value = append_typed_formatted_value(item, current_value = get_unused_text_buffer());
     original_value = current_value;
@@ -911,7 +911,7 @@ extern void clear_slot_and_update_linked_state(void *handle);
 extern void unlink_entity_node(void *object);
 extern void update_map_cell_flags_with_item_limit(u8 sound_x, u8 sound_y, s32 sound_mode);
 extern s16 find_entity_slot_by_field_ac(void *object);
-extern void detach_record_and_update_slot_state(void *object);
+extern void * detach_record_and_update_slot_state(void *object);
 
 extern void *familiar_record_slots[];
 

@@ -138,7 +138,7 @@ extern s32 find_item_by_kind_and_type(s32 first_value, s32 second_value);
 extern void copy_entity_record_fields(void *, void *);
 extern void create_person_object(void);
 extern void initialize_object_at_current_position(void);
-extern s16 query_lowered_transform_position(func_80092868_ScenePos *scene);
+extern s16 query_lowered_transform_position(void *scene);
 void set_resident_bitmap_bit(s32 bit_id);
 s32 load_town_sprite_bundle(void);
 s32 load_alternate_town_sprite_bundle(void);

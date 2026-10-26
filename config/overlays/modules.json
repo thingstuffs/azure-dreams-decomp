@@ -43162,10 +43162,9 @@
           "id": "dungeon/func_80CB7000",
           "source": "src/dungeon/modules/ovl_cd7000.c",
           "function": "func_8014C87C",
-          "foff": 13463552,
-          "vma": 2148845568,
-          "size": 288,
-          "body_offset": 124
+          "foff": 13463676,
+          "vma": 2148845692,
+          "size": 164
         },
         {
           "id": "dungeon/func_80CB7120",
@@ -44484,14 +44483,66 @@
         "docs/evidence/dungeon_ovl_cd7000.imports.json",
         "docs/evidence/dungeon_ovl_cd7000.recipe.json",
         "src/engine/texture/register_and_upload_three_slot_sprite_resource.c",
-        "src/engine/scene/upload_image_tiles.c"
+        "src/engine/scene/upload_image_tiles.c",
+        "docs/evidence/dungeon_ovl_cd7000.prefix-separation.json"
       ],
       "genuine_aspsx": {
         "flags": [
           "-0"
         ],
         "evidence": "docs/evidence/dungeon_ovl_cd7000.recipe.json"
-      }
+      },
+      "data_members": [
+        {
+          "id": "dungeon/D_80CB7000",
+          "source": "src/dungeon/modules/ovl_cd7000.c",
+          "symbol": "D_8014C800",
+          "foff": 13463552,
+          "vma": 2148845568,
+          "size": 4
+        },
+        {
+          "id": "dungeon/D_80CB7004",
+          "source": "src/dungeon/modules/ovl_cd7000.c",
+          "symbol": "D_8014C804",
+          "foff": 13463556,
+          "vma": 2148845572,
+          "size": 4
+        },
+        {
+          "id": "dungeon/D_80CB7008",
+          "source": "src/dungeon/modules/ovl_cd7000.c",
+          "symbol": "D_8014C808",
+          "foff": 13463560,
+          "vma": 2148845576,
+          "size": 48
+        },
+        {
+          "id": "dungeon/D_80CB7038",
+          "source": "src/dungeon/modules/ovl_cd7000.c",
+          "symbol": "D_8014C838",
+          "foff": 13463608,
+          "vma": 2148845624,
+          "size": 28
+        },
+        {
+          "id": "dungeon/D_80CB7054",
+          "source": "src/dungeon/modules/ovl_cd7000.c",
+          "symbol": "D_8014C854",
+          "foff": 13463636,
+          "vma": 2148845652,
+          "size": 4
+        },
+        {
+          "id": "dungeon/D_80CB7058",
+          "source": "src/dungeon/modules/ovl_cd7000.c",
+          "symbol": "D_8014C858",
+          "foff": 13463640,
+          "vma": 2148845656,
+          "size": 36
+        }
+      ],
+      "prefix_provenance": "docs/evidence/dungeon_ovl_cd7000.prefix-separation.json"
     },
     {
       "key": "dungeon_ovl_18be820",
@@ -99343,6 +99394,1073 @@
         ],
         "evidence": "docs/evidence/town_handler_commands.recipe.json"
       }
+    },
+    {
+      "key": "town_square_gate_choices",
+      "container": "town",
+      "name": "square_gate_choices",
+      "source": "src/town/scene/apply_gate_5217_entry.c",
+      "region": "sweep_2AB9C0",
+      "headers": [
+        "include/town/scene.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "owned_data": [],
+      "review_inputs": [
+        "src/town/scene/apply_gate_5217_entry.c",
+        "docs/evidence/square_gate_choices.json",
+        "docs/evidence/r124w_carve1_run12.md",
+        "src/town/scene/find_eligible_entry.c",
+        "src/town/scene/save_context_and_dispatch_entry_type.c",
+        "src/town/scene/apply_selected_entry_values.c",
+        "docs/evidence/square-load-map.json"
+      ],
+      "allocation_model": "separated-symbolic-allocations-v1",
+      "data_members": [
+        {
+          "id": "town/D_803309EC",
+          "source": "src/town/scene/apply_gate_5217_entry.c",
+          "symbol": "D_8001B1EC",
+          "foff": 2820588,
+          "vma": 2147594732,
+          "size": 64
+        }
+      ],
+      "members": [
+        {
+          "id": "town/func_8032B96C",
+          "source": "src/town/scene/apply_gate_5217_entry.c",
+          "function": "func_8001616C",
+          "foff": 2799980,
+          "vma": 2147574124,
+          "size": 84
+        }
+      ],
+      "allocations": [
+        {
+          "section": ".text.*",
+          "foff": 2799980,
+          "vma": 2147574124,
+          "size": 84,
+          "link_alignment": 4
+        },
+        {
+          "section": ".data",
+          "foff": 2820588,
+          "vma": 2147594732,
+          "size": 64,
+          "link_alignment": 4,
+          "slots": [
+            {
+              "kind": "typed_records",
+              "symbol": "D_8001B1EC",
+              "offset": 0,
+              "size": 64,
+              "source": "src/town/scene/apply_gate_5217_entry.c",
+              "type": "TownSceneChoice",
+              "declaration": "include/town/scene.h",
+              "owner": "town/func_8032B96C",
+              "fields": [
+                {
+                  "name": "predicate",
+                  "type": "TownChoicePredicate",
+                  "kind": "function",
+                  "offset": 0
+                },
+                {
+                  "name": "text",
+                  "type": "TownChoiceText",
+                  "kind": "function",
+                  "offset": 4
+                },
+                {
+                  "name": "value",
+                  "type": "TownChoiceData",
+                  "kind": "data",
+                  "offset": 8
+                },
+                {
+                  "name": "script_flag",
+                  "type": "s16",
+                  "kind": "scalar",
+                  "offset": 12
+                },
+                {
+                  "name": "reserved",
+                  "type": "s16",
+                  "kind": "scalar",
+                  "offset": 14
+                }
+              ],
+              "stride": 16,
+              "records": [
+                [
+                  "func_8001616C",
+                  "func_8001A508",
+                  "D_8001C33C",
+                  3463,
+                  0
+                ],
+                [
+                  "func_800161C0",
+                  "func_8001A508",
+                  "D_8001C33C",
+                  3464,
+                  0
+                ],
+                [
+                  "func_8001A514",
+                  "func_800162A4",
+                  "D_8001E36C",
+                  3465,
+                  0
+                ],
+                [
+                  "func_8001A514",
+                  "func_8001A508",
+                  "D_8001C33C",
+                  0,
+                  0
+                ]
+              ],
+              "bounds": "docs/evidence/square_gate_choices.json"
+            }
+          ]
+        }
+      ],
+      "section_order": [
+        ".data",
+        ".text.func_8001616C"
+      ],
+      "imports": [
+        {
+          "symbol": "D_8001C33C",
+          "kind": "data",
+          "vma": 2147599164,
+          "foff": 2825020,
+          "view_bytes": 1,
+          "owner": "retail_asset:town:sweep_2AB9C0"
+        },
+        {
+          "symbol": "D_8001E36C",
+          "kind": "data",
+          "vma": 2147607404,
+          "foff": 2833260,
+          "view_bytes": 1,
+          "owner": "retail_asset:town:sweep_2AB9C0"
+        },
+        {
+          "symbol": "func_800161C0",
+          "kind": "function",
+          "vma": 2147574208
+        },
+        {
+          "symbol": "func_800162A4",
+          "kind": "function",
+          "vma": 2147574436
+        },
+        {
+          "symbol": "func_80019B54",
+          "kind": "function",
+          "vma": 2147588948
+        },
+        {
+          "symbol": "func_80019BC0",
+          "kind": "function",
+          "vma": 2147589056
+        },
+        {
+          "symbol": "func_8001A508",
+          "kind": "function",
+          "vma": 2147591432
+        },
+        {
+          "symbol": "func_8001A514",
+          "kind": "function",
+          "vma": 2147591444
+        },
+        {
+          "symbol": "func_8001ADE0",
+          "kind": "function",
+          "vma": 2147593696
+        }
+      ]
+    },
+    {
+      "key": "town_square_progress_choices",
+      "container": "town",
+      "name": "square_progress_choices",
+      "source": "src/town/scene/apply_gate_5000_entry.c",
+      "region": "sweep_2AB9C0",
+      "headers": [
+        "include/town/scene.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "owned_data": [],
+      "review_inputs": [
+        "src/town/scene/apply_gate_5000_entry.c",
+        "docs/evidence/square_progress_choices.json",
+        "docs/evidence/r124w_carve1_run12.md",
+        "src/town/scene/find_eligible_entry.c",
+        "src/town/scene/save_context_and_dispatch_entry_type.c",
+        "src/town/scene/apply_selected_entry_values.c",
+        "docs/evidence/square-load-map.json"
+      ],
+      "allocation_model": "separated-symbolic-allocations-v1",
+      "data_members": [
+        {
+          "id": "town/D_8033140C",
+          "source": "src/town/scene/apply_gate_5000_entry.c",
+          "symbol": "D_8001BC0C",
+          "foff": 2823180,
+          "vma": 2147597324,
+          "size": 96
+        }
+      ],
+      "members": [
+        {
+          "id": "town/func_8032C9A0",
+          "source": "src/town/scene/apply_gate_5000_entry.c",
+          "function": "func_800171A0",
+          "foff": 2804128,
+          "vma": 2147578272,
+          "size": 84
+        }
+      ],
+      "allocations": [
+        {
+          "section": ".text.*",
+          "foff": 2804128,
+          "vma": 2147578272,
+          "size": 84,
+          "link_alignment": 4
+        },
+        {
+          "section": ".data",
+          "foff": 2823180,
+          "vma": 2147597324,
+          "size": 96,
+          "link_alignment": 4,
+          "slots": [
+            {
+              "kind": "typed_records",
+              "symbol": "D_8001BC0C",
+              "offset": 0,
+              "size": 96,
+              "source": "src/town/scene/apply_gate_5000_entry.c",
+              "type": "TownSceneChoice",
+              "declaration": "include/town/scene.h",
+              "owner": "town/func_8032C9A0",
+              "fields": [
+                {
+                  "name": "predicate",
+                  "type": "TownChoicePredicate",
+                  "kind": "function",
+                  "offset": 0
+                },
+                {
+                  "name": "text",
+                  "type": "TownChoiceText",
+                  "kind": "function",
+                  "offset": 4
+                },
+                {
+                  "name": "value",
+                  "type": "TownChoiceData",
+                  "kind": "data",
+                  "offset": 8
+                },
+                {
+                  "name": "script_flag",
+                  "type": "s16",
+                  "kind": "scalar",
+                  "offset": 12
+                },
+                {
+                  "name": "reserved",
+                  "type": "s16",
+                  "kind": "scalar",
+                  "offset": 14
+                }
+              ],
+              "stride": 16,
+              "records": [
+                [
+                  "func_80017158",
+                  "func_80017104",
+                  "D_8001E240",
+                  3431,
+                  0
+                ],
+                [
+                  "func_800171A0",
+                  "func_8001A508",
+                  "D_8001C33C",
+                  3432,
+                  0
+                ],
+                [
+                  "func_8001728C",
+                  "func_800171F4",
+                  "D_8001E27C",
+                  3433,
+                  0
+                ],
+                [
+                  "func_80017318",
+                  "func_8001A508",
+                  "D_8001C33C",
+                  3434,
+                  0
+                ],
+                [
+                  "func_80017410",
+                  "func_800173A0",
+                  "D_8001E2E0",
+                  3435,
+                  0
+                ],
+                [
+                  "func_8001A514",
+                  "func_8001A508",
+                  "D_8001C33C",
+                  0,
+                  0
+                ]
+              ],
+              "bounds": "docs/evidence/square_progress_choices.json"
+            }
+          ]
+        }
+      ],
+      "section_order": [
+        ".data",
+        ".text.func_800171A0"
+      ],
+      "imports": [
+        {
+          "symbol": "D_8001C33C",
+          "kind": "data",
+          "vma": 2147599164,
+          "foff": 2825020,
+          "view_bytes": 1,
+          "owner": "retail_asset:town:sweep_2AB9C0"
+        },
+        {
+          "symbol": "D_8001E240",
+          "kind": "data",
+          "vma": 2147607104,
+          "foff": 2832960,
+          "view_bytes": 1,
+          "owner": "retail_asset:town:sweep_2AB9C0"
+        },
+        {
+          "symbol": "D_8001E27C",
+          "kind": "data",
+          "vma": 2147607164,
+          "foff": 2833020,
+          "view_bytes": 1,
+          "owner": "retail_asset:town:sweep_2AB9C0"
+        },
+        {
+          "symbol": "D_8001E2E0",
+          "kind": "data",
+          "vma": 2147607264,
+          "foff": 2833120,
+          "view_bytes": 1,
+          "owner": "retail_asset:town:sweep_2AB9C0"
+        },
+        {
+          "symbol": "func_80017104",
+          "kind": "function",
+          "vma": 2147578116
+        },
+        {
+          "symbol": "func_80017158",
+          "kind": "function",
+          "vma": 2147578200
+        },
+        {
+          "symbol": "func_800171F4",
+          "kind": "function",
+          "vma": 2147578356
+        },
+        {
+          "symbol": "func_8001728C",
+          "kind": "function",
+          "vma": 2147578508
+        },
+        {
+          "symbol": "func_80017318",
+          "kind": "function",
+          "vma": 2147578648
+        },
+        {
+          "symbol": "func_800173A0",
+          "kind": "function",
+          "vma": 2147578784
+        },
+        {
+          "symbol": "func_80017410",
+          "kind": "function",
+          "vma": 2147578896
+        },
+        {
+          "symbol": "func_80019B54",
+          "kind": "function",
+          "vma": 2147588948
+        },
+        {
+          "symbol": "func_80019BC0",
+          "kind": "function",
+          "vma": 2147589056
+        },
+        {
+          "symbol": "func_8001A508",
+          "kind": "function",
+          "vma": 2147591432
+        },
+        {
+          "symbol": "func_8001A514",
+          "kind": "function",
+          "vma": 2147591444
+        },
+        {
+          "symbol": "func_8001ADE0",
+          "kind": "function",
+          "vma": 2147593696
+        }
+      ]
+    },
+    {
+      "key": "town_square_flag_choices",
+      "container": "town",
+      "name": "square_flag_choices",
+      "source": "src/town/scene/apply_gate_5000_flag_entry.c",
+      "region": "sweep_2AB9C0",
+      "headers": [
+        "include/town/scene.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "owned_data": [],
+      "review_inputs": [
+        "src/town/scene/apply_gate_5000_flag_entry.c",
+        "docs/evidence/square_flag_choices.json",
+        "docs/evidence/r124w_carve1_run12.md",
+        "src/town/scene/find_eligible_entry.c",
+        "src/town/scene/save_context_and_dispatch_entry_type.c",
+        "src/town/scene/apply_selected_entry_values.c",
+        "docs/evidence/square-load-map.json"
+      ],
+      "allocation_model": "separated-symbolic-allocations-v1",
+      "data_members": [
+        {
+          "id": "town/D_8033149C",
+          "source": "src/town/scene/apply_gate_5000_flag_entry.c",
+          "symbol": "D_8001BC9C",
+          "foff": 2823324,
+          "vma": 2147597468,
+          "size": 272
+        }
+      ],
+      "members": [
+        {
+          "id": "town/func_8032CEF4",
+          "source": "src/town/scene/apply_gate_5000_flag_entry.c",
+          "function": "func_800176F4",
+          "foff": 2805492,
+          "vma": 2147579636,
+          "size": 88
+        }
+      ],
+      "allocations": [
+        {
+          "section": ".text.*",
+          "foff": 2805492,
+          "vma": 2147579636,
+          "size": 88,
+          "link_alignment": 4
+        },
+        {
+          "section": ".data",
+          "foff": 2823324,
+          "vma": 2147597468,
+          "size": 272,
+          "link_alignment": 4,
+          "slots": [
+            {
+              "kind": "typed_records",
+              "symbol": "D_8001BC9C",
+              "offset": 0,
+              "size": 272,
+              "source": "src/town/scene/apply_gate_5000_flag_entry.c",
+              "type": "TownSceneChoice",
+              "declaration": "include/town/scene.h",
+              "owner": "town/func_8032CEF4",
+              "fields": [
+                {
+                  "name": "predicate",
+                  "type": "TownChoicePredicate",
+                  "kind": "function",
+                  "offset": 0
+                },
+                {
+                  "name": "text",
+                  "type": "TownChoiceText",
+                  "kind": "function",
+                  "offset": 4
+                },
+                {
+                  "name": "value",
+                  "type": "TownChoiceData",
+                  "kind": "data",
+                  "offset": 8
+                },
+                {
+                  "name": "script_flag",
+                  "type": "s16",
+                  "kind": "scalar",
+                  "offset": 12
+                },
+                {
+                  "name": "reserved",
+                  "type": "s16",
+                  "kind": "scalar",
+                  "offset": 14
+                }
+              ],
+              "stride": 16,
+              "records": [
+                [
+                  "func_80017490",
+                  "func_8001A508",
+                  "D_8001C33C",
+                  3412,
+                  0
+                ],
+                [
+                  "func_8001751C",
+                  "func_800174E4",
+                  "D_8001E6B4",
+                  3413,
+                  0
+                ],
+                [
+                  "func_8001762C",
+                  "func_800175F4",
+                  "D_8001E6B4",
+                  3414,
+                  0
+                ],
+                [
+                  "func_800176F4",
+                  "func_80017694",
+                  "D_8001E6B4",
+                  3415,
+                  0
+                ],
+                [
+                  "func_8001774C",
+                  "func_8001A508",
+                  "D_8001C33C",
+                  3416,
+                  0
+                ],
+                [
+                  "func_800177DC",
+                  "func_800177A4",
+                  "D_8001E6B4",
+                  3417,
+                  0
+                ],
+                [
+                  "func_8001787C",
+                  "func_800177FC",
+                  "D_8001E6B4",
+                  3418,
+                  0
+                ],
+                [
+                  "func_8001791C",
+                  "func_8001789C",
+                  "D_8001E6B4",
+                  3419,
+                  0
+                ],
+                [
+                  "func_800179BC",
+                  "func_8001793C",
+                  "D_8001E6B4",
+                  3420,
+                  0
+                ],
+                [
+                  "func_80017A64",
+                  "func_800179DC",
+                  "D_8001E6B4",
+                  3421,
+                  0
+                ],
+                [
+                  "func_80017B04",
+                  "func_80017A84",
+                  "D_8001E6B4",
+                  3422,
+                  0
+                ],
+                [
+                  "func_80017BDC",
+                  "func_80017B5C",
+                  "D_8001E6B4",
+                  3423,
+                  0
+                ],
+                [
+                  "func_80017CB4",
+                  "func_80017C34",
+                  "D_8001E6B4",
+                  3424,
+                  0
+                ],
+                [
+                  "func_80017D54",
+                  "func_80017CD4",
+                  "D_8001E6B4",
+                  3425,
+                  0
+                ],
+                [
+                  "func_80017D74",
+                  "func_8001A508",
+                  "D_8001C33C",
+                  3505,
+                  0
+                ],
+                [
+                  "func_80017E34",
+                  "func_80017DB4",
+                  "D_8001E6B4",
+                  3426,
+                  0
+                ],
+                [
+                  "func_8001A514",
+                  "func_80017E54",
+                  "D_8001E6B4",
+                  0,
+                  0
+                ]
+              ],
+              "bounds": "docs/evidence/square_flag_choices.json"
+            }
+          ]
+        }
+      ],
+      "section_order": [
+        ".data",
+        ".text.func_800176F4"
+      ],
+      "imports": [
+        {
+          "symbol": "D_8001C33C",
+          "kind": "data",
+          "vma": 2147599164,
+          "foff": 2825020,
+          "view_bytes": 1,
+          "owner": "retail_asset:town:sweep_2AB9C0"
+        },
+        {
+          "symbol": "D_8001E6B4",
+          "kind": "data",
+          "vma": 2147608244,
+          "foff": 2834100,
+          "view_bytes": 1,
+          "owner": "retail_asset:town:sweep_2AB9C0"
+        },
+        {
+          "symbol": "func_80017490",
+          "kind": "function",
+          "vma": 2147579024
+        },
+        {
+          "symbol": "func_800174E4",
+          "kind": "function",
+          "vma": 2147579108
+        },
+        {
+          "symbol": "func_8001751C",
+          "kind": "function",
+          "vma": 2147579164
+        },
+        {
+          "symbol": "func_800175F4",
+          "kind": "function",
+          "vma": 2147579380
+        },
+        {
+          "symbol": "func_8001762C",
+          "kind": "function",
+          "vma": 2147579436
+        },
+        {
+          "symbol": "func_80017694",
+          "kind": "function",
+          "vma": 2147579540
+        },
+        {
+          "symbol": "func_8001774C",
+          "kind": "function",
+          "vma": 2147579724
+        },
+        {
+          "symbol": "func_800177A4",
+          "kind": "function",
+          "vma": 2147579812
+        },
+        {
+          "symbol": "func_800177DC",
+          "kind": "function",
+          "vma": 2147579868
+        },
+        {
+          "symbol": "func_800177FC",
+          "kind": "function",
+          "vma": 2147579900
+        },
+        {
+          "symbol": "func_8001787C",
+          "kind": "function",
+          "vma": 2147580028
+        },
+        {
+          "symbol": "func_8001789C",
+          "kind": "function",
+          "vma": 2147580060
+        },
+        {
+          "symbol": "func_8001791C",
+          "kind": "function",
+          "vma": 2147580188
+        },
+        {
+          "symbol": "func_8001793C",
+          "kind": "function",
+          "vma": 2147580220
+        },
+        {
+          "symbol": "func_800179BC",
+          "kind": "function",
+          "vma": 2147580348
+        },
+        {
+          "symbol": "func_800179DC",
+          "kind": "function",
+          "vma": 2147580380
+        },
+        {
+          "symbol": "func_80017A64",
+          "kind": "function",
+          "vma": 2147580516
+        },
+        {
+          "symbol": "func_80017A84",
+          "kind": "function",
+          "vma": 2147580548
+        },
+        {
+          "symbol": "func_80017B04",
+          "kind": "function",
+          "vma": 2147580676
+        },
+        {
+          "symbol": "func_80017B5C",
+          "kind": "function",
+          "vma": 2147580764
+        },
+        {
+          "symbol": "func_80017BDC",
+          "kind": "function",
+          "vma": 2147580892
+        },
+        {
+          "symbol": "func_80017C34",
+          "kind": "function",
+          "vma": 2147580980
+        },
+        {
+          "symbol": "func_80017CB4",
+          "kind": "function",
+          "vma": 2147581108
+        },
+        {
+          "symbol": "func_80017CD4",
+          "kind": "function",
+          "vma": 2147581140
+        },
+        {
+          "symbol": "func_80017D54",
+          "kind": "function",
+          "vma": 2147581268
+        },
+        {
+          "symbol": "func_80017D74",
+          "kind": "function",
+          "vma": 2147581300
+        },
+        {
+          "symbol": "func_80017DB4",
+          "kind": "function",
+          "vma": 2147581364
+        },
+        {
+          "symbol": "func_80017E34",
+          "kind": "function",
+          "vma": 2147581492
+        },
+        {
+          "symbol": "func_80017E54",
+          "kind": "function",
+          "vma": 2147581524
+        },
+        {
+          "symbol": "func_80019C68",
+          "kind": "function",
+          "vma": 2147589224
+        },
+        {
+          "symbol": "func_8001A508",
+          "kind": "function",
+          "vma": 2147591432
+        },
+        {
+          "symbol": "func_8001A514",
+          "kind": "function",
+          "vma": 2147591444
+        },
+        {
+          "symbol": "func_8001ACE8",
+          "kind": "function",
+          "vma": 2147593448
+        },
+        {
+          "symbol": "func_8001ADE0",
+          "kind": "function",
+          "vma": 2147593696
+        }
+      ]
+    },
+    {
+      "key": "town_square_record_choices",
+      "container": "town",
+      "name": "square_record_choices",
+      "source": "src/town/scene/flag_entry_if_record_eleven.c",
+      "region": "sweep_2AB9C0",
+      "headers": [
+        "include/town/scene.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "owned_data": [],
+      "review_inputs": [
+        "src/town/scene/flag_entry_if_record_eleven.c",
+        "docs/evidence/square_record_choices.json",
+        "docs/evidence/r124w_carve1_run12.md",
+        "src/town/scene/find_eligible_entry.c",
+        "src/town/scene/save_context_and_dispatch_entry_type.c",
+        "src/town/scene/apply_selected_entry_values.c",
+        "docs/evidence/square-load-map.json"
+      ],
+      "allocation_model": "separated-symbolic-allocations-v1",
+      "data_members": [
+        {
+          "id": "town/D_803315C4",
+          "source": "src/town/scene/flag_entry_if_record_eleven.c",
+          "symbol": "D_8001BDC4",
+          "foff": 2823620,
+          "vma": 2147597764,
+          "size": 64
+        }
+      ],
+      "members": [
+        {
+          "id": "town/func_8032DB70",
+          "source": "src/town/scene/flag_entry_if_record_eleven.c",
+          "function": "func_80018370",
+          "foff": 2808688,
+          "vma": 2147582832,
+          "size": 84
+        }
+      ],
+      "allocations": [
+        {
+          "section": ".text.*",
+          "foff": 2808688,
+          "vma": 2147582832,
+          "size": 84,
+          "link_alignment": 4
+        },
+        {
+          "section": ".data",
+          "foff": 2823620,
+          "vma": 2147597764,
+          "size": 64,
+          "link_alignment": 4,
+          "slots": [
+            {
+              "kind": "typed_records",
+              "symbol": "D_8001BDC4",
+              "offset": 0,
+              "size": 64,
+              "source": "src/town/scene/flag_entry_if_record_eleven.c",
+              "type": "TownSceneChoice",
+              "declaration": "include/town/scene.h",
+              "owner": "town/func_8032DB70",
+              "fields": [
+                {
+                  "name": "predicate",
+                  "type": "TownChoicePredicate",
+                  "kind": "function",
+                  "offset": 0
+                },
+                {
+                  "name": "text",
+                  "type": "TownChoiceText",
+                  "kind": "function",
+                  "offset": 4
+                },
+                {
+                  "name": "value",
+                  "type": "TownChoiceData",
+                  "kind": "data",
+                  "offset": 8
+                },
+                {
+                  "name": "script_flag",
+                  "type": "s16",
+                  "kind": "scalar",
+                  "offset": 12
+                },
+                {
+                  "name": "reserved",
+                  "type": "s16",
+                  "kind": "scalar",
+                  "offset": 14
+                }
+              ],
+              "stride": 16,
+              "records": [
+                [
+                  "func_8001822C",
+                  "func_80018220",
+                  "D_8001E4E8",
+                  3473,
+                  0
+                ],
+                [
+                  "func_80018318",
+                  "func_800182A0",
+                  "D_8001E4E8",
+                  3474,
+                  0
+                ],
+                [
+                  "func_80018370",
+                  "func_80018338",
+                  "D_8001E4E8",
+                  3475,
+                  0
+                ],
+                [
+                  "func_8001A514",
+                  "func_8001A508",
+                  "D_8001C33C",
+                  0,
+                  0
+                ]
+              ],
+              "bounds": "docs/evidence/square_record_choices.json"
+            }
+          ]
+        }
+      ],
+      "section_order": [
+        ".data",
+        ".text.func_80018370"
+      ],
+      "imports": [
+        {
+          "symbol": "D_8001C33C",
+          "kind": "data",
+          "vma": 2147599164,
+          "foff": 2825020,
+          "view_bytes": 1,
+          "owner": "retail_asset:town:sweep_2AB9C0"
+        },
+        {
+          "symbol": "D_8001E4E8",
+          "kind": "data",
+          "vma": 2147607784,
+          "foff": 2833640,
+          "view_bytes": 1,
+          "owner": "retail_asset:town:sweep_2AB9C0"
+        },
+        {
+          "symbol": "func_80018220",
+          "kind": "function",
+          "vma": 2147582496
+        },
+        {
+          "symbol": "func_8001822C",
+          "kind": "function",
+          "vma": 2147582508
+        },
+        {
+          "symbol": "func_800182A0",
+          "kind": "function",
+          "vma": 2147582624
+        },
+        {
+          "symbol": "func_80018318",
+          "kind": "function",
+          "vma": 2147582744
+        },
+        {
+          "symbol": "func_80018338",
+          "kind": "function",
+          "vma": 2147582776
+        },
+        {
+          "symbol": "func_80019958",
+          "kind": "function",
+          "vma": 2147588440
+        },
+        {
+          "symbol": "func_8001A508",
+          "kind": "function",
+          "vma": 2147591432
+        },
+        {
+          "symbol": "func_8001A514",
+          "kind": "function",
+          "vma": 2147591444
+        },
+        {
+          "symbol": "func_8001B080",
+          "kind": "function",
+          "vma": 2147594368
+        }
+      ]
     }
   ]
 }

@@ -235,7 +235,7 @@ extern s32 D_800DEB70;
 s32 resolve_record_orientation_or_fallback();
 s32 rand(void);
 void apply_attack_power_and_element_effects();
-s32 scan_actor_along_heading();
+void *scan_actor_along_heading();
 s32 get_definition_entry_byte_13();
 s32 check_enabled_neighbor_height();
 extern u8 D_800DEBD8;

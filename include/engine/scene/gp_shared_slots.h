@@ -7,7 +7,6 @@
 
 
 extern void *g_game_work[3];
-extern u8 upper_draw_context[2][0x108D4];
 extern u16 scene_sprite_mode_word[5];
 extern s16 scene_sprite_wave_tick;
 extern u16 scene_sprite_cached_mode;

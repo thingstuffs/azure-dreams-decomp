@@ -377,7 +377,7 @@ s32 rsin(s32);
 s32 rcos(s32);
 s32 rand();
 s32 advance_sprite_animation_and_textures(void *effect_data);
-void select_record_entry_and_value();
+void select_record_entry_and_value(void *state, void *entries, short index);
 int abs(int);
 void select_sprite_entry(SpriteFrameState *object, s16 table_index, s16 entry_index);
 void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);

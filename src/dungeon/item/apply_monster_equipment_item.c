@@ -40,13 +40,14 @@ typedef struct S_800C08A4_2 {
 void begin_mode_selected_item_action(); /* extern */
 s32 process_record_and_update_linked_state(); /* extern */
 void clear_slot_and_update_linked_state(); /* extern */
-s32 copy_fullwidth_vowel_bytes();
-s32 get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
-s32 expand_text_control_codes();
+
+void * copy_fullwidth_vowel_bytes();
+void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
+u8 * expand_text_control_codes();
 void *clear_byte_and_advance();
-s32 append_typed_formatted_value();
-s32 append_entity_display_text();
-s32 append_value_seven_suffix();
+u8 *append_typed_formatted_value();
+u8 *append_entity_display_text();
+void * append_value_seven_suffix();
 s32 display_text_with_fullwidth_adjustment(); /* extern */
 void place_actor_item(void *object_context, void *target); /* extern */
 s32 generate_random_value(void);
@@ -59,12 +60,12 @@ extern u8 D_800E13E9[18];
 
 /* Applies an entity action to a target and updates the pending count. */
 s32 apply_monster_equipment_item(u8 *entity, u8 *target, s16 action, void *context) {
-    s32 entity_value;
-    s32 event_value;
-    s32 external_entity_value;
-    s32 external_event_value;
+    void *entity_value;
+    void *event_value;
+    void *external_entity_value;
+    void *external_event_value;
     u8 *compare_ptr;
-    s32 script;
+    void *script;
     S_800C08A4_1 *position;
 
     if (action == 0xD) {
@@ -103,7 +104,7 @@ s32 apply_monster_equipment_item(u8 *entity, u8 *target, s16 action, void *conte
         event_value = expand_text_control_codes(D_800E13DA, entity_value);
         {
             s32 node_offset;
-            s32 result;
+            void *result;
 
             external_entity_value = append_value_seven_suffix(event_value);
             result = expand_text_control_codes(&D_80089378, external_entity_value);
@@ -126,7 +127,7 @@ s32 apply_monster_equipment_item(u8 *entity, u8 *target, s16 action, void *conte
         external_event_value = expand_text_control_codes(D_800E13E9, external_entity_value);
         {
             s32 node_offset;
-            s32 result;
+            void *result;
 
             external_entity_value = append_value_seven_suffix(external_event_value);
             result = expand_text_control_codes(&D_80089378, external_entity_value);

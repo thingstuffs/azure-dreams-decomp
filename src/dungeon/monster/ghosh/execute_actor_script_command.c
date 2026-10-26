@@ -20,7 +20,7 @@ typedef struct S_8016EF10_1 {
 } S_8016EF10_1;   /* actor in execute_actor_script_command */
 
 extern s32 update_actor_status_and_mp();
-extern s32 create_five_point_effect();
+extern void * create_five_point_effect();
 extern s32 func_8016A928();
 extern s32 advance_actor_path();
 

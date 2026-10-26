@@ -15,7 +15,7 @@ extern s32 saved_held_item_word;
 
 typedef struct S_8008F878_0 {
     u8 pad_00[0x8C];
-    s32 * unk_8C;
+    void (*unk_8C)(void *, void *, void *, void *);
     u8 pad_90[0xB];
     u8 unk_9B;
     u8 pad_9C[0x88];

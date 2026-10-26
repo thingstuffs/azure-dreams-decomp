@@ -93,7 +93,7 @@ def _load(path, stamp, rows_path, rows_stamp, inline_path, inline_stamp):
         if row.get("source_row"):
             raise ValueError("a link-list placement has no source path of its own: " + rid)
         value = _safe_path(record["path"], row["container"])
-        data_owner = row.get("owner") if row.get("row_kind") == "data" and row.get("data_kind") == "function_table" and row.get("ownership_status") == "evidenced" else None
+        data_owner = row.get("owner") if row.get("row_kind") == "data" and row.get("data_kind") in ("function_table", "descriptor_table", "native_prefix") and row.get("ownership_status") == "evidenced" else None
         coowned = data_owner in reg and data_owner != rid and reg[data_owner].get("row_kind") != "data" and reg[data_owner]["container"] == row["container"] and declared.get(data_owner, inlined.get(data_owner)) == value
         if value in paths and not (coowned or inlined.get(rid) == value and inlined.get(paths[value]) == value):
             raise ValueError("two rows share a source path: " + value)
@@ -101,7 +101,7 @@ def _load(path, stamp, rows_path, rows_stamp, inline_path, inline_stamp):
         if not coowned:
             paths[value] = rid
     # A sparse map must not collide with any row left at its default location.
-    coowned = {rid for rid,r in reg.items() if r.get("row_kind") == "data" and r.get("data_kind") == "function_table" and r.get("ownership_status") == "evidenced" and r.get("owner") in reg and r["owner"] != rid and mapping.get(rid) is not None and mapping.get(rid) == mapping.get(r["owner"], inlined.get(r["owner"]))}
+    coowned = {rid for rid,r in reg.items() if r.get("row_kind") == "data" and r.get("data_kind") in ("function_table", "descriptor_table", "native_prefix") and r.get("ownership_status") == "evidenced" and r.get("owner") in reg and r["owner"] != rid and mapping.get(rid) is not None and mapping.get(rid) == mapping.get(r["owner"], inlined.get(r["owner"]))}
     effective = [mapping.get(rid, flat_relative(r)) for rid, r in reg.items() if rid not in inlined and rid not in coowned]
     if len(effective) != len(set(effective)):
         raise ValueError("layout collides with a default row path")

@@ -98,7 +98,7 @@ void create_jittered_landing_spark(S_80165F00_0 *source)
         effect_transform->velocity_y = 0;
         effect_transform->velocity_x = 0;
         ((S_80165F00_5 *)((effect->position)))->unk_14 = 0x200000;
-        register_node(effect, (void *)((s32)&draw_linked_sprites_clipped));
+        register_node(effect, &draw_linked_sprites_clipped);
         sprite = effect->sprite;
         sprite->flags =
             (u16)(sprite->flags & 0xFFF3);

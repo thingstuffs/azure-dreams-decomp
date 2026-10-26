@@ -129,10 +129,10 @@ void create_type_212_object(s32 flag, s8 value) {
 s32 generate_random_value(void);
 s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
-s32 get_unused_text_buffer(void);
-s32 expand_text_control_codes(u8 *src, u8 *dst);
-s32 format_unsigned_double_byte_decimal(s32, s32);
-s32 append_entity_display_text(void *record, u8 *out);
+void *get_unused_text_buffer(void);
+u8 *expand_text_control_codes(u8 *src, u8 *dst);
+u8 * format_unsigned_double_byte_decimal(s32,u8 *);
+u8 *append_entity_display_text(void *record, u8 *out);
 extern void * clear_byte_and_advance(s8 *byte_ptr);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 
@@ -145,8 +145,8 @@ void add_random_quarter_value(void *source, void *target) {
     int direction_aux;
     s32 amount;
     s16 signed_amount;
-    s32 message_start;
-    s32 message_end;
+    void *message_start;
+    void *message_end;
     u8 *type_data;
     void *source_entity;
     void *target_entity;
@@ -191,15 +191,15 @@ void add_random_quarter_value(void *source, void *target) {
 typedef struct ActiveEntry { u8 pad0; u8 active; u8 pad2[2]; } ActiveEntry;
 extern u8 D_800E0000[];
 
-s32 format_unsigned_double_byte_decimal();
+u8 * format_unsigned_double_byte_decimal();
 void initialize_timed_motion_step(); /* Unprototyped: two or three arguments; retail reads only the first two. */
 s32 get_entity_effect_value();
 s32 clamp_adjusted_value_0_to_99();
-s32 get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
-s32 expand_text_control_codes();
+void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
+u8 * expand_text_control_codes();
 extern void * clear_byte_and_advance(s8 *byte_ptr);
-s32 write_text_byte_and_advance();
-s32 append_entity_display_text();
+void *write_text_byte_and_advance();
+u8 *append_entity_display_text();
 extern void create_type_212_object(s32 flag, s8 value);
 s32 play_sound_if_enabled(s32 query_value);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
@@ -289,7 +289,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
     s32 target_flags;
     s32 target_elements;
     u32 attack_elements;
-    s32 message_start;
+    void *message_start;
     s32 attack_bonus;
     s8 attacker_kind;
     s32 half_delta;
@@ -297,7 +297,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
     s32 quarter_delta;
     s32 effect_elements;
     u32 effect_flags;
-    u32 message_cursor;
+    void *message_cursor;
     s32 modifier;
     s32 element_match;
     s32 element_check;

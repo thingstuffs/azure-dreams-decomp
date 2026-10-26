@@ -39,17 +39,17 @@ s16 get_tile_chebyshev_distance(void *, void *);
 s32 generate_random_value(void);
 void on_actor_status_updated(void *);
 void update_actor_status_and_mp(void *);
-void begin_pushed_actor_move(void *, s32, void *, void *);
-s32 begin_ready_actor_directional_action(void *, s32, void *, s32);
-void advance_actor_pending_action(void *, s32, void *, void *);
-void begin_actor_move_to_target_facing(void *, s32, void *, void *);
+void begin_pushed_actor_move(void *,void *, void *, void *);
+s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
+void advance_actor_pending_action(void *, void *, void *, void *);
+void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 void update_multi_form_actor_movement(void *, s32, void *, void *);
 extern void beldo_large_action_resume_address();
 extern u8 beldo_large_frame_set_4[];
 extern u8 beldo_large_frame_set_7[];
 
 /* Processes object action states, dispatches actor_arg actions, and updates directional tiles. */
-void update_actor_action_state_2(void *obj_arg, s32 context_arg, SpriteFrameState *target_arg, void *actor_arg) {
+void update_actor_action_state_2(void *obj_arg, void *context_arg, SpriteFrameState *target_arg, void *actor_arg) {
     SpriteFrameState *target;
 
     DungeonGlobalStatus *held_base;

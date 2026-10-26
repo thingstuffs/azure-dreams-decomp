@@ -26,7 +26,7 @@ struct Elem;
 typedef s32 (*Callback4)(void *, void *, void *, void *);
 extern u8 destination_motion_resume_address[];
 extern void copy_words_forward(int *dst, int *src, int count);   /* extern */
-extern void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);             /* extern */
+extern void select_record_entry_and_value(void *state, void *entries, short index);             /* extern */
 extern void request_scene_dispatch_state(s16 requested_state);                     /* extern */
 s16 get_entity_effect_value();                 /* extern */
 extern void advance_sprite_animation_and_textures(void *entity);                      /* extern */
@@ -48,11 +48,11 @@ s32 can_entity_gain_level(void *entity);                      /* extern */
 #include "slus.h"
 struct Node;
 s32 lookup_definition_pair_value(s16 firstKey, s16 secondKey);                          /* extern */
-s32 advance_status_timers(void *record);                      /* extern */
+void advance_status_timers(void *record);                      /* extern */
 s32 play_sound_if_enabled(s32 query_value);                     /* extern */
 s32 generate_random_value(void);                                /* extern */
 s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);                   /* extern */
-s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);    /* extern */
+s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);    /* extern */
 extern s8 scene_music_hold;
 extern s16 floor_generation_state[3];
 extern s16 dungeon_camera_targets[];

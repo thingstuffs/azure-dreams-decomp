@@ -23,7 +23,7 @@ typedef struct {
     s32 words[8];
 } __attribute__((packed)) LocalTable;
 
-void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
+void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern u8 ribbon_sprite_entries[];
 extern LocalTable D_8016482C;

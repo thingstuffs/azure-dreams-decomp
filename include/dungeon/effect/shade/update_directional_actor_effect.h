@@ -284,7 +284,7 @@ s32 rcos();
 void PushMatrix();
 void PopMatrix();
 void * ApplyMatrixSV();
-void select_record_entry_and_value();
+void select_record_entry_and_value(void *state, void *entries, short index);
 
 s32 read_sound_mode_blocking_status(s32 mode);
 void * RotMatrix();

@@ -162,7 +162,7 @@ void load_and_upload_three_slot_sprite_resource(s16 entity_id);
 void move_vram_rect(s16 x, s16 y, s16 width, s16 height, s32 move_x, s32 move_y);
 
 /* multiply_rgb_tint_saturated.c */
-s32 multiply_rgb_tint_saturated(u8 *color, struct S_8004C010 *tint);
+void * multiply_rgb_tint_saturated(u8 *color, struct S_8004C010 *tint);
 
 /* multiply_rgb_tint_saturated_second.c */
 void *build_elliptical_triangle_fan(void *tint_a, void *tint_b, void *primitives, void *color_data, void *style, s32 *out_count, s32 shaded);
@@ -212,8 +212,8 @@ void scene_load_texture_and_data_pair(s8 *status);
 void scene_load_variant_texture_set(void);
 
 /* select_sprite_entry.c */
-void func_80047784(struct SpriteFrameState *object, s16 table_index, s16 entry_index);
-void select_sprite_entry(struct SpriteFrameState *object, s16 table_index, s16 entry_index);
+void func_80047784(void *object, s16 table_index, s16 entry_index);
+void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 
 /* set_color_components_and_scaled_fields.c */
 void set_color_components_and_scaled_fields(struct S_80050550_Outer *outputs, s32 numerator, s32 denominator);

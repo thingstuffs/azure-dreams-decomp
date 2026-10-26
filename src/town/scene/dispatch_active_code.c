@@ -2,7 +2,7 @@
 #include "shared/town_dispatch_object.h"
 
 extern void select_data_for_condition_d_83(s32, s32, s32);
-extern void apply_entry_position(s32 *, s32 *, s32, s32);
+extern void apply_entry_position(s32 *, s32 *,void *, s32);
 extern s32 scene_dispatch_started[];
 extern s32 D_8001B964[];
 extern s32 D_8001B994[];

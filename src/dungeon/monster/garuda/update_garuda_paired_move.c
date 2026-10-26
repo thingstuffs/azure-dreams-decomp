@@ -115,7 +115,7 @@ typedef struct S_func_81008664_12 {
 
 void cycle_map_cell_flags();
 void update_map_cell_flags_with_item_limit();
-s32 advance_status_timers();
+void advance_status_timers();
 s32 select_dungeon_spawn_tile();
 s32 play_sound_if_enabled();
 void refresh_actor_proximity_state();

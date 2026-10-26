@@ -68,7 +68,7 @@ extern s32 D_80083840[ ];
 extern s32 D_80084110;
 extern s32 D_80084158;
 extern s32 D_8008432C;
-extern M2C_UNK D_80088760;
+extern s32 D_80088760[3];
 extern M2C_UNK D_80088790;
 extern M2C_UNK D_800887B8;
 extern M2C_UNK D_800887CC;

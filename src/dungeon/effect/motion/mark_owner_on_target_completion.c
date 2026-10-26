@@ -15,7 +15,7 @@ typedef struct S_80024550_1 {
    /* arg0 in mark_owner_on_target_completion */
 
 extern s32 rand(void);
-extern void select_record_entry_and_value(void *, void *, s32);
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 rcos(s32);
 extern s32 rsin(s32);
 extern void register_node(void *, void *);

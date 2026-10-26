@@ -20,7 +20,7 @@ typedef struct S_800A23D0_1 {
 } S_800A23D0_1;   /* arg1 in initialize_object_position_state */
 
 typedef struct S_800A23D0_2 {
-    s32 * unk_00;
+    void (*unk_00)();
     u8 pad_04[0x10];
     void * unk_14;
     u8 pad_18[0x8];

@@ -3,10 +3,10 @@
 
 s32 prepare_directional_attack(void *ptr, s32 value, s16 value_2, s32 value_3, s32 value_4);
 s16 try_claim_dungeon_action_slot(void *ptr);
-s32 apply_camera_offset_and_select_target(void *ptr, s32 value, s32 value_2, s32 value_3);
+s32 apply_camera_offset_and_select_target(void *ptr,void *value, s32 value_2, s32 value_3);
 
 /* Clear the entity flag and advance its action when both checks pass. */
-void start_actor_attack(void *action_state, s32 check_arg, s32 action_arg, void *entity) {
+void start_actor_attack(void *action_state, void *check_arg, s32 action_arg, void *entity) {
     *(u8 *)((s8 *)entity + 0x71) &= 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(entity) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((s8 *)entity - 0x20, check_arg, 8, 0x300);

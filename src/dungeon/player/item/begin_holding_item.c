@@ -38,7 +38,7 @@ typedef struct S_80098CF8_4 {
 
 typedef struct S_80098CF8_5 {
     u8 pad_00[0x8C];
-    s32 unk_8C;
+    void *unk_8C;
     void * unk_90;
     u8 pad_94[0x4];
     s32 unk_98;
@@ -51,7 +51,7 @@ typedef struct S_80098CF8_5 {
 
 typedef struct S_80098CF8_6 {
     u8 pad_00[0x8C];
-    s32 unk_8C;
+    void *unk_8C;
     u8 pad_90[0xA];
     s8 unk_9A;
     s8 unk_9B;
@@ -64,11 +64,11 @@ typedef struct S_80098CF8_6 {
 extern void equip_item_and_update_status();
 extern void change_equipped_item_and_notify(struct S_80098614_0 *actor, u8 *requested_item);
 extern void clear_slot_and_update_linked_state(s32 *slot);
-extern s32 get_unused_text_buffer(void);
-extern s32 expand_text_control_codes();
+extern void * get_unused_text_buffer(void);
+extern u8 * expand_text_control_codes();
 extern void clear_byte_and_advance();
-extern s32 write_text_byte_and_advance();
-extern s32 append_typed_formatted_value();
+extern void * write_text_byte_and_advance();
+extern u8 * append_typed_formatted_value();
 extern s32 play_sound_if_enabled(s32 query_value);
 extern void display_text_with_fullwidth_adjustment();
 extern void *create_item_render_object();
@@ -82,17 +82,17 @@ extern u8 D_800E08F1[];
 extern u8 D_800E0919[];
 
 /* Check the item, report restrictions, and create an action object for the actor and target. */
-void *begin_holding_item(void *actor, s32 action, void *target, void *item)
+void *begin_holding_item(void *actor, void *action, void *target, void *item)
 {
     void *message;
 
     void *target_arg;
     void *actor_state;
     register ObjectNodeHeader *result;
-    s32 message_id;
+    void *message_id;
     ObjectPosition *primitive;
     void *state;
-    s32 text_cursor;
+    void *text_cursor;
 
     actor_state = actor;
     if ((item != ((void *)(held_item_record))) && (((S_80098CF8_0 *)((void *)(held_item_record)))->unk_01 != ITEM_KIND_NONE)) {

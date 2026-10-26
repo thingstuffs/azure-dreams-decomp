@@ -87,7 +87,7 @@ typedef struct DdcbcEntry {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_8002534C(void *, s32, void *, ActorRecord *); /* extern */
-void select_record_entry_and_value();        /* extern */
+void select_record_entry_and_value(void *state, void *entries, short index);        /* extern */
 s32 get_entity_effect_value();                 /* extern */
 void set_sprite_animation_frame(); /* extern */
 void read_vram_blocks_to_buffer();                            /* extern */
@@ -101,10 +101,10 @@ void restore_player_control_callback(void *target, void *source);              /
 void equip_item_and_update_status();              /* extern */
 void change_equipped_item_and_notify();              /* extern */
 s16 get_special_table_data_index();                          /* extern */
-s32 get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */                                /* extern */
-s32 expand_text_control_codes();                  /* extern */
+void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */                                /* extern */
+u8 * expand_text_control_codes();                  /* extern */
 void *clear_byte_and_advance();                         /* extern */
-s32 append_entity_display_text();                        /* extern */
+u8 *append_entity_display_text();                        /* extern */
 void display_formatted_context_message(void *context);                   /* extern */
 void append_packed_action_record();   /* extern */
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
@@ -128,7 +128,7 @@ extern u8 D_800E06BD[3];
 extern u8 D_800E06C0[32];
 extern u8 D_800E06E0[3];
 extern s32 familiar_record_slots[];
-extern s32 dungeon_menu_action_state[];
+extern void *dungeon_menu_action_state[];
 
 enum DungeonItemMenuPhase {
     ITEM_MENU_INIT = 0,
@@ -146,8 +146,8 @@ void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *
     s32 ui_flags;
     s32 item_result;
     s32 direction;
-    s32 text_buffer;
-    s32 text_end;
+    void *text_buffer;
+    void *text_end;
     s32 state_allowed;
     s32 phase;
     u8 companion_flags;
@@ -164,7 +164,7 @@ void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *
         if (((S_80090C10_1 *)(&dungeon_menu_action_state))->unk_00.s != &D_8004F5F4) {
             if ((get_entity_effect_value(actor, STATUS_FROG) << 0x10) != 0) {
                 sprite->frameTable = &actor_default_frames;
-                select_record_entry_and_value(sprite, *(s32 *)(actor_default_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
+                select_record_entry_and_value(sprite, *(void **)(actor_default_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
                     >> 7) & 0x1C)), 0);
             } else {
                 if (actor->flags1C & ACTOR_CARRYING) {

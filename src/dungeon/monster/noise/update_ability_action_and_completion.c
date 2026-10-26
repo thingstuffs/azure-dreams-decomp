@@ -16,7 +16,7 @@
 
 typedef struct S_8017364C_0 {
     u8 pad_00[0x8C];
-    s32 * unk_8C;
+    void (*unk_8C)();
     u8 pad_90[0x6];
     u16 unk_96;
     u16 unk_98;
@@ -28,9 +28,9 @@ typedef struct S_8017364C_0 {
 s32 rand();                                /* extern */
 void *scan_actor_along_heading();      /* extern */
 void set_record_integer_tile_center();              /* extern */
-s32 advance_status_timers();                      /* extern */
+void advance_status_timers();                      /* extern */
 s32 play_sound_if_enabled();                     /* extern */
-s32 create_actor_spell_effect();       /* extern */
+void * create_actor_spell_effect();       /* extern */
 void spawn_random_velocity_offset_effect(EntityRec *parent, s16 effect_id, s32 effect_param, s32 unused, s16 x_offset, s16 y_offset, s16 z_offset); /* extern */
 extern void noise_ability_resume_address();
 extern u8 noise_direction_frames[9];

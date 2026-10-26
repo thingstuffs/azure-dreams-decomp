@@ -41,7 +41,7 @@ typedef struct S_800CABA8_2 {
 
 void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 void set_record_integer_tile_center();
-s32 advance_status_timers(void *record);
+void advance_status_timers(void *record);
 #include "dungeon/actor/state.h"
 #include "shared/object_node.h"
 void *create_source_linked_fading_effect(ObjectNodeHeader *source, s16 copy_position);

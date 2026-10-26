@@ -22,7 +22,7 @@ s32 adjust_source_value_and_finalize(void *, void *);
 #include "dungeon/effect/screen.h"
 s32 display_text_with_fullwidth_adjustment(void *text);
 s32 generate_random_value(void);
-s32 create_actor_value_popup(s32 flags, void *source_data, s16 value, u16 callback_mode);
+void * create_actor_value_popup(s32 flags, void *source_data, s16 value, u16 callback_mode);
 void update_effect_particles_and_cleanup(void);
 void func_80024658(void);
 void randomize_counted_sprite_angle(void);

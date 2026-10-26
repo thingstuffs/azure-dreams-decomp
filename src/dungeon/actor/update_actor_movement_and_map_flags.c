@@ -10,7 +10,7 @@
 extern u8 destination_motion_resume_address[];
 extern u8 actor_default_frames[];
 
-extern s32 select_record_entry_and_value();
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void check_tile_entry_at_adjusted_height();
 extern void process_unflagged_linked_entries(s32 firstEntryBase);
 extern void process_unflagged_linked_entries_alt(s32 firstNodeBase);

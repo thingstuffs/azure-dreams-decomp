@@ -40,13 +40,13 @@ struct Aux {
 };
 
 struct SpriteFrameState;
-extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
+extern void select_sprite_entry(void *, s16, s16);
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void play_sound_if_enabled(s32);
 extern void update_actor_status_and_mp(Entity *);
 extern void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position, u8 *actor);
 extern void complete_actor_facing_action(Entity *, s32, Aux *, Entity *);
-extern void start_actor_directional_action(Entity *, s32, Aux *, Entity *);
+extern void start_actor_directional_action(Entity *,void *,void *, Entity *);
 extern void advance_multi_form_ring_phase(void);
 extern void advance_secondary_object_state(void);
 extern void func_80170838(void);

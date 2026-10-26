@@ -17,7 +17,7 @@ struct Container;
 struct Source;
 
 extern s32 runtime_find_unused_pool_slot(void);
-extern void runtime_clear_value(s32);
+extern void runtime_clear_value(s32 *);
 extern void *allocate_flagged_object_node(s32);
 extern void unlink_active_node(s32);
 extern void push_node_onto_free_list(struct ObjectNodeHeader *);

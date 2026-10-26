@@ -609,7 +609,7 @@ void restore_spawns_and_place_floor_traps(void) {
     s32 trap_budget;
     s32 trap_cost;
     s32 value;
-    s32 availability;
+    void *availability;
     s32 trap_state;
     s16 floor_height;
     u32 initial_value;

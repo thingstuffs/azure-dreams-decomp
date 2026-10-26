@@ -30,7 +30,7 @@ typedef struct {
 extern s32 rsin(s32 angle);
 extern s32 unlink_entity_node(void *node);
 #include "dungeon/player/object/action_state.h"
-extern s32 detach_record_and_update_slot_state(void *record);
+extern void * detach_record_and_update_slot_state(void *record);
 
 /* Animate a staged shrinking and fading effect, then release its object. */
 void advance_pulsing_effect_animation(State *state, Position *position, Motion *motion, void *object) {

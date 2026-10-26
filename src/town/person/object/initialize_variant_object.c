@@ -4,7 +4,8 @@
 #include "town/person.h"
 
 
-s32 create_and_invoke_render_object();
+
+void * create_and_invoke_render_object();
 extern M2C_UNK D_800D69DC;
 extern M2C_UNK D_800D69E4;
 extern M2C_UNK D_800D6A0C;

@@ -11,7 +11,7 @@
 struct Dst;
 struct Elem;
 
-extern void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);  /* extern */
+extern void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 typedef struct {
     s16 x;

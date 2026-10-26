@@ -3,7 +3,7 @@
 #include "shared/actor_action_flags.h"
 
 /* Checks action eligibility and updates the actor state and directional animation on success. */
-s32 check_action_eligibility_updates_actor_state_directional_animation_success(void *action_state, s32 action_id, SpriteFrameState *sprite, ActorRecord *actor) {
+s32 check_action_eligibility_updates_actor_state_directional_animation_success(void *action_state, void *action_id, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
     s32 target_direction;
     u16 status_flags;

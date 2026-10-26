@@ -92,7 +92,7 @@ extern s16 query_lowered_transform_position(void *position);
 extern s32 D_800D68B0[];
 
 /* Functions defined in this translation unit. */
-s32 create_and_invoke_render_object(s32 initial_value, s32 resource_index);
+void * create_and_invoke_render_object(s32 initial_value, s32 resource_index);
 void update_entity_relative_position(Rec_D_80082D58 *entity, IntVector3 *out_pos);
 void invoke_object_handler(S_800CBAAC_0 *object, s32 callback_arg1, s32 callback_arg2);
 void initialize_record_from_table_index(void *record_data, s32 context, Rec_D_80082E80 *state);

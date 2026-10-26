@@ -26,14 +26,14 @@ extern u8 viper_frame_set_4[];
 extern u8 viper_frame_set_3[];
 extern u8 viper_action_continuation_address[];
 extern void *actor_update_node_cursor[];
-s32 resolve_record_orientation_or_fallback();
+void *resolve_record_orientation_or_fallback();
 void *allocate_list_node(s32, void *);
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s16 GetTPage();
 s16 GetClut();
 void *resolve_attack_damage_and_effects();
 void set_record_integer_tile_center();
-s32 advance_status_timers();
+void advance_status_timers();
 s32 play_sound_if_enabled();
 extern void D_800DB618();
 extern s32 D_800DB660();
@@ -88,7 +88,7 @@ void update_staged_movement_and_restore_actor(void *action, ObjectPosition *moti
     s32 reverse_facing;
     u8 * actor_handle;
     s32 facing;
-    s32 has_offset;
+    void *has_offset;
     s32 direction_index;
     s32 vertical_speed;
     u32 fade_steps;
@@ -159,7 +159,7 @@ void update_staged_movement_and_restore_actor(void *action, ObjectPosition *moti
         return;
     case 3:
         if (animation->unk_04 < 3) {
-            if (resolve_record_orientation_or_fallback(*(s32 *)&animation->source, animation, action + 0xAC, 0) == 0) {
+            if (resolve_record_orientation_or_fallback(animation->source, animation, action + 0xAC, 0) == 0) {
                 ((S_801727B4_0 *)action)->unk_B0 = 0U;
                 ((S_801727B4_0 *)action)->unk_AE = 0U;
                 ((S_801727B4_0 *)action)->unk_AC = 0U;
@@ -176,7 +176,7 @@ void update_staged_movement_and_restore_actor(void *action, ObjectPosition *moti
                 effect_data->unk_10 = (u16) ((S_801727B4_0 *)action)->unk_AC;
                 effect_data->unk_12 = (u16) ((S_801727B4_0 *)action)->unk_AE;
                 effect_data->unk_14 = (u16) ((S_801727B4_0 *)action)->unk_B0;
-                has_offset = resolve_record_orientation_or_fallback(*(s32 *)&animation->source, animation, action + 0xAC, 0);
+                has_offset = resolve_record_orientation_or_fallback(animation->source, animation, action + 0xAC, 0);
                 if (has_offset == 0) {
                     ((S_801727B4_0 *)action)->unk_B0 = 0U;
                     ((S_801727B4_0 *)action)->unk_AE = 0U;

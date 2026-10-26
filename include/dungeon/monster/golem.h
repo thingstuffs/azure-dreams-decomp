@@ -25,7 +25,7 @@ typedef struct GolemActionWork {
 
 s32 attempt_actor_action_and_display(void *action_out, s32 action_param, SpriteFrameState *actor_info, void *acting_actor);
 s32 create_copied_render_object(s32 priority, EntityRec *source_state, Rec_func_800AA258_arg2 *render_data);
-s32 initialize_directional_animation_action(void *state_ptr, s32 action_arg, void *sprite_ptr, void *entity_ptr);
+s32 initialize_directional_animation_action(void *state_ptr, void *action_arg, void *sprite_ptr, void *entity_ptr);
 s32 scan_forward_tiles_for_target(GolemActionWork *action_state, void *transfer_data, void *origin, void *actor);
 
 

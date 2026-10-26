@@ -5,6 +5,9 @@
 #include "common.h"
 #include "shared/object_node.h"
 
+/* Two contiguous draw/packet contexts, each 0x108D4 bytes long. */
+extern u8 upper_draw_context[2 * 0x108D4];
+
 struct SpriteFrameState;
 struct S_8003DE58_Vec;
 struct S_8003DF0C;

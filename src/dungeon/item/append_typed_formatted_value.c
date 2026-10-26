@@ -8,15 +8,15 @@
 
 typedef struct { u8 unk0; u8 unk1; s8 unk2; u8 unk3; } FuncData;
 extern void *expand_text_control_codes();
-extern void *copy_selected_text_without_terminator();
+extern u8 * copy_selected_text_without_terminator();
 extern u8 *D_800DD720;
-extern s32 item_type_text_prefixes[];
-extern s32 item_type_text_suffixes[];
+extern u8 *item_type_text_prefixes[];
+extern u8 *item_type_text_suffixes[];
 
 /* Appends formatted data with type-specific affixes and a numeric value to the buffer. */
 u8 *append_typed_formatted_value(FuncData *data, u8 *buffer) {
-    s32 prefix_id;
-    s32 suffix_id;
+    u8 *prefix_id;
+    u8 *suffix_id;
     s32 value;
     u8 prefix_kind;
     u8 suffix_kind;

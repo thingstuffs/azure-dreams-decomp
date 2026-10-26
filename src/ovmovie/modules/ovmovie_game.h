@@ -54,7 +54,6 @@ extern MovieState *active_movie;
 extern s32 movie_frame_control;
 extern u8 movie_work_buffer[];
 extern s32 movie_start_sector, movie_volume;
-extern u8 upper_draw_context[];
 
 extern s32 Control_CD(s32, s32, s32);
 extern void func_8003F320(void);

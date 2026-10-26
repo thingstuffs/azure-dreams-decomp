@@ -15,7 +15,7 @@ typedef struct S_80174978_0 {
 
 
 
-extern void place_item_at_valid_floor_position(s16, s16, s16, s32, void *);
+extern void place_item_at_valid_floor_position(s16, s16, s16, s32 , void *);
 
 /* Updates a timed movement animation and marks its completion. */
 void update_a_timed_movement_animation_marks_completion(void *actor, ObjectPosition *motion, SpriteFrameState *visual) {

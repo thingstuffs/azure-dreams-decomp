@@ -152,13 +152,13 @@ extern void *write_text_byte_and_advance(s8 value, s8 *dest);
 extern u8 *append_entity_display_text(void *record, u8 *out);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern void *clear_byte_and_advance(s8 *byte_ptr);
-extern s32 write_status_prefix_bytes(s32);
+extern void * write_status_prefix_bytes(void *);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void *select_object_by_flags_and_keys(void *, void *, void *);
 extern void *create_linked_objects(void *, void *, s32, s16);
 extern void *create_positioned_graphic_object(s16 x, s16 y, s16 z, s16 graphic_index, s32 state_value);
 extern void *merge_creature_abilities_and_state(void *, void *, s32);
-extern s32 build_status_effect_name_list(void *, s32);
+extern void * build_status_effect_name_list(void *, void *);
 extern void *create_four_groups_of_angular_effects(s16, s16, s16, s32);
 extern void set_sprite_animation_frame(void *, s32, s32, s32);
 

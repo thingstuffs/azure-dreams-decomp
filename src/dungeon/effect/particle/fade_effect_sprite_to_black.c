@@ -88,7 +88,7 @@ void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
     s32 accel_x;
     s32 distance_x;
     s32 motion_extent;
-    s32 target;
+    void *target;
     s32 accel_y;
     s32 base_travel;
     s32 elapsed_steps;

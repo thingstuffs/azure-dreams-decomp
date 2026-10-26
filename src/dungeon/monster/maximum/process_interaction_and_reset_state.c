@@ -11,7 +11,7 @@ typedef struct S_801722DC_0 {
 } S_801722DC_0;   /* arg0 in process_interaction_and_reset_state */
 
 
-s32 advance_status_timers();                     /* extern */
+void advance_status_timers();                     /* extern */
 void spend_actor_mp();            /* extern */
                 /* extern */
 void dispatch_monster_move_attack_spell(void *controller, void *context, void *entity, ActorRecord *actor_state);

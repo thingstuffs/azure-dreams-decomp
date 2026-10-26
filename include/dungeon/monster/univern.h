@@ -157,7 +157,7 @@ typedef struct R17_801724C4_S_80172628_0 {
 } R17_801724C4_S_80172628_0;
 typedef struct {
     u8 pad0[0x8C];
-    void (*callback)(void *, void *, void *, void *);
+    void (*callback)(void *, void *, struct SpriteFrameState *, ActorRecord *);
 } Resource17CallbackState;
 typedef struct {
     u8 pad00[4];
@@ -367,7 +367,7 @@ void begin_actor_spell_action();
 s32 cycle_map_cell_flags();
 s32 update_map_cell_flags_with_item_limit();
 s32 update_actor_proximity_flag();
-s32 find_adjacent_actor();
+void * find_adjacent_actor();
 s32 probe_directional_neighbor();
 s32 get_actor_height_difference();
 s32 check_diagonal_side_height();
@@ -380,7 +380,7 @@ s32 apply_camera_offset_and_select_target();
 #include "dungeon/player/object/action_state.h"
 struct RegistrationNode;
 s32 relink_entity_and_clear_high_flag();
-s32 advance_status_timers();
+void advance_status_timers();
 s32 update_actor_movement_to_tile();
 s32 spend_actor_mp();
 
@@ -388,15 +388,15 @@ s32 update_linked_actor_motion();
 s32 resolve_attack_damage_and_effects();
 void set_record_integer_tile_center();
 s32 play_sound_if_enabled();
-s32 scan_actor_along_heading();
-s32 create_actor_spell_effect();
+void * scan_actor_along_heading();
+void * create_actor_spell_effect();
 s32 get_cd_command_queue_depth(void);
 void create_source_positioned_object();
 void begin_actor_display_action();
 void apply_clamped_actor_value_delta();
 void unlink_entity_node();
 void distribute_experience_and_report_gains();
-s32 detach_record_and_update_slot_state();
+void * detach_record_and_update_slot_state();
 void announce_familiar_defeat();
 s32 update_actor_hop_and_shrink();
 

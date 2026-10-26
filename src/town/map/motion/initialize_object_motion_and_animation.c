@@ -10,7 +10,7 @@ typedef struct Func800BF66CObject {
     s16 fieldA6;
 } Func800BF66CObject;
 
-extern void select_record_entry_and_value(s32, s32, s32);
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void register_node(void *, void *);
 extern void configure_the_set_mode_n_1(void *, s32, void *);
 extern u8 D_800BC990[];

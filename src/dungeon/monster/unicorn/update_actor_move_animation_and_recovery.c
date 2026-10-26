@@ -51,7 +51,7 @@ extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
-extern s32 create_actor_spell_effect(void *, u8 *, s32, u16 *);
+extern void * create_actor_spell_effect(void *, void *, s32, void *);
 extern void create_two_row_object_group(void *payload, s16 value_scale);
 
 extern u8 D_80174D94[];

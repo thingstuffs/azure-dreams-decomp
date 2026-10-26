@@ -19,9 +19,9 @@ extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
-extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context);
+extern void *create_actor_spell_effect(void *actor, void *effect_record, s16 mode, void *context);
 extern void create_actor_linked_effect(void *);
-extern void create_offset_actor_object(void *, void *, void *);
+extern void * create_offset_actor_object(void *, void *, void *);
 
 extern void golem_action_continuation_address(void *, void *, void *, void *);
 extern u8 golem_direction_frames[8];

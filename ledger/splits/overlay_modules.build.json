@@ -1,6 +1,6 @@
 {
   "schema": "overlay-module-native-v4",
-  "logical_rows": 20834,
+  "logical_rows": 20848,
   "edges": [
     {
       "module": "dungeon_cd_control_d79c4",
@@ -2089,6 +2089,12 @@
         "row_asflags": ""
       },
       "rows": [
+        "dungeon/D_80CB7000",
+        "dungeon/D_80CB7004",
+        "dungeon/D_80CB7008",
+        "dungeon/D_80CB7038",
+        "dungeon/D_80CB7054",
+        "dungeon/D_80CB7058",
         "dungeon/func_80CB7000",
         "dungeon/func_80CB7120",
         "dungeon/func_80CB725C",
@@ -6865,6 +6871,54 @@
       "rows": [
         "town/func_8065C34C",
         "town/func_8065C3AC"
+      ]
+    },
+    {
+      "module": "town_square_gate_choices",
+      "source": "src/town/scene/apply_gate_5217_entry.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8032B96C",
+        "town/D_803309EC"
+      ]
+    },
+    {
+      "module": "town_square_progress_choices",
+      "source": "src/town/scene/apply_gate_5000_entry.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8032C9A0",
+        "town/D_8033140C"
+      ]
+    },
+    {
+      "module": "town_square_flag_choices",
+      "source": "src/town/scene/apply_gate_5000_flag_entry.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8032CEF4",
+        "town/D_8033149C"
+      ]
+    },
+    {
+      "module": "town_square_record_choices",
+      "source": "src/town/scene/flag_entry_if_record_eleven.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8032DB70",
+        "town/D_803315C4"
       ]
     },
     {
@@ -59845,6 +59899,16 @@
       },
       "rows": [
         "dungeon/func_80CA3A74"
+      ]
+    },
+    {
+      "source": "src/dungeon/modules/ovl_cd7000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80CB107C"
       ]
     },
     {
@@ -149378,16 +149442,6 @@
       ]
     },
     {
-      "source": "src/main/func_8000E904.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8028C9EC"
-      ]
-    },
-    {
       "source": "src/town/scene/flags/set_record_flag_on_query_failure.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -149395,16 +149449,6 @@
       },
       "rows": [
         "town/func_8028CC10"
-      ]
-    },
-    {
-      "source": "src/main/func_8000E904.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8028CF44"
       ]
     },
     {
@@ -149425,26 +149469,6 @@
       },
       "rows": [
         "town/func_8028D13C"
-      ]
-    },
-    {
-      "source": "src/main/func_8000E904.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8028D2FC"
-      ]
-    },
-    {
-      "source": "src/main/func_8000E904.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8028D54C"
       ]
     },
     {
@@ -149485,16 +149509,6 @@
       },
       "rows": [
         "town/func_8028DA2C"
-      ]
-    },
-    {
-      "source": "src/main/func_8000E904.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8028DBBC"
       ]
     },
     {
@@ -150378,6 +150392,16 @@
       ]
     },
     {
+      "source": "src/town/scene/apply_gate_5211_flag_entry.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8032CF4C"
+      ]
+    },
+    {
       "source": "src/town/scene/hooks/forward_request_with_tables_d.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -150458,6 +150482,26 @@
       ]
     },
     {
+      "source": "src/town/scene/select_square_entry_or_fallback.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8032D284"
+      ]
+    },
+    {
+      "source": "src/town/scene/apply_gate_5003_flag_entry.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8032D304"
+      ]
+    },
+    {
       "source": "src/town/scene/dispatch_entry_or_return_override.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -150495,6 +150539,16 @@
       },
       "rows": [
         "town/func_8032D4B4"
+      ]
+    },
+    {
+      "source": "src/town/scene/select_square_entry_or_alternate.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8032D4D4"
       ]
     },
     {

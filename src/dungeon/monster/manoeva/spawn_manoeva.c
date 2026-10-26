@@ -21,7 +21,7 @@ extern void register_node(ObjectNodeHeader *, void *);
 extern s32 generate_random_value(void);
 extern void set_or_clear_actor_status_slot(ActorRecord *, s32, s32);
 extern void initialize_actor_sprite_and_animation(ObjectNodeHeader *, ObjectPosition *, SpriteFrameState *, s16);
-extern void try_move_actor_to_valid_position(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
+extern void try_move_actor_to_valid_position(void *,void *,void *,void *);
 extern void create_terrain_scaled_actor_effect(ObjectNodeHeader *, s16 *, u8 *, u16 *);
 extern u8 entity_spawn_variant_code;
 extern u8 manoeva_frame_set_1[], manoeva_sleep_frames[], manoeva_action_resume_address[];

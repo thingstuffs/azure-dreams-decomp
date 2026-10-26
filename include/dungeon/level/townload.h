@@ -8,7 +8,7 @@ extern s32 town_resource_ids[];
 extern u8 town_resource_queue[16];
 extern s32 town_resource_descriptors[16];
 extern u8 D_80080EA8[];
-extern void file_load_com(s32);
+extern void file_load_com(void *);
 s32 resource_value_table_contains(s32 value);
 s32 has_listed_resource_in_slots(void);
 s32 find_slot_for_resource_entry(void);

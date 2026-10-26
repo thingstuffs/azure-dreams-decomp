@@ -22,7 +22,7 @@ typedef struct S_8001CBC4_0 {
 } S_8001CBC4_0;   /* subobject in func_8001CBC4 */
 
 /* Initializes or retrieves the memory card options object. */
-s32 init_card_options_object(s32 option_param) {
+void * init_card_options_object(s32 option_param) {
     s32 object_status;
     u8 *object = D_80409C90;
     u8 *subobject;
@@ -49,5 +49,5 @@ s32 init_card_options_object(s32 option_param) {
     func_80403B84(subobject, option_param);
     (*(Callback *)((u8 *)object + (0x10))) = card_animate_selection_marker_rows;
     card_animate_selection_marker_rows(subobject);
-    return (s32)object;
+    return object;
 }

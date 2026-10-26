@@ -24,7 +24,7 @@ void clear_slot_and_update_linked_state(s32);
 void *get_unused_text_buffer(void);
 u8 *expand_text_control_codes(u8 *src, u8 *dst);
 void clear_byte_and_advance(s8 *byte_ptr);
-s32 append_typed_formatted_value(s32, s32);
+u8 * append_typed_formatted_value(s32,u8 *);
 u8 *append_entity_display_text(void *record, u8 *out);
 void display_formatted_context_message(void *);
 void display_text_with_fullwidth_adjustment(s8 *text);

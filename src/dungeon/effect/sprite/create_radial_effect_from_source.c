@@ -1462,7 +1462,7 @@ void advance_and_fade_effect_flagging_expiration_timer_runs_out(Actor *actor, Mo
 struct Dst;
 struct Elem;
 
-extern void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);  /* extern */
+extern void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
 
 s32 rand();                                /* extern */
 #include "shared/sprite_source.h"

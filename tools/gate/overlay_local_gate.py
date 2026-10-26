@@ -361,9 +361,12 @@ def load_matches(sb: dict[str, Any], window_start: int, window_end: int,
                 if not source.exists():
                     raise SystemExit(f"matched source missing for {func}: {rel(source)}")
             if row.get("row_kind") == "data":
-                if row.get("data_kind") == "function_table":
+                if row.get("data_kind") in ("function_table", "descriptor_table"):
                     import overlay_symbolic_allocations
                     overlay_symbolic_allocations.data_member(ROOT, family, row)
+                elif row.get("data_kind") == "native_prefix":
+                    import overlay_prefix_ownership
+                    overlay_prefix_ownership.data_member(ROOT, family, row)
                 else:
                     owner = rodata_owner(family, int(row["foff"])) if family else None
                     if owner is None or int(owner["rodata_size"]) != int(row["size"]):

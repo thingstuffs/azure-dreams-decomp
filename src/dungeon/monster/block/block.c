@@ -748,7 +748,7 @@ void begin_directional_actor_animation(CB_80171F58_S_80171F58_0 *state, void *un
 }
 
 /* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
-s32 try_begin_adjacent_actor_attack(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *sprite_arg, ActorRecord *actor)
+s32 try_begin_adjacent_actor_attack(Rec_func_800A9E70_arg0 *action_state, void *motion_param, void *sprite_arg, ActorRecord *actor)
 {
     s32 target_angle;
     u16 status_flags;

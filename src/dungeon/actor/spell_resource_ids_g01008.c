@@ -69,12 +69,13 @@ s16 resolve_alternate_spell_id(s32 tile_index)
 }
 
 /* Creates an effect for an actor, sets its position and scale, and builds its message. */
-void *create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context) {
-    s32 message;
+void *create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context) {
+    u8 *effect_record = record_data;
+    void *message;
     const unsigned char *name_text;
     s32 effect_data;
     s32 text_context;
-    s32 new_text_context;
+    void *new_text_context;
     s32 direction_offset;
     s32 effect_mode;
     u16 effect_flags;
@@ -96,8 +97,8 @@ void *create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode,
         {
             s32 mode_arg = effect_mode;
             u8 entry_variant;
-            effect_id = (*(u8 *)&effect_record->x);
-            entry_variant = (*(u8 *)((u8 *)&effect_record->x + 1));
+            effect_id = effect_record[0];
+            entry_variant = effect_record[1];
             current_spell_effect_variant = entry_variant;
             effect_data = load_spell_effect_code((u8) effect_id, mode_arg, ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_2B);
         }
@@ -114,7 +115,7 @@ void *create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode,
         effect_state->unk_04 = context;
         effect_state->unk_08 = effect_id;
         active_spell_parameters[0] = effect_id;
-        variant = (*(u8 *)((u8 *)&effect_record->x + 1));
+        variant = effect_record[1];
         effect_state->unk_09 = variant;
         active_spell_parameters[1] = variant;
         if (mode == 0) {

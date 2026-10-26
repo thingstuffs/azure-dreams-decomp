@@ -39,14 +39,14 @@ s32 get_entity_effect_value();
 #include "dungeon/player/item.h"
 struct EntityLinkNode;
 s32 clear_slot_and_update_linked_state();
-s32 get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
-s32 expand_text_control_codes();
-s32 clear_byte_and_advance();
-s32 append_typed_formatted_value();
-s32 append_entity_display_text();
+void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
+u8 * expand_text_control_codes();
+void * clear_byte_and_advance();
+u8 * append_typed_formatted_value();
+u8 * append_entity_display_text();
 void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-s32 detach_record_and_update_slot_state(void *record);
+void * detach_record_and_update_slot_state(void *record);
 s32 display_text_with_fullwidth_adjustment();
 s32 place_actor_item();
 s32 display_item_status_message();
@@ -63,10 +63,10 @@ extern u8 D_800E10B3[];
 s32 apply_monster_egg_reversion_item(void *entity, s32 source, s16 reason)
 {
     u8 spawn_data[4];
-    s32 text_buffer;
-    s32 text_end;
+    void *text_buffer;
+    void *text_end;
     s32 entity_index;
-    s32 linked_entity;
+    void *linked_entity;
     s32 tile_mask;
     u8 entity_type;
     s32 spawn_type;

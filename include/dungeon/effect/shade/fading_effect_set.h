@@ -225,7 +225,7 @@ extern s32 generate_random_value(void);
 extern void try_apply_status_effect(void *actor, s32 mode, s32 amount);
 extern s32 abs(s32);
 extern void advance_sprite_animation_and_textures(void *render_data);
-void select_record_entry_and_value();
+void select_record_entry_and_value(void *state, void *entries, short index);
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
 s32 rand();

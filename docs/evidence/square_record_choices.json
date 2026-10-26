@@ -1,0 +1,35 @@
+{
+  "symbol": "D_8001BDC4",
+  "stride": 16,
+  "count": 4,
+  "size": 64,
+  "container": "town",
+  "foff": 2823620,
+  "vma": 2147597764,
+  "references": [
+    {
+      "foff": 2821656,
+      "record_foff": 2821640,
+      "field_offset": 16
+    }
+  ],
+  "consumers": [
+    "src/town/scene/find_eligible_entry.c",
+    "src/town/scene/save_context_and_dispatch_entry_type.c",
+    "src/town/scene/apply_selected_entry_values.c"
+  ],
+  "basis": [
+    "Parent scene record +0x10 references the exact array base; scene records have a 28-byte stride.",
+    "find_eligible_entry indexes 16-byte records, reads signed flag +12 and consumes the result of predicate +0. Its final zero-flag return_zero_fn record stops the scan.",
+    "save_context_and_dispatch_entry_type indexes the same selected record and calls field +4 with entry, index and current context.",
+    "The terminal record is complete; the next independently addressed object begins exactly at the array end.",
+    "Complete native C data allocation plus code is compared through both assemblers, with symbolic function/data relocation identities and no masks."
+  ],
+  "next_object": {
+    "vma": 2147597828,
+    "foff": 2823684,
+    "independent_references": [
+      "0x2b0fa4"
+    ]
+  }
+}

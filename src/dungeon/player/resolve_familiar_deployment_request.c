@@ -11,9 +11,9 @@ extern u8 D_800E202D[16];
 extern s16 find_entity_slot_by_field_ac(void *target_value);
 extern s32 find_entity_slot_by_field_e4(void *target_value);
 extern void *get_unused_text_buffer(void);
-extern s32 expand_text_control_codes(void *src, s32 dst);
-extern void clear_byte_and_advance(s32 byte_ptr);
-extern void display_text_with_fullwidth_adjustment(s32 text);
+extern u8 * expand_text_control_codes(void *src,u8 *dst);
+extern void clear_byte_and_advance(s8 *byte_ptr);
+extern void display_text_with_fullwidth_adjustment(s8 *text);
 
 extern u8 D_800E05E1[];
 extern u8 D_800E05F0[];
@@ -57,7 +57,7 @@ void resolve_familiar_deployment_request(void *context_ptr, s32 unused_one, void
 {
     void *object;
     s32 index;
-    s32 tail_result;
+    void *tail_result;
     s16 result;
     s32 value;
 

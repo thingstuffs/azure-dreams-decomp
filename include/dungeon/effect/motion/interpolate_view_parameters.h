@@ -360,7 +360,7 @@ void view_interpolation_update_address(void);
 void advance_sprite_animation_and_textures();
 s32 rsin();
 s32 rcos();
-void select_record_entry_and_value(void *, void *, s32);
+void select_record_entry_and_value(void *state, void *entries, short index);
 void register_node(void *, void *);
 void func_8004491C(void *, void *);
 void SetTile(void *, s32);
@@ -408,7 +408,7 @@ void initialize_the_s_visual_state_apply_random_spherical_position_offset(void *
 void advance_radial_effect_state(void *motion, void *position,struct SpriteFrameState *effect);
 void *create_an_oriented_effect_between_position_owner(void *owner, Rec_func_80024E80_arg1 *start_pos);
 void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(void *effect, void *transform,struct SpriteFrameState *visual);
-s32 create_an_attached_effect_copied_transform_data_randomized_angle(void *object, Row_81917A70_Copy24 *src_transform, s16 effect_index);
+void * create_an_attached_effect_copied_transform_data_randomized_angle(void *object, Row_81917A70_Copy24 *src_transform, s16 effect_index);
 void build_inverted(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *motion, Row_81917C08_EffectVisual *visual);
 extern u8 camera_transition_timer[];
 extern void (*const D_80024000)(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *motion, Row_81917C08_EffectVisual *visual);

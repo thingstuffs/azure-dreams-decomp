@@ -9,7 +9,7 @@ typedef struct S_800BC8D0_1_pre {
     u8 pad_04[0xC];
 } S_800BC8D0_1_pre;   /* the 0x10 bytes before arg0 in initialize_object_with_default_data, addressed as arg0[-1] */
 
-extern void select_record_entry_and_value(void *, s32, s32);
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void register_node(void *, void *);
 extern void configure_the_set_mode_n_3(void *, s32, void *);
 extern u8 D_80089634[];

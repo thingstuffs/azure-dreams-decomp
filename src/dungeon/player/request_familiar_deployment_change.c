@@ -20,11 +20,11 @@ typedef struct S_80094270_4 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 familiar_record_slots[];
 s16 check_familiar_deployment_placement(); /* extern */
-s32 get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */                          /* extern */
-s32 expand_text_control_codes();                  /* extern */
+void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */                          /* extern */
+u8 * expand_text_control_codes();                  /* extern */
 void * clear_byte_and_advance();                    /* extern */
-s32 write_text_byte_and_advance();                    /* extern */
-s32 append_entity_display_text();                        /* extern */
+void *write_text_byte_and_advance();                    /* extern */
+u8 *append_entity_display_text();                        /* extern */
 void display_formatted_context_message(void *context);                   /* extern */
 s32 play_sound_if_enabled(s32 query_value);                     /* extern */
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
@@ -51,10 +51,10 @@ s32 request_familiar_deployment_change(void *actor, s32 param_a, void *param_b, 
     s16 out_a;
     s16 out_b;
     s16 kind;
-    s32 text;
+    void *text;
     u8 bits;
-    s32 msg;
-    s32 call_result;
+    void *msg;
+    void *call_result;
     FamiliarItemSlotView *entry;
     void *hdr;
     void *hdr3;

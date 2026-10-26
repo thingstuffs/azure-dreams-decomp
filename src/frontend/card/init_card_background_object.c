@@ -34,7 +34,7 @@ typedef struct {
 extern Root card_background_object;
 
 /* Create or reset the card background object and initialize its callback. */
-s32 init_card_background_object(s32 init_value, s32 config_value) {
+void * init_card_background_object(s32 init_value, s32 config_value) {
     Root *base;
     Obj *obj;
 
@@ -64,5 +64,5 @@ s32 init_card_background_object(s32 init_value, s32 config_value) {
     obj->field_21C = func_80404B5C(obj->field_220);
     func_80404C44(obj, (obj->field_04 = config_value, init_value));
     select_object_handler_slots_by_flag((base->field_10 = select_object_handler_slots_by_flag, obj));
-    return (s32)base;
+    return base;
 }

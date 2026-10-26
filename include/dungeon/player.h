@@ -17,15 +17,15 @@ typedef struct FamiliarItemSlotView {
 } FamiliarItemSlotView;
 
 void begin_actor_turn_toward_target(void *action, void *unused, void *actor, void *motion);
-s32 begin_familiar_command_selection(Rec_func_8008D024_arg0 *actor, s32 context, SpriteFrameState *display, s32 target_index, s32 action_mode);
+s32 begin_familiar_command_selection(Rec_func_8008D024_arg0 *actor, void *context, SpriteFrameState *display, s32 target_index, s32 action_mode);
 s32 begin_familiar_summoning(void *record, s32 input1, void *pointer_input, s32 value_input);
-void begin_player_damage_reaction(void *action, s32 unused, void *sprite, EntityRec *actor);
+void begin_player_damage_reaction(void *action, void *unused, void *sprite, EntityRec *actor);
 void begin_player_pickup_animation(u8 *actor, s32 effect_arg, u8 *target, u8 *source);
-void begin_player_sleep_action(void *record, s32 unused, void *object, EntityRec *entity);
-void begin_player_wait_turn(void *state, s32 mode, void *sprite, EntityRec *entity);
-s32 begin_selected_target_level_up(void *actor_state, s32 action_arg, void *sprite, void *target);
+void begin_player_sleep_action(void *record, void *unused, void *object, EntityRec *entity);
+void begin_player_wait_turn(void *state, void *mode, void *sprite, EntityRec *entity);
+s32 begin_selected_target_level_up(void *actor_state, void *action_arg, void *sprite, void *target);
 s32 begin_target_flagged_action(void *actor, s32 action_arg, s32 unused, void *target);
-void begin_wake_nearby_monsters(u8 *state_ptr, s32 value, u8 *target_ptr, u8 *angle_ptr);
+void begin_wake_nearby_monsters(u8 *state_ptr, void *value, u8 *target_ptr, u8 *angle_ptr);
 void clear_player_linked_action_flags(void);
 s32 dispatch_dungeon_category_action(void *actor, void *action, s16 dispatch_mode, s32 handler_param);
 s32 reject_forbidden_familiar_recall(s32 entry_index);
@@ -50,6 +50,6 @@ void queue_framebuffer_strip_quads(void);
 void dispatch_object_renderers(void);
 
 
-void begin_player_menu_action(void *actor, s32 unused_1, s32 unused_2, s32 action_value);
+void begin_player_menu_action(void *actor, void *unused_1, void *unused_2, void *action_value);
 
 #endif

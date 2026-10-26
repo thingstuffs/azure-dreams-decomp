@@ -53,11 +53,11 @@ extern u8 D_800F2AC4[0x40];
 extern u8 D_800F2B04[0x28];
 extern u8 D_800F2B2C[0x28];
 
-extern void select_record_entry_and_value(SpriteRecord *, void *, s32);
-extern void advance_sprite_animation_and_textures(SpriteRecord *);
+extern void select_record_entry_and_value(void *state, void *entries, short index);
+extern void advance_sprite_animation_and_textures(void *);
 extern s32 rand(void);
 extern void add_motion_deltas_to_position(MotionRecord *);
-extern s32 query_lowered_transform_position(MotionRecord *);
+extern s32 query_lowered_transform_position(void *);
 
 /* Updates a sprite's launch, bounce, and fade states. */
 void update_snowball_target(StateRecord *state, MotionRecord *motion, SpriteFrameState *sprite)

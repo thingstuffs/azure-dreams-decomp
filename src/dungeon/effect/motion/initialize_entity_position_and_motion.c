@@ -1,3 +1,4 @@
+#include "slus.h"
 #include "engine/resource.h"
 #include "shared/audio_commands.h"
 /* Homing attack movement, linked visual copies, and particle creation. */

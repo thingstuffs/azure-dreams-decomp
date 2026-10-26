@@ -23,14 +23,14 @@ s32 can_entity_gain_level();
 void update_actor_status_and_mp(struct ActorRecord *);
 void begin_pushed_actor_move();
 s32 begin_ready_actor_directional_action();
-s32 advance_actor_pending_action(void *, s32, void *, void *);
+s32 advance_actor_pending_action(void *, void *, void *, void *);
 struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2; void begin_actor_move_to_target_facing(struct Rec_func_800A9E70_arg0 *, void *, struct Rec_func_800AA258_arg2 *, struct ActorRecord *);
-s32 reset_actor_action_state(void *, s32, void *, u8 *);
-void begin_actor_spell_action(void *, s32, void *, u8 *, s32);
+s32 reset_actor_action_state(void *, void *, void *, u8 *);
+void begin_actor_spell_action(void *, void *, void *, u8 *, void *);
 void advance_multi_form_turn_path(void *, void *, SpriteFrameState *, void *);
 void advance_actor_movement_step(u8 *, void *, u8 *, u8 *);
 struct Rec_D_80082E80; struct Rec_func_800A9E70_arg0; s32 try_actor_attack(struct Rec_func_800A9E70_arg0 *, s32, struct Rec_D_80082E80 *, struct ActorRecord *);
-void start_actor_attack(void *, s32, s32, void *);
+void start_actor_attack(void *, void *, s32, void *);
 struct Rec_func_800A9E70_arg0; s32 resolve_actor_movement_action(struct Rec_func_800A9E70_arg0 *, s32, s32, s32);
 void update_multi_form_actor_movement();
 struct Rec_func_800A9E70_arg0; void complete_actor_facing_action(struct Rec_func_800A9E70_arg0 *, s32, s32, struct ActorRecord *);
@@ -99,7 +99,7 @@ void update_multi_form_actor_control(void *actor, void *context, SpriteFrameStat
         }
     }
     if (entity->mp == 0) {
-        advance_actor_pending_action(actor, (s32)(context), sprite, entity);
+        advance_actor_pending_action(actor, context, sprite, entity);
         inactive_pose = ((Rec_func_800A9E70_arg0 *)actor)->unk_AC;
         switch (inactive_pose) {
         case 0xD:
@@ -164,7 +164,7 @@ block_32:
         default:
             goto block_37;
         }
-        if (reset_actor_action_state(actor, (s32)(context), sprite, (u8 *)(&beldo_large_frame_set_13)) != 0) {
+        if (reset_actor_action_state(actor, context, sprite, (u8 *)(&beldo_large_frame_set_13)) != 0) {
             return;
         }
     }
@@ -286,7 +286,7 @@ block_37:
                 entity->action_flags = (u16) (entity->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
                 return;
             }
-            if ((resolve_actor_movement_action(actor, (s32)(context), (s32)(sprite), 0) << 0x10) == 0) {
+            if ((resolve_actor_movement_action(actor, context, (s32)(sprite), 0) << 0x10) == 0) {
                 return;
             }
             action_flags = entity->action_flags | 0x4000;
@@ -299,13 +299,13 @@ block_37:
         action_id = entity->action_flags & ACTOR_ACTION_CODE_MASK;
         switch (action_id) {
         case 8:
-            if ((try_actor_attack(actor, (s32)(context), sprite, entity) << 0x10) != 0) {
+            if ((try_actor_attack(actor, context, sprite, entity) << 0x10) != 0) {
                 return;
             }
-            start_actor_attack(actor, (s32)(context), (s32)(sprite), entity);
+            start_actor_attack(actor, context, (s32)(sprite), entity);
             return;
         case 9:
-            complete_actor_facing_action(actor, (s32)(context), (s32)(sprite), entity);
+            complete_actor_facing_action(actor, context, (s32)(sprite), entity);
             return;
         case 10:
             start_actor_directional_action(actor, context, sprite, entity);
@@ -332,16 +332,16 @@ block_37:
             action_pose = ((Rec_func_800A9E70_arg0 *)actor)->unk_AC;
             switch (action_pose) {
             case 0:
-                begin_actor_spell_action(actor, (s32)(context), sprite, (u8 *)(&beldo_large_frame_set_6), (s32)(&update_multi_form_actor_control));
+                begin_actor_spell_action(actor, context, sprite, (u8 *)(&beldo_large_frame_set_6), &update_multi_form_actor_control);
                 return;
             case 1:
-                begin_actor_spell_action(actor, (s32)(context), sprite, (u8 *)(&beldo_large_frame_set_17), (s32)(&update_multi_form_actor_control));
+                begin_actor_spell_action(actor, context, sprite, (u8 *)(&beldo_large_frame_set_17), &update_multi_form_actor_control);
                 return;
             case 2:
-                begin_actor_spell_action(actor, (s32)(context), sprite, (u8 *)(&beldo_large_frame_set_18), (s32)(&update_multi_form_actor_control));
+                begin_actor_spell_action(actor, context, sprite, (u8 *)(&beldo_large_frame_set_18), &update_multi_form_actor_control);
                 return;
             case 3:
-                begin_actor_spell_action(actor, (s32)(context), sprite, (u8 *)(&D_801739F8), (s32)(&update_multi_form_actor_control));
+                begin_actor_spell_action(actor, context, sprite, (u8 *)(&D_801739F8), &update_multi_form_actor_control);
                 return;
             }
             return;

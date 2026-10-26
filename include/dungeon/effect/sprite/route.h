@@ -1,5 +1,10 @@
 #ifndef DUNGEON_OVL_18EE800_H
 #define DUNGEON_OVL_18EE800_H
+
+struct B32_818CF0E8_S_818CF0E8_1;
+struct B32_818CF0E8_S_818CF0E8_3;
+
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
@@ -77,9 +82,9 @@ typedef struct {
 } B32_818CFB74_SpawnData;
 typedef struct B32_818CFB74_Spawned {
     u8 pad0[8];
-    B32_818CFB74_Vec12 *position8;
+    ObjectPosition *position8;
     B32_818CFB74_Graphic *graphicC;
-    void (*update10)(void);
+    void (*update10)(void *, struct B32_818CF0E8_S_818CF0E8_1 *, struct B32_818CF0E8_S_818CF0E8_3 *);
     u8 pad14[0xA];
     u16 flags1E;
     B32_818CFB74_SpawnData data20;
@@ -101,7 +106,7 @@ typedef struct {
     u8 valueA1;
     u8 padA2[6];
     B32_818CFB74_Spawned *spawnA8;
-    B32_818CFB74_Vec12 *savedPositionAC;
+    ObjectPosition *savedPositionAC;
 } B32_818CFB74_State;
 typedef struct {
     u8 pad0[8];
@@ -330,7 +335,7 @@ s32 func_8004491C(void *, void *, ...);
 void advance_sprite_animation_and_textures(void *);
 s32 play_sound_if_enabled(s32);
 s16 sample_terrain_surface_height(s32, s32, s16);
-void select_record_entry_and_value(void *, void *, s32);
+void select_record_entry_and_value(void *state, void *entries, short index);
 extern const B32_818CFB74_PackedOffsets sprite_route_direction_offsets;
 extern s16 linked_point_effect_updated[5];
 void *get_sprite_attachment_vector(void *, void *, void *, s32);

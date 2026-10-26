@@ -16,7 +16,7 @@ extern void try_apply_confusion_status(void *, s32, s32);
 /* Processes an actor's item and updates its object entry, effects, and item count. */
 s32 apply_malicious_light_tile_item(void *actor, u8 *item, s16 action) {
     s16 entry_index;
-    s32 message_handle;
+    void *message_handle;
     s32 saved_handle, object_addr;
     DungeonGlobalStatus *counter_base;
     void *entity;

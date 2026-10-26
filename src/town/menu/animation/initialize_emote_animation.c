@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 struct Dst;
 struct Elem;
-void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index); /* extern */
+void select_record_entry_and_value(void *state, void *entries, short index); /* extern */
 struct Rec_D_80082E80; void initialize_optional_object_state(void *, s32, struct Rec_D_80082E80 *, s32); /* extern */
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry emote_sprite_entries[];

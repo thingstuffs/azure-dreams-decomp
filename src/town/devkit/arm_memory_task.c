@@ -1,7 +1,7 @@
 #include "common.h"
 extern void *town_action_resume_address;
 void func_80400948(void);
-s32 init_card_background_object();
+void * init_card_background_object();
 s32 init_card_slot_object();
 /*
  * Creates the card background and slot objects, caches their handles in the task, and installs

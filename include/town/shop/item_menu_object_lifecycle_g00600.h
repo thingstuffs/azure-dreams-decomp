@@ -39,7 +39,7 @@ extern void enqueue_script_message_command(void);
 extern void handle_selection_and_create_object(void);
 
 /* Functions defined in this translation unit. */
-s32 create_item_menu_object(s32 selector);
+void * create_item_menu_object(s32 selector);
 void release_item_menu_object(ItemMenuParameters *parameters);
 
 #endif

@@ -37,20 +37,20 @@ typedef struct S_800AAF00_2 {
 
 typedef struct S_800AAF00_3 {
     u8 pad_00[0x8C];
-    s32 unk_8C;
+    void *unk_8C;
     u8 pad_90[0xA];
     u8 unk_9A;
     u8 unk_9B;
 } S_800AAF00_3;   /* owner in begin_actor_spell_action */
 
-extern s32 scan_actor_along_heading();
+extern void * scan_actor_along_heading();
 extern s32 try_claim_dungeon_action_slot();
 extern s32 advance_status_timers(void *record);
 extern s32 generate_random_value(void);
-extern void select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
+extern void select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 
 /* Updates the object action state and applies direction data to its target. */
-void begin_actor_spell_action(void *actor, s32 effect_param, SpriteFrameState *target, u8 *direction_table, s32 next_state) {
+void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState *target, u8 *direction_table, void *next_state) {
     void *object;
     s32 special_action;
     u8 *slot_data;

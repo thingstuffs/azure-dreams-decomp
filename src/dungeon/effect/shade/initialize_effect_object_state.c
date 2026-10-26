@@ -15,7 +15,7 @@ typedef struct S_800D4BD4_0 {
 } S_800D4BD4_0;   /* state in initialize_effect_object_state */
 
 extern void register_node(void *, void *);
-extern void select_record_entry_and_value(void *, void *, s32);
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 fading_sprite_entries;
 
 /* Initialize object state and rendering data from the source and position. */

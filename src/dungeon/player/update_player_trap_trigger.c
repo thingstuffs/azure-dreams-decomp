@@ -15,13 +15,13 @@ extern u8 D_800E0B4C[];
 
 extern s32 try_claim_dungeon_action_slot(s32);
 extern void restore_player_control_callback(Actor *, s32);
-extern s32 get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
-extern s32 expand_text_control_codes(u8 *src, u8 *dst);
-extern s32 write_text_byte_and_advance(s8 value, s8 *dest);
-extern s32 append_value_seven_suffix(u8 *dst);
-extern s32 append_typed_formatted_value(void *, s32);
-extern void copy_fullwidth_vowel_bytes(s32, s32);
-extern s32 write_status_prefix_bytes(s32);
+extern void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
+extern u8 * expand_text_control_codes(u8 *src, u8 *dst);
+extern void * write_text_byte_and_advance(s8 value, s8 *dest);
+extern void * append_value_seven_suffix(u8 *dst);
+extern u8 * append_typed_formatted_value(void *,u8 *);
+extern void copy_fullwidth_vowel_bytes(void *,void *);
+extern void * write_status_prefix_bytes(void *);
 extern void clear_byte_and_advance(s8 *byte_ptr);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void reveal_triggered_trap(Actor *, s32, s32, s32);
@@ -57,10 +57,10 @@ void update_player_trap_trigger(Actor *actor, s32 context_a, s32 context_b, s32 
         }
         if (!(entry[3] & 0x40)) {
 
-            s32 cursor;
-            s32 buffer_start;
+            void *cursor;
+            void *buffer_start;
             s32 patch_pos;
-            s32 entry_pos;
+            void *entry_pos;
             cursor = get_unused_text_buffer();
             buffer_start = cursor;
             cursor = append_value_seven_suffix(expand_text_control_codes(D_800E0B39, write_text_byte_and_advance(8, cursor)));

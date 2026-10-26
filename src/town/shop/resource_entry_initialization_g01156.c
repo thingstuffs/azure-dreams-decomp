@@ -97,7 +97,7 @@ void initialize_record_table_and_group(void *record) {
 }
 
 /* Initializes the task and resources for open_twin_souko. */
-s32 open_twin_souko(s32 option) {
+void * open_twin_souko(s32 option) {
     s32 resource_08;
     s32 resource_00;
     s32 resource_04;
@@ -125,7 +125,7 @@ s32 open_twin_souko(s32 option) {
             ((S_800B2BA0_0 *)state)->unk_48 = option;
             ((ObjectNodeHeader *)((u8 *)state - 0x20))->update_callback = &handle_item_menu_input_2;
         }
-        return (s32)task;
+        return task;
     }
     apply_record_values_and_process_record(state);
     return 0;

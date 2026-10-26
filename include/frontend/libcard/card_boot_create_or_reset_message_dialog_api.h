@@ -3,6 +3,6 @@
 
 #include "common.h"
 
-u8 * card_boot_create_or_reset_message_dialog(s32, void *, void *, s32);
+u8 * card_boot_create_or_reset_message_dialog(s32, s32, s32, s32);
 
 #endif

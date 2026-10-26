@@ -2,7 +2,7 @@
 #include "dungeon/actor.h"
 #include "m2c_compat.h"
 
-s32 update_linked_actor_motion(void *, s32, s32, s32);
+s32 update_linked_actor_motion(void *,void *,void *,void *);
 
 extern u8 pulunpa_action_resume_address;
 extern u8 pulunpa_variant_action_address;

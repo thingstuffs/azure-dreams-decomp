@@ -346,7 +346,7 @@ typedef struct DungeonInner {
 
 typedef struct DungeonDescriptor {
     u8 pad0[8];
-    DungeonInner *inner;
+    ObjectPosition *inner;
     u8 padC[4];
     void *field10;
     u8 pad14[0xA4];
@@ -354,7 +354,7 @@ typedef struct DungeonDescriptor {
 } DungeonDescriptor;
 
 extern void D_800A7548();
-extern void * create_item_render_object(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z);
+extern void * create_item_render_object(void *parent, void *sprite_source, s16 x, s32 y, s16 z);
 
 /* Create a dungeon descriptor centered on the given tile at the specified z coordinate. */
 DungeonDescriptor *create_timed_effect_at_tile(s32 tile_x, s32 tile_y, s32 z, s32 *init_data) {
@@ -480,12 +480,12 @@ typedef struct S_800A794C_2 {
     s16 unk_AE;
 } S_800A794C_2;   /* fields in func_800A794C */
 
-extern void * create_item_render_object(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z);
+extern void * create_item_render_object(void *parent, void *sprite_source, s16 x, s32 y, s16 z);
 
 extern u8 D_800A77AC[];
 
 /* Create an object at the tile center, initialize its fields, and increment the object count. */
-s32 create_tile_centered_item_effect(s32 tile_x, s32 tile_y, s32 height, s32 *payload_ptr,
+void * create_tile_centered_item_effect(s32 tile_x, s32 tile_y, s32 height, s32 *payload_ptr,
                   s32 field_aa, s32 field_ac, s32 field_ae) {
     ObjectNodeHeader *object;
     ObjectPosition *position;
@@ -510,7 +510,7 @@ s32 create_tile_centered_item_effect(s32 tile_x, s32 tile_y, s32 height, s32 *pa
     ((S_800A794C_2 *)fields)->unk_98 = payload;
     ((S_800A794C_2 *)fields)->unk_AE = (s16)field_ae;
     g_dungeon_status.activity_counts.parts.pending_action_count++;
-    return (s32)object;
+    return object;
 }
 #include "common.h"
 extern u8 item_effect_descriptor[];
@@ -518,8 +518,9 @@ extern u8 item_effect_descriptor[];
 extern s32 lookup_item_category_mapped_value(s32, s32);
 
 /* Resolve the item's description: kind 0x12 uses the fixed table, everything else is looked up. */
-s32 get_item_category_value(u8 *item)
+s32 get_item_category_value(void *item_data)
 {
+    u8 *item = item_data;
     s32 result;
 
     if (item[1] == 0x12) {
@@ -547,18 +548,18 @@ typedef struct {
 
 extern s32 D_800E0B54;
 
-extern s32 get_unused_text_buffer(void);
-extern s32 expand_text_control_codes(u8 *src, u8 *dst);
-extern s32 clear_byte_and_advance(s8 *byte_ptr);
-extern s32 append_typed_formatted_value(s32 *, s32);
+extern void *get_unused_text_buffer(void);
+extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
+extern void * clear_byte_and_advance(s8 *byte_ptr);
+extern u8 * append_typed_formatted_value(s32 *,u8 *);
 
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 find_first_empty_floor_item_slot(void);
 extern s32 find_valid_floor_item_position(s16 x, s16 y, s16 z, s16 *out_x, s16 *out_y, s16 *out_distance);
 struct DungeonDescriptor;
 extern struct DungeonDescriptor * create_timed_effect_at_tile(s32 tile_x, s32 tile_y, s32 z, s32 *init_data);
-extern s32 create_tile_centered_item_effect(s32, s32, s32, s32 *, s32, s32, s32);
-extern s32 get_item_category_value(u8 *item);
+extern void * create_tile_centered_item_effect(s32, s32, s32, s32 *, s32, s32, s32);
+extern s32 get_item_category_value(void *item);
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 
 /* Registers an object at a resolved dungeon position or processes its fallback placement. */
@@ -566,8 +567,8 @@ s32 place_item_at_valid_floor_position(s32 x, s32 y, s32 z, s32 unused, s32 *obj
     s16 tile_x;
     s16 tile_y;
     s16 tile_value;
-    s32 output_start;
-    s32 output_cursor;
+    void *output_start;
+    void *output_cursor;
     s16 x_short;
     s16 y_short;
     s16 z_short;
@@ -915,16 +916,16 @@ s32 render_floor_items(s32 unused0, s32 unused1, SpriteFrameState *render_params
 #define F(e,t,o) (*(t)((s8 *)(e)+(o)))
 extern void * allocate_list_node(s32 flags, void **list_head);
 extern s32 register_node(void *entry, void *registration_id);
-extern s32 get_item_category_value(u8 *item);
+extern s32 get_item_category_value(void *item);
 extern void create_tracked_effect(void *, s32, s32, s32);
 
 /* Create a sprite object with the supplied position and default color and scale. */
-void *create_item_render_object(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z) {
+void *create_item_render_object(void *parent, void *sprite_source, s16 x, s32 y, s16 z) {
     ObjectNodeHeader *object;
     SpriteFrameState *sprite;
     ObjectPosition *position;
 
-    object = allocate_list_node(0x12, (void *)parent);
+    object = allocate_list_node(0x12, parent);
     if (object != NULL) {
         position = object->position;
         sprite = object->sprite;
@@ -937,7 +938,7 @@ void *create_item_render_object(s32 parent, s32 sprite_source, s16 x, s32 y, s16
         sprite->color.c.r = 0x80;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
-        sprite->source = get_item_category_value((void *)sprite_source);
+        sprite->source = get_item_category_value(sprite_source);
         create_tracked_effect(object, 0, 0, 0);
     }
     return object;
@@ -1282,11 +1283,11 @@ check_completion:
         if (((S_800A871C_22 *)(((S_800A871C_15 *)world_page)->unk_3D7C))->unk_124 == 0) {
             void *finished_object = object_data;
             s8 *flags_page = DUNGEON_FLAGS_PAGE;
-            s32 dungeon_flags;
+            s32 floor_flags;
             ((S_800A871C_1_pre *)object)[-1].unk_00 = (u16) (((S_800A871C_1_pre *)object)[-1].unk_00 | 0x8000);
-            dungeon_flags = ((S_800A871C_16 *)flags_page)->unk_14A0;
-            dungeon_flags |= 0x8000;
-            unlink_entity_node((((S_800A871C_16 *)flags_page)->unk_14A0 = dungeon_flags, finished_object));
+            floor_flags = ((S_800A871C_16 *)flags_page)->unk_14A0;
+            floor_flags |= 0x8000;
+            unlink_entity_node((((S_800A871C_16 *)flags_page)->unk_14A0 = floor_flags, finished_object));
             return;
         }
         break;
@@ -1430,7 +1431,7 @@ extern u8 D_800A871C[];
 extern void * allocate_list_node(s32 flags, void **list_head);
 extern s32 register_node(void *entry, void *registration_id);
 extern s32 clear_entry_flag_and_link_owner(struct ObjectNodeHeader *);
-extern s32 get_item_category_value(u8 *item);
+extern s32 get_item_category_value(void *item);
 extern void create_tracked_effect(void *, s32, s32, s32);
 
 /* Creates a dungeon object at a tile or the supplied coordinates. */

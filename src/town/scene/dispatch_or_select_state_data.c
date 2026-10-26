@@ -2,7 +2,7 @@
 #include "common.h"
 
 extern s32 get_referenced_object_active_flag(void);
-extern void *apply_entry_position(void *entries, void *object, s32 context, s32 selection);
+extern void * apply_entry_position(void *entries, void *object,void *context, s32 selection);
 extern s32 get_script_flag_mask(s32 flagIndex);
 
 extern s32 D_8001BB3C;

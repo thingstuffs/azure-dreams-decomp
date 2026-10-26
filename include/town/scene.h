@@ -2,6 +2,7 @@
 #define TOWN_SCENE_H
 
 #include "common.h"
+#include "records/Rec_func_800165F4_arg0.h"
 
 
 /* dispatch_inputs_by_current_state.c */
@@ -77,7 +78,7 @@ extern u8 D_8001798C[];
 extern u8 *D_80017AA4;
 
 struct Rec_func_800165F4_arg0;
-void process_entry_with_exit_flag(struct Rec_func_800165F4_arg0 *, s32);
+s32 process_entry_with_exit_flag(struct Rec_func_800165F4_arg0 *, s32);
 
 /* Signed scene-position deltas. */
 struct S_80019DE0_0;
@@ -106,5 +107,31 @@ s32 get_state_record_byte(void);
 /* Callback entry points. */
 s32 *get_data_pointer_1691_c(void);
 void update_slot_machine(void *machine, void *position);
+
+/* Square-scene choice records. Consumers index 16-byte entries, call the
+ * predicate at +0, call the text selector at +4, and read the flag at +12. */
+typedef Rec_func_800165F4_arg0 SquareSceneEntry;
+typedef s32 (*TownChoicePredicate)(SquareSceneEntry *, s32);
+typedef void *(*TownChoiceText)(SquareSceneEntry *, s32, s32);
+typedef u8 *TownChoiceData;
+typedef struct {
+    TownChoicePredicate predicate;
+    TownChoiceText text;
+    TownChoiceData value;
+    s16 script_flag;
+    s16 reserved;
+} TownSceneChoice;
+s32 apply_gate_5217_entry(SquareSceneEntry *entry, s32 entry_index);
+s32 apply_gate_5000_entry(SquareSceneEntry *entry, s32 entry_index);
+s32 apply_gate_5000_flag_entry(SquareSceneEntry *entry, s32 entry_index);
+s32 apply_gate_5211_flag_entry(SquareSceneEntry *entry, s32 entry_index);
+s32 apply_gate_5003_flag_entry(SquareSceneEntry *entry, s32 entry_index);
+void *select_square_entry_or_fallback(SquareSceneEntry *entry, s32 entry_index, s32 selection);
+void *select_square_entry_or_alternate(SquareSceneEntry *entry, s32 entry_index, s32 selection);
+s32 flag_entry_if_record_eleven(SquareSceneEntry *entry, s32 entry_index);
+extern TownSceneChoice square_gate_choices[4];
+extern TownSceneChoice square_progress_choices[6];
+extern TownSceneChoice square_flag_choices[17];
+extern TownSceneChoice square_record_choices[4];
 
 #endif

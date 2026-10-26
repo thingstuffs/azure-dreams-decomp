@@ -30,7 +30,7 @@ s32 lookup_item_category_mapped_value(s32, s32);
 extern s32 select_item_data();
 extern s32 set_display_entry_text_and_position();
 extern s32 set_storage_entry_text();
-extern s32 format_optional_signed_value();
+extern u8 * format_optional_signed_value();
 
 
 /* Populate and position a display row from an entry. */

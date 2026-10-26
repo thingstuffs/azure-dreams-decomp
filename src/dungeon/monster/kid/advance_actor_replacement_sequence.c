@@ -91,7 +91,7 @@ typedef struct S_80174B20_11 {
 } S_80174B20_11;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void select_record_entry_and_value();     /* extern */
+void select_record_entry_and_value(void *state, void *entries, short index);     /* extern */
 s32 Control_CD(); /* extern */
 #include "slus/sound_set_cd_cue_parameters_api.h" /* extern */
 #include "engine/graphics/run_cd_image_commands_api.h" /* extern */

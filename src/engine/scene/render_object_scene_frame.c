@@ -17,7 +17,6 @@ typedef struct S_80083160_ctx
 }
 S_80083160_ctx;
 extern S_80083160_ctx *g_game_work[3];
-extern u8 upper_draw_context[];
 typedef struct S_80081480
 {
     s32 field_0;

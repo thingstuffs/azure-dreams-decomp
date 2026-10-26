@@ -9,7 +9,7 @@ u8 *select_item_record_pointer(s32 selector_id) {
     s16 selector_index = selector_id - 1;
     u8 *result;
     if (selector_index < 0x14) {
-        result = (u8 *)(0x80010248 + (selector_index * (s32)sizeof(void *)));
+        result = (u8 *)0x80010248 + (selector_index * (s32)sizeof(void *));
     } else if (selector_index != 0x14) {
         result = *(u8 **)(((u8 *)dungeon_actor_ring_anchor) + 0xF0);
     } else {

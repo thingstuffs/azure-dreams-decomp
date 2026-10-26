@@ -25,10 +25,10 @@ extern s32 get_actor_height_difference(s32, void *);
 extern s32 probe_directional_neighbor(void *, u8, u8, s16);
 extern s32 try_claim_dungeon_action_slot(void *);
 extern s32 check_entity_interaction_compatibility(void *, s32);
-extern void apply_camera_offset_and_select_target(void *, s32, s32, s32);
+extern void apply_camera_offset_and_select_target(void *,void *, s32, s32);
 
 /* Attempt an action toward the target and update actor state on success. */
-s32 attempt_target_action(S_80172920_3 *action_state, s32 effect_arg, Rec_D_80082E80 *target, void *actor) {
+s32 attempt_target_action(S_80172920_3 *action_state, void *effect_arg, Rec_D_80082E80 *target, void *actor) {
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
     s32 target_direction;
 

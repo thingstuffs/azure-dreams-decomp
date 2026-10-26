@@ -22,7 +22,7 @@ void update_trailing_effect_animation(ActorTrailWork *effect, TrailMotion *trans
     s16 phase;
     s16 frames_left;
     u16 fade_brightness;
-    u32 next_frame;
+    u8 *next_frame;
     u8 fade_in_brightness;
     u8 fade_out_brightness;
     void *history_src;
@@ -125,9 +125,9 @@ void update_trailing_effect_animation(ActorTrailWork *effect, TrailMotion *trans
     transform->velocity.y.parts.whole.s = effect->history[4].y.u + (rand() & 0xF) - 8;
     transform->velocity.z.parts.whole.s = effect->history[4].z.u + (rand() & 0xF) - 8;
 
-    next_frame = (u32)render_data->source + 0xC;
-    render_data->source = (void *)next_frame;
-    if ((u32)trailing_effect_frame_limit < next_frame) {
+    next_frame = (u8 *)render_data->source + 0xC;
+    render_data->source = next_frame;
+    if (trailing_effect_frame_limit < next_frame) {
         render_data->source = trailing_effect_frame_limit - 0x48;
     }
     effect->ticks++;

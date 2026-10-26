@@ -355,7 +355,7 @@ typedef struct Row_819A1654_Effect {
 
 typedef struct Row_819A1654_Task {
     u8 pad0[8];
-    Row_819A1654_Coord *coord;
+    ObjectPosition *coord;
     Row_819A1654_Sprite *sprite;
     void (*callback)(void);
     u8 pad14[0xC];
@@ -454,7 +454,7 @@ void SetDrawMode(void *, s32, s32, u16, s32);
 void advance_sprite_animation_and_textures(void *);
 void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
-void select_record_entry_and_value();
+void select_record_entry_and_value(void *state, void *entries, short index);
 s16 rand();
 s32 get_sprite_attachment_vector(void *, void *, void *, s32);
 s32 func_8003DF74(void *, void *, void *, s32);

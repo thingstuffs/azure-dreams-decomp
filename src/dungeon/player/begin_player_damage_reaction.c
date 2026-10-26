@@ -21,7 +21,7 @@ extern u8 player_damage_frames[];
 extern u8 pending_player_damage_kind;
 
 /* Initialize directional animation and reset the actor action state. */
-void begin_player_damage_reaction(void *action, s32 unused, void *sprite, EntityRec *actor) {
+void begin_player_damage_reaction(void *action, void *unused, void *sprite, EntityRec *actor) {
     u8 *direction_table;
     ((Rec_func_8008ACDC_arg0 *)action)->unk_10C = (s16) (((Rec_func_8008ACDC_arg0 *)action)->unk_10C & 0xFFFE);
     {

@@ -46,11 +46,11 @@ typedef struct S_801717D0_5 {
 } S_801717D0_5;   /* entry in prepare_actor_directional_action */
 
 extern void select_sprite_entry(void *, u8, s32);
-extern s32 scan_actor_along_heading(void *, u8, u8, s16, u8);
+extern void *scan_actor_along_heading(void *, u8, u8, s16, u8);
 extern s32 try_claim_dungeon_action_slot(void *);
 extern void advance_status_timers(void *);
 extern s32 generate_random_value(void);
-extern void select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s16 slot_value);
+extern void select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s16 slot_value);
 
 /* Prepares an entity action, updates its directional animation, and advances the counter. */
 void prepare_actor_directional_action(u8 *entity, s32 action_param, SpriteFrameState *action_sprite, u8 *frame_table, s32 fallback_state)

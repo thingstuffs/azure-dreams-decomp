@@ -13,7 +13,7 @@ typedef struct S_800CB4C0_6 {
 
    /* ((S_800CB4C0_6 *)arg0)->unk_08 in create_source_linked_fading_effect */
 
-void select_record_entry_and_value();  /* extern */
+void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
 void *allocate_list_node();               /* extern */
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 extern void D_800CB374();

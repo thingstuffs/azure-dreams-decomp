@@ -101,7 +101,7 @@ extern s32 rand(void);
 extern s32 rsin(s16);
 extern s32 rcos(s16);
 extern void resolve_attack_damage_and_effects(void *, void *, s16, s16);
-extern void select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s16 slot_value);
+extern void select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s16 slot_value);
 extern void draw_randomized_shaded_polylines(Vec3Work *, Vec3Work *);
 
 extern u8 golem_frame_set_1;

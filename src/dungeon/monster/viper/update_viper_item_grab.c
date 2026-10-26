@@ -74,13 +74,13 @@ extern u8 viper_frame_set_5[];
 extern void *actor_update_node_cursor[];
 
 extern s32 find_floor_item_at_world_position(s16, s16, s16);
-extern Spawned *create_item_render_object(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z);
+extern Spawned *create_item_render_object(void *parent, void *sprite_source, s16 x, s32 y, s16 z);
 extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
 struct SpriteFrameState;
-extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
+extern void select_sprite_entry(void *, s16, s16);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(Object *, s32);
-extern void advance_status_timers(Object *);
+extern void advance_status_timers(void *);
 extern void update_timed_effect_size_and_position(void);
 extern void update_dungeon_actor_actions(void);
 extern int abs(int);

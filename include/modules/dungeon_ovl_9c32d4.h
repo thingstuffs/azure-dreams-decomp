@@ -1,5 +1,7 @@
 #ifndef DUNGEON_OVL_9C32D4_H
 #define DUNGEON_OVL_9C32D4_H
+
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -115,7 +117,7 @@ typedef union { s32 word; struct { u16 low, high; } ovl_9c32d4_809A37C0_half; } 
 typedef struct { ovl_9c32d4_809A37C0_FixedCoord x, y, z; } ovl_9c32d4_809A37C0_MotionPosition;
 typedef struct { u8 pad00[0x14]; s16 direction; u8 pad16[0x1C]; s16 speed; } ovl_9c32d4_809A37C0_MotionState;
 typedef struct { u8 pad00[6]; u16 count; void *resource; s32 value; u8 pad10[12]; u16 scale_x, scale_y; } ovl_9c32d4_809A37C0_MotionDraw;
-typedef struct { u8 pad00[8]; ovl_9c32d4_809A37C0_MotionPosition *position; ovl_9c32d4_809A37C0_MotionDraw *draw; void (*update)(ovl_9c32d4_809A37C0_MotionState *, ovl_9c32d4_809A37C0_MotionPosition *); u8 pad14[12]; ovl_9c32d4_809A37C0_MotionState state; } ovl_9c32d4_809A37C0_MotionObject;
+typedef struct { u8 pad00[8]; ovl_9c32d4_809A37C0_MotionPosition *position; SpriteFrameState *draw; void (*update)(ovl_9c32d4_809A3698_MotionState *, ovl_9c32d4_809A3698_MotionPosition *); u8 pad14[12]; ovl_9c32d4_809A37C0_MotionState state; } ovl_9c32d4_809A37C0_MotionObject;
 typedef struct ovl_9c32d4_809A38E4_S_801750E4_0_pre {
     s16 unk_00;
     s16 unk_02;

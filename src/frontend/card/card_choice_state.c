@@ -1,7 +1,9 @@
+#include "frontend/libcard/interfaces.h"
 /* Update the paired card choice selection and animation state. */
 
 #include "common.h"
 #include "m2c_compat.h"
+#include "frontend/libcard.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 typedef struct S_80026FD4_0 {
@@ -15,11 +17,10 @@ void card_boot_set_paired_choice_selection(s32 object_addr, s32 value) {
 
     state = object_addr + 0x20;
     state->unk_24 = value;
-    card_boot_refresh_paired_choice_labels(state);
+    card_boot_refresh_paired_choice_labels((u8 *)state);
 }
 #include "common.h"
 #include "frontend/card.h"
-#include "frontend/libcard.h"
 
 typedef struct Object13B18 Object13B18;
 

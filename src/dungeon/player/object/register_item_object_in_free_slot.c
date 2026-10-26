@@ -12,7 +12,7 @@ extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern void clear_byte_and_advance(s8 *byte_ptr);
 extern void *write_text_byte_and_advance(s8 value, s8 *dest);
-extern s32 append_typed_formatted_value(void *, s32);
+extern u8 * append_typed_formatted_value(void *,u8 *);
 extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
 extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);

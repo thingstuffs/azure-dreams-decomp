@@ -10,7 +10,7 @@ typedef s32 M2C_UNK;
 
    /* arg0 in create_type_212_effect_object */
 
-extern void select_record_entry_and_value();
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 D_80024374;
 

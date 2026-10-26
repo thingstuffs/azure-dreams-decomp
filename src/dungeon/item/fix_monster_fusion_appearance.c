@@ -12,11 +12,11 @@ struct ObjectNodeHeader;
 #include "dungeon/player/item.h"
 #include "dungeon/system.h"
 void clear_slot_and_update_linked_state();
-s32 get_unused_text_buffer(void);
-s32 expand_text_control_codes();
+void *get_unused_text_buffer(void);
+u8 *expand_text_control_codes();
 void *clear_byte_and_advance();
-s32 append_typed_formatted_value();
-s32 append_entity_display_text();
+u8 * append_typed_formatted_value();
+u8 * append_entity_display_text();
 void adjust_source_value_and_finalize(void *context, const void *source);
 s32 display_text_with_fullwidth_adjustment();
 void place_actor_item(void *object_context, void *target);
@@ -57,9 +57,9 @@ typedef struct S_800BE120_1 {
 s32 fix_monster_fusion_appearance(void *entity, S_800BE120_1 *data, s16 mode) {
     s16 stored;
     void *call_entity;
-    u32 context_arg;
+    void *context_arg;
     s32 new_context;
-    s32 context;
+    void *context;
 
     stored = 0;
     if (entity == ((s32)dungeon_actor_ring_anchor)) {

@@ -79,7 +79,7 @@ extern u8 scene_mode_code;
 extern s16 actor_event_values[];
 extern s32 D_800DCF64;
 extern u8 dungeon_button_latch;
-extern s32 dungeon_menu_action_state[];
+extern void *dungeon_menu_action_state[];
 
 /* Advances the dungeon transition through its delay, setup, and completion phases. */
 void update_floor_exit_transition(PlayerRecord *state, s32 unused, MovingTile *tile, ActorRecord *actor) {

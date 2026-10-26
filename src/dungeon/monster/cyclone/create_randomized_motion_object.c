@@ -31,7 +31,7 @@ typedef struct S_80175060_3 {
     s32 unk_14;
 } S_80175060_3;
 
-void select_record_entry_and_value(void *, void *, s32);  /* extern */
+void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 extern void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 s32 rand();                                /* extern */
@@ -40,7 +40,7 @@ extern void update_radial_motion_or_complete(u16 *motion, s32 *position, SpriteF
 /* Creates an object with randomized phase and rotation and copies its initial state. */
 /* Creates a gray effect at the owner's height with randomized rotation and phase, preserving the initial
  * motion origin. */
-s32 create_randomized_motion_object(Rec_func_80173DD4_arg0 *owner, EntityRec *initial_state) {
+void * create_randomized_motion_object(Rec_func_80173DD4_arg0 *owner, EntityRec *initial_state) {
     s32 color;
     s32 four;
     s32 phase_rand;
@@ -86,7 +86,7 @@ s32 create_randomized_motion_object(Rec_func_80173DD4_arg0 *owner, EntityRec *in
             state->velocity_y = copy_word_1;
         }
         state->z.w.i = owner->unk_88;
-        return (s32) object;
+        return object;
     }
     return 0;
 }

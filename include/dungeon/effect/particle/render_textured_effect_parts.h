@@ -275,7 +275,7 @@ typedef struct Pair16 {
 typedef struct PathBlock {
     Pair16 entries[8];
 } PathBlock;
-void select_record_entry_and_value(void *, void *, s32);
+void select_record_entry_and_value(void *state, void *entries, short index);
 s32 draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s32);
 u32 RotTransPers(void *, void *, void *, void *);
 extern s16 textured_effect_update_flag;

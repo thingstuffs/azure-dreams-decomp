@@ -49,7 +49,7 @@ s32 attempt_actor_action_and_display(void *action_out, s32 action_param, SpriteF
         return result;
     }
 
-    apply_camera_offset_and_select_target((s32)((u8 *)acting_actor - 0x20), (void *)action_param, 8, 0x300);
+    apply_camera_offset_and_select_target((u8 *)acting_actor - 0x20, (void *)action_param, 8, 0x300);
     if ((try_claim_dungeon_action_slot((s32)acting_actor) << 16) != 0) {
         result = -1;
     } else {
@@ -75,7 +75,7 @@ s32 attempt_actor_action_and_display(void *action_out, s32 action_param, SpriteF
 void update_eligible_actor_action(void *action_state, s32 action_context, SpriteFrameState *sprite, EntityRec *actor) {
     actor->unk_71 = (u8) (actor->unk_71 & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot((s32)actor) << 0x10) == 0)) {
-        apply_camera_offset_and_select_target((s32)((u8 *)actor - 0x20), (void *)action_context, 8, 0x300);
+        apply_camera_offset_and_select_target((u8 *)actor - 0x20, (void *)action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot((s32)actor) << 0x10) == 0) {
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_9A.as_s8 = 0x11;
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_s8 = 0;

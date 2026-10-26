@@ -90,7 +90,7 @@ typedef void (*unicorn_orbit_update_fn)(void *effect, ObjectPosition *position, 
 extern s32 rand(void);
 
 extern s32 advance_sprite_animation_and_textures();
-extern s32 select_record_entry_and_value();
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
 extern s32 rsin();

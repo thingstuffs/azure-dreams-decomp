@@ -13,7 +13,7 @@ void tick_view_color_flash(void *fade);
 
 typedef struct S_800C4D78_0 {
     u8 pad_00[0x10];
-    s32 * unk_10;
+    void (*unk_10)(void *);
     u8 pad_14[0xC];
     s32 unk_20;
     u8 pad_24[0x2];

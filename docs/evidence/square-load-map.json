@@ -1,0 +1,20 @@
+{
+  "container": "town",
+  "file_start": 2799616,
+  "file_end": 2838528,
+  "vma": 2147573760,
+  "lba": 4444,
+  "size": 38912,
+  "descriptor": {
+    "container": "slus",
+    "foff": 346872,
+    "vma": 2148012792,
+    "decoded_fields": {
+      "destination_mask": "0x7fffff",
+      "destination_segment": "0x80000000",
+      "size": "(packed >> 23) << 11",
+      "lba_word_offset": 4
+    }
+  },
+  "basis": "Ordinary SLUS scene load descriptor: file LBA, complete byte size and destination. Existing code pairings corroborate the same load delta. No registered neighbour overlaps the added 0x1800 data tail."
+}

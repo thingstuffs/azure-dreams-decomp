@@ -424,7 +424,7 @@ extern s32 get_offset_map_cell_value_and_flags(s16, s16, s16, u16 *);
 extern s32 check_diagonal_side_height(u16, s16, s16, s16);
 extern void Control_CD(s32, s32, s32);
 extern void drain_cd_command_queue(void);
-extern s32 get_item_category_value(u8 *item);
+extern s32 get_item_category_value(void *item);
 extern void decompress_lz(u8 *, u8 *);
 extern void func_8004068C(u8 *, u8 *);
 extern s32 get_surface_height_at_coordinates(s32, s32);

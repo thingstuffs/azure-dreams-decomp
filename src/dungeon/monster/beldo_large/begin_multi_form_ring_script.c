@@ -50,7 +50,7 @@ typedef struct S_8016EE8C_5 {
 void unlink_entity_node();                         /* extern */
 extern s32 D_80173C94;
 extern s32 D_80173D5C;
-extern s32 beldo_actor_nodes;
+extern u8 *beldo_actor_nodes[3];
 extern s32 encounter_script_cursor;
 extern s16 beldo_script_timer;
 
@@ -67,7 +67,7 @@ void begin_multi_form_ring_script(void) {
     slot_index = 0;
     page_8001 = (void *)0x80010000;
     page_800e = (void *)0x800E0000;
-    active_data = beldo_actor_nodes + 0x20;
+    active_data = beldo_actor_nodes[0] + 0x20;
     ((S_8016EE8C_0 *)active_data)->unk_AF = 1;
     (((Page8001FieldView_81337E8C *)page_8001)->field_371A) = 0;
     (((Page8001FieldView_81337E8C *)page_8001)->field_3718) = 0;

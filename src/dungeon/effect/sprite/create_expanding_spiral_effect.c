@@ -10,7 +10,7 @@ typedef s32 M2C_UNK;
 #endif
 
 
-extern void select_record_entry_and_value();
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 rsin(s32);
 extern s32 rcos(s32);
@@ -63,7 +63,7 @@ typedef struct S_8185CE28_3 {
 } S_8185CE28_3;
 
 /* Creates an effect at an indexed radial offset from the supplied position. */
-s32 create_expanding_spiral_effect(s32 effect_param, MovingPosition *position, s16 effect_index)
+void * create_expanding_spiral_effect(s32 effect_param, MovingPosition *position, s16 effect_index)
 {
     s16 phase_index;
     s32 phase_step;
@@ -106,7 +106,7 @@ s32 create_expanding_spiral_effect(s32 effect_param, MovingPosition *position, s
             ((rcos(state->unk_1C) >> 4) *
              state->unk_20 >> 8);
         component->unk_0A = state->unk_0E - 8;
-        return (s32) effect;
+        return effect;
     }
     return 0;
 }

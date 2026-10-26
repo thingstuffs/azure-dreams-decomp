@@ -59,12 +59,12 @@ typedef struct AnimData {
 } AnimData;
 
 extern s32 rand(void);
-extern void select_record_entry_and_value(Anim *, void *, s32);
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void configure_the_set_mode_n_1(Actor *, Motion *, void *);
 extern void unlink_scene_list_node(Actor *);
 extern void unlink_node_if_registered(Actor *);
 extern void SD_Call(s32);
-extern void advance_sprite_animation_and_textures(Anim *);
+extern void advance_sprite_animation_and_textures(void *);
 extern s32 test_three_axis_box_overlap(void *, Motion *);
 
 extern u8 D_800F7DD4[];

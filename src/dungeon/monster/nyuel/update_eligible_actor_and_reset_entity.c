@@ -6,9 +6,9 @@ typedef struct Motion Motion;
 typedef struct TilePos TilePos;
 #include "shared/entity.h"
 
-extern s32 update_actor_movement_to_tile(ObjA0 *move_state, Motion *motion, TilePos *target_tile, ActorRecord *actor);
+extern s32 update_actor_movement_to_tile(void *move_state,void *motion,void *target_tile, ActorRecord *actor);
 extern void spend_actor_mp(s32, s32);
-extern void advance_status_timers(s32);
+extern void advance_status_timers(void *);
 
 extern s32 nyuel_action_resume_address;
 

@@ -10,7 +10,7 @@
 extern void update_flickering_layer_sprite(void *effect_data, void *unused, SpriteFrameState *effect);
 extern u8 ribbon_sprite_entries[];
 extern s32 register_node(void *, void *);
-extern void select_record_entry_and_value(void *, void *, s32);
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 
 typedef struct S_801676CC_0 {
     u8 pad_00[0x18];

@@ -8,22 +8,6 @@
  * pointer offsets from the base in this function). Two full copies exist for
  * double buffering: D_801C9E40 (buffer 0) and D_801DA714 (buffer 1), exactly
  * 0x108D4 bytes apart (see initialize_hardware_and_game_state's `p + 0x108D4` toggle). */
-typedef struct {
-            /* DRAWENV portion */
-    s16 clip_x, clip_y, clip_w, clip_h; /* 0x00 RECT clip */
-    s16 ofs0, ofs1;                     /* 0x08 draw offset */
-    s16 tw_x, tw_y, tw_w, tw_h;         /* 0x0C RECT tw */
-    u16 tpage;                          /* 0x14 */
-    u8  dtd, dfe;                       /* 0x16, 0x17 */
-    s32 isbg;                           /* 0x18: packs isbg + r0,g0,b0 (LE) in one store */
-    u8  dr_env[0x40];                   /* 0x1C reserved GPU env packet, pads to 0x5C */
-            /* DISPENV portion */
-    s16 disp_x, disp_y, disp_w, disp_h;         /* 0x5C RECT disp */
-    s16 screen_x, screen_y, screen_w, screen_h; /* 0x64 RECT screen */
-    u8  isinter, isrgb24, disp_pad0, disp_pad1; /* 0x6C */
-} S_801C9E40;
-
-extern S_801C9E40 upper_draw_context;      /* GsWORK buffer 0 */
 typedef struct { s16 x, y, w, h; } EnvironmentRect;
 extern EnvironmentRect lower_draw_context; /* Clip RECT prefix of the second environment buffer. */
 extern s32 lower_background_flag[3];          /* buffer-1-adjacent flag; >8B decl forces hi/lo */
@@ -31,7 +15,7 @@ extern s32 lower_background_flag[3];          /* buffer-1-adjacent flag; >8B dec
 /* Initialise double-buffered draw/display environments for a 320x224 screen with background clearing. */
 void init_double_buffered_gpu_environments(void)
 {
-    u8 *env_base = (u8 *)&upper_draw_context;
+    u8 *env_base = upper_draw_context;
     s32 origin = 0;
     s32 draw_height = 0xE0;
     s32 disp_height = 0xF0;

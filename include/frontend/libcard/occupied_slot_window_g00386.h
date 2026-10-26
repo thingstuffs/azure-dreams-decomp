@@ -32,7 +32,7 @@ typedef struct {
     /* 0x0A */ u8 pad10[0x80 - 0x0A];
 } EntryS80083E98;
 
-extern s32 build_positioned_text_glyphs(void *a0, void *a1, s32 a2);
+extern void *build_positioned_text_glyphs(void *a0, void *a1, s32 a2);
 extern void func_8004E5A0(void *a0, s32 a1, void *a2);
 extern void remap_flagged_string_bytes(void *a0);
 extern u8 D_80078FD0[16];

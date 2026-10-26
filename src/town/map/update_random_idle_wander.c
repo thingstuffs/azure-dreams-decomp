@@ -12,7 +12,7 @@ extern s32 check_transform_identifier_and_hook(void *);
 extern void SD_Call(s32);
 extern void advance_sprite_animation_and_textures(void *);
 extern s32 rand(void);
-extern void select_record_entry_and_value(void *, void *, s32);
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 
 extern void *D_800D210C[];
 extern u8 D_800E9CD4[];

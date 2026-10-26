@@ -11,7 +11,7 @@ extern void set_sprite_animation_frame(void *a0, s16 a1, s16 a2, s32 a3);
 extern u8 D_800DCFF0[8];
 
 /* Starts action 0x24, clears linked action flags, doubles movement time, and selects its animation. */
-void begin_wake_nearby_monsters(u8 *state_ptr, s32 value, u8 *target_ptr, u8 *angle_ptr) {
+void begin_wake_nearby_monsters(u8 *state_ptr, void *value, u8 *target_ptr, u8 *angle_ptr) {
     u16 flags;
     s32 index;
     u8 *table;

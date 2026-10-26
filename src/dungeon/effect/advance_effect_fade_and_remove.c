@@ -22,7 +22,7 @@ typedef struct S_800B7C14_1 {
 } S_800B7C14_1;   /* arg0 in advance_effect_fade_and_remove */
 
 
-extern void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);        /* extern */
+extern void select_record_entry_and_value(void *state, void *entries, short index);        /* extern */
 extern void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 
 /* Advance effect motion, fade its primitive, and mark it for removal when its lifetime ends. */

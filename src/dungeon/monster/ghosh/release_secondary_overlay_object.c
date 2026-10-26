@@ -3,7 +3,7 @@
 #include "dungeon/monster/ghosh.h"
 
 extern void *ghosh_scripted_actor[];
-extern void detach_record_and_update_slot_state(void *record);
+extern void * detach_record_and_update_slot_state(void *record);
 
 // Processes and clears slot zero's entry, setting entry and global status flags.
 void release_secondary_overlay_object(void) {

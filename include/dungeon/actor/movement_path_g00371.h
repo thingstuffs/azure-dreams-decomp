@@ -175,7 +175,7 @@ extern s32 can_entity_gain_level(void *);
 
 extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
-extern s32 reset_actor_action_state(void *actor, s32 unused, void *sprite, u8 *direction_frames);
+extern s32 reset_actor_action_state(void *actor, void * unused, void *sprite, u8 *direction_frames);
 extern void process_selected_actor_record(void *, void *, void *, void *);
 
 extern void *actor_action_frames[];
@@ -189,7 +189,7 @@ s32 update_actor_proximity_flag();
 s32 generate_random_value(void);
 
 struct Dst; struct Elem;
-extern void select_record_entry_and_value(struct Dst *, struct Elem *, s16);
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
 extern s32 test_neighbor_position_relation(s32, s32, s32, s32);
 extern s32 get_rounded_facing_and_rounding_flag(s16, s16, s16, s16, u16 *);

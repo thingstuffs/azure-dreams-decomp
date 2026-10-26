@@ -23,8 +23,8 @@ void render_cd_wait_animation_on_new_field(void)
             PutDispEnv((u8 *)g_game_work[0] + 0x5C);
             PutDrawEnv(*draw_buffer);
 
-            next_buffer = upper_draw_context[0];
-            if (*draw_buffer == upper_draw_context[0]) {
+            next_buffer = upper_draw_context;
+            if (*draw_buffer == upper_draw_context) {
                 next_buffer += 0x108D4;
             }
             g_game_work[0] = next_buffer;

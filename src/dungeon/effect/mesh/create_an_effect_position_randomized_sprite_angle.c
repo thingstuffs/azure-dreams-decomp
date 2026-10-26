@@ -57,7 +57,7 @@ void advance_shrinking_arc_effect(void *state, ovl_1930844_81910844_S_81910844_2
 
 /* Creates a randomly rotated gray sprite with copied motion, the owner's duration, and a saved
    starting height. */
-s32 create_an_effect_position_randomized_sprite_angle(Rec_func_80024170_arg0 *owner, void *source_position)
+void * create_an_effect_position_randomized_sprite_angle(Rec_func_80024170_arg0 *owner, void *source_position)
 {
     s32 random_value;
     s32 initial_z;
@@ -94,7 +94,7 @@ s32 create_an_effect_position_randomized_sprite_angle(Rec_func_80024170_arg0 *ow
         *(ovl_1930844_81910970_Copy6 *)position = *(ovl_1930844_81910970_Copy6 *)source_position;
         initial_z = position->z.v;
         effect_state->unk_0C = initial_z;
-        return (s32)effect;
+        return effect;
     }
     return 0;
 }

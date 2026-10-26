@@ -938,7 +938,7 @@ s32 has_empty_status_slot(s32 record_addr) {
 }
 
 /* Advance four status timers toward zero and clear expired statuses. */
-s32 advance_status_timers(void *record) {
+void advance_status_timers(void *record) {
     s32 slot_index;
     s8 status;
     s8 duration;

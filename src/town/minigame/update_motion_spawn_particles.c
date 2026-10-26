@@ -33,7 +33,7 @@ typedef struct Object {
     void (*callback)(void);
 } Object;
 
-extern void select_record_entry_and_value(Sprite *, void *, s32);
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void register_node(Object *, void *);
 extern void SD_Call(s32, s32);
 extern void DrawSync(s32);

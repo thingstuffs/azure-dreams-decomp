@@ -1,5 +1,8 @@
 #ifndef TOWN_MENU_OBJECT_ALLOCATE_AND_INITIALIZE_DISPLAY_OBJECT_G01137_H
 #define TOWN_MENU_OBJECT_ALLOCATE_AND_INITIALIZE_DISPLAY_OBJECT_G01137_H
+
+struct Func800A4B70Object;
+struct Func800A4B70Output;
 /* Allocate and initialize display object. Shared declarations. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01137 - CL:town/func_800A48A0. */
 
@@ -57,7 +60,7 @@ typedef struct S_800A21EC_1 {
 
 /* arg1 in initialize_directional_object_state */
 typedef struct S_800A21EC_2 {
-    s32 * unk_00;
+    void (*unk_00)(struct Func800A4B70Object *, s32,  struct Func800A4B70Output *);
     u8 pad_04[0x10];
     void * unk_14;
     u8 pad_18[0x8];

@@ -17,7 +17,7 @@ typedef struct S_80172334_0 {
 } S_80172334_0;   /* arg0 in advance_timed_directional_reset */
 
 struct SpriteFrameState;
-void select_sprite_entry(struct SpriteFrameState *, s16, s16);         /* extern */
+void select_sprite_entry(void *, s16, s16);         /* extern */
 extern u8 golem_frame_set_2;
 
 /* Advance the timer and reset the state and directional sprite after 60 ticks. */

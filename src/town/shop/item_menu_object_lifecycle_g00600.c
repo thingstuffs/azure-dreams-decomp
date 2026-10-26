@@ -4,7 +4,7 @@
 #include "shared/object_flags.h"
 
 /* Create an object and initialize its state, releasing the state if setup fails. */
-s32 create_item_menu_object(s32 selector) {
+void * create_item_menu_object(s32 selector) {
     void *object;
     S_800AE324_0 *state;
     void *initializer;
@@ -37,7 +37,7 @@ s32 create_item_menu_object(s32 selector) {
         }
     }
     if (object == 0 || result != 0) {
-        return (s32)object;
+        return object;
     }
     release_item_menu_object((ItemMenuParameters *)state);
     return 0;

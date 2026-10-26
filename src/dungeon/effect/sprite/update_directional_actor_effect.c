@@ -487,7 +487,7 @@ typedef struct ChildObject {
 typedef struct EffectObject {
     u8 pad00[8];
     Vec3 *position;
-    ChildObject *child;
+    SpriteFrameState *child;
     void *callback;
     u8 pad14[12];
     void *owner;

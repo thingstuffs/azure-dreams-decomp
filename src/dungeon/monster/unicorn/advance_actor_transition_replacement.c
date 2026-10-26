@@ -29,7 +29,7 @@ extern s32 unicorn_image_load_done[];
 extern u8 unicorn_effect_load_done[];
 extern void *D_80174E40[];
 
-extern void select_record_entry_and_value();
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 Control_CD();
 extern void sound_set_cd_cue_parameters();
 extern s32 run_cd_image_commands();
@@ -44,7 +44,7 @@ extern s32 decrement_monster_entry_count();
 extern void *advance_staged_entity_load();
 extern s32 play_sound_if_enabled();
 extern s32 create_status_linked_render_effect();
-extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
+extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 extern void create_angular_offset_effect();
 
 typedef struct S_80174704_0_pre {

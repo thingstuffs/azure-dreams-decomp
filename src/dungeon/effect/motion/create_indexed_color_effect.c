@@ -6,7 +6,7 @@
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 
-void select_record_entry_and_value();      /* extern */
+void select_record_entry_and_value(void *state, void *entries, short index);      /* extern */
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 s32 rsin();                             /* extern */
 s32 rcos();                             /* extern */
@@ -33,7 +33,7 @@ typedef struct S_80024790_2 {
 } S_80024790_2;
 
 /* Creates an effect at the origin with index-dependent color, scale, and position. */
-s32 create_indexed_color_sprite(MovingPosition *origin, u16 index) {
+void * create_indexed_color_sprite(MovingPosition *origin, u16 index) {
     u8 color_index;
     s32 frame;
     s16 scale;
@@ -71,7 +71,7 @@ s32 create_indexed_color_sprite(MovingPosition *origin, u16 index) {
         position->y.w.i = (s16) (state->unk_02 + ((s32) (rcos(state->unk_08) * 2) >> 8));
         index <<= 3;
         position->z.w.i = state->unk_04 - index;
-        return (s32) effect;
+        return effect;
     }
     return 0;
 }

@@ -18,7 +18,7 @@ typedef struct S_818BD0C0_1 {
     u16 unk_14;
 } S_818BD0C0_1;   /* p in update_triple_flash_effect */
 
-extern void select_record_entry_and_value();
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void advance_sprite_animation_and_textures();
 extern u8 flash_sprite_entries[];
 

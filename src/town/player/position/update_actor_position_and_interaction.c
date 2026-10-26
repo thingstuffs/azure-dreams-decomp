@@ -11,7 +11,7 @@ void submit_object_resource_data();
 void initialize_actor_movement_interaction_action(s32 **record, void *ptr, void *ptr2);
 struct ObjectPosition; void initialize_input_driven_scene_object(s32 * *, struct ObjectPosition *, s32);
 void initialize_action_callback_from_entry(s32 **record, void *ptr, void *ptr2);
-void initialize_busy_checked_countdown_action(Rec_func_80094268_arg0 *record, s32 unused, s32 setup_value);
+void initialize_busy_checked_countdown_action(Rec_func_80094268_arg0 *record,void *unused,void *setup_value);
 void play_periodic_sound(s32, s32);
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"

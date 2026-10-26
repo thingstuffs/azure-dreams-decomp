@@ -3,18 +3,18 @@
 #include "shared/dir_step.h"
 
 s32 check_diagonal_side_height(s32, u8, u8, s16);
-s32 find_eligible_actor_at_tile_and_height(void *, u16, u16, s16);
-s32 check_entity_interaction_compatibility(void *, s32);
+void *find_eligible_actor_at_tile_and_height(void *, u16, u16, s16);
+s32 check_entity_interaction_compatibility(void *, void *);
 
 /* Returns the first valid candidate found while checking eight neighboring positions. */
-s32 find_monster_neighbor_candidate(void *entity, u16 x, u16 y) {
+void *find_monster_neighbor_candidate(void *entity, u16 x, u16 y) {
     u16 *x_offsets;
     u16 *y_offsets;
     void *entity_data;
     void *entity_ptr;
     u16 origin_x;
     u16 origin_y;
-    s32 candidate;
+    void *candidate;
     s32 attempt;
     s32 direction;
 

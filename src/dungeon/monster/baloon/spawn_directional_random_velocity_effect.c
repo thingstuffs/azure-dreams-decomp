@@ -43,7 +43,7 @@ typedef struct S_80D65C5C_4 {
 
 extern s32 rand(void);
 extern void register_node(void *, void *);
-extern void select_record_entry_and_value(void *, void *, s32);
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 
 extern s16 actor_direction_step_pairs[];
 extern u8 D_80171384[];

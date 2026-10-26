@@ -10665,3 +10665,15 @@
 0x80016164	func_80016164	apply_scene_override_flag	Run 11: complete callback reconstructed and proved.
 0x80025040	func_80025040	copy_indexed_menu_string	Run 11: complete callback reconstructed and proved.
 0x80171d90	func_80171D90	advance_ghosh_trail_fade	Run 11: complete callback reconstructed and proved.
+0x8001616c	func_8001616C	apply_gate_5217_entry	Run 12: complete square choice callback.
+0x800171a0	func_800171A0	apply_gate_5000_entry	Run 12: complete square choice callback.
+0x800176f4	func_800176F4	apply_gate_5000_flag_entry	Run 12: complete square choice callback.
+0x8001774c	func_8001774C	apply_gate_5211_flag_entry	Run 12: complete square choice callback.
+0x80017b04	func_80017B04	apply_gate_5003_flag_entry	Run 12: complete square choice callback.
+0x80017a84	func_80017A84	select_square_entry_or_fallback	Run 12: complete square choice callback.
+0x80017cd4	func_80017CD4	select_square_entry_or_alternate	Run 12: complete square choice callback.
+0x80018370	func_80018370	flag_entry_if_record_eleven	Run 12: complete square choice callback.
+0x8001B1EC	D_8001B1EC	square_gate_choices	Run 12: whole typed choice array.
+0x8001BC0C	D_8001BC0C	square_progress_choices	Run 12: whole typed choice array.
+0x8001BC9C	D_8001BC9C	square_flag_choices	Run 12: whole typed choice array.
+0x8001BDC4	D_8001BDC4	square_record_choices	Run 12: whole typed choice array.

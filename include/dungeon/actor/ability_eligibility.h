@@ -238,6 +238,6 @@ s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 s16 check_adjacent_tile_height_clearance(u16 x, u16 y, s32 z, void *skip_check);
 s16 set_or_clear_actor_status_slot(Owner_800A48F0 *owner, s8 id, s8 value);
 s32 has_empty_status_slot(s32 record_addr);
-s32 advance_status_timers(void *record);
+void advance_status_timers(void *record);
 
 #endif

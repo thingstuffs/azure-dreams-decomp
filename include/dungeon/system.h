@@ -5,7 +5,7 @@
 #include "common.h"
 s32 check_action_available_without_nearby_actor(void);
 void clear_pending_item_action_state(void);
-s32 create_expanding_screen_rectangle(void);
+void * create_expanding_screen_rectangle(void);
 void *create_fullscreen_quad_updater(s16 initialValue);
 void decrement_bounded_counter(void);
 void display_fixed_item_action_message(void);

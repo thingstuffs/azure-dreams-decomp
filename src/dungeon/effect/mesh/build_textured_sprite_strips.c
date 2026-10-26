@@ -51,7 +51,7 @@ void try_halve_actor_counter(u8 *entity, s32 chance, void *unused_context) {
             s32 format_code;
             void *result_arg;
 
-            message_arg = get_unused_text_buffer((s32)effect_input, chance_value);
+            message_arg = get_unused_text_buffer(effect_input, chance_value);
             format_code = 8;
             result_arg = message_arg;
             effect_result = result_arg;

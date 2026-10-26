@@ -84,7 +84,7 @@ typedef struct S_8017294C_1 {
 } S_8017294C_1;
 
 extern s16 get_rounded_facing_and_rounding_flag();
-extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
+extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 extern u8 cyclone_frame_set_2[];
 /* arg0 in search_ahead_and_start_action */
 extern s32 check_layer_offset_height(s32, s32, s16, s32);

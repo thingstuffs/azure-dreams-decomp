@@ -68,7 +68,9 @@ class SharedDataLayout(unittest.TestCase):
    layout=[dict(id=r['id'],path='src/town/owner.c') for r in rows]
    def write():
     (root/'ledger/rows.jsonl').write_text(''.join(json.dumps(r)+'\n' for r in rows));(root/'ledger/layout.jsonl').write_text(''.join(json.dumps(r)+'\n' for r in layout))
-   write();self.assertEqual(L.mapping(root)['town/data'],'src/town/owner.c');self.assertEqual(L.validate(root),2)
+   for kind in ('function_table','descriptor_table','native_prefix'):
+    rows[1]['data_kind']=kind
+    write();self.assertEqual(L.mapping(root)['town/data'],'src/town/owner.c');self.assertEqual(L.validate(root),2)
    rows[1]['ownership_status']='guessed';write()
    with self.assertRaisesRegex(ValueError,'two rows'):L.mapping(root)
 

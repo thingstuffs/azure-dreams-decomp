@@ -49,7 +49,7 @@ typedef struct {
     s32 word[6];
 } Copy24;
 
-extern void select_record_entry_and_value();
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 rand();
 extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 

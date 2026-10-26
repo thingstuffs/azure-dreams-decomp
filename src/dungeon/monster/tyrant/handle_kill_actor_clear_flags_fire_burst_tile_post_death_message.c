@@ -5,10 +5,10 @@
 /* Kill the actor: clear its flags, fire the burst at its tile and post its death message. */
 void handle_kill_actor_clear_flags_fire_burst_tile_post_death_message(void *work_in, void *part_a, void *part_b_in, void *actor) {
     s32 burst;
-    s32 handle;
-    s32 msg;
+    void *handle;
+    void *msg;
     void *msg_actor;
-    s32 msg_handle;
+    void *msg_handle;
     u8 flags71;
     u8 call_a0;
     u8 call_a1;

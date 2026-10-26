@@ -11,9 +11,9 @@ extern s32 check_entity_relation(void *, void *);
 #include "dungeon/player/object/action_state.h"
 extern void on_actor_status_updated(void *);
 extern void update_actor_status_and_mp(void *);
-extern void begin_pushed_actor_move(void *, s32, void *, void *);
-extern s32 begin_ready_actor_directional_action(void *, s32, void *, s32);
-extern void begin_actor_move_to_target_facing(void *, s32, void *, void *);
+extern void begin_pushed_actor_move(void *,void *, void *, void *);
+extern s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
+extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void update_timed_effect_size_and_position(void *, s32, void *, void *);
 
 #include "dungeon/monster/saber.h"
@@ -28,7 +28,7 @@ typedef struct S_801740DC_0 {
 } S_801740DC_0;   /* arg0 in update_actor_directional_animation */
 
 /* Updates actor state, directional animation, and the shared transition counter. */
-void update_actor_directional_animation(void *actor_in, s32 actor_index, SpriteFrameState *target, void *entity_in)
+void update_actor_directional_animation(void *actor_in, void *actor_index, SpriteFrameState *target, void *entity_in)
 {
     EntityRec *entity = entity_in;
     s32 state;

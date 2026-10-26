@@ -349,7 +349,7 @@ void card_boot_measure_five_line_message(u8 *text_block);
 void card_boot_bind_message_dialog_record(Rec_func_8002290C_arg0 *record, s32 value_14, s32 entry_index, s32 value_0c, s32 value_20);
 void card_boot_initialize_message_dialog_layout(s32 record, s32 value_14, s32 entry_index, s32 value_0c, s32 value_20);
 void card_boot_activate_message_dialog(void *object);
-u8 *card_boot_create_or_reset_message_dialog(s32 value_14, void *entry_index, void *value_0c, s32 value_20);
+u8 *card_boot_create_or_reset_message_dialog(s32 value_14, s32 entry_index, s32 value_0c, s32 value_20);
 
 /* occupied_slot_window_g00386.c */
 void card_boot_format_occupied_slot_window(void *slot_owner);

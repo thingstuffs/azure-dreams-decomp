@@ -15,7 +15,7 @@ typedef long long s64;
 
 void process_unflagged_linked_entries_alt(s32 firstNodeBase);
 s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
-s32 find_eligible_actor_at_tile_and_height();
+void * find_eligible_actor_at_tile_and_height();
 Ent *prepare_directional_attack();
 void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
 
@@ -61,7 +61,7 @@ s32 begin_front_tile_attack(void *actor_state_arg, void *unused, void *position_
     register void *entity = entity_arg;
     s32 direction;
     u8 *page_or_entity;
-    s32 target;
+    void *target;
 
     direction = ((u16) ((S_8008C8BC_0 *)entity)->unk_2A >> 9) & 7;
     if ((check_diagonal_side_height(direction, ((MovingTile *)position_arg)->tile_x, ((MovingTile *)position_arg)->tile_y,
@@ -70,7 +70,7 @@ s32 begin_front_tile_attack(void *actor_state_arg, void *unused, void *position_
             + ((u16 *)dir_step_x)[direction]) & 0xFFFF, (((MovingTile *)position_arg)->tile_y
             + ((u16 *)dir_step_y)[direction]) & 0xFFFF, (s16) ((S_8008C8BC_0 *)entity)->unk_88);
         page_or_entity = (u8 *)0x80010000;
-        ((S_8008C8BC_0 *)entity)->unk_60.i = target;
+        ((S_8008C8BC_0 *)entity)->unk_60.p = target;
         if (!(((S_8008C8BC_2 *)page_or_entity)->unk_3714 & 1) && (target != 0)
             && (((ActorRecord *)target)->flags14 & 0x4000)
             && (((S_8008C8BC_2 *)page_or_entity)->unk_3186 & 1) && !(((S_8008C8BC_0 *)entity)->unk_1C & 0x410)) {

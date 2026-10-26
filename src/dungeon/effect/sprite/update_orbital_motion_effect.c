@@ -31,7 +31,7 @@ typedef struct S_818BD3B0_2 {
     s32 center_z; /* 0x14 */
 } S_818BD3B0_2;   /* arg1 in update_orbital_motion_effect */
 
-s32 select_record_entry_and_value();
+void select_record_entry_and_value(void *state, void *entries, short index);
 s32 advance_sprite_animation_and_textures();
 s32 rsin();
 s32 rcos();

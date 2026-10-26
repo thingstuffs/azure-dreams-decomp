@@ -32,7 +32,7 @@ typedef struct {
 extern Root card_sme_object;
 
 /* Initializes the memory card state object and its working data. */
-s32 init_card_sme_object(s32 init_option) {
+void * init_card_sme_object(s32 init_option) {
     Obj *obj = (Obj *)&card_sme_object;
     Sub *card_state = (Sub *)((u8 *)obj + 0x20);
     s32 state_value;
@@ -58,5 +58,5 @@ s32 init_card_sme_object(s32 init_option) {
     state_value = dispatch_context_through_four_entry_table((u8 *)card_state + 0xF0);
     card_state->field_EC = state_value;
     func_80407BD0(card_state, init_option);
-    return (s32)obj;
+    return obj;
 }

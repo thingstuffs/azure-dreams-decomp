@@ -214,7 +214,7 @@ typedef struct R10_80172C54_S_80172C54_0 {
 } R10_80172C54_S_80172C54_0;
 typedef struct {
     u8 pad0[0x8C];
-    void (*callback)(void *, void *, void *, void *);
+    void (*callback)(void *, void *, struct SpriteFrameState *, ActorRecord *);
 } Resource10CallbackState;
 typedef struct R10_80173080_S_80173080_0 {
     u8 pad_00[0x8C];
@@ -653,7 +653,7 @@ void SetDrawMode();
 void advance_sprite_animation_and_textures(void *entity);
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
-void select_record_entry_and_value();
+void select_record_entry_and_value(void *state, void *entries, short index);
 void *allocate_list_node();
 void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 s32 generate_random_value();
@@ -683,7 +683,7 @@ s32 cycle_map_cell_flags();
 s32 update_map_cell_flags_with_item_limit();
 s32 check_movement_clearance_and_height();
 s32 update_actor_proximity_flag();
-s32 find_adjacent_actor();
+void * find_adjacent_actor();
 s32 probe_directional_neighbor();
 s32 get_actor_height_difference();
 s32 check_diagonal_side_height();
@@ -699,7 +699,7 @@ struct S_800833E0;
 s32 relink_entity_and_clear_high_flag();
 s32 update_actor_movement_to_tile();
 void spend_actor_mp();
-s32 advance_status_timers();
+void advance_status_timers();
 
 s32 rsin();
 void set_record_integer_tile_center();
@@ -710,8 +710,8 @@ s32 resolve_attack_damage_and_effects();
 s32 play_sound_if_enabled();
 s32 get_cd_command_queue_depth(void);
 s32 rand();
-s32 scan_actor_along_heading();
-s32 create_actor_spell_effect();
+void *scan_actor_along_heading();
+void *create_actor_spell_effect();
 void begin_actor_display_action();
 void apply_clamped_actor_value_delta();
 s32 update_actor_defeat_removal();
@@ -745,7 +745,7 @@ s32 unlink_entity_node();
 s32 decrement_monster_entry_count();
 s32 advance_staged_entity_load();
 s32 create_status_linked_render_effect();
-s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
+s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 s32 resolve_actor_floor_trap_once();
 s32 propagate_actor_action_flag();
 extern u8 shared_sprite_entries[];

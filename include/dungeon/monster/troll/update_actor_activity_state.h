@@ -11,7 +11,7 @@
 
 typedef struct T_80175050_S_80175050_0 {
     u8 pad_00[0x8C];
-    u8 * unk_8C;
+    void (*unk_8C)();
     u8 pad_90[0xB];
     u8 unk_9B;
 } T_80175050_S_80175050_0;   /* arg0 in func_80175050 */
@@ -143,7 +143,7 @@ extern s32 begin_ready_actor_directional_action();
 extern s32 advance_actor_pending_action();
 extern void begin_actor_move_to_target_facing();
 extern void create_tracked_attachment_sprite();
-extern s32 update_actor_transform_from_parent(T_801759A0_Obj0 *, void *, T_801759A0_Obj2 *, T_801759A0_Obj3 *);
+extern s32 update_actor_transform_from_parent(T_801759A0_Obj0 *, void *, void *, void *);
 
 extern u8 troll_kind13_direction_frames[];
 extern u8 troll_kind14_direction_frames[];

@@ -1,0 +1,20 @@
+{
+  "schema": "native-prefix-separation-v1",
+  "module": "dungeon_ovl_cd7000",
+  "membership_evidence": "docs/evidence/dungeon_ovl_cd7000.membership.json",
+  "original_member": {
+    "id": "dungeon/func_80CB7000",
+    "source": "src/dungeon/modules/ovl_cd7000.c",
+    "function": "func_8014C87C",
+    "foff": 13463552,
+    "vma": 2148845568,
+    "size": 288,
+    "body_offset": 124
+  },
+  "basis": [
+    "The original 39-function source, recipe, imports, native prefix and membership evidence stay unchanged.",
+    "Six separate data rows exactly partition the existing prefix: two typed pointers, three compiler switch tables and minimal switch alignment.",
+    "The historical code member keeps its identity; only its physical start and size are corrected to the already proved complete body. No new historical baseline or level record is fabricated.",
+    "Complete native object proof, including original assembly switch ownership and both assembler outputs, is required after separation."
+  ]
+}

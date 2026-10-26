@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void apply_entry_position(void *, void *, s32, s32);
+extern void apply_entry_position(void *, void *,void *, s32);
 extern s32 scene_dispatch_started;
 extern u8 D_8001B924[];
 extern u8 D_8001B944[];

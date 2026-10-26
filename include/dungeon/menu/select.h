@@ -711,7 +711,7 @@ void set_negated_coordinate_scratch(s32 call_value, s32 call_option, s16 call_mo
 s32 queue_four_shaded_quadrants(MenuFadeRect *rect_arg, ObjectPosition *owner_arg);
 
 extern void advance_sprite_animation_and_textures(void *, s16, void *, void *);
-void select_record_entry_and_value();  /* extern */
+void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry menu_effect_sprite_entries[];
 s32 rsin();                        /* extern */
@@ -741,7 +741,7 @@ extern void unlink_node(void *);
 extern void func_80044A50(void *);
 extern void enqueue_script_message_command(void);
 extern void *load_monster_resource_data(s32 resource_id, u8 *resource_entry, s32 wait_for_read);
-extern s32 find_or_retain_sprite_resource_slot(s32, s32);
+extern u8 *find_or_retain_sprite_resource_slot(s32, s32);
 extern void unlink_entity_node(void *);
 extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
 extern void retire_tracked_effect_by_id(void *);

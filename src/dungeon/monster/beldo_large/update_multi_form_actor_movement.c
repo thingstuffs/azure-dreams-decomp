@@ -27,7 +27,7 @@ extern u8 beldo_large_frame_set_3[];
 extern u8 beldo_large_action_resume_address[];
 
 extern void select_sprite_entry(void *, s32, s32);
-extern s32 update_actor_transform_from_parent(void *, s32, void *, void *);
+extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
 
 
 /*

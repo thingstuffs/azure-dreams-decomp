@@ -3,7 +3,7 @@
 
 extern void update_actor_status_and_mp(void *);
 extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
-extern s32 begin_ready_actor_directional_action(void *, s32, void *, s32);
+extern s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
 
 /* Processes active status, counts completed transitions, and dispatches follow-up work. */
 void advance_actor_status_turn(s32 actor, s32 action_context, s32 sprite, u8 *state) {

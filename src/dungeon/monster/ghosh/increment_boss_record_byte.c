@@ -10,6 +10,6 @@ typedef struct S_80173DF0_0 {
 void increment_boss_record_byte(s32 record_offset) {
     S_80173DF0_0 *record;
 
-    record = record_offset + 0x80010000;
+    record = (void *)0x80010000 + record_offset;
     record->unk_360C = (u8) (record->unk_360C + 1);
 }

@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern void initialize_scene_action_record(void *, s32, s32);
-extern void initialize_actor_movement_interaction_action(void *, s32, s32);
+extern void initialize_actor_movement_interaction_action(void *,void *,void *);
 extern s32 select_an_eligible_source_entry_stores_pointer_in_destination(void *, s32 *);
 extern s32 town_actor_control[];
 

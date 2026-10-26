@@ -30,7 +30,7 @@ struct S_80083178__jr {
     /* 0xD8 */ void *ptr;
 };                                                  /* size = 0xDC */
 
-void select_record_entry_and_value();  /* extern */
+void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 s32 rsin();                             /* extern */
 s32 rcos();                             /* extern */

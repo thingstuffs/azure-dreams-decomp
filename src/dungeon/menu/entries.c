@@ -927,7 +927,7 @@ void *create_menu_child_object(s32 parent_obj, s32 descriptor_value)
 
 /* Marks the eight row resources and final widget resource for removal, clearing the row pointers. */
 void clear_menu_value_objects(void *state) {
-    s32 **value_slot;
+    void ***value_slot;
     s32 slot_index;
 
     slot_index = 6;
@@ -938,7 +938,7 @@ void clear_menu_value_objects(void *state) {
         **value_slot = 0;
         value_slot += 1;
     } while (slot_index < 0xE);
-    flag_optional_object_for_removal(**(s32 **)((u8 *)state + 0x38));
+    flag_optional_object_for_removal(**(void ***)((u8 *)state + 0x38));
 }
 
 /* Retires menu resources and its linked object, releases buffers, and marks the menu itself for removal. */

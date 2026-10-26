@@ -73,7 +73,7 @@ extern void func_8002108C();
 extern void func_80021120();
 extern u8 D_80022FD8[];
 extern void func_80023DA0();
-extern void select_record_entry_and_value();
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void *allocate_list_node();
 extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s16 query_lowered_transform_position();

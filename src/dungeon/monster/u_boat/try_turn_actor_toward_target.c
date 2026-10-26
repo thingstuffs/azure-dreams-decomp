@@ -10,7 +10,7 @@ s32 get_actor_height_difference(s32, void *);
 s32 probe_directional_neighbor(void *, u8, u8, s16);
 s32 try_claim_dungeon_action_slot(void *);
 s32 check_entity_interaction_compatibility(void *, s32);
-void apply_camera_offset_and_select_target(void *, s32, s32, s32);
+void apply_camera_offset_and_select_target(void *,void *, s32, s32);
 void begin_actor_exclusive_action(void *, s32, void *, s32, s32);
 extern u8 resident_globals_page[];
 
@@ -19,8 +19,7 @@ extern u8 resident_globals_page[];
  * Checks a compatible neighbor within 64 height units, then starts U-Boat's normal attack or
  * exclusive action mode.
  */
-s32 try_turn_actor_toward_target(Rec_func_800A9E70_arg0 *action_state, s32 action_context, Rec_D_80082E80 *target,
-    ActorRecord *actor) {
+s32 try_turn_actor_toward_target(Rec_func_800A9E70_arg0 *action_state, void *action_context, Rec_D_80082E80 *target, ActorRecord *actor) {
     s32 target_angle;
     u16 result;
     u16 *global_flags;

@@ -18,7 +18,7 @@ extern SpawnFunc load_monster_resource_data(s32 resource_id, u8 *resource_entry,
 extern void retain_spawn_resource(s16 entry_type, s16 entry_key);
 extern void *find_or_retain_sprite_resource_slot(s32, s32);
 extern void raise_entity_level(void *, s32);
-extern void detach_record_and_update_slot_state(void *);
+extern void * detach_record_and_update_slot_state(void *);
 extern void select_dungeon_spawn_tile(u8 *, u8 *);
 /* Retail 0x800A6D30 (+0xC15D0 in DUNGEON.BIN), 48 bytes: RNG reads no argument registers, including a3. */
 extern s32 generate_random_value(void);

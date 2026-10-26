@@ -15,14 +15,14 @@ typedef struct S_80024130_0 {
 
    /* arg1 in create_randomized_effect_object */
 
-extern s32 select_record_entry_and_value();
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 rand();
 extern u8 D_80024048[9];
 extern u8 D_800DE8E8[9];
 
 /* Creates an object with the given context and position and randomized rotation. */
-s32 create_randomized_effect_object(s32 context, MovingPosition *position)
+void * create_randomized_effect_object(s32 context, MovingPosition *position)
 {
     s32 random_value;
     s32 rounded_value;
@@ -56,9 +56,9 @@ s32 create_randomized_effect_object(s32 context, MovingPosition *position)
         pos_z = position->z;
         result = object;
         object_pos->z = pos_z;
-        return (s32)result;
+        return result;
     } else {
         result = 0;
-        return (s32)result;
+        return result;
     }
 }

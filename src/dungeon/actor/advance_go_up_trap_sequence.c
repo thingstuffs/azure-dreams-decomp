@@ -66,7 +66,7 @@ extern void advance_sprite_animation_and_textures(void *entity);                
 void snapshot_inventory_and_familiars(void *input_state);           /* extern */
 void unlink_entity_node(struct EntityLinkNode *node);                      /* extern */
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
-s32 detach_record_and_update_slot_state(void *record);                      /* extern */
+void * detach_record_and_update_slot_state(void *record);                      /* extern */
 s32 check_action_boundary_and_set_flag(void);                            /* extern */
 extern s32 D_80010234;
 extern s16 floor_generation_state[3];
@@ -99,10 +99,10 @@ void advance_go_up_trap_sequence(void *trap_state_in, void *motion_state_in, voi
             u8 *transition_page;
             u32 floors_ascended;
             u16 go_up_trap_count;
-            S_800CB9DC_2 *motion_state;
+            S_800CB9DC_2 *next_motion;
 
-            motion_state = (void *)0x80010000;
-            if (motion_state->unk_3714 & 4) {
+            next_motion = (void *)0x80010000;
+            if (next_motion->unk_3714 & 4) {
                 request_scene_dispatch_state(3U);
             } else {
                 snapshot_inventory_and_familiars(actor);
@@ -111,10 +111,10 @@ void advance_go_up_trap_sequence(void *trap_state_in, void *motion_state_in, voi
                 transition_page = (u8 *)resident_globals_page;
                 trap_counts = floor_generation_state;
                 transition_id = transition_page[0x2E6B];
-                floors_ascended = motion_state->unk_234 + 1;
+                floors_ascended = next_motion->unk_234 + 1;
                 go_up_trap_count = ((S_800CB9DC_5 *)trap_counts)->unk_04;
                 go_up_trap_count++;
-                motion_state->unk_234 = floors_ascended;
+                next_motion->unk_234 = floors_ascended;
                 ((S_800CB9DC_5 *)trap_counts)->unk_04 = go_up_trap_count;
                 request_scene_dispatch_state(transition_id);
                 mark_sprite_resources_for_purge();

@@ -3,7 +3,7 @@
 
 extern s32 get_script_flag_mask(s32 flagIndex);
 extern void set_script_flag_bit(s32 bit_index);
-extern void *apply_entry_position(void *entries, void *object, s32 context, s32 selection);
+extern void * apply_entry_position(void *entries, void *object,void *context, s32 selection);
 
 extern u8 D_8001BE24[];
 extern u8 scene_dispatch_context[];

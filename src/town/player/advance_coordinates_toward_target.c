@@ -1,8 +1,9 @@
+#include "shared/entity.h"
 #include "common.h"
 
 typedef struct S_80098544_0 {
     u8 pad_00[0x4];
-    s32 * unk_04;
+    void (*unk_04)(s32,  EntityRec *, s32);
     u8 pad_08[0x2];
     union { u16 s; s16 u; } unk_0A;   /* accessed as both */
     u8 pad_0C[0x2A];
@@ -17,7 +18,6 @@ typedef struct S_80098544_1 {
 
 
 #include "town/player/object/entity_record_fields.h"
-#include "shared/entity.h"
 void update_falling_actor_and_handle_ground(s32 context, EntityRec *actor, s32 action_arg);
 
 /* Advance the fixed-point coordinates toward their targets and finish when the countdown expires. */

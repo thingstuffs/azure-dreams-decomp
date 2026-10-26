@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
+void select_record_entry_and_value(void *state, void *entries, short index);
 struct Rec_D_800CFCB4; void handle_insert_initialize_two_values_status_flags(struct Rec_D_800CFCB4 *, s32, s32);     /* extern */
 struct Rec_D_80082E80; void initialize_optional_object_state(void *, s32, struct Rec_D_80082E80 *, s32); /* extern */
 extern M2C_UNK D_800D0690;

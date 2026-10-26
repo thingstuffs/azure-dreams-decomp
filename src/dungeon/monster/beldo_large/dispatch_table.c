@@ -5,7 +5,7 @@
 #include "shared/entity.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
-extern void select_sprite_entry(void *, u8, s32);
+#include "engine/graphics.h"
 extern void advance_status_timers(void *);
 extern u8 beldo_large_frame_set_6[];
 
@@ -30,7 +30,7 @@ void start_actor_directional_action(Rec_func_800A9E70_arg0 *state, void *unused,
     u32 direction_entry;
     u8 *direction_table;
 
-    actor->movement_queue_state = (s8) (actor->movement_queue_state & 0x7F);
+    actor->movement_queue_state = actor->movement_queue_state & 0x7F;
     table_kind = state->unk_AC;
     state->unk_9A.as_s8 = 0x18;
     state->unk_8C = 0;
@@ -50,5 +50,5 @@ void start_actor_directional_action(Rec_func_800A9E70_arg0 *state, void *unused,
         break;
     }
     advance_status_timers(actor);
-    actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
+    actor->pending_turn_updates = actor->pending_turn_updates - 1;
 }

@@ -876,7 +876,7 @@ typedef struct S_func_800250B0_0 {
     u8 pad_00[0x08];
     void *unk_08;
     u8 pad_0C[0x04];
-    s32 unk_10;
+    void *unk_10;
     u8 pad_14[0x0C];
     s32 unk_20;
 } S_func_800250B0_0;
@@ -927,7 +927,7 @@ void create_terrain_seeking_colored_point(
     spawned_obj = allocate_list_node(0x211, source_obj);
     if (spawned_obj != NULL) {
         saved_pair = paired_value;
-        spawned_obj->unk_10 = (s32)advance_colored_point_toward_terrain;
+        spawned_obj->unk_10 = advance_colored_point_toward_terrain;
         z_offset = rand() & 0x1F;
         x_pos = ((MovingPosition *)source_obj->unk_08)->x;
         x_dest = spawned_obj->unk_08;

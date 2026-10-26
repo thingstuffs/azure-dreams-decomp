@@ -8,7 +8,7 @@
 #include "shared/entity.h"
 #include "dungeon/player/position.h"
 
-extern void select_record_entry_and_value(void *sprite, void *ptr, s32 value);
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void clear_slots_of_type(void *actor, s32 value);
 extern void handle_actor_commands_and_facing(void);
 extern void apply_clamped_actor_value_delta(void *actor);

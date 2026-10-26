@@ -57,10 +57,10 @@ extern u8 golem_frame_set;
 typedef struct S_80047784 S_80047784;
 typedef struct { u8 pad0[0x24]; u8 unk24; u8 unk25; } Pos;
 struct SpriteFrameState;
-extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
+extern void select_sprite_entry(void *, s16, s16);
 extern Ent *prepare_directional_attack(Ent *, Pos *, u32, s32, Ent *);
 extern s16 try_claim_dungeon_action_slot(s32);
-extern s32 apply_camera_offset_and_select_target(s32, void *, s32, s32);
+extern s32 apply_camera_offset_and_select_target(void *, void *, s32, s32);
 
 /* Functions defined in this translation unit. */
 void update_eligible_actor_action(void *action_state, s32 action_context, SpriteFrameState *sprite, EntityRec *actor);

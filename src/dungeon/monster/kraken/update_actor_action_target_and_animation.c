@@ -30,7 +30,7 @@ extern int abs(int);
 
 typedef struct S_801727C8_0 {
     u8 pad_00[0x8C];
-    s32 * unk_8C;
+    void (*unk_8C)(void *, s32,  void *, ActorRecord *);
     u8 pad_90[0x6];
     u16 unk_96;
     u16 unk_98;
@@ -51,9 +51,9 @@ typedef struct S_801727C8_5 {
 extern void *D_80170838[];
 void *scan_actor_along_heading();
 void set_record_integer_tile_center();
-s32 advance_status_timers();
+void advance_status_timers();
 s32 play_sound_if_enabled();
-s32 create_actor_spell_effect();
+void *create_actor_spell_effect();
 void create_two_effect_groups();
 void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite, ActorRecord *status);
 extern u8 kraken_frame_set_1;

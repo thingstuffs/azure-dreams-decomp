@@ -619,7 +619,7 @@ void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(void
 
 /* Creates a randomly rotated attached sprite with copied motion and staggered phase and timing from
    its index. */
-s32 create_an_attached_effect_copied_transform_data_randomized_angle(void *object, Row_81917A70_Copy24 *src_transform, s16 effect_index) {
+void * create_an_attached_effect_copied_transform_data_randomized_angle(void *object, Row_81917A70_Copy24 *src_transform, s16 effect_index) {
     s32 first_word;
     s32 second_word;
     s32 random_value;
@@ -666,7 +666,7 @@ s32 create_an_attached_effect_copied_transform_data_randomized_angle(void *objec
         second_word = transform->y.v;
         transform->velocity_x = first_word;
         transform->velocity_y = second_word;
-        return (s32)effect;
+        return effect;
     }
     return 0;
 }

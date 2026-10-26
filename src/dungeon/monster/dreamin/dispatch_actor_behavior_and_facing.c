@@ -18,11 +18,11 @@ extern s32 get_rounded_facing_and_rounding_flag(u8, u8, u8, u8, s16 *);
 extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
-extern s32 begin_ready_actor_directional_action(void *, void *, void *, void *);
+extern s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void process_selected_actor_record(void *, void *, void *, void *);
-extern void begin_actor_spell_action(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state);
+extern void begin_actor_spell_action(void *actor, void * effect_param, void *target, u8 *direction_table, void * next_state);
 
 extern void func_80171388(void *, void *, void *, void *);
 extern void func_801715CC(void *, void *, void *, void *);

@@ -7,7 +7,7 @@
 typedef struct S_80047784 S_80047784;
 
 struct SpriteFrameState;
-void select_sprite_entry(struct SpriteFrameState *, s16, s16);         /* extern */
+void select_sprite_entry(void *, s16, s16);         /* extern */
 extern u8 D_800E2360;
 
 /* Initializes state and configures the target using an angle-indexed table entry. */

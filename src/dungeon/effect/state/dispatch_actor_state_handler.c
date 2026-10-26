@@ -11,7 +11,7 @@
 void apply_pending_byte_increase(); /* extern */
 
 /* Dispatch state handlers according to the signed state value and actor flags. */
-void dispatch_actor_state_handler(Rec_func_8008ACDC_arg0 *actor, s32 context, SpriteFrameState *object, EntityRec *state) {
+void dispatch_actor_state_handler(Rec_func_8008ACDC_arg0 *actor, void *context, SpriteFrameState *object, EntityRec *state) {
     s16 state_value;
 
     state_value = state->unk_64;

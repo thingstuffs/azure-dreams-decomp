@@ -13,7 +13,7 @@ extern void register_node(ObjectNodeHeader *, void *);
 extern s32 generate_random_value(void);
 extern void set_or_clear_actor_status_slot(ActorRecord *, s32, s32);
 extern void initialize_actor_sprite_and_animation(ObjectNodeHeader *, ObjectPosition *, SpriteFrameState *, s16);
-extern void try_move_actor_to_valid_position(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
+extern void try_move_actor_to_valid_position(void *,void *,void *,void *);
 
 /* Allocate Unicorn, set its spawn state and frames, and try a valid tile. */
 void *spawn_unicorn(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)

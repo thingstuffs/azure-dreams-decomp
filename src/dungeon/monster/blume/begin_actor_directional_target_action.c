@@ -25,10 +25,10 @@ typedef struct S_80174A9C_1 {
 } S_80174A9C_1;   /* arg0 in begin_actor_directional_target_action */
 
 struct SpriteFrameState;
-void select_sprite_entry(struct SpriteFrameState *, s16, s16);
-s32 find_eligible_actor_at_tile_and_height();
+void select_sprite_entry(void *, s16, s16);
+void *find_eligible_actor_at_tile_and_height();
 s32 try_claim_dungeon_action_slot();
-s32 advance_status_timers();
+void advance_status_timers();
 s32 apply_camera_offset_and_select_target();
 extern u8 D_80175414;
 

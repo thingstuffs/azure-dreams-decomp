@@ -14,7 +14,7 @@ s32 town_map_set(s32 value_7c, s32 value_78)
     s32 *object_slot = objects;
     s32 *resource_slot = resources;
     s32 *array_start;
-    s32 new_object;
+    void *new_object;
     s32 new_resource;
     s32 link_index;
     s32 linked_data;

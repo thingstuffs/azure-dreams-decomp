@@ -21,7 +21,7 @@ typedef struct S_80172160_1 {
     s16 unk_18;
 } S_80172160_1;
 
-void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
+void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 rand();
 void update_rising_trail_emitter(void *record_data, S_801720D0_0 *state);

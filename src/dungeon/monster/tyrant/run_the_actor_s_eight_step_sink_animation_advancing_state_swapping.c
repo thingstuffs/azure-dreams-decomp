@@ -29,7 +29,7 @@ extern u8 tyrant_direction_frames[];
 extern s32 tyrant_action_resume_address;
 void set_record_integer_tile_center();
 s16 set_or_clear_actor_status_slot();
-s32 advance_status_timers();
+void advance_status_timers();
 s32 play_sound_if_enabled();
 s32 generate_random_value();
 extern u8 D_80173FD8;

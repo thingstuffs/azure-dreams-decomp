@@ -169,12 +169,12 @@ s32 strcpy(void *, s32);
 void create_familiar_deployment_overlay();
 void clear_slot_and_update_linked_state(s32 *slot);
 s16 find_table_value_index();
-s32 get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
-s32 expand_text_control_codes();
-s32 copy_four_text_bytes();
+void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
+u8 * expand_text_control_codes();
+void * copy_four_text_bytes();
 void *clear_byte_and_advance();
-s32 write_text_byte_and_advance();
-s32 append_entity_display_text();
+void * write_text_byte_and_advance();
+u8 * append_entity_display_text();
 void process_unflagged_linked_entries(s32 firstEntryBase);
 void process_unflagged_linked_entries_alt(s32 firstNodeBase);
 void unlink_entity_node();
@@ -185,8 +185,8 @@ void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload,
 #include "slus.h"
 
 void *(*load_monster_resource_data())(s32, u8, u8, s16);
-s32 find_or_retain_sprite_resource_slot();
-s32 raise_entity_level(void *entity_data, s32 show_message);
+u8 * find_or_retain_sprite_resource_slot();
+void raise_entity_level(void *entity_data, s32 show_message);
 s32 play_sound_if_enabled(s32 query_value);
 s32 display_text_with_fullwidth_adjustment();
 s32 generate_random_value(void);
@@ -218,14 +218,14 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
     S_func_800B1364_4 *actor) {
     s16 spawn_offset[3];
     s16 spawn_height;
-    s32 creature_variant;
-    s32 message_start;
+    void *creature_variant;
+    void *message_start;
     s32 wear;
     s32 event_flags;
     s32 item_word;
     s32 use_item;
     s16 use_item_test;
-    s32 message_end;
+    void *message_end;
     s32 save_slot;
     u8 command;
     u16 sound_timer;

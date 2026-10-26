@@ -18,7 +18,7 @@ typedef struct S_800C6C10_1 {
 } S_800C6C10_1;
 
 /* Creates an object, initializes its render data, and runs its callback. */
-s32 create_owner_following_sprite(s32 state_value) {
+void * create_owner_following_sprite(s32 state_value) {
     s32 callback_arg;
     SpriteFrameState *render_data;
     S_800C6C10_1 *state;
@@ -39,5 +39,5 @@ s32 create_owner_following_sprite(s32 state_value) {
     render_data->source = lookup_item_category_mapped_value(0xD, 3);
     register_node(object, project_sprite_chain);
     ((s32 (*)(void *, s32, void *))object->update_callback)(state, callback_arg, render_data);
-    return (s32)object;
+    return object;
 }

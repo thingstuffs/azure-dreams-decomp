@@ -55,9 +55,9 @@ extern void initialize_timed_motion_step(s32, s32);
 extern void create_offset_animation_sprite(void *,struct ObjectPosition *, Sub *);
 extern void play_sound_if_enabled(s32);
 struct SpriteFrameState;
-extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
+extern void select_sprite_entry(void *, s16, s16);
 extern void func_80170CE0(void);
-extern void advance_sprite_animation_and_textures(Sub *);
+extern void advance_sprite_animation_and_textures(void *);
 
 /* Delays an effect, then moves and fades its sprite before finishing. */
 void update_encounter_retreat_fade(void) {

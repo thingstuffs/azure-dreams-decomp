@@ -1326,7 +1326,7 @@ s32 get_entity_effect_value();             /* extern */
 /* Updates the object's coordinates when a target passes the checks and new coordinates are found. */
 s32 update_object_coordinates_if_valid(SpriteFrameState *object, EntityRec *context) {
     LocalBytes next_coords;
-    s32 target;
+    void *target;
 
     target = find_eligible_actor_at_tile_and_height(context, object->tile_x, object->tile_y, context->unk_88);
     if (target != 0) {

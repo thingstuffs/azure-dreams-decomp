@@ -10,7 +10,7 @@
 
 typedef struct S_800D991C_0 {
     u8 pad_00[0x8C];
-    s32 * unk_8C;
+    void (*unk_8C)(void *, EntityRec *, void *, ActorRecord *);
     s32 unk_90;
     u8 pad_94[0x2];
     s16 unk_96;
@@ -21,10 +21,10 @@ typedef struct S_800D991C_0 {
     s32 unk_A4;
 } S_800D991C_0;   /* arg0 in update_actor_landing */
 
-void select_record_entry_and_value();        /* extern */
+void select_record_entry_and_value(void *state, void *entries, short index);        /* extern */
 s16 get_rounded_facing_and_rounding_flag();       /* extern */
 void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);              /* extern */
-s32 advance_status_timers(void *record);                      /* extern */
+void advance_status_timers(void *record);                      /* extern */
 void on_actor_status_updated(void *actor);                      /* extern */
 void spend_actor_mp();             /* extern */
                   /* extern */

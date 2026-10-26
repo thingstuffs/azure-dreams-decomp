@@ -101,7 +101,7 @@ void *detach_record_and_update_slot_state();
 s32 play_sound_if_enabled(s32 query_value);
 s32 release_entity_slot_and_update_flags();
 void draw_transformed_sprite_with_clip_rect();
-s32 create_five_point_effect(u8, u8, s16, void *, s32, s32, void *);
+void * create_five_point_effect(u8, u8, s16, void *, s32, s32, void *);
 void retire_tracked_effect_by_id();
 extern s32 return_magic_begin_address();
 extern s32 D_800C27F0();

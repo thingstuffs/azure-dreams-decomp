@@ -22,7 +22,7 @@ typedef struct S_80D65810_0 {
 
    /* input in create_origin_motion_effect */
 
-void select_record_entry_and_value();
+void select_record_entry_and_value(void *state, void *entries, short index);
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 rand();
 extern void project_sprite_chain(void);

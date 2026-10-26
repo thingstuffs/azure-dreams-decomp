@@ -9,7 +9,7 @@
 #endif
 
 extern void set_sprite_animation_frame(void *a0, s16 a1, s16 a2, s32 a3);
-extern void *create_item_render_object(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z);
+extern void *create_item_render_object(void *parent, void *sprite_source, s16 x, s32 y, s16 z);
 extern void play_sound_if_enabled(s32 a0);
 
 extern u8 player_carry_frames[8];

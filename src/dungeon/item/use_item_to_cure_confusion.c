@@ -22,8 +22,8 @@ typedef struct {
 void clear_slots_of_type(SlotOwner *owner, s8 match_type);             /* extern */
 #include "dungeon/player/item.h"
 void clear_slot_and_update_linked_state();                         /* extern */
-s32 get_unused_text_buffer(void);                          /* extern */
-s32 expand_text_control_codes();                  /* extern */
+void *get_unused_text_buffer(void);                          /* extern */
+u8 *expand_text_control_codes();                  /* extern */
 void *clear_byte_and_advance();                         /* extern */
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
 void place_actor_item();                 /* extern */
@@ -47,10 +47,10 @@ typedef struct S_800BD5C4_0_pre {
 s32 use_item_to_cure_confusion(void *entity, s32 update_value, s16 mode) {
     u16 *type_flags;
     void *call_arg;
-    s32 context_arg;
-    s32 saved_context;
+    void *context_arg;
+    void *saved_context;
     s32 type_index;
-    s32 effect_result;
+    void *effect_result;
 
     if (entity == dungeon_actor_ring_anchor) {
         ((EntityRec *)entity)->unk_110 = update_value;

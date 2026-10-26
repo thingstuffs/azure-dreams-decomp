@@ -93,7 +93,7 @@ extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern s32 generate_random_value(void);
-extern s32 create_actor_spell_effect(void *, u8 *, s32, void *);
+extern void *create_actor_spell_effect(void *, void *, s32, void *);
 
 extern u8 secondary_sprite[0x20];
 extern u8 naplass_action_continuation_address[0x10];

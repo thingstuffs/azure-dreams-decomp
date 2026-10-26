@@ -93,7 +93,7 @@ s32 count_nonzero_entries(s32 *entries);
 s32 acquire_resource_and_initialize_state(void *state);
 void fill_item_value_buffer(S_800B52D8 *table);
 void initialize_record_table_and_group(void *record);
-s32 open_twin_souko(s32 option);
+void * open_twin_souko(s32 option);
 void apply_record_values_and_process_record(void *record);
 
 #endif

@@ -46,7 +46,7 @@ typedef struct S_func_809A0B58_3 {
 } S_func_809A0B58_3;
 
 struct SpriteFrameState;
-void select_sprite_entry(struct SpriteFrameState *, s16, s16);
+void select_sprite_entry(void *, s16, s16);
 extern s16 get_offset_map_cell_value_and_flags();
 extern u8 kewne_frame_set[9];
 

@@ -23,7 +23,7 @@ s16 check_tile_entry_at_adjusted_height();
 void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 s32 can_push_adjacent_actor();
-s32 find_eligible_actor_at_tile_and_height();
+void * find_eligible_actor_at_tile_and_height();
 void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
 s32 play_sound_if_enabled(s32 query_value);
 
@@ -37,7 +37,7 @@ void begin_player_push(Rec_func_8008ACDC_arg0 *action, s32 context, SpriteFrameS
     s32 direction_offset;
     s32 next_x;
     s32 next_y;
-    s32 target;
+    void *target;
     u16 *x_step;
     u16 *y_step;
 

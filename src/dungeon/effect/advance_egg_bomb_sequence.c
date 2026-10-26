@@ -21,15 +21,15 @@ typedef struct {
 extern s32 entity_level_thresholds[];
 extern void func_8003E188(s32 field_index, s32 flag);
 extern void func_80042640(void *obj, s16 monsterId);
-s32 get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
-s32 expand_text_control_codes();
+void *get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
+u8 *expand_text_control_codes();
 void *clear_byte_and_advance();
-s32 write_text_byte_and_advance();
-s32 append_entity_display_text();
+void *write_text_byte_and_advance();
+u8 *append_entity_display_text();
 void display_formatted_context_message(void *context); /* extern */
 s32 *(*load_monster_resource_data())(s32, s16, s16, s16); /* extern */
 u8 * find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type);
-s32 raise_entity_level(void *entity_data, s32 show_message); /* extern */
+void raise_entity_level(void *entity_data, s32 show_message); /* extern */
 s32 choose_usable_ability_or_attack();
 s32 choose_best_eligible_entry();
 s16 set_or_clear_actor_status_slot(); /* extern */
@@ -111,7 +111,7 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
     s32 *monster;
     s32 *tracked_monster;
     s32 action_data;
-    s32 message_id;
+    void *message_id;
     s32 action_id;
     s32 target_experience;
     s16 egg_bomb_level;
@@ -146,9 +146,9 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
             set_or_clear_actor_status_slot(monster, STATUS_NO_TILE_OCCUPANCY, 0);
             {
                 s32 clamp_value;
-                u32 first_call_arg;
+                void *first_call_arg;
                 s32 first_call_mode;
-                s32 raw_first_result;
+                void * raw_first_result;
                 clamp_value = dungeon_actor_ring_anchor->level + 0x32;
                 egg_bomb_level = clamp_value;
                 if (clamp_value >= 0x64) {

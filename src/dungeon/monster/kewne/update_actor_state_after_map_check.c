@@ -20,10 +20,10 @@ typedef struct {
     s16 unk_2A;
 } MapObject;
 
-extern s32 update_actor_transform_from_parent(Actor *, s32, Entity *, MapObject *);
+extern s32 update_actor_transform_from_parent(Actor *, void *, void *, void *);
 
 struct SpriteFrameState;
-extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
+extern void select_sprite_entry(void *, s16, s16);
 
 extern u8 kewne_action_resume_address[9];
 extern u8 kewne_direction_frames[9];

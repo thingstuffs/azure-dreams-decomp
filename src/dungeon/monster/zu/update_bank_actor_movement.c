@@ -410,9 +410,9 @@ extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
-extern s32 reset_actor_action_state(void *actor, s32 unused, void *sprite, u8 *direction_frames);
+extern s32 reset_actor_action_state(void *actor, void * unused, void *sprite, u8 *direction_frames);
 extern void process_selected_actor_record(void *, void *, void *, void *);
-extern void begin_actor_spell_action(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state);
+extern void begin_actor_spell_action(void *actor, void * effect_param, void *target, u8 *direction_table, void * next_state);
 extern u8 zu_frame_set[];
 extern u8 zu_frame_set_7[];
 extern u8 zu_action_direction_frames[];
@@ -720,7 +720,7 @@ void advance_bank_actor_path(void *motion, void *unused, void *entity, void *pat
 
 extern void update_actor_status_and_mp(void *);
 extern void update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
-extern void *find_adjacent_actor(void *, u8, u8);
+extern void * find_adjacent_actor(void *, u8, u8);
 extern s32 generate_random_value(void);
 extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern void select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
@@ -970,7 +970,7 @@ extern s32 try_claim_dungeon_action_slot();
 extern s32 check_entity_interaction_compatibility();
 
 /* Checks whether the actor can transition and starts its directional effect. */
-s32 begin_bank_directional_effect(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, SpriteFrameState *sprite, ActorRecord *actor)
+s32 begin_bank_directional_effect(Rec_func_800A9E70_arg0 *action_state, void *motion_param, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s32 target_angle;
     u16 status_flags;
@@ -1456,7 +1456,7 @@ extern int abs(int);
 
 extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
-extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context);
+extern void *create_actor_spell_effect(void *actor, void *effect_record, s16 mode, void *context);
 extern void create_source_positioned_object(ObjectPosition *source_pos, s16 initial_value);
 
 typedef struct S_80172A40_0 {
@@ -1874,7 +1874,7 @@ typedef struct S_80173294_3 {
 
 extern void unlink_entity_node();
 extern void distribute_experience_and_report_gains();
-extern void detach_record_and_update_slot_state();
+extern void * detach_record_and_update_slot_state();
 
 /* Advance the object removal animation, fade its sprite, and release it when finished. */
 void slow_directional_motion(void *effect_data, void *motion_data, void *sprite_data, void *object_data) {
@@ -2356,13 +2356,13 @@ void advance_bank_actor_animation(void *controller, void *context, void *sprite,
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
-extern s32 update_actor_transform_from_parent(BankActorState *, s32, SpriteFrameState *, ActorRecord *);
+extern s32 update_actor_transform_from_parent(BankActorState *, void *, void *, void *);
 
 extern u8 zu_default_frames[9];
 extern u8 zu_frame_set_1[9];
 
 /* Update actor and sprite state after checking the target entity. */
-void update_bank_actor_sprite_state(BankActorState *actor, s32 action, SpriteFrameState *sprite, ActorRecord *target)
+void update_bank_actor_sprite_state(BankActorState *actor, void *action, SpriteFrameState *sprite, ActorRecord *target)
 {
     if (update_actor_transform_from_parent(actor, action, sprite, target) != 0) {
         if ((check_actor_floor_trap(sprite, target) << 16) > 0) {
@@ -2554,10 +2554,10 @@ typedef struct S_801740F4_1 {
     s8 unk_9B;
 } S_801740F4_1;   /* work in start_bank_actor_hit_reaction */
 
-extern s32 get_unused_text_buffer(void);
-extern s32 expand_text_control_codes();
-extern s32 clear_byte_and_advance();
-extern s32 append_entity_display_text();
+extern void *get_unused_text_buffer(void);
+extern u8 *expand_text_control_codes();
+extern void * clear_byte_and_advance();
+extern u8 *append_entity_display_text();
 
 extern s32 display_text_with_fullwidth_adjustment();
 extern s32 generate_random_value(void);
@@ -2571,9 +2571,9 @@ extern u8 D_80174B0C[];
 void start_bank_actor_hit_reaction(void *work, void *part_a, SpriteFrameState *part_b, EntityRec *actor) {
     s32 flags;
     void *call_arg;
-    u32 pass_result;
-    s32 raw_result;
-    s32 result;
+    void *pass_result;
+    void *raw_result;
+    void *result;
     s32 field_60;
     u8 *table_base;
 

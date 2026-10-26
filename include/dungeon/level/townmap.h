@@ -121,7 +121,7 @@ extern void *register_node(void *, void *);
 extern void *func_8004491C(void *, void *);
 extern void copy_window_params(void *, u32);
 extern void func_800375C0(void *, u32);
-extern void select_record_entry_and_value(void *, void *, s32);
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void unlink_node_if_registered(void *);
 extern void func_80033D08(void *);
 extern u8 town_map_tag;

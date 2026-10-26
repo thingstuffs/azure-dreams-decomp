@@ -37,7 +37,7 @@ extern s32 try_claim_dungeon_action_slot();
 extern s32 check_layer_offset_height();
 extern void advance_status_timers();
 extern s16 sample_terrain_surface_height();
-extern void select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
+extern void select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 extern void apply_camera_offset_and_select_target();
 
 

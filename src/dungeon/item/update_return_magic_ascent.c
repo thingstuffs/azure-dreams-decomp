@@ -58,7 +58,6 @@ typedef struct {
     s16 field22;
 } StackData;
 
-extern u8 upper_draw_context[16];
 extern u8 return_magic_frames[];
 extern s16 transition_runtime_slot_index;
 

@@ -21,7 +21,7 @@ typedef struct S_800B80D8_1 {
 
 
 
-extern void place_item_at_valid_floor_position(s32, s32, s32, void *, void *);
+extern void place_item_at_valid_floor_position(s32, s32, s32, s32 , void *);
 extern s32 item_effect_descriptor;
 
 /* Animate object motion and scale, then signal completion. */

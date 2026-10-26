@@ -26,7 +26,7 @@ extern s32 check_diagonal_side_height();
 extern s32 check_directional_move_and_terrain();
 extern s32 test_neighbor_position_relation();
 extern s16 get_actor_height_difference();
-extern void *find_adjacent_actor();
+extern void * find_adjacent_actor();
 extern void *probe_directional_neighbor();
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void select_actor_route_target();

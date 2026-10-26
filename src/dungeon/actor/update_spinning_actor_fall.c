@@ -16,7 +16,7 @@ typedef struct {
 extern void unlink_entity_node(struct EntityLinkNode *node);
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern void set_record_integer_tile_center();
-extern s32 detach_record_and_update_slot_state(void *record);
+extern s32 * detach_record_and_update_slot_state(void *record);
 extern s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 
 

@@ -10,13 +10,13 @@ extern s32 func_80058FF0(s32 value, s32 direction, s32 amount);
 extern void func_80063FF8(s32 sound);
 extern void submit_stored_and_queried_boot_values(void);
 extern void func_804070C4(void *object);
-extern void allocate_or_reuse_effect_and_install_callback(s32 field20, s32 field24);
+extern void allocate_or_reuse_effect_and_install_callback(void *field20,void *field24);
 
 
 typedef struct S_80406DA0_0 {
     u8 pad_00[0x20];
-    s32 unk_20;
-    s32 unk_24;
+    void *unk_20;
+    void *unk_24;
     u8 pad_28[0x4];
     s32 unk_2C;
     s32 unk_30;

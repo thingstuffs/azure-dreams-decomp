@@ -11,7 +11,7 @@ struct ObjectPosition;
 
 typedef struct S_800974DC_0 {
     u8 pad_00[0x8C];
-    s32 * unk_8C;
+    void (*unk_8C)(void *, s32,  SpriteFrameState *, ActorRecord *);
     u8 pad_90[0x6];
     union { u16 s; s16 u; } unk_96;   /* accessed as both */
     u16 unk_98;
@@ -33,11 +33,11 @@ typedef struct S_800974DC_6 {
     s32 unk_0C;
 } S_800974DC_6;
 
-void select_record_entry_and_value();
+void select_record_entry_and_value(void *state, void *entries, short index);
 void process_unflagged_linked_entries(s32 firstEntryBase); /* extern */
 void * resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y); /* extern */
-s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value); /* extern */
+s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value); /* extern */
 void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameState *sprite, ActorRecord *actor_data);
 extern void *actor_default_frames[];
 extern u8 actor_alternate_frames[8];
@@ -55,7 +55,7 @@ void update_airborne_actor_motion(void *action, ObjectPosition *motion, SpriteFr
     case 0:
         select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, motion, 8, 0x300);
         sprite->frameTable = actor_alternate_frames;
-        select_record_entry_and_value(sprite, *(s32 *)((u8 *)actor_alternate_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
+        select_record_entry_and_value(sprite, *(void **)((u8 *)actor_alternate_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
             >> 7) & 0x1C)), 0);
         dir_offset = ((u16) actor->facing >> 8) & 0xE;
         motion->velocity_x = (s32) (*(s16 *)((u8 *)dir_step_x + dir_offset) << 0x11);
@@ -88,7 +88,7 @@ void update_airborne_actor_motion(void *action, ObjectPosition *motion, SpriteFr
         if ((s16) ((S_800974DC_0 *)action)->unk_96.s <= 0) {
             if (sprite->flags & 0xE000) {
                 sprite->frameTable = actor_default_frames;
-                select_record_entry_and_value(sprite, *(s32 *)((u8 *)actor_default_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing
+                select_record_entry_and_value(sprite, *(void **)((u8 *)actor_default_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing
                     + 0x100) >> 7) & 0x1C)), 0);
                 ((S_800974DC_0 *)action)->unk_9B = (u8) (((S_800974DC_0 *)action)->unk_9B + 1);
             }
@@ -104,7 +104,7 @@ void update_airborne_actor_motion(void *action, ObjectPosition *motion, SpriteFr
             return;
         }
         sprite->frameTable = actor_default_frames;
-        select_record_entry_and_value(sprite, *(s32 *)((u8 *)actor_default_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
+        select_record_entry_and_value(sprite, *(void **)((u8 *)actor_default_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
             >> 7) & 0x1C)), 0);
         ((S_800974DC_0 *)action)->unk_9B = 3U;
         return;

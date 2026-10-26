@@ -8,7 +8,7 @@ struct ObjectNodeHeader;
 extern void call_script();
 extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);
 extern u8 restore_actor_script[];
-extern s32 beldo_actor_nodes;
+extern u8 *beldo_actor_nodes[3];
 
 /* Reset state flags, relink the two attached objects, and submit the global buffer. */
 void reset_multi_form_actor_state(s32 reset_arg_a, s32 reset_arg_b, s32 reset_arg_c, s32 reset_arg_d) {
@@ -17,7 +17,7 @@ void reset_multi_form_actor_state(s32 reset_arg_a, s32 reset_arg_b, s32 reset_ar
     u8 *state;
 
     object_index = 0;
-    state = (u8 *)(beldo_actor_nodes + 0x20);
+    state = beldo_actor_nodes[0] + 0x20;
     *(u16 *)(state + 0x46) &= 0x7FFF;
     system_update_flags &= 0xFFF6;
     set_monster_data_pointer();

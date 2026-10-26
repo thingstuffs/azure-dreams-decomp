@@ -48,7 +48,7 @@ typedef struct S_800D34CC_3 {
 s32 get_entity_effect_value();                 /* extern */
 void unlink_entity_node(struct EntityLinkNode *node);                      /* extern */
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
-void detach_record_and_update_slot_state(void *);                 /* extern */
+void * detach_record_and_update_slot_state(void *);                 /* extern */
 s32 play_sound_if_enabled(s32 query_value);                     /* extern */
 
 /* Waits for pending actions, shrinks and darkens the actor sprite, then detaches the actor and clears

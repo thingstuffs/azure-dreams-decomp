@@ -8,13 +8,13 @@
 #include "shared/dungeon_status.h"
 
 
-extern s32 format_unsigned_double_byte_decimal();
+extern u8 * format_unsigned_double_byte_decimal();
 #include "dungeon/player/item.h"
 extern void clear_slot_and_update_linked_state();
-extern s32 get_unused_text_buffer(void);
-extern s32 expand_text_control_codes();
+extern void *get_unused_text_buffer(void);
+extern u8 *expand_text_control_codes();
 extern void clear_byte_and_advance();
-extern s32 append_entity_display_text();
+extern u8 *append_entity_display_text();
 extern void display_text_with_fullwidth_adjustment();
 extern void place_actor_item();
 extern void display_item_status_message();
@@ -36,8 +36,8 @@ typedef struct S_800C4490_0_pre {
 s32 use_item_to_heal_small_random_amount(void *target, s32 source, s16 effect_mode) {
     s16 stat_gap;
     s32 stat_gain;
-    s32 effect_text;
-    s32 message_context;
+    void *effect_text;
+    void *message_context;
 
     if (target == ((s32)dungeon_actor_ring_anchor)) {
         ((EntityRec *)target)->unk_110 = source;
@@ -71,7 +71,7 @@ s32 use_item_to_heal_small_random_amount(void *target, s32 source, s16 effect_mo
         effect_text = get_unused_text_buffer();
         {
             void *message_target;
-            s32 context_arg;
+            void *context_arg;
 
             message_target = target;
             context_arg = effect_text;

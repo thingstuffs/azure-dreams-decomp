@@ -2048,7 +2048,7 @@ extern void upload_vram_row_and_cache(void *, s32, s32, s32);
 extern s32 decode_and_upload_image(void *, void *);
 extern void drain_audio_commands_and_service_channels(void);
 extern s32 rand(void);
-extern void select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s16 slot_value);
+extern void select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s16 slot_value);
 
 /* Advances a particle effect through its timed color fade and cleanup states. */
 void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
@@ -2098,22 +2098,22 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
     case 2:
     {
         u16 timer = effect->unk_28.u;
-        GlobalObj *owner;
+        GlobalObj *effect_owner;
         ObjectPosition *position;
         OffsetPair *offset_base;
-        u16 next_state;
+        u16 fade_state;
         u16 direction;
         s16 particle_index;
 
         effect->unk_28.u = timer + 1;
         if ((s16)timer >= 0x52) {
-            owner = ((GlobalObj *)primary_actor_record);
+            effect_owner = ((GlobalObj *)primary_actor_record);
             effect->unk_1C.s = 0x21;
-            owner->unkA6 = owner->unkA6 - 1;
-            owner->unkA8 = effect->unk_08;
-            next_state = effect->unk_0A.u;
+            effect_owner->unkA6 = effect_owner->unkA6 - 1;
+            effect_owner->unkA8 = effect->unk_08;
+            fade_state = effect->unk_0A.u;
             direction = ((u16)primary_actor_record->facing);
-            effect->unk_0A.u = next_state + 1;
+            effect->unk_0A.u = fade_state + 1;
             effect->unk_28.u = 0;
             effect->unk_24 = (direction >> 9) & 7;
         }

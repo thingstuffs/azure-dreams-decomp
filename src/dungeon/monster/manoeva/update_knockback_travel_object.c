@@ -91,7 +91,7 @@ extern void select_sprite_entry(void *, s32, s32);
 extern void advance_sprite_animation_and_textures(void *);
 extern s32 rsin(s32);
 extern void retain_spawn_resource(s16 entry_type, s16 entry_key);
-extern s32 find_or_retain_sprite_resource_slot(s32, s32);
+extern u8 *find_or_retain_sprite_resource_slot(s32, s32);
 extern void *create_grid_position_entity(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 height);
 
 /* Advances the motion arc and creates a linked object when the arrival effect completes. */

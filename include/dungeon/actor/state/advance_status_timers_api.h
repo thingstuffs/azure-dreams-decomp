@@ -3,6 +3,6 @@
 
 #include "common.h"
 
-s32 advance_status_timers(void *);
+void advance_status_timers(void *);
 
 #endif

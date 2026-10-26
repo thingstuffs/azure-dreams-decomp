@@ -7,7 +7,7 @@
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
-extern void select_record_entry_and_value(void *, s32, s8);
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void advance_sprite_animation_and_textures(void *);
 extern s32 rsin(s32);
 extern void apply_monster_koyaw_data(s32, void *);
@@ -82,7 +82,7 @@ void update_actor_facing_and_lifecycle(void *state, ObjectPosition *motion, Spri
         direction_index = direction;
         if ((*(s16 *)((u8 *)state + (0x94))) != direction_index) {
             select_record_entry_and_value(part,
-                ((s32 *)(*(void **)((u8 *)state + (0xA4))))[direction_index],
+                ((void **)(*(void **)((u8 *)state + (0xA4))))[direction_index],
                 part->unk_04);
             (*(s16 *)((u8 *)state + (0x94))) = direction;
         }

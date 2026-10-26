@@ -4,7 +4,7 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 
 s32 try_claim_dungeon_action_slot();                          /* extern */
-s32 advance_status_timers();                      /* extern */
+void advance_status_timers();                      /* extern */
 
 
 /* Clears the object's high flag bit and conditionally resets state and decrements its counter. */

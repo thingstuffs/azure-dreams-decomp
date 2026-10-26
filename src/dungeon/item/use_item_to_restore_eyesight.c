@@ -11,8 +11,8 @@
 extern void clear_slots_of_type();
 #include "dungeon/player/item.h"
 extern void clear_slot_and_update_linked_state();
-extern s32 get_unused_text_buffer(void);
-extern s32 expand_text_control_codes();
+extern void *get_unused_text_buffer(void);
+extern u8 *expand_text_control_codes();
 extern void clear_byte_and_advance();
 extern void display_text_with_fullwidth_adjustment();
 extern void place_actor_item();
@@ -26,8 +26,8 @@ extern u8 D_800E188B[];
 s32 use_item_to_restore_eyesight(void *entity_arg, s32 amount_arg, s16 effect_arg)
 {
     s32 amount = amount_arg;
-    s32 initial_id;
-    s32 selected_id;
+    void *initial_id;
+    void *selected_id;
 
     if (entity_arg == dungeon_actor_ring_anchor) {
         *(s32 *)((u8 *)entity_arg + 0x110) = amount;

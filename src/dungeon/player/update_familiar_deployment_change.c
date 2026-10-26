@@ -23,17 +23,17 @@ s32 begin_sprite_resource_load_with_completion_flag();                   /* exte
 void set_sprite_animation_frame(); /* extern */
 void create_familiar_deployment_overlay();      /* extern */
 void store_recalled_familiar(); /* extern */
-s32 get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */                         /* extern */
-s32 expand_text_control_codes();                  /* extern */
+void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */                         /* extern */
+u8 * expand_text_control_codes();                  /* extern */
 void *clear_byte_and_advance();                         /* extern */
-s32 write_text_byte_and_advance();                    /* extern */
-s32 append_entity_display_text();                     /* extern */
+void * write_text_byte_and_advance();                    /* extern */
+u8 * append_entity_display_text();                     /* extern */
 void process_unflagged_linked_entries(s32 firstEntryBase);                         /* extern */
 void process_unflagged_linked_entries_alt(s32 firstNodeBase);                         /* extern */
 void unlink_entity_node(struct EntityLinkNode *node);                      /* extern */
 void *(*load_monster_resource_data())(M2C_UNK, s8, s8, s16); /* extern */
 s32 retain_spawn_resource(s16 entry_type, s16 entry_key);                 /* extern */
-s32 find_or_retain_sprite_resource_slot();                     /* extern */
+u8 * find_or_retain_sprite_resource_slot();                     /* extern */
 void decrement_monster_entry_count(s16 requested_id, s16 requested_type);                 /* extern */
 #include "dungeon/player/object/action_state.h"
 struct Entity;
@@ -165,9 +165,9 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
 
     u8 *remove_text;
     u8 *create_text;
-    s32 remove_message;
-    s32 load_id;
-    s32 create_id;
+    void *remove_message;
+    void *load_id;
+    void *create_id;
     s32 object_flags;
     s32 cleanup_slot;
     s32 create_message;

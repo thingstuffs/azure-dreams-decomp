@@ -21,8 +21,8 @@ typedef struct {
 extern void clear_slots_of_type(SlotOwner *owner, s8 match_type);             /* extern */
 #include "dungeon/player/item.h"
 void clear_slot_and_update_linked_state();                         /* extern */
-s32 get_unused_text_buffer(void);                          /* extern */
-s32 expand_text_control_codes();                  /* extern */
+void *get_unused_text_buffer(void);                          /* extern */
+u8 *expand_text_control_codes();                  /* extern */
 void *clear_byte_and_advance();                         /* extern */
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
 void place_actor_item();                 /* extern */
@@ -69,9 +69,9 @@ s32 use_item_to_cure_poison(void *entity, s32 item, s16 action) {
     create_timed_paired_particle_emitter(((S_800BD45C_0_pre *)entity)[-1].unk_00, 0x802080, entity);
     if ((((EntityRec *)entity)->flags14 & ACTOR_PARTY_MEMBER) && !(((EntityRec *)entity)->flags1C & ACTOR_POISONED)) {
         void *message_text;
-        s32 message_pos;
-        s32 message_start;
-        s32 message_end;
+        void *message_pos;
+        void *message_start;
+        void *message_end;
 
         message_end = get_unused_text_buffer();
         message_text = &poison_cure_text;

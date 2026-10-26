@@ -11,7 +11,7 @@ extern void set_sprite_animation_frame(S_80048A44_Obj *obj, s16 frame_group, s16
 extern u8 D_800DD0E8;
 
 /* Resets the player's sleep action state and installs the directional sleep animation. */
-void begin_player_sleep_action(void *record, s32 unused, void *object, EntityRec *entity) {
+void begin_player_sleep_action(void *record, void *unused, void *object, EntityRec *entity) {
         /* MATCH: Keep the shared data pointer in a0 after the first call. */
     u8 *data;
     s32 mask;

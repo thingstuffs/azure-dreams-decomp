@@ -24,7 +24,7 @@ typedef struct {
 
 extern u8 D_8017556C[];
 struct SpriteFrameState;
-extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
+extern void select_sprite_entry(void *, s16, s16);
 
 /* Initialize state and configure the object using the direction lookup table. */
 void initialize_directional_action_target(First *state, s32 unused, SpriteFrameState *object, Other *angle_source)

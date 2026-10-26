@@ -5,10 +5,10 @@ typedef struct {
     s32 words[6];
 } CopyRecord;
 
-extern void advance_sprite_animation_and_textures(s32);
+extern void advance_sprite_animation_and_textures(void *);
 
 /* Copies an entry's record, decrements its count, and flags exhaustion. */
-void copy_scene_effect_until_timer_expires(u8 *entry, CopyRecord *out_record, s32 update_arg)
+void copy_scene_effect_until_timer_expires(u8 *entry, CopyRecord *out_record, void *update_arg)
 {
     CopyRecord *source_record;
     u16 remaining;

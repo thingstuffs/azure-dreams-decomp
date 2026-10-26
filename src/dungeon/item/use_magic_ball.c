@@ -48,20 +48,20 @@ typedef struct S_800C0E88_4 {
 } S_800C0E88_4;   /* tail_status in use_magic_ball */
 
 
-extern void begin_mode_selected_item_action(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
+extern void begin_mode_selected_item_action(void *object,void *unused_1,void *unused_2,void *mode);
 extern s32 process_record_and_update_linked_state();
 extern void clear_slot_and_update_linked_state();
-extern s32 get_unused_text_buffer(void);
-extern s32 expand_text_control_codes();
+extern void *get_unused_text_buffer(void);
+extern u8 *expand_text_control_codes();
 extern void clear_byte_and_advance();
-extern s32 copy_selected_text_without_terminator();
-extern s32 append_entity_display_text();
+extern u8 * copy_selected_text_without_terminator();
+extern u8 *append_entity_display_text();
 extern void display_formatted_context_message(void *context);
 extern void *scan_actor_along_heading();
 extern void display_text_with_fullwidth_adjustment();
 extern s32 find_slot_by_item_group(void *entry, s16 target);
 extern void place_actor_item(void *object_context, void *target);
-extern s32 create_actor_spell_effect();
+extern void * create_actor_spell_effect();
 extern s32 feed_actor_restore_mp();
 
 extern u8 *item_category_tables[];
@@ -82,11 +82,11 @@ s32 use_magic_ball(u8 *object, u8 *data, s16 action, void *context)
     ActorRecord *active_object;
     ObjectPosition *callback;
     u8 *message_table;
-    s32 message_start;
+    void *message_start;
     s32 slot;
     s32 scan_slot;
     s32 slot_count;
-    s32 message_end;
+    void *message_end;
     s16 delay_timer;
     u32 flags;
 

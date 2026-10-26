@@ -3,10 +3,19 @@
   "image": "town/image_2ab800",
   "container": "town",
   "foff": "0x2AB800",
-  "size": "0x8000",
+  "size": "0x9800",
   "vma": "0x80016000",
-  "evidence": "config/overlays/town.rowbase.jsonl proven regions with delta 0x7FD6A800: r121c3_2B3574, r121c3_2B35A0, sweep_2AB9C0; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
+  "evidence": "config/overlays/town.rowbase.jsonl proven regions with delta 0x7FD6A800: r121c3_2B3574, r121c3_2B35A0, sweep_2AB9C0; symbol map: r121 obj_screen bindings of the placements in this image (rule 5); descriptor extent verified in docs/evidence/square-load-map.json",
   "entries": [
+    {
+      "row": "town/func_8032B96C",
+      "home": "town/func_8032B96C",
+      "tu": "src/town/scene/apply_gate_5217_entry.c",
+      "foff": "0x2AB96C",
+      "vma": "0x8001616C",
+      "size": 84,
+      "evidence": "docs/evidence/r124w_carve1_run12.md"
+    },
     {
       "row": "town/func_8032C020",
       "tu": "src/town/scene/run_preliminary_callback_count_ten.c",
@@ -128,12 +137,39 @@
       "size": 72
     },
     {
+      "row": "town/func_8032C9A0",
+      "home": "town/func_8032C9A0",
+      "tu": "src/town/scene/apply_gate_5000_entry.c",
+      "foff": "0x2AC9A0",
+      "vma": "0x800171A0",
+      "size": 84,
+      "evidence": "docs/evidence/r124w_carve1_run12.md"
+    },
+    {
       "row": "town/func_8028CC10",
       "tu": "src/town/scene/flags/set_record_flag_on_query_failure.c",
       "home": "town/func_8032C958",
       "foff": "0x2ACC10",
       "vma": "0x80017410",
       "size": 72
+    },
+    {
+      "row": "town/func_8032CEF4",
+      "home": "town/func_8032CEF4",
+      "tu": "src/town/scene/apply_gate_5000_flag_entry.c",
+      "foff": "0x2ACEF4",
+      "vma": "0x800176F4",
+      "size": 88,
+      "evidence": "docs/evidence/r124w_carve1_run12.md"
+    },
+    {
+      "row": "town/func_8032CF4C",
+      "home": "town/func_8032CF4C",
+      "tu": "src/town/scene/apply_gate_5211_flag_entry.c",
+      "foff": "0x2ACF4C",
+      "vma": "0x8001774C",
+      "size": 88,
+      "evidence": "docs/evidence/r124w_carve1_run12.md"
     },
     {
       "row": "town/func_8032CFFC",
@@ -164,6 +200,33 @@
       "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
     },
     {
+      "row": "town/func_8032D284",
+      "home": "town/func_8032D284",
+      "tu": "src/town/scene/select_square_entry_or_fallback.c",
+      "foff": "0x2AD284",
+      "vma": "0x80017A84",
+      "size": 128,
+      "evidence": "docs/evidence/r124w_carve1_run12.md"
+    },
+    {
+      "row": "town/func_8032D304",
+      "home": "town/func_8032D304",
+      "tu": "src/town/scene/apply_gate_5003_flag_entry.c",
+      "foff": "0x2AD304",
+      "vma": "0x80017B04",
+      "size": 88,
+      "evidence": "docs/evidence/r124w_carve1_run12.md"
+    },
+    {
+      "row": "town/func_8032D4D4",
+      "home": "town/func_8032D4D4",
+      "tu": "src/town/scene/select_square_entry_or_alternate.c",
+      "foff": "0x2AD4D4",
+      "vma": "0x80017CD4",
+      "size": 128,
+      "evidence": "docs/evidence/r124w_carve1_run12.md"
+    },
+    {
       "row": "town/func_8028DA2C",
       "tu": "src/town/scene/run_preliminary_callback_count_ten.c",
       "home": "town/func_8032C020",
@@ -174,6 +237,15 @@
         "0x80019BC0": "0x80019BC0"
       },
       "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_8032DB70",
+      "home": "town/func_8032DB70",
+      "tu": "src/town/scene/flag_entry_if_record_eleven.c",
+      "foff": "0x2ADB70",
+      "vma": "0x80018370",
+      "size": 84,
+      "evidence": "docs/evidence/r124w_carve1_run12.md"
     },
     {
       "row": "town/func_8032E364",

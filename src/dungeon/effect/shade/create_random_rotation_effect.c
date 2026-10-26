@@ -20,7 +20,7 @@ typedef union {
 #define NULL 0
 #endif
 
-extern s32 select_record_entry_and_value();
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 rsin();
 extern s32 rcos();
 extern s32 rand();
@@ -107,9 +107,9 @@ s32 create_random_rotation_effect(void *data_addr, Copy24 *position_addr, s32 di
             break;
         }
         {
-            s32 render_arg;
+            void *render_arg;
             u8 *render_table;
-            render_arg = (s32)render_or_radius;
+            render_arg = (void *)render_or_radius;
             render_table = shared_sprite_entries;
             select_record_entry_and_value(render_arg, render_table, 0);
         }

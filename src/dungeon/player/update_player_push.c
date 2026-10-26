@@ -10,7 +10,7 @@
 
 typedef struct S_80092018_0 {
     u8 pad_00[0x8C];
-    s32 * unk_8C;
+    void (*unk_8C)(void *, void *, void *, void *);
     u8 pad_90[0x6];
     union { u16 s; s16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];

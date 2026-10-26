@@ -19,8 +19,9 @@ typedef struct S_80047738 {
 } S_80047738;
 
 /* Selects and caches a table entry and its value, records its index, and clears flag 0x40. */
-void select_indirect_table_entry(S_80047738 *state, s16 table_index, s16 entry_index)
+void select_indirect_table_entry(void *state_data, s16 table_index, s16 entry_index)
 {
+    S_80047738 *state = state_data;
     EntryS_80047738 **entry_tables = **state->unk28;
     EntryS_80047738 *entry = entry_tables[table_index] + entry_index;
 

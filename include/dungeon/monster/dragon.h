@@ -132,7 +132,7 @@ typedef struct R03_80172258_S_80172258_0 {
 } R03_80172258_S_80172258_0;
 typedef struct {
     u8 pad0[0x8C];
-    void (*callback)(void *, void *, void *, void *);
+    void (*callback)(void *, void *, SpriteFrameState *, ActorRecord *);
 } Resource03CallbackState;
 typedef struct R03_80172620_S_80172620_0 {
     u8 pad_00[0x8C];
@@ -269,7 +269,7 @@ s32 cycle_map_cell_flags();
 s32 update_map_cell_flags_with_item_limit();
 s32 check_movement_clearance_and_height();
 s32 update_actor_proximity_flag();
-s32 find_adjacent_actor();
+void * find_adjacent_actor();
 s32 probe_directional_neighbor();
 s32 get_actor_height_difference();
 s32 check_diagonal_side_height();
@@ -282,7 +282,7 @@ s32 apply_camera_offset_and_select_target();
 struct RegistrationNode;
 struct S_80047738;
 s32 relink_entity_and_clear_high_flag();
-s32 advance_status_timers();
+void advance_status_timers();
 s32 update_actor_movement_to_tile();
 void spend_actor_mp();
 
@@ -293,8 +293,8 @@ s32 update_linked_actor_motion();
 s32 resolve_attack_damage_and_effects();
 s32 play_sound_if_enabled();
 s32 get_cd_command_queue_depth(void);
-s32 scan_actor_along_heading();
-s32 create_actor_spell_effect();
+void * scan_actor_along_heading();
+void * create_actor_spell_effect();
 void create_two_row_object_group();
 void begin_actor_display_action();
 void apply_clamped_actor_value_delta();

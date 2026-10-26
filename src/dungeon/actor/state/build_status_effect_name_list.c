@@ -2,8 +2,8 @@
 #include "m2c_compat.h"
 extern s32 status_name_separator[3];
 extern u8 D_800251E8[9];
-s32 expand_text_control_codes();
-s32 write_text_byte_and_advance();
+u8 *expand_text_control_codes();
+void *write_text_byte_and_advance();
 extern s32 D_80025024;
 extern s32 D_800250B8;
 extern s32 D_800250D8;
@@ -25,12 +25,12 @@ extern s32 D_80025300;
 extern s32 D_80025318;
 extern u8 D_80025160[];
 /* Build the status-effect name list for the object's 0x54 flag word, comma-separated; returns the fallback when no flag is set. */
-s32 build_status_effect_name_list(void *obj, s32 fallback)
+void *build_status_effect_name_list(void *obj, void *fallback)
 {
-    s32 text;
+    void *text;
     s32 count;
-    s32 result;
-    s32 saved_fallback;
+    void *result;
+    void *saved_fallback;
     count = 0;
     saved_fallback = fallback;
     text = expand_text_control_codes(&D_800250B8, fallback);

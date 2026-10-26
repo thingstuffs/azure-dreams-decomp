@@ -191,7 +191,7 @@ typedef struct S_800B0BE0_5 {
  * GlobalSlot does not describe an allocation stride. */
 extern GlobalSlot g_game_work;
 extern s32 swap_int_values();
-extern s32 multiply_rgb_tint_saturated();
+extern void * multiply_rgb_tint_saturated();
 extern void *emit_gpu_packets();
 extern s32 PushMatrix();
 extern s32 PopMatrix();

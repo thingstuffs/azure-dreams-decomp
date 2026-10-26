@@ -15,7 +15,7 @@
 struct Dst;
 struct Elem;
 
-void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
+void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 play_sound_if_enabled(s32 query_value);
 extern void D_800CB9DC();
 extern u8 D_800DF650[];
@@ -24,7 +24,7 @@ typedef struct S_800CBB98_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    s32 * unk_10;
+    void (*unk_10)();
     u8 pad_14[0xC];
     void * unk_20;
 } S_800CBB98_0;
@@ -1014,7 +1014,7 @@ typedef struct S_800CCDA0_3 {
 
 extern s32 rsin(s32);
 extern s32 rcos(s32);
-extern void apply_attack_power_and_element_effects(s32, s32, s32, s32, s32, s32, s32);
+extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, s32, s32);
 extern s32 play_sound_if_enabled(s32 query_value);
 
 
@@ -1432,7 +1432,7 @@ typedef struct S_800CD474_0_pre {
 } S_800CD474_0_pre;   /* the 0x2 bytes before arg0 in advance_falling_trap_effect, addressed as arg0[-1] */
 
 typedef struct S_800CD474_0 {
-    s32 unk_00;
+    void *unk_00;
     s16 unk_04;
     u16 unk_06;
     s16 unk_08;
@@ -1465,7 +1465,6 @@ typedef struct S_800CD474_3 {
 
 extern void initialize_timed_motion_step(); /* Unprototyped: two or three arguments; retail reads only the first two. */
 extern s32 play_sound_if_enabled(s32 query_value);
-extern void apply_mode_selected_trap_mask();
 
 /* Advance a falling effect through impact, flashing, and fade-out. */
 void advance_falling_trap_effect(void *effect, S_800CD474_1 *motion, S_800CD474_2 *primitive) {
@@ -1539,8 +1538,7 @@ extern s32 try_apply_effect_four_by_chance(void *actor, s32 chance, s32 action);
 
 
 /* Apply the global-mode mask to the target with a fixed value of 0x10. */
-void apply_mode_selected_trap_mask(target)
-s32 target;
+void apply_mode_selected_trap_mask(void *target, s32 unused_mask)
 {
     s32 mode_mask;
 
@@ -1560,7 +1558,6 @@ s32 target;
 extern s32 has_enough_available_runtime_nodes();
 extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 generate_random_value(void);
-extern void apply_mode_selected_trap_mask();
 
 
 extern u8 D_800CD474[];
@@ -2356,7 +2353,7 @@ extern s32 get_surface_height_at_coordinates(s32, s32);
 extern u8 floor_trap_update_address[];
 
 /* Creates a dungeon object with two 5x5 value grids and sets its effect flags. */
-s32 create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_value, void *unused_data, s32 reverse_offset)
+void * create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_value, void *unused_data, s32 reverse_offset)
 {
     u16 offset_mode;
     s32 reverse_flag;
@@ -2427,14 +2424,14 @@ s32 create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_value, v
         }
         g_dungeon_status.activity_counts.parts.pending_action_count++;
     }
-    return (s32)object;
+    return object;
 }
 #include "modules/trap_effects_candidate.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
 
 
-extern s32 create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_value, void *unused_data, s32 reverse_offset);
+extern void * create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_value, void *unused_data, s32 reverse_offset);
 
 /* Return success if either global high flag is set, otherwise test the record lookup. */
 s32 check_trap_record_or_global_override(void *record) {
@@ -2451,7 +2448,7 @@ s32 check_trap_record_or_global_override(void *record) {
 #include "common.h"
 #include "shared/dungeon_floor.h"
 
-extern s32 create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_value, void *unused_data, s32 reverse_offset);
+extern void * create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_value, void *unused_data, s32 reverse_offset);
 
 /* Checks the entity at its linked coordinates unless a global override is set. */
 s32 check_linked_entity_or_global_override(void *entity) {
@@ -2507,10 +2504,10 @@ typedef struct S_800CE748_3 {
 
 
 
-s32 get_unused_text_buffer(void);
-s32 expand_text_control_codes(u8 *src, u8 *dst);
+void *get_unused_text_buffer(void);
+u8 *expand_text_control_codes(u8 *src, u8 *dst);
 void clear_byte_and_advance(s8 *byte_ptr);
-s32 write_text_byte_and_advance(s8 value, s8 *dest);
+void * write_text_byte_and_advance(s8 value, s8 *dest);
 extern s32 play_sound_if_enabled(s32 query_value);
 void display_text_with_fullwidth_adjustment(s8 *text);
 s32 generate_random_value(void);
@@ -2526,11 +2523,11 @@ extern u8 D_800E1BAA[18];
 s32 update_trap_effect_grid(void *record, s32 unused1, s32 unused2, s32 unused3) {
     s32 randomValueSecond;
     s32 randomValueFirst;
-    s32 secondLookupValue;
-    s32 firstLookupValue;
-    s32 initialValue;
+    void *secondLookupValue;
+    void *firstLookupValue;
+    void *initialValue;
     s32 entryCode;
-    s32 currentValue;
+    void *currentValue;
     s16 entryFlags;
     s32 triggerFlags;
     s32 entryValue;
@@ -2691,7 +2688,7 @@ extern void display_formatted_context_message(); /* Unprototyped: one or three a
 extern s32 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern SpawnFunc load_monster_resource_data(s32 resource_id, u8 *resource_entry, s32 wait_for_read);
 extern void retain_spawn_resource(s16 entry_type, s16 entry_key);
-extern s32 find_or_retain_sprite_resource_slot(s32, s32);
+extern u8 *find_or_retain_sprite_resource_slot(s32, s32);
 extern void raise_entity_level(void *, s32);
 extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 generate_random_value(void);
@@ -2712,7 +2709,7 @@ void advance_monster_den_sequence(void *den_event) {
     s16 retries_left;
     s32 monster_level;
     s32 monster_type;
-    s32 spawn_availability;
+    void *spawn_availability;
     u8 *area;
     u8 *monster_entry;
     void *monster;

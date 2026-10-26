@@ -5,7 +5,7 @@
 #include "shared/object_node.h"
 
 /* Creates an object, initializes its render data, and invokes its callback. */
-s32 create_and_invoke_render_object(s32 initial_value, s32 resource_index) {
+void * create_and_invoke_render_object(s32 initial_value, s32 resource_index) {
     s32 callback_arg;
     SpriteFrameState *render_data;
     S_800CB8CC_1 *state;
@@ -27,7 +27,7 @@ s32 create_and_invoke_render_object(s32 initial_value, s32 resource_index) {
     render_data->source = D_800D68B0[resource_index];
     register_node(object, project_sprite_chain);
     ((s32 (*)(void *, s32, void *))object->update_callback)(state, callback_arg, render_data);
-    return (s32)object;
+    return object;
 }
 
 /* Compute an entity-relative position, or run fallback updates if its state check fails. */

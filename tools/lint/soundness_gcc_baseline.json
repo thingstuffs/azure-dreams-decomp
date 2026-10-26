@@ -1,0 +1,364 @@
+{
+  "schema": 2,
+  "compiler": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "mode": "callbacks",
+  "flags": [
+    "-g",
+    "-fno-strict-aliasing",
+    "-fwrapv",
+    "-fno-delete-null-pointer-checks",
+    "-fno-builtin",
+    "-fno-stack-protector",
+    "-fno-pie",
+    "-fcf-protection=none",
+    "-DNON_MATCHING",
+    "-DM2CTX",
+    "-D_GNU_SOURCE",
+    "-I$PORT/include",
+    "-I$ROOT/include",
+    "-fpatchable-function-entry=5,0",
+    "-fdiagnostics-color=never",
+    "-fdiagnostics-show-option",
+    "-fmessage-length=0",
+    "-m32",
+    "-O1",
+    "-fwrapv",
+    "-Wcast-function-type"
+  ],
+  "unit_digest": "acb85790f0e1d7e3a4808c563a52c04b521f28e63b7263bfc1824e21e48f0cf8",
+  "units": 5993,
+  "limited": false,
+  "failures": 0,
+  "by_class": {
+    "-Wcast-function-type": 24,
+    "-Wincompatible-function-pointer-types": 0,
+    "-Wcast-function-type-strict": 0,
+    "-Wlto-type-mismatch": 0,
+    "-Wodr": 0,
+    "lto-symbol-kind": 0
+  },
+  "by_class_occurrences": {
+    "-Wcast-function-type": 29,
+    "-Wincompatible-function-pointer-types": 0,
+    "-Wcast-function-type-strict": 0,
+    "-Wlto-type-mismatch": 0,
+    "-Wodr": 0,
+    "lto-symbol-kind": 0
+  },
+  "identities": [
+    [
+      "src/dungeon/effect/particle/fade_effect_sprite_to_black.c",
+      "update_directional_actor_effect",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 's32 (*)(s32)' {aka 'int (*)(int)'} to 's32 (*)(s32,  s32)' {aka 'int (*)(int,  int)'}"
+    ],
+    [
+      "src/dungeon/player/update_player_and_actor_turns.c",
+      "update_player_and_actor_turns",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'void (*)(void *, void *, void *, void *)' to 's32 (*)(void *, void *, void *, void *)' {aka 'int (*)(void *, void *, void *, void *)'}"
+    ],
+    [
+      "src/slus/konami_runtime_w_80038AB8.c",
+      "<global>",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 's32 (*)(struct Func8003A904State *)' {aka 'int (*)(struct Func8003A904State *)'} to 'void (*)()'"
+    ],
+    [
+      "src/slus/konami_runtime_w_80038AB8.c",
+      "<global>",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 's32 (*)(struct ScriptReader *)' {aka 'int (*)(struct ScriptReader *)'} to 'void (*)()'"
+    ],
+    [
+      "src/slus/konami_runtime_w_80038AB8.c",
+      "<global>",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'u32 (*)(struct ScriptReader *)' {aka 'unsigned int (*)(struct ScriptReader *)'} to 'void (*)()'"
+    ],
+    [
+      "src/slus/konami_runtime_w_80038AB8.c",
+      "<global>",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'u8 * (*)(struct Func8003AA84State *)' {aka 'unsigned char * (*)(struct Func8003AA84State *)'} to 'void (*)()'"
+    ],
+    [
+      "src/town/scene/check_inputs_only_prerequisite_least_second.c",
+      "check_inputs_only_prerequisite_least",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(s32)' {aka 'void (*)(int)'}"
+    ],
+    [
+      "src/town/scene/enter_scene.c",
+      "enter_scene",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(s32)' {aka 'void (*)(int)'}"
+    ],
+    [
+      "src/town/scene/enter_scene.c",
+      "enter_scene",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(void *)'"
+    ],
+    [
+      "src/town/scene/event/advance_floor_event_counter.c",
+      "advance_floor_event_counter",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(s32,  s32)' {aka 'void (*)(int,  int)'}"
+    ],
+    [
+      "src/town/scene/event/dispatch_state_entry_event_b.c",
+      "dispatch_state_entry_event_8",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(s32,  s32)' {aka 'void (*)(int,  int)'}"
+    ],
+    [
+      "src/town/scene/find_entry_28_index_or_assert_rev_b.c",
+      "find_event_entry_or_assert",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(s32)' {aka 'void (*)(int)'}"
+    ],
+    [
+      "src/town/scene/find_entry_28_index_or_assert_rev_b.c",
+      "find_event_entry_or_assert",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(void *, void *, s32)' {aka 'void (*)(void *, void *, int)'}"
+    ],
+    [
+      "src/town/scene/find_entry_index_assert.c",
+      "find_entry_8_index_or_assert",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(s32 *, s32 *, s32)' {aka 'void (*)(int *, int *, int)'}"
+    ],
+    [
+      "src/town/scene/flags/entry_update_entry_flags.c",
+      "update_and_test_pending_entry_flags",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(s32,  s32)' {aka 'void (*)(int,  int)'}"
+    ],
+    [
+      "src/town/scene/hooks/invoke_callback_set_shared_pointer.c",
+      "invoke_callback_and_set_shared_pointer",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(u32)' {aka 'void (*)(unsigned int)'}"
+    ],
+    [
+      "src/town/scene/look_up_slot_record_falling_second.c",
+      "look_up_slot_record_falling",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(s32,  s32)' {aka 'void (*)(int,  int)'}"
+    ],
+    [
+      "src/town/scene/motion/set_player_position_record.c",
+      "set_player_position_record",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(s32)' {aka 'void (*)(int)'}"
+    ],
+    [
+      "src/town/scene/object/build_object_set_and_select_lists_rev_b_second.c",
+      "build_object_set_and_select_lists_rev_b",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(void *, void *, u32)' {aka 'void (*)(void *, void *, unsigned int)'}"
+    ],
+    [
+      "src/town/scene/service/call_scene_service_220_d_2.c",
+      "call_scene_service_220_d_2",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(s32,  s32,  s32,  s32)' {aka 'void (*)(int,  int,  int,  int)'}"
+    ],
+    [
+      "src/town/shop/object/lshop_g00008.c",
+      "append_town_item",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(s32)' {aka 'void (*)(int)'}"
+    ],
+    [
+      "src/town/shop/object/lshop_g00008.c",
+      "append_town_item",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(void *, void *, s32)' {aka 'void (*)(void *, void *, int)'}"
+    ],
+    [
+      "src/town/shop/object/lshop_g00008.c",
+      "find_unused_item_slot",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(s32)' {aka 'void (*)(int)'}"
+    ],
+    [
+      "src/town/shop/object/lshop_g00008.c",
+      "find_unused_item_slot",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(void *, void *, s32)' {aka 'void (*)(void *, void *, int)'}"
+    ]
+  ],
+  "identity_counts": [
+    [
+      "src/dungeon/effect/particle/fade_effect_sprite_to_black.c",
+      "update_directional_actor_effect",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 's32 (*)(s32)' {aka 'int (*)(int)'} to 's32 (*)(s32,  s32)' {aka 'int (*)(int,  int)'}",
+      1
+    ],
+    [
+      "src/dungeon/player/update_player_and_actor_turns.c",
+      "update_player_and_actor_turns",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'void (*)(void *, void *, void *, void *)' to 's32 (*)(void *, void *, void *, void *)' {aka 'int (*)(void *, void *, void *, void *)'}",
+      1
+    ],
+    [
+      "src/slus/konami_runtime_w_80038AB8.c",
+      "<global>",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 's32 (*)(struct Func8003A904State *)' {aka 'int (*)(struct Func8003A904State *)'} to 'void (*)()'",
+      1
+    ],
+    [
+      "src/slus/konami_runtime_w_80038AB8.c",
+      "<global>",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 's32 (*)(struct ScriptReader *)' {aka 'int (*)(struct ScriptReader *)'} to 'void (*)()'",
+      1
+    ],
+    [
+      "src/slus/konami_runtime_w_80038AB8.c",
+      "<global>",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'u32 (*)(struct ScriptReader *)' {aka 'unsigned int (*)(struct ScriptReader *)'} to 'void (*)()'",
+      1
+    ],
+    [
+      "src/slus/konami_runtime_w_80038AB8.c",
+      "<global>",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'u8 * (*)(struct Func8003AA84State *)' {aka 'unsigned char * (*)(struct Func8003AA84State *)'} to 'void (*)()'",
+      1
+    ],
+    [
+      "src/town/scene/check_inputs_only_prerequisite_least_second.c",
+      "check_inputs_only_prerequisite_least",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(s32)' {aka 'void (*)(int)'}",
+      1
+    ],
+    [
+      "src/town/scene/enter_scene.c",
+      "enter_scene",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(s32)' {aka 'void (*)(int)'}",
+      1
+    ],
+    [
+      "src/town/scene/enter_scene.c",
+      "enter_scene",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(void *)'",
+      1
+    ],
+    [
+      "src/town/scene/event/advance_floor_event_counter.c",
+      "advance_floor_event_counter",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(s32,  s32)' {aka 'void (*)(int,  int)'}",
+      1
+    ],
+    [
+      "src/town/scene/event/dispatch_state_entry_event_b.c",
+      "dispatch_state_entry_event_8",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(s32,  s32)' {aka 'void (*)(int,  int)'}",
+      1
+    ],
+    [
+      "src/town/scene/find_entry_28_index_or_assert_rev_b.c",
+      "find_event_entry_or_assert",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(s32)' {aka 'void (*)(int)'}",
+      1
+    ],
+    [
+      "src/town/scene/find_entry_28_index_or_assert_rev_b.c",
+      "find_event_entry_or_assert",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(void *, void *, s32)' {aka 'void (*)(void *, void *, int)'}",
+      1
+    ],
+    [
+      "src/town/scene/find_entry_index_assert.c",
+      "find_entry_8_index_or_assert",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(s32 *, s32 *, s32)' {aka 'void (*)(int *, int *, int)'}",
+      1
+    ],
+    [
+      "src/town/scene/flags/entry_update_entry_flags.c",
+      "update_and_test_pending_entry_flags",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(s32,  s32)' {aka 'void (*)(int,  int)'}",
+      1
+    ],
+    [
+      "src/town/scene/hooks/invoke_callback_set_shared_pointer.c",
+      "invoke_callback_and_set_shared_pointer",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(u32)' {aka 'void (*)(unsigned int)'}",
+      2
+    ],
+    [
+      "src/town/scene/look_up_slot_record_falling_second.c",
+      "look_up_slot_record_falling",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(s32,  s32)' {aka 'void (*)(int,  int)'}",
+      1
+    ],
+    [
+      "src/town/scene/motion/set_player_position_record.c",
+      "set_player_position_record",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(s32)' {aka 'void (*)(int)'}",
+      1
+    ],
+    [
+      "src/town/scene/object/build_object_set_and_select_lists_rev_b_second.c",
+      "build_object_set_and_select_lists_rev_b",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(void *, void *, u32)' {aka 'void (*)(void *, void *, unsigned int)'}",
+      3
+    ],
+    [
+      "src/town/scene/service/call_scene_service_220_d_2.c",
+      "call_scene_service_220_d_2",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(s32,  s32,  s32,  s32)' {aka 'void (*)(int,  int,  int,  int)'}",
+      1
+    ],
+    [
+      "src/town/shop/object/lshop_g00008.c",
+      "append_town_item",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(s32)' {aka 'void (*)(int)'}",
+      1
+    ],
+    [
+      "src/town/shop/object/lshop_g00008.c",
+      "append_town_item",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(void *, void *, s32)' {aka 'void (*)(void *, void *, int)'}",
+      1
+    ],
+    [
+      "src/town/shop/object/lshop_g00008.c",
+      "find_unused_item_slot",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(s32)' {aka 'void (*)(int)'}",
+      2
+    ],
+    [
+      "src/town/shop/object/lshop_g00008.c",
+      "find_unused_item_slot",
+      "-Wcast-function-type",
+      "cast between incompatible function types from 'int (*)()' to 'void (*)(void *, void *, s32)' {aka 'void (*)(void *, void *, int)'}",
+      2
+    ]
+  ]
+}

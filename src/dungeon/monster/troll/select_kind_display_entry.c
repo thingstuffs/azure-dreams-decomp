@@ -37,8 +37,8 @@ extern u8 D_8015DE5C[];
 extern u8 D_8015DE64[];
 
 struct SpriteFrameState;
-extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
-extern s32 update_actor_transform_from_parent(Obj0 *, void *, Obj2 *, Obj3 *);
+extern void select_sprite_entry(void *, s16, s16);
+extern s32 update_actor_transform_from_parent(Obj0 *, void *, void *, void *);
 
 
 /* Updates the kind-specific display table and selects its direction entry. */

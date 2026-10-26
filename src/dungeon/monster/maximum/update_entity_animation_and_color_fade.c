@@ -23,10 +23,10 @@ extern s16 get_tile_chebyshev_distance(void *, void *);
 extern s32 generate_random_value(void);
 extern void on_actor_status_updated(void *);
 extern void update_actor_status_and_mp(void *);
-extern void begin_pushed_actor_move(void *, s32, void *, void *);
-extern s32 begin_ready_actor_directional_action(void *, s32, void *, s32);
-extern void advance_actor_pending_action(void *, s32, void *, void *);
-extern void begin_actor_move_to_target_facing(void *, s32, void *, void *);
+extern void begin_pushed_actor_move(void *,void *, void *, void *);
+extern s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
+extern void advance_actor_pending_action(void *, void *, void *, void *);
+extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void advance_actor_state_with_child(void *, s32, void *, void *);
 
 extern u8 maximum_action_continuation_address;
@@ -34,7 +34,7 @@ extern u8 maximum_frame_set_2[];
 extern u8 maximum_frame_set_1[];
 
 /* Updates entity state, directional animation, and color fading. */
-void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, s32 update_mode, SpriteFrameState *sprite, ActorRecord *entity)
+void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, void *update_mode, SpriteFrameState *sprite, ActorRecord *entity)
 {
     s32 state;
     s32 flags;

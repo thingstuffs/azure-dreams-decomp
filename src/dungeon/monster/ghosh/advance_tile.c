@@ -50,7 +50,7 @@ void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 void update_map_cell_flags_with_item_limit(s32, s32, s32);
 s32 check_movement_clearance_and_height(s32, void *, void *, s32);
 s32 test_neighbor_position_relation(s32, s32, s32, s32);
-void *find_adjacent_actor(void *entity, u16 x, u16 y);
+void * find_adjacent_actor(void *entity, u16 x, u16 y);
 s32 probe_directional_neighbor(void *, s32, s32, s32);
 s16 get_rounded_facing_and_rounding_flag(s32, s32, s32, s32, void *);
 void select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);

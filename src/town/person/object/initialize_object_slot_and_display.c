@@ -2,7 +2,7 @@
 #include "town/person.h"
 
 extern void set_linked_data_pointers_variant_1(void *record, s32 first_value, s32 second_value);
-extern void create_owner_following_sprite(void *state_value);
+extern void * create_owner_following_sprite(void *state_value);
 
 extern u8 D_800D5958[];
 extern u8 D_800D5960[];

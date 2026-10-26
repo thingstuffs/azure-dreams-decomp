@@ -7,7 +7,7 @@
 #include "engine/graphics.h"
 
 extern s32 try_claim_dungeon_action_slot();
-extern s32 advance_status_timers();
+extern void advance_status_timers();
 extern s32 apply_camera_offset_and_select_target();
 extern s32 saber_frame_set_1;
 

@@ -467,7 +467,7 @@ extern const RectTable target_particle_texture_rects;
 extern s16 particle_activity;
 extern PackedVec3 staged_particle_sprite_data;
 s32 rand(void);
-void select_record_entry_and_value(void *, void *, s32);
+void select_record_entry_and_value(void *state, void *entries, short index);
 s32 check_left_tile_and_center_height(s32, s32, s16);
 void create_lingering_ballistic_sprite(S_8196B4A4_5 *source, s32 unused_1, s32 unused_2, s16 offset_x, s16 offset_y, s16 offset_z);
 void shrink_effect_and_step_texture(void *effect, s32 unused, S_8196BF24_1 *transform);
@@ -485,5 +485,5 @@ void draw_effect_and_restore_clip(void *effect, s32 unused, u8 *primitive);
 void apply_random_actor_value_adjustment(void *state, void *unused, void *visual);
 void spawn_jittered_point_child(ObjectNodeHeader *source, s32 state_14_value, s32 state_08_value, s32 state_32_value, s16 x_offset, s16 y_offset, s16 z_offset);
 s32 draw_flagged_particle_points(PointRecord *first_point, ObjectPosition *first_position);
-void create_randomized_paletted_sprite(s32 unused_0, s32 unused_1, s32 unused_2, s16 x, s16 y, s16 z);
+void create_randomized_paletted_sprite(void *unused_0, void *unused_1, void *unused_2, s16 x, s16 y, s16 z);
 #endif

@@ -28,7 +28,7 @@ extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
 extern u8 golem_object_callback[9];
 
 /* Creates an object, initializes its primitive, copies state, and applies queried offsets. */
-s32 create_primitive_state_object(void *unused, Rec_func_80172D08_arg1 *src_state, Rec_D_80082E80 *source)
+void * create_primitive_state_object(void *unused, Rec_func_80172D08_arg1 *src_state, Rec_D_80082E80 *source)
 {
     u16 offsets[3];
     ObjectNodeHeader *obj;
@@ -71,7 +71,7 @@ s32 create_primitive_state_object(void *unused, Rec_func_80172D08_arg1 *src_stat
                 dst_state->unk_08.at02.v += offsets[2];
             }
         }
-        return (s32)obj;
+        return obj;
     }
     return 0;
 }

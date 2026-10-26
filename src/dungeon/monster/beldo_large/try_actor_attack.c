@@ -11,12 +11,12 @@ extern s32 get_actor_height_difference(s32, void *);
 extern s32 probe_directional_neighbor(void *, u8, u8, s16);
 extern s32 try_claim_dungeon_action_slot(void *);
 extern s32 check_entity_interaction_compatibility(void *, s32);
-extern void apply_camera_offset_and_select_target(void *, s32, s32, s32);
+extern void apply_camera_offset_and_select_target(void *,void *, s32, s32);
 
 /* Attempts an action toward the target and initializes the action state on success. */
 /* Starts Beldo's attack against a compatible neighbor within 64 height units; returns 1, 0 if unsuitable,
  * or -1 if busy. */
-s32 try_actor_attack(Rec_func_800A9E70_arg0 *action_state, s32 action_id, SpriteFrameState *target, ActorRecord *actor) {
+s32 try_actor_attack(Rec_func_800A9E70_arg0 *action_state, void *action_id, SpriteFrameState *target, ActorRecord *actor) {
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
     s32 target_direction;
 

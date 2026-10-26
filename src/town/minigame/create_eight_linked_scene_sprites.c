@@ -22,7 +22,7 @@ typedef struct S_8002082C_3 {
     s16 unk_34;
 } S_8002082C_3;   /* arg0 in create_eight_linked_scene_sprites */
 
-extern s32 select_record_entry_and_value();
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void *allocate_list_node();
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 

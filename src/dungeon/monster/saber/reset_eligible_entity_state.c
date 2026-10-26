@@ -4,7 +4,7 @@
 
 
 extern void spend_actor_mp(s32, s32);
-extern void advance_status_timers(s32);
+extern void advance_status_timers(void *);
 
 #include "dungeon/monster/saber.h"
 

@@ -22,7 +22,6 @@ extern void StartPAD(void);
 /* D_80083160[0] holds the current CD/streaming state pointer; default value is
  * the sentinel D_801C9E40. size>8 to force %hi/%lo. */
 extern void *D_80083160[3];
-extern u8 upper_draw_context[16];
 extern u32 default_textured_quad_color[3];
 
 /* short globals D_80080A94/98/9C read via %hi/%lo; accessed via fixed
@@ -100,8 +99,8 @@ void initialize_hardware_and_game_state(void)
     }
     build_cubic_cumulative_table();
 
-    stream_state = (u8 *)upper_draw_context;
-    if (*stream_slot == (void *)upper_draw_context) {
+    stream_state = upper_draw_context;
+    if (*stream_slot == upper_draw_context) {
         stream_state = stream_state + 0x108D4;
     }
     *stream_slot = stream_state;

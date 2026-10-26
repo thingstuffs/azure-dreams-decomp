@@ -1,5 +1,7 @@
 #ifndef MODULE_DUNGEON_OVL_E0365C_H
 #define MODULE_DUNGEON_OVL_E0365C_H
+
+struct E_80170A58_S_80170A58_2;
 #include "common.h"
 #include "dungeon/actor.h"
 #include "shared/dir_step.h"
@@ -30,7 +32,7 @@ typedef struct {
 } E_80170854_SpawnState;
 typedef struct { u8 pad00[0xA]; s16 height; } E_80170854_SpawnMotion;
 typedef struct { u8 pad00[0x24]; u8 tile_x,tile_y; u8 pad26[6]; u8 *frames; } E_80170854_SpawnSprite;
-typedef struct { u8 pad00[8]; E_80170854_SpawnMotion *motion; E_80170854_SpawnSprite *sprite; void (*update)(void *,void *,void *); } E_80170854_SpawnObject;
+typedef struct { u8 pad00[8]; E_80170854_SpawnMotion *motion; SpriteFrameState *sprite; void (*update)(void *, struct E_80170A58_S_80170A58_2 *, void *); } E_80170854_SpawnObject;
 
 extern u8 volcano_frame_set_6[8],volcano_frame_set_2[8];
 /* Allocate an actor, initialize its action and sprite views, then apply spawn flags. */
@@ -445,7 +447,7 @@ typedef struct E_80173A20_S_80173A20_4 {
 
 typedef struct E_80173CE0_S_80173CE0_0 {
     u8 pad_00[0x8C];
-    s32 * unk_8C;
+    void (*unk_8C)(void *, void *, void *, void *);
     u8 pad_90[0xB];
     u8 unk_9B;
 } E_80173CE0_S_80173CE0_0;   /* arg0 in func_80173CE0 */
@@ -625,7 +627,7 @@ extern E_80170A58_Callback volcano_callbacks[];
 extern u8 D_801745CC[];
 extern u8 D_801745F8[];
 extern int abs(int);
-extern E_80174084_M2C_UNK select_record_entry_and_value();
+extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 resolve_record_orientation_or_fallback(s32, void *, s16 *, s32);
 extern s32 get_cd_command_queue_depth(void);
 extern void *allocate_list_node(s32,void *);
@@ -678,12 +680,12 @@ struct S_80047738;
 extern s32 check_entity_interaction_compatibility();
 extern s32 check_layer_offset_height();
 extern void set_or_clear_actor_status_slot(void *,s32,s32);
-extern s32 advance_status_timers(void *record);
+extern void advance_status_timers(void *record);
 extern s32 increment_bounded_counter();
 extern s32 play_sound_if_enabled(s32);
 extern s32 display_text_with_fullwidth_adjustment(s8 *);
 extern s32 generate_random_value(void);
-extern s32 create_actor_spell_effect(void *, u8 *, s32, void *);
+extern void *create_actor_spell_effect(void *, void *, s32, void *);
 extern void on_actor_status_updated(void *);
 extern void func_800A9A04(void *);
 extern void update_actor_status_and_mp(void *);
@@ -691,13 +693,13 @@ extern void initialize_actor_sprite_and_animation(void *,void *,void *,s16);
 extern s32 refresh_actor_facing_and_lifecycle();
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern void try_move_actor_to_valid_position(void *,void *,void *,void *);
-extern s32 begin_ready_actor_directional_action(void *, void *, void *, void *);
+extern s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
-extern s32 reset_actor_action_state(void *actor, s32 unused, void *sprite, u8 *direction_frames);
+extern s32 reset_actor_action_state(void *actor, void * unused, void *sprite, u8 *direction_frames);
 extern void begin_actor_display_action();
 extern void process_selected_actor_record(void *, void *, void *, void *);
-extern void begin_actor_spell_action(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state);
+extern void begin_actor_spell_action(void *actor, void * effect_param, void *target, u8 *direction_table, void * next_state);
 extern s32 update_actor_movement_to_tile(void *,void *,void *,void *);
 extern s32 update_linked_actor_motion(void *,void *,void *,void *);
 extern s32 resolve_actor_floor_trap_once(void *,void *,void *,void *);
@@ -708,7 +710,7 @@ extern s32 update_thrown_actor_travel(void *,void *,SpriteFrameState *,void *);
 extern s32 interpolate_actor_to_terrain_tile(void *,void *,void *,void *);
 extern s32 update_spinning_actor_fall(void *,void *,void *,void *);
 extern s32 propagate_actor_action_flag(void *,void *,void *,void *);
-extern s32 update_actor_transform_from_parent(void *,void *,void *,void *);
+extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
 extern s32 update_actor_fade_in(void *,void *,void *,void *);
 extern void update_actor_defeat_removal(void *,void *,void *,void *);
 extern void apply_clamped_actor_value_delta();
@@ -717,8 +719,8 @@ extern void spend_actor_mp(void *,s32);
 extern s32 relink_entity_and_clear_high_flag();
 extern void create_actor_linked_effect(void *);
 extern s16 sample_terrain_surface_height(s32,s32,s16);
-extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s16 slot_value);
-extern s32 apply_camera_offset_and_select_target(s32 object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
+extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s16 slot_value);
+extern s32 apply_camera_offset_and_select_target(void * object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 extern void *create_actor_with_tile_flags(s32, s16, s16, s16);
 extern s32 rand();
 
@@ -757,7 +759,7 @@ s32 select_actor_relation_state(void *entity_arg, void *primary_context_arg, voi
 void dampen_actor_motion(void *state_data, s32 *motion, E_80173F8C_Func80DE678C_Obj *object);
 void create_four_directional_effects(void *owner_arg, void *motion_arg, void *origin_arg);
 void advance_effect_record_counters(u16 *counter, s32 unused, SpriteFrameState *record);
-s32 create_directional_effect_object(E_801742AC_S_80DE6AAC_2 *source, void *initial_position, E_801742AC_S_80DE6AAC_4 *tile_origin);
+void * create_directional_effect_object(E_801742AC_S_80DE6AAC_2 *source, void *initial_position, E_801742AC_S_80DE6AAC_4 *tile_origin);
 void display_formatted_actor_message(void *record);
 void display_entity_action_message(void *record);
 #endif

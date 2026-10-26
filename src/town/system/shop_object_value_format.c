@@ -15,7 +15,7 @@ extern ItemCategory item_category_groups[];
 extern s32 memset(void *, s32, s32);
 extern void func_8004E5A0(s32, s32, u8 *);
 extern u8 *remap_flagged_string_bytes(u8 *);
-extern s32 build_positioned_text_glyphs(void *, u8 *, s32);
+extern void *build_positioned_text_glyphs(void *, u8 *, s32);
 void flag_object_for_removal(unsigned short *object);
 s32 create_callback_pair_default();
 s32 func_8004B404();

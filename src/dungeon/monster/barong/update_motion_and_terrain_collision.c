@@ -76,7 +76,7 @@ extern u8 barong_direction_vectors[16];
 
 extern s32 check_left_tile_and_center_height(u16, u16, s16);
 extern s32 find_valid_floor_item_position(s8, s8, s16, s16 *, s16 *, s16 *);
-extern void place_item_at_valid_floor_position(s16, s16, s16, s32, u8 *);
+extern void place_item_at_valid_floor_position(s16, s16, s16, s32 , u8 *);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
 
 /* Update motion and terrain collisions, then settle at a target or finish falling. */
