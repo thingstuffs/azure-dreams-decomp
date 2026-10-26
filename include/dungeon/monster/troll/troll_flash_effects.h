@@ -1,5 +1,9 @@
 #ifndef DUNGEON_OVL_7F469800_P01_H
 #define DUNGEON_OVL_7F469800_P01_H
+#include "sdk/libc.h"
+#include "sdk/libgte.h"
+#include "dungeon/actor.h"
+#include "dungeon/actor/animation.h"
 
 struct SpriteFrameState;
 #include "common.h"
@@ -217,7 +221,6 @@ typedef struct T_801714FC_S_801714FC_8 {
     u8 unk_13;
 } T_801714FC_S_801714FC_8;   /* ((S_801714FC_0 *)arg3)->unk_60.p in func_801714FC */
 
-s32 rand();                                 /* extern */
 
 typedef struct T_80171790_S_80171790_0 {
     u8 pad_00[0x1];
@@ -423,12 +426,8 @@ extern void * allocate_list_node();
 extern void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 extern void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
-extern s32 rsin();
-extern s32 rcos();
 extern void set_or_clear_actor_status_slot();
 extern s32 generate_random_value(void);
-extern void initialize_actor_sprite_and_animation();
-extern void try_move_actor_to_valid_position();
 extern u8 D_80175EBC[];
 extern u8 D_80175EB4[];
 extern T_80171928_Blob12 D_80175EDC;

@@ -1,9 +1,9 @@
 #include "shared/actor_status_ids.h"
 #include "common.h"
 #include "dungeon/item/message.h"
+#include "dungeon/actor/status.h"
 
 extern s32 generate_random_value(void);
-extern s32 set_or_clear_actor_status_slot(void *ptr, s32 value, s32 kind);
 extern void wrap_position_and_set_state_value(s32 value);
 
 extern s32 D_800DCF10[];

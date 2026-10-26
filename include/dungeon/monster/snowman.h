@@ -22,6 +22,14 @@
 #include "shared/def_table.h"
 #include "records/Rec_D_80083460.h"
 #include "records/Rec_func_80174800_arg0.h"
+#include "sdk/libc.h"
+#include "sdk/libgpu.h"
+#include "dungeon/actor/animation.h"
+#include "dungeon/actor/motion.h"
+#include "dungeon/player/object.h"
+#include "dungeon/system.h"
+#include "engine/texture.h"
+#include "dungeon/actor/status.h"
 struct SpriteFrameState;
 struct ObjectPosition;
 
@@ -642,25 +650,18 @@ typedef struct R10_80175398_S_80175398_7 {
     u8 pad_00[0x2A];
     u16 unk_2A;
 } R10_80175398_S_80175398_7;
-extern s32 rand(void);
 extern s32 Control_CD();
 typedef struct { s16 x; u16 y; } Resource10DirectionOffset;
 extern const Resource10DirectionOffset D_80170854[8];
 extern const Resource10DirectionOffset D_80170874[8];
 s32 RotTransPers();
-s32 GetTPage();
-void SetDrawMode();
 void advance_sprite_animation_and_textures(void *entity);
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
 void select_record_entry_and_value(void *state, void *entries, short index);
 void *allocate_list_node();
 void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-s32 generate_random_value();
-s32 set_or_clear_actor_status_slot();
-void initialize_actor_sprite_and_animation();
-s32 try_move_actor_to_valid_position();
-void select_indirect_table_entry();
+s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 s32 select_sprite_entry();
 void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
 void apply_monster_koyaw_data();
@@ -672,7 +673,6 @@ s32 test_neighbor_position_relation();
 s32 get_rounded_facing_and_rounding_flag();
 s32 can_entity_gain_level();
 void update_actor_status_and_mp();
-void begin_pushed_actor_move();
 s32 begin_ready_actor_directional_action();
 s32 advance_actor_pending_action();
 void begin_actor_move_to_target_facing();
@@ -699,25 +699,18 @@ struct S_800833E0;
 s32 relink_entity_and_clear_high_flag();
 s32 update_actor_movement_to_tile();
 void spend_actor_mp();
-void advance_status_timers();
 
 s32 rsin();
-void set_record_integer_tile_center();
 void on_actor_status_updated();
 void func_800A9A04();
 s32 update_linked_actor_motion();
 s32 resolve_attack_damage_and_effects();
-s32 play_sound_if_enabled();
 s32 get_cd_command_queue_depth(void);
-s32 rand();
 void *scan_actor_along_heading();
 void *create_actor_spell_effect();
 void begin_actor_display_action();
-void apply_clamped_actor_value_delta();
 s32 update_actor_defeat_removal();
-s32 update_actor_hop_and_shrink();
 
-s32 update_actor_hop_and_grow();
 s32 get_entity_effect_value();
 s32 func_80042900();
 void clear_slots_of_type();

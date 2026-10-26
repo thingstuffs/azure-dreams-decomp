@@ -1,5 +1,7 @@
 #ifndef MODULES_TOWN_TOWN_WINDOWS_H
 #define MODULES_TOWN_TOWN_WINDOWS_H
+#include "sdk/libc.h"
+#include "sdk/libgte.h"
 
 
 struct SpriteFrameState;
@@ -427,14 +429,12 @@ s32 load_and_open_monster_status_display();
 void process_object_pointer_array();
 extern s32 create_item_view_for_entry(s32 first, void *data, s32 value);
 extern s32 func_8004B854(s32 first, void *data, s32 value);
-extern u32 strcpy();
 extern void *find_item_by_kind_and_type();
 void clear_global_80110_ec_0_global_80082_a_39(void);
 void * open_twin_souko(s32 option);
 extern void configure_the_set_mode_n_3();
 extern void initialize_entity_flags_transform_type_dependent_variant();
 extern s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41(void);
-extern s32 rsin();
 u32 scale_random_to_unsigned_halfword_limit(s32 limit);
 
 extern u8 lit_mesh_renderer_address[];

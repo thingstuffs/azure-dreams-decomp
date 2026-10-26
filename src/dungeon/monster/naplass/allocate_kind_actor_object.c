@@ -7,6 +7,9 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "dungeon/actor.h"
+#include "dungeon/actor/animation.h"
+#include "engine/node/allocation.h"
 
 typedef struct S_8016A870_1 {
     u8 pad_00[0x13];
@@ -30,12 +33,9 @@ typedef struct S_8016A870_4 {
     s8 unk_9C;
 } S_8016A870_4;   /* actor in allocate_kind_actor_object */
 
-extern void *allocate_list_node();
 extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern s32 generate_random_value();
+extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern void set_or_clear_actor_status_slot();
-extern void initialize_actor_sprite_and_animation();
-extern void try_move_actor_to_valid_position();
 extern u8 naplass_object_callback[];
 extern s32 naplass_slot_f_action_callback;
 extern u8 D_8016E194[];
@@ -62,7 +62,7 @@ void *allocate_kind_actor_object(s16 spawn_flags, s16 part_b_value_24, s16 part_
     saved_value_24 = part_b_value_24;
     saved_part_value = part_a_value;
     saved_value_25 = part_b_value_25;
-    obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         obj->update_callback = naplass_object_callback;

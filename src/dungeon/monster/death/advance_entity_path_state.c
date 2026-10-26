@@ -3,6 +3,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "engine/graphics.h"
+#include "dungeon/level.h"
 
 typedef struct S_80171FC8_0 {
     u8 pad_00[0x1C];
@@ -41,7 +42,6 @@ typedef struct S_80171FC8_4 {
     u8 unk_7C;
 } S_80171FC8_4;   /* (u8 *)arg3 + ((S_80171FC8_0 *)arg3)->unk_8A.s in advance_entity_path_state */
 
-extern s32 cycle_map_cell_flags();
 extern s32 update_map_cell_flags_with_item_limit();
 extern s16 get_rounded_facing_and_rounding_flag();
 

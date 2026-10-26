@@ -10,6 +10,9 @@
 #include "m2c_compat.h"
 
 #include "shared/entity.h"
+#include "dungeon/actor.h"
+#include "dungeon/actor/animation.h"
+#include "engine/node/allocation.h"
 typedef struct R03_80170A28_S_80170A28_2 R03_80170A28_S_80170A28_2;
 typedef struct ActorActionView ActorActionView;
 typedef struct ActorSpriteView ActorSpriteView;
@@ -36,12 +39,9 @@ typedef struct S_80DA1000_4 {
     s8 unk_9C;
 } S_80DA1000_4;
 
-void *allocate_list_node();
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */ /* extern */
 s16 set_or_clear_actor_status_slot(); /* extern */
-s32 generate_random_value();
-void initialize_actor_sprite_and_animation(); /* extern */
-s32 try_move_actor_to_valid_position(); /* extern */
+s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 void func_8015EA3C(void *entity, R03_80170A28_S_80170A28_2 *motion, void *part);
 void func_8015EE68(ActorActionView *action, void *context, ActorSpriteView *sprite, ActorRecord *entity);
 extern M2C_UNK D_8016186C;
@@ -69,7 +69,7 @@ void *move_and_fade_effect_sprite(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 t
     saved_x = grid_x;
     saved_type = type_id;
     saved_y = grid_y;
-    object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
+    object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != NULL) {
         entity = ((void *)object) + 0x20;
         object->update_callback = &func_8015EA3C;

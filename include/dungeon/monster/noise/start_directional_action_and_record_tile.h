@@ -11,6 +11,7 @@
 
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "dungeon/actor/status.h"
 
 typedef struct T_801748D0_S_801748D0_0 {
     u8 pad_00[0x8C];
@@ -86,7 +87,6 @@ extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 extern void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
 extern void * find_eligible_actor_at_tile_and_height();
 extern s32 try_claim_dungeon_action_slot();
-extern void advance_status_timers();
 extern s32 apply_camera_offset_and_select_target();
 extern s32 resolve_record_orientation_or_fallback(s32, void *, s16 *, s16);
 extern void * allocate_list_node(s32, void *);

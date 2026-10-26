@@ -4,16 +4,15 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "sdk/libc.h"
+#include "sdk/libgte.h"
+#include "engine/node/allocation.h"
 
 typedef s32 M2C_UNK;
 
 struct TargetVec;
 extern struct TargetVec *effect_position_source[];
-void *allocate_list_node();
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-s32 rsin();
-s32 rcos();
-s32 rand();
 extern void expand_fade(void *effect, void *position, void *sprite);
 extern M2C_UNK D_80026180;
 typedef struct TargetSub {
@@ -66,7 +65,7 @@ void create_an_random_angle_height_offset_around_reference_position(void)
     s32 height_quotient;
     TargetSub *motion;
     TargetObj *obj;
-    obj = allocate_list_node(0x212, ((u8 *)(&scene_object_list_anchor)));
+    obj = allocate_list_node(0x212, &scene_object_list_anchor.next);
     if (obj != 0) {
         motion = &obj->sub;
         obj->field10 = &expand_fade;

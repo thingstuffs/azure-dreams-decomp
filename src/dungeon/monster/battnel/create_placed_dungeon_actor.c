@@ -7,6 +7,7 @@
 #include "m2c_compat.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "dungeon/actor/status.h"
 
 typedef struct S_80B7F054_1 {
     u8 pad_00[0x13];
@@ -34,8 +35,7 @@ typedef struct S_80B7F054_4 {
 
 extern void *allocate_list_node(s32, const void *);
 extern void register_node(void *,void *);
-extern s32 generate_random_value();
-extern void set_or_clear_actor_status_slot(void *, s32, s32);
+extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern void initialize_actor_sprite_and_animation(void *, void *, void *, s32);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern u8 D_8015EA30[];

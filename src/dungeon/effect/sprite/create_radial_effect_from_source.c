@@ -1,4 +1,5 @@
 #include "shared/object_node_flags.h"
+#include "sdk/libc.h"
 #include "shared/audio_commands.h"
 /* Targeted moving effects, radial color animation, shaded lines, and fragment creation. */
 #include "dungeon/effect/sprite/create_radial_effect_from_source.h"
@@ -12,6 +13,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "dungeon/effect/sprite.h"
+#include "dungeon/actor/status.h"
 extern int abs(int);
 
 typedef struct S_func_81886800_1 {
@@ -623,7 +625,6 @@ extern u8 last_frame_ticks[];
 
 extern void create_a_sprite_effect_position_randomized_rotation(s16 x, s16 y, s16 z);
 extern void create_quad_fragments_vertex_grid_randomized_motion_rotation(void);
-extern s32 rand(void);
 
 /* Advances the effect through color buildup, flicker, and fade, then restores the object color. */
 void create_radial_effect_from_source(EffectState *effect, Vec3s *pos)
@@ -1464,7 +1465,6 @@ struct Elem;
 
 extern void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
 
-s32 rand();                                /* extern */
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry D_800263F8[];
 
@@ -1792,7 +1792,6 @@ typedef struct {
     s16 pad;
 } Cell;
 
-extern s32 rand(void);
 
 extern s16 D_8002632A;
 extern u8 radial_effect_colors[];
@@ -1885,7 +1884,6 @@ void create_quad_fragments_vertex_grid_randomized_motion_rotation(void) {
 #include "common.h"
 
 #include "dungeon/effect/screen.h"
-extern s32 set_or_clear_actor_status_slot(void *, s32, s32);
 extern void adjust_source_value_and_finalize(void *, void *);
 extern u8 D_800E1D01[9];
 

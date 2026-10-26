@@ -1,5 +1,6 @@
 #include "common.h"
 #include "dungeon/actor.h"
+#include "dungeon/actor/status.h"
 
 typedef struct ObjA0 ObjA0;
 typedef struct Motion Motion;
@@ -8,7 +9,6 @@ typedef struct TilePos TilePos;
 
 extern s32 update_actor_movement_to_tile(void *move_state,void *motion,void *target_tile, ActorRecord *actor);
 extern void spend_actor_mp(s32, s32);
-extern void advance_status_timers(void *);
 
 extern s32 nyuel_action_resume_address;
 

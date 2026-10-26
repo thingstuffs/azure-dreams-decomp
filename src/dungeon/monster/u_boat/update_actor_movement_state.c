@@ -2,10 +2,10 @@
 #include "dungeon/actor/motion.h"
 #include "dungeon/actor.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/actor/status.h"
 
 
 extern void spend_actor_mp(void *, s32);
-extern void advance_status_timers(void *);
 
 
 #include "dungeon/monster/u_boat.h"

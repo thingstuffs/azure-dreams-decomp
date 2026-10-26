@@ -1,6 +1,8 @@
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/monster_ids.h"
+#include "engine/node/allocation.h"
+#include "dungeon/level.h"
 
 struct ObjectNodeHeader;
 #include "common.h"
@@ -30,14 +32,11 @@ typedef struct S_800D3F74_0 {
     s8 unk_9C;
 } S_800D3F74_0;   /* result in create_actor_with_tile_flags */
 
-extern void *allocate_list_node();
 extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 extern void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);
-extern s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);
-extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 
 extern u8 D_800D4158;
 extern u8 actor_default_action_address;
@@ -57,7 +56,7 @@ void *create_actor_with_tile_flags(s16 variant, u16 tile_x, u16 tile_y, s16 spaw
     u8 sprite_tile_x;
     u8 sprite_tile_y;
 
-    object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
+    object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != NULL) {
         entity = ((s8 *)object) + 0x20;
         ((S_800D3F74_0 *)entity)->unk_13 = MONSTER_WALL_OF_ICE;

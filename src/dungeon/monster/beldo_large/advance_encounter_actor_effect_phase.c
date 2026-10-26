@@ -7,6 +7,8 @@
 #include "m2c_compat.h"
 #include "shared/object_links.h"
 #include "slus.h"
+#include "dungeon/system.h"
+#include "engine/texture.h"
 extern u8 encounter_overlay_work[];
 
 typedef struct S_8016FC4C_0 {
@@ -52,10 +54,8 @@ typedef struct S_8016FC4C_8 {
     void * unk_5D50;
 } S_8016FC4C_8;   /* (u8 *)common_page in advance_encounter_actor_effect_phase */
 
-void select_indirect_table_entry();
 s32 rand();
 u16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-s32 play_sound_if_enabled();
 void create_random_velocity_child_effect();
 void create_offset_half_scale_spark(void *, s32, s32, s32);
 extern s16 beldo_large_direction_offsets[16];

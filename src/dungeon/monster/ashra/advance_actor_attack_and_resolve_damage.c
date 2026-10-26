@@ -5,6 +5,7 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
+#include "dungeon/actor/status.h"
 
 typedef struct S_80172620_0 {
     u8 pad_00[0x8C];
@@ -18,7 +19,6 @@ typedef struct S_80172620_0 {
 extern void select_sprite_entry(void *, u8, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void set_record_integer_tile_center(s32, u8, u8);
-extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 

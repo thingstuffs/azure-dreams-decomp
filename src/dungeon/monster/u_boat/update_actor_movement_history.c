@@ -5,6 +5,7 @@
 #include "shared/dungeon_floor.h"
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/level.h"
 
 typedef struct {
     signed short x;
@@ -13,7 +14,6 @@ typedef struct {
 
 extern signed short check_forward_collision_and_height(void *, void *);
 extern void play_sound_if_enabled(s32);
-extern s32 sample_terrain_surface_height(u16, u16, signed short);
 
 extern DirectionDelta actor_direction_step_pairs[];
 

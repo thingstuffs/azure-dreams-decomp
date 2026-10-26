@@ -1,3 +1,4 @@
+#include "dungeon/level.h"
 
 struct ObjectNodeHeader;
 #include "common.h"
@@ -12,11 +13,9 @@ extern s32 load_and_publish_texture_resource_pair();
 extern void load_and_upload_sprite_resource();
 extern struct Source_827C * bind_sprite_resource_slot_record(struct Source_827C *source, short entry_id);
 extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);
-extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 extern void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);
 extern void create_tracked_effect();
-extern s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 
 extern s32 loaded_entity_sprite_resource[];
 extern s8 spell_effect_selector_cache[];

@@ -10,6 +10,7 @@
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "dungeon/actor.h"
 
 typedef struct S_8182C800_1 {
     u8 pad_00[0x2A];
@@ -237,7 +238,6 @@ s32 rand(void);
 void apply_attack_power_and_element_effects();
 void *scan_actor_along_heading();
 s32 get_definition_entry_byte_13();
-s32 check_enabled_neighbor_height();
 extern u8 D_800DEBD8;
 extern s32 rand(void);
 void update_directional_actor_effect(void *effect, void *motion, void *sprite);

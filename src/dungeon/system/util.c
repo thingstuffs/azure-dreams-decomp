@@ -1,4 +1,5 @@
 #include "shared/actor_status_ids.h"
+#include "sdk/libgte.h"
 #include "shared/actor_status_flags.h"
 /* Complete native TU in retail file order. Review pending. */
 #include "dungeon/system/util.h"
@@ -6,6 +7,7 @@
 #include "dungeon/effect.h"
 #include "dungeon/menu.h"
 #include "dungeon/system.h"
+#include "engine/node/allocation.h"
 
 extern s16 bounded_runtime_counter;
 
@@ -104,7 +106,6 @@ typedef struct GlobalState {
 } GlobalState;
 
 
-extern s32 rsin(s32);
 
 
 /* Fades and pulses the effect, restoring the linked primitive when the fade ends. */
@@ -182,7 +183,6 @@ void update_pulsing_effect_brightness(PulsingEffectWork *effect, s32 unused, Spr
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
-void *allocate_list_node();            /* extern */
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 s32 play_sound_if_enabled(s32 query_value);                     /* extern */
 void draw_textured_ellipse(); /* extern */
@@ -197,7 +197,7 @@ void *create_textured_ellipse_effect(s32 object_id, s32 state_value) {
     SpriteFrameState *render_data;
     PulsingEffectWork *state_data;
 
-    object = allocate_list_node(0x212, ((s32 *)&scene_object_list_anchor.next));
+    object = allocate_list_node(0x212, &scene_object_list_anchor.next);
     if (object != NULL) {
         object->update_callback = &D_800A5828;
         register_node(object, project_sprite_chain);
@@ -1225,7 +1225,6 @@ void restore_item_flag_400_bitmap(void)
    split addressing with +2/+0xC fields; index-first RAM arithmetic fixes addu. */
 #include "common.h"
 
-s32 rsin();                             /* extern */
 
 typedef struct S_800A6B70_0 {
     u8 pad_00[0xC];

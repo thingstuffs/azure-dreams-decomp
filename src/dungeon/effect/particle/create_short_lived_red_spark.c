@@ -5,6 +5,7 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
+#include "sdk/libc.h"
 
 typedef struct S_80166204_4 {
     u8 pad_00[0x8];
@@ -39,7 +40,6 @@ typedef struct S_80166204_1 {
 
 void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
-s32 rand();                                /* extern */
 extern void D_80165A0C();
 
 /* Creates an offset effect with randomized motion and initializes its display properties. */

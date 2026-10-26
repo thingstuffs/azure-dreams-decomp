@@ -4,6 +4,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
+#include "sdk/libc.h"
 
 #ifndef NULL
 #define NULL 0
@@ -57,7 +58,6 @@ typedef struct S_800D5DCC_7 {
 
 extern void *allocate_list_node();
 extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern s32 rand();
 
 extern u8 D_800D5AC0[];
 

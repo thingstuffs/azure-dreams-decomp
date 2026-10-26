@@ -7,9 +7,9 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/player/item.h"
 
 extern s32 process_record_and_update_linked_state();
-extern s32 begin_mode_selected_item_action();
 extern s32 display_actor_item_status_message();
 extern s32 feed_actor_restore_mp();
 extern s32 place_actor_item();

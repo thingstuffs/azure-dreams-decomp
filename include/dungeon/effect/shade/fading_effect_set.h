@@ -11,6 +11,10 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "sdk/libc.h"
+#include "sdk/libgte.h"
+#include "dungeon/level.h"
+#include "dungeon/system.h"
 typedef struct ovl_188898c_81868A64_S_81868A64_0 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -228,19 +232,13 @@ extern void advance_sprite_animation_and_textures(void *render_data);
 void select_record_entry_and_value(void *state, void *entries, short index);
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
-s32 rand();
 #include "shared/sprite_source.h"
 struct RegistrationNode;
 extern SpriteSourceEntry rising_sprite_entries[];
-s32 rsin();
-s32 rcos();
 s32 check_left_tile_and_center_height();
 extern u8 D_80025368[];
-extern s32 RotTransPers(void *, void *, void *, void *);
 extern s32 resolve_record_orientation_or_fallback();
 extern s32 check_layer_offset_height();
-extern s32 sample_terrain_surface_height();
-extern void play_sound_if_enabled();
 static __inline__ s32 first_delta_s32_s32(s32 end, s32 start);
 void apply_status_to_nearby_actors(s32 x, s32 y, void *kind, s32 flags);
 void advance_fading_effect(void *effect, void *position, void *render_data);

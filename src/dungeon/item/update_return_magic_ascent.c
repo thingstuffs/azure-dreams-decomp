@@ -10,6 +10,7 @@
 #include "dungeon/player/item.h"
 #include "engine/scene.h"
 #include "slus.h"
+#include "sdk/libc.h"
 
 typedef struct {
     u8 pad0[0x8D0];
@@ -64,7 +65,6 @@ extern s16 transition_runtime_slot_index;
 extern void AddPrim();
 extern void SetLineF2();
 extern void SetDrawArea();
-extern s32 rand();
 extern void set_sprite_animation_frame();
 extern void snapshot_inventory_and_familiars(void *input_state);
 extern void draw_transformed_sprite_with_clip_rect();

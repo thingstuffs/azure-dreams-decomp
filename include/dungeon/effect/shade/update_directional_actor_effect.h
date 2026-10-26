@@ -1,5 +1,8 @@
 #ifndef DUNGEON_OVL_7E6B7800_H
 #define DUNGEON_OVL_7E6B7800_H
+#include "sdk/libc.h"
+#include "sdk/libgte.h"
+#include "dungeon/system.h"
 
 struct SpriteFrameState;
 #include "common.h"
@@ -271,28 +274,18 @@ typedef struct Row_8194D354_S_80024B54_11 {
 } Row_8194D354_S_80024B54_11;   /* var_v1 in func_80024B54 */
 
 /* Updates a three-way effect, selects its target, and animates the target color. */
-s32 ratan2(s32, s32);
-s32 SquareRoot0(s32);
 void register_node(void *, void *);
 void func_8004491C(void *, void *);
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
-s32 rsin(s32);
 void *allocate_list_node();
 void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 void advance_sprite_animation_and_textures(void *entity);
-s32 rcos();
-void PushMatrix();
-void PopMatrix();
-void * ApplyMatrixSV();
 void select_record_entry_and_value(void *state, void *entries, short index);
 
 s32 read_sound_mode_blocking_status(s32 mode);
-void * RotMatrix();
-s32 rand();
 void apply_attack_power_and_element_effects();
 void *scan_actor_along_heading();
 s32 check_left_tile_and_center_height();
-s32 play_sound_if_enabled();
 s16 get_surface_height_at_record();
 
 extern M2C_UNK D_800240F0;

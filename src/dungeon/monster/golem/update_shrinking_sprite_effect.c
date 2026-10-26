@@ -4,13 +4,13 @@
 #include "shared/dungeon_status.h"
 #include "shared/sprite_frame_state.h"
 #include "slus.h"
+#include "dungeon/actor.h"
+#include "engine/texture.h"
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
-extern void select_indirect_table_entry();
 extern void apply_monster_koyaw_data();
 extern s32 refresh_actor_facing_and_lifecycle();
-extern void try_move_actor_to_valid_position();
 extern s16 sample_terrain_surface_height();
 
 extern u8 golem_action_continuation_address;

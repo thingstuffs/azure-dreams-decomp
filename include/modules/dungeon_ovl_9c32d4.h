@@ -7,6 +7,7 @@
 #include "shared/object_flags.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
+#include "dungeon/level.h"
 typedef struct ovl_9c32d4_809A32D4_S_80174AD4_0 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
@@ -178,7 +179,6 @@ extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern u8 D_80175F90[12];
 extern s16 dir_step_x[];
 extern s16 dir_step_y[];
-extern s32 sample_terrain_surface_height(s32 x, s32 y, s16 height);
 extern s32 D_800814A0;
 extern void project_sprite_chain(void);
 extern void func_80045340(void);

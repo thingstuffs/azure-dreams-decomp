@@ -6,6 +6,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/player/item.h"
 #include "engine/graphics.h"
+#include "dungeon/item/message.h"
 struct S_80098614_0;
 
 typedef struct S_80098CF8_0 {
@@ -65,8 +66,6 @@ extern void equip_item_and_update_status();
 extern void change_equipped_item_and_notify(struct S_80098614_0 *actor, u8 *requested_item);
 extern void clear_slot_and_update_linked_state(s32 *slot);
 extern void * get_unused_text_buffer(void);
-extern u8 * expand_text_control_codes();
-extern void clear_byte_and_advance();
 extern void * write_text_byte_and_advance();
 extern u8 * append_typed_formatted_value();
 extern s32 play_sound_if_enabled(s32 query_value);

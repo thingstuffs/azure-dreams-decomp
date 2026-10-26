@@ -1,10 +1,10 @@
 #include "common.h"
 #include "dungeon/actor/motion.h"
 #include "dungeon/actor.h"
+#include "dungeon/actor/status.h"
 
 
 extern void spend_actor_mp(s32, s32);
-extern void advance_status_timers(void *);
 
 #include "dungeon/monster/saber.h"
 

@@ -6,6 +6,8 @@
 #include "shared/dir_step.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/actor.h"
+#include "dungeon/player/object.h"
 
 typedef struct S_80172EF4_1 {
     u8 pad_00[0x8C];
@@ -16,9 +18,7 @@ typedef struct S_80172EF4_1 {
     u8 unk_9B;
 } S_80172EF4_1;   /* arg0 in decelerate_and_center_actor_on_tile */
 
-extern void set_record_integer_tile_center();
 extern void begin_actor_display_action();
-extern void apply_clamped_actor_value_delta();
 
 extern u8 battnel_action_resume_address[];
 #include "dungeon/monster/battnel.h"

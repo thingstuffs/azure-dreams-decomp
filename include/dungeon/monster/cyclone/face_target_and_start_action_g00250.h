@@ -1,5 +1,7 @@
 #ifndef DUNGEON_MONSTER_CYCLONE_FACE_TARGET_AND_START_ACTION_G00250_H
 #define DUNGEON_MONSTER_CYCLONE_FACE_TARGET_AND_START_ACTION_G00250_H
+#include "dungeon/actor/status.h"
+#include "dungeon/level.h"
 
 struct ObjectPosition;
 /* Face target and start action. Shared declarations. */
@@ -88,7 +90,6 @@ extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target,
 extern u8 cyclone_frame_set_2[];
 /* arg0 in search_ahead_and_start_action */
 extern s32 check_layer_offset_height(s32, s32, s16, s32);
-extern s16 sample_terrain_surface_height(u16, u16, s16);
 extern s32 find_eligible_entry_at_coordinates(void *, u16, u16);
 extern s32 check_entity_interaction_compatibility(void *, void *);
 
@@ -96,7 +97,6 @@ extern s32 check_entity_interaction_compatibility(void *, void *);
 /* Shared import declarations; data casts preserve each measured view. */
 extern void select_sprite_entry(void *, u8, s32);
 extern s32 try_claim_dungeon_action_slot(void *);
-extern void advance_status_timers(void *);
 extern void apply_camera_offset_and_select_target(void *, void *, s32, s32);
 
 /* Functions defined in this translation unit. */

@@ -1,4 +1,5 @@
 #include "dungeon/level/tile_flags.h"
+#include "dungeon/level.h"
 
 struct ObjectNodeHeader;
 /* Complete native TU in retail file order. Review pending. */
@@ -201,7 +202,6 @@ s32 find_first_empty_floor_item_slot(void) {
 #include "shared/dir_step.h"
 
 extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
-extern s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 
 
 
@@ -382,7 +382,6 @@ DungeonDescriptor *create_timed_effect_at_tile(s32 tile_x, s32 tile_y, s32 z, s3
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
-extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 
 
 typedef struct {
@@ -560,7 +559,6 @@ struct DungeonDescriptor;
 extern struct DungeonDescriptor * create_timed_effect_at_tile(s32 tile_x, s32 tile_y, s32 z, s32 *init_data);
 extern void * create_tile_centered_item_effect(s32, s32, s32, s32 *, s32, s32, s32);
 extern s32 get_item_category_value(void *item);
-extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 
 /* Registers an object at a resolved dungeon position or processes its fallback placement. */
 s32 place_item_at_valid_floor_position(s32 x, s32 y, s32 z, s32 unused, s32 *object_data) {

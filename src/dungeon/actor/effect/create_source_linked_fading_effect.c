@@ -5,6 +5,7 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
+#include "engine/node/allocation.h"
 
 typedef struct S_800CB4C0_6 {
     u8 pad_00[0x8];
@@ -14,7 +15,6 @@ typedef struct S_800CB4C0_6 {
    /* ((S_800CB4C0_6 *)arg0)->unk_08 in create_source_linked_fading_effect */
 
 void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
-void *allocate_list_node();               /* extern */
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 extern void D_800CB374();
 #include "shared/sprite_source.h"
@@ -38,7 +38,7 @@ void *create_source_linked_fading_effect(ObjectNodeHeader *source, s16 copy_posi
     SpriteFrameState *source_display;
     ObjectPosition *position;
 
-    object = allocate_list_node(0x100, source);
+    object = allocate_list_node(0x100, &source->next);
     if (object != NULL) {
         object->update_callback = &D_800CB374;
         register_node(object, project_sprite_chain);

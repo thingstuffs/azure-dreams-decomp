@@ -1,5 +1,6 @@
 /* Timed target effects, textured quad rendering, scattered fragments, and segment animation. */
 #include "shared/sprite_frame_state.h"
+#include "sdk/libgte.h"
 #include "dungeon/effect/sprite/update_directional_actor_effect.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/sprite/update_directional_actor_effect.h"
@@ -324,7 +325,6 @@ typedef struct {
     s32 unk1FC;
 } S_800A1600_D80083160;
 
-extern s32 RotTransPers();
 extern void SetSemiTrans();
 extern void SetPolyFT4();
 
@@ -509,7 +509,6 @@ typedef struct Resource {
 extern u8 directional_sprite_entries[];
 
 extern s32 resolve_record_orientation_or_fallback(void *, void *, s16 *, s32);
-extern s32 rsin(s32);
 extern s32 GetTPage(s32, s32, s32, s32);
 extern s32 GetClut(s32, s32);
 extern s32 rand(void);
@@ -683,7 +682,6 @@ typedef struct S_80024B20_5 {
     u32 unk_14A0;
 } S_80024B20_5;   /* page in update_segment */
 
-extern s32 rsin();
 
 /* Updates an eight-segment effect's samples, motion, color, and lifetime. */
 void update_segment(void *effect) {

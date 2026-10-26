@@ -6,6 +6,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
+#include "dungeon/level.h"
 typedef struct Row_818F34E4_Block24 {
     s32 word[6];
 } Row_818F34E4_Block24;
@@ -51,7 +52,6 @@ typedef struct Row_818F34E4_S_80024CE4_4 {
 
 /* Updates a timed effect's oscillation, fade, and scale, then marks it finished. */
 s32 rsin(s16);
-s16 sample_terrain_surface_height(s32, s32, s16);
 extern s16 D_800259AC;
 void update_oscillating_fading_effect(void *effect, Row_818F34E4_S_80024CE4_2 *position, Row_818F34E4_S_80024CE4_1 *visual, s32 unused);
 #endif

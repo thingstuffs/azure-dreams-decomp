@@ -1,5 +1,7 @@
 #ifndef DUNGEON_DUNGEON_SETUP_H
 #define DUNGEON_DUNGEON_SETUP_H
+#include "sdk/libgte.h"
+#include "dungeon/level.h"
 
 struct ObjectPosition;
 #include "common.h"
@@ -224,13 +226,6 @@ typedef struct dungeon_setup_802842A0_S_800172A0_3 {
     s16 unk_24;
     s16 unk_26;
 } dungeon_setup_802842A0_S_800172A0_3;
-extern void SetFogFar(s32, s32);
-extern void SetLightMatrix(void *);
-extern void SetColorMatrix(void *);
-extern void SetBackColor(s32, s32, s32);
-extern void SetFarColor(s32, s32, s32);
-extern void SetGeomOffset(s32, s32);
-extern void SetGeomScreen(s32);
 extern u8 monster_spawn_records;
 extern dungeon_setup_80283000_ColorState upper_draw_context;
 extern dungeon_setup_80283000_ColorState lower_draw_context;
@@ -285,10 +280,8 @@ extern void zero_words(void *, s32);
 extern s16 select_dungeon_spawn_tile(u8 *, u8 *);
 extern s32 test_resident_bit(s32);
 extern s32 func_80033BC0(s32);
-extern s16 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 extern void get_offset_map_cell_value_and_flags(u8, u8, s16, u16 *);
 extern void set_record_integer_tile_center(void *, u8, u8);
-extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern void restore_inventory_and_familiars(void *, void *, u8, u8);
 #include "engine/texture.h"
 extern s32 get_entity_effect_value(void *, s32);
@@ -323,8 +316,6 @@ extern u8 monster_resource_cache_slots[];
 extern void restore_actor_stats_from_snapshot(void *object, void *table);
 extern s8 get_bounded_stride_index(void *object, void *table, s32 value2, s32 value3);
 extern u8 familiar_record_slots[];
-s32 rsin();
-s32 rcos();
 extern void D_800C7B38();
 static __inline__ void set_light_vectors(u8 *view_state, s16 x, s16 y);
 void initialize_floor_generation_state(void);

@@ -4,6 +4,7 @@
 #include "common.h"
 #include "shared/dungeon_sprite_data.h"
 #include "shared/dungeon_moving_views.h"
+#include "sdk/libc.h"
 
 typedef s32 M2C_UNK;
 
@@ -24,7 +25,6 @@ typedef struct S_80D65810_0 {
 
 void select_record_entry_and_value(void *state, void *entries, short index);
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-s32 rand();
 extern void project_sprite_chain(void);
 extern void update_effect_collision_and_lifetime(void);
 

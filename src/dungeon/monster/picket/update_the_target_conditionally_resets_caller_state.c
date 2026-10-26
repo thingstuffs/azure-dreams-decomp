@@ -3,6 +3,7 @@
 #include "dungeon/actor/motion.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+#include "dungeon/actor/status.h"
 
 typedef struct S_801724A8_0 {
     u8 pad_00[0x8C];
@@ -11,7 +12,6 @@ typedef struct S_801724A8_0 {
 } S_801724A8_0;   /* arg0 in update_the_target_conditionally_resets_caller_state */
 
 
-void advance_status_timers();                     /* extern */
 void spend_actor_mp();            /* extern */
                 /* extern */
 void update_dungeon_actor_behavior_facing_animation_state(void *actor, void *context, void *sprite, ActorRecord *entity);

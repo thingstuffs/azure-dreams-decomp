@@ -8,6 +8,9 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/monster/golem.h"
+#include "engine/graphics.h"
+#include "dungeon/actor/motion.h"
+#include "dungeon/item.h"
 #define F(p, t, o) (*(t *)((u8 *)(p) + (o)))
 
 
@@ -25,15 +28,12 @@ extern u8 D_80175F50;
 extern u8 D_80175F60;
 
 extern s32 get_entity_effect_value();
-extern s32 select_sprite_entry(void *, s32, s32);
 extern s32 check_entity_relation();
 extern s32 find_active_rect_containing_point();
 extern s32 test_neighbor_position_relation();
-extern s32 get_rounded_facing_and_rounding_flag();
 extern s32 can_entity_gain_level();
-extern s32 generate_random_value();
+extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern s32 update_actor_status_and_mp();
-extern s32 begin_pushed_actor_move();
 extern s32 begin_ready_actor_directional_action();
 extern s32 advance_actor_pending_action();
 extern s32 begin_actor_move_to_target_facing();

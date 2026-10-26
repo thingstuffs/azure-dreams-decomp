@@ -2,6 +2,8 @@
 #include "shared/audio_commands.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
+#include "sdk/libgpu.h"
+#include "dungeon/actor/status.h"
 /* Effect quad projection, child particle updates, and a moving status-effect sequence. */
 
 struct ObjectPosition;
@@ -29,7 +31,6 @@ extern void clear_byte_and_advance(s8 *byte_ptr);
 extern u8 *append_entity_display_text(void *record, u8 *out);
 extern void adjust_source_value_and_finalize(void *, void *);
 #include "dungeon/effect/screen.h"
-extern s32 set_or_clear_actor_status_slot(void *, s32, s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 get_random_scaled_value(s16 input_value);
 
@@ -375,7 +376,6 @@ void SetTransMatrix(void *);
 s32 RotAverage4(void *, void *, void *, void *, void *,
                   void *, void *, void *, void *, void *);
 void RotMatrix(void *, void *);
-void SetPolyFT4(void *);
 
 /* Draws a textured spherical mesh and adds its visible quads to the ordering table. */
 void draw_textured_sphere_mesh(void *mesh, void *position, void *material, u16 depth_bias) {
@@ -636,8 +636,6 @@ s32 draw_chained_object_records(void *record, void *context, void *data) {
 #define FIELD_PTR(base, off) (*(u8 **)((u8 *)(base) + (off)))
 
 extern s32 RotTransPers(void *, void *, void *, void *);
-extern s32 GetTPage();
-extern void SetDrawMode(void *, s32, s32, s32, s32);
 
 /* Projects a colored point and links its drawing packets into the ordering table. */
 s32 project_colored_point(u8 *render_data, u8 *source_vertex)
@@ -773,7 +771,6 @@ typedef struct S_func_81875B38_5 {
     s32 unk_48;
 } S_func_81875B38_5;
 
-extern s32 rand();
 
 /* Returns the typed effect payload at byte offset 0x20 from the supplied node address. */
 static __inline__ S_func_81875B38_2 *effect_offset_32(void *p) {
@@ -828,7 +825,6 @@ void create_terrain_seeking_point_effect(
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern s32 rand(void);
 extern void create_terrain_seeking_point_effect(void *, s32, s32, s16, s16, s16, s16);
 
 typedef struct {
@@ -1358,7 +1354,6 @@ extern Copy12 D_80026640;
 extern Copy12 D_8002664C;
 
 extern s32 get_sprite_attachment_vector(void *, void *, Vec3s *, s32);
-extern s32 rand(void);
 extern s32 check_adjacent_tile_height_clearance(u16, u16, s16, void *);
 extern void create_terrain_seeking_point_effect(void *, s32, s32, s16, s16, s16, s16);
 

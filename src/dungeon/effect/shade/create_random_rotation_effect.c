@@ -3,6 +3,8 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "engine/node.h"
+#include "sdk/libc.h"
+#include "sdk/libgte.h"
 
 typedef unsigned long uptr;
 typedef long long s64_local;
@@ -21,9 +23,6 @@ typedef union {
 #endif
 
 extern void select_record_entry_and_value(void *state, void *entries, short index);
-extern s32 rsin();
-extern s32 rcos();
-extern s32 rand();
 
 extern u8 D_80024710[];
 extern u8 shared_sprite_entries[];

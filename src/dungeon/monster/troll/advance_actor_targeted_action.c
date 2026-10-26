@@ -10,6 +10,9 @@
 #include "engine/cd.h"
 #include "shared/sprite_frame_state.h"
 #include "engine/graphics.h"
+#include "dungeon/player/object.h"
+#include "dungeon/system.h"
+#include "dungeon/actor/status.h"
 
 typedef struct S_8017472C_0 {
     u8 pad_00[0x8C];
@@ -37,9 +40,6 @@ typedef struct S_8017472C_6 {
 
 extern int abs(int);
 extern void *scan_actor_along_heading();
-extern void set_record_integer_tile_center();
-extern void advance_status_timers();
-extern void play_sound_if_enabled();
 extern void *create_actor_spell_effect();
 extern void spawn_random_color_burst_particle();
 extern void spawn_growing_rotating_flash();

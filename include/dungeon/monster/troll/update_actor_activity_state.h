@@ -134,7 +134,7 @@ extern void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_i
 extern s32 check_entity_relation();
 extern s16 get_tile_chebyshev_distance();
 #include "dungeon/player/object/action_state.h"
-extern s32 generate_random_value();
+extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern s32 on_actor_status_updated();
 extern s32 func_800A9A04();
 extern void update_actor_status_and_mp();

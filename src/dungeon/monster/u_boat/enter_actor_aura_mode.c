@@ -5,6 +5,8 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/system.h"
+#include "dungeon/level.h"
 
 #ifndef NULL
 #define NULL 0
@@ -50,8 +52,6 @@ typedef struct S_80175BA8_5 {
 
 extern void *allocate_list_node();
 extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern void play_sound_if_enabled();
-extern s32 sample_terrain_surface_height();
 
 extern u8 clipped_sprite_renderer_address[];
 extern u8 uboat_aura_start_frames[];

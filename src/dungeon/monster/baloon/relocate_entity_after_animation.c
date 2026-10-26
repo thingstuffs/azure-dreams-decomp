@@ -6,6 +6,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800D6DC0_arg2.h"
+#include "dungeon/level.h"
 
 typedef struct S_80175594_0 {
     u8 pad_00[0x8C];
@@ -55,13 +56,11 @@ extern u8 D_800E23C0[];
 
 extern void select_sprite_entry(void *, u8, s32);
 extern s32 rand(void);
-extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
 extern s16 select_dungeon_spawn_tile(u8 *, u8 *);
 extern void play_sound_if_enabled(s32);
 extern void refresh_actor_proximity_state(u8 *context);
 extern void spend_actor_mp(void *, s32);
-extern s16 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 extern void create_radial_effect_segments(void *, void *, void *, void *);
 extern void create_anchored_directional_object(void *, void *, void *, void *, s32);
 extern void create_origin_motion_effect(void *, void *, void *, s32, s32, s32);

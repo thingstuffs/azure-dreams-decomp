@@ -7,6 +7,8 @@
 #include "shared/dir_step.h"
 #include "dungeon/level.h"
 #include "engine/graphics.h"
+#include "dungeon/system.h"
+#include "dungeon/actor/status.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -113,14 +115,10 @@ typedef struct S_func_81008664_12 {
     s16 unk_0A;
 } S_func_81008664_12;
 
-void cycle_map_cell_flags();
 void update_map_cell_flags_with_item_limit();
-void advance_status_timers();
 s32 select_dungeon_spawn_tile();
-s32 play_sound_if_enabled();
 void refresh_actor_proximity_state();
 void spend_actor_mp();
-s16 sample_terrain_surface_height();
 extern s16 dungeon_room_count;
 void update_creature_animation_action(void *actor, void *context, void *sprite_arg, void *creature);
 extern u8 garuda_frame_set_3[];

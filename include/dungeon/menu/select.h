@@ -11,6 +11,7 @@
 #include "shared/object_flags.h"
 #include "shared/dir_step.h"
 #include "shared/tile_object.h"
+#include "dungeon/system.h"
 
 typedef struct S_81809800_0 {
     u8 pad_00[0x26];
@@ -718,7 +719,6 @@ s32 rsin();                        /* extern */
 s32 resolve_player_input_facing();               /* extern */
 void append_packed_action_record();      /* extern */
 u32 get_rounded_facing_and_rounding_flag(); /* extern */
-s32 play_sound_if_enabled();                     /* extern */
 extern u8 last_frame_ticks[16];
 #include "engine/texture.h"
 struct Entry;

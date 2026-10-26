@@ -8,6 +8,7 @@
 #include "dungeon/item.h"
 #include "dungeon/player.h"
 #include "engine/cd.h"
+#include "dungeon/level.h"
 /* Advances sprite animation and textures for the third argument, leaving the first two unused. */
 void update_sprite_from_third_argument(s32 unused_first, s32 unused_second, s32 value) {
     advance_sprite_animation_and_textures(value);
@@ -1442,7 +1443,6 @@ typedef struct S_807B040C_7 {
     u16 unk_16;
 } S_807B040C_7;   /* motion in update_special_actor_transition */
 
-extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern void get_offset_map_cell_value_and_flags(u8, u8, s16, u16 *);
 extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
 extern void set_record_integer_tile_center(void *, u8, u8);

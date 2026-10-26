@@ -1,5 +1,6 @@
 #ifndef DUNGEON_MONSTER_MANOEVA_KNOCKBACK_TRAVEL_G00260_H
 #define DUNGEON_MONSTER_MANOEVA_KNOCKBACK_TRAVEL_G00260_H
+#include "dungeon/level.h"
 
 struct ObjectPosition;
 /* Knockback travel shared declarations (G00260). */
@@ -89,7 +90,6 @@ typedef struct {
 } Work;
 
 extern s32 get_offset_map_cell_value_and_flags(s16, s16, s16, u16 *);
-extern s16 sample_terrain_surface_height(s32, s32, s16);
 extern s32 *manoeva_knockback_callback_address;
 extern s8 D_801766F0[];
 extern u8 *find_or_retain_sprite_resource_slot(s32, s32);

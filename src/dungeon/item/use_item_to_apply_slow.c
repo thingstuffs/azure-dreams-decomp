@@ -8,9 +8,9 @@
 #include "shared/dungeon_status.h"
 
 #include "dungeon/player/item.h"
+#include "dungeon/actor/status.h"
 extern void clear_slot_and_update_linked_state(s32);
 extern void adjust_source_value_and_finalize(void *context, const void *source);
-extern s32 set_or_clear_actor_status_slot(void *, s32, s32);
 extern void play_sound_if_enabled(s32);
 extern void place_actor_item(void *, s32);
 extern void display_item_status_message(void *, s32, s16);

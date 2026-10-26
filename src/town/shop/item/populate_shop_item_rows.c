@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/shop/shop_window_layout_g00610.h"
 #include "m2c_compat.h"
+#include "sdk/libc.h"
 
 
 
@@ -12,7 +13,6 @@ s32 func_8004DC14();                        /* extern */
 char * func_8004E5A0(int, unsigned short, char *);     /* extern */
 u8 * remap_flagged_string_bytes(u8 *);                   /* extern */
 s32 func_8004E928();              /* extern */
-char *strcat();        /* extern */
 void update_current_shop_page(void *);                      /* extern */
 struct S_func_800B361C_0; void update_shop_state_flags(struct S_func_800B361C_0 *);                      /* extern */
 s32 allocate_and_initialize_shop_object(s32);                             /* extern */

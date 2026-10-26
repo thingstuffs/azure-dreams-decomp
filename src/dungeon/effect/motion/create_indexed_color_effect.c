@@ -5,11 +5,10 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
+#include "sdk/libgte.h"
 
 void select_record_entry_and_value(void *state, void *entries, short index);      /* extern */
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
-s32 rsin();                             /* extern */
-s32 rcos();                             /* extern */
 extern M2C_UNK D_800246AC;
 extern u8 D_800E0000[];
 
@@ -67,8 +66,8 @@ void * create_indexed_color_sprite(MovingPosition *origin, u16 index) {
         sprite->flags = (u16) (sprite->flags | 0xC);
         register_node(effect, project_sprite_chain);
         position = effect->position;
-        position->x.w.i = (s16) (((S_80024790_0 *)effect)->unk_20 + ((s32) (rsin(state->unk_08) * 2) >> 8));
-        position->y.w.i = (s16) (state->unk_02 + ((s32) (rcos(state->unk_08) * 2) >> 8));
+        position->x.w.i = (s16) (((S_80024790_0 *)effect)->unk_20 + ((rsin(state->unk_08) * 2) >> 8));
+        position->y.w.i = (s16) (state->unk_02 + ((rcos(state->unk_08) * 2) >> 8));
         index <<= 3;
         position->z.w.i = state->unk_04 - index;
         return effect;

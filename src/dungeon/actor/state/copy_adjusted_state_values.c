@@ -1,8 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
+#include "sdk/libgte.h"
 
-s32 RotTransPers();        /* extern */
 
 typedef struct S_800B0654_0 {
     u8 pad_00[0x28];

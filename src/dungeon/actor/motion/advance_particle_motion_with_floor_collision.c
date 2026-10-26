@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "dungeon/level.h"
 
-extern s16 sample_terrain_surface_height(u16, u16, s16);
 
 /* Update damped motion with gravity, clamp to the floor, and flag expiration. */
 void advance_particle_motion_with_floor_collision(void *object, void *motion) {

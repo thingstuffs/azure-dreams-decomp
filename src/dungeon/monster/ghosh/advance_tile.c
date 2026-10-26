@@ -9,6 +9,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "shared/object_links.h"
 #include "shared/actor_status.h"
+#include "dungeon/level.h"
 
 typedef struct S_8016FCE4_0 {
     u8 pad_00[0x14];
@@ -46,7 +47,6 @@ typedef struct S_8016FCE4_4 {
    /* (arg3 + ((u8) ((S_8016FCE4_0 *)arg3)->unk_71.s & 0x7F)) in advance_boss_actor_movement_state */
 
 s32 check_entity_relation(void *, void *);
-void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 void update_map_cell_flags_with_item_limit(s32, s32, s32);
 s32 check_movement_clearance_and_height(s32, void *, void *, s32);
 s32 test_neighbor_position_relation(s32, s32, s32, s32);
@@ -57,7 +57,6 @@ void select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
 void update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 s32 generate_random_value(void);
 void update_actor_status_and_mp(void *);
-s16 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 extern s16 actor_turn_angle_offsets[];
 extern TileObject D_80082E80_b __asm__("D_80082E80");
 

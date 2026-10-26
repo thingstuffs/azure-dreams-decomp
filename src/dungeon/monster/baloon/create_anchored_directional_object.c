@@ -4,6 +4,7 @@
 #include "shared/object_node.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_moving_views.h"
+#include "engine/node/allocation.h"
 
 #ifndef NULL
 #define NULL 0
@@ -54,7 +55,6 @@ typedef struct S_80D653B8_5 {
     u16 unk_16;
 } S_80D653B8_5;   /* arg1 in create_anchored_directional_object */
 
-extern void *allocate_list_node();
 extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern void project_sprite_chain(void);
 extern void select_sprite_entry();
@@ -74,7 +74,7 @@ void create_anchored_directional_object(void *unused, S_80D653B8_5 *anchor, S_80
     S_80D653B8_0 *object_work;
 
     (void)unused;
-    object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != NULL) {
         object_work = (u8 *)object + 0x20;
         object_work->unk_96 = initial_value;

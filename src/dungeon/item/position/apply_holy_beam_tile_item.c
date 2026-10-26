@@ -7,6 +7,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dungeon_moving_views.h"
 #include "shared/object_links.h"
+#include "dungeon/level.h"
 
 
 extern s32 get_entity_effect_value(void *actor, s32 value);
@@ -20,7 +21,6 @@ extern void *write_text_byte_and_advance(s8 value, s8 *dest);
 extern u8 * append_typed_formatted_value(void *object_data,u8 *value);
 extern u8 *append_entity_display_text(void *record, u8 *out);
 extern void * write_status_prefix_bytes(void *value);
-extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern void update_map_cell_flags_with_item_limit(u8 x, u8 y, s32 flags);
 extern void play_sound_if_enabled(s32 value);
 extern void display_text_with_fullwidth_adjustment(s8 *text);

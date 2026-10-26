@@ -1,10 +1,10 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "dungeon/system.h"
+#include "sdk/libc.h"
 
 void set_object_data_pointer();                         /* extern */
 s32 get_work_value_third();                             /* extern */
-s32 strcmp();                     /* extern */
 
 typedef struct S_8002573C_0 {
     u8 pad_00[0xC];

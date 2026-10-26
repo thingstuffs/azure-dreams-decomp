@@ -3,6 +3,7 @@
 #include "dungeon/effect/sprite/route.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
+#include "sdk/libc.h"
 void (*const dungeon_18ee800_entry)(void *, void *, void *) = follow_entity_effect_and_cleanup;
 const B32_818CFB74_PackedOffsets sprite_route_direction_offsets = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
 #include "dungeon/effect/sprite/route.h"
@@ -137,7 +138,6 @@ s32 project_linked_shaded_points(void *start_node, void *start_coords)
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern s32 rand(void);
 
 /* Raises the source toward its height limit and flags the object when its counter expires. */
 void advance_jittered_effect_toward_terrain(void *object_data, void *source_data)
@@ -187,7 +187,6 @@ void advance_jittered_effect_toward_terrain(void *object_data, void *source_data
 
    /* ((B32_818CEB58_S_818CEB58_1 *)held_arg0)->unk_08 in func_80024358 */
 
-extern s32 rand(void);
 
 /* Creates an object at a randomized offset from the source and initializes its fields. */
 void create_jittered_terrain_seeking_point(
@@ -325,7 +324,6 @@ void update_actor_effect_sequence(void *record)
 
    /* arg0 in func_800245C8 */
 
-s32 rand();
 
 /* Updates effect motion, collisions, animation, scale, and expiration. */
 void advance_damped_ground_sliding_sprite(void *state, B32_818CEDC8_S_818CEDC8_0 *position, SpriteFrameState *sprite) {

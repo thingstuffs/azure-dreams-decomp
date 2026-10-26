@@ -7,6 +7,9 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "dungeon/actor.h"
+#include "dungeon/actor/animation.h"
+#include "engine/node/allocation.h"
 
 typedef struct S_80170894_1 {
     u8 pad_00[0x13];
@@ -30,12 +33,9 @@ typedef struct S_80170894_4 {
     s8 unk_9C;
 } S_80170894_4;   /* actor in func_80170894 */
 
-extern void *allocate_list_node();
 extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern s32 generate_random_value();
+extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern void set_or_clear_actor_status_slot();
-extern void initialize_actor_sprite_and_animation();
-extern void try_move_actor_to_valid_position();
 extern u8 D_80170A68[];
 void func_80170E94(void *actor_in, void *actor_data_in, void *sprite_in, void *status_in);
 extern u8 viper_frame_set_2[];
@@ -61,7 +61,7 @@ void *spawn_mode_configured_monster(s16 spawn_flags, s16 tile_x, s16 tile_y, s16
     saved_tile_x = tile_x;
     saved_height = spawn_height;
     saved_tile_y = tile_y;
-    obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         obj->update_callback = D_80170A68;

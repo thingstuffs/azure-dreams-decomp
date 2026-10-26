@@ -13,6 +13,10 @@
 #include "shared/dungeon_moving_views.h"
 #include "engine/cd.h"
 #include "engine/graphics.h"
+#include "sdk/libc.h"
+#include "dungeon/player/object.h"
+#include "dungeon/system.h"
+#include "dungeon/actor/status.h"
 extern int abs(int);
 
 typedef s32 Any;
@@ -34,11 +38,7 @@ typedef struct S_801737B0_0 {
 extern u8 weadog_action_resume_address[];
 extern u8 weadog_frame_set_3[];
 
-extern s32 rand();
 extern void *scan_actor_along_heading();
-extern Any set_record_integer_tile_center();
-extern void advance_status_timers();
-extern Any play_sound_if_enabled();
 extern void * create_actor_spell_effect();
 extern void create_random_color_offset_effect(void *parent, s16 initial_14, s32 unused, s16 initial_32, s16 offset_x, s16 offset_y, s16 offset_z);
 

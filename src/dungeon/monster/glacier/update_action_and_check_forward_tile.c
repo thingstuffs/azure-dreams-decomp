@@ -7,6 +7,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/level.h"
 
 typedef struct {
     s16 x;
@@ -23,7 +24,6 @@ extern void set_record_integer_tile_center(void *, s32, s32);
 extern s16 check_left_tile_and_center_height(u16, u16, s16);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
-extern s16 sample_terrain_surface_height(u16, u16, s16);
 extern s32 find_first_entry_matching_keys(void *, u16, u16, s16);
 extern void create_facing_offset_object(void *, void *, void *);
 

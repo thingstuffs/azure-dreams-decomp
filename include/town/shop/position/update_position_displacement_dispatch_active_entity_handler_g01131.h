@@ -1,5 +1,7 @@
 #ifndef TOWN_SHOP_POSITION_UPDATE_POSITION_DISPLACEMENT_DISPATCH_ACTIVE_ENTITY_HANDLER_G01131_H
 #define TOWN_SHOP_POSITION_UPDATE_POSITION_DISPLACEMENT_DISPATCH_ACTIVE_ENTITY_HANDLER_G01131_H
+#include "sdk/libc.h"
+#include "sdk/libgte.h"
 
 struct SpriteFrameState;
 /* Update position displacement dispatch active entity handler. Shared declarations. */
@@ -100,7 +102,6 @@ typedef struct S_8009F4C0_2 {
     u8 unk_983;
 } S_8009F4C0_2;
 
-s32 rsin();
 extern s32 town_timed_state_address;
 extern M2C_UNK D_80093524[3];
 extern s32 add_motion_deltas_to_position(void *);
@@ -128,7 +129,6 @@ void apply_actor_template_and_direction(S_800423C0_Obj *obj, s16 unused, S_80042
 /* extern */
 void func_80042640(void *obj, s16 monsterId);
 /* extern */
-void *memset();
 /* extern */
 void set_object_state_for_mode(void *,struct SpriteFrameState *, s32, s32);
 extern s32 town_actor_scratch;

@@ -15,6 +15,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/sprite_source.h"
 #include "m2c_compat.h"
+#include "sdk/libc.h"
 
 typedef struct S_FUNC_8197C800_BODY_0_pre {
     u16 unk_00;
@@ -149,7 +150,6 @@ extern u8 directional_sprite_entries[];
 
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern s32 read_sound_mode_blocking_status(s32);
-extern s32 rand(void);
 extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s16, void *, s32);
 
 void update_directional_actor_effect(void *input, void *output);
@@ -157,9 +157,7 @@ extern int abs(int);
 extern s32 secondary_sprite[];
 extern s32 resolve_record_orientation_or_fallback(void *entry, void *table, void *scratch, s32 a3);
 extern s32 rsin(s32 angle);
-extern s32 rand(void);
 extern u8 homing_particle_sprite_entries[];
-s32 rand();                          /* extern */
 extern SpriteSourceEntry landing_sprite_entries[];
 
 /* Converts the grid coordinate to units of 64 and adds random modulo 64. */

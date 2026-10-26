@@ -7,6 +7,9 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "dungeon/actor.h"
+#include "dungeon/actor/animation.h"
+#include "engine/node/allocation.h"
 
 typedef struct S_80170F9C_1 {
     u8 pad_00[0x13];
@@ -34,12 +37,9 @@ typedef struct S_80170F9C_4 {
     s8 unk_B5;
 } S_80170F9C_4;   /* work_copy in create_configured_actor_sprite */
 
-extern void *allocate_list_node();
 extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern void set_or_clear_actor_status_slot();
 extern s32 generate_random_value(void);
-extern void initialize_actor_sprite_and_animation();
-extern void try_move_actor_to_valid_position();
 extern void create_owner_linked_directional_object();
 
 extern u8 uboat_default_frames[];
@@ -65,7 +65,7 @@ void *create_configured_actor_sprite(s16 mode, s16 value_24, s16 value_25, s16 v
     S_80170F9C_4 *work_copy;
 
     work = 0;
-    object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     mode_copy = mode;
     if (object != 0) {
         work = (u8 *)object + 0x20;

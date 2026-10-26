@@ -4,6 +4,8 @@
 #include "dungeon/effect/travel.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
+#include "sdk/libgpu.h"
+#include "dungeon/actor/status.h"
 void (*const dungeon_18a0800_entry)(TrackingEffect *, ObjectPosition *, SpriteFrameState *) = follow_brighten;
 #include "modules/dungeon_ovl_18a0800.h"
 #include "dungeon/effect/travel.h"
@@ -937,8 +939,6 @@ typedef struct S_800252E0_8 {
 
 extern s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list();
 extern u32 RotTransPers();
-extern s32 GetTPage();
-extern void SetDrawMode();
 extern u8 resident_globals_page[];
 
 /* Queue projected point primitives from a linked list into the ordering table. */
@@ -1161,7 +1161,6 @@ void *create_effect_from_endpoints(S_80025654_2 *endpoints, S_80025654_4 *settin
 #include "common.h"
 
 #include "dungeon/effect/screen.h"
-extern s32 set_or_clear_actor_status_slot(void *, s32, s32);
 extern void adjust_source_value_and_finalize(void *, void *);
 extern u8 D_800E1CD5[9];
 

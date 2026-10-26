@@ -2,14 +2,13 @@
 #include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
+#include "sdk/libgte.h"
 
 struct Dst;
 struct Elem;
 
 void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
 void advance_sprite_animation_and_textures(void *entity);                      /* extern */
-s32 rsin();                             /* extern */
-s32 rcos();                             /* extern */
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry high_particle_sprite_entries[];
 

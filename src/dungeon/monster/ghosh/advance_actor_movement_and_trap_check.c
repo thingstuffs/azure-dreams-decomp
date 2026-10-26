@@ -1,7 +1,7 @@
 #include "common.h"
 #include "dungeon/actor.h"
+#include "dungeon/actor/status.h"
 
-extern void advance_status_timers(void *);
 extern s32 update_actor_movement_to_tile(void *,void *,void *, s32);
 
 extern s32 ghosh_action_resume_address;

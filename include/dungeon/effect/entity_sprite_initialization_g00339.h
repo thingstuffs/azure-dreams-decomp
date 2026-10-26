@@ -1,5 +1,6 @@
 #ifndef DUNGEON_EFFECT_ENTITY_SPRITE_INITIALIZATION_G00339_H
 #define DUNGEON_EFFECT_ENTITY_SPRITE_INITIALIZATION_G00339_H
+#include "dungeon/level.h"
 
 
 struct ObjectNodeHeader;
@@ -59,9 +60,7 @@ typedef struct S_800B23F8_4 {
 /* state in initialize_entity_sprite_effect */
 extern s8 find_active_rect_containing_point(u8, u8);
 extern void set_record_integer_tile_center(void *, u8, u8);
-extern s16 sample_terrain_surface_height(u16, u16, s16);
 extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *);
-extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern void create_tracked_effect(void *, s32, void *, void *);
 /* (void *)reg_s3 in create_mode_configured_object */
 extern void *allocate_list_node(s32, void *);

@@ -10,10 +10,10 @@
 #include "m2c_compat.h"
 
 #include "dungeon/player/item.h"
+#include "dungeon/actor/status.h"
 struct Owner_800A48F0;
 void clear_slot_and_update_linked_state();                         /* extern */
 void adjust_source_value_and_finalize(void *context, const void *source);           /* extern */
-s16 set_or_clear_actor_status_slot(struct Owner_800A48F0 *owner, s8 id, s8 value);    /* extern */
 void place_actor_item();                 /* extern */
 void display_item_status_message();            /* extern */
 s32 feed_actor_restore_mp();            /* extern */

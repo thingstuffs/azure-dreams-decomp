@@ -3,6 +3,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
+#include "sdk/libc.h"
 
 #ifndef NULL
 #define NULL 0
@@ -12,7 +13,6 @@
 
 void *allocate_list_node();
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-s32 rand();
 extern u8 child_particle_draw_address[];
 extern u8 D_801654F0[];
 

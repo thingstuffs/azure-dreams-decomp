@@ -11,6 +11,8 @@
 #include "shared/entity.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "dungeon/player/item.h"
+#include "sdk/libgte.h"
+#include "dungeon/system.h"
 
 typedef struct S_80171D74_0 {
     s32 unk_00;
@@ -116,9 +118,7 @@ void request_scene_state_with_parameters(s32, s16, s16, s16, s32); /* extern */
 #include "engine/texture/select_indirect_table_entry_api.h"              /* extern */
 #include "engine/graphics/select_sprite_entry_api.h"         /* extern */
 #include "slus.h"
-s32 rsin();                     /* extern */
 void snapshot_inventory_and_familiars();                 /* extern */
-void play_sound_if_enabled();             /* extern */
 s32 is_special_floor_entry_absent();                      /* extern */
 void create_rotating_clipped_sprite(u32 *, s16);             /* extern */
 struct S_8016738C_3; void create_color_cycling_pulse(struct S_8016738C_3 *);                      /* extern */

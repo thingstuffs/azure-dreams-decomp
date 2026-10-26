@@ -9,6 +9,7 @@
 #include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/system.h"
 
 typedef struct S_818154FC_0_pre {
     u16 unk_00;
@@ -124,7 +125,6 @@ extern LocalPoints attached_particle_points;
 extern u8 directional_sprite_entries[];
 extern s16 D_80025338[5];
 s32 get_sprite_attachment_vector(s32, void *, Offset *, s32);     /* extern */
-s32 play_sound_if_enabled();                     /* extern */
 extern void func_800246DC(void *effect, void *position);
 
 /* Updates an effect through attachment, spawning, tracking, and cleanup. */

@@ -10,6 +10,11 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "sdk/libgpu.h"
+#include "dungeon/player/object.h"
+#include "dungeon/system.h"
+#include "engine/scene.h"
+#include "dungeon/actor/status.h"
 
 typedef struct {
     s16 x;
@@ -26,15 +31,9 @@ extern u8 viper_frame_set_4[];
 extern u8 viper_frame_set_3[];
 extern u8 viper_action_continuation_address[];
 extern void *actor_update_node_cursor[];
-void *resolve_record_orientation_or_fallback();
 void *allocate_list_node(s32, void *);
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-s16 GetTPage();
-s16 GetClut();
 void *resolve_attack_damage_and_effects();
-void set_record_integer_tile_center();
-void advance_status_timers();
-s32 play_sound_if_enabled();
 extern void D_800DB618();
 extern s32 D_800DB660();
 extern u8 D_80174A8C;

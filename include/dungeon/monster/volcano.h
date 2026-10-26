@@ -1,5 +1,7 @@
 #ifndef MODULE_DUNGEON_OVL_E0365C_H
 #define MODULE_DUNGEON_OVL_E0365C_H
+#include "sdk/libc.h"
+#include "dungeon/system.h"
 
 struct E_80170A58_S_80170A58_2;
 #include "common.h"
@@ -681,8 +683,6 @@ extern s32 check_entity_interaction_compatibility();
 extern s32 check_layer_offset_height();
 extern void set_or_clear_actor_status_slot(void *,s32,s32);
 extern void advance_status_timers(void *record);
-extern s32 increment_bounded_counter();
-extern s32 play_sound_if_enabled(s32);
 extern s32 display_text_with_fullwidth_adjustment(s8 *);
 extern s32 generate_random_value(void);
 extern void *create_actor_spell_effect(void *, void *, s32, void *);
@@ -692,7 +692,6 @@ extern void update_actor_status_and_mp(void *);
 extern void initialize_actor_sprite_and_animation(void *,void *,void *,s16);
 extern s32 refresh_actor_facing_and_lifecycle();
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
-extern void try_move_actor_to_valid_position(void *,void *,void *,void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
@@ -713,7 +712,6 @@ extern s32 propagate_actor_action_flag(void *,void *,void *,void *);
 extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
 extern s32 update_actor_fade_in(void *,void *,void *,void *);
 extern void update_actor_defeat_removal(void *,void *,void *,void *);
-extern void apply_clamped_actor_value_delta();
 extern void spend_actor_mp(void *,s32);
 
 extern s32 relink_entity_and_clear_high_flag();
@@ -722,7 +720,6 @@ extern s16 sample_terrain_surface_height(s32,s32,s16);
 extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s16 slot_value);
 extern s32 apply_camera_offset_and_select_target(void * object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 extern void *create_actor_with_tile_flags(s32, s16, s16, s16);
-extern s32 rand();
 
 void *spawn_mode_dependent_112_object(s16 flags,s16 attr_x,s16 attr_y,s16 attr_height);
 void update_entity_facing_and_ground(void *entity, E_80170A58_S_80170A58_2 *motion, void *monster);

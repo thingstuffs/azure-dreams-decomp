@@ -4,12 +4,11 @@
 #include "shared/entity_objects.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800243C4_arg1.h"
+#include "sdk/libgte.h"
 
 extern u8 D_800DF334[];
 void spawn_spiraling();
 void *allocate_list_node();
-s32 rsin();
-s32 rcos();
 s16 calculate_planar_heading();
 void draw_textured_ellipse();
 extern M2C_UNK D_80028214;

@@ -1,5 +1,7 @@
 #include "common.h"
 #include "shared/object_node.h"
+#include "sdk/libc.h"
+#include "engine/node/allocation.h"
 
 #ifndef NULL
 #define NULL 0
@@ -26,9 +28,7 @@ typedef struct S_81977B40_1 {
     s16 unk_82;
 } S_81977B40_1;   /* base in create_an_n_30_randomized_entries_spread_across_six_angular_directions */
 
-extern void *allocate_list_node();
 extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern s32 rand();
 
 extern u8 D_80024D84[9];
 extern u8 D_800251E8[9];
@@ -50,7 +50,7 @@ void create_an_n_30_randomized_entries_spread_across_six_angular_directions(void
     ObjectNodeHeader *object;
     S_81977B40_2 *data;
 
-    object = allocate_list_node(0x212, ((u8 *)(&scene_object_list_anchor)));
+    object = allocate_list_node(0x212, &scene_object_list_anchor.next);
     entry_index = 0;
     if (object != NULL) {
         object->update_callback = D_800251E8;

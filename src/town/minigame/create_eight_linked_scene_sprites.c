@@ -4,6 +4,7 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_payload.h"
+#include "engine/node/allocation.h"
 
    /* (u8 *)arg0 + count * 4 in create_eight_linked_scene_sprites */
 
@@ -23,7 +24,6 @@ typedef struct S_8002082C_3 {
 } S_8002082C_3;   /* arg0 in create_eight_linked_scene_sprites */
 
 extern void select_record_entry_and_value(void *state, void *entries, short index);
-extern void *allocate_list_node();
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 typedef struct {
@@ -45,7 +45,7 @@ void create_eight_linked_scene_sprites(void *owner) {
 
     slot_index = 7;
     do {
-        object = allocate_list_node(0x136, ((s32 *)(&scene_object_list_anchor)));
+        object = allocate_list_node(0x136, &scene_object_list_anchor.next);
         ((ObjectPayloadView *)((u8 *)owner + slot_index * 4))->unk_08 = object;
         slot_offset = slot_index * 4;
         if (object != 0) {

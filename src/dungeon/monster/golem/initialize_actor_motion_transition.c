@@ -2,11 +2,11 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+#include "dungeon/player/object.h"
+#include "dungeon/system.h"
 
 
 
-extern void set_record_integer_tile_center();
-extern s32 play_sound_if_enabled();
 void func_80170E94(void *actor, void *context, void *sprite, void *stats);
 
 

@@ -15,8 +15,8 @@
 #include "modules/dungeon_engine_tile_map_abi_views.h"
 #include "modules/dungeon_engine_tile_map_fragment_b4f0c.h"
 #include "modules/dungeon_engine_tile_map_fragment_b5d50.h"
+#include "dungeon/level.h"
 
-void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 s32 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 
 #endif

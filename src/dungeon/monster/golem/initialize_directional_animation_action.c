@@ -3,11 +3,11 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/monster/golem.h"
+#include "dungeon/actor/status.h"
 
 extern s32 try_claim_dungeon_action_slot(void *);
 extern void apply_camera_offset_and_select_target(void *,void *, s32, s32);
 extern void select_sprite_entry(void *, u8, s32);
-extern void advance_status_timers(void *);
 
 extern u8 D_80175F30[];
 

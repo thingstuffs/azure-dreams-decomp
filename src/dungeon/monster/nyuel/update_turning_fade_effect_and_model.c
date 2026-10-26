@@ -1,4 +1,7 @@
 #include "shared/audio_commands.h"
+#include "sdk/libc.h"
+#include "dungeon/system.h"
+#include "engine/texture.h"
 
 struct ObjectPosition;
 #include "shared/object_node.h"
@@ -85,13 +88,10 @@ void run_cd_image_commands();
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern int read_stream_cue_start_offset(void);
 void select_record_entry_and_value(void *state, void *entries, short index);
-s32 select_indirect_table_entry();
-s32 rand();
 void unlink_entity_node();
 void update_map_cell_flags_with_item_limit();
 void decrement_monster_entry_count();
 void *advance_staged_entity_load();
-s32 play_sound_if_enabled();
 s32 create_status_linked_render_effect();
 s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 void create_cylindrical_effect();

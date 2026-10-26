@@ -3,6 +3,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/level.h"
 
 typedef struct T_80173AD4_S_80173AD4_0 {
     u8 pad_00[0x14];
@@ -49,7 +50,6 @@ extern void * get_unused_text_buffer();
 extern u8 * expand_text_control_codes();
 extern void * clear_byte_and_advance();
 extern u8 *append_entity_display_text();
-extern void cycle_map_cell_flags();
 extern void update_map_cell_flags_with_item_limit();
 #include "dungeon/player/object/action_state.h"
 #include "shared/sprite_frame_state.h"

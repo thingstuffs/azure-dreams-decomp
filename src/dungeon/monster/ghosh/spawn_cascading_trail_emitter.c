@@ -5,6 +5,7 @@
 #include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_D_80174CD8.h"
+#include "dungeon/system.h"
 
 struct Dst;
 struct Elem;
@@ -17,7 +18,6 @@ typedef struct S_801722F0_1 {
 
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern void select_record_entry_and_value(void *state, void *entries, short index);
-s32 play_sound_if_enabled();
 extern void update_cascading_trail_emitter(void *record_data);
 extern Rec_D_80174CD8 *ghosh_boss_node;
 

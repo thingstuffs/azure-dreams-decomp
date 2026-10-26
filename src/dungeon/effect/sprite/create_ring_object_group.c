@@ -4,9 +4,8 @@
 #include "shared/sprite_frame_state.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "sdk/libgte.h"
 void register_node(void *, void *); /* extern */
-s32 rsin();                             /* extern */
-s32 rcos();                             /* extern */
 extern u8 D_800250B4[];
 extern u8 ring_effect_work[];
 

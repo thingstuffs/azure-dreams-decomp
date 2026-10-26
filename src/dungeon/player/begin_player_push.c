@@ -5,6 +5,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
+#include "dungeon/level.h"
 
 typedef struct S_80048A44_Obj S_80048A44_Obj;
 
@@ -20,7 +21,6 @@ typedef struct S_8008CD4C_2 {
 
 extern void set_sprite_animation_frame(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 slot_index);
 s16 check_tile_entry_at_adjusted_height();
-void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 s32 can_push_adjacent_actor();
 void * find_eligible_actor_at_tile_and_height();

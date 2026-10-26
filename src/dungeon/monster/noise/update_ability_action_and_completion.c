@@ -13,6 +13,10 @@
 #include "shared/entity.h"
 #include "engine/cd.h"
 #include "engine/graphics.h"
+#include "sdk/libc.h"
+#include "dungeon/player/object.h"
+#include "dungeon/system.h"
+#include "dungeon/actor/status.h"
 
 typedef struct S_8017364C_0 {
     u8 pad_00[0x8C];
@@ -25,11 +29,7 @@ typedef struct S_8017364C_0 {
 } S_8017364C_0;   /* arg0 in update_ability_action_and_completion */
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 rand();                                /* extern */
 void *scan_actor_along_heading();      /* extern */
-void set_record_integer_tile_center();              /* extern */
-void advance_status_timers();                      /* extern */
-s32 play_sound_if_enabled();                     /* extern */
 void * create_actor_spell_effect();       /* extern */
 void spawn_random_velocity_offset_effect(EntityRec *parent, s16 effect_id, s32 effect_param, s32 unused, s16 x_offset, s16 y_offset, s16 z_offset); /* extern */
 extern void noise_ability_resume_address();

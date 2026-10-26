@@ -10,6 +10,7 @@
 #include "shared/actor_action_flags.h"
 #include "shared/monster_ids.h"
 #include "dungeon/monster/zu.h"
+#include "dungeon/actor/status.h"
 void *(*const dungeon_fa7000_entry)(s16,s16,s16,s16) = spawn_zu_actor;
 void (*const dungeon_fa7000_update)(void *,void *,void *) = update_bank_actor_movement;
 #include "common.h"
@@ -57,10 +58,8 @@ typedef struct S_80F87000_4 {
     s16 unk_A0;
 } S_80F87000_4;   /* actor in func_80170880 */
 
-extern s32 generate_random_value();
-extern void set_or_clear_actor_status_slot();
+extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern void initialize_actor_sprite_and_animation();
-extern void try_move_actor_to_valid_position();
 
 extern u8 zu_frame_set_1[];
 
@@ -151,7 +150,6 @@ extern void advance_sprite_animation_and_textures(void *);
 extern s32 rsin(s32);
 extern void apply_monster_koyaw_data(s32, void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
-extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern Callback zu_callbacks[];
 
    /* arg1 in update_bank_actor_movement */

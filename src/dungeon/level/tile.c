@@ -3,6 +3,7 @@
 #include "shared/actor_status_ids.h"
 #include "shared/item_ids.h"
 #include "dungeon/level/tile_flags.h"
+#include "dungeon/level.h"
 
 struct ObjectNodeHeader;
 /* Complete native TU in retail file order. Review pending. */
@@ -13,7 +14,6 @@ struct ObjectNodeHeader;
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/actor.h"
-#include "dungeon/level.h"
 
 typedef struct {
     s8 pad_00[0x14];
@@ -849,7 +849,6 @@ typedef struct {
     u16 flags;
 } FacingMapCell;
 
-extern s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 
 /* Checks the facing cell for valid terrain flags and an acceptable height. */
 s32 can_push_adjacent_actor(S_8009ADB8_0 *facing_state, S_8009ADB8_1 *attributes, s16 tile_x, s16 tile_y,
@@ -1358,7 +1357,6 @@ extern s32 ratan2(s32, s32);
 extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern s32 get_actor_height_difference(void *, void *);
 extern s32 is_map_coordinate_out_of_bounds(s32, s32);
-extern s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 
 /* Adds the supplied tile offset to the center coordinate. */
 static __inline__ s16 offset_tile(u16 center, u16 offset)

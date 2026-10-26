@@ -6,6 +6,7 @@
 #include "shared/object_node.h"
 #include "m2c_compat.h"
 #include "slus.h"
+#include "engine/runtime.h"
 extern int abs(int);
 
 /* The record behind a minigame object node (node + 0x20) and the base record D_800834B8 (the node's record half).
@@ -27,8 +28,6 @@ typedef struct MinigameSlot {
 void func_80021120();   /* extern */
 s32 resolve_actor_zone_collisions(); /* extern */
 void func_80023E6C();   /* extern */
-void clear_resident_bit();                     /* extern */
-void set_resident_bit();                     /* extern */
 s32 rsin();                             /* extern */
 s32 rcos();           /* extern */
 s32 rand();                      /* extern */

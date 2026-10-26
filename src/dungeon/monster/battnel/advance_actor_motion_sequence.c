@@ -10,6 +10,7 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "engine/cd.h"
+#include "dungeon/actor/status.h"
 extern int abs(int);
 
 typedef struct S_80172A04_0 {
@@ -40,7 +41,6 @@ typedef struct S_80172A04_7 {
 extern void select_sprite_entry(void *, s32, s32);
 extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
-extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern void *create_actor_spell_effect(void *actor, void *effect_record, s16 mode, void *context);
 extern void create_two_row_object_group(void *, s16);

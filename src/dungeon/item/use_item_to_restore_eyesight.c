@@ -7,13 +7,13 @@
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/item/message.h"
 
 extern void clear_slots_of_type();
 #include "dungeon/player/item.h"
 extern void clear_slot_and_update_linked_state();
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes();
-extern void clear_byte_and_advance();
 extern void display_text_with_fullwidth_adjustment();
 extern void place_actor_item();
 extern void display_item_status_message();

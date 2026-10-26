@@ -9,4 +9,7 @@ void *reset_actor_animation_state(void *entity);
 
 void update_trailing_effect_animation(ActorTrailWork *effect, TrailMotion *transform, SpriteFrameState *render_data);
 
+/* dungeon/actor/animation/initialize_actor_sprite_and_animation.c */
+void initialize_actor_sprite_and_animation(void *entity, void *position, SpriteFrameState *sprite, s32 init_flags);
+
 #endif

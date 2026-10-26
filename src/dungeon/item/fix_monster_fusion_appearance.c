@@ -1,4 +1,5 @@
 #include "shared/monster_ids.h"
+#include "dungeon/item/message.h"
 
 struct ObjectNodeHeader;
 #include "shared/entity_action_selectors.h"
@@ -13,10 +14,7 @@ struct ObjectNodeHeader;
 #include "dungeon/system.h"
 void clear_slot_and_update_linked_state();
 void *get_unused_text_buffer(void);
-u8 *expand_text_control_codes();
-void *clear_byte_and_advance();
 u8 * append_typed_formatted_value();
-u8 * append_entity_display_text();
 void adjust_source_value_and_finalize(void *context, const void *source);
 s32 display_text_with_fullwidth_adjustment();
 void place_actor_item(void *object_context, void *target);

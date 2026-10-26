@@ -384,7 +384,6 @@ typedef struct {
 s32 resolve_record_orientation_or_fallback();       /* extern */
 s32 rsin(s32, s16 *); /* extern */
 extern u16 GetTPage(s32, s32, s32, s32); /* extern */
-s32 rand();                                /* extern */
 void update_randomized_intermediate_points(void *);
 
 /* Move toward the target while spawning effects, then mark the sequence complete. */
@@ -503,7 +502,6 @@ typedef struct S_80024810_1 {
 
 /* micro-lane E 2026-08-14: true base 0x80024810 (delta 0x7E65D800) */
 s32 resolve_record_orientation_or_fallback();       /* extern */
-s32 rand();                                /* extern */
 
 /* Update the effect's jittered points between endpoints and advance its animation. */
 void update_jittered_effect_points(void *effect) {

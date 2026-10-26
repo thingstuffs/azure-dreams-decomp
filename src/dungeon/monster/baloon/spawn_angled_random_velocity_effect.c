@@ -3,6 +3,7 @@
 #include "shared/object_node.h"
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
+#include "sdk/libc.h"
 
 #ifndef NULL
 #define NULL 0
@@ -27,7 +28,6 @@ typedef struct Effect {
 
 extern void *allocate_list_node();
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern s32 rand();
 
 extern s32 D_800D707C[];
 extern s16 actor_direction_step_pairs[];

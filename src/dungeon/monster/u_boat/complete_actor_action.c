@@ -1,10 +1,10 @@
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/actor/status.h"
 
 
 extern s32 try_claim_dungeon_action_slot(void *);
-extern void advance_status_timers(void *);
 
 /* Resets actor state and updates entity flags when global and entity checks allow it. */
 void complete_actor_action(void *actor, void *unused_1, void *unused_2, void *entity) {

@@ -8,6 +8,9 @@
 #include "shared/slus_callbacks.h"
 
 #include "shared/entity.h"
+#include "dungeon/actor.h"
+#include "dungeon/actor/animation.h"
+#include "engine/node/allocation.h"
 
 typedef struct S_FUNC_80A23000_BODY_0 {
     u8 pad_00[0x8];
@@ -46,12 +49,9 @@ typedef struct S_FUNC_80A23000_BODY_4 {
     s8 unk_9C;
 } S_FUNC_80A23000_BODY_4;   /* actor in queue_projected_point_primitives_2 */
 
-extern void *allocate_list_node();
 extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 generate_random_value(void);
 extern void set_or_clear_actor_status_slot();
-extern void initialize_actor_sprite_and_animation();
-extern void try_move_actor_to_valid_position();
 
 extern u8 ifrit_object_callback_4[];
 extern u8 D_8016E820[];
@@ -74,7 +74,7 @@ void *queue_projected_point_primitives_2(s16 mask, s16 value_24_input, s16 value
 
     work = 0;
     value_0A = value_0A_input;
-    object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != 0) {
         work = (u8 *)object + 0x20;
         object->update_callback = ifrit_object_callback_4;

@@ -14,6 +14,9 @@
 #include "shared/dungeon_moving_views.h"
 #include "engine/cd.h"
 #include "engine/graphics.h"
+#include "dungeon/player/object.h"
+#include "dungeon/system.h"
+#include "dungeon/actor/status.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -50,9 +53,6 @@ typedef struct S_801727C8_5 {
 
 extern void *D_80170838[];
 void *scan_actor_along_heading();
-void set_record_integer_tile_center();
-void advance_status_timers();
-s32 play_sound_if_enabled();
 void *create_actor_spell_effect();
 void create_two_effect_groups();
 void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite, ActorRecord *status);

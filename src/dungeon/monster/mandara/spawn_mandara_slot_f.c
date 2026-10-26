@@ -5,6 +5,7 @@
 #include "shared/monster_ids.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/actor/status.h"
 typedef struct { u8 pad[6]; u16 count; } CountView;
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -30,8 +31,7 @@ typedef struct S_80FB7000_4 {
 
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
-extern s32 generate_random_value();
-extern void set_or_clear_actor_status_slot(void *, s32, s32);
+extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern void MoveImage(s16 *, s32, s32);

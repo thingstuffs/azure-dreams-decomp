@@ -5,9 +5,9 @@
 #include "shared/entity.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "engine/graphics.h"
+#include "dungeon/actor/status.h"
 
 extern s32 try_claim_dungeon_action_slot();
-extern void advance_status_timers();
 extern s32 apply_camera_offset_and_select_target();
 extern s32 saber_frame_set_1;
 

@@ -2,7 +2,7 @@
 #include "dungeon/effect/shade.h"
 
 #include "dungeon/effect/screen.h"
-extern s32 set_or_clear_actor_status_slot(void *, s32, s32);
+#include "dungeon/actor/status.h"
 extern void adjust_source_value_and_finalize(void *, void *);
 extern u8 D_800E1D28[9];
 

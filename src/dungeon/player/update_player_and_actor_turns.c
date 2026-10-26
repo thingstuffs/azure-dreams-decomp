@@ -3,6 +3,9 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
 #include "shared/actor_status_ids.h"
+#include "sdk/libgte.h"
+#include "dungeon/actor/status.h"
+#include "dungeon/level.h"
 
 struct ObjectPosition;
 #include "shared/dungeon_actor_callbacks.h"
@@ -35,7 +38,6 @@ extern void step_actor_animation(SpriteFrameState *entity, s32 slot_index);     
 extern void set_camera_targets(void *target_position, void *target_rotation, s32 transition_param); /* extern */
 extern void queue_view_slot(int slot_selector);                     /* extern */
 extern short SD_Call(int flags);                     /* extern */
-s32 rsin();                             /* extern */
 #include "dungeon/player/input.h"
 s32 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);                 /* extern */
 void *find_eligible_actor_at_tile_and_height(struct Node *node, s16 x, s16 y_in, s16 value);           /* extern */
@@ -48,10 +50,8 @@ s32 can_entity_gain_level(void *entity);                      /* extern */
 #include "slus.h"
 struct Node;
 s32 lookup_definition_pair_value(s16 firstKey, s16 secondKey);                          /* extern */
-void advance_status_timers(void *record);                      /* extern */
 s32 play_sound_if_enabled(s32 query_value);                     /* extern */
 s32 generate_random_value(void);                                /* extern */
-s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);                   /* extern */
 s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);    /* extern */
 extern s8 scene_music_hold;
 extern s16 floor_generation_state[3];

@@ -3,6 +3,7 @@
 /* Select eligible actor abilities and entries, check tile clearance, and advance status timers. */
 
 #include "common.h"
+#include "dungeon/actor/status.h"
 #include "dungeon/actor.h"
 #include "m2c_compat.h"
 #include "shared/def_table.h"
@@ -15,6 +16,7 @@
 #include "shared/dungeon_item_entries.h"
 #include "shared/sprite_frame_state.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/level.h"
 
 #ifndef NULL
 #define NULL 0
@@ -214,7 +216,6 @@ extern void apply_entity_action_flags(void *, s32);
 extern void apply_capped_damage_and_hit_effect();
 
 /* Unified external declarations, checked against their definitions and callers. */
-extern s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 extern s32 get_entity_effect_value(void *entity, s32 effect_id);
 extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern s32 get_tile_chebyshev_distance(void *source, void *target);
@@ -236,8 +237,8 @@ s32 lookup_definition_pair_value(s16 firstKey, s16 secondKey);
 s32 check_layer_offset_height(u16 x, u16 y, s16 height, u32 flags);
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 s16 check_adjacent_tile_height_clearance(u16 x, u16 y, s32 z, void *skip_check);
-s16 set_or_clear_actor_status_slot(Owner_800A48F0 *owner, s8 id, s8 value);
+
 s32 has_empty_status_slot(s32 record_addr);
-void advance_status_timers(void *record);
+
 
 #endif

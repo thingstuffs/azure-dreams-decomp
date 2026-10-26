@@ -8,6 +8,9 @@
 #include "m2c_compat.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "dungeon/actor.h"
+#include "dungeon/actor/animation.h"
+#include "engine/node/allocation.h"
 
 typedef struct S_80B73054_1 {
     u8 pad_00[0x13];
@@ -33,12 +36,9 @@ typedef struct S_80B73054_4 {
     s16 unk_A4;
 } S_80B73054_4;   /* actor in create_dungeon_actor_from_spawn_flags */
 
-extern void *allocate_list_node();
 extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern s32 generate_random_value();
+extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern void set_or_clear_actor_status_slot();
-extern void initialize_actor_sprite_and_animation();
-extern void try_move_actor_to_valid_position();
 extern u8 D_8016AA30[];
 extern M2C_UNK D_8016AE5C;
 extern u8 D_8016DD0C[];
@@ -66,7 +66,7 @@ void *create_dungeon_actor_from_spawn_flags(s16 spawn_flags, s16 tile_x, s16 til
     saved_x = tile_x;
     saved_value = part_value;
     saved_y = tile_y;
-    obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         obj->update_callback = D_8016AA30;

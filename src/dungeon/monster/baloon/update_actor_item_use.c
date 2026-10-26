@@ -11,14 +11,14 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
 #include "engine/cd.h"
+#include "dungeon/actor/status.h"
+#include "dungeon/level.h"
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
-extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern s32 create_actor_spell_effect(void *, u8 *, s32, void *);
-extern s16 sample_terrain_surface_height(u16, u16, s16);
 extern void spawn_angled_random_velocity_effect(void *, s32, s32);
 extern void spawn_directional_random_velocity_effect(void *, s32);
 

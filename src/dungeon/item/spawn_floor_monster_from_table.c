@@ -3,6 +3,7 @@
 #include "shared/tile_object.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/level.h"
 extern int abs(int);
 
 typedef void *(*SpawnFunc)(s32, s32, s32, s32);
@@ -23,7 +24,6 @@ extern void select_dungeon_spawn_tile(u8 *, u8 *);
 /* Retail 0x800A6D30 (+0xC15D0 in DUNGEON.BIN), 48 bytes: RNG reads no argument registers, including a3. */
 extern s32 generate_random_value(void);
 extern s32 select_random_eligible_item_entry(void *);
-extern s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 
 /* Places a monster from the spawn table and raises it to the selected level. */
 void spawn_floor_monster_from_table(s32 spawn_mode) {

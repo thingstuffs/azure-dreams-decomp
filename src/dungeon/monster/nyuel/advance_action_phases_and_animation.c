@@ -7,11 +7,11 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "engine/graphics.h"
+#include "dungeon/player/object.h"
+#include "dungeon/system.h"
+#include "dungeon/actor/status.h"
 
 void *resolve_attack_damage_and_effects();
-void set_record_integer_tile_center();
-void advance_status_timers();
-s32 play_sound_if_enabled();
 void spend_actor_mp();
 void update_entity_actions_facing_and_animation(void *entity, s32 context, void *sprite, void *state);
 extern u8 nyuel_frame_set_9;

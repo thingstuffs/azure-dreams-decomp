@@ -7,6 +7,9 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "dungeon/actor.h"
+#include "dungeon/actor/animation.h"
+#include "engine/node/allocation.h"
 
 typedef s32 M2C_UNK;
 
@@ -36,12 +39,9 @@ typedef struct S_80FAB000_4 {
     s16 unk_A0;
 } S_80FAB000_4;   /* actor in create_actor_kind_object */
 
-extern void *allocate_list_node();
 extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 generate_random_value(void);
 extern void set_or_clear_actor_status_slot();
-extern void initialize_actor_sprite_and_animation();
-extern void try_move_actor_to_valid_position();
 extern u8 D_8014CA70[];
 extern M2C_UNK D_8014D138;
 extern u8 zu_frame_set_3[];
@@ -68,7 +68,7 @@ void *create_actor_kind_object(s16 flags, s16 field24_input, s16 field25_input, 
     field24_value = field24_input;
     field0A_value = field0A_input;
     field25_value = field25_input;
-    obj = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
+    obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         obj->update_callback = D_8014CA70;

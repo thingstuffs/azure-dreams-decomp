@@ -1,5 +1,9 @@
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
+#include "dungeon/actor.h"
+#include "dungeon/actor/motion.h"
+#include "dungeon/system.h"
+#include "engine/node/allocation.h"
 
 struct SpriteFrameState;
 #include "common.h"
@@ -38,7 +42,6 @@ typedef struct S_801732A4_8 {
 
 typedef struct Copy24 { u32 words[6]; } Copy24;
 
-void *allocate_list_node();
 s32 get_entity_effect_value();
 void clear_slots_of_type();
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
@@ -46,15 +49,12 @@ void select_sprite_entry();
 s32 check_entity_relation();
 s16 get_tile_chebyshev_distance();
 #include "dungeon/player/object/action_state.h"
-s32 play_sound_if_enabled();
-s32 generate_random_value();
+s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern void on_actor_status_updated(void *actor);
 void update_actor_status_and_mp();
-void begin_pushed_actor_move();
 s32 begin_ready_actor_directional_action();
 s32 advance_actor_pending_action();
 void begin_actor_move_to_target_facing();
-void apply_clamped_actor_value_delta();
 extern void func_80171F94(void *action_state, void *action_context, void *sprite, EntityRec *actor);
 void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, EntityRec *position,struct SpriteFrameState *actor, void *model);
 extern u8 effect_update_tag[];
@@ -224,7 +224,7 @@ void advance_actor_effect_sequence_2(ObjectNodeHeader *actor, void *transform, S
         select_sprite_entry(sprite, D_801741F4[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
             >> 9) & 7], 0);
         ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
-        new_effect = allocate_list_node(0x112, ((void *)&scene_object_list_anchor.next));
+        new_effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
         ((Rec_func_801732A4_arg0 *)actor)->unk_A0 = new_effect;
         actor = new_effect;
         if (actor == NULL)

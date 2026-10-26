@@ -5,9 +5,9 @@
 #include "shared/entity.h"
 #include "dungeon/item.h"
 #include "engine/town.h"
+#include "dungeon/item/message.h"
 
 typedef struct { u8 unk0; u8 unk1; s8 unk2; u8 unk3; } FuncData;
-extern void *expand_text_control_codes();
 extern u8 * copy_selected_text_without_terminator();
 extern u8 *D_800DD720;
 extern u8 *item_type_text_prefixes[];

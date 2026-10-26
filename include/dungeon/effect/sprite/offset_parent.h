@@ -7,6 +7,8 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/game_work.h"
+#include "sdk/libc.h"
+#include "dungeon/level.h"
 #define S8(p, o)  (*(s8 *)((u8 *)(p) + (o)))
 #define U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
@@ -56,11 +58,9 @@ void *allocate_list_node(s32, void *);
 void *func_8003FD64(s32, void *);
 void register_node(void *, void *);
 void func_8004491C(void *, void *);
-s32 rand();
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 s32 get_definition_entry_byte_13(s16 entry_index);
 void *scan_actor_along_heading(void *, u8, u8, s16, s32);
-s16 sample_terrain_surface_height(s32, s32, s16);
 void play_sound_if_enabled(s32);
 void unlink_node(void *);
 void func_80044A50(void *);

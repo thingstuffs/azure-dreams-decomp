@@ -3,6 +3,8 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "dungeon/actor.h"
+#include "dungeon/actor/animation.h"
 struct RegistrationNode;
 
 extern s32 clown_object_callback;
@@ -15,9 +17,7 @@ extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
 extern void set_or_clear_actor_status_slot();
-extern s32 generate_random_value();
-extern void initialize_actor_sprite_and_animation();
-extern void try_move_actor_to_valid_position();
+extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 
 typedef struct S_8014C878_1 {
     u8 pad_00[0x13];

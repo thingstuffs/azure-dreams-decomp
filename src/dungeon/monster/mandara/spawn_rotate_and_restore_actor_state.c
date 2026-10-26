@@ -6,6 +6,8 @@
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/actor/status.h"
+#include "dungeon/level.h"
 
 typedef struct S_80174668_0 {
     u8 pad_00[0x8C];
@@ -110,12 +112,10 @@ extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern void clear_byte_and_advance(s8 *byte_ptr);
 extern u8 *append_entity_display_text(void *record, u8 *out);
 extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
-extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void spend_actor_mp(void *, s32);
 extern void draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s32);
-extern s32 sample_terrain_surface_height(u16, u16, s16);
 extern void try_apply_confusion_status(void *, s32, s32);
 
 extern u8 rotating_particle_sprite_entries[];

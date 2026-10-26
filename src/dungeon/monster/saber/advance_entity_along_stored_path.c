@@ -6,8 +6,8 @@
 #include "records/Rec_func_80171CD4_arg0.h"
 #include "records/Rec_func_80171CD4_arg1.h"
 #include "engine/graphics.h"
+#include "dungeon/level.h"
 
-extern s32 cycle_map_cell_flags();
 extern s32 update_map_cell_flags_with_item_limit();
 extern s16 check_movement_clearance_and_height();
 extern s16 get_rounded_facing_and_rounding_flag();

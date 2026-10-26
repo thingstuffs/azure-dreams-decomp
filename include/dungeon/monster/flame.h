@@ -19,6 +19,14 @@
 #include "shared/object_flags.h"
 #include "records/Rec_func_800AB538_arg0.h"
 #include "shared/gpu_packets.h"
+#include "sdk/libc.h"
+#include "sdk/libgpu.h"
+#include "dungeon/actor/animation.h"
+#include "dungeon/actor/motion.h"
+#include "dungeon/effect/sprite.h"
+#include "dungeon/player/object.h"
+#include "dungeon/system.h"
+#include "dungeon/actor/status.h"
 struct SpriteFrameState;
 struct ObjectPosition;
 
@@ -772,27 +780,19 @@ typedef struct R06_80175270_S_80175270_10 {
     u8 unk_00;
 } R06_80175270_S_80175270_10;
 extern int abs(int);
-s32 rand();
-extern s32 rand(void);
-extern void *memcpy(void *, const void *, u32);
 extern s32 Control_CD();
 void *allocate_list_node();
 void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
-s32 generate_random_value();
-s32 set_or_clear_actor_status_slot();
-void initialize_actor_sprite_and_animation();
+s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 s32 select_sprite_entry();
 void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
 void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots();
-s32 try_move_actor_to_valid_position();
-void process_effect_block_entries();
 s32 func_80170A7C();
 void select_indirect_table_entry();
 void advance_sprite_animation_and_textures(void *entity);
 s32 rsin();
-s32 rand();
 void apply_monster_koyaw_data();
 s32 refresh_actor_facing_and_lifecycle();
 s16 sample_terrain_surface_height();
@@ -802,7 +802,6 @@ s32 test_neighbor_position_relation();
 s32 get_rounded_facing_and_rounding_flag(s16, s16, s16, s16, u16 *);
 s32 can_entity_gain_level();
 void update_actor_status_and_mp();
-void begin_pushed_actor_move();
 s32 begin_ready_actor_directional_action();
 s32 advance_actor_pending_action();
 void begin_actor_move_to_target_facing();
@@ -827,26 +826,19 @@ struct Entry;
 struct RegistrationNode;
 struct S_800833E0;
 s32 relink_entity_and_clear_high_flag();
-void advance_status_timers();
 s32 update_actor_movement_to_tile();
 s32 spend_actor_mp();
 
 s32 update_linked_actor_motion();
 s32 resolve_attack_damage_and_effects();
-void set_record_integer_tile_center();
-s32 play_sound_if_enabled();
 s32 get_cd_command_queue_depth(void);
 void * scan_actor_along_heading();
 void * create_actor_spell_effect();
 void begin_actor_display_action();
-void apply_clamped_actor_value_delta();
 void unlink_entity_node();
 void distribute_experience_and_report_gains();
 void * detach_record_and_update_slot_state();
-void announce_familiar_defeat();
-s32 update_actor_hop_and_shrink();
 
-s32 update_actor_hop_and_grow();
 s32 get_entity_effect_value();
 s32 func_80042900();
 void clear_slots_of_type();
@@ -863,8 +855,6 @@ s32 update_actor_fade_in();
 void project_sprite_commands();
 void func_800453E0(void *context, void *position, struct Entry *entry, s16 depth_bias);
 s32 RotTransPers();
-s32 GetTPage();
-void SetDrawMode();
 void CompMatrix();
 void PushMatrix();
 void PopMatrix();
@@ -874,7 +864,6 @@ void SetRotMatrix();
 void SetTransMatrix();
 s32 RotAverage4();
 void RotMatrix();
-void SetPolyGT4();
 s32 rcos();
 void unlink_node();
 void func_80044A50(struct S_800833E0 *node);

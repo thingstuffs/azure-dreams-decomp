@@ -5,6 +5,7 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
+#include "dungeon/level.h"
 
 typedef struct ObjA0 ObjA0;
 typedef struct Motion Motion;
@@ -33,7 +34,6 @@ typedef struct S_800AB1C0_2 {
 
 
 void set_record_integer_tile_center(Motion *, s32, s32);
-u16 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 
 /* Update motion toward the target tile and finalize movement when the countdown expires. */
 s32 update_actor_movement_to_tile(void *move_state, void *motion, void *target_tile, ActorRecord *actor) {

@@ -5,6 +5,7 @@
 #include "shared/entity.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_func_80173DD4_arg0.h"
+#include "sdk/libc.h"
 
 typedef struct S_80175060_1 {
     u8 pad_00[0x4];
@@ -34,7 +35,6 @@ typedef struct S_80175060_3 {
 void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 extern void advance_sprite_animation_and_textures(void *entity);                      /* extern */
-s32 rand();                                /* extern */
 extern void update_radial_motion_or_complete(u16 *motion, s32 *position, SpriteFrameState *object);
 
 /* Creates an object with randomized phase and rotation and copies its initial state. */

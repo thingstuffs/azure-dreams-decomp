@@ -5,8 +5,8 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
+#include "dungeon/actor/status.h"
 
-void advance_status_timers(void *record);                      /* extern */
 void refresh_actor_proximity_state();                      /* extern */
 void spend_actor_mp();             /* extern */
 

@@ -10,6 +10,8 @@
 #include "shared/entity_height_offsets.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "sdk/libgte.h"
+#include "dungeon/level.h"
 typedef struct Row_8191C848_S_8191C848_0_pre {
     u16 unk_00;
 } Row_8191C848_S_8191C848_0_pre;   /* the 0x2 bytes before arg0 in func_80024048, addressed as arg0[-1] */
@@ -341,8 +343,6 @@ typedef struct Row_8191CD78_S_func_80024578_13 {
 #define DELTA(i) (((Row_8191CD78_S_func_80024578_13 *)scratch)->unk_18[(i)])
 
 /* Updates effect movement, target spinning, and completion across animation states. */
-s32 rsin();
-s32 rcos();
 void select_record_entry_and_value(void *state, void *entries, short index);
 s32 register_node(void *, void *);
 s32 func_8004491C(void *, void *);
@@ -350,7 +350,6 @@ s32 rand(void);
 int abs(int);
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 s32 check_layer_offset_height(s32, s32, s16, s32);
-s16 sample_terrain_surface_height(s32, s32, s16);
 void initialize_timed_motion_step(u16, u16);
 s32 read_sound_mode_blocking_status(s32);
 void drain_audio_commands_and_service_channels(void);

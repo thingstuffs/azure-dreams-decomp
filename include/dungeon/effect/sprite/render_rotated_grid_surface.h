@@ -4,6 +4,7 @@
 #include "m2c_compat.h"
 #include "shared/gpu_packets.h"
 #include "shared/game_work.h"
+#include "sdk/libgpu.h"
 typedef struct Row_81989558_S_80024D58_Point {
     s16 unk_00;
     s16 unk_02;
@@ -70,10 +71,6 @@ static __inline__ u8 *grid_cell(u8 *grid, s32 row, s32 col)
 /* Build a textured quad grid for each object in the linked list. */
 void transform_rotated_vertices();
 void RotTransPers();
-void SetPolyFT4();
-void SetSemiTrans();
-s16 GetTPage();
-s16 GetClut();
 
 s32 render_rotated_grid_surface(void *node);
 #endif

@@ -17,4 +17,10 @@ void restore_item_flag_400_bitmap(void);
 void store_unique_text_record(char *text, s32 type, s32 value);
 
 
+/* dungeon/system/util.c */
+s32 play_sound_if_enabled(s32 query_value);
+
+/* dungeon/system/util.c */
+void place_actor_item(void *object_context, void *target);
+
 #endif

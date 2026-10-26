@@ -3,6 +3,7 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "dungeon/actor/status.h"
 
 typedef struct S_80158894_0 {
     u8 pad_00[0x13];
@@ -36,7 +37,6 @@ extern void *func_8003FD64(s32, void *);
 extern void register_node(void *, void *);
 extern void func_8004491C(void *, void *);
 extern s32 generate_random_value(void);
-extern void set_or_clear_actor_status_slot(void *, s32, s32);
 extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 

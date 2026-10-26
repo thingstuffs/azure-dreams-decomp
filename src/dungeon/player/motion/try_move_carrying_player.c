@@ -1,5 +1,6 @@
 #include "shared/actor_status_flags.h"
 #include "dungeon/player/input.h"
+#include "dungeon/level.h"
 
 struct SpriteFrameState;
 #include "common.h"
@@ -29,7 +30,6 @@ extern void set_sprite_animation_frame(void *, s32, s32, s32);
 extern void check_tile_entry_at_adjusted_height(void *, s32, SpriteFrameState *, void *);
 extern void process_unflagged_linked_entries(s32);
 extern void process_unflagged_linked_entries_alt(s32);
-extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
 extern s16 classify_adjacent_tile_height(s16, s32,struct SpriteFrameState *, s16, s32);
 extern void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);

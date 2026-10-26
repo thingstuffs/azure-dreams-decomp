@@ -2,6 +2,7 @@
 #include "shared/entity_objects.h"
 
 #include "town/map/trigger_callbacks.h"
+#include "slus.h"
 
 typedef map_trigger_record Entity;
 
@@ -9,7 +10,6 @@ extern s32 D_800C1F8C;
 extern int abs(int);
 
 extern s32 test_resident_bitmap_bit(s16);
-extern void SD_Call(u16);
 
 /* Triggers the entity action and updates its handler when its predicate and distance checks pass. */
 void trigger_entity_action_when_allowed(Entity *entity)

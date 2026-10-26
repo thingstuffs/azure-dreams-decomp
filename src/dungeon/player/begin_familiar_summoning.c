@@ -30,7 +30,6 @@ typedef struct S_80095854_1 {
    /* arg2 in begin_familiar_summoning */
 
 
-void cycle_map_cell_flags(s16 x, s16 y, u16 flags);           /* extern */
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);           /* extern */
 extern u8 familiar_summon_frames;
 

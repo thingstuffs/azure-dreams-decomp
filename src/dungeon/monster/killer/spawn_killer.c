@@ -7,6 +7,10 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "dungeon/actor.h"
+#include "dungeon/actor/animation.h"
+#include "engine/node/allocation.h"
+#include "dungeon/actor/status.h"
 
 
 
@@ -27,12 +31,8 @@ typedef struct S_80FDB000_4 {
     s8 unk_9C;
 } S_80FDB000_4;   /* actor in spawn_killer */
 
-extern void *allocate_list_node();
 extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern void set_or_clear_actor_status_slot();
-extern s32 generate_random_value();
-extern void initialize_actor_sprite_and_animation();
-extern void try_move_actor_to_valid_position();
+extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 
 extern u8 D_80170A7C[];
 extern u8 killer_action_resume_address[];
@@ -79,7 +79,7 @@ void *spawn_killer(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
     saved_kind_id = kind_id;
     saved_spawn = spawn_value;
     saved_variant = variant;
-    created = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    created = allocate_list_node(0x112, &scene_object_list_anchor.next);
     original_flags = flags;
     if (created != 0) {
         result = (u8 *)created + 0x20;

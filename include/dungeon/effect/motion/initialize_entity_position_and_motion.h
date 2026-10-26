@@ -11,6 +11,7 @@
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
+#include "sdk/libc.h"
 typedef struct ovl_19a332c_81982864_S_80024064_0_pre {
     u16 unk_00;
 } ovl_19a332c_81982864_S_80024064_0_pre;
@@ -568,7 +569,6 @@ extern s32 draw_textured_ellipse(void *, void *, s32, s32);
 extern s32 D_800269D4;
 extern s32 D_800269FC;
 extern s32 D_800DF31C;
-extern s32 rand(void);
 extern s32 rcos(s32);
 extern s32 rsin(s32);
 extern void select_record_entry_and_value(void *state, void *entries, short index);
@@ -576,7 +576,6 @@ extern u8 D_80026AB0[];
 extern u8 positioned_motion_sprite_data[];
 extern s16 curved_trail_sample_count;
 extern ovl_19a332c_8198332C_Coord curved_trail_position;
-s32 rand();
 void apply_attack_power_and_element_effects();
 s32 calculate_planar_heading();
 void spawn_blinking_sprite_flash();

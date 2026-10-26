@@ -3,6 +3,8 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "dungeon/system.h"
+#include "dungeon/level.h"
 
 typedef union Fixed32 {
     s32 val;
@@ -79,10 +81,8 @@ typedef union WideProduct {
 
 extern s32 resolve_record_orientation_or_fallback();
 extern s32 check_layer_offset_height();
-extern s32 sample_terrain_surface_height();
 extern void draw_animated_shaded_lines();
 extern Child *create_effect_indexed();
-extern void play_sound_if_enabled();
 extern void func_80024060();
 extern void advance_expanding_spiral(void);
 

@@ -2,6 +2,7 @@
 #include "dungeon/monster/garuda.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/actor/status.h"
 
 typedef struct S_func_81006E50_0 {
     u8 pad_00[0x8C];
@@ -45,7 +46,6 @@ extern u8 D_801748B8[];
 void select_sprite_entry(void *, u8, s32);
 void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 void set_record_integer_tile_center(void *, u8, u8);
-void advance_status_timers(void *);
 void play_sound_if_enabled(s32);
 void spend_actor_mp(void *, s32);
 

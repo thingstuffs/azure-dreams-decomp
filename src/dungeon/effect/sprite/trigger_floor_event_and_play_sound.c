@@ -1,8 +1,8 @@
 #include "engine/audio.h"
 #include "common.h"
+#include "dungeon/system.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 play_sound_if_enabled();                     /* extern */
 
 /* Select buffered entry 0 in mode 1 and issue request 0x200. */
 void trigger_floor_event_and_play_sound(void) {

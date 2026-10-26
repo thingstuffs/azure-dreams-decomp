@@ -1,4 +1,7 @@
 #include "shared/sprite_frame_state.h"
+#include "dungeon/system.h"
+#include "slus.h"
+#include "dungeon/level.h"
 
 struct ObjectPosition;
 /* One native TU; source order follows the complete ledger cohort. */
@@ -7,7 +10,6 @@ struct ObjectPosition;
 #include "common.h"
 #include "shared/game_work.h"
 #include "dungeon/effect/screen.h"
-#include "dungeon/level.h"
 #include "dungeon/menu.h"
 #include "dungeon/player.h"
 
@@ -562,7 +564,7 @@ void create_timed_model_effect(void *owner, s32 value, void *child_data, void *t
 
         call_page = (u8 *)0x80080000;
         kind = 0x12;
-        object = allocate_list_node(kind, (u8 *)((u8 *)(&scene_object_list_anchor)));
+        object = allocate_list_node(kind, &scene_object_list_anchor.next);
     }
     if (object != 0) {
         child = object->child;
@@ -1293,7 +1295,6 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
 
 extern void *screen_effect_target[];
 
-extern s32 play_sound_if_enabled(s32 query_value);
 extern void advance_sprite_animation_and_textures(void *);
 
 /* Updates a target marker's position, scale, color, and rotation. */
@@ -1547,7 +1548,6 @@ extern s32 rcos(s32, ...);
 extern s32 get_special_table_data_index(s32 dataAddress);
 struct S_800BA33C_0;
 extern s32 is_selectable_menu_target(struct S_800BA33C_0 *object);
-extern void advance_sprite_animation_and_textures();
 extern void append_packed_action_record();
 extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 
@@ -2357,7 +2357,6 @@ typedef struct S_8006DE24_Entry {
     u8 pad13;
 } S_8006DE24_Entry;
 extern void * create_pulsing_tile_sprite(u16 tile_x, u16 tile_y, s16 coord_z, s32 user_data);
-s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);                   /* extern */
 typedef struct S_800B50B0_Entity {
     u8 pad00[0x13];
     u8 kind13;
@@ -2756,7 +2755,6 @@ typedef struct S_800BB044_1 {
 
 
 extern void *allocate_list_node();
-extern s32 play_sound_if_enabled(s32 query_value);
 extern void advance_particle_effect_state(void *object);
 
 /* Creates an object linked to the source data and copies its record fields. */
@@ -3046,7 +3044,6 @@ void draw_content_or_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, s3
 extern s32 rsin(s32, ...);
 extern s32 rcos(s32, ...);
 s16 calculate_planar_heading(s16 start_x, s16 start_y, s16 end_x, s16 end_y);
-extern s32 play_sound_if_enabled(s32 query_value);
 extern void * create_orbiting_color_particle(s16 x, s16 y, s16 z, s16 angle, s16 value_50, s16 value_58, s32 state_word, s16 value_48);
 
 typedef struct DungeonWork {
@@ -3245,7 +3242,6 @@ s32 process_linked_menu_effect(u8 *buffer, s32 value, void *data) {
 
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void *allocate_list_node();
-extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 struct S_800BB55C_2;
 extern void update_five_point_effect(void *effect, struct S_800BB55C_2 *position, s32 restore_link);
@@ -3306,7 +3302,7 @@ void *create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transfor
     call_data[0] = 0x01000340;
     call_data[1] = 0x01000080;
     draw_content_or_rect(0, 0, call_data, 1, 0);
-    effect = allocate_list_node(0x12, ((s32 *)&scene_object_list_anchor.next));
+    effect = allocate_list_node(0x12, &scene_object_list_anchor.next);
     if (effect != NULL) {
         s32 angle_index;
         void *setup_cursor;
@@ -3666,7 +3662,7 @@ void *create_orbiting_color_particle(s16 x, s16 y, s16 z, s16 angle, s16 value_5
     void *object;
     S_800BC0A8_1 *position;
 
-    object = allocate_list_node(0x202, ((s32 *)&scene_object_list_anchor.next));
+    object = allocate_list_node(0x202, &scene_object_list_anchor.next);
     if (object != 0) {
         ((S_800BC0A8_0 *)object)->unk_10 = update_orbiting_color_particle;
         register_node(object, draw_shaded_quad_chain);

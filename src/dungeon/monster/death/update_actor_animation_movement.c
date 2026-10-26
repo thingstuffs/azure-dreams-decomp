@@ -7,13 +7,13 @@
 #include "records/Rec_D_80082E80.h"
 #include "engine/texture.h"
 #include "slus.h"
+#include "dungeon/actor.h"
+#include "dungeon/level.h"
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
 extern void apply_monster_koyaw_data();
 extern s32 refresh_actor_facing_and_lifecycle();
-extern void try_move_actor_to_valid_position();
-extern s16 sample_terrain_surface_height();
 
 extern s32 D_801539DC;
 extern u8 D_80156634[8];

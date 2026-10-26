@@ -24,7 +24,7 @@ class Fixture(unittest.TestCase):
         target.write_text(text)
 
     def image(self, name, entries):
-        self.put('config/link/' + name + '.json', json.dumps(dict(image=name, entries=entries)))
+        self.put('config/link/' + name + '.json', json.dumps(dict(image=name, container=name.split("/")[0], entries=entries)))
 
     def rows(self, *rows):
         self.put('ledger/rows.jsonl', ''.join(json.dumps(r) + '\n' for r in rows))
@@ -96,6 +96,37 @@ class PrototypeTests(Fixture):
         self.put('include/town/person.h', '#include "common.h"\nvoid f(s32 n, s32 other);\n')
         _, _, _, edits, holds = self.plan(['src/town/a.c'])
         self.assertFalse(holds)
+        self.assertEqual(edits[0].action, 'prototype')
+
+    def test_definition_imports_shared_feature_without_broad_reexport(self):
+        self.put('src/town/a.c', '#include "common.h"\nvoid f();\n')
+        self.put('src/town/person/worker.c', '#include "town/person/worker.h"\nvoid f(s32 n) {}\n')
+        self.put('include/town/person/worker.h', '#include "town/person/status.h"\n')
+        self.put('include/town/person/status.h', '#include "common.h"\nvoid f(s32 n);\nvoid g(void);\n')
+        _, _, _, edits, holds = self.plan(['src/town/a.c'])
+        self.assertFalse(holds)
+        self.assertEqual((edits[0].action, edits[0].header),
+                         ('include', 'include/town/person/status.h'))
+
+    def test_single_contract_feature_is_not_an_owner(self):
+        self.put('src/town/a.c', '#include "common.h"\nvoid f();\n')
+        self.put('src/town/person/worker.c', '#include "town/person/status.h"\nvoid f(s32 n) {}\n')
+        self.put('include/town/person/status.h', '#include "common.h"\nvoid f(s32 n);\n')
+        _, _, _, edits, _ = self.plan(['src/town/a.c'])
+        self.assertEqual(edits[0].action, 'prototype')
+
+    def test_definition_collector_is_not_a_shared_feature(self):
+        self.put('src/town/a.c', '#include "common.h"\nvoid f();\n')
+        self.put('src/town/person/worker.c', '#include "town/person/worker.h"\nvoid f(s32 n) {}\n')
+        self.put('include/town/person/worker.h', '#include "common.h"\nvoid f(s32 n);\nvoid g(void);\n')
+        _, _, _, edits, _ = self.plan(['src/town/a.c'])
+        self.assertEqual(edits[0].action, 'prototype')
+
+    def test_feature_must_be_included_by_definition(self):
+        self.put('src/town/a.c', '#include "common.h"\nvoid f();\n')
+        self.put('src/town/person/worker.c', '#include "common.h"\nvoid f(s32 n) {}\n')
+        self.put('include/town/person/status.h', '#include "common.h"\nvoid f(s32 n);\nvoid g(void);\n')
+        _, _, _, edits, _ = self.plan(['src/town/a.c'])
         self.assertEqual(edits[0].action, 'prototype')
 
     def test_reviewed_in_place_plan_recovers_the_same_owner_contract(self):
@@ -219,6 +250,48 @@ class PrototypeTests(Fixture):
         edit = P.Edit('src/town/a.c', 'f', 'void f();', 'void f(void);', '', '', '')
         text = 'void f();   \nvoid untouched();  \n'
         self.assertEqual(P.rewrite(text, [edit]), 'void f(void);\nvoid untouched();  \n')
+
+    def test_collector_header_imports_owning_folder_header(self):
+        self.put('include/town/owner.h', '#include "common.h"\ns32 f(s32 x);\n')
+        self.put('include/legacy.h', '#include "common.h"\ns32 f();\n')
+        self.put('src/town/owner/f.c', '#include "common.h"\ns32 f(s32 x) { return x; }\n')
+        self.put('src/town/a.c', '#include "legacy.h"\n')
+        edits, holds = self.plan()[3:]
+        self.assertFalse(holds)
+        self.assertEqual(edits[0].action, 'include')
+        self.assertEqual(edits[0].header, 'include/town/owner.h')
+
+    def test_folder_api_uses_its_exported_feature_contract(self):
+        self.put('include/town/owner.h', '#include "town/owner/pool.h"\n')
+        self.put('include/town/owner/pool.h', '#include "common.h"\ns32 f(s32 x);\n')
+        self.put('src/town/owner/f.c', '#include "common.h"\ns32 f(s32 x) { return x; }\n')
+        self.put('src/town/a.c', '#include "common.h"\ns32 f();\n')
+        edits, holds = self.plan()[3:]
+        self.assertFalse(holds)
+        self.assertEqual(edits[0].header, 'include/town/owner/pool.h')
+
+    def test_owner_import_does_not_create_a_header_cycle(self):
+        self.put('include/town/owner.h', '#include "legacy.h"\ns32 f(s32 x);\n')
+        self.put('include/legacy.h', '#include "common.h"\ns32 f();\n')
+        self.put('src/town/owner/f.c', '#include "common.h"\ns32 f(s32 x) { return x; }\n')
+        self.put('src/town/a.c', '#include "legacy.h"\n')
+        edits, holds = self.plan()[3:]
+        self.assertFalse(holds)
+        self.assertEqual(edits[0].action, 'prototype')
+
+    def test_import_precedes_early_calls_in_concatenated_tu(self):
+        text = '#include "common.h"\nvoid f();\nvoid early(void) { f(); }\n#include "later.h"\n'
+        edit = P.Edit('src/town/a.c', 'f', 'void f();', '', 'include/town/api.h', '', '', 'include')
+        result = P.rewrite(text, [edit])
+        self.assertLess(result.index('#include "town/api.h"'), result.index('void early'))
+        self.assertIn('#include "later.h"', result)
+
+    def test_existing_late_owner_include_moves_before_early_calls(self):
+        text = '#include "common.h"\nint f();\nvoid early(void) { f(); }\n#include "town/api.h"\n'
+        edit = P.Edit('src/town/a.c', 'f', 'int f();', '', 'include/town/api.h', '', '', 'include')
+        result = P.rewrite(text, [edit])
+        self.assertLess(result.index('#include "town/api.h"'), result.index('void early'))
+        self.assertEqual(result.count('#include "town/api.h"'), 1)
 
     def test_stale_anchor_rejected_atomically(self):
         self.put('src/town/a.c', 'void f();\n')
@@ -401,12 +474,12 @@ class BankTests(Fixture):
         self.assertIn('owner_outside_loading_image', holds[0]['reason'])
         self.assertIn('town/b:src/town/two.c:two', holds[0]['evidence'])
 
-    def test_two_same_signature_callees_at_one_target_remain_ambiguous(self):
+    def test_two_same_signature_callees_at_one_target_have_one_contract(self):
         self.put('src/town/two.c', '#include "common.h"\ns32 two(s32 x) { return x; }\n')
         self.image('town/a', [self.caller(), self.target('one'), self.target('two')])
         edits, holds = self.plan()[3:]
-        self.assertFalse(edits)
-        self.assertEqual(holds[0]['reason'], 'ambiguous_image_callee:town/a')
+        self.assertFalse(holds)
+        self.assertIn('same_image_signature_consensus[', edits[0].evidence)
 
     def test_every_placement_must_agree(self):
         self.image('town/a', [self.caller(), self.target('one')])
@@ -415,15 +488,17 @@ class BankTests(Fixture):
         self.assertFalse(edits)
         self.assertEqual(holds[0]['reason'], 'placement_signature_conflict')
 
-    def test_same_signature_different_bank_callees_stay_unprototyped(self):
+    def test_same_signature_different_bank_callees_have_one_contract(self):
         self.put('src/town/two.c', '#include "common.h"\ns32 two(s32 x) { return x; }\n')
         self.image('town/a', [self.caller(), self.target('one')])
         self.image('town/b', [self.caller(), self.target('two')])
         edits, holds = self.plan()[3:]
-        self.assertFalse(edits)
-        self.assertEqual(holds[0]['reason'], 'placement_callee_conflict')
+        self.assertFalse(holds)
+        self.assertEqual(edits[0].after, 's32 func_80016000(s32 x);')
+        self.assertIn('town/a:', edits[0].evidence)
+        self.assertIn('town/b:', edits[0].evidence)
 
-    def test_header_same_signature_different_consumers_stay_unprototyped(self):
+    def test_header_same_signature_different_consumers_have_one_contract(self):
         self.put('src/town/two.c', '#include "common.h"\ns32 two(s32 x) { return x; }\n')
         self.put('include/alias.h', '#include "common.h"\ns32 func_80016000();\n')
         self.put('src/town/caller.c', '#include "alias.h"\n')
@@ -432,8 +507,87 @@ class BankTests(Fixture):
         self.image('town/a', [self.caller(), self.target('one')])
         self.image('town/b', [other, self.target('two')])
         edits, holds = self.plan()[3:]
+        self.assertFalse(holds)
+        self.assertEqual(edits[0].after, 's32 func_80016000(s32 x);')
+
+    def test_named_signature_consensus_does_not_claim_an_outside_owner(self):
+        self.named_caller()
+        self.image('town/a', [self.caller()])
+        self.image('town/b', [self.target('one')])
+        edits, holds = self.plan()[3:]
+        self.assertFalse(holds)
+        self.assertIn('signature_consensus[', edits[0].evidence)
+        self.assertIn('town/a:', edits[0].evidence)
+
+    def test_unplaced_named_consumer_can_share_a_registered_contract(self):
+        self.named_caller()
+        self.image('town/target', [self.target('one')])
+        edits, holds = self.plan()[3:]
+        self.assertFalse(holds)
+        self.assertIn('unplaced_consumer:signature_consensus[', edits[0].evidence)
+
+    def test_unplaced_consumer_does_not_bind_an_unrelated_name(self):
+        self.named_caller()
+        self.image('town/target', [self.target('two')])
+        edits, holds = self.plan()[3:]
         self.assertFalse(edits)
-        self.assertEqual(holds[0]['reason'], 'consumer_callee_conflict')
+        self.assertEqual(holds[0]['reason'], 'no_loading_image_or_resident_owner')
+
+    def test_outside_named_consensus_checks_other_address_candidates(self):
+        self.named_caller()
+        self.image('town/a', [self.caller()])
+        self.image('town/b', [self.target('one')])
+        self.image('town/c', [self.target('two')])
+        edits, holds = self.plan()[3:]
+        self.assertFalse(edits)
+        self.assertIn('unresolved_image_binding:town/a', holds[0]['reason'])
+
+    def test_callback_signatures_are_not_erased_by_consensus(self):
+        self.put('src/town/one.c', 'void one(int (*callback)(int)) {}\n')
+        self.put('src/town/two.c', 'void two(void (*callback)(void)) {}\n')
+        self.image('town/a', [self.caller(), self.target('one')])
+        self.image('town/b', [self.caller(), self.target('two')])
+        edits, holds = self.plan()[3:]
+        self.assertFalse(edits)
+        self.assertEqual(holds[0]['reason'], 'placement_signature_conflict')
+
+    def test_pointed_qualifiers_are_not_erased_by_consensus(self):
+        self.put('src/town/one.c', 'int one(const int *x) { return *x; }\n')
+        self.put('src/town/two.c', 'int two(int *x) { return *x; }\n')
+        self.image('town/a', [self.caller(), self.target('one')])
+        self.image('town/b', [self.caller(), self.target('two')])
+        edits, holds = self.plan()[3:]
+        self.assertFalse(edits)
+        self.assertEqual(holds[0]['reason'], 'placement_signature_conflict')
+
+    def test_typedef_pointee_qualifiers_are_preserved_in_consensus(self):
+        self.put('src/town/one.c', 'typedef const int Value;\nint one(Value **x) { return **x; }\n')
+        self.put('src/town/two.c', 'int two(int * const *x) { return **x; }\n')
+        self.image('town/a', [self.caller(), self.target('one')])
+        self.image('town/b', [self.caller(), self.target('two')])
+        edits, holds = self.plan()[3:]
+        self.assertFalse(edits)
+        self.assertEqual(holds[0]['reason'], 'placement_signature_conflict')
+
+    def test_private_equal_tag_names_do_not_establish_common_type(self):
+        self.put('src/town/one.c', 'typedef struct Record { int x; } Record;\nvoid one(Record *x) {}\n')
+        self.put('src/town/two.c', 'typedef struct Record { short x; } Record;\nvoid two(Record *x) {}\n')
+        self.image('town/a', [self.caller(), self.target('one')])
+        self.image('town/b', [self.caller(), self.target('two')])
+        edits, holds = self.plan()[3:]
+        self.assertFalse(edits)
+        self.assertEqual(holds[0]['reason'], 'placement_signature_conflict')
+
+    def test_unmapped_name_uses_each_consumers_image(self):
+        self.put('src/town/caller.c', '#include "common.h"\ns32 shared();\n')
+        self.put('src/town/one.c', 'int shared(int x) { return x; }\n')
+        self.put('src/town/two.c', 'int shared(int x, int y) { return x+y; }\n')
+        self.rows(dict(id='town/one', func='shared'), dict(id='town/two', func='shared'))
+        self.image('town/a', [self.caller(), dict(row='town/two', tu='src/town/two.c', vma='0x80016000')])
+        edits, holds = self.plan()[3:]
+        self.assertFalse(holds)
+        self.assertEqual(edits[0].after, 's32 shared(int x, int y);')
+        self.assertIn('town/a:src/town/two.c:shared', edits[0].evidence)
 
     def test_one_unresolved_placement_is_a_hold(self):
         self.image('town/a', [self.caller(), self.target('one')])

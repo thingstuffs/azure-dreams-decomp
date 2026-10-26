@@ -8,6 +8,10 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
+#include "sdk/libc.h"
+#include "sdk/libgte.h"
+#include "dungeon/system.h"
+#include "dungeon/actor/status.h"
 struct RegistrationNode;
 
 typedef struct T_80172FFC_S_80172FFC_0 {
@@ -81,7 +85,6 @@ typedef struct {
     Packed32 copy;
 } T_80172FFC_WorkMid;
 
-s32 rand();                                /* extern */
 
 extern s32 resolve_record_orientation_or_fallback();
 extern void * allocate_list_node();
@@ -90,10 +93,7 @@ extern s32 register_node(); /* Unprototyped: two, three or four arguments; retai
 extern s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
 extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 extern void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
-extern s32 RotTransPers();
 extern void * resolve_attack_damage_and_effects();
-extern void advance_status_timers();
-extern s32 play_sound_if_enabled();
 extern void spend_actor_mp(void *, s32);
 extern s8 view_direction_depth_biases[];
 extern Packed32 D_80170838;

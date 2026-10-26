@@ -58,7 +58,7 @@ void audio_reset_sequence_subsystem(void);
 void audio_reset_sequence_tracks_and_channels(void);
 
 /* audio_sequence_note_off.c */
-void audio_sequence_note_off(s32 first_key, s32 second_key);
+void audio_sequence_note_off(s32 first_key, s32 second_key, s32 unused_velocity);
 
 /* audio_stop_effect_voice.c */
 s32 audio_stop_effect_voice(s16 slot_id);

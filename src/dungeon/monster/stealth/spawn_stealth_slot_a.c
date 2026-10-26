@@ -9,6 +9,8 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
+#include "dungeon/actor.h"
+#include "dungeon/actor/animation.h"
 
 typedef struct S_80F2D000_1 {
     u8 pad_00[0x13];
@@ -37,9 +39,7 @@ typedef struct S_80F2D000_4 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s16 set_or_clear_actor_status_slot();        /* extern */
-s32 generate_random_value();                          /* extern */
-void initialize_actor_sprite_and_animation(); /* extern */
-s32 try_move_actor_to_valid_position(); /* extern */
+s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */                          /* extern */
 void retire_tracked_effect_by_id();                      /* extern */
 extern M2C_UNK D_8014CA8C;
 extern M2C_UNK D_8014CF74;

@@ -1,5 +1,7 @@
 #ifndef DUNGEON_OVL_7F511800_P03_H
 #define DUNGEON_OVL_7F511800_P03_H
+#include "dungeon/actor.h"
+#include "dungeon/player/object.h"
 
 struct SpriteFrameState;
 #include "common.h"
@@ -45,9 +47,7 @@ typedef struct T_80173450_S_80173450_3 {
 
 
 
-extern void set_record_integer_tile_center();
 extern void begin_actor_display_action();
-extern void apply_clamped_actor_value_delta();
 extern void unlink_entity_node(void *);
 extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
 extern void distribute_experience_and_report_gains(void *);

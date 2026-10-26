@@ -6,6 +6,12 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
+#include "sdk/libgte.h"
+#include "dungeon/actor.h"
+#include "dungeon/actor/animation.h"
+#include "engine/texture.h"
+#include "dungeon/actor/status.h"
+#include "dungeon/level.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
@@ -13,8 +19,6 @@ void *allocate_list_node();
 void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);                 /* extern */
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);                /* extern */
-void initialize_actor_sprite_and_animation(); /* extern */
-s32 try_move_actor_to_valid_position(); /* extern */
 extern void *active_action_object[];
 void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *motion_in, SpriteFrameState *sprite_in);
 
@@ -91,16 +95,12 @@ typedef struct S_812A524C_40 {
 s32 enqueue_runtime_pool_script(void *input_data); /* extern */
 void clear_slots_of_type();
 void func_80042B68();                /* extern */
-void select_indirect_table_entry();              /* extern */
 void advance_sprite_animation_and_textures(void *entity);                      /* extern */
-s32 rsin();                             /* extern */
 void apply_monster_koyaw_data();                 /* extern */
 #include "dungeon/player/object/action_state.h"
 struct RegistrationNode;
-s16 set_or_clear_actor_status_slot();       /* extern */
 void update_actor_status_and_mp();                      /* extern */
 s32 refresh_actor_facing_and_lifecycle();  /* extern */
-s32 sample_terrain_surface_height();                   /* extern */
 extern u16 system_update_flags[8];
 extern u8 D_8006EE9C[16];
 extern u8 kewne_spawn_pool_script[16];

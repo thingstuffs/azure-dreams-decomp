@@ -14,6 +14,7 @@
 #include "shared/entity.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/level.h"
 extern int abs(int);
 #ifndef NULL
 #define NULL 0
@@ -49,7 +50,6 @@ extern s32 find_nearest_floor_item_in_room();
 extern s32 find_floor_item_at_world_position(s32 input_x, s32 input_y, s32 input_z);
 extern s32 update_actor_status_and_mp();
 extern void refresh_actor_proximity_state(u8 *context);
-extern s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 extern s32 check_global_or_linked_flag_20000();
 
 #define STEPVEC(neighbor_result)                                                            \

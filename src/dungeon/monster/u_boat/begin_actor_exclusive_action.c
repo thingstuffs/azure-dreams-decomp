@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/actor/status.h"
 
 typedef struct S_func_80D40744_0 {
     u8 pad_00[0x6D];
@@ -35,7 +36,6 @@ typedef struct S_func_80D40744_1 {
     void *unk_10;
 } S_func_80D40744_1;
 
-extern void advance_status_timers(void *);
 
 /*
  * Claims an exclusive U-Boat action when dungeon activity allows it; otherwise selects idle state

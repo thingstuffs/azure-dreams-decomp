@@ -194,7 +194,7 @@ extern void * find_adjacent_actor();
 extern void * probe_directional_neighbor();
 extern void select_actor_route_target();
 extern void update_actor_proximity_flag();
-extern s32 generate_random_value();
+extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern void update_actor_status_and_mp();
 extern s16 sample_terrain_surface_height();
 extern void resolve_attack_damage_and_effects(void *, void *, s16, s16);

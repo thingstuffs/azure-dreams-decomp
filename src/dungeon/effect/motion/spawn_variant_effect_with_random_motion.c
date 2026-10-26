@@ -7,6 +7,8 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "dungeon/effect/motion.h"
+#include "sdk/libc.h"
+#include "sdk/libgte.h"
 
 
 typedef struct S_800B7D74_2 {
@@ -32,9 +34,6 @@ struct S_80083178__jr {
 
 void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
-s32 rsin();                             /* extern */
-s32 rcos();                             /* extern */
-s32 rand();                                /* extern */
 extern M2C_UNK D_8006E24C;
 extern M2C_UNK D_8006E258;
 #include "shared/sprite_source.h"

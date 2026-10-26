@@ -9,6 +9,8 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_moving_views.h"
+#include "engine/texture.h"
+#include "slus.h"
 
 typedef struct S_800D58D8_0_pre {
     void * unk_00;
@@ -40,8 +42,6 @@ typedef struct {
 void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
 s32 resolve_record_orientation_or_fallback(void *, void *, Vec3u16 *, s32);     /* extern */
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
-void select_indirect_table_entry();              /* extern */
-void advance_sprite_animation_and_textures();                      /* extern */
 extern s32 D_800D586C[];
 
 /* Update sprite facing and animation, then spawn an effect when the countdown expires. */

@@ -3,6 +3,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "dungeon/level.h"
 extern int abs(int);
 
 typedef union Fixed32 {
@@ -74,7 +75,6 @@ typedef struct StackLocals {
 extern s32 resolve_record_orientation_or_fallback(void *, Lookup *, s16 *, s32);
 extern void func_80024F0C(State *, Motion *);
 extern s32 check_layer_offset_height(s32, s32, s16, s32);
-extern s32 sample_terrain_surface_height(s32, s32, s16);
 extern void func_8002523C(State *, Motion *);
 extern void play_sound_if_enabled(s32);
 extern void func_80024640(State *, Motion *);

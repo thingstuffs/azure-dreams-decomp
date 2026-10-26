@@ -10,6 +10,8 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
 #include "engine/graphics.h"
+#include "dungeon/player/object.h"
+#include "dungeon/actor/status.h"
 
 typedef struct S_80172540_0 {
     u8 pad_00[0x8C];
@@ -25,8 +27,6 @@ typedef struct S_80172540_0 {
 } S_80172540_0;   /* arg0 in update_a_jump_toward_target_tile_restores_actor_finishes */
 
 s16 get_rounded_facing_and_rounding_flag();
-void set_record_integer_tile_center();
-void advance_status_timers();
 extern void on_actor_status_updated(void *actor);
 void spend_actor_mp();
 

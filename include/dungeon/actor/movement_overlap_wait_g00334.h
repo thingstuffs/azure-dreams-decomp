@@ -1,5 +1,6 @@
 #ifndef DUNGEON_ACTOR_MOVEMENT_OVERLAP_WAIT_G00334_H
 #define DUNGEON_ACTOR_MOVEMENT_OVERLAP_WAIT_G00334_H
+#include "dungeon/level.h"
 
 struct SpriteFrameState;
 /* Movement overlap wait shared declarations. */
@@ -12,7 +13,6 @@ struct SpriteFrameState;
 #include "dungeon/player/object/action_state.h"
 extern s32 update_object_coordinates_if_valid(struct SpriteFrameState *object, void *context);
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, s32 flag_mask);
-extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern void begin_actor_random_warp(void *entity, void *unused, void *position, void *entity_state);
 
 /* Functions defined in this translation unit. */

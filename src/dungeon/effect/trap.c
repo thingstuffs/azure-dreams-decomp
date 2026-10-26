@@ -1,4 +1,5 @@
 #include "shared/actor_property_flags.h"
+#include "sdk/libgte.h"
 #include "shared/actor_status_ids.h"
 /* One native TU; source order follows the complete ledger cohort. */
 #include "dungeon/effect/trap.h"
@@ -522,8 +523,6 @@ typedef struct S_800CC4F0_1 {
 } S_800CC4F0_1;   /* arg0 in update_directional_trap_effect; pointer addresses record offset 0x2 */
 
 
-s32 rsin();                             /* extern */
-s32 rcos();                             /* extern */
 extern void * create_tile_center_quad_effect(s16 tile_x, s16 tile_y, s16 z, s16 tail_value, s16 render_mode, u16 tail_config);
 
 /* Updates directional motion, emits paired effects, and marks completion when the timer expires. */
@@ -1012,8 +1011,6 @@ typedef struct S_800CCDA0_3 {
 } S_800CCDA0_3;   /* arg2 in update_bouncing_trap_effect */
 
 
-extern s32 rsin(s32);
-extern s32 rcos(s32);
 extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, s32, s32);
 extern s32 play_sound_if_enabled(s32 query_value);
 

@@ -9,6 +9,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/item/message.h"
 
 typedef struct S_800BE6F0_0_pre {
     void * unk_00;
@@ -40,10 +41,7 @@ s32 get_entity_effect_value();
 struct EntityLinkNode;
 s32 clear_slot_and_update_linked_state();
 void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
-u8 * expand_text_control_codes();
-void * clear_byte_and_advance();
 u8 * append_typed_formatted_value();
-u8 * append_entity_display_text();
 void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 void * detach_record_and_update_slot_state(void *record);

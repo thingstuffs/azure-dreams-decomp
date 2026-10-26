@@ -9,6 +9,9 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
+#include "dungeon/actor.h"
+#include "dungeon/actor/animation.h"
+#include "engine/node/allocation.h"
 
 typedef struct ActionState ActionState;
 typedef struct ActorSprite ActorSprite;
@@ -38,12 +41,9 @@ typedef struct S_81029000_4 {
     s8 unk_9C;
 } S_81029000_4;   /* actor in spawn_garuda_slot_a */
 
-void *allocate_list_node();
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s16 set_or_clear_actor_status_slot();
-s32 generate_random_value();
-void initialize_actor_sprite_and_animation();
-s32 try_move_actor_to_valid_position();
+s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 void func_8014CA78(void *obj, void *input_motion, void *input_part);
 void func_8014D058(ActionState *actor, void *context, ActorSprite *sprite_arg, CreatureState *creature);
 extern M2C_UNK D_80150880;
@@ -72,7 +72,7 @@ void *spawn_garuda_slot_a(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
     held_a = attr_a;
     held_c = attr_c;
     held_b = attr_b;
-    obj = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
+    obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     final_arg0 = spawn_flags;
     if (obj != NULL) {
         work = ((void *)obj) + 0x20;

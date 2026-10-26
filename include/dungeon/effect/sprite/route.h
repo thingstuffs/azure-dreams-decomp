@@ -1,5 +1,6 @@
 #ifndef DUNGEON_OVL_18EE800_H
 #define DUNGEON_OVL_18EE800_H
+#include "sdk/libc.h"
 
 struct B32_818CF0E8_S_818CF0E8_1;
 struct B32_818CF0E8_S_818CF0E8_3;
@@ -346,8 +347,7 @@ extern s32 RotTransPers(void *, void *, void *, void *);
 s32 check_left_tile_and_center_height();
 extern void try_apply_confusion_status();
 extern void drain_audio_commands_and_service_channels(void);
-extern s32 generate_random_value();
+extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern s32 try_trigger_target_record_effect();
 extern s32 check_adjacent_tile_height_clearance();
-extern s32 rand();
 #endif

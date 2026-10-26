@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
+#include "sdk/libgte.h"
 
 typedef struct S_800F62BC_0_pre {
     u16 unk_00;
@@ -22,7 +23,6 @@ typedef struct S_800F62BC_1 {
 } S_800F62BC_1;   /* actor in update_pulsing_actor_color */
 
 
-s32 rsin();                             /* extern */
 extern u8 D_80173AF8;
 
 /* Pulses the actor color, then fades it out and marks completion. */

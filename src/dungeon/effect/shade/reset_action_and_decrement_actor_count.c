@@ -1,12 +1,11 @@
 #include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/actor/status.h"
 
 
 extern void clear_slots_of_type(void *, s32);
 extern s32 try_claim_dungeon_action_slot(void *);
-extern s32 set_or_clear_actor_status_slot(void *, s32, s32);
-extern void advance_status_timers(void *);
 
 /* Reset action state and decrement the actor counter when the checks pass. */
 void reset_action_and_decrement_actor_count(void *action_state, void *unused_1, void *unused_2, void *actor) {

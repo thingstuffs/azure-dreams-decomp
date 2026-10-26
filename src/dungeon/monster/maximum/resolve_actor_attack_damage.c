@@ -14,6 +14,10 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "engine/cd.h"
+#include "dungeon/player/object.h"
+#include "dungeon/system.h"
+#include "engine/node/allocation.h"
+#include "dungeon/actor/status.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -63,13 +67,9 @@ typedef struct S_801728B4_11 {
     s32 unk_08;
 } S_801728B4_11;
 
-void *allocate_list_node();
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 void select_sprite_entry();
 void *scan_actor_along_heading();
-void set_record_integer_tile_center();
-void advance_status_timers();
-s32 play_sound_if_enabled();
 void *create_actor_spell_effect(void *, void *, s32, void *);
 extern void effect_update_tag();
 extern void dispatch_monster_move_attack_spell(void *controller, void *context, void *entity, ActorRecord *actor_state);
@@ -165,7 +165,7 @@ void resolve_actor_attack_damage(void *actor, ObjectPosition *motion, SpriteFram
             sprite->flags = (u16) (sprite->flags & 0xF7FF);
             play_sound_if_enabled(0x703);
             ((S_801728B4_0 *)actor)->unk_9B = (u8) (((S_801728B4_0 *)actor)->unk_9B + 1);
-            new_effect = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
+            new_effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
             ((S_801728B4_0 *)actor)->unk_A0 = new_effect;
             if (new_effect == NULL) {
                 return;

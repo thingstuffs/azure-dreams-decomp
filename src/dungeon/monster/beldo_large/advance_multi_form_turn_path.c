@@ -7,6 +7,7 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_80082E80.h"
 #include "engine/graphics.h"
+#include "dungeon/level.h"
 
 typedef struct S_8016AFC4_3 {
     u8 pad_00[0x74];
@@ -22,7 +23,6 @@ typedef struct S_8016AFC4_4 {
     u8 unk_7C;
 } S_8016AFC4_4;   /* (u8 *)arg3 + ((S_8016AFC4_0 *)arg3)->unk_8A.s in advance_multi_form_turn_path */
 
-extern s32 cycle_map_cell_flags();
 extern s32 update_map_cell_flags_with_item_limit();
 extern s32 check_movement_clearance_and_height();
 extern s16 get_rounded_facing_and_rounding_flag();

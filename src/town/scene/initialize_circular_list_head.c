@@ -1,6 +1,6 @@
 #include "common.h"
+#include "sdk/libc.h"
 
-extern s32 memset();
 extern void *town_actor_control[];
 
 /* Clear the list head record and link it to itself. */

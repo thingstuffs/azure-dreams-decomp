@@ -3,6 +3,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/entity.h"
+#include "sdk/libgte.h"
 
    /* the 0x2 bytes before arg0 in update_held_item_attachment, addressed as arg0[-1] */
 
@@ -66,7 +67,6 @@ typedef struct S_8008D470_6 {
 extern u8 held_item_record[];
 
 extern s32 resolve_record_orientation_or_fallback();
-extern s32 rsin();
 extern s32 create_indexed_floor_object();
 
 /* Move the effect toward its target, pulse its brightness, and handle expiration. */

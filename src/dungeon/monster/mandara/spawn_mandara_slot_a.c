@@ -9,6 +9,9 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
+#include "dungeon/actor.h"
+#include "dungeon/actor/animation.h"
+#include "engine/node/allocation.h"
 
 typedef struct ActionState ActionState;
 typedef struct ActorMotion ActorMotion;
@@ -42,13 +45,10 @@ typedef struct S_80FD5000_4 {
     u16 unk_06;
 } S_80FD5000_4;
 
-void *allocate_list_node();
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 MoveImage(void *, s32, s32);
 s16 set_or_clear_actor_status_slot(); /* extern */
-s32 generate_random_value();
-void initialize_actor_sprite_and_animation();
-s32 try_move_actor_to_valid_position(); /* extern */
+s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 void *func_8014C984();
 void *func_8014CA40();
 extern M2C_UNK D_8014CB40;
@@ -92,7 +92,7 @@ void *spawn_mandara_slot_a(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 heading)
     S_80FD5000_4 *selected3;
 
     actor_state = 0;
-    created = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
+    created = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (created != 0) {
         actor_state = (S_80FD5000_1 *)((u8 *)created + 0x20);
         created->update_callback = &D_8014CB40;

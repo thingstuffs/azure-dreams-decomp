@@ -4,6 +4,8 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
+#include "sdk/libc.h"
+#include "sdk/libgte.h"
 
    /* arg1 in func_80173FF4 */
 
@@ -43,7 +45,6 @@ typedef struct T_8017406C_S_8017406C_3 {
     u16 unk_0A;
 } T_8017406C_S_8017406C_3;   /* temp_s3 in func_8017406C */
 
-s32 rand();
 
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
@@ -66,7 +67,6 @@ typedef struct T_801741A0_S_801741A0_0 {
     s32 unk_44;
 } T_801741A0_S_801741A0_0;   /* arg0 in func_801741A0 */
 
-s32 rand();                                /* extern */
 
 #include "records/Rec_func_80173CFC_arg1.h"
 #include "shared/dungeon_delay_views.h"
@@ -87,14 +87,11 @@ typedef struct T_80174374_S_80174374_0 {
 
 typedef void (*unicorn_orbit_update_fn)(void *effect, ObjectPosition *position, SpriteFrameState *primitive);
 
-extern s32 rand(void);
 
 extern s32 advance_sprite_animation_and_textures();
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
-extern s32 rsin();
-extern s32 rcos();
 extern s32 shared_sprite_entries;
 extern s32 directional_sprite_entries;
 void advance_record_state_and_set_completion_flags(void *record_data, DelayMotionZ *state, s32 update_arg);

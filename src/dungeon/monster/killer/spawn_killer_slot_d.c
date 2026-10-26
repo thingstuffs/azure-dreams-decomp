@@ -6,6 +6,9 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
+#include "dungeon/actor.h"
+#include "dungeon/actor/animation.h"
+#include "engine/node/allocation.h"
 #if 0 /* rowbase_rename_reverify precondition marker: dead declaration, never
 seen by the real compiler;
 satisfies the tool's textual defines()
@@ -47,12 +50,9 @@ struct DungeonSub1 {
     s8 field9c;
 };
 
-void *allocate_list_node();
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s16 set_or_clear_actor_status_slot();
 s32 generate_random_value(void);
-void initialize_actor_sprite_and_animation();
-s32 try_move_actor_to_valid_position();
 extern u8 D_8015EA7C[];
 extern M2C_UNK D_8015EEA8;
 extern M2C_UNK D_80162038;
@@ -81,7 +81,7 @@ void *spawn_killer_slot_d(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_
     grid_y = 0;
     state = (void *)grid_y;
     grid_x = 0x112;
-    node = allocate_list_node(grid_x, ((s32 *)&scene_object_list_anchor.next));
+    node = allocate_list_node(grid_x, &scene_object_list_anchor.next);
     if (node != NULL) {
         state = (DungeonSub1 *)((u8 *)node + 0x20);
         node->update_callback = &D_8015EA7C;

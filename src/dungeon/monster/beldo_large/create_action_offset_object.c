@@ -6,8 +6,8 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_80175D54.h"
 #include "shared/dungeon_moving_views.h"
+#include "engine/node/allocation.h"
 
-void *allocate_list_node();               /* extern */
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 extern M2C_UNK D_80077854;
 extern void initialize_action_offset_and_notify(void *action, void *position);

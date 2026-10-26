@@ -6,6 +6,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_80100D98.h"
+#include "sdk/libgte.h"
 
 
 
@@ -42,8 +43,6 @@ typedef struct {
     u16 unk14;
 } S_80048AC8;
 void step_actor_animation(S_80048AC8 *entity, s32 slot_index);             /* extern */
-s32 rsin();                             /* extern */
-s32 rcos();                             /* extern */
 void reserve_tw_mon_load(s32 reservation_value);     /* extern */
 void add_motion_deltas_to_position(ObjectPosition *motion);                      /* extern */
 struct IntVector3; void apply_the_enabled_movement_offsets_adding_z_offset_only_positive(struct IntVector3 *);                      /* extern */

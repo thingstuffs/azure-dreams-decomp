@@ -3,10 +3,10 @@
 #include "records/Rec_func_800AD058_arg0.h"
 #include "shared/entity.h"
 #include "records/Rec_func_800AD058_arg2.h"
+#include "dungeon/system.h"
 
 
 
-extern s32 play_sound_if_enabled();
 extern s32 update_actor_defeat_removal();
 extern void create_and_initializes_display_source_position_appearance();
 

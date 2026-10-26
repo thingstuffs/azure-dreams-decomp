@@ -6,6 +6,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/level.h"
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
@@ -15,7 +16,6 @@ s32 enqueue_runtime_pool_script(void *);
 void apply_monster_koyaw_data(s32, s8 *);
 struct ActorRecord; struct Rec_func_800A9E70_arg0; struct S_800A9E70_2; s32 refresh_actor_facing_and_lifecycle(struct Rec_func_800A9E70_arg0 *, s32, struct S_800A9E70_2 *, struct ActorRecord *);
 s32 try_move_actor_to_valid_position(void *, void *, void *, void *);
-extern s32 sample_terrain_surface_height();
 
 extern u8 D_800F8BBC[9];
 extern u8 ghosh_motion_resume_address[9];

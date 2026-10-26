@@ -5,10 +5,10 @@
 #include "shared/dir_step.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/actor.h"
+#include "dungeon/player/object.h"
 
-extern void set_record_integer_tile_center();
 extern void begin_actor_display_action();
-extern void apply_clamped_actor_value_delta();
 
 extern u8 D_801760D4;
 

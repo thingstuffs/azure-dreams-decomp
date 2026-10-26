@@ -6,7 +6,7 @@
 extern ObjectNodeHeader *active_node_list_head;
 
 /* Removes the first eligible active node other than excluded_node, then retries allocation. */
-void *evict_node_and_allocate(void *flags, void *excluded_node)
+void *evict_node_and_allocate(s32 flags, void *excluded_node)
 {
     ObjectNodeHeader *node;
 

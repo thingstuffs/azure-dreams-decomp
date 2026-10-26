@@ -3,6 +3,8 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
+#include "sdk/libgte.h"
+#include "slus.h"
 
 typedef struct S_818BD3B0_0_pre {
     u16 flags; /* 0x00 */
@@ -32,9 +34,6 @@ typedef struct S_818BD3B0_2 {
 } S_818BD3B0_2;   /* arg1 in update_orbital_motion_effect */
 
 void select_record_entry_and_value(void *state, void *entries, short index);
-s32 advance_sprite_animation_and_textures();
-s32 rsin();
-s32 rcos();
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry shared_sprite_entries[];
 

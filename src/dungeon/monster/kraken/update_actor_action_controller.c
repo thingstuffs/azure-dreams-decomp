@@ -9,6 +9,8 @@
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_projectile_views.h"
 #include "shared/position_views.h"
+#include "dungeon/actor.h"
+#include "dungeon/actor/status.h"
 
    /* obj in update_actor_action_controller */
 
@@ -71,11 +73,9 @@ typedef struct S_8017086C_8 {
 extern void *allocate_list_node();
 extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 generate_random_value(void); /* Retail RNG reads no argument registers. */
-extern void set_or_clear_actor_status_slot();
 extern void initialize_actor_sprite_and_animation();
 extern void select_sprite_entry();
 extern void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots();
-extern void try_move_actor_to_valid_position();
 
 extern u8 child_texture_entries[];
 extern u8 child_object_update_address[];
@@ -168,7 +168,7 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
         current = actor;
         count = 0;
         do {
-            child_obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+            child_obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
             ((S_8017086C_5 *)current)->unk_A4 = child_obj;
             if (child_obj != 0) {
                 void *child;

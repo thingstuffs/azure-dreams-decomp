@@ -4,13 +4,13 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "m2c_compat.h"
+#include "engine/node/allocation.h"
 
 typedef struct {
     s32 words[3];
 } TableEntry;
 
 extern s32 resolve_record_orientation_or_fallback();
-extern void *allocate_list_node();
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 extern TableEntry linked_effect_direction_entries[];
@@ -88,7 +88,7 @@ void *create_and_link_six_offset_objects(u16 x, u16 y, s16 z, void *source)
     callback = update_trailing_effect_animation;
     table_entry = linked_effect_direction_entries;
     do {
-        object = allocate_list_node(0x212, ((s32 *)(&scene_object_list_anchor)));
+        object = allocate_list_node(0x212, &scene_object_list_anchor.next);
         if (object != NULL) {
             s32 point_index;
             S_80026C88_2 *state;

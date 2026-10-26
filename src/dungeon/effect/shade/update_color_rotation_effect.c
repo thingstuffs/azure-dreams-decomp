@@ -4,6 +4,7 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
+#include "sdk/libc.h"
 
 typedef struct S_818C3448_0_pre {
     u16 unk_00;
@@ -25,7 +26,6 @@ typedef struct S_818C3448_1 {
 
 s32 advance_object_and_global_counters();
 s32 func_80024AF4();
-s32 rand();
 
 typedef struct {
     s32 f0;

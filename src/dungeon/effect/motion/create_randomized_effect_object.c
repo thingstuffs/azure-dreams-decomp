@@ -3,6 +3,7 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_moving_views.h"
+#include "sdk/libc.h"
 
 typedef struct S_80024130_0 {
     u8 pad_00[0x8];
@@ -17,7 +18,6 @@ typedef struct S_80024130_0 {
 
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern s32 rand();
 extern u8 D_80024048[9];
 extern u8 D_800DE8E8[9];
 

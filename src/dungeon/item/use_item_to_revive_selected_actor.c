@@ -7,10 +7,10 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
+#include "dungeon/player/item.h"
 
 void apply_entity_effects(void *);             /* extern */
 s32 get_entity_effect_value();            /* extern */
-void begin_mode_selected_item_action(); /* extern */
 s32 process_record_and_update_linked_state(s32 request, void *record_data);           /* extern */
 void clear_slot_and_update_linked_state();                         /* extern */
 void display_formatted_context_message(void *context);                   /* extern */

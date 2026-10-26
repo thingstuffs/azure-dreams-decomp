@@ -6,6 +6,7 @@
 #include "shared/slus_callbacks.h"
 #include "engine/runtime.h"
 #include "engine/util.h"
+#include "engine/node/allocation.h"
 
 typedef struct {
     s32 v[5];
@@ -74,7 +75,6 @@ extern void func_80021120();
 extern u8 D_80022FD8[];
 extern void func_80023DA0();
 extern void select_record_entry_and_value(void *state, void *entries, short index);
-extern void *allocate_list_node();
 extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s16 query_lowered_transform_position();
 
@@ -97,7 +97,7 @@ s32 initialize_keima_interface(void) {
     set_resident_bit(0x58E);
     set_packed_2bit_flag(0xE, 0);
 
-    obj = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
+    obj = allocate_list_node(1, &scene_object_list_anchor.next);
     if (obj != 0) {
         owner = ((u8 *)obj) + 0x20;
         AT(s16, owner, 0x2E) = 0x2D;
@@ -225,7 +225,7 @@ s32 initialize_keima_interface(void) {
         TileObject *sprite_state;
         index = 2;
         do {
-            new_obj = allocate_list_node(0x136, ((u8 *)(&scene_object_list_anchor)));
+            new_obj = allocate_list_node(0x136, &scene_object_list_anchor.next);
             AT(void *, owner + index * 4, 0x20) = new_obj;
             obj = new_obj;
             if (obj != 0) {
@@ -251,7 +251,7 @@ s32 initialize_keima_interface(void) {
         } while (index >= 0);
     }
 
-    obj = allocate_list_node(0x136, ((u8 *)(&scene_object_list_anchor)));
+    obj = allocate_list_node(0x136, &scene_object_list_anchor.next);
     if (obj != 0) {
         obj->update_callback = D_80023A00;
         register_node(obj, project_sprite_chain);

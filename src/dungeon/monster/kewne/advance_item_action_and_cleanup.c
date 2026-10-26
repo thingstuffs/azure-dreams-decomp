@@ -10,6 +10,9 @@
 #include "engine/cd.h"
 #include "shared/sprite_frame_state.h"
 #include "engine/graphics.h"
+#include "dungeon/player/object.h"
+#include "dungeon/system.h"
+#include "dungeon/actor/status.h"
 extern s32 cd_cue_base[];
 extern u8 animation_tick_scale;
 extern u8 D_800DCF50;
@@ -23,9 +26,6 @@ extern s32 Control_CD();
 extern s32 sound_set_cd_cue_parameters();
 extern s32 read_stream_cue_start_offset();
 extern void *scan_actor_along_heading();
-extern s32 set_record_integer_tile_center();
-extern void advance_status_timers();
-extern s32 play_sound_if_enabled();
 extern s32 resolve_alternate_spell_id();
 extern void *create_actor_spell_effect();
 extern s32 create_actor_linked_effect();

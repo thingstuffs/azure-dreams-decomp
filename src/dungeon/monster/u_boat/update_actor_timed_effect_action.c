@@ -13,6 +13,10 @@
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/player/object.h"
+#include "dungeon/system.h"
+#include "engine/node/allocation.h"
+#include "dungeon/level.h"
 
 typedef struct S_8017558C_0 {
     u8 pad_00[0x8C];
@@ -58,11 +62,7 @@ extern u8 uboat_default_frames[];
 extern u8 uboat_aura_sprite_data[];
 #include "dungeon/monster/u_boat.h"
 struct S_80174C64_0;
-void *allocate_list_node();               /* extern */
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */               /* extern */
-void set_record_integer_tile_center();              /* extern */
-s32 play_sound_if_enabled();                     /* extern */
-s32 sample_terrain_surface_height();                   /* extern */
 void create_owner_linked_directional_object();      /* extern */
 void update_actor_movement_history(struct S_80174C64_0 *motion, ObjectPosition *position, SpriteFrameState *record, void *object); /* extern */
 

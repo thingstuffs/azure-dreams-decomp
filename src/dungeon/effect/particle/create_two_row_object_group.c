@@ -1,4 +1,5 @@
 #include "shared/sprite_frame_state.h"
+#include "sdk/libc.h"
 #include "dungeon/effect/particle.h"
 /* One native TU; source order follows the complete ledger cohort. */
 #include "dungeon/effect/particle/create_two_row_object_group.h"
@@ -6,6 +7,9 @@
 #include "dungeon/effect/particle.h"
 #include "shared/object_node.h"
 #include "common.h"
+#include "engine/node/allocation.h"
+#include "slus.h"
+#include "dungeon/level.h"
 
 extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s16 GetClut();
@@ -351,8 +355,6 @@ void update_rotating_effect_vertices(void *effect_data) {
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
 
-void *allocate_list_node();            /* extern */
-s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);                   /* extern */
 extern void spawn_scattered_timed_objects(void *source_owner, void *spawn_params);
 
 typedef struct S_800DAE44_2 {
@@ -367,7 +369,7 @@ void create_source_positioned_object(ObjectPosition *source_pos, s16 initial_val
     S_800DAE44_2 *object_data;
     ObjectNodeHeader *object;
 
-    object = allocate_list_node(0x312, ((M2C_UNK *)&scene_object_list_anchor.next));
+    object = allocate_list_node(0x312, &scene_object_list_anchor.next);
     if (object != NULL) {
         object->update_callback = spawn_scattered_timed_objects;
         ((MovingPosition *)(object->position))->x = (u16) ((u16)source_pos->x.w.i);
@@ -415,9 +417,7 @@ typedef struct S_800DAEF4_6 {
     s32 unk_04;
 } S_800DAEF4_6;   /* link in spawn_scattered_timed_objects */
 
-extern void *allocate_list_node();
 extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern s32 rand(void);
 
 extern s32 secondary_sprite;
 
@@ -442,7 +442,7 @@ void spawn_scattered_timed_objects(void *source_owner, void *spawn_params)
     remaining = 12;
     link = (u8 *)&secondary_sprite;
     do {
-        object = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
+        object = allocate_list_node(0x312, &scene_object_list_anchor.next);
         if (object != 0) {
             object->update_callback = update_timed_effect_animation;
             register_node(object, project_sprite_chain);
@@ -520,8 +520,6 @@ typedef struct S_800DB164_0 {
 } S_800DB164_0;   /* arg0 in update_timed_effect_animation */
 
 
-extern void advance_sprite_animation_and_textures();
-s32 rand();                             /* extern */
 
 /* Updates a timed effect's animation and motion, marking it for removal when finished. */
 void update_timed_effect_animation(void *effect, ObjectPosition *motion, SpriteFrameState *visual) {
@@ -577,7 +575,6 @@ void update_timed_effect_animation(void *effect, ObjectPosition *motion, SpriteF
 #include "shared/object_node.h"
 #include "shared/dungeon_moving_views.h"
 
-extern void *allocate_list_node();
 struct D_800DB420_Obj;
 struct D_800DB420_RngOut;
 struct D_800DB420_Effect;
@@ -636,7 +633,7 @@ void create_two_effect_groups(MovingPosition *position, S_800DB2DC_2 *source_vis
     do {
         effects_left = 3;
         do {
-            effect = allocate_list_node(0x312, ((M2C_UNK *)&scene_object_list_anchor.next));
+            effect = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (effect != 0) {
                 effect->update_callback = callback;
                 visual = effect->sprite;
@@ -702,9 +699,7 @@ typedef struct D_800DB420_Effect {
 } D_800DB420_Effect;
 
 extern void register_node(void *, void *);
-extern s32 rand(void);
 extern void select_sprite_entry(void *, s32, s32);
-extern void advance_sprite_animation_and_textures();
 
 /* Jitter the position and advance the effect through its modes and countdown. */
 void advance_jittered_effect_modes(D_800DB420_Obj *state, D_800DB420_RngOut *position, SpriteFrameState *effect) {

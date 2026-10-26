@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/tile_object.h"
+#include "dungeon/level.h"
 
 typedef struct {
     u32 words[3];
@@ -10,7 +11,6 @@ typedef struct {
     s32 flags;
 } Status;
 
-extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
 extern void set_record_integer_tile_center(s32, s32, s32);
 extern Copy12 D_8016A858[];

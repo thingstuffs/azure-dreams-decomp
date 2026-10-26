@@ -2,6 +2,7 @@
 /* Color-cycling radial bands, rotating spark effects, and movement toward reachable tiles. */
 #include "dungeon/effect/travel/cycle_seven_color_fade.h"
 #include "shared/sprite_frame_state.h"
+#include "sdk/libc.h"
 void (*const dungeon_18d6800_entry)(B28_818B7F38_S_80025738_0 *, B28_818B7F38_S_80025738_5 *, B28_818B7F38_S_80025738_2 *) = advance_movement_toward_reachable_tile;
 #include "dungeon/effect/travel/cycle_seven_color_fade.h"
 #include "common.h"
@@ -55,7 +56,6 @@ void lower_animated_sprite(void *counter_state, B28_818B68B8_S_818B68B8_2 *value
 #define NULL 0
 #endif
 
-extern s32 rand();
 
 extern u8 shared_sprite_entries[];
 
@@ -572,7 +572,6 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
 #include "dungeon/effect/travel/cycle_seven_color_fade.h"
 #include "common.h"
 
-extern s32 rand(void);
 
 /* Creates an object from source data and payload, initializing two fields randomly. */
 void draw_chained_object_records(B28_818B77D4_Arg0818B77D4 *source, B28_818B77D4_Arg1818B77D4 *payload) {
@@ -797,7 +796,6 @@ void advance_spinning_effect_motion(B28_818B7D3C_OwnerState *owner, B28_818B7D3C
 #include "dungeon/effect/travel/cycle_seven_color_fade.h"
 #include "common.h"
 
-extern s32 rand(void);
 
 /* Spawn a 0x212 effect object owned by `owner`, give it a random 12-bit spin and copy the source transform into it. */
 s32 spawn_owned_random_spin_effect(void *owner, B28_818B7E14_DungeonSource *source)

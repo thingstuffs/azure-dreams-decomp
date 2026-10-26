@@ -1,8 +1,8 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "records/Rec_func_800A9E70_arg0.h"
+#include "dungeon/actor/status.h"
 
-void advance_status_timers();                      /* extern */
 
 
 /* Reset the entity state, clear the target flag, and decrement its counter. */

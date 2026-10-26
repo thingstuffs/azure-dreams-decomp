@@ -8,6 +8,9 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
+#include "dungeon/actor.h"
+#include "dungeon/actor/animation.h"
+#include "engine/node/allocation.h"
 
 typedef struct S_80BFD000_1 {
     u8 pad_00[0x13];
@@ -34,12 +37,9 @@ typedef struct S_80BFD000_4 {
 } S_80BFD000_4;   /* actor in spawn_clown_slot_d */
 
 extern u8 clown_object_callback_3[];
-void *allocate_list_node();
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s16 set_or_clear_actor_status_slot();
-s32 generate_random_value();
-void initialize_actor_sprite_and_animation();
-s32 try_move_actor_to_valid_position();
+s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern M2C_UNK D_8015F014;
 extern M2C_UNK D_8016220C;
 extern M2C_UNK D_8016225C;
@@ -68,7 +68,7 @@ void *spawn_clown_slot_d(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_valu
     saved_y = tile_y;
     unused_byte_21d8 = (s32) *(s8 *)0x21D8;
     unused_byte_neg_ba0 = (s32) *(s8 *)-0xBA0;
-    object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != NULL) {
         actor_state = ((void *)object) + 0x20;
         actor = actor_state;

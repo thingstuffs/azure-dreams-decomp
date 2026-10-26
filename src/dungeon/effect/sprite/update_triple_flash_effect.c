@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
+#include "slus.h"
 
 typedef struct S_818BD0C0_0_pre {
     u16 unk_00;
@@ -19,7 +20,6 @@ typedef struct S_818BD0C0_1 {
 } S_818BD0C0_1;   /* p in update_triple_flash_effect */
 
 extern void select_record_entry_and_value(void *state, void *entries, short index);
-extern void advance_sprite_animation_and_textures();
 extern u8 flash_sprite_entries[];
 
 /* Update state counters and cycle the primitive color for up to three flagged updates. */

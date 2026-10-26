@@ -14,20 +14,21 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/position_views.h"
+#include "engine/node/allocation.h"
+#include "dungeon/system.h"
+#include "dungeon/actor/status.h"
+#include "dungeon/level.h"
 
 extern int abs(int);
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 secondary_sprite[];
 extern u8 homing_particle_sprite_entries[];
-void *allocate_list_node();                     /* extern */
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */                /* extern */
 s32 rand();                /* extern */
 void apply_attack_power_and_element_effects(); /* extern */
 void *scan_actor_along_heading();      /* extern */
 s32 get_definition_entry_byte_13(s16);                         /* extern */
-s32 play_sound_if_enabled();                     /* extern */
-s32 sample_terrain_surface_height(s32, s32, s16);                   /* extern */
 
 typedef struct S_func_81832800_1 {
     void *unk_00;
@@ -113,7 +114,6 @@ void (*const dungeon_1852800_entry)(S_func_81832800_1 *, S_func_81832800_4 *, vo
 void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_81832800_4 *position, void *effect_sprite);
 /* Advance the effect state, move toward its target, and animate spawned particles. */
 s32 rand();                             /* extern */
-s16 set_or_clear_actor_status_slot();        /* extern */
 extern void advance_sprite_animation_and_textures(void *state);
 
 /* Moves a particle trail to a directional target, distorts its sprite, applies the attack, and
@@ -180,7 +180,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
         particle_callback = &update_shrinking_effect_sprite;
         particle_texture = (S_func_81832800_7 *) secondary_sprite;
         while (count >= 0) {
-            object = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
+            object = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (object != NULL) {
                 void *callback;
                 ObjectPosition *spawn_position;
@@ -311,7 +311,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
         ground_height = (s16) sample_terrain_surface_height(position->unk_00.parts.unk_02.as_u16, position->unk_04.parts.unk_06.as_u16,
             (s16) (position->unk_08.parts.unk_0A.as_u16 - 0x30));
         do {
-            object = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
+            object = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (object != NULL) {
                 void *callback;
                 register_node(object, project_sprite_chain);

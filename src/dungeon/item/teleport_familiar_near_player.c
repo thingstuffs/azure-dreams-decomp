@@ -37,9 +37,7 @@ extern u8 D_800C1EC4;
 
 extern s32 get_entity_class(void *);
 extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
-extern u16 sample_terrain_surface_height(s32, s32, s16);
 extern void create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 direction, s16 effect_mode);
-extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 
 /* Creates a relocation task and updates the object's tile and height. */
 void *teleport_familiar_near_player(void *object, s16 action_arg) {

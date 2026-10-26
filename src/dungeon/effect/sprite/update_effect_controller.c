@@ -5,6 +5,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dungeon_moving_views.h"
+#include "engine/node/allocation.h"
 
 #ifndef NULL
 #define NULL 0
@@ -54,7 +55,6 @@ typedef struct S_func_800D7FB8_7 {
 extern u8 directional_sprite_entries[];
 extern s32 D_800D81D4;
 
-extern void *allocate_list_node(void *, void *);
 extern void register_node(void *, void *);
 extern s32 play_sound_if_enabled(s32);
 
@@ -77,7 +77,7 @@ void update_effect_controller(S_func_800D7FB8_0 *controller) {
         play_sound_if_enabled(0x600);
         spawn_index = 0x96;
         do {
-            entry = allocate_list_node((void *)0x312, ((u8 *)(&scene_object_list_anchor)));
+            entry = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (entry != NULL) {
                 entry_data = (S_func_800D7FB8_1 *)((u8 *)entry + 0x20);
                 entry->update_callback = (u8 *)&D_800D81D4;

@@ -12,6 +12,7 @@
 #include "shared/dungeon_delay_views.h"
 #include "shared/position_views.h"
 #include "shared/object_node.h"
+#include "sdk/libc.h"
 struct RegistrationNode;
 
 #ifndef NULL
@@ -86,7 +87,6 @@ typedef struct S_80171498_3 {
 void *allocate_list_node(s32 flags, ObjectNodeHeader **list_head);
 s32 resolve_record_orientation_or_fallback();
 s32 register_node(struct RegistrationNode *entry, void *registration_id);
-s32 rand();
 extern u8 D_80170ED8[];
 extern u8 D_801712C4[];
 

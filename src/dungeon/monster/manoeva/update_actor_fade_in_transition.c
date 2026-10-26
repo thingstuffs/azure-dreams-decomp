@@ -9,6 +9,7 @@
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+#include "dungeon/level.h"
 
 typedef struct S_8017427C_0 {
     u8 pad_00[0x8C];
@@ -46,7 +47,6 @@ extern s32 get_entity_effect_value(void *, s32);
 extern void register_node(void *, void *);
 extern void unlink_node(void *);
 extern void resolve_familiar_deployment_request(void *, void *, void *, s32);
-extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern s32 find_entity_slot_by_field_ac(void *);
 extern void set_or_clear_actor_status_slot(void *, s32, s32);
 extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);

@@ -2,14 +2,11 @@
 #include "shared/gpu_packets.h"
 #include "town/menu/line_effects.h"
 #include "shared/game_work.h"
+#include "sdk/libc.h"
+#include "sdk/libgpu.h"
 
 
 extern s32 RotTransPers();
-extern s32 GetTPage();
-extern void SetSemiTrans();
-extern void SetLineG2();
-extern void SetDrawMode();
-extern s32 rand();
 struct MovingPosition; struct S_800A130C_0; void copy_odd_halfwords_3(struct S_800A130C_0 *, struct MovingPosition *);
 
 

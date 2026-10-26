@@ -6,6 +6,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/level.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 typedef struct {
@@ -45,7 +46,6 @@ s32 find_entry_at_tile_coordinates(s16 x, s16 y, s16 z);
 /* extern */
 void clear_slot_and_detach_entity(s32 slot_index);
 /* extern */
-extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 s16 set_or_clear_actor_status_slot();
 extern s32 get_entity_effect_value(void *entry, s32 effect_id);
 extern void clear_slots_of_type(void *object, s32 value);

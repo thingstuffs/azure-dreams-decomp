@@ -1,5 +1,7 @@
 #include "common.h"
 #include "town/menu.h"
+#include "sdk/libc.h"
+#include "sdk/libgpu.h"
 
 typedef struct {
     s16 x;
@@ -21,9 +23,6 @@ typedef struct {
     u8 pad[3];
 } ImageList;
 
-extern void DrawSync();
-extern void ClearImage();
-extern void strcat();
 
 extern u8 catalog_habitat_label[16];
 extern u8 catalog_number_prefix[16];

@@ -9,6 +9,7 @@
 #include "slus/utility_hooks.h"
 #include "shared/sound_volume.h"
 #include "shared/sprite_frame_state.h"
+#include "engine/entity.h"
 
 extern int   card_server_initialized[3];
 extern short audio_voice_drain_suppressed[5];
@@ -1064,7 +1065,6 @@ void submit_cd_command_six_and_drain(void *record)
     drain_cd_command_queue();
 }
 
-extern int enqueue_audio_command(unsigned short a0);
 
 /* Pass the low 16 flag bits to the event handler and return its signed halfword result. */
 short SD_Call(int flags)

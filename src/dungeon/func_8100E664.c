@@ -6,6 +6,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "dungeon/level.h"
+#include "dungeon/system.h"
 
 typedef struct PairAction {
     u8 pad_00[0x8C];
@@ -99,14 +100,11 @@ typedef struct SignedHeight {
 } SignedHeight;
 
 #include "engine/graphics/select_sprite_entry_api.h"
-void cycle_map_cell_flags(s16, s16, u16);
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 #include "dungeon/actor/state/advance_status_timers_api.h"
 s32 select_dungeon_spawn_tile(u8 *, u8 *);
-s32 play_sound_if_enabled();
 void refresh_actor_proximity_state(u8 *);
 struct S_800AD594_0; void spend_actor_mp(struct S_800AD594_0 *, s32);
-s16 sample_terrain_surface_height();
 extern s16 dungeon_room_count;
 extern s32 D_8016B058;
 extern u8 D_8016E888[];

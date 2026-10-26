@@ -7,6 +7,10 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "dungeon/actor.h"
+#include "dungeon/actor/animation.h"
+#include "engine/node/allocation.h"
+#include "dungeon/actor/status.h"
 
 
 
@@ -27,12 +31,8 @@ typedef struct S_80FE1000_4 {
     s8 unk_9C;
 } S_80FE1000_4;   /* actor in spawn_killer_slot_f */
 
-extern void *allocate_list_node();
 extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern s32 generate_random_value();
-extern void set_or_clear_actor_status_slot();
-extern void initialize_actor_sprite_and_animation();
-extern void try_move_actor_to_valid_position();
+extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 
 extern u8 D_8016AA7C[];
 extern u8 killer_slot_f_default_frames[];
@@ -60,7 +60,7 @@ void *spawn_killer_slot_f(s16 kind_flags, s32 part_value_24, s32 part_value_25, 
     saved_value_24 = part_value_24;
     saved_value_0a = part_value_0a;
     saved_value_25 = part_value_25;
-    obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         obj->update_callback = D_8016AA7C;

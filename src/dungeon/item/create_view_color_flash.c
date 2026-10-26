@@ -2,12 +2,12 @@
 #include "shared/object_node.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/item.h"
+#include "engine/node/allocation.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-void *allocate_list_node();
 s32 play_sound_if_enabled(s32 query_value);
 void tick_view_color_flash(void *fade);
 
@@ -25,7 +25,7 @@ void create_view_color_flash(s32 payload, s16 trigger_event) {
     S_800C4D78_0 *object;
     s16 held_event = trigger_event;
 
-    object = allocate_list_node(0x200, ((s32 *)&scene_object_list_anchor.next));
+    object = allocate_list_node(0x200, &scene_object_list_anchor.next);
     if (object != NULL) {
         object->unk_26 = 0x20;
         object->unk_10 = &tick_view_color_flash;

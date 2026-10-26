@@ -8,6 +8,8 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
+#include "dungeon/player/object.h"
+#include "dungeon/system.h"
 
 typedef struct S_80173C5C_0 {
     u8 pad_00[0x8C];
@@ -27,11 +29,9 @@ typedef struct S_80173C5C_0 {
 extern u8 tyrant_frame_set_1[];
 extern u8 tyrant_direction_frames[];
 extern s32 tyrant_action_resume_address;
-void set_record_integer_tile_center();
 s16 set_or_clear_actor_status_slot();
 void advance_status_timers();
-s32 play_sound_if_enabled();
-s32 generate_random_value();
+s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern u8 D_80173FD8;
 extern M2C_UNK D_80173FE0;
 

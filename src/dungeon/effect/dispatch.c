@@ -1,6 +1,11 @@
+#include "dungeon/system.h"
+#include "engine/resource.h"
+#include "dungeon/item/message.h"
+#include "dungeon/level.h"
 
 struct ObjectPosition;
 #include "shared/sprite_frame_state.h"
+#include "sdk/libc.h"
 /* One native TU; source order follows the complete ledger cohort. */
 #include "dungeon/effect/dispatch.h"
 #include "shared/gpu_packets.h"
@@ -402,8 +407,6 @@ struct Elem;
 
 extern void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-s32 rand();                                /* extern */
-extern s32 play_sound_if_enabled();
 extern void damp_effect_motion_and_fade(void *effect, s32 *motion, SpriteFrameState *primitive);
 
 typedef struct S_800C5BBC_3 {
@@ -535,7 +538,6 @@ typedef struct CounterBlock {
 
 void select_record_entry_and_value(void *state, void *entries, short index);        /* extern */
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern s32 play_sound_if_enabled();
 extern s32 draw_linked_sprites_clipped();
 struct S_800C5D80_0;
 extern void advance_effect_motion_and_fade(void *effect_data, struct S_800C5D80_0 *motion, SpriteFrameState *primitive);
@@ -630,19 +632,16 @@ extern u8 D_800E0B73[];
 extern u8 D_800E0BA1[];
 
 void initialize_timed_motion_step(); /* Unprototyped: two or three arguments; retail reads only the first two. */
-void request_scene_dispatch_state();
 s32 get_entity_class();
 void snapshot_inventory_and_familiars();
 void *get_unused_text_buffer(void);
 u8 *expand_text_control_codes();
 void * copy_four_text_bytes();
-void clear_byte_and_advance();
 void *write_text_byte_and_advance();
 void unlink_entity_node();
 void update_map_cell_flags_with_item_limit();
 void refresh_packed_grid_nibbles();
 void * detach_record_and_update_slot_state();
-extern s32 play_sound_if_enabled();
 void display_text_with_fullwidth_adjustment();
 void check_action_boundary_and_set_flag();
 s32 generate_random_value(void);
@@ -1616,7 +1615,6 @@ DungeonObject *create_central_and_child_effects(s16 tile_x, s16 tile_y, u16 z, s
 #include "common.h"
 #include "shared/game_work.h"
 
-extern s16 sample_terrain_surface_height(u16, u16, s16);
 extern u8 camera_height_tracking[];
 extern u8 camera_transition_timer[];
 extern u16 effect_saved_position[];
@@ -2025,7 +2023,6 @@ typedef struct Other {
 
 extern DungeonGroup item_category_groups[];
 extern u8 pending_player_damage_kind;
-extern s32 play_sound_if_enabled();
 extern void create_textured_ellipse_effect(void *, Object *);
 
 /* Apply a mode-adjusted quarter-value change when the source and target item flags permit it. */

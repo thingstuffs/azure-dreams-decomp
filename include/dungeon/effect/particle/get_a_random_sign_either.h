@@ -3,6 +3,8 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/object_flags.h"
+#include "sdk/libc.h"
+#include "dungeon/level.h"
 /* extern */
 
 /* Return a random sign of either -1 or 1. */
@@ -101,8 +103,6 @@ typedef struct Row_818EDB60_Work {
 } Row_818EDB60_Work;
 
 /* Updates a timed rectangle effect, fading its color in and out and marking completion. */
-s32 rand();
-s32 sample_terrain_surface_height(s32, s32, s16);
 void *allocate_list_node(s32, void *);
 void *func_8003FD64(s32, void *);
 void register_node(void *, void *);

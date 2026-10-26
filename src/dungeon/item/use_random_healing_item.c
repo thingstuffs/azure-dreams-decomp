@@ -4,6 +4,7 @@
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
+#include "engine/town.h"
 
 typedef struct DungeonObject {
     u8 pad00[5];
@@ -25,7 +26,6 @@ extern u8 D_800E0E14[];
 extern u8 D_800E0E34[];
 extern u8 D_800E0E50[];
 
-extern u8 * format_unsigned_double_byte_decimal(s16,u8 *);
 extern void apply_entity_effects(DungeonObject *);
 #include "dungeon/player/item.h"
 extern void clear_slot_and_update_linked_state(u8 *);

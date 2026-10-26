@@ -5,6 +5,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/entity.h"
+#include "dungeon/level.h"
 
 
 typedef struct S_800AA258_2 {
@@ -14,7 +15,6 @@ typedef struct S_800AA258_2 {
 } S_800AA258_2;   /* arg2 in begin_pushed_actor_move */
 
 
-void cycle_map_cell_flags(s16 x, s16 y, u16 flags);                 /* extern */
 void update_map_cell_flags_with_item_limit();                 /* extern */
 extern struct {
     s8 pad0[10];

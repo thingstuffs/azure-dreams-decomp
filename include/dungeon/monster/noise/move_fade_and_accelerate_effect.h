@@ -1,6 +1,8 @@
 #ifndef DUNGEON_OVL_7F43F800_P02_H
 #define DUNGEON_OVL_7F43F800_P02_H
 #include "common.h"
+#include "sdk/libc.h"
+#include "dungeon/actor.h"
 #ifndef NULL
 #define NULL 0
 extern void update_actor_behavior_and_direction();
@@ -48,7 +50,6 @@ typedef struct T_80171020_S_80171020_7 {
     u16 unk_0A;
 } T_80171020_S_80171020_7;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in func_80171020 */
 
-s32 rand();
 
 typedef struct T_80171020_S_80171020_0 {
     u8 pad_00[0x8];
@@ -122,10 +123,9 @@ extern void * allocate_list_node();
 extern void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
-extern s32 generate_random_value();
+extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern void set_or_clear_actor_status_slot();
 extern void initialize_actor_sprite_and_animation();
-extern void try_move_actor_to_valid_position();
 extern u8 D_80171358[];
 extern u8 noise_direction_frames[];
 extern u8 noise_frame_set[];

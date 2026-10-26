@@ -175,7 +175,6 @@ typedef union SignedProduct {
     } words;
 } SignedProduct;
 
-extern s32 rand(void);
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern s16 GetTPage(s32, s32, s32, s32);
 extern s16 GetClut(s32, s32);
@@ -850,7 +849,6 @@ typedef struct {
 
 extern s16 GetTPage(s32, s32, s32, s32);
 extern s16 GetClut(s32, s32);
-extern s32 rand();
 
 /* Initializes, animates, and retires a jittering five-point effect. */
 void animate_jittering_five_point_effect(Entity *entity)
@@ -970,7 +968,6 @@ typedef struct S_80024F40_1 {
 } S_80024F40_1;
 
 s16 GetClut();
-s32 rand();
 
 /* Fades the object's packed color to zero, then sets completion flags. */
 void fade_packed_object_color_to_zero(void *object) {

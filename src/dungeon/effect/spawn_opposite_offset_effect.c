@@ -5,6 +5,8 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dir_step.h"
+#include "sdk/libc.h"
+#include "slus.h"
 
 #ifndef NULL
 #define NULL 0
@@ -43,8 +45,6 @@ typedef struct {
 } Object;
 
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern s32 rand();
-extern s32 select_record_entry_and_value();
 
 extern s32 secondary_sprite;
 

@@ -9,6 +9,9 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
+#include "dungeon/actor.h"
+#include "dungeon/actor/animation.h"
+#include "engine/node/allocation.h"
 
 typedef struct S_8106B000_1 {
     u8 pad_00[0x13];
@@ -36,12 +39,9 @@ typedef struct S_8106B000_4 {
     s16 unk_AA;
 } S_8106B000_4;
 
-void *allocate_list_node();
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s16 set_or_clear_actor_status_slot();
-s32 generate_random_value();
-void initialize_actor_sprite_and_animation();
-s32 try_move_actor_to_valid_position();
+s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern M2C_UNK D_8015EAA4;
 extern M2C_UNK D_8015EF68;
 extern M2C_UNK D_80161FB8;
@@ -67,7 +67,7 @@ void *create_flagged_actor_object_2(s16 input0, s16 input1, s16 input2, s16 inpu
     saved_input1 = input1;
     saved_input3 = input3;
     saved_input2 = input2;
-    allocation = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
+    allocation = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (allocation != NULL) {
         record = ((void *)allocation) + 0x20;
         allocation->update_callback = &D_8015EAA4;

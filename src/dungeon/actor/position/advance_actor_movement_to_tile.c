@@ -2,10 +2,10 @@
 #include "dungeon/actor/motion.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/actor/status.h"
 
 
 
-extern void advance_status_timers(void *);
 #include "dungeon/actor/state.h"
 
 extern u8 actor_motion_resume_address;

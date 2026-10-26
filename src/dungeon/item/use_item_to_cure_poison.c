@@ -8,6 +8,7 @@
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
+#include "dungeon/item/message.h"
 
 typedef struct {
     s8 type;
@@ -22,8 +23,6 @@ extern void clear_slots_of_type(SlotOwner *owner, s8 match_type);             /*
 #include "dungeon/player/item.h"
 void clear_slot_and_update_linked_state();                         /* extern */
 void *get_unused_text_buffer(void);                          /* extern */
-u8 *expand_text_control_codes();                  /* extern */
-void *clear_byte_and_advance();                         /* extern */
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
 void place_actor_item();                 /* extern */
 void display_item_status_message();            /* extern */

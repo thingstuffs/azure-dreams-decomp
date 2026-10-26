@@ -31,7 +31,7 @@ extern void *probe_directional_neighbor();
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void select_actor_route_target();
 extern void update_actor_proximity_flag();
-extern s32 generate_random_value();
+extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern void update_actor_status_and_mp();
 extern s16 sample_terrain_surface_height();
 extern s32 try_turn_actor_toward_target();

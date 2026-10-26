@@ -14,7 +14,7 @@
 
 #include "engine/graphics/select_sprite_entry_api.h"
 #include "slus.h"
-s32 rand();
+#include "sdk/libc.h"
 struct ActorRecord; s32 check_entity_relation(struct ActorRecord *, struct ActorRecord *);
 s8 find_active_rect_containing_point();
 s32 test_neighbor_position_relation(s32, s32, s32, s32);

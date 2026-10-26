@@ -24,7 +24,6 @@ extern void initialize_actor_object_action(void *object_state, s32 unused_contex
 extern s16 pending_marked_actor_count;
 extern ActorCallback actor_render_callbacks[];
 extern void apply_monster_koyaw_data(void *, void *);
-extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern s16 sample_terrain_surface_height(u16, u16, s16);
 
 /* Functions defined in this translation unit. */

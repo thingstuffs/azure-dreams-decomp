@@ -3,6 +3,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "dungeon/actor.h"
 
 typedef struct S_func_81325A04_0 {
     u8 pad_00[0x8C];
@@ -48,7 +49,6 @@ extern u8 D_801746CC[];
 
 extern s32 set_record_integer_tile_center();
 extern s32 begin_actor_display_action();
-extern s32 apply_clamped_actor_value_delta();
 
 /* Updates timed movement, returns the entity to its tile, and restores its animation. */
 /* Applies Ghosh's pending HP change, animates damped recoil, then recenters it and updates its action

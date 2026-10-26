@@ -2,10 +2,10 @@
 #include "engine/graphics.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "sdk/libc.h"
+#include "slus.h"
 
-extern s32 select_record_entry_and_value();
 extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern s32 rand();
 
 extern u8 D_80025098[9];
 extern u8 random_variant_sprite_entries[9];

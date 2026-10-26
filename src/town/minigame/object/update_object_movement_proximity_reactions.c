@@ -7,6 +7,7 @@
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "slus.h"
+#include "sdk/libc.h"
 extern int abs(int);
 
 #define S8(p, o)  (*(s8 *)((u8 *)(p) + (o)))
@@ -21,7 +22,6 @@ extern void create_tinted_animated_particle(s32 color, s32 x, s32 y, s32 z);
 extern void create_randomized_trail_particle();
 extern void create_brief_randomized_particle();
 extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern s32 rand();
 
 extern u8 D_80026748[];
 extern u8 D_800F7950[];

@@ -1,5 +1,7 @@
 #ifndef MODULE_DUNGEON_OVL_CC5000_H
 #define MODULE_DUNGEON_OVL_CC5000_H
+#include "dungeon/system.h"
+#include "engine/texture.h"
 
 
 struct ObjectPosition;
@@ -1066,7 +1068,6 @@ extern void register_node(CL_CC5000_8017087C_Object *, void *);
 extern void func_8004491C(CL_CC5000_8017087C_Object *, void *);
 extern void unlink_node(void *node);
 extern void func_80044A50(void *node);
-extern void select_indirect_table_entry();
 extern void select_sprite_entry(void *, s16, s16);
 extern void func_80047784(void *, s16, s16);
 extern void advance_sprite_animation_and_textures(void *entity);
@@ -1115,8 +1116,7 @@ extern s32 check_entity_interaction_compatibility();
 extern void set_or_clear_actor_status_slot(void *, s32, s32);
 extern s32 advance_status_timers(void *);
 extern s32 advance_staged_entity_load();
-extern void play_sound_if_enabled(s32);
-extern s32 generate_random_value();
+extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern void * create_actor_spell_effect(void *, void *, s32, void *);
 extern void on_actor_status_updated(void *);
 extern void func_800A9A04(void *);
@@ -1124,7 +1124,6 @@ extern void update_actor_status_and_mp(void *);
 extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern s32 refresh_actor_facing_and_lifecycle();
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
-extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
 extern s32 advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);

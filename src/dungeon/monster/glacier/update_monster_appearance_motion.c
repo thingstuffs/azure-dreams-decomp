@@ -6,6 +6,8 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "slus.h"
+#include "dungeon/actor.h"
+#include "engine/texture.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -38,10 +40,8 @@ typedef struct {
 typedef void (*Callback)(void *, void *, void *, void *);
 
 extern s32 get_entity_effect_value();
-extern void select_indirect_table_entry();
 extern void apply_monster_koyaw_data();
 extern s32 refresh_actor_facing_and_lifecycle();
-extern void try_move_actor_to_valid_position();
 extern s16 sample_terrain_surface_height();
 
 extern u8 glacier_action_resume_address;

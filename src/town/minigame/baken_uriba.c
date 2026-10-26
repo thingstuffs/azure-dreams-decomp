@@ -2,6 +2,7 @@
 #include "shared/object_node.h"
 #include "engine/text.h"
 #include "sdk/libc.h"
+#include "engine/node/allocation.h"
 
 typedef struct {
     s16 unk0;       /* 0x00 */
@@ -60,7 +61,6 @@ extern s16 D_8002430A[];
 
 extern void func_800201C8();
 extern void func_8002025C();
-extern void *allocate_list_node();
 
 /* baken_uriba: Draw a labeled grid with triangular entries of row and column products. */
 void baken_uriba(void)
@@ -82,7 +82,7 @@ void baken_uriba(void)
     buffer = 0;
     screen.text_words = D_80020010;
     screen.number_words = D_80020050;
-    allocation = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
+    allocation = allocate_list_node(1, &scene_object_list_anchor.next);
     if (allocation != 0) {
         buffer = (u8 *)allocation + 0x20;
         allocation->update_callback = D_80020900;

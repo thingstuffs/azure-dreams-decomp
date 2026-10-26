@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "dungeon/actor/status.h"
 
 struct ObjectPosition;
 #include "common.h"
@@ -45,7 +46,6 @@ typedef struct S_800AAF00_3 {
 
 extern void * scan_actor_along_heading();
 extern s32 try_claim_dungeon_action_slot();
-extern s32 advance_status_timers(void *record);
 extern s32 generate_random_value(void);
 extern void select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 

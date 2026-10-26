@@ -4,6 +4,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_func_800A9E70_arg0.h"
+#include "engine/graphics.h"
 
 typedef struct S_80171F9C_0 {
     u8 pad_00[0x24];
@@ -13,7 +14,6 @@ typedef struct S_80171F9C_0 {
     u8 * unk_2C;
 } S_80171F9C_0;   /* held_arg2 in select_and_start_target_action */
 
-extern s32 select_sprite_entry();
 extern s32 prepare_directional_attack();
 extern s32 get_actor_height_difference();
 extern s32 probe_directional_neighbor();

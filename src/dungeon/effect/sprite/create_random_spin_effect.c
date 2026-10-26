@@ -3,6 +3,7 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
+#include "sdk/libc.h"
 
 typedef struct S_818BDB44_0 {
     u8 pad_00[0x8];
@@ -46,7 +47,6 @@ typedef struct {
     s32 words[6];
 } Copy24;
 
-extern s32 rand();
 extern void register_node(void *, void *);
 
 extern u8 D_80024F4C[];

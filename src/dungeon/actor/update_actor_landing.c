@@ -7,6 +7,7 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/actor.h"
+#include "dungeon/actor/status.h"
 
 typedef struct S_800D991C_0 {
     u8 pad_00[0x8C];
@@ -24,7 +25,6 @@ typedef struct S_800D991C_0 {
 void select_record_entry_and_value(void *state, void *entries, short index);        /* extern */
 s16 get_rounded_facing_and_rounding_flag();       /* extern */
 void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);              /* extern */
-void advance_status_timers(void *record);                      /* extern */
 void on_actor_status_updated(void *actor);                      /* extern */
 void spend_actor_mp();             /* extern */
                   /* extern */

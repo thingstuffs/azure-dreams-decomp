@@ -3,6 +3,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "engine/node/allocation.h"
 
 #ifndef NULL
 #define NULL 0
@@ -15,7 +16,6 @@ typedef struct S_80026ED0_3 {
     s16 unk_6A;
 } S_80026ED0_3;
 
-extern void *allocate_list_node();
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 D_80026E3C;
 extern s32 visual_object_sprite_data;
@@ -30,7 +30,7 @@ void *create_visual_object(s16 x, s16 y, s16 z, s32 size) {
 
     saved_size = size;
 
-    object = allocate_list_node(0x12, ((s32 *)&scene_object_list_anchor.next));
+    object = allocate_list_node(0x12, &scene_object_list_anchor.next);
     if (object != NULL) {
         object->update_callback = &D_80026E3C;
         register_node(object, project_sprite_chain);

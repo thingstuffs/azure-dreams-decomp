@@ -8,13 +8,14 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "dungeon/menu.h"
+#include "sdk/libc.h"
+#include "slus.h"
 
 void *allocate_list_node();
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 void * decode_fullwidth_text();
 void * build_positioned_text_glyphs();
 extern char * func_8004E5A0(int value, unsigned short width, char *buf);
-s32 strlen();
 void *func_800B119C();
 extern s32 allocate_panel_offset_or_zero(void);
 extern M2C_UNK D_80077FEC;
@@ -47,7 +48,7 @@ void *create_panel_effect_object(void *owner)
     ObjectNodeHeader *panel;
     SpriteFrameState *transform;
     entity = owner;
-    panel = allocate_list_node(0x12, ((u8 *)(&scene_object_list_anchor)));
+    panel = allocate_list_node(0x12, &scene_object_list_anchor.next);
     if (panel != 0) {
         color_or_addr = 0x808080;
         transform = panel->sprite;
@@ -590,7 +591,6 @@ extern s32 D_800DF03C[];
 extern void *allocate_list_node();
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern void * build_positioned_text_glyphs(void *,u8 *, s32);
-extern s32 strlen(s32);
 extern s32 allocate_panel_offset_or_zero(void);
 
 /* Build the floating number/icon widget: allocate it and lay out its digit sprites for the given style. */
@@ -624,7 +624,7 @@ void build_floating_number_widget(s16 icon, s32 value_a, s32 value_b, s32 style,
     u8 tail_flags;
     u32 tail_field1c;
 
-    obj = allocate_list_node(0x12, ((u8 *)(&scene_object_list_anchor)));
+    obj = allocate_list_node(0x12, &scene_object_list_anchor.next);
     if (obj != NULL) {
         meta = obj->meta;
         header = obj->header;
@@ -841,7 +841,6 @@ typedef struct S_800B1B10_7 {
 extern void *allocate_list_node();
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 void * decode_fullwidth_text();
-s32 strlen();
 void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 s8 *append_typed_formatted_value();
 extern s32 allocate_panel_offset_or_zero(void);
@@ -1121,7 +1120,6 @@ void advance_timed_panel_motion(S_800B1F34_0 *animation, S_800B1F34_1 *motion)
 #include "shared/game_work.h"
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 void play_sound_if_enabled(s32);
-extern int draw_linked_lit_meshes();
 struct S_800B1F34_0;
 struct S_800B1F34_1;
 extern void advance_timed_panel_motion(struct S_800B1F34_0 *animation, struct S_800B1F34_1 *motion);

@@ -6,6 +6,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "dungeon/actor/status.h"
 
 typedef struct S_80170894_0 {
     u8 pad_00[0x13];
@@ -29,7 +30,6 @@ typedef struct S_80170894_4 {
 extern void *allocate_list_node(s32, const void *);
 extern void register_node(void *,void *);
 extern s32 generate_random_value(void);
-extern void set_or_clear_actor_status_slot(void *, s32, s32);
 extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 

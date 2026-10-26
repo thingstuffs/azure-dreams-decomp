@@ -4,6 +4,8 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/actor.h"
+#include "dungeon/player/object.h"
 
 typedef struct S_80173A14_0 {
     u8 pad_00[0x8C];
@@ -14,9 +16,7 @@ typedef struct S_80173A14_0 {
     u8 unk_9B;
 } S_80173A14_0;   /* arg0 in advance_action_delay_and_handler */
 
-extern void set_record_integer_tile_center();
 extern void begin_actor_display_action();
-extern void apply_clamped_actor_value_delta();
 
 extern s32 death_action_resume_address;
 extern s32 death_frame_set;

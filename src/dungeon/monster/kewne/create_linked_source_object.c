@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "engine/node.h"
+#include "dungeon/system.h"
 
 typedef struct S807AF9A4 S807AF9A4;
 
@@ -22,7 +23,6 @@ typedef struct S_80175814_1 {
 } S_80175814_1;   /* arg0 in create_linked_source_object; pointer addresses record offset 0x18 */
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 play_sound_if_enabled();                     /* extern */
 extern void func_801756D4(S807AF9A4 *data);
 
 /* Creates an object linked to the source record and copies its initialization fields. */

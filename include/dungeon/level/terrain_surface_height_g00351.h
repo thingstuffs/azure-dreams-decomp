@@ -6,6 +6,8 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
+#include "sdk/libgte.h"
+#include "dungeon/level.h"
 
 /* Signed three-component map vertex or surface-normal entry.
  * The map loader supplies the geometry tables; the terrain-height query reads both through this layout. */
@@ -82,11 +84,9 @@ typedef struct S_800BCE7C_0 {
 } S_800BCE7C_0;
 
 /* arg0 in are_quad_corner_turns_within_half_revolution */
-s32 ratan2();
 
 /* Functions defined in this translation unit. */
 /* The result is the sign-extended terrain-height halfword. */
-s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 s32 are_quad_corner_turns_within_half_revolution(S_800BCE7C_0 *poly);
 
 #endif

@@ -9,6 +9,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "shared/slus_callbacks.h"
+#include "sdk/libc.h"
 
 typedef struct DungeonCell {
     s16 flags;
@@ -163,10 +164,8 @@ void *allocate_list_node(s32, void *);
 void *func_8003FD64(s32, void *);
 void register_node(void *, void *);
 void func_8004491C(void *, void *);
-s32 rand(void);
 void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);
 void play_sound_if_enabled(s32);
-s32 rand();
 s16 sample_terrain_surface_height();
 s32 decrement_flagged_item_parameters(DungeonObject *object);
 void update_random_particle_field(void *self, void *output);

@@ -2,7 +2,7 @@
 #define DUNGEON_ACTOR_STATE_ADVANCE_STATUS_TIMERS_API_H
 
 #include "common.h"
+#include "dungeon/actor/status.h"
 
-void advance_status_timers(void *);
 
 #endif

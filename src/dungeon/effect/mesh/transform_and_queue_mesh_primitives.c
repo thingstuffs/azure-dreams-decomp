@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "sdk/libc.h"
 #include "dungeon/effect/mesh.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -891,7 +892,6 @@ typedef struct S_func_800250B0_3 {
     s32 unk_B4;
 } S_func_800250B0_3;
 
-extern s32 rand();
 
 /* Creates an object at a randomized offset from the source and initializes its actor data. */
 void create_terrain_seeking_colored_point(
@@ -1000,7 +1000,6 @@ typedef struct S_8187B9E8_4 {
 
 extern s32 rsin();
 extern s32 rcos();
-extern s32 rand();
 
 /* Create an effect with 23 random radial vectors and initialize its position and state. */
 void create_random_radial_vector_effect(s32 radius, s32 initial_value, s16 extent, s32 position_x_word, s32 position_y_word, s32 position_z_word) {
@@ -1601,9 +1600,7 @@ extern u8 mesh_edge_payload_template[12];
 extern s16 point_cloud_update_flag[5];
 extern u8 D_8007CCD8[];
 extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
-extern s32 rand(void);
 extern s32 check_adjacent_tile_height_clearance(u16, u16, s16, void *);
-extern void *memcpy(void *, const void *, unsigned int);
 
 extern void project_sprite_chain(void);
 

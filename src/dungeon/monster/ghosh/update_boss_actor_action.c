@@ -10,10 +10,10 @@
 #include "records/Rec_D_80082E80.h"
 
 #include "engine/graphics/select_sprite_entry_api.h"         /* extern */
+#include "dungeon/actor/motion.h"
 struct ActorRecord; s32 check_entity_relation(struct ActorRecord *, struct ActorRecord *);                     /* extern */
 s8 find_active_rect_containing_point();                           /* extern */
 void update_actor_status_and_mp(struct ActorRecord *);                      /* extern */
-void begin_pushed_actor_move(); /* extern */
 s32 begin_ready_actor_directional_action(); /* extern */
 struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2; void begin_actor_move_to_target_facing(struct Rec_func_800A9E70_arg0 *, void *, struct Rec_func_800AA258_arg2 *, struct ActorRecord *); /* extern */
 void func_8016FA84(void *actor, void *action, void *entity, void *path_arg);                            /* extern */

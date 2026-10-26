@@ -6,6 +6,8 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/actor/animation.h"
 #include "dungeon/player.h"
+#include "sdk/bzero.h"
+#include "slus.h"
 
 typedef struct S_800D8590_0 {
     u8 pad_00[0xC];
@@ -44,9 +46,7 @@ typedef struct S_800D8590_3 {
     u16 unk_14;
 } S_800D8590_3;
 
-extern void select_record_entry_and_value();
 extern void clear_slots_of_type();
-extern void bzero();
 
 extern u8 D_800D8728[];
 

@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "engine/graphics.h"
 
 typedef struct {
     u8 pad_00[0x84];
@@ -46,7 +47,6 @@ typedef struct {
 
 #include "dungeon/monster/killer.h"
 
-extern s32 select_sprite_entry(void *, u8, s32);
 extern void prepare_directional_attack(void *, void *, s16, s32, s32);
 extern s32 get_actor_height_difference(s32, void *);
 extern s32 probe_directional_neighbor(void *, u8, u8, s16);

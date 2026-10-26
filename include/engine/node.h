@@ -4,6 +4,7 @@
 
 #include "common.h"
 #include "shared/object_node.h"
+#include "engine/node/allocation.h"
 
 struct RegistrationNode;
 struct S_8003FF2C;
@@ -12,18 +13,8 @@ struct S_80040060;
 struct S_800511B4_entity;
 struct S_800833E0;
 
-/* allocate_list_node.c */
-void *allocate_list_node(s32 flags, ObjectNodeHeader **list_head);
-void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-
 /* create_linked_zukan_task.c */
 void *create_linked_zukan_task(struct S_800511B4_entity *related_entity);
-
-/* evict_node_and_allocate.c */
-void *evict_node_and_allocate(void *flags, void *excluded_node);
-
-/* initialize_runtime_node_storage.c */
-struct S_8003FF2C *initialize_runtime_node_storage(s32 flags, struct S_8003FF2C *storage, s16 word_count, struct S_8003FF2C **list_head);
 
 /* insert_active_node_after.c */
 void insert_active_node_after(struct S_80040060 *anchor, struct S_80040060 *node);

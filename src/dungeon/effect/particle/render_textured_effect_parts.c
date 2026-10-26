@@ -223,7 +223,6 @@ void create_radial_height_offset_effect(MotionState *state, s32 *sum, SpriteFram
     }
 }
 
-extern s32 rand(void);
 
 /* Applies randomized movement and reduces speed, setting flags when speed runs out. */
 void advance_scattered_directional_particle(void *object_data, s16 *position)
@@ -354,7 +353,6 @@ void cycle_moving_effect_phase(void *object, S_8181B078_1 *position, S_8181B078_
     }
 }
 
-s32 rand();                                /* extern */
 extern s32 D_80025908[];
 
 /* Creates an effect at an offset from the source and initializes its state and appearance. */
@@ -416,7 +414,6 @@ extern s32 func_8003DF74(s32, void *, s16 *, s32);
 extern void initialize_timed_motion_step(s32, s32, void *);
 extern void unlink_node(void *);
 extern void func_80044A50(void *);
-extern s32 rand(void);
 extern void apply_attack_power_and_element_effects(void *, s32, u8, s32, s32, void *, s32);
 extern s32 check_adjacent_tile_height_clearance(u16, u16, s16, void *);
 

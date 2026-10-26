@@ -7,6 +7,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_floor.h"
 #include "shared/object_node.h"
+#include "dungeon/level.h"
 struct RegistrationNode;
 typedef struct {
     u8 x;
@@ -97,7 +98,6 @@ typedef struct {
 } floor_spawns_isolated_8028BF0C_SpawnPosition;
 typedef void *(*SpawnFunc)(s32, s32, s32, s32);
 #define floor_spawns_isolated_8028BF0C_PAGE_8008 ((u8 *)0x80080000)
-extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern s32 select_dungeon_spawn_tile(u8 *, u8 *);
 extern s16 count_matching_packed_entity_keys(s32, s32);
 extern s32 generate_random_value(void);
@@ -127,7 +127,6 @@ extern SpawnFunc load_monster_resource_data(s32 resource_id, u8 *resource_entry,
 extern void retain_spawn_resource(s32, s32);
 extern u8 *find_or_retain_sprite_resource_slot(s32, s32);
 extern void raise_entity_level(void *, s32);
-extern s16 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
 extern s32 linked_sprite_renderer_address[3];

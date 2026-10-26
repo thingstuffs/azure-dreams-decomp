@@ -6,12 +6,12 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/actor_action.h"
+#include "dungeon/actor.h"
+#include "dungeon/player/object.h"
 
    /* arg0 in update_directional_motion_settle_entity_grid_position */
 
-extern void set_record_integer_tile_center();
 extern void begin_actor_display_action();
-extern void apply_clamped_actor_value_delta();
 
 extern u8 picket_action_resume_address[];
 extern u8 picket_frame_set[];

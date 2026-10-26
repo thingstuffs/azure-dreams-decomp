@@ -5,6 +5,9 @@
 #include "shared/slus_callbacks.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/actor.h"
+#include "dungeon/actor/animation.h"
+#include "dungeon/actor/status.h"
 struct RegistrationNode;
 
 typedef struct S_8015E86C_1 {
@@ -69,13 +72,10 @@ extern void *allocate_list_node();
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
-extern s32 generate_random_value();
-extern void set_or_clear_actor_status_slot();
-extern void initialize_actor_sprite_and_animation();
+extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 extern void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
 extern void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots();
-extern void try_move_actor_to_valid_position();
 
 extern void func_8015EB64(void *actor, void *motion, void *sprite_arg);
 extern void func_8015F1A4(void *actor, s32 context, void *sprite, ActorRecord *status);

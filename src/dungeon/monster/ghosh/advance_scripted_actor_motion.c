@@ -4,6 +4,11 @@
 #include "m2c_compat.h"
 #include "dungeon/monster/ghosh.h"
 #include "slus.h"
+#include "sdk/libc.h"
+#include "sdk/libgte.h"
+#include "dungeon/system.h"
+#include "engine/graphics.h"
+#include "engine/texture.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 typedef struct {
@@ -13,11 +18,6 @@ typedef struct {
 typedef struct {
     InitPair pair[8];
 } __attribute__((packed)) InitBlock;
-void select_indirect_table_entry();              /* extern */
-void select_sprite_entry();         /* extern */
-s32 rsin();                             /* extern */
-s32 rand();                                /* extern */
-s32 play_sound_if_enabled();                     /* extern */
 void create_boss_linked_effect();      /* extern */
 void create_boss_display_variant(); /* extern */
 void create_boss_randomized_effect(); /* extern */

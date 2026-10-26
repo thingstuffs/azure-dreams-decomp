@@ -21,6 +21,10 @@
 #include "shared/actor_status.h"
 #include "shared/object_links.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/actor/animation.h"
+#include "dungeon/actor/motion.h"
+#include "dungeon/player/object.h"
+#include "dungeon/system.h"
 
 typedef s32 R03_80170854_M2C_UNK;
 typedef struct R03_80170854_S_8016A854_0 {
@@ -241,10 +245,8 @@ void *allocate_list_node();
 void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 s32 register_node(struct RegistrationNode *entry, void *registration_id);
 s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
-s32 generate_random_value();
+s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 s32 set_or_clear_actor_status_slot();
-void initialize_actor_sprite_and_animation();
-s32 try_move_actor_to_valid_position();
 void select_indirect_table_entry(struct S_80047738 *state, s16 table_index, s16 entry_index);
 void advance_sprite_animation_and_textures(void *entity);
 void apply_monster_koyaw_data();
@@ -258,7 +260,6 @@ s32 test_neighbor_position_relation();
 s32 get_rounded_facing_and_rounding_flag();
 s32 can_entity_gain_level();
 void update_actor_status_and_mp();
-void begin_pushed_actor_move();
 s32 begin_ready_actor_directional_action();
 s32 advance_actor_pending_action();
 void begin_actor_move_to_target_facing();
@@ -286,22 +287,17 @@ void advance_status_timers();
 s32 update_actor_movement_to_tile();
 void spend_actor_mp();
 
-void set_record_integer_tile_center();
 s32 on_actor_status_updated();
 s32 func_800A9A04();
 s32 update_linked_actor_motion();
 s32 resolve_attack_damage_and_effects();
-s32 play_sound_if_enabled();
 s32 get_cd_command_queue_depth(void);
 void * scan_actor_along_heading();
 void * create_actor_spell_effect();
 void create_two_row_object_group();
 void begin_actor_display_action();
-void apply_clamped_actor_value_delta();
 s32 update_actor_defeat_removal();
-s32 update_actor_hop_and_shrink();
 
-s32 update_actor_hop_and_grow();
 s32 get_entity_effect_value();
 s32 func_80042900();
 void clear_slots_of_type();

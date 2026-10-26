@@ -6,8 +6,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_func_800AA258_arg2.h"
-void select_sprite_entry();
-void func_80047784();
+#include "engine/graphics.h"
 /* extern */
 static void apply_actor_delta_and_cap_value(void *unused_0, void *unused_1, void *unused_2, u8 *record);
 extern void apply_clamped_actor_value_delta(void *arg);

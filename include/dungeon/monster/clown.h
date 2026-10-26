@@ -20,6 +20,14 @@
 #include "shared/object_flags.h"
 #include "records/Rec_func_801732A4_arg0.h"
 #include "shared/sprite_frame_state.h"
+#include "sdk/libc.h"
+#include "sdk/libgte.h"
+#include "dungeon/actor/animation.h"
+#include "dungeon/actor/motion.h"
+#include "dungeon/player/object.h"
+#include "dungeon/system.h"
+#include "engine/texture.h"
+#include "dungeon/actor/status.h"
 struct SpriteFrameState;
 struct ObjectPosition;
 
@@ -358,19 +366,13 @@ typedef struct R16_80173CEC_S_80173CEC_9 {
     s16 unk_1E;
 } R16_80173CEC_S_80173CEC_9;
 extern s32 abs(s32);
-extern s32 rand(void);
 s32 Control_CD();
 void *allocate_list_node();
 void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
-s32 set_or_clear_actor_status_slot();
-s32 generate_random_value();
-void initialize_actor_sprite_and_animation();
-s32 try_move_actor_to_valid_position();
-void select_indirect_table_entry();
+s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 void advance_sprite_animation_and_textures(void *entity);
-s32 rsin();
 void apply_monster_koyaw_data();
 s32 refresh_actor_facing_and_lifecycle();
 s16 sample_terrain_surface_height();
@@ -382,7 +384,6 @@ s32 test_neighbor_position_relation();
 s32 get_rounded_facing_and_rounding_flag();
 s32 can_entity_gain_level();
 void update_actor_status_and_mp();
-void begin_pushed_actor_move();
 s32 begin_ready_actor_directional_action();
 s32 advance_actor_pending_action();
 void begin_actor_move_to_target_facing();
@@ -407,24 +408,18 @@ struct Entry;
 struct RegistrationNode;
 struct S_800833E0;
 s32 relink_entity_and_clear_high_flag();
-void advance_status_timers();
 s32 update_actor_movement_to_tile();
 s32 spend_actor_mp();
 
 s32 update_linked_actor_motion();
 s32 resolve_attack_damage_and_effects();
-s32 play_sound_if_enabled();
 s32 get_cd_command_queue_depth(void);
 void * scan_actor_along_heading();
-void set_record_integer_tile_center();
 void *create_actor_spell_effect();
 void create_actor_linked_effect();
 void begin_actor_display_action();
-void apply_clamped_actor_value_delta();
 s32 update_actor_defeat_removal();
-s32 update_actor_hop_and_shrink();
 
-s32 update_actor_hop_and_grow();
 s32 get_entity_effect_value();
 s32 func_80042900();
 void clear_slots_of_type();
@@ -444,7 +439,6 @@ s32 resolve_actor_floor_trap_once();
 void project_sprite_commands();
 void func_800453E0(void *context, void *position, struct Entry *entry, s16 depth_bias);
 void select_record_entry_and_value(void *state, void *entries, short index);
-s32 rcos();
 void unlink_node();
 void func_80044A50(struct S_800833E0 *node);
 void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
@@ -452,7 +446,6 @@ void run_cd_image_commands();
 void func_80041588(u32 *stream_ref, u8 *state, s32 execute);
 int read_stream_cue_start_offset(void);
 s32 lookup_masked_byte_table();
-s32 rand();
 void unlink_entity_node();
 void decrement_monster_entry_count();
 s32 advance_staged_entity_load();

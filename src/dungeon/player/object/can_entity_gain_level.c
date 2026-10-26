@@ -1,4 +1,5 @@
 #include "shared/actor_property_flags.h"
+#include "sdk/libgte.h"
 #include "dungeon/player.h"
 #include "shared/monster_ids.h"
 #include "shared/actor_status_flags.h"
@@ -10,6 +11,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "dungeon/player/object.h"
+#include "engine/town.h"
 #define F(p,t,o) (*(t *)((u8 *)(p) + (o)))
 extern s32 get_entity_effect_value(void *entry, s32 effect_id);
 extern s32 entity_level_thresholds[];
@@ -66,9 +68,7 @@ s32 can_entity_gain_level(void *entity) {
 #include "shared/sys_flags.h"
 #include "shared/dungeon_status.h"
 
-extern u8 * format_unsigned_double_byte_decimal();
 extern s32 apply_entity_effects(); /* Slot contract: loading images do not establish one callee contract. */
-extern s32 SquareRoot12();
 extern void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 extern u8 * expand_text_control_codes();
 extern void * copy_four_text_bytes();
@@ -434,9 +434,7 @@ loop_0:
 
 #include "m2c_compat.h"
 
-extern u8 * format_unsigned_double_byte_decimal();
 extern s32 apply_entity_effects(); /* Slot contract: loading images do not establish one callee contract. */
-extern s32 SquareRoot12();
 extern void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 extern u8 * expand_text_control_codes();
 extern void * copy_four_text_bytes();
@@ -1090,7 +1088,6 @@ s32 distribute_experience_awards(S_800A2DB8_0 *source)
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-u8 * format_unsigned_double_byte_decimal();                        /* extern */
 void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */                                /* extern */
 u8 * expand_text_control_codes();                  /* extern */
 extern void * clear_byte_and_advance(s8 *byte_ptr);

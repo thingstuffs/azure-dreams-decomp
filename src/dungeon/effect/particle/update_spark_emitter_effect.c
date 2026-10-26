@@ -9,6 +9,7 @@
 #include "m2c_compat.h"
 #include "shared/object_links.h"
 #include "shared/dungeon_moving_views.h"
+#include "sdk/libc.h"
 
 typedef struct S_81814EDC_0_pre {
     u16 unk_00;
@@ -97,7 +98,6 @@ typedef struct S_81814EDC_12_pre {
 extern u8 spark_sprite_entries[];
 M2C_UNK func_800245BC();
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-s32 rand();
 void apply_attack_power_and_element_effects();
 s32 check_adjacent_tile_height_clearance();
 extern M2C_UNK spark_particle_update_address;

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/level.h"
 
 typedef struct {
     u8 pad0[0x92];
@@ -36,9 +37,7 @@ typedef struct {
 
 extern u8 D_800DCF58[9];
 
-extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern void set_record_integer_tile_center(FuncArg1 *, u8, u8);
-extern s16 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 extern void restore_player_control_callback(FuncArg0 *, FuncArg3 *);
 
 /* Updates a spinning movement sequence and restores the actor's original rotation. */

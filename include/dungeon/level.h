@@ -17,4 +17,10 @@ void render_projected_sprite_with_depth_bias(ObjectPosition *position, void *spr
 
 void install_trap_handler_after_floor_trap_check(void *owner, s32 context, void *source, void *target);
 
+/* dungeon/level/terrain_surface_height_g00351.c */
+s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
+
+/* dungeon/level/tile.c */
+void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
+
 #endif

@@ -25,7 +25,8 @@ extern s32 sound_apply_indexed_voice_envelope();
 #define ACTIVE_COUNT (*(s32 *)0x80073734)
 
 /* Process active records matching both key bytes and combine their masks. */
-void audio_sequence_note_off(s32 first_key, s32 second_key) {
+/* MIDI callers also pass a release velocity; this driver ignores it. */
+void audio_sequence_note_off(s32 first_key, s32 second_key, s32 unused_velocity) {
     S_80085458 *record;
     s32 *mask_entry;
     s32 record_mask;

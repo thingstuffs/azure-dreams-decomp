@@ -6,6 +6,8 @@
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
+#include "dungeon/actor/animation.h"
+#include "engine/node/allocation.h"
 
 typedef struct S_func_8132B8AC_0 S_func_8132B8AC_0;
 typedef struct S_func_8132B8AC_1 S_func_8132B8AC_1;
@@ -18,12 +20,10 @@ typedef struct S_80173F6C_5 {
 
 extern u8 ghosh_frame_set_1[];
 extern void *ghosh_scripted_actor[];
-void *allocate_list_node();
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */ /* extern */
 void unlink_entity_node(); /* extern */
 void update_map_cell_flags_with_item_limit(); /* extern */
 s32 retain_spawn_resource(); /* extern */
-void initialize_actor_sprite_and_animation(); /* extern */
 void select_sprite_entry(); /* extern */
 void create_boss_linked_effect(); /* extern */
 void func_801730AC(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *motion, S_func_8132B8AC_2 *sprite);
@@ -57,7 +57,7 @@ void create_boss_directional_animation(void) {
     ObjectNodeHeader *object;
     u16 sprite_flags;
 
-    object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != 0) {
         object_state = ((void *)object) + 0x20;
         object_state->unk_13 = MONSTER_U_BOAT;

@@ -3,6 +3,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/ghosh.h"
 #include "engine/node.h"
+#include "sdk/libc.h"
 
 typedef struct
 {
@@ -11,7 +12,6 @@ typedef struct
 DungeonTable;
 extern u8 ghosh_object_callback_2[];
 struct ObjectNodeHeader; void * allocate_list_node(s32, struct ObjectNodeHeader * *);
-s32 rand();
 extern DungeonTable ghosh_effect_direction_vectors;
 extern void func_801718E4(u8 *effect, s32 *motion);
 

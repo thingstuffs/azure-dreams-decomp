@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "records/Rec_D_80082E80.h"
+#include "sdk/libgte.h"
 
 struct Dst;
 struct Elem;
@@ -9,8 +10,6 @@ struct Elem;
 extern void func_8002421C();
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void advance_sprite_animation_and_textures(void *entity);
-extern s32 rsin();
-extern s32 rcos();
 extern u8 ribbon_sprite_entries[];
 
 typedef struct S_8185CB30_0 {

@@ -6,9 +6,9 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/monster/barong.h"
 #include "engine/graphics.h"
+#include "dungeon/level.h"
 
 extern s32 get_entity_effect_value();
-extern void cycle_map_cell_flags();
 extern void update_map_cell_flags_with_item_limit();
 extern s16 check_movement_clearance_and_height();
 extern s16 get_rounded_facing_and_rounding_flag();

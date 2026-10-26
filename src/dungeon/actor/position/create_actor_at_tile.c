@@ -1,6 +1,7 @@
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/monster_ids.h"
+#include "dungeon/level.h"
 
 struct ObjectNodeHeader;
 #include "common.h"
@@ -28,10 +29,8 @@ void select_record_entry_and_value(void *state, void *entries, short index);
 void *allocate_list_node(s32, void *);
 void register_node(void *, void *);
 void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *);
-void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 s8 find_active_rect_containing_point(u8, u8);
 void set_record_integer_tile_center(void *, u8, u8);
-s16 sample_terrain_surface_height(u16, u16, s16);
 void update_actor_floor_contact(void *object_arg, void *motion_arg, void *entity_arg);
 void process_actor_status_transitions(s32 actor, s32 action_context, s32 sprite, u8 *state);
 extern s32 tile_actor_sprite_entries;

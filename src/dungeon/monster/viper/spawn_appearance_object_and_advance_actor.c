@@ -7,6 +7,7 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800AD058_arg2.h"
 #include "engine/menu.h"
+#include "dungeon/system.h"
 
 typedef struct S_8017390C_0 {
     u8 pad_00[0x96];
@@ -37,7 +38,6 @@ typedef struct {
 } __attribute__((packed)) Unaligned32;
 
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern s32 play_sound_if_enabled();
 extern s32 update_actor_defeat_removal();
 extern void *create_tracked_effect();
 

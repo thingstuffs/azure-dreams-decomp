@@ -5,6 +5,7 @@
 #include "records/Rec_func_800AA258_arg2.h"
 #include "shared/entity.h"
 #include "dungeon/monster/golem.h"
+#include "engine/node/allocation.h"
 
 typedef struct { s32 word[6]; } Copy24;
 
@@ -28,20 +29,23 @@ typedef struct S_80174EB4_6 {
     s32 unk_08;
 } S_80174EB4_6;   /* query_arg in create_copied_render_object */
 
-extern void *allocate_list_node(s32, s32);
 extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
 
 /* Create a render object, copy its source state, and apply queried position offsets. */
-s32 create_copied_render_object(s32 priority, EntityRec *source_state, Rec_func_800AA258_arg2 *render_data) {
+s32 create_copied_render_object(GolemActionWork *owner, EntityRec *source_state, Rec_func_800AA258_arg2 *render_data) {
     u16 offsets[3];
     ObjectNodeHeader *object;
+    ObjectNodeHeader *owner_node;
+    void *owner_data;
     S_80174EB4_5 *state;
     SpriteFrameState *primitive;
     S_80174EB4_1 *context;
 
-    object = allocate_list_node(0x312, priority - 0x20);
+    owner_data = owner;
+    owner_node = owner_data - 0x20;
+    object = allocate_list_node(0x312, &owner_node->next);
     if (object != 0) {
         object->update_callback = advance_timed_target_flags;
         register_node(object, project_sprite_chain);

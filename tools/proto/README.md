@@ -27,8 +27,15 @@ Unmapped names resolve within the caller's container, then resident SLUS.
 Address names and readable aliases resolve through each loading image in `config/link/`, the public
 projection of `config/link_graph/`, using the linker's own six rebinding rules:
 self entry, explicit caller bindings, same-image homes, layout displacement,
-image symbols and unchanged resident references. The callee is looked up only
-in that image at the resulting VMA. The pinned SLUS symbol map and registered
+image symbols and unchanged resident references. The callee is looked up first
+in that image at the resulting VMA. Unmapped names with several definitions are
+selected independently in each consumer image. When a sparse image omits a named
+import, a signature-only consensus considers every registered candidate at that
+address in the consumer container and resident SLUS. It requires an exact name
+or explicit alias and agreement among all candidates; evidence labels this as
+`signature_consensus`, without claiming an outside body owns the call. The same signature-only rule
+can cover an unplaced named consumer; its evidence explicitly starts with
+`unplaced_consumer`. It does not create a placement or prove a runtime load. The pinned SLUS symbol map and registered
 resident C homes supply resident
 owners. Every placement must resolve to compatible signatures. A coincident
 address in an unrelated overlay is never a fallback. Registered own-file rows
@@ -42,7 +49,8 @@ remain in `holds.tsv`.
 Native SLUS rows also enumerate resident entry points in `defs` when `func`
 is null. These entries resolve only to matching definitions in that row's
 registered source home. Different callees across placements or header
-consumers remain unprototyped even when their signatures happen to agree.
+consumers may share one prototype when every signature and shared record-type
+owner agrees. Conflicting signatures and private record identities remain held.
 Registered targets in overlapping windows are visible through physical
 containment and the containing region's load base. This extends target lookup
 without adding unrebound caller placements for rows with explicit bindings.
@@ -51,11 +59,24 @@ struct, union or enum tag.
 
 If a compatible prototype is already in the owning folder header or an established
 ancestor folder header, the tool
-removes the local declaration and includes that header. Otherwise it replaces
+removes the local declaration and includes that header. A folder header may
+re-export a shared feature header below its own directory; the helper imports
+the feature that actually owns the matching declaration. Collector-header
+declarations can also import the owner, provided that creates no include cycle. Otherwise it replaces
 the declaration in place, preserving suffix attributes and assembler aliases.
 Shared type headers and file-scope tag declarations make recovered parameter
 types visible. Private anonymous types require a separate type-ownership change.
-No per-function headers or casts are generated.
+Imported headers are inserted before the first declaration or definition, even
+when a concatenated TU has later include blocks. A required owner header already
+included after earlier declarations is moved into that leading include block. No per-function headers or casts
+are generated.
+
+A definition may include a shared feature API without re-exporting it from the
+broad folder header. Such an API is also eligible when it is below the owning
+folder, declares at least two named contracts, and is in the definition's include
+closure. A header with a corresponding source file is a collector and is excluded
+from this additional search. Unincluded headers and single-function headers are
+not selected. The same exact-signature and include-cycle checks still apply.
 
 For a reviewed site whose owning-header import is blocked by unrelated type
 ownership or compiler-stream changes, `--in-place` derives the same callee

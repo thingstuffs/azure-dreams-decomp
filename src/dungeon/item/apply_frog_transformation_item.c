@@ -1,4 +1,6 @@
 #include "shared/actor_status_ids.h"
+#include "dungeon/actor/status.h"
+#include "dungeon/item/message.h"
 
 struct ObjectNodeHeader;
 #include "shared/entity_action_selectors.h"
@@ -15,10 +17,6 @@ struct ObjectNodeHeader;
 struct Owner_800A48F0;
 void clear_slot_and_update_linked_state();
 void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
-u8 * expand_text_control_codes();
-void *clear_byte_and_advance();
-u8 * append_entity_display_text();
-s16 set_or_clear_actor_status_slot(struct Owner_800A48F0 *owner, s8 id, s8 value);
 s32 display_text_with_fullwidth_adjustment();
 void place_actor_item();
 void display_item_status_message();

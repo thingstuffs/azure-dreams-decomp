@@ -19,4 +19,7 @@ void try_begin_put_down_carried_object(void *state, EntityRec *target, SpriteFra
 
 void update_throw_carried_object(u8 *actor, ObjectPosition *motion, u8 *animation, u8 *entity);
 
+/* dungeon/player/object/can_entity_gain_level.c */
+void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);
+
 #endif

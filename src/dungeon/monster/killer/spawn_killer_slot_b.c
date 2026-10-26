@@ -9,6 +9,8 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
+#include "dungeon/actor.h"
+#include "engine/node/allocation.h"
 
 typedef struct S_80FF9000_1 {
     u8 pad_00[0x13];
@@ -39,12 +41,10 @@ check for the proven-region rename of func_80152800. */
     void func_80152800(void);
 #endif
 
-void *allocate_list_node();
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s16 set_or_clear_actor_status_slot();
-s32 generate_random_value();
+s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 void initialize_actor_sprite_and_animation();
-s32 try_move_actor_to_valid_position();
 void *func_80152988();
 void *func_80152A00();
 extern u8 D_80152A7C[];

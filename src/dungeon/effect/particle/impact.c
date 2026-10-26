@@ -1,4 +1,7 @@
 #include "shared/audio_commands.h"
+#include "sdk/libc.h"
+#include "dungeon/actor/status.h"
+#include "dungeon/level.h"
 /* Map surface queries, particle bursts, owner-following effects, and linked mesh rendering. */
 
 struct ObjectPosition;
@@ -385,7 +388,6 @@ void create_scaling_impact_sprite(s32 state_value, S_800244BC_3 *source_pos)
 /* Selector 72, retail file [0x19DED8C, 0x19DEEB0); complete callable clone. */
 #include "common.h"
 
-extern s32 rand(void);
 
 /* Returns a uniform random sample in [0, limit) by rejection: the rand() bits are masked down to the
  * smallest bit range that covers limit, and the draw repeats while it is out of range.  Zero when limit is zero. */
@@ -518,8 +520,6 @@ typedef struct S_800247C0_7 {
     s16 unk_64;
 } S_800247C0_7;   /* effect_state in shrink_effect_and_spawn_particles */
 
-s32 rand();
-s32 set_or_clear_actor_status_slot();
 
 /* Shrink the effect, spawn inward-moving particles, and finish when its timer expires. */
 void shrink_effect_and_spawn_particles(void *effect, void *origin)
@@ -1090,7 +1090,6 @@ typedef struct {
     s16 v[12];
 } QuadUV;
 
-extern s32 rand(void);
 
 /* Spawns four textured particles with randomized positions, motion, and rotation. */
 void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y, s16 center_z)
@@ -1251,7 +1250,6 @@ void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y,
 #include "common.h"
 
 extern s32 initialize_timed_motion_step(); /* Unprototyped: two or three arguments; retail reads only the first two. */
-extern s16 sample_terrain_surface_height();
 
 /* Applies a coordinate update and triggers effects when the queried value is within bounds. */
 void update_timed(s32 object, s32 raw_x, s32 raw_y, s32 raw_upper, s16 lower_bound) {
@@ -2047,7 +2045,6 @@ extern void clear_circular_list_flags(void);
 extern void upload_vram_row_and_cache(void *, s32, s32, s32);
 extern s32 decode_and_upload_image(void *, void *);
 extern void drain_audio_commands_and_service_channels(void);
-extern s32 rand(void);
 extern void select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s16 slot_value);
 
 /* Advances a particle effect through its timed color fade and cleanup states. */

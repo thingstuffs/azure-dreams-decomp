@@ -14,6 +14,8 @@
 #include "records/Rec_func_80174800_arg0.h"
 
 #include "slus/gp_shared_81510.h"
+#include "sdk/libc.h"
+#include "dungeon/system.h"
 
 typedef struct S_80174B20_14 {
     u8 pad_00[0x60];
@@ -99,12 +101,10 @@ int read_stream_cue_start_offset(void);                           /* extern */
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 #include "engine/texture/select_indirect_table_entry_api.h"              /* extern */
 s32 lookup_masked_byte_table();  /* extern */
-s32 rand();                          /* extern */
 #include "dungeon/level/unlink_entity_node_api.h"                      /* extern */
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"             /* extern */
 #include "dungeon/item/decrement_monster_entry_count_api.h"                 /* extern */
 #include "dungeon/actor/advance_staged_entity_load_api.h"                /* extern */
-s32 play_sound_if_enabled();                     /* extern */
 s32 create_status_linked_render_effect();     /* extern */
 #include "dungeon/select_nearby_target_and_initialize_slot_api.h" /* extern */
 void create_randomly_rotated_offset_effect(); /* extern */

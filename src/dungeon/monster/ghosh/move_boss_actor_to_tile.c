@@ -6,6 +6,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "sdk/libgte.h"
 
 typedef struct S_80047784 S_80047784;
 
@@ -26,7 +27,6 @@ typedef struct S_801704A0_0 {
 
 struct SpriteFrameState;
 void select_sprite_entry(struct SpriteFrameState *, s16, s16);
-s32 rsin();
 s16 get_rounded_facing_and_rounding_flag();
 #include "dungeon/player/object/set_record_integer_tile_center_api.h"
 #include "dungeon/actor/state/advance_status_timers_api.h"

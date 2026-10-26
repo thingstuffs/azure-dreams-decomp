@@ -5,6 +5,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/actor/status.h"
 
 typedef struct S_8016BE20_0 {
     u8 pad_00[0x8C];
@@ -48,7 +49,6 @@ typedef struct ResetFlagWord { u16 flags; } ResetFlagWord;
 extern void enqueue_runtime_pool_script(void *);
 extern void select_sprite_entry(void *, u8, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern void func_80164BA4(void *);
 

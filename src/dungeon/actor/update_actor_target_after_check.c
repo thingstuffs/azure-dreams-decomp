@@ -4,6 +4,7 @@
 
 #include "shared/entity.h"
 #include "dungeon/actor.h"
+#include "dungeon/actor/status.h"
 
 typedef struct S_800D9884_0 {
     u8 pad_00[0x8C];
@@ -12,7 +13,6 @@ typedef struct S_800D9884_0 {
 } S_800D9884_0;   /* arg0 in update_actor_target_after_check */
 
 
-void advance_status_timers();                     /* extern */
 
 void spend_actor_mp();            /* extern */
                 /* Updates the target and resets state after a successful check or a reset flag. */

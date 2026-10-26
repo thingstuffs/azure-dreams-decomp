@@ -102,6 +102,7 @@ class Resolver:
     def __init__(self, root, corpus, types, definitions):
         self.root, self.corpus, self.types, self.defs = root, corpus, types, definitions
         self.definition_keys, self.numeric_cache, self.site_address_cache = {}, {}, {}
+        self.signature_cache = {}
         self.by_path = defaultdict(list)
         for ds in definitions.values():
             for d in ds:
@@ -254,6 +255,104 @@ class Resolver:
             return None, 'conflicting_definitions'
         return sorted(ds, key=lambda d: (d.path, d.name))[0], ''
 
+    def qualifier_key(self, definition):
+        """Retain pointee qualifiers and pointer levels through typedefs."""
+        visible = self.types.visible(definition.path)
+        parts = [list(definition.ret_spec) + ['*'] * definition.ret_ptr]
+        for param in definition.params:
+            name = M.param_parts(param)[2]
+            tokens = list(param)
+            if name:
+                tokens.pop(max(i for i, token in enumerate(tokens) if token == name))
+            parts.append(tokens)
+        result = []
+        for tokens in parts:
+            for _ in range(12):
+                expanded = []
+                for token in tokens:
+                    typedef = visible.get(token)
+                    if typedef is None:
+                        expanded.append(token)
+                    else:
+                        spec = list(typedef.spec)
+                        # A tag body is not part of this declarator's qualifiers.
+                        if '{' in spec:
+                            spec = spec[:spec.index('{')]
+                        expanded.extend(spec + ['*'] * typedef.ptr)
+                if expanded == tokens:
+                    break
+                tokens = expanded
+            else:
+                return None
+            level, qualifiers = 0, []
+            for token in tokens:
+                if token == '*':
+                    level += 1
+                if token in cscan.QUALIFIERS:
+                    qualifiers.append((level, token))
+            result.append(tuple(qualifiers))
+        return tuple(result)
+
+    def common_contract(self, candidates):
+        """Compare contracts without asserting that one body owns every call.
+
+        Equal private tag spellings in different files do not establish C type
+        identity. Require shared type ownership for a multi-body consensus.
+        """
+        ds = list({(d.path, d.name): d for d in candidates}.values())
+        d, why = self.choose(ds)
+        if not d or len(ds) == 1:
+            return d, why
+        owners, qualifications = [], []
+        for item in ds:
+            headers, tags, _, problem = P.type_needs(item, self.types)
+            if problem:
+                return None, 'signature_type_ownership_unproved'
+            key = M.def_key(item, self.types)
+            if (item.knr or item.complex
+                    or any(M.param_parts(p)[3] for p in item.params)
+                    or any(part[0] == 'fnptr' or part[2] == 'unknown'
+                           for part in (key[0], *key[1]))):
+                return None, 'signature_type_ownership_unproved'
+            qualification = self.qualifier_key(item)
+            if qualification is None:
+                return None, 'signature_type_ownership_unproved'
+            qualifications.append(qualification)
+            records = [part[0] for part in (key[0], *key[1])
+                       if part[0].startswith(('struct ', 'union '))]
+            provenance = []
+            for tag in records:
+                shared = sorted(h for h in self.types.tag_defs.get(tag, ())
+                                if h in self.corpus.closure(item.path))
+                if len(shared) != 1:
+                    return None, 'signature_type_ownership_unproved'
+                provenance.append((tag, shared[0]))
+            owners.append(tuple(provenance))
+        if len(set(owners)) != 1 or len(set(qualifications)) != 1:
+            return None, 'signature_type_ownership_unproved'
+        return d, ''
+
+    def signature_only(self, path, name, address):
+        """Recover a named contract, never an owner, outside a sparse image.
+
+        Consider EVERY registered candidate at the resulting address in this
+        container and resident SLUS. At least one must bear the called name or
+        its explicit alias: a coincident address alone is not a name binding.
+        Different signatures or private record identities remain holds.
+        """
+        key = path, name, address
+        if key not in self.signature_cache:
+            ds = [d for _, entry in self.address_witnesses.get(
+                (M.container_of(path), address), ()) for d in self.row_definitions(entry)]
+            ds.extend(self.resident_addresses.get(address, ()))
+            names = {name} | self.aliases.get(name, set())
+            named = any(d.name in names for d in ds)
+            d, why = self.common_contract(ds) if named else (None, 'unbound_name')
+            evidence = 'signature_consensus[' + ','.join(sorted(
+                {item.path + ':' + item.name for item in ds})) + ']'
+            self.signature_cache[key] = (d, why, evidence)
+        return self.signature_cache[key]
+
     def row_definitions(self, entry):
         rid = entry.get('row', '')
         key = (rid, entry.get('home', ''), entry.get('tu', ''))
@@ -330,10 +429,13 @@ class Resolver:
             ds = [d for entry in targets for d in self.row_definitions(entry)]
             if not ds and not targets:
                 ds = self.resident_addresses.get(target, [])
-            if len({(d.path, d.name) for d in ds}) > 1:
+            d, why = self.common_contract(ds)
+            if ds and not d:
                 owners = ','.join(sorted({d.path + ':' + d.name for d in ds}))
                 return None, 'ambiguous_image_callee:' + image, owners
-            d, why = self.choose(ds)
+            consensus = ''
+            if not d and not targets:
+                d, _, consensus = self.signature_only(path, name, target)
             if not d:
                 # Report possible owners outside the proved loading context
                 # as evidence only. In particular, an engine entry existing
@@ -353,16 +455,21 @@ class Resolver:
             mode = ':own_file' if caller.get('_unrebound') else ''
             if target_images:
                 mode += ':within=' + ','.join(sorted(target_images))
+            if consensus:
+                mode += ':' + consensus
+            if len({(item.path, item.name) for item in ds}) > 1:
+                mode += ':same_image_signature_consensus[' + ','.join(sorted(
+                    {item.path + ':' + item.name for item in ds})) + ']'
             evidence.append(f'{image}:{address:08X}->{target:08X}:{d.name}{mode}')
         if not placements:
-            d, why = self.choose(self.resident_addresses.get(address, []))
-            return d, ('no_loading_image_or_resident_owner' if not d else ''), 'resident_symbol_map'
-        d, why = self.choose(resolved)
-        if not why and len({(item.path, item.name) for item in resolved}) > 1:
-            why = 'placement_callee_conflict'
-            d = None
-        if why == 'placement_callee_conflict':
-            return None, why, ';'.join(sorted(set(evidence)))
+            d, why = self.common_contract(self.resident_addresses.get(address, []))
+            if d:
+                return d, '', 'resident_symbol_map'
+            d, why, evidence = self.signature_only(path, name, address)
+            if d:
+                return d, '', 'unplaced_consumer:' + evidence
+            return None, 'no_loading_image_or_resident_owner', 'resident_symbol_map'
+        d, why = self.common_contract(resolved)
         return d, ('placement_signature_conflict' if why else ''), ';'.join(sorted(set(evidence)))
 
     def address_at_site(self, site, address):
@@ -383,11 +490,26 @@ class Resolver:
                     return None, why, ev
                 ds.append(d)
                 evidence.append(ev)
-            d, why = self.choose(ds)
-            if not why and len({(item.path, item.name) for item in ds}) > 1:
-                return None, 'consumer_callee_conflict', ';'.join(sorted(set(evidence)))
+            d, why = self.common_contract(ds)
             return d, why, ';'.join(sorted(set(evidence)))
         return self.numeric_in_tu(site.path, site.name, address)
+
+    def named_in_tu(self, path, name, candidates):
+        """Choose an unmapped spelling from the consumer's own placements."""
+        placements = self.callers.get(path, ())
+        chosen, evidence = [], []
+        for image, _ in placements:
+            _, entries = self.images[image]
+            available = {(d.path, d.name) for group in entries.values()
+                         for entry in group for d in self.row_definitions(entry)}
+            local = [d for d in candidates if (d.path, d.name) in available]
+            d, why = self.common_contract(local)
+            if not d:
+                return None, 'unresolved_named_image_binding:' + image, why
+            chosen.append(d)
+            evidence.append(image + ':' + d.path + ':' + d.name)
+        d, why = self.common_contract(chosen)
+        return d, why or ('no_loading_image_or_resident_owner' if not d else ''), ';'.join(sorted(set(evidence)))
 
     def resolve(self, site):
         # Static prototypes refer only to their own TU, never another bank.
@@ -416,7 +538,18 @@ class Resolver:
             cands = own or resident
         if not cands and self.defs.get(site.name):
             return None, 'static_definition_not_routed', ';'.join(sorted(d.path for d in self.defs[site.name]))
-        d, why = self.choose(cands)
+        d, why = self.common_contract(cands)
+        if not d and len(cands) > 1:
+            consumers = self.consumers(site.path) if site.in_header else [site.path]
+            selected, evidence = [], []
+            for path in consumers:
+                item, reason, ev = self.named_in_tu(path, site.name, cands)
+                if not item:
+                    return None, reason, ev
+                selected.append(item)
+                evidence.append(ev)
+            d, why = self.common_contract(selected)
+            return d, why, ';'.join(sorted(set(evidence)))
         return d, why, 'definition:' + (d.path if d else site.name)
 
 
@@ -518,6 +651,9 @@ def candidates(root, scope=(), skip=(), wide_only=False, symbols=(), prefer_head
     corpus, types, definitions, sites = census(root)
     resolver = Resolver(root, corpus, types, definitions)
     typed = {(s.path, s.name): s for s in sites if s.params is not None}
+    contracts_per_header = Counter(path for path, name in typed)
+    collectors = {'include/' + path.removeprefix('src/').removesuffix('.c') + '.h'
+                  for path in corpus.c_files}
     edits, holds = [], []
     skipped = {(r['file'], r['symbol']): r['reason'] for r in skip}
     remaining = [s for s in sites if unprototyped(s, types)]
@@ -573,9 +709,28 @@ def candidates(root, scope=(), skip=(), wide_only=False, symbols=(), prefer_head
             folders = d.path.split('/')[1:-1]
             owners = ['include/' + '/'.join(folders[:n]) + '.h'
                       for n in range(len(folders), 0, -1)]
-        owner = next((h for h in owners if (h, site.name) in typed
+        # A folder API may re-export a smaller shared feature header. Prefer
+        # its actual declaration so importing allocation need not expose the
+        # independent draw-registration contracts from node.h.
+        exported = []
+        for folder in owners:
+            exported.append(folder)
+            if folder in corpus.h_files:
+                exported.extend(h for h in corpus.closure(folder)
+                                if h.startswith(folder.removesuffix('.h') + '/'))
+        # An implementation can include a shared feature API without exposing
+        # it to every user of the broad folder header. Require multiple named
+        # contracts, actual definition-side inclusion and folder ownership;
+        # source collectors are not public feature APIs.
+        if d.path.startswith('src/'):
+            feature_dir = owners[0].removesuffix('.h') + '/'
+            exported.extend(sorted(h for h in corpus.closure(d.path)
+                                   if h.startswith(feature_dir) and h not in collectors
+                                   and contracts_per_header[h] >= 2))
+        owner = next((h for h in exported if (h, site.name) in typed
                       and prototype_key(typed[h, site.name], types) == M.def_key(d, types)), '')
-        use_header = prefer_headers and not site.in_header and not d.static and bool(owner)
+        use_header = (prefer_headers and not d.static and bool(owner) and site.path != owner
+                      and site.path not in corpus.closure(owner))
         if use_header:
             edits.append(Edit(site.path, site.name, site.text, '', owner,
                               d.path + ':' + d.name, evidence, 'include', occurrences=occurrences))
@@ -627,14 +782,14 @@ def candidates(root, scope=(), skip=(), wide_only=False, symbols=(), prefer_head
     return corpus, types, remaining, edits, holds
 
 
-def rewrite(text, edits):
+def rewrite(text, edits, *, ensure_headers=()):
     """Replay by unique declaration symbol AND normalised statement, never line.
 
     Validate all anchors before producing output. A moved, merged, already
     typed or conflicting site is refused instead of applying a stale span.
     """
     scan = cscan.scan(text)
-    replacements, headers, tags = [], set(), set()
+    replacements, headers, tags = [], set(ensure_headers), set()
     for edit in edits:
         matches = [it for it in scan.items if it.kind == 'decl'
                    and any(d.name == edit.symbol and d.is_function for d in it.decls)
@@ -666,13 +821,20 @@ def rewrite(text, edits):
             replacements.append((start, end, after))
     is_header = bool(edits) and edits[0].file.endswith('.h')
     includes = [d for d in scan.directives if d.kind == 'include' and d.depth <= int(is_header)]
-    existing = {d.arg.strip() for d in includes}
+    first_use = min((it.start for it in scan.items), default=len(text))
+    requested = {'\"' + h.removeprefix('include/') + '\"' for h in headers}
+    late = [d for d in includes if d.end > first_use and d.arg.strip() in requested]
+    replacements.extend((d.start, d.end, '') for d in late)
+    existing = {d.arg.strip() for d in includes if d not in late}
     added = [f'#include "{h[len("include/"):]}"\n' for h in sorted(headers)
              if f'"{h[len("include/"):]}"' not in existing]
     additions = ''.join(added) + ''.join(t + ';\n' for t in sorted(tags))
     if additions:
         guard = [d for d in scan.directives if d.kind == 'define' and d.depth == 1]
-        at = includes[-1].end if includes else guard[0].end if is_header and guard else 0
+        # Concatenated TUs can have includes after earlier function bodies.
+        # The imported contract must be visible at every removed declaration.
+        leading = [d for d in includes if d.end <= first_use]
+        at = leading[-1].end if leading else guard[0].end if is_header and guard else 0
         replacements.append((at, at, additions))
     pos, pieces = 0, []
     for start, end, after in sorted(replacements):

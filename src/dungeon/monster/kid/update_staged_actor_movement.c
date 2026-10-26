@@ -7,6 +7,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "dungeon/actor/status.h"
 
 typedef u32 az_uptr;
 
@@ -61,7 +62,6 @@ extern void select_sprite_entry(void *, s32, s32);
 extern s32 rand(void);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void set_record_integer_tile_center(void *, s32, s32);
-extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 

@@ -9,6 +9,7 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "modules/dungeon_native_abi.h"
+#include "sdk/libc.h"
 typedef struct B31_818C8FD0_S_func_818C8FD0_1 {
     void *unk_00;
     void *unk_04;
@@ -198,10 +199,9 @@ void select_record_entry_and_value(void *state, void *entries, short index);
 extern const B31_818C8FD0_OffsetTable interpolation_direction_offsets;
 extern s16 moving_particle_effect_updated;
 s32 try_apply_confusion_status();        /* extern */
-s32 generate_random_value();                                /* extern */
+s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */                                /* extern */
 s32 check_adjacent_tile_height_clearance();           /* extern */
 s32 try_trigger_target_record_effect();            /* extern */
-s32 rand();                                /* extern */
 extern void *get_sprite_attachment_vector(void *, void *, void *, s32);
 extern void *func_8003DF74(void *, void *, void *, s32);
 #endif

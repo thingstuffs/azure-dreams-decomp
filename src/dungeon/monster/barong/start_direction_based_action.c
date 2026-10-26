@@ -2,10 +2,10 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/actor/status.h"
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void apply_scaled_entity_velocity(void *);
-extern void advance_status_timers(void *);
 
 extern u8 D_801755B4[];
 extern u8 D_80175660[];

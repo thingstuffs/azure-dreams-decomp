@@ -3,8 +3,8 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "sdk/libgte.h"
+#include "engine/node/allocation.h"
 
-void *allocate_list_node();            /* extern */
 extern void D_800BB894();
 
 typedef struct Copy24 {
@@ -45,7 +45,7 @@ s32 create_object_from_polar_spawn_data(S_800BB798_0 *spawn_data, s16 state_48, 
 
     component = radius * trig_factor;
     spawn_data->unk_10 = component;
-    object = allocate_list_node(0x312, ((s32 *)&scene_object_list_anchor.next));
+    object = allocate_list_node(0x312, &scene_object_list_anchor.next);
     if (object != NULL) {
         object_data = object->position;
         object->update_callback = &D_800BB894;

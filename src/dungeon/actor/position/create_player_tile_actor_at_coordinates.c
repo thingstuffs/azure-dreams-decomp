@@ -1,6 +1,8 @@
 #include "shared/actor_status_ids.h"
 #include "dungeon/actor/motion.h"
 #include "shared/actor_status_flags.h"
+#include "dungeon/actor/status.h"
+#include "dungeon/level.h"
 
 struct ObjectNodeHeader;
 #include "common.h"
@@ -29,12 +31,10 @@ typedef struct { u8 bytes[11]; } ResultCopy __attribute__((aligned(4)));
 extern void *allocate_list_node(s32 a0, void *a1);
 extern u8 find_active_rect_containing_point(u8 a0, u8 a1);
 extern void set_record_integer_tile_center(void *a0, u8 a1, u8 a2);
-extern s16 sample_terrain_surface_height(u16 a0, u16 a1, s16 a2);
 extern void select_record_entry_and_value(void *a0, s32 a1, s32 a2);
 extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *a0);
 extern void create_source_linked_fading_effect(struct ObjectNodeHeader *, s16);
 extern void register_node(void *a0, void *a1);
-extern void set_or_clear_actor_status_slot(void *a0, s32 a1, s32 a2);
 
 /* Creates an entity at the given tile and height and initializes its sprite state. */
 void *create_player_tile_actor_at_coordinates(u16 tile_x, u16 tile_z, u16 height) {

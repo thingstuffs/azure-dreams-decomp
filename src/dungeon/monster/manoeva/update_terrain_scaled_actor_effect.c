@@ -3,6 +3,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/level.h"
 
 typedef struct S_8017474C_0 {
     u8 pad_00[0x4];
@@ -77,7 +78,6 @@ typedef struct S_8017474C_8 {
 extern s32 get_entity_effect_value(void *, s32);
 extern s32 rsin(s32);
 extern s32 rcos(s32);
-extern s32 sample_terrain_surface_height(u16, u16, s16);
 
 /* Updates effect position and animated scales, flagging invalid or fully expanded effects. */
 void update_terrain_scaled_actor_effect(void *effect, MovingPosition *out_position, void *out_render)

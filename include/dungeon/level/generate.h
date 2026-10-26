@@ -13,6 +13,11 @@
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_8001CE44_arg0.h"
 #include "shared/record_ptrs.h"
+#include "sdk/bzero.h"
+#include "sdk/libc.h"
+#include "sdk/libetc.h"
+#include "sdk/libgpu.h"
+#include "dungeon/level.h"
 typedef struct floor_generate_isolated_8028444C_S_8001744C_0 {
     s16 unk_00;
 } floor_generate_isolated_8028444C_S_8001744C_0;
@@ -417,9 +422,7 @@ typedef struct {
 } floor_generate_isolated_8028AE2C_DungeonArea;
 extern u8 generation_region_cell_entries[];
 extern u16 select_dungeon_spawn_tile(u8 *, u8 *);
-extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern s32 generate_random_value(void);
-s32 sample_terrain_surface_height();
 extern s32 get_offset_map_cell_value_and_flags(s16, s16, s16, u16 *);
 extern s32 check_diagonal_side_height(u16, s16, s16, s16);
 extern void Control_CD(s32,void *, s32);
@@ -436,9 +439,6 @@ extern s32 floor_loaded_content_flags;
 extern void apply_state_index_tile_masks(void);
 extern void bind_view_triplet_source(void *state);
 extern void runtime_load_packed_resource_chunks();
-extern s32 bzero();
-extern s32 rand(void);
-extern s32 srand();
 extern void store_random_nibble(void);
 extern void clear_dungeon_cell_entries(void);
 extern void clear_dungeon_object_entries(void);
@@ -472,8 +472,6 @@ extern s32 sound_stream_primary_marker_address[4];
 extern s32 sound_stream_secondary_marker_address[4];
 void set_sound_payload_slot(int value);
 s16 test_sound_channel_availability();
-s32 VSync();
-s32 DrawSync();
 extern floor_generate_isolated_80286894_S_80019894_0 sound_effect_bank_descriptors[];
 extern u8 sound_effect_loaded_record_ids[];
 extern s32 dungeon_mode_state[3];

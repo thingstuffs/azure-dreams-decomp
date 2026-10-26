@@ -1,5 +1,7 @@
 #ifndef DUNGEON_OVL_1936800_H
 #define DUNGEON_OVL_1936800_H
+#include "sdk/libc.h"
+#include "sdk/libgte.h"
 
 struct SpriteFrameState;
 #include "common.h"
@@ -358,8 +360,6 @@ typedef struct Row_81917C08_ActionSlot { s32 value; } Row_81917C08_ActionSlot;
  * (the compiler merges the identical stage tails into one copy). */
 void view_interpolation_update_address(void);
 void advance_sprite_animation_and_textures();
-s32 rsin();
-s32 rcos();
 void select_record_entry_and_value(void *state, void *entries, short index);
 void register_node(void *, void *);
 void func_8004491C(void *, void *);
@@ -367,11 +367,7 @@ void SetTile(void *, s32);
 void AddPrim(void *, void *);
 void *allocate_list_node();
 void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-s32 rand();
-s32 rand();
 int abs(int);
-s32 SquareRoot12();
-s16 ratan2();
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 s16 check_layer_offset_height(u16, u16, s16, s16);
 s32 sample_terrain_surface_height(u16, u16, s16);

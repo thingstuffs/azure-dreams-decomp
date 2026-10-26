@@ -5,8 +5,8 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "engine/graphics.h"
+#include "sdk/libc.h"
 
-extern s32 rand();
 extern void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 extern u8 * expand_text_control_codes();
 extern void *clear_byte_and_advance();

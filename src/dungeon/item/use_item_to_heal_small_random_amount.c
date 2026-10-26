@@ -6,9 +6,9 @@
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
+#include "engine/town.h"
 
 
-extern u8 * format_unsigned_double_byte_decimal();
 #include "dungeon/player/item.h"
 extern void clear_slot_and_update_linked_state();
 extern void *get_unused_text_buffer(void);

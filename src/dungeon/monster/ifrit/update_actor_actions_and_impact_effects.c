@@ -9,6 +9,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "engine/cd.h"
+#include "dungeon/actor/status.h"
 extern u8 D_801740FC[];
 extern int abs(int);
 
@@ -84,7 +85,6 @@ extern void select_sprite_entry(void *, s32, s32);
 extern s32 rand(void);
 extern void *scan_actor_along_heading(void *, s32, s32, s32, s32);
 extern void set_record_integer_tile_center(void *, s32, s32);
-extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context);
 extern void create_two_row_object_group(void *payload, s16 value_scale);

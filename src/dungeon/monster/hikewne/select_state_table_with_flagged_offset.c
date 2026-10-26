@@ -2,8 +2,8 @@
 #include "dungeon/actor/motion.h"
 #include "dungeon/actor.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/actor/status.h"
 
-extern void advance_status_timers();
 
 extern s32 spend_actor_mp();
 

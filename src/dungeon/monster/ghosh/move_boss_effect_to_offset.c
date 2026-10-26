@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
+#include "dungeon/level.h"
 extern s32 ghosh_boss_node[3];
 typedef struct {
     u8 data[24];
@@ -8,7 +9,6 @@ typedef struct {
 extern u8 D_8016A87C[];
 extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
 extern void set_record_integer_tile_center(s32, u8, u8);
-extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 
 typedef struct S_80171168_0 {
     u8 pad_00[0x8];

@@ -10,6 +10,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor.h"
+#include "dungeon/level.h"
 
 
 extern int abs(int);
@@ -18,7 +19,6 @@ extern void *allocate_list_node(s32, void *);
 extern s32 rand(void);
 extern void apply_attack_power_and_element_effects();
 extern s32 play_sound_if_enabled(s32);
-extern s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 
 extern u8 countdown_sprite_entries[];
 extern u8 directional_effect_entries[];

@@ -11,7 +11,7 @@ typedef struct S_801761AC_0 {
 
 
 extern s32 set_or_clear_actor_status_slot();
-extern s32 generate_random_value();
+extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 
 /*
  * For a non-player actor, rolls against its byte at +3 to request status 0x19; returns 1 only if

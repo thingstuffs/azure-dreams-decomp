@@ -7,6 +7,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "dungeon/level.h"
 extern int abs(int);
 
 typedef struct MotionWork {
@@ -45,7 +46,6 @@ typedef struct EffectState {
 
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern s32 check_layer_offset_height(s32, s32, s32, s32);
-extern u16 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 extern void func_80025344(EffectState *, ObjectPosition *);
 extern void advance_grayscale_fade(EffectState *, ObjectPosition *);
 extern void play_sound_if_enabled(s32);

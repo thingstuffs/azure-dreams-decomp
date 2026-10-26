@@ -7,6 +7,7 @@
 #include "records/Rec_func_800D4BD4_arg1.h"
 #include "records/Rec_func_800D4BD4_arg2.h"
 #include "shared/dungeon_moving_views.h"
+#include "sdk/libc.h"
 
 typedef struct S_800D5294_5 {
     u8 pad_00[0x8];
@@ -24,7 +25,6 @@ typedef struct S_800D5294_2 {
 } S_800D5294_2;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 rand();                                /* extern */
 void initialize_effect_object_state(); /* extern */
 extern M2C_UNK D_800D50FC[3];
 

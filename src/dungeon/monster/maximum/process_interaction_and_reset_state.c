@@ -3,6 +3,7 @@
 #include "dungeon/actor/motion.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+#include "dungeon/actor/status.h"
 
 typedef struct S_801722DC_0 {
     u8 pad_00[0x8C];
@@ -11,7 +12,6 @@ typedef struct S_801722DC_0 {
 } S_801722DC_0;   /* arg0 in process_interaction_and_reset_state */
 
 
-void advance_status_timers();                     /* extern */
 void spend_actor_mp();            /* extern */
                 /* extern */
 void dispatch_monster_move_attack_spell(void *controller, void *context, void *entity, ActorRecord *actor_state);

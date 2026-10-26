@@ -6,6 +6,7 @@
 #include "shared/object_node.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_moving_views.h"
+#include "engine/node/allocation.h"
 
 #ifndef NULL
 #define NULL 0
@@ -18,7 +19,6 @@ typedef struct {
 extern s32 create_visual_object();
 extern s32 create_offset_sprite_object_with_z();
 extern s32 resolve_record_orientation_or_fallback();
-extern void *allocate_list_node();
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 extern TableEntry linked_effect_direction_entries[];
@@ -86,7 +86,7 @@ void *create_six_offset_effects(MovingPosition *origin, S_80026A84_7 *target_pos
     callback = update_trailing_effect_animation;
     effect_entry = linked_effect_direction_entries;
     do {
-        effect = allocate_list_node(0x12, ((s32 *)(&scene_object_list_anchor)));
+        effect = allocate_list_node(0x12, &scene_object_list_anchor.next);
         if (effect != NULL) {
             effect->update_callback = callback;
             register_node(effect, linked_mesh_processor_address);

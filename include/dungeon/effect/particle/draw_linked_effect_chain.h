@@ -12,6 +12,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+#include "sdk/libc.h"
 struct RegistrationNode;
 typedef struct Row_819A088C_S_819A088C_0 {
     u8 pad_00[0x24];
@@ -455,7 +456,6 @@ void advance_sprite_animation_and_textures(void *);
 void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
 void select_record_entry_and_value(void *state, void *entries, short index);
-s16 rand();
 s32 get_sprite_attachment_vector(void *, void *, void *, s32);
 s32 func_8003DF74(void *, void *, void *, s32);
 s32 func_80069EF8(void);

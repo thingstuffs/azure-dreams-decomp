@@ -1,5 +1,6 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/actor_status_flags.h"
+#include "dungeon/level.h"
 
 struct ObjectPosition;
 #include "shared/object_node.h"
@@ -95,7 +96,6 @@ extern u8 D_8017612C[];
 
 extern void register_node(AllocationObject *allocation, void *callback);
 extern void update_map_cell_flags_with_item_limit(u8 x, u8 y, s32 mode);
-extern s32 sample_terrain_surface_height(u16 x, u16 y, s16 height);
 extern void select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s16 slot_value);
 extern void *find_nearby_eligible_entry(u8 *current, s32 wanted_24, s32 wanted_25, s32 height_center);
 

@@ -4,6 +4,7 @@
 #include "shared/dir_step.h"
 #include "shared/object_links.h"
 #include "dungeon/actor.h"
+#include "dungeon/system.h"
 
 
 
@@ -11,7 +12,6 @@ void unlink_entity_node();
 void update_map_cell_flags_with_item_limit();
 void distribute_experience_and_report_gains();
 void * detach_record_and_update_slot_state();
-s32 play_sound_if_enabled();
 s16 sample_terrain_surface_height();
 
 

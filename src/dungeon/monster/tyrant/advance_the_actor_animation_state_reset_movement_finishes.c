@@ -10,15 +10,15 @@
 #include "engine/cd.h"
 #include "shared/sprite_frame_state.h"
 #include "engine/graphics.h"
+#include "dungeon/player/object.h"
+#include "dungeon/system.h"
+#include "dungeon/actor/status.h"
 extern int abs(int);
 
 extern s32 tyrant_action_resume_address;
 extern u8 tyrant_direction_frames[8];
 
 extern void *scan_actor_along_heading();
-extern void set_record_integer_tile_center();
-extern void advance_status_timers();
-extern void play_sound_if_enabled();
 extern void *create_actor_spell_effect();
 extern void create_two_row_object_group();
 

@@ -4,6 +4,7 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "engine/node/allocation.h"
 
 #ifndef NULL
 #define NULL 0
@@ -35,7 +36,6 @@ typedef struct S_81977D08_5 {
 } S_81977D08_5;   /* ((S_81977D08_4 *)arg0)->unk_14 in create_an_owner_linked_sprite_effect_position_vertical_offset */
 
 extern void select_record_entry_and_value(void *state, void *entries, short index);
-extern void *allocate_list_node();
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 extern s32 D_8002548C;
@@ -52,7 +52,7 @@ void create_an_owner_linked_sprite_effect_position_vertical_offset(S_81977D08_4 
     SpriteFrameState *sprite;
     S_81977D08_0 *effect;
 
-    effect = allocate_list_node(0x212, ((s32 *)&scene_object_list_anchor.next));
+    effect = allocate_list_node(0x212, &scene_object_list_anchor.next);
     if (effect != NULL) {
         void *sprite_data = &D_800DEB70;
 

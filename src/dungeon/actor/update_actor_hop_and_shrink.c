@@ -3,6 +3,7 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/sys_flags.h"
+#include "sdk/libgte.h"
 
 typedef struct S_800AB538_0 {
     u8 pad_00[0x92];
@@ -33,7 +34,6 @@ typedef struct S_800AB538_3 {
     s32 unk_14;
 } S_800AB538_3;   /* p1 in update_actor_hop_and_shrink */
 
-extern s32 rsin();
 
 extern u8 view_reference_entity[];
 extern s16 actor_hop_target_height;

@@ -2,9 +2,9 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
+#include "dungeon/actor/status.h"
 
 s32 try_claim_dungeon_action_slot();                          /* extern */
-void advance_status_timers();                      /* extern */
 s32 apply_camera_offset_and_select_target(); /* extern */
 
 

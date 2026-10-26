@@ -6,6 +6,9 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/actor.h"
+#include "dungeon/player/object.h"
+#include "dungeon/system.h"
 
 typedef struct S_80176084_0 {
     u8 pad_00[0x8C];
@@ -24,9 +27,6 @@ typedef struct S_80176084_0 {
 } S_80176084_0;   /* arg0 in leave_actor_aura_mode */
 
 extern void clear_slots_of_type();
-extern void set_record_integer_tile_center();
-extern s32 play_sound_if_enabled();
-extern s32 try_move_actor_to_valid_position();
 void create_owner_linked_directional_object(u8 *owner_data, u8 *source_position, u8 *source_sprite);
 
 extern u8 uboat_default_frames[];

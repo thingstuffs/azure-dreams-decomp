@@ -6,6 +6,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/gpu_packets.h"
+#include "dungeon/level.h"
 
 typedef struct S_800BC3E4_0_pre {
     void * unk_00;
@@ -156,7 +157,6 @@ typedef struct S_800BC4D4_6 {
 
 /* ((S_800BC3E4_4 *)state)->unk_00 in traverse_nodes_and_render_unflagged */
 extern s32 is_frame_packet_arena_overflowed(void *);
-extern s16 sample_terrain_surface_height(u16, u16, s16);
 /* texture + 4 in render_projected_sprite_with_depth_bias */
 /* *global in render_projected_sprite_with_depth_bias */
 extern void CompMatrix(void *, void *, void *);

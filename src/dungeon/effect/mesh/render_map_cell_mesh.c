@@ -3,6 +3,8 @@
 #include "shared/game_work.h"
 #include "shared/ot_link.h"
 #include "shared/gpu_packets.h"
+#include "sdk/libgte.h"
+#include "dungeon/level.h"
 
 
 /* One face of a cell's face list (0x18 bytes): four vertex indices, the packet's UV/CLUT and UV/tpage words, then the
@@ -136,10 +138,6 @@ typedef struct DrawSettings {
 
 s32 build_screen_outline();
 #include "engine/effect.h"
-s32 SetFogFar();
-s32 SetLightMatrix();
-s32 SetColorMatrix();
-s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 
 /* Render visible dungeon cells as lit, textured polygons in the ordering table. */
 void render_map_cell_mesh(void) {

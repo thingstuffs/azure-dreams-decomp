@@ -4,6 +4,7 @@
 #include "dungeon/item/actor_target.h"
 #include "shared/dungeon_floor.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/level.h"
 
 typedef struct { u8 b0; u8 b1; u8 b2; u8 b3; } Elem;
 
@@ -14,7 +15,6 @@ extern u16 direction_y_offsets[];
 extern Elem *get_active_region_data(s16);
 extern s32 generate_random_value(void);
 extern s32 get_rounded_facing_and_rounding_flag(s16, s16, s16, s16, u16 *);
-extern s32 sample_terrain_surface_height(s32, s32, s16);
 
 /*
  * Tests the entry halfword against the direction selector: below two for 0, equal to two for 1, or

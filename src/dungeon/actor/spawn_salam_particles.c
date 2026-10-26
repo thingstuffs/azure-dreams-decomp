@@ -6,14 +6,13 @@
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/actor.h"
+#include "sdk/libc.h"
+#include "sdk/libgte.h"
+#include "engine/node/allocation.h"
 
    /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in spawn_salam_particles */
 
-void *allocate_list_node();               /* extern */
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
-s32 rsin();                             /* extern */
-s32 rcos();                             /* extern */
-s16 rand();                                /* extern */
 extern void D_800CAED0();
 extern M2C_UNK D_800E03B0;
 
@@ -26,7 +25,7 @@ typedef struct S_800CAFDC_3 {
 } S_800CAFDC_3;
 
 /* Spawns two salam particles near the source with randomized positions and velocities. */
-void spawn_salam_particles(EntityRec *source, s16 effect_param, s32 render_param) {
+void spawn_salam_particles(ObjectNodeHeader *source, s16 effect_param, s32 render_param) {
     s16 angle;
     s32 remaining;
     S_800CAFDC_3 *effect_state;
@@ -36,17 +35,17 @@ void spawn_salam_particles(EntityRec *source, s16 effect_param, s32 render_param
 
     remaining = 2;
     do {
-        particle = allocate_list_node(0x212, source);
+        particle = allocate_list_node(0x212, &source->next);
         if (particle != NULL) {
             particle->update_callback = &D_800CAED0;
             register_node(particle, project_sprite_chain);
             motion = particle->position;
-            motion->x.w.i = (s16) ((((MovingPosition *)((*(void * *)&source->z)))->x + (rand() & 0x3F)) - 0x20);
-            motion->y.w.i = (s16) ((((MovingPosition *)((*(void * *)&source->z)))->y + (rand() & 0x3F)) - 0x20);
-            motion->z.w.i = (s16) ((((MovingPosition *)((*(void * *)&source->z)))->z + (rand() & 0x3F)) - 0x20);
+            motion->x.w.i = (s16) ((source->position->x.w.i + (rand() & 0x3F)) - 0x20);
+            motion->y.w.i = (s16) ((source->position->y.w.i + (rand() & 0x3F)) - 0x20);
+            motion->z.w.i = (s16) ((source->position->z.w.i + (rand() & 0x3F)) - 0x20);
             angle = rand();
-            motion->velocity_x = (s32) (rcos(angle) << 5);
-            motion->velocity_y = (s32) (rsin(angle) << 5);
+            motion->velocity_x = rcos(angle) << 5;
+            motion->velocity_y = rsin(angle) << 5;
             *((s16 *)&motion->velocity_z + 1) = (s16) ((0 - (rand() & 7)) - 8);
             render = particle->sprite;
             effect_state = ((void *)particle) + 0x20;

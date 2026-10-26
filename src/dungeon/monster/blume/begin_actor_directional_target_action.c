@@ -4,6 +4,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/entity.h"
+#include "dungeon/actor/status.h"
 
 typedef struct S_80047784 S_80047784;
 
@@ -28,7 +29,6 @@ struct SpriteFrameState;
 void select_sprite_entry(void *, s16, s16);
 void *find_eligible_actor_at_tile_and_height();
 s32 try_claim_dungeon_action_slot();
-void advance_status_timers();
 s32 apply_camera_offset_and_select_target();
 extern u8 D_80175414;
 

@@ -2,14 +2,13 @@
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "common.h"
+#include "sdk/libgte.h"
 
 typedef struct ParticleRenderOwner {
     u8 pad_00[0xC];
     void * unk_0C;
 } ParticleRenderOwner;
 
-s32 rsin();
-s32 rcos();
 extern s16 D_80026476;
 extern void move_linked_effect_along_path(void *, s32, void *);
 extern s32 func_80024ED0(void *, void *, void *);

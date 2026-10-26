@@ -20,6 +20,11 @@
 #include "records/Rec_func_801736F4_arg0.h"
 #include "records/Rec_func_800AA258_arg2.h"
 #include "shared/gpu_packets.h"
+#include "sdk/libc.h"
+#include "sdk/libgpu.h"
+#include "dungeon/system.h"
+#include "dungeon/player/object.h"
+#include "engine/texture.h"
 struct ObjectPosition;
 
 #define NULL 0
@@ -712,11 +717,9 @@ void *allocate_list_node();
 void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
-s32 generate_random_value();
+s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 s32 set_or_clear_actor_status_slot();
 void initialize_actor_sprite_and_animation();
-s32 try_move_actor_to_valid_position();
-void select_indirect_table_entry();
 void advance_sprite_animation_and_textures(void *entity);
 void apply_monster_koyaw_data();
 s32 refresh_actor_facing_and_lifecycle();
@@ -758,23 +761,19 @@ void advance_status_timers();
 s32 update_actor_movement_to_tile();
 void spend_actor_mp();
 
-void set_record_integer_tile_center();
 s32 on_actor_status_updated();
 s32 func_800A9A04();
 s32 update_linked_actor_motion();
 s32 resolve_record_orientation_or_fallback();
 s32 resolve_attack_damage_and_effects();
-s32 play_sound_if_enabled();
 s32 get_cd_command_queue_depth(void);
 void * scan_actor_along_heading();
 void * create_actor_spell_effect();
 void create_two_row_object_group();
 void begin_actor_display_action();
-void apply_clamped_actor_value_delta();
 void unlink_entity_node();
 void distribute_experience_and_report_gains();
 void * detach_record_and_update_slot_state();
-void announce_familiar_defeat();
 s32 update_actor_hop_and_shrink();
 
 s32 update_actor_hop_and_grow();
@@ -793,10 +792,6 @@ s32 rsin();
 s32 rcos();
 void func_80065770();
 s32 ratan2();
-s32 GetTPage();
-void SetSemiTrans();
-void SetLineG2();
-void SetDrawMode();
 void transform_rotated_vertices();
 void project_sprite_commands();
 void func_800453E0(void *context, void *position, struct Entry *entry, s16 depth_bias);
@@ -817,7 +812,6 @@ void run_cd_image_commands();
 void func_80041588(u32 *stream_ref, u8 *state, s32 execute);
 s32 read_stream_cue_start_offset(void);
 s32 lookup_masked_byte_table();
-s32 rand();
 void decrement_monster_entry_count();
 s32 advance_staged_entity_load();
 s32 create_status_linked_render_effect();

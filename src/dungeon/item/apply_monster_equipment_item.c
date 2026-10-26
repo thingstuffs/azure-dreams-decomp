@@ -8,6 +8,7 @@
 #include "m2c_compat.h"
 #include "dungeon/system.h"
 #include "engine/menu.h"
+#include "dungeon/player/item.h"
 
 typedef struct S_800C08A4_0 {
     void * unk_00;
@@ -37,7 +38,6 @@ typedef struct S_800C08A4_2 {
 } S_800C08A4_2;   /* counter_base in apply_monster_equipment_item */
 
 
-void begin_mode_selected_item_action(); /* extern */
 s32 process_record_and_update_linked_state(); /* extern */
 void clear_slot_and_update_linked_state(); /* extern */
 

@@ -12,6 +12,8 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "sdk/libc.h"
+#include "dungeon/level.h"
 typedef struct { u8 pad00[0x14]; u16 flags; } ovl_18d0850_818B097C_EffectCounter;
 typedef struct { ovl_18d0850_818B097C_EffectCounter *parent; } ovl_18d0850_818B097C_EffectOwner;
 typedef struct ovl_18d0850_818B09F8_SubObj {
@@ -279,8 +281,6 @@ extern void func_8004491C(ovl_18d0850_818B09F8_MainObj *, void *);
 extern u8 shared_sprite_entries[];
 extern s32 rsin(s32);
 extern s32 rcos(s32);
-extern s32 rand(void);
-s32 rand();
 extern unsigned char resident_globals_page[];
 s32 RotTransPers();
 s32 GetTPage();
@@ -289,7 +289,6 @@ extern M2C_UNK D_8002588C;
 extern int abs(int);
 extern s32 resolve_record_orientation_or_fallback(void *, void *, s16 *, s32);
 extern s32 check_layer_offset_height(s32, s32, s32, s32);
-extern s32 sample_terrain_surface_height(s32, s32, s32);
 extern void play_sound_if_enabled(s32);
 void follow_brighten(EntityRec *entity, s32 value_id, void *record);
 void write_fixed_palette_pixels(void *unused0, void *unused1, void *unused2);

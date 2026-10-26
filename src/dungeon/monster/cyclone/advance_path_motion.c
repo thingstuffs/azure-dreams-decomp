@@ -5,6 +5,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "engine/graphics.h"
+#include "dungeon/level.h"
 
 typedef struct S_801716D8_0 {
     u8 pad_00[0x1C];
@@ -40,7 +41,6 @@ typedef struct S_801716D8_4 {
     u8 unk_7C;
 } S_801716D8_4;   /* (state + ((S_801716D8_0 *)state)->unk_8A) in advance_path_motion */
 
-void cycle_map_cell_flags();             /* extern */
 void update_map_cell_flags_with_item_limit();             /* extern */
 s32 check_movement_clearance_and_height(); /* extern */
 s16 get_rounded_facing_and_rounding_flag();             /* extern */

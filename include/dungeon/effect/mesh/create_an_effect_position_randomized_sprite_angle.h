@@ -13,6 +13,8 @@
 #include "shared/entity_height_offsets.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "dungeon/level.h"
+#include "dungeon/system.h"
 typedef struct ovl_1930844_81910844_S_81910844_0_pre {
     u16 unk_00;
 } ovl_1930844_81910844_S_81910844_0_pre;
@@ -361,8 +363,6 @@ extern int abs(int);
 s32 resolve_record_orientation_or_fallback();
 void apply_attack_power_and_element_effects();
 s32 check_layer_offset_height();
-s32 play_sound_if_enabled();
-s16 sample_terrain_surface_height();
 static __inline__ s32 radial_coordinate(s32 center, s32 trig, s16 radius);
 void advance_shrinking_arc_effect(void *state, ovl_1930844_81910844_S_81910844_2 *motion, ovl_1930844_81910844_S_81910844_3 *visual);
 void * create_an_effect_position_randomized_sprite_angle(Rec_func_80024170_arg0 *owner, void *source_position);

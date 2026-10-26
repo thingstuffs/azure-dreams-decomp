@@ -5,6 +5,8 @@
 #include "shared/dir_step.h"
 #include "records/Rec_func_80173D78_arg0.h"
 #include "dungeon/monster/manoeva.h"
+#include "dungeon/system.h"
+#include "dungeon/level.h"
 
 typedef struct S_80173D78_1 {
     u8 pad_00[0xC];
@@ -69,10 +71,8 @@ void clear_byte_and_advance();
 s32 write_text_byte_and_advance();
 s32 append_entity_display_text();
 void unlink_entity_node();
-void cycle_map_cell_flags();
 void update_map_cell_flags_with_item_limit();
 void *find_eligible_actor_at_tile_and_height();
-void play_sound_if_enabled();
 void display_text_with_fullwidth_adjustment();
 s16 find_floor_item_at_world_position();
 void update_actor_status_and_mp();

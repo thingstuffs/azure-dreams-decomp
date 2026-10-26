@@ -11,6 +11,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "dungeon/system.h"
 typedef struct ovl_18b8824_818988CC_S_800240CC_0 {
     u8 pad_00[0xC];
     void * unk_0C;
@@ -156,7 +157,6 @@ extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern s16 get_surface_height_at_record(void *);
 extern s32 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern s32 check_left_tile_and_center_height(s32, s32, s32);
-extern void play_sound_if_enabled(s32);
 extern void *create_actor_sprite_at_tile(u8, s16, s16, s16);
 extern void func_80042640(void *, s32);
 extern s32 generate_random_value(void);

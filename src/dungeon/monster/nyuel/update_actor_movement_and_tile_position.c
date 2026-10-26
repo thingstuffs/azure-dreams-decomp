@@ -19,7 +19,7 @@ extern void *probe_directional_neighbor();
 extern u16 get_rounded_facing_and_rounding_flag();
 extern void select_actor_route_target();
 extern void update_actor_proximity_flag();
-extern s32 generate_random_value();
+extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern void update_actor_status_and_mp();
 extern s16 sample_terrain_surface_height();
 extern s16 actor_turn_angle_offsets[8];

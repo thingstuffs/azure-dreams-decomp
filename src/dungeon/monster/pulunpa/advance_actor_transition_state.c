@@ -7,14 +7,14 @@
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/actor/status.h"
+#include "dungeon/level.h"
 
 extern void store_recalled_familiar(void *, void *, void *, void *);
 extern void unlink_entity_node(void *);
-extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
 extern void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 extern u8 find_entity_slot_by_field_ac(void *);
-extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 #include "dungeon/monster/pulunpa.h"

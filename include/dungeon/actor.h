@@ -1,6 +1,7 @@
 #ifndef DUNGEON_ACTOR_H
 #define DUNGEON_ACTOR_H
 #include "common.h"
+#include "shared/object_node.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_moving_views.h"
@@ -23,7 +24,7 @@ void copy_indexed_entry_data(void *entity);
 void *find_eligible_nearby_entry(s32 x, s32 y, void *end, void *owner);
 void rotate_actor_movement_queue(MovingTile *position, void *state);
 void run_saved_actor_action(void *object, s32 unused, void *animation, void *actor);
-void spawn_salam_particles(EntityRec *source, s16 effect_param, s32 render_param);
+void spawn_salam_particles(ObjectNodeHeader *source, s16 effect_param, s32 render_param);
 void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite, ActorRecord *status);
 extern void update_actor_movement_and_map_flags(void *obj, s32 move_mode,struct SpriteFrameState *actor, void *map);
 
@@ -49,5 +50,11 @@ s32 roll_actor_stack_split(void *actor, s32 chance);
 /* Callback entry points. */
 void apply_pending_actor_updates(void *controller, s32 move_state, void *entity, void *actor);
 void fade_color_toward_half_and_complete(void *effect, s32 unused, void *color);
+
+/* dungeon/actor/movement_overlap_wait_g00334.c */
+s32 try_move_actor_to_valid_position(void *action, void *context, void *position, void *entity);
+
+/* dungeon/actor/apply_clamped_actor_value_delta.c */
+void apply_clamped_actor_value_delta(void *entity);
 
 #endif

@@ -7,10 +7,10 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/item.h"
+#include "dungeon/player/item.h"
 
 
 
-extern s32 begin_mode_selected_item_action();
 extern s32 begin_parameterized_actor_action();
 extern s32 process_record_and_update_linked_state();
 extern s32 clear_slot_and_update_linked_state();

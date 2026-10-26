@@ -6,6 +6,8 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/actor.h"
+#include "dungeon/player/object.h"
 
 typedef struct S_80172C10_0 {
     u8 pad_00[0x8C];
@@ -19,9 +21,7 @@ typedef struct S_80172C10_0 {
     u8 unk_A8;
 } S_80172C10_0;   /* arg0 in slow_motion_and_switch_behavior */
 
-extern void set_record_integer_tile_center();
 extern void begin_actor_display_action();
-extern void apply_clamped_actor_value_delta();
 
 extern u8 pulunpa_action_resume_address[];
 extern u8 pulunpa_variant_action_address[];

@@ -19,6 +19,9 @@
 #include "records/Rec_func_80172CC0_arg0.h"
 #include "records/Rec_func_800AA258_arg2.h"
 #include "records/Rec_func_801736F4_arg0.h"
+#include "sdk/libc.h"
+#include "sdk/libgte.h"
+#include "dungeon/system.h"
 
 typedef s32 R07_80170854_M2C_UNK;
 typedef struct R07_80170854_S_8016A854_0 {
@@ -232,10 +235,9 @@ void *allocate_list_node();
 void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
-s32 generate_random_value();
+s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 s32 set_or_clear_actor_status_slot();
 void initialize_actor_sprite_and_animation();
-s32 try_move_actor_to_valid_position();
 void select_indirect_table_entry(struct S_80047738 *state, s16 table_index, s16 entry_index);
 void advance_sprite_animation_and_textures(void *entity);
 void apply_monster_koyaw_data();
@@ -244,7 +246,6 @@ s16 sample_terrain_surface_height();
 s32 resolve_record_orientation_or_fallback();
 void select_sprite_entry();
 void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
-s32 rand();
 s32 check_entity_relation();
 s32 find_active_rect_containing_point();
 s32 test_neighbor_position_relation();
@@ -279,19 +280,16 @@ void advance_status_timers();
 s32 update_actor_movement_to_tile();
 void spend_actor_mp();
 
-s32 rsin();
 void set_record_integer_tile_center();
 void on_actor_status_updated();
 void func_800A9A04();
 s32 update_linked_actor_motion();
 s32 resolve_attack_damage_and_effects();
-s32 play_sound_if_enabled();
 s32 get_cd_command_queue_depth(void);
 void * scan_actor_along_heading();
 void * create_actor_spell_effect();
 void create_two_row_object_group();
 void begin_actor_display_action();
-void apply_clamped_actor_value_delta();
 s32 update_actor_defeat_removal();
 s32 update_actor_hop_and_shrink();
 

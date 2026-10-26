@@ -1,4 +1,5 @@
 #include "slus.h"
+#include "sdk/libgte.h"
 #include "shared/object_node_flags.h"
 /* Linked sprite quad rendering, nearby target effects, and fading radial grids. */
 #include "dungeon/effect/particle/draw_linked_sprite_effect_quads.h"
@@ -13,10 +14,10 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "dungeon/actor.h"
+#include "dungeon/system.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 resolve_record_orientation_or_fallback();     /* extern */
 void apply_attack_power_and_element_effects(); /* extern */
-s32 play_sound_if_enabled();                     /* extern */
 
 typedef struct S_func_819B2800_0 {
     void *unk_00;
@@ -302,7 +303,6 @@ typedef struct SpriteQuad {
     u8 v3;
 } SpriteQuad;
 
-extern s32 RotTransPers();
 extern void SetSemiTrans();
 extern void SetPolyFT4();
 
@@ -468,7 +468,6 @@ typedef struct S_8002466C_9 {
 extern s16 GetTPage(s32, s32, s32, s32);
 extern s16 GetClut(s32, s32);
 extern s32 resolve_record_orientation_or_fallback(void *, void *, s16 *, s32);
-extern s32 rsin(s32);
 extern s32 rand(void);
 
 extern u8 secondary_sprite[];
@@ -732,9 +731,6 @@ typedef struct {
     u32 len : 8;
 } P_TAG;
 
-extern s32 rsin();
-extern s32 SquareRoot0();
-extern s32 RotTransPers();
 extern s32 func_80066460();
 extern void SetSemiTrans();
 extern s32 SetPolyG4();

@@ -4,6 +4,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/monster/garuda.h"
+#include "dungeon/level.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -48,7 +49,6 @@ extern s32 rsin(s32);
 extern void apply_monster_koyaw_data(s32, void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
-extern s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 
 typedef struct S_80170A78_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */

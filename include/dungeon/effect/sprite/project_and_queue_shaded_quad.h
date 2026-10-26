@@ -11,6 +11,8 @@
 #include "records/Rec_func_800247B8_arg1.h"
 #include "shared/slus_callbacks.h"
 #include "shared/entity_height_offsets.h"
+#include "sdk/libc.h"
+#include "dungeon/system.h"
 struct RegistrationNode;
 typedef struct Row_81922998_S_80024198_0 {
     u8 pad_00[0x24];
@@ -375,14 +377,12 @@ s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads
 s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
 s32 rsin(s32);
 s32 rcos(s32);
-s32 rand();
 s32 advance_sprite_animation_and_textures(void *effect_data);
 void select_record_entry_and_value(void *state, void *entries, short index);
 int abs(int);
 void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
 s32 check_adjacent_tile_height_clearance();
-s32 play_sound_if_enabled();
 void create_attached_effect();
 
 extern s32 D_80024670[];

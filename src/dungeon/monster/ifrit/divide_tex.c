@@ -1,6 +1,7 @@
 /* Ifrit texture division and linked textured-strip rendering. */
 #include "common.h"
 #include "shared/game_work.h"
+#include "sdk/libgpu.h"
 
 typedef struct S_func_80174228_0 {
     u8 pad_00[4];
@@ -107,9 +108,6 @@ typedef struct S_func_80174228_10 {
 /* Returns the signed input divided by 23 with integer truncation. */
 static __inline__ s16 divide_tex(s16 n) { return n / 23; }
 extern s32 RotTransPers();
-extern s16 GetTPage();
-extern void SetSemiTrans();
-extern void SetPolyFT4(void *);
 extern void transform_rotated_vertices();
 
 extern u8 D_8017087C[];

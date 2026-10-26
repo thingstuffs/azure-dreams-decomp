@@ -4,6 +4,8 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/actor.h"
+#include "dungeon/actor/animation.h"
 struct RegistrationNode;
 struct S_800833E0;
 
@@ -57,8 +59,6 @@ extern s32 register_node(); /* Unprototyped: two, three or four arguments; retai
 extern s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
 extern s32 generate_random_value(void);
 extern s16 set_or_clear_actor_status_slot();
-extern void initialize_actor_sprite_and_animation();
-extern s32 try_move_actor_to_valid_position();
 extern void unlink_node(struct S_800833E0 *node);
 extern void func_80044A50(struct S_800833E0 *node);
 extern void retire_tracked_effect_by_id();

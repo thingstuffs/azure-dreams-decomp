@@ -8,6 +8,9 @@
 
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/entity.h"
+#include "dungeon/actor.h"
+#include "dungeon/actor/animation.h"
+#include "engine/node/allocation.h"
 
 typedef struct T_80170AA4_S_80170AA4_2 T_80170AA4_S_80170AA4_2;
 typedef struct ActorSpriteView ActorSpriteView;
@@ -38,12 +41,9 @@ typedef struct S_func_80158898_4 {
     s16 unk_AA;
 } S_func_80158898_4;
 
-void *allocate_list_node();
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s16 set_or_clear_actor_status_slot();
-s32 generate_random_value();
-void initialize_actor_sprite_and_animation();
-s32 try_move_actor_to_valid_position();
+s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 void func_80158AA4(void *actor, T_80170AA4_S_80170AA4_2 *motion, void *part);
 void func_80158F68(Rec_func_800A9E70_arg0 *action, void *context, ActorSpriteView *sprite, EntityRec *actor);
 extern M2C_UNK D_8015BFB8;
@@ -69,7 +69,7 @@ extern M2C_UNK D_8015C000;
     saved_x = x;
     saved_config_value = config_value;
     saved_y = y;
-    object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
+    object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != NULL) {
         object_state = ((void *)object) + 0x20;
         object->update_callback = &func_80158AA4;

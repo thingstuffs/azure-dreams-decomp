@@ -6,6 +6,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "dungeon/actor/status.h"
 
 typedef struct {
     Fixed1616 x;
@@ -80,7 +81,6 @@ struct SpriteFrameState;
 extern void select_sprite_entry(void *, s16, s16);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(Object *, s32);
-extern void advance_status_timers(void *);
 extern void update_timed_effect_size_and_position(void);
 extern void update_dungeon_actor_actions(void);
 extern int abs(int);
