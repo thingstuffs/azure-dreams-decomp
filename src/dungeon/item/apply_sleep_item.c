@@ -1,4 +1,5 @@
 #include "shared/entity_action_selectors.h"
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -17,7 +18,7 @@ s32 try_apply_action_by_chance();
 
 
 /* Process an entity's item, deferring the primary entity's handling and cleaning up completed uses. */
-s32 apply_sleep_item(ActorRecord *entity, s32 item, s16 use_type) {
+s32 apply_sleep_item(ActorRecord *entity, DungeonItemEntry *item, s16 use_type) {
     if (entity == dungeon_actor_ring_anchor) {
         ((PlayerRecord *)entity)->pending_item_action = item;
         begin_deferred_item_action(entity, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), entity);

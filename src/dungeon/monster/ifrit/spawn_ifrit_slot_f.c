@@ -49,7 +49,7 @@ typedef struct S_FUNC_80A23000_BODY_4 {
     s8 unk_9C;
 } S_FUNC_80A23000_BODY_4;   /* actor in queue_projected_point_primitives_2 */
 
-extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 generate_random_value(void);
 extern void set_or_clear_actor_status_slot();
 

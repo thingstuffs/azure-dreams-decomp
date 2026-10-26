@@ -63,14 +63,15 @@ extern s32 has_enough_available_runtime_nodes(u32);
 extern u8 D_800C152C[];
 extern u8 D_800DF514[];
 extern u8 D_800E14A6[];
-s32 process_record_and_update_linked_state(s32, s32);
+struct DungeonItemEntry;
+s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32);
 void begin_mode_selected_item_action(void *object,void *unused_1,void *unused_2,void *mode);
-void display_actor_item_status_message(void *, s32);
-s32 feed_actor_restore_mp(void *, s32, s32);
-void place_actor_item(void *, s32);
+void display_actor_item_status_message(void *, struct DungeonItemEntry *);
+s32 feed_actor_restore_mp(void *, s32, struct DungeonItemEntry *);
+void place_actor_item(void *, struct DungeonItemEntry *);
 void * create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transform_data, s16 scale, s32 setup_word_5c, s32 setup_word_60);
 void display_formatted_context_message(void *);
-void clear_slot_and_update_linked_state(s32);
+void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
 extern void clear_slots_of_type(void *obj, s8 index);
 extern void apply_entity_effects(void *obj);
 extern void cap_pending_actor_value_delta(void *obj);
@@ -89,7 +90,7 @@ extern s32 familiar_restore_sprite_data[4];
 
 /* Functions defined in this translation unit. */
 s32 begin_familiar_restoration_effects(void);
-s32 use_item_to_draw_full_recovery_circle(void *target, s32 action_id, s16 action_type, s32 action_arg);
+s32 use_item_to_draw_full_recovery_circle(void *target, struct DungeonItemEntry *action_id, s16 action_type, s32 action_arg);
 void update_familiar_restoration_effect(DungeonState *state, RenderSource *render_source, u8 *effect_data);
 void *create_familiar_restoration_effect(s32 tile_x, s32 tile_y, s32 z);
 

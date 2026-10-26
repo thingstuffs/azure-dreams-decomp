@@ -84,7 +84,7 @@ void create_radial_effect_segments(void *unused, Rec_func_800D6DC0_arg1 *origin,
     direction_table = (u8 *)&radial_effect_frames;
     end_angle = 0x200;
     do {
-        effect = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+        effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
         effect_state = ((void *)effect) + 0x20;
         if (effect != NULL) {
             copy_src = render_template;

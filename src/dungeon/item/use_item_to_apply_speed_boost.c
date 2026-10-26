@@ -1,4 +1,5 @@
 #include "shared/actor_property_flags.h"
+#include "shared/dungeon_item_entries.h"
 #include "shared/actor_status_ids.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
@@ -22,7 +23,7 @@ extern u8 D_800E206A[24];
 
 
 /* Update entity state and counters, with special handling for the primary entity. */
-s32 use_item_to_apply_speed_boost(void *entity, s32 event_id, s16 event_param) {
+s32 use_item_to_apply_speed_boost(void *entity, DungeonItemEntry *event_id, s16 event_param) {
     u8 update_count;
 
     if (entity == dungeon_actor_ring_anchor) {

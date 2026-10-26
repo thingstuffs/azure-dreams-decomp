@@ -13,7 +13,7 @@
 #include "shared/entity_height_offsets.h"
 #include "sdk/libc.h"
 #include "dungeon/system.h"
-struct RegistrationNode;
+struct ObjectNodeHeader;
 typedef struct Row_81922998_S_80024198_0 {
     u8 pad_00[0x24];
     union { u8 * p; u32 * p2; } unk_24;   /* accessed as both */
@@ -374,7 +374,7 @@ u16 GetTPage(s32, s32, s32, s32);
 void SetDrawMode(void *, s32, s32, u16, s32);
 s32 project_and_queue_visible_shaded_quad(s32);
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
+s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 s32 rsin(s32);
 s32 rcos(s32);
 s32 advance_sprite_animation_and_textures(void *effect_data);

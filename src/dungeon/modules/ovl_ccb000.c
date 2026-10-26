@@ -105,7 +105,7 @@ void *spawn_block_slot_c(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 spawn_heig
     CL_CCB000_80170A5C_S_80170A5C_4 *result_copy;
 
     result = 0;
-    object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
+    object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != 0) {
         result = (u8 *)object;
         result += 0x20;

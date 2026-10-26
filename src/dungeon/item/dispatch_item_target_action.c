@@ -1,4 +1,6 @@
 #include "shared/entity_action_selectors.h"
+#include "shared/entity.h"
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -6,12 +8,12 @@
 #include "shared/dungeon_status.h"
 
 #include "dungeon/player/item.h"
-extern s32 process_record_and_update_linked_state(void *request, s32 record_data);
-extern s32 clear_slot_and_update_linked_state(void *slot);
+extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *request, s32 record_data);
+extern s32 clear_slot_and_update_linked_state(struct DungeonItemEntry *slot);
 extern s32 display_formatted_context_message(void *context, s32 first_input, s32 second_input);
-extern s32 place_actor_item(void *object_context, void *target);
-extern s32 display_actor_item_status_message(void *actor, void *item, s32 unused_2);
-extern s32 feed_actor_restore_mp(void *state, s32 mode, void *item);
+extern s32 place_actor_item(void *object_context, struct DungeonItemEntry *target);
+extern s32 display_actor_item_status_message(void *actor, struct DungeonItemEntry *item, s32 unused_2);
+extern s32 feed_actor_restore_mp(void *state, s32 mode, struct DungeonItemEntry *item);
 
 typedef struct {
     s16 flags;
@@ -28,7 +30,7 @@ extern DungeonGroup item_category_groups[];
 extern u8 D_800E101C;
 
 /* Dispatch an item action using its category flags and target selector, then decrement the counter. */
-s32 dispatch_item_target_action(void *target, void *item, s16 action_type, s32 action_value) {
+s32 dispatch_item_target_action(void *target, DungeonItemEntry *item, s16 action_type, s32 action_value) {
     s32 item_index;
     s32 category_index;
     DungeonItem *item_entries;
@@ -41,14 +43,14 @@ s32 dispatch_item_target_action(void *target, void *item, s16 action_type, s32 a
         return process_record_and_update_linked_state(item, action_value);
     }
     if (target == (dungeon_actor_ring_anchor)) {
-        *(void **)((u8 *)target + 0x110) = item;
+        ((PlayerRecord *)target)->pending_item_action = item;
         begin_mode_selected_item_action(target, ((s32 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);
         return 0;
     }
     if ((u32)target <= 0x9FFFFFFFU) {
         display_actor_item_status_message(target, item, action_type);
-        category_index = *((u8 *)item + 1);
-        item_index = *((u8 *)item + 0);
+        category_index = item->kind;
+        item_index = item->unk_00;
         item_entries = item_category_groups[category_index].entries;
         item_flags = item_entries[item_index].flags;
         if (!(item_flags & 0x8000)) {

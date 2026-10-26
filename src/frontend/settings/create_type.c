@@ -7,8 +7,6 @@
 #include "engine/scene.h"
 #include "frontend/settings.h"
 
-typedef struct RegistrationNode RegistrationNode;
-
 typedef struct S_7FDD3A2C_0 {
     u8 pad_00[0xC];
     void * unk_0C;

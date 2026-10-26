@@ -29,7 +29,7 @@ typedef struct S_func_81339A5C_2 {
     s8 unk_59;
 } S_func_81339A5C_2;
 
-extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 item_effect_descriptor;
 
 extern void *beldo_actor_nodes;

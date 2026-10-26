@@ -13,7 +13,7 @@ void create_owner_linked_directional_object(u8 *owner_data, u8 *source_position,
     ObjectPosition *position;
     u8 *direction_table;
 
-    object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     object_data = ((u8 *)object) + 0x20;
     if (object != 0) {
         ((S_80D3B0B8_0 *)object_data)->unk_96 = 0x78;

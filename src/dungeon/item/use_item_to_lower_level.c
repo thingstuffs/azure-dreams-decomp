@@ -1,4 +1,5 @@
 #include "shared/entity_action_selectors.h"
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/tile_object.h"
@@ -24,7 +25,7 @@ s32 feed_actor_restore_mp();
 extern u8 D_800E173A[28];
 
 /* Processes an entity's item interaction and consumes the item when finished. */
-s32 use_item_to_lower_level(EntityRec *entity, s32 item, s16 action) {
+s32 use_item_to_lower_level(EntityRec *entity, DungeonItemEntry *item, s16 action) {
     if (entity == ((s32)dungeon_actor_ring_anchor)) {
         entity->unk_110 = item;
         begin_deferred_item_action(entity, &view_reference_entity.x.v, &reference_tile_object.frame_entry, entity);

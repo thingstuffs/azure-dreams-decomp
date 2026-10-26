@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "shared/dungeon_item_entries.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -9,7 +10,8 @@
 #include "dungeon/player/item.h"
 
 extern s32 begin_parameterized_actor_action();
-extern s32 process_record_and_update_linked_state(u8 *, s32);
+struct DungeonItemEntry;
+extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32);
 extern s32 clear_slot_and_update_linked_state();
 extern void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 extern u8 * expand_text_control_codes();
@@ -31,7 +33,7 @@ extern u8 D_800E11AB[];
 extern u8 D_800E11D7[];
 
 /* Applies an item effect to its target and prepares the resulting message. */
-s32 apply_equipped_item_upgrade(u32 target_addr, u8 *item, s16 effect_type, s32 effect_value) {
+s32 apply_equipped_item_upgrade(u32 target_addr, DungeonItemEntry *item, s16 effect_type, s32 effect_value) {
     u8 *actor;
     u8 *text_target;
     register void *text_cursor;
@@ -48,11 +50,11 @@ s32 apply_equipped_item_upgrade(u32 target_addr, u8 *item, s16 effect_type, s32 
         u8 item_flags;
         s32 result;
 
-        *(u8 **)(actor + 0x110) = item;
+        ((PlayerRecord *)actor)->pending_item_action = item;
         begin_mode_selected_item_action(actor, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), actor);
-        item_flags = item[3];
+        item_flags = item->unk_03;
         result = 0;
-        item[3] = item_flags & 0xDF;
+        item->unk_03 = item_flags & 0xDF;
         return result;
     }
 
@@ -69,15 +71,15 @@ s32 apply_equipped_item_upgrade(u32 target_addr, u8 *item, s16 effect_type, s32 
 
     linked_item = *(u8 **)(actor + 0x50);
     if (linked_item != 0) {
-        if (!(item[3] & 0x20)) {
+        if (!(item->unk_03 & 0x20)) {
             u8 item_flags;
             register s32 result;
 
             ((PlayerRecord *)actor)->unk_114 = 0x802020;
             begin_parameterized_actor_action(actor, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), D_800DD158, 0);
-            item_flags = item[3];
+            item_flags = item->unk_03;
             result = 0;
-            item[3] = item_flags | 0x20;
+            item->unk_03 = item_flags | 0x20;
             return result;
         }
 

@@ -47,7 +47,7 @@ void spawn_randomized_timed_objects(TownMapSpawnState *source)
     if (spawn_count >= 0) {
         kind = (u8 *)&D_800BFD14;
         do {
-            new_object = allocate_list_node((s32)((void *)0x202), (struct ObjectNodeHeader * *)(((s32 *)&scene_object_list_anchor.next)));
+            new_object = allocate_list_node((s32)((void *)0x202), &scene_object_list_anchor.next);
             if (new_object != NULL) {
                 object = new_object;
                 callback = &D_800BFFF4;

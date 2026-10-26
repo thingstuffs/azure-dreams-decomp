@@ -1,4 +1,6 @@
 #include "shared/actor_status_flags.h"
+#include "shared/entity.h"
+#include "shared/dungeon_item_entries.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -13,7 +15,7 @@
 extern s32 get_entity_effect_value(void *actor, s32 value);
 extern void clear_slots_of_type(void *actor, s32 value);
 #include "dungeon/player/item.h"
-extern void clear_slot_and_update_linked_state(void *object_data);
+extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *object_data);
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern void clear_byte_and_advance(s8 *byte_ptr);
@@ -64,7 +66,7 @@ typedef struct S_800C2CDC_4 {
 } S_800C2CDC_4;   /* counter_base in apply_holy_beam_tile_item */
 
 /* Creates an object at the entity position, updates its state, and decrements the global count. */
-s32 apply_holy_beam_tile_item(void *actor, u8 *object_data, s16 action_type) {
+s32 apply_holy_beam_tile_item(void *actor, DungeonItemEntry *object_data, s16 action_type) {
     MovingTile *entity;
     s32 object_fields;
     u8 *entries;
@@ -73,7 +75,7 @@ s32 apply_holy_beam_tile_item(void *actor, u8 *object_data, s16 action_type) {
     s16 entry_index;
 
     if (actor == *(u8 **)((u8 *)(&dungeon_actor_ring_anchor))) {
-        ((S_800C2CDC_0 *)actor)->unk_110 = object_data;
+        ((PlayerRecord *)actor)->pending_item_action = object_data;
         begin_mode_selected_item_action(actor, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), actor);
         return 0;
     }
@@ -81,7 +83,7 @@ s32 apply_holy_beam_tile_item(void *actor, u8 *object_data, s16 action_type) {
     entity = ((SpriteLinkPrefixView *)actor)[-1].sprite;
     object = create_central_and_child_effects(entity->tile_x,
                            entity->tile_y,
-                           ((S_800C2CDC_0 *)actor)->unk_88, 7, *object_data);
+                           ((S_800C2CDC_0 *)actor)->unk_88, 7, object_data->unk_00);
     if (object == 0) {
         return 0;
     }

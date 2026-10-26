@@ -2,18 +2,12 @@
 #include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/item_ids.h"
+#include "shared/dungeon_item_entries.h"
+#include "shared/entity.h"
 
-typedef struct {
-    u8 pad00[0x1C];
-    s32 unk1C;
-    u8 pad20[4];
-    u16 unk24;
-    u8 pad26[0x40];
-    u8 unk66;
-} DungeonState;
 
 extern void *get_unused_text_buffer(void);
-extern s32 get_entity_effect_value(DungeonState *entry, s32 effect_id);
+extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern u8 *append_entity_display_text(void *record, u8 *out);
 extern void clear_byte_and_advance(s8 *byte_ptr);
@@ -28,7 +22,7 @@ extern u8 D_800E0D1B[];
 extern u8 D_800E0D36[];
 
 /* Displays the mode-specific message and updates the state meter within its limit. */
-s32 feed_actor_restore_mp(DungeonState *state, s32 mode, u8 *item) {
+s32 feed_actor_restore_mp(ActorRecord *state, s32 mode, DungeonItemEntry *item) {
     void *message;
     s32 meter;
     void *base_message;
@@ -45,14 +39,14 @@ s32 feed_actor_restore_mp(DungeonState *state, s32 mode, u8 *item) {
     }
 
     if ((mode == 3) && (item != 0)) {
-        if ((item[1] == ITEM_KIND_FRUIT) && (item[0] == ITEM_PITA_FRUIT)) {
+        if ((item->kind == ITEM_KIND_FRUIT) && (item->unk_00 == ITEM_PITA_FRUIT)) {
             mode = 2;
-        } else if ((item[1] == 0xC) && (item[0] == ITEM_MEAT)) {
+        } else if ((item->kind == 0xC) && (item->unk_00 == ITEM_MEAT)) {
             mode = 2;
         }
     }
 
-    meter = state->unk24;
+    meter = *(u16 *)&state->mp_fraction;
     old_meter = meter;
     switch (mode) {
     case 0:
@@ -67,7 +61,7 @@ s32 feed_actor_restore_mp(DungeonState *state, s32 mode, u8 *item) {
         break;
     case 2:
         message = expand_text_control_codes(D_800E0D1B, append_entity_display_text(state, message));
-        if ((item != 0) && (item[1] == 0xC) && (item[0] == ITEM_MEAT)) {
+        if ((item != 0) && (item->kind == 0xC) && (item->unk_00 == ITEM_MEAT)) {
             meter += 0xA00;
         } else {
             meter += 0x3200;
@@ -96,12 +90,12 @@ s32 feed_actor_restore_mp(DungeonState *state, s32 mode, u8 *item) {
     if (meter > 0x10000) {
         meter = 0xFFFF;
     }
-    state->unk24 = (u16)meter;
+    *(u16 *)&state->mp_fraction = (u16)meter;
     if (((u8 *)state)[0x25] != 0) {
-        state->unk1C &= ~ACTOR_MP_EMPTY;
+        state->flags1C &= ~ACTOR_MP_EMPTY;
     }
-    if (state->unk66 < ((u8 *)state)[0x25]) {
-        ((u8 *)state)[0x25] = state->unk66;
+    if (state->max_mp < state->mp) {
+        state->mp = state->max_mp;
         ((u8 *)state)[0x24] = 0xFF;
     }
     return mode;

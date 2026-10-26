@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "shared/dungeon_item_entries.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
 #include "shared/entity_action_selectors.h"
@@ -16,13 +17,13 @@ extern u8 D_800E131C[];
 
 extern s32 get_entity_effect_value(void *, s32);
 #include "dungeon/player/item.h"
-extern s32 process_record_and_update_linked_state(s32, s32);
-extern void clear_slot_and_update_linked_state(s32);
+extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32);
+extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
 extern void display_formatted_context_message(void *);
 extern void raise_entity_level(void *, s32);
-extern void place_actor_item(void *, s32);
-extern void display_actor_item_status_message(void *, s32, s16);
-extern s32 feed_actor_restore_mp(void *, s32, s32);
+extern void place_actor_item(void *, struct DungeonItemEntry *);
+extern void display_actor_item_status_message(void *, struct DungeonItemEntry *, s16);
+extern s32 feed_actor_restore_mp(void *, s32, struct DungeonItemEntry *);
 extern void create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 
 typedef struct S_800BF9EC_2_pre {
@@ -47,7 +48,7 @@ typedef struct S_800BF9EC_3 {
 } S_800BF9EC_3;   /* ((S_800BF9EC_2_pre *)node)[-1].unk_00 in use_item_to_level_up_eligible_actors */
 
 /* Applies an action to the target or eligible list nodes and updates action state. */
-s32 use_item_to_level_up_eligible_actors(EntityRec *target, s32 action_id, s16 action_type, s32 action_param)
+s32 use_item_to_level_up_eligible_actors(EntityRec *target, DungeonItemEntry *action_id, s16 action_type, s32 action_param)
 {
     ActorRecord *head;
     void *node;

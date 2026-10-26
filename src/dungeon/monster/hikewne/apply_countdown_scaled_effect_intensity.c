@@ -67,7 +67,7 @@ void create_directional_template_effect(void *unused, MovingPosition *source_pos
     Block16 *dst;
     Block16 *end;
 
-    effect = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
     template_data = sprite_template;
     if (effect != NULL) {
         effect_state = ((void *)effect) + 0x20;

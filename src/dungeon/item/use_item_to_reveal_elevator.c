@@ -1,4 +1,5 @@
 #include "dungeon/level/floor_flags.h"
+#include "shared/dungeon_item_entries.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
@@ -12,15 +13,15 @@
 extern u8 D_800E1224[];
 
 #include "dungeon/player/item.h"
-extern s32 process_record_and_update_linked_state(s32, s32);
-extern void clear_slot_and_update_linked_state(s32);
+extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32);
+extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
 extern void display_formatted_context_message(void *, s32, s16);
-extern void place_actor_item(void *, s32);
-extern void display_actor_item_status_message(void *, s32, s16);
-extern s32 feed_actor_restore_mp(void *, s32, s32);
+extern void place_actor_item(void *, struct DungeonItemEntry *);
+extern void display_actor_item_status_message(void *, struct DungeonItemEntry *, s16);
+extern s32 feed_actor_restore_mp(void *, s32, struct DungeonItemEntry *);
 
 /* Dispatch an action by type and target, updating the shared action state. */
-s32 use_item_to_reveal_elevator(EntityRec *target, s32 action_id, s16 action_type, s32 action_param)
+s32 use_item_to_reveal_elevator(EntityRec *target, DungeonItemEntry *action_id, s16 action_type, s32 action_param)
 {
     if (action_type == 13) {
         return process_record_and_update_linked_state(action_id, action_param);

@@ -64,7 +64,8 @@ typedef struct S_80098CF8_6 {
 
 extern void equip_item_and_update_status();
 extern void change_equipped_item_and_notify(struct S_80098614_0 *actor, u8 *requested_item);
-extern void clear_slot_and_update_linked_state(s32 *slot);
+struct DungeonItemEntry;
+extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *slot);
 extern void * get_unused_text_buffer(void);
 extern void * write_text_byte_and_advance();
 extern u8 * append_typed_formatted_value();

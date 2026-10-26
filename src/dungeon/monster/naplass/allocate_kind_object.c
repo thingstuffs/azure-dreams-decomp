@@ -31,7 +31,7 @@ void *allocate_kind_object(s16 spawn_flags, s16 value_24, s16 value_25, s16 valu
     saved_value_24 = value_24;
     saved_value_0a = value_0a;
     saved_value_25 = value_25;
-    obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         obj->update_callback = func_8015EA3C;

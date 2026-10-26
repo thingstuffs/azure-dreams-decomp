@@ -64,7 +64,7 @@ void spawn_burst_particles_around_origin(void *self, void *origin)
         object_type = D_800BC00C;
         sprite_type = D_800F1654;
         do {
-            object = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
+            object = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (object != 0) {
                 object->update_callback = object_type;
                 register_node(object, project_sprite_chain);
@@ -113,7 +113,7 @@ void spawn_burst_particles_around_origin(void *self, void *origin)
         object_type = D_800BC00C;
         sprite_type = D_800F1654;
         do {
-            object = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
+            object = allocate_list_node(0x312, &scene_object_list_anchor.next);
             motion = ((u8 *)object) + 0x20;
             if (object != 0) {
                 object->update_callback = object_type;

@@ -21,7 +21,7 @@ void *create_an_position_initializes_graphics_state(S_800A027C_5 *config, Moving
     MovingPosition *coords;
     void *object;
 
-    object = allocate_list_node(0x136, ((s32 *)&scene_object_list_anchor.next));
+    object = allocate_list_node(0x136, &scene_object_list_anchor.next);
     if (object == 0) {
         return 0;
     }

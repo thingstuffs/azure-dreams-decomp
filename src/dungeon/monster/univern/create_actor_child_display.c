@@ -110,7 +110,7 @@ void *create_actor_child_display(s32 kind, s32 part_byte_24, s32 part_byte_25, s
 
         do {
 
-            saved_halfword = (s32)allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+            saved_halfword = (s32)allocate_list_node(0x112, &scene_object_list_anchor.next);
             allocated = (void *)saved_halfword;
             ((S_8014C89C_5 *)child_slot)->unk_A4 = allocated;
             if (allocated != 0) {

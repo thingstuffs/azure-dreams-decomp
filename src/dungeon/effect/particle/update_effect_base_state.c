@@ -45,7 +45,7 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
             particles_left = 12;
             sprite_page = secondary_sprite;
             do {
-                spawned = allocate_list_node(0x312, (ObjectNodeHeader **)&scene_object_list_anchor);
+                spawned = allocate_list_node(0x312, &scene_object_list_anchor.next);
                 if (spawned != 0) {
                     particle_data = (u8 *)spawned + 0x20;
                     sprite = spawned->sprite;
@@ -201,7 +201,7 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
 
     case 3:
         if ((((S_81844800_0 *)effect)->unk_52.s & 0x7FFF) == 0) {
-            spawned = allocate_list_node(0x201, (ObjectNodeHeader **)&scene_object_list_anchor);
+            spawned = allocate_list_node(0x201, &scene_object_list_anchor.next);
             if (spawned != 0) {
                 S_81844800_12 *burst_data = (u8 *)spawned + 0x20;
                 spawned->update_callback = update_effect_base_state;
@@ -228,7 +228,7 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
         }
         particles_left = 20;
         do {
-            spawned = allocate_list_node(0x312, (ObjectNodeHeader **)&scene_object_list_anchor);
+            spawned = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (spawned != 0) {
                 particle_data = (u8 *)spawned + 0x20;
                 sprite = spawned->sprite;

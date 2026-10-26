@@ -65,8 +65,8 @@ extern u8 D_800E089C[];
 extern u8 D_800E08AB[];
 extern u8 D_800E08BA[];
 
-typedef struct { u8 unk0; u8 unk1; s8 unk2; u8 unk3; } FuncData;
-extern u8 *append_typed_formatted_value(FuncData *, u8 *);
+struct DungeonItemEntry;
+extern u8 *append_typed_formatted_value(struct DungeonItemEntry *, u8 *);
 
 /* Functions defined in this translation unit. */
 void equip_item_and_update_status(Arg0 *context, Item *item);

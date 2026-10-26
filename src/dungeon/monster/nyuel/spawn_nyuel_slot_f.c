@@ -21,7 +21,7 @@ u8 *spawn_mode_configured_monster_slot_f(s16 flags, s16 tile_x, u16 tile_y, s16 
 
     saved_flags = flags;
     result = 0;
-    allocation = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    allocation = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (allocation != 0) {
         result = ((u8 *)allocation) + 0x20;
         result[0x13] = 14;

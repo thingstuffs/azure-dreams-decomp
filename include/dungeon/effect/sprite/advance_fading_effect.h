@@ -15,7 +15,7 @@ struct SpriteFrameState;
 #include "shared/gpu_packets.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-struct RegistrationNode;
+struct ObjectNodeHeader;
 typedef struct {
     u8 pad00[0x14];
     u16 unk14;
@@ -211,7 +211,7 @@ extern s32 rising_sprite_entries[3];
 extern void advance_sprite_animation_and_textures(void *a0);
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
+extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 extern s32 check_left_tile_and_center_height(s32, s32, s16);
 extern u16 get_surface_height_at_record(void *);
 extern u8 countdown_sprite_entries[];

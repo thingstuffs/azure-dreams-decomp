@@ -53,7 +53,7 @@ void *create_golem_actor(s16 spawn_flags, s32 tile_x, s32 tile_y, s32 spawn_heig
     saved_tile_x = tile_x;
     saved_height = spawn_height;
     saved_tile_y = tile_y;
-    object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
+    object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     flags_copy = spawn_flags;
     if (object != 0) {
         result = (u8 *)object + 0x20;

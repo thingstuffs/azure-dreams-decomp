@@ -105,7 +105,7 @@ void *allocate_kind_object_with_children(s32 kind, s32 part_x, s32 part_y, s32 c
         ((S_801588DC_4 *)stable_object)->unk_98 |= 0x4000;
 
         do {
-            saved_copy_value = (s32)allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+            saved_copy_value = (s32)allocate_list_node(0x112, &scene_object_list_anchor.next);
             allocated = (void *)saved_copy_value;
             ((S_801588DC_5 *)outer)->unk_A4 = allocated;
             if (allocated != 0) {

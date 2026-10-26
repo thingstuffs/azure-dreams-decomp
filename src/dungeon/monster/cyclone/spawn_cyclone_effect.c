@@ -17,7 +17,7 @@ typedef struct {
 } Vec3u16;
 
 extern s32 resolve_record_orientation_or_fallback();
-extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern void select_sprite_entry();
 
 extern s32 cyclone_spawn_update_address;

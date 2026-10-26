@@ -56,7 +56,7 @@ void *create_entity_and_initialize_placement(s16 entity_id, s32 tile_x, s16 tile
     saved_tile_x = tile_x;
     saved_height = initial_height;
     saved_tile_y = tile_y;
-    entity = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
+    entity = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (entity != NULL) {
         entity_state = ((void *)entity) + 0x20;
         beldo_active_entity = entity;

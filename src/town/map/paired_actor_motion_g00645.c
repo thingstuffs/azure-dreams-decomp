@@ -345,7 +345,7 @@ void initialize_object_and_dispatch_by_state(Func800BFE50Object *object, s32 *pa
 
     *(void **)((u8 *)object - 0x10) = D_800BCE78;
     object->field50 = 0;
-    register_node((struct RegistrationNode *)((u8 *)object - 0x20), project_sprite_chain);
+    register_node((struct ObjectNodeHeader *)((u8 *)object - 0x20), project_sprite_chain);
 
     object->fieldA0 = params[0];
     object->fieldA4 = params[1];
@@ -503,7 +503,7 @@ s32 event_tori_in(void *source) {
 
     source_data = source;
     child_slot = NULL;
-    object = allocate_list_node(0x202, ((s32 *)&scene_object_list_anchor.next));
+    object = allocate_list_node(0x202, &scene_object_list_anchor.next);
     if (object != NULL) {
         child_slot = ((void *)object) + 0x20;
         object->update_callback = randomize_paired_object_motion;
@@ -515,7 +515,7 @@ s32 event_tori_in(void *source) {
     x_step = 0x300000;
     child_slot = child_slot + 4;
     do {
-        object = allocate_list_node(0x312, ((s32 *)&scene_object_list_anchor.next));
+        object = allocate_list_node(0x312, &scene_object_list_anchor.next);
         if (object != NULL) {
             s32 motion_base = 0;
             s32 color;
@@ -525,7 +525,7 @@ s32 event_tori_in(void *source) {
             s32 y_offset;
             s32 z_offset;
 
-            register_node((struct RegistrationNode *)object, project_sprite_chain);
+            register_node(object, project_sprite_chain);
             motion_base = 0xFFF88000;
             color = 0x800000;
             transform = object->position;

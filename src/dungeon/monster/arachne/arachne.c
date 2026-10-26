@@ -37,7 +37,7 @@ void *spawn_animated_monster(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_
     saved_tile_x = tile_x;
     saved_height = spawn_height;
     saved_tile_y = tile_y;
-    obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
         work = (R12_8017087C_Work *)((u8 *)obj + 0x20);
         ((R12_8017087C_S_8017087C_0 *)obj)->unk_10 = ((u8 *)create_directional_template_effect);
@@ -1085,7 +1085,7 @@ void advance_action_and_spawn_effect(void *action, void *motion, void *entity, v
                 effect_offset[1] = 0;
                 effect_offset[0] = 0;
             }
-            effect = allocate_list_node(0x12, ((u8 *)(&scene_object_list_anchor)));
+            effect = allocate_list_node(0x12, &scene_object_list_anchor.next);
             if (effect != NULL) {
                 register_node(effect, ((u8 *)build_linked_curved_wireframe_grid));
                 ((R12_80172654_S_80172654_5 *)effect)->unk_10 = ((u8 *)dim_effect_after_delay);

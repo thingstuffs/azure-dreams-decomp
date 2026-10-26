@@ -1027,7 +1027,7 @@ s32 draw_linked_object_chain(void *payload, void *position, void *render)
 
    /* primitive in set_record_pair_to_one */
 
-struct RegistrationNode;
+struct ObjectNodeHeader;
 extern s32 rand();
 
 /* Spawn a textured particle with randomized motion at the given position. */

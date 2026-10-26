@@ -37,7 +37,7 @@ typedef struct S_80B85054_4 {
     s16 unk_A4;
 } S_80B85054_4;   /* actor in func_80B85054 */
 
-extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern void set_or_clear_actor_status_slot();
 extern u8 D_80158A30[];

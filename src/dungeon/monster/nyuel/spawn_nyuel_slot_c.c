@@ -26,7 +26,7 @@ void *spawn_mode_configured_monster_slot_c(s16 flags, s16 tile_x, s32 variant, s
     saved_height = spawn_height;
     saved_tile_y = variant;
     result = 0;
-    created = allocate_list_node(0x112, &scene_object_list_anchor);
+    created = allocate_list_node(0x112, &scene_object_list_anchor.next);
     original_flags = saved_flags;
     if (created != 0) {
         result = (u8 *)created + 0x20;

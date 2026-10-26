@@ -349,7 +349,7 @@ void create_actor_action_effect(void *source_object, void *source_pos, void *spr
     if ((actor->target) == 0 &&actor->unk_72 >= 0) {
         return;
     }
-    effect = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (effect == 0) {
         return;
     }
@@ -582,7 +582,7 @@ void create_tracked_attachment_sprite(void *attachment, T_80171BEC_S_80171BEC_3 
     void *owner;
     ObjectPosition *position;
 
-    object = allocate_list_node(0x212, ((s32 *)&scene_object_list_anchor.next));
+    object = allocate_list_node(0x212, &scene_object_list_anchor.next);
     if (object != 0) {
         ((T_80171BEC_S_80171BEC_0 *)object)->unk_40 = attachment;
         object->update_callback = &update_tracked_attachment_sprite;

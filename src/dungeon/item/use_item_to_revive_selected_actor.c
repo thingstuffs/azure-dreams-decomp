@@ -1,4 +1,5 @@
 #include "shared/entity_action_selectors.h"
+#include "shared/dungeon_item_entries.h"
 #include "shared/item_ids.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -11,7 +12,7 @@
 
 void apply_entity_effects(void *);             /* extern */
 s32 get_entity_effect_value();            /* extern */
-s32 process_record_and_update_linked_state(s32 request, void *record_data);           /* extern */
+s32 process_record_and_update_linked_state(struct DungeonItemEntry *request, void *record_data);           /* extern */
 void clear_slot_and_update_linked_state();                         /* extern */
 void display_formatted_context_message(void *context);                   /* extern */
 void adjust_source_value_and_finalize(void *context, const void *source);           /* extern */
@@ -38,7 +39,7 @@ typedef struct S_800C22EC_3 {
 } S_800C22EC_3;
 
 /* Processes an entity action and updates the selected target or reports failure. */
-s32 use_item_to_revive_selected_actor(EntityRec *entity, s32 action, s16 action_type, void *context) {
+s32 use_item_to_revive_selected_actor(EntityRec *entity, DungeonItemEntry *action, s16 action_type, void *context) {
     s32 target_index;
     s32 flags_mask;
     s32 target_updated;

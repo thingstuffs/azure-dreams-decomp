@@ -1,4 +1,6 @@
 #include "shared/actor_property_flags.h"
+#include "shared/entity.h"
+#include "shared/dungeon_item_entries.h"
 #include "shared/actor_status_ids.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
@@ -12,26 +14,26 @@ typedef struct DungeonObject {
     u8 unk_13;
     u32 flags_14;
     u8 pad_18[0xf8];
-    s32 unk_110;
+    DungeonItemEntry *unk_110;
 } DungeonObject;
 
 extern u8 D_800E15BB[];
 extern u8 D_800E15E5[];
 
 #include "dungeon/player/item.h"
-extern void clear_slot_and_update_linked_state(s32);
+extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern void *clear_byte_and_advance(s8 *byte_ptr);
 extern u8 *append_entity_display_text(void *record, u8 *out);
 extern s32 set_or_clear_actor_status_slot(void *, s32, s32);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
-extern s32 place_actor_item(void *, s32);
-extern s32 display_item_status_message(void *, s32, s16);
-extern s32 feed_actor_restore_mp(void *, s32, s32);
+extern s32 place_actor_item(void *, struct DungeonItemEntry *);
+extern s32 display_item_status_message(void *, struct DungeonItemEntry *, s16);
+extern s32 feed_actor_restore_mp(void *, s32, struct DungeonItemEntry *);
 
 /* Processes an object action, dispatching the player case and reporting failure. */
-s32 use_item_to_enrage_actor(DungeonObject *object, s32 action, s16 action_type) {
+s32 use_item_to_enrage_actor(DungeonObject *object, DungeonItemEntry *action, s16 action_type) {
     void *message;
     void *message_end;
 

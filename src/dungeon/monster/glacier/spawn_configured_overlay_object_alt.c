@@ -54,7 +54,7 @@ void *spawn_configured_overlay_object_alt(s16 flags, s16 kind_id, s16 variant, s
     S_80170E74_4 *result_copy;
 
     result = 0;
-    object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
+    object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != 0) {
         result = object;
         result = (S_80170E74_1 *)((u8 *)result + 0x20);

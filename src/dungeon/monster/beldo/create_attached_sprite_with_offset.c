@@ -62,7 +62,7 @@ void create_attached_sprite_with_offset(void *owner_data, MovingPosition *base_p
     void *copy_src;
 
     saved_offset_id = offset_id;
-    object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != NULL) {
         object_data = ((void *)object) + 0x20;
         object->update_callback = beldo_object_callback;

@@ -8,7 +8,7 @@ struct ObjectNodeHeader;
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
-struct RegistrationNode;
+struct ObjectNodeHeader;
 
 struct Rec_D_80081FDC;
 
@@ -25,7 +25,7 @@ extern s8 town_map_link_slots[11];
 void unlink_node_if_registered(void *block_data);
 void copy_window_params(struct Container *, struct Source *);
 void select_record_entry_and_value(void *, void *, s16);
-s32 register_node(struct RegistrationNode *entry, void *registration_id);
+s32 register_node(struct ObjectNodeHeader *entry, void *registration_id);
 extern u8 town_map_tag;
 extern u8 D_80037714;
 extern u8 D_800794AC;

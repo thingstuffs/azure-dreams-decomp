@@ -70,7 +70,7 @@ typedef struct T_801741A0_S_801741A0_0 {
 
 #include "records/Rec_func_80173CFC_arg1.h"
 #include "shared/dungeon_delay_views.h"
-struct RegistrationNode;
+struct ObjectNodeHeader;
 
 typedef struct T_80174374_S_80174374_0 {
     u8 unk_00;
@@ -91,7 +91,7 @@ typedef void (*unicorn_orbit_update_fn)(void *effect, ObjectPosition *position, 
 extern s32 advance_sprite_animation_and_textures();
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
+extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 extern s32 shared_sprite_entries;
 extern s32 directional_sprite_entries;
 void advance_record_state_and_set_completion_flags(void *record_data, DelayMotionZ *state, s32 update_arg);

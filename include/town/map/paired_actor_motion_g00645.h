@@ -172,9 +172,9 @@ extern s32 rand(void);
 extern void advance_sprite_animation_and_textures(void *);
 struct Dst;
 struct Elem;
-struct RegistrationNode;
+struct ObjectNodeHeader;
 extern void select_record_entry_and_value(void *,void *, s16);
-extern s32 register_node(struct RegistrationNode *, void *);
+extern s32 register_node(struct ObjectNodeHeader *, void *);
 extern void *allocate_list_node(s32, void *);
 extern s32 D_800E9E14[];
 /* Functions defined in this translation unit. */

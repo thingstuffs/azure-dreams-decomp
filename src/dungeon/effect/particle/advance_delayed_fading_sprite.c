@@ -44,7 +44,7 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
         particles_left = 16;
         particle_texture = secondary_sprite;
         do {
-            particle = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
+            particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (particle != 0) {
                 particle_data = (DelayParticle *)((u8 *)particle + 32);
                 child_data = particle->sprite;
@@ -156,7 +156,7 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
     case 3:
         timer = self->timer.s;
         if (timer % 3 == 0) {
-            particle = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
+            particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (particle != 0) {
                 particle->update_callback = brighten_accelerate_and_fade_effect;
                 register_node(particle, project_sprite_chain);
@@ -341,7 +341,7 @@ void brighten_accelerate_and_fade_effect(void *effect_arg, DelayMotion *motion, 
             particle_data = advance_delayed_fading_sprite;
             ((DelayParticle *)effect_arg)->phase.s = (s16) ((u16) ((DelayParticle *)effect_arg)->phase.s + 1);
             do {
-                particle = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
+                particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
                 if (particle != NULL) {
                     ((DelayObject *)particle)->update_callback = particle_data;
                     particle_sprite = ((DelayObject *)particle)->sprite;

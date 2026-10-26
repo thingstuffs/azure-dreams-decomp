@@ -14,7 +14,7 @@ struct Main;
 struct S_52CE0;
 struct S_52CE0_Ent;
 struct S_52CE0_Pos;
-struct S_80044AAC;
+struct ObjectNodeHeader;
 struct S_8004EC20;
 struct S_8004F884_arg;
 struct S_800504B4;
@@ -74,7 +74,7 @@ void init_color_fade_effect(struct S_800520B4 *object, void *context);
 void init_fade_in_out_effect(struct S_80051E94 *object, s32 sub_value);
 
 /* link_typed_list_node.c */
-void link_typed_list_node(struct S_80044AAC *anchor, struct S_80044AAC *node);
+void link_typed_list_node(struct ObjectNodeHeader *anchor, struct ObjectNodeHeader *node);
 
 /* pad_both_key_states_clear.c */
 void *dispatch_after_controller_release(void *data);

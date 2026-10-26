@@ -134,7 +134,7 @@ void spawn_directional_particles_and_reset_actor(void *state, ObjectPosition *so
                 for (; particle_index < 5; particle_index++) {
                     ObjectNodeHeader *particle;
 
-                    particle = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+                    particle = allocate_list_node(0x112, &scene_object_list_anchor.next);
                     if (particle == 0)
                         continue;
                     {

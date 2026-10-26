@@ -11,7 +11,7 @@
 
 extern s32 actor_fade_draw_address;
 
-extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern void unlink_node();
 extern void retire_tracked_effect_by_id();
 

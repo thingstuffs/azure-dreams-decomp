@@ -1,19 +1,10 @@
 #include "common.h"
 #include "shared/actor_status.h"
 
-#include "common.h"
-
-typedef struct {
-    u8 pad0[0x14];
-    s32 field_0x14;
-    u8 pad1[(0x28 - 0x14) - 4];
-    u8 field_0x28;
-    u8 pad2[(0x2C - 0x28) - 1];
-    ActorStatusSlot effects[4];
-} S_80042900;
+#include "shared/entity.h"
 
 /* Returns an effect value, 0x100 for a zero-valued match, or a type-specific fallback. */
-s32 get_entity_effect_value(S_80042900 *entry, s32 effect_id)
+s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id)
 {
     s32 effect_type = effect_id;
     s16 saved_id = effect_id;
@@ -23,8 +14,8 @@ s32 get_entity_effect_value(S_80042900 *entry, s32 effect_id)
     effect_type >>= 24;
     if (effect_type != 0) {
         for (effect_index = 3; effect_index >= 0; effect_index--) {
-            if (entry->effects[effect_index].type == effect_type) {
-                s32 effect_value = entry->effects[effect_index].value;
+            if (entry->status[effect_index].type == effect_type) {
+                s32 effect_value = entry->status[effect_index].value;
 
                 if (effect_value == 0) {
                     return 0x100;
@@ -40,14 +31,14 @@ s32 get_entity_effect_value(S_80042900 *entry, s32 effect_id)
         result = (u32)saved_id << 24;
         fallback_type = result >> 24;
         if (fallback_type == 0xE) {
-            return *(u8 *)&entry->field_0x28 < 1;
+            return entry->hp < 1;
         }
         result = 0xD;
         if (fallback_type != result) {
             result = 0;
         } else {
             result = 0;
-            fallback_type = *((volatile s32 *)&entry->field_0x14);
+            fallback_type = *((volatile s32 *)&entry->flags14);
         }
         return result;
     }

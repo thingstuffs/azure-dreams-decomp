@@ -112,13 +112,13 @@ s32 initialize_snowball_minigame(void)
     func_8003E188(0x3D, root_part);
     func_8003E188(0x3E, root_part);
 
-    object = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
+    object = allocate_list_node(1, &scene_object_list_anchor.next);
     if (object != 0) {
         root_part = &object->part;
         object->callback = count_entries_matching_search_path;
     }
 
-    object = allocate_list_node(0x136, ((u8 *)(&scene_object_list_anchor)));
+    object = allocate_list_node(0x136, &scene_object_list_anchor.next);
     root_part->child = object;
     if (object != 0) {
         object->callback = update_snowball_minigame_actor;

@@ -1,4 +1,5 @@
 #include "shared/actor_property_flags.h"
+#include "shared/dungeon_item_entries.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -26,9 +27,9 @@ typedef struct S_800BDA44_0_pre {
 
 
 /* Apply the item effect to the target and consume the item on completion. */
-s32 use_item_to_restore_attack(void *target, s32 item, s16 use_type) {
+s32 use_item_to_restore_attack(void *target, DungeonItemEntry *item, s16 use_type) {
     if (target == ((s32)dungeon_actor_ring_anchor)) {
-        ((EntityRec *)target)->unk_110 = item;
+        ((PlayerRecord *)target)->pending_item_action = item;
         begin_deferred_item_action(target, &view_reference_entity.x.v, &reference_tile_object.frame_entry, target);
         return 0;
     }

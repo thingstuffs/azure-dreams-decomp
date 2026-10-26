@@ -24,7 +24,7 @@ void *create_mode_configured_actor_object(s16 kind_flags, s16 byte_24, s16 byte_
     saved_byte_24 = byte_24;
     saved_value_0a = value_0a;
     saved_byte_25 = byte_25;
-    obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         obj->update_callback = D_8016AA28;

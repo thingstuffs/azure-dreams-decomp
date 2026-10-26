@@ -243,8 +243,8 @@ extern s32 rand(void);
 extern int abs(int);
 void *allocate_list_node();
 void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-s32 register_node(struct RegistrationNode *entry, void *registration_id);
-s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
+s32 register_node(struct ObjectNodeHeader *entry, void *registration_id);
+s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 s32 set_or_clear_actor_status_slot();
 void select_indirect_table_entry(struct S_80047738 *state, s16 table_index, s16 entry_index);
@@ -280,7 +280,7 @@ s32 try_claim_dungeon_action_slot();
 u32 check_entity_interaction_compatibility();
 s32 apply_camera_offset_and_select_target();
 #include "dungeon/player/object/action_state.h"
-struct RegistrationNode;
+struct ObjectNodeHeader;
 struct S_80047738;
 s32 relink_entity_and_clear_high_flag();
 void advance_status_timers();

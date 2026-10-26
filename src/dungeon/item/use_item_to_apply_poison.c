@@ -1,4 +1,6 @@
 #include "shared/actor_status_ids.h"
+#include "shared/entity.h"
+#include "shared/dungeon_item_entries.h"
 #include "shared/entity_action_selectors.h"
 #include "dungeon/item.h"
 #include "common.h"
@@ -22,12 +24,12 @@ void clear_slot_and_update_linked_state();                         /* extern */
 void adjust_source_value_and_finalize(void *context, const void *source);           /* extern */
 s32 set_or_clear_actor_status_slot();        /* extern */
 void place_actor_item();                 /* extern */
-void display_item_status_message(void *entity, s32 item, s16 action_type);   /* extern */
+void display_item_status_message(void *entity, struct DungeonItemEntry *item, s16 action_type);   /* extern */
 s32 feed_actor_restore_mp();            /* extern */
 extern u8 D_800E1729[17];
 
 /* Handles an item action for an entity, including its effect and item cleanup. */
-s32 use_item_to_apply_poison(ActorRecord *entity, s32 item, s16 action_type) {
+s32 use_item_to_apply_poison(ActorRecord *entity, DungeonItemEntry *item, s16 action_type) {
     SpriteFrameState *tile;
     ObjectNodeHeader *node;
 

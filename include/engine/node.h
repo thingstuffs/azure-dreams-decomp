@@ -6,12 +6,10 @@
 #include "shared/object_node.h"
 #include "engine/node/allocation.h"
 
-struct RegistrationNode;
 struct S_8003FF2C;
 struct S_8003FFF0;
 struct S_80040060;
 struct S_800511B4_entity;
-struct S_800833E0;
 
 /* create_linked_zukan_task.c */
 void *create_linked_zukan_task(struct S_800511B4_entity *related_entity);
@@ -23,8 +21,8 @@ void insert_active_node_after(struct S_80040060 *anchor, struct S_80040060 *node
 void integrate_active_node_vectors(void);
 
 /* register_node.c: callback addresses are opaque keys until draw dispatch. */
-s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
-s32 register_node(struct RegistrationNode *entry, void *registration_id);
+s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
+s32 register_node(struct ObjectNodeHeader *entry, void *registration_id);
 
 /* register_node_if_unregistered.c */
 void func_80033CD8(void *block_data, void *registration_id);
@@ -43,8 +41,8 @@ void table_set_bit_hex_8000_in_node_global_flags_node_exists(struct ObjectNodeHe
 void unlink_active_node(struct S_8003FFF0 *node);
 
 /* unlink_node.c */
-void func_80044A50(struct S_800833E0 *node);
-void unlink_node(struct S_800833E0 *node);
+void func_80044A50(struct ObjectNodeHeader *node);
+void unlink_node(struct ObjectNodeHeader *node);
 
 /* unlink_node_if_registered.c */
 void func_80033D08(void *block_data);

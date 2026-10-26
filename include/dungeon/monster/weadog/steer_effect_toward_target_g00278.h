@@ -13,7 +13,7 @@
 #include "shared/position_views.h"
 #include "shared/object_node.h"
 #include "sdk/libc.h"
-struct RegistrationNode;
+struct ObjectNodeHeader;
 
 #ifndef NULL
 #define NULL 0
@@ -86,7 +86,7 @@ typedef struct S_80171498_3 {
 /* ((S_80171498_1 *)arg0)->unk_08 in create_random_color_offset_effect */
 void *allocate_list_node(s32 flags, ObjectNodeHeader **list_head);
 s32 resolve_record_orientation_or_fallback();
-s32 register_node(struct RegistrationNode *entry, void *registration_id);
+s32 register_node(struct ObjectNodeHeader *entry, void *registration_id);
 extern u8 D_80170ED8[];
 extern u8 D_801712C4[];
 

@@ -40,7 +40,7 @@ void *spawn_clown_actor(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
     held_a = attr_a;
     held_c = attr_c;
     held_b = attr_b;
-    created = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    created = allocate_list_node(0x112, &scene_object_list_anchor.next);
     flags_copy = spawn_flags;
     if (created != 0) {
 

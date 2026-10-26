@@ -5,7 +5,7 @@
 #include "sdk/libc.h"
 #include "slus.h"
 
-extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 extern u8 D_80025098[9];
 extern u8 random_variant_sprite_entries[9];

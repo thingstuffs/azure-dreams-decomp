@@ -9,7 +9,6 @@
 
 typedef struct S_80041E28_Dst S_80041E28_Dst;
 typedef struct S_80041E28_Src S_80041E28_Src;
-typedef struct CallbackObject CallbackObject;
 
 struct S_800E3E48 {
     u8 pad00[0x14];
@@ -33,7 +32,7 @@ extern u8 restore_actor_script[];
 extern void restore_actor_stats_from_snapshot(S_80041E28_Dst *dst, S_80041E28_Src *src);
 extern void apply_actor_template_and_class(void *, s32, void *);
 extern void call_script(s32 value);
-extern void replay_actor_status_slots(CallbackObject *object);
+extern void replay_actor_status_slots(ActorRecord *object);
 extern void func_80042640(void *obj, s16 monsterId);
 extern s32 get_entity_class();
 

@@ -1,4 +1,5 @@
 #include "shared/entity_action_selectors.h"
+#include "shared/dungeon_item_entries.h"
 #include "shared/item_ids.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -13,17 +14,17 @@ extern u8 D_800E14EB[];
 extern u8 D_800E1514[];
 
 #include "dungeon/player/item.h"
-extern s32 process_record_and_update_linked_state(s32, s32);
-extern void clear_slot_and_update_linked_state(s32);
+extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32);
+extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern void clear_byte_and_advance(s8 *byte_ptr);
 extern u8 * copy_selected_text_without_terminator(void *, u8 *);
 extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern void place_actor_item(void *, s32);
-extern void display_actor_item_status_message(void *, s32, s16);
-extern s32 feed_actor_restore_mp(void *, s32, s32);
+extern void place_actor_item(void *, struct DungeonItemEntry *);
+extern void display_actor_item_status_message(void *, struct DungeonItemEntry *, s16);
+extern s32 feed_actor_restore_mp(void *, s32, struct DungeonItemEntry *);
 
 
 typedef struct S_800C1B1C_1 {
@@ -38,7 +39,7 @@ typedef struct S_800C1B1C_2 {
 } S_800C1B1C_2;   /* ((S_800C1B1C_1 *)base)->unk_04 in use_item_to_increase_ball_charges */
 
 /* Apply a target action or update the current item and display its result message. */
-s32 use_item_to_increase_ball_charges(EntityRec *target, s32 action, s16 action_type, s32 action_arg)
+s32 use_item_to_increase_ball_charges(EntityRec *target, DungeonItemEntry *action, s16 action_type, s32 action_arg)
 {
     s32 *item_state;
     void *message;

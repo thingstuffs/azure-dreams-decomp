@@ -30,7 +30,7 @@ void *allocate_object_with_initial_state(EffectInitialState *source_data, s32 in
     ObjectPosition *object_data;
     ObjectNodeHeader *result;
 
-    object = allocate_list_node(0x136, ((u8 *)(&scene_object_list_anchor)));
+    object = allocate_list_node(0x136, &scene_object_list_anchor.next);
     if (object == 0) {
         return 0;
     }

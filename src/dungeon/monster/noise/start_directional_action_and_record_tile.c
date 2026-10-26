@@ -83,7 +83,7 @@ void advance_timed_actor_visual_effect(void *effect_state, ObjectPosition *posit
         }
         count = 0;
         do {
-            object_or_height = allocate_list_node(0x112, &scene_object_list_anchor);
+            object_or_height = allocate_list_node(0x112, &scene_object_list_anchor.next);
             effect_body = (u8 *)((void *)object_or_height);
             effect_body += 0x20;
             if (((void *)object_or_height) == 0) {

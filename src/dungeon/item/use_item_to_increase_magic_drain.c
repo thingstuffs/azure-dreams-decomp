@@ -1,4 +1,6 @@
 #include "shared/actor_property_flags.h"
+#include "shared/entity.h"
+#include "shared/dungeon_item_entries.h"
 #include "shared/actor_status_ids.h"
 #include "dungeon/actor/status.h"
 
@@ -11,25 +13,25 @@ struct ObjectNodeHeader;
 #include "shared/dungeon_status.h"
 
 #include "dungeon/player/item.h"
-extern void clear_slot_and_update_linked_state(s32);
+extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
 extern void display_formatted_context_message(void *);
 extern void adjust_source_value_and_finalize(void *context, const void *source);
-extern void place_actor_item(void *, s32);
-extern void display_item_status_message(void *, s32, s16);
+extern void place_actor_item(void *, struct DungeonItemEntry *);
+extern void display_item_status_message(void *, struct DungeonItemEntry *, s16);
 extern s32 generate_random_value(void);
-extern s32 feed_actor_restore_mp(void *, s32, s32);
+extern s32 feed_actor_restore_mp(void *, s32, struct DungeonItemEntry *);
 extern void create_colored_effect_with_event(struct ObjectNodeHeader *source, s32 color, unsigned short event_id);
 
 extern u8 D_800E10C0[];
 extern u8 D_800E10F2[];
 
 /* Applies an item effect with randomized duration and handles item consumption. */
-s32 use_item_to_increase_magic_drain(void *target, s32 item, s16 message_kind)
+s32 use_item_to_increase_magic_drain(void *target, DungeonItemEntry *item, s16 message_kind)
 {
     s32 random_value;
 
     if (target == dungeon_actor_ring_anchor) {
-        *(s32 *)((u8 *)target + 0x110) = item;
+        ((PlayerRecord *)target)->pending_item_action = item;
         begin_deferred_item_action(target, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);
         return 0;
     }

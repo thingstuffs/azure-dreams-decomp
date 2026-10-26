@@ -39,19 +39,8 @@ struct S_8003E2D8;
 
 typedef struct S_8003E2D8 S_8003E2D8;
 
-typedef s32 (*Callback)(void *, s32, s32);
-
-typedef struct Entry {
-    u8 pad0[8];
-    s32 value1;
-    s32 value2;
-    s32 unk10;
-    s32 active;
-    s32 saved;
-    u16 unk1C;
-    u16 flags;
-    u8 data[1];
-} Entry;
+/* Draw callbacks receive a registered node's body (after its 0x20-byte header), position and sprite slots. */
+typedef s32 (*Callback)(void *, struct ObjectPosition *, struct SpriteFrameState *);
 
 extern s32 D_800814A0;
 extern u8 node_update_mode;
@@ -69,8 +58,6 @@ s32 SetDrawArea(void *, s32);
 s32 func_80067EF4(void *, s32, s32);
 s32 SetDrawMode(void *, s32, s32, s32, s32);
 extern s32 is_frame_packet_arena_overflowed(s32);
-extern Callback registered_draw_callbacks[0x20];
-extern Entry *registered_draw_objects[0x20];
 extern Callback D_800DCF80[];
 extern u8 D_800E0000[];
 
@@ -200,7 +187,7 @@ void queue_framebuffer_strip_quads(void) {
 /* Dispatch eligible entry_m callbacks according to the current mode. */
 void dispatch_object_renderers(void)
 {
-    Entry *entry_m;
+    ObjectNodeHeader *entry_m;
     Callback callback;
     if (dungeon_floor_flags & 0x02000000) {
         Callback *callback_slot;
@@ -208,9 +195,9 @@ void dispatch_object_renderers(void)
         register Callback *special_start;
         Callback *sentinel_scan;
 
-        register Entry **entry_slot;
+        register ObjectNodeHeader **entry_slot;
 
-        callback_base = registered_draw_callbacks;
+        callback_base = (Callback *)registered_draw_callbacks;
         special_start = D_800DCF80 + 9;
         callback_slot = callback_base;
         entry_slot = registered_draw_objects;
@@ -226,7 +213,7 @@ void dispatch_object_renderers(void)
                         special_scan = special_start;
 first_scan:
                         if (*special_scan == callback) {
-                            callback(entry_m->data, entry_m->value1, entry_m->value2);
+                            callback(entry_m + 1, entry_m->position, entry_m->sprite);
                         } else if (*sentinel_scan != 0) {
                             sentinel_scan++;
                             special_scan++;
@@ -247,7 +234,7 @@ first_scan:
         s32 i;
         Callback *special_scan;
 
-        s32 saved;
+        ObjectNodeHeader *saved;
 
         for (i = 0; i < 0x20; i++) {
             Callback *special_start = D_800DCF80;
@@ -259,17 +246,17 @@ first_scan:
                     if (!(entry_m->flags & 0x800)) {
                         special_scan = special_start + 1;
                         if (*special_start == callback) {
-                            entry_m = ((Entry *)&scene_object_list_anchor);
-                            if (entry_m->active != 0) {
-                                saved = entry_m->saved;
-                                entry_m->saved = 0;
-                                callback(entry_m->data, entry_m->value1, entry_m->value2);
-                                entry_m->saved = saved;
+                            entry_m = &scene_object_list_anchor;
+                            if (entry_m->draw_prev != 0) {
+                                saved = entry_m->chain_next;
+                                entry_m->chain_next = 0;
+                                callback(entry_m + 1, entry_m->position, entry_m->sprite);
+                                entry_m->chain_next = saved;
                             }
                         } else {
                             for (;;) {
                                 if (*special_scan == callback) {
-                                    callback(entry_m->data, entry_m->value1, entry_m->value2);
+                                    callback(entry_m + 1, entry_m->position, entry_m->sprite);
                                     break;
                                 }
                                 if (*special_scan == 0) {
@@ -290,21 +277,21 @@ first_scan:
     {
         Callback *callback_slot;
 
-        register Entry **entry_slot;
+        register ObjectNodeHeader **entry_slot;
         s32 slot_index;
         u8 *render_page;
         s32 stop_dispatch;
 
         slot_index = 0;
         callback_slot = (Callback *)registered_draw_callbacks;
-        entry_slot = (Entry **)registered_draw_objects;
+        entry_slot = registered_draw_objects;
 loop_third:
         callback = *callback_slot;
         if (callback != 0) {
             entry_m = *entry_slot;
             if (entry_m != 0) {
                 if (!(entry_m->flags & 0x800)) {
-                    callback(entry_m->data, entry_m->value1, entry_m->value2);
+                    callback(entry_m + 1, entry_m->position, entry_m->sprite);
                     stop_dispatch = is_frame_packet_arena_overflowed(
                         *(s32 *)((u8 *)g_game_work.draw_buffer + 0x8D0));
                     if (stop_dispatch != 0) {

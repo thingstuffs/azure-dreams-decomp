@@ -1,26 +1,20 @@
 #include "shared/entity_action_selectors.h"
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
+#include "shared/entity.h"
 
 extern u8 D_800E1035[];
 
-extern void display_actor_item_status_message(void *actor, s32 item);
-typedef struct {
-    u8 pad00[0x1C];
-    s32 unk1C;
-    u8 pad20[4];
-    u16 unk24;
-    u8 pad26[0x40];
-    u8 unk66;
-} DungeonState;
+extern void display_actor_item_status_message(void *actor, struct DungeonItemEntry *item);
 
-extern s32 feed_actor_restore_mp(DungeonState *state, s32 mode, u8 *item);
-extern void place_actor_item(void *object_context, s32 target);
-extern void clear_slot_and_update_linked_state(s32 slot);
+extern s32 feed_actor_restore_mp(ActorRecord *state, s32 mode, struct DungeonItemEntry *item);
+extern void place_actor_item(void *object_context, struct DungeonItemEntry *target);
+extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *slot);
 extern void display_formatted_context_message(void *context);
 
 /* Handle an item against a target using its type flags, decrementing the counter on fallback. */
-s32 feed_egg_to_monster(void *target, s32 item) {
+s32 feed_egg_to_monster(void *target, DungeonItemEntry *item) {
     u32 type_flags;
 
     if ((u32) target <= 0x9FFFFFFFU) {

@@ -15,7 +15,7 @@ void *create_and_initializes_entity_center_specified_tile(s16 entity_id, s16 til
     ActorRecord *entity;
 
     entity = NULL;
-    parent = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    parent = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (parent != NULL) {
         if (active_action_object[0] == 0) {
             active_action_object[0] = parent;

@@ -1,4 +1,6 @@
 #include "shared/actor_property_flags.h"
+#include "shared/entity.h"
+#include "shared/dungeon_item_entries.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -18,10 +20,10 @@ extern void adjust_source_value_and_finalize(void *context, const void *source);
 extern void clear_slot_and_update_linked_state();
 
 /* Apply the level-down item effect to an entity and finish item use. */
-s32 use_item_to_lower_attack(void *entity, s32 item, s16 action)
+s32 use_item_to_lower_attack(void *entity, DungeonItemEntry *item, s16 action)
 {
     if (entity == dungeon_actor_ring_anchor) {
-        *(s32 *)((u8 *)entity + 0x110) = item;
+        ((PlayerRecord *)entity)->pending_item_action = item;
         begin_deferred_item_action(entity, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), entity);
         return 0;
     }

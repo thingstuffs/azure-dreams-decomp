@@ -222,7 +222,7 @@ void update_gym_minigame(GymState *state_obj) {
                 main_state = (u8 *)0xB0;
 loop_0:
                 {
-                    obj = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
+                    obj = allocate_list_node(1, &scene_object_list_anchor.next);
                     if (obj != NULL) {
 
                         sprite = (u8 *)obj + 0x20;

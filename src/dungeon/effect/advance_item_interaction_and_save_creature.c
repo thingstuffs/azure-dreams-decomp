@@ -168,7 +168,8 @@ s32 func_80042640(void *, s32);
 void set_sprite_animation_frame();
 s32 strcpy(void *, s32);
 void create_familiar_deployment_overlay();
-void clear_slot_and_update_linked_state(s32 *slot);
+struct DungeonItemEntry;
+void clear_slot_and_update_linked_state(struct DungeonItemEntry *slot);
 s16 find_table_value_index();
 void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 void * copy_four_text_bytes();

@@ -8,7 +8,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/status.h"
-struct RegistrationNode;
+struct ObjectNodeHeader;
 struct S_80170A98_2;
 
 
@@ -53,7 +53,7 @@ extern u8 D_8015C538[];
 extern void *allocate_list_node();
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
+extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
 extern void initialize_actor_sprite_and_animation();
 

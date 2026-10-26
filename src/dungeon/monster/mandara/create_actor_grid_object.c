@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "shared/slus_callbacks.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
 #include "shared/entity.h"
@@ -29,7 +30,6 @@ extern void initialize_actor_sprite_and_animation(void *, void *, void *, s32);
 extern void MoveImage(Rect *, s32, s32);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
-extern void project_sprite_chain(void);
 extern void func_80170B40(void);
 extern void update_actor_movement_and_height(void);
 extern void func_80171198(void);
@@ -87,7 +87,7 @@ void *create_actor_grid_object(s16 mode, s32 value1, s16 value2, s16 value3)
     value3_saved = value3;
     value2_byte = value2;
     value1 = 0x112;
-    created = allocate_list_node(value1, ((u8 *)(&scene_object_list_anchor)));
+    created = allocate_list_node(value1, &scene_object_list_anchor.next);
     mode_copy = (s32)mode;
     if (created != 0) {
         void *init_object;

@@ -113,7 +113,7 @@ void update_radial_effect(DungeonState *effect) {
         DungeonTemplate *object_template = (DungeonTemplate *)secondary_sprite;
 
         do {
-            ObjectNodeHeader *object = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
+            ObjectNodeHeader *object = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (object != NULL) {
                 object->update_callback = (DungeonInner *)object_data;
                 object_counter->activity_counts.parts.pending_action_count += 1;

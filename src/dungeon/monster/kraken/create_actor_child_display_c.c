@@ -95,7 +95,7 @@ void *create_actor_child_display_c(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 
         current = actor;
         count = 0;
         do {
-            child_obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+            child_obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
             ((S_8015E86C_5 *)current)->unk_A4 = child_obj;
             if (child_obj != 0) {
                 void *child;

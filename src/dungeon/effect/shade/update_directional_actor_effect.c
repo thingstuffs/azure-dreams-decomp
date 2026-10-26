@@ -173,7 +173,7 @@ void allocate_effect_and_initialize_sprite(s32 effect_data, s32 effect_param, s3
     ObjectNodeHeader *effect;
     void *state;
     SpriteFrameState *sprite;
-    effect = allocate_list_node(0x12, ((s32 *)&scene_object_list_anchor.next));
+    effect = allocate_list_node(0x12, &scene_object_list_anchor.next);
     if (effect != 0) {
         effect->update_callback = &D_800240F0;
         color = 0x80;

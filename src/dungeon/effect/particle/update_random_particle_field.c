@@ -94,7 +94,7 @@ void update_random_particle_field(void *self, void *output)
     }
     if (spawn_index >= 0) {
         do {
-            particle = allocate_list_node(0x202, ((s32 *)(&scene_object_list_anchor)));
+            particle = allocate_list_node(0x202, &scene_object_list_anchor.next);
             if (particle != NULL) {
                 particle->update_callback = random_particle_update_address;
                 register_node(particle, D_80024740);
@@ -230,7 +230,7 @@ void draw_red(void *effect) {
             return;
         }
         ((S_81934C5C_0 *)effect)->unk_24.at02.v = surface_height;
-        impact_effect = allocate_list_node(0x312, ((s32 *)&scene_object_list_anchor.next));
+        impact_effect = allocate_list_node(0x312, &scene_object_list_anchor.next);
         if (impact_effect != 0) {
             impact_effect->unk_10 = &D_80024928;
             impact_effect->unk_20 = (void *) ((S_81934C5C_0 *)effect)->unk_00;

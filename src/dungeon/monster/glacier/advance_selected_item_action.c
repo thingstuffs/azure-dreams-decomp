@@ -259,7 +259,7 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, Spri
         {
             ObjectNodeHeader *effect_object;
 
-            effect_object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+            effect_object = allocate_list_node(0x112, &scene_object_list_anchor.next);
             if (effect_object != 0) {
                 u8 *effect_state;
                 u8 *effect_data;

@@ -1,4 +1,6 @@
 #include "shared/entity_action_selectors.h"
+#include "shared/entity.h"
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -8,20 +10,20 @@
 extern void apply_entity_effects(void *);
 extern void clear_slots_of_type(void *, s8);
 #include "dungeon/player/item.h"
-extern void clear_slot_and_update_linked_state(s32);
+extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern void clear_byte_and_advance(s8 *byte_ptr);
 extern u8 *append_entity_display_text(void *record, u8 *out);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern void place_actor_item(void *, s32);
-extern void display_item_status_message(void *, s32, s16);
-extern s32 feed_actor_restore_mp(void *, s32, s32);
+extern void place_actor_item(void *, struct DungeonItemEntry *);
+extern void display_item_status_message(void *, struct DungeonItemEntry *, s16);
+extern s32 feed_actor_restore_mp(void *, s32, struct DungeonItemEntry *);
 extern void create_timed_paired_particle_emitter(s32, s32, void *);
 extern M2C_UNK D_800E0EB4;
 extern u8 D_800E0EC9[24];
 /* Kill one actor: the player takes the game-over path, others drop their message, clear their slots and decrement the live count. */
-s32 use_item_to_reset_actor_statuses(void *actor, s32 cause, s16 amount)
+s32 use_item_to_reset_actor_statuses(void *actor, DungeonItemEntry *cause, s16 amount)
 {
     void *handle;
     void *msg_value;
@@ -30,7 +32,7 @@ s32 use_item_to_reset_actor_statuses(void *actor, s32 cause, s16 amount)
     DungeonGlobalStatus *counters;
     s32 slot;
     if (actor == (((u8 *)dungeon_actor_ring_anchor))) {
-        *((s32 *) (((s8 *) actor) + 0x110)) = cause;
+        ((PlayerRecord *)actor)->pending_item_action = cause;
         begin_deferred_item_action(actor, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), actor);
         return 0;
     }

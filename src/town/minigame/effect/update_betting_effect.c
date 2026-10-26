@@ -190,7 +190,7 @@ void update_betting_effect(TownEffect *input)
         } while (--message.x >= 0);
 
         for (column = 2; column >= 0; column--) {
-            object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+            object = allocate_list_node(0x112, &scene_object_list_anchor.next);
             if (object != 0) {
                 object_child = ((ProjectileObject *)object)->sprite;
                 ((ProjectileObject *)object)->update_callback = update_minigame_approach_motion;

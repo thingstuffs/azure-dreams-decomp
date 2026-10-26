@@ -1,4 +1,6 @@
 #include "shared/entity_action_selectors.h"
+#include "shared/entity.h"
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -18,7 +20,7 @@ typedef struct DungeonObject {
     u8 pad2a[0x3a];
     s16 amount;
     u8 pad66[0xaa];
-    u8 *payload;
+    DungeonItemEntry *payload; /* +0x110: pending item action (PlayerRecord) */
 } DungeonObject;
 
 extern u8 D_80089354[];
@@ -28,22 +30,22 @@ extern u8 D_800E0E50[];
 
 extern void apply_entity_effects(DungeonObject *);
 #include "dungeon/player/item.h"
-extern void clear_slot_and_update_linked_state(u8 *);
+extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern void clear_byte_and_advance(s8 *byte_ptr);
 extern u8 *append_entity_display_text(void *record, u8 *out);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern void place_actor_item(DungeonObject *, u8 *);
-extern void display_item_status_message(DungeonObject *, u8 *, s16);
+extern void place_actor_item(DungeonObject *, struct DungeonItemEntry *);
+extern void display_item_status_message(DungeonObject *, struct DungeonItemEntry *, s16);
 extern s32 generate_random_value(void);
 extern s32 cap_pending_actor_value_delta(DungeonObject *);
-extern s32 feed_actor_restore_mp(DungeonObject *, u32, s32);
+extern s32 feed_actor_restore_mp(DungeonObject *, u32, struct DungeonItemEntry *);
 extern void create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 extern void create_timed_paired_particle_emitter(s32, s32, DungeonObject *);
 
 /* Applies an item effect, selects its amount, and displays the result. */
-s32 use_random_healing_item(DungeonObject *obj, u8 *payload, s16 effect_arg) {
+s32 use_random_healing_item(DungeonObject *obj, DungeonItemEntry *payload, s16 effect_arg) {
     s16 effect_state;
     s32 amount;
     s16 remaining;
@@ -75,7 +77,7 @@ s32 use_random_healing_item(DungeonObject *obj, u8 *payload, s16 effect_arg) {
     obj->amount = amount;
     if (obj->current == obj->limit) {
         effect_state = -1;
-        if (*payload == 0xF) {
+        if (payload->unk_00 == 0xF) {
             counter = obj->counter;
             if (counter < 0xFFU) {
                 obj->counter = counter + 1;

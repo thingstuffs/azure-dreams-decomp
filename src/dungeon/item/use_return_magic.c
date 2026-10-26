@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/dungeon_item_entries.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
@@ -9,7 +11,7 @@ typedef struct Entity {
     u8 unk_13;
     u32 flags;
     u8 pad2[0x110 - 0x18];
-    s32 unk_110;
+    DungeonItemEntry *unk_110;
 } Entity;
 
 extern s32 dungeon_mode_state;
@@ -20,20 +22,20 @@ extern u8 D_800E1677[];
 
 s32 test_resident_bit(s32);
 #include "dungeon/player/item.h"
-void clear_slot_and_update_linked_state(s32);
+void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
 void *get_unused_text_buffer(void);
 u8 *expand_text_control_codes(u8 *src, u8 *dst);
 void clear_byte_and_advance(s8 *byte_ptr);
-u8 * append_typed_formatted_value(s32,u8 *);
+u8 * append_typed_formatted_value(struct DungeonItemEntry *,u8 *);
 u8 *append_entity_display_text(void *record, u8 *out);
 void display_formatted_context_message(void *);
 void display_text_with_fullwidth_adjustment(s8 *text);
-void place_actor_item(Entity *, s32);
-void display_item_status_message(Entity *, s32, s16);
+void place_actor_item(Entity *, struct DungeonItemEntry *);
+void display_item_status_message(Entity *, struct DungeonItemEntry *, s16);
 s32 create_return_magic_effect(Entity *);
 
 /* Handles an item's effect on an entity and updates the pending action count. */
-s32 use_return_magic(Entity *entity, s32 item, s16 action_type) {
+s32 use_return_magic(Entity *entity, DungeonItemEntry *item, s16 action_type) {
     if (entity == ((Entity *)dungeon_actor_ring_anchor)) {
         entity->unk_110 = item;
         begin_deferred_item_action(entity, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), entity);

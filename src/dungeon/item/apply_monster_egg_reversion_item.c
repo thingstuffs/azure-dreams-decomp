@@ -1,4 +1,5 @@
 #include "shared/actor_status_ids.h"
+#include "shared/dungeon_item_entries.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "common.h"
@@ -58,7 +59,7 @@ extern u8 D_800E1095[0x1E];
 extern u8 D_800E10B3[];
 
 /* Handles entity removal, displays its message, and updates dungeon state. */
-s32 apply_monster_egg_reversion_item(void *entity, s32 source, s16 reason)
+s32 apply_monster_egg_reversion_item(void *entity, DungeonItemEntry *source, s16 reason)
 {
     u8 spawn_data[4];
     void *text_buffer;

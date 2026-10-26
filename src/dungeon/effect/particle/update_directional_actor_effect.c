@@ -100,7 +100,7 @@ void update_directional_actor_effect(DirectionalEffectWork *effect, ObjectPositi
         }
         distance = count;
         while (distance >= 0) {
-            particle = allocate_list_node(786, ((u8 *)(&scene_object_list_anchor)));
+            particle = allocate_list_node(786, &scene_object_list_anchor.next);
             if (particle != 0) {
                 register_node(particle, project_sprite_chain);
                 render_data = particle->header.sprite;
@@ -258,7 +258,7 @@ void update_directional_actor_effect(DirectionalEffectWork *effect, ObjectPositi
             effect->frame.u = frame_counter;
             if (effect->ticks_left.s == mode) {
                 if (actor->target != 0) {
-                    particle = allocate_list_node(770, ((u8 *)(&scene_object_list_anchor)));
+                    particle = allocate_list_node(770, &scene_object_list_anchor.next);
                     if (particle != 0) {
                         register_node(particle, directional_particle_node_callback);
                         particle->header.update_callback = directional_particle_callback;

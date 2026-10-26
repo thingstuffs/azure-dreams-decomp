@@ -23,7 +23,7 @@ void *create_tracked_effect_object(s16 mode, s16 value24, s16 value25, s16 value
 
     result = 0;
     optionValue = 1;
-    objectBase = allocate_list_node(274, ((u8 *)(&scene_object_list_anchor)));
+    objectBase = allocate_list_node(274, &scene_object_list_anchor.next);
     if (objectBase != 0) {
         result = (u8 *)objectBase + 0x20;
         objectBase->update_callback = func_8015EA8C;

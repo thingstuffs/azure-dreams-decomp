@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_item_entries.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/entity.h"
@@ -15,7 +16,7 @@ s32 try_apply_effect_four_by_chance(void *actor, s32 chance, s32 action);
 extern u16 entity_action_selectors[];
 
 /* Handle item use on a target, deferring the player action or consuming the item. */
-s32 apply_paralysis_item(ActorRecord *target, s32 item, s16 use_type) {
+s32 apply_paralysis_item(ActorRecord *target, DungeonItemEntry *item, s16 use_type) {
     if (target == dungeon_actor_ring_anchor) {
         ((PlayerRecord *)target)->pending_item_action = item;
         begin_deferred_item_action(target, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);

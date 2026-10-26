@@ -6,8 +6,8 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/animation.h"
-struct RegistrationNode;
-struct S_800833E0;
+struct ObjectNodeHeader;
+struct ObjectNodeHeader;
 
 
 
@@ -56,11 +56,11 @@ extern void func_80158F74(void *actor_in, void *actor_data_in, SpriteFrameState 
 extern void *allocate_list_node();
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
+extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern s16 set_or_clear_actor_status_slot();
-extern void unlink_node(struct S_800833E0 *node);
-extern void func_80044A50(struct S_800833E0 *node);
+extern void unlink_node(struct ObjectNodeHeader *node);
+extern void func_80044A50(struct ObjectNodeHeader *node);
 extern void retire_tracked_effect_by_id();
 
 void * func_80158854(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);

@@ -60,7 +60,7 @@ void *create_configured_effect_actor(s16 mask, s16 value_at_24, s16 value_at_25,
     S_80170BB0_4 *actor2;
 
     actor = 0;
-    object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != 0) {
         actor = object;
         actor = (S_80170BB0_1 *)((u8 *)actor + 0x20);

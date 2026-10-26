@@ -106,7 +106,7 @@ void *create_linked_object_position(s16 spawn_flags, s16 attr_a, s16 attr_b, s32
     CB_80170A5C_S_80170A5C_4 *result_copy;
 
     result = 0;
-    object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
+    object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != 0) {
         result = (u8 *)object;
         result += 0x20;

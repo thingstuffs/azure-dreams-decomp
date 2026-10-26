@@ -47,7 +47,7 @@ void create_effect_from_sprite_and_facing(void *unused, MovingPosition *source_t
     Block16 *dst;
     Block16 *end;
 
-    effect = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
     sprite_data = sprite_template;
     if (effect != NULL) {
         effect_state = ((void *)effect) + 0x20;

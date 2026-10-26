@@ -43,7 +43,7 @@ typedef struct Pair {
 } Pair;
 
 void *allocate_list_node();
-void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 void draw_textured_ellipse();
 extern u8 D_80025AC4[12];
 extern u8 screen_effect_sprite_entries[12];

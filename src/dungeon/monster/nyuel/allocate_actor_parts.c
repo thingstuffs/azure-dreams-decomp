@@ -25,7 +25,7 @@ Body *allocate_actor_parts(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c) 
     held_c = attr_c;
     held_b = attr_b;
     body = 0;
-    object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     arg0_copy = held_flags;
     if (object != 0) {
         body = &object->body_20;

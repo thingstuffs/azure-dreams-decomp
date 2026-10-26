@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_item_entries.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/player/item.h"
@@ -25,7 +26,7 @@ s32 resolve_attack_damage_and_effects();
 Ent *prepare_directional_attack();
 
 /* Processes a record and updates its linked state on success. */
-s32 process_record_and_update_linked_state(s32 request, void *record_data) {
+s32 process_record_and_update_linked_state(DungeonItemEntry *request, void *record_data) {
     s32 record_id;
     S_80098864_1 *linked_record;
 

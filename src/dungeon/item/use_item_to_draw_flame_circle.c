@@ -1,4 +1,6 @@
 #include "shared/entity_action_selectors.h"
+#include "shared/entity.h"
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -26,7 +28,7 @@ typedef struct S_800C13C8_1 {
 
 
 #include "dungeon/player/item.h" /* extern */
-s32 process_record_and_update_linked_state(s32, s32);           /* extern */
+s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32);           /* extern */
 void clear_slot_and_update_linked_state();                         /* extern */
 void display_formatted_context_message(void *context);                   /* extern */
 void place_actor_item();                 /* extern */
@@ -38,7 +40,7 @@ extern u8 ribbon_sprite_entries[];
 extern u8 D_800E1482[];
 
 /* Handles an object operation and updates its state or triggers its effect. */
-s32 use_item_to_draw_flame_circle(void *object, s32 value, s16 operation, s32 context) {
+s32 use_item_to_draw_flame_circle(void *object, DungeonItemEntry *value, s16 operation, s32 context) {
     MovingTile *object_data;
     s32 result;
 
@@ -46,7 +48,7 @@ s32 use_item_to_draw_flame_circle(void *object, s32 value, s16 operation, s32 co
         return process_record_and_update_linked_state(value, context);
     }
     if (object == dungeon_actor_ring_anchor) {
-        ((S_800C13C8_0 *)((u8 *)object - 0x14))->unk_124 = value;
+        ((PlayerRecord *)object)->pending_item_action = value;
         begin_mode_selected_item_action(object, &view_reference_entity.x.v, &reference_tile_object.frame_entry, 0);
         return 0;
     }

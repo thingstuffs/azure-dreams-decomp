@@ -30,7 +30,7 @@ void *create_display_object_with_callbacks(s32 payload_word, s32 payload_halfwor
     SpriteFrameState *display;
     S_func_800A1C94_2 *payload;
 
-    object = allocate_list_node(0x136, ((u8 *)(&scene_object_list_anchor)));
+    object = allocate_list_node(0x136, &scene_object_list_anchor.next);
     if (object == 0) {
         return 0;
     }

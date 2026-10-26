@@ -85,7 +85,7 @@ void *create_linked_objects(MovingPosition *source_pos, s32 effect_value, s16 sp
     page_base = &D_800260DC[0];
     sprite_index = (sprite_id << 0x10) >> 16;
 create_object:
-    object = allocate_list_node(0x12, ((u8 *)(&scene_object_list_anchor)));
+    object = allocate_list_node(0x12, &scene_object_list_anchor.next);
     if (object != NULL) {
         object->update_callback = page_base;
         register_node(object, &linked_object_draw_address);

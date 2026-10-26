@@ -1,4 +1,5 @@
 #include "shared/actor_property_flags.h"
+#include "shared/dungeon_item_entries.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
 #include "shared/entity_action_selectors.h"
@@ -10,16 +11,8 @@
 #include "m2c_compat.h"
 #include "dungeon/item/message.h"
 
-typedef struct {
-    s8 type;
-    s8 value;
-} Slot;
-typedef struct {
-    u8 pad[0x2C];
-    Slot slots[4];
-} SlotOwner;
 
-extern void clear_slots_of_type(SlotOwner *owner, s8 match_type);             /* extern */
+extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);             /* extern */
 #include "dungeon/player/item.h"
 void clear_slot_and_update_linked_state();                         /* extern */
 void *get_unused_text_buffer(void);                          /* extern */
@@ -44,12 +37,12 @@ typedef struct S_800BD45C_1 {
 } S_800BD45C_1;   /* counter in use_item_to_cure_poison */
 
 /* Applies an item's effect to an entity and consumes the processed item. */
-s32 use_item_to_cure_poison(void *entity, s32 item, s16 action) {
+s32 use_item_to_cure_poison(void *entity, DungeonItemEntry *item, s16 action) {
     u16 *type_flags;
     s32 *item_counts;
 
     if (entity == dungeon_actor_ring_anchor) {
-        ((EntityRec *)entity)->unk_110 = item;
+        ((PlayerRecord *)entity)->pending_item_action = item;
         begin_deferred_item_action(entity, &view_reference_entity.x.v, &reference_tile_object.frame_entry, entity);
         return 0;
     }

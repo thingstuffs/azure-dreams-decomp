@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/slus_callbacks.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -22,7 +23,6 @@ typedef struct S_80172F44_4 {
 extern void register_node(void *entry, void *registration_id);
 extern s32 rand(void);
 extern void select_record_entry_and_value(void *state, void *entries, short index);
-extern void project_sprite_chain(void);
 extern void update_accelerating_growing_particle(void);
 
 /* Creates a visual effect at an offset position with randomized state. */

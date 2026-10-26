@@ -1,4 +1,5 @@
 #include "shared/entity_action_selectors.h"
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -22,24 +23,24 @@ extern u8 D_80089374[];
 extern u8 D_800E11F5[];
 
 #include "dungeon/player/item.h"
-extern s32 process_record_and_update_linked_state(s32, s32);
-extern void clear_slot_and_update_linked_state(s32);
+extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32);
+extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern void clear_byte_and_advance(s8 *byte_ptr);
 extern u8 * append_typed_formatted_value(void *,u8 *);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern void place_actor_item(void *, s32);
-extern void display_actor_item_status_message(void *, s32);
+extern void place_actor_item(void *, struct DungeonItemEntry *);
+extern void display_actor_item_status_message(void *, struct DungeonItemEntry *);
 extern void clear_selected_item_flag_400(void *);
-extern s32 feed_actor_restore_mp(void *, s32, s32);
+extern s32 feed_actor_restore_mp(void *, s32, struct DungeonItemEntry *);
 
 /*
  * Routes type 0xD actions to linked-state processing and player actions to the pending item
  * handler. Other targets receive item messages and feeding or placement handling before the
  * pending action is cleared.
  */
-s32 identify_selected_item(ActorRecord *entity, s32 action_id, s16 action_type, s32 action_arg) {
+s32 identify_selected_item(ActorRecord *entity, DungeonItemEntry *action_id, s16 action_type, s32 action_arg) {
     s32 *entity_state;
     void *message_pos;
     void *saved_message_pos;

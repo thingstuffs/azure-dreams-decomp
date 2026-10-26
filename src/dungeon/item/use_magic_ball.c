@@ -59,7 +59,8 @@ extern void display_formatted_context_message(void *context);
 extern void *scan_actor_along_heading();
 extern void display_text_with_fullwidth_adjustment();
 extern s32 find_slot_by_item_group(void *entry, s16 target);
-extern void place_actor_item(void *object_context, void *target);
+struct DungeonItemEntry;
+extern void place_actor_item(void *object_context, struct DungeonItemEntry *target);
 extern void * create_actor_spell_effect();
 extern s32 feed_actor_restore_mp();
 

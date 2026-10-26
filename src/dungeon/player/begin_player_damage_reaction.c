@@ -6,15 +6,10 @@
 #include "shared/entity.h"
 #include "dungeon/player.h"
 
-typedef struct S_80048A44_Obj S_80048A44_Obj;
 
-typedef struct {
-    u8 pad[0x2C];
-    ActorStatusSlot slots[4];
-} SlotOwner;
 
-void clear_slots_of_type(SlotOwner *owner, s8 match_type);             /* extern */
-void set_sprite_animation_frame(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 slot_index); /* extern */
+void clear_slots_of_type(ActorRecord *owner, s8 match_type);             /* extern */
+void set_sprite_animation_frame(struct SpriteFrameState *obj, s16 frame_group, s16 frame_index, s32 slot_index); /* extern */
 s32 generate_random_value(void);                                /* extern */
 extern u8 player_damage_frames_2[];
 extern u8 player_damage_frames[];

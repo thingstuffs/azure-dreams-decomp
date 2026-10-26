@@ -20,7 +20,7 @@ void initialize_source_and_initial_data(minigame_pickup_source *source_data, min
         *payload = *(Payload88 *)source_data;
         object->update_callback = update_bouncing_pickup;
         **(Initial24 * *)&object->position = *(Initial24 *)initial_data;
-        register_node((struct RegistrationNode *)object, project_sprite_chain);
+        register_node(object, project_sprite_chain);
         part = object->sprite;
         part->scale_y = 0x1000;
         part->scale_x = 0x1000;

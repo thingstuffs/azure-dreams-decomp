@@ -446,8 +446,8 @@ int get_item_name_with_shared_text_table(void *object) {
     return get_item_name_text(object, item_name_text_table);
 }
 
-struct S_80042A80_Item;
-extern s32 get_item_category_flags(struct S_80042A80_Item *item);
+struct DungeonItemEntry;
+extern s32 get_item_category_flags(struct DungeonItemEntry *item);
 
 /* Return flag bit 0x400 from the status query. */
 int read_item_category_flag_ten(void *item) {

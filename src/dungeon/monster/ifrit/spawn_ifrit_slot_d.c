@@ -66,7 +66,7 @@ void *queue_linked_render_packets(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 a
     held_a = attr_a;
     held_c = attr_c;
     held_b = attr_b;
-    obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         obj->update_callback = ifrit_object_callback_3;

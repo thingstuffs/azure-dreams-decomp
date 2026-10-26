@@ -11,7 +11,7 @@ void * create_and_invoke_render_object(s32 initial_value, s32 resource_index) {
     S_800CB8CC_1 *state;
     ObjectNodeHeader *object;
 
-    object = allocate_list_node(0x136, ((s32 *)&scene_object_list_anchor.next));
+    object = allocate_list_node(0x136, &scene_object_list_anchor.next);
     if (object == 0) {
         return 0;
     }

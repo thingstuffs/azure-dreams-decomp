@@ -5,7 +5,6 @@
 #include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
 
-typedef struct RegistrationNode RegistrationNode;
 struct Dst;
 struct Elem;
 
@@ -39,7 +38,7 @@ typedef struct {
 } Node;
 
 void select_record_entry_and_value(void *state, void *entries, short index);
-s32 register_node(RegistrationNode *entry, void *registration_id);
+s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 void func_80170D60(void *destination, s32 unused, void *source);
 
 /* Creates and configures a node at a fixed offset from the given position. */

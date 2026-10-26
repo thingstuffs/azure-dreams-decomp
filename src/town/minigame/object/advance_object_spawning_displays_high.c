@@ -106,7 +106,7 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
                 controller->countdown--;
             }
 
-            object = allocate_list_node(0x136, ((u8 *)(&scene_object_list_anchor)));
+            object = allocate_list_node(0x136, &scene_object_list_anchor.next);
             if (object != 0) {
                 u8 *object_tail = ((u8 *)object) + 0x20;
                 object->update_callback = D_80024B48;
@@ -141,7 +141,7 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
             break;
         }
 
-        object = allocate_list_node(((s32)(1)), ((u8 *)(((u8 *)(&scene_object_list_anchor)))));
+        object = allocate_list_node(((s32)(1)), &scene_object_list_anchor.next);
         if (object != 0) {
             object_data = ((u8 *)object) + 0x20;
             object->update_callback = minigame_display_callback_a;
@@ -154,7 +154,7 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
             ((S_800243D8_2 *)object_data)->unk_02 = 0x96;
         }
 
-        object = allocate_list_node(((s32)(1)), ((u8 *)(((u8 *)(&scene_object_list_anchor)))));
+        object = allocate_list_node(((s32)(1)), &scene_object_list_anchor.next);
         if (object != 0) {
             object_data = ((u8 *)object) + 0x20;
             object->update_callback = minigame_display_callback_b;
@@ -172,7 +172,7 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
         break;
 
     case 2:
-        object = allocate_list_node(((s32)(1)), ((u8 *)(((u8 *)(&scene_object_list_anchor)))));
+        object = allocate_list_node(((s32)(1)), &scene_object_list_anchor.next);
         if (object != 0) {
             object_data = ((u8 *)object) + 0x20;
             object->update_callback = minigame_display_callback_a;
@@ -185,7 +185,7 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
             ((S_800243D8_2 *)object_data)->unk_02 = 0x96;
         }
 
-        object = allocate_list_node(((s32)(1)), ((u8 *)(((u8 *)(&scene_object_list_anchor)))));
+        object = allocate_list_node(((s32)(1)), &scene_object_list_anchor.next);
         if (object != 0) {
             object_data = ((u8 *)object) + 0x20;
             object->update_callback = minigame_display_callback_b;

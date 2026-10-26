@@ -39,7 +39,7 @@ typedef struct S_80FAB000_4 {
     s16 unk_A0;
 } S_80FAB000_4;   /* actor in create_actor_kind_object */
 
-extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 generate_random_value(void);
 extern void set_or_clear_actor_status_slot();
 extern u8 D_8014CA70[];

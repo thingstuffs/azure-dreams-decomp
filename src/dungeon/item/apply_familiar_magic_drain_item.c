@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "shared/dungeon_item_entries.h"
 #include "shared/actor_property_flags.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
@@ -23,7 +24,7 @@ extern u8 D_800E17EF[];
 extern u8 D_800E180E[];
 
 /* Processes an entity action, preserves its state flag, and updates the shared counter. */
-s32 apply_familiar_magic_drain_item(EntityRec *entity, s32 action, s16 action_param) {
+s32 apply_familiar_magic_drain_item(EntityRec *entity, DungeonItemEntry *action, s16 action_param) {
     DungeonGlobalStatus *counter_page;
     DungeonGlobalStatus *counter_base;
     s32 saved_flag;

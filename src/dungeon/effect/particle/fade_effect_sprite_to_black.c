@@ -271,7 +271,7 @@ void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
         distance_x = 0x14;
         trail_texture = directional_effect_entries;
 spawn_trail:
-        object = allocate_list_node(0x312, (ObjectNodeHeader **)&scene_object_list_anchor);
+        object = allocate_list_node(0x312, &scene_object_list_anchor.next);
         if (object != 0) {
             sprite_work = (s32)(object->sprite);
             object->update_callback = (void *)move_the_effect_count_down_timer_fade_sprite_black;
@@ -413,7 +413,7 @@ spawn_trail:
                     (s32) ((S_8182C800_1 *)owner)->unk_2A.u, owner, 2);
                 distance_x = 0x50;
                 do {
-                    object = allocate_list_node(0x312, (ObjectNodeHeader **)&scene_object_list_anchor);
+                    object = allocate_list_node(0x312, &scene_object_list_anchor.next);
                     if (object != 0) {
                         burst_sprite = object->sprite;
                         object->update_callback = (void *)advance_motion_damping_downward_acceleration_count_down_fade_effect;

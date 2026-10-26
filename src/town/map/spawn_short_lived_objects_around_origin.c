@@ -68,7 +68,7 @@ void spawn_short_lived_objects_around_origin(Self *self, Copy24 *origin) {
         Resource *resource;
 
         do {
-            ObjectNodeHeader *object = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
+            ObjectNodeHeader *object = allocate_list_node(0x312, &scene_object_list_anchor.next);
 
             if (object != NULL) {
                 SpriteFrameState *primitive;

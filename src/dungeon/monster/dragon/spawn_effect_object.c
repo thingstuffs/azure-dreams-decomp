@@ -28,7 +28,7 @@ void *spawn_effect_object(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_id)
     saved_x = tile_x;
     saved_id = part_id;
     saved_y = tile_y;
-    obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         obj->update_callback = D_8014CA28;

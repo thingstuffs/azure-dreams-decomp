@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "shared/slus_callbacks.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
@@ -10,8 +11,7 @@
 typedef void (*Callback)(void);
 
 extern void *allocate_list_node(s32, void *);
-extern void register_node(void *, Callback);
-extern void project_sprite_chain(void);
+extern s32 register_node(void *, void *);
 extern s32 generate_random_value(void);
 extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
@@ -57,7 +57,7 @@ void *copy_part_state(s16 spawn_flags, s16 param_a, s16 param_b, s32 param_c)
     result = 0;
     held_c = param_c;
     held_b = param_b;
-    object = allocate_list_node(0x112, ((s32 *)(&scene_object_list_anchor)));
+    object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != 0) {
         result = (u8 *)object + 0x20;
         (object->update_callback) = D_8016AAA4;

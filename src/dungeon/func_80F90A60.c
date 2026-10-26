@@ -80,7 +80,7 @@ void update_actor_timed_visual_slot_f(ActorRecord *state_input, ObjectPosition *
             spawn_offset[0] = 0;
         }
 
-        effect_object = func_8003FD64(0x201, ((u8 *)(&scene_object_list_anchor)));
+        effect_object = func_8003FD64(0x201, &scene_object_list_anchor.next);
         if (effect_object != NULL) {
             func_8004491C(effect_object, D_8016E688);
             effect_object->update_callback = func_8016E5E0;

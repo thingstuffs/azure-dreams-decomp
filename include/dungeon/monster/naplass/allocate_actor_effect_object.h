@@ -6,7 +6,7 @@
 #include "shared/dungeon_projectile_views.h"
 #include "shared/position_views.h"
 #include "dungeon/actor.h"
-struct RegistrationNode;
+struct ObjectNodeHeader;
 
 
 
@@ -45,8 +45,8 @@ typedef struct T_80170870_S_80170870_4 {
 
 extern void * allocate_list_node();
 extern void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern void set_or_clear_actor_status_slot();
 extern void initialize_actor_sprite_and_animation();

@@ -157,7 +157,7 @@ void run_ground_trail_projectile(void *state, TrailMotion *motion, void *source_
     coord_x = 2;
     distance_or_script = (s32)&update_flickering_effect_vertices;
 next_effect:
-    effect = allocate_list_node(0x201, ((s32 *)&scene_object_list_anchor.next));
+    effect = allocate_list_node(0x201, &scene_object_list_anchor.next);
     if (effect != 0) {
         effect->update_callback = distance_or_script;
         register_node(effect, draw_jittered_triangle_trails);

@@ -12,7 +12,7 @@ ObjectNodeHeader *create_positioned_sprite_object(IntVector3 *position, s32 stat
     ObjectPosition *transform;
     SpriteFrameState *sprite;
 
-    object = allocate_list_node(0x136, (struct ObjectNodeHeader * *)(((s32 *)&scene_object_list_anchor.next)));
+    object = allocate_list_node(0x136, &scene_object_list_anchor.next);
     if (object == 0) {
         return 0;
     }

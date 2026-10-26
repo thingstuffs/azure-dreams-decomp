@@ -4,7 +4,7 @@
 
 #include "common.h"
 
-struct S_80042A80_Item;
+struct DungeonItemEntry;
 
 /* Twenty-byte category record. Category 19 uses text_04 as the species name
  * and text_08 as its description; other categories select their text by state.
@@ -71,7 +71,7 @@ void func_8004A7D8(int first_value, int second_value);
 void shuffle_byte_array(u8 *bytes, s32 length);
 
 /* get_item_category_flags.c */
-s32 get_item_category_flags(struct S_80042A80_Item *item);
+s32 get_item_category_flags(struct DungeonItemEntry *item);
 
 /* get_or_create_item_data.c */
 void *get_or_create_item_data(s32 category, s32 item);

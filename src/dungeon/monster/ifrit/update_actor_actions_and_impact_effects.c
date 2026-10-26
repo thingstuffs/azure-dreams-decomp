@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "shared/slus_callbacks.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -80,7 +81,6 @@ extern u8 D_80174850[];
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
-extern void project_sprite_chain(void);
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 rand(void);
 extern void *scan_actor_along_heading(void *, s32, s32, s32, s32);
@@ -238,7 +238,7 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
             if (!(((S_801728C4_4 *)sprite)->unk_14 & 0x8000)) {
                 flags = ((S_801728C4_0 *)action)->unk_98.s;
                 ((S_801728C4_0 *)action)->unk_98.u = flags | 0x8000;
-                effect = allocate_list_node(0x112, ((u8 *)&scene_object_list_anchor));
+                effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
                 if (effect != 0) {
                     register_node(effect, project_sprite_chain);
                     effect_state = (u8 *)effect + 0x20;
@@ -274,7 +274,7 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
             particle_count = 7;
             callback = (void *)D_801740FC;
             do {
-                effect = allocate_list_node(0x112, ((u8 *)&scene_object_list_anchor));
+                effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
                 if (effect != 0) {
                     register_node(effect, project_sprite_chain);
                     effect->update_callback = callback;

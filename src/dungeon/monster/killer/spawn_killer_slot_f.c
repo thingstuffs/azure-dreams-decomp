@@ -31,7 +31,7 @@ typedef struct S_80FE1000_4 {
     s8 unk_9C;
 } S_80FE1000_4;   /* actor in spawn_killer_slot_f */
 
-extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 
 extern u8 D_8016AA7C[];

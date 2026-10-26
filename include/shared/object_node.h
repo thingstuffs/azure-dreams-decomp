@@ -25,13 +25,19 @@ typedef struct ObjectNodeHeader {
     /* 0x08 */ struct ObjectPosition *position; /* optional 0x18-byte motion record; allocator leaves null unless flags include 0x157; lifetime follows the node */
     /* 0x0C */ struct SpriteFrameState *sprite; /* optional sprite/render part; flags 0x100, 0x6 or 0x41 select its payload offset; lifetime follows the node */
     /* 0x10 */ void *update_callback; /* update callback address; active-node dispatch passes body, position and sprite pointers */
-    /* 0x14 */ int unk_14; /* draw-registration backlink, stored as an integer address */
+    /* 0x14 */ struct ObjectNodeHeader *draw_prev; /* draw-registration backlink: the previous node registered for the same draw callback, or the registered_draw_objects slot that heads the chain (register_node/unlink_node) */
     /* 0x18 */ struct ObjectNodeHeader *chain_next; /* next object registered for the same draw callback, or null */
-    /* 0x1C */ unsigned char pad_1C[2];
+    /* 0x1C */ unsigned short draw_slot; /* registered_draw_objects slot index stored by register_node */
     /* 0x1E */ unsigned short flags; /* allocation/control bits: 0x400 skips update, 0x4000 marks active, 0x8000 requests unlink/removal */
 } ObjectNodeHeader;
 
 extern ObjectNodeHeader scene_object_list_anchor;
+
+/* Draw-callback registry (SLUS .bss, 32 slots): register_node files a node under its draw callback's slot and
+ * registered_draw_objects[slot] heads that callback's chain (draw_prev / chain_next / draw_slot above);
+ * dispatch_registered_draw_callbacks calls each callback with the chain's body, position and sprite. */
+extern void *registered_draw_callbacks[0x20];
+extern ObjectNodeHeader *registered_draw_objects[0x20];
 /* Returns pool storage containing this header and a flag-selected body. */
 void *allocate_flagged_object_node(int flags);
 

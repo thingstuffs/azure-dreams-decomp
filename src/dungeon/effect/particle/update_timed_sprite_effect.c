@@ -64,7 +64,7 @@ void run_timed_sprite_projectile(ProjectileState *effect, ProjectileMotion *moti
     if ((u32)(effect->phase.u - 1) < 3) {
         index_or_x = 9;
         do {
-            particle_or_y = (s32)allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
+            particle_or_y = (s32)allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (particle_or_y != 0) {
                 sprite_or_x = (s32)((ProjectileObject *)particle_or_y)->sprite;
                 ((ProjectileObject *)particle_or_y)->update_callback = update_timed_sprite_effect;

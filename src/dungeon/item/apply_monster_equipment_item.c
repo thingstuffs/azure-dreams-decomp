@@ -1,4 +1,6 @@
 #include "shared/monster_ids.h"
+#include "shared/entity.h"
+#include "shared/dungeon_item_entries.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -49,7 +51,8 @@ u8 *append_typed_formatted_value();
 u8 *append_entity_display_text();
 void * append_value_seven_suffix();
 s32 display_text_with_fullwidth_adjustment(); /* extern */
-void place_actor_item(void *object_context, void *target); /* extern */
+struct DungeonItemEntry;
+void place_actor_item(void *object_context, struct DungeonItemEntry *target); /* extern */
 s32 generate_random_value(void);
 s32 place_item_at_valid_floor_position(); /* extern */
 s32 feed_actor_restore_mp();
@@ -59,7 +62,7 @@ extern u8 D_800E13DA[15];
 extern u8 D_800E13E9[18];
 
 /* Applies an entity action to a target and updates the pending count. */
-s32 apply_monster_equipment_item(u8 *entity, u8 *target, s16 action, void *context) {
+s32 apply_monster_equipment_item(u8 *entity, DungeonItemEntry *target, s16 action, void *context) {
     void *entity_value;
     void *event_value;
     void *external_entity_value;
@@ -75,7 +78,7 @@ s32 apply_monster_equipment_item(u8 *entity, u8 *target, s16 action, void *conte
     }
     compare_ptr = ((u8 *)dungeon_actor_ring_anchor);
     if (entity == compare_ptr) {
-        ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_128 = target;
+        ((PlayerRecord *)entity)->pending_item_action = target;
         begin_mode_selected_item_action(entity, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), entity);
         return 0;
     }
@@ -97,7 +100,7 @@ s32 apply_monster_equipment_item(u8 *entity, u8 *target, s16 action, void *conte
         place_item_at_valid_floor_position((u16) position->unk_02 >> 6, (u16) position->unk_06 >> 6, position->unk_0A,
             lookup_item_category_mapped_value(((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_61,
             ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_60), entity + 0x48);
-        ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_60 = (u8) *target;
+        ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_60 = (u8) target->unk_00;
         ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_63 = (u8) (((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_63 | 0x20);
         script = get_unused_text_buffer();
         entity_value = append_entity_display_text(entity, script);

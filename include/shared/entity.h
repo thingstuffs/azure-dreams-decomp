@@ -1,6 +1,10 @@
 #ifndef SHARED_ENTITY_H
 #define SHARED_ENTITY_H
 
+#include "shared/actor_status.h"
+
+struct DungeonItemEntry;
+
 /* Object-system records of the DUNGEON (and TOWN) object pools.  An object is a 0x20-byte ObjectNodeHeader
  * (shared/object_node.h) followed by a callback-specific body; the node's +0x08 / +0x0C slots point at separate
  * position (ObjectPosition) and sprite (SpriteFrameState) records.  r121 opus_entity2 (decision 73 draft) split
@@ -121,7 +125,7 @@ typedef struct EntityRec {
     /* 0x108 */ unsigned char pad_108[4];         
     /* 0x10C */ unsigned short unk_10C;           /* Rec_D_800814A8 */
     /* 0x10E */ unsigned char pad_10E[2];         
-    /* 0x110 */ int unk_110;                      
+    /* 0x110 */ struct DungeonItemEntry *unk_110; /* player: item whose use is deferred (PlayerRecord.pending_item_action) */
     /* 0x114 */ int unk_114;                      /* word stores 0x202080 / 0x802020 before item-effect dispatch */
     /* 0x118 */ unsigned char pad_118[12];        
     /* 0x124 */ void *unk_124;                   /* linked record; flags read after null check */
@@ -136,6 +140,15 @@ typedef struct EntityRec {
  * in the separate ObjectPosition); +0x24/+0x25 are MP (decision 73), NOT tile coordinates (those are the sprite's).
  * Leaf types are EntityRec's except +0x10..+0x13 (four template bytes here, one word there); names from r121w_entity1 field_roles / naming_decisions (scope actor_data,
  * medium unless marked), the rest stay unk_.  Callback variants at +0x8A/+0xA4/+0xA8/+0xAC stay unk_ (O08). */
+struct ActorRecord;
+struct SpriteFrameState;
+
+/* Actor action handler stored at ActorRecord +0x8C. The actor update dispatchers call it as
+ * handler(body, position, sprite, body): the actor body, its node's ObjectPosition and SpriteFrameState,
+ * and the body again as the actor whose statistics the handler reads. */
+typedef void (*ActorActionHandler)(struct ActorRecord *body, struct ObjectPosition *position,
+                                   struct SpriteFrameState *sprite, struct ActorRecord *actor);
+
 /* Live monster, familiar or player statistics and action state.
  * allocate_list_node owns pooled bodies; init_monster_from_stats seeds monster template bytes. */
 typedef struct ActorRecord {
@@ -157,9 +170,7 @@ typedef struct ActorRecord {
     /* 0x028 */ unsigned char hp; /* current HP; damage may first accumulate in the signed delta at +0x64 */
     /* 0x029 */ unsigned char max_hp; /* effective maximum HP; doubled template HP is capped at 255 */
     /* 0x02A */ short facing; /* actor angle; 0x1000 units per turn, direction = (facing >> 9) & 7 */
-    /* 0x02C */ short unk_2C; /* status slot 0: low byte is ActorStatusId (0 = empty), high byte is signed duration/value; zero value does not expire */
-    /* 0x02E */ unsigned char pad_2E[4]; /* status slots 1 and 2, each an ID byte followed by a signed duration/value byte; accessed through slot views */
-    /* 0x032 */ short unk_32; /* status slot 3; advance_status_timers moves a nonzero signed value toward zero and clears the ID on expiry */
+    /* 0x02C */ ActorStatusSlot status[4]; /* status id (ActorStatusId, 0 = empty) and signed duration/value per slot; zero value does not expire; advance_status_timers moves a nonzero value toward zero and clears the id on expiry */
     /* 0x034 */ unsigned char pad_34[13];
     /* 0x041 */ signed char pending_experience_high; /* high byte of a pending experience award */
     /* 0x042 */ signed char pending_experience_low; /* low byte of a pending experience award */
@@ -198,6 +209,7 @@ typedef struct ActorRecord {
     /* 0x08C */ union {
         void *address; /* callback address; return contracts differ between actor handlers */
         void (*run)(void *, void *, void *, void *); /* Kewne calls this view and discards any result */
+        ActorActionHandler handler; /* the current action handler */
     } unk_8C;
     /* 0x090 */ union {
         int value;
@@ -254,7 +266,7 @@ typedef struct PlayerRecord {
     /* 0x108 */ unsigned char pad_108[4];
     /* 0x10C */ unsigned short unk_10C;           /* completion/status bits of the timed sequence */
     /* 0x10E */ unsigned char pad_10E[2];
-    /* 0x110 */ int pending_item_action; /* deferred item action stored only when the owner is the player */
+    /* 0x110 */ struct DungeonItemEntry *pending_item_action; /* item whose use is deferred until the player's action runs; stored only when the owner is the player */
     /* 0x114 */ int unk_114;                      /* word stores 0x202080 / 0x802020 before item-effect dispatch */
     /* 0x118 */ unsigned char pad_118[12];
     /* 0x124 */ void *unk_124; /* borrowed carried/linked actor body, or null; lift sets its carrier backlink and release clears ACTOR_LIFTED */

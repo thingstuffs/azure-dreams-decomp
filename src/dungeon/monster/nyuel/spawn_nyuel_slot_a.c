@@ -23,7 +23,7 @@ Func80BBB094PartC *spawn_mode_configured_monster_slot_a(s32 spawn_flags, s16 til
     s32 randomTest;
     slot1 = (unsigned long)spawn_height;
     saved_tile_y = tile_y;
-    obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     saved_spawn_flags = spawn_flags;
     if (obj != 0) {
         result = &obj->unk20;

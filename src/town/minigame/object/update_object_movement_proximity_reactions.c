@@ -21,7 +21,7 @@ extern int abs(int);
 extern void create_tinted_animated_particle(s32 color, s32 x, s32 y, s32 z);
 extern void create_randomized_trail_particle();
 extern void create_brief_randomized_particle();
-extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 extern u8 D_80026748[];
 extern u8 D_800F7950[];

@@ -225,7 +225,7 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, SpriteFrameState
             if (!(actor->unk_98 & 0x2000)) {
                 void *new_effect;
 
-                new_effect = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+                new_effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
                 actor->unk_A8 = new_effect;
                 effect = new_effect;
                 if (effect != 0) {

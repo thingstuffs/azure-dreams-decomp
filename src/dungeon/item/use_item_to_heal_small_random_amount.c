@@ -1,4 +1,5 @@
 #include "shared/actor_property_flags.h"
+#include "shared/dungeon_item_entries.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -33,14 +34,14 @@ typedef struct S_800C4490_0_pre {
 
 
 /* Applies a capped random stat gain to the target and displays its effect message. */
-s32 use_item_to_heal_small_random_amount(void *target, s32 source, s16 effect_mode) {
+s32 use_item_to_heal_small_random_amount(void *target, DungeonItemEntry *source, s16 effect_mode) {
     s16 stat_gap;
     s32 stat_gain;
     void *effect_text;
     void *message_context;
 
     if (target == ((s32)dungeon_actor_ring_anchor)) {
-        ((EntityRec *)target)->unk_110 = source;
+        ((PlayerRecord *)target)->pending_item_action = source;
         begin_deferred_item_action(target, &view_reference_entity.x.v, &reference_tile_object.frame_entry, target);
         return 0;
     }

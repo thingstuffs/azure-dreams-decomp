@@ -240,7 +240,7 @@ s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, 
 
     saved_angle_index = angle_index;
     saved_state_94 = state_94;
-    object = allocate_list_node(0x136, ((u8 *)(&scene_object_list_anchor)));
+    object = allocate_list_node(0x136, &scene_object_list_anchor.next);
     if (object == 0) {
         return 0;
     }
@@ -700,7 +700,7 @@ void *create_configured_object(void *object_data, void *source_position, s32 alt
     void *object;
     u8 type;
 
-    created = allocate_list_node(0x136, ((u8 *)(&scene_object_list_anchor)));
+    created = allocate_list_node(0x136, &scene_object_list_anchor.next);
     if (created == 0) {
         return 0;
     }

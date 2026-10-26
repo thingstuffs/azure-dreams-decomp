@@ -51,7 +51,7 @@ typedef struct S_80175BA8_5 {
 } S_80175BA8_5;
 
 extern void *allocate_list_node();
-extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 extern u8 clipped_sprite_renderer_address[];
 extern u8 uboat_aura_start_frames[];

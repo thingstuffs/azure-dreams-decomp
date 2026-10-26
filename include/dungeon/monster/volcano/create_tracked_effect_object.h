@@ -7,7 +7,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/actor/animation.h"
 #include "dungeon/actor/status.h"
-struct RegistrationNode;
+struct ObjectNodeHeader;
 struct S_80170A98_2;
 
 typedef s32 M2C_UNK;
@@ -47,7 +47,7 @@ extern u8 D_80162538[];
 extern void *allocate_list_node();
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
+extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 
 void * create_tracked_effect_object(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);

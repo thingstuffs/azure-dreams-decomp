@@ -28,7 +28,7 @@ void *allocate_object_state_and_callbacks(s16 init_flags, s16 grid_x, s16 grid_y
     saved_x = grid_x;
     saved_type = type_id;
     saved_y = grid_y;
-    object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != 0) {
         state = 
         ((void *)object)+ 0x20;

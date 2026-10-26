@@ -64,7 +64,7 @@ void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s
     s16 saved_spawn = spawn_value;
     s8 saved_variant = variant;
 
-    obj = allocate_list_node(274, ((u8 *)(&scene_object_list_anchor)));
+    obj = allocate_list_node(274, &scene_object_list_anchor.next);
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         obj->update_callback = D_80170AE8;

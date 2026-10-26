@@ -201,7 +201,7 @@ void advance_actor_item_action(void *actor_state, ObjectPosition *motion, Sprite
         if ((s16)timer == 3) {
             ObjectNodeHeader *effect;
 
-            effect = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+            effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
             if (effect != 0) {
                 u8 *effect_state;
                 SpriteFrameState *effect_sprite;

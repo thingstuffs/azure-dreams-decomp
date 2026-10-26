@@ -119,7 +119,7 @@ void update_particles_projectile_and_fade(void *effect_state, MovingPosition *po
         particle_callback = tick_object_motion_and_expire;
         ((S_801733BC_1 *)effect_state)->unk_A8.u += 0x12;
         do {
-            spawned_object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+            spawned_object = allocate_list_node(0x112, &scene_object_list_anchor.next);
             if (spawned_object != 0) {
                 register_node(spawned_object, project_sprite_chain);
                 spawned_object->update_callback = particle_callback;
@@ -213,7 +213,7 @@ void update_particles_projectile_and_fade(void *effect_state, MovingPosition *po
         ((S_801733BC_1 *)effect_state)->unk_9B++;
         play_sound_if_enabled(0x806);
 
-        spawned_object = allocate_list_node(0x12, ((u8 *)(&scene_object_list_anchor)));
+        spawned_object = allocate_list_node(0x12, &scene_object_list_anchor.next);
         if (spawned_object == 0) {
             break;
         }

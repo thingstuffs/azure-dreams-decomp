@@ -91,7 +91,7 @@ void *create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *
     TileObject *map_state;
 
     actor_state = ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_04;
-    effect = allocate_list_node(0x12, ((u8 *)(&scene_object_list_anchor)));
+    effect = allocate_list_node(0x12, &scene_object_list_anchor.next);
     if (effect != NULL) {
         effect_mode = ((s32) mode << 0x10) >> 0x10;
         {

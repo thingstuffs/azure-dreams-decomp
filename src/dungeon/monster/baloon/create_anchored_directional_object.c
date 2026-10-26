@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "shared/slus_callbacks.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -55,8 +56,7 @@ typedef struct S_80D653B8_5 {
     u16 unk_16;
 } S_80D653B8_5;   /* arg1 in create_anchored_directional_object */
 
-extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern void project_sprite_chain(void);
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern void select_sprite_entry();
 
 extern u8 D_800D6FEC[];

@@ -20,7 +20,7 @@ extern s32 monster_native_trait_masks[];
  * and never reach RAM, so values read from the file there are not the table. */
 extern s32 entity_level_thresholds[100];
 
-struct CallbackObject;
+struct ActorRecord;
 struct S_800423C0_Obj;
 struct S_800423C0_Src;
 
@@ -35,7 +35,7 @@ void build_cubic_cumulative_table(void);
 void clear_scaled_cell_flags_8000(void);
 
 /* entry_set_or_clear_actor_status_slot.c */
-void replay_actor_status_slots(struct CallbackObject *object);
+void replay_actor_status_slots(struct ActorRecord *object);
 
 /* find_entity_slot_by_field_ac.c */
 void apply_actor_template_and_direction(struct S_800423C0_Obj *obj, s16 unused, struct S_800423C0_Src *source);

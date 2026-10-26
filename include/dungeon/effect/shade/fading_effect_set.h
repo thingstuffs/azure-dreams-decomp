@@ -231,9 +231,9 @@ extern s32 abs(s32);
 extern void advance_sprite_animation_and_textures(void *render_data);
 void select_record_entry_and_value(void *state, void *entries, short index);
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
+s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 #include "shared/sprite_source.h"
-struct RegistrationNode;
+struct ObjectNodeHeader;
 extern SpriteSourceEntry rising_sprite_entries[];
 s32 check_left_tile_and_center_height();
 extern u8 D_80025368[];

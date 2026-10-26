@@ -29,7 +29,7 @@ void *spawn_mode_configured_monster_slot_f(s16 flags, s16 tile_x, s16 tile_y, s1
     saved_tile_x = tile_x;
     saved_height = spawn_height;
     saved_tile_y = tile_y;
-    obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         obj->update_callback = func_8016AA68;

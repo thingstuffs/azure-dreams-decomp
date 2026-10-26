@@ -24,7 +24,7 @@ void *spawn_variant_monster_slot_c(s16 mode_flags, s16 attribute_24, s16 attribu
     saved_attribute_24 = attribute_24;
     saved_attribute_0a = attribute_0a;
     saved_attribute_25 = attribute_25;
-    obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         obj->update_callback = D_80158A28;

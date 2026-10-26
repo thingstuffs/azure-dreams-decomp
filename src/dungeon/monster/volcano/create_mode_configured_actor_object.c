@@ -28,7 +28,7 @@ void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_
         saved_a = attr_a;
         saved_c = attr_c;
         saved_b = attr_b;
-        root = allocate_list_node(0x112, &scene_object_list_anchor);
+        root = allocate_list_node(0x112, &scene_object_list_anchor.next);
         held_flags = spawn_flags;
         if (root != NULL) {
             result = (u8 *)root + 0x20;

@@ -12,6 +12,7 @@ struct SpriteFrameState;
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
+#include "shared/object_node.h"
 
 /* arg2 in initialize_entity_sprite_effect */
 typedef struct S_800B22F0_1 {
@@ -65,7 +66,6 @@ extern void create_tracked_effect(void *, s32, void *, void *);
 /* (void *)reg_s3 in create_mode_configured_object */
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
-extern s32 scene_object_list_anchor;
 extern void D_800B274C();
 extern void slow_target_action_callback();
 

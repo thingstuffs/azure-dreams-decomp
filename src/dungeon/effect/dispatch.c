@@ -1019,13 +1019,13 @@ typedef struct {
     void *field10;
 } Func8003FF2CResult;
 
-extern Func8003FF2CResult *initialize_runtime_node_storage(s32, s32 *, s16, s32 *);
+extern Func8003FF2CResult *initialize_runtime_node_storage(s32, s32 *, s16, ObjectNodeHeader **);
 extern void dispatch_action_callback_by_opcode(u8 *w);
 extern s32 D_800E58B8[];
 
 /* Create a record and assign dispatch_action_callback_by_opcode to its field10 pointer. */
 void create_record_with_effect_callback(void) {
-    initialize_runtime_node_storage(0, D_800E58B8, 0x10, ((s32 *)(&scene_object_list_anchor)))->field10 = dispatch_action_callback_by_opcode;
+    initialize_runtime_node_storage(0, D_800E58B8, 0x10, &scene_object_list_anchor.next)->field10 = dispatch_action_callback_by_opcode;
 }
 #include "common.h"
 
@@ -1543,7 +1543,7 @@ DungeonObject *create_central_and_child_effects(s16 tile_x, s16 tile_y, u16 z, s
     s32 angle;
     void *callback_fn;
 
-    parent = allocate_list_node(0x12, ((u8 *)(&scene_object_list_anchor)));
+    parent = allocate_list_node(0x12, &scene_object_list_anchor.next);
     if (parent != NULL) {
         s16 frame;
         u16 state_limit;

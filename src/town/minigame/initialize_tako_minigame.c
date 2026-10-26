@@ -167,7 +167,7 @@ create_child:
     callback = D_80026B78;
     row_y = 0x2C;
 next_left:
-    object = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
+    object = allocate_list_node(1, &scene_object_list_anchor.next);
     left_state = (u8 *)object + 0x20;
     if (object != NULL) {
         object->update_callback = callback;
@@ -204,7 +204,7 @@ next_left:
     callback = D_80026BC4;
     row_y = 0x2C;
 next_right:
-    object = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
+    object = allocate_list_node(1, &scene_object_list_anchor.next);
     right_state = (u8 *)object + 0x20;
     if (object != NULL) {
         object->update_callback = callback;
@@ -238,7 +238,7 @@ next_right_row:
         goto next_right;
     }
 
-    object = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
+    object = allocate_list_node(1, &scene_object_list_anchor.next);
     if (object != NULL) {
         object->update_callback = D_80026C54;
         register_node(object, build_menu_line_tile_packets);

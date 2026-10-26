@@ -1,4 +1,6 @@
 #include "shared/entity_action_selectors.h"
+#include "shared/entity.h"
+#include "shared/dungeon_item_entries.h"
 #include "dungeon/item.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -19,23 +21,23 @@ extern u8 D_800E13B7[];
 
 extern s32 test_resident_bit(s32);
 #include "dungeon/player/item.h"
-extern s32 process_record_and_update_linked_state(s32, s32);
-extern void clear_slot_and_update_linked_state(s32);
+extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32);
+extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
 extern void display_formatted_context_message(void *);
-extern void place_actor_item(void *, s32);
-extern void display_actor_item_status_message(void *, s32);
-extern s32 feed_actor_restore_mp(void *, u16, s32);
+extern void place_actor_item(void *, struct DungeonItemEntry *);
+extern void display_actor_item_status_message(void *, struct DungeonItemEntry *);
+extern s32 feed_actor_restore_mp(void *, u16, struct DungeonItemEntry *);
 extern s32 create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transform_data, s16 scale, s32 setup_word_5c, s32 setup_word_60);
 
 /* Apply an event to the target and update the event count on completion. */
-s32 apply_return_magic_item(u8 *entity, s32 event, s16 target_type, s32 target_record) {
+s32 apply_return_magic_item(u8 *entity, DungeonItemEntry *event, s16 target_type, s32 target_record) {
     u8 *entity_info;
 
     if (target_type == 0xD) {
         return process_record_and_update_linked_state(event, target_record);
     }
     if ((void *)entity == ((u8 *)dungeon_actor_ring_anchor)) {
-        *(s32 *)(entity + 0x110) = event;
+        ((PlayerRecord *)entity)->pending_item_action = event;
         begin_mode_selected_item_action(entity, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), 0);
         return 0;
     }

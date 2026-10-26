@@ -9,7 +9,7 @@
 typedef struct DungeonItemEntry {
     /* 0x00 */ unsigned char unk_00; /* item subtype within the category stored in kind */
     /* 0x01 */ unsigned char kind; /* item category; zero marks a free entry in the 64-slot floor pool */
-    /* 0x02 */ unsigned char unk_02;
+    /* 0x02 */ signed char unk_02; /* signed per-item value (enhancement or charges); the item-name formatter prints it signed */
     /* 0x03 */ unsigned char unk_03;
 } DungeonItemEntry;
 extern DungeonItemEntry dungeon_ground_items[64];

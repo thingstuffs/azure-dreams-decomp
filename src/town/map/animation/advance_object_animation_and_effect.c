@@ -47,7 +47,7 @@ void advance_object_animation_and_effect(TownMapFallingObject *object)
             return;
         }
         object->motion.z.w.i = 0;
-        effect = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
+        effect = allocate_list_node(0x312, &scene_object_list_anchor.next);
         if (effect != 0) {
             effect->update_callback = D_800BFF7C;
             register_node(effect, project_sprite_chain);

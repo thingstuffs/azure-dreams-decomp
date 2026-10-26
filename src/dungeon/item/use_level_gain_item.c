@@ -1,4 +1,5 @@
 #include "shared/entity_action_selectors.h"
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
@@ -17,9 +18,9 @@ s32 feed_actor_restore_mp();            /* extern */
 void create_colored_effect_with_sound(void *source, s32 color, unsigned short sound_id);    /* extern */
 
 /* Handles item use for an entity, updating its state and consuming the item. */
-s32 use_level_gain_item(void *entity, s32 item, s16 action_id) {
+s32 use_level_gain_item(void *entity, DungeonItemEntry *item, s16 action_id) {
     if (entity == ((u8 *)dungeon_actor_ring_anchor)) {
-        ((EntityRec *)entity)->unk_110 = item;
+        ((PlayerRecord *)entity)->pending_item_action = item;
         begin_deferred_item_action(entity, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), entity);
         return 0;
     }

@@ -247,7 +247,7 @@ void update_item_use_effect_and_idle_return(ActionState *actor, VecData *motion,
             if (!(actor->flags & 0x2000)) {
                 void *new_effect;
 
-                new_effect = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+                new_effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
                 actor->effect = new_effect;
                 effect = new_effect;
                 if (effect != 0) {

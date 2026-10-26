@@ -53,7 +53,7 @@ typedef struct Object {
 } Object;
 
 extern void *allocate_list_node();
-extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 rand(void);
 extern void configure_the_set_mode_n_3(Core *, IntVector3 *, void *);
 

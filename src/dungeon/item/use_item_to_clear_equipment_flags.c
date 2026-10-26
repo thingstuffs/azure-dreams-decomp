@@ -1,4 +1,6 @@
 #include "shared/actor_status_ids.h"
+#include "shared/entity.h"
+#include "shared/dungeon_item_entries.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -9,24 +11,24 @@
 
 extern void clear_slots_of_type(void *, s32);
 #include "dungeon/player/item.h"
-extern s32 process_record_and_update_linked_state(s32, s32);
-extern void clear_slot_and_update_linked_state(s32);
+extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32);
+extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern void clear_byte_and_advance(s8 *byte_ptr);
 extern u8 * append_typed_formatted_value(void *,u8 *);
 extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern void place_actor_item(void *, s32);
-extern void display_actor_item_status_message(void *, s32);
-extern s32 feed_actor_restore_mp(void *, s32, s32);
+extern void place_actor_item(void *, struct DungeonItemEntry *);
+extern void display_actor_item_status_message(void *, struct DungeonItemEntry *);
+extern s32 feed_actor_restore_mp(void *, s32, struct DungeonItemEntry *);
 
 extern u8 D_800E1756[];
 extern u8 D_800E176F[];
 extern u8 D_800E1788[];
 
 /* Applies a curse-removal item effect and reports changes to equipped items. */
-s32 use_item_to_clear_equipment_flags(void *target, s32 item, s16 use_mode, s32 use_context)
+s32 use_item_to_clear_equipment_flags(void *target, DungeonItemEntry *item, s16 use_mode, s32 use_context)
 {
     u8 *equipment;
     void *message_buf;
@@ -37,7 +39,7 @@ s32 use_item_to_clear_equipment_flags(void *target, s32 item, s16 use_mode, s32 
     }
 
     if (target == ((u8 *)dungeon_actor_ring_anchor)) {
-        *(s32 *)((u8 *)target + 0x110) = item;
+        ((PlayerRecord *)target)->pending_item_action = item;
         begin_mode_selected_item_action(target, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);
         return 0;
     }

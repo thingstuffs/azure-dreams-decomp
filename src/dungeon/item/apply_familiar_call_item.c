@@ -1,4 +1,6 @@
 #include "shared/entity_action_selectors.h"
+#include "shared/entity.h"
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -8,21 +10,21 @@
 extern u8 familiar_call_text[];
 
 #include "dungeon/player/item.h"
-extern s32 process_record_and_update_linked_state(s32, s32);
-extern void clear_slot_and_update_linked_state(s32);
+extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32);
+extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern void clear_byte_and_advance(s8 *byte_ptr);
 extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern void place_actor_item(void *, s32);
-extern void display_actor_item_status_message(void *, s32, s16);
-extern s32 feed_actor_restore_mp(void *, u16, s32);
+extern void place_actor_item(void *, struct DungeonItemEntry *);
+extern void display_actor_item_status_message(void *, struct DungeonItemEntry *, s16);
+extern s32 feed_actor_restore_mp(void *, u16, struct DungeonItemEntry *);
 extern void teleport_familiar_near_player(s32, s16);
 extern s32 has_enough_available_runtime_nodes(s32);
 
 /* Applies a target action or processes occupied player slots and updates the action count. */
-s32 apply_familiar_call_item(void *target, s32 action, s16 action_type, s32 action_arg) {
+s32 apply_familiar_call_item(void *target, DungeonItemEntry *action, s16 action_type, s32 action_arg) {
     s32 slot;
     void *message_end;
     void *message_start;
@@ -35,7 +37,7 @@ s32 apply_familiar_call_item(void *target, s32 action, s16 action_type, s32 acti
 
     global_page = (u8 *)0x800E0000;
     if (target == *(u8 **)(global_page + 0x3D7C)) {
-        *(s32 *)((u8 *)target + 0x110) = action;
+        ((PlayerRecord *)target)->pending_item_action = action;
         begin_mode_selected_item_action(target, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);
         return 0;
     }

@@ -5,7 +5,7 @@
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
-struct RegistrationNode;
+struct ObjectNodeHeader;
 /* Decrement the countdown, reset scale, and flag completion when it expires. */
 /* Sets the object and global flags and marks the update. */
 typedef struct Row_818FEF80_S_818FEF80_0_pre {
@@ -158,7 +158,7 @@ void LoadImage(void *, void *);
 void StoreImage(void *, void *);
 void draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s32);
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
+s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 
 extern Row_818FF19C_Rect8 D_80024028;
 extern Row_818FF19C_Rect8 D_80024030;

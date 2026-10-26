@@ -33,7 +33,7 @@ typedef struct S_8016A87C_4 {
     s8 unk_9C;
 } S_8016A87C_4;   /* actor in func_8016A87C */
 
-extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern void set_or_clear_actor_status_slot();
 extern u8 D_8016AA50[];

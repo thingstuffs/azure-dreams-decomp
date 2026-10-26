@@ -8,7 +8,7 @@
 #include "shared/dungeon_floor.h"
 #include "shared/object_node.h"
 #include "dungeon/level.h"
-struct RegistrationNode;
+struct ObjectNodeHeader;
 typedef struct {
     u8 x;
     u8 y;
@@ -128,7 +128,7 @@ extern void retain_spawn_resource(s32, s32);
 extern u8 *find_or_retain_sprite_resource_slot(s32, s32);
 extern void raise_entity_level(void *, s32);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
+extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 extern s32 linked_sprite_renderer_address[3];
 extern s32 D_800A5AF0[3];
 extern void func_8004E634(s16, u8 *);

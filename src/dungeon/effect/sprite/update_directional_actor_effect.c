@@ -220,7 +220,7 @@ void update_directional_actor_effect(void *state_data, void *position_data)
 loop:
                 object = find_eligible_nearby_entry(work[0x24], work[0x25], list_head, object);
                 if (object != 0) {
-                    if (!(*(s32 *)&object->pad_1C & 0x2000)) {
+                    if (!(((ActorRecord *)object)->flags1C & 0x2000)) {
                         apply_attack_power_and_element_effects(object, 0x10, ((S_81988800_0 *)state_data)->unk_09, 10,
                                       ((S_81988800_8 *)source)->unk_2A, source, 2);
                     }

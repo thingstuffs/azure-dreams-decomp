@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01015 - CL:dungeon/func_800BC2E4.
  */
 #include "shared/entity.h"
+#include "shared/dungeon_item_entries.h"
 #include "shared/object_node.h"
 #include "dungeon/item/begin_familiar_restoration_effects_g01015.h"
 #include "shared/object_flags.h"
@@ -32,14 +33,14 @@ s32 begin_familiar_restoration_effects(void)
 }
 
 /* Dispatches a target action according to its type and address. */
-s32 use_item_to_draw_full_recovery_circle(void *target, s32 action_id, s16 action_type, s32 action_arg) {
+s32 use_item_to_draw_full_recovery_circle(void *target, DungeonItemEntry *action_id, s16 action_type, s32 action_arg) {
     void *target_data;
 
     if (action_type == 0xD) {
         return process_record_and_update_linked_state(action_id, action_arg);
     }
     if (target == dungeon_actor_ring_anchor) {
-        *(s32 *)((u8 *)target + 0x110) = action_id;
+        ((PlayerRecord *)target)->pending_item_action = action_id;
         begin_mode_selected_item_action(target, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), 0);
         return 0;
     }
@@ -172,7 +173,7 @@ void *create_familiar_restoration_effect(s32 tile_x, s32 tile_y, s32 z) {
     SpriteFrameState *render_state;
     S_800C1A44_3 *object_state;
 
-    object = allocate_list_node(0x12, ((s32 *)&scene_object_list_anchor.next));
+    object = allocate_list_node(0x12, &scene_object_list_anchor.next);
     if (object != 0) {
         object->update_callback = &D_800C1718[0];
         register_node(object, &clipped_sprite_renderer_address[0]);

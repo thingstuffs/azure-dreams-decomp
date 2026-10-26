@@ -59,7 +59,7 @@ u8 *create_multi_form_actor(s16 init_flags, s32 value24, s32 value25, s32 value0
     saved_value24 = value24;
     saved_value25 = value25;
     if (clear_center_tile_flags_when_enabled() == 0) {
-        obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+        obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
         if (obj != NULL) {
             result = ((u8 *)obj) + 0x20;
             *beldo_actor_nodes = obj;

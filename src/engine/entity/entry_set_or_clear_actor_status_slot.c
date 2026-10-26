@@ -1,19 +1,16 @@
 #include "common.h"
 #include "shared/actor_status.h"
+#include "shared/entity.h"
 
-typedef struct CallbackObject {
-    u8 pad_00[0x2C];
-    ActorStatusSlot slots[4];
-} CallbackObject;
 
 #include "shared/sys_flags.h"
 #include "engine/entity.h"
 
-extern s32 func_80042518(CallbackObject *object, s32 type);
-extern void set_or_clear_actor_status_slot(CallbackObject *object, s32 type, s32 value);
+extern s32 func_80042518(ActorRecord *object, s32 type);
+extern void set_or_clear_actor_status_slot(ActorRecord *object, s32 type, s32 value);
 
 /* Remove type 0x1B and replay the remaining slots with global flag bit 1 set. */
-void replay_actor_status_slots(CallbackObject *object)
+void replay_actor_status_slots(ActorRecord *object)
 {
     ActorStatusSlot saved_slots[4];
     s32 initial_type = 0x1B;
@@ -27,7 +24,7 @@ void replay_actor_status_slots(CallbackObject *object)
     slot_index = 0;
 
     for (; slot_index < 4; slot_index++) {
-        saved_slots[slot_index] = object->slots[slot_index];
+        saved_slots[slot_index] = object->status[slot_index];
         if (saved_slots[slot_index].type != 0) {
             func_80042518(object, saved_slots[slot_index].type);
         }

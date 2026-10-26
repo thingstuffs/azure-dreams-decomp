@@ -1,24 +1,19 @@
 #include "common.h"
+#include "shared/dungeon_item_entries.h"
 #include "shared/record_ptrs.h"
 #include "engine/item.h"
 
 /* extern decls */
 
-typedef struct {
-    unsigned char unk0;
-    unsigned char unk1;
-    unsigned char unk2;
-    unsigned char unk3;
-} S_80049330;
 
 /*
  * Resolves the low five bits of the record code when its first word is set; otherwise returns
  * primary_actor_record.
  */
-int resolve_record_value(S_80049330 *record)
+int resolve_record_value(DungeonItemEntry *record)
 {
-    if (record->unk0 != 0) {
-        return resolve_indexed_value(record->unk3 & 0x1F);
+    if (record->unk_00 != 0) {
+        return resolve_indexed_value(record->unk_03 & 0x1F);
     }
     return ((int)primary_actor_record);
 }

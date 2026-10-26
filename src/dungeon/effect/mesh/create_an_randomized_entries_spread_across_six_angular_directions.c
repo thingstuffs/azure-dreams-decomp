@@ -28,7 +28,7 @@ typedef struct S_81977B40_1 {
     s16 unk_82;
 } S_81977B40_1;   /* base in create_an_n_30_randomized_entries_spread_across_six_angular_directions */
 
-extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 extern u8 D_80024D84[9];
 extern u8 D_800251E8[9];

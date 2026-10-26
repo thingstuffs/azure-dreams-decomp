@@ -23,7 +23,8 @@ void tick_monster_spawn_timer(void);
 
 
 
-s32 use_item_to_apply_poison(ActorRecord *entity, s32 item, s16 action_type);
+struct DungeonItemEntry;
+s32 use_item_to_apply_poison(ActorRecord *entity, struct DungeonItemEntry *item, s16 action_type);
 
 void play_b4_sound(void);
 void create_terrain_particle_emitter(s16 tile_x, s16 tile_y, s16 initial_value);

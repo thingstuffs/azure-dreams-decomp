@@ -123,7 +123,7 @@ void update_staged_actor_movement(void *action, ObjectPosition *motion, SpriteFr
         heading_byte = 15;
         particle_x_offset = (x_step << 5) - 8;
         do {
-            particle = allocate_list_node(0x312, ((s32 *)&scene_object_list_anchor.next));
+            particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (particle != NULL) {
                 register_node(particle, project_sprite_chain);
                 particle_motion = (u8 *)particle + 0x20;

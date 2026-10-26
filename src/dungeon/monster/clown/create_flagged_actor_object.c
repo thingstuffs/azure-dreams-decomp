@@ -27,7 +27,7 @@ void *create_flagged_actor_object(s16 init_flags, s16 tile_x, s16 tile_y, s16 ob
     saved_x = tile_x;
     saved_id = object_id;
     saved_y = tile_y;
-    object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != 0) {
         state = 
         ((void *)object)+ 0x20;

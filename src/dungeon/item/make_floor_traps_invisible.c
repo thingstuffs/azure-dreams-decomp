@@ -1,4 +1,5 @@
 #include "shared/entity_action_selectors.h"
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -24,7 +25,7 @@ extern u8 floor_objects[];
 
 
 /* Apply an entity event or mark eligible slots, then finish the event. */
-s32 make_floor_traps_invisible(EntityRec *entity, s32 event, s16 event_type, s32 event_arg) {
+s32 make_floor_traps_invisible(EntityRec *entity, DungeonItemEntry *event, s16 event_type, s32 event_arg) {
     void *message_arg;
     u8 *slot;
     u8 *event_state;

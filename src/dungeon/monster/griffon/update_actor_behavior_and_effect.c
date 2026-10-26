@@ -35,7 +35,7 @@ void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id
     saved_tile_x = tile_x;
     saved_part_id = part_id;
     saved_tile_y = tile_y;
-    obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((R08_8017087C_S_8017087C_0 *)obj)->unk_10 = ((u8 *)update_griffon_motion_and_facing);
@@ -460,7 +460,7 @@ void update_actor_behavior_and_effect(void *actor, EntityRec *position, SpriteFr
         void *tint;
         u8 *sprite_data;
 
-        effect = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+        effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
         ((Rec_func_800A9E70_arg0 *)actor)->unk_A0.at00_pv.v = effect;
         object = effect;
         if (object == 0) {

@@ -16,13 +16,11 @@ struct RectU16_80046884;
 struct S_8003DF0C;
 struct S_8003DF74_Vec;
 struct S_8003F9E0;
-struct S_80045340_Entry;
 struct S_800475A4_Entry;
 struct S_8004761C_Entry;
 struct S_80047694;
 struct S_80047784;
 struct S_800482C8_Entry;
-struct S_80048A44_Obj;
 struct S_8004C010;
 struct S_8004CAE8;
 struct S_8004CC38_Node;
@@ -30,7 +28,6 @@ struct S_80050550_Outer;
 struct S_800505BC;
 struct S_800508F0;
 struct S_80052C10_Arg1;
-struct S_80083110;
 struct Tint8004C080;
 
 /* advance_timed_tagged_stream.c */
@@ -174,7 +171,7 @@ void read_vram_blocks_to_buffer(void);
 void refresh_vram_blocks_on_flag(void *sub_obj);
 
 /* register_sprite_slot.c */
-void register_sprite_slot(struct S_80083110 *entry, s32 index);
+void register_sprite_slot(struct SpriteFrameState *entry, s32 index);
 
 /* reset_callbacks_and_clear_vram.c */
 void reset_callbacks_and_clear_vram(void);
@@ -222,11 +219,11 @@ void set_color_components_and_scaled_fields(struct S_80050550_Outer *outputs, s3
 void advance_gauge_color_then_decay(struct S_800505BC *state, s32 unused_1, s32 unused_2);
 
 /* set_sprite_animation_frame.c */
-void set_sprite_animation_frame(struct S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 slot_index);
+void set_sprite_animation_frame(struct SpriteFrameState *obj, s16 frame_group, s16 frame_index, s32 slot_index);
 
 /* sprite_projection.c */
-s32 func_80045340(void *group_data, s32 context, struct S_80045340_Entry *entry, s32 unused);
-s32 project_sprite_chain(void *group_data, s32 context, struct S_80045340_Entry *entry, s32 unused);
+s32 func_80045340(void *group_data, s32 context, struct SpriteFrameState *sprite, s32 unused);
+s32 project_sprite_chain(void *group_data, s32 context, struct SpriteFrameState *sprite, s32 unused);
 void func_800453E0(void *context, void *position, struct Entry *entry, s16 depth_bias);
 void project_sprite_commands(void *context, void *position, struct Entry *entry, s16 depth_bias);
 

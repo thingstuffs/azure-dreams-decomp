@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "shared/slus_callbacks.h"
 #include "sdk/libc.h"
 #include "dungeon/effect/mesh.h"
 #include "shared/actor_property_flags.h"
@@ -1602,7 +1603,6 @@ extern u8 D_8007CCD8[];
 extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
 extern s32 check_adjacent_tile_height_clearance(u16, u16, s16, void *);
 
-extern void project_sprite_chain(void);
 
 #define U8(p, o) (*(u8 *)((u8 *)(p) + (o)))
 #define S8(p, o) (*(s8 *)((u8 *)(p) + (o)))

@@ -11,7 +11,7 @@
 #include "slus.h"
 #include "dungeon/level.h"
 
-extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s16 GetClut();
 extern s32 draw_linked_textured_quads(void *first_quad);
 extern void update_rotating_effect_vertices(void *effect_data);
@@ -417,7 +417,7 @@ typedef struct S_800DAEF4_6 {
     s32 unk_04;
 } S_800DAEF4_6;   /* link in spawn_scattered_timed_objects */
 
-extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 extern s32 secondary_sprite;
 
@@ -698,7 +698,6 @@ typedef struct D_800DB420_Effect {
     u8 *data2c;
 } D_800DB420_Effect;
 
-extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
 
 /* Jitter the position and advance the effect through its modes and countdown. */

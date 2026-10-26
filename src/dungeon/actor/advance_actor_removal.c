@@ -120,7 +120,8 @@ typedef struct {
 void build_entity_slot_snapshot();
 s32 get_entity_effect_value();
 s32 get_entity_class();
-void clear_slot_and_update_linked_state(s32 *slot);
+struct DungeonItemEntry;
+void clear_slot_and_update_linked_state(struct DungeonItemEntry *slot);
 void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 void * write_text_byte_and_advance();
 void adjust_source_value_and_finalize(void *context, const void *source);

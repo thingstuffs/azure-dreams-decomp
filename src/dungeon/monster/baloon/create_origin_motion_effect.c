@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/slus_callbacks.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -25,7 +26,6 @@ typedef struct S_80D65810_0 {
 
 void select_record_entry_and_value(void *state, void *entries, short index);
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern void project_sprite_chain(void);
 extern void update_effect_collision_and_lifetime(void);
 
 /* Creates an effect relative to the origin and initializes its motion and appearance. */

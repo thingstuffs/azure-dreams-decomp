@@ -1,6 +1,6 @@
 #include "common.h"
 
-struct S_80044AAC; void link_typed_list_node(struct S_80044AAC *, struct S_80044AAC *);
+struct ObjectNodeHeader; void link_typed_list_node(struct ObjectNodeHeader *, struct ObjectNodeHeader *);
 extern u8 shop_display_presets[];
 extern u8 D_800D1630[];
 

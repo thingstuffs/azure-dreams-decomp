@@ -55,7 +55,7 @@ void *spawn_saber(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
     S_80171158_4 *result_copy;
 
     result = 0;
-    object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
+    object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != 0) {
         result = object;
         result = (u8 *)result + 0x20;

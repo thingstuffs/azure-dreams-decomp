@@ -1,20 +1,17 @@
 #include "common.h"
 #include "shared/actor_status.h"
+#include "shared/entity.h"
 
-typedef struct {
-    u8 pad[0x2C];
-    ActorStatusSlot slot[4];
-} S_80042518;
 
 /* Clear the last slot of the requested type and return its value, or zero if absent. */
-s32 find_slot_by_type(S_80042518 *slots, s8 type) {
+s32 find_slot_by_type(ActorRecord *slots, s8 type) {
     s32 slot_index;
 
     for (slot_index = 3; slot_index >= 0; slot_index--) {
-        if (slots->slot[slot_index].type == type) {
-            s32 value = slots->slot[slot_index].value;
-            slots->slot[slot_index].type = 0;
-            slots->slot[slot_index].value = 0;
+        if (slots->status[slot_index].type == type) {
+            s32 value = slots->status[slot_index].value;
+            slots->status[slot_index].type = 0;
+            slots->status[slot_index].value = 0;
             return value;
         }
     }

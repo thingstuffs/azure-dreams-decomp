@@ -54,7 +54,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
         particles_left = 5;
         sprite_set = directional_effect_entries;
         do {
-            entity = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
+            entity = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (entity != 0) {
                 register_node(entity, project_sprite_chain);
                 render_state = entity->sprite;

@@ -8,7 +8,7 @@
 /* dragon.h owns these declarations but also declares a different
  * advance_actor_attack_and_resolve_damage than ashra.h, so the two headers
  * cannot be combined in this file. */
-extern ObjectNodeHeader *allocate_list_node(s32, ObjectNodeHeader *);
+extern ObjectNodeHeader *allocate_list_node(s32, ObjectNodeHeader **);
 extern void register_node(ObjectNodeHeader *, void *);
 extern s32 generate_random_value(void);
 extern void set_or_clear_actor_status_slot(ActorRecord *, s32, s32);
@@ -37,7 +37,7 @@ void *spawn_ashra(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)
     saved_tile_x = tile_x;
     saved_height = spawn_height;
     saved_tile_y = tile_y;
-    obj = allocate_list_node(0x112, &scene_object_list_anchor);
+    obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
         body = obj + 1;
         work = body;

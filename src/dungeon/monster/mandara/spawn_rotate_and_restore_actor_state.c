@@ -188,7 +188,7 @@ void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *mo
         center.y = spawn.y + (spawn.dy >> 1);
         draw_transformed_sprite_with_clip_rect(effect, &spawn, &center, 1, 0);
 
-        effect_alloc = allocate_list_node(0x201, ((u8 *)(&scene_object_list_anchor)));
+        effect_alloc = allocate_list_node(0x201, &scene_object_list_anchor.next);
         if (effect_alloc == 0) {
             return;
         }
@@ -216,7 +216,7 @@ void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *mo
         if ((rotating_object != 0) && (effect->unk_96.s < 0x34)) {
             ((S_80174668_7 *)rotating_object)->unk_2A =
                 (((S_80174668_7 *)rotating_object)->unk_2A + 0x200) & 0x3FFF;
-            effect_alloc = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
+            effect_alloc = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (effect_alloc != 0) {
                 register_node(effect_alloc, project_sprite_chain);
                 effect_data = ((u8 *)effect_alloc) + 0x20;

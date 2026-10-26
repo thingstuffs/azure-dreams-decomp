@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "shared/slus_callbacks.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
 /* Status application, shaded particles, terrain-seeking motion, and rotating target effects. */
@@ -54,7 +55,6 @@ s32 rcos(s16);                          /* extern */
 extern int abs(int);
 extern void *memcpy(void *, const void *, u32);
 extern s32 get_sprite_attachment_vector();
-extern void project_sprite_chain(void);
 extern s32 rand(void);
 extern s32 check_adjacent_tile_height_clearance();
 extern void select_record_entry_and_value(void *state, void *entries, short index);

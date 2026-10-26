@@ -291,7 +291,7 @@ void update_snowball_minigame_actor(TownCollectionActor *object, ObjectPosition 
                 do {
                     ObjectNodeHeader *particle;
 
-                    particle = allocate_list_node(0x136, ((u8 *)(&scene_object_list_anchor)));
+                    particle = allocate_list_node(0x136, &scene_object_list_anchor.next);
                     if (particle != NULL) {
                         SpriteFrameState *part;
                         void *link;

@@ -1,4 +1,5 @@
 #include "dungeon/level/room_flags.h"
+#include "shared/dungeon_item_entries.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
@@ -20,16 +21,16 @@ extern u8 D_800E12D6[];
 extern u8 D_800E1303[];
 
 #include "dungeon/player/item.h"
-extern s32 process_record_and_update_linked_state(s32, s32);
-extern void clear_slot_and_update_linked_state(s32);
+extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32);
+extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern void clear_byte_and_advance(s8 *byte_ptr);
 extern void display_formatted_context_message(void *);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern void place_actor_item(void *, s32);
-extern void display_actor_item_status_message(void *, s32, s16);
-extern s32 feed_actor_restore_mp(void *, s32, s32);
+extern void place_actor_item(void *, struct DungeonItemEntry *);
+extern void display_actor_item_status_message(void *, struct DungeonItemEntry *, s16);
+extern s32 feed_actor_restore_mp(void *, s32, struct DungeonItemEntry *);
 extern s32 create_timed_region_flag_expiry(s32 unused0, s32 unused1, s32 unused2, s16 payloadValueA, s16 payloadValueC);
 
 
@@ -47,7 +48,7 @@ typedef struct S_800BF7FC_1 {
 } S_800BF7FC_1;   /* obj in apply_room_holy_beam_item */
 
 /* Handles an item action for a target and updates dungeon record flags. */
-s32 apply_room_holy_beam_item(void *target, u8 *item, s16 action, s32 action_param)
+s32 apply_room_holy_beam_item(void *target, DungeonItemEntry *item, s16 action, s32 action_param)
 {
     DungeonRecord *record;
     u8 *record_obj;
@@ -56,21 +57,21 @@ s32 apply_room_holy_beam_item(void *target, u8 *item, s16 action, s32 action_par
     s8 record_index;
 
     if (action == 13) {
-        return process_record_and_update_linked_state((s32)item, action_param);
+        return process_record_and_update_linked_state(item, action_param);
     }
 
     if (target == ((u8 *)dungeon_actor_ring_anchor)) {
-        ((EntityRec *)target)->unk_110 = (s32)item;
+        ((PlayerRecord *)target)->pending_item_action = item;
         begin_mode_selected_item_action(target, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);
         return 0;
     }
 
     if ((u32)target <= 0x9FFFFFFF) {
-        display_actor_item_status_message(target, (s32)item, action);
+        display_actor_item_status_message(target, item, action);
         if (feed_actor_restore_mp(target,
                           entity_action_selectors[(*(u8 *)((u8 *)&((EntityRec *)target)->unk_10 + 3))] & 3,
-                          (s32)item) == 0) {
-            place_actor_item(target, (s32)item);
+                          item) == 0) {
+            place_actor_item(target, item);
             return 1;
         }
     } else {
@@ -80,7 +81,7 @@ s32 apply_room_holy_beam_item(void *target, u8 *item, s16 action, s32 action_par
             if (create_timed_region_flag_expiry(((S_800BF7FC_1 *)record_obj)->unk_24,
                               ((S_800BF7FC_1 *)record_obj)->unk_25,
                               ((EntityRec *)target)->unk_88,
-                              item[0], record_index) == 0) {
+                              item->unk_00, record_index) == 0) {
                 return 0;
             }
 
@@ -98,6 +99,6 @@ s32 apply_room_holy_beam_item(void *target, u8 *item, s16 action, s32 action_par
     }
 
     g_dungeon_status.activity_counts.parts.pending_action_count--;
-    clear_slot_and_update_linked_state((s32)item);
+    clear_slot_and_update_linked_state(item);
     return 1;
 }

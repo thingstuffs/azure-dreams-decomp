@@ -7,7 +7,6 @@
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "dungeon/level.h"
 
-typedef struct S_80048A44_Obj S_80048A44_Obj;
 
 
 typedef struct S_8008CD4C_2 {
@@ -19,7 +18,7 @@ typedef struct S_8008CD4C_2 {
     s16 unk_88;
 } S_8008CD4C_2;   /* actor in begin_player_push */
 
-extern void set_sprite_animation_frame(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 slot_index);
+extern void set_sprite_animation_frame(struct SpriteFrameState *obj, s16 frame_group, s16 frame_index, s32 slot_index);
 s16 check_tile_entry_at_adjusted_height();
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 s32 can_push_adjacent_actor();

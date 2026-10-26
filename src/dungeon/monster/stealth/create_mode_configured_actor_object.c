@@ -24,7 +24,7 @@ void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_
 
     work = 0;
     variant = 1;
-    object = allocate_list_node(274, ((u8 *)(&scene_object_list_anchor)));
+    object = allocate_list_node(274, &scene_object_list_anchor.next);
     if (object != 0) {
         work = (u8 *)object + 0x20;
         object->update_callback = func_8016AA8C;

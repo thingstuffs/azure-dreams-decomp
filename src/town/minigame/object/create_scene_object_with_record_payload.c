@@ -7,7 +7,7 @@ typedef struct {
     s32 words[10];
 } Record;
 
-extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 /* Allocate an object, copy its record, set its value, and pass it for initialization. */
 void create_scene_object_with_record_payload(s32 object_value, void *record) {

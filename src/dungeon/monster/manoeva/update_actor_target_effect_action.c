@@ -63,7 +63,7 @@ extern u8 D_80170898[];
 void func_80170EE4(void *actor_state_in, void *update_context_in, void *map_object, void *actor_data);
 void transfer_linked_object_state(u8 *owner, s32 object_id, u8 *dest_object, u8 *dest_state);
 
-void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 void unlink_node();
 s32 get_unused_text_buffer();
 s32 expand_text_control_codes();

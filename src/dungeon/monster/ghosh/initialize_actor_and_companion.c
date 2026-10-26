@@ -69,7 +69,7 @@ typedef struct S_8016AEDC_6 {
 
 struct ObjectNodeHeader; void * allocate_list_node(s32, struct ObjectNodeHeader * *);
 void func_80042640(void *, s16);
-extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 retain_spawn_resource(s16, s16);
 extern s8 random_dungeon_range_16();
 void initialize_actor_sprite_and_animation(void *, void *, void *, s32);
@@ -102,7 +102,7 @@ void *initialize_actor_and_companion(s16 mode_flags, s32 config_24, s32 config_2
     work = 0;
     saved_config_24 = config_24;
     saved_config_25 = config_25;
-    object = allocate_list_node(0x112, (struct ObjectNodeHeader * *)(((u8 *)(&scene_object_list_anchor))));
+    object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     saved_config_0a = config_0a;
     if (object != 0) {
         work = object + 0x20;

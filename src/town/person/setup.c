@@ -24,7 +24,7 @@ void * create_owner_following_sprite(s32 state_value) {
     S_800C6C10_1 *state;
     ObjectNodeHeader *object;
 
-    object = allocate_list_node(0x136, (struct ObjectNodeHeader * *)(((s32 *)&scene_object_list_anchor.next)));
+    object = allocate_list_node(0x136, &scene_object_list_anchor.next);
     if (object == 0) {
         return 0;
     }

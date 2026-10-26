@@ -15,7 +15,7 @@ s32 create_directional_sprite_effect(void *position, s16 angle) {
     ObjectPosition *data_ptr;
     s16 saved_angle;
 
-    effect = allocate_list_node(0x312, ((s32 *)&scene_object_list_anchor.next));
+    effect = allocate_list_node(0x312, &scene_object_list_anchor.next);
     if (effect != NULL) {
         saved_angle = angle;
         effect->update_callback = &D_800BC6CC;

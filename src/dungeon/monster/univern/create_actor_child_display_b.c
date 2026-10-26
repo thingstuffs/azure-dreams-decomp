@@ -106,7 +106,7 @@ void *create_actor_child_display_b(s32 kind, s32 part_x, s32 part_y, s32 initial
 
         do {
 
-            saved_value = (s32)allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+            saved_value = (s32)allocate_list_node(0x112, &scene_object_list_anchor.next);
             allocated = (void *)saved_value;
             ((S_8015E89C_5 *)outer)->unk_A4 = allocated;
             if (allocated != 0) {

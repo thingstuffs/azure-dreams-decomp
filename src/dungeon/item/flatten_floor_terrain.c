@@ -1,4 +1,5 @@
 #include "shared/dungeon_item_entries.h"
+#include "shared/entity.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
@@ -32,7 +33,7 @@ extern u8 floor_trap_update_address[];
 #define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
 /* Apply a target effect and clear dungeon entities and tiles when requested. */
-s32 flatten_floor_terrain(void *target, s32 effect_arg, s16 effect_id, s32 context) {
+s32 flatten_floor_terrain(void *target, DungeonItemEntry *effect_arg, s16 effect_id, s32 context) {
     s32 *dungeon_state = ((s32 *)(&g_game_work));
     u8 *grid_info;
     s32 grid_base;
@@ -56,8 +57,8 @@ s32 flatten_floor_terrain(void *target, s32 effect_arg, s16 effect_id, s32 conte
         return process_record_and_update_linked_state(effect_arg, context);
     }
     if (target == dungeon_actor_ring_anchor) {
-        S32(target, 0x110) = effect_arg;
-        begin_mode_selected_item_action(target, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);
+        ((PlayerRecord *)target)->pending_item_action = effect_arg;
+        begin_mode_selected_item_action(target, &view_reference_entity, &reference_tile_object, target);
         return 0;
     }
     if ((u32) target <= 0x9FFFFFFFU) {

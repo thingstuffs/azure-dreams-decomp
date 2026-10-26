@@ -31,7 +31,7 @@ typedef struct S_80F45000_4 {
     s8 unk_9C;
 } S_80F45000_4;   /* actor in allocate_actor_parts */
 
-extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 
 extern u8 D_8015EA68[];

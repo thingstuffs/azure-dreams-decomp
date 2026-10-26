@@ -90,7 +90,7 @@ void advance_action_and_spawn_random_effects(void *action, void *motion, SpriteF
         spawn_count = 0;
         screen_pos = (s32 *)&effect_work.out18;
         do {
-            effect = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
+            effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
             effect_data = ((void *)effect) + 0x20;
             if (effect != NULL) {
                 ((T_80172FFC_S_80172FFC_4 *)effect_data)->unk_96 = 0x19;

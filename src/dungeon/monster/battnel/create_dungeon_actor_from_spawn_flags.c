@@ -36,7 +36,7 @@ typedef struct S_80B73054_4 {
     s16 unk_A4;
 } S_80B73054_4;   /* actor in create_dungeon_actor_from_spawn_flags */
 
-extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern void set_or_clear_actor_status_slot();
 extern u8 D_8016AA30[];

@@ -80,7 +80,7 @@ s32 initialize_mogura_minigame(void)
     load_default_object_palette(7);
     func_8003E188(0x3F, parent_state);
 
-    object = allocate_list_node(0x136, ((u8 *)(&scene_object_list_anchor)));
+    object = allocate_list_node(0x136, &scene_object_list_anchor.next);
     if (object != NULL) {
         parent_state = (u8 *)object + 0x20;
         object->update_callback = &D_800243D8;
@@ -94,7 +94,7 @@ s32 initialize_mogura_minigame(void)
     update_callback = &D_80024954;
     x_first = 0xD0;
     do {
-        object = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
+        object = allocate_list_node(1, &scene_object_list_anchor.next);
         element = (u8 *)object + 0x20;
         if (object != NULL) {
             object->update_callback = update_callback;
@@ -115,7 +115,7 @@ s32 initialize_mogura_minigame(void)
     update_callback = &D_800249A0;
     x_second = 0xD8;
     do {
-        object = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
+        object = allocate_list_node(1, &scene_object_list_anchor.next);
         element = (u8 *)object + 0x20;
         if (object != NULL) {
             object->update_callback = update_callback;
@@ -147,7 +147,7 @@ s32 initialize_mogura_minigame(void)
     update_callback = &D_80024A30;
     x_third = 0xCC;
     do {
-        object = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
+        object = allocate_list_node(1, &scene_object_list_anchor.next);
         if (object != NULL) {
             S_80024100_2 *third_element;
             render_data = build_menu_line_tile_packets;

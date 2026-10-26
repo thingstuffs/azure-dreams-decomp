@@ -35,7 +35,7 @@ void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, 
     saved_byte_24 = byte_24;
     saved_value_0a = value_0a;
     saved_byte_25 = byte_25;
-    obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((R07_80170854_S_8016A854_0 *)obj)->unk_10 = ((u8 *)update_entity_facing_motion_and_ground);
@@ -456,7 +456,7 @@ void dispatch_monster_move_attack_spell(void *record, EntityRec *entity, void *o
         u8 *base;
         s32 base_word;
 
-        created = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+        created = allocate_list_node(0x112, &scene_object_list_anchor.next);
         ((Rec_func_800A9E70_arg0 *)record)->unk_A0.at00_pv.v = created;
         object = created;
         if (object == 0) {

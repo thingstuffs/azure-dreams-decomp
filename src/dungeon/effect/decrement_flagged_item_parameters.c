@@ -51,7 +51,7 @@ void decrement_flagged_item_parameters(void *action, void *saved_position)
         *((u16 *) (((u8 *) action) + 0x50)) = 10;
         (*((u16 *) (((u8 *) shared_data) + 0xA6)))--;
         shared_data->unk_A8 = *((u8 *) (((u8 *) action) + 8));
-        effect = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
+        effect = allocate_list_node(0x312, &scene_object_list_anchor.next);
         if (effect != 0) {
             offset_part = owner->sprite;
             if (resolve_record_orientation_or_fallback(*(s32 *)&offset_part->source, offset_part, offsets, 0) == 0) {

@@ -483,20 +483,22 @@ void apply_capped_damage_and_hit_effect(ActorRecord *entity, Rec_func_800A5DFC_a
 #include "common.h"
 #include "shared/dungeon_status.h"
 
+#include "shared/dungeon_item_entries.h"
+
 extern s32 lookup_item_category_mapped_value(u8, u8);
-extern void clear_slot_and_update_linked_state(void *);
+extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
 extern s32 play_sound_if_enabled(s32);
 extern void place_item_at_valid_floor_position(u16, u16, s16, s32 , void *);
 
 /* Processes a target using the linked object's position, then decrements the shared count. */
-void place_actor_item(void *object_context, void *target) {
+void place_actor_item(void *object_context, struct DungeonItemEntry *target) {
     void *object;
 
     object = *(void **)((s8 *)object_context - 0x18);
     place_item_at_valid_floor_position(*(u16 *)((s8 *)object + 2) >> 6,
                   *(u16 *)((s8 *)object + 6) >> 6,
                   *(s16 *)((s8 *)object + 0xA),
-                  lookup_item_category_mapped_value(*((u8 *)target + 1), *(u8 *)target), target);
+                  lookup_item_category_mapped_value(target->kind, target->unk_00), target);
     play_sound_if_enabled(0x50C);
     clear_slot_and_update_linked_state(target);
     g_dungeon_status.activity_counts.parts.pending_action_count--;
@@ -778,7 +780,7 @@ extern u8 D_800E0A03[];
 extern u8 D_800E0A12[];
 
 /* Builds and displays an item message with the selected phrase and entity name. */
-void display_item_status_message(void *entity, void *item, s32 message_kind) {
+void display_item_status_message(void *entity, struct DungeonItemEntry *item, s32 message_kind) {
     void *message;
 
     void *text_end;
@@ -802,7 +804,7 @@ extern s32 write_status_prefix_bytes(s32 dst);
 extern u8 fullwidth_period[];
 extern u8 D_800E0A1B[];
 
-void display_actor_item_status_message(void *actor, void *item) {
+void display_actor_item_status_message(void *actor, struct DungeonItemEntry *item) {
     void *original_value;
     void *current_value;
     void *adjusted_value;
@@ -907,7 +909,7 @@ typedef struct S_800A6620_3 {
 
 extern void build_entity_slot_snapshot(void *ptr, void *object);
 extern s32 get_entity_effect_value(void *object, s32 value);
-extern void clear_slot_and_update_linked_state(void *handle);
+extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *handle);
 extern void unlink_entity_node(void *object);
 extern void update_map_cell_flags_with_item_limit(u8 sound_x, u8 sound_y, s32 sound_mode);
 extern s16 find_entity_slot_by_field_ac(void *object);

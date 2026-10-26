@@ -265,7 +265,7 @@ void advance_move_action_particles(void *action, ObjectPosition *position, Sprit
                 effect_base = secondary_sprite;
                 for (; counter >= 0; counter--) {
                     SpriteFrameState *particle_data;
-                    particle = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
+                    particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
                     if (particle != 0) {
 
                         register_node(particle, project_sprite_chain);

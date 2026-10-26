@@ -51,7 +51,7 @@ extern u8 minigame_palette_backup[];
 extern u8 minigame_image_backup[];
 extern u8 D_800246E0[];
 
-extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern void StoreImage();
 extern void configure_the_set_mode_n_3();
 

@@ -116,7 +116,7 @@ void *spawn_univern_actor(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
 
         do {
 
-            saved_copy_value = (s32)allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+            saved_copy_value = (s32)allocate_list_node(0x112, &scene_object_list_anchor.next);
             allocated = (void *)saved_copy_value;
             ((R17_8017089C_S_8017089C_5 *)outer)->unk_A4 = allocated;
             if (allocated != 0) {

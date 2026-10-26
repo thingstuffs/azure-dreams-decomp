@@ -17,7 +17,8 @@ void *get_unused_text_buffer(void);
 u8 * append_typed_formatted_value();
 void adjust_source_value_and_finalize(void *context, const void *source);
 s32 display_text_with_fullwidth_adjustment();
-void place_actor_item(void *object_context, void *target);
+struct DungeonItemEntry;
+void place_actor_item(void *object_context, struct DungeonItemEntry *target);
 s32 feed_actor_restore_mp();
 void create_colored_effect_with_event(struct ObjectNodeHeader *source, s32 color, unsigned short event_id);
 

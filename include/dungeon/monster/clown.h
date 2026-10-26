@@ -370,7 +370,7 @@ s32 Control_CD();
 void *allocate_list_node();
 void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
+s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 void advance_sprite_animation_and_textures(void *entity);
 void apply_monster_koyaw_data();
@@ -405,8 +405,8 @@ u32 check_entity_interaction_compatibility();
 s32 apply_camera_offset_and_select_target();
 #include "dungeon/player/object/action_state.h"
 struct Entry;
-struct RegistrationNode;
-struct S_800833E0;
+struct ObjectNodeHeader;
+struct ObjectNodeHeader;
 s32 relink_entity_and_clear_high_flag();
 s32 update_actor_movement_to_tile();
 s32 spend_actor_mp();
@@ -440,7 +440,7 @@ void project_sprite_commands();
 void func_800453E0(void *context, void *position, struct Entry *entry, s16 depth_bias);
 void select_record_entry_and_value(void *state, void *entries, short index);
 void unlink_node();
-void func_80044A50(struct S_800833E0 *node);
+void func_80044A50(struct ObjectNodeHeader *node);
 void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
 void run_cd_image_commands();
 void func_80041588(u32 *stream_ref, u8 *state, s32 execute);

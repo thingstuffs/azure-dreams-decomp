@@ -115,7 +115,7 @@ void advance_actor_entry_active_exit_states(void *action, void *context, SpriteF
             0);
 
         g_dungeon_status.activity_counts.parts.pending_action_count--;
-        effect = allocate_list_node(0x10, ((u8 *)(&scene_object_list_anchor)));
+        effect = allocate_list_node(0x10, &scene_object_list_anchor.next);
         effect_state = (u8 *)effect + 0x20;
         if (effect != 0) {
             effect->update_callback = mandara_object_callback;
@@ -204,7 +204,7 @@ void advance_actor_entry_active_exit_states(void *action, void *context, SpriteF
                 direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
 
-            effect = allocate_list_node(0x10, ((u8 *)(&scene_object_list_anchor)));
+            effect = allocate_list_node(0x10, &scene_object_list_anchor.next);
             effect_state = (u8 *)effect + 0x20;
             if (effect != 0) {
                 effect->update_callback = mandara_object_callback;
@@ -306,7 +306,7 @@ second_call:
             exit_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
 
-        effect = allocate_list_node(0x10, ((u8 *)(&scene_object_list_anchor)));
+        effect = allocate_list_node(0x10, &scene_object_list_anchor.next);
         effect_state = (u8 *)effect + 0x20;
         if (effect != 0) {
             u16 angle;

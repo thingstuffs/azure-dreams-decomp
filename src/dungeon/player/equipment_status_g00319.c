@@ -24,7 +24,7 @@ void equip_item_and_update_status(Arg0 *context, Item *item) {
         if (selected_item->b1 == 0xF && selected_item->b0 >= 0xD) {
             play_sound_if_enabled(0x506);
             result_value = get_unused_text_buffer();
-            item_b3 = append_typed_formatted_value((FuncData *)selected_item, expand_text_control_codes(D_800E080A, append_entity_display_text(context, write_text_byte_and_advance(8, result_value))));
+            item_b3 = append_typed_formatted_value((struct DungeonItemEntry *)selected_item, expand_text_control_codes(D_800E080A, append_entity_display_text(context, write_text_byte_and_advance(8, result_value))));
             clear_byte_and_advance(expand_text_control_codes(D_80088B64, item_b3));
             display_text_with_fullwidth_adjustment(result_value);
             return;
@@ -41,7 +41,7 @@ void equip_item_and_update_status(Arg0 *context, Item *item) {
         if (value & 0x40) {
             play_sound_if_enabled(0x70A);
             result_value = get_unused_text_buffer();
-            item_b3 = append_typed_formatted_value((FuncData *)current_item, write_text_byte_and_advance(8, result_value));
+            item_b3 = append_typed_formatted_value((struct DungeonItemEntry *)current_item, write_text_byte_and_advance(8, result_value));
             clear_byte_and_advance(expand_text_control_codes(D_800E081C, item_b3));
             display_text_with_fullwidth_adjustment(result_value);
             return;
@@ -59,7 +59,7 @@ void equip_item_and_update_status(Arg0 *context, Item *item) {
         item_index = selected_item->b0;
         selected_item->b3 = item_b3 & 0x7F;
         result_value = get_unused_text_buffer();
-        clear_byte_and_advance(expand_text_control_codes(D_800E0844, append_typed_formatted_value((FuncData *)selected_item, write_text_byte_and_advance(8, result_value))));
+        clear_byte_and_advance(expand_text_control_codes(D_800E0844, append_typed_formatted_value((struct DungeonItemEntry *)selected_item, write_text_byte_and_advance(8, result_value))));
         display_text_with_fullwidth_adjustment(result_value);
         actor_direction_sprites[0] = (s32 *)equipped_actor_sprite_sources;
         tail_index = 0x70A;
@@ -67,7 +67,7 @@ void equip_item_and_update_status(Arg0 *context, Item *item) {
             context->flags |= 0x800;
             play_sound_if_enabled(tail_index);
             result_value = get_unused_text_buffer();
-            clear_byte_and_advance(expand_text_control_codes(D_800E0853, append_typed_formatted_value((FuncData *)selected_item, result_value)));
+            clear_byte_and_advance(expand_text_control_codes(D_800E0853, append_typed_formatted_value((struct DungeonItemEntry *)selected_item, result_value)));
             display_text_with_fullwidth_adjustment(result_value);
         }
         selected_item->b3 |= 0x20;
@@ -75,7 +75,7 @@ void equip_item_and_update_status(Arg0 *context, Item *item) {
         if (state != 0) {
             result_value = get_unused_text_buffer();
             value = write_text_byte_and_advance(8, result_value);
-            value = append_typed_formatted_value((FuncData *)context->field4C, value);
+            value = append_typed_formatted_value((struct DungeonItemEntry *)context->field4C, value);
             value = expand_text_control_codes(D_800E0862, value);
             clear_byte_and_advance(value);
             display_text_with_fullwidth_adjustment(result_value);
@@ -141,7 +141,7 @@ void change_equipped_item_and_notify(S_80098614_0 *actor, u8 *requested_item)
             play_sound_if_enabled(0x70A);
             state = get_unused_text_buffer();
             text_end = write_text_byte_and_advance(8, state);
-            text_end = append_typed_formatted_value((FuncData *)equipped_item, text_end);
+            text_end = append_typed_formatted_value((struct DungeonItemEntry *)equipped_item, text_end);
             text_end = expand_text_control_codes(D_800E0874, text_end);
             clear_byte_and_advance(text_end);
             display_text_with_fullwidth_adjustment(state);
@@ -160,7 +160,7 @@ void change_equipped_item_and_notify(S_80098614_0 *actor, u8 *requested_item)
         item_id = item[0];
         state = get_unused_text_buffer();
         text_end = write_text_byte_and_advance(8, state);
-        text_end = append_typed_formatted_value((FuncData *)item, text_end);
+        text_end = append_typed_formatted_value((struct DungeonItemEntry *)item, text_end);
         text_end = expand_text_control_codes(D_800E089C, text_end);
         clear_byte_and_advance(text_end);
         display_text_with_fullwidth_adjustment(state);
@@ -169,7 +169,7 @@ void change_equipped_item_and_notify(S_80098614_0 *actor, u8 *requested_item)
             actor->unk_1C |= 0x800;
             play_sound_if_enabled(0x70A);
             state = get_unused_text_buffer();
-            text_end = append_typed_formatted_value((FuncData *)item, state);
+            text_end = append_typed_formatted_value((struct DungeonItemEntry *)item, state);
             text_end = expand_text_control_codes(D_800E08AB, text_end);
             clear_byte_and_advance(text_end);
             display_text_with_fullwidth_adjustment(state);
@@ -181,7 +181,7 @@ void change_equipped_item_and_notify(S_80098614_0 *actor, u8 *requested_item)
         if (had_equipped != 0) {
             state = get_unused_text_buffer();
             text_end = write_text_byte_and_advance(8, state);
-            text_end = append_typed_formatted_value((FuncData *)actor->unk_50.p2, text_end);
+            text_end = append_typed_formatted_value((struct DungeonItemEntry *)actor->unk_50.p2, text_end);
             text_end = expand_text_control_codes(D_800E08BA, text_end);
             clear_byte_and_advance(text_end);
             display_text_with_fullwidth_adjustment(state);

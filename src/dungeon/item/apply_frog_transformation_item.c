@@ -1,4 +1,6 @@
 #include "shared/actor_status_ids.h"
+#include "shared/entity.h"
+#include "shared/dungeon_item_entries.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/item/message.h"
 
@@ -53,7 +55,7 @@ typedef struct S_800BDEB8_1 {
 } S_800BDEB8_1;
 
 /* Applies an interaction to an entity and displays the outcome. */
-s32 apply_frog_transformation_item(void *entity, s32 action_id, s16 mode) {
+s32 apply_frog_transformation_item(void *entity, DungeonItemEntry *action_id, s16 mode) {
     void *current_entity = ((u8 *)dungeon_actor_ring_anchor);
     void *target = entity;
     s32 special_case = 0;
@@ -66,7 +68,7 @@ s32 apply_frog_transformation_item(void *entity, s32 action_id, s16 mode) {
     u32 flag_mask;
 
     if (entity == current_entity) {
-        ((S_800BDEB8_0 *)entity)->unk_110 = action_id;
+        ((PlayerRecord *)entity)->pending_item_action = action_id;
         begin_deferred_item_action(target, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);
     } else {
         if ((u32)entity <= 0x9FFFFFFF) {

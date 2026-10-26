@@ -85,7 +85,7 @@ void update_actor_movement_and_emit_particles(void *actor, ObjectPosition *motio
         particle_or_dir_index = 6;
         particle_update = D_8017406C;
         do {
-            particle = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
+            particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (particle != 0) {
                 particle_work = (u8 *)particle + 0x20;
                 register_node(particle, project_sprite_chain);

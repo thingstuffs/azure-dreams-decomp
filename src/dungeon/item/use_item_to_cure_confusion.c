@@ -1,4 +1,5 @@
 #include "shared/actor_property_flags.h"
+#include "shared/dungeon_item_entries.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
 #include "shared/entity_action_selectors.h"
@@ -11,16 +12,8 @@
 #include "m2c_compat.h"
 #include "dungeon/item/message.h"
 
-typedef struct {
-    s8 type;
-    s8 value;
-} Slot;
-typedef struct {
-    u8 pad[0x2C];
-    Slot slots[4];
-} SlotOwner;
 
-void clear_slots_of_type(SlotOwner *owner, s8 match_type);             /* extern */
+void clear_slots_of_type(ActorRecord *owner, s8 match_type);             /* extern */
 #include "dungeon/player/item.h"
 void clear_slot_and_update_linked_state();                         /* extern */
 void *get_unused_text_buffer(void);                          /* extern */
@@ -43,7 +36,7 @@ typedef struct S_800BD5C4_0_pre {
 
 
 /* Applies an entity update and handles its follow-up effects and state count. */
-s32 use_item_to_cure_confusion(void *entity, s32 update_value, s16 mode) {
+s32 use_item_to_cure_confusion(void *entity, DungeonItemEntry *update_value, s16 mode) {
     u16 *type_flags;
     void *call_arg;
     void *context_arg;
@@ -52,7 +45,7 @@ s32 use_item_to_cure_confusion(void *entity, s32 update_value, s16 mode) {
     void *effect_result;
 
     if (entity == dungeon_actor_ring_anchor) {
-        ((EntityRec *)entity)->unk_110 = update_value;
+        ((PlayerRecord *)entity)->pending_item_action = update_value;
         begin_deferred_item_action(entity, &view_reference_entity.x.v, &reference_tile_object.frame_entry, entity);
         return 0;
     }

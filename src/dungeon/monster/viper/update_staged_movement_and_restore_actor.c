@@ -167,7 +167,7 @@ void update_staged_movement_and_restore_actor(void *action, ObjectPosition *moti
             ((S_801727B4_0 *)action)->unk_AE = (u16) (((S_801727B4_0 *)action)->unk_AE + ((u16)motion->y.w.i));
             ((S_801727B4_0 *)action)->unk_B0 = (u16) (((S_801727B4_0 *)action)->unk_B0 + ((u16)motion->z.w.i));
         } else {
-            effect = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
+            effect = allocate_list_node(1, &scene_object_list_anchor.next);
             if (effect != NULL) {
                 (((ObjectNodeHeader *)effect)->update_callback) = &D_800DB618;
                 register_node(effect, &D_800DB660);

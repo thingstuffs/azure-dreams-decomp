@@ -1,4 +1,5 @@
 #include "shared/actor_property_flags.h"
+#include "shared/dungeon_item_entries.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
 #include "shared/entity_action_selectors.h"
@@ -12,11 +13,11 @@
 
 extern void clear_slots_of_type(void *entity, s32 value);
 #include "dungeon/player/item.h"
-extern void clear_slot_and_update_linked_state(s32 event);
+extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *event);
 extern void display_formatted_context_message(void *ptr);
-extern void place_actor_item(void *entity, s32 event);
-extern void display_item_status_message(void *entity, s32 event, s16 event_type);
-extern s32 feed_actor_restore_mp(void *entity, s32 value, s32 value2);
+extern void place_actor_item(void *entity, struct DungeonItemEntry *event);
+extern void display_item_status_message(void *entity, struct DungeonItemEntry *event, s16 event_type);
+extern s32 feed_actor_restore_mp(void *entity, s32 value, struct DungeonItemEntry *value2);
 extern void create_timed_paired_particle_emitter(s32 value, s32 value2, void *entity);
 
 extern u8 D_800E0E9B[];
@@ -29,10 +30,10 @@ typedef struct S_800BD72C_0_pre {
 
 
 /* Processes an entity event, handling the player separately and completing other events. */
-s32 use_item_to_wake_actor(void *entity, s32 event, s16 event_type)
+s32 use_item_to_wake_actor(void *entity, DungeonItemEntry *event, s16 event_type)
 {
     if (entity == dungeon_actor_ring_anchor) {
-        ((EntityRec *)entity)->unk_110 = event;
+        ((PlayerRecord *)entity)->pending_item_action = event;
         begin_deferred_item_action(entity, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), entity);
         return 0;
     }

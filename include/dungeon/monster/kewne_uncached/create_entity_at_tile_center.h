@@ -18,7 +18,7 @@
 void *allocate_list_node();
 void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);                 /* extern */
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);                /* extern */
+s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);                /* extern */
 extern void *active_action_object[];
 void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *motion_in, SpriteFrameState *sprite_in);
 
@@ -98,7 +98,7 @@ void func_80042B68();                /* extern */
 void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 void apply_monster_koyaw_data();                 /* extern */
 #include "dungeon/player/object/action_state.h"
-struct RegistrationNode;
+struct ObjectNodeHeader;
 void update_actor_status_and_mp();                      /* extern */
 s32 refresh_actor_facing_and_lifecycle();  /* extern */
 extern u16 system_update_flags[8];

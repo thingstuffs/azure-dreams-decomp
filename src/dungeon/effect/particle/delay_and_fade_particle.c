@@ -183,7 +183,7 @@ void (*const dungeon_1870800_entry)(S_81850800_0 *, S_81850800_7 *, SpriteFlagsV
 
 /* Advance a directional effect, spawn its particles, and apply its target impact. */
 extern s32 register_node(ObjectNodeHeader *, void *);
-extern s32 project_sprite_chain(void *, s32, struct S_80045340_Entry *, s32);
+extern s32 project_sprite_chain(void *, s32, struct SpriteFrameState *, s32);
 extern void advance_sprite_animation_and_textures(void *);
 extern s32 rand(void);
 
@@ -433,7 +433,7 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
                 effect_flags = delay_and_fade_particle;
                 particle_anim = (S_81850800_10 *)directional_effect_entries;
                 do {
-                    obj = allocate_list_node(0x312, ((s32 *)&scene_object_list_anchor.next));
+                    obj = allocate_list_node(0x312, &scene_object_list_anchor.next);
                     if (obj != 0) {
                         work = obj->unk_0C;
                         obj->unk_10 = effect_flags;
@@ -537,7 +537,7 @@ typedef struct ParticlePrimitive {
     u16 flags;
 } ParticlePrimitive;
 
-struct S_80045340_Entry;
+struct SpriteFrameState;
 
 /* Delay a spawned particle, then integrate its motion and fade until deletion.
  * Retail: [file 0x1870FDC,0x1871178), [RAM 0x800247DC,0x80024978).

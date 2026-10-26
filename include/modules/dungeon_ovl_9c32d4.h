@@ -2,6 +2,7 @@
 #define DUNGEON_OVL_9C32D4_H
 
 #include "shared/sprite_frame_state.h"
+#include "shared/slus_callbacks.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -180,8 +181,6 @@ extern u8 D_80175F90[12];
 extern s16 dir_step_x[];
 extern s16 dir_step_y[];
 extern s32 D_800814A0;
-extern void project_sprite_chain(void);
-extern void func_80045340(void);
 extern u32 rand(void);
 extern u8 D_80175F9C[12];
 extern s32 rsin(s32);

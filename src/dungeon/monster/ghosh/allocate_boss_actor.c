@@ -63,7 +63,7 @@ void *allocate_boss_actor(s16 mode, s16 config_24, s16 config_25, s16 config_0a)
     saved_config_24 = config_24;
     saved_config_0a = config_0a;
     saved_config_25 = config_25;
-    obj = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
+    obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     saved_mode = mode;
     if (obj != 0) {
         work = (u8 *)obj + 0x20;

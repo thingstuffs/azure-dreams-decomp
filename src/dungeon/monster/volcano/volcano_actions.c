@@ -26,7 +26,7 @@ void *spawn_mode_dependent_112_object(s16 flags,s16 attr_x,s16 attr_y,s16 attr_h
  SpriteFrameState *sprite;
  E_80170854_SpawnState *state;
  tile_x=attr_x; height=attr_height; tile_y=attr_y;
- object=allocate_list_node(0x112,&scene_object_list_anchor);
+ object=allocate_list_node(0x112,&scene_object_list_anchor.next);
  saved_flags=flags;
  if(object) {
   actor=(E_80170854_SpawnActor *)((u8 *)object+0x20);

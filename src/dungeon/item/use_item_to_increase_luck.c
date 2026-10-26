@@ -1,4 +1,5 @@
 #include "shared/actor_property_flags.h"
+#include "shared/dungeon_item_entries.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -17,11 +18,11 @@ extern u8 D_800E1843[];
 
 
 /* Process an entity event, increment its counter, and finish the event with a visual effect. */
-s32 use_item_to_increase_luck(void *entity, s32 event, s16 event_type) {
+s32 use_item_to_increase_luck(void *entity, DungeonItemEntry *event, s16 event_type) {
     u8 entity_count;
 
     if (entity == ((s32)dungeon_actor_ring_anchor)) {
-        ((EntityRec *)entity)->unk_110 = event;
+        ((PlayerRecord *)entity)->pending_item_action = event;
         begin_deferred_item_action(entity, ((s32 *)(&view_reference_entity)), ((s32 *)(&reference_tile_object)), entity);
         return 0;
     }

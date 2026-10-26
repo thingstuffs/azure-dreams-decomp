@@ -1,4 +1,5 @@
 #include "shared/actor_property_flags.h"
+#include "shared/dungeon_item_entries.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -10,25 +11,25 @@
 
 extern void apply_entity_effects(void *);
 #include "dungeon/player/item.h"
-extern void clear_slot_and_update_linked_state(s32);
+extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
 extern void adjust_source_value_and_finalize(void *context, const void *source);
-extern void place_actor_item(void *, s32);
-extern void display_item_status_message(void *, s32, s16);
-extern s32 feed_actor_restore_mp(void *, s32, s32);
+extern void place_actor_item(void *, struct DungeonItemEntry *);
+extern void display_item_status_message(void *, struct DungeonItemEntry *, s16);
+extern s32 feed_actor_restore_mp(void *, s32, struct DungeonItemEntry *);
 extern void create_colored_effect_with_sound(void *source, s32 color, unsigned short sound_id);
 
 extern u8 D_800E1350[];
 
 
 /* Handles an entity action, advancing capped counters and updating dungeon state. */
-s32 use_item_to_increase_attack(void *entity, s32 action_id, s16 action_param)
+s32 use_item_to_increase_attack(void *entity, DungeonItemEntry *action_id, s16 action_param)
 {
     u32 progress_value;
     u8 progress;
     u8 completion_count;
 
     if (entity == dungeon_actor_ring_anchor) {
-        ((EntityRec *)entity)->unk_110 = action_id;
+        ((PlayerRecord *)entity)->pending_item_action = action_id;
         begin_deferred_item_action(entity, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), entity);
         return 0;
     }

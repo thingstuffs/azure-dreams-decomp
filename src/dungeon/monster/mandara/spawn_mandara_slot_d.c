@@ -58,7 +58,7 @@ void *spawn_mandara_in_slot_d(s16 flags, s16 kind_id, s16 tile_y, s16 spawn_heig
     saved_height = spawn_height;
     saved_tile_y = tile_y;
     kind_id = 0x112;
-    created = allocate_list_node(kind_id, ((u8 *)(&scene_object_list_anchor)));
+    created = allocate_list_node(kind_id, &scene_object_list_anchor.next);
     saved_flags = (s32)flags;
     if (created != 0) {
         void *init_arg0;

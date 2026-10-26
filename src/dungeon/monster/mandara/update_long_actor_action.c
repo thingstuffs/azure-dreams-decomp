@@ -248,7 +248,7 @@ void update_long_actor_action(void *self_object, void *aux_entity, SpriteFrameSt
                 ((S_80170F6C_3 *)aux_entity)->unk_10 = ((S_80170F6C_3 *)aux_entity)->unk_10 +
                     (((S_80170F6C_3 *)aux_entity)->unk_10 * scale >> 9);
 
-                object = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
+                object = allocate_list_node(0x312, &scene_object_list_anchor.next);
                 if (object != 0) {
                     register_node(object, project_sprite_chain);
                     payload = object->unk_08;

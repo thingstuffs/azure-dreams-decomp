@@ -51,7 +51,7 @@ void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id
     saved_x = tile_x;
     saved_part_id = part_id;
     saved_y = tile_y;
-    obj = allocate_list_node((s32)alloc_or_entry, ((u8 *)(&scene_object_list_anchor)));
+    obj = allocate_list_node((s32)alloc_or_entry, &scene_object_list_anchor.next);
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         obj->update_callback = create_anchored_directional_object;
@@ -105,7 +105,7 @@ void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id
         do {
             void *child_obj;
 
-            child_obj = allocate_list_node(274, ((u8 *)(&scene_object_list_anchor)));
+            child_obj = allocate_list_node(274, &scene_object_list_anchor.next);
             ((R06_8017087C_S_8017087C_4 *)slot)->unk_A4 = child_obj;
             if (child_obj != 0) {
                 void *child_work = (u8 *)child_obj + 0x20;

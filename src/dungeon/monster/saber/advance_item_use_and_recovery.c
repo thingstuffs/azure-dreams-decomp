@@ -231,7 +231,7 @@ void advance_item_use_and_recovery(void *action_in, ObjectPosition *motion_in, S
             timer = ((S_80173230_0 *)action_in)->unk_96.u - 1;
             ((S_80173230_0 *)action_in)->unk_96.u = timer;
             if (timer == 0xB || (sprite->flags & 0xE000)) {
-                effect_handle = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+                effect_handle = allocate_list_node(0x112, &scene_object_list_anchor.next);
                 if (effect_handle != 0) {
                     void *actor_model;
                     u8 animation_id;

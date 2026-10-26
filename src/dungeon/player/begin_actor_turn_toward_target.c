@@ -8,9 +8,8 @@
 #include "shared/object_links.h"
 #include "dungeon/player.h"
 
-typedef struct S_80048A44_Obj S_80048A44_Obj;
 
-extern void set_sprite_animation_frame(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 slot_index); /* extern */
+extern void set_sprite_animation_frame(struct SpriteFrameState *obj, s16 frame_group, s16 frame_index, s32 slot_index); /* extern */
 s16 get_rounded_facing_and_rounding_flag();       /* extern */
 extern u8 actor_attack_frames[];
 

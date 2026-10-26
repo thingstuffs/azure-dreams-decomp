@@ -7,6 +7,8 @@
 #include "engine/entity.h"
 #include "engine/graphics.h"
 #include "sdk/libgte.h"
+#include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 
 /* Inferred present ownership of the retail zero word. */
 s32 sprite_command_depth_scale = 0;
@@ -18,20 +20,6 @@ typedef struct {
     u8 pad[0x8D0];
     u32 unk8D0;
 } S_80045340_Target;
-
-/* Node struct chained via unk0C (sibling) and, through the caller's sub-pointer minus 8,
- * via unk18 (next-group). unk08 carries forward as the next call's arg1. */
-typedef struct S_80045340_Entry {
-    u8 pad00[6];
-    s16 unk06;
-    void *unk08;
-    struct S_80045340_Entry *unk0C;
-    u8 pad10[4];
-    u16 unk14;
-    u8 pad16[2];
-    struct S_80045340_Entry *unk18;
-    u8 pad1C[4];
-} S_80045340_Entry; /* size >= 0x20 */
 
 /* Scratchpad hardware-flag word at fixed address 0x1F80013C, reached by casting the
  * scratchpad base (0x1F800000) to a padded struct so gcc folds the whole address into
@@ -45,31 +33,31 @@ typedef struct {
 extern u32 sprite_projection_matrix[8];
 
 /* Projects unhidden sprite groups until the chain ends or the frame packet arena overflows. */
-s32 project_sprite_chain(void *group_data, s32 context, S_80045340_Entry *entry, s32 unused)
+s32 project_sprite_chain(void *group_data, s32 context, SpriteFrameState *entry, s32 unused)
 {
     void *current_data = group_data;
-    S_80045340_Entry *current_entry = entry;
-    S_80045340_Entry *next_group;
+    SpriteFrameState *current_entry = entry;
+    ObjectNodeHeader *next_group;
 
     sprite_command_depth_scale = 0;
     ((S_80045340_HwFlag *)0x1F800000)->flag = 0;
 
     for (;;) {
-        if (!(current_entry->unk14 & 0x80)) {
-            project_sprite_commands(current_data, (void *)context, (Entry *)current_entry, current_entry->unk06);
+        if (!(current_entry->flags & 0x80)) {
+            project_sprite_commands(current_data, (void *)context, (Entry *)current_entry, current_entry->depth_bias);
             if (is_frame_packet_arena_overflowed(((S_80045340_Target *)g_game_work.draw_buffer)->unk8D0)) {
                 return 0;
             }
         }
 
-        next_group = *(S_80045340_Entry **)((u8 *)current_data - 8);
+        next_group = ((ObjectNodeHeader *)current_data - 1)->chain_next;
         if (next_group == 0) {
             sprite_command_depth_scale = 0;
             return 0;
         }
-        current_data = (u8 *)next_group + 0x20;
-        context = (s32)next_group->unk08;
-        current_entry = next_group->unk0C;
+        current_data = next_group + 1;
+        context = (s32)next_group->position;
+        current_entry = next_group->sprite;
     }
 }
 

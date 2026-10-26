@@ -1,4 +1,5 @@
 #include "shared/entity_action_selectors.h"
+#include "shared/dungeon_item_entries.h"
 #include "shared/item_ids.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -35,7 +36,7 @@ extern u8 D_800E1156[];
 extern u8 D_800E116E[];
 
 /* Applies an action to a target or held item and updates the action counter. */
-s32 dispatch_selected_item_action(u32 target, u8 *action, s16 action_kind, s32 context) {
+s32 dispatch_selected_item_action(u32 target, DungeonItemEntry *action, s16 action_kind, s32 context) {
     ActorRecord *state;
     u8 *item;
     void *action_value;
@@ -54,7 +55,7 @@ s32 dispatch_selected_item_action(u32 target, u8 *action, s16 action_kind, s32 c
     if (target == (u32)state) {
         ((PlayerRecord *)state)->pending_item_action = action;
         begin_mode_selected_item_action(state, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), state);
-        action[3] &= (u8)~0x20;
+        action->unk_03 &= (u8)~0x20;
         return 0;
     }
 
@@ -67,10 +68,10 @@ s32 dispatch_selected_item_action(u32 target, u8 *action, s16 action_kind, s32 c
     } else {
         item = ((u8 *)state->unk_4C);
         if (item != 0) {
-            if (!(action[3] & 0x20)) {
+            if (!(action->unk_03 & 0x20)) {
                 ((PlayerRecord *)state)->unk_114 = 0x202080;
                 begin_parameterized_actor_action(state, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), D_800DD148, 2);
-                action[3] |= 0x20;
+                action->unk_03 |= 0x20;
                 return 0;
             }
 

@@ -35,7 +35,7 @@ void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, 
     saved_byte_24 = byte_24;
     saved_value_0a = value_0a;
     saved_byte_25 = byte_25;
-    obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((R03_80170854_S_8016A854_0 *)obj)->unk_10 = ((u8 *)update_entity_facing_motion_and_ground);
@@ -1046,7 +1046,7 @@ void advance_actor_attack_and_resolve_damage(void *action, void *transform, void
     case 1:
         if ((((SpriteFrameState *)sprite)->unk_04 == 2) &&
             (((SpriteFrameState *)sprite)->flags & 0x1000)) {
-            allocated_effect = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+            allocated_effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
             ((R03_80172620_S_80172620_0 *)action)->unk_A4.s = allocated_effect;
             effect = allocated_effect;
             if (effect != 0) {

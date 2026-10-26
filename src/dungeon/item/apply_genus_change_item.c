@@ -1,4 +1,6 @@
 #include "shared/item_ids.h"
+#include "shared/entity.h"
+#include "shared/dungeon_item_entries.h"
 #include "shared/actor_property_flags.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
@@ -12,7 +14,7 @@
 #include "dungeon/player/item.h"
 #include "dungeon/system.h"
 extern s32 feed_actor_restore_mp();
-extern void place_actor_item(void *object_context, void *target);
+extern void place_actor_item(void *object_context, struct DungeonItemEntry *target);
 extern void create_colored_effect_with_sound(void *source, s32 color, unsigned short sound_id);
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(const u8 *src, u8 *dst);
@@ -29,7 +31,7 @@ extern u8 D_80089380[];
 extern u8 genus_change_text[];
 
 /* Changes the target's element, updates its slots, and displays the result. */
-s32 apply_genus_change_item(u8 *target, u8 *event, s32 value)
+s32 apply_genus_change_item(u8 *target, DungeonItemEntry *event, s32 value)
 {
     
     u8 *message;
@@ -38,7 +40,7 @@ s32 apply_genus_change_item(u8 *target, u8 *event, s32 value)
     u8 *slot;
 
     if (target == ((u8 *)dungeon_actor_ring_anchor)) {
-        *(u8 **)(target + 0x110) = event;
+        ((PlayerRecord *)target)->pending_item_action = event;
         begin_deferred_item_action(target, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);
         return 0;
     }
@@ -55,7 +57,7 @@ s32 apply_genus_change_item(u8 *target, u8 *event, s32 value)
             s32 color_mask;
             s32 effect_code;
             s32 event_type;
-            event_type = event[0];
+            event_type = event->unk_00;
             if (event_type == ITEM_LIGHT_SEED) {
                 message = D_800E13FB;
                 effect_target = target - 32;

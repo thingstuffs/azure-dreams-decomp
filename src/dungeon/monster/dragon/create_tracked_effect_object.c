@@ -30,7 +30,7 @@ void *create_tracked_effect_object(s16 flags, s16 x, s16 y, s16 part_id)
     saved_x = x;
     saved_part_id = part_id;
     saved_y = y;
-    obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+    obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         obj->update_callback = D_8015EA28;

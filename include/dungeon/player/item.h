@@ -3,9 +3,11 @@
 
 /* Function contracts owned by src/dungeon/player/item/ (decision 74; maintained by tools/headers). */
 #include "common.h"
+
+struct DungeonItemEntry;
 void begin_deferred_item_action(void *record_data, void *unused_position, void *unused_sprite, void *unused_actor);
 void *begin_holding_item(void *actor, void *action, void *target, void *item);
-void copy_item_category_damage(u8 *entry, u8 *item);
+void copy_item_category_damage(u8 *entry, struct DungeonItemEntry *item);
 void snapshot_inventory_familiar_records(void);
 void begin_deferred_player_item_effect(void *object, unsigned long unused_1, void *unused_2, void *mode);
 
