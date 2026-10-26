@@ -90,6 +90,7 @@ s32 render_screen_fade_increasing_intensity(S_80053604_Obj *fade)
     poly->rgbc = color;
     SetPolyF4(poly);
     SetSemiTrans(poly, 1);
+    /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: slus/w_80053604). */
     do {
         addr_mask = 0x00FFFFFF;
     } while (0);

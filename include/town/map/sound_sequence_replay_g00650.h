@@ -23,6 +23,6 @@ extern s16 SD_Call(s32);
 
 /* Functions defined in this translation unit. */
 s32 town_sd_sq_callagain_sub(s32 sequence_flags);
-void town_sd_sq_callagain(void);
+s32 town_sd_sq_callagain(void);
 
 #endif

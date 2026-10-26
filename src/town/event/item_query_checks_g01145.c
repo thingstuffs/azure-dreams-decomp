@@ -171,13 +171,13 @@ s32 is_expected_movie_state(void) {
 }
 
 /* Passes 0x11FA to test_resident_bitmap_bit. */
-void test_resident_bit_11fa(void) {
-    test_resident_bitmap_bit(Fp_niko_kenkatyu);
+s32 test_resident_bit_11fa(void) {
+    return test_resident_bitmap_bit(Fp_niko_kenkatyu);
 }
 
 /* Calls test_resident_bitmap_bit with 0x11FB. */
-void test_resident_bit_11fb(void) {
-    test_resident_bitmap_bit(Fp_far_kenkatyu);
+s32 test_resident_bit_11fb(void) {
+    return test_resident_bitmap_bit(Fp_far_kenkatyu);
 }
 
 /* Returns the node matching a negative key with flag 0x400 clear, or NULL. */

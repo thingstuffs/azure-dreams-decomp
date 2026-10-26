@@ -409,6 +409,7 @@ s32 draw_layered_vertical_sprite_chain(u8 *first_node)
     u32 tag_mask;
     node = first_node;
     render_state = &g_game_work;
+    /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: dungeon/func_81845068). */
     do {
         uv_choices[0] = 0xA0;
         uv_choices[1] = 0x80;

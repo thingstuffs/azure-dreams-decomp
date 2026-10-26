@@ -454,7 +454,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
     player_action_handlers[(*(u8 *)((u8 *)linked_actor + 0x9A))](linked_actor, in_motion, sprite_or_root, actor);
     facing = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
     /*
-     * Original bug: egg heating clears the mirror bit while updating the cached direction. After canceling, walking in
+     * BUG: Original bug: egg heating clears the mirror bit while updating the cached direction. After canceling, walking in
      * that same direction skips restoring the bit, so Koh walks backward. Refresh it when heating ends too.
      * Found and documented by the Azure Dreams community
      * (adrando.com/guide/bugs.html).

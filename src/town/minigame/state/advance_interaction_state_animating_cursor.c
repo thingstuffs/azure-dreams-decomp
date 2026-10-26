@@ -57,6 +57,7 @@ void advance_interaction_state_animating_cursor(Obj *self, Arg1 *position, Arg2 
     state = self->state;
     switch (state) {
     case 0:
+        /* BYTES: reorg mostly_true_jump: LOOP_BEG before the join label decides a delay-slot fill (ledger/onetrip_loadbearing.jsonl: town/func_800C1A68). */
         do {
             const Counter *global_counter = &town_money;
             entry_index = 0;

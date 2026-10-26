@@ -103,6 +103,7 @@ s16 audio_configure_explicit_voice(s16 sound_id, s32 voice_id, s16 note, unsigne
             voice_attr.field_00 = *voice_mask;
             voice_attr.field_1C = sounds[sound_id].field_10;
             full_volume = 0x7F;
+            /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: slus/w_8005C2C0). */
             do {
                 voice = &voice_slots[voice_id];
             } while (0);

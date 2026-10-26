@@ -13,7 +13,7 @@ void apply_conditional_target_effect(void *target, s32 packedValue, void *record
         u32 lowByteQuarter = savedPackedValue;
         lowByteQuarter >>= 2;
         /*
-         * Original bug: set_or_clear_actor_status_slot returns a slot index (0..3), or -1 on
+         * BUG: Original bug: set_or_clear_actor_status_slot returns a slot index (0..3), or -1 on
          * failure. Testing it as nonzero misreports slot 0 as failure and -1 as success.
          * Slot-0 success loses its message; rejected insertion prints success.
          * try_apply_confusion_status uses the nonnegative success test.

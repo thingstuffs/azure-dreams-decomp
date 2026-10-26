@@ -46,6 +46,7 @@ void move_value_toward_target(u8 *object_data, s32 unused_coord, s32 unused_y) {
         mode = mode % 2;
     }
     result = link_indexed_entry_chain(handle, mode);
+    /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: dungeon/func_800D6EF0). */
     do {
         dungeon_menu_object->value = result;
     } while (0);

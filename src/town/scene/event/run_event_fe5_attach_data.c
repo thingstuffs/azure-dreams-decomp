@@ -13,6 +13,7 @@ s32 run_event_fe5_attach_data(void) {
 
     func_800177BC(F_gosh0000);
     ptr = town_scene_root;
+    /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: town/func_806F1A08). */
     do {
         value = &D_80017D64;
         ptr = ((Rec_D_80016000 *)ptr)->position;

@@ -51,6 +51,7 @@ void animate_catalog_next_detail(TownObject *obj)
         Entry *entry;
         Inner *inner;
 
+        /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: town/func_8096DE1C). */
         do {
             entry_index = 14;
         } while (0);

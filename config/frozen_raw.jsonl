@@ -10903,3 +10903,6 @@
 {"path":"raw/dungeon/D_80CB7038.c","sha256":"86b58f11a1b27475c3ba67e4976f96b9d903cc521b452e1bf658d4177ca9227d","size":108389,"provenance":"Complete typed storage in its native owning C TU; docs/evidence/r124w_carve1_run12.md"}
 {"path":"raw/dungeon/D_80CB7054.c","sha256":"86b58f11a1b27475c3ba67e4976f96b9d903cc521b452e1bf658d4177ca9227d","size":108389,"provenance":"Complete typed storage in its native owning C TU; docs/evidence/r124w_carve1_run12.md"}
 {"path":"raw/dungeon/D_80CB7058.c","sha256":"86b58f11a1b27475c3ba67e4976f96b9d903cc521b452e1bf658d4177ca9227d","size":108389,"provenance":"Complete typed storage in its native owning C TU; docs/evidence/r124w_carve1_run12.md"}
+{"path":"raw/dungeon/func_80D65244.c","sha256":"ddc6d6d0877006270784fff9670bb5de025c83006e4a7ca9c74ceab762496082","size":2108,"provenance":"New reconstruction, not a retired first-pass archive member; docs/evidence/r124w_carve1_run13.md"}
+{"path":"raw/town/D_80785074.c","sha256":"5f57b2c2198500c9753f23e88f6b08c4349dc96ad4a4fbefa8cc39c84590bb4b","size":647,"provenance":"Complete typed storage in its native owning C TU; docs/evidence/r124w_carve1_run13.md"}
+{"path":"raw/town/D_8079A074.c","sha256":"614504cdb977baacdd30604d3ec109a39955fd17560a6729b238474eaa876cfd","size":857,"provenance":"Complete typed storage in its native owning C TU; docs/evidence/r124w_carve1_run13.md"}

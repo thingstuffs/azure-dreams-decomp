@@ -24,6 +24,7 @@ void begin_action_33_and_dispatch(void *object, s32 unused_1, s32 unused_2, s32 
     ((ActionDispatchState *)object)->action = action;
     ((ActionDispatchState *)object)->phase = 0;
     ((ActionDispatchState *)object)->callback = 0;
+    /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: dungeon/func_80091258). */
     do {
         saved_target = target;
     } while (0);

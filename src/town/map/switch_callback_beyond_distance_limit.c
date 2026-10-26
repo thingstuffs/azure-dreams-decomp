@@ -9,7 +9,7 @@ typedef struct Position {
     s16 y;
 } Position;
 
-extern void town_sd_sq_callagain(s32 y_distance);
+extern s32 town_sd_sq_callagain(s32 y_distance);
 extern s32 apply_nearby_object_effects(void);
 
 

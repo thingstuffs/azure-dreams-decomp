@@ -172,7 +172,7 @@ void end_status_effect_message(S_80042BDC *ent, s16 action) {
                     spawn_result_2->x60 = owner_data;
                     spawn_result_2->x1C |= ACTOR_LIFTED;
                     /*
-                     * Original bug: the lifted replacement shares Koh's tile. This lift setup clears that tile again
+                     * BUG: Original bug: the lifted replacement shares Koh's tile. This lift setup clears that tile again
                      * after the constructor marked it occupied. Reattach without clearing Koh's occupancy.
                      * Found and documented by the Azure Dreams community
                      * (adrando.com/guide/bugs.html).

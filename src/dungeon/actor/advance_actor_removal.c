@@ -310,7 +310,7 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, SpriteFrame
                 effect_flags = 0x300;
             }
             /*
-             * Original bug: freeing a lifted familiar clears Koh's occupancy here. Phase 3 drops the carried flag, but
+             * BUG: Original bug: freeing a lifted familiar clears Koh's occupancy here. Phase 3 drops the carried flag, but
              * the cached sprite tile still names Koh's tile; the departure effect changes world position without
              * moving that tile. Preserve Koh's occupancy at removal. Found and documented by the Azure Dreams
              * community (adrando.com/guide/bugs.html).
@@ -374,7 +374,7 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, SpriteFrame
                 effect_flags = 0x300;
             }
             /*
-             * Original bug: freeing a lifted familiar clears Koh's occupancy here. Phase 3 drops the carried flag, but
+             * BUG: Original bug: freeing a lifted familiar clears Koh's occupancy here. Phase 3 drops the carried flag, but
              * the cached sprite tile still names Koh's tile; the departure effect changes world position without
              * moving that tile. Preserve Koh's occupancy at removal. Found and documented by the Azure Dreams
              * community (adrando.com/guide/bugs.html).

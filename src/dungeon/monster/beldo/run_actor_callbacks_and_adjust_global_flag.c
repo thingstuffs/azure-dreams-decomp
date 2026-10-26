@@ -31,6 +31,7 @@ void run_actor_callbacks_and_adjust_global_flag(void *entity_ptr, void *motion, 
         if ((check_actor_floor_trap(check_value, actor) << 0x10) <= 0) {
             return;
         }
+        /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: dungeon/func_81252C74). */
         do {
             entity->unk_8C = &beldo_action_dispatch_address;
         } while (0);

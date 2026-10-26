@@ -74,7 +74,7 @@ void clear_graphics_record(Rec_D_80082A38 *record);
 u8 *convert_hsv_to_rgb(u32 hue, s32 saturation, s32 value, u8 *out);
 
 /* copy_processed_vram_tile_backward.c */
-void copy_processed_vram_tile_backward(s32 tile_index);
+s32 copy_processed_vram_tile_backward(s32 tile_index);
 
 /* decompress_lz.c */
 u8 *decompress_lz(u8 *src, u8 *dst);

@@ -208,7 +208,7 @@ def validate(root=ROOT, *, require_files=True):
     for record in inlined:
         inline_owners.setdefault(record['tu_new'], set()).add(record['member_id'])
     for rid,row in reg.items():
-        if row.get('row_kind') == 'data' and row.get('data_kind') == 'function_table' and row.get('ownership_status') == 'evidenced' and row.get('owner') in reg:
+        if row.get('row_kind') == 'data' and row.get('data_kind') in ('function_table', 'descriptor_table', 'native_prefix') and row.get('ownership_status') == 'evidenced' and row.get('owner') in reg:
             rel = relative[rid]
             if rel != relative.get(row['owner']):
                 raise ValueError('symbolic table source differs from code owner')

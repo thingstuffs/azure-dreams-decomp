@@ -919,6 +919,7 @@ return_tail:
      * only after flow has counted the arm; scheduling, allocation and reload see it (x_delta's second set, the spilled
      * next_x/next_y slots retail's frame reserves) and jump2 deletes it - no code. The arm's BODY is a reconstruction:
      * the bytes fix its shape, not its content. */
+    /* BYTES: Post-combine dead arm: the bytes fix its shape, not its content; the arm BODY is a reconstruction (decision 46). */
     if (result != 0) {
         x_delta += next_x;
         try_claim_dungeon_action_slot(next_y + *x_delta);
@@ -1564,6 +1565,7 @@ void handle_actor_action_effects(void *controller, void *context, void *sprite, 
                 void *call_controller = controller;
 
                 if (((u32)actor->flags1C) & ACTOR_PUSH_PENDING) {
+                    /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: dungeon/func_80DE5D7C). */
                     do {
                         begin_pushed_actor_move(call_controller, context, sprite, actor);
                     } while (0);

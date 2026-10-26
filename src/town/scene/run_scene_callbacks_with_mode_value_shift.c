@@ -38,6 +38,7 @@ s32 run_scene_callbacks_with_mode_value_shift(void) {
         TownState *state;
 
         context = *context_ptr;
+        /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: town/func_804B8B48). */
         do {
             calls = *(u8 * *)&context->calls;
         } while (0);

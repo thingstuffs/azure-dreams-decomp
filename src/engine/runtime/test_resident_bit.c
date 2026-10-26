@@ -6,6 +6,6 @@
 #include "engine/runtime.h"
 
 // Forwards a signed 16-bit value to test_resident_bitmap_bit.
-void test_resident_bit(s16 value) {
-    test_resident_bitmap_bit(value);
+s32 test_resident_bit(s16 value) {
+    return test_resident_bitmap_bit(value);
 }

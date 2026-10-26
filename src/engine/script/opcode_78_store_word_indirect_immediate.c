@@ -32,6 +32,7 @@ void script_store_indirect(ScriptReader *state) {
     table_base = (u32)state->data;
     dest_offset <<= 2;
     addr_byte1 <<= 8;
+    /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: slus/konami_runtime_w_8003A374). */
     do {
         dest_lookup += addr_byte1;
     } while (0);

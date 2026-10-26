@@ -14,6 +14,7 @@ s32 count_listed_enabled_records(void) {
     if (town_counted_record_ids[0] == 0) {
         return match_count;
     }
+    /* BYTES: cse block end at the loop note: unwrap lets cse forward/fold a value retail recomputes (ledger/onetrip_loadbearing.jsonl: town/func_804695D0). */
     do {
         records = town_selection_records;
     } while (0);

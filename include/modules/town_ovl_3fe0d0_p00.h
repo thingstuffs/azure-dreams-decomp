@@ -1,6 +1,7 @@
 #ifndef MODULES_TOWN_OVL_3FE0D0_P00_H
 #define MODULES_TOWN_OVL_3FE0D0_P00_H
 #include "common.h"
+#include "town/scene/service.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_event_state.h"
 #include "shared/town_pointees.h"
@@ -61,7 +62,7 @@ void initialize_context_entry_tables_variant_1(s32 unused_a, s32 unused_b);
 void initialize_context_entry_tables_variant_2(void);
 void advance_floor_event_counter(void);
 void set_active_position_state_record(void);
-void run_scene_service_26c_with_state(void);
+
 void func_80016278(void);
 void run_scene_service_224(void);
 void func_800162B8(void);

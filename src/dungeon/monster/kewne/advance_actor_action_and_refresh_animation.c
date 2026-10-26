@@ -62,6 +62,7 @@ void advance_actor_action_and_refresh_animation(void *actor, void *context, Spri
             kewne_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
             0);
         g_dungeon_status.activity_counts.parts.pending_action_count--;
+        /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: dungeon/func_809A2650). */
         do {
             ((S_80173E50_0 *)actor)->unk_9B++;
         } while (0);

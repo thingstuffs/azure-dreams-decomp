@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/grid_queries.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 
@@ -19,11 +20,11 @@ typedef struct {
 } Rect;
 
 extern void copy_current_record_components_3();
-extern void points_within_squared_threshold();
+extern u32 points_within_squared_threshold();
 
 
 /* Applies a target rectangle positioned at the given grid cell center. */
-void apply_target_grid_rectangle(s32 target_x, s32 target_y)
+u32 apply_target_grid_rectangle(s32 target_x, s32 target_y)
 {
     Rect current_rect;
     Rect target_rect;
@@ -42,5 +43,5 @@ void apply_target_grid_rectangle(s32 target_x, s32 target_y)
     target_rect.w = 0;
     target_y += coord_offset;
     target_rect.y = target_y;
-    points_within_squared_threshold(&current_rect, &target_rect, 0x20);
+    return points_within_squared_threshold(&current_rect, &target_rect, 0x20);
 }

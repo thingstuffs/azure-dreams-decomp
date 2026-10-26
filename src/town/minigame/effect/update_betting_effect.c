@@ -621,6 +621,7 @@ void update_betting_effect(TownEffect *input)
                 digit_count = ((S_800211A4_12 *)digit)->unk_70.s;
                 digit_count_raw = ((S_800211A4_12 *)digit)->unk_70.u;
             } while (digit_count <= 0);
+            /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: town/func_8081E9A4). */
             do {
                 ((S_800211A4_12 *)digit)->unk_70.s = digit_count_raw - 1;
             } while (0);

@@ -1911,6 +1911,7 @@ s32 build_linked_curved_wireframe_grid(u8 *node, s32 next_node, s32 unused_2)
         (frame.desc).zero = 0;
         (frame.desc).angle = ((R12_80173FDC_S_80173FDC_0 *)node)->unk_10 - 0x400;
         effect = node;
+        /* BYTES: The bytes fix the test's shape (a scratchpad word, then next_node), not its meaning; the arm reconstructs a conditional update of a local nothing reads (decision 45). */
         if (*(s32 *)screen_xy && next_node) {
             /* retail evidence (decision 45, docs/evidence/r97_decisions.md): both operands of this test are loaded in retail's
                compilation and the arm compiled away. next_node: the tail's successor load (lw $5,8($5)) survives as this test's

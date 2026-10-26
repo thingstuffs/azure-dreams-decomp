@@ -316,6 +316,7 @@ ordinary_cleanup:
                     0);
                 advance_sprite_animation_and_textures(sprite);
 
+                /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: dungeon/func_8102FCB8). */
                 do {
                     object = allocate_flagged_object_node(0x212);
                 } while (0);

@@ -10,8 +10,8 @@ The retail logic is preserved. These are static code and stock-data checks; the 
 
 [adrando entry: Spawning monsters past level 99](https://adrando.com/guide/bugs.html).
 
-- **B016**: Egg bombing at the capped level 99 leaves a leveling loop running forever. The same uncapped-loop pattern exists in floor spawn/restore. Source: [advance_egg_bomb_sequence](../src/dungeon/effect/advance_egg_bomb_sequence.c#L164).
-- **B016S**: On second-tower floor 99, the uncapped spawn groups can request level 100. The game loops forever after the monster reaches level 99. Source: [spawn_floor_monster_from_table](../src/dungeon/item/spawn_floor_monster_from_table.c#L139).
+- **B016**: Egg bombing at the capped level 99 leaves a leveling loop running forever. The same uncapped-loop pattern exists in floor spawn/restore. Source: [advance_egg_bomb_sequence](../src/dungeon/effect/advance_egg_bomb_sequence.c).
+- **B016S**: On second-tower floor 99, the uncapped spawn groups can request level 100. The game loops forever after the monster reaches level 99. Source: [spawn_floor_monster_from_table](../src/dungeon/item/spawn_floor_monster_from_table.c).
 
 The egg-bomb formula can already reach the problematic capped index at Koh level 49. The guide describes 50+. Both ordinary second-tower floor-99 spawning and egg bombing share the uncapped leveling loop.
 
@@ -19,7 +19,7 @@ The egg-bomb formula can already reach the problematic capped index at Koh level
 
 [adrando entry: Large EXP reward crashes](https://adrando.com/guide/bugs.html).
 
-- **B005**: Awards of 32768..65535 take an invalid message-pointer lookup; this is the community EXP crash / MISS!! text bug (targets 2 and 21). Source: [create_actor_value_popup](../src/dungeon/effect/create_actor_value_popup.c#L129).
+- **B005**: Awards of 32768..65535 take an invalid message-pointer lookup; this is the community EXP crash / MISS!! text bug (targets 2 and 21). Source: [create_actor_value_popup](../src/dungeon/effect/create_actor_value_popup.c).
 
 The signed C branch begins at 32,768; the guide’s reported crash range starts at 32,767. The exact crash/text cutoff is a player report, not an emulator observation made for this page.
 
@@ -27,13 +27,13 @@ The signed C branch begins at 32,768; the guide’s reported crash range starts 
 
 [adrando entry: Mazarr and an exhausted U-Boat](https://adrando.com/guide/bugs.html).
 
-- **B017**: Feeding a Mazarr seed to an exhausted U-Boat restores 3 MP and queues a level-up, but its exhausted-state handler then waits on its own pending EXP owner. Source: [advance_actor_action_animation](../src/dungeon/monster/u_boat/advance_actor_action_animation.c#L76).
+- **B017**: Feeding a Mazarr seed to an exhausted U-Boat restores 3 MP and queues a level-up, but its exhausted-state handler then waits on its own pending EXP owner. Source: [advance_actor_action_animation](../src/dungeon/monster/u_boat/advance_actor_action_animation.c).
 
 ### Off-screen Salamander kill softlock
 
 [adrando entry: Off-screen Salamander kill softlock](https://adrando.com/guide/bugs.html).
 
-- **B023**: A final-action off-screen Salamander kill worth at least 8 EXP can block its removal forever by making it the pending level-up actor. Source: [can_entity_gain_level](../src/dungeon/player/object/can_entity_gain_level.c#L26).
+- **B023**: A final-action off-screen Salamander kill worth at least 8 EXP can block its removal forever by making it the pending level-up actor. Source: [can_entity_gain_level](../src/dungeon/player/object/can_entity_gain_level.c).
 
 A sufficient code path needs the Salamander’s last action and at least 8 EXP from its kill. The expired actor becomes the pending level-up owner while its removal waits for that owner to clear. The watchdog leaves its EXP intact and the cycle repeats.
 
@@ -41,7 +41,7 @@ A sufficient code path needs the Salamander’s last action and at least 8 EXP f
 
 [adrando entry: Oleem and an item-form Manoeva](https://adrando.com/guide/bugs.html).
 
-- **B024**: Oleem on an item-form Manoeva starts two completions against one pending action, leaving -1 until the watchdog resets it. Source: [transfer_linked_object_state](../src/dungeon/monster/manoeva/linked_entity_state_g00259.c#L56).
+- **B024**: Oleem on an item-form Manoeva starts two completions against one pending action, leaving -1 until the watchdog resets it. Source: [transfer_linked_object_state](../src/dungeon/monster/manoeva/linked_entity_state_g00259.c).
 
 The Oleem route reserves one completion, but the pentagram and the returning Manoeva each consume one. The signed action counter reaches −1 until the watchdog clears it after 901 unchanged updates.
 
@@ -49,7 +49,7 @@ The Oleem route reserves one completion, but the pentagram and the returning Man
 
 [adrando entry: Golem idle animation and Select](https://adrando.com/guide/bugs.html).
 
-- **B028**: Select keeps the Golem's idle reservation and null callback armed. After watchdog recovery, Koh's movement check admits a ready familiar's tile even though this Golem cannot move away, allowing both actors onto the same tile. Source: [update_directional_transition_state](../src/dungeon/monster/golem/update_directional_transition_state.c#L48), [classify_adjacent_tile_height](../src/dungeon/level/tile.c#L739), [update_shrinking_sprite_effect](../src/dungeon/monster/golem/update_shrinking_sprite_effect.c#L44).
+- **B028**: Select keeps the Golem's idle reservation and null callback armed. After watchdog recovery, Koh's movement check admits a ready familiar's tile even though this Golem cannot move away, allowing both actors onto the same tile. Source: [update_directional_transition_state](../src/dungeon/monster/golem/update_directional_transition_state.c), [classify_adjacent_tile_height](../src/dungeon/level/tile.c), [update_shrinking_sprite_effect](../src/dungeon/monster/golem/update_shrinking_sprite_effect.c).
 
 The collared Golem starts idle state 23 after 61 eligible idle updates. Completion requires nonzero input with Select clear, so Select keeps its normal callback null. After Koh leaves idle, 901 unchanged busy updates let the watchdog clear the pending count. With ordinary turn scale 0x100 and Golem scale 0x100, the movement classifier permits Koh to enter a healthy familiar's occupied tile because it expects the familiar to move away. The Golem's ready-pass wrapper instead skips its null callback, and Select still blocks idle completion. This proves a sufficient overlap route after watchdog recovery without clearing occupancy. Separate host executions check the actual button handler and the actual movement classifier; no emulator replay is claimed.
 
@@ -57,13 +57,13 @@ The collared Golem starts idle state 23 after 61 eligible idle updates. Completi
 
 [adrando entry: The Strength increased talent](https://adrando.com/guide/bugs.html).
 
-- **B010**: Collared Ashra/Arachne's Strength increased talent gives Koh none of its intended one-eighth attack bonus. Source: [count_occupied_entity_slots](../src/dungeon/actor/object/count_occupied_entity_slots.c#L33).
+- **B010**: Collared Ashra/Arachne's Strength increased talent gives Koh none of its intended one-eighth attack bonus. Source: [count_occupied_entity_slots](../src/dungeon/actor/object/count_occupied_entity_slots.c).
 
 ### Salamander attacks that miss
 
 [adrando entry: Salamander attacks that miss](https://adrando.com/guide/bugs.html).
 
-- **B025**: A diagonally facing Salamander can waste an attack on a monster sharing its tile when either flanking side has blocking terrain. Source: [prepare_directional_attack](../src/dungeon/effect/screen/change.c#L691).
+- **B025**: A diagonally facing Salamander can waste an attack on a monster sharing its tile when either flanking side has blocking terrain. Source: [prepare_directional_attack](../src/dungeon/effect/screen/change.c).
 
 The Salamander attacks a monster sharing its tile with distance zero. When facing diagonally beside a mapped wall above height 0x200, the attack helper can reject the corner and clear the target; the attack still spends an action.
 
@@ -71,25 +71,25 @@ The Salamander attacks a monster sharing its tile with distance zero. When facin
 
 [adrando entry: Gaia Shoot uses water](https://adrando.com/guide/bugs.html).
 
-- **B018**: DeoRock's Gaia Shoot passes water damage flags (0xA) instead of wind (0xC), changing affinity and the impact effect. Source: [update_warp_camera_and_effects](../src/dungeon/effect/travel/warp.c#L1052).
+- **B018**: DeoRock's Gaia Shoot passes water damage flags (0xA) instead of wind (0xC), changing affinity and the impact effect. Source: [update_warp_camera_and_effects](../src/dungeon/effect/travel/warp.c).
 
 ### Barong item rarity
 
 [adrando entry: Barong item rarity](https://adrando.com/guide/bugs.html).
 
-- **B001**: Barong accepts the first otherwise eligible replacement regardless of the thrown item's rarity. Source: [select_random_replacement_item](../src/dungeon/monster/barong/select_random_replacement_item.c#L64).
+- **B001**: Barong accepts the first otherwise eligible replacement regardless of the thrown item's rarity. Source: [select_random_replacement_item](../src/dungeon/monster/barong/select_random_replacement_item.c).
 
 ### EXP reward overflow
 
 [adrando entry: EXP reward overflow](https://adrando.com/guide/bugs.html).
 
-- **B012**: An 81590 EXP award becomes 16054 before accumulation; exactly 65536 would become zero. Source: [distribute_experience_awards](../src/dungeon/player/object/can_entity_gain_level.c#L1061), [distribute_experience_awards](../src/dungeon/player/object/can_entity_gain_level.c#L1087).
+- **B012**: An 81590 EXP award becomes 16054 before accumulation; exactly 65536 would become zero. Source: [distribute_experience_awards](../src/dungeon/player/object/can_entity_gain_level.c).
 
 ### Stat underflow after evolution
 
 [adrando entry: Stat underflow after evolution](https://adrando.com/guide/bugs.html).
 
-- **B013**: A level-20 Nyuel evolved into Battnel, then lowered to level 7, can turn 1 attack into 255. Source: [lower_entity_level](../src/dungeon/player/object/can_entity_gain_level.c#L478).
+- **B013**: A level-20 Nyuel evolved into Battnel, then lowered to level 7, can turn 1 attack into 255. Source: [lower_entity_level](../src/dungeon/player/object/can_entity_gain_level.c).
 
 ### Manoeva/Picket item duplication
 
@@ -103,17 +103,17 @@ Theft stores the item word at actor +0x48. The transformed actor and hidden nati
 
 [adrando entry: De-curse leaves the curse effect](https://adrando.com/guide/bugs.html).
 
-- **B014**: De-curse removes the Cursed slot and item flag but can leave Koh's reduced-luck effect active after cursed equipment. Source: [use_item_to_clear_equipment_flags](../src/dungeon/item/use_item_to_clear_equipment_flags.c#L61).
+- **B014**: De-curse removes the Cursed slot and item flag but can leave Koh's reduced-luck effect active after cursed equipment. Source: [use_item_to_clear_equipment_flags](../src/dungeon/item/use_item_to_clear_equipment_flags.c).
 
 ### Lifted familiar clears the player tile
 
 [adrando entry: Lifted familiar clears the player tile](https://adrando.com/guide/bugs.html).
 
-- **B015**: Recalling a lifted familiar clears Koh's occupied tile, allowing another actor to enter it. Source: [store_recalled_familiar](../src/dungeon/player/store_recalled_familiar.c#L108).
-- **B015F**: When a lifted familiar stops being a frog, reattaching the replacement clears Koh's tile occupancy after its constructor set it. Source: [end_status_effect_message](../src/engine/message/end_status_effect_message.c#L173).
-- **B015T**: Feeding Tumna to an already lifted familiar restarts lift setup on Koh's shared tile, clearing Koh's occupancy. Source: [update_actor_facing_animation](../src/dungeon/actor/movement_path_g00371.c#L238).
-- **B015E**: Feeding Roche to a lifted familiar turns it into an egg and clears occupancy at Koh's tile. Source: [apply_monster_egg_reversion_item](../src/dungeon/item/apply_monster_egg_reversion_item.c#L154).
-- **B015V**: Freeing a lifted familiar clears actor occupancy at its cached sprite tile, which still names Koh's tile after the carry flag is cleared. Source: [advance_actor_removal](../src/dungeon/actor/advance_actor_removal.c#L311), [advance_actor_removal](../src/dungeon/actor/advance_actor_removal.c#L375).
+- **B015**: Recalling a lifted familiar clears Koh's occupied tile, allowing another actor to enter it. Source: [store_recalled_familiar](../src/dungeon/player/store_recalled_familiar.c).
+- **B015F**: When a lifted familiar stops being a frog, reattaching the replacement clears Koh's tile occupancy after its constructor set it. Source: [end_status_effect_message](../src/engine/message/end_status_effect_message.c).
+- **B015T**: Feeding Tumna to an already lifted familiar restarts lift setup on Koh's shared tile, clearing Koh's occupancy. Source: [update_actor_facing_animation](../src/dungeon/actor/movement_path_g00371.c).
+- **B015E**: Feeding Roche to a lifted familiar turns it into an egg and clears occupancy at Koh's tile. Source: [apply_monster_egg_reversion_item](../src/dungeon/item/apply_monster_egg_reversion_item.c).
+- **B015V**: Freeing a lifted familiar clears actor occupancy at its cached sprite tile, which still names Koh's tile after the carry flag is cleared. Source: [advance_actor_removal](../src/dungeon/actor/advance_actor_removal.c).
 
 Recall, Free, Tumna, Roche and frog expiry are mapped. Free selects removal state 2. Its phase 3 clears the carried flag; the departure effect moves world coordinates but retains the cached sprite tile on Koh. The final removal clear therefore empties Koh’s occupancy.
 
@@ -121,14 +121,14 @@ Recall, Free, Tumna, Roche and frog expiry are mapped. Free selects removal stat
 
 [adrando entry: Luck dodge and evasion](https://adrando.com/guide/bugs.html).
 
-- **B011**: The luck-based dodge roll runs only for incapacitated targets; its zero evasion byte and ordinary luck cannot reach the 128 threshold. Source: [prepare_directional_attack](../src/dungeon/effect/screen/change.c#L768).
+- **B011**: The luck-based dodge roll runs only for incapacitated targets; its zero evasion byte and ordinary luck cannot reach the 128 threshold. Source: [prepare_directional_attack](../src/dungeon/effect/screen/change.c).
 
 ### Fusion while frogged
 
 [adrando entry: Fusion while frogged](https://adrando.com/guide/bugs.html).
 
-- **B026**: Fusing a frogged donor leaks its native familiar resource slot; a different third species cannot be deployed while both slots stay occupied. Source: [merge_creature_abilities_and_state](../src/dungeon/actor/state/merge_creature_abilities_and_state.c#L603).
-- **B026H**: A frogged Hikewne can accept Ovum and survive a fusion that normally absorbs it. Source: [fix_monster_fusion_appearance](../src/dungeon/item/fix_monster_fusion_appearance.c#L76).
+- **B026**: Fusing a frogged donor leaks its native familiar resource slot; a different third species cannot be deployed while both slots stay occupied. Source: [merge_creature_abilities_and_state](../src/dungeon/actor/state/merge_creature_abilities_and_state.c).
+- **B026H**: A frogged Hikewne can accept Ovum and survive a fusion that normally absorbs it. Source: [fix_monster_fusion_appearance](../src/dungeon/item/fix_monster_fusion_appearance.c).
 
 The verified parts are Hikewne survival through the frog/Ovum restriction bypass and a leaked native sprite slot that blocks another species from being deployed. Recalling the survivor restores its own species. The additional report of a different monster receiving a parent’s appearance still needs a complete sprite-resource trace. The failed-allocation path also leaves the earlier load-completion fields untouched before the upload phase; the later constructor still requires a nonnull allocation. This is a trace point, not proof that a third species gets another sprite.
 
@@ -136,14 +136,14 @@ The verified parts are Hikewne survival through the frog/Ovum restriction bypass
 
 [adrando entry: Items and traps on regenerated floors](https://adrando.com/guide/bugs.html).
 
-- **B019**: A special room can leave its items/traps on terrain that was regenerated into walls, corridors or void. Source: [update_region_until_complete](../src/dungeon/level/generate.c#L2488).
+- **B019**: A special room can leave its items/traps on terrain that was regenerated into walls, corridors or void. Source: [update_region_until_complete](../src/dungeon/level/generate.c).
 
 ### Special encounter and item records overwritten
 
 [adrando entry: Special encounter and item records overwritten](https://adrando.com/guide/bugs.html).
 
-- **B020**: A trap room on floor 31 can replace the reserved Beldo vision in slot 0 with a trap, preventing that vision from spawning. Source: [place_room_trap_records](../src/dungeon/level/generate.c#L2613).
-- **B029**: An item room that fills every slot below the ordinary item limit suppresses Blue Collar or Healing Herb selection: ordinary population reaches its limit without calling the special selector. Source: [mark_random_eligible_region_tiles](../src/dungeon/level/generate.c#L2685).
+- **B020**: A trap room on floor 31 can replace the reserved Beldo vision in slot 0 with a trap, preventing that vision from spawning. Source: [place_room_trap_records](../src/dungeon/level/generate.c).
+- **B029**: An item room that fills every slot below the ordinary item limit suppresses Blue Collar or Healing Herb selection: ordinary population reaches its limit without calling the special selector. Source: [mark_random_eligible_region_tiles](../src/dungeon/level/generate.c).
 
 Scene 17’s callback list runs room generation at index 7 and ordinary item population at index 17. Item rooms fill a low slot prefix with special selection disabled. If this covers every slot below the ordinary limit, population skips the occupied prefix and exits at its first empty slot without invoking special selection. This suppresses selection rather than overwriting a previously reserved item. Blue Collar requires floor 12 and the collar flag clear. Healing Herb requires floor 28, event bit 0xFC3 set, bit 0xFAD clear, and no category-1/index-8 item owned. Beldo’s trap-room collision is a separate mechanism.
 
@@ -151,7 +151,7 @@ Scene 17’s callback list runs room generation at index 7 and ordinary item pop
 
 [adrando entry: Invisible Salamander particles](https://adrando.com/guide/bugs.html).
 
-- **B027**: The Salamander particle command is only 1x1 world units at unit scale, making the intended rising particles too small at combat camera distances. Source: [spawn_salam_particles](../src/dungeon/actor/spawn_salam_particles.c#L56).
+- **B027**: The Salamander particle command is only 1x1 world units at unit scale, making the intended rising particles too small at combat camera distances. Source: [spawn_salam_particles](../src/dungeon/actor/spawn_salam_particles.c).
 
 The sprite command has width and height 1. At unit scale the perspective renderer uses these as world-space spans, so the geometry can disappear at camera distance. The exact camera/GTE packet bounds needed to prove zero area in every case have not been established here; no off-viewport position is asserted.
 
@@ -159,13 +159,13 @@ The sprite command has width and height 1. At unit scale the perspective rendere
 
 [adrando entry: Large EXP reward text glitches](https://adrando.com/guide/bugs.html).
 
-- **B005**: Awards of 32768..65535 take an invalid message-pointer lookup; this is the community EXP crash / MISS!! text bug (targets 2 and 21). Source: [create_actor_value_popup](../src/dungeon/effect/create_actor_value_popup.c#L129).
+- **B005**: Awards of 32768..65535 take an invalid message-pointer lookup; this is the community EXP crash / MISS!! text bug (targets 2 and 21). Source: [create_actor_value_popup](../src/dungeon/effect/create_actor_value_popup.c).
 
 ### Moonwalking after egg heating
 
 [adrando entry: Moonwalking after egg heating](https://adrando.com/guide/bugs.html).
 
-- **B022**: Rotating the camera while heating an egg, canceling, then walking in the same mirrored view direction leaves Koh facing backward while moving. Source: [update_player_and_actor_turns](../src/dungeon/player/update_player_and_actor_turns.c#L519).
+- **B022**: Rotating the camera while heating an egg, canceling, then walking in the same mirrored view direction leaves Koh facing backward while moving. Source: [update_player_and_actor_turns](../src/dungeon/player/update_player_and_actor_turns.c).
 
 ### Agility without a known use
 
@@ -183,61 +183,61 @@ These entries are **not on the adrando list (may be known elsewhere)**. “Likel
 
 Fusion loses 128 MP from the average when the two fixed-point MP values sum to at least 256 MP; two full 128-MP creatures can produce a zero-MP result.
 
-Source: [merge_creature_abilities_and_state](../src/dungeon/actor/state/merge_creature_abilities_and_state.c#L566).
+Source: [merge_creature_abilities_and_state](../src/dungeon/actor/state/merge_creature_abilities_and_state.c).
 
 ### B003 — an exact 256-MP food total wraps to zero
 
 Food that brings the fixed-point MP total to exactly 256 MP empties MP instead of filling it to the creature's limit.
 
-Source: [feed_actor_restore_mp](../src/dungeon/actor/feed_actor_restore_mp.c#L93).
+Source: [feed_actor_restore_mp](../src/dungeon/actor/feed_actor_restore_mp.c).
 
 ### B004 — cumulative boundaries lose floor items
 
 A random roll on a category's cumulative endpoint selects that exhausted category, then returns category/item zero instead of an item from the next category.
 
-Source: [select_weighted_floor_item](../src/dungeon/level/spawn.c#L386).
+Source: [select_weighted_floor_item](../src/dungeon/level/spawn.c).
 
 ### B006 — numeric popup prefixes are overwritten
 
 Numeric format-0x50 popups from attack/defense reductions lose their stat glyph; format 0x30 likewise loses its plus sign.
 
-Source: [create_actor_value_popup](../src/dungeon/effect/create_actor_value_popup.c#L148).
+Source: [create_actor_value_popup](../src/dungeon/effect/create_actor_value_popup.c).
 
 ### B007 — one XP bonus tier is unreachable
 
 **Likely.** Every recipient below the defeated creature's level gets double the party share, including a one-level gap; the apparent 50-percent bonus tier never occurs.
 
-Source: [distribute_experience_awards](../src/dungeon/player/object/can_entity_gain_level.c#L1051), [distribute_experience_awards](../src/dungeon/player/object/can_entity_gain_level.c#L1078).
+Source: [distribute_experience_awards](../src/dungeon/player/object/can_entity_gain_level.c).
 
 ### B008 — positive spell affinity skips division by four
 
 **Likely.** A single favorable elemental affinity doubles spell power before defense, while a single unfavorable affinity reduces power by about one quarter.
 
-Source: [apply_attack_power_and_element_effects](../src/dungeon/effect/screen/change.c#L1017).
+Source: [apply_attack_power_and_element_effects](../src/dungeon/effect/screen/change.c).
 
 ### B009 — leveling can empty a full-health Naplass's HP
 
 A full-health Naplass can lose all HP on leveling from 53 to 54: its doubled maximum is already 255, and the one-point growth wraps current HP to zero.
 
-Source: [raise_entity_level](../src/dungeon/player/object/can_entity_gain_level.c#L156).
+Source: [raise_entity_level](../src/dungeon/player/object/can_entity_gain_level.c).
 
 ### B009A — attack byte wraps on level-up
 
 An Arachne kept unevolved with Leva can lose all attack at level 74 to 75; a naturally evolved Ashra can fall to 1 at 68 to 69.
 
-Source: [raise_entity_level](../src/dungeon/player/object/can_entity_gain_level.c#L220).
+Source: [raise_entity_level](../src/dungeon/player/object/can_entity_gain_level.c).
 
 ### B009D — defense byte wraps on level-up
 
 A naturally evolved Metal can drop from 255 defense to 1 on leveling 53 to 54.
 
-Source: [raise_entity_level](../src/dungeon/player/object/can_entity_gain_level.c#L258).
+Source: [raise_entity_level](../src/dungeon/player/object/can_entity_gain_level.c).
 
 ### B021 — frog species masks erase native fusion talents
 
 Fusing two frogged familiars masks both saved talent words with the frog's zero native-talent mask. An Arachne can permanently lose its doubled-attack talent after reverting.
 
-Source: [merge_creature_abilities_and_state](../src/dungeon/actor/state/merge_creature_abilities_and_state.c#L554).
+Source: [merge_creature_abilities_and_state](../src/dungeon/actor/state/merge_creature_abilities_and_state.c).
 
 ### Dungeon audit DB001-DB007
 
@@ -257,10 +257,10 @@ DB003-DB006 share one return-value defect. DB001 and DB007 occur in the same foo
   slot 0 succeeds without the associated feedback. A rejected insertion returns -1 and
   produces that feedback despite no change. Poison, slow, MP-drain-stop, and enrage handlers
   have this error; the slow handler also reverses its sound feedback in these cases.
-  Sources: [poison](../src/dungeon/item/use_item_to_apply_poison.c),
-  [slow](../src/dungeon/item/use_item_to_apply_slow.c),
-  [MP-drain-stop](../src/dungeon/item/use_item_to_stop_magic_drain.c),
-  [enrage](../src/dungeon/item/use_item_to_enrage_actor.c).
+  Sources: [use_item_to_apply_poison](../src/dungeon/item/use_item_to_apply_poison.c),
+  [use_item_to_apply_slow](../src/dungeon/item/use_item_to_apply_slow.c),
+  [use_item_to_stop_magic_drain](../src/dungeon/item/use_item_to_stop_magic_drain.c),
+  [use_item_to_enrage_actor](../src/dungeon/item/use_item_to_enrage_actor.c).
 - **DB007 — creature-eaten food leaves its tile marked as holding an item.** When the food is
   not the player's selected floor entry, the generic clear helper deletes its record without
   clearing tile flag `0x800`. The floor-item placement search then rejects the empty tile
@@ -277,13 +277,39 @@ sites of the slot-index return-value defect described in DB003-DB006.
   message for a visible target. Updating an existing status in slot 0 does the same.
   With all four slots holding IDs 1-4, insertion of status 18, 19 or 20 fails and
   instead prints the success message. Insertion into slot 3 reports success normally.
-  Sources: [status 18](../src/dungeon/effect/particle/view_parameter_transition.c),
-  [status 19](../src/dungeon/effect/particle/project_textured_quad_or_callback.c),
-  [status 20](../src/dungeon/effect/mesh/transform_and_queue_mesh_primitives.c).
+  Sources: [apply_random_actor_value_adjustment](../src/dungeon/effect/particle/view_parameter_transition.c),
+  [apply_random_duration_actor_status](../src/dungeon/effect/particle/project_textured_quad_or_callback.c),
+  [try_apply_wind_protection](../src/dungeon/effect/mesh/transform_and_queue_mesh_primitives.c).
 - **DB011-DB013 — three more spells suppress success and announce rejected statuses.**
   The handlers for status IDs 21, 22 and 23 also treat the returned slot index as a
   Boolean: success in slot 0 loses its message, and rejected insertion returns -1
   and announces success. The status operation itself still follows the allocator's result.
-  Sources: [status 21](../src/dungeon/effect/travel/tint_and_advance_effect.c),
-  [status 22](../src/dungeon/effect/sprite/create_radial_effect_from_source.c),
-  [status 23](../src/dungeon/effect/shade/apply_conditional_target_effect.c).
+  Sources: [apply_indexed_effect_condition](../src/dungeon/effect/travel/tint_and_advance_effect.c),
+  [check_the_target_using_scaled_low_byte_conditionally_applies_global_800_e_1_d_01](../src/dungeon/effect/sprite/create_radial_effect_from_source.c),
+  [apply_conditional_target_effect](../src/dungeon/effect/shade/apply_conditional_target_effect.c).
+
+## Searchable source markers and reconciliation
+
+Original-game defect comments begin with `BUG:`. Their wording, uncertainty and
+community attribution are preserved. Source links above name C symbols and do
+not depend on line numbers; a merged C file can contain several symbols.
+
+The current inventory contains 50 distinct IDs (including B009A/B009D,
+B015F/B015T/B015E/B015V, B016S, B026H and DB001-DB013), represented by 54
+comments: 53 detailed comments and the additional DB012 function summary.
+B005 is cited under both large-EXP community reports. Every tagged comment has
+an entry above; no confirmed numbered entry lacks its defect comment.
+B028 also cites `classify_adjacent_tile_height` and
+`update_shrinking_sprite_effect` as supporting code; those comments describe
+ordinary movement and callback behavior rather than an additional defect.
+
+Two community entries have no confirmed cause/comment to tag:
+
+| Entry | Missing evidence |
+| --- | --- |
+| Manoeva/Picket item duplication | Second usable item owner and precise input sequence remain unverified. No symbol is asserted as its complete cause. |
+| Agility without a known use | Exhaustive alias-aware consumer audit and intended mechanic are missing. No unused-stat defect is asserted. |
+
+The replay package's `bug_map.tsv` maps IDs to actual definition symbols and
+comment text, including these unresolved entries. No source-only defect
+comments remain without a documentation entry.

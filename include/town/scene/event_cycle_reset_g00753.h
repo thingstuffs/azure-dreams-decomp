@@ -19,6 +19,6 @@ extern s32 func_80018640(s32);
 
 /* Functions defined in this translation unit. */
 void reset_buffer_and_event_flags(void);
-void advance_counter_modulo_eight(void);
+s32 advance_counter_modulo_eight(void);
 
 #endif

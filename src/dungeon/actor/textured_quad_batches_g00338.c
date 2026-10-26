@@ -165,6 +165,7 @@ s32 transform_linked_quad_batches(u8 *initial_batch, s32 initial_dispatch_arg, u
                     OtSlot ot_entry = { ((S_800B06F0_0 *)scratch)->unk_C0.i };
 
 
+                    /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: dungeon/func_800AAF90). */
                     do {
                         packet = emit_gpu_packets(ot_entry.entry, params, &primitive, packet);
                     } while (0);

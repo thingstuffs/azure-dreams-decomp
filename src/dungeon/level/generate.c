@@ -2489,7 +2489,7 @@ void update_region_until_complete(Rec_func_8001CE44_arg0 *region, s16 update_id)
     do {
         fill_region_with_random_patches(region, update_id);
         /*
-         * Original bug: special rooms place items and traps before the path check. A retry redraws terrain without
+         * BUG: Original bug: special rooms place items and traps before the path check. A retry redraws terrain without
          * clearing those records, leaving placements on the old layout.
          * Found and documented by the Azure Dreams community
          * (adrando.com/guide/bugs.html).
@@ -2616,7 +2616,7 @@ void place_room_trap_records(floor_generate_isolated_8028A0F4_DungeonRect *rect,
         item_category_table = item_category_groups;
 
         /*
-         * Original bug: trap rooms overwrite spawn slots, including zero, without checking for existing entries. On
+         * BUG: Original bug: trap rooms overwrite spawn slots, including zero, without checking for existing entries. On
          * floor 31 this can replace the reserved Beldo vision.
          * Found and documented by the Azure Dreams community
          * (adrando.com/guide/bugs.html).
@@ -2689,7 +2689,7 @@ void mark_random_eligible_region_tiles(floor_generate_isolated_8028A328_S_8001D3
             if (((get_offset_map_cell_value_and_flags(coords->unk_00 - 1, coords->unk_01, 0, &tile_flags) << 16) == 0) || !(tile_flags & 0xFF20)) {
                 cycle_map_cell_flags(coords->unk_00, coords->unk_01, TILE_HAS_ITEM);
                 /*
-                 * Original bug: item rooms fill the low item slots before ordinary population and skip special
+                 * BUG: Original bug: item rooms fill the low item slots before ordinary population and skip special
                  * selection here. If every slot below the ordinary item limit is filled, population never calls the
                  * special selector, suppressing the Blue Collar or Healing Herb instead of reserving a slot for it.
                  * Found and documented by the Azure Dreams community (adrando.com/guide/bugs.html).

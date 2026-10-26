@@ -44,6 +44,7 @@ void refresh_scene_active_entry(void *update_arg, s32 unused, s32 entry_arg)
             update_state = *(TownState **)((s8 *)(&town_scene_root));
             entry_index = update_state->index;
             entries = update_state->entries;
+            /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: town/func_804B8424). */
             do {
                 entries[(entry_index * 8) + 1] = value_index;
             } while (0);

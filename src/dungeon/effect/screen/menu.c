@@ -2883,6 +2883,7 @@ void update_pulsing_color_fade(void *effect_data, register S_800BB14C *effect, S
         phase = effect->phase;
         phase += 1;
         pulse_value = (effect->field0D - 4) & 0xBF;
+        /* BYTES: reorg mostly_true_jump: LOOP_BEG before the join label decides a delay-slot fill (ledger/onetrip_loadbearing.jsonl: dungeon/func_800B59EC). */
         do {
             effect->phase = phase;
         }

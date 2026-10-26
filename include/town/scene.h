@@ -134,4 +134,18 @@ extern TownSceneChoice square_progress_choices[6];
 extern TownSceneChoice square_flag_choices[17];
 extern TownSceneChoice square_record_choices[4];
 
+
+/* A terminal scene choice accepts unconditionally and has an argument-free
+ * action. The layout is the ordinary 16-byte scene choice record. */
+typedef s32 (*TownTerminalPredicate)(void);
+typedef s32 (*TownTerminalAction)(void);
+typedef u8 *TownTerminalData;
+typedef struct {
+    TownTerminalPredicate predicate;
+    TownTerminalAction action;
+    TownTerminalData value;
+    s16 script_flag;
+    s16 reserved;
+} TownTerminalChoice;
+
 #endif

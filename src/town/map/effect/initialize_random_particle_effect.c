@@ -94,6 +94,7 @@ void initialize_random_particle_effect(Core *parent_core, IntVector3 *origin)
 
     quotient <<= 12;
     quotient = random_value - quotient;
+    /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: town/func_800BD550). */
     do {
         parent_core->angle = quotient;
     } while (0);

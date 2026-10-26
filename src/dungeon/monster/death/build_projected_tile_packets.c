@@ -226,6 +226,7 @@ void spawn_parent_offset_random_motion_effect(void *parent_arg, register s16 eff
     effect = allocate_list_node(0x211, parent);
     if (effect != NULL) {
         effect->update_callback = advance_damped_motion_and_fade_effect;
+        /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: dungeon/func_80BC172C). */
         do {
             parent_x = ((MovingPosition *)(((ObjectPayloadView *)parent)->unk_08))->x;
             ((S_80BC172C_5 *)(effect->position))->unk_02 = (s16) (parent_x + offset_x);

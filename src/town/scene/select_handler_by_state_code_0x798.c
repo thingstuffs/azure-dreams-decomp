@@ -22,6 +22,7 @@ s32 select_handler_by_state_code_0x798(void) {
         TownServiceTable *methods;
 
         object = *object_slot;
+        /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: town/func_8051F898). */
         do {
             methods = object->services;
         } while (0);

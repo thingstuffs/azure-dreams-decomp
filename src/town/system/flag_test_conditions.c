@@ -24,6 +24,7 @@ s32 set_one(S_800165E4_0 *tableOwner, s32 entryIndex) {
     u32 entryAddress;
     s16 entryValue;
 
+    /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: town/func_806D2DE4). */
     do {
         entryIndex *= 0x10;
         entryAddress = entryIndex + tableOwner->unk_10;

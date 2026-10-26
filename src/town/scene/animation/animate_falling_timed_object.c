@@ -189,6 +189,7 @@ state0_finish:
             ((S_8052BCCC_3 *)out)->unk_05 = 0;
             if (func_80071494() & 7) {
                 u16 phase3;
+                /* BYTES: Redundant store retail really emits; the A6 load between the two A2 stores keeps cse from deleting the first store. */
                 ((S_8052BCCC_0 *)obj)->unk_A2 = 16;
                 phase3 = ((S_8052BCCC_0 *)obj)->unk_A6;
                 ((S_8052BCCC_0 *)obj)->unk_A2 = phase3;

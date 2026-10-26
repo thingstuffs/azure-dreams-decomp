@@ -55,6 +55,6 @@ s32 town_sd_sq_callagain_sub(s32 sequence_flags) {
 }
 
 /* town_sd_sq_callagain: replay the town sequence with flags 0x9000. */
-void town_sd_sq_callagain(void) {
-    town_sd_sq_callagain_sub(0x9000);
+s32 town_sd_sq_callagain(void) {
+    return town_sd_sq_callagain_sub(0x9000);
 }

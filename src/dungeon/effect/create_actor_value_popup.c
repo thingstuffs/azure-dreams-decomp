@@ -120,7 +120,7 @@ void *create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callba
         }
         format = flags & 0xF0;
         /*
-         * Original bug: large EXP becomes a negative s16 and indexes message pointers, causing the reported EXP crash
+         * BUG: Original bug: large EXP becomes a negative s16 and indexes message pointers, causing the reported EXP crash
          * or MISS!! text. Format EXP as unsigned first.
          * Found and documented by the Azure Dreams community
          * (adrando.com/guide/bugs.html).
@@ -141,7 +141,7 @@ void *create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callba
                 text_cursor = (s8 *) text_buffer + 1;
                 break;
             /*
-             * Original bug: cases 0x30 and 0x50 leave text_cursor on their prefix, so the decimal formatter overwrites
+             * BUG: Original bug: cases 0x30 and 0x50 leave text_cursor on their prefix, so the decimal formatter overwrites
              * the plus sign or stat glyph. Both should advance past the prefix as the sibling cases do.
              */
             case 0x30:

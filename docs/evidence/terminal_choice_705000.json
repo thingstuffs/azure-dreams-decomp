@@ -1,0 +1,35 @@
+{
+  "symbol": "D_80016074",
+  "stride": 16,
+  "count": 1,
+  "size": 16,
+  "basis": [
+    "Parent scene record +0x10 points to the array at image +0x74.",
+    "Its complete sixteen-byte record ends at independently referenced next object +0x84.",
+    "The existing initializer writes that next-object address into its global scene table.",
+    "The predicate is the exact registered zero-return entry; the action is a complete zero-return entry."
+  ],
+  "consumers": [
+    "src/town/scene/find_eligible_entry.c",
+    "src/town/scene/save_context_and_dispatch_entry_type.c",
+    "src/town/scene/apply_selected_entry_values.c",
+    "src/town/scene/attach_global_data_invoke_callback.c"
+  ],
+  "references": [
+    {
+      "parent_choice_pointer": "0x7050b0",
+      "next_object": "0x80016084",
+      "loader_descriptor": "0x3e7b8c"
+    }
+  ],
+  "container": "town",
+  "foff": 7360628,
+  "vma": 2147573876,
+  "raw_sha256": "f35a74116e316d7acaf503fdd3af0a2fe4413a9ff8235fd46e58cd794d46b140",
+  "load": {
+    "start": 7360512,
+    "size": 6144,
+    "vma": 2147573760
+  },
+  "interpretation": "The action and predicate read no arguments. Pointer values and scalars are produced symbolically by C."
+}

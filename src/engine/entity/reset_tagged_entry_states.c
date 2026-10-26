@@ -12,6 +12,7 @@ void reset_tagged_entry_states(void) {
     s32 new_state;
     u32 record_index;
 
+    /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: slus/w_80043568). */
     do {
         slot = 0x3F;
     } while (0);

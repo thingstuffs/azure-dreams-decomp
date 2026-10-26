@@ -85,6 +85,7 @@ void advance_actor_stored_path_2(void *movement, s32 actor_index, void *actor, v
     ((SpriteFrameState *)actor)->tile_x = ((T_80172CC0_S_80172CC0_2 *)path_entry)->unk_74;
     cell_flags = 0x3000;
     path_entry = (u8 *)state + ((T_80172CC0_S_80172CC0_0 *)state)->unk_8A.s;
+    /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: dungeon/func_80CE94C0). */
     do {
     } while (0);
     ((SpriteFrameState *)actor)->tile_y = ((T_80172CC0_S_80172CC0_2 *)path_entry)->unk_7C;

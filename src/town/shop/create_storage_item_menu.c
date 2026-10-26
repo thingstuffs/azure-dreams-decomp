@@ -13,7 +13,6 @@ extern void forward_record_fields_to_page_loader(void *loader, void *object);
 extern s32 display_block_defaults[4];
 extern DisplayPositionWords display_vector_defaults;
 extern s32 func_800B44F0(StorageMenuObject *object, s32 count);
-extern ItemMenuPart *process_target_with_code_33(ItemMenuPart **parts);
 extern void func_800B44B0(StorageMenuObject *object, ItemMenuStateNode *owner);
 extern void register_node(void *object, void *callback);
 extern void dungeon_menu_tag(void);

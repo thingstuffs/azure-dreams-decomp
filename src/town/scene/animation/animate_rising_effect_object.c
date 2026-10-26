@@ -115,6 +115,7 @@ void animate_rising_effect_object(void *obj, void *state_in, void *input) {
     void *entity_data;
     s32 *money;
 
+    /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: town/func_808146C8). */
     do {
         root = ((S_8052F2C8_0 *)obj_held)->unk_00;
     } while (0);

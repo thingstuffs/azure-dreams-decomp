@@ -307,6 +307,7 @@ void SpuGetVoiceAttr(SpuVoiceAttr_ *voice_attr)
     voice_word = voice_index * 8;
     voice = (S_8005FA34_ent *)(voice_offset + (unsigned long)voice_regs);
     volume_or_note = voice->unk0;
+    /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: slus/w_8005FA34). */
     do {
         right_volume = voice->unk2;
     } while (0);

@@ -5,8 +5,17 @@
   "foff": "0x705000",
   "size": "0x1800",
   "vma": "0x80016000",
-  "evidence": "ledger/instance_load_regions.jsonl; validated packed-CD loader record",
+  "evidence": "ledger/instance_load_regions.jsonl; validated packed-CD loader record; Complete three-sector scene loader and typed choice bounds: docs/evidence/terminal_choice_705000.json",
   "entries": [
+    {
+      "row": "town/func_807851DC",
+      "home": "town/func_800B0DB0",
+      "tu": "src/town/shop/item/item_menu_return_zero.c",
+      "foff": "0x7051DC",
+      "vma": "0x800161DC",
+      "size": 8,
+      "evidence": "docs/evidence/r124w_carve1_run13.md"
+    },
     {
       "row": "town/func_807851E4",
       "tu": "src/town/shop/item/item_menu_return_zero.c",

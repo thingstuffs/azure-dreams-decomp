@@ -18,6 +18,7 @@ void reset_eligible_entity_state(void *entity_arg, void *motion, void *check_arg
         spend_actor_mp(actor, 4);
         advance_status_timers(actor);
         if ((check_actor_floor_trap(check_value, actor) << 16) > 0) {
+            /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: dungeon/func_80AC7330). */
             do {
                 *(s32 **)((u8 *)entity + 0x8C) = &saber_behavior_entry;
             } while (0);

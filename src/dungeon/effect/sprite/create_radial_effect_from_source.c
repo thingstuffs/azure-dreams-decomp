@@ -1890,7 +1890,7 @@ extern void adjust_source_value_and_finalize(void *, void *);
 extern u8 D_800E1D01[9];
 
 /*
- * Unless the initial target effect succeeds, requests status 0x16 for the low input byte divided
+ * BUG: Unless the initial target effect succeeds, requests status 0x16 for the low input byte divided
  * by four plus four. Applies D_800E1D01 when the returned slot is nonzero, including the existing
  * -1/slot-zero success-test bug.
  */
@@ -1900,7 +1900,7 @@ void check_the_target_using_scaled_low_byte_conditionally_applies_global_800_e_1
         u32 scaledLowByte = pinnedValue;
         scaledLowByte >>= 2;
         /*
-         * Original bug: set_or_clear_actor_status_slot returns a slot index (0..3), or -1 on
+         * BUG: Original bug: set_or_clear_actor_status_slot returns a slot index (0..3), or -1 on
          * failure. Testing it as nonzero misreports slot 0 as failure and -1 as success.
          * Slot-0 success loses its message; rejected insertion prints success.
          * try_apply_confusion_status uses the nonnegative success test.

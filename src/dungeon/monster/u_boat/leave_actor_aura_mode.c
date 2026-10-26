@@ -52,6 +52,7 @@ void leave_actor_aura_mode(void *state, ObjectPosition *motion, SpriteFrameState
         active_step = 1;
         if (step == 0 || step == active_step) {
             if (step == 0) {
+                /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: dungeon/func_80D40884). */
                 do {
                     ((S_80176084_0 *)state)->unk_B1 = active_step;
                 } while (0);

@@ -87,6 +87,7 @@ void create_town_object_group(void)
     s32 unit_scale;
 
     child_slots = 0;
+    /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: town/func_8080E59C). */
     do {
         upload_rect.copy = D_80526440[0];
     } while (0);

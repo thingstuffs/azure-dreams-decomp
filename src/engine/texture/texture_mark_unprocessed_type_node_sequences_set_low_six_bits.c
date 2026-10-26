@@ -49,6 +49,7 @@ void texture_mark_unprocessed_type_n_2_node_sequences_set_low_six_bits_n_14(S_80
                     do {
                         value = *value_ptr;
                         masked_value = value & value_mask;
+                        /* BYTES: Loop note = full sched barrier: the second store is not ready one tick, so the add wins the sched2 hazard tie as in retail. */
                         do { *value_ptr = masked_value; } while (0);
                         *value_ptr = masked_value + 0xE;
                         value_ptr = (u16 *)((u8 *)value_ptr + 0xC);

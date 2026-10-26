@@ -259,6 +259,7 @@ void create_slot_positioned_effect(s16 x, s16 y, s32 slot) {
         object_data = ((void *)object) + 0x20;
         position->z.w.i = height;
         ((S_800F643C_3 *)object_data)->unk_0E = height;
+        /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: dungeon/func_807AEC3C). */
         do {
             ((S_800F643C_3 *)object_data)->unk_08 = slot;
         } while (0);

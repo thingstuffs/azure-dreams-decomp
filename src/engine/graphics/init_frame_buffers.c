@@ -31,6 +31,7 @@ void init_frame_buffers(void)
 
     runtime_dispatch_state.field_0 |= 1;
     saved_state = gpu_scratch_buffer_base;
+    /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: slus/w_80041A10). */
     do {
         gpu_scratch_write_pointer = saved_state;
     } while (0);

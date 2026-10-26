@@ -796,8 +796,8 @@ void *create_resource_transition_for_descriptor_check(void *object)
 extern void *scene_create_resource_transition(void *owner, void *task_context);
 
 /* Create an object task with mode one. */
-void create_resource_transition_card(void *object) {
-    scene_create_resource_transition(object, (void *)1);
+void *create_resource_transition_card(void *object) {
+    return scene_create_resource_transition(object, (void *)1);
 }
 
 extern void *scene_create_resource_transition(void *owner, void *task_context);
@@ -1444,12 +1444,12 @@ s32 update_spu_register_pair_cc_cd(s32 first, s32 second) {
     return modify_spu_register_bit_pair(first, second, 0xCC, 0xCD);
 }
 
-extern void read_spu_register_pair(int a0, int a1);
+extern s32 read_spu_register_pair(int a0, int a1);
 
 /* Invoke read_spu_register_pair with values 0xCC and 0xCD. */
-void read_spu_register_pair_cc_cd(void)
+s32 read_spu_register_pair_cc_cd(void)
 {
-    read_spu_register_pair(0xCC, 0xCD);
+    return read_spu_register_pair(0xCC, 0xCD);
 }
 
 extern void apply_spu_voice_attributes(void *a0);

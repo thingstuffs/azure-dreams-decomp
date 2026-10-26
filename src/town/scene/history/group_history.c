@@ -33,6 +33,7 @@ void prepend_entry_to_group_history(s32 entry_index, s32 lookup_arg1, s32 lookup
     cursor = cursor->unk_24;
     cursor = cursor->unk_6C;
     entries = cursor->unk_1EC;
+    /* BYTES: LOOP_END note barrier between the counter update + reread and the limits address (sched1/sched2). */
     do {
         group_id = *(s16 *)((u8 *)entries + (entry_id * 0x14));
         group_state = state_base + group_id;

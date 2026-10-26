@@ -33,6 +33,7 @@ void mark_referenced_building_records(void) {
     entryIndex = 0;
     recordBase = town_building_records;
     markedFlag = 1;
+    /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: town/func_800BB33C). */
     do {
         indexPageCursor = (u8 *)0x80010000;
     } while (0);

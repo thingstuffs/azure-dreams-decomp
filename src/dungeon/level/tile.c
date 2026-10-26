@@ -314,6 +314,7 @@ s32 is_neighbor_tile_blocked(s16 origin_x, s16 origin_y, s32 direction) {
     u8 *tile;
 
     dungeon = &g_game_work;
+    /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: dungeon/func_80094B58). */
     do {
     } while (0);
     tile_index = origin_x + ((s16 *)((u8 *)dir_step_x))[(s16)direction];

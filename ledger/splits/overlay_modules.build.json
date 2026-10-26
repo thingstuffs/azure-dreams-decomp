@@ -1,6 +1,6 @@
 {
   "schema": "overlay-module-native-v4",
-  "logical_rows": 20848,
+  "logical_rows": 20854,
   "edges": [
     {
       "module": "dungeon_cd_control_d79c4",
@@ -3766,6 +3766,7 @@
         "row_asflags": ""
       },
       "rows": [
+        "town/D_8079A074",
         "town/func_8079A1EC"
       ]
     },
@@ -6919,6 +6920,18 @@
       "rows": [
         "town/func_8032DB70",
         "town/D_803315C4"
+      ]
+    },
+    {
+      "module": "town_terminal_choice_705000",
+      "source": "src/town/scene/attach_global_data_invoke_callback.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/D_80785074",
+        "town/func_807851EC"
       ]
     },
     {
@@ -70252,6 +70265,16 @@
       ]
     },
     {
+      "source": "src/dungeon/monster/baloon/create_directional_template_effect.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80D65244"
+      ]
+    },
+    {
       "source": "src/dungeon/monster/baloon/create_anchored_directional_object.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -70639,6 +70662,16 @@
       },
       "rows": [
         "dungeon/func_80D6AE14"
+      ]
+    },
+    {
+      "source": "src/dungeon/monster/baloon/create_directional_template_effect.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80D6B244"
       ]
     },
     {
@@ -183208,17 +183241,17 @@
         "row_asflags": ""
       },
       "rows": [
-        "town/func_807851E4"
+        "town/func_807851DC"
       ]
     },
     {
-      "source": "src/town/scene/attach_global_data_invoke_callback.c",
+      "source": "src/town/shop/item/item_menu_return_zero.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
       },
       "rows": [
-        "town/func_807851EC"
+        "town/func_807851E4"
       ]
     },
     {
@@ -183609,6 +183642,16 @@
       },
       "rows": [
         "town/func_80786470"
+      ]
+    },
+    {
+      "source": "src/town/shop/item/item_menu_return_zero.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8079A1DC"
       ]
     },
     {

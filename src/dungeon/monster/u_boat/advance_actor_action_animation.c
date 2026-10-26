@@ -69,7 +69,7 @@ void advance_actor_action_animation(void *action, s32 actor_index, SpriteFrameSt
             }
         }
         /*
-         * Original bug: after a Mazarr seed restores MP, this waits on the pending EXP owner, which can be this U-Boat
+         * BUG: Original bug: after a Mazarr seed restores MP, this waits on the pending EXP owner, which can be this U-Boat
          * itself. Allow its own pending level-up to proceed.
          * Found and documented by the Azure Dreams community
          * (adrando.com/guide/bugs.html).

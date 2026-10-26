@@ -163,7 +163,7 @@ void _spu_FsetDelayR(void);
 void set_dma_channel_4_callback(int callback);
 s32 is_tone_parameter_flag_set(void);
 s32 update_spu_register_pair_cc_cd(s32 first, s32 second);
-void read_spu_register_pair_cc_cd(void);
+s32 read_spu_register_pair_cc_cd(void);
 void apply_voice_attributes_and_key_on(void *object);
 
 /* code2.c */

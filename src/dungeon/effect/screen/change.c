@@ -670,7 +670,7 @@ Ent *prepare_directional_attack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent
     a->flags14 &= ~0x4000000;
     if (ent2 == 0) {
         /*
-         * Original bug: The Salamander passes distance zero and no explicit target. The diagonal corner check can still
+         * BUG: Original bug: The Salamander passes distance zero and no explicit target. The diagonal corner check can still
          * reject a wall beside this same-tile attack, leaving unk60 null and dealing no damage.
          * Found and documented by the Azure Dreams community
          * (adrando.com/guide/bugs.html).
@@ -747,7 +747,7 @@ Ent *prepare_directional_attack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent
         a->flags1c &= ~0x1000000;
     }
     /*
-     * Original bug: the luck dodge roll is limited to incapacitated targets and adds an evasion byte left at zero.
+     * BUG: Original bug: the luck dodge roll is limited to incapacitated targets and adds an evasion byte left at zero.
      * Capable targets skip the roll entirely.
      * Found and documented by the Azure Dreams community
      * (adrando.com/guide/bugs.html).
@@ -988,7 +988,7 @@ void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 po
         affinity_shift = affinity << 0x10;
         affinity_product = power * (affinity_shift >> 0x10);
         /*
-         * Possible original bug: only negative affinity products are divided by four. A +1 affinity doubles power
+         * BUG: Possible original bug: only negative affinity products are divided by four. A +1 affinity doubles power
          * instead of adding the quarter suggested by the negative branch.
          */
         affinity_adjust = affinity_product;

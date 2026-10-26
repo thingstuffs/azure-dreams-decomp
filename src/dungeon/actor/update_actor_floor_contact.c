@@ -78,7 +78,7 @@ void update_actor_floor_contact(void *object_arg, void *motion_arg, void *entity
                               (s16)((*(u16 *)((u8 *)object_base + (0x88))) - 0x20));
         if (floor_height < 0x200) {
             if (((S_800D1E34_2 *)object)->unk_90.at02.v + (*(s16 *)((u8 *)object_base + (0x88))) < floor_height) {
-                ((S_800D1E34_2 *)object)->unk_98 &= 0xFFFF;   /* +0x98 no-op write-back: retail reads the field, the unchanged store compiles away (decision 39) */
+                ((S_800D1E34_2 *)object)->unk_98 &= 0xFFFF;   /* BYTES: +0x98 no-op write-back: retail reads the field, the unchanged store compiles away (decision 39) */
             } else {
                 if (floor_height >= (*(s16 *)((u8 *)object_base + (0x88)))) {
                     ((S_800D1E34_2 *)object)->unk_90.at00.v = 0;

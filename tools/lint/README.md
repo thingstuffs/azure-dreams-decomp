@@ -71,6 +71,82 @@ Only a complete, failure-free run may write a baseline. Review its diff before
 committing; do not raise counts just to silence a regression. The bundled
 baseline was measured with the compiler/flags recorded in that file.
 
+## Readability debt ratchet
+
+`debt_check.py` is a dependency-free lexical census of every physical
+`src/**/*.c` file, including merged translation units and unregistered source
+fragments. It shares the function, token and pointer-cast recognizers from
+`tools/readability/score.py`; it does not compile or preprocess C. Header
+ownership and layout equivalence still require review.
+
+```sh
+nice -n 10 python3 tools/lint/debt_check.py --summary --check
+python3 -m unittest discover -s tools/tests -p 'test_debt_check.py' -v
+```
+
+Each `(file, definition symbol, occurrence)` has a separate record. File-scope
+code uses `<global>`. The classes are:
+
+| Class | Unit |
+| --- | --- |
+| `local_externs` | Explicit `extern` declarations in C files, including block scope, plus bare file-scope function prototypes. Each declaration counts once; static prototypes, typedefs and definitions do not. These are decision-74 folder-header ownership candidates. |
+| `generated_layouts` | Distinct `S_XXXXXXXX` or `S_XXXXXXXX_suffix` names per scope, including `S_func_XXXXXXXX` variants. A struct tag and typedef alias for the same view count once in that scope. |
+| `m2c_macros` | `M2C_` identifier occurrences, plus actual `#define M2C_...` directives. |
+| `goto` | `goto` tokens. |
+| `volatile` | `volatile` tokens. |
+| `pointer_casts` | Spelled pointer casts recognized by the existing readability lexer. |
+
+Comments and quoted contents do not count. Cast density is the ratio of
+pointer casts to nonexempt C tokens, compared by exact cross multiplication.
+The TSV prints casts per 1,000 tokens for inspection. A reduction in function
+size can increase this density even if its cast count stays constant; review
+that change explicitly.
+
+`--baseline FILE` defaults to `tools/lint/debt_baseline.json`. `--check` fails
+on any increased class total, file class count, or function class count, and on
+increased file/function cast density. Improvements in another class, file or
+function cannot pay for new debt. New scopes start at zero debt; removed scopes
+are allowed. A definition/file rename retaining debt needs an explicitly reviewed
+baseline key migration. The sparse baseline records only files and scopes with
+nonzero debt. An absent file, function or class count means zero. The TSV census
+still includes every file and function. Invalid baseline records, unmatched
+delimiters and malformed markers fail closed.
+
+Baseline schema 2 groups `by_file` by directory, then filename. A file record is
+`[total_tokens, scopes]`; each scope is `[tokens, counts...]` in the order listed
+in `classes`, with trailing zero counts omitted. File class counts are the sum
+of its retained scopes; `by_class` retains the totals for all six classes.
+Zero-debt scopes (including `<global>`) need no record, but their tokens remain
+in `total_tokens` so file cast-density comparisons stay exact. Keys are sorted,
+with one physical file per line and no source line numbers. This avoids storing
+paths and file/scope totals twice while keeping the baseline below 600 KB.
+
+A comment of the exact form `/* BYTES: <one-line reason> */` exempts its adjacent
+code site. A leading marker covers the following statement, declaration or
+braced control arm; a trailing marker on a statement's line covers that
+statement. A marked `do { ... } while (0);` exempts the wrapper shell; its body remains
+measured so ordinary debt inside a recorded scheduling fence stays visible.
+The enclosing function remains checked; a marker on a whole definition is
+refused. Only add markers where recorded retail
+evidence supplies the reason; the marker itself does not establish evidence.
+Exempt tokens are removed from both cast numerator and density denominator.
+
+`--root` defaults to the repository; `--out` defaults to `work/debt`. Outputs
+are `debt_functions.tsv` (per-function PASS/FAIL with `--check`),
+`debt_files.tsv`, and `debt_summary.json`. `--only src/path.c ...` is a focused
+census and cannot check or write a baseline. Source reads are capped at 4 MiB
+and source symlinks are refused. No work directory is scanned.
+
+After reviewing reductions or an intentional baseline key migration:
+
+```sh
+nice -n 10 python3 tools/lint/debt_check.py --summary \
+  --baseline tools/lint/debt_baseline.json --write-baseline
+```
+
+Only a complete census without parse/marker errors may write a baseline.
+Review its diff; raising a count to silence a failure defeats the ratchet.
+
 ## Callback and cross-unit soundness
 
 `soundness_check.py` shares this tool's TU census and original-header flag

@@ -1171,7 +1171,7 @@ void apply_indexed_effect_condition(void *target, u8 packedValue, void *owner_co
         s32 valueGroupIndex = packedValue >> 2;
         valueGroupIndex += 2;
         /*
-         * Original bug: set_or_clear_actor_status_slot returns a slot index (0..3), or -1 on
+         * BUG: Original bug: set_or_clear_actor_status_slot returns a slot index (0..3), or -1 on
          * failure. Testing it as nonzero misreports slot 0 as failure and -1 as success.
          * Slot-0 success loses its message; rejected insertion prints success.
          * try_apply_confusion_status uses the nonnegative success test.

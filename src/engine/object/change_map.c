@@ -82,6 +82,7 @@ void change_map(InputRecord *input)
     entry_index = input->field_02;
     map_change_state.field_1A = entry_index;
     town_map_variant = entry_index;
+    /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: slus/konami_runtime_w_8003BAF8). */
     do {
     } while (0);
 

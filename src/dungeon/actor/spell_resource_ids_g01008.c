@@ -137,8 +137,8 @@ void *create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *
             } else {
                 select_nearby_target_and_initialize_slot(effect, effect_position, 8, 0x300);
             }
+            /* BYTES: retail evidence: the test's operands survive (the arm compiled away); reconstructed as a conditional update of a local nothing reads in the retail build - any dead local set reproduces the bytes (lane r118_fable_f4; decision 45, docs/evidence/r97_decisions.md) */
             if (text_context) {
-                /* retail evidence: the test's operands survive (the arm compiled away); reconstructed as a conditional update of a local nothing reads in the retail build - any dead local set reproduces the bytes (lane r118_fable_f4; decision 45, docs/evidence/r97_decisions.md) */
                 effect_mode = 0;
             }
         } else {

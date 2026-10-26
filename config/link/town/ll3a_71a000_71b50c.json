@@ -3,10 +3,19 @@
   "image": "town/ll3a_71a000_71b50c",
   "container": "town",
   "foff": "0x0071A000",
-  "size": "0x0000150C",
+  "size": "0x1800",
   "vma": "0x80016000",
-  "evidence": "config/overlays/town.rowbase.jsonl proven region r121m_cfg_ovl_71a1ec",
+  "evidence": "config/overlays/town.rowbase.jsonl proven region r121m_cfg_ovl_71a1ec; Complete three-sector scene loader and typed choice bounds: docs/evidence/terminal_choice_71a000.json",
   "entries": [
+    {
+      "row": "town/func_8079A1DC",
+      "home": "town/func_800B0DB0",
+      "tu": "src/town/shop/item/item_menu_return_zero.c",
+      "foff": "0x71A1DC",
+      "vma": "0x800161DC",
+      "size": 8,
+      "evidence": "docs/evidence/r124w_carve1_run13.md"
+    },
     {
       "row": "town/func_8079A1E4",
       "home": "town/func_800B0DB0",

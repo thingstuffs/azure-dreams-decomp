@@ -63,7 +63,6 @@ extern void refresh_actor_proximity_state(u8 *context);
 extern void spend_actor_mp(void *, s32);
 extern s16 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 extern void create_radial_effect_segments(void *, void *, void *, void *);
-extern void create_directional_template_effect(void *, void *, void *, void *);
 extern void create_anchored_directional_object(void *, void *, void *, void *, s32);
 extern void create_origin_motion_effect(void *, void *, void *, s32, s32, s32);
 extern s32 random_below_limit(s32);

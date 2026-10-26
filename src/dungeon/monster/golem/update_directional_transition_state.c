@@ -45,7 +45,7 @@ void update_directional_transition_state(S_func_810870DC_0 *entity, void *unused
         s32 scene_flags = scene_data->buttons;
 
         /*
-         * Original bug: Select blocks the Golem idle reservation's release and leaves its normal callback null. The
+         * BUG: Original bug: Select blocks the Golem idle reservation's release and leaves its normal callback null. The
          * watchdog clears the count after 901 unchanged updates outside Koh's idle. Movement then expects a ready
          * familiar to leave its tile, but this Golem still cannot move while Select blocks completion, so Koh can
          * enter its tile. Found and documented by the Azure Dreams community (adrando.com/guide/bugs.html).

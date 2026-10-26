@@ -1011,7 +1011,7 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
                                 }
                                 if (dz < 0x40) {
                                     /*
-                                     * Original bug: Gaia Shoot passes water flags 0xA instead of wind flags 0xC, so
+                                     * BUG: Original bug: Gaia Shoot passes water flags 0xA instead of wind flags 0xC, so
                                      * damage affinity and the impact effect use water.
                                      * Found and documented by the Azure Dreams community
                                      * (adrando.com/guide/bugs.html).

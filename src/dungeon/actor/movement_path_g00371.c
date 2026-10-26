@@ -235,7 +235,7 @@ void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite,
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_98 &= 0xFFFE;
                 motion->flags14 = 0;
                 /*
-                 * Original bug: Tumna leaves an already lifted familiar on Koh's tile. Restarting lift setup here
+                 * BUG: Original bug: Tumna leaves an already lifted familiar on Koh's tile. Restarting lift setup here
                  * clears Koh's occupancy; resume the attachment without clearing the tile.
                  * Found and documented by the Azure Dreams community
                  * (adrando.com/guide/bugs.html).
@@ -531,6 +531,7 @@ try_heading:
                     goto post_loop;
                 }
                 if ((check_entity_relation(actor, ((S_800D92C0_1 *)(((int)primary_actor_record)))->unk_58 + 0x20) << 0x10) != 0) {
+                    /* BYTES: reorg mostly_true_jump: LOOP_BEG before the join label decides a delay-slot fill (ledger/onetrip_loadbearing.jsonl: dungeon/func_800D3B60). */
                     do {
                         return;
                     } while (0);

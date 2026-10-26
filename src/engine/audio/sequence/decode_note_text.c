@@ -48,6 +48,7 @@ void *decode_fullwidth_text(void *entries, u8 *text, s32 initial_octave)
                 u8 note_hi = cursor[0];
                 u8 note_lo = cursor[1];
                 u8 note = (u8)map_fullwidth_character_to_glyph_byte(note_lo | (note_hi << 8));
+                /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: slus/w_8004DA74). */
                 do {
                     cursor += 2;
                 } while (0);

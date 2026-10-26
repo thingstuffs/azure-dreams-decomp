@@ -54,7 +54,7 @@ s32 use_item_to_clear_equipment_flags(void *target, s32 item, s16 use_mode, s32 
         create_view_color_flash(0xC0C0C0, 0);
         play_sound_if_enabled(0x702);
         /*
-         * Original bug: cursed equipment sets the curse effect without a status slot. Clearing slot 8 leaves that
+         * BUG: Original bug: cursed equipment sets the curse effect without a status slot. Clearing slot 8 leaves that
          * effect active; clear the effect flag too.
          * Found and documented by the Azure Dreams community
          * (adrando.com/guide/bugs.html).

@@ -32,7 +32,7 @@ void set_resident_bit(s16 value);
 void set_resident_mode_flags(s32 mode);
 
 /* test_resident_bit.c */
-void func_80033BC0(s16 value);
-void test_resident_bit(s16 value);
+s32 func_80033BC0(s16 value);
+s32 test_resident_bit(s16 value);
 
 #endif

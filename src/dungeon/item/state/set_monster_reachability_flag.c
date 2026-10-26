@@ -16,6 +16,7 @@ s32 set_monster_reachability_flag(void) {
 
     if (*(u16 *)(((u8 *)dungeon_actor_ring_anchor) + 0x118) < 0x401) {
         if (monster_special_entry_index < 0xC01) {
+            /* BYTES: reorg mostly_true_jump: LOOP_BEG before the join label decides a delay-slot fill (ledger/onetrip_loadbearing.jsonl: dungeon/func_80099E6C). */
             do {
                 changed = 0;
             } while (0);

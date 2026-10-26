@@ -48,7 +48,7 @@ void transfer_linked_object_state(u8 *owner, s32 object_id, u8 *dest_object, u8 
         }
 
         /*
-         * Original bug: Oleem removes a living item-form Manoeva without reserving its reappearance. This test skips
+         * BUG: Original bug: Oleem removes a living item-form Manoeva without reserving its reappearance. This test skips
          * the extra count, but both the fade-in and pentagram later decrement it, leaving -1 until the watchdog resets
          * it.
          * Found and documented by the Azure Dreams community

@@ -11,6 +11,40 @@ from gate import source_layout as L
 
 
 class MergedLayoutTests(unittest.TestCase):
+    def test_evidenced_data_shares_its_inlined_owner_and_wrapper(self):
+        for kind in ('function_table', 'descriptor_table', 'native_prefix'):
+            with self.subTest(kind=kind), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                target, rows, _ = self.fixture(root)
+                data = dict(id='town/D_choices', container='town',
+                    c_path='overlays/town/D_choices.c', row_kind='data',
+                    data_kind=kind, ownership_status='evidenced', owner=rows[0]['id'])
+                self.write(root, 'rows', rows + [data])
+                self.write(root, 'layout', [dict(id=r['id'], path=target) for r in rows + [data]])
+                self.write(root, 'tu_layout', [dict(old='src/town/modules/list.c', new=target)])
+                self.assertEqual(L.validate(root), 4)
+
+                data['ownership_status'] = 'pending'
+                self.write(root, 'rows', rows + [data])
+                with self.assertRaises(ValueError):
+                    L.validate(root)
+
+    def test_inlined_descriptor_cannot_claim_a_different_source(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            target, rows, _ = self.fixture(root)
+            other = 'src/town/scene/other.c'
+            (root / other).write_text('int choices[4];\n')
+            data = dict(id='town/D_choices', container='town',
+                c_path='overlays/town/D_choices.c', row_kind='data',
+                data_kind='descriptor_table', ownership_status='evidenced', owner=rows[0]['id'])
+            self.write(root, 'rows', rows + [data])
+            self.write(root, 'layout', [dict(id=r['id'], path=target) for r in rows]
+                + [dict(id=data['id'], path=other)])
+            with self.assertRaisesRegex(ValueError, 'source differs from code owner'):
+                L.validate(root)
+
+
     def fixture(self, root):
         target = 'src/town/scene/object/list.c'
         (root / 'ledger').mkdir()

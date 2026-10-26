@@ -110,6 +110,7 @@ void advance_entity_along_path(void *actor, void *action, SpriteFrameState *enti
     entity->tile_x = next_x;
     step = (u8 *)path + ((S_8016BD14_0 *)path)->unk_8A.s;
     move_result = raw_result >> 16;
+    /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: dungeon/func_81324514). */
     do {
         entity->tile_y = ((S_8016BD14_4 *)step)->unk_7C;
         step_index = ((S_8016BD14_0 *)path)->unk_8A.u;

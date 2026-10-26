@@ -18,11 +18,11 @@ typedef struct {
     s16 h;
 } Rect;
 extern void copy_current_record_components_3();
-extern void points_within_squared_threshold();
+extern u32 points_within_squared_threshold();
 #include "m2c_compat.h"
 
 /* Scales a tile target by 64, adds the grid origin and 32, then tests it against the current position. */
-static void apply_target_grid_rectangle(s32 target_x, s32 target_y)
+static u32 apply_target_grid_rectangle(s32 target_x, s32 target_y)
 {
     Rect current_rect;
     Rect target_rect;
@@ -41,10 +41,10 @@ static void apply_target_grid_rectangle(s32 target_x, s32 target_y)
     target_rect.w = 0;
     target_y += coord_offset;
     target_rect.y = target_y;
-    points_within_squared_threshold(&current_rect, &target_rect, 0x20);
+    return points_within_squared_threshold(&current_rect, &target_rect, 0x20);
 }
 
 /* Calls apply_target_grid_rectangle with 0x10, 7. */
-void apply_rectangle_preset_10x7(void) {
-    apply_target_grid_rectangle(0x10, 7);
+u32 apply_rectangle_preset_10x7(void) {
+    return apply_target_grid_rectangle(0x10, 7);
 }

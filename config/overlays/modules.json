@@ -69668,7 +69668,8 @@
         ]
       },
       "headers": [
-        "include/town/scene/attach_global_data_and_invoke_callback.h"
+        "include/town/scene/attach_global_data_and_invoke_callback.h",
+        "include/town/scene.h"
       ],
       "imports": [
         {
@@ -69706,6 +69707,24 @@
           "symbol": "D_80017508",
           "view_bytes": 4,
           "vma": 2147579144
+        },
+        {
+          "symbol": "D_800177C4",
+          "kind": "data",
+          "vma": 2147579844,
+          "foff": 7452612,
+          "view_bytes": 1,
+          "owner": "retail_asset:town:r121m_cfg_ovl_71a1ec"
+        },
+        {
+          "symbol": "func_800161DC",
+          "kind": "function",
+          "vma": 2147574236
+        },
+        {
+          "symbol": "func_800161E4",
+          "kind": "function",
+          "vma": 2147574244
         }
       ],
       "key": "town_ovl_71a1ec",
@@ -69737,9 +69756,102 @@
         "docs/evidence/town_ovl_71a1ec.membership.json",
         "docs/evidence/town_ovl_71a1ec.imports.json",
         "docs/evidence/r121m_ovl_71a1ec.rowbase.json",
-        "docs/evidence/town_ovl_71a1ec.recipe.json"
+        "docs/evidence/town_ovl_71a1ec.recipe.json",
+        "src/town/scene/attach_global_data_and_invoke_callback.c",
+        "docs/evidence/terminal_choice_71a000.json",
+        "docs/evidence/r124w_carve1_run13.md",
+        "src/town/scene/find_eligible_entry.c",
+        "src/town/scene/save_context_and_dispatch_entry_type.c",
+        "src/town/scene/apply_selected_entry_values.c",
+        "docs/evidence/town_scene_loader_receipt.json"
       ],
-      "source": "src/town/scene/attach_global_data_and_invoke_callback.c"
+      "source": "src/town/scene/attach_global_data_and_invoke_callback.c",
+      "allocation_model": "separated-symbolic-allocations-v1",
+      "data_members": [
+        {
+          "id": "town/D_8079A074",
+          "source": "src/town/scene/attach_global_data_and_invoke_callback.c",
+          "symbol": "D_80016074",
+          "foff": 7446644,
+          "vma": 2147573876,
+          "size": 16
+        }
+      ],
+      "allocations": [
+        {
+          "section": ".text.*",
+          "foff": 7447020,
+          "vma": 2147574252,
+          "size": 84,
+          "link_alignment": 4
+        },
+        {
+          "section": ".data",
+          "foff": 7446644,
+          "vma": 2147573876,
+          "size": 16,
+          "link_alignment": 4,
+          "slots": [
+            {
+              "kind": "typed_records",
+              "symbol": "D_80016074",
+              "offset": 0,
+              "size": 16,
+              "source": "src/town/scene/attach_global_data_and_invoke_callback.c",
+              "type": "TownTerminalChoice",
+              "declaration": "include/town/scene.h",
+              "owner": "town/func_8079A1EC",
+              "fields": [
+                {
+                  "name": "predicate",
+                  "type": "TownTerminalPredicate",
+                  "kind": "function",
+                  "offset": 0
+                },
+                {
+                  "name": "action",
+                  "type": "TownTerminalAction",
+                  "kind": "function",
+                  "offset": 4
+                },
+                {
+                  "name": "value",
+                  "type": "TownTerminalData",
+                  "kind": "data",
+                  "offset": 8
+                },
+                {
+                  "name": "script_flag",
+                  "type": "s16",
+                  "kind": "scalar",
+                  "offset": 12
+                },
+                {
+                  "name": "reserved",
+                  "type": "s16",
+                  "kind": "scalar",
+                  "offset": 14
+                }
+              ],
+              "stride": 16,
+              "records": [
+                [
+                  "func_800161E4",
+                  "func_800161DC",
+                  "D_800177C4",
+                  0,
+                  0
+                ]
+              ],
+              "bounds": "docs/evidence/terminal_choice_71a000.json"
+            }
+          ]
+        }
+      ],
+      "section_order": [
+        ".data",
+        ".text.func_800161EC"
+      ]
     },
     {
       "container": "town",
@@ -100459,6 +100571,178 @@
           "symbol": "func_8001B080",
           "kind": "function",
           "vma": 2147594368
+        }
+      ]
+    },
+    {
+      "key": "town_terminal_choice_705000",
+      "container": "town",
+      "name": "terminal_choice_705000",
+      "source": "src/town/scene/attach_global_data_invoke_callback.c",
+      "region": "r121c2_7051EC",
+      "headers": [
+        "include/town/scene.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "owned_data": [],
+      "review_inputs": [
+        "src/town/scene/attach_global_data_invoke_callback.c",
+        "docs/evidence/terminal_choice_705000.json",
+        "docs/evidence/r124w_carve1_run13.md",
+        "src/town/scene/find_eligible_entry.c",
+        "src/town/scene/save_context_and_dispatch_entry_type.c",
+        "src/town/scene/apply_selected_entry_values.c",
+        "docs/evidence/town_scene_loader_receipt.json"
+      ],
+      "allocation_model": "separated-symbolic-allocations-v1",
+      "data_members": [
+        {
+          "id": "town/D_80785074",
+          "source": "src/town/scene/attach_global_data_invoke_callback.c",
+          "symbol": "D_80016074",
+          "foff": 7360628,
+          "vma": 2147573876,
+          "size": 16
+        }
+      ],
+      "members": [
+        {
+          "id": "town/func_807851EC",
+          "source": "src/town/scene/attach_global_data_invoke_callback.c",
+          "function": "func_800161EC",
+          "foff": 7361004,
+          "vma": 2147574252,
+          "size": 44
+        }
+      ],
+      "allocations": [
+        {
+          "section": ".text.*",
+          "foff": 7361004,
+          "vma": 2147574252,
+          "size": 44,
+          "link_alignment": 4
+        },
+        {
+          "section": ".data",
+          "foff": 7360628,
+          "vma": 2147573876,
+          "size": 16,
+          "link_alignment": 4,
+          "slots": [
+            {
+              "kind": "typed_records",
+              "symbol": "D_80016074",
+              "offset": 0,
+              "size": 16,
+              "source": "src/town/scene/attach_global_data_invoke_callback.c",
+              "type": "TownTerminalChoice",
+              "declaration": "include/town/scene.h",
+              "owner": "town/func_807851EC",
+              "fields": [
+                {
+                  "name": "predicate",
+                  "type": "TownTerminalPredicate",
+                  "kind": "function",
+                  "offset": 0
+                },
+                {
+                  "name": "action",
+                  "type": "TownTerminalAction",
+                  "kind": "function",
+                  "offset": 4
+                },
+                {
+                  "name": "value",
+                  "type": "TownTerminalData",
+                  "kind": "data",
+                  "offset": 8
+                },
+                {
+                  "name": "script_flag",
+                  "type": "s16",
+                  "kind": "scalar",
+                  "offset": 12
+                },
+                {
+                  "name": "reserved",
+                  "type": "s16",
+                  "kind": "scalar",
+                  "offset": 14
+                }
+              ],
+              "stride": 16,
+              "records": [
+                [
+                  "func_800161E4",
+                  "func_800161DC",
+                  "D_80017760",
+                  0,
+                  0
+                ]
+              ],
+              "bounds": "docs/evidence/terminal_choice_705000.json"
+            }
+          ]
+        }
+      ],
+      "section_order": [
+        ".data",
+        ".text.func_800161EC"
+      ],
+      "imports": [
+        {
+          "symbol": "D_80016000",
+          "kind": "data",
+          "vma": 2147573760,
+          "foff": 7360512,
+          "view_bytes": 4,
+          "owner": "retail_asset:town:r121c2_7051EC"
+        },
+        {
+          "symbol": "D_8001601C",
+          "kind": "data",
+          "vma": 2147573788,
+          "foff": 7360540,
+          "view_bytes": 1,
+          "owner": "retail_asset:town:r121c2_7051EC"
+        },
+        {
+          "symbol": "D_80016084",
+          "kind": "data",
+          "vma": 2147573892,
+          "foff": 7360644,
+          "view_bytes": 1,
+          "owner": "retail_asset:town:r121c2_7051EC"
+        },
+        {
+          "symbol": "D_800174E0",
+          "kind": "data",
+          "vma": 2147579104,
+          "foff": 7365856,
+          "view_bytes": 4,
+          "owner": "retail_asset:town:r121c2_7051EC"
+        },
+        {
+          "symbol": "D_80017760",
+          "kind": "data",
+          "vma": 2147579744,
+          "foff": 7366496,
+          "view_bytes": 1,
+          "owner": "retail_asset:town:r121c2_7051EC"
+        },
+        {
+          "symbol": "func_800161DC",
+          "kind": "function",
+          "vma": 2147574236
+        },
+        {
+          "symbol": "func_800161E4",
+          "kind": "function",
+          "vma": 2147574244
         }
       ]
     }

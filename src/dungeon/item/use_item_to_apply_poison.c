@@ -48,7 +48,7 @@ s32 use_item_to_apply_poison(ActorRecord *entity, s32 item, s16 action_type) {
     spawn_randomized_particle_burst((tile->tile_x << 6) | 0x20, (tile->tile_y << 6) | 0x20,
         entity->ground_height, 0x802080, 0x20, 1);
     /*
-     * Original bug: set_or_clear_actor_status_slot returns a slot index (0..3), or -1 when
+     * BUG: Original bug: set_or_clear_actor_status_slot returns a slot index (0..3), or -1 when
      * insertion fails. This nonzero test suppresses feedback for success in slot 0 and gives
      * it for failure (-1). try_apply_confusion_status uses the correct nonnegative success
      * test.

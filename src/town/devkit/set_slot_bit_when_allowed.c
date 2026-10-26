@@ -45,6 +45,7 @@ s32 set_slot_bit_when_allowed(s32 slot, s32 query_b, s32 query_c, s32 query_d) {
     status = *(void **)((u8 *)devkit_overlay_page + 0xF40);
     status_byte = status->unk_0E;
     status->unk_0E = status_byte;
+    /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: town/func_808B2CB0). */
     do {
         return slot;
     } while (0);

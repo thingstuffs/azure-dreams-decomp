@@ -546,6 +546,7 @@ settle_done:
                         coin_counts = (S_func_8080F4A4_8 *) (((s32) (random_kind << 0x10) >> 0xF) + (long)spawn_data);
                         coins_left = coin_counts->unk_70;
                     } while (coins_left <= 0);
+                    /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: town/func_8080F4A4). */
                     do {
                         coin_counts->unk_70 = (s16) (coins_left - 1);
                     } while (0);

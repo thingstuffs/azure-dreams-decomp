@@ -79,9 +79,9 @@ s32 queue_projected_mesh_points_and_texture_packets(u8 *node_data, u16 *position
             r = packet->data.color.r;
             g = packet->data.color.g;
             b = packet->data.color.b;
-            packet->data.color.r = r;
-            packet->data.color.g = g;
-            packet->data.color.b = b;
+            packet->data.color.r = r; /* BYTES: Retail reads these three color bytes; unchanged write-backs compile away (decision 39). */
+            packet->data.color.g = g; /* BYTES: Retail reads these three color bytes; unchanged write-backs compile away (decision 39). */
+            packet->data.color.b = b; /* BYTES: Retail reads these three color bytes; unchanged write-backs compile away (decision 39). */
             packet->data.color.command = 106;
 
             *(u32 *)packet = (*(u32 *)packet & length_mask) |

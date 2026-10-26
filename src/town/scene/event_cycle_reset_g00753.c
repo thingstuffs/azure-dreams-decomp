@@ -36,7 +36,11 @@ void reset_buffer_and_event_flags(void) {
 }
 
 /* Increments D_80019114 and retains its low three bits, wrapping seven to zero. */
-void advance_counter_modulo_eight(void)
+s32 advance_counter_modulo_eight(void)
 {
-    town_event_cycle_index = (town_event_cycle_index + 1) & 7;
+    s32 index;
+
+    index = (town_event_cycle_index + 1) & 7;
+    town_event_cycle_index = index;
+    return index;
 }

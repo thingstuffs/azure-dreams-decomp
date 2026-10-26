@@ -59,6 +59,7 @@ void *select_object_by_flags_and_keys(Func8180F0F4_Obj *first, Func8180F0F4_Obj 
         }
         result = selected;
         first_traits = first->field14;
+        /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: dungeon/func_8180F0F4). */
         do {
             second_traits = second->field14;
         } while (0);

@@ -27,6 +27,7 @@ s32 find_matching_initial_stat_slot(u8 *record) {
                     return (s16)entry_index;
                 }
                 entry_index += 1;
+                /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: dungeon/func_8180E73C). */
                 do {
                     entry += 3;
                 } while (0);

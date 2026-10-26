@@ -15,7 +15,7 @@ void decode_audio_selector(s32 selector) {
     saved_selector = type_bits;
     type_bits = type_bits & 0xF00;
     switch (type_bits) {
-    case 0x500: /* code 0x500 (the dispatcher w_800542BC sends 0x500-0x800 here); retail's tree needs one label below 0x600 sharing default, any value < 0x600 compiles identically (decision 66) */
+    case 0x500: /* BYTES: code 0x500 (the dispatcher w_800542BC sends 0x500-0x800 here); retail's tree needs one label below 0x600 sharing default, any value < 0x600 compiles identically (decision 66) */
     default:
         selected_code = 1;
         break;

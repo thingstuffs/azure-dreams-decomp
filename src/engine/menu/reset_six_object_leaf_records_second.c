@@ -66,6 +66,7 @@ void initialize_gauge_menu_display_rows(S_800506BC_Obj *obj, S_800506BC_Ctx *ctx
     ctx->flag14 = 1;
     reset_six_object_leaf_records(obj);
 
+    /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: slus/w_800506BC). */
     do {
         shared_index = 0xA;
     } while (0);

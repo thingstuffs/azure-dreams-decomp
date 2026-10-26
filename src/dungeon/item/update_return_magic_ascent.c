@@ -109,6 +109,7 @@ void update_return_magic_ascent(DungeonObject *obj, MotionState *motion, EffectS
                 s32 y_offset = rand() & 0x3F;
                 s32 bottom_y;
                 prim->fieldA = 0x180 - y_offset;
+                /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: dungeon/func_800BACA4). */
                 do {
                     bottom_y = 0x1BF - y_offset;
                 } while (0);

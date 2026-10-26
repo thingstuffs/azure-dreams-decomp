@@ -63,6 +63,7 @@ Result92360 *get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(Obje
     if (overlap_z_alt < 0)
         return 0;
 
+    /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: town/func_80092360). */
     do {
         abs_x = __builtin_abs(overlap_x);
     } while (0);

@@ -18,4 +18,24 @@ void update_monster_staged_motion(void *state, ObjectPosition *motion, SpriteFra
 
 void update_actor_turn_behavior(void *motion_arg, void *actor_index_arg, SpriteFrameState *actor_arg, void *move_data_arg);
 
+typedef struct {
+    u8 pad_00[2];
+    u16 x;
+    u8 pad_04[2];
+    u16 y;
+    u8 pad_08[2];
+    u16 z;
+    u8 pad_0C[0xA];
+    u16 height;
+} BaloonTemplateAnchor;
+
+typedef struct {
+    u8 pad_00[0x2A];
+    s16 facing;
+} BaloonTemplateFacing;
+
+/* Directional template constructor used by the Baloon rise effect. */
+void create_directional_template_effect(void *unused, BaloonTemplateAnchor *anchor,
+    SpriteFrameState *object_template, BaloonTemplateFacing *facing_source);
+
 #endif

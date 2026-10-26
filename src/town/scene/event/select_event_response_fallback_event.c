@@ -20,6 +20,7 @@ void *select_event_response_fallback_event(s32 handler_arg_a, s32 handler_arg_b,
 
     switch (selector - 12) {
     case 7:
+        /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: town/func_8070E180). */
         do {
             result = select_address_based_input(handler_arg_a, handler_arg_b);
         } while (0);

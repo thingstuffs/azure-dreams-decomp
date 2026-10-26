@@ -392,7 +392,7 @@ s32 select_weighted_floor_item(s8 *category_out, s8 *item_out) {
     category_threshold = (u16 *)(item_offset + 2);
     category_scale_or_weight = random_weight & 0xFFFF;
     /*
-     * Original bug: equality selects the preceding category, but its item scan uses an exclusive upper bound. A roll at
+     * BUG: Original bug: equality selects the preceding category, but its item scan uses an exclusive upper bound. A roll at
      * a cumulative boundary falls through to item 0/0; equality should advance to the next category.
      */
     while (1) {
@@ -814,6 +814,7 @@ void draw_dungeon_value_and_label(void)
     }
 
     create_tinted_dungeon_object(0xAA, 0x78, draw_mode, D_80077DE8);
+    /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: dungeon/func_8028C450). */
     do {
         digit_ptr = digits;
     } while (0);

@@ -48,7 +48,7 @@ s32 use_item_to_enrage_actor(DungeonObject *object, s32 action, s16 action_type)
         }
     }
     /*
-     * Original bug: set_or_clear_actor_status_slot returns a slot index (0..3), or -1 when
+     * BUG: Original bug: set_or_clear_actor_status_slot returns a slot index (0..3), or -1 when
      * insertion fails. This nonzero test suppresses feedback for success in slot 0 and gives
      * it for failure (-1). try_apply_confusion_status uses the correct nonnegative success
      * test.

@@ -47,6 +47,7 @@ loop:
         entry += 0x78;
         {
             s32 entry_count = audio_voice_count[0];
+            /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: slus/w_8005B070). */
             do {
                 entry_index++;
             } while (0);

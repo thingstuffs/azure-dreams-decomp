@@ -94,6 +94,7 @@ void initialize_storage_cursor(StorageOwner *object);
 void refresh_storage_page(StoragePageOwner *object);
 void update_storage_display(StorageOwner *object);
 void initialize_storage_display_links(StorageDisplayLinks *state, StorageDisplayBlock *primary, StorageVector *secondary);
+void *process_target_with_code_33(void *target);
 StorageMenuNode *create_storage_item_menu(ItemMenuStateNode *owner);
 StorageMenuNode *create_storage_owner_menu(ItemMenuStateNode *owner);
 s32 load_storage_display_resource(StorageWork *work, s32 resource);

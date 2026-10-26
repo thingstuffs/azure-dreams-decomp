@@ -15,6 +15,6 @@ void dispatch_actor_state_handler(Rec_func_8008ACDC_arg0 *actor, void *context, 
 
 void advance_effect_fade_and_flag(void *effect, ObjectPosition *motion, SpriteFrameState *primitive);
 
-void forward_actor_effect_state(void *state, void *context, SpriteFrameState *data, void *render);
+s32 forward_actor_effect_state(void *state, void *context, SpriteFrameState *data, void *render);
 
 #endif

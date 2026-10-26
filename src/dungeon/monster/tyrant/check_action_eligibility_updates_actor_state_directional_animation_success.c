@@ -50,8 +50,8 @@ s32 check_action_eligibility_updates_actor_state_directional_animation_success(v
     actor->unk_84 = 0x7C;
     actor->unk_85 = 0;
     state_flag = ((Rec_func_800A9E70_arg0 *)action_state)->unk_98 & 0x8000;
+    /* BYTES: retail evidence: the test's operands survive (the arm compiled away); reconstructed as a conditional update of a local nothing reads in the retail build - any dead local set reproduces the bytes (lane r118_fable_f4; decision 45, docs/evidence/r97_decisions.md) */
     if (state_flag) {
-        /* retail evidence: the test's operands survive (the arm compiled away); reconstructed as a conditional update of a local nothing reads in the retail build - any dead local set reproduces the bytes (lane r118_fable_f4; decision 45, docs/evidence/r97_decisions.md) */
         target_direction = 0;
     }
     (sprite->frameTable) = tyrant_direction_frames;

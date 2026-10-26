@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 s32 find_unflagged_node_by_key();                       /* extern */
-void town_sd_sq_callagain(void);
+#include "town/map/sound_sequence_replay_g00650.h"
 s32 apply_nearby_object_effects();                       /* extern */
 extern void map_active_node_key();
 extern M2C_UNK map_active_callbacks;

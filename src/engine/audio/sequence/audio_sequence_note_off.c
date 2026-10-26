@@ -58,6 +58,7 @@ void audio_sequence_note_off(s32 first_key, s32 second_key) {
         } while (++record_index < ACTIVE_COUNT);
     }
     if (combined_mask != 0) {
+        /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: slus/w_80057948). */
         do {
             SpuSetKey(0, combined_mask);
         } while (0);

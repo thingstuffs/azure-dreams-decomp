@@ -111,6 +111,7 @@ s32 draw_projected_linked_records(void *first_record) {
         depth0_shifted = depth0_raw << 0x10;
         depth1_raw = *((u16 *)depths + 1);
         depth0 = (s32)depth0_shifted >> 0x10;
+        /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: town/func_8080DAB8). */
         do {
             depth1_shifted = depth1_raw << 0x10;
         } while (0);
