@@ -1782,8 +1782,6 @@ typedef struct S_800C7930_3 {
     u16 unk_0A;
 } S_800C7930_3;   /* destination in apply_camera_offset_and_select_target */
 
-extern u16 direction_x_offsets;
-extern u16 direction_y_offsets;
 extern u16 effect_saved_position[];
 extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 
@@ -1824,11 +1822,11 @@ s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s
         if (delta < 0xC1) {
             work = (u8 *)object + 0x20;
             destination = effect_saved_position;
-            x_offsets = (u8 *)&direction_x_offsets;
+            x_offsets = (u8 *)direction_x_offsets;
             x_offset_index = (work->unk_2A >> 8) & 0xE;
             adjusted_x = (s16)*(u16 *)(x_offsets + x_offset_index) / 2;
             ((S_800C7930_3 *)destination)->unk_02 = ((s32)(source_x - -adjusted_x));
-            y_offsets = (u8 *)&direction_y_offsets;
+            y_offsets = (u8 *)direction_y_offsets;
             y_offset_index = (work->unk_2A >> 8) & 0xE;
             y_offset = *(u16 *)(y_offsets + y_offset_index);
             ((S_800C7930_3 *)destination)->unk_06 = source->unk_06.u + (s16)y_offset / 2;

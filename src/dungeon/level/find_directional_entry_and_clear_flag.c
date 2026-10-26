@@ -1,7 +1,6 @@
 #include "common.h"
 
-extern s8 dir_step_x;
-extern s8 dir_step_y;
+#include "shared/dir_step.h"
 extern u8 floor_objects[];
 
 extern s16 find_entry_at_tile_coordinates(s32, s32, s16);
@@ -20,10 +19,10 @@ s32 find_directional_entry_and_clear_flag(s32 origin_x, s32 origin_y, u32 direct
     u8 flags;
 
     direction_shift = direction >> 8;
-    offsets = (u8 *)&dir_step_x;
+    offsets = (u8 *)dir_step_x;
     offset_index = direction_shift & 0xE;
     shifted_x = (*(u16 *)(offsets + offset_index) + origin_x) << 16;
-    offsets_y = (u8 *)&dir_step_y;
+    offsets_y = (u8 *)dir_step_y;
     shifted_y = (*(u16 *)(offsets_y + offset_index) + origin_y) << 16;
     record_index = find_entry_at_tile_coordinates(shifted_x >> 16, shifted_y >> 16, search_param);
     if (record_index >= 0) {

@@ -5,6 +5,9 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
+/* Four words copied from the previous dungeon turn status. */
+extern s32 D_800E4948[4];
+
 
 
 s32 has_action_input_without_modifier(void);

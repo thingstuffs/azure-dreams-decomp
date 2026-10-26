@@ -57,7 +57,8 @@ s32 load_monster_resource_data(s32 resource_id, u8 *resource_entry, s32 wait_for
             slot = entry[3];
             read_size = 0xC;
             slot_base = slot * 3;
-            data = D_80170800 - (slot_base << 13);
+            /* Select a PS1 bank address in the 32-bit address domain. */
+            data = (u8 *)((u32)D_80170800 - (slot_base << 13));
             asset_index = requested_id - 1;
             asset_offset = asset_index * 0x54;
             slot_part = slot * 12 + 0x4340;
@@ -89,7 +90,7 @@ s32 load_monster_resource_data(s32 resource_id, u8 *resource_entry, s32 wait_for
         } else if (loaded_id == 0x31) {
             data = D_8016A800;
         } else {
-            data = D_80170800 - (entry[3] * 0x6000);
+            data = (u8 *)((u32)D_80170800 - (entry[3] * 0x6000));
         }
         result = *(s32 *)data;
     }

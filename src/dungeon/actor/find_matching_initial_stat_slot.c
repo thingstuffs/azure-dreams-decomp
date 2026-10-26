@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern u8 initialStatsTable[24];
+#include "engine/entity.h"
 
 /* Finds a record slot matching an initial-stat value group, or returns -1. */
 s32 find_matching_initial_stat_slot(u8 *record) {
@@ -13,7 +13,7 @@ s32 find_matching_initial_stat_slot(u8 *record) {
     u8 entry_value;
 
     initial_index = 0;
-    initial_entry = initialStatsTable + (record[0x13] * 24);
+    initial_entry = (u8 *)initialStatsTable + (record[0x13] * 24);
     do {
         initial_value = initial_entry[8] & 0x7F;
         if ((initial_value != 0) && (initial_value < 46)) {

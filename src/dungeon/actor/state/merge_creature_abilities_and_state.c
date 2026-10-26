@@ -28,7 +28,6 @@ typedef struct {
 } D_8006DE24_Record;
 extern u8 D_80010980[];
 extern u8 D_800287B4[];
-extern s32 monster_native_trait_masks[4];
 extern void *familiar_record_slots[];
 extern u8 familiar_record_storage[];
 extern u8 resident_globals_page[];

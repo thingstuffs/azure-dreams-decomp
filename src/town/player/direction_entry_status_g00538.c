@@ -24,8 +24,8 @@ s32 select_an_available_entry_matching_direction_returns_status(void *record)
         direction_index = 0;
         direction = ((angle + 0x100) / 0x200) & 7;
         special_type = 1;
-        slot_ptr = &D_800D046C;
-        direction_ptr = &D_800D0464;
+        slot_ptr = D_800D046C;
+        direction_ptr = D_800D0464;
         do {
             if (direction == *direction_ptr) {
                 slot = *slot_ptr;
@@ -66,8 +66,8 @@ s32 get_status_active_entry_matching_direction(void *entries)
         entry_index = 0;
         direction = ((angle + 0x100) / 0x200) & 7;
         blocked_state = 1;
-        slot_ptr = &D_800D046C;
-        direction_ptr = &D_800D0464;
+        slot_ptr = D_800D046C;
+        direction_ptr = D_800D0464;
         do {
             if (direction == *direction_ptr) {
                 slot = *slot_ptr;

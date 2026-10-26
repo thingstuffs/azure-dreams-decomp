@@ -10,6 +10,7 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
+#include "records/Rec_D_800CFCB4.h"
 #include "town/menu/window.h"
 #include "shared/dungeon_moving_views.h"
 #include "shared/dungeon_projectile_views.h"
@@ -104,7 +105,8 @@ extern u8 D_800D073C[];
 extern u8 D_800D0754[];
 extern u8 D_800D076C[];
 extern TownRecord shop_record_queue[20];
-extern s32 town_actor_control;
+/* Complete existing census view; the sentinel next pointer is at +4. */
+extern Rec_D_800CFCB4 town_actor_control;
 extern s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41(void);
 
 /* Functions defined in this translation unit. */

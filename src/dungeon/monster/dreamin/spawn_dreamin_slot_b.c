@@ -52,7 +52,6 @@ void *spawn_dreamin_slot_b(s16 spawn_flags, s16 spawn_x, s16 spawn_y, s16 initia
 /* Creates Dreamin with default frames at D_8015586C, applies spawn flags, and attempts valid tile
  * placement. */
 void *spawn_dreamin_slot_b(s16 spawn_flags, s16 spawn_x, s16 spawn_y, s16 initial_value) {
-    s32 global_byte;
     s32 unused_slot;
     s32 spawn_mode;
     SpriteFrameState *placement;
@@ -71,7 +70,6 @@ void *spawn_dreamin_slot_b(s16 spawn_flags, s16 spawn_x, s16 spawn_y, s16 initia
     saved_x = spawn_x;
     saved_value = initial_value;
     saved_y = spawn_y;
-    global_byte = (s32) *(s8 *)-0x56D4;
     object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
         state = ((void *)object) + 0x20;

@@ -1,6 +1,7 @@
 /* Sprite-group traversal, projection and visible textured-quad submission. */
 #include "slus/gp_shared_81510.h"
 #include "shared/gpu_packets.h"
+#include "shared/game_work.h"
 #include "common.h"
 #include "shared/scratchpad.h"
 #include "engine/entity.h"
@@ -11,9 +12,6 @@
 s32 sprite_command_depth_scale = 0;
 
 /* set to 0 at entry and again on the "list exhausted" exit path */
-
-/* size >8B to force %hi/%lo codegen; D_80083160[0] points at the "current state" struct */
-extern void *g_game_work[3];
 
 /* target of D_80083160[0]; only offset 0x8D0 (u32) is read here */
 typedef struct {
@@ -44,7 +42,6 @@ typedef struct {
 } S_80045340_HwFlag;
 
 /* Processes unflagged entries across groups until the stop condition or end of the chain. */
-extern void *g_game_work[3];
 extern u32 sprite_projection_matrix[8];
 
 /* Projects unhidden sprite groups until the chain ends or the frame packet arena overflows. */
@@ -60,7 +57,7 @@ s32 project_sprite_chain(void *group_data, s32 context, S_80045340_Entry *entry,
     for (;;) {
         if (!(current_entry->unk14 & 0x80)) {
             project_sprite_commands(current_data, (void *)context, (Entry *)current_entry, current_entry->unk06);
-            if (is_frame_packet_arena_overflowed(((S_80045340_Target *)g_game_work[0])->unk8D0)) {
+            if (is_frame_packet_arena_overflowed(((S_80045340_Target *)g_game_work.draw_buffer)->unk8D0)) {
                 return 0;
             }
         }
@@ -170,7 +167,7 @@ typedef struct { u8 pad0[0xC0]; u32 depth; } ScratchDepth;
 void project_sprite_commands(void *context, void *position, Entry *entry, s16 depth_bias)
 {
     ScratchPad *scratch = (ScratchPad *)0x1F800000;
-    void **render_state = g_game_work;
+    GameWork *render_state = &g_game_work;
     Packet *packet;
     Command *command;
     u32 projected_depth;
@@ -195,12 +192,12 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
     SP16(scratch, 0x84) = 0;
     SP16(scratch, 0x7C) = 0;
     SP16(scratch, 0x74) = 0;
-    SP32(scratch, 0x20) = (u32)render_state[0] + 0xB0;
+    SP32(scratch, 0x20) = (u32)render_state->draw_buffer + 0xB0;
 
     SP16(scratch, 0x00) = *(u16 *)((u8 *)position + 2);
     SP16(scratch, 0x02) = *(u16 *)((u8 *)position + 6);
     SP16(scratch, 0x04) = *(u16 *)((u8 *)position + 0xA);
-    packet = *(Packet **)((u8 *)render_state[0] + 0x8D0);
+    packet = *(Packet **)((u8 *)render_state->draw_buffer + 0x8D0);
 
     ((ScratchDepth *)scratch)->depth = RotTransPers(scratch, (u8 *)scratch + 0xB8, (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
     E16(entry, 0x14) |= 0x8000;
@@ -221,12 +218,12 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
             screen_x = scratch->h[92];
             SP16(scratch, 0xB8) = screen_x - 0xA0;
             SP16(scratch, 0xBA) -= 0x78;
-            SP32(scratch, 0x30) = *(s16 *)((u8 *)render_state + 0xC4);
-            SP32(scratch, 0x34) = *(s16 *)((u8 *)render_state + 0xC6);
-            SP32(scratch, 0x38) = *(s16 *)((u8 *)render_state + 0xC8);
+            SP32(scratch, 0x30) = render_state->view.camera_rotation.parts.camera_rotation_x;
+            SP32(scratch, 0x34) = render_state->view.camera_rotation.parts.camera_rotation_y;
+            SP32(scratch, 0x38) = render_state->view.camera_rotation.parts.viewAngle;
 
             SP16(scratch, 0x100) = E16(entry, 0x16);
-            rotation_z = *(u16 *)((u8 *)render_state + 0xB8) +
+            rotation_z = (u16)render_state->view.view_rotation_offset.parts.view_rotation_offset_z +
                 (E16(entry, 0x1A) - SP16(scratch, 0x34));
             SP16(scratch, 0x104) = rotation_z;
             rotation_y = E16(entry, 0x18) - 0x100;
@@ -438,5 +435,5 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
         PopMatrix();
     }
 
-    *(Packet **)((u8 *)render_state[0] + 0x8D0) = packet;
+    *(Packet **)((u8 *)render_state->draw_buffer + 0x8D0) = packet;
 }

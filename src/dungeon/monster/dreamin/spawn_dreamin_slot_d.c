@@ -51,7 +51,6 @@ void *move_and_fade_effect_sprite(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 t
 /* Creates Dreamin with default frames at D_8016186C, applies spawn flags, and attempts valid tile
  * placement. */
 void *move_and_fade_effect_sprite(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 type_id) {
-    s32 global_byte;
     s32 unused_slot;
     s32 spawn_mode;
     s32 flags_14;
@@ -70,7 +69,6 @@ void *move_and_fade_effect_sprite(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 t
     saved_x = grid_x;
     saved_type = type_id;
     saved_y = grid_y;
-    global_byte = (s32) *(s8 *)-0x56D4;
     object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
         entity = ((void *)object) + 0x20;

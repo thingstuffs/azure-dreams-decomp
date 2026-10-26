@@ -15,5 +15,10 @@
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 
+/* Eight halfword offsets per axis at 0x800DCEAC and 0x800DCEBC.
+ * The next registered table starts at 0x800DCECC. */
+extern u16 direction_x_offsets[8];
+extern u16 direction_y_offsets[8];
+
 void *allocate_flagged_object_node(int flags);
 #endif

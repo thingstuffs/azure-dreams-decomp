@@ -66,7 +66,6 @@ extern s8 camera_transition_timer;
 extern s32 player_turn_fraction;
 extern s32 familiar_turn_counters_alias;
 extern void *actor_update_node_cursor;
-extern s32 D_800E4948;
 
 typedef struct S_80089AA0_1 {
     u8 pad_00[0x8];
@@ -282,8 +281,8 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
     (*(s16 *)((u8 *)linked_actor + 0x9E)) = (s16) (((u16) world_object->unk_B0 >> 9) & 7);
     status_base = &g_dungeon_status.turn_scale;
     status_base->flags = (u16) (status_base->flags & 0xFFCF);
-    previous_input = &D_800E4948;
-    if ((*(s32 *)&status_base->activity_counts.word == D_800E4948) && (*(s32 *)&status_base->active_actor == ((S_80089AA0_4 *)previous_input)->unk_04)
+    previous_input = D_800E4948;
+    if ((*(s32 *)&status_base->activity_counts.word == D_800E4948[0]) && (*(s32 *)&status_base->active_actor == ((S_80089AA0_4 *)previous_input)->unk_04)
         && (*(s32 *)&status_base->pending_display_owner == ((S_80089AA0_4 *)previous_input)->unk_08)
         && (status_base->trap_counts.parts.pending_trap_count == ((S_80089AA0_4 *)previous_input)->unk_0C) && !(system_update_flags & 8)
         && ((action_id = (*(u8 *)((u8 *)linked_actor + 0x9A))) != 0x17) && (action_id != 0x27) && (action_id != 0x29)
@@ -294,7 +293,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
         player_idle_turn_count = 0;
     }
     input_snapshot = ((u8 *)(&g_dungeon_status.activity_counts.parts.pending_movement_count));
-    copy_words_forward(&D_800E4948, input_snapshot, 4);
+    copy_words_forward(D_800E4948, input_snapshot, 4);
     input_status = (u8 *)input_snapshot - 8;
     if ((input_status->active_actor == 0) && (input_status->pending_display_owner == 0)) {
         input_flags = input_status->flags;

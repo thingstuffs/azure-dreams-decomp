@@ -46,7 +46,6 @@ void *damp_and_fade_effect_sprite(s16 init_flags, s16 x, s16 y, s16 initial_valu
 /* Creates Dreamin with default frames at D_8016D86C, applies spawn flags, and attempts valid tile
  * placement. */
 void *damp_and_fade_effect_sprite(s16 init_flags, s16 x, s16 y, s16 initial_value) {
-    s32 global_byte;
     s32 unused_slot;
     s32 mode;
     SpriteFrameState *placement;
@@ -63,7 +62,6 @@ void *damp_and_fade_effect_sprite(s16 init_flags, s16 x, s16 y, s16 initial_valu
     saved_x = x;
     saved_value = initial_value;
     saved_y = y;
-    global_byte = (s32) *(s8 *)-0x56D4;
     object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (object != 0) {
         state = ((void *)object) + 0x20;

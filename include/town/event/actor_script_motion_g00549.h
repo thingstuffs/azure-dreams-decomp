@@ -17,6 +17,8 @@ typedef struct {
     u8 pad_20[0x1A];
     u8 state;
     u8 state_3B;
+    /* Six slot flags at +0x3A and six at +0x40 are read by the slot loop. */
+    u8 pad_3C[0xA];
 } TownControl;
 
 typedef struct {
@@ -39,6 +41,7 @@ typedef struct S_8009B2C4_0 {
 typedef struct S_8009B2C4_1 {
     u8 pad_00[0x3A];
     u8 unk_3A;
+    u8 pad_3B[5];
 } S_8009B2C4_1;
 
 extern void initialize_target_motion_state(TownObject *object, void *owner, void *context, void *extra_ptr);

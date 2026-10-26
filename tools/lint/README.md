@@ -115,5 +115,24 @@ Clang function ownership is recovered with the existing C declaration scanner,
 so identical warnings in different functions retain separate identities.
 `lto-symbol-kind` also records GCC errors that redeclare a function as data or
 vice versa. Raw logs are preserved in full beneath the ignored output directory.
-The bundled `soundness_gcc_baseline.json` records the reviewed 5,993-TU GCC
+The bundled `soundness_gcc_baseline.json` records the reviewed 6,004-TU GCC
 callback census (24 diagnostic groups, 29 occurrences); it is not an LTO or Clang baseline.
+
+
+### Aggregate header type checks
+
+Run `python3 tools/lint/header_types.py --out build/header_types.json` to compile
+reviewed owner headers together with their imported data declarations under both
+32-bit GCC and Clang. Every group in `header_type_groups.json` must compile with
+zero errors; the reviewed baseline is a clean group list, not an allowlist of
+conflicting declarations. The first group joins resident window, message and VM
+owners with `slus/data.h`. It guards ten repaired function-as-data declarations,
+including three unused extern conflicts that the LTO census did not emit.
+Existing owner prototypes supply all types; this tool synthesizes no prototypes.
+Warnings remain the responsibility of `lint_build.py` and the callback census.
+This check covers the listed aggregates, not every declaration in the game.
+
+Run `python3 -m unittest discover -s tools/tests -p test_header_types.py -v` for a
+real-compiler regression that rejects an unused function/data disagreement and
+accepts a separate data symbol. New groups must first compile cleanly under both
+compilers. Do not add a conflicting declaration to an exception baseline.

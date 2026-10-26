@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/window.h"
 #include "records/Rec_func_80036210_arg0.h"
 #include "m2c_compat.h"
 

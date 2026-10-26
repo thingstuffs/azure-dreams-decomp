@@ -37,8 +37,8 @@ typedef struct S_80095760_2 {
     u8 unk_14;
 } S_80095760_2;
 
-extern s16 D_800D0464;
-extern s32 D_800D046C;
+extern s16 D_800D0464[4];
+extern s32 D_800D046C[4];
 extern s16 input_angle_with_offset(s32, s16);
 
 /* Functions defined in this translation unit. */

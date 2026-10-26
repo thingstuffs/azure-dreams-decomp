@@ -36,7 +36,7 @@ s16 *build_four_value_entry_result(s32 unused, s32 index) {
         TownEntry *entry;
 
         entry_index = find_sound_entry_or_terminator_index(index);
-        entries = (TownEntry *)&map_sound_settings;
+        entries = map_sound_settings;
 
         entry = (TownEntry *)((u32)(entry_index * 10) + (u8 *)entries);
         if (entry->unk0 != 0) {

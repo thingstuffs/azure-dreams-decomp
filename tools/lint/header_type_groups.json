@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "groups": [
+    {
+      "id": "resident_callback_owners",
+      "headers": [
+        "include/engine/window.h",
+        "include/engine/message.h",
+        "include/engine/script/vm.h",
+        "include/slus/data.h"
+      ]
+    }
+  ]
+}

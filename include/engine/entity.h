@@ -9,6 +9,11 @@
 typedef MonsterInitialStats EntityInitialStats;
 extern EntityInitialStats initialStatsTable[58];
 
+/* Species-indexed resident trait words, with two existing address aliases.
+ * The complete upper bound is unknown; it is not the initial-stat count. */
+extern s32 D_8006D6D8[];
+extern s32 monster_native_trait_masks[];
+
 /* Cumulative experience needed for each level, 100 words filling 0x800835E8..0x80083777 up to
  * entity_cubic_table_constant. BSS: build_cubic_cumulative_table builds it once at start-up
  * (initialize_hardware_and_game_state); the EXE bytes at this address lie past the loaded image

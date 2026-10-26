@@ -23,7 +23,8 @@ extern s32 find_target_byte_index_in_list(void);
 extern u16 fallback_sound_pairs[];
 extern s16 map_scene_selector_alias;
 extern u8 D_800D0004[];
-extern u8 map_sound_settings;
+/* Ten-byte records terminated by a zero key; upper bound is not inferred. */
+extern TownEntry map_sound_settings[];
 extern s16 town_saved_sound[];
 extern u8 D_80110004[];
 extern s16 D_80113200[];
