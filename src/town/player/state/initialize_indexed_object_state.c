@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player/object_initialization_g00546.h"
 #include "shared/object_index_slots.h"
 #include "shared/town_handler.h"
 
@@ -9,10 +10,8 @@ typedef struct {
     /* 0x0A */ s16 unkA;
 } Struct_func_8009BDDC_arg0;
 
-extern u8 target_action_update_address[];
 extern u8 D_800D01C8[];
 
-extern void clear_entity_record_fields(void *record);
 
 /* Initializes object state and resets global state before processing the supplied context. */
 void initialize_indexed_object_state(Struct_func_8009BDDC_arg0 *object, void *context, void *ptr2) {

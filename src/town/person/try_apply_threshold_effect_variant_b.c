@@ -1,11 +1,11 @@
 #include "common.h"
+#include "town/system/object_hooks.h"
 #include "m2c_compat.h"
 #include "shared/object_index_slots.h"
 #include "records/Rec_func_80094268_arg0.h"
 
 
 #include "town/person/object/initialize_object_entries_api.h"
-extern void person_countdown_update_address();
 extern s32 D_800D5670[];
 
 

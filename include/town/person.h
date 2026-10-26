@@ -2,6 +2,7 @@
 #define TOWN_PERSON_H
 
 #include "common.h"
+#include "town/system/object_hooks.h"
 #include "records/Rec_func_800C9B44_arg0.h"
 #include "shared/entity.h"
 #include "town/person/object/initialize_object_entries_api.h"
@@ -56,7 +57,7 @@ s32 get_clamped_transform_coordinate(ObjectPosition *position);
 /* Handlers the person callbacks install in PersonObject.handler. */
 void advance_actor_reaction_downward(void *context, void *accumulators, void *flag_state);
 void tick_countdown_toward_target(void *state, void *current, void *context);
-void decrement_object_timer_and_update(void *object, s32 callback_arg_1, s32 callback_arg_2);
+
 
 /* Zero-terminated entry list shared by the quarter-turn and timed-countdown
  * initializers (contents not yet established). */

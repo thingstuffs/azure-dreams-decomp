@@ -1,6 +1,7 @@
 /* Advance town actor countdowns and invoke their completion handlers. */
 
 #include "common.h"
+#include "town/system/object_hooks.h"
 #include "records/Rec_func_80094268_arg0.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */

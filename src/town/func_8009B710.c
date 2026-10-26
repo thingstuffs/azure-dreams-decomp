@@ -1,11 +1,11 @@
 /* Recovered retail twin; complete-function proof is in the lane receipt. */
 #include "common.h"
+#include "town/player/object_initialization_g00546.h"
 #include "shared/town_handler_entries.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/town_handler.h"
 
 extern s8 town_action_reset_byte;
-extern s32 target_action_update_address;
 
 /*
  * Selects D_800D0170, clears town_action_reset_byte, and installs target_action_update_address

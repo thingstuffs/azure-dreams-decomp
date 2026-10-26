@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player/object_initialization_g00546.h"
 #include "shared/town_handler_entries.h"
 #include "shared/object_index_slots.h"
 #include "m2c_compat.h"
@@ -6,7 +7,6 @@
 #include "shared/town_handler.h"
 
 #include "town/player/object/entity_record_fields.h"                     /* extern */
-extern void target_action_update_address();
 
 
 /* Clears the object's indexed flag and resets its state before processing the context. */

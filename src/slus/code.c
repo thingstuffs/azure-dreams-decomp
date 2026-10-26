@@ -6,6 +6,7 @@
 #include "shared/object_node.h"
 #include "shared/sound_state.h"
 #include "common.h"
+#include "engine/audio/commands.h"
 #include "slus/utility_hooks.h"
 #include "shared/sound_volume.h"
 #include "shared/sprite_frame_state.h"
@@ -13,7 +14,6 @@
 
 extern int   card_server_initialized[3];
 extern short audio_voice_drain_suppressed[5];
-extern short audio_command_queue[5];
 extern int   audio_slot_service_word[3];
 
 /* Initialize memory card services and disable automatic pad interrupt clearing. */

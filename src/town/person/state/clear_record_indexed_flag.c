@@ -1,10 +1,10 @@
 #include "common.h"
+#include "town/person/state_updates.h"
 #include "town/person.h"
 #include "shared/object_index_slots.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 
-extern void person_table_handler_address();
 
 
 /* Clear the record's indexed flag and set its state pointer. */

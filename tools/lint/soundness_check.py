@@ -152,7 +152,7 @@ def main(argv=None):
         # are link failures, not evidence of a successful whole-program check.
         response = out / 'objects.rsp'
         response.write_text('\n'.join('"' + str(p).replace('\\', '\\\\').replace('"', '\\"') + '"' for p in good) + '\n')
-        code, log = run([args.cc, '-m32', '-O1', '-flto=4', '-fwrapv', '-Wlto-type-mismatch',
+        code, log = run([args.cc, '-m32', '-O1', '-flto=' + str(max(1, min(4, args.jobs))), '-fwrapv', '-Wlto-type-mismatch',
                          '-Wodr', '-nostdlib', '-r', '-flinker-output=nolto-rel',
                          '@' + str(response), '-o', str(out / 'linked.o')])
         (logs / 'link.txt').write_text(log)

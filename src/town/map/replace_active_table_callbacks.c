@@ -1,6 +1,6 @@
 #include "common.h"
+#include "town/map/object_callback.h"
 
-extern u8 map_active_node_key[];
 extern void apply_nearby_object_effects(void);
 extern void *map_active_callbacks[];
 

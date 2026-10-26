@@ -6,6 +6,9 @@
 #include "common.h"
 #include "m2c_compat.h"
 
+/* Image IDs used by the building grid exceed four; the full table bound is unknown. */
+extern u16 *D_800D1868[];
+
 /* cfail-repair: tf7-phase1-cache-v3 */
 void initialize_building_region_resources(void);
 

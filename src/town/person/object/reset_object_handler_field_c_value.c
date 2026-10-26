@@ -1,8 +1,8 @@
 /* Reset object handler field 6c value 15. */
 #include "common.h"
+#include "town/system/object_hooks.h"
 #include "shared/object_index_slots.h"
 
-extern s32 person_countdown_update_address;
 #include "town/person/object/object_entries_aliases.h"
 
 

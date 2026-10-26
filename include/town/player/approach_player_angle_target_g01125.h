@@ -45,7 +45,8 @@ typedef struct S_8009A81C_1 {
     s16 unk_06;
 } S_8009A81C_1;
 
-extern void D_8009A81C();
+/* Registered code-address alias for update_player_countdown_values. */
+void D_8009A81C(S_8009A81C_0 *state, S_8009A81C_1 *values);
 
 /* Shared import declarations; data casts preserve each measured view. */
 

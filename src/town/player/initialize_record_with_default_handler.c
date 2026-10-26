@@ -1,11 +1,11 @@
 #include "common.h"
+#include "town/player/object_initialization_g00546.h"
 #include "shared/town_handler_entries.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/town_handler.h"
 
 extern s8 town_action_reset_byte;
-extern void target_action_update_address();
 
 
 /* Initialize the record from global data, clear the global flag, and set its table and counter. */

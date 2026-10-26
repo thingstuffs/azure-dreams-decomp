@@ -1,5 +1,6 @@
 /* Frame packet limits, audio command helpers, icon and experience lookups, and signed-word sorting. */
 #include "common.h"
+#include "engine/audio/commands.h"
 #include "shared/game_work.h"
 #include "engine/entity.h"
 #include "slus/data.h"
@@ -7,7 +8,6 @@
 /* --- gcc 2.7.2-cdk (cygnus SN32.3.7.0004) translation unit: zero-frame shared-tail
    epilogue that the -psx builds don't reproduce. See tools/compiler_notes.md. --- */
 
-extern unsigned short audio_command_queue[5];
 
 /* Append a value to the counted array; return -1 if its 32 slots are full, otherwise 0. */
 short enqueue_audio_command(int value)

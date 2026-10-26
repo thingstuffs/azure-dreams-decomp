@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "engine/menu.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor.h"
@@ -71,7 +72,6 @@ struct S_8008C5C4_2;
 s32 lookup_definition_pair_value(s16 firstKey, s16 secondKey);                          /* extern */
 s32 generate_random_value(void);                      /* extern */
 extern M2C_UNK player_menu_action_data;
-extern void *D_8004F5F4(void *, void *);
 void submit_enabled_saved_display_value(void);
 extern u8 player_wait_frames[8];
 extern u8 player_landing_frame_set[];

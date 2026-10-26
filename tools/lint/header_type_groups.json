@@ -6,8 +6,65 @@
       "headers": [
         "include/engine/window.h",
         "include/engine/message.h",
+        "include/engine/menu.h",
         "include/engine/script/vm.h",
         "include/slus/data.h"
+      ],
+      "aliases": [
+        {
+          "alias": "D_8004F5F4",
+          "target": "create_animated_selection_menu_owner"
+        }
+      ]
+    },
+    {
+      "id": "town_callback_owners",
+      "headers": [
+        "include/town/map/object_callback.h",
+        "include/town/system/object_hooks.h",
+        "include/town/person.h",
+        "include/town/person/state_updates.h",
+        "include/town/player/scene_action_setup.h",
+        "include/town/player/object_initialization_g00546.h",
+        "include/town/player/approach_player_angle_target_g01125.h"
+      ],
+      "aliases": [
+        {
+          "alias": "map_active_node_key",
+          "target": "run_callbacks_unless_suppressed"
+        },
+        {
+          "alias": "person_countdown_update_address",
+          "target": "decrement_object_timer_and_update"
+        },
+        {
+          "alias": "person_table_handler_address",
+          "target": "dispatch_status_triggered_update"
+        },
+        {
+          "alias": "player_slot_state_address",
+          "target": "forward_player_motion_state"
+        },
+        {
+          "alias": "target_action_update_address",
+          "target": "tick_countdown_and_initialize_target"
+        },
+        {
+          "alias": "D_8009A81C",
+          "target": "update_player_countdown_values"
+        },
+        {
+          "alias": "D_8009204C",
+          "target": "update_actor_and_dispatch_state"
+        }
+      ]
+    },
+    {
+      "id": "audio_command_owners",
+      "headers": [
+        "include/engine/audio/commands.h",
+        "include/engine/audio.h",
+        "include/engine/entity.h"
       ]
     }
   ]

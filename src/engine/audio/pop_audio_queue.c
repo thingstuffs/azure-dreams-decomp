@@ -3,7 +3,6 @@
 
 /* FIFO pop from u16 queue at D_80084778: [0]=count (clamped to 0x20),
  * [1..]=entries. Shifts remaining entries left and decrements count. */
-extern u16 audio_command_queue[0x21];
 
 /* Pops the oldest queue entry and shifts the rest left, returning zero if empty. */
 u16 pop_audio_queue(void)

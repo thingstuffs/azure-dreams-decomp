@@ -25,8 +25,8 @@
     "-fwrapv",
     "-Wcast-function-type"
   ],
-  "unit_digest": "427afd93c6418df289cf62e1adb1bf7bfd7339efbdbe1076faa89ee5e938c4d1",
-  "units": 6004,
+  "unit_digest": "a9b1608e87a3d1e36e1b645cb6b7d8845b15cee55781f16d09d94360d5616693",
+  "units": 6013,
   "limited": false,
   "failures": 0,
   "by_class": {

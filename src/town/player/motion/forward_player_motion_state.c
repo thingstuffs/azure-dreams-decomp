@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player/scene_action_setup.h"
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */

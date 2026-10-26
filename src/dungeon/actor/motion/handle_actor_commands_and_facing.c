@@ -2,6 +2,7 @@
 
 struct SpriteFrameState;
 #include "common.h"
+#include "engine/menu.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/sys_flags.h"
 #include "shared/tile_object.h"
@@ -30,7 +31,6 @@ extern void play_sound_if_enabled(); /* Unprototyped: one or two arguments; the 
 extern s32 generate_random_value(void);
 
 extern u8 player_menu_action_data[];
-extern u8 D_8004F5F4[];
 extern void *actor_default_frames[];
 extern void (*actor_command_handlers[])();
 extern u8 active_actor_command_code[];

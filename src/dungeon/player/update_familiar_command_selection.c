@@ -4,6 +4,7 @@ struct ObjectPosition;
 #include "shared/dungeon_actor_callbacks.h"
 #include "shared/entity.h"
 #include "common.h"
+#include "engine/menu.h"
 #include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
@@ -15,7 +16,6 @@ extern void *player_action_tag[];
 extern s32 selected_item_record_alias[];
 extern s16 camera_depth_target[5];
 extern s32 menu_action_argument[];
-extern u8 D_8004F5F4[];
 s32 resolve_player_input_facing(s16 direction_offset, u16 *flags, u16 *angle);                /* extern */
 s32 check_familiar_deployment_placement(); /* extern */
 void display_formatted_context_message(void *context);                   /* extern */

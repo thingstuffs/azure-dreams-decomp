@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/map/object_callback.h"
 #include "shared/object_flags.h"
 
 typedef struct CallbackEntry CallbackEntry;

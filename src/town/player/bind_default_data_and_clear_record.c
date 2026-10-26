@@ -1,8 +1,8 @@
 #include "common.h"
+#include "town/player/object_initialization_g00546.h"
 #include "m2c_compat.h"
 
 #include "town/player/object/entity_record_fields.h"                     /* extern */
-extern void target_action_update_address();
 
 typedef struct S_80098B70_0 {
     u8 pad_00[0x4];

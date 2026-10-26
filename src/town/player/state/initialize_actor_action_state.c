@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player/scene_action_setup.h"
 #include "shared/entity.h"
 #include "shared/town_handler_entries.h"
 #include "m2c_compat.h"
@@ -6,7 +7,6 @@
 
 void dispatch_sound_by_global_flag(void);                            /* extern */
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"  /* extern */
-extern void D_8009204C();
 
 
 /* Initializes an object and its associated state. */

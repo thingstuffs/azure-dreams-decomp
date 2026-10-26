@@ -31,5 +31,30 @@ class HeaderTypesTest(unittest.TestCase):
                                  ['include/owner.h', 'include/data.h'])['returncode'], 0)
 
 
+    def test_distinct_code_alias_contract(self):
+        pairs = [{'alias': 'callback_address', 'target': 'callback'}]
+        for compiler in ('gcc', 'clang'):
+            if not shutil.which(compiler):
+                continue
+            with self.subTest(compiler=compiler), tempfile.TemporaryDirectory() as folder:
+                root = Path(folder)
+                (root / 'include').mkdir()
+                header = root / 'include/owner.h'
+                target = 'void callback(void *, int);\n'
+                header.write_text(target + 'void callback_address(void *, int);\n')
+                self.assertEqual(module.check(root, compiler, ['include/owner.h'], pairs)['returncode'], 0)
+                # Every declaration below compiles on its own. The reviewed
+                # alias relation must reject each incompatible call contract.
+                for declaration in ['void callback_address(void *);\n',
+                                    'int callback_address(void *, int);\n',
+                                    'void callback_address(void *, float);\n',
+                                    'extern int callback_address;\n']:
+                    with self.subTest(declaration=declaration):
+                        header.write_text(target + declaration)
+                        result = module.check(root, compiler, ['include/owner.h'], pairs)
+                        self.assertNotEqual(result['returncode'], 0)
+                        self.assertIn('callback_address must match callback', result['diagnostic'])
+
+
 if __name__ == '__main__':
     unittest.main()

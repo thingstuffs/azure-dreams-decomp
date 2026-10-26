@@ -1,5 +1,6 @@
 /* Recovered retail twin; complete-function proof is in the lane receipt. */
 #include "common.h"
+#include "town/player/object_initialization_g00546.h"
 #include "town/player/scene_action_setup.h"
 #include "shared/object_index_slots.h"
 #include "shared/town_handler.h"
@@ -11,10 +12,8 @@ typedef struct SceneActionReset {
      s16 unkA;
 } SceneActionReset;
 
-extern u8 target_action_update_address[];
 extern u8 D_800D01D8[];
 
-extern void clear_entity_record_fields(void *record);
 
 /*
  * Selects D_800D01D8, clears both bytes of object slot one and the entity motion fields, and

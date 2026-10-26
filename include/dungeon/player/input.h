@@ -10,6 +10,9 @@ extern s32 D_800E4948[4];
 
 
 
+/* Eight camera-relative facing entries, ending at player_push_start_frames. */
+extern u8 player_wait_frames[8];
+
 s32 has_action_input_without_modifier(void);
 
 void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameState *sprite, void *entity);

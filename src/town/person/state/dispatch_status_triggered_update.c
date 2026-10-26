@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/person/state_updates.h"
 #include "shared/sprite_frame_state.h"
 
 /* extern */

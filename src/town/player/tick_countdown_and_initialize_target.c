@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player/object_initialization_g00546.h"
 #include "m2c_compat.h"
 #include "shared/position_views.h"
 

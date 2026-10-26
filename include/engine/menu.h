@@ -52,6 +52,8 @@ void *create_animated_selection_menu(void *init_data);
 
 /* create_animated_selection_menu_owner.c */
 void *create_animated_selection_menu_owner(void *unused, void *source);
+/* Registered code-address alias of create_animated_selection_menu_owner. */
+void *D_8004F5F4(void *unused, void *source);
 
 /* create_or_reset_seven_entry_menu_backdrop.c */
 void *create_or_reset_seven_entry_menu_backdrop(s32 owner, s32 state);

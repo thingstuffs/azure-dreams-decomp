@@ -1,8 +1,8 @@
 #include "common.h"
+#include "town/person/state_updates.h"
 #include "shared/object_index_slots.h"
 
 #include "town/person/object/initialize_object_entries_api.h"
-extern u8 person_table_handler_address[];
 extern s32 D_800D54DC[];
 extern u8 D_800D55E8[];
 extern u8 D_800D55F0[];

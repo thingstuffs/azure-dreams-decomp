@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8009DB64. */
 
 #include "common.h"
+#include "town/player/scene_action_setup.h"
 #include "town/scene/collision.h"
 #include "records/Rec_D_800CFCB4.h"
 #include "shared/position_query.h"
@@ -48,7 +49,6 @@ extern void initialize_target_motion_state(TownObject *object, void *owner, void
 extern void initialize_target_motion(TownObject *object, void *owner, void *context, void *extra_ptr);
 extern s32 scene_object_payload_alias;
 extern u8 D_80091F64[];
-extern u8 D_8009204C[];
 extern u8 D_800920F4[];
 extern u8 D_800924EC[];
 extern u8 D_80092698[];

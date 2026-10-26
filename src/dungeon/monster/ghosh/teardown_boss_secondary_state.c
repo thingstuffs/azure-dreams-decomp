@@ -19,6 +19,11 @@ void teardown_boss_secondary_state(void) {
     u16 *flags = ((u16 *)&system_update_flags);
 
     ptr = (u8 *)(ghosh_boss_node[0] + 0x20);
+    /*
+     * BUG: the Ghosh dialogue script releases this companion (clearing ghosh_boss_node) before it calls
+     * this teardown, so the node is null and the AND below reaches the halfword at 0x00000066. Harmless
+     * on PS1: the low 64 KB is mapped kernel RAM, so the store does not fault and only clears bit 15.
+     */
     *(u16 *)(ptr + 0x46) &= 0x7FFF;
     dungeon_floor_flags &= 0xF7FFFFFF;
     flags[0] &= 0xFFF6;

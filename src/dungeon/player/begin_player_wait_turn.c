@@ -1,6 +1,7 @@
 #include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/player.h"
+#include "dungeon/player/input.h"
 #include "dungeon/system.h"
 typedef struct { u8 pad[0x3714]; u16 flags; } SysPage;
 #include "shared/game_work.h"
@@ -22,7 +23,6 @@ typedef struct S_8008C7B4_0 {
 
 extern void set_sprite_animation_frame(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 slot_index);
 extern void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
-extern u8 player_wait_frames;
 extern u8 player_carry_frames[8];
 
 /* Reset state, update control flags, and select the entity's directional sprite. */
@@ -49,7 +49,7 @@ void begin_player_wait_turn(void *state, void *mode, void *sprite, EntityRec *en
             direction_table = (u8 *)&player_carry_frames;
         } else {
 
-            direction_table = &player_wait_frames;
+            direction_table = player_wait_frames;
         }
         (*(u8 **)((u8 *)sprite + 0x2C)) = direction_table;
         {

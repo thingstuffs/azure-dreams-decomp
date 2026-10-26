@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player/scene_action_setup.h"
 #include "shared/entity.h"
 
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"                         /* extern */

@@ -790,7 +790,7 @@ void create_tinted_dungeon_object(s16 x, s16 y, s16 tinted, s32 render_param)
 /* Creates the floor label and number sprites, or the special label used on floor 40. */
 void draw_dungeon_value_and_label(void)
 {
-    u8 digits[2];
+    u8 digits[3];
     u8 *digit_ptr;
     void *special_label;
     s32 draw_mode;

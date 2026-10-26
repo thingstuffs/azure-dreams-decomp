@@ -195,7 +195,13 @@ Clang function ownership is recovered with the existing C declaration scanner,
 so identical warnings in different functions retain separate identities.
 `lto-symbol-kind` also records GCC errors that redeclare a function as data or
 vice versa. Raw logs are preserved in full beneath the ignored output directory.
-The bundled `soundness_gcc_baseline.json` records the reviewed 6,004-TU GCC
+The header-group manifest also records eight reviewed code-address aliases.
+The native compilers require each target to be a function and each alias to have
+a compatible function type, catching arity, return and parameter regressions even
+when both names are unused. `test_header_types.py` exercises valid pairs and
+wrong arity, return, parameter and function/data pairs with GCC and Clang.
+
+The bundled `soundness_gcc_baseline.json` records the reviewed 6,013-TU GCC
 callback census (24 diagnostic groups, 29 occurrences); it is not an LTO or Clang baseline.
 
 
@@ -205,8 +211,8 @@ Run `python3 tools/lint/header_types.py --out build/header_types.json` to compil
 reviewed owner headers together with their imported data declarations under both
 32-bit GCC and Clang. Every group in `header_type_groups.json` must compile with
 zero errors; the reviewed baseline is a clean group list, not an allowlist of
-conflicting declarations. The first group joins resident window, message and VM
-owners with `slus/data.h`. It guards ten repaired function-as-data declarations,
+conflicting declarations. The first group joins resident window, message, menu and VM
+owners with `slus/data.h`. It guards eleven repaired function-as-data declarations,
 including three unused extern conflicts that the LTO census did not emit.
 Existing owner prototypes supply all types; this tool synthesizes no prototypes.
 Warnings remain the responsibility of `lint_build.py` and the callback census.
@@ -216,3 +222,14 @@ Run `python3 -m unittest discover -s tools/tests -p test_header_types.py -v` for
 real-compiler regression that rejects an unused function/data disagreement and
 accepts a separate data symbol. New groups must first compile cleanly under both
 compilers. Do not add a conflicting declaration to an exception baseline.
+
+The `town_callback_owners` group joins the map, person and player callback
+owners, including five registered code-address aliases. Each alias has the
+same prototype as its registered handler; no data object is implied by an
+address spelling. The LTO link honors `--jobs` as well as the compile phase,
+with a maximum of four workers.
+
+The `audio_command_owners` group joins the command FIFO feature with its audio
+and entity imports. The owner declares one count halfword and 32 payload
+halfwords. `test_resident_bit_return.py` compiles a real result-using caller
+with GCC O0, GCC O2 and Clang O2 to guard the resident-bit query return contract.

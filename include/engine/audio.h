@@ -4,6 +4,7 @@
 
 #include "common.h"
 #include "shared/sound_volume.h"
+#include "engine/audio/commands.h"
 
 struct S_80053374_obj;
 struct SoundTask;
@@ -37,9 +38,6 @@ void check_cd_stream_end(void);
 /* decode_audio_selector.c */
 void decode_audio_selector(s32 selector);
 
-/* dispatch_audio_command.c */
-void dispatch_audio_command(s32 code);
-
 /* dispatch_audio_event.c */
 void dispatch_audio_event(s32 event);
 
@@ -72,9 +70,6 @@ void init_audio_subsystem(void);
 
 /* play_sound_unless_mode_two.c */
 short dispatch_sound_word_unless_disabled(int inputValue);
-
-/* pop_audio_queue.c */
-u16 pop_audio_queue(void);
 
 /* process_first_pending_sound_channel.c */
 void process_first_pending_sound_channel(void);

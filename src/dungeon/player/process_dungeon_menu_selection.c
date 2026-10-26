@@ -3,6 +3,7 @@
 #include "shared/object_node.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "engine/menu.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
@@ -111,7 +112,6 @@ s32 display_text_with_fullwidth_adjustment();                         /* extern 
 s32 is_selectable_menu_target();                             /* extern */
 void update_selection_tile_markers(struct S_800B50B0_Entity *entity, s32 selection);            /* extern */
 extern M2C_UNK familiar_menu_action_data;
-extern void *D_8004F5F4(void *, void *);
 extern Rec_D_80082EB0 selected_item_record_alias;
 extern s32 selected_item_action_alias;
 extern s8 spell_effect_selector_cache;
