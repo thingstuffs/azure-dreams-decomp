@@ -71,7 +71,7 @@ struct ObjectNodeHeader; void * allocate_list_node(s32, struct ObjectNodeHeader 
 void func_80042640(void *, s16);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 retain_spawn_resource(s16, s16);
-extern s8 random_dungeon_range_16();
+extern s32 random_dungeon_range_16(u32 bound_a, u32 bound_b);
 void initialize_actor_sprite_and_animation(void *, void *, void *, s32);
 s32 try_move_actor_to_valid_position(void *, void *, void *, void *);
 void * allocate_boss_actor(s16, s16, s16, s16);

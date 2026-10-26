@@ -40,8 +40,7 @@ extern u8 weadog_frame_set_7[];
 extern u8 D_80174ED8[];
 
 /* Moves the actor to its tile with a hop and completes the timed action. */
-void advance_weadog_hop(void *action, ObjectPosition *motion, void *sprite, EntityRec *actor)
-{
+void advance_weadog_hop(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u16 facing_aux;
     s32 phase;
     s32 move_ticks;
@@ -53,7 +52,7 @@ void advance_weadog_hop(void *action, ObjectPosition *motion, void *sprite, Enti
     u16 action_timer;
     u8 *anim_table;
 
-    phase = ((S_801730E0_0 *)action)->unk_9B;
+    phase = action->action_phase;
     switch (phase) {
     case 0:
         phase_timer = ((S_801730E0_0 *)action)->unk_9E.s - 1;
@@ -67,11 +66,11 @@ void advance_weadog_hop(void *action, ObjectPosition *motion, void *sprite, Enti
             sprite,
             weadog_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        ((S_801730E0_0 *)action)->unk_98 |= 8;
+        action->action_state_flags |= 8;
         (*(u32 *)&actor->flags1C) &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_801730E0_0 *)action)->unk_9E.u = 5;
         ((S_801730E0_0 *)action)->unk_A0 = 0;
-        ((S_801730E0_0 *)action)->unk_9B++;
+        action->action_phase++;
 
     case 1:
         move_ticks = ((S_801730E0_0 *)action)->unk_9E.u;
@@ -97,14 +96,14 @@ void advance_weadog_hop(void *action, ObjectPosition *motion, void *sprite, Enti
         ((S_801730E0_0 *)action)->unk_9E.s = phase_timer;
         if (phase_timer < 0) {
             ((S_801730E0_0 *)action)->unk_90 = 0;
-            ((S_801730E0_0 *)action)->unk_98 &= 0xFFF7;
+            action->action_state_flags &= 0xFFF7;
             (*(u32 *)&actor->flags1C) |= ACTOR_GROUNDED;
-            ((S_801730E0_0 *)action)->unk_9B++;
+            action->action_phase++;
         }
 
     case 2:
         if (((u32)actor->flags1C) & ACTOR_GROUNDED) {
-            ((S_801730E0_0 *)action)->unk_98 &= 0xFFF7;
+            action->action_state_flags &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -115,7 +114,7 @@ void advance_weadog_hop(void *action, ObjectPosition *motion, void *sprite, Enti
                 sprite,
                 D_80174ED8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            ((S_801730E0_0 *)action)->unk_9B++;
+            action->action_phase++;
         }
         break;
 
@@ -152,8 +151,8 @@ void advance_weadog_hop(void *action, ObjectPosition *motion, void *sprite, Enti
 
     actor_flags = actor->flags1C;
     if (actor_flags & 0x2000) {
-        if (actor->unk_46 & 0x8000) {
-            actor->unk_46 &= 0x7FFF;
+        if (actor->action_flags & 0x8000) {
+            actor->action_flags &= 0x7FFF;
         }
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {

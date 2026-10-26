@@ -24,10 +24,10 @@ extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern s32 reset_actor_action_state(void *actor, s32 unused, void *sprite, u8 *direction_frames);
 extern void process_selected_actor_record(void *, void *, void *, void *);
 extern void begin_actor_spell_action(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state);
-extern void advance_baloon_along_path(void *, s32, SpriteFrameState *, void *);
+void advance_baloon_along_path(ActorRecord *motion, ObjectPosition *actor_index, SpriteFrameState *actor, ActorRecord *move_data);
 extern void func_801726EC(void *, void *, void *, void *);
-extern s32 initialize_directional_object(void *, void *, void *, void *);
-extern void update_actor_status_and_motion(void *, void *, void *, void *);
+s32 initialize_directional_object(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *sprite, ActorRecord *actor);
+void update_actor_status_and_motion(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *entity);
 extern s32 func_801731DC(void *, void *, void *, s32);
 extern void func_8017531C(void *, void *, void *, void *);
 extern void clear_high_flag_and_update_counter(void *, void *, void *, void *);
@@ -55,9 +55,8 @@ typedef struct S_80171F1C_0 {
 } S_80171F1C_0;   /* arg0 in update_actor_turn_behavior */
 
 /* Update actor movement, animation, and action handling for the dungeon turn. */
-void update_actor_turn_behavior(void *motion_arg, void *actor_index_arg, SpriteFrameState *actor_arg, void *move_data_arg)
-{
-    EntityRec *move_data;
+void update_actor_turn_behavior(ActorRecord *motion_arg, ObjectPosition *actor_index_arg, SpriteFrameState *actor_arg, ActorRecord *move_data_arg) {
+    ActorRecord *move_data;
     u16 direction_flags;
     s8 room_id;
     u16 action_state;
@@ -66,12 +65,12 @@ void update_actor_turn_behavior(void *motion_arg, void *actor_index_arg, SpriteF
     move_data = move_data_arg;
 
     if (initial_flags & 0x1000) {
-        ((S_80171F1C_0 *)motion_arg)->unk_9A = 0xE;
+        motion_arg->action_id = 0xE;
         advance_baloon_along_path(motion_arg, (s32)actor_index_arg, actor_arg, move_data);
         return;
     }
 
-    if (move_data->tileY == 0) {
+    if (move_data->mp == 0) {
         void *anim_table;
 
         advance_actor_pending_action(motion_arg, actor_index_arg, actor_arg, move_data);
@@ -88,8 +87,8 @@ void update_actor_turn_behavior(void *motion_arg, void *actor_index_arg, SpriteF
 
     if (((u32)move_data->flags1C) & ACTOR_ASLEEP) {
         if (actor_arg->frameTable == baloon_frame_set_1) {
-            ((S_80171F1C_0 *)motion_arg)->unk_9A = 0xD;
-            ((S_80171F1C_0 *)motion_arg)->unk_9B = 1;
+            motion_arg->action_id = 0xD;
+            motion_arg->action_phase = 1;
             ((S_80171F1C_0 *)motion_arg)->unk_8C = 0;
             move_data->flags1C &= 0xFFFBFFFF;
             return;
@@ -106,13 +105,13 @@ void update_actor_turn_behavior(void *motion_arg, void *actor_index_arg, SpriteF
         }
 
         {
-            u8 current_state = ((S_80171F1C_0 *)motion_arg)->unk_9A;
+            u8 current_state = motion_arg->action_id;
             u32 idle_state = 0xE;
             void *current_anim;
             void *anim_table;
 
             if (current_state != idle_state) {
-                ((S_80171F1C_0 *)motion_arg)->unk_9A = idle_state;
+                motion_arg->action_id = idle_state;
             }
             current_anim = actor_arg->frameTable;
             anim_table = baloon_default_frames;
@@ -128,9 +127,9 @@ void update_actor_turn_behavior(void *motion_arg, void *actor_index_arg, SpriteF
         }
 
         move_data->flags1C |= 0x40000;
-        ((S_80171F1C_0 *)motion_arg)->unk_98 &= 0xFFF7;
+        motion_arg->action_state_flags &= 0xFFF7;
 
-        if (move_data->unk_64 != 0) {
+        if (move_data->hp_delta != 0) {
             if (begin_ready_actor_directional_action(motion_arg, actor_index_arg, actor_arg, D_800E2358) != 0) {
                 return;
             }
@@ -156,13 +155,13 @@ void update_actor_turn_behavior(void *motion_arg, void *actor_index_arg, SpriteF
     room_id = find_active_rect_containing_point(actor_arg->tile_x, actor_arg->tile_y);
     actor_arg->room_index = room_id;
 
-    if (move_data->unk_6D > 0) {
+    if (move_data->pending_turn_updates > 0) {
         if (((u32)move_data->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(move_data);
             return;
         }
         if (*(u16 *)&actor_arg->tile_x != reference_tile_object.tile_position.word) {
-            if (!(move_data->unk_46 & 0x8000)) {
+            if (!(move_data->action_flags & 0x8000)) {
                 if (g_dungeon_status.flags & 0x2000) {
                     if ((check_entity_relation(move_data,
                             (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
@@ -172,15 +171,15 @@ void update_actor_turn_behavior(void *motion_arg, void *actor_index_arg, SpriteF
                 if ((func_801731DC(motion_arg, actor_index_arg, actor_arg, 0) << 16) == 0) {
                     return;
                 }
-                action_state = move_data->unk_46 | 0x4000;
-                move_data->unk_46 = action_state;
+                action_state = move_data->action_flags | 0x4000;
+                move_data->action_flags = action_state;
                 if (!(action_state & 0x8000)) {
                     func_801726EC(motion_arg, actor_index_arg, actor_arg, move_data);
                     return;
                 }
             }
 
-            action_state = move_data->unk_46 & 0x3FFF;
+            action_state = move_data->action_flags & 0x3FFF;
             switch (action_state) {
             case 8:
                 if ((initialize_directional_object(motion_arg, actor_index_arg, actor_arg, move_data) << 16) != 0) {

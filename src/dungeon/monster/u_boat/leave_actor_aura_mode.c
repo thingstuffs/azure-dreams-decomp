@@ -26,7 +26,7 @@ typedef struct S_80176084_0 {
     s8 unk_B5;
 } S_80176084_0;   /* arg0 in leave_actor_aura_mode */
 
-extern void clear_slots_of_type();
+extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 void create_owner_linked_directional_object(u8 *owner_data, u8 *source_position, u8 *source_sprite);
 
 extern u8 uboat_default_frames[];

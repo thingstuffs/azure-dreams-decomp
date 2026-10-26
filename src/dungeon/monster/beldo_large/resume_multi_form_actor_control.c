@@ -1,3 +1,5 @@
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/record_ptrs.h"
@@ -7,7 +9,7 @@ extern u8 encounter_transition_pool_script[];
 
 extern void enqueue_runtime_pool_script(void *);
 extern void func_80164BA4(void *);
-extern void update_multi_form_actor_control(void);
+void update_multi_form_actor_control(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 
 /* Update shared state and the controller callback, then process and mark linked objects. */
 void resume_multi_form_actor_control(void *controller, void *unused_1, void *unused_2, u8 *active_object)

@@ -8,11 +8,11 @@
 #include "dungeon/actor/status.h"
 
 extern s32 try_claim_dungeon_action_slot();
-extern s32 apply_camera_offset_and_select_target();
+extern s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 extern s32 saber_frame_set_1;
 
 /* Clear the actor flag and apply an effect and animation change when allowed. */
-void clear_actor_flag_and_apply_effect(void *action_state, s32 effect_arg, SpriteFrameState *anim_state, ActorRecord *actor) {
+void clear_actor_flag_and_apply_effect(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *anim_state, ActorRecord *actor) {
     actor->movement_queue_state = actor->movement_queue_state & 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, effect_arg, 8, 0x300);

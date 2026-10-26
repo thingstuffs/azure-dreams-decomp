@@ -12,6 +12,6 @@ void update_object_movement_facing_terrain(void *obj, void *input_motion, Sprite
 
 void advance_entity_directional_events(void *entity, void *context, SpriteFrameState *sprite, ActorRecord *actor);
 
-void update_creature_animation_action(void *actor, void *context, void *sprite_arg, void *creature);
+void update_creature_animation_action(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite_arg, ActorRecord *creature);
 
 #endif

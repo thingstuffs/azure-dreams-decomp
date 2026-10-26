@@ -25,7 +25,7 @@ extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, 
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 extern void create_targeted_motion_effect(void *, void *, void *, void *);
-extern void create_actor_action_effect(void *, void *, void *, void *);
+void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *source_pos, SpriteFrameState *sprite_template, ActorRecord *actor);
 
 extern u8 troll_action_dispatch_address[];
 extern u8 D_80175DDC[8];
@@ -33,12 +33,11 @@ extern u8 D_80175DE4[8];
 extern u8 D_80175DEC[8];
 
 /* Advance a timed action sequence with directional animation and sound effects. */
-void advance_timed_directional_action(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *entity)
-{
+void advance_timed_directional_action(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity) {
     s16 timer;
     u8 state;
 
-    state = ((S_801743C4_0 *)action)->unk_9B;
+    state = action->action_phase;
     switch (state) {
 
     case 0:
@@ -46,7 +45,7 @@ void advance_timed_directional_action(void *action, void *motion, SpriteFrameSta
         ((Rec_func_8017121C_arg1 *)motion)->unk_10 = 0;
         ((Rec_func_8017121C_arg1 *)motion)->unk_0C = 0;
         ((S_801743C4_0 *)action)->unk_96.s = 0;
-        ((S_801743C4_0 *)action)->unk_9B++;
+        action->action_phase++;
         if (!(sprite->flags & 0x8000)) {
             return;
         }
@@ -58,7 +57,7 @@ void advance_timed_directional_action(void *action, void *motion, SpriteFrameSta
             return;
         }
         ((S_801743C4_0 *)action)->unk_96.s = 0;
-        ((S_801743C4_0 *)action)->unk_9B++;
+        action->action_phase++;
         switch (entity->unk_48) {
         case 13:
             sprite->frameTable = D_80175DDC;
@@ -77,7 +76,7 @@ void advance_timed_directional_action(void *action, void *motion, SpriteFrameSta
             select_sprite_entry(sprite,
                 D_80175DEC[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
-            ((S_801743C4_0 *)action)->unk_9B = 5;
+            action->action_phase = 5;
             play_sound_if_enabled(0x60C);
             return;
         default:
@@ -90,7 +89,7 @@ void advance_timed_directional_action(void *action, void *motion, SpriteFrameSta
         if ((timer == 5) || (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(entity, sprite, entity->facing, 1);
             ((S_801743C4_0 *)action)->unk_96.s = 0;
-            ((S_801743C4_0 *)action)->unk_9B++;
+            action->action_phase++;
         }
         if (((S_801743C4_0 *)action)->unk_96.u == 3) {
             play_sound_if_enabled(0x804);
@@ -126,7 +125,7 @@ void advance_timed_directional_action(void *action, void *motion, SpriteFrameSta
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
             ((S_801743C4_0 *)action)->unk_96.s = 0;
-            ((S_801743C4_0 *)action)->unk_9B = 3;
+            action->action_phase = 3;
         }
     case 4:
     default:

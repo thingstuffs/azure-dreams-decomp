@@ -33,12 +33,11 @@ extern u8 D_80163DE4[8];
 extern u8 D_80163DEC[8];
 
 /* Advance the actor's timed action sequence and update its animation and effects. */
-void advance_timed_action_and_effects(void *action, ObjectPosition *motion, SpriteFrameState *animation, ActorRecord *actor)
-{
+void advance_timed_action_and_effects(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *animation, ActorRecord *actor) {
     s16 timer;
     u8 state;
 
-    state = ((S_801623C4_0 *)action)->unk_9B;
+    state = action->action_phase;
     switch (state) {
 
     case 0:
@@ -46,7 +45,7 @@ void advance_timed_action_and_effects(void *action, ObjectPosition *motion, Spri
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         ((S_801623C4_0 *)action)->unk_96.s = 0;
-        ((S_801623C4_0 *)action)->unk_9B++;
+        action->action_phase++;
         if (!(animation->flags & 0x8000)) {
             return;
         }
@@ -58,7 +57,7 @@ void advance_timed_action_and_effects(void *action, ObjectPosition *motion, Spri
             return;
         }
         ((S_801623C4_0 *)action)->unk_96.s = 0;
-        ((S_801623C4_0 *)action)->unk_9B++;
+        action->action_phase++;
         switch (actor->unk_48) {
         case 13:
             animation->frameTable = D_80163DDC;
@@ -77,7 +76,7 @@ void advance_timed_action_and_effects(void *action, ObjectPosition *motion, Spri
             select_sprite_entry(animation,
                 D_80163DEC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            ((S_801623C4_0 *)action)->unk_9B = 5;
+            action->action_phase = 5;
             play_sound_if_enabled(0x60C);
             return;
         default:
@@ -90,7 +89,7 @@ void advance_timed_action_and_effects(void *action, ObjectPosition *motion, Spri
         if ((timer == 5) || (animation->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
             ((S_801623C4_0 *)action)->unk_96.s = 0;
-            ((S_801623C4_0 *)action)->unk_9B++;
+            action->action_phase++;
         }
         if (((S_801623C4_0 *)action)->unk_96.u == 3) {
             play_sound_if_enabled(0x804);
@@ -128,7 +127,7 @@ void advance_timed_action_and_effects(void *action, ObjectPosition *motion, Spri
         }
         animation->flags &= 0xF7FF;
         ((S_801623C4_0 *)action)->unk_96.s = 0;
-        ((S_801623C4_0 *)action)->unk_9B = 3;
+        action->action_phase = 3;
 
     case 4:
     default:

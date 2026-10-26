@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -52,14 +53,14 @@ typedef struct EmptyArg {
 } EmptyArg;
 
 s32 check_entity_relation();
-s8 find_active_rect_containing_point();
-s32 test_neighbor_position_relation();
-s16 get_rounded_facing_and_rounding_flag();
-s32 can_entity_gain_level();
-void update_actor_status_and_mp();
-void begin_pushed_actor_move();
+s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
+s32 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
+s16 get_rounded_facing_and_rounding_flag(); /* Unprototyped: five arguments, or a retained empty-struct sixth argument. */
+s32 can_entity_gain_level(void *entity);
+void update_actor_status_and_mp(ActorRecord *entity);
+void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);
 s32 begin_ready_actor_directional_action();
-s32 advance_actor_pending_action();
+s32 advance_actor_pending_action(void *actor_state, void *action, void *status, void *actor);
 void begin_actor_move_to_target_facing();
 s32 reset_actor_action_state();
 s32 process_selected_actor_record();
@@ -68,9 +69,9 @@ extern void func_801716CC(void *motion, s32 unused, void *actor, void *path_stat
 extern void func_80171884(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject *position_data, ActorRecord *actor_data);
 s32 func_80171FCC(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *sprite_arg, ActorRecord *actor);
 extern void func_80172190(void *action_state, void *context, void *sprite, ActorRecord *actor);
-s32 func_801722B8();
+s32 func_801722B8(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
 extern void func_80173D10(Actor *actor, s32 action, Entity *entity, MapObject *map_object);
-extern void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite, ActorRecord *status);
+void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *status);
 extern u8 kraken_frame_set_1[];
 extern u8 kraken_frame_set[];
 extern u8 D_801741AC[];
@@ -80,7 +81,7 @@ extern u8 kraken_frame_set_2[];
 /* Updates the actor animation and dispatches dungeon actions based on status and position. */
 /* Selects Kraken's movement, attacks, spells, and turn processing, resetting its vertical animation state
  * on return to idle. */
-void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite, ActorRecord *status) {
+void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *status) {
     s32 direction_aux;
     void *next_handler;
     s32 status_flags;

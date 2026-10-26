@@ -14,10 +14,7 @@ typedef struct {
     s32 field_8C;
 } ActionStateFieldView_80DBD29C;
 
-typedef struct {
-    u8 pad_00[0x2C];
-    u8 *field_2C;
-} SpriteFieldView_80DBD29C;
+
 
 typedef struct S_80174A9C_1 {
     u8 pad_00[0x9A];
@@ -29,11 +26,11 @@ struct SpriteFrameState;
 void select_sprite_entry(void *, s16, s16);
 void *find_eligible_actor_at_tile_and_height();
 s32 try_claim_dungeon_action_slot();
-s32 apply_camera_offset_and_select_target();
+s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 extern u8 D_80175414;
 
 /* Starts an actor action and selects its directional sprite and adjacent target. */
-void begin_actor_directional_target_action(void *action_state, s32 action_context, SpriteFrameState *sprite, ActorRecord *actor) {
+void begin_actor_directional_target_action(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 direction;
 
     actor->movement_queue_state = (u8)(actor->movement_queue_state & 0x7F);

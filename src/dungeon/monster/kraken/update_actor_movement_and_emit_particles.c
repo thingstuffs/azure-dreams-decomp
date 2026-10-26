@@ -11,6 +11,7 @@
 #include "shared/entity.h"
 #include "shared/actor_action.h"
 #include "shared/dungeon_projectile_views.h"
+#include "engine/graphics.h"
 
    /* arg0 in update_actor_movement_and_emit_particles */
 
@@ -47,7 +48,6 @@ typedef struct S_80172D1C_8 {
 
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
-extern void select_sprite_entry();
 extern s32 rand(void);
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);

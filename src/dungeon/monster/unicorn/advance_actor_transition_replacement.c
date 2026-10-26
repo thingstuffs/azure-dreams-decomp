@@ -34,14 +34,14 @@ extern void *D_80174E40[];
 
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 Control_CD();
-extern void sound_set_cd_cue_parameters();
+extern void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
 extern s32 run_cd_image_commands();
-extern s32 read_stream_cue_start_offset();
+extern s32 read_stream_cue_start_offset(void);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 lookup_masked_byte_table();
 extern s32 unlink_entity_node();
-extern s32 update_map_cell_flags_with_item_limit();
-extern s32 decrement_monster_entry_count();
+extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+extern void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 extern void *advance_staged_entity_load();
 extern s32 create_status_linked_render_effect();
 extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
@@ -134,26 +134,26 @@ typedef struct S_80174704_11 {
 /* Updates an actor transition through turning, color fading, effects, and replacement. */
 /* Loads Unicorn's transition effects, fades the view tint and emits angular sparks, then replaces the
  * actor and restores facing. */
-void advance_actor_transition_replacement(void *action, EntityRec *position, SpriteFrameState *entity, void *actor) {
+void advance_actor_transition_replacement(ActorRecord *action, ObjectPosition *position, SpriteFrameState *entity, ActorRecord *actor) {
     u8 *object = ((u8 *)(&g_game_work));
     u32 color;
     u8 state;
     s32 next_state;
 
-    state = ((S_80174704_0 *)action)->unk_9B;
+    state = action->action_phase;
     switch (state) {
 
     case 0:
     {
-        next_state = ((S_80174704_0 *)action)->unk_9B + 1;
-        ((S_80174704_0 *)action)->unk_9B = next_state;
+        next_state = action->action_phase + 1;
+        action->action_phase = next_state;
         return;
     }
 
     case 1:
         run_cd_image_commands(D_80174E24, unicorn_image_load_done, 0);
         ((S_80174704_0 *)action)->unk_B0.s = 0;
-        ((S_80174704_0 *)action)->unk_9B++;
+        action->action_phase++;
         ((S_80174704_1 *)actor)->unk_8A = ((S_80174704_1 *)actor)->unk_2A.u;
         ((S_80174704_1 *)actor)->unk_1C &= 0xFFFBFFFF;
 
@@ -178,7 +178,7 @@ void advance_actor_transition_replacement(void *action, EntityRec *position, Spr
         Control_CD(0xFF, set_byte_one, unicorn_effect_load_done);
         select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, position, 8, 0x300);
         ((S_80174704_0 *)action)->unk_96.u = 0x10;
-        ((S_80174704_0 *)action)->unk_9B++;
+        action->action_phase++;
     }
 
     case 3:
@@ -194,7 +194,7 @@ void advance_actor_transition_replacement(void *action, EntityRec *position, Spr
             if (cd_done == 0) {
                 return;
             }
-            ((S_80174704_0 *)action)->unk_9B++;
+            action->action_phase++;
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             return;
         }
@@ -245,8 +245,8 @@ void advance_actor_transition_replacement(void *action, EntityRec *position, Spr
         }
         entity->flags |= 0x80;
         ((S_80174704_0 *)action)->unk_96.u = 0;
-        next_state = ((S_80174704_0 *)action)->unk_9B + 1;
-        ((S_80174704_0 *)action)->unk_9B = next_state;
+        next_state = action->action_phase + 1;
+        action->action_phase = next_state;
         return;
 
     case 5:
@@ -265,8 +265,8 @@ void advance_actor_transition_replacement(void *action, EntityRec *position, Spr
         object = ((S_80174704_3 *)object)->unk_0C.p;
         if (((S_80174704_3 *)object)->unk_14 & 0xE000) {
             ((S_80174704_0 *)action)->unk_96.u = 0x10;
-            ((S_80174704_0 *)action)->unk_9B++;
-            decrement_monster_entry_count(((S_80174704_1 *)actor)->unk_13, 3);
+            action->action_phase++;
+            decrement_monster_entry_count(actor->species, 3);
             update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y, 0x300);
             unlink_entity_node(actor);
             object = (u8 *)actor - 0x20;
@@ -274,15 +274,15 @@ void advance_actor_transition_replacement(void *action, EntityRec *position, Spr
         }
 
     case 6:
-        if (((S_80174704_0 *)action)->unk_9B != 6) {
+        if (action->action_phase != 6) {
             return;
         }
         if (create_status_linked_render_effect(position, D_80174E40[0], D_80174E38[0], &staged_spawn_count) == 0) {
             return;
         }
         ((S_80174704_0 *)action)->unk_96.u = 0x10;
-        ((S_80174704_0 *)action)->unk_9B++;
-        decrement_monster_entry_count(((S_80174704_1 *)actor)->unk_13, 3);
+        action->action_phase++;
+        decrement_monster_entry_count(actor->species, 3);
         update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y, 0x300);
         unlink_entity_node(actor);
         object = (u8 *)actor - 0x20;
@@ -297,7 +297,7 @@ void advance_actor_transition_replacement(void *action, EntityRec *position, Spr
             return;
         }
         ((S_80174704_0 *)action)->unk_96.u = 0x10;
-        ((S_80174704_0 *)action)->unk_9B++;
+        action->action_phase++;
         ((S_80174704_11 *)(((S_80174704_1 *)actor)->unk_60))->unk_2A = ((S_80174704_1 *)actor)->unk_2A.u;
         {
             u8 *replacement_actor = ((S_80174704_1 *)actor)->unk_60;
@@ -326,7 +326,7 @@ void advance_actor_transition_replacement(void *action, EntityRec *position, Spr
             ((S_80174704_0_pre *)action)[-1].unk_00 |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             g_dungeon_status.activity_counts.parts.pending_action_count--;
-            ((S_80174704_1 *)actor)->unk_6D = 0;
+            actor->pending_turn_updates = 0;
         }
 
         return;

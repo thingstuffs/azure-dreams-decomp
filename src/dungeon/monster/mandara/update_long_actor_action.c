@@ -97,8 +97,8 @@ extern void begin_actor_spell_action(void *, void *, void *, void *, void *);
 
 extern void func_80171910(void *, void *, void *, void *);
 extern void advance_actor_path_step(void *, void *, void *, void *);
-extern s32 validate_transition_and_update_action(void *, void *, void *, void *);
-extern void reset_action_and_select_facing_animation(void *, void *, void *, void *);
+s32 validate_transition_and_update_action(ActorRecord *state, ObjectPosition *transition_id, SpriteFrameState *sprite, ActorRecord *actor);
+void reset_action_and_select_facing_animation(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 extern s32 func_80172658(void *, void *, void *, s32);
 extern void func_80174250(void *, void *, void *, void *);
 
@@ -118,7 +118,7 @@ void update_long_actor_action(void *self_object, void *aux_entity, SpriteFrameSt
     u16 initial_flags = g_dungeon_status.flags;
     void *post_current;
     u8 *post_table;
-    s32 scratch;
+    u16 scratch;
     s8 result;
 
     if (initial_flags & 0x1000) {

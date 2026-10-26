@@ -15,7 +15,7 @@ void create_boss_directional_effect(void *source, s16 angle, s32 initial_value, 
 void release_secondary_overlay_object(void);
 
 
-void update_boss_actor_action(void *actor, void *context, SpriteFrameState *sprite, ActorRecord *entity);
+void update_boss_actor_action(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 
 
 

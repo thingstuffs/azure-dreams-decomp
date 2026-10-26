@@ -7,7 +7,7 @@
 
 
 
-void advance_actor_action_animation_and_cleanup(void *action, s32 actor_id, SpriteFrameState *animation, ActorRecord *actor);
+void advance_actor_action_animation_and_cleanup(ActorRecord *action, ObjectPosition *actor_id, SpriteFrameState *animation, ActorRecord *actor);
 
 void *spawn_maximum(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height);
 

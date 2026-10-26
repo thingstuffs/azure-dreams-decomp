@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/tyrant/update_actor_movement_choosing_direction_recording_path.h"
 #include "shared/dungeon_status.h"
@@ -5,8 +6,7 @@
 /* Updates actor movement, choosing a direction and recording its path. */
 /* Chooses Tyrant's next clear step, with a flagged nearby-target shortcut, then records the path and
  * updates tile occupancy. */
-void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void *entry_context, SpriteFrameState *position, ActorRecord *actor)
-{
+void update_actor_movement_choosing_direction_recording_path(ActorRecord *move_work, ObjectPosition *entry_context, SpriteFrameState *position, ActorRecord *actor) {
     s32 limit_turn;
     s16 step_index;
     s16 *angle_steps;
@@ -39,7 +39,7 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
         return;
     }
 
-    update_actor_proximity_flag(position, actor, 3, 6, move_work + 0x9C);
+    update_actor_proximity_flag(position, actor, 3, 6, &move_work->unk_9C);
     actor_flags = actor->flags1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
@@ -49,7 +49,7 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
 
                 actor->facing = get_rounded_facing_and_rounding_flag(
                     position->tile_x, position->tile_y,
-                    U8_AT(turn_flags, 0x24), U8_AT(turn_flags, 0x25), move_work + 0x98);
+                    U8_AT(turn_flags, 0x24), U8_AT(turn_flags, 0x25), &move_work->action_state_flags);
                 actor->movement_queue_state &= 0x7F;
                 return;
             }
@@ -73,7 +73,7 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
     } else if (actor_flags & 0x2000) {
         if (actor->action_flags & 0x8000) {
         } else if (!(actor_flags & 0x20000)) {
-            select_actor_route_target(position, S8_AT(move_work, 0x9C), actor, move_work + 0x98);
+            select_actor_route_target(position, S8_AT(move_work, 0x9C), actor, &move_work->action_state_flags);
         } else {
             {
                 s32 direction;
@@ -94,7 +94,7 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
                 }
 
                 {
-                    u8 *angle_work = move_work + 0x98;
+                    u16 *angle_work = &move_work->action_state_flags;
                     s16 next_angle = get_rounded_facing_and_rounding_flag(
                         position->tile_x, position->tile_y,
                         (s16)target_x, (s16)target_y, angle_work);
@@ -131,7 +131,7 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
             offset += (s32)tile_table;
         }
         if (tile_kind >= 0 && (U16_AT((u8 *)offset, 0xC) & 2)) {
-            select_actor_route_target(position, S8_AT(move_work, 0x9C), actor, move_work + 0x98);
+            select_actor_route_target(position, S8_AT(move_work, 0x9C), actor, &move_work->action_state_flags);
         } else
             if (actor->action_flags & 0x8000) {
             } else {
@@ -146,7 +146,7 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
 
                     actor->facing = get_rounded_facing_and_rounding_flag(
                         position->tile_x, position->tile_y,
-                        U8_AT(turn_flags, 0x24), U8_AT(turn_flags, 0x25), move_work + 0x98);
+                        U8_AT(turn_flags, 0x24), U8_AT(turn_flags, 0x25), &move_work->action_state_flags);
                     actor->movement_queue_state &= 0x7F;
                     return;
                 } else {
@@ -161,10 +161,10 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
                         }
                     }
                     if (!(actor->flags1C & 0x20000)) {
-                        select_actor_route_target(position, S8_AT(move_work, 0x9C), actor, move_work + 0x98);
+                        select_actor_route_target(position, S8_AT(move_work, 0x9C), actor, &move_work->action_state_flags);
                     } else {
                         u8 *goal = (u8 *)&reference_tile_position_alias - 0x24;
-                        u8 *angle_work = move_work + 0x98;
+                        u16 *angle_work = &move_work->action_state_flags;
 
                         actor->facing = get_rounded_facing_and_rounding_flag(
                             position->tile_x, position->tile_y,

@@ -43,15 +43,14 @@ extern u8 kewne_frame_set_1[];
 extern u8 kewne_frame_set_2[];
 
 /* Advances the actor action state, updating its directional animation and callback. */
-void advance_actor_action_and_refresh_animation(void *actor, void *context, SpriteFrameState *render_record, ActorRecord *actor_state)
-{
+void advance_actor_action_and_refresh_animation(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *render_record, ActorRecord *actor_state) {
     s32 actor_flags;
     u16 value;
     u16 value_offset;
     DungeonGlobalStatus *global_base;
     s32 state;
 
-    state = ((S_80173E50_0 *)actor)->unk_9B;
+    state = actor->action_phase;
     switch (state) {
     case 0:
         if (!(render_record->flags & 0xE000)) {
@@ -64,7 +63,7 @@ void advance_actor_action_and_refresh_animation(void *actor, void *context, Spri
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: dungeon/func_809A2650). */
         do {
-            ((S_80173E50_0 *)actor)->unk_9B++;
+            actor->action_phase++;
         } while (0);
         return;
 
@@ -141,7 +140,7 @@ void advance_actor_action_and_refresh_animation(void *actor, void *context, Spri
             ((S_80173E50_0 *)actor)->unk_8C = kewne_action_resume_address;
             return;
         }
-        ((S_80173E50_0 *)actor)->unk_9B++;
+        actor->action_phase++;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
         return;
 

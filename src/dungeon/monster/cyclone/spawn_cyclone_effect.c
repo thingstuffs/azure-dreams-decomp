@@ -5,6 +5,7 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_moving_views.h"
+#include "engine/graphics.h"
 
 typedef struct {
     s32 word[6];
@@ -18,7 +19,6 @@ typedef struct {
 
 extern s32 resolve_record_orientation_or_fallback();
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern void select_sprite_entry();
 
 extern s32 cyclone_spawn_update_address;
 

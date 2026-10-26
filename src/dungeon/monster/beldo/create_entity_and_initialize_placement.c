@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -13,7 +14,7 @@ void initialize_actor_sprite_and_animation();
 s32 try_move_actor_to_valid_position();
 s32 func_80173C30(void);
 void update_actor_movement_and_height(void *entity_arg, void *motion_arg, SpriteFrameState *monster_arg);
-void update_object_animation(void *obj, void *motion, SpriteFrameState *part, void *state);
+void update_object_animation(ActorRecord *obj, ObjectPosition *motion, SpriteFrameState *part, ActorRecord *state);
 extern u8 beldo_frame_set_1[8];
 extern void *beldo_active_entity;
 
@@ -23,7 +24,7 @@ typedef struct S_80170F84_1 {
     u8 pad_14[0x8];
     s32 unk_1C;
     u8 pad_20[0x6C];
-    void (*unk_8C)(void *, void *, SpriteFrameState *, void *);
+    ActorActionHandler unk_8C;
     u8 pad_90[0xA];
     u8 unk_9A;
     u8 pad_9B[0x1];

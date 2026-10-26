@@ -15,22 +15,22 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 check_entity_relation();                     /* extern */
-s8 find_active_rect_containing_point();                           /* extern */
-s32 test_neighbor_position_relation();                  /* extern */
-s32 get_rounded_facing_and_rounding_flag();       /* extern */
-s32 can_entity_gain_level();                          /* extern */
-void update_actor_status_and_mp();                      /* extern */
-void begin_pushed_actor_move(); /* extern */
+s32 find_active_rect_containing_point(s32 point_x, s32 point_y);                           /* extern */
+s32 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);                  /* extern */
+s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);       /* extern */
+s32 can_entity_gain_level(void *entity);                          /* extern */
+void update_actor_status_and_mp(ActorRecord *entity);                      /* extern */
+void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in); /* extern */
 s32 begin_ready_actor_directional_action(); /* extern */
-s32 advance_actor_pending_action(); /* extern */
+s32 advance_actor_pending_action(void *actor_state, void *action, void *status, void *actor); /* extern */
 void begin_actor_move_to_target_facing(); /* extern */
 s32 reset_actor_action_state(); /* extern */
 s32 process_selected_actor_record(); /* extern */
 void begin_actor_spell_action(); /* extern */
-void advance_actor_stored_path_2(void *movement, s32 actor_index, void *actor, void *path_state);                            /* extern */
+void advance_actor_stored_path_2(ActorRecord *movement, ObjectPosition *actor_index, SpriteFrameState *actor, ActorRecord *path_state);                            /* extern */
 s32 func_80173EAC(); /* extern */
 void update_directional_action_display(); /* extern */
-void update_actor_behavior(void *actor, s32 context, SpriteFrameState *sprite, ActorRecord *state);
+void update_actor_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
 extern u8 D_80175DF4[];
 extern u8 D_80175DFC[];
 extern u8 D_80175E04[];
@@ -50,8 +50,8 @@ extern u8 troll_frame_set_10[];
 /* Updates actor animation, facing, and actions from its dungeon state. */
 /* Selects Troll's movement, attacks, spells, and turn processing using separate sprite tables for item
  * kinds 13 through 15. */
-void update_actor_behavior(void *actor, s32 context, SpriteFrameState *sprite, ActorRecord *state) {
-    s32 path_info;
+void update_actor_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state) {
+    u16 path_info;
     u8 *next_row;
     s32 *current_row;
     s32 state_flags;

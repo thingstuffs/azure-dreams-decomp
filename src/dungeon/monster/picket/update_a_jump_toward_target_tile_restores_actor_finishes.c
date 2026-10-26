@@ -26,7 +26,7 @@ typedef struct S_80172540_0 {
     s32 unk_A0;
 } S_80172540_0;   /* arg0 in update_a_jump_toward_target_tile_restores_actor_finishes */
 
-s16 get_rounded_facing_and_rounding_flag();
+s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void on_actor_status_updated(void *actor);
 void spend_actor_mp();
 
@@ -37,7 +37,7 @@ extern u8 picket_frame_set_5[];
 
 /* Updates a jump toward the target tile and restores the actor when it finishes. */
 void update_a_jump_toward_target_tile_restores_actor_finishes(void *jump_state, ObjectPosition *motion, SpriteFrameState *map_entity, ActorRecord *actor) {
-    s32 distance;
+    u16 distance;
     s32 frames_left;
     s16 next_timer;
     s32 actor_flags;

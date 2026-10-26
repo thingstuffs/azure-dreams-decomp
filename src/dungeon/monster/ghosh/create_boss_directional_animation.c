@@ -8,6 +8,7 @@
 #include "shared/entity.h"
 #include "dungeon/actor/animation.h"
 #include "engine/node/allocation.h"
+#include "engine/graphics.h"
 
 typedef struct S_func_8132B8AC_0 S_func_8132B8AC_0;
 typedef struct S_func_8132B8AC_1 S_func_8132B8AC_1;
@@ -22,9 +23,8 @@ extern u8 ghosh_frame_set_1[];
 extern void *ghosh_scripted_actor[];
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */ /* extern */
 void unlink_entity_node(); /* extern */
-void update_map_cell_flags_with_item_limit(); /* extern */
-s32 retain_spawn_resource(); /* extern */
-void select_sprite_entry(); /* extern */
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags); /* extern */
+s32 retain_spawn_resource(s16 entry_type, s16 entry_key); /* extern */
 void create_boss_linked_effect(); /* extern */
 void func_801730AC(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *motion, S_func_8132B8AC_2 *sprite);
 
@@ -43,10 +43,7 @@ typedef struct S_80173F6C_0 {
     s8 unk_B6;
 } S_80173F6C_0;
 
-typedef struct S_80173F6C_2 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_80173F6C_2;
+
 
 /* Create and initialize an object with offset coordinates and directional animation. */
 void create_boss_directional_animation(void) {

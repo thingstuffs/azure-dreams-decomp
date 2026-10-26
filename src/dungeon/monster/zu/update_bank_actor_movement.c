@@ -11,6 +11,7 @@
 #include "shared/monster_ids.h"
 #include "dungeon/monster/zu.h"
 #include "dungeon/actor/status.h"
+struct EntityLinkNode;
 void *(*const dungeon_fa7000_entry)(s16,s16,s16,s16) = spawn_zu_actor;
 void (*const dungeon_fa7000_update)(void *,void *,void *) = update_bank_actor_movement;
 #include "common.h"
@@ -422,7 +423,7 @@ extern u8 zu_frame_set_1[];
 void update_bank_actor_state(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *stats_in)
 {
     ActorRecord *stats;
-    s32 angle_aux;
+    u16 angle_aux;
     s32 status_flags;
     s8 tile_index;
     u16 action_state;
@@ -1870,9 +1871,9 @@ typedef struct S_80173294_3 {
     u8 unk_25;
 } S_80173294_3;   /* p2 in slow_directional_motion */
 
-extern void unlink_entity_node();
-extern void distribute_experience_and_report_gains();
-extern void * detach_record_and_update_slot_state();
+extern void unlink_entity_node(struct EntityLinkNode *node);
+extern void distribute_experience_and_report_gains(EntityRec *entity);
+extern void * detach_record_and_update_slot_state(void *record);
 
 /* Advance the object removal animation, fade its sprite, and release it when finished. */
 void slow_directional_motion(void *effect_data, void *motion_data, void *sprite_data, void *object_data) {
@@ -2554,10 +2555,10 @@ typedef struct S_801740F4_1 {
 
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes();
-extern void * clear_byte_and_advance();
-extern u8 *append_entity_display_text();
+extern void * clear_byte_and_advance(s8 *byte_ptr);
+extern u8 *append_entity_display_text(void *record, u8 *out);
 
-extern s32 display_text_with_fullwidth_adjustment();
+extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 generate_random_value(void);
 
 const u8 D_80170854[20] = {129,64,130,146,130,143,130,129,130,146,130,133,130,132,129,68,0,0,0,0};

@@ -1,3 +1,5 @@
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 #include "dungeon/monster/maximum.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
@@ -14,7 +16,7 @@ extern void set_or_clear_actor_status_slot(ActorRecord *, s32, s32);
 extern void initialize_actor_sprite_and_animation(ObjectNodeHeader *, ObjectPosition *, SpriteFrameState *, s16);
 extern void try_move_actor_to_valid_position(void *,void *,void *,void *);
 extern void update_entity_facing_motion_and_ground(void *entity, void *motion, void *part);
-extern void dispatch_monster_move_attack_spell(void *controller, void *context, SpriteFrameState *entity, ActorRecord *actor_state);
+void dispatch_monster_move_attack_spell(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 
 /* Allocate Maximum, set its spawn state and frames, and try a valid tile. */
 void *spawn_maximum(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)

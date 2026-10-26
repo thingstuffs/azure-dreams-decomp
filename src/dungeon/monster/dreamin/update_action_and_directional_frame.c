@@ -6,16 +6,15 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 
 extern s32 try_claim_dungeon_action_slot();
-extern void apply_camera_offset_and_select_target();
+extern s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 extern void prepare_directional_attack();
 
 #include "dungeon/monster/dreamin.h"
 #include "engine/graphics.h"
 
 /* Update actor action state and select its directional animation. */
-void update_action_and_directional_frame(void *action_state, s32 update_arg, SpriteFrameState *sprite, EntityRec *actor)
-{
-    actor->unk_71 &= 0x7F;
+void update_action_and_directional_frame(ActorRecord *action_state, ObjectPosition *update_arg, SpriteFrameState *sprite, ActorRecord *actor) {
+    actor->movement_queue_state &= 0x7F;
 
     if (!(g_dungeon_status.flags & 0x2000) &&
         ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) &&
@@ -37,7 +36,7 @@ void update_action_and_directional_frame(void *action_state, s32 update_arg, Spr
         select_sprite_entry(sprite,
                       dreamin_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                       0);
-        actor->unk_6D--;
+        actor->pending_turn_updates--;
 
         if (((Rec_func_800A9E70_arg0 *)action_state)->unk_9A.as_u8 == 0x11) {
             prepare_directional_attack(actor, sprite, actor->facing, 1, 0);

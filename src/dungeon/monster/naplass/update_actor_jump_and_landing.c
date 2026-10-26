@@ -28,7 +28,7 @@ typedef struct S_80172288_0 {
 
 struct SpriteFrameState;
 void select_sprite_entry(void *, s16, s16);
-s16 get_rounded_facing_and_rounding_flag();
+s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 void on_actor_status_updated(void *actor);
 void spend_actor_mp();
 
@@ -38,13 +38,13 @@ extern u8 naplass_frame_set_2[];
 extern u8 naplass_frame_set_3[];
 
 /* Updates an actor's jump toward its target tile and completes the landing. */
-void update_actor_jump_and_landing(void *jump, ObjectPosition *motion, SpriteFrameState *map_entity, ActorRecord *actor) {
-    s32 facing_aux;
+void update_actor_jump_and_landing(ActorRecord *jump, ObjectPosition *motion, SpriteFrameState *map_entity, ActorRecord *actor) {
+    u16 facing_aux;
     s32 jump_ticks;
     s16 ticks_left;
     s32 actor_flags;
 
-    switch (((S_80172288_0 *)jump)->unk_9B) {
+    switch (jump->action_phase) {
     case 0:
         if (!(map_entity->flags & 0x6000)) {
             break;
@@ -54,11 +54,11 @@ void update_actor_jump_and_landing(void *jump, ObjectPosition *motion, SpriteFra
             map_entity,
             naplass_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        ((S_80172288_0 *)jump)->unk_98 |= 8;
+        jump->action_state_flags |= 8;
         motion->velocity_z = 0xFFEE0000;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80172288_0 *)jump)->unk_A4 = 0;
-        ((S_80172288_0 *)jump)->unk_9B++;
+        jump->action_phase++;
 
     case 1:
         jump_ticks = ((S_80172288_0 *)jump)->unk_96.s;
@@ -83,14 +83,14 @@ void update_actor_jump_and_landing(void *jump, ObjectPosition *motion, SpriteFra
         ((S_80172288_0 *)jump)->unk_90 += ((S_80172288_0 *)jump)->unk_A4;
         if (((S_80172288_0 *)jump)->unk_96.s < 2) {
             ((S_80172288_0 *)jump)->unk_90 = 0;
-            ((S_80172288_0 *)jump)->unk_98 &= 0xFFF7;
+            jump->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            ((S_80172288_0 *)jump)->unk_9B++;
+            jump->action_phase++;
         }
 
     case 2:
         if (((u32)actor->flags1C) & ACTOR_GROUNDED) {
-            ((S_80172288_0 *)jump)->unk_98 &= 0xFFF7;
+            jump->action_state_flags &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -100,7 +100,7 @@ void update_actor_jump_and_landing(void *jump, ObjectPosition *motion, SpriteFra
                 map_entity,
                 naplass_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            ((S_80172288_0 *)jump)->unk_9B++;
+            jump->action_phase++;
         }
 
     default:

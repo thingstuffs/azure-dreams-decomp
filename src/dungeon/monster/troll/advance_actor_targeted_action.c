@@ -40,7 +40,7 @@ typedef struct S_8017472C_6 {
 
 extern int abs(int);
 extern void *scan_actor_along_heading();
-extern void *create_actor_spell_effect();
+extern void *create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);
 extern void spawn_random_color_burst_particle();
 extern void spawn_growing_rotating_flash();
 
@@ -54,8 +54,7 @@ extern u8 troll_frame_set_3[];
 /* Updates an actor's action state, target coordinates, animation, and completion. */
 /* Starts a targeted Troll spell, emits ten particles per casting tick and a flash, then restores the
  * current item's idle frames. */
-void advance_actor_targeted_action(void *action, ObjectPosition *transform, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void advance_actor_targeted_action(ActorRecord *action, ObjectPosition *transform, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 state;
     register s32 use_player_target;
     s32 kind;
@@ -70,7 +69,7 @@ void advance_actor_targeted_action(void *action, ObjectPosition *transform, Spri
     s32 delay_slot;
     u8 *control;
 
-    state = ((S_8017472C_0 *)action)->unk_9B;
+    state = action->action_phase;
     use_player_target = 0;
     switch (state) {
     case 0:
@@ -117,7 +116,7 @@ void advance_actor_targeted_action(void *action, ObjectPosition *transform, Spri
             }
         }
         if (*move != 0) {
-            ((S_8017472C_0 *)action)->unk_98 &= 0xFF7F;
+            action->action_state_flags &= 0xFF7F;
             if (use_player_target != 0) {
                 target = primary_actor_record;
                 actor->target = target;
@@ -152,7 +151,7 @@ void advance_actor_targeted_action(void *action, ObjectPosition *transform, Spri
             }
             ((S_8017472C_0 *)action)->unk_96.s = 0x16;
             ((S_8017472C_0 *)action)->unk_AE.s = 0xE;
-            ((S_8017472C_0 *)action)->unk_9B++;
+            action->action_phase++;
             return;
         }
 
@@ -176,7 +175,7 @@ void advance_actor_targeted_action(void *action, ObjectPosition *transform, Spri
             return;
         }
         sprite->flags &= 0xF7FF;
-        ((S_8017472C_0 *)action)->unk_9B++;
+        action->action_phase++;
         play_sound_if_enabled(0x703);
 
     case 2:
@@ -198,8 +197,8 @@ void advance_actor_targeted_action(void *action, ObjectPosition *transform, Spri
             !(sprite->flags & 0xE000)) {
             return;
         }
-        ((S_8017472C_0 *)action)->unk_98 |= 0x80;
-        ((S_8017472C_0 *)action)->unk_9B++;
+        action->action_state_flags |= 0x80;
+        action->action_phase++;
         return;
 
     case 3:

@@ -63,10 +63,7 @@ typedef struct S_80174B20_7 {
     s16 unk_5218;
 } S_80174B20_7;
 
-typedef struct S_80174B20_8 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_80174B20_8;
+
 
 typedef struct S_80174B20_9 {
     u8 pad_00[0x4];
@@ -123,7 +120,7 @@ extern s32 D_80175220;
 /* Advances the actor replacement sequence, including its visual effects and cleanup. */
 /* Loads Kid's transition effects, fades the view tint and emits seven rotated sprites, then replaces the
  * actor and restores facing. */
-void advance_actor_replacement_sequence(void *state, EntityRec *position, SpriteFrameState *entity, void *actor) {
+void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *position, SpriteFrameState *entity, ActorRecord *actor) {
     s32 tint;
     S_80174B20_7 *globals_base;
     s32 global_flags;
@@ -160,7 +157,7 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Sprite
         ((Rec_func_80174800_arg0 *)state)->unk_B0 = 0;
         ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
         ((S_80174B20_1 *)actor)->unk_8A = (u16) ((S_80174B20_1 *)actor)->unk_2A;
-        ((S_80174B20_1 *)actor)->unk_1C = (s32) (((S_80174B20_1 *)actor)->unk_1C & 0xFFFBFFFF);
+        actor->flags1C = (s32) (actor->flags1C & 0xFFFBFFFF);
     case 2:
         direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((S_80174B20_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
         if ((*(u8 *)&kid_image_load_done) == 0 || direction != 2) {
@@ -175,7 +172,7 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Sprite
         Control_CD(0x15, read_stream_cue_start_offset(), NULL);
         (*(s8 *)&kid_effect_load_done) = 0;
         Control_CD(0xFF, set_byte_one, &kid_effect_load_done);
-        select_nearby_target_and_initialize_slot((s32)(actor - 0x20), position, 8, 0x300);
+        select_nearby_target_and_initialize_slot((s32)(((u8 *)actor - 0x20)), position, 8, 0x300);
         ((Rec_func_80174800_arg0 *)state)->unk_96 = 0x10U;
         ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
     case 3:
@@ -243,10 +240,10 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Sprite
         if (sprite->unk_14 & 0xE000) {
             ((Rec_func_80174800_arg0 *)state)->unk_96 = 0x10U;
             ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
-            decrement_monster_entry_count(((S_80174B20_1 *)actor)->unk_13, 3);
+            decrement_monster_entry_count(actor->species, 3);
             update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y, 0x300);
             unlink_entity_node(actor);
-            sprite = actor - 0x20;
+            sprite = ((S_80174B20_9 *)((u8 *)actor - 0x20));
             sprite->unk_10 = (s32) (sprite->unk_10 | 0x80000000);
         }
     case 6:
@@ -258,10 +255,10 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Sprite
         }
         ((Rec_func_80174800_arg0 *)state)->unk_96 = 0x10U;
         ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
-        decrement_monster_entry_count(((S_80174B20_1 *)actor)->unk_13, 3);
+        decrement_monster_entry_count(actor->species, 3);
         update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y, 0x300);
         unlink_entity_node(actor);
-        sprite = actor - 0x20;
+        sprite = ((S_80174B20_9 *)((u8 *)actor - 0x20));
         sprite->unk_10 = (s32) (sprite->unk_10 | 0x80000000);
         return;
     case 7:
@@ -291,7 +288,7 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Sprite
         active_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
         globals_base->unk_14A0 = global_flags | 0x8000;
         g_dungeon_status.activity_counts.parts.pending_action_count = active_count - 1;
-        ((S_80174B20_1 *)actor)->unk_6D = 0;
+        actor->pending_turn_updates = 0;
         return;
     default:
         return;

@@ -52,7 +52,7 @@ extern void update_object_or_select_directional_data(void *object_arg, void *con
 extern void choose_heading_and_advance_actor(void *context, s32 action, S_8017405C_1 *actor, void *movement);
 void func_80174924(void *, s32, void *, void *);
 extern s32 check_object_action_and_clear_flags(void *object, s32 query_x, s32 query_y, s32 action_override);
-extern s32 select_nearby_target_and_start_action(void *action_state, void *unused, void *actor_pos_arg, void *actor);
+s32 select_nearby_target_and_start_action(ActorRecord *action_state, ObjectPosition *unused, SpriteFrameState *actor_pos_arg, ActorRecord *actor);
 
 extern u8 pulunpa_frame_set_2[];
 extern u8 D_80176358[];
@@ -72,7 +72,7 @@ static __inline__ void set_map(SpriteFrameState *sprite, void *creature, u8 *dir
 /* Updates dungeon creature actions, facing direction, and animation. */
 /* Dispatches alternate Pulunpa's movement and target actions, handles turn processing, and restores its
  * idle frames. */
-void update_creature_actions_and_animation(void *actor, s32 context, void *sprite, ActorRecord *creature) {
+void update_creature_actions_and_animation(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *creature) {
     u16 direction_aux;
     s32 status_flags;
     s8 tile_index;

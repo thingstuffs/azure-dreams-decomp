@@ -18,6 +18,7 @@
 #include "dungeon/system.h"
 #include "engine/node/allocation.h"
 #include "dungeon/actor/status.h"
+#include "engine/graphics.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -68,11 +69,10 @@ typedef struct S_801728B4_11 {
 } S_801728B4_11;
 
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-void select_sprite_entry();
 void *scan_actor_along_heading();
 void *create_actor_spell_effect(void *, void *, s32, void *);
 extern void effect_update_tag();
-extern void dispatch_monster_move_attack_spell(void *controller, void *context, void *entity, ActorRecord *actor_state);
+void dispatch_monster_move_attack_spell(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 extern u8 maximum_frame_set_4[];
 
 /* Updates an actor action, its visual effect, and completion cleanup. */

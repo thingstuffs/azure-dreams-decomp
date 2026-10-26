@@ -70,7 +70,7 @@ extern s32 set_code_for_entity_mode();
 extern void *(*load_monster_resource_data())(s32, u8, u8, s16);
 extern void *find_or_retain_sprite_resource_slot();
 extern s32 find_entity_slot_by_field_ac();
-extern s32 get_item_category_value();
+extern s32 get_item_category_value(void *item_data);
 extern s8 entity_spawn_variant_code;
 
 /* Create an entity from spawn data and update its tracked reference. */

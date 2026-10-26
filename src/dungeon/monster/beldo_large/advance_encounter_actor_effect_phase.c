@@ -65,7 +65,7 @@ extern void *beldo_actor_nodes[3];
 /* Shrinks Beldo while emitting particles, sustains spark bursts, then turns, moves, and hides the
  * encounter sprite. */
 void advance_encounter_actor_effect_phase(void *effect, S_8016FC4C_6 *entity, SpriteFrameState *object) {
-    s32 distance;
+    u16 distance;
     s32 burst_y;
     s16 sustain_y;
     s32 direction;

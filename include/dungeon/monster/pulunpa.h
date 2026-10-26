@@ -15,11 +15,11 @@ extern u8 pulunpa_direction_frames[];
 
 
 
-void advance_directional_action_and_reset(void *action, ObjectPosition *motion, SpriteFrameState *anim, ActorRecord *actor);
+void advance_directional_action_and_reset(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *anim, ActorRecord *actor);
 
 
 
-void animate_hop_to_actor_tile(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor);
+void animate_hop_to_actor_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 void select_variant_object_data(void *object, void *motion, void *params, void *extra);
 void select_variant_object_data_when_positive(void *object, s32 unused, void *source, void *target);

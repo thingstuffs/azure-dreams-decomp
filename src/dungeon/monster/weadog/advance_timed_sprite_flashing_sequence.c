@@ -30,13 +30,12 @@ typedef struct S_80173514_0 {
 /* Advance a timed sprite flashing sequence and clean up the actor when it finishes. */
 /* Times Weadog's attack animation and damage around sprite pauses, then spends MP and restores the action
  * callback. */
-void advance_timed_sprite_flashing_sequence(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void advance_timed_sprite_flashing_sequence(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u8 state;
     ActorRecord *call_actor;
     SpriteFrameState *call_sprite;
 
-    state = ((S_80173514_0 *)action)->unk_9B;
+    state = action->action_phase;
     switch (state) {
     default:
         return;
@@ -45,7 +44,7 @@ void advance_timed_sprite_flashing_sequence(void *action, void *motion, SpriteFr
     {
         call_actor = actor;
         if (sprite->flags & 0x8000) {
-            ((S_80173514_0 *)action)->unk_9B = 4;
+            action->action_phase = 4;
             call_sprite = sprite;
             call_sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(call_actor, call_sprite, call_actor->facing, 1);
@@ -59,14 +58,14 @@ void advance_timed_sprite_flashing_sequence(void *action, void *motion, SpriteFr
             weadog_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_80173514_0 *)action)->unk_96.u = 0;
-        ((S_80173514_0 *)action)->unk_9B++;
+        action->action_phase++;
         return;
     }
 
     case 1:
         if ((s16)++((S_80173514_0 *)action)->unk_96.u == 5) {
             ((S_80173514_0 *)action)->unk_96.u = 0;
-            ((S_80173514_0 *)action)->unk_9B++;
+            action->action_phase++;
             sprite->flags |= 0x0800;
             return;
         }
@@ -76,7 +75,7 @@ void advance_timed_sprite_flashing_sequence(void *action, void *motion, SpriteFr
         if ((s16)++((S_80173514_0 *)action)->unk_96.u == 6 ||
             (sprite->flags & 0xE000)) {
             ((S_80173514_0 *)action)->unk_96.u = 0;
-            ((S_80173514_0 *)action)->unk_9B++;
+            action->action_phase++;
             sprite->flags &= 0xF7FF;
             play_sound_if_enabled(0x804);
             return;
@@ -91,7 +90,7 @@ void advance_timed_sprite_flashing_sequence(void *action, void *motion, SpriteFr
         if (((S_80173514_0 *)action)->unk_96.s == 12 ||
             (sprite->flags & 0xE000)) {
             ((S_80173514_0 *)action)->unk_96.u = 0;
-            ((S_80173514_0 *)action)->unk_9B++;
+            action->action_phase++;
             sprite->flags &= 0xF7FF;
         }
         call_actor = actor;

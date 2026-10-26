@@ -11,17 +11,17 @@ extern u8 glacier_direction_frames[];
 
 
 
-void update_staged_item_movement(void *action, ObjectPosition *motion, SpriteFrameState *target, EntityRec *actor);
+void update_staged_item_movement(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *target, ActorRecord *actor);
 
 
 
-void update_action_and_check_forward_tile(void *actor, ObjectPosition *motion, SpriteFrameState *animation, ActorRecord *entity);
+void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *animation, ActorRecord *entity);
 
 
 
-void update_item_hop_animation(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor);
+void update_item_hop_animation(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
-void update_actor_timed_effects(void *actor_arg, void *context_arg, void *sprite_arg, void *stats_arg);
+void update_actor_timed_effects(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *sprite_arg, ActorRecord *stats_arg);
 
 /* Callback entry points. */
 void advance_item_motion_collision(void *motion, void *position, s32 update_arg);

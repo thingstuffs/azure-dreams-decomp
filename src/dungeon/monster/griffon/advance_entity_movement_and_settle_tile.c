@@ -27,23 +27,22 @@ extern u8 griffon_frame_set_10[];
 extern u8 D_80162C74[];
 
 /* Advances entity movement through its phases and settles it at the tile center. */
-void advance_entity_movement_and_settle_tile(void *action, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *entity)
-{
+void advance_entity_movement_and_settle_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity) {
     s32 state;
     s16 timer;
     s32 entity_ref;
 
-    state = ((S_80161234_0 *)action)->unk_9B;
+    state = action->action_phase;
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(entity);
         motion->velocity_x =
-            -((s16 *)((s8 *)dir_step_x))[(entity->unk_6A >> 9) & 7] << 15;
+            -((s16 *)((s8 *)dir_step_x))[(entity->movement_facing >> 9) & 7] << 15;
         motion->velocity_y =
-            -((s16 *)((s8 *)dir_step_y))[(entity->unk_6A >> 9) & 7] << 15;
-        ((S_80161234_0 *)action)->unk_9B++;
+            -((s16 *)((s8 *)dir_step_y))[(entity->movement_facing >> 9) & 7] << 15;
+        action->action_phase++;
 
-        if (entity->unk_28 == 0) {
+        if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -52,7 +51,7 @@ void advance_entity_movement_and_settle_tile(void *action, ObjectPosition *motio
         }
         if (sprite->flags & 0x8000) {
             ((S_80161234_0 *)action)->unk_96.s = 0;
-            ((S_80161234_0 *)action)->unk_9B = 3;
+            action->action_phase = 3;
             return;
         }
 
@@ -69,9 +68,9 @@ void advance_entity_movement_and_settle_tile(void *action, ObjectPosition *motio
 
     case 1:
         motion->velocity_x +=
-            ((s16 *)((s8 *)dir_step_x))[(entity->unk_6A >> 9) & 7] << 14;
+            ((s16 *)((s8 *)dir_step_x))[(entity->movement_facing >> 9) & 7] << 14;
         motion->velocity_y +=
-            ((s16 *)((s8 *)dir_step_y))[(entity->unk_6A >> 9) & 7] << 14;
+            ((s16 *)((s8 *)dir_step_y))[(entity->movement_facing >> 9) & 7] << 14;
 
         if (((S_80161234_0 *)action)->unk_96.s > 0) {
             ((S_80161234_0 *)action)->unk_96.s = ((S_80161234_0 *)action)->unk_96.u - 1;
@@ -82,7 +81,7 @@ void advance_entity_movement_and_settle_tile(void *action, ObjectPosition *motio
         if (((S_80161234_0 *)action)->unk_96.s != 0) {
             return;
         }
-        if (entity->unk_28 == 0) {
+        if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -94,14 +93,14 @@ void advance_entity_movement_and_settle_tile(void *action, ObjectPosition *motio
             sprite,
             griffon_frame_set_10[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        ((S_80161234_0 *)action)->unk_9B++;
+        action->action_phase++;
         return;
 
     case 2:
         motion->velocity_x +=
-            ((s16 *)((s8 *)dir_step_x))[(entity->unk_6A >> 9) & 7] << 14;
+            ((s16 *)((s8 *)dir_step_x))[(entity->movement_facing >> 9) & 7] << 14;
         motion->velocity_y +=
-            ((s16 *)((s8 *)dir_step_y))[(entity->unk_6A >> 9) & 7] << 14;
+            ((s16 *)((s8 *)dir_step_y))[(entity->movement_facing >> 9) & 7] << 14;
         if (!(sprite->flags & 0x6000)) {
             return;
         }
@@ -112,7 +111,7 @@ void advance_entity_movement_and_settle_tile(void *action, ObjectPosition *motio
             griffon_frame_set_10[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         ((S_80161234_0 *)action)->unk_96.s = 8;
-        ((S_80161234_0 *)action)->unk_9B++;
+        action->action_phase++;
         return;
 
     case 3:

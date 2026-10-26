@@ -44,8 +44,7 @@ extern u8 picket_frame_set_6;
 /* Updates dungeon actor behavior, facing, and animation from its current state. */
 /* Selects Picket's movement, attacks, spells, and turn processing; suppresses its special action while
  * D_800DCF5B is set. */
-void update_dungeon_actor_behavior_facing_animation_state(void *actor, void *context, SpriteFrameState *sprite, ActorRecord *entity)
-{
+void update_dungeon_actor_behavior_facing_animation_state(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
     u8 *anim_table;
     u16 distance;
     s8 room_id;

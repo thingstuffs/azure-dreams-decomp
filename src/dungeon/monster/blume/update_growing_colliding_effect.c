@@ -34,7 +34,7 @@ typedef struct S_8017142C_1 {
     } unk_08;   /* overlapping accesses */
 } S_8017142C_1;   /* arg1 in update_growing_colliding_effect */
 
-extern s32 check_left_tile_and_center_height();
+extern s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern s16 sample_terrain_surface_height();
 
 /* Update effect motion, collisions, sprite growth, and timed fading. */

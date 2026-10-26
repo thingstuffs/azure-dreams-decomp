@@ -49,8 +49,7 @@ extern u8 ashra_action_continuation_address[];
 extern u8 D_801739C0[];
 
 /* Advances an actor motion through selection, playback, and completion cleanup. */
-void advance_actor_motion_action(void *action_state, void *position, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void advance_actor_motion_action(ActorRecord *action_state, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
     u16 saved_position[4];
     u8 *motion;
     s16 use_player;
@@ -61,7 +60,7 @@ void advance_actor_motion_action(void *action_state, void *position, SpriteFrame
     ObjectNodeHeader *action_globals;
 
     use_player = 0;
-    switch (((S_80172810_0 *)action_state)->unk_9B) {
+    switch (action_state->action_phase) {
     case 0:
         if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
             switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
@@ -105,7 +104,7 @@ void advance_actor_motion_action(void *action_state, void *position, SpriteFrame
         }
 
         if (*motion != 0) {
-            ((S_80172810_0 *)action_state)->unk_98 &= 0xFF7F;
+            action_state->action_state_flags &= 0xFF7F;
             {
                 s16 player_target = use_player;
                 if (player_target != 0) {
@@ -141,7 +140,7 @@ void advance_actor_motion_action(void *action_state, void *position, SpriteFrame
             sprite->flags &= 0xF7FF;
             play_sound_if_enabled(0x703);
             create_two_row_object_group(saved_position, (*motion - 1) % 3);
-            ((S_80172810_0 *)action_state)->unk_9B = ((S_80172810_0 *)action_state)->unk_9B + 1;
+            action_state->action_phase = action_state->action_phase + 1;
             return;
         }
 
@@ -165,14 +164,14 @@ void advance_actor_motion_action(void *action_state, void *position, SpriteFrame
             return;
         }
         sprite->flags &= 0xF7FF;
-        ((S_80172810_0 *)action_state)->unk_9B = ((S_80172810_0 *)action_state)->unk_9B + 1;
+        action_state->action_phase = action_state->action_phase + 1;
                                 /* fallthrough */
     case 2:
         if ((sprite->unk_04 == 14 && (sprite->flags & 0x1000)) ||
             (sprite->flags & 0xE000)) {
             sprite->flags |= 0x800;
             ((S_80172810_0 *)action_state)->unk_96 = 0x3;
-            ((S_80172810_0 *)action_state)->unk_98 |= 0x80;
+            action_state->action_state_flags |= 0x80;
         }
         wait_ticks = ((S_80172810_0 *)action_state)->unk_96 - 1;
         ((S_80172810_0 *)action_state)->unk_96 = wait_ticks;

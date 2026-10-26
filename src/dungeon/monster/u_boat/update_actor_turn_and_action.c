@@ -51,7 +51,7 @@ extern void reset_action_and_decrement_actor_count(void *, void *, void *, void 
 extern void create_owner_linked_directional_object(void *, void *, void *);
 extern void prepare_actor_directional_action(u8 *entity, s32 action_param, u8 *action_sprite, u8 *frame_table,
     s32 fallback_state);
-extern void advance_aura_actor_turn_path(void *, void *, void *, void *);
+void advance_aura_actor_turn_path(ActorRecord *actor, ObjectPosition *actor_slot, SpriteFrameState *entity_arg, ActorRecord *state_arg);
 #include "dungeon/monster/u_boat.h"
 extern s32 try_turn_actor_toward_target(void *, void *, void *, void *);
 extern void begin_actor_action(void *, void *, void *, void *);

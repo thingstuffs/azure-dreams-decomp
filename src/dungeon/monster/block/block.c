@@ -300,50 +300,50 @@ void set_boss_effect_flag(void *entity, CB_80170C24_S_80170C24_2 *motion, void *
 
 
 /* Selects movement, attacks, and spells from actor status, MP, and its position relative to the player. */
-void dispatch_actor_turn_and_motion(CB_8017102C_S_8017102C_0 *state, void *motion, CB_8017102C_S_8017102C_2 *sprite, CB_8017102C_S_8017102C_1 *actor) {
+void dispatch_actor_turn_and_motion(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
  u16 terrain_flags;
  u8 *frames;
  s32 room;
  s32 actor_flags;
  u16 flags;
  if(g_dungeon_status.flags & 0x1000) {
-  state->unk_9A=14;
+  state->action_id=14;
   advance_actor_stored_path(state,motion,sprite,actor);
   return;
  }
- if(actor->unk_25==0) {
+ if(actor->mp==0) {
   advance_actor_pending_action(state,motion,sprite,actor);
-  if(sprite->unk_2C==block_frame_set_1) return;
-  sprite->unk_2C=block_frame_set;
-  select_sprite_entry(sprite,block_frame_set[((g_game_work.view.camera_rotation.parts.viewAngle+actor->unk_2A+0x100)>>9)&7],0);
+  if(sprite->frameTable==block_frame_set_1) return;
+  sprite->frameTable=block_frame_set;
+  select_sprite_entry(sprite,block_frame_set[((g_game_work.view.camera_rotation.parts.viewAngle+actor->facing+0x100)>>9)&7],0);
   return;
  }
  {
-  if(actor->unk_1C & 0x200) {
-   if(sprite->unk_2C==block_frame_set_1) {
-    state->unk_9A=13;
-    state->unk_9B=1;
-    state->unk_8C=0;
-    actor->unk_1C &= 0xFFFBFFFF;
+  if(actor->flags1C & 0x200) {
+   if(sprite->frameTable==block_frame_set_1) {
+    state->action_id=13;
+    state->action_phase=1;
+    state->unk_8C.handler=0;
+    actor->flags1C &= 0xFFFBFFFF;
     return;
    }
    if(reset_actor_action_state(state,motion,sprite,block_frame_set)!=0) return;
   }
   if(!(g_dungeon_status.flags & 0x2000)) {
-   if(actor->unk_1C & 0x100) {
+   if(actor->flags1C & 0x100) {
     begin_pushed_actor_move(state,motion,sprite,actor);
     return;
    }
-   if(state->unk_9A!=14) {
-    if(sprite->unk_2C!=block_slot_g_direction_frames) {
-     sprite->unk_2C=block_slot_g_direction_frames;
-     select_sprite_entry(sprite,block_slot_g_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle+actor->unk_2A+0x100)>>9)&7],0);
+   if(state->action_id!=14) {
+    if(sprite->frameTable!=block_slot_g_direction_frames) {
+     sprite->frameTable=block_slot_g_direction_frames;
+     select_sprite_entry(sprite,block_slot_g_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle+actor->facing+0x100)>>9)&7],0);
     }
-    state->unk_9A=14;
+    state->action_id=14;
    }
-   state->unk_98 &= 0xFFF3;
-   if(actor->unk_64!=0 && begin_ready_actor_directional_action(state,motion,sprite,D_801752BC)!=0) return;
-   if(actor->unk_1C & 0x80000) {
+   state->action_state_flags &= 0xFFF3;
+   if(actor->hp_delta!=0 && begin_ready_actor_directional_action(state,motion,sprite,D_801752BC)!=0) return;
+   if(actor->flags1C & 0x80000) {
     begin_actor_move_to_target_facing(state,motion,sprite,actor);
     update_transformed_actor_and_trap(state,motion,sprite,actor);
     return;
@@ -351,36 +351,36 @@ void dispatch_actor_turn_and_motion(CB_8017102C_S_8017102C_0 *state, void *motio
    if((can_entity_gain_level(actor)<<16)!=0 && (process_selected_actor_record(state,motion,sprite,actor)<<16)!=0)
     wait_actor_activity_then_complete(state,motion,sprite,actor);
   }
-  room=find_active_rect_containing_point(sprite->tile.bytes.x,sprite->tile.bytes.y);
-  sprite->unk_26=room;
-  if(actor->unk_6D>0) {
-   if(actor->unk_1C & 0x20) {
+  room=find_active_rect_containing_point(sprite->tile_x,sprite->tile_y);
+  sprite->room_index=room;
+  if(actor->pending_turn_updates>0) {
+   if(actor->flags1C & 0x20) {
     update_actor_status_and_mp(actor);
     return;
    }
-   if(sprite->tile.packed==reference_tile_position_alias) {
+   if((*(u16 *)&sprite->tile_x)==reference_tile_position_alias) {
     choose_and_step_actor_path(state,motion,sprite,actor);
     return;
    }
-   if(!(actor->unk_46 & 0x8000)) {
-    if((!(g_dungeon_status.flags & 0x2000) || (check_entity_relation(actor,((CB_8017102C_S_8017102C_3 *)primary_actor_record)->unk_58+0x20)<<16)==0)
+   if(!(actor->action_flags & 0x8000)) {
+    if((!(g_dungeon_status.flags & 0x2000) || (check_entity_relation(actor,primary_actor_record->previous_actor_header+0x20)<<16)==0)
        && (resolve_actor_action_readiness(state,motion,sprite,0)<<16)!=0) {
-     flags=actor->unk_46 | 0x4000;
-     actor->unk_46=flags;
+     flags=actor->action_flags | 0x4000;
+     actor->action_flags=flags;
      if(!(flags & 0x8000)) {
       choose_and_step_actor_path(state,motion,sprite,actor);
       return;
      }
     } else return;
    }
-   switch(actor->unk_46 & 0x3FFF) {
+   switch(actor->action_flags & 0x3FFF) {
    case 8: case 9:
     if((try_begin_adjacent_actor_attack(state,motion,sprite,actor)<<16)==0)
      begin_unchecked_directional_attack(state,motion,sprite,actor);
     return;
    case 5: case 6: case 7:
-    actor->unk_2A=get_rounded_facing_and_rounding_flag(sprite->tile.bytes.x,sprite->tile.bytes.y,reference_tile_object.tile_position.parts.tile_x,reference_tile_object.tile_position.parts.tile_y,&terrain_flags);
-    if(((CB_8017102C_S_8017102C_3 *)primary_actor_record)->unk_9A==17) {
+    actor->facing=get_rounded_facing_and_rounding_flag(sprite->tile_x,sprite->tile_y,reference_tile_object.tile_position.parts.tile_x,reference_tile_object.tile_position.parts.tile_y,&terrain_flags);
+    if(primary_actor_record->action_id==17) {
      begin_actor_spell_action(state,motion,sprite,D_801752EC,dispatch_actor_turn_and_motion);
      return;
     }
@@ -396,17 +396,17 @@ void dispatch_actor_turn_and_motion(CB_8017102C_S_8017102C_0 *state, void *motio
     return;
    }
   }
-  actor_flags=actor->unk_1C;
+  actor_flags=actor->flags1C;
   if(!(actor_flags & 0x2000) && ((s8)room<0 || !(((CB_8017102C_S_8017102C_5 *)((u8 *)dungeon_rooms+(s8)room*20))->unk_0C & 2)) && !(actor_flags & 0x430)) {
-   if((test_neighbor_position_relation(sprite->tile.bytes.x,sprite->tile.bytes.y,reference_tile_object.tile_position.parts.tile_x,reference_tile_object.tile_position.parts.tile_y)<<16)!=0)
-    actor->unk_2A=get_rounded_facing_and_rounding_flag(sprite->tile.bytes.x,sprite->tile.bytes.y,reference_tile_object.tile_position.parts.tile_x,reference_tile_object.tile_position.parts.tile_y,&terrain_flags);
+   if((test_neighbor_position_relation(sprite->tile_x,sprite->tile_y,reference_tile_object.tile_position.parts.tile_x,reference_tile_object.tile_position.parts.tile_y)<<16)!=0)
+    actor->facing=get_rounded_facing_and_rounding_flag(sprite->tile_x,sprite->tile_y,reference_tile_object.tile_position.parts.tile_x,reference_tile_object.tile_position.parts.tile_y,&terrain_flags);
   }
-  if((g_dungeon_status.flags & 0x2000) || (sprite->unk_14 & 0x40)) return;
+  if((g_dungeon_status.flags & 0x2000) || (sprite->flags & 0x40)) return;
   frames=block_slot_g_direction_frames;
-  if(sprite->unk_2C==frames) return;
+  if(sprite->frameTable==frames) return;
  }
- sprite->unk_2C=frames;
- select_sprite_entry(sprite,*((((g_game_work.view.camera_rotation.parts.viewAngle+actor->unk_2A+0x100)>>9)&7)+frames),0);
+ sprite->frameTable=frames;
+ select_sprite_entry(sprite,*((((g_game_work.view.camera_rotation.parts.viewAngle+actor->facing+0x100)>>9)&7)+frames),0);
 }
 
 /* Advances one stored path step, updates occupied tiles and facing, and selects the movement animation and
@@ -865,14 +865,14 @@ s32 resolve_actor_action_readiness(void *entity_arg, void *primary_context_arg, 
  * When tile movement finishes, spends MP and advances status timers; resumes turn dispatch and
  * clears its counter only after a positive signed floor-trap check. /
  */
-void finish_actor_step_and_status(void *state_arg,void *position,void *render_state,void *entity) {
-    S_801723DC_0 *state=state_arg;
+void finish_actor_step_and_status(ActorRecord *state_arg, ObjectPosition *position, SpriteFrameState *render_state, ActorRecord *entity) {
+    ActorRecord *state=state_arg;
     if (update_actor_movement_to_tile(state,position,render_state,entity) != 0) {
         spend_actor_mp(entity, 4);
         advance_status_timers(entity);
         if ((check_actor_floor_trap(render_state, entity) << 0x10) > 0) {
-            state->CB_801723DC_unk_8C = dispatch_actor_turn_and_motion;
-            state->unk_90 = 0;
+            state->unk_8C.handler = dispatch_actor_turn_and_motion;
+            state->unk_90.value = 0;
         }
     }
 }
@@ -1026,9 +1026,9 @@ void update_tile_movement_and_height(void *action, ObjectPosition *motion, Sprit
  * Resumes turn dispatch after linked motion completes and the signed floor-trap check returns
  * positive.
  */
-void finish_linked_motion_and_trap(S_80172944_0 *state,void *position,void *render_state,void *entity) {
+void finish_linked_motion_and_trap(ActorRecord *state, ObjectPosition *position, SpriteFrameState *render_state, ActorRecord *entity) {
     if ((update_linked_actor_motion(state,position,render_state,entity) != 0) && ((check_actor_floor_trap(render_state, entity) << 0x10) > 0)) {
-        state->CB_80172944_handler = dispatch_actor_turn_and_motion;
+        state->unk_8C.handler = dispatch_actor_turn_and_motion;
     }
 }
 
@@ -1380,9 +1380,9 @@ void advance_block_removal(void *state,void *position,void *render_state,void *e
  * Runs update_actor_hop_and_grow and installs dispatch_actor_turn_and_motion when it returns
  * nonzero.
  */
-void resume_actor_after_growth(S_80173364_0 *state,void *position,void *render_state,void *entity) {
+void resume_actor_after_growth(ActorRecord *state, ObjectPosition *position, SpriteFrameState *render_state, ActorRecord *entity) {
     if (update_actor_hop_and_grow(state,position,render_state,entity) != 0) {
-        state->CB_80173364_handler = dispatch_actor_turn_and_motion;
+        state->unk_8C.handler = dispatch_actor_turn_and_motion;
     }
 }
 
@@ -1629,14 +1629,14 @@ void wait_actor_mp_and_animate(void *actor_in, s32 actor_index, void *target, vo
  * Resumes turn dispatch after parent motion and a positive signed floor-trap check; during motion,
  * restores the direction frames when the alternate table is active and flags 0x208 are clear.
  */
-void update_transformed_actor_and_trap(S_80173A38_0 *state, void *position, CB_80173A38_S_80173A38_1 *sprite, CB_80173A38_S_80173A38_2 *actor) {
+void update_transformed_actor_and_trap(ActorRecord *state, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
     if (update_actor_transform_from_parent(state,position,sprite,actor) != 0) {
         if ((check_actor_floor_trap(sprite, actor) << 0x10) > 0) {
-            state->CB_80173A38_unk_8C = dispatch_actor_turn_and_motion;
+            state->unk_8C.handler = dispatch_actor_turn_and_motion;
         }
-    } else if ((sprite->unk_2C == block_frame_set_1) && !(actor->unk_1C & 0x208)) {
-        sprite->unk_2C = block_frame_set_2;
-        select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7) + block_frame_set_2), 0);
+    } else if ((sprite->frameTable == block_frame_set_1) && !(actor->flags1C & 0x208)) {
+        sprite->frameTable = block_frame_set_2;
+        select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + block_frame_set_2), 0);
     }
 }
 
@@ -1644,9 +1644,9 @@ void update_transformed_actor_and_trap(S_80173A38_0 *state, void *position, CB_8
  * Resumes turn dispatch after thrown travel completes and the signed floor-trap check returns
  * positive.
  */
-void finish_actor_throw_and_trap(S_80173B00_0 *state,void *position,void *render_state,void *entity) {
+void finish_actor_throw_and_trap(ActorRecord *state, ObjectPosition *position, SpriteFrameState *render_state, ActorRecord *entity) {
     if ((update_thrown_actor_travel(state,position,render_state,entity) != 0) && ((check_actor_floor_trap(render_state, entity) << 0x10) > 0)) {
-        state->CB_80173B00_handler = dispatch_actor_turn_and_motion;
+        state->unk_8C.handler = dispatch_actor_turn_and_motion;
     }
 }
 
@@ -1654,9 +1654,9 @@ void finish_actor_throw_and_trap(S_80173B00_0 *state,void *position,void *render
  * Runs interpolate_actor_to_terrain_tile and installs dispatch_actor_turn_and_motion when it
  * returns nonzero.
  */
-void finish_block_terrain_move(S_80173B64_0 *state,void *position,void *render_state,void *entity) {
+void finish_block_terrain_move(ActorRecord *state, ObjectPosition *position, SpriteFrameState *render_state, ActorRecord *entity) {
     if (interpolate_actor_to_terrain_tile(state,position,render_state,entity) != 0) {
-        state->CB_80173B64_handler = dispatch_actor_turn_and_motion;
+        state->unk_8C.handler = dispatch_actor_turn_and_motion;
     }
 }
 
@@ -1664,16 +1664,16 @@ void finish_block_terrain_move(S_80173B64_0 *state,void *position,void *render_s
  * Runs update_spinning_actor_fall and installs dispatch_actor_turn_and_motion when it returns
  * nonzero.
  */
-void resume_actor_after_spinning_fall(S_80173B9C_0 *state,void *position,void *render_state,void *entity) {
+void resume_actor_after_spinning_fall(ActorRecord *state, ObjectPosition *position, SpriteFrameState *render_state, ActorRecord *entity) {
     if (update_spinning_actor_fall(state,position,render_state,entity) != 0) {
-        state->CB_80173B9C_handler = dispatch_actor_turn_and_motion;
+        state->unk_8C.handler = dispatch_actor_turn_and_motion;
     }
 }
 
 /* Runs update_actor_fade_in and installs dispatch_actor_turn_and_motion when it returns nonzero. */
-void resume_actor_after_fade(S_80173BD4_0 *state,void *position,void *render_state,void *entity) {
+void resume_actor_after_fade(ActorRecord *state, ObjectPosition *position, SpriteFrameState *render_state, ActorRecord *entity) {
     if (update_actor_fade_in(state,position,render_state) != 0) {
-        state->CB_80173BD4_handler = dispatch_actor_turn_and_motion;
+        state->unk_8C.handler = dispatch_actor_turn_and_motion;
     }
 }
 
@@ -2215,16 +2215,16 @@ void create_radial_effect_bands(CB_80174724_S_80C96F24_0 *owner, void *origin, v
 
 /* Stops movement and waits for dungeon activity to finish, then clears the callback and counts the new
  * action. */
-void wait_actor_activity_then_complete(S_80174B3C_1 *state, void *unused_position, void *unused_render_state, CB_80174B3C_S_80174B3C_0 *entity) {
-    entity->unk_71 = (u8) (entity->unk_71 & 0x7F);
-    state->CB_80174B3C_handler = wait_actor_activity_then_complete;
-    state->action = 0x17;
-    state->action_tick = 0;
-    entity->unk_6D = 0;
+void wait_actor_activity_then_complete(ActorRecord *state, ObjectPosition *unused_position, SpriteFrameState *unused_render_state, ActorRecord *entity) {
+    entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
+    state->unk_8C.handler = wait_actor_activity_then_complete;
+    state->action_id = 0x17;
+    state->action_phase = 0;
+    entity->pending_turn_updates = 0;
     if (!(((CB_80174B3C_S_80174B3C_2 *)(&D_80083460))->unk_02 & 0x2000) && ((has_pending_dungeon_activity(entity) << 0x10) == 0)) {
-        state->CB_80174B3C_handler = NULL;
-        state->action = 0x17;
-        state->action_tick = 0;
+        state->unk_8C.handler = NULL;
+        state->action_id = 0x17;
+        state->action_phase = 0;
         actor_action_reset_value = 0;
         ((CB_80174B3C_S_80174B3C_2 *)(&D_80083460))->unk_0A = (u16) (((CB_80174B3C_S_80174B3C_2 *)(&D_80083460))->unk_0A + 1);
     }
@@ -2417,16 +2417,16 @@ void replace_actor_with_faded_effect(void *state, EntityRec *position, SpriteFra
  * Runs resolve_actor_floor_trap_once and installs dispatch_actor_turn_and_motion when it returns
  * positive.
  */
-void resume_actor_after_floor_trap(CB_8017523C_CallbackState *state,void *position,void *sprite,void *entity) {
+void resume_actor_after_floor_trap(ActorRecord *state, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *entity) {
  if(resolve_actor_floor_trap_once(state,position,sprite,entity) > 0)
-  state->handler=dispatch_actor_turn_and_motion;
+  state->unk_8C.handler=dispatch_actor_turn_and_motion;
 }
 
 /*
  * Runs propagate_actor_action_flag and installs dispatch_actor_turn_and_motion when it returns
  * nonzero.
  */
-void resume_actor_after_action_flag(CB_80175274_CallbackState *state,void *position,void *sprite,void *entity) {
+void resume_actor_after_action_flag(ActorRecord *state, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *entity) {
  if(propagate_actor_action_flag(state,position,sprite,entity) != 0)
-  state->handler=dispatch_actor_turn_and_motion;
+  state->unk_8C.handler=dispatch_actor_turn_and_motion;
 }

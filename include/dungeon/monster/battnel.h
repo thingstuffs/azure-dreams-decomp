@@ -10,6 +10,6 @@ extern u8 battnel_direction_frames[];
 
 
 
-void decelerate_and_center_actor_on_tile(void *action, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *actor);
+void decelerate_and_center_actor_on_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 #endif

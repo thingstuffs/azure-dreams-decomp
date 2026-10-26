@@ -40,8 +40,7 @@ extern u8 D_80168E0C[];
 extern u8 D_80168E14[];
 
 /* Updates a timed hop to the entity tile and handles its completion. */
-void advance_timed_entity_hop(void *action, ObjectPosition *motion, SpriteFrameState *map_entity, ActorRecord *actor)
-{
+void advance_timed_entity_hop(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *map_entity, ActorRecord *actor) {
     s32 state;
     s32 hop_frames;
     s32 target_x;
@@ -55,7 +54,7 @@ void advance_timed_entity_hop(void *action, ObjectPosition *motion, SpriteFrameS
     u16 direction_aux;
     DungeonGlobalStatus *action_counts;
 
-    state = ((S_80166BAC_0 *)action)->unk_9B;
+    state = action->action_phase;
     switch (state) {
     case 0:
         if (!(map_entity->flags & 0x6000)) {
@@ -66,11 +65,11 @@ void advance_timed_entity_hop(void *action, ObjectPosition *motion, SpriteFrameS
             map_entity,
             D_80168E0C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        ((S_80166BAC_0 *)action)->unk_98 |= 8;
+        action->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80166BAC_0 *)action)->unk_9E.s = 5;
         ((S_80166BAC_0 *)action)->unk_A4 = 0;
-        ((S_80166BAC_0 *)action)->unk_9B++;
+        action->action_phase++;
                         /* fall through */
 
     case 1:
@@ -103,15 +102,15 @@ void advance_timed_entity_hop(void *action, ObjectPosition *motion, SpriteFrameS
         ((S_80166BAC_0 *)action)->unk_90 = height_offset;
         if ((hop_timer << 16) < 0) {
             ((S_80166BAC_0 *)action)->unk_90 = 0;
-            ((S_80166BAC_0 *)action)->unk_98 &= 0xFFF7;
+            action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            ((S_80166BAC_0 *)action)->unk_9B++;
+            action->action_phase++;
         }
                         /* fall through */
 
     case 2:
         if (actor->flags1C & ACTOR_GROUNDED) {
-            ((S_80166BAC_0 *)action)->unk_98 &= 0xFFF7;
+            action->action_state_flags &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -121,7 +120,7 @@ void advance_timed_entity_hop(void *action, ObjectPosition *motion, SpriteFrameS
                 map_entity,
                 D_80168E14[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            ((S_80166BAC_0 *)action)->unk_9B++;
+            action->action_phase++;
         }
         break;
 

@@ -16,22 +16,22 @@ typedef struct S_801724B0_3 {
     u8 unk_7C;
 } S_801724B0_3;   /* (u8 *)arg3 + ((S_801724B0_0 *)arg3)->unk_8A.s in advance_baloon_along_path */
 
-extern s32 update_map_cell_flags_with_item_limit();
+extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s16 check_movement_clearance_and_height();
-extern s16 get_rounded_facing_and_rounding_flag();
-extern void initialize_angle_indexed_target(void *state, s32 unused, SpriteFrameState *target, EntityRec *angleSource);
+extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+void initialize_angle_indexed_target(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *target, ActorRecord *angleSource);
 
 extern u8 baloon_default_frames[8];
 
 /* Advance the actor along its queued path and update movement timing. */
-void advance_baloon_along_path(void *motion, s32 actor_index, SpriteFrameState *actor, EntityRec *move_data) {
+void advance_baloon_along_path(ActorRecord *motion, ObjectPosition *actor_index, SpriteFrameState *actor, ActorRecord *move_data) {
     s32 tile_mask;
     s16 heading;
     s32 x;
     s32 y;
 
-    if ((((s8)move_data->unk_71) > 0) &&
-        (move_data->unk_71 > move_data->unk_8A)) {
+    if ((((s8)move_data->movement_queue_state) > 0) &&
+        (move_data->movement_queue_state > move_data->unk_8A)) {
         if (*(u8 **)&actor->frameTable != baloon_default_frames) {
             (actor->frameTable) = baloon_default_frames;
             select_sprite_entry(
@@ -51,7 +51,7 @@ void advance_baloon_along_path(void *motion, s32 actor_index, SpriteFrameState *
             y,
             ((S_801724B0_3 *)((u8 *)move_data + move_data->unk_8A))->unk_74,
             ((S_801724B0_3 *)((u8 *)move_data + move_data->unk_8A))->unk_7C,
-            (u8 *)motion + 0x98);
+            &motion->action_state_flags);
         x = (s16)check_movement_clearance_and_height(heading, actor, move_data, 0x20);
 
         actor->tile_x =
@@ -87,7 +87,7 @@ void advance_baloon_along_path(void *motion, s32 actor_index, SpriteFrameState *
         }
 
         ((Rec_func_801724B0_arg0 *)motion)->unk_96 = 8;
-        x = move_data->unk_71;
+        x = move_data->movement_queue_state;
         if (x > 0) {
             ((Rec_func_801724B0_arg0 *)motion)->unk_96 = 8 / x;
         }

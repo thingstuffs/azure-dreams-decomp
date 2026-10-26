@@ -77,8 +77,7 @@ extern u8 cyclone_view_direction_entries[];
 /* Updates an actor effect through shrinking, fading, and restoring its sprite. */
 /* Starts the selected spell, shrinks and swaps the sprite, fades it out, then restores its appearance and
  * movement. */
-void update_shrinking_fading_effect(void *anim, void *transform_arg, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform_arg, SpriteFrameState *sprite, ActorRecord *actor) {
     u16 offset[3];
     s32 is_special;
     u8 *effect_id;
@@ -87,7 +86,7 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, SpriteFrame
     void *main_actor;
     void *child;
 
-    state = ((S_80172FC0_0 *)anim)->unk_9B;
+    state = anim->action_phase;
     is_special = 0;
     switch (state) {
     case 0:
@@ -137,7 +136,7 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, SpriteFrame
         if (*effect_id != 0) {
             void *effect;
 
-            ((S_80172FC0_0 *)anim)->unk_98 &= 0xFF7F;
+            anim->action_state_flags &= 0xFF7F;
             if ((s16)is_special != 0) {
                 effect = primary_actor_record;
                 actor->target = effect;
@@ -170,9 +169,9 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, SpriteFrame
             {
                 u8 next_state;
 
-                next_state = ((S_80172FC0_0 *)anim)->unk_9B;
+                next_state = anim->action_phase;
                 next_state++;
-                ((S_80172FC0_0 *)anim)->unk_9B = next_state;
+                anim->action_phase = next_state;
                 return;
             }
         }
@@ -199,7 +198,7 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, SpriteFrame
         }
         sprite->flags &= 0xF7FF;
         ((S_80172FC0_0 *)anim)->unk_AE.u = 8;
-        ((S_80172FC0_0 *)anim)->unk_9B++;
+        anim->action_phase++;
 
     case 2:
         timer = ((S_80172FC0_0 *)anim)->unk_AE.u - 1;
@@ -262,7 +261,7 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, SpriteFrame
                     }
                 }
             }
-            ((S_80172FC0_0 *)anim)->unk_98 |= 8;
+            anim->action_state_flags |= 8;
             actor->flags1C &= ACTOR_REFRESH_GROUND_CLEAR_MASK;
             sprite->frameTable = cyclone_fade_direction_frames;
             direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
@@ -274,11 +273,11 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, SpriteFrame
         {
             u8 next_state;
 
-            next_state = ((S_80172FC0_0 *)anim)->unk_9B;
+            next_state = anim->action_phase;
             timer = 8;
             ((S_80172FC0_0 *)anim)->unk_AE.u = timer;
             next_state++;
-            ((S_80172FC0_0 *)anim)->unk_9B = next_state;
+            anim->action_phase = next_state;
             return;
         }
 
@@ -295,8 +294,8 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, SpriteFrame
             return;
         }
         ((S_80172FC0_0 *)anim)->unk_AE.u = 4;
-        ((S_80172FC0_0 *)anim)->unk_98 |= 0x80;
-        ((S_80172FC0_0 *)anim)->unk_9B++;
+        anim->action_state_flags |= 0x80;
+        anim->action_phase++;
         return;
 
     case 4:
@@ -313,10 +312,10 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, SpriteFrame
         {
             u8 next_state;
 
-            next_state = ((S_80172FC0_0 *)anim)->unk_9B;
+            next_state = anim->action_phase;
             ((S_80172FC0_0 *)anim)->unk_AE.u = timer;
             next_state++;
-            ((S_80172FC0_0 *)anim)->unk_9B = next_state;
+            anim->action_phase = next_state;
             return;
         }
 
@@ -338,11 +337,11 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, SpriteFrame
         {
             u8 next_state;
 
-            next_state = ((S_80172FC0_0 *)anim)->unk_9B;
+            next_state = anim->action_phase;
             timer = 8;
             ((S_80172FC0_0 *)anim)->unk_AE.u = timer;
             next_state++;
-            ((S_80172FC0_0 *)anim)->unk_9B = next_state;
+            anim->action_phase = next_state;
             return;
         }
 
@@ -380,7 +379,7 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, SpriteFrame
         ((S_80172FC0_5 *)transform_arg)->unk_10 = 0;
         ((S_80172FC0_5 *)transform_arg)->unk_0C = 0;
         set_record_integer_tile_center(transform_arg, sprite->tile_x, sprite->tile_y);
-        ((S_80172FC0_0 *)anim)->unk_98 &= 0xFFF7;
+        anim->action_state_flags &= 0xFFF7;
         actor->flags1C |= ACTOR_REFRESH_GROUND;
         if (sprite->frameTable != cyclone_move_direction_frames) {
             s32 direction;

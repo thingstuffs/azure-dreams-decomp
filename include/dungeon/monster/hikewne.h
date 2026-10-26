@@ -9,7 +9,7 @@
 /* Monster-owned imports; preserve their registered declaration contracts. */
 extern u8 hikewne_alt_direction_frames[];
 
-void select_movement_direction_and_advance(Rec_func_800A9E70_arg0 *move_data, void *context, SpriteFrameState *position_data, ActorRecord *actor_data);
+void select_movement_direction_and_advance(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 
 
 void advance_actor_state_sequence(void *action, void *context, SpriteFrameState *entity, ActorRecord *actor);
@@ -29,6 +29,6 @@ void update_entity_movement_and_ground(void *entity, ObjectPosition *motion, Spr
 
 void select_state_table_with_flagged_offset(void *state, void *motion, void *source, void *target);
 
-void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_arg, void *sprite_arg, void *stats_arg);
+void update_actor_behavior_animation_and_facing(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *sprite_arg, ActorRecord *stats_arg);
 
 #endif

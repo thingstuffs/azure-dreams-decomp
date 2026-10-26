@@ -43,7 +43,7 @@ static __inline__ s16 scan_angle(s32 direction)
 }
 
 /* Selects a neighboring target and starts an action when the reference entity is nearby. */
-s32 select_nearby_target_and_start_action(void *action_state, void *unused, SpriteFrameState *actor_pos_arg, void *actor) {
+s32 select_nearby_target_and_start_action(ActorRecord *action_state, ObjectPosition *unused, SpriteFrameState *actor_pos_arg, ActorRecord *actor) {
     u16 distance;
     s32 neighbor_flags;
     s32 direction;
@@ -54,7 +54,7 @@ s32 select_nearby_target_and_start_action(void *action_state, void *unused, Spri
     void *target;
 
     target = NULL;
-    ((EntityRec *)actor)->unk_71 = (u8) (((EntityRec *)actor)->unk_71 & 0x7F);
+    actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     reference_found = (s32) target;
     if ((g_dungeon_status.flags & 0x2008) || ((has_pending_actor_or_turn_action(actor) << 0x10) != 0)) {
         result = -1;

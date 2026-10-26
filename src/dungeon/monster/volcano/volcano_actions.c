@@ -205,8 +205,7 @@ void update_entity_facing_and_ground(void *entity, E_80170A58_S_80170A58_2 *moti
 #include "dungeon/monster/volcano.h"
 
 /* Selects movement, attacks, and spells from actor status, MP, and its position relative to the player. */
-void update_actor_behavior_facing_and_animation_2(void *actor_in, void *context_in, void *sprite_in, void *status_in)
-{
+void update_actor_behavior_facing_and_animation_2(ActorRecord *actor_in, ObjectPosition *context_in, SpriteFrameState *sprite_in, ActorRecord *status_in) {
     void *status;
     u8 *anim_table;
     s32 tile_record;
@@ -216,7 +215,7 @@ void update_actor_behavior_facing_and_animation_2(void *actor_in, void *context_
     status = status_in;
 
     if (initial_flags & 0x1000) {
-        ((E_80170E5C_S_80170E5C_0 *)actor_in)->unk_9A = 0xE;
+        actor_in->action_id = 0xE;
         advance_actor_path_step(actor_in, context_in, sprite_in, status);
         return;
     }
@@ -236,8 +235,8 @@ void update_actor_behavior_facing_and_animation_2(void *actor_in, void *context_
 
     if (((E_80170E5C_S_80170E5C_1 *)status)->unk_1C & 0x200) {
         if (((E_80170E5C_S_80170E5C_2 *)sprite_in)->unk_2C == volcano_frame_set_2) {
-            ((E_80170E5C_S_80170E5C_0 *)actor_in)->unk_9A = 0xD;
-            ((E_80170E5C_S_80170E5C_0 *)actor_in)->unk_9B = 1;
+            actor_in->action_id = 0xD;
+            actor_in->action_phase = 1;
             ((E_80170E5C_S_80170E5C_0 *)actor_in)->unk_8C = 0;
             ((E_80170E5C_S_80170E5C_1 *)status)->unk_1C &= ~0x40000;
             return;
@@ -257,7 +256,7 @@ void update_actor_behavior_facing_and_animation_2(void *actor_in, void *context_
             s32 next_state;
             s32 actor_state;
 
-            actor_state = ((E_80170E5C_S_80170E5C_0 *)actor_in)->unk_9A;
+            actor_state = actor_in->action_id;
             next_state = 0xE;
 
             if (actor_state != next_state) {
@@ -268,11 +267,11 @@ void update_actor_behavior_facing_and_animation_2(void *actor_in, void *context_
                         anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((E_80170E5C_S_80170E5C_1 *)status)->unk_2A.s + 0x100) >> 9) & 7],
                         0);
                 }
-                ((E_80170E5C_S_80170E5C_0 *)actor_in)->unk_9A = next_state;
+                actor_in->action_id = next_state;
             }
         }
 
-        ((E_80170E5C_S_80170E5C_0 *)actor_in)->unk_98 &= 0xFFF3;
+        actor_in->action_state_flags &= 0xFFF3;
         if (((E_80170E5C_S_80170E5C_1 *)status)->unk_64 != 0) {
             if (begin_ready_actor_directional_action(actor_in, context_in, sprite_in, D_80174548)) {
                 return;
@@ -418,8 +417,7 @@ update_table:
 
 /* Chooses a clear step or attack, records the actor's path, and updates occupied tiles and movement
  * counts. */
-void update_actor_targeting_and_movement(u8 *object, void *entry_context, u8 *tile, u8 *actor)
-{
+void update_actor_targeting_and_movement(ActorRecord *object, ObjectPosition *entry_context, SpriteFrameState *tile, ActorRecord *actor) {
     DungeonGlobalStatus *state = &g_dungeon_status;
     s32 actor_flags;
     s32 base_angle;
@@ -432,14 +430,14 @@ void update_actor_targeting_and_movement(u8 *object, void *entry_context, u8 *ti
     u8 *target_tile;
     state_flags = state->flags;
     limit_turn = 0;
-    if ((state_flags & 0x4000) || (*(s8 *)(actor + 0x71)) >= 0) {
-        if ((*(u8 *)(actor + 0x12)) >= 2 || (begin_actor_directional_attack(object, entry_context, tile, actor) << 16) == 0) {
+    if ((state_flags & 0x4000) || (s8)actor->movement_queue_state >= 0) {
+        if (actor->unk_12 >= 2 || (begin_actor_directional_attack(object, entry_context, tile, actor) << 16) == 0) {
             update_actor_status_and_mp(actor);
 
             return;
         }
         if ((state->active_actor) == actor) {
-            *(u16 *)(actor + 0x46) = 0xC008;
+            actor->action_flags = 0xC008;
         }
 
         return;
@@ -448,48 +446,48 @@ void update_actor_targeting_and_movement(u8 *object, void *entry_context, u8 *ti
         return;
     }
 
-    update_actor_proximity_flag(tile, actor, 3, 6, object + 0x9C);
-    actor_flags = *(s32 *)(actor + 0x1C);
+    update_actor_proximity_flag(tile, actor, 3, 6, &object->unk_9C);
+    actor_flags = actor->flags1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
-            target_record = find_adjacent_actor(actor, *(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25));
+            target_record = find_adjacent_actor(actor, tile->tile_x, tile->tile_y);
             if (target_record != 0) {
                 target_tile = *((void **) (((u8 *) target_record) + (-0x14)));
-                *(u16 *)(actor + 0x2A) = get_rounded_facing_and_rounding_flag(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(u8 *)(target_tile
-                    + 0x24), *(u8 *)(target_tile + 0x25), object + 0x98);
+                actor->facing = get_rounded_facing_and_rounding_flag(tile->tile_x, tile->tile_y, *(u8 *)(target_tile
+                    + 0x24), *(u8 *)(target_tile + 0x25), &object->action_state_flags);
                 {
-                    u8 path_length = (*(u8 *)(actor + 0x71)) & 0x7F;
-                    *(u8 *)(actor + 0x71) = path_length;
+                    u8 path_length = actor->movement_queue_state & 0x7F;
+                    actor->movement_queue_state = path_length;
                 }
                 return;
             }
             {
-                s32 actor_state = *(s32 *)(actor + 0x14);
+                s32 actor_state = actor->flags14;
                 base_angle = 0x80000000;
                 if (actor_state >= 0) {
                     actor_state = base_angle | actor_state;
-                    *(s32 *)(actor + 0x14) = actor_state;
+                    actor->flags14 = actor_state;
 
                     random_turn = generate_random_value();
-                    *(u16 *)(actor + 0x2A) += (random_turn & 7) << 9;
+                    (*(u16 *)&actor->facing) += (random_turn & 7) << 9;
                 }
             }
         }
         else {
-            if (probe_directional_neighbor(actor, *(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(s16 *)(actor + 0x2A)) != 0) {
-                *(u8 *)(actor + 0x71) &= 0x7F;
+            if (probe_directional_neighbor(actor, tile->tile_x, tile->tile_y, actor->facing) != 0) {
+                actor->movement_queue_state &= 0x7F;
                 return;
             }
         }
     }
     else if (actor_flags & 0x2000) {
-        if (!((*(u16 *)(actor + 0x46)) & 0x8000)) {
+        if (!(actor->action_flags & 0x8000)) {
             if (!(actor_flags & 0x20000)) {
-                select_actor_route_target(tile, *(s8 *)(object + 0x9C), actor, object + 0x98);
+                select_actor_route_target(tile, object->unk_9C, actor, &object->action_state_flags);
             }
             else {
                 {
-                    s32 direction = *(u8 *)(actor + 0x45);
+                    s32 direction = *(u8 *)(((u8 *)actor + 0x45));
                     s32 player_angle = primary_actor_record->facing;
                     s32 direction_offset;
                     s32 target_x;
@@ -498,24 +496,24 @@ void update_actor_targeting_and_movement(u8 *object, void *entry_context, u8 *ti
                     direction_offset = (direction & 7) * 2;
                     target_x = (reference_tile_object.tile_position.parts.tile_x) + (*((u16 *) (((u8 *) (((s8 *)dir_step_x))) + direction_offset)));
                     target_y = (reference_tile_object.tile_position.parts.tile_y) + (*((u16 *) (((u8 *) (((s8 *)dir_step_y))) + direction_offset)));
-                    if (((*(u8 *)(tile + 0x24)) == ((u16) target_x)) && ((*(u8 *)(tile + 0x25)) == ((u16) target_y))) {
-                        *(u8 *)(actor + 0x71) &= 0x7F;
+                    if ((tile->tile_x == ((u16) target_x)) && (tile->tile_y == ((u16) target_y))) {
+                        actor->movement_queue_state &= 0x7F;
                         return;
                     }
                     {
-                        u16 next_angle = get_rounded_facing_and_rounding_flag(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), (s16) target_x,
-                            (s16) target_y, object + 0x98);
-                        *(u16 *)(actor + 0x2A) = next_angle;
+                        u16 next_angle = get_rounded_facing_and_rounding_flag(tile->tile_x, tile->tile_y, (s16) target_x,
+                            (s16) target_y, &object->action_state_flags);
+                        actor->facing = next_angle;
                         if ((check_movement_clearance_and_height((s16) next_angle, tile, actor, 0x20) << 16) <= 0) {
                             u8 *retry_goal = ((u8 *) (((s8 *)&reference_tile_object.tile_position.parts.tile_x))) - 0x24;
-                            *(u16 *)(actor + 0x2A) = get_rounded_facing_and_rounding_flag(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25),
-                                *(u8 *)(retry_goal + 0x24), *(u8 *)(retry_goal + 0x25), object + 0x98);
+                            actor->facing = get_rounded_facing_and_rounding_flag(tile->tile_x, tile->tile_y,
+                                *(u8 *)(retry_goal + 0x24), *(u8 *)(retry_goal + 0x25), &object->action_state_flags);
                         }
                     }
                 }
                 {
                     u8 *check_goal = ((u8 *) (((s8 *)&reference_tile_object.tile_position.parts.tile_x))) - 0x24;
-                    if ((test_neighbor_position_relation(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(u8 *)(check_goal + 0x24),
+                    if ((test_neighbor_position_relation(tile->tile_x, tile->tile_y, *(u8 *)(check_goal + 0x24),
                         *(u8 *)(check_goal + 0x25)) << 16) != 0) {
                         limit_turn = 1;
                     }
@@ -525,39 +523,38 @@ void update_actor_targeting_and_movement(u8 *object, void *entry_context, u8 *ti
     }
     else {
         {
-            s8 tile_kind = *(s8 *)(tile + 0x26);
+            s8 tile_kind = (s8)tile->room_index;
             if ((tile_kind >= 0) && (dungeon_rooms[tile_kind].flags & 2)) {
-                select_actor_route_target(tile, *(s8 *)(object + 0x9C), actor, object + 0x98);
+                select_actor_route_target(tile, object->unk_9C, actor, &object->action_state_flags);
             }
             else {
-                if (!((*(u16 *)(actor + 0x46)) & 0x8000)) {
-                    target_record = probe_directional_neighbor(actor, *(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(s16 *)(actor
-                        + 0x2A));
+                if (!(actor->action_flags & 0x8000)) {
+                    target_record = probe_directional_neighbor(actor, tile->tile_x, tile->tile_y, actor->facing);
                     if (target_record != 0) {
                         if ((*((s32 *) (((u8 *) target_record) + 0x1C))) & 0x2000) {
                             if ((s16)get_actor_height_difference(target_record, actor) < 0x81) {
-                                if ((check_diagonal_side_height(((*(s16 *)(actor + 0x2A)) >> 9) & 0xFFFF, *(u8 *)(tile + 0x24),
-                                    *(u8 *)(tile + 0x25), (s16) ((*(u16 *)(actor + 0x88)) - 0x20)) << 16) != 0) {
-                                    *(u8 *)(actor + 0x71) &= 0x7F;
+                                if ((check_diagonal_side_height((actor->facing >> 9) & 0xFFFF, tile->tile_x,
+                                    tile->tile_y, (s16) ((u16)actor->ground_height - 0x20)) << 16) != 0) {
+                                    actor->movement_queue_state &= 0x7F;
                                     return;
                                 }
                             }
                         }
                     }
                 }
-                if (!((*(s32 *)(actor + 0x1C)) & 0x20000)) {
-                    select_actor_route_target(tile, *(s8 *)(object + 0x9C), actor, object + 0x98);
+                if (!(actor->flags1C & 0x20000)) {
+                    select_actor_route_target(tile, object->unk_9C, actor, &object->action_state_flags);
                 }
                 else {
-                    u8 *angle_flags = object + 0x98;
-                    *(u16 *)(actor + 0x2A) = get_rounded_facing_and_rounding_flag(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25),
+                    u16 *angle_flags = &object->action_state_flags;
+                    actor->facing = get_rounded_facing_and_rounding_flag(tile->tile_x, tile->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, angle_flags);
-                    if ((test_neighbor_position_relation(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y)
+                    if ((test_neighbor_position_relation(tile->tile_x, tile->tile_y, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y)
                          << 16) != 0) {
                         if ((s16)get_actor_height_difference(primary_actor_record, actor) < 0x81) {
-                            if ((check_diagonal_side_height(((*(s16 *)(actor + 0x2A)) >> 9) & 0xFFFF, *(u8 *)(tile + 0x24),
-                                *(u8 *)(tile + 0x25), (s16) ((*(u16 *)(actor + 0x88)) - 0x20)) << 16) != 0) {
-                                *(u8 *)(actor + 0x71) &= 0x7F;
+                            if ((check_diagonal_side_height((actor->facing >> 9) & 0xFFFF, tile->tile_x,
+                                tile->tile_y, (s16) ((u16)actor->ground_height - 0x20)) << 16) != 0) {
+                                actor->movement_queue_state &= 0x7F;
                                 return;
                             }
                         }
@@ -570,9 +567,9 @@ void update_actor_targeting_and_movement(u8 *object, void *entry_context, u8 *ti
     {
         turn_index = 0;
         for (; turn_index < 8; turn_index++) {
-            base_angle = *(s16 *)(actor + 0x2A);
+            base_angle = actor->facing;
 
-            if ((*(u16 *)(object + 0x98)) & 2) {
+            if (object->action_state_flags & 2) {
                 base_angle -= actor_turn_angle_offsets[turn_index];
                 angle = base_angle;
             }
@@ -584,29 +581,29 @@ void update_actor_targeting_and_movement(u8 *object, void *entry_context, u8 *ti
                 if (turn_index >= 3) {
                     s32 turn_limited = limit_turn;
                     if (turn_limited) {
-                        *(u8 *)(actor + 0x71) &= 0x7F;
+                        actor->movement_queue_state &= 0x7F;
                         return;
                     }
                 }
-                *(u16 *)(actor + 0x2A) = angle;
-                *((u8 *) (((u8 *) (actor + ((*(u8 *)(actor + 0x71)) & 0x7F))) + 0x74)) = *(u8 *)(tile + 0x24);
-                *((u8 *) (((u8 *) (actor + ((*(u8 *)(actor + 0x71)) & 0x7F))) + 0x7C)) = *(u8 *)(tile + 0x25);
-                (*(u8 *)(actor + 0x71))++;
-                update_map_cell_flags_with_item_limit(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), ((*(s32 *)(actor + 0x1C)) & 0x2000)
+                actor->facing = angle;
+                *((u8 *) (((u8 *) (((u8 *)actor)+ (actor->movement_queue_state & 0x7F))) + 0x74)) = tile->tile_x;
+                *((u8 *) (((u8 *) (((u8 *)actor)+ (actor->movement_queue_state & 0x7F))) + 0x7C)) = tile->tile_y;
+                actor->movement_queue_state++;
+                update_map_cell_flags_with_item_limit(tile->tile_x, tile->tile_y, (actor->flags1C & 0x2000)
                     ? (0x300) : (0x3000));
                 {
-                    s32 direction = ((*(u16 *)(actor + 0x2A)) >> 8) & 0xE;
+                    s32 direction = ((u16)actor->facing >> 8) & 0xE;
                     u8 *step_x = (u8 *)dir_step_x;
                     step_x += direction;
-                    *(u8 *)(tile + 0x24) += *step_x;
-                    *(u8 *)(tile + 0x25) += *((u8 *) (((u8 *) (((s8 *)dir_step_y))) + direction));
+                    tile->tile_x += *step_x;
+                    tile->tile_y += *((u8 *) (((u8 *) (((s8 *)dir_step_y))) + direction));
                 }
-                cycle_map_cell_flags(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), ((*(s32 *)(actor + 0x1C)) & 0x2000)
+                cycle_map_cell_flags(tile->tile_x, tile->tile_y, (actor->flags1C & 0x2000)
                     ? (0x300) : (0x3000));
                 break;
             }
             if (turn_index == 0) {
-                if ((*((u16 *) (((u8 *) (((s8 *)&reference_tile_object.tile_position.parts.tile_x))) + 0))) != (*(u16 *)(tile + 0x24))) {
+                if ((*((u16 *) (((u8 *) (((s8 *)&reference_tile_object.tile_position.parts.tile_x))) + 0))) != (*(u16 *)(((u8 *)tile + 0x24)))) {
                     if ((check_entity_relation(actor, (*((s32 *) (((u8 *) primary_actor_record) + 0x58))) + 0x20) << 16) != 0) {
                         return;
                     }
@@ -615,31 +612,30 @@ void update_actor_targeting_and_movement(u8 *object, void *entry_context, u8 *ti
 
         }
         if (turn_index >= 8) {
-            *(u8 *)(actor + 0x71) &= 0x7F;
-            *(u16 *)(actor + 0x46) &= 0x7FFF;
+            actor->movement_queue_state &= 0x7F;
+            actor->action_flags &= 0x7FFF;
             update_actor_status_and_mp(actor);
             return;
         }
 
     }
 
-    *(u16 *)(actor + 0x46) &= 0x7FFF;
-    *(u8 *)(object + 0x9C) = *(u8 *)(tile + 0x26);
-    (*(u8 *)(actor + 0x6D))--;
+    actor->action_flags &= 0x7FFF;
+    object->unk_9C = tile->room_index;
+    (*(u8 *)&actor->pending_turn_updates)--;
     {
         DungeonGlobalStatus *move_state = &g_dungeon_status;
         move_state->activity_counts.parts.pending_movement_count++;
     }
-    if ((*(s8 *)(actor + 0x6D)) == 0) {
-        *(u8 *)(actor + 0x71) &= 0x7F;
+    if (actor->pending_turn_updates == 0) {
+        actor->movement_queue_state &= 0x7F;
 
         return;
     }
     {
-        turn_index = sample_terrain_surface_height(((*(u8 *)(tile + 0x24)) << 6) | 0x20, ((*(u8 *)(tile
-            + 0x25)) << 6) | 0x20, (s16) ((*(u16 *)(actor + 0x88)) - 0x20));
+        turn_index = sample_terrain_surface_height((tile->tile_x << 6) | 0x20, (tile->tile_y << 6) | 0x20, (s16) ((u16)actor->ground_height - 0x20));
         if (turn_index < 0x200) {
-            *(u16 *)(actor + 0x88) = turn_index;
+            actor->ground_height = turn_index;
         }
     }
 
@@ -652,7 +648,7 @@ void update_actor_targeting_and_movement(u8 *object, void *entry_context, u8 *ti
 
 /* Advances one stored path step, updates occupied tiles and facing, and selects the movement animation and
  * delay. */
-void advance_actor_path_step(void *action, s32 action_id, void *entity, void *move_state) {
+void advance_actor_path_step(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state) {
     ActorRecord *rounding_owner = action;
     void *state = move_state;
     s32 tile_mask;
@@ -715,7 +711,7 @@ void advance_actor_path_step(void *action, s32 action_id, void *entity, void *mo
         set_actor_directional_animation(action, action_id, entity, state);
         ((E_80171B68_S_80171570_2 *)action)->unk_8C = 0;
     } else {
-        ((E_80171B68_S_80171570_2 *)action)->unk_9A = 0x0F;
+        action->action_id = 0x0F;
         ((E_80171B68_S_80171570_2 *)action)->unk_8C = 0;
     }
     (*(s32 *)((u8 *)state + 0x1C)) |= 0x40000000;
@@ -801,8 +797,8 @@ s32 begin_actor_directional_attack(void *action_state, void *action_ctx, void *s
 
 /* Claims an action slot, starts the directional attack animation, and prepares its target and damage
  * state. */
-void begin_actor_attack_after_status_check(void *action_state, void *action_context, void *sprite, EntityRec *actor) {
-    actor->unk_71 = (u8) (actor->unk_71 & 0x7F);
+void begin_actor_attack_after_status_check(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor) {
+    actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
@@ -814,7 +810,7 @@ void begin_actor_attack_after_status_check(void *action_state, void *action_cont
                 + &volcano_frame_set_10), 0);
             actor->unk_84 = 0x7C;
             actor->unk_85 = 0;
-            actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
+            actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
             prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
         }
     }
@@ -935,7 +931,7 @@ return_tail:
 #include "dungeon/monster/volcano.h"
 
 /* Claims an action slot, starts the directional action animation, and advances status and turn counters. */
-void start_actor_directional_animation(void *actor_state, s32 action_param, void *sprite, ActorRecord *actor) {
+void start_actor_directional_animation(ActorRecord *actor_state, ObjectPosition *action_param, SpriteFrameState *sprite, ActorRecord *actor) {
     actor->movement_queue_state = actor->movement_queue_state & 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_param, 8, 0x300);
@@ -959,13 +955,13 @@ void start_actor_directional_animation(void *actor_state, s32 action_param, void
  * On completed tile movement, spends MP and advances status timers; resumes behavior and clears
  * the timer only after a positive signed floor-trap result. /
  */
-void move_actor_to_tile_and_check_trap(E_8017246C_ActionState *state,void *motion,void *sprite,void *actor) {
+void move_actor_to_tile_and_check_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
  if(update_actor_movement_to_tile(state,motion,sprite,actor)!=0) {
   spend_actor_mp(actor,4);
   advance_status_timers(actor);
   if((check_actor_floor_trap(sprite,actor)<<16)>0) {
-   state->handler=update_actor_behavior_facing_and_animation_2;
-   state->timer=0;
+   state->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
+   state->unk_90.value=0;
   }
  }
 }
@@ -1080,9 +1076,9 @@ void update_actor_hop_to_tile(void *anim, ObjectPosition *motion, void *actor, A
  * Resumes actor behavior after linked motion completes and the signed floor-trap check returns
  * positive.
  */
-void update_linked_actor_motion_and_trap(E_80172850_ActionState *state,void *motion,void *sprite,void *actor) {
+void update_linked_actor_motion_and_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
  if(update_linked_actor_motion(state,motion,sprite,actor)!=0 &&
-    (check_actor_floor_trap(sprite,actor)<<16)>0) state->handler=update_actor_behavior_facing_and_animation_2;
+    (check_actor_floor_trap(sprite,actor)<<16)>0) state->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
 }
 #include "dungeon/monster/volcano.h"
 
@@ -1398,15 +1394,14 @@ void advance_entity_motion_fade_and_removal(void *state, s32 action, SpriteFrame
  * Runs update_actor_hop_and_grow and installs update_actor_behavior_facing_and_animation_2 when it
  * returns nonzero.
  */
-void finish_actor_hop_and_grow_then_resume_facing_animation(E_8017321C_ActionState *state,void *motion,void *sprite,void *actor) {
- if(update_actor_hop_and_grow(state,motion,sprite,actor) != 0) state->handler=update_actor_behavior_facing_and_animation_2;
+void finish_actor_hop_and_grow_then_resume_facing_animation(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+ if(update_actor_hop_and_grow(state,motion,sprite,actor) != 0) state->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
 }
 #include "dungeon/monster/volcano.h"
 
 /* Processes actor status while waiting for an effect to clear, then restores the normal animation and
  * movement. */
-void handle_actor_pending_action(void *action, void *context, void *sprite, ActorRecord *entity)
-{
+void handle_actor_pending_action(ActorRecord *action, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
     void *saved_context;
     u8 state;
 
@@ -1414,7 +1409,7 @@ void handle_actor_pending_action(void *action, void *context, void *sprite, Acto
 #define context saved_context
 #define sprite sprite
 
-    state = ((E_80173254_S_80173254_0 *)action)->unk_9B;
+    state = action->action_phase;
     switch (state) {
     case 0:
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
@@ -1426,7 +1421,7 @@ void handle_actor_pending_action(void *action, void *context, void *sprite, Acto
                 direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             g_dungeon_status.activity_counts.parts.pending_action_count--;
-            ((E_80173254_S_80173254_0 *)action)->unk_9B++;
+            action->action_phase++;
         }
         return;
     case 1:
@@ -1522,13 +1517,12 @@ typedef struct {
 
 
 /* Waits for MP recovery while processing actor status, then restores the normal animation and movement. */
-void handle_actor_action_effects(void *controller, void *context, void *sprite, ActorRecord *actor)
-{
+void handle_actor_action_effects(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor) {
     u8 state;
     u8 *effect;
     s32 direction;
 
-    state = ((E_8017357C_S_8017357C_0 *)controller)->unk_9B;
+    state = controller->action_phase;
     switch (state) {
     case 0:
     {
@@ -1543,7 +1537,7 @@ void handle_actor_action_effects(void *controller, void *context, void *sprite, 
         (((SpriteFieldView_80DE5D7C *)sprite)->field_2C) = initial_effect;
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         select_sprite_entry(sprite, initial_effect[direction & 7], 0);
-        ((E_8017357C_S_8017357C_0 *)controller)->unk_9B++;
+        controller->action_phase++;
         return;
     }
     case 1:
@@ -1614,11 +1608,11 @@ void handle_actor_action_effects(void *controller, void *context, void *sprite, 
  * restores volcano_frame_set_3 when the alternate frames are active and actor flags 0x208 are
  * clear.
  */
-void update_actor_landing_and_trap(E_801737DC_ActionState *state,void *motion,E_801737DC_RenderState *sprite,E_801737DC_RenderActor *actor) {
+void update_actor_landing_and_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
  if(update_actor_transform_from_parent(state,motion,sprite,actor)!=0) {
-  if((check_actor_floor_trap(sprite,actor)<<16)>0) state->handler=update_actor_behavior_facing_and_animation_2;
- } else if(sprite->frames==volcano_frame_set_2 && !(actor->flags&0x208)) {
-  sprite->frames=volcano_frame_set_3;
+  if((check_actor_floor_trap(sprite,actor)<<16)>0) state->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
+ } else if(sprite->frameTable==volcano_frame_set_2 && !(actor->flags1C&0x208)) {
+  sprite->frameTable=volcano_frame_set_3;
   select_sprite_entry(sprite,volcano_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle+actor->facing+0x100)>>9)&7],0);
  }
 }
@@ -1628,9 +1622,9 @@ void update_actor_landing_and_trap(E_801737DC_ActionState *state,void *motion,E_
  * Resumes actor behavior after thrown travel completes and the signed floor-trap check returns
  * positive.
  */
-void update_thrown_actor_and_trap(E_801738A4_ActionState *state,void *motion,void *sprite,void *actor) {
+void update_thrown_actor_and_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
  if(update_thrown_actor_travel(state,motion,sprite,actor)!=0 &&
-    (check_actor_floor_trap(sprite,actor)<<16)>0) state->handler=update_actor_behavior_facing_and_animation_2;
+    (check_actor_floor_trap(sprite,actor)<<16)>0) state->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
 }
 #include "dungeon/monster/volcano.h"
 
@@ -1638,8 +1632,8 @@ void update_thrown_actor_and_trap(E_801738A4_ActionState *state,void *motion,voi
  * Runs interpolate_actor_to_terrain_tile and installs update_actor_behavior_facing_and_animation_2
  * when it returns nonzero.
  */
-void finish_actor_terrain_interpolation_then_resume_facing_animation(E_80173908_ActionState *state,void *motion,void *sprite,void *actor) {
- if(interpolate_actor_to_terrain_tile(state,motion,sprite,actor) != 0) state->handler=update_actor_behavior_facing_and_animation_2;
+void finish_actor_terrain_interpolation_then_resume_facing_animation(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+ if(interpolate_actor_to_terrain_tile(state,motion,sprite,actor) != 0) state->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
 }
 #include "dungeon/monster/volcano.h"
 
@@ -1647,8 +1641,8 @@ void finish_actor_terrain_interpolation_then_resume_facing_animation(E_80173908_
  * Runs update_spinning_actor_fall and installs update_actor_behavior_facing_and_animation_2 when
  * it returns nonzero.
  */
-void finish_spinning_actor_fall_then_resume_facing_animation(E_80173940_ActionState *state,void *motion,void *sprite,void *actor) {
- if(update_spinning_actor_fall(state,motion,sprite,actor) != 0) state->handler=update_actor_behavior_facing_and_animation_2;
+void finish_spinning_actor_fall_then_resume_facing_animation(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+ if(update_spinning_actor_fall(state,motion,sprite,actor) != 0) state->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
 }
 #include "dungeon/monster/volcano.h"
 
@@ -1656,8 +1650,8 @@ void finish_spinning_actor_fall_then_resume_facing_animation(E_80173940_ActionSt
  * Runs update_actor_fade_in and installs update_actor_behavior_facing_and_animation_2 when it
  * returns nonzero.
  */
-void finish_actor_fade_in_then_resume_facing_animation(E_80173978_ActionState *state,void *motion,void *sprite,void *actor) {
- if(update_actor_fade_in(state,motion,sprite,actor) != 0) state->handler=update_actor_behavior_facing_and_animation_2;
+void finish_actor_fade_in_then_resume_facing_animation(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+ if(update_actor_fade_in(state,motion,sprite,actor) != 0) state->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
 }
 #include "dungeon/monster/volcano.h"
 
@@ -1665,8 +1659,8 @@ void finish_actor_fade_in_then_resume_facing_animation(E_80173978_ActionState *s
  * Runs resolve_actor_floor_trap_once and installs update_actor_behavior_facing_and_animation_2
  * when it returns positive.
  */
-void finish_actor_floor_trap_then_resume_facing_animation(E_801739B0_ActionState *state,void *motion,void *sprite,void *actor) {
- if(resolve_actor_floor_trap_once(state,motion,sprite,actor) > 0) state->handler=update_actor_behavior_facing_and_animation_2;
+void finish_actor_floor_trap_then_resume_facing_animation(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+ if(resolve_actor_floor_trap_once(state,motion,sprite,actor) > 0) state->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
 }
 #include "dungeon/monster/volcano.h"
 
@@ -1674,8 +1668,8 @@ void finish_actor_floor_trap_then_resume_facing_animation(E_801739B0_ActionState
  * Runs propagate_actor_action_flag and installs update_actor_behavior_facing_and_animation_2 when
  * it returns nonzero.
  */
-void finish_actor_action_flag_propagation_then_resume_facing_animation(E_801739E8_ActionState *state,void *motion,void *sprite,void *actor) {
- if(propagate_actor_action_flag(state,motion,sprite,actor) != 0) state->handler=update_actor_behavior_facing_and_animation_2;
+void finish_actor_action_flag_propagation_then_resume_facing_animation(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+ if(propagate_actor_action_flag(state,motion,sprite,actor) != 0) state->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
 }
 #include "dungeon/monster/volcano.h"
 
@@ -1781,21 +1775,20 @@ void advance_actor_state_with_child(void *actor, void *context, void *entity, vo
 
 /* Displays the action message and directional effects, then spends MP and restores movement after
  * animation. */
-void advance_actor_state_when_allowed(void *state_ctx, s32 entity_id, void *action, void *entity)
-{
+void advance_actor_state_when_allowed(ActorRecord *state_ctx, ObjectPosition *entity_id, SpriteFrameState *action, ActorRecord *entity) {
     s32 state;
     u16 flags;
 
-    state = ((E_80173CE0_S_80173CE0_0 *)state_ctx)->unk_9B;
+    state = state_ctx->action_phase;
     switch (state) {
     case 0:
         flags = ((E_80173CE0_S_80173CE0_1 *)action)->unk_14;
         if (flags & 0x8000) {
             ((E_80173CE0_S_80173CE0_1 *)action)->unk_14 = flags | 0x6000;
-            ((E_80173CE0_S_80173CE0_0 *)state_ctx)->unk_9B = 2;
+            state_ctx->action_phase = 2;
             return;
         }
-        ((E_80173CE0_S_80173CE0_0 *)state_ctx)->unk_9B = 1;
+        state_ctx->action_phase = 1;
 
     case 1:
         if (!((((E_80173CE0_S_80173CE0_1 *)action)->unk_04 == 8) &&
@@ -1806,7 +1799,7 @@ void advance_actor_state_when_allowed(void *state_ctx, s32 entity_id, void *acti
         display_entity_action_message(entity);
         play_sound_if_enabled(0x80C);
         create_four_directional_effects(state_ctx, entity_id, action);
-        ((E_80173CE0_S_80173CE0_0 *)state_ctx)->unk_9B++;
+        state_ctx->action_phase++;
         return;
 
     case 2:
@@ -1815,7 +1808,7 @@ void advance_actor_state_when_allowed(void *state_ctx, s32 entity_id, void *acti
             set_record_integer_tile_center(entity_id, ((E_80173CE0_S_80173CE0_1 *)action)->unk_24, ((E_80173CE0_S_80173CE0_1 *)action)->unk_25);
             ((E_80173CE0_S_80173CE0_0 *)state_ctx)->unk_8C = update_actor_behavior_facing_and_animation_2;
             g_dungeon_status.active_actor = 0;
-            (*(u16 *)((u8 *)entity + 0x46)) &= 0x7FFF;
+            entity->action_flags &= 0x7FFF;
         }
 
         return;

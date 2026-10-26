@@ -14,12 +14,12 @@ s32 get_actor_height_difference();
 s32 probe_directional_neighbor();
 s32 try_claim_dungeon_action_slot();
 s32 check_entity_interaction_compatibility();
-s32 apply_camera_offset_and_select_target();
+s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 
 extern u8 baloon_attack_frames;
 
 /* Checks action readiness and initializes the actor state and directional animation. */
-s32 initialize_directional_object(void *action_state, s32 action_param, SpriteFrameState *sprite, void *actor) {
+s32 initialize_directional_object(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 result;
     s32 action_ready;
     s32 direction;

@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "dungeon/monster/kewne.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
@@ -22,8 +23,7 @@ extern u8 D_80175E88[];
 extern u8 resident_globals_page[];
 
 /* Updates the actor's directional motion and animation across three action states. */
-void update_three_state_directional_motion(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void update_three_state_directional_motion(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 delta_x;
     s32 delta_y;
     s32 direction_offset;

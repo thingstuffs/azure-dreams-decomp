@@ -5,6 +5,7 @@
 #include "shared/slus_callbacks.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/animation.h"
+#include "engine/node/allocation.h"
 struct ObjectNodeHeader;
 
 extern s32 clown_object_callback;
@@ -12,7 +13,6 @@ extern s32 D_8014D014;
 extern s32 D_8015020C;
 extern s32 D_8015025C;
 
-extern void *allocate_list_node();
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
@@ -27,10 +27,6 @@ typedef struct S_8014C878_1 {
     s32 unk_1C;
 } S_8014C878_1;   /* var_s0 in func_8014C878 */
 
-typedef struct S_8014C878_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_8014C878_2;   /* temp_s4 in func_8014C878 */
 
 typedef struct S_8014C878_4 {
     u8 pad_00[0x8C];

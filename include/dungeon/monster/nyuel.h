@@ -6,8 +6,8 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
 s32 check_movement_and_initialize_action(void *action_state, void *action_ctx, SpriteFrameState *sprite, ActorRecord *actor);
-void start_directional_animation_if_allowed(void *action_state, void *action_context, SpriteFrameState *sprite, EntityRec *actor);
-void update_actor_movement_and_tile_position(u8 *object, void *entry_context, u8 *tile, u8 *actor);
+void start_directional_animation_if_allowed(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
+void update_actor_movement_and_tile_position(ActorRecord *object, ObjectPosition *entry_context, SpriteFrameState *tile, ActorRecord *actor);
 
 
 

@@ -30,6 +30,10 @@
 #include "dungeon/system.h"
 #include "engine/texture.h"
 #include "dungeon/actor/status.h"
+#include "engine/node/allocation.h"
+struct EntityLinkNode;
+struct S_800AC480_0;
+struct S_800AC480_3;
 struct SpriteFrameState;
 struct ObjectPosition;
 
@@ -77,13 +81,7 @@ typedef struct {
 typedef struct {
     s32 xyz[3];
 } R10_80170B0C_Vec3;
-typedef struct {
-    u8 pad00[0xC];
-    s8 color[3];
-    u8 pad0F[0xD];
-    u16 size0;
-    u16 size1;
-} R10_80170B0C_Sprite;
+
 typedef struct R10_80170CF8_S_80AC55DC_0 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -115,14 +113,7 @@ typedef struct R10_80170CF8_S_80AC55DC_2 {
     s32 unk_50;
     s32 unk_54;
 } R10_80170CF8_S_80AC55DC_2;
-typedef struct R10_80170CF8_S_80AC55DC_5 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} R10_80170CF8_S_80AC55DC_5;
+
 typedef struct R10_80170CF8_S_80AC55DC_6 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -131,12 +122,7 @@ typedef struct R10_80170CF8_S_80AC55DC_6 {
     u8 pad_08[0x2];
     u16 unk_0A;
 } R10_80170CF8_S_80AC55DC_6;
-typedef struct R10_80170F3C_S_80170F3C_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} R10_80170F3C_S_80170F3C_0;
+
 typedef struct R10_80170F3C_S_80170F3C_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -144,10 +130,7 @@ typedef struct R10_80170F3C_S_80170F3C_1 {
     u8 pad_18[0x4];
     s32 unk_1C;
 } R10_80170F3C_S_80170F3C_1;
-typedef struct R10_80170F3C_S_80170F3C_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} R10_80170F3C_S_80170F3C_2;
+
 typedef struct R10_80170F3C_S_80170F3C_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -197,7 +180,7 @@ typedef struct R10_80172730_S_80172688_1 {
     u8 pad_00[0x2A];
     s16 unk_2A;
 } R10_80172730_S_80172688_1;
-typedef struct R10_8017297C_Ent R10_8017297C_Ent;
+
 typedef struct R10_80172A94_S_80172628_0 {
     u8 pad_00[0x46];
     u16 unk_46;
@@ -220,10 +203,7 @@ typedef struct R10_80172C54_S_80172C54_0 {
     u8 pad_A0[0x4];
     s32 unk_A4;
 } R10_80172C54_S_80172C54_0;
-typedef struct {
-    u8 pad0[0x8C];
-    void (*callback)(void *, void *, struct SpriteFrameState *, ActorRecord *);
-} Resource10CallbackState;
+
 typedef struct R10_80173080_S_80173080_0 {
     u8 pad_00[0x8C];
     u8 * unk_8C;
@@ -249,18 +229,8 @@ typedef struct R10_80173280_S_80173280_0 {
     u8 pad_9C[0x2];
     u16 unk_9E;
 } R10_80173280_S_80173280_0;
-typedef struct R10_80173280_S_80173280_2 {
-    u8 * unk_00;
-} R10_80173280_S_80173280_2;
-typedef struct R10_80173280_S_80173280_3 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} R10_80173280_S_80173280_3;
+
+
 typedef struct R10_80173280_S_80173280_6 {
     u8 pad_00[0xA6];
     u16 unk_A6;
@@ -284,44 +254,17 @@ typedef struct R10_80173BBC_S_80173D4C_0 {
     u8 pad_90[0xB];
     u8 unk_9B;
 } R10_80173BBC_S_80173D4C_0;
-typedef struct R10_80173BBC_S_80173D4C_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x10];
-    s8 unk_26;
-} R10_80173BBC_S_80173D4C_1;
-typedef struct R10_80173BBC_S_80173D4C_2 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x38];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} R10_80173BBC_S_80173D4C_2;
+
+
 typedef struct R10_80173F4C_S_801740DC_0 {
     u8 pad_00[0x8C];
     void * unk_8C;
     u8 pad_90[0xB];
     u8 unk_9B;
 } R10_80173F4C_S_801740DC_0;
-typedef struct {
-    s8 pad_00[0x8C];
-    void *unk_8C;
-} R10_80174258_Actor;
-typedef struct {
-    u8 pad_00[0x2C];
-    u8 *unk_2C;
-} R10_80174258_Entity;
-typedef struct {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-} R10_80174258_MapObject;
+
+
+
 typedef struct R10_8017442C_S_801745BC_0_pre {
     void * unk_00;
     void * unk_04;
@@ -422,15 +365,7 @@ typedef struct R10_80174898_S_80174898_1 {
     s32 unk_10;
     s32 unk_14;
 } R10_80174898_S_80174898_1;
-typedef struct R10_80174898_S_80174898_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} R10_80174898_S_80174898_2;
+
 typedef struct R10_80174898_OffsetPair {
     s16 x;
     s16 y;
@@ -450,10 +385,7 @@ typedef struct {
     u8 pad[0x13C];
     s32 value;
 } R10_80174BE4_Scratchpad;
-typedef struct {
-    u8 pad[0x5218];
-    s16 value;
-} R10_80174BE4_GlobalPage;
+
 typedef struct {
     s16 x;
     s16 y;
@@ -505,20 +437,12 @@ typedef struct R10_80174F24_S_func_80AF3724_0 {
     u8 pad_08[2];
     u16 unk_0A;
 } R10_80174F24_S_func_80AF3724_0;
-typedef struct R10_80174F24_S_func_80AF3724_1 {
-    u8 pad_00[0xC8];
-    s16 unk_C8;
-} R10_80174F24_S_func_80AF3724_1;
+
 typedef struct R10_80174F24_S_func_80AF3724_2 {
     u16 unk_00;
     u16 unk_02;
 } R10_80174F24_S_func_80AF3724_2;
-typedef struct R10_80174F24_S_func_80AF3724_3 {
-    u8 pad_00[8];
-    void *unk_08;
-    void *unk_0C;
-    void *unk_10;
-} R10_80174F24_S_func_80AF3724_3;
+
 typedef struct R10_80174F24_S_func_80AF3724_4 {
     u8 pad_00[0x18];
     s16 unk_18;
@@ -526,46 +450,9 @@ typedef struct R10_80174F24_S_func_80AF3724_4 {
     u8 pad_1C[0xC];
     R10_80174F24_LocalPacket unk_28;
 } R10_80174F24_S_func_80AF3724_4;
-typedef struct R10_80174F24_S_func_80AF3724_5 {
-    union {
-        s32 unk_00;
-        struct {
-            u8 pad_00[2];
-            s16 unk_02;
-        } unk_02;
-    } unk_00;
-    union {
-        s32 unk_04;
-        struct {
-            u8 pad_04[2];
-            s16 unk_06;
-        } unk_06;
-    } unk_04;
-    u8 pad_08[2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-} R10_80174F24_S_func_80AF3724_5;
-typedef struct R10_80174F24_S_func_80AF3724_6 {
-    u8 pad_00[8];
-    void *unk_08;
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[1];
-    s16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[6];
-    s16 unk_1C;
-    s16 unk_1E;
-} R10_80174F24_S_func_80AF3724_6;
-typedef struct {
-    u8 pad0[2];
-    u16 flags;
-    u8 pad4[6];
-    u16 count;
-} R10_801751C0_DungeonState;
+
+
+
 typedef struct R10_80175398_DungeonCopy3 {
     s32 x;
     s32 y;
@@ -642,10 +529,7 @@ typedef struct R10_80175398_S_80175398_5 {
     u8 pad_00[0x2A];
     s16 unk_2A;
 } R10_80175398_S_80175398_5;
-typedef struct R10_80175398_S_80175398_6 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} R10_80175398_S_80175398_6;
+
 typedef struct R10_80175398_S_80175398_7 {
     u8 pad_00[0x2A];
     u16 unk_2A;
@@ -659,67 +543,66 @@ void advance_sprite_animation_and_textures(void *entity);
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 void select_record_entry_and_value(void *state, void *entries, short index);
-void *allocate_list_node();
 void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 s32 select_sprite_entry();
 void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
-void apply_monster_koyaw_data();
+void apply_monster_koyaw_data(s32 flags, s8 *dst);
 s32 refresh_actor_facing_and_lifecycle();
 s16 sample_terrain_surface_height();
 s32 check_entity_relation();
-s32 find_active_rect_containing_point();
-s32 test_neighbor_position_relation();
-s32 get_rounded_facing_and_rounding_flag();
-s32 can_entity_gain_level();
-void update_actor_status_and_mp();
+s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
+s32 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
+s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+s32 can_entity_gain_level(void *entity);
+void update_actor_status_and_mp(ActorRecord *entity);
 s32 begin_ready_actor_directional_action();
-s32 advance_actor_pending_action();
+s32 advance_actor_pending_action(void *actor_state, void *action, void *status, void *actor);
 void begin_actor_move_to_target_facing();
-s32 reset_actor_action_state();
+s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
 s32 process_selected_actor_record();
-void begin_actor_spell_action();
+void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState *target, u8 *direction_table, void *next_state);
 s32 cycle_map_cell_flags();
-s32 update_map_cell_flags_with_item_limit();
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 s32 check_movement_clearance_and_height();
-s32 update_actor_proximity_flag();
+s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 void * find_adjacent_actor();
 s32 probe_directional_neighbor();
 s32 get_actor_height_difference();
-s32 check_diagonal_side_height();
+s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 s32 select_actor_route_target();
 s32 prepare_directional_attack();
 s32 try_claim_dungeon_action_slot();
 u32 check_entity_interaction_compatibility();
-s32 apply_camera_offset_and_select_target();
+s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 #include "dungeon/player/object/action_state.h"
 struct Entry;
 struct ObjectNodeHeader;
 struct ObjectNodeHeader;
 s32 relink_entity_and_clear_high_flag();
-s32 update_actor_movement_to_tile();
+s32 update_actor_movement_to_tile(void *move_state, void *motion, void *target_tile, ActorRecord *actor);
 void spend_actor_mp();
 
 s32 rsin();
-void on_actor_status_updated();
-void func_800A9A04();
-s32 update_linked_actor_motion();
-s32 resolve_attack_damage_and_effects();
+void on_actor_status_updated(void *actor);
+void func_800A9A04(void *actor);
+s32 update_linked_actor_motion(void *state, void *transform, void *config, void *object);
+void * resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 s32 get_cd_command_queue_depth(void);
 void *scan_actor_along_heading();
-void *create_actor_spell_effect();
-void begin_actor_display_action();
-s32 update_actor_defeat_removal();
+void *create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);
+void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
+s32 update_actor_defeat_removal(u8 *state, s32 *position, u8 *sprite, u8 *entity_data);
 
-s32 get_entity_effect_value();
-s32 func_80042900();
-void clear_slots_of_type();
-void func_80042B68();
+s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
+s32 func_80042900(ActorRecord *entry, s32 effect_id);
+void clear_slots_of_type(ActorRecord *owner, s8 match_type);
+void func_80042B68(ActorRecord *owner, s8 match_type);
 s32 get_tile_chebyshev_distance();
 
-s32 update_actor_transform_from_parent();
-s32 update_thrown_actor_travel();
-s32 interpolate_actor_to_terrain_tile();
+s32 update_actor_transform_from_parent(Rec_func_800A9E70_arg0 *state, ObjectPosition *position, Rec_D_80082E80 *tile, void *actor);
+s32 update_thrown_actor_travel(void *move_state, ObjectPosition *motion, SpriteFrameState *tile_pos, ActorRecord *actor);
+s32 interpolate_actor_to_terrain_tile(struct S_800AC480_0 *move_state, ObjectPosition *motion, MovingTile *target_tile, struct S_800AC480_3 *height_state);
 s32 update_spinning_actor_fall();
 s32 update_actor_fade_in();
 void initialize_timed_motion_step(unsigned short countdown, unsigned int amount);
@@ -734,8 +617,8 @@ s32 run_cd_image_commands();
 void func_80041588(u32 *stream_ref, u8 *state, s32 execute);
 s32 read_stream_cue_start_offset(void);
 s32 lookup_masked_byte_table();
-s32 unlink_entity_node();
-s32 decrement_monster_entry_count();
+void unlink_entity_node(struct EntityLinkNode *node);
+void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 s32 advance_staged_entity_load();
 s32 create_status_linked_render_effect();
 s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
@@ -778,42 +661,42 @@ void create_converging_fading_sprite(
     s32 offset_x, s32 offset_y, s32 offset_z);
 void *create_actor_with_optional_status(s16 flags, s16 kind_id, s16 variant, s32 spawn_value);
 void update_actor_callbacks_animation_and_ground(u8 *actor, u8 *motion, u8 *object);
-void update_snowman_behavior(void *actor_arg, void *context_arg, struct SpriteFrameState *sprite_arg, ActorRecord *entity_arg);
+void update_snowman_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *sprite_arg, ActorRecord *entity_arg);
 void advance_snowman_stored_path(void *movement, void *motion, SpriteFrameState *entity, void *path_state);
-void choose_snowman_move(Rec_func_800A9E70_arg0 *move_data, void *context, SpriteFrameState *position_data, ActorRecord *actor_data);
+void choose_snowman_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 void begin_snowman_step_animation(void *actor_state, void *action_state, SpriteFrameState *sprite, void *orientation);
-s32 try_snowman_attack(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, SpriteFrameState *sprite, ActorRecord *actor);
-void begin_snowman_attack(void *action_state, void *action_context, SpriteFrameState *sprite, ActorRecord *actor);
+s32 try_snowman_attack(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor);
+void begin_snowman_attack(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 s32 relink_snowman_path(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
 void move_snowman_to_tile(void *entity_arg, void *motion, void *check_arg, void *actor_arg);
-void hop_snowman_to_tile(void *action, struct ObjectPosition *motion, struct SpriteFrameState *sprite, ActorRecord *actor);
-void update_snowman_linked_motion(Resource10CallbackState *state, void *entity, void *position, void *graphic);
-void advance_timed_attack_animation_and_damage(void *action, void *motion, struct SpriteFrameState *sprite, ActorRecord *actor);
-void advance_actor_spell_effect_sequence(void *actor, struct ObjectPosition *motion, struct SpriteFrameState *tile_arg, ActorRecord *action);
-void displace_actor_then_recenter(void *action, struct ObjectPosition *motion, struct SpriteFrameState *entity, EntityRec *actor);
+void hop_snowman_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
+void update_snowman_linked_motion(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
+void advance_timed_attack_animation_and_damage(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
+void advance_actor_spell_effect_sequence(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *tile_arg, ActorRecord *action);
+void displace_actor_then_recenter(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *entity, ActorRecord *actor);
 void remove_defeated_snowman(void *state, void *motion, void *position, void *actor);
 void shrink_hopping_snowman(void *state, void *motion, void *position, void *actor);
 void advance_snowman_removal(void *state, void *motion, void *position, void *actor);
-void grow_hopping_snowman(Resource10CallbackState *state, void *motion, void *position, void *actor);
-void advance_snowman_status_action(void *action, void *context, struct SpriteFrameState *sprite_in, void *actor_in);
-void advance_snowman_mp_action(void *actor_in, s32 actor_index, struct SpriteFrameState *target, void *entity_in);
-void update_snowman_parent_motion(R10_80174258_Actor *actor, s32 action, struct SpriteFrameState *entity, R10_80174258_MapObject *map_object);
-void advance_boss_command_stream(Resource10CallbackState *state, void *entity, void *position, void *graphic);
-void settle_snowman_on_tile(Resource10CallbackState *state, void *motion, void *position, void *actor);
-void create_positioned_sprite_effect(Resource10CallbackState *state, void *motion, void *position, void *actor);
-void fade_in_snowman(Resource10CallbackState *state, void *motion, void *position, void *actor);
+void grow_hopping_snowman(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
+void advance_snowman_status_action(ActorRecord *action, ObjectPosition *context, SpriteFrameState *sprite_in, ActorRecord *actor_in);
+void advance_snowman_mp_action(ActorRecord *actor_in, ObjectPosition *actor_index, SpriteFrameState *target, ActorRecord *entity_in);
+void update_snowman_parent_motion(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *entity, ActorRecord *map_object);
+void advance_boss_command_stream(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
+void settle_snowman_on_tile(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
+void create_positioned_sprite_effect(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
+void fade_in_snowman(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void resolve_linked_attack_hits_and_particle_bursts(void *node, s32 target_x, s32 target_y, s32 target_height);
 void prepare_directional_attacks_for_neighbor_entities(void *node, s32 tile_x, s32 tile_y, s16 target_height);
-void select_actor_target_and_advance_status(void *action_state, s32 effect_arg, SpriteFrameState *anim_state, ActorRecord *actor);
-void advance_directional_attack_sequence(void *action, void *position, struct SpriteFrameState *sprite, ActorRecord *entity);
+void select_actor_target_and_advance_status(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *anim_state, ActorRecord *actor);
+void advance_directional_attack_sequence(ActorRecord *action, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *entity);
 s32 project_snowman_sprite_chain(void *initial_payload, s32 entry_data, R10_80174BE4_Entry *entry, s32 unused);
 void update_effect_motion_and_brightness(void *effect, void *motion, void *render);
 void spawn_randomized_oscillating_effect(s32 unused, R10_80174F24_S_func_80AF3724_0 *origin, void *unused_record, void *unused_actor);
 void wait_for_snowman_action_slot(void *entity_data, s32 unused_1, s32 unused_2, void *other_data);
 void restore_snowman_scene_tint(u8 *task, void *context, struct SpriteFrameState *input);
 void advance_actor_transition_and_restore_facing(void *transition, void *position, struct SpriteFrameState *record, void *actor);
-void resolve_snowman_floor_trap(Resource10CallbackState *state, void *motion, void *position, void *actor);
-void propagate_snowman_action_flag(Resource10CallbackState *state, void *motion, void *position, void *actor);
+void resolve_snowman_floor_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
+void propagate_snowman_action_flag(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void finish_snowman_tile_hop(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor);
 
 #endif

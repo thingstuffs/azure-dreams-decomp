@@ -19,7 +19,7 @@
 #include "dungeon/actor/status.h"
 extern int abs(int);
 
-typedef s32 Any;
+
 
 typedef struct S_801737B0_0 {
     u8 pad_00[0x8C];
@@ -39,13 +39,13 @@ extern u8 weadog_action_resume_address[];
 extern u8 weadog_frame_set_3[];
 
 extern void *scan_actor_along_heading();
-extern void * create_actor_spell_effect();
+extern void * create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);
 extern void create_random_color_offset_effect(void *parent, s16 initial_14, s32 unused, s16 initial_32, s16 offset_x, s16 offset_y, s16 offset_z);
 
 /* Updates an actor action through targeting, particle effects, and recovery. */
 /* Starts a targeted spell, emits three randomly colored offset effects per casting tick, then restores
  * idle and status. */
-void update_actor_targeted_action(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+void update_actor_targeted_action(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 use_player_target;
     s32 particle_count;
     s32 offset_z;
@@ -63,7 +63,7 @@ void update_actor_targeted_action(void *action, ObjectPosition *motion, SpriteFr
     u8 *action_data;
     u8 *particle_origin;
 
-    state = ((S_801737B0_0 *)action)->unk_9B;
+    state = action->action_phase;
     use_player_target = 0;
     switch (state) {
     case 0:
@@ -112,9 +112,9 @@ void update_actor_targeted_action(void *action, ObjectPosition *motion, SpriteFr
         }
         if (*action_data != 0) {
 
-            direction = ((S_801737B0_0 *)action)->unk_98;
+            direction = action->action_state_flags;
             direction &= 0xFF7F;
-            ((S_801737B0_0 *)action)->unk_98 = direction;
+            action->action_state_flags = direction;
             direction = use_player_target;
             if (((void *)direction) != 0) {
                 direction = (s32)primary_actor_record;
@@ -157,7 +157,7 @@ void update_actor_targeted_action(void *action, ObjectPosition *motion, SpriteFr
             if (create_actor_spell_effect(actor, action_data, use_player_target, (u8 *)action + 0x98) == 0) {
                 return;
             }
-            ((S_801737B0_0 *)action)->unk_9B++;
+            action->action_phase++;
             return;
 
         }
@@ -181,15 +181,15 @@ void update_actor_targeted_action(void *action, ObjectPosition *motion, SpriteFr
             return;
         }
         sprite->flags &= 0xF7FF;
-        ((S_801737B0_0 *)action)->unk_9B++;
+        action->action_phase++;
         play_sound_if_enabled(0x703);
 
     case 2:
         sprite_flags = sprite->flags;
         if (sprite_flags & 0x8000) {
             ((S_801737B0_0 *)action)->unk_96.s = 0;
-            ((S_801737B0_0 *)action)->unk_9B++;
-            ((S_801737B0_0 *)action)->unk_98 |= 0x80;
+            action->action_phase++;
+            action->action_state_flags |= 0x80;
             return;
         }
 
@@ -205,10 +205,10 @@ void update_actor_targeted_action(void *action, ObjectPosition *motion, SpriteFr
         ((S_801737B0_0 *)action)->unk_96.s = timer;
         if ((s16)timer <= 0) {
             ((S_801737B0_0 *)action)->unk_96.s = 0;
-            ((S_801737B0_0 *)action)->unk_9B++;
+            action->action_phase++;
         }
         if (((S_801737B0_0 *)action)->unk_96.u == 2) {
-            ((S_801737B0_0 *)action)->unk_98 |= 0x80;
+            action->action_state_flags |= 0x80;
         }
         if (((S_801737B0_0 *)action)->unk_96.u < 0xA) {
             return;
@@ -239,7 +239,7 @@ void update_actor_targeted_action(void *action, ObjectPosition *motion, SpriteFr
 
     case 3:
         ((S_801737B0_0 *)action)->unk_96.s = 0x14;
-        ((S_801737B0_0 *)action)->unk_9B++;
+        action->action_phase++;
 
     case 4:
         if ((g_dungeon_status.active_actor) == 0) {

@@ -10,6 +10,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/actor/animation.h"
 #include "engine/node/allocation.h"
+#include "engine/node.h"
 
 typedef struct S_80170854_1 {
     u8 pad_00[0x13];
@@ -19,10 +20,6 @@ typedef struct S_80170854_1 {
     s32 unk_1C;
 } S_80170854_1;   /* result in spawn_mode_dependent_112_object */
 
-typedef struct S_80170854_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80170854_2;   /* part0 in spawn_mode_dependent_112_object */
 
 typedef struct S_80170854_4 {
     u8 pad_00[0x8C];
@@ -44,7 +41,6 @@ extern u8 D_80173D78[];
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern s16 set_or_clear_actor_status_slot();
-extern void unlink_node();
 extern void retire_tracked_effect_by_id();
 
 #define BODY_STORAGE

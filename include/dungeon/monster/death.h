@@ -15,11 +15,11 @@ void update_entity_movement_animation_and_ground(void *entity, ObjectPosition *m
 
 
 void advance_effect_toward_target(void *effect, ObjectPosition *position);
-void finish_staged_jump_at_tile_center(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
+void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 
 
-void advance_actor_states_and_entity_flags(void *actor, void *context, SpriteFrameState *animation, ActorRecord *entity);
+void advance_actor_states_and_entity_flags(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *entity);
 
 struct S_80173C40_0;
 void initialize_object_and_clear_state(struct S_80173C40_0 *object, void *init_data, SpriteFrameState *init_context, void *render);

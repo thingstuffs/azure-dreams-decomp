@@ -25,7 +25,7 @@ extern s32 reset_actor_action_state(void *actor, void * unused, void *sprite, u8
 extern void process_selected_actor_record(void *, void *, void *, void *);
 extern void begin_actor_spell_action(void *actor, void * effect_param, void *target, u8 *direction_table, void * next_state);
 
-extern void advance_actor_along_queued_path(void *, void *, SpriteFrameState *, void *);
+void advance_actor_along_queued_path(ActorRecord *motion, ObjectPosition *unused, SpriteFrameState *actor, ActorRecord *move_state);
 extern s32 validate_action_and_apply_effect(void *, void *, void *, void *);
 extern void clear_entity_flag_and_advance_action(void *, void *, void *, void *);
 extern s32 update_entity_state_from_query(void *, void *, void *, s32);
@@ -54,12 +54,11 @@ typedef struct S_801714D4_0 {
 } S_801714D4_0;   /* arg0 in update_actor_behavior_animation_and_facing */
 
 /* Updates actor behavior, animation, and facing from its status and current tile. */
-void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_arg, void *sprite_arg, void *stats_arg)
-{
+void update_actor_behavior_animation_and_facing(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *sprite_arg, ActorRecord *stats_arg) {
     register void *actor_head = actor_arg;
     register void *context = context_arg;
     register SpriteFrameState *sprite= sprite_arg;
-    register EntityRec *stats = stats_arg;
+    register ActorRecord *stats = stats_arg;
     s16 distance;
     s32 flags;
     s32 action_index;
@@ -78,7 +77,7 @@ void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_a
         return;
     }
 
-    if (stats->tileY == 0) {
+    if (stats->mp == 0) {
         advance_actor_pending_action(actor_arg, context_arg, sprite, stats);
         if (*(u8 **)&sprite->frameTable == hikewne_frame_set_2) {
             return;
@@ -129,7 +128,7 @@ void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_a
         stats->flags1C |= 0x40000;
         ((S_801714D4_0 *)actor_arg)->unk_98 &= 0xFFF7;
 
-        if (stats->unk_64 != 0) {
+        if (stats->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor_arg, context_arg, sprite, hikewne_frame_set_18) != 0) {
                 return;
             }
@@ -155,7 +154,7 @@ void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_a
     tile_index = find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
     sprite->room_index = tile_index;
 
-    if (stats->unk_6D > 0) {
+    if (stats->pending_turn_updates > 0) {
         if (((u32)stats->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(stats);
             return;
@@ -164,7 +163,7 @@ void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_a
             select_movement_direction_and_advance(actor_arg, context_arg, sprite, stats);
             return;
         }
-        action_flags = stats->unk_46;
+        action_flags = stats->action_flags;
         if ((action_flags & 0x8000) == 0) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((s16)check_entity_relation(
@@ -175,15 +174,15 @@ void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_a
             if ((s16)update_entity_state_from_query(actor_arg, context_arg, sprite, 0) == 0) {
                 return;
             }
-            action_flags = stats->unk_46 | 0x4000;
-            stats->unk_46 = action_flags;
+            action_flags = stats->action_flags | 0x4000;
+            stats->action_flags = action_flags;
             if ((action_flags & 0x8000) == 0) {
                 select_movement_direction_and_advance(actor_arg, context_arg, sprite, stats);
                 return;
             }
         }
 
-        action_index = (stats->unk_46 & 0x3FFF) - 1;
+        action_index = (stats->action_flags & 0x3FFF) - 1;
         switch (action_index) {
         case 7:
         case 8:

@@ -58,14 +58,13 @@ extern u8 D_8016FEB0[];
 extern u8 D_8016FEB8[];
 
 /* Updates creature behavior, animation, and facing according to its current state. */
-void update_creature_behavior_animation_and_facing(void *actor, void *context, SpriteFrameState *sprite, ActorRecord *creature)
-{
+void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *creature) {
     u16 distance;
     s8 room_id;
     u16 action_flags;
 
     if (g_dungeon_status.flags & 0x1000) {
-        ((S_8016B0EC_0 *)actor)->unk_9A = 0xE;
+        actor->action_id = 0xE;
         func_8016B69C(actor, context, sprite, creature);
         return;
     }
@@ -87,8 +86,8 @@ void update_creature_behavior_animation_and_facing(void *actor, void *context, S
 
     if (((u32)creature->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == D_8016FEA0) {
-            ((S_8016B0EC_0 *)actor)->unk_9A = 0xD;
-            ((S_8016B0EC_0 *)actor)->unk_9B = 1;
+            actor->action_id = 0xD;
+            actor->action_phase = 1;
             ((S_8016B0EC_0 *)actor)->unk_8C = 0;
             creature->flags1C &= ~0x40000;
             return;
@@ -108,8 +107,8 @@ void update_creature_behavior_animation_and_facing(void *actor, void *context, S
             void *current_anims;
             u8 *anim_table;
 
-            if (((S_8016B0EC_0 *)actor)->unk_9A != 0xE) {
-                ((S_8016B0EC_0 *)actor)->unk_9A = 0xE;
+            if (actor->action_id != 0xE) {
+                actor->action_id = 0xE;
                 ((S_8016B0EC_0 *)actor)->unk_B2 = 0;
             }
 
@@ -141,7 +140,7 @@ void update_creature_behavior_animation_and_facing(void *actor, void *context, S
         }
 
         creature->flags1C |= 0x40000;
-        ((S_8016B0EC_0 *)actor)->unk_98 &= 0xFFF7;
+        actor->action_state_flags &= 0xFFF7;
 
         if (creature->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, context, sprite, D_8016FE48) != 0) {

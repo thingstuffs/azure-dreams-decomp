@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"
@@ -7,14 +8,14 @@
 
 typedef struct S_801724A8_0 {
     u8 pad_00[0x8C];
-    void (*unk_8C)(void *, void *, void *, ActorRecord *);
+    ActorActionHandler unk_8C;
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_90;   /* overlapping accesses */
 } S_801724A8_0;   /* arg0 in update_the_target_conditionally_resets_caller_state */
 
 
 void spend_actor_mp();            /* extern */
                 /* extern */
-void update_dungeon_actor_behavior_facing_animation_state(void *actor, void *context, void *sprite, ActorRecord *entity);
+void update_dungeon_actor_behavior_facing_animation_state(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 
 /*
  * On completed tile movement, spends MP and advances status timers, resuming behavior and clearing

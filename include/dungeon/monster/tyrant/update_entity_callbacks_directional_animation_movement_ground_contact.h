@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #ifndef DUNGEON_OVL_7F0F7800_P01_H
 #define DUNGEON_OVL_7F0F7800_P01_H
 #include "common.h"
@@ -16,18 +17,6 @@ typedef void (*T_80170AA4_EntityCallback)(void *, void *, void *, void *);
 
 
 
-typedef struct T_80170AA4_S_80170AA4_0 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xD];
-    s16 unk_12;
-    union { u16 n; u16 v; } unk_14;   /* accessed as both */
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} T_80170AA4_S_80170AA4_0;   /* arg2 in func_80170AA4 */
 
 typedef struct T_80170AA4_S_80170AA4_1 {
     u8 pad_00[0x1C];
@@ -42,9 +31,9 @@ typedef struct T_80170AA4_S_80170AA4_1 {
 
 extern void func_80042984(void *entity);
 extern void advance_sprite_animation_and_textures(void *entity);
-extern void apply_monster_koyaw_data();
+extern void apply_monster_koyaw_data(s32 flags, s8 *dst);
 extern s32 refresh_actor_facing_and_lifecycle();
 extern T_80170AA4_EntityCallback tyrant_callbacks[];
 void update_entity_callbacks_directional_animation_movement_ground_contact(void *actor, TrailMotion *motion, SpriteFrameState *part);
-extern void update_dungeon_actor_behavior(void *actor_arg, void *context_arg, SpriteFrameState *map_object_arg, void *actor_state_arg);
+void update_dungeon_actor_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *map_object_arg, ActorRecord *actor_state_arg);
 #endif

@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_ids.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
@@ -8,8 +9,8 @@
 #include "engine/graphics.h"
 #include "dungeon/level.h"
 
-extern s32 get_entity_effect_value();
-extern void update_map_cell_flags_with_item_limit();
+extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
+extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s16 check_movement_clearance_and_height();
 extern s16 get_rounded_facing_and_rounding_flag();
 extern void create_owner_linked_directional_object();
@@ -54,7 +55,7 @@ typedef struct S_80172144_4 {
 } S_80172144_4;   /* (u8 *)state + ((S_80172144_0 *)state)->unk_8A in advance_aura_actor_turn_path */
 
 /* Advance the entity along its path and update its movement state. */
-void advance_aura_actor_turn_path(void *actor, s32 actor_slot, void *entity_arg, void *state_arg) {
+void advance_aura_actor_turn_path(ActorRecord *actor, ObjectPosition *actor_slot, SpriteFrameState *entity_arg, ActorRecord *state_arg) {
     register void *state = state_arg;
     register SpriteFrameState *entity= entity_arg;
     s32 tile_flags;

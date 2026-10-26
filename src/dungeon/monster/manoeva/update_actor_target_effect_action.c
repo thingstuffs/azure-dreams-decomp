@@ -1,3 +1,5 @@
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "dungeon/effect.h"
 #include "m2c_compat.h"
@@ -48,10 +50,6 @@ typedef struct S_80173D78_3 {
     u8 unk_13;
 } S_80173D78_3;   /* found in update_actor_target_effect_action */
 
-typedef struct S_80173D78_4 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_80173D78_4;   /* counter_base in update_actor_target_effect_action */
 
 typedef struct S_80173D78_5 {
     u8 pad_00[0x10];
@@ -61,7 +59,7 @@ typedef struct S_80173D78_5 {
 extern u8 D_8017086C[];
 extern u8 D_80170898[];
 void func_80170EE4(void *actor_state_in, void *update_context_in, void *map_object, void *actor_data);
-void transfer_linked_object_state(u8 *owner, s32 object_id, u8 *dest_object, u8 *dest_state);
+void transfer_linked_object_state(ActorRecord *owner, ObjectPosition *object_id, SpriteFrameState *dest_object, ActorRecord *dest_state);
 
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 void unlink_node();
@@ -71,10 +69,10 @@ void clear_byte_and_advance();
 s32 write_text_byte_and_advance();
 s32 append_entity_display_text();
 void unlink_entity_node();
-void update_map_cell_flags_with_item_limit();
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 void *find_eligible_actor_at_tile_and_height();
 void display_text_with_fullwidth_adjustment();
-s16 find_floor_item_at_world_position();
+s32 find_floor_item_at_world_position(s32 input_x, s32 input_y, s32 input_z);
 void update_actor_status_and_mp();
 void retire_tracked_effect_by_id();
 void *spawn_manoeva_from_record();

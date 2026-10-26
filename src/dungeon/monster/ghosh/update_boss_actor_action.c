@@ -12,7 +12,7 @@
 #include "engine/graphics/select_sprite_entry_api.h"         /* extern */
 #include "dungeon/actor/motion.h"
 struct ActorRecord; s32 check_entity_relation(struct ActorRecord *, struct ActorRecord *);                     /* extern */
-s8 find_active_rect_containing_point();                           /* extern */
+s32 find_active_rect_containing_point(s32 point_x, s32 point_y);                           /* extern */
 void update_actor_status_and_mp(struct ActorRecord *);                      /* extern */
 s32 begin_ready_actor_directional_action(); /* extern */
 struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2; void begin_actor_move_to_target_facing(struct Rec_func_800A9E70_arg0 *, void *, struct Rec_func_800AA258_arg2 *, struct ActorRecord *); /* extern */
@@ -33,13 +33,13 @@ typedef struct S_8016F78C_0 {
 } S_8016F78C_0;   /* arg0 in update_boss_actor_action */
 
 /* Updates actor state, directional animation, and action handling. */
-void update_boss_actor_action(void *actor, void *context, SpriteFrameState *sprite, ActorRecord *entity) {
+void update_boss_actor_action(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
     u8 stack_pad[8];
     u8 current_state;
     s32 next_state;
 
     if (g_dungeon_status.flags & 0x1000) {
-        ((S_8016F78C_0 *)actor)->unk_9A = 0xEU;
+        actor->action_id = 0xEU;
         func_8016FA84(actor, context, sprite, entity);
         return;
     }
@@ -48,16 +48,16 @@ void update_boss_actor_action(void *actor, void *context, SpriteFrameState *spri
             begin_pushed_actor_move(actor, context, sprite, entity);
             return;
         }
-        current_state = ((S_8016F78C_0 *)actor)->unk_9A;
+        current_state = actor->action_id;
         next_state = 0xE;
         if (current_state != next_state) {
             if (*(u8 * *)&sprite->frameTable != ghosh_direction_frames) {
                 sprite->frameTable = ghosh_direction_frames;
                 select_sprite_entry(sprite, ghosh_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
             }
-            ((S_8016F78C_0 *)actor)->unk_9A = next_state;
+            actor->action_id = next_state;
         }
-        ((S_8016F78C_0 *)actor)->unk_98 = (u16) (((S_8016F78C_0 *)actor)->unk_98 & 0xFFF3);
+        actor->action_state_flags = (u16) (actor->action_state_flags & 0xFFF3);
         if (!((((ActorRecord *)entity)->hp_delta == 0) || (begin_ready_actor_directional_action(actor, context, sprite, D_80174A64) == 0))) {
             return;
         }

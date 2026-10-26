@@ -337,8 +337,7 @@ void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *
    around the zero store. */
 
 /* Create and position an effect using a linked object or stored tile coordinates. */
-void create_actor_action_effect(void *source_object, void *source_pos, void *sprite_template, EntityRec *actor)
-{
+void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *source_pos, SpriteFrameState *sprite_template, ActorRecord *actor) {
     ObjectNodeHeader *effect;
     void *effect_state;
     void *effect_data;
@@ -346,7 +345,7 @@ void create_actor_action_effect(void *source_object, void *source_pos, void *spr
     void *linked_pos;
     u16 pos_offset[4];
 
-    if ((actor->target) == 0 &&actor->unk_72 >= 0) {
+    if ((actor->target) == 0 &&actor->target_tile_x >= 0) {
         return;
     }
     effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
@@ -393,15 +392,15 @@ void create_actor_action_effect(void *source_object, void *source_pos, void *spr
         - (entity_height_offsets[((T_801714FC_S_801714FC_8 *)(actor->target))->unk_13] >> 1);
         return;
     }
-    if (actor->unk_72 < 0) {
+    if (actor->target_tile_x < 0) {
         s32 tile_x, tile_y;
-        actor->unk_72 = -(u8)((u8)actor->unk_72);
-        if (actor->unk_73 < 0) {
-            actor->unk_73 = -(u8)((u8)actor->unk_73);
+        actor->target_tile_x = -(u8)((u8)actor->target_tile_x);
+        if (actor->target_tile_y < 0) {
+            actor->target_tile_y = -(u8)((u8)actor->target_tile_y);
         }
-        tile_x = actor->unk_72;
+        tile_x = actor->target_tile_x;
         ((T_801714FC_S_801714FC_3 *)effect_data)->unk_02 = (tile_x << 6) + 0x20;
-        tile_y = actor->unk_73;
+        tile_y = actor->target_tile_y;
         ((T_801714FC_S_801714FC_3 *)effect_data)->unk_06 = (tile_y << 6) + 0x20;
         ((T_801714FC_S_801714FC_3 *)effect_data)->unk_0A = ((Rec_func_8017121C_arg1 *)source_pos)->unk_0A;
         {

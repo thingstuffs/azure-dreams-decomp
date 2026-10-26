@@ -19,7 +19,7 @@ typedef struct S_801727EC_0 {
 
 extern void select_sprite_entry(void *, u8, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void set_record_integer_tile_center(s32, u8, u8);
+extern void set_record_integer_tile_center(ObjectPosition *, s32, s32);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 
@@ -28,15 +28,15 @@ extern u8 killer_action_resume_address;
 extern u8 D_80174060[];
 
 /* Advances a timed directional animation and updates the actor when it completes. */
-void advance_timed_directional_animation(void *action_state, s32 actor_id, SpriteFrameState *animation, ActorRecord *actor) {
+void advance_timed_directional_animation(ActorRecord *action_state, ObjectPosition *actor_id, SpriteFrameState *animation, ActorRecord *actor) {
     u16 ticks_left;
     u8 phase;
 
-    phase = ((S_801727EC_0 *)action_state)->unk_9B;
+    phase = action_state->action_phase;
     switch (phase) {
     case 0:
         if (animation->flags & 0x8000) {
-            ((S_801727EC_0 *)action_state)->unk_9B = 1;
+            action_state->action_phase = 1;
             animation->flags |= 0x6000;
             ((S_801727EC_0 *)action_state)->unk_96 = 1;
             break;
@@ -46,7 +46,7 @@ void advance_timed_directional_animation(void *action_state, s32 actor_id, Sprit
         select_sprite_entry(animation,
                       D_80174060[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                       0);
-        ((S_801727EC_0 *)action_state)->unk_9B++;
+        action_state->action_phase++;
         break;
 
     case 1:

@@ -48,8 +48,7 @@ extern u8 dreamin_action_continuation_address[];
 #include "dungeon/monster/dreamin.h"
 
 /* Advances actor motion, waits for completion, and resets the action state. */
-void advance_actor_motion_and_reset_action(void *action_state, void *position, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void advance_actor_motion_and_reset_action(ActorRecord *action_state, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
     u16 saved_position[3];
     u8 *motion;
     s16 special_mode;
@@ -58,7 +57,7 @@ void advance_actor_motion_and_reset_action(void *action_state, void *position, S
     ObjectNodeHeader *action_counters;
 
     special_mode = 0;
-    switch (((S_80172870_0 *)action_state)->unk_9B) {
+    switch (action_state->action_phase) {
     case 0:
         if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
             switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
@@ -102,7 +101,7 @@ void advance_actor_motion_and_reset_action(void *action_state, void *position, S
         }
 
         if (*motion != 0) {
-            ((S_80172870_0 *)action_state)->unk_98 &= 0xFF7F;
+            action_state->action_state_flags &= 0xFF7F;
             if (special_mode != 0) {
                 target = primary_actor_record;
                 actor->target = target;
@@ -132,7 +131,7 @@ void advance_actor_motion_and_reset_action(void *action_state, void *position, S
             }
             sprite->flags &= 0xF7FF;
             play_sound_if_enabled(0x703);
-            ((S_80172870_0 *)action_state)->unk_9B = ((S_80172870_0 *)action_state)->unk_9B + 1;
+            action_state->action_phase = action_state->action_phase + 1;
             return;
         }
 
@@ -156,14 +155,14 @@ void advance_actor_motion_and_reset_action(void *action_state, void *position, S
             return;
         }
         sprite->flags &= 0xF7FF;
-        ((S_80172870_0 *)action_state)->unk_9B = ((S_80172870_0 *)action_state)->unk_9B + 1;
+        action_state->action_phase = action_state->action_phase + 1;
                         /* fallthrough */
     case 2:
         if ((sprite->unk_04 == 5 && (sprite->flags & 0x1000)) ||
             (sprite->flags & 0xE000)) {
             sprite->flags |= 0x800;
             ((S_80172870_0 *)action_state)->unk_96 = 0x20;
-            ((S_80172870_0 *)action_state)->unk_98 |= 0x80;
+            action_state->action_state_flags |= 0x80;
         }
         wait_frames = ((S_80172870_0 *)action_state)->unk_96 - 1;
         ((S_80172870_0 *)action_state)->unk_96 = wait_frames;

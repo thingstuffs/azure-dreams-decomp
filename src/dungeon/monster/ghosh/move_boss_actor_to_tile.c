@@ -27,16 +27,12 @@ typedef struct S_801704A0_0 {
 
 struct SpriteFrameState;
 void select_sprite_entry(struct SpriteFrameState *, s16, s16);
-s16 get_rounded_facing_and_rounding_flag();
+s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 #include "dungeon/player/object/set_record_integer_tile_center_api.h"
 #include "dungeon/actor/state/advance_status_timers_api.h"
 void on_actor_status_updated(void *actor);
 struct ActorRecord; struct Rec_D_80082E80; s32 check_actor_floor_trap(struct Rec_D_80082E80 *, struct ActorRecord *);
-typedef struct {
-    u8 pad[0x24];
-    u8 x;
-    u8 y;
-} Global82E80;
+
 typedef struct {
     u8 pad[8];
     s16 count;
@@ -46,7 +42,7 @@ typedef struct {
 
 /* Updates movement toward a tile and completes the timed action. */
 void move_boss_actor_to_tile(S_801704A0_0 *action, ObjectPosition *motion, SpriteFrameState *tile, ActorRecord *entity) {
-    s32 facing_aux;
+    u16 facing_aux;
     s32 frames_left;
     s32 next_frame;
     s32 x_step;

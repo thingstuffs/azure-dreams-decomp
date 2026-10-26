@@ -29,22 +29,21 @@ extern u8 D_80176600[];
 extern u8 manoeva_frame_set_2[];
 
 /* Advances an actor's animation sequence and handles its completion. */
-void advance_actor_sprite_action(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void advance_actor_sprite_action(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u16 sprite_flags;
     u16 frame_count;
     s32 state;
 
-    state = ((S_801726A4_0 *)action)->unk_9B;
+    state = action->action_phase;
     switch (state) {
     case 0:
-        ((S_801726A4_0 *)action)->unk_98 |= 1;
-        ((S_801726A4_0 *)action)->unk_9B++;
+        action->action_state_flags |= 1;
+        action->action_phase++;
                         /* fall through */
     case 1:
         sprite_flags = sprite->flags;
         if (sprite_flags & 0x8000) {
-            ((S_801726A4_0 *)action)->unk_9B = 3;
+            action->action_phase = 3;
             sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
@@ -60,7 +59,7 @@ void advance_actor_sprite_action(void *action, ObjectPosition *motion, SpriteFra
                 0);
             create_action_sprite_effect((u8 *)action - 0x20);
             ((S_801726A4_0 *)action)->unk_96 = 0;
-            ((S_801726A4_0 *)action)->unk_9B++;
+            action->action_phase++;
             play_sound_if_enabled(0x804);
             return;
         }
@@ -79,8 +78,8 @@ void advance_actor_sprite_action(void *action, ObjectPosition *motion, SpriteFra
             select_sprite_entry(sprite,
                 manoeva_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            ((S_801726A4_0 *)action)->unk_9B++;
-            ((S_801726A4_0 *)action)->unk_98 &= 0xFFFE;
+            action->action_phase++;
+            action->action_state_flags &= 0xFFFE;
             return;
         }
         break;

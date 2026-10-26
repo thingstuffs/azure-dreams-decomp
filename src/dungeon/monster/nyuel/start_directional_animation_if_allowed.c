@@ -15,12 +15,12 @@ typedef struct S_80171FC4_1 {
 typedef struct Ent Ent;
 Ent *prepare_directional_attack(); /* extern */
 s32 try_claim_dungeon_action_slot();                          /* extern */
-s32 apply_camera_offset_and_select_target(); /* extern */
+s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value); /* extern */
 extern u8 nyuel_frame_set_8;
 
 /* Update action state and start a directional animation if the actor passes the checks. */
-void start_directional_animation_if_allowed(void *action_state, void *action_context, SpriteFrameState *sprite, EntityRec *actor) {
-    actor->unk_71 = (u8) (actor->unk_71 & 0x7F);
+void start_directional_animation_if_allowed(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor) {
+    actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
@@ -32,7 +32,7 @@ void start_directional_animation_if_allowed(void *action_state, void *action_con
                 + &nyuel_frame_set_8), 0);
             actor->unk_84 = 0x7C;
             actor->unk_85 = 0;
-            actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
+            actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
             prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
         }
     }

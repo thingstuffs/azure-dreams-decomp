@@ -10,7 +10,7 @@ extern u8 ifrit_direction_frames[];
 
 
 
-void advance_actor_animation_and_restore(void *action, s32 actor_id, SpriteFrameState *sprite, ActorRecord *actor);
+void advance_actor_animation_and_restore(ActorRecord *action, ObjectPosition *actor_id, SpriteFrameState *sprite, ActorRecord *actor);
 
 /* Callback entry points. */
 s32 render_linked_items_as_textured_strips(u8 *item_data);

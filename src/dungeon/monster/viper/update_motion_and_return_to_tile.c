@@ -17,7 +17,7 @@ typedef struct S_8017345C_1 {
     u8 unk_9B;
 } S_8017345C_1;   /* arg0 in update_motion_and_return_to_tile */
 
-extern void begin_actor_display_action();
+extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
 
 extern u8 viper_action_continuation_address;
 extern u8 viper_frame_set[];

@@ -3,6 +3,7 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_trail_views.h"
+#include "shared/dungeon_item_entries.h"
 
 typedef struct S_80047784 S_80047784;
 
@@ -53,14 +54,14 @@ typedef struct S_80174234_2 {
 
 
 extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);         /* extern */
-void *get_unused_text_buffer();                                /* extern */
+void *get_unused_text_buffer(void);                                /* extern */
 u8 *expand_text_control_codes();                  /* extern */
-void *clear_byte_and_advance();                         /* extern */
-void *write_text_byte_and_advance();                    /* extern */
-u8 *append_typed_formatted_value();                 /* extern */
-u8 *append_entity_display_text();                     /* extern */
+void *clear_byte_and_advance(s8 *byte_ptr);                         /* extern */
+void *write_text_byte_and_advance(s8 value, s8 *dest);                    /* extern */
+u8 *append_typed_formatted_value(DungeonItemEntry *data, u8 *buffer);                 /* extern */
+u8 *append_entity_display_text(void *record, u8 *out);                     /* extern */
 #include "dungeon/player/object/action_state.h"
-s32 display_text_with_fullwidth_adjustment();                         /* extern */
+s32 display_text_with_fullwidth_adjustment(s8 *text);                         /* extern */
 s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */                                /* extern */
 void *func_80170908(); /* Slot contract: loading images do not establish one callee contract. */                /* extern */
 extern u8 D_8017089C[];

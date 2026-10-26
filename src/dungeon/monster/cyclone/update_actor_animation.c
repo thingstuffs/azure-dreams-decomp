@@ -58,10 +58,10 @@ extern void begin_actor_spell_action(void *actor, s32 effect_param, void *target
 extern void advance_path_motion(void *, void *, SpriteFrameState *, void *);
 extern void func_801718B4(void *, void *, void *, void *);
 extern s32 func_80171FFC(void *, void *, void *, void *);
-extern void finish_actor_tile_move_and_check_trap(void *, void *, void *, void *);
-extern s32 search_ahead_and_start_action(void *, void *, void *, void *);
-extern void update_action_state_direction_specific(void *, void *, void *, void *);
-extern void clear_actor_action_flag_and_animate(void *, void *, void *, void *);
+void finish_actor_tile_move_and_check_trap(ActorRecord *action_state, ObjectPosition *action_ctx, SpriteFrameState *sprite, ActorRecord *actor);
+s32 search_ahead_and_start_action(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
+void update_action_state_direction_specific(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *sprite, ActorRecord *actor);
+void clear_actor_action_flag_and_animate(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *animation, ActorRecord *actor);
 
 extern s32 func_80172A5C(void *, void *, void *, s32);
 extern void func_80174520(void *, void *, void *, void *);
@@ -72,15 +72,14 @@ extern u8 D_80176468[];
 extern u8 D_801764A8[];
 
 /* Updates actor animation, status, and behavior according to dungeon state. */
-void update_actor_animation(void *actor_arg, void *context_arg, SpriteFrameState *sprite_arg, void *stats_arg)
-{
+void update_actor_animation(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *sprite_arg, ActorRecord *stats_arg) {
     void *stats = stats_arg;
     s16 distance;
     s8 tile_id;
     u16 action_flags;
 
     if (g_dungeon_status.flags & 0x1000) {
-        ((S_80171094_0 *)actor_arg)->unk_9A = 14;
+        actor_arg->action_id = 14;
         advance_path_motion(actor_arg, context_arg, sprite_arg, stats);
         return;
     }
@@ -103,8 +102,8 @@ void update_actor_animation(void *actor_arg, void *context_arg, SpriteFrameState
 
     if (((S_80171094_1 *)stats)->unk_1C & 0x200) {
         if (*(u8 **)&sprite_arg->frameTable == cyclone_direction_frames) {
-            ((S_80171094_0 *)actor_arg)->unk_9A = 13;
-            ((S_80171094_0 *)actor_arg)->unk_9B = 1;
+            actor_arg->action_id = 13;
+            actor_arg->action_phase = 1;
             ((S_80171094_0 *)actor_arg)->unk_8C = 0;
             ((S_80171094_1 *)stats)->unk_1C &= ~0x40000;
             return;
@@ -120,8 +119,8 @@ void update_actor_animation(void *actor_arg, void *context_arg, SpriteFrameState
             return;
         }
 
-        if (((S_80171094_0 *)actor_arg)->unk_9A != 14) {
-            ((S_80171094_0 *)actor_arg)->unk_9A = 14;
+        if (actor_arg->action_id != 14) {
+            actor_arg->action_id = 14;
         }
 
         if (*(u8 **)&sprite_arg->frameTable != cyclone_move_direction_frames) {
@@ -142,12 +141,12 @@ void update_actor_animation(void *actor_arg, void *context_arg, SpriteFrameState
 
             if (flags & 0x20) {
                 ((S_80171094_1 *)stats)->unk_1C = flags & ~0x40000;
-                actor_flags = ((S_80171094_0 *)actor_arg)->unk_98 | 8;
+                actor_flags = actor_arg->action_state_flags | 8;
             } else {
                 ((S_80171094_1 *)stats)->unk_1C = flags | 0x40000;
-                actor_flags = ((S_80171094_0 *)actor_arg)->unk_98 & 0xFFF7;
+                actor_flags = actor_arg->action_state_flags & 0xFFF7;
             }
-            ((S_80171094_0 *)actor_arg)->unk_98 = actor_flags;
+            actor_arg->action_state_flags = actor_flags;
         }
 
         if (((S_80171094_1 *)stats)->unk_64 != 0) {

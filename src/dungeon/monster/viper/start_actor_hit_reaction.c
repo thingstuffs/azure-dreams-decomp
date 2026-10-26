@@ -21,10 +21,10 @@ extern s32 generate_random_value(void);
 extern u8 viper_frame_set_1[];
 
 /* Start the actor's hit reaction: clear its flags, give it a random spin and arm the matching sprite frame. */
-void start_actor_hit_reaction(void *work, void *part_a, SpriteFrameState *part_b, EntityRec *actor) {
+void start_actor_hit_reaction(ActorRecord *work, ObjectPosition *part_a, SpriteFrameState *part_b, ActorRecord *actor) {
     s32 value;
 
-    actor->unk_71 = (u8)(actor->unk_71 & 0x7F);
+    actor->movement_queue_state = (u8)(actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((has_pending_dungeon_activity(actor) << 16) == 0)) {
         ((S_801720D8_1 *)work)->unk_8C = 0;
         ((S_801720D8_1 *)work)->unk_9A = 0x17;
@@ -39,7 +39,7 @@ void start_actor_hit_reaction(void *work, void *part_a, SpriteFrameState *part_b
         }
         ((S_801720D8_1 *)work)->unk_96 = 0;
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
-        actor->unk_6D = (u8)(((u8)actor->unk_6D) - 1);
+        actor->pending_turn_updates = (u8)(((u8)actor->pending_turn_updates) - 1);
         (part_b->frameTable) = viper_frame_set_1;
         select_sprite_entry(part_b, viper_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + (s16)((u16)actor->facing) + 0x100) >> 9) & 7], 0);
     }

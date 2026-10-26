@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
 /* Troll activity state, action animation, and directional display updates. */
@@ -6,7 +7,7 @@
 #include "shared/sprite_frame_state.h"
 
 /* Updates actor state, directional animations, and the shared activity count. */
-void update_actor_activity_state(void *task, s32 task_id, SpriteFrameState *sprite_in, void *actor_in) {
+void update_actor_activity_state(ActorRecord *task, ObjectPosition *task_id, SpriteFrameState *sprite_in, ActorRecord *actor_in) {
     u8 *next_anim_table;
     u8 *old_anim_table;
     void *starting_task;
@@ -17,7 +18,7 @@ void update_actor_activity_state(void *task, s32 task_id, SpriteFrameState *spri
     s8 floor;
 
     actor = actor_in;
-    state = ((T_80175050_S_80175050_0 *)task)->unk_9B;
+    state = task->action_phase;
     switch (state) {
     case 0:
         if (!(sprite_in->flags & 0xE000)) {
@@ -174,7 +175,7 @@ void update_actor_activity_state(void *task, s32 task_id, SpriteFrameState *spri
             return;
         }
         ((T_80175050_S_80175050_3 *)((u8 *)(&g_dungeon_status)))->unk_0A++;
-        ((T_80175050_S_80175050_0 *)task)->unk_9B++;
+        task->action_phase++;
 
         return;
 

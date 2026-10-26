@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 /* Actor action display (G00034).
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00034 - CL:dungeon/func_81084A18@dungeon/bank_10a3000, CL:dungeon/func_81084A18@dungeon/bank_10a9000, CL:dungeon/func_81084A18@dungeon/bank_10af000, CL:dungeon/func_81084A18@dungeon/bank_10b5000, CL:dungeon/func_81084A18@dungeon/bank_10bb000, CL:dungeon/func_81084A18@dungeon/bank_10c1000.
  */
@@ -6,8 +7,7 @@
 #include "shared/sprite_frame_state.h"
 
 /* Attempts an actor action and initializes its output and directional display on success. */
-s32 attempt_actor_action_and_display(void *action_out, s32 action_param, SpriteFrameState *actor_info, void *acting_actor)
-{
+s32 attempt_actor_action_and_display(ActorRecord *action_out, ObjectPosition *action_param, SpriteFrameState *actor_info, ActorRecord *acting_actor) {
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
     u8 *direction_table;
     s32 computed_angle;
@@ -72,8 +72,8 @@ s32 attempt_actor_action_and_display(void *action_out, s32 action_param, SpriteF
 }
 
 /* Update actor action state and directional animation when eligible. */
-void update_eligible_actor_action(void *action_state, s32 action_context, SpriteFrameState *sprite, EntityRec *actor) {
-    actor->unk_71 = (u8) (actor->unk_71 & 0x7F);
+void update_eligible_actor_action(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor) {
+    actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot((s32)actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, (void *)action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot((s32)actor) << 0x10) == 0) {
@@ -85,7 +85,7 @@ void update_eligible_actor_action(void *action_state, s32 action_context, Sprite
                 + &golem_frame_set), 0);
             actor->unk_84 = 0x7C;
             actor->unk_85 = 4;
-            actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
+            actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
             prepare_directional_attack((Ent *)actor, (Pos *)sprite, actor->facing, 1, 0);
         }
     }

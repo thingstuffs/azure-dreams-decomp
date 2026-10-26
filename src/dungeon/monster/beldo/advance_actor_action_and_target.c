@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
@@ -27,7 +28,7 @@ extern void play_sound_if_enabled();
 extern void * create_actor_spell_effect();
 extern void create_effect_from_sprite_and_facing(void *unused, MovingPosition *source_transform, void *sprite_template, struct S_80170E18_3 *facing_source);
 
-void update_object_animation(void *obj, void *motion, void *part, void *state);
+void update_object_animation(ActorRecord *obj, ObjectPosition *motion, SpriteFrameState *part, ActorRecord *state);
 extern u8 beldo_frame_set_1[8];
 extern u8 D_80173EDC[8];
 

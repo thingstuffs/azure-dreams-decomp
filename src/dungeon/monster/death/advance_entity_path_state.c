@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -42,14 +43,13 @@ typedef struct S_80171FC8_4 {
     u8 unk_7C;
 } S_80171FC8_4;   /* (u8 *)arg3 + ((S_80171FC8_0 *)arg3)->unk_8A.s in advance_entity_path_state */
 
-extern s32 update_map_cell_flags_with_item_limit();
-extern s16 get_rounded_facing_and_rounding_flag();
+extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 
 extern u8 death_direction_frames[];
 
 /* Advance the entity along its path and update its movement state. */
-void advance_entity_path_state(void *motion_state, s32 unused, SpriteFrameState *entity, void *path_state)
-{
+void advance_entity_path_state(ActorRecord *motion_state, ObjectPosition *unused, SpriteFrameState *entity, ActorRecord *path_state) {
     s32 distance;
     s32 flags;
     s32 old_x;
@@ -70,7 +70,7 @@ void advance_entity_path_state(void *motion_state, s32 unused, SpriteFrameState 
     if (*(u8 **)&entity->frameTable != death_direction_frames) {
         (entity->frameTable) = death_direction_frames;
         select_sprite_entry(entity,
-                      death_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80171FC8_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
+                      death_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + path_state->facing + 0x100) >> 9) & 7],
                       0);
     }
 
@@ -84,7 +84,7 @@ void advance_entity_path_state(void *motion_state, s32 unused, SpriteFrameState 
         ((S_80171FC8_0 *)path_state)->unk_88 = energy - 0x20;
         ((S_80171FC8_0 *)path_state)->unk_8A.u = step_index + 1;
     } else {
-        flags = ((S_80171FC8_0 *)path_state)->unk_1C;
+        flags = path_state->flags1C;
         old_x = entity->tile_x;
         old_y = entity->tile_y;
         distance = 0x3000;
@@ -101,16 +101,16 @@ void advance_entity_path_state(void *motion_state, s32 unused, SpriteFrameState 
         ((S_80171FC8_0 *)path_state)->unk_8A.u += 1;
 
         cycle_map_cell_flags(entity->tile_x, entity->tile_y,
-                      (((S_80171FC8_0 *)path_state)->unk_1C & 0x2000) ? 0x300 : 0x3000);
+                      (path_state->flags1C & 0x2000) ? 0x300 : 0x3000);
 
-        ((S_80171FC8_0 *)path_state)->unk_2A =
+        path_state->facing =
             get_rounded_facing_and_rounding_flag(old_x, old_y, entity->tile_x,
-                          entity->tile_y, (u8 *)motion_state + 0x98);
+                          entity->tile_y, &motion_state->action_state_flags);
     }
 
     ((S_80171FC8_3 *)motion_state)->unk_9A = 0xF;
     ((S_80171FC8_3 *)motion_state)->unk_8C = 0;
-    (*(s32 *)((u8 *)path_state + 0x1C)) |= 0x40000000;
+    path_state->flags1C |= 0x40000000;
 
     if (g_dungeon_status.flags & 0x80) {
         ((S_80171FC8_3 *)motion_state)->unk_96 = 0;

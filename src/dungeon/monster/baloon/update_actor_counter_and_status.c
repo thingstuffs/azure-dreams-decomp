@@ -5,7 +5,7 @@
 #include "dungeon/actor/status.h"
 
 s32 try_claim_dungeon_action_slot();                          /* extern */
-s32 apply_camera_offset_and_select_target(); /* extern */
+s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value); /* extern */
 
 
 typedef struct S_80175BE0_1 {

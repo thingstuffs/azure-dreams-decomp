@@ -4,6 +4,7 @@
 #include "dungeon/actor/motion.h"
 #include "dungeon/system.h"
 #include "engine/node/allocation.h"
+#include "engine/graphics.h"
 
 struct SpriteFrameState;
 #include "common.h"
@@ -42,18 +43,17 @@ typedef struct S_801732A4_8 {
 
 typedef struct Copy24 { u32 words[6]; } Copy24;
 
-s32 get_entity_effect_value();
-void clear_slots_of_type();
+s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
+void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-void select_sprite_entry();
 s32 check_entity_relation();
 s16 get_tile_chebyshev_distance();
 #include "dungeon/player/object/action_state.h"
 s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern void on_actor_status_updated(void *actor);
-void update_actor_status_and_mp();
+void update_actor_status_and_mp(ActorRecord *entity);
 s32 begin_ready_actor_directional_action();
-s32 advance_actor_pending_action();
+s32 advance_actor_pending_action(void *actor_state, void *action, void *status, void *actor);
 void begin_actor_move_to_target_facing();
 extern void func_80171F94(void *action_state, void *action_context, void *sprite, EntityRec *actor);
 void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, EntityRec *position,struct SpriteFrameState *actor, void *model);

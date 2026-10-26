@@ -40,8 +40,7 @@ extern u8 D_80150E0C[];
 extern u8 D_80150E14[];
 
 /* Updates the actor's hop toward its tile and completes the timed action. */
-void advance_actor_hop_and_complete(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void advance_actor_hop_and_complete(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 state;
     s32 hop_ticks;
     s32 target_x;
@@ -55,7 +54,7 @@ void advance_actor_hop_and_complete(void *action, ObjectPosition *motion, Sprite
     u16 facing_aux;
     DungeonGlobalStatus *global_base;
 
-    state = ((S_8014EBAC_0 *)action)->unk_9B;
+    state = action->action_phase;
     switch (state) {
     case 0:
         if (!(sprite->flags & 0x6000)) {
@@ -66,11 +65,11 @@ void advance_actor_hop_and_complete(void *action, ObjectPosition *motion, Sprite
             sprite,
             D_80150E0C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        ((S_8014EBAC_0 *)action)->unk_98 |= 8;
+        action->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_8014EBAC_0 *)action)->unk_9E.s = 5;
         ((S_8014EBAC_0 *)action)->unk_A4 = 0;
-        ((S_8014EBAC_0 *)action)->unk_9B++;
+        action->action_phase++;
 
     case 1:
         hop_ticks = ((S_8014EBAC_0 *)action)->unk_9E.s;
@@ -102,14 +101,14 @@ void advance_actor_hop_and_complete(void *action, ObjectPosition *motion, Sprite
         ((S_8014EBAC_0 *)action)->unk_90 = height;
         if ((next_hop_ticks << 16) < 0) {
             ((S_8014EBAC_0 *)action)->unk_90 = 0;
-            ((S_8014EBAC_0 *)action)->unk_98 &= 0xFFF7;
+            action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            ((S_8014EBAC_0 *)action)->unk_9B++;
+            action->action_phase++;
         }
 
     case 2:
         if (actor->flags1C & ACTOR_GROUNDED) {
-            ((S_8014EBAC_0 *)action)->unk_98 &= 0xFFF7;
+            action->action_state_flags &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -119,7 +118,7 @@ void advance_actor_hop_and_complete(void *action, ObjectPosition *motion, Sprite
                 sprite,
                 D_80150E14[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            ((S_8014EBAC_0 *)action)->unk_9B++;
+            action->action_phase++;
         }
         break;
 

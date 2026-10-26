@@ -24,13 +24,7 @@ typedef struct S_801722E4_5_pre {
     u8 pad_04[0x10];
 } S_801722E4_5_pre;
 
-typedef struct S_801722E4_1 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_801722E4_1;
+
 
 /* arg2 in face_target_and_start_action */
 typedef struct S_801722E4_2 {
@@ -39,20 +33,9 @@ typedef struct S_801722E4_2 {
     u8 unk_25;
 } S_801722E4_2;
 
-typedef struct S_801722E4_3 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x8];
-    u16 unk_98;
-    s8 unk_9A;
-    s8 unk_9B;
-} S_801722E4_3;
 
-typedef struct S_80172438_1 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80172438_1;
+
+
 
 /* arg2 in search_ahead_and_start_action */
 typedef struct S_80172438_2 {
@@ -66,14 +49,7 @@ typedef struct S_80172438_2 {
 } S_80172438_2;
 
 /* extern */
-typedef struct S_8017283C_1 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x8];
-    u16 unk_98;
-    s8 unk_9A;
-    s8 unk_9B;
-} S_8017283C_1;
+
 
 /* extern */
 typedef struct S_8017294C_1 {
@@ -85,7 +61,7 @@ typedef struct S_8017294C_1 {
     s8 unk_9B;
 } S_8017294C_1;
 
-extern s16 get_rounded_facing_and_rounding_flag();
+extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 extern u8 cyclone_frame_set_2[];
 /* arg0 in search_ahead_and_start_action */
@@ -100,10 +76,10 @@ extern s32 try_claim_dungeon_action_slot(void *);
 extern void apply_camera_offset_and_select_target(void *, void *, s32, s32);
 
 /* Functions defined in this translation unit. */
-void face_target_and_start_action(S_801722E4_3 *action_state, s32 event_context, SpriteFrameState *sprite, ActorRecord *actor);
-s32 search_ahead_and_start_action(void *action_state, void *action_context, SpriteFrameState *sprite, ActorRecord *actor);
-void update_action_state_direction_specific(void *action_state, s32 action_param, SpriteFrameState *sprite, void *actor);
-void clear_actor_action_flag_and_animate(S_8017283C_1 *action_state, s32 action_context, SpriteFrameState *animation, ActorRecord *actor);
+void face_target_and_start_action(ActorRecord *action_state, ObjectPosition *event_context, SpriteFrameState *sprite, ActorRecord *actor);
+s32 search_ahead_and_start_action(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
+void update_action_state_direction_specific(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *sprite, ActorRecord *actor);
+void clear_actor_action_flag_and_animate(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *animation, ActorRecord *actor);
 
 
 #endif

@@ -27,18 +27,17 @@ typedef struct S_80172F94_0 {
 
 
 /* Advances an actor's timed animation sequence and handles its completion. */
-void advance_timed_actor_animation(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void advance_timed_actor_animation(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u8 state;
 
-    state = ((S_80172F94_0 *)action)->unk_9B;
+    state = action->action_phase;
     if ((u32)state >= 5) {
         return;
     }
     switch (state) {
     case 0:
         if (sprite->flags & 0x8000) {
-            ((S_80172F94_0 *)action)->unk_9B = 4;
+            action->action_phase = 4;
             sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
@@ -47,7 +46,7 @@ void advance_timed_actor_animation(void *action, ObjectPosition *motion, SpriteF
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         ((S_80172F94_0 *)action)->unk_96.u = 0;
-        ((S_80172F94_0 *)action)->unk_9B++;
+        action->action_phase++;
         return;
 
     case 1:
@@ -63,14 +62,14 @@ void advance_timed_actor_animation(void *action, ObjectPosition *motion, SpriteF
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
             ((S_80172F94_0 *)action)->unk_96.u = 0;
-            ((S_80172F94_0 *)action)->unk_9B++;
+            action->action_phase++;
             return;
         }
         return;
 
     case 2:
         ((S_80172F94_0 *)action)->unk_96.u = 0;
-        ((S_80172F94_0 *)action)->unk_9B++;
+        action->action_phase++;
 
     case 3:
         if ((s16)++((S_80172F94_0 *)action)->unk_96.u == 7 ||

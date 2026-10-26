@@ -18,21 +18,21 @@
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define PTR_AT(p, o) (*(void **)((u8 *)(p) + (o)))
 
-extern s32 get_entity_effect_value();
+extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern s32 check_entity_relation();
-extern void cycle_map_cell_flags();
-extern void update_map_cell_flags_with_item_limit();
-extern s32 check_diagonal_side_height();
+extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
+extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+extern s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s32 check_directional_move_and_terrain();
-extern s32 test_neighbor_position_relation();
-extern s16 get_actor_height_difference();
-extern void * find_adjacent_actor();
+extern s32 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
+extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
+extern void * find_adjacent_actor(void *entity, u16 x, u16 y);
 extern void *probe_directional_neighbor();
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void select_actor_route_target();
-extern void update_actor_proximity_flag();
+extern s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
-extern void update_actor_status_and_mp();
+extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s16 sample_terrain_surface_height();
 extern s32 try_turn_actor_toward_target();
 

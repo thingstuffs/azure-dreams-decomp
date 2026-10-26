@@ -68,13 +68,12 @@ extern u8 mandara_frame_set_1[];
 /* Advances the actor action through its entry, active, and exit animation states. */
 /* Animates entry and exit palette changes for status slot 1, processes turns while active, and restores
  * the callback. */
-void advance_actor_entry_active_exit_states(void *action, void *context, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 state;
     s32 record_index;
     u8 *effect_state;
 
-    state = ((S_8017382C_0 *)action)->unk_9B;
+    state = action->action_phase;
     switch (state) {
     case 0:
     {
@@ -129,7 +128,7 @@ void advance_actor_entry_active_exit_states(void *action, void *context, SpriteF
             ((S_8017382C_7 *)effect_state)->unk_96 = 0;
             ((S_8017382C_7 *)effect_state)->unk_9E = 0;
         }
-        ((S_8017382C_0 *)action)->unk_9B++;
+        action->action_phase++;
         return;
     }
 
@@ -162,7 +161,7 @@ void advance_actor_entry_active_exit_states(void *action, void *context, SpriteF
             }
         }
         sprite->clut = ((S_8017382C_0 *)action)->unk_AE - 0x40;
-        ((S_8017382C_0 *)action)->unk_9B++;
+        action->action_phase++;
         return;
     }
 
@@ -222,7 +221,7 @@ void advance_actor_entry_active_exit_states(void *action, void *context, SpriteF
             ((S_8017382C_0 *)action)->unk_AE = sprite->clut + 0x40;
             g_dungeon_status.activity_counts.parts.pending_action_count++;
 
-            ((S_8017382C_0 *)action)->unk_9B++;
+            action->action_phase++;
             return;
         }
 
@@ -322,7 +321,7 @@ second_call:
             ((S_8017382C_7 *)effect_state)->unk_9E = 1;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count++;
-        ((S_8017382C_0 *)action)->unk_9B++;
+        action->action_phase++;
         ((S_8017382C_0 *)action)->unk_AE = sprite->clut + 0x40;
         return;
     }

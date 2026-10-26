@@ -484,9 +484,8 @@ void update_actor_callbacks_animation_and_ground(u8 *actor, u8 *motion, u8 *obje
 }
 
 /* Selects movement, attacks, and spells from actor status, MP, and its position relative to the player. */
-void update_snowman_behavior(void *actor_arg, void *context_arg, SpriteFrameState *sprite_arg, ActorRecord *entity_arg)
-{
-    s32 direction_aux;
+void update_snowman_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *sprite_arg, ActorRecord *entity_arg) {
+    u16 direction_aux;
     s32 tile_record;
     u16 action_state;
     u32 initial_flags = g_dungeon_status.flags;
@@ -670,6 +669,7 @@ void update_snowman_behavior(void *actor_arg, void *context_arg, SpriteFrameStat
 /* Advances one stored path step, updates occupied tiles and facing, and selects the movement animation and
  * delay. */
 void advance_snowman_stored_path(void *movement, void *motion, SpriteFrameState *entity, void *path_state) {
+    ActorRecord *path_actor = movement;
     void *state = path_state;
     s32 move_flags;
     s16 heading;
@@ -712,7 +712,7 @@ void advance_snowman_stored_path(void *movement, void *motion, SpriteFrameState 
         y,
         ((R10_80171D7C_S_80171CD4_4 *)((u8 *)state + ((R10_80171D7C_S_80171CD4_0 *)state)->unk_8A.s))->unk_74,
         ((R10_80171D7C_S_80171CD4_4 *)((u8 *)state + ((R10_80171D7C_S_80171CD4_0 *)state)->unk_8A.s))->unk_7C,
-        (u8 *)movement + 0x98));
+        &path_actor->action_state_flags));
     move_result = ((s16)check_movement_clearance_and_height(heading, entity, state, 0x20));
 
     entity->tile_x =
@@ -762,8 +762,7 @@ void advance_snowman_stored_path(void *movement, void *motion, SpriteFrameState 
 
 /* Chooses a clear step or attack, records the actor's path, and updates occupied tiles and movement
  * counts. */
-void choose_snowman_move(Rec_func_800A9E70_arg0 *move_data, void *context, SpriteFrameState *position_data, ActorRecord *actor_data)
-{
+void choose_snowman_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data) {
     u16 dungeon_flags = g_dungeon_status.flags;
     s32 limit_detour = 0;
     s16 detour_check;
@@ -791,7 +790,7 @@ void choose_snowman_move(Rec_func_800A9E70_arg0 *move_data, void *context, Sprit
         return;
     }
 
-    update_actor_proximity_flag(position_data, actor_data, 3, 6, &move_data->unk_9C.as_s8);
+    update_actor_proximity_flag(position_data, actor_data, 3, 6, &move_data->unk_9C);
     actor_flags = actor_data->flags1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
@@ -800,7 +799,7 @@ void choose_snowman_move(Rec_func_800A9E70_arg0 *move_data, void *context, Sprit
             if (blocker != 0) {
                 SpriteFrameState *blocker_sprite = ((ObjectNodeHeader *)blocker - 1)->sprite;
                 s16 target_angle = ((s16)get_rounded_facing_and_rounding_flag((s16)position_data->tile_x,(s16)position_data->tile_y,(s16)(blocker_sprite->tile_x),(s16)(blocker_sprite->tile_y),
-                    &move_data->unk_98));
+                    &move_data->action_state_flags));
                 actor_data->facing = target_angle;
                 actor_data->movement_queue_state &= 0x7F;
                 return;
@@ -840,7 +839,7 @@ void choose_snowman_move(Rec_func_800A9E70_arg0 *move_data, void *context, Sprit
                     return;
                 }
 
-                turn_data = &move_data->unk_98;
+                turn_data = &move_data->action_state_flags;
                 target_angle = ((s16)get_rounded_facing_and_rounding_flag((s16)position_data->tile_x,(s16)position_data->tile_y,(s16)((s16)target_x),(s16)((s16)target_y), turn_data));
                 actor_data->facing = target_angle;
                 if (((s16)check_movement_clearance_and_height((s16)(target_angle), position_data, actor_data, 0x20)) <= 0) {
@@ -852,14 +851,14 @@ void choose_snowman_move(Rec_func_800A9E70_arg0 *move_data, void *context, Sprit
                     limit_detour = 1;
                 }
             } else {
-                select_actor_route_target((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
-                              &move_data->unk_98);
+                select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+                              &move_data->action_state_flags);
             }
         }
     } else if ((s8)position_data->room_index >= 0 &&
                dungeon_rooms[(s8)position_data->room_index].flags & ROOM_HOLY_BEAM) {
-        select_actor_route_target((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
-                      &move_data->unk_98);
+        select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+                      &move_data->action_state_flags);
     } else if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
         current_angle = (s32)probe_directional_neighbor(actor_data,position_data->tile_x,position_data->tile_y,(s16)(actor_data->facing));
         blocker = (ActorRecord *)current_angle;
@@ -875,7 +874,7 @@ void choose_snowman_move(Rec_func_800A9E70_arg0 *move_data, void *context, Sprit
 
         if (actor_data->flags1C & ACTOR_PLAYER_AWARE) {
             TileObject *target_position = &reference_tile_object;
-            actor_data->facing = ((s16)get_rounded_facing_and_rounding_flag((s16)position_data->tile_x,(s16)position_data->tile_y,(s16)(target_position->tile_position.parts.tile_x),(s16)(target_position->tile_position.parts.tile_y), &move_data->unk_98));
+            actor_data->facing = ((s16)get_rounded_facing_and_rounding_flag((s16)position_data->tile_x,(s16)position_data->tile_y,(s16)(target_position->tile_position.parts.tile_x),(s16)(target_position->tile_position.parts.tile_y), &move_data->action_state_flags));
             if (((s16)test_neighbor_position_relation(
                     position_data->tile_x, position_data->tile_y,
                     target_position->tile_position.parts.tile_x, target_position->tile_position.parts.tile_y)) != 0) {
@@ -888,8 +887,8 @@ void choose_snowman_move(Rec_func_800A9E70_arg0 *move_data, void *context, Sprit
                 }
             }
         } else {
-            select_actor_route_target((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
-                          &move_data->unk_98);
+            select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+                          &move_data->action_state_flags);
         }
     }
 
@@ -897,7 +896,7 @@ void choose_snowman_move(Rec_func_800A9E70_arg0 *move_data, void *context, Sprit
     turn_table = ((s16 *)actor_turn_angle_offsets);
 
     do {
-        turn_flags = move_data->unk_98;
+        turn_flags = move_data->action_state_flags;
         current_angle = actor_data->facing;
         if (turn_flags & 2) {
             trial_angle = current_angle - turn_table[turn_index];
@@ -964,7 +963,7 @@ void choose_snowman_move(Rec_func_800A9E70_arg0 *move_data, void *context, Sprit
 
     {
         actor_data->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-        move_data->unk_9C.as_u8 = position_data->room_index;
+        move_data->unk_9C = position_data->room_index;
         actor_data->pending_turn_updates--;
         g_dungeon_status.activity_counts.parts.pending_movement_count++;
     }
@@ -997,8 +996,7 @@ void begin_snowman_step_animation(void *actor_state, void *action_state, SpriteF
 }
 
 /* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
-s32 try_snowman_attack(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, SpriteFrameState *sprite, ActorRecord *actor)
-{
+s32 try_snowman_attack(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 target_angle;
     u16 status_flags;
     u8 actor_flags;
@@ -1032,9 +1030,9 @@ s32 try_snowman_attack(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, S
 
     apply_camera_offset_and_select_target((ObjectNodeHeader *)actor - 1, motion_param, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
-        action_state->unk_9A.as_u8 = 0x11;
-        action_state->unk_9B.as_u8 = 0;
-        action_state->unk_8C = 0;
+        action_state->action_id = 0x11;
+        action_state->action_phase = 0;
+        action_state->unk_8C.handler = 0;
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;
         sprite->frameTable = snowman_direction_frames;
@@ -1049,7 +1047,7 @@ s32 try_snowman_attack(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, S
 
 /* Claims an action slot, starts the directional attack animation, and prepares its target and damage
  * state. */
-void begin_snowman_attack(void *action_state, void *action_context, SpriteFrameState *sprite, ActorRecord *actor) {
+void begin_snowman_attack(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor) {
     actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300);
@@ -1132,8 +1130,7 @@ void move_snowman_to_tile(void *entity_arg, void *motion, void *check_arg, void 
 }
 
 /* Hops to the destination tile, updates landing animation, spends MP, and checks for a floor trap. */
-void hop_snowman_to_tile(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void hop_snowman_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 state;
     s32 move_ticks;
     s32 target_x;
@@ -1144,10 +1141,10 @@ void hop_snowman_to_tile(void *action, ObjectPosition *motion, SpriteFrameState 
     s32 next_move_ticks;
     s32 action_ticks;
     s32 actor_flags;
-    s32 facing_aux;
+    u16 facing_aux;
     DungeonGlobalStatus *global_base;
 
-    state = ((R10_80172C54_S_80172C54_0 *)action)->unk_9B;
+    state = action->action_phase;
     switch (state) {
     case 0:
         if (!(sprite->flags & 0x6000)) {
@@ -1158,11 +1155,11 @@ void hop_snowman_to_tile(void *action, ObjectPosition *motion, SpriteFrameState 
             sprite,
             ((u8 *)D_801759A8)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        ((R10_80172C54_S_80172C54_0 *)action)->unk_98 |= 8;
+        action->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((R10_80172C54_S_80172C54_0 *)action)->unk_9E.s = 5;
         ((R10_80172C54_S_80172C54_0 *)action)->unk_A4 = 0;
-        ((R10_80172C54_S_80172C54_0 *)action)->unk_9B++;
+        action->action_phase++;
 
     case 1:
         move_ticks = ((R10_80172C54_S_80172C54_0 *)action)->unk_9E.s;
@@ -1194,13 +1191,13 @@ void hop_snowman_to_tile(void *action, ObjectPosition *motion, SpriteFrameState 
         ((R10_80172C54_S_80172C54_0 *)action)->unk_90 = height_offset;
         if ((next_move_ticks << 16) < 0) {
             ((R10_80172C54_S_80172C54_0 *)action)->unk_90 = 0;
-            ((R10_80172C54_S_80172C54_0 *)action)->unk_98 &= 0xFFF7;
+            action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            ((R10_80172C54_S_80172C54_0 *)action)->unk_9B++;
+            action->action_phase++;
         }
     case 2:
         if (actor->flags1C & ACTOR_GROUNDED) {
-            ((R10_80172C54_S_80172C54_0 *)action)->unk_98 &= 0xFFF7;
+            action->action_state_flags &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -1210,7 +1207,7 @@ void hop_snowman_to_tile(void *action, ObjectPosition *motion, SpriteFrameState 
                 sprite,
                 ((u8 *)snowman_frame_set_3)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            ((R10_80172C54_S_80172C54_0 *)action)->unk_9B++;
+            action->action_phase++;
         }
         break;
 
@@ -1265,18 +1262,16 @@ void hop_snowman_to_tile(void *action, ObjectPosition *motion, SpriteFrameState 
  * Runs update_linked_actor_motion and installs update_snowman_behavior only when it succeeds and
  * the signed floor-trap check returns positive.
  */
-void update_snowman_linked_motion(Resource10CallbackState *state, void *entity, void *position, void *graphic)
-{
+void update_snowman_linked_motion(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
     if (update_linked_actor_motion(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
-            state->callback = update_snowman_behavior;
+            state->unk_8C.handler = update_snowman_behavior;
         }
     }
 }
 
 /* Times an attack animation and sound, applies damage, spends MP, and restores actor movement. */
-void advance_timed_attack_animation_and_damage(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void advance_timed_attack_animation_and_damage(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u16 timer;
     s32 state;
 
@@ -1337,8 +1332,7 @@ void advance_timed_attack_animation_and_damage(void *action, void *motion, Sprit
 
 /* Starts a targeted spell effect, emits converging particles, and restores actor status after the
  * animation. */
-void advance_actor_spell_effect_sequence(void *actor, ObjectPosition *motion, SpriteFrameState *tile_arg, ActorRecord *action)
-{
+void advance_actor_spell_effect_sequence(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *tile_arg, ActorRecord *action) {
     s16 particle_index;
     s32 offset_y;
     s32 offset_x;
@@ -1399,8 +1393,8 @@ kind_default:
 
 use_kind:
     if (*kind_data != 0) {
-        ((R10_80173280_S_80173280_0 *)actor)->unk_98 =
-            ((R10_80173280_S_80173280_0 *)actor)->unk_98 & 0xFF7F;
+        actor->action_state_flags =
+            actor->action_state_flags & 0xFF7F;
         if (effect_flags) {
             target_obj = primary_actor_record;
             action->target = target_obj;
@@ -1496,7 +1490,7 @@ case 2:
         !(tile_arg->flags & 0xE000)) {
         return;
     }
-    ((R10_80173280_S_80173280_0 *)actor)->unk_98 |= 0x80;
+    actor->action_state_flags |= 0x80;
     ((R10_80173280_S_80173280_0 *)actor)->phase++;
     tile_arg->flags |= 0x800;
     ((R10_80173280_S_80173280_0 *)actor)->timer.s = 0x14;
@@ -1509,7 +1503,7 @@ case 3:
     }
     ((R10_80173280_S_80173280_0 *)actor)->timer.s--;
     if ((s16)((R10_80173280_S_80173280_0 *)actor)->timer.s <= 0) {
-        *(u16 *)((u8 *)actor + 0x96) = 0;
+        actor->action_timer = 0;
         tile_arg->flags &= 0xF7FF;
     }
     if (!(tile_arg->flags & 0xE000)) {
@@ -1566,8 +1560,7 @@ const Resource10DirectionOffset D_80170874[8] = {
 
 /* Applies a value change and directional displacement, then returns the actor to its tile and restores
  * movement. */
-void displace_actor_then_recenter(void *action, ObjectPosition *motion, SpriteFrameState *entity, EntityRec *actor)
-{
+void displace_actor_then_recenter(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *entity, ActorRecord *actor) {
     s32 state;
 
     state = ((R10_8017380C_S_8017380C_0 *)action)->phase;
@@ -1576,7 +1569,7 @@ void displace_actor_then_recenter(void *action, ObjectPosition *motion, SpriteFr
         apply_clamped_actor_value_delta(actor);
         ((R10_8017380C_S_8017380C_0 *)action)->timer.s = 4;
         ((R10_8017380C_S_8017380C_0 *)action)->phase++;
-        if (actor->unk_28 == 0) {
+        if (actor->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -1599,10 +1592,10 @@ void displace_actor_then_recenter(void *action, ObjectPosition *motion, SpriteFr
         if (frames_left > 0) {
             motion->velocity_x =
                 *(s16 *)((u8 *)((s8 *)dir_step_x) +
-                    ((actor->unk_6A >> 8) & 0xE)) << 19;
+                    ((actor->movement_facing >> 8) & 0xE)) << 19;
             motion->velocity_y =
                 *(s16 *)((u8 *)((s8 *)dir_step_y) +
-                    ((actor->unk_6A >> 8) & 0xE)) << 19;
+                    ((actor->movement_facing >> 8) & 0xE)) << 19;
             return;
         }
         if (frames_left != 0) {
@@ -1610,17 +1603,17 @@ void displace_actor_then_recenter(void *action, ObjectPosition *motion, SpriteFr
         }
         motion->velocity_x =
             *(s16 *)((u8 *)((s8 *)dir_step_x) +
-                ((actor->unk_6A >> 8) & 0xE)) << 18;
+                ((actor->movement_facing >> 8) & 0xE)) << 18;
         motion->velocity_y =
             *(s16 *)((u8 *)((s8 *)dir_step_y) +
-                ((actor->unk_6A >> 8) & 0xE)) << 18;
+                ((actor->movement_facing >> 8) & 0xE)) << 18;
         ((R10_8017380C_S_8017380C_0 *)action)->timer.s = 6;
         ((R10_8017380C_S_8017380C_0 *)action)->phase++;
         return;
     }
 
     case 2:
-        if (actor->unk_28 == 0) {
+        if (actor->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -1698,22 +1691,20 @@ void advance_snowman_removal(void *state, void *motion, void *position, void *ac
 }
 
 /* Runs update_actor_hop_and_grow and installs update_snowman_behavior when it returns nonzero. */
-void grow_hopping_snowman(Resource10CallbackState *state, void *motion, void *position, void *actor)
-{
+void grow_hopping_snowman(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_actor_hop_and_grow(state, motion, position, actor)) {
-        state->callback = update_snowman_behavior;
+        state->unk_8C.handler = update_snowman_behavior;
     }
 }
 
 /* Waits for a status effect to clear, updates actor status and activity counts, then restores movement. */
-void advance_snowman_status_action(void *action, void *context, SpriteFrameState *sprite_in, void *actor_in)
-{
+void advance_snowman_status_action(ActorRecord *action, ObjectPosition *context, SpriteFrameState *sprite_in, ActorRecord *actor_in) {
     s32 state;
     void *actor_to_check;
     DungeonGlobalStatus *status;
     s32 actor_flags;
 
-    state = ((R10_80173BBC_S_80173D4C_0 *)action)->unk_9B;
+    state = action->action_phase;
     switch (state) {
     case 0:
         if (!(sprite_in->flags & 0xE000)) {
@@ -1721,7 +1712,7 @@ void advance_snowman_status_action(void *action, void *context, SpriteFrameState
         }
         (sprite_in->frameTable) = ((u8 *)snowman_alt_direction_frames);
         select_sprite_entry(sprite_in,
-            ((u8 *)snowman_alt_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R10_80173BBC_S_80173D4C_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
+            ((u8 *)snowman_alt_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + actor_in->facing + 0x100) >> 9) & 7],
             0);
         {
             DungeonGlobalStatus *counter_base;
@@ -1730,7 +1721,7 @@ void advance_snowman_status_action(void *action, void *context, SpriteFrameState
             counter_base->activity_counts.parts.pending_action_count =
                 ((u16)counter_base->activity_counts.parts.pending_action_count) - 1;
         }
-        ((R10_80173BBC_S_80173D4C_0 *)action)->unk_9B++;
+        action->action_phase++;
         return;
 
     case 1:
@@ -1739,12 +1730,12 @@ void advance_snowman_status_action(void *action, void *context, SpriteFrameState
             if (status->flags & 0x1000) {
                 return;
             }
-            if (((R10_80173BBC_S_80173D4C_2 *)actor_in)->unk_64 != 0) {
+            if (actor_in->hp_delta != 0) {
                 if (begin_ready_actor_directional_action(action, context, sprite_in, 0) != 0) {
                     return;
                 }
             }
-            if (((R10_80173BBC_S_80173D4C_2 *)actor_in)->unk_25 == 0) {
+            if (actor_in->mp == 0) {
                 if (status->flags & 0x2008) {
                     return;
                 }
@@ -1754,7 +1745,7 @@ void advance_snowman_status_action(void *action, void *context, SpriteFrameState
             if ((has_pending_actor_or_turn_action(actor_in) << 16) != 0) {
                 return;
             }
-            actor_flags = ((R10_80173BBC_S_80173D4C_2 *)actor_in)->unk_1C;
+            actor_flags = actor_in->flags1C;
             if (actor_flags & 0x100) {
                 begin_pushed_actor_move(action, context, sprite_in, actor_in);
                 return;
@@ -1764,7 +1755,7 @@ void advance_snowman_status_action(void *action, void *context, SpriteFrameState
                 update_snowman_parent_motion(action, context, sprite_in, actor_in);
                 return;
             }
-            if (((R10_80173BBC_S_80173D4C_2 *)actor_in)->unk_6D == 0) {
+            if (actor_in->pending_turn_updates == 0) {
                 return;
             }
             if ((has_pending_actor_or_turn_action(actor_in) << 16) != 0) {
@@ -1804,7 +1795,7 @@ void advance_snowman_status_action(void *action, void *context, SpriteFrameState
 
             (sprite_in->frameTable) = ((u8 *)snowman_frame_set_1);
             select_sprite_entry(sprite_in,
-                ((u8 *)snowman_frame_set_1)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R10_80173BBC_S_80173D4C_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
+                ((u8 *)snowman_frame_set_1)[((g_game_work.view.camera_rotation.parts.viewAngle + actor_in->facing + 0x100) >> 9) & 7],
                 0);
             if (sprite_in->flags & 0x8000) {
                 ((R10_80173BBC_S_80173D4C_0 *)action)->unk_8C = ((void *)update_snowman_behavior);
@@ -1812,12 +1803,12 @@ void advance_snowman_status_action(void *action, void *context, SpriteFrameState
             }
             g_dungeon_status.activity_counts.parts.pending_action_count++;
 
-            ((R10_80173BBC_S_80173D4C_0 *)action)->unk_9B++;
+            action->action_phase++;
             return;
         }
         (sprite_in->frameTable) = ((u8 *)snowman_frame_set_1);
         select_sprite_entry(sprite_in,
-            ((u8 *)snowman_frame_set_1)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R10_80173BBC_S_80173D4C_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
+            ((u8 *)snowman_frame_set_1)[((g_game_work.view.camera_rotation.parts.viewAngle + actor_in->facing + 0x100) >> 9) & 7],
             0);
         if (sprite_in->flags & 0x8000) {
             ((R10_80173BBC_S_80173D4C_0 *)action)->unk_8C = ((void *)update_snowman_behavior);
@@ -1825,7 +1816,7 @@ void advance_snowman_status_action(void *action, void *context, SpriteFrameState
         }
         g_dungeon_status.activity_counts.parts.pending_action_count++;
 
-        ((R10_80173BBC_S_80173D4C_0 *)action)->unk_9B++;
+        action->action_phase++;
         return;
 
     case 2:
@@ -1841,14 +1832,13 @@ void advance_snowman_status_action(void *action, void *context, SpriteFrameState
 }
 
 /* Waits for MP recovery while processing actor status, then restores the normal animation and movement. */
-void advance_snowman_mp_action(void *actor_in, s32 actor_index, SpriteFrameState *target, void *entity_in)
-{
-    EntityRec *entity = entity_in;
+void advance_snowman_mp_action(ActorRecord *actor_in, ObjectPosition *actor_index, SpriteFrameState *target, ActorRecord *entity_in) {
+    ActorRecord *entity = entity_in;
     s32 state;
     s32 entity_flags;
     s32 direction;
     DungeonGlobalStatus *shared_state;
-    state = ((R10_80173F4C_S_801740DC_0 *)actor_in)->unk_9B;
+    state = actor_in->action_phase;
     switch (state) {
     case 0:
     if (!(target->flags & 0xE000)) {
@@ -1863,11 +1853,11 @@ void advance_snowman_mp_action(void *actor_in, s32 actor_index, SpriteFrameState
     (target->frameTable) = ((u8 *)snowman_alt_direction_frames);
     direction = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
     select_sprite_entry(target,(u8)(((u8 *)snowman_alt_direction_frames)[direction & 7]), 0);
-    ((R10_80173F4C_S_801740DC_0 *)actor_in)->unk_9B++;
+    actor_in->action_phase++;
     return;
 
     case 1:
-    if (entity->tileY != 0) {
+    if (entity->mp != 0) {
         DungeonGlobalStatus *shared_counter;
 
         (target->frameTable) = ((u8 *)snowman_frame_set_1);
@@ -1875,14 +1865,14 @@ void advance_snowman_mp_action(void *actor_in, s32 actor_index, SpriteFrameState
         select_sprite_entry(target,(u8)(((u8 *)snowman_frame_set_1)[direction & 7]), 0);
         shared_counter = &g_dungeon_status;
         shared_counter->activity_counts.parts.pending_action_count++;
-        ((R10_80173F4C_S_801740DC_0 *)actor_in)->unk_9B++;
+        actor_in->action_phase++;
         return;
     } else {
         shared_state = &g_dungeon_status;
         if (shared_state->flags & 0x1000) {
             return;
         }
-        if (entity->unk_64 != 0) {
+        if (entity->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor_in, actor_index, target, 0) != 0) {
                 return;
             }
@@ -1900,7 +1890,7 @@ void advance_snowman_mp_action(void *actor_in, s32 actor_index, SpriteFrameState
             update_snowman_parent_motion(actor_in, actor_index, target, entity);
             return;
         }
-        if (entity->unk_6D == 0) {
+        if (entity->pending_turn_updates == 0) {
             return;
         }
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
@@ -1913,7 +1903,7 @@ void advance_snowman_mp_action(void *actor_in, s32 actor_index, SpriteFrameState
             update_actor_status_and_mp(entity);
         }
         on_actor_status_updated(entity);
-        if (entity->tileY == 0) {
+        if (entity->mp == 0) {
             return;
         }
         (target->frameTable) = ((u8 *)snowman_frame_set_1);
@@ -1921,7 +1911,7 @@ void advance_snowman_mp_action(void *actor_in, s32 actor_index, SpriteFrameState
         select_sprite_entry(target,(u8)(((u8 *)snowman_frame_set_1)[direction & 7]), 0);
         shared_state->activity_counts.parts.pending_action_count++;
     }
-    ((R10_80173F4C_S_801740DC_0 *)actor_in)->unk_9B++;
+    actor_in->action_phase++;
     return;
 
     case 2:
@@ -1947,17 +1937,16 @@ void advance_snowman_mp_action(void *actor_in, s32 actor_index, SpriteFrameState
  * positive; during motion, restores movement frames when the alternate table is active and flags
  * 0x208 are clear.
  */
-void update_snowman_parent_motion(R10_80174258_Actor *actor, s32 action, SpriteFrameState *entity, R10_80174258_MapObject *map_object)
-{
+void update_snowman_parent_motion(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *entity, ActorRecord *map_object) {
     if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
         if ((check_actor_floor_trap(entity, map_object) << 16) > 0) {
-            actor->unk_8C = ((u8 *)update_snowman_behavior);
+            actor->unk_8C.handler = ((u8 *)update_snowman_behavior);
             return;
         }
     } else if (*(u8 **)&entity->frameTable == ((u8 *)snowman_alt_direction_frames) &&
-               !(map_object->unk_1C & 0x208)) {
+               !(map_object->flags1C & 0x208)) {
         entity->frameTable = ((u8 *)snowman_move_direction_frames);
-        select_sprite_entry(entity,(s16)(((u8 *)snowman_move_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + map_object->unk_2A + 0x100) >> 9) & 7]),(s16)(0));
+        select_sprite_entry(entity,(s16)(((u8 *)snowman_move_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + map_object->facing + 0x100) >> 9) & 7]),(s16)(0));
     }
 }
 
@@ -1965,11 +1954,10 @@ void update_snowman_parent_motion(R10_80174258_Actor *actor, s32 action, SpriteF
  * Runs update_thrown_actor_travel and installs update_snowman_behavior only when it succeeds and
  * the signed floor-trap check returns positive.
  */
-void advance_boss_command_stream(Resource10CallbackState *state, void *entity, void *position, void *graphic)
-{
+void advance_boss_command_stream(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
     if (update_thrown_actor_travel(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
-            state->callback = update_snowman_behavior;
+            state->unk_8C.handler = update_snowman_behavior;
         }
     }
 }
@@ -1978,26 +1966,23 @@ void advance_boss_command_stream(Resource10CallbackState *state, void *entity, v
  * Runs interpolate_actor_to_terrain_tile and installs update_snowman_behavior when it returns
  * nonzero.
  */
-void settle_snowman_on_tile(Resource10CallbackState *state, void *motion, void *position, void *actor)
-{
+void settle_snowman_on_tile(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (interpolate_actor_to_terrain_tile(state, motion, position, actor)) {
-        state->callback = update_snowman_behavior;
+        state->unk_8C.handler = update_snowman_behavior;
     }
 }
 
 /* Runs update_spinning_actor_fall and installs update_snowman_behavior when it returns nonzero. */
-void create_positioned_sprite_effect(Resource10CallbackState *state, void *motion, void *position, void *actor)
-{
+void create_positioned_sprite_effect(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_spinning_actor_fall(state, motion, position, actor)) {
-        state->callback = update_snowman_behavior;
+        state->unk_8C.handler = update_snowman_behavior;
     }
 }
 
 /* Runs update_actor_fade_in and installs update_snowman_behavior when it returns nonzero. */
-void fade_in_snowman(Resource10CallbackState *state, void *motion, void *position, void *actor)
-{
+void fade_in_snowman(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_actor_fade_in(state, motion, position, actor)) {
-        state->callback = update_snowman_behavior;
+        state->unk_8C.handler = update_snowman_behavior;
     }
 }
 
@@ -2094,7 +2079,7 @@ void prepare_directional_attacks_for_neighbor_entities(void *node, s32 tile_x, s
 }
 
 /* Claims an action slot, starts the directional action animation, and advances status and turn counters. */
-void select_actor_target_and_advance_status(void *action_state, s32 effect_arg, SpriteFrameState *anim_state, ActorRecord *actor) {
+void select_actor_target_and_advance_status(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *anim_state, ActorRecord *actor) {
     actor->movement_queue_state = actor->movement_queue_state & 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, effect_arg, 8, 0x300);
@@ -2115,18 +2100,17 @@ void select_actor_target_and_advance_status(void *action_state, s32 effect_arg, 
 
 /* Prepares attacks near the tile ahead, resolves hits with particle bursts, then spends MP and ends the
  * action. */
-void advance_directional_attack_sequence(void *action, void *position, SpriteFrameState *sprite, ActorRecord *entity)
-{
+void advance_directional_attack_sequence(ActorRecord *action, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *entity) {
     R10_80174898_OffsetTable direction_offsets = (*(R10_80174898_OffsetTable *)&D_80170854);
     s32 offset_coord;
 
-    switch (((R10_80174898_S_80174898_0 *)action)->unk_9B) {
+    switch (action->action_phase) {
     case 0:
         ((R10_80174898_S_80174898_1 *)position)->unk_14 = 0;
         ((R10_80174898_S_80174898_1 *)position)->unk_10 = 0;
         ((R10_80174898_S_80174898_1 *)position)->unk_0C = 0;
         ((R10_80174898_S_80174898_0 *)action)->unk_96 = 0x14;
-        ((R10_80174898_S_80174898_0 *)action)->unk_9B++;
+        action->action_phase++;
         break;
 
     case 1:
@@ -2181,7 +2165,7 @@ void advance_directional_attack_sequence(void *action, void *position, SpriteFra
         if ((((R10_80174898_S_80174898_0 *)action)->unk_96 <= 0) ||
             (sprite->flags & 0x8000)) {
             ((R10_80174898_S_80174898_0 *)action)->unk_96 = 0;
-            ((R10_80174898_S_80174898_0 *)action)->unk_9B++;
+            action->action_phase++;
         }
         break;
 
@@ -2199,7 +2183,7 @@ void advance_directional_attack_sequence(void *action, void *position, SpriteFra
                     (*(u8 **)&sprite->frameTable)[((g_game_work.view.camera_rotation.parts.viewAngle +
                         entity->facing + 0x100) >> 9) & 7],
                     0);
-                ((R10_80174898_S_80174898_0 *)action)->unk_9B++;
+                action->action_phase++;
             }
         }
         break;
@@ -2694,17 +2678,15 @@ void advance_actor_transition_and_restore_facing(void *transition, void *positio
 }
 
 /* Runs resolve_actor_floor_trap_once and installs update_snowman_behavior when it returns positive. */
-void resolve_snowman_floor_trap(Resource10CallbackState *state, void *motion, void *position, void *actor)
-{
+void resolve_snowman_floor_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (resolve_actor_floor_trap_once(state, motion, position, actor) > 0) {
-        state->callback = update_snowman_behavior;
+        state->unk_8C.handler = update_snowman_behavior;
     }
 }
 
 /* Runs propagate_actor_action_flag and installs update_snowman_behavior when it returns nonzero. */
-void propagate_snowman_action_flag(Resource10CallbackState *state, void *motion, void *position, void *actor)
-{
+void propagate_snowman_action_flag(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (propagate_actor_action_flag(state, motion, position, actor)) {
-        state->callback = update_snowman_behavior;
+        state->unk_8C.handler = update_snowman_behavior;
     }
 }

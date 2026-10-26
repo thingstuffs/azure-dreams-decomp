@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_flags.h"
@@ -234,9 +235,8 @@ void update_griffon_motion_and_facing(void *entity, R08_80170A50_S_80170A28_2 *m
 
 /* Selects movement, attacks, and spells from actor status and creates sprite effects during idle
  * animation. */
-void update_actor_behavior_and_effect(void *actor, EntityRec *position, SpriteFrameState *object, ActorRecord *actor_data)
-{
-    s32 distance;
+void update_actor_behavior_and_effect(ActorRecord *actor, ObjectPosition *position, SpriteFrameState *object, ActorRecord *actor_data) {
+    u16 distance;
     s16 effect_offset[3];
     s8 room_id;
     u16 action_state;
@@ -495,7 +495,7 @@ void update_actor_behavior_and_effect(void *actor, EntityRec *position, SpriteFr
 
 /* Advances one stored path step, updates occupied tiles and facing, and selects the movement animation and
  * delay. */
-void advance_griffon_stored_path(void *action, s32 action_id, SpriteFrameState *entity, void *move_state) {
+void advance_griffon_stored_path(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state) {
     void *state = move_state;
     s32 tile_mask;
     s16 move_result;
@@ -528,7 +528,7 @@ void advance_griffon_stored_path(void *action, s32 action_id, SpriteFrameState *
     update_map_cell_flags_with_item_limit(x, y, tile_mask);
 
     direction = ((s16)get_rounded_facing_and_rounding_flag((s16)(x),(s16)(y),(s16)(((R08_801715B4_S_80171570_3 *)((u8 *)state + ((R08_801715B4_S_80171570_0 *)state)->unk_8A))->unk_74),(s16)(((R08_801715B4_S_80171570_3 *)((u8 *)state + ((R08_801715B4_S_80171570_0 *)state)->unk_8A))->unk_7C),
-        (u8 *)action + 0x98));
+        &action->action_state_flags));
     move_result = ((s16)check_movement_clearance_and_height((s16)(direction), entity, state, 0x20));
 
     entity->tile_x =
@@ -551,7 +551,7 @@ void advance_griffon_stored_path(void *action, s32 action_id, SpriteFrameState *
         begin_griffon_step_animation(action, action_id, entity, state);
         ((R08_801715B4_S_80171570_2 *)action)->unk_8C = 0;
     } else {
-        ((R08_801715B4_S_80171570_2 *)action)->unk_9A = 0x0F;
+        action->action_id = 0x0F;
         ((R08_801715B4_S_80171570_2 *)action)->unk_8C = 0;
     }
     (*(s32 *)((u8 *)state + 0x1C)) |= 0x40000000;
@@ -569,8 +569,7 @@ void advance_griffon_stored_path(void *action, s32 action_id, SpriteFrameState *
 
 /* Chooses a clear step or attack, records the actor's path, and updates occupied tiles and movement
  * counts. */
-void choose_griffon_move(Rec_func_800A9E70_arg0 *move_data, void *context, SpriteFrameState *position_data, ActorRecord *actor_data)
-{
+void choose_griffon_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data) {
     u16 dungeon_flags = g_dungeon_status.flags;
     s32 limit_detour = 0;
     s16 detour_check;
@@ -598,7 +597,7 @@ void choose_griffon_move(Rec_func_800A9E70_arg0 *move_data, void *context, Sprit
         return;
     }
 
-    update_actor_proximity_flag(position_data, actor_data, 3, 6, &move_data->unk_9C.as_s8);
+    update_actor_proximity_flag(position_data, actor_data, 3, 6, &move_data->unk_9C);
     actor_flags = actor_data->flags1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
@@ -607,7 +606,7 @@ void choose_griffon_move(Rec_func_800A9E70_arg0 *move_data, void *context, Sprit
             if (blocker != 0) {
                 SpriteFrameState *blocker_sprite = ((ObjectNodeHeader *)blocker - 1)->sprite;
                 s16 target_angle = ((s16)get_rounded_facing_and_rounding_flag((s16)position_data->tile_x,(s16)position_data->tile_y,(s16)(blocker_sprite->tile_x),(s16)(blocker_sprite->tile_y),
-                    &move_data->unk_98));
+                    &move_data->action_state_flags));
                 actor_data->facing = target_angle;
                 actor_data->movement_queue_state &= 0x7F;
                 return;
@@ -647,7 +646,7 @@ void choose_griffon_move(Rec_func_800A9E70_arg0 *move_data, void *context, Sprit
                     return;
                 }
 
-                turn_data = &move_data->unk_98;
+                turn_data = &move_data->action_state_flags;
                 target_angle = ((s16)get_rounded_facing_and_rounding_flag((s16)position_data->tile_x,(s16)position_data->tile_y,(s16)((s16)target_x),(s16)((s16)target_y), turn_data));
                 actor_data->facing = target_angle;
                 if (((s16)check_movement_clearance_and_height((s16)(target_angle), position_data, actor_data, 0x20)) <= 0) {
@@ -659,14 +658,14 @@ void choose_griffon_move(Rec_func_800A9E70_arg0 *move_data, void *context, Sprit
                     limit_detour = 1;
                 }
             } else {
-                select_actor_route_target((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
-                              &move_data->unk_98);
+                select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+                              &move_data->action_state_flags);
             }
         }
     } else if ((s8)position_data->room_index >= 0 &&
                dungeon_rooms[(s8)position_data->room_index].flags & ROOM_HOLY_BEAM) {
-        select_actor_route_target((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
-                      &move_data->unk_98);
+        select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+                      &move_data->action_state_flags);
     } else if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
         current_angle = (s32)probe_directional_neighbor(actor_data,position_data->tile_x,position_data->tile_y,(s16)(actor_data->facing));
         blocker = (ActorRecord *)current_angle;
@@ -682,7 +681,7 @@ void choose_griffon_move(Rec_func_800A9E70_arg0 *move_data, void *context, Sprit
 
         if (actor_data->flags1C & ACTOR_PLAYER_AWARE) {
             TileObject *target_position = &reference_tile_object;
-            actor_data->facing = ((s16)get_rounded_facing_and_rounding_flag((s16)position_data->tile_x,(s16)position_data->tile_y,(s16)(target_position->tile_position.parts.tile_x),(s16)(target_position->tile_position.parts.tile_y), &move_data->unk_98));
+            actor_data->facing = ((s16)get_rounded_facing_and_rounding_flag((s16)position_data->tile_x,(s16)position_data->tile_y,(s16)(target_position->tile_position.parts.tile_x),(s16)(target_position->tile_position.parts.tile_y), &move_data->action_state_flags));
             if (((s16)test_neighbor_position_relation(
                     position_data->tile_x, position_data->tile_y,
                     target_position->tile_position.parts.tile_x, target_position->tile_position.parts.tile_y)) != 0) {
@@ -695,8 +694,8 @@ void choose_griffon_move(Rec_func_800A9E70_arg0 *move_data, void *context, Sprit
                 }
             }
         } else {
-            select_actor_route_target((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
-                          &move_data->unk_98);
+            select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+                          &move_data->action_state_flags);
         }
     }
 
@@ -704,7 +703,7 @@ void choose_griffon_move(Rec_func_800A9E70_arg0 *move_data, void *context, Sprit
     turn_table = ((s16 *)actor_turn_angle_offsets);
 
     do {
-        turn_flags = move_data->unk_98;
+        turn_flags = move_data->action_state_flags;
         current_angle = actor_data->facing;
         if (turn_flags & 2) {
             trial_angle = current_angle - turn_table[turn_index];
@@ -771,7 +770,7 @@ void choose_griffon_move(Rec_func_800A9E70_arg0 *move_data, void *context, Sprit
 
     {
         actor_data->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-        move_data->unk_9C.as_u8 = position_data->room_index;
+        move_data->unk_9C = position_data->room_index;
         actor_data->pending_turn_updates--;
         g_dungeon_status.activity_counts.parts.pending_movement_count++;
     }
@@ -805,8 +804,7 @@ void begin_griffon_step_animation(void *object, void *unused, void *display, voi
 }
 
 /* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
-s32 update_actor_animation_behavior_and_facing(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, SpriteFrameState *sprite, ActorRecord *actor)
-{
+s32 update_actor_animation_behavior_and_facing(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 target_angle;
     u16 status_flags;
     u8 actor_flags;
@@ -840,9 +838,9 @@ s32 update_actor_animation_behavior_and_facing(Rec_func_800A9E70_arg0 *action_st
 
     apply_camera_offset_and_select_target((ObjectNodeHeader *)actor - 1, motion_param, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
-        action_state->unk_9A.as_u8 = 0x11;
-        action_state->unk_9B.as_u8 = 0;
-        action_state->unk_8C = 0;
+        action_state->action_id = 0x11;
+        action_state->action_phase = 0;
+        action_state->unk_8C.handler = 0;
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;
         sprite->frameTable = griffon_direction_frames;
@@ -857,7 +855,7 @@ s32 update_actor_animation_behavior_and_facing(Rec_func_800A9E70_arg0 *action_st
 
 /* Claims an action slot, starts the directional attack animation, and prepares its target and damage
  * state. */
-void begin_griffon_attack(void *action_state, void *action_context, SpriteFrameState *sprite, ActorRecord *actor) {
+void begin_griffon_attack(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor) {
     actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300);
@@ -951,7 +949,7 @@ void hop_griffon_to_tile(void *action, void *motion, SpriteFrameState *sprite, v
     s32 next_move_ticks;
     s32 action_ticks;
     s32 actor_flags;
-    s32 direction_aux;
+    u16 direction_aux;
     DungeonGlobalStatus *global_base;
 
     state = ((R08_8017245C_S_80172478_0 *)action)->unk_9B;
@@ -1065,18 +1063,16 @@ void hop_griffon_to_tile(void *action, void *motion, SpriteFrameState *sprite, v
  * Runs update_linked_actor_motion and installs update_actor_behavior_and_effect only when it
  * succeeds and the signed floor-trap check returns positive.
  */
-void advance_a_timed_actor_animation_applies_completion_effects(Resource08CallbackState *state, void *entity, void *position, void *graphic)
-{
+void advance_a_timed_actor_animation_applies_completion_effects(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
     if (update_linked_actor_motion(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
-            state->callback = update_actor_behavior_and_effect;
+            state->unk_8C.handler = update_actor_behavior_and_effect;
         }
     }
 }
 
 /* Animates a backward step and forward attack, applies damage, then recenters the actor and spends MP. */
-void update_staged_movement_and_return_to_tile(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void update_staged_movement_and_return_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 state;
     s32 direction_offset;
     s32 vertical_speed;
@@ -1185,7 +1181,7 @@ void update_staged_movement_and_return_to_tile(void *action, ObjectPosition *mot
             motion->velocity_y =
                 (direction_step * 3 << 16) + ((direction_step * 3 << 16) >> 2);
             ((R08_80172830_S_80172830_0 *)action)->unk_90 = 0;
-            ((R08_80172830_S_80172830_0 *)action)->unk_98 |= 8;
+            action->action_state_flags |= 8;
         }
 
         if (((sprite->unk_04 == 3) &&
@@ -1216,7 +1212,7 @@ void update_staged_movement_and_return_to_tile(void *action, ObjectPosition *mot
         spend_actor_mp(actor, 0x100);
         (*(u8 * *)((u8 *)action + 0x8C)) = ((void *)update_actor_behavior_and_effect);
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)action + 0x98)) &= 0xFFF7;
+        action->action_state_flags &= 0xFFF7;
         advance_status_timers(actor);
         if (actor->pending_turn_updates == 0) {
             actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -1567,16 +1563,14 @@ void advance_griffon_removal(void *state, void *motion, void *position, void *ac
  * Runs update_actor_hop_and_grow and installs update_actor_behavior_and_effect when it returns
  * nonzero.
  */
-void finish_actor_hop_and_grow_then_resume_effect_behavior(Resource08CallbackState *state, void *motion, void *position, void *actor)
-{
+void finish_actor_hop_and_grow_then_resume_effect_behavior(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_actor_hop_and_grow(state, motion, position, actor)) {
-        state->callback = update_actor_behavior_and_effect;
+        state->unk_8C.handler = update_actor_behavior_and_effect;
     }
 }
 
 /* Waits for a status effect to clear, updates actor status and activity counts, then restores movement. */
-void update_object_or_select_directional_data(void *controller, s32 actor_index, void *sprite, ActorRecord *actor)
-{
+void update_object_or_select_directional_data(ActorRecord *controller, ObjectPosition *actor_index, SpriteFrameState *sprite, ActorRecord *actor) {
     DungeonGlobalStatus *dungeon_status;
     s32 actor_flags;
     s32 state;
@@ -1740,8 +1734,7 @@ void update_object_or_select_directional_data(void *controller, s32 actor_index,
 }
 
 /* Waits for MP recovery while processing actor status, then restores the normal animation and movement. */
-void resume_actor_effect_behavior_after_status_animation(void *controller, void *context, void *sprite, ActorRecord *entity)
-{
+void resume_actor_effect_behavior_after_status_animation(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
     s32 state;
 
     state = ((Rec_func_801736F4_arg0 *)controller)->unk_9B;
@@ -1847,17 +1840,16 @@ void resume_actor_effect_behavior_after_status_animation(void *controller, void 
  * positive; during motion, restores movement frames when the alternate table is active and flags
  * 0x208 are clear.
  */
-void update_griffon_parent_motion(R08_80173F20_Actor *actor, s32 action, R08_80173F20_Entity *entity, R08_80173F20_MapObject *map_object)
-{
+void update_griffon_parent_motion(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *entity, ActorRecord *map_object) {
     if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
         if ((check_actor_floor_trap(entity, map_object) << 16) > 0) {
-            actor->unk_8C = ((u8 *)update_actor_behavior_and_effect);
+            actor->unk_8C.handler = ((u8 *)update_actor_behavior_and_effect);
             return;
         }
-    } else if (entity->unk_2C == ((u8 *)griffon_frame_set_3) &&
-               !(map_object->unk_1C & 0x208)) {
-        entity->unk_2C = ((u8 *)griffon_move_direction_frames);
-        select_sprite_entry(entity,(s16)(((u8 *)griffon_move_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + map_object->unk_2A + 0x100) >> 9) & 7]),(s16)(0));
+    } else if (entity->frameTable == ((u8 *)griffon_frame_set_3) &&
+               !(map_object->flags1C & 0x208)) {
+        entity->frameTable = ((u8 *)griffon_move_direction_frames);
+        select_sprite_entry(entity,(s16)(((u8 *)griffon_move_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + map_object->facing + 0x100) >> 9) & 7]),(s16)(0));
     }
 }
 
@@ -1865,11 +1857,10 @@ void update_griffon_parent_motion(R08_80173F20_Actor *actor, s32 action, R08_801
  * Runs update_thrown_actor_travel and installs update_actor_behavior_and_effect only when it
  * succeeds and the signed floor-trap check returns positive.
  */
-void finish_thrown_actor_travel_and_floor_trap_then_resume_effect_behavior(Resource08CallbackState *state, void *entity, void *position, void *graphic)
-{
+void finish_thrown_actor_travel_and_floor_trap_then_resume_effect_behavior(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
     if (update_thrown_actor_travel(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
-            state->callback = update_actor_behavior_and_effect;
+            state->unk_8C.handler = update_actor_behavior_and_effect;
         }
     }
 }
@@ -1878,10 +1869,9 @@ void finish_thrown_actor_travel_and_floor_trap_then_resume_effect_behavior(Resou
  * Runs interpolate_actor_to_terrain_tile and installs update_actor_behavior_and_effect when it
  * returns nonzero.
  */
-void finish_actor_terrain_interpolation_then_resume_effect_behavior(Resource08CallbackState *state, void *motion, void *position, void *actor)
-{
+void finish_actor_terrain_interpolation_then_resume_effect_behavior(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (interpolate_actor_to_terrain_tile(state, motion, position, actor)) {
-        state->callback = update_actor_behavior_and_effect;
+        state->unk_8C.handler = update_actor_behavior_and_effect;
     }
 }
 
@@ -1889,18 +1879,16 @@ void finish_actor_terrain_interpolation_then_resume_effect_behavior(Resource08Ca
  * Runs update_spinning_actor_fall and installs update_actor_behavior_and_effect when it returns
  * nonzero.
  */
-void create_four_directional_effects(Resource08CallbackState *state, void *motion, void *position, void *actor)
-{
+void create_four_directional_effects(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_spinning_actor_fall(state, motion, position, actor)) {
-        state->callback = update_actor_behavior_and_effect;
+        state->unk_8C.handler = update_actor_behavior_and_effect;
     }
 }
 
 /* Runs update_actor_fade_in and installs update_actor_behavior_and_effect when it returns nonzero. */
-void finish_actor_fade_in_then_resume_effect_behavior(Resource08CallbackState *state, void *motion, void *position, void *actor)
-{
+void finish_actor_fade_in_then_resume_effect_behavior(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_actor_fade_in(state, motion, position, actor)) {
-        state->callback = update_actor_behavior_and_effect;
+        state->unk_8C.handler = update_actor_behavior_and_effect;
     }
 }
 
@@ -2091,8 +2079,7 @@ void finish_griffon_effect_and_tint(u8 *task, void *context, u8 *input)
 }
 
 /* Loads transition effects, fades the view tint, replaces the actor, and restores the new actor's facing. */
-void advance_effect_and_child_animation(void *effect_state, EntityRec *position, SpriteFrameState *entity, void *actor)
-{
+void advance_effect_and_child_animation(ActorRecord *effect_state, ObjectPosition *position, SpriteFrameState *entity, ActorRecord *actor) {
     u8 state;
     s32 effect_id;
     s32 direction;
@@ -2207,7 +2194,7 @@ void advance_effect_and_child_animation(void *effect_state, EntityRec *position,
             if (effect_work->unk_14 & 0xE000) {
                 ((R08_80174648_S_80174648_0 *)effect_state)->timer.s = 0x10;
                 ((R08_80174648_S_80174648_0 *)effect_state)->phase++;
-                decrement_monster_entry_count(((R08_80174648_S_80174648_1 *)actor)->unk_13, 3);
+                decrement_monster_entry_count(actor->species, 3);
                 update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y, 0x300);
                 unlink_entity_node(actor);
                 effect_work = (u8 *)actor - 0x20;
@@ -2225,7 +2212,7 @@ void advance_effect_and_child_animation(void *effect_state, EntityRec *position,
             }
             ((R08_80174648_S_80174648_0 *)effect_state)->timer.s = 0x10;
             ((R08_80174648_S_80174648_0 *)effect_state)->phase++;
-            decrement_monster_entry_count(((R08_80174648_S_80174648_1 *)actor)->unk_13, 3);
+            decrement_monster_entry_count(actor->species, 3);
             update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y, 0x300);
             unlink_entity_node(actor);
             effect_work = (u8 *)actor - 0x20;
@@ -2275,10 +2262,9 @@ void advance_effect_and_child_animation(void *effect_state, EntityRec *position,
  * Runs resolve_actor_floor_trap_once and installs update_actor_behavior_and_effect when it returns
  * positive.
  */
-void finish_actor_floor_trap_then_resume_effect_behavior(Resource08CallbackState *state, void *motion, void *position, void *actor)
-{
+void finish_actor_floor_trap_then_resume_effect_behavior(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (resolve_actor_floor_trap_once(state, motion, position, actor) > 0) {
-        state->callback = update_actor_behavior_and_effect;
+        state->unk_8C.handler = update_actor_behavior_and_effect;
     }
 }
 
@@ -2286,9 +2272,8 @@ void finish_actor_floor_trap_then_resume_effect_behavior(Resource08CallbackState
  * Runs propagate_actor_action_flag and installs update_actor_behavior_and_effect when it returns
  * positive.
  */
-void finish_actor_action_flag_propagation_then_resume_effect_behavior(Resource08CallbackState *state, void *motion, void *position, void *actor)
-{
+void finish_actor_action_flag_propagation_then_resume_effect_behavior(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (propagate_actor_action_flag(state, motion, position, actor) > 0) {
-        state->callback = update_actor_behavior_and_effect;
+        state->unk_8C.handler = update_actor_behavior_and_effect;
     }
 }

@@ -6,6 +6,7 @@
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_D_80175D50.h"
+#include "engine/graphics.h"
 
 #ifndef NULL
 #define NULL 0
@@ -21,7 +22,6 @@ typedef struct S_80170700_1 {
 } S_80170700_1;
 
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern s32 select_sprite_entry();
 typedef struct {
     s32 w[12];
 } Copy48;

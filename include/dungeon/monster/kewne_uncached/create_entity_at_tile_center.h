@@ -12,10 +12,10 @@
 #include "engine/texture.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/level.h"
+#include "engine/node/allocation.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
-void *allocate_list_node();
 void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);                 /* extern */
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);                /* extern */
@@ -94,12 +94,12 @@ typedef struct S_812A524C_40 {
 
 s32 enqueue_runtime_pool_script(void *input_data); /* extern */
 void clear_slots_of_type();
-void func_80042B68();                /* extern */
+void func_80042B68(ActorRecord *owner, s8 match_type);                /* extern */
 void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 void apply_monster_koyaw_data();                 /* extern */
 #include "dungeon/player/object/action_state.h"
 struct ObjectNodeHeader;
-void update_actor_status_and_mp();                      /* extern */
+void update_actor_status_and_mp(ActorRecord *entity);                      /* extern */
 s32 refresh_actor_facing_and_lifecycle();  /* extern */
 extern u16 system_update_flags[8];
 extern u8 D_8006EE9C[16];

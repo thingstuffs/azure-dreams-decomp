@@ -6,6 +6,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/animation.h"
+#include "engine/node/allocation.h"
 struct ObjectNodeHeader;
 struct ObjectNodeHeader;
 
@@ -19,10 +20,6 @@ typedef struct S_8016A854_1 {
     s32 unk_1C;
 } S_8016A854_1;   /* work in func_8016A854 */
 
-typedef struct S_8016A854_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_8016A854_2;   /* part_a in func_8016A854 */
 
 typedef struct S_8016A854_3 {
     u8 pad_00[0x10];
@@ -53,7 +50,6 @@ extern u8 D_8016DD30[];
 extern u8 D_8016DD78[];
 extern void func_8016AF74(void *actor_in, void *actor_data_in, SpriteFrameState *sprite_in, void *status_in);
 
-extern void *allocate_list_node();
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);

@@ -6,6 +6,7 @@
 #include "shared/dungeon_projectile_views.h"
 #include "shared/position_views.h"
 #include "dungeon/actor.h"
+#include "engine/node/allocation.h"
 struct ObjectNodeHeader;
 
 
@@ -43,7 +44,6 @@ typedef struct T_80170870_S_80170870_4 {
 
 
 
-extern void * allocate_list_node();
 extern void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);

@@ -45,8 +45,7 @@ extern u8 D_80173D04[];
 extern u8 D_80173D34[];
 
 /* Advances the actor's movement sequence and resets motion and animation on landing. */
-void advance_actor_movement_sequence_and_resets(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void advance_actor_movement_sequence_and_resets(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 direction_offset;
     s32 x_step;
     s32 y_step;
@@ -58,13 +57,13 @@ void advance_actor_movement_sequence_and_resets(void *action, ObjectPosition *mo
     x_step = *(s16 *)((u8 *)((s8 *)dir_step_x) + direction_offset);
     ticks_left = ((S_801725D0_1 *)action)->unk_96.s - 1;
     y_step = *(s16 *)((u8 *)((s8 *)dir_step_y) + direction_offset);
-    state = ((S_801725D0_1 *)action)->unk_9B;
+    state = action->action_phase;
     ((S_801725D0_1 *)action)->unk_96.s = ticks_left;
 
     switch (state) {
     case 0:
         if (sprite->flags & 0x8000) {
-            ((S_801725D0_1 *)action)->unk_9B = 0xFF;
+            action->action_phase = 0xFF;
             sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
@@ -88,7 +87,7 @@ void advance_actor_movement_sequence_and_resets(void *action, ObjectPosition *mo
                     (s16)(((u16)actor->ground_height) - 0xA0)) - 0x34;
         }
         ((S_801725D0_1 *)action)->unk_96.s = 2;
-        ((S_801725D0_1 *)action)->unk_9B++;
+        action->action_phase++;
         return;
 
     case 1:
@@ -98,14 +97,14 @@ void advance_actor_movement_sequence_and_resets(void *action, ObjectPosition *mo
             return;
         }
 
-        ((S_801725D0_1 *)action)->unk_98 |= 8;
+        action->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_801725D0_1 *)action)->unk_90.at02u.v = -0x18;
         ((S_801725D0_1 *)action)->unk_96.s = 4;
         motion->velocity_x =
             (x_step << 22) / ((S_801725D0_1 *)action)->unk_96.u;
         motion->velocity_y = (y_step << 22) / ((S_801725D0_1 *)action)->unk_96.u;
-        ((S_801725D0_1 *)action)->unk_9B++;
+        action->action_phase++;
         return;
 
     case 2:
@@ -117,7 +116,7 @@ void advance_actor_movement_sequence_and_resets(void *action, ObjectPosition *mo
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         ((S_801725D0_1 *)action)->unk_96.s = 10;
-        ((S_801725D0_1 *)action)->unk_9B++;
+        action->action_phase++;
         return;
 
     case 3:
@@ -135,7 +134,7 @@ void advance_actor_movement_sequence_and_resets(void *action, ObjectPosition *mo
         motion->velocity_x = (0 - x_step) << 19;
         motion->velocity_y = (0 - y_step) << 19;
         motion->velocity_z = 0xFFF80000;
-        ((S_801725D0_1 *)action)->unk_9B = 0xFF;
+        action->action_phase = 0xFF;
         return;
 
     case 0xFF:
@@ -146,7 +145,7 @@ void advance_actor_movement_sequence_and_resets(void *action, ObjectPosition *mo
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        ((S_801725D0_1 *)action)->unk_98 &= 0xFFF7;
+        action->action_state_flags &= 0xFFF7;
         actor->flags1C |= ACTOR_GROUNDED;
         ((S_801725D0_1 *)action)->unk_90.at00.v = 0;
         sprite->frameTable = D_80173D04;

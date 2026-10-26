@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/tile_object.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/record_ptrs.h"
@@ -38,7 +39,7 @@ extern void func_801715F0(void *, void *, void *, void *);
 extern void func_80171848(void *, void *, void *, void *);
 extern s32 func_80171FF4(void *, void *, void *, void *);
 extern void func_801721B8(void *, void *, void *, void *);
-extern void advance_actor_walk_animation(void *, void *, void *, void *);
+void advance_actor_walk_animation(ActorRecord *owner, ObjectPosition *unused, SpriteFrameState *part, ActorRecord *actor);
 extern s32 func_80172414(void *, void *, void *, s32);
 extern void func_80173834(void *, void *, void *, void *);
 extern u8 garuda_walk_direction_frames[];
@@ -47,10 +48,9 @@ extern u8 garuda_frame_set;
 extern u8 D_801748D8[];
 extern u8 garuda_frame_set_2[];
 extern DungeonRecord dungeon_rooms[];
-void update_creature_animation_action(void *, void *, void *, void *);
+void update_creature_animation_action(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite_arg, ActorRecord *creature);
 /* Update creature animation and dispatch its dungeon action. */
-void update_creature_animation_action(void *actor, void *context, void *sprite_arg, void *creature)
-{
+void update_creature_animation_action(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite_arg, ActorRecord *creature) {
     u16 direction_aux;
     s8 room_id;
     u16 action;

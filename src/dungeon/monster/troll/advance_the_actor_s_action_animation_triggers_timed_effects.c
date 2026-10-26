@@ -37,12 +37,11 @@ extern u8 D_8016FDEC[8];
  * sounds, damage, and the extra action-15 effects by tick or animation completion, then charges
  * MP, advances status timers, and releases the active actor.
  */
-void advance_the_actor_s_action_animation_triggers_timed_effects(void *action, ObjectPosition *motion, SpriteFrameState *anim, ActorRecord *actor)
-{
+void advance_the_actor_s_action_animation_triggers_timed_effects(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *anim, ActorRecord *actor) {
     s16 timer;
     u8 state;
 
-    state = ((S_8016E3C4_0 *)action)->unk_9B;
+    state = action->action_phase;
     switch (state) {
 
     case 0:
@@ -50,7 +49,7 @@ void advance_the_actor_s_action_animation_triggers_timed_effects(void *action, O
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         ((S_8016E3C4_0 *)action)->unk_96.s = 0;
-        ((S_8016E3C4_0 *)action)->unk_9B++;
+        action->action_phase++;
         if (!(anim->flags & 0x8000)) {
             return;
         }
@@ -62,7 +61,7 @@ void advance_the_actor_s_action_animation_triggers_timed_effects(void *action, O
             return;
         }
         ((S_8016E3C4_0 *)action)->unk_96.s = 0;
-        ((S_8016E3C4_0 *)action)->unk_9B++;
+        action->action_phase++;
         switch (actor->unk_48) {
         case 13:
             anim->frameTable = D_8016FDDC;
@@ -81,7 +80,7 @@ void advance_the_actor_s_action_animation_triggers_timed_effects(void *action, O
             select_sprite_entry(anim,
                 D_8016FDEC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            ((S_8016E3C4_0 *)action)->unk_9B = 5;
+            action->action_phase = 5;
             play_sound_if_enabled(0x60C);
             return;
         default:
@@ -94,7 +93,7 @@ void advance_the_actor_s_action_animation_triggers_timed_effects(void *action, O
         if ((timer == 5) || (anim->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, anim, actor->facing, 1);
             ((S_8016E3C4_0 *)action)->unk_96.s = 0;
-            ((S_8016E3C4_0 *)action)->unk_9B++;
+            action->action_phase++;
         }
         if (((S_8016E3C4_0 *)action)->unk_96.u == 3) {
             play_sound_if_enabled(0x804);
@@ -130,7 +129,7 @@ void advance_the_actor_s_action_animation_triggers_timed_effects(void *action, O
             (anim->flags & 0x8000)) {
             anim->flags &= 0xF7FF;
             ((S_8016E3C4_0 *)action)->unk_96.s = 0;
-            ((S_8016E3C4_0 *)action)->unk_9B = 3;
+            action->action_phase = 3;
         }
     case 4:
     default:

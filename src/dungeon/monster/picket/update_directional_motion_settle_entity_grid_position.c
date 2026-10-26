@@ -11,7 +11,7 @@
 
    /* arg0 in update_directional_motion_settle_entity_grid_position */
 
-extern void begin_actor_display_action();
+extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
 
 extern u8 picket_action_resume_address[];
 extern u8 picket_frame_set[];

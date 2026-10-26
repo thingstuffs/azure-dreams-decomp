@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 /* Face target and start action.
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00250 - CL:dungeon/func_80E0EC38@dungeon/bank_e2d000, CL:dungeon/func_80E0EC38@dungeon/bank_e33000, CL:dungeon/func_80E0EC38@dungeon/bank_e39000, CL:dungeon/func_80E0EC38@dungeon/bank_e3f000, CL:dungeon/func_80E0EC38@dungeon/bank_e45000, CL:dungeon/func_80E0EC38@dungeon/bank_e4b000, CL:dungeon/func_80E0EF2C@dungeon/bank_e2d000, CL:dungeon/func_80E0EF2C@dungeon/bank_e33000 (+4 more).
  */
@@ -7,8 +8,8 @@
 
 #include "shared/dungeon_status.h"
 #include "shared/sprite_frame_state.h"/* Face the target and initialize the actor action when status checks allow it. */
-void face_target_and_start_action(S_801722E4_3 *action_state, s32 event_context, SpriteFrameState *sprite, ActorRecord *actor) {
-    s32 distance;
+void face_target_and_start_action(ActorRecord *action_state, ObjectPosition *event_context, SpriteFrameState *sprite, ActorRecord *actor) {
+    u16 distance;
     void *actor_base;
     S_801722E4_2 *target;
     u8 *direction_frames;
@@ -28,9 +29,9 @@ void face_target_and_start_action(S_801722E4_3 *action_state, s32 event_context,
                     target->unk_25,
                     &distance);
                 direction_frames = cyclone_frame_set_2;
-                action_state->unk_9A = 0x17;
-                action_state->unk_9B = 0;
-                action_state->unk_8C = 0;
+                action_state->action_id = 0x17;
+                action_state->action_phase = 0;
+                action_state->unk_8C.handler = 0;
                 sprite->frameTable = direction_frames;
                 select_sprite_entry(
                     sprite,
@@ -41,8 +42,8 @@ void face_target_and_start_action(S_801722E4_3 *action_state, s32 event_context,
                 advance_status_timers(actor);
                 actor->pending_turn_updates =
                     (u8)(((u8)actor->pending_turn_updates) - 1);
-                action_state->unk_98 =
-                    (u16)(action_state->unk_98 | 8);
+                action_state->action_state_flags =
+                    (u16)(action_state->action_state_flags | 8);
                 select_nearby_target_and_initialize_slot(actor_base, event_context, 8, 0x300);
             }
         }
@@ -50,7 +51,7 @@ void face_target_and_start_action(S_801722E4_3 *action_state, s32 event_context,
 }
 
 /* Searches up to four tiles ahead for a target and starts the actor's action. */
-s32 search_ahead_and_start_action(void *action_state, void *action_context, SpriteFrameState *sprite, ActorRecord *actor) {
+s32 search_ahead_and_start_action(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 attempt;
     s32 tile_x;
     s32 tile_y;
@@ -156,7 +157,7 @@ s32 search_ahead_and_start_action(void *action_state, void *action_context, Spri
 }
 
 /* Update action state and select a direction-specific sprite when the actor is ready. */
-void update_action_state_direction_specific(void *action_state, s32 action_param, SpriteFrameState *sprite, void *actor) {
+void update_action_state_direction_specific(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *sprite, ActorRecord *actor) {
     u8 *frame_table;
     s32 direction;
 
@@ -182,37 +183,37 @@ void update_action_state_direction_specific(void *action_state, s32 action_param
 }
 
 /* Clear the actor flag and, when allowed, start a directional animation and update its action state. */
-void clear_actor_action_flag_and_animate(S_8017283C_1 *action_state, s32 action_context, SpriteFrameState *animation, ActorRecord *actor) {
+void clear_actor_action_flag_and_animate(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *animation, ActorRecord *actor) {
     actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
-            action_state->unk_9A = 0x18;
-            action_state->unk_8C = 0;
-            action_state->unk_9B = 0;
+            action_state->action_id = 0x18;
+            action_state->unk_8C.handler = 0;
+            action_state->action_phase = 0;
             animation->frameTable = cyclone_frame_set_2;
             select_sprite_entry(animation, cyclone_frame_set_2[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             advance_status_timers(actor);
             actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
-            action_state->unk_98 = (u16) (action_state->unk_98 | 8);
+            action_state->action_state_flags = (u16) (action_state->action_state_flags | 8);
         }
     }
 }
 
 /* Attempt an actor action and initialize its state and directional animation on success. */
-void attempt_actor_directional_action(S_8017294C_1 *action_state, s32 action_ctx, SpriteFrameState *sprite, ActorRecord *actor) {
+void attempt_actor_directional_action(ActorRecord *action_state, ObjectPosition *action_ctx, SpriteFrameState *sprite, ActorRecord *actor) {
     actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_ctx, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
-            action_state->unk_9A = 0x19;
-            action_state->unk_8C = 0;
-            action_state->unk_9B = 0;
+            action_state->action_id = 0x19;
+            action_state->unk_8C.handler = 0;
+            action_state->action_phase = 0;
             sprite->frameTable = cyclone_frame_set_2;
             select_sprite_entry(sprite, cyclone_frame_set_2[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             advance_status_timers(actor);
             actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
-            action_state->unk_98 = (u16) (action_state->unk_98 | 8);
+            action_state->action_state_flags = (u16) (action_state->action_state_flags | 8);
         }
     }
 }

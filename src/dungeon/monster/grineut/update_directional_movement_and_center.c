@@ -27,23 +27,22 @@ extern u8 grineut_frame_set_10[];
 extern u8 D_80162178[];
 
 /* Updates directional movement and settles the actor at its tile center. */
-void update_directional_movement_and_center(void *action, ObjectPosition *motion, SpriteFrameState *actor, EntityRec *entity)
-{
+void update_directional_movement_and_center(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *actor, ActorRecord *entity) {
     s32 state;
     s32 direction;
     s16 timer;
     s32 tracked_entity;
 
-    direction = (entity->unk_6A >> 9) & 7;
-    state = ((S_80161238_1 *)action)->unk_9B;
+    direction = (entity->movement_facing >> 9) & 7;
+    state = action->action_phase;
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(entity);
         motion->velocity_x = ((s16 *)((s8 *)dir_step_x))[direction] << 18;
         motion->velocity_y = ((s16 *)((s8 *)dir_step_y))[direction] << 18;
-        ((S_80161238_1 *)action)->unk_9B++;
+        action->action_phase++;
 
-        if (entity->unk_28 == 0) {
+        if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -52,7 +51,7 @@ void update_directional_movement_and_center(void *action, ObjectPosition *motion
         }
         if (actor->flags & 0x8000) {
             ((S_80161238_1 *)action)->unk_96.s = 0;
-            ((S_80161238_1 *)action)->unk_9B = 3;
+            action->action_phase = 3;
             break;
         }
 
@@ -79,7 +78,7 @@ void update_directional_movement_and_center(void *action, ObjectPosition *motion
         if (((S_80161238_1 *)action)->unk_96.s != 0) {
             break;
         }
-        if (entity->unk_28 == 0) {
+        if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -91,7 +90,7 @@ void update_directional_movement_and_center(void *action, ObjectPosition *motion
             actor,
             grineut_frame_set_10[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        ((S_80161238_1 *)action)->unk_9B++;
+        action->action_phase++;
         return;
         break;
     case 2:
@@ -107,7 +106,7 @@ void update_directional_movement_and_center(void *action, ObjectPosition *motion
             grineut_frame_set_10[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         ((S_80161238_1 *)action)->unk_96.s = 8;
-        ((S_80161238_1 *)action)->unk_9B++;
+        action->action_phase++;
         break;
         break;
     case 3:

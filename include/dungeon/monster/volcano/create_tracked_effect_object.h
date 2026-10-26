@@ -7,6 +7,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/actor/animation.h"
 #include "dungeon/actor/status.h"
+#include "engine/node/allocation.h"
 struct ObjectNodeHeader;
 struct S_80170A98_2;
 
@@ -44,7 +45,6 @@ extern void func_8015EE5C(void *actor_in, void *context_in, void *sprite_in, voi
 extern u8 volcano_frame_set_4[];
 extern u8 D_80162538[];
 
-extern void *allocate_list_node();
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);

@@ -28,8 +28,8 @@ typedef struct S_80172258_0 {
 
 
 
-s16 get_rounded_facing_and_rounding_flag();
-s32 on_actor_status_updated();
+s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+void on_actor_status_updated(void *actor);
 void spend_actor_mp();
 
 
@@ -39,7 +39,7 @@ extern u8 D_8016DFE0[];
 
 /* Updates a jump toward the destination tile and completes movement when its timer expires. */
 void jump_tyrant_to_tile(void *jump, void *motion, void *sprite, void *actor) {
-    s32 facing_aux;
+    u16 facing_aux;
     s32 frames_left;
     s16 next_timer;
     s32 actor_flags;

@@ -11,6 +11,6 @@
 
 
 
-void advance_timed_actor_animation_and_restore(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
+void advance_timed_actor_animation_and_restore(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 #endif

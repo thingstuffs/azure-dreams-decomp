@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/dir_step.h"
@@ -12,9 +13,9 @@
 
 
 void advance_sprite_animation_and_textures(void *entity);
-void apply_monster_koyaw_data();
+void apply_monster_koyaw_data(s32 flags, s8 *dst);
 s32 refresh_actor_facing_and_lifecycle();
-void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite, ActorRecord *status);
+void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *status);
 extern M2C_UNK D_80174174[];
 extern u8 kraken_frame_set_1[];
 extern u8 kraken_action_handlers[];

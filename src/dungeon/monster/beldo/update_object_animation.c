@@ -22,7 +22,7 @@ extern s32 reset_actor_action_state(void *actor, void * unused, void *sprite, u8
 extern void process_selected_actor_record(void *, void *, void *, void *);
 extern void begin_actor_spell_action(void *actor, void * effect_param, void *target, u8 *direction_table, void * next_state);
 
-extern void advance_queued_movement_step(void *, s32, SpriteFrameState *, void *);
+void advance_queued_movement_step(ActorRecord *motion, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *path);
 extern void func_80171BE0(void *, void *, void *, void *);
 extern s32 func_80172330(void *, void *, void *, s32);
 extern void func_801736B8(void *, void *, void *, void *);
@@ -57,8 +57,7 @@ typedef struct S_80171514_3 {
 /* Updates object animation, dispatches its action, and adjusts its facing. */
 /* Dispatches Beldo's movement and spells, replays stored commands in scripted mode, and maintains idle
  * animation and facing. */
-void update_object_animation(void *obj, void *motion, SpriteFrameState *part, void *state)
-{
+void update_object_animation(ActorRecord *obj, ObjectPosition *motion, SpriteFrameState *part, ActorRecord *state) {
     u32 entry_status = g_dungeon_status.flags;
     s32 state_flags;
     s32 query_result;
@@ -71,15 +70,15 @@ void update_object_animation(void *obj, void *motion, SpriteFrameState *part, vo
     void *callback_state;
 
     if (entry_status & 0x1000) {
-        (*(u8 *)((u8 *)obj + (0x9A))) = 14;
-        advance_queued_movement_step(obj, (s32)motion, part, state);
+        obj->action_id = 14;
+        advance_queued_movement_step(obj, motion, part, state);
         return;
     }
 
     if (((S_80171514_0 *)state)->unk_1C & 0x200) {
         if (*(u8 **)&part->frameTable == D_80173EC4) {
-            (*(u8 *)((u8 *)obj + (0x9A))) = 13;
-            (*(u8 *)((u8 *)obj + (0x9B))) = 1;
+            obj->action_id = 13;
+            obj->action_phase = 1;
             (*(u32 *)((u8 *)obj + (0x8C))) = 0;
             ((S_80171514_0 *)state)->unk_1C &= ~0x40000;
             return;
@@ -95,24 +94,24 @@ void update_object_animation(void *obj, void *motion, SpriteFrameState *part, vo
             return;
         }
 
-        if ((*(u8 *)((u8 *)obj + (0x9A))) != 14) {
-            (*(u8 *)((u8 *)obj + (0x9A))) = 14;
+        if (obj->action_id != 14) {
+            obj->action_id = 14;
         }
         if (*(u8 **)&part->frameTable != beldo_frame_set_1) {
             (part->frameTable) = beldo_frame_set_1;
             select_sprite_entry(
                 part,
-                beldo_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80171514_0 *)state)->unk_2A + 0x100) >> 9) & 7],
+                beldo_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 9) & 7],
                 0);
             part->frame_ticks = 1;
-            (*(s16 *)((u8 *)obj + (0xA2))) = 0;
-            (*(s16 *)((u8 *)obj + (0x9E))) = 0;
+            obj->unk_A0.parts.high = 0;
+            obj->unk_9E.s = 0;
         }
 
         ((S_80171514_0 *)state)->unk_1C |= 0x40000;
-        (*(u16 *)((u8 *)obj + (0x98))) &= 0xFFF7;
+        obj->action_state_flags &= 0xFFF7;
 
-        if (((S_80171514_0 *)state)->unk_64 != 0) {
+        if (state->hp_delta != 0) {
             if (begin_ready_actor_directional_action(obj, motion, part, D_80173EE4) != 0) {
                 return;
             }
@@ -123,11 +122,11 @@ void update_object_animation(void *obj, void *motion, SpriteFrameState *part, vo
             u16 pending_amount;
 
             begin_actor_move_to_target_facing(obj, motion, part, state);
-            previous_amount = (*(u16 *)((u8 *)obj + (0x92)));
-            pending_amount = (*(u16 *)((u8 *)obj + (0xA2)));
-            (*(s16 *)((u8 *)obj + (0xA2))) = 0;
-            (*(s16 *)((u8 *)obj + (0x9E))) = 0;
-            (*(u16 *)((u8 *)obj + (0x92))) = previous_amount - pending_amount;
+            previous_amount = (u16)obj->unk_90.parts.high.s;
+            pending_amount = obj->unk_A0.parts.high;
+            obj->unk_A0.parts.high = 0;
+            obj->unk_9E.s = 0;
+            obj->unk_90.parts.high.s = previous_amount - pending_amount;
             func_801736B8(obj, motion, part, state);
             return;
         }
@@ -140,7 +139,7 @@ void update_object_animation(void *obj, void *motion, SpriteFrameState *part, vo
     query_result = find_active_rect_containing_point(part->tile_x, part->tile_y);
     part->room_index = query_result;
 
-    if (((S_80171514_0 *)state)->unk_6D > 0) {
+    if (state->pending_turn_updates > 0) {
         if (((S_80171514_0 *)state)->unk_1C & 0x20) {
             update_actor_status_and_mp(state);
             return;
@@ -151,7 +150,7 @@ void update_object_animation(void *obj, void *motion, SpriteFrameState *part, vo
             return;
         }
 
-        if ((((S_80171514_0 *)state)->unk_46 & 0x8000) == 0) {
+        if ((state->action_flags & 0x8000) == 0) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((s16)check_entity_relation(
                         state, (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {
@@ -163,26 +162,26 @@ void update_object_animation(void *obj, void *motion, SpriteFrameState *part, vo
                 u8 callback_flags;
 
                 advance_repeated_command_stream_direction(obj, motion, part);
-                callback_flags = ((S_80171514_0 *)state)->unk_71;
+                callback_flags = state->movement_queue_state;
                 callback_state = state;
                 callback_flags &= 0x7F;
-                ((S_80171514_0 *)state)->unk_71 = callback_flags;
+                state->movement_queue_state = callback_flags;
                 update_actor_status_and_mp(callback_state);
-                ((S_80171514_0 *)state)->unk_46 &= 0x7FFF;
+                state->action_flags &= 0x7FFF;
                 return;
             }
 
             if ((s16)func_80172330(obj, motion, part, 0) == 0) {
                 return;
             }
-            ((S_80171514_0 *)state)->unk_46 |= 0x4000;
-            if ((((S_80171514_0 *)state)->unk_46 & 0x8000) == 0) {
+            state->action_flags |= 0x4000;
+            if ((state->action_flags & 0x8000) == 0) {
                 func_80171BE0(obj, motion, part, state);
                 return;
             }
         }
 
-        action_kind = ((S_80171514_0 *)state)->unk_46 & 0x3FFF;
+        action_kind = state->action_flags & 0x3FFF;
         jump_index = action_kind - 1;
         switch (jump_index) {
         case 11:
@@ -197,7 +196,7 @@ void update_object_animation(void *obj, void *motion, SpriteFrameState *part, vo
             callback_state = state;
             (*(void **)((u8 *)obj + (0x8C))) = &beldo_action_dispatch_address;
             update_actor_status_and_mp(callback_state);
-            ((S_80171514_0 *)state)->unk_46 &= 0x7FFF;
+            state->action_flags &= 0x7FFF;
             return;
 
         case 0:
@@ -232,7 +231,7 @@ void update_object_animation(void *obj, void *motion, SpriteFrameState *part, vo
                 query_result = get_rounded_facing_and_rounding_flag(
                     part->tile_x, part->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
-                ((S_80171514_0 *)state)->unk_2A = query_result;
+                state->facing = query_result;
             }
         }
     }

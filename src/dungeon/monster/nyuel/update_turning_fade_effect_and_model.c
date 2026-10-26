@@ -89,8 +89,8 @@ s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads
 extern int read_stream_cue_start_offset(void);
 void select_record_entry_and_value(void *state, void *entries, short index);
 void unlink_entity_node();
-void update_map_cell_flags_with_item_limit();
-void decrement_monster_entry_count();
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 void *advance_staged_entity_load();
 s32 create_status_linked_render_effect();
 s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
@@ -107,7 +107,7 @@ extern s32 D_80174FD0[];
 /* Updates the turning, color fade, effect, and model replacement sequence. */
 /* Loads Nyuel's transition effects, fades the view tint and creates a cylinder, then replaces the actor
  * and restores facing. */
-void update_turning_fade_effect_and_model(void *sequence, EntityRec *position, SpriteFrameState *actor, void *target) {
+void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition *position, SpriteFrameState *actor, ActorRecord *target) {
     u8 *target_color;
     s16 direction;
     s32 effect_choice;
@@ -125,15 +125,15 @@ void update_turning_fade_effect_and_model(void *sequence, EntityRec *position, S
     void *model;
 
     object = ((struct S_8003E2D8 *)&g_game_work);
-    state = ((S_801749A8_0 *)sequence)->unk_9B;
+    state = sequence->action_phase;
     switch (state) {
     case 0:
-        ((S_801749A8_0 *)sequence)->unk_9B = (u8)(((S_801749A8_0 *)sequence)->unk_9B + 1);
+        sequence->action_phase = (u8)(sequence->action_phase + 1);
         return;
     case 1:
         run_cd_image_commands(&nyuel_image_commands, &nyuel_image_load_done, 0);
         ((S_801749A8_0 *)sequence)->unk_A8 = 0;
-        ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
+        sequence->action_phase = (u8) (sequence->action_phase + 1);
         ((Rec_D_80082E80 *)target)->unk_8A = (u16) ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v;
     case 2:
         direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v + 0x100)
@@ -151,9 +151,9 @@ void update_turning_fade_effect_and_model(void *sequence, EntityRec *position, S
         Control_CD(0x15, read_stream_cue_start_offset(), NULL);
         nyuel_effect_load_done[0] = 0;
         Control_CD(0xFF, (s32) set_byte_one, &nyuel_effect_load_done);
-        select_nearby_target_and_initialize_slot(target - 0x20, position, 8, 0x300);
+        select_nearby_target_and_initialize_slot(((u8 *)target - 0x20), position, 8, 0x300);
         ((S_801749A8_0 *)sequence)->unk_96 = 0x10U;
-        ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
+        sequence->action_phase = (u8) (sequence->action_phase + 1);
     case 3:
         fade_timer = ((S_801749A8_0 *)sequence)->unk_96;
         fade_ticks = fade_timer - 1;
@@ -164,7 +164,7 @@ void update_turning_fade_effect_and_model(void *sequence, EntityRec *position, S
             if (ready == 0) {
                 return;
             }
-            ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
+            sequence->action_phase = (u8) (sequence->action_phase + 1);
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             return;
         }
@@ -199,17 +199,17 @@ void update_turning_fade_effect_and_model(void *sequence, EntityRec *position, S
         select_record_entry_and_value(object, &dungeon_resource_buffer[*(((s32) (effect_index << 0x10) >> 0x10) + &D_80174FB4)], 0);
         actor->flags = (u16) (actor->flags | 0x80);
         ((S_801749A8_0 *)sequence)->unk_96 = 0U;
-        ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
+        sequence->action_phase = (u8) (sequence->action_phase + 1);
         create_cylindrical_effect(sequence, position, actor);
         return;
     case 5:
         object = ((S_801749A8_0 *)sequence)->unk_A4;
         object = object->unk_0C.s;
         if (object->unk_14 & 0xE000) {
-            ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
+            sequence->action_phase = (u8) (sequence->action_phase + 1);
         }
     case 6:
-        if (((S_801749A8_0 *)sequence)->unk_9B != 6) {
+        if (sequence->action_phase != 6) {
             return;
         }
         movement_done = create_status_linked_render_effect(position, D_80174FD0[0], D_80174F48[0], &staged_spawn_count);
@@ -217,11 +217,11 @@ void update_turning_fade_effect_and_model(void *sequence, EntityRec *position, S
             return;
         }
         ((S_801749A8_0 *)sequence)->unk_96 = 0x10U;
-        ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
+        sequence->action_phase = (u8) (sequence->action_phase + 1);
         decrement_monster_entry_count(((Rec_D_80082E80 *)target)->unk_12.at01_u8.v, 3);
         update_map_cell_flags_with_item_limit(actor->tile_x, actor->tile_y, 0x300);
         unlink_entity_node(target);
-        object = target - 0x20;
+        object = ((S_801749A8_2 *)((u8 *)target - 0x20));
         object->unk_10.u = object->unk_10.u | 0x80000000;
         return;
     case 7:
@@ -231,7 +231,7 @@ void update_turning_fade_effect_and_model(void *sequence, EntityRec *position, S
             return;
         }
         ((S_801749A8_0 *)sequence)->unk_96 = 0x10U;
-        ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
+        sequence->action_phase = (u8) (sequence->action_phase + 1);
         ((S_801749A8_11 *)(((Rec_D_80082E80 *)target)->unk_60.as_pv))->unk_2A =
             (u16) ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v;
         model = ((Rec_D_80082E80 *)target)->unk_60.as_pv;

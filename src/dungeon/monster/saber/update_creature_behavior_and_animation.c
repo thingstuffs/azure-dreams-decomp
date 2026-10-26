@@ -30,7 +30,7 @@ extern s32 func_80172710(void *, void *, void *, void *);
 extern void func_801728D4(void *, void *, void *, void *);
 extern s32 func_801729EC(void *, void *, void *, s32);
 extern void update_timed_effect_size_and_position(void *, void *, void *, void *);
-extern void clear_actor_flag_and_apply_effect(void *, void *, void *, void *);
+void clear_actor_flag_and_apply_effect(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *anim_state, ActorRecord *actor);
 
 #include "dungeon/monster/saber.h"
 
@@ -40,8 +40,7 @@ extern u8 saber_frame_set_11[];
 
 
 /* Updates creature behavior, facing, and animation from dungeon and action state. */
-void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, SpriteFrameState *sprite, ActorRecord *creature_in)
-{
+void update_creature_behavior_and_animation_2(ActorRecord *actor_in, ObjectPosition *context_in, SpriteFrameState *sprite, ActorRecord *creature_in) {
     u8 *anim_table;
     u16 distance;
     s8 room_id;

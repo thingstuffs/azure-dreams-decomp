@@ -23,9 +23,9 @@ typedef struct S_8016AFC4_4 {
     u8 unk_7C;
 } S_8016AFC4_4;   /* (u8 *)arg3 + ((S_8016AFC4_0 *)arg3)->unk_8A.s in advance_multi_form_turn_path */
 
-extern s32 update_map_cell_flags_with_item_limit();
+extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s32 check_movement_clearance_and_height();
-extern s16 get_rounded_facing_and_rounding_flag();
+extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 
 extern u8 beldo_large_frame_set_10[8];
 extern u8 beldo_large_frame_set[8];
@@ -33,8 +33,7 @@ extern u8 beldo_large_frame_set_15[8];
 extern u8 beldo_large_frame_set_16[8];
 
 /* Advance the actor along its path and update its animation, facing, and movement timing. */
-void advance_multi_form_turn_path(void *actor, s32 unused, SpriteFrameState *sprite, EntityRec *movement)
-{
+void advance_multi_form_turn_path(ActorRecord *actor, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *movement) {
     s32 move_mode;
     s32 behavior;
     s32 step_count;
@@ -43,11 +42,11 @@ void advance_multi_form_turn_path(void *actor, s32 unused, SpriteFrameState *spr
     s16 direction;
     u8 *path_step;
 
-    if (((s8)movement->unk_71) <= 0) {
+    if (((s8)movement->movement_queue_state) <= 0) {
         return;
     }
     {
-        s32 path_count = movement->unk_71;
+        s32 path_count = movement->movement_queue_state;
         if (movement->unk_8A >= path_count) {
             return;
         }
@@ -99,7 +98,7 @@ void advance_multi_form_turn_path(void *actor, s32 unused, SpriteFrameState *spr
 
     path_step = (u8 *)movement + movement->unk_8A;
     direction = get_rounded_facing_and_rounding_flag(old_x, old_y, ((S_8016AFC4_3 *)path_step)->unk_74,
-                              ((S_8016AFC4_3 *)path_step)->unk_7C, (u8 *)actor + 0x98);
+                              ((S_8016AFC4_3 *)path_step)->unk_7C, &actor->action_state_flags);
     check_movement_clearance_and_height(direction, sprite, movement, 0x20);
 
     sprite->tile_x =
@@ -126,7 +125,7 @@ void advance_multi_form_turn_path(void *actor, s32 unused, SpriteFrameState *spr
     } else {
         ((Rec_func_800A9E70_arg0 *)actor)->unk_96.as_s16 = 8;
     }
-    step_count = movement->unk_71;
+    step_count = movement->movement_queue_state;
     if (step_count > 0) {
         ((Rec_func_800A9E70_arg0 *)actor)->unk_96.as_s16 =
             ((Rec_func_800A9E70_arg0 *)actor)->unk_96.as_s16 / step_count;

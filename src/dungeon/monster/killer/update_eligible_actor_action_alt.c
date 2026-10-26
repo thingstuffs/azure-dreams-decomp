@@ -10,15 +10,15 @@
 typedef struct Ent Ent;
 Ent *prepare_directional_attack(); /* extern */
 s32 try_claim_dungeon_action_slot();                          /* extern */
-s32 apply_camera_offset_and_select_target(); /* extern */
+s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value); /* extern */
 #include "dungeon/monster/killer.h"
 #include "engine/graphics.h"
 
 /* Updates the actor's action state and directional animation when it can act. */
-void update_eligible_actor_action_alt(void *action_state, s32 context, SpriteFrameState *sprite, void *actor) {
-    ((EntityRec *)actor)->unk_71 = (u8) (((EntityRec *)actor)->unk_71 & 0x7F);
+void update_eligible_actor_action_alt(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor) {
+    actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)
-        && (apply_camera_offset_and_select_target(actor - 0x20, context, 8, 0x300), ((try_claim_dungeon_action_slot(actor) << 0x10) == 0))) {
+        && (apply_camera_offset_and_select_target(((u8 *)actor - 0x20), context, 8, 0x300), ((try_claim_dungeon_action_slot(actor) << 0x10) == 0))) {
         ((Rec_func_800A9E70_arg0 *)action_state)->unk_8C = 0;
         ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_s8 = 0;
         if (((Rec_func_800A9E70_arg0 *)action_state)->unk_98 & 0x8000) {
@@ -42,7 +42,7 @@ void update_eligible_actor_action_alt(void *action_state, s32 context, SpriteFra
         (sprite->frameTable) = killer_direction_frames;
         select_sprite_entry(sprite, killer_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
-        ((EntityRec *)actor)->unk_6D = (u8) (((u8)((EntityRec *)actor)->unk_6D) - 1);
+        actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
         prepare_directional_attack(actor, sprite, ((EntityRec *)actor)->facing, 1, 0);
         if (!(((Rec_func_800A9E70_arg0 *)action_state)->unk_98 & 0x8000)) {
             ((EntityRec *)actor)->flags1C = (s32) (((EntityRec *)actor)->flags1C & 0xFEFFFFFF);

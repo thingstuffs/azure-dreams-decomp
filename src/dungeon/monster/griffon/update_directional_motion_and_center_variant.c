@@ -27,23 +27,22 @@ extern u8 griffon_frame_set_7[];
 extern u8 D_80150C74[];
 
 /* Updates directional motion and animation, then settles the entity at its tile center. */
-void update_directional_motion_and_center_variant(void *controller, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *entity)
-{
+void update_directional_motion_and_center_variant(ActorRecord *controller, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity) {
     s32 state;
     s16 timer;
     s32 tracked_entity;
 
-    state = ((S_8014F234_0 *)controller)->unk_9B;
+    state = controller->action_phase;
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(entity);
         motion->velocity_x =
-            -((s16 *)((s8 *)dir_step_x))[(entity->unk_6A >> 9) & 7] << 15;
+            -((s16 *)((s8 *)dir_step_x))[(entity->movement_facing >> 9) & 7] << 15;
         motion->velocity_y =
-            -((s16 *)((s8 *)dir_step_y))[(entity->unk_6A >> 9) & 7] << 15;
-        ((S_8014F234_0 *)controller)->unk_9B++;
+            -((s16 *)((s8 *)dir_step_y))[(entity->movement_facing >> 9) & 7] << 15;
+        controller->action_phase++;
 
-        if (entity->unk_28 == 0) {
+        if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -52,7 +51,7 @@ void update_directional_motion_and_center_variant(void *controller, ObjectPositi
         }
         if (sprite->flags & 0x8000) {
             ((S_8014F234_0 *)controller)->unk_96.s = 0;
-            ((S_8014F234_0 *)controller)->unk_9B = 3;
+            controller->action_phase = 3;
             return;
         }
 
@@ -68,9 +67,9 @@ void update_directional_motion_and_center_variant(void *controller, ObjectPositi
 
     case 1:
         motion->velocity_x +=
-            ((s16 *)((s8 *)dir_step_x))[(entity->unk_6A >> 9) & 7] << 14;
+            ((s16 *)((s8 *)dir_step_x))[(entity->movement_facing >> 9) & 7] << 14;
         motion->velocity_y +=
-            ((s16 *)((s8 *)dir_step_y))[(entity->unk_6A >> 9) & 7] << 14;
+            ((s16 *)((s8 *)dir_step_y))[(entity->movement_facing >> 9) & 7] << 14;
 
         if (((S_8014F234_0 *)controller)->unk_96.s > 0) {
             ((S_8014F234_0 *)controller)->unk_96.s = ((S_8014F234_0 *)controller)->unk_96.u - 1;
@@ -81,7 +80,7 @@ void update_directional_motion_and_center_variant(void *controller, ObjectPositi
         if (((S_8014F234_0 *)controller)->unk_96.s != 0) {
             return;
         }
-        if (entity->unk_28 == 0) {
+        if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -93,13 +92,13 @@ void update_directional_motion_and_center_variant(void *controller, ObjectPositi
             sprite,
             griffon_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        ((S_8014F234_0 *)controller)->unk_9B++;
+        controller->action_phase++;
         return;
     case 2:
         motion->velocity_x +=
-            ((s16 *)((s8 *)dir_step_x))[(entity->unk_6A >> 9) & 7] << 14;
+            ((s16 *)((s8 *)dir_step_x))[(entity->movement_facing >> 9) & 7] << 14;
         motion->velocity_y +=
-            ((s16 *)((s8 *)dir_step_y))[(entity->unk_6A >> 9) & 7] << 14;
+            ((s16 *)((s8 *)dir_step_y))[(entity->movement_facing >> 9) & 7] << 14;
         if (!(sprite->flags & 0x6000)) {
             return;
         }
@@ -110,7 +109,7 @@ void update_directional_motion_and_center_variant(void *controller, ObjectPositi
             griffon_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         ((S_8014F234_0 *)controller)->unk_96.s = 8;
-        ((S_8014F234_0 *)controller)->unk_9B++;
+        controller->action_phase++;
         return;
     case 3:
         timer = ((S_8014F234_0 *)controller)->unk_96.s;

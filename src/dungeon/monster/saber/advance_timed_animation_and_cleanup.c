@@ -26,15 +26,14 @@ typedef struct S_80172FD8_0 {
 
 
 /* Advances an actor's timed animation sequence and performs its final cleanup. */
-void advance_timed_animation_and_cleanup(void *sequence, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void advance_timed_animation_and_cleanup(ActorRecord *sequence, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u8 state;
 
-    state = ((S_80172FD8_0 *)sequence)->unk_9B;
+    state = sequence->action_phase;
     switch (state) {
     case 0:
         if (sprite->flags & 0x8000) {
-            ((S_80172FD8_0 *)sequence)->unk_9B = 4;
+            sequence->action_phase = 4;
             sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
@@ -43,7 +42,7 @@ void advance_timed_animation_and_cleanup(void *sequence, ObjectPosition *motion,
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         ((S_80172FD8_0 *)sequence)->unk_96.u = 0;
-        ((S_80172FD8_0 *)sequence)->unk_9B++;
+        sequence->action_phase++;
         return;
 
     case 1:
@@ -54,7 +53,7 @@ void advance_timed_animation_and_cleanup(void *sequence, ObjectPosition *motion,
                 D_80174E1C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80172FD8_0 *)sequence)->unk_96.u = 0;
-            ((S_80172FD8_0 *)sequence)->unk_9B++;
+            sequence->action_phase++;
             return;
         }
         return;
@@ -64,7 +63,7 @@ void advance_timed_animation_and_cleanup(void *sequence, ObjectPosition *motion,
             (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             ((S_80172FD8_0 *)sequence)->unk_96.u = 0;
-            ((S_80172FD8_0 *)sequence)->unk_9B++;
+            sequence->action_phase++;
         }
         if (((S_80172FD8_0 *)sequence)->unk_96.s == 6) {
             play_sound_if_enabled(0x808);
@@ -80,7 +79,7 @@ void advance_timed_animation_and_cleanup(void *sequence, ObjectPosition *motion,
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
             ((S_80172FD8_0 *)sequence)->unk_96.u = 0;
-            ((S_80172FD8_0 *)sequence)->unk_9B++;
+            sequence->action_phase++;
             return;
         }
         return;

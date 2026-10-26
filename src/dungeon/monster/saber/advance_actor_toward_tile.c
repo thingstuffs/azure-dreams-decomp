@@ -39,8 +39,7 @@ extern u8 D_8015CE0C[];
 extern u8 D_8015CE14[];
 
 /* Updates movement toward a tile, its animation phases, and action completion. */
-void finish_saber_tile_hop(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity)
-{
+void finish_saber_tile_hop(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity) {
     s32 phase;
     s32 frames_left;
     s32 target_x;
@@ -53,7 +52,7 @@ void finish_saber_tile_hop(void *action, ObjectPosition *motion, SpriteFrameStat
     s32 entity_flags;
     u16 target_distance;
     DungeonGlobalStatus *shared_state;
-    phase = ((S_80ADF3AC_0 *)action)->unk_9B;
+    phase = action->action_phase;
     switch (phase) {
     case 0:
         if (!(sprite->flags & 0x6000)) {
@@ -64,11 +63,11 @@ void finish_saber_tile_hop(void *action, ObjectPosition *motion, SpriteFrameStat
             sprite,
             D_8015CE0C[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        ((S_80ADF3AC_0 *)action)->unk_98 |= 8;
+        action->action_state_flags |= 8;
         entity->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80ADF3AC_0 *)action)->unk_9E.s = 5;
         ((S_80ADF3AC_0 *)action)->unk_A4 = 0;
-        ((S_80ADF3AC_0 *)action)->unk_9B++;
+        action->action_phase++;
     case 1:
         frames_left = ((S_80ADF3AC_0 *)action)->unk_9E.s;
         ((S_80ADF3AC_0 *)action)->unk_90 -= ((S_80ADF3AC_0 *)action)->unk_A4;
@@ -95,13 +94,13 @@ void finish_saber_tile_hop(void *action, ObjectPosition *motion, SpriteFrameStat
         ((S_80ADF3AC_0 *)action)->unk_90 = height;
         if ((next_frame << 16) < 0) {
             ((S_80ADF3AC_0 *)action)->unk_90 = 0;
-            ((S_80ADF3AC_0 *)action)->unk_98 &= 0xFFF7;
+            action->action_state_flags &= 0xFFF7;
             entity->flags1C |= ACTOR_GROUNDED;
-            ((S_80ADF3AC_0 *)action)->unk_9B++;
+            action->action_phase++;
         }
     case 2:
         if (entity->flags1C & ACTOR_GROUNDED) {
-            ((S_80ADF3AC_0 *)action)->unk_98 &= 0xFFF7;
+            action->action_state_flags &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -111,7 +110,7 @@ void finish_saber_tile_hop(void *action, ObjectPosition *motion, SpriteFrameStat
                 sprite,
                 D_8015CE14[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
-            ((S_80ADF3AC_0 *)action)->unk_9B++;
+            action->action_phase++;
         }
         break;
     case 3:

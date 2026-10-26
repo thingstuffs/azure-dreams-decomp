@@ -40,8 +40,7 @@ extern u8 D_8016EE0C[];
 extern u8 D_8016EE14[];
 
 /* Updates movement toward a tile, its animation, and action completion. */
-void update_tile_movement_and_action_completion(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void update_tile_movement_and_action_completion(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 move_ticks;
     s32 target_x;
     s32 pos_x;
@@ -54,7 +53,7 @@ void update_tile_movement_and_action_completion(void *action, void *motion, Spri
     u16 facing_aux;
     DungeonGlobalStatus *global_state;
 
-    switch (((S_8016CBAC_0 *)action)->unk_9B) {
+    switch (action->action_phase) {
     case 0:
         if (!(sprite->flags & 0x6000)) {
             break;
@@ -64,11 +63,11 @@ void update_tile_movement_and_action_completion(void *action, void *motion, Spri
             sprite,
             D_8016EE0C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        ((S_8016CBAC_0 *)action)->unk_98 |= 8;
+        action->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_8016CBAC_0 *)action)->unk_9E.s = 5;
         ((S_8016CBAC_0 *)action)->unk_A4 = 0;
-        ((S_8016CBAC_0 *)action)->unk_9B++;
+        action->action_phase++;
                         /* fall through */
 
     case 1:
@@ -101,15 +100,15 @@ void update_tile_movement_and_action_completion(void *action, void *motion, Spri
         ((S_8016CBAC_0 *)action)->unk_90 = height_offset;
         if ((next_tick << 16) < 0) {
             ((S_8016CBAC_0 *)action)->unk_90 = 0;
-            ((S_8016CBAC_0 *)action)->unk_98 &= 0xFFF7;
+            action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            ((S_8016CBAC_0 *)action)->unk_9B++;
+            action->action_phase++;
         }
                         /* fall through */
 
     case 2:
         if (actor->flags1C & ACTOR_GROUNDED) {
-            ((S_8016CBAC_0 *)action)->unk_98 &= 0xFFF7;
+            action->action_state_flags &= 0xFFF7;
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
@@ -119,7 +118,7 @@ void update_tile_movement_and_action_completion(void *action, void *motion, Spri
                 sprite,
                 D_8016EE14[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            ((S_8016CBAC_0 *)action)->unk_9B++;
+            action->action_phase++;
         }
         break;
 

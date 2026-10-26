@@ -4,6 +4,7 @@
 #include "sdk/libgte.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/animation.h"
+#include "engine/node/allocation.h"
 
 struct SpriteFrameState;
 #include "common.h"
@@ -98,7 +99,7 @@ typedef struct T_80170F94_S_80170F94_1 {
 
 #ifndef NULL
 #define NULL 0
-extern void update_actor_behavior();
+void update_actor_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
 
 #endif
 
@@ -118,14 +119,6 @@ typedef struct T_8017121C_S_8017121C_0 {
     s16 unk_62;
 } T_8017121C_S_8017121C_0;   /* base in func_8017121C */
 
-typedef struct T_8017121C_S_8017121C_3 {
-    u8 pad_00[0x2];
-    union { u16 s; s16 u; } unk_02;   /* accessed as both */
-    u8 pad_04[0x2];
-    union { u16 s; s16 u; } unk_06;   /* accessed as both */
-    u8 pad_08[0x2];
-    union { u16 s; s16 u; } unk_0A;   /* accessed as both */
-} T_8017121C_S_8017121C_3;   /* coords in func_8017121C */
 
 typedef struct T_8017121C_S_8017121C_5_pre {
     void * unk_00;
@@ -358,21 +351,6 @@ typedef struct T_80171BEC_S_80171BEC_0 {
     void * unk_40;
 } T_80171BEC_S_80171BEC_0;   /* object in func_80171BEC */
 
-typedef struct T_80171BEC_S_80171BEC_1 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    void * unk_08;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} T_80171BEC_S_80171BEC_1;   /* render in func_80171BEC */
 
 typedef struct T_80171BEC_S_80171BEC_3 {
     s32 unk_00;
@@ -422,7 +400,6 @@ extern s16 sample_terrain_surface_height(u16 x, u16 y, s16 min_height);
 extern s32 resolve_record_orientation_or_fallback(void *, void *, T_8017121C_Vec3u16 *, s32);
 extern void register_node(void *, void *);
 extern void func_8004491C(void *, void *);
-extern void * allocate_list_node();
 extern void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 extern void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
@@ -446,12 +423,12 @@ void update_saved_rgb_fade(T_80170E2C_FadeState *fade, s32 unused, T_80170E2C_Fa
 void update_growing_rotating_flash(void *effect, s32 unused, void *visual);
 void update_growing_bouncing_effect(void *effect, void *position,struct SpriteFrameState *sprite);
 void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unused, EntityRec *target);
-void create_actor_action_effect(void *source_object, void *source_pos, void *sprite_template, EntityRec *actor);
+void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *source_pos, SpriteFrameState *sprite_template, ActorRecord *actor);
 void spawn_random_color_burst_particle(void *source, void *position);
 void spawn_growing_rotating_flash(void *unused, s32 *position);
 void update_tracked_attachment_sprite(void *object, T_80171A38_S_80171A38_4 *position, T_80171A38_S_80171A38_3 *part_state);
 void create_tracked_attachment_sprite(void *attachment, T_80171BEC_S_80171BEC_3 *base_position);
 void * create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_height);
-extern void update_actor_behavior();
+void update_actor_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
 
 #endif

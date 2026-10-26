@@ -6,6 +6,7 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800AA258_arg2.h"
 #include "shared/entity.h"
+#include "dungeon/actor/motion.h"
 
 typedef struct S_80174788_0 {
     u8 pad_00[0x8C];
@@ -22,12 +23,11 @@ typedef struct S_80174788_0 {
 
 extern s32 check_entity_relation();
 #include "dungeon/player/object/action_state.h"
-extern void on_actor_status_updated();
-extern void update_actor_status_and_mp();
-extern void begin_pushed_actor_move();
+extern void on_actor_status_updated(void *actor);
+extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s32 begin_ready_actor_directional_action();
 extern void begin_actor_move_to_target_facing();
-extern void update_actor_action_transition();
+extern void update_actor_action_transition(void *state, void *update_mode, SpriteFrameState *sprite, void *entity);
 
 extern u8 uboat_action_frames[];
 extern u8 u_boat_motion_frames[];
@@ -35,8 +35,7 @@ extern u8 u_boat_motion_frames[];
 #include "engine/graphics.h"
 
 /* Advance an actor action through animation completion and status checks. */
-void advance_actor_action_animation(void *action, s32 actor_index, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void advance_actor_action_animation(ActorRecord *action, ObjectPosition *actor_index, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 action_state;
     u16 reset_offset;
     u16 value_before_reset;

@@ -7,12 +7,13 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/system.h"
+#include "engine/node/allocation.h"
 struct ObjectNodeHeader;
 struct SpriteFrameState;
 extern u8 zu_default_frames[];
 void select_sprite_entry();
 void func_80047784();
-s32 test_neighbor_position_relation();
+s32 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
 /* This retail bank used the signed-halfword declaration. */
 s16 sample_terrain_surface_height();
 void update_map_cell_flags_with_item_limit();
@@ -25,8 +26,6 @@ void advance_status_timers();
 void spend_actor_mp();
 s32 begin_ready_actor_directional_action();
 s32 get_rounded_facing_and_rounding_flag();
-void * allocate_list_node();
-void * func_8003FD64();
 s32 register_node(struct ObjectNodeHeader *entry, void *registration_id);
 s32 func_8004491C(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 void *spawn_zu_actor(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);

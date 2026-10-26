@@ -44,8 +44,7 @@ extern s32 ifrit_action_resume_address;
 #include "dungeon/monster/ifrit.h"
 
 /* Updates an actor's jump motion, landing animation, and completion state. */
-void update_actor_jump_and_landing(u8 *motion, ObjectPosition *position, u8 *sprite, ActorRecord *actor)
-{
+void update_actor_jump_and_landing(ActorRecord *motion, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
     PathTable frame_path;
     u16 facing_result;
     s32 frames_left;
@@ -57,17 +56,17 @@ void update_actor_jump_and_landing(u8 *motion, ObjectPosition *position, u8 *spr
     DungeonGlobalStatus *global_counter;
 
     frame_path = *(PathTable *)D_80170838;
-    phase = ((S_80172288_0 *)motion)->unk_9B;
+    phase = motion->action_phase;
 
     switch (phase) {
     case 0:
         if (((S_80172288_0 *)motion)->unk_96 < 8) {
-            ((S_80172288_0 *)motion)->unk_98 |= 8;
+            motion->action_state_flags |= 8;
             position->velocity_z = 0xFFEE0000;
             actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-            phase_value = ((S_80172288_0 *)motion)->unk_9B;
+            phase_value = motion->action_phase;
             ((S_80172288_0 *)motion)->unk_A0 = 0;
-            ((S_80172288_0 *)motion)->unk_9B = phase_value + 1;
+            motion->action_phase = phase_value + 1;
         }
         break;
     case 1:
@@ -78,7 +77,7 @@ void update_actor_jump_and_landing(u8 *motion, ObjectPosition *position, u8 *spr
                 s32 target_x;
                 s32 current_x;
 
-                target_x = sprite[0x24];
+                target_x = sprite->tile_x;
                 current_x = position->x.w.i;
                 target_x <<= 6;
                 current_x -= 0x20;
@@ -87,7 +86,7 @@ void update_actor_jump_and_landing(u8 *motion, ObjectPosition *position, u8 *spr
             }
             current_y = position->y.w.i - 0x20;
             position->velocity_y =
-                (((sprite[0x25] << 6) - current_y) << 16) /
+                (((sprite->tile_y << 6) - current_y) << 16) /
                 ((S_80172288_0 *)motion)->unk_96;
             ((S_80172288_0 *)motion)->unk_A0 += position->velocity_z;
             position->velocity_z += 0x40000;
@@ -95,25 +94,25 @@ void update_actor_jump_and_landing(u8 *motion, ObjectPosition *position, u8 *spr
         ((S_80172288_0 *)motion)->unk_90 += ((S_80172288_0 *)motion)->unk_A0;
         if (((S_80172288_0 *)motion)->unk_96 < 3) {
             ((S_80172288_0 *)motion)->unk_90 = 0;
-            ((S_80172288_0 *)motion)->unk_98 &= 0xFFF7;
+            motion->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            ((S_80172288_0 *)motion)->unk_9B++;
+            motion->action_phase++;
         }
                         /* fall through */
     case 2:
         if (actor->flags1C & ACTOR_GROUNDED) {
-            ((S_80172288_0 *)motion)->unk_98 &= 0xFFF7;
+            motion->action_state_flags &= 0xFFF7;
             position->velocity_z = 0;
             position->velocity_y = 0;
             position->velocity_x = 0;
-            set_record_integer_tile_center(position, sprite[0x24], sprite[0x25]);
+            set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
             ((SpriteFrameState *)sprite)->frameTable = ifrit_direction_frames;
             select_sprite_entry(
                 sprite,
                 ifrit_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            phase_value = ((S_80172288_0 *)motion)->unk_9B;
-            ((S_80172288_0 *)motion)->unk_9B = phase_value + 1;
+            phase_value = motion->action_phase;
+            motion->action_phase = phase_value + 1;
         }
         break;
     }
@@ -124,7 +123,7 @@ void update_actor_jump_and_landing(u8 *motion, ObjectPosition *position, u8 *spr
         position->velocity_z = 0;
         position->velocity_y = 0;
         position->velocity_x = 0;
-        set_record_integer_tile_center(position, sprite[0x24], sprite[0x25]);
+        set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
         spend_actor_mp(actor, 4);
         advance_status_timers(actor);
 
@@ -141,7 +140,7 @@ void update_actor_jump_and_landing(u8 *motion, ObjectPosition *position, u8 *spr
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
                 actor->facing = get_rounded_facing_and_rounding_flag(
-                    sprite[0x24], sprite[0x25], reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
+                    sprite->tile_x, sprite->tile_y, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                     &facing_result);
             }
         }

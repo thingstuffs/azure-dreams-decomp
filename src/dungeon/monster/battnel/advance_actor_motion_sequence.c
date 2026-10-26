@@ -49,8 +49,7 @@ extern u8 battnel_action_resume_address[];
 #include "dungeon/monster/battnel.h"
 
 /* Advances an actor motion through setup, playback, and completion. */
-void advance_actor_motion_sequence(void *state, void *position, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void advance_actor_motion_sequence(ActorRecord *state, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
     u16 effect_pos[4];
     u8 *motion;
     s16 special_motion;
@@ -59,7 +58,7 @@ void advance_actor_motion_sequence(void *state, void *position, SpriteFrameState
     ObjectNodeHeader *action_state;
 
     special_motion = 0;
-    switch (((S_80172A04_0 *)state)->unk_9B) {
+    switch (state->action_phase) {
     case 0:
         if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
             switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
@@ -103,7 +102,7 @@ void advance_actor_motion_sequence(void *state, void *position, SpriteFrameState
         }
 
         if (*motion != 0) {
-            ((S_80172A04_0 *)state)->unk_98 &= 0xFF7F;
+            state->action_state_flags &= 0xFF7F;
             {
                 s16 use_special = special_motion;
                 if (use_special != 0) {
@@ -137,7 +136,7 @@ void advance_actor_motion_sequence(void *state, void *position, SpriteFrameState
             sprite->flags &= 0xF7FF;
             play_sound_if_enabled(0x703);
             create_two_row_object_group(effect_pos, (*motion - 1) % 3);
-            ((S_80172A04_0 *)state)->unk_9B = ((S_80172A04_0 *)state)->unk_9B + 1;
+            state->action_phase = state->action_phase + 1;
             return;
         }
 
@@ -161,14 +160,14 @@ void advance_actor_motion_sequence(void *state, void *position, SpriteFrameState
             return;
         }
         sprite->flags &= 0xF7FF;
-        ((S_80172A04_0 *)state)->unk_9B = ((S_80172A04_0 *)state)->unk_9B + 1;
+        state->action_phase = state->action_phase + 1;
                                 /* fallthrough */
     case 2:
         if ((sprite->unk_04 == 4 && (sprite->flags & 0x1000)) ||
             (sprite->flags & 0xE000)) {
             sprite->flags |= 0x800;
             ((S_80172A04_0 *)state)->unk_96 = 0x6;
-            ((S_80172A04_0 *)state)->unk_98 |= 0x80;
+            state->action_state_flags |= 0x80;
         }
         ticks_left = ((S_80172A04_0 *)state)->unk_96 - 1;
         ((S_80172A04_0 *)state)->unk_96 = ticks_left;

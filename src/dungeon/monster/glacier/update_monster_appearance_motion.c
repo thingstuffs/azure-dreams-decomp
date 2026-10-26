@@ -40,7 +40,7 @@ typedef struct {
 typedef void (*Callback)(void *, void *, void *, void *);
 
 extern s32 get_entity_effect_value();
-extern void apply_monster_koyaw_data();
+extern void apply_monster_koyaw_data(s32 flags, s8 *dst);
 extern s32 refresh_actor_facing_and_lifecycle();
 extern s16 sample_terrain_surface_height();
 

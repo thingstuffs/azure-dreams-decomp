@@ -22,15 +22,6 @@ typedef struct T_801748D0_S_801748D0_0 {
     u8 unk_9B;
 } T_801748D0_S_801748D0_0;   /* arg0 in func_801748D0 */
 
-typedef struct T_801748D0_S_801748D0_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} T_801748D0_S_801748D0_2;   /* arg2 in func_801748D0 */
 
 typedef struct T_801748D0_S_801748D0_3 {
     u8 pad_00[0x94];
@@ -87,7 +78,7 @@ extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 extern void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
 extern void * find_eligible_actor_at_tile_and_height();
 extern s32 try_claim_dungeon_action_slot();
-extern s32 apply_camera_offset_and_select_target();
+extern s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 extern s32 resolve_record_orientation_or_fallback(s32, void *, s16 *, s16);
 extern void * allocate_list_node(s32, void *);
 extern void * func_8003FD64(s32, void *);
@@ -104,5 +95,5 @@ extern u8 noise_direction_frames[];
 extern u8 noise_frame_set_2[];
 void start_directional_action_and_record_tile(void *action_state, void *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_timed_actor_visual_effect(void *effect_state, ObjectPosition *position, SpriteFrameState *source_mesh, ActorRecord *actor);
-extern void update_actor_behavior_and_direction(void *motion, void *render_ctx, SpriteFrameState *map_entity, ActorRecord *actor);
+void update_actor_behavior_and_direction(ActorRecord *motion, ObjectPosition *render_ctx, SpriteFrameState *map_entity, ActorRecord *actor);
 #endif

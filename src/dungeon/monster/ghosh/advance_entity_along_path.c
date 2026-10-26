@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -6,9 +7,9 @@
 #include "engine/graphics.h"
 #include "dungeon/level.h"
 
-extern s32 update_map_cell_flags_with_item_limit();
+extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s32 check_movement_clearance_and_height();
-extern s16 get_rounded_facing_and_rounding_flag();
+extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void func_8016C698(void *actor_state, void *action_state, SpriteFrameState *sprite, void *orientation);
 
 extern u8 ghosh_frame_set_7[];
@@ -55,6 +56,7 @@ typedef struct S_8016BD14_5 {
 
 /* Advance the entity along its path and update its heading and movement state. */
 void advance_entity_along_path(void *actor, void *action, SpriteFrameState *entity, void *path_arg) {
+    ActorRecord *path_actor = actor;
     register void *path;
     s32 step_index;
     s32 old_tile_flags;
@@ -102,7 +104,7 @@ void advance_entity_along_path(void *actor, void *action, SpriteFrameState *enti
     heading = get_rounded_facing_and_rounding_flag(tile_x, tile_y,
                             ((S_8016BD14_5 *)((u8 *)path + ((S_8016BD14_0 *)path)->unk_8A.s))->unk_74,
                             ((S_8016BD14_5 *)((u8 *)path + ((S_8016BD14_0 *)path)->unk_8A.s))->unk_7C,
-                            (u8 *)actor + 0x98);
+                            &path_actor->action_state_flags);
     raw_result = check_movement_clearance_and_height(heading, entity, path, 0x20);
 
     next_x = ((S_8016BD14_5 *)((u8 *)path + ((S_8016BD14_0 *)path)->unk_8A.s))->unk_74;

@@ -92,14 +92,13 @@ typedef struct S_801714B8_8 {
 /* Updates actor behavior, facing, and timed animation effects in the dungeon. */
 /* Dispatches Glacier's movement, attacks, spells, and turn processing, adding timed idle gestures and an
  * attached effect. */
-void update_actor_timed_effects(void *actor_arg, void *context_arg, void *sprite_arg, void *stats_arg)
-{
+void update_actor_timed_effects(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *sprite_arg, ActorRecord *stats_arg) {
     void *actor;
     void *context;
     SpriteFrameState *sprite;
     void *stats;
     s32 room_id;
-    s32 distance;
+    u16 distance;
     u16 spawn_offset[3];
     u32 initial_flags = g_dungeon_status.flags;
 

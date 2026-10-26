@@ -1,3 +1,5 @@
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "dungeon/actor.h"
 #include "m2c_compat.h"
@@ -8,7 +10,7 @@ extern void ghosh_action_resume_address();
 
 typedef struct S_8016CED4_0 {
     u8 pad_00[0x8C];
-    void (*unk_8C)();
+    ActorActionHandler unk_8C;
 } S_8016CED4_0;   /* arg0 in finish_linked_actor_motion */
 
 

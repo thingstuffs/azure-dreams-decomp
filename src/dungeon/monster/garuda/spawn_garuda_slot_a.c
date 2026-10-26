@@ -25,14 +25,10 @@ typedef struct S_81029000_1 {
     s32 unk_1C;
 } S_81029000_1;   /* work in spawn_garuda_slot_a */
 
-typedef struct S_81029000_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_81029000_2;   /* part_a in spawn_garuda_slot_a */
 
 typedef struct S_81029000_4 {
     u8 pad_00[0x8C];
-    void (*unk_8C)(ActionState *, void *, ActorSprite *, CreatureState *);
+    ActorActionHandler unk_8C;
     u8 pad_90[0x2];
     s16 unk_92;
     u8 pad_94[0x6];

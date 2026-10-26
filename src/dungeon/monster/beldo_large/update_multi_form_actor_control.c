@@ -16,18 +16,18 @@
 #include "slus.h"
 #include "sdk/libc.h"
 struct ActorRecord; s32 check_entity_relation(struct ActorRecord *, struct ActorRecord *);
-s8 find_active_rect_containing_point();
+s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 s32 test_neighbor_position_relation(s32, s32, s32, s32);
-s32 get_rounded_facing_and_rounding_flag();
-s32 can_entity_gain_level();
+s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+s32 can_entity_gain_level(void *entity);
 void update_actor_status_and_mp(struct ActorRecord *);
-void begin_pushed_actor_move();
+void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);
 s32 begin_ready_actor_directional_action();
 s32 advance_actor_pending_action(void *, void *, void *, void *);
 struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2; void begin_actor_move_to_target_facing(struct Rec_func_800A9E70_arg0 *, void *, struct Rec_func_800AA258_arg2 *, struct ActorRecord *);
 s32 reset_actor_action_state(void *, void *, void *, u8 *);
 void begin_actor_spell_action(void *, void *, void *, u8 *, void *);
-void advance_multi_form_turn_path(void *, void *, SpriteFrameState *, void *);
+void advance_multi_form_turn_path(ActorRecord *actor, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *movement);
 void advance_actor_movement_step(u8 *, void *, u8 *, u8 *);
 struct Rec_D_80082E80; struct Rec_func_800A9E70_arg0; s32 try_actor_attack(struct Rec_func_800A9E70_arg0 *, s32, struct Rec_D_80082E80 *, struct ActorRecord *);
 void start_actor_attack(void *, void *, s32, void *);
@@ -56,9 +56,9 @@ extern u8 beldo_large_frame_set_4[];
 /* Updates dungeon actor actions, facing, and idle animations. */
 /* Dispatches movement, attacks, and spells for four actor forms, with separate idle frames and timed idle
  * gestures. */
-void update_multi_form_actor_control(void *actor, void *context, SpriteFrameState *sprite, ActorRecord *entity) {
+void update_multi_form_actor_control(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
     void *pose_actor;
-    s32 distance;
+    u16 distance;
     u8 *idle_table;
     u8 *pose2_table;
     u8 *pose3_table;

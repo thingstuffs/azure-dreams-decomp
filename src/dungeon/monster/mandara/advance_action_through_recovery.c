@@ -40,8 +40,7 @@ extern void create_two_effect_groups(void *, void *, void *, s32);
 #include "dungeon/monster/mandara.h"
 
 /* Advances an actor action through motion selection, execution, and recovery. */
-void advance_action_through_recovery(void *action_state, ObjectPosition *transform, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void advance_action_through_recovery(ActorRecord *action_state, ObjectPosition *transform, SpriteFrameState *sprite, ActorRecord *actor) {
     u16 saved_position[3];
     u8 *motion;
     s32 use_global_target;
@@ -53,7 +52,7 @@ void advance_action_through_recovery(void *action_state, ObjectPosition *transfo
     s32 ticks_left;
 
     use_global_target = 0;
-    switch (((S_80172DEC_0 *)action_state)->unk_9B) {
+    switch (action_state->action_phase) {
     case 0:
         if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
             switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
@@ -96,7 +95,7 @@ void advance_action_through_recovery(void *action_state, ObjectPosition *transfo
             }
         }
         if (*motion != 0) {
-            ((S_80172DEC_0 *)action_state)->unk_98 &= 0xFF7F;
+            action_state->action_state_flags &= 0xFF7F;
             {
                 s16 global_target_flag = use_global_target;
 
@@ -132,7 +131,7 @@ void advance_action_through_recovery(void *action_state, ObjectPosition *transfo
             sprite->flags &= 0xF7FF;
             play_sound_if_enabled(0x703);
             create_two_effect_groups(transform, sprite, actor, 0x10);
-            ((S_80172DEC_0 *)action_state)->unk_9B = ((S_80172DEC_0 *)action_state)->unk_9B + 1;
+            action_state->action_phase = action_state->action_phase + 1;
             return;
         }
 
@@ -156,7 +155,7 @@ void advance_action_through_recovery(void *action_state, ObjectPosition *transfo
             return;
         }
         sprite->flags &= 0xF7FF;
-        ((S_80172DEC_0 *)action_state)->unk_9B = ((S_80172DEC_0 *)action_state)->unk_9B + 1;
+        action_state->action_phase = action_state->action_phase + 1;
                                         /* fallthrough */
     case 2:
         if ((sprite->unk_04 == 3 && (sprite->flags & 0x1000))
@@ -164,7 +163,7 @@ void advance_action_through_recovery(void *action_state, ObjectPosition *transfo
             (sprite->flags & 0xE000)) {
             sprite->flags |= 0x800;
             ((S_80172DEC_0 *)action_state)->unk_96 = 0xE;
-            ((S_80172DEC_0 *)action_state)->unk_98 |= 0x80;
+            action_state->action_state_flags |= 0x80;
         }
         ticks_left = ((S_80172DEC_0 *)action_state)->unk_96 - 1;
         ((S_80172DEC_0 *)action_state)->unk_96 = ticks_left;

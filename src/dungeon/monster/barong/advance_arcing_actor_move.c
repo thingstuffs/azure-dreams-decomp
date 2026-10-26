@@ -40,8 +40,7 @@ extern u8 D_80175574[];
 extern u8 D_8017557C[];
 
 /* Updates an actor's arcing move to its tile and finishes the action when its timer expires. */
-void advance_arcing_actor_move(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void advance_arcing_actor_move(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 state;
     s32 move_ticks;
     s32 target_x;
@@ -56,7 +55,7 @@ void advance_arcing_actor_move(void *action, void *motion, SpriteFrameState *spr
     DungeonGlobalStatus *action_globals;
     u8 *idle_anims;
 
-    state = ((S_80172B4C_0 *)action)->unk_9B;
+    state = action->action_phase;
     switch (state) {
     case 0:
     {
@@ -71,11 +70,11 @@ void advance_arcing_actor_move(void *action, void *motion, SpriteFrameState *spr
             phase_anims[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         sprite->scale_y = 0x1000;
-        ((S_80172B4C_0 *)action)->unk_98 |= 8;
+        action->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80172B4C_0 *)action)->unk_9E.s = 5;
         ((S_80172B4C_0 *)action)->unk_A4 = 0;
-        ((S_80172B4C_0 *)action)->unk_9B++;
+        action->action_phase++;
     }
                         /* fallthrough */
     case 1:
@@ -107,9 +106,9 @@ void advance_arcing_actor_move(void *action, void *motion, SpriteFrameState *spr
         ((S_80172B4C_0 *)action)->unk_90 = height_offset;
         if ((next_move_ticks << 16) < 0) {
             ((S_80172B4C_0 *)action)->unk_90 = 0;
-            ((S_80172B4C_0 *)action)->unk_98 &= 0xFFF7;
+            action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            ((S_80172B4C_0 *)action)->unk_9B++;
+            action->action_phase++;
         }
                         /* fallthrough */
     case 2:
@@ -117,7 +116,7 @@ void advance_arcing_actor_move(void *action, void *motion, SpriteFrameState *spr
         u8 *phase_anims;
 
         if (actor->flags1C & ACTOR_GROUNDED) {
-            ((S_80172B4C_0 *)action)->unk_98 &= 0xFFF7;
+            action->action_state_flags &= 0xFFF7;
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
@@ -128,7 +127,7 @@ void advance_arcing_actor_move(void *action, void *motion, SpriteFrameState *spr
                 phase_anims[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             sprite->scale_y = 0xC00;
-            ((S_80172B4C_0 *)action)->unk_9B++;
+            action->action_phase++;
         }
     }
         break;

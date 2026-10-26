@@ -58,14 +58,13 @@ extern u8 D_80163EB0[];
 extern u8 D_80163EB8[];
 
 /* Update a dungeon actor's animation and dispatch its current behavior. */
-void update_actor_animation_and_dispatch_current(void *actor, void *context, SpriteFrameState *sprite, ActorRecord *entity)
-{
+void update_actor_animation_and_dispatch_current(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
     u16 distance;
     s8 room_id;
     u16 action_flags;
 
     if (g_dungeon_status.flags & 0x1000) {
-        ((S_8015F0EC_0 *)actor)->unk_9A = 0xE;
+        actor->action_id = 0xE;
         func_8015F69C(actor, context, sprite, entity);
         return;
     }
@@ -87,8 +86,8 @@ void update_actor_animation_and_dispatch_current(void *actor, void *context, Spr
 
     if (((u32)entity->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == D_80163EA0) {
-            ((S_8015F0EC_0 *)actor)->unk_9A = 0xD;
-            ((S_8015F0EC_0 *)actor)->unk_9B = 1;
+            actor->action_id = 0xD;
+            actor->action_phase = 1;
             ((S_8015F0EC_0 *)actor)->unk_8C = 0;
             entity->flags1C &= ~0x40000;
             return;
@@ -108,8 +107,8 @@ void update_actor_animation_and_dispatch_current(void *actor, void *context, Spr
             void *current_anims;
             u8 *anim_table;
 
-            if (((S_8015F0EC_0 *)actor)->unk_9A != 0xE) {
-                ((S_8015F0EC_0 *)actor)->unk_9A = 0xE;
+            if (actor->action_id != 0xE) {
+                actor->action_id = 0xE;
                 ((S_8015F0EC_0 *)actor)->unk_B2 = 0;
             }
 
@@ -141,7 +140,7 @@ void update_actor_animation_and_dispatch_current(void *actor, void *context, Spr
         }
 
         entity->flags1C |= 0x40000;
-        ((S_8015F0EC_0 *)actor)->unk_98 &= 0xFFF7;
+        actor->action_state_flags &= 0xFFF7;
 
         if (entity->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, context, sprite, D_80163E48) != 0) {

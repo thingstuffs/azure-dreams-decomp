@@ -19,10 +19,7 @@
 #include "dungeon/actor/status.h"
 
 /* Sparse views for fields not covered by the existing record types. */
-typedef struct {
-    u8 pad_00[0x2C];
-    s32 *field_2C;
-} EffectSpriteFieldView_80EB6FC8;
+
 
 typedef struct {
     u8 pad_00[0xA6];
@@ -33,7 +30,7 @@ extern int abs(int);
 
 typedef struct S_801727C8_0 {
     u8 pad_00[0x8C];
-    void (*unk_8C)(void *, s32,  void *, ActorRecord *);
+    ActorActionHandler unk_8C;
     u8 pad_90[0x6];
     u16 unk_96;
     u16 unk_98;
@@ -53,9 +50,9 @@ typedef struct S_801727C8_5 {
 
 extern void *D_80170838[];
 void *scan_actor_along_heading();
-void *create_actor_spell_effect();
+void *create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);
 void create_two_effect_groups();
-void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite, ActorRecord *status);
+void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *status);
 extern u8 kraken_frame_set_1;
 extern u8 D_801741B4;
 extern u8 kraken_frame_set_5;
@@ -63,7 +60,7 @@ extern u8 kraken_frame_set_5;
 /* Updates an actor's action state, target selection, and animation. */
 /* Starts a targeted Kraken spell with two effect groups, waits for loading and animation, then restores
  * vertical idle state. */
-void update_actor_action_target_and_animation(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+void update_actor_action_target_and_animation(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u8 *anim_table;
     s32 visual_base;
     s32 special_slot;
@@ -83,7 +80,7 @@ void update_actor_action_target_and_animation(void *action, ObjectPosition *moti
 
     is_special = 0;
     visual_base = ((S_801727C8_0 *)action)->unk_A4;
-    state = ((S_801727C8_0 *)action)->unk_9B;
+    state = action->action_phase;
     visual_flags = visual_base + 0x20;
     effect_sprite = visual_base + 0x28;
     switch (state) {
@@ -131,7 +128,7 @@ void update_actor_action_target_and_animation(void *action, ObjectPosition *moti
             }
         }
         if (*entry != 0) {
-            ((S_801727C8_0 *)action)->unk_98 = (u16) (((S_801727C8_0 *)action)->unk_98 & 0xFF7F);
+            action->action_state_flags = (u16) (action->action_state_flags & 0xFF7F);
             {
                 s32 special_check;
 
@@ -172,19 +169,19 @@ void update_actor_action_target_and_animation(void *action, ObjectPosition *moti
             (effect_sprite->frameTable) = anim_table;
             select_sprite_entry(effect_sprite, *((u8 *) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + (s32) anim_table)), 0);
-            if (create_actor_spell_effect(actor, entry, is_special, action + 0x98) == 0) {
+            if (create_actor_spell_effect(actor, entry, is_special, ((u8 *)action + 0x98)) == 0) {
                 return;
             }
             sprite->flags = (u16) (sprite->flags & 0xF7FF);
             create_two_effect_groups(motion, sprite, actor, 0xA);
             play_sound_if_enabled(0x703);
-            current_state = ((S_801727C8_0 *)action)->unk_9B;
+            current_state = action->action_phase;
             {
                 state = 6;
 
                 ((S_801727C8_0 *)action)->unk_96 = (u16)state;
             }
-            ((S_801727C8_0 *)action)->unk_9B = (u8) (current_state + 1);
+            action->action_phase = (u8) (current_state + 1);
             return;
         }
         motion->velocity_z = 0;
@@ -207,7 +204,7 @@ void update_actor_action_target_and_animation(void *action, ObjectPosition *moti
             return;
         }
         sprite->flags = (u16) (sprite->flags & 0xF7FF);
-        ((S_801727C8_0 *)action)->unk_9B = (u8) (((S_801727C8_0 *)action)->unk_9B + 1);
+        action->action_phase = (u8) (action->action_phase + 1);
 
     case 2:
         ticks_left = ((S_801727C8_0 *)action)->unk_96 - 1;
@@ -217,14 +214,14 @@ void update_actor_action_target_and_animation(void *action, ObjectPosition *moti
                 return;
             }
         }
-        ((S_801727C8_0 *)action)->unk_98 = (u16) (((S_801727C8_0 *)action)->unk_98 | 0x80);
+        action->action_state_flags = (u16) (action->action_state_flags | 0x80);
         if (!(sprite->flags & 0xE000)) {
             return;
         }
         sprite->frameTable = &kraken_frame_set_5;
         select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + &kraken_frame_set_5), 0);
-        current_state = ((S_801727C8_0 *)action)->unk_9B;
-        ((S_801727C8_0 *)action)->unk_9B = (u8) (current_state + 1);
+        current_state = action->action_phase;
+        action->action_phase = (u8) (current_state + 1);
         return;
 
     case 3:

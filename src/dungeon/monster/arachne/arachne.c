@@ -242,8 +242,7 @@ void create_directional_template_effect(void *entity, R12_80170A44_S_80170A28_2 
 }
 
 /* Selects movement, attacks, and spells from actor status, MP, and its position relative to the player. */
-void update_actor_state_and_select_target(void *entity, void *context, void *sprite, void *actor)
-{
+void update_actor_state_and_select_target(ActorRecord *entity, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor) {
     u8 *effect_table;
     s32 next_state;
     s16 path_distance;
@@ -437,6 +436,7 @@ void update_actor_state_and_select_target(void *entity, void *context, void *spr
  * delay. */
 void advance_actor_path_script_step(void *controller, void *context, void *entity, void *path_state)
 {
+    ActorRecord *path_actor = controller;
     void *state = path_state;
     s32 move_flags;
     s16 direction;
@@ -474,7 +474,7 @@ void advance_actor_path_script_step(void *controller, void *context, void *entit
         y,
         ((R12_801713D4_S_8017139C_3 *)((u8 *)state + ((R12_801713D4_S_8017139C_0 *)state)->unk_8A.s))->unk_74,
         ((R12_801713D4_S_8017139C_3 *)((u8 *)state + ((R12_801713D4_S_8017139C_0 *)state)->unk_8A.s))->unk_7C,
-        (u8 *)controller + 0x98));
+        &path_actor->action_state_flags));
     move_result = ((s16)check_movement_clearance_and_height(direction, entity, state, 0x20));
 
     ((SpriteFrameState *)entity)->tile_x =
@@ -525,8 +525,7 @@ void advance_actor_path_script_step(void *controller, void *context, void *entit
 
 /* Chooses a clear step or attack, records the actor's path, and updates occupied tiles and movement
  * counts. */
-void choose_arachne_move(Rec_func_800A9E70_arg0 *move_data, void *context, SpriteFrameState *position_data, ActorRecord *actor_data)
-{
+void choose_arachne_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data) {
     u16 dungeon_flags = g_dungeon_status.flags;
     s32 limit_detour = 0;
     s16 detour_check;
@@ -554,7 +553,7 @@ void choose_arachne_move(Rec_func_800A9E70_arg0 *move_data, void *context, Sprit
         return;
     }
 
-    update_actor_proximity_flag(position_data, actor_data, 3, 6, &move_data->unk_9C.as_s8);
+    update_actor_proximity_flag(position_data, actor_data, 3, 6, &move_data->unk_9C);
     actor_flags = actor_data->flags1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
@@ -563,7 +562,7 @@ void choose_arachne_move(Rec_func_800A9E70_arg0 *move_data, void *context, Sprit
             if (blocker != 0) {
                 SpriteFrameState *blocker_sprite = ((ObjectNodeHeader *)blocker - 1)->sprite;
                 s16 target_angle = ((s16)get_rounded_facing_and_rounding_flag((s16)position_data->tile_x,(s16)position_data->tile_y,(s16)(blocker_sprite->tile_x),(s16)(blocker_sprite->tile_y),
-                    &move_data->unk_98));
+                    &move_data->action_state_flags));
                 actor_data->facing = target_angle;
                 actor_data->movement_queue_state &= 0x7F;
                 return;
@@ -603,7 +602,7 @@ void choose_arachne_move(Rec_func_800A9E70_arg0 *move_data, void *context, Sprit
                     return;
                 }
 
-                turn_data = &move_data->unk_98;
+                turn_data = &move_data->action_state_flags;
                 target_angle = ((s16)get_rounded_facing_and_rounding_flag((s16)position_data->tile_x,(s16)position_data->tile_y,(s16)((s16)target_x),(s16)((s16)target_y), turn_data));
                 actor_data->facing = target_angle;
                 if (((s16)check_movement_clearance_and_height((s16)(target_angle), position_data, actor_data, 0x20)) <= 0) {
@@ -615,14 +614,14 @@ void choose_arachne_move(Rec_func_800A9E70_arg0 *move_data, void *context, Sprit
                     limit_detour = 1;
                 }
             } else {
-                select_actor_route_target((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
-                              &move_data->unk_98);
+                select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+                              &move_data->action_state_flags);
             }
         }
     } else if ((s8)position_data->room_index >= 0 &&
                dungeon_rooms[(s8)position_data->room_index].flags & ROOM_HOLY_BEAM) {
-        select_actor_route_target((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
-                      &move_data->unk_98);
+        select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+                      &move_data->action_state_flags);
     } else if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
         current_angle = (s32)probe_directional_neighbor(actor_data,position_data->tile_x,position_data->tile_y,(s16)(actor_data->facing));
         blocker = (ActorRecord *)current_angle;
@@ -638,7 +637,7 @@ void choose_arachne_move(Rec_func_800A9E70_arg0 *move_data, void *context, Sprit
 
         if (actor_data->flags1C & ACTOR_PLAYER_AWARE) {
             TileObject *target_position = &reference_tile_object;
-            actor_data->facing = ((s16)get_rounded_facing_and_rounding_flag((s16)position_data->tile_x,(s16)position_data->tile_y,(s16)(target_position->tile_position.parts.tile_x),(s16)(target_position->tile_position.parts.tile_y), &move_data->unk_98));
+            actor_data->facing = ((s16)get_rounded_facing_and_rounding_flag((s16)position_data->tile_x,(s16)position_data->tile_y,(s16)(target_position->tile_position.parts.tile_x),(s16)(target_position->tile_position.parts.tile_y), &move_data->action_state_flags));
             if (((s16)test_neighbor_position_relation(
                     position_data->tile_x, position_data->tile_y,
                     target_position->tile_position.parts.tile_x, target_position->tile_position.parts.tile_y)) != 0) {
@@ -651,8 +650,8 @@ void choose_arachne_move(Rec_func_800A9E70_arg0 *move_data, void *context, Sprit
                 }
             }
         } else {
-            select_actor_route_target((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
-                          &move_data->unk_98);
+            select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+                          &move_data->action_state_flags);
         }
     }
 
@@ -660,7 +659,7 @@ void choose_arachne_move(Rec_func_800A9E70_arg0 *move_data, void *context, Sprit
     turn_table = ((s16 *)actor_turn_angle_offsets);
 
     do {
-        turn_flags = move_data->unk_98;
+        turn_flags = move_data->action_state_flags;
         current_angle = actor_data->facing;
         if (turn_flags & 2) {
             trial_angle = current_angle - turn_table[turn_index];
@@ -727,7 +726,7 @@ void choose_arachne_move(Rec_func_800A9E70_arg0 *move_data, void *context, Sprit
 
     {
         actor_data->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-        move_data->unk_9C.as_u8 = position_data->room_index;
+        move_data->unk_9C = position_data->room_index;
         actor_data->pending_turn_updates--;
         g_dungeon_status.activity_counts.parts.pending_movement_count++;
     }
@@ -761,8 +760,7 @@ void advance_linked_actor_motion_script(void *object, void *unused, void *displa
 }
 
 /* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
-s32 try_arachne_attack(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, SpriteFrameState *sprite, ActorRecord *actor)
-{
+s32 try_arachne_attack(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 target_angle;
     u16 status_flags;
     u8 actor_flags;
@@ -796,9 +794,9 @@ s32 try_arachne_attack(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, S
 
     apply_camera_offset_and_select_target((ObjectNodeHeader *)actor - 1, motion_param, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
-        action_state->unk_9A.as_u8 = 0x11;
-        action_state->unk_9B.as_u8 = 0;
-        action_state->unk_8C = 0;
+        action_state->action_id = 0x11;
+        action_state->action_phase = 0;
+        action_state->unk_8C.handler = 0;
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;
         sprite->frameTable = arachne_direction_frames;
@@ -896,7 +894,7 @@ void finish_actor_tile_move_then_select_target(R12_801721F8_S_801724A8_0 *state,
 
 /* Arcs to the destination tile, updates landing animation, spends MP, and checks for a floor trap. */
 void complete_actor_arc_movement(void *action, void *motion, void *map_actor, void *actor) {
-    s32 target_distance;
+    u16 target_distance;
     s32 frames_left;
     s16 next_timer;
     s32 actor_flags;
@@ -1010,11 +1008,10 @@ void complete_actor_arc_movement(void *action, void *motion, void *map_actor, vo
  * Runs update_linked_actor_motion and installs update_actor_state_and_select_target only when it
  * succeeds and the signed floor-trap check returns positive.
  */
-void check_boss_effect_threshold(Resource12CallbackState *state, void *entity, void *position, void *graphic)
-{
+void check_boss_effect_threshold(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
     if (update_linked_actor_motion(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
-            state->callback = update_actor_state_and_select_target;
+            state->unk_8C.handler = update_actor_state_and_select_target;
         }
     }
 }
@@ -1533,10 +1530,9 @@ void advance_arachne_removal(void *state, void *motion, void *position, void *ac
  * Runs update_actor_hop_and_grow and installs update_actor_state_and_select_target when it returns
  * nonzero.
  */
-void finish_actor_hop_and_grow_then_select_target(Resource12CallbackState *state, void *motion, void *position, void *actor)
-{
+void finish_actor_hop_and_grow_then_select_target(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_actor_hop_and_grow(state, motion, position, actor)) {
-        state->callback = update_actor_state_and_select_target;
+        state->unk_8C.handler = update_actor_state_and_select_target;
     }
 }
 
@@ -1783,17 +1779,16 @@ void resume_actor_target_selection_after_status_animation(void *controller, void
  * positive; during motion, restores movement frames when the alternate table is active and flags
  * 0x208 are clear.
  */
-void update_arachne_parent_motion(R12_80173D64_Actor *actor, s32 action, R12_80173D64_Entity *entity, R12_80173D64_MapObject *map_object)
-{
+void update_arachne_parent_motion(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *entity, ActorRecord *map_object) {
     if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
         if ((check_actor_floor_trap(entity, map_object) << 16) > 0) {
-            actor->unk_8C = ((u8 *)update_actor_state_and_select_target);
+            actor->unk_8C.handler = ((u8 *)update_actor_state_and_select_target);
             return;
         }
-    } else if (entity->unk_2C == ((u8 *)arachne_alt_direction_frames) &&
-               !(map_object->unk_1C & 0x208)) {
-        entity->unk_2C = ((u8 *)arachne_move_direction_frames);
-        select_sprite_entry(entity,(s16)(((u8 *)arachne_move_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + map_object->unk_2A + 0x100) >> 9) & 7]),(s16)(0));
+    } else if (entity->frameTable == ((u8 *)arachne_alt_direction_frames) &&
+               !(map_object->flags1C & 0x208)) {
+        entity->frameTable = ((u8 *)arachne_move_direction_frames);
+        select_sprite_entry(entity,(s16)(((u8 *)arachne_move_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + map_object->facing + 0x100) >> 9) & 7]),(s16)(0));
     }
 }
 
@@ -1801,11 +1796,10 @@ void update_arachne_parent_motion(R12_80173D64_Actor *actor, s32 action, R12_801
  * Runs update_thrown_actor_travel and installs update_actor_state_and_select_target only when it
  * succeeds and the signed floor-trap check returns positive.
  */
-void finish_thrown_actor_travel_and_floor_trap_then_select_target(Resource12CallbackState *state, void *entity, void *position, void *graphic)
-{
+void finish_thrown_actor_travel_and_floor_trap_then_select_target(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
     if (update_thrown_actor_travel(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
-            state->callback = update_actor_state_and_select_target;
+            state->unk_8C.handler = update_actor_state_and_select_target;
         }
     }
 }
@@ -1814,10 +1808,9 @@ void finish_thrown_actor_travel_and_floor_trap_then_select_target(Resource12Call
  * Runs interpolate_actor_to_terrain_tile and installs update_actor_state_and_select_target when it
  * returns nonzero.
  */
-void finish_actor_terrain_interpolation_then_select_target(Resource12CallbackState *state, void *motion, void *position, void *actor)
-{
+void finish_actor_terrain_interpolation_then_select_target(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (interpolate_actor_to_terrain_tile(state, motion, position, actor)) {
-        state->callback = update_actor_state_and_select_target;
+        state->unk_8C.handler = update_actor_state_and_select_target;
     }
 }
 
@@ -1825,10 +1818,9 @@ void finish_actor_terrain_interpolation_then_select_target(Resource12CallbackSta
  * Runs update_spinning_actor_fall and installs update_actor_state_and_select_target when it
  * returns nonzero.
  */
-void finish_spinning_actor_fall_then_select_target(Resource12CallbackState *state, void *motion, void *position, void *actor)
-{
+void finish_spinning_actor_fall_then_select_target(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_spinning_actor_fall(state, motion, position, actor)) {
-        state->callback = update_actor_state_and_select_target;
+        state->unk_8C.handler = update_actor_state_and_select_target;
     }
 }
 
@@ -1836,10 +1828,9 @@ void finish_spinning_actor_fall_then_select_target(Resource12CallbackState *stat
  * Runs update_actor_fade_in and installs update_actor_state_and_select_target when it returns
  * nonzero.
  */
-void finish_actor_fade_in_then_select_target(Resource12CallbackState *state, void *motion, void *position, void *actor)
-{
+void finish_actor_fade_in_then_select_target(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_actor_fade_in(state, motion, position, actor)) {
-        state->callback = update_actor_state_and_select_target;
+        state->unk_8C.handler = update_actor_state_and_select_target;
     }
 }
 
@@ -2803,10 +2794,9 @@ store_next_state:
  * Runs resolve_actor_floor_trap_once and installs update_actor_state_and_select_target when it
  * returns positive.
  */
-void finish_actor_floor_trap_then_select_target(Resource12CallbackState *state, void *motion, void *position, void *actor)
-{
+void finish_actor_floor_trap_then_select_target(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (resolve_actor_floor_trap_once(state, motion, position, actor) > 0) {
-        state->callback = update_actor_state_and_select_target;
+        state->unk_8C.handler = update_actor_state_and_select_target;
     }
 }
 
@@ -2814,9 +2804,8 @@ void finish_actor_floor_trap_then_select_target(Resource12CallbackState *state, 
  * Runs propagate_actor_action_flag and installs update_actor_state_and_select_target when it
  * returns positive.
  */
-void finish_actor_action_flag_propagation_then_select_target(Resource12CallbackState *state, void *motion, void *position, void *actor)
-{
+void finish_actor_action_flag_propagation_then_select_target(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (propagate_actor_action_flag(state, motion, position, actor) > 0) {
-        state->callback = update_actor_state_and_select_target;
+        state->unk_8C.handler = update_actor_state_and_select_target;
     }
 }

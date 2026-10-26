@@ -8,7 +8,7 @@
 
 
 
-void update_directional_movement_and_settle(void *action, EntityRec *motion, SpriteFrameState *sprite, ActorRecord *actor);
+void update_directional_movement_and_settle(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 
 

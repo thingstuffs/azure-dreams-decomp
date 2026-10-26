@@ -45,7 +45,7 @@ typedef struct S_80170CEC_7 {
 } S_80170CEC_7;   /* copy_source in update_rotating_actor_aura */
 
 
-extern s32 get_entity_effect_value();
+extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern u8 uboat_ready_frames[];
 extern u8 D_800E2408[];
 

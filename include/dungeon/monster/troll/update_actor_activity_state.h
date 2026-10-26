@@ -11,19 +11,11 @@
 
 typedef struct T_80175050_S_80175050_0 {
     u8 pad_00[0x8C];
-    void (*unk_8C)();
+    ActorActionHandler unk_8C;
     u8 pad_90[0xB];
     u8 unk_9B;
 } T_80175050_S_80175050_0;   /* arg0 in func_80175050 */
 
-typedef struct T_80175050_S_80175050_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x10];
-    s8 unk_26;
-    u8 pad_27[0x5];
-    u8 * unk_2C;
-} T_80175050_S_80175050_1;   /* arg2 in func_80175050 */
 
 typedef struct T_80175050_S_80175050_2 {
     u8 pad_00[0x1C];
@@ -76,12 +68,7 @@ typedef struct {
     u8 state9b;
 } T_80175574_Obj0;
 
-typedef struct {
-    u8 pad00[0x14];
-    u16 flags14;
-    u8 pad16[0x16];
-    u8 *table2c;
-} T_80175574_Obj2;
+
 
 typedef struct {
     u8 pad00[0x1c];
@@ -125,22 +112,22 @@ typedef struct {
 
 
 
-extern s32 get_entity_effect_value();
-extern s32 func_80042900();
-extern void clear_slots_of_type();
-extern void func_80042B68();
+extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
+extern s32 func_80042900(ActorRecord *entry, s32 effect_id);
+extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
+extern void func_80042B68(ActorRecord *owner, s8 match_type);
 extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 extern void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
 extern s32 check_entity_relation();
 extern s16 get_tile_chebyshev_distance();
 #include "dungeon/player/object/action_state.h"
 extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
-extern s32 on_actor_status_updated();
-extern s32 func_800A9A04();
+extern void on_actor_status_updated(void *actor);
+extern void func_800A9A04(void *actor);
 extern void update_actor_status_and_mp();
 extern void begin_pushed_actor_move();
 extern s32 begin_ready_actor_directional_action();
-extern s32 advance_actor_pending_action();
+extern s32 advance_actor_pending_action(void *actor_state, void *action, void *status, void *actor);
 extern void begin_actor_move_to_target_facing();
 extern void create_tracked_attachment_sprite();
 extern s32 update_actor_transform_from_parent(T_801759A0_Obj0 *, void *, void *, void *);
@@ -157,8 +144,8 @@ extern s32 troll_frame_set_4;
 extern u8 troll_frame_set_1[];
 extern u8 troll_frame_set_2[];
 extern u8 troll_frame_set_3[];
-void update_actor_activity_state(void *task, s32 task_id, SpriteFrameState *sprite_in, void *actor_in);
+void update_actor_activity_state(ActorRecord *task, ObjectPosition *task_id, SpriteFrameState *sprite_in, ActorRecord *actor_in);
 void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *context, SpriteFrameState *animation, T_80175574_Obj3 *actor);
 void update_directional_action_display(T_801759A0_Obj0 *actor, void *context, T_801759A0_Obj2 *display_arg, T_801759A0_Obj3 *state_arg);
-extern void update_actor_behavior();
+void update_actor_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
 #endif

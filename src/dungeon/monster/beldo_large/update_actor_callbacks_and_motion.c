@@ -18,7 +18,7 @@
 typedef void (*Callback)(void *, void *, void *, void *);
 
 s32 enqueue_runtime_pool_script(void *);
-extern void clear_slots_of_type();
+extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 #include "engine/texture/select_indirect_table_entry_api.h"
 #include "slus.h"
 void apply_monster_koyaw_data(s32, s8 *);

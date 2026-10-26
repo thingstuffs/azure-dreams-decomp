@@ -34,13 +34,6 @@ typedef struct T_80173AD4_S_80173AD4_2 {
     s16 unk_AA;
 } T_80173AD4_S_80173AD4_2;   /* work in func_80173AD4 */
 
-typedef struct T_80173AD4_S_80173AD4_3 {
-    u8 pad_00[0x12];
-    u16 unk_12;
-    u8 pad_14[0x10];
-    u8 unk_24;
-    u8 unk_25;
-} T_80173AD4_S_80173AD4_3;   /* part_b in func_80173AD4 */
 
 
 
@@ -50,10 +43,10 @@ extern void * get_unused_text_buffer();
 extern u8 * expand_text_control_codes();
 extern void * clear_byte_and_advance();
 extern u8 *append_entity_display_text();
-extern void update_map_cell_flags_with_item_limit();
+extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 #include "dungeon/player/object/action_state.h"
 #include "shared/sprite_frame_state.h"
-extern s32 display_text_with_fullwidth_adjustment();
+extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern u8 D_80170854[];
 extern u8 tyrant_frame_set_1[];
 void handle_kill_actor_clear_flags_fire_burst_tile_post_death_message(void *work_in, void *part_a, void *part_b_in, void *actor);

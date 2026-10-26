@@ -39,8 +39,7 @@ extern u8 D_801762D8[];
 extern u8 D_801762E0[];
 
 /* Animate a hop to the actor's tile and finish the action when its timer expires. */
-void animate_hop_to_actor_tile(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void animate_hop_to_actor_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u16 target_distance;
     s32 tile_origin_y;
     s32 hop_frames;
@@ -49,7 +48,7 @@ void animate_hop_to_actor_tile(void *action, void *motion, SpriteFrameState *spr
     u16 action_timer;
     s32 phase;
 
-    phase = ((S_801721B0_0 *)action)->unk_9B;
+    phase = action->action_phase;
     switch (phase) {
     case 0:
         if (sprite->flags & 0x6000) {
@@ -60,11 +59,11 @@ void animate_hop_to_actor_tile(void *action, void *motion, SpriteFrameState *spr
                             9) &
                            7],
                 0);
-            ((S_801721B0_0 *)action)->unk_98 |= 8;
+            action->action_state_flags |= 8;
             actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
             ((S_801721B0_0 *)action)->unk_9E.s = 5;
             ((S_801721B0_0 *)action)->unk_A0 = 0;
-            ((S_801721B0_0 *)action)->unk_9B++;
+            action->action_phase++;
         } else {
             break;
         }
@@ -94,16 +93,16 @@ void animate_hop_to_actor_tile(void *action, void *motion, SpriteFrameState *spr
         ((S_801721B0_0 *)action)->unk_9E.s = next_hop_frame;
         if ((s16)next_hop_frame < 0) {
             ((S_801721B0_0 *)action)->unk_90 = 0;
-            ((S_801721B0_0 *)action)->unk_98 &= 0xFFF7;
+            action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            ((S_801721B0_0 *)action)->unk_9B++;
+            action->action_phase++;
         }
 
                         /* fallthrough */
 
     case 2:
         if (actor->flags1C & ACTOR_GROUNDED) {
-            ((S_801721B0_0 *)action)->unk_98 &= 0xFFF7;
+            action->action_state_flags &= 0xFFF7;
             ((Rec_func_800A5DFC_arg1 *)motion)->unk_14 = 0;
             ((Rec_func_800A5DFC_arg1 *)motion)->unk_10 = 0;
             ((Rec_func_800A5DFC_arg1 *)motion)->unk_0C = 0;
@@ -116,7 +115,7 @@ void animate_hop_to_actor_tile(void *action, void *motion, SpriteFrameState *spr
                             9) &
                            7],
                 0);
-            ((S_801721B0_0 *)action)->unk_9B++;
+            action->action_phase++;
         }
 
     }

@@ -11,9 +11,9 @@
 #include "dungeon/system.h"
 #include "dungeon/actor/status.h"
 
-void *resolve_attack_damage_and_effects();
+void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 void spend_actor_mp();
-void update_entity_actions_facing_and_animation(void *entity, s32 context, void *sprite, void *state);
+void update_entity_actions_facing_and_animation(ActorRecord *entity, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
 extern u8 nyuel_frame_set_9;
 extern u8 nyuel_frame_set_10;
 extern u8 nyuel_frame_set_4;

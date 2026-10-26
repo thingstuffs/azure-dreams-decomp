@@ -21,10 +21,10 @@ extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern s32 reset_actor_action_state(void *actor, void * unused, void *sprite, u8 *direction_frames);
 extern s32 process_selected_actor_record(void *, void *, void *, void *);
 extern void begin_actor_spell_action(void *actor, void * effect_param, void *target, u8 *direction_table, void * next_state);
-extern void advance_entity_path_state(void *, void *, SpriteFrameState *, void *);
+void advance_entity_path_state(ActorRecord *motion_state, ObjectPosition *unused, SpriteFrameState *entity, ActorRecord *path_state);
 extern void func_801721D8(void *, void *, void *, void *);
 extern s32 attempt_target_action(void *, void *, void *, void *);
-extern void apply_conditional_actor_effect(void *, void *, void *, void *);
+void apply_conditional_actor_effect(ActorRecord *action_state, ObjectPosition *effect_context, SpriteFrameState *action_context, ActorRecord *actor);
 extern s32 func_80172B8C(void *, void *, void *, void *);
 extern void func_801743F0(void *, void *, void *, void *);
 
@@ -75,18 +75,17 @@ typedef struct S_801719DC_1 {
 /* Update actor animation, facing, and action dispatch from dungeon state. */
 /* Dispatches Death's movement, attacks, spells, and turn processing, resetting its vertical animation
  * offsets on return to idle. */
-void dispatch_actor_animation_and_action(void *motion_in, void *context_in, SpriteFrameState *entity_in, void *actor_in)
-{
+void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition *context_in, SpriteFrameState *entity_in, ActorRecord *actor_in) {
     u16 direction_aux;
     s8 room_id;
     u16 action_state;
 
     if (g_dungeon_status.flags & 0x1000) {
-        ((S_801719DC_0 *)motion_in)->unk_9A = 0xE;
+        motion_in->action_id = 0xE;
         advance_entity_path_state(motion_in, context_in, entity_in, actor_in);
         return;
     }
-    if (((S_801719DC_1 *)actor_in)->unk_25 == 0) {
+    if (actor_in->mp == 0) {
         void *anim_table;
 
         advance_actor_pending_action(motion_in, context_in, entity_in, actor_in);
@@ -96,15 +95,15 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, Spri
         anim_table = death_frame_set_1;
         (entity_in->frameTable) = anim_table;
         select_sprite_entry(entity_in,
-            ((u8 *)anim_table)[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
+            ((u8 *)anim_table)[((g_game_work.view.camera_rotation.parts.viewAngle + actor_in->facing + 0x100) >> 9) & 7],
             0);
         return;
     }
 
     if (((S_801719DC_1 *)actor_in)->unk_1C & 0x200) {
         if (entity_in->frameTable == death_frame_set_2) {
-            ((S_801719DC_0 *)motion_in)->unk_9A = 0xD;
-            ((S_801719DC_0 *)motion_in)->unk_9B = 1;
+            motion_in->action_id = 0xD;
+            motion_in->action_phase = 1;
             ((S_801719DC_0 *)motion_in)->unk_8C = 0;
             ((S_801719DC_1 *)actor_in)->unk_1C &= 0xFFFBFFFF;
             return;
@@ -127,7 +126,7 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, Spri
             void *anim_table;
             s32 motion_value;
 
-            current_state = ((S_801719DC_0 *)motion_in)->unk_9A;
+            current_state = motion_in->action_id;
 
             next_state = 0xE;
             if (current_state != next_state) {
@@ -136,7 +135,7 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, Spri
                 if (current_anim != anim_table) {
                     (entity_in->frameTable) = anim_table;
                     select_sprite_entry(entity_in,
-                        ((u8 *)anim_table)[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100)
+                        ((u8 *)anim_table)[((g_game_work.view.camera_rotation.parts.viewAngle + actor_in->facing + 0x100)
                             >> 9) & 7],
                         1);
                     entity_in->frame_ticks = 1;
@@ -147,14 +146,14 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, Spri
                     ((S_801719DC_0 *)motion_in)->unk_B0 = 0;
                     ((S_801719DC_0 *)motion_in)->unk_A8 = motion_value;
                 }
-                ((S_801719DC_0 *)motion_in)->unk_9A = next_state;
+                motion_in->action_id = next_state;
             }
         }
 
-        ((S_801719DC_0 *)motion_in)->unk_98 &= 0xFFF3;
+        motion_in->action_state_flags &= 0xFFF3;
         ((S_801719DC_1 *)actor_in)->unk_1C |= 0x40000;
 
-        if (((S_801719DC_1 *)actor_in)->unk_64 != 0) {
+        if (actor_in->hp_delta != 0) {
             if (begin_ready_actor_directional_action(motion_in, context_in, entity_in, death_frame_set_7) != 0) {
                 return;
             }
@@ -187,7 +186,7 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, Spri
     room_id = find_active_rect_containing_point(entity_in->tile_x, entity_in->tile_y);
     entity_in->room_index = room_id;
 
-    if (((S_801719DC_1 *)actor_in)->unk_6D > 0) {
+    if (actor_in->pending_turn_updates > 0) {
         if (((S_801719DC_1 *)actor_in)->unk_1C & 0x20) {
             update_actor_status_and_mp(actor_in);
             return;
@@ -196,7 +195,7 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, Spri
             func_801721D8(motion_in, context_in, entity_in, actor_in);
             return;
         }
-        if (!(((S_801719DC_1 *)actor_in)->unk_46 & 0x8000)) {
+        if (!(actor_in->action_flags & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((check_entity_relation(actor_in,
                         (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
@@ -206,15 +205,15 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, Spri
             if ((func_80172B8C(motion_in, context_in, entity_in, 0) << 16) == 0) {
                 return;
             }
-            action_state = ((S_801719DC_1 *)actor_in)->unk_46 | 0x4000;
-            ((S_801719DC_1 *)actor_in)->unk_46 = action_state;
+            action_state = actor_in->action_flags | 0x4000;
+            actor_in->action_flags = action_state;
             if (!(action_state & 0x8000)) {
                 func_801721D8(motion_in, context_in, entity_in, actor_in);
                 return;
             }
         }
 
-        action_state = ((S_801719DC_1 *)actor_in)->unk_46 & 0x3FFF;
+        action_state = actor_in->action_flags & 0x3FFF;
         switch (action_state - 1) {
 
         case 7:
@@ -237,7 +236,7 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, Spri
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                 &direction_aux);
             player = primary_actor_record;
-            ((S_801719DC_1 *)actor_in)->unk_2A = heading;
+            actor_in->facing = heading;
             if (player->action_id == 0x11) {
                 begin_actor_spell_action(motion_in, context_in, entity_in, death_frame_set_8, &death_action_resume_address);
                 return;
@@ -273,7 +272,7 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, Spri
                 if ((test_neighbor_position_relation(
                         entity_in->tile_x, entity_in->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
-                    ((S_801719DC_1 *)actor_in)->unk_2A = get_rounded_facing_and_rounding_flag(
+                    actor_in->facing = get_rounded_facing_and_rounding_flag(
                         entity_in->tile_x, entity_in->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &direction_aux);
@@ -295,7 +294,7 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, Spri
         if (entity_in->frameTable != anim_table) {
             (entity_in->frameTable) = anim_table;
             select_sprite_entry(entity_in,
-                ((u8 *)anim_table)[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
+                ((u8 *)anim_table)[((g_game_work.view.camera_rotation.parts.viewAngle + actor_in->facing + 0x100) >> 9) & 7],
                 1);
             entity_in->frame_ticks = 1;
             motion_value = ((S_801719DC_0 *)motion_in)->unk_A4.at00.v;

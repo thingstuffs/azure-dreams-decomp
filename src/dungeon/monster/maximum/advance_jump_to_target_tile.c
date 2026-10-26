@@ -23,8 +23,8 @@ typedef struct S_80172374_0 {
     s32 unk_A4;
 } S_80172374_0;   /* arg0 in advance_jump_to_target_tile */
 
-extern s16 get_rounded_facing_and_rounding_flag();
-extern void on_actor_status_updated();
+extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern void on_actor_status_updated(void *actor);
 extern void spend_actor_mp();
 
 
@@ -32,7 +32,7 @@ extern u8 maximum_action_continuation_address;
 
 /* Advances a jump toward the target tile and finishes movement when the timer expires. */
 void advance_jump_to_target_tile(S_80172374_0 *motion, ObjectPosition *position, SpriteFrameState *target_tile, ActorRecord *entity) {
-    s32 direction_aux;
+    u16 direction_aux;
     s32 jump_state;
     s32 frames_left;
     s16 next_frames;

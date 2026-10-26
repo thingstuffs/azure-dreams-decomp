@@ -36,16 +36,15 @@ typedef struct S_80172DB0_0 {
 
 
 /* Updates a staged jump animation and returns the actor to its tile center. */
-void finish_staged_jump_at_tile_center(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u8 state;
 
-    state = ((S_80172DB0_0 *)action)->unk_9B;
+    state = action->action_phase;
     switch (state) {
 
     case 0:
         if (sprite->flags & 0x8000) {
-            ((S_80172DB0_0 *)action)->unk_9B = 5;
+            action->action_phase = 5;
             ((S_80172DB0_0 *)action)->unk_96.u = 0;
             sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
@@ -62,7 +61,7 @@ void finish_staged_jump_at_tile_center(void *action, ObjectPosition *motion, Spr
             D_8017464C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_80172DB0_0 *)action)->unk_96.u = 8;
-        ((S_80172DB0_0 *)action)->unk_9B++;
+        action->action_phase++;
         return;
 
     case 1:
@@ -82,7 +81,7 @@ void finish_staged_jump_at_tile_center(void *action, ObjectPosition *motion, Spr
         ((S_80172DB0_0 *)action)->unk_96.u = 6;
         ((S_80172DB0_0 *)action)->unk_AC = 0x80000;
         ((S_80172DB0_0 *)action)->unk_B0 = (s32)0xFFFE0000;
-        ((S_80172DB0_0 *)action)->unk_9B++;
+        action->action_phase++;
         motion->velocity_x =
             -*(s16 *)(((s8 *)dir_step_x) + (((u16)actor->facing >> 8) & 0xE)) << 18;
         motion->velocity_y =
@@ -107,7 +106,7 @@ void finish_staged_jump_at_tile_center(void *action, ObjectPosition *motion, Spr
             }
         }
         resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
-        ((S_80172DB0_0 *)action)->unk_9B++;
+        action->action_phase++;
         play_sound_if_enabled(0x804);
         return;
 
@@ -121,7 +120,7 @@ void finish_staged_jump_at_tile_center(void *action, ObjectPosition *motion, Spr
         select_sprite_entry(sprite,
             death_frame_set_5[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        ((S_80172DB0_0 *)action)->unk_9B++;
+        action->action_phase++;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         ((S_80172DB0_0 *)action)->unk_A4 = 0;
@@ -137,7 +136,7 @@ void finish_staged_jump_at_tile_center(void *action, ObjectPosition *motion, Spr
             0);
         ((S_80172DB0_0 *)action)->unk_96.u = 4;
         ((S_80172DB0_0 *)action)->unk_A4 = 0;
-        ((S_80172DB0_0 *)action)->unk_9B++;
+        action->action_phase++;
         {
             s32 target_x = sprite->tile_x << 6;
             s32 current_x = motion->x.w.i - 0x20;

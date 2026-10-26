@@ -24,6 +24,7 @@
 #include "sdk/libgte.h"
 #include "dungeon/system.h"
 #include "engine/texture.h"
+#include "engine/node/allocation.h"
 struct SpriteFrameState;
 struct ObjectPosition;
 
@@ -122,7 +123,7 @@ typedef struct R08_801715B4_S_80171570_3 {
     u8 pad_75[0x7];
     u8 unk_7C;
 } R08_801715B4_S_80171570_3;
-typedef struct R08_80172168_Ent R08_80172168_Ent;
+
 typedef struct R08_80172280_S_80172628_0 {
     u8 pad_00[0x46];
     u16 unk_46;
@@ -133,7 +134,7 @@ typedef struct R08_80172280_S_80172628_0 {
 } R08_80172280_S_80172628_0;
 typedef struct R08_801723C4_S_801724A8_0 {
     u8 pad_00[0x8C];
-    void (*unk_8C)(void *, EntityRec *, SpriteFrameState *, ActorRecord *);
+    ActorActionHandler unk_8C;
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_90;   
 } R08_801723C4_S_801724A8_0;
 typedef struct R08_8017245C_S_80172478_0 {
@@ -157,10 +158,7 @@ typedef struct R08_8017245C_S_80172478_2 {
     u8 pad_2C[0x1A];
     u16 unk_46;
 } R08_8017245C_S_80172478_2;
-typedef struct {
-    u8 pad0[0x8C];
-    void (*callback)(void *, EntityRec *, SpriteFrameState *, ActorRecord *);
-} Resource08CallbackState;
+
 typedef struct R08_80172830_S_80172830_0 {
     u8 pad_00[0x90];
     s32 unk_90;
@@ -215,20 +213,9 @@ typedef struct R08_80173234_S_80173234_1 {
     s32 unk_10;
     s32 unk_14;
 } R08_80173234_S_80173234_1;
-typedef struct {
-    s8 pad_00[0x8C];
-    void *unk_8C;
-} R08_80173F20_Actor;
-typedef struct {
-    u8 pad_00[0x2C];
-    u8 *unk_2C;
-} R08_80173F20_Entity;
-typedef struct {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-} R08_80173F20_MapObject;
+
+
+
 typedef struct R08_801740F4_Entry {
     u8 pad00[6];
     s16 unk06;
@@ -241,10 +228,7 @@ typedef struct {
     u8 pad[0x13C];
     s32 value;
 } R08_801740F4_Scratchpad;
-typedef struct {
-    u8 pad[0x5218];
-    s16 value;
-} R08_801740F4_GlobalPage;
+
 typedef struct {
     u8 pad[0x1A];
     u16 field_1A;
@@ -303,12 +287,7 @@ typedef struct R08_801743BC_S_801743BC_0 {
     s16 unk_3A;
 } R08_801743BC_S_801743BC_0;
 
-typedef struct {
-    u8 pad0[2];
-    u16 flags;
-    u8 pad4[6];
-    u16 count;
-} R08_80174470_DungeonState;
+
 typedef struct R08_80174648_S_80174648_0_pre {
     u16 unk_00;
 } R08_80174648_S_80174648_0_pre;
@@ -368,10 +347,7 @@ typedef struct R08_80174648_S_80174648_7 {
     u8 pad_16[0x16];
     u8 * unk_2C;
 } R08_80174648_S_80174648_7;
-typedef struct R08_80174648_S_80174648_8 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} R08_80174648_S_80174648_8;
+
 typedef struct R08_80174648_S_80174648_9 {
     s32 unk_00;
     s32 unk_04;
@@ -386,7 +362,6 @@ typedef struct R08_80174648_S_80174648_11 {
 } R08_80174648_S_80174648_11;
 extern int abs(int);
 extern s32 Control_CD();
-void *allocate_list_node();
 void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
@@ -394,38 +369,38 @@ s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; reta
 s32 set_or_clear_actor_status_slot();
 void initialize_actor_sprite_and_animation();
 void advance_sprite_animation_and_textures(void *entity);
-void apply_monster_koyaw_data();
+void apply_monster_koyaw_data(s32 flags, s8 *dst);
 s32 refresh_actor_facing_and_lifecycle();
 s16 sample_terrain_surface_height();
 s32 resolve_record_orientation_or_fallback();
 void select_sprite_entry();
 void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
 s32 check_entity_relation();
-s32 find_active_rect_containing_point();
-s32 test_neighbor_position_relation();
-s32 get_rounded_facing_and_rounding_flag();
-s32 can_entity_gain_level();
-void update_actor_status_and_mp();
+s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
+s32 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
+s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+s32 can_entity_gain_level(void *entity);
+void update_actor_status_and_mp(ActorRecord *entity);
 void begin_pushed_actor_move();
 s32 begin_ready_actor_directional_action();
-s32 advance_actor_pending_action();
+s32 advance_actor_pending_action(void *actor_state, void *action, void *status, void *actor);
 void begin_actor_move_to_target_facing();
-s32 reset_actor_action_state();
+s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
 s32 process_selected_actor_record();
-void begin_actor_spell_action();
+void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState *target, u8 *direction_table, void *next_state);
 void cycle_map_cell_flags();
-void update_map_cell_flags_with_item_limit();
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 s32 check_movement_clearance_and_height();
-s32 update_actor_proximity_flag();
+s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 void * find_adjacent_actor();
 s32 probe_directional_neighbor();
 s32 get_actor_height_difference();
-s32 check_diagonal_side_height();
+s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 s32 select_actor_route_target();
 s32 prepare_directional_attack();
 s32 try_claim_dungeon_action_slot();
 u32 check_entity_interaction_compatibility();
-s32 apply_camera_offset_and_select_target();
+s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 #include "dungeon/player/object/action_state.h"
 struct Entry;
 struct ObjectNodeHeader;
@@ -436,27 +411,27 @@ s32 update_actor_movement_to_tile();
 void spend_actor_mp();
 
 void set_record_integer_tile_center();
-void on_actor_status_updated();
-void func_800A9A04();
-s32 update_linked_actor_motion();
-s32 resolve_attack_damage_and_effects();
+void on_actor_status_updated(void *actor);
+void func_800A9A04(void *actor);
+s32 update_linked_actor_motion(void *state, void *transform, void *config, void *object);
+void * resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 s32 get_cd_command_queue_depth(void);
 void * scan_actor_along_heading();
-void * create_actor_spell_effect();
-void create_two_row_object_group();
+void * create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);
+void create_two_row_object_group(void *payload, s16 value_scale);
 void begin_actor_display_action();
-s32 update_actor_defeat_removal();
+s32 update_actor_defeat_removal(u8 *state, s32 *position, u8 *sprite, u8 *entity_data);
 s32 update_actor_hop_and_shrink();
 
 s32 update_actor_hop_and_grow();
-s32 get_entity_effect_value();
-s32 func_80042900();
-void clear_slots_of_type();
-void func_80042B68();
+s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
+s32 func_80042900(ActorRecord *entry, s32 effect_id);
+void clear_slots_of_type(ActorRecord *owner, s8 match_type);
+void func_80042B68(ActorRecord *owner, s8 match_type);
 s32 get_tile_chebyshev_distance();
 
 s32 update_actor_transform_from_parent();
-s32 update_thrown_actor_travel();
+s32 update_thrown_actor_travel(void *move_state, ObjectPosition *motion, SpriteFrameState *tile_pos, ActorRecord *actor);
 s32 interpolate_actor_to_terrain_tile();
 s32 update_spinning_actor_fall();
 s32 update_actor_fade_in();
@@ -471,7 +446,7 @@ void func_80041588(u32 *stream_ref, u8 *state, s32 execute);
 s32 read_stream_cue_start_offset(void);
 s32 lookup_masked_byte_table();
 void unlink_entity_node();
-void decrement_monster_entry_count();
+void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 s32 advance_staged_entity_load();
 s32 create_status_linked_render_effect();
 s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
@@ -510,30 +485,30 @@ extern u8 D_80174D18[];
 extern u8 griffon_effect_load_done[];
 void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id);
 void update_griffon_motion_and_facing(void *entity, R08_80170A50_S_80170A28_2 *motion, void *part);
-void update_actor_behavior_and_effect(void *actor, EntityRec *position, SpriteFrameState *object, ActorRecord *actor_data);
-void advance_griffon_stored_path(void *action, s32 action_id, SpriteFrameState *entity, void *move_state);
-void choose_griffon_move(Rec_func_800A9E70_arg0 *move_data, void *context, SpriteFrameState *position_data, ActorRecord *actor_data);
+void update_actor_behavior_and_effect(ActorRecord *actor, ObjectPosition *position, SpriteFrameState *object, ActorRecord *actor_data);
+void advance_griffon_stored_path(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
+void choose_griffon_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 void begin_griffon_step_animation(void *object, void *unused, void *display, void *orientation);
-s32 update_actor_animation_behavior_and_facing(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, SpriteFrameState *sprite, ActorRecord *actor);
-void begin_griffon_attack(void *action_state, void *action_context, SpriteFrameState *sprite, ActorRecord *actor);
+s32 update_actor_animation_behavior_and_facing(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor);
+void begin_griffon_attack(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 s32 relink_griffon_path(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
 void finish_actor_tile_move_then_resume_effect_behavior(R08_801723C4_S_801724A8_0 *state, s32 context, s32 source, s32 target);
 void hop_griffon_to_tile(void *action, void *motion,struct SpriteFrameState *sprite, void *actor);
-void advance_a_timed_actor_animation_applies_completion_effects(Resource08CallbackState *state, void *entity, void *position, void *graphic);
-void update_staged_movement_and_return_to_tile(void *action, ObjectPosition *motion,struct SpriteFrameState *sprite, ActorRecord *actor);
+void advance_a_timed_actor_animation_applies_completion_effects(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
+void update_staged_movement_and_return_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void update_item_activation_and_cleanup(void *action, ObjectPosition *motion, void *actor, ActorRecord *object);
 void advance_action_phase_and_process_actor(void *action, void *motion,struct SpriteFrameState *sprite, void *entity);
 void remove_defeated_griffon(void *state, void *motion, void *position, void *actor);
 void shrink_hopping_griffon(void *state, void *motion, void *position, void *actor);
 void advance_griffon_removal(void *state, void *motion, void *position, void *actor);
-void finish_actor_hop_and_grow_then_resume_effect_behavior(Resource08CallbackState *state, void *motion, void *position, void *actor);
-void update_object_or_select_directional_data(void *controller, s32 actor_index, void *sprite, ActorRecord *actor);
-void resume_actor_effect_behavior_after_status_animation(void *controller, void *context, void *sprite, ActorRecord *entity);
-void update_griffon_parent_motion(R08_80173F20_Actor *actor, s32 action, R08_80173F20_Entity *entity, R08_80173F20_MapObject *map_object);
-void finish_thrown_actor_travel_and_floor_trap_then_resume_effect_behavior(Resource08CallbackState *state, void *entity, void *position, void *graphic);
-void finish_actor_terrain_interpolation_then_resume_effect_behavior(Resource08CallbackState *state, void *motion, void *position, void *actor);
-void create_four_directional_effects(Resource08CallbackState *state, void *motion, void *position, void *actor);
-void finish_actor_fade_in_then_resume_effect_behavior(Resource08CallbackState *state, void *motion, void *position, void *actor);
+void finish_actor_hop_and_grow_then_resume_effect_behavior(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
+void update_object_or_select_directional_data(ActorRecord *controller, ObjectPosition *actor_index, SpriteFrameState *sprite, ActorRecord *actor);
+void resume_actor_effect_behavior_after_status_animation(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
+void update_griffon_parent_motion(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *entity, ActorRecord *map_object);
+void finish_thrown_actor_travel_and_floor_trap_then_resume_effect_behavior(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
+void finish_actor_terrain_interpolation_then_resume_effect_behavior(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
+void create_four_directional_effects(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
+void finish_actor_fade_in_then_resume_effect_behavior(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 s32 start_bank_actor_hit_reaction(void *initial_payload, s32 entry_data, R08_801740F4_Entry *entry, s32 unused);
 void advance_object_angle_and_height(u16 *record_data, s32 unused, R08_80174180_Object *object);
 void create_tinted_rotated_sprite(s32 unused_0, R08_801741D0_S_801741D0_3 *source_pos, s32 unused_2, s8 green, u8 red_blue);
@@ -541,18 +516,18 @@ void update_timed_effect_and_expire(void *effect, s32 x, s32 y);
 void create_positioned_sprite_effect(M2C_UNK unused, EntityRec *source_pos, void *unused_context);
 void wait_for_griffon_action_slot(void *entity_data, s32 unused_1, s32 unused_2, void *other_data);
 void finish_griffon_effect_and_tint(u8 *task, void *context, u8 *input);
-void advance_effect_and_child_animation(void *effect_state, EntityRec *position, SpriteFrameState *entity, void *actor);
-void finish_actor_floor_trap_then_resume_effect_behavior(Resource08CallbackState *state, void *motion, void *position, void *actor);
-void finish_actor_action_flag_propagation_then_resume_effect_behavior(Resource08CallbackState *state, void *motion, void *position, void *actor);
+void advance_effect_and_child_animation(ActorRecord *effect_state, ObjectPosition *position, SpriteFrameState *entity, ActorRecord *actor);
+void finish_actor_floor_trap_then_resume_effect_behavior(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
+void finish_actor_action_flag_propagation_then_resume_effect_behavior(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void *spawn_griffon_actor(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);
 
 
 
 
-void advance_entity_movement_and_settle_tile(void *action, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *entity);
-void update_actor_directional_movement(void *action, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *actor);
+void advance_entity_movement_and_settle_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity);
+void update_actor_directional_movement(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
-void update_directional_motion_and_center_variant(void *controller, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *entity);
+void update_directional_motion_and_center_variant(ActorRecord *controller, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity);
 
 
 

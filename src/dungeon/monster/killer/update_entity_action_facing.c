@@ -26,7 +26,7 @@ extern void begin_actor_spell_action(void *, void *, void *, void *, void *);
 extern void func_80171438(void *, void *, void *, void *);
 extern void func_8017167C(void *, void *, void *, void *);
 extern s32 validate_direction_and_initialize_action(void *, void *, void *, void *);
-extern void update_eligible_actor_action_alt(void *, void *, void *, void *);
+void update_eligible_actor_action_alt(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
 extern s32 func_80172230(void *, void *, void *, s32);
 extern void func_80173A84(void *, void *, void *, void *);
 
@@ -49,15 +49,14 @@ typedef struct S_80170EA8_0 {
 /* Updates the entity action, facing direction, and animation from dungeon state. */
 /* Selects Killer's movement, two attack modes, spells, and turn processing, then restores its directional
  * idle frames. */
-void update_entity_action_facing(void *actor, void *context, SpriteFrameState *sprite, ActorRecord *entity)
-{
+void update_entity_action_facing(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
     u8 *anim_table;
     s32 tile_record;
-    s32 direction_aux;
+    u16 direction_aux;
     u32 dungeon_flags = g_dungeon_status.flags;
 
     if (dungeon_flags & 0x1000) {
-        ((S_80170EA8_0 *)actor)->unk_9A = 0xE;
+        actor->action_id = 0xE;
         func_80171438(actor, context, sprite, entity);
         return;
     }
@@ -75,8 +74,8 @@ void update_entity_action_facing(void *actor, void *context, SpriteFrameState *s
 
     if (((u32)entity->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == killer_frame_set_2) {
-            ((S_80170EA8_0 *)actor)->unk_9A = 0xD;
-            ((S_80170EA8_0 *)actor)->unk_9B = 1;
+            actor->action_id = 0xD;
+            actor->action_phase = 1;
             ((S_80170EA8_0 *)actor)->unk_8C = 0;
             entity->flags1C &= ~0x40000;
             return;
@@ -92,7 +91,7 @@ void update_entity_action_facing(void *actor, void *context, SpriteFrameState *s
             return;
         }
 
-        if (((S_80170EA8_0 *)actor)->unk_9A != 0xE) {
+        if (actor->action_id != 0xE) {
             u8 next_state = 0xE;
 
             anim_table = killer_direction_frames;
@@ -102,7 +101,7 @@ void update_entity_action_facing(void *actor, void *context, SpriteFrameState *s
                     anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                     0);
             }
-            ((S_80170EA8_0 *)actor)->unk_9A = next_state;
+            actor->action_id = next_state;
         }
 
         ((S_80170EA8_0 *)actor)->unk_98.n &= 0xFFF3;

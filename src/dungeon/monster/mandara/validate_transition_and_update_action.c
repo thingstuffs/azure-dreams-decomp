@@ -21,13 +21,12 @@ extern s32 get_actor_height_difference();
 extern s32 probe_directional_neighbor();
 extern s32 try_claim_dungeon_action_slot();
 extern s32 check_entity_interaction_compatibility();
-extern s32 apply_camera_offset_and_select_target();
+extern s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 #include "dungeon/monster/mandara.h"
 #include "engine/graphics.h"
 
 /* Validate an actor transition and update its state and directional animation on success. */
-s32 validate_transition_and_update_action(void *state, s32 transition_id, SpriteFrameState *sprite, ActorRecord *actor)
-{
+s32 validate_transition_and_update_action(ActorRecord *state, ObjectPosition *transition_id, SpriteFrameState *sprite, ActorRecord *actor) {
     s16 transitioned;
     s32 target_heading;
 
@@ -62,15 +61,15 @@ s32 validate_transition_and_update_action(void *state, s32 transition_id, Sprite
     {
         u16 state_flags;
 
-        state_flags = ((S_80172314_2 *)state)->unk_98;
-        ((S_80172314_2 *)state)->unk_9B = 0;
+        state_flags = state->action_state_flags;
+        state->action_phase = 0;
         ((S_80172314_2 *)state)->unk_8C = 0;
         if (state_flags & 0x8000) {
-            ((S_80172314_2 *)state)->unk_9A = 0x17;
+            state->action_id = 0x17;
             actor->unk_84 = 0x28;
             actor->unk_85 = 0x10;
         } else {
-            ((S_80172314_2 *)state)->unk_9A = 0x11;
+            state->action_id = 0x11;
             actor->unk_84 = 0x7C;
             actor->unk_85 = 0;
         }

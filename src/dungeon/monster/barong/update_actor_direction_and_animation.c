@@ -42,8 +42,7 @@ extern u8 barong_frame_set_5[];
 extern u8 barong_frame_set_2[];
 
 /* Updates a dungeon actor's behavior, facing, and directional animation. */
-void update_actor_direction_and_animation(void *actor_arg, void *context_arg, SpriteFrameState *sprite, ActorRecord *entity_arg)
-{
+void update_actor_direction_and_animation(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *sprite, ActorRecord *entity_arg) {
     u8 *anim_table;
     s32 room_id;
     u16 distance;

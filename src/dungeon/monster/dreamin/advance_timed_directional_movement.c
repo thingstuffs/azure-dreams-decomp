@@ -20,7 +20,7 @@ typedef struct S_80172D24_1 {
     u8 unk_9B;
 } S_80172D24_1;   /* arg0 in advance_timed_directional_movement */
 
-extern void begin_actor_display_action();
+extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
 
 extern u8 dreamin_action_continuation_address;
 extern u8 dreamin_frame_set_1[];

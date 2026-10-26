@@ -21,7 +21,7 @@ void select_sprite_entry(void *, s16, s16);         /* extern */
 extern u8 golem_frame_set_2;
 
 /* Advance the timer and reset the state and directional sprite after 60 ticks. */
-void advance_timed_directional_reset(void *state, s32 unused, SpriteFrameState *sprite, EntityRec *orientation) {
+void advance_timed_directional_reset(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *orientation) {
     u16 ticks;
 
     ticks = ((S_80172334_0 *)state)->unk_A6 + 1;

@@ -26,7 +26,7 @@ typedef struct S_80174300_1 {
 
 
 extern s32 advance_sprite_animation_and_textures();
-extern s32 check_left_tile_and_center_height();
+extern s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern s16 sample_terrain_surface_height();
 
 /* Advance motion, resolve collisions, and flag expired movement. */

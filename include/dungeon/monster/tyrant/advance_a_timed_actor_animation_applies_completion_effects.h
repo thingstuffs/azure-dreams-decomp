@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #ifndef DUNGEON_OVL_7F0F7800_P05_H
 #define DUNGEON_OVL_7F0F7800_P05_H
 #include "common.h"
@@ -17,15 +18,7 @@ typedef struct {
     u8 field9B;
 } T_801727CC_Obj0;
 
-typedef struct {
-    u8 pad0[0x14];
-    u16 field14;
-    u8 pad16[0x0E];
-    u8 field24;
-    u8 field25;
-    u8 pad26[6];
-    u8 *field2C;
-} T_801727CC_Obj2;
+
 
 typedef struct {
     u8 pad0[0x2A];
@@ -48,5 +41,5 @@ extern void * actor_update_node_cursor[];
 extern u8 D_80173FE8[];
 extern u8 D_80174010[];
 void advance_a_timed_actor_animation_applies_completion_effects(T_801727CC_Obj0 *action, s32 context, SpriteFrameState *sprite, T_801727CC_Obj3 *actor);
-extern void update_dungeon_actor_behavior();
+void update_dungeon_actor_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *map_object_arg, ActorRecord *actor_state_arg);
 #endif

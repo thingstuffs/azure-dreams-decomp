@@ -26,8 +26,7 @@ extern u8 saber_frame_set_10[];
 extern u8 saber_frame_set[];
 
 /* Applies a brief directional movement, then returns the actor to its grid position. */
-void move_actor_briefly_and_realign(void *action, ObjectPosition *motion, SpriteFrameState *actor, EntityRec *entity)
-{
+void move_actor_briefly_and_realign(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *actor, ActorRecord *entity) {
     s32 state;
     s16 timer;
     u16 timer_bits;
@@ -38,13 +37,13 @@ void move_actor_briefly_and_realign(void *action, ObjectPosition *motion, Sprite
     s32 current_y;
     s32 tracked_entity;
 
-    state = ((S_80173964_0 *)action)->unk_9B;
+    state = action->action_phase;
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(entity);
         ((S_80173964_0 *)action)->unk_96.s = 12;
-        ((S_80173964_0 *)action)->unk_9B++;
-        if (entity->unk_28 == 0) {
+        action->action_phase++;
+        if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -53,7 +52,7 @@ void move_actor_briefly_and_realign(void *action, ObjectPosition *motion, Sprite
         }
         if (actor->flags & 0x8000) {
             ((S_80173964_0 *)action)->unk_96.s = 0;
-            ((S_80173964_0 *)action)->unk_9B = 3;
+            action->action_phase = 3;
         }
         return;
 
@@ -64,10 +63,10 @@ void move_actor_briefly_and_realign(void *action, ObjectPosition *motion, Sprite
         if (timer >= 11) {
             motion->velocity_x =
                 *(s16 *)((u8 *)((s8 *)dir_step_x) +
-                         ((entity->unk_6A >> 8) & 0xE)) << 20;
+                         ((entity->movement_facing >> 8) & 0xE)) << 20;
             motion->velocity_y =
                 *(s16 *)((u8 *)((s8 *)dir_step_y) +
-                         ((entity->unk_6A >> 8) & 0xE)) << 20;
+                         ((entity->movement_facing >> 8) & 0xE)) << 20;
             actor->flags |= 0x800;
             return;
         }
@@ -88,14 +87,14 @@ void move_actor_briefly_and_realign(void *action, ObjectPosition *motion, Sprite
         if (timer != 0) {
             return;
         }
-        next_state = ((S_80173964_0 *)action)->unk_9B;
+        next_state = action->action_phase;
         timer = 4;
         ((S_80173964_0 *)action)->unk_96.s = timer;
-        ((S_80173964_0 *)action)->unk_9B = next_state + 1;
+        action->action_phase = next_state + 1;
         return;
 
     case 2:
-        if (entity->unk_28 == 0) {
+        if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -120,8 +119,8 @@ void move_actor_briefly_and_realign(void *action, ObjectPosition *motion, Sprite
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        next_state = ((S_80173964_0 *)action)->unk_9B;
-        ((S_80173964_0 *)action)->unk_9B = next_state + 1;
+        next_state = action->action_phase;
+        action->action_phase = next_state + 1;
         return;
     case 3:
         motion->velocity_z = 0;

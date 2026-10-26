@@ -19,8 +19,8 @@ extern s32 tyrant_action_resume_address;
 extern u8 tyrant_direction_frames[8];
 
 extern void *scan_actor_along_heading();
-extern void *create_actor_spell_effect();
-extern void create_two_row_object_group();
+extern void *create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);
+extern void create_two_row_object_group(void *payload, s16 value_scale);
 
 typedef struct S_801729D4_0 {
     u8 pad_00[0x8C];
@@ -38,21 +38,9 @@ typedef struct S_801729D4_3 {
     u8 unk_25;
 } S_801729D4_3;   /* source in advance_the_actor_animation_state_reset_movement_finishes */
 
-typedef struct S_801729D4_4 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_801729D4_4;   /* arg2 in advance_the_actor_animation_state_reset_movement_finishes */
 
 /* Advance the actor animation state and reset movement when it finishes. */
-void advance_the_actor_animation_state_reset_movement_finishes(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void advance_the_actor_animation_state_reset_movement_finishes(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u16 position[3];
     u8 *animation;
     s16 reuse_target;
@@ -67,7 +55,7 @@ void advance_the_actor_animation_state_reset_movement_finishes(void *action, Obj
     s32 abs_y;
     s32 target_y;
 
-    state = ((S_801729D4_0 *)action)->unk_9B;
+    state = action->action_phase;
     reuse_target = 0;
     switch (state) {
     case 0:
@@ -116,7 +104,7 @@ void advance_the_actor_animation_state_reset_movement_finishes(void *action, Obj
         }
 
         if (*animation != 0) {
-            ((S_801729D4_0 *)action)->unk_98 &= 0xFF7F;
+            action->action_state_flags &= 0xFF7F;
             reuse_test = reuse_target;
             if (reuse_test != 0) {
                 target_root = primary_actor_record;
@@ -141,7 +129,7 @@ void advance_the_actor_animation_state_reset_movement_finishes(void *action, Obj
                 sprite->flags &= 0xF7FF;
                 play_sound_if_enabled(0x703);
                 create_two_row_object_group(position, (s16)((*animation - 1) % 3));
-                ((S_801729D4_0 *)action)->unk_9B++;
+                action->action_phase++;
                 return;
             }
             return;
@@ -166,7 +154,7 @@ void advance_the_actor_animation_state_reset_movement_finishes(void *action, Obj
             return;
         }
         sprite->flags &= 0xF7FF;
-        ((S_801729D4_0 *)action)->unk_9B++;
+        action->action_phase++;
 
         /* fall through */
     case 2:
@@ -175,7 +163,7 @@ void advance_the_actor_animation_state_reset_movement_finishes(void *action, Obj
             (sprite->flags & 0xE000)) {
             sprite->flags |= 0x800;
             ((S_801729D4_0 *)action)->unk_96 = 3;
-            ((S_801729D4_0 *)action)->unk_98 |= 0x80;
+            action->action_state_flags |= 0x80;
         }
         ((S_801729D4_0 *)action)->unk_96--;
         if ((s16)((S_801729D4_0 *)action)->unk_96 <= 0) {

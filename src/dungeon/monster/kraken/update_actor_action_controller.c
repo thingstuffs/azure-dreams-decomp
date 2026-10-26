@@ -11,6 +11,7 @@
 #include "shared/position_views.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/status.h"
+#include "engine/graphics.h"
 
    /* obj in update_actor_action_controller */
 
@@ -74,7 +75,6 @@ extern void *allocate_list_node();
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 generate_random_value(void); /* Retail RNG reads no argument registers. */
 extern void initialize_actor_sprite_and_animation();
-extern void select_sprite_entry();
 extern void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots();
 
 extern u8 child_texture_entries[];

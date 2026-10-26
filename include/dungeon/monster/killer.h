@@ -11,7 +11,7 @@ extern u8 killer_direction_frames[];
 
 
 
-void advance_timed_directional_animation(void *action_state, s32 actor_id, SpriteFrameState *animation, ActorRecord *actor);
+void advance_timed_directional_animation(ActorRecord *action_state, ObjectPosition *actor_id, SpriteFrameState *animation, ActorRecord *actor);
 
 
 

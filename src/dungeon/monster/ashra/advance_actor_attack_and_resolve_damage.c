@@ -18,7 +18,7 @@ typedef struct S_80172620_0 {
 
 extern void select_sprite_entry(void *, u8, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void set_record_integer_tile_center(s32, u8, u8);
+extern void set_record_integer_tile_center(ObjectPosition *, s32, s32);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 
@@ -27,15 +27,15 @@ extern s32 ashra_action_continuation_address;
 extern u8 ashra_frame_set_3[];
 
 /* Advance the actor's animation state and clean up when it finishes. */
-void advance_actor_attack_and_resolve_damage(void *action, s32 actor_id, void *sprite, ActorRecord *actor) {
+void advance_actor_attack_and_resolve_damage(ActorRecord *action, ObjectPosition *actor_id, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 state;
 
-    state = ((S_80172620_0 *)action)->unk_9B;
+    state = action->action_phase;
     ((S_80172620_0 *)action)->unk_96--;
     switch (state) {
     case 0:
         if (((SpriteFrameState *)sprite)->flags & 0x8000) {
-            ((S_80172620_0 *)action)->unk_9B = 0xFF;
+            action->action_phase = 0xFF;
             ((SpriteFrameState *)sprite)->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
@@ -44,7 +44,7 @@ void advance_actor_attack_and_resolve_damage(void *action, s32 actor_id, void *s
         select_sprite_entry(sprite,
             ashra_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        ((S_80172620_0 *)action)->unk_9B++;
+        action->action_phase++;
         return;
 
     case 1:
@@ -53,7 +53,7 @@ void advance_actor_attack_and_resolve_damage(void *action, s32 actor_id, void *s
             (((SpriteFrameState *)sprite)->flags & 0x8000)) {
             play_sound_if_enabled(0x808);
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
-            ((S_80172620_0 *)action)->unk_9B = 0xFF;
+            action->action_phase = 0xFF;
         }
         return;
 

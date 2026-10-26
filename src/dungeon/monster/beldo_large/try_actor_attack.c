@@ -16,7 +16,7 @@ extern void apply_camera_offset_and_select_target(void *,void *, s32, s32);
 /* Attempts an action toward the target and initializes the action state on success. */
 /* Starts Beldo's attack against a compatible neighbor within 64 height units; returns 1, 0 if unsuitable,
  * or -1 if busy. */
-s32 try_actor_attack(Rec_func_800A9E70_arg0 *action_state, void *action_id, SpriteFrameState *target, ActorRecord *actor) {
+s32 try_actor_attack(ActorRecord *action_state, ObjectPosition *action_id, SpriteFrameState *target, ActorRecord *actor) {
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
     s32 target_direction;
 
@@ -56,9 +56,9 @@ s32 try_actor_attack(Rec_func_800A9E70_arg0 *action_state, void *action_id, Spri
     apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_id, 8, 0x300);
 
     if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
-        action_state->unk_9A.as_s8 = 0x11;
-        action_state->unk_9B.as_s8 = 0;
-        action_state->unk_8C = 0;
+        action_state->action_id = 0x11;
+        action_state->action_phase = 0;
+        action_state->unk_8C.handler = 0;
         *(unsigned char *)&actor->unk_84 = 0x80;
         actor->unk_85 = 32;
         actor->pending_turn_updates--;

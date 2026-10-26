@@ -49,8 +49,7 @@ extern u8 beldo_large_frame_set_3[];
 /* Advances the selected actor action through targeting, animation, and cleanup. */
 /* Starts Beldo's targeted spell with an eight-tick casting wait, then restores the current form's idle
  * frames and status. */
-void advance_selected_actor_action(void *action, ObjectPosition *transform, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void advance_selected_actor_action(ActorRecord *action, ObjectPosition *transform, SpriteFrameState *sprite, ActorRecord *actor) {
     u8 action_state;
     u8 *action_slot;
     u8 *direction_table;
@@ -64,7 +63,7 @@ void advance_selected_actor_action(void *action, ObjectPosition *transform, Spri
     s16 mode_copy;
     void *current_table;
 
-    action_state = ((S_8016C190_0 *)action)->unk_9B;
+    action_state = action->action_phase;
     target_mode = 0;
 
     switch (action_state) {
@@ -112,8 +111,8 @@ void advance_selected_actor_action(void *action, ObjectPosition *transform, Spri
             }
         }
         if (*action_slot != 0) {
-            action_value = ((S_8016C190_0 *)action)->unk_98 & 0xFF7F;
-            ((S_8016C190_0 *)action)->unk_98 = action_value;
+            action_value = action->action_state_flags & 0xFF7F;
+            action->action_state_flags = action_value;
             mode_copy = target_mode;
             if (mode_copy != 0) {
                 action_value = (s32)primary_actor_record;
@@ -148,7 +147,7 @@ void advance_selected_actor_action(void *action, ObjectPosition *transform, Spri
             if (create_actor_spell_effect(actor, action_slot, target_mode,
                               (u16 *)((u8 *)action + 0x98)) != 0) {
                 ((S_8016C190_0 *)action)->unk_96.s = 8;
-                ((S_8016C190_0 *)action)->unk_9B++;
+                action->action_phase++;
             }
             return;
         }
@@ -173,7 +172,7 @@ void advance_selected_actor_action(void *action, ObjectPosition *transform, Spri
             return;
         }
         sprite->flags &= 0xF7FF;
-        ((S_8016C190_0 *)action)->unk_9B++;
+        action->action_phase++;
         play_sound_if_enabled(0x703);
                         /* fall through */
 
@@ -183,8 +182,8 @@ void advance_selected_actor_action(void *action, ObjectPosition *transform, Spri
             !(sprite->flags & 0xE000)) {
             return;
         }
-        ((S_8016C190_0 *)action)->unk_98 |= 0x80;
-        ((S_8016C190_0 *)action)->unk_9B++;
+        action->action_state_flags |= 0x80;
+        action->action_phase++;
         return;
 
     case 3:

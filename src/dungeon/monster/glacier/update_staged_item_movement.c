@@ -8,7 +8,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
 
-extern void begin_actor_display_action();
+extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
 
 extern u8 D_801760D4;
 
@@ -22,18 +22,17 @@ typedef struct S_80173730_0 {
 } S_80173730_0;   /* arg0 in update_staged_item_movement */
 
 /* Updates staged movement toward a target tile and finalizes the action. */
-void update_staged_item_movement(void *action, ObjectPosition *motion, SpriteFrameState *target, EntityRec *actor)
-{
+void update_staged_item_movement(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *target, ActorRecord *actor) {
     u8 state;
     s16 timer;
 
-    state = ((S_80173730_0 *)action)->unk_9B;
+    state = action->action_phase;
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(actor);
         ((S_80173730_0 *)action)->unk_96.u = 4;
-        ((S_80173730_0 *)action)->unk_9B++;
-        if (actor->unk_28 == 0) {
+        action->action_phase++;
+        if (actor->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -44,7 +43,7 @@ void update_staged_item_movement(void *action, ObjectPosition *motion, SpriteFra
             return;
         }
         ((S_80173730_0 *)action)->unk_96.u = 0;
-        ((S_80173730_0 *)action)->unk_9B = 3;
+        action->action_phase = 3;
         return;
 
     case 1:
@@ -53,10 +52,10 @@ void update_staged_item_movement(void *action, ObjectPosition *motion, SpriteFra
         if (timer > 0) {
             motion->velocity_x =
                 *(s16 *)(((s8 *)dir_step_x) +
-                    ((actor->unk_6A >> 8) & 0xE)) << 19;
+                    ((actor->movement_facing >> 8) & 0xE)) << 19;
             motion->velocity_y =
                 *(s16 *)(((s8 *)dir_step_y) +
-                    ((actor->unk_6A >> 8) & 0xE)) << 19;
+                    ((actor->movement_facing >> 8) & 0xE)) << 19;
             return;
         }
         if (timer != 0) {
@@ -64,16 +63,16 @@ void update_staged_item_movement(void *action, ObjectPosition *motion, SpriteFra
         }
         motion->velocity_x =
             *(s16 *)(((s8 *)dir_step_x) +
-                ((actor->unk_6A >> 8) & 0xE)) << 18;
+                ((actor->movement_facing >> 8) & 0xE)) << 18;
         motion->velocity_y =
             *(s16 *)(((s8 *)dir_step_y) +
-                ((actor->unk_6A >> 8) & 0xE)) << 18;
+                ((actor->movement_facing >> 8) & 0xE)) << 18;
         ((S_80173730_0 *)action)->unk_96.u = 12;
-        ((S_80173730_0 *)action)->unk_9B++;
+        action->action_phase++;
         return;
 
     case 2:
-        if (actor->unk_28 == 0) {
+        if (actor->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -111,7 +110,7 @@ void update_staged_item_movement(void *action, ObjectPosition *motion, SpriteFra
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        ((S_80173730_0 *)action)->unk_9B++;
+        action->action_phase++;
         return;
 
     case 3:

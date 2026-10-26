@@ -11,7 +11,7 @@ void select_sprite_entry(void *, s16, s16);         /* extern */
 extern u8 D_800E2360;
 
 /* Initializes state and configures the target using an angle-indexed table entry. */
-void initialize_angle_indexed_target(void *state, s32 unused, SpriteFrameState *target, EntityRec *angleSource) {
+void initialize_angle_indexed_target(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *target, ActorRecord *angleSource) {
     ((Rec_func_801724B0_arg0 *)state)->unk_9A = 0x10;
     ((Rec_func_801724B0_arg0 *)state)->unk_9B = 0;
     target->frameTable = &D_800E2360;

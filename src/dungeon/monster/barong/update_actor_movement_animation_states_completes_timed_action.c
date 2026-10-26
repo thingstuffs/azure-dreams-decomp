@@ -40,8 +40,7 @@ extern u8 D_80157574[];
 extern u8 D_8015757C[];
 
 /* Updates actor movement and animation states and completes the timed action. */
-void update_actor_movement_animation_states_completes_timed_action(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void update_actor_movement_animation_states_completes_timed_action(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 state;
     s32 move_frames;
     s32 target_x;
@@ -56,7 +55,7 @@ void update_actor_movement_animation_states_completes_timed_action(void *action,
     DungeonGlobalStatus *dungeon_state;
     u8 *idle_anims;
 
-    state = ((S_80154B4C_0 *)action)->unk_9B;
+    state = action->action_phase;
     switch (state) {
     case 0:
     {
@@ -71,11 +70,11 @@ void update_actor_movement_animation_states_completes_timed_action(void *action,
             state_anims[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         sprite->scale_y = 0x1000;
-        ((S_80154B4C_0 *)action)->unk_98 |= 8;
+        action->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80154B4C_0 *)action)->unk_9E.s = 5;
         ((S_80154B4C_0 *)action)->unk_A4 = 0;
-        ((S_80154B4C_0 *)action)->unk_9B++;
+        action->action_phase++;
     }
                         /* fall through */
     case 1:
@@ -107,9 +106,9 @@ void update_actor_movement_animation_states_completes_timed_action(void *action,
         ((S_80154B4C_0 *)action)->unk_90 = height;
         if ((move_count << 16) < 0) {
             ((S_80154B4C_0 *)action)->unk_90 = 0;
-            ((S_80154B4C_0 *)action)->unk_98 &= 0xFFF7;
+            action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            ((S_80154B4C_0 *)action)->unk_9B++;
+            action->action_phase++;
         }
                         /* fall through */
     case 2:
@@ -117,7 +116,7 @@ void update_actor_movement_animation_states_completes_timed_action(void *action,
         u8 *state_anims;
 
         if (actor->flags1C & ACTOR_GROUNDED) {
-            ((S_80154B4C_0 *)action)->unk_98 &= 0xFFF7;
+            action->action_state_flags &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -128,7 +127,7 @@ void update_actor_movement_animation_states_completes_timed_action(void *action,
                 state_anims[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             sprite->scale_y = 0xC00;
-            ((S_80154B4C_0 *)action)->unk_9B++;
+            action->action_phase++;
         }
     }
         break;

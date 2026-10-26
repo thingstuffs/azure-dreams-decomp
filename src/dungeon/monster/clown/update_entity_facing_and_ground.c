@@ -269,14 +269,13 @@ void update_entity_facing_and_ground(void *entity, ObjectPosition *motion, Sprit
 }
 
 /* Selects movement, attacks, and spells from actor status, MP, and its position relative to the player. */
-void update_actor_state_and_dispatch_transition(void *actor, void *actor_context, SpriteFrameState *map_object, ActorRecord *creature)
-{
-    s32 distance;
+void update_actor_state_and_dispatch_transition(ActorRecord *actor, ObjectPosition *actor_context, SpriteFrameState *map_object, ActorRecord *creature) {
+    u16 distance;
     s8 room_id;
     u16 action_state;
 
     if (g_dungeon_status.flags & 0x1000) {
-        ((R16_80171014_S_80171014_0 *)actor)->unk_9A = 0xE;
+        actor->action_id = 0xE;
         advance_actor_path_step_and_update_counters(actor, actor_context, map_object, creature);
         return;
     }
@@ -297,8 +296,8 @@ void update_actor_state_and_dispatch_transition(void *actor, void *actor_context
 
     if (((u32)creature->flags1C) & ACTOR_ASLEEP) {
         if (map_object->frameTable == ((u8 *)clown_alt_direction_frames)) {
-            ((R16_80171014_S_80171014_0 *)actor)->unk_9A = 0xD;
-            ((R16_80171014_S_80171014_0 *)actor)->unk_9B = 1;
+            actor->action_id = 0xD;
+            actor->action_phase = 1;
             ((R16_80171014_S_80171014_0 *)actor)->unk_8C = 0;
             creature->flags1C &= 0xFFFBFFFF;
             return;
@@ -315,13 +314,13 @@ void update_actor_state_and_dispatch_transition(void *actor, void *actor_context
         }
 
         {
-            u8 current_state = ((R16_80171014_S_80171014_0 *)actor)->unk_9A;
+            u8 current_state = actor->action_id;
             u32 next_state = 0xE;
             void *current_animation;
             void *animation_table;
 
             if (current_state != next_state) {
-                ((R16_80171014_S_80171014_0 *)actor)->unk_9A = next_state;
+                actor->action_id = next_state;
             }
             current_animation = map_object->frameTable;
             animation_table = ((u8 *)clown_direction_frames);
@@ -337,7 +336,7 @@ void update_actor_state_and_dispatch_transition(void *actor, void *actor_context
         }
 
         creature->flags1C |= 0x40000;
-        ((R16_80171014_S_80171014_0 *)actor)->unk_98 &= 0xFFF7;
+        actor->action_state_flags &= 0xFFF7;
 
         if (creature->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, actor_context, map_object, ((u8 *)D_8017421C)) != 0) {
@@ -459,8 +458,7 @@ void update_actor_state_and_dispatch_transition(void *actor, void *actor_context
 
 /* Advances a stored path step or adjusts height in place, then updates occupied tiles, facing, and
  * movement delay. */
-void advance_actor_path_step_and_update_counters(void *motion_state, s32 unused, SpriteFrameState *entity, void *path_state)
-{
+void advance_actor_path_step_and_update_counters(ActorRecord *motion_state, ObjectPosition *unused, SpriteFrameState *entity, ActorRecord *path_state) {
     s32 distance;
     s32 flags;
     s32 old_x;
@@ -481,7 +479,7 @@ void advance_actor_path_step_and_update_counters(void *motion_state, s32 unused,
     if (*(u8 **)&entity->frameTable != ((u8 *)clown_direction_frames)) {
         (entity->frameTable) = ((u8 *)clown_direction_frames);
         select_sprite_entry(entity,
-                      ((u8 *)clown_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R16_80171574_S_80171FC8_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
+                      ((u8 *)clown_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + path_state->facing + 0x100) >> 9) & 7],
                       0);
     }
 
@@ -495,7 +493,7 @@ void advance_actor_path_step_and_update_counters(void *motion_state, s32 unused,
         ((R16_80171574_S_80171FC8_0 *)path_state)->unk_88 = energy - 0x20;
         ((R16_80171574_S_80171FC8_0 *)path_state)->unk_8A.u = step_index + 1;
     } else {
-        flags = ((R16_80171574_S_80171FC8_0 *)path_state)->unk_1C;
+        flags = path_state->flags1C;
         old_x = entity->tile_x;
         old_y = entity->tile_y;
         distance = 0x3000;
@@ -512,16 +510,16 @@ void advance_actor_path_step_and_update_counters(void *motion_state, s32 unused,
         ((R16_80171574_S_80171FC8_0 *)path_state)->unk_8A.u += 1;
 
         cycle_map_cell_flags(entity->tile_x, entity->tile_y,
-                      (((R16_80171574_S_80171FC8_0 *)path_state)->unk_1C & 0x2000) ? 0x300 : 0x3000);
+                      (path_state->flags1C & 0x2000) ? 0x300 : 0x3000);
 
-        ((R16_80171574_S_80171FC8_0 *)path_state)->unk_2A =
+        path_state->facing =
             ((s16)get_rounded_facing_and_rounding_flag(old_x, old_y, entity->tile_x,
-                          entity->tile_y, (u8 *)motion_state + 0x98));
+                          entity->tile_y, &motion_state->action_state_flags));
     }
 
     ((R16_80171574_S_80171FC8_3 *)motion_state)->unk_9A = 0xF;
     ((R16_80171574_S_80171FC8_3 *)motion_state)->unk_8C = 0;
-    (*(s32 *)((u8 *)path_state + 0x1C)) |= 0x40000000;
+    path_state->flags1C |= 0x40000000;
 
     if (g_dungeon_status.flags & 0x80) {
         ((R16_80171574_S_80171FC8_3 *)motion_state)->unk_96 = 0;
@@ -539,8 +537,7 @@ void advance_actor_path_step_and_update_counters(void *motion_state, s32 unused,
 
 /* Chooses a clear step or attack, records the actor's path, and updates occupied tiles and movement
  * counts. */
-void choose_clown_move(Rec_func_800A9E70_arg0 *move_data, void *context, SpriteFrameState *position_data, ActorRecord *actor_data)
-{
+void choose_clown_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data) {
     u16 dungeon_flags = g_dungeon_status.flags;
     s32 limit_detour = 0;
     s16 detour_check;
@@ -568,7 +565,7 @@ void choose_clown_move(Rec_func_800A9E70_arg0 *move_data, void *context, SpriteF
         return;
     }
 
-    update_actor_proximity_flag(position_data, actor_data, 3, 6, &move_data->unk_9C.as_s8);
+    update_actor_proximity_flag(position_data, actor_data, 3, 6, &move_data->unk_9C);
     actor_flags = actor_data->flags1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
@@ -577,7 +574,7 @@ void choose_clown_move(Rec_func_800A9E70_arg0 *move_data, void *context, SpriteF
             if (blocker != 0) {
                 SpriteFrameState *blocker_sprite = ((ObjectNodeHeader *)blocker - 1)->sprite;
                 s16 target_angle = ((s16)get_rounded_facing_and_rounding_flag((s16)(position_data->tile_x),(s16)(position_data->tile_y),(s16)(blocker_sprite->tile_x),(s16)(blocker_sprite->tile_y),
-                    &move_data->unk_98));
+                    &move_data->action_state_flags));
                 actor_data->facing = target_angle;
                 actor_data->movement_queue_state &= 0x7F;
                 return;
@@ -617,7 +614,7 @@ void choose_clown_move(Rec_func_800A9E70_arg0 *move_data, void *context, SpriteF
                     return;
                 }
 
-                turn_data = &move_data->unk_98;
+                turn_data = &move_data->action_state_flags;
                 target_angle = ((s16)get_rounded_facing_and_rounding_flag((s16)(position_data->tile_x),(s16)(position_data->tile_y),(s16)((s16)target_x),(s16)((s16)target_y), turn_data));
                 actor_data->facing = target_angle;
                 if (((s16)check_directional_move_and_terrain((s16)(target_angle), position_data, actor_data, 0x20)) <= 0) {
@@ -629,14 +626,14 @@ void choose_clown_move(Rec_func_800A9E70_arg0 *move_data, void *context, SpriteF
                     limit_detour = 1;
                 }
             } else {
-                select_actor_route_target((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
-                              &move_data->unk_98);
+                select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+                              &move_data->action_state_flags);
             }
         }
     } else if ((s8)position_data->room_index >= 0 &&
                dungeon_rooms[(s8)position_data->room_index].flags & ROOM_HOLY_BEAM) {
-        select_actor_route_target((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
-                      &move_data->unk_98);
+        select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+                      &move_data->action_state_flags);
     } else if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
         current_angle = (s32)probe_directional_neighbor(actor_data,(u8)(position_data->tile_x),(u8)(position_data->tile_y),(s16)(actor_data->facing));
         blocker = (ActorRecord *)current_angle;
@@ -652,7 +649,7 @@ void choose_clown_move(Rec_func_800A9E70_arg0 *move_data, void *context, SpriteF
 
         if (actor_data->flags1C & ACTOR_PLAYER_AWARE) {
             TileObject *target_position = &reference_tile_object;
-            actor_data->facing = ((s16)get_rounded_facing_and_rounding_flag((s16)(position_data->tile_x),(s16)(position_data->tile_y),(s16)(target_position->tile_position.parts.tile_x),(s16)(target_position->tile_position.parts.tile_y), &move_data->unk_98));
+            actor_data->facing = ((s16)get_rounded_facing_and_rounding_flag((s16)(position_data->tile_x),(s16)(position_data->tile_y),(s16)(target_position->tile_position.parts.tile_x),(s16)(target_position->tile_position.parts.tile_y), &move_data->action_state_flags));
             if (((s16)test_neighbor_position_relation(
                     position_data->tile_x, position_data->tile_y,
                     target_position->tile_position.parts.tile_x, target_position->tile_position.parts.tile_y)) != 0) {
@@ -665,8 +662,8 @@ void choose_clown_move(Rec_func_800A9E70_arg0 *move_data, void *context, SpriteF
                 }
             }
         } else {
-            select_actor_route_target((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
-                          &move_data->unk_98);
+            select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+                          &move_data->action_state_flags);
         }
     }
 
@@ -674,7 +671,7 @@ void choose_clown_move(Rec_func_800A9E70_arg0 *move_data, void *context, SpriteF
     turn_table = ((s16 *)actor_turn_angle_offsets);
 
     do {
-        turn_flags = move_data->unk_98;
+        turn_flags = move_data->action_state_flags;
         current_angle = actor_data->facing;
         if (turn_flags & 2) {
             trial_angle = current_angle - turn_table[turn_index];
@@ -741,7 +738,7 @@ void choose_clown_move(Rec_func_800A9E70_arg0 *move_data, void *context, SpriteF
 
     {
         actor_data->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-        move_data->unk_9C.as_u8 = position_data->room_index;
+        move_data->unk_9C = position_data->room_index;
         actor_data->pending_turn_updates--;
         g_dungeon_status.activity_counts.parts.pending_movement_count++;
     }
@@ -759,8 +756,7 @@ void choose_clown_move(Rec_func_800A9E70_arg0 *move_data, void *context, SpriteF
 }
 
 /* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
-s32 initialize_transition_action(void *action_state, s32 action_id, void *source_obj, ActorRecord *actor)
-{
+s32 initialize_transition_action(ActorRecord *action_state, ObjectPosition *action_id, SpriteFrameState *source_obj, ActorRecord *actor) {
     s32 target_angle;
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
 
@@ -812,18 +808,18 @@ s32 initialize_transition_action(void *action_state, s32 action_id, void *source
  * unused 8-byte local (unused[2]) raises the otherwise exact 0x38 frame to retail's 0x40 without
  * emitting body code; source-based byte indexing preserves the final call operands.
  */
-void begin_eligible_actor_action(Rec_func_800A9E70_arg0 *action_state, s32 context, SpriteFrameState *animation, ActorRecord *actor) {
+void begin_eligible_actor_action(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *actor) {
     actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((((s16)try_claim_dungeon_action_slot(actor)) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, context, 8, 0x300);
         if ((((s16)try_claim_dungeon_action_slot(actor)) << 0x10) == 0) {
-            action_state->unk_9A.as_s8 = 0x11;
-            action_state->unk_8C = 0;
-            action_state->unk_9B.as_s8 = 0;
+            action_state->action_id = 0x11;
+            action_state->unk_8C.handler = 0;
+            action_state->action_phase = 0;
             animation->frameTable = ((u8 *)clown_frame_set);
             select_sprite_entry(animation, ((u8 *)clown_frame_set)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
-            action_state->unk_98 = (u16) (action_state->unk_98 | 8);
+            action_state->action_state_flags = (u16) (action_state->action_state_flags | 8);
             prepare_directional_attack(actor, animation, actor->facing, 1, 0);
             actor->unk_84 = 0x7C;
             actor->unk_85 = 0;
@@ -897,27 +893,26 @@ void finish_actor_tile_move_then_dispatch_transition(void *state, void *motion, 
  * Runs update_linked_actor_motion and installs update_actor_state_and_dispatch_transition only
  * when it succeeds and the signed floor-trap check returns positive.
  */
-void finish_linked_actor_motion_and_floor_trap_then_dispatch_transition(Resource16CallbackState *state, void *entity, void *position, void *graphic)
-{
+void finish_linked_actor_motion_and_floor_trap_then_dispatch_transition(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
     if (update_linked_actor_motion(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
-            state->callback = update_actor_state_and_dispatch_transition;
+            state->unk_8C.handler = update_actor_state_and_dispatch_transition;
         }
     }
 }
 
 /* Times the attack animation and damage, spends MP, and restores normal actor movement and status. */
-void finish_actor_action_animation(void *action, void *motion, SpriteFrameState *anim, ActorRecord *actor) {
+void finish_actor_action_animation(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *anim, ActorRecord *actor) {
     s32 state;
     u16 ticks;
 
-    state = ((R16_801723F0_S_801723F0_0 *)action)->unk_9B;
+    state = action->action_phase;
     switch (state) {
     case 0:
-        ((R16_801723F0_S_801723F0_0 *)action)->unk_9B = 1;
+        action->action_phase = 1;
     case 1:
         if (anim->flags & 0x8000) {
-            ((R16_801723F0_S_801723F0_0 *)action)->unk_9B = 3;
+            action->action_phase = 3;
             anim->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, anim,(s16)(actor->facing),(s16)(1));
             return;
@@ -929,7 +924,7 @@ void finish_actor_action_animation(void *action, void *motion, SpriteFrameState 
         select_sprite_entry(anim,(u8)(((u8 *)clown_frame_set)[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7]),
             0);
         ((R16_801723F0_S_801723F0_0 *)action)->unk_96 = 0;
-        ((R16_801723F0_S_801723F0_0 *)action)->unk_9B++;
+        action->action_phase++;
         play_sound_if_enabled(0x804);
         return;
     case 2:
@@ -1265,23 +1260,21 @@ void advance_clown_removal(void *state, void *motion, void *position, void *acto
  * Runs update_actor_hop_and_grow and installs update_actor_state_and_dispatch_transition when it
  * returns nonzero.
  */
-void finish_actor_hop_and_grow_then_dispatch_transition(Resource16CallbackState *state, void *motion, void *position, void *actor)
-{
+void finish_actor_hop_and_grow_then_dispatch_transition(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_actor_hop_and_grow(state, motion, position, actor)) {
-        state->callback = update_actor_state_and_dispatch_transition;
+        state->unk_8C.handler = update_actor_state_and_dispatch_transition;
     }
 }
 
 /* Waits for a status effect to clear, updates actor status and activity counts, then restores movement. */
-void advance_clown_status_action(void *actor, void *context, SpriteFrameState *render_record, ActorRecord *actor_state)
-{
+void advance_clown_status_action(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *render_record, ActorRecord *actor_state) {
     s32 actor_flags;
     u16 value;
     u16 value_offset;
     DungeonGlobalStatus *global_base;
     s32 state;
 
-    state = ((R16_80172D50_S_80173E50_0 *)actor)->unk_9B;
+    state = actor->action_phase;
     switch (state) {
     case 0:
         if (!(render_record->flags & 0xE000)) {
@@ -1292,7 +1285,7 @@ void advance_clown_status_action(void *actor, void *context, SpriteFrameState *r
             0);
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         do {
-            ((R16_80172D50_S_80173E50_0 *)actor)->unk_9B++;
+            actor->action_phase++;
         } while (0);
         return;
 
@@ -1368,7 +1361,7 @@ void advance_clown_status_action(void *actor, void *context, SpriteFrameState *r
             ((R16_80172D50_S_80173E50_0 *)actor)->unk_8C = ((u8 *)update_actor_state_and_dispatch_transition);
             return;
         }
-        ((R16_80172D50_S_80173E50_0 *)actor)->unk_9B++;
+        actor->action_phase++;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
         return;
 
@@ -1384,8 +1377,7 @@ void advance_clown_status_action(void *actor, void *context, SpriteFrameState *r
 }
 
 /* Waits for MP recovery while processing actor status, then restores the normal animation and movement. */
-void advance_clown_mp_action(void *actor, void *context, SpriteFrameState *animation, ActorRecord *entity)
-{
+void advance_clown_mp_action(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *entity) {
     s32 state;
 
     state = ((Rec_func_8017360C_arg0 *)actor)->unk_9B;
@@ -1499,17 +1491,16 @@ void advance_clown_mp_action(void *actor, void *context, SpriteFrameState *anima
  * positive; during motion, restores movement frames when the alternate table is active and flags
  * 0x208 are clear.
  */
-void update_clown_parent_motion(R16_80173468_Actor *actor, s32 action, SpriteFrameState *entity, R16_80173468_MapObject *map_object)
-{
+void update_clown_parent_motion(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *entity, ActorRecord *map_object) {
     if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
         if ((check_actor_floor_trap(entity, map_object) << 16) > 0) {
-            actor->unk_8C = ((u8 *)update_actor_state_and_dispatch_transition);
+            actor->unk_8C.handler = ((u8 *)update_actor_state_and_dispatch_transition);
             return;
         }
     } else if (*(u8 **)&entity->frameTable == ((u8 *)clown_alt_direction_frames) &&
-               !(map_object->unk_1C & 0x208)) {
+               !(map_object->flags1C & 0x208)) {
         entity->frameTable = ((u8 *)clown_direction_frames);
-        select_sprite_entry(entity,(s16)(((u8 *)clown_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + map_object->unk_2A + 0x100) >> 9) & 7]),(s16)(0));
+        select_sprite_entry(entity,(s16)(((u8 *)clown_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + map_object->facing + 0x100) >> 9) & 7]),(s16)(0));
     }
 }
 
@@ -1517,11 +1508,10 @@ void update_clown_parent_motion(R16_80173468_Actor *actor, s32 action, SpriteFra
  * Runs update_thrown_actor_travel and installs update_actor_state_and_dispatch_transition only
  * when it succeeds and the signed floor-trap check returns positive.
  */
-void finish_thrown_actor_travel_and_floor_trap_then_dispatch_transition(Resource16CallbackState *state, void *entity, void *position, void *graphic)
-{
+void finish_thrown_actor_travel_and_floor_trap_then_dispatch_transition(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
     if (update_thrown_actor_travel(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
-            state->callback = update_actor_state_and_dispatch_transition;
+            state->unk_8C.handler = update_actor_state_and_dispatch_transition;
         }
     }
 }
@@ -1530,10 +1520,9 @@ void finish_thrown_actor_travel_and_floor_trap_then_dispatch_transition(Resource
  * Runs interpolate_actor_to_terrain_tile and installs update_actor_state_and_dispatch_transition
  * when it returns nonzero.
  */
-void finish_actor_terrain_interpolation_then_dispatch_transition(Resource16CallbackState *state, void *motion, void *position, void *actor)
-{
+void finish_actor_terrain_interpolation_then_dispatch_transition(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (interpolate_actor_to_terrain_tile(state, motion, position, actor)) {
-        state->callback = update_actor_state_and_dispatch_transition;
+        state->unk_8C.handler = update_actor_state_and_dispatch_transition;
     }
 }
 
@@ -1541,10 +1530,9 @@ void finish_actor_terrain_interpolation_then_dispatch_transition(Resource16Callb
  * Runs update_spinning_actor_fall and installs update_actor_state_and_dispatch_transition when it
  * returns nonzero.
  */
-void finish_spinning_actor_fall_then_dispatch_transition(Resource16CallbackState *state, void *motion, void *position, void *actor)
-{
+void finish_spinning_actor_fall_then_dispatch_transition(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_spinning_actor_fall(state, motion, position, actor)) {
-        state->callback = update_actor_state_and_dispatch_transition;
+        state->unk_8C.handler = update_actor_state_and_dispatch_transition;
     }
 }
 
@@ -1552,10 +1540,9 @@ void finish_spinning_actor_fall_then_dispatch_transition(Resource16CallbackState
  * Runs propagate_actor_action_flag and installs update_actor_state_and_dispatch_transition when it
  * returns nonzero.
  */
-void finish_actor_action_flag_propagation_then_dispatch_transition(Resource16CallbackState *state, void *motion, void *position, void *actor)
-{
+void finish_actor_action_flag_propagation_then_dispatch_transition(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (propagate_actor_action_flag(state, motion, position, actor)) {
-        state->callback = update_actor_state_and_dispatch_transition;
+        state->unk_8C.handler = update_actor_state_and_dispatch_transition;
     }
 }
 
@@ -1563,10 +1550,9 @@ void finish_actor_action_flag_propagation_then_dispatch_transition(Resource16Cal
  * Runs update_actor_fade_in and installs update_actor_state_and_dispatch_transition when it
  * returns nonzero.
  */
-void finish_actor_fade_in_then_dispatch_transition(Resource16CallbackState *state, void *motion, void *position, void *actor)
-{
+void finish_actor_fade_in_then_dispatch_transition(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_actor_fade_in(state, motion, position, actor)) {
-        state->callback = update_actor_state_and_dispatch_transition;
+        state->unk_8C.handler = update_actor_state_and_dispatch_transition;
     }
 }
 
@@ -1574,10 +1560,9 @@ void finish_actor_fade_in_then_dispatch_transition(Resource16CallbackState *stat
  * Runs resolve_actor_floor_trap_once and installs update_actor_state_and_dispatch_transition when
  * it returns positive.
  */
-void finish_actor_floor_trap_then_dispatch_transition(Resource16CallbackState *state, void *motion, void *position, void *actor)
-{
+void finish_actor_floor_trap_then_dispatch_transition(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (resolve_actor_floor_trap_once(state, motion, position, actor) > 0) {
-        state->callback = update_actor_state_and_dispatch_transition;
+        state->unk_8C.handler = update_actor_state_and_dispatch_transition;
     }
 }
 

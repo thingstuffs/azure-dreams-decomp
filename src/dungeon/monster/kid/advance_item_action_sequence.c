@@ -53,8 +53,7 @@ extern u8 kid_frame_set_1[];
 /* Advances an item action through setup, animation, movement, and cleanup. */
 /* Starts a targeted spell and source effect, animates a backward step, then returns to its tile and
  * restores idle. */
-void advance_item_action_sequence(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     void *owner;
     void *owner_flags;
     SpriteFrameState *owner_sprite;
@@ -78,7 +77,7 @@ void advance_item_action_sequence(void *action, ObjectPosition *motion, SpriteFr
         owner_sprite = (u8 *)owner + 0x28;
     }
     ((S_80172D74_1 *)action)->unk_96.s--;
-    switch (((S_80172D74_1 *)action)->unk_9B) {
+    switch (action->action_phase) {
     case 0:
         if (actor->flags1C & ACTOR_PLAYER_SIDE) {
             s32 kind_index = (actor->action_flags & ACTOR_ACTION_CODE_MASK) - 1;
@@ -120,7 +119,7 @@ void advance_item_action_sequence(void *action, ObjectPosition *motion, SpriteFr
             }
         }
         if (*item_slot != 0) {
-            ((S_80172D74_1 *)action)->unk_98 &= 0xFF7F;
+            action->action_state_flags &= 0xFF7F;
             {
                 s16 special_test;
 
@@ -165,9 +164,9 @@ void advance_item_action_sequence(void *action, ObjectPosition *motion, SpriteFr
             sprite->flags &= 0xF7FF;
             create_source_positioned_object(motion, 3);
             play_sound_if_enabled(0x703);
-            state_value = ((S_80172D74_1 *)action)->unk_9B;
+            state_value = action->action_phase;
             ((S_80172D74_1 *)action)->unk_96.s = 6;
-            ((S_80172D74_1 *)action)->unk_9B = state_value + 1;
+            action->action_phase = state_value + 1;
             return;
         }
         motion->velocity_z = 0;
@@ -194,7 +193,7 @@ void advance_item_action_sequence(void *action, ObjectPosition *motion, SpriteFr
             return;
         }
         sprite->flags &= 0xF7FF;
-        ((S_80172D74_1 *)action)->unk_9B++;
+        action->action_phase++;
 
     case 2:
         if (((S_80172D74_1 *)action)->unk_96.u > 0 &&
@@ -202,13 +201,13 @@ void advance_item_action_sequence(void *action, ObjectPosition *motion, SpriteFr
             return;
         }
         ((S_80172D74_1 *)action)->unk_96.s = 7;
-        ((S_80172D74_1 *)action)->unk_98 |= 0x80;
+        action->action_state_flags |= 0x80;
         if (sprite->flags & 0x8000) {
             next_state = 0x10;
-            ((S_80172D74_1 *)action)->unk_9B = next_state;
+            action->action_phase = next_state;
             return;
         }
-        ((S_80172D74_1 *)action)->unk_9B = ((S_80172D74_1 *)action)->unk_9B + 1;
+        action->action_phase = action->action_phase + 1;
         return;
 
     case 3:
@@ -222,7 +221,7 @@ void advance_item_action_sequence(void *action, ObjectPosition *motion, SpriteFr
         next_state = 4;
         ((S_80172D74_1 *)action)->unk_96.s = next_state;
         next_state = 0x10;
-        ((S_80172D74_1 *)action)->unk_9B = next_state;
+        action->action_phase = next_state;
         return;
 
     case 16:

@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -8,9 +9,9 @@
 #include "engine/graphics.h"
 #include "dungeon/level.h"
 
-extern s32 update_map_cell_flags_with_item_limit();
+extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s16 check_movement_clearance_and_height();
-extern s16 get_rounded_facing_and_rounding_flag();
+extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void initialize_actor_facing_sprite(void *actor_state, void *action_state, SpriteFrameState *sprite, void *orientation);
 
 extern u8 saber_frame_set_9[];
@@ -35,6 +36,7 @@ typedef struct S_80171CD4_4 {
 
 /* Advance the entity along its stored path and update movement timing. */
 void advance_entity_along_stored_path(void *movement, void *motion, SpriteFrameState *entity, void *path_state) {
+    ActorRecord *path_actor = movement;
     void *state = path_state;
     s32 move_flags;
     s16 heading;
@@ -77,7 +79,7 @@ void advance_entity_along_stored_path(void *movement, void *motion, SpriteFrameS
         y,
         ((S_80171CD4_4 *)((u8 *)state + ((S_80171CD4_0 *)state)->unk_8A.s))->unk_74,
         ((S_80171CD4_4 *)((u8 *)state + ((S_80171CD4_0 *)state)->unk_8A.s))->unk_7C,
-        (u8 *)movement + 0x98);
+        &path_actor->action_state_flags);
     move_result = check_movement_clearance_and_height(heading, entity, state, 0x20);
 
     entity->tile_x =

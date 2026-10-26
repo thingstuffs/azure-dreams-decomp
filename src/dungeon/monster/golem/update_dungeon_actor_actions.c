@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
@@ -14,11 +15,7 @@
 #define F(p, t, o) (*(t *)((u8 *)(p) + (o)))
 
 
-typedef struct TileEntry {
-    u8 pad[12];
-    u16 flags;
-    u8 tail[6];
-} TileEntry;
+
 
 extern u8 golem_direction_frames[];
 extern u8 golem_frame_set_2;
@@ -27,23 +24,23 @@ extern u8 golem_frame_set_3[];
 extern u8 D_80175F50;
 extern u8 D_80175F60;
 
-extern s32 get_entity_effect_value();
+extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern s32 check_entity_relation();
-extern s32 find_active_rect_containing_point();
-extern s32 test_neighbor_position_relation();
-extern s32 can_entity_gain_level();
+extern s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
+extern s32 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
+extern s32 can_entity_gain_level(void *entity);
 extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
-extern s32 update_actor_status_and_mp();
+extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s32 begin_ready_actor_directional_action();
-extern s32 advance_actor_pending_action();
+extern s32 advance_actor_pending_action(void *actor_state, void *action, void *status, void *actor);
 extern s32 begin_actor_move_to_target_facing();
-extern s32 reset_actor_action_state();
+extern s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
 extern s32 process_selected_actor_record();
-extern s32 begin_actor_spell_action();
+extern void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState *target, u8 *direction_table, void *next_state);
 extern s32 func_801716B4();
 extern s32 func_801718F8();
-extern s32 update_eligible_actor_action();
-extern s32 advance_timed_directional_reset();
+void update_eligible_actor_action(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
+void advance_timed_directional_reset(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *orientation);
 extern s32 func_801727D8(); /* Slot contract: loading images do not establish one callee contract. */
 extern s32 func_80174698();
 extern s32 require_object_flag();

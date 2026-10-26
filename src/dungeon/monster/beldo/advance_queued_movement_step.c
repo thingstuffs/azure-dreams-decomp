@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -52,8 +53,7 @@ typedef struct S_801719C0_4 {
 } S_801719C0_4;   /* (u8 *)arg3 + ((S_801719C0_0 *)arg3)->unk_8A.s in advance_queued_movement_step */
 
 /* Advances a queued movement step and updates position, direction, and timing. */
-void advance_queued_movement_step(void *motion, s32 unused, SpriteFrameState *sprite, void *path)
-{
+void advance_queued_movement_step(ActorRecord *motion, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *path) {
     s32 tile_mask;
     s32 step_count;
     s32 old_x;
@@ -71,7 +71,7 @@ void advance_queued_movement_step(void *motion, s32 unused, SpriteFrameState *sp
         (sprite->frameTable) = beldo_frame_set_1;
         select_sprite_entry(
             sprite,
-            beldo_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801719C0_0 *)path)->unk_2A + 0x100) >> 9) & 7],
+            beldo_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + path->facing + 0x100) >> 9) & 7],
             0);
         sprite->frame_ticks = 1;
         ((S_801719C0_2 *)motion)->unk_A2 = 0;
@@ -89,7 +89,7 @@ void advance_queued_movement_step(void *motion, s32 unused, SpriteFrameState *sp
         old_x = sprite->tile_x;
         old_y = sprite->tile_y;
         tile_mask = 0x3000;
-        if (((S_801719C0_0 *)path)->unk_1C & 0x2000) {
+        if (path->flags1C & 0x2000) {
             tile_mask = 0x300;
         }
         update_map_cell_flags_with_item_limit(old_x, old_y, tile_mask);
@@ -101,15 +101,15 @@ void advance_queued_movement_step(void *motion, s32 unused, SpriteFrameState *sp
         ((S_801719C0_0 *)path)->unk_8A.u++;
 
         cycle_map_cell_flags(sprite->tile_x, sprite->tile_y,
-                      (((S_801719C0_0 *)path)->unk_1C & 0x2000) ? 0x300 : 0x3000);
+                      (path->flags1C & 0x2000) ? 0x300 : 0x3000);
 
-        ((S_801719C0_0 *)path)->unk_2A =
+        path->facing =
             get_rounded_facing_and_rounding_flag(old_x, old_y, sprite->tile_x,
                           sprite->tile_y, (u8 *)motion + 0x98);
     }
     ((S_801719C0_2 *)motion)->unk_9A = 0xF;
     ((S_801719C0_2 *)motion)->unk_8C = 0;
-    (*(s32 *)((u8 *)path + (0x1C))) |= 0x40000000;
+    path->flags1C |= 0x40000000;
 
     if (g_dungeon_status.flags & 0x80) {
         ((S_801719C0_2 *)motion)->unk_96 = 0;

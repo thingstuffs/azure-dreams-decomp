@@ -35,12 +35,11 @@ typedef struct S_80174214_0 {
 } S_80174214_0;   /* arg0 in advance_actor_action_and_update_status */
 
 /* Advances the actor action state, updating directional animation and entity status. */
-void advance_actor_action_and_update_status(void *actor, void *context, SpriteFrameState *animation, void *entity)
-{
+void advance_actor_action_and_update_status(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *entity) {
 
     s32 state;
 
-    state = ((S_80174214_0 *)actor)->unk_9B;
+    state = actor->action_phase;
     switch (state) {
     case 0:
     {
@@ -58,7 +57,7 @@ void advance_actor_action_and_update_status(void *actor, void *context, SpriteFr
                 direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)entity)->facing + 0x100) >> 9) & 7],
                 0);
         }
-        ((S_80174214_0 *)actor)->unk_9B++;
+        actor->action_phase++;
         return;
     }
     case 1:
@@ -73,7 +72,7 @@ void advance_actor_action_and_update_status(void *actor, void *context, SpriteFr
                 0);
             ((ActorRecord *)entity)->flags1C |= 0x40000;
             g_dungeon_status.activity_counts.parts.pending_action_count++;
-            ((S_80174214_0 *)actor)->unk_9B++;
+            actor->action_phase++;
             return;
         }
 
@@ -133,7 +132,7 @@ void advance_actor_action_and_update_status(void *actor, void *context, SpriteFr
             0);
         ((ActorRecord *)entity)->flags1C |= 0x40000;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
-        ((S_80174214_0 *)actor)->unk_9B++;
+        actor->action_phase++;
         return;
     }
     case 2:

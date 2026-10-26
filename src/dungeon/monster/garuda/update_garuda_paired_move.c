@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/entity_height_offsets.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -11,16 +12,10 @@
 #include "dungeon/actor/status.h"
 
 /* Sparse views for fields not covered by the existing record types. */
-typedef struct {
-    u8 pad_00[0x2C];
-    u8 *field_2C;
-} LocalSpriteFieldView_81008664;
+
 
 /* Sparse views for fields not covered by the existing record types. */
-typedef struct {
-    u8 pad_00[0x2C];
-    u8 *field_2C;
-} SpriteFieldView_81008664;
+
 
 typedef long long s64;
 
@@ -115,12 +110,12 @@ typedef struct S_func_81008664_12 {
     s16 unk_0A;
 } S_func_81008664_12;
 
-void update_map_cell_flags_with_item_limit();
-s32 select_dungeon_spawn_tile();
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+s32 select_dungeon_spawn_tile(u8 *x_out, u8 *y_out);
 void refresh_actor_proximity_state();
 void spend_actor_mp();
 extern s16 dungeon_room_count;
-void update_creature_animation_action(void *actor, void *context, void *sprite_arg, void *creature);
+void update_creature_animation_action(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite_arg, ActorRecord *creature);
 extern u8 garuda_frame_set_3[];
 extern u8 D_801748F0[];
 extern u8 D_801748F8[];

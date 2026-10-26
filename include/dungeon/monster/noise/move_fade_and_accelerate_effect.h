@@ -5,7 +5,7 @@
 #include "dungeon/actor.h"
 #ifndef NULL
 #define NULL 0
-extern void update_actor_behavior_and_direction();
+void update_actor_behavior_and_direction(ActorRecord *motion, ObjectPosition *render_ctx, SpriteFrameState *map_entity, ActorRecord *actor);
 extern void create_timed_offset_motion_effect();
 #endif
 #include "shared/object_flags.h"
@@ -76,14 +76,7 @@ typedef struct T_80171020_S_80171020_1 {
     s32 unk_54;
 } T_80171020_S_80171020_1;   /* temp_s0 in func_80171020 */
 
-typedef struct T_80171020_S_80171020_2 {
-    s32 unk_00;
-} T_80171020_S_80171020_2;   /* temp_a2 in func_80171020 */
 
-typedef struct T_80171020_S_80171020_3 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-} T_80171020_S_80171020_3;   /* temp_a2_2 in func_80171020 */
 
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -133,6 +126,6 @@ void move_fade_and_accelerate_effect(T_80170F0C_S_func_80D1170C_1 *effect, IntVe
 void spawn_random_velocity_offset_effect(EntityRec *parent, s16 effect_id, s32 effect_param, s32 unused, s16 x_offset,
     s16 y_offset, s16 z_offset);
 void * create_actor_with_direction_behavior(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);
-extern void update_actor_behavior_and_direction();
+void update_actor_behavior_and_direction(ActorRecord *motion, ObjectPosition *render_ctx, SpriteFrameState *map_entity, ActorRecord *actor);
 extern void create_timed_offset_motion_effect();
 #endif

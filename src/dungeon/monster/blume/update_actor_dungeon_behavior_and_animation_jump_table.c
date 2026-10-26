@@ -1,6 +1,8 @@
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 
-extern void update_actor_dungeon_behavior_and_animation(void);
+void update_actor_dungeon_behavior_and_animation(ActorRecord *actor_in, ObjectPosition *actor_data_in, SpriteFrameState *sprite_in, ActorRecord *status_in);
 
 /* Exact jump_table span; dispatch consumer dungeon/func_80DBA620. */
 const void *const blume_slot_g_behavior_targets[12] __attribute__((aligned(4))) = {

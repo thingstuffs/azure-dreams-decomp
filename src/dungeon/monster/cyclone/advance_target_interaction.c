@@ -41,13 +41,12 @@ extern void func_801763CC(s32, void *);
 extern u8 cyclone_move_direction_frames[8];
 
 /* Advances the timed target interaction and updates the directional animation. */
-void advance_target_interaction(void *action, void *scene, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void advance_target_interaction(ActorRecord *action, ObjectPosition *scene, SpriteFrameState *sprite, ActorRecord *actor) {
     u16 sprite_flags;
     u16 timer;
     void *target;
 
-    switch (((S_80174764_0 *)action)->unk_9B) {
+    switch (action->action_phase) {
     case 0:
         sprite_flags = sprite->flags;
         if (sprite_flags & 0x8000) {
@@ -71,7 +70,7 @@ void advance_target_interaction(void *action, void *scene, SpriteFrameState *spr
                     request_random_slot_effect(target);
                 }
             }
-            ((S_80174764_0 *)action)->unk_9B = 2;
+            action->action_phase = 2;
             return;
         }
 
@@ -94,7 +93,7 @@ void advance_target_interaction(void *action, void *scene, SpriteFrameState *spr
         play_sound_if_enabled(0x708);
         timer = 0x20;
         ((S_80174764_0 *)action)->unk_96 = timer;
-        ((S_80174764_0 *)action)->unk_9B++;
+        action->action_phase++;
         break;
 
     case 1:
@@ -121,7 +120,7 @@ void advance_target_interaction(void *action, void *scene, SpriteFrameState *spr
                 }
             }
             ((S_80174764_0 *)action)->unk_96 = 4;
-            ((S_80174764_0 *)action)->unk_9B++;
+            action->action_phase++;
         }
         break;
 
@@ -144,6 +143,6 @@ void advance_target_interaction(void *action, void *scene, SpriteFrameState *spr
         sprite->frameTable = cyclone_move_direction_frames;
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         select_sprite_entry(sprite, cyclone_move_direction_frames[direction & 7], 0);
-        ((S_80174764_0 *)action)->unk_98 &= 0xFFF7;
+        action->action_state_flags &= 0xFFF7;
     }
 }

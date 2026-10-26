@@ -37,8 +37,7 @@ extern u8 D_801760BC;
 extern u8 D_801760C4;
 
 /* Updates the actor's hop animation and finishes the timed movement at its destination tile. */
-void update_item_hop_animation(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void update_item_hop_animation(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u16 direction_aux;
     s32 state;
     s32 move_frames;
@@ -51,7 +50,7 @@ void update_item_hop_animation(void *action, void *motion, SpriteFrameState *spr
     s32 actor_flags;
     DungeonGlobalStatus *global_base;
 
-    state = ((S_80172AD8_0 *)action)->unk_9B;
+    state = action->action_phase;
     switch (state) {
     case 0:
         if (!(sprite->flags & 0x6000)) {
@@ -63,11 +62,11 @@ void update_item_hop_animation(void *action, void *motion, SpriteFrameState *spr
             *(&D_801760BC +
               (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)),
             0);
-        ((S_80172AD8_0 *)action)->unk_98 |= 8;
+        action->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80172AD8_0 *)action)->unk_9E.s = 5;
         ((S_80172AD8_0 *)action)->unk_A4 = 0;
-        ((S_80172AD8_0 *)action)->unk_9B++;
+        action->action_phase++;
                         /* fallthrough */
     case 1:
         ((S_80172AD8_0 *)action)->unk_90 -= ((S_80172AD8_0 *)action)->unk_A4;
@@ -98,14 +97,14 @@ void update_item_hop_animation(void *action, void *motion, SpriteFrameState *spr
         ((S_80172AD8_0 *)action)->unk_90 = height;
         if ((frame_count << 16) < 0) {
             ((S_80172AD8_0 *)action)->unk_90 = 0;
-            ((S_80172AD8_0 *)action)->unk_98 &= 0xFFF7;
+            action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            ((S_80172AD8_0 *)action)->unk_9B++;
+            action->action_phase++;
         }
                         /* fallthrough */
     case 2:
         if (actor->flags1C & ACTOR_GROUNDED) {
-            ((S_80172AD8_0 *)action)->unk_98 &= 0xFFF7;
+            action->action_state_flags &= 0xFFF7;
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
@@ -118,7 +117,7 @@ void update_item_hop_animation(void *action, void *motion, SpriteFrameState *spr
                 *(&D_801760C4 +
                   (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)),
                 0);
-            ((S_80172AD8_0 *)action)->unk_9B++;
+            action->action_phase++;
         }
         break;
     case 3:

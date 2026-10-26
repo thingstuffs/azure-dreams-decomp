@@ -20,10 +20,6 @@ typedef struct S_80170AF4_1 {
     s32 unk_1C;
 } S_80170AF4_1;   /* work in spawn_picket */
 
-typedef struct S_80170AF4_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80170AF4_2;   /* part_a in spawn_picket */
 
 typedef struct S_80170AF4_4 {
     u8 pad_00[0x8C];
@@ -38,7 +34,7 @@ extern s32 register_node(); /* Unprototyped: two, three or four arguments; retai
 extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern void set_or_clear_actor_status_slot();
 extern u8 D_80170CC8[];
-extern void update_dungeon_actor_behavior_facing_animation_state(void *actor, void *context, void *sprite, ActorRecord *entity);
+void update_dungeon_actor_behavior_facing_animation_state(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 extern u8 picket_frame_set_1[];
 extern u8 picket_frame_set_6[];
 

@@ -24,11 +24,7 @@ typedef struct S_80172050_0 {
 } S_80172050_0;
 
 /* actor in attempt_actor_action_and_display */
-typedef struct S_80172050_1 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80172050_1;
+
 
 /* actor_info in attempt_actor_action_and_display */
 typedef struct S_80172050_2 {
@@ -63,6 +59,6 @@ extern s16 try_claim_dungeon_action_slot(s32);
 extern s32 apply_camera_offset_and_select_target(void *, void *, s32, s32);
 
 /* Functions defined in this translation unit. */
-void update_eligible_actor_action(void *action_state, s32 action_context, SpriteFrameState *sprite, EntityRec *actor);
+void update_eligible_actor_action(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 
 #endif

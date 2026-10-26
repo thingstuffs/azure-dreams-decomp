@@ -50,8 +50,8 @@ extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 extern u8 D_80176670[16];
 
 /* Functions defined in this translation unit. */
-void transfer_linked_object_state(u8 *owner, s32 object_id, u8 *dest_object, u8 *dest_state);
-void initialize_object_and_clear_state(void *action, void *unused, void *animation, EntityRec *entity);
-void reset_linked_entity_state(S_80173D40_0 *state, s32 unused, S_80173D40_1 *flag_record, EntityRec *record);
+void transfer_linked_object_state(ActorRecord *owner, ObjectPosition *object_id, SpriteFrameState *dest_object, ActorRecord *dest_state);
+void initialize_object_and_clear_state(ActorRecord *action, ObjectPosition *unused, SpriteFrameState *animation, ActorRecord *entity);
+void reset_linked_entity_state(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *flag_record, ActorRecord *record);
 
 #endif

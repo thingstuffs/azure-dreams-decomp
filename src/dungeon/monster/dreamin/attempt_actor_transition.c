@@ -12,13 +12,12 @@ extern s32 get_actor_height_difference();
 extern s32 probe_directional_neighbor();
 extern s32 try_claim_dungeon_action_slot();
 extern s32 check_entity_interaction_compatibility();
-extern s32 apply_camera_offset_and_select_target();
+extern s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 #include "dungeon/monster/dreamin.h"
 #include "engine/graphics.h"
 
 /* Attempt an actor transition and update its state and sprite on success. */
-s32 attempt_actor_transition(void *state, s32 action_id, SpriteFrameState *sprite, ActorRecord *actor)
-{
+s32 attempt_actor_transition(ActorRecord *state, ObjectPosition *action_id, SpriteFrameState *sprite, ActorRecord *actor) {
     u16 *status;
     s32 transitioned;
     s32 target;

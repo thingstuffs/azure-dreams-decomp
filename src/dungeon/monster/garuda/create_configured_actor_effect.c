@@ -20,10 +20,6 @@ typedef struct S_8017088C_1 {
     s32 unk_1C;
 } S_8017088C_1;   /* work in create_configured_actor_effect */
 
-typedef struct S_8017088C_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_8017088C_2;   /* part_a in create_configured_actor_effect */
 
 typedef struct S_8017088C_4 {
     u8 pad_00[0x8C];
@@ -40,7 +36,7 @@ extern s32 register_node(); /* Unprototyped: two, three or four arguments; retai
 extern s32 generate_random_value(void);
 extern void set_or_clear_actor_status_slot();
 
-void update_creature_animation_action(void *actor, void *context, void *sprite_arg, void *creature);
+void update_creature_animation_action(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite_arg, ActorRecord *creature);
 extern u8 garuda_walk_direction_frames[];
 extern u8 garuda_frame_set_2[];
 

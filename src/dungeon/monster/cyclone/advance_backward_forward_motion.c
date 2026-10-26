@@ -33,12 +33,11 @@ extern void create_offset_directional_effect(void *, void *,struct SpriteFrameSt
 extern u8 cyclone_attack_frames[];
 
 /* Updates a timed backward-then-forward movement sequence and handles animation completion. */
-void advance_backward_forward_motion(void *action, ObjectPosition *motion, SpriteFrameState *animation, ActorRecord *actor)
-{
+void advance_backward_forward_motion(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *animation, ActorRecord *actor) {
     u16 timer;
     s32 state;
 
-    state = ((S_80172C98_0 *)action)->unk_9B;
+    state = action->action_phase;
     switch (state) {
     case 0:
         ((S_80172C98_0 *)action)->unk_AE.s = 6;
@@ -48,11 +47,11 @@ void advance_backward_forward_motion(void *action, ObjectPosition *motion, Sprit
         motion->velocity_y =
             -(((rsin(actor->facing) >> 4) << 13) /
               ((S_80172C98_0 *)action)->unk_AE.s);
-        ((S_80172C98_0 *)action)->unk_9B++;
+        action->action_phase++;
 
     case 1:
         if (animation->flags & 0x8000) {
-            ((S_80172C98_0 *)action)->unk_9B = 3;
+            action->action_phase = 3;
             motion->velocity_x =
                 motion->velocity_y =
                     motion->velocity_z = 0;
@@ -88,7 +87,7 @@ void advance_backward_forward_motion(void *action, ObjectPosition *motion, Sprit
             create_directional_effect(action, motion, animation);
             create_offset_directional_effect(action, motion, animation);
             play_sound_if_enabled(0x80E);
-            ((S_80172C98_0 *)action)->unk_9B++;
+            action->action_phase++;
             ((S_80172C98_0 *)action)->unk_96 = 0;
         }
         return;

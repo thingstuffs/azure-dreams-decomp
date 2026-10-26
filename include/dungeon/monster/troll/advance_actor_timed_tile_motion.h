@@ -17,10 +17,6 @@ typedef struct T_80174C44_S_80174C44_0 {
 } T_80174C44_S_80174C44_0;   /* arg0 in func_80174C44 */
 
 
-typedef struct T_80174C44_S_80174C44_4 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-} T_80174C44_S_80174C44_4;   /* global in func_80174C44 */
 
 
 
@@ -32,5 +28,5 @@ extern u8 troll_frame_set_5[];
 extern u8 troll_frame_set_6[];
 extern u8 troll_frame_set_7[];
 void advance_actor_timed_tile_motion(T_80174C44_S_80174C44_0 *controller, ObjectPosition *transform, SpriteFrameState *entity, void *actor);
-extern void update_actor_behavior();
+void update_actor_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
 #endif

@@ -14,12 +14,12 @@ extern u8 saber_direction_frames_2[];
 
 
 
-void advance_actor_hop_and_complete(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
+void advance_actor_hop_and_complete(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 
-void advance_timed_entity_hop(void *action, ObjectPosition *motion, SpriteFrameState *map_entity, ActorRecord *actor);
-void finish_saber_tile_hop(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity);
-void move_actor_briefly_and_realign(void *action, ObjectPosition *motion, SpriteFrameState *actor, EntityRec *entity);
+void advance_timed_entity_hop(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *map_entity, ActorRecord *actor);
+void finish_saber_tile_hop(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity);
+void move_actor_briefly_and_realign(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *actor, ActorRecord *entity);
 
 void update_actor_directional_animation(void *actor_in, void *actor_index, SpriteFrameState *target, void *entity_in);
 
@@ -27,15 +27,15 @@ void update_actor_directional_animation(void *actor_in, void *actor_index, Sprit
 
 
 
-void advance_directional_effect_action(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *actor);
-void advance_timed_animation_and_cleanup(void *sequence, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
+void advance_directional_effect_action(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
+void advance_timed_animation_and_cleanup(ActorRecord *sequence, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 
 
-void advance_tile_movement_and_completion(void *action, void *motion, SpriteFrameState *map_entity, ActorRecord *actor);
+void advance_tile_movement_and_completion(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *map_entity, ActorRecord *actor);
 void move_toward_sprite_tile_and_complete(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void update_actor_tile_movement(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor);
-void update_tile_movement_and_action_completion(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor);
+void update_tile_movement_and_action_completion(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 void reset_eligible_entity_state(void *entity_arg, void *motion, void *check_arg, void *actor_arg);
 

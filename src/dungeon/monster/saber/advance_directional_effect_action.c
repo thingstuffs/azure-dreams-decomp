@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -39,18 +40,17 @@ typedef struct S_80174A28_3 {
 } S_80174A28_3;   /* arg3 in advance_directional_effect_action */
 
 /* Advances a timed directional action, triggers its effects, and resets the actor state. */
-void advance_directional_effect_action(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *actor)
-{
+void advance_directional_effect_action(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     OffsetTable offsets = saber_direction_tile_offsets;
     s32 coord_value;
 
-    switch (((S_80174A28_0 *)action)->unk_9B) {
+    switch (action->action_phase) {
     case 0:
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         ((S_80174A28_0 *)action)->unk_96 = 0x14;
-        ((S_80174A28_0 *)action)->unk_9B++;
+        action->action_phase++;
         break;
 
     case 1:
@@ -107,7 +107,7 @@ void advance_directional_effect_action(void *action, ObjectPosition *motion, Spr
         if ((((S_80174A28_0 *)action)->unk_96 <= 0) ||
             (sprite->flags & 0x8000)) {
             ((S_80174A28_0 *)action)->unk_96 = 0;
-            ((S_80174A28_0 *)action)->unk_9B++;
+            action->action_phase++;
         }
         break;
 
@@ -125,7 +125,7 @@ void advance_directional_effect_action(void *action, ObjectPosition *motion, Spr
                     (*(u8 **)&sprite->frameTable)[((g_game_work.view.camera_rotation.parts.viewAngle +
                         ((S_80174A28_3 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
                     0);
-                ((S_80174A28_0 *)action)->unk_9B++;
+                action->action_phase++;
             }
         }
         break;
@@ -134,7 +134,7 @@ void advance_directional_effect_action(void *action, ObjectPosition *motion, Spr
         spend_actor_mp(actor, 0x400);
         ((S_80174A28_0 *)action)->unk_8C = &saber_behavior_entry;
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)actor + (0x46))) &= 0x7FFF;
+        actor->action_flags &= 0x7FFF;
         break;
     }
 }

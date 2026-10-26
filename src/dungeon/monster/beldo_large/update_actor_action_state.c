@@ -17,18 +17,6 @@ typedef struct S_8016CC70_0 {
     u8 unk_AC;
 } S_8016CC70_0;   /* obj in update_actor_action_state_2 */
 
-typedef struct S_8016CC70_2 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x38];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} S_8016CC70_2;   /* actor_arg in update_actor_action_state_2 */
 
 s32 get_entity_effect_value(void *, s32);
 void clear_slots_of_type(void *, s32);
@@ -49,7 +37,7 @@ extern u8 beldo_large_frame_set_4[];
 extern u8 beldo_large_frame_set_7[];
 
 /* Processes object action states, dispatches actor_arg actions, and updates directional tiles. */
-void update_actor_action_state_2(void *obj_arg, void *context_arg, SpriteFrameState *target_arg, void *actor_arg) {
+void update_actor_action_state_2(ActorRecord *obj_arg, ObjectPosition *context_arg, SpriteFrameState *target_arg, ActorRecord *actor_arg) {
     SpriteFrameState *target;
 
     DungeonGlobalStatus *held_base;
@@ -62,7 +50,7 @@ void update_actor_action_state_2(void *obj_arg, void *context_arg, SpriteFrameSt
     s32 actor_flags;
     s8 target_room;
 
-    action_state = ((S_8016CC70_0 *)obj_arg)->unk_9B;
+    action_state = obj_arg->action_phase;
     switch (action_state) {
     case 0:
         if (!(target_arg->flags & 0xE000)) {
@@ -71,14 +59,14 @@ void update_actor_action_state_2(void *obj_arg, void *context_arg, SpriteFrameSt
         obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
         if (obj_kind == 0xE || (obj_kind < 0xF ? obj_kind == 0xD : obj_kind == 0xF)) {
             (target_arg->frameTable) = beldo_large_frame_set_4;
-            select_sprite_entry(target_arg, beldo_large_frame_set_4[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016CC70_2 *)actor_arg)->unk_2A + 0x100)
+            select_sprite_entry(target_arg, beldo_large_frame_set_4[((g_game_work.view.camera_rotation.parts.viewAngle + actor_arg->facing + 0x100)
                 >> 9) & 7], 0);
         }
         counter_base = &g_dungeon_status;
         counter_value = *(u16 *)&counter_base->activity_counts.parts.pending_action_count;
         counter_value--;
         counter_base->activity_counts.parts.pending_action_count = counter_value;
-        ((S_8016CC70_0 *)obj_arg)->unk_9B++;
+        obj_arg->action_phase++;
         return;
 
     case 1:
@@ -86,7 +74,7 @@ void update_actor_action_state_2(void *obj_arg, void *context_arg, SpriteFrameSt
         if (obj_kind == 0xE || (obj_kind < 0xF ? obj_kind == 0xD : obj_kind == 0xF)) {
             if (*(u8 **)&target_arg->frameTable != beldo_large_frame_set_4) {
                 (target_arg->frameTable) = beldo_large_frame_set_4;
-                select_sprite_entry(target_arg, beldo_large_frame_set_4[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016CC70_2 *)actor_arg)->unk_2A + 0x100)
+                select_sprite_entry(target_arg, beldo_large_frame_set_4[((g_game_work.view.camera_rotation.parts.viewAngle + actor_arg->facing + 0x100)
                     >> 9) & 7], 0);
             }
         }
@@ -95,7 +83,7 @@ void update_actor_action_state_2(void *obj_arg, void *context_arg, SpriteFrameSt
             obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
             if (obj_kind == 0xE || (obj_kind < 0xF ? obj_kind == 0xD : obj_kind == 0xF)) {
                 (target->frameTable) = beldo_large_frame_set_7;
-                select_sprite_entry(target, beldo_large_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016CC70_2 *)actor_arg)->unk_2A + 0x100)
+                select_sprite_entry(target, beldo_large_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle + actor_arg->facing + 0x100)
                     >> 9) & 7], 0);
             }
         } else {
@@ -103,12 +91,12 @@ void update_actor_action_state_2(void *obj_arg, void *context_arg, SpriteFrameSt
             if (held_base->flags & 0x1000) {
                 return;
             }
-            if (((S_8016CC70_2 *)actor_arg)->unk_64 != 0) {
+            if (actor_arg->hp_delta != 0) {
                 if (begin_ready_actor_directional_action(obj_arg, context_arg, target, 0) != 0) {
                     return;
                 }
             }
-            if (((S_8016CC70_2 *)actor_arg)->unk_25 == 0) {
+            if (actor_arg->mp == 0) {
                 if (held_base->flags & 0x2008) {
                     return;
                 }
@@ -118,7 +106,7 @@ void update_actor_action_state_2(void *obj_arg, void *context_arg, SpriteFrameSt
             if ((has_pending_actor_or_turn_action(actor_arg) << 0x10) != 0) {
                 return;
             }
-            actor_flags = ((S_8016CC70_2 *)actor_arg)->unk_1C;
+            actor_flags = actor_arg->flags1C;
             if (actor_flags & 0x100) {
                 begin_pushed_actor_move(obj_arg, context_arg, target, actor_arg);
                 return;
@@ -128,7 +116,7 @@ void update_actor_action_state_2(void *obj_arg, void *context_arg, SpriteFrameSt
                 update_multi_form_actor_movement(obj_arg, context_arg, target, actor_arg);
                 return;
             }
-            if (((S_8016CC70_2 *)actor_arg)->unk_6D == 0) {
+            if (actor_arg->pending_turn_updates == 0) {
                 return;
             }
             if ((has_pending_actor_or_turn_action(actor_arg) << 0x10) != 0) {
@@ -154,7 +142,7 @@ void update_actor_action_state_2(void *obj_arg, void *context_arg, SpriteFrameSt
             obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
             if (obj_kind == 0xE || (obj_kind < 0xF ? obj_kind == 0xD : obj_kind == 0xF)) {
                 (target->frameTable) = beldo_large_frame_set_7;
-                select_sprite_entry(target, beldo_large_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016CC70_2 *)actor_arg)->unk_2A + 0x100)
+                select_sprite_entry(target, beldo_large_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle + actor_arg->facing + 0x100)
                     >> 9) & 7], 0);
             }
         }
@@ -165,7 +153,7 @@ void update_actor_action_state_2(void *obj_arg, void *context_arg, SpriteFrameSt
         counter_value = *(u16 *)&counter_base->activity_counts.parts.pending_action_count;
         counter_value++;
         counter_base->activity_counts.parts.pending_action_count = counter_value;
-        ((S_8016CC70_0 *)obj_arg)->unk_9B++;
+        obj_arg->action_phase++;
         return;
 
     case 2:

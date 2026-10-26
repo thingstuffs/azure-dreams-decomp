@@ -19,10 +19,6 @@ typedef struct S_801711D0_1 {
     s32 unk_1C;
 } S_801711D0_1;   /* work in spawn_configured_actor_object */
 
-typedef struct S_801711D0_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_801711D0_2;   /* part_a in spawn_configured_actor_object */
 
 typedef struct S_801711D0_4 {
     u8 pad_00[0x8C];
@@ -37,7 +33,7 @@ extern s32 register_node(); /* Unprototyped: two, three or four arguments; retai
 extern s32 generate_random_value(void);
 extern void set_or_clear_actor_status_slot();
 extern u8 D_801713A8[];
-void dispatch_actor_animation_and_action(void *motion_in, void *context_in, SpriteFrameState *entity_in, void *actor_in);
+void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition *context_in, SpriteFrameState *entity_in, ActorRecord *actor_in);
 extern u8 death_direction_frames[];
 extern u8 death_frame_set_2[];
 

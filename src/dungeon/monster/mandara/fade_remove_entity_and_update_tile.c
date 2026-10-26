@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
@@ -23,7 +24,7 @@ void * detach_record_and_update_slot_state(void *);
 void play_sound_if_enabled(s32);
 
 /* Fades out an entity, then removes it and updates its tile flags. */
-void fade_remove_entity_and_update_tile(void *fade_state, void *unused, SpriteFrameState *visual_data, ActorRecord *entity) {
+void fade_remove_entity_and_update_tile(ActorRecord *fade_state, ObjectPosition *unused, SpriteFrameState *visual_data, ActorRecord *entity) {
     s32 state;
     s32 entity_flags;
     s32 tracked_entity;
@@ -32,13 +33,13 @@ void fade_remove_entity_and_update_tile(void *fade_state, void *unused, SpriteFr
     s32 tile_mask;
     u16 countdown;
 
-    state = ((S_801735B8_0 *)fade_state)->unk_9B;
+    state = fade_state->action_phase;
     switch (state) {
     case 0:
         if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             return;
         }
-        ((S_801735B8_0 *)fade_state)->unk_9B = 1;
+        fade_state->action_phase = 1;
                         /* fallthrough */
     case 1:
         entity_flags = entity->flags14;
@@ -48,8 +49,8 @@ void fade_remove_entity_and_update_tile(void *fade_state, void *unused, SpriteFr
             }
         }
         ((S_801735B8_0 *)fade_state)->unk_96.u = 6;
-        ((S_801735B8_0 *)fade_state)->unk_9B =
-            (u8)(((S_801735B8_0 *)fade_state)->unk_9B + 1);
+        fade_state->action_phase =
+            (u8)(fade_state->action_phase + 1);
         visual_data->clut = 0xFF80;
                         /* fallthrough */
     case 2:

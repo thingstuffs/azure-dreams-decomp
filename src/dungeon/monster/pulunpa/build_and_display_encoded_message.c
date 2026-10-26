@@ -1,10 +1,10 @@
 #include "common.h"
 
 extern void *get_unused_text_buffer(void);
-extern u8 *expand_text_control_codes();
-extern void * clear_byte_and_advance();
+extern u8 *expand_text_control_codes(const u8 *src, u8 *dst);
+extern void * clear_byte_and_advance(s8 *byte_ptr);
 extern u8 *append_entity_display_text();
-extern s32 display_text_with_fullwidth_adjustment();
+extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern s8 D_8017646B[9];
 
 /*

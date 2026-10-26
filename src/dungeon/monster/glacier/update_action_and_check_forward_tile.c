@@ -71,8 +71,7 @@ typedef struct S_801757E0_6 {
 /* Update the action sequence, spawning particles and checking the tile ahead. */
 /* Emits particles, checks the tile ahead before creating a moving effect, spins while it runs, then spends
  * MP. */
-void update_action_and_check_forward_tile(void *actor, ObjectPosition *motion, SpriteFrameState *animation, ActorRecord *entity)
-{
+void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *animation, ActorRecord *entity) {
     u16 offsets[3];
     u16 collision_flags;
     s16 timer;
@@ -92,10 +91,10 @@ void update_action_and_check_forward_tile(void *actor, ObjectPosition *motion, S
 
 #define motion motion
 
-    switch (((S_801757E0_0 *)actor)->unk_9B) {
+    switch (actor->action_phase) {
     case 0:
         if (animation->flags & 0x8000) {
-            ((S_801757E0_0 *)actor)->unk_9B = 2;
+            actor->action_phase = 2;
             animation->flags |= 0x6000;
             return;
         }
@@ -105,7 +104,7 @@ void update_action_and_check_forward_tile(void *actor, ObjectPosition *motion, S
         ((S_801757E0_0 *)actor)->unk_96.u = 0xE;
         ((S_801757E0_0 *)actor)->unk_AC.u = 0;
         ((S_801757E0_0 *)actor)->unk_AD.u = 0;
-        ((S_801757E0_0 *)actor)->unk_9B++;
+        actor->action_phase++;
         play_sound_if_enabled(0x80A);
         return;
 
@@ -165,7 +164,7 @@ void update_action_and_check_forward_tile(void *actor, ObjectPosition *motion, S
             return;
         }
         ((S_801757E0_0 *)actor)->unk_96.u = 0x78;
-        ((S_801757E0_0 *)actor)->unk_9B++;
+        actor->action_phase++;
         return;
 
     case 2:
@@ -247,10 +246,10 @@ void update_action_and_check_forward_tile(void *actor, ObjectPosition *motion, S
         }
         ((S_801757E0_0 *)actor)->unk_96.u = 0;
         if (((S_801757E0_0 *)actor)->unk_AD.s == 0) {
-            ((S_801757E0_0 *)actor)->unk_9B++;
+            actor->action_phase++;
             return;
         }
-        ((S_801757E0_0 *)actor)->unk_9B = 0x10;
+        actor->action_phase = 0x10;
         return;
 
     case 3:
@@ -273,7 +272,7 @@ void update_action_and_check_forward_tile(void *actor, ObjectPosition *motion, S
             return;
         }
         ((S_801757E0_0 *)actor)->unk_96.u = 0;
-        ((S_801757E0_0 *)actor)->unk_9B++;
+        actor->action_phase++;
         return;
 
     case 4:
@@ -283,7 +282,7 @@ void update_action_and_check_forward_tile(void *actor, ObjectPosition *motion, S
             return;
         }
         ((S_801757E0_0 *)actor)->unk_96.u = 0;
-        ((S_801757E0_0 *)actor)->unk_9B++;
+        actor->action_phase++;
         (animation->frameTable) = glacier_frame_set_1;
         select_sprite_entry(animation,
             glacier_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
@@ -297,7 +296,7 @@ void update_action_and_check_forward_tile(void *actor, ObjectPosition *motion, S
                 glacier_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             ((S_801757E0_0 *)actor)->unk_96.u = 0;
-            ((S_801757E0_0 *)actor)->unk_9B++;
+            actor->action_phase++;
         }
         return;
 
@@ -308,7 +307,7 @@ void update_action_and_check_forward_tile(void *actor, ObjectPosition *motion, S
             return;
         }
         ((S_801757E0_0 *)actor)->unk_96.u = 0;
-        ((S_801757E0_0 *)actor)->unk_9B++;
+        actor->action_phase++;
         return;
 
     case 7:
@@ -331,7 +330,7 @@ void update_action_and_check_forward_tile(void *actor, ObjectPosition *motion, S
             return;
         }
         ((S_801757E0_0 *)actor)->unk_96.u = 0;
-        ((S_801757E0_0 *)actor)->unk_9B++;
+        actor->action_phase++;
         return;
 
     case 8:
@@ -339,7 +338,7 @@ void update_action_and_check_forward_tile(void *actor, ObjectPosition *motion, S
             return;
         }
         ((S_801757E0_0 *)actor)->unk_96.u = 0;
-        ((S_801757E0_0 *)actor)->unk_9B++;
+        actor->action_phase++;
         return;
 
     case 9:
@@ -352,7 +351,7 @@ void update_action_and_check_forward_tile(void *actor, ObjectPosition *motion, S
         timer = ((S_801757E0_0 *)actor)->unk_96.u + 1;
         ((S_801757E0_0 *)actor)->unk_96.u = timer;
         if (timer >= 0x1E) {
-            ((S_801757E0_0 *)actor)->unk_9B = 9;
+            actor->action_phase = 9;
             ((S_801757E0_0 *)actor)->unk_96.u = 0;
         }
         return;

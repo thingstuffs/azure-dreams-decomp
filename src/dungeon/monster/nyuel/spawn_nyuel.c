@@ -34,7 +34,7 @@ extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern void update_monster_facing_and_contact(void);
-extern void update_entity_actions_facing_and_animation(void);
+void update_entity_actions_facing_and_animation(ActorRecord *entity, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
 extern void func_80174ED8(void);
 extern void func_80174F00(void);
 

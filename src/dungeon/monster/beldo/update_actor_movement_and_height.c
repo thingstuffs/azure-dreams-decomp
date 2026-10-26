@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/sys_flags.h"
@@ -23,7 +24,7 @@ extern s32 refresh_actor_facing_and_lifecycle();
 extern void try_move_actor_to_valid_position();
 extern s16 sample_terrain_surface_height();
 
-extern void update_object_animation(void *obj, void *motion, SpriteFrameState *part, void *state);
+void update_object_animation(ActorRecord *obj, ObjectPosition *motion, SpriteFrameState *part, ActorRecord *state);
 extern Callback beldo_callbacks[];
 extern M2C_UNK beldo_effect_pool_script[];
 

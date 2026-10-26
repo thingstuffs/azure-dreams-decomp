@@ -34,8 +34,7 @@ extern s16 sample_terrain_surface_height(s32, s32, s16);
 extern s16 actor_turn_angle_offsets[];
 
 /* Selects and applies an actor movement step, updating its path and remaining movement. */
-void advance_actor_turn_path(Rec_func_800A9E70_arg0 *move_data_in, void *context, SpriteFrameState *tile_in, ActorRecord *actor_in)
-{
+void advance_actor_turn_path(ActorRecord *move_data_in, ObjectPosition *context, SpriteFrameState *tile_in, ActorRecord *actor_in) {
     u16 dungeon_flags = g_dungeon_status.flags;
     s32 stop_on_wide_turn = 0;
     s16 stop_turn;
@@ -64,7 +63,7 @@ void advance_actor_turn_path(Rec_func_800A9E70_arg0 *move_data_in, void *context
         return;
     }
 
-    update_actor_proximity_flag(tile_in, actor_in, 2, 4, &move_data_in->unk_9C.as_s8);
+    update_actor_proximity_flag(tile_in, actor_in, 2, 4, &move_data_in->unk_9C);
     actor_flags = actor_in->flags1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
@@ -77,7 +76,7 @@ void advance_actor_turn_path(Rec_func_800A9E70_arg0 *move_data_in, void *context
                     tile_in->tile_x, tile_in->tile_y,
                     blocker_sprite->tile_x,
                     blocker_sprite->tile_y,
-                    &move_data_in->unk_98);
+                    &move_data_in->action_state_flags);
                 actor_in->facing = target_angle;
                 actor_in->movement_queue_state &= 0x7F;
                 return;
@@ -117,7 +116,7 @@ void advance_actor_turn_path(Rec_func_800A9E70_arg0 *move_data_in, void *context
                     return;
                 }
 
-                turn_data = &move_data_in->unk_98;
+                turn_data = &move_data_in->action_state_flags;
                 target_angle = get_rounded_facing_and_rounding_flag(
                     tile_in->tile_x, tile_in->tile_y,
                     (s16)target_x, (s16)target_y, turn_data);
@@ -133,15 +132,15 @@ void advance_actor_turn_path(Rec_func_800A9E70_arg0 *move_data_in, void *context
                     stop_on_wide_turn = 1;
                 }
             } else {
-                select_actor_route_target((u8 *)tile_in, move_data_in->unk_9C.as_s8, (u8 *)actor_in,
-                              &move_data_in->unk_98);
+                select_actor_route_target((u8 *)tile_in, move_data_in->unk_9C, (u8 *)actor_in,
+                              &move_data_in->action_state_flags);
             }
         }
     } else {
         if ((s8)tile_in->room_index >= 0 &&
             (dungeon_rooms[(s8)tile_in->room_index].flags & ROOM_HOLY_BEAM)) {
-            select_actor_route_target((u8 *)tile_in, move_data_in->unk_9C.as_s8, (u8 *)actor_in,
-                          &move_data_in->unk_98);
+            select_actor_route_target((u8 *)tile_in, move_data_in->unk_9C, (u8 *)actor_in,
+                          &move_data_in->action_state_flags);
         } else if (!(actor_in->action_flags & ACTOR_ACTION_PENDING)) {
             current_angle = (s32)probe_directional_neighbor(actor_in, tile_in->tile_x,
                                   tile_in->tile_y,
@@ -163,7 +162,7 @@ void advance_actor_turn_path(Rec_func_800A9E70_arg0 *move_data_in, void *context
                 TileObject *origin = &reference_tile_object;
                 actor_in->facing = get_rounded_facing_and_rounding_flag(
                     tile_in->tile_x, tile_in->tile_y,
-                    origin->tile_position.parts.tile_x, origin->tile_position.parts.tile_y, &move_data_in->unk_98);
+                    origin->tile_position.parts.tile_x, origin->tile_position.parts.tile_y, &move_data_in->action_state_flags);
                 if (test_neighbor_position_relation(
                         tile_in->tile_x, tile_in->tile_y,
                         origin->tile_position.parts.tile_x, origin->tile_position.parts.tile_y) != 0) {
@@ -176,8 +175,8 @@ void advance_actor_turn_path(Rec_func_800A9E70_arg0 *move_data_in, void *context
                     }
                 }
             } else {
-                select_actor_route_target((u8 *)tile_in, move_data_in->unk_9C.as_s8, (u8 *)actor_in,
-                              &move_data_in->unk_98);
+                select_actor_route_target((u8 *)tile_in, move_data_in->unk_9C, (u8 *)actor_in,
+                              &move_data_in->action_state_flags);
             }
         }
     }
@@ -185,7 +184,7 @@ void advance_actor_turn_path(Rec_func_800A9E70_arg0 *move_data_in, void *context
     turn_or_height = -1;
 
     while (++turn_or_height < 8) {
-        turn_flags = move_data_in->unk_98;
+        turn_flags = move_data_in->action_state_flags;
         current_angle = actor_in->facing;
         if (turn_flags & 2) {
             trial_angle = current_angle - actor_turn_angle_offsets[turn_or_height];
@@ -248,7 +247,7 @@ void advance_actor_turn_path(Rec_func_800A9E70_arg0 *move_data_in, void *context
 
     {
         actor_in->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-        move_data_in->unk_9C.as_u8 = tile_in->room_index;
+        move_data_in->unk_9C = tile_in->room_index;
         actor_in->pending_turn_updates--;
         g_dungeon_status.activity_counts.parts.pending_movement_count++;
     }

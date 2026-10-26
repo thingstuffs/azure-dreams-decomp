@@ -4,7 +4,7 @@
 #include "dungeon/monster/manoeva.h"
 
 #include "dungeon/player/object/action_state.h"
-void update_actor_status_and_mp();                      /* extern */
+void update_actor_status_and_mp(ActorRecord *entity);                      /* extern */
 s32 relink_entity_and_clear_high_flag(); /* extern */
 
 typedef struct S_80172114_0 {

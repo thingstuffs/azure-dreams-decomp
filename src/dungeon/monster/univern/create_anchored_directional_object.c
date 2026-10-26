@@ -422,9 +422,8 @@ void create_anchored_directional_object(void *actor, void *motion, SpriteFrameSt
 #include "dungeon/monster/univern.h"
 
 /* Selects movement, attacks, and spells from actor status, MP, and its position relative to the player. */
-void update_entity_movement_and_ground_height(void *actor, void *context, SpriteFrameState *sprite, ActorRecord *status)
-{
-    s32 distance;
+void update_entity_movement_and_ground_height(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *status) {
+    u16 distance;
     u32 flags;
     s32 action_index;
     s8 tile_index;
@@ -1040,11 +1039,10 @@ void finish_actor_tile_move_then_resume_ground_movement(void *state, void *motio
  * Runs update_linked_actor_motion and installs update_entity_movement_and_ground_height only when
  * it succeeds and the signed floor-trap check returns positive.
  */
-void finish_linked_actor_motion_and_floor_trap_then_resume_ground_movement(Resource17CallbackState *state, void *entity, void *position, void *graphic)
-{
+void finish_linked_actor_motion_and_floor_trap_then_resume_ground_movement(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
     if (update_linked_actor_motion(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
-            state->callback = update_entity_movement_and_ground_height;
+            state->unk_8C.handler = update_entity_movement_and_ground_height;
         }
     }
 }
@@ -1679,10 +1677,9 @@ void advance_univern_removal(void *state, void *motion, void *position, void *ac
  * Runs update_actor_hop_and_grow and installs update_entity_movement_and_ground_height when it
  * returns nonzero.
  */
-void finish_actor_hop_and_grow_then_resume_ground_movement(Resource17CallbackState *state, void *motion, void *position, void *actor)
-{
+void finish_actor_hop_and_grow_then_resume_ground_movement(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_actor_hop_and_grow(state, motion, position, actor)) {
-        state->callback = update_entity_movement_and_ground_height;
+        state->unk_8C.handler = update_entity_movement_and_ground_height;
     }
 }
 #include "dungeon/monster/univern.h"
@@ -2043,17 +2040,16 @@ void advance_univern_status_action(void *action, void *context, SpriteFrameState
  * positive; during motion, restores movement frames when the alternate table is active and flags
  * 0x208 are clear.
  */
-void update_univern_parent_motion(R17_80174250_Actor *actor, s32 action, SpriteFrameState *entity, R17_80174250_MapObject *map_object)
-{
+void update_univern_parent_motion(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *entity, ActorRecord *map_object) {
     if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
         if ((check_actor_floor_trap(entity, map_object) << 16) > 0) {
-            actor->unk_8C = ((u8 *)update_entity_movement_and_ground_height);
+            actor->unk_8C.handler = ((u8 *)update_entity_movement_and_ground_height);
             return;
         }
     } else if (*(u8 **)&entity->frameTable == ((u8 *)univern_alt_spawn_direction_frames) &&
-               !(map_object->unk_1C & 0x208)) {
+               !(map_object->flags1C & 0x208)) {
         entity->frameTable = ((u8 *)univern_direction_frames);
-        select_sprite_entry(entity,(s16)(((u8 *)univern_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + map_object->unk_2A + 0x100) >> 9) & 7]),(s16)(0));
+        select_sprite_entry(entity,(s16)(((u8 *)univern_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + map_object->facing + 0x100) >> 9) & 7]),(s16)(0));
     }
 }
 #include "dungeon/monster/univern.h"
@@ -2062,11 +2058,10 @@ void update_univern_parent_motion(R17_80174250_Actor *actor, s32 action, SpriteF
  * Runs update_thrown_actor_travel and installs update_entity_movement_and_ground_height only when
  * it succeeds and the signed floor-trap check returns positive.
  */
-void update_timed_effect_and_expire(Resource17CallbackState *state, void *entity, void *position, void *graphic)
-{
+void update_timed_effect_and_expire(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
     if (update_thrown_actor_travel(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
-            state->callback = update_entity_movement_and_ground_height;
+            state->unk_8C.handler = update_entity_movement_and_ground_height;
         }
     }
 }
@@ -2076,10 +2071,9 @@ void update_timed_effect_and_expire(Resource17CallbackState *state, void *entity
  * Runs interpolate_actor_to_terrain_tile and installs update_entity_movement_and_ground_height
  * when it returns nonzero.
  */
-void finish_actor_terrain_interpolation_then_resume_ground_movement(Resource17CallbackState *state, void *motion, void *position, void *actor)
-{
+void finish_actor_terrain_interpolation_then_resume_ground_movement(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (interpolate_actor_to_terrain_tile(state, motion, position, actor)) {
-        state->callback = update_entity_movement_and_ground_height;
+        state->unk_8C.handler = update_entity_movement_and_ground_height;
     }
 }
 #include "dungeon/monster/univern.h"
@@ -2088,10 +2082,9 @@ void finish_actor_terrain_interpolation_then_resume_ground_movement(Resource17Ca
  * Runs update_spinning_actor_fall and installs update_entity_movement_and_ground_height when it
  * returns nonzero.
  */
-void finish_spinning_actor_fall_then_resume_ground_movement(Resource17CallbackState *state, void *motion, void *position, void *actor)
-{
+void finish_spinning_actor_fall_then_resume_ground_movement(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_spinning_actor_fall(state, motion, position, actor)) {
-        state->callback = update_entity_movement_and_ground_height;
+        state->unk_8C.handler = update_entity_movement_and_ground_height;
     }
 }
 #include "dungeon/monster/univern.h"
@@ -2100,10 +2093,9 @@ void finish_spinning_actor_fall_then_resume_ground_movement(Resource17CallbackSt
  * Runs update_actor_fade_in and installs update_entity_movement_and_ground_height when it returns
  * nonzero.
  */
-void update_effect_trajectory_and_sprite(Resource17CallbackState *state, void *motion, void *position, void *actor)
-{
+void update_effect_trajectory_and_sprite(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_actor_fade_in(state, motion, position, actor)) {
-        state->callback = update_entity_movement_and_ground_height;
+        state->unk_8C.handler = update_entity_movement_and_ground_height;
     }
 }
 #include "dungeon/monster/univern.h"
@@ -2112,10 +2104,9 @@ void update_effect_trajectory_and_sprite(Resource17CallbackState *state, void *m
  * Runs resolve_actor_floor_trap_once and installs update_entity_movement_and_ground_height when it
  * returns positive.
  */
-void blend_animation_palette_and_complete(Resource17CallbackState *state, void *motion, void *position, void *actor)
-{
+void blend_animation_palette_and_complete(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (resolve_actor_floor_trap_once(state, motion, position, actor) > 0) {
-        state->callback = update_entity_movement_and_ground_height;
+        state->unk_8C.handler = update_entity_movement_and_ground_height;
     }
 }
 #include "dungeon/monster/univern.h"
@@ -2127,9 +2118,8 @@ void blend_animation_palette_and_complete(Resource17CallbackState *state, void *
  * Runs propagate_actor_action_flag and installs update_entity_movement_and_ground_height when it
  * returns positive.
  */
-void finish_actor_action_flag_propagation_then_resume_ground_movement(Resource17CallbackState *state, void *motion, void *position, void *actor)
-{
+void finish_actor_action_flag_propagation_then_resume_ground_movement(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (propagate_actor_action_flag(state, motion, position, actor) > 0) {
-        state->callback = update_entity_movement_and_ground_height;
+        state->unk_8C.handler = update_entity_movement_and_ground_height;
     }
 }

@@ -27,23 +27,22 @@ extern u8 grineut_frame_set_12[];
 extern u8 D_8016E178[];
 
 /* Updates directional motion and settles the actor at its tile center. */
-void settle_directional_motion_variant(void *action, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *actor)
-{
+void settle_directional_motion_variant(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 state;
     s32 direction;
     s16 timer;
     s32 tracked_actor;
 
-    direction = (actor->unk_6A >> 9) & 7;
-    state = ((S_8016D238_1 *)action)->unk_9B;
+    direction = (actor->movement_facing >> 9) & 7;
+    state = action->action_phase;
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(actor);
         motion->velocity_x = ((s16 *)((s8 *)dir_step_x))[direction] << 18;
         motion->velocity_y = ((s16 *)((s8 *)dir_step_y))[direction] << 18;
-        ((S_8016D238_1 *)action)->unk_9B++;
+        action->action_phase++;
 
-        if (actor->unk_28 == 0) {
+        if (actor->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -52,7 +51,7 @@ void settle_directional_motion_variant(void *action, ObjectPosition *motion, Spr
         }
         if (sprite->flags & 0x8000) {
             ((S_8016D238_1 *)action)->unk_96.s = 0;
-            ((S_8016D238_1 *)action)->unk_9B = 3;
+            action->action_phase = 3;
             return;
         }
 
@@ -79,7 +78,7 @@ void settle_directional_motion_variant(void *action, ObjectPosition *motion, Spr
         if (((S_8016D238_1 *)action)->unk_96.s != 0) {
             return;
         }
-        if (actor->unk_28 == 0) {
+        if (actor->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -91,7 +90,7 @@ void settle_directional_motion_variant(void *action, ObjectPosition *motion, Spr
                 sprite,
                 grineut_frame_set_12[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            ((S_8016D238_1 *)action)->unk_9B++;
+            action->action_phase++;
             return;
         }
 
@@ -108,7 +107,7 @@ void settle_directional_motion_variant(void *action, ObjectPosition *motion, Spr
             grineut_frame_set_12[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_8016D238_1 *)action)->unk_96.s = 8;
-        ((S_8016D238_1 *)action)->unk_9B++;
+        action->action_phase++;
         return;
 
     case 3:

@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "dungeon/monster/kewne.h"
 #include "shared/sprite_frame_state.h"
@@ -27,14 +28,15 @@ typedef struct S_8017169C_2 {
 
    /* (u8 *)arg3 + ((S_8017169C_0 *)arg3)->unk_8A.s in advance_actor_path_and_facing */
 
-extern s32 update_map_cell_flags_with_item_limit();
-extern s16 get_rounded_facing_and_rounding_flag();
+extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 
 extern u8 kewne_direction_frames[];
 
 /* Advance the actor along its path and update its facing and movement timing. */
 void advance_actor_path_and_facing(void *motion, void *unused, SpriteFrameState *actor, void *path_state)
 {
+    ActorRecord *path_actor = motion;
     u8 *direction_table;
     s32 old_x;
     s32 old_y;
@@ -82,7 +84,7 @@ void advance_actor_path_and_facing(void *motion, void *unused, SpriteFrameState 
 
     ((S_8017169C_0 *)path_state)->unk_2A = get_rounded_facing_and_rounding_flag(
         old_x, old_y, actor->tile_x, actor->tile_y,
-        (u8 *)motion + 0x98);
+        &path_actor->action_state_flags);
     ((S_8017169C_0 *)path_state)->unk_1C.u |= 0x40000000;
     ((S_8017169C_2 *)motion)->unk_9A = 0xF;
     (*(s32 *)((u8 *)motion + 0x8C)) = 0;

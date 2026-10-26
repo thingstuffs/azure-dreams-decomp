@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_ids.h"
 /* Actor status flags (G00165).
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00165 - PD:dungeon/bank_be1000:8017468C, PD:dungeon/bank_be7000:8016E68C, PD:dungeon/bank_bed000:8016868C, PD:dungeon/bank_bf3000:8016268C, PD:dungeon/bank_bf9000:8015C68C, PD:dungeon/bank_bff000:8015668C.
@@ -179,11 +180,10 @@ void advance_actor_action_state_handle_status(void *action_in, void *context_in,
 }
 
 /* Advance actor states and directional animations while handling entity flags. */
-void advance_actor_states_and_entity_flags(void *actor, void *context, SpriteFrameState *animation, ActorRecord *entity)
-{
+void advance_actor_states_and_entity_flags(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *entity) {
     s32 state;
 
-    state = ((S_8017409C_0 *)actor)->unk_9B;
+    state = actor->action_phase;
     switch (state) {
     case 0:
     {
@@ -201,7 +201,7 @@ void advance_actor_states_and_entity_flags(void *actor, void *context, SpriteFra
         select_sprite_entry(animation,
             direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        ((S_8017409C_0 *)actor)->unk_9B++;
+        actor->action_phase++;
         return;
     }
     case 1:
@@ -219,7 +219,7 @@ void advance_actor_states_and_entity_flags(void *actor, void *context, SpriteFra
             entity->flags1C |= 0x40000;
             status_page = &g_dungeon_status.turn_scale;
             ((S_8017409C_2 *)status_page)->unk_0A++;
-            ((S_8017409C_0 *)actor)->unk_9B++;
+            actor->action_phase++;
             return;
         }
 
@@ -286,7 +286,7 @@ void advance_actor_states_and_entity_flags(void *actor, void *context, SpriteFra
         (*(u32 *)&entity->flags1C) |= 0x40000;
         ((S_8017409C_4 *)dungeon_state)->unk_0A++;
     }
-        ((S_8017409C_0 *)actor)->unk_9B++;
+        actor->action_phase++;
         return;
     case 2:
         if (animation->flags & 0xE000) {

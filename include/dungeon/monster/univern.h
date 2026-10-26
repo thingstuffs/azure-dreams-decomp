@@ -24,6 +24,9 @@
 #include "dungeon/actor/motion.h"
 #include "dungeon/system.h"
 #include "dungeon/actor/status.h"
+struct S_800AC480_0;
+struct S_800AC480_3;
+struct S_800AD594_0;
 struct SpriteFrameState;
 
 #define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
@@ -34,10 +37,7 @@ struct SpriteFrameState;
 #define F32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define FPTR(p, o) (*(void **)((u8 *)(p) + (o)))
 typedef unsigned long R17_8017089C_uptr;
-typedef struct R17_8017089C_S_8017089C_0 {
-    u8 pad_00[0x10];
-    void * unk_10;
-} R17_8017089C_S_8017089C_0;
+
 typedef struct R17_8017089C_S_8017089C_1 {
     u8 pad_00[0x13];
     u8 unk_13;
@@ -79,21 +79,12 @@ typedef struct R17_8017089C_S_8017089C_6 {
     u8 pad_08[0x90];
     void * unk_98;
 } R17_8017089C_S_8017089C_6;
-typedef struct R17_8017089C_S_8017089C_7 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x16];
-    s32 unk_28;
-} R17_8017089C_S_8017089C_7;
+
 typedef struct R17_8017089C_S_8017089C_8 {
     u8 pad_00[0xA4];
     void * unk_A4;
 } R17_8017089C_S_8017089C_8;
-typedef struct R17_8017089C_S_8017089C_9 {
-    u8 pad_00[0x10];
-    void * unk_10;
-} R17_8017089C_S_8017089C_9;
+
 typedef void (*R17_80170BB8_EntityCallback)(void *, void *, void *, void *);
 typedef struct R17_80170BB8_S_80170BB8_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   
@@ -104,17 +95,7 @@ typedef struct R17_80170BB8_S_80170BB8_0 {
     s32 unk_10;
     s32 unk_14;
 } R17_80170BB8_S_80170BB8_0;
-typedef struct R17_80170BB8_S_80170BB8_1 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} R17_80170BB8_S_80170BB8_1;
+
 typedef struct R17_80170BB8_S_80170BB8_2 {
     u8 pad_00[0x1C];
     union { s32 s; u32 u; } unk_1C;   
@@ -127,17 +108,7 @@ typedef struct R17_80170BB8_S_if_0 {
     u8 pad_00[0x2A];
     s16 unk_2A;
 } R17_80170BB8_S_if_0;
-typedef struct R17_801713A8_S_801713A8_2 {
-    u8 pad_00[0x24];
-    union {
-        struct { u8 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   
-    s8 unk_26;
-    u8 pad_27[0x5];
-    u8 * unk_2C;
-} R17_801713A8_S_801713A8_2;
+
 typedef struct R17_801718D0_S_801718D0_0 {
     u8 pad_00[0x1C];
     union { s32 s; u32 u; } unk_1C;   
@@ -151,7 +122,7 @@ typedef struct R17_801718D0_S_801718D0_0 {
 
 
 
-typedef struct R17_801723A4_Ent R17_801723A4_Ent;
+
 typedef struct R17_801724C4_S_80172628_0 {
     u8 pad_00[0x46];
     u16 unk_46;
@@ -160,10 +131,7 @@ typedef struct R17_801724C4_S_80172628_0 {
     u8 pad_72[0x28];
     s8 unk_9A;
 } R17_801724C4_S_80172628_0;
-typedef struct {
-    u8 pad0[0x8C];
-    void (*callback)(void *, void *, struct SpriteFrameState *, ActorRecord *);
-} Resource17CallbackState;
+
 typedef struct {
     u8 pad00[4];
     u16 flags4;
@@ -197,15 +165,7 @@ typedef struct {
     u32 f10;
     u32 f14;
 } R17_80172C18_Position;
-typedef struct {
-    u8 pad00[0x14];
-    u16 flags14;
-    u8 pad16[0xE];
-    u8 f24;
-    u8 f25;
-    u8 pad26[6];
-    void (*f2C)(void);
-} R17_80172C18_Actor;
+
 typedef struct {
     u8 pad00[8];
     u8 slots[9];
@@ -325,20 +285,9 @@ typedef struct R17_80173F10_S_80173ED8_5 {
     u8 pad_00[0x58];
     void * unk_58;
 } R17_80173F10_S_80173ED8_5;
-typedef struct {
-    s8 pad_00[0x8C];
-    void *unk_8C;
-} R17_80174250_Actor;
-typedef struct {
-    u8 pad_00[0x2C];
-    u8 *unk_2C;
-} R17_80174250_Entity;
-typedef struct {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-} R17_80174250_MapObject;
+
+
+
 void *allocate_list_node();
 void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
@@ -349,28 +298,28 @@ void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
 void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots();
 void select_indirect_table_entry();
 void advance_sprite_animation_and_textures(void *entity);
-void apply_monster_koyaw_data();
+void apply_monster_koyaw_data(s32 flags, s8 *dst);
 s32 refresh_actor_facing_and_lifecycle();
 s16 sample_terrain_surface_height();
 s32 check_entity_relation();
-s32 find_active_rect_containing_point();
-s32 test_neighbor_position_relation();
+s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
+s32 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
 s32 get_rounded_facing_and_rounding_flag();
-s32 can_entity_gain_level();
-void update_actor_status_and_mp();
+s32 can_entity_gain_level(void *entity);
+void update_actor_status_and_mp(ActorRecord *entity);
 s32 begin_ready_actor_directional_action();
-s32 advance_actor_pending_action();
+s32 advance_actor_pending_action(void *actor_state, void *action, void *status, void *actor);
 void begin_actor_move_to_target_facing();
-s32 reset_actor_action_state();
+s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
 s32 process_selected_actor_record();
-void begin_actor_spell_action();
+void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState *target, u8 *direction_table, void *next_state);
 s32 cycle_map_cell_flags();
-s32 update_map_cell_flags_with_item_limit();
-s32 update_actor_proximity_flag();
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 void * find_adjacent_actor();
 s32 probe_directional_neighbor();
 s32 get_actor_height_difference();
-s32 check_diagonal_side_height();
+s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 s32 select_actor_route_target();
 s32 check_directional_move_and_terrain();
 s32 prepare_directional_attack();
@@ -380,32 +329,32 @@ s32 apply_camera_offset_and_select_target();
 #include "dungeon/player/object/action_state.h"
 struct ObjectNodeHeader;
 s32 relink_entity_and_clear_high_flag();
-s32 update_actor_movement_to_tile();
-s32 spend_actor_mp();
+s32 update_actor_movement_to_tile(void *move_state, void *motion, void *target_tile, ActorRecord *actor);
+void spend_actor_mp(struct S_800AD594_0 *entity, s32 base_reduction);
 
-s32 update_linked_actor_motion();
-s32 resolve_attack_damage_and_effects();
+s32 update_linked_actor_motion(void *state, void *transform, void *config, void *object);
+void * resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 void set_record_integer_tile_center();
 void * scan_actor_along_heading();
-void * create_actor_spell_effect();
+void * create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);
 s32 get_cd_command_queue_depth(void);
 void create_source_positioned_object();
-void begin_actor_display_action();
+void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
 void unlink_entity_node();
 void distribute_experience_and_report_gains();
-void * detach_record_and_update_slot_state();
+void * detach_record_and_update_slot_state(void *record);
 
-s32 get_entity_effect_value();
-s32 func_80042900();
-void clear_slots_of_type();
-void func_80042B68();
+s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
+s32 func_80042900(ActorRecord *entry, s32 effect_id);
+void clear_slots_of_type(ActorRecord *owner, s8 match_type);
+void func_80042B68(ActorRecord *owner, s8 match_type);
 s32 get_tile_chebyshev_distance();
 
-void on_actor_status_updated();
-void func_800A9A04();
-s32 update_actor_transform_from_parent();
-s32 update_thrown_actor_travel();
-s32 interpolate_actor_to_terrain_tile();
+void on_actor_status_updated(void *actor);
+void func_800A9A04(void *actor);
+s32 update_actor_transform_from_parent(Rec_func_800A9E70_arg0 *state, ObjectPosition *position, Rec_D_80082E80 *tile, void *actor);
+s32 update_thrown_actor_travel(void *move_state, ObjectPosition *motion, SpriteFrameState *tile_pos, ActorRecord *actor);
+s32 interpolate_actor_to_terrain_tile(struct S_800AC480_0 *move_state, ObjectPosition *motion, MovingTile *target_tile, struct S_800AC480_3 *height_state);
 s32 update_spinning_actor_fall();
 s32 update_actor_fade_in();
 s32 resolve_actor_floor_trap_once();
@@ -432,7 +381,7 @@ extern u8 D_801744AC[];
 extern u8 univern_frame_set_2[];
 void *spawn_univern_actor(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value);
 void create_anchored_directional_object(void *actor, void *motion, struct SpriteFrameState *object);
-void update_entity_movement_and_ground_height(void *actor, void *context, struct SpriteFrameState *sprite, ActorRecord *status);
+void update_entity_movement_and_ground_height(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *status);
 void advance_entity_along_path_2(void *motion, s32 unused, struct SpriteFrameState *entity, void *path_state);
 void choose_univern_move(Rec_func_800A9E70_arg0 *move_data, void *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 s32 try_univern_attack(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *sprite_arg, ActorRecord *actor);
@@ -440,7 +389,7 @@ void begin_univern_attack(Rec_func_800A9E70_arg0 *action_state, void *context, s
     ActorRecord *entity);
 s32 relink_univern_path(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
 void finish_actor_tile_move_then_resume_ground_movement(void *state, void *motion, void *source, void *target);
-void finish_linked_actor_motion_and_floor_trap_then_resume_ground_movement(Resource17CallbackState *state, void *entity, void *position, void *graphic);
+void finish_linked_actor_motion_and_floor_trap_then_resume_ground_movement(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
 void update_staged_movement_and_direction(void *action, void *motion, struct SpriteFrameState *sprite, void *actor);
 void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80172C18_Position *pos, struct SpriteFrameState *actor, R17_80172C18_Entity *ent);
 void advance_univern_flight(void *action, void *motion, struct SpriteFrameState *sprite, void *actor);
@@ -448,14 +397,14 @@ void advance_familiar_defeat_sequence(R17_80173614_S_func_80C17E14_0 *action, Mo
     R17_80173614_S_func_80C17E14_3 *entity);
 void shrink_hopping_univern(void *state, void *motion, void *position, void *actor);
 void advance_univern_removal(void *state, void *motion, void *position, void *actor);
-void finish_actor_hop_and_grow_then_resume_ground_movement(Resource17CallbackState *state, void *motion, void *position, void *actor);
+void finish_actor_hop_and_grow_then_resume_ground_movement(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void update_sleeping_univern(void *actor_arg, void *motion_arg, void *sprite_arg, void *entity_arg);
 void advance_univern_status_action(void *action, void *context, struct SpriteFrameState *sprite, void *entity);
-void update_univern_parent_motion(R17_80174250_Actor *actor, s32 action, struct SpriteFrameState *entity, R17_80174250_MapObject *map_object);
-void update_timed_effect_and_expire(Resource17CallbackState *state, void *entity, void *position, void *graphic);
-void finish_actor_terrain_interpolation_then_resume_ground_movement(Resource17CallbackState *state, void *motion, void *position, void *actor);
-void finish_spinning_actor_fall_then_resume_ground_movement(Resource17CallbackState *state, void *motion, void *position, void *actor);
-void update_effect_trajectory_and_sprite(Resource17CallbackState *state, void *motion, void *position, void *actor);
-void blend_animation_palette_and_complete(Resource17CallbackState *state, void *motion, void *position, void *actor);
-void finish_actor_action_flag_propagation_then_resume_ground_movement(Resource17CallbackState *state, void *motion, void *position, void *actor);
+void update_univern_parent_motion(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *entity, ActorRecord *map_object);
+void update_timed_effect_and_expire(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
+void finish_actor_terrain_interpolation_then_resume_ground_movement(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
+void finish_spinning_actor_fall_then_resume_ground_movement(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
+void update_effect_trajectory_and_sprite(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
+void blend_animation_palette_and_complete(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
+void finish_actor_action_flag_propagation_then_resume_ground_movement(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 #endif

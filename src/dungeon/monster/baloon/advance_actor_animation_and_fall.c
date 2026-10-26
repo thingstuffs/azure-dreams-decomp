@@ -30,11 +30,10 @@ typedef struct S_801737F8_0 {
 } S_801737F8_0;   /* arg0 in advance_actor_animation_and_fall */
 
 /* Advance the actor animation state, timers, and downward movement. */
-void advance_actor_animation_and_fall(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void advance_actor_animation_and_fall(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u8 state;
 
-    state = ((S_801737F8_0 *)action)->unk_9B;
+    state = action->action_phase;
     if ((u32)state >= 5) {
         return;
     }
@@ -44,7 +43,7 @@ void advance_actor_animation_and_fall(void *action, ObjectPosition *motion, Spri
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         if (sprite->flags & 0x8000) {
-            ((S_801737F8_0 *)action)->unk_9B = 4;
+            action->action_phase = 4;
             sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
@@ -56,7 +55,7 @@ void advance_actor_animation_and_fall(void *action, ObjectPosition *motion, Spri
                   ((u16)actor->ground_height))) {
             return;
         }
-        ((S_801737F8_0 *)action)->unk_9B++;
+        action->action_phase++;
         sprite->tpage_abr = 0x20;
         sprite->flags = sprite->flags | 0x000C;
         return;
@@ -67,7 +66,7 @@ void advance_actor_animation_and_fall(void *action, ObjectPosition *motion, Spri
             D_800E2380[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_801737F8_0 *)action)->unk_96.u = 0;
-        ((S_801737F8_0 *)action)->unk_9B++;
+        action->action_phase++;
         return;
 
     case 2:
@@ -79,7 +78,7 @@ void advance_actor_animation_and_fall(void *action, ObjectPosition *motion, Spri
             if ((s16)timer == duration || (sprite->flags & 0x8000)) {
                 resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
                 ((S_801737F8_0 *)action)->unk_96.u = duration;
-                ((S_801737F8_0 *)action)->unk_9B++;
+                action->action_phase++;
                 sprite->flags |= 0x0800;
             }
             if (((S_801737F8_0 *)action)->unk_96.s == 9) {
@@ -98,7 +97,7 @@ void advance_actor_animation_and_fall(void *action, ObjectPosition *motion, Spri
                 return;
             }
             sprite->flags &= 0xF7FF;
-            ((S_801737F8_0 *)action)->unk_98 |= 8;
+            action->action_state_flags |= 8;
             sprite->frameTable = baloon_fall_frames;
             select_sprite_entry(sprite,
                 baloon_fall_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -110,7 +109,7 @@ void advance_actor_animation_and_fall(void *action, ObjectPosition *motion, Spri
             ((S_801737F8_0 *)action)->unk_92.u -= 4;
             return;
         }
-        ((S_801737F8_0 *)action)->unk_9B++;
+        action->action_phase++;
     case 4:
         if (!(sprite->flags & 0xE000)) {
             return;
@@ -121,7 +120,7 @@ void advance_actor_animation_and_fall(void *action, ObjectPosition *motion, Spri
         advance_status_timers(actor);
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         actor->flags1C |= 0x40000;
-        ((S_801737F8_0 *)action)->unk_98 |= 8;
+        action->action_state_flags |= 8;
         sprite->flags = sprite->flags & 0xFFF3;
     }
 }

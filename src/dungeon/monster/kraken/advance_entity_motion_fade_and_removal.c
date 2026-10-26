@@ -5,13 +5,14 @@
 #include "shared/object_links.h"
 #include "dungeon/actor.h"
 #include "dungeon/system.h"
+struct EntityLinkNode;
 
 
 
-void unlink_entity_node();
-void update_map_cell_flags_with_item_limit();
-void distribute_experience_and_report_gains();
-void * detach_record_and_update_slot_state();
+void unlink_entity_node(struct EntityLinkNode *node);
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+void distribute_experience_and_report_gains(EntityRec *entity);
+void * detach_record_and_update_slot_state(void *record);
 s16 sample_terrain_surface_height();
 
 
@@ -60,10 +61,6 @@ typedef struct S_801731FC_3 {
     u8 unk_25;
 } S_801731FC_3;   /* arg2 in advance_entity_motion_fade_and_removal */
 
-typedef struct S_801731FC_4 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-} S_801731FC_4;   /* global_ptr in advance_entity_motion_fade_and_removal */
 
 /* Advance an entity through motion, fading, and removal. */
 void advance_entity_motion_fade_and_removal(S_801731FC_0 *state, S_801731FC_2 *motion, S_801731FC_3 *sprite, void *entity) {

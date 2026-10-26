@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -32,15 +33,15 @@ typedef struct S_80171A18_3 {
 
    /* (u8 *)arg3 + ((S_80171A18_0 *)arg3)->unk_8A.s in advance_actor_along_queued_path */
 
-extern s32 update_map_cell_flags_with_item_limit();
-extern s16 get_rounded_facing_and_rounding_flag();
+extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 
 extern u8 hikewne_direction_frames[];
 #include "dungeon/monster/hikewne.h"
 #include "engine/graphics.h"
 
 /* Advances the actor along its queued path and updates movement timing. */
-void advance_actor_along_queued_path(void *motion, s32 unused, SpriteFrameState *actor, void *move_state) {
+void advance_actor_along_queued_path(ActorRecord *motion, ObjectPosition *unused, SpriteFrameState *actor, ActorRecord *move_state) {
     void *next_cell;
     u8 *anim_table;
     s32 old_x;
@@ -100,7 +101,7 @@ void advance_actor_along_queued_path(void *motion, s32 unused, SpriteFrameState 
 
         ((S_80171A18_0 *)move_state)->unk_2A = get_rounded_facing_and_rounding_flag(
             old_x, old_y, actor->tile_x, actor->tile_y,
-            (u8 *)motion + 0x98);
+            &motion->action_state_flags);
     }
     ((S_80171A18_3 *)motion)->unk_9A = 0xF;
     ((S_80171A18_3 *)motion)->unk_8C = 0;

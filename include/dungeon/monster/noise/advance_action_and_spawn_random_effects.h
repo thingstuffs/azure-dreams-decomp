@@ -12,11 +12,12 @@
 #include "sdk/libgte.h"
 #include "dungeon/system.h"
 #include "dungeon/actor/status.h"
+#include "engine/node/allocation.h"
 struct ObjectNodeHeader;
 
 typedef struct T_80172FFC_S_80172FFC_0 {
     u8 pad_00[0x8C];
-    void (*unk_8C)();
+    ActorActionHandler unk_8C;
     u8 pad_90[0x6];
     u16 timer;
     u8 pad_98[0x3];
@@ -87,13 +88,12 @@ typedef struct {
 
 
 extern s32 resolve_record_orientation_or_fallback();
-extern void * allocate_list_node();
 extern void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 extern void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
-extern void * resolve_attack_damage_and_effects();
+extern void * resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void spend_actor_mp(void *, s32);
 extern s8 view_direction_depth_biases[];
 extern Packed32 D_80170838;
@@ -101,6 +101,6 @@ extern u8 D_80174E90[];
 extern u8 noise_frame_set_1[];
 extern u8 D_80174EC0;
 void advance_action_and_spawn_random_effects(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor);
-extern void update_actor_behavior_and_direction();
+void update_actor_behavior_and_direction(ActorRecord *motion, ObjectPosition *render_ctx, SpriteFrameState *map_entity, ActorRecord *actor);
 extern void project_sprite_entries_to_quads(void *effect, void *motion, SpriteFrameState *sprite);
 #endif

@@ -26,8 +26,7 @@ extern u8 battnel_action_resume_address[];
 extern s32 D_80173D24;
 
 /* Apply directional movement, slow it down, and return the actor to its tile center. */
-void decelerate_and_center_actor_on_tile(void *action, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *actor)
-{
+void decelerate_and_center_actor_on_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     s16 timer;
     s16 *x_steps;
     s16 *y_step;
@@ -44,9 +43,9 @@ void decelerate_and_center_actor_on_tile(void *action, ObjectPosition *motion, S
     s32 offset_y;
     s32 actor_ref;
 
-    direction = (actor->unk_6A >> 9) & 7;
+    direction = (actor->movement_facing >> 9) & 7;
 
-    switch (((S_80172EF4_1 *)action)->unk_9B) {
+    switch (action->action_phase) {
     case 0:
         apply_clamped_actor_value_delta(actor);
         x_steps = (s16 *)((s8 *)dir_step_x);
@@ -55,9 +54,9 @@ void decelerate_and_center_actor_on_tile(void *action, ObjectPosition *motion, S
             *(s16 *)((u8 *)x_steps + initial_step_offset) << 0x12;
         motion->velocity_y =
             *(s16 *)((u8 *)((s8 *)dir_step_y) + initial_step_offset) << 0x12;
-        ((S_80172EF4_1 *)action)->unk_9B++;
+        action->action_phase++;
 
-        if (actor->unk_28 == 0) {
+        if (actor->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -66,7 +65,7 @@ void decelerate_and_center_actor_on_tile(void *action, ObjectPosition *motion, S
         }
         if (sprite->flags & 0x8000) {
             ((S_80172EF4_1 *)action)->unk_96.s = 0;
-            ((S_80172EF4_1 *)action)->unk_9B = 2;
+            action->action_phase = 2;
             return;
         }
 
@@ -103,7 +102,7 @@ void decelerate_and_center_actor_on_tile(void *action, ObjectPosition *motion, S
         if (((S_80172EF4_1 *)action)->unk_96.s != 0) {
             return;
         }
-        if (actor->unk_28 == 0) {
+        if (actor->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -111,7 +110,7 @@ void decelerate_and_center_actor_on_tile(void *action, ObjectPosition *motion, S
             return;
         }
         ((S_80172EF4_1 *)action)->unk_96.s = 4;
-        ((S_80172EF4_1 *)action)->unk_9B++;
+        action->action_phase++;
         return;
 
     case 2:

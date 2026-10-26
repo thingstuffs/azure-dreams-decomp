@@ -23,12 +23,12 @@ extern u8 D_80175F40[];
 extern u16 D_80175F6E;
 
 extern s32 Control_CD();
-extern s32 sound_set_cd_cue_parameters();
-extern s32 read_stream_cue_start_offset();
+extern void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
+extern s32 read_stream_cue_start_offset(void);
 extern void *scan_actor_along_heading();
-extern s32 resolve_alternate_spell_id();
-extern void *create_actor_spell_effect();
-extern s32 create_actor_linked_effect();
+extern s16 resolve_alternate_spell_id(s32 tile_index);
+extern void *create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);
+extern void create_actor_linked_effect(void *sourceData);
 extern s32 create_linked_source_object();
 extern s32 create_linked_child_object();
 
@@ -64,18 +64,6 @@ typedef struct S_80173560_3 {
     u8 unk_25;
 } S_80173560_3;   /* inner in advance_item_action_and_cleanup */
 
-typedef struct S_80173560_4 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 unk_05;
-    u8 pad_06[0xE];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_80173560_4;   /* arg2 in advance_item_action_and_cleanup */
 
 /* Advance an item action through targeting, audio playback, and animation cleanup. */
 /* Starts Kewne's targeted spell and linked effects, times optional CD audio playback, then restores

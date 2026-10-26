@@ -7,6 +7,7 @@
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/monster/ghosh.h"
+#include "engine/graphics.h"
 
 typedef struct S_80172B00_0 {
     u8 pad_00[0x2A];
@@ -35,7 +36,6 @@ typedef struct S_80172B00_7 {
 
 void *allocate_list_node();                  /* extern */
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */ /* extern */
-void select_sprite_entry();         /* extern */
 void * create_tracked_effect(); /* extern */
 extern s8 view_direction_depth_biases[];
 extern void D_80172610();

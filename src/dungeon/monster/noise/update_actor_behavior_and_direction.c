@@ -41,8 +41,7 @@ extern u8 noise_frame_set_3[];
 extern u8 noise_frame_set[];
 
 /* Update the actor's dungeon behavior, facing, and directional animation. */
-void update_actor_behavior_and_direction(void *motion, void *render_ctx, SpriteFrameState *map_entity, ActorRecord *actor)
-{
+void update_actor_behavior_and_direction(ActorRecord *motion, ObjectPosition *render_ctx, SpriteFrameState *map_entity, ActorRecord *actor) {
     u8 *anim_table;
     s32 room_id;
     u16 direction_flags;

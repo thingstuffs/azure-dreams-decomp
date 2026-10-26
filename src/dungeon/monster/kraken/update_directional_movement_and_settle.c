@@ -30,8 +30,7 @@ extern u8 D_8017419C[];
 extern u8 kraken_frame_set_4[];
 
 /* Updates directional movement and animation, then settles the actor on its destination tile. */
-void update_directional_movement_and_settle(void *action, EntityRec *motion, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void update_directional_movement_and_settle(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 dir_x;
     s32 dir_y;
     s32 dir_offset;
@@ -41,14 +40,14 @@ void update_directional_movement_and_settle(void *action, EntityRec *motion, Spr
     dir_offset = ((u16)((u16)actor->facing) >> 8) & 0xE;
     dir_x = *(s16 *)((u8 *)((s8 *)dir_step_x) + dir_offset);
     dir_y = *(s16 *)((u8 *)((s8 *)dir_step_y) + dir_offset);
-    state = ((S_801724F4_1 *)action)->unk_9B;
+    state = action->action_phase;
     ticks_left = ((S_801724F4_1 *)action)->unk_96 - 1;
     ((S_801724F4_1 *)action)->unk_96 = ticks_left;
 
     switch (state) {
     case 0:
         if (sprite->flags & 0x8000) {
-            ((S_801724F4_1 *)action)->unk_9B = 0xFF;
+            action->action_phase = 0xFF;
             sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
@@ -57,7 +56,7 @@ void update_directional_movement_and_settle(void *action, EntityRec *motion, Spr
         select_sprite_entry(sprite,
             D_8017419C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        ((S_801724F4_1 *)action)->unk_9B++;
+        action->action_phase++;
         return;
     case 1:
         if (sprite->flags & 0xE000) {
@@ -65,33 +64,33 @@ void update_directional_movement_and_settle(void *action, EntityRec *motion, Spr
             select_sprite_entry(sprite,
                 kraken_frame_set_4[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            motion->unk_0C = (dir_x << 18) + (dir_x << 17);
-            motion->unk_10 = (dir_y << 18) + (dir_y << 17);
+            motion->velocity_x = (dir_x << 18) + (dir_x << 17);
+            motion->velocity_y = (dir_y << 18) + (dir_y << 17);
             ((S_801724F4_1 *)action)->unk_96 = 8;
             play_sound_if_enabled(0x607);
-            ((S_801724F4_1 *)action)->unk_9B++;
+            action->action_phase++;
         }
         return;
     case 2:
         if ((ticks_left << 16) <= 0) {
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
-            ((S_801724F4_1 *)action)->unk_9B = 0xFF;
+            action->action_phase = 0xFF;
         }
         return;
     case 0xFF:
     {
         s32 target_x = sprite->tile_x << 6;
         s32 current_x = motion->x.w.i - 0x20;
-        motion->unk_0C = ((target_x - current_x) << 0xF) >> 1;
+        motion->velocity_x = ((target_x - current_x) << 0xF) >> 1;
     }
         {
             s32 target_y = sprite->tile_y << 6;
             s32 current_y = motion->y.w.i - 0x20;
-            motion->unk_10 = ((target_y - current_y) << 0xF) >> 1;
+            motion->velocity_y = ((target_y - current_y) << 0xF) >> 1;
         }
         if (sprite->flags & 0xE000) {
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             (*(u32 *)&actor->flags1C) |= 0x40000;
             set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
             spend_actor_mp(actor, 0x100);

@@ -27,7 +27,7 @@ extern void begin_actor_spell_action(void *actor, void * effect_param, void *tar
 extern void func_80171388(void *, void *, void *, void *);
 extern void func_801715CC(void *, void *, void *, void *);
 
-extern void update_action_and_directional_frame(void *, void *, void *, void *);
+void update_action_and_directional_frame(ActorRecord *action_state, ObjectPosition *update_arg, SpriteFrameState *sprite, ActorRecord *actor);
 extern s32 func_801720E0(void *, void *, void *, s32);
 extern void func_80173478(void *, void *, void *, void *);
 
@@ -42,8 +42,7 @@ typedef struct S_80170E68_4 {
 } S_80170E68_4;   /* entry in dispatch_actor_behavior_and_facing */
 
 /* Dispatch actor behavior and update its facing animation from dungeon state. */
-void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *context, SpriteFrameState *sprite, ActorRecord *state)
-{
+void dispatch_actor_behavior_and_facing(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state) {
     u16 *dungeon_status;
     s32 initial_flags;
     s32 flags;
@@ -58,7 +57,7 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
 
     dungeon_status = (u16 *)&g_dungeon_status.turn_scale;
     if (dungeon_status[1] & 0x1000) {
-        actor->unk_9A.as_u8 = 14;
+        actor->action_id = 14;
         func_80171388(actor, context, sprite, state);
         return;
     }
@@ -77,7 +76,7 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
                 return;
             }
 
-            if (actor->unk_9A.as_u8 != 14) {
+            if (actor->action_id != 14) {
                 if (*(u8 **)&sprite->frameTable != dreamin_direction_frames) {
                     sprite->frameTable = dreamin_direction_frames;
                     select_sprite_entry(
@@ -85,10 +84,10 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
                         dreamin_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 9) & 7],
                         0);
                 }
-                actor->unk_9A.as_u8 = 14;
+                actor->action_id = 14;
             }
 
-            actor->unk_98 &= 0xFFF3;
+            actor->action_state_flags &= 0xFFF3;
 
             if (state->hp_delta != 0) {
                 if (begin_ready_actor_directional_action(actor, context, sprite, dreamin_frame_set_1) != 0) {
@@ -141,12 +140,12 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
             action_kind = state->action_flags & ACTOR_ACTION_CODE_MASK;
             switch (action_kind) {
             case 9:
-                actor->unk_98 |= 0x8000;
+                actor->action_state_flags |= 0x8000;
                                         /* fallthrough */
             case 8:
                 if ((((u32)state->flags1C) & ACTOR_PLAYER_SIDE) &&
                     ((state->action_flags & ACTOR_ACTION_CODE_MASK) == 8)) {
-                    actor->unk_98 &= 0x7FFF;
+                    actor->action_state_flags &= 0x7FFF;
                 }
                 if ((s16)attempt_actor_transition(actor, context, sprite, state) != 0) {
                     return;

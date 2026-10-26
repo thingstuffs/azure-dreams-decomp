@@ -38,7 +38,7 @@ extern s8 actor_turn_angle_offsets;
  * Steers Maximum toward nearby floor items or its movement target, tries clear headings, and
  * records the path and occupancy.
  */
-void advance_actor_path_with_item_search(Rec_func_800A9E70_arg0 *move_state, void *caller_context, SpriteFrameState *position_arg, ActorRecord *actor_arg) {
+void advance_actor_path_with_item_search(ActorRecord *move_state, ObjectPosition *caller_context, SpriteFrameState *position_arg, ActorRecord *actor_arg) {
     s16 target_x;
     s16 target_y;
     s16 turn_index;
@@ -75,7 +75,7 @@ void advance_actor_path_with_item_search(Rec_func_800A9E70_arg0 *move_state, voi
         return;
     }
 
-    update_actor_proximity_flag(position_arg, actor_arg, 3, 6, &move_state->unk_9C.as_s8);
+    update_actor_proximity_flag(position_arg, actor_arg, 3, 6, &move_state->unk_9C);
     flags = actor_arg->flags1C;
     if (flags & 0x410) {
         if (flags & 0x400) {
@@ -87,7 +87,7 @@ void advance_actor_path_with_item_search(Rec_func_800A9E70_arg0 *move_state, voi
                 actor_arg->facing = get_rounded_facing_and_rounding_flag(
                     position_arg->tile_x, position_arg->tile_y,
                     other->tile_x, other->tile_y,
-                    &move_state->unk_98);
+                    &move_state->action_state_flags);
                 actor_arg->movement_queue_state &= 0x7F;
                 return;
             }
@@ -116,8 +116,8 @@ void advance_actor_path_with_item_search(Rec_func_800A9E70_arg0 *move_state, voi
         turn_index = 0;
         if (!(actor_arg->action_flags & ACTOR_ACTION_PENDING)) {
             if (!(flags & 0x20000)) {
-                select_actor_route_target((u8 *)position_arg, move_state->unk_9C.as_s8, (u8 *)actor_arg,
-                              &move_state->unk_98);
+                select_actor_route_target((u8 *)position_arg, move_state->unk_9C, (u8 *)actor_arg,
+                              &move_state->action_state_flags);
             } else {
                 {
                     u32 follow_offset;
@@ -143,7 +143,7 @@ void advance_actor_path_with_item_search(Rec_func_800A9E70_arg0 *move_state, voi
                 actor_arg->facing = get_rounded_facing_and_rounding_flag(
                     position_arg->tile_x, position_arg->tile_y, target_x,
                         target_y,
-                    angle_context = &move_state->unk_98);
+                    angle_context = &move_state->action_state_flags);
                 if (check_movement_clearance_and_height(actor_arg->facing, position_arg, actor_arg, 0x20) <=
                     0) {
                     actor_arg->facing = get_rounded_facing_and_rounding_flag(
@@ -188,7 +188,7 @@ void advance_actor_path_with_item_search(Rec_func_800A9E70_arg0 *move_state, voi
             }
 
             if (actor_arg->flags1C & ACTOR_PLAYER_AWARE) {
-                follow_context = &move_state->unk_98;
+                follow_context = &move_state->action_state_flags;
                 actor_arg->facing = get_rounded_facing_and_rounding_flag(
                     position_arg->tile_x, position_arg->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
@@ -222,8 +222,8 @@ void advance_actor_path_with_item_search(Rec_func_800A9E70_arg0 *move_state, voi
                 }
             } else {
                 if (turn_index == 0) {
-                    select_actor_route_target((u8 *)position_arg, move_state->unk_9C.as_s8, (u8 *)actor_arg,
-                  &move_state->unk_98);
+                    select_actor_route_target((u8 *)position_arg, move_state->unk_9C, (u8 *)actor_arg,
+                  &move_state->action_state_flags);
                 } else {
                     dx = position_arg->tile_x;
                     dx -= (target_x_wide = (u16)target_x);
@@ -232,7 +232,7 @@ void advance_actor_path_with_item_search(Rec_func_800A9E70_arg0 *move_state, voi
                         actor_arg->facing = get_rounded_facing_and_rounding_flag(
                             position_arg->tile_x, position_arg->tile_y,
                                 (s16)target_x_wide, target_y,
-                            &move_state->unk_98);
+                            &move_state->action_state_flags);
                     } else {
                         actor_arg->facing = (generate_random_value() & 7) << 9;
                     }
@@ -242,8 +242,8 @@ void advance_actor_path_with_item_search(Rec_func_800A9E70_arg0 *move_state, voi
     }
     goto loop_setup;
 call_obstacle:
-    select_actor_route_target((u8 *)position_arg, move_state->unk_9C.as_s8, (u8 *)actor_arg,
-                  &move_state->unk_98);
+    select_actor_route_target((u8 *)position_arg, move_state->unk_9C, (u8 *)actor_arg,
+                  &move_state->action_state_flags);
 
 loop_setup:
     turn_index = 0;
@@ -253,7 +253,7 @@ loop_setup:
         {
 
             angle = (void *)(actor_arg->facing);
-            if (move_state->unk_98 & 2) {
+            if (move_state->action_state_flags & 2) {
                 next_angle = ((s32)angle) - turn_table[turn_index];
             } else {
                 next_angle = ((s32)angle) + turn_table[turn_index];
@@ -317,7 +317,7 @@ loop_setup:
     }
 
     actor_arg->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-    move_state->unk_9C.as_u8 = position_arg->room_index;
+    move_state->unk_9C = position_arg->room_index;
     actor_arg->pending_turn_updates--;
     {
         DungeonGlobalStatus *counter_state = &g_dungeon_status;

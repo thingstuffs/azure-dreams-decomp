@@ -21,7 +21,7 @@ typedef struct S_80172C10_0 {
     u8 unk_A8;
 } S_80172C10_0;   /* arg0 in slow_motion_and_switch_behavior */
 
-extern void begin_actor_display_action();
+extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
 
 extern u8 pulunpa_action_resume_address[];
 extern u8 pulunpa_variant_action_address[];
