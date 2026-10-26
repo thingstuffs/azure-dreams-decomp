@@ -4,6 +4,7 @@
 #include "town/menu/object/create_positioned_sprite_object_g01142.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
+#include "town/person/position.h"
 
 /* Creates a positioned object and initializes its state and sprite. */
 ObjectNodeHeader *create_positioned_sprite_object(IntVector3 *position, s32 state_value, s32 graphic_id) {

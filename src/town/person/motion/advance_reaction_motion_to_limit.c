@@ -2,9 +2,9 @@
 #include "shared/entity.h"
 #include "records/Rec_func_800C9B44_arg0.h"
 #include "town/person.h"
+#include "town/person/position.h"
 
 void add_hex_20000_s_signed_offset_hex_14(EntityRec *record);                      /* extern */
-s16 query_lowered_transform_position(void *position);                          /* extern */
 void initialize_reaction_object_four(PersonSetupState *, void *, void *);
 
 

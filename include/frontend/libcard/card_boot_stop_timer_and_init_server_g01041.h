@@ -13,15 +13,7 @@
 #include "shared/game_work.h"
 #include "sdk/libgte.h"
 
-typedef struct {
-    /* 0x00 */ s8 pad0[0x1E];
-    /* 0x1E */ u16 unk1E;
-    /* 0x20 */ s32 unk20;
-    /* 0x24 */ s32 unk24;
-    /* 0x28 */ s8 pad28[0x18];
-    /* 0x40 */ s32 unk40;
-    /* 0x44 */ s32 unk44;
-} Struct80014C90;
+typedef CardChooser Struct80014C90;
 
 typedef struct Node8002BB08 Node8002BB08;
 

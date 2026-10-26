@@ -7,6 +7,8 @@
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_80100D98.h"
 #include "sdk/libgte.h"
+#include "town/minigame/entry_state.h"
+#include "town/person/position.h"
 
 
 
@@ -32,8 +34,6 @@ typedef struct {
     s32 w[5];
 } Blk20;
 
-void advance_bounded_entry_index();              /* extern */
-void fill_eligible_negative_slots();     /* extern */
 void set_resident_bit(s16 value);              /* extern */
 typedef struct InputRecord InputRecord;
 void change_map(InputRecord *input);                       /* extern */
@@ -50,7 +50,6 @@ struct IntVector3; void apply_the_enabled_movement_offsets_adding_z_offset_only_
 struct Rec_D_800FE490; void update_the_s_field_10_using_callee_8008_fe_90(struct Rec_D_800FE490 *);                   /* extern */
 struct ObjectPosition; struct ObjectPosition; void copy_entity_record_fields(struct ObjectPosition *, struct ObjectPosition *);           /* extern */
 void spawn_person_radial_effects(void *);                      /* extern */
-s16 query_lowered_transform_position(void *position);                      /* extern */
 extern s32 D_800135B4;
 extern u8 D_8006CCF8[];
 extern M2C_UNK D_80089960;
@@ -261,7 +260,7 @@ void update_player_minigame_motion(TownCourseActor *actor, ObjectPosition *motio
     case 3:
         prev_stage = progress->unk_00;
         advance_bounded_entry_index(motion, progress);
-        fill_eligible_negative_slots(course, progress, 0);
+        fill_eligible_negative_slots(course, &progress->unk_00, 0);
         if (progress->unk_00 != prev_stage) {
             s32 *best_time;
 

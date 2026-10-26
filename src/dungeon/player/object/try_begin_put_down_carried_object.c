@@ -7,8 +7,8 @@
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "dungeon/player/object.h"
+#include "engine/graphics.h"
 
-void set_sprite_animation_frame();
 s32 check_movement_clearance_and_height();
 void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
 s32 check_layer_offset_height(u16 x, u16 y, s16 height, u32 flags);

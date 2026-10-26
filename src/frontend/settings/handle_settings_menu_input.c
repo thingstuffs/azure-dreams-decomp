@@ -1,5 +1,6 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
+#include "engine/effect/screen_fade.h"
 
 typedef unsigned char u8;
 typedef signed char s8;
@@ -19,10 +20,7 @@ typedef struct Gfx
 Gfx;
 typedef struct Menu
 {
-    s16 pad0;
-    s16 f2;
-    s16 f4;
-    s16 pad6;
+    TransitionSlot fade;
     s16 state;
     s16 timer;
     s16 row;
@@ -40,12 +38,10 @@ extern s32 saved_sequence_volume_scale;
 extern s32 saved_voice_gain_scale;
 extern s32 volume_slider_levels[3];
 extern s32 runtime_saved_state_word;
-extern s32 render_screen_fade_decreasing_intensity();
-extern s32 render_screen_fade_increasing_intensity();
 extern void SD_Call(); /* Unprototyped: one or two arguments; the retail audio queue reads only the command. */
-extern void sound_set_cd_playback_volume_scale();
-extern void sound_set_sequence_volume_scale();
-extern void sound_set_voice_gain_scale();
+extern void sound_set_cd_playback_volume_scale(short value);
+extern void sound_set_sequence_volume_scale(s16 new_value);
+extern void sound_set_voice_gain_scale(short value);
 extern void create_settings_controller();
 /* Handles the options menu, adjusting audio levels and applying display settings. */
 void handle_settings_menu_input(Menu *menu)
@@ -81,7 +77,7 @@ void handle_settings_menu_input(Menu *menu)
         menu->state = ((u16) menu->state) + 1;
 
     case 1:
-        if ((render_screen_fade_decreasing_intensity(menu) << 16) == 0) {
+        if (render_screen_fade_decreasing_intensity(&menu->fade) == 0) {
             return;
         }
         menu->timer = 300;
@@ -253,12 +249,12 @@ void handle_settings_menu_input(Menu *menu)
 
     case 3:
         SD_Call(0x1200);
-        menu->f2 = 0;
-        menu->f4 = 0x10;
+        menu->fade.unk_2 = 0;
+        menu->fade.param = 0x10;
         menu->state = ((u16) menu->state) + 1;
 
     case 4:
-        if ((render_screen_fade_increasing_intensity(menu) << 16) == 0) {
+        if (render_screen_fade_increasing_intensity(&menu->fade) == 0) {
             return;
         }
         create_settings_controller();

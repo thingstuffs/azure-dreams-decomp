@@ -3,6 +3,7 @@
 #include "engine/object.h"
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
+#include "shared/scratchpad.h"
 #include "slus/data.h"
 
 
@@ -29,9 +30,9 @@ s32 obj_disp23_cancel_sw_set(s32 cancel_switch)
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define PTR_AT(p, o) (*(u8 **)((u8 *)(p) + (o)))
 
-#define SCR_S16(o) (*(s16 *)(scratch + (o)))
-#define SCR_U16(o) (*(u16 *)(scratch + (o)))
-#define SCR_S32(o) (*(s32 *)(scratch + (o)))
+#define SCR_S16(o) (*(s16 *)(scratch->b + (o)))
+#define SCR_U16(o) (*(u16 *)(scratch->b + (o)))
+#define SCR_S32(o) (*(s32 *)(scratch->b + (o)))
 
 /*
  * Composes each linked object transform with its parent and the render rotation, then projects
@@ -40,7 +41,7 @@ s32 obj_disp23_cancel_sw_set(s32 cancel_switch)
  * primitive cursor, and restores the matrix stack.
  */
 s32 runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback(u8 *first_node, u8 *first_transform, u8 *first_context) {
-    u8 *scratch;
+    ScratchPad *scratch;
     u8 *transform;
     u8 *context;
     u8 *object;
@@ -81,7 +82,7 @@ s32 runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callb
 
     render_disabled = object_render_cancel_switch;
     state_ptr = D_80083160;
-    scratch = (u8 *)0x1F800000;
+    scratch = (ScratchPad *)0x1F800000;
     if (render_disabled != 0) {
         return 0;
     }
@@ -119,7 +120,7 @@ s32 runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callb
             SCR_S32(0x4C) = S16_AT(transform, 0xA);
             TransMatrix(matrix, translation);
             RotMatrix(object + 0x8, matrix);
-            ScaleMatrix(matrix, scratch + 0x34);
+            ScaleMatrix(matrix, scratch->b + 0x34);
 
             S32_AT(object, 0x40) = SCR_S32(0x54);
             S32_AT(object, 0x44) = SCR_S32(0x58);
@@ -141,7 +142,7 @@ s32 runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callb
         } else {
             TransMatrix(matrix, object + 0x30);
             RotMatrix(object + 0x8, matrix);
-            ScaleMatrix(matrix, scratch + 0x34);
+            ScaleMatrix(matrix, scratch->b + 0x34);
             CompMatrix(PTR_AT(object, 0x4) + 0x40, matrix, matrix);
 
             S32_AT(object, 0x40) = SCR_S32(0x54);
@@ -156,7 +157,7 @@ s32 runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callb
             SCR_S32(0x44) = S32_AT(object, 0x10);
             SCR_S32(0x48) = S32_AT(object, 0x14);
             SCR_S32(0x4C) = S32_AT(object, 0x18);
-            TransMatrix(work_matrix, scratch + 0x44);
+            TransMatrix(work_matrix, scratch->b + 0x44);
             RotMatrix(object_render_rotation_angles, work_matrix);
             CompMatrix(matrix, work_matrix, matrix);
             SetRotMatrix(matrix);
@@ -214,11 +215,11 @@ sprite_loop:
                 SCR_S16(0x86) = coord;
             }
 
-            RotTransPers4(scratch + 0x74, scratch + 0x7C,
-                          scratch + 0x84, scratch + 0x8C,
-                          scratch + 0x9C, scratch + 0xA4,
-                          scratch + 0xAC, scratch + 0xB4,
-                          scratch + 0x94, scratch + 0x98);
+            RotTransPers4(scratch->b + 0x74, scratch->b + 0x7C,
+                          scratch->b + 0x84, scratch->b + 0x8C,
+                          &scratch->sw[0x9C / 4], &scratch->sw[0xA4 / 4],
+                          &scratch->sw[0xAC / 4], &scratch->sw[0xB4 / 4],
+                          &scratch->sw[0x94 / 4], &scratch->sw[0x98 / 4]);
 
             visible = 0;
             if ((u16)(SCR_U16(0x9C) + 0x20) < 0x181U) {

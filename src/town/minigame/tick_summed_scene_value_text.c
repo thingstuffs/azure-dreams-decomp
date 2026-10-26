@@ -2,13 +2,14 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "shared/object_links.h"
+#include "sdk/libc.h"
 
    /* the 0x2 bytes before arg0 in tick_summed_scene_value_text, addressed as arg0[-1] */
 
 typedef struct S_80020510_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
     u16 unk_02;
-    s32 unk_04;
+    char *unk_04;
     u8 pad_08[0x4];
     void * unk_0C;
     u8 pad_10[0xC];
@@ -22,7 +23,6 @@ typedef struct S_80020510_1 {
 
 
 void format_decimal_field_space_padded();               /* extern */
-s32 strlen();                             /* extern */
 extern s16 D_800272A0[];
 
 /* Advances a text entry's delay, processes its string, and propagates the linked object's flag. */

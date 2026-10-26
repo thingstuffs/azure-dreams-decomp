@@ -2,6 +2,7 @@
 #include "engine/resource.h"
 #include "dungeon/item/message.h"
 #include "dungeon/level.h"
+#include "engine/graphics.h"
 
 struct ObjectPosition;
 #include "shared/sprite_frame_state.h"
@@ -93,7 +94,6 @@ typedef struct S_800C55F4_8 {
 
    /* ((S_800C55F4_9 *)global_base)->unk_00 in transform_mesh_and_append_draw_packets */
 
-extern s32 convert_hsv_to_rgb();
 extern void *CompMatrix(void *, void *, void *);
 extern void PushMatrix(void);
 extern void PopMatrix(void);
@@ -538,7 +538,6 @@ typedef struct CounterBlock {
 
 void select_record_entry_and_value(void *state, void *entries, short index);        /* extern */
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern s32 draw_linked_sprites_clipped();
 struct S_800C5D80_0;
 extern void advance_effect_motion_and_fade(void *effect_data, struct S_800C5D80_0 *motion, SpriteFrameState *primitive);
 
@@ -635,9 +634,7 @@ void initialize_timed_motion_step(); /* Unprototyped: two or three arguments; re
 s32 get_entity_class();
 void snapshot_inventory_and_familiars();
 void *get_unused_text_buffer(void);
-u8 *expand_text_control_codes();
 void * copy_four_text_bytes();
-void *write_text_byte_and_advance();
 void unlink_entity_node();
 void update_map_cell_flags_with_item_limit();
 void refresh_packed_grid_nibbles();
@@ -1521,7 +1518,6 @@ extern void *allocate_list_node(s32, void *);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 rsin(s32);
 extern s32 rcos(s32);
-extern s32 draw_linked_sprites_clipped();
 extern u8 D_800777E8[];
 extern void update_timed_tile_effect();
 extern void update_pulsing_color_fade();

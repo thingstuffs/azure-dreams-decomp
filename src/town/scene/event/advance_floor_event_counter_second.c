@@ -1,6 +1,7 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "town/player/script_flags.h"
 
 typedef struct S_800161C0_0 {
     u8 pad_00[0x24];
@@ -19,7 +20,6 @@ typedef struct S_800161C0_2 {
 
 
 extern s32 set_indexed_entry_flag();
-s32 get_script_flag_mask(s32);
 s32 read_script_flag_range(s32, s32);
 extern void write_script_flag_range(s32 base, s32 bits, s32 count);
 extern void func_8001DCD4(s32 slot_id);

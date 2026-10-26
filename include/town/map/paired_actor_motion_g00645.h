@@ -1,5 +1,6 @@
 #ifndef TOWN_MAP_PAIRED_ACTOR_MOTION_G00645_H
 #define TOWN_MAP_PAIRED_ACTOR_MOTION_G00645_H
+#include "town/person/position.h"
 
 struct SpriteFrameState;
 /* Paired actor motion (G00645). */
@@ -155,7 +156,6 @@ typedef struct MotionSource {
 extern s32 service_script_controller(void);
 extern s32 check_transform_identifier_and_hook(s32);
 extern s16 SD_Call(s32);
-extern s16 query_lowered_transform_position(void *);
 extern void unlink_scene_list_node(void *);
 extern void unlink_node_if_registered(void *);
 extern s32 D_800E9E34[];

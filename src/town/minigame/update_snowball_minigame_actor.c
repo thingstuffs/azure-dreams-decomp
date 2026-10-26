@@ -8,6 +8,7 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/entity.h"
+#include "town/person/position.h"
 extern int abs(int);
 
 #ifndef NULL
@@ -53,7 +54,6 @@ extern s32 rsin(s32);
 extern s32 rcos(s32);
 extern void unlink_scene_list_node(void *);
 extern void add_motion_deltas_to_position(void *);
-extern s32 query_lowered_transform_position(void *);
 
 /* Updates actor movement, animation, scoring, and departure through its state sequence. */
 void update_snowball_minigame_actor(TownCollectionActor *object, ObjectPosition *motion, SpriteFrameState *sprite)

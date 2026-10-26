@@ -18,7 +18,6 @@ extern StatePair *card_boot_debounce_card_presence(void);
 #include "frontend/card.h"
 #include "frontend/libcard.h"
 #include "slus.h"
-extern void card_boot_destroy_card_chooser(void *entry);
 extern void restore_entity_flag_ten(void);
 extern void card_boot_poll_card_chooser_status(void);
 
@@ -47,7 +46,7 @@ void card_boot_update_card_chooser_input(void *menu)
             s32 *object;
 
             SD_Call(0x515);
-            card_boot_destroy_card_chooser((u8 *)menu - 0x20);
+            card_boot_destroy_card_chooser(menu - 0x20);
             card_boot_close_events_and_resume_timer();
             if (scene_mode_code == 3) {
                 request_scene_dispatch_state(3);

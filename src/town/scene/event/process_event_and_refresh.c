@@ -3,6 +3,7 @@
 #include "m2c_compat.h"
 #include "town/scene/flags.h"
 #include "town/player.h"
+#include "town/player/script_flags.h"
 
 
 /* Runs set_script_flag_bit with code 0x1452 and its set_referenced_object_active_flag follow-up. */

@@ -1,8 +1,8 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/player/script_flags.h"
 
-void set_script_flag_bit(s32);                     /* extern */
 
 /* Process IDs 0x1462, 0x1474, and 0xD89 in sequence. */
 void dispatch_three_progress_events(void) {

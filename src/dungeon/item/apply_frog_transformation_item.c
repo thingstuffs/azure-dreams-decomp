@@ -3,6 +3,8 @@
 #include "shared/dungeon_item_entries.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/item/message.h"
+#include "dungeon/system.h"
+#include "dungeon/player/state.h"
 
 struct ObjectNodeHeader;
 #include "shared/entity_action_selectors.h"
@@ -17,12 +19,8 @@ struct ObjectNodeHeader;
 
 #include "dungeon/player/item.h"
 struct Owner_800A48F0;
-void clear_slot_and_update_linked_state();
 void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 s32 display_text_with_fullwidth_adjustment();
-void place_actor_item();
-void display_item_status_message();
-s32 feed_actor_restore_mp();
 void create_colored_effect_with_event(struct ObjectNodeHeader *source, s32 color, unsigned short event_id);
 
 extern u8 D_80089358[];

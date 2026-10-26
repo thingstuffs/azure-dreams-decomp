@@ -25,10 +25,9 @@ void set_scene_script_flag_bit(s32 flag);
 void clear_scene_script_flag_bit(s32 flag);
 
 
-/* Script bitmap operations owned by player/state. */
-void set_script_flag_bit(s32 bit_index);
-void clear_script_flag_bit(s32 bit_index);
-s32 get_script_flag_mask(s32 flag_index);
+
+
+
 
 void set_default_scene_data_pointer(s32 **out_ptr, void *unused_position, s32 unused_context);
 

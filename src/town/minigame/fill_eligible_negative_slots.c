@@ -1,4 +1,5 @@
 #include "shared/game_work.h"
+#include "town/minigame/entry_state.h"
 
 typedef unsigned char u8;
 typedef signed char s8;

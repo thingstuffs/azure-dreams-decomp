@@ -1,10 +1,10 @@
 #include "common.h"
+#include "town/shop/item_lookup.h"
 
 typedef struct {
     s32 words[0x15];
 } Record84;
 
-extern s32 find_first_vacant_record(void *, s32);
 extern u8 *find_unused_default_pool_slot(void);
 extern Record84 town_slot_snapshot;
 

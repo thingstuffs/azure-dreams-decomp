@@ -1,4 +1,5 @@
 #include "town/person/jump_motion.h"
+#include "town/person/position.h"
 
 typedef struct S_800CC070_0 {
     u8 pad_00[0x68];
@@ -15,7 +16,6 @@ typedef struct S_800CC070_1 {
 
 
 extern void add_hex_20000_s_signed_offset_hex_14(void *);
-extern s16 query_lowered_transform_position(void *);
 #include "town/person/object/initialize_object_entries_api.h"
 extern s32 D_800D6ABC;
 extern s32 D_800D6AD0;

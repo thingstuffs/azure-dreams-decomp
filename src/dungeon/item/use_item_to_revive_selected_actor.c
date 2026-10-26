@@ -9,15 +9,13 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "dungeon/player/item.h"
+#include "dungeon/system.h"
+#include "dungeon/player/state.h"
 
 void apply_entity_effects(void *);             /* extern */
 s32 get_entity_effect_value();            /* extern */
-s32 process_record_and_update_linked_state(struct DungeonItemEntry *request, void *record_data);           /* extern */
-void clear_slot_and_update_linked_state();                         /* extern */
 void display_formatted_context_message(void *context);                   /* extern */
 void adjust_source_value_and_finalize(void *context, const void *source);           /* extern */
-void place_actor_item();                 /* extern */
-void display_item_status_message();            /* extern */
 s32 feed_actor_restore_mp();            /* extern */
 extern u8 D_800E1580[34];
 extern u8 D_800E15A2[];

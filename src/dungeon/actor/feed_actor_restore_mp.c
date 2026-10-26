@@ -1,3 +1,4 @@
+#include "dungeon/actor/status.h"
 #include "shared/actor_status_ids.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"

@@ -4,6 +4,29 @@
 
 #include "common.h"
 
+typedef struct SoundVoiceRecord {
+    u8 pad00[4];
+    u16 field04;
+    u16 field06;
+    u8 pad08[2];
+    u16 field0A;
+    u8 pad0C[0x1A - 0x0C];
+    u16 field1A;
+    u8 field1C;
+    u8 field1D;
+    u8 pad1E[0x5C - 0x1E];
+    u16 field5C;
+    u8 pad5E[2];
+    u16 field60;
+    u8 pad62[2];
+    u16 field64;
+    u8 pad66[2];
+    s32 field68;
+    u8 pad6C[0x78 - 0x6C];
+} SoundVoiceRecord;
+
+s32 sound_apply_indexed_voice_envelope(s32 table_index, SoundVoiceRecord *source);
+
 /* audio_sequence_slots: allocate_sequence_bank_slot registers a recognized
  * sequence header, and sound_activate_loaded_sequence_slot reads that same
  * header word into audio_sequence_data_base. All table walks use 0x0C-byte
@@ -154,7 +177,7 @@ void sound_reset_sequence_slot_to_idle(s16 slot_index);
 void sound_run_guarded_sequence_update(void);
 
 /* sound_set_indexed_voice_volumes.c */
-s32 sound_set_indexed_voice_volumes(s32 table_index, s16 field_8_value, s16 field_a_value);
+s32 sound_set_indexed_voice_volumes(s32 table_index, s32 field_8_value, s32 field_a_value);
 
 /* sound_set_seven_bit_channel_value_and_notify.c */
 void sound_set_seven_bit_channel_value_and_notify(u8 index, s32 unused, s32 value);

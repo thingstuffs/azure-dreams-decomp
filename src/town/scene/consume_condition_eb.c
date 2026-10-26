@@ -2,9 +2,8 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/player/script_flags.h"
 
-extern s32 get_script_flag_mask(s32);
-extern void clear_script_flag_bit(s32);
 
 /* Consume condition 0x3EB and invoke the callback when it is active. */
 s32 consume_condition_3_eb(void) {

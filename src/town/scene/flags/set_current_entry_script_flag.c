@@ -1,9 +1,9 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "town/player/script_flags.h"
 extern u8 D_80020000[];
 
 extern s32 D_8001C370[3];
-extern void set_script_flag_bit(s32 value);
 
 /* Play the sound id held at +0x18 of the current table entry. */
 void set_current_entry_script_flag(void)

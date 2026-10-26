@@ -13,6 +13,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/dungeon_delay_views.h"
+#include "town/person/position.h"
 
 #ifndef NULL
 #define NULL 0
@@ -65,7 +66,6 @@ typedef struct S_800A6994_0 {
 
 extern s32 test_resident_bitmap_bit(s32 bit_id);
 extern void *create_town_effect_object();
-extern s16 query_lowered_transform_position(void *position);
 extern void handle_insert_initialize_two_values_status_flags();
 extern void initialize_optional_object_state();
 extern s8 D_800A6684[];

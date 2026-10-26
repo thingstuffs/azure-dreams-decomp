@@ -10,14 +10,7 @@
  * S_80081498: next ptr @0x0, a pointer field @0x10, a 16-bit flags field
  * @0x1E. D_8002BB08 is accessed via %hi/%lo (not $gp), so declare it with
  * a size well past the -G8 small-data threshold. */
-typedef struct Node8002BB08 {
-    struct Node8002BB08 *next; /* 0x00 */
-    u8 pad4[0x10 - 0x4];
-    void *field_10;            /* 0x10 */
-    u8 pad14[0x1E - 0x14];
-    u16 field_1E;              /* 0x1E */
-    u8 pad20[0x28 - 0x20];
-} Node8002BB08;
+typedef CardChooser Node8002BB08;
 
 extern Node8002BB08 D_8002BB08;
 
@@ -27,7 +20,6 @@ extern Node8002BB08 D_8002BB08;
 
 /* Address-only use; size clears the small-data threshold. */
 
-extern void card_boot_destroy_card_chooser(void *a0);
 
 /* Create or reset the shared node and initialize its request and mode. */
 Node8002BB08 *init_card_boot_request_object(void *request, s32 mode) {
@@ -38,11 +30,11 @@ Node8002BB08 *init_card_boot_request_object(void *request, s32 mode) {
         node = initialize_scene_object_in_buffer(0, node, 25);
     } else {
         card_boot_destroy_card_chooser(node);
-        node->field_1E &= 0x7FFF;
+        node->header.flags &= 0x7FFF;
         bzero(node_data, 0x44);
     }
     runtime_dispatch_state.flags0F |= 0x80;
     card_boot_init_channel_record(node_data, request, mode);
-    node->field_10 = &D_80027A9C[0];
+    node->header.update_callback = &D_80027A9C[0];
     return node;
 }

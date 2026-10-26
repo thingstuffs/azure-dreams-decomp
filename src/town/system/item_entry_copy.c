@@ -1,5 +1,6 @@
 /* Item entry copy and its file-private helper. */
 #include "common.h"
+#include "town/shop/item_lookup.h"
 typedef struct S_800422DC_Other S_800422DC_Other;
 typedef struct S_800422DC_Self S_800422DC_Self;
 typedef struct S_800423C0_Obj S_800423C0_Obj;
@@ -10,7 +11,6 @@ void build_entity_slot_snapshot(S_800422DC_Self *snapshot, S_800422DC_Other *sou
 void apply_actor_template_and_direction(S_800423C0_Obj *obj, s16 unused, S_800423C0_Src *source);
 void func_80042640(void *obj, s16 monsterId);
 void *memset(void *, s32, u32);
-s32 find_first_vacant_record();
 /* extern */
 void *find_unused_default_pool_slot();
 void *func_800B2344();

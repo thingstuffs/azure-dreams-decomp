@@ -3,7 +3,7 @@
 #include "frontend/card.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void position_linked_dialog_and_bind_object_data();                         /* extern */
+void position_linked_dialog_and_bind_object_data(void *object);                         /* extern */
 void * initialize_four_paired_drawing_records(void *buffer, void *unused_object);                    /* extern */
 
 /* Process the embedded data at offset 0x24, then the containing object. */

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
 
 
 
@@ -16,7 +17,6 @@ typedef struct S_80056558_85458 {
 extern s32 audio_voice_count[4];
 extern S_80056558_85458 audio_voice_records[24];
 
-extern s32 sound_set_indexed_voice_volumes();
 
 /* Updates entries with offset-adjusted values when their offsets differ. */
 void sound_apply_changed_voice_volume_offsets(void) {

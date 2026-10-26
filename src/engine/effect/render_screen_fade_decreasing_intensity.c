@@ -2,6 +2,7 @@
 
 #include "common.h"
 #include "sdk/libgpu.h"
+#include "engine/effect/screen_fade.h"
 
 typedef struct {
     char pad0[0x70];
@@ -17,12 +18,6 @@ typedef struct {
 
 extern D80083160_t g_game_work;
 
-typedef struct {
-    char pad0[2];
-    s16 field_2;
-    s16 field_4;
-    s16 field_6;
-} Param;
 
 typedef struct {
     u32 tag;
@@ -44,7 +39,7 @@ typedef struct {
 } PolyF4;
 
 /* Draw a fading fullscreen overlay and advance its frame counter. */
-s32 render_screen_fade_decreasing_intensity(Param *fade)
+s16 render_screen_fade_decreasing_intensity(TransitionSlot *fade)
 {
     D80083160_t *render_state;
     TPagePkt *tpage_pkt;
@@ -58,20 +53,20 @@ s32 render_screen_fade_decreasing_intensity(Param *fade)
     s32 color;
 
     render_state = &g_game_work;
-    if (fade->field_2 >= fade->field_4) {
+    if (fade->unk_2 >= fade->param) {
         return 1;
     }
     tpage_pkt = (TPagePkt *)g_game_work.ctx->field_8D0;
     g_game_work.ctx->field_8D0 = (u8 *)tpage_pkt + 0xC;
     poly = (PolyF4 *)g_game_work.ctx->field_8D0;
     g_game_work.ctx->field_8D0 = (u8 *)poly + 0x18;
-    blend_mode = (fade->field_6 == 0) ? 2 : 1;
+    blend_mode = (fade->unk_6 == 0) ? 2 : 1;
     tpage = GetTPage(0, blend_mode, 0, 0);
     SetDrawMode(tpage_pkt, 0, 0, tpage, 0);
-    if (fade->field_2 == 0) {
+    if (fade->unk_2 == 0) {
         color = 0xFFFFFF;
     } else {
-        color = 0x100 - ((fade->field_2 << 8) / fade->field_4);
+        color = 0x100 - ((fade->unk_2 << 8) / fade->param);
         color = color + ((color << 8) + (color << 16));
     }
     poly->rgbc = color;
@@ -98,6 +93,6 @@ s32 render_screen_fade_decreasing_intensity(Param *fade)
         (tpage_pkt->tag & length_mask) | (render_state->ctx->field_70 & addr_mask);
     render_state->ctx->field_70 =
         (render_state->ctx->field_70 & length_mask) | ((u32)tpage_pkt & addr_mask);
-    fade->field_2++;
+    fade->unk_2++;
     return 0;
 }

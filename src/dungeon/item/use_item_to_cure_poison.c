@@ -10,16 +10,15 @@
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 #include "dungeon/item/message.h"
+#include "dungeon/system.h"
+#include "dungeon/actor/status.h"
+#include "dungeon/player/state.h"
 
 
 extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);             /* extern */
 #include "dungeon/player/item.h"
-void clear_slot_and_update_linked_state();                         /* extern */
 void *get_unused_text_buffer(void);                          /* extern */
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
-void place_actor_item();                 /* extern */
-void display_item_status_message();            /* extern */
-s32 feed_actor_restore_mp();            /* extern */
 void create_timed_paired_particle_emitter();            /* extern */
 extern s32 g_dungeon_status[3];
 extern u8 poison_cure_text[25];

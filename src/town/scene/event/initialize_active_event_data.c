@@ -1,10 +1,9 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/player/script_flags.h"
 
 s32 select_status_code_from_callback(void);                            /* extern */
-void clear_script_flag_bit(s32);                     /* extern */
-s32 get_script_flag_mask(s32);                         /* extern */
 extern M2C_UNK D_8001B314;
 extern s32 *D_8001C370;
 extern s8 D_8001ED72;

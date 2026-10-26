@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/player.h"
+#include "town/player/script_flags.h"
 
 
 /* Update flags using the record and indexed entry, then return success. */

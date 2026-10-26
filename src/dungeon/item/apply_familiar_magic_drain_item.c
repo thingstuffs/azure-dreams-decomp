@@ -12,12 +12,11 @@
 #include "dungeon/player.h"
 
 #include "dungeon/player/item.h"
-void clear_slot_and_update_linked_state();                         /* extern */
+#include "dungeon/system.h"
+#include "dungeon/player/state.h"
 void display_formatted_context_message(void *context);                   /* extern */
 void adjust_source_value_and_finalize(void *context, const void *source);           /* extern */
 s32 play_sound_if_enabled(s32 query_value);                     /* extern */
-void place_actor_item();                 /* extern */
-void display_item_status_message();            /* extern */
 s32 feed_actor_restore_mp();            /* extern */
 extern u8 D_800E17C6[41];
 extern u8 D_800E17EF[];

@@ -9,6 +9,7 @@
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 #include "shared/object_links.h"
+#include "engine/node.h"
 struct EntityLinkNode;
 
 typedef struct S_800C2824_0 {
@@ -93,7 +94,6 @@ typedef struct S_800C2824_16 {
 
 s32 get_entity_effect_value();
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-void unlink_node();
 void adjust_source_value_and_finalize(void *context, const void *source);
 void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);

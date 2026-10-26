@@ -35,7 +35,7 @@ typedef struct MenuLineScratch {
     u8 pad_9C[0x28];
     s32 depth;
     u8 pad_C8[0x20];
-    u16 screen[4][2];
+    union { u16 halves[4][2]; s32 words[4]; } screen;
 } MenuLineScratch;
 
 void draw_random_tinted_quad_pair(u8 *effect);

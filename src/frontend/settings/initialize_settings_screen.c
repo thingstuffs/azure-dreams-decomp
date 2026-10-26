@@ -6,6 +6,7 @@
 #include "m2c_compat.h"
 #include "engine/node.h"
 #include "frontend/settings.h"
+#include "engine/effect/screen_fade.h"
 #include "main/data.h"
 #include "sdk/libgpu.h"
 #include "slus.h"
@@ -32,7 +33,7 @@ static inline void sol9_copy8(void *dst, const void *src, s32 ignored_size) {
     (void)ignored_size;
 }
 
-s32 render_screen_fade_decreasing_intensity();                      /* extern */
+                      /* extern */
 extern M2C_UNK card_selection_display_data;
 extern s8 animation_tick_scale;
 extern s32 saved_cd_playback_volume_scale;

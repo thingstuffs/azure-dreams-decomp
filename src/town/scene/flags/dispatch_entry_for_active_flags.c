@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "shared/game_work.h"
+#include "town/player/script_flags.h"
 
 typedef unsigned char u8;
 typedef signed char s8;
@@ -9,8 +10,6 @@ typedef unsigned int u32;
 typedef int s32;
 s32 apply_selected_entry_values();
 s32 process_checked_entry(void *object, s32 entryIndex);
-void set_script_flag_bit(s32 bit_index);
-s32 get_script_flag_mask(s32 flagIndex);
 /* Update the context flag and dispatch the selected entry according to active flags. */
 void dispatch_entry_for_active_flags(void *context, s32 entry_index)
 {

@@ -2,6 +2,7 @@
 #include "dungeon/system.h"
 #include "slus.h"
 #include "dungeon/level.h"
+#include "engine/graphics.h"
 
 struct ObjectPosition;
 /* One native TU; source order follows the complete ledger cohort. */
@@ -1424,7 +1425,6 @@ extern u8 menu_effect_sprite_entries[];
 extern s16 camera_depth_target[5];
 
 extern void *allocate_list_node();
-extern s32 draw_linked_sprites_clipped();
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 
@@ -1831,7 +1831,6 @@ struct S_800BA33C_0;
 extern s32 is_selectable_menu_target(struct S_800BA33C_0 *object);
 extern void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact, u16 flags);
 
-extern s32 draw_linked_sprites_clipped();
 extern u8 menu_effect_sprite_entries[];
 struct Work;
 struct Out;
@@ -3229,7 +3228,6 @@ void update_five_point_effect(void *effect, S_800BB55C_2 *position, s32 restore_
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
-extern s32 draw_linked_sprites_clipped();
 /* Pass the buffer, value, and data to draw_linked_sprites_clipped and return zero. */
 s32 process_linked_menu_effect(u8 *buffer, s32 value, void *data) {
     draw_linked_sprites_clipped(buffer, value, data);

@@ -1,12 +1,12 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/player/script_flags.h"
 
 typedef struct {
     s32 words[4];
 } PackedWord;
 
 extern PackedWord D_80016024;
-extern s32 get_script_flag_mask(s32);
 extern s32 read_script_flag_range(s32, s32);
 extern void write_script_flag_range(s32, s32, s32);
 

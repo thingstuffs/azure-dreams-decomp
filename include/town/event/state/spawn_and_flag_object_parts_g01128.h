@@ -13,6 +13,7 @@
 #include "shared/entity.h"
 #include "shared/object_links.h"
 #include "shared/dungeon_effect_views.h"
+#include "town/person/position.h"
 
 #ifndef NULL
 #define NULL 0
@@ -111,7 +112,6 @@ extern s32 register_node(void *entry, void *registration_id);
 extern u8 D_8009C4E8[];
 extern s32 add_hex_20000_s_signed_offset_hex_14(); /* Unprototyped: one or two arguments; retail reads only the first. */
 extern void add_motion_deltas_to_position(ObjectPosition *motion);
-extern s16 query_lowered_transform_position(void *position);
 extern u8 D_8009C5D8[];
 extern s32 rand(void);
 extern u8 D_80088D78[8];

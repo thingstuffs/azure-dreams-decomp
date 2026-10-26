@@ -169,11 +169,9 @@ void set_sprite_animation_frame();
 s32 strcpy(void *, s32);
 void create_familiar_deployment_overlay();
 struct DungeonItemEntry;
-void clear_slot_and_update_linked_state(struct DungeonItemEntry *slot);
 s16 find_table_value_index();
 void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 void * copy_four_text_bytes();
-void * write_text_byte_and_advance();
 void process_unflagged_linked_entries(s32 firstEntryBase);
 void process_unflagged_linked_entries_alt(s32 firstNodeBase);
 void unlink_entity_node();

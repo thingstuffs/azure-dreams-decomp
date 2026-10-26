@@ -2,9 +2,9 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
+#include "engine/runtime.h"
 #define ARM_RRX(x, shift) (0)
 
-extern s32 test_resident_bit();
 
 typedef struct S_800F6598_1 {
     u8 pad_00[0x4];

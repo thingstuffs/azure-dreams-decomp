@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/person/position.h"
 
 typedef struct {
     u8 pad_00[0xA];
@@ -15,7 +16,6 @@ typedef struct {
     u16 angle;
 } Position;
 
-extern s16 query_lowered_transform_position(void *position);
 extern void initialize_record_with_handler_table(void *record, void *setup_value, s32 init_value);
 
 /* Advance the position toward its target and update its angle. */

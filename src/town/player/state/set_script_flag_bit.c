@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "town/player/script_flags.h"
 
 
 /* Sets the indexed bit in the global bitfield, ignoring index zero. */

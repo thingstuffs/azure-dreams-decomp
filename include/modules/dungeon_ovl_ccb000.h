@@ -2,6 +2,7 @@
 #define MODULE_DUNGEON_OVL_CCB000_H
 #include "dungeon/system.h"
 #include "engine/texture.h"
+struct EntityLinkNode;
 
 
 struct ObjectPosition;
@@ -1052,7 +1053,7 @@ extern u8 block_slot_c_image_load_done;
 extern u8 block_slot_c_effect_load_done;
 extern s32 D_8015D3AC;
 extern int abs(int);
-extern void select_record_entry_and_value();
+extern void select_record_entry_and_value(void *state_data, void *entry_data, short index);
 extern void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
 extern void *allocate_list_node(s32, void *);
 extern void *func_8003FD64(s32, void *);
@@ -1087,10 +1088,10 @@ extern u16 GetTPage(s32, s32, s32, s32);
 extern void SetPolyG4(void *);
 extern void SetDrawMode(void *, s32, s32, u16, s32);
 extern s32 rand(void);
-extern void unlink_entity_node();
+extern void unlink_entity_node(struct EntityLinkNode *node);
 extern s32 check_entity_relation(void *,void *);
-extern s32 cycle_map_cell_flags();
-extern s32 update_map_cell_flags_with_item_limit();
+extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
+extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s16 check_movement_clearance_and_height(s16,void *,void *,s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
@@ -1099,13 +1100,13 @@ extern s32 find_active_rect_containing_point(s32, s32);
 extern s16 get_tile_chebyshev_distance(void *, void *);
 extern s32 test_neighbor_position_relation(s32,s32,s32,s32);
 extern s16 get_actor_height_difference(void *,void *);
-extern void apply_monster_koyaw_data();
+extern void apply_monster_koyaw_data(s32 flags, s8 *dst);
 extern void * find_adjacent_actor(void *, u8, u8);
 extern s32 probe_directional_neighbor();
 extern void *scan_actor_along_heading(void *, s32, s32, s32, s32);
 extern s32 get_rounded_facing_and_rounding_flag(s16,s16,s16,s16,u16 *);
 extern void select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
-extern void decrement_monster_entry_count();
+extern void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 extern void update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 extern s32 can_entity_gain_level(void *);
 extern void set_record_integer_tile_center(void *, s32, s32);
@@ -1147,7 +1148,7 @@ extern s32 update_actor_defeat_removal(void *,void *,void *,void *);
 extern void apply_clamped_actor_value_delta(void *);
 extern void spend_actor_mp(void *, s32);
 
-extern s32 create_status_linked_render_effect();
+extern void * create_status_linked_render_effect(EntityRec *source_pos, s32 render_param, s16 initial_state, s8 *status);
 extern s32 relink_entity_and_clear_high_flag();
 /* Retail banks use the signed-halfword height-query return view; this
  * is the existing certified fa7000 contract, not a per-function flag. */

@@ -1,6 +1,7 @@
 /* Item index flags and its file-private helper. */
 #include "common.h"
 #include "shared/object_flags.h"
+#include "town/shop/item_lookup.h"
 /* Sibling of w_800510DC.c / code9.c / code10.c: sets the "used"/flag bit
  * (0x8000) on a 16-bit flags field 2 bytes before a0, and on the global
  * 32-bit flags word D_800814A0. Here the target reuses a SINGLE lui-computed
@@ -12,7 +13,6 @@ extern void copy_a_pointer_table_initializes_extra_data_tag_hex_13(void *a0, voi
 extern void unlink_scene_list_node(void *a0);
 extern void unlink_node_if_registered(void *a0);
 extern void func_80033D08(void *a0);
-extern s32 get_item_chk();
 
 /*
  * Initializes tagged data in the object payload, unlinks the object from both scene lists, and

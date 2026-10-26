@@ -4,23 +4,12 @@
 
 
 
-typedef struct {
-    u8 pad00[6];
-    u16 field06;
-    u8 pad08[2];
-    u16 field0A;
-    u8 pad0C[0x1A - 0x0C];
-    s16 field1A;
-    u8 field1C;
-    u8 field1D;
-    u8 pad1E[0x78 - 0x1E];
-} S_80085458;
+typedef SoundVoiceRecord S_80085458;
 
 extern s32 audio_voice_count[];
 extern s32 audio_voice_masks[];
 extern S_80085458 audio_voice_records[];
 
-extern s32 sound_apply_indexed_voice_envelope();
 
 #define ACTIVE_COUNT (*(s32 *)0x80073734)
 

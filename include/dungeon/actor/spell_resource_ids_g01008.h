@@ -1,5 +1,6 @@
 #ifndef DUNGEON_ACTOR_SPELL_RESOURCE_IDS_G01008_H
 #define DUNGEON_ACTOR_SPELL_RESOURCE_IDS_G01008_H
+#include "engine/node/allocation.h"
 
 struct ObjectPosition;
 /* spell resource ids g01008. Shared declarations. */
@@ -81,7 +82,6 @@ extern u8 spell_resource_ids[49];
 extern u8 active_spell_parameters[];
 extern u16 direction_x_offsets[];
 extern u16 direction_y_offsets[];
-void *allocate_list_node();
 s32 rand(void);
 void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 u8 * expand_text_control_codes();

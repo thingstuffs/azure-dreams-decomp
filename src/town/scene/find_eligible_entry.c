@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/scene.h"
 #include "town/player.h"
+#include "town/player/script_flags.h"
 
 typedef s32 (*TownEntryPredicate)(void *, s32);
 

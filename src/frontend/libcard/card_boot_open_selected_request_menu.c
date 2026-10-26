@@ -3,7 +3,6 @@
 
 #include "frontend/libcard.h"
 #include "frontend/libcard/interfaces.h"
-void card_boot_destroy_card_chooser();
 typedef struct S_80027528_0 {
     s32 unk_00;
     u8 pad_04[0x10];

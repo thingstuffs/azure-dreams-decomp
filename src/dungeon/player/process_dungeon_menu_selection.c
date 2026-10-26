@@ -18,6 +18,7 @@
 #include "dungeon/player/item.h"
 #include "dungeon/player/object.h"
 #include "dungeon/player/position.h"
+#include "engine/graphics.h"
 
 typedef struct S_80090C10_1 {
     union { s32 s; void * (*u)(s32, s32); } unk_00;   /* accessed as both */
@@ -90,8 +91,6 @@ typedef struct DdcbcEntry {
 s32 func_8002534C(void *, s32, void *, ActorRecord *); /* extern */
 void select_record_entry_and_value(void *state, void *entries, short index);        /* extern */
 s32 get_entity_effect_value();                 /* extern */
-void set_sprite_animation_frame(); /* extern */
-void read_vram_blocks_to_buffer();                            /* extern */
 #include "dungeon/player/item.h"
 #include "dungeon/actor/state.h"
 struct S_80094270_2;

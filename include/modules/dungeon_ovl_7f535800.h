@@ -13,7 +13,7 @@ extern s32 D_80159014;
 extern s32 D_8015C20C;
 extern s32 D_8015C25C;
 
-extern void *allocate_list_node();
+extern void *allocate_list_node(s32 flags, ObjectNodeHeader **list_head);
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);

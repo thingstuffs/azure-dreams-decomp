@@ -2,15 +2,8 @@
 
 #include "common.h"
 #include "sdk/libgpu.h"
+#include "engine/effect/screen_fade.h"
 
-typedef struct
-{
-    char pad0[2];
-    s16 counter;
-    s16 duration;
-    s16 semiTransSel;
-}
-S_80053604_Obj;
 typedef struct
 {
     u32 tag;
@@ -47,7 +40,7 @@ typedef struct
 S_80053604_Main;
 extern S_80053604_Main g_game_work;
 /* Draws a full-screen additive or subtractive fade, advances its timer, and reports completion. */
-s32 render_screen_fade_increasing_intensity(S_80053604_Obj *fade)
+s16 render_screen_fade_increasing_intensity(TransitionSlot *fade)
 {
     u32 addr_mask;
     register u32 tag_mask;
@@ -67,12 +60,12 @@ s32 render_screen_fade_increasing_intensity(S_80053604_Obj *fade)
     poly = (S_80053604_PolyF4 *) g_game_work.renderState->nextPrim;
     g_game_work.renderState->nextPrim = (void *) (((u8 *) poly) + (sizeof(S_80053604_PolyF4)));
     blend_mode = 1;
-    if (fade->semiTransSel == 0) {
+    if (fade->unk_6 == 0) {
         blend_mode = 2;
     }
     SetDrawMode(tpage, 0, 0, GetTPage(0, blend_mode, 0, 0) & 0xFFFF, 0);
-    elapsed = fade->counter;
-    duration = fade->duration;
+    elapsed = fade->unk_2;
+    duration = fade->param;
     if (elapsed > duration) {
         done = 1;
     }
@@ -85,7 +78,7 @@ s32 render_screen_fade_increasing_intensity(S_80053604_Obj *fade)
         color = color + ((color << 8) + (color << 16));
     }
     if (!done) {
-        fade->counter = ((u16) fade->counter) + 1;
+        fade->unk_2 = ((u16) fade->unk_2) + 1;
     }
     poly->rgbc = color;
     SetPolyF4(poly);

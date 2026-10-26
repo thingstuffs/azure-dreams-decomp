@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
 
 /* Inferred struct for global D_80084918, reconciled across this wave's siblings. */
 typedef struct {
@@ -14,20 +15,11 @@ typedef struct {
 extern S_80084918 audio_voice_request;
 extern s32 audio_voice_masks[];
 
-/* Inferred layout for the second argument struct (only fields at 0x60/0x64/0x68 used here). */
-typedef struct {
-    u8  pad00[0x60];
-    u16 field60;
-    u8  pad62[2];
-    u16 field64;
-    u8  pad66[2];
-    s32 field68;
-} S_80056D44_Arg1;
 
 extern s32 apply_spu_voice_attributes(S_80084918 *descriptor);
 
 /* Populates the global descriptor from a table entry and source fields, then processes it. */
-s32 sound_apply_indexed_voice_envelope(s32 table_index, S_80056D44_Arg1 *source) {
+s32 sound_apply_indexed_voice_envelope(s32 table_index, SoundVoiceRecord *source) {
     S_80084918 *descriptor = &audio_voice_request;
     descriptor->field4 = 0x60100;
     audio_voice_request.field0 = audio_voice_masks[table_index];

@@ -1,5 +1,7 @@
 #include "shared/monster_ids.h"
 #include "dungeon/item/message.h"
+#include "dungeon/actor/status.h"
+#include "dungeon/player/state.h"
 
 struct ObjectNodeHeader;
 #include "shared/entity_action_selectors.h"
@@ -12,14 +14,11 @@ struct ObjectNodeHeader;
 
 #include "dungeon/player/item.h"
 #include "dungeon/system.h"
-void clear_slot_and_update_linked_state();
 void *get_unused_text_buffer(void);
-u8 * append_typed_formatted_value();
 void adjust_source_value_and_finalize(void *context, const void *source);
 s32 display_text_with_fullwidth_adjustment();
 struct DungeonItemEntry;
 void place_actor_item(void *object_context, struct DungeonItemEntry *target);
-s32 feed_actor_restore_mp();
 void create_colored_effect_with_event(struct ObjectNodeHeader *source, s32 color, unsigned short event_id);
 
 extern u8 D_8008935C[];
@@ -45,15 +44,10 @@ typedef struct S_800BE120_0 {
     s32 unk_110;
 } S_800BE120_0;   /* arg0 in fix_monster_fusion_appearance */
 
-typedef struct S_800BE120_1 {
-    u8 unk_00;
-    u8 unk_01;
-    u8 unk_02;
-    u8 unk_03;
-} S_800BE120_1;   /* arg1 in fix_monster_fusion_appearance */
+
 
 /* Applies data to an entity and handles the resulting update or fallback. */
-s32 fix_monster_fusion_appearance(void *entity, S_800BE120_1 *data, s16 mode) {
+s32 fix_monster_fusion_appearance(void *entity, DungeonItemEntry *data, s16 mode) {
     s16 stored;
     void *call_entity;
     void *context_arg;
@@ -87,7 +81,7 @@ s32 fix_monster_fusion_appearance(void *entity, S_800BE120_1 *data, s16 mode) {
                     }
                     ((S_800BE120_0 *)entity)->unk_48.at00.v = *(s32 *)data;
                     ((S_800BE120_0 *)entity)->unk_48.at00u.v = data->unk_00;
-                    ((S_800BE120_0 *)entity)->unk_48.at01.v = data->unk_01;
+                    ((S_800BE120_0 *)entity)->unk_48.at01.v = data->kind;
                     ((S_800BE120_0 *)entity)->unk_48.at02.v = data->unk_02;
                     ((S_800BE120_0 *)entity)->unk_48.at03.v = data->unk_03;
                     ((S_800BE120_0 *)entity)->unk_54 |= 0x800000;

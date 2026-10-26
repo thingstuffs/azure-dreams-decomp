@@ -50,7 +50,7 @@ extern void func_80158E5C(void *actor_in, void *context_in, void *sprite_in, voi
 extern u8 volcano_slot_c_frame_set[];
 extern u8 D_8015C538[];
 
-extern void *allocate_list_node();
+extern void *allocate_list_node(s32 flags, ObjectNodeHeader **list_head);
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);

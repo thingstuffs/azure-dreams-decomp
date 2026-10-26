@@ -8,6 +8,7 @@
 #include "shared/object_flags.h"
 #include "shared/object_payload.h"
 #include "shared/town_pointees.h"
+#include "town/person/position.h"
 
    /* root in count_entries_matching_search_path */
 
@@ -97,7 +98,6 @@ extern void create_familiar_deployment_effect_with_owner_state(void);
 extern void apply_global_scene_value(void *);
 extern void initialize_scene_action_record(void *, void *, void *);
 extern void tw_sd_sq_ld_call(s32, s32);
-extern s16 query_lowered_transform_position(void *);
 
 /* Town cutscene step machine: the 0x36 stage byte selects this frame's work -- seed the camera motion, run each animation phase in turn, and once past stage 4 clamp the camera to its limits. */
 void count_entries_matching_search_path(TownCollectionSequence *scene)

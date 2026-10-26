@@ -8,6 +8,7 @@
 #include "m2c_compat.h"
 #include "dungeon/level.h"
 #include "slus.h"
+#include "dungeon/item/message.h"
 
 typedef struct {
     u8 pad0[2];
@@ -22,11 +23,6 @@ extern s32 entity_level_thresholds[];
 extern void func_8003E188(s32 field_index, s32 flag);
 extern void func_80042640(void *obj, s16 monsterId);
 void *get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
-u8 *expand_text_control_codes();
-void *clear_byte_and_advance();
-void *write_text_byte_and_advance();
-u8 *append_entity_display_text();
-void display_formatted_context_message(void *context); /* extern */
 s32 *(*load_monster_resource_data())(s32, s16, s16, s16); /* extern */
 u8 * find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type);
 void raise_entity_level(void *entity_data, s32 show_message); /* extern */

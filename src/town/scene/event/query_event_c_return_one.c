@@ -2,6 +2,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/player.h"
+#include "town/player/script_flags.h"
 
 
 /* Calls get_script_flag_mask with ID 0x12C2 and returns 1. */

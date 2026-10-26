@@ -1,6 +1,6 @@
 #include "town/scene.h"
+#include "town/player/script_flags.h"
 
-extern s32 get_script_flag_mask(s32);
 extern void set_indexed_entry_flag(void *, s32);
 
 /* Set the indexed entry flag while the fixed script flag is enabled. */

@@ -1,6 +1,6 @@
 #include "common.h"
+#include "town/player/script_flags.h"
 
-extern s32 get_script_flag_mask(s32);
 
 /* Builds a bitmask of nonzero query results for consecutive indices. */
 s32 read_script_flag_range(s32 start_index, s32 count) {

@@ -7,6 +7,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/item/message.h"
 
 
 typedef struct S_801740F4_1 {
@@ -21,10 +22,6 @@ typedef struct S_801740F4_1 {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 
-extern void *get_unused_text_buffer(void);
-extern u8 *expand_text_control_codes();
-extern void * clear_byte_and_advance();
-extern u8 *append_entity_display_text();
 #include "dungeon/player/object/action_state.h"
 extern s32 display_text_with_fullwidth_adjustment();
 extern s32 generate_random_value(void);
@@ -69,7 +66,7 @@ void begin_actor_hit_reaction_slot_f(void *work, void *part_a, void *part_b, Ent
         pass_result = raw_result;
         result = pass_result;
         raw_result = append_entity_display_text(call_arg, pass_result);
-        clear_byte_and_advance(expand_text_control_codes(&D_8016A854, raw_result));
+        clear_byte_and_advance(expand_text_control_codes(D_8016A854, raw_result));
         display_text_with_fullwidth_adjustment(result);
     }
 }

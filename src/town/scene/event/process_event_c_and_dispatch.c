@@ -3,6 +3,7 @@
 #include "shared/town_dispatch_object.h"
 #include "m2c_compat.h"
 #include "town/player.h"
+#include "town/player/script_flags.h"
 
 s32 apply_entry_position(); /* extern */
 extern M2C_UNK D_8001BB44;

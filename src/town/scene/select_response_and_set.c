@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/player/script_flags.h"
 
 typedef struct Copy4 {
     u8 bytes[4];
@@ -7,8 +8,6 @@ typedef struct Copy4 {
 
 extern void append_town_item(const Copy4 *);
 extern s32 count_free_item_slots(void);
-extern void set_script_flag_bit(s32);
-extern s32 get_script_flag_mask(s32);
 extern Copy4 D_8001BE5C;
 extern s32 D_8001EACC;
 extern s32 D_8001EBCA;

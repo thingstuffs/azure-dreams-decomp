@@ -1,8 +1,8 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/player/script_flags.h"
 
-void set_script_flag_bit(s32);                     /* extern */
 extern M2C_UNK scene_event_buffer;
 
 /* Sets script flags Ftt_pad124 and Ftt_pad70, then returns scene_event_buffer. */

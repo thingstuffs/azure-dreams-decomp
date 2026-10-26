@@ -15,4 +15,6 @@ s32 try_trigger_target_record_effect(void *entity, s32 flags, void *record);
 /* Callback entry points. */
 s32 queue_linked_visible_rectangle_copies(void *initial_state, void *input_values, s16 *initial_delta);
 
+void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 power_bonus, s16 elements, u16 hit_angle, s32 source_flags, u16 hit_kind);
+
 #endif

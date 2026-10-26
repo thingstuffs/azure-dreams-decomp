@@ -24,7 +24,7 @@ extern S_80085458 audio_voice_records[24];
 extern S_80084960 audio_channel_controls[16];
 
 extern void audio_compute_voice_stereo_volumes(S_80085458 *a0, S_80084960 *a1);
-extern s32 sound_set_indexed_voice_volumes(s32 a0, u16 a1, u16 a2);
+extern s32 sound_set_indexed_voice_volumes(s32 a0, s32 a1, s32 a2);
 
 /* Dispatch each active entry with its matching slot, then its field pair with its index. */
 void audio_refresh_all_voice_volumes(void)

@@ -1,9 +1,10 @@
 #include "modules/main_server_ship.h"
 #include "common.h"
+#include "sdk/libapi.h"
 #include "m2c_compat.h"
 #include "main.h"
 
-s32 _card_info();                             /* extern */
+                             /* extern */
 
 
 

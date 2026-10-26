@@ -59,12 +59,7 @@ typedef struct {
     s32 w3;
     s32 w4;
 } __attribute__((packed)) Packed20;
-typedef struct {
-    s32 w0;
-    s32 w1;
-    s32 w2;
-    s32 w3;
-} Words4;
+typedef SettingsEffectBlock Words4;
 typedef struct {
     s32 w0;
     s32 w1;
@@ -91,7 +86,7 @@ void update_settings_effect(void *effect) {
     void *callback;
 
     copy_dst = (Words4 *)&effect_tables[0];
-    style_src = (Words4 *)&D_80088790;
+    style_src = D_80088790.blocks;
     owner = ((S_80089608_0 *)effect)->unk_00;
     do {
         *copy_dst = *style_src;
@@ -101,7 +96,7 @@ void update_settings_effect(void *effect) {
     *(Words2 *)copy_dst = *(Words2 *)style_src;
     *(Packed20 *)(effect_tables + 40) = *(Packed20 *)&D_800887B8;
     copy_dst = (Words4 *)&effect_tables[64];
-    mask_src = &D_800887CC;
+    mask_src = D_800887CC.blocks;
     do {
         *copy_dst = *mask_src;
         mask_src++;

@@ -53,7 +53,6 @@ extern void begin_mode_selected_item_action(void *object,void *unused_1,void *un
 extern s32 process_record_and_update_linked_state();
 extern void clear_slot_and_update_linked_state();
 extern void *get_unused_text_buffer(void);
-extern u8 *expand_text_control_codes();
 extern u8 * copy_selected_text_without_terminator();
 extern void display_formatted_context_message(void *context);
 extern void *scan_actor_along_heading();

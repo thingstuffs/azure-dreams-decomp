@@ -1,6 +1,6 @@
 #include "common.h"
+#include "town/shop/item_lookup.h"
 
-extern s32 get_item_chk(void);
 extern void write_resource_command(void *value, s32 code);
 #include "town/player/action_initializers.h"
 extern s32 D_80088D44;

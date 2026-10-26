@@ -3,6 +3,7 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "engine/runtime.h"
 
 typedef s32 M2C_UNK;
 
@@ -10,7 +11,6 @@ typedef s32 M2C_UNK;
 #define NULL 0
 #endif
 
-extern s32 test_resident_bit();
 extern void file_load_com(void *packed_data);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s16 get_surface_height_at_coordinates();

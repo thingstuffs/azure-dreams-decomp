@@ -3,6 +3,7 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "frontend/settings.h"
+#include "engine/effect/screen_fade.h"
 #include "main/data.h"
 
 #ifndef NULL
@@ -18,10 +19,7 @@ typedef struct Obj {
     /* 0x00 */ u8 pad00[4];
     /* 0x04 */ SubObj *slotsA[3];
     /* 0x10 */ SubObj *slotsB[2];
-    /* 0x18 */ u8 f18[2];
-    /* 0x1a */ s16 f1a;
-    /* 0x1c */ s16 f1c;
-    /* 0x1e */ s16 f1e;
+    /* 0x18 */ TransitionSlot fade;
     /* 0x20 */ s16 state;
     /* 0x22 */ u16 counter;
     /* 0x24 */ s16 f24;
@@ -30,8 +28,6 @@ typedef struct Obj {
 
 extern u8 animation_tick_scale[];
 
-extern s32 render_screen_fade_decreasing_intensity();
-extern s32 render_screen_fade_increasing_intensity();
 extern short func_80053da8(int flags);
 extern void *func_8003fc64(s32 flags);
 extern void func_8003d468(void);
@@ -55,7 +51,7 @@ void update_settings_menu_animation(Obj *obj, s32 *position) {
             obj->state = 16;
             return;
         }
-        if ((s16) render_screen_fade_decreasing_intensity((u8 *) obj + 24)) {
+        if ((s16) render_screen_fade_decreasing_intensity(&obj->fade)) {
             obj->f26 &= ~1;
             obj->state = 1;
         }
@@ -126,21 +122,21 @@ void update_settings_menu_animation(Obj *obj, s32 *position) {
         return;
 
     case 16:
-        obj->f1a = 0;
-        obj->f1c = 8;
+        obj->fade.unk_2 = 0;
+        obj->fade.param = 8;
         obj->state = 17;
                         /* fallthrough */
     case 17:
-        if ((s16) render_screen_fade_increasing_intensity((u8 *) obj + 24)) {
+        if ((s16) render_screen_fade_increasing_intensity(&obj->fade)) {
             position[1] = 0;
-            obj->f1a = 0;
+            obj->fade.unk_2 = 0;
             obj->state = 18;
         }
         return;
 
     case 18:
-        if ((s16) render_screen_fade_decreasing_intensity((u8 *) obj + 24)) {
-            obj->f1a = 0;
+        if ((s16) render_screen_fade_decreasing_intensity(&obj->fade)) {
+            obj->fade.unk_2 = 0;
             obj->state = 19;
         }
         return;

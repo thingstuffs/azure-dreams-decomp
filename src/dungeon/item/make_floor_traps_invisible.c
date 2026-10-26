@@ -9,15 +9,13 @@
 #include "dungeon/item.h"
 #include "dungeon/player/item.h"
 #include "dungeon/item/message.h"
+#include "dungeon/system.h"
 
 
 extern s32 process_record_and_update_linked_state();
 extern void clear_slot_and_update_linked_state();
 extern void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
-extern u8 * expand_text_control_codes();
 extern void display_text_with_fullwidth_adjustment();
-extern void place_actor_item();
-extern void display_actor_item_status_message();
 extern s32 feed_actor_restore_mp();
 
 extern u8 D_800E1567[];

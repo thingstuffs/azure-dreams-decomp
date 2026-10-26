@@ -20,11 +20,10 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "dungeon/player/item.h"
-void clear_slot_and_update_linked_state();                         /* extern */
+#include "dungeon/system.h"
+#include "dungeon/player/state.h"
 void adjust_source_value_and_finalize(void *context, const void *source);           /* extern */
 s32 set_or_clear_actor_status_slot();        /* extern */
-void place_actor_item();                 /* extern */
-void display_item_status_message(void *entity, struct DungeonItemEntry *item, s16 action_type);   /* extern */
 s32 feed_actor_restore_mp();            /* extern */
 extern u8 D_800E1729[17];
 

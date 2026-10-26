@@ -3,6 +3,7 @@
 /* Prototypes of the functions defined in src/engine/effect/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
+#include "engine/effect/screen_fade.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/vector.h"
 

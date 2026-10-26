@@ -113,7 +113,7 @@ s32 func_80019880(void);
 s32 func_800196F4();
 s32 func_80019778();
 void apply_four_values_and_refresh();
-void func_80018F74();
+void func_80018F74(s32 value0, s32 value1, s32 value2, s32 value3);
 s32 func_8001979C();
 void func_800187AC(void);
 s32 func_80019814(void *object, s32 index);

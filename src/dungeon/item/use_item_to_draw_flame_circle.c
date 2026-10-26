@@ -8,6 +8,8 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/system.h"
+#include "dungeon/actor/status.h"
 
 typedef struct S_800C13C8_0 {
     void * unk_00;
@@ -31,9 +33,6 @@ typedef struct S_800C13C8_1 {
 s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32);           /* extern */
 void clear_slot_and_update_linked_state();                         /* extern */
 void display_formatted_context_message(void *context);                   /* extern */
-void place_actor_item();                 /* extern */
-void display_actor_item_status_message();            /* extern */
-s32 feed_actor_restore_mp();                /* extern */
 void * create_five_point_effect(); /* extern */
 extern s32 D_800C135C();
 extern u8 ribbon_sprite_entries[];

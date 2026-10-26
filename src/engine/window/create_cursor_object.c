@@ -57,7 +57,7 @@ typedef struct S_80036B10_8 {
 
 
 
-void runtime_initialize_state_value();
+void runtime_initialize_state_value(Rec_D_80081FDC *state, s32 initialValue);
 void prepend_embedded_object_node();
 extern u8 window_node_list_storage[];
 extern void runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback(void);

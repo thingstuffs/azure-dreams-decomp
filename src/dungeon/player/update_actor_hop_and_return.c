@@ -8,6 +8,7 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "sdk/libgte.h"
+#include "engine/graphics.h"
 
 typedef struct S_80091C64_0 {
     u8 pad_00[0x8C];
@@ -25,7 +26,6 @@ typedef struct S_80091C64_0 {
     u16 unk_11A;
 } S_80091C64_0;   /* arg0 in update_actor_hop_and_return */
 
-void set_sprite_animation_frame();
 void set_record_integer_tile_center();
 s32 play_sound_if_enabled(s32 query_value);
 

@@ -7,6 +7,7 @@
 #include "shared/game_work.h"
 #include "shared/entity.h"
 #include "shared/vector.h"
+#include "town/person/position.h"
 
 #ifndef NULL
 #define NULL 0
@@ -35,7 +36,6 @@ extern u8 D_80024470[];
 extern u8 D_8007947C[];
 extern s16 D_800834C8[8];
 
-extern s16 query_lowered_transform_position(void *position);
 extern void initialize_town_context_action(void);
 extern s32 test_three_axis_box_overlap(void *box, void *offset);
 extern s16 SD_Call(s32 value);

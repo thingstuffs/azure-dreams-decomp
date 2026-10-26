@@ -22,7 +22,7 @@ void card_boot_destroy_card_chooser(Struct80014C90 *entry) {
     if (entry->unk20 == 2) {
         configure_shared_fade_primitive();
     }
-    entry->unk1E |= 0x8000;
+    entry->header.flags |= 0x8000;
     D_800814A0 |= OBJECT_REMOVE_PENDING;
 }
 

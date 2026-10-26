@@ -1,7 +1,6 @@
 #include "common.h"
+#include "town/player/script_flags.h"
 
-extern void set_script_flag_bit(s32);
-extern void clear_script_flag_bit(s32);
 
 /* Dispatches consecutive indices to one of two handlers according to successive mask bits. */
 void write_script_flag_range(s32 base, s32 bits, s32 count)

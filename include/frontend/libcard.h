@@ -5,6 +5,18 @@ struct ObjectNodeHeader;
 /* Prototypes of the functions defined in src/frontend/libcard/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
+#include "shared/object_node.h"
+
+typedef struct Node8002BB08 {
+    ObjectNodeHeader header;
+    s32 unk20;
+    s32 unk24;
+    u8 pad28[0x18];
+    s32 unk40;
+    s32 unk44;
+} CardChooser;
+
+void card_boot_destroy_card_chooser(CardChooser *entry);
 #include "records/Rec_func_8002290C_arg0.h"
 /* Slot-menu payload: the request returns to its owning card chooser. */
 typedef struct CardSlotMenuState {

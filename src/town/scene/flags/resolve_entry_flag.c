@@ -1,7 +1,7 @@
 #include "common.h"
 
 #include "town/scene/entry_requests.h"
-extern s32 get_script_flag_mask(s32 flagIndex);
+#include "town/player/script_flags.h"
 
 /* Resolve a table entry to its referenced flag and query that flag. */
 s32 resolve_entry_flag(u8 *entry_table, void *context, s32 entry_key) {

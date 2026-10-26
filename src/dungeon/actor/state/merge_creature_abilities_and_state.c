@@ -8,13 +8,13 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
 #include "engine/entity.h"
+#include "dungeon/player/state.h"
 
 s16 find_matching_initial_stat_slot();
 void *select_object_by_flags_and_keys(void *, void *, u16 *);
 void zero_words();
 void apply_entity_effects(void *);
 void copy_entity_record();
-void clear_slot_and_update_linked_state();
 void unlink_entity_node();
 void update_map_cell_flags_with_item_limit();
 void decrement_monster_entry_count();

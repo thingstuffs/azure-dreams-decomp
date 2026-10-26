@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/shop/item_lookup.h"
 
 extern s32 count_nonzero_entries(void *entries);
 

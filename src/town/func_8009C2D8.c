@@ -5,7 +5,7 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 #include "town/player/initialize_record_with_handler_table_api.h"
-s16 query_lowered_transform_position();
+#include "town/person/position.h"
 
 /* Refreshes height and steps positive X until the countdown becomes negative, then resets the handler. */
 void step_actor_positive_x_until_timer_expires(Rec_func_80094268_arg0 *state, EntityRec *object, s32 context) {

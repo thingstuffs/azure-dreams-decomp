@@ -11,6 +11,8 @@
 #include "dungeon/system.h"
 #include "engine/menu.h"
 #include "dungeon/player/item.h"
+#include "dungeon/player/state.h"
+#include "dungeon/item/message.h"
 
 typedef struct S_800C08A4_0 {
     void * unk_00;
@@ -40,15 +42,9 @@ typedef struct S_800C08A4_2 {
 } S_800C08A4_2;   /* counter_base in apply_monster_equipment_item */
 
 
-s32 process_record_and_update_linked_state(); /* extern */
-void clear_slot_and_update_linked_state(); /* extern */
 
 void * copy_fullwidth_vowel_bytes();
-void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
-u8 * expand_text_control_codes();
-void *clear_byte_and_advance();
-u8 *append_typed_formatted_value();
-u8 *append_entity_display_text();
+ /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 void * append_value_seven_suffix();
 s32 display_text_with_fullwidth_adjustment(); /* extern */
 struct DungeonItemEntry;
@@ -110,7 +106,7 @@ s32 apply_monster_equipment_item(u8 *entity, DungeonItemEntry *target, s16 actio
             void *result;
 
             external_entity_value = append_value_seven_suffix(event_value);
-            result = expand_text_control_codes(&D_80089378, external_entity_value);
+            result = expand_text_control_codes(D_80089378, external_entity_value);
             node_offset = external_entity_value - 2;
             external_entity_value = result;
             result = append_typed_formatted_value(target, external_entity_value);
@@ -120,7 +116,7 @@ s32 apply_monster_equipment_item(u8 *entity, DungeonItemEntry *target, s16 actio
                 external_entity_value = result;
                 copy_fullwidth_vowel_bytes(node_offset, entity_value);
             }
-            clear_byte_and_advance(expand_text_control_codes(&D_8008937C, external_entity_value));
+            clear_byte_and_advance(expand_text_control_codes(D_8008937C, external_entity_value));
         }
         display_text_with_fullwidth_adjustment(script);
         clear_slot_and_update_linked_state(target);
@@ -133,7 +129,7 @@ s32 apply_monster_equipment_item(u8 *entity, DungeonItemEntry *target, s16 actio
             void *result;
 
             external_entity_value = append_value_seven_suffix(external_event_value);
-            result = expand_text_control_codes(&D_80089378, external_entity_value);
+            result = expand_text_control_codes(D_80089378, external_entity_value);
             node_offset = external_entity_value - 2;
             external_entity_value = result;
             result = append_typed_formatted_value(target, external_entity_value);
@@ -143,7 +139,7 @@ s32 apply_monster_equipment_item(u8 *entity, DungeonItemEntry *target, s16 actio
                 external_entity_value = result;
                 copy_fullwidth_vowel_bytes(node_offset, entity_value);
             }
-            clear_byte_and_advance(expand_text_control_codes(&D_8008937C, external_entity_value));
+            clear_byte_and_advance(expand_text_control_codes(D_8008937C, external_entity_value));
         }
         display_text_with_fullwidth_adjustment(script);
     }

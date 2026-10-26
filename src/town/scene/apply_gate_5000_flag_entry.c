@@ -1,4 +1,5 @@
 #include "town/scene.h"
+#include "town/player/script_flags.h"
 
 extern u8 D_8001C33C[];
 extern u8 D_8001E6B4[];
@@ -32,10 +33,8 @@ extern s32 func_80017E34(SquareSceneEntry *, s32);
 extern void *dispatch_through_table_bbc_4(SquareSceneEntry *, s32, s32);
 extern void *get_shared_entry_buffer(SquareSceneEntry *, s32, s32);
 extern s32 return_zero_fn(SquareSceneEntry *, s32);
-extern s32 get_script_flag_mask(s32);
 extern void set_current_entry_script_flag(void);
 extern s32 apply_selected_entry_values(void *, s32);
-extern void set_script_flag_bit(s32);
 extern s32 process_checked_entry(void *, s32);
 
 s32 apply_gate_5000_flag_entry(SquareSceneEntry *entry, s32 entry_index) {

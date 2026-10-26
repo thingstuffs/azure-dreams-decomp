@@ -4,6 +4,7 @@
 #include "records/Rec_func_800165F4_arg0.h"
 #include "town/scene.h"
 #include "town/player.h"
+#include "town/player/script_flags.h"
 
 s32 process_checked_entry(void *object, s32 entryIndex);             /* extern */
 

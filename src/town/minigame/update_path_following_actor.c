@@ -8,6 +8,8 @@
 #include "engine/graphics.h"
 #include "slus.h"
 #include "sdk/libgte.h"
+#include "town/minigame/entry_state.h"
+#include "town/person/position.h"
 
 
 
@@ -15,12 +17,9 @@
 
 
 void update_directional_record();      /* extern */
-void advance_bounded_entry_index(void *bounds_data, void *state_data);              /* extern */
-void fill_eligible_negative_slots(void *record, s16 *eligibility, s16 new_value);            /* extern */
 s32 rand();              /* extern */
 void add_motion_deltas_to_position();                      /* extern */
 void spawn_person_radial_effects();                 /* extern */
-s16 query_lowered_transform_position();                      /* extern */
 
 typedef struct {
     s32 field0;

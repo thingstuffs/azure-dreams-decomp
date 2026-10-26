@@ -9,13 +9,11 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/player/item.h"
+#include "dungeon/actor/status.h"
+#include "dungeon/system.h"
 
 extern s32 process_record_and_update_linked_state();
-extern s32 display_actor_item_status_message();
-extern s32 feed_actor_restore_mp();
-extern s32 place_actor_item();
 extern void create_type_212_object(s32 flag, s8 value);
-extern s32 play_sound_if_enabled(s32 query_value);
 extern void refresh_packed_grid_nibbles(void);
 extern s32 mark_active_nodes_by_callback();
 extern s32 display_formatted_context_message(); /* Unprototyped: one or three arguments; retail retains only the text context. */

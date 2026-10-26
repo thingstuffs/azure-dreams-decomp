@@ -6,7 +6,8 @@
 #include "records/Rec_D_80082E80.h"
 
 #include "town/system/person_idle_dispatch.h"
-s32 get_facing_sector(); /* Slot contract: loading images do not establish one callee contract. */
+#include "town/person/position.h"
+ /* Slot contract: loading images do not establish one callee contract. */
 
 /* Store the value table, apply the selected value to the target, and clear its status byte. */
 void store_value_table_and_reset_target(Rec_func_80094268_arg0 *object, SpriteFrameState *target, s32 *value_table) {

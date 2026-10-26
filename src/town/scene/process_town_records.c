@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player/script_flags.h"
 
 typedef struct {
     s16 unk0;
@@ -7,9 +8,6 @@ typedef struct {
     s16 unk6;
 } TownRecord;
 
-extern void set_script_flag_bit(s32);
-extern void clear_script_flag_bit(s32);
-extern s32 get_script_flag_mask(s32);
 extern s16 scene_dependency_ids[3];
 
 /* Processes town records according to global and per-record conditions. */

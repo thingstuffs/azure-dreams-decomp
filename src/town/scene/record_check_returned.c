@@ -2,7 +2,7 @@
 #include "common.h"
 
 #include "town/scene/entry_requests.h"
-extern void clear_script_flag_bit(s32 bit_index);
+#include "town/player/script_flags.h"
 extern u8 town_entry_check_zero[];
 
 /* Record whether the check returned zero and invoke the handler when it did. */

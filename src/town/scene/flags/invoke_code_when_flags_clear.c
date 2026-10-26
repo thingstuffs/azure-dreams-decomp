@@ -4,6 +4,7 @@
 #include "shared/town_root.h"
 #include "m2c_compat.h"
 #include "town/player.h"
+#include "town/player/script_flags.h"
 
 
 

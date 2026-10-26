@@ -3,6 +3,7 @@
 #include "sdk/libc.h"
 #include "sdk/libgte.h"
 #include "dungeon/system.h"
+#include "engine/node/allocation.h"
 
 struct SpriteFrameState;
 #include "common.h"
@@ -277,7 +278,6 @@ typedef struct Row_8194D354_S_80024B54_11 {
 void register_node(void *, void *);
 void func_8004491C(void *, void *);
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
-void *allocate_list_node();
 void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 void advance_sprite_animation_and_textures(void *entity);
 void select_record_entry_and_value(void *state, void *entries, short index);

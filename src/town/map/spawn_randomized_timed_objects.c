@@ -5,6 +5,7 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/object_links.h"
+#include "engine/runtime.h"
 
 #ifndef NULL
 #define NULL 0
@@ -12,7 +13,6 @@
 
 
 
-s32 test_resident_bit();
 struct ObjectNodeHeader; void * allocate_list_node(s32, struct ObjectNodeHeader * *);
 void register_node(void *, void *);
 s32 rand(void);

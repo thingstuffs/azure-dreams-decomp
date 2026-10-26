@@ -3,6 +3,7 @@
 #include "shared/town_dispatch_object.h"
 #include "m2c_compat.h"
 #include "town/player.h"
+#include "town/player/script_flags.h"
 
 
 extern s32 resolve_entry_flag();

@@ -2,6 +2,8 @@
 #define MODULES_TOWN_TOWN_WINDOWS_H
 #include "sdk/libc.h"
 #include "sdk/libgte.h"
+#include "town/shop/item_lookup.h"
+#include "town/person/position.h"
 
 
 struct SpriteFrameState;
@@ -404,7 +406,6 @@ s32 test_resident_bitmap_bit(s32 bit_id);
 s32 check_four_vector_half_turn_gaps();
 extern void *allocate_list_node(s32 size, void *template);
 extern void *func_8003FD64(s32 size, void *template);
-extern s16 query_lowered_transform_position(void *);
 extern void runtime_set_record_value_and_buffer(void *, void *);
 extern void ensure_packed_resource_list(u8 *entries_in);
 s32 select_record_entry_and_value();
@@ -429,7 +430,6 @@ s32 load_and_open_monster_status_display();
 void process_object_pointer_array();
 extern s32 create_item_view_for_entry(s32 first, void *data, s32 value);
 extern s32 func_8004B854(s32 first, void *data, s32 value);
-extern void *find_item_by_kind_and_type();
 void clear_global_80110_ec_0_global_80082_a_39(void);
 void * open_twin_souko(s32 option);
 extern void configure_the_set_mode_n_3();

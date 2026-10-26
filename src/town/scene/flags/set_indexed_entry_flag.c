@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/player.h"
+#include "town/player/script_flags.h"
 
 
 typedef struct S_80019958_0 {

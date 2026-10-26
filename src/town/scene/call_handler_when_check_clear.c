@@ -2,6 +2,7 @@
 #include "m2c_compat.h"
 #include "town/scene/flags.h"
 #include "town/player.h"
+#include "town/player/script_flags.h"
 
 extern s16 scene_gate_script_flag;
 

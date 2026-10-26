@@ -6,38 +6,13 @@
  * newly touched here (not referenced by other reconciled siblings); rest of
  * the layout matches the canonical struct established in src/w_80056A08.c
  * and friends. */
-typedef struct {
-    /* 0x00 */ s16 f00, f02;
-    /* 0x04 */ u16 f04;
-    /* 0x06 */ u16 f06;
-    /* 0x08 */ u8 pad08[2];
-    /* 0x0A */ u16 f0a;
-    /* 0x0C */ u8 pad0c[0xC];
-    /* 0x18 */ s16 f18;
-    /* 0x1A */ u16 f1a;
-    /* 0x1C */ s8 f1c, f1d;
-    /* 0x1E */ u8 pad1e[8];
-    /* 0x26 */ s8 f26, f27, f28;
-    /* 0x29 */ u8 pad29[3];
-    /* 0x2C */ s32 f2c, f30;
-    /* 0x34 */ u8 pad34[8];
-    /* 0x3C */ s32 f3c;
-    /* 0x40 */ u8 pad40[2];
-    /* 0x42 */ s8 f42, f43, f44;
-    /* 0x45 */ u8 pad45[3];
-    /* 0x48 */ s32 f48, f4c;
-    /* 0x50 */ u8 pad50[0xC];
-    /* 0x5C */ u16 f5c;
-    /* 0x5E */ u8 pad5e[0x12];
-    /* 0x70 */ s32 f70, f74;
-} S_8005BAB0_85458;
+typedef SoundVoiceRecord S_8005BAB0_85458;
 
 extern s32 audio_voice_count[4];
 extern s32 audio_voice_masks[24];
 extern S_8005BAB0_85458 audio_voice_records[24];
 extern s32 audio_update_guard[4]; /* forced hi/lo access via size > 8 */
 
-extern s32 sound_apply_indexed_voice_envelope(s32 a0, S_8005BAB0_85458 *a1);
 
 /* Clears matching active indirect-channel slots, redispatches each twice, and applies their combined flags. */
 void audio_stop_matching_effect_voices(s32 packed_key, s32 packed_channel)
@@ -55,11 +30,11 @@ void audio_stop_matching_effect_voices(s32 packed_key, s32 packed_channel)
         slot_flags = audio_voice_masks;
         slot = audio_voice_records;
 loop:
-        if (slot->f1a != 0 && (u16)slot->f06 >= 0x10 && slot->f0a == (packed_channel >> 8) &&
-            slot->f5c == (packed_key >> 8) && slot->f04 == (u16)(packed_key & 0x7F)) {
+        if (slot->field1A != 0 && (u16)slot->field06 >= 0x10 && slot->field0A == (packed_channel >> 8) &&
+            slot->field5C == (packed_key >> 8) && slot->field04 == (u16)(packed_key & 0x7F)) {
             combined_flags |= *slot_flags;
-            slot->f1a = 0;
-            slot->f0a = 0;
+            slot->field1A = 0;
+            slot->field0A = 0;
             sound_apply_indexed_voice_envelope(slot_index, slot);
             SpuSetKey(0, *slot_flags);
             sound_apply_indexed_voice_envelope(slot_index, slot);

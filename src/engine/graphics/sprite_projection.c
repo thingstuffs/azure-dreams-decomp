@@ -187,7 +187,7 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
     SP16(scratch, 0x04) = *(u16 *)((u8 *)position + 0xA);
     packet = *(Packet **)((u8 *)render_state->draw_buffer + 0x8D0);
 
-    ((ScratchDepth *)scratch)->depth = RotTransPers(scratch, (u8 *)scratch + 0xB8, (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
+    ((ScratchDepth *)scratch)->depth = RotTransPers(scratch, &scratch->sw[0xB8 / 4], &scratch->sw[0x90 / 4], &scratch->sw[0x94 / 4]);
     E16(entry, 0x14) |= 0x8000;
     projected_depth = ((ScratchDepth *)scratch)->depth;
     {
@@ -291,9 +291,9 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
 
                 RotTransPers4(&scratch->h[56], &scratch->h[60],
                     &scratch->h[64], &scratch->h[68],
-                    (u8 *)scratch + 0xF0, (u8 *)scratch + 0xF4,
-                    (u8 *)scratch + 0xF8, (u8 *)scratch + 0xFC,
-                    (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
+                    &scratch->sw[0xF0 / 4], &scratch->sw[0xF4 / 4],
+                    &scratch->sw[0xF8 / 4], &scratch->sw[0xFC / 4],
+                    &scratch->sw[0x90 / 4], &scratch->sw[0x94 / 4]);
 
                 packet->x0 = SP16(scratch, 0xF0) + SP16(scratch, 0xB8);
                 packet->y0 = SP16(scratch, 0xF2) + SP16(scratch, 0xBA);

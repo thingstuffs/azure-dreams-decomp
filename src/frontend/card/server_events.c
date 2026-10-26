@@ -9,6 +9,7 @@
 /* Original-file evidence: proven (string literals) - group G00002 - J1:main/image_25c800#g0008. */
 
 #include "common.h"
+#include "sdk/libapi.h"
 #include "modules/main_server_ship.h"
 #include "main.h"
 
@@ -19,7 +20,7 @@ typedef struct {
 } func_8000DEA0_Pair;
 
 extern int OpenEvent();
-extern int EnableEvent();
+
 extern void bzero(void *dst, s32 size);
 extern s32 CloseEvent(void *event);
 

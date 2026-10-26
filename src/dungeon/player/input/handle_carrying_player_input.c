@@ -16,9 +16,9 @@
 #include "dungeon/player.h"
 #include "dungeon/player/motion.h"
 #include "dungeon/player/object.h"
+#include "engine/graphics.h"
 
 extern s32 func_8002534C(void *, void *, void *, void *); /* extern */
-void set_sprite_animation_frame(); /* extern */
 void apply_pending_byte_increase(); /* extern */
 s32 resolve_player_input_facing(s16 direction_offset, u16 *flags, u16 *angle);             /* extern */
 s32 request_familiar_deployment_change(void *, void *, void *, s32, u32); /* extern */

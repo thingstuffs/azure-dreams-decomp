@@ -1,8 +1,7 @@
 #include "town/scene.h"
 #include "records/Rec_func_800165F4_arg0.h"
+#include "town/player/script_flags.h"
 
-extern s32 get_script_flag_mask(s32);
-extern void set_script_flag_bit(s32);
 extern s32 process_checked_entry(void *, s32);
 
 /* Set the object's script flag under flag 1455, then process the entry. */

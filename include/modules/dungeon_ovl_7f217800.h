@@ -53,7 +53,7 @@ extern u8 D_8015BD30[];
 extern u8 D_8015BD78[];
 extern void func_80158F74(void *actor_in, void *actor_data_in, SpriteFrameState *sprite_in, void *status_in);
 
-extern void *allocate_list_node();
+extern void *allocate_list_node(s32 flags, ObjectNodeHeader **list_head);
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);

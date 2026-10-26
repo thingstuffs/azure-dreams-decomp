@@ -12,7 +12,7 @@ extern s32 audio_update_guard[4];
 extern void EnterCriticalSection(void);
 extern void ExitCriticalSection(void);
 extern s32 OpenEvent(u32 class, s32 spec, s32 mode, void (*func)(void));
-extern s32 EnableEvent(s32 event);
+extern s32 EnableEvent(u32 event);
 extern s32 SetRCnt(u32 spec, u16 target, s32 mode);
 extern s32 StartRCnt(u32 spec);
 

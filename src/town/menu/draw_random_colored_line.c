@@ -1,4 +1,5 @@
 #include "common.h"
+#include "sdk/libgte.h"
 #include "shared/gpu_packets.h"
 #include "town/menu/line_effects.h"
 #include "shared/game_work.h"
@@ -6,7 +7,7 @@
 #include "sdk/libgpu.h"
 
 
-extern s32 RotTransPers();
+
 struct MovingPosition; struct S_800A130C_0; void copy_odd_halfwords_3(struct S_800A130C_0 *, struct MovingPosition *);
 
 
@@ -44,21 +45,21 @@ void draw_random_colored_line(s32 end_point, s32 start_point)
     copy_odd_halfwords_3((struct S_800A130C_0 *)(scratch->vertices[0]), (struct MovingPosition *)(start_pos));
     copy_odd_halfwords_3((struct S_800A130C_0 *)(scratch->vertices[1]), (struct MovingPosition *)(end_pos));
     scratch->depth = RotTransPers(
-        scratch->vertices[0], &scratch->screen[0][0], &scratch->interp, &scratch->flag);
+        scratch->vertices[0], &scratch->screen.words[0], &scratch->interp, &scratch->flag);
     RotTransPers(
-        scratch->vertices[1], &scratch->screen[1][0], &scratch->interp, &scratch->flag);
+        scratch->vertices[1], &scratch->screen.words[1], &scratch->interp, &scratch->flag);
 
     {
         u16 start_x;
         depth_or_tpage_2 = scratch->depth;
-        start_x = scratch->screen[0][0];
+        start_x = scratch->screen.halves[0][0];
         depth_or_tpage_2 -= 0x30;
         scratch->depth = depth_or_tpage_2;
         line->vertices[0].x = start_x;
     }
-    line->vertices[0].y = scratch->screen[0][1];
-    line->vertices[1].x = scratch->screen[1][0];
-    line->vertices[1].y = scratch->screen[1][1];
+    line->vertices[0].y = scratch->screen.halves[0][1];
+    line->vertices[1].x = scratch->screen.halves[1][0];
+    line->vertices[1].y = scratch->screen.halves[1][1];
 
     if (scratch->depth >= 0x1E0) {
         scratch->depth = 0x1DF;

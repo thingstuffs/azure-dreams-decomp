@@ -7,6 +7,8 @@
 #include "town/scene/resource.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
+#include "town/shop/item_lookup.h"
+#include "town/person/position.h"
 
 
 /* Initializes an object with default transform and global state values. */

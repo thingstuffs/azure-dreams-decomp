@@ -67,8 +67,6 @@ extern void change_equipped_item_and_notify(struct S_80098614_0 *actor, u8 *requ
 struct DungeonItemEntry;
 extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *slot);
 extern void * get_unused_text_buffer(void);
-extern void * write_text_byte_and_advance();
-extern u8 * append_typed_formatted_value();
 extern s32 play_sound_if_enabled(s32 query_value);
 extern void display_text_with_fullwidth_adjustment();
 extern void *create_item_render_object();
@@ -112,10 +110,10 @@ print_message:
 
     if ((*(u8 *)((u8 *)item + 3)) & 0x20) {
         message_id = get_unused_text_buffer();
-        result = (void *)write_text_byte_and_advance(8, message_id);
+        text_cursor = write_text_byte_and_advance(8, message_id);
         if (((S_80098CF8_1 *)item)->unk_00.at03.v & 0x40) {
             play_sound_if_enabled(0x70A);
-            text_cursor = append_typed_formatted_value(item, result);
+            text_cursor = append_typed_formatted_value(item, text_cursor);
             message = D_800E08F1;
             text_cursor = expand_text_control_codes(message, text_cursor);
             clear_byte_and_advance(text_cursor);
@@ -124,7 +122,7 @@ print_message:
             return 0;
         }
 
-        text_cursor = append_typed_formatted_value(item, result);
+        text_cursor = append_typed_formatted_value(item, text_cursor);
         text_cursor = expand_text_control_codes(D_800E0919, text_cursor);
         clear_byte_and_advance(text_cursor);
         display_text_with_fullwidth_adjustment(message_id);

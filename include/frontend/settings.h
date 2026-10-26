@@ -4,6 +4,19 @@
 
 #include "common.h"
 
+typedef struct SettingsEffectBlock {
+    s32 w0;
+    s32 w1;
+    s32 w2;
+    s32 w3;
+} SettingsEffectBlock;
+
+/* Two four-word copies followed by two final words, forty bytes in total. */
+typedef struct SettingsEffectTable {
+    SettingsEffectBlock blocks[2];
+    s32 tail[2];
+} SettingsEffectTable;
+
 struct ColorEffect;
 struct ColorRampEffect;
 struct MainTitleValueEntry;

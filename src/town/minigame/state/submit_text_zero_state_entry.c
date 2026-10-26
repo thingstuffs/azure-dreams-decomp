@@ -2,13 +2,14 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "shared/object_links.h"
+#include "sdk/libc.h"
 
    /* the 0x2 bytes before arg0 in submit_text_zero_state_entry, addressed as arg0[-1] */
 
 typedef struct S_80026BC4_0 {
     s16 unk_00;
     u8 pad_02[0x2];
-    s32 unk_04;
+    char *unk_04;
     s16 * unk_08;
     void * unk_0C;
 } S_80026BC4_0;   /* arg0 in submit_text_zero_state_entry */
@@ -20,7 +21,6 @@ typedef struct S_80026BC4_1 {
 
 
 void format_decimal_field_space_padded();               /* extern */
-s32 strlen();                             /* extern */
 
 /* Submits text for a zero-state entry and sets flags when requested by its configuration. */
 void submit_text_zero_state_entry(void *text_entry) {

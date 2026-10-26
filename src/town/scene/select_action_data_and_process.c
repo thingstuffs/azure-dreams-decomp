@@ -1,8 +1,8 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/player/script_flags.h"
 
 extern void set_current_entry_script_flag(void);
-extern void set_script_flag_bit(s32 bit_index);
 extern u8 scene_event_buffer[];
 extern u8 D_8001DD86[];
 extern u8 D_8001DDA1[];

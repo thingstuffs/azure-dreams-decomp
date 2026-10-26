@@ -7,13 +7,13 @@
 #define ARG3_TYPE s16
 #include "common.h"
 #include "shared/position_views.h"
+#include "town/person/position.h"
 
 typedef struct Work { u8 pad_00[0x6C]; s16 field_6C; u8 pad_6E[0x28]; s8 field_96; } Work;
 typedef struct Node { u8 pad_00[8]; ObjectPosition *header; s32 aux; u8 pad_10[0x10]; Work work; } Node;
 extern s32 test_resident_bitmap_bit(s32);
 extern void register_node_if_unregistered(Work * , void *);
 extern Node * create_town_effect_object(void * , s32, void * , void *);
-extern s16 query_lowered_transform_position(SignedPositionView *);
 extern void initialize_object_entries(Work * , s32, void *);
 
 extern u8 scene_object_list_anchor[];

@@ -1,6 +1,7 @@
 #include "shared/gpu_packets.h"
 #include "town/menu/line_effects.h"
 #include "common.h"
+#include "sdk/libgte.h"
 #include "shared/game_work.h"
 #include "records/Rec_D_80100B70.h"
 #include "shared/object_payload.h"
@@ -12,7 +13,7 @@ extern void SetLineG4(void *);
 extern void SetSemiTrans(void *, s32);
 extern void copy_odd_halfwords_3(void *, void *);
 extern void copy_menu_vector_halfwords(void *, void *);
-extern s32 RotTransPers4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
+
 extern void AddPrim(void *, void *);
 extern u16 GetTPage(s32, s32, s32, s32);
 extern void SetDrawMode(void *, s32, s32, u16, s32);
@@ -81,17 +82,17 @@ void draw_random_tinted_quad_pair(u8 *effect)
         copy_odd_halfwords_3(scratch->vertices[2], ((ObjectPayloadView *)(((S_800A1354_4 *)vertex_group)->unk_5C))->unk_08);
         copy_menu_vector_halfwords(scratch->vertices[3], scratch->vertices[0]);
         scratch->depth = RotTransPers4(
-            scratch->vertices[0], scratch->vertices[1], scratch->vertices[2], scratch->vertices[3], scratch->screen[0], scratch->screen[1],
-            scratch->screen[2], scratch->screen[3], &scratch->interp, &scratch->flag) - 0x30;
+            scratch->vertices[0], scratch->vertices[1], scratch->vertices[2], scratch->vertices[3], &scratch->screen.words[0], &scratch->screen.words[1],
+            &scratch->screen.words[2], &scratch->screen.words[3], &scratch->interp, &scratch->flag) - 0x30;
 
-        quad->vertices[0].x = scratch->screen[0][0];
-        quad->vertices[0].y = scratch->screen[0][1];
-        quad->vertices[1].x = scratch->screen[1][0];
-        quad->vertices[1].y = scratch->screen[1][1];
-        quad->vertices[2].x = scratch->screen[2][0];
-        quad->vertices[2].y = scratch->screen[2][1];
-        quad->vertices[3].x = scratch->screen[3][0];
-        quad->vertices[3].y = scratch->screen[3][1];
+        quad->vertices[0].x = scratch->screen.halves[0][0];
+        quad->vertices[0].y = scratch->screen.halves[0][1];
+        quad->vertices[1].x = scratch->screen.halves[1][0];
+        quad->vertices[1].y = scratch->screen.halves[1][1];
+        quad->vertices[2].x = scratch->screen.halves[2][0];
+        quad->vertices[2].y = scratch->screen.halves[2][1];
+        quad->vertices[3].x = scratch->screen.halves[3][0];
+        quad->vertices[3].y = scratch->screen.halves[3][1];
         if (scratch->depth >= 0x1E0)
             scratch->depth = 0x1DF;
         if (scratch->depth < 0)

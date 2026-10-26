@@ -9,6 +9,7 @@
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "shared/entity.h"
+#include "town/person/position.h"
 
 #ifndef NULL
 #define NULL 0
@@ -67,7 +68,6 @@ extern void SD_Call(s32);
 extern s32 rand(void);
 extern void apply_global_scene_value(void *);
 extern void initialize_scene_action_record(void *, void *, void *);
-extern s16 query_lowered_transform_position(void *);
 
 extern u8 gym_object_state_address[];
 extern u8 D_80023994[];

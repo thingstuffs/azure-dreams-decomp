@@ -1,9 +1,9 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "records/Rec_func_80094268_arg0.h"
+#include "town/person/position.h"
 
 extern void add_hex_20000_s_signed_offset_hex_14(EntityRec *record);
-extern s16 query_lowered_transform_position(void *position);
 #include "town/person/object_setup.h"
 s32 func_800CDE9C();     /* extern */
 s32 func_800CDFF8();

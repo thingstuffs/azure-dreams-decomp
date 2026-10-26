@@ -10,11 +10,11 @@
 #include "dungeon/menu.h"
 #include "sdk/libc.h"
 #include "slus.h"
+#include "engine/text.h"
+#include "engine/node/allocation.h"
 
-void *allocate_list_node();
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 void * decode_fullwidth_text();
-void * build_positioned_text_glyphs();
 extern char * func_8004E5A0(int value, unsigned short width, char *buf);
 void *func_800B119C();
 extern s32 allocate_panel_offset_or_zero(void);
@@ -588,9 +588,7 @@ extern s32 transform_linked_quad_batches(u8 *, s32, u8 *);
 extern void update_fading_effect_scale(void *effect, s32 unused, void *render_arg);
 extern s32 D_800DF03C[];
 
-extern void *allocate_list_node();
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern void * build_positioned_text_glyphs(void *,u8 *, s32);
 extern s32 allocate_panel_offset_or_zero(void);
 
 /* Build the floating number/icon widget: allocate it and lay out its digit sprites for the given style. */
@@ -838,7 +836,6 @@ typedef struct S_800B1B10_7 {
     s32 unk_50;
 } S_800B1B10_7;   /* ((style_held * 4) + sub) in build_owned_floating_number_widget */
 
-extern void *allocate_list_node();
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 void * decode_fullwidth_text();
 void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
@@ -863,7 +860,7 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
     s32 style_byte;
     s32 geom;
     s32 call_kind;
-    ObjectNodeHeader *alloc_data;
+    ObjectNodeHeader **alloc_data;
     s32 copy_a;
     s32 copy_b;
     void *value_4;
@@ -877,7 +874,7 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
 
     call_kind = 0x12;
     saved_flags = flags_held;
-    alloc_data = &scene_object_list_anchor;
+    alloc_data = &scene_object_list_anchor.next;
     obj = allocate_list_node(call_kind, alloc_data);
     compact_s16 = compact_held;
     if (obj != 0) {

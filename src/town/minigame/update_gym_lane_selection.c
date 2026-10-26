@@ -5,9 +5,9 @@
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
+#include "town/person/position.h"
 
 
-extern s32 query_lowered_transform_position(void *);
 extern void apply_global_scene_value(void *);
 
 

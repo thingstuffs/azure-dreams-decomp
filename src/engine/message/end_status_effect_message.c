@@ -18,7 +18,7 @@
 void end_status_effect_message(S_80042BDC *ent, s16 action) {
     S_80042BDC *spawn_result;
     S_80042BDC *spawn_result_2;
-    S_80042BDC *message_ctx;
+    u8 *message_ctx;
     S_80042BDC_child *child;
     s32 action_index;
     action_index = (s16)(action - 1);

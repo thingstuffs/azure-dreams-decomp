@@ -7,6 +7,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
+#include "engine/graphics.h"
 
 typedef struct S_80092018_0 {
     u8 pad_00[0x8C];
@@ -41,7 +42,6 @@ typedef struct S_80092018_5 {
 
 struct D83460_VIEW { s16 pad[3]; s16 divisor[1]; };
 
-void set_sprite_animation_frame();
 s32 resolve_player_input_facing(s16 direction_offset, u16 *flags, u16 *angle);
 s32 has_action_input_without_modifier(); /* Unprototyped: zero or one argument; retail replaces all incoming argument registers. */
 void process_unflagged_linked_entries(s32 firstEntryBase);

@@ -6,6 +6,7 @@
 #include "common.h"
 #include "script_symbols.h"
 #include "m2c_compat.h"
+#include "town/player/script_flags.h"
 
 /* extern */
 typedef struct S_800191EC_0 {
@@ -13,7 +14,6 @@ typedef struct S_800191EC_0 {
     u8 unk_01;
 } S_800191EC_0;
 
-void set_script_flag_bit();
 extern void release_lshop_entry(s32);
 extern void compact_lshop_entry_list(void);
 extern void append_town_item(void *);

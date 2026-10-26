@@ -7,17 +7,16 @@
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/system.h"
+#include "dungeon/actor/status.h"
+#include "dungeon/player/state.h"
 
 extern u8 D_800E17A1[];
 
 #include "dungeon/player/item.h"
-extern void display_item_status_message();
-extern s32 feed_actor_restore_mp();
-extern void place_actor_item();
 extern s32 play_sound_if_enabled(s32 query_value);
 extern void apply_entity_effects(); /* Slot contract: loading images do not establish one callee contract. */
 extern void adjust_source_value_and_finalize(void *context, const void *source);
-extern void clear_slot_and_update_linked_state();
 
 /* Apply the level-down item effect to an entity and finish item use. */
 s32 use_item_to_lower_attack(void *entity, DungeonItemEntry *item, s16 action)

@@ -2,6 +2,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/player.h"
+#include "town/player/script_flags.h"
 
 s32 apply_selected_entry_values();                /* extern */
 void set_current_entry_script_flag(void);                            /* extern */

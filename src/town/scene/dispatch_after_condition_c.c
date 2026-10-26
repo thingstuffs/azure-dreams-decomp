@@ -1,7 +1,7 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/player/script_flags.h"
 
-extern s32 get_script_flag_mask(s32 flagIndex);
 extern void set_current_entry_script_flag(void);
 extern void apply_selected_entry_values(s32 record, s32 entry_index);
 

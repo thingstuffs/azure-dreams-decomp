@@ -6,10 +6,10 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_moving_views.h"
+#include "engine/graphics.h"
 
 void *allocate_list_node();                  /* extern */
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
-void set_sprite_animation_frame(); /* extern */
 extern void dungeon_familiar_deploy_update_address();
 
 typedef struct S_80093D8C_0 {

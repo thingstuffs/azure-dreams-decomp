@@ -11,16 +11,15 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "dungeon/item/message.h"
+#include "dungeon/system.h"
+#include "dungeon/actor/status.h"
+#include "dungeon/player/state.h"
 
 
 void clear_slots_of_type(ActorRecord *owner, s8 match_type);             /* extern */
 #include "dungeon/player/item.h"
-void clear_slot_and_update_linked_state();                         /* extern */
 void *get_unused_text_buffer(void);                          /* extern */
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
-void place_actor_item();                 /* extern */
-void display_item_status_message();            /* extern */
-s32 feed_actor_restore_mp();            /* extern */
 void create_timed_paired_particle_emitter();            /* extern */
 typedef struct {
     u8 pad[0xA];

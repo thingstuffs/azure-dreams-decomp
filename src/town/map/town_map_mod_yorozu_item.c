@@ -1,5 +1,6 @@
 #include "modules/town_map_props.h"
 #include "shared/game_work.h"
+#include "town/person/position.h"
 typedef union
 {
     s32 coord;
@@ -15,7 +16,6 @@ SpBuf;
 extern void strcpy(void *, s32);
 extern s32 strlen(void *);
 extern void configure_the_set_mode_n_1(void *, s32, void *);
-extern s16 query_lowered_transform_position(void *);
 extern s16 dir_step_x[][2];
 extern s16 dir_step_y[][2];
 extern u8 *D_80073600[];

@@ -11,20 +11,16 @@
 
 
 #include "dungeon/player/item.h"
-extern void clear_slot_and_update_linked_state();
-extern void *get_unused_text_buffer(void);
-extern u8 *expand_text_control_codes();
-extern void clear_byte_and_advance();
-extern u8 *append_entity_display_text();
+#include "dungeon/system.h"
+#include "dungeon/player/state.h"
+#include "dungeon/item/message.h"
+#include "dungeon/actor/status.h"
 extern void display_text_with_fullwidth_adjustment();
-extern void place_actor_item();
-extern void display_item_status_message();
 extern s32 generate_random_value(void);
-extern s16 feed_actor_restore_mp();
 extern void create_timed_paired_particle_emitter();
 
-extern s32 D_800893E0;
-extern s32 D_800E18A4;
+extern u8 D_800893E0[];
+extern u8 D_800E18A4[];
 
 
 typedef struct S_800C4490_0_pre {
@@ -36,6 +32,7 @@ typedef struct S_800C4490_0_pre {
 /* Applies a capped random stat gain to the target and displays its effect message. */
 s32 use_item_to_heal_small_random_amount(void *target, DungeonItemEntry *source, s16 effect_mode) {
     s16 stat_gap;
+    s16 feed_result;
     s32 stat_gain;
     void *effect_text;
     void *message_context;
@@ -48,10 +45,11 @@ s32 use_item_to_heal_small_random_amount(void *target, DungeonItemEntry *source,
 
     if ((u32)target <= 0x9FFFFFFF) {
         display_item_status_message(target, source, effect_mode);
-        if (feed_actor_restore_mp(target,
+        feed_result = feed_actor_restore_mp(target,
                           (*(u16 *)(((u8 *)entity_action_selectors) +
                                     (*(u8 *)((u8 *)&((EntityRec *)target)->unk_10 + 3)) * 2) >> 6) & 3,
-                          source) == 0) {
+                          source);
+        if (feed_result == 0) {
             place_actor_item(target, source);
             return 1;
         }
@@ -80,9 +78,9 @@ s32 use_item_to_heal_small_random_amount(void *target, DungeonItemEntry *source,
             effect_text = append_entity_display_text(message_target, context_arg);
         }
         clear_byte_and_advance(expand_text_control_codes(
-            &D_800893E0,
+            D_800893E0,
             format_unsigned_double_byte_decimal(((EntityRec *)target)->unk_64,
-                          expand_text_control_codes(&D_800E18A4, effect_text))));
+                          expand_text_control_codes(D_800E18A4, effect_text))));
         display_text_with_fullwidth_adjustment(message_context);
     }
 

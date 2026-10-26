@@ -1,8 +1,7 @@
 #include "town/scene.h"
 #include "records/Rec_func_800165F4_arg0.h"
+#include "town/player/script_flags.h"
 
-extern s32 get_script_flag_mask(s32);
-extern void set_script_flag_bit(s32);
 extern s32 apply_selected_entry_values(Rec_func_800165F4_arg0 *, s32);
 
 /* Apply the entry's flag while exit flag 0x138E is set, then process its values. */

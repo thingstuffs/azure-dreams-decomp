@@ -3,6 +3,7 @@
 #include "town/person/variant_render_object_g00684.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
+#include "town/person/position.h"
 
 /* Creates an object, initializes its render data, and invokes its callback. */
 void * create_and_invoke_render_object(s32 initial_value, s32 resource_index) {

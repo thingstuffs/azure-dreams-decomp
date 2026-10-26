@@ -1,10 +1,11 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "sdk/libc.h"
 
 typedef struct S_80020618_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
     u16 unk_02;
-    s32 unk_04;
+    char *unk_04;
     s16 * unk_08;
     void * unk_0C;
     u8 pad_10[0xC];
@@ -18,7 +19,6 @@ typedef struct S_80020618_1 {
 
 
 extern void format_decimal_field_space_padded();
-extern s32 strlen();
 
 /* Displays a timed message and signals completion when its owner is ready. */
 void tick_scene_value_text(void *message)

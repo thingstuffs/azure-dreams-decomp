@@ -10,6 +10,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/player/state.h"
+#include "engine/graphics.h"
 
 typedef struct S_80095A10_0 {
     u8 pad_00[0x8C];
@@ -83,7 +84,6 @@ void clear_slots_of_type();
 void runtime_map_type_16_entry_code();
 s32 queue_cd_resource();
 void runtime_no_op_callback(u32 unused_state);
-void set_sprite_animation_frame();
 void create_familiar_deployment_overlay();
 void resolve_familiar_deployment_request();
 void process_unflagged_linked_entries(s32 firstEntryBase);
