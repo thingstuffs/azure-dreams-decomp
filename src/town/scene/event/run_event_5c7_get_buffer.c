@@ -1,9 +1,9 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/player/script_flags.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 func_80018A64(s32);
 extern M2C_UNK D_80020B64;
 
 /* Pass 0x5C7 to func_80018A64 and return the address of D_80020B64. */

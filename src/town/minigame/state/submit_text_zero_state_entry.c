@@ -3,6 +3,7 @@
 #include "m2c_compat.h"
 #include "shared/object_links.h"
 #include "sdk/libc.h"
+#include "engine/text.h"
 
    /* the 0x2 bytes before arg0 in submit_text_zero_state_entry, addressed as arg0[-1] */
 
@@ -20,7 +21,6 @@ typedef struct S_80026BC4_1 {
 } S_80026BC4_1;
 
 
-void format_decimal_field_space_padded();               /* extern */
 
 /* Submits text for a zero-state entry and sets flags when requested by its configuration. */
 void submit_text_zero_state_entry(void *text_entry) {

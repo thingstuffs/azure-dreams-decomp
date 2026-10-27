@@ -1,8 +1,8 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/player/script_flags.h"
 
 extern void store_supplied_values(s32, s32);
-extern s32 func_8001894C(s32);
 extern s32 func_80017D9C(s32, s32);
 
 /* Initializes the request and processes it when flag 0x50F is set. */

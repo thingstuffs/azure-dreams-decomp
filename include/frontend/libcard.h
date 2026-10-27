@@ -32,6 +32,15 @@ typedef struct CardSlotMenuState {
     s32 unk_4C;
 } CardSlotMenuState;
 
+/* Selection fields shared by the slot-detail dispatcher and its updater. */
+typedef struct CardSlotDetails {
+    u8 pad_00[0x7C];
+    s32 selected_slot;
+    s32 mode;
+} CardSlotDetails;
+
+void card_boot_refresh_slot_details(CardSlotDetails *object);
+
 struct Node8002BB08;
 struct Object13B18;
 struct Object_800128C8;
@@ -216,7 +225,7 @@ void card_boot_set_menu_and_panel_selection(s32 object_addr, s32 state_value);
 void card_boot_set_paired_choice_animations(struct Object13B18 *object, s32 *enable_flags, s32 *active_flags);
 
 /* card_boot_set_slot_details_selection.c */
-void card_boot_set_slot_details_selection(s32 object_addr, s32 value_7c, s32 value_80);
+void card_boot_set_slot_details_selection(void *object_addr, s32 value_7c, s32 value_80);
 
 /* card_boot_set_slot_index_and_owner.c */
 void card_boot_set_slot_index_and_owner(struct S_80023F94_0 *pair, s32 second, s32 first);

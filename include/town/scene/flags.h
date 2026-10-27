@@ -27,4 +27,6 @@ void set_indexed_flag_bit(s32 flag_id);
 void clear_global_entry_flag(void);
 void fade_panel_after_linked_flag(void *effect);
 
+void update_dependent_entry_ids(s16 checked_id, s16 first_id, s16 second_id);
+
 #endif

@@ -3,6 +3,7 @@
 #include "m2c_compat.h"
 #include "shared/object_links.h"
 #include "sdk/libc.h"
+#include "engine/text.h"
 
    /* the 0x2 bytes before arg0 in decrement_object_counter, addressed as arg0[-1] */
 
@@ -20,7 +21,6 @@ typedef struct S_800249A0_1 {
 } S_800249A0_1;
 
 
-void format_decimal_field_space_padded();               /* extern */
 
 /* Process the entry text when its state is zero and propagate the linked flags. */
 void decrement_object_counter(void *entry) {

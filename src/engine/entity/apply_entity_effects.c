@@ -9,7 +9,6 @@
 #define U16(o, p) (*(u16 *)((u8 *)(p) + (o)))
 #define S32(o, p) (*(s32 *)((u8 *)(p) + (o)))
 
-extern s16 get_entity_effect_value(void *, s32);
 
 /* Apply entity effects to scale, stats, and status flags. */
 void apply_entity_effects(void *entity)

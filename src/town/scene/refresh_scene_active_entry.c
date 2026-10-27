@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "town/player/script_flags.h"
 
 typedef struct TownDispatch {
     u8 pad00[0x54];
@@ -19,7 +20,6 @@ extern void decrement_current_entry_counter_condition(void *);
 extern void func_80017B3C(void *, void *, s32);
 extern s32 invoke_system_callback_21_c(void *, void *, s32);
 extern void func_80018044(void *, s32 *, void *, s32);
-extern s32 func_8001894C(s32);
 
 extern s16 scene_request_flag_id;
 extern s32 D_80018B40;

@@ -1,9 +1,7 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/player/script_flags.h"
 
-extern s32 func_80018A64();
-extern s32 func_80018ADC();
-extern s32 func_80018B5C();
 
 /* Updates flag 0x5C4 to reflect flag 0x5C3 and returns its state. */
 s32 update_scene_flag_5_c_4(void) {

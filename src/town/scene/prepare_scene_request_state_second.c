@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/player/script_flags.h"
 
 extern s16 scene_request_flag_id;
 extern s32 D_80018B00;
@@ -9,7 +10,6 @@ extern s32 D_80019ACC;
 extern void func_80017B3C(void *, void *, s32);
 extern s32 invoke_system_callback_21_c(void *, void *, s32);
 extern void call_helper_with_fixed_id_0x118a(s32);
-extern s32 func_8001894C(s32);
 
 /* Prepare request state and select a result buffer based on status checks. */
 void *prepare_scene_request_state(void *request_id, s32 unused, s32 request_value)

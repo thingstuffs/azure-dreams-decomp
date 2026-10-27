@@ -10,6 +10,7 @@
 #include "sdk/libgte.h"
 #include "town/minigame/entry_state.h"
 #include "town/person/position.h"
+#include "town/person/effects.h"
 
 
 
@@ -19,7 +20,6 @@
 void update_directional_record();      /* extern */
 s32 rand();              /* extern */
 void add_motion_deltas_to_position();                      /* extern */
-void spawn_person_radial_effects();                 /* extern */
 
 typedef struct {
     s32 field0;

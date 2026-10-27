@@ -6,6 +6,9 @@
 #include "records/Rec_func_800381D0_arg0.h"
 #include "records/Rec_func_800384A8_arg0.h"
 
+struct MessageVoiceState;
+s32 check_state_or_global_flags(struct MessageVoiceState *state);
+
 struct AnimObject;
 struct Func80037F70Outer;
 struct Func8003800CState;

@@ -1,6 +1,7 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town/scene/entry_requests.h"
+#include "town/player/script_flags.h"
 
 typedef struct SceneActionEntry {
     u8 pad_00[0x18];
@@ -8,9 +9,6 @@ typedef struct SceneActionEntry {
 } UnkStruct;
 
 extern void process_value_with_fixed_tables(UnkStruct *, s32);
-extern void func_80018A64(s32);
-extern void func_80018ADC(s32);
-extern s32 func_80018B5C(s32);
 extern s16 D_80018CFA[5];
 
 /* Update the object and select the action for 0x5BC from the combined status checks. */

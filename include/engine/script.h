@@ -16,6 +16,21 @@ typedef struct ScriptReader {
     /* 0x80 */ u8 *data;
 } ScriptReader;
 
+struct S_800389B4_0;
+
+/* Voice-wait handlers share the action, byte cursor, linked data and signed
+ * gate at these offsets. This is an access prefix, not an allocation extent. */
+typedef struct MessageVoiceState {
+    u8 pad_00[0x10];
+    void (*action)(struct S_800389B4_0 *);
+    u8 pad_14[0x8];
+    u8 *cursor;
+    u8 pad_20[0x60];
+    u8 *data;
+    u8 pad_84[0x3];
+    s8 gate;
+} MessageVoiceState;
+
 /* Event-script opcodes: the slot of each handler in script_opcode_handlers,
  * the resident table that interpret_script_opcodes_until_action_changes
  * dispatches (byte format described there). "vN" is variable N, a word at
@@ -125,7 +140,6 @@ extern ScriptOpcodeHandler script_opcode_handlers[SCRIPT_OP_COUNT];
 struct Func80039578State;
 struct Func800395B0State;
 struct Func80039730State;
-struct Func800398BCOwner;
 struct Func80039B94State;
 struct Func80039BBCState;
 struct Func80039BE4State;
@@ -140,7 +154,6 @@ struct Func8003A7FCState;
 struct Func8003A858State;
 struct S_800390D0_0;
 struct S_80039568_0;
-struct S_80039A08_0;
 struct S_80039B84_0;
 struct State;
 
@@ -162,7 +175,7 @@ void is_script_list_nonempty(void);
 void script_end_message(struct S_800390D0_0 *state);
 
 /* opcode_06_wait_status.c */
-void script_wait_voice_then_advance(struct S_80039A08_0 *state);
+void script_wait_voice_then_advance(MessageVoiceState *state);
 
 /* opcode_10_next_text_row.c */
 void script_new_line(Rec_func_800381D0_arg0 *record);
@@ -183,7 +196,7 @@ void script_wait_flag_set(struct Func800395B0State *state);
 void script_choice_menu(struct Func80039730State *state);
 
 /* opcode_29_dispatch_command.c */
-void script_play_voice_cue(struct Func800398BCOwner *owner);
+void script_play_voice_cue(MessageVoiceState *owner);
 
 /* opcode_35_install_action.c */
 void script_park(struct S_80039B84_0 *script);

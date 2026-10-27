@@ -4,6 +4,10 @@
 
 #include "common.h"
 
+struct ItemMenuPart;
+struct DisplayPositionWords;
+void texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(struct ItemMenuPart **entries, struct DisplayPositionWords *value, s32 count);
+
 struct S_80047738;
 struct S_800478E8_0;
 struct S_800485E0_Obj;

@@ -1,8 +1,8 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/player/script_flags.h"
 
-s32 func_8001894C();
 s32 func_80018044();
 extern M2C_UNK D_80018B18;
 extern s32 D_80018E38;

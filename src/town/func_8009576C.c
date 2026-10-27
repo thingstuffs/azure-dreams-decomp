@@ -4,6 +4,7 @@
 #include "shared/town_action_flag.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
+#include "town/person/effects.h"
 
 s32 initialize_actor_movement_interaction_action();        
 s32 init_sound_threshold_action();        
@@ -15,7 +16,6 @@ void add_hex_20000_s_signed_offset_hex_14(EntityRec *record);
 s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();               
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"
-void spawn_person_radial_effects(void *);
 
 /* Resolves actor movement, handles button 0x40, and starts an action with radial effects at a surface. */
 void update_actor_movement_with_radial_effects(s32 object_id, EntityRec *object, s32 update_context) {

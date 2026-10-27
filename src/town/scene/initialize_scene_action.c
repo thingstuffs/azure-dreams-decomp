@@ -3,6 +3,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/player/script_flags.h"
 
 
 
@@ -11,8 +12,6 @@ extern s32 *D_8001917C;
 extern s32 D_8001C328;
 extern s32 D_8001C7C4;
 
-extern s32 func_80018B5C(s32);
-extern void func_80018ADC(s32);
 
 /* Initializes the data pointer, conditionally selects a data source, and dispatches an action. */
 void initialize_scene_action(void) {

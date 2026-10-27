@@ -3,8 +3,8 @@
 #include "shared/dungeon_moving_views.h"
 #include "sdk/libgte.h"
 #include "sdk/libc.h"
+#include "town/person/effects.h"
 
-void spawn_person_offset_effect(void *, s16);              /* extern */
 
 typedef struct {
     s16 unk0;
@@ -29,6 +29,7 @@ void spawn_person_radial_effects(void *source) {
     s32 effect_count;
     s32 angle_step;
     s32 effects_spawned;
+    s16 effect_angle;
     __typeof__(effect_count != 0) cond_1;
 
     origin = source;
@@ -46,7 +47,8 @@ void spawn_person_radial_effects(void *source) {
             effect.y = (origin->y + (rand() & 0x1F)) - 0x10;
             effect.a = rcos(angle) << 5;
             effect.b = rsin(angle) << 5;
-            spawn_person_offset_effect(&effect, angle);
+            effect_angle = angle;
+            spawn_person_offset_effect(&effect, effect_angle);
             angle += angle_step;
         } while (effects_spawned < effect_count);
     }

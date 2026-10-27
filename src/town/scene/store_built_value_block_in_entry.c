@@ -1,11 +1,11 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "shared/town_event_state.h"
+#include "town/scene/build_selected_entry_output_g01237.h"
 
    /* ((arg1 * 0x10) + arg0->unk_10) in store_built_value_block_in_entry */
 
 
-s32 *build_two_record_value_block();                                /* extern */
 void func_8001E5F0(s32);                     /* extern */
 
 typedef struct S_8001BBB4_0 {

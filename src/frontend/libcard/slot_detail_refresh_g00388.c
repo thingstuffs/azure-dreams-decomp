@@ -119,17 +119,17 @@ void build_a_trigonometric_table_processes_up_eight_height_offset_segments(void 
 }
 
 /* Dispatch to a handler based on the object's table entry and state. */
-void card_boot_refresh_slot_details(S_80011A50 *object)
+void card_boot_refresh_slot_details(CardSlotDetails *object)
 {
     u8 *entry_table;
     register s32 state;
 
     entry_table = &card_save_slot_metadata;
-    if (*(s32 *)(entry_table + (object->unk7C << 7)) != 0) {
+    if (*(s32 *)(entry_table + (object->selected_slot << 7)) != 0) {
         card_boot_format_saved_slot_details(object);
         return;
     }
-    state = object->unk80;
+    state = object->mode;
     if ((state != 0) && (state != 2)) {
         card_boot_format_empty_slot_guidance(object);
         return;

@@ -1,7 +1,7 @@
 #include "common.h"
 
 #include "town/scene/entry_requests.h"
-extern void update_dependent_entry_ids(s16 checked_id, s16 first_id, s16 second_id);
+#include "town/scene/flags.h"
 
 /*
  * Finds the eight-byte entry by key, uses its selector to index the resource table, and submits

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "town/scene/flags.h"
 
 typedef struct TownRuntime {
     u8 pad_00[0x28];
@@ -16,7 +17,6 @@ extern u8 D_8001DA10;
 extern u8 scene_object_image_data;
 extern u8 D_8001DCD0;
 
-extern void update_dependent_entry_ids(s16 checked_id, s16 first_id, s16 second_id);
 extern void initialize_active_event_data(void);
 extern void build_object_set_and_select_lists(s32, void *, void *);
 

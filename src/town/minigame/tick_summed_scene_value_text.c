@@ -3,6 +3,7 @@
 #include "m2c_compat.h"
 #include "shared/object_links.h"
 #include "sdk/libc.h"
+#include "engine/text.h"
 
    /* the 0x2 bytes before arg0 in tick_summed_scene_value_text, addressed as arg0[-1] */
 
@@ -22,7 +23,6 @@ typedef struct S_80020510_1 {
 } S_80020510_1;
 
 
-void format_decimal_field_space_padded();               /* extern */
 extern s16 D_800272A0[];
 
 /* Advances a text entry's delay, processes its string, and propagates the linked object's flag. */

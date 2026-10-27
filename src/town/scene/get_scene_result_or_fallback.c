@@ -1,8 +1,8 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/player/script_flags.h"
 
 extern void *func_80018044(void *, void *, void *, s32);
-extern s32 func_8001894C(s32);
 
 extern u8 D_80018B10[];
 extern s32 D_80018E38;

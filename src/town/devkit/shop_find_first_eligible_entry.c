@@ -1,8 +1,8 @@
 #include "common.h"
+#include "town/shop/state.h"
 
 extern u8 devkit_shop_flag_links[];
 extern void advance_selected_flag_row(s32 index);
-extern s32 test_linked_flag(u16 value);
 
 /* Select the first table entry whose value check returns zero. */
 void advance_clear_flag_row(void) {

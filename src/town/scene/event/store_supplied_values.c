@@ -1,11 +1,11 @@
 #include "script_symbols.h"
 #include "town/scene/entry_requests.h"
 #include "common.h"
+#include "town/player/script_flags.h"
 
 void store_supplied_values(s32 value_18e44, s32 value_18e48);                /* extern */
 void func_80017EB0(s32, s32);                /* extern */
 void func_800188CC(s32);                     /* extern */
-s32 func_8001894C();                             /* extern */
 extern s16 scene_request_flag_id;
 
 /* Conditionally processes 0x50C, then forwards the inputs to both shared routines. */

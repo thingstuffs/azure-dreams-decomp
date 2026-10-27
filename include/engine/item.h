@@ -6,6 +6,8 @@
 
 struct DungeonItemEntry;
 
+s32 select_item_data(struct DungeonItemEntry *item, s32 *out_mode);
+
 /* Twenty-byte category record. Category 19 uses text_04 as the species name
  * and text_08 as its description; other categories select their text by state.
  * data is a runtime item-data slot in categories that allocate item state.

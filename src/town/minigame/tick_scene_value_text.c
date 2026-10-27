@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "sdk/libc.h"
+#include "engine/text.h"
 
 typedef struct S_80020618_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -18,7 +19,6 @@ typedef struct S_80020618_1 {
 } S_80020618_1;   /* owner in tick_scene_value_text */
 
 
-extern void format_decimal_field_space_padded();
 
 /* Displays a timed message and signals completion when its owner is ready. */
 void tick_scene_value_text(void *message)

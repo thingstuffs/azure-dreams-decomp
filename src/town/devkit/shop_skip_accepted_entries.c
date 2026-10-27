@@ -1,12 +1,12 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/shop/state.h"
 
 typedef struct ListLink {
     u16 first;
     u16 next;
 } ListLink;
 
-s32 test_linked_flag();                             /* extern */
 extern ListLink devkit_shop_flag_links[];
 extern s16 *D_80701DEC[];
 

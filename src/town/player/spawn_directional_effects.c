@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/person/effects.h"
 
 typedef struct {
     u8 pad0[2];
@@ -16,7 +17,6 @@ typedef struct {
 s32 rsin(s32);
 s32 rcos(s32);
 s32 rand(void);
-void spawn_person_offset_effect(UnkStack *, s16);
 
 /* Spawns effects near the source with randomized positions and evenly spaced directions. */
 void spawn_directional_effects(void *source, s32 effect_count)

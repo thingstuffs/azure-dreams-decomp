@@ -11,9 +11,8 @@
 
 #include "common.h"
 #include "script_symbols.h"
+#include "town/player/script_flags.h"
 
-extern void func_80018A64(s32);
-extern void func_80018ADC(s32);
 extern s32 D_80019178[];
 
 /* Apply the fixed operation codes and clear the first D_80019178 entry. */

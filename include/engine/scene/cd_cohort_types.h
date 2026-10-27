@@ -20,4 +20,6 @@ typedef struct {
     u8 unk17;
 } SlusCdQueueEntry;
 extern SlusCdQueueEntry cd_command_records[32];
+
+void update_cd_queue_head_entry(SlusCdQueueEntry *entry);
 #endif

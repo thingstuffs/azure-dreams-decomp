@@ -6,6 +6,9 @@
 #include "shared/sprite_frame_state.h"
 #include "records/Rec_D_80082A38.h"
 
+struct ItemMenuPart;
+void apply_vector_3_template_to_nodes(struct ItemMenuPart **objects, s32 object_count);
+
 struct ObjectPosition;
 struct SpriteFrameState;
 struct Entry;

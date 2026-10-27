@@ -435,7 +435,7 @@ void clear_card_selection_flag(void);
 void clear_global_if_value_zero(struct S_8001B93C_0 *object);
 
 /* complete_pending_object_state.c */
-void complete_pending_object_state(s32 *ptr);
+void complete_pending_object_state(u8 *ptr);
 
 /* fade_four_entries.c */
 void fade_four_entries(void *object);

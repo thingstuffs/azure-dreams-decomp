@@ -1,11 +1,11 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/player/script_flags.h"
 
 extern void store_supplied_values(void *, s32);
 extern void func_800176B4(void);
 extern void call_helper_with_fixed_id_0x118a(s32);
 extern void func_800188CC(s32);
-extern s32 func_8001894C(s16);
 
 /* Stores the inputs and switches three scene flags according to the object's status test. */
 s32 process_scene_status_actions(void *object, s32 value)

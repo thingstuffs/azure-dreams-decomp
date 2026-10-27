@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
+#include "engine/runtime.h"
 
 typedef struct {
     s16 state;
@@ -73,8 +74,6 @@ extern s32 keima_payout_remaining;
 
 extern void func_800201C8(void *, void *);
 extern void func_8002025C(void *, void *);
-extern s32 set_resident_bit(s32);
-extern s32 test_resident_bit();
 extern void return_zero_variadic(void *, s32);
 extern void SD_Call(s32);
 extern s32 create_dual_buffer_object(s32, s32, s32);

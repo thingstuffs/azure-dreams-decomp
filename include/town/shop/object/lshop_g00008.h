@@ -36,4 +36,7 @@ void compact_lshop_entry_list(void);
 s32 find_unused_item_slot(s32 *slot_list);
 void append_town_item(const Copy4 *input);
 
+void func_80018BE4(s32 slot_index);
+void func_80018C58(void);
+
 #endif

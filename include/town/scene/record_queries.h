@@ -10,4 +10,7 @@ s32 town_table_contains_first_byte_d(s32 target_value);
 s32 test_town_counter_threshold(void);
 s32 test_town_counter_threshold_b(void);
 
+s32 get_current_nested_record_value(void);
+s32 func_8001A220(void);
+
 #endif

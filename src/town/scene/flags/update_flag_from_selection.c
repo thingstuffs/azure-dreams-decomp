@@ -1,9 +1,9 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/player/script_flags.h"
 
 s32 func_80017D9C(s32, s32);
 s32 call_helper_with_fixed_id_0x118a(s32);
-s32 func_8001894C();                             /* extern */
 extern s16 scene_request_flag_id;
 
 /* Updates flag 0x511 when the selected flag is clear, then processes the request. */

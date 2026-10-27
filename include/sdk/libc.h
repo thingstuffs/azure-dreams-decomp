@@ -6,15 +6,12 @@
 #include "common.h"
 
 s32 abs(s32);
-#include "sdk/bzero.h"
+#include "sdk/memory.h"
 char * strcat(char *, const char *);
 char * strcpy(char *, const char *);
 char * func_80069E88(char *, const char *, s32);
 s32 strlen(const char *);
-void * memcpy(void *, const void *, u32);
 s32 func_80069EF8(void);
-void * memmove(void *, const void *, s32);
-void * memset(void *, s32, s32);
 s32 printf(const char *, ...);
 s32 puts(const char *);
 s32 rand(void);

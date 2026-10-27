@@ -1,4 +1,5 @@
 #include "modules/town_ovl_3ef1c8.h"
+#include "town/scene/response_checks.h"
 
 /* Selects an object's response from a lookup table, its checked status, and its stored flag ID. */
 s32 select_object_response_by_status(void *object, s32 check_mode, s32 context) {
@@ -6,7 +7,7 @@ s32 select_object_response_by_status(void *object, s32 check_mode, s32 context) 
     s32 result;
     s32 status_or_base;
 
-    status_or_base = check_table_result_below_minus_47(object, check_mode);
+    status_or_base = check_table_result_below_minus_47();
     if (status_or_base != 0) {
         if (func_8001A510(*(s16 *)((s8 *)object + 0x18)) == 0) {
             return &D_8001B6D0;

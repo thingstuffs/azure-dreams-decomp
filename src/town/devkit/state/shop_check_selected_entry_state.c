@@ -1,6 +1,6 @@
 #include "common.h"
+#include "town/shop/state.h"
 
-s32 test_linked_flag(s32 flag_index);                             /* extern */
 
 /* Return 2 when the selected flag is set and flag 0x1F9 is clear. */
 s32 get_selected_flag_state(s32 unused_selection) {

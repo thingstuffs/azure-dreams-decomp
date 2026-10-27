@@ -1,9 +1,8 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/player/script_flags.h"
 
 extern s32 func_80017D80();
-extern void func_80018ADC();
-extern s32 func_80018B5C();
 
 /* Checks the entry and override flags before calling the handler. */
 s32 check_scene_entry_flags(void *entry, s32 handler_arg) {

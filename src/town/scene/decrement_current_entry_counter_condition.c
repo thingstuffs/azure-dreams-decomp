@@ -3,6 +3,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "m2c_compat.h"
+#include "town/player/script_flags.h"
 
 
 typedef struct S_800169F8_1 {
@@ -11,7 +12,6 @@ typedef struct S_800169F8_1 {
 } S_800169F8_1;
 
 
-s32 func_8001894C();                         /* extern */
 
 /* Decrement the current entry counter when condition 0x514 is active. */
 void decrement_current_entry_counter_condition(void) {

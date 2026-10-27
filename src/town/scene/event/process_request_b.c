@@ -1,12 +1,12 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/player/script_flags.h"
 
 void decrement_current_entry_counter_condition(void);                            /* extern */
 s32 invoke_system_callback_21_c();         /* extern */
 s32 func_80018044(); /* extern */
 s32 call_helper_with_fixed_id_0x118a(s32);
-s32 func_8001894C();                             /* extern */
 extern s16 scene_request_flag_id;
 extern M2C_UNK D_80018B38;
 extern s32 D_80018E38;

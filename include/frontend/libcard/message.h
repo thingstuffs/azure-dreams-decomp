@@ -29,7 +29,7 @@ void *card_boot_create_slot_window(s32 parent_object, s32 object_index);
 void card_boot_initialize_dialog_draw_nodes(struct Entity *entity, s32 node_count);
 
 /* card_boot_initialize_slot_window.c */
-void card_boot_initialize_slot_window(s32 record, s32 setup_value, s32 processing_value);
+void card_boot_initialize_slot_window(void *record, s32 setup_value, s32 processing_value);
 
 /* card_boot_layout_empty_slot_window.c */
 void card_boot_layout_empty_slot_window(void *object);
@@ -108,6 +108,7 @@ typedef struct CardFileListPanel {
 struct CardChoiceOwner;
 struct CardContinueNodes;
 struct CardSlotListNodes;
+void card_boot_initialize_slot_window_frame(CardDisplayNode *entity, CardDisplayBlock *primary, DisplayPositionWords *secondary, s32 slot_index);
 void init_card_choice_templates(CardDisplayNode *entry, CardDisplayBlock *block, DisplayPositionWords *vector);
 void init_card_choice_nodes(struct CardChoiceOwner *owner, s32 count);
 void init_card_continue_nodes(struct CardContinueNodes *owner, s32 count);

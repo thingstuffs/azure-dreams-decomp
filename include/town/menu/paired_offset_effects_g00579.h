@@ -7,6 +7,7 @@
 #include "m2c_compat.h"
 #include "shared/object_payload.h"
 #include "shared/vector.h"
+#include "town/person/effects.h"
 
 typedef struct S_800A6F48_14 {
     u8 pad_00[0xC];
@@ -93,7 +94,6 @@ typedef struct S_800A6F48_11 {
 
 #include "town/menu/object/create_positioned_sprite_object_g01142.h"
 /* extern */
-void spawn_person_radial_effects(void *source);
 /* extern */
 extern void D_800A70EC();
 extern M2C_UNK D_800D0DD8;

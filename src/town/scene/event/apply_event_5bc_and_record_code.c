@@ -1,9 +1,8 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/player/script_flags.h"
 
 s32 *func_80017D80();             /* extern */
-s32 func_80018A64(s32);
-s32 func_80018ADC(s32);
 
 typedef struct S_8051EE00_0 {
     u8 pad_00[0x18];

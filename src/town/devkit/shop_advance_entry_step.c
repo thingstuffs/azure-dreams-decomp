@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/shop/state.h"
 
 typedef struct {
     u16 field_0;
@@ -13,7 +14,6 @@ extern void set_entry_bit_flag(s32 index, s32 value);
 extern s32 advance_clear_flag_row(void);
 extern void set_linked_flag(u16 value);
 extern void clear_linked_flag(s32 value);
-extern s32 test_linked_flag(u16 value);
 
 /* Advance the selected flag row and process entry zero when required. */
 s32 advance_selected_flag_row(s32 index) {

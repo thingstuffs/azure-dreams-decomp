@@ -1,8 +1,8 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/player/script_flags.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 func_80018B5C();                         /* extern */
 
 /* Returns whether func_80018B5C reports zero for ID 0x5BF. */
 s32 check_scene_flag_5_bf(void) {

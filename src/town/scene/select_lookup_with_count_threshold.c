@@ -1,10 +1,11 @@
 #include "modules/town_ovl_3ef1c8.h"
+#include "town/scene/response_checks.h"
 
 /* Looks up a response, applies the helper-result >= 10 override, then checks for a state fallback. */
 s32 select_lookup_with_count_threshold(s32 object, s32 check_value, s32 selection) {
     s32 response;
 
-    if (check_table_result_below_minus_47(object, check_value) != 0) {
+    if (check_table_result_below_minus_47() != 0) {
         return (s32)&scene_result_fallback;
     }
     response = func_80019ABC(&D_8001A954, &scene_override_context, object, selection);

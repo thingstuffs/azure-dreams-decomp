@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/player.h"
 #include "town/player/script_flags.h"
+#include "town/scene/flags.h"
 
 typedef struct {
     s16 unk0;
@@ -16,7 +17,6 @@ typedef struct {
 } Position;
 
 extern s32 find_entry_8_index_or_assert();
-extern void update_dependent_entry_ids();
 extern s32 all_entries_pass_check();
 
 /* Applies the selected entry's position and returns its result. */

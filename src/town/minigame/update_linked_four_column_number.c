@@ -2,18 +2,18 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "shared/object_links.h"
+#include "engine/text.h"
 
    /* the 0x2 bytes before arg0 in update_linked_four_column_number, addressed as arg0[-1] */
 
 typedef struct S_80023FF8_0 {
     u8 pad_00[0x4];
-    s32 unk_04;
+    char *unk_04;
     s16 * unk_08;
     s16 * unk_0C;
 } S_80023FF8_0;   /* arg0 in update_linked_four_column_number */
 
 
-void format_decimal_field_space_padded();           /* extern */
 
 /* Process the entry and set its header and global flags when its status is zero. */
 void update_linked_four_column_number(void *entry) {

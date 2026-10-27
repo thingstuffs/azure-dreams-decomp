@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/entity.h"
+#include "town/person/effects.h"
 
 typedef struct S_80023158_0 {
     void * unk_00;
@@ -15,7 +16,6 @@ typedef struct S_80023158_1 {
 
 
 extern s32 rand(void);
-extern void spawn_person_radial_effects(void *);
 
 /* Runs a 24-tick value decrease with random callbacks, then waits to reset. */
 void run_timed_value_decrease(S_80023158_0 *sequence, EntityRec *target)

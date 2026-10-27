@@ -5,6 +5,7 @@
 #include "shared/slus_callbacks.h"
 #include "shared/dir_step.h"
 #include "sdk/libc.h"
+#include "town/person/effects.h"
 
 #ifndef NULL
 #define NULL 0

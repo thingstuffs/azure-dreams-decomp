@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:main/func_800112D8, CL:main/func_80011390, CL:main/func_80011818, CL:main/func_800119B4, PD:main/image_25c800:800283EC. */
 
 #include "common.h"
+#include "frontend/libcard.h"
 #include "modules/main_server_ship_interfaces.h"
 #include "m2c_compat.h"
 
@@ -50,11 +51,6 @@ typedef struct S_800249B4_2 {
     s16 unk_08;
 } S_800249B4_2;
 
-typedef struct {
-    u8 pad00[0x7C];
-    s32 unk7C;
-    s32 unk80;
-} S_80011A50;
 
 extern void format_unsigned_double_byte_decimal(s32 value, void *out);
 extern void strcat(void *dest, void *src);
@@ -64,7 +60,6 @@ extern u8 D_800283C4[];
 extern void *D_800283F4[];
 extern u8 D_800283FC[];
 extern u8 card_save_slot_metadata;
-extern void card_boot_format_saved_slot_details(S_80011A50 *record);
 
 extern void *decode_fullwidth_text(void *entries, u8 *text, s32 initial_octave);
 extern u8 *card_empty_slot_guidance_lines[];
@@ -72,6 +67,5 @@ extern u8 *card_empty_slot_guidance_lines[];
 /* Functions defined in this translation unit. */
 void card_boot_format_empty_slot_guidance(void *context);
 void build_a_trigonometric_table_processes_up_eight_height_offset_segments(void *context);
-void card_boot_refresh_slot_details(S_80011A50 *object);
 
 #endif

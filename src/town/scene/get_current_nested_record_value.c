@@ -3,6 +3,7 @@
 #include "shared/town_root.h"
 #include "shared/town_pointees.h"
 #include "m2c_compat.h"
+#include "town/scene/record_queries.h"
 
 
    /* ((S_8001AAF0_1 *)(((Rec_D_80016000 *)D_80016000)->unk_24))->unk_68 in get_current_nested_record_value */
@@ -11,6 +12,6 @@
 
 
 /* Return the signed value at offset 0x0A of the current nested record. */
-s16 get_current_nested_record_value(void) {
+s32 get_current_nested_record_value(void) {
     return ((TownNestedRecordValueView *)(((TownNestedPayloadView *)(((TownResourceLinks *)town_scene_root->unk_24)->unk_68))->unk_08))->unk_0A;
 }

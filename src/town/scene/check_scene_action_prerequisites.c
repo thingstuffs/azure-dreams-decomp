@@ -1,6 +1,6 @@
 #include "common.h"
+#include "town/player/script_flags.h"
 
-extern s32 func_8001894C(s16);
 extern void call_helper_with_fixed_id_0x118a(s16);
 extern s32 func_80017C7C(s32, s32);
 extern void func_80017BA0(void *, s32);

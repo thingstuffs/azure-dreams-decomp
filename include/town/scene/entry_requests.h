@@ -63,4 +63,6 @@ s32 initialize_scene_action_state(struct SceneActionEntry *object, s32 value);
 
 void *lookup_keima_entry(void *context, s32 unused, s32 code);
 
+void apply_four_values_and_refresh(s32 slot_index);
+
 #endif

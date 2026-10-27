@@ -90,10 +90,10 @@ void no_op_card_stub(void);
 s32 card_boot_has_selected_channel(void);
 
 /* func_8000EB98.c */
-s32 card_boot_read_file_units_128(s32 path, s32 buffer, s32 read_size, s32 block_offset);
+s32 card_boot_read_file_units_128(void *path, void *buffer, s32 read_size, s32 block_offset);
 
 /* func_8000EC4C.c */
-s32 card_boot_write_file_units_128(s32 path, s32 buffer, s32 unit_count, s32 unit_offset, s32 skip_create);
+s32 card_boot_write_file_units_128(void *path, void *buffer, s32 unit_count, s32 unit_offset, s32 skip_create);
 
 /* func_8000ED38.c */
 s32 card_boot_get_slot_marker(s32 entry_index);

@@ -1,10 +1,9 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "town/player/script_flags.h"
 
 
-extern void func_80018ADC(s32);
-extern s32 func_80018B5C(s32);
 
 /* Decrements the current entry's counter for 0x5C8, otherwise checks 0x11FC. */
 s32 tick_scene_counter(void) {

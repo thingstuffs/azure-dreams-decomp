@@ -5,6 +5,7 @@
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/entity.h"
 #include "shared/town_handler.h"
+#include "town/person/effects.h"
 void initialize_action_object_type_six(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);     /* extern */
 void select_sound_command_from_mode(void);                            /* extern */
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"                      /* extern */
@@ -14,7 +15,6 @@ void add_hex_20000_s_signed_offset_hex_14(EntityRec *record);                   
 s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();               /* extern */
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"      /* extern */
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"                      /* extern */
-void spawn_person_radial_effects(void *);                      /* extern */
 
 /* Advance the state counter and update the entity, handling threshold and flag transitions. */
 void update_threshold_and_interaction(Rec_func_80094268_arg0 *state, EntityRec *entity, s32 context) {

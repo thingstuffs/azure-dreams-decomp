@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/player/script_flags.h"
 
 
 typedef struct S_8051FC84_1 {
@@ -10,7 +11,6 @@ typedef struct S_8051FC84_1 {
 } S_8051FC84_1;   /* ((D_80016000->unk_08 * 8) + ((s32)D_80016000->unk_40)) in run_event_5c8_and_set_entry_state */
 
 
-s32 func_80018A64(s32);
 extern void *D_800190E0;
 
 /* Calls func_80018A64, sets the indexed entry's state to 2, and invokes the context callback. */

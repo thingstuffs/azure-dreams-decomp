@@ -20,7 +20,7 @@ void update_spark_effect(void *menu)
     }
 
     card_boot_set_slot_details_selection(
-        *(s32 *)((u8 *)menu + 0x1C),
+        *(void **)((u8 *)menu + 0x1C),
         *(s32 *)((u8 *)menu + 0x28),
         *(s32 *)((u8 *)menu + 0x44)
         );

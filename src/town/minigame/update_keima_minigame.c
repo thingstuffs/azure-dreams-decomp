@@ -7,6 +7,7 @@
 #include "m2c_compat.h"
 #include "slus.h"
 #include "engine/runtime.h"
+#include "town/person/effects.h"
 extern int abs(int);
 
 /* The record behind a minigame object node (node + 0x20) and the base record D_800834B8 (the node's record half).
@@ -31,7 +32,6 @@ void func_80023E6C();   /* extern */
 s32 rsin();                             /* extern */
 s32 rcos();           /* extern */
 s32 rand();                      /* extern */
-void spawn_person_radial_effects();                       /* extern */
 s32 create_dual_buffer_object();       /* extern */
 void set_object_data_pointer_2();              /* extern */
 extern s32 town_money[0xB58];

@@ -1,4 +1,5 @@
 #include "town/scene/entry_requests.h"
+#include "town/player/script_flags.h"
 
 typedef struct SceneValueEntry {
     u8 pad_00[4];
@@ -11,7 +12,6 @@ typedef struct SceneFlagContext {
 } SceneFlagContext;
 
 s32 func_80017710(void *table, s32 lookup_key);
-void func_80018A64(s32 flag);
 
 /* Look up an entry, apply the context flag, and return the entry value. */
 s32 lookup_entry_apply_record_code(void *table, void *context, s32 lookup_key)

@@ -1,8 +1,8 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/player/script_flags.h"
 
 s32 lookup_entry_and_apply_record_code();     /* extern */
-void func_80018ADC(s32);                     /* extern */
 extern s32 D_80018E48;
 
 /* Apply operation 0x5BE and dispatch D_80018E48 with the supplied value and context. */

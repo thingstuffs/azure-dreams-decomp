@@ -1,10 +1,11 @@
 #include "modules/town_ovl_3ef1c8.h"
+#include "town/scene/response_checks.h"
 
 /* Checks the input, then selects the mode-9 response with a state fallback or a fixed response. */
 s32 select_mode_nine_lookup(s32 input, s32 context, s32 mode) {
     s32 result;
 
-    if (check_table_result_below_minus_47(input, context) != 0) {
+    if (check_table_result_below_minus_47() != 0) {
         return (s32)&scene_result_fallback;
     }
     if (mode == 9) {

@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/player/script_flags.h"
 
 #define FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
@@ -13,7 +14,6 @@ typedef struct S_func_804B80D0_1 {
 extern s32 store_supplied_values(s32, s32);
 extern s32 call_helper_with_fixed_id_0x118a(s32);
 extern s32 func_800188CC(s32);
-extern s32 func_8001894C(s32);
 extern s16 scene_request_flag_id;
 
 /* Update action flags from the active entry and check whether the action is allowed. */

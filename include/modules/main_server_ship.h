@@ -49,7 +49,7 @@ extern void printf(void *format, ...);
 extern void exit(s32 status) __attribute__((noreturn));
 extern void strcpy(void *dest, s32 source);
 extern void strcat(void *dest, void *source);
-extern void close(s32 file);
+#include "sdk/libapi.h"
 
 /* Complete member contracts, one prototype per line. */
 void card_boot_select_channel_mode(s32 mode_enabled, s32 *unused_repeat_counts);
@@ -72,8 +72,8 @@ s32 count_entries_matching_search_path(void);
 s32 card_boot_calc_remaining_8k_blocks(s32 entry_count);
 s32 card_boot_has_directory_name_prefix(s32 count, u8 *text);
 void card_boot_build_slot_path(s32 dest, s32 suffix_index);
-s32 card_boot_read_file_units_128(s32 path, s32 buffer, s32 read_size, s32 block_offset);
-s32 card_boot_write_file_units_128(s32 path, s32 buffer, s32 unit_count, s32 unit_offset, s32 skip_create);
+s32 card_boot_read_file_units_128(void *path, void *buffer, s32 read_size, s32 block_offset);
+s32 card_boot_write_file_units_128(void *path, void *buffer, s32 unit_count, s32 unit_offset, s32 skip_create);
 s32 card_boot_get_slot_marker(s32 entry_index);
 void card_boot_cache_save_header(s32 entry_index, void *source);
 void card_boot_store_save_xor_checksum(void *buffer);

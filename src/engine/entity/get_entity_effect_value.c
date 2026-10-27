@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/actor_status.h"
+#include "engine/entity.h"
 
 #include "shared/entity.h"
 
