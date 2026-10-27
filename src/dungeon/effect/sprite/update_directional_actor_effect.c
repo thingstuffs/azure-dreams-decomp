@@ -11,6 +11,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/actor.h"
+#include "sdk/libgpu.h"
 
 typedef s32 M2C_UNK;
 
@@ -325,8 +326,6 @@ typedef struct {
     s32 unk1FC;
 } S_800A1600_D80083160;
 
-extern void SetSemiTrans();
-extern void SetPolyFT4();
 
 /* Projects linked items into textured quads and adds them to the ordering table. */
 s32 create_counted_sprite_effect(void *first_item) {
@@ -509,8 +508,6 @@ typedef struct Resource {
 extern u8 directional_sprite_entries[];
 
 extern s32 resolve_record_orientation_or_fallback(void *, void *, s16 *, s32);
-extern s32 GetTPage(s32, s32, s32, s32);
-extern s32 GetClut(s32, s32);
 extern s32 rand(void);
 
 /* Moves an animated effect toward the actor's sprite offset and emits randomized fragments until it ends. */

@@ -715,7 +715,7 @@ extern void advance_sprite_animation_and_textures(void *, s16, void *, void *);
 void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry menu_effect_sprite_entries[];
-s32 rsin();                        /* extern */
+s32 rsin(s32);                        /* extern */
 s32 resolve_player_input_facing();               /* extern */
 void append_packed_action_record();      /* extern */
 u32 get_rounded_facing_and_rounding_flag(); /* extern */
@@ -752,12 +752,12 @@ extern M2C_UNK D_80027160;
 extern Cell menu_mesh_cells[];
 extern s16 D_8002713A[];
 extern s8 scene_geometry[];
-extern void PushMatrix();
-extern void TransMatrix();
-extern void RotMatrix();
-extern void ScaleMatrix();
-extern void SetRotMatrix();
-extern void SetTransMatrix();
+void PushMatrix(void);
+void * TransMatrix(void *, void *);
+void * RotMatrix(void *, void *);
+void * ScaleMatrix(void *, void *);
+void SetRotMatrix(void *);
+void SetTransMatrix(void *);
 extern s32 RotTransPers();
 extern s32 func_800656C0();
 extern void func_80065034();
@@ -765,7 +765,7 @@ extern void project_sprite_commands();
 extern void func_800453E0(void *context, void *position, struct Entry *entry, s16 depth_bias);
 extern void draw_sprite_clipped();
 extern void func_80045CC4();
-extern void PopMatrix();
+void PopMatrix(void);
 extern s32 GetTPage(s32, s32, s32, s32);
 extern void SetPolyG4(void *);
 extern void SetDrawMode(void *, s32, s32, s32, s32);

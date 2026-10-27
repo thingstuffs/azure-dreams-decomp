@@ -477,8 +477,8 @@ extern s16 cap_pending_actor_value_delta(void *);
 extern void apply_clamped_actor_value_delta(void *);
 extern s32 get_random_scaled_value(s16 input_value);
 #include "dungeon/effect/screen.h"
-extern s32 rcos();
-extern s32 rsin();
+s32 rcos(s32);
+s32 rsin(s32);
 extern s32 RotAverage4(
     void *ptr0, void *ptr1, void *ptr2, void *ptr3,
     void *ptr4, void *ptr5, void *ptr6, void *ptr7,

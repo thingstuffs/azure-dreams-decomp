@@ -40,7 +40,7 @@ extern void equip_item_and_update_status();
 extern void change_equipped_item_and_notify();
 extern void *(*load_monster_resource_data(s32 resource_id, s32 resource_slot, s32 wait_for_read))(s32, s16, s16, s16);
 extern s32 retain_spawn_resource(s16 entry_type, s16 entry_key);
-extern u8 * find_or_retain_sprite_resource_slot();
+extern u8 * find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type);
 extern s32 select_dungeon_spawn_tile(u8 *x_out, u8 *y_out);
 extern void *create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 direction, s16 effect_mode);
 

@@ -5,6 +5,7 @@
 #include "shared/object_flags.h"
 #include "sdk/libc.h"
 #include "dungeon/level.h"
+struct Row_818ED25C_S_80024A5C_5;
 /* extern */
 
 /* Return a random sign of either -1 or 1. */
@@ -108,7 +109,7 @@ void *func_8003FD64(s32, void *);
 void register_node(void *, void *);
 void func_8004491C(void *, void *);
 void func_80024C54(void);
-s32 draw_effect_and_restore_clip();
+void draw_effect_and_restore_clip(s32 draw_data, struct Row_818ED25C_S_80024A5C_5 *clip_rect, void *screen_pos, u16 clear_rect, s16 draw_param);
 
 extern u8 D_80020000[];
 extern Row_818EDB60_Rect D_80024048;

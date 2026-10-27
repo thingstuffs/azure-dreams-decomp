@@ -10,11 +10,11 @@
 #include "dungeon/item/message.h"
 #include "dungeon/actor/status.h"
 
-extern void clear_slots_of_type();
+extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 #include "dungeon/player/item.h"
 extern void clear_slot_and_update_linked_state();
 extern void *get_unused_text_buffer(void);
-extern void display_text_with_fullwidth_adjustment();
+extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern void place_actor_item();
 extern void display_item_status_message();
 extern void create_timed_paired_particle_emitter();

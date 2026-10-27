@@ -62,8 +62,8 @@ typedef struct {
 extern u8 return_magic_frames[];
 extern s16 transition_runtime_slot_index;
 
-extern void AddPrim();
-extern void SetLineF2();
+void AddPrim(void *, void *);
+void SetLineF2(void *);
 extern void SetDrawArea();
 extern void set_sprite_animation_frame();
 extern void snapshot_inventory_and_familiars(void *input_state);

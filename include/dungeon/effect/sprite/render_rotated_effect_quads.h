@@ -72,7 +72,7 @@ typedef struct Row_818ED25C_S_80024A5C_7 {
 /* Draws at a page-adjusted position with clipping commands and an optional black rectangle.
  * Keeping the page pointer live across setup and spelling the sign extension as one expression
  * reproduce the retail allocation and call-argument order. */
-s32 rsin();
+s32 rsin(s32);
 void CompMatrix();
 void PushMatrix();
 void PopMatrix();

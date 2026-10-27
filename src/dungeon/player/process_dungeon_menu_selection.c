@@ -90,7 +90,7 @@ typedef struct DdcbcEntry {
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_8002534C(void *, s32, void *, ActorRecord *); /* extern */
 void select_record_entry_and_value(void *state, void *entries, short index);        /* extern */
-s32 get_entity_effect_value();                 /* extern */
+s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);                 /* extern */
 #include "dungeon/player/item.h"
 #include "dungeon/actor/state.h"
 struct S_80094270_2;
@@ -107,7 +107,7 @@ void *clear_byte_and_advance();                         /* extern */
 u8 *append_entity_display_text();                        /* extern */
 void display_formatted_context_message(void *context);                   /* extern */
 void append_packed_action_record();   /* extern */
-s32 display_text_with_fullwidth_adjustment();                         /* extern */
+s32 display_text_with_fullwidth_adjustment(s8 *text);                         /* extern */
 s32 is_selectable_menu_target();                             /* extern */
 void update_selection_tile_markers(struct S_800B50B0_Entity *entity, s32 selection);            /* extern */
 extern M2C_UNK familiar_menu_action_data;

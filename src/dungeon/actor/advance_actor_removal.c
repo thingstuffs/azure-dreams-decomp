@@ -118,7 +118,7 @@ typedef struct {
 } D_800E3E48_Entry;
 
 void build_entity_slot_snapshot();
-s32 get_entity_effect_value();
+s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 s32 get_entity_class();
 struct DungeonItemEntry;
 void clear_slot_and_update_linked_state(struct DungeonItemEntry *slot);
@@ -132,7 +132,7 @@ s16 find_entity_slot_by_field_ac();
 struct Entity;
 struct EntityLinkNode;
 void mark_owned_linked_actor_actions(struct Entity *owner_entity);
-s32 display_text_with_fullwidth_adjustment();
+s32 display_text_with_fullwidth_adjustment(s8 *text);
 
 void *create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 direction, s16 effect_mode);
 extern s32 object_flag_block;

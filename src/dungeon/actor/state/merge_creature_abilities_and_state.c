@@ -9,18 +9,20 @@
 #include "shared/dungeon_moving_views.h"
 #include "engine/entity.h"
 #include "dungeon/player/state.h"
+struct Entity;
+struct EntityLinkNode;
 
 s16 find_matching_initial_stat_slot();
 void *select_object_by_flags_and_keys(void *, void *, u16 *);
 void zero_words();
 void apply_entity_effects(void *);
 void copy_entity_record();
-void unlink_entity_node();
-void update_map_cell_flags_with_item_limit();
-void decrement_monster_entry_count();
+void unlink_entity_node(struct EntityLinkNode *node);
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 s32 find_entity_slot_by_field_ac();
-void mark_owned_linked_actor_actions();
-s16 find_slot_by_item_group();
+void mark_owned_linked_actor_actions(struct Entity *owner_entity);
+s32 find_slot_by_item_group(void *entry, s16 target);
 typedef struct {
     u8 pad_00[0x10];
     u8 flags;

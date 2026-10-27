@@ -99,7 +99,7 @@ extern u8 spark_sprite_entries[];
 M2C_UNK func_800245BC();
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 void apply_attack_power_and_element_effects();
-s32 check_adjacent_tile_height_clearance();
+s16 check_adjacent_tile_height_clearance(u16 x, u16 y, s32 z, void *skip_check);
 extern M2C_UNK spark_particle_update_address;
 
 /* Spawns particles, moves the effect, and restores its owner after the fade. */

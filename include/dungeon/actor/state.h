@@ -23,4 +23,8 @@ void initialize_action_state_29(void *state, s32 unused_context, struct SpriteFr
 
 void reset_record_to_state_34(void *state, s32 unused_context, struct SpriteFrameState *unused_sprite, struct ActorRecord *unused_actor);
 
+struct ObjectPosition;
+struct SpriteFrameState;
+s32 update_actor_defeat_removal(struct ActorRecord *state, struct ObjectPosition *position, struct SpriteFrameState *sprite, struct ActorRecord *entity_data);
+
 #endif

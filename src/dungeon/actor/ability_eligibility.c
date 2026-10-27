@@ -881,35 +881,35 @@ s16 check_adjacent_tile_height_clearance(u16 x, u16 y, s32 z, void *skip_check) 
 }
 
 /* Updates or inserts a four-slot entry, clearing conflicts or evicting an entry when full. */
-s16 set_or_clear_actor_status_slot(Owner_800A48F0 *owner, s8 id, s8 value) {
+s16 set_or_clear_actor_status_slot(ActorRecord *owner, s8 id, s8 value) {
     s16 min_id;
     s32 i;
     s32 used;
 
     min_id = 0x100;
     for (i = 3; i >= 0; i--) {
-        if (owner->slots[i].id == id) {
-            if ((((u8)value ^ owner->slots[i].value) & 0x80) || value == 0) {
-                end_status_effect_message(owner, owner->slots[i].id);
-                owner->slots[i].id = 0;
-                owner->slots[i].value = 0;
+        if (owner->status[i].type == id) {
+            if ((((u8)value ^ (u8)owner->status[i].value) & 0x80) || value == 0) {
+                end_status_effect_message(owner, owner->status[i].type);
+                owner->status[i].type = 0;
+                owner->status[i].value = 0;
             } else {
-                owner->slots[i].value = value;
+                owner->status[i].value = value;
             }
             apply_entity_action_flags(owner, id);
             return i;
         }
     }
     for (i = 3; i >= 0; i--) {
-        used = owner->slots[i].id;
+        used = owner->status[i].type;
         if (used == 0) {
             if (id == STATUS_SLEEP) {
                 clear_slots_of_type(owner, STATUS_PARALYSIS);
             } else if (id == STATUS_PARALYSIS) {
                 clear_slots_of_type(owner, STATUS_SLEEP);
             }
-            owner->slots[i].id = id;
-            owner->slots[i].value = value;
+            owner->status[i].type = id;
+            owner->status[i].value = value;
             apply_entity_action_flags(owner, id);
             return i;
         }

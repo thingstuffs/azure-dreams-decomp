@@ -828,7 +828,7 @@ void handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mar
 #include "modules/dungeon_native_abi.h"
 #include "shared/object_node.h"
 
-extern void handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mark();
+extern void handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mark(void *effect, s32 unused, struct EffectColor *color);
 extern u8 linked_mesh_processor_address[];
 
 /* One 4-byte slot of the fade record: only the second halfword is used. */
@@ -1308,8 +1308,8 @@ s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(void *f
 
                   /* extern */
 
-s32 rsin();                             /* extern */
-s32 rcos();                             /* extern */
+s32 rsin(s32);                             /* extern */
+s32 rcos(s32);                             /* extern */
 extern s16 D_8002632A;
 extern u8 staged_glow_data[];
 extern u8 D_80026878[];

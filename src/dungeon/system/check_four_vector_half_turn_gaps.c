@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/system.h"
 
 extern s32 ratan2(s32, s32);
 

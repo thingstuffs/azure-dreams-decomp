@@ -185,7 +185,7 @@ s32 rsin(s32);
 void CompMatrix();
 void PushMatrix(void);
 void PopMatrix(void);
-void ReadRotMatrix();
+void * ReadRotMatrix(void *);
 void ScaleMatrix();
 void SetRotMatrix();
 void SetTransMatrix();

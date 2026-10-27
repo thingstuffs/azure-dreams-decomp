@@ -635,17 +635,17 @@ void create_floor_item_renderer(void) {
 #include "common.h"
 #include "shared/game_work.h"
 
-extern void CompMatrix();
+void * CompMatrix(void *, void *, void *);
 extern void PushMatrix(void);
 extern void PopMatrix(void);
-extern void ScaleMatrix();
-extern void SetRotMatrix();
-extern void SetTransMatrix();
+void * ScaleMatrix(void *, void *);
+void SetRotMatrix(void *);
+void SetTransMatrix(void *);
 extern s32 RotTransPers(void *, void *, void *, void *);
 extern void RotTransPers4();
-extern void RotMatrix();
+void * RotMatrix(void *, void *);
 extern void AddPrim();
-extern void SetPolyFT4();
+void SetPolyFT4(void *);
 
 extern u8 sprite_projection_matrix[];
 typedef struct { u8 b0, b1, b2, b3; } Ent4;

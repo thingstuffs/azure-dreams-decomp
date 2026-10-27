@@ -75,7 +75,7 @@ extern void * copy_four_text_bytes();
 extern void * clear_byte_and_advance(s8 *byte_ptr);
 extern void *write_text_byte_and_advance();
 extern u8 *append_entity_display_text();
-extern s32 display_text_with_fullwidth_adjustment();
+extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 
 extern u8 species_base_stats[];
@@ -442,7 +442,7 @@ extern void * clear_byte_and_advance(s8 *byte_ptr);
 extern void * write_text_byte_and_advance();
 extern u8 * append_entity_display_text();
 extern s32 play_sound_if_enabled(s32 query_value);
-extern s32 display_text_with_fullwidth_adjustment();
+extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 
 extern u8 species_base_stats[];
@@ -1093,7 +1093,7 @@ u8 * expand_text_control_codes();                  /* extern */
 extern void * clear_byte_and_advance(s8 *byte_ptr);
 u8 * append_entity_display_text();                     /* extern */
 s32 distribute_experience_awards(struct S_800A2DB8_0 *source);                          /* extern */
-s32 display_text_with_fullwidth_adjustment();                         /* extern */
+s32 display_text_with_fullwidth_adjustment(s8 *text);                         /* extern */
 extern void *monster_species_table;
 
 extern u8 D_800E09CD[12];

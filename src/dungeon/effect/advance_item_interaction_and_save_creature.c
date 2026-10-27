@@ -182,16 +182,20 @@ void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload,
 #include "slus.h"
 
 void *(*load_monster_resource_data())(s32, u8, u8, s16);
-u8 * find_or_retain_sprite_resource_slot();
+u8 * find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type);
 void raise_entity_level(void *entity_data, s32 show_message);
 s32 play_sound_if_enabled(s32 query_value);
-s32 display_text_with_fullwidth_adjustment();
+s32 display_text_with_fullwidth_adjustment(s8 *text);
 s32 generate_random_value(void);
 void clear_selected_item_flag_400();
 void *create_actor_value_popup();
 #define D_80010000_PTR ((D_80010000_T *)0x80010000)
 extern s32 monster_species_table;
-extern s32 held_item_record;
+/* BYTES: preserve the aligned word copy and the four-byte item view of this slot. */
+extern union {
+    s32 word;
+    DungeonItemEntry item;
+} held_item_record;
 extern u32 level_experience_table[];
 
 extern s8 dungeon_event_pending_flag;
@@ -299,7 +303,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
             item_word = saved_item->unk_00;
             callback = &dispatch_actor_state_handler;
             action->unk_8C = callback;
-            held_item_record = item_word;
+            held_item_record.word = item_word;
             return;
         }
     case 2:
@@ -394,7 +398,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         if (!(sprite->unk_14 & 0xE000)) {
             return;
         }
-        clear_slot_and_update_linked_state(&held_item_record);
+        clear_slot_and_update_linked_state(&held_item_record.item);
         {
             void *callback = handle_player_input;
             event_flags = ((S_func_800B1364_15 *)&dungeon_floor_flags)->unk_00 & 0xFFDFFFFF;
@@ -403,7 +407,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         }
         return;
     case 5:
-        item_effect = begin_holding_item(action, position, sprite, &held_item_record);
+        item_effect = begin_holding_item(action, position, sprite, &held_item_record.item);
         if (item_effect == NULL) {
             return;
         }

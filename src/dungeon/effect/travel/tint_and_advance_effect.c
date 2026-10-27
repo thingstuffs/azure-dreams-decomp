@@ -937,7 +937,7 @@ typedef struct S_800252E0_8 {
     void * unk_8D0;
 } S_800252E0_8;   /* ((S_800252E0_6 *)global_slot)->unk_00 in queue_projected_point_primitives */
 
-extern s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list();
+extern s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(void *first_owner, void *first_vertices, void *first_line);
 extern u32 RotTransPers();
 extern u8 resident_globals_page[];
 

@@ -22,9 +22,8 @@
 #include "dungeon/player/item.h"
 #include "dungeon/system.h"
 #include "dungeon/player/state.h"
+#include "dungeon/actor/status.h"
 void adjust_source_value_and_finalize(void *context, const void *source);           /* extern */
-s32 set_or_clear_actor_status_slot();        /* extern */
-s32 feed_actor_restore_mp();            /* extern */
 extern u8 D_800E1729[17];
 
 /* Handles an item action for an entity, including its effect and item cleanup. */

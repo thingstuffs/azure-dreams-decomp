@@ -13,7 +13,7 @@ typedef s32 M2C_UNK;
 
 extern void file_load_com(void *packed_data);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern s16 get_surface_height_at_coordinates();
+extern s16 get_surface_height_at_coordinates(s32 xCoord, s32 yCoord);
  /* overlays/dungeon/first_pass_matched/func_80D403A8.c */
 extern void update_pulsing_actor_color(void *state_data, s32 unused, void *actor_data);
 extern M2C_UNK D_800F6F28;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/vector.h"
 #include "shared/audio_commands.h"
 #include "shared/object_links.h"
 #include "shared/sprite_source.h"
@@ -61,7 +62,7 @@ void update_directional_actor_effect(DirectionalEffectWork *effect, ObjectPositi
     s32 tile_x;
     s32 tile_y;
     s32 distance;
-    s16 offset[3];
+    GteShortVector offset;
     s32 original_count;
     s32 delta_y;
     s32 frames;
@@ -151,10 +152,10 @@ void update_directional_actor_effect(DirectionalEffectWork *effect, ObjectPositi
             s32 delta_x;
             s32 abs_y;
             if ((*effect->animation_flags & 0x80) != 0) {
-                if (resolve_record_orientation_or_fallback(actor_header->sprite->source, actor_header->sprite, offset, 0) == 0) {
-                    offset[1] = 0;
-                    offset[0] = 0;
-                    offset[2] = (actor_data->flags & 0x8000) ? -48 : 0;
+                if (resolve_record_orientation_or_fallback(actor_header->sprite->source, actor_header->sprite, &offset, 0) == 0) {
+                    offset.vy = 0;
+                    offset.vx = 0;
+                    offset.vz = (actor_data->flags & 0x8000) ? -48 : 0;
                 }
                 target = scan_actor_along_heading(actor, actor_data->tile_x, actor_data->tile_y, actor->facing,
                                        (s16)get_definition_entry_byte_13(36));
@@ -176,9 +177,9 @@ void update_directional_actor_effect(DirectionalEffectWork *effect, ObjectPositi
                 {
                     u8 *effect_header = (u8 *)effect - 32;
                     u8 *callback = handle_spawn_initialize_randomized_offset_parent;
-                    motion->x.v = actor_header->position->x.v + ((s32)offset[0] << 16);
-                    motion->y.v = actor_header->position->y.v + ((s32)offset[1] << 16);
-                    motion->z.v = actor_header->position->z.v + ((s32)offset[2] << 16);
+                    motion->x.v = actor_header->position->x.v + ((s32)offset.vx << 16);
+                    motion->y.v = actor_header->position->y.v + ((s32)offset.vy << 16);
+                    motion->z.v = actor_header->position->z.v + ((s32)offset.vz << 16);
                     register_node(effect_header, callback);
                 }
                 delta_x = actor->target_tile_x;

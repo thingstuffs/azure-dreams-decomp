@@ -14,6 +14,7 @@
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 #include "shared/dungeon_effect_views.h"
+#include "sdk/libgpu.h"
 
 typedef struct S_func_81856800_1 {
     void * unk_00;
@@ -176,8 +177,6 @@ typedef union SignedProduct {
 } SignedProduct;
 
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
-extern s16 GetTPage(s32, s32, s32, s32);
-extern s16 GetClut(s32, s32);
 
 extern void apply_attack_power_and_element_effects(void *, s32, u8, s32, s32, void *, s32);
 
@@ -687,8 +686,6 @@ typedef struct DungeonShape {
 
 extern DungeonDrawState *g_game_work[];
 extern s32 RotTransPers(void *world_vertex, void *screen_point, void *ptr2, void *ptr3);
-extern void SetSemiTrans(void *primitive, s32 value);
-extern void SetPolyFT4(void *primitive);
 
 typedef struct DungeonTag {
     unsigned addr : 24;
@@ -847,8 +844,6 @@ typedef struct {
     s16 state4A;
 } Entity;
 
-extern s16 GetTPage(s32, s32, s32, s32);
-extern s16 GetClut(s32, s32);
 
 /* Initializes, animates, and retires a jittering five-point effect. */
 void animate_jittering_five_point_effect(Entity *entity)
@@ -967,7 +962,6 @@ typedef struct S_80024F40_1 {
     u16 unk_52;
 } S_80024F40_1;
 
-s16 GetClut();
 
 /* Fades the object's packed color to zero, then sets completion flags. */
 void fade_packed_object_color_to_zero(void *object) {

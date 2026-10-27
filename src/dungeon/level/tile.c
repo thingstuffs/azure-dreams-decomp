@@ -1321,7 +1321,7 @@ typedef union { s16 coordinate; struct { u8 low; u8 high; } bytes; } CoordinateO
 typedef struct { CoordinateOutput first; CoordinateOutput second; } LocalBytes;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 get_entity_effect_value();             /* extern */
+s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);             /* extern */
 
 /* Updates the object's coordinates when a target passes the checks and new coordinates are found. */
 s32 update_object_coordinates_if_valid(SpriteFrameState *object, EntityRec *context) {

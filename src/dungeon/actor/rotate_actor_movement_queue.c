@@ -12,7 +12,7 @@ typedef struct S_800A9AFC_2 {
 } S_800A9AFC_2;   /* (arg1 + ((S_800A9AFC_0 *)arg1)->unk_71) in rotate_actor_movement_queue */
 
 
-s32 get_entity_effect_value();             /* extern */
+s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);             /* extern */
 extern s32 memmove(void *, void *, s32);     /* extern */
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
 

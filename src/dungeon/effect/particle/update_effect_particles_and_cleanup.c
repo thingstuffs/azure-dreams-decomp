@@ -37,7 +37,7 @@ void apply_random_actor_value_adjustment(struct Row_818FE800_Target *target, s32
 void create_owner_linked_mirrored_sprite(); /* extern */
 s32 resolve_record_orientation_or_fallback();     /* extern */
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
-s32 check_adjacent_tile_height_clearance();           /* extern */
+s16 check_adjacent_tile_height_clearance(u16 x, u16 y, s32 z, void *skip_check);           /* extern */
 void draw_transformed_sprite_with_clip_rect(); /* extern */
 extern Packed8 D_80024028;
 extern Packed32 D_80024038;

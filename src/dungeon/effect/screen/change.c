@@ -189,7 +189,7 @@ typedef struct ActiveEntry { u8 pad0; u8 active; u8 pad2[2]; } ActiveEntry;
 extern u8 D_800E0000[];
 
 void initialize_timed_motion_step(); /* Unprototyped: two or three arguments; retail reads only the first two. */
-s32 get_entity_effect_value();
+s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 s32 clamp_adjusted_value_0_to_99();
  /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 extern void create_type_212_object(s32 flag, s8 value);
@@ -1029,7 +1029,7 @@ void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 po
 #include "shared/entity.h"
 #include "records/Rec_D_800287A4.h"
 
-s32 get_entity_effect_value();                 /* extern */
+s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);                 /* extern */
 s32 generate_random_value(void); /* Retail RNG at 0x800A6D30 reads no argument registers, including $a3. */
 
 

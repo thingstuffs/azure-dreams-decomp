@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/system.h"
 
 s16 adjust_summed_vector_by_entry_component();
 

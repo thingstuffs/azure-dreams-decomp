@@ -194,13 +194,13 @@ extern s32 swap_int_values();
 extern void * multiply_rgb_tint_saturated();
 extern void *emit_gpu_packets();
 extern s32 PushMatrix();
-extern s32 PopMatrix();
-extern s32 ScaleMatrix();
-extern s32 SetRotMatrix();
-extern s32 SetTransMatrix();
+void PopMatrix(void);
+void * ScaleMatrix(void *, void *);
+void SetRotMatrix(void *);
+void SetTransMatrix(void *);
 extern s32 NormalClip();
 extern s32 RotTransPers4();
-extern s32 RotMatrix();
+void * RotMatrix(void *, void *);
 s32 AddPrim(void *, void *);
 /* extern */
 s32 SetPolyFT4(void *);

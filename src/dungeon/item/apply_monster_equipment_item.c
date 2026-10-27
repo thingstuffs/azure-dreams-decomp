@@ -43,10 +43,10 @@ typedef struct S_800C08A4_2 {
 
 
 
-void * copy_fullwidth_vowel_bytes();
+void * copy_fullwidth_vowel_bytes(void *dst, void *character);
  /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
-void * append_value_seven_suffix();
-s32 display_text_with_fullwidth_adjustment(); /* extern */
+void * append_value_seven_suffix(u8 *dst);
+s32 display_text_with_fullwidth_adjustment(s8 *text); /* extern */
 struct DungeonItemEntry;
 void place_actor_item(void *object_context, struct DungeonItemEntry *target); /* extern */
 s32 generate_random_value(void);

@@ -24,4 +24,7 @@ s32 play_sound_if_enabled(s32 query_value);
 /* dungeon/system/util.c */
 void place_actor_item(void *object_context, struct DungeonItemEntry *target);
 
+s16 get_maximum_sampled_offset_value(s32 base_position, s32 offsets, s32 offset_count);
+s32 check_four_vector_half_turn_gaps(s16 x_a, s16 y_a, s16 x_b, s16 y_b, u16 x_c, u16 y_c, u16 x_d, u16 y_d);
+
 #endif

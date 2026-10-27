@@ -187,7 +187,7 @@ extern s32 rsin(s32 value);
 extern s32 rcos(s32 value);
 extern s32 func_80065610();
 extern void AddPrim();
-extern void SetPolyGT4();
+void SetPolyGT4(void *);
 
 /* Functions defined in this translation unit. */
 s32 process_circular_segments(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment);

@@ -68,8 +68,8 @@ struct DungeonItemEntry;
 extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *slot);
 extern void * get_unused_text_buffer(void);
 extern s32 play_sound_if_enabled(s32 query_value);
-extern void display_text_with_fullwidth_adjustment();
-extern void *create_item_render_object();
+extern s32 display_text_with_fullwidth_adjustment(s8 *text);
+extern void *create_item_render_object(void *parent, void *sprite_source, s16 x, s32 y, s16 z);
 
 extern u8 held_item_record[];
 extern u8 player_item_render_update_address[];

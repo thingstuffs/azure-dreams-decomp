@@ -16,7 +16,7 @@ struct ObjectNodeHeader;
 #include "dungeon/system.h"
 void *get_unused_text_buffer(void);
 void adjust_source_value_and_finalize(void *context, const void *source);
-s32 display_text_with_fullwidth_adjustment();
+s32 display_text_with_fullwidth_adjustment(s8 *text);
 struct DungeonItemEntry;
 void place_actor_item(void *object_context, struct DungeonItemEntry *target);
 void create_colored_effect_with_event(struct ObjectNodeHeader *source, s32 color, unsigned short event_id);

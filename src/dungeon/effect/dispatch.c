@@ -3,6 +3,7 @@
 #include "dungeon/item/message.h"
 #include "dungeon/level.h"
 #include "engine/graphics.h"
+#include "sdk/libgpu.h"
 
 struct ObjectPosition;
 #include "shared/sprite_frame_state.h"
@@ -97,16 +98,13 @@ typedef struct S_800C55F4_8 {
 extern void *CompMatrix(void *, void *, void *);
 extern void PushMatrix(void);
 extern void PopMatrix(void);
-extern s32 ReadRotMatrix();
+void * ReadRotMatrix(void *);
 extern void *ScaleMatrix(void *, void *);
 extern void SetRotMatrix(void *);
 extern void SetTransMatrix(void *);
 extern s32 RotTransPers(void *, void *, ...);
-extern s32 NormalClip();
+s32 NormalClip(s32, s32, s32);
 extern void *RotMatrix(void *, void *);
-extern void AddPrim(void *, void *);
-extern s32 SetPolyG3();
-extern s32 SetDrawMode();
 
 typedef struct Face {
     u8 v0;
@@ -632,20 +630,20 @@ extern u8 D_800E0BA1[];
 
 void initialize_timed_motion_step(); /* Unprototyped: two or three arguments; retail reads only the first two. */
 s32 get_entity_class();
-void snapshot_inventory_and_familiars();
+void snapshot_inventory_and_familiars(void *input_state);
 void *get_unused_text_buffer(void);
-void * copy_four_text_bytes();
+void * copy_four_text_bytes(u8 *src, u8 *dst);
 void unlink_entity_node();
-void update_map_cell_flags_with_item_limit();
-void refresh_packed_grid_nibbles();
-void * detach_record_and_update_slot_state();
-void display_text_with_fullwidth_adjustment();
-void check_action_boundary_and_set_flag();
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+void refresh_packed_grid_nibbles(void);
+void * detach_record_and_update_slot_state(void *record);
+s32 display_text_with_fullwidth_adjustment(s8 *text);
+s32 check_action_boundary_and_set_flag(void);
 s32 generate_random_value(void);
 void remove_floor_items_at_tile(s16, s16);
 void process_active_slots_at_coordinates(s16, s16);
-void teleport_familiar_near_player();
-void create_orbiting_teleport_effect();
+void * teleport_familiar_near_player(void *object, s16 action_arg);
+void * create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 direction, s16 effect_mode);
 
 #define CELL(xx, yy) (cells + 6 * ((xx) + ((yy) << *(s16 *)(fld + 20))))
 
@@ -1135,7 +1133,6 @@ extern void SetTransMatrix(void *);
 extern s32 RotTransPers(void *, void *, ...);
 void RotTransPers4();
 extern void *RotMatrix(void *, void *);
-extern void AddPrim(void *, void *);
 extern s32 sprite_projection_matrix[];
 
 /* Draws sprite parts as a 4-by-4 grid of textured quads, invoking custom part callbacks. */

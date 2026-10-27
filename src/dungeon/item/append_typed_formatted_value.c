@@ -8,7 +8,7 @@
 #include "engine/town.h"
 #include "dungeon/item/message.h"
 
-extern u8 * copy_selected_text_without_terminator();
+extern u8 * copy_selected_text_without_terminator(void *text_id, u8 *dest);
 extern u8 *D_800DD720;
 extern u8 *item_type_text_prefixes[];
 extern u8 *item_type_text_suffixes[];

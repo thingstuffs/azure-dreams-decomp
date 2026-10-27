@@ -45,7 +45,7 @@ typedef struct S_800D34CC_3 {
 } S_800D34CC_3;
 
 
-s32 get_entity_effect_value();                 /* extern */
+s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);                 /* extern */
 void unlink_entity_node(struct EntityLinkNode *node);                      /* extern */
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
 void * detach_record_and_update_slot_state(void *);                 /* extern */

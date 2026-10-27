@@ -872,12 +872,12 @@ typedef struct S_819AD81C_4 {
 s32 rsin();
 s32 rcos();
 void PushMatrix();
-void PopMatrix();
-void RotTrans();
+void PopMatrix(void);
+void RotTrans(void *, void *, s32 *);
 void apply_attack_power_and_element_effects();
-s32 calculate_planar_heading();
-s32 check_left_tile_and_center_height();
-void spawn_opposite_offset_effect();
+s16 calculate_planar_heading(s16 start_x, s16 start_y, s16 end_x, s16 end_y);
+s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
+void spawn_opposite_offset_effect(void *source_data, u32 direction_bits);
 extern s8 D_8002758C[];
 extern u8 warp_attack_option;
 extern s32 warp_attack_event;

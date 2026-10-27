@@ -170,15 +170,7 @@ typedef struct {
     s16 unused;
 } Entry;
 
-typedef struct Slot_800A48F0 {
-    s8 id;
-    u8 value;
-} Slot_800A48F0;
 
-typedef struct Owner_800A48F0 {
-    u8 pad_00[0x2C];
-    Slot_800A48F0 slots[4];
-} Owner_800A48F0;
 
 typedef struct S_800A4A9C_0 {
     u8 pad_00[0x2C];

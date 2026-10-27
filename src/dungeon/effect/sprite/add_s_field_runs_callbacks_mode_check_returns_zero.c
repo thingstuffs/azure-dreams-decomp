@@ -6,7 +6,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "dungeon/effect/screen.h"                 /* extern */
 #include "dungeon/actor.h"
-s16 cap_pending_actor_value_delta();                      /* extern */
+s16 cap_pending_actor_value_delta(void *entry);                      /* extern */
 void *create_actor_value_popup(); /* extern */
 
 

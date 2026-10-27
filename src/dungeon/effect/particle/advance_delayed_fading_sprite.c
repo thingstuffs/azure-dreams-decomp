@@ -4,6 +4,7 @@
 #include "modules/dungeon_ovl_185e800.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "shared/vector.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
@@ -34,7 +35,7 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
     s32 particles_left;
     s32 spawn_coord;
     u32 color;
-    s16 origin_offset[3];
+    GteShortVector origin_offset;
 
     owner = self->owner;
     owner_object = (ObjectNodeHeader *)((u8 *)owner - 32);
@@ -93,15 +94,15 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
             F(owner, u8, 114) = child_data->tile_x;
             F(owner, u8, 115) = child_data->tile_y;
         }
-        if (resolve_record_orientation_or_fallback(F(F(owner_object, u8 *, 12), u8 *, 8),
-                          F(owner_object, u8 *, 12), origin_offset, 0) == 0) {
-            origin_offset[2] = 0;
-            origin_offset[1] = 0;
-            origin_offset[0] = 0;
+        if (resolve_record_orientation_or_fallback(owner_object->sprite->source,
+                          owner_object->sprite, &origin_offset, 0) == 0) {
+            origin_offset.vz = 0;
+            origin_offset.vy = 0;
+            origin_offset.vx = 0;
         }
-        motion->x.w.i = F(F(owner_object, u8 *, 8), u16, 2) + origin_offset[0];
-        motion->y.w.i = F(F(owner_object, u8 *, 8), u16, 6) + origin_offset[1];
-        motion->z.w.i = F(F(owner_object, u8 *, 8), u16, 10) + origin_offset[2];
+        motion->x.w.i = F(F(owner_object, u8 *, 8), u16, 2) + origin_offset.vx;
+        motion->y.w.i = F(F(owner_object, u8 *, 8), u16, 6) + origin_offset.vy;
+        motion->z.w.i = F(F(owner_object, u8 *, 8), u16, 10) + origin_offset.vz;
         self->timer.u = 8;
         {
             s32 target_x = F(owner, s8, 114) * 64;
@@ -241,6 +242,7 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
 }
 #include "modules/dungeon_ovl_185e800.h"
 #include "common.h"
+#include "shared/vector.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
@@ -292,6 +294,7 @@ void advance_delayed_fading_sprite(DelayParticle *effect, DelayPosition *motion,
 #include "modules/dungeon_ovl_185e800.h"
 #include "shared/sprite_source.h"
 #include "common.h"
+#include "shared/vector.h"
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"

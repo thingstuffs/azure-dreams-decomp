@@ -956,7 +956,7 @@ typedef struct SpritePartWork {
 
 
 
-extern void PushMatrix();
+void PushMatrix(void);
 extern void PopMatrix(void);
 extern void TransMatrix(void *, void *, s32, s32);
 extern void *ScaleMatrix(void *, void *);
@@ -2070,7 +2070,7 @@ typedef struct S_800BA414_4 {
 
 
 extern void *CompMatrix(void *, void *, void *);
-extern void PushMatrix();
+void PushMatrix(void);
 extern void PopMatrix(void);
 extern void ReadRotMatrix(void *);
 extern void SetRotMatrix(void *);
@@ -2665,7 +2665,7 @@ s32 draw_particle_effect_primitives(DungeonObject *object, u16 *position) {
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
-s32 rand();                                /* extern */
+s32 rand(void);                                /* extern */
 struct DungeonObject;
 extern s32 draw_particle_effect_primitives(struct DungeonObject *object, u16 *position);
 
@@ -3488,7 +3488,7 @@ typedef struct S_800BBDEC_5 {
 
 
 extern void *CompMatrix(void *, void *, void *);
-extern void PushMatrix();
+void PushMatrix(void);
 extern void PopMatrix(void);
 extern void ReadRotMatrix(void *);
 extern void SetRotMatrix(void *);

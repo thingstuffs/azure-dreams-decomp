@@ -285,7 +285,7 @@ void select_record_entry_and_value(void *state, void *entries, short index);
 s32 read_sound_mode_blocking_status(s32 mode);
 void apply_attack_power_and_element_effects();
 void *scan_actor_along_heading();
-s32 check_left_tile_and_center_height();
+s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 s16 get_surface_height_at_record();
 
 extern M2C_UNK D_800240F0;

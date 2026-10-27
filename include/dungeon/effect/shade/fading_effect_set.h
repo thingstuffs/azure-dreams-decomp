@@ -235,7 +235,7 @@ s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 #include "shared/sprite_source.h"
 struct ObjectNodeHeader;
 extern SpriteSourceEntry rising_sprite_entries[];
-s32 check_left_tile_and_center_height();
+s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern u8 D_80025368[];
 extern s32 resolve_record_orientation_or_fallback();
 extern s32 check_layer_offset_height();

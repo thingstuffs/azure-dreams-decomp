@@ -12,8 +12,8 @@
 #include "engine/graphics.h"
 #include "slus.h"
 
-extern s32 get_entity_effect_value();
-extern s32 clear_slots_of_type();
+extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
+extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 extern void display_formatted_context_message(void *context);
 extern void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);
 

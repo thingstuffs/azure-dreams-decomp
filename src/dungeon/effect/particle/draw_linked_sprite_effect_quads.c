@@ -15,6 +15,7 @@
 #include "shared/dir_step.h"
 #include "dungeon/actor.h"
 #include "dungeon/system.h"
+#include "sdk/libgpu.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 resolve_record_orientation_or_fallback();     /* extern */
 void apply_attack_power_and_element_effects(); /* extern */
@@ -303,8 +304,6 @@ typedef struct SpriteQuad {
     u8 v3;
 } SpriteQuad;
 
-extern void SetSemiTrans();
-extern void SetPolyFT4();
 
 /* Retail 819B2C40 (draw_linked_sprite_effect_quads): projects each linked sprite effect and queues a textured quad centred on
  * its screen position into the ordering table.  The chain runs through the previous header's unk_18 link. */
@@ -465,8 +464,6 @@ typedef struct S_8002466C_9 {
     s16 unk_4C;
 } S_8002466C_9;   /* ent in update_animated_target_effect */
 
-extern s16 GetTPage(s32, s32, s32, s32);
-extern s16 GetClut(s32, s32);
 extern s32 resolve_record_orientation_or_fallback(void *, void *, s16 *, s32);
 extern s32 rand(void);
 
@@ -731,10 +728,6 @@ typedef struct {
     u32 len : 8;
 } P_TAG;
 
-extern s32 func_80066460();
-extern void SetSemiTrans();
-extern s32 SetPolyG4();
-extern s32 SetDrawMode();
 
 /* Draw fading radial grids of shaded quads for the linked effects. */
 s32 draw_fading_radial_effect_grid(void *effect_data) {

@@ -1043,7 +1043,7 @@ void converge_particle_position_and_color(void *transition, S_807AFB48_0 *positi
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 
-s32 rand();                                /* extern */
+s32 rand(void);                                /* extern */
 extern M2C_UNK view_marker_sprite_data;
 
 typedef struct S_807AFC9C_0 {
@@ -1320,7 +1320,7 @@ void advance_reverse_direction_particle(void *motion_data, s16 *position) {
 
    /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in func_800F7A38 */
 
-s32 rand();                                /* extern */
+s32 rand(void);                                /* extern */
 extern M2C_UNK view_marker_sprite_data;
 
 typedef struct S_807B0238_2 {
@@ -1722,7 +1722,7 @@ void create_terrain_particle_emitter(s16 tile_x, s16 tile_y, s16 initial_value) 
 #define NULL 0
 #endif
 
-s32 rand();
+s32 rand(void);
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry D_800DEED0;
 

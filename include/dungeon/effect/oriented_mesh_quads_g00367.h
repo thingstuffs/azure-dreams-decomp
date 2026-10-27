@@ -171,7 +171,7 @@ s32 PopMatrix(void);
 s32 ScaleMatrix(void *, void *);
 s32 SetRotMatrix(void *);
 s32 SetTransMatrix(void *);
-s32 RotTransPers();
+s32 RotTransPers(void *, s32 *, s32 *, s32 *);
 s32 RotTransPers4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
 s32 RotMatrix(void *, void *);
 u16 ratan2();

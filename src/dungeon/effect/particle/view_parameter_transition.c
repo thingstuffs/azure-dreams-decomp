@@ -56,7 +56,7 @@ extern int abs(int);
 extern void *memcpy(void *, const void *, u32);
 extern s32 get_sprite_attachment_vector();
 extern s32 rand(void);
-extern s32 check_adjacent_tile_height_clearance();
+extern s16 check_adjacent_tile_height_clearance(u16 x, u16 y, s32 z, void *skip_check);
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern const s16 D_80024038[8][2];
 extern void *textured_quad_octant_offsets[9];

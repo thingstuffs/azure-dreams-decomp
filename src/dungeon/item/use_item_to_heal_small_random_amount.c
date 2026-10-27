@@ -15,7 +15,7 @@
 #include "dungeon/player/state.h"
 #include "dungeon/item/message.h"
 #include "dungeon/actor/status.h"
-extern void display_text_with_fullwidth_adjustment();
+extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 generate_random_value(void);
 extern void create_timed_paired_particle_emitter();
 

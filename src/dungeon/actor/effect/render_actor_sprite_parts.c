@@ -7,15 +7,15 @@
 #define M2C_BREAK() 0
 #define M2C_SYNC() 0
 
-void * CompMatrix();
-void PushMatrix();
-void PopMatrix();
-void * ScaleMatrix();
-void SetRotMatrix();
-void SetTransMatrix();
-u32 RotTransPers();
+void * CompMatrix(void *, void *, void *);
+void PushMatrix(void);
+void PopMatrix(void);
+void * ScaleMatrix(void *, void *);
+void SetRotMatrix(void *);
+void SetTransMatrix(void *);
+s32 RotTransPers(void *, s32 *, s32 *, s32 *);
 s32 RotTransPers4();
-void * RotMatrix();
+void * RotMatrix(void *, void *);
 extern u32 sprite_projection_matrix[8];
 
 typedef struct S_func_800CDFD8_1 {

@@ -22,7 +22,7 @@ extern u8 * process_eligible_object_value();
 extern u8 * append_entity_display_text();
 extern void process_unflagged_linked_entries(s32 firstEntryBase);
 extern void process_unflagged_linked_entries_alt(s32 firstNodeBase);
-extern void display_text_with_fullwidth_adjustment();
+extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern void *create_item_render_object(void *parent, void *sprite_source, s16 x, s32 y, s16 z);
 
 extern u8 player_item_render_update_address[12];

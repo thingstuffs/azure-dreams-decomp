@@ -10,9 +10,9 @@
 #include "engine/node/allocation.h"
 #include "slus.h"
 #include "dungeon/level.h"
+#include "sdk/libgpu.h"
 
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern s16 GetClut();
 extern s32 draw_linked_textured_quads(void *first_quad);
 extern void update_rotating_effect_vertices(void *effect_data);
 
@@ -92,8 +92,6 @@ typedef struct S_800DA93C_4 {
 } S_800DA93C_4;   /* (u8 *)work in draw_linked_textured_quads */
 
 extern s32 RotTransPers();
-extern void SetSemiTrans();
-extern void SetPolyFT4();
 
 /* Build textured quad packets from a linked list and insert them into the ordering table. */
 s32 draw_linked_textured_quads(void *first_quad) {
@@ -229,8 +227,7 @@ typedef struct WorkBlock {
     s16 unk2C;
 } WorkBlock;
 
-extern s32 rsin();
-extern s32 GetTPage();
+s32 rsin(s32);
 
 /* Update the effect vertices, animate their color, and advance the rotation. */
 void update_rotating_effect_vertices(void *effect_data) {
@@ -839,8 +836,6 @@ typedef struct
 Dungeon;
 extern s32 rsin(s32);
 extern s32 RotTransPers4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void SetSemiTrans(Primitive *, s32);
-extern void SetPolyFT4(Primitive *);
 /* Draw linked items as fading textured quads along interpolated, oscillating paths. */
 s32 draw_fading_linked_quads(Item *item)
 {

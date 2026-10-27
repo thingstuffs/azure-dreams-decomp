@@ -21,8 +21,8 @@ extern void * clear_byte_and_advance();
 extern u8 * append_typed_formatted_value();
 extern s32 display_formatted_context_message(); /* Unprototyped: one or three arguments; retail retains only the text context. */
 extern void * copy_fullwidth_vowel_bytes();
-extern void * append_value_seven_suffix();
-extern s32 display_text_with_fullwidth_adjustment();
+extern void * append_value_seven_suffix(u8 *dst);
+extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 place_actor_item();
 extern s32 display_actor_item_status_message();
 extern s32 feed_actor_restore_mp();

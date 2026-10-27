@@ -999,8 +999,8 @@ typedef struct S_8187B9E8_4 {
     s16 unk_A0;
 } S_8187B9E8_4;   /* q in func_800251E8 */
 
-extern s32 rsin();
-extern s32 rcos();
+s32 rsin(s32);
+s32 rcos(s32);
 
 /* Create an effect with 23 random radial vectors and initialize its position and state. */
 void create_random_radial_vector_effect(s32 radius, s32 initial_value, s16 extent, s32 position_x_word, s32 position_y_word, s32 position_z_word) {

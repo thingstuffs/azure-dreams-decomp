@@ -19,7 +19,7 @@
 void clear_slots_of_type(ActorRecord *owner, s8 match_type);             /* extern */
 #include "dungeon/player/item.h"
 void *get_unused_text_buffer(void);                          /* extern */
-s32 display_text_with_fullwidth_adjustment();                         /* extern */
+s32 display_text_with_fullwidth_adjustment(s8 *text);                         /* extern */
 void create_timed_paired_particle_emitter();            /* extern */
 typedef struct {
     u8 pad[0xA];

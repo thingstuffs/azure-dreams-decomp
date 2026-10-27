@@ -69,7 +69,7 @@ static __inline__ u8 *grid_cell(u8 *grid, s32 row, s32 col)
 }
 
 /* Build a textured quad grid for each object in the linked list. */
-void transform_rotated_vertices();
+void transform_rotated_vertices(void *transform_data);
 void RotTransPers();
 
 s32 render_rotated_grid_surface(void *node);

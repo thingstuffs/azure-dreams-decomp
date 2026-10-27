@@ -12,6 +12,7 @@
 #include "slus.h"
 #include "engine/text.h"
 #include "engine/node/allocation.h"
+#include "shared/dungeon_moving_views.h"
 
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 void * decode_fullwidth_text();
@@ -19,7 +20,7 @@ extern char * func_8004E5A0(int value, unsigned short width, char *buf);
 void *func_800B119C();
 extern s32 allocate_panel_offset_or_zero(void);
 extern M2C_UNK D_80077FEC;
-extern void update_attached_effect_position();
+extern void update_attached_effect_position(void *object, MovingPosition *position, void *anim_state);
 extern s32 dungeon_menu_text_entries[];
 extern s32 transform_linked_quad_batches(u8 *, s32, u8 *);
 /* Creates an entity panel with numeric labels, centered text, and a shaded background. */

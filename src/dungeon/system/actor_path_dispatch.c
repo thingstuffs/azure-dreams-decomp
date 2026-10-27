@@ -8,8 +8,8 @@
 #include "dungeon/actor.h"
 typedef s32 M2C_UNK;
 extern s32 check_entity_relation();
-extern s8 find_active_rect_containing_point();
-extern s32 can_entity_gain_level();
+extern s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
+extern s32 can_entity_gain_level(void *entity);
 static void advance_actor_along_path_points(void *motion, s32 unused, void *position, void *path);
 #include "dungeon/actor/state.h"
 typedef struct S_800C9F34_3 {
