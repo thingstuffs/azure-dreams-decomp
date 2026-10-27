@@ -5,6 +5,7 @@
 
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/scene/entry_output.h"
 
 typedef struct S_8001A86C_0 {
     u8 pad_00[0x2];
@@ -41,7 +42,6 @@ extern u8 town_selection_records[];
 /* Functions defined in this translation unit. */
 u8 *build_selected_entry_output(s32 selected_index);
 void *build_entry_list(s32 entry_index);
-void *build_selected_record_buffer(s32 entry_index);
 s32 *build_four_record_value_block(void);
 s32 *build_two_record_value_block(void);
 s32 *build_three_record_value_block(void);

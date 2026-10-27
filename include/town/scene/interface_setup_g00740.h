@@ -8,6 +8,7 @@
 #include "common.h"
 #include "script_symbols.h"
 #include "shared/record_ptrs.h"
+#include "town/scene/position_entries.h"
 
 #define FIELD(expr, type_ptr, offset) (*(type_ptr)((u8 *)(expr) + (offset)))
 
@@ -28,13 +29,12 @@ typedef struct S_func_80016D74_2 {
 } S_func_80016D74_2;
 
 extern s32 D_80018FB4;
-extern s32 D_80018FB8;
+extern ScenePositionEntry D_80018FB8[];
 extern s32 scene_request_context;
-extern void func_800181C8();
 extern s32 func_80018BD0(s32);
 
 /* Functions defined in this translation unit. */
-void call_24_byte_entry_two(s32 firstValue, s32 unusedValue, s32 secondValue);
+void call_24_byte_entry_two(void *firstValue, s32 unusedValue, s32 secondValue);
 s32 run_global_interface_setup_sequence(void);
 
 #endif

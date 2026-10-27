@@ -1,15 +1,6 @@
-#include "common.h"
-#include "m2c_compat.h"
-
-/* cfail-repair: tf7-phase1-cache-v3 */
-extern void D_800AE494();
-
-typedef struct S_800AE4D4_0 {
-    u8 pad_00[0x10];
-    void (*unk_10)();
-} S_800AE4D4_0;   /* arg0 in set_item_menu_secondary_handler */
+#include "town/shop/item_menu_actions.h"
 
 /* Sets the object's pointer at offset 0x10 to D_800AE494. */
-void set_item_menu_secondary_handler(S_800AE4D4_0 *object) {
-    object->unk_10 = &D_800AE494;
+void set_item_menu_secondary_handler(ItemMenuStateNode *owner) {
+    owner->header.update_callback = &D_800AE494;
 }

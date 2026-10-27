@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/menu/catalog.h"
 
 
 #ifndef NULL
@@ -24,14 +25,8 @@ typedef struct S_801264AC_1 {
     s32 * unk_0C;
 } S_801264AC_1;
 
-typedef struct S_801264AC_2 {
-    u8 pad_00[0x54];
-    s32 unk_54;
-    s32 ** unk_58;
-} S_801264AC_2;   /* arg0 in initialize_catalog_display_nodes */
-
 /* Initializes 98 linked nodes and attaches their table to the context. */
-s32 initialize_catalog_display_nodes(S_801264AC_2 *context) {
+s32 initialize_catalog_display_nodes(CatalogDisplay *context) {
     s32 **node_slot;
     s32 *node;
     s32 *node_data;
@@ -60,8 +55,8 @@ s32 initialize_catalog_display_nodes(S_801264AC_2 *context) {
     } while (node_count < 0x62);
     apply_block_16_template_to_nodes(catalog_display_node_slots, 0x62);
     apply_vector_3_template_to_nodes(catalog_display_node_slots, 0x62);
-    context->unk_58 = catalog_display_node_slots;
-    context->unk_54 = (s32)catalog_display_node_slots[97];
+    context->nodes = catalog_display_node_slots;
+    context->last_node = (s32)catalog_display_node_slots[97];
     result = 1;
     return result;
 }

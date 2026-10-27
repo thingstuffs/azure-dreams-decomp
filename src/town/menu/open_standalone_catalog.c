@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
+#include "town/menu/catalog.h"
 
 #ifndef NULL
 #define NULL 0
@@ -13,21 +14,19 @@ short SD_Call(int flags);
 void SetGeomOffset(s32, s32);
 void SetGeomScreen(s32);
 void initialize_catalog_glyph_cache(void);
-s32 initialize_catalog_display_nodes();
-void initialize_catalog_state();
 int draw_tinted_node_sprites_scratch(void *forwarded_ptr, int unused_arg, void *second_ptr);
 extern s8 animation_tick_scale;
 extern s32 D_80126704;
 
 /* Initializes the object's state and callbacks, or flags initialization failure. */
 void open_standalone_catalog(void) {
-    s32 obj_data;
+    CatalogDisplay *obj_data;
     s32 global_flags;
     u16 object_flags;
     ObjectNodeHeader *obj;
 
     obj = allocate_flagged_object_node(0);
-    obj_data = (u8 *)obj + 0x20;
+    obj_data = ((void *)obj) + 0x20;
     if (obj != NULL) {
         if (initialize_catalog_display_nodes(obj_data) != 0) {
             animation_tick_scale = 1;

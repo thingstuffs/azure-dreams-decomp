@@ -1,39 +1,32 @@
 /* Item menu request input and its file-private helper. */
 #include "common.h"
-extern void set_item_menu_data_pointer();
-extern void set_item_menu_secondary_handler();
+#include "town/shop/item_menu_actions.h"
+#include "town/shop/item_menu_cursor_transition_g00601.h"
 extern s32 invoke_item_menu_offset_handler();
 #include "shared/game_work.h"
-typedef struct S_800B0490_1 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    s32 unk_08;
-    u8 pad_0C[0x4];
-    s32 unk_10;
-} S_800B0490_1;
+
 /* arg0 in handle_item_menu_input */
 
 
 extern void SD_Call(); /* Unprototyped: one or two arguments; the retail audio queue reads only the command. */
-extern void change_item_menu_selection();
 
 /* Routes a menu request result of 1 to its secondary handler and 2 to its data pointer. */
-static void dispatch_item_menu_request_result(void *request) {
+static void dispatch_item_menu_request_result(ItemMenuInput *request) {
     s32 result_code;
 
-    result_code = invoke_item_menu_offset_handler(((s32 *)request)[1], ((s32 *)request)[3]);
+    result_code = invoke_item_menu_offset_handler(request->object, request->callback_arg);
     if (result_code == 1) {
-        set_item_menu_secondary_handler(((s32 *)request)[2]);
+        set_item_menu_secondary_handler(request->owner);
         return;
     }
     if (result_code == 2) {
-        set_item_menu_data_pointer(((s32 *)request)[2]);
+        set_item_menu_data_pointer(request->owner);
         return;
     }
 }
 
 /* Handles menu confirmation, cancellation, and repeated horizontal cursor movement with sound effects. */
-void handle_item_menu_input(S_800B0490_1 *menu)
+void handle_item_menu_input(ItemMenuInput *menu)
 {
     s32 direction;
     s32 move_mode;
@@ -54,7 +47,7 @@ void handle_item_menu_input(S_800B0490_1 *menu)
     pressed_buttons = (pad_state->pressed_buttons);
     if (pressed_buttons & 0x20) {
         SD_Call(0x515, pad_state);
-        set_item_menu_secondary_handler(menu->unk_08);
+        set_item_menu_secondary_handler(menu->owner);
         return;
     }
 
@@ -69,17 +62,17 @@ void handle_item_menu_input(S_800B0490_1 *menu)
     }
 
     if (pressed_buttons & 0x4000) {
-        menu->unk_10 = 0;
+        menu->repeat_ticks = 0;
         move_mode = 4;
         direction = 1;
     } else if (pressed_buttons & 0x1000) {
-        menu->unk_10 = 0;
+        menu->repeat_ticks = 0;
         move_mode = 4;
         direction = -1;
     } else {
-        repeat_ticks = menu->unk_10;
+        repeat_ticks = menu->repeat_ticks;
         if (repeat_ticks >= 5) {
-            menu->unk_10 = repeat_ticks - 3;
+            menu->repeat_ticks = repeat_ticks - 3;
             repeat_buttons = pad_state->buttons;
             if (repeat_buttons & 0x4000) {
                 direction = 1;
@@ -89,7 +82,7 @@ void handle_item_menu_input(S_800B0490_1 *menu)
                 move_mode = 4;
             }
         } else {
-            menu->unk_10 = repeat_ticks + 1;
+            menu->repeat_ticks = repeat_ticks + 1;
         }
     }
 
@@ -97,7 +90,7 @@ void handle_item_menu_input(S_800B0490_1 *menu)
         return;
     }
     SD_Call(0x502, pad_state);
-    change_item_menu_selection(menu->unk_04, direction, move_mode);
+    change_item_menu_selection(menu->object, direction, move_mode);
 
     return;
 }

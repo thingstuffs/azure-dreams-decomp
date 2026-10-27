@@ -1,15 +1,15 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene/position_entries.h"
 
-extern s32 D_80018E1C;
-extern s32 D_80018E34;
+extern ScenePositionEntry D_80018E1C;
+extern ScenePositionEntry D_80018E34;
 extern s32 scene_request_context;
 
-extern void func_800181C8();
 extern s32 func_80018C50(s32 flagIndex);
 
 /* Selects data using query 0xFBC and forwards it with the supplied values. */
-void select_query(s32 primaryValue, s32 unusedValue, s32 secondaryValue) {
+void select_query(void *primaryValue, s32 unusedValue, s32 secondaryValue) {
 
     if (func_80018C50(F_chriru_hospital_trg) != 0) {
         func_800181C8(&D_80018E34, &scene_request_context, primaryValue, secondaryValue);

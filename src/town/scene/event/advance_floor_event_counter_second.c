@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "town/player/script_flags.h"
+#include "town/scene/record_actions.h"
 
 typedef struct S_800161C0_0 {
     u8 pad_00[0x24];
@@ -19,7 +20,6 @@ typedef struct S_800161C0_2 {
 } S_800161C0_2;   /* ((S_800161C0_1 *)(((S_800161C0_0 *)(*(void **)D_80016000))->unk_24))->unk_74 in advance_floor_event_counter */
 
 
-extern s32 set_indexed_entry_flag();
 s32 read_script_flag_range(s32, s32);
 extern void write_script_flag_range(s32 base, s32 bits, s32 count);
 extern void func_8001DCD4(s32 slot_id);
@@ -28,7 +28,7 @@ extern void func_8001DCD4(s32 slot_id);
 ((S_800161C0_2 *)(((S_800161C0_1 *)(((S_800161C0_0 *)(*(void **)((s8 *)(&town_scene_root))))->unk_24))->unk_74))->unk_2A
 
 /* Advance the counter up to five and process the current floor unless an early exit applies. */
-s32 advance_floor_event_counter(s32 fallback_arg_a, s32 fallback_arg_b) {
+s32 advance_floor_event_counter(Rec_func_800165F4_arg0 *fallback_arg_a, s32 fallback_arg_b) {
     s32 count;
     s32 next_count;
     s32 capped_count;

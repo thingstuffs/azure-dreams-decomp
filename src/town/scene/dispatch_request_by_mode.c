@@ -1,17 +1,17 @@
 #include "common.h"
+#include "town/scene/position_entries.h"
 
 extern s32 count_free_item_slots(void);
 extern void resolve_entry_flag();
-extern s32 apply_entry_position();
-extern s32 D_8001BB4C[];
+extern ScenePositionEntry D_8001BB4C[];
 extern s32 scene_dispatch_context;
 extern s32 D_8001FAE8[];
 
 /* Processes a request by mode, returning a fallback pointer if the mode 7 check fails. */
-s32 dispatch_request_by_mode(s32 request, s32 unused, s32 mode) {
-    s32 saved_request = request;
+s32 dispatch_request_by_mode(void *request, s32 unused, s32 mode) {
+    void *saved_request = request;
     s32 saved_mode;
-    s32 *data_base;
+    ScenePositionEntry *data_base;
     s32 result;
 
     saved_mode = mode;

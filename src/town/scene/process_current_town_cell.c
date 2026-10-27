@@ -3,6 +3,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "m2c_compat.h"
+#include "town/scene/record_actions.h"
 
 typedef struct S_805D2FC4_2 {
     u8 pad_00[0x4];
@@ -11,12 +12,11 @@ typedef struct S_805D2FC4_2 {
 
 
 s32 func_80017E1C(void);
-s32 func_80018504();                    /* extern */
 s32 func_800194D8(s32 flagIndex);                         /* extern */
 extern s32 scene_cell_dispatch_code;
 
 /* Dispatches the current cell's action and clears its status after completion or a status-1 fallback. */
-s32 process_current_town_cell(s32 input_value, s32 input) {
+s32 process_current_town_cell(Rec_func_800165F4_arg0 *input_value, s32 input) {
     s32 result;
     u8 field_value;
 

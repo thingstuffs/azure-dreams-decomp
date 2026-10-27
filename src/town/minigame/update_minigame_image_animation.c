@@ -1,14 +1,14 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/object_links.h"
+#include "sdk/libgpu.h"
 
 
-extern void LoadImage();
 
-extern u8 minigame_palette_backup[];
-extern u8 D_80024660[];
-extern u8 minigame_image_backup[];
-extern u8 D_800246C0[];
+extern u32 minigame_palette_backup[];
+extern u32 D_80024660[];
+extern u32 minigame_image_backup[];
+extern u32 D_800246C0[];
 
 
    /* the 0x2 bytes before arg0 in update_minigame_image_animation, addressed as arg0[-1] */
@@ -42,19 +42,19 @@ void update_minigame_image_animation(void *anim)
 
     rect[1] = 0x1D0;
     if ((((S_80023BCC_0 *)anim)->unk_5E >> 1) & 1) {
-        u8 *image = D_80024660;
+        u32 *image = D_80024660;
 
         rect[0] = 0x40;
         LoadImage(rect, image);
         rect[0] = 0x50;
-        LoadImage(rect, image - 0x20);
+        LoadImage(rect, image - 8);
     } else {
-        u8 *image = minigame_palette_backup;
+        u32 *image = minigame_palette_backup;
 
         rect[0] = 0x40;
         LoadImage(rect, image);
         rect[0] = 0x50;
-        LoadImage(rect, image + 0x20);
+        LoadImage(rect, image + 8);
     }
 
     rect[1] = 0x1F8;
@@ -62,24 +62,24 @@ void update_minigame_image_animation(void *anim)
     switch (phase) {
     case 0:
     {
-        u8 *image = D_800246C0;
+        u32 *image = D_800246C0;
 
         rect[0] = 0xC0;
         LoadImage(rect, image);
         rect[0] = 0xD0;
         rect[2] = 0x20;
-        LoadImage(rect, image - 0x40);
+        LoadImage(rect, image - 16);
         break;
     }
     case 1:
     {
-        u8 *image = minigame_image_backup;
+        u32 *image = minigame_image_backup;
 
         rect[0] = 0xE0;
         LoadImage(rect, image);
         rect[0] = 0xC0;
         rect[2] = 0x20;
-        LoadImage(rect, image + 0x20);
+        LoadImage(rect, image + 8);
         break;
     }
     case 2:

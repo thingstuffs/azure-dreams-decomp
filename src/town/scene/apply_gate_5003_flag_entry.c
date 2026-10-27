@@ -1,7 +1,7 @@
 #include "town/scene.h"
 #include "town/player/script_flags.h"
+#include "town/scene/record_actions.h"
 extern void set_current_entry_script_flag(void);
-extern s32 apply_selected_entry_values(void *, s32);
 extern s32 process_checked_entry(void *, s32);
 
 s32 apply_gate_5003_flag_entry(SquareSceneEntry *entry, s32 entry_index) {

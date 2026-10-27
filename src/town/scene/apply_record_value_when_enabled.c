@@ -3,8 +3,8 @@
 #include "records/Rec_func_800165F4_arg0.h"
 #include "town/player.h"
 #include "town/player/script_flags.h"
+#include "town/scene/record_actions.h"
 
-s32 apply_selected_entry_values(Rec_func_800165F4_arg0 *record, s32 entry_index);             /* extern */
 
 
 /* Conditionally process the record ID before passing the record to apply_selected_entry_values. */

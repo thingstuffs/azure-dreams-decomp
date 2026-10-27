@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/entry_output.h"
 
 typedef struct Entry {
     u32 value;

@@ -2,8 +2,8 @@
 #define INCLUDE_TOWN_SCENE_ENTRY_REQUESTS_H
 
 #include "common.h"
+#include "town/scene/position_entries.h"
 
-s32 find_entry_8_index_or_assert(void *entries, s32 entry_id);
 void apply_entry_keyed_values(s16 *entry_table, void *resource, s32 entry_key);
 s32 resolve_entry_flag(u8 *entry_table, void *context, s32 entry_key);
 s32 process_current_cell_and_clear(void *object, s32 entry_index);
@@ -36,7 +36,7 @@ s32 dispatch_code_7_a_0_by_status(void *object, s32 entry_index);
 
 s32 *run_scene_helper_and_get_result(void);
 s32 dispatch_scene_entry_value(s32 entry_id, s32 unused, s32 value);
-s32 dispatch_scene_alt_tables(s32 request, s32 unused, s32 mode);
+s32 dispatch_scene_alt_tables(void *request, s32 unused, s32 mode);
 s32 dispatch_scene_request_with_fixed_data(s32 request, s32 unused, s32 value);
 s32 dispatch_scene_request_with_tables(s32 request, s32 unused, s32 value);
 s32 lookup_scene_entry_with_checked_fallback(s32 context, s32 check_value, s32 selector);

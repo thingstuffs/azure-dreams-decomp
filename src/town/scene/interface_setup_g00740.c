@@ -5,7 +5,7 @@
 #include "town/scene/interface_setup_g00740.h"
 
 /* Calls func_800181C8 with the selected 24-byte entry and two forwarded values. */
-void call_24_byte_entry_two(s32 firstValue, s32 unusedValue, s32 secondValue) {
+void call_24_byte_entry_two(void *firstValue, s32 unusedValue, s32 secondValue) {
     s32 entryIndex;
     s32 twiceEntryIndex;
     s32 thriceEntryIndex;
@@ -15,7 +15,7 @@ void call_24_byte_entry_two(s32 firstValue, s32 unusedValue, s32 secondValue) {
     thriceEntryIndex = entryIndex + twiceEntryIndex;
 
     func_800181C8(
-        (thriceEntryIndex << 3) + (u8 *)&D_80018FB8,
+        D_80018FB8 + thriceEntryIndex,
         &scene_request_context,
         firstValue,
         secondValue);

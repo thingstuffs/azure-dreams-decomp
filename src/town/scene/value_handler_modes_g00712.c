@@ -3,11 +3,11 @@
 #include "town/scene/value_handler_modes_g00712.h"
 
 /* Calls func_80018FDC with the supplied value and a zero second argument. */
-void call_value_handler_mode_0(s32 value) {
-    func_80018FDC((void *)value, 0);
+void call_value_handler_mode_0(void *entries) {
+    func_80018FDC(entries, 0);
 }
 
 /* Forwards the index plus four to func_80018FDC with mode 1. */
-void call_value_handler_index_plus_4(s32 index) {
-    func_80018FDC((void *)(index + 4), 1);
+void call_value_handler_index_plus_4(u8 *entries) {
+    func_80018FDC(entries + 4, 1);
 }

@@ -6,6 +6,7 @@
 #include "town/minigame.h"
 #include "engine/runtime.h"
 #include "slus.h"
+#include "sdk/libgpu.h"
 
 #ifndef NULL
 #define NULL 0
@@ -47,12 +48,11 @@ extern u8 D_80023EB0[];
 extern u8 D_80024470[];
 extern u8 D_800244A0[];
 extern s32 pickup_reward_total[];
-extern u8 minigame_palette_backup[];
-extern u8 minigame_image_backup[];
+extern u32 minigame_palette_backup[];
+extern u32 minigame_image_backup[];
 extern u8 D_800246E0[];
 
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern void StoreImage();
 extern void configure_the_set_mode_n_3();
 
 /* Creates parent and child display objects and uploads their graphics data. */

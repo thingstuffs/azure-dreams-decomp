@@ -8,6 +8,7 @@
 #include "shared/game_work.h"
 #include "shared/item_menu.h"
 #include "town/shop.h"
+#include "town/shop/item_menu_actions.h"
 
 void populate_item_menu_page_entries(ItemMenuPart **parts, ItemMenuObject *object);
 /* extern */
@@ -23,7 +24,6 @@ extern s32 advance_index_with_directional_clamp(s32, s32, s32);
 extern void get_item_name_with_shared_text_table(void *entry);
 extern void sort_entries_by_category(void *);
 extern void SD_Call(s32);
-extern void set_item_menu_data_pointer(ItemMenuStateNode *owner);
 extern void set_item_menu_entry_coordinates(ItemMenuObject *object);
 void fade_color_to_gray(ItemMenuPart *part, s32 stop_at_gray);
 s32 advance_timed_tagged_stream(FrameState *state);

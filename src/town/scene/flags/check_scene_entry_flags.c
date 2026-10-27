@@ -1,8 +1,8 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town/player/script_flags.h"
+#include "town/scene/record_actions.h"
 
-extern s32 func_80017D80();
 
 /* Checks the entry and override flags before calling the handler. */
 s32 check_scene_entry_flags(void *entry, s32 handler_arg) {

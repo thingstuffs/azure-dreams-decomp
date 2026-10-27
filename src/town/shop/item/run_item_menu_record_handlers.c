@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/shop/item_menu_actions.h"
 
 typedef struct S_800AE494_0 {
     s32 unk_00;

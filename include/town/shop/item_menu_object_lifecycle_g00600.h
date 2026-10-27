@@ -7,6 +7,7 @@
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "shared/item_menu.h"
+#include "town/shop/item_menu_actions.h"
 
 typedef struct S_800AE324_0 {
     u8 pad_00[0x8];
@@ -40,6 +41,5 @@ extern void handle_selection_and_create_object(void);
 
 /* Functions defined in this translation unit. */
 void * create_item_menu_object(s32 selector);
-void release_item_menu_object(ItemMenuParameters *parameters);
 
 #endif

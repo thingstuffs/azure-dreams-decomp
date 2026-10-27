@@ -2,12 +2,7 @@
 #include "town/player.h"
 #include "town/player/script_flags.h"
 #include "town/scene/flags.h"
-
-typedef struct {
-    s16 unk0;
-    s16 selector;
-    s32 result;
-} Entry;
+#include "town/scene/position_entries.h"
 
 typedef struct {
     s16 x;
@@ -16,13 +11,12 @@ typedef struct {
     s16 unk6;
 } Position;
 
-extern s32 find_entry_8_index_or_assert();
 extern s32 all_entries_pass_check();
 
 /* Applies the selected entry's position and returns its result. */
-s32 apply_entry_position(Entry *entries, s32 object, void *context, s32 selection)
+s32 apply_entry_position(ScenePositionEntry *entries, void *object, void *context, s32 selection)
 {
-    s32 saved_object;
+    void *saved_object;
     s32 entry_index;
     Position *position;
     s32 selector;

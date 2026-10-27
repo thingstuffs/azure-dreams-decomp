@@ -1,5 +1,6 @@
 #include "common.h"
 #include "records/Rec_func_801237A4_arg0.h"
+#include "town/menu/catalog.h"
 
 
 extern s32 is_catalog_entry_available(s32);
