@@ -11,6 +11,7 @@
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/town_handler.h"
 #include "shared/sprite_frame_state.h"
+#include "town/player/coordinates.h"
 
 typedef struct S_800917EC_2 {
     u8 pad_00[0x4];
@@ -25,7 +26,6 @@ void play_periodic_sound(s32 count, s32 interval);
 void store_the_valid_shared_angle_in_offset_hex_10(void *record);
 void call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58();
 void move_the_actor_perpendicular_selected_direction_unless_step_changes_sides();
-s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();
 void compute_and_clamps_vector_based_adjustment_updates_town();
 void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(EntityRec *position);
 void spawn_radial_effect_objects();

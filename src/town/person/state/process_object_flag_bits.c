@@ -4,7 +4,7 @@
 #include "records/Rec_D_80082E80.h"
 
 #include "town/person/object/initialize_object_entries_api.h"
-void clear_record_indexed_byte();        /* extern */
+#include "town/person/state_updates.h"
 extern s32 D_800D54C4[];
 
 /* Process the object when either of its 0x6000 flag bits is set. */

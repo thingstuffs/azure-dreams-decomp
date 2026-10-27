@@ -216,9 +216,9 @@ void rebuild_menu_node_list(void *owner, ObjectPosition *node_in, s32 mode) {
                 (node = ((func_80092C9C_S_800903FC_4 *)(((func_80092C9C_S_800903FC_2 *)base)->unk_20))->unk_08)->unk_0C != 0 ||
                 node->unk_10 != 0 || node->unk_14 != 0) {
                 {
-                    u8 *update_work;
+                    s32 *update_work;
 
-                    update_work = ((u8 *)&position_query_scratch);
+                    update_work = &position_query_scratch;
                     value = select_the_smaller_position_query_result_capped_n_64_writes_associated(node_in, update_work);
                     compute_and_clamps_vector_based_adjustment_updates_town(node_in, value, update_work);
                 }

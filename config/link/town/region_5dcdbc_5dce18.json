@@ -6,19 +6,5 @@
   "size": "0x5c",
   "vma": "0x800175bc",
   "evidence": "docs/evidence/r121w_s1_wave2.receipt.json",
-  "entries": [
-    {
-      "row": "town/func_8065CDBC",
-      "home": "town/func_8032F544",
-      "tu": "src/town/scene/flags/resolve_entry_flag.c",
-      "foff": "0x5dcdbc",
-      "vma": "0x800175bc",
-      "size": 92,
-      "bindings": {
-        "0x800194e4": "0x80016d5c",
-        "0x8001ade0": "0x80017f7c"
-      },
-      "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8065CDBC"
-    }
-  ]
+  "entries": []
 }

@@ -32,7 +32,9 @@
       "size": 40,
       "bindings": {
         "0x80016000": "0x80016000",
-        "0x8001C368": "0x80018340"
+        "0x8001C368": "0x80018340",
+        "0x80019CD8": "0x80019CD8",
+        "0x80019D44": "0x80019D44"
       },
       "evidence": "opus_place1: re-homed from relinked copy town/func_805D3984 onto town/func_8032E22C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
@@ -45,7 +47,9 @@
       "size": 40,
       "bindings": {
         "0x80016000": "0x80016000",
-        "0x80019438": "0x80018340"
+        "0x80019438": "0x80018340",
+        "0x80019CD8": "0x80019CD8",
+        "0x80019D44": "0x80019D44"
       },
       "evidence": "opus_place1: re-homed from relinked copy town/func_805D39AC onto town/func_804804BC; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
@@ -197,6 +201,33 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
+      "row": "town/func_8065CD50",
+      "home": "town/func_8032F4D8",
+      "tu": "src/town/scene/all_entries_pass_check.c",
+      "foff": "0x5dcd50",
+      "vma": "0x80017550",
+      "size": 108,
+      "bindings": {
+        "0x8001ade0": "0x80017f7c",
+        "0x80019D44": "0x80019D44"
+      },
+      "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8065CD50; TU view gather: moved from town/region_5dcd50_5dcdbc (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_8065CDBC",
+      "home": "town/func_8032F544",
+      "tu": "src/town/scene/flags/resolve_entry_flag.c",
+      "foff": "0x5dcdbc",
+      "vma": "0x800175bc",
+      "size": 92,
+      "bindings": {
+        "0x800194e4": "0x80016d5c",
+        "0x8001ade0": "0x80017f7c",
+        "0x80019CD8": "0x80019CD8"
+      },
+      "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8065CDBC; TU view gather: moved from town/region_5dcdbc_5dce18 (same load delta) so the merged file's members share one view"
+    },
+    {
       "row": "town/func_8065CE74",
       "tu": "src/town/scene/motion/apply_entry_position.c",
       "home": "town/func_8032F5FC",
@@ -208,7 +239,8 @@
         "0x80019860": "0x800170D8",
         "0x80019CD8": "0x80017550",
         "0x8001ACE8": "0x80017E84",
-        "0x80019DFC": "0x80017674"
+        "0x80019DFC": "0x80017674",
+        "0x80019D44": "0x80019D44"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },

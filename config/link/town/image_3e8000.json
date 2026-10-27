@@ -16,7 +16,8 @@
       "size": 56,
       "bindings": {
         "0x80016000": "0x80016000",
-        "0x80019040": "0x800178A4"
+        "0x80019040": "0x800178A4",
+        "0x8001A664": "0x8001A6D0"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -34,7 +35,10 @@
       "home": "town/func_80468BB0",
       "foff": "0x3E8BFC",
       "vma": "0x80019BFC",
-      "size": 76
+      "size": 76,
+      "bindings": {
+        "0x8001A664": "0x8001A6D0"
+      }
     },
     {
       "row": "town/func_803C8C48",
@@ -44,7 +48,8 @@
       "vma": "0x80019C48",
       "size": 76,
       "bindings": {
-        "0x80017B30": "0x80017B60"
+        "0x80017B30": "0x80017B60",
+        "0x8001A664": "0x8001A6D0"
       },
       "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
     },
@@ -56,7 +61,8 @@
       "vma": "0x80019C94",
       "size": 76,
       "bindings": {
-        "0x80017B30": "0x80017B78"
+        "0x80017B30": "0x80017B78",
+        "0x8001A664": "0x8001A6D0"
       },
       "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
     },
@@ -74,7 +80,10 @@
       "home": "town/func_80468CE0",
       "foff": "0x3E8D60",
       "vma": "0x80019D60",
-      "size": 128
+      "size": 128,
+      "bindings": {
+        "0x8001A664": "0x8001A6D0"
+      }
     },
     {
       "row": "town/func_80469664",
@@ -82,14 +91,6 @@
       "home": "town/func_80469664",
       "foff": "0x3E9664",
       "vma": "0x8001A664",
-      "size": 108
-    },
-    {
-      "row": "town/func_803C96D0",
-      "tu": "src/town/scene/prepare_selected_entry_buffer.c",
-      "home": "town/func_80469664",
-      "foff": "0x3E96D0",
-      "vma": "0x8001A6D0",
       "size": 108
     },
     {
@@ -106,7 +107,10 @@
       "home": "town/func_8046979C",
       "foff": "0x3E97E8",
       "vma": "0x8001A7E8",
-      "size": 76
+      "size": 76,
+      "bindings": {
+        "0x8001A664": "0x8001A6D0"
+      }
     },
     {
       "row": "town/func_80469C10",
@@ -122,7 +126,10 @@
       "home": "town/func_80469C10",
       "foff": "0x3E9C9C",
       "vma": "0x8001AC9C",
-      "size": 104
+      "size": 104,
+      "bindings": {
+        "0x8001A664": "0x8001A6D0"
+      }
     },
     {
       "row": "town/func_8046C188",

@@ -1,5 +1,6 @@
 #ifndef TOWN_PLAYER_EFFECT_INITIALIZE_EFFECT_AND_ADJUST_VALUE_G01140_H
 #define TOWN_PLAYER_EFFECT_INITIALIZE_EFFECT_AND_ADJUST_VALUE_G01140_H
+#include "town/player/coordinates.h"
 
 struct ObjectPosition;
 /* Initialize effect and adjust value. Shared declarations. */
@@ -152,7 +153,6 @@ extern s32 map_view_transition_address;
 extern u8 D_800903FC[];
 extern s16 step_angle_12_toward(s32, s32, s32);
 extern void add_hex_20000_s_signed_offset_hex_14(); /* Unprototyped: one or two arguments; retail reads only the first. */
-extern s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();
 extern u8 town_blocked_directions[];
 extern u8 town_movement_speed[];
 

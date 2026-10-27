@@ -11,6 +11,7 @@
 #include "m2c_compat.h"
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
+#include "shared/item_menu.h"
 
 typedef struct S_800B2964_0 {
     u8 pad_00[0x1];
@@ -62,7 +63,7 @@ typedef struct S_800B2BA0_0 {
 
 typedef struct S_800B2BA0_1 {
     u8 pad_00[0x20];
-    s32 unk_20;
+    ItemMenuObjectNode *unk_20;
 } S_800B2BA0_1;
 
 s32 create_callback_pair_default();
@@ -74,7 +75,7 @@ s32 func_800B0718(void);
 /* extern */
 void store_table_index_and_entry_bytes(void *object, s32 index);
 /* extern */
-s32 func_800B3924();
+ItemMenuObjectNode * func_800B3924(ItemMenuStateNode *owner);
 /* extern */
 s32 create_storage_item_menu();
 /* extern */

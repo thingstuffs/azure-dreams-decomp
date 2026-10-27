@@ -1,10 +1,10 @@
 #include "shared/position_query.h"
 #include "common.h"
 #include "shared/town_action_flag.h"
+#include "town/player/coordinates.h"
 
 extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(void *object);
 extern void move_both_components_toward_zero_direction_dependent_steps_clamping_zero(void *object);
-extern s16 select_the_smaller_position_query_result_capped_n_64_writes_associated(void *object, void *data);
 extern void compute_and_clamps_vector_based_adjustment_updates_town(void *object, s16 value, void *data);
 extern void initialize_action_object(void *state, void *object, s32 context);
 extern void initialize_actor_interaction_state_19(void *state, void *object, s32 context);
@@ -19,7 +19,7 @@ void update_threshold_countdown_with_busy_check(void *state, void *object, s32 c
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(object);
     move_both_components_toward_zero_direction_dependent_steps_clamping_zero(object);
     if (is_unk_18_n_12_unk_1_a_between_n_37_n_41() == 0) {
-        target_value = select_the_smaller_position_query_result_capped_n_64_writes_associated(object, ((u8 *)&position_query_scratch));
+        target_value = select_the_smaller_position_query_result_capped_n_64_writes_associated(object, &position_query_scratch);
         if (target_value - *(s16 *)((u8 *)object + 0xA) >= 4) {
             if (town_action_state_flag == 0) {
                 initialize_action_object(state, object, context);
@@ -27,7 +27,7 @@ void update_threshold_countdown_with_busy_check(void *state, void *object, s32 c
             }
         } else {
             if (town_action_state_flag == 0) {
-                compute_and_clamps_vector_based_adjustment_updates_town(object, target_value, ((u8 *)&position_query_scratch));
+                compute_and_clamps_vector_based_adjustment_updates_town(object, target_value, &position_query_scratch);
             }
         }
     }

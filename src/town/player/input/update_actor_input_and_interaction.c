@@ -2,6 +2,7 @@
 #include "shared/town_action_flag.h"
 #include "shared/position_query.h"
 #include "shared/game_work.h"
+#include "town/player/coordinates.h"
 
 typedef unsigned char u8;
 typedef signed char s8;
@@ -28,7 +29,6 @@ extern void call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_
 extern void move_the_actor_perpendicular_selected_direction_unless_step_changes_sides(void *actor);
 extern s32 select_an_available_entry_matching_direction_returns_status(void *menu_state);
 extern s32 select_an_eligible_source_entry_stores_pointer_in_destination(void *action_state, void *menu_state);
-extern s16 select_the_smaller_position_query_result_capped_n_64_writes_associated(void *actor, void *map_work);
 extern void compute_and_clamps_vector_based_adjustment_updates_town(void *actor, s16 height, void *map_work);
 extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(void *actor);
 extern void spawn_directional_effects(void *actor, s32 value);
@@ -39,7 +39,7 @@ void update_actor_input_and_interaction(void *action_state, void *actor, s32 con
 {
     GameWork *input_state = &g_game_work;
     register s32 saved_context;
-    u8 *map_work;
+    s32 *map_work;
     u8 *menu_state;
     s16 sampled_height;
     u16 timer;
@@ -47,7 +47,7 @@ void update_actor_input_and_interaction(void *action_state, void *actor, s32 con
     s32 action_result;
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(actor);
     move_the_actor_perpendicular_selected_direction_unless_step_changes_sides(actor);
-    map_work = ((u8 *)&position_query_scratch);
+    map_work = &position_query_scratch;
     sampled_height = select_the_smaller_position_query_result_capped_n_64_writes_associated(actor, map_work);
     if ((sampled_height - (*((s16 *) (((u8 *) actor) + 0xA)))) >= 4) {
         if (town_action_state_flag == 0) {

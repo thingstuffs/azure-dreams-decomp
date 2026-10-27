@@ -3,13 +3,13 @@
 #include "shared/town_action_flag.h"
 #include "shared/game_work.h"
 #include "shared/position_views.h"
+#include "town/player/coordinates.h"
 
 void initialize_scene_action_record();     /* extern */
 void initialize_motion_action();     /* extern */
 void initialize_actor_action_state();     /* extern */
 void initialize_action_object(s32 **record, void *ptr, void *ptr2);     /* extern */
 void move_both_components_toward_zero_direction_dependent_steps_clamping_zero();                      /* extern */
-s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();               /* extern */
 void compute_and_clamps_vector_based_adjustment_updates_town();      /* extern */
 void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile();                      /* extern */
 s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41(void);                                /* extern */
@@ -41,14 +41,14 @@ void update_actor_interaction_actions(void *self_arg, SignedHeightView *target_a
 
     move_both_components_toward_zero_direction_dependent_steps_clamping_zero(target_arg);
     if (is_unk_18_n_12_unk_1_a_between_n_37_n_41() == 0) {
-        target_value = select_the_smaller_position_query_result_capped_n_64_writes_associated(target_arg, ((u8 *)&position_query_scratch));
+        target_value = select_the_smaller_position_query_result_capped_n_64_writes_associated(target_arg, &position_query_scratch);
         if ((target_value - target_arg->z) >= 4) {
             if (((S_800930E4_1 *)(&town_action_state_flag))->unk_00 == 0) {
                 initialize_action_object(self, target_arg, context);
                 return;
             }
         } else if (((S_800930E4_1 *)(&town_action_state_flag))->unk_00 == 0) {
-            compute_and_clamps_vector_based_adjustment_updates_town(target_arg, target_value, ((u8 *)&position_query_scratch));
+            compute_and_clamps_vector_based_adjustment_updates_town(target_arg, target_value, &position_query_scratch);
         }
         countdown = self->unk_0A - 1;
         self->unk_0A = countdown;

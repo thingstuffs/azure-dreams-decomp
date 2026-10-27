@@ -4,6 +4,7 @@
 #include "shared/game_work.h"
 #include "shared/entity.h"
 #include "records/Rec_func_80094268_arg0.h"
+#include "town/player/coordinates.h"
 
 
 #ifndef NULL
@@ -16,7 +17,6 @@ extern void initialize_actor_action_state();
 void initialize_action_object(s32 **record, void *ptr, void *ptr2);
 void initialize_actor_movement_interaction_action(s32 **record, void *ptr, void *ptr2);
 extern void move_both_components_toward_zero_direction_dependent_steps_clamping_zero(EntityRec *record);
-extern s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();
 extern void compute_and_clamps_vector_based_adjustment_updates_town();
 extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(EntityRec *position);
 
@@ -32,11 +32,11 @@ void update_actor_with_interaction_state(Rec_func_80094268_arg0 *controller, Ent
     s16 sampled_value;
     u16 countdown;
     GameWork *state = &g_game_work;
-    u8 *samples;
+    s32 *samples;
 
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(entity);
     move_both_components_toward_zero_direction_dependent_steps_clamping_zero(entity);
-    samples = ((u8 *)&position_query_scratch);
+    samples = &position_query_scratch;
     sampled_value = select_the_smaller_position_query_result_capped_n_64_writes_associated(entity, samples);
     if ((sampled_value - entity->z.w.i) >= 4) {
         if (town_action_state_flag == 0) {

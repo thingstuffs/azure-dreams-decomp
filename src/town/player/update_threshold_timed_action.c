@@ -10,7 +10,7 @@
 
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"
 #include "town/player/move_both_components_toward_zero_direction_dependent_steps_clamping_zero_api.h"
-s32 select_the_smaller_position_query_result_capped_n_64_writes_associated(s32 *, s32 *);
+#include "town/player/coordinates.h"
 void initialize_action_object(s32 **record, void *ptr, void *ptr2);
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"
@@ -25,7 +25,7 @@ void update_threshold_timed_action(Rec_func_80094268_arg0 *state, EntityRec *ent
 
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(entity);
     move_both_components_toward_zero_direction_dependent_steps_clamping_zero(entity);
-    sampled_value = select_the_smaller_position_query_result_capped_n_64_writes_associated((s32 *)(entity), &position_query_scratch);
+    sampled_value = select_the_smaller_position_query_result_capped_n_64_writes_associated(entity, &position_query_scratch);
     if ((sampled_value - entity->z.w.i) >= 4) {
         if (town_action_state_flag == 0) {
             initialize_action_object(state, entity, context);

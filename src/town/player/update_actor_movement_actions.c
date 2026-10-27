@@ -8,6 +8,7 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 #include "engine/object/test_resident_bitmap_bit_api.h"                         /* extern */
+#include "town/player/coordinates.h"
 void init_threshold_countdown_action(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);
 struct Rec_func_80094268_arg0; struct ObjectPosition; void initialize_actor_action_state(struct Rec_func_80094268_arg0 *, struct ObjectPosition *, s32);     /* extern */
 void initialize_action_object(s32 **record, void *ptr, void *ptr2);
@@ -19,7 +20,6 @@ void initialize_actor_movement_interaction_action(s32 **record, void *ptr, void 
 #include "town/player/move_both_components_toward_zero_direction_dependent_steps_clamping_zero_api.h"                      /* extern */
 s32 select_an_available_entry_matching_direction_returns_status(void *);            /* extern */
 s32 select_an_eligible_source_entry_stores_pointer_in_destination(void *, void *);               /* extern */
-s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();               /* extern */
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"      /* extern */
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"                      /* extern */
 struct Rec_D_800CFCB4; extern struct Rec_D_800CFCB4 town_actor_control;

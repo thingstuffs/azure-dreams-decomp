@@ -212,9 +212,9 @@ void update_actor_movement_and_actions(State *state, Actor *actor) {
     } else {
         move_both_components_toward_zero_direction_dependent_steps_clamping_zero((struct EntityRec *)(actor));
     }
-    height_limit = select_the_smaller_position_query_result_capped_n_64_writes_associated(actor, ((u8 *)&position_query_scratch));
+    height_limit = select_the_smaller_position_query_result_capped_n_64_writes_associated(actor, &position_query_scratch);
     if (actor->height >= height_limit) {
-        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(actor), height_limit, (struct TownVec **)(((u8 *)&position_query_scratch)));
+        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(actor), height_limit, (struct TownVec **)(&position_query_scratch));
     } else if ((&(*((u8 *)town_blocked_directions)))[1] != 0) {
         actor->value = 0;
         clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2((s32 *)(actor));
@@ -304,11 +304,11 @@ void update_actor_effect_transition(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, s3
     s32 next_offset;
     u16 ticks_left;
     register GameWork *scene_state;
-    register u8 *effect_data;
+    register s32 *effect_data;
 
     scene_state = &g_game_work;
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile((struct EntityRec *)(actor));
-    effect_data = ((u8 *)&position_query_scratch);
+    effect_data = &position_query_scratch;
     threshold = select_the_smaller_position_query_result_capped_n_64_writes_associated(actor, effect_data);
     if (actor->unk_0A >= threshold) {
         compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(actor), threshold, (struct TownVec **)(effect_data));
@@ -403,9 +403,9 @@ void update_town_movement_and_actions(u8 *state, EntityRec *table, void *action_
         move_both_components_toward_zero_direction_dependent_steps_clamping_zero(table);
     }
 
-    ground_height = select_the_smaller_position_query_result_capped_n_64_writes_associated(table, ((u8 *)&position_query_scratch));
+    ground_height = select_the_smaller_position_query_result_capped_n_64_writes_associated(table, &position_query_scratch);
     if (table->z.w.i >= ground_height) {
-        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(table), ground_height, (struct TownVec **)(((u8 *)&position_query_scratch)));
+        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(table), ground_height, (struct TownVec **)(&position_query_scratch));
     } else if (((u8 *)town_blocked_directions)[1] != 0) {
         table->flags14 = 0;
         clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2((s32 *)(table));

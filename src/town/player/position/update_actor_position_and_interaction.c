@@ -5,6 +5,7 @@
 #include "shared/game_work.h"
 #include "shared/entity.h"
 #include "records/Rec_func_80094268_arg0.h"
+#include "town/player/coordinates.h"
 
 void call_script(s32);
 void submit_object_resource_data();
@@ -19,7 +20,6 @@ void handle_adjust_vector_toward_selected_angle_limit_magnitude();
 #include "town/player/move_both_components_toward_zero_direction_dependent_steps_clamping_zero_api.h"
 s32 select_an_available_entry_matching_direction_returns_status(void *);
 s32 get_status_active_entry_matching_direction(void *);
-s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"
 void init_motion_action_callback(s32 record, s32 setup_value, s32 init_value);
@@ -47,7 +47,7 @@ typedef struct S_80092A84_4 {
 /* Updates the actor's position and dispatches town actions from input and interaction state. */
 void update_actor_position_and_interaction(Rec_func_80094268_arg0 *actor, EntityRec *body, s32 context) {
     GameWork *input_state;
-    u8 *position_data;
+    s32 *position_data;
     s32 *interaction_ctrl;
     s16 position;
     s32 input_flags;
@@ -60,7 +60,7 @@ void update_actor_position_and_interaction(Rec_func_80094268_arg0 *actor, Entity
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(body);
     move_both_components_toward_zero_direction_dependent_steps_clamping_zero(body);
 
-    position_data = ((u8 *)&position_query_scratch);
+    position_data = &position_query_scratch;
     position = select_the_smaller_position_query_result_capped_n_64_writes_associated(body, position_data);
     if ((position - body->z.w.i) >= 4) {
         if (town_action_state_flag == 0) {

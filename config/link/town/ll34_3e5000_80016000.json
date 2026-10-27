@@ -17,6 +17,18 @@
       "evidence": "docs/evidence/r124w_carve1_run8.md"
     },
     {
+      "row": "town/func_803C96D0",
+      "tu": "src/town/scene/prepare_selected_entry_buffer.c",
+      "home": "town/func_80469664",
+      "foff": "0x3E96D0",
+      "vma": "0x8001A6D0",
+      "size": 108,
+      "bindings": {
+        "0x80017BD8": "0x80017C14"
+      },
+      "evidence": "TU view gather: moved from town/image_3e8000 (same load delta) so the merged file's members share one view"
+    },
+    {
       "row": "town/func_8046A39C",
       "home": "town/func_8046A308",
       "tu": "src/town/scene/event/event_state_store_b.c",

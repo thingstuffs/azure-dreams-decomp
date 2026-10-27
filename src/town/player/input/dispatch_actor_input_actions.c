@@ -7,6 +7,7 @@
 
 
 #include "engine/object/test_resident_bitmap_bit_api.h"
+#include "town/player/coordinates.h"
 extern void submit_object_resource_data();
 s32 read_map_cell_at_world_position(s16, s16);
 extern void initialize_scene_action_record();
@@ -27,7 +28,6 @@ void call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58(s32)
 extern void move_the_actor_perpendicular_selected_direction_unless_step_changes_sides();
 s32 select_an_available_entry_matching_direction_returns_status(void *);
 s32 select_an_eligible_source_entry_stores_pointer_in_destination(void *, void *);
-extern s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"
 void initialize_record_and_select_active_data(s32, s32, s32);
@@ -58,14 +58,14 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, EntityRec *position, s32 
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(position);
     move_the_actor_perpendicular_selected_direction_unless_step_changes_sides(position);
 
-    height = select_the_smaller_position_query_result_capped_n_64_writes_associated(position, ((u8 *)&position_query_scratch));
+    height = select_the_smaller_position_query_result_capped_n_64_writes_associated(position, &position_query_scratch);
     if ((height - position->z.w.i) >= 4) {
         if (town_action_state_flag == 0) {
             initialize_action_object((s32 * *)(actor), position, (void *)(context));
             return;
         }
     } else if (town_action_state_flag == 0) {
-        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(position), height, (struct TownVec * *)(((u8 *)&position_query_scratch)));
+        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(position), height, (struct TownVec * *)(&position_query_scratch));
     }
 
     input_flags = (input_state->pressed_buttons);

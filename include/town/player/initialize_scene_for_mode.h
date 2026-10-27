@@ -2,6 +2,7 @@
 #define MODULES_TOWN_PLAYER_INIT_H
 #include "town/shop/item_lookup.h"
 #include "town/person/position.h"
+#include "town/player/coordinates.h"
 
 
 struct ObjectPosition;
@@ -155,7 +156,6 @@ extern void apply_the_enabled_movement_offsets_adding_z_offset_only_positive(voi
 extern void store_position_and_compute_delta(void *owner);
 extern void update_the_s_field_10_using_callee_8008_fe_90(void *owner);
 extern s32 get_whether_has_attached_state_type_n_1_n_3(void *owner);
-extern s16 select_the_smaller_position_query_result_capped_n_64_writes_associated(void *owner, void *node_in);
 extern void compute_and_clamps_vector_based_adjustment_updates_town(void *owner, s16 node_in, void *mode);
 extern void update_object_and_clear_status_fields(void *owner);
 extern void turn_entity_toward_target(void *owner, void *node_in, s32 mode);

@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/town_action_flag.h"
 #include "town/person/effects.h"
+#include "town/player/coordinates.h"
 
 typedef struct TownObject {
     u8 pad0[0xA];
@@ -14,7 +15,6 @@ extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_pr
 extern void store_the_valid_shared_angle_in_offset_hex_10(void *arg);
 extern void handle_adjust_vector_toward_selected_angle_limit_magnitude(TownObject *arg);
 extern void select_sound_command_from_mode(void);
-extern s16 select_the_smaller_position_query_result_capped_n_64_writes_associated(TownObject *arg, s32 *table);
 extern void compute_and_clamps_vector_based_adjustment_updates_town(TownObject *arg, s16 value, s32 *table);
 extern void clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2(TownObject *arg);
 extern void initialize_scene_action_record(void *context, TownObject *object, s32 update_arg);

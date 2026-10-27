@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player/coordinates.h"
 
 typedef struct {
     s32 x;
@@ -14,7 +15,8 @@ extern Vec4i *town_corrected_probe_samples;
 extern s32 town_collision_motion[];
 
 /* Selects the smaller position query result, capped at 64, and writes its associated value. */
-s32 select_the_smaller_position_query_result_capped_n_64_writes_associated(s32 *position, s32 *out_value) {
+s16 select_the_smaller_position_query_result_capped_n_64_writes_associated(void *position_data, s32 *out_value) {
+    s32 *position;
     LocalRecord local_pos;
     s32 query_value;
     s32 *height_base;
@@ -23,6 +25,7 @@ s32 select_the_smaller_position_query_result_capped_n_64_writes_associated(s32 *
     s16 min_result;
     s16 candidate_result;
 
+    position = position_data;
     height_base = town_collision_motion;
     query_value_ptr = &query_value;
     local_pos.x = position[0];

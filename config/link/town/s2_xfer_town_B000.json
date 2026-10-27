@@ -31,7 +31,11 @@
       "vma": "0x8008B2C4",
       "size": 8,
       "bindings": {
-        "0x8008B2BC": "0x8008B2C4"
+        "0x8008B2BC": "0x8008B2C4",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -43,7 +47,11 @@
       "vma": "0x8008B2CC",
       "size": 8,
       "bindings": {
-        "0x8008B2BC": "0x8008B2CC"
+        "0x8008B2BC": "0x8008B2CC",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -55,7 +63,11 @@
       "vma": "0x8008B2D4",
       "size": 8,
       "bindings": {
-        "0x8008B2BC": "0x8008B2D4"
+        "0x8008B2BC": "0x8008B2D4",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -68,18 +80,6 @@
       "size": 156
     },
     {
-      "row": "town/func_8008F35C",
-      "tu": "src/dungeon/system/get_maximum_sampled_offset_value.c",
-      "home": "dungeon/func_7FFEF494",
-      "foff": "0xF35C",
-      "vma": "0x8008cabc",
-      "size": 156,
-      "bindings": {
-        "0x8008C6B8": "0x8008C570"
-      },
-      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
-    },
-    {
       "row": "town/func_8008F3F8",
       "tu": "src/town/map/min_indexed_query.c",
       "home": "town/func_8008F2C0",
@@ -87,7 +87,11 @@
       "vma": "0x8008cb58",
       "size": 156,
       "bindings": {
-        "0x8008C4C8": "0x8008C610"
+        "0x8008C4C8": "0x8008C610",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -129,38 +133,12 @@
       "size": 80
     },
     {
-      "row": "town/func_80091CBC",
-      "tu": "src/town/scene/motion/handle_evaluate_position_after_subtracting_stored_offset_first_component.c",
-      "home": "town/func_80091C6C",
-      "foff": "0x11CBC",
-      "vma": "0x8008f41c",
-      "size": 80,
-      "bindings": {
-        "0x800CFD58": "0x800CFD78",
-        "0x8008CA20": "0x8008CABC"
-      },
-      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
-    },
-    {
       "row": "town/func_80091D0C",
       "tu": "src/town/scene/motion/check_the_position_second_coordinate_adjusted_stored_offset.c",
       "home": "town/func_80091D0C",
       "foff": "0x11D0C",
       "vma": "0x8008f46c",
       "size": 80
-    },
-    {
-      "row": "town/func_80091D5C",
-      "tu": "src/town/scene/motion/check_the_position_second_coordinate_adjusted_stored_offset.c",
-      "home": "town/func_80091D0C",
-      "foff": "0x11D5C",
-      "vma": "0x8008f4bc",
-      "size": 80,
-      "bindings": {
-        "0x800CFD98": "0x800CFDB8",
-        "0x8008CB58": "0x8008CBF4"
-      },
-      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_80092860",
@@ -187,7 +165,11 @@
       "size": 136,
       "bindings": {
         "0x80090A74": "0x80090A74",
-        "0x80093D48": "0x80093D48"
+        "0x80093D48": "0x80093D48",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -214,7 +196,11 @@
         "0x800CFCEF": "0x800CFCEF",
         "0x80094378": "0x80094378",
         "0x80095A94": "0x80095A94",
-        "0x800940D0": "0x80093D48"
+        "0x800940D0": "0x80093D48",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -233,7 +219,11 @@
         "0x800CFCEF": "0x800CFCEF",
         "0x80094378": "0x80094378",
         "0x80095A94": "0x80095A94",
-        "0x800940D0": "0x800942B0"
+        "0x800940D0": "0x800942B0",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -258,7 +248,11 @@
         "0x800ABD74": "0x800ABD74",
         "0x800954F4": "0x800954F4",
         "0x8009451C": "0x8009451C",
-        "0x80095388": "0x80095388"
+        "0x80095388": "0x80095388",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -287,20 +281,6 @@
       "size": 72
     },
     {
-      "row": "town/func_80096678",
-      "tu": "src/town/player/initialize_scene_record.c",
-      "home": "town/func_80095FA4",
-      "foff": "0x16678",
-      "vma": "0x80093dd8",
-      "size": 64,
-      "bindings": {
-        "0x800D0078": "0x800D0080",
-        "0x80094984": "0x80094984",
-        "0x80093638": "0x80090D44"
-      },
-      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
-    },
-    {
       "row": "town/func_800966B8",
       "tu": "src/town/player/initialize_scene_record.c",
       "home": "town/func_80095FA4",
@@ -310,7 +290,11 @@
       "bindings": {
         "0x800D0078": "0x800D0088",
         "0x80094984": "0x80094984",
-        "0x80093638": "0x80090DF0"
+        "0x80093638": "0x80090DF0",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -324,7 +308,11 @@
       "bindings": {
         "0x800D0078": "0x800D0088",
         "0x80094984": "0x80094984",
-        "0x80093638": "0x80091114"
+        "0x80093638": "0x80091114",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -338,7 +326,11 @@
       "bindings": {
         "0x800D0078": "0x800D0168",
         "0x80094984": "0x80094984",
-        "0x80093638": "0x800911D4"
+        "0x80093638": "0x800911D4",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -352,7 +344,11 @@
       "bindings": {
         "0x800D0078": "0x800D0160",
         "0x80094984": "0x80094984",
-        "0x80093638": "0x80090F84"
+        "0x80093638": "0x80090F84",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -366,7 +362,11 @@
       "bindings": {
         "0x800D0180": "0x800D00E0",
         "0x80094984": "0x80094984",
-        "0x80090C68": "0x80091D6C"
+        "0x80090C68": "0x80091D6C",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -404,7 +404,11 @@
       "bindings": {
         "0x800D00C0": "0x800D0118",
         "0x80094984": "0x80094984",
-        "0x80090F00": "0x80090E78"
+        "0x80090F00": "0x80090E78",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -418,7 +422,11 @@
       "bindings": {
         "0x800D00B8": "0x800D0128",
         "0x80094984": "0x80094984",
-        "0x8009221C": "0x800927EC"
+        "0x8009221C": "0x800927EC",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -432,7 +440,11 @@
       "bindings": {
         "0x800D0078": "0x800D0148",
         "0x80094984": "0x80094984",
-        "0x80093638": "0x80092DA8"
+        "0x80093638": "0x80092DA8",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -446,7 +458,11 @@
       "bindings": {
         "0x800D00B8": "0x800D00B8",
         "0x80094984": "0x80094984",
-        "0x8009221C": "0x80092ECC"
+        "0x8009221C": "0x80092ECC",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -461,7 +477,11 @@
         "0x80094C1C": "0x80094C1C",
         "0x800D0108": "0x800D0138",
         "0x80094984": "0x80094984",
-        "0x80092320": "0x80092FF0"
+        "0x80092320": "0x80092FF0",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -483,7 +503,11 @@
       "bindings": {
         "0x800D0120": "0x800D00A0",
         "0x80094984": "0x80094984",
-        "0x80093328": "0x800935BC"
+        "0x80093328": "0x800935BC",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -505,7 +529,11 @@
       "bindings": {
         "0x800D0410": "0x800D0414",
         "0x8008C4C8": "0x8008C570",
-        "0x80095BC0": "0x80095BF0"
+        "0x80095BC0": "0x80095BF0",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -519,7 +547,11 @@
       "bindings": {
         "0x800D0410": "0x800D0418",
         "0x8008C4C8": "0x8008C610",
-        "0x80095BC0": "0x80095C20"
+        "0x80095BC0": "0x80095C20",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -532,7 +564,11 @@
       "size": 48,
       "bindings": {
         "0x800D0410": "0x800D041C",
-        "0x8008C4C8": "0x8008C6B8"
+        "0x8008C4C8": "0x8008C6B8",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -561,7 +597,11 @@
       "size": 48,
       "bindings": {
         "0x800CFCEB": "0x800CFCEA",
-        "0x800954C4": "0x800954C4"
+        "0x800954C4": "0x800954C4",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -582,7 +622,11 @@
       "size": 48,
       "bindings": {
         "0x800CFCED": "0x800CFCEC",
-        "0x800954DC": "0x800954DC"
+        "0x800954DC": "0x800954DC",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -615,7 +659,11 @@
         "0x80095978": "0x80095978",
         "0x80095A94": "0x80095A94",
         "0x80098B30": "0x80098B70",
-        "0x80095388": "0x80095388"
+        "0x80095388": "0x80095388",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -627,7 +675,11 @@
       "vma": "0x8009803c",
       "size": 60,
       "bindings": {
-        "0x80098ABC": "0x80098928"
+        "0x80098ABC": "0x80098928",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -639,7 +691,11 @@
       "vma": "0x80098104",
       "size": 60,
       "bindings": {
-        "0x80098ABC": "0x80098C40"
+        "0x80098ABC": "0x80098C40",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -670,7 +726,11 @@
         "0x80098834": "0x80098834",
         "0x80098928": "0x80098988",
         "0x800FE5D8": "0x800FE5D8",
-        "0x80093D48": "0x80093D48"
+        "0x80093D48": "0x80093D48",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -693,7 +753,11 @@
         "0x800D0170": "0x800D0180",
         "0x80094984": "0x80094984",
         "0x80082668": "0x80082668",
-        "0x80098078": "0x8009803C"
+        "0x80098078": "0x8009803C",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -725,7 +789,11 @@
         "0x80094984": "0x80094984",
         "0x80082668": "0x80082668",
         "0x80098078": "0x8009803C",
-        "0x80099754": "0x80099754"
+        "0x80099754": "0x80099754",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -741,7 +809,11 @@
         "0x80094984": "0x80094984",
         "0x80082660": "0x80082660",
         "0x80099754": "0x80099754",
-        "0x8009AA2C": "0x80098608"
+        "0x8009AA2C": "0x80098608",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -765,7 +837,11 @@
         "0x80094984": "0x80094984",
         "0x80082660": "0x80082660",
         "0x80098078": "0x80098078",
-        "0x80099754": "0x80099754"
+        "0x80099754": "0x80099754",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -786,7 +862,11 @@
       "size": 52,
       "bindings": {
         "0x80082660": "0x80082660",
-        "0x80098988": "0x80098988"
+        "0x80098988": "0x80098988",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -802,7 +882,11 @@
         "0x80095978": "0x80095978",
         "0x80095A94": "0x80095A94",
         "0x80098928": "0x80098928",
-        "0x80095388": "0x80095388"
+        "0x80095388": "0x80095388",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -865,7 +949,11 @@
         "0x800F8BD8": "0x800F8D1C",
         "0x800CFD00": "0x800CFD00",
         "0x800F8BCC": "0x800F8D10",
-        "0x8009C7A8": "0x8009C7A8"
+        "0x8009C7A8": "0x8009C7A8",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -880,7 +968,11 @@
         "0x800F8CEC": "0x800F8D64",
         "0x800CFD00": "0x800D0648",
         "0x8008F104": "0x8008F104",
-        "0x8009B218": "0x8009B218"
+        "0x8009B218": "0x8009B218",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -895,7 +987,11 @@
         "0x800F8CEC": "0x800F8D70",
         "0x800CFD00": "0x800D0648",
         "0x8008F104": "0x8008F104",
-        "0x8009B218": "0x8009B218"
+        "0x8009B218": "0x8009B218",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -910,7 +1006,11 @@
         "0x800F8CEC": "0x800F8A40",
         "0x800CFD00": "0x800D0660",
         "0x8008F104": "0x8008F104",
-        "0x8009B218": "0x8009B218"
+        "0x8009B218": "0x8009B218",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -931,7 +1031,11 @@
       "size": 64,
       "bindings": {
         "0x800F8B6C": "0x800F8FA8",
-        "0x8009CB64": "0x8009CB64"
+        "0x8009CB64": "0x8009CB64",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -944,7 +1048,11 @@
       "size": 64,
       "bindings": {
         "0x800F8B6C": "0x800F8FC0",
-        "0x8009CB64": "0x8009CB64"
+        "0x8009CB64": "0x8009CB64",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -957,7 +1065,11 @@
       "size": 64,
       "bindings": {
         "0x800F8B6C": "0x800F8FD8",
-        "0x8009CB64": "0x8009CB64"
+        "0x8009CB64": "0x8009CB64",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -970,7 +1082,11 @@
       "size": 64,
       "bindings": {
         "0x800F8B6C": "0x800F8FF0",
-        "0x8009CB64": "0x8009CB64"
+        "0x8009CB64": "0x8009CB64",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -981,7 +1097,13 @@
       "foff": "0x21480",
       "vma": "0x8009ebe0",
       "size": 92,
-      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required",
+      "bindings": {
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
+      }
     },
     {
       "row": "town/func_800A1F74",
@@ -991,7 +1113,11 @@
       "vma": "0x8009F6D4",
       "size": 8,
       "bindings": {
-        "0x8008B2BC": "0x8009F6D4"
+        "0x8008B2BC": "0x8009F6D4",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -1012,7 +1138,11 @@
       "size": 112,
       "bindings": {
         "0x80033D08": "0x80033D08",
-        "0x800814A0": "0x800814A0"
+        "0x800814A0": "0x800814A0",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -1035,7 +1165,11 @@
         "0x8009CFE0": "0x8009CFE0",
         "0x80033D08": "0x80033D08",
         "0x800814A0": "0x800814A0",
-        "0x800478B8": "0x800478B8"
+        "0x800478B8": "0x800478B8",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -1059,7 +1193,11 @@
         "0x800F8F68": "0x800F8F78",
         "0x800C2CB0": "0x800C2CB0",
         "0x80045340": "0x80045340",
-        "0x80033CD8": "0x80033CD8"
+        "0x80033CD8": "0x80033CD8",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -1075,7 +1213,11 @@
         "0x800F8F68": "0x800F8F88",
         "0x800C2CB0": "0x800C2CB0",
         "0x80045340": "0x80045340",
-        "0x80033CD8": "0x80033CD8"
+        "0x80033CD8": "0x80033CD8",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -1091,7 +1233,11 @@
         "0x800F8F68": "0x800F8F98",
         "0x800C2CB0": "0x800C2CB0",
         "0x80045340": "0x80045340",
-        "0x80033CD8": "0x80033CD8"
+        "0x80033CD8": "0x80033CD8",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -1113,7 +1259,11 @@
       "bindings": {
         "0x800D0180": "0x800D0138",
         "0x80094984": "0x80094984",
-        "0x80090C68": "0x800AA844"
+        "0x80090C68": "0x800AA844",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -1159,7 +1309,11 @@
       "size": 40,
       "bindings": {
         "0x80028094": "0x800D1624",
-        "0x800491F4": "0x800491F4"
+        "0x800491F4": "0x800491F4",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -1174,34 +1328,13 @@
         "0x800B0134": "0x800B384C",
         "0x800AFF00": "0x800B3688",
         "0x800B0024": "0x800B3734",
-        "0x800B0158": "0x800B3868"
+        "0x800B0158": "0x800B3868",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
-    },
-    {
-      "row": "town/func_800B61C4",
-      "home": "town/func_800B2AB4",
-      "tu": "src/town/func_800B2AB4.c",
-      "foff": "0x000361C4",
-      "vma": "0x800B3924",
-      "size": 192,
-      "bindings": {
-        "0x8003FC64": "0x8003FC64",
-        "0x800B0198": "0x800B38A8",
-        "0x800AFE10": "0x800B3598",
-        "0x800B0158": "0x800B3868",
-        "0x8004491C": "0x8004491C",
-        "0x8004CAA0": "0x8004CAA0",
-        "0x8004B248": "0x8004B248",
-        "0x800814A0": "0x800814A0",
-        "0x800B0214": "0x800B3924",
-        "0x800C6880": "0x800C6880",
-        "0x80095BC0": "0x80095BC0",
-        "0x800A75B8": "0x800A75B8",
-        "0x800C0AC8": "0x800C0AC8",
-        "0x8008B2BC": "0x8008B2BC"
-      },
-      "evidence": "LL3a attestation sha256:cbfd3f74a0107597f0dff27d522382d916c239b52d2726d430a9e10a8629c619; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     },
     {
       "row": "town/func_800174D0",
@@ -1210,7 +1343,13 @@
       "foff": "0x374D0",
       "vma": "0x800b4c30",
       "size": 8,
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH",
+      "bindings": {
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
+      }
     },
     {
       "row": "town/func_800BB95C",
@@ -1237,7 +1376,11 @@
       "size": 52,
       "bindings": {
         "0x8003FC64": "0x8003FC64",
-        "0x800B90B4": "0x800B93B8"
+        "0x800B90B4": "0x800B93B8",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -1250,7 +1393,11 @@
       "size": 52,
       "bindings": {
         "0x8003FC64": "0x8003FC64",
-        "0x800B9260": "0x800B93F4"
+        "0x800B9260": "0x800B93F4",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -1263,7 +1410,11 @@
       "size": 108,
       "bindings": {
         "0x800478B8": "0x800478B8",
-        "0x800814A0": "0x800814A0"
+        "0x800814A0": "0x800814A0",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -1284,7 +1435,11 @@
       "size": 44,
       "bindings": {
         "0x8009E218": "0x8009E258",
-        "0x800C0AC8": "0x800C0AF4"
+        "0x800C0AC8": "0x800C0AF4",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -1297,7 +1452,11 @@
       "size": 44,
       "bindings": {
         "0x8009E218": "0x80093C40",
-        "0x800C0AC8": "0x800C0B20"
+        "0x800C0AC8": "0x800C0B20",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -1310,7 +1469,11 @@
       "size": 44,
       "bindings": {
         "0x8009E218": "0x80093C58",
-        "0x800C0AC8": "0x800C0B4C"
+        "0x800C0AC8": "0x800C0B4C",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -1323,7 +1486,11 @@
       "size": 44,
       "bindings": {
         "0x8009E218": "0x8009E2C0",
-        "0x800C0AC8": "0x800C0B78"
+        "0x800C0AC8": "0x800C0B78",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -1336,7 +1503,11 @@
       "size": 44,
       "bindings": {
         "0x8009E218": "0x8009E348",
-        "0x800C0AC8": "0x800C0BA4"
+        "0x800C0AC8": "0x800C0BA4",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -1349,7 +1520,11 @@
       "size": 44,
       "bindings": {
         "0x8009E218": "0x8009E370",
-        "0x800C0AC8": "0x800C0BD0"
+        "0x800C0AC8": "0x800C0BD0",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -1361,7 +1536,11 @@
       "vma": "0x800c0bfc",
       "size": 44,
       "bindings": {
-        "0x8009E218": "0x8009E3D4"
+        "0x8009E218": "0x8009E3D4",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -1373,7 +1552,11 @@
       "vma": "0x800C0F40",
       "size": 8,
       "bindings": {
-        "0x8008B2BC": "0x800C0F40"
+        "0x8008B2BC": "0x800C0F40",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -1395,7 +1578,11 @@
       "bindings": {
         "0x800717D0": "0x800717D0",
         "0x800D42CC": "0x800D42E4",
-        "0x8003AF58": "0x8003AF58"
+        "0x8003AF58": "0x8003AF58",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -1424,7 +1611,11 @@
       "size": 52,
       "bindings": {
         "0x80083498": "0x80083498",
-        "0x8004EE50": "0x800511B4"
+        "0x8004EE50": "0x800511B4",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -1443,7 +1634,11 @@
         "0x800A75B8": "0x800A75B8",
         "0x800C0AC8": "0x800C0AC8",
         "0x800B0158": "0x800B0158",
-        "0x8008B2BC": "0x8008B2BC"
+        "0x8008B2BC": "0x8008B2BC",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "LL3a attestation sha256:d33abd337e0281ed6d43cd46e90cd6c50e3132a280dc56c0c3fd8b00e6801d4a; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     },
@@ -1457,7 +1652,11 @@
       "bindings": {
         "0x800717D0": "0x800717D0",
         "0x800D42CC": "0x800D4398",
-        "0x8003AF58": "0x8003AF58"
+        "0x8003AF58": "0x8003AF58",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -1468,7 +1667,13 @@
       "foff": "0x46414",
       "vma": "0x800c3b74",
       "size": 8,
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH",
+      "bindings": {
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
+      }
     },
     {
       "row": "town/func_800C651C",
@@ -1525,7 +1730,13 @@
       "foff": "0x47258",
       "vma": "0x800c49b8",
       "size": 8,
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH",
+      "bindings": {
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
+      }
     },
     {
       "row": "town/func_80027804",
@@ -1534,7 +1745,13 @@
       "foff": "0x47804",
       "vma": "0x800c4f64",
       "size": 8,
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH",
+      "bindings": {
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
+      }
     },
     {
       "row": "town/func_800C7DA0",
@@ -1561,19 +1778,6 @@
       "size": 40
     },
     {
-      "row": "town/func_800C81BC",
-      "tu": "src/town/person/state/clear_record_indexed_flag.c",
-      "home": "town/func_800C8194",
-      "foff": "0x481BC",
-      "vma": "0x800c591c",
-      "size": 40,
-      "bindings": {
-        "0x80082660": "0x80082660",
-        "0x800C3BF4": "0x800C3C28"
-      },
-      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
-    },
-    {
       "row": "town/func_800C8B10",
       "tu": "src/town/menu/object/create_preset_sprite_object.c",
       "home": "town/func_800A9E58",
@@ -1584,7 +1788,11 @@
         "0x800A74D8": "0x800C6180",
         "0x800A71F0": "0x800A71F0",
         "0x800D0E04": "0x800ED15C",
-        "0x800A75B8": "0x800C6270"
+        "0x800A75B8": "0x800C6270",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -1601,7 +1809,11 @@
         "0x800D7B14": "0x800D5704",
         "0x800D7B3C": "0x800D572C",
         "0x800D7B40": "0x800D5730",
-        "0x800C3050": "0x800C3050"
+        "0x800C3050": "0x800C3050",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       }
     },
     {
@@ -1637,7 +1849,10 @@
         "0x800A75B8": "0x800A75B8",
         "0x800C0AC8": "0x800C0AC8",
         "0x800B0158": "0x800B0158",
-        "0x8008B2BC": "0x8008B2BC"
+        "0x8008B2BC": "0x8008B2BC",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "docs/evidence/r121w_s2_receipts.json#town/func_80028E68; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
     },
@@ -1661,7 +1876,13 @@
       "foff": "0x490AC",
       "vma": "0x800c680c",
       "size": 8,
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH",
+      "bindings": {
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
+      }
     },
     {
       "row": "town/func_800C9120",
@@ -1696,7 +1917,11 @@
         "0x800D58CC": "0x800D591C",
         "0x80082660": "0x80082660",
         "0x800C6814": "0x800C6A78",
-        "0x800C6880": "0x800C6AE4"
+        "0x800C6880": "0x800C6AE4",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -1725,7 +1950,11 @@
         "0x800D7BFC": "0x800D5BE0",
         "0x800D7C24": "0x800D5C08",
         "0x800D7C28": "0x800D5C0C",
-        "0x800C3050": "0x800C3050"
+        "0x800C3050": "0x800C3050",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -1736,7 +1965,13 @@
       "foff": "0x4A948",
       "vma": "0x800c80a8",
       "size": 8,
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH",
+      "bindings": {
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
+      }
     },
     {
       "row": "town/func_800CA9EC",
@@ -1753,7 +1988,13 @@
       "foff": "0x4ABA4",
       "vma": "0x800c8304",
       "size": 8,
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH",
+      "bindings": {
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
+      }
     },
     {
       "row": "town/func_8002AE98",
@@ -1762,7 +2003,13 @@
       "foff": "0x4AE98",
       "vma": "0x800c85f8",
       "size": 8,
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH",
+      "bindings": {
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
+      }
     },
     {
       "row": "town/func_800CC04C",
@@ -1776,7 +2023,11 @@
         "0x800D79B8": "0x800D6570",
         "0x800D79E0": "0x800D6598",
         "0x800D79E4": "0x800D65A0",
-        "0x800C3050": "0x800C3050"
+        "0x800C3050": "0x800C3050",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -1808,7 +2059,11 @@
         "0x800D6778": "0x800D67B4",
         "0x800D67A0": "0x800D67DC",
         "0x800D67A4": "0x800D67E0",
-        "0x800C3050": "0x800C3050"
+        "0x800C3050": "0x800C3050",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -1936,7 +2191,11 @@
         "0x800D79B8": "0x800D6E00",
         "0x800D79E0": "0x800D6E28",
         "0x800D79E4": "0x800D6E2C",
-        "0x800C3050": "0x800C3050"
+        "0x800C3050": "0x800C3050",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -1952,7 +2211,11 @@
         "0x800D51D0": "0x800D6E98",
         "0x800D51F8": "0x800D6EC0",
         "0x800D51FC": "0x800D6EC4",
-        "0x800C3050": "0x800C3050"
+        "0x800C3050": "0x800C3050",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -1968,7 +2231,11 @@
         "0x800D7944": "0x800D6F7C",
         "0x800D796C": "0x800D6FA4",
         "0x800D7970": "0x800D6FA8",
-        "0x800C3050": "0x800C3050"
+        "0x800C3050": "0x800C3050",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -1991,7 +2258,11 @@
         "0x800D6EFC": "0x800D6F10",
         "0x800C2E84": "0x800C2E84",
         "0x80082660": "0x80082660",
-        "0x800C3B7C": "0x800C3B7C"
+        "0x800C3B7C": "0x800C3B7C",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -2011,7 +2282,11 @@
       "vma": "0x800ccc70",
       "size": 60,
       "bindings": {
-        "0x800D6FBC": "0x800D70A0"
+        "0x800D6FBC": "0x800D70A0",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -2022,7 +2297,13 @@
       "foff": "0x4F7B0",
       "vma": "0x800ccf10",
       "size": 8,
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH",
+      "bindings": {
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
+      }
     },
     {
       "row": "town/func_800CFB78",
@@ -2064,7 +2345,11 @@
         "0x800A75B8": "0x800A75B8",
         "0x800C0AC8": "0x800C0AC8",
         "0x800B0158": "0x800B0158",
-        "0x8008B2BC": "0x8008B2BC"
+        "0x8008B2BC": "0x8008B2BC",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "LL3a attestation sha256:e72e34542f4a64573e75ba4cd0dc3411ca9321b1f90ce5aaa20ffe2e92ab0e63; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     },
@@ -2100,7 +2385,11 @@
         "0x800A75B8": "0x800A75B8",
         "0x800C0AC8": "0x800C0AC8",
         "0x800B0158": "0x800B0158",
-        "0x8008B2BC": "0x8008B2BC"
+        "0x8008B2BC": "0x8008B2BC",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "LL3a attestation sha256:06a91ba2d653dd99b949d9cece96103871656380af259e048cdc9f14ad7d788e; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     },
@@ -2132,7 +2421,11 @@
         "0x800D77B0": "0x800D783C",
         "0x80082660": "0x80082660",
         "0x800C3BB8": "0x800C3BB8",
-        "0x800CF1AC": "0x800CF2C8"
+        "0x800CF1AC": "0x800CF2C8",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -2148,7 +2441,11 @@
         "0x800D77B8": "0x800D7844",
         "0x80082660": "0x80082660",
         "0x800C3B7C": "0x800C3B7C",
-        "0x800CF20C": "0x800CF328"
+        "0x800CF20C": "0x800CF328",
+        "0x8008F3CC": "0x8008F41C",
+        "0x8008F46C": "0x8008F4BC",
+        "0x800B0214": "0x800B3924",
+        "0x800C58F4": "0x800C591C"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     }

@@ -9,6 +9,7 @@
 #include "shared/town_action_flag.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
+#include "town/player/coordinates.h"
 
 /* extern */
 typedef struct S_80091000_1 {
@@ -38,7 +39,6 @@ void store_the_valid_shared_angle_in_offset_hex_10();
 /* extern */
 void move_both_components_toward_zero_direction_dependent_steps_clamping_zero(EntityRec *record);
 /* extern */
-s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();
 /* extern */
 void compute_and_clamps_vector_based_adjustment_updates_town();
 /* extern */

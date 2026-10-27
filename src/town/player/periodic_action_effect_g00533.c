@@ -13,14 +13,14 @@ void update_actor_with_periodic_effect(Rec_func_80094268_arg0 *actor, EntityRec 
 
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(position);
     move_the_actor_perpendicular_selected_direction_unless_step_changes_sides(position);
-    surface_height = select_the_smaller_position_query_result_capped_n_64_writes_associated(position, ((u8 *)&position_query_scratch));
+    surface_height = select_the_smaller_position_query_result_capped_n_64_writes_associated(position, &position_query_scratch);
     if ((surface_height - position->z.w.i) >= 4) {
         if (town_action_state_flag == 0) {
             initialize_action_object(actor, position, context);
             return;
         }
     } else if (town_action_state_flag == 0) {
-        compute_and_clamps_vector_based_adjustment_updates_town(position, surface_height, ((u8 *)&position_query_scratch));
+        compute_and_clamps_vector_based_adjustment_updates_town(position, surface_height, &position_query_scratch);
     }
     effect_timer = actor->unk_0A.as_u16 - 1;
     actor->unk_0A.as_u16 = effect_timer;

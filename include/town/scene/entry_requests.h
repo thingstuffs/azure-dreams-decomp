@@ -65,4 +65,6 @@ void *lookup_keima_entry(void *context, s32 unused, s32 code);
 
 void apply_four_values_and_refresh(s32 slot_index);
 
+s32 all_entries_pass_check(s16 *values);
+
 #endif

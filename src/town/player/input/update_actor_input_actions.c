@@ -4,6 +4,7 @@
 #include "shared/town_action_flag.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
+#include "town/player/coordinates.h"
 
 
 #define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
@@ -19,7 +20,6 @@ extern void store_the_valid_shared_angle_in_offset_hex_10(void *);
 extern void move_both_components_toward_zero_direction_dependent_steps_clamping_zero(void *);
 extern s32 select_an_available_entry_matching_direction_returns_status(void *);
 extern s32 select_an_eligible_source_entry_stores_pointer_in_destination(void *, void *);
-extern s16 select_the_smaller_position_query_result_capped_n_64_writes_associated(void *, void *);
 extern void compute_and_clamps_vector_based_adjustment_updates_town(void *, s16, void *);
 extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(void *);
 
@@ -35,7 +35,7 @@ void update_actor_input_actions(void *context, EntityRec *entity, s32 update_arg
 
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(entity);
     move_both_components_toward_zero_direction_dependent_steps_clamping_zero(entity);
-    reference_value = select_the_smaller_position_query_result_capped_n_64_writes_associated(entity, ((u8 *)&position_query_scratch));
+    reference_value = select_the_smaller_position_query_result_capped_n_64_writes_associated(entity, &position_query_scratch);
     if ((reference_value - entity->z.w.i) >= 4) {
         if (town_action_state_flag == 0) {
             initialize_action_object(context, entity, update_arg);
@@ -43,7 +43,7 @@ void update_actor_input_actions(void *context, EntityRec *entity, s32 update_arg
         }
     }
     else if (town_action_state_flag == 0) {
-        compute_and_clamps_vector_based_adjustment_updates_town(entity, reference_value, ((u8 *)&position_query_scratch));
+        compute_and_clamps_vector_based_adjustment_updates_town(entity, reference_value, &position_query_scratch);
     }
 
     state_flags = (state->pressed_buttons);

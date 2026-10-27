@@ -8,6 +8,59 @@
   "evidence": "config/overlays/town.rowbase.jsonl proven regions with delta 0x8007D760: xfer_town_B000; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "town/func_8008F35C",
+      "tu": "src/dungeon/system/get_maximum_sampled_offset_value.c",
+      "home": "dungeon/func_7FFEF494",
+      "foff": "0xF35C",
+      "vma": "0x8008cabc",
+      "size": 156,
+      "bindings": {
+        "0x8008C6B8": "0x8008C570",
+        "0x800CDF00": "0x800CDF00"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required; TU view gather: moved from town/s2_xfer_town_B000 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_80091CBC",
+      "tu": "src/town/scene/motion/handle_evaluate_position_after_subtracting_stored_offset_first_component.c",
+      "home": "town/func_80091C6C",
+      "foff": "0x11CBC",
+      "vma": "0x8008f41c",
+      "size": 80,
+      "bindings": {
+        "0x800CFD58": "0x800CFD78",
+        "0x8008CA20": "0x8008CABC"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required; TU view gather: moved from town/s2_xfer_town_B000 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_80091D5C",
+      "tu": "src/town/scene/motion/check_the_position_second_coordinate_adjusted_stored_offset.c",
+      "home": "town/func_80091D0C",
+      "foff": "0x11D5C",
+      "vma": "0x8008f4bc",
+      "size": 80,
+      "bindings": {
+        "0x800CFD98": "0x800CFDB8",
+        "0x8008CB58": "0x8008CBF4"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required; TU view gather: moved from town/s2_xfer_town_B000 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_80096678",
+      "tu": "src/town/player/initialize_scene_record.c",
+      "home": "town/func_80095FA4",
+      "foff": "0x16678",
+      "vma": "0x80093dd8",
+      "size": 64,
+      "bindings": {
+        "0x800D0078": "0x800D0080",
+        "0x80094984": "0x80094984",
+        "0x80093638": "0x80090D44"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required; TU view gather: moved from town/s2_xfer_town_B000 (same load delta) so the merged file's members share one view"
+    },
+    {
       "row": "town/func_80097C00",
       "tu": "src/town/player/view_relative_angle_sector.c",
       "home": "town/func_80097C00",
@@ -118,7 +171,17 @@
       "foff": "0x35828",
       "vma": "0x800B2F88",
       "size": 112,
-      "evidence": "docs/evidence/r124w_carve1_run10.md"
+      "evidence": "docs/evidence/r124w_carve1_run10.md",
+      "bindings": {
+        "0x8008CBF4": "0x8008CBF4",
+        "0x8008F3CC": "0x8008F3CC",
+        "0x8008F46C": "0x8008F46C",
+        "0x80093704": "0x80093704",
+        "0x800B0214": "0x800B0214",
+        "0x800C58F4": "0x800C58F4",
+        "0x800CA60C": "0x800CA60C",
+        "0x800CDF00": "0x800CDF00"
+      }
     },
     {
       "row": "town/func_800B59A8",
@@ -156,6 +219,31 @@
       "foff": "0x35E38",
       "vma": "0x800B3598",
       "size": 240
+    },
+    {
+      "row": "town/func_800B61C4",
+      "home": "town/func_800B2AB4",
+      "tu": "src/town/func_800B2AB4.c",
+      "foff": "0x000361C4",
+      "vma": "0x800B3924",
+      "size": 192,
+      "bindings": {
+        "0x8003FC64": "0x8003FC64",
+        "0x800B0198": "0x800B38A8",
+        "0x800AFE10": "0x800B3598",
+        "0x800B0158": "0x800B3868",
+        "0x8004491C": "0x8004491C",
+        "0x8004CAA0": "0x8004CAA0",
+        "0x8004B248": "0x8004B248",
+        "0x800814A0": "0x800814A0",
+        "0x800B0214": "0x800B3924",
+        "0x800C6880": "0x800C6880",
+        "0x80095BC0": "0x80095BC0",
+        "0x800A75B8": "0x800A75B8",
+        "0x800C0AC8": "0x800C0AC8",
+        "0x8008B2BC": "0x8008B2BC"
+      },
+      "evidence": "LL3a attestation sha256:cbfd3f74a0107597f0dff27d522382d916c239b52d2726d430a9e10a8629c619; current-TU paired HI16/LO16 relocation screen; scoped window gate; TU view gather: moved from town/s2_xfer_town_B000 (same load delta) so the merged file's members share one view"
     },
     {
       "row": "town/func_80016284",
@@ -545,6 +633,19 @@
       "size": 72
     },
     {
+      "row": "town/func_800C81BC",
+      "tu": "src/town/person/state/clear_record_indexed_flag.c",
+      "home": "town/func_800C8194",
+      "foff": "0x481BC",
+      "vma": "0x800c591c",
+      "size": 40,
+      "bindings": {
+        "0x80082660": "0x80082660",
+        "0x800C3BF4": "0x800C3C28"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required; TU view gather: moved from town/s2_xfer_town_B000 (same load delta) so the merged file's members share one view"
+    },
+    {
       "row": "town/func_800C81E4",
       "tu": "src/town/person/state/initialize_actor_clear_table_flag.c",
       "home": "town/func_800C81E4",
@@ -647,7 +748,9 @@
       "size": 108,
       "bindings": {
         "0x800CB04C": "0x800C641C",
-        "0x800C4174": "0x800C4174"
+        "0x800C4174": "0x800C4174",
+        "0x8008CBF4": "0x8008CBF4",
+        "0x800CDF00": "0x800CDF00"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -660,7 +763,9 @@
       "size": 108,
       "bindings": {
         "0x800CB04C": "0x800C645C",
-        "0x800C4174": "0x800C4174"
+        "0x800C4174": "0x800C4174",
+        "0x8008CBF4": "0x8008CBF4",
+        "0x800CDF00": "0x800CDF00"
       },
       "evidence": "opus_place1: re-homed from relinked copy town/func_800C90B4 onto dungeon/func_8002DB7C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
@@ -673,7 +778,9 @@
       "size": 108,
       "bindings": {
         "0x800CB04C": "0x800C641C",
-        "0x800C4174": "0x800C4174"
+        "0x800C4174": "0x800C4174",
+        "0x8008CBF4": "0x8008CBF4",
+        "0x800CDF00": "0x800CDF00"
       },
       "evidence": "opus_place1: re-homed from relinked copy town/func_800C90B4 onto dungeon/func_8002DB7C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
@@ -686,7 +793,9 @@
       "size": 108,
       "bindings": {
         "0x800CB04C": "0x800C6478",
-        "0x800C4174": "0x800C4174"
+        "0x800C4174": "0x800C4174",
+        "0x8008CBF4": "0x8008CBF4",
+        "0x800CDF00": "0x800CDF00"
       },
       "evidence": "opus_place1: re-homed from relinked copy town/func_800C90B4 onto dungeon/func_8002DB7C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
@@ -699,7 +808,9 @@
       "size": 108,
       "bindings": {
         "0x800CB04C": "0x800C641C",
-        "0x800C4174": "0x800C4174"
+        "0x800C4174": "0x800C4174",
+        "0x8008CBF4": "0x8008CBF4",
+        "0x800CDF00": "0x800CDF00"
       },
       "evidence": "opus_place1: re-homed from relinked copy town/func_800C90B4 onto dungeon/func_8002DB7C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
@@ -889,7 +1000,9 @@
       "size": 108,
       "bindings": {
         "0x800CB04C": "0x800C8928",
-        "0x800C4174": "0x800C4174"
+        "0x800C4174": "0x800C4174",
+        "0x8008CBF4": "0x8008CBF4",
+        "0x800CDF00": "0x800CDF00"
       },
       "evidence": "opus_place1: re-homed from relinked copy town/func_800C90B4 onto dungeon/func_8002DB7C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
@@ -971,7 +1084,9 @@
       "size": 108,
       "bindings": {
         "0x800CB04C": "0x800C895C",
-        "0x800C4174": "0x800C4174"
+        "0x800C4174": "0x800C4174",
+        "0x8008CBF4": "0x8008CBF4",
+        "0x800CDF00": "0x800CDF00"
       },
       "evidence": "opus_place1: re-homed from relinked copy town/func_800C90B4 onto dungeon/func_8002DB7C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
@@ -1231,7 +1346,9 @@
       "size": 108,
       "bindings": {
         "0x800CB04C": "0x800CB028",
-        "0x800C4174": "0x800C4174"
+        "0x800C4174": "0x800C4174",
+        "0x8008CBF4": "0x8008CBF4",
+        "0x800CDF00": "0x800CDF00"
       },
       "evidence": "opus_place1: re-homed from relinked copy town/func_800C90B4 onto dungeon/func_8002DB7C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
@@ -1244,7 +1361,9 @@
       "size": 108,
       "bindings": {
         "0x800CB04C": "0x800CB060",
-        "0x800C4174": "0x800C4174"
+        "0x800C4174": "0x800C4174",
+        "0x8008CBF4": "0x8008CBF4",
+        "0x800CDF00": "0x800CDF00"
       },
       "evidence": "opus_place1: re-homed from relinked copy town/func_800C90B4 onto dungeon/func_8002DB7C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
@@ -1257,7 +1376,9 @@
       "size": 108,
       "bindings": {
         "0x800CB04C": "0x800CB028",
-        "0x800C4174": "0x800C4174"
+        "0x800C4174": "0x800C4174",
+        "0x8008CBF4": "0x8008CBF4",
+        "0x800CDF00": "0x800CDF00"
       },
       "evidence": "opus_place1: re-homed from relinked copy town/func_800C90B4 onto dungeon/func_8002DB7C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
@@ -1503,6 +1624,25 @@
       "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
     },
     {
+      "row": "town/func_80050898",
+      "tu": "src/town/person/state/initialize_actor_reaction_and_fixed_state.c",
+      "home": "town/func_800D07A0",
+      "foff": "0x50898",
+      "vma": "0x800cdff8",
+      "size": 84,
+      "bindings": {
+        "0x800cda6c": "0x800cdc2c",
+        "0x8008CBF4": "0x8008CBF4",
+        "0x8008F3CC": "0x8008F3CC",
+        "0x8008F46C": "0x8008F46C",
+        "0x80093704": "0x80093704",
+        "0x800B0214": "0x800B0214",
+        "0x800C58F4": "0x800C58F4",
+        "0x800CA60C": "0x800CA60C"
+      },
+      "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json; TU view gather: moved from town/heur_50898 (same load delta) so the merged file's members share one view"
+    },
+    {
       "row": "town/func_800308EC",
       "tu": "src/town/person/object/initialize_reaction_object.c",
       "home": "town/func_800CC4F4",
@@ -1599,6 +1739,26 @@
         "0x800C8788": "0x800CE19C"
       },
       "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_800512E0",
+      "tu": "src/town/person/initialize_actor_primary_handler.c",
+      "home": "town/func_800CCEAC",
+      "foff": "0x512e0",
+      "vma": "0x800cea40",
+      "size": 64,
+      "bindings": {
+        "0x800d64dc": "0x800d72e8",
+        "0x800ca020": "0x800ce20c",
+        "0x8008CBF4": "0x8008CBF4",
+        "0x8008F3CC": "0x8008F3CC",
+        "0x8008F46C": "0x8008F46C",
+        "0x80093704": "0x80093704",
+        "0x800B0214": "0x800B0214",
+        "0x800C58F4": "0x800C58F4",
+        "0x800CDF00": "0x800CDF00"
+      },
+      "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json; TU view gather: moved from town/heur_512e0 (same load delta) so the merged file's members share one view"
     },
     {
       "row": "town/func_800313A0",
