@@ -2,6 +2,7 @@
 #define DUNGEON_OVL_1936800_H
 #include "sdk/libc.h"
 #include "sdk/libgte.h"
+#include "slus.h"
 
 struct SpriteFrameState;
 #include "common.h"
@@ -359,8 +360,6 @@ typedef struct Row_81917C08_ActionSlot { s32 value; } Row_81917C08_ActionSlot;
  * Every finished stage clears the tick counter and steps to the next phase in place
  * (the compiler merges the identical stage tails into one copy). */
 void view_interpolation_update_address(void);
-void advance_sprite_animation_and_textures();
-void select_record_entry_and_value(void *state, void *entries, short index);
 void register_node(void *, void *);
 void func_8004491C(void *, void *);
 void SetTile(void *, s32);
@@ -392,7 +391,7 @@ extern u8 entity_height_offsets[];
 extern Row_81917C08_ActionSlot D_8008346C;
 void interpolate_view_parameters(void *tracker);
 s32 begin_view_parameter_transition(s32 unused, s32 request_id, s32 request_value, s16 request_param);
-void advance_motion_counters_position_set_completion_flags_past_lifetime(void *motion, void *position, s32 update_context);
+void advance_motion_counters_position_set_completion_flags_past_lifetime(void *motion, void *position, void *update_context);
 void *create_an_initializes_visual_state_copies_initial_data(s32 object_id, void *initial_data, Row_81916AEC_S_800242EC_2 *source);
 void create_counted_sprite_effect(void *context, s32 unused, Row_81916C1C_Arg81916C1C *countdown);
 void create_a_type_hex_212_initializes_handler_mode(s32 initial_value);

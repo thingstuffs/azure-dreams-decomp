@@ -2,14 +2,14 @@
 #include "dungeon/effect/object.h"
 #include "shared/object_node.h"
 
-void *allocate_list_node();                  /* extern */
+#include "engine/node/allocation.h"                  /* extern */
 extern void update_oriented_offset_effect_position(void *state, void *position);
 
 typedef struct S_800B341C_0 {
     u8 pad_00[0x10];
     s32 * unk_10;
     u8 pad_14[0xC];
-    s32 unk_20;
+    ObjectNodeHeader *unk_20;
 } S_800B341C_0;
 
 typedef struct S_800B341C_1 {
@@ -20,16 +20,16 @@ typedef struct S_800B341C_1 {
 } S_800B341C_1;
 
 /* Allocates and initializes an object when the payload value is nonzero. */
-void allocate_payload_object(s32 allocationKey, s32 payloadValue, s16 payloadShortValue) {
+void allocate_payload_object(ObjectNodeHeader *owner, s32 payloadValue, s16 payloadShortValue) {
     ObjectNodeHeader *allocatedObject;
     S_800B341C_1 *objectData;
 
     if (payloadValue != 0) {
-        allocatedObject = allocate_list_node(0x210, allocationKey);
+        allocatedObject = allocate_list_node(0x210, &owner->next);
         if (allocatedObject != 0) {
             allocatedObject->update_callback = &update_oriented_offset_effect_position;
             objectData = ((void *)allocatedObject) + 0x20;
-            ((S_800B341C_0 *)allocatedObject)->unk_20 = allocationKey;
+            ((S_800B341C_0 *)allocatedObject)->unk_20 = owner;
             objectData->unk_04 = payloadValue;
             objectData->unk_8E = payloadShortValue;
         }

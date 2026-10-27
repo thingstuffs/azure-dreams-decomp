@@ -1,3 +1,5 @@
+#include "engine/scene.h"
+#include "shared/sprite_frame_state.h"
 #ifndef DUNGEON_OVL_18D6800_H
 #define DUNGEON_OVL_18D6800_H
 #include "common.h"
@@ -115,7 +117,7 @@ typedef struct B28_818B7F38_LocalFrame {
     s32 out_y;
     s32 out_z;
     u8 pad_C[12];
-    u16 delta[3];
+    union { GteShortVector orientation; u16 distance[3]; } offset; /* BYTES: retain unsigned indexed halfword loads. */
 } B28_818B7F38_LocalFrame;
 typedef struct B28_818B7E14_DungeonRenderData {
     u8 pad00[0xC];
@@ -486,5 +488,4 @@ extern s32 RotAverage4(
 extern s16 GetTPage(s32 value0, s32 value1, s32 value2, s32 value3);
 extern s32 rand(void);
 s32 check_layer_offset_height();              /* extern */
-s32 resolve_record_orientation_or_fallback();     /* extern */
 #endif

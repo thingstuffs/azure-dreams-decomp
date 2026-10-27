@@ -5,7 +5,7 @@
 #include "shared/object_node.h"
 
 /* Creates an object at an offset from its parent and initializes its motion and state. */
-void create_offset_sprite_effect(EntityRec *parent, s32 state_value, s16 x_offset, s16 y_offset, s32 z_offset,
+void create_offset_sprite_effect(ObjectNodeHeader *parent, s32 state_value, s16 x_offset, s16 y_offset, s32 z_offset,
                    s32 motion_scale) {
     s32 *z_argument = &z_offset;
     s32 *motion_argument = &motion_scale;
@@ -19,15 +19,15 @@ void create_offset_sprite_effect(EntityRec *parent, s32 state_value, s16 x_offse
     ObjectPosition *y_position;
     ObjectPosition *z_position;
 
-    object = allocate_list_node(0x211, parent);
+    object = allocate_list_node(0x211, &parent->next);
     if (object != 0) {
         object->update_callback = D_800D6804;
         (object->position)->x.w.i =
-            (u16)((MovingPosition *)((*(void * *)&parent->z)))->x;
+            (u16)parent->position->x.w.i;
         (object->position)->y.w.i =
-            (u16)((MovingPosition *)((*(void * *)&parent->z)))->y;
+            (u16)parent->position->y.w.i;
         (object->position)->z.w.i =
-            (u16)((MovingPosition *)((*(void * *)&parent->z)))->z;
+            (u16)parent->position->z.w.i;
         x_position = object->position;
         x_position->x.w.i =
             (u16)((u16)x_position->x.w.i + x_offset);

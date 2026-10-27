@@ -422,12 +422,12 @@ void move_to_linked_object_and_apply_arrival_effects(ovl_188298c_818632E4_Contro
     u8 *root;
     ovl_188298c_818632E4_RootPrefix *prefix;
     ovl_188298c_818632E4_Lookup *lookup;
-    ovl_188298c_818632E4_Lookup *lookup_2;
+    SpriteFrameState *lookup_2;
     ovl_188298c_818632E4_Motion *root_motion;
 
     u8 *linked_root;
     u8 *slot;
-    s16 delta[3];
+    GteShortVector delta;
     u16 final_x;
     u16 final_y;
     s32 step;
@@ -460,7 +460,7 @@ void move_to_linked_object_and_apply_arrival_effects(ovl_188298c_818632E4_Contro
 
     case 1:
         prefix = (ovl_188298c_818632E4_RootPrefix *)(root - 0x20);
-        if (resolve_record_orientation_or_fallback(prefix->lookup->key, prefix->lookup, delta, 0) == 0) {
+        if (resolve_record_orientation_or_fallback(prefix->lookup->source, prefix->lookup, &delta, 0) == 0) {
             if (!(prefix->lookup->flags & 0x8000)) {
                 break;
             }
@@ -472,9 +472,9 @@ void move_to_linked_object_and_apply_arrival_effects(ovl_188298c_818632E4_Contro
         start_z = root_motion->z.h.hi;
         motion->z.h.hi = start_z;
         if (!(prefix->lookup->flags & 0x8000)) {
-            motion->x.h.hi += delta[0];
-            motion->y.h.hi += delta[1];
-            motion->z.h.hi += delta[2];
+            motion->x.h.hi += delta.vx;
+            motion->y.h.hi += delta.vy;
+            motion->z.h.hi += delta.vz;
         } else {
             motion->z.h.hi = start_z - 64;
         }
@@ -488,13 +488,13 @@ void move_to_linked_object_and_apply_arrival_effects(ovl_188298c_818632E4_Contro
             prefix = (ovl_188298c_818632E4_RootPrefix *)*(ovl_188298c_818632E4_Motion **)(linked_root - 0x18);
 
             start_coord = motion->x.h.hi;
-            delta[0] = __builtin_abs(((ovl_188298c_818632E4_Motion *)prefix)->x.h.hi - start_coord);
+            delta.vx = __builtin_abs(((ovl_188298c_818632E4_Motion *)prefix)->x.h.hi - start_coord);
 
-            delta[1] = __builtin_abs(((ovl_188298c_818632E4_Motion *)prefix)->y.h.hi - motion->y.h.hi);
+            delta.vy = __builtin_abs(((ovl_188298c_818632E4_Motion *)prefix)->y.h.hi - motion->y.h.hi);
 
             linked_root = *(u8 **)(root + 0x60);
             start_coord = motion->z.h.hi;
-            delta[2] = __builtin_abs(*(s16 *)(linked_root + 0x88) - start_coord);
+            delta.vz = __builtin_abs(*(s16 *)(linked_root + 0x88) - start_coord);
 
             linked_root = *(u8 **)(root + 0x60);
             lookup = *(ovl_188298c_818632E4_Lookup **)(linked_root - 0x14);
@@ -513,8 +513,8 @@ void move_to_linked_object_and_apply_arrival_effects(ovl_188298c_818632E4_Contro
         } else {
             step = 0;
             lookup_2 = prefix->lookup;
-            cell_x = lookup_2->cell_x;
-            cell_y = lookup_2->cell_y;
+            cell_x = lookup_2->tile_x;
+            cell_y = lookup_2->tile_y;
             final_x = cell_x;
             final_y = cell_y;
 

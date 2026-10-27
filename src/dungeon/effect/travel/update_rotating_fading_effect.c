@@ -231,7 +231,7 @@ void advance_target_travel_effect(void *effect, void *motion, void *appearance) 
     s32 origin_coord;
     void *tile_x;
     u16 source_z;
-    void *source_info;
+    SpriteFrameState *source_info;
     void *source_record;
     void *source;
     void *target;
@@ -251,7 +251,7 @@ void advance_target_travel_effect(void *effect, void *motion, void *appearance) 
     case 1:
         source_record = source - 0x20;
         source_info = ((ovl_18ca83c_818AAE60_S_80024660_3 *)source_record)->unk_0C;
-        if (resolve_record_orientation_or_fallback(((ovl_18ca83c_818AAE60_S_80024660_4 *)source_info)->unk_08, source_info, &scratch.dist[0], 0) == 0) {
+        if (resolve_record_orientation_or_fallback(source_info->source, source_info, &scratch.offset.orientation, 0) == 0) {
             if (!(((ovl_18ca83c_818AAE60_S_80024660_12 *)(((ovl_18ca83c_818AAE60_S_80024660_3 *)source_record)->unk_0C))->unk_14 & 0x8000)) {
                 ((Rec_func_800243B8_arg0 *)effect)->unk_14 = 0;
                 return;
@@ -263,9 +263,9 @@ void advance_target_travel_effect(void *effect, void *motion, void *appearance) 
         source_z = ((ovl_18ca83c_818AAE60_S_80024660_6 *)source_pos)->unk_0A;
         ((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_08.at02.v = source_z;
         if (!(((ovl_18ca83c_818AAE60_S_80024660_12 *)(((ovl_18ca83c_818AAE60_S_80024660_3 *)source_record)->unk_0C))->unk_14 & 0x8000)) {
-            ((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_00.at02.v = (u16) (((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_00.at02.v + scratch.dist[0]);
-            ((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_04.at02.v = (u16) (((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_04.at02.v + scratch.dist[1]);
-            ((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_08.at02.v = (u16) (((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_08.at02.v + scratch.dist[2]);
+            ((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_00.at02.v = (u16) (((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_00.at02.v + scratch.offset.distance[0]);
+            ((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_04.at02.v = (u16) (((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_04.at02.v + scratch.offset.distance[1]);
+            ((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_08.at02.v = (u16) (((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_08.at02.v + scratch.offset.distance[2]);
         } else {
             ((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_08.at02.v = source_z - 0x40;
         }
@@ -282,18 +282,18 @@ void advance_target_travel_effect(void *effect, void *motion, void *appearance) 
             if (target_x_dist < 0) {
                 target_x_dist = 0 - target_x_dist;
             }
-            scratch.dist[0] = (u16) target_x_dist;
+            scratch.offset.distance[0] = (u16) target_x_dist;
             axis_dist = ((ovl_18ca83c_818AAE60_S_80024660_8 *)destination)->unk_04.at02.v;
             origin_coord = ((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_04.at02u.v;
             target_dist_cursor = (s16 *)((u8 *)&scratch + 2);
             axis_dist -= origin_coord;
             axis_dist = abs(axis_dist);
-            scratch.dist[1] = (u16) axis_dist;
+            scratch.offset.distance[1] = (u16) axis_dist;
             origin_coord = ((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_08.at02u.v;
             origin_coord += 0x20;
             axis_dist = ((ovl_18ca83c_818AAE60_S_80024660_8 *)destination)->unk_08.at02.v - origin_coord;
             axis_dist = abs(axis_dist);
-            scratch.dist[2] = (u16) axis_dist;
+            scratch.offset.distance[2] = (u16) axis_dist;
             ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = target_x_dist;
             do {
                 if (target_dist_cursor[12] > ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16) {
@@ -368,10 +368,10 @@ void advance_target_travel_effect(void *effect, void *motion, void *appearance) 
             dest_y = ((saved_y << 16) >> 10) + ((dir_step_y[(s16)((Rec_func_800243B8_arg0 *)effect)->unk_0E] + 1) << 5);
             ((ovl_18ca83c_818AAE60_S_80024660_8 *)destination)->unk_04.at02.v = dest_y;
             ((ovl_18ca83c_818AAE60_S_80024660_8 *)destination)->unk_08.at02.v = ((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_08.at02.v + 32;
-            scratch.dist[0] = abs(((ovl_18ca83c_818AAE60_S_80024660_8 *)destination)->unk_00.at02.v - ((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_00.at02u.v);
-            scratch.dist[1] = abs(((ovl_18ca83c_818AAE60_S_80024660_8 *)destination)->unk_04.at02.v - ((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_04.at02u.v);
-            scratch.dist[2] = abs(((ovl_18ca83c_818AAE60_S_80024660_8 *)destination)->unk_08.at02.v - ((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_08.at02u.v);
-            ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = scratch.dist[0];
+            scratch.offset.distance[0] = abs(((ovl_18ca83c_818AAE60_S_80024660_8 *)destination)->unk_00.at02.v - ((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_00.at02u.v);
+            scratch.offset.distance[1] = abs(((ovl_18ca83c_818AAE60_S_80024660_8 *)destination)->unk_04.at02.v - ((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_04.at02u.v);
+            scratch.offset.distance[2] = abs(((ovl_18ca83c_818AAE60_S_80024660_8 *)destination)->unk_08.at02.v - ((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_08.at02u.v);
+            ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = scratch.offset.distance[0];
             do {
                 if (path_dist_cursor[12] > ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16) {
                     ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = (s16) (u16) path_dist_cursor[12];

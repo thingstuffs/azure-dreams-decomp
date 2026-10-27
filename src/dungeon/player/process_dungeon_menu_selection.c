@@ -1,3 +1,4 @@
+#include "dungeon/item/message.h"
 #include "shared/item_ids.h"
 #include "shared/actor_status_flags.h"
 #include "shared/object_node.h"
@@ -102,9 +103,6 @@ void equip_item_and_update_status();              /* extern */
 void change_equipped_item_and_notify();              /* extern */
 s16 get_special_table_data_index();                          /* extern */
 void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */                                /* extern */
-u8 * expand_text_control_codes(const u8 *src, u8 *dst);                  /* extern */
-u8 * clear_byte_and_advance(u8 *byte_ptr);                         /* extern */
-u8 *append_entity_display_text();                        /* extern */
 void display_formatted_context_message(void *context);                   /* extern */
 void append_packed_action_record();   /* extern */
 s32 display_text_with_fullwidth_adjustment(s8 *text);                         /* extern */
@@ -126,7 +124,7 @@ extern u8 D_800E069D[32];
 extern u8 D_800E06BD[3];
 extern u8 D_800E06C0[32];
 extern u8 D_800E06E0[3];
-extern s32 familiar_record_slots[];
+extern void *familiar_record_slots[];
 extern void *dungeon_menu_action_state[];
 
 enum DungeonItemMenuPhase {

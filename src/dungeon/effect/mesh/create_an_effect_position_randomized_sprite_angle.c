@@ -855,6 +855,7 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
     s16 tile_x;
     s16 tile_y;
     s32 model;
+    SpriteFrameState *source_sprite;
     void *destination;
     void *owner_links;
     void *owner;
@@ -880,8 +881,8 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
         ((ovl_1930844_81912154_S_80025954_2 *)appearance)->unk_0C = 0x808080;
     case 1:
         owner_links = owner - 0x20;
-        model = (s32)(((ovl_1930844_81912154_S_80025954_3 *)owner_links)->unk_0C);
-        if (resolve_record_orientation_or_fallback(((ovl_1930844_81912154_S_80025954_4 *)((void *)model))->unk_08, (void *)model, stack.distance, 0) == 0
+        source_sprite = ((ovl_1930844_81912154_S_80025954_3 *)owner_links)->unk_0C;
+        if (resolve_record_orientation_or_fallback(source_sprite->source, source_sprite, &stack.offset.orientation, 0) == 0
             && !(((ovl_1930844_81912154_S_80025954_14 *)(((ovl_1930844_81912154_S_80025954_3 *)owner_links)->unk_0C))->unk_14 & 0x8000)) {
             break;
         }
@@ -892,11 +893,11 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
         ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_08.at02.v = origin_z;
         if (!(((ovl_1930844_81912154_S_80025954_14 *)(((ovl_1930844_81912154_S_80025954_3 *)owner_links)->unk_0C))->unk_14 & 0x8000)) {
             ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_00.at02.v = (u16) (((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_00.at02.v
-                + stack.distance[0]);
+                + stack.offset.distance[0]);
             ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_04.at02.v = (u16) (((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_04.at02.v
-                + stack.distance[1]);
+                + stack.offset.distance[1]);
             ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_08.at02.v = (u16) (((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_08.at02.v
-                + stack.distance[2]);
+                + stack.offset.distance[2]);
         } else {
             ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_08.at02.v = origin_z - 0x40;
         }
@@ -909,20 +910,20 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
             destination = ((ovl_1930844_81912154_S_80025954_7_pre *)target)[-1].unk_00;
             x_distance = ((ovl_1930844_81912154_S_80025954_8 *)destination)->unk_00.at02.v - ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_00.at02u.v;
             x_distance = abs(x_distance);
-            stack.distance[0] = x_distance;
+            stack.offset.distance[0] = x_distance;
             y_distance = ((ovl_1930844_81912154_S_80025954_8 *)destination)->unk_04.at02.v - ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_04.at02u.v;
             y_distance = abs(y_distance);
-            stack.distance[1] = y_distance;
+            stack.offset.distance[1] = y_distance;
             entity = ((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_60;
             z_table = entity_height_offsets[((ovl_1930844_81912154_S_80025954_9 *)entity)->unk_13] << 0x10;
             z_distance = ((ovl_1930844_81912154_S_80025954_8 *)destination)->unk_08.at02.v - z_table;
             z_base = ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_08.at02u.v + 0x300000;
             z_distance -= z_base;
-            stack.distance[2] = abs(z_distance);
+            stack.offset.distance[2] = abs(z_distance);
             ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16 = x_distance;
             do {
-                if ((s16) stack.distance[step_count] > ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16) {
-                    ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16 = (s16) stack.distance[step_count];
+                if ((s16) stack.offset.distance[step_count] > ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16) {
+                    ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16 = (s16) stack.offset.distance[step_count];
                 }
                 step_count += 1;
             } while (step_count < 3);
@@ -1004,14 +1005,14 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
             model = (u32) model << 0x10;
             axis_delta -= ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_00.at02u.v;
             axis_delta = __builtin_abs(axis_delta);
-            stack.distance[0] = axis_delta;
+            stack.offset.distance[0] = axis_delta;
             model >>= 0x10;
             model -= ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_04.at02u.v;
             model = __builtin_abs(model);
-            stack.distance[1] = model;
+            stack.offset.distance[1] = model;
             ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16 = axis_delta;
-            if ((s16) stack.distance[1] > (s16) axis_delta) {
-                ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16 = (s16) (u16) stack.distance[1];
+            if ((s16) stack.offset.distance[1] > (s16) axis_delta) {
+                ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16 = (s16) (u16) stack.offset.distance[1];
             }
             travel_frames = (s32) ((u16) ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16 << 0x10) >> 0x14;
             ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16 = (s16) travel_frames;

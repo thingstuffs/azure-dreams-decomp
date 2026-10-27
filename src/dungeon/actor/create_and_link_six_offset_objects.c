@@ -1,3 +1,5 @@
+#include "engine/scene.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/entity_height_offsets.h"
 #include "dungeon/actor/animation.h"
 #include "shared/entity.h"
@@ -10,16 +12,10 @@ typedef struct {
     s32 words[3];
 } TableEntry;
 
-extern s32 resolve_record_orientation_or_fallback();
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 extern TableEntry linked_effect_direction_entries[];
 extern s32 linked_mesh_processor_address[3];
-
-typedef struct S_80026C88_0 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_80026C88_0;   /* callee_arg in create_and_link_six_offset_objects */
 
 typedef struct S_80026C88_1 {
     u8 pad_00[0x8];
@@ -65,7 +61,7 @@ typedef struct S_80026C88_5 {
 /* Create and link up to six objects with source-relative positions and initialized render data. */
 void *create_and_link_six_offset_objects(u16 x, u16 y, s16 z, void *source)
 {
-    u16 position_offset[3];
+    GteShortVector position_offset;
     void (*callback)(ActorTrailWork *, TrailMotion *, SpriteFrameState *);
     TableEntry *table_entry;
     s32 object_index;
@@ -73,16 +69,16 @@ void *create_and_link_six_offset_objects(u16 x, u16 y, s16 z, void *source)
     ObjectPosition *coords;
     ObjectNodeHeader *object;
     void *point_cursor;
-    S_80026C88_0 *source_object;
-    union { u16 *offset; S_80026C88_4 *render; } pointers;
+    SpriteFrameState *source_object;
+    union { GteShortVector *offset; S_80026C88_4 *render; } pointers;
     void *list_head;
 
     list_head = NULL;
     source_object = source;
-    pointers.offset = position_offset;
-    position_offset[0] = position_offset[1] = 0;
-    if (resolve_record_orientation_or_fallback(source_object->unk_08, source_object, pointers.offset, 0) == 0) {
-        position_offset[2] = (0 - entity_height_offsets[0]) + 0x10;
+    pointers.offset = &position_offset;
+    position_offset.vx = position_offset.vy = 0;
+    if (resolve_record_orientation_or_fallback(source_object->source, source_object, pointers.offset, 0) == 0) {
+        position_offset.vz = (0 - entity_height_offsets[0]) + 0x10;
     }
     object_index = 0;
     callback = update_trailing_effect_animation;
@@ -97,9 +93,9 @@ void *create_and_link_six_offset_objects(u16 x, u16 y, s16 z, void *source)
             object->update_callback = callback;
             register_node(object, linked_mesh_processor_address);
             state = ((void *)object) + 0x20;
-            state->unk_1A = (s16) (x + position_offset[0]);
-            state->unk_1E = (s16) (y + position_offset[1]);
-            state->unk_22 = (s16) (z + position_offset[2]);
+            state->unk_1A = (s16) (x + ((u16)position_offset.vx));
+            state->unk_1E = (s16) (y + ((u16)position_offset.vy));
+            state->unk_22 = (s16) (z + ((u16)position_offset.vz));
             coords = object->position;
             coords->x.w.i = x;
             *((u16 *)&coords->velocity_x + 1) = x;

@@ -1,3 +1,4 @@
+#include "dungeon/item/message.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "shared/object_links.h"
 #include "shared/sprite_frame_state.h"
@@ -24,10 +25,6 @@ void set_sprite_animation_frame(SpriteFrameState *obj, s16 frame_group, s16 fram
 void create_familiar_deployment_overlay();      /* extern */
 void store_recalled_familiar(); /* extern */
 void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */                         /* extern */
-u8 * expand_text_control_codes();                  /* extern */
-u8 * clear_byte_and_advance(u8 *byte_ptr);                         /* extern */
-void * write_text_byte_and_advance();                    /* extern */
-u8 * append_entity_display_text(void *record, u8 *out);                     /* extern */
 void process_unflagged_linked_entries(s32 firstEntryBase);                         /* extern */
 void process_unflagged_linked_entries_alt(s32 firstNodeBase);                         /* extern */
 void unlink_entity_node(struct EntityLinkNode *node);                      /* extern */
@@ -40,7 +37,7 @@ struct Entity;
 struct EntityLinkNode;
 void mark_owned_linked_actor_actions(struct Entity *owner_entity);                      /* extern */
 s32 play_sound_if_enabled(s32 query_value);                     /* extern */
-s32 display_text_with_fullwidth_adjustment();                         /* extern */
+s32 display_text_with_fullwidth_adjustment(s8 *text);                         /* extern */
 extern s32 loaded_entity_sprite_resource;
 extern s32 sprite_resource_completion_flag;
 extern void *selected_item_record_alias[];
@@ -57,7 +54,7 @@ extern void *familiar_record_slots[];
 extern s8 entity_resource_read_complete;
 
 typedef union ScratchS1 {
-    s32 value;
+    void *text;
     void **base;
 } ScratchS1;
 
@@ -170,7 +167,7 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
     void *create_id;
     s32 object_flags;
     s32 cleanup_slot;
-    s32 create_message;
+    u8 *create_message;
     u16 start_ticks;
     u16 end_ticks;
     u16 entity_flags;
@@ -226,8 +223,8 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
         if (!(((S_8009345C_15 *)(((S_8009345C_2 *)context)->unk_60))->unk_1C & 0x800000)) {
             return;
         }
-        message_or_list.value = get_unused_text_buffer();
-        remove_message = write_text_byte_and_advance(8, message_or_list.value);
+        message_or_list.text = get_unused_text_buffer();
+        remove_message = write_text_byte_and_advance(8, message_or_list.text);
         if (familiar_deployment_slots.slot.s != 0) {
             remove_text = D_800E05F0;
         } else {
@@ -235,7 +232,7 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
         }
         clear_byte_and_advance(expand_text_control_codes(D_800E06FA, append_entity_display_text(((S_8009345C_2 *)context)->unk_60,
             expand_text_control_codes(remove_text, remove_message))));
-        display_text_with_fullwidth_adjustment(message_or_list.value);
+        display_text_with_fullwidth_adjustment(message_or_list.text);
         old_object = ((S_8009345C_2 *)context)->unk_60;
         familiar_removed_during_change = 1;
         mark_owned_linked_actor_actions(old_object);
@@ -301,8 +298,8 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
                 ((S_8009345C_10 *)new_object)->unk_1C = object_flags | 0x02000000;
                 ((S_8009345C_14 *)(((object_slot * 4) + actor)))->unk_D0 = selected_item_record_alias[0];
                 ((S_8009345C_9 *)(selected_item_record_alias[0]))->unk_03 = (u8) (((S_8009345C_9 *)(selected_item_record_alias[0]))->unk_03 | 0x20);
-                message_or_list.value = get_unused_text_buffer(0x02000000);
-                create_message = message_or_list.value;
+                message_or_list.text = get_unused_text_buffer(0x02000000);
+                create_message = message_or_list.text;
                 if (familiar_removed_during_change == 0) {
                     create_message = write_text_byte_and_advance(8, create_message);
                 }
@@ -313,7 +310,7 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
                 }
                 clear_byte_and_advance(expand_text_control_codes(D_800E0714, append_entity_display_text(new_object, expand_text_control_codes(create_text,
                     create_message))));
-                display_text_with_fullwidth_adjustment(message_or_list.value);
+                display_text_with_fullwidth_adjustment(message_or_list.text);
                 cleanup_slot = familiar_deployment_slots.slot.s;
                 familiar_turn_counters_alias[cleanup_slot] = 0;
                 retain_spawn_resource(((S_8009345C_9 *)(selected_item_record_alias[0]))->unk_00, 3);

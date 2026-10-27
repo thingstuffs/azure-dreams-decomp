@@ -1,3 +1,5 @@
+#include "engine/scene.h"
+#include "shared/sprite_frame_state.h"
 #ifndef DUNGEON_OVL_1930844_H
 #define DUNGEON_OVL_1930844_H
 #include "common.h"
@@ -345,7 +347,7 @@ typedef struct ovl_1930844_81912154_S_80025954_15 {
 } ovl_1930844_81912154_S_80025954_15;
 typedef struct ovl_1930844_81912154_LocalStack {
     u8 motion[0x18];
-    u16 distance[4];
+    union { GteShortVector orientation; u16 distance[4]; } offset; /* BYTES: retain unsigned indexed halfword loads. */
 } ovl_1930844_81912154_LocalStack;
 s32 rsin(s32);
 extern s32 register_node(void *, void *);
@@ -360,7 +362,6 @@ extern u32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, v
 void AddPrim();
 void SetTile(void *);
 extern int abs(int);
-s32 resolve_record_orientation_or_fallback();
 void apply_attack_power_and_element_effects();
 s32 check_layer_offset_height();
 static __inline__ s32 radial_coordinate(s32 center, s32 trig, s16 radius);

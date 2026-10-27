@@ -1,3 +1,5 @@
+#include "engine/scene.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/entity_height_offsets.h"
 #include "dungeon/actor/animation.h"
 #include "shared/entity.h"
@@ -18,7 +20,6 @@ typedef struct {
 
 extern s32 create_visual_object();
 extern s32 create_offset_sprite_object_with_z();
-extern s32 resolve_record_orientation_or_fallback();
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 extern TableEntry linked_effect_direction_entries[];
@@ -62,9 +63,9 @@ typedef struct S_80026A84_7 {
 } S_80026A84_7;   /* arg1 in create_six_offset_effects */
 
 /* Creates six linked effects at an offset from the origin and initializes their points. */
-void *create_six_offset_effects(MovingPosition *origin, S_80026A84_7 *target_pos, s32 effect_param, Rec_D_80082E80 *source)
+void *create_six_offset_effects(MovingPosition *origin, S_80026A84_7 *target_pos, s32 effect_param, SpriteFrameState *source)
 {
-    u16 offset[3];
+    GteShortVector offset;
     void (*callback)(ActorTrailWork *, TrailMotion *, SpriteFrameState *);
     TableEntry *effect_entry;
     s32 effect_index;
@@ -78,9 +79,9 @@ void *create_six_offset_effects(MovingPosition *origin, S_80026A84_7 *target_pos
     void *chain_head;
 
     chain_head = NULL;
-    offset[0] = offset[1] = 0;
-    if (resolve_record_orientation_or_fallback(source->unk_08, source, offset, 0) == 0) {
-        offset[2] = (0 - entity_height_offsets[0]) + 0x10;
+    offset.vx = offset.vy = 0;
+    if (resolve_record_orientation_or_fallback(source->source, source, &offset, 0) == 0) {
+        offset.vz = (0 - entity_height_offsets[0]) + 0x10;
     }
     effect_index = 0;
     callback = update_trailing_effect_animation;
@@ -91,15 +92,15 @@ void *create_six_offset_effects(MovingPosition *origin, S_80026A84_7 *target_pos
             effect->update_callback = callback;
             register_node(effect, linked_mesh_processor_address);
             effect_pos = effect->position;
-            coord_xz = origin->x + offset[0];
+            coord_xz = origin->x + ((u16)offset.vx);
             effect_pos->x.w.i = coord_xz;
             *((u16 *)&effect_pos->velocity_x + 1) = coord_xz;
             point_index = 0;
-            coord_y = origin->y + offset[1];
+            coord_y = origin->y + ((u16)offset.vy);
             effect_pos->y.w.i = coord_y;
             *((u16 *)&effect_pos->velocity_y + 1) = coord_y;
             effect_data = ((void *)effect) + 0x20;
-            coord_xz = origin->z + offset[2];
+            coord_xz = origin->z + ((u16)offset.vz);
             effect_pos->z.w.i = coord_xz;
             *((u16 *)&effect_pos->velocity_z + 1) = coord_xz;
             render_data = effect->sprite;
@@ -123,9 +124,9 @@ void *create_six_offset_effects(MovingPosition *origin, S_80026A84_7 *target_pos
         effect_index += 1;
         effect_entry += 1;
     } while (effect_index < 6);
-    create_visual_object((s16)(origin->x + offset[0]),
-                  (s16)(origin->y + offset[1]),
-                  (s16)(origin->z + offset[2]), 0x800);
+    create_visual_object((s16)(origin->x + ((u16)offset.vx)),
+                  (s16)(origin->y + ((u16)offset.vy)),
+                  (s16)(origin->z + ((u16)offset.vz)), 0x800);
     create_offset_sprite_object_with_z(target_pos->unk_02, target_pos->unk_06,
                   target_pos->unk_0A, effect_param);
     return effect;

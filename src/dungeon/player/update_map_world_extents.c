@@ -1,3 +1,4 @@
+#include "engine/scene.h"
 #include "dungeon/item/message.h"
 #include "shared/item_ids.h"
 #include "shared/actor_status_flags.h"
@@ -12,7 +13,6 @@
 #include "records/Rec_D_80082E80.h"
 #include "engine/graphics.h"
 
-extern s32 resolve_record_orientation_or_fallback();
 
 extern void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 extern u8 * process_eligible_object_value();
@@ -68,8 +68,8 @@ enum PlayerItemUsePhase {
 };
 
 /* Advances a directional animation, spawns its effect and message, and handles completion. */
-void animate_and_display_item_use(void *action, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec *actor) {
-    u16 offset[3];
+void animate_and_display_item_use(void *action, s32 actor_id, SpriteFrameState *sprite, EntityRec *actor) {
+    GteShortVector offset;
     ObjectNodeHeader *effect_obj;
     ObjectPosition *effect_prim;
     S_800927E4_9 *effect;
@@ -131,8 +131,8 @@ void animate_and_display_item_use(void *action, s32 actor_id, Rec_D_80082E80 *sp
         }
         return;
     case PLAYER_ITEM_DISPLAY:
-        if (resolve_record_orientation_or_fallback(sprite->unk_08, sprite, offset, 0) == 0 &&
-            !(sprite->unk_14.at00_u16.v & 0x8000)) {
+        if (resolve_record_orientation_or_fallback(sprite->source, sprite, &offset, 0) == 0 &&
+            !(sprite->flags & 0x8000)) {
             return;
         }
 
@@ -147,16 +147,16 @@ void animate_and_display_item_use(void *action, s32 actor_id, Rec_D_80082E80 *sp
 
                 effect_obj->update_callback = player_item_render_update_address;
                 effect_prim = effect_obj->position;
-                effect_prim->x.w.i = (sprite->unk_24 << 6) + 0x20;
-                effect_prim->y.w.i = (sprite->unk_25 << 6) + 0x20;
+                effect_prim->x.w.i = (sprite->tile_x << 6) + 0x20;
+                effect_prim->y.w.i = (sprite->tile_y << 6) + 0x20;
 
                 effect = (u8 *)effect_obj + 0x20;
-                if (sprite->unk_14.at00_u16.v & 0x8000) {
+                if (sprite->flags & 0x8000) {
                     effect_prim->z.w.i = ((u16)actor->unk_88) - 0x50;
                 } else {
-                    *(u16 *)&effect_prim->x.w.i += offset[0];
-                    *(u16 *)&effect_prim->y.w.i += offset[1];
-                    tail_value = offset[2];
+                    *(u16 *)&effect_prim->x.w.i += ((u16)offset.vx);
+                    *(u16 *)&effect_prim->y.w.i += ((u16)offset.vy);
+                    tail_value = ((u16)offset.vz);
                     tail_value += ((u16)actor->unk_88);
                     effect_prim->z.w.i = tail_value;
                 }
@@ -191,7 +191,7 @@ void animate_and_display_item_use(void *action, s32 actor_id, Rec_D_80082E80 *sp
         ((S_800927E4_0 *)action)->unk_9B = ((S_800927E4_0 *)action)->unk_9B + 1;
         return;
     case PLAYER_ITEM_COMPLETE:
-        if ((sprite->unk_14.at00_u16.v & 0x8000) ||
+        if ((sprite->flags & 0x8000) ||
             (timer = ((S_800927E4_0 *)action)->unk_96 - 1,
              ((S_800927E4_0 *)action)->unk_96 = timer,
              (s32)(timer << 16) <= 0)) {

@@ -1,3 +1,4 @@
+#include "engine/scene.h"
 #include "shared/actor_status_flags.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "dungeon/effect/state.h"
@@ -53,17 +54,6 @@ typedef struct S_func_800B1364_2 {
     s16 unk_0A;
 } S_func_800B1364_2;
 
-typedef struct S_func_800B1364_3 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x8];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 *unk_2C;
-} S_func_800B1364_3;
 
 typedef struct S_func_800B1364_4 {
     u8 pad_00[0x2A];
@@ -163,10 +153,9 @@ typedef struct S_func_800B1364_19 {
 } S_func_800B1364_19;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 resolve_record_orientation_or_fallback();
 s32 func_8003E188(s32, s32);
 s32 func_80042640(void *, s32);
-void set_sprite_animation_frame();
+#include "engine/graphics.h"
 s32 strcpy(void *, s32);
 void create_familiar_deployment_overlay();
 struct DungeonItemEntry;
@@ -211,9 +200,9 @@ extern void *familiar_record_slots[];
 extern u8 familiar_record_storage[];
 
 /* Advances the item interaction, spawning, initializing, and saving a linked creature. */
-void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_func_800B1364_3 *sprite,
+void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_func_800B1364_2 *position, SpriteFrameState *sprite,
     S_func_800B1364_4 *actor) {
-    s16 spawn_offset[3];
+    GteShortVector spawn_offset;
     s16 spawn_height;
     void *creature_variant;
     void *message_start;
@@ -247,7 +236,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
     S_func_800B1364_11 *input_command;
     S_func_800B1364_10 *item_effect;
     S_func_800B1364_5 *creature;
-    S_func_800B1364_3 *creature_sprite;
+    SpriteFrameState *creature_sprite;
     S_func_800B1364_5 *linked_creature;
     u32 *level_thresholds;
     u32 *level_table;
@@ -262,7 +251,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
     {
         view_base = &g_game_work;
         if ((((s32) (view_base->view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7) == 2) {
-            sprite->unk_2C = D_800DD108;
+            sprite->frameTable = D_800DD108;
             set_sprite_animation_frame(sprite, D_800DD108[((s32) (view_base->view.camera_rotation.parts.viewAngle + actor->unk_2A
                 + 0x100) >> 9) & 7], 0, 1);
             next_state = action->unk_9B;
@@ -279,10 +268,10 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         if ((sound_timer << 0x10) == 0) {
             play_sound_if_enabled(0x701);
         }
-        if (!(sprite->unk_14 & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
-        sprite->unk_2C = D_800DD110;
+        sprite->frameTable = D_800DD110;
         set_sprite_animation_frame(sprite, D_800DD110[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
         action->unk_9B = (u8) (action->unk_9B + 1);
         if (!(((S_func_800B1364_14 *)&system_update_flags)->unk_00 & 1)) {
@@ -304,12 +293,12 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
             return;
         }
     case 2:
-        sprite_flags = sprite->unk_14;
+        sprite_flags = sprite->flags;
         if (!(sprite_flags & 0xE000)) {
             DungeonGlobalStatus *control_state = &g_dungeon_status;
             control_state->flags = (u16) (control_state->flags | 4);
         } else {
-            sprite->unk_14 = (u16) (sprite_flags | 0x6800);
+            sprite->flags = sprite_flags | 0x6800;
         }
         if (g_dungeon_status.flags & 4) {
             return;
@@ -326,10 +315,10 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
             active_actor_command_code = command;
             if (command != 0x60) {
                 read_monster_script_entry();
-                sprite->unk_2C = familiar_save_alt_frames;
+                sprite->frameTable = familiar_save_alt_frames;
                 set_sprite_animation_frame(sprite, familiar_save_alt_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
                     0, 1);
-                sprite->unk_14 = (u16) (sprite->unk_14 & 0xF7FF);
+                sprite->flags = sprite->flags & 0xF7FF;
                 action->unk_8C = NULL;
                 action->unk_9B = 4U;
                 return;
@@ -342,7 +331,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         if (use_item_test != 0) {
             append_packed_action_record(actor, 0x60, 0, 0);
             play_sound_if_enabled(0x500);
-            sprite->unk_14 = (u16) (sprite->unk_14 & 0x97FF);
+            sprite->flags = sprite->flags & 0x97FF;
             action->unk_9B = 3U;
             wear = (generate_random_value() & 3) + 1;
             used_item = (S_func_800B1364_12 *)action->unk_BC;
@@ -350,10 +339,10 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
             worn_item = (S_func_800B1364_12 *)action->unk_BC;
             if ((s8) worn_item->unk_02 <= 0) {
                 worn_item->unk_02 = 0U;
-                sprite->unk_2C = familiar_save_alt_frames;
+                sprite->frameTable = familiar_save_alt_frames;
                 set_sprite_animation_frame(sprite, familiar_save_alt_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
                     0, 1);
-                sprite->unk_14 = (u16) (sprite->unk_14 & 0xF7FF);
+                sprite->flags = sprite->flags & 0xF7FF;
                 action->unk_9B = 5U;
                 actor->unk_8A = find_table_value_index(action->unk_BC);
             }
@@ -372,15 +361,15 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
             }
         }
         append_packed_action_record(actor, 0xA8, 0, 0);
-        sprite->unk_2C = familiar_save_alt_frames;
+        sprite->frameTable = familiar_save_alt_frames;
         set_sprite_animation_frame(sprite, familiar_save_alt_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
-        sprite->unk_14 = (u16) (sprite->unk_14 & 0xF7FF);
+        sprite->flags = sprite->flags & 0xF7FF;
         play_sound_if_enabled(0x515);
         action->unk_8C = NULL;
         action->unk_9B = 4U;
         return;
     case 3:
-        if (!(sprite->unk_14 & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         global_state = (S_func_800B1364_7 *)&g_dungeon_status.turn_scale;
@@ -392,7 +381,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         action->unk_9B = 2U;
         return;
     case 4:
-        if (!(sprite->unk_14 & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         clear_slot_and_update_linked_state(&held_item_record);
@@ -413,23 +402,23 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         action->unk_9B = 6U;
         return;
     case 6:
-        if (!(sprite->unk_14 & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
-        if (resolve_record_orientation_or_fallback(sprite->unk_08, sprite, spawn_offset, 0) == 0) {
-            spawn_offset[1] = 0;
-            spawn_offset[0] = 0;
-            spawn_offset[2] = 0 - (*((u8 *)entity_height_offsets));
+        if (resolve_record_orientation_or_fallback(sprite->source, sprite, &spawn_offset, 0) == 0) {
+            spawn_offset.vy = 0;
+            spawn_offset.vx = 0;
+            spawn_offset.vz = 0 - (*((u8 *)entity_height_offsets));
         }
-        spawn_directed_and_scattered_particles(position->unk_02 + spawn_offset[0], position->unk_06 + spawn_offset[1],
-            position->unk_0A + spawn_offset[2]);
+        spawn_directed_and_scattered_particles(position->unk_02 + spawn_offset.vx, position->unk_06 + spawn_offset.vy,
+            position->unk_0A + spawn_offset.vz);
         action->unk_9B = (u8) (action->unk_9B + 1);
         return;
     case 7:
         spawn_item = action->unk_C0;
         entity_spawn_variant_code = 1;
         creature_variant = find_or_retain_sprite_resource_slot(*spawn_item, 2);
-        creature = load_monster_resource_data(*action->unk_C0, creature_variant, 1)(2, sprite->unk_24, sprite->unk_25,
+        creature = load_monster_resource_data(*action->unk_C0, creature_variant, 1)(2, sprite->tile_x, sprite->tile_y,
             (s16) (actor->unk_88 - 0x20));
         if (creature == NULL) {
             return;
@@ -437,16 +426,16 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         func_8003E188(creature->unk_13, 0);
         clear_selected_item_flag_400(action->unk_C0);
         creature_sprite = ((S_func_800B1364_18 *)((u8 *)creature - 0x18))->unk_04;
-        update_map_cell_flags_with_item_limit(creature_sprite->unk_24, creature_sprite->unk_25, 0x300);
-        if (resolve_record_orientation_or_fallback(sprite->unk_08, sprite, spawn_offset, 0) == 0) {
-            spawn_offset[1] = 0;
-            spawn_offset[0] = 0;
-            spawn_offset[2] = 0 - (*((u8 *)entity_height_offsets));
+        update_map_cell_flags_with_item_limit(creature_sprite->tile_x, creature_sprite->tile_y, 0x300);
+        if (resolve_record_orientation_or_fallback(sprite->source, sprite, &spawn_offset, 0) == 0) {
+            spawn_offset.vy = 0;
+            spawn_offset.vx = 0;
+            spawn_offset.vz = 0 - (*((u8 *)entity_height_offsets));
         }
         creature_pos = ((S_func_800B1364_18 *)((u8 *)creature - 0x18))->unk_00;
-        creature_pos->unk_02 = (s16) ((u16) position->unk_02 + (u16) spawn_offset[0]);
-        creature_pos->unk_06 = (s16) ((u16) position->unk_06 + (u16) spawn_offset[1]);
-        spawn_height = (u16) position->unk_0A + (u16) spawn_offset[2];
+        creature_pos->unk_02 = (s16) ((u16) position->unk_02 + (u16) spawn_offset.vx);
+        creature_pos->unk_06 = (s16) ((u16) position->unk_06 + (u16) spawn_offset.vy);
+        spawn_height = (u16) position->unk_0A + (u16) spawn_offset.vz;
         creature_pos->unk_0A = spawn_height;
         creature->unk_88 = spawn_height;
         actor->unk_60 = creature;
@@ -511,24 +500,24 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         wait_timer = action->unk_96 - 1;
         action->unk_96 = wait_timer;
         if ((wait_timer << 0x10) > 0) {
-            if (!(sprite->unk_14 & 0x8000)) {
+            if (!(sprite->flags & 0x8000)) {
                 if (global_state->unk_10 == 0) {
                     return;
                 }
             }
         }
-        sprite->unk_2C = familiar_summon_frames;
+        sprite->frameTable = familiar_summon_frames;
         direction_anim = familiar_summon_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7);
         set_sprite_animation_frame(sprite, *direction_anim, 0, 1);
         action->unk_9B = (u8) (action->unk_9B + 1);
         return;
     case 9:
-        if (!(sprite->unk_14 & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
-        sprite->unk_2C = familiar_save_restore_frames;
+        sprite->frameTable = familiar_save_restore_frames;
         set_sprite_animation_frame(sprite, familiar_save_restore_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
-        sprite->unk_14 = (u16) (sprite->unk_14 | 0x200);
+        sprite->flags = sprite->flags | 0x200;
         create_familiar_deployment_effect_with_owner_state(action, position, sprite);
         create_familiar_deployment_overlay(action, position, sprite);
         save_slot = find_first_unused_entity_entry();
@@ -560,18 +549,18 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         release_value[-1].unk_00 =
             (u16) (release_value[-1].unk_00 | 0x8000);
         D_800814A0 |= OBJECT_REMOVE_PENDING;
-        sprite->unk_2C = familiar_save_frames;
+        sprite->frameTable = familiar_save_frames;
         direction_anim = familiar_save_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7);
         set_sprite_animation_frame(sprite, *direction_anim, 0, 1);
 read_next_state:
         action->unk_9B = (u8) (action->unk_9B + 1);
         return;
     case 11:
-        final_flags = sprite->unk_14;
+        final_flags = sprite->flags;
         if (!(final_flags & 0xE000)) {
             return;
         }
-        sprite->unk_14 = (u16) (final_flags & 0xFDFF);
+        sprite->flags = final_flags & 0xFDFF;
         action->unk_8C = handle_player_input;
         return;
     default:

@@ -1,3 +1,5 @@
+#include "engine/scene.h"
+#include "shared/sprite_frame_state.h"
 #ifndef DUNGEON_OVL_188898C_H
 #define DUNGEON_OVL_188898C_H
 #include "common.h"
@@ -190,7 +192,7 @@ typedef struct ovl_188898c_818694D4_Lookup {
 typedef struct ovl_188898c_818694D4_RootPrefix {
     u8 pad00[8];
     ovl_188898c_818694D4_Motion *motion;
-    ovl_188898c_818694D4_Lookup *lookup;
+    SpriteFrameState *lookup;
 } ovl_188898c_818694D4_RootPrefix;
 typedef struct ovl_188898c_818694D4_Controller {
     u8 *root;
@@ -237,7 +239,6 @@ struct ObjectNodeHeader;
 extern SpriteSourceEntry rising_sprite_entries[];
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern u8 D_80025368[];
-extern s32 resolve_record_orientation_or_fallback();
 extern s32 check_layer_offset_height();
 static __inline__ s32 first_delta_s32_s32(s32 end, s32 start);
 void apply_status_to_nearby_actors(s32 x, s32 y, void *kind, s32 flags);

@@ -25,27 +25,28 @@ typedef struct S_80093C70_5 {
     s16 unk_08;
 } S_80093C70_5;
 
-void *allocate_list_node();                  /* extern */
+#include "engine/node/allocation.h"                  /* extern */
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 extern void dungeon_familiar_deploy_update_address();
 
 /* Creates a sprite effect at the supplied position and links it to its owner. */
-void create_familiar_deployment_effect_with_owner_state(s32 priority, EntityRec *source_pos, Rec_D_80082E80 *owner) {
+void create_familiar_deployment_effect_with_owner_state(void *owner_body, EntityRec *source_pos, SpriteFrameState *owner) {
+    ObjectNodeHeader *owner_node = owner_body - 0x20;
     SpriteFrameState *sprite;
     ObjectNodeHeader *effect;
     ObjectPosition *position;
     S_80093C70_5 *effect_state;
     u16 flags;
 
-    effect = allocate_list_node(0x310, priority - 0x20);
+    effect = allocate_list_node(0x310, &owner_node->next);
     if (effect != NULL) {
         position = effect->position;
         effect->update_callback = &dungeon_familiar_deploy_update_address;
-        position->x.w.i = (u16) ((u16)source_pos->x.w.i);
-        position->y.w.i = (u16) ((u16)source_pos->y.w.i);
-        position->z.w.i = (u16) ((u16)source_pos->z.w.i);
+        position->x.w.i = (u16)source_pos->x.w.i;
+        position->y.w.i = (u16)source_pos->y.w.i;
+        position->z.w.i = (u16)source_pos->z.w.i;
         sprite = effect->sprite;
-        sprite->animation_resource = (s32) owner->unk_28.at00_s32.v;
+        sprite->animation_resource = owner->animation_resource;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         flags = sprite->flags;

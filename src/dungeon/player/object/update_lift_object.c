@@ -1,3 +1,4 @@
+#include "dungeon/item/message.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
@@ -8,9 +9,6 @@
 #include "sdk/libc.h"
 
 extern void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
-extern u8 * expand_text_control_codes();
-extern u8 * clear_byte_and_advance(u8 *byte_ptr);
-extern u8 * append_entity_display_text();
 extern void adjust_source_value_and_finalize(void *context, const void *source);
 extern void process_unflagged_linked_entries();
 extern void process_unflagged_linked_entries_alt();
@@ -63,7 +61,7 @@ typedef struct S_8008F428_4 {
 
 /* Updates the timed effect state, entity flags, and directional animation. */
 void update_lift_object(void *effect_state, void *saved_effect_id, void *animation, void *owner) {
-    s32 effect_result;
+    u8 *effect_result;
     u16 ticks_left;
     u8 state;
     void *target;
@@ -170,7 +168,7 @@ void update_lift_object(void *effect_state, void *saved_effect_id, void *animati
     ((SpriteFrameState *)animation)->flags &= 0xF7FF;
     play_sound_if_enabled(0x506);
     {
-        s32 effect_id;
+        void *effect_id;
 
         effect_result = get_unused_text_buffer();
         target = ((S_8008F428_0 *)effect_state)->unk_11C;

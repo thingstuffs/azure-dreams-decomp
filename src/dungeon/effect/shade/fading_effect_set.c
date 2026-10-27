@@ -544,13 +544,13 @@ void move_linked_effect_along_path(ovl_188898c_818694D4_Controller *input_ctrl, 
     void *render_data;
     ovl_188898c_818694D4_RootPrefix *root_prefix;
     ovl_188898c_818694D4_Lookup *lookup;
-    ovl_188898c_818694D4_Lookup *lookup_2;
+    SpriteFrameState *lookup_2;
     ovl_188898c_818694D4_Motion *source_motion;
     ovl_188898c_818694D4_Motion *linked_motion;
     u8 *linked_root;
     u8 *linked_root_2;
     u8 *linked_root_3;
-    s16 offsets[3];
+    GteShortVector offsets;
     u16 end_x;
     u16 end_y;
     s32 steps;
@@ -578,7 +578,7 @@ void move_linked_effect_along_path(ovl_188898c_818694D4_Controller *input_ctrl, 
 
     case 1:
         root_prefix = (ovl_188898c_818694D4_RootPrefix *)(root - 0x20);
-        if (resolve_record_orientation_or_fallback(root_prefix->lookup->key, root_prefix->lookup, offsets, 0) == 0) {
+        if (resolve_record_orientation_or_fallback(root_prefix->lookup->source, root_prefix->lookup, &offsets, 0) == 0) {
             if (!(root_prefix->lookup->flags & 0x8000)) {
                 break;
             }
@@ -590,9 +590,9 @@ void move_linked_effect_along_path(ovl_188898c_818694D4_Controller *input_ctrl, 
         source_z = source_motion->z.h.hi;
         input_motion->z.h.hi = source_z;
         if (!(root_prefix->lookup->flags & 0x8000)) {
-            input_motion->x.h.hi += offsets[0];
-            input_motion->y.h.hi += offsets[1];
-            input_motion->z.h.hi += offsets[2];
+            input_motion->x.h.hi += offsets.vx;
+            input_motion->y.h.hi += offsets.vy;
+            input_motion->z.h.hi += offsets.vz;
         } else {
             input_motion->z.h.hi = source_z - 64;
         }
@@ -606,13 +606,13 @@ void move_linked_effect_along_path(ovl_188898c_818694D4_Controller *input_ctrl, 
             linked_motion = *(ovl_188898c_818694D4_Motion **)(linked_root - 0x18);
 
             origin_coord = input_motion->x.h.hi;
-            offsets[0] = abs(linked_motion->x.h.hi - origin_coord);
+            offsets.vx = abs(linked_motion->x.h.hi - origin_coord);
 
-            offsets[1] = abs(linked_motion->y.h.hi - input_motion->y.h.hi);
+            offsets.vy = abs(linked_motion->y.h.hi - input_motion->y.h.hi);
 
             linked_root_2 = *(u8 **)(root + 0x60);
             origin_coord = input_motion->z.h.hi;
-            offsets[2] = abs(*(s16 *)(linked_root_2 + 0x88) - origin_coord);
+            offsets.vz = abs(*(s16 *)(linked_root_2 + 0x88) - origin_coord);
 
             linked_root_3 = *(u8 **)(root + 0x60);
             lookup = *(ovl_188898c_818694D4_Lookup **)(linked_root_3 - 0x14);
@@ -635,8 +635,8 @@ void move_linked_effect_along_path(ovl_188898c_818694D4_Controller *input_ctrl, 
 
         steps = 0;
         lookup_2 = root_prefix->lookup;
-        cell_x = lookup_2->cell_x;
-        cell_y = lookup_2->cell_y;
+        cell_x = lookup_2->tile_x;
+        cell_y = lookup_2->tile_y;
         end_x = cell_x;
         end_y = cell_y;
 

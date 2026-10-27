@@ -1,3 +1,5 @@
+#include "engine/scene.h"
+#include "shared/sprite_frame_state.h"
 #ifndef DUNGEON_OVL_18CA83C_H
 #define DUNGEON_OVL_18CA83C_H
 #include "common.h"
@@ -121,7 +123,7 @@ typedef struct ovl_18ca83c_818AAE60_S_80024660_12 {
 typedef struct {
     s32 pos[3];
     u8 pad18[0xC];
-    u16 dist[3];
+    union { GteShortVector orientation; u16 distance[3]; } offset; /* BYTES: retain unsigned indexed halfword loads. */
 } ovl_18ca83c_818AAE60_Func818AAE60Scratch;
 extern void draw_animated_shaded_lines(void);
 extern void func_8002488C(void);
@@ -149,7 +151,6 @@ extern s32 rcos(s32);
 extern s32 rand(void);
 extern u8 D_800777DC[];
 extern int abs(int);
-s32 resolve_record_orientation_or_fallback();
 s32 check_layer_offset_height(s32, s32, s16, s32);
 void apply_large_random_value_gain(void *target, s32 amount_input, void *owner);
 void update_rotating_fading_effect(void *effect, void *position, SpriteFrameState *sprite);

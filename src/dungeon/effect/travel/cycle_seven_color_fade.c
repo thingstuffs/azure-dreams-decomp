@@ -875,7 +875,7 @@ void advance_movement_toward_reachable_tile(void *state, void *motion_in, void *
     u16 tile_y;
     s16 grid_x;
     s16 grid_y;
-    void *source_data;
+    SpriteFrameState *source_data;
     void *destination;
     void *source_header;
     void *owner;
@@ -895,7 +895,7 @@ void advance_movement_toward_reachable_tile(void *state, void *motion_in, void *
     case 1:
         source_header = owner - 0x20;
         source_data = ((B28_818B7F38_S_80025738_3 *)source_header)->unk_0C;
-        if (resolve_record_orientation_or_fallback(((B28_818B7F38_S_80025738_4 *)source_data)->unk_08, source_data, frame.delta, 0) != 0) {
+        if (resolve_record_orientation_or_fallback(source_data->source, source_data, &frame.offset.orientation, 0) != 0) {
             source_position = ((B28_818B7F38_S_80025738_3 *)source_header)->unk_08;
             ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at02.v = (u16) ((B28_818B7F38_S_80025738_6 *)source_position)->unk_02;
             ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_04.at02.v = (u16) ((B28_818B7F38_S_80025738_6 *)source_position)->unk_06;
@@ -911,11 +911,11 @@ void advance_movement_toward_reachable_tile(void *state, void *motion_in, void *
         ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_08.at02.v = source_z;
         if (!(((B28_818B7F38_S_80025738_13 *)(((B28_818B7F38_S_80025738_3 *)source_header)->unk_0C))->unk_14 & 0x8000)) {
             ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at02.v = (u16) (((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at02.v
-                + frame.delta[0]);
+                + frame.offset.distance[0]);
             ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_04.at02.v = (u16) (((B28_818B7F38_S_80025738_5 *)motion_in)->unk_04.at02.v
-                + frame.delta[1]);
+                + frame.offset.distance[1]);
             base_z = ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_08.at02.v;
-            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_08.at02.v = base_z + frame.delta[2];
+            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_08.at02.v = base_z + frame.offset.distance[2];
             if (!(*((B28_818B7F38_S_80025738_0 *)state)->unk_04 & 0x80)) {
                 break;
             }
@@ -937,18 +937,18 @@ void advance_movement_toward_reachable_tile(void *state, void *motion_in, void *
             if (target_dx < 0) {
                 target_dx = 0 - target_dx;
             }
-            frame.delta[0] = (u16) target_dx;
+            frame.offset.distance[0] = (u16) target_dx;
             target_dy = ((B28_818B7F38_S_80025738_7 *)destination)->unk_04.at02.v;
             target_dy -= ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_04.at02u.v;
             target_dy = abs(target_dy);
-            frame.delta[1] = (u16) target_dy;
+            frame.offset.distance[1] = (u16) target_dy;
             target = ((B28_818B7F38_S_80025738_1 *)owner)->unk_60;
             current_z = ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_08.at02u.v;
             target_dz = ((B28_818B7F38_S_80025738_8 *)target)->unk_88;
             target_dz -= current_z;
             target_delta_cursor = (u16 *)((u8 *)&frame.out_x + 2);
             target_dz = abs(target_dz);
-            frame.delta[2] = (u16) target_dz;
+            frame.offset.distance[2] = (u16) target_dz;
             ((B28_818B7F38_S_80025738_0 *)state)->unk_12 = target_dx;
             do {
                 if (((B28_818B7F38_S_80025738_9 *)target_delta_cursor)->unk_18.s > ((B28_818B7F38_S_80025738_0 *)state)->unk_12) {
@@ -1010,10 +1010,10 @@ void advance_movement_toward_reachable_tile(void *state, void *motion_in, void *
             world_y = ((saved_y << 16) >> 10) + ((dir_step_y[(s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0E] + 1) << 5);
             ((B28_818B7F38_S_80025738_7 *)destination)->unk_04.at02.v = world_y;
             ((B28_818B7F38_S_80025738_7 *)destination)->unk_08.at02.v = ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_08.at02u.v + 0x20;
-            frame.delta[0] = abs(((B28_818B7F38_S_80025738_7 *)destination)->unk_00.at02.v - ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at02u.v);
-            frame.delta[1] = abs(((B28_818B7F38_S_80025738_7 *)destination)->unk_04.at02.v - ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_04.at02u.v);
-            frame.delta[2] = abs(((B28_818B7F38_S_80025738_7 *)destination)->unk_08.at02.v - ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_08.at02u.v);
-            ((B28_818B7F38_S_80025738_0 *)state)->unk_12 = frame.delta[0];
+            frame.offset.distance[0] = abs(((B28_818B7F38_S_80025738_7 *)destination)->unk_00.at02.v - ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at02u.v);
+            frame.offset.distance[1] = abs(((B28_818B7F38_S_80025738_7 *)destination)->unk_04.at02.v - ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_04.at02u.v);
+            frame.offset.distance[2] = abs(((B28_818B7F38_S_80025738_7 *)destination)->unk_08.at02.v - ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_08.at02u.v);
+            ((B28_818B7F38_S_80025738_0 *)state)->unk_12 = frame.offset.distance[0];
             do {
                 if (((B28_818B7F38_S_80025738_11 *)path_delta_cursor)->unk_18.s > ((B28_818B7F38_S_80025738_0 *)state)->unk_12) {
                     ((B28_818B7F38_S_80025738_0 *)state)->unk_12 = ((B28_818B7F38_S_80025738_11 *)path_delta_cursor)->unk_18.u;

@@ -6,7 +6,7 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 void *append_signed_value_bytes(s32 value, u8 *buffer);
-s32 apply_type_based_entry_adjustments(void *entry, s32 value);
+u8 *apply_type_based_entry_adjustments(void *entry, u8 *value);
 void create_view_color_flash(s32 payload, s16 trigger_event);
 void *find_linked_entity_of_type_21(void *entity);
 s32 find_padded_rectangle(s32 pos_x, s32 pos_y);

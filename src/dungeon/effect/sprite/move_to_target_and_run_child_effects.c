@@ -1,3 +1,5 @@
+#include "engine/scene.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/audio_commands.h"
 #include "common.h"
 #include "shared/object_flags.h"
@@ -36,7 +38,7 @@ typedef struct Lookup {
 typedef struct RootPrefix {
     u8 pad00[8];
     Motion *motion;
-    Lookup *lookup;
+    SpriteFrameState *lookup;
 } RootPrefix;
 
 typedef struct Child {
@@ -79,7 +81,6 @@ typedef union WideProduct {
     } word;
 } WideProduct;
 
-extern s32 resolve_record_orientation_or_fallback();
 extern s32 check_layer_offset_height();
 extern void draw_animated_shaded_lines();
 extern Child *create_effect_indexed();
@@ -92,11 +93,11 @@ void move_to_target_and_run_child_effects(Controller *ctrl, Motion *motion, void
     u8 *root;
     RootPrefix *prefix;
     Lookup *lookup;
-    Lookup *lookup_2;
+    SpriteFrameState *lookup_2;
     Motion *root_motion;
     Child *child;
     u8 *linked_root;
-    s16 delta[3];
+    GteShortVector delta;
     u16 target_cell_x;
     u16 target_cell_y[1];
     s32 index;
@@ -131,7 +132,7 @@ void move_to_target_and_run_child_effects(Controller *ctrl, Motion *motion, void
 
     case 1:
         prefix = (RootPrefix *)(root - 0x20);
-        if (resolve_record_orientation_or_fallback(prefix->lookup->key, prefix->lookup, delta, 0) == 0) {
+        if (resolve_record_orientation_or_fallback(prefix->lookup->source, prefix->lookup, &delta, 0) == 0) {
             if (!(prefix->lookup->flags & 0x8000)) {
                 break;
             }
@@ -143,9 +144,9 @@ void move_to_target_and_run_child_effects(Controller *ctrl, Motion *motion, void
         origin_z = root_motion->z.h.hi;
         motion->z.h.hi = origin_z;
         if (!(prefix->lookup->flags & 0x8000)) {
-            motion->x.h.hi += delta[0];
-            motion->y.h.hi += delta[1];
-            motion->z.h.hi += delta[2];
+            motion->x.h.hi += delta.vx;
+            motion->y.h.hi += delta.vy;
+            motion->z.h.hi += delta.vz;
         } else {
             motion->z.h.hi = origin_z - 64;
         }
@@ -159,13 +160,13 @@ void move_to_target_and_run_child_effects(Controller *ctrl, Motion *motion, void
             index = (s32)(*(Motion **)(linked_root - 0x18));
 
             origin_coord = motion->x.h.hi;
-            delta[0] = __builtin_abs(((Motion *)index)->x.h.hi - origin_coord);
+            delta.vx = __builtin_abs(((Motion *)index)->x.h.hi - origin_coord);
 
-            delta[1] = __builtin_abs(((Motion *)index)->y.h.hi - motion->y.h.hi);
+            delta.vy = __builtin_abs(((Motion *)index)->y.h.hi - motion->y.h.hi);
 
             linked_root = *(u8 **)(root + 0x60);
             origin_coord = motion->z.h.hi;
-            delta[2] = __builtin_abs(*(s16 *)(linked_root + 0x88) - origin_coord);
+            delta.vz = __builtin_abs(*(s16 *)(linked_root + 0x88) - origin_coord);
 
             linked_root = *(u8 **)(root + 0x60);
             lookup = *(Lookup **)(linked_root - 0x14);
@@ -184,8 +185,8 @@ void move_to_target_and_run_child_effects(Controller *ctrl, Motion *motion, void
         } else {
             index = 0;
             lookup_2 = prefix->lookup;
-            cell_x = lookup_2->cell_x;
-            cell_y = lookup_2->cell_y;
+            cell_x = lookup_2->tile_x;
+            cell_y = lookup_2->tile_y;
             target_cell_x = cell_x;
             target_cell_y[0] = cell_y;
 

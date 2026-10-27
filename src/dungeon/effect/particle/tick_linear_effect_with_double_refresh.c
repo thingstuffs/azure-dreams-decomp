@@ -10,10 +10,10 @@ typedef struct {
     s32 dz;
 } Position;
 
-extern void advance_sprite_animation_and_textures();
+#include "slus.h"
 
 /* Advance the position and timer, setting completion flags when the timer expires. */
-void tick_linear_effect_with_double_refresh(void *state, Position *pos, s32 handle)
+void tick_linear_effect_with_double_refresh(void *state, Position *pos, void *handle)
 {
     s32 dy;
     s32 dz;

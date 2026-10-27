@@ -8,19 +8,14 @@
 #define NULL 0
 #endif
 
-/* Opaque record type; matches the already-matched find_flagged_record_by_id's own type
- * (src/w_8004CAE8.c defines its full layout: flags/id table entry). This
- * function never dereferences it directly, only forwards the pointer. */
-typedef struct S_8004CAE8 S_8004CAE8;
-
 /* actor: entity/actor-like struct; only the status/flag halfword at 0x14 is
  * touched directly here (bits 0x6000), the rest is opaque and forwarded on
  * to runtime_transform_sprite_attachment_point. */
 
 /* Compute orientation from a matching record, or reset it when actor flags require a fallback. */
-S_8004CAE8 *resolve_record_orientation_or_fallback(S_8004CAE8 *records, SpriteFrameState *actor, GteShortVector *out_vec, s16 record_id) {
+SpriteAttachment *resolve_record_orientation_or_fallback(SpriteAttachment *records, SpriteFrameState *actor, GteShortVector *out_vec, s16 record_id) {
     GteShortVector orientation;
-    S_8004CAE8 *record;
+    SpriteAttachment *record;
 
     record = find_flagged_record_by_id(records, record_id);
     if (record != NULL) {

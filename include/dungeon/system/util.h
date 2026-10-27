@@ -20,7 +20,8 @@
 #include "shared/tile_object.h"
 #include "modules/dungeon_engine_dungeon_util_fragment_c05e4.h"
 #include "modules/dungeon_engine_dungeon_util_fragment_c1094.h"
-#include "modules/dungeon_engine_dungeon_util_fragment_c0bec.h"
+#include "dungeon/item/message.h"
+s32 display_text_with_fullwidth_adjustment(s8 *text);
 /* Cleared object work for create_textured_ellipse_effect and its pulsing
  * callback. The constructor stores the linked actor at +4 and seeds a
  * four-tick brightening phase; the callback then fades over sixteen ticks. */

@@ -1,3 +1,4 @@
+#include "dungeon/item/message.h"
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/tile_object.h"
@@ -18,13 +19,9 @@ typedef struct S_80094270_4 {
    /* ((S_80094270_4 *)entry)->unk_AC in request_familiar_deployment_change */
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern s32 familiar_record_slots[];
+extern void *familiar_record_slots[];
 s16 check_familiar_deployment_placement(); /* extern */
 void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */                          /* extern */
-u8 * expand_text_control_codes(const u8 *src, u8 *dst);                  /* extern */
-u8 * clear_byte_and_advance(u8 *byte_ptr);                    /* extern */
-u8 * write_text_byte_and_advance(s8 value, u8 *dest);                    /* extern */
-u8 *append_entity_display_text();                        /* extern */
 void display_formatted_context_message(void *context);                   /* extern */
 s32 play_sound_if_enabled(s32 query_value);                     /* extern */
 s32 display_text_with_fullwidth_adjustment(s8 *text);                         /* extern */

@@ -1,3 +1,5 @@
+#include "dungeon/item/message.h"
+#include "shared/dungeon_item_entries.h"
 #include "engine/menu.h"
 #include "engine/scene.h"
 /* One native TU; source order follows the complete ledger cohort. */
@@ -840,7 +842,6 @@ typedef struct S_800B1B10_7 {
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 void * decode_fullwidth_text();
 void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
-s8 *append_typed_formatted_value();
 extern s32 allocate_panel_offset_or_zero(void);
 extern void update_fading_effect_scale(void *effect, s32 unused, void *render_arg);
 extern s32 transform_linked_quad_batches(u8 *, s32, u8 *);
@@ -849,6 +850,7 @@ extern s32 transform_linked_quad_batches(u8 *, s32, u8 *);
 void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact, u16 flags) {
     u16 saved_flags;
     S_800B1B10_4 *owner_held = owner;
+    DungeonItemEntry *item = owner;
     s32 a_held = value_a;
     s32 b_held = value_b;
     s32 style_held = style;
@@ -913,7 +915,7 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
                 ((S_800B1B10_0 *)obj)->unk_58 = color_v0;
             }
             value_4 = get_unused_text_buffer();
-            *append_typed_formatted_value(owner_held, value_4) = 0;
+            *append_typed_formatted_value(item, value_4) = 0;
             value_5 = decode_fullwidth_text((void *) b_held, value_4, 0);
             {
                 s32 mask_v1;

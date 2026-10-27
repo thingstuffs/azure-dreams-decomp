@@ -18,7 +18,7 @@ extern void clear_slot_and_update_linked_state(DungeonItemEntry *slot);
 extern void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 extern u8 * expand_text_control_codes(const u8 *src, u8 *dst);
 extern u8 * clear_byte_and_advance(u8 *byte_ptr);
-extern u8 * append_typed_formatted_value();
+extern u8 *append_typed_formatted_value(DungeonItemEntry *data, u8 *buffer);
 extern s32 display_formatted_context_message(); /* Unprototyped: one or three arguments; retail retains only the text context. */
 extern void * copy_fullwidth_vowel_bytes();
 extern void * append_value_seven_suffix(u8 *dst);
@@ -38,7 +38,7 @@ extern u8 D_800E116E[];
 /* Applies an action to a target or held item and updates the action counter. */
 s32 dispatch_selected_item_action(u32 target, DungeonItemEntry *action, s16 action_kind, s32 context) {
     ActorRecord *state;
-    u8 *item;
+    DungeonItemEntry *item;
     void *action_value;
     register void *value;
     u32 choice_index;
@@ -66,7 +66,7 @@ s32 dispatch_selected_item_action(u32 target, DungeonItemEntry *action, s16 acti
             return 1;
         }
     } else {
-        item = ((u8 *)state->unk_4C);
+        item = state->unk_4C;
         if (item != 0) {
             if (!(action->unk_03 & 0x20)) {
                 ((PlayerRecord *)state)->unk_114 = 0x202080;
@@ -77,12 +77,12 @@ s32 dispatch_selected_item_action(u32 target, DungeonItemEntry *action, s16 acti
 
             action_value = get_unused_text_buffer();
             value = action_value;
-            item_type = item[1];
-            if (item_type == ITEM_KIND_SWORD || (item_type == ITEM_KIND_WAND && item[0] == ITEM_TRAINED_WAND)) {
-                if (!(item[3] & 0x40)) {
+            item_type = item->kind;
+            if (item_type == ITEM_KIND_SWORD || (item_type == ITEM_KIND_WAND && item->unk_00 == ITEM_TRAINED_WAND)) {
+                if (!(item->unk_03 & 0x40)) {
                     value = apply_type_based_entry_adjustments(item, action_value);
-                    if ((s8)item[2] < 0x63) {
-                        item[2] = (u8)(item[2] + 1);
+                    if ((s8)item->unk_02 < 0x63) {
+                        item->unk_02 = (u8)(item->unk_02 + 1);
                     }
                     value = append_value_seven_suffix(expand_text_control_codes(D_800E110B, value));
                     choice_index = value - 2;

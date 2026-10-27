@@ -85,7 +85,7 @@ s32 begin_view_parameter_transition(s32 unused, s32 request_id, s32 request_valu
 
 /* Moves an animated sprite along its heading with decreasing speed and a fixed vertical step until its
    duration ends. */
-void advance_motion_counters_position_set_completion_flags_past_lifetime(void *motion, void *position, s32 update_context)
+void advance_motion_counters_position_set_completion_flags_past_lifetime(void *motion, void *position, void *update_context)
 {
     s32 y_step;
     void *motion_state;

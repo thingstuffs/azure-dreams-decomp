@@ -42,7 +42,7 @@ extern u8 actor_attack_frames[];
 extern u8 player_put_down_frames[];
 extern u8 active_actor_command_code[];
 
-extern void set_sprite_animation_frame();
+#include "engine/graphics.h"
 
 extern void check_tile_entry_at_adjusted_height();
 extern void process_unflagged_linked_entries(s32 firstEntryBase);
@@ -52,7 +52,7 @@ extern s16 classify_adjacent_tile_height();
 extern void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
 
 /* Update movement state, position, and animation from the movement result. */
-void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec *actor) {
+void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, SpriteFrameState *sprite, EntityRec *actor) {
     GameWork *dungeon_state = &g_game_work;
     u8 *alt_anim;
     u16 *flags;
@@ -68,17 +68,17 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
                                 actor->unk_88, 0x20);
     if (move_result > 0) {
         move_state->unk_9B = 0;
-        update_map_cell_flags_with_item_limit(sprite->unk_24, sprite->unk_25, 0x300);
+        update_map_cell_flags_with_item_limit(sprite->tile_x, sprite->tile_y, 0x300);
         direction_index = ((u16)actor->facing >> 8) & 0xE;
         {
-            u8 x = sprite->unk_24;
+            u8 x = sprite->tile_x;
             u8 *movement_x = ((u8 *)dir_step_x);
             x = (u8)(x + movement_x[direction_index]);
-            sprite->unk_24 = x;
+            sprite->tile_x = x;
         }
-        sprite->unk_25 =
-            (u8)(sprite->unk_25 + ((u8 *)dir_step_y)[direction_index]);
-        cycle_map_cell_flags(sprite->unk_24, sprite->unk_25, 0x300);
+        sprite->tile_y =
+            (u8)(sprite->tile_y + ((u8 *)dir_step_y)[direction_index]);
+        cycle_map_cell_flags(sprite->tile_x, sprite->tile_y, 0x300);
         flags = g_dungeon_status;
         flags[1] |= 8;
         move_state->unk_8C.s = 0;
@@ -89,8 +89,8 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
                  ((move_state->unk_A2 & 0x100) == 0) &&
                  check_action_available_without_nearby_actor())) {
                 flags[1] |= 0x80;
-                if (sprite->unk_2C.as_pu8 != player_move_frames) {
-                    sprite->unk_2C.as_pu8 = player_move_frames;
+                if (sprite->frameTable != player_move_frames) {
+                    sprite->frameTable = player_move_frames;
                     set_sprite_animation_frame(
                         sprite,
                         player_move_frames[((s32)(dungeon_state->view.camera_rotation.parts.viewAngle +
@@ -106,10 +106,10 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
             process_unflagged_linked_entries(actor->unk_5C);
             if (!(check_flags[1] & 0x80) &&
                 ((active_actor_command_code[0] == 8) || (active_actor_command_code[0] == 0))) {
-                if (sprite->unk_2C.as_pu8 != player_push_start_frames) {
+                if (sprite->frameTable != player_push_start_frames) {
                     void *anim_sprite;
                     anim_sprite = sprite;
-                    sprite->unk_2C.as_pu8 = player_push_start_frames;
+                    sprite->frameTable = player_push_start_frames;
                     set_sprite_animation_frame(
                         anim_sprite,
                         player_push_start_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle +
@@ -128,11 +128,11 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
             }
             check_tile_entry_at_adjusted_height(move_state, actor_id, sprite, actor);
             D_80083464[0] = 8;
-            if (sprite->unk_2C.as_pu8 == player_push_start_frames) {
-                sprite->unk_14.at00_u16.v |= 0x6000;
+            if (sprite->frameTable == player_push_start_frames) {
+                sprite->flags |= 0x6000;
                 update_player_height_step(move_state, actor_id, sprite, actor);
             } else {
-                sprite->unk_2C.as_pu8 = actor_attack_frames;
+                sprite->frameTable = actor_attack_frames;
                 set_sprite_animation_frame(
                     sprite,
                     actor_attack_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing +
@@ -189,7 +189,7 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
     }
 
     if (active_actor_command_code[0] == 0xF0) {
-        if (sprite->unk_2C.as_pu8 == player_move_frames) {
+        if (sprite->frameTable == player_move_frames) {
             flags_2[2] = (s16)flags_2[2] >> 1;
             return;
         }
@@ -212,11 +212,11 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
         alt_anim = player_push_start_frames + 8;
         move_state->unk_A2 |= 0x100;
         flags_2[5]++;
-        if (sprite->unk_2C.as_pu8 == alt_anim) {
+        if (sprite->frameTable == alt_anim) {
             flags_2[2] = (s16)flags_2[2] >> 1;
             return;
         }
-        sprite->unk_2C.as_pu8 = alt_anim;
+        sprite->frameTable = alt_anim;
         set_sprite_animation_frame(
             sprite,
             alt_anim[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing +
@@ -227,37 +227,37 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
     }
 
     if (active_actor_command_code[0] == 0xE8) {
-        sprite->unk_2C.as_pu8 = player_damage_frames;
+        sprite->frameTable = player_damage_frames;
         set_sprite_animation_frame(
             sprite,
             player_damage_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing +
                               0x100) >> 9) & 7],
             1, 1);
-        update_map_cell_flags_with_item_limit(sprite->unk_24, sprite->unk_25, 0x300);
+        update_map_cell_flags_with_item_limit(sprite->tile_x, sprite->tile_y, 0x300);
         direction_index = ((u16)actor->facing >> 8) & 0xE;
-        sprite->unk_24 -= ((s16 *)(void *)((u8 *)dir_step_x))[direction_index / 2] * 2;
-        sprite->unk_25 -= ((s16 *)(void *)((u8 *)dir_step_y))[direction_index / 2] * 2;
-        cycle_map_cell_flags(sprite->unk_24, sprite->unk_25, 0x300);
+        sprite->tile_x -= ((s16 *)(void *)((u8 *)dir_step_x))[direction_index / 2] * 2;
+        sprite->tile_y -= ((s16 *)(void *)((u8 *)dir_step_y))[direction_index / 2] * 2;
+        cycle_map_cell_flags(sprite->tile_x, sprite->tile_y, 0x300);
         flags_2[2] = (s16)flags_2[2] >> 1;
         return;
     }
 
     if (active_actor_command_code[0] == 0xE0) {
-        sprite->unk_2C.as_pu8 = player_put_down_frames;
+        sprite->frameTable = player_put_down_frames;
         set_sprite_animation_frame(
             sprite,
             player_put_down_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing +
                               0x100) >> 9) & 7],
             1, 1);
-        update_map_cell_flags_with_item_limit(sprite->unk_24, sprite->unk_25, 0x300);
+        update_map_cell_flags_with_item_limit(sprite->tile_x, sprite->tile_y, 0x300);
         direction_index = ((u16)actor->facing >> 8) & 0xE;
         {
-            u8 x = sprite->unk_24;
+            u8 x = sprite->tile_x;
             u8 *movement_x = ((u8 *)dir_step_x);
             x = (u8)(x - movement_x[direction_index]);
-            sprite->unk_24 = x;
+            sprite->tile_x = x;
         }
-        sprite->unk_25 -= ((u8 *)dir_step_y)[direction_index];
-        cycle_map_cell_flags(sprite->unk_24, sprite->unk_25, 0x300);
+        sprite->tile_y -= ((u8 *)dir_step_y)[direction_index];
+        cycle_map_cell_flags(sprite->tile_x, sprite->tile_y, 0x300);
     }
 }

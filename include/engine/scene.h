@@ -17,7 +17,7 @@ struct S_80041E28_Src;
 struct S_800422DC_Other;
 struct S_800422DC_Self;
 struct S_80043FD0;
-struct S_8004CAE8;
+struct SpriteAttachment;
 struct S_800510A0;
 struct S_80051164;
 struct Task;
@@ -127,8 +127,8 @@ void reset_game_state_preserving_session_fields(void);
 void reset_runtime_slot_state(void);
 
 /* resolve_record_orientation_or_fallback.c */
-struct S_8004CAE8 *func_8003DE58(struct S_8004CAE8 *records, struct SpriteFrameState *actor, GteShortVector *out_vec, s16 record_id);
-struct S_8004CAE8 *resolve_record_orientation_or_fallback(struct S_8004CAE8 *records, struct SpriteFrameState *actor, GteShortVector *out_vec, s16 record_id);
+struct SpriteAttachment *func_8003DE58(struct SpriteAttachment *records, struct SpriteFrameState *actor, GteShortVector *out_vec, s16 record_id);
+struct SpriteAttachment *resolve_record_orientation_or_fallback(struct SpriteAttachment *records, struct SpriteFrameState *actor, GteShortVector *out_vec, s16 record_id);
 
 /* restore_actor_stats_from_snapshot.c */
 void restore_actor_stats_from_snapshot(struct S_80041E28_Dst *dst, struct S_80041E28_Src *src);

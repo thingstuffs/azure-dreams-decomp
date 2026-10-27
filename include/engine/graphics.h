@@ -25,7 +25,12 @@ struct S_80047694;
 struct S_80047784;
 struct S_800482C8_Entry;
 struct S_8004C010;
-struct S_8004CAE8;
+typedef struct SpriteAttachment {
+    /* 0x0 */ u8 flags;   /* bit 0x20 = enabled/active entry, bit 0x80 = last entry */
+    /* 0x1 */ u8 pad1[5];
+    /* 0x6 */ u16 id;
+    /* 0x8 */ u8 pad2[4];
+} SpriteAttachment; /* size 0xC (12) */
 struct S_8004CC38_Node;
 struct S_80050550_Outer;
 struct S_800505BC;
@@ -124,7 +129,7 @@ void *func_800508F0(struct S_800508F0 *entry, u8 *template);
 void fill_vram_rect(s16 x, s16 y, s16 width, s16 height, u8 red, u8 green, u8 blue);
 
 /* find_flagged_record_by_id.c */
-struct S_8004CAE8 *find_flagged_record_by_id(struct S_8004CAE8 *entry, u32 target_id);
+struct SpriteAttachment *find_flagged_record_by_id(struct SpriteAttachment *entry, u32 target_id);
 
 /* get_glyph_vram_rectangle.c */
 void move_glyph_to_grid_position(u8 *image_code, s16 grid_x, s16 grid_y, s32 spacing, s16 base_x, s16 base_y);

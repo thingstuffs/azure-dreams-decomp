@@ -1,3 +1,4 @@
+#include "engine/node/allocation.h"
 #ifndef DUNGEON_EFFECT_EXPIRING_SPRITE_EFFECT_G00370_H
 #define DUNGEON_EFFECT_EXPIRING_SPRITE_EFFECT_G00370_H
 /* Expiring sprite effect shared declarations. */
@@ -86,13 +87,12 @@ typedef struct S_800D6C18_3 {
 } S_800D6C18_3;
 
 /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in create_offset_sprite_effect */
-extern void *allocate_list_node();
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern M2C_UNK D_800D6804[3];
 extern M2C_UNK D_800D68F4[3];
 
 /* Functions defined in this translation unit. */
-void create_offset_sprite_effect(EntityRec *parent, s32 state_value, s16 x_offset, s16 y_offset, s32 z_offset, s32 motion_scale);
+void create_offset_sprite_effect(ObjectNodeHeader *parent, s32 state_value, s16 x_offset, s16 y_offset, s32 z_offset, s32 motion_scale);
 void update_expiring_sprite_effect(void *effect, S_800D6C18_2 *size_state);
 
 #endif

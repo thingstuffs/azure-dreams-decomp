@@ -36,10 +36,7 @@ typedef struct EffectFrame {
         struct { s16 pad28; s16 z; } half;
     } target_z;         /* 0x28 */
     u8 pad2C[12];
-    s16 launch_x;       /* 0x38 */
-    s16 launch_y;
-    s16 launch_z;
-    s16 pad3E;
+    GteShortVector launch; /* 0x38 */
     ParticleSpec spec;  /* 0x40 */
     u8 pad5C[4];
     s16 vel_x;          /* 0x60 */
@@ -134,21 +131,21 @@ void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
     case 0:
         if (*(*(u16 **)&((EntityRec *)effect)->y) & 0x80) {
             target_x = owner_object->unk_0C;
-            if (resolve_record_orientation_or_fallback(*(s32 *)&target_x->source, target_x, &frame.launch_x, 0) == 0) {
-                frame.launch_y = 0;
-                frame.launch_x = 0;
+            if (resolve_record_orientation_or_fallback(target_x->source, target_x, &frame.launch, 0) == 0) {
+                frame.launch.vy = 0;
+                frame.launch.vx = 0;
                 height_offset = 0;
                 if (owner_sprite->flags & 0x8000) {
                     height_offset = -0x30;
                 }
-                frame.launch_z = height_offset;
+                frame.launch.vz = height_offset;
             }
             ((S_8182C800_5 *)motion)->unk_00.at00.v = (s32) (((ObjectPosition *)owner_object->unk_08)->x.v
-                + (frame.launch_x << 0x10));
+                + (frame.launch.vx << 0x10));
             ((S_8182C800_5 *)motion)->unk_04.at00.v = (s32) (((ObjectPosition *)owner_object->unk_08)->y.v
-                + (frame.launch_y << 0x10));
+                + (frame.launch.vy << 0x10));
             ((S_8182C800_5 *)motion)->unk_08 = (s32) (((ObjectPosition *)owner_object->unk_08)->z.v
-                + (frame.launch_z << 0x10));
+                + (frame.launch.vz << 0x10));
             object = effect - 0x20;
             register_node(object, project_sprite_chain);
             ((S_8182C800_6 *)sprite_or_step_x)->unk_1E = 0x1000;

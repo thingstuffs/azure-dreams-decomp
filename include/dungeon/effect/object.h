@@ -3,7 +3,8 @@
 
 /* Function contracts owned by src/dungeon/effect/object/ (decision 74; maintained by tools/headers). */
 #include "common.h"
-void allocate_payload_object(s32 allocationKey, s32 payloadValue, s16 payloadShortValue);
+#include "shared/object_node.h"
+void allocate_payload_object(ObjectNodeHeader *owner, s32 payloadValue, s16 payloadShortValue);
 
 
 #endif

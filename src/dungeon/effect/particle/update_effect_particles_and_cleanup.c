@@ -1,3 +1,4 @@
+#include "engine/scene.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/audio_commands.h"
 #include "shared/object_node.h"
@@ -35,7 +36,6 @@ typedef union {
 /* cfail-repair: tf7-phase1-cache-v3 */
 void apply_random_actor_value_adjustment(struct Row_818FE800_Target *target, s32 level, void *record);          /* extern */
 void create_owner_linked_mirrored_sprite(); /* extern */
-s32 resolve_record_orientation_or_fallback();     /* extern */
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 s16 check_adjacent_tile_height_clearance(u16 x, u16 y, s32 z, void *skip_check);           /* extern */
 void draw_transformed_sprite_with_clip_rect(); /* extern */
@@ -314,7 +314,7 @@ typedef struct ParticleCleanupWork {
 
 /* Updates an effect's movement, particles, target effects, and cleanup state. */
 void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *motion, void *sprite) {
-    u16 offset[3];
+    GteShortVector offset;
     Local28 texture_rect;
     Local38 direction_steps;
     void *particle_owner;
@@ -352,7 +352,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
     MovingTile *origin;
     S_818FF710_12 *hit_target;
     S_818FF710_28 *released_target;
-    S_818FF710_4 *parent_sprite;
+    SpriteFrameState *parent_sprite;
     void *target_pos_or_step;
     void *sprite_resource;
     S_818FF710_0 *parent_object;
@@ -392,7 +392,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
         effect->state = (s16) ((u16) effect->state + 1);
     case 1:
         parent_sprite = parent_object->unk_0C;
-        if (resolve_record_orientation_or_fallback(parent_sprite->unk_08, parent_sprite, &offset[0], 0) == 0
+        if (resolve_record_orientation_or_fallback(parent_sprite->source, parent_sprite, &offset, 0) == 0
             && !(((S_818FF710_30 *)(parent_object->unk_0C))->unk_14 & 0x8000)) {
             return;
         }
@@ -401,9 +401,9 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
         parent_height = parent_position->z;
         ((S_818FF710_5 *)motion)->unk_08.at02.v = parent_height;
         if (!(((S_818FF710_30 *)(parent_object->unk_0C))->unk_14 & 0x8000)) {
-            ((S_818FF710_5 *)motion)->unk_00.at02.v = (u16) (((S_818FF710_5 *)motion)->unk_00.at02.v + offset[0]);
-            ((S_818FF710_5 *)motion)->unk_04.at02.v = (u16) (((S_818FF710_5 *)motion)->unk_04.at02.v + offset[1]);
-            ((S_818FF710_5 *)motion)->unk_08.at02.v = (u16) (((S_818FF710_5 *)motion)->unk_08.at02.v + offset[2]);
+            ((S_818FF710_5 *)motion)->unk_00.at02.v = (u16) (((S_818FF710_5 *)motion)->unk_00.at02.v + ((u16)offset.vx));
+            ((S_818FF710_5 *)motion)->unk_04.at02.v = (u16) (((S_818FF710_5 *)motion)->unk_04.at02.v + ((u16)offset.vy));
+            ((S_818FF710_5 *)motion)->unk_08.at02.v = (u16) (((S_818FF710_5 *)motion)->unk_08.at02.v + ((u16)offset.vz));
         } else {
             ((S_818FF710_5 *)motion)->unk_08.at02.v = (u16) (parent_height - 0x40);
         }

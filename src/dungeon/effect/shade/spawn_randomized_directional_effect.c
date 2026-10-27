@@ -56,7 +56,7 @@ typedef struct S_800D5DCC_7 {
 
    /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in spawn_randomized_directional_effect */
 
-extern void *allocate_list_node();
+#include "engine/node/allocation.h"
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 extern u8 D_800D5AC0[];
@@ -64,7 +64,7 @@ extern u8 D_800D5AC0[];
 extern s16 actor_direction_step_pairs[];
 
 /* Spawn an effect offset from the source with randomized directional velocity. */
-void spawn_randomized_directional_effect(EntityRec *source, s16 angle, s32 effect_value)
+void spawn_randomized_directional_effect(ObjectNodeHeader *source, s16 angle, s32 effect_value)
 {
     ObjectPosition *pos_x;
     ObjectPosition *pos_y;
@@ -74,15 +74,15 @@ void spawn_randomized_directional_effect(EntityRec *source, s16 angle, s32 effec
     S_800D5DCC_7 *effect_state;
     ObjectNodeHeader *effect;
 
-    effect = allocate_list_node(0x211, source);
+    effect = allocate_list_node(0x211, &source->next);
     if (effect != NULL) {
         effect->update_callback = advance_damped_effect_and_expire;
         (effect->position)->x.w.i =
-            ((MovingPosition *)((*(void * *)&source->z)))->x;
+            (u16)source->position->x.w.i;
         (effect->position)->y.w.i =
-            ((MovingPosition *)((*(void * *)&source->z)))->y;
+            (u16)source->position->y.w.i;
         (effect->position)->z.w.i =
-            ((MovingPosition *)((*(void * *)&source->z)))->z - 0x14;
+            (u16)source->position->z.w.i - 0x14;
         direction = ((angle >> 7) & 0x1C) + (u8 *)actor_direction_step_pairs;
         pos_x = effect->position;
         pos_x->x.w.i = (u16)pos_x->x.w.i + (direction->unk_00 * 0x10);

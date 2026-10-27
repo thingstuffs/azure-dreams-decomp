@@ -1,3 +1,5 @@
+#include "engine/scene.h"
+#include "shared/sprite_frame_state.h"
 #ifndef DUNGEON_OVL_184C800_H
 #define DUNGEON_OVL_184C800_H
 #include "common.h"
@@ -233,7 +235,6 @@ typedef struct {
 extern u8 directional_effect_entries[];
 extern u8 directional_sprite_entries[];
 extern s32 D_800DEB70;
-s32 resolve_record_orientation_or_fallback();
 s32 rand(void);
 void apply_attack_power_and_element_effects();
 void *scan_actor_along_heading();

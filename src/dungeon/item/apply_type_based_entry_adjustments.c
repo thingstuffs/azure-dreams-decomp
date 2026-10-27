@@ -2,14 +2,14 @@
 #include "shared/record_ptrs.h"
 #include "dungeon/item.h"
 #define F(p,t,o) (*(t *)((u8 *)(p) + (o)))
-extern u8 *expand_text_control_codes();
-extern s32 copy_selected_text_without_terminator();
-extern s32 item_type_text_prefixes[];
-extern s32 item_type_text_suffixes[];
+#include "dungeon/item/message.h"
+extern u8 *item_type_text_prefixes[];
+extern u8 *item_type_text_suffixes[];
 /* Applies eligible type-based adjustments before and after processing an entry. */
-s32 apply_type_based_entry_adjustments(void *entry, s32 value) {
+u8 *apply_type_based_entry_adjustments(void *entry, u8 *value) {
     u8 pre_type;
-    s32 post_type, pre_adjustment, post_adjustment, result;
+    s32 post_type;
+    u8 *pre_adjustment, *post_adjustment, *result;
     if (!(F(((u8 *)dungeon_actor_ring_anchor), s32, 0x1C) & 0x10)) {
         pre_type = F(entry, u8, 1);
         pre_adjustment = item_type_text_prefixes[pre_type];

@@ -3,7 +3,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
-void set_sprite_animation_frame();
+#include "engine/graphics.h"
 s32 collect_ground_item();
 void process_unflagged_linked_entries(s32 firstEntryBase);
 void process_unflagged_linked_entries_alt(s32 firstNodeBase);
@@ -14,10 +14,10 @@ extern u8 player_landing_frame_set[];
 extern u8 player_throw_frame_set[];
 
 /* Updates timed movement and directional animation, then selects the next handler. */
-void update_carrying_player_step(u8 *entity_in, ObjectPosition *motion_in, u16 *sprite_in, s32 *actor_in) {
+void update_carrying_player_step(u8 *entity_in, ObjectPosition *motion_in, SpriteFrameState *sprite_in, s32 *actor_in) {
     u8 *entity = entity_in;
     ObjectPosition *motion = motion_in;
-    u16 *sprite = sprite_in;
+    SpriteFrameState *sprite = sprite_in;
     s32 *actor = actor_in;
     s32 vertical_speed;
     u8 phase;

@@ -5,8 +5,9 @@
 #include "common.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_item_entries.h"
-void create_familiar_deployment_effect_with_owner_state(s32 priority, EntityRec *source_pos, Rec_D_80082E80 *owner);
+void create_familiar_deployment_effect_with_owner_state(void *owner_body, EntityRec *source_pos, SpriteFrameState *owner);
 void enter_directional_state_17(void *state, void *unused, void *animation, void *orientation);
 
 

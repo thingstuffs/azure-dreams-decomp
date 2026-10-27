@@ -1,3 +1,6 @@
+#include "dungeon/item.h"
+s32 display_text_with_fullwidth_adjustment(s8 *text);
+#include "dungeon/item/message.h"
 #include "shared/actor_status_ids.h"
 #include "sdk/libgte.h"
 #include "shared/actor_status_flags.h"
@@ -732,7 +735,7 @@ s32 draw_fullscreen_grayscale_quad(Input *input) {
     return 0;
 }
 #include "shared/object_node.h"
-#include "modules/dungeon_engine_dungeon_util_fragment_c0bec.h"
+
 #include "common.h"
 #include "m2c_compat.h"
 
@@ -767,14 +770,10 @@ void *create_fullscreen_quad_updater(s16 initialValue) {
     }
     return object;
 }
-#include "modules/dungeon_engine_dungeon_util_fragment_c0bec.h"
+
 #include "common.h"
 #include "m2c_compat.h"
 
-s32 expand_text_control_codes();                  /* extern */
-s32 append_typed_formatted_value();                    /* extern */
-s32 append_entity_display_text();                        /* extern */
-s32 write_status_prefix_bytes();                             /* extern */
 extern u8 fullwidth_period[];
 extern u8 D_800E0A03[];
 extern u8 D_800E0A12[];
@@ -791,16 +790,12 @@ void display_item_status_message(void *entity, struct DungeonItemEntry *item, s3
     } else {
         text_end = expand_text_control_codes(D_800E0A12, append_typed_formatted_value(item, message));
     }
-    clear_byte_and_advance(write_status_prefix_bytes(expand_text_control_codes(&fullwidth_period, append_entity_display_text(entity, text_end))));
+    clear_byte_and_advance(write_status_prefix_bytes(expand_text_control_codes(fullwidth_period, append_entity_display_text(entity, text_end))));
     display_text_with_fullwidth_adjustment(message);
 }
-#include "modules/dungeon_engine_dungeon_util_fragment_c0bec.h"
+
 #include "common.h"
 
-extern s32 expand_text_control_codes(u8 *src, u8 *dst);
-extern s32 append_typed_formatted_value(void *data, s32 buffer);
-extern s32 append_entity_display_text(void *record, u8 *out);
-extern s32 write_status_prefix_bytes(s32 dst);
 extern u8 fullwidth_period[];
 extern u8 D_800E0A1B[];
 
@@ -816,7 +811,7 @@ void display_actor_item_status_message(void *actor, struct DungeonItemEntry *ite
         append_entity_display_text(actor, expand_text_control_codes(D_800E0A1B, current_value)))));
     display_text_with_fullwidth_adjustment(original_value);
 }
-#include "modules/dungeon_engine_dungeon_util_fragment_c0bec.h"
+
 #include "common.h"
 #include "m2c_compat.h"
 
@@ -828,7 +823,7 @@ extern u8 D_800E092B[];
 void display_fixed_item_action_message(void) {
     display_formatted_context_message(&D_800E092B);
 }
-#include "modules/dungeon_engine_dungeon_util_fragment_c0bec.h"
+
 #include "common.h"
 
 extern s32 get_entity_effect_value(void *, s32);

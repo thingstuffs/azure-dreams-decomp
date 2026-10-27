@@ -173,7 +173,7 @@ set_effect_scale:
                 name_text = item_action_definitions[effect_id].normal_name;
                 message = expand_text_control_codes(name_text, message);
             }
-            clear_byte_and_advance(expand_text_control_codes(&D_80089080, message));
+            clear_byte_and_advance(expand_text_control_codes(D_80089080, message));
             display_text_with_fullwidth_adjustment(new_text_context);
             return effect;
         }

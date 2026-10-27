@@ -8,7 +8,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "engine/graphics.h"
 
-void *allocate_list_node();                  /* extern */
+#include "engine/node/allocation.h"                  /* extern */
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 extern void dungeon_familiar_deploy_update_address();
 
@@ -24,20 +24,21 @@ typedef struct S_80093D8C_0 {
 } S_80093D8C_0;
 
 /* Create a sprite effect at the supplied position and attach it to its owner. */
-void create_familiar_deployment_overlay(s32 sort_order, EntityRec *source_pos, Rec_D_80082E80 *owner) {
+void create_familiar_deployment_overlay(void *owner_body, EntityRec *source_pos, SpriteFrameState *owner) {
+    ObjectNodeHeader *owner_node = owner_body - 0x20;
     SpriteFrameState *sprite;
     S_80093D8C_0 *effect;
     MovingPosition *position;
 
-    effect = allocate_list_node(0x310, sort_order - 0x20);
+    effect = allocate_list_node(0x310, &owner_node->next);
     if (effect != NULL) {
         position = effect->unk_08;
         effect->unk_10 = &dungeon_familiar_deploy_update_address;
-        position->x = (u16) ((u16)source_pos->x.w.i);
-        position->y = (u16) ((u16)source_pos->y.w.i);
-        position->z = (u16) ((u16)source_pos->z.w.i);
+        position->x = (u16)source_pos->x.w.i;
+        position->y = (u16)source_pos->y.w.i;
+        position->z = (u16)source_pos->z.w.i;
         sprite = effect->unk_0C;
-        sprite->animation_resource = (s32) owner->unk_28.at00_s32.v;
+        sprite->animation_resource = owner->animation_resource;
         sprite->scale_y = 0x1000;
         sprite->flags = 0xCU;
         sprite->tpage_abr = 0x20;
