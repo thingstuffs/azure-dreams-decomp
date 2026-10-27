@@ -1,0 +1,93 @@
+{
+  "schema": "town-runtime-pointer-identity.v1",
+  "canonical_row": "town/func_806D2898",
+  "canonical_source": "src/town/scene/hooks/point_shared_buffer_at_data_e.c",
+  "placements": [
+    {
+      "caller": "town/func_8094DAF4",
+      "image": "town/ll34_8cd000_80016000",
+      "source_symbol": "func_80016098",
+      "bound_target": "0x8001601c",
+      "callee_foff": "0x8cd01c",
+      "bytes": 24,
+      "callee_sha256": "ee85525c587191e5cb1ef9a17f298b0e2de9e8d0230c765a7e3dbcbe837cf1de",
+      "source_address": "0x80016038",
+      "destination_address": "0x80016d08",
+      "same_operations_and_registers": true
+    },
+    {
+      "caller": "town/func_8094EAF4",
+      "image": "town/ll34_8ce000_80016000",
+      "source_symbol": "func_80016098",
+      "bound_target": "0x8001601c",
+      "callee_foff": "0x8ce01c",
+      "bytes": 24,
+      "callee_sha256": "ee85525c587191e5cb1ef9a17f298b0e2de9e8d0230c765a7e3dbcbe837cf1de",
+      "source_address": "0x80016038",
+      "destination_address": "0x80016d08",
+      "same_operations_and_registers": true
+    },
+    {
+      "caller": "town/func_8094FAF0",
+      "image": "town/ll34_8cf000_80016000",
+      "source_symbol": "func_80016098",
+      "bound_target": "0x8001601c",
+      "callee_foff": "0x8cf01c",
+      "bytes": 24,
+      "callee_sha256": "3d4a71c8cb595977fb002f87000017536e6fe8af3148e265ec97a9854c353c03",
+      "source_address": "0x80016034",
+      "destination_address": "0x80016d08",
+      "same_operations_and_registers": true
+    },
+    {
+      "caller": "town/func_80950AF0",
+      "image": "town/ll34_8d0000_80016000",
+      "source_symbol": "func_80016098",
+      "bound_target": "0x8001601c",
+      "callee_foff": "0x8d001c",
+      "bytes": 24,
+      "callee_sha256": "3d4a71c8cb595977fb002f87000017536e6fe8af3148e265ec97a9854c353c03",
+      "source_address": "0x80016034",
+      "destination_address": "0x80016d08",
+      "same_operations_and_registers": true
+    },
+    {
+      "caller": "town/func_80951AF0",
+      "image": "town/ll34_8d1000_80016000",
+      "source_symbol": "func_80016098",
+      "bound_target": "0x8001601c",
+      "callee_foff": "0x8d101c",
+      "bytes": 24,
+      "callee_sha256": "3d4a71c8cb595977fb002f87000017536e6fe8af3148e265ec97a9854c353c03",
+      "source_address": "0x80016034",
+      "destination_address": "0x80016d08",
+      "same_operations_and_registers": true
+    },
+    {
+      "caller": "town/func_80952BB4",
+      "image": "town/ll34_8d2000_80016000",
+      "source_symbol": "func_80016098",
+      "bound_target": "0x8001612c",
+      "callee_foff": "0x8d212c",
+      "bytes": 24,
+      "callee_sha256": "be67174fec5a9ecc5c09ec1912328ed32a5c03b13c5e295dd4750fab2a697df6",
+      "source_address": "0x80016094",
+      "destination_address": "0x80016dc8",
+      "same_operations_and_registers": true
+    },
+    {
+      "caller": "town/func_806D3434",
+      "image": "town/ll3a_652d10_6535dc",
+      "source_symbol": "func_80016098",
+      "bound_target": "0x80016098",
+      "callee_foff": "0x652898",
+      "bytes": 24,
+      "callee_sha256": "6dba499ecc936e3fcd752ce748833f3b2f06159a51130464b93cf63e5a024e2f",
+      "source_address": "0x800160d0",
+      "destination_address": "0x80016e40",
+      "same_operations_and_registers": true
+    }
+  ],
+  "method": "Follow each existing linker binding, then compare all six instructions through jr ra and its delay slot. Only the four address immediates differ. Every body materialises one global address, stores it to another global, and returns without consuming an argument. No new row or link binding is created.",
+  "qualification": "Signature identity across the seven caller placements; no load or execution claim for the one-sector images."
+}

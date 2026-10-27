@@ -1,0 +1,97 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "town/ll34_7ff000_80700000",
+  "container": "town",
+  "foff": "0x7ff000",
+  "size": "0x1800",
+  "vma": "0x80700000",
+  "evidence": "docs/evidence/town_prototypes_run7/diagnostic_views.json; linked base only; retail load/execution not established",
+  "load_evidence": {
+    "path": "ledger/instance_load_regions.jsonl",
+    "record_sha256": "bf4391aaec1b756faacd51110fd706fad7aa61463d46fedfacf996fa178e2697"
+  },
+  "entries": [
+    {
+      "row": "town/func_8087FFD0",
+      "tu": "src/town/devkit/call_helper_fixed_id.c",
+      "home": "town/func_8087FFD0",
+      "foff": "0x7FFFD0",
+      "vma": "0x80700FD0",
+      "size": 32,
+      "evidence": "TU view gather: moved from town/ll34_7fffd0_80700fd0 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_8087FFF0",
+      "tu": "src/town/devkit/call_helper_fixed_id_b.c",
+      "home": "town/func_8087FFF0",
+      "foff": "0x7FFFF0",
+      "vma": "0x80700FF0",
+      "size": 32,
+      "evidence": "TU view gather: moved from town/ll34_7ffff0_80700ff0 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_80880010",
+      "tu": "src/town/devkit/call_helper_fixed_id_c.c",
+      "home": "town/func_80880010",
+      "foff": "0x800010",
+      "vma": "0x80701010",
+      "size": 32,
+      "evidence": "TU view gather: moved from town/ll34_800010_80701010 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_80880030",
+      "tu": "src/town/devkit/call_helper_fixed_id_d.c",
+      "home": "town/func_80880030",
+      "foff": "0x800030",
+      "vma": "0x80701030",
+      "size": 32,
+      "evidence": "TU view gather: moved from town/ll34_800030_80701030 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_80880050",
+      "tu": "src/town/devkit/call_helper_fixed_id_e.c",
+      "home": "town/func_80880050",
+      "foff": "0x800050",
+      "vma": "0x80701050",
+      "size": 32,
+      "evidence": "TU view gather: moved from town/ll34_800050_80701050 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_80880070",
+      "tu": "src/town/devkit/call_helper_fixed_id_f.c",
+      "home": "town/func_80880070",
+      "foff": "0x800070",
+      "vma": "0x80701070",
+      "size": 32,
+      "evidence": "TU view gather: moved from town/ll34_800070_80701070 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_80880090",
+      "tu": "src/town/shop/state/shop_set_indexed_flag.c",
+      "home": "town/func_80878670",
+      "foff": "0x800090",
+      "vma": "0x80701090",
+      "size": 80,
+      "bindings": {
+        "0x807030A4": "0x807013A0",
+        "0x80702670": "0x80701090",
+        "0x807026C0": "0x807026C0"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_800090_80701090 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_808800E0",
+      "tu": "src/town/shop/state/shop_clear_indexed_flag.c",
+      "home": "town/func_808786C0",
+      "foff": "0x8000E0",
+      "vma": "0x807010E0",
+      "size": 84,
+      "bindings": {
+        "0x807030A4": "0x807013A0",
+        "0x807026C0": "0x807010E0",
+        "0x80702670": "0x80702670"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_8000e0_807010e0 (same load delta) so the merged file's members share one view"
+    }
+  ]
+}

@@ -5,8 +5,8 @@
 extern void func_80034A1C(void *, ...);
 extern void func_8003EA54(void *);
 extern void func_80050D68(void *);
-extern s32 func_80058F88();
-extern s32 func_80071494();
+extern short func_80058F88(int flags);
+extern s32 func_80071494(); /* Unprototyped: JP identity rand(void); the surplus source arguments preserve the retail instruction stream. */
 extern void func_8023FA58(void *, void *, ...);
 extern void func_8023FB18(void *, ...);
 extern s32 func_80252550();

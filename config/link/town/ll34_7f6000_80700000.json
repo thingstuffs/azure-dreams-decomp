@@ -1,0 +1,96 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "town/ll34_7f6000_80700000",
+  "container": "town",
+  "foff": "0x7f6000",
+  "size": "0x3800",
+  "vma": "0x80700000",
+  "evidence": "docs/evidence/town_prototypes_run7/diagnostic_views.json; linked base only; retail load/execution not established",
+  "load_evidence": {
+    "path": "ledger/instance_load_regions.jsonl",
+    "record_sha256": "c699b5bde9634213c0bab50265ee40be364e5309cf98ab906a44ef35f631595c"
+  },
+  "entries": [
+    {
+      "row": "town/func_80878110",
+      "tu": "src/town/devkit/shop_skip_accepted_entries.c",
+      "home": "town/func_80878110",
+      "foff": "0x7F8110",
+      "vma": "0x80702110",
+      "size": 112,
+      "evidence": "TU view gather: moved from town/ll34_7f7fec_80701fec (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_80878180",
+      "tu": "src/town/devkit/state/shop_set_entry_step_flag.c",
+      "home": "town/func_80878180",
+      "foff": "0x7F8180",
+      "vma": "0x80702180",
+      "size": 72,
+      "evidence": "TU view gather: moved from town/ll34_7f7fec_80701fec (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_808781C8",
+      "tu": "src/town/devkit/shop_advance_entry_step.c",
+      "home": "town/func_808781C8",
+      "foff": "0x7F81C8",
+      "vma": "0x807021C8",
+      "size": 152,
+      "evidence": "TU view gather: moved from town/ll34_7f7fec_80701fec (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_80878260",
+      "tu": "src/town/devkit/shop_find_first_eligible_entry.c",
+      "home": "town/func_80878260",
+      "foff": "0x7F8260",
+      "vma": "0x80702260",
+      "size": 92,
+      "evidence": "TU view gather: moved from town/ll34_7f7fec_80701fec (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_808782BC",
+      "tu": "src/town/devkit/shop_process_entry_pairs.c",
+      "home": "town/func_808782BC",
+      "foff": "0x7F82BC",
+      "vma": "0x807022BC",
+      "size": 88,
+      "evidence": "TU view gather: moved from town/ll34_7f7fec_80701fec (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_807D8540",
+      "tu": "src/main/func_8000E904.c",
+      "home": "main/func_8000E904",
+      "foff": "0x7F8540",
+      "vma": "0x80702540",
+      "size": 8,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH; TU view gather: moved from town/ll34_7f7fec_80701fec (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_80878670",
+      "tu": "src/town/shop/state/shop_set_indexed_flag.c",
+      "home": "town/func_80878670",
+      "foff": "0x7F8670",
+      "vma": "0x80702670",
+      "size": 80,
+      "evidence": "TU view gather: moved from town/ll34_7f7fec_80701fec (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_808786C0",
+      "tu": "src/town/shop/state/shop_clear_indexed_flag.c",
+      "home": "town/func_808786C0",
+      "foff": "0x7F86C0",
+      "vma": "0x807026C0",
+      "size": 84,
+      "evidence": "TU view gather: moved from town/ll34_7f7fec_80701fec (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_80878714",
+      "tu": "src/town/shop/state/shop_test_indexed_flag.c",
+      "home": "town/func_80878714",
+      "foff": "0x7F8714",
+      "vma": "0x80702714",
+      "size": 96,
+      "evidence": "TU view gather: moved from town/ll34_7f7fec_80701fec (same load delta) so the merged file's members share one view"
+    }
+  ]
+}

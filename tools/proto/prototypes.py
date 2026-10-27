@@ -18,6 +18,7 @@ from bisect import bisect_right
 from collections import Counter, defaultdict
 from dataclasses import asdict, dataclass, replace
 import csv
+import hashlib
 import json
 from pathlib import Path
 import re
@@ -103,6 +104,7 @@ class Resolver:
         self.root, self.corpus, self.types, self.defs = root, corpus, types, definitions
         self.definition_keys, self.numeric_cache, self.site_address_cache = {}, {}, {}
         self.signature_cache = {}
+        self.member_import_cache = {}
         self.by_path = defaultdict(list)
         for ds in definitions.values():
             for d in ds:
@@ -228,6 +230,13 @@ class Resolver:
                         ds = owned
                 self.resident_addresses[int(match[1], 16)].extend(ds)
         self.row_cache, self.consumer_cache = {}, {}
+        self.identities = defaultdict(list)
+        identity_path = root / 'ledger/prototype_identities.jsonl'
+        if identity_path.exists():
+            for line in identity_path.read_text().splitlines():
+                record = json.loads(line)
+                self.identities[record['file'], record['symbol']].append(record)
+        self.identity_contracts = None
         self.address_witnesses = defaultdict(list)
         for image, (doc, entries) in self.images.items():
             for address, group in entries.items():
@@ -269,8 +278,11 @@ class Resolver:
         for tokens in parts:
             for _ in range(12):
                 expanded = []
-                for token in tokens:
-                    typedef = visible.get(token)
+                for index, token in enumerate(tokens):
+                    # Tags occupy a separate C namespace. In particular,
+                    # typedef struct Record Record must stop at the tag.
+                    tag = index > 0 and tokens[index - 1] in ('struct', 'union', 'enum')
+                    typedef = None if tag else visible.get(token)
                     if typedef is None:
                         expanded.append(token)
                     else:
@@ -393,6 +405,9 @@ class Resolver:
 
     def _numeric_in_tu(self, path, name, address):
         placements = self.callers.get(path, [])
+        users = [caller for caller in placements if self.caller_uses_symbol(path, caller[1], name)]
+        if users:
+            placements = users
         resolved, evidence = [], []
         for image, caller in placements:
             doc, entries = self.images[image]
@@ -472,6 +487,47 @@ class Resolver:
         d, why = self.common_contract(resolved)
         return d, ('placement_signature_conflict' if why else ''), ';'.join(sorted(set(evidence)))
 
+    def caller_uses_symbol(self, path, entry, name):
+        """An inline member's import does not belong to every sibling member.
+
+        Keep unknown/macro and file-scope uses conservative. Only exclude a
+        registered, uniquely identified function whose body omits the symbol.
+        """
+        definitions = self.row_definitions(entry)
+        if len(definitions) != 1 or definitions[0].path != path:
+            return True
+        pattern = r'\b' + re.escape(name) + r'\b'
+        key = path, name
+        if key not in self.member_import_cache:
+            uncertain = False
+            for rel in self.corpus.closure(path):
+                scan = self.corpus.scan(rel)
+                # A header macro, initializer or inline body can hide a use
+                # from the physical member body. Unknown includes can too.
+                unknown_include = any(d.kind == 'include' and (
+                    not d.arg.startswith('"') or
+                    not self.corpus.resolve_include(rel, d.arg.split('"')[1]))
+                    for d in scan.directives)
+                directives = re.sub(r'\\\r?\n', '', self.corpus.text(rel))
+                if unknown_include or re.search(r'(?m)^\s*#.*(?:' + pattern + r'|##)', directives):
+                    uncertain = True
+                    break
+                for item in scan.items:
+                    initializer = item.kind == 'decl' and '=' in item.text
+                    header_body = rel != path and item.kind == 'def'
+                    if (initializer or header_body) and re.search(pattern, scan.masked[item.start:item.end]):
+                        uncertain = True
+                        break
+                if uncertain:
+                    break
+            self.member_import_cache[key] = uncertain
+        if self.member_import_cache[key]:
+            return True
+        scan = self.corpus.scan(path)
+        bodies = [item for item in scan.items if item.kind == 'def'
+                  and any(d.name == definitions[0].name for d in item.decls)]
+        return len(bodies) != 1 or bool(re.search(pattern, scan.masked[bodies[0].body[0]:bodies[0].end]))
+
     def address_at_site(self, site, address):
         key = site.path, site.in_header, site.name, address
         if key not in self.site_address_cache:
@@ -512,6 +568,9 @@ class Resolver:
         return d, why or ('no_loading_image_or_resident_owner' if not d else ''), ';'.join(sorted(set(evidence)))
 
     def resolve(self, site):
+        records = self.identities.get((site.path, site.name), ())
+        if records:
+            return self.documented_identity(site, records)
         # Static prototypes refer only to their own TU, never another bank.
         local = [d for d in self.defs.get(site.name, ()) if d.path == site.path and d.static]
         if local:
@@ -551,6 +610,40 @@ class Resolver:
             d, why = self.common_contract(selected)
             return d, why, ';'.join(sorted(set(evidence)))
         return d, why, 'definition:' + (d.path if d else site.name)
+
+    def documented_identity(self, site, records):
+        """Use a reviewed contract without rebinding a historical numeric call.
+
+        This is site-specific signature evidence, not placement or execution
+        evidence. The canonical declaration and hashed review must stay current.
+        """
+        if len(records) != 1 or not re.fullmatch(r'func_[0-9A-F]{8}', site.name):
+            return None, 'documented_identity_ambiguous', ''
+        record = records[0]
+        evidence = record.get('evidence', '')
+        review = (self.root / evidence).resolve()
+        if (record.get('schema') != 'azure-clean.prototype-identity.v1'
+                or not evidence.startswith('docs/evidence/')
+                or not review.is_relative_to(self.root.resolve())
+                or not review.is_file()
+                or hashlib.sha256(review.read_bytes()).hexdigest() != record.get('evidence_sha256')):
+            return None, 'documented_identity_stale_review', evidence
+        if self.identity_contracts is None:
+            _, sites, _ = M.collect(self.corpus, self.types)
+            self.identity_contracts = sites
+        contracts = [s for s in self.identity_contracts
+                     if s.path == record.get('contract_file') and s.name == record.get('contract_symbol')
+                     and s.params is not None and not s.complex
+                     and compact(s.text) == compact(record.get('contract', ''))]
+        if len(contracts) != 1:
+            return None, 'documented_identity_stale_contract', evidence
+        contract = contracts[0]
+        definition = M.FuncDef(contract.name, contract.path, contract.line, False,
+                               contract.ret_spec, contract.ret_ptr, contract.params,
+                               contract.text.strip().rstrip(';'), M.container_of(contract.path))
+        if contract.storage == 'static' or definition.varargs or any(p == ['...'] for p in contract.params):
+            return None, 'documented_identity_invalid_contract', evidence
+        return definition, '', 'documented_identity:' + evidence + ':' + contract.path + ':' + contract.name
 
 
 @dataclass

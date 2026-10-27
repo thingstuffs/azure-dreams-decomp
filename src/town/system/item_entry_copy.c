@@ -13,7 +13,6 @@ void func_80042640(void *obj, s16 monsterId);
 void *memset(void *, s32, u32);
 /* extern */
 void *find_unused_default_pool_slot();
-void *func_800B2344();
 /* extern */
 extern s32 town_actor_scratch;
 typedef struct {

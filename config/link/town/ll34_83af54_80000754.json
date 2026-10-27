@@ -6,22 +6,5 @@
   "size": "0x94",
   "vma": "0x80000754",
   "evidence": "config/overlays/town.rowbase.jsonl:r121nd_83AF54",
-  "entries": [
-    {
-      "row": "town/func_808BAF54",
-      "tu": "src/town/scene/flags/dispatch_entry_test_flag.c",
-      "home": "town/func_808B7DD4",
-      "foff": "0x83AF54",
-      "vma": "0x80000754",
-      "size": 148,
-      "bindings": {
-        "0x00003F58": "0x00000F10",
-        "0x80003C70": "0x80000C6C",
-        "0x80003BCC": "0x80000BC8",
-        "0x80003C1C": "0x80000C18",
-        "0x800035D4": "0x80000754"
-      },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
-    }
-  ]
+  "entries": []
 }

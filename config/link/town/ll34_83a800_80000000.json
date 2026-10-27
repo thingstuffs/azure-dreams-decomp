@@ -1,0 +1,52 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "town/ll34_83a800_80000000",
+  "container": "town",
+  "foff": "0x83a800",
+  "size": "0x2000",
+  "vma": "0x80000000",
+  "evidence": "docs/evidence/town_prototypes_run7/diagnostic_views.json; linked base only; retail load/execution not established",
+  "load_evidence": {
+    "path": "ledger/instance_load_regions.jsonl",
+    "record_sha256": "4385de11f58254ae125eb525a6227403a2e3abbd1430501491c3675b6afe014f"
+  },
+  "entries": [
+    {
+      "row": "town/func_808BAEC4",
+      "tu": "src/town/scene/print_scene_sequence_number_sno.c",
+      "home": "town/func_808B7D44",
+      "foff": "0x83AEC4",
+      "vma": "0x800006C4",
+      "size": 144,
+      "bindings": {
+        "0x000034B0": "0x00000630",
+        "0x00004610": "0x00001040",
+        "0x000034BC": "0x0000063C",
+        "0x00003F54": "0x00000F0C",
+        "0x000034C4": "0x00000644",
+        "0x00003F50": "0x00000F08",
+        "0x000034CC": "0x0000064C",
+        "0x80003544": "0x800006C4",
+        "0x800035D4": "0x800035D4"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_83aec4_800006c4 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_808BAF54",
+      "tu": "src/town/scene/flags/dispatch_entry_test_flag.c",
+      "home": "town/func_808B7DD4",
+      "foff": "0x83AF54",
+      "vma": "0x80000754",
+      "size": 148,
+      "bindings": {
+        "0x00003F58": "0x00000F10",
+        "0x80003C70": "0x80000C6C",
+        "0x80003BCC": "0x80000BC8",
+        "0x80003C1C": "0x80000C18",
+        "0x800035D4": "0x80000754",
+        "0x80003544": "0x80003544"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_83af54_80000754 (same load delta) so the merged file's members share one view"
+    }
+  ]
+}

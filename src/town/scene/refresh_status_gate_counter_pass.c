@@ -11,9 +11,9 @@ typedef struct S_80700A20_1 {
 } S_80700A20_1;
 
 extern s32 func_8070021C();
-extern s32 forward_indexed_table_value();
-extern s32 func_807002D4();
-extern s32 dispatch_first_failed_entry_b();
+extern void forward_indexed_table_value(s32 index);
+extern void func_807002D4(s32 index);
+extern s32 dispatch_first_failed_entry_b(void);
 
 /* When gate 2 and the counter both pass, refresh the status byte and return the stage handler's result. */
 s32 refresh_status_when_gate_2_and_counter_pass(s32 entry)

@@ -51,11 +51,31 @@ is null. These entries resolve only to matching definitions in that row's
 registered source home. Different callees across placements or header
 consumers may share one prototype when every signature and shared record-type
 owner agrees. Conflicting signatures and private record identities remain held.
+Qualifier comparison expands typedef names while preserving struct, union and
+enum tag names, pointer levels and qualifiers.
 Registered targets in overlapping windows are visible through physical
 containment and the containing region's load base. This extends target lookup
 without adding unrebound caller placements for rows with explicit bindings.
 The scanner also recognizes definitions whose return type starts with a
 struct, union or enum tag.
+
+Historical numeric calls can use site-specific documented identity evidence in
+`ledger/prototype_identities.jsonl`. Each `azure-clean.prototype-identity.v1`
+record names `file`, `symbol`, `contract_file`, `contract_symbol`, the exact
+canonical `contract` declaration, and a `docs/evidence/` review with its
+`evidence_sha256`. The review must establish callee identity independently of
+the coincident US address. The resolver copies only the signature and keeps
+the numeric call symbol. It creates no linker binding or execution claim.
+Duplicate records, changed contracts and stale review hashes are refusals.
+
+Imports in a merged TU are checked against its identified members that reference
+them. A sibling member that does not reference the import cannot veto the
+binding of the member that does. Unknown member identities, macro uses and
+file-scope initializers remain conservative, including uses hidden in included
+headers. Unresolved targets and include forms outside the quoted-header model
+also retain every placement.
+If no member use is identified,
+the resolver retains the original complete placement set.
 
 If a compatible prototype is already in the owning folder header or an established
 ancestor folder header, the tool

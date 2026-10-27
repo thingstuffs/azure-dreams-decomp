@@ -6,14 +6,5 @@
   "size": "0x94",
   "vma": "0x800035D4",
   "evidence": "config/overlays/town.rowbase.jsonl:r121nd_837DD4",
-  "entries": [
-    {
-      "row": "town/func_808B7DD4",
-      "tu": "src/town/scene/flags/dispatch_entry_test_flag.c",
-      "home": "town/func_808B7DD4",
-      "foff": "0x837DD4",
-      "vma": "0x800035D4",
-      "size": 148
-    }
-  ]
+  "entries": []
 }

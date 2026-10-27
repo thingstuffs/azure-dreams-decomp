@@ -1,0 +1,20 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/region_d1f06c_d1f4ec",
+  "container": "dungeon",
+  "foff": "0xd1f06c",
+  "size": "0x480",
+  "vma": "0x8015886c",
+  "evidence": "docs/evidence/opus_sp22.md; slot four of resource 22 (DUNGEON [0xd1f000,0xd25000), proven rowbase delta 0x7f439800, r121w_s1_dungeon_d1f000); the internal absolute j at +0x31C resolves exactly at this address",
+  "entries": [
+    {
+      "row": "dungeon/func_80CFF06C",
+      "home": "dungeon/func_80CE706C",
+      "tu": "src/dungeon/monster/troll/draw_segmented_motion_lines.c",
+      "foff": "0xD1F06C",
+      "vma": "0x8015886C",
+      "size": 1152,
+      "evidence": "docs/evidence/opus_sp22.md"
+    }
+  ]
+}

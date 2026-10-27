@@ -6,14 +6,5 @@
   "size": "0x20",
   "vma": "0x80701010",
   "evidence": "config/overlays/town.rowbase.jsonl:r121li_800010",
-  "entries": [
-    {
-      "row": "town/func_80880010",
-      "tu": "src/town/devkit/call_helper_fixed_id_c.c",
-      "home": "town/func_80880010",
-      "foff": "0x800010",
-      "vma": "0x80701010",
-      "size": 32
-    }
-  ]
+  "entries": []
 }

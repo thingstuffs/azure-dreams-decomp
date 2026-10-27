@@ -1,0 +1,23 @@
+{
+  "schema": "town-devkit-allocator-identity.v1",
+  "basis": "The audit JP caller-twin chain maps devkit 0x800374FC to JP 0x8003EC38 and US allocate_list_node at 0x8003FD64.",
+  "comparison": {
+    "words": 69,
+    "masked_equal": 64,
+    "differing_word_indices": [
+      24,
+      38,
+      40,
+      45,
+      48
+    ],
+    "differences": [
+      "zero_words length 0x48 -> 0x49 words",
+      "four payload cursor offsets increase by four bytes: 0x120/0xF0/0xFC/0x108 -> 0x124/0xF4/0x100/0x10C"
+    ]
+  },
+  "contract": "void *allocate_list_node(s32 flags, ObjectNodeHeader **list_head)",
+  "argument_evidence": "The first argument supplies allocation flags. The second is retained as the list slot: node->next = *list_head; *list_head = node; node->pprev = list_head. These operations, register roles, branches and list-header offsets are unchanged across JP/US; the five differences affect allocation extent and payload cursors, not this contract.",
+  "holder_evidence": "All ten town consumers name the same devkit head address through scene_object_factory_data. The previous u8 array declarations are address-only spellings. They migrate together to one pointer declaration and pass its address, preserving every emitted address.",
+  "qualification": "Structural identity review, not full masked equality or equality of payload layouts. Only the common list-header contract is shared. Retain numeric callee symbols and do not bind them to US addresses. The unproven allocate_flagged_object_node mapping remains excluded."
+}

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/script_hooks.h"
 #include "m2c_compat.h"
 
 extern M2C_UNK D_800160D0;

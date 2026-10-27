@@ -1,6 +1,6 @@
 {
   "schema": "overlay-module-native-v4",
-  "logical_rows": 20855,
+  "logical_rows": 20862,
   "edges": [
     {
       "module": "dungeon_cd_control_d79c4",
@@ -63385,6 +63385,16 @@
       ]
     },
     {
+      "source": "src/dungeon/monster/troll/draw_segmented_motion_lines.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80CE706C"
+      ]
+    },
+    {
       "source": "src/dungeon/effect/dispatch.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -63562,6 +63572,16 @@
       },
       "rows": [
         "dungeon/func_80CEC58C"
+      ]
+    },
+    {
+      "source": "src/dungeon/monster/troll/draw_segmented_motion_lines.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80CED06C"
       ]
     },
     {
@@ -63875,6 +63895,16 @@
       ]
     },
     {
+      "source": "src/dungeon/monster/troll/draw_segmented_motion_lines.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80CF306C"
+      ]
+    },
+    {
       "source": "src/dungeon/effect/dispatch.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -64185,6 +64215,16 @@
       ]
     },
     {
+      "source": "src/dungeon/monster/troll/draw_segmented_motion_lines.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80CF906C"
+      ]
+    },
+    {
       "source": "src/dungeon/effect/dispatch.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -64482,6 +64522,16 @@
       },
       "rows": [
         "dungeon/func_80CFE58C"
+      ]
+    },
+    {
+      "source": "src/dungeon/monster/troll/draw_segmented_motion_lines.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80CFF06C"
       ]
     },
     {
@@ -64785,6 +64835,16 @@
       ]
     },
     {
+      "source": "src/dungeon/monster/troll/draw_segmented_motion_lines.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80D0506C"
+      ]
+    },
+    {
       "source": "src/dungeon/effect/dispatch.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -65082,6 +65142,16 @@
       },
       "rows": [
         "dungeon/func_80D0A58C"
+      ]
+    },
+    {
+      "source": "src/dungeon/monster/troll/draw_segmented_motion_lines.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80D0B06C"
       ]
     },
     {
@@ -149575,7 +149645,7 @@
       ]
     },
     {
-      "source": "src/town/devkit/build_memory_task_text.c",
+      "source": "src/frontend/card/build_memory_task_text.c",
       "recipe": {
         "cfg": "2.6.3-G0",
         "row_asflags": ""
@@ -149665,7 +149735,7 @@
       ]
     },
     {
-      "source": "src/town/devkit/arm_memory_task.c",
+      "source": "src/frontend/card/card_dev_create_slot_screen_objects.c",
       "recipe": {
         "cfg": "2.6.3-G0",
         "row_asflags": ""
@@ -149715,7 +149785,7 @@
       ]
     },
     {
-      "source": "src/town/devkit/get_memory_task_value.c",
+      "source": "src/frontend/libcard/libcard_query_status.c",
       "recipe": {
         "cfg": "2.6.3-G0",
         "row_asflags": ""

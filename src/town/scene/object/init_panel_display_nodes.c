@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/collection.h"
 #include "town/scene/object.h"
 #include "town/scene/flags.h"
 #include "shared/vector.h"
@@ -66,7 +67,6 @@ extern void allocate_record_and_store_three_blocks(void *, void *);
 extern void create_object_payload_registers_callback(void *, void *);
 
 extern u8 score_sprite_draw_callback_address[];
-extern u8 scene_object_factory_data[];
 extern u8 D_80289454[];
 
 extern u8 D_805268D4[];
@@ -103,12 +103,12 @@ s32 init_panel_display_nodes(void) {
     func_80058F88(0x704);
     func_800351A8(0x3C, 0);
     func_800351A8(0x3D, 0);
-    node = func_800374FC(1, scene_object_factory_data);
+    node = func_800374FC(1, &scene_object_factory_data);
     if (node != 0) {
         root = (u8 *)node + 0x20;
         ((S_8080C324_0 *)node)->unk_10 = (s32)D_80527D5C;
     }
-    node = func_800374FC(0x136, scene_object_factory_data);
+    node = func_800374FC(0x136, &scene_object_factory_data);
     root->unk_04 = node;
     if (node != 0) {
         ((S_8080C324_0 *)node)->unk_10 = (s32)D_80527250;

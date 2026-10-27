@@ -8,17 +8,14 @@
 #include "town/scene/object.h"
 
 s32 func_80052374();                             /* extern */
-void func_80058F88();        /* extern */
-s32 func_8006A3A4();                             /* extern */
+void func_80058F88();        /* extern */ /* Unprototyped: JP identity SD_Call(int); the surplus source arguments preserve the retail instruction stream. */
+s32 func_8006A3A4(s32);                             /* extern */
 s32 func_8006A470();                             /* extern */
 void func_802441A4();                       /* extern */
 void func_80244588();                  /* extern */
 void func_802445FC();                     /* extern */
 void func_80244660();                     /* extern */
-s32 func_8025E01C();                     /* extern */
-void allocate_record_and_store_three_blocks();              /* extern */
-void create_initialize_eight_objects_table();                      /* extern */
-void create_object_pair_word(); /* extern */
+short func_8025E01C(void *position);                     /* extern */
 extern s32 scene_object_flags;
 extern u8 D_80095AA0[8];
 extern u8 collection_round_work[0x14];
@@ -26,10 +23,10 @@ extern u8 town_motion_state[0x18];
 extern u16 D_80530658[];
 extern u16 D_805306C8[];
 s32 func_802483B8();
-void advance_accumulator_reset_lowering_stored();                      /* extern */
+void advance_accumulator_reset_lowering_stored(s32 unused, void *position);                      /* extern */
 s32 func_80290318();
-void set_record_global_flags_object();                      /* extern */
-void set_bit_preceding_flags_global();                      /* extern */
+void set_record_global_flags_object(void *record);                      /* extern */
+void set_bit_preceding_flags_global(void *value_ptr);                      /* extern */
 s32 func_80243A38();
    /* the 0x2 bytes before arg0 in run_collection_round_sequence, addressed as arg0[-1] */
 
@@ -277,14 +274,14 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
         if (((S_80527D5C_4 *)phase_data)->unk_68 == 9) {
             func_80244588();
             func_802445FC((s32) &func_80290318);
-            create_object_pair_word((s32) &set_record_global_flags_object, line_params, line_params + 0x10, sequence);
+            create_object_pair_word(&set_record_global_flags_object, line_params, line_params + 0x10, sequence);
             sequence->unk_28.u = 0x200U;
             sequence->angle_step.u = 0U;
             sequence->state.s = 7;
             sequence->flags.u &= 0x7FFF;
             break;
         }
-        create_object_pair_word((s32) &set_bit_preceding_flags_global, line_params, line_params + 0x10, sequence);
+        create_object_pair_word(&set_bit_preceding_flags_global, line_params, line_params + 0x10, sequence);
         break;
 
     case 7:
@@ -330,7 +327,7 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
             ((S_80527D5C_6 *)record_params)->unk_0C = sequence;
             round_count_addr += (s32) D_80530658;
             ((S_80527D5C_6 *)record_params)->unk_08 = round_count_addr;
-            allocate_record_and_store_three_blocks((s32) &tick_timed_object_and_mark_complete, record_params);
+            allocate_record_and_store_three_blocks(&tick_timed_object_and_mark_complete, record_params);
             sequence->state.s = 8;
         }
         break;

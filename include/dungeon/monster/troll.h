@@ -19,6 +19,8 @@ void select_and_advance_actor_move(ActorRecord *move_input, ObjectPosition *acti
 
 
 
+struct SegmentedLineState;
+void draw_segmented_motion_lines(struct SegmentedLineState *state, ObjectPosition *position, SpriteFrameState *sprite, s32 depth_bias);
 void advance_timed_directional_action(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity);
 
 

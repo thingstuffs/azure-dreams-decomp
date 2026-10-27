@@ -6,9 +6,9 @@ extern s32 scene_captured_flags;
 
 void print_scene_sequence_number_sno(s32 kind);
 void dispatch_entry_test_flag_test(s32 entry_index);
-s32 select_table_entry_zero();                                /* extern */
+s32 select_table_entry_zero(void);                                /* extern */
 void process_table_pairs_one_three(void);
-s32 get_2_flag_flag();                             /* extern */
+s32 get_2_flag_flag();                             /* extern */ /* Unprototyped: The canonical query takes no arguments; dropping the source operand changes the instruction stream. */
 void update_flag_based_flags(void);
 void run_setup_and_remap_mode_records(s32 table_index, s32 mode);
 

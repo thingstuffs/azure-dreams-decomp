@@ -6,11 +6,12 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/shop/object/lshop_g00008.h"
 
 typedef s32 (*Callback)(s8 *);
 
 extern u32 D_80017FB8;
-extern s32 func_800168BC();
+extern void func_800168BC(const Copy4 *input);
 
 /* Functions defined in this translation unit. */
 u32 invoke_state_callback(void);

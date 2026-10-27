@@ -22,7 +22,7 @@ typedef struct SpawnSeed {
 
 void *func_800373DC();                       /* extern */
 s32 func_8003BC18(void *, void *);
-s32 func_80071494();                                /* extern */
+s32 func_80071494(void);                                /* extern */
 extern u8 score_sprite_draw_callback_address[];
 extern u8 D_802843E8[];
 extern s32 D_802843EC[];

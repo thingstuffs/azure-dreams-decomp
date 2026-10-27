@@ -6,7 +6,7 @@ typedef struct ListLink {
     u16 next;
 } ListLink;
 
-s32 func_80000BE4();                             /* extern */
+s32 func_80000BE4(s32 flag_index);                             /* extern */
 extern ListLink D_00000DB4[];
 extern s16 *D_00000DB0[];
 

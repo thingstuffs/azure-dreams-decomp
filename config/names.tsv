@@ -4194,15 +4194,15 @@
 0x800B1960	func_800B1960	initialize_templated_state_and_position	(medium) src/town/func_800B4200.c:46-: Initializes state and buffers from templates and sets position; caller none found in src/town
 0x800B1B70	func_800B1B70	initialize_four_anchored_nodes	(high) src/town/func_800B4410.c:7-: Initializes four nodes with a shared anchor and default data; caller func_800B1BEC at src/town/func_800B448C.c:24
 0x800B1BEC	func_800B1BEC	create_dual_buffer_object	(medium) src/town/func_800B448C.c:33-: Creates an object with two buffers and initializes its state and position; caller none found in src/town
-0x80815294	func_80815294	create_value_object	(medium) src/town/func_80815294.c:11-: Creates an object, assigns its data pointer and stores the supplied value; caller none found in src/town
-0x80814E64	func_80814E64	advance_object_by_velocity	(medium) src/town/func_80814E64.c:17-: Advances position by velocity, updates the object and propagates status flags; caller none found in src/town
-0x8081510C	func_8081510C	set_record_flags_when_linked	(medium) src/town/func_8081510C.c:6-: Sets record and global flags when the record is zero and linked flag eight is set; caller none found in src/town
-0x8081508C	func_8081508C	advance_three_component_motion	(medium) src/town/func_8081508C.c:26-: Advances three motion components and sets completion flags when the countdown expires; caller none found in src/town
-0x80815160	func_80815160	process_state_zero_record	(medium) src/town/func_80815160.c:27-: Processes a state-zero record and sets record/global flags when its linked record has bit three; caller none found in src/town
-0x80814CC4	func_80814CC4	advance_effect_and_reduce_scale	(medium) src/town/func_80814CC4.c:35-: Advances effect motion, reduces scale and marks completion at the scale threshold; caller none found in src/town
+0x8052FE94	func_8052FE94	create_value_object	(medium) src/town/func_80815294.c:11-: Creates an object, assigns its data pointer and stores the supplied value; caller none found in src/town
+0x8052FA64	func_8052FA64	advance_object_by_velocity	(medium) src/town/func_80814E64.c:17-: Advances position by velocity, updates the object and propagates status flags; caller none found in src/town
+0x8052FD0C	func_8052FD0C	set_record_flags_when_linked	(medium) src/town/func_8081510C.c:6-: Sets record and global flags when the record is zero and linked flag eight is set; caller none found in src/town
+0x8052FC8C	func_8052FC8C	advance_three_component_motion	(medium) src/town/func_8081508C.c:26-: Advances three motion components and sets completion flags when the countdown expires; caller none found in src/town
+0x8052FD60	func_8052FD60	process_state_zero_record	(medium) src/town/func_80815160.c:27-: Processes a state-zero record and sets record/global flags when its linked record has bit three; caller none found in src/town
+0x8052F8C4	func_8052F8C4	advance_effect_and_reduce_scale	(medium) src/town/func_80814CC4.c:35-: Advances effect motion, reduces scale and marks completion at the scale threshold; caller none found in src/town
 0x8052FDF8	func_8052FDF8	reset_effect_callback_state	(medium) src/town/func_808151F8.c:5: Provides an empty callback used to reset effect state; caller none found in src/town
-0x80814F08	func_80814F08	spawn_scattered_seed_effect	(medium) src/town/func_80814F08.c:37-: Spawns a 0x136 effect scattered +/-20 around the seed with a randomized vertical kick; caller none found in src/town
-0x80814D60	func_80814D60	spawn_offset_seed_effect	(medium) src/town/func_80814D60.c:37-: Spawns a 0x136 effect at the seed offset position with a randomized vertical kick; caller none found in src/town
+0x8052FB08	func_8052FB08	spawn_scattered_seed_effect	(medium) src/town/func_80814F08.c:37-: Spawns a 0x136 effect scattered +/-20 around the seed with a randomized vertical kick; caller none found in src/town
+0x8052F960	func_8052F960	spawn_offset_seed_effect	(medium) src/town/func_80814D60.c:37-: Spawns a 0x136 effect at the seed offset position with a randomized vertical kick; caller none found in src/town
 0x800357B0	func_800357B0	runtime_assign_code_101_callback	(medium) src/slus/konami_runtime_w_800357B0.c:17-: Assigns func_800357D0 to objects with code 0x101; caller none found in src/slus
 0x800362A0	func_800362A0	runtime_mark_state_when_flag_50_set	(medium) src/slus/konami_runtime_w_800362A0.c:28-: Marks linked state and selects func_80036154 when flag 0x50 is set; caller none found in src/slus
 0x800364BC	func_800364BC	runtime_mark_state_when_flag_51_set	(medium) src/slus/konami_runtime_w_800364BC.c:28-: Marks linked state and selects func_80036154 when flag 0x51 is set; caller none found in src/slus
@@ -4617,7 +4617,7 @@
 0x80702314	func_80702314	shop_check_selected_entry_state	(medium) src/town/func_80878314.c:6-14: Return 2 when the selected flag is set and flag 0x1F9 is clear.; caller none in local inventory
 0x80702314	func_80702314	get_selected_flag_state	Returns 2 iff the halfword-selected flag is set and flag 0x1F9 is clear, otherwise 0; no shop-specific state meaning.
 0x80702260	func_80702260	shop_find_first_eligible_entry	(medium) src/town/func_80878260.c:8-17: Select the first table entry whose value check returns zero.; caller none in local inventory
-0x80702260	func_80702260	advance_clear_flag_row	The complete definition returns void: scans row flags at stride four then invokes the row updater. The name claims a returned finder result that the body does not produce; caller declarations disagree and are preserved.
+0x80702260	func_80702260	advance_clear_flag_row	Scans row flags at stride four and returns the selected-row updater result. The s32 return propagation and coordinated caller declarations preserve the complete-TU raw and canonical objects; see docs/evidence/town_prototypes_run7/dispatch_return_review.json.
 0x80702444	func_80702444	shop_get_entry_value_or_fallback	(medium) src/town/func_80878444.c:12-21: Returns the current entry value or fallback address after calling func_80702180.; caller none in local inventory
 0x80702444	func_80702444	read_flag_row_fallback	Returns selected row word at bank+0x1E30 (32-byte stride) or D_807014C8, then processes entry bit 1; shop unproven.
 0x807024B0	func_807024B0	shop_read_selected_row_value	(medium) src/town/func_808784B0.c:10-19: Read the selected row value and process entry 3 before returning it.; caller none in local inventory
@@ -10679,3 +10679,4 @@
 0x8001BDC4	D_8001BDC4	square_record_choices	Run 12: whole typed choice array.
 0x80020298	func_80020298	initialize_casino_minigame	Casino setup in the casino image (town +0x79DA98, loaded at 0x80020000); called by scr_func_sn_casino; complete reconstruction, docs/evidence/opus_nearmatch1.md
 0x8016C720	func_8016C720	begin_ghosh_front_attack	Ghosh front attack start in dungeon/bank_1343000 (+0x1344F20); called by advance_actor_path and update_main_actor_action_and_facing; complete reconstruction, docs/evidence/opus_nearmatch1.md
+0x8017086C	func_8017086C	draw_segmented_motion_lines	Resource-22 (troll family) segmented line renderer at dungeon/bank_d07000 +0xD0706C; identical placements at +0xD0D06C, +0xD1306C, +0xD1906C, +0xD1F06C, +0xD2506C, +0xD2B06C; called through each bank's process_linked_states_mode_zero copy; complete reconstruction, docs/evidence/opus_sp22.md

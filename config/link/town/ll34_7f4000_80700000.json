@@ -1,0 +1,68 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "town/ll34_7f4000_80700000",
+  "container": "town",
+  "foff": "0x7f4000",
+  "size": "0x2000",
+  "vma": "0x80700000",
+  "evidence": "docs/evidence/town_prototypes_run7/diagnostic_views.json; linked base only; retail load/execution not established",
+  "load_evidence": {
+    "path": "ledger/instance_load_regions.jsonl",
+    "record_sha256": "757c38d270787f7a5883532419c2df180f6d0542f13387e4756acc9edd379aaf"
+  },
+  "entries": [
+    {
+      "row": "town/func_80874D54",
+      "tu": "src/town/scene/pass_indexed_table.c",
+      "home": "town/func_80874D54",
+      "foff": "0x7F4D54",
+      "vma": "0x80700D54",
+      "size": 48,
+      "evidence": "TU view gather: moved from town/ll34_7f4d54_80700d54 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_808753FC",
+      "tu": "src/town/scene/hooks/return_argument_b.c",
+      "home": "town/func_808753FC",
+      "foff": "0x7F53FC",
+      "vma": "0x807013FC",
+      "size": 8,
+      "evidence": "TU view gather: moved from town/ll34_7f53fc_807013fc (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_80875510",
+      "tu": "src/town/scene/hooks/noop_hook_i.c",
+      "home": "town/func_80875510",
+      "foff": "0x7F5510",
+      "vma": "0x80701510",
+      "size": 8,
+      "evidence": "TU view gather: moved from town/ll34_7f5510_80701510 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_80875684",
+      "tu": "src/town/scene/hooks/return_argument_b.c",
+      "home": "town/func_808753FC",
+      "foff": "0x7F5684",
+      "vma": "0x80701684",
+      "size": 8,
+      "bindings": {
+        "0x807013FC": "0x80701684",
+        "0x80701510": "0x80701510"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_7f5684_80701684 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_80875798",
+      "tu": "src/town/scene/hooks/noop_hook_i.c",
+      "home": "town/func_80875510",
+      "foff": "0x7F5798",
+      "vma": "0x80701798",
+      "size": 8,
+      "bindings": {
+        "0x80701510": "0x80701798",
+        "0x807013FC": "0x807013FC"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_7f5798_80701798 (same load delta) so the merged file's members share one view"
+    }
+  ]
+}

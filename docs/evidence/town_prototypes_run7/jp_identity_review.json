@@ -1,0 +1,109 @@
+{
+  "schema": "town-devkit-identity-review.v1",
+  "input": "JP ISO root file records and pinned US containers",
+  "jp_files": {
+    "town": [
+      "TOWN/TOWN.BIN;1",
+      [
+        3846,
+        16330752
+      ]
+    ],
+    "slpm": [
+      "SLPM_860.47;1",
+      [
+        24,
+        2097152
+      ]
+    ]
+  },
+  "old_image_equal": true,
+  "old_image_sha256": "b066efec2b6e8b6cc2bfd85ff2ec1e245ddaf03ca169fedd341714a468733a62",
+  "callees": [
+    {
+      "devkit_address": "0x800373dc",
+      "jp_address": "0x8003eb2c",
+      "us_address": "0x8003fc64",
+      "name": "allocate_flagged_object_node",
+      "words": 67,
+      "masked_equal": 23,
+      "full": false,
+      "jp_sha256": "fc6087353f6e2c323a6956aeca115a2991362ffcedeea5cd676fd267a624a9d0",
+      "us_sha256": "5cca2dbf4b92b5a6e990323531ab6a08f10f41c078a1df0aadd91947eba755e9",
+      "method": "verify_full: through first jr ra and delay slot, relocation fields masked"
+    },
+    {
+      "devkit_address": "0x800374fc",
+      "jp_address": "0x8003ec38",
+      "us_address": "0x8003fd64",
+      "name": "allocate_list_node",
+      "words": 69,
+      "masked_equal": 64,
+      "full": false,
+      "jp_sha256": "bd1a2d23a01782ed84f39fcad4957018841d1b0da23a261865582f2ed68db84b",
+      "us_sha256": "9b2d51d282ee50b445004906ebd8b01cf553c92cfc27c89bc7b7aa97c02fbbba",
+      "method": "verify_full: through first jr ra and delay slot, relocation fields masked"
+    },
+    {
+      "devkit_address": "0x80058f88",
+      "jp_address": "0x80055194",
+      "us_address": "0x80053da8",
+      "name": "SD_Call",
+      "words": 9,
+      "masked_equal": 9,
+      "full": true,
+      "jp_sha256": "d8faf2c2a32118a14491deb39d1281738b84a08a121c15f8543b082611342099",
+      "us_sha256": "bd3d0df14a2dba6ce6cbd31c82b994ea71ade372640fef714b44bf91385d9dc8",
+      "method": "verify_full: through first jr ra and delay slot, relocation fields masked"
+    },
+    {
+      "devkit_address": "0x8006a3a4",
+      "jp_address": "0x80066194",
+      "us_address": "0x800644b8",
+      "name": "rsin",
+      "words": 15,
+      "masked_equal": 15,
+      "full": true,
+      "jp_sha256": "493a889c853cd217b460ae2d9dd78865018c5c0ef68b0ad379e10507f72cb2c5",
+      "us_sha256": "b977fb37ce40f5104603f11a602886b511e3f6383ae31e6fd72a7bb768d88ba6",
+      "method": "verify_full: through first jr ra and delay slot, relocation fields masked"
+    },
+    {
+      "devkit_address": "0x80071424",
+      "jp_address": "0x8006c914",
+      "us_address": "0x80069e98",
+      "name": "strlen",
+      "words": 63,
+      "masked_equal": 63,
+      "full": true,
+      "jp_sha256": "6be3dcdf4c716a8bb627d1d1039ba5e30965974246b9b50a96c750175b9e5009",
+      "us_sha256": "4eb9ceb86a413f0d868497e0559ca246d2e84ce9a5c141d9bd50d257f4fbabce",
+      "method": "verify_full: through first jr ra and delay slot, relocation fields masked"
+    },
+    {
+      "devkit_address": "0x80071494",
+      "jp_address": "0x8006c974",
+      "us_address": "0x80069ef8",
+      "name": "rand",
+      "words": 39,
+      "masked_equal": 39,
+      "full": true,
+      "jp_sha256": "4bd985cacf38af47d9a62eadf0ad285029f2c2190d564483225e468f1e4c9abf",
+      "us_sha256": "ff6a7fca465cad069bdacb83176e17d88a4675058434c5a5529069e92db18e35",
+      "method": "verify_full: through first jr ra and delay slot, relocation fields masked"
+    },
+    {
+      "devkit_address": "0x8025e01c",
+      "jp_address": "0x800c4970",
+      "us_address": "0x800c2ae8",
+      "name": "query_lowered_transform_position",
+      "words": 20,
+      "masked_equal": 20,
+      "full": true,
+      "jp_sha256": "1e7ff613f04595d1222f46fbdd597de1dc4b6c3631ffec139f691a2e52ec6dc6",
+      "us_sha256": "02166194178c1593576dc02810940edd20b21708b0e8f6028b6b0f6b79b35a0e",
+      "method": "verify_full: through first jr ra and delay slot, relocation fields masked"
+    }
+  ],
+  "qualification": "Function extent follows verify_full; SD_Call is nine words. Candidate allocate_flagged_object_node is PARTIAL and is excluded. Static identity does not establish execution or a US link address."
+}

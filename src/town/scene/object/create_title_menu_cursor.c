@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/collection.h"
 
 typedef struct S_808106E0_0 {
     u8 pad_00[0x10];
@@ -39,7 +40,6 @@ typedef struct Triple {
 
 extern Triple D_80526670;
 extern Triple D_80526688;
-extern u8 scene_object_factory_data[];
 extern u8 menu_entry_draw_callback_address[];
 extern u8 menu_cursor_object_template[];
 extern u8 D_8052B5A4[];
@@ -69,7 +69,7 @@ s32 create_title_menu_cursor(void)
     func_8003F8A8(7);
     func_800351A8(0x3E, 0);
 
-    object = func_800374FC(0x136, scene_object_factory_data);
+    object = func_800374FC(0x136, &scene_object_factory_data);
     i = 2;
     if (object != 0) {
         anchor = object + 0x20;
@@ -81,7 +81,7 @@ s32 create_title_menu_cursor(void)
 
     shared_part_y = 0xD0;
     do {
-        object = func_800374FC(1, scene_object_factory_data);
+        object = func_800374FC(1, &scene_object_factory_data);
         if (object != 0) {
             ((S_808106E0_0 *)object)->unk_10 = D_8052BAAC;
             func_8003BC18(object, menu_entry_draw_callback_address);
@@ -100,7 +100,7 @@ s32 create_title_menu_cursor(void)
     i = 2;
     y_second = 0xD8;
     do {
-        object = func_800374FC(1, scene_object_factory_data);
+        object = func_800374FC(1, &scene_object_factory_data);
         if (object != 0) {
             ((S_808106E0_0 *)object)->unk_10 = D_8052BB00;
             func_8003BC18(object, menu_entry_draw_callback_address);
@@ -132,7 +132,7 @@ s32 create_title_menu_cursor(void)
     i = 2;
     shared_part_y = 0xCC;
     do {
-        object = func_800374FC(1, scene_object_factory_data);
+        object = func_800374FC(1, &scene_object_factory_data);
         i--;
         if (object != 0) {
             ((S_808106E0_0 *)object)->unk_10 = D_8052BB98;

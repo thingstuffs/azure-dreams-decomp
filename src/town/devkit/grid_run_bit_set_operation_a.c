@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 set_indexed_flag_bit_unless();
+extern void set_indexed_flag_bit_unless(s32 bit_index);
 extern s32 D_807009E4[];
 
 /* Call set_indexed_flag_bit_unless with 0x152 when the selected grid entry has bit zero set. */

@@ -6,14 +6,5 @@
   "size": "0x24",
   "vma": "0x80700D24",
   "evidence": "config/overlays/town.rowbase.jsonl:r121c3_803524",
-  "entries": [
-    {
-      "row": "town/func_80883524",
-      "tu": "src/town/scene/shift_index_and_add_offset.c",
-      "home": "town/func_80883524",
-      "foff": "0x803524",
-      "vma": "0x80700D24",
-      "size": 36
-    }
-  ]
+  "entries": []
 }

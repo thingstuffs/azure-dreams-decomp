@@ -9,9 +9,9 @@ typedef struct Copy12 {
 
 extern s32 func_80034A1C();
 extern s32 func_8003EA54();
-extern s32 func_80071494();
+extern s32 func_80071494(void);
 extern s32 func_80245C10();
-extern s16 func_8025E01C();
+extern s16 func_8025E01C(void *position);
 extern s32 scene_object_flags;
 extern s32 D_80526430[3];
 extern u8 D_80288EE0[];
@@ -118,7 +118,7 @@ void step_cutscene_actor(void *obj, ObjectPosition *motion, SpriteFrameState *pa
                 ((S_8080DF94_0 *)obj)->unk_04 = 0x22;
                 break;
             }
-            if (func_80071494(floor_y) & 1) {
+            if (func_80071494() & 1) {
                 flag = (s32)D_80288F60;
             } else {
                 flag = (s32)D_80288F88;

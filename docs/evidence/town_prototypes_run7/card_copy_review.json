@@ -1,0 +1,30 @@
+{
+  "schema": "town-main-card-copy-review.v1",
+  "rows": [
+    {
+      "row": "town/func_802EE3A0",
+      "home": "main/func_8001E3A0",
+      "foff": "0x26e3a0",
+      "bytes": 328,
+      "retail_sha256": "833ccd6375044d1ddbb96b92f63e9e57d7cca8dd092f5beabe57a88313d40597",
+      "town_equals_main": true
+    },
+    {
+      "row": "town/func_802F13A0",
+      "home": "main/func_800213A0",
+      "foff": "0x2713a0",
+      "bytes": 92,
+      "retail_sha256": "4ab5a9edeca9a4588b0bdb1d8b608ca261be9445edced442c0dd2f119eb40757",
+      "town_equals_main": true
+    },
+    {
+      "row": "town/func_802F161C",
+      "home": "main/func_8002161C",
+      "foff": "0x27161c",
+      "bytes": 40,
+      "retail_sha256": "06d1bdaed1f07731093f51ba270464ae3b6cd170fdbdc94767e868b91816f5d5",
+      "town_equals_main": true
+    }
+  ],
+  "qualification": "Exact same-offset container slices. copy_place derive must also prove the current objects modulo relocation targets before any source is retired."
+}

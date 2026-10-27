@@ -1,5 +1,6 @@
 """Regression cases for declaration safety and bank-specific ownership."""
 import json
+import hashlib
 import contextlib
 import io
 from pathlib import Path
@@ -34,6 +35,97 @@ class Fixture(unittest.TestCase):
 
 
 class PrototypeTests(Fixture):
+    def identity(self, **changes):
+        self.put('src/town/a.c', '#include "common.h"\ns32 func_80071494();\n')
+        self.put('include/sdk/libc.h', '#include "common.h"\ns32 rand(void);\n')
+        self.put('docs/evidence/identity.json', '{"review": "full masked JP comparison"}\n')
+        record = dict(schema='azure-clean.prototype-identity.v1', file='src/town/a.c',
+                      symbol='func_80071494', contract_file='include/sdk/libc.h',
+                      contract_symbol='rand', contract='s32 rand(void);',
+                      evidence='docs/evidence/identity.json', evidence_sha256=hashlib.sha256(
+                          (self.root / 'docs/evidence/identity.json').read_bytes()).hexdigest())
+        record.update(changes)
+        self.put('ledger/prototype_identities.jsonl', json.dumps(record) + '\n')
+
+    def test_documented_identity_keeps_numeric_symbol_and_needs_no_link_binding(self):
+        self.identity()
+        _, _, _, edits, holds = self.plan(['src/town/a.c'])
+        self.assertFalse(holds)
+        self.assertEqual(edits[0].after, 's32 func_80071494(void);')
+        self.assertEqual(edits[0].action, 'prototype')
+        self.assertTrue(edits[0].evidence.startswith('documented_identity:'))
+        self.assertFalse((self.root / 'config/link').exists())
+
+    def test_documented_identity_rejects_stale_review_and_contract(self):
+        for changes, reason in [({'evidence_sha256': '0' * 64}, 'documented_identity_stale_review'),
+                                ({'contract': 's32 rand(s32);'}, 'documented_identity_stale_contract'),
+                                ({'evidence': '../identity.json'}, 'documented_identity_stale_review')]:
+            with self.subTest(changes=changes):
+                self.identity(**changes)
+                _, _, _, edits, holds = self.plan(['src/town/a.c'])
+                self.assertFalse(edits)
+                self.assertEqual(holds[0]['reason'], reason)
+
+    def test_documented_identity_rejects_duplicate_reviews(self):
+        self.identity()
+        path = self.root / 'ledger/prototype_identities.jsonl'
+        path.write_text(path.read_text() * 2)
+        _, _, _, edits, holds = self.plan(['src/town/a.c'])
+        self.assertFalse(edits)
+        self.assertEqual(holds[0]['reason'], 'documented_identity_ambiguous')
+
+    def test_inline_import_is_checked_only_in_the_member_that_uses_it(self):
+        self.put('src/town/cluster.c', 'void func_800168BC();\n'
+                 'void first(void) {}\nvoid second(void) { func_800168BC(); }\n')
+        self.put('src/town/shop.c', 'void func_8001748C(void) {}\n')
+        self.rows(dict(id='town/first', func='first'), dict(id='town/second', func='second'),
+                  dict(id='town/callee', func='func_8001748C'))
+        self.image('town/a', [
+            dict(row='town/first', home='town/first', tu='src/town/cluster.c', vma='0x80016E4C'),
+            dict(row='town/second', home='town/second', tu='src/town/cluster.c', vma='0x80016EAC',
+                 bindings={'0x800168BC': '0x8001748C'}),
+            dict(row='town/callee', home='town/callee', tu='src/town/shop.c', vma='0x8001748C')])
+        _, _, _, edits, holds = self.plan(['src/town/cluster.c'])
+        self.assertFalse(holds)
+        self.assertEqual(edits[0].after, 'void func_800168BC(void);')
+        self.put('src/town/cluster.c', '#define IMPORT func_800168BC\n'
+                 'void func_800168BC();\nvoid first(void) {}\n'
+                 'void second(void) { func_800168BC(); }\n')
+        _, _, _, edits, holds = self.plan(['src/town/cluster.c'])
+        self.assertFalse(edits)
+        self.assertTrue(holds)
+        for directive in ['#define IMPORT(x) \\\nfunc_800168BC\n', '#define IMPORT(x) func_ ## x\n']:
+            self.put('src/town/cluster.c', directive + 'void func_800168BC();\n'
+                     'void first(void) { IMPORT(800168BC); }\n'
+                     'void second(void) { func_800168BC(); }\n')
+            _, _, _, edits, holds = self.plan(['src/town/cluster.c'])
+            self.assertFalse(edits)
+            self.assertTrue(holds)
+
+    def test_inline_import_keeps_hidden_header_and_unknown_include_uses_conservative(self):
+        self.put('src/town/shop.c', 'void func_8001748C(void) {}\n')
+        self.rows(dict(id='town/first', func='first'), dict(id='town/second', func='second'),
+                  dict(id='town/callee', func='func_8001748C'))
+        self.image('town/a', [
+            dict(row='town/first', home='town/first', tu='src/town/cluster.c', vma='0x80016E4C'),
+            dict(row='town/second', home='town/second', tu='src/town/cluster.c', vma='0x80016EAC',
+                 bindings={'0x800168BC': '0x8001748C'}),
+            dict(row='town/callee', home='town/callee', tu='src/town/shop.c', vma='0x8001748C')])
+        for header in ['#define IMPORT() func_800168BC()\n',
+                       '#define IMPORT(x) func_ ## x\n',
+                       'static void IMPORT(void) { func_800168BC(); }\n',
+                       'static void (*callback)(void) = func_800168BC;\n',
+                       '#include SELECTED_HEADER\n', '#include "missing.h"\n',
+                       '#include <external.h>\n']:
+            with self.subTest(header=header):
+                self.put('include/indirect.h', header)
+                self.put('src/town/cluster.c', '#include "indirect.h"\n'
+                         'void func_800168BC();\nvoid first(void) { IMPORT(); }\n'
+                         'void second(void) { func_800168BC(); }\n')
+                _, _, _, edits, holds = self.plan(['src/town/cluster.c'])
+                self.assertFalse(edits)
+                self.assertTrue(holds)
+
     def cli(self, *args):
         with contextlib.redirect_stdout(io.StringIO()):
             return P.main(['--root', str(self.root), *args])
@@ -574,6 +666,24 @@ class BankTests(Fixture):
         self.put('src/town/two.c', 'typedef struct Record { short x; } Record;\nvoid two(Record *x) {}\n')
         self.image('town/a', [self.caller(), self.target('one')])
         self.image('town/b', [self.caller(), self.target('two')])
+        edits, holds = self.plan()[3:]
+        self.assertFalse(edits)
+        self.assertEqual(holds[0]['reason'], 'placement_signature_conflict')
+
+    def test_shared_same_named_typedef_and_tag_terminates_without_losing_qualifiers(self):
+        self.put('include/shared/record.h', 'typedef struct Record { int x; } Record;\n')
+        self.put('src/town/one.c', '#include "shared/record.h"\n'
+                 'int one(Record *x) { return x->x; }\n')
+        self.put('src/town/two.c', '#include "shared/record.h"\n'
+                 'int two(Record *x) { return x->x; }\n')
+        self.image('town/a', [self.caller(), self.target('one')])
+        self.image('town/b', [self.caller(), self.target('two')])
+        edits, holds = self.plan()[3:]
+        self.assertFalse(holds)
+        self.assertEqual(len(edits), 1)
+        self.assertIn('Record *x', edits[0].after)
+        self.put('src/town/two.c', '#include "shared/record.h"\n'
+                 'int two(const Record *x) { return x->x; }\n')
         edits, holds = self.plan()[3:]
         self.assertFalse(edits)
         self.assertEqual(holds[0]['reason'], 'placement_signature_conflict')

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/collection.h"
 
 typedef struct Object Object;
 
@@ -41,7 +42,6 @@ typedef struct TableEntry {
     u16 field_02;
 } TableEntry;
 
-extern u8 scene_object_factory_data[9];
 extern u8 D_80528B94[];
 extern TableEntry D_8052FF9C[][8];
 extern u8 score_sprite_draw_callback_address[];
@@ -52,12 +52,13 @@ extern void func_8003BC18(Object *object, void *callback);
 extern void func_80034A1C(Primitive *primitive, void *primitive_descriptor, s32 value);
 
 /* Create and initialize the owner's eight objects using its kind-specific table. */
-void create_eight_objects_from_kind_table(Owner *owner)
+void create_eight_objects_from_kind_table(void *owner_data)
 {
+    Owner *owner = owner_data;
     s32 slot;
 
     for (slot = 7; slot >= 0; slot--) {
-        Object *object = func_800374FC(0x136, scene_object_factory_data);
+        Object *object = func_800374FC(0x136, &scene_object_factory_data);
         owner->objects[slot] = object;
         if (object != 0) {
             ObjectData *data;

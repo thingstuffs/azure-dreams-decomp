@@ -1,0 +1,195 @@
+{
+  "schema": "town-bracketed-rows.v1",
+  "delta": "0x7FD9AC00",
+  "brackets": [
+    {
+      "begin": "0x794cc4",
+      "end": "0x7951f8",
+      "before": "town100_7946C8",
+      "after": "row_7951f8_8052fdf8",
+      "contiguous_match_rows": [
+        "func_80814CC4",
+        "func_80814D60",
+        "func_80814E64",
+        "func_80814F08",
+        "func_8081508C",
+        "func_8081510C",
+        "func_80815160"
+      ],
+      "method": "Exact bracketing between adjacent proven same-delta code regions; every intervening byte belongs to a registered MATCH code row. Base is not inferred from C byte equality."
+    },
+    {
+      "begin": "0x795294",
+      "end": "0x7952dc",
+      "before": "row_7951f8_8052fdf8",
+      "after": "row_7952dc_8052fedc",
+      "contiguous_match_rows": [
+        "func_80815294"
+      ],
+      "method": "Exact bracketing between adjacent proven same-delta code regions; every intervening byte belongs to a registered MATCH code row. Base is not inferred from C byte equality."
+    }
+  ],
+  "rows": [
+    {
+      "row": "town/func_80814CC4",
+      "foff": "0x794cc4",
+      "size": 156,
+      "source": "src/town/scene/effect/advance_effect_and_reduce_scale.c",
+      "true_name": "func_8052F8C4",
+      "object_sha256": "0ecec1d9c4f6dd132ac70a6659ddcbce9d7c7b17fe980a7bb77ccedafa6fe91d",
+      "links": [
+        {
+          "base": "0x80814cc4",
+          "retail_equal": true,
+          "bytes_sha256": "d81501d9d2463a8388333507a9ebe422bcf4d6aef843d05d049d1b3a5179193c"
+        },
+        {
+          "base": "0x8052f8c4",
+          "retail_equal": true,
+          "bytes_sha256": "d81501d9d2463a8388333507a9ebe422bcf4d6aef843d05d049d1b3a5179193c"
+        }
+      ]
+    },
+    {
+      "row": "town/func_80814D60",
+      "foff": "0x794d60",
+      "size": 260,
+      "source": "src/town/scene/effect/spawn_offset_seed_effect.c",
+      "true_name": "func_8052F960",
+      "object_sha256": "8a059d45cd7f6f3d0771df96823652933d065acfab94fdb2cda8c96425bd2de0",
+      "links": [
+        {
+          "base": "0x80814d60",
+          "retail_equal": true,
+          "bytes_sha256": "bbef19907a5c84899ec6f6a79d90c98ee2288985da8d7083f04c0799d494fa8a"
+        },
+        {
+          "base": "0x8052f960",
+          "retail_equal": true,
+          "bytes_sha256": "bbef19907a5c84899ec6f6a79d90c98ee2288985da8d7083f04c0799d494fa8a"
+        }
+      ]
+    },
+    {
+      "row": "town/func_80814E64",
+      "foff": "0x794e64",
+      "size": 164,
+      "source": "src/town/scene/motion/advance_object_by_velocity.c",
+      "true_name": "func_8052FA64",
+      "object_sha256": "f1589ccbb777349844f601e87f7208097dc8dd07714cb67e9c492655eed2591a",
+      "links": [
+        {
+          "base": "0x80814e64",
+          "retail_equal": true,
+          "bytes_sha256": "ec3078a10c81c91ed59dc683ec930c3a4435d6de3d16feb90fa09a04d90d8ee0"
+        },
+        {
+          "base": "0x8052fa64",
+          "retail_equal": true,
+          "bytes_sha256": "ec3078a10c81c91ed59dc683ec930c3a4435d6de3d16feb90fa09a04d90d8ee0"
+        }
+      ]
+    },
+    {
+      "row": "town/func_80814F08",
+      "foff": "0x794f08",
+      "size": 388,
+      "source": "src/town/scene/effect/spawn_scattered_seed_effect.c",
+      "true_name": "func_8052FB08",
+      "object_sha256": "bf731b63e9ba38f647f4f628603407f6cabbe0880d9f19ce1e2dd31d012a0058",
+      "links": [
+        {
+          "base": "0x80814f08",
+          "retail_equal": true,
+          "bytes_sha256": "1971df7154cbcf63ecba5327ee276249295034025c590bc4673455f91ab00299"
+        },
+        {
+          "base": "0x8052fb08",
+          "retail_equal": true,
+          "bytes_sha256": "1971df7154cbcf63ecba5327ee276249295034025c590bc4673455f91ab00299"
+        }
+      ]
+    },
+    {
+      "row": "town/func_8081508C",
+      "foff": "0x79508c",
+      "size": 128,
+      "source": "src/town/scene/motion/advance_three_component_motion.c",
+      "true_name": "func_8052FC8C",
+      "object_sha256": "f974ae005da71d95e30e315a79473cc3340007c20c14d9ca0931da2a82de1959",
+      "links": [
+        {
+          "base": "0x8081508c",
+          "retail_equal": true,
+          "bytes_sha256": "eb16fa27d08bc699b7b9931a116d9f6aef37dfc3b389dc015133201f982577f6"
+        },
+        {
+          "base": "0x8052fc8c",
+          "retail_equal": true,
+          "bytes_sha256": "eb16fa27d08bc699b7b9931a116d9f6aef37dfc3b389dc015133201f982577f6"
+        }
+      ]
+    },
+    {
+      "row": "town/func_8081510C",
+      "foff": "0x79510c",
+      "size": 84,
+      "source": "src/town/scene/flags/set_record_flags_when_linked.c",
+      "true_name": "func_8052FD0C",
+      "object_sha256": "995946be1c840138333c26dc5273d60afab0215d6d1bd276b23b21c522695141",
+      "links": [
+        {
+          "base": "0x8081510c",
+          "retail_equal": true,
+          "bytes_sha256": "42fc049b5fdebf02d2d28f603af1c8618dd0dfa5880b623e2da3d634207e8225"
+        },
+        {
+          "base": "0x8052fd0c",
+          "retail_equal": true,
+          "bytes_sha256": "42fc049b5fdebf02d2d28f603af1c8618dd0dfa5880b623e2da3d634207e8225"
+        }
+      ]
+    },
+    {
+      "row": "town/func_80815160",
+      "foff": "0x795160",
+      "size": 152,
+      "source": "src/town/scene/process_state_zero_record.c",
+      "true_name": "func_8052FD60",
+      "object_sha256": "153aaa230e7563466885d43f4f048b6854223efe62be3d5d549a0496bc982bb7",
+      "links": [
+        {
+          "base": "0x80815160",
+          "retail_equal": true,
+          "bytes_sha256": "b0d209e899a59fd28e362e532a67e98f2d463547ccca46f26e4267647edecb49"
+        },
+        {
+          "base": "0x8052fd60",
+          "retail_equal": true,
+          "bytes_sha256": "b0d209e899a59fd28e362e532a67e98f2d463547ccca46f26e4267647edecb49"
+        }
+      ]
+    },
+    {
+      "row": "town/func_80815294",
+      "foff": "0x795294",
+      "size": 72,
+      "source": "src/town/scene/object/create_value_object.c",
+      "true_name": "func_8052FE94",
+      "object_sha256": "51a932f8db069106714014640720263ef6189307bf395adc00d7f7f757764aef",
+      "links": [
+        {
+          "base": "0x80815294",
+          "retail_equal": true,
+          "bytes_sha256": "80bc7b7a3aa2f195f1dbf3b7140b88971ccf3882d7e407179537542019628e2e"
+        },
+        {
+          "base": "0x8052fe94",
+          "retail_equal": true,
+          "bytes_sha256": "80bc7b7a3aa2f195f1dbf3b7140b88971ccf3882d7e407179537542019628e2e"
+        }
+      ]
+    }
+  ],
+  "qualification": "Linked-base evidence only; no retail load or execution claim. Window proof must also pass."
+}

@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-s32 func_8025E01C();                          /* extern */
+short func_8025E01C(void *position);                          /* extern */
 
 typedef struct S_8080E534_0 {
     u8 pad_00[0xA];
@@ -11,7 +11,8 @@ typedef struct S_8080E534_0 {
 } S_8080E534_0;   /* arg1 in fall_to_ground_height */
 
 /* Advance the accumulator and reset it when lowering the stored value. */
-void fall_to_ground_height(s32 unused, S_8080E534_0 *object) {
+void fall_to_ground_height(s32 unused, void *position) {
+    S_8080E534_0 *object = position;
     s32 shifted_value;
     s32 new_value;
 

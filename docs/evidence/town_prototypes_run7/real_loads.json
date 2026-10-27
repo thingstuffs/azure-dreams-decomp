@@ -1,0 +1,71 @@
+{
+  "schema": "town-packed-load-review.v1",
+  "loads": [
+    {
+      "foff": 7954432,
+      "size": 30720,
+      "base": 2147614720,
+      "source": "TOWN",
+      "descriptor_foff": "0x56fe0",
+      "descriptor_vma": "0x800d4740",
+      "descriptor_words": [
+        "0x7820000",
+        "0x1b31"
+      ],
+      "descriptor_sha256": "7904b9e697ecb79d7d16a5c37d65e99868b53b15be95ad8cf635c16c45c862d3"
+    },
+    {
+      "foff": 7985152,
+      "size": 18432,
+      "base": 2147614720,
+      "source": "TOWN",
+      "descriptor_foff": "0x56ff0",
+      "descriptor_vma": "0x800d4750",
+      "descriptor_words": [
+        "0x4820000",
+        "0x1b40"
+      ],
+      "descriptor_sha256": "372b7a4bc9a4b07e53cea5ab76ccd7c800597c2de6472795c7f14079d47fab99"
+    },
+    {
+      "foff": 9252864,
+      "size": 18432,
+      "base": 2147614720,
+      "source": "TOWN",
+      "descriptor_foff": "0x56fe8",
+      "descriptor_vma": "0x800d4748",
+      "descriptor_words": [
+        "0x4820000",
+        "0x1dab"
+      ],
+      "descriptor_sha256": "e7dd43b916faee525aa0f1240ef68ad76b614377c39e49a0a75649502d363517"
+    },
+    {
+      "foff": 9316352,
+      "size": 100352,
+      "base": 2148641944,
+      "source": "SLUS",
+      "descriptor_foff": "0x5439c",
+      "descriptor_vma": "0x80080b9c",
+      "descriptor_words": [
+        "0x1891ac98",
+        "0x1dca"
+      ],
+      "descriptor_sha256": "280d4bc28610815aa2c804fccce6c209e3574f0852026823588cf1c37524da55"
+    },
+    {
+      "foff": 9297920,
+      "size": 18432,
+      "base": 2147614720,
+      "source": "SLUS",
+      "descriptor_foff": "0x543ac",
+      "descriptor_vma": "0x80080bac",
+      "descriptor_words": [
+        "0x4820000",
+        "0x1dc1"
+      ],
+      "descriptor_sha256": "f6a921290e2613c5b53b068070dae14a3b502229a8a502ccd4352ae40fc14472"
+    }
+  ],
+  "qualification": "Static packed-CD loader descriptors; no new execution claim."
+}

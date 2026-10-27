@@ -18,7 +18,6 @@ extern u8 *remap_flagged_string_bytes(u8 *);
 extern void *build_positioned_text_glyphs(void *, u8 *, s32);
 void flag_object_for_removal(unsigned short *object);
 s32 create_callback_pair_default();
-s32 func_8004B404();
 /*
  * Builds text glyphs for an item's numeric value and flag marker, returning 0 for unsupported
  * categories.

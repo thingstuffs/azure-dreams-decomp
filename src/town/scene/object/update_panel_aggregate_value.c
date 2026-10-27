@@ -6,7 +6,7 @@
 typedef struct S_8080BE0C_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
     u16 unk_02;
-    s32 unk_04;
+    const char *unk_04;
     u8 pad_08[0x4];
     void * unk_0C;
     u8 pad_10[0xC];
@@ -17,8 +17,8 @@ typedef struct S_8080BE0C_1 {
     u8 pad_00[0x2A];
     u16 unk_2A;
 } S_8080BE0C_1;   /* data_ptr in update_panel_aggregate_value */
-void func_80058588(s32 total, s32 query, s32 key);               /* extern */
-s32 func_80071424();                             /* extern */
+void func_80058588(s32 total, s32 query, const char *text);               /* extern */
+s32 func_80071424(const char *);                             /* extern */
 extern s32 scene_object_flags;
 extern s16 D_80530000[];
 

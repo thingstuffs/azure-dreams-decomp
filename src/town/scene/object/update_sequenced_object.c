@@ -39,22 +39,21 @@ typedef struct S_8080C650_4 {
 
 
 s32 func_80034A1C();                /* extern */
-void *func_800374FC();            /* extern */
+extern void *func_800374FC(s32 flags, struct ObjectNodeHeader **list_head);            /* extern */
 void func_8003BC18(void *, void *);           /* extern */
 void func_8003EA54(void *);                      /* extern */
 void func_80050BD8(s32);                     /* extern */
 void func_80050BFC(s32);                     /* extern */
 void func_80058F88(s32);                     /* extern */
-s32 func_8006A3A4();                             /* extern */
+s32 func_8006A3A4(s32);                             /* extern */
 s32 func_8006A470();                             /* extern */
 void func_8023FB18(void *);                      /* extern */
 void func_80245C10(void *);             /* extern */
-s16 func_8025E01C();                          /* extern */
+s16 func_8025E01C(void *position);                          /* extern */
 extern s16 D_800133A0;
 extern u8 score_sprite_draw_callback_address[3];
 extern s32 scene_object_flags;
 extern s32 D_8012F130[5];
-extern u8 scene_object_factory_data[3];
 extern s32 collection_round_work[3];
 extern s32 town_motion_state[3];
 extern s32 collection_target_y[3];
@@ -298,7 +297,7 @@ void update_sequenced_object(TownCollectionActor *in0, ObjectPosition *motion, S
                 in0->flags = (s32) (in0->flags | 1);
                 {
                     do {
-                        floor_height_or_spawned_object = func_800374FC(0x136, scene_object_factory_data);
+                        floor_height_or_spawned_object = func_800374FC(0x136, &scene_object_factory_data);
                         if (floor_height_or_spawned_object != NULL) {
                             spawned_primitive = ((S_8080C650_4 *)floor_height_or_spawned_object)->unk_0C;
                             func_8003BC18(floor_height_or_spawned_object, score_sprite_draw_callback_address);

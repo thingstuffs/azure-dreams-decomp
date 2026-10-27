@@ -24,7 +24,7 @@ typedef struct {
 } Copy12;
 
 extern void func_8003EA54();
-extern s32 func_80071494();
+extern s32 func_80071494(void);
 extern void func_8023FB18();
 extern s32 func_80240810();
 

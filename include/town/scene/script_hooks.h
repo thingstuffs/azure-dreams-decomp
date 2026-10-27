@@ -4,6 +4,7 @@
 #include "common.h"
 
 void noop_scene_script_call(void);
+void point_shared_buffer_at_data_e(void);
 
 /* Return words consumed by script variable v15. */
 s32 apply_stored_value_1792_c(void);

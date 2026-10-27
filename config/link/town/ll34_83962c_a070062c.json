@@ -6,19 +6,5 @@
   "size": "0x20",
   "vma": "0xA070062C",
   "evidence": "config/overlays/town.rowbase.jsonl:r121c3_83962C",
-  "entries": [
-    {
-      "row": "town/func_808B962C",
-      "tu": "src/town/devkit/call_helper_fixed_id_c.c",
-      "home": "town/func_80880010",
-      "foff": "0x83962C",
-      "vma": "0xA070062C",
-      "size": 32,
-      "bindings": {
-        "0x80700F98": "0xA07005A4",
-        "0x80701010": "0xA070062C"
-      },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
-    }
-  ]
+  "entries": []
 }

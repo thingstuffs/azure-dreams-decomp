@@ -6,14 +6,5 @@
   "size": "0x90",
   "vma": "0x80003544",
   "evidence": "config/overlays/town.rowbase.jsonl:r121nd_837D44",
-  "entries": [
-    {
-      "row": "town/func_808B7D44",
-      "tu": "src/town/scene/print_scene_sequence_number_sno.c",
-      "home": "town/func_808B7D44",
-      "foff": "0x837D44",
-      "vma": "0x80003544",
-      "size": 144
-    }
-  ]
+  "entries": []
 }

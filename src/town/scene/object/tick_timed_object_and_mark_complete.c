@@ -1,6 +1,6 @@
 #include "common.h"
-s32 func_80058588(s32, s32, s32);
-s32 func_80071424();
+s32 func_80058588(s32, s32, const char *);
+s32 func_80071424(const char *);
 extern s32 scene_object_flags;
 /* Submits the linked value each tick, clears flag 2 after a delay, and handles linked cleanup. */
 void tick_timed_object_and_mark_complete(void *ptr)
@@ -10,8 +10,8 @@ void tick_timed_object_and_mark_complete(void *ptr)
     u16 next_value;
     void *field_ptr;
     field_ptr = *((void **) (((s8 *) ptr) + 0xC));
-    func_80058588(*(*((s16 **) (((s8 *) ptr) + 8))), func_80071424(*((s32 *) (((s8 *) ptr) + 4))),
-        *((s32 *) (((s8 *) ptr) + 4)));
+    func_80058588(*(*((s16 **) (((s8 *) ptr) + 8))), func_80071424(*((const char **) (((s8 *) ptr) + 4))),
+        *((const char **) (((s8 *) ptr) + 4)));
     selector = *((s16 *) (((s8 *) ptr) + 0));
     switch (selector) {
     case 0:

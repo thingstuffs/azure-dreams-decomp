@@ -1,0 +1,33 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "town/ll34_78b800_80526400",
+  "container": "town",
+  "foff": "0x78b800",
+  "size": "0x9b84",
+  "vma": "0x80526400",
+  "evidence": "docs/evidence/town_prototypes_run7/diagnostic_views.json; linked base only; retail load/execution not established",
+  "load_evidence": {
+    "path": "ledger/instance_load_regions.jsonl",
+    "record_sha256": "f00d99b7b453a1900dff26d5c5b7c930c67739d71ee175604f530fd22e13c24a"
+  },
+  "entries": [
+    {
+      "row": "town/func_8080E534",
+      "home": "town/func_8080E534",
+      "tu": "src/town/scene/fall_to_ground_height.c",
+      "foff": "0x78e534",
+      "vma": "0x80529134",
+      "size": 96,
+      "evidence": "docs/evidence/r124w_carve1_run7.md; independently recompiled legacy home, not new source coverage; TU view gather: moved from town/r124w7_home_func_8080e534 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_808105EC",
+      "home": "town/func_808105EC",
+      "tu": "src/town/scene/fall_to_height_capped_at_zero.c",
+      "foff": "0x7905ec",
+      "vma": "0x8052b1ec",
+      "size": 100,
+      "evidence": "docs/evidence/r124w_carve1_run7.md; independently recompiled legacy home, not new source coverage; TU view gather: moved from town/r124w7_home_func_808105ec (same load delta) so the merged file's members share one view"
+    }
+  ]
+}

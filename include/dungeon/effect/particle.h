@@ -10,6 +10,8 @@ void try_apply_attached_actor_status(struct S_81832FE8_0 *owner);
 
 void advance_centered_fading_effect(void *effect, ObjectPosition *position, void *color);
 void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, SpriteFrameState *sprite);
+struct RibbonLineGeometry;
+void draw_ribbon_center_lines(struct RibbonLineGeometry *geometry, ObjectPosition *position, SpriteFrameState *render_data, s32 depth_bias);
 void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, void *render_state, s16 depth_bias);
 void emit_parent_relative_particles(void *emitter, ObjectPosition *position, s32 spawn_context);
 void spawn_scattered_emitter_particles(void *emitter, ObjectPosition *position, s32 spawn_context);

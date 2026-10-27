@@ -112,6 +112,14 @@
       }
     },
     {
+      "row": "main/func_8001E3A0",
+      "tu": "src/frontend/card/build_memory_task_text.c",
+      "home": "main/func_8001E3A0",
+      "foff": "0x26E3A0",
+      "vma": "0x804053a0",
+      "size": 328
+    },
+    {
       "row": "main/func_8001E53C",
       "home": "town/func_802EE53C",
       "tu": "src/town/menu/initialize_menu_item_positions.c",
@@ -453,6 +461,22 @@
         "0x80024FAC": "0x80407DB8"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "main/func_800213A0",
+      "tu": "src/frontend/card/card_dev_create_slot_screen_objects.c",
+      "home": "main/func_800213A0",
+      "foff": "0x2713A0",
+      "vma": "0x804083a0",
+      "size": 92
+    },
+    {
+      "row": "main/func_8002161C",
+      "tu": "src/frontend/libcard/libcard_query_status.c",
+      "home": "main/func_8002161C",
+      "foff": "0x27161C",
+      "vma": "0x8040861c",
+      "size": 40
     }
   ],
   "load_evidence": {

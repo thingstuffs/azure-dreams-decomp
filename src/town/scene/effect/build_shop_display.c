@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/collection.h"
 #include "town/scene/effect.h"
 
 typedef struct S_80813AB0_0 {
@@ -51,16 +52,15 @@ typedef struct RootPair {
 extern s32 func_80034A1C();
 extern s32 func_800351A8();
 extern u8 *func_800373DC();
-extern u8 *func_800374FC();
+extern void *func_800374FC(s32 flags, struct ObjectNodeHeader **list_head);
 extern s32 func_8003BC18();
-extern s32 func_80071494();
+extern s32 func_80071494(void);
 extern s32 func_8023FA58();
-extern s32 func_8052FE94();
+extern void func_8052FE94(s16 object_value);
 
 extern u8 score_sprite_draw_callback_address[];
 extern u8 menu_entry_draw_callback_address[];
 extern u8 menu_cursor_object_template[];
-extern u8 scene_object_factory_data[];
 extern u8 shop_panel_sprite_entries[];
 extern RootPair D_80526790;
 extern RootPair D_805267A0;
@@ -134,7 +134,7 @@ s32 create_linked_value_display(void)
     i = 1;
     y = 0x2C;
     do {
-        obj = func_800374FC(1, scene_object_factory_data);
+        obj = func_800374FC(1, &scene_object_factory_data);
         if (obj != 0) {
             ((S_80813AB0_0 *)obj)->unk_10 = D_8052FD0C;
             func_8003BC18(obj, menu_entry_draw_callback_address);
@@ -174,7 +174,7 @@ s32 create_linked_value_display(void)
     i = 1;
     slot = (void **)0x2C;
     do {
-        obj = func_800374FC(1, scene_object_factory_data);
+        obj = func_800374FC(1, &scene_object_factory_data);
         if (obj != 0) {
             ((S_80813AB0_0 *)obj)->unk_10 = D_8052FD60;
             func_8003BC18(obj, menu_entry_draw_callback_address);
@@ -199,7 +199,7 @@ s32 create_linked_value_display(void)
         slot = (void **)((u8 *)slot - 0xC);
     } while (i >= 0);
 
-    obj = func_800374FC(1, scene_object_factory_data);
+    obj = func_800374FC(1, &scene_object_factory_data);
     if (obj != 0) {
         s32 final_dim;
         u32 final_color;

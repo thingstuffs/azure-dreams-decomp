@@ -17,7 +17,7 @@ extern State *devkit_state_slots[3];
 extern s32 func_80700C9C(s32 entry);
 extern void shift_index_and_add_offset(s32 entry);
 extern void pass_indexed_table(s32 entry);
-extern s32 func_80701404();
+extern s32 func_80701404(void);
 
 /* When the gate and the counter both pass, set the stage flag and return the stage handler's result. */
 s32 advance_stage_1_when_ready(s32 entry) {

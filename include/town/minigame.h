@@ -6,6 +6,10 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
 #include "town/scene.h"
+#include "records/Rec_func_80021E88_arg1.h"
+struct S_80021E88_0;
+struct S_80021E88_2;
+struct SpinPhaseWork;
 
 
 /* initialize_minigame_display.c */
@@ -36,8 +40,8 @@ void update_minigame_image_animation(void *anim);
 s32 initialize_casino_minigame(void);
 /* Update callbacks it installs; their definitions take file-local views. */
 void update_betting_effect();
-void update_effect_position_spin_phases();
-void update_minigame_transition();
+void update_effect_position_spin_phases(struct SpinPhaseWork *state_arg, ObjectPosition *target_arg, SpriteFrameState *effect_arg);
+void update_minigame_transition(struct S_80021E88_0 *controller, Rec_func_80021E88_arg1 *position, struct S_80021E88_2 *display);
 /* Mode-three record setup (town/scene/configure_set_mode_n_d.c) as the minigame constructors call it. */
 void configure_the_set_mode_n_3(void *record, void *position, void *params);
 extern s32 pickup_reward_total[];

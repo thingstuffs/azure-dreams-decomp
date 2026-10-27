@@ -1793,15 +1793,12 @@
 {"id":"town/func_800D1568","path":"src/town/person/object/initialize_object_with_handler_and_offset.c"}
 {"id":"town/func_800D15C4","path":"src/town/person/object/initialize_object_from_table_entry.c"}
 {"id":"town/func_800D1644","path":"src/town/person/state/reset_object_flag_and_set_countdown.c"}
-{"id":"town/func_802EE3A0","path":"src/town/devkit/build_memory_task_text.c"}
 {"id":"town/func_802EE4E8","path":"src/town/devkit/select_memory_task_exit.c"}
 {"id":"town/D_802F100C","path":"src/town/scene/packed_value_table.c"}
-{"id":"town/func_802F13A0","path":"src/town/devkit/arm_memory_task.c"}
 {"id":"town/func_802F13FC","path":"src/town/devkit/memory_init_work_object_and_callback.c"}
 {"id":"town/func_802F14DC","path":"src/town/devkit/register_object_handles_and_flag.c"}
 {"id":"town/func_802F155C","path":"src/town/devkit/process_memory_target_mode_one.c"}
 {"id":"town/func_802F15DC","path":"src/town/devkit/process_memory_target_mode_zero.c"}
-{"id":"town/func_802F161C","path":"src/town/devkit/get_memory_task_value.c"}
 {"id":"town/func_802F1684","path":"src/town/devkit/process_memory_target_fixed_parameters.c"}
 {"id":"town/func_802F16DC","path":"src/town/devkit/run_memory_setup_sequence.c"}
 {"id":"town/func_802F1730","path":"src/town/devkit/run_memory_setup_with_zero.c"}
@@ -7986,3 +7983,4 @@
 {"id":"town/D_8079A074","path":"src/town/scene/attach_global_data_and_invoke_callback.c"}
 {"id":"town/func_8081DA98","path":"src/town/minigame/initialize_casino_minigame.c"}
 {"id":"dungeon/func_81324F20","path":"src/dungeon/monster/ghosh/begin_ghosh_front_attack.c"}
+{"id":"dungeon/func_80CE706C","path":"src/dungeon/monster/troll/draw_segmented_motion_lines.c"}

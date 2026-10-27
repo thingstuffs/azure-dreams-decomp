@@ -8,6 +8,15 @@
   "evidence": "config/overlays/town.rowbase.jsonl proven region sweep_8EAB10",
   "entries": [
     {
+      "row": "town/func_8096AD44",
+      "home": "town/func_8096AD44",
+      "tu": "src/town/scene/remove_scene_runtime_callback.c",
+      "foff": "0x8ead44",
+      "size": 36,
+      "vma": "0x801231dc",
+      "evidence": "docs/evidence/town_prototypes_run7/real_loads.json; SLUS 0x80080B9C loads the enclosing 49-sector image"
+    },
+    {
       "row": "town/func_8096C87C",
       "home": "town/func_8096C87C",
       "tu": "src/town/menu/finish_catalog_grid_transition.c",

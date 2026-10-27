@@ -6,20 +6,5 @@
   "size": "0x30",
   "vma": "0x807002D4",
   "evidence": "config/overlays/town.rowbase.jsonl:r121nd_832AD4",
-  "entries": [
-    {
-      "row": "town/func_808B2AD4",
-      "tu": "src/town/scene/pass_indexed_table.c",
-      "home": "town/func_80874D54",
-      "foff": "0x832AD4",
-      "vma": "0x807002D4",
-      "size": 48,
-      "bindings": {
-        "0x80700BB4": "0xA0700F2C",
-        "0x80701808": "0x80700D1C",
-        "0x80700D54": "0x807002D4"
-      },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
-    }
-  ]
+  "entries": []
 }

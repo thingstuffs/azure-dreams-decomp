@@ -1,0 +1,48 @@
+{
+  "schema": "town-devkit-callback-return-review.v1",
+  "table_foff": "0x832918",
+  "table_sha256": "7c7aac3e8ea4640ff0379a7c44db36e6a24f3e1955de237cdcad9700507d36eb",
+  "callback_addresses": [
+    "0xa0700758",
+    "0xa07007e4",
+    "0xa0700874",
+    "0xa0700904"
+  ],
+  "callback_sources": [
+    "src/town/devkit/refresh_status_when_gate_and_counter_pass.c",
+    "src/town/devkit/refresh_status_when_alt_gate_passes.c",
+    "src/town/devkit/refresh_status_when_second_gate_passes.c",
+    "src/town/scene/hooks/return_argument_b.c"
+  ],
+  "result": "All four callbacks have s32 results; the three refresh wrappers return this dispatcher result recursively, and the last callback returns its input. The dispatcher must preserve the callback result. finish_stage_for_index also consumes its scan-and-dispatch result as an s32. Both corrected dispatchers pass raw/canonical complete-TU identity.",
+  "qualification": "No invented meaning for the returned word. Existing callback addresses and control flow are preserved.",
+  "additional_dispatchers": [
+    {
+      "source": "src/town/devkit/call_devkit_callback_at_first_failure.c",
+      "table_foff": "0x7F4BDC",
+      "table_sha256": "54b339608b99c32f7ffba42547099bd58ebc2b9641ba0f4280950bd076f08208",
+      "callback_addresses": [
+        "0x80701238",
+        "0x807012cc",
+        "0x80701364",
+        "0x807013fc"
+      ],
+      "evidence": "The three stage wrappers and return_argument_b produce s32 results; this original dispatcher has the same return flow as its corrected low-image copy."
+    },
+    {
+      "source": "src/town/devkit/dispatch_by_leading_id_flags.c",
+      "table_foff": "0x832904",
+      "table_sha256": "5ee814aad1f6a8e834f25f4914852f3d3294f7156c6f8359c38ee8f410ae7afa",
+      "callback_addresses": [
+        "0xa0700398",
+        "0xa07004b0",
+        "0xa0700570"
+      ],
+      "evidence": "The three callback bodies return s32. Only the callback result contract changes; callback operands are preserved."
+    },
+    {
+      "source": "src/town/devkit/shop_find_first_eligible_entry.c",
+      "evidence": "advance_selected_flag_row is defined with an s32 result, returns its index or recursively returns advance_clear_flag_row. The clear-row wrapper must preserve that result."
+    }
+  ]
+}

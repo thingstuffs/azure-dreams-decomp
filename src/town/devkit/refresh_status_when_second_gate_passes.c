@@ -12,9 +12,9 @@ typedef struct S_808B3074_1 {
 
 
 extern s32 func_8070021C();
-extern s32 forward_indexed_table_value();
-extern s32 func_807002D4();
-extern s32 dispatch_first_failed_entry();
+extern void forward_indexed_table_value(s32 index);
+extern void func_807002D4(s32 index);
+extern s32 dispatch_first_failed_entry(void);
 
 /* When the gate and the counter both pass, refresh the status byte and return the stage handler's result. */
 s32 refresh_status_when_second_gate_passes(s32 entry)

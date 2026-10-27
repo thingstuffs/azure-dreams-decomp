@@ -3,12 +3,12 @@
 
 void dev_report_kind_mode_sno(s32 kind);                     /* extern */
 void propagate_indexed_flag_pair(s32 entry_index);                     /* extern */
-s32 advance_clear_flag_row();                                /* extern */
+s32 advance_clear_flag_row(void);                                /* extern */
 void clear_three_flag_pairs(void);                            /* extern */
 s32 get_selected_flag_state(s32 unused_selection);                             /* extern */
 void update_combined_flag(void);                            /* extern */
 void func_80702924(s32);                         /* extern */
-void reset_town_display_pick_scene();                    /* extern */
+void reset_town_display_pick_scene(s32 scene, s32 mode);                    /* extern */
 
 extern s32 D_80701DC4_0[];
 extern s32 D_80701DC4_1[];

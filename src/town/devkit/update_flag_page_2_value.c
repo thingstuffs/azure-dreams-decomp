@@ -7,8 +7,8 @@ typedef struct FlagPageState {
 
 
 extern s32 func_8070021C();
-extern s32 forward_indexed_table_value();
-extern s32 func_807002D4();
+extern void forward_indexed_table_value(s32 index);
+extern void func_807002D4(s32 index);
 
 /* Devkit flag page 2: pass the value through when idle, else mark dirty and rescan. */
 s32 update_flag_page_2_value(s32 carry_value)

@@ -11,7 +11,6 @@ typedef struct S_800B3178_4 {
     s8 unk_01;
     s8 unk_02;
 } S_800B3178_4;
-s32 func_8004AC3C();
 /* extern */
 s32 func_8004DC14();
 /* extern */

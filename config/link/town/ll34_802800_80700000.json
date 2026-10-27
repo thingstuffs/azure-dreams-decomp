@@ -1,0 +1,52 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "town/ll34_802800_80700000",
+  "container": "town",
+  "foff": "0x802800",
+  "size": "0x1000",
+  "vma": "0x80700000",
+  "evidence": "docs/evidence/town_prototypes_run7/diagnostic_views.json; linked base only; retail load/execution not established",
+  "load_evidence": {
+    "path": "ledger/instance_load_regions.jsonl",
+    "record_sha256": "6cb58d4f6b6ffac52dca52767aa64a56cbe4b9e6ba2fd2c176cb91a111362f9a"
+  },
+  "entries": [
+    {
+      "row": "town/func_808833D8",
+      "tu": "src/town/shop/state/shop_set_indexed_flag.c",
+      "home": "town/func_80878670",
+      "foff": "0x8033D8",
+      "vma": "0x80700BD8",
+      "size": 80,
+      "bindings": {
+        "0x807030A4": "0x80700E38",
+        "0x80702670": "0x80700BD8",
+        "0x807026C0": "0x807026C0"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_8033d8_80700bd8 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_80883428",
+      "tu": "src/town/shop/state/shop_clear_indexed_flag.c",
+      "home": "town/func_808786C0",
+      "foff": "0x803428",
+      "vma": "0x80700C28",
+      "size": 84,
+      "bindings": {
+        "0x807030A4": "0x80700E38",
+        "0x807026C0": "0x80700C28",
+        "0x80702670": "0x80702670"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_803428_80700c28 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_80883524",
+      "tu": "src/town/scene/shift_index_and_add_offset.c",
+      "home": "town/func_80883524",
+      "foff": "0x803524",
+      "vma": "0x80700D24",
+      "size": 36,
+      "evidence": "TU view gather: moved from town/ll34_803524_80700d24 (same load delta) so the merged file's members share one view"
+    }
+  ]
+}

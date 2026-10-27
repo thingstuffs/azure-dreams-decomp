@@ -1,12 +1,11 @@
 /* Context boundary adjustment and its file-private helper. */
 #include "common.h"
+#include "town/scene/motion/offset_queries.h"
 static void apply_upper_lower_boundary_adjustments_fixed_point(s32 context, s32 *value);
 /* extern */
 void adjust_fixed_point_value_at_bounds(s32 context, s32 *value);
 #include "m2c_compat.h"
-s32 handle_evaluate_position_after_subtracting_stored_offset_first_component();
 /* extern */
-s32 query_position_with_first_component_offset();
 /* extern */
 void set_the_control_flag_initializes_cleared_trailing_field();
 /* extern */

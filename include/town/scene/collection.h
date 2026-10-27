@@ -4,6 +4,7 @@
 #include "common.h"
 
 struct ObjectNodeHeader;
+extern struct ObjectNodeHeader *scene_object_factory_data;
 
 /* Collection controllers and their actor callbacks share this body. The snowball
  * initializer stores the actor node at controller +4 and stores the controller
@@ -46,5 +47,14 @@ typedef struct TownCollectionActor {
 } TownCollectionActor;
 
 void run_collection_round_sequence(TownCollectionSequence *sequence);
+
+void create_record_with_three_data_blocks(void *callback, void *data_blocks);
+void create_eight_objects_from_kind_table(void *owner_data);
+void create_object_from_pairs_and_words(void *callback, void *pair_data, void *word_data, void *owner);
+
+/* The linked minigame image retains these address aliases. */
+void allocate_record_and_store_three_blocks(void *callback, void *data_blocks);
+void create_initialize_eight_objects_table(void *owner_data);
+void create_object_pair_word(void *callback, void *pair_data, void *word_data, void *owner);
 
 #endif

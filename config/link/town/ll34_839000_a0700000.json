@@ -1,0 +1,163 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "town/ll34_839000_a0700000",
+  "container": "town",
+  "foff": "0x839000",
+  "size": "0x1800",
+  "vma": "0xa0700000",
+  "evidence": "docs/evidence/town_prototypes_run7/diagnostic_views.json; linked base only; retail load/execution not established",
+  "load_evidence": {
+    "path": "ledger/instance_load_regions.jsonl",
+    "record_sha256": "75b3d437371f9ad377f88a6c8d580360bde1478a547e833058e10815c4773a95"
+  },
+  "entries": [
+    {
+      "row": "town/func_808B95EC",
+      "tu": "src/town/devkit/call_helper_fixed_id.c",
+      "home": "town/func_8087FFD0",
+      "foff": "0x8395EC",
+      "vma": "0xA07005EC",
+      "size": 32,
+      "bindings": {
+        "0x80700F98": "0xA07005A4",
+        "0x80700FD0": "0xA07005EC",
+        "0x80700FF0": "0x80700FF0",
+        "0x80701010": "0x80701010",
+        "0x80701030": "0x80701030",
+        "0x80701050": "0x80701050",
+        "0x80701070": "0x80701070",
+        "0x80702670": "0x80702670",
+        "0x807026C0": "0x807026C0"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_8395ec_a07005ec (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_808B960C",
+      "tu": "src/town/devkit/call_helper_fixed_id_b.c",
+      "home": "town/func_8087FFF0",
+      "foff": "0x83960C",
+      "vma": "0xA070060C",
+      "size": 32,
+      "bindings": {
+        "0x80700F98": "0xA07005A4",
+        "0x80700FF0": "0xA070060C",
+        "0x80700FD0": "0x80700FD0",
+        "0x80701010": "0x80701010",
+        "0x80701030": "0x80701030",
+        "0x80701050": "0x80701050",
+        "0x80701070": "0x80701070",
+        "0x80702670": "0x80702670",
+        "0x807026C0": "0x807026C0"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_83960c_a070060c (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_808B962C",
+      "tu": "src/town/devkit/call_helper_fixed_id_c.c",
+      "home": "town/func_80880010",
+      "foff": "0x83962C",
+      "vma": "0xA070062C",
+      "size": 32,
+      "bindings": {
+        "0x80700F98": "0xA07005A4",
+        "0x80701010": "0xA070062C",
+        "0x80700FD0": "0x80700FD0",
+        "0x80700FF0": "0x80700FF0",
+        "0x80701030": "0x80701030",
+        "0x80701050": "0x80701050",
+        "0x80701070": "0x80701070",
+        "0x80702670": "0x80702670",
+        "0x807026C0": "0x807026C0"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_83962c_a070062c (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_808B964C",
+      "tu": "src/town/devkit/call_helper_fixed_id_d.c",
+      "home": "town/func_80880030",
+      "foff": "0x83964C",
+      "vma": "0xA070064C",
+      "size": 32,
+      "bindings": {
+        "0x80700F98": "0xA07005A4",
+        "0x80701030": "0xA070064C",
+        "0x80700FD0": "0x80700FD0",
+        "0x80700FF0": "0x80700FF0",
+        "0x80701010": "0x80701010",
+        "0x80701050": "0x80701050",
+        "0x80701070": "0x80701070",
+        "0x80702670": "0x80702670",
+        "0x807026C0": "0x807026C0"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_83964c_a070064c (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_808B966C",
+      "tu": "src/town/devkit/call_helper_fixed_id_e.c",
+      "home": "town/func_80880050",
+      "foff": "0x83966C",
+      "vma": "0xA070066C",
+      "size": 32,
+      "bindings": {
+        "0x80700F98": "0xA07005A4",
+        "0x80701050": "0xA070066C",
+        "0x80700FD0": "0x80700FD0",
+        "0x80700FF0": "0x80700FF0",
+        "0x80701010": "0x80701010",
+        "0x80701030": "0x80701030",
+        "0x80701070": "0x80701070",
+        "0x80702670": "0x80702670",
+        "0x807026C0": "0x807026C0"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_83966c_a070066c (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_808B968C",
+      "tu": "src/town/devkit/call_helper_fixed_id_f.c",
+      "home": "town/func_80880070",
+      "foff": "0x83968C",
+      "vma": "0xA070068C",
+      "size": 32,
+      "bindings": {
+        "0x80700F98": "0xA07005A4",
+        "0x80701070": "0xA070068C",
+        "0x80700FD0": "0x80700FD0",
+        "0x80700FF0": "0x80700FF0",
+        "0x80701010": "0x80701010",
+        "0x80701030": "0x80701030",
+        "0x80701050": "0x80701050",
+        "0x80702670": "0x80702670",
+        "0x807026C0": "0x807026C0"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_83968c_a070068c (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_808B96AC",
+      "tu": "src/town/shop/state/shop_set_indexed_flag.c",
+      "home": "town/func_80878670",
+      "foff": "0x8396AC",
+      "vma": "0xA07006AC",
+      "size": 80,
+      "bindings": {
+        "0x807030A4": "0xA0700B3C",
+        "0x80702670": "0xA07006AC",
+        "0x807026C0": "0x807026C0"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_8396ac_a07006ac (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_808B96FC",
+      "tu": "src/town/shop/state/shop_clear_indexed_flag.c",
+      "home": "town/func_808786C0",
+      "foff": "0x8396FC",
+      "vma": "0xA07006FC",
+      "size": 84,
+      "bindings": {
+        "0x807030A4": "0xA0700B3C",
+        "0x807026C0": "0xA07006FC",
+        "0x80702670": "0x80702670"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_8396fc_a07006fc (same load delta) so the merged file's members share one view"
+    }
+  ]
+}

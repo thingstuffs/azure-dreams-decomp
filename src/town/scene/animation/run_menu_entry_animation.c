@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/collection.h"
 #include "town/scene/animation.h"
 #include "shared/vector.h"
 
@@ -56,7 +57,6 @@ extern u8 score_sprite_draw_callback_address[16];
 extern u8 menu_entry_draw_callback_address[16];
 extern u8 menu_cursor_object_template[16];
 extern s32 scene_object_flags;
-extern u8 scene_object_factory_data[16];
 extern s32 collection_target_y[4];
 extern u8 D_8028E628[16];
 extern u8 D_80526694[16];
@@ -105,7 +105,7 @@ void run_menu_entry_animation(TownState *self) {
                 if (self->state == 0) {
                     self->count--;
                 }
-                obj = func_800374FC(0x136, scene_object_factory_data);
+                obj = func_800374FC(0x136, &scene_object_factory_data);
                 if (obj != 0) {
                     obj->callback = animate_falling_timed_object;
                     func_8003BC18(obj, score_sprite_draw_callback_address);
@@ -136,7 +136,7 @@ void run_menu_entry_animation(TownState *self) {
             break;
         }
                         /* fall through */
-        obj = func_800374FC(1, scene_object_factory_data);
+        obj = func_800374FC(1, &scene_object_factory_data);
         if (obj != 0) {
             obj->callback = D_8052BC34;
             func_8003BC18(obj, menu_entry_draw_callback_address);
@@ -147,7 +147,7 @@ void run_menu_entry_animation(TownState *self) {
             obj->data = result_data;
             obj->lifetime = 0x96;
         }
-        obj = func_800374FC(1, scene_object_factory_data);
+        obj = func_800374FC(1, &scene_object_factory_data);
         if (obj != 0) {
             obj->callback = D_8052BC80;
             func_8003BC18(obj, menu_cursor_object_template);
@@ -164,7 +164,7 @@ void run_menu_entry_animation(TownState *self) {
         break;
 
     case 2:
-        obj = func_800374FC(1, scene_object_factory_data);
+        obj = func_800374FC(1, &scene_object_factory_data);
         if (obj != 0) {
             obj->callback = D_8052BC34;
             func_8003BC18(obj, menu_entry_draw_callback_address);
@@ -175,7 +175,7 @@ void run_menu_entry_animation(TownState *self) {
             obj->field_30.color = 0x00808080;
             obj->lifetime = 0x96;
         }
-        obj = func_800374FC(1, scene_object_factory_data);
+        obj = func_800374FC(1, &scene_object_factory_data);
         if (obj != 0) {
             obj->callback = D_8052BC80;
             func_8003BC18(obj, menu_cursor_object_template);

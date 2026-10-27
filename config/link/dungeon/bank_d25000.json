@@ -9,6 +9,15 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F42D800: native_slot_d25000_80152800; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_80D0506C",
+      "home": "dungeon/func_80CE706C",
+      "tu": "src/dungeon/monster/troll/draw_segmented_motion_lines.c",
+      "foff": "0xD2506C",
+      "vma": "0x8015286C",
+      "size": 1152,
+      "evidence": "docs/evidence/opus_sp22.md"
+    },
+    {
       "row": "dungeon/func_80D054EC",
       "home": "dungeon/func_800C138C",
       "tu": "src/dungeon/effect/dispatch.c",

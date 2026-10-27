@@ -10,7 +10,7 @@ typedef struct S_808152DC_0 {
 } S_808152DC_0;   /* record in func_808152DC */
 
 
-extern s32 func_80058F88();
+extern short func_80058F88(int flags);
 extern s32 scene_object_flags;
 
 /* Step the record's two-state timer, raising the finished bit when it runs out. */

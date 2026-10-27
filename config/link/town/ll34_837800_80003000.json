@@ -1,0 +1,195 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "town/ll34_837800_80003000",
+  "container": "town",
+  "foff": "0x837800",
+  "size": "0x1800",
+  "vma": "0x80003000",
+  "evidence": "docs/evidence/town_prototypes_run7/diagnostic_views.json; linked base only; retail load/execution not established",
+  "load_evidence": {
+    "path": "ledger/instance_load_regions.jsonl",
+    "record_sha256": "ce05c1016d144e6e6b393e4833c7e16038703918d3eb72a35e84e0baa5b57a40"
+  },
+  "entries": [
+    {
+      "row": "town/func_808B7D44",
+      "tu": "src/town/scene/print_scene_sequence_number_sno.c",
+      "home": "town/func_808B7D44",
+      "foff": "0x837D44",
+      "vma": "0x80003544",
+      "size": 144,
+      "evidence": "TU view gather: moved from town/ll34_837d44_80003544 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_808B7DD4",
+      "tu": "src/town/scene/flags/dispatch_entry_test_flag.c",
+      "home": "town/func_808B7DD4",
+      "foff": "0x837DD4",
+      "vma": "0x800035D4",
+      "size": 148,
+      "evidence": "TU view gather: moved from town/ll34_837dd4_800035d4 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_808B7E68",
+      "tu": "src/town/devkit/shop_skip_accepted_entries.c",
+      "home": "town/func_80878110",
+      "foff": "0x837E68",
+      "vma": "0x80003668",
+      "size": 112,
+      "bindings": {
+        "0x80701DFC": "0x00003F88",
+        "0x80701DEC": "0x00003F78",
+        "0x80702714": "0x80003C70",
+        "0x80702110": "0x80003668",
+        "0x80702180": "0x80702180",
+        "0x807021C8": "0x807021C8",
+        "0x80702260": "0x80702260",
+        "0x807022BC": "0x807022BC",
+        "0x80702670": "0x80702670",
+        "0x807026C0": "0x807026C0"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_837e68_80003668 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_808B7ED8",
+      "tu": "src/town/devkit/state/shop_set_entry_step_flag.c",
+      "home": "town/func_80878180",
+      "foff": "0x837ED8",
+      "vma": "0x800036D8",
+      "size": 72,
+      "bindings": {
+        "0x80701E2C": "0x00003FB8",
+        "0x80702670": "0x80003BCC",
+        "0x80702180": "0x800036D8",
+        "0x80702110": "0x80702110",
+        "0x807021C8": "0x807021C8",
+        "0x80702260": "0x80702260",
+        "0x807022BC": "0x807022BC",
+        "0x807026C0": "0x807026C0",
+        "0x80702714": "0x80702714"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_837ed8_800036d8 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_808B7F20",
+      "tu": "src/town/devkit/shop_advance_entry_step.c",
+      "home": "town/func_808781C8",
+      "foff": "0x837F20",
+      "vma": "0x80003720",
+      "size": 152,
+      "bindings": {
+        "0x80701DCE": "0x00003F5A",
+        "0x80702714": "0x80003C70",
+        "0x80702110": "0x80003668",
+        "0x80701DFC": "0x00003F88",
+        "0x80702670": "0x80003BCC",
+        "0x807026C0": "0x80003C1C",
+        "0x80702260": "0x800037B8",
+        "0x80702180": "0x800036D8",
+        "0x807021C8": "0x80003720",
+        "0x807022BC": "0x807022BC"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_837f20_80003720 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_808B7FB8",
+      "tu": "src/town/devkit/shop_find_first_eligible_entry.c",
+      "home": "town/func_80878260",
+      "foff": "0x837FB8",
+      "vma": "0x800037B8",
+      "size": 92,
+      "bindings": {
+        "0x80701DFC": "0x00003F88",
+        "0x80702714": "0x80003C70",
+        "0x807021C8": "0x80003720",
+        "0x80702260": "0x800037B8",
+        "0x80702110": "0x80702110",
+        "0x80702180": "0x80702180",
+        "0x807022BC": "0x807022BC",
+        "0x80702670": "0x80702670",
+        "0x807026C0": "0x807026C0"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_837fb8_800037b8 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_808B8014",
+      "tu": "src/town/devkit/shop_process_entry_pairs.c",
+      "home": "town/func_808782BC",
+      "foff": "0x838014",
+      "vma": "0x80003814",
+      "size": 88,
+      "bindings": {
+        "0x80701DCC": "0x00003F58",
+        "0x807026C0": "0x80003C1C",
+        "0x807022BC": "0x80003814",
+        "0x80702110": "0x80702110",
+        "0x80702180": "0x80702180",
+        "0x807021C8": "0x807021C8",
+        "0x80702260": "0x80702260",
+        "0x80702670": "0x80702670",
+        "0x80702714": "0x80702714"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_838014_80003814 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_808B83CC",
+      "tu": "src/town/shop/state/shop_set_indexed_flag.c",
+      "home": "town/func_80878670",
+      "foff": "0x8383CC",
+      "vma": "0x80003BCC",
+      "size": 80,
+      "bindings": {
+        "0x807030A4": "0x000045FC",
+        "0x80702670": "0x80003BCC",
+        "0x80702110": "0x80702110",
+        "0x80702180": "0x80702180",
+        "0x807021C8": "0x807021C8",
+        "0x80702260": "0x80702260",
+        "0x807022BC": "0x807022BC",
+        "0x807026C0": "0x807026C0",
+        "0x80702714": "0x80702714"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_8383cc_80003bcc (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_808B841C",
+      "tu": "src/town/shop/state/shop_clear_indexed_flag.c",
+      "home": "town/func_808786C0",
+      "foff": "0x83841C",
+      "vma": "0x80003C1C",
+      "size": 84,
+      "bindings": {
+        "0x807030A4": "0x000045FC",
+        "0x807026C0": "0x80003C1C",
+        "0x80702110": "0x80702110",
+        "0x80702180": "0x80702180",
+        "0x807021C8": "0x807021C8",
+        "0x80702260": "0x80702260",
+        "0x807022BC": "0x807022BC",
+        "0x80702670": "0x80702670",
+        "0x80702714": "0x80702714"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_83841c_80003c1c (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_808B8470",
+      "tu": "src/town/shop/state/shop_test_indexed_flag.c",
+      "home": "town/func_80878714",
+      "foff": "0x838470",
+      "vma": "0x80003C70",
+      "size": 96,
+      "bindings": {
+        "0x807030A4": "0x000045FC",
+        "0x80702714": "0x80003C70",
+        "0x80702110": "0x80702110",
+        "0x80702180": "0x80702180",
+        "0x807021C8": "0x807021C8",
+        "0x80702260": "0x80702260",
+        "0x807022BC": "0x807022BC",
+        "0x80702670": "0x80702670",
+        "0x807026C0": "0x807026C0"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_838470_80003c70 (same load delta) so the merged file's members share one view"
+    }
+  ]
+}

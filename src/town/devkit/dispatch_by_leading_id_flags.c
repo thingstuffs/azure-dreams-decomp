@@ -1,7 +1,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 
-typedef void (*Callback)(s32);
+typedef s32 (*Callback)(s32);
 
 typedef struct CallbackTable { Callback entry[3]; } CallbackTable;
 extern CallbackTable D_A0700104;
@@ -9,7 +9,7 @@ extern s16 D_A0700F34[];
 extern u8 *D_A0700F40;
 
 /* Dispatch a callback based on the number of leading set flags in the ID list. */
-void dispatch_by_leading_id_flags(void) {
+s32 dispatch_by_leading_id_flags(void) {
     CallbackTable callbacks;
     s16 *flag_cursor;
     s32 set_count;
@@ -35,5 +35,5 @@ void dispatch_by_leading_id_flags(void) {
         }
         } while (*flag_cursor != 0);
     }
-    callbacks.entry[set_count](set_count);
+    return callbacks.entry[set_count](set_count);
 }

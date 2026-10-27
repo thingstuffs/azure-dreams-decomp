@@ -19,11 +19,11 @@ u32 invoke_state_callback(void) {
 
 /* Pass the four-byte request 1, 1, 0, 0 to func_800168BC. */
 void pass_four_byte_request_1(void) {
-    s8 request[4];
+    Copy4 request;
 
-    request[1] = 1;
-    request[0] = 1;
-    request[2] = 0;
-    request[3] = 0;
-    func_800168BC(request);
+    request.bytes[1] = 1;
+    request.bytes[0] = 1;
+    request.bytes[2] = 0;
+    request.bytes[3] = 0;
+    func_800168BC(&request);
 }

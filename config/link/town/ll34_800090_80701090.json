@@ -6,19 +6,5 @@
   "size": "0x50",
   "vma": "0x80701090",
   "evidence": "config/overlays/town.rowbase.jsonl:r121nd_800090",
-  "entries": [
-    {
-      "row": "town/func_80880090",
-      "tu": "src/town/shop/state/shop_set_indexed_flag.c",
-      "home": "town/func_80878670",
-      "foff": "0x800090",
-      "vma": "0x80701090",
-      "size": 80,
-      "bindings": {
-        "0x807030A4": "0x807013A0",
-        "0x80702670": "0x80701090"
-      },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
-    }
-  ]
+  "entries": []
 }

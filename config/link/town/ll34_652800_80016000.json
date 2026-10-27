@@ -20,6 +20,15 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
+      "row": "town/func_806D2898",
+      "home": "town/func_806D2898",
+      "tu": "src/town/scene/hooks/point_shared_buffer_at_data_e.c",
+      "foff": "0x652898",
+      "size": 24,
+      "vma": "0x80016098",
+      "evidence": "docs/evidence/town_prototypes_run7/owner_audit.md; exact row in the validated scene image"
+    },
+    {
       "row": "town/func_806D29EC",
       "home": "town/func_8095013C",
       "tu": "src/town/scene/find_entry_index_or_assert_rev_b.c",

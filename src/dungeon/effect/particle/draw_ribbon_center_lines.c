@@ -1,3 +1,4 @@
+#include "dungeon/effect/particle.h"
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
@@ -38,30 +39,7 @@ typedef struct S_80166968_0 {
     s32 unk_100;
 } S_80166968_0;   /* scratch in draw_ribbon_center_lines */
 
-typedef struct S_80166968_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_80166968_1;   /* arg1 in draw_ribbon_center_lines */
-
-typedef struct S_80166968_2 {
-    u8 pad_00[0x8];
-    s8 * unk_08;
-    u8 pad_0C[0x3];
-    u8 unk_0F;
-    u8 pad_10[0x4];
-    u16 unk_14;
-    u16 unk_16;
-    u16 unk_18;
-    u16 unk_1A;
-} S_80166968_2;   /* arg2 in draw_ribbon_center_lines */
-
-   /* *global in draw_ribbon_center_lines */
-
-typedef struct S_80166968_4 {
+typedef struct RibbonLineGeometry {
     u32 unk_00;
     u8 pad_04[0x70];
     s16 unk_74;
@@ -76,13 +54,12 @@ typedef struct S_80166968_4 {
     s16 unk_86;
     s16 unk_88;
     s16 unk_8A;
-} S_80166968_4;   /* arg0 in draw_ribbon_center_lines */
+} RibbonLineGeometry;   /* arg0 in draw_ribbon_center_lines */
 
 typedef struct S_80166968_5 {
     union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_00;   /* overlapping accesses */
     union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_04;   /* overlapping accesses */
 } S_80166968_5;   /* packet in draw_ribbon_center_lines */
-
 
 typedef struct {
     s16 m[3][3];
@@ -103,7 +80,7 @@ extern u16 GetTPage(s32, s32, s32, s32);
 extern void SetDrawMode(void *, s32, s32, u16, s32);
 
 /* Project edge midpoints and queue line and draw-mode packets in the ordering table. */
-void draw_ribbon_center_lines(S_80166968_4 *geometry, S_80166968_1 *position, u8 *render_data, s32 depth_bias)
+void draw_ribbon_center_lines(RibbonLineGeometry *geometry, ObjectPosition *position, SpriteFrameState *render_data, s32 depth_bias)
 {
     u8 *scratch = (u8 *)0x1F800000;
     u8 *render_state = g_game_work.draw_buffer;
@@ -132,20 +109,20 @@ void draw_ribbon_center_lines(S_80166968_4 *geometry, S_80166968_1 *position, u8
 
     ((S_80166968_0 *)scratch)->unk_24.p = render_state + 0xB0;
     address_mask = 0x00FFFFFF;
-    ((S_80166968_0 *)scratch)->unk_88 = position->unk_02;
-    ((S_80166968_0 *)scratch)->unk_8C = position->unk_06;
+    ((S_80166968_0 *)scratch)->unk_88 = position->x.w.i;
+    ((S_80166968_0 *)scratch)->unk_8C = position->y.w.i;
     saved_depth_bias = depth_bias;
-    ((S_80166968_0 *)scratch)->unk_90 = position->unk_0A;
-    ((S_80166968_2 *)render_data)->unk_14 |= 0x8000;
+    ((S_80166968_0 *)scratch)->unk_90 = position->z.w.i;
+    render_data->flags |= 0x8000;
     render_state_ref = &g_game_work.draw_buffer;
     PushMatrix();
 
     ((S_80166968_0 *)scratch)->unk_3C = 0x2000;
     ((S_80166968_0 *)scratch)->unk_38 = 0x2000;
     ((S_80166968_0 *)scratch)->unk_34 = 0x2000;
-    ((S_80166968_0 *)scratch)->unk_A4 = ((S_80166968_2 *)render_data)->unk_16;
-    ((S_80166968_0 *)scratch)->unk_A8 = ((S_80166968_2 *)render_data)->unk_1A;
-    ((S_80166968_0 *)scratch)->unk_A6 = ((S_80166968_2 *)render_data)->unk_18;
+    ((S_80166968_0 *)scratch)->unk_A4 = render_data->angle_x;
+    ((S_80166968_0 *)scratch)->unk_A8 = render_data->angle_z;
+    ((S_80166968_0 *)scratch)->unk_A6 = render_data->angle_y;
     RotMatrix(scratch + 0xA4, scratch + 0x74);
     ReadRotMatrix(&matrix);
     CompMatrix(&matrix, scratch + 0x74, scratch + 0x54);
@@ -153,9 +130,9 @@ void draw_ribbon_center_lines(S_80166968_4 *geometry, S_80166968_1 *position, u8
     SetTransMatrix(scratch + 0x54);
     SetRotMatrix(scratch + 0x54);
 
-    texture_entry = ((S_80166968_2 *)render_data)->unk_08;
+    texture_entry = render_data->source;
     length_mask = 0xFF000000;
-    ((S_80166968_0 *)scratch)->unk_28 = ((S_80166968_2 *)render_data)->unk_14;
+    ((S_80166968_0 *)scratch)->unk_28 = render_data->flags;
 
     for (;;) {
         packet = ((GpuContext *)(*render_state_ref))->packetCursor;
@@ -193,11 +170,11 @@ void draw_ribbon_center_lines(S_80166968_4 *geometry, S_80166968_1 *position, u8
         render_flags = ((S_80166968_0 *)scratch)->unk_28;
         if (render_flags & 8) {
             if (render_flags & 4) {
-                draw_flags = ((S_80166968_2 *)render_data)->unk_0F | 2;
+                draw_flags = render_data->color.c.code | 2;
             } else {
-                draw_flags = ((S_80166968_2 *)render_data)->unk_0F & 0xFD;
+                draw_flags = render_data->color.c.code & 0xFD;
             }
-            ((S_80166968_2 *)render_data)->unk_0F = draw_flags;
+            render_data->color.c.code = draw_flags;
         }
 
         zero = 0;

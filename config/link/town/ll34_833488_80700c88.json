@@ -6,18 +6,5 @@
   "size": "0x8",
   "vma": "0x80700C88",
   "evidence": "config/overlays/town.rowbase.jsonl:r121nd_833488",
-  "entries": [
-    {
-      "row": "town/func_808B3488",
-      "tu": "src/town/scene/hooks/noop_hook_i.c",
-      "home": "town/func_80875510",
-      "foff": "0x833488",
-      "vma": "0x80700C88",
-      "size": 8,
-      "bindings": {
-        "0x80701510": "0x80700C88"
-      },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
-    }
-  ]
+  "entries": []
 }

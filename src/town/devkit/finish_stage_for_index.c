@@ -16,7 +16,7 @@ extern s32 func_807008FC(s32);
 extern void func_80700D20(s32);
 extern void func_80700CD0(s32);
 extern void func_8070096C(s32, s32);
-extern s32 scan_table_entry_query_rejects();
+extern s32 scan_table_entry_query_rejects(void);
 
 /* Clear the pending flags for the index's stage and return the follow-up handler's result. */
 s32 finish_stage_for_index(s32 index) {

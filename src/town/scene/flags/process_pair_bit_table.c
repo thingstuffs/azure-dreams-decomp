@@ -2,7 +2,7 @@
 #include "common.h"
 
 
-extern s32 func_80700C28();
+extern void func_80700C28(s32 bit_index);
 extern u8 D_80700714[];
 extern u8 D_80700716[];
 

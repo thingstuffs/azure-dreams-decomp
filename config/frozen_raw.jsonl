@@ -10908,3 +10908,4 @@
 {"path":"raw/town/D_8079A074.c","sha256":"614504cdb977baacdd30604d3ec109a39955fd17560a6729b238474eaa876cfd","size":857,"provenance":"Complete typed storage in its native owning C TU; docs/evidence/r124w_carve1_run13.md"}
 {"path":"raw/town/func_8081DA98.c","sha256":"b622aa372fa80521cd83811d3a3e07d3a4041efa0bca14d390751511e965ae94","size":4446,"provenance":"New reconstruction, not a retired first-pass archive member; docs/evidence/opus_nearmatch1.md"}
 {"path":"raw/dungeon/func_81324F20.c","sha256":"424c7cccbc6e2397dd8773dbe13f42f94589d21f18e184f329c5845a9289d3ac","size":1945,"provenance":"New reconstruction, not a retired first-pass archive member; docs/evidence/opus_nearmatch1.md"}
+{"path":"raw/dungeon/func_80CE706C.c","sha256":"2dfbc276ee8ec60608692553046fef0e38bd014bbcec5d93d009c01c06941e5e","size":4138,"provenance":"New reconstruction, not a retired first-pass archive member; docs/evidence/opus_sp22.md"}

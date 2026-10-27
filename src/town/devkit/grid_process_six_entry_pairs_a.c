@@ -1,7 +1,7 @@
 #include "common.h"
 
 
-extern s32 clear_indexed_flag_bit_unless();
+extern void clear_indexed_flag_bit_unless(s32 bit_index);
 extern u8 D_807009B8[];
 extern u8 D_807009BA[];
 

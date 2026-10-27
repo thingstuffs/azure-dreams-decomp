@@ -1,0 +1,78 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "town/ll34_26e000_80405000",
+  "container": "town",
+  "foff": "0x26e000",
+  "size": "0x4000",
+  "vma": "0x80405000",
+  "evidence": "docs/evidence/town_prototypes_run7/diagnostic_views.json; linked base only; retail load/execution not established",
+  "load_evidence": {
+    "path": "ledger/instance_load_regions.jsonl",
+    "record_sha256": "350411d2e2401b33beaf0ad81fe18a99d79d8eb3842d87f3734905040458266b"
+  },
+  "entries": [
+    {
+      "row": "town/func_802EE3A0",
+      "tu": "src/frontend/card/build_memory_task_text.c",
+      "home": "main/func_8001E3A0",
+      "foff": "0x26E3A0",
+      "vma": "0x804053a0",
+      "size": 328,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
+      "row": "town/func_802EE53C",
+      "home": "town/func_802EE53C",
+      "tu": "src/town/menu/initialize_menu_item_positions.c",
+      "foff": "0x26e53c",
+      "vma": "0x8040553c",
+      "size": 232,
+      "evidence": "docs/evidence/r124w_carve1_run7.md; independently recompiled legacy home, not new source coverage; TU view gather: moved from town/r124w7_home_func_802ee53c (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_802EE624",
+      "home": "town/func_802EE624",
+      "tu": "src/town/menu/initialize_menu_primitive_settings.c",
+      "foff": "0x26e624",
+      "vma": "0x80405624",
+      "size": 168,
+      "evidence": "docs/evidence/r124w_carve1_run7.md; independently recompiled legacy home, not new source coverage; TU view gather: moved from town/r124w7_home_func_802ee624 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_802EE6F4",
+      "home": "town/func_802EE6F4",
+      "tu": "src/town/menu/initialize_menu_primitive_entries.c",
+      "foff": "0x26e6f4",
+      "vma": "0x804056f4",
+      "size": 180,
+      "evidence": "docs/evidence/r124w_carve1_run7.md; independently recompiled legacy home, not new source coverage; TU view gather: moved from town/r124w7_home_func_802ee6f4 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_802EE7B0",
+      "home": "town/func_802EE7B0",
+      "tu": "src/town/menu/initialize_menu_overlay_objects.c",
+      "foff": "0x26e7b0",
+      "vma": "0x804057b0",
+      "size": 64,
+      "evidence": "docs/evidence/r124w_carve1_run7.md; independently recompiled legacy home, not new source coverage; TU view gather: moved from town/r124w7_home_func_802ee7b0 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_802F13A0",
+      "tu": "src/frontend/card/card_dev_create_slot_screen_objects.c",
+      "home": "main/func_800213A0",
+      "foff": "0x2713A0",
+      "vma": "0x804083a0",
+      "size": 92,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
+      "row": "town/func_802F161C",
+      "tu": "src/frontend/libcard/libcard_query_status.c",
+      "home": "main/func_8002161C",
+      "foff": "0x27161C",
+      "vma": "0x8040861c",
+      "size": 40,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    }
+  ]
+}

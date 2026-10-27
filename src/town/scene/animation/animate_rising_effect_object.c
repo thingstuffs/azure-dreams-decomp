@@ -3,6 +3,7 @@
 #include "shared/minigame_body.h"
 #include "shared/vector.h"
 #include "town/scene/effect.h"
+struct SpawnSeed;
 extern int abs(int);
 
 #ifndef NULL
@@ -71,11 +72,11 @@ typedef struct S_8052F2C8_9 {
 
 extern void *func_800373DC();
 extern void func_8003BC18();
-extern void func_80058F88();
-extern s32 func_80071494();
-extern void create_object_position_configures_color();
-extern void func_8052F960();
-extern void func_8052FB08();
+extern short func_80058F88(int flags);
+extern s32 func_80071494(void);
+extern void create_object_position_configures_color(s32 color, s32 x, s32 y, s32 z);
+extern void func_8052F960(struct SpawnSeed *seed);
+extern void func_8052FB08(struct SpawnSeed *seed);
 extern u8 score_sprite_draw_callback_address[12];
 extern s32 scene_object_flags;
 extern s32 D_80095AAC;

@@ -1,0 +1,14 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "town/ll34_800800_80700000",
+  "container": "town",
+  "foff": "0x800800",
+  "size": "0x1800",
+  "vma": "0x80700000",
+  "evidence": "docs/evidence/town_prototypes_run7/diagnostic_views.json; linked base only; retail load/execution not established",
+  "load_evidence": {
+    "path": "ledger/instance_load_regions.jsonl",
+    "record_sha256": "8e87d3a0b914a36a35aa84656c7cffe3b0d81670cac0befc3f2e0d3166b70502"
+  },
+  "entries": []
+}

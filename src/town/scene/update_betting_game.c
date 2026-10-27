@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/collection.h"
 #include "shared/vector.h"
 
 typedef struct S_func_8080F4A4_1 {
@@ -104,7 +105,7 @@ s32 func_80052374(s32);                             /* extern */
 void func_80058F88(s32);                     /* extern */
 s32 func_8006A3A4(s32);                             /* extern */
 s32 func_8006A470(s32);                             /* extern */
-s32 func_80071494();                                /* extern */
+s32 func_80071494(void);                                /* extern */
 s32 func_80232868(s32, s32, s32);       /* extern */
 void func_80232A08(s32);                         /* extern */
 void func_802441A4();                   /* extern */
@@ -117,7 +118,6 @@ extern u32 D_80012BC8[4];
 extern u8 score_sprite_draw_callback_address[16];
 extern u8 D_80095AA0[16];
 extern u8 D_8012F130[0x14];
-extern u8 scene_object_factory_data[16];
 extern u8 collection_round_work[0x20];
 extern s32 town_motion_state[6];
 extern s32 D_802BC5C8[3];

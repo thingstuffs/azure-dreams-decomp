@@ -3,7 +3,7 @@
 #include "m2c_compat.h"
 
 s32 func_80700304(s32, s32, s32, s32);                                /* extern */
-s32 func_80700590();                               /* extern */
+s32 func_80700590();                               /* extern */ /* Unprototyped: The zero-argument dispatcher has an s32 callback result; dropping these source operands changes the instruction stream. */
 
 typedef struct {
     u8 pad[0x54];

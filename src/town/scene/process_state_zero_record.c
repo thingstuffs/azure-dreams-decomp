@@ -6,7 +6,7 @@
 typedef struct S_80815160_0 {
     s16 unk_00;
     u8 pad_02[0x2];
-    s32 unk_04;
+    const char *unk_04;
     s16 * unk_08;
     void * unk_0C;
 } S_80815160_0;   /* arg0 in process_state_zero_record */
@@ -15,8 +15,8 @@ typedef struct S_80815160_1 {
     u8 pad_00[0x1A];
     u16 unk_1A;
 } S_80815160_1;
-void func_80058588(s32 value, s32 query, s32 key);               /* extern */
-s32 func_80071424();                             /* extern */
+void func_80058588(s32 value, s32 query, const char *text);               /* extern */
+s32 func_80071424(const char *);                             /* extern */
 extern s32 scene_object_flags;
 
 /* Processes a state-zero record and sets record/global flags if its linked record has bit 3 set. */
