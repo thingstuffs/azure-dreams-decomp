@@ -3,7 +3,7 @@
 #include "shared/town_root.h"
 
 extern void func_80017B3C(void *, void *, s32);
-extern s32 invoke_system_callback_21_c(void *, void *, s32);
+extern s32 func_80017F8C(void *entry_table, void *context, s32 entry_key); /* placed copy of resolve_entry_flag */
 extern s32 D_80018AF8;
 extern s32 D_80019A30;
 
@@ -16,7 +16,7 @@ s32 *select_data_and_count_entry(void *value, s32 unused, s32 selector) {
     u32 entry_offset;
 
     func_80017B3C(&D_80018AF8, value, selector);
-    if (selector == 10 && invoke_system_callback_21_c(&D_80018AF8, value, 10) == 0) {
+    if (selector == 10 && func_80017F8C(&D_80018AF8, value, 10) == 0) {
         context = town_scene_root;
         count_ptr = (s32 *)((u8 *)context + 8);
         table_ptr = (u8 **)((u8 *)context + 0x40);

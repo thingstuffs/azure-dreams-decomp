@@ -6,7 +6,7 @@
 
 void register_node_if_unregistered(void *block_data, void *registration_id);
 struct IntVector3; void * create_town_effect_object(s32, struct IntVector3 *, s32, s32);       /* extern */
-extern void D_800A7C0C();
+extern void D_800A7C0C(void *object, s32 check_value);
 
 typedef struct S_800A7B98_2 {
     u8 pad_00[0x8];

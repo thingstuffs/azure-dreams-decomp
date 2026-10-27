@@ -1,6 +1,7 @@
 #ifndef TOWN_MAP_DIRECTIONAL_SPRITE_EFFECT_G00644_H
 #define TOWN_MAP_DIRECTIONAL_SPRITE_EFFECT_G00644_H
 #include "engine/node/allocation.h"
+#include "engine/node.h"
 
 struct SpriteFrameState;
 /* Directional sprite effect (G00644). */
@@ -57,7 +58,7 @@ typedef struct S_800BC840_0 {
 struct Rec_func_8008F074_arg0;
 
 /* extern */
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+
 /* extern */
 /* extern */
 /* extern */

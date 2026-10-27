@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern void D_80098140();
+extern void D_80098140(void *state, s32 value);
 
 typedef struct S_80098CC0_0 {
     u8 pad_00[0x4];

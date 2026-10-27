@@ -4,7 +4,7 @@
 
 short SD_Call(int flags);
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"  /* extern */
-extern void D_80091AF0();
+extern void D_80091AF0(void *state, void *object, s32 context);
 extern s32 timed_scene_handler_entries;
 
 

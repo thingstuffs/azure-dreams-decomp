@@ -1,3 +1,4 @@
+#include "dungeon/actor/status.h"
 #include "shared/entity_action_selectors.h"
 #include "shared/dungeon_item_entries.h"
 #include "shared/item_ids.h"
@@ -24,7 +25,6 @@ extern void * append_value_seven_suffix(u8 *dst);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 place_actor_item();
 extern s32 display_actor_item_status_message();
-extern s32 feed_actor_restore_mp();
 
 extern u8 D_80089364[];
 extern u8 D_80089368[];
@@ -59,8 +59,11 @@ s32 dispatch_selected_item_action(u32 target, DungeonItemEntry *action, s16 acti
     }
 
     if (target <= 0x9FFFFFFF) {
+        ActorRecord *actor = (ActorRecord *)target;
+
         display_actor_item_status_message(target, action);
-        if (feed_actor_restore_mp(target, entity_action_selectors[(*(u8 *)((u8 *)&((EntityRec *)target)->unk_10 + 3))] & 3, 0) == 0) {
+
+        if (feed_actor_restore_mp(actor, entity_action_selectors[actor->species] & 3, 0) == 0) {
             place_actor_item(target, action);
             return 1;
         }

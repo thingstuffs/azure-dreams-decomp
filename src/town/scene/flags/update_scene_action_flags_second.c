@@ -11,8 +11,8 @@ typedef struct S_func_804B80D0_1 {
     u8 unk_02;
 } S_func_804B80D0_1;
 
-extern s32 store_supplied_values(s32, s32);
-extern s32 call_helper_with_fixed_id_0x118a(s32);
+extern void func_8001611C(s32 value_18e44, s32 value_18e48); /* placed copy of set_global_entry_pair */
+extern void func_80018854(s32); /* placed copy of set_script_flag_bit */
 extern s32 func_800188CC(s32);
 extern s16 scene_request_flag_id;
 
@@ -20,9 +20,9 @@ extern s16 scene_request_flag_id;
 s32 update_scene_action_flags(s32 object, s32 context) {
     s32 action_allowed;
 
-    store_supplied_values(object, context);
+    func_8001611C(object, context);
     if (func_8001894C(scene_request_flag_id) == 0) {
-        call_helper_with_fixed_id_0x118a(F_sbs07_pad26);
+        func_80018854(F_sbs07_pad26);
         if (((S_func_804B80D0_1 *)
              ((town_scene_root->entry_index * 8) +
               ((u8 *)town_scene_root->event_data)))->unk_02 == 0) {

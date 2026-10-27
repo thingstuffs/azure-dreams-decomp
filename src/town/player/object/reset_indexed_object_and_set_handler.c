@@ -6,7 +6,7 @@
 #include "shared/town_handler.h"
 
 #include "town/player/object/entity_record_fields.h"                     /* extern */
-extern void D_8009AA2C();
+extern void D_8009AA2C(void *state, void *object);
 
 
 /* Clears the object's indexed flag and updates its state and handler. */

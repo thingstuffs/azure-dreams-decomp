@@ -3,12 +3,13 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "town/menu/catalog.h"
+#include "engine/node.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+
 void release_null_terminated_entries(u16 **entries);
 short SD_Call(int flags);
 void SetGeomOffset(s32, s32);

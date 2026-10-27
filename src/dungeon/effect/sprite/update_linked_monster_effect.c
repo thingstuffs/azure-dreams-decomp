@@ -1,3 +1,5 @@
+#include "engine/scene.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -14,7 +16,6 @@ s32 func_8002589C(void *, s32, s32);        /* extern */
 s32 func_80026548(void *, s32);                 /* extern */
 void func_8002660C(Entry *entry, s16 *step, s32 lower, s32 upper);    /* extern */
 s32 func_800266D0(void *, void *);                  /* extern */
-s32 resolve_record_orientation_or_fallback(); /* extern */
 s32 find_eligible_entry_at_coordinates();                /* extern */
 void apply_attack_power_and_element_effects(); /* extern */
 s32 check_layer_offset_height();              /* extern */
@@ -121,7 +122,7 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
     s32 delta_x;
     s32 delta_y;
     s32 target_x;
-    s32 transform_result;
+    struct SpriteAttachment *transform_result;
     s32 tile_object;
     s32 found_tile;
     u16 steps_left;
@@ -174,7 +175,13 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
             break;
         case 1:
             sprite = (u8 *)&reference_tile_object.frame_entry;
-            transform_result = resolve_record_orientation_or_fallback(sprite->sprite_source, sprite, effect_in + 0x24, 0);
+            {
+                void *sprite_data = sprite;
+                SpriteFrameState *orientation_sprite = sprite_data;
+                GteShortVector *offset = effect_in + 0x24;
+
+                transform_result = resolve_record_orientation_or_fallback(orientation_sprite->source, orientation_sprite, offset, 0);
+            }
             follow_ticks = (u16) ((S_80025C80_0 *)effect_in)->unk_30.n - 1;
             ((S_80025C80_0 *)effect_in)->unk_30.n = follow_ticks;
             if ((follow_ticks << 0x10) <= 0 || transform_result == 0

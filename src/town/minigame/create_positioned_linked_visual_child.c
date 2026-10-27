@@ -6,6 +6,7 @@
 #include "common.h"
 #include "records/Rec_func_8008F074_arg0.h"
 #include "shared/vector.h"
+#include "engine/node.h"
 
 typedef struct S_800BF9E4_0_pre {
     u8 * unk_00;
@@ -20,7 +21,7 @@ typedef struct S_800BF9E4_5 {
 } S_800BF9E4_5;
 struct Dst;
 struct Elem;
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+
 extern void configure_the_set_mode_n_1();
 
 

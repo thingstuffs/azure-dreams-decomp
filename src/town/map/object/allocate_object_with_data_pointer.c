@@ -2,7 +2,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-extern void D_800B90B4();
+extern void D_800B90B4(void);
 
 
 /* Allocate an object and set its data pointer. */

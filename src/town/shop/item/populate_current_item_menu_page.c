@@ -1,8 +1,8 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/item_menu.h"
+#include "engine/item.h"
 
-s32 select_item_data();
 void *func_8004DC14();
 void clear_item_menu_entry_groups(ItemMenuPart **parts);
 

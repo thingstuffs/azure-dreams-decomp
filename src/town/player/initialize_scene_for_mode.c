@@ -354,7 +354,7 @@ void process_scene_record_update(void *context, ObjectPosition *input, void *rec
  * OR into its j slot. Memory fences retain the clear/store call sequence and force the post-store
  * signed-halfword reload.
  */
-s32 to_camera_zero_00() {
+s32 to_camera_zero_00(void) {
     GameWork *camera_state = &g_game_work;
     s16 camera_offset = camera_state->view.camera_rotation.parts.viewAngle;
     u16 next_offset = ((u16)camera_state->view.camera_rotation.parts.viewAngle);

@@ -8,6 +8,7 @@
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_effect_views.h"
+#include "engine/node.h"
 
 #ifndef NULL
 #define NULL 0
@@ -227,7 +228,7 @@ extern s32 GetTPage();
 extern void AddPrim();
 extern void SetPolyFT4();
 extern void SetDrawMode();
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+
 extern s32 D_800A3918[];
 extern s32 D_800A3B1C[];
 extern s32 D_800D0C40[];

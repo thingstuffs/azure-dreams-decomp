@@ -19,7 +19,7 @@
 
 void update_directional_record();      /* extern */
 s32 rand();              /* extern */
-void add_motion_deltas_to_position();                      /* extern */
+void add_motion_deltas_to_position(ObjectPosition *motion);                      /* extern */
 
 typedef struct {
     s32 field0;

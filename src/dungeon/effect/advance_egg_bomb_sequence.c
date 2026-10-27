@@ -1,3 +1,4 @@
+#include "dungeon/actor/status.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/entity.h"
@@ -27,7 +28,6 @@ u8 * find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type);
 void raise_entity_level(void *entity_data, s32 show_message); /* extern */
 s32 choose_usable_ability_or_attack();
 s32 choose_best_eligible_entry();
-s16 set_or_clear_actor_status_slot(); /* extern */
 s32 display_text_with_fullwidth_adjustment(s8 *text); /* extern */
 void clear_selected_item_flag_400();
 void check_entity_relation(s32 *, u8 *);
@@ -138,7 +138,12 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
             func_80042640(monster, ((S_800B7774_2 *)monster)->unk_13);
             apply_actor_template_and_class(monster, ((S_800B7774_2 *)monster)->unk_13, 0);
             ((S_800B7774_2 *)monster)->unk_43 = 0xFE;
-            set_or_clear_actor_status_slot(monster, STATUS_NO_TILE_OCCUPANCY, 0);
+            {
+                void *body = monster;
+                ActorRecord *actor = body;
+
+                set_or_clear_actor_status_slot(actor, STATUS_NO_TILE_OCCUPANCY, 0);
+            }
             {
                 s32 clamp_value;
                 void *first_call_arg;

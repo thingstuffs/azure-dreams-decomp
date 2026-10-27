@@ -16,6 +16,7 @@
 #include "sdk/libgte.h"
 #include "engine/node/allocation.h"
 #include "town/person/position.h"
+#include "engine/node.h"
 
 typedef struct S_800CB9B8_2 S_800CB9B8_2;
 
@@ -76,7 +77,7 @@ struct IntVector3;
 
 /* extern (function symbol used as callback) */
 /* extern */
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+
 void unlink_node_if_registered(void *block_data);
 /* extern */
 /* extern */

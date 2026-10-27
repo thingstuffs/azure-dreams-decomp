@@ -1,3 +1,4 @@
+#include "dungeon/actor/status.h"
 #include "shared/entity_action_selectors.h"
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
@@ -15,14 +16,13 @@
 extern s32 process_record_and_update_linked_state();
 extern void clear_slot_and_update_linked_state(DungeonItemEntry *slot);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
-extern s32 feed_actor_restore_mp();
 
 extern u8 D_800E1567[];
 extern u8 floor_objects[];
 
 
 /* Apply an entity event or mark eligible slots, then finish the event. */
-s32 make_floor_traps_invisible(EntityRec *entity, DungeonItemEntry *event, s16 event_type, s32 event_arg) {
+s32 make_floor_traps_invisible(ActorRecord *entity, DungeonItemEntry *event, s16 event_type, s32 event_arg) {
     void *message_arg;
     u8 *slot;
     u8 *event_state;
@@ -34,8 +34,8 @@ s32 make_floor_traps_invisible(EntityRec *entity, DungeonItemEntry *event, s16 e
     if (event_type == 0xD) {
         return process_record_and_update_linked_state(event, event_arg);
     }
-    if (entity == ((u8 *)dungeon_actor_ring_anchor)) {
-        entity->unk_110 = event;
+    if (entity == dungeon_actor_ring_anchor) {
+        ((PlayerRecord *)entity)->pending_item_action = event;
         begin_mode_selected_item_action(entity, &view_reference_entity.x.v, &reference_tile_object.frame_entry, entity);
         return 0;
     }
@@ -43,7 +43,7 @@ s32 make_floor_traps_invisible(EntityRec *entity, DungeonItemEntry *event, s16 e
         display_actor_item_status_message(entity, event);
         if (feed_actor_restore_mp(
                 entity,
-                entity_action_selectors[(*(u8 *)((u8 *)&entity->unk_10 + 3))] & 3,
+                entity_action_selectors[entity->species] & 3,
                 event) == 0) {
             place_actor_item(entity, event);
             return 1;

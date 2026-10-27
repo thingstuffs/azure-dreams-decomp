@@ -1,6 +1,7 @@
 /* Paged entry brightness and its file-private helper. */
 #include "common.h"
 #include "m2c_compat.h"
+#include "engine/item.h"
 typedef struct S_800B3178_3 {
     u8 pad_00[0x4];
     s8 * unk_04;
@@ -10,7 +11,6 @@ typedef struct S_800B3178_4 {
     s8 unk_01;
     s8 unk_02;
 } S_800B3178_4;
-s32 select_item_data();
 s32 func_8004AC3C();
 /* extern */
 s32 func_8004DC14();

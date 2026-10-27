@@ -2,12 +2,13 @@
 #include "engine/menu.h"
 #include "shared/object_node.h"
 #include "engine/node/allocation.h"
+#include "engine/node.h"
 
 typedef struct {
     s32 words[10];
 } Record;
 
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+
 
 /* Allocate an object, copy its record, set its value, and pass it for initialization. */
 void create_scene_object_with_record_payload(s32 object_value, void *record) {

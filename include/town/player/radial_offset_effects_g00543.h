@@ -10,6 +10,7 @@
 #include "shared/dir_step.h"
 #include "shared/dungeon_moving_views.h"
 #include "shared/object_payload.h"
+#include "engine/node.h"
 
 #ifndef NULL
 #define NULL 0
@@ -54,7 +55,7 @@ typedef struct {
 } StackRecord;
 
 void select_record_entry_and_value(void *state,void *entries, short index);
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+
 extern s32 town_radial_offset_callback;
 extern s32 radial_sprite_entries;
 extern s32 rsin(s32 value);

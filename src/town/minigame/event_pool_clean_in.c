@@ -5,12 +5,13 @@
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "shared/entity.h"
+#include "engine/node.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+
 short SD_Call(int flags);
 extern M2C_UNK D_8007789C;
 extern void D_800BEBA4();

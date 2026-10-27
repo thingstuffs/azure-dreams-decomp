@@ -1,3 +1,4 @@
+#include "dungeon/actor/status.h"
 #include "shared/entity_action_selectors.h"
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
@@ -20,13 +21,12 @@ typedef struct {
 
 #include "dungeon/player/item.h"
 void adjust_source_value_and_finalize(void *context, const void *source);
-s32 feed_actor_restore_mp();
 extern u8 D_800E173A[28];
 
 /* Processes an entity's item interaction and consumes the item when finished. */
-s32 use_item_to_lower_level(EntityRec *entity, DungeonItemEntry *item, s16 action) {
-    if (entity == ((s32)dungeon_actor_ring_anchor)) {
-        entity->unk_110 = item;
+s32 use_item_to_lower_level(ActorRecord *entity, DungeonItemEntry *item, s16 action) {
+    if (entity == dungeon_actor_ring_anchor) {
+        ((PlayerRecord *)entity)->pending_item_action = item;
         begin_deferred_item_action(entity, &view_reference_entity.x.v, &reference_tile_object.frame_entry, entity);
         return 0;
     }
@@ -34,7 +34,7 @@ s32 use_item_to_lower_level(EntityRec *entity, DungeonItemEntry *item, s16 actio
         display_item_status_message(entity, item, action);
         if (feed_actor_restore_mp(
                 entity,
-                (entity_action_selectors[(*(u8 *)((u8 *)&entity->unk_10 + 3))] >> 6) & 3,
+                (entity_action_selectors[entity->species] >> 6) & 3,
                 0) == 0) {
             place_actor_item(entity, item);
             return 1;

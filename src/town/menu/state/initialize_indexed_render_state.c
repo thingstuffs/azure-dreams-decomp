@@ -3,7 +3,8 @@
 #include "town/menu.h"
 #include "engine/object.h"
 #include "sdk/libgte.h"
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+#include "engine/node.h"
+
 
 extern s16 D_800D0A10[];
 extern s32 D_800D0A1C[];

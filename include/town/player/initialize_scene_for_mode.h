@@ -120,7 +120,7 @@ void initialize_scene_render_state(void);
 void initialize_scene_render_object(void);
 void rebuild_menu_node_list(void *owner, ObjectPosition *node_in, s32 mode);
 void process_scene_record_update(void *context,struct ObjectPosition *input, void *record);
-s32 to_camera_zero_00(); /* Unprototyped: zero or one argument; retail uses only global camera state. */
+s32 to_camera_zero_00(void);
 void clear_record_state_or_update(struct ObjectPosition *record);
 void noop_player_scene_action(void);
 void no_op_scene_callback_b(void);

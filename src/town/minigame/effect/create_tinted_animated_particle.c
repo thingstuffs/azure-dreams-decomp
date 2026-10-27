@@ -3,9 +3,10 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/slus_callbacks.h"
+#include "engine/node.h"
 
 
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+
 
 extern u8 map_animation_sprite_entries[];
 /* Creates a sprite at the given position and applies color-specific settings. */

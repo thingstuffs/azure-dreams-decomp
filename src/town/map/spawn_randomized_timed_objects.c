@@ -17,7 +17,7 @@ struct ObjectNodeHeader; void * allocate_list_node(s32, struct ObjectNodeHeader 
 void register_node(void *, void *);
 s32 rand(void);
 extern void D_800BFD14();
-extern s32 D_800BFFF4();
+extern s32 D_800BFFF4(u8 *node);
 
 /* Spawn objects at randomized coordinates and mark completion when the countdown expires. */
 void spawn_randomized_timed_objects(TownMapSpawnState *source)

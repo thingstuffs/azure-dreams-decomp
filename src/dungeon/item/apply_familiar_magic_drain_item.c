@@ -1,3 +1,4 @@
+#include "dungeon/actor/status.h"
 #include "shared/actor_status_flags.h"
 #include "shared/dungeon_item_entries.h"
 #include "shared/actor_property_flags.h"
@@ -17,28 +18,27 @@
 void display_formatted_context_message(void *context);                   /* extern */
 void adjust_source_value_and_finalize(void *context, const void *source);           /* extern */
 s32 play_sound_if_enabled(s32 query_value);                     /* extern */
-s32 feed_actor_restore_mp();            /* extern */
 extern u8 D_800E17C6[41];
 extern u8 D_800E17EF[];
 extern u8 D_800E180E[];
 
 /* Processes an entity action, preserves its state flag, and updates the shared counter. */
-s32 apply_familiar_magic_drain_item(EntityRec *entity, DungeonItemEntry *action, s16 action_param) {
+s32 apply_familiar_magic_drain_item(ActorRecord *entity, DungeonItemEntry *action, s16 action_param) {
     DungeonGlobalStatus *counter_page;
     DungeonGlobalStatus *counter_base;
     s32 saved_flag;
     s32 flag_test;
     u32 flags;
 
-    if (entity == ((s32)dungeon_actor_ring_anchor)) {
-        entity->unk_110 = action;
+    if (entity == dungeon_actor_ring_anchor) {
+        ((PlayerRecord *)entity)->pending_item_action = action;
         begin_deferred_item_action(entity, &view_reference_entity.x.v, &reference_tile_object.frame_entry, entity);
         return 0;
     }
-    if (((u32) ((*(u8 *)((u8 *)&entity->unk_10 + 3)) - 1) < 0x2EU) && ((u32) entity <= 0x9FFFFFFFU)) {
+    if (((u32) (entity->species - 1) < 0x2EU) && ((u32) entity <= 0x9FFFFFFFU)) {
         display_item_status_message(entity, action, action_param);
         saved_flag = ((u32) ((u32)entity->flags1C) >> 3) & 1;
-        if (feed_actor_restore_mp(entity, (entity_action_selectors[(*(u8 *)((u8 *)&entity->unk_10 + 3))] >> 6) & 3, 0) == 0) {
+        if (feed_actor_restore_mp(entity, (entity_action_selectors[entity->species] >> 6) & 3, 0) == 0) {
             place_actor_item(entity, action);
             return 1;
         }
@@ -47,7 +47,7 @@ s32 apply_familiar_magic_drain_item(EntityRec *entity, DungeonItemEntry *action,
             entity->flags1C = (u32) (((u32)entity->flags1C) | ACTOR_MP_EMPTY);
         }
         flags = ((u32)entity->flags1C);
-        (*(s16 *)&entity->tileX) = 0;
+        entity->mp_value.whole = 0;
         if (!(flags & 8)) {
             flag_test = flags & 0x80000;
             counter_page = (void *)0x80080000;
@@ -63,7 +63,7 @@ s32 apply_familiar_magic_drain_item(EntityRec *entity, DungeonItemEntry *action,
             adjust_source_value_and_finalize(entity, D_800E17C6);
         }
         clear_slot_and_update_linked_state(action);
-    } else if ((*(u8 *)((u8 *)&entity->unk_10 + 3)) == 0) {
+    } else if (entity->species == 0) {
         display_formatted_context_message(&D_800E17EF);
         play_sound_if_enabled(0x506);
     } else {

@@ -1,3 +1,4 @@
+#include "dungeon/actor/status.h"
 #include "shared/actor_property_flags.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
@@ -61,7 +62,6 @@ extern s32 find_slot_by_item_group(void *entry, s16 target);
 struct DungeonItemEntry;
 extern void place_actor_item(void *object_context, struct DungeonItemEntry *target);
 extern void * create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);
-extern s32 feed_actor_restore_mp();
 
 extern u8 *item_category_tables[];
 extern u16 magic_ball_delay[];
@@ -154,8 +154,11 @@ scan_next:
                 tail_status = (u8 *)0x80080000;
             }
         } else {
-            if (feed_actor_restore_mp(object,
-                              entity_action_selectors[object[0x13]] & 3, 0) == 0) {
+            void *body = object;
+            ActorRecord *actor = body;
+
+            if (feed_actor_restore_mp(actor,
+                              entity_action_selectors[actor->species] & 3, 0) == 0) {
                 place_actor_item(object, data);
                 return 1;
             }

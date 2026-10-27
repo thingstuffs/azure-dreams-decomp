@@ -3,7 +3,7 @@
 #include "common.h"
 #include "town/player/script_flags.h"
 
-void store_supplied_values(s32 value_18e44, s32 value_18e48);                /* extern */
+extern void func_8001611C(s32 value_18e44, s32 value_18e48); /* placed copy of set_global_entry_pair */
 void func_80017EB0(s32, s32);                /* extern */
 void func_800188CC(s32);                     /* extern */
 extern s16 scene_request_flag_id;
@@ -15,6 +15,6 @@ void store_scene_values_after_flag_check(s32 value, s32 data) {
             func_800188CC(F_sbs07_pad21);
         }
     }
-    store_supplied_values(value, data);
+    func_8001611C(value, data);
     func_80017EB0(value, data);
 }

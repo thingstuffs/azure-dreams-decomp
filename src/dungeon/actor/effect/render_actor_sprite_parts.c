@@ -1,3 +1,4 @@
+#include "sdk/libgte.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/game_work.h"
@@ -7,15 +8,6 @@
 #define M2C_BREAK() 0
 #define M2C_SYNC() 0
 
-void * CompMatrix(void *, void *, void *);
-void PushMatrix(void);
-void PopMatrix(void);
-void * ScaleMatrix(void *, void *);
-void SetRotMatrix(void *);
-void SetTransMatrix(void *);
-s32 RotTransPers(void *, s32 *, s32 *, s32 *);
-s32 RotTransPers4();
-void * RotMatrix(void *, void *);
 extern u32 sprite_projection_matrix[8];
 
 typedef struct S_func_800CDFD8_1 {
@@ -355,9 +347,14 @@ void render_actor_sprite_parts(void *unused, MovingPosition *position, S_func_80
                     scratch->unk_8A = edge_y;
                     scratch->unk_82 = edge_y;
                 }
-                RotTransPers4((u8 *)scratch + 0x70, (u8 *)scratch + 0x78, (u8 *)scratch + 0x80, (u8 *)scratch + 0x88,
-                    (u8 *)scratch + 0xF0, (u8 *)scratch + 0xF4, (u8 *)scratch + 0xF8, (u8 *)scratch + 0xFC,
-                    (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
+                {
+                    void *projection_data = scratch;
+                    s32 *projection = projection_data;
+
+                    RotTransPers4((u8 *)scratch + 0x70, (u8 *)scratch + 0x78, (u8 *)scratch + 0x80, (u8 *)scratch + 0x88,
+                        projection + 0xF0 / 4, projection + 0xF4 / 4, projection + 0xF8 / 4, projection + 0xFC / 4,
+                        projection + 0x90 / 4, projection + 0x94 / 4);
+                }
                 ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_08 = (u16) (scratch->unk_F0 + scratch->unk_B8);
                 ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_0A = (u16) (scratch->unk_F2 + scratch->unk_BA);
                 ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_14 = (u16) (scratch->unk_F4 + scratch->unk_B8);

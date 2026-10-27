@@ -3,7 +3,7 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 #include "town/person/object/initialize_object_entries_api.h"          /* extern */
-extern void D_800CD70C();
+extern void D_800CD70C(void *object, void *position, void *update_arg, s32 check_param);
 extern s32 D_800D72AC[];
 
 

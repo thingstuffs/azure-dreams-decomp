@@ -13,7 +13,7 @@ typedef struct S_80097D08_0 {
    /* arg1 in set_motion_handler_and_copy_signed_byte */
 
 
-extern void D_80097C50();
+extern void D_80097C50(void *object, s32 target);
 
 /* Set the record pointer and state, and copy its signed byte to the output in 16.16 format. */
 void set_motion_handler_and_copy_signed_byte(void *record_data, DelayMotionZ *output) {

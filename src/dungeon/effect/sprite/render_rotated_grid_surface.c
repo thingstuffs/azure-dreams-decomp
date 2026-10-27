@@ -87,7 +87,10 @@ s32 render_rotated_grid_surface(void *node) {
                         offset = point_index * 8;
                         rotated_point = (u8 *) (offset + (long)rotated_points);
                         do {
-                            RotTransPers(rotated_point, grid_point, &frame.p.f530, &frame.p.f534);
+                            void *screen_data = grid_point;
+                            s32 *screen = screen_data;
+
+                            RotTransPers(rotated_point, screen, &frame.p.f530, &frame.p.f534);
                             grid_point += 4;
                             rotated_point += 8;
                             point_index += 1;
@@ -101,8 +104,13 @@ s32 render_rotated_grid_surface(void *node) {
                         edge_base = span_base;
                         do {
                             s32 next_index;
+                            void *screen_data;
+                            s32 *screen;
+
                             ring_points = grid_cell(grid, (edge_base + (s16) point_count) - (next_index = point_index + 1), ring);
-                            RotTransPers(rotated_points + point_index * 8, ring_points,
+                            screen_data = ring_points;
+                            screen = screen_data;
+                            RotTransPers(rotated_points + point_index * 8, screen,
                                           &frame.p.f530, &frame.p.f534);
                             point_index = next_index;
                             point_count = frame.p.f528;
@@ -115,10 +123,12 @@ s32 render_rotated_grid_surface(void *node) {
                     if (point_index < (point_index + frame.p.f528)) {
                         do {
                             s32 next_index;
-                            RotTransPers(rotated_points + point_index * 8,
-                                          grid + (((ring + (s16) point_count) << 6) - 0x40)
+                            void *screen_data = grid + (((ring + (s16) point_count) << 6) - 0x40)
                                           + (((span_base + (s16) point_count)
-                                              - (next_index = point_index + 1)) * 4),
+                                              - (next_index = point_index + 1)) * 4);
+                            s32 *screen = screen_data;
+
+                            RotTransPers(rotated_points + point_index * 8, screen,
                                           &frame.p.f530, &frame.p.f534);
                             point_index = next_index;
                             point_count = frame.p.f528;
@@ -132,8 +142,10 @@ s32 render_rotated_grid_surface(void *node) {
                         u8 *point_row = (u8 *) ((point_index << 6) + (long)grid);
                         u8 *rotated_point = (u8 *) ((point_index * 8) + (long)rotated_points);
                         do {
-                            RotTransPers(rotated_point, point_row + (((ring + (s16) point_count) * 4) - 4),
-                                          &frame.p.f530, &frame.p.f534);
+                            void *screen_data = point_row + (((ring + (s16) point_count) * 4) - 4);
+                            s32 *screen = screen_data;
+
+                            RotTransPers(rotated_point, screen, &frame.p.f530, &frame.p.f534);
                             point_row += 0x40;
                             point_index += 1;
                             point_count = frame.p.f528;

@@ -1,3 +1,4 @@
+#include "engine/scene.h"
 #include "slus.h"
 #include "sdk/libgte.h"
 #include "shared/object_node_flags.h"
@@ -17,7 +18,6 @@
 #include "dungeon/system.h"
 #include "sdk/libgpu.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 resolve_record_orientation_or_fallback();     /* extern */
 void apply_attack_power_and_element_effects(); /* extern */
 
 typedef struct S_func_819B2800_0 {
@@ -101,7 +101,7 @@ void (*const dungeon_19d2800_entry)(S_func_819B2800_0 *, S_func_819B2800_1 *) = 
 
 /* Advances a timed effect, spawns its visuals, and applies it to nearby targets. */
 void update_directional_actor_effect(S_func_819B2800_0 *effect, S_func_819B2800_1 *position) {
-    s16 offset[3];
+    GteShortVector offset;
     u16 next_phase;
     u16 timer;
     s32 effect_code;
@@ -113,7 +113,7 @@ void update_directional_actor_effect(S_func_819B2800_0 *effect, S_func_819B2800_
     s32 target;
     S_func_819B2800_4 *visual;
     u8 *data_bytes;
-    S_func_819B2800_6 *model;
+    SpriteFrameState *model;
     S_func_819B2800_5 *actor;
     S_func_819B2800_2 *object_data;
     S_func_819B2800_3 *location;
@@ -142,21 +142,21 @@ void update_directional_actor_effect(S_func_819B2800_0 *effect, S_func_819B2800_
         object_data = allocate_list_node(0x302, &scene_object_list_anchor.next);
         if (object_data != 0) {
             model = location->unk_0C;
-            if (resolve_record_orientation_or_fallback(model->unk_08, model, offset, 0) == 0) {
-                offset[2] = 0;
-                offset[1] = 0;
-                offset[0] = 0;
+            if (resolve_record_orientation_or_fallback(model->source, model, &offset, 0) == 0) {
+                offset.vz = 0;
+                offset.vy = 0;
+                offset.vx = 0;
             }
             visual = (S_func_819B2800_4 *) ((u8 *) object_data + 0x20);
             object_data->unk_10 = update_animated_target_effect;
             register_node(object_data, draw_linked_sprite_effect_quads);
-            pos_x = ((S_func_819B2800_1 *) location->unk_08)->unk_00 + (offset[0] << 0x10);
+            pos_x = ((S_func_819B2800_1 *) location->unk_08)->unk_00 + (offset.vx << 0x10);
             position->unk_00 = pos_x;
             visual->unk_1C = pos_x;
-            pos_y = ((S_func_819B2800_1 *) location->unk_08)->unk_04 + (offset[1] << 0x10);
+            pos_y = ((S_func_819B2800_1 *) location->unk_08)->unk_04 + (offset.vy << 0x10);
             position->unk_04 = pos_y;
             visual->unk_20 = pos_y;
-            pos_z = ((S_func_819B2800_1 *) location->unk_08)->unk_08.unk_08 + (offset[2] << 0x10);
+            pos_z = ((S_func_819B2800_1 *) location->unk_08)->unk_08.unk_08 + (offset.vz << 0x10);
             position->unk_08.unk_08 = pos_z;
             visual->unk_24 = pos_z;
             object_data->unk_20 = effect;
@@ -196,9 +196,9 @@ void update_directional_actor_effect(S_func_819B2800_0 *effect, S_func_819B2800_
             register_node(data_bytes, draw_fading_radial_effect_grid);
             data_bytes = ((u8 *)(&reference_tile_object));
             direction = ((u16) ((S_func_819B2800_5 *) ((s32*)((int *)(&primary_actor_record)))[0])->unk_2A >> 9) & 7;
-            offset[0] = direction;
+            offset.vx = direction;
             visual->unk_0C = (s16) (reference_tile_object.tile_position.parts.tile_x + dir_step_x[direction]);
-            visual->unk_0E = (s16) (reference_tile_object.tile_position.parts.tile_y + dir_step_y[offset[0]]);
+            visual->unk_0E = (s16) (reference_tile_object.tile_position.parts.tile_y + dir_step_y[offset.vx]);
             visual->unk_10 = (u16) position->unk_08.unk_0A.unk_0A;
             object_data->unk_20 = effect;
         }
@@ -464,7 +464,6 @@ typedef struct S_8002466C_9 {
     s16 unk_4C;
 } S_8002466C_9;   /* ent in update_animated_target_effect */
 
-extern s32 resolve_record_orientation_or_fallback(void *, void *, s16 *, s32);
 extern s32 rand(void);
 
 extern u8 secondary_sprite[];
@@ -472,15 +471,17 @@ extern u8 secondary_sprite[];
 /* Update the animated effect, track its target, and spawn scattered particles. */
 void update_animated_target_effect(void *effect)
 {
-    s16 target_pos[3];
+    GteShortVector target_pos;
     s16 state;
     s32 last_particle;
     s32 particle_index;
     s32 display_link;
     u16 frames_left;
     void *owner;
-    TileObject *approach_target;
-    TileObject *follow_target;
+    void *approach_data;
+    SpriteFrameState *approach_target;
+    void *follow_data;
+    SpriteFrameState *follow_target;
     ObjectNodeHeader *particle;
     void *particle_state;
     SpriteFrameState *sprite;
@@ -503,16 +504,17 @@ void update_animated_target_effect(void *effect)
         ((S_8002466C_0 *)effect)->unk_4C.s = ((S_8002466C_0 *)effect)->unk_4C.u + 1;
     case 1:
         last_particle = 0xE;
-        approach_target = &reference_tile_object;
-        if (resolve_record_orientation_or_fallback(((void *)approach_target->sprite_source), approach_target, target_pos, 0) != 0) {
+        approach_data = &reference_tile_object;
+        approach_target = approach_data;
+        if (resolve_record_orientation_or_fallback(approach_target->source, approach_target, &target_pos, 0) != 0) {
             ((S_8002466C_0 *)effect)->unk_1C.at00.v +=
-                ((target_pos[0] + view_reference_entity.x.w.i) -
+                ((target_pos.vx + view_reference_entity.x.w.i) -
                  ((S_8002466C_0 *)effect)->unk_1C.at02.v) << 14;
             ((S_8002466C_0 *)effect)->unk_20.at00.v +=
-                ((target_pos[1] + view_reference_entity.y.w.i) -
+                ((target_pos.vy + view_reference_entity.y.w.i) -
                  ((S_8002466C_0 *)effect)->unk_20.at02.v) << 14;
             ((S_8002466C_0 *)effect)->unk_24.at00.v +=
-                ((target_pos[2] + view_reference_entity.z.w.i) -
+                ((target_pos.vz + view_reference_entity.z.w.i) -
                  ((S_8002466C_0 *)effect)->unk_24.at02.v) << 14;
             ((S_8002466C_0 *)effect)->unk_24.at00.v -=
                 rsin((((S_8002466C_0 *)effect)->unk_48.u << 11) / 10) << 9;
@@ -529,16 +531,17 @@ void update_animated_target_effect(void *effect)
             last_particle = 4;
         }
         ((S_8002466C_0 *)effect)->unk_4E += 2;
-        follow_target = &reference_tile_object;
-        if (resolve_record_orientation_or_fallback(((void *)follow_target->sprite_source), follow_target, target_pos, 0) != 0) {
+        follow_data = &reference_tile_object;
+        follow_target = follow_data;
+        if (resolve_record_orientation_or_fallback(follow_target->source, follow_target, &target_pos, 0) != 0) {
             ((S_8002466C_0 *)effect)->unk_1C.at00.v +=
-                ((target_pos[0] + view_reference_entity.x.w.i) -
+                ((target_pos.vx + view_reference_entity.x.w.i) -
                  ((S_8002466C_0 *)effect)->unk_1C.at02.v) << 15;
             ((S_8002466C_0 *)effect)->unk_20.at00.v +=
-                ((target_pos[1] + view_reference_entity.y.w.i) -
+                ((target_pos.vy + view_reference_entity.y.w.i) -
                  ((S_8002466C_0 *)effect)->unk_20.at02.v) << 15;
             ((S_8002466C_0 *)effect)->unk_24.at00.v +=
-                ((target_pos[2] + view_reference_entity.z.w.i) -
+                ((target_pos.vz + view_reference_entity.z.w.i) -
                  ((S_8002466C_0 *)effect)->unk_24.at02.v) << 15;
         }
         if (((S_8002466C_0 *)effect)->unk_48.u >= 0xD) {

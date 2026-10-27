@@ -1,3 +1,5 @@
+#include "engine/entity.h"
+#include "dungeon/actor/status.h"
 #include "shared/entity_action_selectors.h"
 #include "shared/dungeon_item_entries.h"
 #include "shared/item_ids.h"
@@ -13,10 +15,8 @@
 #include "dungeon/player/state.h"
 
 void apply_entity_effects(void *);             /* extern */
-s32 get_entity_effect_value();            /* extern */
 void display_formatted_context_message(void *context);                   /* extern */
 void adjust_source_value_and_finalize(void *context, const void *source);           /* extern */
-s32 feed_actor_restore_mp();            /* extern */
 extern u8 D_800E1580[34];
 extern u8 D_800E15A2[];
 extern void *familiar_record_slots[];
@@ -37,25 +37,25 @@ typedef struct S_800C22EC_3 {
 } S_800C22EC_3;
 
 /* Processes an entity action and updates the selected target or reports failure. */
-s32 use_item_to_revive_selected_actor(EntityRec *entity, DungeonItemEntry *action, s16 action_type, void *context) {
+s32 use_item_to_revive_selected_actor(ActorRecord *entity, DungeonItemEntry *action, s16 action_type, void *context) {
     s32 target_index;
     s32 flags_mask;
     s32 target_updated;
     S_800C22EC_2 *selection;
-    S_800C22EC_3 *target;
+    ActorRecord *target;
 
     target_updated = 0;
     if (action_type == 0xD) {
         return process_record_and_update_linked_state(action, context);
     }
-    if (entity == ((s32)dungeon_actor_ring_anchor)) {
-        entity->unk_110 = action;
+    if (entity == dungeon_actor_ring_anchor) {
+        ((PlayerRecord *)entity)->pending_item_action = action;
         begin_mode_selected_item_action(entity, &view_reference_entity.x.v, &reference_tile_object.frame_entry, entity);
         return 0;
     }
     if ((u32) entity <= 0x9FFFFFFFU) {
         display_item_status_message(entity, action, action_type);
-        if (feed_actor_restore_mp(entity, entity_action_selectors[(*(u8 *)((u8 *)&entity->unk_10 + 3))] & 3, 0) == 0) {
+        if (feed_actor_restore_mp(entity, entity_action_selectors[entity->species] & 3, 0) == 0) {
             place_actor_item(entity, action);
             return 1;
         }
@@ -76,8 +76,8 @@ s32 use_item_to_revive_selected_actor(EntityRec *entity, DungeonItemEntry *actio
 
                 flags_mask = 0xFBFFFFFF;
                 update_target = target;
-                target->unk_28 = (s8) (((u8) target->unk_29 >> 1) + 1);
-                target->unk_1C = (s32) (target->unk_1C & flags_mask);
+                target->hp = (s8) (((u8) target->max_hp >> 1) + 1);
+                target->flags1C = (s32) (target->flags1C & flags_mask);
                 apply_entity_effects(update_target);
                 target_updated = 1;
                 adjust_source_value_and_finalize(target, D_800E1580);

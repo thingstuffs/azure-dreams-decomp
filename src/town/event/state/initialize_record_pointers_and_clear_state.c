@@ -12,7 +12,7 @@ typedef struct S_800A97D8_0 {
 
 
 extern void unit_scale_record_handler_address();
-extern void D_800A9778();
+extern void D_800A9778(u16 *record);
 
 /* Initialize the record pointers and clear the associated state field. */
 void initialize_record_pointers_and_clear_state(void *record_data, EffectStateWordView *state) {

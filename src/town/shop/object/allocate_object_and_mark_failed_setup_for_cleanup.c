@@ -2,8 +2,9 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "town/shop/monster_status_initialization_g00634.h"
+#include "engine/node.h"
 
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
+
 void release_null_terminated_entries(u16 **entries);                      /* extern */
 s32 link_monster_status_display_entries();                             /* extern */
 s32 load_storage_display_resource();                 /* extern */

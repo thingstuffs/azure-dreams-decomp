@@ -9,6 +9,7 @@
 #include "shared/slus_callbacks.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_moving_views.h"
+#include "engine/node.h"
 
 #ifndef NULL
 #define NULL 0
@@ -36,7 +37,7 @@ typedef struct {
 } LocalRecord;
 
 void select_record_entry_and_value(void *state,void *entries, short index);
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+
 void fade_timed_primitive(void *record_fields, void *unused, SpriteFrameState *primitive);
 extern s32 radial_sprite_entries;
 extern s32 rand(void);

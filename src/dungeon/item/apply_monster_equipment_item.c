@@ -1,3 +1,4 @@
+#include "dungeon/actor/status.h"
 #include "shared/monster_ids.h"
 #include "shared/entity.h"
 #include "shared/dungeon_item_entries.h"
@@ -51,7 +52,6 @@ struct DungeonItemEntry;
 void place_actor_item(void *object_context, struct DungeonItemEntry *target); /* extern */
 s32 generate_random_value(void);
 s32 place_item_at_valid_floor_position(); /* extern */
-s32 feed_actor_restore_mp();
 extern u8 D_80089378[];
 extern u8 D_8008937C[];
 extern u8 D_800E13DA[15];
@@ -81,8 +81,11 @@ s32 apply_monster_equipment_item(u8 *entity, DungeonItemEntry *target, s16 actio
     compare_ptr = (u8 *) 0x9FFFFFFF;
     if ((u32) entity <= (u32) compare_ptr) {
         if (((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_2B != MONSTER_TROLL) {
+            void *body = entity;
+            ActorRecord *actor = body;
+
             display_actor_item_status_message(entity, target);
-            if (feed_actor_restore_mp(entity, (entity_action_selectors[((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_2B] >> 4) & 3, 0) == 0) {
+            if (feed_actor_restore_mp(actor, (entity_action_selectors[actor->species] >> 4) & 3, 0) == 0) {
                 place_actor_item(entity, target);
                 return 1;
             }

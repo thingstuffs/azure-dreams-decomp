@@ -1,3 +1,4 @@
+#include "dungeon/actor/status.h"
 #include "shared/item_ids.h"
 #include "shared/entity.h"
 #include "shared/dungeon_item_entries.h"
@@ -14,7 +15,6 @@
 #include "dungeon/player/item.h"
 #include "dungeon/system.h"
 #include "dungeon/player/state.h"
-extern s32 feed_actor_restore_mp();
 extern void place_actor_item(void *object_context, struct DungeonItemEntry *target);
 extern void create_colored_effect_with_sound(void *source, s32 color, unsigned short sound_id);
 extern void *get_unused_text_buffer(void);
@@ -45,8 +45,11 @@ s32 apply_genus_change_item(u8 *target, DungeonItemEntry *event, s32 value)
         return 0;
     }
     if ((u32)target <= 0x9FFFFFFF) {
+        void *body = target;
+        ActorRecord *actor = body;
+
         display_item_status_message(target, event, (s16)value);
-        if (feed_actor_restore_mp(target, (entity_action_selectors[target[0x13]] >> 6) & 3, 0) == 0) {
+        if (feed_actor_restore_mp(actor, (entity_action_selectors[actor->species] >> 6) & 3, 0) == 0) {
             place_actor_item(target, event);
             return 1;
         }

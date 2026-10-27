@@ -8,8 +8,8 @@ extern s32 D_80019A30;
 extern s32 D_80019ACC;
 
 extern void func_80017B3C(void *, void *, s32);
-extern s32 invoke_system_callback_21_c(void *, void *, s32);
-extern void call_helper_with_fixed_id_0x118a(s32);
+extern s32 func_80017F8C(void *entry_table, void *context, s32 entry_key); /* placed copy of resolve_entry_flag */
+extern void func_80018854(s32); /* placed copy of set_script_flag_bit */
 
 /* Prepare request state and select a result buffer based on status checks. */
 void *prepare_scene_request_state(void *request_id, s32 unused, s32 request_value)
@@ -18,9 +18,9 @@ void *prepare_scene_request_state(void *request_id, s32 unused, s32 request_valu
 
     func_80017B3C(request_state, request_id, request_value);
     if (((func_8001894C(scene_request_flag_id) == 0) &&
-         (invoke_system_callback_21_c(request_state, request_id, request_value) == 0)) ||
+         (func_80017F8C(request_state, request_id, request_value) == 0)) ||
         (func_8001894C(F_sbs07_pad21) == 0)) {
-        call_helper_with_fixed_id_0x118a(F_sbs07_pad21);
+        func_80018854(F_sbs07_pad21);
         return &D_80019ACC;
     }
     return &D_80019A30;

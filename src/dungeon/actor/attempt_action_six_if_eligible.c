@@ -1,3 +1,4 @@
+#include "dungeon/actor/status.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
@@ -17,7 +18,6 @@ typedef struct S_800C8DB0_0 {
 
 
 void adjust_source_value_and_finalize(void *context, const void *source);
-s32 set_or_clear_actor_status_slot();
 s32 generate_random_value(void);
 void wrap_position_and_set_state_value(s32 state_value);
 extern s32 D_800DCF20;
@@ -26,6 +26,8 @@ extern u8 D_800E1A6D[27];
 
 /* Attempts action 6 when the entity passes its state and threshold checks. */
 s32 attempt_action_six_if_eligible(S_800C8DB0_0 *entity, s16 threshold, s8 action_arg) {
+    void *body;
+    ActorRecord *actor;
     s16 remainder;
     s32 sample;
     u8 state_byte;
@@ -39,7 +41,9 @@ s32 attempt_action_six_if_eligible(S_800C8DB0_0 *entity, s16 threshold, s8 actio
             } else {
                 remainder = 0;
             }
-            if ((remainder < threshold || threshold == 0xFF) && (s16)set_or_clear_actor_status_slot(entity, STATUS_MAGIC_BIND, action_arg) >= 0) {
+            body = entity;
+            actor = body;
+            if ((remainder < threshold || threshold == 0xFF) && (s16)set_or_clear_actor_status_slot(actor, STATUS_MAGIC_BIND, action_arg) >= 0) {
                 adjust_source_value_and_finalize(entity, D_800E1937);
                 if (entity->unk_13 == 0) {
                     wrap_position_and_set_state_value(D_800DCF20);

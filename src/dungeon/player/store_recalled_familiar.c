@@ -1,3 +1,4 @@
+#include "engine/entity.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/entity.h"
@@ -30,7 +31,6 @@ typedef struct {
     s32 words[35];
 } Copy140;
 
-s32 get_entity_effect_value();                 /* extern */
 void update_map_cell_flags_with_item_limit(u8, u8, s32);     /* extern */
 s32 play_sound_if_enabled(s32 query_value);                     /* extern */
 extern void *familiar_record_slots[];
@@ -47,7 +47,7 @@ void store_recalled_familiar(s32 slot_table, void *unused_arg1, void *unused_arg
     void **record_slot;
     ActorRecord *stored_record;
     EntityRec *owner_state;
-    S_80093E74_2 *source_record;
+    ActorRecord *source_record;
     void *unused_ptr;
     void *record_storage;
     void *owner_record;
@@ -75,7 +75,7 @@ void store_recalled_familiar(s32 slot_table, void *unused_arg1, void *unused_arg
         source_record = *record_slot;
     }
     if ((get_entity_effect_value(source_record, STATUS_FROG) << 0x10) != 0) {
-        source_record->unk_13 = (u8) source_record->unk_A8;
+        source_record->species = source_record->unk_A8.byte;
     }
     record_storage = &familiar_record_storage[((((record_index * 8) + record_index) * 4) - record_index) * 4];
     *record_slot = record_storage;

@@ -11,6 +11,7 @@
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 #include "shared/object_payload.h"
+#include "engine/node.h"
 
 typedef struct S_800A878C_2 {
     u8 pad_00[0x2];
@@ -55,7 +56,7 @@ typedef struct {
 
 /* extern */
 void select_record_entry_and_value(void *state,void *entries, short index);
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+
 /* extern */
 extern void D_800A86BC();
 #include "shared/sprite_source.h"

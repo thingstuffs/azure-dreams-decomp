@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "engine/node.h"
 typedef struct {
     s32 x;
     s32 y;
@@ -9,7 +10,7 @@ typedef struct {
 } Vec3_32;
 void compute_offset_position_linked_object(void *object, Vec3_32 *out_pos);            /* extern */
 struct ObjectNodeHeader; void * allocate_list_node(s32, struct ObjectNodeHeader * *);            /* extern */
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
+
 s32 lookup_item_category_mapped_value(s32, s32);                /* extern */
 
 typedef struct S_800C6C10_1 {

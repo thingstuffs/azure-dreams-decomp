@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-extern void D_800AAC64();
+extern void D_800AAC64(void *object, s32 context, s32 update_param, void *color_data);
 
 typedef struct S_800AAE00_0 {
     u8 pad_00[0x15];
