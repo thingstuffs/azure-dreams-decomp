@@ -1,3 +1,4 @@
+#include "engine/node/allocation.h"
 #include "shared/actor_property_flags.h"
 #include "shared/object_node_flags.h"
 #include "shared/monster_ids.h"
@@ -107,15 +108,18 @@ void draw_fullscreen_fade(void *effect, s32 unused, S_8009BE2C_2 *fade) {
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 
-void *allocate_list_node();                  /* extern */
 extern void D_8009BE2C();
 
 /* Creates a type 0x212 object and initializes its flag and value. */
 void create_type_212_object(s32 flag, s8 value) {
+    void *owner_body;
+    ObjectNodeHeader *owner;
     SpriteFrameState *state;
     ObjectNodeHeader *object;
 
-    object = allocate_list_node(0x212, ((s32)dungeon_actor_ring_anchor) - 0x20);
+    owner_body = dungeon_actor_ring_anchor;
+    owner = owner_body - 0x20;
+    object = allocate_list_node(0x212, &owner->next);
     if (object != NULL) {
         state = object->sprite;
         object->update_callback = &D_8009BE2C;

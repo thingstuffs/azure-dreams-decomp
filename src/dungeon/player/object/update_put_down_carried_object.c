@@ -1,10 +1,10 @@
+#include "engine/graphics.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "shared/entity.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
-s32 find_flagged_record_by_id();                    /* extern */
 void process_unflagged_linked_entries(s32 firstEntryBase);                         /* extern */
 void process_unflagged_linked_entries_alt(s32);                         /* extern */
 s16 get_offset_map_cell_value_and_flags(s16, s16, s16, u16 *);          /* extern */
@@ -24,7 +24,7 @@ typedef struct S_8008F878_0 {
 
 typedef struct S_8008F878_1 {
     u8 pad_00[0x8];
-    s32 unk_08;
+    SpriteAttachment *unk_08;
     u8 pad_0C[0x8];
     u16 unk_14;
     u8 pad_16[0xE];

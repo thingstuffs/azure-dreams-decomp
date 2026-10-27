@@ -98,9 +98,9 @@ void initialize_record_table_and_group(void *record) {
 
 /* Initializes the task and resources for open_twin_souko. */
 void * open_twin_souko(s32 option) {
-    s32 resource_08;
+    StorageMenuNode *resource_08;
     ItemMenuObjectNode *resource_00;
-    s32 resource_04;
+    StorageMenuNode *resource_04;
     void *state;
     void *task;
 

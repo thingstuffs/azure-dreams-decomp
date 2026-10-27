@@ -117,7 +117,7 @@ typedef struct B28_818B7F38_LocalFrame {
     s32 out_y;
     s32 out_z;
     u8 pad_C[12];
-    union { GteShortVector orientation; u16 distance[3]; } offset; /* BYTES: retain unsigned indexed halfword loads. */
+    GteOffset offset;
 } B28_818B7F38_LocalFrame;
 typedef struct B28_818B7E14_DungeonRenderData {
     u8 pad00[0xC];

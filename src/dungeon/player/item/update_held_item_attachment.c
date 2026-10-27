@@ -1,3 +1,5 @@
+#include "engine/scene.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/object_links.h"
 #include "shared/record_ptrs.h"
@@ -66,12 +68,11 @@ typedef struct S_8008D470_6 {
 
 extern u8 held_item_record[];
 
-extern s32 resolve_record_orientation_or_fallback();
 extern s32 create_indexed_floor_object();
 
 /* Move the effect toward its target, pulse its brightness, and handle expiration. */
 void update_held_item_attachment(void *effect, S_8008D470_4 *position, S_8008D470_3 *visual) {
-    s16 offsets[3];
+    GteShortVector offsets;
     s16 state;
     s32 expiry_mode;
     s16 brightness;
@@ -84,6 +85,7 @@ void update_held_item_attachment(void *effect, S_8008D470_4 *position, S_8008D47
     u16 steps_left;
     u8 intensity;
     S_8008D470_1 *target;
+    SpriteFrameState *source_sprite;
     S_8008D470_5 *entity;
 
     state = ((S_8008D470_0 *)effect)->unk_A2.s;
@@ -93,8 +95,8 @@ void update_held_item_attachment(void *effect, S_8008D470_4 *position, S_8008D47
         ((S_8008D470_0 *)effect)->unk_A4.s = 6;
         ((S_8008D470_0 *)effect)->unk_A2.s = ((S_8008D470_0 *)effect)->unk_A2.u + 1;
     case 1:
-        target = ((S_8008D470_0 *)effect)->unk_90;
-        if (resolve_record_orientation_or_fallback(target->unk_08, target, offsets, 0) != 0 &&((PlayerRecord *)dungeon_actor_ring_anchor)->unk_124 != 0) {
+        source_sprite = ((S_8008D470_0 *)effect)->unk_90;
+        if (resolve_record_orientation_or_fallback(source_sprite->source, source_sprite, &offsets, 0) != 0 &&((PlayerRecord *)dungeon_actor_ring_anchor)->unk_124 != 0) {
             visual->unk_1C = 0x1000;
             steps_left = ((S_8008D470_0 *)effect)->unk_A4.s - 1;
             ((S_8008D470_0 *)effect)->unk_A4.s = steps_left;
@@ -102,26 +104,26 @@ void update_held_item_attachment(void *effect, S_8008D470_4 *position, S_8008D47
                 current_x = position->unk_00.at00.v;
                 position->unk_00.at00.v = current_x +
                     (((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_00.at00.v +
-                     (offsets[0] << 16) - current_x) / (s16)steps_left;
+                     (offsets.vx << 16) - current_x) / (s16)steps_left;
 
                 current_y = position->unk_04.at00.v;
                 position->unk_04.at00.v = current_y +
                     (((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_04.at00.v +
-                     (offsets[1] << 16) - current_y) / ((S_8008D470_0 *)effect)->unk_A4.u;
+                     (offsets.vy << 16) - current_y) / ((S_8008D470_0 *)effect)->unk_A4.u;
 
                 current_z = position->unk_08.at00.v;
                 position->unk_08.at00.v = current_z +
                     (((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_08.at00.v +
-                     (offsets[2] << 16) - (((S_8008D470_0 *)effect)->unk_A4.u << 21) - current_z) /
+                     (offsets.vz << 16) - (((S_8008D470_0 *)effect)->unk_A4.u << 21) - current_z) /
                     ((S_8008D470_0 *)effect)->unk_A4.u;
             } else {
                 ((S_8008D470_0 *)effect)->unk_A4.s = 0;
                 position->unk_00.at02.v = ((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_00.at02.v
-                    + (u16)offsets[0];
+                    + (u16)offsets.vx;
                 position->unk_04.at02.v = ((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_04.at02.v
-                    + (u16)offsets[1];
+                    + (u16)offsets.vy;
                 position->unk_08.at02.v = ((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_08.at02.v
-                    + (u16)offsets[2];
+                    + (u16)offsets.vz;
             }
             if (((S_8008D470_0 *)effect)->unk_AA == 0) {
                 ((S_8008D470_0 *)effect)->unk_AA = 1;

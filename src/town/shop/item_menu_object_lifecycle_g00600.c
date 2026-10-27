@@ -9,7 +9,7 @@ void * create_item_menu_object(s32 selector) {
     S_800AE324_0 *state;
     void *initializer;
     s32 count;
-    s32 result;
+    void *result;
 
     if (selector != 0) {
         object = allocate_list_node(0, selector);

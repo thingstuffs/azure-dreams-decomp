@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_7F43F800_P01_H
 #define DUNGEON_OVL_7F43F800_P01_H
 #include "common.h"
+#include "sdk/libgte.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 
@@ -66,6 +67,5 @@ typedef struct {
 } T_80170AD0_StackWork;
 
 extern void advance_sprite_animation_and_textures(void *entity);
-extern s32 RotTransPers();
 extern s8 view_direction_depth_biases[8];
 #endif

@@ -12,6 +12,8 @@ void create_owner_color_sprite(struct Owner *owner, unsigned int color);
 
 void advance_damped_effect_motion(void *effect, ObjectPosition *motion, void *color);
 
+void *create_radial_effect_from_source(void *owner_body, void *source, int unused, int object_value);
+
 /* Callback entry points. */
 int build_sorted_effect_quads(void *quad_entry);
 void advance_damped_effect_and_expire(unsigned char *effect, int *motion);

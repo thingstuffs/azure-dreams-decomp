@@ -20,6 +20,8 @@ void update_timed_effect_animation(void *effect, ObjectPosition *motion, SpriteF
 struct DirectionalEffectWork;
 void update_directional_actor_effect(struct DirectionalEffectWork *effect, ObjectPosition *motion, void *context);
 
+void create_owner_linked_mirrored_sprite(void *effect, ObjectPosition *source_position, SpriteFrameState *source_sprite);
+
 /* Callback entry points. */
 void expire_ribbon_segment(void *record_data);
 void tick_rotating_rect_effect(void *effect, s32 unused, void *phase_state);

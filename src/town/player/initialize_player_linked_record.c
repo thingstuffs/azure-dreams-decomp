@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player/scene_action_setup.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/town_handler.h"

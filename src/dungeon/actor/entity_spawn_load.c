@@ -91,9 +91,9 @@ s32 advance_staged_entity_load(s32 unused, u8 *entity)
     s32 scale;
     s32 replace_call_zero;
     s32 load_kind;
-    u8 *spawned;
+    void *spawned;
     u8 *replacement;
-    u8 *shifted;
+    ObjectNodeHeader *shifted;
     u8 *entity_data;
     u8 *mode_page;
     u8 *record;

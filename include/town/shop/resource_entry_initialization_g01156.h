@@ -12,6 +12,8 @@
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "shared/item_menu.h"
+#include "town/shop/storage_menu.h"
+#include "town/shop/item_menu_actions.h"
 
 typedef struct S_800B2964_0 {
     u8 pad_00[0x1];
@@ -55,8 +57,8 @@ typedef struct S_800B2BA0_0_pre {
 
 typedef struct S_800B2BA0_0 {
     u8 pad_00[0x4];
-    s32 unk_04;
-    s32 unk_08;
+    StorageMenuNode *unk_04;
+    StorageMenuNode *unk_08;
     u8 pad_0C[0x3C];
     s32 unk_48;
 } S_800B2BA0_0;
@@ -75,11 +77,8 @@ s32 func_800B0718(void);
 /* extern */
 void store_table_index_and_entry_bytes(void *object, s32 index);
 /* extern */
-ItemMenuObjectNode * func_800B3924(ItemMenuStateNode *owner);
 /* extern */
-s32 create_storage_item_menu();
 /* extern */
-s32 create_storage_owner_menu();
 /* extern */
 void handle_item_menu_input_2(u8 *menu);
 extern void func_800B3A80(s32);

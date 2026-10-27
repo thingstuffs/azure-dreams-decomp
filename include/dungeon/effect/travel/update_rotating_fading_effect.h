@@ -123,7 +123,7 @@ typedef struct ovl_18ca83c_818AAE60_S_80024660_12 {
 typedef struct {
     s32 pos[3];
     u8 pad18[0xC];
-    union { GteShortVector orientation; u16 distance[3]; } offset; /* BYTES: retain unsigned indexed halfword loads. */
+    GteOffset offset;
 } ovl_18ca83c_818AAE60_Func818AAE60Scratch;
 extern void draw_animated_shaded_lines(void);
 extern void func_8002488C(void);

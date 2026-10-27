@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_7F217800_H
 #define DUNGEON_OVL_7F217800_H
 #include "common.h"
+#include "engine/node.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/sprite_frame_state.h"
@@ -55,7 +56,6 @@ extern void func_80158F74(void *actor_in, void *actor_data_in, SpriteFrameState 
 
 extern void *allocate_list_node(s32 flags, ObjectNodeHeader **list_head);
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern s16 set_or_clear_actor_status_slot();

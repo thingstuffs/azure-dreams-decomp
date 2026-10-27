@@ -69,7 +69,7 @@ inline u8 *inline_fn_8005DA88(S_8005DA88_buf *params)
 }
 
 /* Update reverb mode, depth, delay and feedback, optionally clearing its work area. */
-s32 SpuSetReverbModeParam(S_8005DA88 *settings, s32 unused_1, s32 *unused_2, s32 unused_3)
+s32 SpuSetReverbModeParam(S_8005DA88 *settings)
 {
     S_8005DA88_buf reverb_params;
     s32 flags;

@@ -226,12 +226,14 @@ void update_the_target_records_counts_flags_status(void *object_slot, void *unus
 
 /* Creates a gray animated sprite with copied motion and the owner's link for completion bookkeeping. */
 void *create_an_default_rendering_settings_copies_initial_data(s32 *owner_data, Row_81916E00_Copy24 *initial_data) {
+    ObjectNodeHeader *owner_node;
     s32 owner_value;
     SpriteFrameState *render_state;
     Row_81916E00_S_80024600_0 *object;
     Row_81916E00_Copy24 *object_data;
 
-    object = allocate_list_node(0x212, (s8 *) owner_data - 0x20);
+    owner_node = (void *)owner_data - 0x20;
+    object = allocate_list_node(0x212, &owner_node->next);
     if (object != NULL) {
         object->unk_10 = &D_8002457C;
         owner_value = *owner_data;
@@ -488,6 +490,7 @@ void advance_radial_effect_state(void *motion, void *position, SpriteFrameState 
 /* Creates a sprite aimed from the supplied position toward the owner's saved coordinates and adds
    three trail sprites. */
 void *create_an_oriented_effect_between_position_owner(void *owner, Rec_func_80024E80_arg1 *start_pos) {
+    ObjectNodeHeader *owner_node;
     ObjectNodeHeader *effect;
     Row_81917680_S_80024E80_2 *state;
     SpriteFrameState *render;
@@ -499,7 +502,8 @@ void *create_an_oriented_effect_between_position_owner(void *owner, Rec_func_800
     u8 *slot_ptr;
     s32 random_angle;
 
-    effect = allocate_list_node(0x212, (u8 *)owner - 0x20);
+    owner_node = (void *)owner - 0x20;
+    effect = allocate_list_node(0x212, &owner_node->next);
     if (effect != 0) {
         effect->update_callback = D_80024C0C;
         state = (u8 *)effect + 0x20;
@@ -620,6 +624,7 @@ void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(void
 /* Creates a randomly rotated attached sprite with copied motion and staggered phase and timing from
    its index. */
 void * create_an_attached_effect_copied_transform_data_randomized_angle(void *object, Row_81917A70_Copy24 *src_transform, s16 effect_index) {
+    ObjectNodeHeader *owner_node;
     s32 first_word;
     s32 second_word;
     s32 random_value;
@@ -628,7 +633,8 @@ void * create_an_attached_effect_copied_transform_data_randomized_angle(void *ob
     ObjectPosition *transform;
     ObjectNodeHeader *effect;
     s16 saved_index;
-    effect = allocate_list_node(0x212, (u8 *)object - 0x20);
+    owner_node = (void *)object - 0x20;
+    effect = allocate_list_node(0x212, &owner_node->next);
     if (effect != NULL) {
         saved_index = effect_index;
         state = ((void *)effect) + 0x20;

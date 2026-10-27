@@ -1,3 +1,4 @@
+#include "engine/audio/sequence.h"
 #include "dungeon/item/message.h"
 #include "shared/dungeon_item_entries.h"
 #include "engine/menu.h"
@@ -17,13 +18,12 @@
 #include "shared/dungeon_moving_views.h"
 
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-void * decode_fullwidth_text();
 extern char * func_8004E5A0(int value, unsigned short width, char *buf);
 void *func_800B119C();
 extern s32 allocate_panel_offset_or_zero(void);
 extern M2C_UNK D_80077FEC;
 extern void update_attached_effect_position(void *object, MovingPosition *position, void *anim_state);
-extern s32 dungeon_menu_text_entries[];
+extern u8 *dungeon_menu_text_entries[];
 extern s32 transform_linked_quad_batches(u8 *, s32, u8 *);
 /* Creates an entity panel with numeric labels, centered text, and a shaded background. */
 void *create_panel_effect_object(void *owner)
@@ -36,8 +36,8 @@ void *create_panel_effect_object(void *owner)
     s32 color_or_addr;
     s32 vertex_color;
     s32 text_width;
-    s32 text_addr;
-    s32 text_addr_2;
+    u8 *text_addr;
+    u8 *text_addr_2;
     s32 red_color;
     s32 red_color_2;
     u16 text_id;
@@ -111,7 +111,7 @@ void *create_panel_effect_object(void *owner)
     
             }
             else {
-                s32 *text_table = dungeon_menu_text_entries;
+                u8 **text_table = dungeon_menu_text_entries;
                 *((s32 *) (((s8 *) panel) + 0x7C)) = decode_fullwidth_text(prim, text_table[4] + 1, 0);
                 text_addr_2 = text_table[4];
                 prim_index = 4;
@@ -840,7 +840,6 @@ typedef struct S_800B1B10_7 {
 } S_800B1B10_7;   /* ((style_held * 4) + sub) in build_owned_floating_number_widget */
 
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-void * decode_fullwidth_text();
 void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 extern s32 allocate_panel_offset_or_zero(void);
 extern void update_fading_effect_scale(void *effect, s32 unused, void *render_arg);
@@ -867,7 +866,7 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
     s32 copy_a;
     s32 copy_b;
     void *value_4;
-    s32 value_5;
+    union { void *pointer; s32 bits; } glyph_end; /* BYTES: retain the masked glyph-end word and pointer lifetime. */
     s32 tail;
     void *sub;
     s32 *slots;
@@ -916,11 +915,11 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
             }
             value_4 = get_unused_text_buffer();
             *append_typed_formatted_value(item, value_4) = 0;
-            value_5 = decode_fullwidth_text((void *) b_held, value_4, 0);
+            glyph_end.pointer = decode_fullwidth_text((void *) b_held, value_4, 0);
             {
                 s32 mask_v1;
                 mask_v1 = 0x7FFFFFFF;
-                ((S_800B1B10_0 *)obj)->unk_74 = value_5 & mask_v1;
+                ((S_800B1B10_0 *)obj)->unk_74 = glyph_end.bits & mask_v1;
             }
             obj_2 = strlen(value_4) * 4;
             if ((compact_held << 0x10) != 0) {
@@ -952,8 +951,8 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
                 mask_v0 = 0x7FFFFFFF;
                 ((S_800B1B10_6 *)(((style_held++ * 4) + sub)))->unk_50 = b_held & mask_v0;
             }
-            copy_records_through_end((void *) b_held, value_5);
-            offset_record_coordinates(value_5, 1, 1);
+            copy_records_through_end((void *) b_held, glyph_end.pointer);
+            offset_record_coordinates(glyph_end.pointer, 1, 1);
             b_held = (s32) allocate_panel_offset_or_zero();
             ((S_800B1B10_2 *)sub)->unk_30 = b_held;
             *slots = 0x80808;

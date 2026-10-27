@@ -8,6 +8,8 @@
 #include "shared/town_event_state.h"
 #include "shared/town_pointees.h"
 #include "shared/town_root.h"
+#include "town/scene/entry_requests.h"
+#include "town/scene/response_checks.h"
 
 typedef s32 (*SceneHandler3)(s32, s32, s32);
 typedef struct S_8001747C_0 {
@@ -108,13 +110,12 @@ void func_8001A490(s32 code);
 s32 func_8001A7F8(void);
 s32 func_80019A04(void *table, s32 key, s32 context);
 s32 *func_80019ABC(void *table, void *state, s32 key, s32 context);
-#include "town/scene/entry_requests.h"
 s32 func_80019880(void);
-s32 func_800196F4();
-s32 func_80019778();
-void apply_four_values_and_refresh();
+/* Placed copy of check_callback_record_bytes. */
+s32 func_800196F4(s32 expected_second, s32 expected_first);
 void func_80018F74(s32 value0, s32 value1, s32 value2, s32 value3);
-s32 func_8001979C();
+/* Placed copy of find_entry_index_by_grid_bytes. */
+s32 func_8001979C(s32 match_byte_1, s32 match_byte_0);
 void func_800187AC(void);
 s32 func_80019814(void *object, s32 index);
 s32 func_8001A220(s32, s32, s32);
@@ -144,7 +145,6 @@ s8 *get_progress_byte_pointer(void);
 s32 lookup_entry_with_default_fallback(s32 value, s32 check_value, s32 lookup_value);
 s32 func_80017100(s32 value, s32 check_value, s32 lookup_value);
 s32 select_one_time_interaction_response(void *object, s32 check_value, s32 selection);
-#include "town/scene/entry_requests.h"
 s32 select_event_fallback_event_handler(s32 object, s32 request, s32 context);
 s32 lookup_entry_with_fallback_b(s32 context, s32 check_value, s32 selector);
 s32 func_800175B4(s32 context, s32 check_value, s32 selector);
@@ -178,6 +178,5 @@ void invoke_alternate_handler_with_code_11_fb(void);
 #include "town/scene/fixed_position.h"
 s32 start_callback_with_fixed_parameters(void);
 /* Incomplete inherited argument-list evidence; retain the caller register passthrough. */
-s32 check_table_result_below_minus_47();
 
 #endif

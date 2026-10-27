@@ -38,7 +38,7 @@ extern s32 saved_sequence_volume_scale;
 extern s32 saved_voice_gain_scale;
 extern s32 volume_slider_levels[3];
 extern s32 runtime_saved_state_word;
-extern void SD_Call(); /* Unprototyped: one or two arguments; the retail audio queue reads only the command. */
+extern short SD_Call(int flags);
 extern void sound_set_cd_playback_volume_scale(short value);
 extern void sound_set_sequence_volume_scale(s16 new_value);
 extern void sound_set_voice_gain_scale(short value);

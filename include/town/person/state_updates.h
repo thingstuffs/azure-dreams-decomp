@@ -20,4 +20,8 @@ void dispatch_object_state(void *object, void *context, void *dispatch_data);
 void clear_record_indexed_flag(void *state, s32 unused_context, void *unused_state_context);
 void clear_record_indexed_byte(void *state, s32 unused_context, void *unused_state_context);
 
+void initialize_actor_primary_handler(Rec_func_80094268_arg0 *actor, void *unused, void *output);
+
+void initialize_reaction_object(Rec_func_80094268_arg0 *object, void *unused, void *context);
+
 #endif

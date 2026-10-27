@@ -1,3 +1,4 @@
+#include "engine/node/allocation.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/system.h"
 #include "slus.h"
@@ -297,8 +298,12 @@ extern void *actor_direction_sprites;
 extern void *resolve_record_orientation_or_fallback(void *, void *, ShortVec *, s16);
 extern s32 rsin(s32, ...);
 extern void spawn_blinking_sprite_flash(s16, s16, s16);
-struct FuncInput;
-extern void create_attenuating_moving_effect(s32 alloc_arg, s32 child_x, s32 child_y, s32 child_z,
+typedef struct FuncInput {
+    u16 unk0;
+    u16 unk2;
+    u16 unk4;
+} FuncInput;
+extern void create_attenuating_moving_effect(ObjectNodeHeader **alloc_arg, s32 child_x, s32 child_y, s32 child_z,
                    struct FuncInput *input, s32 meta_value, s16 step_count, s32 range_value, s16 object_tag);
 
 
@@ -392,9 +397,10 @@ typedef struct S_800B8830_12 {
 
 /* Follows the source position, then moves along an arc to the target and marks completion. */
 void update_arcing_effect(void *motion, S_800B8830_3 *coords, S_800B8830_1 *render) {
+    ObjectNodeHeader *owner_node;
     ShortVec delta;
     s32 target_pos[3];
-    ShortVec current_pos;
+    FuncInput current_pos;
     s16 state;
     s16 one;
     void *source;
@@ -475,10 +481,11 @@ void update_arcing_effect(void *motion, S_800B8830_3 *coords, S_800B8830_1 *rend
         coords->unk_08.at00.v +=
             (target_pos[2] - coords->unk_08.at00.v) / ((S_800B8830_0 *)motion)->unk_26.s - (curve << 7);
 
-        current_pos.x = coords->unk_00.at02.v;
-        current_pos.y = coords->unk_04.at02.v;
-        current_pos.z = coords->unk_08.at02.v;
-        create_attenuating_moving_effect((u8 *)motion - 0x20, start_x, start_y, start_z, &current_pos,
+        current_pos.unk0 = coords->unk_00.at02.v;
+        current_pos.unk2 = coords->unk_04.at02.v;
+        current_pos.unk4 = coords->unk_08.at02.v;
+        owner_node = (void *)motion - 0x20;
+        create_attenuating_moving_effect(&owner_node->next, start_x, start_y, start_z, &current_pos,
                       ((S_800B8830_0 *)motion)->unk_0C, 4, 0x1000, one);
 
         counter = ((S_800B8830_0 *)motion)->unk_26.u - 1;
@@ -549,7 +556,6 @@ extern void update_arcing_effect(void *motion, S_800B8830_3 *coords, struct S_80
 extern u8 D_800DF2F8[];
 extern u8 D_800DF334[];
 
-extern void *allocate_list_node();
 
 /* Create an object with default child and tail data when none are supplied. */
 void create_timed_model_effect(void *owner, s32 value, void *child_data, void *tail_data)
@@ -739,11 +745,7 @@ void attenuate_effect_scale_and_brightness(Object_800B36B8 *object, s32 unused, 
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-typedef struct FuncInput {
-    u16 unk0;
-    u16 unk2;
-    u16 unk4;
-} FuncInput;
+
 
 typedef struct {
     u8 pad0[2];
@@ -787,10 +789,9 @@ extern s32 process_linked_mesh_states_mode_0(void *initial_state, s32 value, voi
 struct Object_800B36B8;
 struct Effect;
 extern void attenuate_effect_scale_and_brightness(struct Object_800B36B8 *object, s32 unused, struct Effect *effect);
-extern void *allocate_list_node();
 
 /* Allocate and initialize a type-0x12 object with child and metadata values. */
-void create_attenuating_moving_effect(s32 alloc_arg, s32 child_x, s32 child_y, s32 child_z,
+void create_attenuating_moving_effect(ObjectNodeHeader **alloc_arg, s32 child_x, s32 child_y, s32 child_z,
                    FuncInput *input, s32 meta_value, s16 step_count, s32 range_value, s16 object_tag) {
     FuncMeta *meta;
     FuncObject *object;
@@ -1424,7 +1425,6 @@ typedef struct EntityHdr {
 extern u8 menu_effect_sprite_entries[];
 extern s16 camera_depth_target[5];
 
-extern void *allocate_list_node();
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 
@@ -2753,7 +2753,6 @@ typedef struct S_800BB044_1 {
 } S_800BB044_1;   /* arg0 in create_actor_linked_effect; pointer addresses record offset 0x18 */
 
 
-extern void *allocate_list_node();
 extern void advance_particle_effect_state(void *object);
 
 /* Creates an object linked to the source data and copies its record fields. */
@@ -3239,7 +3238,6 @@ s32 process_linked_menu_effect(u8 *buffer, s32 value, void *data) {
 #include "m2c_compat.h"
 
 extern void select_record_entry_and_value(void *state, void *entries, short index);
-extern void *allocate_list_node();
 extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 struct S_800BB55C_2;
 extern void update_five_point_effect(void *effect, struct S_800BB55C_2 *position, s32 restore_link);
@@ -3603,7 +3601,6 @@ s32 draw_shaded_quad_chain(void *initial_state, void *context, void *data) {
 #include "common.h"
 #include "shared/object_node.h"
 
-extern void *allocate_list_node();
 struct State;
 struct Output;
 struct Interp;
@@ -3749,7 +3746,7 @@ typedef struct S_800BC26C_0 {
     u8 pad_00[0x10];
     void * unk_10;
     u8 pad_14[0xC];
-    s32 unk_20;
+    void *unk_20;
 } S_800BC26C_0;   /* result in create_tracked_effect */
 
 typedef struct S_800BC26C_1 {
@@ -3761,17 +3758,16 @@ typedef struct S_800BC26C_1 {
 } S_800BC26C_1;   /* fields in create_tracked_effect */
 
 
-extern void *allocate_list_node();
 extern void retire_effect_when_owner_or_value_ends(void *context);
 
 /* Creates an object and initializes its owner, parameter, and mode-dependent fields. */
-void *create_tracked_effect(s32 owner, s16 mode, s32 param)
+void *create_tracked_effect(ObjectNodeHeader **owner, s16 mode, s32 param)
 {
     void *object;
     u8 *fields;
     s16 saved_mode;
 
-    object = allocate_list_node(0x110, (void *)owner);
+    object = allocate_list_node(0x110, owner);
     saved_mode = mode;
     if (object != NULL) {
         ((S_800BC26C_0 *)object)->unk_10 = retire_effect_when_owner_or_value_ends;

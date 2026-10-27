@@ -1,3 +1,4 @@
+#include "engine/audio/sequence.h"
 #include "dungeon/item.h"
 s32 display_text_with_fullwidth_adjustment(s8 *text);
 #include "dungeon/item/message.h"
@@ -1291,7 +1292,6 @@ void advance_record_values_by_step(Record *record, s16 step)
 
 
 s32 register_node(void *entry, void *registration_id);
-s32 decode_fullwidth_text();
 extern u8 D_80089074[];
 extern M2C_UNK D_800A6B70;
 extern s32 D_800B06F0();
@@ -1341,6 +1341,7 @@ void *create_pulsing_effect_object(void) {
     S_800A6C00_2 *render_state;
     void *object;
     S_800A6C00_1 *position;
+    union { void *pointer; s32 bits; } glyph_end; /* BYTES: retain the masked glyph-end word and pointer lifetime. */
 
     object = allocate_flagged_object_node(0x12);
     if (object != 0) {
@@ -1357,7 +1358,8 @@ void *create_pulsing_effect_object(void) {
         sprite = object + 0x30;
         ((S_800A6C00_0 *)object)->unk_20 = (void *)(object + 0xF0);
         render_state->unk_04 = (void *)(object + 0xC0);
-        ((S_800A6C00_0 *)object)->unk_F0 = decode_fullwidth_text(sprite, &D_80089074, 0) & 0x7FFFFFFF;
+        glyph_end.pointer = decode_fullwidth_text(sprite, D_80089074, 0);
+        ((S_800A6C00_0 *)object)->unk_F0 = glyph_end.bits & 0x7FFFFFFF;
         offset_record_coordinates(sprite, 0xA8, (s16)((0 - (s8)sprite->unk_03) + 8));
         advance_record_values_by_step(sprite, 4);
         set_record_flags_and_negate_x(sprite, 8);

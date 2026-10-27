@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_EDB06C_H
 #define DUNGEON_OVL_EDB06C_H
 #include "common.h"
+#include "engine/node.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/entity.h"
@@ -8,6 +9,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/actor/animation.h"
 #include "dungeon/actor/status.h"
+#include "engine/node/allocation.h"
 struct ObjectNodeHeader;
 
 typedef struct S_8016A86C_1 {
@@ -68,9 +70,7 @@ typedef struct S_8016A86C_8 {
     void * unk_A4;
 } S_8016A86C_8;   /* base in func_8016A86C */
 
-extern void *allocate_list_node();
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);

@@ -347,7 +347,7 @@ typedef struct ovl_1930844_81912154_S_80025954_15 {
 } ovl_1930844_81912154_S_80025954_15;
 typedef struct ovl_1930844_81912154_LocalStack {
     u8 motion[0x18];
-    union { GteShortVector orientation; u16 distance[4]; } offset; /* BYTES: retain unsigned indexed halfword loads. */
+    GteOffset offset;
 } ovl_1930844_81912154_LocalStack;
 s32 rsin(s32);
 extern s32 register_node(void *, void *);

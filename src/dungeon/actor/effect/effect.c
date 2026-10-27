@@ -1,3 +1,5 @@
+#include "engine/scene.h"
+#include "shared/sprite_frame_state.h"
 #include "dungeon/level/tile_flags.h"
 #include "dungeon/level.h"
 
@@ -968,7 +970,6 @@ void compact_item_entry_table(s32 entry_index) {
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 
-s32 resolve_record_orientation_or_fallback();
 void unlink_entity_node(struct EntityLinkNode *node);
 s32 check_neighbor_tile_blocking();
 void *find_eligible_actor_at_tile_and_height(struct Node *node, s16 x, s16 y_in, s16 value);
@@ -1030,10 +1031,6 @@ typedef struct S_800A871C_8 {
     u8 unk_00;
 } S_800A871C_8;
 
-typedef struct S_800A871C_9 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_800A871C_9;
 
 typedef struct S_800A871C_11_pre {
     void * unk_00;
@@ -1122,14 +1119,14 @@ typedef struct S_800A871C_25 {
 
 typedef struct S_800A871C_26 {
     u8 pad_00[0x4];
-    s32 unk_04;
+    struct SpriteAttachment *unk_04;
 } S_800A871C_26;   /* ((S_800A871C_25 *)(**((S_800A871C_20 *)(((S_800A871C_1 *)r_arg0)->unk_90))->unk_28 +
                                 ((s32) ((S_800A871C_24 *)(((S_800A871C_20 *)(((S_800A871C_1 *)r_arg0)->unk_90))->unk_2C))->unk_02 * 4)))->unk_00 in update_dropped_object_motion */
 
 /* Updates an object's launch, movement, collisions, and landing. */
 void update_dropped_object_motion(void *object, register ObjectPosition *motion, void *tile) {
     void *object_data;
-    u16 offset[3];
+    GteOffset offset;
     s16 move_ticks;
     s32 travel_steps;
     s16 ticks_left;
@@ -1153,7 +1150,7 @@ void update_dropped_object_motion(void *object, register ObjectPosition *motion,
     u8 *drop_x_steps;
     u8 *next_x_steps;
     S_800A871C_5 *launch_source;
-    S_800A871C_9 *source_sprite;
+    SpriteFrameState *source_sprite;
     void *drop_sprite;
     S_800A871C_17 *hit_object;
     void *drop_source;
@@ -1183,11 +1180,11 @@ void update_dropped_object_motion(void *object, register ObjectPosition *motion,
                     ((S_800A871C_26 *)(((S_800A871C_25 *)(**((S_800A871C_20 *)(((S_800A871C_1 *)object)->unk_90))->unk_28
                         +
                                 ((s32) ((S_800A871C_24 *)(((S_800A871C_20 *)(((S_800A871C_1 *)object)->unk_90))->unk_2C))->unk_02 * 4)))->unk_00))->unk_04,
-                    ((S_800A871C_1 *)object)->unk_90, offset, 0) == 0) {
-                ((S_800A871C_2 *)(&offset[2]))->unk_00 = -0x30;
+                    ((S_800A871C_1 *)object)->unk_90, &offset.orientation, 0) == 0) {
+                offset.orientation.vz = -0x30;
             }
             motion->z.w.i =
-                (s16) (((MovingPosition *)(((S_800A871C_1 *)object)->unk_8C))->z + offset[2]);
+                (s16) (((MovingPosition *)(((S_800A871C_1 *)object)->unk_8C))->z + offset.distance[2]);
             ((S_800A871C_4 *)tile)->unk_24.n = (u8) ((S_800A871C_20 *)(((S_800A871C_1 *)object)->unk_90))->unk_24;
             ((S_800A871C_4 *)tile)->unk_25.n = (u8) ((S_800A871C_20 *)(((S_800A871C_1 *)object)->unk_90))->unk_25;
             set_record_integer_tile_center(motion, ((S_800A871C_4 *)tile)->unk_24.v, ((S_800A871C_4 *)tile)->unk_25.v);
@@ -1227,14 +1224,14 @@ void update_dropped_object_motion(void *object, register ObjectPosition *motion,
             return;
         }
         source_sprite = ((S_800A871C_1 *)object)->unk_90;
-        if ((resolve_record_orientation_or_fallback(source_sprite->unk_08, source_sprite, offset, 0) != 0)
+        if ((resolve_record_orientation_or_fallback(source_sprite->source, source_sprite, &offset.orientation, 0) != 0)
             && ((*(s32 *)((u8 *)object_data + (0x1C))) & 0x80000)) {
             ((S_800A871C_1 *)object)->unk_A2 = 1;
             motion->x.w.i =
-                (s16) (((MovingPosition *)(((S_800A871C_1 *)object)->unk_8C))->x + offset[0]);
+                (s16) (((MovingPosition *)(((S_800A871C_1 *)object)->unk_8C))->x + offset.distance[0]);
             motion->y.w.i =
-                (s16) (((MovingPosition *)(((S_800A871C_1 *)object)->unk_8C))->y + offset[1]);
-            source_height = ((MovingPosition *)(((S_800A871C_1 *)object)->unk_8C))->z + offset[2];
+                (s16) (((MovingPosition *)(((S_800A871C_1 *)object)->unk_8C))->y + offset.distance[1]);
+            source_height = ((MovingPosition *)(((S_800A871C_1 *)object)->unk_8C))->z + offset.distance[2];
             height_source = primary_actor_record;
             motion->z.w.i = (s16) (source_height + 8);
             (*(u16 *)((u8 *)object_data + (0x88))) = ((u16)height_source->ground_height);

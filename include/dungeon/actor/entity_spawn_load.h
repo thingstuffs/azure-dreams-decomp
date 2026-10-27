@@ -181,14 +181,15 @@ extern s32 apply_actor_template_and_class();
 extern s32 replay_actor_status_slots();
 extern s32 func_80042640();
 extern s32 copy_entity_record();
-extern s32 unlink_node();
+#include "engine/node.h"
 extern void select_indirect_table_entry(void *state_data, s16 table_index, s16 entry_index);
 extern s32 queue_cd_resource();
 extern s32 func_80047E30();
 extern s32 register_and_upload_sprite_resource();
 extern s32 begin_sprite_resource_load_with_completion_flag();
 extern s32 read_sound_mode_blocking_status(s32 mode);
-extern s32 unlink_entity_node();
+struct EntityLinkNode;
+void unlink_entity_node(struct EntityLinkNode *node);
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern SpawnFunc load_monster_resource_data();
 extern s32 retain_spawn_resource(s16 entry_type, s16 entry_key);

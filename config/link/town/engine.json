@@ -1773,6 +1773,19 @@
       "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
     },
     {
+      "row": "town/func_800513F4",
+      "tu": "src/town/person/initialize_actor_primary_handler.c",
+      "home": "town/func_800CCEAC",
+      "foff": "0x513f4",
+      "vma": "0x800ceb54",
+      "size": 64,
+      "bindings": {
+        "0x800d64dc": "0x800d72e8",
+        "0x800ca020": "0x800ce3fc"
+      },
+      "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json; TU view gather: moved from town/heur_513f4 (same load delta) so the merged file's members share one view"
+    },
+    {
       "row": "town/func_8003147C",
       "tu": "src/town/person/object/initialize_mother_event_object.c",
       "home": "town/func_800CA950",

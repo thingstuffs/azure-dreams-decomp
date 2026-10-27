@@ -55,7 +55,8 @@ extern s32 D_8001781C;
 extern s32 D_8001857C;
 extern s32 scene_event_data;
 extern s32 D_80017870;
-s32 func_800175E0();
+/* Placed copy of clear_script_flag_bit. */
+void func_800175E0(s32 bit_index);
 s32 dispatch_town_callback_or_fallback(void);
 void dispatch_town_callback_or_default(s32 value0, s32 value1);
 void initialize_context_entry_tables_variant_1(s32 unused_a, s32 unused_b);

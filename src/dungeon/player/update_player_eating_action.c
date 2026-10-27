@@ -1,3 +1,4 @@
+#include "engine/graphics.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -9,8 +10,6 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
-void set_sprite_animation_frame(void *, u8, s32, s32);
-s32 find_flagged_record_by_id(s32, s32);
 
 void *get_unused_text_buffer(void);
 u8 *expand_text_control_codes(u8 *src, u8 *dst);
@@ -42,14 +41,14 @@ typedef struct S_8009255C_7 {
 } S_8009255C_7;
 
 /* Turn the actor, spawn the action object and message, and handle completion. */
-void update_player_eating_action(void *controller, s32 action_id, Rec_D_80082E80 *actor, EntityRec *transform) {
+void update_player_eating_action(void *controller, s32 action_id, SpriteFrameState *actor, EntityRec *transform) {
     void *text_start;
     void *text_cursor;
     s32 state;
     ObjectNodeHeader *spawned;
     ObjectPosition *position;
     S_8009255C_7 *spawned_state;
-    SpriteAnimationTableView *animation_actor;
+    SpriteFrameState *animation_actor;
     u8 *animation_entry;
     u8 *animation_table;
 
@@ -60,7 +59,7 @@ void update_player_eating_action(void *controller, s32 action_id, Rec_D_80082E80
                transform->facing + 0x100) >> 9) & 7) == 2) {
             animation_actor = actor;
             animation_table = D_800DD100;
-            animation_actor->frame_table = animation_table;
+            animation_actor->frameTable = animation_table;
             animation_entry = (u8 *)((s32)(((g_game_work.view.camera_rotation.parts.viewAngle +
                                     transform->facing + 0x100) >> 9) &
                                   7) +
@@ -77,7 +76,7 @@ void update_player_eating_action(void *controller, s32 action_id, Rec_D_80082E80
             (u16)transform->facing + 0x200;
         break;
     case 1:
-        if (find_flagged_record_by_id(actor->unk_08, 0) == 0) {
+        if (find_flagged_record_by_id(actor->source, 0) == 0) {
             return;
         }
         if (((Rec_func_8008ACDC_arg0 *)controller)->unk_110 == (s32)&held_item_record) {
@@ -90,9 +89,9 @@ void update_player_eating_action(void *controller, s32 action_id, Rec_D_80082E80
             spawned->update_callback = &player_item_render_update_address;
             position = spawned->position;
             position->x.w.i =
-                (actor->unk_24 << 6) + 0x20;
+                (actor->tile_x << 6) + 0x20;
             position->y.w.i =
-                (actor->unk_25 << 6) + 0x20;
+                (actor->tile_y << 6) + 0x20;
             position->z.w.i =
                 ((u16)transform->unk_88) - 0x30;
             spawned_state = ((void *)spawned) + 0x20;
@@ -119,7 +118,7 @@ void update_player_eating_action(void *controller, s32 action_id, Rec_D_80082E80
         ((Rec_func_8008ACDC_arg0 *)controller)->unk_9B.as_u8++;
         break;
     case 2:
-        if ((actor->unk_14.at00_u16.v & 0xE000) == 0) {
+        if ((actor->flags & 0xE000) == 0) {
             return;
         }
         if (((Rec_func_8008ACDC_arg0 *)controller)->unk_110 != 0) {

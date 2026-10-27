@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_E1B054_H
 #define DUNGEON_OVL_E1B054_H
 #include "common.h"
+#include "engine/node.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_projectile_views.h"
@@ -8,6 +9,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/actor/animation.h"
 struct ObjectNodeHeader;
 struct S_80170A98_2;
 
@@ -52,10 +54,8 @@ extern u8 D_8015C538[];
 
 extern void *allocate_list_node(s32 flags, ObjectNodeHeader **list_head);
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
-extern void initialize_actor_sprite_and_animation();
 
 void * func_80158854(s16 value, s16 part_b_value_a, s16 part_b_value_b, s16 part_a_value);
 #endif

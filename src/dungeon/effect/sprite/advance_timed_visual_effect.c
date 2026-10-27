@@ -207,37 +207,39 @@ void update_tiled_fade_effect(void *effect, void *offset_state, void *render_sta
 
 /* Creates a half-scale sprite linked to the owner and target, copying its color and mirroring its
    rotation. */
-void create_owner_linked_mirrored_sprite(void **owner_ref, Row_818FF5B8_S_818FF5B8_4 *spawn_pos, Row_818FF5B8_S_818FF5B8_5 *appearance) {
+void create_owner_linked_mirrored_sprite(void *effect, ObjectPosition *source_position, SpriteFrameState *source_sprite)
+{
+    MirroredSpriteOwner *owner = effect;
+    MirroredSpriteNode *node;
+    MirroredSpriteBody *body;
     SpriteFrameState *sprite;
-    ObjectNodeHeader *object;
-    Row_818FF5B8_S_818FF5B8_0 *state;
     ObjectPosition *position;
 
-    object = allocate_flagged_object_node(0x212);
-    state = ((void *)object) + 0x20;
-    if (object != 0) {
-        state->unk_2C = (void *) *owner_ref;
-        state->unk_30 = (s32) ((Row_818FF5B8_S_818FF5B8_1 *)(*owner_ref))->unk_60;
-        state->unk_34 = owner_ref;
-        (object->update_callback) = &D_80024750;
-        register_node(object, project_sprite_chain);
-        sprite = object->sprite;
+    node = allocate_flagged_object_node(0x212);
+    if (node != 0) {
+        body = &node->body;
+        body->actor = owner->actor;
+        body->target = owner->actor->target;
+        body->owner = owner;
+        node->header.update_callback = &D_80024750;
+        register_node(node, project_sprite_chain);
+        sprite = node->header.sprite;
         sprite->tpage_abr = 0x20;
         sprite->depth_bias = 0;
-        sprite->flags = (u16) (sprite->flags | 0xC);
-        position = object->position;
-        position->x.v = (s32) spawn_pos->unk_00;
-        position->y.v = (s32) spawn_pos->unk_04;
-        position->z.v = (s32) spawn_pos->unk_08;
-        sprite = object->sprite;
+        sprite->flags |= 0xC;
+        position = node->header.position;
+        position->x.v = source_position->x.v;
+        position->y.v = source_position->y.v;
+        position->z.v = source_position->z.v;
+        sprite = node->header.sprite;
         sprite->scale_y = 0x800;
         sprite->scale_x = 0x800;
-        sprite->color.c.r = (u8) appearance->unk_0C;
-        sprite->color.c.g = (u8) appearance->unk_0D;
-        sprite->color.c.b = (u8) appearance->unk_0E;
-        sprite->angle_z = (s16) (0x1000 - appearance->unk_1A);
-        *(Row_818FF5B8_Copy12 *)((u8 *)object + 0x40) = D_80025E64;
-        sprite->source = (void *) (((void *)object) + 0x40);
+        sprite->color.c.r = source_sprite->color.c.r;
+        sprite->color.c.g = source_sprite->color.c.g;
+        sprite->color.c.b = source_sprite->color.c.b;
+        sprite->angle_z = 0x1000 - source_sprite->angle_z;
+        node->body.texture = D_80025E64;
+        sprite->source = &node->body.texture;
     }
 }
 

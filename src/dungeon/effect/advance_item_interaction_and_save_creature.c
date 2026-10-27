@@ -163,7 +163,8 @@ s16 find_table_value_index();
 void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 void process_unflagged_linked_entries(s32 firstEntryBase);
 void process_unflagged_linked_entries_alt(s32 firstNodeBase);
-void unlink_entity_node();
+struct EntityLinkNode;
+void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
 #include "dungeon/item.h"
@@ -231,7 +232,8 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
     DungeonGlobalStatus *summon_state;
     S_func_800B1364_9 *item_entry;
     S_func_800B1364_5 *stored_creature;
-    S_func_800B1364_5 *finished_creature;
+    struct EntityLinkNode *finished_creature;
+    ActorRecord *finished_actor;
     S_func_800B1364_5 *saved_creature;
     S_func_800B1364_11 *input_command;
     S_func_800B1364_10 *item_effect;
@@ -538,7 +540,8 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         return;
     case 10:
         finished_creature = actor->unk_60;
-        if (!(finished_creature->unk_1C & 0x800000)) {
+        finished_actor = actor->unk_60;
+        if (!(finished_actor->flags1C & 0x800000)) {
             return;
         }
         unlink_entity_node(finished_creature);

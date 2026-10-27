@@ -54,4 +54,10 @@ typedef struct GteShortVector {
     s16 pad;
 } GteShortVector;
 
+/* Orientation results reused as indexed distances in movement scratch storage. */
+typedef union GteOffset {
+    GteShortVector orientation;
+    u16 distance[4]; /* BYTES: retain unsigned indexed halfword loads. */
+} GteOffset;
+
 #endif

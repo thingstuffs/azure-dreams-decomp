@@ -17,3 +17,12 @@ build/build.mk: build/.state/setup.ok tools/build/mkbuild.py
 ifeq ($(filter configure,$(MAKECMDGOALS)),)
 include build/build.mk
 endif
+
+# Decoded code has an independent exact/recompressed image producer.
+.PHONY: decoded-images decoded-check
+all: decoded-images
+check: decoded-images
+decoded-check:
+	@nice -n 10 python3 tools/decoded_images.py check
+decoded-images: build/.state/compiletools.ok
+	@nice -n 10 python3 tools/decoded_images.py build

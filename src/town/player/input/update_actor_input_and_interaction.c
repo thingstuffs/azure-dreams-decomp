@@ -26,7 +26,6 @@ extern void initialize_actor_movement_interaction_action(void *action_state, voi
 extern void play_periodic_sound(s16 timer, s32 limit);
 extern void store_the_valid_shared_angle_in_offset_hex_10(void *action_state);
 extern void call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58(void *actor);
-extern void move_the_actor_perpendicular_selected_direction_unless_step_changes_sides(void *actor);
 extern s32 select_an_available_entry_matching_direction_returns_status(void *menu_state);
 extern s32 select_an_eligible_source_entry_stores_pointer_in_destination(void *action_state, void *menu_state);
 extern void compute_and_clamps_vector_based_adjustment_updates_town(void *actor, s16 height, void *map_work);

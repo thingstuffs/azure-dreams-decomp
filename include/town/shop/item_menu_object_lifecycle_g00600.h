@@ -11,7 +11,7 @@
 
 typedef struct S_800AE324_0 {
     u8 pad_00[0x8];
-    s32 unk_08;
+    void *unk_08;
     u8 pad_0C[0x8];
     s32 unk_14;
     u8 pad_18[0x4];
@@ -24,15 +24,14 @@ typedef struct S_800AE324_0 {
 /* state in create_item_menu_object */
 typedef struct S_800AE324_1 {
     u8 pad_00[0x20];
-    s32 unk_20;
+    ItemMenuObjectNode *unk_20;
 } S_800AE324_1;
 
 extern void *allocate_list_node(s32 flags, s32 list_head);
 extern void set_message_mode(s32 value);
 extern void runtime_call_selected_mode_handler(void);
-extern s32 create_item_menu_child_object(void *init_value);
 extern s32 func_800B0718(void);
-extern s32 create_dual_buffer_object(void *setup_value, s32 x, s32 y);
+extern void *create_dual_buffer_object(void *setup_value, s32 x, s32 y);
 extern void reset_item_menu_object_state(s32 object);
 extern void schedule_item_menu_child_release(s32 object);
 extern void set_object_data_pointer_2(s32 object);

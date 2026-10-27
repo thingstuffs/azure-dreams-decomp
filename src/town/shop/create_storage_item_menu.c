@@ -1,4 +1,4 @@
-#include "town/shop.h"
+#include "town/shop/storage_menu.h"
 #include "shared/object_flags.h"
 extern void flag_object_for_removal(void *object);
 extern void *alloc_parsed_string(s32 text, s32 style);

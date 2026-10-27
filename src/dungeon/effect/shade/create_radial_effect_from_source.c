@@ -1,3 +1,4 @@
+#include "dungeon/effect/shade.h"
 #include "common.h"
 #include "shared/entity.h"
 #include "m2c_compat.h"
@@ -5,24 +6,24 @@
 #include "shared/object_node.h"
 typedef struct ParticleOrigin ParticleOrigin;
 void *create_moving_fading_particle(ParticleOrigin *origin, s16 angle, s16 radius, s16 height_offset, ObjectNodeHeader **allocation_head);
-void *allocate_list_node();
+#include "engine/node/allocation.h"
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 extern M2C_UNK D_800247AC[3];
 s32 draw_adjacent_row_quads(void);
 
 /* Creates an object, copies three source fields to its child, and applies sixteen setup steps. */
-void *create_radial_effect_from_source(s32 type_code, void *source, s32 unused, s32 object_value)
+void *create_radial_effect_from_source(void *owner_body, void *source, s32 unused, s32 object_value)
 {
     register u32 stored_value;
-    s32 type_id;
+    ObjectNodeHeader *owner;
     s32 step;
     ObjectPosition *child;
     ObjectNodeHeader *object;
 
     stored_value = object_value;
-    type_id = type_code - 0x20;
-    object = allocate_list_node(2, type_id);
+    owner = owner_body - 0x20;
+    object = allocate_list_node(2, &owner->next);
     if (object != 0) {
         object->update_callback = D_800247AC;
         register_node(object, draw_adjacent_row_quads);
@@ -32,7 +33,7 @@ void *create_radial_effect_from_source(s32 type_code, void *source, s32 unused, 
         step = 0;
         child->y.w.i = *(u16 *)((u8 *)source + 6);
         child->z.w.i = *(u16 *)((u8 *)source + 0xA);
-        source = (void *)type_id;
+        source = owner;
         *(s32 *)((u8 *)object + 0x20) = stored_value;
 
         do {

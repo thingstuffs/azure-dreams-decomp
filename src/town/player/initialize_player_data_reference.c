@@ -1,11 +1,11 @@
 #include "common.h"
 #include "town/player.h"
 #include "shared/entity.h"
-void advance_player_state(s32 context, EntityRec *state, s32 updateData);
+#include "town/player/scene_action_setup.h"
 
 typedef struct S_8009A18C_0 {
     u8 pad_00[0x4];
-    void (*unk_04)(s32,  EntityRec *, s32);
+    void (*unk_04)(struct Rec_func_80094268_arg0 *, EntityRec *, void *);
 } S_8009A18C_0;   /* arg0 in initialize_player_data_reference */
 
 typedef struct S_8009A18C_1 {

@@ -22,6 +22,51 @@
       "foff": "0x191EC00",
       "vma": "0x80024400",
       "size": 204
+    },
+    {
+      "row": "dungeon/func_818FEEF8",
+      "home": "dungeon/func_818FEEF8",
+      "tu": "src/dungeon/effect/sprite/advance_timed_visual_effect.c",
+      "foff": "0x191EEF8",
+      "vma": "0x800246F8",
+      "size": 88,
+      "evidence": "docs/evidence/r124w_carve1_run14.md; complete current merged TU independently exact through both assemblers"
+    },
+    {
+      "row": "dungeon/func_818FEF50",
+      "home": "dungeon/func_818FEF50",
+      "tu": "src/dungeon/effect/sprite/advance_timed_visual_effect.c",
+      "foff": "0x191EF50",
+      "vma": "0x80024750",
+      "size": 48,
+      "evidence": "docs/evidence/r124w_carve1_run14.md; complete current merged TU independently exact through both assemblers"
+    },
+    {
+      "row": "dungeon/func_818FEF80",
+      "home": "dungeon/func_818FEF80",
+      "tu": "src/dungeon/effect/sprite/advance_timed_visual_effect.c",
+      "foff": "0x191EF80",
+      "vma": "0x80024780",
+      "size": 540,
+      "evidence": "docs/evidence/r124w_carve1_run14.md; complete current merged TU independently exact through both assemblers"
+    },
+    {
+      "row": "dungeon/func_818FF19C",
+      "home": "dungeon/func_818FF19C",
+      "tu": "src/dungeon/effect/sprite/advance_timed_visual_effect.c",
+      "foff": "0x191F19C",
+      "vma": "0x8002499C",
+      "size": 1052,
+      "evidence": "docs/evidence/r124w_carve1_run14.md; complete current merged TU independently exact through both assemblers"
+    },
+    {
+      "row": "dungeon/func_818FF5B8",
+      "home": "dungeon/func_818FF5B8",
+      "tu": "src/dungeon/effect/sprite/advance_timed_visual_effect.c",
+      "foff": "0x191F5B8",
+      "vma": "0x80024DB8",
+      "size": 344,
+      "evidence": "docs/evidence/r124w_carve1_run14.md; complete current merged TU independently exact through both assemblers"
     }
   ],
   "symbols": {

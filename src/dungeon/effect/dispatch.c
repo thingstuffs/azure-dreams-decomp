@@ -633,7 +633,8 @@ s32 get_entity_class();
 void snapshot_inventory_and_familiars(void *input_state);
 void *get_unused_text_buffer(void);
 void * copy_four_text_bytes(u8 *src, u8 *dst);
-void unlink_entity_node();
+struct EntityLinkNode;
+void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 void refresh_packed_grid_nibbles(void);
 void * detach_record_and_update_slot_state(void *record);
@@ -662,7 +663,7 @@ void dispatch_action_callback_by_opcode(u8 *w) {
     u8 *rm;
     u8 *e;
     u8 *ep;
-    u8 *o;
+    void *o;
     u8 *q;
     ActorRecord *p;
     s16 *tbl;

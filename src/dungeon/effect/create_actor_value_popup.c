@@ -8,13 +8,13 @@
 #include "sdk/libc.h"
 #include "engine/node/allocation.h"
 
-void *build_positioned_text_glyphs();
+#include "engine/text.h"
 char *func_8004E5A0();
 char *func_8004E634();
 void *find_first_ended_record();
 extern void D_800B45E0();
 extern void D_800B490C();
-extern M2C_UNK D_800DF24C[];
+extern u8 *D_800DF24C[];
 
 typedef struct S_800B4C7C_0 {
     u8 pad_00[0x8];

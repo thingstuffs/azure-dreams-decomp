@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_191EEF8_H
 #define DUNGEON_OVL_191EEF8_H
 #include "common.h"
+#include "dungeon/effect/particle.h"
 #include "m2c_compat.h"
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
@@ -108,49 +109,20 @@ typedef struct {
     u32 word8;
 } __attribute__((packed)) Row_818FF5B8_Copy12;
 
-typedef struct Row_818FF5B8_S_818FF5B8_0 {
-    u8 pad_00[0x2C];
-    void * unk_2C;
-    s32 unk_30;
-    void ** unk_34;
-} Row_818FF5B8_S_818FF5B8_0;   /* temp_v1 in func_80024DB8 */
-
-typedef struct Row_818FF5B8_S_818FF5B8_1 {
-    u8 pad_00[0x60];
-    s32 unk_60;
-} Row_818FF5B8_S_818FF5B8_1;   /* *arg0 in func_80024DB8 */
-
-typedef struct Row_818FF5B8_S_818FF5B8_2 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    void * unk_08;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x4];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} Row_818FF5B8_S_818FF5B8_2;   /* temp_a3 in func_80024DB8 */
-
-typedef struct Row_818FF5B8_S_818FF5B8_4 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} Row_818FF5B8_S_818FF5B8_4;   /* arg1 in func_80024DB8 */
-
-typedef struct Row_818FF5B8_S_818FF5B8_5 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0xB];
-    u16 unk_1A;
-} Row_818FF5B8_S_818FF5B8_5;   /* arg2 in func_80024DB8 */
+typedef struct {
+    ActorRecord *actor;
+} MirroredSpriteOwner;
+typedef struct {
+    u8 pad_00[0x20];
+    Row_818FF5B8_Copy12 texture;
+    ActorRecord *actor;
+    void *target;
+    MirroredSpriteOwner *owner;
+} MirroredSpriteBody;
+typedef struct {
+    ObjectNodeHeader header;
+    MirroredSpriteBody body;
+} MirroredSpriteNode;
 
 /* Creates an owner-linked object with the supplied position and appearance. */
 s32 DrawSync(s32);
@@ -168,6 +140,5 @@ void expire_effect_at_unit_scale(void *state_data, s32 unused, void *scale_data)
 void finish_timed_visual_effect(void *object);
 void advance_timed_visual_effect(void *state, void *position, void *visual);
 void update_tiled_fade_effect(void *effect, void *offset_state, void *render_state);
-void create_owner_linked_mirrored_sprite(void **owner_ref, Row_818FF5B8_S_818FF5B8_4 *spawn_pos, Row_818FF5B8_S_818FF5B8_5 *appearance);
 extern u8 particle_update_flag[];
 #endif
