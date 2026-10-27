@@ -217,14 +217,7 @@ typedef struct R06_80172970_S_80172970_3 {
     u8 unk_25;
 } R06_80172970_S_80172970_3;
 
-typedef struct R06_80172DD0_S_80172DD0_1 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    union { s16 s; u16 u; } timer;   
-    u8 pad_98[0x3];
-    u8 phase;
-} R06_80172DD0_S_80172DD0_1;
+
 typedef struct R06_801734B0_S_801734B0_0 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -814,7 +807,7 @@ void finish_actor_tile_move_then_initialize_destination(void *state, void *motio
 void finish_linked_actor_motion_and_floor_trap_then_initialize_destination(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
 void advance_action_through_animation(R06_8017278C_S_8017278C_0 *action, struct ObjectPosition *motion, struct SpriteFrameState *sprite, void *actor);
 void start_selected_move_and_reset_action(ActorRecord *action, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-void update_directional_motion_and_tile(R06_80172DD0_S_80172DD0_1 *action, struct ObjectPosition *motion, struct SpriteFrameState *tile_state, EntityRec *entity);
+void update_directional_motion_and_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *tile_state, ActorRecord *entity);
 void fade_sprites_and_remove_entity(void *actor, ObjectPosition *unused, struct SpriteFrameState *sprite, void *entity);
 void reset_record_motion_field_b(Rec_func_800AB538_arg0 *record, void *motion, void *scale, void *render);
 void advance_flame_removal(void *state, void *motion, void *position, void *actor);

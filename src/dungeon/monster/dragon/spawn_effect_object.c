@@ -16,8 +16,8 @@ void *spawn_effect_object(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_id)
     ObjectNodeHeader *obj;
     ObjectPosition *part_a;
     SpriteFrameState *part_b;
-    S_8014C854_1 *work;
-    S_8014C854_4 *actor;
+    ActorRecord *work;
+    ActorRecord *actor;
     s32 flags;
     s32 extra_flags;
     s8 saved_x;
@@ -30,9 +30,9 @@ void *spawn_effect_object(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_id)
     saved_y = tile_y;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (u8 *)obj + 0x20;
+        work = (ActorRecord *)(obj + 1);
         obj->update_callback = D_8014CA28;
-        work->unk_13 = MONSTER_DRAGON;
+        work->species = MONSTER_DRAGON;
         register_node(obj, project_sprite_chain);
 
         part_a = obj->position;
@@ -45,19 +45,19 @@ void *spawn_effect_object(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_id)
         part_b->tile_x = saved_x;
 
         if (kind == 1) {
-            flags = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            extra_flags = work->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-            work->unk_14 = flags;
-            work->unk_1C = extra_flags;
+            flags = work->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            extra_flags = work->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            work->flags14 = flags;
+            work->flags1C = extra_flags;
         } else if (kind >= 2) {
-            flags = work->unk_14 | ACTOR_CLASS_ENABLED;
-            extra_flags = work->unk_1C | ACTOR_PLAYER_SIDE;
-            work->unk_14 = flags;
-            work->unk_1C = extra_flags;
+            flags = work->flags14 | ACTOR_CLASS_ENABLED;
+            extra_flags = work->flags1C | ACTOR_PLAYER_SIDE;
+            work->flags14 = flags;
+            work->flags1C = extra_flags;
         } else if (((spawn_flags & ~3) << 16) == 0) {
-            if (!(work->unk_14 & ACTOR_RESIST_SLEEP)) {
+            if (!(work->flags14 & ACTOR_RESIST_SLEEP)) {
                 if (generate_random_value() & 1) {
-                    work->unk_1C |= ACTOR_ASLEEP;
+                    work->flags1C |= ACTOR_ASLEEP;
                     set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                   (generate_random_value() & 0x3F) | 0x20);
                     part_b->frameTable = D_8014FCDC;
@@ -65,9 +65,9 @@ void *spawn_effect_object(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_id)
             }
         }
         initialize_actor_sprite_and_animation(obj, part_a, part_b, spawn_flags);
-        actor->unk_9A = 0xFF;
+        actor->action_id.u = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &dragon_slot_a_action_callback;
+        actor->unk_8C.address = &dragon_slot_a_action_callback;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

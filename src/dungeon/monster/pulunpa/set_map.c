@@ -83,7 +83,7 @@ void update_creature_actions_and_animation(ActorRecord *actor, ObjectPosition *c
         func_80174924(actor, context, sprite, creature);
         return;
     }
-    if (creature->mp == 0) {
+    if (creature->mp_value.parts.whole == 0) {
         advance_actor_pending_action(actor, context, sprite, creature);
         if (((S_80173B98_2 *)sprite)->unk_2C == &pulunpa_frame_set_3) {
             return;

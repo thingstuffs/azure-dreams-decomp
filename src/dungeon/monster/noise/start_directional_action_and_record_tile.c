@@ -60,7 +60,7 @@ void advance_timed_actor_visual_effect(ActorRecord *effect_state, ObjectPosition
     s32 phase;
 
     owner = (u8 *)effect_state - 0x20;
-    phase = effect_state->action_phase;
+    phase = effect_state->action_phase.u;
     switch (phase) {
     case 0:
         position->velocity_z = 0;
@@ -71,7 +71,7 @@ void advance_timed_actor_visual_effect(ActorRecord *effect_state, ObjectPosition
         if (((timer << 16) <= 0) ||
             (source_mesh->flags & 0x8000)) {
             ((T_801748D0_S_801748D0_0 *)effect_state)->unk_96 = 0;
-            effect_state->action_phase++;
+            effect_state->action_phase.u++;
             flags = source_mesh->flags;
             source_mesh->flags = flags & 0xF7FF;
         }
@@ -151,7 +151,7 @@ void advance_timed_actor_visual_effect(ActorRecord *effect_state, ObjectPosition
 
         } while (++count < 1);
         ((T_801748D0_S_801748D0_0 *)effect_state)->unk_96 = 0x2D;
-        effect_state->action_phase++;
+        effect_state->action_phase.u++;
         return;
     case 2:
         if (source_mesh->flags & 0xE000) {
@@ -179,7 +179,7 @@ void advance_timed_actor_visual_effect(ActorRecord *effect_state, ObjectPosition
             select_sprite_entry(source_mesh, ((u8 *)source_mesh->frameTable)[((g_game_work.view.camera_rotation.parts.viewAngle
                 + actor->facing + 0x100) >> 9) & 7], 0);
         }
-        effect_state->action_phase++;
+        effect_state->action_phase.u++;
         return;
     case 3:
         owner_link = actor->target;

@@ -72,7 +72,7 @@ void update_dungeon_entity_action_and_facing(ActionState *actor, void *context, 
         return;
     }
 
-    if (entity->mp == 0) {
+    if (entity->mp_value.parts.whole == 0) {
         advance_actor_pending_action(actor, context, sprite, entity);
         if (sprite->frameTable != bank_actor_action_frames) {
             sprite->frameTable = bank_actor_default_frames;
@@ -190,7 +190,7 @@ void update_dungeon_entity_action_and_facing(ActionState *actor, void *context, 
                     &direction_aux);
                 global_actor = primary_actor_record;
                 entity->facing = direction;
-                if (global_actor->action_id == 0x11) {
+                if (global_actor->action_id.u == 0x11) {
                     begin_actor_spell_action(actor, context, sprite, D_8016E070, &dungeon_action_resume_address);
                     return;
                 }

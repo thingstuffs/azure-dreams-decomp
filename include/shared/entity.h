@@ -163,8 +163,10 @@ typedef struct ActorRecord {
     /* 0x01C */ int flags1C; /* current side, attachment, movement and active-status bits; see shared/actor_status_flags.h */
     /* 0x020 */ short unk_20; /* prepared attack power; attack preparation seeds it, damage resolution adjusts it before deriving the target HP delta */
     /* 0x022 */ unsigned char pad_22[2];
-    /* 0x024 */ unsigned char mp_fraction; /* low byte of current 8.8 MP; initialization and max-MP clamping set it to 0xFF */
-    /* 0x025 */ unsigned char mp; /* current familiar/monster MP; high half of the 8.8 value at +0x24 */
+    /* 0x024 */ union {
+        unsigned short whole; /* current 8.8 MP */
+        struct { unsigned char fraction; unsigned char whole; } parts;
+    } mp_value;
     /* 0x026 */ unsigned char current_attack; /* current attack stat; restored from base_attack after temporary changes */
     /* 0x027 */ unsigned char current_defense; /* current defense stat; restored from base_defense after temporary changes */
     /* 0x028 */ unsigned char hp; /* current HP; damage may first accumulate in the signed delta at +0x64 */
@@ -216,10 +218,10 @@ typedef struct ActorRecord {
         struct { unsigned short low; union { short s; unsigned short u; } high; } parts;
     } unk_90; /* callback scratch word; signed and unsigned high-half accesses */
     /* 0x094 */ short unk_94;
-    /* 0x096 */ unsigned short action_timer;
+    /* 0x096 */ union { unsigned short u; short s; } action_timer;
     /* 0x098 */ unsigned short action_state_flags;
-    /* 0x09A */ unsigned char action_id; /* actor action-table selector; id meanings depend on the dispatcher */
-    /* 0x09B */ unsigned char action_phase; /* phase byte within the selected action; reset when a new action starts */
+    /* 0x09A */ union { unsigned char u; signed char s; } action_id; /* action-table selector */
+    /* 0x09B */ union { unsigned char u; signed char s; } action_phase; /* phase within the selected action */
     /* 0x09C */ signed char unk_9C;
     /* 0x09D */ union { signed char s; unsigned char u; } unk_9D;
     /* 0x09E */ union { short s; unsigned short u; } unk_9E;
@@ -228,11 +230,10 @@ typedef struct ActorRecord {
         struct { unsigned short low; unsigned short high; } parts;
     } unk_A0; /* callback scratch word with an unsigned high-half view */
     /* 0x0A4 */ int unk_A4; /* callback scratch with word/halfword views; landing uses it for accumulated 16.16 vertical displacement */
-    /* 0x0A8 */ unsigned char unk_A8;             /* saved species (temporary 0x2E form) or player transition mode */
-    /* 0x0A9 */ unsigned char pad_A9[1];
+    /* 0x0A8 */ union { unsigned char byte; short s; unsigned short u; } unk_A8; /* saved species or callback scratch */
     /* 0x0AA */ short unk_AA;
-    /* 0x0AC */ void * unk_AC;                    /* player: familiar slot 0; other actors: saved node callback (O08) */
-    /* 0x0B0 */ void * unk_B0; /* player: familiar slot 1; Kewne reads/writes this slot as a script-bit word */
+    /* 0x0AC */ union { void *address; unsigned char byte; signed char signed_byte; } unk_AC; /* familiar slot 0 or callback scratch */
+    /* 0x0B0 */ union { void *address; unsigned char bytes[4]; } unk_B0; /* familiar slot 1 or callback scratch, including byte +0xB3 */
     /* 0x0B4 */ unsigned char pad_B4[4];
     /* 0x0B8 */ unsigned char unk_B8;
     /* 0x0B9 */ unsigned char unk_B9;

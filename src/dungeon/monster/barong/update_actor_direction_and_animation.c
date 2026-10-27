@@ -54,7 +54,7 @@ void update_actor_direction_and_animation(ActorRecord *actor_arg, ObjectPosition
         return;
     }
 
-    if (entity_arg->mp == 0) {
+    if (entity_arg->mp_value.parts.whole == 0) {
         advance_actor_pending_action(actor_arg, context_arg, sprite, entity_arg);
         {
         void *current_anim = sprite->frameTable;
@@ -192,7 +192,7 @@ void update_actor_direction_and_animation(ActorRecord *actor_arg, ObjectPosition
                 &distance);
             player = primary_actor_record;
             entity_arg->facing = heading;
-            if (player->action_id == 0x11) {
+            if (player->action_id.u == 0x11) {
                 begin_actor_spell_action(actor_arg, context_arg, sprite, barong_frame_set, barong_action_resume_address);
                 return;
             }

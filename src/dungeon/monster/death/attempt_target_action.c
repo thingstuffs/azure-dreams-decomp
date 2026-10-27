@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/dungeon_status.h"
@@ -7,13 +8,6 @@
 
 
 
-typedef struct S_80172920_3 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0xA];
-    s8 unk_9A;
-    s8 unk_9B;
-} S_80172920_3;   /* arg0 in attempt_target_action */
 
 
 extern void prepare_directional_attack(void *, void *, s16, s32, s32);
@@ -24,11 +18,11 @@ extern s32 check_entity_interaction_compatibility(void *, s32);
 extern void apply_camera_offset_and_select_target(void *,void *, s32, s32);
 
 /* Attempt an action toward the target and update actor state on success. */
-s32 attempt_target_action(S_80172920_3 *action_state, ObjectPosition *effect_arg, Rec_D_80082E80 *target, void *actor) {
+s32 attempt_target_action(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *target, ActorRecord *actor) {
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
     s32 target_direction;
 
-    ((ActorRecord *)actor)->movement_queue_state &= 0x7F;
+    actor->movement_queue_state &= 0x7F;
 
     if (g_dungeon_status.flags & 0x2000) {
         return -1;
@@ -36,9 +30,9 @@ s32 attempt_target_action(S_80172920_3 *action_state, ObjectPosition *effect_arg
 
     target_direction = probe_directional_neighbor(
         actor,
-        target->unk_24,
-        target->unk_25,
-        ((ActorRecord *)actor)->facing);
+        target->tile_x,
+        target->tile_y,
+        actor->facing);
 
     if ((check_entity_interaction_compatibility(actor, target_direction) << 16) == 0) {
         return 0;
@@ -48,7 +42,7 @@ s32 attempt_target_action(S_80172920_3 *action_state, ObjectPosition *effect_arg
         return -1;
     }
 
-    if (!(((ActorRecord *)actor)->action_flags & ACTOR_ACTION_PENDING) &&
+    if (!(actor->action_flags & ACTOR_ACTION_PENDING) &&
         (g_dungeon_status.flags & 8)) {
         return -1;
     }
@@ -64,14 +58,14 @@ s32 attempt_target_action(S_80172920_3 *action_state, ObjectPosition *effect_arg
     apply_camera_offset_and_select_target((u8 *)actor - 0x20, effect_arg, 8, 0x300);
 
     if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
-        action_state->unk_9A = 0x11;
-        action_state->unk_9B = 0;
-        action_state->unk_8C = 0;
-        ((ActorRecord *)actor)->unk_84 = 0x7C;
-        ((ActorRecord *)actor)->unk_85 = 4;
-        ((ActorRecord *)actor)->pending_turn_updates--;
+        action_state->action_id.u = 0x11;
+        action_state->action_phase.u = 0;
+        action_state->unk_8C.run = 0;
+        actor->unk_84 = 0x7C;
+        actor->unk_85 = 4;
+        actor->pending_turn_updates--;
 
-        prepare_directional_attack(actor, target, ((ActorRecord *)actor)->facing, 1, 0);
+        prepare_directional_attack(actor, target, actor->facing, 1, 0);
         return 1;
     }
 

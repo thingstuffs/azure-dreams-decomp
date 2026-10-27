@@ -16,7 +16,7 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "dungeon/monster/hikewne.h"
 
-extern s32 validate_action_and_apply_effect(void *, void *, void *, void *);
+s32 validate_action_and_apply_effect(ActorRecord *action, ObjectPosition *effect, SpriteFrameState *target, ActorRecord *actor_data);
 extern void update_actor_status_and_mp(void *);
 extern void update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 extern void *find_adjacent_actor(void *, u8, u8);

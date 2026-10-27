@@ -36,7 +36,7 @@ void update_actor_behavior_2(ActorRecord *action, ObjectPosition *motion, Sprite
     u16 flags;
     s32 state;
 
-    state = action->action_phase;
+    state = action->action_phase.u;
     switch (state) {
     case 0:
     {
@@ -45,7 +45,7 @@ void update_actor_behavior_2(ActorRecord *action, ObjectPosition *motion, Sprite
         flags = object->flags;
         if (flags & 0x8000) {
             object->flags = flags | 0x6000;
-            action->action_phase = 2;
+            action->action_phase.u = 2;
             resolve_attack_damage_and_effects(actor, object, actor->facing, 1);
             return;
         }
@@ -58,9 +58,9 @@ void update_actor_behavior_2(ActorRecord *action, ObjectPosition *motion, Sprite
         object->frameTable = D_80175C78;
         facing_ptr = &D_80175C78[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7];
         select_sprite_entry(object, *facing_ptr, 0);
-        action->action_timer = 0;
+        action->action_timer.u = 0;
         play_sound_if_enabled(0x808);
-        action->action_phase++;
+        action->action_phase.u++;
         return;
     }
 
@@ -72,11 +72,11 @@ void update_actor_behavior_2(ActorRecord *action, ObjectPosition *motion, Sprite
         s32 motion_y;
         s32 signed_value;
 
-        anim_table = action->action_timer;
+        anim_table = action->action_timer.u;
         direction_base = (u8 *)&dir_step_x;
         next_tick = anim_table + 1;
         anim_table -= 3;
-        action->action_timer = next_tick;
+        action->action_timer.u = next_tick;
         direction_off = ((u16)actor->facing >> 8) & 0xE;
         anim_table = (u32)anim_table < 8U;
         direction_base = (u8 *)(direction_off + (u8 *)direction_base);

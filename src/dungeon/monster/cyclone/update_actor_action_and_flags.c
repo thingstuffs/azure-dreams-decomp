@@ -37,7 +37,7 @@ extern u8 cyclone_frame_set_1[];
 void update_actor_action_and_flags(ActorRecord *actor, ObjectPosition *action_ctx, SpriteFrameState *anim, ActorRecord *entity) {
     s32 action_state;
 
-    action_state = actor->action_phase;
+    action_state = actor->action_phase.u;
     switch (action_state) {
     case 0:
     {
@@ -53,7 +53,7 @@ void update_actor_action_and_flags(ActorRecord *actor, ObjectPosition *action_ct
         select_sprite_entry(anim,
             direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        actor->action_phase++;
+        actor->action_phase.u++;
         return;
     }
 
@@ -61,7 +61,7 @@ void update_actor_action_and_flags(ActorRecord *actor, ObjectPosition *action_ct
     {
         u32 entity_flags;
 
-        if (entity->mp != 0) {
+        if (entity->mp_value.parts.whole != 0) {
 
             (anim->frameTable) = cyclone_frame_set_1;
             select_sprite_entry(anim,
@@ -69,7 +69,7 @@ void update_actor_action_and_flags(ActorRecord *actor, ObjectPosition *action_ct
                 0);
             entity->flags1C |= 0x40000;
             g_dungeon_status.activity_counts.parts.pending_action_count++;
-            actor->action_phase++;
+            actor->action_phase.u++;
             return;
         }
 
@@ -119,7 +119,7 @@ void update_actor_action_and_flags(ActorRecord *actor, ObjectPosition *action_ct
 
         update_actor_status_and_mp(entity);
         on_actor_status_updated(entity);
-        if (entity->mp == 0) {
+        if (entity->mp_value.parts.whole == 0) {
             return;
         }
 
@@ -131,7 +131,7 @@ void update_actor_action_and_flags(ActorRecord *actor, ObjectPosition *action_ct
         g_dungeon_status.activity_counts.parts.pending_action_count++;
     }
 
-        actor->action_phase++;
+        actor->action_phase.u++;
         return;
     case 2:
         if (anim->flags & 0xE000) {

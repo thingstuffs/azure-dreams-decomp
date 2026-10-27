@@ -53,7 +53,7 @@ void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, 
     s32 next_state;
     u8 state;
 
-    state = action->action_phase;
+    state = action->action_phase.u;
     switch (state) {
     case 0:
     {
@@ -73,8 +73,8 @@ void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, 
             select_sprite_entry(entity, *(u8 *)effect_entry, 0);
             dungeon_state = &g_dungeon_status;
             (*(u16 *)&dungeon_state->activity_counts.parts.pending_action_count)--;
-            next_state = action->action_phase + 1;
-            action->action_phase = next_state;
+            next_state = action->action_phase.u + 1;
+            action->action_phase.u = next_state;
             return;
         }
 
@@ -94,8 +94,8 @@ void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, 
         effect_entry += (s32)local_table_1;
         select_sprite_entry(entity, *(u8 *)effect_entry, 0);
         ((S_8017360C_0 *)action)->unk_96 = 0;
-        next_state = action->action_phase + 1;
-        action->action_phase = next_state;
+        next_state = action->action_phase.u + 1;
+        action->action_phase.u = next_state;
         return;
 
     }
@@ -114,8 +114,8 @@ void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, 
         effect_entry += (s32)local_table_2;
         select_sprite_entry(entity, *(u8 *)effect_entry, 0);
         ((S_8017360C_0 *)action)->unk_96 = 0;
-        next_state = action->action_phase + 1;
-        action->action_phase = next_state;
+        next_state = action->action_phase.u + 1;
+        action->action_phase.u = next_state;
         return;
 
     }
@@ -136,7 +136,7 @@ void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, 
                 return;
             }
 
-            if (actor->mp == 0) {
+            if (actor->mp_value.parts.whole == 0) {
                 if ((dungeon_state->flags & 0x2008) != 0) {
                     return;
                 }
@@ -210,7 +210,7 @@ void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, 
         if ((entity->flags & 0x8000) != 0) {
             break;
         }
-        action->action_phase++;
+        action->action_phase.u++;
         {
             DungeonGlobalStatus *dungeon_state = &g_dungeon_status;
             (*(u16 *)&dungeon_state->activity_counts.parts.pending_action_count)++;
@@ -240,8 +240,8 @@ void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, 
         effect_entry += (s32)local_table_4;
         select_sprite_entry(entity, *(u8 *)effect_entry, 0);
         ((S_8017360C_0 *)action)->unk_96 = 0;
-        next_state = action->action_phase + 1;
-        action->action_phase = next_state;
+        next_state = action->action_phase.u + 1;
+        action->action_phase.u = next_state;
         return;
     }
 

@@ -16,8 +16,8 @@ s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *posi
         return 0;
     }
     g_dungeon_status.pending_display_owner = (ObjectNodeHeader *)body - 1;
-    body->action_id = 7;
-    body->action_phase = 0;
+    body->action_id.u = 7;
+    body->action_phase.u = 0;
     body->unk_8C.handler = NULL;
     if (direction_frames != 0) {
         if (!(body->flags1C & 0x20)) {

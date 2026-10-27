@@ -21,46 +21,14 @@ void (*const dungeon_fa7000_update)(void *,void *,void *) = update_bank_actor_mo
 
 struct SpriteFrameState;
 
-typedef struct S_80F87000_0 {
-    u8 pad_00[0x8];
-    void ** unk_08;
-    void ** unk_0C;
-    void * unk_10;
-} S_80F87000_0;   /* obj in func_80170880 */
 
-typedef struct S_80F87000_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} S_80F87000_1;   /* work in func_80170880 */
 
    /* part_a in func_80170880 */
 
-typedef struct S_80F87000_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_80F87000_3;   /* part_b in func_80170880 */
 
-typedef struct S_80F87000_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x2];
-    s16 unk_92;
-    u8 pad_94[0x6];
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-    u8 pad_9D[0x3];
-    s16 unk_A0;
-} S_80F87000_4;   /* actor in func_80170880 */
 
 extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
-extern void initialize_actor_sprite_and_animation();
+extern void initialize_actor_sprite_and_animation(void *entity, void *position, SpriteFrameState *sprite, s32 init_flags);
 
 extern u8 zu_frame_set_1[];
 
@@ -69,11 +37,11 @@ extern u8 zu_frame_set_1[];
 void *spawn_zu_actor(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     s32 kind;
-    void *work = 0;
-    void *obj;
-    SignedHeightView *part_a;
-    S_80F87000_3 *part_b;
-    S_80F87000_4 *actor;
+    ActorRecord *work = 0;
+    ObjectNodeHeader *obj;
+    ObjectPosition *part_a;
+    SpriteFrameState *part_b;
+    ActorRecord *actor;
     s32 left;
     s32 right;
     s8 saved_kind_id;
@@ -87,51 +55,51 @@ void *spawn_zu_actor(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
     saved_variant = variant;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (u8 *)obj + 0x20;
-        ((S_80F87000_0 *)obj)->unk_10 = update_bank_actor_movement;
-        ((S_80F87000_1 *)work)->unk_13 = MONSTER_ZU;
+        work = (ActorRecord *)(obj + 1);
+        obj->update_callback = update_bank_actor_movement;
+        work->species = MONSTER_ZU;
         register_node(obj, project_sprite_chain);
 
-        part_a = ((S_80F87000_0 *)obj)->unk_08;
-        part_a->z = saved_spawn;
-        part_b = ((S_80F87000_0 *)obj)->unk_0C;
+        part_a = obj->position;
+        part_a->z.w.i = saved_spawn;
+        part_b = obj->sprite;
         kind = flags & 3;
-        part_b->unk_25 = saved_variant;
+        part_b->tile_y = saved_variant;
         actor = work;
-        part_b->unk_2C = zu_default_frames;
-        part_b->unk_24 = saved_kind_id;
+        part_b->frameTable = zu_default_frames;
+        part_b->tile_x = saved_kind_id;
 
         if (kind == 1) {
-            left = ((S_80F87000_1 *)work)->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            right = ((S_80F87000_1 *)work)->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-            ((S_80F87000_1 *)work)->unk_14 = left;
-            ((S_80F87000_1 *)work)->unk_1C = right;
+            left = work->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            right = work->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            work->flags14 = left;
+            work->flags1C = right;
         } else if (kind >= 2) {
-            left = ((S_80F87000_1 *)work)->unk_14 | ACTOR_CLASS_ENABLED;
-            right = ((S_80F87000_1 *)work)->unk_1C | ACTOR_PLAYER_SIDE;
-            ((S_80F87000_1 *)work)->unk_14 = left;
-            ((S_80F87000_1 *)work)->unk_1C = right;
+            left = work->flags14 | ACTOR_CLASS_ENABLED;
+            right = work->flags1C | ACTOR_PLAYER_SIDE;
+            work->flags14 = left;
+            work->flags1C = right;
         } else if (((flags & ~3) << 16) == 0) {
-            if (!(((S_80F87000_1 *)work)->unk_14 & ACTOR_RESIST_SLEEP)) {
+            if (!(work->flags14 & ACTOR_RESIST_SLEEP)) {
                 call_a1 = part_a;
                 left = generate_random_value();
                 call_a0 = obj;
                 if (left & 1) {
-                    ((S_80F87000_1 *)work)->unk_1C |= ACTOR_ASLEEP;
+                    work->flags1C |= ACTOR_ASLEEP;
                     set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                   (generate_random_value() & 0x3F) | 0x20);
-                    part_b->unk_2C = zu_frame_set_1;
+                    part_b->frameTable = zu_frame_set_1;
                 }
             }
         }
         call_a0 = obj;
         initialize_actor_sprite_and_animation(call_a0, part_a, part_b, flags);
-        actor->unk_9A = 0xFF;
+        actor->action_id.u = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = update_bank_actor_state;
-        ((S_80F87000_1 *)work)->unk_1C |= 0x40000;
-        actor->unk_A0 = 0;
-        actor->unk_92 = -0x30;
+        actor->unk_8C.handler = update_bank_actor_state;
+        work->flags1C |= 0x40000;
+        actor->unk_A0.parts.low = 0;
+        actor->unk_90.parts.high.s = -0x30;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;
@@ -437,7 +405,7 @@ void update_bank_actor_state(ActorRecord *actor, ObjectPosition *context, Sprite
         return;
     }
 
-    if (stats->mp == 0) {
+    if (stats->mp_value.parts.whole == 0) {
         advance_actor_pending_action(actor, context, sprite, stats);
         if (sprite->frameTable == zu_frame_set_1) {
             return;
@@ -555,7 +523,7 @@ void update_bank_actor_state(ActorRecord *actor, ObjectPosition *context, Sprite
                         &angle_aux);
                     player = primary_actor_record;
                     stats->facing = facing_angle;
-                    if (player->action_id != 0x11) {
+                    if (player->action_id.u != 0x11) {
                         update_actor_status_and_mp(stats);
                         return;
                     }
@@ -1004,8 +972,8 @@ s32 begin_bank_directional_effect(ActorRecord *action_state, ObjectPosition *mot
 
     apply_camera_offset_and_select_target((ObjectNodeHeader *)actor - 1, motion_param, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
-        action_state->action_id = 0x11;
-        action_state->action_phase = 0;
+        action_state->action_id.u = 0x11;
+        action_state->action_phase.u = 0;
         action_state->unk_8C.handler = 0;
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;
@@ -1034,9 +1002,9 @@ void initialize_bank_actor_action(ActorRecord *action_state, ObjectPosition *mot
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(entity) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((ObjectNodeHeader *)entity - 1, motion_param, 8, 0x300);
         if ((try_claim_dungeon_action_slot(entity) << 0x10) == 0) {
-            action_state->action_id = 0x11;
+            action_state->action_id.u = 0x11;
             action_state->unk_8C.handler = 0;
-            action_state->action_phase = 0;
+            action_state->action_phase.u = 0;
             select_sprite_entry(sprite,
                           *((u8 *)sprite->frameTable + (((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)),
                           0);
@@ -1073,7 +1041,7 @@ s32 complete_actor_jump_to_destination(ActorRecord *actor, ObjectPosition *prima
     }
     switch (state_type) {
     case 0:
-        entity->action_id = 0xE;
+        entity->action_id.u = 0xE;
         update_actor_status_and_mp(entity);
         result = 0;
         return result;
@@ -1495,7 +1463,7 @@ void update_bank_actor_targeted_action(ActorRecord *owner_input, ObjectPosition 
     s32 slot_index;
     s32 item_id;
 
-    state = owner_input->action_phase;
+    state = owner_input->action_phase.u;
     special = 0;
     switch (state) {
     case 0:
@@ -1583,7 +1551,7 @@ void update_bank_actor_targeted_action(ActorRecord *owner_input, ObjectPosition 
             create_source_positioned_object(motion_input, 4);
             play_sound_if_enabled(0x703);
             ((S_80172A40_0 *)owner_input)->unk_96.u = 4;
-            owner_input->action_phase++;
+            owner_input->action_phase.u++;
             owner_input->action_state_flags |= 8;
             (*(u32 *)&object->flags1C) &= ACTOR_GROUNDED_CLEAR_MASK;
             (*(u32 *)&object->flags1C) &= 0xFFFBFFFF;
@@ -1610,7 +1578,7 @@ void update_bank_actor_targeted_action(ActorRecord *owner_input, ObjectPosition 
             return;
         }
         actor_input->flags &= 0xF7FF;
-        owner_input->action_phase++;
+        owner_input->action_phase.u++;
                         /* fall through */
 
     case 2:
@@ -1698,7 +1666,7 @@ void restore_bank_actor_tile(ActorRecord *action, ObjectPosition *motion, Sprite
     u16 timer;
     s32 timer_wide;
 
-    state = action->action_phase;
+    state = action->action_phase.u;
     direction = (entity->movement_facing >> 9) & 7;
 
     switch (state) {
@@ -1734,7 +1702,7 @@ void restore_bank_actor_tile(ActorRecord *action, ObjectPosition *motion, Sprite
             entity->flags1C = entity_flags;
         }
 
-        action->action_phase = action->action_phase + 1;
+        action->action_phase.u = action->action_phase.u + 1;
         timer_signed = -1;
         if (((u32)entity->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer_signed = 8;
@@ -1768,14 +1736,14 @@ void restore_bank_actor_tile(ActorRecord *action, ObjectPosition *motion, Sprite
             return;
         }
         if (entity->hp == 0) {
-            action->action_phase = 0;
+            action->action_phase.u = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             motion->velocity_z = 0xFFFD0000;
             begin_actor_display_action(action, motion, sprite, zu_frame_set);
         } else {
             ((S_80172F00_0 *)action)->unk_96.s = 5;
-            action->action_phase = action->action_phase + 1;
+            action->action_phase.u = action->action_phase.u + 1;
         }
         return;
     case 2:
@@ -2065,7 +2033,7 @@ void handle_actor_action_effects(ActorRecord *controller, ObjectPosition *motion
     s32 actor_flags;
     s32 state;
 
-    state = controller->action_phase;
+    state = controller->action_phase.u;
     switch (state) {
     case 0:
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
@@ -2077,7 +2045,7 @@ void handle_actor_action_effects(ActorRecord *controller, ObjectPosition *motion
             0);
         ((TrailHeightView *)(u8 *)&g_dungeon_status.turn_scale)->unk_0A = ((TrailHeightView *)(u8 *)&g_dungeon_status.turn_scale)->unk_0A
         - 1;
-        controller->action_phase++;
+        controller->action_phase.u++;
         return;
     case 1:
         if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) == 0) {
@@ -2095,7 +2063,7 @@ void handle_actor_action_effects(ActorRecord *controller, ObjectPosition *motion
 
                 ((TrailHeightView *)(u8 *)&g_dungeon_status.turn_scale)->unk_0A =
                     ((TrailHeightView *)(u8 *)&g_dungeon_status.turn_scale)->unk_0A + 1;
-                controller->action_phase++;
+                controller->action_phase.u++;
             }
             return;
         }
@@ -2107,7 +2075,7 @@ void handle_actor_action_effects(ActorRecord *controller, ObjectPosition *motion
                 return;
             }
         }
-        if (actor->mp == 0) {
+        if (actor->mp_value.parts.whole == 0) {
             if (g_dungeon_status.flags & 0x2008) {
                 return;
             }
@@ -2169,7 +2137,7 @@ void handle_actor_action_effects(ActorRecord *controller, ObjectPosition *motion
 
             ((TrailHeightView *)(u8 *)&g_dungeon_status.turn_scale)->unk_0A =
                 ((TrailHeightView *)(u8 *)&g_dungeon_status.turn_scale)->unk_0A + 1;
-            controller->action_phase++;
+            controller->action_phase.u++;
         }
         return;
     case 2:
@@ -2235,7 +2203,7 @@ void advance_bank_actor_animation(ActorRecord *controller, ObjectPosition *conte
 #define context saved_context
 #define sprite sprite
 
-    state = controller->action_phase;
+    state = controller->action_phase.u;
     saved_entity = entity;
 #define entity saved_entity
     switch (state) {
@@ -2252,7 +2220,7 @@ void advance_bank_actor_animation(ActorRecord *controller, ObjectPosition *conte
         (*(void **)((u8 *)sprite + 0x2C)) = zu_frame_set_1;
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
         select_sprite_entry(sprite, zu_frame_set_1[direction & 7], 0);
-        controller->action_phase++;
+        controller->action_phase.u++;
         return;
     }
 
@@ -2266,7 +2234,7 @@ void advance_bank_actor_animation(ActorRecord *controller, ObjectPosition *conte
             (*(u32 *)&entity->flags1C) |= 0x40000;
             activity_counts = &g_dungeon_status;
             (*(u16 *)&activity_counts->activity_counts.parts.pending_action_count)++;
-            controller->action_phase++;
+            controller->action_phase.u++;
             return;
         }
 
@@ -2321,7 +2289,7 @@ void advance_bank_actor_animation(ActorRecord *controller, ObjectPosition *conte
         ((EntityRec *)entity)->flags1C |= 0x40000;
         ((UnsignedPositionXZView *)dungeon_state)->pending_action_count++;
 
-        controller->action_phase++;
+        controller->action_phase.u++;
         return;
 
     case 2:

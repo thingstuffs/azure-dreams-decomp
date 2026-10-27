@@ -27,8 +27,8 @@ extern void select_sprite_entry(void *, s16, s16);
 
 // Initializes state and applies a table value selected by the combined indices.
 void initialize_directional_state_sprite(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *context, ActorRecord *indexSource) {
-    state->action_id = 0x10;
-    state->action_phase = 0;
+    state->action_id.u = 0x10;
+    state->action_phase.u = 0;
     state->unk_9E.s = 3;
     context->frameTable = D_801765E8;
     select_sprite_entry(context, D_801765E8[((g_game_work.view.camera_rotation.parts.viewAngle + indexSource->facing + 0x100) >> 9) & 7], 0);

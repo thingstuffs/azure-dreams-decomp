@@ -32,7 +32,7 @@ void advance_entity_movement_and_settle_tile(ActorRecord *action, ObjectPosition
     s16 timer;
     s32 entity_ref;
 
-    state = action->action_phase;
+    state = action->action_phase.u;
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(entity);
@@ -40,7 +40,7 @@ void advance_entity_movement_and_settle_tile(ActorRecord *action, ObjectPosition
             -((s16 *)((s8 *)dir_step_x))[(entity->movement_facing >> 9) & 7] << 15;
         motion->velocity_y =
             -((s16 *)((s8 *)dir_step_y))[(entity->movement_facing >> 9) & 7] << 15;
-        action->action_phase++;
+        action->action_phase.u++;
 
         if (entity->hp == 0) {
             motion->velocity_z = 0;
@@ -51,7 +51,7 @@ void advance_entity_movement_and_settle_tile(ActorRecord *action, ObjectPosition
         }
         if (sprite->flags & 0x8000) {
             ((S_80161234_0 *)action)->unk_96.s = 0;
-            action->action_phase = 3;
+            action->action_phase.u = 3;
             return;
         }
 
@@ -93,7 +93,7 @@ void advance_entity_movement_and_settle_tile(ActorRecord *action, ObjectPosition
             sprite,
             griffon_frame_set_10[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        action->action_phase++;
+        action->action_phase.u++;
         return;
 
     case 2:
@@ -111,7 +111,7 @@ void advance_entity_movement_and_settle_tile(ActorRecord *action, ObjectPosition
             griffon_frame_set_10[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         ((S_80161234_0 *)action)->unk_96.s = 8;
-        action->action_phase++;
+        action->action_phase.u++;
         return;
 
     case 3:

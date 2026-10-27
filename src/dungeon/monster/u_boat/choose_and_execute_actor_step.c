@@ -28,7 +28,7 @@ extern s32 check_directional_move_and_terrain();
 extern s32 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
 extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
 extern void * find_adjacent_actor(void *entity, u16 x, u16 y);
-extern void *probe_directional_neighbor();
+extern void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void select_actor_route_target();
 extern s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);

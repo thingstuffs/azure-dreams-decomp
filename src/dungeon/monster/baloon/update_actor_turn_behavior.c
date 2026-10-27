@@ -65,12 +65,12 @@ void update_actor_turn_behavior(ActorRecord *motion_arg, ObjectPosition *actor_i
     move_data = move_data_arg;
 
     if (initial_flags & 0x1000) {
-        motion_arg->action_id = 0xE;
+        motion_arg->action_id.u = 0xE;
         advance_baloon_along_path(motion_arg, (s32)actor_index_arg, actor_arg, move_data);
         return;
     }
 
-    if (move_data->mp == 0) {
+    if (move_data->mp_value.parts.whole == 0) {
         void *anim_table;
 
         advance_actor_pending_action(motion_arg, actor_index_arg, actor_arg, move_data);
@@ -87,8 +87,8 @@ void update_actor_turn_behavior(ActorRecord *motion_arg, ObjectPosition *actor_i
 
     if (((u32)move_data->flags1C) & ACTOR_ASLEEP) {
         if (actor_arg->frameTable == baloon_frame_set_1) {
-            motion_arg->action_id = 0xD;
-            motion_arg->action_phase = 1;
+            motion_arg->action_id.u = 0xD;
+            motion_arg->action_phase.u = 1;
             ((S_80171F1C_0 *)motion_arg)->unk_8C = 0;
             move_data->flags1C &= 0xFFFBFFFF;
             return;
@@ -105,13 +105,13 @@ void update_actor_turn_behavior(ActorRecord *motion_arg, ObjectPosition *actor_i
         }
 
         {
-            u8 current_state = motion_arg->action_id;
+            u8 current_state = motion_arg->action_id.u;
             u32 idle_state = 0xE;
             void *current_anim;
             void *anim_table;
 
             if (current_state != idle_state) {
-                motion_arg->action_id = idle_state;
+                motion_arg->action_id.u = idle_state;
             }
             current_anim = actor_arg->frameTable;
             anim_table = baloon_default_frames;
@@ -217,7 +217,7 @@ void update_actor_turn_behavior(ActorRecord *motion_arg, ObjectPosition *actor_i
                     &direction_flags);
                 player = primary_actor_record;
                 move_data->facing = heading;
-                if (player->action_id == 0x11) {
+                if (player->action_id.u == 0x11) {
                     begin_actor_spell_action(motion_arg, actor_index_arg, actor_arg, &baloon_attack_frames, update_actor_turn_behavior);
                     return;
                 }

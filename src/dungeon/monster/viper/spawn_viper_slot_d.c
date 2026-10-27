@@ -14,22 +14,7 @@
 
 typedef s32 M2C_UNK;
 
-typedef struct  S_80F45000_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} S_80F45000_1;   /* work in allocate_actor_parts */
 
-typedef struct S_80F45000_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xA];
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-} S_80F45000_4;   /* actor in allocate_actor_parts */
 
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
@@ -43,11 +28,11 @@ extern u8 viper_frame_set_8[];
 /* Creates Viper with default frames at D_80162A7C, applies spawn flags, and attempts valid tile placement. */
 void *allocate_actor_parts(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_value)
 {
-    void *work = 0;
+    ActorRecord *work = 0;
     ObjectNodeHeader *obj;
     ObjectPosition *part_a;
     register SpriteFrameState *part_b;
-    S_80F45000_4 *actor;
+    ActorRecord *actor;
     register s32 kind;
     s32 random_bits;
     s8 saved_x;
@@ -61,9 +46,9 @@ void *allocate_actor_parts(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_val
     saved_y = tile_y;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (u8 *)obj + 0x20;
+        work = (ActorRecord *)(obj + 1);
         obj->update_callback = D_8015EA68;
-        ((S_80F45000_1 *)work)->unk_13 = MONSTER_VIPER;
+        work->species = MONSTER_VIPER;
         register_node(obj, project_sprite_chain);
 
         part_a = obj->position;
@@ -76,20 +61,20 @@ void *allocate_actor_parts(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_val
         part_b->tile_x = saved_x;
 
         if (kind == 1) {
-            ((S_80F45000_1 *)work)->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            ((S_80F45000_1 *)work)->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            work->flags14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            work->flags1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
         } else if (kind >= 2) {
-            ((S_80F45000_1 *)work)->unk_14 |= ACTOR_CLASS_ENABLED;
-            ((S_80F45000_1 *)work)->unk_1C |= ACTOR_PLAYER_SIDE;
+            work->flags14 |= ACTOR_CLASS_ENABLED;
+            work->flags1C |= ACTOR_PLAYER_SIDE;
         } else {
             obj_arg = obj;
             if (((spawn_flags & ~3) << 16) == 0) {
-                if (!(((S_80F45000_1 *)work)->unk_14 & ACTOR_RESIST_SLEEP)) {
+                if (!(work->flags14 & ACTOR_RESIST_SLEEP)) {
                     part_arg = part_a;
                     random_bits = generate_random_value();
                     obj_arg = obj;
                     if (random_bits & 1) {
-                        ((S_80F45000_1 *)work)->unk_1C |= ACTOR_ASLEEP;
+                        work->flags1C |= ACTOR_ASLEEP;
                         set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                       (generate_random_value() & 0x3F) | 0x20);
                         part_b->frameTable = viper_frame_set_8;
@@ -99,9 +84,9 @@ void *allocate_actor_parts(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_val
         }
 
         initialize_actor_sprite_and_animation(obj, part_a, part_b, spawn_flags);
-        actor->unk_9A = 0xFF;
+        actor->action_id.u = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &D_8015EE94;
+        actor->unk_8C.address = &D_8015EE94;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

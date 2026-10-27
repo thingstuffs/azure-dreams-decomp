@@ -7,25 +7,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
-typedef struct S_80173D4C_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xB];
-    u8 unk_9B;
-} S_80173D4C_0;   /* arg0 in advance_actor_action_and_direction */
 
-typedef struct S_80173D4C_2 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x38];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} S_80173D4C_2;   /* arg3 in advance_actor_action_and_direction */
 
 extern s32 get_entity_effect_value(void *, s32);
 extern void clear_slots_of_type(void *, s32);
@@ -47,14 +29,13 @@ extern void update_timed_effect_size_and_position(void *, void *, void *, void *
 extern u8 saber_action_direction_frames[];
 
 /* Advances the actor_in action state and updates its directional animation. */
-void advance_actor_action_and_direction(void *action, void *context, SpriteFrameState *sprite_in, void *actor_in)
-{
+void advance_actor_action_and_direction(ActorRecord *action, ObjectPosition *context, SpriteFrameState *sprite_in, ActorRecord *actor_in) {
     s32 state;
     void *actor_to_check;
     DungeonGlobalStatus *status;
     s32 actor_flags;
 
-    state = ((S_80173D4C_0 *)action)->unk_9B;
+    state = action->action_phase.u;
     switch (state) {
     case 0:
         if (!(sprite_in->flags & 0xE000)) {
@@ -62,7 +43,7 @@ void advance_actor_action_and_direction(void *action, void *context, SpriteFrame
         }
         (sprite_in->frameTable) = saber_direction_frames_2;
         select_sprite_entry(sprite_in,
-            saber_direction_frames_2[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173D4C_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
+            saber_direction_frames_2[((g_game_work.view.camera_rotation.parts.viewAngle + actor_in->facing + 0x100) >> 9) & 7],
             0);
         {
             DungeonGlobalStatus *counter_base;
@@ -71,7 +52,7 @@ void advance_actor_action_and_direction(void *action, void *context, SpriteFrame
             counter_base->activity_counts.parts.pending_action_count =
                 ((u16)counter_base->activity_counts.parts.pending_action_count) - 1;
         }
-        ((S_80173D4C_0 *)action)->unk_9B++;
+        action->action_phase.u++;
         return;
 
     case 1:
@@ -80,12 +61,12 @@ void advance_actor_action_and_direction(void *action, void *context, SpriteFrame
             if (status->flags & 0x1000) {
                 return;
             }
-            if (((S_80173D4C_2 *)actor_in)->unk_64 != 0) {
+            if (actor_in->hp_delta != 0) {
                 if (begin_ready_actor_directional_action(action, context, sprite_in, 0) != 0) {
                     return;
                 }
             }
-            if (((S_80173D4C_2 *)actor_in)->unk_25 == 0) {
+            if (actor_in->mp_value.parts.whole == 0) {
                 if (status->flags & 0x2008) {
                     return;
                 }
@@ -95,7 +76,7 @@ void advance_actor_action_and_direction(void *action, void *context, SpriteFrame
             if ((has_pending_actor_or_turn_action(actor_in) << 16) != 0) {
                 return;
             }
-            actor_flags = ((S_80173D4C_2 *)actor_in)->unk_1C;
+            actor_flags = actor_in->flags1C;
             if (actor_flags & 0x100) {
                 begin_pushed_actor_move(action, context, sprite_in, actor_in);
                 return;
@@ -105,7 +86,7 @@ void advance_actor_action_and_direction(void *action, void *context, SpriteFrame
                 update_timed_effect_size_and_position(action, context, sprite_in, actor_in);
                 return;
             }
-            if (((S_80173D4C_2 *)actor_in)->unk_6D == 0) {
+            if (actor_in->pending_turn_updates == 0) {
                 return;
             }
             if ((has_pending_actor_or_turn_action(actor_in) << 16) != 0) {
@@ -145,28 +126,28 @@ void advance_actor_action_and_direction(void *action, void *context, SpriteFrame
 
             (sprite_in->frameTable) = saber_action_direction_frames;
             select_sprite_entry(sprite_in,
-                saber_action_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173D4C_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
+                saber_action_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor_in->facing + 0x100) >> 9) & 7],
                 0);
             if (sprite_in->flags & 0x8000) {
-                ((S_80173D4C_0 *)action)->unk_8C = &saber_behavior_entry;
+                action->unk_8C.address = &saber_behavior_entry;
                 return;
             }
             g_dungeon_status.activity_counts.parts.pending_action_count++;
 
-            ((S_80173D4C_0 *)action)->unk_9B++;
+            action->action_phase.u++;
             return;
         }
         (sprite_in->frameTable) = saber_action_direction_frames;
         select_sprite_entry(sprite_in,
-            saber_action_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173D4C_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
+            saber_action_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor_in->facing + 0x100) >> 9) & 7],
             0);
         if (sprite_in->flags & 0x8000) {
-            ((S_80173D4C_0 *)action)->unk_8C = &saber_behavior_entry;
+            action->unk_8C.address = &saber_behavior_entry;
             return;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count++;
 
-        ((S_80173D4C_0 *)action)->unk_9B++;
+        action->action_phase.u++;
         return;
 
     case 2:
@@ -175,7 +156,7 @@ void advance_actor_action_and_direction(void *action, void *context, SpriteFrame
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
 
-        ((S_80173D4C_0 *)action)->unk_8C = &saber_behavior_entry;
+        action->unk_8C.address = &saber_behavior_entry;
 
         return;
     }

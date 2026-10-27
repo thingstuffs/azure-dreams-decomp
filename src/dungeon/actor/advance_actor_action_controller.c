@@ -71,7 +71,7 @@ void advance_actor_action_controller(void *controller, void *action_context, Spr
             return;
         }
 
-        if (actor->mp == 0) {
+        if (actor->mp_value.parts.whole == 0) {
             if (system_base->flags & 0x2008) {
                 return;
             }

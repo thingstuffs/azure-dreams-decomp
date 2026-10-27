@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/entity.h"
 #include "sdk/libc.h"
 #include "shared/audio_commands.h"
@@ -21,11 +22,11 @@ void (*const resource07_slot0_entry1)(void *entity, R07_80170A28_S_80170A28_2 *m
 void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a)
 {
     s32 kind;
-    void *obj;
-    R07_80170854_S_8016A854_2 *part_a;
+    ObjectNodeHeader *obj;
+    ObjectPosition *part_a;
     SpriteFrameState *part_b;
-    R07_80170854_S_8016A854_1 *work;
-    R07_80170854_S_8016A854_4 *actor;
+    ActorRecord *work;
+    ActorRecord *actor;
     s32 primary_bits;
     s32 secondary_flags;
     s8 saved_byte_24;
@@ -38,14 +39,14 @@ void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, 
     saved_byte_25 = byte_25;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (u8 *)obj + 0x20;
-        ((R07_80170854_S_8016A854_0 *)obj)->unk_10 = ((u8 *)update_entity_facing_motion_and_ground);
-        work->unk_13 = MONSTER_GRINEUT;
+        work = (ActorRecord *)(obj + 1);
+        obj->update_callback = ((u8 *)update_entity_facing_motion_and_ground);
+        work->species = MONSTER_GRINEUT;
         register_node(obj, project_sprite_chain);
 
-        part_a = ((R07_80170854_S_8016A854_0 *)obj)->unk_08;
-        part_a->unk_0A = saved_value_0a;
-        part_b = ((R07_80170854_S_8016A854_0 *)obj)->unk_0C;
+        part_a = obj->position;
+        part_a->z.w.i = saved_value_0a;
+        part_b = obj->sprite;
         kind = kind_flags & 3;
         part_b->tile_y = saved_byte_25;
         actor = work;
@@ -53,19 +54,19 @@ void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, 
         part_b->tile_x = saved_byte_24;
 
         if (kind == 1) {
-            primary_bits = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            secondary_flags = work->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-            work->unk_14 = primary_bits;
-            work->unk_1C = secondary_flags;
+            primary_bits = work->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            secondary_flags = work->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            work->flags14 = primary_bits;
+            work->flags1C = secondary_flags;
         } else if (kind >= 2) {
-            primary_bits = work->unk_14 | ACTOR_CLASS_ENABLED;
-            secondary_flags = work->unk_1C | ACTOR_PLAYER_SIDE;
-            work->unk_14 = primary_bits;
-            work->unk_1C = secondary_flags;
+            primary_bits = work->flags14 | ACTOR_CLASS_ENABLED;
+            secondary_flags = work->flags1C | ACTOR_PLAYER_SIDE;
+            work->flags14 = primary_bits;
+            work->flags1C = secondary_flags;
         } else if (((kind_flags & ~3) << 16) == 0) {
-            if (!(work->unk_14 & ACTOR_RESIST_SLEEP)) {
+            if (!(work->flags14 & ACTOR_RESIST_SLEEP)) {
                 if (generate_random_value() & 1) {
-                    work->unk_1C |= ACTOR_ASLEEP;
+                    work->flags1C |= ACTOR_ASLEEP;
                     set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                   (generate_random_value() & 0x3F) | 0x20);
                     part_b->frameTable = ((u8 *)grineut_alt_direction_frames);
@@ -73,9 +74,9 @@ void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, 
             }
         }
         initialize_actor_sprite_and_animation(obj, part_a, part_b, kind_flags);
-        actor->unk_9A = 0xFF;
+        actor->action_id.u = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = ((void *)dispatch_monster_move_attack_spell);
+        actor->unk_8C.address = ((void *)dispatch_monster_move_attack_spell);
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;
@@ -249,7 +250,7 @@ void dispatch_monster_move_attack_spell(ActorRecord *record, ObjectPosition *ent
         return;
     }
 
-    if (other_entity->mp == 0) {
+    if (other_entity->mp_value.parts.whole == 0) {
         advance_actor_pending_action(record, entity, object, other_entity);
         if (((R07_80170E54_S_80170E54_2 *)object)->unk_2C.p == ((u8 *)grineut_alt_direction_frames)) {
             return;
@@ -370,7 +371,7 @@ void dispatch_monster_move_attack_spell(ActorRecord *record, ObjectPosition *ent
                 &scratch));
             player = primary_actor_record;
             other_entity->facing = coordinate;
-            if (player->action_id == 0x11) {
+            if (player->action_id.u == 0x11) {
                 begin_actor_spell_action(record, entity, object, ((u8 *)grineut_frame_set_3), ((void *)dispatch_monster_move_attack_spell));
                 return;
             }
@@ -545,7 +546,7 @@ void advance_stored_path_motion(ActorRecord *action, ObjectPosition *action_id, 
         initialize_opposite_facing_effect(action, action_id, entity, state);
         ((R07_80171570_S_80171570_2 *)action)->unk_8C = 0;
     } else {
-        action->action_id = 0x0F;
+        action->action_id.u = 0x0F;
         ((R07_80171570_S_80171570_2 *)action)->unk_8C = 0;
     }
     (*(s32 *)((u8 *)state + 0x1C)) |= 0x40000000;
@@ -833,8 +834,8 @@ s32 try_grineut_attack(ActorRecord *action_state, ObjectPosition *motion_param, 
 
     apply_camera_offset_and_select_target((ObjectNodeHeader *)actor - 1, motion_param, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
-        action_state->action_id = 0x11;
-        action_state->action_phase = 0;
+        action_state->action_id.u = 0x11;
+        action_state->action_phase.u = 0;
         action_state->unk_8C.handler = 0;
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;
@@ -1079,12 +1080,12 @@ void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *m
     s32 facing;
     s32 state;
 
-    state = action->action_phase;
+    state = action->action_phase.u;
     switch (state) {
     case 0:
         if (sprite->flags & 0x8000) {
-            action->action_phase = 3;
-            action->action_timer = 0;
+            action->action_phase.u = 3;
+            action->action_timer.u = 0;
             sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
@@ -1106,8 +1107,8 @@ void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *m
         select_sprite_entry(sprite,
             (*(u8 *)((u8 *)(((u8 *)grineut_frame_set_3)) + (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7))),
             0);
-        action->action_timer = 0;
-        action->action_phase += 1;
+        action->action_timer.u = 0;
+        action->action_phase.u += 1;
         return;
 
     case 1:
@@ -1120,16 +1121,16 @@ void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *m
             select_sprite_entry(sprite,
                 (*(u8 *)((u8 *)(((u8 *)D_80174170)) + (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7))),
                 0);
-            action->action_timer = 0x14;
-            action->action_phase += 1;
+            action->action_timer.u = 0x14;
+            action->action_phase.u += 1;
             return;
         }
         return;
 
     case 2:
-        timer = action->action_timer - 1;
+        timer = action->action_timer.u - 1;
         z_velocity = motion->velocity_z;
-        action->action_timer = timer;
+        action->action_timer.u = timer;
         if (timer < 12) {
             z_velocity += 0x1400;
         } else {
@@ -1138,7 +1139,7 @@ void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *m
         motion->velocity_z = z_velocity;
         action->unk_90.value += z_velocity;
 
-        if ((s16)action->action_timer == 0x11) {
+        if ((s16)action->action_timer.u == 0x11) {
             play_sound_if_enabled(0x808);
             direction = ((u16)actor->facing >> 9) & 7;
             speed_component = (*(s16 *)((u8 *)(((s8 *)dir_step_x)) + (direction * 2))) * 0x30000;
@@ -1158,21 +1159,21 @@ void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *m
             (sprite->flags & 0x8000)) {
             motion->velocity_x =
                 ((((sprite->tile_x << 6) + 0x20) << 16) -
-                 motion->x.v) / (s16)action->action_timer;
+                 motion->x.v) / (s16)action->action_timer.u;
             motion->velocity_y =
                 ((((sprite->tile_y << 6) + 0x20) << 16) -
-                 motion->y.v) / (s16)action->action_timer;
+                 motion->y.v) / (s16)action->action_timer.u;
         }
 
-        if (((s16)action->action_timer <= 0) ||
+        if (((s16)action->action_timer.u <= 0) ||
             (sprite->flags & 0x8000)) {
-            action->action_phase += 1;
+            action->action_phase.u += 1;
             return;
         }
         return;
 
     case 3:
-        if (((s16)action->action_timer <= 0) ||
+        if (((s16)action->action_timer.u <= 0) ||
             (sprite->flags & 0x8000)) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
@@ -1635,7 +1636,7 @@ void update_sleeping_grineut(ActorRecord *controller, ObjectPosition *actor_inde
                 && ((actor->hp_delta == 0)
                     || (begin_ready_actor_directional_action(controller, actor_index, sprite, 0) == 0))) {
 
-                if (actor->mp == 0) {
+                if (actor->mp_value.parts.whole == 0) {
                     if (dungeon_status->flags & 0x2008) {
                         return;
                     }
@@ -1758,7 +1759,7 @@ void dim_and_clear_flagged_effect(ActorRecord *controller, ObjectPosition *conte
     {
         u32 entity_flags;
 
-        if (entity->mp != 0) {
+        if (entity->mp_value.parts.whole != 0) {
 
             (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)grineut_frame_set_2);
             select_sprite_entry(sprite,
@@ -1808,7 +1809,7 @@ void dim_and_clear_flagged_effect(ActorRecord *controller, ObjectPosition *conte
 
         update_actor_status_and_mp(entity);
         on_actor_status_updated(entity);
-        if (entity->mp == 0) {
+        if (entity->mp_value.parts.whole == 0) {
             return;
         }
 

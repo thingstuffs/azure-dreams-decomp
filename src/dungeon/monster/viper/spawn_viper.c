@@ -10,19 +10,9 @@
 #include "dungeon/actor.h"
 #include "dungeon/actor/animation.h"
 #include "engine/node/allocation.h"
+#include "dungeon/actor/status.h"
 
-typedef struct S_80170894_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} S_80170894_1;   /* work in func_80170894 */
 
-typedef struct S_80170894_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80170894_2;   /* part_a in func_80170894 */
 
 typedef struct S_80170894_4 {
     u8 pad_00[0x8C];
@@ -35,7 +25,6 @@ typedef struct S_80170894_4 {
 
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
-extern void set_or_clear_actor_status_slot();
 extern u8 D_80170A68[];
 void func_80170E94(void *actor_in, void *actor_data_in, void *sprite_in, void *status_in);
 extern u8 viper_frame_set_2[];
@@ -49,8 +38,8 @@ void *spawn_mode_configured_monster(s16 spawn_flags, s16 tile_x, s16 tile_y, s16
     ObjectNodeHeader *obj;
     ObjectPosition *part_a;
     SpriteFrameState *part_b;
-    S_80170894_1 *work;
-    S_80170894_4 *actor;
+    ActorRecord *work;
+    ActorRecord *actor;
     s32 left;
     s32 right;
     s8 saved_tile_x;
@@ -63,9 +52,9 @@ void *spawn_mode_configured_monster(s16 spawn_flags, s16 tile_x, s16 tile_y, s16
     saved_tile_y = tile_y;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (u8 *)obj + 0x20;
+        work = (ActorRecord *)(obj + 1);
         obj->update_callback = D_80170A68;
-        work->unk_13 = MONSTER_VIPER;
+        work->species = MONSTER_VIPER;
         register_node(obj, project_sprite_chain);
 
         part_a = obj->position;
@@ -78,20 +67,20 @@ void *spawn_mode_configured_monster(s16 spawn_flags, s16 tile_x, s16 tile_y, s16
         part_b->tile_x = saved_tile_x;
 
         if (kind == 1) {
-            left = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            right = work->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-            work->unk_14 = left;
-            work->unk_1C = right;
+            left = work->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            right = work->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            work->flags14 = left;
+            work->flags1C = right;
         } else if (kind >= 2) {
-            left = work->unk_14 | ACTOR_CLASS_ENABLED;
-            right = work->unk_1C | ACTOR_PLAYER_SIDE;
-            work->unk_14 = left;
-            work->unk_1C = right;
+            left = work->flags14 | ACTOR_CLASS_ENABLED;
+            right = work->flags1C | ACTOR_PLAYER_SIDE;
+            work->flags14 = left;
+            work->flags1C = right;
         } else {
-            if (((spawn_flags & ~3) << 16) == 0 && !(work->unk_14 & ACTOR_RESIST_SLEEP)) {
+            if (((spawn_flags & ~3) << 16) == 0 && !(work->flags14 & ACTOR_RESIST_SLEEP)) {
                 left = generate_random_value();
                 if (left & 1) {
-                    work->unk_1C |= ACTOR_ASLEEP;
+                    work->flags1C |= ACTOR_ASLEEP;
                     set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                   (generate_random_value() & 0x3F) | 0x20);
                     part_b->frameTable = viper_default_frames;
@@ -99,9 +88,9 @@ void *spawn_mode_configured_monster(s16 spawn_flags, s16 tile_x, s16 tile_y, s16
             }
         }
         initialize_actor_sprite_and_animation(obj, part_a, part_b, spawn_flags);
-        actor->unk_9A = 0xFF;
+        actor->action_id.u = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &func_80170E94;
+        actor->unk_8C.run = &func_80170E94;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

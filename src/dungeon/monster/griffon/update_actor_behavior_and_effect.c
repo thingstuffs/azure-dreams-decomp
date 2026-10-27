@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/entity.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_property_flags.h"
@@ -21,11 +22,11 @@ void (*const resource08_slot0_entry1)(void *entity, R08_80170A50_S_80170A28_2 *m
 void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
 {
     s32 kind;
-    void *obj;
-    R08_8017087C_S_8017087C_2 *part_a;
+    ObjectNodeHeader *obj;
+    ObjectPosition *part_a;
     SpriteFrameState *part_b;
-    R08_8017087C_S_8017087C_1 *work;
-    R08_8017087C_S_8017087C_4 *actor;
+    ActorRecord *work;
+    ActorRecord *actor;
     s32 flags_or_roll;
     s32 secondary_flags;
     s8 saved_tile_x;
@@ -38,14 +39,14 @@ void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id
     saved_tile_y = tile_y;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (u8 *)obj + 0x20;
-        ((R08_8017087C_S_8017087C_0 *)obj)->unk_10 = ((u8 *)update_griffon_motion_and_facing);
-        work->unk_13 = MONSTER_GRIFFON;
+        work = (ActorRecord *)(obj + 1);
+        obj->update_callback = ((u8 *)update_griffon_motion_and_facing);
+        work->species = MONSTER_GRIFFON;
         register_node(obj, project_sprite_chain);
 
-        part_a = ((R08_8017087C_S_8017087C_0 *)obj)->unk_08;
-        part_a->unk_0A = saved_part_id;
-        part_b = ((R08_8017087C_S_8017087C_0 *)obj)->unk_0C;
+        part_a = obj->position;
+        part_a->z.w.i = saved_part_id;
+        part_b = obj->sprite;
         kind = kind_flags & 3;
         part_b->tile_y = saved_tile_y;
         actor = work;
@@ -53,19 +54,19 @@ void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id
         part_b->tile_x = saved_tile_x;
 
         if (kind == 1) {
-            flags_or_roll = work->unk_14 | 0x6000;
-            secondary_flags = work->unk_1C | 0x6000;
-            work->unk_14 = flags_or_roll;
-            work->unk_1C = secondary_flags;
+            flags_or_roll = work->flags14 | 0x6000;
+            secondary_flags = work->flags1C | 0x6000;
+            work->flags14 = flags_or_roll;
+            work->flags1C = secondary_flags;
         } else if (kind >= 2) {
-            flags_or_roll = work->unk_14 | 0x2000;
-            secondary_flags = work->unk_1C | 0x2000;
-            work->unk_14 = flags_or_roll;
-            work->unk_1C = secondary_flags;
+            flags_or_roll = work->flags14 | 0x2000;
+            secondary_flags = work->flags1C | 0x2000;
+            work->flags14 = flags_or_roll;
+            work->flags1C = secondary_flags;
         } else if (((kind_flags & ~3) << 16) == 0) {
-            if (!(work->unk_14 & 0x200)) {
+            if (!(work->flags14 & 0x200)) {
                 if (generate_random_value() & 1) {
-                    work->unk_1C |= 0x200;
+                    work->flags1C |= 0x200;
                     set_or_clear_actor_status_slot(work, 1,
                                   (generate_random_value() & 0x3F) | 0x20);
                     part_b->frameTable = ((u8 *)griffon_frame_set_3);
@@ -73,9 +74,9 @@ void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id
             }
         }
         initialize_actor_sprite_and_animation(obj, part_a, part_b, kind_flags);
-        actor->unk_9A = 0xFF;
+        actor->action_id.u = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = ((void *)update_actor_behavior_and_effect);
+        actor->unk_8C.address = ((void *)update_actor_behavior_and_effect);
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;
@@ -248,7 +249,7 @@ void update_actor_behavior_and_effect(ActorRecord *actor, ObjectPosition *positi
         return;
     }
 
-    if (actor_data->mp == 0) {
+    if (actor_data->mp_value.parts.whole == 0) {
         advance_actor_pending_action(actor, position, object, actor_data);
         if (object->frameTable == ((u8 *)griffon_frame_set_3)) {
             return;
@@ -375,7 +376,7 @@ void update_actor_behavior_and_effect(ActorRecord *actor, ObjectPosition *positi
                     &distance));
                 player = primary_actor_record;
                 actor_data->facing = facing;
-                if (player->action_id == 0x11) {
+                if (player->action_id.u == 0x11) {
                     begin_actor_spell_action(actor, position, object, ((u8 *)griffon_frame_set_4), ((void *)update_actor_behavior_and_effect));
                     return;
                 }
@@ -551,7 +552,7 @@ void advance_griffon_stored_path(ActorRecord *action, ObjectPosition *action_id,
         begin_griffon_step_animation(action, action_id, entity, state);
         ((R08_801715B4_S_80171570_2 *)action)->unk_8C = 0;
     } else {
-        action->action_id = 0x0F;
+        action->action_id.u = 0x0F;
         ((R08_801715B4_S_80171570_2 *)action)->unk_8C = 0;
     }
     (*(s32 *)((u8 *)state + 0x1C)) |= 0x40000000;
@@ -838,8 +839,8 @@ s32 update_actor_animation_behavior_and_facing(ActorRecord *action_state, Object
 
     apply_camera_offset_and_select_target((ObjectNodeHeader *)actor - 1, motion_param, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
-        action_state->action_id = 0x11;
-        action_state->action_phase = 0;
+        action_state->action_id.u = 0x11;
+        action_state->action_phase.u = 0;
         action_state->unk_8C.handler = 0;
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;
@@ -1637,7 +1638,7 @@ void update_object_or_select_directional_data(ActorRecord *controller, ObjectPos
                 && ((actor->hp_delta == 0)
                     || (begin_ready_actor_directional_action(controller, actor_index, sprite, 0) == 0))) {
 
-                if (actor->mp == 0) {
+                if (actor->mp_value.parts.whole == 0) {
                     if (dungeon_status->flags & 0x2008) {
                         return;
                     }
@@ -1760,7 +1761,7 @@ void resume_actor_effect_behavior_after_status_animation(ActorRecord *controller
     {
         u32 entity_flags;
 
-        if (entity->mp != 0) {
+        if (entity->mp_value.parts.whole != 0) {
 
             (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)griffon_frame_set_1);
             select_sprite_entry(sprite,
@@ -1810,7 +1811,7 @@ void resume_actor_effect_behavior_after_status_animation(ActorRecord *controller
 
         update_actor_status_and_mp(entity);
         on_actor_status_updated(entity);
-        if (entity->mp == 0) {
+        if (entity->mp_value.parts.whole == 0) {
             return;
         }
 

@@ -27,12 +27,12 @@ void *spawn_univern_actor(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
     s32 saved_copy_value;
     s16 saved_tile_y;
     u16 saved_tile_x;
-    void *object;
+    ActorRecord *object;
     void *outer;
     void *stable_object;
     s32 kind_copy;
     SpriteFrameState *part;
-    void *allocated;
+    ObjectNodeHeader *allocated;
     s32 allocation_size;
     ObjectNodeHeader *allocation_pool;
 
@@ -52,11 +52,11 @@ void *spawn_univern_actor(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
             ObjectNodeHeader *init_root;
             void *setup;
 
-            object = (u8 *)allocated + 0x20;
+            object = (ActorRecord *)(allocated + 1);
             init_root = allocated;
             setup = project_sprite_chain;
             init_root->update_callback = ((u8 *)create_anchored_directional_object);
-            ((R17_8017089C_S_8017089C_1 *)object)->unk_13 = MONSTER_UNIVERN;
+            object->species = MONSTER_UNIVERN;
             register_node(init_root, setup);
         }
 
@@ -78,21 +78,21 @@ void *spawn_univern_actor(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
             s32 state_flags;
 
             if ((saved_kind & 3) == 1) {
-                object_flags = ((R17_8017089C_S_8017089C_1 *)object)->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-                state_flags = ((R17_8017089C_S_8017089C_1 *)object)->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-                ((R17_8017089C_S_8017089C_1 *)object)->unk_14 = object_flags;
-                ((R17_8017089C_S_8017089C_1 *)object)->unk_1C = state_flags;
+                object_flags = object->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+                state_flags = object->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+                object->flags14 = object_flags;
+                object->flags1C = state_flags;
             } else if ((saved_kind & 3) >= 2) {
-                object_flags = ((R17_8017089C_S_8017089C_1 *)object)->unk_14 | ACTOR_CLASS_ENABLED;
-                state_flags = ((R17_8017089C_S_8017089C_1 *)object)->unk_1C | ACTOR_PLAYER_SIDE;
-                ((R17_8017089C_S_8017089C_1 *)object)->unk_14 = object_flags;
-                ((R17_8017089C_S_8017089C_1 *)object)->unk_1C = state_flags;
+                object_flags = object->flags14 | ACTOR_CLASS_ENABLED;
+                state_flags = object->flags1C | ACTOR_PLAYER_SIDE;
+                object->flags14 = object_flags;
+                object->flags1C = state_flags;
             } else {
                 object_flags = saved_kind & ~3;
                 if ((s16)object_flags == 0) {
-                    if ((((R17_8017089C_S_8017089C_1 *)object)->unk_14 & ACTOR_RESIST_SLEEP) == 0) {
+                    if ((object->flags14 & ACTOR_RESIST_SLEEP) == 0) {
                         if (generate_random_value() & 1) {
-                            ((R17_8017089C_S_8017089C_1 *)object)->unk_1C |= ACTOR_ASLEEP;
+                            object->flags1C |= ACTOR_ASLEEP;
                             set_or_clear_actor_status_slot(object, STATUS_SLEEP,
                                 (generate_random_value() & 0x3F) | 0x20);
                             part->frameTable = ((u8 *)univern_alt_spawn_direction_frames);
@@ -109,7 +109,7 @@ void *spawn_univern_actor(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
         ((R17_8017089C_S_8017089C_4 *)stable_object)->unk_9A = 0xFF;
         ((R17_8017089C_S_8017089C_4 *)stable_object)->unk_9C = -1;
         ((R17_8017089C_S_8017089C_4 *)stable_object)->unk_8C = ((u8 *)update_entity_movement_and_ground_height);
-        ((R17_8017089C_S_8017089C_1 *)object)->unk_1C |= 0x40000;
+        object->flags1C |= 0x40000;
         ((R17_8017089C_S_8017089C_4 *)stable_object)->unk_92 = -48;
         ((R17_8017089C_S_8017089C_4 *)stable_object)->unk_A8 = 0;
         ((R17_8017089C_S_8017089C_4 *)stable_object)->unk_9E = 1;
@@ -151,7 +151,7 @@ void *spawn_univern_actor(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
                     outer_child->update_callback = ((u8 *)child_object_update_address);
                     (*(void **)((u8 *)item + 0x2C)) = table;
                     direction_index = (((*(s16 *)view_facing_angle_alias) +
-                        ((R17_8017089C_S_8017089C_1 *)object)->unk_2A + 0x100) >> 9) & 7;
+                        object->facing + 0x100) >> 9) & 7;
                     select_sprite_entry(item,
                         *(u8 *)((R17_8017089C_uptr)direction_index + (R17_8017089C_uptr)table), call_zero);
                     item_offset += 0x30;
@@ -437,7 +437,7 @@ void update_entity_movement_and_ground_height(ActorRecord *actor, ObjectPosition
         return;
     }
 
-    if (status->mp == 0) {
+    if (status->mp_value.parts.whole == 0) {
         advance_actor_pending_action(actor, context, sprite, status);
         if (*(u8 **)&sprite->frameTable == ((u8 *)univern_alt_spawn_direction_frames)) {
             return;
@@ -554,7 +554,7 @@ void update_entity_movement_and_ground_height(ActorRecord *actor, ObjectPosition
             target_angle = ((s16)get_rounded_facing_and_rounding_flag((s16)(sprite->tile_x),(s16)(sprite->tile_y),(s16)(reference_tile_object.tile_position.parts.tile_x),(s16)(reference_tile_object.tile_position.parts.tile_y), &distance));
             active_actor = primary_actor_record;
             status->facing = target_angle;
-            if (active_actor->action_id != 0x11) {
+            if (active_actor->action_id.u != 0x11) {
                 update_actor_status_and_mp(status);
                 return;
             }
@@ -676,8 +676,7 @@ void advance_entity_along_path_2(ActorRecord *motion, ObjectPosition *unused, Sp
 
 /* Chooses a clear step or attack, records the actor's path, and updates occupied tiles and movement
  * counts. */
-void choose_univern_move(Rec_func_800A9E70_arg0 *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data)
-{
+void choose_univern_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data) {
     u16 dungeon_flags = g_dungeon_status.flags;
     s32 limit_detour = 0;
     s16 detour_check;
@@ -705,7 +704,7 @@ void choose_univern_move(Rec_func_800A9E70_arg0 *move_data, ObjectPosition *cont
         return;
     }
 
-    update_actor_proximity_flag(position_data, actor_data, 3, 6, &move_data->unk_9C.as_s8);
+    update_actor_proximity_flag(position_data, actor_data, 3, 6, &move_data->unk_9C);
     actor_flags = actor_data->flags1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
@@ -714,7 +713,7 @@ void choose_univern_move(Rec_func_800A9E70_arg0 *move_data, ObjectPosition *cont
             if (blocker != 0) {
                 SpriteFrameState *blocker_sprite = ((ObjectNodeHeader *)blocker - 1)->sprite;
                 s16 target_angle = ((s16)get_rounded_facing_and_rounding_flag((s16)(position_data->tile_x),(s16)(position_data->tile_y),(s16)(blocker_sprite->tile_x),(s16)(blocker_sprite->tile_y),
-                    &move_data->unk_98));
+                    &move_data->action_state_flags));
                 actor_data->facing = target_angle;
                 actor_data->movement_queue_state &= 0x7F;
                 return;
@@ -754,7 +753,7 @@ void choose_univern_move(Rec_func_800A9E70_arg0 *move_data, ObjectPosition *cont
                     return;
                 }
 
-                turn_data = &move_data->unk_98;
+                turn_data = &move_data->action_state_flags;
                 target_angle = ((s16)get_rounded_facing_and_rounding_flag((s16)(position_data->tile_x),(s16)(position_data->tile_y),(s16)((s16)target_x),(s16)((s16)target_y), turn_data));
                 actor_data->facing = target_angle;
                 if (((s16)check_directional_move_and_terrain((s16)(target_angle), position_data, actor_data, 0x20)) <= 0) {
@@ -766,14 +765,14 @@ void choose_univern_move(Rec_func_800A9E70_arg0 *move_data, ObjectPosition *cont
                     limit_detour = 1;
                 }
             } else {
-                select_actor_route_target((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
-                              &move_data->unk_98);
+                select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+                              &move_data->action_state_flags);
             }
         }
     } else if ((s8)position_data->room_index >= 0 &&
                dungeon_rooms[(s8)position_data->room_index].flags & ROOM_HOLY_BEAM) {
-        select_actor_route_target((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
-                      &move_data->unk_98);
+        select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+                      &move_data->action_state_flags);
     } else if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
         current_angle = (s32)probe_directional_neighbor(actor_data,(u8)(position_data->tile_x),(u8)(position_data->tile_y),(s16)(actor_data->facing));
         blocker = (ActorRecord *)current_angle;
@@ -789,7 +788,7 @@ void choose_univern_move(Rec_func_800A9E70_arg0 *move_data, ObjectPosition *cont
 
         if (actor_data->flags1C & ACTOR_PLAYER_AWARE) {
             TileObject *target_position = &reference_tile_object;
-            actor_data->facing = ((s16)get_rounded_facing_and_rounding_flag((s16)(position_data->tile_x),(s16)(position_data->tile_y),(s16)(target_position->tile_position.parts.tile_x),(s16)(target_position->tile_position.parts.tile_y), &move_data->unk_98));
+            actor_data->facing = ((s16)get_rounded_facing_and_rounding_flag((s16)(position_data->tile_x),(s16)(position_data->tile_y),(s16)(target_position->tile_position.parts.tile_x),(s16)(target_position->tile_position.parts.tile_y), &move_data->action_state_flags));
             if (((s16)test_neighbor_position_relation(
                     position_data->tile_x, position_data->tile_y,
                     target_position->tile_position.parts.tile_x, target_position->tile_position.parts.tile_y)) != 0) {
@@ -802,8 +801,8 @@ void choose_univern_move(Rec_func_800A9E70_arg0 *move_data, ObjectPosition *cont
                 }
             }
         } else {
-            select_actor_route_target((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
-                          &move_data->unk_98);
+            select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+                          &move_data->action_state_flags);
         }
     }
 
@@ -811,7 +810,7 @@ void choose_univern_move(Rec_func_800A9E70_arg0 *move_data, ObjectPosition *cont
     turn_table = ((s16 *)actor_turn_angle_offsets);
 
     do {
-        turn_flags = move_data->unk_98;
+        turn_flags = move_data->action_state_flags;
         current_angle = actor_data->facing;
         if (turn_flags & 2) {
             trial_angle = current_angle - turn_table[turn_index];
@@ -878,7 +877,7 @@ void choose_univern_move(Rec_func_800A9E70_arg0 *move_data, ObjectPosition *cont
 
     {
         actor_data->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-        move_data->unk_9C.as_u8 = position_data->room_index;
+        move_data->unk_9C = position_data->room_index;
         actor_data->pending_turn_updates--;
         g_dungeon_status.activity_counts.parts.pending_movement_count++;
     }
@@ -897,8 +896,7 @@ void choose_univern_move(Rec_func_800A9E70_arg0 *move_data, ObjectPosition *cont
 #include "dungeon/monster/univern.h"
 
 /* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
-s32 try_univern_attack(Rec_func_800A9E70_arg0 *action_state, ObjectPosition *motion_param, void *sprite_arg, ActorRecord *actor)
-{
+s32 try_univern_attack(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor) {
     s32 target_angle;
     u16 status_flags;
     u8 actor_flags;
@@ -911,8 +909,8 @@ s32 try_univern_attack(Rec_func_800A9E70_arg0 *action_state, ObjectPosition *mot
         return -1;
     }
 
-    target_angle = probe_directional_neighbor(actor, ((SpriteFrameState *)sprite_arg)->tile_x,
-                           ((SpriteFrameState *)sprite_arg)->tile_y, actor->facing);
+    target_angle = probe_directional_neighbor(actor, sprite_arg->tile_x,
+                           sprite_arg->tile_y, actor->facing);
     if ((check_entity_interaction_compatibility(actor, target_angle) << 16) == 0) {
         return 0;
     }
@@ -933,12 +931,12 @@ s32 try_univern_attack(Rec_func_800A9E70_arg0 *action_state, ObjectPosition *mot
 
     apply_camera_offset_and_select_target((u8 *)actor - 0x20, motion_param, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
-        action_state->unk_9A.as_u8 = 0x11;
-        action_state->unk_9B.as_u8 = 0;
-        action_state->unk_8C = 0;
+        action_state->action_id.s = 0x11;
+        action_state->action_phase.s = 0;
+        action_state->unk_8C.run = 0;
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;
-        ((SpriteFrameState *)sprite_arg)->frameTable = ((u8 *)univern_direction_frames);
+        sprite_arg->frameTable = ((u8 *)univern_direction_frames);
         select_sprite_entry(sprite_arg, (((u8 *)univern_direction_frames))[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         actor->pending_turn_updates--;
         prepare_directional_attack(actor, sprite_arg, actor->facing, 1, 0);
@@ -955,9 +953,9 @@ void begin_univern_attack(ActorRecord *action_state, ObjectPosition *context, Sp
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(entity) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)entity - 0x20, context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(entity) << 0x10) == 0) {
-            action_state->action_id = 0x11;
+            action_state->action_id.u = 0x11;
             action_state->unk_8C.handler = 0;
-            action_state->action_phase = 0;
+            action_state->action_phase.u = 0;
             select_sprite_entry(animation, *(*(u8 **)&animation->frameTable + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing
                 + 0x100) >> 9) & 7)), 0);
             entity->pending_turn_updates = (u8) (((u8)entity->pending_turn_updates) - 1);
@@ -1922,7 +1920,7 @@ void advance_univern_status_action(ActorRecord *action, ObjectPosition *context,
 #define context saved_context
 #define sprite sprite
 
-    state = action->action_phase;
+    state = action->action_phase.u;
     saved_entity = entity;
 #define entity saved_entity
     switch (state) {
@@ -1939,7 +1937,7 @@ void advance_univern_status_action(ActorRecord *action, ObjectPosition *context,
         (sprite->frameTable) = ((u8 *)univern_frame_set_2);
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
         select_sprite_entry(sprite,(u8)(((u8 *)univern_frame_set_2)[direction & 7]), 0);
-        action->action_phase++;
+        action->action_phase.u++;
         return;
     }
 
@@ -1953,7 +1951,7 @@ void advance_univern_status_action(ActorRecord *action, ObjectPosition *context,
             (*(u32 *)&entity->flags1C) |= 0x40000;
             counter_state = (u8 *)&g_dungeon_status.turn_scale;
             ((R17_80173F10_S_80173ED8_2 *)counter_state)->unk_0A++;
-            action->action_phase++;
+            action->action_phase.u++;
             return;
         }
 
@@ -2008,7 +2006,7 @@ void advance_univern_status_action(ActorRecord *action, ObjectPosition *context,
         ((EntityRec *)entity)->flags1C |= 0x40000;
         ((R17_80173F10_S_80173ED8_4 *)dungeon_state)->unk_0A++;
 
-        action->action_phase++;
+        action->action_phase.u++;
         return;
 
     case 2:

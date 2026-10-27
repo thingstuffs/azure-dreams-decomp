@@ -1,3 +1,5 @@
+#include "shared/sprite_frame_state.h"
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "shared/dungeon_moving_views.h"
@@ -13,15 +15,6 @@ typedef struct S_8017237C_0 {
 
    /* p2 in validate_action_and_apply_effect */
 
-typedef struct S_8017237C_2 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x6];
-    s16 unk_96;
-    u8 pad_98[0x2];
-    u8 unk_9A;
-    u8 unk_9B;
-} S_8017237C_2;   /* p0 in validate_action_and_apply_effect */
 
 typedef struct S_8017237C_3 {
     u8 pad_00[0x2A];
@@ -38,15 +31,14 @@ extern void prepare_directional_attack(void *, void *, s32, s32, s32);
 extern s32 get_actor_height_difference(s32, void *);
 extern s32 probe_directional_neighbor(void *, u8, u8, s16);
 struct ActorRecord;
-extern s16 try_claim_dungeon_action_slot(struct ActorRecord *actor);
+extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 extern s16 check_entity_interaction_compatibility(void *, s32);
 extern void apply_camera_offset_and_select_target(void *, void *, s32, s32);
 
 /* Validates an actor action, applies its effect, and updates the action state and remaining count. */
 /* Starts Hikewne's attack against a compatible neighbor within 64 height units; returns 1, 0 if
  * unsuitable, or -1 if busy. */
-s32 validate_action_and_apply_effect(S_8017237C_2 *action, void *effect, MovingTile *target, void *actor_data)
-{
+s32 validate_action_and_apply_effect(ActorRecord *action, ObjectPosition *effect, SpriteFrameState *target, ActorRecord *actor_data) {
     void *actor = actor_data;
     s32 action_ready;
     s32 target_code;
@@ -102,16 +94,16 @@ s32 validate_action_and_apply_effect(S_8017237C_2 *action, void *effect, MovingT
             }
             result = action_ready;
 
-            action->unk_9B = 0;
-            action->unk_96 = 0;
+            action->action_phase.u = 0;
+            action->action_timer.u = 0;
             if (result != 0) {
                 S_8017237C_3 *active_actor = actor;
                 void *action_target = target;
                 s32 facing;
                 u8 remaining_count;
 
-                action->unk_8C = 0;
-                action->unk_9A = 0x11;
+                action->unk_8C.run = 0;
+                action->action_id.u = 0x11;
                 facing = active_actor->unk_2A;
                 active_actor->unk_84 = 0x7C;
                 remaining_count = active_actor->unk_6D;

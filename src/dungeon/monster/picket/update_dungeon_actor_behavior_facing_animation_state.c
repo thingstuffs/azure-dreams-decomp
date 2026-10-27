@@ -57,7 +57,7 @@ void update_dungeon_actor_behavior_facing_animation_state(ActorRecord *actor, Ob
         return;
     }
 
-    if (entity->mp == 0) {
+    if (entity->mp_value.parts.whole == 0) {
         advance_actor_pending_action(actor, context, sprite, entity);
         if (sprite->frameTable != &picket_frame_set_6) {
             u8 *next_anim_table = &picket_frame_set_3;
@@ -183,7 +183,7 @@ void update_dungeon_actor_behavior_facing_animation_state(ActorRecord *actor, Ob
                 &distance);
             player = primary_actor_record;
             entity->facing = facing_angle;
-            if (player->action_id == 0x11) {
+            if (player->action_id.u == 0x11) {
                 begin_actor_spell_action(actor, context, sprite, &picket_frame_set_9, update_dungeon_actor_behavior_facing_animation_state);
                 return;
             }

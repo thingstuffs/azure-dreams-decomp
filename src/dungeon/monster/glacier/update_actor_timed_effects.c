@@ -230,7 +230,7 @@ void update_actor_timed_effects(ActorRecord *actor_arg, ObjectPosition *context_
                     &distance);
                 player = primary_actor_record;
                 ((S_801714B8_1 *)stats)->unk_2A.s = heading;
-                if (player->action_id == 0x11) {
+                if (player->action_id.u == 0x11) {
                     begin_actor_spell_action(actor, context, sprite, D_801760DC, update_actor_timed_effects);
                     return;
                 }

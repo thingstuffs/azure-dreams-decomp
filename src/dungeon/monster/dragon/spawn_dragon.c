@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/actor_status_flags.h"
@@ -14,8 +15,8 @@ void *spawn_variant_monster_slot_c(s16 mode_flags, s16 attribute_24, s16 attribu
     ObjectNodeHeader *obj;
     ObjectPosition *part_a;
     SpriteFrameState *part_b;
-    S_80158854_1 *work;
-    S_80158854_4 *actor;
+    ActorRecord *work;
+    ActorRecord *actor;
     s32 flags_or_result;
     s32 secondary_flags;
     s8 saved_attribute_24;
@@ -28,9 +29,9 @@ void *spawn_variant_monster_slot_c(s16 mode_flags, s16 attribute_24, s16 attribu
     saved_attribute_25 = attribute_25;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (u8 *)obj + 0x20;
+        work = (ActorRecord *)(obj + 1);
         obj->update_callback = D_80158A28;
-        work->unk_13 = MONSTER_DRAGON;
+        work->species = MONSTER_DRAGON;
         register_node(obj, project_sprite_chain);
 
         part_a = obj->position;
@@ -43,28 +44,28 @@ void *spawn_variant_monster_slot_c(s16 mode_flags, s16 attribute_24, s16 attribu
         part_b->tile_x = saved_attribute_24;
 
         if (kind == 1) {
-            flags_or_result = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            secondary_flags = work->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-            work->unk_14 = flags_or_result;
-            work->unk_1C = secondary_flags;
+            flags_or_result = work->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            secondary_flags = work->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            work->flags14 = flags_or_result;
+            work->flags1C = secondary_flags;
         } else if (kind >= 2) {
-            flags_or_result = work->unk_14 | ACTOR_CLASS_ENABLED;
-            secondary_flags = work->unk_1C | ACTOR_PLAYER_SIDE;
-            work->unk_14 = flags_or_result;
-            work->unk_1C = secondary_flags;
+            flags_or_result = work->flags14 | ACTOR_CLASS_ENABLED;
+            secondary_flags = work->flags1C | ACTOR_PLAYER_SIDE;
+            work->flags14 = flags_or_result;
+            work->flags1C = secondary_flags;
         } else if (((mode_flags & ~3) << 16) == 0) {
-            if (!(work->unk_14 & ACTOR_RESIST_SLEEP)) {
+            if (!(work->flags14 & ACTOR_RESIST_SLEEP)) {
                 if (generate_random_value() & 1) {
-                    work->unk_1C |= ACTOR_ASLEEP;
+                    work->flags1C |= ACTOR_ASLEEP;
                     set_or_clear_actor_status_slot(work, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                     part_b->frameTable = D_8015BCDC;
                 }
             }
         }
         initialize_actor_sprite_and_animation(obj, part_a, part_b, mode_flags);
-        actor->unk_9A = 0xFF;
+        actor->action_id.u = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &dragon_slot_c_action_callback;
+        actor->unk_8C.address = &dragon_slot_c_action_callback;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

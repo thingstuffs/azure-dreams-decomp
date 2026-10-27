@@ -46,14 +46,13 @@ extern u8 picket_frame_set_6[];
 extern u8 D_80174F50[];
 
 /* Advances an actor's action state, updating directional animations and status transitions. */
-void advance_an_actor_s_action_state_updating_directional_animations_status_transitions(void *in_action, void *in_context, SpriteFrameState *in_sprite, void *in_actor)
-{
+void advance_an_actor_s_action_state_updating_directional_animations_status_transitions(ActorRecord *in_action, ObjectPosition *in_context, SpriteFrameState *in_sprite, ActorRecord *in_actor) {
     void *context = in_context;
     void *actor = in_actor;
     DungeonGlobalStatus *input_state;
     s32 state;
 
-    state = ((ActorActionStateView *)in_action)->phase;
+    state = in_action->action_phase.u;
     switch (state) {
     case 0:
         if (in_sprite->flags & 0xE000) {
@@ -67,7 +66,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
                 0);
             system_state = &g_dungeon_status;
             (*(u16 *)&system_state->activity_counts.parts.pending_action_count)--;
-            ((ActorActionStateView *)in_action)->phase++;
+            in_action->action_phase.u++;
             return;
         }
         return;
@@ -102,7 +101,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
 
                 (*(u16 *)&system_state->activity_counts.parts.pending_action_count)++;
             }
-            ((ActorActionStateView *)in_action)->phase++;
+            in_action->action_phase.u++;
             return;
         }
 
@@ -199,7 +198,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
             state_count++;
             system_state->activity_counts.parts.pending_action_count = state_count;
         }
-        ((ActorActionStateView *)in_action)->phase++;
+        in_action->action_phase.u++;
         return;
     case 2:
         if (in_sprite->flags & 0xE000) {
@@ -210,7 +209,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
             select_sprite_entry(in_sprite,
                 anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
-            ((ActorActionStateView *)in_action)->phase++;
+            in_action->action_phase.u++;
             return;
         }
         return;
@@ -230,5 +229,5 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
     }
 
     ((S_80173880_2 *)actor)->unk_1C.u &= ~0x200;
-    ((ActorActionStateView *)in_action)->next_action = picket_action_resume_address;
+    in_action->unk_8C.address = picket_action_resume_address;
 }

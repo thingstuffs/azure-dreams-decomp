@@ -80,7 +80,7 @@ void update_actor_action_target_and_animation(ActorRecord *action, ObjectPositio
 
     is_special = 0;
     visual_base = ((S_801727C8_0 *)action)->unk_A4;
-    state = action->action_phase;
+    state = action->action_phase.u;
     visual_flags = visual_base + 0x20;
     effect_sprite = visual_base + 0x28;
     switch (state) {
@@ -175,13 +175,13 @@ void update_actor_action_target_and_animation(ActorRecord *action, ObjectPositio
             sprite->flags = (u16) (sprite->flags & 0xF7FF);
             create_two_effect_groups(motion, sprite, actor, 0xA);
             play_sound_if_enabled(0x703);
-            current_state = action->action_phase;
+            current_state = action->action_phase.u;
             {
                 state = 6;
 
                 ((S_801727C8_0 *)action)->unk_96 = (u16)state;
             }
-            action->action_phase = (u8) (current_state + 1);
+            action->action_phase.u = (u8) (current_state + 1);
             return;
         }
         motion->velocity_z = 0;
@@ -204,7 +204,7 @@ void update_actor_action_target_and_animation(ActorRecord *action, ObjectPositio
             return;
         }
         sprite->flags = (u16) (sprite->flags & 0xF7FF);
-        action->action_phase = (u8) (action->action_phase + 1);
+        action->action_phase.u = (u8) (action->action_phase.u + 1);
 
     case 2:
         ticks_left = ((S_801727C8_0 *)action)->unk_96 - 1;
@@ -220,8 +220,8 @@ void update_actor_action_target_and_animation(ActorRecord *action, ObjectPositio
         }
         sprite->frameTable = &kraken_frame_set_5;
         select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + &kraken_frame_set_5), 0);
-        current_state = action->action_phase;
-        action->action_phase = (u8) (current_state + 1);
+        current_state = action->action_phase.u;
+        action->action_phase.u = (u8) (current_state + 1);
         return;
 
     case 3:

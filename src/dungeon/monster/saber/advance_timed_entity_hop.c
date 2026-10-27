@@ -54,7 +54,7 @@ void advance_timed_entity_hop(ActorRecord *action, ObjectPosition *motion, Sprit
     u16 direction_aux;
     DungeonGlobalStatus *action_counts;
 
-    state = action->action_phase;
+    state = action->action_phase.u;
     switch (state) {
     case 0:
         if (!(map_entity->flags & 0x6000)) {
@@ -69,7 +69,7 @@ void advance_timed_entity_hop(ActorRecord *action, ObjectPosition *motion, Sprit
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80166BAC_0 *)action)->unk_9E.s = 5;
         ((S_80166BAC_0 *)action)->unk_A4 = 0;
-        action->action_phase++;
+        action->action_phase.u++;
                         /* fall through */
 
     case 1:
@@ -104,7 +104,7 @@ void advance_timed_entity_hop(ActorRecord *action, ObjectPosition *motion, Sprit
             ((S_80166BAC_0 *)action)->unk_90 = 0;
             action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            action->action_phase++;
+            action->action_phase.u++;
         }
                         /* fall through */
 
@@ -120,7 +120,7 @@ void advance_timed_entity_hop(ActorRecord *action, ObjectPosition *motion, Sprit
                 map_entity,
                 D_80168E14[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            action->action_phase++;
+            action->action_phase.u++;
         }
         break;
 

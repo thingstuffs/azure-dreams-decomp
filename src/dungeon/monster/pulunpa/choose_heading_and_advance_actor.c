@@ -216,8 +216,8 @@ void choose_heading_and_advance_actor(void *context, s32 action, S_8017405C_1 *a
                 void *first_master;
                 void *second_master;
                 ((Rec_func_800A9E70_arg0 *)context)->unk_A6 = 0;
-                first_master = primary_actor_record->unk_AC;
-                if (first_master == 0 || (second_master = primary_actor_record->unk_B0) == 0) {
+                first_master = primary_actor_record->unk_AC.address;
+                if (first_master == 0 || (second_master = primary_actor_record->unk_B0.address) == 0) {
                     {
                         u8 *leader_pos = reference_tile_object;
                         s32 angle_delta;

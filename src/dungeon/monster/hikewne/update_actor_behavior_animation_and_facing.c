@@ -26,7 +26,7 @@ extern s32 process_selected_actor_record(ActorRecord *body, ObjectPosition *posi
 extern void begin_actor_spell_action(void *actor, void * effect_param, void *target, u8 *direction_table, void * next_state);
 
 void advance_actor_along_queued_path(ActorRecord *motion, ObjectPosition *unused, SpriteFrameState *actor, ActorRecord *move_state);
-extern s32 validate_action_and_apply_effect(void *, void *, void *, void *);
+s32 validate_action_and_apply_effect(ActorRecord *action, ObjectPosition *effect, SpriteFrameState *target, ActorRecord *actor_data);
 void clear_entity_flag_and_advance_action(ActorRecord *action_state, ObjectPosition *effect_context, SpriteFrameState *update_context, ActorRecord *entity);
 extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void update_directional_sprite_state_and_signals(void *, void *, void *, void *);
@@ -77,7 +77,7 @@ void update_actor_behavior_animation_and_facing(ActorRecord *actor_arg, ObjectPo
         return;
     }
 
-    if (stats->mp == 0) {
+    if (stats->mp_value.parts.whole == 0) {
         advance_actor_pending_action(actor_arg, context_arg, sprite, stats);
         if (*(u8 **)&sprite->frameTable == hikewne_frame_set_2) {
             return;
@@ -201,7 +201,7 @@ void update_actor_behavior_animation_and_facing(ActorRecord *actor_arg, ObjectPo
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
             owner = primary_actor_record;
             stats->facing = angle;
-            if (owner->action_id == 0x11) {
+            if (owner->action_id.u == 0x11) {
                 callback = (void *)update_actor_behavior_animation_and_facing;
                 begin_actor_spell_action(actor_arg, context_arg, sprite, 0, callback);
                 return;

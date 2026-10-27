@@ -125,15 +125,15 @@ void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition 
     void *model;
 
     object = ((struct S_8003E2D8 *)&g_game_work);
-    state = sequence->action_phase;
+    state = sequence->action_phase.u;
     switch (state) {
     case 0:
-        sequence->action_phase = (u8)(sequence->action_phase + 1);
+        sequence->action_phase.u = (u8)(sequence->action_phase.u + 1);
         return;
     case 1:
         run_cd_image_commands(&nyuel_image_commands, &nyuel_image_load_done, 0);
         ((S_801749A8_0 *)sequence)->unk_A8 = 0;
-        sequence->action_phase = (u8) (sequence->action_phase + 1);
+        sequence->action_phase.u = (u8) (sequence->action_phase.u + 1);
         ((Rec_D_80082E80 *)target)->unk_8A = (u16) ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v;
     case 2:
         direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v + 0x100)
@@ -153,7 +153,7 @@ void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition 
         Control_CD(0xFF, (s32) set_byte_one, &nyuel_effect_load_done);
         select_nearby_target_and_initialize_slot(((u8 *)target - 0x20), position, 8, 0x300);
         ((S_801749A8_0 *)sequence)->unk_96 = 0x10U;
-        sequence->action_phase = (u8) (sequence->action_phase + 1);
+        sequence->action_phase.u = (u8) (sequence->action_phase.u + 1);
     case 3:
         fade_timer = ((S_801749A8_0 *)sequence)->unk_96;
         fade_ticks = fade_timer - 1;
@@ -164,7 +164,7 @@ void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition 
             if (ready == 0) {
                 return;
             }
-            sequence->action_phase = (u8) (sequence->action_phase + 1);
+            sequence->action_phase.u = (u8) (sequence->action_phase.u + 1);
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             return;
         }
@@ -199,17 +199,17 @@ void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition 
         select_record_entry_and_value(object, &dungeon_resource_buffer[*(((s32) (effect_index << 0x10) >> 0x10) + &D_80174FB4)], 0);
         actor->flags = (u16) (actor->flags | 0x80);
         ((S_801749A8_0 *)sequence)->unk_96 = 0U;
-        sequence->action_phase = (u8) (sequence->action_phase + 1);
+        sequence->action_phase.u = (u8) (sequence->action_phase.u + 1);
         create_cylindrical_effect(sequence, position, actor);
         return;
     case 5:
         object = ((S_801749A8_0 *)sequence)->unk_A4;
         object = object->unk_0C.s;
         if (object->unk_14 & 0xE000) {
-            sequence->action_phase = (u8) (sequence->action_phase + 1);
+            sequence->action_phase.u = (u8) (sequence->action_phase.u + 1);
         }
     case 6:
-        if (sequence->action_phase != 6) {
+        if (sequence->action_phase.u != 6) {
             return;
         }
         movement_done = create_status_linked_render_effect(position, D_80174FD0[0], D_80174F48[0], &staged_spawn_count);
@@ -217,7 +217,7 @@ void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition 
             return;
         }
         ((S_801749A8_0 *)sequence)->unk_96 = 0x10U;
-        sequence->action_phase = (u8) (sequence->action_phase + 1);
+        sequence->action_phase.u = (u8) (sequence->action_phase.u + 1);
         decrement_monster_entry_count(((Rec_D_80082E80 *)target)->unk_12.at01_u8.v, 3);
         update_map_cell_flags_with_item_limit(actor->tile_x, actor->tile_y, 0x300);
         unlink_entity_node(target);
@@ -231,7 +231,7 @@ void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition 
             return;
         }
         ((S_801749A8_0 *)sequence)->unk_96 = 0x10U;
-        sequence->action_phase = (u8) (sequence->action_phase + 1);
+        sequence->action_phase.u = (u8) (sequence->action_phase.u + 1);
         ((S_801749A8_11 *)(((Rec_D_80082E80 *)target)->unk_60.as_pv))->unk_2A =
             (u16) ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v;
         model = ((Rec_D_80082E80 *)target)->unk_60.as_pv;

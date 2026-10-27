@@ -67,7 +67,7 @@ void update_dungeon_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
         return;
     }
 
-    if (actor_state_arg->mp == 0) {
+    if (actor_state_arg->mp_value.parts.whole == 0) {
         u8 *inactive_anims;
 
         advance_actor_pending_action(actor_arg, context_arg, map_object_arg, actor_state_arg);
@@ -188,7 +188,7 @@ void update_dungeon_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
                     &distance);
                 player = primary_actor_record;
                 actor_state_arg->facing = direction;
-                if (player->action_id == 0x11) {
+                if (player->action_id.u == 0x11) {
                     begin_actor_spell_action(actor_arg, context_arg, map_object_arg, D_80173FF0, &tyrant_action_resume_address);
                     return;
                 }

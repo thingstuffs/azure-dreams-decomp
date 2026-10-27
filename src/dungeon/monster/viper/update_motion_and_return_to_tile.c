@@ -8,14 +8,6 @@
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
 
-typedef struct S_8017345C_1 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    union { s16 s; u16 u; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_8017345C_1;   /* arg0 in update_motion_and_return_to_tile */
 
 extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
 
@@ -23,22 +15,21 @@ extern u8 viper_action_continuation_address;
 extern u8 viper_frame_set[];
 
 /* Updates directional motion and returns the entity to its tile when the timer expires. */
-void update_motion_and_return_to_tile(S_8017345C_1 *action, ObjectPosition *motion, SpriteFrameState *tile, EntityRec *entity)
-{
+void update_motion_and_return_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *tile, ActorRecord *entity) {
     s16 timer;
     s32 tracked_entity;
     s32 direction;
 
-    direction = (entity->unk_6A >> 9) & 7;
+    direction = (entity->movement_facing >> 9) & 7;
 
-    switch (action->unk_9B) {
+    switch (action->action_phase.u) {
     case 0:
         apply_clamped_actor_value_delta(entity);
         motion->velocity_x = ((s16 *)((s8 *)dir_step_x))[direction] << 17;
         motion->velocity_y = ((s16 *)((s8 *)dir_step_y))[direction] << 17;
-        action->unk_9B++;
+        action->action_phase.u++;
 
-        if (entity->unk_28 == 0) {
+        if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -46,8 +37,8 @@ void update_motion_and_return_to_tile(S_8017345C_1 *action, ObjectPosition *moti
             return;
         }
         if (tile->flags & 0x8000) {
-            action->unk_96.s = 0;
-            action->unk_9B = 2;
+            action->action_timer.s = 0;
+            action->action_phase.s = 2;
             return;
         }
         if (entity->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
@@ -55,7 +46,7 @@ void update_motion_and_return_to_tile(S_8017345C_1 *action, ObjectPosition *moti
         } else {
             timer = -1;
         }
-        action->unk_96.s = timer;
+        action->action_timer.s = timer;
         motion->velocity_x -= motion->velocity_x / 4;
         motion->velocity_y -= motion->velocity_y / 4;
                         /* fall through */
@@ -65,27 +56,27 @@ void update_motion_and_return_to_tile(S_8017345C_1 *action, ObjectPosition *moti
             ((s16 *)((s8 *)dir_step_x))[direction] << 14;
         motion->velocity_y -=
             ((s16 *)((s8 *)dir_step_y))[direction] << 14;
-        if (action->unk_96.s > 0) {
-            action->unk_96.s = action->unk_96.u - 1;
+        if (action->action_timer.s > 0) {
+            action->action_timer.s = action->action_timer.u - 1;
         } else if (tile->flags & 0x6000) {
-            action->unk_96.s = 0;
+            action->action_timer.s = 0;
         }
-        if (action->unk_96.s != 0) {
+        if (action->action_timer.s != 0) {
             return;
         }
-        if (entity->unk_28 == 0) {
+        if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             begin_actor_display_action(action, motion, tile, viper_frame_set);
             return;
         }
-        action->unk_96.s = 8;
-        action->unk_9B++;
+        action->action_timer.s = 8;
+        action->action_phase.u++;
         return;
 
     case 2:
-        timer = action->unk_96.s;
+        timer = action->action_timer.s;
         if (timer != 0) {
             {
                 s32 target_x = tile->tile_x << 6;
@@ -98,11 +89,11 @@ void update_motion_and_return_to_tile(S_8017345C_1 *action, ObjectPosition *moti
                 s32 current_y = motion->y.w.i - 0x20;
                 motion->velocity_y =
                     ((target_y - current_y) << 15) /
-                    action->unk_96.s;
+                    action->action_timer.s;
             }
         }
-        timer = action->unk_96.u - 1;
-        action->unk_96.s = timer;
+        timer = action->action_timer.u - 1;
+        action->action_timer.s = timer;
         if ((s32)(timer << 16) > 0) {
             return;
         }
@@ -116,7 +107,7 @@ void update_motion_and_return_to_tile(S_8017345C_1 *action, ObjectPosition *moti
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
             g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
         }
-        action->unk_8C = &viper_action_continuation_address;
+        action->unk_8C.address = &viper_action_continuation_address;
         return;
 
     default:

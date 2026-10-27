@@ -44,7 +44,7 @@ void update_jump_motion_2(ActorRecord *action, ObjectPosition *motion, SpriteFra
     s32 actor_flags;
     s32 state;
 
-    state = action->action_phase;
+    state = action->action_phase.u;
     switch (state) {
     case 0:
         if (!(unit->flags & 0x6000)) {
@@ -59,7 +59,7 @@ void update_jump_motion_2(ActorRecord *action, ObjectPosition *motion, SpriteFra
         motion->velocity_z = 0xFFEE0000;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80172834_0 *)action)->unk_A0 = 0;
-        action->action_phase++;
+        action->action_phase.u++;
 
     case 1:
         frames_left = ((S_80172834_0 *)action)->unk_96.s;
@@ -86,7 +86,7 @@ void update_jump_motion_2(ActorRecord *action, ObjectPosition *motion, SpriteFra
             ((S_80172834_0 *)action)->unk_90 = 0;
             action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            action->action_phase++;
+            action->action_phase.u++;
         }
 
     case 2:
@@ -101,7 +101,7 @@ void update_jump_motion_2(ActorRecord *action, ObjectPosition *motion, SpriteFra
                 unit,
                 D_80175280[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            action->action_phase++;
+            action->action_phase.u++;
         }
     default:
         break;

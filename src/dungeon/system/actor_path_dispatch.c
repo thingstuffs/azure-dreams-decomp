@@ -36,12 +36,12 @@ typedef struct S_800CA0DC_0 {
 void dispatch_actor_behavior_state(ActorRecord *actor_state, s32 context, S_800C9F34_3 *position, ActorRecord *entity) {
 
     if (g_dungeon_status.flags & 0x1000) {
-        actor_state->action_id = 0xE;
+        actor_state->action_id.u = 0xE;
         advance_actor_along_path_points(actor_state, context, position, entity);
         return;
     }
     if (!(g_dungeon_status.flags & 0x2000)) {
-        actor_state->action_id = 0xE;
+        actor_state->action_id.u = 0xE;
         entity->flags1C =
             entity->flags1C | 0x40000;
         actor_state->action_state_flags = actor_state->action_state_flags & 0xFFF7;

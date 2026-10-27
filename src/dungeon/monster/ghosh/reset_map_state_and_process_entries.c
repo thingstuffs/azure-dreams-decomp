@@ -75,11 +75,11 @@ void reset_map_state_and_process_entries(void) {
     ghosh_script_cursor = (s32 *)D_801749E0[(coord_result >> 9) & 7];
 
     for (entry_slot = 0; entry_slot < 2; entry_slot++) {
-        entry = (&dungeon_actor_ring_anchor->unk_AC)[entry_slot];
+        entry = (&dungeon_actor_ring_anchor->unk_AC.address)[entry_slot];
         if (entry != 0) {
             clear_actor_action_markers(entry);
-            unlink_entity_node((&dungeon_actor_ring_anchor->unk_AC)[entry_slot]);
-            entry = (&dungeon_actor_ring_anchor->unk_AC)[entry_slot];
+            unlink_entity_node((&dungeon_actor_ring_anchor->unk_AC.address)[entry_slot]);
+            entry = (&dungeon_actor_ring_anchor->unk_AC.address)[entry_slot];
             entry -= 0x20;
             ((EntryFieldView_81326794 *)entry)->field_10 |= 0x80000000;
         }

@@ -66,7 +66,7 @@ void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *contex
         return;
     }
 
-    if (stats->mp == 0) {
+    if (stats->mp_value.parts.whole == 0) {
         require_object_flag(actor, stats);
         advance_actor_pending_action(actor, context, sprite, stats);
         if (sprite->frameTable == &golem_alt_direction_frames) {

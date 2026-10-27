@@ -10,6 +10,7 @@
 #include "shared/entity.h"
 #include "dungeon/player/object.h"
 #include "dungeon/system.h"
+#include "dungeon/actor/status.h"
 
 typedef struct S_80173C5C_0 {
     u8 pad_00[0x8C];
@@ -29,7 +30,6 @@ typedef struct S_80173C5C_0 {
 extern u8 tyrant_frame_set_1[];
 extern u8 tyrant_direction_frames[];
 extern s32 tyrant_action_resume_address;
-s16 set_or_clear_actor_status_slot();
 void advance_status_timers(void *record);
 s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern u8 D_80173FD8;

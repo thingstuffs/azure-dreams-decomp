@@ -863,13 +863,13 @@ L_zero:
                     dungeon_floor_flags |= 0x2000;
                     create_orbiting_teleport_effect(e, tbl[get_entity_class(e)], 0, 0);
                     p = dungeon_actor_ring_anchor;
-                    q = ((u8 *)p->unk_AC);
+                    q = ((u8 *)p->unk_AC.address);
                     if (q != 0) {
                         create_orbiting_teleport_effect(q, tbl[get_entity_class(q)], 0, 0);
                     }
                     {
                         ActorRecord *p2 = dungeon_actor_ring_anchor;
-                        q = ((u8 *)p2->unk_B0);
+                        q = ((u8 *)p2->unk_B0.address);
                     }
                     if (q != 0) {
                         create_orbiting_teleport_effect(q, tbl[get_entity_class(q)], 1, 0);

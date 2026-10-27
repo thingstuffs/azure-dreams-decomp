@@ -35,12 +35,12 @@ extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
  * Selects idle frames for Beldo's four forms, updates parent-relative movement, and handles the
  * floor-trap result.
  */
-void update_multi_form_actor_movement(DungeonObject *object, ObjectPosition *update_param, SpriteFrameState *state, DungeonInput *input) {
+void update_multi_form_actor_movement(ActorRecord *object, ObjectPosition *update_param, SpriteFrameState *state, ActorRecord *input) {
     s32 mode;
     u8 *mode_table;
     u8 *current_table;
 
-    mode = object->mode;
+    mode = object->unk_AC.byte;
     switch (mode) {
     case 0:
         current_table = state->frameTable;
@@ -61,7 +61,7 @@ void update_multi_form_actor_movement(DungeonObject *object, ObjectPosition *upd
     default:
         if (update_actor_transform_from_parent(object, update_param, state, input) != 0) {
             if ((check_actor_floor_trap(state, input) << 0x10) > 0) {
-                object->field_8C = beldo_large_action_resume_address;
+                object->unk_8C.address = beldo_large_action_resume_address;
             }
         }
         return;
@@ -69,13 +69,13 @@ void update_multi_form_actor_movement(DungeonObject *object, ObjectPosition *upd
     }
     if (current_table != mode_table) {
         state->frameTable = mode_table;
-        select_sprite_entry(state, *(u8 *)((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + input->field_2A + 0x100) >> 9) & 7)
+        select_sprite_entry(state, *(u8 *)((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + input->facing + 0x100) >> 9) & 7)
             + (u32) mode_table), 0);
     }
 
     if (update_actor_transform_from_parent(object, update_param, state, input) != 0) {
         if ((check_actor_floor_trap(state, input) << 0x10) > 0) {
-            object->field_8C = beldo_large_action_resume_address;
+            object->unk_8C.address = beldo_large_action_resume_address;
         }
     }
     return;

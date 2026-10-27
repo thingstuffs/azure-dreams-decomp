@@ -18,8 +18,8 @@ void apply_conditional_actor_effect(ActorRecord *action_state, ObjectPosition *e
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, effect_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
             action_state->unk_8C.handler = 0;
-            action_state->action_id = 0x11;
-            action_state->action_phase = 0;
+            action_state->action_id.u = 0x11;
+            action_state->action_phase.u = 0;
             actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
             prepare_directional_attack(actor, action_context, actor->facing, 1, 0);
             actor->unk_84 = 0x7C;

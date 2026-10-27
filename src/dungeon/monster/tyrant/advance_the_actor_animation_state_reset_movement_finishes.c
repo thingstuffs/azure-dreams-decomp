@@ -55,7 +55,7 @@ void advance_the_actor_animation_state_reset_movement_finishes(ActorRecord *acti
     s32 abs_y;
     s32 target_y;
 
-    state = action->action_phase;
+    state = action->action_phase.u;
     reuse_target = 0;
     switch (state) {
     case 0:
@@ -129,7 +129,7 @@ void advance_the_actor_animation_state_reset_movement_finishes(ActorRecord *acti
                 sprite->flags &= 0xF7FF;
                 play_sound_if_enabled(0x703);
                 create_two_row_object_group(position, (s16)((*animation - 1) % 3));
-                action->action_phase++;
+                action->action_phase.u++;
                 return;
             }
             return;
@@ -154,7 +154,7 @@ void advance_the_actor_animation_state_reset_movement_finishes(ActorRecord *acti
             return;
         }
         sprite->flags &= 0xF7FF;
-        action->action_phase++;
+        action->action_phase.u++;
 
         /* fall through */
     case 2:

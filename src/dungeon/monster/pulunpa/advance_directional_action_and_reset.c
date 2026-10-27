@@ -25,10 +25,10 @@ extern u8 pulunpa_attack_frames[];
 
 /* Advances the actor's directional animation and resets its action state on completion. */
 void advance_directional_action_and_reset(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *anim, ActorRecord *actor) {
-    switch (action->action_phase) {
+    switch (action->action_phase.u) {
     case 0:
         if (anim->flags & 0x8000) {
-            action->action_phase = 2;
+            action->action_phase.u = 2;
             anim->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, anim, actor->facing, 1);
             return;
@@ -44,7 +44,7 @@ void advance_directional_action_and_reset(ActorRecord *action, ObjectPosition *m
             select_sprite_entry(anim,
                 direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            action->action_phase++;
+            action->action_phase.u++;
         }
         return;
 
@@ -57,7 +57,7 @@ void advance_directional_action_and_reset(ActorRecord *action, ObjectPosition *m
             return;
         }
         resolve_attack_damage_and_effects(actor, anim, actor->facing, 1);
-        action->action_phase++;
+        action->action_phase.u++;
                         /* fallthrough */
     case 2:
         if (!(anim->flags & 0xE000)) {

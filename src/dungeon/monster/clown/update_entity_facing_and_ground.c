@@ -275,11 +275,11 @@ void update_actor_state_and_dispatch_transition(ActorRecord *actor, ObjectPositi
     u16 action_state;
 
     if (g_dungeon_status.flags & 0x1000) {
-        actor->action_id = 0xE;
+        actor->action_id.u = 0xE;
         advance_actor_path_step_and_update_counters(actor, actor_context, map_object, creature);
         return;
     }
-    if (creature->mp == 0) {
+    if (creature->mp_value.parts.whole == 0) {
         void *animation_table;
 
         advance_actor_pending_action(actor, actor_context, map_object, creature);
@@ -296,8 +296,8 @@ void update_actor_state_and_dispatch_transition(ActorRecord *actor, ObjectPositi
 
     if (((u32)creature->flags1C) & ACTOR_ASLEEP) {
         if (map_object->frameTable == ((u8 *)clown_alt_direction_frames)) {
-            actor->action_id = 0xD;
-            actor->action_phase = 1;
+            actor->action_id.u = 0xD;
+            actor->action_phase.u = 1;
             ((R16_80171014_S_80171014_0 *)actor)->unk_8C = 0;
             creature->flags1C &= 0xFFFBFFFF;
             return;
@@ -314,13 +314,13 @@ void update_actor_state_and_dispatch_transition(ActorRecord *actor, ObjectPositi
         }
 
         {
-            u8 current_state = actor->action_id;
+            u8 current_state = actor->action_id.u;
             u32 next_state = 0xE;
             void *current_animation;
             void *animation_table;
 
             if (current_state != next_state) {
-                actor->action_id = next_state;
+                actor->action_id.u = next_state;
             }
             current_animation = map_object->frameTable;
             animation_table = ((u8 *)clown_direction_frames);
@@ -410,7 +410,7 @@ void update_actor_state_and_dispatch_transition(ActorRecord *actor, ObjectPositi
                             &distance));
                         player = primary_actor_record;
                         creature->facing = facing_angle;
-                        if (player->action_id == 0x11) {
+                        if (player->action_id.u == 0x11) {
                             begin_actor_spell_action(actor, actor_context, map_object, ((u8 *)D_8017424C), ((u8 *)update_actor_state_and_dispatch_transition));
                             return;
                         }
@@ -813,9 +813,9 @@ void begin_eligible_actor_action(ActorRecord *action_state, ObjectPosition *cont
     if (!(g_dungeon_status.flags & 0x2000) && ((((s16)try_claim_dungeon_action_slot(actor)) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, context, 8, 0x300);
         if ((((s16)try_claim_dungeon_action_slot(actor)) << 0x10) == 0) {
-            action_state->action_id = 0x11;
+            action_state->action_id.u = 0x11;
             action_state->unk_8C.handler = 0;
-            action_state->action_phase = 0;
+            action_state->action_phase.u = 0;
             animation->frameTable = ((u8 *)clown_frame_set);
             select_sprite_entry(animation, ((u8 *)clown_frame_set)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
@@ -906,13 +906,13 @@ void finish_actor_action_animation(ActorRecord *action, ObjectPosition *motion, 
     s32 state;
     u16 ticks;
 
-    state = action->action_phase;
+    state = action->action_phase.u;
     switch (state) {
     case 0:
-        action->action_phase = 1;
+        action->action_phase.u = 1;
     case 1:
         if (anim->flags & 0x8000) {
-            action->action_phase = 3;
+            action->action_phase.u = 3;
             anim->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, anim,(s16)(actor->facing),(s16)(1));
             return;
@@ -924,7 +924,7 @@ void finish_actor_action_animation(ActorRecord *action, ObjectPosition *motion, 
         select_sprite_entry(anim,(u8)(((u8 *)clown_frame_set)[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7]),
             0);
         ((R16_801723F0_S_801723F0_0 *)action)->unk_96 = 0;
-        action->action_phase++;
+        action->action_phase.u++;
         play_sound_if_enabled(0x804);
         return;
     case 2:
@@ -1274,7 +1274,7 @@ void advance_clown_status_action(ActorRecord *actor, ObjectPosition *context, Sp
     DungeonGlobalStatus *global_base;
     s32 state;
 
-    state = actor->action_phase;
+    state = actor->action_phase.u;
     switch (state) {
     case 0:
         if (!(render_record->flags & 0xE000)) {
@@ -1285,7 +1285,7 @@ void advance_clown_status_action(ActorRecord *actor, ObjectPosition *context, Sp
             0);
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         do {
-            actor->action_phase++;
+            actor->action_phase.u++;
         } while (0);
         return;
 
@@ -1300,7 +1300,7 @@ void advance_clown_status_action(ActorRecord *actor, ObjectPosition *context, Sp
                     return;
                 }
             }
-            if (actor_state->mp == 0) {
+            if (actor_state->mp_value.parts.whole == 0) {
                 if (global_base->flags & 0x2008) {
                     return;
                 }
@@ -1361,7 +1361,7 @@ void advance_clown_status_action(ActorRecord *actor, ObjectPosition *context, Sp
             ((R16_80172D50_S_80173E50_0 *)actor)->unk_8C = ((u8 *)update_actor_state_and_dispatch_transition);
             return;
         }
-        actor->action_phase++;
+        actor->action_phase.u++;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
         return;
 
@@ -1403,7 +1403,7 @@ void advance_clown_mp_action(ActorRecord *actor, ObjectPosition *context, Sprite
     {
         u32 entity_flags;
 
-        if (entity->mp != 0) {
+        if (entity->mp_value.parts.whole != 0) {
 
             (animation->frameTable) = ((u8 *)clown_frame_set_1);
             select_sprite_entry(animation,
@@ -1461,7 +1461,7 @@ void advance_clown_mp_action(ActorRecord *actor, ObjectPosition *context, Sprite
 
         update_actor_status_and_mp(entity);
         on_actor_status_updated(entity);
-        if (entity->mp == 0) {
+        if (entity->mp_value.parts.whole == 0) {
             return;
         }
 

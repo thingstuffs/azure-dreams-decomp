@@ -17,8 +17,8 @@ void *allocate_kind_object(s16 spawn_flags, s16 value_24, s16 value_25, s16 valu
     ObjectNodeHeader *obj;
     ObjectPosition *part_a;
     SpriteFrameState *part_b;
-    S_8015E870_1 *work;
-    S_8015E870_4 *actor;
+    ActorRecord *work;
+    ActorRecord *actor;
     register s32 flags_14;
     register s32 flags_1c;
     s8 saved_value_24;
@@ -33,9 +33,9 @@ void *allocate_kind_object(s16 spawn_flags, s16 value_24, s16 value_25, s16 valu
     saved_value_25 = value_25;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (u8 *)obj + 0x20;
+        work = (ActorRecord *)(obj + 1);
         obj->update_callback = func_8015EA3C;
-        work->unk_13 = MONSTER_NAPLASS;
+        work->species = MONSTER_NAPLASS;
         register_node(obj, project_sprite_chain);
 
         part_a = obj->position;
@@ -48,20 +48,20 @@ void *allocate_kind_object(s16 spawn_flags, s16 value_24, s16 value_25, s16 valu
         part_b->tile_x = saved_value_24;
 
         if (kind == 1) {
-            flags_14 = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            flags_1c = work->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-            work->unk_14 = flags_14;
-            work->unk_1C = flags_1c;
+            flags_14 = work->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            flags_1c = work->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            work->flags14 = flags_14;
+            work->flags1C = flags_1c;
         } else if (kind >= 2) {
-            flags_14 = work->unk_14 | ACTOR_CLASS_ENABLED;
-            flags_1c = work->unk_1C | ACTOR_PLAYER_SIDE;
-            work->unk_14 = flags_14;
-            work->unk_1C = flags_1c;
+            flags_14 = work->flags14 | ACTOR_CLASS_ENABLED;
+            flags_1c = work->flags1C | ACTOR_PLAYER_SIDE;
+            work->flags14 = flags_14;
+            work->flags1C = flags_1c;
         } else {
             init_obj = obj;
-            if (((spawn_flags & ~3) << 16) == 0 && !(work->unk_14 & ACTOR_RESIST_SLEEP)) {
+            if (((spawn_flags & ~3) << 16) == 0 && !(work->flags14 & ACTOR_RESIST_SLEEP)) {
                 init_part_a = part_a;
-                work->unk_1C |= ACTOR_ASLEEP;
+                work->flags1C |= ACTOR_ASLEEP;
                 set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                               (generate_random_value() & 0x3F) | 0x20);
                 part_b->frameTable = D_801621DC;
@@ -69,9 +69,9 @@ void *allocate_kind_object(s16 spawn_flags, s16 value_24, s16 value_25, s16 valu
         }
         init_obj = obj;
         initialize_actor_sprite_and_animation(init_obj, part_a, part_b, spawn_flags);
-        actor->unk_9A = 0xFF;
+        actor->action_id.u = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &func_8015EE68;
+        actor->unk_8C.address = &func_8015EE68;
         part_b->flags |= 0xC;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }

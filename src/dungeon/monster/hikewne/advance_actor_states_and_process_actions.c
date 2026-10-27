@@ -49,7 +49,7 @@ void advance_actor_states_and_process_actions(ActorRecord *actor, ObjectPosition
     {
         u32 entity_flags;
 
-        if (entity->mp != 0) {
+        if (entity->mp_value.parts.whole != 0) {
 
             (animation->frameTable) = hikewne_frame_set_3;
             select_sprite_entry(animation,
@@ -107,7 +107,7 @@ void advance_actor_states_and_process_actions(ActorRecord *actor, ObjectPosition
 
         update_actor_status_and_mp(entity);
         on_actor_status_updated(entity);
-        if (entity->mp == 0) {
+        if (entity->mp_value.parts.whole == 0) {
             return;
         }
 

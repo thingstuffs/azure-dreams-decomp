@@ -63,7 +63,7 @@ void update_actor_targeted_action(ActorRecord *action, ObjectPosition *motion, S
     u8 *action_data;
     u8 *particle_origin;
 
-    state = action->action_phase;
+    state = action->action_phase.u;
     use_player_target = 0;
     switch (state) {
     case 0:
@@ -157,7 +157,7 @@ void update_actor_targeted_action(ActorRecord *action, ObjectPosition *motion, S
             if (create_actor_spell_effect(actor, action_data, use_player_target, (u8 *)action + 0x98) == 0) {
                 return;
             }
-            action->action_phase++;
+            action->action_phase.u++;
             return;
 
         }
@@ -181,14 +181,14 @@ void update_actor_targeted_action(ActorRecord *action, ObjectPosition *motion, S
             return;
         }
         sprite->flags &= 0xF7FF;
-        action->action_phase++;
+        action->action_phase.u++;
         play_sound_if_enabled(0x703);
 
     case 2:
         sprite_flags = sprite->flags;
         if (sprite_flags & 0x8000) {
             ((S_801737B0_0 *)action)->unk_96.s = 0;
-            action->action_phase++;
+            action->action_phase.u++;
             action->action_state_flags |= 0x80;
             return;
         }
@@ -205,7 +205,7 @@ void update_actor_targeted_action(ActorRecord *action, ObjectPosition *motion, S
         ((S_801737B0_0 *)action)->unk_96.s = timer;
         if ((s16)timer <= 0) {
             ((S_801737B0_0 *)action)->unk_96.s = 0;
-            action->action_phase++;
+            action->action_phase.u++;
         }
         if (((S_801737B0_0 *)action)->unk_96.u == 2) {
             action->action_state_flags |= 0x80;
@@ -239,7 +239,7 @@ void update_actor_targeted_action(ActorRecord *action, ObjectPosition *motion, S
 
     case 3:
         ((S_801737B0_0 *)action)->unk_96.s = 0x14;
-        action->action_phase++;
+        action->action_phase.u++;
 
     case 4:
         if ((g_dungeon_status.active_actor) == 0) {

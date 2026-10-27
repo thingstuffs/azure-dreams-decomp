@@ -21,7 +21,7 @@ void advance_action_phase_and_process_actor(ActorRecord *action, ObjectPosition 
     s32 y;
     u8 phase;
 
-    phase = action->action_phase;
+    phase = action->action_phase.u;
     switch (phase) {
     case 0:
         if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
@@ -34,7 +34,7 @@ void advance_action_phase_and_process_actor(ActorRecord *action, ObjectPosition 
             }
         }
 
-        action->action_phase++;
+        action->action_phase.u++;
         play_sound_if_enabled(0x805);
         /* fall through */
     case 1:

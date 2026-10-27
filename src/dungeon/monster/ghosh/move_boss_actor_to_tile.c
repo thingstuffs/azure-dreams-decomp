@@ -38,13 +38,13 @@ void move_boss_actor_to_tile(ActorRecord *action, ObjectPosition *motion, Sprite
     s32 entity_flags;
     u16 action_timer;
 
-    switch (action->action_phase) {
+    switch (action->action_phase.u) {
     case 0:
         action->action_state_flags = (u16) (action->action_state_flags | 8);
         entity->flags1C = (s32) (entity->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
         action->unk_9E.s = 5;
         action->unk_A4 = 0;
-        action->action_phase = (u8) (action->action_phase + 1);
+        action->action_phase.u = (u8) (action->action_phase.u + 1);
                         /* fall through */
     case 1:
         frames_left = action->unk_9E.s;
@@ -73,7 +73,7 @@ void move_boss_actor_to_tile(ActorRecord *action, ObjectPosition *motion, Sprite
             action->unk_90.value = 0;
             action->action_state_flags = (u16) (action->action_state_flags & 0xFFF7);
             entity->flags1C = (s32) (entity->flags1C | ACTOR_GROUNDED);
-            action->action_phase = (u8) (action->action_phase + 1);
+            action->action_phase.u = (u8) (action->action_phase.u + 1);
         }
                         /* fall through */
     case 2:
@@ -83,7 +83,7 @@ void move_boss_actor_to_tile(ActorRecord *action, ObjectPosition *motion, Sprite
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             set_record_integer_tile_center(motion, tile->tile_x, tile->tile_y);
-            action->action_phase = action->action_phase + 1;
+            action->action_phase.u = action->action_phase.u + 1;
         }
         break;
     case 3:
@@ -93,8 +93,8 @@ void move_boss_actor_to_tile(ActorRecord *action, ObjectPosition *motion, Sprite
         }
         break;
     }
-    action_timer = action->action_timer - 1;
-    action->action_timer = action_timer;
+    action_timer = action->action_timer.u - 1;
+    action->action_timer.u = action_timer;
     if ((action_timer << 0x10) <= 0) {
         motion->velocity_z = 0;
         motion->velocity_y = 0;

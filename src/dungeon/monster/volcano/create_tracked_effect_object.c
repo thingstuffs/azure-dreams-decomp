@@ -16,7 +16,7 @@ void *create_tracked_effect_object(s16 flags, s16 kind_id, s16 variant, s16 spaw
     s32 kind;
     s32 left;
     s32 right;
-    void *work;
+    ActorRecord *work;
     s16 saved_spawn;
     ObjectNodeHeader *obj;
     register s8 saved_variant;
@@ -31,8 +31,8 @@ void *create_tracked_effect_object(s16 flags, s16 kind_id, s16 variant, s16 spaw
     saved_variant = variant;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (u8 *)obj + 0x20;
-        ((S_8015E854_0 *)work)->unk_13 = MONSTER_VOLCANO;
+        work = (ActorRecord *)(obj + 1);
+        work->species = MONSTER_VOLCANO;
         register_node(obj, project_sprite_chain);
 
         part_a = obj->position;
@@ -44,23 +44,23 @@ void *create_tracked_effect_object(s16 flags, s16 kind_id, s16 variant, s16 spaw
         kind = flags & 3;
 
         if (kind == 1) {
-            ((S_8015E854_0 *)work)->unk_8C = func_8015EE5C;
-            left = ((S_8015E854_0 *)work)->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            right = ((S_8015E854_0 *)work)->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-            ((S_8015E854_0 *)work)->unk_14 = left;
-            ((S_8015E854_0 *)work)->unk_1C = right;
+            work->unk_8C.run = func_8015EE5C;
+            left = work->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            right = work->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            work->flags14 = left;
+            work->flags1C = right;
             part_b->frameTable = volcano_frame_set_4;
         } else {
             if (kind >= 2) {
-                ((S_8015E854_0 *)work)->unk_8C = func_8015EE5C;
-                left = ((S_8015E854_0 *)work)->unk_14 | ACTOR_CLASS_ENABLED;
-                right = ((S_8015E854_0 *)work)->unk_1C | ACTOR_PLAYER_SIDE;
-                ((S_8015E854_0 *)work)->unk_14 = left;
-                ((S_8015E854_0 *)work)->unk_1C = right;
+                work->unk_8C.run = func_8015EE5C;
+                left = work->flags14 | ACTOR_CLASS_ENABLED;
+                right = work->flags1C | ACTOR_PLAYER_SIDE;
+                work->flags14 = left;
+                work->flags1C = right;
                 part_b->frameTable = volcano_frame_set_4;
             } else {
                 if (((flags & ~3) << 16) == 0) {
-                    if (!(((S_8015E854_0 *)work)->unk_14 & ACTOR_RESIST_SLEEP)) {
+                    if (!(work->flags14 & ACTOR_RESIST_SLEEP)) {
                         if (generate_random_value() & 1) {
                             set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                           (generate_random_value() & 0x3F) | 0x20);
@@ -70,7 +70,7 @@ void *create_tracked_effect_object(s16 flags, s16 kind_id, s16 variant, s16 spaw
                     ((S_8015E854_4 *)actor)->unk_8C = func_8015EE5C;
                     part_b->frameTable = volcano_frame_set_4;
                 } else {
-                    ((S_8015E854_0 *)work)->unk_8C = func_8015EE5C;
+                    work->unk_8C.run = func_8015EE5C;
                     part_b->frameTable = volcano_frame_set_4;
                 }
             }

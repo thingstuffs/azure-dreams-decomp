@@ -42,7 +42,7 @@ s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s1
 s32 can_entity_gain_level(void *entity);
 void update_actor_status_and_mp(ActorRecord *entity);
 void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);
-s32 begin_ready_actor_directional_action();
+s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 s32 advance_actor_pending_action(void *actor_state, void *action, void *status, void *actor);
 void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 s32 reset_actor_action_state();
@@ -74,11 +74,11 @@ void update_entity_actions_facing_and_animation(ActorRecord *entity, ObjectPosit
     u32 idle_mode;
 
     if (g_dungeon_status.flags & 0x1000) {
-        entity->action_id = 0xEU;
+        entity->action_id.u = 0xEU;
         func_80171B58(entity, context, sprite, state);
         return;
     }
-    if (state->mp == 0) {
+    if (state->mp_value.parts.whole == 0) {
         advance_actor_pending_action(entity, context, sprite, state);
         if (sprite->frameTable == &nyuel_frame_set_1) {
             return;
@@ -91,7 +91,7 @@ void update_entity_actions_facing_and_animation(ActorRecord *entity, ObjectPosit
     state_flags = state->flags1C;
     if (state_flags & 0x200) {
         if (sprite->frameTable == &nyuel_frame_set_1) {
-            entity->action_id = 0xDU;
+            entity->action_id.u = 0xDU;
             ((S_80170E9C_0 *)entity)->unk_9B = 1;
             ((S_80170E9C_0 *)entity)->unk_8C = 0;
             state->flags1C = (s32)(state->flags1C & 0xFFFBFFFF);
@@ -111,7 +111,7 @@ void update_entity_actions_facing_and_animation(ActorRecord *entity, ObjectPosit
             begin_pushed_actor_move(entity, context, sprite, state);
             return;
         }
-        current_mode = entity->action_id;
+        current_mode = entity->action_id.u;
         idle_mode = 0xE;
         if (current_mode != idle_mode) {
             if (sprite->frameTable != nyuel_frame_set_2) {
@@ -119,11 +119,11 @@ void update_entity_actions_facing_and_animation(ActorRecord *entity, ObjectPosit
                 select_sprite_entry(sprite, nyuel_frame_set_2[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + state->facing
                     + 0x100) >> 9) & 7], 0);
             }
-            entity->action_id = idle_mode;
+            entity->action_id.u = idle_mode;
         }
         entity->action_state_flags = (u16)(entity->action_state_flags & 0xFFF3);
         if (state->hp_delta != 0) {
-            if (begin_ready_actor_directional_action(entity, context, sprite, &nyuel_frame_set_11) != 0) {
+            if (begin_ready_actor_directional_action(entity, context, sprite, nyuel_frame_set_11) != 0) {
                 return;
             }
         }
@@ -181,7 +181,7 @@ void update_entity_actions_facing_and_animation(ActorRecord *entity, ObjectPosit
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
             reference_entity = primary_actor_record;
             state->facing = target_angle;
-            if (reference_entity->action_id == 0x11) {
+            if (reference_entity->action_id.u == 0x11) {
                 resume_handler = (s32 *)update_entity_actions_facing_and_animation;
                 begin_actor_spell_action(entity, context, sprite, &nyuel_frame_set_12, resume_handler);
                 return;

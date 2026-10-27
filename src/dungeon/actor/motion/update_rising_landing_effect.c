@@ -240,7 +240,7 @@ void update_directional_actor_effect(void *input, void *output)
     scene = primary_actor_record;
     ((S_FUNC_8197C800_BODY_0 *)input)->unk_50.s = 10;
     ((u16 *)&scene->unk_A4)[1] -= 1;
-    scene->unk_A8 = ((S_FUNC_8197C800_BODY_0 *)input)->unk_08;
+    scene->unk_A8.byte = ((S_FUNC_8197C800_BODY_0 *)input)->unk_08;
     particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
     if (particle != 0) {
         if (resolve_record_orientation_or_fallback(((S_FUNC_8197C800_BODY_22 *)(((S_FUNC_8197C800_BODY_3 *)owner)->unk_0C))->unk_08,

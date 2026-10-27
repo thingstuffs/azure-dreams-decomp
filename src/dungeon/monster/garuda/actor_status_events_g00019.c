@@ -195,7 +195,7 @@ void advance_entity_directional_events(void *entity, void *context, SpriteFrameS
     {
         u32 actor_flags;
 
-        if (actor->mp != 0) {
+        if (actor->mp_value.parts.whole != 0) {
 
             (sprite->frameTable) = garuda_frame_set_1;
             select_sprite_entry(sprite,
@@ -253,7 +253,7 @@ void advance_entity_directional_events(void *entity, void *context, SpriteFrameS
 
         update_actor_status_and_mp(actor);
         on_actor_status_updated(actor);
-        if (actor->mp == 0) {
+        if (actor->mp_value.parts.whole == 0) {
             return;
         }
 

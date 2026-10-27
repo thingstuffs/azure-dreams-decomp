@@ -8,14 +8,6 @@
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
 
-typedef struct S_80172FE4_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    union { s16 s; u16 u; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_80172FE4_0;   /* arg0 in update_directional_grid_movement */
 
 extern void begin_actor_display_action();
 
@@ -23,26 +15,25 @@ extern u8 killer_action_resume_address;
 extern s32 D_80174068;
 
 /* Updates directional movement, then stops or returns the entity to its grid position. */
-void update_directional_grid_movement(S_80172FE4_0 *action, ObjectPosition *motion, SpriteFrameState *entity, EntityRec *source)
-{
+void update_directional_grid_movement(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *entity, ActorRecord *source) {
     s16 timer;
     s32 current_x;
     s32 current_y;
     s32 target_x;
     s32 tracked_addr;
 
-    switch (action->unk_9B) {
+    switch (action->action_phase.u) {
     case 0:
         apply_clamped_actor_value_delta(source);
         motion->velocity_x =
             -*(s16 *)((u8 *)((s8 *)dir_step_x) +
-                      ((source->unk_6A >> 8) & 0xE)) << 15;
+                      ((source->movement_facing >> 8) & 0xE)) << 15;
         motion->velocity_y =
             -*(s16 *)((u8 *)((s8 *)dir_step_y) +
-                      ((source->unk_6A >> 8) & 0xE)) << 15;
-        action->unk_9B++;
+                      ((source->movement_facing >> 8) & 0xE)) << 15;
+        action->action_phase.u++;
 
-        if (source->unk_28 == 0) {
+        if (source->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -50,8 +41,8 @@ void update_directional_grid_movement(S_80172FE4_0 *action, ObjectPosition *moti
             return;
         }
         if (entity->flags & 0x8000) {
-            action->unk_96.s = 0;
-            action->unk_9B = 2;
+            action->action_timer.s = 0;
+            action->action_phase.s = 2;
             return;
         }
         if (source->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
@@ -59,7 +50,7 @@ void update_directional_grid_movement(S_80172FE4_0 *action, ObjectPosition *moti
         } else {
             timer = -1;
         }
-        action->unk_96.s = timer;
+        action->action_timer.s = timer;
         motion->velocity_x -= motion->velocity_x / 4;
         motion->velocity_y -= motion->velocity_y / 4;
                         /* fall through */
@@ -67,49 +58,49 @@ void update_directional_grid_movement(S_80172FE4_0 *action, ObjectPosition *moti
     case 1:
         motion->velocity_x +=
             *(s16 *)((u8 *)((s8 *)dir_step_x) +
-                     ((source->unk_6A >> 8) & 0xE)) << 14;
+                     ((source->movement_facing >> 8) & 0xE)) << 14;
         {
             s16 table_offset;
             u8 *y_table;
 
-            table_offset = (source->unk_6A >> 8) & 0xE;
+            table_offset = (source->movement_facing >> 8) & 0xE;
             y_table = (u8 *)((s8 *)dir_step_y);
             motion->velocity_y +=
                 *(s16 *)(y_table + table_offset) << 14;
         }
-        if (action->unk_96.s > 0) {
-            action->unk_96.s = action->unk_96.u - 1;
+        if (action->action_timer.s > 0) {
+            action->action_timer.s = action->action_timer.u - 1;
         } else if (entity->flags & 0x6000) {
-            action->unk_96.s = 0;
+            action->action_timer.s = 0;
         }
-        if (action->unk_96.s != 0) {
+        if (action->action_timer.s != 0) {
             return;
         }
-        if (source->unk_28 == 0) {
+        if (source->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             begin_actor_display_action(action, motion, entity, &D_80174068);
             return;
         }
-        action->unk_96.s = 8;
-        action->unk_9B++;
+        action->action_timer.s = 8;
+        action->action_phase.u++;
         return;
 
     case 2:
-        if (action->unk_96.s != 0) {
+        if (action->action_timer.s != 0) {
             target_x = entity->tile_x << 6;
             current_x = motion->x.w.i - 0x20;
             current_y = motion->y.w.i - 0x20;
             motion->velocity_x =
                 ((target_x - current_x) << 15) /
-                action->unk_96.s;
+                action->action_timer.s;
             motion->velocity_y =
                 (((entity->tile_y << 6) - current_y) << 15) /
-                action->unk_96.s;
+                action->action_timer.s;
         }
-        timer = action->unk_96.u - 1;
-        action->unk_96.s = timer;
+        timer = action->action_timer.u - 1;
+        action->action_timer.s = timer;
         if ((s32)(timer << 16) > 0) {
             return;
         }
@@ -122,7 +113,7 @@ void update_directional_grid_movement(S_80172FE4_0 *action, ObjectPosition *moti
         if (tracked_addr == (s32)((u8 *)source - 0x20)) {
             g_dungeon_status.pending_display_owner = tracked_addr & 0x7FFFFFFF;
         }
-        action->unk_8C = &killer_action_resume_address;
+        action->unk_8C.address = &killer_action_resume_address;
         return;
 
     default:

@@ -33,13 +33,13 @@ void fade_remove_entity_and_update_tile(ActorRecord *fade_state, ObjectPosition 
     s32 tile_mask;
     u16 countdown;
 
-    state = fade_state->action_phase;
+    state = fade_state->action_phase.u;
     switch (state) {
     case 0:
         if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             return;
         }
-        fade_state->action_phase = 1;
+        fade_state->action_phase.u = 1;
                         /* fallthrough */
     case 1:
         entity_flags = entity->flags14;
@@ -49,8 +49,8 @@ void fade_remove_entity_and_update_tile(ActorRecord *fade_state, ObjectPosition 
             }
         }
         ((S_801735B8_0 *)fade_state)->unk_96.u = 6;
-        fade_state->action_phase =
-            (u8)(fade_state->action_phase + 1);
+        fade_state->action_phase.u =
+            (u8)(fade_state->action_phase.u + 1);
         visual_data->clut = 0xFF80;
                         /* fallthrough */
     case 2:

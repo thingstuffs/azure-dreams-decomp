@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -21,12 +22,12 @@ void *create_actor_child_display(s32 kind, s32 part_byte_24, s32 part_byte_25, s
     s32 saved_halfword;
     s16 saved_byte_25;
     u16 saved_part_byte_24;
-    void *object;
+    ActorRecord *object;
     void *child_slot;
     void *stable_object;
     s32 kind_copy;
     SpriteFrameState *part;
-    void *allocated;
+    ObjectNodeHeader *allocated;
     s32 allocation_size;
     ObjectNodeHeader *allocation_pool;
 
@@ -45,11 +46,11 @@ void *create_actor_child_display(s32 kind, s32 part_byte_24, s32 part_byte_25, s
             ObjectNodeHeader *init_root;
             void *setup;
 
-            object = (u8 *)allocated + 0x20;
+            object = (ActorRecord *)(allocated + 1);
             init_root = allocated;
             setup = project_sprite_chain;
             init_root->update_callback = func_8014CBB8;
-            ((S_8014C89C_1 *)object)->unk_13 = MONSTER_UNIVERN;
+            object->species = MONSTER_UNIVERN;
             register_node(init_root, setup);
         }
 
@@ -71,21 +72,21 @@ void *create_actor_child_display(s32 kind, s32 part_byte_24, s32 part_byte_25, s
             s32 flags_1c;
 
             if ((saved_kind & 3) == 1) {
-                flags_14 = ((S_8014C89C_1 *)object)->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-                flags_1c = ((S_8014C89C_1 *)object)->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-                ((S_8014C89C_1 *)object)->unk_14 = flags_14;
-                ((S_8014C89C_1 *)object)->unk_1C = flags_1c;
+                flags_14 = object->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+                flags_1c = object->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+                object->flags14 = flags_14;
+                object->flags1C = flags_1c;
             } else if ((saved_kind & 3) >= 2) {
-                flags_14 = ((S_8014C89C_1 *)object)->unk_14 | ACTOR_CLASS_ENABLED;
-                flags_1c = ((S_8014C89C_1 *)object)->unk_1C | ACTOR_PLAYER_SIDE;
-                ((S_8014C89C_1 *)object)->unk_14 = flags_14;
-                ((S_8014C89C_1 *)object)->unk_1C = flags_1c;
+                flags_14 = object->flags14 | ACTOR_CLASS_ENABLED;
+                flags_1c = object->flags1C | ACTOR_PLAYER_SIDE;
+                object->flags14 = flags_14;
+                object->flags1C = flags_1c;
             } else {
                 flags_14 = saved_kind & ~3;
                 if ((s16)flags_14 == 0) {
-                    if ((((S_8014C89C_1 *)object)->unk_14 & ACTOR_RESIST_SLEEP) == 0) {
+                    if ((object->flags14 & ACTOR_RESIST_SLEEP) == 0) {
                         if (generate_random_value() & 1) {
-                            ((S_8014C89C_1 *)object)->unk_1C |= ACTOR_ASLEEP;
+                            object->flags1C |= ACTOR_ASLEEP;
                             set_or_clear_actor_status_slot(object, STATUS_SLEEP,
                                 (generate_random_value() & 0x3F) | 0x20);
                             part->frameTable = D_801504FC;
@@ -102,7 +103,7 @@ void *create_actor_child_display(s32 kind, s32 part_byte_24, s32 part_byte_25, s
         ((S_8014C89C_4 *)stable_object)->unk_9A = 0xFF;
         ((S_8014C89C_4 *)stable_object)->unk_9C = -1;
         ((S_8014C89C_4 *)stable_object)->unk_8C = update_entity_movement_animation_and_ground;
-        ((S_8014C89C_1 *)object)->unk_1C |= 0x40000;
+        object->flags1C |= 0x40000;
         ((S_8014C89C_4 *)stable_object)->unk_92 = -48;
         ((S_8014C89C_4 *)stable_object)->unk_A8 = 0;
         ((S_8014C89C_4 *)stable_object)->unk_9E = 1;
@@ -144,7 +145,7 @@ void *create_actor_child_display(s32 kind, s32 part_byte_24, s32 part_byte_25, s
                     child_root->update_callback = process_effect_block_entries;
                     (*(void **)((u8 *)item + 0x2C)) = direction_table;
                     direction_index = ((view_facing_angle_alias +
-                        ((S_8014C89C_1 *)object)->unk_2A + 0x100) >> 9) & 7;
+                        object->facing + 0x100) >> 9) & 7;
                     select_sprite_entry(item,
                         *(u8 *)((uptr)direction_index + (uptr)direction_table), call_zero);
                     item_offset += 0x30;

@@ -43,7 +43,7 @@ void update_a_jump_toward_target_tile_restores_actor_finishes(ActorRecord *jump_
     s32 actor_flags;
     s32 state;
 
-    state = jump_state->action_phase;
+    state = jump_state->action_phase.u;
     switch (state) {
     case 0:
         if (!(map_entity->flags & 0x6000)) {
@@ -58,7 +58,7 @@ void update_a_jump_toward_target_tile_restores_actor_finishes(ActorRecord *jump_
         motion->velocity_z = 0xFFEE0000;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80172540_0 *)jump_state)->unk_A0 = 0;
-        jump_state->action_phase++;
+        jump_state->action_phase.u++;
     case 1:
         frames_left = ((S_80172540_0 *)jump_state)->unk_96.s;
         ((S_80172540_0 *)jump_state)->unk_90 -= ((S_80172540_0 *)jump_state)->unk_A0;
@@ -84,7 +84,7 @@ void update_a_jump_toward_target_tile_restores_actor_finishes(ActorRecord *jump_
             ((S_80172540_0 *)jump_state)->unk_90 = 0;
             jump_state->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            jump_state->action_phase++;
+            jump_state->action_phase.u++;
         }
     case 2:
         if (((u32)actor->flags1C) & ACTOR_GROUNDED) {
@@ -98,7 +98,7 @@ void update_a_jump_toward_target_tile_restores_actor_finishes(ActorRecord *jump_
                 map_entity,
                 picket_frame_set_5[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            jump_state->action_phase++;
+            jump_state->action_phase.u++;
         }
     }
 

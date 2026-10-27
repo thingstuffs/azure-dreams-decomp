@@ -30,14 +30,14 @@ typedef struct S_80172F94_0 {
 void advance_timed_actor_animation(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u8 state;
 
-    state = action->action_phase;
+    state = action->action_phase.u;
     if ((u32)state >= 5) {
         return;
     }
     switch (state) {
     case 0:
         if (sprite->flags & 0x8000) {
-            action->action_phase = 4;
+            action->action_phase.u = 4;
             sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
@@ -46,7 +46,7 @@ void advance_timed_actor_animation(ActorRecord *action, ObjectPosition *motion, 
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         ((S_80172F94_0 *)action)->unk_96.u = 0;
-        action->action_phase++;
+        action->action_phase.u++;
         return;
 
     case 1:
@@ -62,14 +62,14 @@ void advance_timed_actor_animation(ActorRecord *action, ObjectPosition *motion, 
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
             ((S_80172F94_0 *)action)->unk_96.u = 0;
-            action->action_phase++;
+            action->action_phase.u++;
             return;
         }
         return;
 
     case 2:
         ((S_80172F94_0 *)action)->unk_96.u = 0;
-        action->action_phase++;
+        action->action_phase.u++;
 
     case 3:
         if ((s16)++((S_80172F94_0 *)action)->unk_96.u == 7 ||

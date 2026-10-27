@@ -79,7 +79,7 @@ void update_actor_turn_and_action(void *entity, ObjectPosition *context, SpriteF
         return;
     }
 
-    if (actor->mp == 0) {
+    if (actor->mp_value.parts.whole == 0) {
         if (((S_80171A80_0 *)entity)->unk_B5 == 0) {
             void *anim_table;
 
@@ -242,7 +242,7 @@ void update_actor_turn_and_action(void *entity, ObjectPosition *context, SpriteF
                     &distance);
                 player = primary_actor_record;
                 actor->facing = facing;
-                if (player->action_id != 0x11) {
+                if (player->action_id.u != 0x11) {
                     update_actor_status_and_mp(actor);
                     return;
                 }

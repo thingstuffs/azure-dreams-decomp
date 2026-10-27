@@ -470,7 +470,7 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
         if (*((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_04 & 0x80) {
             ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_18 = 0xAU;
             ((Row_8194D354_S_80024B54_1 *)primary_actor_record)->unk_A6--;
-            primary_actor_record->unk_A8 = ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_08;
+            primary_actor_record->unk_A8.byte = ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_08;
             next_state_c1 = ((u16)primary_actor_record->facing);
             ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_0A.s++;
             ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_0E = next_state_c1;

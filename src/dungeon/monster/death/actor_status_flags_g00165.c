@@ -183,7 +183,7 @@ void advance_actor_action_state_handle_status(void *action_in, void *context_in,
 void advance_actor_states_and_entity_flags(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *entity) {
     s32 state;
 
-    state = actor->action_phase;
+    state = actor->action_phase.u;
     switch (state) {
     case 0:
     {
@@ -201,7 +201,7 @@ void advance_actor_states_and_entity_flags(ActorRecord *actor, ObjectPosition *c
         select_sprite_entry(animation,
             direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        actor->action_phase++;
+        actor->action_phase.u++;
         return;
     }
     case 1:
@@ -209,7 +209,7 @@ void advance_actor_states_and_entity_flags(ActorRecord *actor, ObjectPosition *c
         u8 *dungeon_state;
         u32 entity_flags;
 
-        if (entity->mp != 0) {
+        if (entity->mp_value.parts.whole != 0) {
             s32 *status_page;
 
             (animation->frameTable) = death_frame_set_3;
@@ -219,7 +219,7 @@ void advance_actor_states_and_entity_flags(ActorRecord *actor, ObjectPosition *c
             entity->flags1C |= 0x40000;
             status_page = &g_dungeon_status.turn_scale;
             ((S_8017409C_2 *)status_page)->unk_0A++;
-            actor->action_phase++;
+            actor->action_phase.u++;
             return;
         }
 
@@ -275,7 +275,7 @@ void advance_actor_states_and_entity_flags(ActorRecord *actor, ObjectPosition *c
 
         update_actor_status_and_mp(entity);
         on_actor_status_updated(entity);
-        if (entity->mp == 0) {
+        if (entity->mp_value.parts.whole == 0) {
             return;
         }
 
@@ -286,7 +286,7 @@ void advance_actor_states_and_entity_flags(ActorRecord *actor, ObjectPosition *c
         (*(u32 *)&entity->flags1C) |= 0x40000;
         ((S_8017409C_4 *)dungeon_state)->unk_0A++;
     }
-        actor->action_phase++;
+        actor->action_phase.u++;
         return;
     case 2:
         if (animation->flags & 0xE000) {

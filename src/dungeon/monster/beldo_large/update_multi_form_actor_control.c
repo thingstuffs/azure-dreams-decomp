@@ -22,7 +22,7 @@ s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s1
 s32 can_entity_gain_level(void *entity);
 void update_actor_status_and_mp(struct ActorRecord *);
 void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);
-s32 begin_ready_actor_directional_action();
+s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 s32 advance_actor_pending_action(void *, void *, void *, void *);
 struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2; void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 s32 reset_actor_action_state(void *, void *, void *, u8 *);
@@ -32,7 +32,7 @@ void advance_actor_movement_step(u8 *, ObjectPosition *, u8 *, u8 *);
 struct Rec_D_80082E80; struct Rec_func_800A9E70_arg0; s32 try_actor_attack(struct Rec_func_800A9E70_arg0 *, ObjectPosition *, struct Rec_D_80082E80 *, struct ActorRecord *);
 void start_actor_attack(void *, ObjectPosition *, s32, void *);
 struct Rec_func_800A9E70_arg0; s32 resolve_actor_movement_action(struct Rec_func_800A9E70_arg0 *, ObjectPosition *, s32, s32);
-void update_multi_form_actor_movement();
+void update_multi_form_actor_movement(ActorRecord *object, ObjectPosition *update_param, SpriteFrameState *state, ActorRecord *input);
 struct Rec_func_800A9E70_arg0; void complete_actor_facing_action(struct Rec_func_800A9E70_arg0 *, ObjectPosition *, s32, struct ActorRecord *);
 struct Rec_func_800A9E70_arg0; void start_actor_directional_action(struct Rec_func_800A9E70_arg0 *, ObjectPosition *, void *, struct ActorRecord *);
 s32 advance_actor_effect_sequence_2();
@@ -98,7 +98,7 @@ void update_multi_form_actor_control(ActorRecord *actor, ObjectPosition *context
             ((Rec_func_800A9E70_arg0 *)actor)->unk_AD = 0U;
         }
     }
-    if (entity->mp == 0) {
+    if (entity->mp_value.parts.whole == 0) {
         advance_actor_pending_action(actor, context, sprite, entity);
         inactive_pose = ((Rec_func_800A9E70_arg0 *)actor)->unk_AC;
         switch (inactive_pose) {
@@ -219,22 +219,22 @@ block_37:
             active_pose = ((Rec_func_800A9E70_arg0 *)actor)->unk_AC;
             switch (active_pose) {
             case 0:
-                if (begin_ready_actor_directional_action(actor, context, sprite, &beldo_large_frame_set_19) != 0) {
+                if (begin_ready_actor_directional_action(actor, context, sprite, beldo_large_frame_set_19) != 0) {
                     return;
                 }
                 break;
             case 1:
-                if (begin_ready_actor_directional_action(actor, context, sprite, &D_80173A08) != 0) {
+                if (begin_ready_actor_directional_action(actor, context, sprite, D_80173A08) != 0) {
                     return;
                 }
                 break;
             case 2:
-                if (begin_ready_actor_directional_action(actor, context, sprite, &D_80173A10) != 0) {
+                if (begin_ready_actor_directional_action(actor, context, sprite, D_80173A10) != 0) {
                     return;
                 }
                 break;
             case 3:
-                if (begin_ready_actor_directional_action(actor, context, sprite, &D_80173A18) != 0) {
+                if (begin_ready_actor_directional_action(actor, context, sprite, D_80173A18) != 0) {
                     return;
                 }
                 break;
@@ -321,7 +321,7 @@ block_37:
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
             ActorRecord *owner = primary_actor_record;
             entity->facing = (s16)angle;
-            if (owner->action_id != 0x11) {
+            if (owner->action_id.u != 0x11) {
                 update_actor_status_and_mp(entity);
                 return;
             }

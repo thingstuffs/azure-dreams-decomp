@@ -48,7 +48,7 @@ void animate_hop_to_actor_tile(ActorRecord *action, ObjectPosition *motion, Spri
     u16 action_timer;
     s32 phase;
 
-    phase = action->action_phase;
+    phase = action->action_phase.u;
     switch (phase) {
     case 0:
         if (sprite->flags & 0x6000) {
@@ -63,7 +63,7 @@ void animate_hop_to_actor_tile(ActorRecord *action, ObjectPosition *motion, Spri
             actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
             ((S_801721B0_0 *)action)->unk_9E.s = 5;
             ((S_801721B0_0 *)action)->unk_A0 = 0;
-            action->action_phase++;
+            action->action_phase.u++;
         } else {
             break;
         }
@@ -95,7 +95,7 @@ void animate_hop_to_actor_tile(ActorRecord *action, ObjectPosition *motion, Spri
             ((S_801721B0_0 *)action)->unk_90 = 0;
             action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            action->action_phase++;
+            action->action_phase.u++;
         }
 
                         /* fallthrough */
@@ -115,7 +115,7 @@ void animate_hop_to_actor_tile(ActorRecord *action, ObjectPosition *motion, Spri
                             9) &
                            7],
                 0);
-            action->action_phase++;
+            action->action_phase.u++;
         }
 
     }

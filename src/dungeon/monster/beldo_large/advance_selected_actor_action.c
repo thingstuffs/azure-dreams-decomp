@@ -63,7 +63,7 @@ void advance_selected_actor_action(ActorRecord *action, ObjectPosition *transfor
     s16 mode_copy;
     void *current_table;
 
-    action_state = action->action_phase;
+    action_state = action->action_phase.u;
     target_mode = 0;
 
     switch (action_state) {
@@ -147,7 +147,7 @@ void advance_selected_actor_action(ActorRecord *action, ObjectPosition *transfor
             if (create_actor_spell_effect(actor, action_slot, target_mode,
                               (u16 *)((u8 *)action + 0x98)) != 0) {
                 ((S_8016C190_0 *)action)->unk_96.s = 8;
-                action->action_phase++;
+                action->action_phase.u++;
             }
             return;
         }
@@ -172,7 +172,7 @@ void advance_selected_actor_action(ActorRecord *action, ObjectPosition *transfor
             return;
         }
         sprite->flags &= 0xF7FF;
-        action->action_phase++;
+        action->action_phase.u++;
         play_sound_if_enabled(0x703);
                         /* fall through */
 
@@ -183,7 +183,7 @@ void advance_selected_actor_action(ActorRecord *action, ObjectPosition *transfor
             return;
         }
         action->action_state_flags |= 0x80;
-        action->action_phase++;
+        action->action_phase.u++;
         return;
 
     case 3:

@@ -101,7 +101,7 @@ void advance_actor_action_animation(ActorRecord *action, ObjectPosition *actor_i
         }
         update_actor_status_and_mp(actor);
         on_actor_status_updated(actor);
-        if (actor->mp == 0) {
+        if (actor->mp_value.parts.whole == 0) {
             return;
         }
         (sprite->frameTable) = u_boat_motion_frames;

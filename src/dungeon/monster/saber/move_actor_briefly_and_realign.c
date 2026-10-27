@@ -37,12 +37,12 @@ void move_actor_briefly_and_realign(ActorRecord *action, ObjectPosition *motion,
     s32 current_y;
     s32 tracked_entity;
 
-    state = action->action_phase;
+    state = action->action_phase.u;
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(entity);
         ((S_80173964_0 *)action)->unk_96.s = 12;
-        action->action_phase++;
+        action->action_phase.u++;
         if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
@@ -52,7 +52,7 @@ void move_actor_briefly_and_realign(ActorRecord *action, ObjectPosition *motion,
         }
         if (actor->flags & 0x8000) {
             ((S_80173964_0 *)action)->unk_96.s = 0;
-            action->action_phase = 3;
+            action->action_phase.u = 3;
         }
         return;
 
@@ -87,10 +87,10 @@ void move_actor_briefly_and_realign(ActorRecord *action, ObjectPosition *motion,
         if (timer != 0) {
             return;
         }
-        next_state = action->action_phase;
+        next_state = action->action_phase.u;
         timer = 4;
         ((S_80173964_0 *)action)->unk_96.s = timer;
-        action->action_phase = next_state + 1;
+        action->action_phase.u = next_state + 1;
         return;
 
     case 2:
@@ -119,8 +119,8 @@ void move_actor_briefly_and_realign(ActorRecord *action, ObjectPosition *motion,
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        next_state = action->action_phase;
-        action->action_phase = next_state + 1;
+        next_state = action->action_phase.u;
+        action->action_phase.u = next_state + 1;
         return;
     case 3:
         motion->velocity_z = 0;

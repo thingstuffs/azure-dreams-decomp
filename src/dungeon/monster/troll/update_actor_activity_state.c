@@ -18,7 +18,7 @@ void update_actor_activity_state(ActorRecord *task, ObjectPosition *task_id, Spr
     s8 floor;
 
     actor = actor_in;
-    state = task->action_phase;
+    state = task->action_phase.u;
     switch (state) {
     case 0:
         if (!(sprite_in->flags & 0xE000)) {
@@ -175,7 +175,7 @@ void update_actor_activity_state(ActorRecord *task, ObjectPosition *task_id, Spr
             return;
         }
         ((T_80175050_S_80175050_3 *)((u8 *)(&g_dungeon_status)))->unk_0A++;
-        task->action_phase++;
+        task->action_phase.u++;
 
         return;
 
@@ -289,7 +289,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, ObjectPosi
         }
     }
 
-        if (((ActorRecord *)actor)->mp != 0) {
+        if (((ActorRecord *)actor)->mp_value.parts.whole != 0) {
             switch (((ActorRecord *)actor)->unk_48) {
             case 13:
                 (animation->frameTable) = troll_kind13_recovery_frames;
@@ -352,7 +352,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, ObjectPosi
             }
             update_actor_status_and_mp(actor);
             on_actor_status_updated(actor);
-            if (((ActorRecord *)actor)->mp == 0) {
+            if (((ActorRecord *)actor)->mp_value.parts.whole == 0) {
                 return;
             }
             switch (((ActorRecord *)actor)->unk_48) {

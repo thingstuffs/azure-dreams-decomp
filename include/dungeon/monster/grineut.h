@@ -25,31 +25,10 @@
 #include "engine/node/allocation.h"
 
 typedef s32 R07_80170854_M2C_UNK;
-typedef struct R07_80170854_S_8016A854_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} R07_80170854_S_8016A854_0;
-typedef struct R07_80170854_S_8016A854_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} R07_80170854_S_8016A854_1;
-typedef struct R07_80170854_S_8016A854_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} R07_80170854_S_8016A854_2;
-typedef struct R07_80170854_S_8016A854_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xA];
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-} R07_80170854_S_8016A854_4;
+
+
+
+
 typedef void (*R07_80170A28_EntityCallback)(void *, void *, void *, void *);
 typedef struct R07_80170A28_S_80170A28_0 {
     u8 pad_00[0x4];
@@ -213,7 +192,7 @@ void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
-s32 set_or_clear_actor_status_slot();
+s16 set_or_clear_actor_status_slot(ActorRecord *owner, s8 id, s8 value);
 void initialize_actor_sprite_and_animation(void *entity, void *position, SpriteFrameState *sprite, s32 init_flags);
 void select_indirect_table_entry(struct S_80047738 *state, s16 table_index, s16 entry_index);
 void advance_sprite_animation_and_textures(void *entity);

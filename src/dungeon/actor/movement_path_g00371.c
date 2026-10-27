@@ -179,7 +179,7 @@ void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite,
         return;
     }
 
-    if (status->mp == 0) {
+    if (status->mp_value.parts.whole == 0) {
         void *current_anim;
 
         advance_actor_pending_action(actor, motion, sprite, status);

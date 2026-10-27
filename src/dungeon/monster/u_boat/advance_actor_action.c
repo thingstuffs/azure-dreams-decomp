@@ -48,7 +48,7 @@ void advance_actor_action(ActorRecord *action, ObjectPosition *context, SpriteFr
     DungeonGlobalStatus *global_base;
     s32 phase;
 
-    phase = action->action_phase;
+    phase = action->action_phase.u;
     switch (phase) {
     case 0:
         if (!(sprite->flags & 0xE000)) {
@@ -63,7 +63,7 @@ void advance_actor_action(ActorRecord *action, ObjectPosition *context, SpriteFr
 
             (*(u16 *)&counter_base->activity_counts.parts.pending_action_count)--;
         }
-        action->action_phase++;
+        action->action_phase.u++;
         return;
     case 1:
         global_base = &g_dungeon_status;
@@ -75,7 +75,7 @@ void advance_actor_action(ActorRecord *action, ObjectPosition *context, SpriteFr
                 return;
             }
         }
-        if (entity->mp == 0) {
+        if (entity->mp_value.parts.whole == 0) {
             if (global_base->flags & 0x2008) {
                 return;
             }
@@ -139,7 +139,7 @@ void advance_actor_action(ActorRecord *action, ObjectPosition *context, SpriteFr
         {
             DungeonGlobalStatus *counter_base = &g_dungeon_status;
 
-            action->action_phase++;
+            action->action_phase.u++;
             (*(u16 *)&counter_base->activity_counts.parts.pending_action_count)++;
         }
         return;

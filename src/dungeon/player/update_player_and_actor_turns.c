@@ -342,7 +342,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
                     companion_slot = linked_actor + 4;
                     do {
                         companion = ((S_80089AA0_10 *)companion_slot)->unk_AC;
-                        if ((companion != 0) && (companion->mp != 0)) {
+                        if ((companion != 0) && (companion->mp_value.parts.whole != 0)) {
                             companion_total = *companion_fraction + companion->max_hp;
                             *companion_fraction = companion_total;
                             companion_points = companion->hp;

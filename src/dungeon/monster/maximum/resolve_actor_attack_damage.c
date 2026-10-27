@@ -93,7 +93,7 @@ void resolve_actor_attack_damage(ActorRecord *actor, ObjectPosition *motion, Spr
     void *new_effect;
     void *target;
 
-    state = actor->action_phase;
+    state = actor->action_phase.u;
     use_player = 0;
     switch (state) {
     case 0:
@@ -164,7 +164,7 @@ void resolve_actor_attack_damage(ActorRecord *actor, ObjectPosition *motion, Spr
             }
             sprite->flags = (u16) (sprite->flags & 0xF7FF);
             play_sound_if_enabled(0x703);
-            actor->action_phase = (u8) (actor->action_phase + 1);
+            actor->action_phase.u = (u8) (actor->action_phase.u + 1);
             new_effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
             ((S_801728B4_0 *)actor)->unk_A0 = new_effect;
             if (new_effect == NULL) {
@@ -210,7 +210,7 @@ void resolve_actor_attack_damage(ActorRecord *actor, ObjectPosition *motion, Spr
             return;
         }
         sprite->flags = (u16) (sprite->flags & 0xF7FF);
-        actor->action_phase = (u8) (actor->action_phase + 1);
+        actor->action_phase.u = (u8) (actor->action_phase.u + 1);
     case 2:
         target = ((S_801728B4_0 *)actor)->unk_A0;
         if (target != NULL) {

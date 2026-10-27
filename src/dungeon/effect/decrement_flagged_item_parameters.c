@@ -50,7 +50,7 @@ void decrement_flagged_item_parameters(void *action, void *saved_position)
         shared_data = primary_actor_record;
         *((u16 *) (((u8 *) action) + 0x50)) = 10;
         (*((u16 *) (((u8 *) shared_data) + 0xA6)))--;
-        shared_data->unk_A8 = *((u8 *) (((u8 *) action) + 8));
+        shared_data->unk_A8.byte = *((u8 *) (((u8 *) action) + 8));
         effect = allocate_list_node(0x312, &scene_object_list_anchor.next);
         if (effect != 0) {
             offset_part = owner->sprite;

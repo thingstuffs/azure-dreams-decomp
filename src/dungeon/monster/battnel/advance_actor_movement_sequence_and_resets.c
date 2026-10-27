@@ -57,13 +57,13 @@ void advance_actor_movement_sequence_and_resets(ActorRecord *action, ObjectPosit
     x_step = *(s16 *)((u8 *)((s8 *)dir_step_x) + direction_offset);
     ticks_left = ((S_801725D0_1 *)action)->unk_96.s - 1;
     y_step = *(s16 *)((u8 *)((s8 *)dir_step_y) + direction_offset);
-    state = action->action_phase;
+    state = action->action_phase.u;
     ((S_801725D0_1 *)action)->unk_96.s = ticks_left;
 
     switch (state) {
     case 0:
         if (sprite->flags & 0x8000) {
-            action->action_phase = 0xFF;
+            action->action_phase.u = 0xFF;
             sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
@@ -87,7 +87,7 @@ void advance_actor_movement_sequence_and_resets(ActorRecord *action, ObjectPosit
                     (s16)(((u16)actor->ground_height) - 0xA0)) - 0x34;
         }
         ((S_801725D0_1 *)action)->unk_96.s = 2;
-        action->action_phase++;
+        action->action_phase.u++;
         return;
 
     case 1:
@@ -104,7 +104,7 @@ void advance_actor_movement_sequence_and_resets(ActorRecord *action, ObjectPosit
         motion->velocity_x =
             (x_step << 22) / ((S_801725D0_1 *)action)->unk_96.u;
         motion->velocity_y = (y_step << 22) / ((S_801725D0_1 *)action)->unk_96.u;
-        action->action_phase++;
+        action->action_phase.u++;
         return;
 
     case 2:
@@ -116,7 +116,7 @@ void advance_actor_movement_sequence_and_resets(ActorRecord *action, ObjectPosit
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         ((S_801725D0_1 *)action)->unk_96.s = 10;
-        action->action_phase++;
+        action->action_phase.u++;
         return;
 
     case 3:
@@ -134,7 +134,7 @@ void advance_actor_movement_sequence_and_resets(ActorRecord *action, ObjectPosit
         motion->velocity_x = (0 - x_step) << 19;
         motion->velocity_y = (0 - y_step) << 19;
         motion->velocity_z = 0xFFF80000;
-        action->action_phase = 0xFF;
+        action->action_phase.u = 0xFF;
         return;
 
     case 0xFF:

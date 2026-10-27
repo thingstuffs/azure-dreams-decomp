@@ -40,14 +40,14 @@ void update_directional_movement_and_settle(ActorRecord *action, ObjectPosition 
     dir_offset = ((u16)((u16)actor->facing) >> 8) & 0xE;
     dir_x = *(s16 *)((u8 *)((s8 *)dir_step_x) + dir_offset);
     dir_y = *(s16 *)((u8 *)((s8 *)dir_step_y) + dir_offset);
-    state = action->action_phase;
+    state = action->action_phase.u;
     ticks_left = ((S_801724F4_1 *)action)->unk_96 - 1;
     ((S_801724F4_1 *)action)->unk_96 = ticks_left;
 
     switch (state) {
     case 0:
         if (sprite->flags & 0x8000) {
-            action->action_phase = 0xFF;
+            action->action_phase.u = 0xFF;
             sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
@@ -56,7 +56,7 @@ void update_directional_movement_and_settle(ActorRecord *action, ObjectPosition 
         select_sprite_entry(sprite,
             D_8017419C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        action->action_phase++;
+        action->action_phase.u++;
         return;
     case 1:
         if (sprite->flags & 0xE000) {
@@ -68,13 +68,13 @@ void update_directional_movement_and_settle(ActorRecord *action, ObjectPosition 
             motion->velocity_y = (dir_y << 18) + (dir_y << 17);
             ((S_801724F4_1 *)action)->unk_96 = 8;
             play_sound_if_enabled(0x607);
-            action->action_phase++;
+            action->action_phase.u++;
         }
         return;
     case 2:
         if ((ticks_left << 16) <= 0) {
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
-            action->action_phase = 0xFF;
+            action->action_phase.u = 0xFF;
         }
         return;
     case 0xFF:

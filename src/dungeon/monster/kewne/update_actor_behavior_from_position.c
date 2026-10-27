@@ -64,12 +64,12 @@ void update_actor_behavior_from_position(ActorRecord *actor, ObjectPosition *con
     u16 behavior_flags;
 
     if (g_dungeon_status.flags & 0x1000) {
-        actor->action_id = 0xE;
+        actor->action_id.u = 0xE;
         func_8015969C(actor, context, sprite, entity);
         return;
     }
 
-    if (entity->mp == 0) {
+    if (entity->mp_value.parts.whole == 0) {
         u8 *anim_table;
 
         advance_actor_pending_action(actor, context, sprite, entity);
@@ -86,8 +86,8 @@ void update_actor_behavior_from_position(ActorRecord *actor, ObjectPosition *con
 
     if (((u32)entity->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == D_8015DEA0) {
-            actor->action_id = 0xD;
-            actor->action_phase = 1;
+            actor->action_id.u = 0xD;
+            actor->action_phase.u = 1;
             ((S_801590EC_0 *)actor)->unk_8C = 0;
             entity->flags1C &= ~0x40000;
             return;
@@ -107,8 +107,8 @@ void update_actor_behavior_from_position(ActorRecord *actor, ObjectPosition *con
             void *current_anim;
             u8 *anim_table;
 
-            if (actor->action_id != 0xE) {
-                actor->action_id = 0xE;
+            if (actor->action_id.u != 0xE) {
+                actor->action_id.u = 0xE;
                 ((S_801590EC_0 *)actor)->unk_B2 = 0;
             }
 
@@ -219,7 +219,7 @@ sw_case567:
                     &facing_aux);
                 player = primary_actor_record;
                 entity->facing = facing_angle;
-                if (player->action_id == 0x11) {
+                if (player->action_id.u == 0x11) {
                     begin_actor_spell_action(actor, context, sprite, D_8015DE98, update_actor_behavior_from_position);
                     return;
                 }
@@ -261,7 +261,7 @@ sw_case567:
             }
         }
     } else if ((get_entity_effect_value(entity, STATUS_PARALYSIS) << 16) == 0) {
-        if (primary_actor_record->action_id == 0x17) {
+        if (primary_actor_record->action_id.u == 0x17) {
             func_8015A358(actor, context, sprite, entity);
         }
     }

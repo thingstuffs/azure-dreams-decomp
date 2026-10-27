@@ -92,7 +92,7 @@ void update_actor_behavior_2(void *controller, void *context_in, void *object, A
                     break;
                 }
             }
-            if (actor->mp == 0) {
+            if (actor->mp_value.parts.whole == 0) {
                 if (global_base->flags & 0x2008) {
                     break;
                 }

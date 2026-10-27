@@ -46,7 +46,7 @@ extern s32 process_selected_actor_record(ActorRecord *body, ObjectPosition *posi
 extern void begin_actor_spell_action(void *actor, void * effect_param, void *target, u8 *direction_table, void * next_state);
 
 extern void func_80171854(void *, void *, void *, void *);
-extern s32 select_and_start_target_action(void *, ObjectPosition *, void *, void *);
+s32 select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
 extern void clear_actor_flag_and_update_action(void *, void *, void *, void *);
 extern void advance_counter_unblocked_and_reset_action(void *, void *, void *, void *);
 extern void update_actor_state_after_map_check(void *, ObjectPosition *, void *, void *);
@@ -67,12 +67,12 @@ void update_actor_animation_and_behavior(ActorRecord *actor, ObjectPosition *con
     u16 action_flags;
 
     if (g_dungeon_status.flags & 0x1000) {
-        actor->action_id = 0xE;
+        actor->action_id.u = 0xE;
         advance_actor_path_and_facing(actor, context, sprite, entity);
         return;
     }
 
-    if (entity->mp == 0) {
+    if (entity->mp_value.parts.whole == 0) {
         u8 *anim_table;
 
         advance_actor_pending_action(actor, context, sprite, entity);
@@ -89,8 +89,8 @@ void update_actor_animation_and_behavior(ActorRecord *actor, ObjectPosition *con
 
     if (((u32)entity->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == kewne_frame_set_1) {
-            actor->action_id = 0xD;
-            actor->action_phase = 1;
+            actor->action_id.u = 0xD;
+            actor->action_phase.u = 1;
             ((S_801710EC_0 *)actor)->unk_8C = 0;
             entity->flags1C &= ~0x40000;
             return;
@@ -110,8 +110,8 @@ void update_actor_animation_and_behavior(ActorRecord *actor, ObjectPosition *con
             void *current_anim;
             u8 *anim_table;
 
-            if (actor->action_id != 0xE) {
-                actor->action_id = 0xE;
+            if (actor->action_id.u != 0xE) {
+                actor->action_id.u = 0xE;
                 ((S_801710EC_0 *)actor)->unk_B2 = 0;
             }
 
@@ -223,7 +223,7 @@ void update_actor_animation_and_behavior(ActorRecord *actor, ObjectPosition *con
                     &distance);
                 player = primary_actor_record;
                 entity->facing = facing_angle;
-                if (player->action_id == 0x11) {
+                if (player->action_id.u == 0x11) {
                     begin_actor_spell_action(actor, context, sprite, D_80175E98, update_actor_animation_and_behavior);
                     return;
                 }
@@ -269,7 +269,7 @@ void update_actor_animation_and_behavior(ActorRecord *actor, ObjectPosition *con
             }
         }
     } else if ((get_entity_effect_value(entity, STATUS_PARALYSIS) << 16) == 0) {
-        if (primary_actor_record->action_id == 0x17) {
+        if (primary_actor_record->action_id.u == 0x17) {
             advance_counter_unblocked_and_reset_action(actor, context, sprite, entity);
         }
     }

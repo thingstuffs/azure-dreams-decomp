@@ -39,12 +39,12 @@ typedef struct S_80172DB0_0 {
 void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u8 state;
 
-    state = action->action_phase;
+    state = action->action_phase.u;
     switch (state) {
 
     case 0:
         if (sprite->flags & 0x8000) {
-            action->action_phase = 5;
+            action->action_phase.u = 5;
             ((S_80172DB0_0 *)action)->unk_96.u = 0;
             sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
@@ -61,7 +61,7 @@ void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *moti
             D_8017464C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_80172DB0_0 *)action)->unk_96.u = 8;
-        action->action_phase++;
+        action->action_phase.u++;
         return;
 
     case 1:
@@ -81,7 +81,7 @@ void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *moti
         ((S_80172DB0_0 *)action)->unk_96.u = 6;
         ((S_80172DB0_0 *)action)->unk_AC = 0x80000;
         ((S_80172DB0_0 *)action)->unk_B0 = (s32)0xFFFE0000;
-        action->action_phase++;
+        action->action_phase.u++;
         motion->velocity_x =
             -*(s16 *)(((s8 *)dir_step_x) + (((u16)actor->facing >> 8) & 0xE)) << 18;
         motion->velocity_y =
@@ -106,7 +106,7 @@ void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *moti
             }
         }
         resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
-        action->action_phase++;
+        action->action_phase.u++;
         play_sound_if_enabled(0x804);
         return;
 
@@ -120,7 +120,7 @@ void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *moti
         select_sprite_entry(sprite,
             death_frame_set_5[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        action->action_phase++;
+        action->action_phase.u++;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         ((S_80172DB0_0 *)action)->unk_A4 = 0;
@@ -136,7 +136,7 @@ void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *moti
             0);
         ((S_80172DB0_0 *)action)->unk_96.u = 4;
         ((S_80172DB0_0 *)action)->unk_A4 = 0;
-        action->action_phase++;
+        action->action_phase.u++;
         {
             s32 target_x = sprite->tile_x << 6;
             s32 current_x = motion->x.w.i - 0x20;

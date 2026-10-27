@@ -379,7 +379,7 @@ void update_actor_state_and_select_target(ActorRecord *entity, ObjectPosition *c
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &path_distance));
             owner = primary_actor_record;
             ((R12_80170E70_S_80170E70_1 *)actor)->unk_2A = target_angle;
-            if (owner->action_id == 0x11) {
+            if (owner->action_id.u == 0x11) {
                 begin_actor_spell_action(entity, context, sprite, ((u8 *)arachne_frame_set), ((u8 *)update_actor_state_and_select_target));
                 return;
             }
@@ -795,8 +795,8 @@ s32 try_arachne_attack(ActorRecord *action_state, ObjectPosition *motion_param, 
 
     apply_camera_offset_and_select_target((ObjectNodeHeader *)actor - 1, motion_param, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
-        action_state->action_id = 0x11;
-        action_state->action_phase = 0;
+        action_state->action_id.u = 0x11;
+        action_state->action_phase.u = 0;
         action_state->unk_8C.handler = 0;
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;
@@ -1699,7 +1699,7 @@ void resume_actor_target_selection_after_status_animation(ActorRecord *controlle
     {
         u32 entity_flags;
 
-        if (entity->mp != 0) {
+        if (entity->mp_value.parts.whole != 0) {
 
             (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)arachne_reset_frames);
             select_sprite_entry(sprite,
@@ -1749,7 +1749,7 @@ void resume_actor_target_selection_after_status_animation(ActorRecord *controlle
 
         update_actor_status_and_mp(entity);
         on_actor_status_updated(entity);
-        if (entity->mp == 0) {
+        if (entity->mp_value.parts.whole == 0) {
             return;
         }
 

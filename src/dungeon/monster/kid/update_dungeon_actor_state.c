@@ -66,7 +66,7 @@ void update_dungeon_actor_state(ActorRecord *actor, ObjectPosition *context, Spr
         return;
     }
 
-    if (entity->mp == 0) {
+    if (entity->mp_value.parts.whole == 0) {
         u8 *anim_table;
 
         advance_actor_pending_action(actor, context, sprite_in, entity);
@@ -193,7 +193,7 @@ void update_dungeon_actor_state(ActorRecord *actor, ObjectPosition *context, Spr
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
             player = primary_actor_record;
             entity->facing = direction;
-            if (player->action_id != 0x11) {
+            if (player->action_id.u != 0x11) {
                 update_actor_status_and_mp(entity);
                 return;
             }

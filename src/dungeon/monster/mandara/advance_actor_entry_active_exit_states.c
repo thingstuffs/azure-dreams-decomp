@@ -73,7 +73,7 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
     s32 record_index;
     u8 *effect_state;
 
-    state = action->action_phase;
+    state = action->action_phase.u;
     switch (state) {
     case 0:
     {
@@ -128,7 +128,7 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
             ((S_8017382C_7 *)effect_state)->unk_96 = 0;
             ((S_8017382C_7 *)effect_state)->unk_9E = 0;
         }
-        action->action_phase++;
+        action->action_phase.u++;
         return;
     }
 
@@ -161,7 +161,7 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
             }
         }
         sprite->clut = ((S_8017382C_0 *)action)->unk_AE - 0x40;
-        action->action_phase++;
+        action->action_phase.u++;
         return;
     }
 
@@ -221,7 +221,7 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
             ((S_8017382C_0 *)action)->unk_AE = sprite->clut + 0x40;
             g_dungeon_status.activity_counts.parts.pending_action_count++;
 
-            action->action_phase++;
+            action->action_phase.u++;
             return;
         }
 
@@ -234,7 +234,7 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
             }
         }
 
-        if (actor->mp == 0) {
+        if (actor->mp_value.parts.whole == 0) {
             if (g_dungeon_status.flags & 0x2008) {
                 return;
             }
@@ -321,7 +321,7 @@ second_call:
             ((S_8017382C_7 *)effect_state)->unk_9E = 1;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count++;
-        action->action_phase++;
+        action->action_phase.u++;
         ((S_8017382C_0 *)action)->unk_AE = sprite->clut + 0x40;
         return;
     }

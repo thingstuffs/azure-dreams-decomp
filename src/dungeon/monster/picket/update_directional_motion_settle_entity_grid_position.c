@@ -17,8 +17,7 @@ extern u8 picket_action_resume_address[];
 extern u8 picket_frame_set[];
 
 /* Update directional motion, then settle the entity at its grid position. */
-void update_directional_motion_settle_entity_grid_position(ActorActionTimerView *action, ObjectPosition *motion, SpriteFrameState *grid_pos, EntityRec *entity)
-{
+void update_directional_motion_settle_entity_grid_position(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *grid_pos, ActorRecord *entity) {
     s16 *direction_y;
     s32 velocity_y;
     s32 decel_offset;
@@ -37,10 +36,10 @@ void update_directional_motion_settle_entity_grid_position(ActorActionTimerView 
     s32 target_y;
     s32 current_y;
 
-    ticks_left = action->timer.u - 1;
-    direction = (entity->unk_6A >> 9) & 7;
-    phase = action->phase;
-    action->timer.u = ticks_left;
+    ticks_left = action->action_timer.u - 1;
+    direction = (entity->movement_facing >> 9) & 7;
+    phase = action->action_phase.u;
+    action->action_timer.s = ticks_left;
     switch (phase) {
     case 0:
         apply_clamped_actor_value_delta(entity);
@@ -50,9 +49,9 @@ void update_directional_motion_settle_entity_grid_position(ActorActionTimerView 
             *(s16 *)((u8 *)directions_x + launch_offset) << 0x12;
         motion->velocity_y =
             *(s16 *)((u8 *)((s8 *)dir_step_y) + launch_offset) << 0x12;
-        action->phase++;
+        action->action_phase.u++;
 
-        if (entity->unk_28 == 0) {
+        if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -60,8 +59,8 @@ void update_directional_motion_settle_entity_grid_position(ActorActionTimerView 
             return;
         }
         if (grid_pos->flags & 0x8000) {
-            action->timer.u = 0;
-            action->phase = 2;
+            action->action_timer.s = 0;
+            action->action_phase.s = 2;
             return;
         }
 
@@ -69,7 +68,7 @@ void update_directional_motion_settle_entity_grid_position(ActorActionTimerView 
         if (entity->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             duration = 8;
         }
-        action->timer.u = duration;
+        action->action_timer.s = duration;
 
         velocity_x = motion->velocity_x;
         biased_velocity_x = velocity_x;
@@ -89,17 +88,17 @@ void update_directional_motion_settle_entity_grid_position(ActorActionTimerView 
             *(s16 *)((u8 *)directions_x + decel_offset) << 0xE;
         motion->velocity_y -= *direction_y << 0xE;
 
-        if (action->timer.s != 0) {
+        if (action->action_timer.s != 0) {
             return;
         }
-        if (entity->unk_28 == 0) {
+        if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             begin_actor_display_action(action, motion, grid_pos, picket_frame_set);
         } else {
-            action->timer.u = 6;
-            action->phase++;
+            action->action_timer.s = 6;
+            action->action_phase.u++;
         }
         return;
     case 2:
@@ -111,7 +110,7 @@ void update_directional_motion_settle_entity_grid_position(ActorActionTimerView 
             current_y = motion->y.w.i - 0x20;
             motion->velocity_y = (target_y - current_y) << 0x10 >> 1;
 
-            if (action->timer.s > 0) {
+            if (action->action_timer.s > 0) {
                 return;
             }
         }
@@ -125,7 +124,7 @@ void update_directional_motion_settle_entity_grid_position(ActorActionTimerView 
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
             g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
         }
-        action->next_action = picket_action_resume_address;
+        action->unk_8C.address = picket_action_resume_address;
         break;
     default:
         return;

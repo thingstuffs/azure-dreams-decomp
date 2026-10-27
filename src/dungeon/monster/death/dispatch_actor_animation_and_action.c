@@ -23,7 +23,7 @@ extern s32 process_selected_actor_record(ActorRecord *body, ObjectPosition *posi
 extern void begin_actor_spell_action(void *actor, void * effect_param, void *target, u8 *direction_table, void * next_state);
 void advance_entity_path_state(ActorRecord *motion_state, ObjectPosition *unused, SpriteFrameState *entity, ActorRecord *path_state);
 extern void func_801721D8(void *, void *, void *, void *);
-extern s32 attempt_target_action(void *, ObjectPosition *, void *, void *);
+s32 attempt_target_action(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *target, ActorRecord *actor);
 void apply_conditional_actor_effect(ActorRecord *action_state, ObjectPosition *effect_context, SpriteFrameState *action_context, ActorRecord *actor);
 extern s32 func_80172B8C(void *, void *, void *, void *);
 extern void func_801743F0(void *, void *, void *, void *);
@@ -81,11 +81,11 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
     u16 action_state;
 
     if (g_dungeon_status.flags & 0x1000) {
-        motion_in->action_id = 0xE;
+        motion_in->action_id.u = 0xE;
         advance_entity_path_state(motion_in, context_in, entity_in, actor_in);
         return;
     }
-    if (actor_in->mp == 0) {
+    if (actor_in->mp_value.parts.whole == 0) {
         void *anim_table;
 
         advance_actor_pending_action(motion_in, context_in, entity_in, actor_in);
@@ -102,8 +102,8 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
 
     if (((S_801719DC_1 *)actor_in)->unk_1C & 0x200) {
         if (entity_in->frameTable == death_frame_set_2) {
-            motion_in->action_id = 0xD;
-            motion_in->action_phase = 1;
+            motion_in->action_id.u = 0xD;
+            motion_in->action_phase.u = 1;
             ((S_801719DC_0 *)motion_in)->unk_8C = 0;
             ((S_801719DC_1 *)actor_in)->unk_1C &= 0xFFFBFFFF;
             return;
@@ -126,7 +126,7 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
             void *anim_table;
             s32 motion_value;
 
-            current_state = motion_in->action_id;
+            current_state = motion_in->action_id.u;
 
             next_state = 0xE;
             if (current_state != next_state) {
@@ -146,7 +146,7 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
                     ((S_801719DC_0 *)motion_in)->unk_B0 = 0;
                     ((S_801719DC_0 *)motion_in)->unk_A8 = motion_value;
                 }
-                motion_in->action_id = next_state;
+                motion_in->action_id.u = next_state;
             }
         }
 
@@ -237,7 +237,7 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
                 &direction_aux);
             player = primary_actor_record;
             actor_in->facing = heading;
-            if (player->action_id == 0x11) {
+            if (player->action_id.u == 0x11) {
                 begin_actor_spell_action(motion_in, context_in, entity_in, death_frame_set_8, &death_action_resume_address);
                 return;
             }

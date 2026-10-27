@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/entity.h"
 #include "shared/audio_commands.h"
 #include "dungeon/actor/motion.h"
@@ -21,11 +22,11 @@ void (*const resource03_slot0_entry1)(void *entity, R03_80170A28_S_80170A28_2 *m
 void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a)
 {
     s32 kind;
-    void *obj;
-    R03_80170854_S_8016A854_2 *part_a;
+    ObjectNodeHeader *obj;
+    ObjectPosition *part_a;
     SpriteFrameState *part_b;
-    R03_80170854_S_8016A854_1 *work;
-    R03_80170854_S_8016A854_4 *actor;
+    ActorRecord *work;
+    ActorRecord *actor;
     s32 primary_bits;
     s32 secondary_flags;
     s8 saved_byte_24;
@@ -38,14 +39,14 @@ void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, 
     saved_byte_25 = byte_25;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (u8 *)obj + 0x20;
-        ((R03_80170854_S_8016A854_0 *)obj)->unk_10 = ((u8 *)update_entity_facing_motion_and_ground);
-        work->unk_13 = MONSTER_DRAGON;
+        work = (ActorRecord *)(obj + 1);
+        obj->update_callback = ((u8 *)update_entity_facing_motion_and_ground);
+        work->species = MONSTER_DRAGON;
         register_node(obj, project_sprite_chain);
 
-        part_a = ((R03_80170854_S_8016A854_0 *)obj)->unk_08;
-        part_a->unk_0A = saved_value_0a;
-        part_b = ((R03_80170854_S_8016A854_0 *)obj)->unk_0C;
+        part_a = obj->position;
+        part_a->z.w.i = saved_value_0a;
+        part_b = obj->sprite;
         kind = kind_flags & 3;
         part_b->tile_y = saved_byte_25;
         actor = work;
@@ -53,19 +54,19 @@ void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, 
         part_b->tile_x = saved_byte_24;
 
         if (kind == 1) {
-            primary_bits = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            secondary_flags = work->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-            work->unk_14 = primary_bits;
-            work->unk_1C = secondary_flags;
+            primary_bits = work->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            secondary_flags = work->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            work->flags14 = primary_bits;
+            work->flags1C = secondary_flags;
         } else if (kind >= 2) {
-            primary_bits = work->unk_14 | ACTOR_CLASS_ENABLED;
-            secondary_flags = work->unk_1C | ACTOR_PLAYER_SIDE;
-            work->unk_14 = primary_bits;
-            work->unk_1C = secondary_flags;
+            primary_bits = work->flags14 | ACTOR_CLASS_ENABLED;
+            secondary_flags = work->flags1C | ACTOR_PLAYER_SIDE;
+            work->flags14 = primary_bits;
+            work->flags1C = secondary_flags;
         } else if (((kind_flags & ~3) << 16) == 0) {
-            if (!(work->unk_14 & ACTOR_RESIST_SLEEP)) {
+            if (!(work->flags14 & ACTOR_RESIST_SLEEP)) {
                 if (generate_random_value() & 1) {
-                    work->unk_1C |= ACTOR_ASLEEP;
+                    work->flags1C |= ACTOR_ASLEEP;
                     set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                   (generate_random_value() & 0x3F) | 0x20);
                     part_b->frameTable = ((u8 *)dragon_alt_direction_frames);
@@ -73,9 +74,9 @@ void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, 
             }
         }
         initialize_actor_sprite_and_animation(obj, part_a, part_b, kind_flags);
-        actor->unk_9A = 0xFF;
+        actor->action_id.u = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = ((void *)dispatch_monster_move_attack_spell);
+        actor->unk_8C.address = ((void *)dispatch_monster_move_attack_spell);
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;
@@ -246,7 +247,7 @@ void dispatch_monster_move_attack_spell(ActorRecord *controller, ObjectPosition 
         return;
     }
 
-    if (actor_state->mp == 0) {
+    if (actor_state->mp_value.parts.whole == 0) {
         advance_actor_pending_action(controller, context, entity, actor_state);
         if (entity->frameTable != ((u8 *)dragon_alt_direction_frames)) {
             u8 *early_table = ((u8 *)dragon_reset_frames);
@@ -360,7 +361,7 @@ void dispatch_monster_move_attack_spell(ActorRecord *controller, ObjectPosition 
                     &direction_flags);
                 player_controller = primary_actor_record;
                 actor_state->facing = direction;
-                if (player_controller->action_id != 0x11) {
+                if (player_controller->action_id.u != 0x11) {
                     update_actor_status_and_mp(actor_state);
                     return;
                 }
@@ -506,8 +507,7 @@ void advance_stored_entity_path(void *controller, ObjectPosition *context, void 
 
 /* Chooses a clear step or attack, records the actor's path, and updates occupied tiles and movement
  * counts. */
-void advance_actor_path_with_item_search(Rec_func_800A9E70_arg0 *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data)
-{
+void advance_actor_path_with_item_search(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data) {
     u16 dungeon_flags = g_dungeon_status.flags;
     s32 limit_detour = 0;
     s16 detour_check;
@@ -535,7 +535,7 @@ void advance_actor_path_with_item_search(Rec_func_800A9E70_arg0 *move_data, Obje
         return;
     }
 
-    update_actor_proximity_flag(position_data, actor_data, 3, 6, &move_data->unk_9C.as_s8);
+    update_actor_proximity_flag(position_data, actor_data, 3, 6, &move_data->unk_9C);
     actor_flags = actor_data->flags1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
@@ -544,7 +544,7 @@ void advance_actor_path_with_item_search(Rec_func_800A9E70_arg0 *move_data, Obje
             if (blocker != 0) {
                 SpriteFrameState *blocker_sprite = ((ObjectNodeHeader *)blocker - 1)->sprite;
                 s16 target_angle = ((s16)get_rounded_facing_and_rounding_flag((s16)(position_data->tile_x),(s16)(position_data->tile_y),(s16)(blocker_sprite->tile_x),(s16)(blocker_sprite->tile_y),
-                    &move_data->unk_98));
+                    &move_data->action_state_flags));
                 actor_data->facing = target_angle;
                 actor_data->movement_queue_state &= 0x7F;
                 return;
@@ -584,7 +584,7 @@ void advance_actor_path_with_item_search(Rec_func_800A9E70_arg0 *move_data, Obje
                     return;
                 }
 
-                turn_data = &move_data->unk_98;
+                turn_data = &move_data->action_state_flags;
                 target_angle = ((s16)get_rounded_facing_and_rounding_flag((s16)(position_data->tile_x),(s16)(position_data->tile_y),(s16)((s16)target_x),(s16)((s16)target_y), turn_data));
                 actor_data->facing = target_angle;
                 if (((s16)check_movement_clearance_and_height((s16)(target_angle), position_data, actor_data, 0x20)) <= 0) {
@@ -596,14 +596,14 @@ void advance_actor_path_with_item_search(Rec_func_800A9E70_arg0 *move_data, Obje
                     limit_detour = 1;
                 }
             } else {
-                select_actor_route_target((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
-                              &move_data->unk_98);
+                select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+                              &move_data->action_state_flags);
             }
         }
     } else if ((s8)position_data->room_index >= 0 &&
                dungeon_rooms[(s8)position_data->room_index].flags & ROOM_HOLY_BEAM) {
-        select_actor_route_target((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
-                      &move_data->unk_98);
+        select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+                      &move_data->action_state_flags);
     } else if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
         current_angle = (s32)probe_directional_neighbor(actor_data,(u8)(position_data->tile_x),(u8)(position_data->tile_y),(s16)(actor_data->facing));
         blocker = (ActorRecord *)current_angle;
@@ -619,7 +619,7 @@ void advance_actor_path_with_item_search(Rec_func_800A9E70_arg0 *move_data, Obje
 
         if (actor_data->flags1C & ACTOR_PLAYER_AWARE) {
             TileObject *target_position = &reference_tile_object;
-            actor_data->facing = ((s16)get_rounded_facing_and_rounding_flag((s16)(position_data->tile_x),(s16)(position_data->tile_y),(s16)(target_position->tile_position.parts.tile_x),(s16)(target_position->tile_position.parts.tile_y), &move_data->unk_98));
+            actor_data->facing = ((s16)get_rounded_facing_and_rounding_flag((s16)(position_data->tile_x),(s16)(position_data->tile_y),(s16)(target_position->tile_position.parts.tile_x),(s16)(target_position->tile_position.parts.tile_y), &move_data->action_state_flags));
             if (((s16)test_neighbor_position_relation(
                     position_data->tile_x, position_data->tile_y,
                     target_position->tile_position.parts.tile_x, target_position->tile_position.parts.tile_y)) != 0) {
@@ -632,8 +632,8 @@ void advance_actor_path_with_item_search(Rec_func_800A9E70_arg0 *move_data, Obje
                 }
             }
         } else {
-            select_actor_route_target((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
-                          &move_data->unk_98);
+            select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+                          &move_data->action_state_flags);
         }
     }
 
@@ -641,7 +641,7 @@ void advance_actor_path_with_item_search(Rec_func_800A9E70_arg0 *move_data, Obje
     turn_table = ((s16 *)actor_turn_angle_offsets);
 
     do {
-        turn_flags = move_data->unk_98;
+        turn_flags = move_data->action_state_flags;
         current_angle = actor_data->facing;
         if (turn_flags & 2) {
             trial_angle = current_angle - turn_table[turn_index];
@@ -708,7 +708,7 @@ void advance_actor_path_with_item_search(Rec_func_800A9E70_arg0 *move_data, Obje
 
     {
         actor_data->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-        move_data->unk_9C.as_u8 = position_data->room_index;
+        move_data->unk_9C = position_data->room_index;
         actor_data->pending_turn_updates--;
         g_dungeon_status.activity_counts.parts.pending_movement_count++;
     }
@@ -742,8 +742,7 @@ void copy_display_orientation_state(void *object, ObjectPosition *unused, void *
 }
 
 /* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
-s32 check_actor_transition_and_start_effect(Rec_func_800A9E70_arg0 *action_state, ObjectPosition *motion_param, void *sprite_arg, ActorRecord *actor)
-{
+s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor) {
     s32 target_angle;
     u16 status_flags;
     u8 actor_flags;
@@ -756,8 +755,8 @@ s32 check_actor_transition_and_start_effect(Rec_func_800A9E70_arg0 *action_state
         return -1;
     }
 
-    target_angle = probe_directional_neighbor(actor, ((R03_80171DA0_S_80171DA0_1 *)sprite_arg)->unk_24,
-                           ((R03_80171DA0_S_80171DA0_1 *)sprite_arg)->unk_25, actor->facing);
+    target_angle = probe_directional_neighbor(actor, sprite_arg->tile_x,
+                           sprite_arg->tile_y, actor->facing);
     if ((check_entity_interaction_compatibility(actor, target_angle) << 16) == 0) {
         return 0;
     }
@@ -778,12 +777,12 @@ s32 check_actor_transition_and_start_effect(Rec_func_800A9E70_arg0 *action_state
 
     apply_camera_offset_and_select_target((u8 *)actor - 0x20, motion_param, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
-        action_state->unk_9A.as_u8 = 0x11;
-        action_state->unk_9B.as_u8 = 0;
-        action_state->unk_8C = 0;
+        action_state->action_id.s = 0x11;
+        action_state->action_phase.s = 0;
+        action_state->unk_8C.run = 0;
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;
-        ((R03_80171DA0_S_80171DA0_1 *)sprite_arg)->unk_2C = ((u8 *)dragon_direction_frames);
+        sprite_arg->frameTable = ((u8 *)dragon_direction_frames);
         select_sprite_entry(sprite_arg, (((u8 *)dragon_direction_frames))[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         actor->pending_turn_updates--;
         prepare_directional_attack(actor, sprite_arg, actor->facing, 1, 0);
@@ -1634,7 +1633,7 @@ void wait_for_dragon_mp(ActorRecord *controller, ObjectPosition *context, Sprite
     {
         u32 entity_flags;
 
-        if (entity->mp != 0) {
+        if (entity->mp_value.parts.whole != 0) {
 
             (*(void **)((u8 *)sprite + 0x2C)) = ((u8 *)dragon_reset_frames);
             select_sprite_entry(sprite,
@@ -1684,7 +1683,7 @@ void wait_for_dragon_mp(ActorRecord *controller, ObjectPosition *context, Sprite
 
         update_actor_status_and_mp(entity);
         on_actor_status_updated(entity);
-        if (entity->mp == 0) {
+        if (entity->mp_value.parts.whole == 0) {
             return;
         }
 

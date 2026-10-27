@@ -55,7 +55,7 @@ void update_actor_movement_animation_states_completes_timed_action(ActorRecord *
     DungeonGlobalStatus *dungeon_state;
     u8 *idle_anims;
 
-    state = action->action_phase;
+    state = action->action_phase.u;
     switch (state) {
     case 0:
     {
@@ -74,7 +74,7 @@ void update_actor_movement_animation_states_completes_timed_action(ActorRecord *
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80154B4C_0 *)action)->unk_9E.s = 5;
         ((S_80154B4C_0 *)action)->unk_A4 = 0;
-        action->action_phase++;
+        action->action_phase.u++;
     }
                         /* fall through */
     case 1:
@@ -108,7 +108,7 @@ void update_actor_movement_animation_states_completes_timed_action(ActorRecord *
             ((S_80154B4C_0 *)action)->unk_90 = 0;
             action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            action->action_phase++;
+            action->action_phase.u++;
         }
                         /* fall through */
     case 2:
@@ -127,7 +127,7 @@ void update_actor_movement_animation_states_completes_timed_action(ActorRecord *
                 state_anims[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             sprite->scale_y = 0xC00;
-            action->action_phase++;
+            action->action_phase.u++;
         }
     }
         break;

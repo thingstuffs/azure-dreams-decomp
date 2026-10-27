@@ -71,7 +71,7 @@ void *spawn_unicorn(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)
             }
         }
         initialize_actor_sprite_and_animation(obj, position, sprite, spawn_flags);
-        actor->action_id = 0xFF;
+        actor->action_id.u = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C.address = &unicorn_action_continuation_address;
         try_move_actor_to_valid_position(actor, position, sprite, work);

@@ -39,7 +39,7 @@ void advance_actor_action_and_update_status(ActorRecord *actor, ObjectPosition *
 
     s32 state;
 
-    state = actor->action_phase;
+    state = actor->action_phase.u;
     switch (state) {
     case 0:
     {
@@ -57,14 +57,14 @@ void advance_actor_action_and_update_status(ActorRecord *actor, ObjectPosition *
                 direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)entity)->facing + 0x100) >> 9) & 7],
                 0);
         }
-        actor->action_phase++;
+        actor->action_phase.u++;
         return;
     }
     case 1:
     {
         u32 entity_flags;
 
-        if (((ActorRecord *)entity)->mp != 0) {
+        if (((ActorRecord *)entity)->mp_value.parts.whole != 0) {
 
             (animation->frameTable) = kewne_frame_set_2;
             select_sprite_entry(animation,
@@ -72,7 +72,7 @@ void advance_actor_action_and_update_status(ActorRecord *actor, ObjectPosition *
                 0);
             ((ActorRecord *)entity)->flags1C |= 0x40000;
             g_dungeon_status.activity_counts.parts.pending_action_count++;
-            actor->action_phase++;
+            actor->action_phase.u++;
             return;
         }
 
@@ -122,7 +122,7 @@ void advance_actor_action_and_update_status(ActorRecord *actor, ObjectPosition *
 
         update_actor_status_and_mp(entity);
         on_actor_status_updated(entity);
-        if (((ActorRecord *)entity)->mp == 0) {
+        if (((ActorRecord *)entity)->mp_value.parts.whole == 0) {
             return;
         }
 
@@ -132,7 +132,7 @@ void advance_actor_action_and_update_status(ActorRecord *actor, ObjectPosition *
             0);
         ((ActorRecord *)entity)->flags1C |= 0x40000;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
-        actor->action_phase++;
+        actor->action_phase.u++;
         return;
     }
     case 2:

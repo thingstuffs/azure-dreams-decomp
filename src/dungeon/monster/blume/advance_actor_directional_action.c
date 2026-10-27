@@ -10,17 +10,8 @@
 #include "records/Rec_D_80082E80.h"
 
 /* Sparse views for fields not covered by the existing record types. */
-typedef struct {
-    u8 pad_00[0x2C];
-    void *field_2C;
-} SpriteFieldView_80DBC9D8;
 
-typedef struct S_801741D8_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xB];
-    u8 unk_9B;
-} S_801741D8_0;   /* arg0 in advance_actor_directional_action */
+
 
 typedef struct S_801741D8_2 {
     u8 pad_00[0x1C];
@@ -55,8 +46,7 @@ extern u8 blume_action_resume_address[];
 extern u8 D_8017540C[];
 
 /* Advance the actor action state and update its directional animation. */
-void advance_actor_directional_action(void *controller, void *context, SpriteFrameState *sprite, void *actor_in)
-{
+void advance_actor_directional_action(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor_in) {
     void *actor;
     u8 state;
     DungeonGlobalStatus *global_state;
@@ -64,7 +54,7 @@ void advance_actor_directional_action(void *controller, void *context, SpriteFra
     void *active_actor;
     s8 tile;
 
-    state = ((S_801741D8_0 *)controller)->unk_9B;
+    state = controller->action_phase.u;
     actor = actor_in;
     switch (state) {
     case 0:
@@ -77,7 +67,7 @@ void advance_actor_directional_action(void *controller, void *context, SpriteFra
                 0);
             counter = &g_dungeon_status;
             (*(u16 *)&counter->activity_counts.parts.pending_action_count)--;
-            ((S_801741D8_0 *)controller)->unk_9B++;
+            controller->action_phase.u++;
             break;
         }
         break;
@@ -167,7 +157,7 @@ void advance_actor_directional_action(void *controller, void *context, SpriteFra
             D_8017540C[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801741D8_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         if (sprite->flags & 0x8000) {
-            ((S_801741D8_0 *)controller)->unk_8C = blume_action_resume_address;
+            controller->unk_8C.address = blume_action_resume_address;
             break;
         } else {
             DungeonGlobalStatus *counter_m = &g_dungeon_status;
@@ -175,7 +165,7 @@ void advance_actor_directional_action(void *controller, void *context, SpriteFra
         }
 
 
-        ((S_801741D8_0 *)controller)->unk_9B++;
+        controller->action_phase.u++;
         break;
 
     case 2:
@@ -183,7 +173,7 @@ void advance_actor_directional_action(void *controller, void *context, SpriteFra
             DungeonGlobalStatus *counter_m = &g_dungeon_status;
             counter_m->activity_counts.parts.pending_action_count--;
 
-            ((S_801741D8_0 *)controller)->unk_8C = blume_action_resume_address;
+            controller->unk_8C.address = blume_action_resume_address;
         }
         break;
 

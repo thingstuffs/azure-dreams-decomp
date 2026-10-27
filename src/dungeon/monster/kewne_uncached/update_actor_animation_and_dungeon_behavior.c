@@ -67,7 +67,7 @@ void update_actor_animation_and_dungeon_behavior(void *actor, void *context, Spr
         func_8015A510(actor, context, sprite, entity);
         return;
     }
-    if (entity->mp == 0) {
+    if (entity->mp_value.parts.whole == 0) {
         void *anim_table;
 
         advance_actor_pending_action(actor, context, sprite, entity);
@@ -208,7 +208,7 @@ void update_actor_animation_and_dungeon_behavior(void *actor, void *context, Spr
                         &distance);
                     player = primary_actor_record;
                     entity->facing = facing_angle;
-                    if (player->action_id == 0x11) {
+                    if (player->action_id.u == 0x11) {
                         begin_actor_spell_action(actor, context, sprite, D_8015DC88, D_80159FA4);
                         return;
                     }

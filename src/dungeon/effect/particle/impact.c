@@ -1478,7 +1478,7 @@ void update_owner_following_effect(OwnerFollowingWork *effect_in, ObjectPosition
                               effect_in->min_index, effect_in->max_index);
                 copy_and_expand_effect_record(effect_in, visual_in->unk_00);
             }
-            if ((s16)primary_actor_record->action_timer == 0) {
+            if ((s16)primary_actor_record->action_timer.u == 0) {
                 effect_in->move_ticks = 0;
                 effect_in->rise_speed = 0x200000;
                 effect_in->rise_accel = 0;

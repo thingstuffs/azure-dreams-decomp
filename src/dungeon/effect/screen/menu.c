@@ -1346,7 +1346,7 @@ void update_familiar_selection_marker(FamiliarMarkerWork *state, ObjectPosition 
         ActorRecord *tracked_target = *state->target;
         if (tracked_target == 0) {
             marker_arg->color.word = 0x808080;
-        } else if (tracked_target == dungeon_actor_ring_anchor->unk_AC) {
+        } else if (tracked_target == dungeon_actor_ring_anchor->unk_AC.address) {
             marker_arg->color.word = 0x101080;
         } else {
             marker_arg->color.word = 0x801010;

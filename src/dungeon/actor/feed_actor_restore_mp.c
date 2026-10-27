@@ -47,7 +47,7 @@ s32 feed_actor_restore_mp(ActorRecord *state, s32 mode, DungeonItemEntry *item) 
         }
     }
 
-    meter = *(u16 *)&state->mp_fraction;
+    meter = *(u16 *)&state->mp_value.parts.fraction;
     old_meter = meter;
     switch (mode) {
     case 0:
@@ -91,12 +91,12 @@ s32 feed_actor_restore_mp(ActorRecord *state, s32 mode, DungeonItemEntry *item) 
     if (meter > 0x10000) {
         meter = 0xFFFF;
     }
-    *(u16 *)&state->mp_fraction = (u16)meter;
+    *(u16 *)&state->mp_value.parts.fraction = (u16)meter;
     if (((u8 *)state)[0x25] != 0) {
         state->flags1C &= ~ACTOR_MP_EMPTY;
     }
-    if (state->max_mp < state->mp) {
-        state->mp = state->max_mp;
+    if (state->max_mp < state->mp_value.parts.whole) {
+        state->mp_value.parts.whole = state->max_mp;
         ((u8 *)state)[0x24] = 0xFF;
     }
     return mode;

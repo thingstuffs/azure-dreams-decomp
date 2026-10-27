@@ -31,12 +31,12 @@ extern u8 maximum_frame_set[];
 void advance_actor_action_animation_and_cleanup(ActorRecord *action, ObjectPosition *actor_id, SpriteFrameState *animation, ActorRecord *actor) {
     s32 state;
 
-    state = action->action_phase;
+    state = action->action_phase.u;
     ((S_801726C4_0 *)action)->unk_96--;
     switch (state) {
     case 0:
         if (animation->flags & 0x8000) {
-            action->action_phase = 0xFF;
+            action->action_phase.u = 0xFF;
             animation->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
             return;
@@ -45,7 +45,7 @@ void advance_actor_action_animation_and_cleanup(ActorRecord *action, ObjectPosit
         select_sprite_entry(animation,
             maximum_frame_set[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        action->action_phase++;
+        action->action_phase.u++;
         return;
 
     case 1:
@@ -54,7 +54,7 @@ void advance_actor_action_animation_and_cleanup(ActorRecord *action, ObjectPosit
             (animation->flags & 0x8000)) {
             play_sound_if_enabled(0x808);
             resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
-            action->action_phase = 0xFF;
+            action->action_phase.u = 0xFF;
         }
         return;
 

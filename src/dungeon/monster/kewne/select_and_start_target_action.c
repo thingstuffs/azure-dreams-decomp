@@ -27,7 +27,7 @@ extern u8 kewne_frame_set[];
 /* Select and start an actor action based on the target delta. */
 /* Chooses one of three Kewne attacks by target height; returns its mode, 0 for no valid target, or -1
  * while busy. */
-s32 select_and_start_target_action(Rec_func_800A9E70_arg0 *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor) {
+s32 select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor) {
     s32 target_delta;
     s16 action_mode;
     u16 pending_amount;
@@ -78,27 +78,27 @@ s32 select_and_start_target_action(Rec_func_800A9E70_arg0 *action_state, ObjectP
         {
             u8 new_action;
             s32 selected_mode = action_mode;
-            action_state->unk_9B.as_s8 = 0;
+            action_state->action_phase.u = 0;
             if (selected_mode == 1) {
-                action_state->unk_8C = 0;
+                action_state->unk_8C.run = 0;
                 visual_data->frameTable = D_80175E50;
                 new_action = 0x11;
-                action_state->unk_98 |= 8;
-                action_state->unk_9A.as_s8 = new_action;
+                action_state->action_state_flags |= 8;
+                action_state->action_id.u = new_action;
                 actor->unk_84 = 0x7C;
                 actor->unk_85 = 0;
             } else if (selected_mode == 2) {
-                action_state->unk_8C = 0;
+                action_state->unk_8C.run = 0;
                 visual_data->frameTable = kewne_frame_set_3;
                 new_action = 0x17;
-                action_state->unk_98 |= 8;
-                action_state->unk_9A.as_s8 = new_action;
+                action_state->action_state_flags |= 8;
+                action_state->action_id.u = new_action;
                 actor->unk_84 = 0x7C;
                 actor->unk_85 = 0;
             } else {
-                action_state->unk_8C = 0;
+                action_state->unk_8C.run = 0;
                 visual_data->frameTable = kewne_frame_set;
-                action_state->unk_9A.as_s8 = 0x18;
+                action_state->action_id.u = 0x18;
                 actor->unk_84 = 0x7C;
                 actor->unk_85 = 0;
                 actor->flags1C &= 0xFFFBFFFF;
@@ -113,11 +113,11 @@ s32 select_and_start_target_action(Rec_func_800A9E70_arg0 *action_state, ObjectP
             }
             actor->pending_turn_updates--;
             prepare_directional_attack(actor, ((S_80171F9C_0 *)(visual_data)), actor->facing, 1, 0);
-            stored_amount = action_state->unk_90.at02_u16.v;
-            pending_amount = action_state->unk_A0.at02_u16.v;
-            action_state->unk_A0.at02_u16.v = 0;
-            action_state->unk_9E.as_s16 = 0;
-            action_state->unk_90.at02_u16.v = stored_amount - pending_amount;
+            stored_amount = action_state->unk_90.parts.high.u;
+            pending_amount = action_state->unk_A0.parts.high;
+            action_state->unk_A0.parts.high = 0;
+            action_state->unk_9E.s = 0;
+            action_state->unk_90.parts.high.s = stored_amount - pending_amount;
             return action_mode;
         }
     }

@@ -1116,7 +1116,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
     case 0:
         player = primary_actor_record;
         ((PlayerRecord *)player)->unk_F4 = 0;
-        player->action_timer = 20;
+        player->action_timer.u = 20;
         reference_tile_object.depth_bias = 6;
         state_2 = (u8 *)(&view_reference_entity);
         ((S_8197192C_0 *)effect)->unk_0A.u = ((S_8197192C_0 *)effect)->unk_0A.u + 1;

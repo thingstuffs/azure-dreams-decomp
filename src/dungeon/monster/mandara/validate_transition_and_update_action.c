@@ -62,14 +62,14 @@ s32 validate_transition_and_update_action(ActorRecord *state, ObjectPosition *tr
         u16 state_flags;
 
         state_flags = state->action_state_flags;
-        state->action_phase = 0;
+        state->action_phase.u = 0;
         ((S_80172314_2 *)state)->unk_8C = 0;
         if (state_flags & 0x8000) {
-            state->action_id = 0x17;
+            state->action_id.u = 0x17;
             actor->unk_84 = 0x28;
             actor->unk_85 = 0x10;
         } else {
-            state->action_id = 0x11;
+            state->action_id.u = 0x11;
             actor->unk_84 = 0x7C;
             actor->unk_85 = 0;
         }

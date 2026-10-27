@@ -57,12 +57,12 @@ void dispatch_actor_behavior_and_facing(ActorRecord *actor, ObjectPosition *cont
 
     dungeon_status = (u16 *)&g_dungeon_status.turn_scale;
     if (dungeon_status[1] & 0x1000) {
-        actor->action_id = 14;
+        actor->action_id.u = 14;
         func_80171388(actor, context, sprite, state);
         return;
     }
 
-    if (state->mp == 0) {
+    if (state->mp_value.parts.whole == 0) {
         advance_actor_pending_action(actor, context, sprite, state);
     } else {
         initial_flags = ((u32)state->flags1C);
@@ -76,7 +76,7 @@ void dispatch_actor_behavior_and_facing(ActorRecord *actor, ObjectPosition *cont
                 return;
             }
 
-            if (actor->action_id != 14) {
+            if (actor->action_id.u != 14) {
                 if (*(u8 **)&sprite->frameTable != dreamin_direction_frames) {
                     sprite->frameTable = dreamin_direction_frames;
                     select_sprite_entry(
@@ -84,7 +84,7 @@ void dispatch_actor_behavior_and_facing(ActorRecord *actor, ObjectPosition *cont
                         dreamin_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 9) & 7],
                         0);
                 }
-                actor->action_id = 14;
+                actor->action_id.u = 14;
             }
 
             actor->action_state_flags &= 0xFFF3;
@@ -161,7 +161,7 @@ void dispatch_actor_behavior_and_facing(ActorRecord *actor, ObjectPosition *cont
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, (s16 *)&distance);
                 player = primary_actor_record;
                 state->facing = result;
-                if (player->action_id == 0x11) {
+                if (player->action_id.u == 0x11) {
                     begin_actor_spell_action(actor, context, sprite, D_8017389C, dreamin_action_continuation_address);
                     return;
                 }

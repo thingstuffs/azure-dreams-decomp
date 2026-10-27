@@ -26,12 +26,12 @@ void update_staged_item_movement(ActorRecord *action, ObjectPosition *motion, Sp
     u8 state;
     s16 timer;
 
-    state = action->action_phase;
+    state = action->action_phase.u;
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(actor);
         ((S_80173730_0 *)action)->unk_96.u = 4;
-        action->action_phase++;
+        action->action_phase.u++;
         if (actor->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
@@ -43,7 +43,7 @@ void update_staged_item_movement(ActorRecord *action, ObjectPosition *motion, Sp
             return;
         }
         ((S_80173730_0 *)action)->unk_96.u = 0;
-        action->action_phase = 3;
+        action->action_phase.u = 3;
         return;
 
     case 1:
@@ -68,7 +68,7 @@ void update_staged_item_movement(ActorRecord *action, ObjectPosition *motion, Sp
             *(s16 *)(((s8 *)dir_step_y) +
                 ((actor->movement_facing >> 8) & 0xE)) << 18;
         ((S_80173730_0 *)action)->unk_96.u = 12;
-        action->action_phase++;
+        action->action_phase.u++;
         return;
 
     case 2:
@@ -110,7 +110,7 @@ void update_staged_item_movement(ActorRecord *action, ObjectPosition *motion, Sp
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        action->action_phase++;
+        action->action_phase.u++;
         return;
 
     case 3:

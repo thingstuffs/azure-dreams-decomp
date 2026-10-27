@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
@@ -16,8 +17,8 @@ void *spawn_mode_configured_monster_slot_f(s16 flags, s16 tile_x, s16 tile_y, s1
     ObjectNodeHeader *obj;
     ObjectPosition *part_a;
     SpriteFrameState *part_b;
-    S_8016A894_1 *work;
-    S_8016A894_4 *actor;
+    ActorRecord *work;
+    ActorRecord *actor;
     s32 left;
     s32 right;
     s8 saved_tile_x;
@@ -31,9 +32,9 @@ void *spawn_mode_configured_monster_slot_f(s16 flags, s16 tile_x, s16 tile_y, s1
     saved_tile_y = tile_y;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (u8 *)obj + 0x20;
+        work = (ActorRecord *)(obj + 1);
         obj->update_callback = func_8016AA68;
-        work->unk_13 = MONSTER_VIPER;
+        work->species = MONSTER_VIPER;
         register_node(obj, project_sprite_chain);
 
         part_a = obj->position;
@@ -46,23 +47,23 @@ void *spawn_mode_configured_monster_slot_f(s16 flags, s16 tile_x, s16 tile_y, s1
         part_b->tile_x = saved_tile_x;
 
         if (kind == 1) {
-            left = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            right = work->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-            work->unk_14 = left;
-            work->unk_1C = right;
+            left = work->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            right = work->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            work->flags14 = left;
+            work->flags1C = right;
         } else if (kind >= 2) {
-            left = work->unk_14 | ACTOR_CLASS_ENABLED;
-            right = work->unk_1C | ACTOR_PLAYER_SIDE;
-            work->unk_14 = left;
-            work->unk_1C = right;
+            left = work->flags14 | ACTOR_CLASS_ENABLED;
+            right = work->flags1C | ACTOR_PLAYER_SIDE;
+            work->flags14 = left;
+            work->flags1C = right;
         } else {
             call_a1 = obj;
-            if (((flags & ~3) << 16) == 0 && !(work->unk_14 & ACTOR_RESIST_SLEEP)) {
+            if (((flags & ~3) << 16) == 0 && !(work->flags14 & ACTOR_RESIST_SLEEP)) {
                 call_a1 = part_a;
                 left = generate_random_value();
                 call_a1 = obj;
                 if (left & 1) {
-                    work->unk_1C |= ACTOR_ASLEEP;
+                    work->flags1C |= ACTOR_ASLEEP;
                     set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                   (generate_random_value() & 0x3F) | 0x20);
                     part_b->frameTable = viper_frame_set_9;
@@ -71,9 +72,9 @@ void *spawn_mode_configured_monster_slot_f(s16 flags, s16 tile_x, s16 tile_y, s1
         }
         call_a1 = obj;
         initialize_actor_sprite_and_animation(call_a1, part_a, part_b, flags);
-        actor->unk_9A = 0xFF;
+        actor->action_id.u = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &func_8016AE94;
+        actor->unk_8C.address = &func_8016AE94;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

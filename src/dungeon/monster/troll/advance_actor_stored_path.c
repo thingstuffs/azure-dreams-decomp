@@ -376,8 +376,8 @@ void reset_actor_directional_animation(ActorRecord *state, ObjectPosition *unuse
     u8 *direction_table;
     u8 *previous_table;
 
-    state->action_id = 0x10;
-    state->action_phase = 0;
+    state->action_id.u = 0x10;
+    state->action_phase.u = 0;
     kind = entity->unk_48;
     switch (kind) {
     case 0xD:
@@ -456,9 +456,9 @@ s32 check_and_prepare_actor_move(ActorRecord *action_state, ObjectPosition *faci
         return -1;
     }
 
-    action_state->action_phase = 0;
+    action_state->action_phase.u = 0;
     ((T_80173734_S_80173734_3 *)action_state)->unk_8C = 0;
-    action_state->action_id = 0x11;
+    action_state->action_id.u = 0x11;
 
     switch (((T_80173734_S_80173734_0 *)actor)->unk_48) {
     case 13:
@@ -579,8 +579,8 @@ void prepare_actor_path_movement(ActorRecord *action_input, ObjectPosition *x_of
     }
 
     ((T_80173B48_S_80173B48_1 *)action_input)->unk_8C = 0;
-    action_input->action_id = 0x11;
-    action_input->action_phase = 0;
+    action_input->action_id.u = 0x11;
+    action_input->action_phase.u = 0;
     ((T_80173B48_S_80173B48_0 *)actor)->unk_6D--;
 
     if (((T_80173B48_S_80173B48_0 *)actor)->unk_48 == 15) {

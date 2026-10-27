@@ -77,7 +77,7 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
         owner_sprite = (u8 *)owner + 0x28;
     }
     ((S_80172D74_1 *)action)->unk_96.s--;
-    switch (action->action_phase) {
+    switch (action->action_phase.u) {
     case 0:
         if (actor->flags1C & ACTOR_PLAYER_SIDE) {
             s32 kind_index = (actor->action_flags & ACTOR_ACTION_CODE_MASK) - 1;
@@ -164,9 +164,9 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
             sprite->flags &= 0xF7FF;
             create_source_positioned_object(motion, 3);
             play_sound_if_enabled(0x703);
-            state_value = action->action_phase;
+            state_value = action->action_phase.u;
             ((S_80172D74_1 *)action)->unk_96.s = 6;
-            action->action_phase = state_value + 1;
+            action->action_phase.u = state_value + 1;
             return;
         }
         motion->velocity_z = 0;
@@ -193,7 +193,7 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
             return;
         }
         sprite->flags &= 0xF7FF;
-        action->action_phase++;
+        action->action_phase.u++;
 
     case 2:
         if (((S_80172D74_1 *)action)->unk_96.u > 0 &&
@@ -204,10 +204,10 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
         action->action_state_flags |= 0x80;
         if (sprite->flags & 0x8000) {
             next_state = 0x10;
-            action->action_phase = next_state;
+            action->action_phase.u = next_state;
             return;
         }
-        action->action_phase = action->action_phase + 1;
+        action->action_phase.u = action->action_phase.u + 1;
         return;
 
     case 3:
@@ -221,7 +221,7 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
         next_state = 4;
         ((S_80172D74_1 *)action)->unk_96.s = next_state;
         next_state = 0x10;
-        action->action_phase = next_state;
+        action->action_phase.u = next_state;
         return;
 
     case 16:

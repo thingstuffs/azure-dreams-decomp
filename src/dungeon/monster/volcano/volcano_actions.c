@@ -215,7 +215,7 @@ void update_actor_behavior_facing_and_animation_2(ActorRecord *actor_in, ObjectP
     status = status_in;
 
     if (initial_flags & 0x1000) {
-        actor_in->action_id = 0xE;
+        actor_in->action_id.u = 0xE;
         advance_actor_path_step(actor_in, context_in, sprite_in, status);
         return;
     }
@@ -235,8 +235,8 @@ void update_actor_behavior_facing_and_animation_2(ActorRecord *actor_in, ObjectP
 
     if (((E_80170E5C_S_80170E5C_1 *)status)->unk_1C & 0x200) {
         if (((E_80170E5C_S_80170E5C_2 *)sprite_in)->unk_2C == volcano_frame_set_2) {
-            actor_in->action_id = 0xD;
-            actor_in->action_phase = 1;
+            actor_in->action_id.u = 0xD;
+            actor_in->action_phase.u = 1;
             ((E_80170E5C_S_80170E5C_0 *)actor_in)->unk_8C = 0;
             ((E_80170E5C_S_80170E5C_1 *)status)->unk_1C &= ~0x40000;
             return;
@@ -256,7 +256,7 @@ void update_actor_behavior_facing_and_animation_2(ActorRecord *actor_in, ObjectP
             s32 next_state;
             s32 actor_state;
 
-            actor_state = actor_in->action_id;
+            actor_state = actor_in->action_id.u;
             next_state = 0xE;
 
             if (actor_state != next_state) {
@@ -267,7 +267,7 @@ void update_actor_behavior_facing_and_animation_2(ActorRecord *actor_in, ObjectP
                         anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((E_80170E5C_S_80170E5C_1 *)status)->unk_2A.s + 0x100) >> 9) & 7],
                         0);
                 }
-                actor_in->action_id = next_state;
+                actor_in->action_id.u = next_state;
             }
         }
 
@@ -355,7 +355,7 @@ void update_actor_behavior_facing_and_animation_2(ActorRecord *actor_in, ObjectP
                 &direction_aux);
             active_actor = primary_actor_record;
             ((E_80170E5C_S_80170E5C_1 *)status)->unk_2A.s = direction;
-            if (active_actor->action_id == 0x11) {
+            if (active_actor->action_id.u == 0x11) {
                 begin_actor_spell_action(actor_in, context_in, sprite_in, D_80174560, update_actor_behavior_facing_and_animation_2);
                 return;
             }
@@ -711,7 +711,7 @@ void advance_actor_path_step(ActorRecord *action, ObjectPosition *action_id, Spr
         set_actor_directional_animation(action, action_id, entity, state);
         ((E_80171B68_S_80171570_2 *)action)->unk_8C = 0;
     } else {
-        action->action_id = 0x0F;
+        action->action_id.u = 0x0F;
         ((E_80171B68_S_80171570_2 *)action)->unk_8C = 0;
     }
     (*(s32 *)((u8 *)state + 0x1C)) |= 0x40000000;
@@ -1409,7 +1409,7 @@ void handle_actor_pending_action(ActorRecord *action, ObjectPosition *context, S
 #define context saved_context
 #define sprite sprite
 
-    state = action->action_phase;
+    state = action->action_phase.u;
     switch (state) {
     case 0:
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
@@ -1421,7 +1421,7 @@ void handle_actor_pending_action(ActorRecord *action, ObjectPosition *context, S
                 direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             g_dungeon_status.activity_counts.parts.pending_action_count--;
-            action->action_phase++;
+            action->action_phase.u++;
         }
         return;
     case 1:
@@ -1437,7 +1437,7 @@ void handle_actor_pending_action(ActorRecord *action, ObjectPosition *context, S
                 return;
             }
 
-            if (entity->mp == 0) {
+            if (entity->mp_value.parts.whole == 0) {
                 if (g_dungeon_status.flags & 0x2008) {
                     return;
                 }
@@ -1522,7 +1522,7 @@ void handle_actor_action_effects(ActorRecord *controller, ObjectPosition *contex
     u8 *effect;
     s32 direction;
 
-    state = controller->action_phase;
+    state = controller->action_phase.u;
     switch (state) {
     case 0:
     {
@@ -1537,11 +1537,11 @@ void handle_actor_action_effects(ActorRecord *controller, ObjectPosition *contex
         (((SpriteFieldView_80DE5D7C *)sprite)->field_2C) = initial_effect;
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         select_sprite_entry(sprite, initial_effect[direction & 7], 0);
-        controller->action_phase++;
+        controller->action_phase.u++;
         return;
     }
     case 1:
-        if (actor->mp == 0) {
+        if (actor->mp_value.parts.whole == 0) {
             if (g_dungeon_status.flags & 0x1000) {
                 return;
             }
@@ -1588,7 +1588,7 @@ void handle_actor_action_effects(ActorRecord *controller, ObjectPosition *contex
 
             update_actor_status_and_mp(actor);
             on_actor_status_updated(actor);
-            if (actor->mp == 0) {
+            if (actor->mp_value.parts.whole == 0) {
                 return;
             }
         }
@@ -1779,16 +1779,16 @@ void advance_actor_state_when_allowed(ActorRecord *state_ctx, ObjectPosition *en
     s32 state;
     u16 flags;
 
-    state = state_ctx->action_phase;
+    state = state_ctx->action_phase.u;
     switch (state) {
     case 0:
         flags = ((E_80173CE0_S_80173CE0_1 *)action)->unk_14;
         if (flags & 0x8000) {
             ((E_80173CE0_S_80173CE0_1 *)action)->unk_14 = flags | 0x6000;
-            state_ctx->action_phase = 2;
+            state_ctx->action_phase.u = 2;
             return;
         }
-        state_ctx->action_phase = 1;
+        state_ctx->action_phase.u = 1;
 
     case 1:
         if (!((((E_80173CE0_S_80173CE0_1 *)action)->unk_04 == 8) &&
@@ -1799,7 +1799,7 @@ void advance_actor_state_when_allowed(ActorRecord *state_ctx, ObjectPosition *en
         display_entity_action_message(entity);
         play_sound_if_enabled(0x80C);
         create_four_directional_effects(state_ctx, entity_id, action);
-        state_ctx->action_phase++;
+        state_ctx->action_phase.u++;
         return;
 
     case 2:

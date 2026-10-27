@@ -37,7 +37,7 @@ void advance_backward_forward_motion(ActorRecord *action, ObjectPosition *motion
     u16 timer;
     s32 state;
 
-    state = action->action_phase;
+    state = action->action_phase.u;
     switch (state) {
     case 0:
         ((S_80172C98_0 *)action)->unk_AE.s = 6;
@@ -47,11 +47,11 @@ void advance_backward_forward_motion(ActorRecord *action, ObjectPosition *motion
         motion->velocity_y =
             -(((rsin(actor->facing) >> 4) << 13) /
               ((S_80172C98_0 *)action)->unk_AE.s);
-        action->action_phase++;
+        action->action_phase.u++;
 
     case 1:
         if (animation->flags & 0x8000) {
-            action->action_phase = 3;
+            action->action_phase.u = 3;
             motion->velocity_x =
                 motion->velocity_y =
                     motion->velocity_z = 0;
@@ -87,7 +87,7 @@ void advance_backward_forward_motion(ActorRecord *action, ObjectPosition *motion
             create_directional_effect(action, motion, animation);
             create_offset_directional_effect(action, motion, animation);
             play_sound_if_enabled(0x80E);
-            action->action_phase++;
+            action->action_phase.u++;
             ((S_80172C98_0 *)action)->unk_96 = 0;
         }
         return;

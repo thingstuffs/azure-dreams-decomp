@@ -39,7 +39,7 @@ void update_boss_actor_action(ActorRecord *actor, ObjectPosition *context, Sprit
     s32 next_state;
 
     if (g_dungeon_status.flags & 0x1000) {
-        actor->action_id = 0xEU;
+        actor->action_id.u = 0xEU;
         func_8016FA84(actor, context, sprite, entity);
         return;
     }
@@ -48,14 +48,14 @@ void update_boss_actor_action(ActorRecord *actor, ObjectPosition *context, Sprit
             begin_pushed_actor_move(actor, context, sprite, entity);
             return;
         }
-        current_state = actor->action_id;
+        current_state = actor->action_id.u;
         next_state = 0xE;
         if (current_state != next_state) {
             if (*(u8 * *)&sprite->frameTable != ghosh_direction_frames) {
                 sprite->frameTable = ghosh_direction_frames;
                 select_sprite_entry(sprite, ghosh_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
             }
-            actor->action_id = next_state;
+            actor->action_id.u = next_state;
         }
         actor->action_state_flags = (u16) (actor->action_state_flags & 0xFFF3);
         if (!((((ActorRecord *)entity)->hp_delta == 0) || (begin_ready_actor_directional_action(actor, context, sprite, D_80174A64) == 0))) {

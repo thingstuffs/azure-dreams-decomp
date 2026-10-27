@@ -41,7 +41,7 @@ void advance_the_actor_s_action_animation_triggers_timed_effects(ActorRecord *ac
     s16 timer;
     u8 state;
 
-    state = action->action_phase;
+    state = action->action_phase.u;
     switch (state) {
 
     case 0:
@@ -49,7 +49,7 @@ void advance_the_actor_s_action_animation_triggers_timed_effects(ActorRecord *ac
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         ((S_8016E3C4_0 *)action)->unk_96.s = 0;
-        action->action_phase++;
+        action->action_phase.u++;
         if (!(anim->flags & 0x8000)) {
             return;
         }
@@ -61,7 +61,7 @@ void advance_the_actor_s_action_animation_triggers_timed_effects(ActorRecord *ac
             return;
         }
         ((S_8016E3C4_0 *)action)->unk_96.s = 0;
-        action->action_phase++;
+        action->action_phase.u++;
         switch (actor->unk_48) {
         case 13:
             anim->frameTable = D_8016FDDC;
@@ -80,7 +80,7 @@ void advance_the_actor_s_action_animation_triggers_timed_effects(ActorRecord *ac
             select_sprite_entry(anim,
                 D_8016FDEC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            action->action_phase = 5;
+            action->action_phase.u = 5;
             play_sound_if_enabled(0x60C);
             return;
         default:
@@ -93,7 +93,7 @@ void advance_the_actor_s_action_animation_triggers_timed_effects(ActorRecord *ac
         if ((timer == 5) || (anim->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, anim, actor->facing, 1);
             ((S_8016E3C4_0 *)action)->unk_96.s = 0;
-            action->action_phase++;
+            action->action_phase.u++;
         }
         if (((S_8016E3C4_0 *)action)->unk_96.u == 3) {
             play_sound_if_enabled(0x804);
@@ -129,7 +129,7 @@ void advance_the_actor_s_action_animation_triggers_timed_effects(ActorRecord *ac
             (anim->flags & 0x8000)) {
             anim->flags &= 0xF7FF;
             ((S_8016E3C4_0 *)action)->unk_96.s = 0;
-            action->action_phase = 3;
+            action->action_phase.u = 3;
         }
     case 4:
     default:

@@ -10,34 +10,15 @@
 #include "dungeon/actor.h"
 #include "dungeon/actor/animation.h"
 #include "engine/node/allocation.h"
+#include "dungeon/actor/status.h"
 
 typedef s32 M2C_UNK;
 
-typedef struct S_8014C884_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} S_8014C884_1;   /* work in queue_linked_point_packets */
 
-typedef struct S_8014C884_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_8014C884_2;   /* part_a in queue_linked_point_packets */
 
-typedef struct S_8014C884_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xA];
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-} S_8014C884_4;   /* actor in queue_linked_point_packets */
 
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
-extern void set_or_clear_actor_status_slot();
 
 extern u8 ifrit_object_callback[];
 extern u8 D_80150820[];
@@ -69,8 +50,8 @@ void *queue_linked_point_packets(s16 flags, s16 kind_id, s16 variant, s16 spawn_
     ObjectNodeHeader *obj;
     ObjectPosition *part_a;
     SpriteFrameState *part_b;
-    S_8014C884_1 *work;
-    S_8014C884_4 *actor;
+    ActorRecord *work;
+    ActorRecord *actor;
     s32 left;
     s32 right;
     s8 saved_kind_id;
@@ -84,9 +65,9 @@ void *queue_linked_point_packets(s16 flags, s16 kind_id, s16 variant, s16 spawn_
     saved_variant = variant;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (u8 *)obj + 0x20;
+        work = (ActorRecord *)(obj + 1);
         obj->update_callback = ifrit_object_callback;
-        work->unk_13 = MONSTER_IFRIT;
+        work->species = MONSTER_IFRIT;
         register_node(obj, project_sprite_chain);
 
         part_a = obj->position;
@@ -99,24 +80,24 @@ void *queue_linked_point_packets(s16 flags, s16 kind_id, s16 variant, s16 spawn_
         part_b->tile_x = saved_kind_id;
 
         if (kind == 1) {
-            left = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            right = work->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-            work->unk_14 = left;
-            work->unk_1C = right;
+            left = work->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            right = work->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            work->flags14 = left;
+            work->flags1C = right;
         } else if (kind >= 2) {
-            left = work->unk_14 | ACTOR_CLASS_ENABLED;
-            right = work->unk_1C | ACTOR_PLAYER_SIDE;
-            work->unk_14 = left;
-            work->unk_1C = right;
+            left = work->flags14 | ACTOR_CLASS_ENABLED;
+            right = work->flags1C | ACTOR_PLAYER_SIDE;
+            work->flags14 = left;
+            work->flags1C = right;
         } else {
             call_a1 = obj;
             if (((flags & ~3) << 16) == 0) {
-                if (!(work->unk_14 & ACTOR_RESIST_SLEEP)) {
+                if (!(work->flags14 & ACTOR_RESIST_SLEEP)) {
                     call_a1 = part_a;
                     left = generate_random_value();
                     call_a1 = obj;
                     if (left & 1) {
-                        work->unk_1C |= ACTOR_ASLEEP;
+                        work->flags1C |= ACTOR_ASLEEP;
                     set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                   (generate_random_value() & 0x3F) | 0x20);
                     part_b->frameTable = D_80150860;
@@ -126,9 +107,9 @@ void *queue_linked_point_packets(s16 flags, s16 kind_id, s16 variant, s16 spawn_
         }
         call_a1 = obj;
         initialize_actor_sprite_and_animation(call_a1, part_a, part_b, flags);
-        actor->unk_9A = 0xFF;
+        actor->action_id.u = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &D_8014CE84;
+        actor->unk_8C.address = &D_8014CE84;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

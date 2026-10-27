@@ -35,7 +35,7 @@ void update_actor_state_and_directional_effect(ActorRecord *controller, ObjectPo
     u8 *effect_table;
     s32 direction;
 
-    state = controller->action_phase;
+    state = controller->action_phase.u;
     switch (state) {
     case 0:
     {
@@ -50,11 +50,11 @@ void update_actor_state_and_directional_effect(ActorRecord *controller, ObjectPo
         sprite->frameTable = initial_effects;
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         select_sprite_entry(sprite, initial_effects[direction & 7], 0);
-        controller->action_phase++;
+        controller->action_phase.u++;
         return;
     }
     case 1:
-        if (actor->mp == 0) {
+        if (actor->mp_value.parts.whole == 0) {
             if (g_dungeon_status.flags & 0x1000) {
                 return;
             }
@@ -94,7 +94,7 @@ void update_actor_state_and_directional_effect(ActorRecord *controller, ObjectPo
 
             update_actor_status_and_mp(actor);
             on_actor_status_updated(actor);
-            if (actor->mp == 0) {
+            if (actor->mp_value.parts.whole == 0) {
                 return;
             }
         }

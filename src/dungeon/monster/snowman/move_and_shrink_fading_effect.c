@@ -496,7 +496,7 @@ void update_snowman_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg
         return;
     }
 
-    if (entity_arg->mp == 0) {
+    if (entity_arg->mp_value.parts.whole == 0) {
         u8 *animations;
 
         advance_actor_pending_action(actor_arg, context_arg, sprite_arg, entity_arg);
@@ -628,7 +628,7 @@ void update_snowman_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg
                     &direction_aux);
                 player = primary_actor_record;
                 entity_arg->facing = direction;
-                if (player->action_id == 0x11) {
+                if (player->action_id.u == 0x11) {
                     begin_actor_spell_action(actor_arg, context_arg, sprite_arg, ((u8 *)D_801759D0), ((void *)update_snowman_behavior));
                     return;
                 }
@@ -1030,8 +1030,8 @@ s32 try_snowman_attack(ActorRecord *action_state, ObjectPosition *motion_param, 
 
     apply_camera_offset_and_select_target((ObjectNodeHeader *)actor - 1, motion_param, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
-        action_state->action_id = 0x11;
-        action_state->action_phase = 0;
+        action_state->action_id.u = 0x11;
+        action_state->action_phase.u = 0;
         action_state->unk_8C.handler = 0;
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;
@@ -1144,7 +1144,7 @@ void hop_snowman_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFram
     u16 facing_aux;
     DungeonGlobalStatus *global_base;
 
-    state = action->action_phase;
+    state = action->action_phase.u;
     switch (state) {
     case 0:
         if (!(sprite->flags & 0x6000)) {
@@ -1159,7 +1159,7 @@ void hop_snowman_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFram
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((R10_80172C54_S_80172C54_0 *)action)->unk_9E.s = 5;
         ((R10_80172C54_S_80172C54_0 *)action)->unk_A4 = 0;
-        action->action_phase++;
+        action->action_phase.u++;
 
     case 1:
         move_ticks = ((R10_80172C54_S_80172C54_0 *)action)->unk_9E.s;
@@ -1193,7 +1193,7 @@ void hop_snowman_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFram
             ((R10_80172C54_S_80172C54_0 *)action)->unk_90 = 0;
             action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            action->action_phase++;
+            action->action_phase.u++;
         }
     case 2:
         if (actor->flags1C & ACTOR_GROUNDED) {
@@ -1207,7 +1207,7 @@ void hop_snowman_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFram
                 sprite,
                 ((u8 *)snowman_frame_set_3)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            action->action_phase++;
+            action->action_phase.u++;
         }
         break;
 
@@ -1503,7 +1503,7 @@ case 3:
     }
     ((R10_80173280_S_80173280_0 *)actor)->timer.s--;
     if ((s16)((R10_80173280_S_80173280_0 *)actor)->timer.s <= 0) {
-        actor->action_timer = 0;
+        actor->action_timer.u = 0;
         tile_arg->flags &= 0xF7FF;
     }
     if (!(tile_arg->flags & 0xE000)) {
@@ -1704,7 +1704,7 @@ void advance_snowman_status_action(ActorRecord *action, ObjectPosition *context,
     DungeonGlobalStatus *status;
     s32 actor_flags;
 
-    state = action->action_phase;
+    state = action->action_phase.u;
     switch (state) {
     case 0:
         if (!(sprite_in->flags & 0xE000)) {
@@ -1721,7 +1721,7 @@ void advance_snowman_status_action(ActorRecord *action, ObjectPosition *context,
             counter_base->activity_counts.parts.pending_action_count =
                 ((u16)counter_base->activity_counts.parts.pending_action_count) - 1;
         }
-        action->action_phase++;
+        action->action_phase.u++;
         return;
 
     case 1:
@@ -1735,7 +1735,7 @@ void advance_snowman_status_action(ActorRecord *action, ObjectPosition *context,
                     return;
                 }
             }
-            if (actor_in->mp == 0) {
+            if (actor_in->mp_value.parts.whole == 0) {
                 if (status->flags & 0x2008) {
                     return;
                 }
@@ -1803,7 +1803,7 @@ void advance_snowman_status_action(ActorRecord *action, ObjectPosition *context,
             }
             g_dungeon_status.activity_counts.parts.pending_action_count++;
 
-            action->action_phase++;
+            action->action_phase.u++;
             return;
         }
         (sprite_in->frameTable) = ((u8 *)snowman_frame_set_1);
@@ -1816,7 +1816,7 @@ void advance_snowman_status_action(ActorRecord *action, ObjectPosition *context,
         }
         g_dungeon_status.activity_counts.parts.pending_action_count++;
 
-        action->action_phase++;
+        action->action_phase.u++;
         return;
 
     case 2:
@@ -1838,7 +1838,7 @@ void advance_snowman_mp_action(ActorRecord *actor_in, ObjectPosition *actor_inde
     s32 entity_flags;
     s32 direction;
     DungeonGlobalStatus *shared_state;
-    state = actor_in->action_phase;
+    state = actor_in->action_phase.u;
     switch (state) {
     case 0:
     if (!(target->flags & 0xE000)) {
@@ -1853,11 +1853,11 @@ void advance_snowman_mp_action(ActorRecord *actor_in, ObjectPosition *actor_inde
     (target->frameTable) = ((u8 *)snowman_alt_direction_frames);
     direction = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
     select_sprite_entry(target,(u8)(((u8 *)snowman_alt_direction_frames)[direction & 7]), 0);
-    actor_in->action_phase++;
+    actor_in->action_phase.u++;
     return;
 
     case 1:
-    if (entity->mp != 0) {
+    if (entity->mp_value.parts.whole != 0) {
         DungeonGlobalStatus *shared_counter;
 
         (target->frameTable) = ((u8 *)snowman_frame_set_1);
@@ -1865,7 +1865,7 @@ void advance_snowman_mp_action(ActorRecord *actor_in, ObjectPosition *actor_inde
         select_sprite_entry(target,(u8)(((u8 *)snowman_frame_set_1)[direction & 7]), 0);
         shared_counter = &g_dungeon_status;
         shared_counter->activity_counts.parts.pending_action_count++;
-        actor_in->action_phase++;
+        actor_in->action_phase.u++;
         return;
     } else {
         shared_state = &g_dungeon_status;
@@ -1903,7 +1903,7 @@ void advance_snowman_mp_action(ActorRecord *actor_in, ObjectPosition *actor_inde
             update_actor_status_and_mp(entity);
         }
         on_actor_status_updated(entity);
-        if (entity->mp == 0) {
+        if (entity->mp_value.parts.whole == 0) {
             return;
         }
         (target->frameTable) = ((u8 *)snowman_frame_set_1);
@@ -1911,7 +1911,7 @@ void advance_snowman_mp_action(ActorRecord *actor_in, ObjectPosition *actor_inde
         select_sprite_entry(target,(u8)(((u8 *)snowman_frame_set_1)[direction & 7]), 0);
         shared_state->activity_counts.parts.pending_action_count++;
     }
-    actor_in->action_phase++;
+    actor_in->action_phase.u++;
     return;
 
     case 2:
@@ -2104,13 +2104,13 @@ void advance_directional_attack_sequence(ActorRecord *action, ObjectPosition *po
     R10_80174898_OffsetTable direction_offsets = (*(R10_80174898_OffsetTable *)&D_80170854);
     s32 offset_coord;
 
-    switch (action->action_phase) {
+    switch (action->action_phase.u) {
     case 0:
         ((R10_80174898_S_80174898_1 *)position)->unk_14 = 0;
         ((R10_80174898_S_80174898_1 *)position)->unk_10 = 0;
         ((R10_80174898_S_80174898_1 *)position)->unk_0C = 0;
         ((R10_80174898_S_80174898_0 *)action)->unk_96 = 0x14;
-        action->action_phase++;
+        action->action_phase.u++;
         break;
 
     case 1:
@@ -2165,7 +2165,7 @@ void advance_directional_attack_sequence(ActorRecord *action, ObjectPosition *po
         if ((((R10_80174898_S_80174898_0 *)action)->unk_96 <= 0) ||
             (sprite->flags & 0x8000)) {
             ((R10_80174898_S_80174898_0 *)action)->unk_96 = 0;
-            action->action_phase++;
+            action->action_phase.u++;
         }
         break;
 
@@ -2183,7 +2183,7 @@ void advance_directional_attack_sequence(ActorRecord *action, ObjectPosition *po
                     (*(u8 **)&sprite->frameTable)[((g_game_work.view.camera_rotation.parts.viewAngle +
                         entity->facing + 0x100) >> 9) & 7],
                     0);
-                action->action_phase++;
+                action->action_phase.u++;
             }
         }
         break;

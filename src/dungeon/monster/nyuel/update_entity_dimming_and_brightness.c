@@ -33,7 +33,7 @@ void update_entity_dimming_and_brightness(ActorRecord *controller, ObjectPositio
     s32 state;
     u8 shade;
 
-    state = controller->action_phase;
+    state = controller->action_phase.u;
     switch (state) {
     case 0:
         shade = sprite->color.c.b - 0xC;
@@ -56,9 +56,9 @@ void update_entity_dimming_and_brightness(ActorRecord *controller, ObjectPositio
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         {
-            u8 next_state = controller->action_phase + 1;
+            u8 next_state = controller->action_phase.u + 1;
 
-            controller->action_phase = next_state;
+            controller->action_phase.u = next_state;
             return;
         }
 
@@ -84,7 +84,7 @@ void update_entity_dimming_and_brightness(ActorRecord *controller, ObjectPositio
                     return;
                 }
             }
-            if (entity->mp == 0) {
+            if (entity->mp_value.parts.whole == 0) {
                 if (g_dungeon_status.flags & 0x2008) {
                     return;
                 }
@@ -148,11 +148,11 @@ void update_entity_dimming_and_brightness(ActorRecord *controller, ObjectPositio
 
             g_dungeon_status.activity_counts.parts.pending_action_count++;
         }
-        controller->action_timer = 6;
+        controller->action_timer.u = 6;
         {
-            u8 next_state = controller->action_phase + 1;
+            u8 next_state = controller->action_phase.u + 1;
 
-            controller->action_phase = next_state;
+            controller->action_phase.u = next_state;
             return;
         }
 
@@ -164,8 +164,8 @@ void update_entity_dimming_and_brightness(ActorRecord *controller, ObjectPositio
         sprite->color.c.b = shade;
         sprite->color.c.g = shade;
         sprite->color.c.r = shade;
-        fade_ticks = controller->action_timer - 1;
-        controller->action_timer = fade_ticks;
+        fade_ticks = controller->action_timer.u - 1;
+        controller->action_timer.u = fade_ticks;
         if ((fade_ticks << 16) > 0) {
             return;
         }

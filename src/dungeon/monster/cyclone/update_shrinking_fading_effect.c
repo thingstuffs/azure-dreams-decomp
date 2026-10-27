@@ -86,7 +86,7 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
     void *main_actor;
     void *child;
 
-    state = anim->action_phase;
+    state = anim->action_phase.u;
     is_special = 0;
     switch (state) {
     case 0:
@@ -169,9 +169,9 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
             {
                 u8 next_state;
 
-                next_state = anim->action_phase;
+                next_state = anim->action_phase.u;
                 next_state++;
-                anim->action_phase = next_state;
+                anim->action_phase.u = next_state;
                 return;
             }
         }
@@ -198,7 +198,7 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
         }
         sprite->flags &= 0xF7FF;
         ((S_80172FC0_0 *)anim)->unk_AE.u = 8;
-        anim->action_phase++;
+        anim->action_phase.u++;
 
     case 2:
         timer = ((S_80172FC0_0 *)anim)->unk_AE.u - 1;
@@ -273,11 +273,11 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
         {
             u8 next_state;
 
-            next_state = anim->action_phase;
+            next_state = anim->action_phase.u;
             timer = 8;
             ((S_80172FC0_0 *)anim)->unk_AE.u = timer;
             next_state++;
-            anim->action_phase = next_state;
+            anim->action_phase.u = next_state;
             return;
         }
 
@@ -295,7 +295,7 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
         }
         ((S_80172FC0_0 *)anim)->unk_AE.u = 4;
         anim->action_state_flags |= 0x80;
-        anim->action_phase++;
+        anim->action_phase.u++;
         return;
 
     case 4:
@@ -312,10 +312,10 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
         {
             u8 next_state;
 
-            next_state = anim->action_phase;
+            next_state = anim->action_phase.u;
             ((S_80172FC0_0 *)anim)->unk_AE.u = timer;
             next_state++;
-            anim->action_phase = next_state;
+            anim->action_phase.u = next_state;
             return;
         }
 
@@ -337,11 +337,11 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
         {
             u8 next_state;
 
-            next_state = anim->action_phase;
+            next_state = anim->action_phase.u;
             timer = 8;
             ((S_80172FC0_0 *)anim)->unk_AE.u = timer;
             next_state++;
-            anim->action_phase = next_state;
+            anim->action_phase.u = next_state;
             return;
         }
 

@@ -29,14 +29,14 @@ void reset_action_and_select_facing_animation(ActorRecord *action_state, ObjectP
         (apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300),
          ((try_claim_dungeon_action_slot(actor) << 16) == 0))) {
         ((S_80172514_1 *)action_state)->unk_8C = 0;
-        action_state->action_phase = 0;
+        action_state->action_phase.u = 0;
 
         if (action_state->action_state_flags & 0x8000) {
-            action_state->action_id = 0x17;
+            action_state->action_id.u = 0x17;
             actor->unk_84 = 0x28;
             actor->unk_85 = 0x10;
         } else {
-            action_state->action_id = 0x11;
+            action_state->action_id.u = 0x11;
             actor->unk_84 = 0x7C;
             actor->unk_85 = 0;
         }

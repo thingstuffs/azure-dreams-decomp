@@ -354,7 +354,7 @@ s32 check_global_data_byte_zero(void) {
 
 /* Return whether the current record's unk_9A value differs from 0x29. */
 s32 check_current_record_value_not_29(void) {
-    return dungeon_actor_ring_anchor->action_id != 0x29;
+    return dungeon_actor_ring_anchor->action_id.u != 0x29;
 }
 #include "common.h"
 #include "shared/object_flags.h"

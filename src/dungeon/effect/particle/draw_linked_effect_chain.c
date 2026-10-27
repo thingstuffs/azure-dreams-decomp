@@ -472,7 +472,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
         case 0:
         start_world = primary_actor_record;
         ((PlayerRecord *)start_world)->unk_F4 = 0;
-        start_world->action_timer = 20;
+        start_world->action_timer.u = 20;
         linked_effect_chain_count[0] = 6;
         entity->state++;
         start_origin = &view_reference_entity[0];

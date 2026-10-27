@@ -54,7 +54,7 @@ void advance_actor_hop_and_complete(ActorRecord *action, ObjectPosition *motion,
     u16 facing_aux;
     DungeonGlobalStatus *global_base;
 
-    state = action->action_phase;
+    state = action->action_phase.u;
     switch (state) {
     case 0:
         if (!(sprite->flags & 0x6000)) {
@@ -69,7 +69,7 @@ void advance_actor_hop_and_complete(ActorRecord *action, ObjectPosition *motion,
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_8014EBAC_0 *)action)->unk_9E.s = 5;
         ((S_8014EBAC_0 *)action)->unk_A4 = 0;
-        action->action_phase++;
+        action->action_phase.u++;
 
     case 1:
         hop_ticks = ((S_8014EBAC_0 *)action)->unk_9E.s;
@@ -103,7 +103,7 @@ void advance_actor_hop_and_complete(ActorRecord *action, ObjectPosition *motion,
             ((S_8014EBAC_0 *)action)->unk_90 = 0;
             action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            action->action_phase++;
+            action->action_phase.u++;
         }
 
     case 2:
@@ -118,7 +118,7 @@ void advance_actor_hop_and_complete(ActorRecord *action, ObjectPosition *motion,
                 sprite,
                 D_80150E14[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            action->action_phase++;
+            action->action_phase.u++;
         }
         break;
 

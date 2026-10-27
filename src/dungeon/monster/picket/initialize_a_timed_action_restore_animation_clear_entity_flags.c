@@ -28,15 +28,15 @@ void initialize_a_timed_action_restore_animation_clear_entity_flags(ActorRecord 
     u16 ticks_left;
     u8 state;
 
-    state = action->action_phase;
+    state = action->action_phase.u;
     switch (state) {
     case 0:
         play_sound_if_enabled(0x50C);
-        action->action_timer = 10;
+        action->action_timer.u = 10;
         create_and_initializes_display_source_position_appearance(context, animation, entity);
         entity->unk_48 = 0;
         entity->unk_49 = 0;
-        action->action_phase++;
+        action->action_phase.u++;
     case 1:
         break;
     default:
@@ -44,8 +44,8 @@ void initialize_a_timed_action_restore_animation_clear_entity_flags(ActorRecord 
     }
 
     if (!(animation->flags & 0x8000)) {
-        ticks_left = action->action_timer;
-        action->action_timer = ticks_left - 1;
+        ticks_left = action->action_timer.u;
+        action->action_timer.u = ticks_left - 1;
         if ((s16)ticks_left > 0) {
             return;
         }

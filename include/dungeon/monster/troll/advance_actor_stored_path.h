@@ -181,7 +181,7 @@ extern s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16
 extern s32 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
 extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
 extern void * find_adjacent_actor(void *entity, u16 x, u16 y);
-extern void * probe_directional_neighbor();
+extern void * probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
 extern void select_actor_route_target();
 extern s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */

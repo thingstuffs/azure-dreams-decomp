@@ -31,7 +31,7 @@ void begin_pushed_actor_move(void *,void *, void *, void *);
 s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 void advance_actor_pending_action(void *, void *, void *, void *);
 void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-void update_multi_form_actor_movement(void *, ObjectPosition *, void *, void *);
+void update_multi_form_actor_movement(ActorRecord *object, ObjectPosition *update_param, SpriteFrameState *state, ActorRecord *input);
 extern void beldo_large_action_resume_address();
 extern u8 beldo_large_frame_set_4[];
 extern u8 beldo_large_frame_set_7[];
@@ -50,7 +50,7 @@ void update_actor_action_state_2(ActorRecord *obj_arg, ObjectPosition *context_a
     s32 actor_flags;
     s8 target_room;
 
-    action_state = obj_arg->action_phase;
+    action_state = obj_arg->action_phase.u;
     switch (action_state) {
     case 0:
         if (!(target_arg->flags & 0xE000)) {
@@ -66,7 +66,7 @@ void update_actor_action_state_2(ActorRecord *obj_arg, ObjectPosition *context_a
         counter_value = *(u16 *)&counter_base->activity_counts.parts.pending_action_count;
         counter_value--;
         counter_base->activity_counts.parts.pending_action_count = counter_value;
-        obj_arg->action_phase++;
+        obj_arg->action_phase.u++;
         return;
 
     case 1:
@@ -96,7 +96,7 @@ void update_actor_action_state_2(ActorRecord *obj_arg, ObjectPosition *context_a
                     return;
                 }
             }
-            if (actor_arg->mp == 0) {
+            if (actor_arg->mp_value.parts.whole == 0) {
                 if (held_base->flags & 0x2008) {
                     return;
                 }
@@ -153,7 +153,7 @@ void update_actor_action_state_2(ActorRecord *obj_arg, ObjectPosition *context_a
         counter_value = *(u16 *)&counter_base->activity_counts.parts.pending_action_count;
         counter_value++;
         counter_base->activity_counts.parts.pending_action_count = counter_value;
-        obj_arg->action_phase++;
+        obj_arg->action_phase.u++;
         return;
 
     case 2:

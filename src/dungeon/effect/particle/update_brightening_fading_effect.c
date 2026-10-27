@@ -67,7 +67,7 @@ void update_directional_actor_effect(void *object)
 
         ((PlayerRecord *)primary_actor_record)->unk_F4 = 0;
         ((PlayerRecord *)primary_actor_record)->unk_102 = 1;
-        primary_actor_record->unk_A8 = ((S_8002401C_0 *)object_bytes)->unk_08;
+        primary_actor_record->unk_A8.byte = ((S_8002401C_0 *)object_bytes)->unk_08;
 
         clear_row = D_800274DC[0];
         do {

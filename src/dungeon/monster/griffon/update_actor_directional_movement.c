@@ -31,14 +31,14 @@ void update_actor_directional_movement(ActorRecord *action, ObjectPosition *moti
     s16 timer;
     s32 tracked_actor;
 
-    switch (action->action_phase) {
+    switch (action->action_phase.u) {
     case 0:
         apply_clamped_actor_value_delta(actor);
         motion->velocity_x =
             -((s16 *)((s8 *)dir_step_x))[(actor->movement_facing >> 9) & 7] << 15;
         motion->velocity_y =
             -((s16 *)((s8 *)dir_step_y))[(actor->movement_facing >> 9) & 7] << 15;
-        action->action_phase++;
+        action->action_phase.u++;
 
         if (actor->hp == 0) {
             motion->velocity_z = 0;
@@ -49,7 +49,7 @@ void update_actor_directional_movement(ActorRecord *action, ObjectPosition *moti
         }
         if (sprite->flags & 0x8000) {
             ((S_80155234_0 *)action)->unk_96.s = 0;
-            action->action_phase = 3;
+            action->action_phase.u = 3;
             return;
         }
 
@@ -89,7 +89,7 @@ void update_actor_directional_movement(ActorRecord *action, ObjectPosition *moti
                 sprite,
                 griffon_frame_set_8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            action->action_phase++;
+            action->action_phase.u++;
         }
         return;
 
@@ -108,7 +108,7 @@ void update_actor_directional_movement(ActorRecord *action, ObjectPosition *moti
             griffon_frame_set_8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_80155234_0 *)action)->unk_96.s = 8;
-        action->action_phase++;
+        action->action_phase.u++;
         return;
 
     case 3:

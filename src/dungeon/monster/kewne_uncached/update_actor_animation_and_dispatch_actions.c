@@ -67,7 +67,7 @@ void update_actor_animation_and_dispatch_actions(void *actor, void *actor_aux, S
         func_8014E510(actor, actor_aux, sprite, entity);
         return;
     }
-    if (entity->mp == 0) {
+    if (entity->mp_value.parts.whole == 0) {
         void *anim_table;
 
         advance_actor_pending_action(actor, actor_aux, sprite, entity);
@@ -214,7 +214,7 @@ void update_actor_animation_and_dispatch_actions(void *actor, void *actor_aux, S
                     &direction_aux);
                 player = primary_actor_record;
                 entity->facing = heading;
-                if (player->action_id == 0x11) {
+                if (player->action_id.u == 0x11) {
                     begin_actor_spell_action(actor, actor_aux, sprite, D_80151C88, D_8014DFA4);
                     return;
                 }

@@ -57,7 +57,7 @@ s16 get_rounded_facing_and_rounding_flag(); /* Unprototyped: five arguments, or 
 s32 can_entity_gain_level(void *entity);
 void update_actor_status_and_mp(ActorRecord *entity);
 void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);
-s32 begin_ready_actor_directional_action();
+s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 s32 advance_actor_pending_action(void *actor_state, void *action, void *status, void *actor);
 void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 s32 reset_actor_action_state();
@@ -95,7 +95,7 @@ void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *con
         func_801716CC(actor, context, sprite, status);
         return;
     }
-    if (status->mp == 0) {
+    if (status->mp_value.parts.whole == 0) {
         advance_actor_pending_action(actor, context, sprite, status);
         if (((S_801711A4_2 *)sprite)->unk_2C == &kraken_frame_set_2) {
             return;
@@ -148,7 +148,7 @@ void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *con
         status->flags1C = (s32) (status->flags1C | 0x40000);
         ((Rec_func_800A9E70_arg0 *)actor)->unk_98 = (u16) (((Rec_func_800A9E70_arg0 *)actor)->unk_98 & 0xFFF7);
         if (status->hp_delta != 0) {
-            if (begin_ready_actor_directional_action(actor, context, sprite, &kraken_frame_set) != 0) {
+            if (begin_ready_actor_directional_action(actor, context, sprite, kraken_frame_set) != 0) {
                 return;
             }
         }
@@ -199,7 +199,7 @@ void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *con
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
                     active_actor = primary_actor_record;
                     status->facing = angle;
-                    if (active_actor->action_id == 0x11) {
+                    if (active_actor->action_id.u == 0x11) {
                         next_handler = &update_actor_animation_and_dispatch;
                         begin_actor_spell_action(actor, context, sprite, &D_801741AC, next_handler);
                         return;

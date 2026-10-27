@@ -67,7 +67,7 @@ void choose_kewne_uncached_action(void *actor, void *context, SpriteFrameState *
         func_8016C510(actor, context, sprite, entity);
         return;
     }
-    if (entity->mp == 0) {
+    if (entity->mp_value.parts.whole == 0) {
         void *anim_table;
 
         advance_actor_pending_action(actor, context, sprite, entity);
@@ -214,7 +214,7 @@ void choose_kewne_uncached_action(void *actor, void *context, SpriteFrameState *
                     &direction_flags);
                 player = primary_actor_record;
                 entity->facing = facing;
-                if (player->action_id == 0x11) {
+                if (player->action_id.u == 0x11) {
                     begin_actor_spell_action(actor, context, sprite, D_8016FC88, D_8016BFA4);
                     return;
                 }

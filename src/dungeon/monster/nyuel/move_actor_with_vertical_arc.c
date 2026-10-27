@@ -49,7 +49,7 @@ void move_actor_with_vertical_arc(ActorRecord *action, ObjectPosition *motion, S
     s32 phase;
     DungeonGlobalStatus *counter_base;
 
-    phase = action->action_phase;
+    phase = action->action_phase.u;
     switch (phase) {
     case 0:
         if (!((sprite->unk_04 == 1 &&
@@ -61,7 +61,7 @@ void move_actor_with_vertical_arc(ActorRecord *action, ObjectPosition *motion, S
         (*(u32 *)&actor->flags1C) &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80172158_0 *)action)->unk_9E = 6;
         ((S_80172158_0 *)action)->unk_A0 = 0;
-        action->action_phase++;
+        action->action_phase.u++;
                         /* fall through */
     case 1:
         move_ticks = ((S_80172158_0 *)action)->unk_9E;
@@ -88,7 +88,7 @@ void move_actor_with_vertical_arc(ActorRecord *action, ObjectPosition *motion, S
             ((S_80172158_0 *)action)->unk_90 = 0;
             action->action_state_flags &= 0xFFF7;
             (*(u32 *)&actor->flags1C) |= ACTOR_GROUNDED;
-            action->action_phase++;
+            action->action_phase.u++;
         }
 
                         /* fall through */
@@ -104,7 +104,7 @@ void move_actor_with_vertical_arc(ActorRecord *action, ObjectPosition *motion, S
                 sprite,
                 nyuel_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            action->action_phase++;
+            action->action_phase.u++;
         }
 
         break;

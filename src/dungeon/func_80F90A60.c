@@ -54,7 +54,7 @@ void update_actor_timed_visual_slot_f(ActorRecord *state_input, ObjectPosition *
     s32 next_state;
 
     state_input->unk_A0.parts.low--;
-    state = state_input->action_phase;
+    state = state_input->action_phase.u;
 
     switch (state) {
     case 0:
@@ -63,9 +63,9 @@ void update_actor_timed_visual_slot_f(ActorRecord *state_input, ObjectPosition *
             effect_data = actor_input->target;
             if (effect_data != 0) {
                 func_800C8150((EntityRec *)effect_data, 0x10, 0x10);
-                state_input->action_phase = 2;
+                state_input->action_phase.u = 2;
             } else {
-                state_input->action_phase = 2;
+                state_input->action_phase.u = 2;
             }
             return;
         }
@@ -94,35 +94,35 @@ void update_actor_timed_visual_slot_f(ActorRecord *state_input, ObjectPosition *
         play_sound_if_enabled(0x815);
         {
 
-            next_state = state_input->action_phase;
+            next_state = state_input->action_phase.u;
             state = 0x1E;
-            state_input->action_timer = state;
+            state_input->action_timer.u = state;
         }
-        state_input->action_phase = next_state + 1;
+        state_input->action_phase.u = next_state + 1;
         return;
     case 1:
         effect_data = actor_input->target;
         if (effect_data != 0) {
-            timer = ((s16)state_input->action_timer);
+            timer = ((s16)state_input->action_timer.u);
             if (timer >= 0x12) {
                 effect_object = (ObjectNodeHeader *)((u8 *)(long)effect_data - 0x20);
                 if (timer < 0x17) {
                     effect_object->sprite->scale_x = effect_values_1c.value[timer - 0x12];
-                    effect_object->sprite->scale_y = effect_values_1e.value[((s16)state_input->action_timer)
+                    effect_object->sprite->scale_y = effect_values_1e.value[((s16)state_input->action_timer.u)
                         - 0x12];
                 }
             }
         }
 
-        if (((s16)state_input->action_timer) == 0x14) {
+        if (((s16)state_input->action_timer.u) == 0x14) {
             effect_data = actor_input->target;
             if (effect_data != 0) {
                 func_800C8150((EntityRec *)effect_data, 0x10, 0x10);
             }
         }
 
-        timer = state_input->action_timer - 1;
-        state_input->action_timer = timer;
+        timer = state_input->action_timer.u - 1;
+        state_input->action_timer.u = timer;
         if (timer > 0) {
             return;
         }
@@ -131,8 +131,8 @@ void update_actor_timed_visual_slot_f(ActorRecord *state_input, ObjectPosition *
         func_80047784(animation_input,
             timed_visual_slot_f_wait_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor_input->facing + 0x100) >> 9) & 7],
             0);
-        next_state = state_input->action_phase;
-        state_input->action_phase = next_state + 1;
+        next_state = state_input->action_phase.u;
+        state_input->action_phase.u = next_state + 1;
         return;
     case 2:
         if (animation_input->flags & 0xE000) {

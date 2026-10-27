@@ -70,15 +70,15 @@ void update_object_animation(ActorRecord *obj, ObjectPosition *motion, SpriteFra
     void *callback_state;
 
     if (entry_status & 0x1000) {
-        obj->action_id = 14;
+        obj->action_id.u = 14;
         advance_queued_movement_step(obj, motion, part, state);
         return;
     }
 
     if (((S_80171514_0 *)state)->unk_1C & 0x200) {
         if (*(u8 **)&part->frameTable == D_80173EC4) {
-            obj->action_id = 13;
-            obj->action_phase = 1;
+            obj->action_id.u = 13;
+            obj->action_phase.u = 1;
             (*(u32 *)((u8 *)obj + (0x8C))) = 0;
             ((S_80171514_0 *)state)->unk_1C &= ~0x40000;
             return;
@@ -94,8 +94,8 @@ void update_object_animation(ActorRecord *obj, ObjectPosition *motion, SpriteFra
             return;
         }
 
-        if (obj->action_id != 14) {
-            obj->action_id = 14;
+        if (obj->action_id.u != 14) {
+            obj->action_id.u = 14;
         }
         if (*(u8 **)&part->frameTable != beldo_frame_set_1) {
             (part->frameTable) = beldo_frame_set_1;

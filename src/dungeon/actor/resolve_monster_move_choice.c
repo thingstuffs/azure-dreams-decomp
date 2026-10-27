@@ -25,7 +25,7 @@ s32 resolve_monster_move_choice(ActorRecord *initial, ObjectPosition *position, 
     }
     switch (action) {
     case 0:
-        actor->action_id = 0xE;
+        actor->action_id.u = 0xE;
         update_actor_status_and_mp(actor);
         return 0;
     case 2:

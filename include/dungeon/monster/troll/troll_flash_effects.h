@@ -5,6 +5,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/actor/animation.h"
 #include "engine/node/allocation.h"
+#include "dungeon/actor/status.h"
 
 struct SpriteFrameState;
 #include "common.h"
@@ -403,7 +404,6 @@ extern void func_8004491C(void *, void *);
 extern void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 extern void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
-extern void set_or_clear_actor_status_slot();
 extern s32 generate_random_value(void);
 extern u8 D_80175EBC[];
 extern u8 D_80175EB4[];

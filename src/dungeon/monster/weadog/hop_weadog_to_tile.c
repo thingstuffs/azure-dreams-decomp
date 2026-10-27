@@ -52,7 +52,7 @@ void advance_weadog_hop(ActorRecord *action, ObjectPosition *motion, SpriteFrame
     u16 action_timer;
     u8 *anim_table;
 
-    phase = action->action_phase;
+    phase = action->action_phase.u;
     switch (phase) {
     case 0:
         phase_timer = ((S_801730E0_0 *)action)->unk_9E.s - 1;
@@ -70,7 +70,7 @@ void advance_weadog_hop(ActorRecord *action, ObjectPosition *motion, SpriteFrame
         (*(u32 *)&actor->flags1C) &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_801730E0_0 *)action)->unk_9E.u = 5;
         ((S_801730E0_0 *)action)->unk_A0 = 0;
-        action->action_phase++;
+        action->action_phase.u++;
 
     case 1:
         move_ticks = ((S_801730E0_0 *)action)->unk_9E.u;
@@ -98,7 +98,7 @@ void advance_weadog_hop(ActorRecord *action, ObjectPosition *motion, SpriteFrame
             ((S_801730E0_0 *)action)->unk_90 = 0;
             action->action_state_flags &= 0xFFF7;
             (*(u32 *)&actor->flags1C) |= ACTOR_GROUNDED;
-            action->action_phase++;
+            action->action_phase.u++;
         }
 
     case 2:
@@ -114,7 +114,7 @@ void advance_weadog_hop(ActorRecord *action, ObjectPosition *motion, SpriteFrame
                 sprite,
                 D_80174ED8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            action->action_phase++;
+            action->action_phase.u++;
         }
         break;
 

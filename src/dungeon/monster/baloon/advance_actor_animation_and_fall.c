@@ -33,7 +33,7 @@ typedef struct S_801737F8_0 {
 void advance_actor_animation_and_fall(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u8 state;
 
-    state = action->action_phase;
+    state = action->action_phase.u;
     if ((u32)state >= 5) {
         return;
     }
@@ -43,7 +43,7 @@ void advance_actor_animation_and_fall(ActorRecord *action, ObjectPosition *motio
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         if (sprite->flags & 0x8000) {
-            action->action_phase = 4;
+            action->action_phase.u = 4;
             sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
@@ -55,7 +55,7 @@ void advance_actor_animation_and_fall(ActorRecord *action, ObjectPosition *motio
                   ((u16)actor->ground_height))) {
             return;
         }
-        action->action_phase++;
+        action->action_phase.u++;
         sprite->tpage_abr = 0x20;
         sprite->flags = sprite->flags | 0x000C;
         return;
@@ -66,7 +66,7 @@ void advance_actor_animation_and_fall(ActorRecord *action, ObjectPosition *motio
             D_800E2380[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_801737F8_0 *)action)->unk_96.u = 0;
-        action->action_phase++;
+        action->action_phase.u++;
         return;
 
     case 2:
@@ -78,7 +78,7 @@ void advance_actor_animation_and_fall(ActorRecord *action, ObjectPosition *motio
             if ((s16)timer == duration || (sprite->flags & 0x8000)) {
                 resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
                 ((S_801737F8_0 *)action)->unk_96.u = duration;
-                action->action_phase++;
+                action->action_phase.u++;
                 sprite->flags |= 0x0800;
             }
             if (((S_801737F8_0 *)action)->unk_96.s == 9) {
@@ -109,7 +109,7 @@ void advance_actor_animation_and_fall(ActorRecord *action, ObjectPosition *motio
             ((S_801737F8_0 *)action)->unk_92.u -= 4;
             return;
         }
-        action->action_phase++;
+        action->action_phase.u++;
     case 4:
         if (!(sprite->flags & 0xE000)) {
             return;

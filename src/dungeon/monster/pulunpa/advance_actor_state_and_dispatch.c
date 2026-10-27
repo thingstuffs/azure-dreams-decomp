@@ -62,7 +62,7 @@ void advance_actor_state_and_dispatch(S_801733F0_0 *actor, ObjectPosition *conte
     }
 
     case 1:
-        if (entity->mp != 0) {
+        if (entity->mp_value.parts.whole != 0) {
             if (actor->unk_A7 != 0) {
                 sprite->frameTable = D_80176368;
             } else {
@@ -109,7 +109,7 @@ void advance_actor_state_and_dispatch(S_801733F0_0 *actor, ObjectPosition *conte
 
             update_actor_status_and_mp(entity);
             on_actor_status_updated(entity);
-            if (entity->mp == 0) {
+            if (entity->mp_value.parts.whole == 0) {
                 return;
             }
 

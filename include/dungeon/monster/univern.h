@@ -38,15 +38,7 @@ struct SpriteFrameState;
 #define FPTR(p, o) (*(void **)((u8 *)(p) + (o)))
 typedef unsigned long R17_8017089C_uptr;
 
-typedef struct R17_8017089C_S_8017089C_1 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-} R17_8017089C_S_8017089C_1;
+
 typedef struct R17_8017089C_S_8017089C_2 {
     u8 pad_00[0x8];
     union { struct { void * v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   
@@ -383,8 +375,8 @@ void *spawn_univern_actor(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value);
 void create_anchored_directional_object(void *actor, void *motion, struct SpriteFrameState *object);
 void update_entity_movement_and_ground_height(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *status);
 void advance_entity_along_path_2(ActorRecord *motion, ObjectPosition *unused, SpriteFrameState *entity, ActorRecord *path_state);
-void choose_univern_move(Rec_func_800A9E70_arg0 *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
-s32 try_univern_attack(Rec_func_800A9E70_arg0 *action_state, ObjectPosition *motion_param, void *sprite_arg, ActorRecord *actor);
+void choose_univern_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
+s32 try_univern_attack(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
 void begin_univern_attack(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *entity);
 s32 relink_univern_path(void *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
 void finish_actor_tile_move_then_resume_ground_movement(void *state, void *motion, void *source, void *target);

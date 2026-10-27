@@ -53,7 +53,7 @@ void update_creature_behavior_and_animation_2(ActorRecord *actor_in, ObjectPosit
         return;
     }
 
-    if (creature_in->mp == 0) {
+    if (creature_in->mp_value.parts.whole == 0) {
         advance_actor_pending_action(actor_in, context_in, sprite, creature_in);
         if (sprite->frameTable == saber_direction_frames_2) {
             return;
@@ -182,7 +182,7 @@ void update_creature_behavior_and_animation_2(ActorRecord *actor_in, ObjectPosit
                     &distance);
                 player = primary_actor_record;
                 creature_in->facing = heading;
-                if (player->action_id == 0x11) {
+                if (player->action_id.u == 0x11) {
                     begin_actor_spell_action(actor_in, context_in, sprite, saber_frame_set_2, &saber_behavior_entry);
                     return;
                 }

@@ -53,7 +53,7 @@ void update_actor_behavior_and_direction(ActorRecord *motion, ObjectPosition *re
         return;
     }
 
-    if (actor->mp == 0) {
+    if (actor->mp_value.parts.whole == 0) {
         advance_actor_pending_action(motion, render_ctx, map_entity, actor);
         if (map_entity->frameTable != noise_frame_set) {
             (map_entity->frameTable) = noise_frame_set_3;
@@ -174,7 +174,7 @@ void update_actor_behavior_and_direction(ActorRecord *motion, ObjectPosition *re
                         &direction_flags);
                     player = primary_actor_record;
                     actor->facing = facing_angle;
-                    if (player->action_id == 0x11) {
+                    if (player->action_id.u == 0x11) {
                         begin_actor_spell_action(motion, render_ctx, map_entity, noise_spell_frame_set, noise_ability_resume_address);
                         return;
                     }

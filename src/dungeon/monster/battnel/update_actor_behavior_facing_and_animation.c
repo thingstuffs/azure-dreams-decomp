@@ -192,7 +192,7 @@ void update_actor_behavior_facing_and_animation_2(void *actor, void *context, Sp
                     &direction_aux);
                 global_actor = primary_actor_record;
                 ((S_80170E5C_1 *)status)->unk_2A = direction;
-                if (global_actor->action_id == 0x11) {
+                if (global_actor->action_id.u == 0x11) {
                     begin_actor_spell_action(actor, context, sprite, D_80173D3C, update_actor_behavior_facing_and_animation_2);
                     return;
                 }

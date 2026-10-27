@@ -26,35 +26,15 @@
 #include "dungeon/player/object.h"
 #include "dungeon/system.h"
 #include "engine/node/allocation.h"
+#include "dungeon/actor/status.h"
 struct S_800AC480_0;
 struct S_800AC480_3;
 
 typedef s32 R03_80170854_M2C_UNK;
-typedef struct R03_80170854_S_8016A854_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} R03_80170854_S_8016A854_0;
-typedef struct R03_80170854_S_8016A854_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} R03_80170854_S_8016A854_1;
-typedef struct R03_80170854_S_8016A854_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} R03_80170854_S_8016A854_2;
-typedef struct R03_80170854_S_8016A854_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xA];
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-} R03_80170854_S_8016A854_4;
+
+
+
+
 typedef void (*R03_80170A28_EntityCallback)(void *, void *, void *, void *);
 
 typedef struct R03_80170A28_S_80170A28_1 {
@@ -92,13 +72,7 @@ typedef struct R03_8017139C_S_8017139C_2 {
     u8 unk_9A;
 } R03_8017139C_S_8017139C_2;
 
-typedef struct R03_80171DA0_S_80171DA0_1 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} R03_80171DA0_S_80171DA0_1;
+
 
 typedef struct R03_8017207C_S_80172628_0 {
     u8 pad_00[0x46];
@@ -210,7 +184,6 @@ void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 s32 register_node(struct ObjectNodeHeader *entry, void *registration_id);
 s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
-s32 set_or_clear_actor_status_slot();
 void select_indirect_table_entry(struct S_80047738 *state, s16 table_index, s16 entry_index);
 void advance_sprite_animation_and_textures(void *entity);
 void apply_monster_koyaw_data(s32 flags, s8 *dst);
@@ -298,9 +271,9 @@ void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, 
 void update_entity_facing_motion_and_ground(void *entity, R03_80170A28_S_80170A28_2 *motion, void *part);
 void dispatch_monster_move_attack_spell(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *entity, ActorRecord *actor_state);
 void advance_stored_entity_path(void *controller, ObjectPosition *context, void *entity, void *path_state);
-void advance_actor_path_with_item_search(Rec_func_800A9E70_arg0 *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
+void advance_actor_path_with_item_search(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 void copy_display_orientation_state(void *object, ObjectPosition *unused, void *display, void *orientation);
-s32 check_actor_transition_and_start_effect(Rec_func_800A9E70_arg0 *action_state, ObjectPosition *motion_param, void *sprite_arg, ActorRecord *actor);
+s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
 void start_directional_actor_effect(void *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
 s32 dispatch_actor_path_state_and_relink_entity(void *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
 void finish_actor_tile_move_and_check_trap(R03_801721C0_S_801721C0_0 *object, void *motion, void *check_data, void *target);

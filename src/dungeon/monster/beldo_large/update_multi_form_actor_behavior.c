@@ -23,7 +23,7 @@ extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *,void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern void update_multi_form_actor_movement(void *, ObjectPosition *, SpriteFrameState *, void *);
+void update_multi_form_actor_movement(ActorRecord *object, ObjectPosition *update_param, SpriteFrameState *state, ActorRecord *input);
 
 extern u8 beldo_large_action_resume_address[];
 extern u8 beldo_large_frame_set_4[];
@@ -40,7 +40,7 @@ void update_multi_form_actor_behavior(ActorRecord *context, ObjectPosition *call
     s32 actor_flags;
     s32 direction_index;
 
-    state = context->action_phase;
+    state = context->action_phase.u;
     switch (state) {
     case 0:
         if (!(object_arg->flags & 0xE000)) {
@@ -55,7 +55,7 @@ void update_multi_form_actor_behavior(ActorRecord *context, ObjectPosition *call
             direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + actor_arg->facing + 0x100) >> 9;
             select_sprite_entry(object_arg, beldo_large_frame_set_4[direction_index & 7], 0);
         }
-        context->action_phase++;
+        context->action_phase.u++;
         return;
     case 1:
         kind = ((S_8016D0FC_0 *)context)->unk_AC;
@@ -69,7 +69,7 @@ void update_multi_form_actor_behavior(ActorRecord *context, ObjectPosition *call
             }
         }
         object = object_arg;
-        if (actor_arg->mp != 0) {
+        if (actor_arg->mp_value.parts.whole != 0) {
             kind = ((S_8016D0FC_0 *)context)->unk_AC;
             if (kind == 0xE || (kind < 0xF ? kind == 0xD : kind == 0xF)) {
                 (object->frameTable) = beldo_large_frame_set_7;
@@ -78,7 +78,7 @@ void update_multi_form_actor_behavior(ActorRecord *context, ObjectPosition *call
             }
             current_table = (u8 *)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
             g_dungeon_status.activity_counts.parts.pending_action_count = current_table;
-            context->action_phase++;
+            context->action_phase.u++;
             return;
         }
         if (g_dungeon_status.flags & 0x1000) {
@@ -112,7 +112,7 @@ void update_multi_form_actor_behavior(ActorRecord *context, ObjectPosition *call
         }
         update_actor_status_and_mp(actor_arg);
         on_actor_status_updated(actor_arg);
-        if (actor_arg->mp == 0) {
+        if (actor_arg->mp_value.parts.whole == 0) {
             return;
         }
         kind = ((S_8016D0FC_0 *)context)->unk_AC;
@@ -123,7 +123,7 @@ void update_multi_form_actor_behavior(ActorRecord *context, ObjectPosition *call
         }
         current_table = (u8 *)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
         g_dungeon_status.activity_counts.parts.pending_action_count = current_table;
-        context->action_phase++;
+        context->action_phase.u++;
         return;
     case 2:
         object = object_arg;

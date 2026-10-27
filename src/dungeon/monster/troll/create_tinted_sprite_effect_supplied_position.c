@@ -19,14 +19,14 @@ void create_tinted_sprite_effect_supplied_position(ActorRecord *animation, Objec
     u16 coord_result;
     DungeonGlobalStatus *global_base;
 
-    state = animation->action_phase;
+    state = animation->action_phase.u;
     switch (state) {
     case 0:
         animation->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         animation->unk_9E.s = 5;
         animation->unk_A0.value = 0;
-        animation->action_phase++;
+        animation->action_phase.u++;
                         /* fall through */
     case 1:
         arc_ticks = animation->unk_9E.s;
@@ -61,7 +61,7 @@ void create_tinted_sprite_effect_supplied_position(ActorRecord *animation, Objec
             animation->unk_90.value = 0;
             animation->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            animation->action_phase++;
+            animation->action_phase.u++;
         }
                         /* fall through */
     case 2:
@@ -71,15 +71,15 @@ void create_tinted_sprite_effect_supplied_position(ActorRecord *animation, Objec
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             set_record_integer_tile_center(motion, tile->tile_x, tile->tile_y);
-            animation->action_phase++;
+            animation->action_phase.u++;
         }
         break;
     default:
         break;
     }
 
-    ticks_left = animation->action_timer - 1;
-    animation->action_timer = ticks_left;
+    ticks_left = animation->action_timer.u - 1;
+    animation->action_timer.u = ticks_left;
     if ((ticks_left << 16) > 0) {
         return;
     }

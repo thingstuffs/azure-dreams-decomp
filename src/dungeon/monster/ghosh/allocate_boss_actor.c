@@ -18,18 +18,7 @@ extern void ghosh_motion_resume_address();
 #include "dungeon/monster/ghosh.h"
 extern void *ghosh_boss_node;
 
-typedef struct S_8016F160_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} S_8016F160_1;   /* work in allocate_boss_actor */
 
-typedef struct S_8016F160_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_8016F160_2;   /* part_a in allocate_boss_actor */
 
 typedef struct S_8016F160_4 {
     u8 pad_00[0x8C];
@@ -51,7 +40,7 @@ void *allocate_boss_actor(s16 mode, s16 config_24, s16 config_25, s16 config_0a)
     ObjectNodeHeader *obj;
     ObjectPosition *part_a;
     SpriteFrameState *part_b;
-    void *work;
+    ActorRecord *work;
     s16 saved_mode;
     s8 saved_config_24;
     s16 saved_config_0a;
@@ -66,10 +55,10 @@ void *allocate_boss_actor(s16 mode, s16 config_24, s16 config_25, s16 config_0a)
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     saved_mode = mode;
     if (obj != 0) {
-        work = (u8 *)obj + 0x20;
+        work = (ActorRecord *)(obj + 1);
         ghosh_boss_node = obj;
         obj->update_callback = update_boss_actor_movement;
-        ((S_8016F160_1 *)work)->unk_13 = MONSTER_SELFI;
+        work->species = MONSTER_SELFI;
         register_node(obj, project_sprite_chain);
 
         part_a = obj->position;
@@ -82,11 +71,11 @@ void *allocate_boss_actor(s16 mode, s16 config_24, s16 config_25, s16 config_0a)
         part_b->tile_x = saved_config_24;
 
         if (mode_kind == 1) {
-            ((S_8016F160_1 *)work)->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            ((S_8016F160_1 *)work)->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            work->flags14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            work->flags1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
         } else if (mode_kind >= 2) {
-            ((S_8016F160_1 *)work)->unk_14 |= ACTOR_CLASS_ENABLED;
-            ((S_8016F160_1 *)work)->unk_1C |= ACTOR_PLAYER_SIDE;
+            work->flags14 |= ACTOR_CLASS_ENABLED;
+            work->flags1C |= ACTOR_PLAYER_SIDE;
         }
 
         initialize_actor_sprite_and_animation(obj, part_a, part_b, saved_mode);

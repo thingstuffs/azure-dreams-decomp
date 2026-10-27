@@ -850,7 +850,7 @@ s32 has_actor_or_actions(void *unused_actor) {
 
 /* Checks whether the record's byte at offset 0x25 is below 0x40. */
 s32 has_low_actor_mp(ActorRecord *record) {
-    return (u8) record->mp < 0x40U;
+    return (u8) record->mp_value.parts.whole < 0x40U;
 }
 #include "common.h"
 #include "m2c_compat.h"

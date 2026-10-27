@@ -75,12 +75,12 @@ void update_actor_controller(ActorRecord *actor_state_in, ObjectPosition *update
     ActorRecord *target_actor;
 
     if (dungeon_flags & 0x1000) {
-        actor_state_in->action_id = 14;
+        actor_state_in->action_id.u = 14;
         func_80171460(actor_state_in, update_context_in, map_object, actor_data);
         return;
     }
 
-    if (actor_data->mp == 0) {
+    if (actor_data->mp_value.parts.whole == 0) {
         advance_actor_pending_action(actor_state_in, update_context_in, map_object, actor_data);
         if (*(u8 **)&map_object->frameTable == D_80176650) {
             return;
@@ -95,8 +95,8 @@ void update_actor_controller(ActorRecord *actor_state_in, ObjectPosition *update
 
     if (((S_80170EE4_1 *)actor_data)->unk_1C & 0x200) {
         if (*(u8 **)&map_object->frameTable == D_80176650) {
-            actor_state_in->action_id = 13;
-            actor_state_in->action_phase = 1;
+            actor_state_in->action_id.u = 13;
+            actor_state_in->action_phase.u = 1;
             ((S_80170EE4_0 *)actor_state_in)->unk_8C = 0;
             ((S_80170EE4_1 *)actor_data)->unk_1C &= ~0x40000;
             return;
@@ -114,7 +114,7 @@ void update_actor_controller(ActorRecord *actor_state_in, ObjectPosition *update
 
         {
             u8 default_state = 14;
-            if (actor_state_in->action_id != default_state) {
+            if (actor_state_in->action_id.u != default_state) {
                 if (*(u8 **)&map_object->frameTable != manoeva_frame_set_1) {
                     (map_object->frameTable) = manoeva_frame_set_1;
                     select_sprite_entry(
@@ -122,7 +122,7 @@ void update_actor_controller(ActorRecord *actor_state_in, ObjectPosition *update
                         manoeva_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
                         0);
                 }
-                actor_state_in->action_id = default_state;
+                actor_state_in->action_id.u = default_state;
             }
         }
 
@@ -201,7 +201,7 @@ void update_actor_controller(ActorRecord *actor_state_in, ObjectPosition *update
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
             target_actor = primary_actor_record;
             actor_data->facing = facing_angle;
-            if (target_actor->action_id == 0x11) {
+            if (target_actor->action_id.u == 0x11) {
                 begin_actor_spell_action(actor_state_in, update_context_in, map_object, D_80176660, manoeva_action_resume_address);
                 return;
             }

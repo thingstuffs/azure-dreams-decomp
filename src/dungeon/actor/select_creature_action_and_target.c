@@ -431,7 +431,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
                 if (((ActorRecord *)creature)->flags1C & ACTOR_PLAYER_AWARE) {
                     if ((check_active_object_state_567() << 16) == 0) {
                         ActorRecord *player = primary_actor_record;
-                        if (player->action_id == 0x11) {
+                        if (player->action_id.u == 0x11) {
                             ActorRecord *player_target = player->target;
                             if (player_target != NULL) {
                                 if (!(player_target->flags14 & ACTOR_CLASS_ENABLED)) {

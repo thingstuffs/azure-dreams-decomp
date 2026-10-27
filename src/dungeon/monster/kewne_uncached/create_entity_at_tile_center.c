@@ -37,7 +37,7 @@ void *create_and_initializes_entity_center_specified_tile(s16 entity_id, s16 til
         entity->flags14 |= 0x6000;
         entity->flags1C |= 0x6000;
         initialize_actor_sprite_and_animation(parent, position, tile_state, entity_id);
-        entity->action_id = 0xFF;
+        entity->action_id.u = 0xFF;
         entity->unk_9C = -1;
         entity->unk_8C.address = kewne_uncached_action_resume_address;
         entity->unk_90.parts.high.s = -0x20;
@@ -171,9 +171,9 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
         }
     }
     if ((u32) (reference_tile_object.tile_position.word - 0x2536) < 2U) {
-        (*(s32 *)&actor_in->unk_B0) = (s32) ((*(s32 *)&actor_in->unk_B0) | 0x20000);
+        (*(s32 *)&actor_in->unk_B0.address) = (s32) ((*(s32 *)&actor_in->unk_B0.address) | 0x20000);
     }
-    if (!((*(s32 *)&actor_in->unk_B0) & 0x20000)) {
+    if (!((*(s32 *)&actor_in->unk_B0.address) & 0x20000)) {
         if (((S_812A524C_5 *)(&scripted_status_target))->unk_00 != NULL) {
             set_or_clear_actor_status_slot(((S_812A524C_5 *)(&scripted_status_target))->unk_00 + 0x20, STATUS_SLEEP, 0xA);
         }
@@ -196,7 +196,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                         actor_in->unk_B9 = 1U;
                         enqueue_runtime_pool_script(&D_8006EE9C);
                         entity->pending_turn_updates = 0U;
-                        actor_in->action_phase = 0;
+                        actor_in->action_phase.u = 0;
                         actor_in->unk_B8 = 2U;
                         start_direction = get_direction_toward_target_position(motion_in);
                         facing_actor = (*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00);
@@ -207,7 +207,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                         ((S_812A524C_5 *)(&scripted_status_target))->unk_00 = find_linked_entity_of_type_21(entity);
                     }
                     if (actor_in->unk_B8 == 0) {
-                        if (!((*(s32 *)&actor_in->unk_B0) & 0x20)) {
+                        if (!((*(s32 *)&actor_in->unk_B0.address) & 0x20)) {
                             event_1 = &reference_tile_object;
                             if ((event_1->tile_position.word == 0x519)
                                 || (event_1->tile_position.word == 0x619)) {
@@ -216,10 +216,10 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                     if (((event_1->tile_position.parts.tile_y << 6) + 0x20) == view_reference_entity.y.w.i) {
                                         enqueue_runtime_pool_script(&D_8006F9D0);
                                         entity->pending_turn_updates = 0U;
-                                        actor_in->action_phase = 0;
+                                        actor_in->action_phase.u = 0;
                                         actor_in->unk_B8 = 1U;
-                                        (*(s32 *)&actor_in->unk_B0) =
-                                            (s32) ((*(s32 *)&actor_in->unk_B0) | 0x20);
+                                        (*(s32 *)&actor_in->unk_B0.address) =
+                                            (s32) ((*(s32 *)&actor_in->unk_B0.address) | 0x20);
                                     }
                                 }
                             }
@@ -233,13 +233,13 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                     || (((S_812A524C_1 *)(&script_motion_phase))->unk_00.s == 0x20))) {
                                 enqueue_runtime_pool_script(&D_8006F9D0);
                                 entity->pending_turn_updates = 0U;
-                                actor_in->action_phase = 0;
+                                actor_in->action_phase.u = 0;
                                 actor_in->unk_B8 = 1U;
-                                (*(s32 *)&actor_in->unk_B0) = (s32) ((*(s32 *)&actor_in->unk_B0) | 0x20);
+                                (*(s32 *)&actor_in->unk_B0.address) = (s32) ((*(s32 *)&actor_in->unk_B0.address) | 0x20);
                             }
                         }
                         if (actor_in->unk_B8 == 0) {
-                            if (!((*(s32 *)&actor_in->unk_B0) & 0x4000)) {
+                            if (!((*(s32 *)&actor_in->unk_B0.address) & 0x4000)) {
                                 event_2 = &reference_tile_object;
                                 if ((event_2->tile_position.word == 0x2B2D)
                                     || (event_2->tile_position.word == 0x2C2D)) {
@@ -249,24 +249,24 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                             == view_reference_entity.y.w.i) {
                                             enqueue_runtime_pool_script(&D_800FB8DF);
                                             entity->pending_turn_updates = 0U;
-                                            actor_in->action_phase = 0;
+                                            actor_in->action_phase.u = 0;
                                             actor_in->unk_B8 = 1U;
-                                            (*(s32 *)&actor_in->unk_B0) =
-                                                (s32) ((*(s32 *)&actor_in->unk_B0) | 0x4000);
+                                            (*(s32 *)&actor_in->unk_B0.address) =
+                                                (s32) ((*(s32 *)&actor_in->unk_B0.address) | 0x4000);
                                         }
                                     }
                                 }
                                 if (((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A == 0x1C) {
                                     enqueue_runtime_pool_script(&D_800FB8DF);
                                     entity->pending_turn_updates = 0U;
-                                    actor_in->action_phase = 0;
+                                    actor_in->action_phase.u = 0;
                                     actor_in->unk_B8 = 1U;
-                                    (*(s32 *)&actor_in->unk_B0) =
-                                        (s32) ((*(s32 *)&actor_in->unk_B0) | 0x4000);
+                                    (*(s32 *)&actor_in->unk_B0.address) =
+                                        (s32) ((*(s32 *)&actor_in->unk_B0.address) | 0x4000);
                                 }
                             }
                             if (actor_in->unk_B8 == 0) {
-                                if (!((*(s32 *)&actor_in->unk_B0) & 0x200)
+                                if (!((*(s32 *)&actor_in->unk_B0.address) & 0x200)
                                     && (event_3 = &reference_tile_object,
                                         ((u32) (event_3->tile_position.word - 0xB36) < 2U))
                                     && (position_3 = &view_reference_entity,
@@ -276,13 +276,13 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                         == position_3->y.w.i)) {
                                     enqueue_runtime_pool_script(&D_80070684);
                                     entity->pending_turn_updates = 0U;
-                                    actor_in->action_phase = 0;
+                                    actor_in->action_phase.u = 0;
                                     actor_in->unk_B8 = 1U;
-                                    (*(s32 *)&actor_in->unk_B0) =
-                                        (s32) ((*(s32 *)&actor_in->unk_B0) | 0x200);
+                                    (*(s32 *)&actor_in->unk_B0.address) =
+                                        (s32) ((*(s32 *)&actor_in->unk_B0.address) | 0x200);
                                 }
                                 if (actor_in->unk_B8 == 0) {
-                                    if (!((*(s32 *)&actor_in->unk_B0) & 0x8000)
+                                    if (!((*(s32 *)&actor_in->unk_B0.address) & 0x8000)
                                         && (event_4 = &reference_tile_object,
                                             ((u32) (event_4->tile_position.word - 0x1236) < 2U))
                                         && (position_4 = &view_reference_entity,
@@ -292,13 +292,13 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                             == position_4->y.w.i)) {
                                         enqueue_runtime_pool_script(&D_800FBAD7);
                                         entity->pending_turn_updates = 0U;
-                                        actor_in->action_phase = 0;
+                                        actor_in->action_phase.u = 0;
                                         actor_in->unk_B8 = 1U;
-                                        (*(s32 *)&actor_in->unk_B0) =
-                                            (s32) ((*(s32 *)&actor_in->unk_B0) | 0x8000);
+                                        (*(s32 *)&actor_in->unk_B0.address) =
+                                            (s32) ((*(s32 *)&actor_in->unk_B0.address) | 0x8000);
                                     }
                                     if (actor_in->unk_B8 == 0) {
-                                        if (!((*(s32 *)&actor_in->unk_B0) & 2)) {
+                                        if (!((*(s32 *)&actor_in->unk_B0.address) & 2)) {
                                             event_5 = &reference_tile_object;
                                             if ((u32) (event_5->tile_position.word - 0x1D07) < 2U) {
                                                 event_x_5 = event_5->tile_position.parts.tile_x;
@@ -307,10 +307,10 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                         == view_reference_entity.y.w.i) {
                                                         enqueue_runtime_pool_script(&kewne_spawn_pool_script);
                                                         entity->pending_turn_updates = 0U;
-                                                        actor_in->action_phase = 0;
+                                                        actor_in->action_phase.u = 0;
                                                         actor_in->unk_B8 = 1U;
-                                                        (*(s32 *)&actor_in->unk_B0) =
-                                                            (s32) ((*(s32 *)&actor_in->unk_B0) | 2);
+                                                        (*(s32 *)&actor_in->unk_B0.address) =
+                                                            (s32) ((*(s32 *)&actor_in->unk_B0.address) | 2);
                                                     }
                                                 }
                                             }
@@ -318,14 +318,14 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                  != 0x19) && ((flag_base->pressed_buttons) & 0x20)) {
                                                 enqueue_runtime_pool_script(&kewne_spawn_pool_script);
                                                 entity->pending_turn_updates = 0U;
-                                                actor_in->action_phase = 0;
+                                                actor_in->action_phase.u = 0;
                                                 actor_in->unk_B8 = 1U;
-                                                (*(s32 *)&actor_in->unk_B0) =
-                                                    (s32) ((*(s32 *)&actor_in->unk_B0) | 2);
+                                                (*(s32 *)&actor_in->unk_B0.address) =
+                                                    (s32) ((*(s32 *)&actor_in->unk_B0.address) | 2);
                                             }
                                         }
                                         if (actor_in->unk_B8 == 0) {
-                                            if (!((*(s32 *)&actor_in->unk_B0) & 4)) {
+                                            if (!((*(s32 *)&actor_in->unk_B0.address) & 4)) {
                                                 event_6 = &reference_tile_object;
                                                 if ((u32) (event_6->tile_position.word - 0x291E) < 3U) {
                                                     event_x_6 = event_6->tile_position.parts.tile_x;
@@ -334,10 +334,10 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                             == view_reference_entity.y.w.i) {
                                                             enqueue_runtime_pool_script(&D_8006F50D);
                                                             entity->pending_turn_updates = 0U;
-                                                            actor_in->action_phase = 0;
+                                                            actor_in->action_phase.u = 0;
                                                             actor_in->unk_B8 = 1U;
-                                                            (*(s32 *)&actor_in->unk_B0) =
-                                                                (s32) ((*(s32 *)&actor_in->unk_B0) | 4);
+                                                            (*(s32 *)&actor_in->unk_B0.address) =
+                                                                (s32) ((*(s32 *)&actor_in->unk_B0.address) | 4);
                                                         }
                                                     }
                                                 }
@@ -345,14 +345,14 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                      != 0x19) && (flag_base->buttons & 0x10)) {
                                                     enqueue_runtime_pool_script(&D_8006F50D);
                                                     entity->pending_turn_updates = 0U;
-                                                    actor_in->action_phase = 0;
+                                                    actor_in->action_phase.u = 0;
                                                     actor_in->unk_B8 = 1U;
-                                                    (*(s32 *)&actor_in->unk_B0) =
-                                                        (s32) ((*(s32 *)&actor_in->unk_B0) | 4);
+                                                    (*(s32 *)&actor_in->unk_B0.address) =
+                                                        (s32) ((*(s32 *)&actor_in->unk_B0.address) | 4);
                                                 }
                                             }
                                             if (actor_in->unk_B8 == 0) {
-                                                if (!((*(s32 *)&actor_in->unk_B0) & 0x10)
+                                                if (!((*(s32 *)&actor_in->unk_B0.address) & 0x10)
                                                     && (((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A
                                                         != 0x23)) {
                                                     scan_index_10 = 0;
@@ -363,16 +363,16 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                         if ((scan_10[scan_index_10 * 4 + 0x249] == scan_kind) && (scan_10[scan_index_10 * 4 + 0x248] == scan_group)) {
                                                             enqueue_runtime_pool_script(&D_8006F6B9);
                                                             entity->pending_turn_updates = 0U;
-                                                            actor_in->action_phase = 0;
+                                                            actor_in->action_phase.u = 0;
                                                             actor_in->unk_B8 = 1U;
-                                                            (*(s32 *)&actor_in->unk_B0) |= 0x10;
+                                                            (*(s32 *)&actor_in->unk_B0.address) |= 0x10;
                                                             break;
                                                         }
                                                         scan_index_10 += 1;
                                                     } while (scan_index_10 < 0x14);
                                                 }
                                                 if (actor_in->unk_B8 == 0) {
-                                                    if (!((*(s32 *)&actor_in->unk_B0) & 0x80)
+                                                    if (!((*(s32 *)&actor_in->unk_B0.address) & 0x80)
                                                         && (((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A
                                                             != 0x23)) {
                                                         scan_index_80 = 0;
@@ -383,16 +383,16 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                             if ((scan_80[scan_index_80 * 4 + 0x249] == scan_kind) && (scan_80[scan_index_80 * 4 + 0x248] == scan_group)) {
                                                                 enqueue_runtime_pool_script(&D_8006FFB7);
                                                                 entity->pending_turn_updates = 0U;
-                                                                actor_in->action_phase = 0;
+                                                                actor_in->action_phase.u = 0;
                                                                 actor_in->unk_B8 = 1U;
-                                                                (*(s32 *)&actor_in->unk_B0) |= 0x80;
+                                                                (*(s32 *)&actor_in->unk_B0.address) |= 0x80;
                                                                 break;
                                                             }
                                                             scan_index_80 += 1;
                                                         } while (scan_index_80 < 0x14);
                                                     }
                                                     if (actor_in->unk_B8 == 0) {
-                                                        if (!((*(s32 *)&actor_in->unk_B0) & 0x100)
+                                                        if (!((*(s32 *)&actor_in->unk_B0.address) & 0x100)
                                                             && (((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A
                                                                 != 0x23)) {
                                                             scan_index_100 = 0;
@@ -403,16 +403,16 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                                 if ((scan_100[scan_index_100 * 4 + 0x249] == scan_kind) && ((scan_type = scan_100[scan_index_100 * 4 + 0x248]) == scan_group)) {
                                                                     enqueue_runtime_pool_script(&D_800703D9);
                                                                     entity->pending_turn_updates = 0U;
-                                                                    actor_in->action_phase = 0;
+                                                                    actor_in->action_phase.u = 0;
                                                                     actor_in->unk_B8 = scan_type;
-                                                                    (*(s32 *)&actor_in->unk_B0) |= 0x100;
+                                                                    (*(s32 *)&actor_in->unk_B0.address) |= 0x100;
                                                                     break;
                                                                 }
                                                                 scan_index_100 += 1;
                                                             } while (scan_index_100 < 0x14);
                                                         }
                                                         if (actor_in->unk_B8 == 0) {
-                                                            if (!((*(s32 *)&actor_in->unk_B0) & 0x40)
+                                                            if (!((*(s32 *)&actor_in->unk_B0.address) & 0x40)
                                                                 && (event_7 = &reference_tile_object,
                                                                     ((u32) (event_7->tile_position.word
                                                                 - 0x161C) < 7U))
@@ -425,13 +425,13 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                                 + 0x20) == position_7->y.w.i)) {
                                                                 enqueue_runtime_pool_script(&D_8006FD01);
                                                                 entity->pending_turn_updates = 0U;
-                                                                actor_in->action_phase = 0;
+                                                                actor_in->action_phase.u = 0;
                                                                 actor_in->unk_B8 = 1U;
-                                                                (*(s32 *)&actor_in->unk_B0) =
-                                                                    (s32) ((*(s32 *)&actor_in->unk_B0) | 0x40);
+                                                                (*(s32 *)&actor_in->unk_B0.address) =
+                                                                    (s32) ((*(s32 *)&actor_in->unk_B0.address) | 0x40);
                                                             }
                                                             if (actor_in->unk_B8 == 0) {
-                                                                if (!((*(s32 *)&actor_in->unk_B0) & 0x400)
+                                                                if (!((*(s32 *)&actor_in->unk_B0.address) & 0x400)
                                                                     && (event_8 = &reference_tile_object,
                                                                         ((u32) (event_8->tile_position.word
                                                                     - 0x2036) < 2U))
@@ -445,14 +445,14 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                                         == position_8->y.w.i)) {
                                                                     enqueue_runtime_pool_script(&D_80070AF8);
                                                                     entity->pending_turn_updates = 0U;
-                                                                    actor_in->action_phase = 0;
+                                                                    actor_in->action_phase.u = 0;
                                                                     actor_in->unk_B8 = 1U;
-                                                                    (*(s32 *)&actor_in->unk_B0) =
-                                                                        (s32) ((*(s32 *)&actor_in->unk_B0)
+                                                                    (*(s32 *)&actor_in->unk_B0.address) =
+                                                                        (s32) ((*(s32 *)&actor_in->unk_B0.address)
                                                                         | 0x400);
                                                                 }
                                                                 if (actor_in->unk_B8 == 0) {
-                                                                    if (!((*(s32 *)&actor_in->unk_B0) & 0x800)
+                                                                    if (!((*(s32 *)&actor_in->unk_B0.address) & 0x800)
                                                                         && ((reference_tile_object.tile_position.word == 0x31E)
                                                                             || (reference_tile_object.tile_position.word == 0x41E)
                                                                             || (reference_tile_object.tile_position.word == 0x51E)
@@ -467,14 +467,14 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                                         + 0x20) == position_9->y.w.i)) {
                                                                         enqueue_runtime_pool_script(&D_80070C11);
                                                                         entity->pending_turn_updates = 0U;
-                                                                        actor_in->action_phase = 0;
+                                                                        actor_in->action_phase.u = 0;
                                                                         actor_in->unk_B8 = 1U;
-                                                                        (*(s32 *)&actor_in->unk_B0) =
-                                                                            (s32) ((*(s32 *)&actor_in->unk_B0)
+                                                                        (*(s32 *)&actor_in->unk_B0.address) =
+                                                                            (s32) ((*(s32 *)&actor_in->unk_B0.address)
                                                                             | 0x800);
                                                                     }
                                                                     if (actor_in->unk_B8 == 0) {
-                                                                        if (!((*(s32 *)&actor_in->unk_B0) & 0x1000)) {
+                                                                        if (!((*(s32 *)&actor_in->unk_B0.address) & 0x1000)) {
                                                                             if (((u32) (reference_tile_object.tile_position.word
                                                                                 - 0x2C1E) < 3U)
                                                                                 || (reference_tile_object.tile_position.word
@@ -493,18 +493,18 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                                                     enqueue_runtime_pool_script(&D_80070E63);
                                                                                     entity->pending_turn_updates =
                                                                                         0U;
-                                                                                    actor_in->action_phase =
+                                                                                    actor_in->action_phase.u =
                                                                                         0;
                                                                                     actor_in->unk_B8 =
                                                                                         1U;
-                                                                                    (*(s32 *)&actor_in->unk_B0) =
-                                                                                        (s32) ((*(s32 *)&actor_in->unk_B0)
+                                                                                    (*(s32 *)&actor_in->unk_B0.address) =
+                                                                                        (s32) ((*(s32 *)&actor_in->unk_B0.address)
                                                                                         | 0x1000);
                                                                                 }
                                                                             }
                                                                         }
                                                                         if (actor_in->unk_B8 == 0) {
-                                                                            if (!((*(s32 *)&actor_in->unk_B0) & 0x2000)
+                                                                            if (!((*(s32 *)&actor_in->unk_B0.address) & 0x2000)
                                                                                 && (event_11 = &reference_tile_object,
                                                                                     ((u32) (event_11->tile_position.word
                                                                                 - 0x121C) < 7U))
@@ -518,15 +518,15 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                                                     == position_11->y.w.i)) {
                                                                                 enqueue_runtime_pool_script(&D_800FB3C8);
                                                                                 entity->pending_turn_updates = 0U;
-                                                                                actor_in->action_phase = 0;
+                                                                                actor_in->action_phase.u = 0;
                                                                                 actor_in->unk_B8 = 1U;
-                                                                                (*(s32 *)&actor_in->unk_B0) =
-                                                                                    (s32) ((*(s32 *)&actor_in->unk_B0)
+                                                                                (*(s32 *)&actor_in->unk_B0.address) =
+                                                                                    (s32) ((*(s32 *)&actor_in->unk_B0.address)
                                                                                     | 0x2000);
                                                                             }
                                                                             if (actor_in->unk_B8
                                                                                 == 0) {
-                                                                                if (!((*(s32 *)&actor_in->unk_B0) & 0x10000)) {
+                                                                                if (!((*(s32 *)&actor_in->unk_B0.address) & 0x10000)) {
                                                                                     if (((S_812A524C_5 *)(&scripted_status_target))->unk_00
                                                                                         == NULL) {
                                                                                         nearby_object =
@@ -559,11 +559,11 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                                                                     enqueue_runtime_pool_script(&D_800FBD96);
                                                                                                     entity->pending_turn_updates =
                                                                                                         0U;
-                                                                                                    actor_in->action_phase =
+                                                                                                    actor_in->action_phase.u =
                                                                                                         0;
                                                                                                     actor_in->unk_B8 =
                                                                                                         1U;
-                                                                                                    (*(s32 *)&actor_in->unk_B0) |= 0x10000;
+                                                                                                    (*(s32 *)&actor_in->unk_B0.address) |= 0x10000;
                                                                                                 }
                                                                                             }
                                                                                         }
@@ -610,7 +610,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
         if (update_actor != NULL) {
             update_actor(actor_in, motion_in, sprite, entity);
         }
-        kewne_uncached_callbacks[actor_in->action_id](actor_in, motion_in, sprite, entity);
+        kewne_uncached_callbacks[actor_in->action_id.u](actor_in, motion_in, sprite, entity);
         if ((s16) previous_state != (s8) entity->pending_turn_updates) {
             try_move_actor_to_valid_position(actor_in, motion_in, sprite, entity);
         }

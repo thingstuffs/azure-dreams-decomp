@@ -55,7 +55,7 @@ void update_timed_hop_and_landing(ActorRecord *action, ObjectPosition *motion, S
     DungeonGlobalStatus *global_base;
     u8 *idle_anims;
 
-    state = action->action_phase;
+    state = action->action_phase.u;
     switch (state) {
     case 0:
     {
@@ -74,7 +74,7 @@ void update_timed_hop_and_landing(ActorRecord *action, ObjectPosition *motion, S
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_8016CB4C_0 *)action)->unk_9E.s = 5;
         ((S_8016CB4C_0 *)action)->unk_A4 = 0;
-        action->action_phase++;
+        action->action_phase.u++;
     }
     case 1:
         move_ticks = ((S_8016CB4C_0 *)action)->unk_9E.s;
@@ -107,7 +107,7 @@ void update_timed_hop_and_landing(ActorRecord *action, ObjectPosition *motion, S
             ((S_8016CB4C_0 *)action)->unk_90 = 0;
             action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            action->action_phase++;
+            action->action_phase.u++;
         }
     case 2:
     {
@@ -125,7 +125,7 @@ void update_timed_hop_and_landing(ActorRecord *action, ObjectPosition *motion, S
                 phase_anims[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             sprite->scale_y = 0xC00;
-            action->action_phase++;
+            action->action_phase.u++;
         }
     }
         break;

@@ -29,8 +29,8 @@ void face_target_and_start_action(ActorRecord *action_state, ObjectPosition *eve
                     target->unk_25,
                     &distance);
                 direction_frames = cyclone_frame_set_2;
-                action_state->action_id = 0x17;
-                action_state->action_phase = 0;
+                action_state->action_id.u = 0x17;
+                action_state->action_phase.u = 0;
                 action_state->unk_8C.handler = 0;
                 sprite->frameTable = direction_frames;
                 select_sprite_entry(
@@ -188,9 +188,9 @@ void clear_actor_action_flag_and_animate(ActorRecord *action_state, ObjectPositi
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
-            action_state->action_id = 0x18;
+            action_state->action_id.u = 0x18;
             action_state->unk_8C.handler = 0;
-            action_state->action_phase = 0;
+            action_state->action_phase.u = 0;
             animation->frameTable = cyclone_frame_set_2;
             select_sprite_entry(animation, cyclone_frame_set_2[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             advance_status_timers(actor);
@@ -206,9 +206,9 @@ void attempt_actor_directional_action(ActorRecord *action_state, ObjectPosition 
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_ctx, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
-            action_state->action_id = 0x19;
+            action_state->action_id.u = 0x19;
             action_state->unk_8C.handler = 0;
-            action_state->action_phase = 0;
+            action_state->action_phase.u = 0;
             sprite->frameTable = cyclone_frame_set_2;
             select_sprite_entry(sprite, cyclone_frame_set_2[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             advance_status_timers(actor);

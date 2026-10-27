@@ -446,14 +446,6 @@ typedef struct CB_80172BCC_Copy12 {
 
 /* Advance the actor's item action, spawn its effect, and restore its position when finished. */
 
-typedef struct CB_801730E0_S_801730E0_0 {
-    u8 pad_00[0x8C];
-    u8 * unk_8C;
-    u8 pad_90[0x6];
-    union { u16 s; s16 u; } timer;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 phase;
-} CB_801730E0_S_801730E0_0;   /* arg0 in func_801730E0 */
 
 /* Advance the action wait states, then reset motion and switch scripts. */
 
@@ -1070,7 +1062,7 @@ void finish_linked_motion_and_trap(ActorRecord *state, ObjectPosition *position,
 
 void advance_actor_item_action_effect(CB_80172BCC_S_func_80C953CC_1 *work, CB_80172BCC_S_func_80C953CC_2 *position, CB_80172BCC_S_func_80C953CC_3 *entity,
     CB_80172BCC_S_func_80C953CC_4 *actor);
-void update_block_value_reaction(CB_801730E0_S_801730E0_0 *state, ObjectPosition *motion, Rec_D_80082E80 *action, EntityRec *entity);
+void update_block_value_reaction(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *action, ActorRecord *entity);
 void remove_defeated_block(void *state,void *position,void *render_state,void *entity);
 void shrink_hopping_block(void *state,void *position,void *render_state,void *entity);
 void advance_block_removal(void *state,void *position,void *render_state,void *entity);

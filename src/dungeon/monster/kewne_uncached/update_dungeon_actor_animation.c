@@ -67,7 +67,7 @@ void update_dungeon_actor_animation(void *actor, void *actor_aux, SpriteFrameSta
         func_80166510(actor, actor_aux, sprite, actor_data);
         return;
     }
-    if (actor_data->mp == 0) {
+    if (actor_data->mp_value.parts.whole == 0) {
         void *anim_table;
 
         advance_actor_pending_action(actor, actor_aux, sprite, actor_data);
@@ -214,7 +214,7 @@ state_done:
                 &distance);
             player = primary_actor_record;
             actor_data->facing = facing;
-            if (player->action_id == 0x11) {
+            if (player->action_id.u == 0x11) {
                 begin_actor_spell_action(actor, actor_aux, sprite, D_80169C88, D_80165FA4);
                 return;
             }

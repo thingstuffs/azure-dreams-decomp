@@ -21,7 +21,7 @@ s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s1
 s32 can_entity_gain_level(void *entity);                          /* extern */
 void update_actor_status_and_mp(ActorRecord *entity);                      /* extern */
 void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in); /* extern */
-s32 begin_ready_actor_directional_action(); /* extern */
+s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames); /* extern */
 s32 advance_actor_pending_action(void *actor_state, void *action, void *status, void *actor); /* extern */
 void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor); /* extern */
 s32 reset_actor_action_state(); /* extern */
@@ -73,7 +73,7 @@ void update_actor_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFr
         advance_actor_stored_path_2(actor, context, sprite, state);
         return;
     }
-    if (state->mp == 0) {
+    if (state->mp_value.parts.whole == 0) {
         advance_actor_pending_action(actor, context, sprite, state);
         anim_mode = state->unk_48;
         switch (anim_mode) {
@@ -182,17 +182,17 @@ void update_actor_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFr
             effect_mode = state->unk_48;
             switch (effect_mode) {
             case 0xD:
-                if (begin_ready_actor_directional_action(actor, context, sprite, &troll_frame_set_5) != 0) {
+                if (begin_ready_actor_directional_action(actor, context, sprite, troll_frame_set_5) != 0) {
                     return;
                 }
                 break;
             case 0xE:
-                if (begin_ready_actor_directional_action(actor, context, sprite, &troll_frame_set_6) != 0) {
+                if (begin_ready_actor_directional_action(actor, context, sprite, troll_frame_set_6) != 0) {
                     return;
                 }
                 break;
             case 0xF:
-                if (begin_ready_actor_directional_action(actor, context, sprite, &troll_frame_set_7) != 0) {
+                if (begin_ready_actor_directional_action(actor, context, sprite, troll_frame_set_7) != 0) {
                     return;
                 }
                 break;
@@ -255,7 +255,7 @@ void update_actor_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFr
         }
             player = primary_actor_record;
             state->facing = heading;
-            if (player->action_id != 0x11) {
+            if (player->action_id.u != 0x11) {
                 update_actor_status_and_mp(state);
                 return;
             }

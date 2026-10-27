@@ -8,8 +8,8 @@
  * eight-way entry from D_80174EA0.
  */
 void settle_actor_after_movement(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *context, ActorRecord *source) {
-    state->action_id = 0x10;
-    state->action_phase = 0;
+    state->action_id.u = 0x10;
+    state->action_phase.u = 0;
     state->unk_9E.s = 2;
     context->frameTable = D_80174EA0;
     select_sprite_entry(context, D_80174EA0[((g_game_work.view.camera_rotation.parts.viewAngle + source->facing + 0x100) >> 9) & 7], 0);

@@ -40,7 +40,7 @@ s32 check_actor_floor_trap(SpriteFrameState *actor, ActorRecord *target)
     if (player->room_index != *(s8 *)&actor->room_index && get_tile_chebyshev_distance(player, actor) >= 7) {
         return 1;
     }
-    if (target->mp == 0) {
+    if (target->mp_value.parts.whole == 0) {
         return 1;
     }
 

@@ -50,7 +50,7 @@ void advance_actor_action_and_refresh_animation(ActorRecord *actor, ObjectPositi
     DungeonGlobalStatus *global_base;
     s32 state;
 
-    state = actor->action_phase;
+    state = actor->action_phase.u;
     switch (state) {
     case 0:
         if (!(render_record->flags & 0xE000)) {
@@ -63,7 +63,7 @@ void advance_actor_action_and_refresh_animation(ActorRecord *actor, ObjectPositi
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: dungeon/func_809A2650). */
         do {
-            actor->action_phase++;
+            actor->action_phase.u++;
         } while (0);
         return;
 
@@ -78,7 +78,7 @@ void advance_actor_action_and_refresh_animation(ActorRecord *actor, ObjectPositi
                     return;
                 }
             }
-            if (actor_state->mp == 0) {
+            if (actor_state->mp_value.parts.whole == 0) {
                 if (global_base->flags & 0x2008) {
                     return;
                 }
@@ -140,7 +140,7 @@ void advance_actor_action_and_refresh_animation(ActorRecord *actor, ObjectPositi
             ((S_80173E50_0 *)actor)->unk_8C = kewne_action_resume_address;
             return;
         }
-        actor->action_phase++;
+        actor->action_phase.u++;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
         return;
 

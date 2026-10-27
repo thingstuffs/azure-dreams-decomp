@@ -7,7 +7,7 @@
 /* Advance the action animation and spawn pairs of effects with randomized velocities. */
 /* Times Noise's attack, emits particle pairs on ticks 9-13, resolves damage at tick 11, and spends MP on
  * completion. */
-void advance_action_and_spawn_random_effects(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+void advance_action_and_spawn_random_effects(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u16 spawn_offset[3];
     u16 position[3];
     T_80172FFC_WorkMid effect_work;
@@ -36,12 +36,12 @@ void advance_action_and_spawn_random_effects(void *action, ObjectPosition *motio
     Packed32 *direction_source = &D_80170838;
 
     effect_work.copy = *direction_source;
-    owner = action - 0x20;
-    state = ((T_80172FFC_S_80172FFC_0 *)action)->phase;
+    owner = ((ObjectNodeHeader *)action - 1);
+    state = action->action_phase.u;
     switch (state) {
     case 0:
     if (sprite->flags & 0x8000) {
-        ((T_80172FFC_S_80172FFC_0 *)action)->phase = 3U;
+        action->action_phase.u = 3U;
         sprite->flags = (u16) (sprite->flags | 0x6000);
         resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
         return;
@@ -49,38 +49,38 @@ void advance_action_and_spawn_random_effects(void *action, ObjectPosition *motio
     ((T_80172FFC_S_80172FFC_3 *)motion)->unk_14 = 0;
     ((T_80172FFC_S_80172FFC_3 *)motion)->unk_10 = 0;
     ((T_80172FFC_S_80172FFC_3 *)motion)->unk_0C = 0;
-    ((T_80172FFC_S_80172FFC_0 *)action)->timer = 0U;
-    ((T_80172FFC_S_80172FFC_0 *)action)->phase = (u8) (((T_80172FFC_S_80172FFC_0 *)action)->phase + 1);
+    action->action_timer.u = 0U;
+    action->action_phase.u = (u8) (action->action_phase.u + 1);
     return;
 
     case 1:
-    wait_tick = ((T_80172FFC_S_80172FFC_0 *)action)->timer + 1;
-    ((T_80172FFC_S_80172FFC_0 *)action)->timer = wait_tick;
+    wait_tick = action->action_timer.u + 1;
+    action->action_timer.u = wait_tick;
     if (((s16) wait_tick != 4) && !(sprite->flags & 0x8000)) {
         return;
     }
     (sprite->frameTable) = &noise_frame_set_1;
     select_sprite_entry(sprite, noise_frame_set_1[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
 
-    ((T_80172FFC_S_80172FFC_0 *)action)->timer = 0U;
-    ((T_80172FFC_S_80172FFC_0 *)action)->phase = (u8) (((T_80172FFC_S_80172FFC_0 *)action)->phase + 1);
+    action->action_timer.u = 0U;
+    action->action_phase.u = (u8) (action->action_phase.u + 1);
     return;
 
     case 2:
-    effect_tick = ((T_80172FFC_S_80172FFC_0 *)action)->timer + 1;
-    ((T_80172FFC_S_80172FFC_0 *)action)->timer = effect_tick;
+    effect_tick = action->action_timer.u + 1;
+    action->action_timer.u = effect_tick;
     if (((s16) effect_tick == 0x11) || (sprite->flags & 0x8000)) {
-        ((T_80172FFC_S_80172FFC_0 *)action)->timer = 0U;
-        ((T_80172FFC_S_80172FFC_0 *)action)->phase = (u8) (((T_80172FFC_S_80172FFC_0 *)action)->phase + 1);
+        action->action_timer.u = 0U;
+        action->action_phase.u = (u8) (action->action_phase.u + 1);
     }
-    if (((s16) ((T_80172FFC_S_80172FFC_0 *)action)->timer == 0xB) || (sprite->flags & 0x8000)) {
+    if (((s16) action->action_timer.u == 0xB) || (sprite->flags & 0x8000)) {
         resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
     }
     if (sprite->flags & 0xE000) {
         (sprite->frameTable) = &D_80174E90;
         select_sprite_entry(sprite, D_80174E90[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
     }
-    spawn_tick = ((T_80172FFC_S_80172FFC_0 *)action)->timer;
+    spawn_tick = action->action_timer.u;
     if ((u32) (spawn_tick - 9) < 5U) {
         if ((s16) spawn_tick == 9) {
             play_sound_if_enabled(0x810);
@@ -122,7 +122,7 @@ void advance_action_and_spawn_random_effects(void *action, ObjectPosition *motio
                     effect_motion->z.w.i = (u16) (*(u16 *)&effect_motion->z.w.i
                         + spawn_offset[2]);
                 }
-                effect_motion->velocity_z = (s32) (((0xD - (s16) ((T_80172FFC_S_80172FFC_0 *)action)->timer)
+                effect_motion->velocity_z = (s32) (((0xD - (s16) action->action_timer.u)
                     << 0x11) + 0xFFE80000);
                 ((T_80172FFC_S_80172FFC_4 *)effect_data)->unk_B4 = 0xC000;
                 effect_motion->velocity_x =

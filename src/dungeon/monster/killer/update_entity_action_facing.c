@@ -56,12 +56,12 @@ void update_entity_action_facing(ActorRecord *actor, ObjectPosition *context, Sp
     u32 dungeon_flags = g_dungeon_status.flags;
 
     if (dungeon_flags & 0x1000) {
-        actor->action_id = 0xE;
+        actor->action_id.u = 0xE;
         func_80171438(actor, context, sprite, entity);
         return;
     }
 
-    if (entity->mp == 0) {
+    if (entity->mp_value.parts.whole == 0) {
         advance_actor_pending_action(actor, context, sprite, entity);
         if (sprite->frameTable != killer_frame_set_2) {
             (sprite->frameTable) = killer_frame_set;
@@ -74,8 +74,8 @@ void update_entity_action_facing(ActorRecord *actor, ObjectPosition *context, Sp
 
     if (((u32)entity->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == killer_frame_set_2) {
-            actor->action_id = 0xD;
-            actor->action_phase = 1;
+            actor->action_id.u = 0xD;
+            actor->action_phase.u = 1;
             ((S_80170EA8_0 *)actor)->unk_8C = 0;
             entity->flags1C &= ~0x40000;
             return;
@@ -91,7 +91,7 @@ void update_entity_action_facing(ActorRecord *actor, ObjectPosition *context, Sp
             return;
         }
 
-        if (actor->action_id != 0xE) {
+        if (actor->action_id.u != 0xE) {
             u8 next_state = 0xE;
 
             anim_table = killer_direction_frames;
@@ -101,7 +101,7 @@ void update_entity_action_facing(ActorRecord *actor, ObjectPosition *context, Sp
                     anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                     0);
             }
-            actor->action_id = next_state;
+            actor->action_id.u = next_state;
         }
 
         ((S_80170EA8_0 *)actor)->unk_98.n &= 0xFFF3;
@@ -179,7 +179,7 @@ void update_entity_action_facing(ActorRecord *actor, ObjectPosition *context, Sp
                     &direction_aux);
                 global_actor = primary_actor_record;
                 entity->facing = direction;
-                if (global_actor->action_id == 0x11) {
+                if (global_actor->action_id.u == 0x11) {
                     begin_actor_spell_action(actor, context, sprite, D_80174070, &killer_action_resume_address);
                     return;
                 }

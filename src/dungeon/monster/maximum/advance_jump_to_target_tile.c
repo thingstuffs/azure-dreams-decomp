@@ -10,18 +10,6 @@
 #include "dungeon/player/object.h"
 #include "dungeon/actor/status.h"
 
-typedef struct S_80172374_0 {
-    u8 pad_00[0x8C];
-    u8 * unk_8C;
-    s32 unk_90;
-    u8 pad_94[0x2];
-    s16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0x8];
-    s32 unk_A4;
-} S_80172374_0;   /* arg0 in advance_jump_to_target_tile */
 
 extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void on_actor_status_updated(void *actor);
@@ -31,28 +19,28 @@ extern void spend_actor_mp();
 extern u8 maximum_action_continuation_address;
 
 /* Advances a jump toward the target tile and finishes movement when the timer expires. */
-void advance_jump_to_target_tile(S_80172374_0 *motion, ObjectPosition *position, SpriteFrameState *target_tile, ActorRecord *entity) {
+void advance_jump_to_target_tile(ActorRecord *motion, ObjectPosition *position, SpriteFrameState *target_tile, ActorRecord *entity) {
     u16 direction_aux;
     s32 jump_state;
     s32 frames_left;
     s16 next_frames;
     s32 entity_flags;
 
-    jump_state = motion->unk_9B;
+    jump_state = motion->action_phase.u;
     switch (jump_state) {
     case 0:
-        if (motion->unk_96 != 8) {
+        if (motion->action_timer.s != 8) {
             break;
         }
-        motion->unk_98 |= 8;
+        motion->action_state_flags |= 8;
         position->velocity_z = 0xFFEE0000;
         entity->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         motion->unk_A4 = 0;
-        motion->unk_9B++;
+        motion->action_phase.u++;
                         /* fall through */
     case 1:
-        frames_left = motion->unk_96;
-        motion->unk_90 -= motion->unk_A4;
+        frames_left = motion->action_timer.s;
+        motion->unk_90.value -= motion->unk_A4;
         if (frames_left != 0) {
             s32 coord;
             s32 axis_origin;
@@ -64,32 +52,32 @@ void advance_jump_to_target_tile(S_80172374_0 *motion, ObjectPosition *position,
             position->velocity_x = ((coord - axis_origin) << 16) / frames_left;
             coord2 = target_tile->tile_y << 6;
             axis_origin2 = position->y.w.i - 0x20;
-            position->velocity_y = ((coord2 - axis_origin2) << 16) / motion->unk_96;
+            position->velocity_y = ((coord2 - axis_origin2) << 16) / motion->action_timer.s;
             motion->unk_A4 += position->velocity_z;
             position->velocity_z += 0x40000;
         }
-        motion->unk_90 += motion->unk_A4;
-        if (motion->unk_96 < 3) {
-            motion->unk_90 = 0;
-            motion->unk_98 &= 0xFFF7;
+        motion->unk_90.value += motion->unk_A4;
+        if (motion->action_timer.s < 3) {
+            motion->unk_90.value = 0;
+            motion->action_state_flags &= 0xFFF7;
             entity->flags1C |= ACTOR_GROUNDED;
-            motion->unk_9B++;
+            motion->action_phase.u++;
         }
                         /* fall through */
     case 2:
         if (entity->flags1C & ACTOR_GROUNDED) {
-            motion->unk_98 &= 0xFFF7;
+            motion->action_state_flags &= 0xFFF7;
             position->velocity_z = 0;
             position->velocity_y = 0;
             position->velocity_x = 0;
             set_record_integer_tile_center(position, target_tile->tile_x, target_tile->tile_y);
-            motion->unk_9B++;
+            motion->action_phase.u++;
         }
         break;
     }
 
-    next_frames = (u16)motion->unk_96 - 1;
-    motion->unk_96 = next_frames;
+    next_frames = (u16)motion->action_timer.s - 1;
+    motion->action_timer.s = next_frames;
     if ((next_frames << 16) <= 0) {
         position->velocity_z = 0;
         position->velocity_y = 0;
@@ -117,7 +105,7 @@ void advance_jump_to_target_tile(S_80172374_0 *motion, ObjectPosition *position,
         }
 
         if ((check_actor_floor_trap(target_tile, entity) << 16) > 0) {
-            motion->unk_8C = &maximum_action_continuation_address;
+            motion->unk_8C.address = &maximum_action_continuation_address;
             on_actor_status_updated(entity);
         }
     }

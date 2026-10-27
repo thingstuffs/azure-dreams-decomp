@@ -53,14 +53,14 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
     u8 state;
     s32 terrain_height;
 
-    state = action->action_phase;
+    state = action->action_phase.u;
     switch (state) {
     case 0:
     {
         s32 direction;
 
         if (record->flags & 0x8000) {
-            action->action_phase = 4;
+            action->action_phase.u = 4;
             record->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, record, actor->facing, 1);
             return;
@@ -91,7 +91,7 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
         ((Rec_func_80172D08_arg1 *)motion)->unk_10 = 0;
         ((Rec_func_80172D08_arg1 *)motion)->unk_0C = 0;
         ((S_80172D08_0 *)action)->unk_96.s = 6;
-        action->action_phase++;
+        action->action_phase.u++;
     }
 
     case 1:
@@ -116,7 +116,7 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
         (*(u32 *)&actor->flags1C) &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80172D08_0 *)action)->unk_A0 = 0;
         ((S_80172D08_0 *)action)->unk_96.s = 0x10;
-        action->action_phase++;
+        action->action_phase.u++;
         return;
     }
 
@@ -190,7 +190,7 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
             return;
         }
         play_sound_if_enabled(0x803);
-        action->action_phase++;
+        action->action_phase.u++;
         return;
     }
 
@@ -218,7 +218,7 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
                     -((((s16 *)((s8 *)dir_step_y))[direction >> 1] << 22) / 8);
             }
             ((S_80172D08_0 *)action)->unk_96.s = 8;
-            action->action_phase++;
+            action->action_phase.u++;
         }
         return;
     }

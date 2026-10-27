@@ -647,7 +647,7 @@ extern s32 test_neighbor_position_relation(s32, s32, s32, s32);
 extern s32 get_actor_height_difference(void *,void *);
 extern void apply_monster_koyaw_data(s32 flags, s8 *dst);
 extern void * find_adjacent_actor(void *entity, u16 x, u16 y);
-extern void * probe_directional_neighbor();
+extern void * probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
 extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void select_actor_route_target();

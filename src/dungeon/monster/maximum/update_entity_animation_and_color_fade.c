@@ -24,9 +24,9 @@ extern s32 generate_random_value(void);
 extern void on_actor_status_updated(void *);
 extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *,void *, void *, void *);
-extern s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
+extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
-extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
+extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void advance_actor_state_with_child(void *,void *, void *, void *);
 
 extern u8 maximum_action_continuation_address;
@@ -34,15 +34,14 @@ extern u8 maximum_frame_set_2[];
 extern u8 maximum_frame_set_1[];
 
 /* Updates entity state, directional animation, and color fading. */
-void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, ObjectPosition *update_mode, SpriteFrameState *sprite, ActorRecord *entity)
-{
+void update_entity_animation_and_color_fade(ActorRecord *controller, ObjectPosition *update_mode, SpriteFrameState *sprite, ActorRecord *entity) {
     s32 state;
     s32 flags;
     s8 floor;
     DungeonGlobalStatus *counter_base;
     TileObject *floor_base;
 
-    if (controller->unk_9B < 2U) {
+    if (controller->action_phase.u < 2U) {
         if (sprite->color.c.r >= 0x33U) {
             sprite->color.word += -0x30303;
         }
@@ -50,7 +49,7 @@ void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, 
         sprite->color.word += 0x30303;
     }
 
-    state = controller->unk_9B;
+    state = controller->action_phase.u;
     switch (state) {
     case 0:
         entity->flags1C |= 0x10000000;
@@ -65,7 +64,7 @@ void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, 
         counter_base = &g_dungeon_status;
         counter_base->activity_counts.parts.pending_action_count =
             ((u16)counter_base->activity_counts.parts.pending_action_count) - 1;
-        controller->unk_9B++;
+        controller->action_phase.u++;
         return;
 
     case 1:
@@ -79,11 +78,11 @@ void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, 
                 entity->flags1C &= ~ACTOR_ASLEEP;
                 entity->flags1C &= 0xEFFFFFFF;
                 sprite->color.word = 0x808080;
-                controller->unk_8C.as_pu8 = &maximum_action_continuation_address;
+                controller->unk_8C.address = &maximum_action_continuation_address;
                 return;
             }
             g_dungeon_status.activity_counts.parts.pending_action_count++;
-            controller->unk_9B++;
+            controller->action_phase.u++;
             return;
         }
 
@@ -95,7 +94,7 @@ void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, 
                 return;
             }
         }
-        if (entity->mp == 0) {
+        if (entity->mp_value.parts.whole == 0) {
             if (g_dungeon_status.flags & 0x2008) {
                 return;
             }
@@ -151,7 +150,7 @@ void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, 
             entity->flags1C &= ~ACTOR_ASLEEP;
             entity->flags1C &= 0xEFFFFFFF;
             sprite->color.word = 0x808080;
-            controller->unk_8C.as_pu8 = &maximum_action_continuation_address;
+            controller->unk_8C.address = &maximum_action_continuation_address;
             return;
         }
         {
@@ -161,7 +160,7 @@ void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, 
             ((S_80173204_7 *)counter)->unk_0A++;
         }
 
-        controller->unk_9B++;
+        controller->action_phase.u++;
         return;
 
     case 2:
@@ -177,7 +176,7 @@ void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, 
         entity->flags1C &= 0xEFFFFFFF;
         sprite->color.word = 0x808080;
         entity->flags1C &= ~ACTOR_ASLEEP;
-        controller->unk_8C.as_pu8 = &maximum_action_continuation_address;
+        controller->unk_8C.address = &maximum_action_continuation_address;
 
         return;
     default:

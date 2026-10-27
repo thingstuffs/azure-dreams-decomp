@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -17,12 +18,12 @@ void *allocate_object_with_child_displays(s32 kind, s32 part_value_24, s32 part_
     s32 saved_copy_value;
     s16 saved_part_value;
     u16 saved_part_byte_24;
-    void *object;
+    ActorRecord *object;
     void *outer;
     void *stable_object;
     s32 kind_copy;
     SpriteFrameState *part;
-    void *allocated;
+    ObjectNodeHeader *allocated;
     s32 allocation_size;
     ObjectNodeHeader *allocation_pool;
 
@@ -41,11 +42,11 @@ void *allocate_object_with_child_displays(s32 kind, s32 part_value_24, s32 part_
             ObjectNodeHeader *init_root;
             void *setup;
 
-            object = (u8 *)allocated + 0x20;
+            object = (ActorRecord *)(allocated + 1);
             init_root = allocated;
             setup = project_sprite_chain;
             init_root->update_callback = D_80158BB8;
-            ((S_8015889C_1 *)object)->unk_13 = MONSTER_UNIVERN;
+            object->species = MONSTER_UNIVERN;
             register_node(init_root, setup);
         }
 
@@ -67,21 +68,21 @@ void *allocate_object_with_child_displays(s32 kind, s32 part_value_24, s32 part_
             s32 extra_flags;
 
             if ((saved_kind & 3) == 1) {
-                object_flags = ((S_8015889C_1 *)object)->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-                extra_flags = ((S_8015889C_1 *)object)->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-                ((S_8015889C_1 *)object)->unk_14 = object_flags;
-                ((S_8015889C_1 *)object)->unk_1C = extra_flags;
+                object_flags = object->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+                extra_flags = object->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+                object->flags14 = object_flags;
+                object->flags1C = extra_flags;
             } else if ((saved_kind & 3) >= 2) {
-                object_flags = ((S_8015889C_1 *)object)->unk_14 | ACTOR_CLASS_ENABLED;
-                extra_flags = ((S_8015889C_1 *)object)->unk_1C | ACTOR_PLAYER_SIDE;
-                ((S_8015889C_1 *)object)->unk_14 = object_flags;
-                ((S_8015889C_1 *)object)->unk_1C = extra_flags;
+                object_flags = object->flags14 | ACTOR_CLASS_ENABLED;
+                extra_flags = object->flags1C | ACTOR_PLAYER_SIDE;
+                object->flags14 = object_flags;
+                object->flags1C = extra_flags;
             } else {
                 object_flags = saved_kind & ~3;
                 if ((s16)object_flags == 0) {
-                    if ((((S_8015889C_1 *)object)->unk_14 & ACTOR_RESIST_SLEEP) == 0) {
+                    if ((object->flags14 & ACTOR_RESIST_SLEEP) == 0) {
                         if (generate_random_value() & 1) {
-                            ((S_8015889C_1 *)object)->unk_1C |= ACTOR_ASLEEP;
+                            object->flags1C |= ACTOR_ASLEEP;
                             set_or_clear_actor_status_slot(object, STATUS_SLEEP,
                                 (generate_random_value() & 0x3F) | 0x20);
                             part->frameTable = D_8015C4FC;
@@ -98,7 +99,7 @@ void *allocate_object_with_child_displays(s32 kind, s32 part_value_24, s32 part_
         ((S_8015889C_4 *)stable_object)->unk_9A = 0xFF;
         ((S_8015889C_4 *)stable_object)->unk_9C = -1;
         ((S_8015889C_4 *)stable_object)->unk_8C = D_801593A8;
-        ((S_8015889C_1 *)object)->unk_1C |= 0x40000;
+        object->flags1C |= 0x40000;
         ((S_8015889C_4 *)stable_object)->unk_92 = -48;
         ((S_8015889C_4 *)stable_object)->unk_A8 = 0;
         ((S_8015889C_4 *)stable_object)->unk_9E = 1;
@@ -140,7 +141,7 @@ void *allocate_object_with_child_displays(s32 kind, s32 part_value_24, s32 part_
                     outer_child->update_callback = child_object_update_address;
                     (*(void **)((u8 *)item + 0x2C)) = direction_table;
                     direction_index = ((view_facing_angle_alias +
-                        ((S_8015889C_1 *)object)->unk_2A + 0x100) >> 9) & 7;
+                        object->facing + 0x100) >> 9) & 7;
                     select_sprite_entry(item,
                         *(u8 *)((uptr)direction_index + (uptr)direction_table), call_zero);
                     item_offset += 0x30;

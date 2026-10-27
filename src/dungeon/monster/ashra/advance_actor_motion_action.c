@@ -60,7 +60,7 @@ void advance_actor_motion_action(ActorRecord *action_state, ObjectPosition *posi
     ObjectNodeHeader *action_globals;
 
     use_player = 0;
-    switch (action_state->action_phase) {
+    switch (action_state->action_phase.u) {
     case 0:
         if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
             switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
@@ -140,7 +140,7 @@ void advance_actor_motion_action(ActorRecord *action_state, ObjectPosition *posi
             sprite->flags &= 0xF7FF;
             play_sound_if_enabled(0x703);
             create_two_row_object_group(saved_position, (*motion - 1) % 3);
-            action_state->action_phase = action_state->action_phase + 1;
+            action_state->action_phase.u = action_state->action_phase.u + 1;
             return;
         }
 
@@ -164,7 +164,7 @@ void advance_actor_motion_action(ActorRecord *action_state, ObjectPosition *posi
             return;
         }
         sprite->flags &= 0xF7FF;
-        action_state->action_phase = action_state->action_phase + 1;
+        action_state->action_phase.u = action_state->action_phase.u + 1;
                                 /* fallthrough */
     case 2:
         if ((sprite->unk_04 == 14 && (sprite->flags & 0x1000)) ||

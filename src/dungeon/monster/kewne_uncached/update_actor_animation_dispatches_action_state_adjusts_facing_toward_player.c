@@ -67,7 +67,7 @@ void update_actor_animation_dispatches_action_state_adjusts_facing_toward_player
         func_80160510(actor, actor_aux, sprite, entity);
         return;
     }
-    if (entity->mp == 0) {
+    if (entity->mp_value.parts.whole == 0) {
         void *anim_table;
 
         advance_actor_pending_action(actor, actor_aux, sprite, entity);
@@ -213,7 +213,7 @@ table_done:
                 &direction_aux);
             player = primary_actor_record;
             entity->facing = facing;
-            if (player->action_id == 0x11) {
+            if (player->action_id.u == 0x11) {
                 begin_actor_spell_action(actor, actor_aux, sprite, D_80163C88, D_8015FFA4);
                 return;
             }
