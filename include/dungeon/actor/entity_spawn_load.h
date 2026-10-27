@@ -170,7 +170,7 @@ typedef struct S_800A504C_7_pre {
     u8 pad_02[0x30A0];
 } S_800A504C_7_pre;
 
-extern s32 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
+s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern s32 generate_random_value(void);
 extern s16 floor_generation_state[3];
 /* the 0x30A2 bytes before D_800E0000 in advance_staged_entity_load, addressed as D_800E0000[-1] */

@@ -31,7 +31,7 @@ u8 *append_entity_display_text(void *record, u8 *out);
 void display_formatted_context_message(void *);
 void display_text_with_fullwidth_adjustment(s8 *text);
 void place_actor_item(Entity *, struct DungeonItemEntry *);
-void display_item_status_message(Entity *, struct DungeonItemEntry *, s16);
+void display_item_status_message(void *entity, struct DungeonItemEntry *item, s32 message_kind);
 s32 create_return_magic_effect(Entity *);
 
 /* Handles an item's effect on an entity and updates the pending action count. */

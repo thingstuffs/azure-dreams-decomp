@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800AB480. */
 
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_800B06F0_0 {
     u8 pad_00[0x20];
@@ -124,11 +125,6 @@ typedef struct S_800B06F0_7 {
 } S_800B06F0_7;
 
 /* manager in transform_linked_quad_batches */
-typedef struct {
-    u8 *manager;
-    u8 pad[0x9C];
-    u32 value;
-} GlobalSlot;
 
 typedef struct { u32 entry; } OtSlot;
 
@@ -187,9 +183,6 @@ typedef struct S_800B0BE0_5 {
     s8 unk_00;
 } S_800B0BE0_5;
 
-/* Single access prefix (0xA4 bytes) of the resident 0x200-byte GameWork.
- * GlobalSlot does not describe an allocation stride. */
-extern GlobalSlot g_game_work;
 extern s32 swap_int_values();
 extern void * multiply_rgb_tint_saturated();
 extern void *emit_gpu_packets();

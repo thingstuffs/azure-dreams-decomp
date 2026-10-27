@@ -231,7 +231,7 @@ void place_random_floor_elevators(void) {
     s32 spawn_count;
     s32 slot_index;
     u8 *meta_base;
-    floor_generate_isolated_8028484C_SpawnEntry *entries;
+    DungeonFloorMarker *entries;
 
     {
         u8 *state_page;
@@ -288,9 +288,9 @@ retry:
             } while (slot_index < 0x20);
         }
 
-        entries = (floor_generate_isolated_8028484C_SpawnEntry *)((u8 *)dungeon_floor_marker_entries);
+        entries = dungeon_floor_marker_entries;
         {
-            floor_generate_isolated_8028484C_SpawnEntry *entry = &entries[spawn_count];
+            DungeonFloorMarker *entry = &entries[spawn_count];
             s32 spawn_x;
             s32 spawn_y;
             s32 cell_offset;
@@ -697,13 +697,13 @@ void load_dungeon_layout(s16 layout_number)
     (*(s16 *)dungeon_room_count) = entry_index;
     entry_index = 0;
     while (*data != 0) {
-        ((floor_generate_isolated_80285464_Ent8 *)dungeon_floor_marker_entries)[entry_index].kind = data[2] + 2;
-        ((floor_generate_isolated_80285464_Ent8 *)dungeon_floor_marker_entries)[entry_index].x = data[0];
-        ((floor_generate_isolated_80285464_Ent8 *)dungeon_floor_marker_entries)[entry_index].y = data[1];
+        dungeon_floor_marker_entries[entry_index].kind = data[2] + 2;
+        dungeon_floor_marker_entries[entry_index].x = data[0];
+        dungeon_floor_marker_entries[entry_index].y = data[1];
         tile_value = map[data[0] + (data[1] << cfg->shiftX)].value - 32;
         map[data[0] + (data[1] << cfg->shiftX)].value = tile_value;
-        ((floor_generate_isolated_80285464_Ent8 *)dungeon_floor_marker_entries)[entry_index].value = tile_value;
-        if (((floor_generate_isolated_80285464_Ent8 *)dungeon_floor_marker_entries)[entry_index].kind == 2) {
+        dungeon_floor_marker_entries[entry_index].height = tile_value;
+        if (dungeon_floor_marker_entries[entry_index].kind == 2) {
             map[data[0] + (data[1] << cfg->shiftX)].kind = 1;
         }
         cycle_map_cell_flags(data[0], data[1], TILE_HAS_OBJECT);
@@ -716,7 +716,7 @@ void load_dungeon_layout(s16 layout_number)
     floor_layout_loaded = 1;
     entry_index++;
     while (entry_index < 4) {
-        ((floor_generate_isolated_80285464_Ent8 *)dungeon_floor_marker_entries)[entry_index].kind = 0;
+        dungeon_floor_marker_entries[entry_index].kind = 0;
         entry_index++;
     }
 

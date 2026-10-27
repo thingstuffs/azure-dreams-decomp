@@ -1,3 +1,4 @@
+#include "shared/dungeon_status.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/actor/motion.h"
@@ -16,11 +17,6 @@ typedef struct S_800AA258_2 {
 
 
 void update_map_cell_flags_with_item_limit();                 /* extern */
-extern struct {
-    s8 pad0[10];
-    u16 field_0x0A;
-    s8 pad1[10];
-} g_dungeon_status;
 
 /* Move the position one step in the actor's direction and update movement state. */
 void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in) {
@@ -50,5 +46,5 @@ void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, vo
     actor->flags1C = (s32) (actor->flags1C & ~ACTOR_PUSH_PENDING);
     state->unk_96.as_s16 = 0x21;
     state->unk_98 = (u16) (state->unk_98 | 8);
-    g_dungeon_status.field_0x0A = (u16)(g_dungeon_status.field_0x0A + 1);
+    g_dungeon_status.activity_counts.parts.pending_action_count = (u16)((u16) g_dungeon_status.activity_counts.parts.pending_action_count + 1);
 }

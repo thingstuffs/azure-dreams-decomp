@@ -1,14 +1,13 @@
+#include "shared/dungeon_floor.h"
 #include "shared/item_ids.h"
 #include "dungeon/level/room_flags.h"
 #include "common.h"
 #include "shared/object_flags.h"
 typedef struct { u16 unk00; } Pre;
 typedef struct { u8 pad[8]; u16 unk08; s16 unk0A; s16 unk0C; } State;
-typedef struct { u8 pad[0xC]; u16 unk0C; u8 pad2[6]; } Entry;
 extern void display_formatted_context_message(void *);
 extern u16 dungeon_status_flags_alias;
 extern s32 D_800E18C8;
-extern Entry dungeon_rooms[];
 /* Counts active dungeon ticks, optionally reports expiry and clears room flag 2, then removes the timer. */
 void tick_region_flag_expiry(void *state)
 {
@@ -21,7 +20,7 @@ void tick_region_flag_expiry(void *state)
             if (((State *)state)->unk0A == ITEM_HOLY_BELL) {
                 display_formatted_context_message(&D_800E18C8);
                 entry_index = ((State *)state)->unk0C;
-                dungeon_rooms[entry_index].unk0C = dungeon_rooms[entry_index].unk0C & ROOM_HOLY_BEAM_CLEAR_MASK;
+                dungeon_rooms[entry_index].flags = dungeon_rooms[entry_index].flags & ROOM_HOLY_BEAM_CLEAR_MASK;
             }
             ((Pre *)state)[-1].unk00 |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;

@@ -14,7 +14,6 @@
 extern u8 floor_objects[];
 extern u8 dungeon_ground_item_positions[];
 extern u8 dungeon_floor_object_positions[];
-extern u8 dungeon_floor_marker_entries[];
 
 extern s32 rsin(s32);
 
@@ -32,12 +31,6 @@ typedef struct {
     u8 pad[10];
 } MapEntry;
 
-typedef struct {
-    s16 type;
-    s16 x;
-    s16 y;
-    s16 pad;
-} ObjectEntry;
 
 typedef struct {
     u8 exists;
@@ -62,7 +55,7 @@ void draw_nearby_map_markers(void *ordering_table, s32 unused_mode) {
     u8 *player;
     GameWork *system;
     MapEntry *mapEntry;
-    ObjectEntry *objectEntry;
+    DungeonFloorMarker *objectEntry;
     EntryInfo *info;
     LargeMapEntry *largeMapEntry;
     s32 brightness;
@@ -175,10 +168,10 @@ void draw_nearby_map_markers(void *ordering_table, s32 unused_mode) {
     } while (playerAndIndex < 0x40);
 
     playerAndIndex = 0;
-    objectEntry = (ObjectEntry *)dungeon_floor_marker_entries;
+    objectEntry = dungeon_floor_marker_entries;
     colour.bytes[2] = 0;
     colour.bytes[1] = brightness;
-    for (; playerAndIndex < 4 && objectEntry[playerAndIndex].type == 2; playerAndIndex++) {
+    for (; playerAndIndex < 4 && objectEntry[playerAndIndex].kind == 2; playerAndIndex++) {
         if ((dungeon_floor_flags & FLOOR_ELEVATOR_VISIBLE) ||
             get_masked_grid_nibble(objectEntry[playerAndIndex].x,
                           objectEntry[playerAndIndex].y)) {

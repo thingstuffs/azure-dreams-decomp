@@ -81,15 +81,15 @@ s32 inventory_check_type_four_linked_object(Rec_func_80025850_arg0 *context) {
 
 /* Handles inventory cancel and activation buttons and moves among five actions with held-button repeat. */
 void inventory_handle_menu_actions_and_repeat(ovl_1830850_81810A0C_DungeonArg *menu) {
-    ovl_1830850_81810A0C_DungeonState *input = g_game_work;
+    GameWork *input = &g_game_work;
     s32 selection_step;
 
-    if (input->unk8 != 0 && menu->unk10 != 0) {
-        if (input->unk10 & 0x20) {
+    if (input->buttons != 0 && menu->unk10 != 0) {
+        if (input->pressed_buttons & 0x20) {
             SD_Call(0x515);
             set_object_data_pointer(menu->unk14);
             restore_item_text_before_edit(menu);
-        } else if (input->unk10 & 0x40) {
+        } else if (input->pressed_buttons & 0x40) {
             if (inventory_menu_returns_zero(menu) != 0 || inventory_check_type_four_linked_object(menu) != 0) {
                 SD_Call(0x506);
             } else {
@@ -100,24 +100,24 @@ void inventory_handle_menu_actions_and_repeat(ovl_1830850_81810A0C_DungeonArg *m
                 }
                 inventory_dispatch_indexed_handler(menu, menu->unk8);
             }
-        } else if (input->unk10 & 0x10) {
+        } else if (input->pressed_buttons & 0x10) {
             menu->unk8 = 4;
             inventory_set_paired_index_offset(menu->unk54, menu->unk8);
-        } else if (input->unk8 & 0x5000) {
+        } else if (input->buttons & 0x5000) {
             selection_step = 0;
-            if (input->unk10 & 0x5000) {
+            if (input->pressed_buttons & 0x5000) {
                 menu->unk4 = 0;
-                if (input->unk10 & 0x1000) {
+                if (input->pressed_buttons & 0x1000) {
                     selection_step = -1;
-                } else if (input->unk10 & 0x4000) {
+                } else if (input->pressed_buttons & 0x4000) {
                     selection_step = 1;
                 }
             } else {
                 if (menu->unk4 >= 9) {
                     menu->unk4 = menu->unk4 - 1;
-                    if (input->unk8 & 0x1000) {
+                    if (input->buttons & 0x1000) {
                         selection_step = -1;
-                    } else if (input->unk8 & 0x4000) {
+                    } else if (input->buttons & 0x4000) {
                         selection_step = 1;
                     }
                 } else {

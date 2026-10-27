@@ -26,7 +26,7 @@ extern void display_formatted_context_message(void *);
 extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void place_actor_item(void *, struct DungeonItemEntry *);
-extern void display_item_status_message(void *, struct DungeonItemEntry *, s16);
+void display_item_status_message(void *entity, struct DungeonItemEntry *item, s32 message_kind);
 extern s32 feed_actor_restore_mp(void *, s32, struct DungeonItemEntry *);
 extern void create_colored_effect_with_event(struct ObjectNodeHeader *source, s32 color, unsigned short event_id);
 

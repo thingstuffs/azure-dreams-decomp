@@ -1,3 +1,5 @@
+#include "shared/game_work.h"
+#include "shared/gpu_packets.h"
 #include "sdk/libc.h"
 #include "shared/object_node_flags.h"
 #include "shared/audio_commands.h"
@@ -662,10 +664,6 @@ void advance_motion_and_fade_sprite(EffectRecord *effect, EffectMotion *motion, 
 #include "dungeon/effect/particle/advance_motion_and_fade_sprite.h"
 #include "common.h"
 
-typedef struct DungeonDrawState {
-    u8 pad[0x8D0];
-    u8 *next_primitive;
-} DungeonDrawState;
 
 typedef struct DungeonShape {
     u8 pad00[0x34];
@@ -684,7 +682,6 @@ typedef struct DungeonShape {
     s16 unk46;
 } DungeonShape;
 
-extern DungeonDrawState *g_game_work[];
 extern s32 RotTransPers(void *world_vertex, void *screen_point, void *ptr2, void *ptr3);
 
 typedef struct DungeonTag {
@@ -702,7 +699,7 @@ s32 project_linked_shape_quads(void *shape_data)
     u16 points[5][2];
     s32 half_width;
     DungeonShape *shape;
-    DungeonDrawState **draw_state_p = g_game_work;
+    GameWork *draw_state_p = &g_game_work;
     s32 depth_or_tag_mask;
     s32 y_span;
     s32 width_divisor;
@@ -742,8 +739,8 @@ s32 project_linked_shape_quads(void *shape_data)
                 s32 ordering_offset = depth_or_tag_mask * 4;
 
                 do {
-                    DungeonDrawState *draw_state = *draw_state_p;
-                    u8 *primitive = draw_state->next_primitive;
+                    GpuContext *draw_state = draw_state_p->draw_buffer;
+                    u8 *primitive = draw_state->packetCursor;
                     s32 next_index;
                     u16 *current_point;
                     register u16 *next_point;
@@ -757,7 +754,7 @@ s32 project_linked_shape_quads(void *shape_data)
                     u8 tex_coord3;
                     u8 tex_span;
 
-                    draw_state->next_primitive = primitive + 0x28;
+                    draw_state->packetCursor = primitive + 0x28;
                     PRIM_U32(primitive, 4) = shape->unk34;
                     SetPolyFT4(primitive);
                     SetSemiTrans(primitive, 1);
@@ -801,8 +798,8 @@ s32 project_linked_shape_quads(void *shape_data)
                     PRIM_U8(primitive, 0x0D) = tex_coord3;
 
                     ((DungeonTag *)primitive)->addr =
-                        ((DungeonTag *)((u8 *)ordering_offset + (u32)*draw_state_p + 0xB0))->addr;
-                    ((DungeonTag *)((u8 *)ordering_offset + (u32)*draw_state_p + 0xB0))->addr = (u32)primitive;
+                        ((DungeonTag *)((u8 *)ordering_offset + (u32)draw_state_p->draw_buffer + 0xB0))->addr;
+                    ((DungeonTag *)((u8 *)ordering_offset + (u32)draw_state_p->draw_buffer + 0xB0))->addr = (u32)primitive;
 
                     point_index = next_index;
                 } while (point_index < 4);

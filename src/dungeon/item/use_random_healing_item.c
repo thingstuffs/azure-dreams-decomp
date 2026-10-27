@@ -39,9 +39,9 @@ extern void clear_byte_and_advance(s8 *byte_ptr);
 extern u8 *append_entity_display_text(void *record, u8 *out);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void place_actor_item(DungeonObject *, struct DungeonItemEntry *);
-extern void display_item_status_message(DungeonObject *, struct DungeonItemEntry *, s16);
+void display_item_status_message(void *entity, struct DungeonItemEntry *item, s32 message_kind);
 extern s32 generate_random_value(void);
-extern s32 cap_pending_actor_value_delta(DungeonObject *);
+s32 cap_pending_actor_value_delta(void *entry);
 extern s32 feed_actor_restore_mp(DungeonObject *, u32, struct DungeonItemEntry *);
 extern void create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 

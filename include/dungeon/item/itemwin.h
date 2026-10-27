@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_1830850_H
 #define DUNGEON_OVL_1830850_H
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80025850_arg0.h"
 #include "records/Rec_func_80025D28_arg0.h"
@@ -81,13 +82,6 @@ typedef struct {
     u8 pad18[0x3C];
     s32 unk54;
 } ovl_1830850_81810A0C_DungeonArg;
-typedef struct {
-    s32 unk0;
-    s32 unk4;
-    s32 unk8;
-    s32 unkC;
-    s32 unk10;
-} ovl_1830850_81810A0C_DungeonState;
 typedef struct ovl_1830850_81810BF4_Entity {
     s32 state;
     u8 pad_04[0x44];
@@ -213,7 +207,6 @@ extern void func_8004A7D8(int first_value, int second_value);
 extern void strcpy();
 extern s32 check_object_byte_pairs_content(s32);
 extern u8 inventory_default_entry_data[];
-extern ovl_1830850_81810A0C_DungeonState g_game_work[];
 extern void SD_Call(s32 value);
 extern s32 set_object_data_pointer(s32 unk14);
 extern s32 advance_index_with_single_wrap(s32 selection_step, s32 unk8, s32 value);

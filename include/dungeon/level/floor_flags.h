@@ -16,4 +16,15 @@ enum DungeonFloorFlags {
     FLOOR_MAP_VIEW_HOLD_CLEAR_MASK = 0xFF7FFFFF,
 };
 
+/* Four floor features populated by layout generation and read by map markers.
+ * Kind 2 is an elevator; x/y are map tiles and height is the stored floor height. */
+typedef struct DungeonFloorMarker {
+    short kind;
+    short x;
+    short y;
+    short height;
+} DungeonFloorMarker;
+
+extern DungeonFloorMarker dungeon_floor_marker_entries[4];
+
 #endif

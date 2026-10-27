@@ -668,12 +668,12 @@ s32 lookup_definition_pair_value(s16 firstKey, s16 secondKey) {
     s16 entryValue;
 
     for (entryIndex = 0; entryIndex < 4; entryIndex++) {
-        entryValue = dungeon_floor_marker_entries[entryIndex].value;
+        entryValue = dungeon_floor_marker_entries[entryIndex].kind;
         if (entryValue < 2) {
             return 0;
         }
-        if ((firstKey == dungeon_floor_marker_entries[entryIndex].first) &&
-            (secondKey == dungeon_floor_marker_entries[entryIndex].second)) {
+        if ((firstKey == dungeon_floor_marker_entries[entryIndex].x) &&
+            (secondKey == dungeon_floor_marker_entries[entryIndex].y)) {
             return entryValue;
         }
     }

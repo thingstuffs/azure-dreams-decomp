@@ -19,8 +19,8 @@ typedef struct SaveImage {
 
 extern s16 current_dungeon_floor;
 extern u8 D_800DF3CC[];
-extern s32 test_resident_bit(s32);
-extern void request_scene_dispatch_state(s32);
+s32 test_resident_bit(s16 value);
+void request_scene_dispatch_state(s16 requested_state);
 extern s32 Control_CD(s32 event_code, void *event_data, s32 payload);
 extern void drain_cd_command_queue(void);
 extern char D_800DF3D4[];

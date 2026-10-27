@@ -228,7 +228,7 @@ extern void *dungeon_actor_ring_anchor;
 extern u8 current_spell_effect_variant;
 extern s32 check_entity_interaction_compatibility(void *kind, void *actor);
 extern s32 generate_random_value(void);
-extern void try_apply_status_effect(void *actor, s32 mode, s32 amount);
+s32 try_apply_status_effect(void *target, s16 chance, s16 duration);
 extern s32 abs(s32);
 extern void advance_sprite_animation_and_textures(void *render_data);
 void select_record_entry_and_value(void *state, void *entries, short index);

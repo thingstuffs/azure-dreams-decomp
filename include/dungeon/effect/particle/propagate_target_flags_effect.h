@@ -468,7 +468,7 @@ extern s16 particle_activity;
 extern PackedVec3 staged_particle_sprite_data;
 s32 rand(void);
 void select_record_entry_and_value(void *state, void *entries, short index);
-s32 check_left_tile_and_center_height(s32, s32, s16);
+s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 void create_lingering_ballistic_sprite(S_8196B4A4_5 *source, s32 unused_1, s32 unused_2, s16 offset_x, s16 offset_y, s16 offset_z);
 void shrink_effect_and_step_texture(void *effect, s32 unused, S_8196BF24_1 *transform);
 void advance_particle_emitting_projectile(void *object, void *position, void *render_state);

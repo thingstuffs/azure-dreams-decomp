@@ -3,6 +3,7 @@
 /* Select eligible actor abilities and entries, check tile clearance, and advance status timers. */
 
 #include "common.h"
+#include "dungeon/level/floor_flags.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/actor.h"
 #include "m2c_compat.h"
@@ -163,12 +164,6 @@ typedef struct S_800A4300_2 {
     union { void * p; s32 i; } unk_F0;   /* accessed as both */
 } S_800A4300_2;
 
-typedef struct {
-    s16 value;
-    s16 first;
-    s16 second;
-    s16 unused;
-} Entry;
 
 
 
@@ -200,9 +195,8 @@ extern DungeonSlot *familiar_record_slots[];
 /* This data symbol has no shared-catalog address. */
 extern u8 temporary_item_record[];
 extern u8 floor_objects[];
-extern s16 find_entry_at_tile_coordinates(u8, u8, s16);
-extern s16 find_floor_item_at_world_position(u8, u8, s16);
-extern Entry dungeon_floor_marker_entries[4];
+s16 find_entry_at_tile_coordinates(s16 x, s16 y, s16 z);
+s32 find_floor_item_at_world_position(s32 input_x, s32 input_y, s32 input_z);
 extern void clear_slots_of_type(void *, s8);
 extern void apply_entity_action_flags(void *, s32);
 extern void apply_capped_damage_and_hit_effect();

@@ -22,7 +22,7 @@ typedef struct {
 } Vec3;
 
 typedef struct S_800DCCF4_0 {
-    s32 unk_00;
+    void *unk_00;
     s32 * unk_04;
     s32 * unk_08;
     s32 * unk_0C;
@@ -40,7 +40,7 @@ extern Vec3 display_vector_defaults;
 extern M2C_UNK D_800E2804;
 extern M2C_UNK D_800E2828;
 extern M2C_UNK D_800E28B8;
-extern s32 create_callback_pair_default(s32);
+extern void *create_callback_pair_default(s32);
 extern void register_node(void *, void *);
 extern void initialize_complemented_state(void *);
 extern s32 run_object_setup_and_finalize(void *, s32);
@@ -50,7 +50,7 @@ extern void *dungeon_menu_object[];
 
 /* Functions defined in this translation unit. */
 void initialize_nine_records_and_vectors(u8 *object);
-s32 initialize_object_tables_2(S_800DCCF4_0 *object, s32 mode);
+s32 initialize_object_tables_2(S_800DCCF4_0 *object, void *mode);
 void *allocate_object_with_failure_flag(void);
 
 #endif

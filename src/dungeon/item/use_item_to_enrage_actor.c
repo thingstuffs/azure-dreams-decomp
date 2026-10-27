@@ -29,7 +29,7 @@ extern u8 *append_entity_display_text(void *record, u8 *out);
 extern s32 set_or_clear_actor_status_slot(void *, s32, s32);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 place_actor_item(void *, struct DungeonItemEntry *);
-extern s32 display_item_status_message(void *, struct DungeonItemEntry *, s16);
+void display_item_status_message(void *entity, struct DungeonItemEntry *item, s32 message_kind);
 extern s32 feed_actor_restore_mp(void *, s32, struct DungeonItemEntry *);
 
 /* Processes an object action, dispatching the player case and reporting failure. */

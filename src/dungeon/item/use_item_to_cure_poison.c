@@ -1,3 +1,4 @@
+#include "shared/dungeon_status.h"
 #include "dungeon/item.h"
 #include "shared/actor_property_flags.h"
 #include "shared/dungeon_item_entries.h"
@@ -20,7 +21,6 @@ extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);             
 #include "dungeon/player/item.h"
 void *get_unused_text_buffer(void);                          /* extern */
 s32 display_text_with_fullwidth_adjustment(s8 *text);                         /* extern */
-extern s32 g_dungeon_status[3];
 extern u8 poison_cure_text[25];
 
 
@@ -30,15 +30,11 @@ typedef struct S_800BD45C_0_pre {
 } S_800BD45C_0_pre;   /* the 0x18 bytes before arg0 in use_item_to_cure_poison, addressed as arg0[-1] */
 
 
-typedef struct S_800BD45C_1 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800BD45C_1;   /* counter in use_item_to_cure_poison */
 
 /* Applies an item's effect to an entity and consumes the processed item. */
 s32 use_item_to_cure_poison(void *entity, DungeonItemEntry *item, s16 action) {
     u16 *type_flags;
-    s32 *item_counts;
+    DungeonGlobalStatus *item_counts;
 
     if (entity == dungeon_actor_ring_anchor) {
         ((PlayerRecord *)entity)->pending_item_action = item;
@@ -74,7 +70,7 @@ s32 use_item_to_cure_poison(void *entity, DungeonItemEntry *item, s16 action) {
     }
     clear_slots_of_type(entity, STATUS_POISON);
     clear_slot_and_update_linked_state(item);
-    item_counts = g_dungeon_status;
-    ((S_800BD45C_1 *)item_counts)->unk_0A = (u16) (((S_800BD45C_1 *)item_counts)->unk_0A - 1);
+    item_counts = &g_dungeon_status;
+    item_counts->activity_counts.parts.pending_action_count = (u16) ((u16) item_counts->activity_counts.parts.pending_action_count - 1);
     return 1;
 }

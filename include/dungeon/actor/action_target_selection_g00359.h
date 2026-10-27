@@ -125,7 +125,7 @@ extern void prepare_directional_attack(void *, void *, s32, s32, s32);
 extern s32 get_actor_height_difference(s32, void *);
 extern s32 try_claim_dungeon_action_slot(void *);
 extern void apply_camera_offset_and_select_target(void *, void *, s32, s32);
-extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void *choose_best_eligible_entry(void *owner_arg, void *start, s32 score_limit);
 
 extern s16 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);

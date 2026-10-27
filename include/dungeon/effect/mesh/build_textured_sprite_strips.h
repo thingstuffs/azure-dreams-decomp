@@ -566,7 +566,7 @@ extern u8 current_spell_effect_variant[1];
 extern s32 get_sprite_attachment_vector(void *, void *, Vec3 *, s32);
 extern s32 func_8003DF74(void *, void *, Vec3 *, s32);
 extern s32 rand(void);
-extern s32 check_adjacent_tile_height_clearance(u16, u16, s16, void *);
+s16 check_adjacent_tile_height_clearance(u16 x, u16 y, s32 z, void *skip_check);
 void try_halve_actor_counter(u8 *entity, s32 chance, void *unused_context);
 void build_textured_sprite_strips(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw_mode);
 void decrement_effect_counter_by_twelve(s32 draw_data, ScreenRect *clip_rect, void *screen_pos, u16 clear_rect, s16 draw_param);

@@ -577,7 +577,7 @@ extern u8 positioned_motion_sprite_data[];
 extern s16 curved_trail_sample_count;
 extern ovl_19a332c_8198332C_Coord curved_trail_position;
 void apply_attack_power_and_element_effects();
-s32 calculate_planar_heading();
+s32 calculate_planar_heading(s16 start_x, s16 start_y, s16 end_x, s16 end_y);
 void spawn_blinking_sprite_flash();
 extern u8 D_80026BC8[];
 extern u8 D_80026BD4[];

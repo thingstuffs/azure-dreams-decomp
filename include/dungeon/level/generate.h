@@ -1,6 +1,7 @@
 #ifndef DUNGEON_FLOOR_GENERATE_H
 #define DUNGEON_FLOOR_GENERATE_H
 #include "common.h"
+#include "dungeon/level/floor_flags.h"
 #include "modules/dungeon_floor_switch_owners.h"
 #include "m2c_compat.h"
 #include "shared/game_work.h"
@@ -60,12 +61,6 @@ typedef struct floor_generate_isolated_802847D8_S_800177D8_1 {
     s8 unk_01;
     s16 unk_02;
 } floor_generate_isolated_802847D8_S_800177D8_1;
-typedef struct {
-    s16 kind;
-    s16 x;
-    s16 y;
-    s16 value;
-} floor_generate_isolated_8028484C_SpawnEntry;
 typedef struct {
     u16 flags;
     u16 value;
@@ -128,12 +123,6 @@ typedef struct floor_generate_isolated_80285464_RoomCell {
     u8 b;
     u16 c;
 } floor_generate_isolated_80285464_RoomCell;
-typedef struct floor_generate_isolated_80285464_Ent8 {
-    s16 kind;
-    s16 x;
-    s16 y;
-    s16 value;
-} floor_generate_isolated_80285464_Ent8;
 typedef struct floor_generate_isolated_80285464_RecB {
     u8 f0;
     u8 f1;
@@ -421,7 +410,7 @@ typedef struct {
     u8 pad[8];
 } floor_generate_isolated_8028AE2C_DungeonArea;
 extern u8 generation_region_cell_entries[];
-extern u16 select_dungeon_spawn_tile(u8 *, u8 *);
+s32 select_dungeon_spawn_tile(u8 *x_out, u8 *y_out);
 extern s32 generate_random_value(void);
 extern s32 get_offset_map_cell_value_and_flags(s16, s16, s16, u16 *);
 extern s32 check_diagonal_side_height(u16, s16, s16, s16);
@@ -461,7 +450,7 @@ extern s32 random_dungeon_range_16(s32 lower, u16 upper);
 extern void pack_tagged_resource_descriptor(s32, void *, s32 *, s32);
 extern floor_generate_isolated_802864C4_Copy32 dungeon_resource_buffer;
 extern s8 D_80012D52;
-extern void audio_load_sound_effect_bank(s32);
+void audio_load_sound_effect_bank(s16 record_id);
 extern void load_sound_set(s16);
 extern void func_8004450C(s16);
 extern floor_generate_isolated_80286684_Object *sound_stream_resource_entries[];
@@ -475,7 +464,7 @@ s16 test_sound_channel_availability();
 extern floor_generate_isolated_80286894_S_80019894_0 sound_effect_bank_descriptors[];
 extern u8 sound_effect_loaded_record_ids[];
 extern s32 dungeon_mode_state[3];
-extern s32 count_matching_packed_entity_keys(s32, s32);
+s16 count_matching_packed_entity_keys(s32 high_byte, s32 low_byte);
 extern s32 generation_room_columns;
 extern s32 generation_room_rows;
 extern u16 generation_unflagged_room_count;
@@ -543,7 +532,6 @@ extern u8 current_dungeon_floor[];
 extern u8 floor_objects[];
 extern u8 dungeon_ground_item_positions[];
 extern u8 dungeon_floor_object_positions[12];
-extern u8 dungeon_floor_marker_entries[];
 extern u8 scene_geometry[];
 extern u8 gpu_scratch_buffer_base[];
 extern u8 gpu_scratch_write_pointer[];

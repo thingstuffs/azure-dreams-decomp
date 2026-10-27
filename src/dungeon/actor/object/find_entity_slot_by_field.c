@@ -1,11 +1,7 @@
+#include "shared/entity.h"
+#include "shared/record_ptrs.h"
 #include "common.h"
 
-typedef struct {
-    u8 *ptr;
-    u8 pad[8];
-} D_800E3D7C_t;
-
-extern D_800E3D7C_t dungeon_actor_ring_anchor;
 
 /* Finds the first matching value in the four slots at offset 0xE4, or returns -1. */
 s32 find_entity_slot_by_field_e4(s32 target_value) {
@@ -15,7 +11,7 @@ s32 find_entity_slot_by_field_e4(s32 target_value) {
     s16 match_index;
 
     slot = 0;
-    slot_ptr = (s32 *)dungeon_actor_ring_anchor.ptr;
+    slot_ptr = (s32 *)dungeon_actor_ring_anchor;
     do {
         slot_value = slot_ptr[0x39];
         if (slot_value != target_value) {
