@@ -46,13 +46,13 @@ void handle_item_menu_input(ItemMenuInput *menu)
 
     pressed_buttons = (pad_state->pressed_buttons);
     if (pressed_buttons & 0x20) {
-        SD_Call(0x515, pad_state);
+        SD_Call(0x515);
         set_item_menu_secondary_handler(menu->owner);
         return;
     }
 
     if (pressed_buttons & 0x40) {
-        SD_Call(0x503, pad_state);
+        SD_Call(0x503);
         dispatch_item_menu_request_result(menu);
         return;
     }

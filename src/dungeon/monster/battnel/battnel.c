@@ -105,7 +105,7 @@ void *create_battnel_actor(s16 spawn_flags, s16 part_byte_24, s16 part_byte_25, 
                         }
                         work->unk_1C |= ACTOR_ASLEEP;
                         set_or_clear_actor_status_slot(work, STATUS_SLEEP,
-                                      (generate_random_value(obj) & 0x3F) | 0x20);
+                                      (generate_random_value() & 0x3F) | 0x20);
                         part_b->frameTable = D_8015BD4C;
                     }
                 }

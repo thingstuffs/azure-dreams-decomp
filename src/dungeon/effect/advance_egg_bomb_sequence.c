@@ -151,7 +151,6 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
                     egg_bomb_level = 0x63;
                 }
                 {
-                    s32 *scan_arg = entity_level_thresholds;
                     /*
                      * BUG: level-99 EXP still satisfies the loop test, but raise_entity_level stops changing
                      * the level at 99. Stop at the cap to avoid an infinite spawn loop.
@@ -166,9 +165,8 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
                             raise_entity_level(monster, 0);
                         } while ((u32) loop_base[((S_800B7774_2 *)monster)->unk_11]
                             <= (u32) ((S_800B7774_2 *)monster)->unk_18);
-                        scan_arg = monster;
                     }
-                    raw_first_result = get_unused_text_buffer(scan_arg);
+                    raw_first_result = get_unused_text_buffer();
                 }
                 first_call_mode = 8;
                 first_call_arg = raw_first_result;

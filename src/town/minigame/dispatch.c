@@ -103,13 +103,13 @@ void finalize_town_resource_operation(void) {
 }
 #include "town/minigame/dispatch.h"
 #include "common.h"
-void card_dev_init_two_rows(void);                            /* extern */
+extern void func_80020298(void); /* casino minigame setup in the image loaded at 0x80020000 (not carved yet) */
 void finalize_town_resource_operation(void);                            /* extern */
 
 /* Run the two handlers for town script call 100. */
 void scr_func_sn_casino(void) {
     finalize_town_resource_operation();
-    card_dev_init_two_rows();
+    func_80020298();
 }
 #include "town/minigame/dispatch.h"
 #include "common.h"

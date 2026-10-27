@@ -66,7 +66,7 @@ void *create_panel_effect_object(void *owner)
         panel_pos->z.w.i = (s16) ((*((u16 *) (((s8 *) owner_pos) + 0xA)))
             - (entity_height_offsets[*((u8 *) (((s8 *) entity) + 0x13))] + 0x50));
         panel->update_callback = update_attached_effect_position;
-        register_node(panel, transform_linked_quad_batches, owner_pos, panel_pos);
+        register_node(panel, transform_linked_quad_batches);
         panel_data = ((void *)panel) + 0x20;
         *((void **) (((s8 *) panel_data) + 0x14)) = entity;
         *((void **) (((s8 *) panel) + 0x20)) = (void *) (((void *)panel) + 0x70);

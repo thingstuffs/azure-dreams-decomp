@@ -5,7 +5,7 @@
 #include "town/scene/resource.h"
 
 extern s32 func_8001991C(s32, s32);
-extern void update_entry_flags(void);
+extern void func_80019988(void); /* this scene's placed copy of set_current_entry_script_flag */
 extern void func_8001A5CC(s32);
 extern s32 func_8001A64C(s32);
 
@@ -17,7 +17,7 @@ s32 advance_town_scene_flag_step(s32 kind, s32 value) {
     initialize_resources_assigns_pointer_lookup();
 
     if (func_8001A64C(F_sbs32_pad25) != 0) {
-        update_entry_flags();
+        func_80019988();
         if (func_8001991C(kind, value) != 0) {
             func_8001A5CC(F_sbs32_pad25);
             return 1;

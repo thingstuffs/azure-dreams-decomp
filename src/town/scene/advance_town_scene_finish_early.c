@@ -8,7 +8,7 @@ extern u8 D_8001D6B0[];
 typedef s32 (*Callback)(s32, s32);
 
 extern s32 func_8001991C(s32, void *);
-extern void update_entry_flags(void);
+extern void func_80019988(void); /* this scene's placed copy of set_current_entry_script_flag */
 extern void func_8001A554(s32);
 extern s32 func_8001A64C(s32);
 
@@ -39,7 +39,7 @@ s32 advance_town_scene_finish_early(s32 kind, void *param)
             *(void **)((s8 *)ptr + 0x40) = (s8 *)D_8001D7A0;
         }
     } else {
-        update_entry_flags();
+        func_80019988();
         if (func_8001991C(kind, param) != 0) {
             return 1;
         }

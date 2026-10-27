@@ -5,7 +5,7 @@
 #include "shared/town_root.h"
 #include "town/scene/resource.h"
 #include "town/scene/record_actions.h"
-extern void update_entry_flags(void);
+extern void func_80019988(void); /* this scene's placed copy of set_current_entry_script_flag */
 void func_8001A554(s32);
 void func_8001A5CC(s32);
 extern s32 func_8001A64C(s32 flagIndex);
@@ -20,7 +20,7 @@ s32 advance_town_scene_raise_hand(Rec_func_800165F4_arg0 *kind, s32 value) {
         town_scene_root->services->callback_2F8(0xE, 0x200);
         return 0;
     }
-    update_entry_flags();
+    func_80019988();
     if (func_8001991C(kind, value) == 0) {
         town_scene_root->services->callback_2F8(0xE, 0x200);
         return 0;

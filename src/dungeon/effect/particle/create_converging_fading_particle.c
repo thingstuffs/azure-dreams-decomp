@@ -127,7 +127,7 @@ void create_converging_fading_particle(
         ((S_801652FC_0 *)state)->unk_60 = (rounded_z / 4);
 
         ((S_801652FC_0 *)state)->unk_32 = duration;
-        register_node(object, child_particle_draw_address, quotient_x);
+        register_node(object, child_particle_draw_address);
         rounded_x = initial_value;
         ((S_801652FC_1 *)object)->unk_20 = rounded_x;
         ((S_801652FC_0 *)state)->unk_08 = initial_value;

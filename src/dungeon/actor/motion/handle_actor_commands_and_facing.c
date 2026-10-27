@@ -232,7 +232,7 @@ void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameStat
 
             flags_ptr = (u8 *)actor + 0xA2;
             if (input->buttons & 3) {
-                play_sound_if_enabled(0x506, flags_ptr);
+                play_sound_if_enabled(0x506);
                 return;
             }
 

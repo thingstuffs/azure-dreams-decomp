@@ -82,7 +82,7 @@ void spawn_appearance_object_and_advance_actor(S_8017390C_0 *actor, void *transf
                 spawned_transform->velocity_z = 0xFFEE0000;
                 spawned_transform->z.v = pos_z;
                 angle = 0xC90;
-                register_node(init_obj, project_sprite_chain, pos_z);
+                register_node(init_obj, project_sprite_chain);
                 spawned_render->color.word = 0x808080;
                 spawned_render->scale_y = angle;
                 spawned_data = (u8 *)spawned_obj + 0x20;

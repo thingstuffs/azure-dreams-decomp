@@ -111,7 +111,7 @@ s32 apply_equipped_item_upgrade(void *target_addr, DungeonItemEntry *item, s16 e
         }
         display_text_with_fullwidth_adjustment(text_start);
     } else {
-        display_formatted_context_message(D_800E11D7, effect_value, effect_type);
+        display_formatted_context_message(D_800E11D7);
     }
     g_dungeon_status.activity_counts.parts.pending_action_count--;
     clear_slot_and_update_linked_state(item);

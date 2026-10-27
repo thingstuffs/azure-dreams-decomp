@@ -388,7 +388,7 @@ void clear_record_state_or_update(ObjectPosition *record) {
         return;
     }
     if (threshold_value < 0x300) {
-        to_camera_zero_00(state);
+        to_camera_zero_00();
         to_camera_zero_00();
     }
     to_camera_zero_00();

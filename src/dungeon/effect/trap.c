@@ -196,7 +196,7 @@ void advance_timed_z_transition(s16 *transition) {
                 transition[1] = (u16)transition[1] + 1;
                 state->view_rotation_offset.parts.view_rotation_offset_z = -0x800;
                 settings->activity_counts.parts.pending_action_count = (u16)((u16)settings->activity_counts.parts.pending_action_count) - 1;
-                display_formatted_context_message(D_800E1B08, settings, state);
+                display_formatted_context_message(D_800E1B08);
             }
         }
         return;

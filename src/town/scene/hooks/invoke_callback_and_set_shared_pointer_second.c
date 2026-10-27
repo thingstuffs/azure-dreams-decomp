@@ -13,7 +13,7 @@ void invoke_callback_and_set_shared_pointer(void) {
     if (valueBeforeClamp < 0x1E) {
         activeState->unk_35C0 = 0x1E;
     }
-    func_80017398(F_sbs12_pad11, activeState);
+    func_80017398(F_sbs12_pad11);
     func_80017398(F_sbs12_pad12);
     scene_threshold_counter = 0;
     func_80017398(F_sbs12_pad13);

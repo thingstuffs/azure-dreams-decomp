@@ -202,7 +202,7 @@ void create_parent_return_effect(
 
         effect_data->unk_14 = effect_param;
         effect_data->unk_32 = duration;
-        register_node(effect, build_projected_tile_packets, step_x);
+        register_node(effect, build_projected_tile_packets);
         rounded_step_x = initial_value;
         ((S_80BC1528_0 *)effect)->unk_20 = rounded_step_x;
         effect_data->unk_08 = initial_value;

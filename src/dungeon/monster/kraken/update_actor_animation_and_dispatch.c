@@ -49,8 +49,6 @@ typedef struct S_801711A4_3 {
     s8 unk_9B;
 } S_801711A4_3;   /* saved0 in update_actor_animation_and_dispatch */
 
-typedef struct EmptyArg {
-} EmptyArg;
 
 s32 check_entity_relation();
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
@@ -91,7 +89,6 @@ void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *con
     u16 action_flags;
     ActorRecord *active_actor;
     s32 *direction_aux_ptr;
-    EmptyArg empty_arg;
 
     if (g_dungeon_status.flags & 0x1000) {
         ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xEU;
@@ -245,7 +242,7 @@ void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *con
     }
     direction_aux_ptr = &direction_aux;
     angle = get_rounded_facing_and_rounding_flag(((S_801711A4_2 *)sprite)->unk_24.at00.v, ((S_801711A4_2 *)sprite)->unk_24.at01.v,
-        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, direction_aux_ptr, ({  empty_arg; }));
+        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, direction_aux_ptr);
     status->facing = angle;
     return;
 }

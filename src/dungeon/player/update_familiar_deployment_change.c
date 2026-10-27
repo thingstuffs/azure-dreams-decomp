@@ -298,7 +298,7 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
                 ((S_8009345C_10 *)new_object)->unk_1C = object_flags | 0x02000000;
                 ((S_8009345C_14 *)(((object_slot * 4) + actor)))->unk_D0 = selected_item_record_alias[0];
                 ((S_8009345C_9 *)(selected_item_record_alias[0]))->unk_03 = (u8) (((S_8009345C_9 *)(selected_item_record_alias[0]))->unk_03 | 0x20);
-                message_or_list.text = get_unused_text_buffer(0x02000000);
+                message_or_list.text = get_unused_text_buffer();
                 create_message = message_or_list.text;
                 if (familiar_removed_during_change == 0) {
                     create_message = write_text_byte_and_advance(8, create_message);

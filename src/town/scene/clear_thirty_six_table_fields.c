@@ -22,7 +22,7 @@ void initialize_town_counter_and_callback(void)
     if (current_town_value < 40) {
         town->unk_35BE = 40;
     }
-    func_800173F8(F_sbs42_pad11, town);
+    func_800173F8(F_sbs42_pad11);
     func_800173F8(F_sbs42_pad12);
     town_event_counter = 0;
     func_800173F8(F_sbs42_pad14);

@@ -21,5 +21,5 @@ void update_actor_and_select_ground_handler(s32 context, EntityRec *record, s32 
         bind_handler_and_initialize_entity(context, record, action_data);
         return;
     }
-    add_hex_20000_s_signed_offset_hex_14(record, threshold);
+    add_hex_20000_s_signed_offset_hex_14(record);
 }

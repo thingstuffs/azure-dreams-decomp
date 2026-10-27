@@ -18,7 +18,7 @@ void update_motion_toward_shared_target(Rec_func_8009B828_arg0 *state, s32 conte
 
     position = motion->z.v;
     motion->velocity_z = (s32) ((s32) ((view_reference_entity.z.v + town_target_height_offset) - position) / 2);
-    add_motion_deltas_to_position(motion, position);
+    add_motion_deltas_to_position(motion);
     call_the_same_context_both_processing_routines(context, (s32)(motion));
     handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis((void *)(context), motion);
     ticks_left = state->unk_6C.as_u16 - 1;

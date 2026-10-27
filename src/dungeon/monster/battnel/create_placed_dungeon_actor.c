@@ -104,7 +104,7 @@ void *create_placed_dungeon_actor(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 r
                     }
                     ((ActorRecord *)work)->flags1C |= 0x200;
                     set_or_clear_actor_status_slot(work, STATUS_SLEEP,
-                                  (generate_random_value(obj) & 0x3F) | 0x20);
+                                  (generate_random_value() & 0x3F) | 0x20);
                     part_b->frameTable = D_80161D4C;
                 }
             }

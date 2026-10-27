@@ -111,7 +111,7 @@ s32 flatten_floor_terrain(void *target, DungeonItemEntry *effect_arg, s16 effect
         dungeon_floor_flags = dungeon_floor_flags & clear_mask;
         mark_active_nodes_by_callback(floor_trap_update_address);
     } else {
-        display_formatted_context_message(&D_800E1863, context, effect_code);
+        display_formatted_context_message(&D_800E1863);
     }
     g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
     clear_slot_and_update_linked_state(effect_arg);

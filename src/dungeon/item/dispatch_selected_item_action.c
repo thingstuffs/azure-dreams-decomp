@@ -101,7 +101,7 @@ s32 dispatch_selected_item_action(u32 target, DungeonItemEntry *action, s16 acti
             clear_byte_and_advance(value);
             display_text_with_fullwidth_adjustment(action_value);
         } else {
-            display_formatted_context_message(D_800E116E, call_context, action_kind);
+            display_formatted_context_message(D_800E116E);
         }
     }
 

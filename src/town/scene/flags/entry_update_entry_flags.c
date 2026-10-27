@@ -9,7 +9,7 @@ typedef void (*TownCallback)(s32, s32);
 
 
 
-extern void update_entry_flags(void);
+extern void func_80019988(void); /* this scene's placed copy of set_current_entry_script_flag */
 extern void func_8001A5CC(s32 bit_index);
 extern s32 func_8001A64C(s32 flagIndex);
 
@@ -19,7 +19,7 @@ s32 update_and_test_pending_entry_flags(Rec_func_800165F4_arg0 *kind, s32 value)
 
     set_script_flag_94c();
     if (func_8001A64C(F_sbs32_pad25) != 0) {
-        update_entry_flags();
+        func_80019988();
         if (func_8001991C(kind, value) != 0) {
             func_8001A5CC(F_sbs32_pad25);
             return 1;
