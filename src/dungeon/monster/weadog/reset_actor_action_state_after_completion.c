@@ -4,7 +4,7 @@
 #include "shared/entity.h"
 #include "dungeon/actor/status.h"
 
-s32 try_claim_dungeon_action_slot();                          /* extern */
+s16 try_claim_dungeon_action_slot(ActorRecord *actor);                          /* extern */
 s32 apply_camera_offset_and_select_target(); /* extern */
 
 

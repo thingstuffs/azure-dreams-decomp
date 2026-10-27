@@ -25,8 +25,8 @@ extern s32 check_entity_relation();
 #include "dungeon/player/object/action_state.h"
 extern void on_actor_status_updated(void *actor);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern s32 begin_ready_actor_directional_action();
-extern void begin_actor_move_to_target_facing();
+extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
+extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void update_actor_action_transition(void *state, ObjectPosition *update_mode, SpriteFrameState *sprite, void *entity);
 
 extern u8 uboat_action_frames[];

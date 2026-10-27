@@ -174,9 +174,9 @@ extern s32 find_active_rect_containing_point(s32, s32);
 extern s32 can_entity_gain_level(void *);
 
 extern void advance_actor_pending_action(void *, void *, void *, void *);
-extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
+extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern s32 reset_actor_action_state(void *actor, void * unused, void *sprite, u8 *direction_frames);
-extern void process_selected_actor_record(void *, void *, void *, void *);
+extern s32 process_selected_actor_record(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 
 extern void *actor_action_frames[];
 /* Load-bearing second view of D_80082E80: the asm label gives cc1 a distinct SYMBOL_REF ("*D_80082E80") so cse

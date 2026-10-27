@@ -15,7 +15,7 @@ typedef struct S_80172514_1 {
 } S_80172514_1;   /* arg0 in reset_action_and_select_facing_animation */
 
 extern Ent *prepare_directional_attack();
-extern s32 try_claim_dungeon_action_slot();
+extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 extern s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 #include "dungeon/monster/mandara.h"
 #include "engine/graphics.h"

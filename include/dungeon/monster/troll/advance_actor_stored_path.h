@@ -191,7 +191,7 @@ extern void resolve_attack_damage_and_effects(void *, void *, s16, s16);
 extern void prepare_directional_attack(void *, void *, s16, s16, void *);
 extern s16 get_tile_chebyshev_distance(void *, void *);
 extern void * scan_actor_along_heading(void *, u8, u8, s16, s32);
-extern s32 try_claim_dungeon_action_slot(void *);
+extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 extern s32 check_entity_interaction_compatibility(void *, void *);
 extern void setup_object_within_planar_range(void *, s32, s32, s16, s32, s32);
 extern void apply_camera_offset_and_select_target(void *,void *, s32, s32);

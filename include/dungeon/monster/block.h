@@ -1007,7 +1007,7 @@ extern void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 extern void update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 extern s32 can_entity_gain_level(void *);
 extern void set_record_integer_tile_center(void *, s32, s32);
-extern s32 try_claim_dungeon_action_slot(void *);
+extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 #include "dungeon/player/object/action_state.h"
 
 extern s32 check_entity_interaction_compatibility();
@@ -1020,23 +1020,23 @@ extern void update_actor_status_and_mp(void *);
 extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern s32 refresh_actor_facing_and_lifecycle();
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
-extern s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
+extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern s32 advance_actor_pending_action(void *, void *, void *, void *);
-extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
+extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern s32 reset_actor_action_state(void *, void *, void *, u8 *);
 extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
-extern s32 process_selected_actor_record(void *, s32, void *, void *);
+extern s32 process_selected_actor_record(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void begin_actor_spell_action(void *, void *, void *, u8 *, void *);
 extern s32 update_actor_movement_to_tile(void *,void *,void *,void *);
 extern s32 update_linked_actor_motion(void *,void *,void *,void *);
-extern s32 resolve_actor_floor_trap_once(void *,void *,void *,void *);
+extern s32 resolve_actor_floor_trap_once(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern s32 update_actor_hop_and_shrink(void *,void *,struct SpriteFrameState *,void *);
 
 extern s32 update_actor_hop_and_grow(void *,void *,void *,void *);
 extern s32 update_thrown_actor_travel(void *,void *,SpriteFrameState *,void *);
 extern s32 interpolate_actor_to_terrain_tile(void *,void *,void *,void *);
 extern s32 update_spinning_actor_fall(void *,void *,void *,void *);
-extern s32 propagate_actor_action_flag(void *,void *,void *,void *);
+extern s32 propagate_actor_action_flag(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
 extern s32 update_actor_fade_in(void *,void *,void *);
 extern s32 update_actor_defeat_removal(void *,void *,void *,void *);

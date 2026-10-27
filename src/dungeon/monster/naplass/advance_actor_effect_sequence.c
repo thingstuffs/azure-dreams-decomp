@@ -52,9 +52,9 @@ s16 get_tile_chebyshev_distance();
 s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern void on_actor_status_updated(void *actor);
 void update_actor_status_and_mp(ActorRecord *entity);
-s32 begin_ready_actor_directional_action();
+s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 s32 advance_actor_pending_action(void *actor_state, void *action, void *status, void *actor);
-void begin_actor_move_to_target_facing();
+void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_80171F94(void *action_state, void *action_context, void *sprite, EntityRec *actor);
 void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, EntityRec *position,struct SpriteFrameState *actor, void *model);
 extern u8 effect_update_tag[];

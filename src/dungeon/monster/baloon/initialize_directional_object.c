@@ -12,7 +12,7 @@ typedef struct Ent Ent;
 Ent *prepare_directional_attack();
 s32 get_actor_height_difference();
 s32 probe_directional_neighbor();
-s32 try_claim_dungeon_action_slot();
+s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 s32 check_entity_interaction_compatibility();
 s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 

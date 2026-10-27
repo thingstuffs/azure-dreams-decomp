@@ -37,7 +37,8 @@ typedef struct S_8017237C_3 {
 extern void prepare_directional_attack(void *, void *, s32, s32, s32);
 extern s32 get_actor_height_difference(s32, void *);
 extern s32 probe_directional_neighbor(void *, u8, u8, s16);
-extern s16 try_claim_dungeon_action_slot(void *);
+struct ActorRecord;
+extern s16 try_claim_dungeon_action_slot(struct ActorRecord *actor);
 extern s16 check_entity_interaction_compatibility(void *, s32);
 extern void apply_camera_offset_and_select_target(void *, void *, s32, s32);
 

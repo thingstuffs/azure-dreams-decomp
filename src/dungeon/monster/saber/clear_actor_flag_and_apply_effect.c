@@ -7,7 +7,7 @@
 #include "engine/graphics.h"
 #include "dungeon/actor/status.h"
 
-extern s32 try_claim_dungeon_action_slot();
+extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 extern s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 extern s32 saber_frame_set_1;
 

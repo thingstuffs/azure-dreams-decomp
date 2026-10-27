@@ -13,8 +13,8 @@ extern s32 check_entity_relation(void *, void *);
 extern void on_actor_status_updated(void *);
 extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
-extern s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
-extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
+extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
+extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void update_actor_state_after_map_check(void *, ObjectPosition *, SpriteFrameState *, void *);
 
 extern s32 kewne_action_resume_address;

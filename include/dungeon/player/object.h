@@ -21,5 +21,6 @@ void update_throw_carried_object(u8 *actor, ObjectPosition *motion, u8 *animatio
 
 /* dungeon/player/object/can_entity_gain_level.c */
 void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);
+s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 
 #endif

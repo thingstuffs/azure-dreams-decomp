@@ -408,9 +408,9 @@ extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
-extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
+extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern s32 reset_actor_action_state(void *actor, void * unused, void *sprite, u8 *direction_frames);
-extern void process_selected_actor_record(void *, void *, void *, void *);
+extern s32 process_selected_actor_record(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void begin_actor_spell_action(void *actor, void * effect_param, void *target, u8 *direction_table, void * next_state);
 extern u8 zu_frame_set[];
 extern u8 zu_frame_set_7[];
@@ -965,7 +965,7 @@ void select_bank_actor_movement(ActorRecord *move_data, ObjectPosition *context,
 #include "records/Rec_func_800A9E70_arg0.h"
 
 extern void prepare_directional_attack();
-extern s32 try_claim_dungeon_action_slot();
+extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 extern s32 check_entity_interaction_compatibility();
 
 /* Checks whether the actor can transition and starts its directional effect. */
@@ -1027,7 +1027,7 @@ s32 begin_bank_directional_effect(ActorRecord *action_state, ObjectPosition *mot
 #include "records/Rec_func_800A9E70_arg0.h"
 
 void prepare_directional_attack();
-s32 try_claim_dungeon_action_slot();
+s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 /* Initialize action state and directional animation when the entity status permits. */
 void initialize_bank_actor_action(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *entity) {
     entity->movement_queue_state &= 0x7F;
@@ -2056,7 +2056,7 @@ extern void on_actor_status_updated(void *);
 extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
-extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
+extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern u8 zu_frame_set_1[];
 extern u8 D_80174B04[];
 
@@ -2207,7 +2207,7 @@ void handle_actor_action_effects(ActorRecord *controller, ObjectPosition *motion
 extern void on_actor_status_updated(void *);
 extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
-extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
+extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern u8 zu_action_direction_frames[];
 extern u8 zu_frame_set_1[];
 

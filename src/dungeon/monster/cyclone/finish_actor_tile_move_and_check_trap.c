@@ -15,7 +15,7 @@ typedef struct S_801721C0_1 {
 } S_801721C0_1;   /* arg0 in finish_actor_tile_move_and_check_trap */
 
 Ent *prepare_directional_attack(); /* extern */
-s32 try_claim_dungeon_action_slot();                          /* extern */
+s16 try_claim_dungeon_action_slot(ActorRecord *actor);                          /* extern */
 s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value); /* extern */
 extern u8 D_80176480;
 

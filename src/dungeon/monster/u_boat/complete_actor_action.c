@@ -5,7 +5,7 @@
 #include "dungeon/actor/status.h"
 
 
-extern s32 try_claim_dungeon_action_slot(void *);
+extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 
 /* Resets actor state and updates entity flags when global and entity checks allow it. */
 void complete_actor_action(void *actor, ObjectPosition *unused_1, void *unused_2, void *entity) {

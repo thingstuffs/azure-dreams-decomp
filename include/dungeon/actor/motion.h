@@ -10,7 +10,8 @@
 
 
 void begin_pushed_actor_move(void *state, void *unused, void *position, void *actor);
-s32 begin_ready_actor_directional_action(void *entity, void *context, void *sprite, u8 *direction_frames);
+s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
+void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void dispatch_actor_action_2(u8 *actor, void *action_arg, void *action_data, u8 *state);
 
 void update_airborne_actor_motion(void *action, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *actor);

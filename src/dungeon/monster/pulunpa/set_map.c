@@ -43,11 +43,11 @@ s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s1
 s32 can_entity_gain_level(void *creature);
 void update_actor_status_and_mp(void *creature);
 extern void begin_pushed_actor_move(void *state, void *unused,void *position,void *actor);
-extern s32 begin_ready_actor_directional_action(void *entity, void *context, Rec_func_800AA258_arg2 *sprite, u8 *direction_frames);
+extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern s32 advance_actor_pending_action(void *actor_state, void *action, void *status, void *actor);
-extern void begin_actor_move_to_target_facing(Rec_func_800A9E70_arg0 *state, void *unused, void *position, ActorRecord *entity);
+extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 s32 reset_actor_action_state(void *actor, void * unused, void *sprite, u8 *direction_frames);
-extern s32 process_selected_actor_record(s32 buffer_addr, s32 source, s32 unused, ActorRecord *record);
+extern s32 process_selected_actor_record(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void update_object_or_select_directional_data(void *object_arg, void *context, void *source_arg, void *target_arg);
 extern void choose_heading_and_advance_actor(void *context, s32 action, S_8017405C_1 *actor, void *movement);
 void func_80174924(void *, s32, void *, void *);

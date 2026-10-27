@@ -25,7 +25,7 @@ typedef struct S_80174A9C_1 {
 struct SpriteFrameState;
 void select_sprite_entry(void *, s16, s16);
 void *find_eligible_actor_at_tile_and_height();
-s32 try_claim_dungeon_action_slot();
+s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 extern u8 D_80175414;
 

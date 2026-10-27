@@ -295,11 +295,11 @@ s32 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
 s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 s32 can_entity_gain_level(void *entity);
 void update_actor_status_and_mp(ActorRecord *entity);
-s32 begin_ready_actor_directional_action();
+s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 s32 advance_actor_pending_action(void *actor_state, void *action, void *status, void *actor);
-void begin_actor_move_to_target_facing();
+void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
-s32 process_selected_actor_record();
+s32 process_selected_actor_record(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState *target, u8 *direction_table, void *next_state);
 void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
@@ -311,7 +311,7 @@ s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height
 s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
 s32 check_directional_move_and_terrain();
 s32 prepare_directional_attack();
-s32 try_claim_dungeon_action_slot();
+s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 u32 check_entity_interaction_compatibility();
 s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 #include "dungeon/player/object/action_state.h"
@@ -344,9 +344,9 @@ s32 update_actor_transform_from_parent(Rec_func_800A9E70_arg0 *state, ObjectPosi
 s32 update_thrown_actor_travel(void *move_state, ObjectPosition *motion, SpriteFrameState *tile_pos, ActorRecord *actor);
 s32 interpolate_actor_to_terrain_tile(struct S_800AC480_0 *move_state, ObjectPosition *motion, MovingTile *target_tile, struct S_800AC480_3 *height_state);
 s32 update_spinning_actor_fall();
-s32 propagate_actor_action_flag();
+s32 propagate_actor_action_flag(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 s32 update_actor_fade_in();
-s32 resolve_actor_floor_trap_once();
+s32 resolve_actor_floor_trap_once(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void project_sprite_commands();
 void func_800453E0(void *context, void *position, struct Entry *entry, s16 depth_bias);
 void select_record_entry_and_value(void *state, void *entries, short index);

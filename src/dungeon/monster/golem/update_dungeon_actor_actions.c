@@ -31,9 +31,9 @@ extern s32 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 
 extern s32 can_entity_gain_level(void *entity);
 extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern s32 begin_ready_actor_directional_action();
+extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern s32 advance_actor_pending_action(void *actor_state, void *action, void *status, void *actor);
-extern s32 begin_actor_move_to_target_facing();
+extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
 extern s32 process_selected_actor_record();
 extern void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState *target, u8 *direction_table, void *next_state);

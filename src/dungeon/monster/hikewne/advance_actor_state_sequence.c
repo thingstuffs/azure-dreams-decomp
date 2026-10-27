@@ -34,9 +34,9 @@ extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argumen
 extern void on_actor_status_updated(void *);
 extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
-extern s32 begin_ready_actor_directional_action(void *, void *, void *, s32);
+extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
-extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
+extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void update_directional_sprite_state_and_signals(void *, void *, SpriteFrameState *, void *);
 
 extern u8 hikewne_frame_set[];

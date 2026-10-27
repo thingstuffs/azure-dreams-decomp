@@ -8,7 +8,7 @@
 void prepare_directional_attack(void *, void *, s16, s32, s32);
 s32 get_actor_height_difference(s32, void *);
 s32 probe_directional_neighbor(void *, u8, u8, s16);
-s32 try_claim_dungeon_action_slot(void *);
+s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 s32 check_entity_interaction_compatibility(void *, s32);
 void apply_camera_offset_and_select_target(void *,void *, s32, s32);
 void begin_actor_exclusive_action(void *, ObjectPosition *, void *, s32, s32);

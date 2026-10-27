@@ -24,7 +24,7 @@ s32 probe_directional_neighbor();
 s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 void advance_status_timers();
 void spend_actor_mp();
-s32 begin_ready_actor_directional_action();
+s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 s32 get_rounded_facing_and_rounding_flag();
 s32 register_node(struct ObjectNodeHeader *entry, void *registration_id);
 s32 func_8004491C(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */

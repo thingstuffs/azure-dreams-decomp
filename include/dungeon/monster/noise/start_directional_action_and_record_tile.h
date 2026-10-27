@@ -77,7 +77,7 @@ typedef struct {
 extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 extern void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
 extern void * find_eligible_actor_at_tile_and_height();
-extern s32 try_claim_dungeon_action_slot();
+extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 extern s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 extern s32 resolve_record_orientation_or_fallback(s32, void *, s16 *, s16);
 extern void * allocate_list_node(s32, void *);

@@ -57,4 +57,7 @@ s32 try_move_actor_to_valid_position(void *action, void *context, void *position
 /* dungeon/actor/apply_clamped_actor_value_delta.c */
 void apply_clamped_actor_value_delta(void *entity);
 
+/* dungeon/actor/process_selected_actor_record.c */
+s32 process_selected_actor_record(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
+
 #endif

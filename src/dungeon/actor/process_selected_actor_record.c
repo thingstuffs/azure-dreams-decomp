@@ -7,6 +7,8 @@ struct ObjectPosition;
 #include "shared/dungeon_floor.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
+#include "shared/object_node.h"
 #include "records/Rec_D_80083460.h"
 
 s32 get_entity_effect_value(void *, s32);
@@ -24,7 +26,7 @@ typedef struct S_800AAB10_2_pre {
 } S_800AAB10_2_pre;   /* 0x14-byte header immediately before the payload. */
 
 /* Processes the selected record, checks eligibility, and clears completed state. */
-s32 process_selected_actor_record(s32 buffer_addr, s32 source, s32 unused, ActorRecord *record) {
+s32 process_selected_actor_record(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *record) {
     s32 eligible;
     u8 type_id;
 
@@ -34,7 +36,7 @@ s32 process_selected_actor_record(s32 buffer_addr, s32 source, s32 unused, Actor
             if (g_dungeon_status.active_actor == record) {
                 if (g_dungeon_status.activity_counts.parts.pending_action_count == 0) {
                     if (!(g_dungeon_status.flags & 8)) {
-                        select_nearby_target_and_initialize_slot((void *)(buffer_addr - 0x20), source, 8, 0x300);
+                        select_nearby_target_and_initialize_slot((ObjectNodeHeader *)body - 1, position, 8, 0x300);
                         raise_entity_level(record, 1);
                         play_sound_if_enabled(0x201);
                         if (!(system_update_flags & 2)) {

@@ -8,7 +8,7 @@ typedef struct Ent Ent;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 Ent *prepare_directional_attack(); /* extern */
-s32 try_claim_dungeon_action_slot();                          /* extern */
+s16 try_claim_dungeon_action_slot(ActorRecord *actor);                          /* extern */
 
 
 /* Clear the actor flag and update its action state when both checks pass. */

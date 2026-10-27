@@ -45,7 +45,8 @@ typedef struct S_800AAF00_3 {
 } S_800AAF00_3;   /* owner in begin_actor_spell_action */
 
 extern void * scan_actor_along_heading();
-extern s32 try_claim_dungeon_action_slot();
+struct ActorRecord;
+extern s16 try_claim_dungeon_action_slot(struct ActorRecord *actor);
 extern s32 generate_random_value(void);
 extern void select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 
