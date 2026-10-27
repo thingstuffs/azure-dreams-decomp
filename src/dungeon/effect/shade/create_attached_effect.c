@@ -5,6 +5,7 @@
 #include "shared/slus_callbacks.h"
 #include "records/Rec_func_800247B8_arg0.h"
 #include "shared/dungeon_moving_views.h"
+#include "engine/node.h"
 
 #define UNALIGNED32(expr) (expr)
 
@@ -12,7 +13,6 @@ typedef struct {
     u8 bytes[12];
 } Block12;
 
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 D_800D4954;
 extern Block12 D_800E233C;
 

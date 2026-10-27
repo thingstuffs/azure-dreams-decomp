@@ -1,3 +1,5 @@
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
@@ -27,33 +29,12 @@ typedef struct S_800B45E0_1 {
     u16 unk_1E;
 } S_800B45E0_1;
 
-typedef struct S_800B45E0_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-    u8 pad_0C[0x8];
-    s32 unk_14;
-} S_800B45E0_2;   /* arg1 in update_anchored_fading_effect */
 
 typedef struct S_800B45E0_3 {
     u8 pad_00[0x2];
     u16 unk_02;
 } S_800B45E0_3;
 
-typedef struct S_800B45E0_4 {
-    u8 pad_00[0xC];
-    union {
-        struct { u8 v; } at00;
-        struct { s32 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-        struct { u8 pad[0x2]; u8 v; } at02;
-    } unk_0C;   /* overlapping accesses */
-    u8 pad_10[0xC];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800B45E0_4;   /* arg2 in update_anchored_fading_effect */
 
    /* ((S_800B45E0_0 *)arg0)->unk_14 in update_anchored_fading_effect */
 
@@ -61,7 +42,7 @@ typedef struct S_800B45E0_4 {
 extern s32 attached_fade_draw_address;
 
 /* Update an anchored effect with fading, damped vertical motion, and optional flashing. */
-void update_anchored_fading_effect(void *effect, S_800B45E0_2 *motion, S_800B45E0_4 *sprite) {
+void update_anchored_fading_effect(void *effect, ObjectPosition *motion, SpriteFrameState *sprite) {
     s32 phase;
     s16 next_phase;
     s32 rebound_speed;
@@ -88,23 +69,23 @@ void update_anchored_fading_effect(void *effect, S_800B45E0_2 *motion, S_800B45E
     }
     anchor = ((S_800B45E0_0 *)effect)->unk_14;
     if (anchor != NULL) {
-        motion->unk_02 = (u16) (motion->unk_02 - (((S_800B45E0_0 *)effect)->unk_18 - anchor->unk_02));
+        motion->x.w.i = ((u16)motion->x.w.i - (((S_800B45E0_0 *)effect)->unk_18 - anchor->unk_02));
         ((S_800B45E0_0 *)effect)->unk_18 = (u16) ((MovingPosition *)(((S_800B45E0_0 *)effect)->unk_14))->x;
-        motion->unk_06 = (u16) (motion->unk_06 - (((S_800B45E0_0 *)effect)->unk_1A
+        motion->y.w.i = ((u16)motion->y.w.i - (((S_800B45E0_0 *)effect)->unk_1A
             - ((MovingPosition *)(((S_800B45E0_0 *)effect)->unk_14))->y));
         ((S_800B45E0_0 *)effect)->unk_1A = (u16) ((MovingPosition *)(((S_800B45E0_0 *)effect)->unk_14))->y;
-        motion->unk_08.at02.v = (u16) (motion->unk_08.at02.v - (((S_800B45E0_0 *)effect)->unk_1C
+        motion->z.w.i = ((u16)motion->z.w.i - (((S_800B45E0_0 *)effect)->unk_1C
             - ((MovingPosition *)(((S_800B45E0_0 *)effect)->unk_14))->z));
         ((S_800B45E0_0 *)effect)->unk_1C = (u16) ((MovingPosition *)(((S_800B45E0_0 *)effect)->unk_14))->z;
     }
     phase = ((S_800B45E0_0 *)effect)->unk_08;
     switch (phase) {
     case 0:
-        motion->unk_14 = 0x200000;
-        motion->unk_08.at02.v = (u16) (motion->unk_08.at02.v - 0x40);
+        motion->velocity_z = 0x200000;
+        motion->z.w.i = ((u16)motion->z.w.i - 0x40);
         ((S_800B45E0_0 *)effect)->unk_04.at00.v = 0x200000;
-        sprite->unk_1E = 0x1000;
-        sprite->unk_1C = 0x1000;
+        sprite->scale_y = 0x1000;
+        sprite->scale_x = 0x1000;
         register_node(effect - 0x20, &attached_fade_draw_address);
         ((S_800B45E0_0 *)effect)->unk_0A = 0x10U;
         ((S_800B45E0_0 *)effect)->unk_08 = (s16) ((u16) ((S_800B45E0_0 *)effect)->unk_08 + 1);
@@ -112,11 +93,11 @@ void update_anchored_fading_effect(void *effect, S_800B45E0_2 *motion, S_800B45E
         fade_in_ticks = ((S_800B45E0_0 *)effect)->unk_0A - 1;
         ((S_800B45E0_0 *)effect)->unk_0A = fade_in_ticks;
         if ((s16) fade_in_ticks > 0) {
-            brightness_2 = sprite->unk_0C.at02.v;
+            brightness_2 = sprite->color.c.b;
             next_brightness = brightness_2 + ((s32) (0x80 - brightness_2) / (s16) fade_in_ticks);
-            sprite->unk_0C.at02.v = next_brightness;
-            sprite->unk_0C.at01.v = next_brightness;
-            sprite->unk_0C.at00.v = next_brightness;
+            sprite->color.c.b = next_brightness;
+            sprite->color.c.g = next_brightness;
+            sprite->color.c.r = next_brightness;
         } else {
             next_phase = (u16) ((S_800B45E0_0 *)effect)->unk_08 + 1;
             ((S_800B45E0_0 *)effect)->unk_08 = next_phase;
@@ -136,11 +117,11 @@ void update_anchored_fading_effect(void *effect, S_800B45E0_2 *motion, S_800B45E
         fade_out_ticks = ((S_800B45E0_0 *)effect)->unk_0A - 1;
         ((S_800B45E0_0 *)effect)->unk_0A = fade_out_ticks;
         if ((s16) fade_out_ticks > 0) {
-            brightness = sprite->unk_0C.at02.v;
+            brightness = sprite->color.c.b;
             next_brightness = brightness + ((s32) (0 - brightness) / (s16) fade_out_ticks);
-            sprite->unk_0C.at02.v = next_brightness;
-            sprite->unk_0C.at01.v = next_brightness;
-            sprite->unk_0C.at00.v = next_brightness;
+            sprite->color.c.b = next_brightness;
+            sprite->color.c.g = next_brightness;
+            sprite->color.c.r = next_brightness;
         } else {
             ((S_800B45E0_0_pre *)effect)[-1].unk_00 = (u16) (((S_800B45E0_0_pre *)effect)[-1].unk_00 | 0x8000);
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -150,21 +131,21 @@ void update_anchored_fading_effect(void *effect, S_800B45E0_2 *motion, S_800B45E
     default:
         break;
     }
-    motion->unk_08.at00.v = (s32) (motion->unk_08.at00.v + motion->unk_14);
+    motion->z.v = (s32) (motion->z.v + motion->velocity_z);
     frame = ((S_800B45E0_0 *)effect)->unk_0C + 1;
     ((S_800B45E0_0 *)effect)->unk_0C = frame;
     if (frame & 1) {
-        velocity = motion->unk_14;
+        velocity = motion->velocity_z;
         update_value = velocity >> 1;
         half_speed = velocity >> 0x11;
         if (half_speed < 0) {
             half_speed = 0 - half_speed;
         }
-        motion->unk_14 = update_value;
+        motion->velocity_z = update_value;
         if (half_speed < 2) {
             rebound_velocity = 0 - ((s32) ((S_800B45E0_0 *)effect)->unk_04.at00.v >> 1);
             ((S_800B45E0_0 *)effect)->unk_04.at00.v = rebound_velocity;
-            motion->unk_14 = rebound_velocity;
+            motion->velocity_z = rebound_velocity;
             rebound_speed = ((S_800B45E0_0 *)effect)->unk_04.at02.v;
             if (rebound_speed < 0) {
                 rebound_speed = 0 - rebound_speed;
@@ -182,6 +163,6 @@ void update_anchored_fading_effect(void *effect, S_800B45E0_2 *motion, S_800B45E
         if (((S_800B45E0_0 *)effect)->unk_0C & 3) {
             update_value = 0x2C404040;
         }
-        sprite->unk_0C.at00u.v = update_value;
+        sprite->color.word = update_value;
     }
 }

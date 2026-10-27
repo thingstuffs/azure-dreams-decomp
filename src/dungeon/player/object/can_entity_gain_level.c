@@ -70,7 +70,6 @@ s32 can_entity_gain_level(void *entity) {
 #include "shared/dungeon_status.h"
 
 extern s32 apply_entity_effects(); /* Slot contract: loading images do not establish one callee contract. */
-extern void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 
@@ -431,7 +430,6 @@ loop_0:
 #include "m2c_compat.h"
 
 extern s32 apply_entity_effects(); /* Slot contract: loading images do not establish one callee contract. */
-extern void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
@@ -1079,7 +1077,6 @@ s32 distribute_experience_awards(S_800A2DB8_0 *source)
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */                                /* extern */
 s32 distribute_experience_awards(struct S_800A2DB8_0 *source);                          /* extern */
 s32 display_text_with_fullwidth_adjustment(s8 *text);                         /* extern */
 extern void *monster_species_table;

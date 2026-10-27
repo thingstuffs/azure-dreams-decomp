@@ -1,7 +1,10 @@
 #include "engine/audio/sequence.h"
 #include "dungeon/item.h"
+struct PulsingEffectWork;
 s32 display_text_with_fullwidth_adjustment(s8 *text);
-#include "dungeon/item/message.h"
+#include "dungeon/item/message/text.h"
+
+void *get_unused_text_buffer(); /* Unprototyped: this retail caller sets three ignored arguments. */
 #include "shared/actor_status_ids.h"
 #include "sdk/libgte.h"
 #include "shared/actor_status_flags.h"
@@ -190,7 +193,7 @@ void update_pulsing_effect_brightness(PulsingEffectWork *effect, s32 unused, Spr
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 s32 play_sound_if_enabled(s32 query_value);                     /* extern */
 void draw_textured_ellipse(); /* extern */
-extern void D_800A5828();
+extern void D_800A5828(struct PulsingEffectWork *effect, s32 unused, SpriteFrameState *render_state);
 extern M2C_UNK D_800DD854;
 extern M2C_UNK D_800DD860;
 
@@ -741,7 +744,7 @@ s32 draw_fullscreen_grayscale_quad(Input *input) {
 #include "m2c_compat.h"
 
 s32 register_node(void *entry, void *registration_id);           /* extern */
-extern void D_800A6194();
+extern void D_800A6194(void *ramp);
 extern s32 D_800A624C();
 
 typedef struct S_800A634C_0 {
@@ -817,7 +820,7 @@ void display_actor_item_status_message(void *actor, struct DungeonItemEntry *ite
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void display_formatted_context_message(void *context);                   /* extern */
+
 extern u8 D_800E092B[];
 
 /* Passes D_800E092B to display_formatted_context_message by address. */
@@ -1294,7 +1297,7 @@ void advance_record_values_by_step(Record *record, s16 step)
 s32 register_node(void *entry, void *registration_id);
 extern u8 D_80089074[];
 extern M2C_UNK D_800A6B70;
-extern s32 D_800B06F0();
+extern s32 D_800B06F0(u8 *initial_batch, s32 initial_dispatch_arg, u8 *initial_params);
 
 typedef struct S_800A6C00_0 {
     u8 pad_00[0x8];

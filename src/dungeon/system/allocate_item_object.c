@@ -7,7 +7,7 @@
 #include "dungeon/menu/state.h"
 
 extern void set_item_data_from_lookup();
-extern void *func_80025350();
+
 extern void advance_paired_object_sequence();
 extern s32 inventory_allocate_and_initialize_child();
 extern s32 allocate_initialized_child_object();

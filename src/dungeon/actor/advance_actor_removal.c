@@ -122,7 +122,6 @@ s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 s32 get_entity_class();
 struct DungeonItemEntry;
 void clear_slot_and_update_linked_state(struct DungeonItemEntry *slot);
-void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 void adjust_source_value_and_finalize(void *context, const void *source);
 void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);

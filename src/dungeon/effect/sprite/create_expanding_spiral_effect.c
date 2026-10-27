@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_moving_views.h"
+#include "engine/node.h"
 
 typedef s32 M2C_UNK;
 
@@ -11,7 +12,6 @@ typedef s32 M2C_UNK;
 
 
 extern void select_record_entry_and_value(void *state, void *entries, short index);
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 rsin(s32);
 extern s32 rcos(s32);
 extern M2C_UNK D_80024330[];

@@ -23,7 +23,7 @@ typedef struct {
     u16 value[5];
 } Record10;
 
-extern s32 func_8003DE58();
+#include "engine/scene.h"
 extern u32 func_800C8150(EntityRec *, s16, s16);
 
 /* Retail stores each five-halfword record in a word-aligned 12-byte slot.
@@ -41,7 +41,7 @@ extern u8 timed_visual_slot_f_wait_frames[];
 /* Updates a timed effect sequence and restores the actor animation when it finishes. */
 void update_actor_timed_visual_slot_f(ActorRecord *state_input, ObjectPosition *motion_input, SpriteFrameState *animation_input, ActorRecord *actor_input) {
     ObjectPosition *motion = motion_input;
-    u16 spawn_offset[3];
+    GteOffset spawn_offset;
     Record10 effect_values_1c = D_8016A868.values;
     Record10 effect_values_1e = D_8016A874.values;
     s32 active_state = 1;
@@ -74,10 +74,10 @@ void update_actor_timed_visual_slot_f(ActorRecord *state_input, ObjectPosition *
             return;
         }
 
-        if (func_8003DE58((s32)animation_input->source, animation_input, spawn_offset, 0) == 0) {
-            spawn_offset[2] = 0;
-            spawn_offset[1] = 0;
-            spawn_offset[0] = 0;
+        if (func_8003DE58(animation_input->source, animation_input, &spawn_offset.orientation, 0) == 0) {
+            spawn_offset.distance[2] = 0;
+            spawn_offset.distance[1] = 0;
+            spawn_offset.distance[0] = 0;
         }
 
         effect_object = func_8003FD64(0x201, &scene_object_list_anchor.next);
@@ -85,9 +85,9 @@ void update_actor_timed_visual_slot_f(ActorRecord *state_input, ObjectPosition *
             func_8004491C(effect_object, D_8016E688);
             effect_object->update_callback = func_8016E5E0;
             spawned_data = (CylindricalEffectWork *)(effect_object + 1);
-            spawned_data->origin_x = (u16)motion->x.w.i + spawn_offset[0];
-            spawned_data->origin_y = (u16)motion->y.w.i + spawn_offset[1];
-            spawned_data->origin_z = (u16)motion->z.w.i + spawn_offset[2];
+            spawned_data->origin_x = (u16)motion->x.w.i + spawn_offset.distance[0];
+            spawned_data->origin_y = (u16)motion->y.w.i + spawn_offset.distance[1];
+            spawned_data->origin_z = (u16)motion->z.w.i + spawn_offset.distance[2];
             spawned_data->shade = 0x80;
             spawned_data->timer.s = active_state;
         }

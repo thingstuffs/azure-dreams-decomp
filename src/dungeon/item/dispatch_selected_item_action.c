@@ -9,17 +9,16 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/item.h"
 #include "dungeon/player/item.h"
+#include "dungeon/item/message.h"
 
 
 
 extern s32 begin_parameterized_actor_action();
 extern s32 process_record_and_update_linked_state();
 extern void clear_slot_and_update_linked_state(DungeonItemEntry *slot);
-extern void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 extern u8 * expand_text_control_codes(const u8 *src, u8 *dst);
 extern u8 * clear_byte_and_advance(u8 *byte_ptr);
 extern u8 *append_typed_formatted_value(DungeonItemEntry *data, u8 *buffer);
-extern s32 display_formatted_context_message(); /* Unprototyped: one or three arguments; retail retains only the text context. */
 extern void * copy_fullwidth_vowel_bytes();
 extern void * append_value_seven_suffix(u8 *dst);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);

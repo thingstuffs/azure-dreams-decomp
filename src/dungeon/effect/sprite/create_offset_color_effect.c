@@ -2,6 +2,7 @@
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "engine/node.h"
 
 typedef struct S_818BCFB0_0 {
     u8 pad_00[0x8];
@@ -31,7 +32,6 @@ typedef struct {
     s32 word[6];
 } Copy24;
 
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern u8 D_80024088[];
 extern u8 D_800241CC[];
 

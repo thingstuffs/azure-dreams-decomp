@@ -42,7 +42,6 @@ typedef struct S_800BE6F0_5 {
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 #include "dungeon/player/item.h"
 struct EntityLinkNode;
-void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 void * detach_record_and_update_slot_state(void *record);

@@ -4,6 +4,7 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
+#include "engine/node.h"
 
 typedef struct S_8092192C_2 {
     s32 unk_00;
@@ -22,7 +23,6 @@ typedef struct S_8092192C_4 {
 } S_8092192C_4;
 
 extern u8 shared_sprite_entries[];
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 void select_record_entry_and_value(void *state, void *entries, short index);
 void func_800F68AC(s16 *state, s32 *position, u16 *object);
 

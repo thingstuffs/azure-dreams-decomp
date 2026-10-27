@@ -160,7 +160,6 @@ s32 strcpy(void *, s32);
 void create_familiar_deployment_overlay();
 struct DungeonItemEntry;
 s16 find_table_value_index();
-void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 void process_unflagged_linked_entries(s32 firstEntryBase);
 void process_unflagged_linked_entries_alt(s32 firstNodeBase);
 struct EntityLinkNode;

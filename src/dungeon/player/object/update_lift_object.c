@@ -8,7 +8,6 @@
 #include "engine/graphics.h"
 #include "sdk/libc.h"
 
-extern void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 extern void adjust_source_value_and_finalize(void *context, const void *source);
 extern void process_unflagged_linked_entries();
 extern void process_unflagged_linked_entries_alt();

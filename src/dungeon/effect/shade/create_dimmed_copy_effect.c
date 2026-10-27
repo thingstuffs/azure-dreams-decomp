@@ -3,6 +3,7 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "slus.h"
+#include "engine/node.h"
 
 typedef struct S_818C32F4_0 {
     u8 pad_00[0x8];
@@ -44,7 +45,6 @@ typedef struct S_818C32F4_5 {
     s32 unk_14;
 } S_818C32F4_5;
 
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern u8 D_80024A08[9];
 extern u8 shaded_quad_frame_set[9];
 

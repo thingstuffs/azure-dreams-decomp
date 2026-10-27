@@ -11,9 +11,9 @@ extern u16 camera_pitch_index[5];
 extern s16 camera_pitch_presets[];
 extern s16 camera_depth_target[5];
 extern u8 animation_tick_scale[16];
-s32 func_80096190();
-s32 func_80096200();
-s32 func_8009635C();
+
+
+
 #include "dungeon/player/object/action_state.h"
 extern u16 camera_depth_index[5];
 extern s16 camera_depth_presets[];

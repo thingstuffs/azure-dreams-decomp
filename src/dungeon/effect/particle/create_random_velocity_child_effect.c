@@ -12,7 +12,7 @@
    /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in create_random_velocity_child_effect */
 
 #include "engine/node/allocation.h"
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+#include "engine/node.h"
 extern u8 child_particle_draw_address[];
 extern u8 D_80164DA4[];
 

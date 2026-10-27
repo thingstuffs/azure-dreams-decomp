@@ -13,7 +13,7 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/player/state.h"
 s32 play_sound_if_enabled(s32 query_value);
-s32 try_apply_action_by_chance();
+extern s32 try_apply_action_by_chance(void *actor, s32 chance, s32 action);
 
 
 /* Process an entity's item, deferring the primary entity's handling and cleaning up completed uses. */

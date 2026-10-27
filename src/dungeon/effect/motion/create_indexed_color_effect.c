@@ -6,9 +6,9 @@
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 #include "sdk/libgte.h"
+#include "engine/node.h"
 
 void select_record_entry_and_value(void *state, void *entries, short index);      /* extern */
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 extern M2C_UNK D_800246AC;
 extern u8 D_800E0000[];
 

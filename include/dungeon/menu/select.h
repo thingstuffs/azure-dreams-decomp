@@ -742,7 +742,8 @@ extern void func_80044A50(void *);
 extern void enqueue_script_message_command(void);
 extern void *load_monster_resource_data(s32 resource_id, u8 *resource_entry, s32 wait_for_read);
 extern u8 *find_or_retain_sprite_resource_slot(s32, s32);
-extern void unlink_entity_node(void *);
+struct EntityLinkNode;
+extern void unlink_entity_node(struct EntityLinkNode *node);
 extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
 extern void retire_tracked_effect_by_id(void *);
 void set_message_mode(int value);                     /* extern */

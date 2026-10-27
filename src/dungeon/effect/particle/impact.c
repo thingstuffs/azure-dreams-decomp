@@ -2,6 +2,7 @@
 #include "sdk/libc.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/level.h"
+#include "slus.h"
 /* Map surface queries, particle bursts, owner-following effects, and linked mesh rendering. */
 
 struct ObjectPosition;
@@ -1249,7 +1250,6 @@ void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y,
 
 #include "common.h"
 
-extern s32 initialize_timed_motion_step(); /* Unprototyped: two or three arguments; retail reads only the first two. */
 
 /* Applies a coordinate update and triggers effects when the queried value is within bounds. */
 void update_timed(s32 object, s32 raw_x, s32 raw_y, s32 raw_upper, s16 lower_bound) {

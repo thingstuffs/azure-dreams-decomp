@@ -84,7 +84,6 @@ extern u8 active_spell_parameters[];
 extern u16 direction_x_offsets[];
 extern u16 direction_y_offsets[];
 s32 rand(void);
-void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 s16 get_tile_chebyshev_distance();
 s32 display_text_with_fullwidth_adjustment(s8 *text);
 s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);

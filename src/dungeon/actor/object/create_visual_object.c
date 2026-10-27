@@ -4,6 +4,7 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "engine/node/allocation.h"
+#include "engine/node.h"
 
 #ifndef NULL
 #define NULL 0
@@ -16,7 +17,6 @@ typedef struct S_80026ED0_3 {
     s16 unk_6A;
 } S_80026ED0_3;
 
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 D_80026E3C;
 extern s32 visual_object_sprite_data;
 

@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "dungeon/system.h"
 
 struct SpriteFrameState;
 #include "common.h"
@@ -27,7 +28,6 @@ extern void finish_paralyzed_actor_action();
 #include "dungeon/actor/state.h"
 
 extern s32 lookup_definition_pair_value(s16 firstKey, s16 secondKey);
-extern void play_sound_if_enabled(); /* Unprototyped: one or two arguments; the retail audio path reads only the command. */
 extern s32 generate_random_value(void);
 
 extern u8 player_menu_action_data[];

@@ -613,7 +613,7 @@ s32 place_item_at_valid_floor_position(s32 x, s32 y, s32 z, s32 unused, s32 *obj
 #include "m2c_compat.h"
 
 extern s32 register_node(void *entry, void *registration_id);
-extern s32 D_800A7CC4();
+extern s32 D_800A7CC4(s32 unused0, s32 unused1, SpriteFrameState *render_params);
 
 /* Create an object and initialize its render data to neutral color and unit scale. */
 void create_floor_item_renderer(void) {

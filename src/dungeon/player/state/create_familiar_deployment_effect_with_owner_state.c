@@ -9,6 +9,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/player/state.h"
 #include "engine/graphics.h"
+#include "engine/node.h"
 
 typedef struct S_80093C70_0 {
     u8 pad_00[0x8];
@@ -26,8 +27,7 @@ typedef struct S_80093C70_5 {
 } S_80093C70_5;
 
 #include "engine/node/allocation.h"                  /* extern */
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
-extern void dungeon_familiar_deploy_update_address();
+extern void dungeon_familiar_deploy_update_address(void *object_data, void *unused, void *state_data);
 
 /* Creates a sprite effect at the supplied position and links it to its owner. */
 void create_familiar_deployment_effect_with_owner_state(void *owner_body, EntityRec *source_pos, SpriteFrameState *owner) {

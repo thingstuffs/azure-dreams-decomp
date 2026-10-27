@@ -1,3 +1,5 @@
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -33,20 +35,7 @@ typedef struct S_800CB600_0 {
     u8 unk_9D;
 } S_800CB600_0;   /* arg0 in update_owner_linked_pulsing_effect */
 
-typedef struct S_800CB600_1 {
-    u8 pad_00[0xC];
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0xD];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_800CB600_1;   /* arg2 in update_owner_linked_pulsing_effect */
 
-typedef struct S_800CB600_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_800CB600_2;   /* arg1 in update_owner_linked_pulsing_effect */
 
 typedef struct S_800CB600_3 {
     u8 pad_00[0x10];
@@ -54,7 +43,7 @@ typedef struct S_800CB600_3 {
 } S_800CB600_3;
 
 /* Updates a pulsing effect through growth, activation, and shrinkage before marking it for removal. */
-void update_owner_linked_pulsing_effect(void *effect, S_800CB600_2 *position, S_800CB600_1 *appearance) {
+void update_owner_linked_pulsing_effect(void *effect, ObjectPosition *position, SpriteFrameState *appearance) {
     u16 next_brightness;
     u16 height_offset;
     u16 frames_left;
@@ -78,9 +67,9 @@ void update_owner_linked_pulsing_effect(void *effect, S_800CB600_2 *position, S_
     pulse_boost = ((S_800CB600_0 *)effect)->unk_94.s * 2;
     pulse_boost *= ((S_800CB600_0 *)effect)->unk_9D & 1;
     brightness = (u8)((S_800CB600_0 *)effect)->unk_94.u + pulse_boost;
-    appearance->unk_0C = brightness;
-    appearance->unk_0E = brightness;
-    appearance->unk_0D = brightness;
+    appearance->color.c.r = brightness;
+    appearance->color.c.b = brightness;
+    appearance->color.c.g = brightness;
 
     phase = ((S_800CB600_0 *)effect)->unk_9A;
     ((S_800CB600_0 *)effect)->unk_9D = ((S_800CB600_0 *)effect)->unk_9D + 1;
@@ -91,14 +80,14 @@ void update_owner_linked_pulsing_effect(void *effect, S_800CB600_2 *position, S_
             ((S_800CB600_0 *)effect)->unk_8A.s = -0x80;
         }
 
-        position->unk_0A =
+        position->z.w.i =
             (s16)(((S_800CB600_0 *)effect)->unk_92 + ((S_800CB600_0 *)effect)->unk_8A.u);
 
-        old_scale = appearance->unk_1C;
+        old_scale = appearance->scale_x;
         grow_frames = ((S_800CB600_0 *)effect)->unk_96.s;
         grown_scale = old_scale + ((0x1000 - old_scale) / grow_frames);
-        appearance->unk_1C = grown_scale;
-        appearance->unk_1E = grown_scale;
+        appearance->scale_x = grown_scale;
+        appearance->scale_y = grown_scale;
 
         frames_left = ((S_800CB600_0 *)effect)->unk_96.u - 1;
         ((S_800CB600_0 *)effect)->unk_96.u = frames_left;
@@ -136,12 +125,12 @@ void update_owner_linked_pulsing_effect(void *effect, S_800CB600_2 *position, S_
         return;
     }
 
-    shrunk_scale = appearance->unk_1C;
+    shrunk_scale = appearance->scale_x;
     shrink_frames = ((S_800CB600_0 *)effect)->unk_96.s;
     scale_step = shrunk_scale / shrink_frames;
     shrunk_scale -= scale_step;
-    appearance->unk_1C = shrunk_scale;
-    appearance->unk_1E = shrunk_scale;
+    appearance->scale_x = shrunk_scale;
+    appearance->scale_y = shrunk_scale;
 
     frames_left = ((S_800CB600_0 *)effect)->unk_96.u - 1;
     ((S_800CB600_0 *)effect)->unk_96.u = frames_left;

@@ -1822,9 +1822,9 @@ extern s32 has_enough_available_runtime_nodes(s32);
 extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 extern s32 lookup_item_category_mapped_value(u8, u8);
 extern void select_record_entry_and_value(void *state, void *entries, short index);
-extern void *func_800BA110();
-extern void *func_800BA1D0();
-extern void *func_800BA224();
+
+
+
 extern void func_800BA2A0(void);
 extern void func_800BA308(void);
 struct S_800BA33C_0;

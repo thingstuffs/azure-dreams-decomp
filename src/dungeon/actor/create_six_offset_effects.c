@@ -9,6 +9,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_moving_views.h"
 #include "engine/node/allocation.h"
+#include "engine/node.h"
 
 #ifndef NULL
 #define NULL 0
@@ -20,7 +21,6 @@ typedef struct {
 
 extern s32 create_visual_object();
 extern s32 create_offset_sprite_object_with_z();
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 extern TableEntry linked_effect_direction_entries[];
 extern s32 linked_mesh_processor_address[3];

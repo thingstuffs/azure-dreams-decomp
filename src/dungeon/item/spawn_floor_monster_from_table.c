@@ -12,7 +12,8 @@ extern u32 level_experience_table[];
 extern u8 entity_spawn_variant_code;
 
 extern void func_80042640(void *, s32);
-extern void unlink_entity_node(void *);
+struct EntityLinkNode;
+extern void unlink_entity_node(struct EntityLinkNode *node);
 extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
 extern s32 find_active_rect_containing_point(s32, s32);
 extern SpawnFunc load_monster_resource_data(s32 resource_id, u8 *resource_entry, s32 wait_for_read);

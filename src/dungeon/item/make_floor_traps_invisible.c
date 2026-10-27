@@ -14,7 +14,6 @@
 
 extern s32 process_record_and_update_linked_state();
 extern void clear_slot_and_update_linked_state(DungeonItemEntry *slot);
-extern void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 feed_actor_restore_mp();
 

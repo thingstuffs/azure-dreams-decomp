@@ -24,7 +24,6 @@ s32 begin_sprite_resource_load_with_completion_flag();                   /* exte
 void set_sprite_animation_frame(SpriteFrameState *obj, s16 frame_group, s16 frame_index, s32 slot_index); /* extern */
 void create_familiar_deployment_overlay();      /* extern */
 void store_recalled_familiar(); /* extern */
-void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */                         /* extern */
 void process_unflagged_linked_entries(s32 firstEntryBase);                         /* extern */
 void process_unflagged_linked_entries_alt(s32 firstNodeBase);                         /* extern */
 void unlink_entity_node(struct EntityLinkNode *node);                      /* extern */

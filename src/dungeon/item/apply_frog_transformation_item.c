@@ -19,7 +19,6 @@ struct ObjectNodeHeader;
 
 #include "dungeon/player/item.h"
 struct Owner_800A48F0;
-void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 s32 display_text_with_fullwidth_adjustment(s8 *text);
 void create_colored_effect_with_event(struct ObjectNodeHeader *source, s32 color, unsigned short event_id);
 

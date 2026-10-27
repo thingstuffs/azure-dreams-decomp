@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_1831CD8_H
 #define DUNGEON_OVL_1831CD8_H
 #include "common.h"
+#include "shared/timed_stream.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80026CF0_arg0.h"
 #include "records/Rec_func_80027328_arg0.h"
@@ -167,7 +168,8 @@ typedef struct ovl_1831cd8_81812C94_S_80027C94_0 {
 typedef struct {
     s32 current, maximum;
     u8 pad08[0x24];
-    u8 cursor[0x14];
+    FrameState cursor;
+    u8 pad38[8];
     void *resource_names;
     u8 pad44[0x44];
     void *entries;
@@ -393,7 +395,7 @@ extern void (*menu_enabled_callbacks[2])(void *);
 extern void (*menu_update_callbacks[2])(void *);
 extern void (*menu_countdown_callbacks[2])(void *);
 extern void (*menu_page_countdown_callbacks[2])(void *);
-s32 advance_timed_tagged_stream();
+s32 advance_timed_tagged_stream(FrameState *state);
 extern s32 build_tinted_gradient_rect();
 extern void * func_800499E8(u8 *cmd, u8 *rect, u8 *tint);
 extern ovl_1831cd8_81812AD0_RECT D_80025034[2];

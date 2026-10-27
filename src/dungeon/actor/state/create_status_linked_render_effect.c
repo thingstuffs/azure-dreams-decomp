@@ -5,10 +5,11 @@
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
 #include "engine/node/allocation.h"
+struct Entry;
 
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
-extern void D_800ADB8C();
-extern s32 D_800ADBCC();
+extern void D_800ADB8C(void *record);
+extern s32 D_800ADBCC(void *initial_state, void *context, struct Entry *entry);
 
 typedef struct S_800ADC4C_0 {
     u8 pad_00[0x8];

@@ -8,7 +8,7 @@
 
 void begin_player_trap_trigger(); /* extern */
 void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);              /* extern */
-extern void destination_motion_resume_address();
+extern void destination_motion_resume_address(void *actor, s32 actor_id, SpriteFrameState *sprite, ActorRecord *actor_data);
 
 /* Move the actor toward the destination tile and finish movement when the timer expires. */
 void move_actor_to_destination_tile(Rec_func_8008ACDC_arg0 *actor, ObjectPosition *motion, SpriteFrameState *destination, s32 context) {
@@ -43,6 +43,6 @@ void move_actor_to_destination_tile(Rec_func_8008ACDC_arg0 *actor, ObjectPositio
             begin_player_trap_trigger(actor, motion, destination, saved_context);
             return;
         }
-        actor->unk_8C.as_pm = &destination_motion_resume_address;
+        actor->unk_8C.as_pv = &destination_motion_resume_address;
     }
 }

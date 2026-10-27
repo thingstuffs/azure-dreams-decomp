@@ -11,6 +11,8 @@
 #include "records/Rec_func_80167A98_arg0.h"
 #include "records/Rec_func_80167A98_arg1.h"
 #include "dungeon/system.h"
+#include "engine/node.h"
+#include "slus.h"
 
 typedef struct S_80167C74_0_pre {
     u16 unk_00;
@@ -108,12 +110,10 @@ typedef struct {
 } PositionTableEntry;
 
 void select_record_entry_and_value(void *state_data, void *entry_data, short index);
-void initialize_timed_motion_step(); /* Unprototyped: two or three arguments; retail reads only the first two. */
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 struct EntityRec; void create_jittered_child_effect(struct EntityRec *, s32, s16, s16, s16, s16);
 void create_ribbon_head_sprite();
 extern u8 ribbon_sprite_entries[];
-extern void D_80166D14();
+extern s32 D_80166D14(void *initial_state, void *context, void *data);
 
 extern PositionTableEntry ribbon_vertices[];
 

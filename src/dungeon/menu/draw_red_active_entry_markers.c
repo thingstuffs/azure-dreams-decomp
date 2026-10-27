@@ -7,7 +7,7 @@ extern void submit_activation_command(void);
 extern void create_transformed_render_object(u8, u8, s32, s32, s32);
 
 /* Create red markers at the owner positions of active list entries. */
-void draw_red_active_entry_markers(s32 setup_arg_0, s32 setup_arg_1, s32 setup_arg_2, s32 setup_arg_3)
+void draw_red_active_entry_markers(void)
 {
     u8 *node;
     u8 *owner;

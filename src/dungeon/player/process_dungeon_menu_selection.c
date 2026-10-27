@@ -102,7 +102,6 @@ void restore_player_control_callback(void *target, void *source);              /
 void equip_item_and_update_status();              /* extern */
 void change_equipped_item_and_notify();              /* extern */
 s16 get_special_table_data_index();                          /* extern */
-void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */                                /* extern */
 void display_formatted_context_message(void *context);                   /* extern */
 void append_packed_action_record();   /* extern */
 s32 display_text_with_fullwidth_adjustment(s8 *text);                         /* extern */

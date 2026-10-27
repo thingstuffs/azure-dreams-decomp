@@ -18,7 +18,7 @@ struct Elem;
 
 void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 play_sound_if_enabled(s32 query_value);
-extern void D_800CB9DC();
+extern void D_800CB9DC(void *trap_state_in, void *motion_state_in, void *animation_in);
 extern u8 D_800DF650[];
 
 typedef struct S_800CBB98_0 {

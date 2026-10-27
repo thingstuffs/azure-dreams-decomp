@@ -2,6 +2,9 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "dungeon/actor/state.h"
+#include "engine/node.h"
+struct Arg0_800AFBFC;
+struct Arg2_800AFBFC;
 
 typedef s32 M2C_UNK;
 
@@ -25,11 +28,10 @@ typedef struct S_800B0544_6 {
 } S_800B0544_6;   /* ((S_800B0544_4 *)obj)->unk_08 in create_default_state_object */
 
 extern int load_indexed_resource_package(short table_index);
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 extern s16 current_dungeon_floor;
 extern void D_800AFAD8();
-extern s32 D_800AFBFC();
+extern s32 D_800AFBFC(struct Arg0_800AFBFC *shape, s32 unused, struct Arg2_800AFBFC *segment);
 extern s8 D_800DCF4C;
 extern M2C_UNK D_800DEF90;
 

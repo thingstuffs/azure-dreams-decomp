@@ -9,11 +9,11 @@
 #include "sdk/libc.h"
 #include "sdk/libgte.h"
 #include "engine/node/allocation.h"
+#include "engine/node.h"
 
    /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in spawn_salam_particles */
 
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
-extern void D_800CAED0();
+extern void D_800CAED0(void *object, void *motion);
 extern M2C_UNK D_800E03B0;
 
 

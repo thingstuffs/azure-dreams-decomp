@@ -10,7 +10,7 @@
 
 #include "engine/node/allocation.h"                  /* extern */
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
-extern void dungeon_familiar_deploy_update_address();
+extern void dungeon_familiar_deploy_update_address(void *object_data, void *unused, void *state_data);
 
 typedef struct S_80093D8C_0 {
     u8 pad_00[0x8];

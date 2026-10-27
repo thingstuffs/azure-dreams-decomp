@@ -660,7 +660,7 @@ void update_menu_progress_bar(ovl_1831cd8_81812D08_ProgressState *state) {
     draw_menu_progress_bar(state, state->current, state->maximum);
     position_scaled_entries(state->entries, state->current, state->maximum);
     refresh_menu_entry_resources(state->entries, state->resource_names);
-    advance_timed_tagged_stream(state->cursor);
+    advance_timed_tagged_stream(&state->cursor);
 }
 
 /*

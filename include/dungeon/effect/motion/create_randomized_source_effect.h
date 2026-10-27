@@ -359,7 +359,7 @@ extern u8 D_80024048[];
 extern u8 homing_particle_sprite_entries[];
 extern M2C_UNK D_80024288;
 extern M2C_UNK D_80024F74;
-extern s32 clipped_sprite_renderer_address();
+extern s32 clipped_sprite_renderer_address(u8 *first_data, s32 link_value, SpriteFrameState *value_record);
 void move_sprite_in_radial_direction(void *motion, Row_8191C848_S_8191C848_3 *position, SpriteFrameState *status);
 void *create_randomized_source_effect(Row_8191C938_S_8191C938_3 *source);
 void advance_timed_effect_motion(void *object, Row_8191CA88_S_8191CA88_3 *motion, Row_8191CA88_S_8191CA88_2 *effect);

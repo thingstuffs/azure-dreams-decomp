@@ -3,6 +3,7 @@
 #include "shared/monster_ids.h"
 #include "engine/node/allocation.h"
 #include "dungeon/level.h"
+#include "engine/node.h"
 
 struct ObjectNodeHeader;
 #include "common.h"
@@ -15,7 +16,6 @@ struct ObjectNodeHeader;
 #include "slus/gp_shared_81510.h"
 
 void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);                      /* extern */
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);                           /* extern */
 void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);              /* extern */

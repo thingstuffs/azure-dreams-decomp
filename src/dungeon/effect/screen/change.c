@@ -20,6 +20,8 @@
 #include "dungeon/player/object.h"
 #include "dungeon/item/message.h"
 #include "engine/town.h"
+#include "slus.h"
+struct S_8009BE2C_2;
 
 typedef struct S_8009BE2C_1 {
     u8 pad_00[0x3];
@@ -108,7 +110,7 @@ void draw_fullscreen_fade(void *effect, s32 unused, S_8009BE2C_2 *fade) {
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 
-extern void D_8009BE2C();
+extern void D_8009BE2C(void *effect, s32 unused, struct S_8009BE2C_2 *fade);
 
 /* Creates a type 0x212 object and initializes its flag and value. */
 void create_type_212_object(s32 flag, s8 value) {
@@ -192,7 +194,6 @@ void add_random_quarter_value(void *source, void *target) {
 typedef struct ActiveEntry { u8 pad0; u8 active; u8 pad2[2]; } ActiveEntry;
 extern u8 D_800E0000[];
 
-void initialize_timed_motion_step(); /* Unprototyped: two or three arguments; retail reads only the first two. */
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 s32 clamp_adjusted_value_0_to_99();
  /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
@@ -881,9 +882,9 @@ typedef struct S_8009CE1C_1 {
 
 extern u8 pending_player_damage_kind;
 s32 clamp_adjusted_value_0_to_99();
-s32 func_8009CFB4();
-s32 func_8009CFF4();
-s32 func_8009D034();
+
+
+
 
 s32 play_sound_if_enabled(s32);
 extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);

@@ -5,12 +5,12 @@
 #include "m2c_compat.h"
 #include "shared/slus_callbacks.h"
 #include "sdk/libc.h"
+#include "engine/node.h"
 
 struct Dst;
 struct Elem;
 
 void select_record_entry_and_value(void *state, void *entries, short index);
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 void func_8002418C(void *object_ref, void *unused, void *state);
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry rising_sprite_entries[];

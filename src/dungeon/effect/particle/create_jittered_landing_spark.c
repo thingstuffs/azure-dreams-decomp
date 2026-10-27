@@ -4,6 +4,7 @@
 #include "common.h"
 #include "shared/dungeon_particle_template.h"
 #include "sdk/libc.h"
+#include "engine/node.h"
 
 typedef struct S_80045C34 S_80045C34;
 
@@ -12,7 +13,6 @@ typedef struct Copy12 {
 } __attribute__((packed)) Copy12;
 
 
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 func_80167088(s32 limit);
 s32 draw_linked_sprites_clipped(u8 *first_data, s32 link_value, S_80045C34 *value_record);
 void update_landing_particle_fade(u8 *object, u8 *motion, u8 *sprite);

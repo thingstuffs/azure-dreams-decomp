@@ -93,7 +93,6 @@ typedef struct S_800C2824_16 {
 } S_800C2824_16;   /* ((S_800C2824_0 *)effect)->unk_00 in update_return_magic_sacrifice */
 
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 void adjust_source_value_and_finalize(void *context, const void *source);
 void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
@@ -103,9 +102,9 @@ s32 release_entity_slot_and_update_flags();
 void draw_transformed_sprite_with_clip_rect();
 void * create_five_point_effect(u8, u8, s16, void *, s32, s32, void *);
 void retire_tracked_effect_by_id();
-extern s32 return_magic_begin_address();
-extern s32 D_800C27F0();
-extern s32 linked_object_draw_address();
+extern s32 return_magic_begin_address(void);
+extern s32 D_800C27F0(void);
+extern s32 linked_object_draw_address(void *initial_state, s32 value, void *data);
 extern M2C_UNK D_800DF45C;
 extern M2C_UNK return_magic_sprite_data;
 extern void *return_magic_effect_object;

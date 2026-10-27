@@ -6,6 +6,7 @@
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 #include "engine/node/allocation.h"
+#include "engine/node.h"
 
 typedef struct S_800CB4C0_6 {
     u8 pad_00[0x8];
@@ -15,8 +16,7 @@ typedef struct S_800CB4C0_6 {
    /* ((S_800CB4C0_6 *)arg0)->unk_08 in create_source_linked_fading_effect */
 
 void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
-extern void D_800CB374();
+extern void D_800CB374(void *effect, void *unused, SpriteFrameState *primitive);
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry D_800E02CC[];
 

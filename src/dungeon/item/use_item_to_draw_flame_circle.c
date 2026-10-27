@@ -34,7 +34,7 @@ s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32);     
 void clear_slot_and_update_linked_state(DungeonItemEntry *slot);                         /* extern */
 void display_formatted_context_message(void *context);                   /* extern */
 void * create_five_point_effect(); /* extern */
-extern s32 D_800C135C();
+extern s32 D_800C135C(void);
 extern u8 ribbon_sprite_entries[];
 extern u8 D_800E1482[];
 

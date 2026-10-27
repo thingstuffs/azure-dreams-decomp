@@ -5,6 +5,7 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "sdk/libc.h"
+#include "engine/node.h"
 
 typedef struct S_818BD52C_0 {
     u8 pad_00[0x8];
@@ -51,7 +52,6 @@ typedef struct {
 } Copy24;
 
 extern void select_record_entry_and_value(void *state, void *entries, short index);
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 extern u8 D_80024BB0[];
 extern u8 shared_sprite_entries[];

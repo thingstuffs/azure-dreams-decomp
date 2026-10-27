@@ -9,6 +9,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
+#include "engine/node.h"
 
 /* M2C_UNK comes from m2c_compat.h. */
 
@@ -87,7 +88,6 @@ typedef struct S_800D6C18_3 {
 } S_800D6C18_3;
 
 /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in create_offset_sprite_effect */
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern M2C_UNK D_800D6804[3];
 extern M2C_UNK D_800D68F4[3];
 

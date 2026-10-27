@@ -5,6 +5,7 @@
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
 #include "sdk/libc.h"
+#include "engine/node.h"
 
 #ifndef NULL
 #define NULL 0
@@ -57,7 +58,6 @@ typedef struct S_800D5DCC_7 {
    /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in spawn_randomized_directional_effect */
 
 #include "engine/node/allocation.h"
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 extern u8 D_800D5AC0[];
 

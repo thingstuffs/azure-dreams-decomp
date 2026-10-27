@@ -6,8 +6,8 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "engine/node/allocation.h"
+#include "engine/node.h"
 
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 
 extern u8 linked_graphic_sprite_entries;
 

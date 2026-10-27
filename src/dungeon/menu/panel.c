@@ -16,10 +16,10 @@
 #include "engine/text.h"
 #include "engine/node/allocation.h"
 #include "shared/dungeon_moving_views.h"
+#include "engine/node.h"
 
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern char * func_8004E5A0(int value, unsigned short width, char *buf);
-void *func_800B119C();
+
 extern s32 allocate_panel_offset_or_zero(void);
 extern M2C_UNK D_80077FEC;
 extern void update_attached_effect_position(void *object, MovingPosition *position, void *anim_state);
@@ -578,11 +578,7 @@ struct AcSub {
 };
 
 typedef struct AcObject {
-    u8 pad00[8];
-    AcHeader *header;
-    AcMeta *meta;
-    void *field10;
-    u8 pad14[0x0C];
+    ObjectNodeHeader node;
     AcSub sub;
 } AcObject;
 
@@ -591,7 +587,6 @@ extern s32 transform_linked_quad_batches(u8 *, s32, u8 *);
 extern void update_fading_effect_scale(void *effect, s32 unused, void *render_arg);
 extern s32 D_800DF03C[];
 
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 allocate_panel_offset_or_zero(void);
 
 /* Build the floating number/icon widget: allocate it and lay out its digit sprites for the given style. */
@@ -627,8 +622,8 @@ void build_floating_number_widget(s16 icon, s32 value_a, s32 value_b, s32 style,
 
     obj = allocate_list_node(0x12, &scene_object_list_anchor.next);
     if (obj != NULL) {
-        meta = obj->meta;
-        header = obj->header;
+        meta = obj->node.sprite;
+        header = obj->node.position;
         sub = &obj->sub;
         if ((compact << 0x10) != 0) {
             meta->flags |= 1;
@@ -641,9 +636,9 @@ void build_floating_number_widget(s16 icon, s32 value_a, s32 value_b, s32 style,
         sub->field08 = 1;
         meta->scale_x = 0x1000;
         meta->color.word = 0;
-        obj->field10 = update_fading_effect_scale;
+        obj->node.update_callback = update_fading_effect_scale;
         base = (u8 *)&sub->field38;
-        register_node(obj, transform_linked_quad_batches);
+        register_node(&obj->node, transform_linked_quad_batches);
         style_byte = style_hold & 0xFF;
         cursor = base;
         sub->field24 = (s16)((style_hold << 0x10) >> 0x18);
@@ -839,8 +834,6 @@ typedef struct S_800B1B10_7 {
     s32 unk_50;
 } S_800B1B10_7;   /* ((style_held * 4) + sub) in build_owned_floating_number_widget */
 
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 extern s32 allocate_panel_offset_or_zero(void);
 extern void update_fading_effect_scale(void *effect, s32 unused, void *render_arg);
 extern s32 transform_linked_quad_batches(u8 *, s32, u8 *);
@@ -1117,7 +1110,6 @@ void advance_timed_panel_motion(S_800B1F34_0 *animation, S_800B1F34_1 *motion)
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
 #include "shared/game_work.h"
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 void play_sound_if_enabled(s32);
 struct S_800B1F34_0;
 struct S_800B1F34_1;
@@ -1230,15 +1222,11 @@ typedef struct {
 } RenderPart;
 
 typedef struct {
-    u8 pad00[8];
-    CopyBlock *copy_dst;
-    SpriteFrameState *part;
-    void *callback;
-    u8 pad14[0x12];
+    ObjectNodeHeader node;
+    u8 pad20[6];
     u16 kind;
 } Object;
 
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 
 extern void advance_panel_accumulator(void *counter_state, void *accumulator, void *update_arg);
@@ -1249,14 +1237,18 @@ void create_rendered_panel_object(CopyBlock *source)
 {
     Object *object;
     SpriteFrameState *part;
+    void *copy_data;
+    CopyBlock *copy_dst;
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
-        object->callback = advance_panel_accumulator;
-        register_node(object, project_sprite_chain);
-        *object->copy_dst = *source;
+        object->node.update_callback = advance_panel_accumulator;
+        register_node(&object->node, project_sprite_chain);
+        copy_data = object->node.position;
+        copy_dst = copy_data;
+        *copy_dst = *source;
 
-        part = object->part;
+        part = object->node.sprite;
         part->color.word = 0x00808080;
         part->scale_y = 0x1000;
         part->scale_x = 0x1000;

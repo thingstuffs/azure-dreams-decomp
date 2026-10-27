@@ -21,7 +21,6 @@ typedef struct S_80094270_4 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern void *familiar_record_slots[];
 s16 check_familiar_deployment_placement(); /* extern */
-void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */                          /* extern */
 void display_formatted_context_message(void *context);                   /* extern */
 s32 play_sound_if_enabled(s32 query_value);                     /* extern */
 s32 display_text_with_fullwidth_adjustment(s8 *text);                         /* extern */

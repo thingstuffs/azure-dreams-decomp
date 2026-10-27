@@ -7,6 +7,7 @@
 
 #include "records/Rec_D_80082E80.h"
 #include "sdk/libc.h"
+#include "engine/node.h"
 
 typedef struct {
     s32 words[6];
@@ -18,7 +19,6 @@ typedef struct {
 
 #define MULT_HI(a, b) (0)
 
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 void func_80024C48(void *effect, void *motion, Rec_D_80082E80 *visual);
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry random_variant_sprite_entries[];

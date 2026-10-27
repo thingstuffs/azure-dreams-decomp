@@ -18,7 +18,7 @@ typedef struct S_8009F020_1 {
 } S_8009F020_1;
 
 /* Create blue markers at the positions of enabled entries. */
-void draw_blue_enabled_entry_markers(s32 setup_arg_0, s32 setup_arg_1, s32 setup_arg_2, s32 setup_arg_3) {
+void draw_blue_enabled_entry_markers(void) {
     u8 *entry_state;
     u8 *entry_position;
     s32 entry_index;
