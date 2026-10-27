@@ -160,6 +160,31 @@ Complete-image proof is the current integration check; module-certificate
 renewal and the historical all-window loop are not required steps for this
 workflow.
 
+### Optional native compile check
+
+The retail build compiles only the TUs its images link. A header change can
+therefore pass `make check` and still break a host-native build of the same
+source: retained row facades that retail no longer links, decoded-image TUs and
+a native runtime's own C files all include the shared headers. Maintainers who
+keep such a native port in a separate checkout can let the lander check it:
+
+```sh
+export AZURE_NATIVE_PORT=/path/to/native-port-checkout
+bash tools/land_make.sh --message "..." change.patch
+```
+
+`tools/build/land_make.py` then runs that checkout's `port/tools/natcheck.py`
+in a `native-check` step after the debt and layout checks and before
+`make configure`, so a failure costs about a minute instead of a full build. The
+checker reads this tree, compiles every native consumer with `-fsyntax-only`
+and caches results by each unit's actual header dependencies; it writes nothing
+here except `build/landing/native-check.log` and `.json`. A failure names each
+unit with its compiler errors. Without the variable the step records `SKIP`;
+`--require-native-check` turns that into a failure. Exit status 3 means every
+unit compiles but a source hash pinned by the port is stale; the landing fails
+unless `--allow-native-pin-drift` accepts it, and the port must refresh that
+pin. No native port code is part of this repository.
+
 ## Incremental work and troubleshooting
 
 After editing source, run `make -j4` and the relevant checks. Existing source

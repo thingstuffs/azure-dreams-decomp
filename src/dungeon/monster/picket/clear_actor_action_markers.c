@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/dir_step.h"
@@ -38,7 +39,7 @@ typedef struct {
 } TargetFieldView_80E91000;
 
 extern void clear_slot_and_update_linked_state(void *);
-extern void *probe_directional_neighbor(void *, u8, u8, s16);
+void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
 extern s32 generate_random_value(void);
 extern s16 find_floor_item_at_world_position(s16, s16, s16);
 extern s32 is_linked_entity_flagged_80000(void *, void *);
@@ -59,7 +60,7 @@ s32 clear_actor_action_markers(void *origin, void *actor)
     u8 *actor_bytes = (u8 *)actor;
     s32 direction_offset;
     s16 ground_index;
-    void *target;
+    ActorRecord *target;
     s32 item_offset;
     u8 *inventory_base;
     u8 *item_slot;

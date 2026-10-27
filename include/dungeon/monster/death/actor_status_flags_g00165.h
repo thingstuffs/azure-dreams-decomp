@@ -107,7 +107,7 @@ extern u8 death_frame_set_2[];
 extern u8 death_frame_set_3[];
 
 /* Functions defined in this translation unit. */
-void advance_actor_action_state_handle_status(void *action_in, void *context_in, SpriteFrameState *sprite_in, void *actor_in);
+void advance_actor_action_state_handle_status(void *action_in, ObjectPosition *context_in, SpriteFrameState *sprite_in, void *actor_in);
 
 
 #endif

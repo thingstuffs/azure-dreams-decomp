@@ -13,11 +13,11 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/level.h"
 #include "engine/node/allocation.h"
+#include "engine/node.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);                 /* extern */
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);                /* extern */
 extern void *active_action_object[];
 void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *motion_in, SpriteFrameState *sprite_in);

@@ -21,7 +21,7 @@ void advance_timed_entity_hop(ActorRecord *action, ObjectPosition *motion, Sprit
 void finish_saber_tile_hop(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity);
 void move_actor_briefly_and_realign(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *actor, ActorRecord *entity);
 
-void update_actor_directional_animation(void *actor_in, void *actor_index, SpriteFrameState *target, void *entity_in);
+void update_actor_directional_animation(ActorRecord *actor_in, void *actor_index, SpriteFrameState *target, ActorRecord *entity_in);
 
 
 

@@ -11,11 +11,11 @@
 #include "dungeon/actor/animation.h"
 #include "engine/node/allocation.h"
 #include "dungeon/actor/status.h"
+#include "engine/node.h"
 
 
 
 
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 generate_random_value(void);
 void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosition *source_position, SpriteFrameState *source_sprite);
 

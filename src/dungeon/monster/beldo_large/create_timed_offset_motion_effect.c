@@ -4,6 +4,7 @@
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
+#include "engine/node.h"
 
 typedef struct S_80170D2C_0 {
     u8 pad_00[0x18];
@@ -43,7 +44,6 @@ typedef struct S_80170D2C_4 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
 } S_80170D2C_4;   /* D_80083780 in create_timed_offset_motion_effect */
 
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern u8 D_80170BB0[];
 extern u8 D_80173B88[];
 

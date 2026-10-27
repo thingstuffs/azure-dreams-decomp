@@ -32,7 +32,7 @@ extern u8 viper_frame_set_3[];
 extern u8 viper_action_continuation_address[];
 extern void *actor_update_node_cursor[];
 void *allocate_list_node(s32, void *);
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void D_800DB618();
 extern s32 D_800DB660();

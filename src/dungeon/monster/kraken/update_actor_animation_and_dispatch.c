@@ -53,7 +53,7 @@ typedef struct S_801711A4_3 {
 s32 check_entity_relation();
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 s32 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
-s16 get_rounded_facing_and_rounding_flag(); /* Unprototyped: five arguments, or a retained empty-struct sixth argument. */
+s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 s32 can_entity_gain_level(void *entity);
 void update_actor_status_and_mp(ActorRecord *entity);
 void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);
@@ -80,7 +80,7 @@ extern u8 kraken_frame_set_2[];
 /* Selects Kraken's movement, attacks, spells, and turn processing, resetting its vertical animation state
  * on return to idle. */
 void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *status) {
-    s32 direction_aux;
+    u16 direction_aux;
     void *next_handler;
     s32 status_flags;
     s32 action_id;
@@ -88,7 +88,7 @@ void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *con
     s16 angle;
     u16 action_flags;
     ActorRecord *active_actor;
-    s32 *direction_aux_ptr;
+    u16 *direction_aux_ptr;
 
     if (g_dungeon_status.flags & 0x1000) {
         ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xEU;

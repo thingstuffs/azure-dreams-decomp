@@ -31,7 +31,7 @@ extern u8 D_800C7604[];
 extern u8 D_800D5FC4[];
 extern s32 D_800C7674;
 extern s32 mother_event_object_entries;
-extern void D_800C78A8();
+extern void D_800C78A8(void *object, void *position, s32 update_arg);
 
 extern Timer mother_event_ticks;
 

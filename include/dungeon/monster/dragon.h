@@ -183,7 +183,7 @@ extern int abs(int);
 void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 s32 register_node(struct ObjectNodeHeader *entry, void *registration_id);
 s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
-s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
+s32 generate_random_value(void);
 void select_indirect_table_entry(struct S_80047738 *state, s16 table_index, s16 entry_index);
 void advance_sprite_animation_and_textures(void *entity);
 void apply_monster_koyaw_data(s32 flags, s8 *dst);
@@ -208,8 +208,8 @@ void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 s32 check_movement_clearance_and_height();
 s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 void * find_adjacent_actor(void *entity, u16 x, u16 y);
-s32 probe_directional_neighbor();
-s32 get_actor_height_difference();
+void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
+s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
 s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
 s32 prepare_directional_attack();
@@ -274,7 +274,7 @@ void advance_stored_entity_path(void *controller, ObjectPosition *context, void 
 void advance_actor_path_with_item_search(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 void copy_display_orientation_state(void *object, ObjectPosition *unused, void *display, void *orientation);
 s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
-void start_directional_actor_effect(void *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
+void start_directional_actor_effect(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
 s32 dispatch_actor_path_state_and_relink_entity(void *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
 void finish_actor_tile_move_and_check_trap(R03_801721C0_S_801721C0_0 *object, void *motion, void *check_data, void *target);
 void complete_actor_jump_to_destination(void *jump, void *motion, void *map_entity, void *actor);
@@ -286,7 +286,7 @@ void remove_defeated_dragon(void *state, void *motion, void *position, void *act
 void shrink_hopping_dragon(void *state, void *motion, void *position, void *actor);
 void advance_dragon_removal(void *state, void *motion, void *position, void *actor);
 void grow_hopping_dragon(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
-void update_actor_status_and_restore_handler(void *in_controller, ObjectPosition *in_context, void *sprite, void *in_actor);
+void update_actor_status_and_restore_handler(void *in_controller, ObjectPosition *in_context, void *sprite, ActorRecord *in_actor);
 void wait_for_dragon_mp(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 void update_dragon_parent_motion(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *entity, ActorRecord *map_object);
 void update_thrown_dragon(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);

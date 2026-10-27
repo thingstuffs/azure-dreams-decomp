@@ -9,6 +9,7 @@
 #include "engine/node/allocation.h"
 #include "dungeon/actor/animation.h"
 #include "dungeon/actor/status.h"
+#include "engine/node.h"
 struct ObjectNodeHeader;
 
 
@@ -45,9 +46,8 @@ typedef struct S_8016A854_4 {
 
 
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
-extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
+extern s32 generate_random_value(void);
 extern u8 D_8016AA28[];
 extern u8 dragon_slot_f_action_callback;
 extern u8 D_8016DC7C[];

@@ -11,6 +11,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/actor/animation.h"
 #include "engine/node/allocation.h"
+#include "engine/node.h"
 
 typedef struct S_80D95000_1 {
     u8 pad_00[0x13];
@@ -34,9 +35,8 @@ typedef struct S_80D95000_4 {
     s8 unk_9C;
 } S_80D95000_4;
 
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s16 set_or_clear_actor_status_slot();
-s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
+s32 generate_random_value(void);
 extern u8 dreamin_object_callback[];
 extern s32 dreamin_slot_f_action_callback;
 extern s32 D_8016D86C;

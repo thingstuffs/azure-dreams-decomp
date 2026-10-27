@@ -21,13 +21,9 @@ typedef struct EffectBase {
     s16 field34;
 } EffectBase;
 
-typedef struct Effect {
-    u8 pad0[0x20];
-    EffectBase base;
-} Effect;
 
 extern void *allocate_list_node();
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 
 extern s32 D_800D707C[];
 extern s16 actor_direction_step_pairs[];
@@ -74,41 +70,41 @@ void spawn_angled_random_velocity_effect(EntityRec *source, u32 angle, s32 effec
     ObjectPosition *velocity_y;
     S_80D659DC_2 *direction;
     EffectBase *base;
-    Effect *effect;
+    ObjectNodeHeader *effect;
 
     effect = allocate_list_node(0x211, source);
     if (effect != NULL) {
-        base = &effect->base;
-        ((ObjectNodeHeader *)effect)->update_callback = &D_800D707C;
-        ((ObjectNodeHeader *)effect)->position->x.w.i = (u16)
+        base = (EffectBase *)(effect + 1);
+        effect->update_callback = &D_800D707C;
+        effect->position->x.w.i = (u16)
         ((MovingPosition *)((*(void * *)&source->z)))->x;
-        ((ObjectNodeHeader *)effect)->position->y.w.i = (u16)
+        effect->position->y.w.i = (u16)
         ((MovingPosition *)((*(void * *)&source->z)))->y;
-        ((ObjectNodeHeader *)effect)->position->z.w.i = (s16)
+        effect->position->z.w.i = (s16)
         (((MovingPosition *)((*(void * *)&source->z)))->z - 0x58);
         direction = (void *)actor_direction_step_pairs + ((angle >> 7) & 0x1C);
-        position_x = ((ObjectNodeHeader *)effect)->position;
+        position_x = effect->position;
         position_x->x.w.i = (u16)
         ((u16)position_x->x.w.i +
             (direction->unk_00 * 0x12));
-        position_y = ((ObjectNodeHeader *)effect)->position;
+        position_y = effect->position;
         position_y->y.w.i = (u16)
         ((u16)position_y->y.w.i +
             (direction->unk_02 * 0x12));
-        ((ObjectNodeHeader *)effect)->position->velocity_x = (s32)
+        effect->position->velocity_x = (s32)
         (((rand() & 0x7FFF) - 0x4000) * 0x10);
-        ((ObjectNodeHeader *)effect)->position->velocity_y = (s32)
+        effect->position->velocity_y = (s32)
         (((rand() & 0x7FFF) - 0x4000) * 0x10);
-        ((ObjectNodeHeader *)effect)->position->velocity_z = (s32)
+        effect->position->velocity_z = (s32)
         (((rand() & 0x7FFF) - 0x4000) * 0x10);
-        velocity_x = ((ObjectNodeHeader *)effect)->position;
+        velocity_x = effect->position;
         velocity_x->velocity_x = (s32)
         (velocity_x->velocity_x +
             (direction->unk_00 * 0x1C0000));
         {
             s32 direction_y = direction->unk_02;
 
-            velocity_y = ((ObjectNodeHeader *)effect)->position;
+            velocity_y = effect->position;
             velocity_y->velocity_y = (s32)
             (velocity_y->velocity_y +
                 (direction_y * 0x1C0000));

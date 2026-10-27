@@ -16,6 +16,7 @@
 #include "slus/gp_shared_81510.h"
 #include "sdk/libc.h"
 #include "dungeon/system.h"
+#include "engine/node.h"
 
 typedef struct S_80174B20_14 {
     u8 pad_00[0x60];
@@ -95,7 +96,6 @@ s32 Control_CD(); /* extern */
 #include "slus/sound_set_cd_cue_parameters_api.h" /* extern */
 #include "engine/graphics/run_cd_image_commands_api.h" /* extern */
 int read_stream_cue_start_offset(void);                           /* extern */
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 #include "engine/texture/select_indirect_table_entry_api.h"              /* extern */
 s32 lookup_masked_byte_table();  /* extern */
 #include "dungeon/level/unlink_entity_node_api.h"                      /* extern */

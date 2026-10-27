@@ -23,7 +23,7 @@ typedef struct S_8016F5D8_2 {
 } S_8016F5D8_2;   /* arg1 in update_phase_driven_motion_offset */
 
 
-s32 rsin();                        /* extern */
+s32 rsin(s32 angle);
 extern u8 beldo_large_frame_set_8[16];
 extern u8 beldo_large_frame_set_14[16];
 extern u8 *beldo_script_node;
@@ -67,7 +67,7 @@ void update_phase_driven_motion_offset(S_8016F5D8_1 *state, S_8016F5D8_2 *output
             signed_count = fast_count;
             phase = signed_count * 0x155;
             fast_count++;
-            state->unk_A0.at00.v += rsin(phase, fast_count) << 5;
+            state->unk_A0.at00.v += rsin(phase) << 5;
         } else {
             fast_wide_count = state->unk_9E;
             signed_count = fast_wide_count++;

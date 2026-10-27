@@ -44,8 +44,7 @@ typedef struct S_80173A2C_0 {
 } S_80173A2C_0;   /* arg0 in update_actor_action_and_animation */
 
 /* Updates an actor's action state and animation before restoring its default callback. */
-void update_actor_action_and_animation(void *controller_in, EntityRec *motion, SpriteFrameState *sprite, EntityRec *actor)
-{
+void update_actor_action_and_animation(void *controller_in, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *actor) {
     s32 actor_flags;
     u16 ticks_left;
     s32 state;
@@ -167,12 +166,12 @@ void update_actor_action_and_animation(void *controller_in, EntityRec *motion, S
         ((S_80173A2C_0 *)controller_in)->unk_96 = ticks_left;
         if ((ticks_left << 16) <= 0) {
             ((S_80173A2C_0 *)controller_in)->unk_98 |= 0x4000;
-            motion->flags14 = 0xFFEC0000;
+            motion->velocity_z = 0xFFEC0000;
         }
         if (!(sprite->flags & 0xE000)) {
             return;
         }
-        motion->flags14 = 0;
+        motion->velocity_z = 0;
         ((S_80173A2C_0 *)controller_in)->unk_A8 = 0;
         sprite->frameTable = kid_direction_frames;
         select_sprite_entry(sprite,

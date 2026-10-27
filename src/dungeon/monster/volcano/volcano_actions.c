@@ -426,7 +426,7 @@ void update_actor_targeting_and_movement(ActorRecord *object, ObjectPosition *en
     s16 turn_index;
     s16 angle;
     u16 state_flags;
-    void *target_record;
+    ActorRecord *target_record;
     u8 *target_tile;
     state_flags = state->flags;
     limit_turn = 0;
@@ -747,10 +747,10 @@ void set_actor_directional_animation(void *object, ObjectPosition *unused, Sprit
 #include "dungeon/monster/volcano.h"
 
 /* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
-s32 begin_actor_directional_attack(void *action_state, ObjectPosition *action_ctx, void *sprite, ActorRecord *actor) {
+s32 begin_actor_directional_attack(ActorRecord *action_state, ObjectPosition *action_ctx, void *sprite, ActorRecord *actor) {
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
     u8 *direction_table;
-    s32 move_heading;
+    ActorRecord *move_heading;
     u16 flags;
 
     actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
@@ -779,9 +779,9 @@ s32 begin_actor_directional_attack(void *action_state, ObjectPosition *action_ct
     }
     apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_ctx, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
-        ((E_80171E10_S_80171E00_3 *)action_state)->unk_9A = 0x11;
-        ((E_80171E10_S_80171E00_3 *)action_state)->unk_9B = 0;
-        ((E_80171E10_S_80171E00_3 *)action_state)->unk_8C = 0;
+        action_state->action_id.s = 0x11;
+        action_state->action_phase.s = 0;
+        action_state->unk_8C.run = 0;
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;
         direction_table = &volcano_frame_set_10;
@@ -825,8 +825,7 @@ typedef struct {
 
 
 /* Checks action availability, occupancy, and terrain ahead, then starts the directional action if allowed. */
-s32 check_actor_ahead_height(void *action_state, ObjectPosition *source_pos, void *sprite, void *actor)
-{
+s32 check_actor_ahead_height(ActorRecord *action_state, ObjectPosition *source_pos, SpriteFrameState *sprite, void *actor) {
     void *output;
     s16 next_x;   /* never assigned: read only in the decision-46 dead arm below */
     s16 next_y;
@@ -866,8 +865,8 @@ s32 check_actor_ahead_height(void *action_state, ObjectPosition *source_pos, voi
         return -1;
     }
 
-    base_x = ((E_801720EC_S_801720EC_1 *)sprite)->unk_24;
-    base_y = ((E_801720EC_S_801720EC_1 *)sprite)->unk_25;
+    base_x = sprite->tile_x;
+    base_y = sprite->tile_y;
     x = base_x;
     y = base_y;
     direction = (((E_801720EC_S_801720EC_0 *)actor)->unk_2A.s >> 9) & 7;
@@ -903,10 +902,10 @@ return_tail:
     if ((s16)(height - ((E_801720EC_S_801720EC_0 *)actor)->unk_88.u) < -0x3f) {
         return result;
     }
-    ((E_801720EC_S_801720EC_2 *)action_state)->unk_9B = 0;
-    ((E_801720EC_S_801720EC_2 *)action_state)->unk_8C = 0;
-    ((E_801720EC_S_801720EC_2 *)action_state)->unk_9A = 0x17;
-    (((SpriteFieldView_80DE48EC *)sprite)->field_2C) = volcano_frame_set_9;
+    action_state->action_phase.s = 0;
+    action_state->unk_8C.run = 0;
+    action_state->action_id.s = 0x17;
+    (sprite->frameTable) = volcano_frame_set_9;
     select_sprite_entry(sprite,
                   volcano_frame_set_9[((g_game_work.view.camera_rotation.parts.viewAngle + ((E_801720EC_S_801720EC_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
                   0);
@@ -1383,8 +1382,7 @@ void shrink_hopping_volcano(void *state,void *motion,void *sprite,void *actor) {
 #include "dungeon/monster/volcano.h"
 
 /* Runs the shared actor removal sequence with the supplied callback arguments. */
-void advance_entity_motion_fade_and_removal(void *state, ObjectPosition *action, SpriteFrameState *source, EntityRec *target)
-{
+void advance_entity_motion_fade_and_removal(void *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target) {
     advance_actor_removal(state, action, source, target);
 }
 

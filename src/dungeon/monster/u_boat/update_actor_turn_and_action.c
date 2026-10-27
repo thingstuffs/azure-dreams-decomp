@@ -56,7 +56,7 @@ extern s32 try_turn_actor_toward_target(void *, ObjectPosition *, void *, void *
 extern void begin_actor_action(void *, ObjectPosition *, void *, void *);
 extern s32 func_80172EA8(void *, void *, void *, s32);
 extern void update_actor_action_transition(void *, ObjectPosition *, void *, void *);
-extern void complete_actor_action(void *, ObjectPosition *, void *, void *);
+void complete_actor_action(ActorRecord *actor, ObjectPosition *unused_1, SpriteFrameState *unused_2, void *entity);
 extern void begin_actor_exclusive_action(void *, ObjectPosition *, void *, s32, s32);
 
 extern u8 uboat_default_frames[];

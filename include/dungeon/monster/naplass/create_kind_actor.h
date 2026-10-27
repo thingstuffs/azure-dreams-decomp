@@ -8,6 +8,7 @@
 #include "dungeon/actor/animation.h"
 #include "engine/node/allocation.h"
 #include "dungeon/actor/status.h"
+#include "engine/node.h"
 struct R03_80170A28_S_80170A28_2;
 struct ObjectNodeHeader;
 
@@ -17,9 +18,8 @@ typedef s32 M2C_UNK;
 
 
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
-extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
+extern s32 generate_random_value(void);
 extern void func_80158A3C(void *entity, struct R03_80170A28_S_80170A28_2 *motion, void *part);
 extern void dispatch_ability_action(void *actor_in, void *actor_data_in, SpriteFrameState *sprite_in, void *status_in);
 extern u8 D_8015C194[];

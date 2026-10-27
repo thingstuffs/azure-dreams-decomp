@@ -28,7 +28,8 @@ extern void begin_actor_spell_action(void *actor, void * effect_param, void *tar
 extern void func_80171CA8(void *, void *, void *, void *);
 extern void func_80171EEC(void *, void *, void *, void *);
 extern s32 func_801726B0(void *, void *, void *, void *);
-extern void update_boss_effect_growth(void *, void *, void *, void *);
+/* Bank copy of start_directional_actor_effect. */
+void func_80172874(void *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
 extern s32 func_8017298C(void *, void *, void *, s32);
 extern void func_8017430C(void *, void *, void *, void *);
 extern void start_direction_based_action(void *, void *, void *, void *);
@@ -172,7 +173,7 @@ void update_actor_direction_and_animation(ActorRecord *actor_arg, ObjectPosition
             if ((func_801726B0(actor_arg, context_arg, sprite, entity_arg) << 16) != 0) {
                 return;
             }
-            update_boss_effect_growth(actor_arg, context_arg, sprite, entity_arg);
+            func_80172874(actor_arg, context_arg, sprite, entity_arg);
             return;
 
         case 9:

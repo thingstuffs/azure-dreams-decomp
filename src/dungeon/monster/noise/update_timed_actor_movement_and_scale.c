@@ -1,31 +1,32 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/noise/update_timed_actor_movement_and_scale.h"
 #include "shared/sprite_frame_state.h"
 
 /* Updates timed actor movement and sprite scaling, then handles completion. */
-void update_timed_actor_movement_and_scale(T_80172B6C_State *state, T_80172B6C_Motion *motion, SpriteFrameState *sprite, T_80172B6C_Actor *actor) {
+void update_timed_actor_movement_and_scale(ActorRecord *state, T_80172B6C_Motion *motion, SpriteFrameState *sprite, T_80172B6C_Actor *actor) {
     s16 direction_scratch;
     s32 current_state;
 
-    switch (state->state_9b) {
+    switch (state->action_phase.u) {
     case 0:
     {
         u16 next_count;
 
-        next_count = state->count_9e.u - 1;
-        state->count_9e.u = next_count;
+        next_count = state->unk_9E.u - 1;
+        state->unk_9E.s = next_count;
         if ((next_count << 16) > 0)
             break;
         sprite->frameTable = D_80174EA8;
         select_sprite_entry(sprite,
                       D_80174EA8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->value_2a + 0x100) >> 9) & 7],
                       0);
-        state->flags_98 |= 8;
+        state->action_state_flags |= 8;
         actor->flags_1c &= ACTOR_GROUNDED_CLEAR_MASK;
-        state->count_9e.u = 5;
-        state->value_a4 = 0;
-        state->state_9b += 1;
+        state->unk_9E.s = 5;
+        state->unk_A4 = 0;
+        state->action_phase.u += 1;
     }
                     /* fall through */
     case 1:
@@ -37,21 +38,21 @@ void update_timed_actor_movement_and_scale(T_80172B6C_State *state, T_80172B6C_M
         s16 scale_frame;
         u16 next_count;
 
-        state->value_90 -= state->value_a4;
-        frames_left = state->count_9e.s;
+        state->unk_90.value -= state->unk_A4;
+        frames_left = state->unk_9E.s;
         if (frames_left != 0) {
             target_x = sprite->tile_x << 6;
             current_x = motion->value_02 - 0x20;
             motion->value_0c = ((target_x - current_x) << 16) / frames_left;
             current_y = motion->value_06 - 0x20;
             motion->value_10 = (((sprite->tile_y << 6) - current_y) << 16) /
-                               state->count_9e.s;
-            frames_left = state->count_9e.s;
-            state->value_a4 = (-rsin(frames_left * 0x199)) << 9;
+                               state->unk_9E.s;
+            frames_left = state->unk_9E.s;
+            state->unk_A4 = (-rsin(frames_left * 0x199)) << 9;
         }
 
-        state->value_90 += state->value_a4;
-        scale_frame = state->count_9e.s;
+        state->unk_90.value += state->unk_A4;
+        scale_frame = state->unk_9E.s;
         switch (scale_frame) {
         case 5:
             sprite->scale_x = 0xc00;
@@ -70,19 +71,19 @@ void update_timed_actor_movement_and_scale(T_80172B6C_State *state, T_80172B6C_M
             sprite->scale_y = 0x1000;
             break;
         }
-        next_count = state->count_9e.u - 1;
-        state->count_9e.u = next_count;
+        next_count = state->unk_9E.u - 1;
+        state->unk_9E.s = next_count;
         if ((next_count << 16) < 0) {
-            state->value_90 = 0;
-            state->flags_98 &= 0xfff7;
+            state->unk_90.value = 0;
+            state->action_state_flags &= 0xfff7;
             actor->flags_1c |= ACTOR_GROUNDED;
-            state->state_9b += 1;
+            state->action_phase.u += 1;
         }
     }
                     /* fall through */
     case 2:
         if (actor->flags_1c & ACTOR_GROUNDED) {
-            state->flags_98 &= 0xfff7;
+            state->action_state_flags &= 0xfff7;
             motion->value_14 = 0;
             motion->value_10 = 0;
             motion->value_0c = 0;
@@ -93,7 +94,7 @@ void update_timed_actor_movement_and_scale(T_80172B6C_State *state, T_80172B6C_M
             select_sprite_entry(sprite,
                           D_80174EB0[((g_game_work.view.camera_rotation.parts.viewAngle + actor->value_2a + 0x100) >> 9) & 7],
                           0);
-            state->state_9b += 1;
+            state->action_phase.u += 1;
         }
         break;
     case 3:
@@ -105,8 +106,8 @@ void update_timed_actor_movement_and_scale(T_80172B6C_State *state, T_80172B6C_M
     {
         u16 next_timer;
 
-        next_timer = state->value_96 - 1;
-        state->value_96 = next_timer;
+        next_timer = state->action_timer.u - 1;
+        state->action_timer.s = next_timer;
         if ((next_timer << 16) <= 0) {
             s32 actor_flags;
 
@@ -135,7 +136,7 @@ void update_timed_actor_movement_and_scale(T_80172B6C_State *state, T_80172B6C_M
                 }
             }
             if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-                state->ptr_8c = update_actor_behavior_and_direction;
+                state->unk_8C.address = update_actor_behavior_and_direction;
                 on_actor_status_updated(actor);
             }
         }

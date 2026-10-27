@@ -280,9 +280,9 @@ typedef struct R16_80173CEC_S_80173CEC_9 {
 extern s32 abs(s32);
 s32 Control_CD();
 void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
-s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
+s32 generate_random_value(void);
 void advance_sprite_animation_and_textures(void *entity);
 void apply_monster_koyaw_data(s32 flags, s8 *dst);
 s32 refresh_actor_facing_and_lifecycle();
@@ -305,8 +305,8 @@ void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 void * find_adjacent_actor(void *entity, u16 x, u16 y);
-s32 probe_directional_neighbor();
-s32 get_actor_height_difference();
+void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
+s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
 s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
 s32 check_directional_move_and_terrain();

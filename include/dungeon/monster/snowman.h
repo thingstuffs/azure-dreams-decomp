@@ -540,7 +540,7 @@ extern const Resource10DirectionOffset D_80170854[8];
 extern const Resource10DirectionOffset D_80170874[8];
 s32 RotTransPers();
 void advance_sprite_animation_and_textures(void *entity);
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 void select_record_entry_and_value(void *state, void *entries, short index);
 void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
@@ -567,8 +567,8 @@ void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 s32 check_movement_clearance_and_height();
 s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 void * find_adjacent_actor(void *entity, u16 x, u16 y);
-s32 probe_directional_neighbor();
-s32 get_actor_height_difference();
+void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
+s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
 s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
 s32 prepare_directional_attack();
@@ -583,7 +583,7 @@ s32 relink_entity_and_clear_high_flag();
 s32 update_actor_movement_to_tile(void *move_state, void *motion, void *target_tile, ActorRecord *actor);
 void spend_actor_mp();
 
-s32 rsin();
+s32 rsin(s32);
 void on_actor_status_updated(void *actor);
 void func_800A9A04(void *actor);
 s32 update_linked_actor_motion(void *state, void *transform, void *config, void *object);
@@ -609,7 +609,7 @@ void initialize_timed_motion_step(unsigned short countdown, unsigned int amount)
 void spawn_radial_particle_burst();
 void project_sprite_commands();
 void func_800453E0(void *context, void *position, struct Entry *entry, s16 depth_bias);
-s32 rcos();
+s32 rcos(s32);
 void unlink_node();
 void func_80044A50(struct ObjectNodeHeader *node);
 void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);

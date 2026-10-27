@@ -26,11 +26,10 @@ struct SpriteFrameState;
 extern void select_sprite_entry(void *, s16, s16);
 
 // Initializes state and configures the context from an eight-way direction lookup.
-void initialize_eight_way_action_state(State *state, ObjectPosition *unused, SpriteFrameState *context, IndexSource *directionSource)
-{
+void initialize_eight_way_action_state(State *state, ObjectPosition *unused, SpriteFrameState *context, ActorRecord *directionSource) {
     state->unk9A = 0x10;
     state->unk9B = 0;
     state->unk9E = 8;
     context->frameTable = D_8017387C;
-    select_sprite_entry(context, D_8017387C[((g_game_work.view.camera_rotation.parts.viewAngle + directionSource->unk2A + 0x100) >> 9) & 7], 0);
+    select_sprite_entry(context, D_8017387C[((g_game_work.view.camera_rotation.parts.viewAngle + directionSource->facing + 0x100) >> 9) & 7], 0);
 }

@@ -13,7 +13,7 @@ extern void select_sprite_entry(void *, u8, s32);
 extern u8 D_80175F30[];
 
 /* Initialize the entity's action state and directional animation when allowed. */
-s32 initialize_directional_animation_action(void *state_ptr, ObjectPosition *action_arg, void *sprite_ptr, void *entity_ptr) {
+s32 initialize_directional_animation_action(void *state_ptr, ObjectPosition *action_arg, SpriteFrameState *sprite_ptr, void *entity_ptr) {
     u8 *state = state_ptr;
     SpriteFrameState *sprite= sprite_ptr;
     u8 *entity = entity_ptr;

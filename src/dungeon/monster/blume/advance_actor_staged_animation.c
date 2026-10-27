@@ -31,7 +31,7 @@ typedef struct S_801735E8_3 {
 } S_801735E8_3;   /* arg1 in advance_actor_staged_animation */
 
 /* Advances the actor's staged animation sequence and handles completion. */
-void advance_actor_staged_animation(void *action_data, S_801735E8_3 *motion, SpriteFrameState *animation, ActorRecord *actor) {
+void advance_actor_staged_animation(void *action_data, ObjectPosition *motion, SpriteFrameState *animation, ActorRecord *actor) {
     S_801735E8_0 *action;
     u16 phase_value;
     u16 elapsed_ticks;
@@ -47,9 +47,9 @@ void advance_actor_staged_animation(void *action_data, S_801735E8_3 *motion, Spr
             resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
             return;
         }
-        motion->unk_14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         phase_value = action->unk_9B;
         action->unk_96 = 0U;
         action->unk_9B = (u8) (phase_value + 1);

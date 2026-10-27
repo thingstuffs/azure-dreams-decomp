@@ -517,7 +517,7 @@ void update_effect_and_spawn_fragments(MainObject *obj)
     s32 state_count;
     s32 count;
     EffectObject *effect;
-    volatile EffectTail *tail;
+    EffectTail *tail;
     SpriteFrameState *child;
     void *callback;
     Resource *resource;
@@ -594,6 +594,7 @@ void update_effect_and_spawn_fragments(MainObject *obj)
         effect = allocate_list_node(0x312, &scene_object_list_anchor.next);
         if (effect != (EffectObject *)0) {
             effect->callback = callback;
+            tail = (EffectTail *)&effect->owner;
             register_node(effect, project_sprite_chain);
             child = effect->child;
 
@@ -614,7 +615,6 @@ void update_effect_and_spawn_fragments(MainObject *obj)
             child->frame_ticks = 0;
             child->color.word = 0x00808080;
             effect->owner = obj->link;
-            tail = (EffectTail *)&effect->owner;
             tail->state = 0;
         }
     } while (--count >= 0);

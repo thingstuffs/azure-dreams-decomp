@@ -467,7 +467,7 @@ void update_actor_behavior_and_effect(ActorRecord *actor, ObjectPosition *positi
         if (object == 0) {
             return;
         }
-        register_node(object, project_sprite_chain);
+        register_node(effect, project_sprite_chain);
         tint = (void *)0x00808080;
         ((ObjectNodeHeader *)object)->update_callback = ((u8 *)griffon_object_callback);
         ((ObjectPosition *)((ObjectNodeHeader *)object)->position)->x.w.i =
@@ -806,7 +806,7 @@ void begin_griffon_step_animation(void *object, void *unused, void *display, voi
 
 /* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
 s32 update_actor_animation_behavior_and_facing(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor) {
-    s32 target_angle;
+    ActorRecord *neighbor;
     u16 status_flags;
     u8 actor_flags;
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
@@ -818,8 +818,8 @@ s32 update_actor_animation_behavior_and_facing(ActorRecord *action_state, Object
         return -1;
     }
 
-    target_angle = probe_directional_neighbor(actor, sprite->tile_x, sprite->tile_y, actor->facing);
-    if ((check_entity_interaction_compatibility(actor, target_angle) << 16) == 0) {
+    neighbor = probe_directional_neighbor(actor, sprite->tile_x, sprite->tile_y, actor->facing);
+    if ((check_entity_interaction_compatibility(actor, neighbor) << 16) == 0) {
         return 0;
     }
 
@@ -830,7 +830,7 @@ s32 update_actor_animation_behavior_and_facing(ActorRecord *action_state, Object
     if (!(actor->action_flags & ACTOR_ACTION_PENDING) && (status_flags & 8)) {
         return -1;
     }
-    if ((u16)(-get_actor_height_difference(target_angle, actor) + 0x40) >= 0x81U) {
+    if ((u16)(-get_actor_height_difference(neighbor, actor) + 0x40) >= 0x81U) {
         return 0;
     }
     if ((try_claim_dungeon_action_slot(actor) << 16) != 0) {
@@ -2003,14 +2003,18 @@ void update_timed_effect_and_expire(void *effect, s32 x, s32 y)
 /* Creates a black sprite effect at the supplied position with a 45-tick lifetime. */
 void create_positioned_sprite_effect(M2C_UNK unused, EntityRec *source_pos, void *unused_context) {
     R08_801743BC_S_801743BC_0 *effect;
+    ObjectNodeHeader *effect_node;
+    void *node_storage;
     SpriteFrameState *sprite;
     MovingPosition *effect_pos;
 
-    effect = allocate_flagged_object_node(0x212);
+    effect_node = allocate_flagged_object_node(0x212);
+    node_storage = effect_node;
+    effect = node_storage;
     if (effect != NULL) {
         effect->unk_3A = 0x2D;
         effect->unk_10 = ((void *)update_timed_effect_and_expire);
-        register_node(effect, project_sprite_chain);
+        register_node(effect_node, project_sprite_chain);
         effect_pos = effect->unk_08;
         effect_pos->x = (u16) ((u16)source_pos->x.w.i);
         effect_pos->y = (u16) ((u16)source_pos->y.w.i);
@@ -2081,6 +2085,8 @@ void finish_griffon_effect_and_tint(u8 *task, void *context, u8 *input)
 
 /* Loads transition effects, fades the view tint, replaces the actor, and restores the new actor's facing. */
 void advance_effect_and_child_animation(ActorRecord *effect_state, ObjectPosition *position, SpriteFrameState *entity, ActorRecord *actor) {
+    ObjectNodeHeader *effect_node;
+    void *node_storage;
     u8 state;
     s32 effect_id;
     s32 direction;
@@ -2160,12 +2166,14 @@ void advance_effect_and_child_animation(ActorRecord *effect_state, ObjectPositio
             s32 color;
             s32 pos_z;
 
-            effect_work = allocate_flagged_object_node(0x12);
+            effect_node = allocate_flagged_object_node(0x12);
+            node_storage = effect_node;
+            effect_work = node_storage;
             if (effect_work == 0) {
                 return;
             }
             effect_work->unk_10.p = ((u8 *)finish_griffon_effect_and_tint);
-            register_node(effect_work, ((u8 *)start_bank_actor_hit_reaction));
+            register_node(effect_node, ((u8 *)start_bank_actor_hit_reaction));
             color = 0x00808080;
             ((R08_80174648_S_80174648_0 *)effect_state)->unk_AC = effect_work;
             ((R08_80174648_S_80174648_9 *)(effect_work->unk_08))->unk_00 = position->x.v;

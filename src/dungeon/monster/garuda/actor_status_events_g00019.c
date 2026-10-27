@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
 /* Actor status events (G00019).
@@ -8,8 +9,7 @@
 #include "shared/sprite_frame_state.h"
 
 /* Updates actor state, animation, and callback according to entity status flags. */
-void update_actor_status_callback(void *actor_in, void *context_in, SpriteFrameState *sprite_in, void *entity_in)
-{
+void update_actor_status_callback(void *actor_in, ObjectPosition *context_in, SpriteFrameState *sprite_in, void *entity_in) {
     void *context = context_in;
     s32 status_flags;
     u16 current_value;
@@ -167,8 +167,7 @@ void update_actor_status_callback(void *actor_in, void *context_in, SpriteFrameS
 }
 
 /* Advance the entity state, updating directional sprites and handling actor events. */
-void advance_entity_directional_events(void *entity, void *context, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void advance_entity_directional_events(void *entity, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 state;
 
     state = ((S_801734E0_0 *)entity)->unk_9B;

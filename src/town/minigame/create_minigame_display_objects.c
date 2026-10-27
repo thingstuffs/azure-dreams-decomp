@@ -107,6 +107,7 @@ void create_minigame_display_objects(void)
     obj = allocate_flagged_object_node(0x136);
     if (obj != NULL) {
         render_state = obj + 0x28;
+        object_state = obj + 0x20;
         register_node(obj, draw_linked_lit_meshes);
         neutral_color = 0x00808080;
         ((ObjectNodeHeader *)obj)->update_callback = D_80023DE0;
@@ -130,9 +131,8 @@ void create_minigame_display_objects(void)
         draw_state->unk_00 = neutral_color;
         prim->x.v = 0x04400000;
         prim->y.v = 0x02C00000;
-        object_state = obj + 0x20;
         prim->z.v = 0;
-        (*(void * volatile *)((u8 *)object_state + 0x50)) = callback;
+        *(void **)(object_state + 0x50) = callback;
         configure_the_set_mode_n_3(render_state, *(u8 * *)&((ObjectNodeHeader *)obj)->position, D_800244A0);
     }
 

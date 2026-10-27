@@ -63,7 +63,7 @@ u8 *append_typed_formatted_value(DungeonItemEntry *data, u8 *buffer);           
 u8 *append_entity_display_text(void *record, u8 *out);                     /* extern */
 #include "dungeon/player/object/action_state.h"
 s32 display_text_with_fullwidth_adjustment(s8 *text);                         /* extern */
-s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */                                /* extern */
+s32 generate_random_value(void);                                /* extern */
 void *func_80170908(); /* Slot contract: loading images do not establish one callee contract. */                /* extern */
 extern u8 D_8017089C[];
 extern u8 D_801708AC[];

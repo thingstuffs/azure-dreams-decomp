@@ -29,7 +29,8 @@ extern void func_80171F40(void *, void *, void *, void *);
 extern s32 func_80172710(void *, void *, void *, void *);
 extern void func_801728D4(void *, void *, void *, void *);
 extern s32 func_801729EC(void *, void *, void *, s32);
-extern void update_timed_effect_size_and_position(void *, void *, void *, void *);
+/* Bank copy of update_actor_state_after_map_check. */
+extern void func_801743E8(void *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 void clear_actor_flag_and_apply_effect(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *anim_state, ActorRecord *actor);
 
 #include "dungeon/monster/saber.h"
@@ -112,7 +113,7 @@ void update_creature_behavior_and_animation_2(ActorRecord *actor_in, ObjectPosit
 
         if (((u32)creature_in->flags1C) & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(actor_in, context_in, sprite, creature_in);
-            update_timed_effect_size_and_position(actor_in, context_in, sprite, creature_in);
+            func_801743E8(actor_in, context_in, sprite, creature_in);
             (sprite->frameTable) = saber_direction_frames;
             select_sprite_entry(sprite,
                 saber_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + creature_in->facing + 0x100) >> 9) & 7],

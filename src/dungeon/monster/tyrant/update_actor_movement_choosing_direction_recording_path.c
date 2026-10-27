@@ -11,7 +11,7 @@ void update_actor_movement_choosing_direction_recording_path(ActorRecord *move_w
     s16 step_index;
     s16 *angle_steps;
     DungeonGlobalStatus *state;
-    void *target_link;
+    ActorRecord *target_link;
     u16 state_flags;
     s32 actor_flags;
     s32 current_angle;

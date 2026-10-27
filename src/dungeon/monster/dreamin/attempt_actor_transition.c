@@ -8,8 +8,8 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 
 extern s32 prepare_directional_attack();
-extern s32 get_actor_height_difference();
-extern s32 probe_directional_neighbor();
+extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
+void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
 extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 extern s32 check_entity_interaction_compatibility();
 extern s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
@@ -20,7 +20,7 @@ extern s32 apply_camera_offset_and_select_target(void *object_addr, void *source
 s32 attempt_actor_transition(ActorRecord *state, ObjectPosition *action_id, SpriteFrameState *sprite, ActorRecord *actor) {
     u16 *status;
     s32 transitioned;
-    s32 target;
+    ActorRecord *target;
 
     actor->movement_queue_state &= 0x7F;
     status = ((u16 *)(&g_dungeon_status));

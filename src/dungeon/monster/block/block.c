@@ -752,7 +752,7 @@ void begin_directional_actor_animation(ActorRecord *state, ObjectPosition *unuse
 /* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
 s32 try_begin_adjacent_actor_attack(Rec_func_800A9E70_arg0 *action_state, ObjectPosition *motion_param, void *sprite_arg, ActorRecord *actor)
 {
-    s32 target_angle;
+    ActorRecord *neighbor;
     u16 status_flags;
     u8 actor_flags;
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
@@ -764,9 +764,9 @@ s32 try_begin_adjacent_actor_attack(Rec_func_800A9E70_arg0 *action_state, Object
         return -1;
     }
 
-    target_angle = probe_directional_neighbor(actor, ((CB_80171FBC_S_80171DA0_1 *)sprite_arg)->unk_24,
+    neighbor = probe_directional_neighbor(actor, ((CB_80171FBC_S_80171DA0_1 *)sprite_arg)->unk_24,
                            ((CB_80171FBC_S_80171DA0_1 *)sprite_arg)->unk_25, actor->facing);
-    if ((check_entity_interaction_compatibility(actor, target_angle) << 16) == 0) {
+    if ((check_entity_interaction_compatibility(actor, neighbor) << 16) == 0) {
         return 0;
     }
 
@@ -777,7 +777,7 @@ s32 try_begin_adjacent_actor_attack(Rec_func_800A9E70_arg0 *action_state, Object
     if (!(actor->action_flags & ACTOR_ACTION_PENDING) && (status_flags & 8)) {
         return -1;
     }
-    if ((u16)(-get_actor_height_difference(target_angle, actor) + 0x40) >= 0x81U) {
+    if ((u16)(-get_actor_height_difference(neighbor, actor) + 0x40) >= 0x81U) {
         return 0;
     }
     if ((try_claim_dungeon_action_slot(actor) << 16) != 0) {

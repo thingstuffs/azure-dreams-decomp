@@ -5,6 +5,7 @@
 #include "shared/entity.h"
 #include "dungeon/monster/beldo_large.h"
 #include "sdk/libgte.h"
+#include "engine/node.h"
 
 typedef struct S_8016E998_0 {
     u8 pad_00[0x1];
@@ -37,7 +38,6 @@ typedef struct S_8016E998_1 {
     s8 unk_20;
 } S_8016E998_1;
 
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 void emit_multi_form_ring_geometry(void *animation, s32 *origin, void *color);
 extern void *D_80175D78;
 

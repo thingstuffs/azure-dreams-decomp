@@ -39,7 +39,7 @@ typedef struct S_80F2D000_4 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s16 set_or_clear_actor_status_slot();        /* extern */
-s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */                          /* extern */
+s32 generate_random_value(void);                          /* extern */
 void retire_tracked_effect_by_id();                      /* extern */
 extern M2C_UNK D_8014CA8C;
 extern M2C_UNK D_8014CF74;

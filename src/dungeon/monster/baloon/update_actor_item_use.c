@@ -2,6 +2,7 @@
 #include "dungeon/monster/baloon.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
+#include "sdk/libc.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/def_table.h"
@@ -136,15 +137,9 @@ void update_actor_item_use(void *action, ObjectPosition *motion, SpriteFrameStat
                         dx = (s32)scan_actor_along_heading(
                             actor, sprite->tile_x, sprite->tile_y,
                             (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
-                        (*(void * volatile *)((u8 *)actor + 0x60)) = (void *)dx;
-                        dx = (*(s8 *)((u8 *)actor + 0x72));
-                        dy = (*(s8 *)((u8 *)actor + 0x73));
-                        if (dx < 0) {
-                            dx = -dx;
-                        }
-                        if (dy < 0) {
-                            dy = -dy;
-                        }
+                        (*(void * *)((u8 *)actor + 0x60)) = (void *)dx;
+                        dx = abs(*(s8 *)((u8 *)actor + 0x72));
+                        dy = abs(*(s8 *)((u8 *)actor + 0x73));
                         (*(u8 *)((u8 *)actor + 0x72)) = dx;
                         (*(u8 *)((u8 *)actor + 0x73)) = dy;
                     }

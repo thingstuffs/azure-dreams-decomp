@@ -32,7 +32,7 @@ extern void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 directio
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void select_actor_route_target();
 extern s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
-extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
+extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s16 sample_terrain_surface_height();
 extern s32 try_turn_actor_toward_target();

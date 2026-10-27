@@ -24,11 +24,11 @@ extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s32 check_movement_clearance_and_height();
 extern s32 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
-extern void * find_adjacent_actor(void *entity, u16 x, u16 y);
+void *find_adjacent_actor(void *entity, u16 x, u16 y);
 extern void * probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
 extern void select_actor_route_target();
 extern s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
-extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
+extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s16 sample_terrain_surface_height();
 s32 check_action_eligibility_updates_actor_state_directional_animation_success(ActorRecord *action_state, ObjectPosition *action_id, SpriteFrameState *sprite, ActorRecord *actor);

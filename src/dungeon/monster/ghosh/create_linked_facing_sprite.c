@@ -1,13 +1,13 @@
+#include "engine/node.h"
 #include "common.h"
 #include "engine/graphics.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #define F(p,t,o) (*(t)((u8 *)(p)+(o)))
 extern s16 view_facing_angle_alias;
-extern s32 scene_object_list_anchor, D_801714B0, ghosh_frame_set;
+extern s32 D_801714B0, ghosh_frame_set;
 extern void * D_80174CDC[3];
 struct ObjectNodeHeader; void * allocate_list_node(s32, struct ObjectNodeHeader * *);
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 #include "dungeon/level/unlink_entity_node_api.h"
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 void initialize_actor_sprite_and_animation(void *, void *, void *, s32);
@@ -21,7 +21,7 @@ void create_linked_facing_sprite(u16 x, u16 y, s32 z) {
     u8 tile_x, tile_y;
     void *call_object;
 
-    object = allocate_list_node(0x112, (struct ObjectNodeHeader * *)(&scene_object_list_anchor));
+    object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     call_object = object;
     if (object != 0) {
         s32 z_offset;

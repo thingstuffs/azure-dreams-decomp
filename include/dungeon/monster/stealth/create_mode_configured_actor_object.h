@@ -7,6 +7,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/actor/animation.h"
 #include "engine/node/allocation.h"
+#include "engine/node.h"
 struct ObjectNodeHeader;
 struct ObjectNodeHeader;
 
@@ -51,9 +52,8 @@ extern u8 D_8016DD78[];
 extern void func_8016AF74(void *actor_in, void *actor_data_in, SpriteFrameState *sprite_in, void *status_in);
 
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
-extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
+extern s32 generate_random_value(void);
 extern s16 set_or_clear_actor_status_slot();
 extern void unlink_node(struct ObjectNodeHeader *node);
 extern void func_80044A50(struct ObjectNodeHeader *node);

@@ -34,8 +34,7 @@ extern void create_randomized_motion_object(void *, void *);
 extern u8 cyclone_frame_set_1[];
 
 /* Updates actor behavior and directional animation through three states, then sets its next callback. */
-void update_actor_behavior_2(void *controller, void *context_in, void *object, ActorRecord *actor)
-{
+void update_actor_behavior_2(void *controller, ObjectPosition *context_in, SpriteFrameState *object, ActorRecord *actor) {
     
     s32 actor_flags;
     u16 current_value;
@@ -46,14 +45,14 @@ void update_actor_behavior_2(void *controller, void *context_in, void *object, A
     state = ((Rec_func_80173DD4_arg0 *)controller)->unk_9B;
     switch (state) {
     case 0:
-        if (!(((SpriteFrameState *)object)->flags & 0xE000)) {
+        if (!(object->flags & 0xE000)) {
             create_randomized_motion_object(controller, context_in);
             create_randomized_motion_object(controller, context_in);
             create_randomized_motion_object(controller, context_in);
             create_randomized_motion_object(controller, context_in);
             break;
         }
-        ((SpriteFrameState *)object)->frameTable = cyclone_direction_frames;
+        object->frameTable = cyclone_direction_frames;
         select_sprite_entry(object,
             cyclone_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
@@ -66,12 +65,12 @@ void update_actor_behavior_2(void *controller, void *context_in, void *object, A
         break;
     case 1:
         if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) == 0) {
-        ((SpriteFrameState *)object)->frameTable = cyclone_frame_set_1;
+        object->frameTable = cyclone_frame_set_1;
         select_sprite_entry(object,
             cyclone_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         (*(u32 *)&actor->flags1C) |= 0x40000;
-        if (((SpriteFrameState *)object)->flags & 0x8000) {
+        if (object->flags & 0x8000) {
             ((Rec_func_80173DD4_arg0 *)controller)->unk_8C = update_actor_animation;
             break;
         }
@@ -132,7 +131,7 @@ void update_actor_behavior_2(void *controller, void *context_in, void *object, A
             on_actor_status_updated(actor);
             if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
                 TileObject *origin = &reference_tile_object;
-                s8 tile = *(s8 *)&((SpriteFrameState *)object)->room_index;
+                s8 tile = *(s8 *)&object->room_index;
 
                 if (((tile == origin->room_index) && (tile >= 0)) ||
                     ((s16)get_tile_chebyshev_distance(origin, object) < 2)) {
@@ -145,12 +144,12 @@ void update_actor_behavior_2(void *controller, void *context_in, void *object, A
                 break;
             }
         }
-        ((SpriteFrameState *)object)->frameTable = cyclone_frame_set_1;
+        object->frameTable = cyclone_frame_set_1;
         select_sprite_entry(object,
             cyclone_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         (*(u32 *)&actor->flags1C) |= 0x40000;
-        if (((SpriteFrameState *)object)->flags & 0x8000) {
+        if (object->flags & 0x8000) {
             ((Rec_func_80173DD4_arg0 *)controller)->unk_8C = update_actor_animation;
             break;
         }
@@ -162,7 +161,7 @@ void update_actor_behavior_2(void *controller, void *context_in, void *object, A
         }
         break;
     case 2:
-        if (((SpriteFrameState *)object)->flags & 0xE000) {
+        if (object->flags & 0xE000) {
             u8 *counter_base;
 
             counter_base = (u8 *)&g_dungeon_status.turn_scale;

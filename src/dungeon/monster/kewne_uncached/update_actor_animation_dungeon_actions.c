@@ -56,8 +56,7 @@ extern u8 D_80157CA0[];
 extern u8 D_80157CA8[];
 
 /* Updates the actor animation and dispatches dungeon actions based on its state. */
-void update_actor_animation_dungeon_actions(void *actor, void *context, SpriteFrameState *sprite, ActorRecord *entity)
-{
+void update_actor_animation_dungeon_actions(void *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
     u16 distance;
     s8 room_id;
     u16 action;

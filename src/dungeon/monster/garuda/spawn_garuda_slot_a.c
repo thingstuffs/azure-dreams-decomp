@@ -12,6 +12,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/actor/animation.h"
 #include "engine/node/allocation.h"
+#include "engine/node.h"
 
 typedef struct ActionState ActionState;
 typedef struct ActorSprite ActorSprite;
@@ -37,9 +38,8 @@ typedef struct S_81029000_4 {
     s8 unk_9C;
 } S_81029000_4;   /* actor in spawn_garuda_slot_a */
 
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s16 set_or_clear_actor_status_slot();
-s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
+s32 generate_random_value(void);
 void func_8014CA78(void *obj, void *input_motion, void *input_part);
 void func_8014D058(ActionState *actor, void *context, ActorSprite *sprite_arg, CreatureState *creature);
 extern M2C_UNK D_80150880;

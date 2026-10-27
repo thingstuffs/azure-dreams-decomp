@@ -3,6 +3,15 @@
 A failure preserves the applied tree for inspection and never commits it.
 Use --no-commit for a complete proof rehearsal. This is an opt-in successor;
 it does not modify the old lander or run arbitrary package scripts.
+
+Optional native compile check: the retail build compiles only linked TUs, so a
+shared-header edit can break a host-native build of the same source (unlinked
+row facades, decoded-image TUs, the native runtime's own C) without failing
+make. When AZURE_NATIVE_PORT names a native port checkout (kept outside this
+repository), the 'native-check' step runs its port/tools/natcheck.py against
+this root before configure; it reads the tree and writes nothing in it besides
+build/landing/native-check.{log,json}. Unset, the step records a SKIP. See
+docs/BUILD.md, "Optional native compile check".
 """
 import argparse
 import hashlib
@@ -96,6 +105,56 @@ def debt_scan(root, allowed=()):
     return report
 
 
+NATIVE_PORT_ENV = 'AZURE_NATIVE_PORT'
+NATIVE_CHECKER = Path('port/tools/natcheck.py')
+NATIVE_PIN_DRIFT = 3  # natcheck: every unit compiles; only port-side source pins are stale
+
+
+def native_check(root, jobs=4, require=False, allow_pin_drift=False, environ=None):
+    """Run the configured native port's syntax check over every native consumer of this tree.
+
+    Returns 'skipped', 'pass' or 'pin-drift'. Raises ValueError naming the
+    failing units (first lines of build/landing/native-check.log) otherwise.
+    """
+    environ = os.environ if environ is None else environ
+    root = Path(root)
+    log_dir = root/'build/landing'
+    log_dir.mkdir(parents=True, exist_ok=True)
+    log = log_dir/'native-check.log'
+    port = environ.get(NATIVE_PORT_ENV, '').strip()
+    if not port:
+        message = ('SKIP: no native port checkout configured; set '+NATIVE_PORT_ENV
+                   +' to check native consumers (row facades, decoded TUs, runtime units)')
+        log.write_text(message+'\n')
+        print('native-check '+message)
+        if require:
+            raise ValueError('native check required but '+NATIVE_PORT_ENV+' is unset')
+        return 'skipped'
+    checker = Path(port).expanduser().resolve()/NATIVE_CHECKER
+    if not checker.is_file():
+        raise ValueError(NATIVE_PORT_ENV+' does not contain '+str(NATIVE_CHECKER))
+    argv = [sys.executable, str(checker), '--root', str(root.resolve()), '--jobs', str(max(1, min(jobs, 4))),
+            '--report', str(log_dir/'native-check.json')]
+    with log.open('wb') as stream:
+        code = subprocess.run(argv, cwd=root, stdout=stream, stderr=subprocess.STDOUT).returncode
+    if code == 0:
+        return 'pass'
+    lines = log.read_text(errors='replace').splitlines()
+    if code == NATIVE_PIN_DRIFT and allow_pin_drift:
+        with log.open('a') as stream:
+            stream.write('ACCEPTED: --allow-native-pin-drift; the native port must refresh these pins\n')
+        return 'pin-drift'
+    shown = []
+    for i, line in enumerate(lines):
+        if line.startswith(('natcheck: UNIT', 'natcheck: PIN', 'natcheck: ADAPTATION', 'NATCHECK')):
+            shown.append(line)
+            if line.startswith('natcheck: UNIT') and i+1 < len(lines) and lines[i+1].startswith('    '):
+                shown.append(lines[i+1])  # the unit's first compiler error
+    detail = '\n  '.join(shown[:16] + (['... '+str(len(shown)-16)+' more lines'] if len(shown) > 16 else []))
+    hint = ' (pins only: --allow-native-pin-drift accepts this)' if code == NATIVE_PIN_DRIFT else ''
+    raise ValueError('native check failed'+hint+' (see build/landing/native-check.log)'+('\n  '+detail if detail else ''))
+
+
 def clean(root):
     """Cold proof: drop every object, link product and image so nothing stale can match."""
     import shutil
@@ -166,6 +225,10 @@ def main(argv=None, root=ROOT):
     p.add_argument('--incremental', action='store_true', help='normal landing mode with a current build/; default remains a cold rebuild')
     p.add_argument('--allow-debt', action='append', default=[], choices=sorted(set(DEBT)-{'asm'}),
                    help='accept growth of one debt category (recorded in debt.json); asm is never accepted')
+    p.add_argument('--require-native-check', action='store_true',
+                   help='fail instead of skipping when '+NATIVE_PORT_ENV+' is unset')
+    p.add_argument('--allow-native-pin-drift', action='store_true',
+                   help='accept a native check whose units all compile but whose port source pins are stale')
     p.add_argument('--test-module', action='append', default=[],
                    help='extra unittest module run after accounting (default: the make/lander tests)')
     p.add_argument('patches', nargs='+', type=Path)
@@ -214,6 +277,10 @@ def main(argv=None, root=ROOT):
     step('registry', ['python3','tools/registry.py'])
     step('native-graph', ['python3','tools/gate/overlay_module_gate.py','--root',str(root),'--graph'])
     step('source-index', ['python3','tools/gen_src_index.py'])
+    # Fail fast: about a minute cold, seconds warm, before the retail configure and build.
+    native = {}
+    step('native-check', action=lambda: native.update(result=native_check(
+        root, args.jobs, args.require_native_check, args.allow_native_pin_drift)))
     step('configure', ['make','configure'])
     step('configure-mtime', action=lambda:acknowledge_configuration(root))
     if not args.incremental:
@@ -253,7 +320,7 @@ def main(argv=None, root=ROOT):
             raise ValueError('empty landing')
         step('stage', ['git','add','--',*staged])
         step('commit', ['git','commit','-m',args.message])
-    record = dict(complete=True, committed=not args.no_commit, steps=steps,
+    record = dict(complete=True, committed=not args.no_commit, steps=steps, native_check=native.get('result'),
                   patches=[dict(name=q.name,sha256=hashlib.sha256(q.read_bytes()).hexdigest()) for q in patches],
                   changed_files=staged)
     (log_dir/'timings.json').write_text(json.dumps(record,indent=2)+'\n')

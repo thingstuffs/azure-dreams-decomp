@@ -379,10 +379,9 @@ int read_display_spacing_word(int index)
     return D_80071250[index];
 }
 
-/* Read the indexed byte from the volatile global table. */
+/* Read the indexed byte from the global table. */
 unsigned char read_display_spacing_byte(int index) {
-    volatile unsigned char *values = D_80071298;
-    return values[index];
+    return D_80071298[index];
 }
 
 /* Count nonzero entries up to the supplied limit. */
@@ -518,11 +517,10 @@ int advance_index_with_single_wrap(int index, int delta, int limit) {
     return index;
 }
 
-/* Read the indexed word from the volatile global table. */
+/* Read the indexed word from the global table. */
 int get_menu_count_template(int count)
 {
-    volatile int *values = D_800712B4;
-    return values[count];
+    return D_800712B4[count];
 }
 
 extern int get_scaled_byte_value(void *a1);

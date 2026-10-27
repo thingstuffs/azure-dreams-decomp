@@ -16,7 +16,7 @@ typedef struct S_80171F9C_0 {
 
 extern s32 prepare_directional_attack();
 extern s32 get_actor_height_difference();
-extern s32 probe_directional_neighbor();
+void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
 extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 extern s32 check_entity_interaction_compatibility();
 extern s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
@@ -36,7 +36,7 @@ s32 select_and_start_target_action(ActorRecord *action_state, ObjectPosition *ac
 
     status = actor->movement_queue_state;
     {
-        s32 target;
+        ActorRecord *target;
 
         actor->movement_queue_state = status & 0x7F;
         action_mode = 0;

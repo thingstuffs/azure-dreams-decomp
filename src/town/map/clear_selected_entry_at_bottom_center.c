@@ -11,7 +11,7 @@ extern u8 town_map_selection_state[12];
 extern u8 town_building_slot_rectangles[];
 
 extern s8 town_map_variant;
-extern s32 request_scene_state_with_parameters();
+extern void request_scene_state_with_parameters(s32 notify_value, s16 state_10, s16 state_12, s16 state_14, s32 state_16);
 /*
  * Requests scene state 0xB at the selected building rectangle bottom center and clears the
  * selection. Uses rectangle zero and clears town_map_variant when no match is found.

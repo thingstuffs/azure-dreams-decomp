@@ -36,7 +36,7 @@ s16 get_actor_height_difference(struct ActorRecord *, struct ActorRecord *);    
 u16 get_rounded_facing_and_rounding_flag();          /* extern */
 s32 select_actor_route_target(u8 *, s32, u8 *, u16 *);  /* extern */
 s32 update_actor_proximity_flag(void *, void *, s32, s32, s8 *); /* extern */
-s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */                            /* extern */
+s32 generate_random_value(void);                            /* extern */
 void update_actor_status_and_mp(struct ActorRecord *);                      /* extern */
 s16 sample_terrain_surface_height();                   /* extern */
 s32 begin_ghosh_front_attack();          /* extern */

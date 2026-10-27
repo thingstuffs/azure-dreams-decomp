@@ -12,6 +12,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/actor/animation.h"
 #include "engine/node/allocation.h"
+#include "engine/node.h"
 
 typedef struct ActionState ActionState;
 typedef struct ActorMotion ActorMotion;
@@ -45,12 +46,9 @@ typedef struct S_80FD5000_4 {
     u16 unk_06;
 } S_80FD5000_4;
 
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 MoveImage(void *, s32, s32);
 s16 set_or_clear_actor_status_slot(); /* extern */
-s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
-void *func_8014C984();
-void *func_8014CA40();
+s32 generate_random_value(void);
 extern M2C_UNK D_8014CB40;
 void update_creature_action_and_animation(ActionState *action_state, ActorMotion *motion, ActorSprite *sprite, CreatureState *entity);
 extern M2C_UNK D_80151258;

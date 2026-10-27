@@ -10,8 +10,8 @@
 typedef struct Ent Ent;
 
 Ent *prepare_directional_attack();
-s32 get_actor_height_difference();
-s32 probe_directional_neighbor();
+s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
+void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
 s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 s32 check_entity_interaction_compatibility();
 s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
@@ -22,7 +22,7 @@ extern u8 baloon_attack_frames;
 s32 initialize_directional_object(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 result;
     s32 action_ready;
-    s32 direction;
+    ActorRecord *neighbor;
     s32 action_flags;
     u8 *anim_table;
 
@@ -32,11 +32,11 @@ s32 initialize_directional_object(ActorRecord *action_state, ObjectPosition *act
         return -1;
     }
 
-    direction = probe_directional_neighbor(actor, sprite->tile_x,
+    neighbor = probe_directional_neighbor(actor, sprite->tile_x,
                          sprite->tile_y,
                          ((ActorRecord *)actor)->facing);
     result = 0;
-    if ((check_entity_interaction_compatibility(actor, direction) << 16) == 0) {
+    if ((check_entity_interaction_compatibility(actor, neighbor) << 16) == 0) {
         return 0;
     }
 
@@ -51,7 +51,7 @@ s32 initialize_directional_object(ActorRecord *action_state, ObjectPosition *act
         }
     }
 
-    if ((u16)((0 - get_actor_height_difference(direction, actor)) + 0x40) >= 0x81U) {
+    if ((u16)((0 - get_actor_height_difference(neighbor, actor)) + 0x40) >= 0x81U) {
         return action_ready;
     }
 

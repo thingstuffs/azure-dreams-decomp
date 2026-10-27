@@ -11,6 +11,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/actor/animation.h"
 #include "engine/node/allocation.h"
+#include "engine/node.h"
 
 typedef struct T_80170AA4_S_80170AA4_2 T_80170AA4_S_80170AA4_2;
 typedef struct ActorSpriteView ActorSpriteView;
@@ -38,9 +39,8 @@ typedef struct S_func_80158898_4 {
     s16 unk_AA;
 } S_func_80158898_4;
 
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s16 set_or_clear_actor_status_slot();
-s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
+s32 generate_random_value(void);
 void func_80158AA4(void *actor, T_80170AA4_S_80170AA4_2 *motion, void *part);
 void func_80158F68(Rec_func_800A9E70_arg0 *action, void *context, ActorSpriteView *sprite, EntityRec *actor);
 extern M2C_UNK D_8015BFB8;

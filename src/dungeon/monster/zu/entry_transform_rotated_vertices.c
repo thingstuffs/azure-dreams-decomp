@@ -37,7 +37,7 @@ typedef struct S_80F90E88_2 {
 
 
 s32 RotTransPers();
-s32 GetTPage();
+u16 GetTPage(s32, s32, s32, s32);
 s32 SetSemiTrans(void *, s32);
 s32 SetPolyG4(void *);
 s32 SetDrawMode(void *, s32, s32, s32, s32);

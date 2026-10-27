@@ -37,7 +37,7 @@ extern s32 Control_CD();
 extern void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
 extern s32 run_cd_image_commands();
 extern s32 read_stream_cue_start_offset(void);
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 lookup_masked_byte_table();
 extern s32 unlink_entity_node();
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
@@ -135,6 +135,8 @@ typedef struct S_80174704_11 {
 /* Loads Unicorn's transition effects, fades the view tint and emits angular sparks, then replaces the
  * actor and restores facing. */
 void advance_actor_transition_replacement(ActorRecord *action, ObjectPosition *position, SpriteFrameState *entity, ActorRecord *actor) {
+    ObjectNodeHeader *effect_node;
+    SpriteFrameState *effect_sprite;
     u8 *object = ((u8 *)(&g_game_work));
     u32 color;
     u8 state;
@@ -213,35 +215,35 @@ void advance_actor_transition_replacement(ActorRecord *action, ObjectPosition *p
     }
 
     case 4:
-        object = allocate_flagged_object_node(0x12);
-        if (object == NULL) {
+        effect_node = allocate_flagged_object_node(0x12);
+        if (effect_node == NULL) {
             return;
         }
-        ((S_80174704_3 *)object)->unk_10.p = D_801745D8;
-        register_node(object, D_80173F68);
+        effect_node->update_callback = D_801745D8;
+        register_node(effect_node, D_80173F68);
         color = 0x00808080;
-        ((S_80174704_0 *)action)->unk_AC.p = object;
-        ((S_80174704_10 *)(((S_80174704_3 *)object)->unk_08))->unk_00 = position->x.v;
-        ((S_80174704_10 *)(((S_80174704_3 *)object)->unk_08))->unk_04 = position->y.v;
-        ((S_80174704_10 *)(((S_80174704_3 *)object)->unk_08))->unk_08 = position->z.v;
+        ((S_80174704_0 *)action)->unk_AC.p = effect_node;
+        effect_node->position->x.v = position->x.v;
+        effect_node->position->y.v = position->y.v;
+        effect_node->position->z.v = position->z.v;
         {
-            S_80174704_6 *effect_pos = ((S_80174704_3 *)object)->unk_08;
+            ObjectPosition *effect_pos = effect_node->position;
             s32 pos_z = position->z.v;
 
             D_80174E38[0] = -0x10;
-            effect_pos->unk_08 = pos_z;
+            effect_pos->z.v = pos_z;
         }
-        object = ((S_80174704_3 *)object)->unk_0C.p;
-        ((S_80174704_3 *)object)->unk_1E = 0x1000;
-        ((S_80174704_3 *)object)->unk_1C = 0x1000;
-        ((S_80174704_3 *)object)->unk_0C.i = color;
+        effect_sprite = effect_node->sprite;
+        effect_sprite->scale_y = 0x1000;
+        effect_sprite->scale_x = 0x1000;
+        effect_sprite->color.word = color;
         {
             s16 effect_index = lookup_masked_byte_table(actor) - 1;
 
             if (effect_index < 0) {
                 effect_index = rand() % 3;
             }
-            select_record_entry_and_value(object, dungeon_resource_buffer + D_80174E2C[effect_index], 0);
+            select_record_entry_and_value(effect_sprite, dungeon_resource_buffer + D_80174E2C[effect_index], 0);
         }
         entity->flags |= 0x80;
         ((S_80174704_0 *)action)->unk_96.u = 0;

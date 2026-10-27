@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
@@ -11,13 +12,14 @@
 
 extern s32 actor_fade_draw_address;
 
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern void unlink_node();
 extern void retire_tracked_effect_by_id();
 
 /* Advances the effect through color fades and animation changes, then marks it complete. */
 void update_timed_color_transition_effect(u8 *effect_state, s32 unused, SpriteFrameState *render_data) {
-    u8 *effect;
+    ObjectNodeHeader *effect;
+    void *node_storage;
 
     switch (S16_AT(effect_state, 0x1E)) {
     case 0:
@@ -37,7 +39,8 @@ void update_timed_color_transition_effect(u8 *effect_state, s32 unused, SpriteFr
         if (render_data->color.c.code != 0) {
             break;
         }
-        effect = effect_state - 0x20;
+        node_storage = effect_state - 0x20;
+        effect = node_storage;
         unlink_node(effect);
         render_data->clut += 0x80;
         render_data->flags &= 0xFFF3;
@@ -49,7 +52,8 @@ void update_timed_color_transition_effect(u8 *effect_state, s32 unused, SpriteFr
         if (**(u8 **)(effect_state + 4) != 0x14) {
             break;
         }
-        effect = effect_state - 0x20;
+        node_storage = effect_state - 0x20;
+        effect = node_storage;
         unlink_node(effect);
         render_data->clut -= 0x80;
         render_data->flags |= 0xC;

@@ -27,7 +27,7 @@ struct SpriteFrameState;
 
 
 
-extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
+extern s32 generate_random_value(void);
 extern void initialize_actor_sprite_and_animation(void *entity, void *position, SpriteFrameState *sprite, s32 init_flags);
 
 extern u8 zu_frame_set_1[];
@@ -939,7 +939,7 @@ extern s32 check_entity_interaction_compatibility();
 /* Checks whether the actor can transition and starts its directional effect. */
 s32 begin_bank_directional_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor)
 {
-    s32 target_angle;
+    ActorRecord *neighbor;
     u16 status_flags;
     u8 actor_flags;
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
@@ -951,8 +951,8 @@ s32 begin_bank_directional_effect(ActorRecord *action_state, ObjectPosition *mot
         return -1;
     }
 
-    target_angle = probe_directional_neighbor(actor, sprite->tile_x, sprite->tile_y, actor->facing);
-    if ((check_entity_interaction_compatibility(actor, target_angle) << 16) == 0) {
+    neighbor = probe_directional_neighbor(actor, sprite->tile_x, sprite->tile_y, actor->facing);
+    if ((check_entity_interaction_compatibility(actor, neighbor) << 16) == 0) {
         return 0;
     }
 
@@ -963,7 +963,7 @@ s32 begin_bank_directional_effect(ActorRecord *action_state, ObjectPosition *mot
     if (!(actor->action_flags & ACTOR_ACTION_PENDING) && (status_flags & 8)) {
         return -1;
     }
-    if ((u16)(-get_actor_height_difference(target_angle, actor) + 0x40) >= 0x81U) {
+    if ((u16)(-get_actor_height_difference(neighbor, actor) + 0x40) >= 0x81U) {
         return 0;
     }
     if ((try_claim_dungeon_action_slot(actor) << 16) != 0) {
@@ -1963,8 +1963,7 @@ void slow_directional_motion(void *effect_data, void *motion_data, void *sprite_
 extern s32 update_actor_hop_and_shrink(void *, s32,struct SpriteFrameState *, void *);
 
 /* Forward all four bank callback arguments to the resident handler. */
-void forward_bank_actor_callback_a(void *state, s32 action, SpriteFrameState *source, EntityRec *target)
-{
+void forward_bank_actor_callback_a(ActorRecord *state, s32 action, SpriteFrameState *source, ActorRecord *target) {
     update_actor_hop_and_shrink(state, action, source, target);
 }
 
@@ -1975,8 +1974,7 @@ void forward_bank_actor_callback_a(void *state, s32 action, SpriteFrameState *so
 
 
 /* Forward all four bank callback arguments to the resident handler. */
-void forward_bank_actor_callback_b(void *state, ObjectPosition *action, SpriteFrameState *source, EntityRec *target)
-{
+void forward_bank_actor_callback_b(void *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target) {
     advance_actor_removal(state, action, source, target);
 }
 
@@ -2536,7 +2534,7 @@ void start_bank_actor_hit_reaction(ActorRecord *work, ObjectPosition *part_a, Sp
     void *pass_result;
     void *raw_result;
     void *result;
-    s32 field_60;
+    ActorRecord *field_60;
     u8 *table_base;
 
     actor->movement_queue_state = (u8)(actor->movement_queue_state & 0x7F);

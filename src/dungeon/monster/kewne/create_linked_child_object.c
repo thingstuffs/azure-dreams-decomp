@@ -9,7 +9,7 @@ typedef struct Pair {
 } Pair;
 
 extern void *allocate_list_node();
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern void draw_textured_ellipse();
 extern u8 D_80175B1C[12];
 extern u8 D_80175FA8[12];

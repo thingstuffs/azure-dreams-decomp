@@ -12,16 +12,12 @@
 #define NULL 0
 #endif
 
-typedef struct S_80170700_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-    u8 pad_14[0x24];
-    s16 unk_38;
-} S_80170700_1;
+typedef struct S_80170700_1_body {
+    u8 pad_00[0x18];
+    s16 unk_18;
+} S_80170700_1_body;
 
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 typedef struct {
     s32 w[12];
 } Copy48;
@@ -36,14 +32,18 @@ void create_secondary_encounter_object(void) {
     ObjectPosition *position;
     void *source_data;
     SpriteFrameState *render_data;
-    S_80170700_1 *object;
+    ObjectNodeHeader *object;
+    S_80170700_1_body *body;
+    void *body_storage;
 
     source_data = ((ObjectNodeHeader *)beldo_actor_nodes)->sprite;
     object = allocate_flagged_object_node(0x112);
     if (object != NULL) {
-        render_data = object->unk_0C;
-        object->unk_38 = 0;
-        object->unk_10 = advance_timed_blink_effect;
+        render_data = object->sprite;
+        body_storage = object + 1;
+        body = body_storage;
+        body->unk_18 = 0;
+        object->update_callback = advance_timed_blink_effect;
         *(Copy48 *)render_data = *(Copy48 *)source_data;
         render_data->flags =
             (render_data->flags & 0xFF7F) | 0x400;
@@ -53,7 +53,7 @@ void create_secondary_encounter_object(void) {
         select_sprite_entry(render_data, data_index, 0);
         render_data->depth_bias = 6;
         render_data->flags &= 0xFFF3;
-        position = object->unk_08;
+        position = object->position;
         position->x.w.i = ((u16)view_reference_entity.x.w.i);
         position->y.w.i = ((u16)view_reference_entity.y.w.i) - 0x400;
         position->z.w.i = ((u16)view_reference_entity.z.w.i);

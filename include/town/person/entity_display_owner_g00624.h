@@ -60,7 +60,7 @@ struct S_800B3FB8_2;
 struct S_800B4350_0;
 
 typedef struct S_800B4494_0 {
-    s32 * unk_00;
+    void (*unk_00)(void *);
     u8 pad_04[0xC];
     s32 unk_10;
     s32 unk_14;
@@ -79,7 +79,7 @@ extern M2C_UNK D_800D1658;
 extern M2C_UNK entity_display_gradient_color;
 /* arg0 in set_record_base_and_data_pointer_alt; pointer addresses record offset 0x10 */
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern void D_800B3E68();
+extern void D_800B3E68(void *);
 extern void initialize_entity_display_parts();
 
 /* Functions defined in this translation unit. */

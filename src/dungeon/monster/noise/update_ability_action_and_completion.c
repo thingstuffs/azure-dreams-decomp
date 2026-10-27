@@ -32,7 +32,7 @@ typedef struct S_8017364C_0 {
 void *scan_actor_along_heading();      /* extern */
 void * create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);       /* extern */
 void spawn_random_velocity_offset_effect(EntityRec *parent, s16 effect_id, s32 effect_param, s32 unused, s16 x_offset, s16 y_offset, s16 z_offset); /* extern */
-extern void noise_ability_resume_address();
+void noise_ability_resume_address(ActorRecord *motion, ObjectPosition *render_ctx, SpriteFrameState *map_entity, ActorRecord *actor);
 extern u8 noise_direction_frames[9];
 
 /* Updates an actor's ability action, effects, and completion state. */
@@ -127,24 +127,11 @@ void update_ability_action_and_completion(void *action, ObjectPosition *motion, 
                             }
                         }
                     } else {
-                        {
-                            s32 x = (s32)scan_actor_along_heading(actor, sprite->tile_x,
+                        actor->target = scan_actor_along_heading(actor, sprite->tile_x,
                                           sprite->tile_y,
                                           actor->facing, 0x10);
-                            s32 y;
-
-                            *(void * volatile *)((u8 *)actor + 0x60) = (void *)x;
-                            x = actor->target_tile_x;
-                            y = actor->target_tile_y;
-                            if (x < 0) {
-                                x = -x;
-                            }
-                            if (y < 0) {
-                                y = -y;
-                            }
-                            actor->target_tile_x = x;
-                            actor->target_tile_y = y;
-                        }
+                        actor->target_tile_x = abs(actor->target_tile_x);
+                        actor->target_tile_y = abs(actor->target_tile_y);
                     }
                 }
             }

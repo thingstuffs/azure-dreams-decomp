@@ -1,5 +1,6 @@
 #include "shared/audio_commands.h"
 #include "common.h"
+#include "sdk/libc.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/def_table.h"
 #include "shared/object_node.h"
@@ -205,15 +206,9 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, Spri
                             target_x = (s32)scan_actor_along_heading(
                                 actor, sprite->tile_x, sprite->tile_y,
                                 (((ActorFieldView_810318E4 *)actor)->field_2A.s16), 0x10);
-                            (*(void * volatile *)((u8 *)actor + 0x60)) = (void *)target_x;
-                            target_x = (((ActorFieldView_810318E4 *)actor)->field_72.s8);
-                            target_y = (((ActorFieldView_810318E4 *)actor)->field_73.s8);
-                            if (target_x < 0) {
-                                target_x = -target_x;
-                            }
-                            if (target_y < 0) {
-                                target_y = -target_y;
-                            }
+                            (*(void * *)((u8 *)actor + 0x60)) = (void *)target_x;
+                            target_x = abs(((ActorFieldView_810318E4 *)actor)->field_72.s8);
+                            target_y = abs(((ActorFieldView_810318E4 *)actor)->field_73.s8);
                             (((ActorFieldView_810318E4 *)actor)->field_72.u8) = target_x;
                             (((ActorFieldView_810318E4 *)actor)->field_73.u8) = target_y;
                         }

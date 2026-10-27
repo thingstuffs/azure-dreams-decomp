@@ -72,7 +72,7 @@ typedef struct S_8017086C_8 {
 } S_8017086C_8;   /* base in update_actor_action_controller */
 
 extern void *allocate_list_node();
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void); /* Retail RNG reads no argument registers. */
 extern void initialize_actor_sprite_and_animation();
 extern void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots();

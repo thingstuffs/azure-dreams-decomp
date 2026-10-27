@@ -70,9 +70,9 @@ typedef struct S_8014C86C_8 {
 
 extern void *allocate_list_node();
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
-extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
+extern s32 generate_random_value(void);
 extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 extern void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
 extern void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots();

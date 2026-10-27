@@ -9,8 +9,7 @@
 #include "shared/sprite_frame_state.h"
 
 /* Advance the actor action state, handle status flags, and update directional animation. */
-void advance_actor_action_state_handle_status(void *action_in, void *context_in, SpriteFrameState *sprite_in, void *actor_in)
-{
+void advance_actor_action_state_handle_status(void *action_in, ObjectPosition *context_in, SpriteFrameState *sprite_in, void *actor_in) {
     s32 state;
 
     DungeonGlobalStatus *world_state;

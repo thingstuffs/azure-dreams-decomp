@@ -963,7 +963,7 @@ void choose_flame_move(ActorRecord *move_data, ObjectPosition *context, SpriteFr
 
 /* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
 s32 try_flame_attack(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor) {
-    s32 target_angle;
+    ActorRecord *neighbor;
     u16 status_flags;
     u8 actor_flags;
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
@@ -975,8 +975,8 @@ s32 try_flame_attack(ActorRecord *action_state, ObjectPosition *motion_param, Sp
         return -1;
     }
 
-    target_angle = probe_directional_neighbor(actor, sprite->tile_x, sprite->tile_y, actor->facing);
-    if ((check_entity_interaction_compatibility(actor, target_angle) << 16) == 0) {
+    neighbor = probe_directional_neighbor(actor, sprite->tile_x, sprite->tile_y, actor->facing);
+    if ((check_entity_interaction_compatibility(actor, neighbor) << 16) == 0) {
         return 0;
     }
 
@@ -987,7 +987,7 @@ s32 try_flame_attack(ActorRecord *action_state, ObjectPosition *motion_param, Sp
     if (!(actor->action_flags & ACTOR_ACTION_PENDING) && (status_flags & 8)) {
         return -1;
     }
-    if ((u16)(-get_actor_height_difference(target_angle, actor) + 0x40) >= 0x81U) {
+    if ((u16)(-get_actor_height_difference(neighbor, actor) + 0x40) >= 0x81U) {
         return 0;
     }
     if ((try_claim_dungeon_action_slot(actor) << 16) != 0) {
@@ -2364,7 +2364,7 @@ void update_fading_four_strip_effect(u8 *effect, R06_80174934_Vec3w *origin, u8 
     s32 particle_variant;
     s32 particle_strength;
     ObjectNodeHeader *strip_obj;
-    u8 *init_obj;
+    ObjectNodeHeader *init_obj;
     u8 *strip_data;
     u8 *render_ctl;
     ObjectPosition *position;
@@ -2514,7 +2514,8 @@ void create_sixteen_segment_ring(R06_80174E78_Source *source, R06_80174E78_Vec3i
     update_callback = update_fading_four_strip_effect;
     base_level = 32;
     for (; segment_index < 16; segment_index++) {
-        R06_80174E78_Entity *entity;
+        ObjectNodeHeader *entity;
+        void *body_storage;
         R06_80174E78_Sub *sub;
         ObjectPosition *position;
         SpriteFrameState *prim;
@@ -2523,7 +2524,7 @@ void create_sixteen_segment_ring(R06_80174E78_Source *source, R06_80174E78_Vec3i
         s16 radial_offset;
         u16 prim_flags;
         u16 *prim_flags_ptr;
-        R06_80174E78_Entity *setup_entity;
+        ObjectNodeHeader *setup_entity;
         s32 initial_count;
         s32 unit_scale;
         s32 trig_angle;
@@ -2534,15 +2535,16 @@ void create_sixteen_segment_ring(R06_80174E78_Source *source, R06_80174E78_Vec3i
             continue;
         }
 
-        sub = &entity->sub;
+        body_storage = entity + 1;
+        sub = body_storage;
         initial_count = 50;
         setup_entity = entity;
         sub->field_1A = initial_count;
         sub->field_1C = source->field_96;
-        entity->callback = update_callback;
+        entity->update_callback = update_callback;
         register_node(setup_entity, project_sprite_chain);
 
-        prim = entity->prim;
+        prim = entity->sprite;
         prim_flags_ptr = &prim->flags;
         prim_flags = *(u16 *)prim_flags_ptr;
         prim_flags |= 0xC;
@@ -2551,7 +2553,7 @@ void create_sixteen_segment_ring(R06_80174E78_Source *source, R06_80174E78_Vec3i
         prim_flags |= 0x80;
         *prim_flags_ptr = prim_flags;
 
-        position = entity->vec;
+        position = entity->position;
         position->x.v = center->x;
         next_angle = (segment_index + 1) << 8;
         position->y.v = center->y;
@@ -2586,7 +2588,7 @@ void create_sixteen_segment_ring(R06_80174E78_Source *source, R06_80174E78_Vec3i
         sub->field_78 = radial_offset;
         sub->field_6C = radial_offset;
 
-        prim = entity->prim;
+        prim = entity->sprite;
         prim->color.c.r = 128;
         unit_scale = 4096;
         prim->scale_y = unit_scale;
@@ -2662,6 +2664,8 @@ void fade_effect_to_neutral_and_finish(void *entity_data, void *unused, void *so
 
 /* Loads transition effects, fades the view tint, replaces the actor, and restores the new actor's facing. */
 void advance_actor_transition_and_restore_child_angle(ActorRecord *action, ObjectPosition *position, SpriteFrameState *entity, ActorRecord *actor) {
+    ObjectNodeHeader *effect_node;
+    SpriteFrameState *effect_sprite;
     R06_80175270_S_80175270_2 *work = ((u8 *)(&g_game_work));
     u8 state;
     s32 effect_id;
@@ -2742,31 +2746,31 @@ void advance_actor_transition_and_restore_child_angle(ActorRecord *action, Objec
             s32 position_z;
             s32 color;
 
-            work = allocate_flagged_object_node(0x12);
-            if (work == 0) {
+            effect_node = allocate_flagged_object_node(0x12);
+            if (effect_node == 0) {
                 return;
             }
-            work->unk_10.p = ((u8 *)fade_effect_to_neutral_and_finish);
-            register_node(work, ((u8 *)project_flame_sprite_chain));
+            effect_node->update_callback = ((u8 *)fade_effect_to_neutral_and_finish);
+            register_node(effect_node, ((u8 *)project_flame_sprite_chain));
             color = 0x00808080;
-            work->unk_08[0] = position->x.v;
-            position_y_dst = work->unk_08;
+            effect_node->position->x.v = position->x.v;
+            position_y_dst = &effect_node->position->x.v;
             position_y = position->y.v;
-            ((void **)flame_transition_object)[0] = work;
+            ((void **)flame_transition_object)[0] = effect_node;
             position_y_dst[1] = position_y;
-            position_z_dst = work->unk_08;
+            position_z_dst = &effect_node->position->x.v;
             position_z = position->z.v;
             ((s16 *)D_8017591C)[0] = -12;
             position_z_dst[2] = position_z;
-            work = work->unk_0C.p;
-            work->unk_1E = 0x1000;
-            work->unk_1C = 0x1000;
-            work->unk_0C.i = color;
+            effect_sprite = effect_node->sprite;
+            effect_sprite->scale_y = 0x1000;
+            effect_sprite->scale_x = 0x1000;
+            effect_sprite->color.word = color;
             asset_index = lookup_masked_byte_table(actor) - 1;
             if (asset_index < 0) {
                 asset_index = rand() % 3;
             }
-            select_record_entry_and_value(work, ((u8 *)dungeon_resource_buffer) + ((s32 *)D_80175904)[asset_index], 0);
+            select_record_entry_and_value(effect_sprite, ((u8 *)dungeon_resource_buffer) + ((s32 *)D_80175904)[asset_index], 0);
             entity->flags |= 0x80;
             ((R06_80175270_S_80175270_0 *)action)->timer.s = 0;
             ((R06_80175270_S_80175270_0 *)action)->phase++;

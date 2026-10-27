@@ -6,7 +6,8 @@
 #ifndef NULL
 #define NULL 0
 void update_actor_behavior_and_direction(ActorRecord *motion, ObjectPosition *render_ctx, SpriteFrameState *map_entity, ActorRecord *actor);
-extern void create_timed_offset_motion_effect();
+/* Draw callback copy of queue_projected_mesh_points_and_texture_packets. */
+s32 func_80170D2C(u8 *node_data, u16 *position);
 #endif
 #include "shared/object_flags.h"
 
@@ -114,9 +115,9 @@ typedef struct T_80171190_Work {
 
 extern void * allocate_list_node();
 extern void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
-extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
+extern s32 generate_random_value(void);
 extern void set_or_clear_actor_status_slot();
 extern void initialize_actor_sprite_and_animation();
 extern u8 D_80171358[];
@@ -127,5 +128,6 @@ void spawn_random_velocity_offset_effect(EntityRec *parent, s16 effect_id, s32 e
     s16 y_offset, s16 z_offset);
 void * create_actor_with_direction_behavior(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);
 void update_actor_behavior_and_direction(ActorRecord *motion, ObjectPosition *render_ctx, SpriteFrameState *map_entity, ActorRecord *actor);
-extern void create_timed_offset_motion_effect();
+/* Draw callback copy of queue_projected_mesh_points_and_texture_packets. */
+s32 func_80170D2C(u8 *node_data, u16 *position);
 #endif

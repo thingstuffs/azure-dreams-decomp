@@ -20,7 +20,7 @@ typedef struct S_80171E00_3 {
 typedef struct Ent Ent;
 Ent *prepare_directional_attack(); /* extern */
 s32 get_actor_height_difference();                     /* extern */
-s32 probe_directional_neighbor();             /* extern */
+void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);             /* extern */
 s16 try_claim_dungeon_action_slot(ActorRecord *actor);                          /* extern */
 s32 check_entity_interaction_compatibility();                     /* extern */
 s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value); /* extern */
@@ -32,7 +32,7 @@ extern u8 nyuel_frame_set_8;
 s32 check_movement_and_initialize_action(ActorRecord *action_state, ObjectPosition *action_ctx, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
     u8 *direction_table;
-    s32 move_heading;
+    ActorRecord *move_heading;
     u16 flags;
 
     actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);

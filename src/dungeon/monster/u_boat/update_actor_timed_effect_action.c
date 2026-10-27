@@ -17,6 +17,7 @@
 #include "dungeon/system.h"
 #include "engine/node/allocation.h"
 #include "dungeon/level.h"
+#include "engine/node.h"
 
 typedef struct S_8017558C_0 {
     u8 pad_00[0x8C];
@@ -62,7 +63,6 @@ extern u8 uboat_default_frames[];
 extern u8 uboat_aura_sprite_data[];
 #include "dungeon/monster/u_boat.h"
 struct S_80174C64_0;
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */               /* extern */
 void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosition *source_position, SpriteFrameState *source_sprite);      /* extern */
 void update_actor_movement_history(struct S_80174C64_0 *motion, ObjectPosition *position, SpriteFrameState *record, void *object); /* extern */
 

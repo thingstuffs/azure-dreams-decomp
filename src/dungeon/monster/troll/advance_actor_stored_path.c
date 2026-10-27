@@ -417,7 +417,7 @@ void reset_actor_directional_animation(ActorRecord *state, ObjectPosition *unuse
 
 /* Initializes an actor action and resolves its target and chained effects. */
 s32 check_and_prepare_actor_move(ActorRecord *action_state, ObjectPosition *facing, SpriteFrameState *origin, ActorRecord *actor) {
-    void *initial_target;
+    ActorRecord *initial_target;
     s32 result = 0;
     s32 range_left;
     s32 next_x;

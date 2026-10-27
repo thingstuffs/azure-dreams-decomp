@@ -9,6 +9,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/actor/animation.h"
 #include "engine/node/allocation.h"
+#include "engine/node.h"
 #if 0 /* rowbase_rename_reverify precondition marker: dead declaration, never
 seen by the real compiler;
 satisfies the tool's textual defines()
@@ -50,7 +51,6 @@ struct DungeonSub1 {
     s8 field9c;
 };
 
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s16 set_or_clear_actor_status_slot();
 s32 generate_random_value(void);
 extern u8 D_8015EA7C[];

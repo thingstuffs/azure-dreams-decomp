@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
@@ -25,7 +26,7 @@ void apply_monster_koyaw_data(s32, s8 *);
 struct Owner_800A48F0; 
 struct ActorRecord; struct Rec_func_800A9E70_arg0; struct S_800A9E70_2; s32 refresh_actor_facing_and_lifecycle(struct Rec_func_800A9E70_arg0 *, s32, struct S_800A9E70_2 *, struct ActorRecord *);
 s32 try_move_actor_to_valid_position(void *, void *, void *, void *);
-extern void beldo_large_action_resume_address();
+void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 
 extern Callback beldo_large_callbacks[];
 extern u8 D_80173DDC[];

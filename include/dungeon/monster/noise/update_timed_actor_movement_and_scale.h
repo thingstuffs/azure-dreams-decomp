@@ -63,6 +63,6 @@ extern void on_actor_status_updated(T_80172B6C_Actor *actor);
 extern void func_800A9A04(T_80172B6C_Actor *actor);
 extern u8 D_80174EA8[];
 extern u8 D_80174EB0[];
-void update_timed_actor_movement_and_scale(T_80172B6C_State *state, T_80172B6C_Motion *motion, SpriteFrameState *sprite, T_80172B6C_Actor *actor);
+void update_timed_actor_movement_and_scale(ActorRecord *state, T_80172B6C_Motion *motion, SpriteFrameState *sprite, T_80172B6C_Actor *actor);
 void update_actor_behavior_and_direction(ActorRecord *motion, ObjectPosition *render_ctx, SpriteFrameState *map_entity, ActorRecord *actor);
 #endif

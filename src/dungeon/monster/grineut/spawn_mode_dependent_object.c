@@ -463,7 +463,7 @@ void dispatch_monster_move_attack_spell(ActorRecord *record, ObjectPosition *ent
         if (object == 0) {
             return;
         }
-        register_node(object, project_sprite_chain);
+        register_node(created, project_sprite_chain);
         color = (void *)0x00808080;
         ((R07_80170E54_S_80170E54_2 *)object)->unk_10 = ((u8 *)D_800D79B0);
         ((R07_80170E54_S_80170E54_9 *)(((R07_80170E54_S_80170E54_2 *)object)->unk_08))->unk_02 =
@@ -801,7 +801,7 @@ void initialize_opposite_facing_effect(ActorRecord *effect, ObjectPosition *posi
 
 /* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
 s32 try_grineut_attack(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor) {
-    s32 target_angle;
+    ActorRecord *neighbor;
     u16 status_flags;
     u8 actor_flags;
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
@@ -813,8 +813,8 @@ s32 try_grineut_attack(ActorRecord *action_state, ObjectPosition *motion_param, 
         return -1;
     }
 
-    target_angle = probe_directional_neighbor(actor, sprite->tile_x, sprite->tile_y, actor->facing);
-    if ((check_entity_interaction_compatibility(actor, target_angle) << 16) == 0) {
+    neighbor = probe_directional_neighbor(actor, sprite->tile_x, sprite->tile_y, actor->facing);
+    if ((check_entity_interaction_compatibility(actor, neighbor) << 16) == 0) {
         return 0;
     }
 
@@ -825,7 +825,7 @@ s32 try_grineut_attack(ActorRecord *action_state, ObjectPosition *motion_param, 
     if (!(actor->action_flags & ACTOR_ACTION_PENDING) && (status_flags & 8)) {
         return -1;
     }
-    if ((u16)(-get_actor_height_difference(target_angle, actor) + 0x40) >= 0x81U) {
+    if ((u16)(-get_actor_height_difference(neighbor, actor) + 0x40) >= 0x81U) {
         return 0;
     }
     if ((try_claim_dungeon_action_slot(actor) << 16) != 0) {

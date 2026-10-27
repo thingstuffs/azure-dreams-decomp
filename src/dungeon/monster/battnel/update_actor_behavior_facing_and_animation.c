@@ -50,7 +50,7 @@ extern void begin_actor_spell_action(void *actor, void * effect_param, void *tar
 extern void advance_actor_path_script_step(void *, void *, void *, void *);
 extern void func_8017162C(void *, void *, void *, void *);
 extern s32 func_80171DD8(void *, void *, void *, void *);
-extern void select_and_start_target_action(void *, void *, void *, void *);
+extern void select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
 extern s32 func_801720B4(void *, void *, void *, s32);
 extern void func_80173AC0(void *, void *, void *, void *);
 
@@ -64,8 +64,7 @@ extern u8 D_80173D4C[];
 /* Update actor behavior, facing, and animation from dungeon state. */
 /* Selects Battnel's movement, attacks, spells, and turn processing, with a ten-tick transition back to its
  * idle frames. */
-void update_actor_behavior_facing_and_animation_2(void *actor, void *context, SpriteFrameState *sprite, void *status)
-{
+void update_actor_behavior_facing_and_animation_2(void *actor, ObjectPosition *context, SpriteFrameState *sprite, void *status) {
     u8 *anim_table;
     s32 room_id;
     u16 direction_aux;

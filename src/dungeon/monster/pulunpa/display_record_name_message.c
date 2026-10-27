@@ -14,11 +14,11 @@ extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern u8 D_80176440[9];
 extern u8 D_80176455[9];
 /* Builds and displays a message containing the record's name between fixed text. */
-void display_record_name_message(s32 record, s32 unused_1, s32 unused_2, s32 unused_3)
+void display_record_name_message(void *record)
 {
-    s32 text_arg;
-    s32 message;
-    unsigned int cursor;
+    void *text_arg;
+    void *message;
+    u8 *cursor;
 
     text_arg = get_unused_text_buffer();
     message = text_arg;

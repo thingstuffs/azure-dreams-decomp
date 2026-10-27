@@ -5,6 +5,7 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
+#include "engine/node.h"
 
 typedef struct S_8016ECE4_0 {
     u8 pad_00[0x8];
@@ -54,8 +55,7 @@ typedef struct {
     s16 field2;
 } TableEntry;
 
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-s32 rand();
+s32 rand(void);
 extern M2C_UNK D_800777F4;
 
 extern void *ghosh_actor_node[];
@@ -85,7 +85,7 @@ void spawn_conditional_source_effect(void) {
     count = low_byte | (high_byte << 8);
     source_pos = ((S_8016ECE4_0 *)source)->unk_08;
     source_state = source + 0x20;
-    if (((count & 3) == 1) && !(rand(source) & 1)) {
+    if (((count & 3) == 1) && !(rand() & 1)) {
         effect = allocate_flagged_object_node(0x12);
         if (effect != NULL) {
             effect_state = ((void *)effect) + 0x20;

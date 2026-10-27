@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/entity.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_status_flags.h"
@@ -762,7 +763,7 @@ void advance_linked_actor_motion_script(void *object, ObjectPosition *unused, vo
 
 /* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
 s32 try_arachne_attack(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor) {
-    s32 target_angle;
+    ActorRecord *neighbor;
     u16 status_flags;
     u8 actor_flags;
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
@@ -774,8 +775,8 @@ s32 try_arachne_attack(ActorRecord *action_state, ObjectPosition *motion_param, 
         return -1;
     }
 
-    target_angle = probe_directional_neighbor(actor, sprite->tile_x, sprite->tile_y, actor->facing);
-    if ((check_entity_interaction_compatibility(actor, target_angle) << 16) == 0) {
+    neighbor = probe_directional_neighbor(actor, sprite->tile_x, sprite->tile_y, actor->facing);
+    if ((check_entity_interaction_compatibility(actor, neighbor) << 16) == 0) {
         return 0;
     }
 
@@ -786,7 +787,7 @@ s32 try_arachne_attack(ActorRecord *action_state, ObjectPosition *motion_param, 
     if (!(actor->action_flags & ACTOR_ACTION_PENDING) && (status_flags & 8)) {
         return -1;
     }
-    if ((u16)(-get_actor_height_difference(target_angle, actor) + 0x40) >= 0x81U) {
+    if ((u16)(-get_actor_height_difference(neighbor, actor) + 0x40) >= 0x81U) {
         return 0;
     }
     if ((try_claim_dungeon_action_slot(actor) << 16) != 0) {
@@ -812,14 +813,14 @@ s32 try_arachne_attack(ActorRecord *action_state, ObjectPosition *motion_param, 
 
 /* Claims an action slot, starts the directional attack animation, and prepares its target and damage
  * state. */
-void select_and_start_target_action(void *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor) {
+void select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor) {
     actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
-            ((Rec_func_800A9E70_arg0 *)action_state)->unk_9A.as_s8 = 0x11;
-            (*(s32 *)((u8 *)action_state + 0x8C)) = 0;
-            ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_s8 = 0;
+            action_state->action_id.s = 0x11;
+            action_state->unk_8C.run = 0;
+            action_state->action_phase.s = 0;
             (*(s32 **)((u8 *)sprite + 0x2C)) = ((u8 *)arachne_direction_frames);
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + ((u8 *)arachne_direction_frames)), 0);
@@ -1538,8 +1539,7 @@ void finish_actor_hop_and_grow_then_select_target(ActorRecord *state, ObjectPosi
 }
 
 /* Waits for a status effect to clear, updates actor status and activity counts, then restores movement. */
-void advance_arachne_status_action(void *in_controller, ObjectPosition *in_context, void *sprite, void *in_actor)
-{
+void advance_arachne_status_action(void *in_controller, ObjectPosition *in_context, void *sprite, ActorRecord *in_actor) {
     void *context = in_context;
     void *actor = in_actor;
     s32 state;
@@ -2627,6 +2627,8 @@ void fade_effect_to_neutral(void *entity_data, void *unused, void *source_data)
 void advance_effect_sequence_and_restore_actor(void *sequence, void *position, SpriteFrameState *record, void *actor) {
     GameWork *scene_color = &g_game_work;
     R12_80175470_S_80175470_2 *node;
+    ObjectNodeHeader *effect_node;
+    void *node_storage;
     SpriteFrameState *model;
     void *child;
     u8 *target_color;
@@ -2701,12 +2703,14 @@ void advance_effect_sequence_and_restore_actor(void *sequence, void *position, S
         return;
 
     case 4:
-        node = allocate_flagged_object_node(0x12);
+        effect_node = allocate_flagged_object_node(0x12);
+        node_storage = effect_node;
+        node = node_storage;
         if (node == 0) {
             return;
         }
         node->unk_10.p = ((u8 *)fade_effect_to_neutral);
-        register_node(node, ((u8 *)project_arachne_sprite_chain));
+        register_node(effect_node, ((u8 *)project_arachne_sprite_chain));
         ((R12_80175470_S_80175470_0 *)sequence)->unk_A8 = node;
         model_color = 0x00808080;
         *(s32 *)node->unk_08 = ((s32 *)position)[0];

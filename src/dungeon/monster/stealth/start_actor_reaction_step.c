@@ -25,10 +25,9 @@ extern s32 generate_random_value(void);
 extern u8 D_80173D88[9];
 
 /* Start the actor's reaction step: clear its 0x71 busy bit and, when the global 0x2000 mode is off and the ready query says 0, randomise its facing, arm state 0x17, cue 0x811 and point the part at the direction table. */
-void start_actor_reaction_step(S_801721A4_1 *owner, ObjectPosition *unused, SpriteFrameState *part, EntityRec *actor)
-{
+void start_actor_reaction_step(S_801721A4_1 *owner, ObjectPosition *unused, SpriteFrameState *part, ActorRecord *actor) {
 
-    actor->unk_71 &= 0x7F;
+    actor->movement_queue_state &= 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) &&
         ((has_pending_dungeon_activity(actor) << 16) == 0)) {
         if (((u32)actor->flags1C) & ACTOR_CONFUSED) {
@@ -52,7 +51,7 @@ void start_actor_reaction_step(S_801721A4_1 *owner, ObjectPosition *unused, Spri
         part->flags |= 0xC;
         part->clut -= 0x80;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
-        (*(u8 *)&actor->unk_6D)--;
+        (*(u8 *)&actor->pending_turn_updates)--;
         part->frameTable = D_80173D88;
         part->color.word = 0xFFFFFF;
         part->tpage_abr = 0x60;

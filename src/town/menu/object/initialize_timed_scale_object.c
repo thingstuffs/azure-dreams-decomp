@@ -5,7 +5,7 @@
 
 
 typedef struct S_800A782C_0_pre {
-    s32 * unk_00;
+    void (*unk_00)(void *, s32, s32);
     u8 pad_04[0xC];
 } S_800A782C_0_pre;   /* the 0x10 bytes before arg0 in initialize_timed_scale_object, addressed as arg0[-1] */
 
@@ -15,7 +15,7 @@ typedef struct S_800A782C_0_pre {
 void register_node_if_unregistered(void *block_data, void *registration_id);
 void initialize_randomized_scale_timer();
 #include "town/system/clear_object_status_and_dispatch_target_api.h"
-extern void D_800A78AC();
+extern void D_800A78AC(void *record, s32 context, s32 update_data);
 extern M2C_UNK D_800F842C;
 
 /* Initialize the object and reset its state before completing setup. */

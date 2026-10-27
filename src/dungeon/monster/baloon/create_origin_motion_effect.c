@@ -6,6 +6,7 @@
 #include "shared/dungeon_sprite_data.h"
 #include "shared/dungeon_moving_views.h"
 #include "sdk/libc.h"
+#include "engine/node.h"
 
 typedef s32 M2C_UNK;
 
@@ -25,7 +26,6 @@ typedef struct S_80D65810_0 {
    /* input in create_origin_motion_effect */
 
 void select_record_entry_and_value(void *state, void *entries, short index);
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern void update_effect_collision_and_lifetime(void);
 
 /* Creates an effect relative to the origin and initializes its motion and appearance. */

@@ -45,11 +45,11 @@ typedef struct Copy24 { u32 words[6]; } Copy24;
 
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 void clear_slots_of_type(ActorRecord *owner, s8 match_type);
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 s32 check_entity_relation();
 s16 get_tile_chebyshev_distance();
 #include "dungeon/player/object/action_state.h"
-s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
+s32 generate_random_value(void);
 extern void on_actor_status_updated(void *actor);
 void update_actor_status_and_mp(ActorRecord *entity);
 s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
@@ -232,7 +232,7 @@ void advance_actor_effect_sequence_2(ActorRecord *body, void *transform, SpriteF
         effect_node = new_effect;
         if (body == NULL)
             return;
-        register_node(body, project_sprite_chain);
+        register_node(effect_node, project_sprite_chain);
         effect_transform = effect_node->position;
         effect_node->update_callback = effect_update_tag;
         *(Copy24 *)effect_transform = *(Copy24 *)transform;

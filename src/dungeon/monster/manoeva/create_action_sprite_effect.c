@@ -18,7 +18,7 @@ typedef struct S_80174690_5 {
 } S_80174690_5;
 
 void *allocate_list_node();               /* extern */
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
+s32 register_node(ObjectNodeHeader *entry, void *registration_id);           /* extern */
 void select_sprite_entry(void *object, s16 table_index, s16 entry_index);    /* extern */
 void copy_linked_position_and_check_status(void *object, S_801745F0_0 *dest, SpriteFrameState *status);
 

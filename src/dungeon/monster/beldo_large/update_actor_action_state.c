@@ -32,7 +32,7 @@ s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *posi
 void advance_actor_pending_action(void *, void *, void *, void *);
 void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void update_multi_form_actor_movement(ActorRecord *object, ObjectPosition *update_param, SpriteFrameState *state, ActorRecord *input);
-extern void beldo_large_action_resume_address();
+void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 extern u8 beldo_large_frame_set_4[];
 extern u8 beldo_large_frame_set_7[];
 

@@ -85,7 +85,7 @@ extern s16 D_80174F48[];
 extern s32 Control_CD(s32 event_code, void *event_data, s32 payload);
 extern void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
 void run_cd_image_commands();
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern int read_stream_cue_start_offset(void);
 void select_record_entry_and_value(void *state, void *entries, short index);
 void unlink_entity_node();
@@ -108,6 +108,8 @@ extern s32 D_80174FD0[];
 /* Loads Nyuel's transition effects, fades the view tint and creates a cylinder, then replaces the actor
  * and restores facing. */
 void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition *position, SpriteFrameState *actor, ActorRecord *target) {
+    ObjectNodeHeader *effect_node;
+    SpriteFrameState *effect_sprite;
     u8 *target_color;
     s16 direction;
     s32 effect_choice;
@@ -177,26 +179,26 @@ void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition 
             - object->unk_AA) / (s16) ((S_801749A8_0 *)sequence)->unk_96));
         return;
     case 4:
-        object = allocate_flagged_object_node(0x12);
-        if (object == 0) {
+        effect_node = allocate_flagged_object_node(0x12);
+        if (effect_node == 0) {
             return;
         }
-        object->unk_10.s = &func_8017487C;
-        register_node(object, project_sprite_chain);
-        ((S_801749A8_0 *)sequence)->unk_A4 = object;
-        ((S_801749A8_10 *)(((S_801749A8_8 *)object)->unk_08))->unk_00 = (s32) position->x.v;
-        ((S_801749A8_10 *)(((S_801749A8_8 *)object)->unk_08))->unk_04 = (s32) position->y.v;
-        ((S_801749A8_10 *)(((S_801749A8_8 *)object)->unk_08))->unk_08 = (s32) position->z.v;
-        object = object->unk_0C.s;
-        object->unk_1E = 0x1000;
-        object->unk_1C = 0x1000;
-        object->unk_0C.u = 0x808080;
+        effect_node->update_callback = &func_8017487C;
+        register_node(effect_node, project_sprite_chain);
+        ((S_801749A8_0 *)sequence)->unk_A4 = effect_node;
+        effect_node->position->x.v = (s32) position->x.v;
+        effect_node->position->y.v = (s32) position->y.v;
+        effect_node->position->z.v = (s32) position->z.v;
+        effect_sprite = effect_node->sprite;
+        effect_sprite->scale_y = 0x1000;
+        effect_sprite->scale_x = 0x1000;
+        effect_sprite->color.word = 0x808080;
         effect_choice = lookup_masked_byte_table(target) - 1;
         effect_index = effect_choice;
         if ((effect_choice << 0x10) < 0) {
             effect_index = rand() % 3;
         }
-        select_record_entry_and_value(object, &dungeon_resource_buffer[*(((s32) (effect_index << 0x10) >> 0x10) + &D_80174FB4)], 0);
+        select_record_entry_and_value(effect_sprite, &dungeon_resource_buffer[*(((s32) (effect_index << 0x10) >> 0x10) + &D_80174FB4)], 0);
         actor->flags = (u16) (actor->flags | 0x80);
         ((S_801749A8_0 *)sequence)->unk_96 = 0U;
         sequence->action_phase.u = (u8) (sequence->action_phase.u + 1);

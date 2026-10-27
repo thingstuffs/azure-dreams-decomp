@@ -31,7 +31,7 @@ extern u8 tyrant_frame_set_1[];
 extern u8 tyrant_direction_frames[];
 extern s32 tyrant_action_resume_address;
 void advance_status_timers(void *record);
-s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
+s32 generate_random_value(void);
 extern u8 D_80173FD8;
 extern M2C_UNK D_80173FE0;
 

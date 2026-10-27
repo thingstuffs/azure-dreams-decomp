@@ -56,8 +56,7 @@ typedef struct S_80171FA4_0 {
 } S_80171FA4_0;   /* arg0 in update_actor_animation_behavior_and_facing */
 
 /* Update dungeon actor animation, behavior, and facing. */
-void update_actor_animation_behavior_and_facing(void *actor, void *actor_aux, SpriteFrameState *sprite, ActorRecord *entity)
-{
+void update_actor_animation_behavior_and_facing(void *actor, ObjectPosition *actor_aux, SpriteFrameState *sprite, ActorRecord *entity) {
     u16 distance;
     s8 room_id;
     u16 action_state;

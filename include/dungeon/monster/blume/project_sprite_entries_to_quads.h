@@ -184,20 +184,15 @@ typedef struct {
 #define setaddr(p, _addr) (((T_80170874_P_TAG *)(p))->addr = (u32)(_addr))
 #define getaddr(p) (u32)(((T_80170874_P_TAG *)(p))->addr)
 
-extern void CompMatrix();
-extern void PushMatrix();
-extern void PopMatrix();
-extern void ScaleMatrix();
-extern void SetRotMatrix();
-extern void SetTransMatrix();
+void * CompMatrix(void *, void *, void *);
+void PushMatrix(void);
+void PopMatrix(void);
+void * ScaleMatrix(void *, void *);
+void SetRotMatrix(void *);
+void SetTransMatrix(void *);
 extern u32 RotTransPers();
 extern void RotTransPers4();
 extern void RotMatrix();
-extern s32 func_80170B40();
-extern s32 func_80170BAC();
-extern s32 func_80170DF8();
-extern s32 func_80170E48();
-extern s32 func_80170F78();
 extern s32 sprite_projection_matrix[];
 void project_sprite_entries_to_quads(T_80170874_S_80DB9000_1 *sprite_size, T_80170874_S_80DB9000_2 *position, T_80170874_S_80DB9000_3 *sprite, s16 depth_bias);
 #endif

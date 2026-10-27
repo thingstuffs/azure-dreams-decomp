@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #ifndef DUNGEON_OVL_FA7000_H
 #define DUNGEON_OVL_FA7000_H
 #include "common.h"
@@ -8,6 +9,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/system.h"
 #include "engine/node/allocation.h"
+#include "engine/node.h"
 struct ObjectNodeHeader;
 struct SpriteFrameState;
 extern u8 zu_default_frames[];
@@ -20,14 +22,13 @@ void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 void cycle_map_cell_flags();
 s32 check_entity_relation();
 s16 get_actor_height_difference();
-s32 probe_directional_neighbor();
+void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
 s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 void advance_status_timers();
 void spend_actor_mp();
 s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 s32 get_rounded_facing_and_rounding_flag();
 s32 register_node(struct ObjectNodeHeader *entry, void *registration_id);
-s32 func_8004491C(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 void *spawn_zu_actor(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);
 void update_bank_actor_movement(void *entity, void *motion_arg, void *sprite_arg);
 void update_bank_actor_state(ActorRecord *actor, ObjectPosition *context, struct SpriteFrameState *sprite, ActorRecord *stats_in);
@@ -42,8 +43,8 @@ void update_bank_staged_movement(void *action, void *motion,struct SpriteFrameSt
 void update_bank_actor_targeted_action(ActorRecord *owner_input, ObjectPosition *motion_input, SpriteFrameState *actor_input, ActorRecord *object);
 void restore_bank_actor_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity);
 void slow_directional_motion(void *effect_data, void *motion_data, void *sprite_data, void *object_data);
-void forward_bank_actor_callback_a(void *state, s32 action, struct SpriteFrameState *source, EntityRec *target);
-void forward_bank_actor_callback_b(void *state, ObjectPosition *action, struct SpriteFrameState *source, EntityRec *target);
+void forward_bank_actor_callback_a(ActorRecord *state, s32 action, SpriteFrameState *source, ActorRecord *target);
+void forward_bank_actor_callback_b(void *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target);
 void restore_bank_actor_callback_a(ActorRecord *state, ObjectPosition *action, struct SpriteFrameState *source, ActorRecord *target);
 void handle_actor_action_effects(ActorRecord *controller, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_bank_actor_animation(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);

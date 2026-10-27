@@ -12,12 +12,12 @@
 #include "dungeon/actor/animation.h"
 #include "engine/node/allocation.h"
 #include "dungeon/actor/status.h"
+#include "engine/node.h"
 
 
 
 
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
+extern s32 generate_random_value(void);
 extern u8 baloon_default_frames[];
 extern u8 baloon_frame_set_1[];
 extern u8 D_80171964[];

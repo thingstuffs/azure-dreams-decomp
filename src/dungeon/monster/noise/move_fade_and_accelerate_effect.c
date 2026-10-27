@@ -82,7 +82,7 @@ void spawn_random_velocity_offset_effect(EntityRec *parent, s16 effect_id, s32 e
     effect_state->unk_14 = saved_effect_id;
     effect_state->unk_32 = 0x14;
     effect_state->unk_34 = 0x14;
-    register_node(effect, &create_timed_offset_motion_effect);
+    register_node(effect, &func_80170D2C);
     ((T_80171020_S_80171020_0 *)effect)->unk_20 = saved_effect_param;
     effect_state->unk_08 = saved_effect_param;
 }
@@ -93,7 +93,8 @@ void *create_actor_with_direction_behavior(s16 flags, s16 kind_id, s16 variant, 
 {
     s32 kind;
     T_80171190_Work *work;
-    ProjectileObject *obj;
+    ObjectNodeHeader *obj;
+    void *part_storage;
     SignedHeightView *part_a;
     T_80171190_S_80171190_2 *part_b;
     void *resource;
@@ -117,9 +118,11 @@ void *create_actor_with_direction_behavior(s16 flags, s16 kind_id, s16 variant, 
         register_node(obj, project_sprite_chain);
 
         resource = noise_direction_frames;
-        part_a = obj->position;
+        part_storage = obj->position;
+        part_a = part_storage;
         part_a->z = saved_spawn;
-        part_b = obj->sprite;
+        part_storage = obj->sprite;
+        part_b = part_storage;
         kind = flags & 3;
         part_b->unk_25 = saved_variant;
         actor = work;

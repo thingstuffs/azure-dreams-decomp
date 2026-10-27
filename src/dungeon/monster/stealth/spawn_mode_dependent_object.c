@@ -38,8 +38,7 @@ extern u8 stealth_frame_set[];
 extern u8 D_80173D78[];
 #include "dungeon/monster/stealth.h"
 
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
+extern s32 generate_random_value(void);
 extern s16 set_or_clear_actor_status_slot();
 extern void retire_tracked_effect_by_id();
 

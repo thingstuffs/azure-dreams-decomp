@@ -3,7 +3,7 @@
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(const u8 *src, u8 *dst);
 extern void * clear_byte_and_advance(s8 *byte_ptr);
-extern u8 *append_entity_display_text();
+extern u8 *append_entity_display_text(void *record, u8 *out);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern s8 D_8017646B[9];
 
@@ -11,7 +11,7 @@ extern s8 D_8017646B[9];
  * Appends the entity name and expanded D_8017646B message to an unused text buffer, terminates it,
  * and displays it with fullwidth adjustment.
  */
-void build_and_display_encoded_message(s32 source_value, s32 input_value, s32 input_value_2, s32 input_value_3) {
+void build_and_display_encoded_message(void *source_value) {
     void *original_value;
     void *current_value;
     void *adjusted_value;

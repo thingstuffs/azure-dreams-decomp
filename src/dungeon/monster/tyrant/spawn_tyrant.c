@@ -10,6 +10,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/actor/animation.h"
 #include "engine/node/allocation.h"
+#include "engine/node.h"
 
 typedef struct S_8107D000_1 {
     u8 pad_00[0x13];
@@ -37,9 +38,8 @@ typedef struct S_8107D000_4 {
     s16 unk_AA;
 } S_8107D000_4;
 
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s16 set_or_clear_actor_status_slot();
-s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
+s32 generate_random_value(void);
 extern M2C_UNK D_8014CAA4;
 extern M2C_UNK D_8014CF68;
 extern M2C_UNK D_8014FFB8;

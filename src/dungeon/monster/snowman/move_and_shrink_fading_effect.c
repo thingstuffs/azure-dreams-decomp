@@ -997,7 +997,7 @@ void begin_snowman_step_animation(void *actor_state, void *action_state, SpriteF
 
 /* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
 s32 try_snowman_attack(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor) {
-    s32 target_angle;
+    ActorRecord *neighbor;
     u16 status_flags;
     u8 actor_flags;
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
@@ -1009,8 +1009,8 @@ s32 try_snowman_attack(ActorRecord *action_state, ObjectPosition *motion_param, 
         return -1;
     }
 
-    target_angle = probe_directional_neighbor(actor, sprite->tile_x, sprite->tile_y, actor->facing);
-    if ((check_entity_interaction_compatibility(actor, target_angle) << 16) == 0) {
+    neighbor = probe_directional_neighbor(actor, sprite->tile_x, sprite->tile_y, actor->facing);
+    if ((check_entity_interaction_compatibility(actor, neighbor) << 16) == 0) {
         return 0;
     }
 
@@ -1021,7 +1021,7 @@ s32 try_snowman_attack(ActorRecord *action_state, ObjectPosition *motion_param, 
     if (!(actor->action_flags & ACTOR_ACTION_PENDING) && (status_flags & 8)) {
         return -1;
     }
-    if ((u16)(-get_actor_height_difference(target_angle, actor) + 0x40) >= 0x81U) {
+    if ((u16)(-get_actor_height_difference(neighbor, actor) + 0x40) >= 0x81U) {
         return 0;
     }
     if ((try_claim_dungeon_action_slot(actor) << 16) != 0) {
@@ -2488,7 +2488,7 @@ void restore_snowman_scene_tint(u8 *task, void *context, SpriteFrameState *input
 
 /* Loads transition effects, fades the view tint, replaces the actor, and restores the new actor's facing. */
 void advance_actor_transition_and_restore_facing(void *transition, void *position, SpriteFrameState *record, void *actor) {
-    u8 *object_data = ((u8 *)(&g_game_work));
+    void *object_data = ((u8 *)(&g_game_work));
     u8 state;
     u32 next_state;
 
@@ -2567,16 +2567,16 @@ void advance_actor_transition_and_restore_facing(void *transition, void *positio
             return;
         }
         {
-            R10_80175398_DungeonEffect *effect = (R10_80175398_DungeonEffect *)object_data;
+            ObjectNodeHeader *effect = object_data;
 
-            effect->resource = ((u8 *)restore_snowman_scene_tint);
+            effect->update_callback = ((u8 *)restore_snowman_scene_tint);
             register_node(effect, ((u8 *)project_snowman_sprite_chain));
             ((R10_80175398_S_80175398_0 *)transition)->unk_A8.p = effect;
-            effect->child->x = ((R10_80175398_DungeonCopy3 *)position)->x;
-            effect->child->y = ((R10_80175398_DungeonCopy3 *)position)->y;
+            effect->position->x.v = ((R10_80175398_DungeonCopy3 *)position)->x;
+            effect->position->y.v = ((R10_80175398_DungeonCopy3 *)position)->y;
             (*(s16 *)D_80175A18) = -2;
-            effect->child->z = ((R10_80175398_DungeonCopy3 *)position)->z;
-            object_data = (u8 *)effect->tail;
+            effect->position->z.v = ((R10_80175398_DungeonCopy3 *)position)->z;
+            object_data = (u8 *)effect->sprite;
             ((R10_80175398_DungeonTail *)object_data)->value1e = 0x1000;
             ((R10_80175398_DungeonTail *)object_data)->value1c = 0x1000;
             ((R10_80175398_DungeonTail *)object_data)->color = 0x00808080;

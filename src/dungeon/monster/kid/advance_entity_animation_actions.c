@@ -49,8 +49,7 @@ typedef struct S_80173ED8_5 {
 } S_80173ED8_5;   /* owner in advance_entity_animation_actions */
 
 /* Advances entity animation states and handles pending actions. */
-void advance_entity_animation_actions(void *action, void *context, SpriteFrameState *sprite, void *entity)
-{
+void advance_entity_animation_actions(ActorRecord *action, ObjectPosition *context, SpriteFrameState *sprite, void *entity) {
     void *saved_context;
     register DungeonGlobalStatus *dungeon_state;
     void *saved_entity;
@@ -62,7 +61,7 @@ void advance_entity_animation_actions(void *action, void *context, SpriteFrameSt
 #define context saved_context
 #define sprite sprite
 
-    state = ((S_80173ED8_0 *)action)->unk_9B;
+    state = action->action_phase.u;
     saved_entity = entity;
 #define entity saved_entity
     switch (state) {
@@ -79,7 +78,7 @@ void advance_entity_animation_actions(void *action, void *context, SpriteFrameSt
         sprite->frameTable = kid_alt_spawn_direction_frames;
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
         select_sprite_entry(sprite, kid_alt_spawn_direction_frames[direction & 7], 0);
-        ((S_80173ED8_0 *)action)->unk_9B++;
+        action->action_phase.u++;
         return;
     }
 
@@ -93,7 +92,7 @@ void advance_entity_animation_actions(void *action, void *context, SpriteFrameSt
             (*(u32 *)((u8 *)entity + 0x1C)) |= 0x40000;
             counter_state = (u8 *)&g_dungeon_status.turn_scale;
             ((S_80173ED8_2 *)counter_state)->unk_0A++;
-            ((S_80173ED8_0 *)action)->unk_9B++;
+            action->action_phase.u++;
             return;
         }
 
@@ -118,7 +117,7 @@ void advance_entity_animation_actions(void *action, void *context, SpriteFrameSt
 
         if (((u32)((EntityRec *)entity)->flags1C) & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(action, context, sprite, entity);
-            ((S_80173ED8_0 *)action)->unk_A8 = 0;
+            action->unk_A8.s = 0;
             func_80174218(action, context, sprite, entity);
             return;
         }
@@ -148,7 +147,7 @@ void advance_entity_animation_actions(void *action, void *context, SpriteFrameSt
         ((EntityRec *)entity)->flags1C |= 0x40000;
         ((S_80173ED8_4 *)dungeon_state)->unk_0A++;
 
-        ((S_80173ED8_0 *)action)->unk_9B++;
+        action->action_phase.u++;
         return;
 
     case 2:
@@ -162,7 +161,7 @@ void advance_entity_animation_actions(void *action, void *context, SpriteFrameSt
         counter_state = (u8 *)&g_dungeon_status.turn_scale;
         ((S_80173ED8_2 *)counter_state)->unk_0A--;
         ((EntityRec *)entity)->flags1C &= ~(ACTOR_MP_EMPTY | ACTOR_ASLEEP);
-        ((S_80173ED8_0 *)action)->unk_8C = kid_action_resume_address;
+        action->unk_8C.address = kid_action_resume_address;
         return;
     }
 

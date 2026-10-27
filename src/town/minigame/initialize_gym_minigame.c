@@ -78,6 +78,7 @@ s32 initialize_gym_minigame(void)
     object_or_slot = (s32)allocate_flagged_object_node(0x136);
     if (object_or_slot != 0) {
         ((S_80022C8C_0 *)((void *)object_or_slot))->unk_10 = &D_800240B0;
+        object_data = (u8 *)object_or_slot + 0x20;
         register_node((void *)object_or_slot, project_sprite_chain);
 
         render_record = ((S_80022C8C_0 *)((void *)object_or_slot))->unk_0C;
@@ -87,8 +88,7 @@ s32 initialize_gym_minigame(void)
         render_record->unk_04 = 0;
         render_record->frame_ticks = 0;
         render_record->color.word = 0x00808080;
-        object_data = (u8 *)object_or_slot + 0x20;
-        (*(void * volatile *)((u8 *)object_data + 0x4C)) = shared_data;
+        *(void **)((u8 *)object_data + 0x4C) = shared_data;
 
         configure_the_set_mode_n_3((u8 *)object_or_slot + 0x24,
                       ((S_80022C8C_0 *)((void *)object_or_slot))->unk_08,

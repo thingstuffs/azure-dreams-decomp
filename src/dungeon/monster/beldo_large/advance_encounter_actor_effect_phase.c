@@ -54,7 +54,7 @@ typedef struct S_8016FC4C_8 {
     void * unk_5D50;
 } S_8016FC4C_8;   /* (u8 *)common_page in advance_encounter_actor_effect_phase */
 
-s32 rand();
+s32 rand(void);
 u16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 void create_random_velocity_child_effect();
 void create_offset_half_scale_spark(void *, s32, s32, s32);
@@ -168,7 +168,7 @@ void advance_encounter_actor_effect_phase(void *effect, S_8016FC4C_6 *entity, Sp
         burst_ticks = ((S_8016FC4C_3 *)effect)->unk_96 + 1;
         ((S_8016FC4C_3 *)effect)->unk_96 = burst_ticks;
         if (!(burst_ticks & 1)) {
-            burst_x = (rand(burst_source) & 0x1F) - 0xF;
+            burst_x = (rand() & 0x1F) - 0xF;
             burst_x = (s16)(((s32)burst_x << 16) >> 16);
             burst_y = (s16)((rand() & 0x1F) - 0xF);
             create_offset_half_scale_spark(entity, burst_x, burst_y, (s16)((0 - (rand() & 0x1F)) - 0xA));

@@ -10,6 +10,7 @@
 #include "shared/entity.h"
 #include "engine/node/allocation.h"
 #include "engine/graphics.h"
+#include "engine/node.h"
 
 
 typedef struct S_80173140_2 {
@@ -22,7 +23,6 @@ typedef struct S_80173140_5 {
     u16 unk_0A;
 } S_80173140_5;   /* ((Rec_D_800E3D7C *)(&D_80083498))->unk_08.at00_pv.v in create_scripted_encounter_object */
 
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 void unlink_entity_node();                      /* extern */
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
 void initialize_actor_sprite_and_animation(void *, void *, void *, s32); /* extern */

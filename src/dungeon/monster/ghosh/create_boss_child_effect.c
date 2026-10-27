@@ -35,10 +35,10 @@ typedef struct S_80172B00_7 {
 } S_80172B00_7;   /* arg2 in create_boss_child_effect */
 
 void *allocate_list_node();                  /* extern */
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */ /* extern */
+s32 register_node(ObjectNodeHeader *entry, void *registration_id); /* extern */
 void * create_tracked_effect(); /* extern */
 extern s8 view_direction_depth_biases[];
-extern void D_80172610();
+void D_80172610(void *actor_data, void *output_data, void *context_data);
 extern u8 ghosh_frame_set_10[];
 
 typedef struct {

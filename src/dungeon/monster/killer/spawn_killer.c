@@ -11,6 +11,7 @@
 #include "dungeon/actor/animation.h"
 #include "engine/node/allocation.h"
 #include "dungeon/actor/status.h"
+#include "engine/node.h"
 
 
 
@@ -31,8 +32,7 @@ typedef struct S_80FDB000_4 {
     s8 unk_9C;
 } S_80FDB000_4;   /* actor in spawn_killer */
 
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
+extern s32 generate_random_value(void);
 
 extern u8 D_80170A7C[];
 extern u8 killer_action_resume_address[];

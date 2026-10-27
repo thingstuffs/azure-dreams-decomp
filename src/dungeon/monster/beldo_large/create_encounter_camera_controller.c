@@ -4,6 +4,7 @@
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
+#include "engine/node.h"
 
 
 typedef struct {
@@ -12,7 +13,6 @@ typedef struct {
     s32 z;
 } __attribute__((packed)) PackedVec;
 
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 D_801717A8;
 extern PackedVec encounter_object_position_template;
 extern void *beldo_camera_object;

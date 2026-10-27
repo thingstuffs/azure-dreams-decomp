@@ -154,3 +154,93 @@ class LandMakeTests(unittest.TestCase):
             self.assertNotIn('build',steps)
             self.assertIn('pointer_casts 1 > baseline 0',
                           (root/'build/landing/debt-baseline.log').read_text())
+
+
+class NativeCheckHookTests(unittest.TestCase):
+    """The optional native compile check: skipped unless configured, fail-fast when it fails."""
+
+    def checkout(self, folder, code, output):
+        script = Path(folder)/'port'/L.NATIVE_CHECKER
+        script.parent.mkdir(parents=True)
+        script.write_text('import json, sys\n'
+                          'open(sys.argv[0] + ".argv", "w").write(json.dumps(sys.argv[1:]))\n'
+                          'print(' + repr(output) + ')\n'
+                          'sys.exit(' + str(code) + ')\n')
+        return {L.NATIVE_PORT_ENV: str(Path(folder)/'port')}, Path(str(script)+'.argv')
+
+    def test_unconfigured_check_is_recorded_as_skipped_or_refused_when_required(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            with contextlib.redirect_stdout(io.StringIO()):
+                self.assertEqual(L.native_check(root, environ={}), 'skipped')
+            self.assertIn('SKIP: no native port checkout configured', (root/'build/landing/native-check.log').read_text())
+            with contextlib.redirect_stdout(io.StringIO()):
+                with self.assertRaisesRegex(ValueError, 'native check required'):
+                    L.native_check(root, require=True, environ={})
+
+    def test_configured_checker_reads_this_root_with_at_most_four_jobs(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)/'game'
+            root.mkdir()
+            env, argv_file = self.checkout(td, 0, 'NATCHECK PASS: 2 native units')
+            self.assertEqual(L.native_check(root, jobs=8, environ=env), 'pass')
+            argv = json.loads(argv_file.read_text())
+            self.assertEqual(argv[:4], ['--root', str(root.resolve()), '--jobs', '4'])
+            self.assertEqual(argv[4:], ['--report', str(root/'build/landing/native-check.json')])
+            self.assertIn('NATCHECK PASS', (root/'build/landing/native-check.log').read_text())
+
+    def test_unit_failure_names_the_units(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)/'game'
+            root.mkdir()
+            env, _ = self.checkout(td, 1, 'natcheck: UNIT game src/dungeon/func_800A4F54.c\n'
+                                          '    src/dungeon/func_800A4F54.c:17:23: error: incompatible types\n'
+                                          'NATCHECK FAIL: 1 unit(s)')
+            with self.assertRaisesRegex(ValueError, r'native check failed \(see build/landing/native-check.log\)\n'
+                                                    r'  natcheck: UNIT game src/dungeon/func_800A4F54.c\n'
+                                                    r'      src/dungeon/func_800A4F54.c:17:23: error'):
+                L.native_check(root, environ=env, allow_pin_drift=True)
+
+    def test_stale_port_pins_fail_unless_explicitly_accepted(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)/'game'
+            root.mkdir()
+            env, _ = self.checkout(td, L.NATIVE_PIN_DRIFT, 'natcheck: PIN source-owners: hash differs\nNATCHECK FAIL (pins only)')
+            with self.assertRaisesRegex(ValueError, 'pins only: --allow-native-pin-drift'):
+                L.native_check(root, environ=env)
+            self.assertEqual(L.native_check(root, environ=env, allow_pin_drift=True), 'pin-drift')
+            self.assertIn('ACCEPTED', (root/'build/landing/native-check.log').read_text())
+
+    def test_missing_checker_is_an_error_not_a_skip(self):
+        with tempfile.TemporaryDirectory() as td:
+            with self.assertRaisesRegex(ValueError, 'does not contain port/tools/natcheck.py'):
+                L.native_check(Path(td), environ={L.NATIVE_PORT_ENV: td})
+
+    def test_native_failure_stops_before_configure_and_never_commits(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)/'game'
+            root.mkdir()
+            def git(*args):
+                return subprocess.check_output(['git',*args],cwd=root,stderr=subprocess.DEVNULL)
+            git('init','-q');git('config','user.name','Test');git('config','user.email','test@example.invalid')
+            (root/'.gitignore').write_text('build/\n*.patch\n');(root/'include').mkdir()
+            (root/'include/entity.h').write_text('unsigned char action_id;\n')
+            git('add','.');git('commit','-qm','baseline');before=git('rev-parse','HEAD')
+            import difflib
+            q=root/'header.patch'
+            q.write_text(''.join(difflib.unified_diff(['unsigned char action_id;\n'],
+                ['union { unsigned char u; signed char s; } action_id;\n'],
+                fromfile='a/include/entity.h',tofile='b/include/entity.h')))
+            env, _ = self.checkout(td, 1, 'natcheck: UNIT runtime port/core/control_actions.c\nNATCHECK FAIL: 1 unit(s)')
+            real_run = subprocess.run
+            def run(argv, *a, **k):  # the retail tools are not part of this fixture
+                if any(str(v).endswith('natcheck.py') or v == 'git' for v in argv):
+                    return real_run(argv, *a, **k)
+                return subprocess.CompletedProcess(argv, 0)
+            with patch.dict(os.environ, env), patch.object(L.subprocess, 'run', side_effect=run):
+                with self.assertRaisesRegex(ValueError, 'port/core/control_actions.c'):
+                    L.main(['--message','must not commit',str(q)],root=root)
+            self.assertEqual(git('rev-parse','HEAD'),before)
+            steps=[s['step'] for s in json.loads((root/'build/landing/timings.json').read_text())['steps']]
+            self.assertEqual(steps[-1],'native-check')
+            self.assertNotIn('configure',steps)

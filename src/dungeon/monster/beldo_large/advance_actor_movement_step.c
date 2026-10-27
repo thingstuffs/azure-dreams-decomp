@@ -39,7 +39,7 @@ s32 test_neighbor_position_relation(s32, s32, s32, s32);
 s16 get_actor_height_difference(struct ActorRecord *, struct ActorRecord *);
 s32 select_actor_route_target(u8 *, s32, u8 *, u16 *);
 s32 update_actor_proximity_flag(void *, void *, s32, s32, s8 *);
-extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
+extern s32 generate_random_value(void);
 void update_actor_status_and_mp(struct ActorRecord *);
 extern s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 struct Rec_D_80082E80; struct Rec_func_800A9E70_arg0; s32 try_actor_attack(struct Rec_func_800A9E70_arg0 *, ObjectPosition *, struct Rec_D_80082E80 *, struct ActorRecord *);

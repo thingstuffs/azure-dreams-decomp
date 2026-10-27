@@ -49,7 +49,7 @@ extern void func_80171854(void *, void *, void *, void *);
 s32 select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
 extern void clear_actor_flag_and_update_action(void *, void *, void *, void *);
 extern void advance_counter_unblocked_and_reset_action(void *, void *, void *, void *);
-extern void update_actor_state_after_map_check(void *, ObjectPosition *, void *, void *);
+extern void update_actor_state_after_map_check(void *, ObjectPosition *, void *, ActorRecord *);
 
 extern u8 kewne_direction_frames[];
 extern u8 D_80175E48[];

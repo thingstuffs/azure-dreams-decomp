@@ -138,7 +138,7 @@ void initialize_mother_event_with_timer_16(void *object, void *unused, void *ini
     Timer *timer;
 
     initialize_object_entries(object, init_data, &mother_event_object_entries);
-    *(s32 **)((u8 *)object + 0x50) = &D_800C78A8;
+    *(void (**)(void *, void *, s32))((u8 *)object + 0x50) = D_800C78A8;
     timer = &mother_event_ticks;
     timer->value = 0x10;
 }

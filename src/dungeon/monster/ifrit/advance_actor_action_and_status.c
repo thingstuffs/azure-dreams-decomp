@@ -47,8 +47,7 @@ extern u8 ifrit_action_resume_address[];
 extern u8 ifrit_frame_set[];
 
 /* Advance the actor action through animation setup, status handling, and completion. */
-void advance_actor_action_and_status(void *in_action, void *in_context, SpriteFrameState *in_sprite, void *in_actor)
-{
+void advance_actor_action_and_status(void *in_action, ObjectPosition *in_context, SpriteFrameState *in_sprite, ActorRecord *in_actor) {
     void *context = in_context;
     void *actor = in_actor;
     s32 state;

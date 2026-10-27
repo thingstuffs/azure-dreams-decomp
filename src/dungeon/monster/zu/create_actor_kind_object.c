@@ -11,13 +11,13 @@
 #include "dungeon/actor/animation.h"
 #include "engine/node/allocation.h"
 #include "dungeon/actor/status.h"
+#include "engine/node.h"
 
 typedef s32 M2C_UNK;
 
 
 
 
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 generate_random_value(void);
 extern u8 D_8014CA70[];
 extern M2C_UNK D_8014D138;

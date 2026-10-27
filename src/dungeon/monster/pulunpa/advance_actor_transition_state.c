@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/object_node.h"
@@ -46,8 +47,7 @@ typedef struct S_80176028_6 {
 } S_80176028_6;   /* owner in advance_actor_transition_state */
 
 /* Advances the actor transition state and updates shared actor data and tile flags. */
-void advance_actor_transition_state(void *owner_data, ObjectPosition *unused, void *entry_data, void *work_data)
-{
+void advance_actor_transition_state(void *owner_data, ObjectPosition *unused, SpriteFrameState *entry_data, void *work_data) {
     register u8 *owner = owner_data;
     u8 *work = work_data;
     register s32 state = owner[0x9B];
@@ -58,11 +58,11 @@ void advance_actor_transition_state(void *owner_data, ObjectPosition *unused, vo
     case 0:
         {
             type_check = 3;
-            if ((((S_80176028_0 *)entry_data)->unk_04 == type_check) &&
-                (((S_80176028_0 *)entry_data)->unk_14 & 0x1000)) {
+            if ((entry_data->unk_04 == type_check) &&
+                (entry_data->flags & 0x1000)) {
                 play_sound_if_enabled(0x808);
             }
-            if (((S_80176028_0 *)entry_data)->unk_14 & 0xE000) {
+            if (entry_data->flags & 0xE000) {
                 ((u8 *)owner_data)[0x9B]++;
                 return;
             }
@@ -133,12 +133,12 @@ void advance_actor_transition_state(void *owner_data, ObjectPosition *unused, vo
 
     case 3:
         {
-            register u8 *entry = entry_data;
+            register SpriteFrameState *entry = entry_data;
 
             spend_actor_mp(work, 0x800);
             ((S_80176028_5 *)work)->unk_1C |= ACTOR_PLAYER_SIDE;
-            update_map_cell_flags_with_item_limit(entry[0x24], entry[0x25], 0x3000);
-            cycle_map_cell_flags(entry[0x24], entry[0x25], 0x300);
+            update_map_cell_flags_with_item_limit(entry->tile_x, entry->tile_y, 0x3000);
+            cycle_map_cell_flags(entry->tile_x, entry->tile_y, 0x300);
             work[0x12] = state;
             display_record_name_message(*(void **)(work + 0x60));
             ((S_80176028_5 *)work)->unk_46 &= 0x7FFF;

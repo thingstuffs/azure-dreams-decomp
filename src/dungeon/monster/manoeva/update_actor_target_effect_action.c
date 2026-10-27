@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -61,7 +62,7 @@ extern u8 D_80170898[];
 void func_80170EE4(void *actor_state_in, void *update_context_in, void *map_object, void *actor_data);
 void transfer_linked_object_state(ActorRecord *owner, ObjectPosition *object_id, SpriteFrameState *dest_object, ActorRecord *dest_state);
 
-s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 void unlink_node();
 s32 get_unused_text_buffer();
 s32 expand_text_control_codes();
@@ -84,7 +85,9 @@ void update_actor_target_effect_action(void *action, void *context, S_80173D78_1
 {
     S_80173D78_3 *target;
     void *effect;
-    S_80173D78_5 *object;
+    ObjectNodeHeader *object;
+    S_80173D78_5 *callback_flags;
+    void *node_storage;
     s32 target_x;
     s32 target_y;
     s32 direction_offset;
@@ -196,14 +199,16 @@ void update_actor_target_effect_action(void *action, void *context, S_80173D78_1
         effect = spawn_manoeva_from_record(action, context, sprite, actor);
         ((Rec_func_80173D78_arg0 *)action)->unk_A4 = effect;
         if (effect != 0) {
-            object = (s8 *)action - 0x20;
+            node_storage = (s8 *)action - 0x20;
+            object = node_storage;
             unlink_node(object);
             register_node(object, process_linked_states_mode_zero);
             sprite->unk_0C.at03.v = 0;
             sprite->unk_12 = sprite->unk_12 - 0x80;
             sprite->unk_14 |= 0xC;
             unlink_entity_node(actor);
-            object->unk_10 |= 0x80000000;
+            callback_flags = node_storage;
+            callback_flags->unk_10 |= 0x80000000;
             ((Rec_func_80173D78_arg0 *)action)->unk_9B = ((Rec_func_80173D78_arg0 *)action)->unk_9B + 1;
             return;
         }
@@ -238,7 +243,8 @@ void update_actor_target_effect_action(void *action, void *context, S_80173D78_1
             return;
         }
 
-        object = (s8 *)action - 0x20;
+        node_storage = (s8 *)action - 0x20;
+            object = node_storage;
         unlink_node(object);
         retire_tracked_effect_by_id(object);
         sprite->unk_0C.at03.v = 0;

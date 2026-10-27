@@ -70,7 +70,7 @@ extern void *allocate_list_node(s32, void *);
 extern void *func_8003FD64(s32, void *);
 extern void register_node(void *, void *);
 extern void func_8004491C(void *, void *);
-extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
+extern s32 generate_random_value(void);
 extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern void select_sprite_entry(void *, s32, s32);

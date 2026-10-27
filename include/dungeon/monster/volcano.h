@@ -646,8 +646,8 @@ extern s32 test_neighbor_position_relation(s32, s32, s32, s32);
  * performs modulo-16-bit arithmetic. One whole-bank declaration is used. */
 extern s32 get_actor_height_difference(void *,void *);
 extern void apply_monster_koyaw_data(s32 flags, s8 *dst);
-extern void * find_adjacent_actor(void *entity, u16 x, u16 y);
-extern void * probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
+void *find_adjacent_actor(void *entity, u16 x, u16 y);
+void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
 extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void select_actor_route_target();
@@ -706,9 +706,9 @@ void update_actor_behavior_facing_and_animation_2(ActorRecord *actor_in, ObjectP
 void update_actor_targeting_and_movement(ActorRecord *object, ObjectPosition *entry_context, SpriteFrameState *tile, ActorRecord *actor);
 void advance_actor_path_step(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
 void set_actor_directional_animation(void *object, ObjectPosition *unused, SpriteFrameState *display, void *orientation);
-s32 begin_actor_directional_attack(void *action_state, ObjectPosition *action_ctx, void *sprite, ActorRecord *actor);
+s32 begin_actor_directional_attack(ActorRecord *action_state, ObjectPosition *action_ctx, void *sprite, ActorRecord *actor);
 void begin_actor_attack_after_status_check(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
-s32 check_actor_ahead_height(void *action_state, ObjectPosition *source_pos, void *sprite, void *actor);
+s32 check_actor_ahead_height(ActorRecord *action_state, ObjectPosition *source_pos, SpriteFrameState *sprite, void *actor);
 void start_actor_directional_animation(ActorRecord *actor_state, ObjectPosition *action_param, SpriteFrameState *sprite, ActorRecord *actor);
 void move_actor_to_tile_and_check_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void update_actor_hop_to_tile(void *anim, ObjectPosition *motion, void *actor, ActorRecord *actor_state);
@@ -718,7 +718,7 @@ void update_actor_spell_action(void *state, E_80172A58_S_80172A58_6 *position, E
 void dampen_actor_movement_to_tile(E_80172ED0_S_80172ED0_0 *action, ObjectPosition *motion, SpriteFrameState *tile_state, void *entity);
 void remove_defeated_volcano(void *state,void *position,void *render_state,void *entity);
 void shrink_hopping_volcano(void *state,void *motion,void *sprite,void *actor);
-void advance_entity_motion_fade_and_removal(void *state, ObjectPosition *action, SpriteFrameState *source, EntityRec *target);
+void advance_entity_motion_fade_and_removal(void *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target);
 void finish_actor_hop_and_grow_then_resume_facing_animation(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void handle_actor_pending_action(ActorRecord *action, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 void handle_actor_action_effects(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
