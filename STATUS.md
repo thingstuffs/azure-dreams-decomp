@@ -2,16 +2,16 @@
 
 **Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.
 
-Generated 2026-10-27T09:00:50Z. Baseline: first-pass text frozen 2026-09-07.
+Generated 2026-10-27T09:58:32Z. Baseline: first-pass text frozen 2026-09-07.
 
 
 ## At a glance
 
 | | |
 |---|---|
-| **Matched** | 21,738 functions and data rows, 8,213,988 bytes, in 5 containers (`slus` = SLUS_006.14 executable, `main` = MAIN.BIN, `town` = TOWN overlays, `dungeon` = DUNGEON overlays, `ovmovie` = OVMOVIE overlay) |
-| **Byte-identical to retail** | 21,386 of 21,738 rows (98.4%), 8,027,812 bytes; 352 unverified |
-| **Code that is C** | 99.5% as C; 99.7% counting byte-identical copies of C functions proven elsewhere (of 7,763,552 bytes of classified or estimated code in `dungeon`, `main`, `ovmovie`, `town`; `slus` is accounted by its own rows; breakdown under Not yet C) |
+| **Matched** | 21,739 functions and data rows, 8,215,104 bytes, in 5 containers (`slus` = SLUS_006.14 executable, `main` = MAIN.BIN, `town` = TOWN overlays, `dungeon` = DUNGEON overlays, `ovmovie` = OVMOVIE overlay) |
+| **Byte-identical to retail** | 21,385 of 21,739 rows (98.4%), 8,027,804 bytes; 354 unverified |
+| **Code that is C** | 99.5% as C; 99.7% counting byte-identical copies of C functions proven elsewhere (of 7,764,280 bytes of classified or estimated code in `dungeon`, `main`, `ovmovie`, `town`; `slus` is accounted by its own rows; breakdown under Not yet C) |
 | **Assembler scaffolding left** | 0 pin sites in 0 rows (from 25,918 at the first pass) |
 | **Readability** | L3 88.6%, L4 12.4%, L5 12.1% of bytes (levels below) |
 
@@ -24,10 +24,10 @@ Code bytes per binary: `slus` = SLUS_006.14 executable, `main` = MAIN.BIN, `town
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | `slus` (SLUS_006.14) | 225,000 | 180,900 | 80.4% | 0 | 0 | 43,872 | 228 | 0 | 228 |
 | `main` (MAIN.BIN) | 71,868 | 69,368 | 96.5% | 0 | 0 | 492 | 0 | 2,008 | 2,008 |
-| `town` (TOWN overlays) | 830,452 | 821,812 | 99.0% | 2,684 | 0 | 132 | 0 | 5,824 | 8,508 |
-| `dungeon` (DUNGEON overlays) | 6,853,492 | 6,829,032 | 99.6% | 13,032 | 0 | 0 | 0 | 11,428 | 24,460 |
+| `town` (TOWN overlays) | 831,180 | 822,540 | 99.0% | 2,684 | 0 | 132 | 0 | 5,824 | 8,508 |
+| `dungeon` (DUNGEON overlays) | 6,853,492 | 6,829,420 | 99.6% | 13,032 | 0 | 0 | 0 | 11,040 | 24,072 |
 | `ovmovie` (OVMOVIE overlay) | 6,396 | 5,516 | 86.2% | 0 | 0 | 880 | 0 | 0 | 0 |
-| **total** | 7,987,208 | 7,906,628 | 99.0% | 15,716 | 0 | 45,376 | 228 | 19,260 | 35,204 |
+| **total** | 7,987,936 | 7,907,744 | 99.0% | 15,716 | 0 | 45,376 | 228 | 18,872 | 34,816 |
 
 - **in C**: code whose C is compiled and compared byte for byte with retail.
 - **byte-identical copies of C**: a span proven identical to a C function elsewhere in the images; it becomes a link-list placement of that function's source, not new C.
@@ -44,10 +44,10 @@ Code bytes per binary: `slus` = SLUS_006.14 executable, `main` = MAIN.BIN, `town
 |---|---:|---:|---:|---:|---:|
 | slus | 884 | 473,788 | 884 | 473,788 | 0 |
 | main | 490 | 69,368 | 466 | 66,236 | 24 |
-| town | 6,018 | 826,044 | 5,898 | 812,840 | 120 |
-| dungeon | 14,318 | 6,839,272 | 14,110 | 6,669,432 | 208 |
+| town | 6,019 | 826,772 | 5,898 | 812,840 | 121 |
+| dungeon | 14,318 | 6,839,660 | 14,109 | 6,669,424 | 209 |
 | ovmovie | 28 | 5,516 | 28 | 5,516 | 0 |
-| ALL | 21,738 | 8,213,988 | 21,386 | 8,027,812 | 352 |
+| ALL | 21,739 | 8,215,104 | 21,385 | 8,027,804 | 354 |
 
 Data rows: 376 (14,472 B); stale-image residue DATA: 1 (488 B).
 
@@ -61,18 +61,18 @@ Baseline NOT exact: 0 rows
 
 | level | bytes | % |
 |---|---:|---:|
-| L0 | 8,027,812 | 97.7% |
-| L1 | 8,027,780 | 97.7% |
-| L2 | 8,027,780 | 97.7% |
-| L3 | 7,274,580 | 88.6% |
+| L0 | 8,027,804 | 97.7% |
+| L1 | 8,027,772 | 97.7% |
+| L2 | 8,027,772 | 97.7% |
+| L3 | 7,274,572 | 88.6% |
 | L4 | 1,019,256 | 12.4% |
 | L5 | 989,924 | 12.1% |
 
 L0 byte-exact, L1 no fidelity blockers, L2 typed field access, L3 readable body landed in `src/`, L4 zero pins and placed in a module with a shared header and current make image proof, L5 nothing left (no fidelity site, goto table, inline asm or `NON_MATCHING`). Full definitions: docs/PLAN.md.
 
-On shared record headers (T7, `include/records/`): 4260 rows, 2,601,844 bytes (31.7%); records used: 95.
+On shared record headers (T7, `include/records/`): 4274 rows, 2,602,940 bytes (31.7%); records used: 95.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 18,945 rows (7,002,792 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 18,944 rows (7,002,784 B).
 
 ## Code shape: what is left to clean in the C
 
@@ -87,7 +87,7 @@ Defects still present in the current tree (files = source files, bytes = image b
 | do{}while(0) scheduling barrier | 18 | 141,144 | 1.7% |
 | fake dependency x=(e)+a;x-=a / arg+v-v | 1 | 408 | 0.0% |
 | local address-named struct | 2,382 | 3,630,404 | 44.2% |
-| clean shape | 7,982 | 7,837,276 | 95.4% |
+| clean shape | 7,984 | 7,838,392 | 95.4% |
 
 <details><summary>pinned first-pass text vs current tree, every defect</summary>
 
@@ -108,7 +108,7 @@ Defects still present in the current tree (files = source files, bytes = image b
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 1.9% | 18 | 141,144 | 1.7% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
 | local address-named struct | 633 | 346,824 | 4.2% | 2382 | 3,630,404 | 44.2% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 1.9% | 7982 | 7,837,276 | 95.4% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 1.9% | 7984 | 7,838,392 | 95.4% |
 
 </details>
 
@@ -117,7 +117,7 @@ Pin sites now: 0 in 0 rows; none left.  At the pin: 25,918; REG 12,816, KEEP 6,9
 
 ## Image proof
 
-`make check`: 1516/1516 images exact; 8408 overlay recipes checked. L4/L5 use current image proof and registered module shared headers. Module certificates are retired from this rule.
+`make check`: 1517/1517 images exact; 8410 overlay recipes checked. L4/L5 use current image proof and registered module shared headers. Module certificates are retired from this rule.
 
 
 

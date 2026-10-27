@@ -1,6 +1,6 @@
 {
   "schema": "overlay-module-native-v4",
-  "logical_rows": 20854,
+  "logical_rows": 20855,
   "edges": [
     {
       "module": "dungeon_cd_control_d79c4",
@@ -127875,13 +127875,13 @@
       ]
     },
     {
-      "source": "src/main/func_8000E904.c",
+      "source": "src/dungeon/monster/ghosh/begin_ghosh_front_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
       },
       "rows": [
-        "dungeon/func_813250A4"
+        "dungeon/func_81324F20"
       ]
     },
     {
@@ -185272,6 +185272,16 @@
       },
       "rows": [
         "town/func_8081CD28"
+      ]
+    },
+    {
+      "source": "src/town/minigame/initialize_casino_minigame.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8081DA98"
       ]
     },
     {

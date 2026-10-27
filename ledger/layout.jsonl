@@ -7984,3 +7984,5 @@
 {"id":"dungeon/func_80D65244","path":"src/dungeon/monster/baloon/create_directional_template_effect.c"}
 {"id":"town/D_80785074","path":"src/town/scene/attach_global_data_invoke_callback.c"}
 {"id":"town/D_8079A074","path":"src/town/scene/attach_global_data_and_invoke_callback.c"}
+{"id":"town/func_8081DA98","path":"src/town/minigame/initialize_casino_minigame.c"}
+{"id":"dungeon/func_81324F20","path":"src/dungeon/monster/ghosh/begin_ghosh_front_attack.c"}

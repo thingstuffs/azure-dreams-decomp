@@ -39,7 +39,7 @@ s32 update_actor_proximity_flag(void *, void *, s32, s32, s8 *); /* extern */
 s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */                            /* extern */
 void update_actor_status_and_mp(struct ActorRecord *);                      /* extern */
 s16 sample_terrain_surface_height();                   /* extern */
-s32 func_8016C720();          /* extern */
+s32 begin_ghosh_front_attack();          /* extern */
 typedef struct {
     u8 pad[0xC];
     u16 flags;
@@ -104,7 +104,7 @@ void advance_actor_path(GhoshMoveState *motion, ObjectPosition *context, SpriteF
     state_flags = g_dungeon_status.flags;
     near_target = 0;
     if ((state_flags & 0x4000) || ((s8)actor->movement_queue_state >= 0)) {
-        if ((actor->unk_12 >= 2U) || ((func_8016C720(motion, context, position, actor) << 0x10)
+        if ((actor->unk_12 >= 2U) || ((begin_ghosh_front_attack(motion, context, position, actor) << 0x10)
             == 0)) {
             update_actor_status_and_mp(actor);
             return;

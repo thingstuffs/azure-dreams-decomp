@@ -44,4 +44,11 @@ void animate_timed_fade_effect(void *effect);
 void apply_boss_direction_table_state(void *record_data);
 void update_object_motion_and_landing(void *motion, void *position, void *object);
 
+/* begin_ghosh_front_attack.c and its imports. */
+s32 begin_ghosh_front_attack(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
+u32 check_entity_interaction_compatibility(void *entity, void *other_entity);
+s32 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record); /* callers here use the full return register */
+s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
+void prepare_directional_attack(ActorRecord *actor, SpriteFrameState *sprite, s16 facing, s32 mode, s32 extra);
+
 #endif

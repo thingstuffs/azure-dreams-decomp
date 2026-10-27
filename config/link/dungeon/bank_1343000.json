@@ -56,13 +56,13 @@
       }
     },
     {
-      "row": "dungeon/func_813250A4",
-      "tu": "src/main/func_8000E904.c",
-      "home": "main/func_8000E904",
-      "foff": "0x13450A4",
-      "vma": "0x8016c8a4",
-      "size": 8,
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+      "row": "dungeon/func_81324F20",
+      "home": "dungeon/func_81324F20",
+      "tu": "src/dungeon/monster/ghosh/begin_ghosh_front_attack.c",
+      "foff": "0x1344F20",
+      "vma": "0x8016C720",
+      "size": 396,
+      "evidence": "docs/evidence/opus_nearmatch1.md"
     },
     {
       "row": "dungeon/func_8132530C",

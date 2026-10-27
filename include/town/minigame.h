@@ -5,6 +5,7 @@
 #include "town/scene/collection.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
+#include "town/scene.h"
 
 
 /* initialize_minigame_display.c */
@@ -30,5 +31,22 @@ void tick_summed_scene_value_text(void *entry);
 void tick_timed_sound(void *object);
 void update_linked_four_column_number(void *entry);
 void update_minigame_image_animation(void *anim);
+
+/* initialize_casino_minigame.c: the casino image (town +0x79D800) loads at 0x80020000. */
+s32 initialize_casino_minigame(void);
+/* Update callbacks it installs; their definitions take file-local views. */
+void update_betting_effect();
+void update_effect_position_spin_phases();
+void update_minigame_transition();
+/* Mode-three record setup (town/scene/configure_set_mode_n_d.c) as the minigame constructors call it. */
+void configure_the_set_mode_n_3(void *record, void *position, void *params);
+extern s32 pickup_reward_total[];
+extern u8 D_80020014[];             /* callback data word shared by the casino models */
+extern SceneImageRect D_80020018;   /* initializer of the casino palette rectangle (112, 449, 48, 1) */
+extern u8 D_80024568[];             /* casino display context */
+extern u8 D_80024408[];             /* betting model mode-three parameters */
+extern u8 D_800243F0[];             /* payout digit mode-three parameters */
+extern s32 D_80024444[];            /* payout digit mesh ids */
+extern u32 D_800245C8[];            /* saved casino palette row */
 
 #endif

@@ -51,7 +51,7 @@ s32 reset_actor_action_state(void *, void *, void *, u8 *);
 void begin_actor_spell_action(void *, void *, void *, u8 *, void *);
 void advance_entity_along_path(void *, void *, SpriteFrameState *, void *);
 void advance_actor_path();
-s32 func_8016C720();
+s32 begin_ghosh_front_attack();
 struct Rec_func_800A9E70_arg0; void clear_actor_flag_and_advance_action(struct Rec_func_800A9E70_arg0 *, s32, void *, struct ActorRecord *);
 struct Rec_func_800A9E70_arg0; s32 dispatch_actor_action_phase(struct Rec_func_800A9E70_arg0 *, s32, s32, s32);
 extern void func_8016DAA4(CallbackOwner *owner, s32 unused, s32 first, s32 second);
@@ -192,7 +192,7 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
         switch (action_id) {
         case 8:
         case 9:
-            if ((func_8016C720(actor, context, map_actor, entity) << 0x10) != 0) {
+            if ((begin_ghosh_front_attack(actor, context, map_actor, entity) << 0x10) != 0) {
                 return;
             }
             clear_actor_flag_and_advance_action(actor, context, map_actor, entity);
