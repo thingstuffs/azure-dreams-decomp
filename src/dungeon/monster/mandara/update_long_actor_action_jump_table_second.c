@@ -1,6 +1,8 @@
+#include "shared/sprite_frame_state.h"
+#include "shared/entity.h"
 #include "common.h"
 
-extern void update_long_actor_action(void);
+void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_entity, SpriteFrameState *sprite, ActorRecord *entity);
 
 /* Exact jump_table span; dispatch consumer dungeon/func_80FB176C. */
 const void *const D_80170820[12] __attribute__((aligned(4))) = {

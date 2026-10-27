@@ -14,20 +14,20 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 Control_CD(); /* extern */
-void apply_actor_template_and_class();          /* extern */
-void replay_actor_status_slots();                      /* extern */
+void apply_actor_template_and_class(void *entity, int value, void *source);          /* extern */
+void replay_actor_status_slots(ActorRecord *object);                      /* extern */
 void func_80042640();                  /* extern */
 void runtime_map_type_16_entry_code();                      /* extern */
 void * register_and_upload_sprite_resource();                     /* extern */
 s32 begin_sprite_resource_load_with_completion_flag();                   /* extern */
-void set_sprite_animation_frame(); /* extern */
+void set_sprite_animation_frame(SpriteFrameState *obj, s16 frame_group, s16 frame_index, s32 slot_index); /* extern */
 void create_familiar_deployment_overlay();      /* extern */
 void store_recalled_familiar(); /* extern */
 void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */                         /* extern */
 u8 * expand_text_control_codes();                  /* extern */
-void *clear_byte_and_advance();                         /* extern */
+u8 * clear_byte_and_advance(u8 *byte_ptr);                         /* extern */
 void * write_text_byte_and_advance();                    /* extern */
-u8 * append_entity_display_text();                     /* extern */
+u8 * append_entity_display_text(void *record, u8 *out);                     /* extern */
 void process_unflagged_linked_entries(s32 firstEntryBase);                         /* extern */
 void process_unflagged_linked_entries_alt(s32 firstNodeBase);                         /* extern */
 void unlink_entity_node(struct EntityLinkNode *node);                      /* extern */

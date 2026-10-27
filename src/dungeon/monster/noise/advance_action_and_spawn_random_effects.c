@@ -7,7 +7,7 @@
 /* Advance the action animation and spawn pairs of effects with randomized velocities. */
 /* Times Noise's attack, emits particle pairs on ticks 9-13, resolves damage at tick 11, and spends MP on
  * completion. */
-void advance_action_and_spawn_random_effects(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+void advance_action_and_spawn_random_effects(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u16 spawn_offset[3];
     u16 position[3];
     T_80172FFC_WorkMid effect_work;

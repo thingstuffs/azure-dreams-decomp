@@ -26,14 +26,14 @@ typedef struct S_80091C64_0 {
     u16 unk_11A;
 } S_80091C64_0;   /* arg0 in update_actor_hop_and_return */
 
-void set_record_integer_tile_center();
+#include "dungeon/player/object.h"
 s32 play_sound_if_enabled(s32 query_value);
 
 extern u8 player_hop_frames[];
 extern u8 player_landing_frame_set[];
 
 /* Animate a hop and return to the entity's tile, then restore its facing and behavior. */
-void update_actor_hop_and_return(void *motion, EntityRec *position, SpriteFrameState *entity, void *actor) {
+void update_actor_hop_and_return(void *motion, ObjectPosition *position, SpriteFrameState *entity, void *actor) {
     s32 *next_behavior;
     s16 frames_left;
     u8 phase;

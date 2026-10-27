@@ -40,7 +40,7 @@ extern void set_record_integer_tile_center(void *, u8, u8);
 extern void on_actor_status_updated(void *);
 extern void spend_actor_mp(void *, s32);
 
-extern void create_owner_linked_directional_object(void *, void *, void *);
+void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosition *source_position, SpriteFrameState *source_sprite);
 
 extern u8 uboat_default_frames[];
 extern u8 uboat_timed_motion_frames[];
@@ -48,7 +48,7 @@ extern u8 uboat_timed_motion_frames_alt[];
 #include "dungeon/monster/u_boat.h"
 
 /* Updates timed actor movement, landing animations, and the next action. */
-void update_actor_timed_tile_motion(void *action, void *motion, SpriteFrameState *sprite, void *actor)
+void update_actor_timed_tile_motion(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *actor)
 {
     u16 target_distance;
     s32 phase;

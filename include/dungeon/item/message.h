@@ -15,4 +15,6 @@ u8 *write_text_byte_and_advance(s8 value, u8 *dest);
 
 u8 *append_typed_formatted_value(DungeonItemEntry *data, u8 *buffer);
 
+void *copy_four_text_bytes(u8 *source, u8 *buffer);
+
 #endif

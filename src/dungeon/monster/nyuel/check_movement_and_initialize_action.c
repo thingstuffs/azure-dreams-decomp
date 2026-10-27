@@ -29,7 +29,7 @@ extern u8 nyuel_frame_set_8;
 /* Check movement conditions and initialize the actor action and directional animation. */
 /* Starts Nyuel's attack against a compatible neighbor within 63 height units; returns 1, 0 if unsuitable,
  * or -1 if busy. */
-s32 check_movement_and_initialize_action(void *action_state, void *action_ctx, SpriteFrameState *sprite, ActorRecord *actor) {
+s32 check_movement_and_initialize_action(ActorRecord *action_state, ObjectPosition *action_ctx, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
     u8 *direction_table;
     s32 move_heading;

@@ -34,7 +34,7 @@ extern void select_sprite_entry(void *, s32, s32);
 extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
 
 /* Create a render object, copy its source state, and apply queried position offsets. */
-s32 create_copied_render_object(GolemActionWork *owner, EntityRec *source_state, Rec_func_800AA258_arg2 *render_data) {
+s32 create_copied_render_object(GolemActionWork *owner, ObjectPosition *source_state, Rec_func_800AA258_arg2 *render_data) {
     u16 offsets[3];
     ObjectNodeHeader *object;
     ObjectNodeHeader *owner_node;

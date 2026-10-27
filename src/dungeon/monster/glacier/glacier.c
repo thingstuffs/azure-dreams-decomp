@@ -32,7 +32,7 @@ typedef struct S_8102F348_1 {
     s32 unk_64;
 } S_8102F348_1;   /* arg0 in func_8102F348 */
 
-extern s32 check_left_tile_and_center_height(u16, u16, s16);
+s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern s16 sample_terrain_surface_height(u16, u16, s16);
 extern void advance_sprite_animation_and_textures(void *);
 /* Updates effect motion and collision, grows its sprite, and flags expired effects. */

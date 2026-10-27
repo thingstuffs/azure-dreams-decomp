@@ -46,10 +46,10 @@ extern void process_selected_actor_record(void *, void *, void *, void *);
 extern void begin_actor_spell_action(void *actor, void * effect_param, void *target, u8 *direction_table, void * next_state);
 
 extern void func_80171854(void *, void *, void *, void *);
-extern s32 select_and_start_target_action(void *, void *, void *, void *);
+extern s32 select_and_start_target_action(void *, ObjectPosition *, void *, void *);
 extern void clear_actor_flag_and_update_action(void *, void *, void *, void *);
 extern void advance_counter_unblocked_and_reset_action(void *, void *, void *, void *);
-extern void update_actor_state_after_map_check(void *, void *, void *, void *);
+extern void update_actor_state_after_map_check(void *, ObjectPosition *, void *, void *);
 
 extern u8 kewne_direction_frames[];
 extern u8 D_80175E48[];

@@ -15,7 +15,7 @@ extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
-extern void update_actor_state_after_map_check(void *, void *, SpriteFrameState *, void *);
+extern void update_actor_state_after_map_check(void *, ObjectPosition *, SpriteFrameState *, void *);
 
 extern s32 kewne_action_resume_address;
 extern u8 kewne_frame_set_1[];

@@ -22,7 +22,7 @@ extern void advance_sprite_animation_and_textures();
 extern void apply_monster_koyaw_data();
 extern s32 refresh_actor_facing_and_lifecycle();
 extern void try_move_actor_to_valid_position();
-extern s16 sample_terrain_surface_height();
+s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 
 void update_object_animation(ActorRecord *obj, ObjectPosition *motion, SpriteFrameState *part, ActorRecord *state);
 extern Callback beldo_callbacks[];

@@ -48,8 +48,7 @@ extern u8 viper_action_continuation_address[];
 extern u8 viper_frame_set_2[];
 
 /* Advances an actor motion, waits for completion, and resets its action state. */
-void advance_motion_and_reset_action(void *state, ObjectPosition *transform, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void advance_motion_and_reset_action(ActorRecord *state, ObjectPosition *transform, SpriteFrameState *sprite, ActorRecord *actor) {
     u16 saved_pos[3];
     u8 *motion;
     s16 use_player;
@@ -62,7 +61,7 @@ void advance_motion_and_reset_action(void *state, ObjectPosition *transform, Spr
     ObjectNodeHeader *action_state;
 
     use_player = 0;
-    switch (((S_80172F5C_0 *)state)->unk_9B) {
+    switch (state->action_phase) {
     case 0:
         if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
             switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
@@ -106,7 +105,7 @@ void advance_motion_and_reset_action(void *state, ObjectPosition *transform, Spr
         }
 
         if (*motion != 0) {
-            ((S_80172F5C_0 *)state)->unk_98 &= 0xFF7F;
+            state->action_state_flags &= 0xFF7F;
             if (use_player != 0) {
                 target = primary_actor_record;
                 actor->target = target;
@@ -137,7 +136,7 @@ void advance_motion_and_reset_action(void *state, ObjectPosition *transform, Spr
             }
             sprite->flags &= 0xF7FF;
             play_sound_if_enabled(0x703);
-            ((S_80172F5C_0 *)state)->unk_9B = ((S_80172F5C_0 *)state)->unk_9B + 1;
+            state->action_phase = state->action_phase + 1;
             return;
         }
 
@@ -161,12 +160,12 @@ void advance_motion_and_reset_action(void *state, ObjectPosition *transform, Spr
             return;
         }
         sprite->flags &= 0xF7FF;
-        ((S_80172F5C_0 *)state)->unk_9B = ((S_80172F5C_0 *)state)->unk_9B + 1;
+        state->action_phase = state->action_phase + 1;
     case 2:
         if ((sprite->unk_04 == 6 && (sprite->flags & 0x1000)) ||
             (sprite->flags & 0xE000)) {
             sprite->flags |= 0x800;
-            ((S_80172F5C_0 *)state)->unk_98 |= 0x80;
+            state->action_state_flags |= 0x80;
         }
         if ((sprite->unk_04 == 7 && (sprite->flags & 0x1000)) ||
             (sprite->flags & 0x8000)) {

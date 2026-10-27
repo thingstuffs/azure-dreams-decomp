@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
@@ -6,14 +7,14 @@
 extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
 
 extern void select_sprite_entry(void *, u8, s32);
-extern void create_owner_linked_directional_object(void *,u8 *, void *);
+void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosition *source_position, SpriteFrameState *source_sprite);
 
 extern u8 uboat_default_frames[];
 extern u8 uboat_action_frames[];
 #include "dungeon/monster/u_boat.h"
 
 /* Selects a response state or updates the sprite's directional animation. */
-void update_actor_action_transition(void *state, void *update_mode, SpriteFrameState *sprite, void *entity)
+void update_actor_action_transition(void *state, ObjectPosition *update_mode, SpriteFrameState *sprite, void *entity)
 {
     if (update_actor_transform_from_parent(state, update_mode, sprite, entity) != 0) {
         if ((check_actor_floor_trap(sprite, entity) << 16) > 0) {

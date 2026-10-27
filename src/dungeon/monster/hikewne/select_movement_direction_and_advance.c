@@ -28,7 +28,7 @@ extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16
 extern s16 test_neighbor_position_relation(s32, s32, s32, s32);
 extern void select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
 extern s16 check_directional_move_and_terrain(s16, void *, void *, s32);
-extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern s16 check_entity_relation(void *, void *);
 extern s16 sample_terrain_surface_height(s32, s32, s16);

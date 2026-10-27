@@ -5,7 +5,7 @@
 #include "town/scene/position_entries.h"
 
 void apply_entry_keyed_values(s16 *entry_table, void *resource, s32 entry_key);
-s32 resolve_entry_flag(u8 *entry_table, void *context, s32 entry_key);
+s32 resolve_entry_flag(void *entry_table, void *context, s32 entry_key);
 s32 process_current_cell_and_clear(void *object, s32 entry_index);
 s32 update_entry_state_and_clear(void *object, s32 entry_index);
 s32 load_entry_value_and_handle_followup(void *object, s32 entry_index);

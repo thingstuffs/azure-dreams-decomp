@@ -59,7 +59,7 @@ static __inline__ u8 get_y_step(s16 byte_offset) {
 /* Selects a movement direction and advances the actor path through available tiles. */
 /* Chooses a clear path step toward a player-relative tile or nearby actor, records the path, and updates
  * occupancy. */
-void advance_actor_path(GhoshMoveState *motion, void *context, SpriteFrameState *position, ActorRecord *actor) {
+void advance_actor_path(GhoshMoveState *motion, ObjectPosition *context, SpriteFrameState *position, ActorRecord *actor) {
     s32 turn_index;
     s32 near_target;
     u8 *x_offsets;

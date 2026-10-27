@@ -30,13 +30,12 @@ extern u8 nyuel_frame_set_2[];
 extern u8 nyuel_frame_set_1[];
 
 /* Updates the actor state and selects its directional effect. */
-void update_actor_state_and_directional_effect(void *controller, void *context, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void update_actor_state_and_directional_effect(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor) {
     u8 state;
     u8 *effect_table;
     s32 direction;
 
-    state = ((S_80173564_0 *)controller)->unk_9B;
+    state = controller->action_phase;
     switch (state) {
     case 0:
     {
@@ -51,7 +50,7 @@ void update_actor_state_and_directional_effect(void *controller, void *context, 
         sprite->frameTable = initial_effects;
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         select_sprite_entry(sprite, initial_effects[direction & 7], 0);
-        ((S_80173564_0 *)controller)->unk_9B++;
+        controller->action_phase++;
         return;
     }
     case 1:

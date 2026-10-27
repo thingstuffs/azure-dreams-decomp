@@ -50,7 +50,7 @@ extern void func_80172F08(void);
 extern void func_80172F10(void);
 extern void func_80175258(void);
 extern void func_80175298(void);
-extern void update_long_actor_action(void);
+void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_entity, SpriteFrameState *sprite, ActorRecord *entity);
 
 void *create_actor_grid_object(s16, s32, s16, s16);
 
@@ -141,7 +141,7 @@ void *create_actor_grid_object(s16 mode, s32 value1, s16 value2, s16 value3)
         value = monster->clut;
         (*(u8 *)((u8 *)actor + 0x9A)) = 0xFF;
         (*(s8 *)((u8 *)actor + 0x9C)) = -1;
-        (*(Callback *)((u8 *)actor + 0x8C)) = update_long_actor_action;
+        (*(ActorActionHandler *)((u8 *)actor + 0x8C)) = update_long_actor_action;
         (*(s16 *)((u8 *)actor + 0xAE)) = value;
 
         entry = *(u8 * *)&monster->source;

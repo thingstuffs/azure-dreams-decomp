@@ -5,9 +5,9 @@
 #include "town/player.h"
 #include "town/player/script_flags.h"
 #include "town/scene/position_entries.h"
+#include "town/scene/entry_requests.h"
 
 
-extern s32 resolve_entry_flag();
 extern ScenePositionEntry D_8001BB94;
 extern u8 D_8001E891;
 

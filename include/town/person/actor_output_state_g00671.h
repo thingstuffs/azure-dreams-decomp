@@ -6,6 +6,8 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
+#include "records/Rec_func_800AB030_arg0.h"
+#include "town/person/lookup_motion.h"
 
 /* extern */
 typedef struct S_800C81E4_0 {
@@ -19,12 +21,10 @@ typedef struct S_800C81E4_1 {
     u16 unk_06;
 } S_800C81E4_1;
 
-s32 advance_person_lookup_value();
 /* extern */
 s32 query_lowered_transform_position();
 
 /* Functions defined in this translation unit. */
-void set_object_value_base_plus(s32 source, EntityRec *object);
-void update_output_adding_eight_state(S_800C81E4_0 *state, S_800C81E4_1 *output);
+void update_output_adding_eight_state(Rec_func_800AB030_arg0 *state, S_800C81E4_1 *output);
 
 #endif

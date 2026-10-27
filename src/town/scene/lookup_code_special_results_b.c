@@ -1,6 +1,6 @@
 #include "common.h"
 
-s32 func_80017A54();         /* extern */
+s32 func_80017A54(void *entry_table, void *context, s32 entry_key);         /* extern */
 void *func_80017B0C();       /* extern */
 extern s32 D_80018968;
 extern s32 D_80019104;

@@ -10,7 +10,7 @@
 
 typedef struct S_80172BFC_0 {
     u8 pad_00[0x8C];
-    s32 * unk_8C;
+    ActorActionHandler unk_8C;
     u8 pad_90[0x6];
     u16 unk_96;
     u8 pad_98[0x3];

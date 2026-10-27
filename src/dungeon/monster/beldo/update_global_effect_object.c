@@ -6,7 +6,7 @@
 extern u8 *beldo_active_entity;
 
 extern void * detach_record_and_update_slot_state(void *record);
-extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, s32 flag_mask);
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern void unlink_entity_node(void *node);
 
 /* Updates the active object, triggers its positional effect, and clears its slot. */

@@ -6,12 +6,12 @@
 
 extern s32 prepare_directional_attack();
 extern s32 try_claim_dungeon_action_slot();
-extern void apply_camera_offset_and_select_target();
+extern s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 extern void begin_actor_exclusive_action();
 
 
 /* Start the actor action and reset its state when ready, or dispatch the alternate action. */
-void begin_actor_action(Rec_func_800A9E70_arg0 *state, s32 world_pos, s32 tile_pos, EntityRec *actor)
+void begin_actor_action(Rec_func_800A9E70_arg0 *state, ObjectPosition *world_pos, s32 tile_pos, EntityRec *actor)
 {
     if (state->unk_B5 == 0) {
         actor->unk_71 &= 0x7F;

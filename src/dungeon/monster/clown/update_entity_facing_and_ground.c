@@ -828,7 +828,7 @@ void begin_eligible_actor_action(ActorRecord *action_state, ObjectPosition *cont
 }
 
 /* Relinks actor state, updates status or movement as needed, and reports whether a new action may start. */
-s32 relink_clown_path(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
+s32 relink_clown_path(void *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
     s16 state_type;
     s32 result;
     void *entity = entity_arg;
@@ -1688,7 +1688,7 @@ void create_angled_source_effect(
 
 /* Stops movement and waits for dungeon activity to finish, then clears the callback and counts the new
  * action. */
-void wait_for_clown_action_slot(void *entity_data, s32 unused_1, s32 unused_2, void *other_data)
+void wait_for_clown_action_slot(void *entity_data, ObjectPosition *unused_1, s32 unused_2, void *other_data)
 {
     u8 *entity = entity_data;
     u8 *other = other_data;

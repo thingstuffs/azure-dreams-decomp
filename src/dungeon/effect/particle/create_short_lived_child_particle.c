@@ -11,7 +11,7 @@
 
    /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in create_short_lived_child_particle */
 
-void *allocate_list_node();
+#include "engine/node/allocation.h"
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern u8 child_particle_draw_address[];
 extern u8 D_801654F0[];
@@ -34,21 +34,21 @@ typedef struct S_801656F8_1 {
 } S_801656F8_1;
 
 /* Creates an effect offset from its source with randomized motion. */
-void create_short_lived_child_particle(EntityRec *source, s16 effect_param, s32 state_value, s16 offset_x, s16 offset_y,
+void create_short_lived_child_particle(ObjectNodeHeader *source, s16 effect_param, s32 state_value, s16 offset_x, s16 offset_y,
                    s16 offset_z, s32 motion_z)
 {
     S_801656F8_1 *effect_state;
     ObjectNodeHeader *effect;
 
-    effect = allocate_list_node(0x211, source);
+    effect = allocate_list_node(0x211, &source->next);
     if (effect != NULL) {
         effect->update_callback = D_801654F0;
         (effect->position)->x.w.i = (s16)
-        (((MovingPosition *)((*(void * *)&source->z)))->x + offset_x);
+        ((u16)source->position->x.w.i + offset_x);
         (effect->position)->y.w.i = (s16)
-        (((MovingPosition *)((*(void * *)&source->z)))->y + offset_y);
+        ((u16)source->position->y.w.i + offset_y);
         (effect->position)->z.w.i = (s16)
-        (((MovingPosition *)((*(void * *)&source->z)))->z + offset_z);
+        ((u16)source->position->z.w.i + offset_z);
         effect->sprite->depth_bias = 6;
         (effect->position)->velocity_x = (s32)
         (((rand() & 0x7FFF) - 0x4000) << 4);

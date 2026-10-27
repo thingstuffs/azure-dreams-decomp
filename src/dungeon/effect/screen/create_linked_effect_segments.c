@@ -8,7 +8,7 @@
 
 extern u8 D_800DF334[];
 void spawn_spiraling();
-void *allocate_list_node();
+#include "engine/node/allocation.h"
 s16 calculate_planar_heading(s16 start_x, s16 start_y, s16 end_x, s16 end_y);
 void draw_textured_ellipse();
 extern M2C_UNK D_80028214;
@@ -51,12 +51,12 @@ void *create_linked_effect_segments(Rec_func_800243C4_arg1 *position) {
     u16 x;
     u16 y;
     u16 z;
-    u8 *parent;
+    ObjectNodeHeader **parent;
     S_80024ED4_2 *coords;
     S_80024ED4_4 *segment_state;
     ObjectNodeHeader *segment;
     SpriteFrameState *render_state;
-    void *previous_segment;
+    ObjectNodeHeader **previous_segment;
 
     previous_segment = NULL;
     segment_index = 0;
@@ -68,7 +68,7 @@ void *create_linked_effect_segments(Rec_func_800243C4_arg1 *position) {
         }
         parent = previous_segment;
         if (previous_segment == NULL) {
-            parent = ((u8 *)(&scene_object_list_anchor));
+            parent = &scene_object_list_anchor.next;
         }
         segment = allocate_list_node(alloc_flags, parent);
         segment_state = ((void *)segment) + 0x20;
@@ -100,7 +100,7 @@ void *create_linked_effect_segments(Rec_func_800243C4_arg1 *position) {
                 draw_textured_ellipse(D_800DF334, setup_params, 1, 0);
             }
             segment_state->unk_08 = previous_segment;
-            previous_segment = segment;
+            previous_segment = &segment->next;
             segment_state->unk_38 = segment_index;
         } else {
             return previous_segment;

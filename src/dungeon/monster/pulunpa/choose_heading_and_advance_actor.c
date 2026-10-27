@@ -100,7 +100,7 @@ extern s16 check_diagonal_side_height(s32, s32, s32, s32);
 extern s32 calculate_planar_heading(s32, s32, s32, s32);
 extern s16 get_tile_chebyshev_distance(void *, void *);
 extern s16 test_neighbor_position_relation(s32, s32, s32, s32);
-extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern void cycle_map_cell_flags(s32, s32, s32);
 extern s16 check_entity_relation(void *, void *);
 extern s16 sample_terrain_surface_height(s32, s32, s16);

@@ -39,7 +39,7 @@ typedef struct S_80172D08_4 {
 extern s32 rsin(s32);
 extern s32 resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void set_record_integer_tile_center(void *, u8, u8);
-extern s16 check_layer_offset_height(u16 x, u16 y, s16 height, u32 flags);
+s32 check_layer_offset_height(u16 x, u16 y, s16 height, u32 flags);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 extern void * create_primitive_state_object(void *, void *, void *);
@@ -49,19 +49,18 @@ extern u8 golem_action_continuation_address;
 /* Advances the actor's movement state, height arc, and return to its tile. */
 /* Checks terrain ahead, arcs Golem toward a target or tile, resolves damage, then returns to its tile and
  * spends MP. */
-void advance_actor_height_arc(void *action, void *motion, SpriteFrameState *record, ActorRecord *actor)
-{
+void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *record, ActorRecord *actor) {
     u8 state;
     s32 terrain_height;
 
-    state = ((S_80172D08_0 *)action)->unk_9B;
+    state = action->action_phase;
     switch (state) {
     case 0:
     {
         s32 direction;
 
         if (record->flags & 0x8000) {
-            ((S_80172D08_0 *)action)->unk_9B = 4;
+            action->action_phase = 4;
             record->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, record, actor->facing, 1);
             return;
@@ -92,7 +91,7 @@ void advance_actor_height_arc(void *action, void *motion, SpriteFrameState *reco
         ((Rec_func_80172D08_arg1 *)motion)->unk_10 = 0;
         ((Rec_func_80172D08_arg1 *)motion)->unk_0C = 0;
         ((S_80172D08_0 *)action)->unk_96.s = 6;
-        ((S_80172D08_0 *)action)->unk_9B++;
+        action->action_phase++;
     }
 
     case 1:
@@ -113,11 +112,11 @@ void advance_actor_height_arc(void *action, void *motion, SpriteFrameState *reco
             ((Rec_func_80172D08_arg1 *)motion)->unk_10 =
                 (((s16 *)((s8 *)dir_step_y))[direction >> 1] << 22) / 8;
         }
-        ((S_80172D08_0 *)action)->unk_98 |= 0xC;
+        action->action_state_flags |= 0xC;
         (*(u32 *)&actor->flags1C) &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80172D08_0 *)action)->unk_A0 = 0;
         ((S_80172D08_0 *)action)->unk_96.s = 0x10;
-        ((S_80172D08_0 *)action)->unk_9B++;
+        action->action_phase++;
         return;
     }
 
@@ -191,7 +190,7 @@ void advance_actor_height_arc(void *action, void *motion, SpriteFrameState *reco
             return;
         }
         play_sound_if_enabled(0x803);
-        ((S_80172D08_0 *)action)->unk_9B++;
+        action->action_phase++;
         return;
     }
 
@@ -219,7 +218,7 @@ void advance_actor_height_arc(void *action, void *motion, SpriteFrameState *reco
                     -((((s16 *)((s8 *)dir_step_y))[direction >> 1] << 22) / 8);
             }
             ((S_80172D08_0 *)action)->unk_96.s = 8;
-            ((S_80172D08_0 *)action)->unk_9B++;
+            action->action_phase++;
         }
         return;
     }
@@ -298,7 +297,7 @@ void advance_actor_height_arc(void *action, void *motion, SpriteFrameState *reco
             ((S_80172D08_0 *)action)->unk_8C = &golem_action_continuation_address;
             g_dungeon_status.active_actor = 0;
             (actor->action_flags) &= 0x7FFF;
-            ((S_80172D08_0 *)action)->unk_98 &= 0xFFF3;
+            action->action_state_flags &= 0xFFF3;
             (*(u32 *)&actor->flags1C) |= ACTOR_GROUNDED;
             advance_status_timers(actor);
         }

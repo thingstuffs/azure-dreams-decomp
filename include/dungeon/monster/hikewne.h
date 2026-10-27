@@ -12,7 +12,7 @@ extern u8 hikewne_alt_direction_frames[];
 void select_movement_direction_and_advance(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 
 
-void advance_actor_state_sequence(void *action, void *context, SpriteFrameState *entity, ActorRecord *actor);
+void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, SpriteFrameState *entity, ActorRecord *actor);
 
 struct S_80173588_0;
 void reset_state_field_a_2(struct S_80173588_0 *state, void *context, SpriteFrameState *data, void *render);

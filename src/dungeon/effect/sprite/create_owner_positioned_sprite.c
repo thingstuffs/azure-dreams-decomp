@@ -12,27 +12,9 @@ typedef struct Sprite {
     u16 z;
 } Sprite;
 
-typedef struct Node {
-    u8 pad0[6];
-    s16 field6;
-    void *field8;
-    s32 fieldC;
-    u8 pad10[10];
-    s16 field1A;
-    s16 field1C;
-    s16 field1E;
-} Node;
-
-typedef struct Object {
-    u8 pad0[8];
-    Sprite *sprite;
-    Node *node;
-    void *field10;
-} Object;
-
 typedef struct ObjectTail {
     u8 pad0[8];
-    Object *owner;
+    ObjectNodeHeader *owner;
     u8 padC[42];
     s16 angle;
 } ObjectTail;
@@ -42,7 +24,8 @@ typedef struct Pair {
     s32 second;
 } Pair;
 
-void *allocate_list_node();
+#include "engine/node/allocation.h"
+#include "shared/entity.h"
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 void draw_textured_ellipse();
 extern u8 D_80025AC4[12];
@@ -51,19 +34,19 @@ extern u8 D_80028238[12];
 extern u8 D_80028250[12];
 
 /* Creates an object at its owner's position and initializes its sprite and angle. */
-void create_owner_positioned_sprite(Object *owner, s16 angle) {
+void create_owner_positioned_sprite(ObjectNodeHeader *owner, s16 angle) {
     Pair rect;
     ObjectNodeHeader *spawned;
     SpriteFrameState *node;
     ObjectTail *tail;
 
-    spawned = allocate_list_node(0x212, owner);
+    spawned = allocate_list_node(0x212, &owner->next);
     if (spawned != 0) {
         spawned->update_callback = D_80025AC4;
         register_node(spawned, project_sprite_chain);
-        (*(Sprite * *)&spawned->position)->x = owner->sprite->x;
-        (*(Sprite * *)&spawned->position)->y = owner->sprite->y;
-        (*(Sprite * *)&spawned->position)->z = owner->sprite->z;
+        (*(Sprite * *)&spawned->position)->x = (u16)owner->position->x.w.i;
+        (*(Sprite * *)&spawned->position)->y = (u16)owner->position->y.w.i;
+        (*(Sprite * *)&spawned->position)->z = (u16)owner->position->z.w.i;
         node = spawned->sprite;
         node->source = screen_effect_sprite_entries;
         node->scale_y = 0x2800;

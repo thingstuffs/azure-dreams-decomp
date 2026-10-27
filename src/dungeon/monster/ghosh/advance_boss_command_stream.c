@@ -21,7 +21,7 @@ typedef struct S_80174320_2 {
 } S_80174320_2;   /* ctx in advance_boss_command_stream */
 
 extern void select_sprite_entry(void *, u8, s32);
-extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern void retain_spawn_resource(s16 entry_type, s16 entry_key);
 extern void update_actor_status_and_mp(void *);
 extern void advance_boss_actor_movement_state(void *, void *, void *, void *);

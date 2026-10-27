@@ -113,8 +113,7 @@ extern u8 mandara_frame_set[];
 
 /* Selects movement, attacks, and spells from actor status, including a timed directional particle
  * sequence. */
-void update_long_actor_action(void *self_object, void *aux_entity, SpriteFrameState *sprite, void *entity)
-{
+void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_entity, SpriteFrameState *sprite, ActorRecord *entity) {
     u16 initial_flags = g_dungeon_status.flags;
     void *post_current;
     u8 *post_table;

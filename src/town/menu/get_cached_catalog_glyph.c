@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/menu/catalog.h"
 
 typedef struct Entry Entry;
 

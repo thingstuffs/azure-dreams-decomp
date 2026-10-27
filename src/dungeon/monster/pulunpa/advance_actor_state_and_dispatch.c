@@ -34,7 +34,7 @@ extern u8 pulunpa_frame_set_3[];
 extern u8 D_80176368[];
 
 /* Advance the actor state, select directional sprite data, and dispatch entity actions. */
-void advance_actor_state_and_dispatch(S_801733F0_0 *actor, void *context, SpriteFrameState *sprite, ActorRecord *entity)
+void advance_actor_state_and_dispatch(S_801733F0_0 *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity)
 {
     u8 state;
 

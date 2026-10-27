@@ -23,7 +23,7 @@ extern void select_sprite_entry(void *, u8, s32);
 extern s32 rsin(s32);
 extern s32 rcos(s32);
 extern void unlink_entity_node(void *);
-extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s32 distribute_experience_and_report_gains(void *);
 extern void * detach_record_and_update_slot_state(void *);
 extern s32 check_left_tile_and_center_height(u16, u16, s16);

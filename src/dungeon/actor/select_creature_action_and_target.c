@@ -29,7 +29,7 @@ extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u
 extern u8 *find_eligible_actor_at_tile_and_height();
 extern s32 get_tile_chebyshev_distance();
 extern s32 get_actor_height_difference();
-extern void * find_adjacent_actor();
+extern void * find_adjacent_actor(void *entity, u16 x, u16 y);
 extern void * find_monster_neighbor_candidate(void *entity, u16 x, u16 y);
 extern u8 *scan_actor_along_heading();
 extern s32 get_rounded_facing_and_rounding_flag();

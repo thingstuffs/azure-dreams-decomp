@@ -27,7 +27,7 @@ extern void on_actor_status_updated(void *actor);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s32 begin_ready_actor_directional_action();
 extern void begin_actor_move_to_target_facing();
-extern void update_actor_action_transition(void *state, void *update_mode, SpriteFrameState *sprite, void *entity);
+extern void update_actor_action_transition(void *state, ObjectPosition *update_mode, SpriteFrameState *sprite, void *entity);
 
 extern u8 uboat_action_frames[];
 extern u8 u_boat_motion_frames[];

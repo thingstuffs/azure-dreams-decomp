@@ -301,14 +301,14 @@ void begin_actor_move_to_target_facing();
 s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
 s32 process_selected_actor_record();
 void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState *target, u8 *direction_table, void *next_state);
-s32 cycle_map_cell_flags();
+void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
-void * find_adjacent_actor();
+void * find_adjacent_actor(void *entity, u16 x, u16 y);
 s32 probe_directional_neighbor();
 s32 get_actor_height_difference();
 s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
-s32 select_actor_route_target();
+s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
 s32 check_directional_move_and_terrain();
 s32 prepare_directional_attack();
 s32 try_claim_dungeon_action_slot();
@@ -393,7 +393,7 @@ void advance_actor_path_step_and_update_counters(ActorRecord *motion_state, Obje
 void choose_clown_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 s32 initialize_transition_action(ActorRecord *action_state, ObjectPosition *action_id, SpriteFrameState *source_obj, ActorRecord *actor);
 void begin_eligible_actor_action(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *actor);
-s32 relink_clown_path(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
+s32 relink_clown_path(void *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
 void finish_actor_tile_move_then_dispatch_transition(void *state, void *motion, void *source, void *target);
 void finish_linked_actor_motion_and_floor_trap_then_dispatch_transition(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
 
@@ -416,7 +416,7 @@ s32 project_clown_sprite_chain(void *initial_payload, s32 entry_data, R16_801736
 void update_expanding_spiral_effect(void *effect, R16_80173738_FuncArg1 *position, struct SpriteFrameState *primitive);
 void create_angled_source_effect(
     s32 unused_0, R16_80173904_S_80173904_3 *origin, s32 unused_2, s32 unused_3, s16 angle, u16 depth_offset);
-void wait_for_clown_action_slot(void *entity_data, s32 unused_1, s32 unused_2, void *other_data);
+void wait_for_clown_action_slot(void *entity_data, ObjectPosition *unused_1, s32 unused_2, void *other_data);
 void fade_entity_colors_to_neutral(void *entity_data, void *unused, void *source_data);
 void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, EntityRec *position, struct SpriteFrameState *actor, void *model);
 

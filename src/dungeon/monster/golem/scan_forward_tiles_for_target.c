@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/level.h"
 
@@ -42,7 +43,7 @@ extern s32 apply_camera_offset_and_select_target(void *object_addr, void *source
 
 
 /* Scan up to eight tiles ahead for a valid target and update the entity action state. */
-s32 scan_forward_tiles_for_target(GolemActionWork *action_state, void *transfer_data, void *origin, void *actor) {
+s32 scan_forward_tiles_for_target(GolemActionWork *action_state, ObjectPosition *transfer_data, void *origin, void *actor) {
     u32 dir_index;
     u16 initial_direction;
     s16 *delta_x;

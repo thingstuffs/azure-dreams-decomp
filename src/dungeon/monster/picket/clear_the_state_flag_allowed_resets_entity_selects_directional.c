@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -31,7 +32,7 @@ extern void select_sprite_entry(void *, s16, s16);
 extern u8 picket_frame_set_4[];
 
 /* Clears the state flag and, when allowed, resets the entity and selects a directional object value. */
-void clear_the_state_flag_allowed_resets_entity_selects_directional(Entity *entity, s32 unused, SpriteFrameState *object, State *state) {
+void clear_the_state_flag_allowed_resets_entity_selects_directional(Entity *entity, ObjectPosition *unused, SpriteFrameState *object, State *state) {
     DungeonGlobalStatus *flags = &g_dungeon_status;
 
     state->unk71 &= 0x7F;

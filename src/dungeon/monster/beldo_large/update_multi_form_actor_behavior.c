@@ -23,7 +23,7 @@ extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *,void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
-extern void update_multi_form_actor_movement(void *, s32, SpriteFrameState *, void *);
+extern void update_multi_form_actor_movement(void *, ObjectPosition *, SpriteFrameState *, void *);
 
 extern u8 beldo_large_action_resume_address[];
 extern u8 beldo_large_frame_set_4[];

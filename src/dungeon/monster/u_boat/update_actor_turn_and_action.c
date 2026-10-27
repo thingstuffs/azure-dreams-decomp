@@ -48,17 +48,16 @@ extern s32 reset_actor_action_state(void *actor, void * unused, void *sprite, u8
 extern s32 process_selected_actor_record(void *, void *, void *, void *);
 extern void begin_actor_spell_action(void *actor, void * effect_param, void *target, u8 *direction_table, void * next_state);
 extern void reset_action_and_decrement_actor_count(void *, void *, void *, void *);
-extern void create_owner_linked_directional_object(void *, void *, void *);
-extern void prepare_actor_directional_action(u8 *entity, s32 action_param, u8 *action_sprite, u8 *frame_table,
-    s32 fallback_state);
+void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosition *source_position, SpriteFrameState *source_sprite);
+extern void prepare_actor_directional_action(u8 *entity, ObjectPosition *action_param, u8 *action_sprite, u8 *frame_table, s32 fallback_state);
 void advance_aura_actor_turn_path(ActorRecord *actor, ObjectPosition *actor_slot, SpriteFrameState *entity_arg, ActorRecord *state_arg);
 #include "dungeon/monster/u_boat.h"
-extern s32 try_turn_actor_toward_target(void *, void *, void *, void *);
-extern void begin_actor_action(void *, void *, void *, void *);
+extern s32 try_turn_actor_toward_target(void *, ObjectPosition *, void *, void *);
+extern void begin_actor_action(void *, ObjectPosition *, void *, void *);
 extern s32 func_80172EA8(void *, void *, void *, s32);
-extern void update_actor_action_transition(void *, void *, void *, void *);
-extern void complete_actor_action(void *, void *, void *, void *);
-extern void begin_actor_exclusive_action(void *, void *, void *, s32, s32);
+extern void update_actor_action_transition(void *, ObjectPosition *, void *, void *);
+extern void complete_actor_action(void *, ObjectPosition *, void *, void *);
+extern void begin_actor_exclusive_action(void *, ObjectPosition *, void *, s32, s32);
 
 extern u8 uboat_default_frames[];
 extern u8 uboat_ready_frames[];
@@ -68,7 +67,7 @@ extern u8 uboat_action_frames[];
 #include "dungeon/monster/u_boat.h"
 
 /* Updates dungeon actor animation, status, and action dispatch. */
-void update_actor_turn_and_action(void *entity, void *context, SpriteFrameState *sprite, ActorRecord *actor)
+void update_actor_turn_and_action(void *entity, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor)
 {
     u16 distance;
     s8 room_id;

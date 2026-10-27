@@ -1,3 +1,5 @@
+#include "shared/object_node.h"
+#include "dungeon/item.h"
 #include "shared/entity_action_selectors.h"
 #include "shared/entity.h"
 #include "shared/dungeon_item_entries.h"
@@ -19,7 +21,6 @@ extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void place_actor_item(void *, struct DungeonItemEntry *);
 extern void display_item_status_message(void *, struct DungeonItemEntry *, s16);
 extern s32 feed_actor_restore_mp(void *, s32, struct DungeonItemEntry *);
-extern void create_timed_paired_particle_emitter(s32, s32, void *);
 extern M2C_UNK D_800E0EB4;
 extern u8 D_800E0EC9[24];
 /* Kill one actor: the player takes the game-over path, others drop their message, clear their slots and decrement the live count. */
@@ -43,7 +44,7 @@ s32 use_item_to_reset_actor_statuses(void *actor, DungeonItemEntry *cause, s16 a
             return 1;
         }
     }
-    create_timed_paired_particle_emitter(*((s32 *) (((s8 *) actor) + (-0x18))), 0x20C0C0, actor);
+    create_timed_paired_particle_emitter(((ObjectNodeHeader *)actor)[-1].position, 0x20C0C0, actor);
 
     if ((*((s32 *) (((s8 *) actor) + 0x14))) & 0x4000) {
         handle = get_unused_text_buffer();

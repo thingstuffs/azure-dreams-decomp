@@ -35,7 +35,7 @@ extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
-extern void update_actor_state_after_map_check(void *, void *, void *, void *);
+extern void update_actor_state_after_map_check(void *, ObjectPosition *, void *, void *);
 extern void * create_randomized_motion_object(void *, void *);
 
 extern u8 kewne_action_resume_address[];

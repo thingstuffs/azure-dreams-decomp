@@ -5,10 +5,6 @@
 #include "records/Rec_D_80082E80.h"
 
 
-typedef struct S_80172920_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_80172920_1;   /* flags in attempt_target_action */
 
 
 typedef struct S_80172920_3 {
@@ -28,7 +24,7 @@ extern s32 check_entity_interaction_compatibility(void *, s32);
 extern void apply_camera_offset_and_select_target(void *,void *, s32, s32);
 
 /* Attempt an action toward the target and update actor state on success. */
-s32 attempt_target_action(S_80172920_3 *action_state, void *effect_arg, Rec_D_80082E80 *target, void *actor) {
+s32 attempt_target_action(S_80172920_3 *action_state, ObjectPosition *effect_arg, Rec_D_80082E80 *target, void *actor) {
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
     s32 target_direction;
 

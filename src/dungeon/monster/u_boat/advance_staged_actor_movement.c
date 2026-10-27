@@ -14,7 +14,7 @@ extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, 
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 extern void spawn_randomized_directional_effect(void *, s16, s32, s32);
-extern void create_owner_linked_directional_object(void *, void *, void *);
+void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosition *source_position, SpriteFrameState *source_sprite);
 
 extern u8 uboat_default_frames[];
 extern u8 u_boat_frame_set_1[];
@@ -38,8 +38,7 @@ typedef struct S_80173510_0 {
 /* Updates a staged movement animation and returns the entity to its tile center. */
 /* Animates U-Boat's backward windup and forward strike, emits directional particles, applies damage, and
  * spends MP after returning. */
-void advance_staged_actor_movement(void *action, ObjectPosition *motion, SpriteFrameState *record, ActorRecord *actor)
-{
+void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *record, ActorRecord *actor) {
     u8 state;
 
     state = ((S_80173510_0 *)action)->unk_9B.n;
@@ -70,7 +69,7 @@ void advance_staged_actor_movement(void *action, ObjectPosition *motion, SpriteF
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         ((S_80173510_0 *)action)->unk_96.u = 2;
-        ((S_80173510_0 *)action)->unk_98 &= 0xFFF7;
+        action->action_state_flags &= 0xFFF7;
         ((S_80173510_0 *)action)->unk_9B.n++;
         return;
 

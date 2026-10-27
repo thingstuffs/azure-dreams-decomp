@@ -19,7 +19,7 @@ extern s32 get_actor_height_difference();
 extern s32 probe_directional_neighbor();
 extern s32 try_claim_dungeon_action_slot();
 extern s32 check_entity_interaction_compatibility();
-extern s32 apply_camera_offset_and_select_target();
+extern s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 extern u8 D_80175E50[];
 extern u8 kewne_frame_set_3[];
 extern u8 kewne_frame_set[];
@@ -27,7 +27,7 @@ extern u8 kewne_frame_set[];
 /* Select and start an actor action based on the target delta. */
 /* Chooses one of three Kewne attacks by target height; returns its mode, 0 for no valid target, or -1
  * while busy. */
-s32 select_and_start_target_action(Rec_func_800A9E70_arg0 *action_state, s32 action_param, SpriteFrameState *visual_data, ActorRecord *actor) {
+s32 select_and_start_target_action(Rec_func_800A9E70_arg0 *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor) {
     s32 target_delta;
     s16 action_mode;
     u16 pending_amount;

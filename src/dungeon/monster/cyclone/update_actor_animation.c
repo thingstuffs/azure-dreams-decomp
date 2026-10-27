@@ -55,7 +55,7 @@ extern s32 reset_actor_action_state(void *actor, s32 unused, void *sprite, u8 *d
 extern void process_selected_actor_record(void *, void *, void *, void *);
 extern void begin_actor_spell_action(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state);
 
-extern void advance_path_motion(void *, void *, SpriteFrameState *, void *);
+extern void advance_path_motion(void *, ObjectPosition *, SpriteFrameState *, void *);
 extern void func_801718B4(void *, void *, void *, void *);
 extern s32 func_80171FFC(void *, void *, void *, void *);
 void finish_actor_tile_move_and_check_trap(ActorRecord *action_state, ObjectPosition *action_ctx, SpriteFrameState *sprite, ActorRecord *actor);

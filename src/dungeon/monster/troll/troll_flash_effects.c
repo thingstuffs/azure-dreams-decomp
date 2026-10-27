@@ -415,7 +415,7 @@ void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *sour
 }
 
 /* Creates an effect at an offset position with randomized attributes and motion. */
-void spawn_random_color_burst_particle(void *source, void *position) {
+void spawn_random_color_burst_particle(void *source, ObjectPosition *position) {
     T_80171790_S_80171790_5 *source_obj;
     ObjectPosition *source_pos;
     s32 obj_or_angle;

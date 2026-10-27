@@ -56,7 +56,7 @@ extern u8 manoeva_action_resume_address[];
 extern u8 manoeva_frame_set[];
 
 /* Advances an actor's fade-in sequence and applies its completion updates. */
-void update_actor_fade_in_transition(void *actor_state, void *context, S_8017427C_1 *sprite, ActorRecord *actor_data) {
+void update_actor_fade_in_transition(void *actor_state, ObjectPosition *context, S_8017427C_1 *sprite, ActorRecord *actor_data) {
     void *actor_base;
     s32 actor_flags;
     s32 entry_index;

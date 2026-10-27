@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #ifndef DUNGEON_OVL_7F0F7800_P07_H
 #define DUNGEON_OVL_7F0F7800_P07_H
 #include "common.h"
@@ -39,15 +40,15 @@ typedef struct T_80173AD4_S_80173AD4_2 {
 
 extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 extern void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
-extern void * get_unused_text_buffer();
+extern void * get_unused_text_buffer(void);
 extern u8 * expand_text_control_codes();
-extern void * clear_byte_and_advance();
-extern u8 *append_entity_display_text();
+extern u8 * clear_byte_and_advance(u8 *byte_ptr);
+extern u8 *append_entity_display_text(void *record, u8 *out);
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 #include "dungeon/player/object/action_state.h"
 #include "shared/sprite_frame_state.h"
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern u8 D_80170854[];
 extern u8 tyrant_frame_set_1[];
-void handle_kill_actor_clear_flags_fire_burst_tile_post_death_message(void *work_in, void *part_a, void *part_b_in, void *actor);
+void handle_kill_actor_clear_flags_fire_burst_tile_post_death_message(void *work_in, ObjectPosition *part_a, void *part_b_in, void *actor);
 #endif

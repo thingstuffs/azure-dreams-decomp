@@ -1552,7 +1552,7 @@ void apply_mode_selected_trap_mask(void *target, s32 unused_mask)
 #include "shared/dir_step.h"
 
 
-extern s32 has_enough_available_runtime_nodes();
+extern s32 has_enough_available_runtime_nodes(s32 limit);
 extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 generate_random_value(void);
 

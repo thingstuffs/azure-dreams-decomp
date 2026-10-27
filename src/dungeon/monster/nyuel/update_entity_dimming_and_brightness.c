@@ -7,14 +7,6 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 
-typedef struct S_8017313C_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    u16 unk_96;
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_8017313C_0;   /* arg0 in update_entity_dimming_and_brightness */
 
 extern s32 get_entity_effect_value(void *, s32);
 extern void clear_slots_of_type(void *, s32);
@@ -35,14 +27,13 @@ extern u8 nyuel_action_resume_address[];
 extern u8 nyuel_frame_set_1[];
 
 /* Updates entity dimming, status behavior, and brightness recovery. */
-void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *context, SpriteFrameState *sprite, ActorRecord *entity)
-{
+void update_entity_dimming_and_brightness(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
     s32 entity_flags;
     u16 fade_ticks;
     s32 state;
     u8 shade;
 
-    state = controller->unk_9B;
+    state = controller->action_phase;
     switch (state) {
     case 0:
         shade = sprite->color.c.b - 0xC;
@@ -65,9 +56,9 @@ void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *contex
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         {
-            u8 next_state = controller->unk_9B + 1;
+            u8 next_state = controller->action_phase + 1;
 
-            controller->unk_9B = next_state;
+            controller->action_phase = next_state;
             return;
         }
 
@@ -81,7 +72,7 @@ void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *contex
                 sprite->color.c.r = 0x80;
                 cleared_flags = entity->flags1C & 0xEFFFFFFF;
                 entity->flags1C = cleared_flags & ~0x200;
-                controller->unk_8C = nyuel_action_resume_address;
+                controller->unk_8C.address = nyuel_action_resume_address;
                 return;
             }
         } else {
@@ -149,7 +140,7 @@ void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *contex
                 sprite->color.c.r = 0x80;
                 cleared_flags = entity->flags1C & 0xEFFFFFFF;
                 entity->flags1C = cleared_flags & ~0x200;
-                controller->unk_8C = nyuel_action_resume_address;
+                controller->unk_8C.address = nyuel_action_resume_address;
                 return;
             }
         }
@@ -157,11 +148,11 @@ void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *contex
 
             g_dungeon_status.activity_counts.parts.pending_action_count++;
         }
-        controller->unk_96 = 6;
+        controller->action_timer = 6;
         {
-            u8 next_state = controller->unk_9B + 1;
+            u8 next_state = controller->action_phase + 1;
 
-            controller->unk_9B = next_state;
+            controller->action_phase = next_state;
             return;
         }
 
@@ -173,8 +164,8 @@ void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *contex
         sprite->color.c.b = shade;
         sprite->color.c.g = shade;
         sprite->color.c.r = shade;
-        fade_ticks = controller->unk_96 - 1;
-        controller->unk_96 = fade_ticks;
+        fade_ticks = controller->action_timer - 1;
+        controller->action_timer = fade_ticks;
         if ((fade_ticks << 16) > 0) {
             return;
         }
@@ -187,7 +178,7 @@ void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *contex
         sprite->color.c.r = 0x80;
         cleared_flags = entity->flags1C & 0xEFFFFFFF;
         entity->flags1C = cleared_flags & ~0x200;
-        controller->unk_8C = nyuel_action_resume_address;
+        controller->unk_8C.address = nyuel_action_resume_address;
     }
 
         return;

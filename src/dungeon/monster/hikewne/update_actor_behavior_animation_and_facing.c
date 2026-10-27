@@ -27,7 +27,7 @@ extern void begin_actor_spell_action(void *actor, void * effect_param, void *tar
 
 void advance_actor_along_queued_path(ActorRecord *motion, ObjectPosition *unused, SpriteFrameState *actor, ActorRecord *move_state);
 extern s32 validate_action_and_apply_effect(void *, void *, void *, void *);
-extern void clear_entity_flag_and_advance_action(void *, void *, void *, void *);
+void clear_entity_flag_and_advance_action(ActorRecord *action_state, ObjectPosition *effect_context, SpriteFrameState *update_context, ActorRecord *entity);
 extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void update_directional_sprite_state_and_signals(void *, void *, void *, void *);
 

@@ -85,8 +85,8 @@ extern u16 direction_y_offsets[];
 s32 rand(void);
 void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 u8 * expand_text_control_codes();
-void *clear_byte_and_advance();
-u8 *append_entity_display_text();
+u8 * clear_byte_and_advance(u8 *byte_ptr);
+u8 *append_entity_display_text(void *record, u8 *out);
 s16 get_tile_chebyshev_distance();
 s32 display_text_with_fullwidth_adjustment(s8 *text);
 s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);

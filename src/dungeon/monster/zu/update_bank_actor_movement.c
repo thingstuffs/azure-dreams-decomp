@@ -636,7 +636,7 @@ typedef struct S_80171670_2 {
    /* (u8 *)arg3 + ((S_80171670_0 *)arg3)->unk_8A.s in advance_bank_actor_path */
 
 /* Advance the entity along its stored path and update its movement state. */
-void advance_bank_actor_path(void *motion, void *unused, void *entity, void *path_state)
+void advance_bank_actor_path(void *motion, ObjectPosition *unused, void *entity, void *path_state)
 {
     SpriteTableView *entity_view = entity;
     u8 *anim_table;
@@ -729,7 +729,7 @@ extern s16 actor_turn_angle_offsets[];
 /* Selects a movement direction and updates the actor's position and movement state.
  * move_data: the movement record (turn flags at +0x98, turn side at +0x9C); position_data: the grid cell
  * the actor stands on; actor_data: the actor. */
-void select_bank_actor_movement(ActorRecord *move_data, void *context, TileObject *position_data, ActorRecord *actor_data)
+void select_bank_actor_movement(ActorRecord *move_data, ObjectPosition *context, TileObject *position_data, ActorRecord *actor_data)
 {
     u16 dungeon_flags = g_dungeon_status.flags;
     s32 limit_detour = 0;
@@ -969,7 +969,7 @@ extern s32 try_claim_dungeon_action_slot();
 extern s32 check_entity_interaction_compatibility();
 
 /* Checks whether the actor can transition and starts its directional effect. */
-s32 begin_bank_directional_effect(ActorRecord *action_state, void *motion_param, SpriteFrameState *sprite, ActorRecord *actor)
+s32 begin_bank_directional_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s32 target_angle;
     u16 status_flags;
@@ -1029,8 +1029,7 @@ s32 begin_bank_directional_effect(ActorRecord *action_state, void *motion_param,
 void prepare_directional_attack();
 s32 try_claim_dungeon_action_slot();
 /* Initialize action state and directional animation when the entity status permits. */
-void initialize_bank_actor_action(ActorRecord *action_state, s32 motion_param, SpriteFrameState *sprite,
-    ActorRecord *entity) {
+void initialize_bank_actor_action(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *entity) {
     entity->movement_queue_state &= 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(entity) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((ObjectNodeHeader *)entity - 1, motion_param, 8, 0x300);
@@ -1060,7 +1059,7 @@ s32 relink_entity_and_clear_high_flag();
 /* Update entity state and flags according to the state query result. */
 /* Relinks Zu's state, updates movement or status as needed, and returns 1 only when dungeon activity
  * allows a new action. */
-s32 complete_actor_jump_to_destination(ActorRecord *actor, void *primary_context, void *secondary_context, s32 force_move) {
+s32 complete_actor_jump_to_destination(ActorRecord *actor, ObjectPosition *primary_context, void *secondary_context, s32 force_move) {
     s16 state_type;
     s32 result;
     ActorRecord *entity = actor;   /* the copy is load-bearing: it changes the callee-save order */
@@ -1479,8 +1478,7 @@ typedef struct S_80172A40_0 {
 /* Updates the selected action's targeting, motion, and completion state. */
 /* Starts a targeted Zu spell and source effect, eases its vertical offset toward -48, then restores idle
  * and status. */
-void update_bank_actor_targeted_action(void *owner_input, ObjectPosition *motion_input, SpriteFrameState *actor_input, ActorRecord *object)
-{
+void update_bank_actor_targeted_action(ActorRecord *owner_input, ObjectPosition *motion_input, SpriteFrameState *actor_input, ActorRecord *object) {
     s16 special;
     u8 *item_slot;
     s32 state;
@@ -1497,7 +1495,7 @@ void update_bank_actor_targeted_action(void *owner_input, ObjectPosition *motion
     s32 slot_index;
     s32 item_id;
 
-    state = ((S_80172A40_0 *)owner_input)->unk_9B;
+    state = owner_input->action_phase;
     special = 0;
     switch (state) {
     case 0:
@@ -1545,7 +1543,7 @@ void update_bank_actor_targeted_action(void *owner_input, ObjectPosition *motion
         }
 
         if (*item_slot != 0) {
-            ((S_80172A40_0 *)owner_input)->unk_98 &= 0xFF7F;
+            owner_input->action_state_flags &= 0xFF7F;
 
             special_copy = special;
             if (special_copy) {
@@ -1585,8 +1583,8 @@ void update_bank_actor_targeted_action(void *owner_input, ObjectPosition *motion
             create_source_positioned_object(motion_input, 4);
             play_sound_if_enabled(0x703);
             ((S_80172A40_0 *)owner_input)->unk_96.u = 4;
-            ((S_80172A40_0 *)owner_input)->unk_9B++;
-            ((S_80172A40_0 *)owner_input)->unk_98 |= 8;
+            owner_input->action_phase++;
+            owner_input->action_state_flags |= 8;
             (*(u32 *)&object->flags1C) &= ACTOR_GROUNDED_CLEAR_MASK;
             (*(u32 *)&object->flags1C) &= 0xFFFBFFFF;
             return;
@@ -1612,7 +1610,7 @@ void update_bank_actor_targeted_action(void *owner_input, ObjectPosition *motion
             return;
         }
         actor_input->flags &= 0xF7FF;
-        ((S_80172A40_0 *)owner_input)->unk_9B++;
+        owner_input->action_phase++;
                         /* fall through */
 
     case 2:
@@ -1624,7 +1622,7 @@ void update_bank_actor_targeted_action(void *owner_input, ObjectPosition *motion
                 return;
             }
         }
-        ((S_80172A40_0 *)owner_input)->unk_98 |= 0x80;
+        owner_input->action_state_flags |= 0x80;
         if ((actor_input->flags & 0xE000) == 0) {
             return;
         }
@@ -1633,7 +1631,7 @@ void update_bank_actor_targeted_action(void *owner_input, ObjectPosition *motion
         motion_input->velocity_y = 0;
         motion_input->velocity_x = 0;
         set_record_integer_tile_center(motion_input, actor_input->tile_x, actor_input->tile_y);
-        ((S_80172A40_0 *)owner_input)->unk_98 &= 0xFFF7;
+        owner_input->action_state_flags &= 0xFFF7;
         (*(u32 *)&object->flags1C) |= ACTOR_GROUNDED;
         (*(u32 *)&object->flags1C) |= 0x00040000;
 
@@ -1688,8 +1686,7 @@ extern void apply_clamped_actor_value_delta();
 extern u8 zu_frame_set[];
 
 /* Updates staged directional motion, then restores the entity to its tile and animation. */
-void restore_bank_actor_tile(void *action, ObjectPosition *motion, void *sprite, EntityRec *entity)
-{
+void restore_bank_actor_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity) {
     s16 timer_signed;
     s32 direction;
     s32 velocity_x;
@@ -1701,13 +1698,13 @@ void restore_bank_actor_tile(void *action, ObjectPosition *motion, void *sprite,
     u16 timer;
     s32 timer_wide;
 
-    state = ((S_80172F00_0 *)action)->unk_9B;
-    direction = (entity->unk_6A >> 9) & 7;
+    state = action->action_phase;
+    direction = (entity->movement_facing >> 9) & 7;
 
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(entity);
-        if (entity->unk_28 == 0) {
+        if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -1728,16 +1725,16 @@ void restore_bank_actor_tile(void *action, ObjectPosition *motion, void *sprite,
                 ((s16 *)((s8 *)dir_step_y))[direction] << 18;
             motion->velocity_z = 0x20000;
 
-            action_flags = ((S_80172F00_0 *)action)->unk_98;
+            action_flags = action->action_state_flags;
             action_flags |= 8;
-            ((S_80172F00_0 *)action)->unk_98 = action_flags;
+            action->action_state_flags = action_flags;
             entity_flags = ((u32)entity->flags1C);
             entity_flags &= mask_bit_27;
             entity_flags &= mask_bit_18;
             entity->flags1C = entity_flags;
         }
 
-        ((S_80172F00_0 *)action)->unk_9B = ((S_80172F00_0 *)action)->unk_9B + 1;
+        action->action_phase = action->action_phase + 1;
         timer_signed = -1;
         if (((u32)entity->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer_signed = 8;
@@ -1770,15 +1767,15 @@ void restore_bank_actor_tile(void *action, ObjectPosition *motion, void *sprite,
         if (((S_80172F00_0 *)action)->unk_96.s != 0) {
             return;
         }
-        if (entity->unk_28 == 0) {
-            ((S_80172F00_0 *)action)->unk_9B = 0;
+        if (entity->hp == 0) {
+            action->action_phase = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             motion->velocity_z = 0xFFFD0000;
             begin_actor_display_action(action, motion, sprite, zu_frame_set);
         } else {
             ((S_80172F00_0 *)action)->unk_96.s = 5;
-            ((S_80172F00_0 *)action)->unk_9B = ((S_80172F00_0 *)action)->unk_9B + 1;
+            action->action_phase = action->action_phase + 1;
         }
         return;
     case 2:
@@ -1808,7 +1805,7 @@ void restore_bank_actor_tile(void *action, ObjectPosition *motion, void *sprite,
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
 
-        ((S_80172F00_0 *)action)->unk_98 &= 0xFFF7;
+        action->action_state_flags &= 0xFFF7;
         entity->flags1C |= ACTOR_GROUNDED;
         entity->flags1C |= 0x00040000;
         (*(u8 **)((u8 *)sprite + 0x2C)) = zu_default_frames;
@@ -2010,7 +2007,7 @@ void forward_bank_actor_callback_a(void *state, s32 action, SpriteFrameState *so
 
 
 /* Forward all four bank callback arguments to the resident handler. */
-void forward_bank_actor_callback_b(void *state, s32 action, SpriteFrameState *source, EntityRec *target)
+void forward_bank_actor_callback_b(void *state, ObjectPosition *action, SpriteFrameState *source, EntityRec *target)
 {
     advance_actor_removal(state, action, source, target);
 }
@@ -2064,12 +2061,11 @@ extern u8 zu_frame_set_1[];
 extern u8 D_80174B04[];
 
 /* Updates actor state, animation, and transition counters. */
-void handle_actor_action_effects(void *controller, ObjectPosition *motion, void *sprite, ActorRecord *actor)
-{
+void handle_actor_action_effects(ActorRecord *controller, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 actor_flags;
     s32 state;
 
-    state = ((S_8017357C_0 *)controller)->unk_9B;
+    state = controller->action_phase;
     switch (state) {
     case 0:
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
@@ -2081,7 +2077,7 @@ void handle_actor_action_effects(void *controller, ObjectPosition *motion, void 
             0);
         ((TrailHeightView *)(u8 *)&g_dungeon_status.turn_scale)->unk_0A = ((TrailHeightView *)(u8 *)&g_dungeon_status.turn_scale)->unk_0A
         - 1;
-        ((S_8017357C_0 *)controller)->unk_9B++;
+        controller->action_phase++;
         return;
     case 1:
         if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) == 0) {
@@ -2099,7 +2095,7 @@ void handle_actor_action_effects(void *controller, ObjectPosition *motion, void 
 
                 ((TrailHeightView *)(u8 *)&g_dungeon_status.turn_scale)->unk_0A =
                     ((TrailHeightView *)(u8 *)&g_dungeon_status.turn_scale)->unk_0A + 1;
-                ((S_8017357C_0 *)controller)->unk_9B++;
+                controller->action_phase++;
             }
             return;
         }
@@ -2173,7 +2169,7 @@ void handle_actor_action_effects(void *controller, ObjectPosition *motion, void 
 
             ((TrailHeightView *)(u8 *)&g_dungeon_status.turn_scale)->unk_0A =
                 ((TrailHeightView *)(u8 *)&g_dungeon_status.turn_scale)->unk_0A + 1;
-            ((S_8017357C_0 *)controller)->unk_9B++;
+            controller->action_phase++;
         }
         return;
     case 2:
@@ -2227,11 +2223,10 @@ typedef struct S_801739F8_0 {
    /* global in advance_bank_actor_animation */
 
 /* Advances entity animation states and updates the shared activity count. */
-void advance_bank_actor_animation(void *controller, void *context, void *sprite, void *entity)
-{
-    void *saved_context;
+void advance_bank_actor_animation(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
+    ObjectPosition *saved_context;
     register void *dungeon_state;
-    void *saved_entity;
+    ActorRecord *saved_entity;
     u8 state;
     s32 direction;
 
@@ -2240,7 +2235,7 @@ void advance_bank_actor_animation(void *controller, void *context, void *sprite,
 #define context saved_context
 #define sprite sprite
 
-    state = ((S_801739F8_0 *)controller)->unk_9B;
+    state = controller->action_phase;
     saved_entity = entity;
 #define entity saved_entity
     switch (state) {
@@ -2257,7 +2252,7 @@ void advance_bank_actor_animation(void *controller, void *context, void *sprite,
         (*(void **)((u8 *)sprite + 0x2C)) = zu_frame_set_1;
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
         select_sprite_entry(sprite, zu_frame_set_1[direction & 7], 0);
-        ((S_801739F8_0 *)controller)->unk_9B++;
+        controller->action_phase++;
         return;
     }
 
@@ -2268,10 +2263,10 @@ void advance_bank_actor_animation(void *controller, void *context, void *sprite,
             (*(void **)((u8 *)sprite + 0x2C)) = zu_action_direction_frames;
             direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
             select_sprite_entry(sprite, zu_action_direction_frames[direction & 7], 0);
-            (*(u32 *)((u8 *)entity + 0x1C)) |= 0x40000;
+            (*(u32 *)&entity->flags1C) |= 0x40000;
             activity_counts = &g_dungeon_status;
             (*(u16 *)&activity_counts->activity_counts.parts.pending_action_count)++;
-            ((S_801739F8_0 *)controller)->unk_9B++;
+            controller->action_phase++;
             return;
         }
 
@@ -2280,7 +2275,7 @@ void advance_bank_actor_animation(void *controller, void *context, void *sprite,
             return;
         }
 
-        if ((((EntityRec *)entity)->unk_64 != 0) &&
+        if ((entity->hp_delta != 0) &&
             begin_ready_actor_directional_action(controller, context, sprite, 0)) {
             return;
         }
@@ -2301,7 +2296,7 @@ void advance_bank_actor_animation(void *controller, void *context, void *sprite,
             return;
         }
 
-        if (((EntityRec *)entity)->unk_6D == 0) {
+        if (entity->pending_turn_updates == 0) {
             return;
         }
 
@@ -2326,7 +2321,7 @@ void advance_bank_actor_animation(void *controller, void *context, void *sprite,
         ((EntityRec *)entity)->flags1C |= 0x40000;
         ((UnsignedPositionXZView *)dungeon_state)->pending_action_count++;
 
-        ((S_801739F8_0 *)controller)->unk_9B++;
+        controller->action_phase++;
         return;
 
     case 2:
@@ -2567,7 +2562,7 @@ extern u8 D_80174B0C[];
 /* Start the actor's hit reaction, then build and post the damage message for it. */
 /* Starts Zu's targeted action when activity permits, randomizes flagged facing, and displays an
  * actor-specific message. */
-void start_bank_actor_hit_reaction(void *work, void *part_a, SpriteFrameState *part_b, ActorRecord *actor) {
+void start_bank_actor_hit_reaction(ActorRecord *work, ObjectPosition *part_a, SpriteFrameState *part_b, ActorRecord *actor) {
     s32 flags;
     void *call_arg;
     void *pass_result;

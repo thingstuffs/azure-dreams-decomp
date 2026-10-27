@@ -194,7 +194,7 @@ void update_actor_activity_state(ActorRecord *task, ObjectPosition *task_id, Spr
 }
 
 /* Updates the actor's directional animation and advances its action state. */
-void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *context, SpriteFrameState *animation, T_80175574_Obj3 *actor)
+void update_actor_action_animation_state(T_80175574_Obj0 *controller, ObjectPosition *context, SpriteFrameState *animation, T_80175574_Obj3 *actor)
 {
     unsigned long table_entry;
 
@@ -414,7 +414,7 @@ increment_state:
  * Selects Troll's normal or status frames for item kinds 13-15 and current MP, then updates
  * movement and floor traps.
  */
-void update_directional_action_display(T_801759A0_Obj0 *actor, void *context, T_801759A0_Obj2 *display_arg, T_801759A0_Obj3 *state_arg)
+void update_directional_action_display(T_801759A0_Obj0 *actor, ObjectPosition *context, T_801759A0_Obj2 *display_arg, T_801759A0_Obj3 *state_arg)
 {
     SpriteFrameState *display= display_arg;
     T_801759A0_Obj3 *state = state_arg;

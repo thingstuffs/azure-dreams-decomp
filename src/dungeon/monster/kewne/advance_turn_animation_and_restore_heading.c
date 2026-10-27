@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/record_ptrs.h"
@@ -36,7 +37,7 @@ typedef struct S_80172480_4 {
 } S_80172480_4;   /* D_800E3D7C[0] in advance_turn_animation_and_restore_heading */
 
 /* Advances an actor's turn-and-animation sequence and restores its saved heading. */
-void advance_turn_animation_and_restore_heading(S_80172480_0 *actor, s32 unused, SpriteFrameState *animation, S_80172480_1 *transform_in) {
+void advance_turn_animation_and_restore_heading(S_80172480_0 *actor, ObjectPosition *unused, SpriteFrameState *animation, S_80172480_1 *transform_in) {
     S_80172480_1 *transform = transform_in;
     s32 heading;
     u8 phase;

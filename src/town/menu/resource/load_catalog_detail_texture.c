@@ -1,5 +1,6 @@
 #include "common.h"
 #include "engine/graphics.h"
+#include "sdk/libgpu.h"
 
 typedef struct S_80124DB0_0 {
     u8 pad_00[0x4];
@@ -31,12 +32,11 @@ typedef struct {
 
 extern void Control_CD();
 extern void pack_tagged_resource_descriptor();
-extern void LoadImage();
 
 extern s32 resource_completion_callback_address[];
 extern s32 *catalog_texture_resources[];
-extern u8 catalog_texture_buffer[];
-extern u8 catalog_texture_pixels[];
+extern u32 catalog_texture_buffer[];
+extern u32 catalog_texture_pixels[];
 extern u8 catalog_texture_request[];
 
 /* Load a texture and its palette, then advance the loader after upload. */
@@ -45,7 +45,9 @@ void load_catalog_detail_texture(void *loader)
     Rect texture_rect;
     Rect palette_rect;
     Rect *upload_rect;
-    u8 *texture_pixels;
+    u32 *texture_pixels;
+    void *compressed;
+    void *pixels;
     s32 texture_height;
     s32 palette_rows;
     u8 load_state;
@@ -74,7 +76,9 @@ void load_catalog_detail_texture(void *loader)
     palette_rect.h = palette_rows;
     LoadImage(&palette_rect, catalog_texture_buffer);
 
-    decompress_lz(catalog_texture_buffer + 0x200, catalog_texture_pixels);
+    compressed = catalog_texture_buffer + 0x80;
+    pixels = catalog_texture_pixels;
+    decompress_lz(compressed, pixels);
 
     upload_rect = &texture_rect;
     texture_pixels = catalog_texture_pixels;

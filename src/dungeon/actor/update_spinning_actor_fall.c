@@ -15,7 +15,7 @@ typedef struct {
 
 
 extern void unlink_entity_node(struct EntityLinkNode *node);
-extern void set_record_integer_tile_center();
+#include "dungeon/player/object.h"
 extern s32 * detach_record_and_update_slot_state(void *record);
 
 
@@ -37,7 +37,7 @@ typedef struct S_800AC5C8_1_pre {
    /* arg2 in update_spinning_actor_fall */
 
 /* Advance the object's timed animation and perform its final cleanup. */
-s32 update_spinning_actor_fall(S_800AC5C8_0 *animation, EntityRec *position, MovingTile *tile, void *object) {
+s32 update_spinning_actor_fall(S_800AC5C8_0 *animation, ObjectPosition *position, MovingTile *tile, void *object) {
     s32 force;
     u16 ticks_left;
     s32 state;
@@ -52,7 +52,7 @@ s32 update_spinning_actor_fall(S_800AC5C8_0 *animation, EntityRec *position, Mov
                 /* fall through */
     case 1:
         ((Rec_D_80082E80 *)object)->unk_28.at02_u16.v += 0x200;
-        position->flags14 -= 0x10000;
+        position->velocity_z -= 0x10000;
 
         ticks_left = animation->unk_96 - 1;
         animation->unk_96 = ticks_left;
@@ -60,7 +60,7 @@ s32 update_spinning_actor_fall(S_800AC5C8_0 *animation, EntityRec *position, Mov
             return 0;
         }
 
-        position->flags14 = 0;
+        position->velocity_z = 0;
         set_record_integer_tile_center(position, tile->tile_x, tile->tile_y);
         animation->unk_96 = 0x10;
 

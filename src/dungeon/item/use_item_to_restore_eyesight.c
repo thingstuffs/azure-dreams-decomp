@@ -1,3 +1,5 @@
+#include "shared/object_node.h"
+#include "dungeon/item.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -17,7 +19,6 @@ extern void *get_unused_text_buffer(void);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern void place_actor_item();
 extern void display_item_status_message();
-extern void create_timed_paired_particle_emitter();
 
 extern u8 D_800E188B[];
 
@@ -51,7 +52,7 @@ s32 use_item_to_restore_eyesight(void *entity_arg, s32 amount_arg, s16 effect_ar
         }
     }
 
-    create_timed_paired_particle_emitter(*(s32 *)((u8 *)entity_arg - 0x18), 0xC02020, entity_arg);
+    create_timed_paired_particle_emitter(((ObjectNodeHeader *)entity_arg)[-1].position, 0xC02020, entity_arg);
     if (*(s32 *)((u8 *)entity_arg + 0x14) & ACTOR_PARTY_MEMBER) {
         initial_id = get_unused_text_buffer();
         selected_id = initial_id;

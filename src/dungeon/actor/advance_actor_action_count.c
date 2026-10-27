@@ -1,12 +1,12 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
-extern s32 check_entity_relation();
+extern s32 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 #include "dungeon/player/object/action_state.h"
 #include "records/Rec_func_800AA258_arg2.h"
-#include "shared/entity.h"
 #include "slus.h"
 extern void on_actor_status_updated(void *actor);
 extern void update_actor_status_and_mp(ActorRecord *entity);
@@ -71,7 +71,7 @@ void advance_actor_action_count(void *controller, s32 context, void *sprite, voi
         }
         if ((has_pending_actor_or_turn_action(actor) << 0x10) != 0) {
             if ((check_entity_relation(actor,
-                    *(s32 *)((u8 *)primary_actor_record + 0x58) + 0x20) << 0x10) != 0) {
+                    primary_actor_record->previous_actor_header + 0x20) << 0x10) != 0) {
                 return;
             }
         }

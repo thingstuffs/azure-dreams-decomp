@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
@@ -434,7 +435,7 @@ void update_actor_state_and_select_target(ActorRecord *entity, ObjectPosition *c
 
 /* Advances one stored path step, updates occupied tiles and facing, and selects the movement animation and
  * delay. */
-void advance_actor_path_script_step(void *controller, void *context, void *entity, void *path_state)
+void advance_actor_path_script_step(void *controller, ObjectPosition *context, void *entity, void *path_state)
 {
     ActorRecord *path_actor = controller;
     void *state = path_state;
@@ -747,7 +748,7 @@ void choose_arachne_move(ActorRecord *move_data, ObjectPosition *context, Sprite
  * Sets action state 0x10, clears its tick, and selects a camera-relative eight-way sprite entry
  * from D_80175A64.
  */
-void advance_linked_actor_motion_script(void *object, void *unused, void *display, void *orientation) {
+void advance_linked_actor_motion_script(void *object, ObjectPosition *unused, void *display, void *orientation) {
     s32 directionIndex;
     u8 *directionTable;
 
@@ -811,7 +812,7 @@ s32 try_arachne_attack(ActorRecord *action_state, ObjectPosition *motion_param, 
 
 /* Claims an action slot, starts the directional attack animation, and prepares its target and damage
  * state. */
-void select_and_start_target_action(void *action_state, void *action_context, void *sprite, ActorRecord *actor) {
+void select_and_start_target_action(void *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor) {
     actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300);
@@ -831,7 +832,7 @@ void select_and_start_target_action(void *action_state, void *action_context, vo
 }
 
 /* Relinks actor state, updates status or movement as needed, and reports whether a new action may start. */
-s32 relink_arachne_path(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
+s32 relink_arachne_path(void *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
     s16 state_type;
     s32 result;
     void *entity = entity_arg;
@@ -1399,7 +1400,7 @@ void apply_knockback_then_restore_target_selection(R12_80172FE8_S_801730B8_1 *ac
         }
         timer = action->timer.u - 1;
         action->timer.s = timer;
-        if ((s32)(timer << 16) > 0) {
+        if ((timer << 16) > 0) {
             return;
         }
         motion->velocity_z = 0;
@@ -1485,7 +1486,7 @@ void advance_entity_fade_effect(R12_801732EC_EffectState *effect, void *unused, 
             entity->flags &= 0xF7FF;
             timer = effect->timer + 0x60;
             effect->timer = timer;
-            effect->countdown = (u16)((s32)(timer << 16) >> 24);
+            effect->countdown = (u16)((timer << 16) >> 24);
         }
         if ((entity->type == 2) && (entity->flags & 0x1000)) {
             direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + object->angle + 0x100) >> 9) & 7;
@@ -1537,7 +1538,7 @@ void finish_actor_hop_and_grow_then_select_target(ActorRecord *state, ObjectPosi
 }
 
 /* Waits for a status effect to clear, updates actor status and activity counts, then restores movement. */
-void advance_arachne_status_action(void *in_controller, void *in_context, void *sprite, void *in_actor)
+void advance_arachne_status_action(void *in_controller, ObjectPosition *in_context, void *sprite, void *in_actor)
 {
     void *context = in_context;
     void *actor = in_actor;
@@ -1672,8 +1673,7 @@ void advance_arachne_status_action(void *in_controller, void *in_context, void *
 }
 
 /* Waits for MP recovery while processing actor status, then restores the normal animation and movement. */
-void resume_actor_target_selection_after_status_animation(void *controller, void *context, void *sprite, ActorRecord *entity)
-{
+void resume_actor_target_selection_after_status_animation(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
     s32 state;
 
     state = ((Rec_func_801736F4_arg0 *)controller)->unk_9B;
@@ -1844,7 +1844,7 @@ void dim_effect_after_delay(void *effect) {
     case 0:
         timer = *(u16 *)((u8 *)effect + 0xE) - 1;
         *(u16 *)((u8 *)effect + 0xE) = timer;
-        if ((s32)(timer << 16) > 0) {
+        if ((timer << 16) > 0) {
             return;
         }
         *(u16 *)((u8 *)effect + 0xC) += 1;
@@ -2564,7 +2564,7 @@ void create_offset_effect(void *source_arg, void *spawn_pos_arg, void *unused_co
 
 /* Stops movement and waits for dungeon activity to finish, then clears the callback and counts the new
  * action. */
-void wait_for_arachne_activity(void *entity_data, s32 unused_1, s32 unused_2, void *other_data)
+void wait_for_arachne_activity(void *entity_data, ObjectPosition *unused_1, s32 unused_2, void *other_data)
 {
     u8 *entity = entity_data;
     u8 *other = other_data;

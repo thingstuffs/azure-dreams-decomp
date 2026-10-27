@@ -25,7 +25,7 @@ static __inline__ void dispatch_table(SpriteFrameState *sprite, ActorRecord *act
  * Starts the directional action for Beldo's current form, selects its sprite table, and advances
  * status and turn counts.
  */
-void start_actor_directional_action(Rec_func_800A9E70_arg0 *state, void *unused, void *sprite, ActorRecord *actor) {
+void start_actor_directional_action(Rec_func_800A9E70_arg0 *state, ObjectPosition *unused, void *sprite, ActorRecord *actor) {
     s32 table_kind;
     u32 direction_entry;
     u8 *direction_table;

@@ -36,14 +36,14 @@ extern u8 D_80174F20[];
 extern u8 picket_frame_set_5[];
 
 /* Updates a jump toward the target tile and restores the actor when it finishes. */
-void update_a_jump_toward_target_tile_restores_actor_finishes(void *jump_state, ObjectPosition *motion, SpriteFrameState *map_entity, ActorRecord *actor) {
+void update_a_jump_toward_target_tile_restores_actor_finishes(ActorRecord *jump_state, ObjectPosition *motion, SpriteFrameState *map_entity, ActorRecord *actor) {
     u16 distance;
     s32 frames_left;
     s16 next_timer;
     s32 actor_flags;
     s32 state;
 
-    state = ((S_80172540_0 *)jump_state)->unk_9B;
+    state = jump_state->action_phase;
     switch (state) {
     case 0:
         if (!(map_entity->flags & 0x6000)) {
@@ -54,11 +54,11 @@ void update_a_jump_toward_target_tile_restores_actor_finishes(void *jump_state, 
             map_entity,
             D_80174F20[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        ((S_80172540_0 *)jump_state)->unk_98 |= 8;
+        jump_state->action_state_flags |= 8;
         motion->velocity_z = 0xFFEE0000;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80172540_0 *)jump_state)->unk_A0 = 0;
-        ((S_80172540_0 *)jump_state)->unk_9B++;
+        jump_state->action_phase++;
     case 1:
         frames_left = ((S_80172540_0 *)jump_state)->unk_96.s;
         ((S_80172540_0 *)jump_state)->unk_90 -= ((S_80172540_0 *)jump_state)->unk_A0;
@@ -82,13 +82,13 @@ void update_a_jump_toward_target_tile_restores_actor_finishes(void *jump_state, 
         ((S_80172540_0 *)jump_state)->unk_90 += ((S_80172540_0 *)jump_state)->unk_A0;
         if (((S_80172540_0 *)jump_state)->unk_96.s < 2) {
             ((S_80172540_0 *)jump_state)->unk_90 = 0;
-            ((S_80172540_0 *)jump_state)->unk_98 &= 0xFFF7;
+            jump_state->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            ((S_80172540_0 *)jump_state)->unk_9B++;
+            jump_state->action_phase++;
         }
     case 2:
         if (((u32)actor->flags1C) & ACTOR_GROUNDED) {
-            ((S_80172540_0 *)jump_state)->unk_98 &= 0xFFF7;
+            jump_state->action_state_flags &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -98,7 +98,7 @@ void update_a_jump_toward_target_tile_restores_actor_finishes(void *jump_state, 
                 map_entity,
                 picket_frame_set_5[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            ((S_80172540_0 *)jump_state)->unk_9B++;
+            jump_state->action_phase++;
         }
     }
 

@@ -16,7 +16,7 @@ extern int abs(int);
 
 extern s32 check_entity_relation(void *, void *);
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
-extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s32 check_diagonal_side_height(s32, u8, u8, s16);
 extern s16 check_movement_clearance_and_height(s16, void *, void *, s32);
 extern s32 test_neighbor_position_relation(u8, u8, u8, u8);

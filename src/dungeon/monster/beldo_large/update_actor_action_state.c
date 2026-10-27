@@ -31,7 +31,7 @@ void begin_pushed_actor_move(void *,void *, void *, void *);
 s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
 void advance_actor_pending_action(void *, void *, void *, void *);
 void begin_actor_move_to_target_facing(void *, void *, void *, void *);
-void update_multi_form_actor_movement(void *, s32, void *, void *);
+void update_multi_form_actor_movement(void *, ObjectPosition *, void *, void *);
 extern void beldo_large_action_resume_address();
 extern u8 beldo_large_frame_set_4[];
 extern u8 beldo_large_frame_set_7[];

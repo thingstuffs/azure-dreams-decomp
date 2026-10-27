@@ -31,7 +31,7 @@ extern s32 func_801726D0(void *, void *, void *, void *);
 extern void func_80172894(void *, void *, void *, void *);
 extern s32 func_801729AC(void *, void *, void *, s32);
 extern void func_80174598(void *, void *, void *, void *);
-extern void start_directional_action_and_record_tile(void *, void *, void *, void *);
+void start_directional_action_and_record_tile(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 
 extern u8 noise_ability_resume_address[];
 extern u8 noise_direction_frames[];

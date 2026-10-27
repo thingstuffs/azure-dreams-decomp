@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -71,7 +72,7 @@ extern u8 D_801708BC[];
 extern u8 picket_frame_set_8[];
 
 /* Start the actor's attack step: clear its 0x71 busy bit, latch the 0x400 link flag with a random facing nudge, run the animation chain for the sprite record it owns, then arm owner state 0x17 and point the part at the direction table. */
-void start_the_actor_s_attack_step_clear_hex_71_busy_bit_latch(S_80174234_0 *owner, void *unused, S_80174234_1 *part, S_80174234_2 *actor) {
+void start_the_actor_s_attack_step_clear_hex_71_busy_bit_latch(S_80174234_0 *owner, ObjectPosition *unused, S_80174234_1 *part, S_80174234_2 *actor) {
     void *session;
     void *anim;
     s32 link_flags;

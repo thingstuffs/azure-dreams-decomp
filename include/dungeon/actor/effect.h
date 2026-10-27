@@ -10,7 +10,7 @@ void *create_owner_linked_pulsing_effect(void *spawn_pos, EntityRec *source_stat
 
 
 
-void advance_damage_effect_and_particles(void *effect, s32 context, SpriteFrameState *record, void *actor);
+void advance_damage_effect_and_particles(void *effect, ObjectPosition *context, SpriteFrameState *record, void *actor);
 
 
 

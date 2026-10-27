@@ -34,7 +34,7 @@ extern u8 maximum_frame_set_2[];
 extern u8 maximum_frame_set_1[];
 
 /* Updates entity state, directional animation, and color fading. */
-void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, void *update_mode, SpriteFrameState *sprite, ActorRecord *entity)
+void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, ObjectPosition *update_mode, SpriteFrameState *sprite, ActorRecord *entity)
 {
     s32 state;
     s32 flags;

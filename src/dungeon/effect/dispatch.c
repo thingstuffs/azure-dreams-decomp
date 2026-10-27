@@ -363,7 +363,7 @@ typedef struct S_800C5A64_1 {
     s16 unk_1C;
 } S_800C5A64_1;   /* arg0 in damp_effect_motion_and_fade */
 
-extern void advance_sprite_animation_and_textures();
+extern void advance_sprite_animation_and_textures(void *entity);
 
 /* Advance and damp effect motion, fade its primitive, and mark it expired when its lifetime ends. */
 void damp_effect_motion_and_fade(void *effect, s32 *motion, SpriteFrameState *primitive)
@@ -492,7 +492,7 @@ typedef struct S_800C5D80_2 {
     s16 unk_12;
 } S_800C5D80_2;   /* arg0 in advance_effect_motion_and_fade; pointer addresses record offset 0x2 */
 
-extern void advance_sprite_animation_and_textures();
+extern void advance_sprite_animation_and_textures(void *entity);
 
 /* Advance effect motion, fade its color, and mark it finished when its timer expires. */
 void advance_effect_motion_and_fade(void *effect_data, S_800C5D80_0 *motion, SpriteFrameState *primitive) {

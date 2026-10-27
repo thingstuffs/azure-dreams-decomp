@@ -7,16 +7,16 @@ void set_sprite_animation_frame();
 s32 collect_ground_item();
 void process_unflagged_linked_entries(s32 firstEntryBase);
 void process_unflagged_linked_entries_alt(s32 firstNodeBase);
-s32 set_record_integer_tile_center();
+#include "dungeon/player/object.h"
 extern s32 player_action_tag;
 extern u8 player_height_step_frames[];
 extern u8 player_landing_frame_set[];
 extern u8 player_throw_frame_set[];
 
 /* Updates timed movement and directional animation, then selects the next handler. */
-void update_carrying_player_step(u8 *entity_in, s32 *motion_in, u16 *sprite_in, s32 *actor_in) {
+void update_carrying_player_step(u8 *entity_in, ObjectPosition *motion_in, u16 *sprite_in, s32 *actor_in) {
     u8 *entity = entity_in;
-    s32 *motion = motion_in;
+    ObjectPosition *motion = motion_in;
     u16 *sprite = sprite_in;
     s32 *actor = actor_in;
     s32 vertical_speed;

@@ -30,7 +30,7 @@ s32 check_action_eligibility_updates_actor_state_directional_animation_success(A
 extern void func_80172110(void *, void *, void *, void *);
 extern s32 func_80172228(void *, void *, void *, s32);
 extern void func_80173900(void *, void *, void *, void *);
-extern void handle_kill_actor_clear_flags_fire_burst_tile_post_death_message(void *, void *, void *, void *);
+extern void handle_kill_actor_clear_flags_fire_burst_tile_post_death_message(void *, ObjectPosition *, void *, void *);
 
 extern s32 tyrant_action_resume_address;
 extern u8 tyrant_direction_frames[];

@@ -1,8 +1,8 @@
 #include "common.h"
+#include "engine/sprite.h"
 
 
 
-s32 allocate_and_append_callback_payload();
 s32 func_80049004();
 s32 texture_set_the_field_offset_hex_8_in_each_entry_pointer_array();
 extern s32 display_vector_defaults[];
@@ -28,7 +28,7 @@ typedef struct S_800B44F0_1 {
 s32 initialize_state_data(void *state, s32 input)
 {
     s32 *defaults;
-    s32 state_data;
+    s32 *state_data;
     s32 setup_result;
     s32 init_result;
     s32 success;

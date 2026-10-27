@@ -1,3 +1,4 @@
+#include "dungeon/item.h"
 #include "shared/actor_property_flags.h"
 #include "shared/dungeon_item_entries.h"
 #include "shared/actor_status_flags.h"
@@ -18,13 +19,12 @@ extern void display_formatted_context_message(void *ptr);
 extern void place_actor_item(void *entity, struct DungeonItemEntry *event);
 extern void display_item_status_message(void *entity, struct DungeonItemEntry *event, s16 event_type);
 extern s32 feed_actor_restore_mp(void *entity, s32 value, struct DungeonItemEntry *value2);
-extern void create_timed_paired_particle_emitter(s32 value, s32 value2, void *entity);
 
 extern u8 D_800E0E9B[];
 
 
 typedef struct S_800BD72C_0_pre {
-    s32 unk_00;
+    ObjectPosition *unk_00;
     u8 pad_04[0x14];
 } S_800BD72C_0_pre;   /* the 0x18 bytes before arg0 in use_item_to_wake_actor, addressed as arg0[-1] */
 

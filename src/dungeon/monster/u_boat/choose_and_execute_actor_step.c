@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "dungeon/monster/u_boat.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/actor_status_ids.h"
@@ -43,7 +44,7 @@ extern s16 actor_turn_angle_offsets[];
 /* Choose a movement direction, move the actor, and update its path history and height. */
 /* Chooses U-Boat's next clear step, records its path, and updates tile occupancy unless status slot 27
  * suppresses that update. */
-void choose_and_execute_actor_step(void *work_data, void *action_context, SpriteFrameState *position, ActorRecord *actor) {
+void choose_and_execute_actor_step(ActorRecord *work_data, ObjectPosition *action_context, SpriteFrameState *position, ActorRecord *actor) {
     DungeonGlobalStatus *turn_state;
     u16 turn_flags;
     s32 movement_flags;

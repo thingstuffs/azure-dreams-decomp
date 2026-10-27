@@ -17,6 +17,7 @@
 #include "dungeon/effect.h"
 #include "dungeon/menu.h"
 #include "dungeon/player/item.h"
+#include "dungeon/player/special_table_index_g00320.h"
 #include "dungeon/player/object.h"
 #include "dungeon/player/state.h"
 #include "dungeon/item/message.h"
@@ -171,7 +172,6 @@ void create_familiar_deployment_overlay();
 struct DungeonItemEntry;
 s16 find_table_value_index();
 void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
-void * copy_four_text_bytes();
 void process_unflagged_linked_entries(s32 firstEntryBase);
 void process_unflagged_linked_entries_alt(s32 firstNodeBase);
 void unlink_entity_node();
@@ -191,11 +191,7 @@ void clear_selected_item_flag_400();
 void *create_actor_value_popup();
 #define D_80010000_PTR ((D_80010000_T *)0x80010000)
 extern s32 monster_species_table;
-/* BYTES: preserve the aligned word copy and the four-byte item view of this slot. */
-extern union {
-    s32 word;
-    DungeonItemEntry item;
-} held_item_record;
+
 extern u32 level_experience_table[];
 
 extern s8 dungeon_event_pending_flag;
@@ -257,7 +253,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
     u32 *level_table;
     void *save_data;
     S_func_800B1364_5 *hidden_creature;
-    void *release_value;
+    S_func_800B1364_19 *release_value;
     S_func_800B1364_7 *global_state = (S_func_800B1364_7 *)((s32 *)&g_game_work.draw_buffer);
 
     state = action->unk_9B;
@@ -303,7 +299,8 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
             item_word = saved_item->unk_00;
             callback = &dispatch_actor_state_handler;
             action->unk_8C = callback;
-            held_item_record.word = item_word;
+            /* BYTES: this slot is copied with an aligned word store. */
+            *(s32 *)&held_item_record = item_word;
             return;
         }
     case 2:
@@ -398,7 +395,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         if (!(sprite->unk_14 & 0xE000)) {
             return;
         }
-        clear_slot_and_update_linked_state(&held_item_record.item);
+        clear_slot_and_update_linked_state(&held_item_record);
         {
             void *callback = handle_player_input;
             event_flags = ((S_func_800B1364_15 *)&dungeon_floor_flags)->unk_00 & 0xFFDFFFFF;
@@ -407,7 +404,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         }
         return;
     case 5:
-        item_effect = begin_holding_item(action, position, sprite, &held_item_record.item);
+        item_effect = begin_holding_item(action, position, sprite, &held_item_record);
         if (item_effect == NULL) {
             return;
         }
@@ -487,7 +484,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
             expand_text_control_codes(((S_func_800B1364_17 *)((creature->unk_13 * 0x14) + monster_species_table))->unk_04,
             write_text_byte_and_advance(8, message_start)))));
         if (!((*(u16 *)(&system_update_flags)) & 1)) {
-            message_end = copy_four_text_bytes(&familiar_defeat_text, write_text_byte_and_advance(0x4C, write_text_byte_and_advance(0x11, message_end)));
+            message_end = copy_four_text_bytes(familiar_defeat_text, write_text_byte_and_advance(0x4C, write_text_byte_and_advance(0x11, message_end)));
         }
         clear_byte_and_advance(message_end);
         display_text_with_fullwidth_adjustment(message_start);
@@ -560,8 +557,8 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         saved_creature = familiar_record_slots[item_entry->unk_03.u8 & 0x1F];
         saved_creature->unk_14 = (s32) (saved_creature->unk_14 & ~0x4000);
         release_value = actor->unk_60;
-        ((S_func_800B1364_19 *)((u8 *)release_value - 2))->unk_00 =
-            (u16) (((S_func_800B1364_19 *)((u8 *)release_value - 2))->unk_00 | 0x8000);
+        release_value[-1].unk_00 =
+            (u16) (release_value[-1].unk_00 | 0x8000);
         D_800814A0 |= OBJECT_REMOVE_PENDING;
         sprite->unk_2C = familiar_save_frames;
         direction_anim = familiar_save_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7);

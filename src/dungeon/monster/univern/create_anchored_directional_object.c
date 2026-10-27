@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/audio_commands.h"
 #include "dungeon/actor/motion.h"
 #include "shared/actor_property_flags.h"
@@ -604,8 +605,7 @@ void update_entity_movement_and_ground_height(ActorRecord *actor, ObjectPosition
 #include "dungeon/monster/univern.h"
 
 /* Advances one stored path step, updates occupied tiles and facing, and sets the movement delay. */
-void advance_entity_along_path_2(void *motion, s32 unused, SpriteFrameState *entity, void *path_state)
-{
+void advance_entity_along_path_2(ActorRecord *motion, ObjectPosition *unused, SpriteFrameState *entity, ActorRecord *path_state) {
     u8 *direction_table;
     s32 old_x;
     s32 old_y;
@@ -625,7 +625,7 @@ void advance_entity_along_path_2(void *motion, s32 unused, SpriteFrameState *ent
         (entity->frameTable) = ((u8 *)univern_alt_direction_frames);
         select_sprite_entry(
             entity,
-            ((u8 *)univern_alt_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R17_801718D0_S_801718D0_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
+            ((u8 *)univern_alt_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + path_state->facing + 0x100) >> 9) & 7],
             0);
         ((Rec_func_800A9E70_arg0 *)motion)->unk_A8 = 0;
     }
@@ -652,7 +652,7 @@ void advance_entity_along_path_2(void *motion, s32 unused, SpriteFrameState *ent
     }
     cycle_map_cell_flags(new_x, new_y, occupancy_mask);
 
-    ((R17_801718D0_S_801718D0_0 *)path_state)->unk_2A = ((s16)get_rounded_facing_and_rounding_flag(
+    path_state->facing = ((s16)get_rounded_facing_and_rounding_flag(
         old_x, old_y, entity->tile_x, entity->tile_y,
         (u8 *)motion + 0x98));
     ((R17_801718D0_S_801718D0_0 *)path_state)->unk_1C.u |= 0x40000000;
@@ -676,7 +676,7 @@ void advance_entity_along_path_2(void *motion, s32 unused, SpriteFrameState *ent
 
 /* Chooses a clear step or attack, records the actor's path, and updates occupied tiles and movement
  * counts. */
-void choose_univern_move(Rec_func_800A9E70_arg0 *move_data, void *context, SpriteFrameState *position_data, ActorRecord *actor_data)
+void choose_univern_move(Rec_func_800A9E70_arg0 *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data)
 {
     u16 dungeon_flags = g_dungeon_status.flags;
     s32 limit_detour = 0;
@@ -897,7 +897,7 @@ void choose_univern_move(Rec_func_800A9E70_arg0 *move_data, void *context, Sprit
 #include "dungeon/monster/univern.h"
 
 /* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
-s32 try_univern_attack(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *sprite_arg, ActorRecord *actor)
+s32 try_univern_attack(Rec_func_800A9E70_arg0 *action_state, ObjectPosition *motion_param, void *sprite_arg, ActorRecord *actor)
 {
     s32 target_angle;
     u16 status_flags;
@@ -950,20 +950,19 @@ s32 try_univern_attack(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, v
 
 /* Claims an action slot, starts the directional attack animation, and prepares its target and damage
  * state. */
-void begin_univern_attack(Rec_func_800A9E70_arg0 *action_state, void *context, SpriteFrameState *animation,
-    ActorRecord *entity) {
+void begin_univern_attack(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *entity) {
     entity->movement_queue_state = (s8) (entity->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(entity) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)entity - 0x20, context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(entity) << 0x10) == 0) {
-            action_state->unk_9A.as_s8 = 0x11;
-            action_state->unk_8C = 0;
-            action_state->unk_9B.as_s8 = 0;
+            action_state->action_id = 0x11;
+            action_state->unk_8C.handler = 0;
+            action_state->action_phase = 0;
             select_sprite_entry(animation, *(*(u8 **)&animation->frameTable + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing
                 + 0x100) >> 9) & 7)), 0);
             entity->pending_turn_updates = (u8) (((u8)entity->pending_turn_updates) - 1);
             prepare_directional_attack(entity, animation, entity->facing, 1, 0);
-            action_state->unk_98 = (u16) (action_state->unk_98 | 8);
+            action_state->action_state_flags = (u16) (action_state->action_state_flags | 8);
             entity->unk_84 = 0x7C;
             entity->unk_85 = 0;
         }
@@ -972,7 +971,7 @@ void begin_univern_attack(Rec_func_800A9E70_arg0 *action_state, void *context, S
 #include "dungeon/monster/univern.h"
 
 /* Relinks actor state, updates status or movement as needed, and reports whether a new action may start. */
-s32 relink_univern_path(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
+s32 relink_univern_path(void *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
     s16 state_type;
     s32 result;
     void *entity = entity_arg;
@@ -1685,8 +1684,7 @@ void finish_actor_hop_and_grow_then_resume_ground_movement(ActorRecord *state, O
 #include "dungeon/monster/univern.h"
 
 /* Animates status entry and recovery, updates status timers and activity counts, then restores movement. */
-void update_sleeping_univern(void *actor_arg, void *motion_arg, void *sprite_arg, void *entity_arg)
-{
+void update_sleeping_univern(ActorRecord *actor_arg, ObjectPosition *motion_arg, SpriteFrameState *sprite_arg, ActorRecord *entity_arg) {
     void *actor = actor_arg;
     void *motion = motion_arg;
     SpriteFrameState *sprite= sprite_arg;
@@ -1912,11 +1910,10 @@ advance_state:
 #include "dungeon/monster/univern.h"
 
 /* Waits for MP recovery while processing actor status, then restores the normal animation and movement. */
-void advance_univern_status_action(void *action, void *context, SpriteFrameState *sprite, void *entity)
-{
-    void *saved_context;
+void advance_univern_status_action(ActorRecord *action, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
+    ObjectPosition *saved_context;
     register DungeonGlobalStatus *dungeon_state;
-    void *saved_entity;
+    ActorRecord *saved_entity;
     u8 state;
     s32 direction;
 
@@ -1925,7 +1922,7 @@ void advance_univern_status_action(void *action, void *context, SpriteFrameState
 #define context saved_context
 #define sprite sprite
 
-    state = ((R17_80173F10_S_80173ED8_0 *)action)->unk_9B;
+    state = action->action_phase;
     saved_entity = entity;
 #define entity saved_entity
     switch (state) {
@@ -1942,7 +1939,7 @@ void advance_univern_status_action(void *action, void *context, SpriteFrameState
         (sprite->frameTable) = ((u8 *)univern_frame_set_2);
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
         select_sprite_entry(sprite,(u8)(((u8 *)univern_frame_set_2)[direction & 7]), 0);
-        ((R17_80173F10_S_80173ED8_0 *)action)->unk_9B++;
+        action->action_phase++;
         return;
     }
 
@@ -1953,10 +1950,10 @@ void advance_univern_status_action(void *action, void *context, SpriteFrameState
             (sprite->frameTable) = ((u8 *)univern_frame_set_1);
             direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
             select_sprite_entry(sprite,(u8)(((u8 *)univern_frame_set_1)[direction & 7]), 0);
-            (*(u32 *)((u8 *)entity + 0x1C)) |= 0x40000;
+            (*(u32 *)&entity->flags1C) |= 0x40000;
             counter_state = (u8 *)&g_dungeon_status.turn_scale;
             ((R17_80173F10_S_80173ED8_2 *)counter_state)->unk_0A++;
-            ((R17_80173F10_S_80173ED8_0 *)action)->unk_9B++;
+            action->action_phase++;
             return;
         }
 
@@ -1965,7 +1962,7 @@ void advance_univern_status_action(void *action, void *context, SpriteFrameState
             return;
         }
 
-        if ((((EntityRec *)entity)->unk_64 != 0) &&
+        if ((entity->hp_delta != 0) &&
             begin_ready_actor_directional_action(action, context, sprite, 0)) {
             return;
         }
@@ -1986,7 +1983,7 @@ void advance_univern_status_action(void *action, void *context, SpriteFrameState
             return;
         }
 
-        if (((EntityRec *)entity)->unk_6D == 0) {
+        if (entity->pending_turn_updates == 0) {
             return;
         }
 
@@ -2011,7 +2008,7 @@ void advance_univern_status_action(void *action, void *context, SpriteFrameState
         ((EntityRec *)entity)->flags1C |= 0x40000;
         ((R17_80173F10_S_80173ED8_4 *)dungeon_state)->unk_0A++;
 
-        ((R17_80173F10_S_80173ED8_0 *)action)->unk_9B++;
+        action->action_phase++;
         return;
 
     case 2:

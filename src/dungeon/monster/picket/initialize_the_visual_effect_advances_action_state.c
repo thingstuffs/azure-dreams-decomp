@@ -8,14 +8,14 @@
 
 
 extern s32 update_actor_defeat_removal();
-extern void create_and_initializes_display_source_position_appearance();
+extern void create_and_initializes_display_source_position_appearance(void *source, Rec_func_800AD058_arg2 *record, void *appearance);
 
 
 /*
  * Waits for pending actions, creates an optional display, applies the defeat tint/flags with a
  * 16-tick delay and sound 0x805, then runs the shared defeat-removal update.
  */
-void initialize_the_visual_effect_advances_action_state(Rec_func_800AD058_arg0 *action, s32 context, Rec_func_800AD058_arg2 *visual, EntityRec *entity) {
+void initialize_the_visual_effect_advances_action_state(Rec_func_800AD058_arg0 *action, ObjectPosition *context, Rec_func_800AD058_arg2 *visual, EntityRec *entity) {
     s32 one;
     s32 phase;
 

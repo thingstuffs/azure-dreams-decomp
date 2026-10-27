@@ -6,7 +6,7 @@
 
 /* Copies the owner's sprite and position into a tracked directional display with a view-dependent depth
  * offset. */
-void create_owner_linked_directional_object(u8 *owner_data, u8 *source_position, u8 *source_sprite) {
+void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosition *source_position, SpriteFrameState *source_sprite) {
     ObjectNodeHeader *object;
     u8 *object_data;
     SpriteFrameState *sprite;
@@ -18,7 +18,7 @@ void create_owner_linked_directional_object(u8 *owner_data, u8 *source_position,
     if (object != 0) {
         ((S_80D3B0B8_0 *)object_data)->unk_96 = 0x78;
         object->update_callback = D_800D5594;
-        ((S_80D3B0B8_0 *)object_data)->unk_AC = owner_data - 0x20;
+        ((S_80D3B0B8_0 *)object_data)->unk_AC = (ObjectNodeHeader *)owner_data - 1;
         ((S_80D3B0B8_0 *)object_data)->unk_94 = ((S_80D3B0B8_2 *)owner_data)->unk_2A.s;
         ((S_80D3B0B8_0 *)object_data)->unk_2A = ((S_80D3B0B8_2 *)owner_data)->unk_2A.s;
         sprite = object->sprite;
@@ -40,9 +40,9 @@ void create_owner_linked_directional_object(u8 *owner_data, u8 *source_position,
             u16 sprite_field_1c;
             u16 sprite_field_1e;
 
-            sprite_field_1c = ((S_80D3B0B8_7 *)source_sprite)->unk_1C;
+            sprite_field_1c = source_sprite->scale_x;
             sprite->scale_x = sprite_field_1c;
-            sprite_field_1e = ((S_80D3B0B8_7 *)source_sprite)->unk_1E;
+            sprite_field_1e = source_sprite->scale_y;
             sprite->color.c.b = 0x80;
             sprite->color.c.g = 0x80;
             sprite->color.c.r = 0x80;

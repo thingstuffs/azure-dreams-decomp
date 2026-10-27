@@ -367,7 +367,7 @@ s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads
 s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 s32 set_or_clear_actor_status_slot();
-void initialize_actor_sprite_and_animation();
+void initialize_actor_sprite_and_animation(void *entity, void *position, SpriteFrameState *sprite, s32 init_flags);
 void advance_sprite_animation_and_textures(void *entity);
 void apply_monster_koyaw_data(s32 flags, s8 *dst);
 s32 refresh_actor_facing_and_lifecycle();
@@ -381,22 +381,22 @@ s32 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
 s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 s32 can_entity_gain_level(void *entity);
 void update_actor_status_and_mp(ActorRecord *entity);
-void begin_pushed_actor_move();
+void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);
 s32 begin_ready_actor_directional_action();
 s32 advance_actor_pending_action(void *actor_state, void *action, void *status, void *actor);
 void begin_actor_move_to_target_facing();
 s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
 s32 process_selected_actor_record();
 void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState *target, u8 *direction_table, void *next_state);
-void cycle_map_cell_flags();
+void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 s32 check_movement_clearance_and_height();
 s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
-void * find_adjacent_actor();
+void * find_adjacent_actor(void *entity, u16 x, u16 y);
 s32 probe_directional_neighbor();
 s32 get_actor_height_difference();
 s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
-s32 select_actor_route_target();
+s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
 s32 prepare_directional_attack();
 s32 try_claim_dungeon_action_slot();
 u32 check_entity_interaction_compatibility();
@@ -421,7 +421,7 @@ void * create_actor_spell_effect(void *actor, void *record_data, s16 mode, void 
 void create_two_row_object_group(void *payload, s16 value_scale);
 void begin_actor_display_action();
 s32 update_actor_defeat_removal(u8 *state, s32 *position, u8 *sprite, u8 *entity_data);
-s32 update_actor_hop_and_shrink();
+s32 update_actor_hop_and_shrink(void *animation, void *motion, SpriteFrameState *scale, void *render);
 
 s32 update_actor_hop_and_grow();
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);

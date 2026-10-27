@@ -1,5 +1,6 @@
 #include "shared/entity.h"
 #include "common.h"
+#include "dungeon/item.h"
 #include "shared/object_node.h"
 #include "shared/dungeon_status.h"
 #include "shared/dungeon_moving_views.h"
@@ -17,7 +18,7 @@ typedef struct S_800C4AFC_0 {
     u16 unk_22;
     u16 unk_24;
     u8 pad_26[0x2];
-    s32 unk_28;
+    void *unk_28;
 } S_800C4AFC_0;   /* state in create_timed_paired_particle_emitter */
 
    /* arg0 in create_timed_paired_particle_emitter */
@@ -32,7 +33,7 @@ extern void tick_paired_particle_emitter(void);
 extern u8 D_800DCF78[12];
 
 /* Create an effect object, copy its source components, and initialize its state. */
-void create_timed_paired_particle_emitter(MovingPosition *source, s32 effect_param, s32 state_param)
+void create_timed_paired_particle_emitter(ObjectPosition *source, s32 effect_param, void *state_param)
 {
     s32 effect_init[2];
     ObjectNodeHeader *object;
@@ -62,13 +63,13 @@ void create_timed_paired_particle_emitter(MovingPosition *source, s32 effect_par
     ((S_800C4AFC_0 *)state)->unk_02 = 0x40;
     object->update_callback = (void *)tick_paired_particle_emitter;
     components = object->position;
-    component_x = source->x;
+    component_x = (u16)source->x.w.i;
     components->x.w.i = component_x;
     ((S_800C4AFC_0 *)state)->unk_20 = component_x;
-    component_y = source->y;
+    component_y = (u16)source->y.w.i;
     components->y.w.i = component_y;
     ((S_800C4AFC_0 *)state)->unk_22 = component_y;
-    component_z = source->z;
+    component_z = (u16)source->z.w.i;
     components->z.w.i = component_z;
     ((S_800C4AFC_0 *)state)->unk_24 = component_z;
     ((S_800C4AFC_0 *)state)->unk_1C = source;

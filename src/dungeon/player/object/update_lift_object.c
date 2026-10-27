@@ -9,7 +9,7 @@
 
 extern void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 extern u8 * expand_text_control_codes();
-extern void *clear_byte_and_advance();
+extern u8 * clear_byte_and_advance(u8 *byte_ptr);
 extern u8 * append_entity_display_text();
 extern void adjust_source_value_and_finalize(void *context, const void *source);
 extern void process_unflagged_linked_entries();

@@ -7,7 +7,7 @@ typedef struct {
     u8 data[24];
 } Config24;
 extern u8 D_8016A87C[];
-extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern void set_record_integer_tile_center(s32, u8, u8);
 
 typedef struct S_80171168_0 {

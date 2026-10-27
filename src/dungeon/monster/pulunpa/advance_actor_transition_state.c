@@ -12,7 +12,7 @@
 
 extern void store_recalled_familiar(void *, void *, void *, void *);
 extern void unlink_entity_node(void *);
-extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 extern u8 find_entity_slot_by_field_ac(void *);
 extern void play_sound_if_enabled(s32);
@@ -46,7 +46,7 @@ typedef struct S_80176028_6 {
 } S_80176028_6;   /* owner in advance_actor_transition_state */
 
 /* Advances the actor transition state and updates shared actor data and tile flags. */
-void advance_actor_transition_state(void *owner_data, s32 unused, void *entry_data, void *work_data)
+void advance_actor_transition_state(void *owner_data, ObjectPosition *unused, void *entry_data, void *work_data)
 {
     register u8 *owner = owner_data;
     u8 *work = work_data;

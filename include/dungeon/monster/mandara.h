@@ -14,7 +14,7 @@ void advance_actor_action_animation_to_completion(ActorRecord *action, ObjectPos
 
 void fade_remove_entity_and_update_tile(ActorRecord *fade_state, ObjectPosition *unused, SpriteFrameState *visual_data, ActorRecord *entity);
 
-void update_long_actor_action(void *self_object, void *aux_entity, SpriteFrameState *sprite, void *entity);
+void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_entity, SpriteFrameState *sprite, ActorRecord *entity);
 
 /* Callback entry points. */
 s32 draw_layered_wavy_object_strips(void *object_data, void *unused, void *appearance);

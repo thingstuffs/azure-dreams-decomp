@@ -64,4 +64,6 @@ void initialize_object_header_and_state(TownMapPhaseObject *objectState, DelayMo
 void advance_building_animation_frame(u16 *frame_tick);
 void advance_building_texture_frame(u16 *anim_tick);
 
+void copy_low_halfword_coordinates(u16 *destination, const u16 *source);
+
 #endif

@@ -1,6 +1,6 @@
 #include "common.h"
+#include "town/player/coordinates.h"
 
-extern void copy_current_record_components_3(s16 *result);
 
 
 /* Return zero when result[0] is below 0xF45 and result[1] is at least 0x1127. */

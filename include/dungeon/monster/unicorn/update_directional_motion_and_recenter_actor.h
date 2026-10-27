@@ -45,7 +45,7 @@ typedef struct T_80173450_S_80173450_2 {
 
 extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
 extern void unlink_entity_node(void *);
-extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern void distribute_experience_and_report_gains(void *);
 extern void * detach_record_and_update_slot_state(void *);
 extern void play_sound_if_enabled(s32);

@@ -10,7 +10,7 @@ typedef struct S_8125414C_1 {
 
 extern u8 *beldo_active_entity;
 
-extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 

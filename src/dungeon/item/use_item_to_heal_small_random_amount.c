@@ -1,3 +1,4 @@
+#include "dungeon/item.h"
 #include "shared/actor_property_flags.h"
 #include "shared/dungeon_item_entries.h"
 #include "shared/entity_action_selectors.h"
@@ -17,14 +18,13 @@
 #include "dungeon/actor/status.h"
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 generate_random_value(void);
-extern void create_timed_paired_particle_emitter();
 
 extern u8 D_800893E0[];
 extern u8 D_800E18A4[];
 
 
 typedef struct S_800C4490_0_pre {
-    s32 unk_00;
+    ObjectPosition *unk_00;
     u8 pad_04[0x14];
 } S_800C4490_0_pre;   /* the 0x18 bytes before arg0 in use_item_to_heal_small_random_amount, addressed as arg0[-1] */
 

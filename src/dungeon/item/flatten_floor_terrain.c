@@ -17,7 +17,7 @@ extern void create_type_212_object(s32 flag, s8 value);
 extern void refresh_packed_grid_nibbles(void);
 extern s32 mark_active_nodes_by_callback();
 extern s32 display_formatted_context_message(); /* Unprototyped: one or three arguments; retail retains only the text context. */
-extern s32 clear_slot_and_update_linked_state();
+extern void clear_slot_and_update_linked_state(DungeonItemEntry *slot);
 
 extern u8 dungeon_ground_item_positions[];
 extern u8 floor_objects[];

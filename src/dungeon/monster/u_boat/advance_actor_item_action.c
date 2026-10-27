@@ -26,7 +26,7 @@ extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void play_sound_if_enabled(s32);
 extern void *create_actor_spell_effect(void *actor, void *effect_record, s16 mode, void *context);
-extern void create_owner_linked_directional_object(void *, void *, void *);
+void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosition *source_position, SpriteFrameState *source_sprite);
 
 extern u8 D_800D58D8[];
 extern s8 view_direction_depth_biases[];

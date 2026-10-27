@@ -7,7 +7,7 @@
 
 
 
-void advance_actor_path_and_facing(void *motion, void *unused, SpriteFrameState *actor, void *path_state);
+void advance_actor_path_and_facing(void *motion, ObjectPosition *unused, SpriteFrameState *actor, void *path_state);
 
 void advance_actor_action_and_refresh_animation(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *render_record, ActorRecord *actor_state);
 void update_movement_height_and_animation(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *actor);

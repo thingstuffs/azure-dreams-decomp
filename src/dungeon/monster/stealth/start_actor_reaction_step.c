@@ -25,7 +25,7 @@ extern s32 generate_random_value(void);
 extern u8 D_80173D88[9];
 
 /* Start the actor's reaction step: clear its 0x71 busy bit and, when the global 0x2000 mode is off and the ready query says 0, randomise its facing, arm state 0x17, cue 0x811 and point the part at the direction table. */
-void start_actor_reaction_step(S_801721A4_1 *owner, void *unused, SpriteFrameState *part, EntityRec *actor)
+void start_actor_reaction_step(S_801721A4_1 *owner, ObjectPosition *unused, SpriteFrameState *part, EntityRec *actor)
 {
 
     actor->unk_71 &= 0x7F;

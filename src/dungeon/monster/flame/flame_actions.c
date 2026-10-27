@@ -673,7 +673,7 @@ void initialize_destination_state(ActorRecord *actor, ObjectPosition *actor_cont
 }
 
 /* Advances one stored path step, updates occupied tiles and facing, and sets the movement delay. */
-void update_actor_object_motion(void *motion, void *unused, SpriteFrameState *actor, void *path_state)
+void update_actor_object_motion(void *motion, ObjectPosition *unused, SpriteFrameState *actor, void *path_state)
 {
     u8 *direction_table;
     s32 old_x;
@@ -1034,7 +1034,7 @@ void update_actor_action_and_direction(ActorRecord *action_state, ObjectPosition
 }
 
 /* Relinks actor state, updates status or movement as needed, and reports whether a new action may start. */
-s32 relink_flame_path(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
+s32 relink_flame_path(void *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
     s16 state_type;
     s32 result;
     void *entity = entity_arg;
@@ -1443,7 +1443,7 @@ void update_directional_motion_and_tile(R06_80172DD0_S_80172DD0_1 *action, Objec
 
 /* Fades the actor and its child sprites after defeat, awards experience, clears tile occupancy, and
  * unlinks it. */
-void fade_sprites_and_remove_entity(void *actor, s32 unused, SpriteFrameState *sprite, void *entity)
+void fade_sprites_and_remove_entity(void *actor, ObjectPosition *unused, SpriteFrameState *sprite, void *entity)
 {
     u8 state;
     u8 *sprite_group;
@@ -2602,7 +2602,7 @@ void create_sixteen_segment_ring(R06_80174E78_Source *source, R06_80174E78_Vec3i
 
 /* Stops movement and waits for dungeon activity to finish, then clears the callback and counts the new
  * action. */
-void wait_for_flame_action_slot(void *entity_data, s32 unused_1, s32 unused_2, void *other_data)
+void wait_for_flame_action_slot(void *entity_data, ObjectPosition *unused_1, s32 unused_2, void *other_data)
 {
     u8 *entity = entity_data;
     u8 *other = other_data;

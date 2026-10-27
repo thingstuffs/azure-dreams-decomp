@@ -48,7 +48,7 @@ extern s32 require_object_flag();
 /* Update an actor's dungeon actions, status, facing, and animation. */
 /* Dispatches Golem's movement, attacks, spells, and turn processing, creating a sprite copy for its
  * alternate mode. */
-void update_dungeon_actor_actions(GolemActionWork *actor, void *context, SpriteFrameState *sprite, ActorRecord *stats) {
+void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *stats) {
     s16 heading_flags;
     s32 tile_index;
     u32 action_index;

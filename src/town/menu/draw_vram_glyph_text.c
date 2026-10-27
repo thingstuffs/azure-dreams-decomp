@@ -1,5 +1,6 @@
 #include "common.h"
 #include "engine/camera.h"
+#include "town/menu/catalog.h"
 
 void get_glyph_vram_rectangle(s32 rect_id, s16 *vram_rect);              /* extern */
 void MoveImage(void *, s32, s32);         /* extern */

@@ -29,7 +29,7 @@ typedef struct S_80172524_0 {
 } S_80172524_0;   /* arg0 in advance_action_phases_and_animation */
 
 /* Advance the action phases, updating movement and directional animation. */
-void advance_action_phases_and_animation(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+void advance_action_phases_and_animation(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u16 move_ticks;
     u16 settle_ticks;
     u8 phase;
@@ -37,7 +37,7 @@ void advance_action_phases_and_animation(void *action, ObjectPosition *motion, S
     phase = ((S_80172524_0 *)action)->unk_9B.n;
     switch (phase) {
     case 0:
-        ((S_80172524_0 *)action)->unk_98 = (u16) (((S_80172524_0 *)action)->unk_98 | 8);
+        action->action_state_flags = (u16) (action->action_state_flags | 8);
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
@@ -151,7 +151,7 @@ void advance_action_phases_and_animation(void *action, ObjectPosition *motion, S
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        ((S_80172524_0 *)action)->unk_98 = (u16) (((S_80172524_0 *)action)->unk_98 & 0xFFF7);
+        action->action_state_flags = (u16) (action->action_state_flags & 0xFFF7);
         spend_actor_mp(actor, 0x100);
         ((S_80172524_0 *)action)->unk_8C = &update_entity_actions_facing_and_animation;
         g_dungeon_status.active_actor = 0;

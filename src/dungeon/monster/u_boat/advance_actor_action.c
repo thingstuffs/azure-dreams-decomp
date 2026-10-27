@@ -34,22 +34,21 @@ extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
-extern void update_actor_action_transition(void *, void *, void *, void *);
+extern void update_actor_action_transition(void *, ObjectPosition *, void *, void *);
 
 extern u8 uboat_action_frames[];
 extern u8 u_boat_motion_frames[];
 #include "dungeon/monster/u_boat.h"
 
 /* Advances the entity action through animation, behavior, and callback transitions. */
-void advance_actor_action(void *action, void *context, SpriteFrameState *sprite, ActorRecord *entity)
-{
+void advance_actor_action(ActorRecord *action, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
     s32 entity_flags;
     u16 action_value;
     u16 value_offset;
     DungeonGlobalStatus *global_base;
     s32 phase;
 
-    phase = ((S_801743DC_0 *)action)->unk_9B;
+    phase = action->action_phase;
     switch (phase) {
     case 0:
         if (!(sprite->flags & 0xE000)) {
@@ -64,7 +63,7 @@ void advance_actor_action(void *action, void *context, SpriteFrameState *sprite,
 
             (*(u16 *)&counter_base->activity_counts.parts.pending_action_count)--;
         }
-        ((S_801743DC_0 *)action)->unk_9B++;
+        action->action_phase++;
         return;
     case 1:
         global_base = &g_dungeon_status;
@@ -140,7 +139,7 @@ void advance_actor_action(void *action, void *context, SpriteFrameState *sprite,
         {
             DungeonGlobalStatus *counter_base = &g_dungeon_status;
 
-            ((S_801743DC_0 *)action)->unk_9B++;
+            action->action_phase++;
             (*(u16 *)&counter_base->activity_counts.parts.pending_action_count)++;
         }
         return;

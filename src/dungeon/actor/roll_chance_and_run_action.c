@@ -7,7 +7,7 @@ typedef struct S_800C8ABC_0 {
 } S_800C8ABC_0;   /* held_arg0 in roll_chance_and_run_action */
 
 
-extern s32 set_or_clear_actor_status_slot();
+#include "dungeon/actor/status.h"
 extern s32 generate_random_value(void);
 extern s32 is_linked_entity_flagged_2000000(void *record);
 
@@ -34,7 +34,7 @@ s32 roll_chance_and_run_action(void *record, s16 chance, s8 action)
     value = saved_chance;
     divisor = value / 2;
     if ((remainder < divisor) || (value == 0xFF)) {
-        if ((s16)set_or_clear_actor_status_slot(((S_800C8ABC_0 *)(record)), STATUS_SLEEP, saved_action) >= 0) {
+        if ((s16)set_or_clear_actor_status_slot(record, STATUS_SLEEP, saved_action) >= 0) {
             return 1;
         }
     }

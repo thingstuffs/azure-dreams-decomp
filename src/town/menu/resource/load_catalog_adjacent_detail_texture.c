@@ -1,5 +1,6 @@
 #include "common.h"
 #include "engine/graphics.h"
+#include "sdk/libgpu.h"
 
 typedef struct S_801254D8_0 {
     u8 pad_00[0x4];
@@ -32,12 +33,11 @@ typedef struct {
 
 extern s32 Control_CD();
 extern s32 pack_tagged_resource_descriptor();
-extern s32 LoadImage();
 
 extern s32 resource_completion_callback_address[];
 extern s32 *catalog_texture_resources[];
-extern u8 catalog_texture_buffer[];
-extern u8 catalog_texture_pixels[];
+extern u32 catalog_texture_buffer[];
+extern u32 catalog_texture_pixels[];
 extern u8 catalog_texture_request[];
 
 
@@ -45,6 +45,8 @@ extern u8 catalog_texture_request[];
 void load_catalog_adjacent_detail_texture(void *context) {
     Rect image_rect;
     Rect palette_rect;
+    void *compressed;
+    void *pixels;
     u8 load_phase;
 
     load_phase = ((S_801254D8_0 *)context)->unk_0B;
@@ -70,7 +72,9 @@ void load_catalog_adjacent_detail_texture(void *context) {
     palette_rect.h = 1;
     LoadImage(&palette_rect, catalog_texture_buffer);
 
-    decompress_lz(catalog_texture_buffer + 0x200, catalog_texture_pixels);
+    compressed = catalog_texture_buffer + 0x80;
+    pixels = catalog_texture_pixels;
+    decompress_lz(compressed, pixels);
 
     image_rect.x = (((S_801254D8_0 *)context)->unk_16 << 6) + 0x240;
     image_rect.y = 0x80;

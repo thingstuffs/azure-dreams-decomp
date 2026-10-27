@@ -23,8 +23,7 @@ extern u8 hikewne_frame_set_2[];
 extern u8 hikewne_frame_set_3[];
 
 /* Advance actor states, select directional animations, and process entity actions. */
-void advance_actor_states_and_process_actions(void *actor, void *context, SpriteFrameState *animation, ActorRecord *entity)
-{
+void advance_actor_states_and_process_actions(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *entity) {
     s32 state;
 
     state = ((Rec_func_8017360C_arg0 *)actor)->unk_9B;

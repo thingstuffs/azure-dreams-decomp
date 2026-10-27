@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "dungeon/monster/kid.h"
 #include "shared/dungeon_status.h"
@@ -13,7 +14,7 @@ typedef struct {
 extern s16 actor_action_reset_value;
 
 /* Initializes entity state and conditionally increments the dungeon count. */
-void initialize_counted_entity_action(void *entity_data, s32 unused_1, s32 unused_2, void *other_data)
+void initialize_counted_entity_action(void *entity_data, ObjectPosition *unused_1, s32 unused_2, void *other_data)
 {
     u8 *entity = entity_data;
     u8 *other = other_data;

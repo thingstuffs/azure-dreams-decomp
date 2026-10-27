@@ -1,3 +1,4 @@
+#include "dungeon/item.h"
 #include "shared/actor_property_flags.h"
 #include "shared/dungeon_item_entries.h"
 #include "shared/actor_status_flags.h"
@@ -20,7 +21,6 @@ void clear_slots_of_type(ActorRecord *owner, s8 match_type);             /* exte
 #include "dungeon/player/item.h"
 void *get_unused_text_buffer(void);                          /* extern */
 s32 display_text_with_fullwidth_adjustment(s8 *text);                         /* extern */
-void create_timed_paired_particle_emitter();            /* extern */
 typedef struct {
     u8 pad[0xA];
     u16 fieldA;
@@ -29,7 +29,7 @@ extern u8 confusion_cure_text[];
 
 
 typedef struct S_800BD5C4_0_pre {
-    s32 unk_00;
+    ObjectPosition *unk_00;
     u8 pad_04[0x14];
 } S_800BD5C4_0_pre;   /* the 0x18 bytes before arg0 in use_item_to_cure_confusion, addressed as arg0[-1] */
 

@@ -1,3 +1,4 @@
+#include "dungeon/item.h"
 #include "shared/actor_property_flags.h"
 #include "shared/dungeon_item_entries.h"
 #include "shared/entity_action_selectors.h"
@@ -14,13 +15,12 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/player/state.h"
 extern void adjust_source_value_and_finalize(void *context, const void *source);
-extern void create_timed_paired_particle_emitter();
 
 extern u8 D_800E0F07[];
 
 
 typedef struct S_800BDB74_0_pre {
-    s32 unk_00;
+    ObjectPosition *unk_00;
     u8 pad_04[0x14];
 } S_800BDB74_0_pre;   /* the 0x18 bytes before arg0 in use_item_to_restore_defense, addressed as arg0[-1] */
 

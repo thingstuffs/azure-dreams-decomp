@@ -8,7 +8,7 @@ extern void advance_status_timers(s32);
 
 /* Update the actor after a successful action and reset the entity script on a positive result. */
 void finish_successful_actor_action(void *action_entity, s32 action, s32 source_actor, s32 target_actor) {
-    void *entity = action_entity;
+    ActorRecord *entity = action_entity;
     s32 source = source_actor;
     s32 actor = target_actor;
 
@@ -16,8 +16,8 @@ void finish_successful_actor_action(void *action_entity, s32 action, s32 source_
         spend_actor_mp(actor, 5);
         advance_status_timers(actor);
         if ((check_actor_floor_trap(source, actor) << 16) > 0) {
-            *(s32 **)((u8 *)entity + 0x8C) = update_dungeon_actor_actions;
-            *(s32 *)((u8 *)entity + 0x90) = 0;
+            entity->unk_8C.address = update_dungeon_actor_actions;
+            entity->unk_90.value = 0;
         }
     }
 }

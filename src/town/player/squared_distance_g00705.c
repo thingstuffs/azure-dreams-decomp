@@ -4,24 +4,24 @@
 #include "town/player/squared_distance_g00705.h"
 
 /* Compute the squared distance between two 3D points. */
-s32 squared_distance_3s(Vec3s *point_a, Vec3s *point_b) {
+s32 squared_distance_3s(GteShortVector *point_a, GteShortVector *point_b) {
     s32 diff;
     s32 total;
 
-    diff = point_b->x;
-    diff -= point_a->x;
+    diff = point_b->vx;
+    diff -= point_a->vx;
     total = diff * diff;
-    diff = point_b->y;
-    diff -= point_a->y;
+    diff = point_b->vy;
+    diff -= point_a->vy;
     total += diff * diff;
-    diff = point_b->z;
-    diff -= point_a->z;
+    diff = point_b->vz;
+    diff -= point_a->vz;
     return total + diff * diff;
 }
 
 /* Returns the lowest-valued entry and reports a player.c assertion if none is selected. */
-s32 find_nearest_point_3s(s32 entries, s32 eval_context, s32 entry_count) {
-    s32 best_entry;
+GteShortVector *find_nearest_point_3s(GteShortVector *entries, GteShortVector *eval_context, s32 entry_count) {
+    GteShortVector *best_entry;
     s32 best_value;
     s32 index;
     s32 value;
@@ -38,7 +38,7 @@ s32 find_nearest_point_3s(s32 entries, s32 eval_context, s32 entry_count) {
             best_entry = entries;
             best_value = value;
         }
-        entries += 8;
+        entries += 1;
     }
 
     if (best_entry == 0) {

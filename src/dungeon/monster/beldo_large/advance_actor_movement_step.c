@@ -43,14 +43,14 @@ s32 update_actor_proximity_flag(void *, void *, s32, s32, s8 *);
 extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 void update_actor_status_and_mp(struct ActorRecord *);
 extern s16 sample_terrain_surface_height();
-struct Rec_D_80082E80; struct Rec_func_800A9E70_arg0; s32 try_actor_attack(struct Rec_func_800A9E70_arg0 *, s32, struct Rec_D_80082E80 *, struct ActorRecord *);
+struct Rec_D_80082E80; struct Rec_func_800A9E70_arg0; s32 try_actor_attack(struct Rec_func_800A9E70_arg0 *, ObjectPosition *, struct Rec_D_80082E80 *, struct ActorRecord *);
 
 extern s16 actor_turn_angle_offsets[];
 
 /* Select a movement direction, record the previous tile, and update the actor position and height. */
 /* Chooses Beldo's next clear step from actor or player-relative targets, records the path, and updates
  * tile occupancy and height. */
-void advance_actor_movement_step(BeldoMoveState *movement_in, void *action_ctx, SpriteFrameState *position, ActorRecord *actor) {
+void advance_actor_movement_step(BeldoMoveState *movement_in, ObjectPosition *action_ctx, SpriteFrameState *position, ActorRecord *actor) {
     u16 near_target;
     u8 target_nearby = 0;
     s32 height_result;
@@ -78,7 +78,7 @@ void advance_actor_movement_step(BeldoMoveState *movement_in, void *action_ctx, 
 
     if ((dungeon_flags & 0x4000) || ((s8)actor->movement_queue_state >= 0)) {
         if ((actor->unk_12 >= 2) ||
-            ((try_actor_attack((struct Rec_func_800A9E70_arg0 *)movement_in, (s32)action_ctx, (struct Rec_D_80082E80 *)position, actor) << 16) == 0)) {
+            ((try_actor_attack((struct Rec_func_800A9E70_arg0 *)movement_in, action_ctx, (struct Rec_D_80082E80 *)position, actor) << 16) == 0)) {
             update_actor_status_and_mp(actor);
             return;
         }

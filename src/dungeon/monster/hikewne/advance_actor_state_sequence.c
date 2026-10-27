@@ -48,13 +48,12 @@ extern u8 hikewne_frame_set_3[];
 /* Advances the actor state sequence and selects effects for its facing direction. */
 /* Animates Hikewne's status-slot-1 entry and recovery, updates MP and turns while active, then restores
  * its normal callback. */
-void advance_actor_state_sequence(void *action, void *context, SpriteFrameState *entity, ActorRecord *actor)
-{
+void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, SpriteFrameState *entity, ActorRecord *actor) {
     s32 effect_entry;
     s32 next_state;
     u8 state;
 
-    state = ((S_8017360C_0 *)action)->unk_9B;
+    state = action->action_phase;
     switch (state) {
     case 0:
     {
@@ -74,8 +73,8 @@ void advance_actor_state_sequence(void *action, void *context, SpriteFrameState 
             select_sprite_entry(entity, *(u8 *)effect_entry, 0);
             dungeon_state = &g_dungeon_status;
             (*(u16 *)&dungeon_state->activity_counts.parts.pending_action_count)--;
-            next_state = ((S_8017360C_0 *)action)->unk_9B + 1;
-            ((S_8017360C_0 *)action)->unk_9B = next_state;
+            next_state = action->action_phase + 1;
+            action->action_phase = next_state;
             return;
         }
 
@@ -95,8 +94,8 @@ void advance_actor_state_sequence(void *action, void *context, SpriteFrameState 
         effect_entry += (s32)local_table_1;
         select_sprite_entry(entity, *(u8 *)effect_entry, 0);
         ((S_8017360C_0 *)action)->unk_96 = 0;
-        next_state = ((S_8017360C_0 *)action)->unk_9B + 1;
-        ((S_8017360C_0 *)action)->unk_9B = next_state;
+        next_state = action->action_phase + 1;
+        action->action_phase = next_state;
         return;
 
     }
@@ -115,8 +114,8 @@ void advance_actor_state_sequence(void *action, void *context, SpriteFrameState 
         effect_entry += (s32)local_table_2;
         select_sprite_entry(entity, *(u8 *)effect_entry, 0);
         ((S_8017360C_0 *)action)->unk_96 = 0;
-        next_state = ((S_8017360C_0 *)action)->unk_9B + 1;
-        ((S_8017360C_0 *)action)->unk_9B = next_state;
+        next_state = action->action_phase + 1;
+        action->action_phase = next_state;
         return;
 
     }
@@ -211,7 +210,7 @@ void advance_actor_state_sequence(void *action, void *context, SpriteFrameState 
         if ((entity->flags & 0x8000) != 0) {
             break;
         }
-        ((S_8017360C_0 *)action)->unk_9B++;
+        action->action_phase++;
         {
             DungeonGlobalStatus *dungeon_state = &g_dungeon_status;
             (*(u16 *)&dungeon_state->activity_counts.parts.pending_action_count)++;
@@ -241,8 +240,8 @@ void advance_actor_state_sequence(void *action, void *context, SpriteFrameState 
         effect_entry += (s32)local_table_4;
         select_sprite_entry(entity, *(u8 *)effect_entry, 0);
         ((S_8017360C_0 *)action)->unk_96 = 0;
-        next_state = ((S_8017360C_0 *)action)->unk_9B + 1;
-        ((S_8017360C_0 *)action)->unk_9B = next_state;
+        next_state = action->action_phase + 1;
+        action->action_phase = next_state;
         return;
     }
 

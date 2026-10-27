@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -25,7 +26,7 @@ struct SpriteFrameState;
 extern void select_sprite_entry(void *, s16, s16);
 
 // Initializes state and configures the context from an eight-way direction lookup.
-void initialize_eight_way_action_state(State *state, s32 unused, SpriteFrameState *context, IndexSource *directionSource)
+void initialize_eight_way_action_state(State *state, ObjectPosition *unused, SpriteFrameState *context, IndexSource *directionSource)
 {
     state->unk9A = 0x10;
     state->unk9B = 0;

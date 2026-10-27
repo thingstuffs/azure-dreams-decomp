@@ -78,7 +78,7 @@ extern u8 maximum_frame_set_4[];
 /* Updates an actor action, its visual effect, and completion cleanup. */
 /* Starts a targeted spell with a child sprite on frame 45, releases the child after animation, and
  * restores movement. */
-void resolve_actor_attack_damage(void *actor, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *action) {
+void resolve_actor_attack_damage(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *action) {
     s32 action_id;
     s32 action_value;
     s32 effect_anim;
@@ -93,7 +93,7 @@ void resolve_actor_attack_damage(void *actor, ObjectPosition *motion, SpriteFram
     void *new_effect;
     void *target;
 
-    state = ((S_801728B4_0 *)actor)->unk_9B;
+    state = actor->action_phase;
     use_player = 0;
     switch (state) {
     case 0:
@@ -136,7 +136,7 @@ void resolve_actor_attack_damage(void *actor, ObjectPosition *motion, SpriteFram
             }
         }
         if (*slot_or_effect != 0) {
-            ((S_801728B4_0 *)actor)->unk_98 = (u16) (((S_801728B4_0 *)actor)->unk_98 & 0xFF7F);
+            actor->action_state_flags = (u16) (actor->action_state_flags & 0xFF7F);
             if (use_player != 0) {
                 target = primary_actor_record;
                 action->target = target;
@@ -159,12 +159,12 @@ void resolve_actor_attack_damage(void *actor, ObjectPosition *motion, SpriteFram
             saved_pos[0] = ((u16)motion->x.w.i);
             saved_pos[1] = ((u16)motion->y.w.i);
             saved_pos[2] = ((u16)motion->z.w.i);
-            if (create_actor_spell_effect(action, slot_or_effect, use_player, actor + 0x98) == 0) {
+            if (create_actor_spell_effect(action, slot_or_effect, use_player, ((u8 *)actor + 0x98)) == 0) {
                 return;
             }
             sprite->flags = (u16) (sprite->flags & 0xF7FF);
             play_sound_if_enabled(0x703);
-            ((S_801728B4_0 *)actor)->unk_9B = (u8) (((S_801728B4_0 *)actor)->unk_9B + 1);
+            actor->action_phase = (u8) (actor->action_phase + 1);
             new_effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
             ((S_801728B4_0 *)actor)->unk_A0 = new_effect;
             if (new_effect == NULL) {
@@ -210,7 +210,7 @@ void resolve_actor_attack_damage(void *actor, ObjectPosition *motion, SpriteFram
             return;
         }
         sprite->flags = (u16) (sprite->flags & 0xF7FF);
-        ((S_801728B4_0 *)actor)->unk_9B = (u8) (((S_801728B4_0 *)actor)->unk_9B + 1);
+        actor->action_phase = (u8) (actor->action_phase + 1);
     case 2:
         target = ((S_801728B4_0 *)actor)->unk_A0;
         if (target != NULL) {
@@ -225,7 +225,7 @@ void resolve_actor_attack_damage(void *actor, ObjectPosition *motion, SpriteFram
             (sprite->flags & 0xE000)) {
             sprite->flags = (u16) (sprite->flags | 0x800);
             ((S_801728B4_0 *)actor)->unk_96 = 3U;
-            ((S_801728B4_0 *)actor)->unk_98 = (u16) (((S_801728B4_0 *)actor)->unk_98 | 0x80);
+            actor->action_state_flags = (u16) (actor->action_state_flags | 0x80);
         }
         ticks_left = ((S_801728B4_0 *)actor)->unk_96 - 1;
         ((S_801728B4_0 *)actor)->unk_96 = ticks_left;

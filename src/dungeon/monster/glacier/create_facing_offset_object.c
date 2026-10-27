@@ -95,7 +95,7 @@ extern u8 glacier_direction_offsets[];
 extern u8 D_8017612C[];
 
 extern void register_node(AllocationObject *allocation, void *callback);
-extern void update_map_cell_flags_with_item_limit(u8 x, u8 y, s32 mode);
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern void select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s16 slot_value);
 extern void *find_nearby_eligible_entry(u8 *current, s32 wanted_24, s32 wanted_25, s32 height_center);
 

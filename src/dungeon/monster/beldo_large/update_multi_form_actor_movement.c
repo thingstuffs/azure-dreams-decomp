@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
@@ -34,7 +35,7 @@ extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
  * Selects idle frames for Beldo's four forms, updates parent-relative movement, and handles the
  * floor-trap result.
  */
-void update_multi_form_actor_movement(DungeonObject *object, s32 update_param, SpriteFrameState *state, DungeonInput *input) {
+void update_multi_form_actor_movement(DungeonObject *object, ObjectPosition *update_param, SpriteFrameState *state, DungeonInput *input) {
     s32 mode;
     u8 *mode_table;
     u8 *current_table;

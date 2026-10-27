@@ -53,7 +53,7 @@ extern s32 generate_random_value(void);
 extern void select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s16 slot_value);
 
 /* Prepares an entity action, updates its directional animation, and advances the counter. */
-void prepare_actor_directional_action(u8 *entity, s32 action_param, SpriteFrameState *action_sprite, u8 *frame_table, s32 fallback_state)
+void prepare_actor_directional_action(u8 *entity, ObjectPosition *action_param, SpriteFrameState *action_sprite, u8 *frame_table, s32 fallback_state)
 {
     u8 *self;
     u8 *player;

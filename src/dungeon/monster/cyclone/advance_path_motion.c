@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -47,7 +48,7 @@ s16 get_rounded_facing_and_rounding_flag();             /* extern */
 extern u8 cyclone_move_direction_frames[8];
 
 /* Advance the entity along its stored path and update its heading and movement timing. */
-void advance_path_motion(void *motion, void *unused, SpriteFrameState *entity, void *path_state) {
+void advance_path_motion(void *motion, ObjectPosition *unused, SpriteFrameState *entity, void *path_state) {
     s32 old_cell_mask;
     s32 new_cell_mask;
     s16 heading;

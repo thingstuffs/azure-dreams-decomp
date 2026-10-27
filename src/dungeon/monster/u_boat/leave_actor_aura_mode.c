@@ -27,7 +27,7 @@ typedef struct S_80176084_0 {
 } S_80176084_0;   /* arg0 in leave_actor_aura_mode */
 
 extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
-void create_owner_linked_directional_object(u8 *owner_data, u8 *source_position, u8 *source_sprite);
+void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosition *source_position, SpriteFrameState *source_sprite);
 
 extern u8 uboat_default_frames[];
 extern u8 u_boat_aura_frames[];
@@ -35,7 +35,7 @@ extern u8 u_boat_aura_frames[];
 #include "engine/graphics.h"
 
 /* Advance a two-phase animation transition and finalize the entity state. */
-void leave_actor_aura_mode(void *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity) {
+void leave_actor_aura_mode(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity) {
     u16 start_ticks;
     u16 finish_ticks;
     u8 phase;

@@ -1,3 +1,5 @@
+#include "shared/object_node.h"
+#include "dungeon/item.h"
 #include "shared/entity_action_selectors.h"
 #include "shared/entity.h"
 #include "shared/dungeon_item_entries.h"
@@ -42,7 +44,6 @@ extern s32 generate_random_value(void);
 extern s32 cap_pending_actor_value_delta(DungeonObject *);
 extern s32 feed_actor_restore_mp(DungeonObject *, u32, struct DungeonItemEntry *);
 extern void create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
-extern void create_timed_paired_particle_emitter(s32, s32, DungeonObject *);
 
 /* Applies an item effect, selects its amount, and displays the result. */
 s32 use_random_healing_item(DungeonObject *obj, DungeonItemEntry *payload, s16 effect_arg) {
@@ -69,7 +70,7 @@ s32 use_random_healing_item(DungeonObject *obj, DungeonItemEntry *payload, s16 e
             return 1;
         }
     }
-    create_timed_paired_particle_emitter(*(s32 *)((u8 *)obj - 0x18), 0x20E020, obj);
+    create_timed_paired_particle_emitter(((ObjectNodeHeader *)obj)[-1].position, 0x20E020, obj);
     amount = (generate_random_value() & 7) + 0x20;
     if (amount >= 0x100) {
         amount = 0xFF;

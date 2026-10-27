@@ -395,7 +395,7 @@ typedef struct T_80171D64_S_80171D64_4 {
 } T_80171D64_S_80171D64_4;   /* the record, addressed through its copy in func_80171D64 */
 
 extern void advance_sprite_animation_and_textures(void *entity);
-extern s32 check_left_tile_and_center_height(u16 x, u16 y, s16 z);
+s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern s16 sample_terrain_surface_height(u16 x, u16 y, s16 min_height);
 extern s32 resolve_record_orientation_or_fallback(void *, void *, T_8017121C_Vec3u16 *, s32);
 extern void register_node(void *, void *);
@@ -424,7 +424,7 @@ void update_growing_rotating_flash(void *effect, s32 unused, void *visual);
 void update_growing_bouncing_effect(void *effect, void *position,struct SpriteFrameState *sprite);
 void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unused, EntityRec *target);
 void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *source_pos, SpriteFrameState *sprite_template, ActorRecord *actor);
-void spawn_random_color_burst_particle(void *source, void *position);
+void spawn_random_color_burst_particle(void *source, ObjectPosition *position);
 void spawn_growing_rotating_flash(void *unused, s32 *position);
 void update_tracked_attachment_sprite(void *object, T_80171A38_S_80171A38_4 *position, T_80171A38_S_80171A38_3 *part_state);
 void create_tracked_attachment_sprite(void *attachment, T_80171BEC_S_80171BEC_3 *base_position);

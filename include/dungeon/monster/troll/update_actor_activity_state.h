@@ -125,7 +125,7 @@ extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argumen
 extern void on_actor_status_updated(void *actor);
 extern void func_800A9A04(void *actor);
 extern void update_actor_status_and_mp();
-extern void begin_pushed_actor_move();
+extern void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);
 extern s32 begin_ready_actor_directional_action();
 extern s32 advance_actor_pending_action(void *actor_state, void *action, void *status, void *actor);
 extern void begin_actor_move_to_target_facing();
@@ -145,7 +145,7 @@ extern u8 troll_frame_set_1[];
 extern u8 troll_frame_set_2[];
 extern u8 troll_frame_set_3[];
 void update_actor_activity_state(ActorRecord *task, ObjectPosition *task_id, SpriteFrameState *sprite_in, ActorRecord *actor_in);
-void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *context, SpriteFrameState *animation, T_80175574_Obj3 *actor);
-void update_directional_action_display(T_801759A0_Obj0 *actor, void *context, T_801759A0_Obj2 *display_arg, T_801759A0_Obj3 *state_arg);
+void update_actor_action_animation_state(T_80175574_Obj0 *controller, ObjectPosition *context, SpriteFrameState *animation, T_80175574_Obj3 *actor);
+void update_directional_action_display(T_801759A0_Obj0 *actor, ObjectPosition *context, T_801759A0_Obj2 *display_arg, T_801759A0_Obj3 *state_arg);
 void update_actor_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
 #endif

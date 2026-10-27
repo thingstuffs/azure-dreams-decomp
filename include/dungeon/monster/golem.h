@@ -24,16 +24,16 @@ typedef struct GolemActionWork {
 } GolemActionWork;
 
 s32 attempt_actor_action_and_display(ActorRecord *action_out, ObjectPosition *action_param, SpriteFrameState *actor_info, ActorRecord *acting_actor);
-s32 create_copied_render_object(GolemActionWork *owner, EntityRec *source_state, Rec_func_800AA258_arg2 *render_data);
-s32 initialize_directional_animation_action(void *state_ptr, void *action_arg, void *sprite_ptr, void *entity_ptr);
-s32 scan_forward_tiles_for_target(GolemActionWork *action_state, void *transfer_data, void *origin, void *actor);
+s32 create_copied_render_object(GolemActionWork *owner, ObjectPosition *source_state, Rec_func_800AA258_arg2 *render_data);
+s32 initialize_directional_animation_action(void *state_ptr, ObjectPosition *action_arg, void *sprite_ptr, void *entity_ptr);
+s32 scan_forward_tiles_for_target(GolemActionWork *action_state, ObjectPosition *transfer_data, void *origin, void *actor);
 
 
 
 
-void advance_actor_height_arc(void *action, void *motion, SpriteFrameState *record, ActorRecord *actor);
+void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *record, ActorRecord *actor);
 void advance_timed_target_flags(void *state, void *output, SpriteFrameState *target);
 
-void update_dungeon_actor_actions(GolemActionWork *actor, void *context, SpriteFrameState *sprite, ActorRecord *stats);
+void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *stats);
 
 #endif

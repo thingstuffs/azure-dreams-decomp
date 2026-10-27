@@ -15,4 +15,6 @@ void dispatch_status_triggered_update(void *handler_arg, void *context, SpriteFl
 /* Registered code-address alias for dispatch_status_triggered_update. */
 void person_table_handler_address(void *handler_arg, void *context, SpriteFlagsView *status);
 
+void dispatch_object_state(void *object, void *context, void *dispatch_data);
+
 #endif

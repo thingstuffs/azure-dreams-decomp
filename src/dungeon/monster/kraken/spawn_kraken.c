@@ -40,7 +40,7 @@ void *spawn_kraken(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value)
     work = 0;
     saved_variant = variant;
     saved_spawn_flags = spawn_flags;
-    obj = allocate_list_node(0x112, (saved_kind_id = kind_id, ((u8 *)(&scene_object_list_anchor))));
+    obj = allocate_list_node(0x112, (saved_kind_id = kind_id, &scene_object_list_anchor.next));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         obj->update_callback = func_8016AB64;

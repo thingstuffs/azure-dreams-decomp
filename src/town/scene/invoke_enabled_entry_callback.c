@@ -1,9 +1,9 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/player/coordinates.h"
 
 
-extern void copy_current_record_components_3(s16 *result);
 extern u8 D_8001F244[];
 extern u8 D_8001F288[];
 

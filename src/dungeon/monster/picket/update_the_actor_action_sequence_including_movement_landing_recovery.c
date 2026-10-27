@@ -53,8 +53,7 @@ extern u8 picket_frame_set_1[];
 /* Updates the actor action sequence, including movement, landing, and recovery. */
 /* Starts a targeted spell with two effect groups, animates a backward leap and landing squash, then
  * returns to its tile. */
-void update_the_actor_action_sequence_including_movement_landing_recovery(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void update_the_actor_action_sequence_including_movement_landing_recovery(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u32 dir_offset;
     u16 angle;
     u32 action_index;
@@ -76,7 +75,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
     dir_offset += (u32)dir_step_y;
     dir_y = *(s16 *)dir_offset;
     timer = ((S_80172C90_1 *)action)->unk_96.s;
-    state = ((S_80172C90_1 *)action)->unk_9B;
+    state = action->action_phase;
     ((S_80172C90_1 *)action)->unk_96.s = timer - 1;
     special = 0;
     switch (state) {
@@ -132,7 +131,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
             u16 use_owner;
             s32 move_result;
 
-            ((S_80172C90_1 *)action)->unk_98 &= 0xFF7F;
+            action->action_state_flags &= 0xFF7F;
             use_owner = special;
             if (use_owner) {
                 owner = primary_actor_record;
@@ -177,7 +176,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
             create_two_effect_groups(motion, sprite, actor, 10);
             ((S_80172C90_1 *)action)->unk_90 = 0;
             ((S_80172C90_1 *)action)->unk_96.s = 2;
-            ((S_80172C90_1 *)action)->unk_98 |= 8;
+            action->action_state_flags |= 8;
             {
                 s32 back_x;
                 s32 back_y;
@@ -191,9 +190,9 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
             }
             motion->velocity_z = (s32)0xFFF30000;
             {
-                tail_state = ((S_80172C90_1 *)action)->unk_9B;
+                tail_state = action->action_phase;
                 tail_state++;
-                ((S_80172C90_1 *)action)->unk_9B = tail_state;
+                action->action_phase = tail_state;
                 return;
             }
         }
@@ -219,8 +218,8 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
 
     case 1:
         if (sprite->flags & 0x8000) {
-            ((S_80172C90_1 *)action)->unk_9B = 16;
-            ((S_80172C90_1 *)action)->unk_98 |= 0x80;
+            action->action_phase = 16;
+            action->action_state_flags |= 0x80;
             return;
         }
         if (((S_80172C90_1 *)action)->unk_96.u <= 0) {
@@ -231,7 +230,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
             motion->velocity_y = dir_y << 18;
             motion->velocity_z = (s32)0xFFF30000;
             {
-                ((S_80172C90_1 *)action)->unk_9B = ((S_80172C90_1 *)action)->unk_9B + 1;
+                action->action_phase = action->action_phase + 1;
                 return;
             }
         }
@@ -245,7 +244,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
             return;
         }
         sprite->flags &= 0xF7FF;
-        ((S_80172C90_1 *)action)->unk_9B++;
+        action->action_phase++;
 
     case 3:
         motion->velocity_z += 0x30000;
@@ -256,8 +255,8 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
         {
             motion->velocity_x = dir_x << 19;
             motion->velocity_y = dir_y << 19;
-            ((S_80172C90_1 *)action)->unk_98 |= 0x80;
-            ((S_80172C90_1 *)action)->unk_9B++;
+            action->action_state_flags |= 0x80;
+            action->action_phase++;
             return;
         }
 
@@ -282,8 +281,8 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
             select_sprite_entry(sprite,
                 effect[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            ((S_80172C90_1 *)action)->unk_98 &= 0xFFF7;
-            ((S_80172C90_1 *)action)->unk_9B++;
+            action->action_state_flags &= 0xFFF7;
+            action->action_phase++;
             return;
         }
 
@@ -306,7 +305,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
             picket_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_80172C90_1 *)action)->unk_96.s = 10;
-        ((S_80172C90_1 *)action)->unk_9B = ((S_80172C90_1 *)action)->unk_9B + 1;
+        action->action_phase = action->action_phase + 1;
         return;
 
     case 6:
@@ -342,7 +341,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         sprite->flags |= 0x6000;
-        ((S_80172C90_1 *)action)->unk_9B = 16;
+        action->action_phase = 16;
         return;
 
     case 16:

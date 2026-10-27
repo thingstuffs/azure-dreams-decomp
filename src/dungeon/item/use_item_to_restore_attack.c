@@ -1,3 +1,4 @@
+#include "dungeon/item.h"
 #include "shared/actor_property_flags.h"
 #include "shared/dungeon_item_entries.h"
 #include "shared/entity_action_selectors.h"
@@ -15,12 +16,11 @@
 void apply_entity_effects(); /* Slot contract: loading images do not establish one callee contract. */                      /* extern */
 #include "dungeon/player/item.h"
 void adjust_source_value_and_finalize(void *context, const void *source);           /* extern */
-void create_timed_paired_particle_emitter();            /* extern */
 extern u8 D_800E0EE1[38];
 
 
 typedef struct S_800BDA44_0_pre {
-    s32 unk_00;
+    ObjectPosition *unk_00;
     u8 pad_04[0x14];
 } S_800BDA44_0_pre;   /* the 0x18 bytes before arg0 in use_item_to_restore_attack, addressed as arg0[-1] */
 

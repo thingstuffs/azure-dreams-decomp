@@ -56,7 +56,7 @@ extern u8 D_800E23C0[];
 
 extern void select_sprite_entry(void *, u8, s32);
 extern s32 rand(void);
-extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s16 select_dungeon_spawn_tile(u8 *, u8 *);
 extern void play_sound_if_enabled(s32);
 extern void refresh_actor_proximity_state(u8 *context);

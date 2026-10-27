@@ -34,7 +34,7 @@ extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 en
 extern u8 kewne_direction_frames[];
 
 /* Advance the actor along its path and update its facing and movement timing. */
-void advance_actor_path_and_facing(void *motion, void *unused, SpriteFrameState *actor, void *path_state)
+void advance_actor_path_and_facing(void *motion, ObjectPosition *unused, SpriteFrameState *actor, void *path_state)
 {
     ActorRecord *path_actor = motion;
     u8 *direction_table;

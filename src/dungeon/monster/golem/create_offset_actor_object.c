@@ -19,7 +19,7 @@ extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
 extern u8 golem_object_callback[9];
 
 /* Creates and initializes an object, copies its data, and applies queried offsets. */
-void * create_offset_actor_object(void *unused, void *source_data, Rec_D_80082E80 *source_state)
+void * create_offset_actor_object(void *unused, ObjectPosition *source_data, Rec_D_80082E80 *source_state)
 {
     u16 offsets[3];
     ObjectNodeHeader *object;

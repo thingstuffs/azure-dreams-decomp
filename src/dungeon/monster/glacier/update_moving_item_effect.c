@@ -84,10 +84,10 @@ typedef struct {
 
 extern void cycle_map_cell_flags(s32, s32, s32);
 extern void get_offset_map_cell_value_and_flags(s32, s32, s32, u16 *);
-extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern void apply_attack_power_and_element_effects();
 extern void set_record_integer_tile_center(void *, s32, s32);
-extern s32 check_left_tile_and_center_height(u16, u16, s16);
+s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern void play_sound_if_enabled(s32);
 extern void refresh_actor_proximity_state(void *);
 extern s16 sample_terrain_surface_height(u16, u16, s16);

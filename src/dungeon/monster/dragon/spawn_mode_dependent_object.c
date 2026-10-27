@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/audio_commands.h"
 #include "dungeon/actor/motion.h"
 #include "shared/actor_property_flags.h"
@@ -414,7 +415,7 @@ void dispatch_monster_move_attack_spell(ActorRecord *controller, ObjectPosition 
 
 /* Advances one stored path step, updates occupied tiles and facing, and selects the movement animation and
  * delay. */
-void advance_stored_entity_path(void *controller, void *context, void *entity, void *path_state)
+void advance_stored_entity_path(void *controller, ObjectPosition *context, void *entity, void *path_state)
 {
     ActorRecord *path_actor = controller;
     void *state = path_state;
@@ -505,7 +506,7 @@ void advance_stored_entity_path(void *controller, void *context, void *entity, v
 
 /* Chooses a clear step or attack, records the actor's path, and updates occupied tiles and movement
  * counts. */
-void advance_actor_path_with_item_search(Rec_func_800A9E70_arg0 *move_data, void *context, SpriteFrameState *position_data, ActorRecord *actor_data)
+void advance_actor_path_with_item_search(Rec_func_800A9E70_arg0 *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data)
 {
     u16 dungeon_flags = g_dungeon_status.flags;
     s32 limit_detour = 0;
@@ -728,7 +729,7 @@ void advance_actor_path_with_item_search(Rec_func_800A9E70_arg0 *move_data, void
  * Sets action state 0x10, clears its tick, and selects a camera-relative eight-way sprite entry
  * from D_80173C8C.
  */
-void copy_display_orientation_state(void *object, void *unused, void *display, void *orientation) {
+void copy_display_orientation_state(void *object, ObjectPosition *unused, void *display, void *orientation) {
     s32 directionIndex;
     u8 *directionTable;
 
@@ -741,7 +742,7 @@ void copy_display_orientation_state(void *object, void *unused, void *display, v
 }
 
 /* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
-s32 check_actor_transition_and_start_effect(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *sprite_arg, ActorRecord *actor)
+s32 check_actor_transition_and_start_effect(Rec_func_800A9E70_arg0 *action_state, ObjectPosition *motion_param, void *sprite_arg, ActorRecord *actor)
 {
     s32 target_angle;
     u16 status_flags;
@@ -793,7 +794,7 @@ s32 check_actor_transition_and_start_effect(Rec_func_800A9E70_arg0 *action_state
 
 /* Claims an action slot, starts the directional attack animation, and prepares its target and damage
  * state. */
-void start_directional_actor_effect(void *action_state, void *action_context, void *sprite, ActorRecord *actor) {
+void start_directional_actor_effect(void *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor) {
     actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300);
@@ -813,7 +814,7 @@ void start_directional_actor_effect(void *action_state, void *action_context, vo
 }
 
 /* Relinks actor state, updates status or movement as needed, and reports whether a new action may start. */
-s32 dispatch_actor_path_state_and_relink_entity(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
+s32 dispatch_actor_path_state_and_relink_entity(void *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
     s16 state_type;
     s32 result;
     void *entity = entity_arg;
@@ -1421,7 +1422,7 @@ void slow_directional_movement_to_tile(R03_80172F14_S_80172F14_1 *controller, Ob
 
         timer = controller->timer.u - 1;
         controller->timer.s = timer;
-        if ((s32)(timer << 16) > 0) {
+        if ((timer << 16) > 0) {
             return;
         }
 
@@ -1472,7 +1473,7 @@ void grow_hopping_dragon(ActorRecord *state, ObjectPosition *motion, SpriteFrame
 }
 
 /* Waits for a status effect to clear, updates actor status and activity counts, then restores movement. */
-void update_actor_status_and_restore_handler(void *in_controller, void *in_context, void *sprite, void *in_actor)
+void update_actor_status_and_restore_handler(void *in_controller, ObjectPosition *in_context, void *sprite, void *in_actor)
 {
     void *context = in_context;
     void *actor = in_actor;
@@ -1607,8 +1608,7 @@ void update_actor_status_and_restore_handler(void *in_controller, void *in_conte
 }
 
 /* Waits for MP recovery while processing actor status, then restores the normal animation and movement. */
-void wait_for_dragon_mp(void *controller, void *context, void *sprite, ActorRecord *entity)
-{
+void wait_for_dragon_mp(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
     s32 state;
 
     state = ((Rec_func_801736F4_arg0 *)controller)->unk_9B;

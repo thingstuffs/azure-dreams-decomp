@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -25,11 +26,10 @@ struct SpriteFrameState;
 extern void select_sprite_entry(void *, s16, s16);
 
 // Initializes state and applies a table value selected by the combined indices.
-void initialize_directional_state_sprite(State *state, s32 unused, SpriteFrameState *context, IndexSource *indexSource)
-{
-    state->unk9A = 0x10;
-    state->unk9B = 0;
-    state->unk9E = 3;
+void initialize_directional_state_sprite(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *context, ActorRecord *indexSource) {
+    state->action_id = 0x10;
+    state->action_phase = 0;
+    state->unk_9E.s = 3;
     context->frameTable = D_801765E8;
-    select_sprite_entry(context, D_801765E8[((g_game_work.view.camera_rotation.parts.viewAngle + indexSource->unk2A + 0x100) >> 9) & 7], 0);
+    select_sprite_entry(context, D_801765E8[((g_game_work.view.camera_rotation.parts.viewAngle + indexSource->facing + 0x100) >> 9) & 7], 0);
 }

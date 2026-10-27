@@ -4,7 +4,7 @@
 #include "town/player/script_flags.h"
 
 /* Resolve a table entry to its referenced flag and query that flag. */
-s32 resolve_entry_flag(u8 *entry_table, void *context, s32 entry_key) {
+s32 resolve_entry_flag(void *entry_table, void *context, s32 entry_key) {
     s32 entry_index;
     s32 flag_index;
     s16 *flag_table;

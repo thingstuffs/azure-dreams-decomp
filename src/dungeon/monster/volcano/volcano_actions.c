@@ -733,7 +733,7 @@ void advance_actor_path_step(ActorRecord *action, ObjectPosition *action_id, Spr
  * Sets action state 0x10, clears its tick, and selects a camera-relative eight-way sprite entry
  * from D_80174528.
  */
-void set_actor_directional_animation(void *object, void *unused, SpriteFrameState *display, void *orientation) {
+void set_actor_directional_animation(void *object, ObjectPosition *unused, SpriteFrameState *display, void *orientation) {
     s32 directionIndex;
     u8 *directionTable;
 
@@ -747,7 +747,7 @@ void set_actor_directional_animation(void *object, void *unused, SpriteFrameStat
 #include "dungeon/monster/volcano.h"
 
 /* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
-s32 begin_actor_directional_attack(void *action_state, void *action_ctx, void *sprite, ActorRecord *actor) {
+s32 begin_actor_directional_attack(void *action_state, ObjectPosition *action_ctx, void *sprite, ActorRecord *actor) {
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
     u8 *direction_table;
     s32 move_heading;
@@ -825,7 +825,7 @@ typedef struct {
 
 
 /* Checks action availability, occupancy, and terrain ahead, then starts the directional action if allowed. */
-s32 check_actor_ahead_height(void *action_state, void *source_pos, void *sprite, void *actor)
+s32 check_actor_ahead_height(void *action_state, ObjectPosition *source_pos, void *sprite, void *actor)
 {
     void *output;
     s16 next_x;   /* never assigned: read only in the decision-46 dead arm below */
@@ -1383,7 +1383,7 @@ void shrink_hopping_volcano(void *state,void *motion,void *sprite,void *actor) {
 #include "dungeon/monster/volcano.h"
 
 /* Runs the shared actor removal sequence with the supplied callback arguments. */
-void advance_entity_motion_fade_and_removal(void *state, s32 action, SpriteFrameState *source, EntityRec *target)
+void advance_entity_motion_fade_and_removal(void *state, ObjectPosition *action, SpriteFrameState *source, EntityRec *target)
 {
     advance_actor_removal(state, action, source, target);
 }
@@ -1674,7 +1674,7 @@ void finish_actor_action_flag_propagation_then_resume_facing_animation(ActorReco
 #include "dungeon/monster/volcano.h"
 
 /* Displays directional effects, creates an actor on the tile ahead, initializes its stats, and spends MP. */
-void advance_actor_state_with_child(void *actor, void *context, void *entity, void *creature)
+void advance_actor_state_with_child(void *actor, ObjectPosition *context, void *entity, void *creature)
 {
     switch (((Rec_func_80173204_arg0 *)actor)->unk_9B) {
     case 0:
@@ -1817,7 +1817,7 @@ void advance_actor_state_when_allowed(ActorRecord *state_ctx, ObjectPosition *en
 #include "dungeon/monster/volcano.h"
 
 /* Relinks actor state, updates status or movement as needed, and reports whether a new action may start. */
-s32 select_actor_relation_state(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
+s32 select_actor_relation_state(void *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
     s16 state_type;
     s32 result;
     void *entity = entity_arg;
@@ -1882,7 +1882,7 @@ void dampen_actor_motion(void *state_data, s32 *motion, E_80173F8C_Func80DE678C_
 #include "shared/sprite_frame_state.h"
 
 /* Creates four gray sprite effects with randomized rotation and motion along the actor's facing. */
-void create_four_directional_effects(void *owner_arg, void *motion_arg, void *origin_arg) {
+void create_four_directional_effects(void *owner_arg, ObjectPosition *motion_arg, void *origin_arg) {
     u16 offsets[3];
     s32 effect_index;
     E_80174084_S_80DE6884_5 *owner;
@@ -1958,7 +1958,7 @@ void advance_effect_record_counters(u16 *counter, s32 unused, SpriteFrameState *
 #include "shared/sprite_frame_state.h"
 
 /* Creates a growing gray sprite on the tile ahead and limits its height to the terrain surface. */
-void * create_directional_effect_object(E_801742AC_S_80DE6AAC_2 *source, void *initial_position, E_801742AC_S_80DE6AAC_4 *tile_origin) {
+void * create_directional_effect_object(E_801742AC_S_80DE6AAC_2 *source, ObjectPosition *initial_position, E_801742AC_S_80DE6AAC_4 *tile_origin) {
     SpriteFrameState *sprite;
     E_801742AC_S_80DE6AAC_5 *position;
     E_801742AC_S_80DE6AAC_1 *effect_state;

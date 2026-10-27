@@ -16,7 +16,7 @@ typedef struct S_80047784 S_80047784;
 
 typedef struct S_80172834_0 {
     u8 pad_00[0x8C];
-    u8 * unk_8C;
+    ActorActionHandler unk_8C;
     s32 unk_90;
     u8 pad_94[0x2];
     union { s16 s; u16 u; } unk_96;   /* accessed as both */

@@ -4,7 +4,7 @@
 #include "town/scene/position_entries.h"
 
 void decrement_current_entry_counter_condition(void);                            /* extern */
-s32 invoke_system_callback_21_c();         /* extern */
+s32 invoke_system_callback_21_c(void *entry_table, void *context, s32 entry_key);         /* extern */
 extern s16 scene_request_flag_id;
 extern ScenePositionEntry D_80018B28;
 extern s32 D_80018E38;

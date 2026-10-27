@@ -1,11 +1,11 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "dungeon/monster/troll/create_tinted_sprite_effect_supplied_position.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 
 /* Animate movement to the target tile and finalize the actor when the timer expires. */
-void create_tinted_sprite_effect_supplied_position(T_8017406C_S_8017406C_0 *animation, ObjectPosition *motion, SpriteFrameState *tile, ActorRecord *actor)
-{
+void create_tinted_sprite_effect_supplied_position(ActorRecord *animation, ObjectPosition *motion, SpriteFrameState *tile, ActorRecord *actor) {
     s32 state;
     s32 arc_ticks;
     s32 target_x;
@@ -19,18 +19,18 @@ void create_tinted_sprite_effect_supplied_position(T_8017406C_S_8017406C_0 *anim
     u16 coord_result;
     DungeonGlobalStatus *global_base;
 
-    state = animation->unk_9B;
+    state = animation->action_phase;
     switch (state) {
     case 0:
-        animation->unk_98 |= 8;
+        animation->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         animation->unk_9E.s = 5;
-        animation->unk_A0 = 0;
-        animation->unk_9B++;
+        animation->unk_A0.value = 0;
+        animation->action_phase++;
                         /* fall through */
     case 1:
         arc_ticks = animation->unk_9E.s;
-        animation->unk_90 -= animation->unk_A0;
+        animation->unk_90.value -= animation->unk_A0.value;
         if (arc_ticks != 0) {
             target_x = tile->tile_x;
             world_x = motion->x.w.i;
@@ -46,40 +46,40 @@ void create_tinted_sprite_effect_supplied_position(T_8017406C_S_8017406C_0 *anim
                 (((tile->tile_y << 6) - world_y) << 16) /
                 animation->unk_9E.s;
 
-            animation->unk_A0 =
+            animation->unk_A0.value =
                 (-rsin(animation->unk_9E.s * 0x199)) << 10;
         }
 
-        height = animation->unk_90;
-        arc_offset = animation->unk_A0;
+        height = animation->unk_90.value;
+        arc_offset = animation->unk_A0.value;
         next_arc_ticks = animation->unk_9E.u;
         height += arc_offset;
         next_arc_ticks -= 1;
         animation->unk_9E.u = next_arc_ticks;
-        animation->unk_90 = height;
+        animation->unk_90.value = height;
         if ((next_arc_ticks << 16) < 0) {
-            animation->unk_90 = 0;
-            animation->unk_98 &= 0xFFF7;
+            animation->unk_90.value = 0;
+            animation->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            animation->unk_9B++;
+            animation->action_phase++;
         }
                         /* fall through */
     case 2:
         if (actor->flags1C & ACTOR_GROUNDED) {
-            animation->unk_98 &= 0xFFF7;
+            animation->action_state_flags &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             set_record_integer_tile_center(motion, tile->tile_x, tile->tile_y);
-            animation->unk_9B++;
+            animation->action_phase++;
         }
         break;
     default:
         break;
     }
 
-    ticks_left = animation->unk_96 - 1;
-    animation->unk_96 = ticks_left;
+    ticks_left = animation->action_timer - 1;
+    animation->action_timer = ticks_left;
     if ((ticks_left << 16) > 0) {
         return;
     }
@@ -112,7 +112,7 @@ void create_tinted_sprite_effect_supplied_position(T_8017406C_S_8017406C_0 *anim
         }
     }
     if ((check_actor_floor_trap(tile, actor) << 16) > 0) {
-        animation->unk_8C = update_actor_behavior;
+        animation->unk_8C.handler = update_actor_behavior;
         on_actor_status_updated(actor);
     }
 }

@@ -1,3 +1,4 @@
+#include "dungeon/item/message.h"
 #include "shared/actor_property_flags.h"
 #include "sdk/libgte.h"
 #include "dungeon/player.h"
@@ -70,11 +71,6 @@ s32 can_entity_gain_level(void *entity) {
 
 extern s32 apply_entity_effects(); /* Slot contract: loading images do not establish one callee contract. */
 extern void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
-extern u8 * expand_text_control_codes();
-extern void * copy_four_text_bytes();
-extern void * clear_byte_and_advance(s8 *byte_ptr);
-extern void *write_text_byte_and_advance();
-extern u8 *append_entity_display_text();
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 
@@ -332,7 +328,7 @@ s32 raise_entity_level(void *entity_data, s32 show_message) {
         if (((u8 *)entity_data)[0x13] != 0) {
             u8 *gained_base;
             s32 gained_flag;
-            u8 *ability_table;
+            DefEntry *ability_table;
             s32 levels_left;
             u8 *ability_slot;
             u8 *gained;
@@ -350,7 +346,7 @@ loop_0:
                 *gained = 0;
                 ability_value = ability_slot[8];
                 if (ability_value != 0) {
-                    s32 type_mask = ability_table[ability_value * 0x14 + 0x10] >> 4;
+                    s32 type_mask = ability_table[ability_value].unk_10 >> 4;
                     if ((type_mask & (*(s32 *)(((u8 *)entity_data) + 0x14))) || !(type_mask & 7)) {
                         s32 ability_level = ability_slot[10];
                         if ((u32) ability_level < 99U) {
@@ -400,14 +396,14 @@ loop_0:
 
             if (((u8 *)entity_data)[0x13] != 0 && ((*(s32 *)(((u8 *)entity_data) + 0x14) & 0x4000) != 0)) {
                 u8 *ability_slot;
-                u8 *ability_table;
+                DefEntry *ability_table;
                 slot = 0;
                 ability_table = item_action_definitions;
                 ability_slot = ((u8 *)entity_data);
                 do {
                     if (ability_gained[slot] != 0) {
                         text_end = write_text_byte_and_advance(0xA, text_end);
-                        text_end = expand_text_control_codes(*(s32 *)(ability_table + ability_slot[8] * 0x14), text_end);
+                        text_end = expand_text_control_codes(ability_table[ability_slot[8]].normal_name, text_end);
                         text_end = expand_text_control_codes(D_800E0970, text_end);
                         text_end = expand_text_control_codes(D_800E0979, text_end);
                     }
@@ -436,11 +432,6 @@ loop_0:
 
 extern s32 apply_entity_effects(); /* Slot contract: loading images do not establish one callee contract. */
 extern void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
-extern u8 * expand_text_control_codes();
-extern void * copy_four_text_bytes();
-extern void * clear_byte_and_advance(s8 *byte_ptr);
-extern void * write_text_byte_and_advance();
-extern u8 * append_entity_display_text();
 extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
@@ -678,7 +669,7 @@ s32 lower_entity_level(void *entity_data, s32 show_message) {
         spell_index = 2;
         {
             u8 *spell_flags;
-            u8 *spell_table;
+            DefEntry *spell_table;
             u8 *lowered_flag;
             s32 lowered_value;
             spell_flags = spell_lowered;
@@ -688,7 +679,7 @@ s32 lower_entity_level(void *entity_data, s32 show_message) {
                 lowered_flag = spell_flags + spell_index;
                 *lowered_flag = 0;
                 temp = entity[spell_index * 3 + 8];
-                if (temp != 0 && (((spell_table[temp * 0x14 + 0x10] >> 4) & (*(s32 *)(entity + 0x14))) != 0)) {
+                if (temp != 0 && (((spell_table[temp].unk_10 >> 4) & (*(s32 *)(entity + 0x14))) != 0)) {
                     u8 spell_level = entity[spell_index * 3 + 10];
                     if (spell_level >= 2U) {
                         entity[spell_index * 3 + 10] = spell_level - 1;
@@ -740,7 +731,7 @@ s32 lower_entity_level(void *entity_data, s32 show_message) {
             do {
                 if (spell_lowered[spell_index] != 0) {
                     message_end = write_text_byte_and_advance(0xA, message_end);
-                    message_end = expand_text_control_codes(*(s32 *)(((u8 *)item_action_definitions) + entity[8] * 0x14), message_end);
+                    message_end = expand_text_control_codes(item_action_definitions[entity[8]].normal_name, message_end);
                     message_end = expand_text_control_codes(D_800E09B2, message_end);
                     message_end = expand_text_control_codes(D_800E09BB, message_end);
                 }
@@ -751,7 +742,7 @@ s32 lower_entity_level(void *entity_data, s32 show_message) {
         if (!(system_update_flags & 1)) {
             message_end = write_text_byte_and_advance(0x11, message_end);
             message_end = write_text_byte_and_advance(0x4C, message_end);
-            message_end = copy_four_text_bytes(&familiar_defeat_text, message_end);
+            message_end = copy_four_text_bytes(familiar_defeat_text, message_end);
         }
         clear_byte_and_advance(message_end);
         display_text_with_fullwidth_adjustment(message_start);
@@ -1089,9 +1080,6 @@ s32 distribute_experience_awards(S_800A2DB8_0 *source)
 #include "shared/entity.h"
 
 void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */                                /* extern */
-u8 * expand_text_control_codes();                  /* extern */
-extern void * clear_byte_and_advance(s8 *byte_ptr);
-u8 * append_entity_display_text();                     /* extern */
 s32 distribute_experience_awards(struct S_800A2DB8_0 *source);                          /* extern */
 s32 display_text_with_fullwidth_adjustment(s8 *text);                         /* extern */
 extern void *monster_species_table;
@@ -1115,7 +1103,7 @@ typedef struct S_800A2FE0_3 {
 
 typedef struct S_800A2FE0_4 {
     u8 pad_00[0x4];
-    s32 * unk_04;
+    u8 *unk_04;
 } S_800A2FE0_4;   /* globalData in distribute_experience_and_report_gains */
 
 /* Awards experience when source and target flags permit it and displays the defeat and experience

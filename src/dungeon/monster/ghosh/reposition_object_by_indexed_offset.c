@@ -11,7 +11,7 @@ typedef struct {
     s32 flags;
 } Status;
 
-extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern void set_record_integer_tile_center(s32, s32, s32);
 extern Copy12 D_8016A858[];
 extern u8 *ghosh_actor_node;

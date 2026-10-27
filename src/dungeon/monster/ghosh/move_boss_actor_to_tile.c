@@ -10,20 +10,6 @@
 
 typedef struct S_80047784 S_80047784;
 
-typedef struct S_801704A0_0 {
-    u8 pad_00[0x8C];
-    u8 * unk_8C;
-    s32 unk_90;
-    u8 pad_94[0x2];
-    u16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0x2];
-    union { s16 s; u16 u; } unk_9E;   /* accessed as both */
-    u8 pad_A0[0x4];
-    s32 unk_A4;
-} S_801704A0_0;   /* arg0 in move_boss_actor_to_tile */
 
 struct SpriteFrameState;
 void select_sprite_entry(struct SpriteFrameState *, s16, s16);
@@ -41,7 +27,7 @@ typedef struct {
 #include "dungeon/monster/ghosh.h"
 
 /* Updates movement toward a tile and completes the timed action. */
-void move_boss_actor_to_tile(S_801704A0_0 *action, ObjectPosition *motion, SpriteFrameState *tile, ActorRecord *entity) {
+void move_boss_actor_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *tile, ActorRecord *entity) {
     u16 facing_aux;
     s32 frames_left;
     s32 next_frame;
@@ -52,17 +38,17 @@ void move_boss_actor_to_tile(S_801704A0_0 *action, ObjectPosition *motion, Sprit
     s32 entity_flags;
     u16 action_timer;
 
-    switch (action->unk_9B) {
+    switch (action->action_phase) {
     case 0:
-        action->unk_98 = (u16) (action->unk_98 | 8);
+        action->action_state_flags = (u16) (action->action_state_flags | 8);
         entity->flags1C = (s32) (entity->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
         action->unk_9E.s = 5;
         action->unk_A4 = 0;
-        action->unk_9B = (u8) (action->unk_9B + 1);
+        action->action_phase = (u8) (action->action_phase + 1);
                         /* fall through */
     case 1:
         frames_left = action->unk_9E.s;
-        action->unk_90 = (s32) (action->unk_90 - action->unk_A4);
+        action->unk_90.value = (s32) (action->unk_90.value - action->unk_A4);
         if (frames_left != 0) {
             s32 x_offset;
             x_step = tile->tile_x;
@@ -77,27 +63,27 @@ void move_boss_actor_to_tile(S_801704A0_0 *action, ObjectPosition *motion, Sprit
             motion->velocity_y = (s32) ((s32) (((tile->tile_y << 6) - y_offset) << 0x10) / (s16) action->unk_9E.s);
             action->unk_A4 = (s32) ((0 - rsin(action->unk_9E.s * 0x199)) << 0xA);
         }
-        height = action->unk_90;
+        height = action->unk_90.value;
         height += action->unk_A4;
         next_frame = action->unk_9E.u - 1;
 
         action->unk_9E.s = next_frame;
-        action->unk_90 = height;
+        action->unk_90.value = height;
         if ((next_frame << 0x10) < 0) {
-            action->unk_90 = 0;
-            action->unk_98 = (u16) (action->unk_98 & 0xFFF7);
+            action->unk_90.value = 0;
+            action->action_state_flags = (u16) (action->action_state_flags & 0xFFF7);
             entity->flags1C = (s32) (entity->flags1C | ACTOR_GROUNDED);
-            action->unk_9B = (u8) (action->unk_9B + 1);
+            action->action_phase = (u8) (action->action_phase + 1);
         }
                         /* fall through */
     case 2:
         if (entity->flags1C & ACTOR_GROUNDED) {
-            action->unk_98 = (u16) (action->unk_98 & 0xFFF7);
+            action->action_state_flags = (u16) (action->action_state_flags & 0xFFF7);
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             set_record_integer_tile_center(motion, tile->tile_x, tile->tile_y);
-            action->unk_9B = action->unk_9B + 1;
+            action->action_phase = action->action_phase + 1;
         }
         break;
     case 3:
@@ -107,8 +93,8 @@ void move_boss_actor_to_tile(S_801704A0_0 *action, ObjectPosition *motion, Sprit
         }
         break;
     }
-    action_timer = action->unk_96 - 1;
-    action->unk_96 = action_timer;
+    action_timer = action->action_timer - 1;
+    action->action_timer = action_timer;
     if ((action_timer << 0x10) <= 0) {
         motion->velocity_z = 0;
         motion->velocity_y = 0;
@@ -133,7 +119,7 @@ void move_boss_actor_to_tile(S_801704A0_0 *action, ObjectPosition *motion, Sprit
             }
         }
         if ((check_actor_floor_trap(tile, entity) << 0x10) > 0) {
-            action->unk_8C = update_boss_actor_action;
+            action->unk_8C.handler = update_boss_actor_action;
             on_actor_status_updated(entity);
         }
     }

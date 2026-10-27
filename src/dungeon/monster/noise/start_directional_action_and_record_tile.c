@@ -6,7 +6,7 @@
 #include "dungeon/monster/manoeva.h"
 
 /* Start the actor's directional action and record the adjacent tile result. */
-void start_directional_action_and_record_tile(void *action_state, void *action_context, SpriteFrameState *sprite, ActorRecord *actor) {
+void start_directional_action_and_record_tile(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 direction;
 
     actor->movement_queue_state = (u8)(actor->movement_queue_state & 0x7F);
@@ -38,8 +38,7 @@ void start_directional_action_and_record_tile(void *action_state, void *action_c
 /* Advances a timed actor effect, spawning and positioning its visual object before cleanup. */
 /* Creates a timed Noise sprite at its target or source, waits 45 ticks, checks the target action, then
  * spends MP. */
-void advance_timed_actor_visual_effect(void *effect_state, ObjectPosition *position, SpriteFrameState *source_mesh, ActorRecord *actor)
-{
+void advance_timed_actor_visual_effect(ActorRecord *effect_state, ObjectPosition *position, SpriteFrameState *source_mesh, ActorRecord *actor) {
     T_801748D0_LocalFrame frame;
     void *effect_body;
     SpriteFrameState *effect_mesh;
@@ -61,7 +60,7 @@ void advance_timed_actor_visual_effect(void *effect_state, ObjectPosition *posit
     s32 phase;
 
     owner = (u8 *)effect_state - 0x20;
-    phase = ((T_801748D0_S_801748D0_0 *)effect_state)->unk_9B;
+    phase = effect_state->action_phase;
     switch (phase) {
     case 0:
         position->velocity_z = 0;
@@ -69,10 +68,10 @@ void advance_timed_actor_visual_effect(void *effect_state, ObjectPosition *posit
         position->velocity_x = 0;
         timer = ((T_801748D0_S_801748D0_0 *)effect_state)->unk_96 - 1;
         ((T_801748D0_S_801748D0_0 *)effect_state)->unk_96 = timer;
-        if (((s32)(timer << 16) <= 0) ||
+        if (((timer << 16) <= 0) ||
             (source_mesh->flags & 0x8000)) {
             ((T_801748D0_S_801748D0_0 *)effect_state)->unk_96 = 0;
-            ((T_801748D0_S_801748D0_0 *)effect_state)->unk_9B++;
+            effect_state->action_phase++;
             flags = source_mesh->flags;
             source_mesh->flags = flags & 0xF7FF;
         }
@@ -152,7 +151,7 @@ void advance_timed_actor_visual_effect(void *effect_state, ObjectPosition *posit
 
         } while (++count < 1);
         ((T_801748D0_S_801748D0_0 *)effect_state)->unk_96 = 0x2D;
-        ((T_801748D0_S_801748D0_0 *)effect_state)->unk_9B++;
+        effect_state->action_phase++;
         return;
     case 2:
         if (source_mesh->flags & 0xE000) {
@@ -166,7 +165,7 @@ void advance_timed_actor_visual_effect(void *effect_state, ObjectPosition *posit
         if (!(source_mesh->flags & 0x8000)) {
             timer = ((T_801748D0_S_801748D0_0 *)effect_state)->unk_96 - 1;
             ((T_801748D0_S_801748D0_0 *)effect_state)->unk_96 = timer;
-            if ((s32)(timer << 16) > 0) {
+            if ((timer << 16) > 0) {
                 return;
             }
         }
@@ -180,7 +179,7 @@ void advance_timed_actor_visual_effect(void *effect_state, ObjectPosition *posit
             select_sprite_entry(source_mesh, ((u8 *)source_mesh->frameTable)[((g_game_work.view.camera_rotation.parts.viewAngle
                 + actor->facing + 0x100) >> 9) & 7], 0);
         }
-        ((T_801748D0_S_801748D0_0 *)effect_state)->unk_9B++;
+        effect_state->action_phase++;
         return;
     case 3:
         owner_link = actor->target;

@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -55,7 +56,7 @@ extern s32 check_entity_interaction_compatibility(void *, s32);
 extern void apply_camera_offset_and_select_target(void *,void *, s32, s32);
 
 /* Validates the actor's direction and state, then initializes its action and animation. */
-s32 validate_direction_and_initialize_action(Arg0 *action_state, void *action_id, SpriteFrameState *sprite, Arg3 *actor) {
+s32 validate_direction_and_initialize_action(Arg0 *action_state, ObjectPosition *action_id, SpriteFrameState *sprite, Arg3 *actor) {
     DungeonGlobalStatus *flags_base;
     u8 *direction_frames;
     u16 flags;

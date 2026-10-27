@@ -31,7 +31,7 @@ typedef struct S_800C13C8_1 {
 
 #include "dungeon/player/item.h" /* extern */
 s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32);           /* extern */
-void clear_slot_and_update_linked_state();                         /* extern */
+void clear_slot_and_update_linked_state(DungeonItemEntry *slot);                         /* extern */
 void display_formatted_context_message(void *context);                   /* extern */
 void * create_five_point_effect(); /* extern */
 extern s32 D_800C135C();

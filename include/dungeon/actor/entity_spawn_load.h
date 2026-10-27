@@ -182,7 +182,7 @@ extern s32 replay_actor_status_slots();
 extern s32 func_80042640();
 extern s32 copy_entity_record();
 extern s32 unlink_node();
-extern s32 select_indirect_table_entry();
+extern void select_indirect_table_entry(void *state_data, s16 table_index, s16 entry_index);
 extern s32 queue_cd_resource();
 extern s32 func_80047E30();
 extern s32 register_and_upload_sprite_resource();

@@ -17,35 +17,26 @@ extern void create_and_initializes_display_source_position_appearance(void *, vo
 extern u8 picket_action_resume_address[];
 extern u8 picket_frame_set_1[];
 
-typedef struct S_80174BF8_0 {
-    u8 pad_00[0x8C];
-    u8 * unk_8C;
-    u8 pad_90[0x6];
-    u16 unk_96;
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_80174BF8_0;   /* arg0 in initialize_a_timed_action_restore_animation_clear_entity_flags */
 
    /*
  * Plays sound 0x50C, creates the display effect, and waits for the countdown or animation
  * completion. Restores the directional picket frames and handler, charges MP, advances status
  * timers, and clears pending turn and action state.
  */
-void initialize_a_timed_action_restore_animation_clear_entity_flags(S_80174BF8_0 *action, void *context, SpriteFrameState *animation, ActorRecord *entity)
-{
+void initialize_a_timed_action_restore_animation_clear_entity_flags(ActorRecord *action, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *entity) {
     void *entity_arg;
     u16 ticks_left;
     u8 state;
 
-    state = action->unk_9B;
+    state = action->action_phase;
     switch (state) {
     case 0:
         play_sound_if_enabled(0x50C);
-        action->unk_96 = 10;
+        action->action_timer = 10;
         create_and_initializes_display_source_position_appearance(context, animation, entity);
         entity->unk_48 = 0;
         entity->unk_49 = 0;
-        action->unk_9B++;
+        action->action_phase++;
     case 1:
         break;
     default:
@@ -53,8 +44,8 @@ void initialize_a_timed_action_restore_animation_clear_entity_flags(S_80174BF8_0
     }
 
     if (!(animation->flags & 0x8000)) {
-        ticks_left = action->unk_96;
-        action->unk_96 = ticks_left - 1;
+        ticks_left = action->action_timer;
+        action->action_timer = ticks_left - 1;
         if ((s16)ticks_left > 0) {
             return;
         }
@@ -67,7 +58,7 @@ void initialize_a_timed_action_restore_animation_clear_entity_flags(S_80174BF8_0
     select_sprite_entry(animation,
         (*(u8 **)&animation->frameTable)[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
         0);
-    action->unk_8C = picket_action_resume_address;
+    action->unk_8C.address = picket_action_resume_address;
     advance_status_timers(entity);
     entity->pending_turn_updates = 0;
     entity->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;

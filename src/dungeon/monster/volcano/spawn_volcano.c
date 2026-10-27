@@ -1,3 +1,5 @@
+#include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -14,12 +16,12 @@ void *spawn_variant_monster_slot_c(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 
     s32 right;
     void *work;
     s16 saved_height;
-    ProjectileObject *obj;
+    ObjectNodeHeader *obj;
     register s8 saved_tile_y;
     s8 saved_tile_x;
     void *part_a;
     s16 saved_spawn_flags;
-    S_80158854_3 *part_b;
+    SpriteFrameState *part_b;
     void *actor;
 
     work = 0;
@@ -36,8 +38,8 @@ void *spawn_variant_monster_slot_c(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 
         part_a = obj->position;
         ((SignedHeightView *)part_a)->z = saved_height;
         part_b = obj->sprite;
-        part_b->unk_24 = saved_tile_x;
-        part_b->unk_25 = saved_tile_y;
+        part_b->tile_x = saved_tile_x;
+        part_b->tile_y = saved_tile_y;
         actor = work;
         kind = spawn_flags & 3;
 
@@ -47,7 +49,7 @@ void *spawn_variant_monster_slot_c(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 
             right = ((S_80158854_0 *)work)->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             ((S_80158854_0 *)work)->unk_14 = left;
             ((S_80158854_0 *)work)->unk_1C = right;
-            part_b->unk_2C = volcano_slot_c_frame_set;
+            part_b->frameTable = volcano_slot_c_frame_set;
         } else {
             if (kind >= 2) {
                 ((S_80158854_0 *)work)->unk_8C = func_80158E5C;
@@ -55,22 +57,22 @@ void *spawn_variant_monster_slot_c(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 
                 right = ((S_80158854_0 *)work)->unk_1C | ACTOR_PLAYER_SIDE;
                 ((S_80158854_0 *)work)->unk_14 = left;
                 ((S_80158854_0 *)work)->unk_1C = right;
-                part_b->unk_2C = volcano_slot_c_frame_set;
+                part_b->frameTable = volcano_slot_c_frame_set;
             } else {
                 if (((spawn_flags & ~3) << 16) == 0) {
                     if (!(((S_80158854_0 *)work)->unk_14 & ACTOR_RESIST_SLEEP)) {
                         if (generate_random_value() & 1) {
                             set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                           (generate_random_value() & 0x3F) | 0x20);
-                            part_b->unk_2C = D_8015C538;
+                            part_b->frameTable = D_8015C538;
                         }
                     }
                     ;
                     ((S_80158854_4 *)actor)->unk_8C = func_80158E5C;
-                part_b->unk_2C = volcano_slot_c_frame_set;
+                part_b->frameTable = volcano_slot_c_frame_set;
                 } else {
                     ((S_80158854_0 *)work)->unk_8C = func_80158E5C;
-                part_b->unk_2C = volcano_slot_c_frame_set;
+                part_b->frameTable = volcano_slot_c_frame_set;
                 }
             }
         }

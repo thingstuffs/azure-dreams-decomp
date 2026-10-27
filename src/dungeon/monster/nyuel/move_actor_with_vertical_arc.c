@@ -37,8 +37,7 @@ extern u8 nyuel_action_resume_address[];
 extern u8 nyuel_frame_set_2[];
 
 /* Moves the actor to its tile with a vertical arc and completes the timed action. */
-void move_actor_with_vertical_arc(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void move_actor_with_vertical_arc(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u16 facing_aux;
     s32 move_ticks;
     s32 x_delta;
@@ -50,7 +49,7 @@ void move_actor_with_vertical_arc(void *action, ObjectPosition *motion, SpriteFr
     s32 phase;
     DungeonGlobalStatus *counter_base;
 
-    phase = ((S_80172158_0 *)action)->unk_9B;
+    phase = action->action_phase;
     switch (phase) {
     case 0:
         if (!((sprite->unk_04 == 1 &&
@@ -58,11 +57,11 @@ void move_actor_with_vertical_arc(void *action, ObjectPosition *motion, SpriteFr
               (sprite->flags & 0xE000))) {
             break;
         }
-        ((S_80172158_0 *)action)->unk_98 |= 8;
+        action->action_state_flags |= 8;
         (*(u32 *)&actor->flags1C) &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80172158_0 *)action)->unk_9E = 6;
         ((S_80172158_0 *)action)->unk_A0 = 0;
-        ((S_80172158_0 *)action)->unk_9B++;
+        action->action_phase++;
                         /* fall through */
     case 1:
         move_ticks = ((S_80172158_0 *)action)->unk_9E;
@@ -87,15 +86,15 @@ void move_actor_with_vertical_arc(void *action, ObjectPosition *motion, SpriteFr
         next_move_ticks = --((S_80172158_0 *)action)->unk_9E;
         if (next_move_ticks < 0) {
             ((S_80172158_0 *)action)->unk_90 = 0;
-            ((S_80172158_0 *)action)->unk_98 &= 0xFFF7;
+            action->action_state_flags &= 0xFFF7;
             (*(u32 *)&actor->flags1C) |= ACTOR_GROUNDED;
-            ((S_80172158_0 *)action)->unk_9B++;
+            action->action_phase++;
         }
 
                         /* fall through */
     case 2:
         if (((u32)actor->flags1C) & ACTOR_GROUNDED) {
-            ((S_80172158_0 *)action)->unk_98 &= 0xFFF7;
+            action->action_state_flags &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -105,7 +104,7 @@ void move_actor_with_vertical_arc(void *action, ObjectPosition *motion, SpriteFr
                 sprite,
                 nyuel_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            ((S_80172158_0 *)action)->unk_9B++;
+            action->action_phase++;
         }
 
         break;

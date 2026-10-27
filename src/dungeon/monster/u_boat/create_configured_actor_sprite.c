@@ -11,36 +11,13 @@
 #include "dungeon/actor/animation.h"
 #include "engine/node/allocation.h"
 
-typedef struct S_80170F9C_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    u32 unk_14;
-    u8 pad_18[0x4];
-    u32 unk_1C;
-} S_80170F9C_1;   /* work in create_configured_actor_sprite */
 
-typedef struct S_80170F9C_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80170F9C_2;   /* part_a in create_configured_actor_sprite */
 
-typedef struct S_80170F9C_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x2];
-    s16 unk_92;
-    u8 pad_94[0x6];
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-    u8 pad_9D[0x18];
-    s8 unk_B5;
-} S_80170F9C_4;   /* work_copy in create_configured_actor_sprite */
 
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern void set_or_clear_actor_status_slot();
 extern s32 generate_random_value(void);
-extern void create_owner_linked_directional_object();
+void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosition *source_position, SpriteFrameState *source_sprite);
 
 extern u8 uboat_default_frames[];
 extern u8 uboat_action_frames[];
@@ -61,16 +38,16 @@ void *create_configured_actor_sprite(s16 mode, s16 value_24, s16 value_25, s16 v
     ObjectNodeHeader *object;
     ObjectPosition *part_a;
     SpriteFrameState *part_b;
-    S_80170F9C_1 *work;
-    S_80170F9C_4 *work_copy;
+    ActorRecord *work;
+    ActorRecord *work_copy;
 
     work = 0;
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     mode_copy = mode;
     if (object != 0) {
-        work = (u8 *)object + 0x20;
+        work = (ActorRecord *)(object + 1);
         object->update_callback = update_actor_visual_motion;
-        work->unk_13 = MONSTER_U_BOAT;
+        work->species = MONSTER_U_BOAT;
         register_node(object, project_sprite_chain);
 
         part_a = object->position;
@@ -83,13 +60,13 @@ void *create_configured_actor_sprite(s16 mode, s16 value_24, s16 value_25, s16 v
         part_b->tile_y = held_value_25;
 
         if (kind == 1) {
-            work->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            work->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            work->flags14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            work->flags1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
         } else if (kind >= 2) {
-            work->unk_14 |= ACTOR_CLASS_ENABLED;
-            work->unk_1C |= ACTOR_PLAYER_SIDE;
+            work->flags14 |= ACTOR_CLASS_ENABLED;
+            work->flags1C |= ACTOR_PLAYER_SIDE;
         } else if (((mode & -4) << 16) == 0) {
-            if ((work->unk_14 & ACTOR_RESIST_SLEEP) == 0) {
+            if ((work->flags14 & ACTOR_RESIST_SLEEP) == 0) {
                 if (generate_random_value() & 1) {
                     set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                   (generate_random_value() & 0x3F) | 0x20);
@@ -99,14 +76,14 @@ void *create_configured_actor_sprite(s16 mode, s16 value_24, s16 value_25, s16 v
         }
 
         initialize_actor_sprite_and_animation(object, part_a, part_b, mode_copy);
-        work_copy->unk_9A = 0xFF;
+        work_copy->action_id = 0xFF;
         work_copy->unk_9C = -1;
-        work_copy->unk_8C = uboat_behavior_entry;
-        work->unk_1C |= 0x40000;
-        work_copy->unk_92 = -0x20;
+        work_copy->unk_8C.address = uboat_behavior_entry;
+        work->flags1C |= 0x40000;
+        work_copy->unk_90.parts.high.s = -0x20;
         try_move_actor_to_valid_position(work_copy, part_a, part_b, work);
 
-        work_copy->unk_B5 = 0;
+        work_copy->pad_B4[1] = 0; /* BYTES: action scratch byte at +0xB5. */
         saved_x = part_b->scale_x;
         saved_y = part_b->scale_y;
         part_b->scale_x = 0;

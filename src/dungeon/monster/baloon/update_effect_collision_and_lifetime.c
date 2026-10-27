@@ -36,7 +36,7 @@ typedef struct S_80D65534_1 {
 } S_80D65534_1;   /* arg0 in update_effect_collision_and_lifetime */
 
 extern void advance_sprite_animation_and_textures(void *entity);
-extern s32 check_left_tile_and_center_height(u16 x, u16 y, s16 z);
+s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern s16 sample_terrain_surface_height(u16 x, u16 y, s16 min_height);
 
 /* Updates effect motion, terrain collisions, visual properties, and lifetime. */

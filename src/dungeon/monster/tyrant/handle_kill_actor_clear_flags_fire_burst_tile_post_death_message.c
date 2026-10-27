@@ -1,9 +1,10 @@
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/tyrant/handle_kill_actor_clear_flags_fire_burst_tile_post_death_message.h"
 #include "shared/sprite_frame_state.h"
 
 /* Kill the actor: clear its flags, fire the burst at its tile and post its death message. */
-void handle_kill_actor_clear_flags_fire_burst_tile_post_death_message(void *work_in, void *part_a, void *part_b_in, void *actor) {
+void handle_kill_actor_clear_flags_fire_burst_tile_post_death_message(void *work_in, ObjectPosition *part_a, void *part_b_in, void *actor) {
     s32 burst;
     void *handle;
     void *msg;

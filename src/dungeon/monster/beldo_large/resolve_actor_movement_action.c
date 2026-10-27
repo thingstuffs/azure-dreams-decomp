@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
@@ -14,10 +15,10 @@ typedef struct S_8016BBC0_0 {
 #include "dungeon/player/object/action_state.h"
 extern void update_actor_status_and_mp(void *);
 extern s16 relink_entity_and_clear_high_flag(void *context, void *position, void *entity, s16 near_range, s16 far_range, s32 state_out_addr);
-extern void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position, u8 *actor);
+extern void advance_actor_movement_step(u8 *movement_in, ObjectPosition *action_ctx, u8 *position, u8 *actor);
 
 /* Update the actor's action delay, dispatch movement, and clear completed action flags. */
-s32 resolve_actor_movement_action(Rec_func_800A9E70_arg0 *entity, s32 action_ctx, s32 position, s32 force_move)
+s32 resolve_actor_movement_action(Rec_func_800A9E70_arg0 *entity, ObjectPosition *action_ctx, s32 position, s32 force_move)
 {
     void *actor = entity;
     s16 action_result;

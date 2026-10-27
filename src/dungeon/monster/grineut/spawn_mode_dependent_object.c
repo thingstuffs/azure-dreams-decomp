@@ -870,7 +870,7 @@ void begin_grineut_attack(ActorRecord *action_state, ObjectPosition *action_cont
 }
 
 /* Relinks actor state, updates status or movement as needed, and reports whether a new action may start. */
-s32 relink_grineut_path(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
+s32 relink_grineut_path(void *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
     s16 state_type;
     s32 result;
     void *entity = entity_arg;
@@ -1067,8 +1067,7 @@ void update_grineut_linked_motion(ActorRecord *state, ObjectPosition *entity, Sp
 }
 
 /* Animates a backward step and forward attack, applies damage, then recenters the actor and spends MP. */
-void complete_staged_destination_movement(R07_8017284C_S_8017284C_0 *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     s16 timer;
     s32 direction_y;
     s32 direction;
@@ -1080,12 +1079,12 @@ void complete_staged_destination_movement(R07_8017284C_S_8017284C_0 *action, Obj
     s32 facing;
     s32 state;
 
-    state = action->phase;
+    state = action->action_phase;
     switch (state) {
     case 0:
         if (sprite->flags & 0x8000) {
-            action->phase = 3;
-            action->timer.s = 0;
+            action->action_phase = 3;
+            action->action_timer = 0;
             sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
@@ -1107,8 +1106,8 @@ void complete_staged_destination_movement(R07_8017284C_S_8017284C_0 *action, Obj
         select_sprite_entry(sprite,
             (*(u8 *)((u8 *)(((u8 *)grineut_frame_set_3)) + (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7))),
             0);
-        action->timer.s = 0;
-        action->phase += 1;
+        action->action_timer = 0;
+        action->action_phase += 1;
         return;
 
     case 1:
@@ -1121,25 +1120,25 @@ void complete_staged_destination_movement(R07_8017284C_S_8017284C_0 *action, Obj
             select_sprite_entry(sprite,
                 (*(u8 *)((u8 *)(((u8 *)D_80174170)) + (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7))),
                 0);
-            action->timer.s = 0x14;
-            action->phase += 1;
+            action->action_timer = 0x14;
+            action->action_phase += 1;
             return;
         }
         return;
 
     case 2:
-        timer = action->timer.u - 1;
+        timer = action->action_timer - 1;
         z_velocity = motion->velocity_z;
-        action->timer.s = timer;
+        action->action_timer = timer;
         if (timer < 12) {
             z_velocity += 0x1400;
         } else {
             z_velocity += 0x20000;
         }
         motion->velocity_z = z_velocity;
-        action->unk_90 += z_velocity;
+        action->unk_90.value += z_velocity;
 
-        if (action->timer.s == 0x11) {
+        if ((s16)action->action_timer == 0x11) {
             play_sound_if_enabled(0x808);
             direction = ((u16)actor->facing >> 9) & 7;
             speed_component = (*(s16 *)((u8 *)(((s8 *)dir_step_x)) + (direction * 2))) * 0x30000;
@@ -1159,30 +1158,30 @@ void complete_staged_destination_movement(R07_8017284C_S_8017284C_0 *action, Obj
             (sprite->flags & 0x8000)) {
             motion->velocity_x =
                 ((((sprite->tile_x << 6) + 0x20) << 16) -
-                 motion->x.v) / action->timer.s;
+                 motion->x.v) / (s16)action->action_timer;
             motion->velocity_y =
                 ((((sprite->tile_y << 6) + 0x20) << 16) -
-                 motion->y.v) / action->timer.s;
+                 motion->y.v) / (s16)action->action_timer;
         }
 
-        if ((action->timer.s <= 0) ||
+        if (((s16)action->action_timer <= 0) ||
             (sprite->flags & 0x8000)) {
-            action->phase += 1;
+            action->action_phase += 1;
             return;
         }
         return;
 
     case 3:
-        if ((action->timer.s <= 0) ||
+        if (((s16)action->action_timer <= 0) ||
             (sprite->flags & 0x8000)) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
             spend_actor_mp(actor, 0x100);
-            action->unk_8C = ((void *)dispatch_monster_move_attack_spell);
+            action->unk_8C.handler = ((void *)dispatch_monster_move_attack_spell);
             g_dungeon_status.active_actor = 0;
-            action->unk_98 &= 0xFFF7;
+            action->action_state_flags &= 0xFFF7;
             advance_status_timers(actor);
             if (actor->pending_turn_updates == 0) {
                 actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -1516,7 +1515,7 @@ void settle_directional_motion_at_tile(void *motion_state, void *motion, void *s
 
         timer = ((R07_80173238_S_80173238_1 *)motion_state)->timer.u - 1;
         ((R07_80173238_S_80173238_1 *)motion_state)->timer.s = timer;
-        if ((s32)(timer << 16) > 0) {
+        if ((timer << 16) > 0) {
             return;
         }
 

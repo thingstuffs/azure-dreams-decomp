@@ -5,4 +5,6 @@
 
 void set_player_fixed_position(void);
 
+void copy_three_component_values(s16 *components);
+
 #endif

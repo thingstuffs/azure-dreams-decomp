@@ -11,7 +11,7 @@
 
    /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in create_random_velocity_child_effect */
 
-void *allocate_list_node();
+#include "engine/node/allocation.h"
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern u8 child_particle_draw_address[];
 extern u8 D_80164DA4[];
@@ -32,20 +32,20 @@ typedef struct S_80164ED0_1 {
 } S_80164ED0_1;
 
 /* Creates an effect relative to its parent with randomized motion and initial state values. */
-void create_random_velocity_child_effect(EntityRec *parent, s32 state_value, s16 pair_value, s16 offset_x, s16 offset_y, s16 offset_z)
+void create_random_velocity_child_effect(ObjectNodeHeader *parent, s32 state_value, s16 pair_value, s16 offset_x, s16 offset_y, s16 offset_z)
 {
     S_80164ED0_1 *effect_data;
     ObjectNodeHeader *effect;
 
-    effect = allocate_list_node(0x211, parent);
+    effect = allocate_list_node(0x211, &parent->next);
     if (effect != NULL) {
         effect->update_callback = D_80164DA4;
         (effect->position)->x.w.i = (s16)
-        (((MovingPosition *)((*(void * *)&parent->z)))->x + offset_x);
+        ((u16)parent->position->x.w.i + offset_x);
         (effect->position)->y.w.i = (s16)
-        (((MovingPosition *)((*(void * *)&parent->z)))->y + offset_y);
+        ((u16)parent->position->y.w.i + offset_y);
         (effect->position)->z.w.i = (s16)
-        (((MovingPosition *)((*(void * *)&parent->z)))->z + offset_z);
+        ((u16)parent->position->z.w.i + offset_z);
         effect->sprite->depth_bias = 6;
         (effect->position)->velocity_x = (s32)
         (((rand() & 0x7FFF) - 0x4000) << 6);

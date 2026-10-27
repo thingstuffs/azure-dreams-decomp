@@ -2,7 +2,7 @@
 #include "engine/cd.h"
 
 extern int abs(int);
-extern s32 Control_CD();
+extern s32 Control_CD(s32 event_code, void *event_data, s32 payload);
 extern s32 pack_tagged_resource_descriptor();
 
 extern s8 monster_resource_cache_ids[];

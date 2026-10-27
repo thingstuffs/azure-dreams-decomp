@@ -1,13 +1,13 @@
+#include "shared/entity.h"
 /* Actor path dispatch and its file-private helper. */
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
-#include "shared/entity.h"
 #include "records/Rec_func_800C9F34_arg0.h"
 #include "dungeon/actor.h"
 typedef s32 M2C_UNK;
-extern s32 check_entity_relation();
+extern s32 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 extern s32 can_entity_gain_level(void *entity);
 static void advance_actor_along_path_points(void *motion, s32 unused, void *position, void *path);
@@ -64,7 +64,7 @@ void dispatch_actor_behavior_state(ActorRecord *actor_state, s32 context, S_800C
     if ((entity->pending_turn_updates > 0) &&
         (!(g_dungeon_status.flags & 0x2000) ||
          ((check_entity_relation(entity,
-            (u8 *)primary_actor_record->previous_actor_header + 0x20) << 0x10) == 0))) {
+            primary_actor_record->previous_actor_header + 0x20) << 0x10) == 0))) {
         choose_best_eligible_entry_for_actor(actor_state, context, position);
     }
 }

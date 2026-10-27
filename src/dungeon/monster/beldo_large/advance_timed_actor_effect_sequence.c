@@ -51,7 +51,7 @@ extern void create_eight_part_textured_ribbon(void *, void *, void *, void *);
 extern void create_player_centered_sequence_effect(void *, void *, void *);
 
 /* Advances a timed actor sequence, updating effects and directional animation before clearing completion flags. */
-void advance_timed_actor_effect_sequence(u8 *sequence, u8 *transform, u8 *sprite_arg, u8 *actor_arg) {
+void advance_timed_actor_effect_sequence(u8 *sequence, ObjectPosition *transform, u8 *sprite_arg, u8 *actor_arg) {
     u8 state;
     s32 anim_mode;
     u8 *anim_table;

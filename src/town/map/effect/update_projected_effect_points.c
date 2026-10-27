@@ -1,10 +1,10 @@
 #include "common.h"
 #include "sdk/libgte.h"
+#include "town/map/animation.h"
 
 
 
 
-extern s32 copy_low_halfword_coordinates();
 
 typedef struct S_800A8CA8_0 {
     u8 pad_00[0x74];
@@ -65,11 +65,11 @@ void update_projected_effect_points(void *object, s32 phase, void *source_data, 
     ((S_800A8CA8_0 *)object)->unk_115 = (s8) ((rsin(source->unk_12 + double_phase) + 0x1000) / 128);
     ((S_800A8CA8_0 *)object)->unk_116 = (s8) ((rsin(source->unk_16 + double_phase) + 0x1000) / 128);
     start_point = object + 0x74;
-    copy_low_halfword_coordinates(start_point, source);
+    copy_low_halfword_coordinates(start_point, source_data);
     mid_point = object + 0x7C;
-    copy_low_halfword_coordinates(mid_point, source);
+    copy_low_halfword_coordinates(mid_point, source_data);
     end_point = object + 0x84;
-    copy_low_halfword_coordinates(end_point, source);
+    copy_low_halfword_coordinates(end_point, source_data);
     x_offset = (rsin(offset_phase) * extent->unk_1C) / 4096;
     y_offset = (rcos(offset_phase) * extent->unk_1E) / 4096;
     projection_scale = object + 0x94;

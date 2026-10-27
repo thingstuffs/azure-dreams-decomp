@@ -1,3 +1,4 @@
+#include "dungeon/item/message.h"
 #include "shared/item_ids.h"
 #include "shared/actor_status_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -14,12 +15,7 @@
 extern s32 resolve_record_orientation_or_fallback();
 
 extern void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
-extern u8 * expand_text_control_codes();
-extern void * clear_byte_and_advance();
-extern void * write_text_byte_and_advance();
-extern u8 * append_typed_formatted_value();
 extern u8 * process_eligible_object_value();
-extern u8 * append_entity_display_text();
 extern void process_unflagged_linked_entries(s32 firstEntryBase);
 extern void process_unflagged_linked_entries_alt(s32 firstNodeBase);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
@@ -80,12 +76,13 @@ void animate_and_display_item_use(void *action, s32 actor_id, Rec_D_80082E80 *sp
     S_800927E4_10 *entity;
     void *text;
     void *text_root;
-    s32 state_or_text;
+    s32 state;
+    u8 *text_cursor;
     u16 timer;
     s32 tail_value; /* MATCH: keep the shared-tail store value in retail's v0. */
 
-    state_or_text = ((S_800927E4_0 *)action)->unk_9B;
-    switch (state_or_text) {
+    state = ((S_800927E4_0 *)action)->unk_9B;
+    switch (state) {
     case PLAYER_ITEM_ALIGN:
         if (((S_800927E4_0 *)action)->unk_9A == 0x2C) {
             void *anim_sprite = sprite;   /* Pin: removal reorders the instructions (same instructions, different order). */
@@ -178,10 +175,10 @@ void animate_and_display_item_use(void *action, s32 actor_id, Rec_D_80082E80 *sp
             }
 
             text_root = get_unused_text_buffer();
-            state_or_text = append_entity_display_text(actor, write_text_byte_and_advance(8, text_root));
-            state_or_text = expand_text_control_codes(D_800E06EE, state_or_text);
-            state_or_text = append_typed_formatted_value(((S_800927E4_0 *)action)->unk_110, state_or_text);
-            text = expand_text_control_codes(D_800E06F7, state_or_text);
+            text_cursor = append_entity_display_text(actor, write_text_byte_and_advance(8, text_root));
+            text_cursor = expand_text_control_codes(D_800E06EE, text_cursor);
+            text_cursor = append_typed_formatted_value(((S_800927E4_0 *)action)->unk_110, text_cursor);
+            text = expand_text_control_codes(D_800E06F7, text_cursor);
             entity = ((S_800927E4_0 *)action)->unk_110;
             if (entity->unk_01 != ITEM_KIND_BALL) {
                 text = process_eligible_object_value(entity, text);
