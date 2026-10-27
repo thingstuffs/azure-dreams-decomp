@@ -2,6 +2,7 @@
 #include "town/scene/collision.h"
 #include "common.h"
 #include "shared/town_state.h"
+#include "records/Rec_D_800CFCB4.h"
 
 typedef struct Actor Actor;
 typedef struct Subject Subject;
@@ -52,15 +53,15 @@ typedef struct MotionDelta {
     u16 y;
 } MotionDelta;
 
-extern s16 get_smaller_query_result_capped_hex_80_writes_associated_output(Motion *, void *);
-extern void set_the_state_flag_initialize_s_fixed_point_clear_paired_field(Subject *, Motion *, s16);
+extern s32 get_smaller_query_result_capped_hex_80_writes_associated_output(EntityRec *source, s32 *out_detail);
+extern void set_the_state_flag_initialize_s_fixed_point_clear_paired_field(Rec_D_800CFCB4 *state, EntityRec *object, s32 initial_value);
 extern void call_the_same_context_both_processing_routines(Subject *, Motion *);
 extern void select_object_value_by_height_band(Actor *, Subject *, Motion *, TownMovementOutput *);
 extern void set_actor_drop_state(Actor *, Subject *, Motion *, TownMovementOutput *);
 
-extern void D_800924EC(Actor *, Subject *, Motion *, TownMovementOutput *);
-extern void actor_surface_callback_address(Actor *, Subject *, Motion *, TownMovementOutput *);
-extern void actor_output_update_address(Actor *, Subject *, Motion *, TownMovementOutput *);
+extern void D_800924EC(void *context, EntityRec *entity, s32 update_arg);
+extern void actor_surface_callback_address(void *actor, void *subject, void *motion, void *context);
+extern void actor_output_update_address(void *state_owner, void *update_target, void *update_context, void *output);
 extern void update_actor_with_controlled_motion(Actor *, Subject *, Motion *, TownMovementOutput *);
 
 extern TownState scene_object_list_anchor;

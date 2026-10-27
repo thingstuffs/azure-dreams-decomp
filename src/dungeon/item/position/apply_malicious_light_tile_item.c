@@ -7,7 +7,7 @@
 #include "dungeon/level.h"
 #define F(p,t,o) (*(t *)((u8 *)(p)+(o)))
 extern u8 reference_tile_object[],view_reference_entity[],D_800893D8[],D_800E16E3[],D_800E1713[],dungeon_floor_object_positions[];
-extern s16 select_and_initialize_entry_at_position(s16 x, s16 y, s16 z, s32 type_id, s32 entry_value);
+extern s32 select_and_initialize_entry_at_position(s16 x, s16 y, s16 z, s32 type_id, s32 entry_value);
 #include "dungeon/player/item.h"
 extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
 extern void clear_byte_and_advance(s8 *byte_ptr);

@@ -10,7 +10,7 @@ struct S_8005A778_Arg0;
 s16 bind_sound_slot_owner(s32 owner, s16 entry_id);
 
 /* copy_sound_slot_info.c */
-s32 copy_sound_slot_info(s16 idx, u8 *dst);
+s16 copy_sound_slot_info(s16 idx, u8 *dst);
 
 /* free_sound_slot.c */
 void free_sound_slot(s16 slot_index);

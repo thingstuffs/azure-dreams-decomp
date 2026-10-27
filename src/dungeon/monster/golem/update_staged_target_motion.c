@@ -1,3 +1,4 @@
+#include "engine/scene.h"
 
 struct ObjectPosition;
 #include "shared/entity_height_offsets.h"
@@ -96,7 +97,6 @@ typedef struct S_81087818_7 {
 } S_81087818_7;
 
 extern void advance_sprite_animation_and_textures(void *);
-extern void *resolve_record_orientation_or_fallback(void *, void *, u16 *, s32);
 extern s32 rand(void);
 extern s32 rsin(s16);
 extern s32 rcos(s16);

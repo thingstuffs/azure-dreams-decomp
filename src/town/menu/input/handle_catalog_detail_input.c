@@ -28,7 +28,7 @@ typedef struct {
 } TownState;
 
 extern void SD_Call(s32);
-extern s32 is_catalog_entry_available(u8);
+extern s32 is_catalog_entry_available(s32 index);
 extern void select_paired_value_tables(TownState *);
 extern void reset_catalog_scroll_indicators(TownState *);
 extern void update_catalog_scroll_availability(TownState *);

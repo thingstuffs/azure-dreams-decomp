@@ -1,7 +1,7 @@
 #include "common.h"
 
 #include "town/system/person_idle_dispatch.h"
-extern s32 quantize_heading_to_sector(s16 referenceAngle, s16 sectorCount);
+extern s32 quantize_heading_to_sector(s32 referenceAngle, s16 sectorCount);
 
 #include "town/person/object/initialize_object_entries_api.h"
 

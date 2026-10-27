@@ -37,7 +37,7 @@ typedef struct S_80172D08_4 {
 } S_80172D08_4;   /* owner in advance_actor_height_arc */
 
 extern s32 rsin(s32);
-extern s32 resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void * resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void set_record_integer_tile_center(void *, u8, u8);
 s32 check_layer_offset_height(u16 x, u16 y, s16 height, u32 flags);
 extern void play_sound_if_enabled(s32);

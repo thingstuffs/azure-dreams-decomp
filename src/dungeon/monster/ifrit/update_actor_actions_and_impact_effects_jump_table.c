@@ -1,6 +1,7 @@
 #include "common.h"
+#include "shared/entity.h"
 
-extern void update_actor_actions_and_impact_effects(void);
+extern void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor);
 
 /* jump_table; owner: dungeon/func_80A1F0C4. */
 const void *const D_80170858[7] __attribute__((aligned(4))) = {

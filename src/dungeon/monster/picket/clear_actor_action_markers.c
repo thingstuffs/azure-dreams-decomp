@@ -41,7 +41,7 @@ typedef struct {
 extern void clear_slot_and_update_linked_state(void *);
 void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
 extern s32 generate_random_value(void);
-extern s16 find_floor_item_at_world_position(s16, s16, s16);
+extern s32 find_floor_item_at_world_position(s32 input_x, s32 input_y, s32 input_z);
 extern s32 is_linked_entity_flagged_80000(void *, void *);
 
 extern s32 dungeon_actor_ring_anchor[];

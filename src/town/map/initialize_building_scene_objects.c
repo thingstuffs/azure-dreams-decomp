@@ -24,7 +24,7 @@ extern u8 D_80127FA8[12];
 void initialize_shared_script_data(void);
 void scale_coordinates_and_append_pointers(s32, s32, s32, s32, void *);
 void create_entry_builder_controller(void);
-void set_texture_quad_32_uv(s32, s32, s32, s32);
+void set_texture_quad_32_uv(u16, u16, u8, u8);
 void blit_indexed_origin_u16_block(s32, s32, s32, s32);
 void blit_origin_u16_block(s32, s32, void *, s32);
 

@@ -1,7 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "shared/position_views.h"
 
-extern void town_interaction_action_address();
+extern void town_interaction_action_address(void *self_arg, SignedHeightView *target_arg, s32 context_arg);
 
 typedef struct S_800946FC_0 {
     void (*unk_00)();

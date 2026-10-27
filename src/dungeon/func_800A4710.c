@@ -5,11 +5,11 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_func_800A9E70_arg0.h"
+#include "engine/texture.h"
 
 extern s32 uses_direct_actor_sprite_frames(void *record);
 #include "dungeon/player/object/action_state.h"
 extern void select_record_entry_and_value(void *state, s32 entries, s8 index);
-extern void select_indirect_table_entry(void *state, u8 table_index, s8 entry_index);
 extern void advance_sprite_animation_and_textures(void *entity);
 
 extern void initialize_actor_object_action(void *object_state, s32 unused_context, void *properties, void *status);

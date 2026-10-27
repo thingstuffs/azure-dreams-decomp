@@ -11,7 +11,7 @@ typedef struct {
     u8 count;
 } Entry;
 
-extern Entry *find_or_retain_sprite_resource_slot(s16 requested_id, s16 requested_type);
+extern u8 * find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type);
 
 /* Normalize the entry type and increment the matching entry and dungeon counts. */
 s32 retain_spawn_resource(s16 entry_type, s16 entry_key) {

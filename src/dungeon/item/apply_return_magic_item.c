@@ -27,7 +27,7 @@ extern void display_formatted_context_message(void *);
 extern void place_actor_item(void *, struct DungeonItemEntry *);
 extern void display_actor_item_status_message(void *, struct DungeonItemEntry *);
 extern s32 feed_actor_restore_mp(void *, u16, struct DungeonItemEntry *);
-extern s32 create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transform_data, s16 scale, s32 setup_word_5c, s32 setup_word_60);
+extern void * create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transform_data, s16 scale, s32 setup_word_5c, s32 setup_word_60);
 
 /* Apply an event to the target and update the event count on completion. */
 s32 apply_return_magic_item(u8 *entity, DungeonItemEntry *event, s16 target_type, s32 target_record) {

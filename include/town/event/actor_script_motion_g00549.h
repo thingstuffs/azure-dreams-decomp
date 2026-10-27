@@ -8,6 +8,10 @@
 #include "town/scene/collision.h"
 #include "records/Rec_D_800CFCB4.h"
 #include "shared/position_query.h"
+#include "shared/town_state.h"
+struct Actor;
+struct Motion;
+struct Subject;
 
 typedef struct {
     u8 pad_00[0x10];
@@ -50,7 +54,7 @@ extern void initialize_target_motion(TownObject *object, void *owner, void *cont
 extern s32 scene_object_payload_alias;
 extern u8 D_80091F64[];
 extern u8 D_800920F4[];
-extern u8 D_800924EC[];
+extern void D_800924EC(void *context, EntityRec *entity, s32 update_arg);
 extern u8 D_80092698[];
 extern u8 tracked_actor_callback_address[];
 extern s32 D_800CFCCC;
@@ -59,9 +63,9 @@ extern s16 get_smaller_query_result_capped_hex_80_writes_associated_output(void 
 extern void set_the_state_flag_initialize_s_fixed_point_clear_paired_field(void *, void *, s16);
 extern void call_the_same_context_both_processing_routines(void *, void *);
 extern void set_actor_drop_state(void *, void *, void *, void *);
-extern u8 actor_surface_callback_address[];
-extern u8 actor_output_update_address[];
-extern u8 actor_moving_target_address[];
+extern void actor_surface_callback_address(void *actor, void *subject, void *motion, void *context);
+extern void actor_output_update_address(void *state_owner, void *update_target, void *update_context, void *output);
+extern void actor_moving_target_address(struct Actor *actor, struct Subject *subject, struct Motion *motion, TownMovementOutput *context);
 extern void set_actor_motion_state(void *, void *, void *, void *);
 
 extern TownControl town_actor_control;

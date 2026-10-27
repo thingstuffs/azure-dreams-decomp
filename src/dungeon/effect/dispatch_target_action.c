@@ -6,7 +6,7 @@
 
 extern s32 get_entity_effect_value(void *, s32);
 extern s8 find_active_rect_containing_point(u8, u8);
-extern void * find_monster_neighbor_candidate(void *, u8, u8);
+extern void * find_monster_neighbor_candidate(void *entity, u16 x, u16 y);
 extern s32 can_entity_gain_level(void *);
 #include "dungeon/player/object/action_state.h"
 extern void begin_pushed_actor_move(void *,void *, void *, void *);

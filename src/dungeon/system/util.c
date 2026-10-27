@@ -495,7 +495,7 @@ void apply_capped_damage_and_hit_effect(ActorRecord *entity, Rec_func_800A5DFC_a
 extern s32 lookup_item_category_mapped_value(u8, u8);
 extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
 extern s32 play_sound_if_enabled(s32);
-extern void place_item_at_valid_floor_position(u16, u16, s16, s32 , void *);
+extern s32 place_item_at_valid_floor_position(s32 x, s32 y, s32 z, s32 unused, s32 *object_data);
 
 /* Processes a target using the linked object's position, then decrements the shared count. */
 void place_actor_item(void *object_context, struct DungeonItemEntry *target) {
@@ -917,7 +917,7 @@ extern void * detach_record_and_update_slot_state(void *object);
 extern void *familiar_record_slots[];
 
 /* Removes the object from its slot, performs flagged cleanup, and releases its handle. */
-s16 release_entity_slot_and_update_flags(void *handle, s32 extra_cleanup)
+s32 release_entity_slot_and_update_flags(void *handle, s32 extra_cleanup)
 {
     s32 sound_mode;
     s32 index;

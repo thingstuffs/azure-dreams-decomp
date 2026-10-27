@@ -2,6 +2,7 @@
 #include "shared/slus_callbacks.h"
 #include "shared/object_node.h"
 #include "shared/game_work.h"
+#include "engine/graphics.h"
 
 typedef struct {
     u8 pad_00[0x96];
@@ -19,7 +20,6 @@ typedef struct {
 
 extern void *allocate_list_node(s32, ObjectNodeHeader **);
 extern void register_node(void *, void *);
-extern void select_sprite_entry(SpriteFrameState *, u8, s32);
 extern u8 D_800D6FEC[];
 extern u8 D_800E23C8[];
 

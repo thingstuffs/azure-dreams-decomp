@@ -15,7 +15,7 @@ extern void apply_monster_koyaw_data(s32, void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
-extern void hikewne_action_resume_address(void);
+extern void hikewne_action_resume_address(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *sprite_arg, ActorRecord *stats_arg);
 extern u8 hikewne_direction_frames[];
 #include "dungeon/monster/hikewne.h"
 extern Callback hikewne_behavior_handlers[];

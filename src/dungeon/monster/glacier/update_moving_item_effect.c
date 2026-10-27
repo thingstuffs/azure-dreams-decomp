@@ -83,7 +83,7 @@ typedef struct {
 } Pair16;
 
 extern void cycle_map_cell_flags(s32, s32, s32);
-extern void get_offset_map_cell_value_and_flags(s32, s32, s32, u16 *);
+extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern void apply_attack_power_and_element_effects();
 extern void set_record_integer_tile_center(void *, s32, s32);
@@ -93,8 +93,8 @@ extern void refresh_actor_proximity_state(void *);
 extern s16 sample_terrain_surface_height(u16, u16, s16);
 extern void spawn_directional_particle();
 extern void spawn_directional_effect();
-extern void *find_nearby_eligible_entry(void *, s32, s32, s16);
-extern s32 find_first_entry_matching_keys(void *, s32, s32, s16);
+extern void *find_nearby_eligible_entry(u8 *current, s32 wanted_24, s32 wanted_25, s32 height_center);
+extern void * find_first_entry_matching_keys(void *node, u16 key_a, u16 key_b, s16 range_center);
 
 extern Pair16 glacier_direction_offsets[];
 

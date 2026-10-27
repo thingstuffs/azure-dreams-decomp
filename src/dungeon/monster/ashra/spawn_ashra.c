@@ -4,6 +4,8 @@
 #include "shared/monster_ids.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "dungeon/actor/animation.h"
+#include "dungeon/actor/status.h"
 
 /* dragon.h owns these declarations but also declares a different
  * advance_actor_attack_and_resolve_damage than ashra.h, so the two headers
@@ -11,8 +13,6 @@
 extern ObjectNodeHeader *allocate_list_node(s32, ObjectNodeHeader **);
 extern void register_node(ObjectNodeHeader *, void *);
 extern s32 generate_random_value(void);
-extern void set_or_clear_actor_status_slot(ActorRecord *, s32, s32);
-extern void initialize_actor_sprite_and_animation(ObjectNodeHeader *, ObjectPosition *, SpriteFrameState *, s16);
 extern void try_move_actor_to_valid_position(void *,void *,void *,void *);
 extern void update_entity_facing_motion_and_ground(void *entity, void *motion, void *part);
 extern void dispatch_monster_move_attack_spell(void *controller, void *context, SpriteFrameState *entity, ActorRecord *actor_state);

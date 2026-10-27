@@ -3,6 +3,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "dungeon/player/object.h"
 
 typedef struct {
     u8 pad0[0x8c];
@@ -49,7 +50,6 @@ typedef struct {
 } Global83460;
 
 extern void unlink_entity_node(Entity *);
-extern void set_record_integer_tile_center(Motion *, u8, u8);
 extern void apply_clamped_actor_value_delta(Entity *);
 
 /* Initializes and slows entity motion, then stops it or moves it to the target tile. */

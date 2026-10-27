@@ -5,7 +5,7 @@
  * [1..]=entries. Shifts remaining entries left and decrements count. */
 
 /* Pops the oldest queue entry and shifts the rest left, returning zero if empty. */
-u16 pop_audio_queue(void)
+s32 pop_audio_queue(void)
 {
     u16 entry;
     u16 i;

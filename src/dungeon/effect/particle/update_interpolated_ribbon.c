@@ -4,6 +4,7 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/object_flags.h"
+#include "slus.h"
 
 typedef struct {
     u8 red;
@@ -53,7 +54,6 @@ typedef struct S_func_81331914_4 {
 } S_func_81331914_4;
 
 extern void register_node(void *, void *);
-extern void select_record_entry_and_value(void *, void *, s32);
 
 extern u8 ribbon_sprite_entries[];
 extern u8 D_80166914[];

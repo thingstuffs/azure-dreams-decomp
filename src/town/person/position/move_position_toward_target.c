@@ -15,7 +15,7 @@ typedef struct {
     u16 angle;
 } Position;
 
-extern u16 get_clamped_transform_coordinate(void *object);
+extern s32 get_clamped_transform_coordinate(void *object);
 #include "town/person/object_setup.h"
 
 /* Moves the position toward its target over the remaining steps and updates its angle. */

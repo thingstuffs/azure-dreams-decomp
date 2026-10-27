@@ -28,7 +28,7 @@ extern void create_type_212_object(s32 flag, s8 value);
 extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void place_actor_item(void *, struct DungeonItemEntry *);
-extern s8 random_dungeon_range_16(s32, s32);
+extern s32 random_dungeon_range_16(u32 bound_a, u32 bound_b);
 extern s32 feed_actor_restore_mp(void *, s32, struct DungeonItemEntry *);
 
 extern u8 D_800893DC[];

@@ -12,6 +12,7 @@
 #include "shared/entity.h"
 #include "engine/cd.h"
 #include "dungeon/actor/status.h"
+#include "engine/scene.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -48,7 +49,6 @@ typedef struct Copy48 {
     u32 words[12];
 } Copy48;
 
-extern s32 resolve_record_orientation_or_fallback(void *, void *, u16 *, s32);
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, u8, s32);

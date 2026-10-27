@@ -114,7 +114,7 @@ typedef struct { s16 x; u16 y; } ScriptDirection;
 #define SP2_X_AT(base, a) (((ScriptDirection *)((u8 *)(base) + ((((u16)(a)) >> 7) & 0x1C)))->x)
 #define SP2_Y_AT(base, a) (((ScriptDirection *)((u8 *)(base) + ((((u16)(a)) >> 7) & 0x1C)))->y)
 
-void request_scene_state_with_parameters(s32, s16, s16, s16, s32); /* extern */
+void request_scene_state_with_parameters(u16, s16, s16, s16, s32); /* extern */
 #include "engine/texture/select_indirect_table_entry_api.h"              /* extern */
 #include "engine/graphics/select_sprite_entry_api.h"         /* extern */
 #include "slus.h"

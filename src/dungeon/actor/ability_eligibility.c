@@ -175,7 +175,7 @@ s32 get_definition_entry_byte_13(s16 entry_index) {
 }
 
 /* Selects a usable ability or adjacent attack and sets the angle toward the target. */
-s16 choose_usable_ability_or_attack(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_ability)
+s32 choose_usable_ability_or_attack(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_ability)
 {
     u16 tile_flags;
     s32 slots_checked;
@@ -681,7 +681,7 @@ s32 lookup_definition_pair_value(s16 firstKey, s16 secondKey) {
 }
 
 /* Tests for a flagged floor or a height above 0x200 at the layer-offset cell. */
-s32 check_layer_offset_height(u16 x, u16 y, s16 height, u32 flags)
+s16 check_layer_offset_height(u16 x, u16 y, s16 height, u32 flags)
 {
     s16 floor_height;
     s16 offset_height;

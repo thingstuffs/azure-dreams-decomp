@@ -7,6 +7,7 @@
 #include "shared/dir_step.h"
 #include "records/Rec_D_80083160.h"
 #include "shared/object_links.h"
+#include "engine/graphics.h"
 
 typedef struct S_800253C0_0 {
     u8 pad_00[0x8C];
@@ -160,7 +161,6 @@ extern void *create_positioned_graphic_object(s16 x, s16 y, s16 z, s16 graphic_i
 extern void *merge_creature_abilities_and_state(void *, void *, s32);
 extern void * build_status_effect_name_list(void *, void *);
 extern void *create_four_groups_of_angular_effects(s16, s16, s16, s32);
-extern void set_sprite_animation_frame(void *, s32, s32, s32);
 
 
 /* Advance the paired-object sequence, animating both objects and displaying the result. */

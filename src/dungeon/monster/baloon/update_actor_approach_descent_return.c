@@ -12,6 +12,7 @@
 #include "dungeon/player.h"
 #include "dungeon/player/item.h"
 #include "engine/texture.h"
+#include "engine/resource.h"
 
 typedef struct S_80175CD8_0 {
     u8 pad_00[0x8C];
@@ -73,7 +74,6 @@ extern u8 D_80170988[];
 extern u8 D_80170994[];
 extern u8 D_801709B8[];
 
-extern void request_scene_dispatch_state(u8);
 extern s32 get_entity_class(void *);
 extern void select_sprite_entry(void *, u8, s32);
 extern void snapshot_inventory_and_familiars(void *);

@@ -11,7 +11,7 @@ extern s32 generate_random_value(void);
 extern s32 check_entity_flag_20000000(State *);
 
 /* Rolls against the actor's divisor and limit to set status slot 5, returning 1 on success. */
-s32 roll_threshold_effect_variant_a(State *state_ptr, s16 limit_input, s8 byte_input) {
+s32 roll_threshold_effect_variant_a(State *state_ptr, s16 limit_input, s16 byte_input) {
     State *state = state_ptr;
     s16 limit = limit_input;
     s8 byte_value = byte_input;

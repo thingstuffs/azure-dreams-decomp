@@ -7,7 +7,7 @@
 #include "m2c_compat.h"
 
 extern u8 *beldo_actor_nodes[3];
-extern u8 beldo_large_action_resume_address[];
+extern void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 extern void *allocate_list_node(s32, u8 *);
 extern void register_node(u8 *,void *);
 extern void initialize_actor_sprite_and_animation(u8 *, void *, void *, s32);

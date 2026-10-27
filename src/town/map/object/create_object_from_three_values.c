@@ -16,7 +16,7 @@ typedef struct
     void *field_0x10;
 }
 S_800BE4BC;
-extern void clear_resident_bit(s32 flag_id);
+extern void clear_resident_bit(s16 flag_id);
 extern void *allocate_list_node(s32 flags, void *list_head);
 extern u8 D_800BBCA0[16];
 /* Creates an object and initializes its data pointer and three input values. */

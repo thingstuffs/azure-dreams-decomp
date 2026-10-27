@@ -24,7 +24,7 @@ extern u8 D_800257D0[];
 extern u8 D_800257E8[];
 
 extern void draw_textured_ellipse(void *, s32 *, s32, s32);
-extern s16 set_item_w0(u8, u8, u8, u8);
+extern s16 set_item_w0(s32 start_x, s32 start_y, s32 end_x, s32 end_y);
 extern s32 check_left_tile_and_center_height(s32, s32, s16);
 
 /* Updates a moving effect through initialization, target tracking, fading, and cleanup. */

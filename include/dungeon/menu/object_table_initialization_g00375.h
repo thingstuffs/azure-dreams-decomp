@@ -44,7 +44,7 @@ extern s32 create_callback_pair_default(s32);
 extern void register_node(void *, void *);
 extern void initialize_complemented_state(void *);
 extern s32 run_object_setup_and_finalize(void *, s32);
-extern u8 dungeon_menu_tag[];
+extern int dungeon_menu_tag(void *forwarded_ptr, int unused_arg, void *second_ptr);
 extern u8 D_800DC8F8[];
 extern void *dungeon_menu_object[];
 

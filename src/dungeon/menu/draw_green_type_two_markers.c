@@ -3,7 +3,7 @@
 
 extern s16 dungeon_floor_marker_entries[8];
 extern void submit_activation_command(void);
-extern void create_transformed_render_object(s16 x, s16 y, s32 color, s32 size, s32 count);
+extern void * create_transformed_render_object(s32 x, s32 y, s32 initial_value, s32 update_param, s32 mode);
 
 /* Create green markers for up to four leading type-2 entries. */
 void draw_green_type_two_markers(void) {

@@ -11,6 +11,6 @@ extern u8 temporary_item_record[];
 
 /* Functions defined in this translation unit. */
 s32 find_table_entry_address_index(s32 entry_address);
-s32 get_special_table_data_index(s32 dataAddress);
+s16 get_special_table_data_index(s32 dataAddress);
 
 #endif

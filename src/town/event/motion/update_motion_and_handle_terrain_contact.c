@@ -25,7 +25,7 @@ extern s32 read_map_cell_at_world_position(s16, s16);
 extern s32 check_masked_value_in_current_range(u16);
 extern void SD_Call(u32);
 
-extern u8 actor_surface_callback_address[];
+extern void actor_surface_callback_address(void *actor, void *subject, void *motion, void *context);
 extern s16 terrain_height_limits[];
 
 /* Update object motion, handle contact, and play the tile height sound. */

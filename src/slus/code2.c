@@ -3,6 +3,8 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "engine/item.h"
+#include "engine/texture.h"
+#include "engine/util.h"
 
 /* g_game_work.view declared on its own: func_8004D0C8 / func_8004D110 form their base at 0x80083178 (as g_game_work the
  * offsets and the schedule change: cc1 listing differs). */
@@ -97,7 +99,6 @@ void initialize_timed_motion_step(unsigned short countdown, unsigned int amount)
 
 /* func_8004D110 */
 
-void copy_global_short_triplet(void);
 
 /* Registers the state pointer and the default callback copy_global_short_triplet. */
 void bind_global_triplet_source(void *state)
@@ -212,7 +213,6 @@ void clear_runtime_slot_word_table(void) {
 /* --- v6 (LEAD 1: maspsx un-fills jr-delay sp-restore at 2+ callee-saved) --- */
 typedef struct { short unk0, unk2, flags4, id6; } D8Elem;
 extern D8Elem sprite_resource_slots[6];
-extern int find_sprite_resource_slot_by_id(short);
 
 struct Target_827C { char pad[0x28]; void *entry; };
 struct Source_827C { char pad[0xC]; struct Target_827C *target; };

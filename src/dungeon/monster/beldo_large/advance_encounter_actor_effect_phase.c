@@ -9,6 +9,7 @@
 #include "slus.h"
 #include "dungeon/system.h"
 #include "engine/texture.h"
+#include "dungeon/item.h"
 extern u8 encounter_overlay_work[];
 
 typedef struct S_8016FC4C_0 {
@@ -55,7 +56,6 @@ typedef struct S_8016FC4C_8 {
 } S_8016FC4C_8;   /* (u8 *)common_page in advance_encounter_actor_effect_phase */
 
 s32 rand(void);
-u16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 void create_random_velocity_child_effect();
 void create_offset_half_scale_spark(void *, s32, s32, s32);
 extern s16 beldo_large_direction_offsets[16];

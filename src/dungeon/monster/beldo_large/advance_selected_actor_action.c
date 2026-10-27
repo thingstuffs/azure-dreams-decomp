@@ -40,7 +40,7 @@ extern void set_record_integer_tile_center(void *, u8, u8);
 extern void play_sound_if_enabled(s32);
 extern void *create_actor_spell_effect(void *actor, void *effect_record, s16 mode, void *context);
 
-extern u8 beldo_large_action_resume_address[];
+extern void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 extern u8 beldo_large_frame_set_2[];
 extern u8 beldo_large_frame_set_5[];
 extern u8 beldo_large_frame_set_1[];

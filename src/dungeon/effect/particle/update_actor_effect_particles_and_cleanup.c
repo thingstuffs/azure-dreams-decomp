@@ -11,6 +11,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/slus_callbacks.h"
+#include "engine/graphics.h"
 
 typedef struct DungeonState818D4800 {
     u8 pad0[0x8D0];
@@ -52,7 +53,6 @@ int abs(int);
 extern u8 D_80025100[16];
 extern Packed12 actor_particle_images;
 extern u8 current_spell_effect_variant[16];
-extern s32 get_sprite_attachment_vector(void *, void *, s16 *, s32);
 extern void unlink_node(void *);
 extern s32 rand(void);
 extern s32 check_adjacent_tile_height_clearance(u16, u16, s16, void *);

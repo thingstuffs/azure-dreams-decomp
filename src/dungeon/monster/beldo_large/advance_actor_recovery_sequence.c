@@ -4,6 +4,9 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "dungeon/item.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
 typedef struct S_func_8016C64C_0 {
     u8 pad_00[0x8C];
@@ -56,13 +59,12 @@ typedef struct S_func_8016C64C_5 {
     s16 unk_00;
 } S_func_8016C64C_5;
 
-extern s16 get_rounded_facing_and_rounding_flag(u8, u8, u8, u8, s16 *);
 extern void select_sprite_entry(void *, u8, s32);
 extern void play_sound_if_enabled(s32);
 extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
 extern void set_record_integer_tile_center(void *, u8, u8);
 
-extern u8 beldo_large_action_resume_address[];
+extern void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 extern u8 beldo_large_frame_set_2[];
 extern u8 beldo_large_frame_set_5[];
 extern u8 beldo_large_frame_set_1[];

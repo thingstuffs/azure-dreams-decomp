@@ -18,7 +18,7 @@ extern void select_record_entry_and_value(void *state, void *entries, short inde
 extern void request_scene_dispatch_state(s32);
 extern void apply_pending_byte_increase();
 extern void begin_player_menu_action();
-extern s16 resolve_player_input_facing();
+extern s32 resolve_player_input_facing(s16 direction_offset, u16 *flags, u16 *angle);
 extern s32 has_action_input_without_modifier(void);
 extern s32 begin_actor_attack();
 extern void finish_paralyzed_actor_action();

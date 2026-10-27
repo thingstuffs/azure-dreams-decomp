@@ -2,11 +2,11 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
+#include "engine/graphics.h"
 
 extern void func_80042518(void *slots, s32 type);
 extern s32 get_entity_effect_value(void *entry, s32 effect_id);
 extern void clear_slots_of_type(void *owner, s32 match_type);
-extern void select_sprite_entry(void *object, s32 table_index, s32 entry_index);
 
 /* Initializes actor state and selects a display variant for its facing direction. */
 void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants) {

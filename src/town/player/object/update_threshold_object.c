@@ -2,6 +2,8 @@
 #include "common.h"
 #include "shared/town_action_flag.h"
 #include "town/player/coordinates.h"
+struct TownObj;
+struct TownVec;
 
 typedef struct {
     u8 pad0[0xA];
@@ -16,7 +18,7 @@ extern void store_the_valid_shared_angle_in_offset_hex_10(void *);
 extern void handle_adjust_vector_toward_selected_angle_limit_magnitude(TownObject *);
 extern void add_hex_20000_s_signed_offset_hex_14(TownObject *);
 extern void clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2(TownObject *);
-extern void compute_and_clamps_vector_based_adjustment_updates_town(TownObject *, s16, void *);
+extern void compute_and_clamps_vector_based_adjustment_updates_town(struct TownObj *obj, s32 base_value, struct TownVec **vec_ptr);
 extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(TownObject *);
 
 /* Updates a town object based on its computed threshold and the global flag. */

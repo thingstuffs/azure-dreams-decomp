@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "frontend/libcard/state.h"
 
 
 typedef struct StatePair {
@@ -19,7 +20,6 @@ extern StatePair *card_boot_debounce_card_presence(void);
 #include "frontend/libcard.h"
 #include "slus.h"
 extern void restore_entity_flag_ten(void);
-extern void card_boot_poll_card_chooser_status(void);
 
 
 typedef struct S_8002789C_0 {

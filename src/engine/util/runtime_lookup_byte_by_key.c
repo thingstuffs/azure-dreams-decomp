@@ -3,7 +3,7 @@
 #include "slus/data.h"
 
 /* Returns the byte mapped to the low 16 bits of key, or the zero-terminator entry if absent. */
-u8 runtime_lookup_byte_by_key(s32 key)
+s32 runtime_lookup_byte_by_key(s32 key)
 {
     s32 key_index;
 

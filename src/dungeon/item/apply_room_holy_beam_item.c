@@ -31,7 +31,7 @@ extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void place_actor_item(void *, struct DungeonItemEntry *);
 extern void display_actor_item_status_message(void *, struct DungeonItemEntry *, s16);
 extern s32 feed_actor_restore_mp(void *, s32, struct DungeonItemEntry *);
-extern s32 create_timed_region_flag_expiry(s32 unused0, s32 unused1, s32 unused2, s16 payloadValueA, s16 payloadValueC);
+extern void * create_timed_region_flag_expiry(s32 unused0, s32 unused1, s32 unused2, s16 payloadValueA, s16 payloadValueC);
 
 
 typedef struct S_800BF7FC_0_pre {

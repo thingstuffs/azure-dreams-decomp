@@ -2,7 +2,7 @@
 #include "dungeon/item/actor_target.h"
 #include "shared/dir_step.h"
 
-extern void *find_eligible_actor_at_tile_and_height(void *, s32, s32, s32);
+extern void *find_eligible_actor_at_tile_and_height(void *, s32, s32, s16);
 
 /* Probe for an eligible actor at the directional neighbor and current height. */
 void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction) {

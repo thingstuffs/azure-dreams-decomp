@@ -7,6 +7,7 @@
 #include "shared/object_flags.h"
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
+#include "engine/scene.h"
 
 typedef struct S_81976850_0 {
     void * unk_00;
@@ -69,7 +70,6 @@ typedef struct Vec16 {
 
 extern u8 *actor_direction_sprites;
 
-extern s32 resolve_record_orientation_or_fallback(void *, void *, Vec16 *, s16);
 extern void register_node(void *, void *);
 extern s32 rsin(s32);
 

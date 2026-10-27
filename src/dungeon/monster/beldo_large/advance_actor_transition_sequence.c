@@ -52,7 +52,7 @@ extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, 
 extern void play_sound_if_enabled(s32);
 extern void func_80164BA4(void *);
 
-extern u8 beldo_large_action_resume_address[];
+extern void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 extern u8 beldo_large_frame_set_3[];
 extern u8 beldo_large_frame_set_11[];
 extern u8 encounter_transition_pool_script[];

@@ -1,5 +1,6 @@
 #include "slus/saved_value_b98.h"
 #include "shared/object_node.h"
+#include "engine/item.h"
 
 typedef struct {
     u8 pad_00[0x1C];
@@ -22,7 +23,6 @@ typedef struct {
     s32 pad[2];
 } S_800814A0;
 
-extern void release_null_terminated_entries(s32 *a0);
 extern S_800814A0 object_flag_block;
 
 /* Releases the attachment and effect parts, restores the saved value, and sets completion flags. */

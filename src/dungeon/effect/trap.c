@@ -13,6 +13,7 @@
 #include "dungeon/item.h"
 #include "dungeon/player.h"
 #include "dungeon/system.h"
+#include "engine/audio.h"
 struct Dst;
 struct Elem;
 
@@ -2679,7 +2680,6 @@ extern s8 entity_spawn_variant_code;
 extern s32 has_enough_available_runtime_nodes(s32);
 extern void initialize_timed_motion_step(); /* Unprototyped: two or three arguments; retail reads only the first two. */
 extern void func_80042640(void *, s32);
-extern void select_sound_stream(s32, s32);
 extern void SD_Call(s32);
 extern void display_formatted_context_message(); /* Unprototyped: one or three arguments; retail retains only the text context. */
 extern s32 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);

@@ -11,7 +11,7 @@
 extern void request_scene_dispatch_state(u16 a0);
 
 /* Forwards a 16-bit notification value and updates four shared state fields. */
-void request_scene_state_with_parameters(s32 notify_value, s16 state_10, s16 state_12, s16 state_14, s32 state_16)
+void request_scene_state_with_parameters(u16 notify_value, s16 state_10, s16 state_12, s16 state_14, s32 state_16)
 {
     request_scene_dispatch_state((u16)notify_value);
     runtime_dispatch_state.unk_10 = state_10;

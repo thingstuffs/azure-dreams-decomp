@@ -6,7 +6,7 @@
 
 
 
-extern TownEventArgumentPair16 *select_event_data_table(s32, u8);
+extern u8 * select_event_data_table(s32 unused, s32 selector);
 extern void func_8001E578(s32);
 
 /* Dispatch the enabled town message coordinates and advance the town state. */

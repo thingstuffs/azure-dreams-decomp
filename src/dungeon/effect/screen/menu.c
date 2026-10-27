@@ -4,6 +4,7 @@
 #include "slus.h"
 #include "dungeon/level.h"
 #include "engine/graphics.h"
+#include "engine/menu.h"
 
 struct ObjectPosition;
 /* One native TU; source order follows the complete ledger cohort. */
@@ -1820,7 +1821,6 @@ typedef struct D_80083780_t {
 
 extern s32 has_enough_available_runtime_nodes(s32);
 extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
-extern s32 lookup_item_category_mapped_value(u8, u8);
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 
 
@@ -2782,8 +2782,8 @@ typedef struct {
     s16 unk20;
 } Func800B5948Object;
 
-extern void update_map_cell_flags_with_item_limit(s16, s16, s32);
-extern void clear_slot_and_detach_entity(s16);
+extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+extern void clear_slot_and_detach_entity(s32 slot_index);
 
 /* Updates the object's countdown and triggers an effect when it expires. */
 void update_timed_tile_effect(Func800B5948Object *object, s32 unused, Func800B5948Object *related_object) {

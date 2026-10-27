@@ -46,7 +46,7 @@ extern Packed12 D_80025624;
 extern u8 current_spell_effect_variant[];
 extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
 extern s32 rand(void);
-extern s32 check_adjacent_tile_height_clearance(u16 x, u16 y, s32 z, void *skip_check);
+extern s16 check_adjacent_tile_height_clearance(u16 x, u16 y, s32 z, void *skip_check);
 extern u16 GetTPage(s32, s32, s32, s32);
 
 /* Attempts to lower the target's level after a random threshold check and displays the fallback result

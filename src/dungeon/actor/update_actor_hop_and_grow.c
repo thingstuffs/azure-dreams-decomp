@@ -1,6 +1,7 @@
 #include "common.h"
 #include "dungeon/actor/motion.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/player/object.h"
 
 typedef struct ActorHopState {
     u8 pad0[0x92];
@@ -39,7 +40,6 @@ typedef struct ActorHopExtra {
 } Extra;
 
 extern s16 system_update_flags[8];
-extern void set_record_integer_tile_center(Motion *, u8, u8);
 extern s32 rsin(s32);
 
 /* Advance movement to the target tile, updating height and scale until complete. */

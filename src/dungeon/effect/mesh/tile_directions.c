@@ -28,8 +28,8 @@ typedef struct S_800D13B8_1 {
 
 extern s16 func_800D0FBC(void);
 extern s16 func_800D10D0(void);
-extern s32 append_coordinate_record(u16, u16, s16, u16);
-extern s16 round_sampled_height_to_cell_boundary(s16, s16);
+extern void append_coordinate_record(s32 x, s32 y, s32 value, s32 store_value);
+extern s16 round_sampled_height_to_cell_boundary(s32 grid_x, s32 grid_y);
 extern s32 get_offset_map_cell_value_and_flags(s16, s16, s16, u16 *);
 extern s16 sound_idle_vsync_frame_alias[8];
 extern u8 D_800E6000[16400];

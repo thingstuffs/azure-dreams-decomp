@@ -223,7 +223,7 @@ typedef struct S_8009A180_2 {
 } S_8009A180_2;
 
 /* Marks an actor processed and moves it beside the anchor in the actor ring unless already marked. */
-s32 check_entity_relation(ActorRecord *entry, ActorRecord *anchor) {
+s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor) {
     u8 * link_bits;
     u8 * link_bits_2;
     s32 state_flags;
@@ -373,7 +373,7 @@ typedef struct {
     u16 flags;
 } DungeonCell;
 
-s32 count_floor_items_at_tile(s16 first_key, s16 second_key);
+s16 count_floor_items_at_tile(s16 first_key, s16 second_key);
 
 /* Clears selected cell flags or decrements their encoded value, clamping at zero. */
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags)
@@ -420,7 +420,7 @@ extern s16 direction_x_offsets[];
 extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 
 /* Checks the sides of a diagonal direction for terrain above 0x200. */
-s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height)
+s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height)
 {
     s32 tile_flags;
     s32 side;
@@ -1072,7 +1072,7 @@ struct Node {
 extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 
 /* Finds an eligible node at the target coordinates with a value difference below 64. */
-void *find_eligible_actor_at_tile_and_height(Node *node, s16 x, s16 y_in, s16 value) {
+void *find_eligible_actor_at_tile_and_height(Node *node, s32 x, s32 y_in, s16 value) {
     s16 y;
     u16 flags;
     Node *sentinel;
@@ -1196,7 +1196,7 @@ typedef struct Spawned Spawned;
 
 extern u8 held_item_record[];
 
-extern s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
+extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s32 find_type_13_slot_index(Spawned *);
 extern s32 find_floor_item_at_world_position(s32, s32, s32);
 extern Spawned *create_indexed_floor_object(void *, s32, s32, void *, void *, s32);
@@ -1355,7 +1355,7 @@ s32 update_object_coordinates_if_valid(SpriteFrameState *object, EntityRec *cont
 extern void zero_words(void *, s32);
 extern s32 ratan2(s32, s32);
 extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
-extern s32 get_actor_height_difference(void *, void *);
+extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
 extern s32 is_map_coordinate_out_of_bounds(s32, s32);
 
 /* Adds the supplied tile offset to the center coordinate. */

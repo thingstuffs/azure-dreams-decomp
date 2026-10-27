@@ -1,5 +1,6 @@
 #include "common.h"
 #include "engine/graphics.h"
+#include "engine/effect.h"
 
 typedef struct {
     void (*field_0)();
@@ -9,7 +10,6 @@ typedef struct {
     char *field_2C;
 } S_800509C4;
 
-extern void start_gauge_ramp(void);
 
 /* Stores the object's context, reinitializes its sub-object, and installs its dispatch handler. */
 void set_gauge_context(S_800509C4 *object, void *context)

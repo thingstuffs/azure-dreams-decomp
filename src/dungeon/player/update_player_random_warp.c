@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/level.h"
+#include "dungeon/player/object.h"
 
 typedef struct {
     u8 pad0[0x92];
@@ -37,7 +38,6 @@ typedef struct {
 
 extern u8 D_800DCF58[9];
 
-extern void set_record_integer_tile_center(FuncArg1 *, u8, u8);
 extern void restore_player_control_callback(FuncArg0 *, FuncArg3 *);
 
 /* Updates a spinning movement sequence and restores the actor's original rotation. */

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "dungeon/actor/motion.h"
+#include "slus.h"
 
 typedef struct S_80096AE0_0 {
     u8 pad_00[0x8C];
@@ -28,7 +29,6 @@ typedef struct S_80096AE0_3 {
     u16 unk_14;
 } S_80096AE0_3;   /* part in run_three_stage_actor_step */
 
-extern void initialize_timed_motion_step(s32, s32);
 extern s32 has_action_input_without_modifier(void);
 
 /* Run the actor's three-stage 0x9B step script: stage 0 arms the 0x96 timer from the 0x88/0x8A gap, stage 1 raises the part's 0x800 flag, stage 2 counts the timer down and swaps in the 0x8C table. */

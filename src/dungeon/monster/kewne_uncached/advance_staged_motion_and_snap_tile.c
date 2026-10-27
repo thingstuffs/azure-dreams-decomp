@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "dungeon/player/object.h"
 
 typedef struct { u8 pad0[0x8C]; void *field8c; u8 pad90[6]; s16 count96; u8 pad98[3]; u8 state9b; } S_A;
 typedef struct { u8 pad0[2]; s16 x2; u8 pad4[2]; s16 y6; u8 pad8[4]; s32 dxC; s32 dy10; s32 dz14; } S_B;
@@ -8,7 +9,6 @@ typedef struct { u8 pad0[0x14]; u16 flags14; u8 pad16[0x0E]; u8 x24; u8 y25; } S
 typedef struct { u8 pad0[0x28]; u8 flag28; u8 pad29[0x41]; u16 index6A; } S_D;
 
 extern u8 kewne_uncached_action_resume_address[];
-extern void set_record_integer_tile_center(S_B *, u8, u8);
 extern void apply_clamped_actor_value_delta(S_D *);
 
 /* Updates staged motion and snaps to the target tile when the countdown ends. */

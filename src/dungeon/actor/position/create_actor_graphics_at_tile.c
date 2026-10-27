@@ -4,6 +4,7 @@
 #include "engine/node/allocation.h"
 #include "dungeon/level.h"
 #include "engine/node.h"
+struct Entry;
 
 struct ObjectNodeHeader;
 #include "common.h"
@@ -21,7 +22,7 @@ s32 find_active_rect_containing_point(s32 point_x, s32 point_y);                
 void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);              /* extern */
 
 void advance_actor_status_turn_second(s32 actor, s32 action_context, s32 sprite, u8 *state);
-s32 process_actor_state_chain(void *state_base, s32 entry_data, Entry *entry);
+s32 process_actor_state_chain(void *state_base, void *entry_data, struct Entry *entry);
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry D_800DEF08[];
 

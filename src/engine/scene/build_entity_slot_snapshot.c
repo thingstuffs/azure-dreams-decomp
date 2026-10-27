@@ -1,6 +1,7 @@
 #include "common.h"
 #include "engine/scene.h"
 #include "slus.h"
+#include "engine/entity.h"
 
 /* "self" object updated by this function (destination of the field copy). */
 typedef struct S_800422DC_Self {
@@ -25,7 +26,6 @@ typedef struct S_800422DC_Other {
     s32 f54;
 } S_800422DC_Other;
 
-extern void clear_slots_of_type(void *a0, int a1);
 extern int  find_slot_by_type(void *a0, int a1);
 
 /* Prepare source slot state and copy it into a snapshot with resolved slot indices. */

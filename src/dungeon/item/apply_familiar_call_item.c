@@ -6,6 +6,7 @@
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/actor/status.h"
 
 extern u8 familiar_call_text[];
 
@@ -19,7 +20,6 @@ extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void place_actor_item(void *, struct DungeonItemEntry *);
 extern void display_actor_item_status_message(void *, struct DungeonItemEntry *, s16);
-extern s32 feed_actor_restore_mp(void *, u16, struct DungeonItemEntry *);
 extern void teleport_familiar_near_player(s32, s16);
 extern s32 has_enough_available_runtime_nodes(s32);
 

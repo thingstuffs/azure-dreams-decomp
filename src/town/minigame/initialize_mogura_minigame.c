@@ -2,6 +2,7 @@
 #include "engine/menu.h"
 #include "shared/object_node.h"
 #include "shared/town_state.h"
+#include "engine/runtime.h"
 
 #ifndef NULL
 #define NULL 0
@@ -43,7 +44,6 @@ extern s32 D_800249A0;
 extern s32 D_80024A30;
 extern s32 text_sprite_builder_address[4];
 
-extern void set_resident_bit(s32);
 extern void func_8003E188(s32, void *);
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);

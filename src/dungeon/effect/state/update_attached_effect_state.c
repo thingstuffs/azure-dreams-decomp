@@ -1,6 +1,7 @@
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "dungeon/actor/status.h"
 
 typedef struct Entity800B4194
 {
@@ -40,15 +41,14 @@ extern u8 *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(const u8 *, u8 *);
 extern u8 *clear_byte_and_advance(u8 *);
 extern u8 * append_entity_display_text(void *, u8 *);
-extern s16 set_or_clear_actor_status_slot(Entity800B4194 *, s32, s32);
 extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(u8 *);
 extern s32 generate_random_value(void);
 extern s32 random_dungeon_range_16(s32, s32);
-extern s16 resolve_alternate_spell_id(s16);
+extern s16 resolve_alternate_spell_id(s32 tile_index);
 extern void create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
-extern s32 roll_chance_and_apply_effect_four(Entity800B4194 *, s32, s32);
-extern s32 roll_threshold_effect_variant_b(Entity800B4194 *, s32, s32);
+extern s32 roll_chance_and_apply_effect_four(Entity800B4194 *, s16, s16);
+extern s32 roll_threshold_effect_variant_b(Entity800B4194 *, s16, s16);
 /* Applies secondary spell and event-record effects, updating actor status, values, and displayed messages. */
 s32 update_attached_effect_state(s16 tile_index, Entity800B4194 *entityp, Context800B4194 *contextp)
 {

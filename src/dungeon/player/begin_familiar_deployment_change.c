@@ -6,7 +6,7 @@
 
 extern void set_sprite_animation_frame(void *, u8, s32, s32);
 extern s32 get_special_table_data_index(s32);
-extern void append_packed_action_record(void *, s32, s16, s32);
+extern void append_packed_action_record(void *, s32, s32, s32);
 
 extern u8 familiar_summon_frames[];
 

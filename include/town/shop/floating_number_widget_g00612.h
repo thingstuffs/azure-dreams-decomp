@@ -107,7 +107,7 @@ extern void flag_object_for_removal(void *);
 extern void *process_context_with_selector_4(void *);
 extern void register_node(void *, void *);
 extern void lower_value_toward_target(struct ObjectNodeHeader *object);
-extern u8 dungeon_menu_tag[];
+extern int dungeon_menu_tag(void *forwarded_ptr, int unused_arg, void *second_ptr);
 
 /* Functions defined in this translation unit. */
 void initialize_panel_content_and_positions(S_800B19F8_0 *panel);

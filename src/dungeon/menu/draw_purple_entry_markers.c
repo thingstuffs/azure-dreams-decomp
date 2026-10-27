@@ -2,7 +2,7 @@
 #include "common.h"
 
 extern void submit_activation_command(void);
-extern void create_transformed_render_object(u8, u8, s32, s32, s32);
+extern void * create_transformed_render_object(s32 x, s32 y, s32 initial_value, s32 update_param, s32 mode);
 
 typedef struct {
     u8 unk0;

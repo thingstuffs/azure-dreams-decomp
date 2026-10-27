@@ -31,7 +31,7 @@ void change_equipped_item_and_notify(struct S_80098614_0 *actor, u8 *requested_i
 s32 select_item_record_pointer(); /* Unprototyped: one or two arguments; the second register argument is ignored. */                             /* extern */
 
 /* Dispatches an item effect or equipment update according to the item type. */
-s32 dispatch_selected_item_use(Rec_func_8008ACDC_arg0 *actor, s16 item_id, s16 other_item_id) {
+s16 dispatch_selected_item_use(Rec_func_8008ACDC_arg0 *actor, s16 item_id, s16 other_item_id) {
     s32 saved_x;
     s32 saved_y;
     s16 result;

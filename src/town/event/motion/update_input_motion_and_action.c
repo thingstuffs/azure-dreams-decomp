@@ -4,11 +4,13 @@
 #include "shared/town_action_flag.h"
 #include "shared/game_work.h"
 #include "town/player/coordinates.h"
+struct TownObj;
+struct TownVec;
 
 extern s32 rcos(s32 wave_input);
 extern void initialize_action_object(void *controller, void *object, s32 update_value);
 extern void move_both_components_toward_zero_direction_dependent_steps_clamping_zero(void *record);
-extern void compute_and_clamps_vector_based_adjustment_updates_town(void *obj, s16 base_value, void *vec_ptr);
+extern void compute_and_clamps_vector_based_adjustment_updates_town(struct TownObj *obj, s32 base_value, struct TownVec **vec_ptr);
 extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(void *position);
 extern void update_positions_from_origin(void *origin);
 extern void initialize_record_with_pointer_and_code(void *controller, void *object, s32 update_value);

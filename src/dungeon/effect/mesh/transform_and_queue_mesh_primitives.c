@@ -8,6 +8,8 @@
 #include "modules/dungeon_native_abi.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/actor/status.h"
+#include "engine/graphics.h"
 
 typedef struct S_func_8187A800_0 {
     u8 pad_00[0x14];
@@ -20,7 +22,6 @@ extern void clear_byte_and_advance(s8 *byte_ptr);
 extern u8 *append_entity_display_text(void *record, u8 *out);
 extern void adjust_source_value_and_finalize(void *, void *);
 #include "dungeon/effect/screen.h"
-extern s32 set_or_clear_actor_status_slot(void *, s32, s8);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 get_random_scaled_value(s16 input_value);
 
@@ -1600,7 +1601,6 @@ extern Copy12 D_80026934;
 extern u8 mesh_edge_payload_template[12];
 extern s16 point_cloud_update_flag[5];
 extern u8 D_8007CCD8[];
-extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
 extern s32 check_adjacent_tile_height_clearance(u16, u16, s16, void *);
 
 

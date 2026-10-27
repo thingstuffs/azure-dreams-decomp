@@ -11,7 +11,7 @@ typedef struct {
 extern S_80086A40 audio_bank_slots[];
 
 /* Copies an entry's 32-byte block to dst and returns 0, or returns -1 for an invalid slot. */
-s32 copy_sound_slot_info(s16 idx, u8 *dst) {
+s16 copy_sound_slot_info(s16 idx, u8 *dst) {
     S_80086A40 *table;
     S_80086A40 *entry;
     u8 *src;

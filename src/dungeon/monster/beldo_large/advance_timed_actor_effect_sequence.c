@@ -21,7 +21,7 @@ typedef struct {
 
 
 
-extern u8 beldo_large_action_resume_address[];
+extern void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 extern s16 encounter_blink_update_flag[];
 extern u8 beldo_large_frame_set_2[];
 

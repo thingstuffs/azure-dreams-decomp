@@ -15,7 +15,7 @@ extern DisplayPositionWords display_vector_defaults;
 extern s32 func_800B44F0(StorageMenuObject *object, s32 count);
 extern void func_800B44B0(StorageMenuObject *object, ItemMenuStateNode *owner);
 extern void register_node(void *object, void *callback);
-extern void dungeon_menu_tag(void);
+extern int dungeon_menu_tag(void *forwarded_ptr, int unused_arg, void *second_ptr);
 extern void release_null_terminated_entries(u16 **entries);
 extern s32 func_800B4ED8(StorageMenuObject *object, s32 count);
 extern ItemMenuPart *func_800B4C94(ItemMenuPart **parts);

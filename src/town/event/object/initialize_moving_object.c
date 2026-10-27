@@ -4,7 +4,11 @@
 
 struct Node; s32 append_scene_list_node(struct Node *);                      /* extern */
 #include "town/scene/object/unlink_scene_list_node_api.h"                      /* extern */
-extern void actor_moving_target_address();
+#include "shared/town_state.h"
+struct Actor;
+struct Motion;
+struct Subject;
+extern void actor_moving_target_address(struct Actor *actor, struct Subject *subject, struct Motion *motion, TownMovementOutput *context);
 
 
 typedef struct S_8009C0D8_1 {

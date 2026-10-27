@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/level/tile_flags.h"
 #include "dungeon/level.h"
+#include "slus.h"
 
 struct ObjectNodeHeader;
 /* Complete native TU in retail file order. Review pending. */
@@ -87,7 +88,7 @@ typedef struct {
     u8 pad[10];
 } Entry;
 
-extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
+extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 
 /* Clear active entries at the target coordinates and update their map tile. */
 void remove_floor_items_at_tile(s16 target_x, s16 target_y) {
@@ -1533,7 +1534,6 @@ typedef struct {
     u8 group;
 } DungeonArg;
 
-extern void item_clear_recorded_category_pair(u8, u8);
 
 /* Updates the selected item through item_clear_recorded_category_pair and clears its flag 0x400 in the item category table. */
 void clear_selected_item_flag_400(DungeonArg *selection)
@@ -1616,7 +1616,7 @@ struct EntityLinkNode;
 struct Node;
 
 extern s32 test_resident_bit(s32);
-extern s32 has_recorded_value_pair(s32, s32);
+extern s16 has_recorded_value_pair(s32 highByte, s32 lowByte);
 extern s32 generate_random_value(void);
 extern s32 random_dungeon_range_16(s32, s32);
 

@@ -3,6 +3,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/particle/create_an_linked_parent_initialize_position_part_data.h"
 #include "shared/game_work.h"
+#include "engine/graphics.h"
 void (*const dungeon_19b4800_entry)(struct TransitionState *, void *, void *) = update_palette_particle_transition;
 const RectTable linked_particle_texture_rects = {{
  {0x340,0x140,0x40,0x40}, {0x340,0x180,0x40,0x40},
@@ -394,7 +395,6 @@ extern s16 parent_effect_update_flag;
 extern u16 D_80082E94;
 extern AnimationState reference_tile_object;
 
-extern s32 get_sprite_attachment_vector(void *, AnimationState *, s16 *, s32);
 
 extern s32 read_sound_mode_blocking_status(s32);
 

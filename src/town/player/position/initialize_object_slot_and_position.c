@@ -3,7 +3,7 @@
 #include "shared/object_index_slots.h"
 #include "shared/town_handler.h"
 
-extern s32 create_indexed_effect_object(s16, s16);
+extern void create_indexed_effect_object(s32 index, s32 kind);
 
 extern u8 D_800D01C0[];
 

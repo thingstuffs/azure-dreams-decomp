@@ -6,7 +6,7 @@ typedef struct {
 } TownPair;
 
 extern TownPair D_80701DCC[];
-extern void clear_linked_flag(u16 value);
+extern void clear_linked_flag(s32 bit_index);
 
 /* Process both values in table pairs one through three. */
 void clear_three_flag_pairs(void) {

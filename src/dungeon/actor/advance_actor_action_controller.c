@@ -9,6 +9,7 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
+#include "slus.h"
 
 typedef struct S_800DA014_0 {
     u8 pad_00[0x8C];
@@ -19,7 +20,6 @@ typedef struct S_800DA014_0 {
 
 extern s32 get_entity_effect_value(void *, s32);
 extern void clear_slots_of_type(void *, s32);
-extern void select_record_entry_and_value(void *, s32, s32);
 extern s32 check_entity_relation(void *, void *);
 extern s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"

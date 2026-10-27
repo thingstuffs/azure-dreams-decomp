@@ -5,6 +5,7 @@
 #include "shared/sys_flags.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "engine/graphics.h"
 
 typedef struct {
     u8 pad00[8];
@@ -36,7 +37,6 @@ extern u8 D_800DD148[];
 extern u8 D_800DD150[];
 
 extern s32 resolve_record_orientation_or_fallback(s32, void *, void *, s32);
-extern void set_sprite_animation_frame(void *, u8, s16, s32);
 extern void begin_parameterized_actor_action(void *, void *, void *, u8 *, s32);
 
 extern void create_radial_effect_controller(s32);

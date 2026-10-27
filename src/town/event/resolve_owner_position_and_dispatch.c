@@ -5,6 +5,7 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082D58.h"
 #include "engine/script.h"
+#include "shared/position_views.h"
 
 
 typedef struct {
@@ -47,7 +48,7 @@ extern s32 town_input_object_address;
 extern s32 town_threshold_interaction_address;
 extern s32 town_radial_motion_address;
 extern s32 town_busy_countdown_address;
-extern s32 town_interaction_action_address;
+extern void town_interaction_action_address(void *self_arg, SignedHeightView *target_arg, s32 context_arg);
 extern s32 town_threshold_update_address;
 extern s32 town_timed_state_address;
 extern s32 scene_deferred_dispatch_address;

@@ -13,7 +13,7 @@ extern u8 player_wait_frames[8];
 extern s16 transition_runtime_slot_index;
 extern s16 get_entity_effect_value(void *, s32);
 extern void set_sprite_animation_frame(void *, u8, s32, s32);
-extern s16 lookup_definition_pair_value(u8, u8);
+extern s32 lookup_definition_pair_value(s16 firstKey, s16 secondKey);
 extern s16 reserve_runtime_slot(s16 slot_id, s16 slot_value);
 extern void mark_category_items_flag_400(s32);
 

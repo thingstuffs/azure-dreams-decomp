@@ -17,6 +17,6 @@
 #include "modules/dungeon_engine_tile_map_fragment_b5d50.h"
 #include "dungeon/level.h"
 
-s32 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
+s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 
 #endif

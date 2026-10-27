@@ -15,7 +15,7 @@ s32 get_entity_effect_value(void *, s32);
 s32 can_entity_gain_level(void *);
 void raise_entity_level(void *, s32);
 void play_sound_if_enabled(s32);
-void select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s16 slot_value);
+s32 select_nearby_target_and_initialize_slot(void *tracked_object, void *target_data, s32 target_id, s32 slot_value);
 extern s32 monster_species_table;
 extern s8 scene_music_hold;
 extern s8 D_80080AA0;

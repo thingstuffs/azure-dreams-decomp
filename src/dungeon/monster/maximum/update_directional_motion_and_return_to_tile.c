@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "dungeon/player/object.h"
 
 typedef struct {
     u8 pad_00_8c[0x8c];
@@ -42,7 +43,6 @@ typedef struct {
 extern u8 maximum_frame_set_3[];
 extern u8 maximum_action_continuation_address[];
 
-extern void set_record_integer_tile_center(S810AF65C_1 *, u8, u8);
 extern void begin_actor_display_action(void *,void *, S810AF65C_2 *, u8 *);
 extern void apply_clamped_actor_value_delta(S810AF65C_3 *);
 

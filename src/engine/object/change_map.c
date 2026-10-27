@@ -50,7 +50,7 @@ typedef void (*RuntimeCallback)(RuntimeState *, void *);
 
 extern void process_unlinked_type_four_entries(void);
 extern PairRecord *build_four_value_entry_result(s16, s16);
-extern void request_scene_state_with_parameters(u16, s16, s16, s32, s32);
+extern void request_scene_state_with_parameters(u16, s16, s16, s16, s32);
 
 extern RuntimeState map_runtime_state;
 extern RuntimeState map_change_state;

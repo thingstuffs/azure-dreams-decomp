@@ -1,11 +1,12 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/record_ptrs.h"
+struct EntityFields;
 
 extern s16 actor_event_values[];
 
 extern s32 get_entity_class(void *);
-extern s32 create_linked_actor_fade_effect(s32 *);
+extern void * create_linked_actor_fade_effect(struct EntityFields *source);
 extern void create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 direction, s16 effect_mode);
 
 /* Update the two occupied object slots using their table heights when enabled. */

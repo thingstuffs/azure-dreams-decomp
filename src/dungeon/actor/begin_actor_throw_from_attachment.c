@@ -4,14 +4,14 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/player/object.h"
+#include "engine/scene.h"
 
 typedef struct LocalResult {
     s32 unk0;
     s16 value;
 } LocalResult;
 
-extern s32 resolve_record_orientation_or_fallback(void *, void *, LocalResult *, s32);
-extern void set_record_integer_tile_center(void *, u8, u8);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
 
 typedef struct S_800AACA4_1 {

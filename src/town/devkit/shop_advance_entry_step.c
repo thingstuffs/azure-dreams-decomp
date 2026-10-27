@@ -12,7 +12,7 @@ extern TownPair devkit_shop_flag_links[];
 extern s32 test_flag_list_terminator(s32 index);
 extern void set_entry_bit_flag(s32 index, s32 value);
 extern s32 advance_clear_flag_row(void);
-extern void set_linked_flag(u16 value);
+extern void set_linked_flag(s32 bit_index);
 extern void clear_linked_flag(s32 value);
 
 /* Advance the selected flag row and process entry zero when required. */

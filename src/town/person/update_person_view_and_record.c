@@ -14,7 +14,7 @@ extern void shift_history_and_store_current_values(void);
 extern void load_record_halfwords_3(void *, s32);
 #include "town/system/person_idle_dispatch.h"
 extern s32 quantize_heading_to_sector(s16, s16);
-extern s32 check_heading_past_half_sector(s16, s16);
+extern s32 check_heading_past_half_sector(s32 angle, s16 divisions);
 
 extern s32 D_800834A8;
 

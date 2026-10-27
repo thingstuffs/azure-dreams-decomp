@@ -24,7 +24,7 @@ extern void set_record_integer_tile_center(void *, s32, s32);
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
-extern s32 find_first_entry_matching_keys(void *, u16, u16, s16);
+extern void * find_first_entry_matching_keys(void *node, u16 key_a, u16 key_b, s16 range_center);
 extern void create_facing_offset_object(void *, void *, void *);
 
 extern u8 D_80170B48[];

@@ -4,6 +4,7 @@
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/player/object.h"
 
 typedef union {
     u16 unsigned_value;
@@ -54,11 +55,10 @@ extern u8 beldo_large_frame_set_18[];
 extern u8 beldo_large_frame_set_2[];
 extern u8 beldo_large_frame_set_5[];
 extern u8 beldo_large_frame_set_1[];
-extern u8 beldo_large_action_resume_address[];
+extern void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 
 struct SpriteFrameState;
 extern void select_sprite_entry(void *, s16, s16);
-extern void set_record_integer_tile_center(DungeonWork *, u8, u8);
 extern void play_sound_if_enabled(s32);
 extern void create_layered_sprite_pulse(DungeonWork *);
 extern void create_targeted_ribbon_trail(DungeonState *, DungeonWork *, DungeonObject *, u8 *, s32);

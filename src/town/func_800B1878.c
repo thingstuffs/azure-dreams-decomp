@@ -1,5 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "engine/graphics.h"
+struct ItemMenuTransition;
 
 typedef struct S_800AEFD8_0 {
     u8 pad_00[0xC];
@@ -22,8 +24,7 @@ extern void initialize_item_menu_list_display(void *payload, void *parent, s32 r
                           s32 x, s32 y, s32 context);
 extern void register_node(void *object, void *callback);
 extern void release_null_terminated_entries(void *address);
-extern void draw_tinted_node_sprites_scratch(void);
-extern void advance_item_menu_object_animation(void);
+extern void advance_item_menu_object_animation(struct ItemMenuTransition *object);
 
 
 /* Create and initialize a child object at (x, y), marking allocation failure for cleanup. */

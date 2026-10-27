@@ -22,7 +22,7 @@ s32 find_table_entry_address_index(s32 entry_address) {
  * Returns the one-based table index when found, special indices 0x15/0x16 for the held/temporary
  * item records, or zero when unmatched.
  */
-s32 get_special_table_data_index(s32 dataAddress) {
+s16 get_special_table_data_index(s32 dataAddress) {
     s32 lookupIndex;
 
     lookupIndex = (s16)find_table_entry_address_index((s32)dataAddress);

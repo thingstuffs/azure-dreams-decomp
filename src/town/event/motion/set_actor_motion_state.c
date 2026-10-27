@@ -3,7 +3,7 @@
 #include "records/Rec_D_800CFCB4.h"
 #include "records/Rec_func_80094268_arg0.h"
 
-extern void actor_surface_callback_address();
+extern void actor_surface_callback_address(void *actor, void *subject, void *motion, void *context);
 /*
  * Sets the state byte at offset 0x15 and assigns actor_surface_callback_address to the object data
  * pointer.

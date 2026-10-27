@@ -3,6 +3,7 @@
 #include "shared/sys_flags.h"
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"
+#include "engine/camera.h"
 
 typedef struct S_8009F868_0 {
     u8 pad_00[0x4];
@@ -17,7 +18,6 @@ extern u8 dungeon_camera_targets[16];
 
 extern void bind_view_triplet_source(void *);
 extern void queue_view_slot(s32);
-extern void set_camera_targets(s32, void *, s32);
 
 /* Advances a timed sequence, following relative jumps and handling its end. */
 void *advance_monster_timed_sequence(void)

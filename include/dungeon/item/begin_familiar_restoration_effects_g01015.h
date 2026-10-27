@@ -81,7 +81,7 @@ extern void create_orbiting_color_particle(s16 x, s16 y, s16 z, s16 angle,
                           s16 height, s16 depth, s32 color, s16 offset);
 /* extern */
 /* extern */
-extern s32 clipped_sprite_renderer_address[4];
+extern s32 clipped_sprite_renderer_address(u8 *first_data, s32 link_value, struct SpriteFrameState *value_record);
 extern s32 D_800C1718[4];
 extern s32 familiar_restore_sprite_data[4];
 

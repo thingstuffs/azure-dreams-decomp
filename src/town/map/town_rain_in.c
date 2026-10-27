@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/entity_objects.h"
+#include "town/map/animation.h"
 
 typedef struct S_800BFB00_0 {
     u8 pad_00[0x10];
@@ -21,7 +22,6 @@ typedef struct S_800BFB00_1 {
 } S_800BFB00_1;
 
 extern void *allocate_list_node(s32, void *);
-extern void spawn_randomized_timed_objects(void);
 
 /* town_rain_in: creates a rain object with its callback, preset values, and position. */
 void town_rain_in(s16 x, s16 y) {

@@ -26,7 +26,7 @@ extern void * write_status_prefix_bytes(void *value);
 extern void update_map_cell_flags_with_item_limit(u8 x, u8 y, s32 flags);
 extern void play_sound_if_enabled(s32 value);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern s16 select_and_initialize_entry_at_position(u8 x, u8 y, s16 value, s32 mode, s32 object);
+extern s32 select_and_initialize_entry_at_position(s16 x, s16 y, s16 z, s32 type_id, s32 entry_value);
 extern s32 create_central_and_child_effects(u8 x, u8 y, s16 value, s32 mode, s32 object_data_value);
 
 extern u8 D_800893D4[];

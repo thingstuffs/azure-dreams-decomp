@@ -3,7 +3,8 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 #include "town/person/object/initialize_object_entries_api.h"  /* extern */
-struct IntVector3; s32 create_offset_effect_object(struct IntVector3 *);                     /* extern */
+#include "shared/vector.h"
+struct IntVector3; void * create_offset_effect_object(IntVector3 *source_pos);                     /* extern */
 extern M2C_UNK D_800C84B8;
 extern s32 D_800D62AC[];
 

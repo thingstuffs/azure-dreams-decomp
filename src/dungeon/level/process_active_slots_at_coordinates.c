@@ -18,7 +18,7 @@ extern Slot floor_objects[];
 extern void clear_slot_and_detach_entity(s32 slot_index);
 
 /* Process each active slot at the given coordinates. */
-void process_active_slots_at_coordinates(s32 x, s32 y) {
+void process_active_slots_at_coordinates(s16 x, s16 y) {
     s32 slot_index;
     s16 target_y;
     s16 target_x;

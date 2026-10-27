@@ -5,7 +5,7 @@
 #include "shared/game_work.h"
 
 /* Set texture coordinates, page, and palette for a 32-by-32 quad. */
-void set_texture_quad_32_uv(s16 texture_page, s16 palette, s8 texture_u, s8 texture_v) {
+void set_texture_quad_32_uv(u16 texture_page, u16 palette, u8 texture_u, u8 texture_v) {
     s8 right_u;
     s8 bottom_v;
 

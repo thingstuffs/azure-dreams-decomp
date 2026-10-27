@@ -258,7 +258,7 @@ typedef struct S_func_81886800_19 {
 extern void draw_textured_ellipse(void *, void *, s32, s32);
 extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
 extern s32 rsin(s32);
-extern s32 set_item_w0(s32, s32, s32, s32);
+extern s16 set_item_w0(s32 start_x, s32 start_y, s32 end_x, s32 end_y);
 extern s32 check_left_tile_and_center_height(s32, s32, s32);
 extern void ratan2(s32, s32);
 extern void check_the_target_using_scaled_low_byte_conditionally_applies_global_800_e_1_d_01(void *, s32, void *);

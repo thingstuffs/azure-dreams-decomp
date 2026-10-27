@@ -8,6 +8,7 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_moving_views.h"
+#include "engine/scene.h"
 
 typedef struct S_80174BEC_0_pre {
     void * unk_00;
@@ -79,7 +80,6 @@ typedef struct {
 } __attribute__((packed)) PackedTable;
 
 extern void select_record_entry_and_value(void *, void *, s32);
-extern s32 resolve_record_orientation_or_fallback(void *, void *, Vec3u *, s32);
 extern s32 get_sprite_attachment_vector(void *, void *, Vec3u *, s32);
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);

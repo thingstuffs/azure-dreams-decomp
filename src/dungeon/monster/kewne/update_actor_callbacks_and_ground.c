@@ -4,9 +4,9 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/level.h"
+#include "engine/texture.h"
 
 typedef s32 (*ActorCallback)(void *, void *, void *, void *);
-extern void select_indirect_table_entry(void *, s32, s32);
 extern void advance_sprite_animation_and_textures(void *);
 extern s32 rsin(s32);
 extern void apply_monster_koyaw_data(s32, void *);

@@ -6,7 +6,7 @@
  * to force %hi/%lo addressing). */
 
 
-extern s32 input_angle_with_offset(s32 unused, s16 angle_offset);
+extern s32 input_angle_with_offset(s32 unused, s32 angle_offset);
 extern void add_a_directional_step_vector_scale_down_exceeds_length_limit(s16 angle, s32 max_length, s32 vector);
 
 /* Passes the valid shared angle, fixed value 0x120000, and context to add_a_directional_step_vector_scale_down_exceeds_length_limit. */

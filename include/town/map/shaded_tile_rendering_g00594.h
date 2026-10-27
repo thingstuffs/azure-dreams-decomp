@@ -375,7 +375,7 @@ extern void SetDrawMode(void *, s32, s32, s32, void *);
 extern s8 map_tile_uvs[12];
 #include "engine/effect.h"
 /* Functions defined in this translation unit. */
-void set_texture_quad_32_uv(s16 texture_page, s16 palette, s8 texture_u, s8 texture_v);
+void set_texture_quad_32_uv(u16 texture_page, u16 palette, u8 texture_u, u8 texture_v);
 void render_shaded_map_tiles(void);
 void draw_empty_map_cell_quads(u32 packet_limit);
 

@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "dungeon/player/object.h"
 
 typedef struct {
     u8 pad_00[0x8C];
@@ -41,7 +42,6 @@ typedef struct {
 
 extern u8 D_800D20D8[];
 
-extern void set_record_integer_tile_center(CcaMotion *, u8, u8);
 extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
 extern void apply_clamped_actor_value_delta(CcaAnim *);
 

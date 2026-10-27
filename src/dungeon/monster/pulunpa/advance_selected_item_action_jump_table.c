@@ -1,6 +1,7 @@
 #include "common.h"
+#include "shared/entity.h"
 
-extern void advance_selected_item_action(void);
+extern void advance_selected_item_action(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor);
 
 /* jump_table; owner: dungeon/func_80CBEF98. */
 const void *const pulunpa_slot_g_item_targets[7] __attribute__((aligned(4))) = {
