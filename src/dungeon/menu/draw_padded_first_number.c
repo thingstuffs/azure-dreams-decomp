@@ -29,24 +29,17 @@ void draw_padded_first_number(s32 first_number, s32 second_number, u16 width, s1
             s32 glyph_u;
             u8 char_code;
 
-            if (padding_mode != 0) {
-                char_code = *cursor;
-                if ((*((u8 *)((u32)char_code + (u8 *)numeric_character_flags)) & 4) == 0) {
-                    glyph_u = 0x1C0;
-                    record.first = glyph_u;
-                } else {
-                    goto plus;
-                }
+            if (padding_mode != 0 &&
+                (numeric_character_flags[char_code = *cursor] & 4) == 0) {
+                glyph_u = 0x1C0;
+                record.first = glyph_u;
+            } else if (padding_mode != 0 ||
+                       (numeric_character_flags[char_code = *cursor] & 4) != 0) {
+                glyph_u = (char_code << 2) + 0x100;
+                record.first = glyph_u;
             } else {
-                char_code = *cursor;
-                if ((*((u8 *)((u32)char_code + (u8 *)numeric_character_flags)) & 4) != 0) {
-plus:
-                    glyph_u = (char_code << 2) + 0x100;
-                    record.first = glyph_u;
-                } else {
-                    glyph_u = 0x1E8;
-                    record.first = glyph_u;
-                }
+                glyph_u = 0x1E8;
+                record.first = glyph_u;
             }
             record.second = 0x1C0;
             record.third = 4;

@@ -71,23 +71,16 @@ void dispatch_target_action(u8 *actor, s32 action_context, u8 *destination, u8 *
                 return;
             }
             if (find_monster_neighbor_candidate(target, *(u8 *)(destination + 0x24),
-                              *(u8 *)(destination + 0x25)) == 0) {
-                goto clear;
+                              *(u8 *)(destination + 0x25)) != 0) {
+                *(s8 *)(actor + 0xAD) = 0;
+                begin_actor_flagged_action(actor, action_context, destination, target);
+                return;
             }
         } else {
             *(s8 *)(actor + 0xAD) = 0;
             begin_actor_flagged_action(actor, action_context, destination, target);
             return;
         }
-
-fail:
-        *(s8 *)(actor + 0xAD) = 0;
-        begin_actor_flagged_action(actor, action_context, destination, target);
-        return;
-
-clear:
         *(s8 *)(target + 0x6D) = 0;
     }
-
-    return;
 }

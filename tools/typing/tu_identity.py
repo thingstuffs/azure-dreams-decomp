@@ -9,6 +9,11 @@ the union of tools/layout_dependencies.consumer_paths (quoted includes) and a `c
 physical TU (catches macro-selected includes).  Each TU is compiled at its registered recipe through
 layout_compile_identity.capture_one (the LL7 identity primitive): raw object SHA-256 plus canonical assembly
 and canonical object SHA-256.  A rewrite is accepted only when every TU is raw- and canonical-equal.
+
+--ignore-local-labels (compare only) also accepts a TU whose raw object and canonical object are equal and
+whose canonical assembly differs only in compiler-local `$L<n>` label numbering (structured control flow
+can renumber labels without changing a byte).  Such TUs are reported as label_only; raw and canonical
+object equality are still required.
 """
 from __future__ import annotations
 
@@ -81,6 +86,30 @@ def capture(root, tus, physical, workers):
         return list(ex.map(_capture, [(str(root), t, physical[t]) for t in tus]))
 
 
+def verdict(before, after, ignore_local_labels=False):
+    """Compare two capture records; return (record, accepted)."""
+    rec = {'source': before['source']}
+    if 'error' in after or 'error' in before:
+        rec['error'] = after.get('error') or before.get('error')
+        return rec, False
+    rec['raw_equal'] = after['raw_sha256'] == before['raw_sha256']
+    rec['canonical_assembly_equal'] = after['canonical_assembly_sha256'] == before['canonical_assembly_sha256']
+    rec['canonical_object_equal'] = after['canonical_object_sha256'] == before['canonical_object_sha256']
+    rec['after_raw_sha256'] = after['raw_sha256']
+    accepted = rec['raw_equal'] and rec['canonical_object_equal'] and rec['canonical_assembly_equal']
+    if ignore_local_labels and not accepted and rec['raw_equal'] and rec['canonical_object_equal']:
+        key = 'label_normalized_assembly_sha256'
+        if key not in before or key not in after:
+            rec['error'] = 'receipt lacks ' + key + '; retake the snapshot'
+            return rec, False
+        if before[key] == after[key]:
+            rec['label_only'] = True
+            rec['after_canonical_assembly_sha256'] = after['canonical_assembly_sha256']
+            rec['after_canonical_object_sha256'] = after['canonical_object_sha256']
+            accepted = True
+    return rec, accepted
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('mode', choices=('snapshot', 'compare'))
@@ -90,6 +119,8 @@ def main(argv=None):
     ap.add_argument('--receipt', type=Path, required=True)
     ap.add_argument('--results', type=Path)
     ap.add_argument('--workers', type=int, default=6)
+    ap.add_argument('--ignore-local-labels', action='store_true',
+                    help='compare: accept TUs whose objects are equal and whose assembly differs only in $L<n> numbering')
     args = ap.parse_args(argv)
     root = args.root.resolve()
     import layout_compile_identity as L
@@ -115,22 +146,15 @@ def main(argv=None):
     after = {r['source']: r for r in capture(root, tus, physical, args.workers)}
     out, bad = [], []
     for b in before:
-        a = after[b['source']]
-        rec = {'source': b['source']}
-        if 'error' in a or 'error' in b:
-            rec['error'] = a.get('error') or b.get('error')
+        rec, accepted = verdict(b, after[b['source']], args.ignore_local_labels)
+        if not accepted:
             bad.append(rec)
-        else:
-            rec['raw_equal'] = a['raw_sha256'] == b['raw_sha256']
-            rec['canonical_assembly_equal'] = a['canonical_assembly_sha256'] == b['canonical_assembly_sha256']
-            rec['canonical_object_equal'] = a['canonical_object_sha256'] == b['canonical_object_sha256']
-            rec['after_raw_sha256'] = a['raw_sha256']
-            if not (rec['raw_equal'] and rec['canonical_object_equal'] and rec['canonical_assembly_equal']):
-                bad.append(rec)
         out.append(rec)
     if args.results:
         args.results.write_text(''.join(json.dumps(r, sort_keys=True) + '\n' for r in out))
-    print(json.dumps({'tus': len(out), 'identical': len(out) - len(bad), 'changed_or_error': [r['source'] for r in bad][:50]}))
+    print(json.dumps({'tus': len(out), 'identical': len(out) - len(bad),
+                      'label_only': [r['source'] for r in out if r.get('label_only')][:50],
+                      'changed_or_error': [r['source'] for r in bad][:50]}))
     return 1 if bad else 0
 
 

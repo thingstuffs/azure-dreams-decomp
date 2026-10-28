@@ -9,8 +9,6 @@ extern void choose_heading_and_advance_actor(void *, s32, s32, void *);
 /* Checks an object action, dispatches its update, and clears flags as needed. */
 s32 check_object_action_and_clear_flags(void *object, s32 query_x, s32 query_y, s32 action_override) {
     void *saved_object = object;
-    s32 next_state;
-    s32 clear_result;
     s16 action_result;
     s32 override_bits;
 
@@ -20,37 +18,25 @@ s32 check_object_action_and_clear_flags(void *object, s32 query_x, s32 query_y, 
         return 0;
     }
     override_bits = action_override << 16;
-    do {
-        if (override_bits == 0) {
-            next_state = 0xE;
-            if (action_result != 0) {
-                if (action_result == 2) {
-                    break;
-                }
-                goto tail_block;
-            }
-            *((s8 *)saved_object + 0x9A) = next_state;
+    if (override_bits == 0) {
+        switch (action_result) {
+        case 0:
+            *((s8 *)saved_object + 0x9A) = 0xE;
             update_actor_status_and_mp(saved_object);
             return 0;
-        } else {
+        case 2:
             choose_heading_and_advance_actor(saved_object, query_x, query_y, saved_object);
             return 0;
         }
-
-    } while (0);
-    choose_heading_and_advance_actor(saved_object, query_x, query_y, saved_object);
-    return 0;
-
-tail_block:
+    } else {
+        choose_heading_and_advance_actor(saved_object, query_x, query_y, saved_object);
+        return 0;
+    }
     *((u8 *)saved_object + 0x71) &= 0x7F;
     if (g_dungeon_status.flags & 8) {
-        clear_result = 0;
-    } else {
-        return 1;
+        *(u16 *)((u8 *)saved_object + 0x46) &= 0x7FFF;
+        return 0;
     }
-    *(u16 *)((u8 *)saved_object + 0x46) &= 0x7FFF;
-    return clear_result;
-
-    return 0;
+    return 1;
 }
 

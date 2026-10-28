@@ -6,29 +6,23 @@ extern s32 scene_object_flags;
 void reset_effect_callback_state(void *ptr) {
     u8 *inner;
     s32 state;
-    s32 call_arg;
     s32 value;
 
     state = *(s16 *)ptr;
     inner = *(u8 **)((u8 *)ptr + 4);
-    call_arg = state;
-    if (state != 0) {
-        call_arg = 0xFFF70000;
-        if (state == 1) {
-            goto state_1;
+    switch (state) {
+    case 0:
+        if (*(u16 *)(inner + 0x1A) & 8) {
+            (*(s16 *)ptr)++;
         }
-        return;
-    }
-    if (*(u16 *)(inner + 0x1A) & 8) {
-        (*(s16 *)ptr)++;
-    }
-    return;
-
-state_1:
-    value = *(s32 *)((u8 *)ptr + 8) + (call_arg | 0xF7F8);
-    *(s32 *)((u8 *)ptr + 8) = value;
-    if (value <= 0x80808) {
-        *(u16 *)((u8 *)ptr - 2) |= 0x8000;
-        scene_object_flags |= 0x8000;
+        break;
+    case 1:
+        value = *(s32 *)((u8 *)ptr + 8) - 0x80808;
+        *(s32 *)((u8 *)ptr + 8) = value;
+        if (value <= 0x80808) {
+            *(u16 *)((u8 *)ptr - 2) |= 0x8000;
+            scene_object_flags |= 0x8000;
+        }
+        break;
     }
 }

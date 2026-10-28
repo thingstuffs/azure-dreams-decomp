@@ -12,6 +12,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import subprocess
 import sys
@@ -124,6 +125,14 @@ def command(args, *, cwd, data=None, env=None):
     return result.stdout
 
 
+LOCAL_LABEL = re.compile(rb'\$L[0-9]+\b')
+
+
+def normalize_local_labels(stream):
+    """Rename every compiler-local `$L<n>` label to `$L`; nothing else changes."""
+    return LOCAL_LABEL.sub(b'$L', stream)
+
+
 def capture_one(root, rel, recipe):
     root = Path(root).resolve()
     source = root / rel
@@ -169,6 +178,7 @@ def capture_one(root, rel, recipe):
                                recipe['container'] if recipe['container'] != 'slus' else 'main')
     return {'source': rel, 'kind': recipe['kind'], 'recipe': recipe,
             'raw_sha256': digest(raw), 'canonical_assembly_sha256': digest(canonical_stream),
+            'label_normalized_assembly_sha256': digest(normalize_local_labels(canonical_stream)),
             'canonical_object_sha256': clean_sha}
 
 

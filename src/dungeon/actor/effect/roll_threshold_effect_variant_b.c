@@ -16,43 +16,23 @@ s32 roll_threshold_effect_variant_b(State *state_ptr, s16 limit_input, s16 byte_
     State *state = state_ptr;
     s16 limit = limit_input;
     s8 byte_value = byte_input;
-    s32 result;
     s32 dividend;
-    s32 dispatch_v1;
+    s32 roll;
 
     if (initialize_object_configuration_x(state) != 0) {
-        result = 0;
-        return result;
+        return 0;
     }
     dividend = generate_random_value() & 0xFFFF;
     if (state->divisor != 0) {
-        dispatch_v1 = dividend % state->divisor;
+        roll = dividend % state->divisor;
     } else {
-        dispatch_v1 = 0;
+        roll = 0;
     }
-    do {
-        {
-            s32 signed_limit;
-
-            result = (s32)limit << 16;
-            signed_limit = result >> 16;
-            result = dispatch_v1 < signed_limit;
-            if (result == 0) {
-                result = 0xFF;
-                if (signed_limit != result) {
-                    break;
-                }
-            }
-            dispatch_v1 =
-                (s32)((u32)set_or_clear_actor_status_slot(state, STATUS_BLIND, byte_value) << 16);
-            result = 1;
-            if (dispatch_v1 >= 0) {
-                goto done;
-            }
+    if (roll < limit || limit == 0xFF) {
+        roll = (s16)set_or_clear_actor_status_slot(state, STATUS_BLIND, byte_value);
+        if (roll >= 0) {
+            return 1;
         }
-
-    } while (0);
-    result = 0;
-done:
-    return result;
+    }
+    return 0;
 }

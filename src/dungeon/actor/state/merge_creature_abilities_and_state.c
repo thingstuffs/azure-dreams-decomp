@@ -660,10 +660,8 @@ merge_donor_primary:
             global_flags = object_flag_block.flags;
             global_flags |= 0x8000;
             object_flag_block.flags = global_flags;
-return_tail:
-            return result;
         }
-        goto return_tail;
+        return result;
     }
     return result;
 }

@@ -2,7 +2,7 @@
 
 **Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.
 
-Generated 2026-10-28T10:07:46Z. Baseline: first-pass text frozen 2026-09-07.
+Generated 2026-10-28T10:47:52Z. Baseline: first-pass text frozen 2026-09-07.
 
 
 ## At a glance
@@ -80,14 +80,14 @@ Defects still present in the current tree (files = source files, bytes = image b
 
 | defect still in the clean tree | files | bytes | % of bytes |
 |---|---:|---:|---:|
-| goto | 133 | 376,588 | 4.6% |
+| goto | 125 | 369,976 | 4.5% |
 | computed-goto jump table | 1 | 16 | 0.0% |
 | inline asm outside macros | 6 | 7,608 | 0.1% |
 | any live audit site, unnarrowed | 1,596 | 2,663,224 | 32.4% |
 | do{}while(0) scheduling barrier | 18 | 141,144 | 1.7% |
 | fake dependency x=(e)+a;x-=a / arg+v-v | 1 | 408 | 0.0% |
 | local address-named struct | 2,381 | 3,627,336 | 44.1% |
-| clean shape | 7,983 | 7,846,580 | 95.4% |
+| clean shape | 7,991 | 7,853,192 | 95.5% |
 
 <details><summary>pinned first-pass text vs current tree, every defect</summary>
 
@@ -97,7 +97,7 @@ Defects still present in the current tree (files = source files, bytes = image b
 | M2C_FIELD raw offsets | 2950 | 1,449,308 | 17.6% | 0 | 0 | 0.0% |
 | m2c local names | 5181 | 2,161,992 | 26.3% | 0 | 0 | 0.0% |
 | ASM_ pins | 2135 | 1,456,292 | 17.7% | 0 | 0 | 0.0% |
-| goto | 1545 | 1,312,068 | 16.0% | 133 | 376,588 | 4.6% |
+| goto | 1545 | 1,312,068 | 16.0% | 125 | 369,976 | 4.5% |
 | computed-goto jump table | 317 | 436,504 | 5.3% | 1 | 16 | 0.0% |
 | inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 360 | 242,072 | 2.9% | 6 | 7,608 | 0.1% |
 | fidelity blocking site, LABEL_AS_CALL/PASSTHRU_NO_ARGS (pin: baseline audit of the frozen text; clean: live, L5 predicate) | 1489 | 676,096 | 8.2% | 0 | 0 | 0.0% |
@@ -108,7 +108,7 @@ Defects still present in the current tree (files = source files, bytes = image b
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 1.9% | 18 | 141,144 | 1.7% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
 | local address-named struct | 633 | 346,824 | 4.2% | 2381 | 3,627,336 | 44.1% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 1.9% | 7983 | 7,846,580 | 95.4% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 1.9% | 7991 | 7,853,192 | 95.5% |
 
 </details>
 
