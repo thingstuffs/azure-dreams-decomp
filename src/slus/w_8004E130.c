@@ -1,6 +1,6 @@
 #include "slus/command_slots_81554.h"
-
-extern void flag_script_list_nonempty(void);
+#include "engine/script.h"
+#include "slus.h"
 
 /* Marks the current registration slot, advances the slot counter, and calls two helpers. */
 void enqueue_script_message_command(void)

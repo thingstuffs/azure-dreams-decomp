@@ -1,4 +1,5 @@
 #include "slus/list_cursor_e0.h"
+#include "slus.h"
 
 /* Removes the first matching value from the zero-terminated list and backs up its append cursor. */
 void remove_runtime_callback(s32 value) {

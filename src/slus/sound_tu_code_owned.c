@@ -1,5 +1,7 @@
 /* SPU DMA callbacks, transfer direction flags, register pairs and voice key-on submission. */
 #include "common.h"
+#include "engine/audio/spu.h"
+#include "slus.h"
 
 /* Partition owner: the seven slus/code functions that live inside the stock-2.7.2
  * sound TU (0x8005CA90-0x8005FA34, docs/evidence/sound_tu_code_partition.md).
@@ -20,11 +22,5 @@ typedef struct {
 } D_80079958_t;
 
 extern D_80079958_t spu_registers;
-
-extern s32 modify_spu_register_bit_pair(s32 a0, s32 a1, s32 a2, s32 a3);
-extern s32 read_spu_register_pair(int a0, int a1);
-extern s32 func_8005E7B0(int a0, int a1);
-extern void apply_spu_voice_attributes(void *a0);
-extern void SpuSetKey(int a0, int a1);
 
 #include "../build/partition_sources/code__sound_tu_code.c"

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/vector.h"
 #include "engine/node.h"
+#include "engine/graphics.h"
 
 /* Element of the D_80071A68 lookup table indexed by an object's "kind" field. */
 typedef struct S_80071A68 {
@@ -12,7 +13,6 @@ extern S_80071A68 fade_effect_visual_table[];
 extern void update_fade_in_out_effect(void);
 struct ObjectPosition;
 struct SpriteFrameState;
-extern s32 draw_linked_sprites(void *, struct ObjectPosition *, struct SpriteFrameState *);
 
 /* Struct pointed to by S_80051E94.ptr (offset 0xC). */
 typedef struct S_80051E94_Ptr {

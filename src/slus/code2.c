@@ -5,6 +5,8 @@
 #include "engine/item.h"
 #include "engine/texture.h"
 #include "engine/util.h"
+#include "engine/audio/spu.h"
+#include "engine/resource.h"
 
 /* g_game_work.view declared on its own: func_8004D0C8 / func_8004D110 form their base at 0x80083178 (as g_game_work the
  * offsets and the schedule change: cc1 listing differs). */
@@ -230,7 +232,6 @@ struct Source_827C *bind_sprite_resource_slot_record(struct Source_827C *source,
 
 typedef struct { short a, b; } TableValuePair;
 extern TableValuePair D_80013564[];
-extern int find_item_data_slot(int first_value, int second_value);
 
 /* Finds the item data slot and clears both halfwords when the returned index is below 20. */
 void item_clear_recorded_category_pair(int first_value, int second_value)
@@ -256,8 +257,6 @@ typedef struct {
     char pad20[0x9C - 0x20];
 } Entry80084960;
 extern Entry80084960 audio_channel_controls[];
-
-extern void activate_scene_resource_and_clear_view_callbacks(void);
 
 /*
  * Sign-extends the current dispatch mode into its saved field, then activates the scene resource
@@ -316,9 +315,6 @@ u8 get_previous_cd_command_byte(void) {
 }
 
 extern unsigned char sound_ram_reserve_mode[9];
-
-extern void SpuSetReverb(int value);
-extern void SpuReserveReverbWorkArea(int value);
 
 /* Clears sound_ram_reserve_mode and disables both SPU reverb and its reserved work area. */
 void audio_disable_reverb(void)

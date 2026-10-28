@@ -86,6 +86,7 @@ class TuPlan:
     holds: dict = field(default_factory=dict)        # header -> reason
     implicit: list = field(default_factory=list)     # (fn, header) implicit callers that gain a prototype
     stale: list = field(default_factory=list)        # generated headers included but no longer needed
+    append: dict = field(default_factory=dict)       # existing header -> names it must gain (append-only)
 
 
 @dataclass
@@ -391,6 +392,20 @@ def build(root, scope=(), corpus=None, scope_files=None, include_data=False):
     for r in rows:
         plan.sites_by_path[r.site.path].append(r)
     plan.generated = gen
+    # Owning headers that already exist without the generated marker are hand-written: never
+    # regenerated; a TU may include one only when it already declares every moved name compatibly.
+    on_disk = set(corpus.h_files)
+    plan.hand_written = {h for h in plan.headers if h in on_disk}
+    # Every owning header that exists is append-only: generated headers have since been edited by hand
+    # (types, comments, data), so they are never regenerated either.
+    plan.existing = plan.hand_written | {h for h in plan.headers if h in gen}
+    plan.sites_by_name = defaultdict(list)
+    for r in rows:
+        plan.sites_by_name[r.site.name].append(r)
+    plan._consumers = {}
+    plan.data_by_path = defaultdict(list)
+    for x in data:
+        plan.data_by_path[x.path].append(x)
     plan.extra_rows = extra_rows
     plan.sdk_census = sdk_census
     plan.data_census = data_census
@@ -408,6 +423,12 @@ def build(root, scope=(), corpus=None, scope_files=None, include_data=False):
 
 def _header_type_closure(plan, h):
     th, _ = plan.header_types[h]
+    if h in getattr(plan, 'existing', ()):
+        # Including an existing header brings its whole include closure (plus any appended type headers).
+        files = list(plan.corpus.closure(h))
+        for t in th:
+            files.extend(f for f in plan.corpus.closure(t) if f not in files)
+        return files
     files = []
     for t in th:
         for f in plan.corpus.closure(t):
@@ -517,7 +538,10 @@ def plan_tu(plan, rel):
     for h in sorted(wanted):
         reason = ''
         fnames = {fr.name for fr in plan.headers.get(h, [])}
-        for r in by_header.get(h, []):
+        if h in plan.existing:
+            reason, missing = _existing_gap(plan, rel, h, by_header.get(h, []))
+            fnames = {r.site.name for r in by_header.get(h, [])} | _declared_names(plan, h)
+        for r in by_header.get(h, []) if not reason else []:
             s = r.site
             if r.risk == 'never':
                 reason = f'site_{r.cls}:{s.name}'
@@ -562,7 +586,7 @@ def plan_tu(plan, rel):
                     break
         if not reason:
             pub = {fr.name: fr for fr in plan.headers.get(h, [])}
-            for n in sorted(fnames):
+            for n in sorted(fnames & set(pub)):
                 for r in closure_header_sites.get(n, []):
                     if getattr(r.site, 'kind', '') == 'data' or getattr(pub[n], 'kind', '') == 'data':
                         # Data census already holds every differing view globally.
@@ -580,12 +604,80 @@ def plan_tu(plan, rel):
                 r.action, r.reason = 'keep', 'tu_hold:' + reason
             continue
         tp.add.append(h)
+        if h in plan.existing and missing:
+            tp.append[h] = sorted(missing)
         for r in by_header.get(h, []):
             r.action = 'remove'
             tp.remove.append(r)
         for n in sorted((fnames & called) - declared_here):
             tp.implicit.append((n, h))
     return tp
+
+
+def _declared_names(plan, h):
+    sc = plan.corpus.scan(h)
+    return {d.name for it in sc.items if it.kind == 'decl' and 'typedef' not in it.storage
+            for d in it.decls if d.name}
+
+
+def consumers(plan, h):
+    """Every scanned file whose quoted include closure contains h (h itself excluded)."""
+    if h not in plan._consumers:
+        c = plan.corpus
+        plan._consumers[h] = {f for f in c.c_files + c.h_files if f != h and h in c.closure(f)}
+    return plan._consumers[h]
+
+
+def _existing_gap(plan, rel, h, rows):
+    """(hold reason or '', names h must gain) for trading rel's local declarations for existing header h.
+
+    Existing owning headers are never regenerated.  A moved name either is already declared by h or its
+    include closure with the definition's type (functions: identical/spelling; data: the TU's own view),
+    or is appended to h.  A name declared there with another type is a hold; so is an appended name that
+    another consumer of h declares incompatibly (it would no longer compile)."""
+    import extra
+    files = [f for f in plan.corpus.closure(h) if f.endswith('.h')]
+    missing = []
+    for r in rows:
+        name = r.site.name
+        if getattr(r.site, 'kind', '') == 'data':
+            mine = [x for x in plan.data_by_path.get(rel, []) if x.name == name and not x.is_def]
+            keys = {extra.data_key(x, plan.tindex) for x in mine}
+            theirs = [x for f in files for x in plan.data_by_path.get(f, [])
+                      if x.name == name and x.storage == 'extern' and not x.is_def]
+            if not theirs:
+                for f in consumers(plan, h):
+                    if f == rel:
+                        continue
+                    for x in plan.data_by_path.get(f, []):
+                        if x.name == name and not x.is_def and extra.data_key(x, plan.tindex) not in keys:
+                            return f'consumer_conflict:{name}@{f}', []
+                missing.append(name)
+                continue
+            if len(keys) != 1 or any(extra.data_key(x, plan.tindex) not in keys for x in theirs):
+                return f'hand_written_header_differs:{name}', []
+            continue
+        theirs = [x for f in files for x in plan.sites_by_path.get(f, []) if x.site.name == name]
+        if not theirs:
+            for x in plan.sites_by_name.get(name, []):
+                if x.site.path == rel or x.site.path not in consumers(plan, h):
+                    continue
+                if x.definition is None or (x.definition.path, x.definition.name) != \
+                        (r.definition.path, r.definition.name) or \
+                        x.cls not in ('identical', 'spelling', 'unprototyped') or \
+                        (x.cls == 'unprototyped' and x.detail):       # '()' with another return type
+                    return f'consumer_conflict:{name}@{x.site.path}', []
+            missing.append(name)
+            continue
+        if any(x.definition is None or (x.definition.path, x.definition.name) !=
+               (r.definition.path, r.definition.name) or x.cls not in ('identical', 'spelling') for x in theirs):
+            return f'hand_written_header_differs:{name}', []
+    return '', missing
+
+
+def _hand_written_gap(plan, rel, h, rows):
+    """Compatibility wrapper: the hold reason only (see _existing_gap)."""
+    return _existing_gap(plan, rel, h, rows)[0]
 
 
 def _annotated(sc, s):

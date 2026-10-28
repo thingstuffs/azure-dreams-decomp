@@ -1,12 +1,11 @@
 #include "slus/sort_rank_81540.h"
+#include "slus.h"
 
 typedef struct {
     u8 unk0;
     u8 unk1;
 } S_8004AFE8;
 
-extern s32 count_pointer_list_entries(void **ptr);
-extern void forward_selection_sort_request(void *base, s32 count, s32 size, void *compar);
 extern s32 table_count_consecutive_pointer_entries_whose_target_byte_matches_first_target_byte(S_8004AFE8 **ptr);
 extern void stamp_first_matching_entry_ranks(u8 *ptr, S_8004AFE8 **entries, s32 category);
 extern void *memcpy(void *dst, void *src, s32 n);

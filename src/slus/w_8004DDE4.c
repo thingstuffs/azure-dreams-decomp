@@ -1,4 +1,5 @@
 #include "slus/command_slots_81554.h"
+#include "slus.h"
 
 /* Build and submit a command buffer using the supplied data. */
 void build_object_registration_script(void *data)

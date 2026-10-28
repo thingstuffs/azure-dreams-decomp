@@ -1,5 +1,6 @@
 #include "common.h"
 #include "engine/node.h"
+#include "engine/graphics.h"
 
 typedef struct {
     u8 f0;
@@ -18,7 +19,6 @@ extern S_80084478 shaded_line_render_templates[16];
 extern void update_shaded_line_effect(void);
 struct ObjectPosition;
 struct SpriteFrameState;
-extern s32 draw_linked_sprites(void *, struct ObjectPosition *, struct SpriteFrameState *);
 
 typedef struct {
     u8 pad0[8];

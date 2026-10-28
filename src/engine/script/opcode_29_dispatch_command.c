@@ -6,6 +6,7 @@
 #include "slus/data.h"
 
 #include "engine/message.h"
+#include "engine/message/state.h"
 
 
 /* Opcode 0x1D: Play a voice / CD audio cue (two 32-bit words) and send SD_Call(0x300); waits while sound is busy. */

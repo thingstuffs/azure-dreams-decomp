@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/actor_status.h"
 #include "shared/entity.h"
+#include "engine/util.h"
 
 
 /* Clear the last slot of the requested type and return its value, or zero if absent. */

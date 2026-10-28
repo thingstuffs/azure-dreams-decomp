@@ -1,4 +1,5 @@
 #include "slus/message_mode_81550.h"
+#include "slus.h"
 
 extern u32 message_embedded_control_words[0x24];
 extern char message_conversion_buffer[0x100];

@@ -2,6 +2,7 @@
 #include "engine/script.h"
 
 #include "common.h"
+#include "engine/script/vm.h"
 
 /* Opcode 0x47: Load word: v[var] = LE32(addr32 + 4 * v[index]). */
 void script_load_table_word_by_variable(ScriptReader *state) {

@@ -2,8 +2,7 @@
 #include "engine/graphics.h"
 #include "engine/util.h"
 #include "sdk/libc.h"
-
-extern void *create_callback_pair_default(u32 size);
+#include "engine/resource.h"
 
 /* Rebuilds the pointer buffer and links corresponding records from two sub-buffer banks. */
 s32 *realloc_field_0_buffer(s32 *buffer_slot, s32 entry_count, s32 clear_words)

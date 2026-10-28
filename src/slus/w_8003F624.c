@@ -1,12 +1,11 @@
 #include "engine/scene/cd_state.h"
+#include "engine/runtime.h"
+#include "sdk/libcd.h"
+#include "slus.h"
 
 /* D_800814D4 uses a GP-relative scalar store. CdControlB's parameter
  * address uses D_800814D3[1], an external address view of the
  * adjacent byte within the observed two-byte D3 access span. */
-
-extern int CdControlB(u8 com, u8 *param, u8 *result);
-extern void func_8003E70C(void);
-extern void wait_512_vertical_syncs(void);
 
 /* Tries CD mode 0x84 up to 16 times, increments retry counters on failure, then waits. */
 void cd_set_mode_with_retry(void) {

@@ -1,4 +1,5 @@
 #include "engine/scene/cd_cohort_types.h"
+#include "slus.h"
 
 
 /*

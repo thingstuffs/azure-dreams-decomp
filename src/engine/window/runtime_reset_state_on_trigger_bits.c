@@ -4,6 +4,7 @@
 
 #include "common.h"
 #include "slus/data.h"
+#include "engine/window.h"
 
 typedef struct S_8003626C_0 {
     u8 pad_00[0x4C];

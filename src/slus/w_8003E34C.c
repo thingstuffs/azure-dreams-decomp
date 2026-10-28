@@ -1,4 +1,5 @@
 #include "engine/scene/cd_cohort_types.h"
+#include "slus.h"
 
 /* Reset the global state fields and initialize the status bytes to 2 and 255. */
 void reset_cd_command_retry_state(void) {

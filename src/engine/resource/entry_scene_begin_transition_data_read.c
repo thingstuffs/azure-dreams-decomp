@@ -7,6 +7,7 @@
 #include "engine/scene.h"
 #include "sdk/libgpu.h"
 #include "slus/data.h"
+#include "engine/text.h"
 
 typedef struct S_8004ED00_0_pre {
     void (*unk_00)(void *);

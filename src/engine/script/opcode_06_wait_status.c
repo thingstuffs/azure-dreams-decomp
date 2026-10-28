@@ -4,6 +4,7 @@
 #include "engine/message.h"
 #include "engine/script.h"
 #include "slus.h"
+#include "engine/message/state.h"
 
 
 

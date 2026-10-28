@@ -53,6 +53,52 @@ def header_text(plan, h):
     return '\n'.join(out) + '\n'
 
 
+APPEND_MARK = '/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */'
+
+
+def append_text(plan, h, names, text):
+    """Existing header h with declarations of `names` appended before its include guard's #endif.
+
+    Never rewrites what is there: only a block after APPEND_MARK grows (type includes, tag forward
+    declarations, then prototypes and data declarations in name order).  Names already declared in the
+    block are not repeated, so reruns are idempotent."""
+    rows = [r for r in plan.headers.get(h, []) if r.name in set(names)]
+    if not rows:
+        return text
+    closure = plan.corpus.closure(h)
+    have_inc = set(closure)
+    inc = sorted({t for r in rows for t in r.type_headers} - have_inc - P.TYPE_ALWAYS)
+    import model as M
+    defined = set()
+    for f in closure:
+        defined |= M.file_tags(plan.corpus, f)
+    mark_at = text.find(APPEND_MARK)
+    block_old = text[mark_at:] if mark_at >= 0 else ''
+    tags = sorted({t for r in rows for t in r.tags} - defined)
+    lines = [f'#include "{P.include_token(t)}"' for t in inc]
+    lines += [f'{t};' for t in tags if f'{t};' not in block_old]
+    lines = [l for l in lines if l not in block_old]
+    decl_names = {d.name for it in plan.corpus.scan(h).items if it.kind == 'decl' for d in it.decls if d.name}
+    for r in sorted(rows, key=lambda r: r.name):
+        if r.name in decl_names:
+            continue
+        lines.append((r.proto or r.definition.proto) + ';')
+    if not lines:
+        return text
+    m = None
+    guarded = re.match(r'\s*(?:/\*.*?\*/\s*|//[^\n]*\n\s*)*#\s*ifndef\s+\w+\s*\n\s*#\s*define\b', text, re.S)
+    if guarded:
+        for m in re.finditer(r'^[ \t]*#[ \t]*endif\b[^\n]*\n?', text, re.M):
+            pass
+    end = m.start() if m else len(text)
+    head, tail = text[:end], text[end:]
+    if mark_at < 0:
+        head = head.rstrip('\n') + '\n\n' + APPEND_MARK + '\n'
+    elif not head.endswith('\n'):
+        head += '\n'
+    return head + '\n'.join(lines) + '\n' + ('\n' if tail and not tail.startswith('\n') else '') + tail
+
+
 def _line_span(text, start, end):
     """Extend [start,end) to whole lines when the item stands alone on its lines (trailing
     '/* extern */' marker included)."""
@@ -94,14 +140,21 @@ def edit_tu(text, edit, only=None):
     existing = {d.arg.strip() for d in incs}
     new_lines = [f'#include "{P.include_token(h)}"' for h in sorted(add)
                  if f'"{P.include_token(h)}"' not in existing]
-    if incs:
-        ins = incs[-1].end
+    # New includes go after the last include that precedes every use: the first removed declaration,
+    # function definition, initialised object or included code fragment (a .c include).
+    limit = min([s for h, s, e in edit['remove'] if h in add] +
+                [it.start for it in sc.items if it.kind == 'def' or
+                 (it.kind == 'decl' and '=' in sc.masked[it.start:it.end])] +
+                [d.start for d in incs if not d.arg.strip().endswith('.h"')] + [len(text)])
+    before = [d for d in incs if d.end <= limit and d.arg.strip().endswith('.h"')]
+    if before:
+        ins = before[-1].end
         if not text[:ins].endswith('\n'):
             new_lines = [''] + new_lines
     else:
         ins = 0
     ins_text = '\n'.join(new_lines) + ('\n' if new_lines else '')
-    if not incs and new_lines:
+    if not before and new_lines:
         ins_text += '\n'
     pieces = []
     pos = 0

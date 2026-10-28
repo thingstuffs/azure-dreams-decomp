@@ -123,4 +123,8 @@ void wait_message_voice_idle(Rec_func_800384A8_arg0 *object);
 /* Data declarations. */
 extern struct Func80038A10State *current_message_window_state;
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+struct ScriptReader;
+void read_message_byte(struct ScriptReader *state);
+
 #endif

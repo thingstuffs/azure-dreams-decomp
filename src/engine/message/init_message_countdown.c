@@ -11,8 +11,6 @@ typedef struct S_8003832C_0 {
     s16 unk_18;
 } S_8003832C_0;   /* arg0 in func_8003832C */
 
-void read_message_byte(ScriptReader *state);                            /* extern */
-
 /* Initialize the context and set its next handler and state. */
 void consume_message_byte_and_start_countdown(S_8003832C_0 *context) {
     read_message_byte((ScriptReader *)context);

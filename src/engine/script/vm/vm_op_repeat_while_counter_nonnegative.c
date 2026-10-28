@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/script/vm.h"
 
 typedef struct Func80039EF4State {
     u8 pad_00[0x10];

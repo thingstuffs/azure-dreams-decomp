@@ -1,12 +1,12 @@
 #include "modules/control_cd.h"
 #include "engine/scene/cd_state.h"
+#include "engine/cd.h"
+#include "slus.h"
 
 typedef struct EventSource_8003E4FC {
     s32 field0;
     void *field4;
 } EventSource_8003E4FC;
-
-extern s32 enqueue_cd_command_record();
 
 /* Dispatch supported event codes and update the associated event state. */
 s32 Control_CD(s32 event_code, void *event_data, s32 payload)

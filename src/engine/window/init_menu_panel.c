@@ -2,6 +2,7 @@
 #include "m2c_compat.h"
 #include "engine/menu.h"
 #include "engine/window.h"
+#include "engine/util.h"
 
 typedef struct S_8004A24C_0 {
     u16 unk_00;
@@ -16,7 +17,6 @@ typedef struct S_8004A24C_0 {
 void menu_initialize_four_sub_blocks_position_offsets_fixed_header_derived_values();       /* extern */
 s32 read_terminal_tagged_entry_value();                             /* extern */
 void menu_copy_the_default_template_fills_five_byte_pairs_negated_half();       /* extern */
-s32 func_8004DC14();                /* extern */
 
 /* Initializes resource state, resolves its size, and sets its position. */
 void init_menu_panel(S_8004A24C_0 *state, s32 config_id, s32 resource_id, s16 x, s16 y, s32 size) {

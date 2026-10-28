@@ -112,4 +112,8 @@ void shuffle_category_item_data(s32 category);
 /* shuffle_enabled_item_category_pointers.c */
 void shuffle_enabled_item_category_pointers(void);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+#include "shared/dungeon_item_entries.h"
+int resolve_record_value(DungeonItemEntry *record);
+
 #endif

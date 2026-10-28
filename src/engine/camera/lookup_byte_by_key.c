@@ -1,7 +1,6 @@
 #include "common.h"
 #include "engine/camera.h"
-
-extern s32 runtime_lookup_byte_by_key(s32);
+#include "engine/util.h"
 
 /* Converts fullwidth alphanumerics to ASCII, delegating other character codes. */
 s32 map_fullwidth_character_to_glyph_byte(s32 char_code)

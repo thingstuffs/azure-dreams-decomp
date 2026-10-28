@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "engine/object.h"
+#include "engine/script/vm.h"
 
 /* Opcode 0x0D: Clear the event flag given by the 16-bit operand. */
 void script_clear_flag(ScriptReader *state) {

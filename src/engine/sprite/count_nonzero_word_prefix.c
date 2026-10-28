@@ -1,8 +1,7 @@
 #include "common.h"
 #include "engine/sprite.h"
 #include "slus.h"
-
-extern s32 create_callback_pair_default(s32 a0);
+#include "engine/resource.h"
 
 /* Allocates a 0x104-byte block, stores its address at the looked-up array index, and returns it. */
 s32 allocate_and_append_callback_payload(s32 *values, s32 lookup_key)

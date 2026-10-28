@@ -9,14 +9,10 @@
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
 #include "slus/data.h"
+#include "slus.h"
 
 extern s32 InitPAD(u8 *buf1, s32 siz1, u8 *buf2, s32 siz2);
 
-extern void initialize_memory_card_services(s32 a0);
-extern void sound_set_cd_playback_volume_scale(s16 volume_scale);
-extern void sound_set_voice_gain_scale(s16 a0);
-
-extern void reset_cd_command_retry_state(void);
 extern void StartPAD(void);
 
 /* D_80083160[0] holds the current CD/streaming state pointer; default value is

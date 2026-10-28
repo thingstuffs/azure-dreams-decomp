@@ -1,5 +1,6 @@
 #include "slus/saved_value_b98.h"
 #include "shared/object_node.h"
+#include "slus.h"
 
 extern s32 D_800814A0_abs __attribute__((section(".data")));
 extern void fade_effect_parts(void);

@@ -29,7 +29,6 @@ typedef struct
 }
 S_80082E6A;
 extern S_80082E6A runtime_dispatch_mode_alias;
-extern s32 resolve_record_value(DungeonItemEntry *);
 /* Select item data by category and state, and report its mode. */
 s32 select_item_data(DungeonItemEntry *item, s32 *out_mode)
 {

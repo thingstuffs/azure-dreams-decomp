@@ -3,6 +3,7 @@
 #include "common.h"
 #include "sdk/libgpu.h"
 #include "engine/effect/screen_fade.h"
+#include "engine/effect.h"
 
 typedef struct {
     char pad0[0x70];

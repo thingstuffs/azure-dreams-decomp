@@ -2,8 +2,8 @@
 #include "shared/game_work.h"
 
 #include "common.h"
+#include "engine/camera.h"
 
-extern void initialize_three_component_interpolation(void *a0, void *a1, s32 a2, void *a3);
 /* Set position and rotation targets, adjusting rotation components across the 12-bit wrap. */
 void set_camera_targets(void *target_position, void *target_rotation, u16 transition_param)
 {

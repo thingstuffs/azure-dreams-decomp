@@ -3,8 +3,7 @@
 #include "common.h"
 #include "slus.h"
 #include "slus/data.h"
-
-extern s32 func_80042900(void *, s8);
+#include "engine/entity.h"
 
 /* Selects a table value from descending object queries, with an adjustment for query 7. */
 u8 select_mapped_object_status_code(void *object) {

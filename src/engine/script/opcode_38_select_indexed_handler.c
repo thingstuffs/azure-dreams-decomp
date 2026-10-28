@@ -2,6 +2,7 @@
 
 #include "common.h"
 #include "engine/message.h"
+#include "engine/script.h"
 
 struct S_80038708_0;
 

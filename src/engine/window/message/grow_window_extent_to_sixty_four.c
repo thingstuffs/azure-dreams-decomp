@@ -5,6 +5,7 @@
 #include "common.h"
 #include "engine/window/message.h"
 #include "slus/data.h"
+#include "engine/window.h"
 
 typedef struct S_80035C44_0 {
     u8 pad_00[0x2];

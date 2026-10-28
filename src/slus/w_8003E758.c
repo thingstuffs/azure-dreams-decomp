@@ -1,4 +1,7 @@
 #include "engine/scene/cd_cohort_types.h"
+#include "engine/runtime.h"
+#include "sdk/libcd.h"
+#include "slus.h"
 
 
 
@@ -15,19 +18,6 @@ extern u8  cd_read_status_bytes[8];     /* CdReadSync buffer (retail extent 8: s
 extern u32 gpu_scratch_write_pointer[1];     /* retail extent 5: small data at -G8 */
 extern u16 D_80083164[];
 
-extern int  CdSync(int mode, u8 *result);
-extern int  CdControl(u8 com, u8 *param, u8 *result);
-extern int  CdControlF(u8 com, u8 *param);
-extern int  CdRead(int count, u32 *buf, int mode);
-extern int  CdRead2(int mode);
-extern int  CdReadSync(int mode, u8 *result);
-extern int  CdReset(int mode);
-extern void StUnSetRing(void);
-
-extern void func_8003E70C(void);
-extern void wait_512_vertical_syncs(void);
-extern void cd_set_mode_with_retry(void);
-extern void CdIntToPos(u32 lba, u8 *loc);
 extern u8  cd_command_phase[2];   /* CD driver state byte (+0); +1 is the byte at D_800814D4 */
 extern u8  cd_command_status_flags[1];
 

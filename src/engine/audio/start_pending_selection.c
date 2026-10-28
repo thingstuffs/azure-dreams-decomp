@@ -4,9 +4,9 @@
 #include "engine/audio/sequence.h"
 #include "slus.h"
 #include "slus/data.h"
+#include "engine/audio/slots.h"
 
 extern void *audio_selection_record_pointers[][16];
-extern s16 copy_sound_slot_info(s16 idx, u8 *dst);
 
 /* Starts playback of the pending selection when available and initializes its mode. */
 void start_pending_selection(void)

@@ -80,4 +80,8 @@ void set_scaled_cell_flags_8000(void);
 void func_80042984(void *entity);
 void update_owner_class_bits(void *entity);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+#include "shared/entity.h"
+s32 func_80042900(ActorRecord *entry, s32 effect_id);
+
 #endif

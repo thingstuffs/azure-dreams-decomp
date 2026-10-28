@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/script/vm.h"
 
 typedef struct Func8003A248State {
     u8 pad_00[0x1C];

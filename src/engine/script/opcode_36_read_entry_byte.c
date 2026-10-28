@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/script.h"
 
 typedef void (*Callback)(void);
 

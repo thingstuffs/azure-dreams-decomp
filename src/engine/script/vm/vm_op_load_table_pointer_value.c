@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/script/vm.h"
 
 typedef struct Func8003A01CState Func8003A01CState;
 

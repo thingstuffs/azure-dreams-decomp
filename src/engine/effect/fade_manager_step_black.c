@@ -2,6 +2,7 @@
 
 #include "common.h"
 #include "engine/effect.h"
+#include "engine/resource.h"
 
 typedef struct Func8003C4C8State {
     u8 pad_00[0xC];
@@ -12,8 +13,6 @@ typedef struct Func8003C4C8State {
     u16 unk_1C;
     s16 unk_1E;
 } Func8003C4C8State;
-
-extern void runtime_clear_record_field_04(void *active_flag, Func8003C4C8State *fade_state);
 
 /* Fades the state to black and clears its active flag when the timer expires. */
 void fade_manager_step_black(

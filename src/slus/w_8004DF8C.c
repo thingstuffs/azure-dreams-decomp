@@ -1,8 +1,8 @@
 #include "slus/message_mode_81550.h"
+#include "sdk/libc.h"
 
 typedef void (*FuncPtr)(char *);
 
-extern char *strcat(char *dst, char *src);
 extern char message_conversion_buffer[0x100];
 extern char message_appended_suffix[];
 extern s32 message_primary_output_control_word;

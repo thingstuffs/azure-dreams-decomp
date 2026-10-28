@@ -3,6 +3,7 @@
 #include "engine/node.h"
 #include "slus.h"
 #include "slus/data.h"
+#include "engine/graphics.h"
 
 /* Global >8-byte struct accessed via %hi/%lo (passed by address to func_8003DB94
  * as its `Elem`-shaped table argument). */
@@ -11,7 +12,6 @@
 extern void update_sine_motion_effect(void);
 struct ObjectPosition;
 struct SpriteFrameState;
-extern s32 draw_linked_sprites(void *, struct ObjectPosition *, struct SpriteFrameState *);
 
 /* struct Elem / struct Dst mirror the layout used by the already-matched
  * func_8003DB94 (src/code.c), extended with the extra fields (0x1C/0x1E)

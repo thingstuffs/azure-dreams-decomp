@@ -1,4 +1,5 @@
 #include "slus/command_slots_81554.h"
+#include "slus.h"
 
 /* D_80083D98: 32-slot table of command words and addresses (0x80 bytes to
    the next symbol D_80083E18, /4 = 32 word entries).

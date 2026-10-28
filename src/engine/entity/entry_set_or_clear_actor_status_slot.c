@@ -5,8 +5,8 @@
 
 #include "shared/sys_flags.h"
 #include "engine/entity.h"
+#include "engine/util.h"
 
-extern s32 func_80042518(ActorRecord *object, s32 type);
 extern void set_or_clear_actor_status_slot(ActorRecord *object, s32 type, s32 value);
 
 /* Remove type 0x1B and replay the remaining slots with global flag bit 1 set. */

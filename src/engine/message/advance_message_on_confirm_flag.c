@@ -1,5 +1,6 @@
 #include "engine/message/callbacks.h"
 #include "slus.h"
+#include "engine/message.h"
 
 typedef struct S_80038588_0 {
     u8 pad_00[0x10];

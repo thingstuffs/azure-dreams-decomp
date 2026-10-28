@@ -5,6 +5,7 @@
 
 #include "engine/script.h"
 #include "engine/message.h"
+#include "engine/message/state.h"
 
 
 /* Returns whether the state flag is set or global flag bits 0x60 are clear. */

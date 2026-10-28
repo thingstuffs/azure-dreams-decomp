@@ -1,6 +1,7 @@
 #include "common.h"
 #include "engine/node.h"
 #include "slus.h"
+#include "engine/graphics.h"
 
 /* struct Elem / struct Dst as established in src/code.c for func_8003DB94 */
 struct Elem {
@@ -26,7 +27,6 @@ struct Dst {
 extern void update_staged_motion_effect(void);
 struct ObjectPosition;
 struct SpriteFrameState;
-extern s32 draw_linked_sprites(void *, struct ObjectPosition *, struct SpriteFrameState *);
 
 /* Sized >8B to force %hi/%lo (not $gp) addressing, matching retail's lui/addiu. */
 extern struct Elem arc_motion_sprite_source[2];

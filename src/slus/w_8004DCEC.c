@@ -1,4 +1,5 @@
 #include "slus/message_mode_81550.h"
+#include "slus.h"
 
 typedef void (*FuncPtr_8004DCEC)(char *);
 extern char message_mode_work_buffer[2];

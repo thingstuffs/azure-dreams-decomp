@@ -262,7 +262,89 @@ class PlanTests(unittest.TestCase):
         self.assertNotIn('engine/a.h', new)
 
 
+class HandWrittenHeaderTests(unittest.TestCase):
+    """An existing owning header without the generated marker is never rewritten; a TU may trade its local
+    declaration for it only when the header already declares the name with the definition's type."""
+    FILES = {
+        'include/common.h': COMMON,
+        'include/engine/a.h': '#ifndef ENGINE_A_H\n#define ENGINE_A_H\n#include "common.h"\n'
+                              's32 add(s32 a, s32 b);\nvoid wrong(s32 a);\n#endif\n',
+        'src/engine/a/one.c': '#include "common.h"\n\n'
+                              's32 add(s32 a, s32 b) { return a + b; }\n'
+                              'void wrong(s16 a) { }\n'
+                              'void missing(s32 a) { }\n',
+        'src/dungeon/b/two.c': '#include "common.h"\n\nextern s32 add(s32, s32);\n\n'
+                               'void c2(void) { add(1, 2); }\n',
+        'src/dungeon/b/three.c': '#include "common.h"\n\nextern s32 add(s32, s32);\n'
+                                 'extern void missing(s32);\n\nvoid c3(void) { add(1, 2); missing(3); }\n',
+        'src/dungeon/b/four.c': '#include "common.h"\n\nextern void wrong(s16);\n\n'
+                                'void c4(void) { wrong(1); }\n',
+    }
+
+    def setUp(self):
+        self.td, self.root = mkroot(self.FILES)
+
+    def tearDown(self):
+        self.td.cleanup()
+
+    def test_gap_holds_and_declared_moves(self):
+        pl = P.build(self.root, scope=['src'])
+        self.assertIn('include/engine/a.h', pl.hand_written)
+        two = pl.tus['src/dungeon/b/two.c']
+        self.assertIn('include/engine/a.h', two.add)
+        self.assertEqual([r.site.name for r in two.remove], ['add'])
+        three = pl.tus['src/dungeon/b/three.c']
+        self.assertEqual(three.append, {'include/engine/a.h': ['missing']})      # appended, not held
+        self.assertEqual(sorted(r.site.name for r in three.remove), ['add', 'missing'])
+        four = pl.tus['src/dungeon/b/four.c']
+        self.assertEqual(four.holds['include/engine/a.h'], 'hand_written_header_differs:wrong')
+
+    def test_append_is_append_only_and_idempotent(self):
+        pl = P.build(self.root, scope=['src'])
+        old = (self.root / 'include/engine/a.h').read_text()
+        new = R.append_text(pl, 'include/engine/a.h', ['missing'], old)
+        self.assertTrue(new.startswith(old[:old.rindex('#endif')].rstrip('\n')))
+        self.assertIn(R.APPEND_MARK + '\nvoid missing(s32 a);\n', new)
+        self.assertTrue(new.endswith('#endif\n'))
+        (self.root / 'include/engine/a.h').write_text(new)
+        pl2 = P.build(self.root, scope=['src'])
+        self.assertEqual(R.append_text(pl2, 'include/engine/a.h', ['missing'], new), new)
+
+    def test_consumer_conflict_holds_append(self):
+        (self.root / 'src/town').mkdir()
+        (self.root / 'src/town/c.c').write_text('#include "common.h"\n#include "engine/a.h"\n\n'
+                                                'extern void missing(s16);\nvoid c5(void) { missing(1); }\n')
+        pl = P.build(self.root, scope=['src'])
+        three = pl.tus['src/dungeon/b/three.c']
+        self.assertEqual(three.holds['include/engine/a.h'], 'consumer_conflict:missing@src/town/c.c')
+
+    def test_unprototyped_consumer_with_other_return_type_conflicts(self):
+        (self.root / 'src/town').mkdir()
+        (self.root / 'src/town/c.c').write_text('#include "common.h"\n#include "engine/a.h"\n\n'
+                                                'extern s32 missing();\nvoid c5(void) { missing(1); }\n')
+        pl = P.build(self.root, scope=['src'])
+        self.assertEqual(pl.tus['src/dungeon/b/three.c'].holds['include/engine/a.h'],
+                         'consumer_conflict:missing@src/town/c.c')
+
+    def test_write_headers_skips_hand_written(self):
+        import headers as H
+        pl = P.build(self.root, scope=['src'])
+        before = (self.root / 'include/engine/a.h').read_text()
+        written = H.write_headers(self.root, pl, ['include/engine/a.h', 'include/dungeon/b.h'])
+        self.assertEqual(written, ['include/dungeon/b.h'])
+        self.assertEqual((self.root / 'include/engine/a.h').read_text(), before)
+
+
 class RewriteTests(unittest.TestCase):
+    def test_include_goes_before_first_use(self):
+        text = ('#include "common.h"\n\nextern void f(void);\n\n#include "../build/frag.c"\n'
+                '#include "late.h"\n')
+        start = text.index('extern')
+        end = text.index(';', start) + 1
+        new = R.edit_tu(text, {'add': ['include/engine/a.h'], 'remove': [('include/engine/a.h', start, end)]})
+        self.assertEqual(new, '#include "common.h"\n#include "engine/a.h"\n\n#include "../build/frag.c"\n'
+                              '#include "late.h"\n')
+
     def test_line_span_and_collapse(self):
         text = '#include "common.h"\n\nextern void a(void);\nextern void b(void); /* extern */\n\nint x;\n'
         sc = cscan.scan(text)

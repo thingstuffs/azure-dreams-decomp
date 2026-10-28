@@ -6,6 +6,44 @@ function sites, SDK classification and the complete data plan. `dryrun --data
 --scope src --out <output> --workers 4` decides it with compiler assembly and
 restores temporary headers. Omit `--decide-only` to write accepted edits.
 
+## Extern wave (one folder per run)
+
+`tools/headers/extern_wave.py` is the lane driver for the local_externs debt
+(tools/lint/debt_check.py). One run plans one folder, byte-decides every
+(TU, header) include, applies the accepted edits and proves complete-TU
+identity for every registered physical TU whose include closure contains an
+edited file (the folder TUs and every consumer of a changed header):
+
+```sh
+python3 tools/headers/extern_wave.py --folder src/engine/audio --recursive \
+    --skip-list <files owned by other lanes> --out <dir> --workers 4 \
+    --deps-cache <dir>/../deps.json.gz [--data] [--dry-run]
+```
+
+A changed TU is rolled back (its own edit first; several edited members of
+one physical TU are retried file by file; then every changed header in its
+closure with the folder TUs that needed it), repeated until the final state is
+the proven state. Files whose per-function lexical debt rises are restored.
+Outputs: receipt.json (local externs before/after, proof set, holds by reason),
+holds.tsv, files.tsv, folder.patch and wave.log. SLUS partitions and members of
+a physical TU, which the assembly filter cannot compile alone, are decided by
+the complete-TU proof of the physical TUs that see them.
+
+Existing owning headers are append-only. Hand-written headers and the headers
+this tool once generated (since edited by hand: types, comments, data) are
+never regenerated: a needed name the header lacks is appended after an
+`APPEND_MARK` comment before the include guard's `#endif`, with its type
+includes and tag forward declarations. A name the header (or its closure)
+declares with a different type is a TU hold (`hand_written_header_differs`);
+an appended name that another consumer of the header declares incompatibly is
+a TU hold (`consumer_conflict`). Only headers that do not exist are generated
+whole. New includes go after the last include that precedes the first removed
+declaration, function definition, initialised object or included code fragment.
+
+`python3 tools/headers/census.py --out <dir> [--data] [--verdicts verdicts.jsonl]`
+maps every debt-checker local_externs site to its outcome (planned/proven
+removal, byte hold, static keep reason, or unmodelled) by reason and folder.
+
 Data rewriting is opt-in (`--data`). Keep tree-wide application off until the
 data-name changes have landed. Pilot scope:
 `--scope src/engine src/slus src/frontend src/main`.

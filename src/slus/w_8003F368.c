@@ -1,15 +1,12 @@
 #include "engine/scene/cd_state.h"
+#include "engine/runtime.h"
+#include "engine/util.h"
+#include "sdk/libcd.h"
+#include "slus.h"
 
 
 extern u8 cd_location_second_byte_alias[2];
 extern u8 cd_location_third_byte_alias[1];
-
-extern s32 CdSync(s32 mode, u8 *result);
-extern s32 CdControl(u8 com, u8 *param, u8 *result);
-extern s32 CdPosToInt(u8 *loc);
-extern void func_8003E70C(void);
-extern void cd_set_mode_with_retry(void);
-extern s32 func_8003F688(u8 val);
 
 /* Reads and validates the CD location, returning its sector position or zero. */
 s32 query_validated_cd_sector_with_retry(void)

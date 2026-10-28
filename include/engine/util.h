@@ -76,4 +76,9 @@ void table_handle_decrements_counter_sets_preceding_halfword_global_flag_bit_hex
 char *func_8004E634(u32 num, char *buf);
 char *uint_to_dec_str(u32 num, char *buf);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+#include "shared/entity.h"
+s32 find_slot_by_type(ActorRecord *slots, s8 type);
+s32 func_80042518(ActorRecord *slots, s8 type);
+
 #endif

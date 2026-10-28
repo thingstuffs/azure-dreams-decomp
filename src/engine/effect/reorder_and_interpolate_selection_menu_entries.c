@@ -1,6 +1,7 @@
 #include "common.h"
 #include "engine/effect.h"
 #include "engine/menu.h"
+#include "slus.h"
 
 typedef struct S_8004F884_arg {
     u8 pad00[4];
@@ -8,7 +9,6 @@ typedef struct S_8004F884_arg {
     s32 count;     /* 0x24 */
 } S_8004F884_arg;
 
-extern void forward_selection_sort_request(void *base, s32 count, s32 size, int (*compar)(void *, void *));
 extern int compare_selection_menu_entry_order(void *a0, void *a1);
 
 /* Sorts and relinks the list entries, then runs the list update hooks. */

@@ -1,4 +1,5 @@
 #include "slus/command_slots_81554.h"
+#include "slus.h"
 
 /* Build a command sequence with a header and terminator, then submit it. */
 void submit_script_with_registered_context(void *context)

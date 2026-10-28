@@ -6,6 +6,7 @@
 #include "records/Rec_func_800384A8_arg0.h"
 #include "slus.h"
 #include "slus/data.h"
+#include "engine/message.h"
 
 /* Calls SD_Call with 0xB4 and installs update_message_window as the next handler. */
 void play_message_advance_sound(Rec_func_800384A8_arg0 *state) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/script.h"
 
 typedef struct Func80039C0CState {
     u8 unk00[0x10];

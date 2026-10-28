@@ -4,6 +4,7 @@
 #include "shared/game_work.h"
 #include "engine/entity.h"
 #include "slus/data.h"
+#include "slus.h"
 
 /* --- gcc 2.7.2-cdk (cygnus SN32.3.7.0004) translation unit: zero-frame shared-tail
    epilogue that the -psx builds don't reproduce. See tools/compiler_notes.md. --- */
@@ -66,7 +67,6 @@ s32 lookup_unpatterned_display_icon(s32 index) {
 
 /* extern decls */
 extern void *optional_resource_descriptor[4];
-extern void resource_load_current_optional_descriptor(void);
 
 /* Selects primary_optional_resource_descriptor and starts loading that optional resource descriptor. */
 void load_primary_optional_resource_descriptor(void)
@@ -96,9 +96,6 @@ s32 is_frame_packet_arena_overflowed(u32 limit)
 void set_audio_channel_program(unsigned char entry_index, unsigned char value) {
     audio_channel_controls[entry_index].unk00 = value;
 }
-
-extern int subtract_pointed_int_values(int *a0, int *a1);
-extern void forward_selection_sort_request(void *base, int count, int size, int (*compar)(int *, int *));
 
 /* Sort the array of four-byte elements using subtract_pointed_int_values. */
 void sort_signed_word_array(int count, void *base)

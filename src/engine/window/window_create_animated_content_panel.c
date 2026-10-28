@@ -6,6 +6,7 @@
 #include "engine/node.h"
 #include "engine/window.h"
 #include "engine/graphics.h"
+#include "engine/resource.h"
 
 typedef struct S_8004A330_Sub20 {
     u16 field0;
@@ -26,7 +27,6 @@ typedef struct S_8004A330_Entity {
     u8 sub50[4];
 } S_8004A330_Entity;
 
-extern s32 create_callback_pair_default(s32 a0);
 extern void menu_move_the_position_halfway_toward_target_position(void *a0);
 extern s32 D_800814A0_load[3];
 

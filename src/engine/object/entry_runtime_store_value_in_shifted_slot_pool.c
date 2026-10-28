@@ -3,6 +3,7 @@
 #include "common.h"
 #include "engine/object.h"
 #include "slus/data.h"
+#include "engine/script.h"
 
 typedef struct {
     u8 pad_00[0x38];
@@ -12,9 +13,6 @@ typedef struct {
 } State80082A38;
 
 extern State80082A38 runtime_script_state;
-
-extern s32 service_script_controller(void);
-extern void call_script(void *reset_value);
 
 /*
  * Enqueues the supplied value, first clearing slots 10 through 14 and starting

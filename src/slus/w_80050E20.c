@@ -1,6 +1,7 @@
 #include "slus/saved_value_b98.h"
 #include "shared/object_node.h"
 #include "engine/item.h"
+#include "slus.h"
 
 typedef struct {
     u8 pad_00[0x1C];

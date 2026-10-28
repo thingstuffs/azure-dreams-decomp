@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "engine/resource.h"
+#include "engine/scene.h"
 
 typedef struct TaskPayload {
     void *(*field_0)(void *);
@@ -19,8 +20,6 @@ typedef struct Task {
     TaskPayload payload;
 } Task;
 
-extern s16 reserve_runtime_slot(s16 slot_id, s16 slot_value);
-extern void update_deferred_resource_transition_task(void *);
 extern u8 animation_tick_scale[3];
 
 /* Creates a task with a mode-dependent lookup result and the supplied payload values. */

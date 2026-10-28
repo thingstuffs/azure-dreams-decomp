@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
 
 /* D_80085458[64]: stride 0x78 table; only fields f06 (dispatch index), f10, f12
    (params forwarded to sound_set_indexed_voice_volumes) are touched by this function. */
@@ -44,7 +45,6 @@ extern S_800564A8_85458 audio_voice_records[24];
 extern S_80084960 audio_channel_controls[16];
 
 extern void audio_compute_voice_stereo_volumes(S_800564A8_85458 *voice_arg, S_80084960 *sound_params);
-extern s32 sound_set_indexed_voice_volumes(s32 a0, s32 a1, s32 a2);
 
 /* Process each entry with a valid dispatch index using its dispatch record and parameters. */
 void audio_refresh_sequence_voice_volumes(void) {

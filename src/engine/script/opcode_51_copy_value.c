@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/script.h"
 
 typedef struct {
     u8 pad[0x48];

@@ -12,8 +12,9 @@ owning headers instead.  Every TU edit is decided by its assembly at the registe
 a header whose include changes bytes or fails to compile stays a (TU, header) hold and the TU keeps its
 local declarations for it.  The formal proof is tools/typing/tu_identity.py snapshot/compare.
 
-Deterministic and rerunnable: everything is keyed by function name and recomputed from the tree, so a
-newer HEAD (merged/moved/renamed files) just regenerates headers and re-points includes.
+Deterministic and rerunnable: everything is keyed by function name and recomputed from the tree.  Headers
+that do not exist are generated whole; existing owning headers (hand-written, or generated once and since
+edited by hand) are append-only: missing owner declarations are appended, nothing is regenerated.
 """
 from __future__ import annotations
 
@@ -269,13 +270,17 @@ def cmd_dryrun(a):
 
 def write_headers(root, plan, headers, saved=None):
     written = []
-    for h in sorted(headers):
+    hand = getattr(plan, 'existing', set()) | getattr(plan, 'hand_written', set())
+    headers = [h for h in sorted(headers) if h not in hand]
+    for h in headers:      # refuse before writing anything: an abort must not leave a half-written tree
+        p = Path(root) / h
+        if p.exists() and P.GENERATED_MARK not in p.read_text()[:400]:
+            raise SystemExit(f'refusing to overwrite hand-written header {h}')
+    for h in headers:
         p = Path(root) / h
         txt = R.header_text(plan, h)
         if p.exists():
             old = p.read_text()
-            if P.GENERATED_MARK not in old[:400]:
-                raise SystemExit(f'refusing to overwrite hand-written header {h}')
             if old == txt:
                 continue
             if saved is not None:
@@ -283,6 +288,27 @@ def write_headers(root, plan, headers, saved=None):
         p.parent.mkdir(parents=True, exist_ok=True)
         p.write_text(txt)
         written.append(h)
+    return written
+
+
+def append_headers(root, plan, accepted, saved):
+    """Append to existing owning headers the names the TUs in `accepted` ({tu: [headers]}) need."""
+    names = defaultdict(set)
+    for rel, hs in accepted.items():
+        tp = plan.tus.get(rel)
+        for h in hs:
+            names[h] |= set(tp.append.get(h, ())) if tp else set()
+    written = []
+    for h, ns in sorted(names.items()):
+        if not ns or h not in plan.existing:
+            continue
+        p = Path(root) / h
+        old = p.read_bytes().decode('utf-8', 'surrogateescape')
+        new = R.append_text(plan, h, ns, old)
+        if new != old:
+            saved.setdefault(h, old)
+            p.write_bytes(new.encode('utf-8', 'surrogateescape'))
+            written.append(h)
     return written
 
 
@@ -303,11 +329,12 @@ def cmd_apply(a):
                 continue
             jobs[rel] = (orig, edit)
     needed = sorted({h for _, e in jobs.values() for h in e['add']})
-    # regenerate every generated header that exists (owners may have moved) plus the needed ones
-    regen = sorted(set(needed) | {h for h in plan.generated if h in plan.headers})
-    created_before = {h for h in regen if not (root / h).exists()}
+    # Existing owning headers are append-only (they carry hand-kept types and comments); only headers
+    # that do not exist yet are generated whole.
+    created_before = {h for h in needed if not (root / h).exists()}
     saved = {}
-    headers_written = write_headers(root, plan, regen, saved)
+    headers_written = write_headers(root, plan, sorted(created_before), saved)
+    headers_written += append_headers(root, plan, {rel: e['add'] for rel, (o, e) in jobs.items()}, saved)
     print(f'plan: {len(jobs)} TUs with edits, {len(needed)} headers needed', flush=True)
     if a.no_prove:
         verdicts = {rel: {'tu': rel, 'accept': e['add'], 'holds': {}} for rel, (o, e) in jobs.items()}
@@ -323,6 +350,10 @@ def cmd_apply(a):
         for h, old in saved.items():
             (root / h).write_text(old)
         created_before = set()
+    else:      # appended names: only those an accepted TU needs
+        for h, old in saved.items():
+            (root / h).write_text(old)
+        append_headers(root, plan, {rel: v.get('accept', []) for rel, v in verdicts.items()}, {})
     edited, holds = [], []
     used = set()
     for rel, (orig, edit) in sorted(jobs.items()):
@@ -387,11 +418,15 @@ def cmd_explain(a):
     recipes, _ = L.recipes(root)
     fresh = not (root / a.header).exists()
     write_headers(root, plan, [a.header])
+    saved = {}
+    append_headers(root, plan, {a.tu: [a.header]}, saved)
     try:
         print(prove.explain(root, a.tu, recipes[a.tu], plan.corpus.text(a.tu), edit, a.header))
     finally:
         if fresh:
             (root / a.header).unlink()
+        for h, old in saved.items():
+            (root / h).write_bytes(old.encode('utf-8', 'surrogateescape'))
 
 
 def main(argv=None):

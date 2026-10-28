@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "slus/data.h"
+#include "engine/message.h"
 
 /* Reads a stream byte into the buffer and stores its table lookup result. */
 void read_message_byte(ScriptReader *state) {
