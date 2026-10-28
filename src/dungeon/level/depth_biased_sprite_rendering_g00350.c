@@ -7,7 +7,7 @@
 
 /* Traverse object nodes backward and process unflagged primitives with their computed depth. */
 s32 traverse_nodes_and_render_unflagged(void *start_node) {
-    void *node = start_node;
+    S_800BC3E4_0_pre *node = start_node;
     GameWork *state = &g_game_work;
     u16 *scratch = (u16 *)0x1F800000;
     void *previous;
@@ -17,7 +17,7 @@ s32 traverse_nodes_and_render_unflagged(void *start_node) {
     scratch[0x82] = ((u16)state->view.view_rotation_offset.parts.view_rotation_offset_z);
 
     for (;;) {
-        S_800BC3E4_1 *object = ((S_800BC3E4_0 *)node)->unk_00;
+        S_800BC3E4_1 *object = node->unk_00;
         S_800BC3E4_2 *primitive = object->unk_0C;
 
         if (!(primitive->unk_14 & 0x8000)) {
@@ -28,11 +28,11 @@ s32 traverse_nodes_and_render_unflagged(void *start_node) {
                 break;
             }
         }
-        previous = ((S_800BC3E4_0_pre *)node)[-1].unk_00;
+        previous = node[-1].unk_00;
         if (previous == 0) {
             break;
         }
-        node = (u8 *)previous + 0x20;
+        node = (S_800BC3E4_0_pre *)((u8 *)previous + 0x20);
     }
     return 0;
 }

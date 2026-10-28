@@ -168,7 +168,7 @@ void *spawn_block_slot_c(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 spawn_heig
  */
 void update_block_motion_and_facing_slot_c(void *entity, CL_CCB000_80170C24_S_80170C24_2 *motion, void *monster)
 {
-    void *actor = entity;
+    CL_CCB000_80170C24_S_80170C24_1 *actor = entity;
     s32 direction;
     s16 direction_copy;
     s32 direction_value;
@@ -228,7 +228,7 @@ void update_block_motion_and_facing_slot_c(void *entity, CL_CCB000_80170C24_S_80
             ((CL_CCB000_80170C24_S_80170C24_0 *)monster)->unk_14 &= 0xFFFE;
         }
 
-        if (!(((CL_CCB000_80170C24_S_80170C24_1 *)actor)->unk_1C & 0x20)) {
+        if (!(actor->unk_1C & 0x20)) {
             if (!(((CL_CCB000_80170C24_S_80170C24_0 *)monster)->unk_14 & 0x40)) {
                 advance_sprite_animation_and_textures(monster);
             }
@@ -236,7 +236,7 @@ void update_block_motion_and_facing_slot_c(void *entity, CL_CCB000_80170C24_S_80
             ((CL_CCB000_80170C24_S_80170C24_0 *)monster)->unk_14 |= 0x7000;
         }
 
-        apply_monster_koyaw_data(((CL_CCB000_80170C24_S_80170C24_1 *)actor)->unk_1C, (u8 *)monster + 0xC);
+        apply_monster_koyaw_data(actor->unk_1C, (u8 *)monster + 0xC);
     } else {
         if (monster_flags & 0x0800) {
             ((CL_CCB000_80170C24_S_80170C24_0 *)monster)->unk_14 = monster_flags & 0x8FFF;
@@ -260,39 +260,39 @@ void update_block_motion_and_facing_slot_c(void *entity, CL_CCB000_80170C24_S_80
     if (!((*(u16 *)((u8 *)entity + 0x98)) & 4)) {
         floor_height = sample_terrain_surface_height(motion->unk_00.at02.v,
                               motion->unk_04.at02.v,
-                              (s16)(((CL_CCB000_80170C24_S_80170C24_1 *)actor)->unk_88.u - 0x20));
+                              (s16)(actor->unk_88.u - 0x20));
         if (floor_height < 0x200) {
-            actor_height = ((CL_CCB000_80170C24_S_80170C24_1 *)actor)->unk_88.s;
+            actor_height = actor->unk_88.s;
             if ((*(s16 *)((u8 *)entity + 0x92)) + actor_height < floor_height) {
-                ((CL_CCB000_80170C24_S_80170C24_1 *)actor)->unk_1C &= 0xF7FFFFFF;
+                actor->unk_1C &= 0xF7FFFFFF;
             } else {
                 if (floor_height >= actor_height) {
                     (*(s32 *)((u8 *)entity + 0x90)) = 0;
                 } else {
-                    (*(s16 *)((u8 *)entity + 0x92)) = floor_height - ((CL_CCB000_80170C24_S_80170C24_1 *)actor)->unk_88.u;
+                    (*(s16 *)((u8 *)entity + 0x92)) = floor_height - actor->unk_88.u;
                 }
 
                 motion->unk_14 = 0;
-                ((CL_CCB000_80170C24_S_80170C24_1 *)actor)->unk_1C |= 0x08000000;
+                actor->unk_1C |= 0x08000000;
                 (*(u8 *)((u8 *)entity + 0x9D)) = 0;
             }
-            if (((CL_CCB000_80170C24_S_80170C24_1 *)actor)->unk_1C & 0x40000000) {
-                ((CL_CCB000_80170C24_S_80170C24_1 *)actor)->unk_1C &= 0xBFFFFFFF;
+            if (actor->unk_1C & 0x40000000) {
+                actor->unk_1C &= 0xBFFFFFFF;
                 floor_height = sample_terrain_surface_height((((CL_CCB000_80170C24_S_80170C24_0 *)monster)->unk_24 << 6) | 0x20,
                                       (((CL_CCB000_80170C24_S_80170C24_0 *)monster)->unk_25 << 6) | 0x20,
-                                      (s16)(((CL_CCB000_80170C24_S_80170C24_1 *)actor)->unk_88.u - 0x20));
-                (*(s16 *)((u8 *)entity + 0x92)) += ((CL_CCB000_80170C24_S_80170C24_1 *)actor)->unk_88.u - floor_height;
-                ((CL_CCB000_80170C24_S_80170C24_1 *)actor)->unk_88.u = floor_height;
+                                      (s16)(actor->unk_88.u - 0x20));
+                (*(s16 *)((u8 *)entity + 0x92)) += actor->unk_88.u - floor_height;
+                actor->unk_88.u = floor_height;
             }
         } else {
-            ((CL_CCB000_80170C24_S_80170C24_1 *)actor)->unk_1C &= 0xF7FFFFFF;
+            actor->unk_1C &= 0xF7FFFFFF;
         }
     } else {
-        ((CL_CCB000_80170C24_S_80170C24_1 *)actor)->unk_1C &= 0xF7FFFFFF;
+        actor->unk_1C &= 0xF7FFFFFF;
     }
 
     motion->unk_0A =
-        ((CL_CCB000_80170C24_S_80170C24_1 *)actor)->unk_88.u + (*(u16 *)((u8 *)entity + 0x92));
+        actor->unk_88.u + (*(u16 *)((u8 *)entity + 0x92));
     ((CL_CCB000_80170C24_S_80170C24_0 *)monster)->unk_14 |= 0x40;
 
 }
@@ -379,7 +379,7 @@ void dispatch_block_turn_actions_slot_c(CL_CCB000_8017102C_S_8017102C_0 *state, 
     return;
    case 5: case 6: case 7:
     actor->unk_2A=get_rounded_facing_and_rounding_flag(sprite->tile.bytes.x,sprite->tile.bytes.y,reference_tile_object.tile_position.parts.tile_x,reference_tile_object.tile_position.parts.tile_y,&terrain_flags);
-    if(((CL_CCB000_8017102C_S_8017102C_3 *)primary_actor_record)->unk_9A==17) {
+    if(primary_actor_record->action_id.u==17) {
      begin_actor_spell_action(state,motion,sprite,D_8015D2EC,dispatch_block_turn_actions_slot_c);
      return;
     }
@@ -1786,9 +1786,9 @@ void draw_shaded_effect_quad_slot_c(void *quad, void *position, void *render_inf
         ((u32)packet & 0x00FFFFFF);
 
     {
-        u8 *render_state = g_game_work.draw_buffer;
-        packet = ((CL_CCB000_80173E40_S_80173E40_5 *)render_state)->unk_8D0;
-        ((CL_CCB000_80173E40_S_80173E40_5 *)render_state)->unk_8D0 = packet + 0x24;
+        CL_CCB000_80173E40_S_80173E40_5 *render_state = g_game_work.draw_buffer;
+        packet = render_state->unk_8D0;
+        render_state->unk_8D0 = packet + 0x24;
     }
 
     ((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_B0 = ((CL_CCB000_80173E40_S_80173E40_6 *)quad)->unk_44;
@@ -2051,13 +2051,13 @@ void create_segmented_effect_rings_slot_c(CL_CCB000_80174724_S_80C96F24_0 *owner
                 ((CL_CCB000_80174724_S_80C96F24_1 *)effect_data)->unk_2A = segment;
 
                 ((CL_CCB000_80174724_S_80C96F24_1 *)effect_data)->unk_2C =
-                    init_value - ((CL_CCB000_80174724_S_80C96F24_2 *)owner)->unk_A4;
+                    init_value - owner->unk_A4;
                 effect->update_callback = update_flashing_effect_segment_slot_c;
                 func_8004491C(effect, draw_linked_effect_quads_slot_c);
 
                 render_state = effect->sprite;
-                ((CL_CCB000_80174724_S_80C96F24_4 *)render_state)->unk_10 = 0x20;
-                ((CL_CCB000_80174724_S_80C96F24_4 *)render_state)->unk_14 |= 0x0C;
+                render_state->tpage_abr = 0x20;
+                render_state->flags |= 0x0C;
 
                 {
 
@@ -2071,11 +2071,11 @@ void create_segmented_effect_rings_slot_c(CL_CCB000_80174724_S_80C96F24_0 *owner
                 }
 
                 render_state = effect->sprite;
-                ((CL_CCB000_80174724_S_80C96F24_4 *)render_state)->unk_1E = 0x1000;
-                ((CL_CCB000_80174724_S_80C96F24_4 *)render_state)->unk_1C = 0x1000;
-                ((CL_CCB000_80174724_S_80C96F24_4 *)render_state)->unk_0E = 0x80;
-                ((CL_CCB000_80174724_S_80C96F24_4 *)render_state)->unk_0D = 0x80;
-                ((CL_CCB000_80174724_S_80C96F24_4 *)render_state)->unk_0C = 0x80;
+                render_state->scale_y = 0x1000;
+                render_state->scale_x = 0x1000;
+                render_state->color.c.b = 0x80;
+                render_state->color.c.g = 0x80;
+                render_state->color.c.r = 0x80;
 
                 ((CL_CCB000_80174724_S_80C96F24_3 *)effect)->unk_20 =
                     (rand() & 0x1F) + 0x10 + shade_offset;
@@ -2121,7 +2121,7 @@ void create_segmented_effect_rings_slot_c(CL_CCB000_80174724_S_80C96F24_0 *owner
                     end_angle = (angle_index + 1) << 9;
                     trig_angle = end_angle;
                     render_data = effect_data + 0x7A;
-                    ((CL_CCB000_80174724_S_80C96F24_4 *)render_state)->unk_08 = render_data;
+                    render_state->source = render_data;
 
                     product = start_radius * rcos(trig_angle);
                     start_angle = angle_index << 9;
@@ -2183,10 +2183,10 @@ void create_segmented_effect_rings_slot_c(CL_CCB000_80174724_S_80C96F24_0 *owner
 
                 segment++;
                 segment_step = segment;
-                effect_count = ((CL_CCB000_80174724_S_80C96F24_7 *)owner)->unk_A4;
+                effect_count = owner->unk_A4;
                 segment_step = segment_step < 8;
                 effect_count++;
-                ((CL_CCB000_80174724_S_80C96F24_7 *)owner)->unk_A4 = effect_count;
+                owner->unk_A4 = effect_count;
                 if (segment_step) {
                     continue;
                 }
@@ -2213,12 +2213,12 @@ void begin_block_action_23_slot_c(S_80174B3C_1 *state, void *unused_position, vo
     state->action = 0x17;
     state->action_tick = 0;
     entity->unk_6D = 0;
-    if (!(((CL_CCB000_80174B3C_S_80174B3C_2 *)(&D_80083460))->unk_02 & 0x2000) && ((has_pending_dungeon_activity(entity) << 0x10) == 0)) {
+    if (!(D_80083460.flags & 0x2000) && ((has_pending_dungeon_activity(entity) << 0x10) == 0)) {
         state->CL_CCB000_80174B3C_handler = NULL;
         state->action = 0x17;
         state->action_tick = 0;
         actor_action_reset_value = 0;
-        ((CL_CCB000_80174B3C_S_80174B3C_2 *)(&D_80083460))->unk_0A = (u16) (((CL_CCB000_80174B3C_S_80174B3C_2 *)(&D_80083460))->unk_0A + 1);
+        D_80083460.activity_counts.parts.pending_action_count = (u16) (((CL_CCB000_80174B3C_S_80174B3C_2 *)(&D_80083460))->unk_0A + 1);
     }
 }
 

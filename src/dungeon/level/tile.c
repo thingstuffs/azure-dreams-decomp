@@ -855,7 +855,7 @@ s32 can_push_adjacent_actor(S_8009ADB8_0 *facing_state, S_8009ADB8_1 *attributes
     s16 initial_height)
 {
     FacingMapCell *map;
-    u8 *map_state;
+    S_8009ADB8_2 *map_state;
     s16 height;
     s32 next_height;
     s32 direction;
@@ -865,7 +865,7 @@ s32 can_push_adjacent_actor(S_8009ADB8_0 *facing_state, S_8009ADB8_1 *attributes
     FacingMapCell *next_cell;
 
     map = ((FacingMapCell *)g_game_work.map.cells);
-    map_state = (u8 *)((FacingMapCell **)&g_game_work.map.cells);
+    map_state = (S_8009ADB8_2 *)((FacingMapCell **)&g_game_work.map.cells);
     direction = (facing_state->unk_2A >> 9) & 7;
     if (!(attributes->unk_14 & 0x100) ||
         (height = sample_terrain_surface_height(
@@ -880,7 +880,7 @@ s32 can_push_adjacent_actor(S_8009ADB8_0 *facing_state, S_8009ADB8_1 *attributes
     next_y_sum = tile_y + ((u16 *)dir_step_y)[direction];
     next_y = (s16)next_y_sum;
     next_cell = (FacingMapCell *)((uptr)((s16)(next_x +
-        (next_y << ((S_8009ADB8_2 *)map_state)->unk_14)) * 6) + (uptr)map);
+        (next_y << map_state->unk_14)) * 6) + (uptr)map);
 
     if (!(next_cell->flags & 0xB300)) {
         if (next_cell->type != 0) {

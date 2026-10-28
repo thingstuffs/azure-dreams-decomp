@@ -36,22 +36,22 @@ void restore_item_text_before_edit(void *item_object)
 {
     s32 category;
     s32 subobject_base;
-    void *object = item_object;
+    ovl_1830850_818108B8_S_800258B8_0 *object = item_object;
     ovl_1830850_818108B8_S_800258B8_1 *subobject;
 
-    subobject_base = ((ovl_1830850_818108B8_S_800258B8_0 *)object)->unk_14;
-    category = ((ovl_1830850_818108B8_S_800258B8_0 *)object)->unk_0C;
+    subobject_base = object->unk_14;
+    category = object->unk_0C;
     subobject = (void *)(subobject_base + 0x20);
     if (category != ITEM_KIND_FAMILIAR) {
         if (subobject->unk_08 != 0) {
             free_item_data_slot(category, subobject->unk_1C);
-            item_category_groups[((ovl_1830850_818108B8_S_800258B8_0 *)object)->unk_0C]
+            item_category_groups[object->unk_0C]
             .records[subobject->unk_1C].value =
                 subobject->unk_08;
             return;
         }
     }
-    strcpy(((ovl_1830850_818108B8_S_800258B8_0 *)object)->unk_88, (u8 *)object + 0x78);
+    strcpy(object->unk_88, (u8 *)object + 0x78);
 }
 
 /*
@@ -74,7 +74,7 @@ s32 inventory_check_type_four_linked_object(Rec_func_80025850_arg0 *context) {
 
     check_passed = 0;
     if (context->unk_08 == 4) {
-        check_passed = check_object_byte_pairs_content(((ovl_1830850_818109CC_S_800259CC_2 *)(((Rec_func_80025850_arg0 *)context)->unk_18))->unk_28) == 0;
+        check_passed = check_object_byte_pairs_content(((ovl_1830850_818109CC_S_800259CC_2 *)context->unk_18)->unk_28) == 0;
     }
     return check_passed;
 }

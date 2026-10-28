@@ -132,8 +132,8 @@ void process_resolved_item_value(ObjectNodeHeader *effect_state, void *motion, v
     s32 source_packet_end;
     u16 next_frame;
     u16 frame;
-    void *spawn_state;
-    void *owner_sprite;
+    ResolvedSpawn *spawn_state;
+    ResolvedSprite *owner_sprite;
     ObjectPosition *owner_motion;
     SpriteFrameState *spawn_sprite;
     void *owner;
@@ -177,30 +177,30 @@ void process_resolved_item_value(ObjectNodeHeader *effect_state, void *motion, v
         spawned = allocate_list_node(0x112, &scene_object_list_anchor.next);
         if (spawned != 0) {
             spawn_state = ((void *)spawned) + 0x20;
-            (((ResolvedSpawn *)spawn_state)->velocity_x) = (s32) (directions.v[(((ResolvedEffect *)effect_state)->direction)].x << 0x10);
-            (((ResolvedSpawn *)spawn_state)->velocity_y) = (s32) (directions.v[(((ResolvedEffect *)effect_state)->direction)].y << 0x10);
-            (((ResolvedSpawn *)spawn_state)->phase) = 0;
-            (((ResolvedSpawn *)spawn_state)->owner) = owner;
-            (((ResolvedSpawn *)spawn_state)->target) = (s32) (((ResolvedActor *)owner)->target);
-            (((ResolvedSpawn *)spawn_state)->controller) = effect_state;
-            (((ResolvedSpawn *)spawn_state)->kind) = (u8) (((ResolvedEffect *)effect_state)->kind);
-            (((ResolvedSpawn *)spawn_state)->direction) = (u16) (((ResolvedEffect *)effect_state)->direction);
-            owner_sprite = (((ObjectNodeHeader *)(owner))[-1].sprite);
-            (((ResolvedEffect *)effect_state)->tile_x) = (s8) ((((ResolvedSprite *)owner_sprite)->tile_x) + dir_step_x[((((ResolvedEffect *)effect_state)->direction) * 2)]);
-            (((ResolvedEffect *)effect_state)->tile_y) = (s8) ((((ResolvedSprite *)owner_sprite)->tile_y) + dir_step_y[((((ResolvedEffect *)effect_state)->direction) * 2)]);
+            (spawn_state->velocity_x) = (s32) (directions.v[(((ResolvedEffect *)effect_state)->direction)].x << 0x10);
+            (spawn_state->velocity_y) = (s32) (directions.v[(((ResolvedEffect *)effect_state)->direction)].y << 0x10);
+            (spawn_state->phase) = 0;
+            (spawn_state->owner) = owner;
+            (spawn_state->target) = (s32) (((ResolvedActor *)owner)->target);
+            (spawn_state->controller) = effect_state;
+            (spawn_state->kind) = (u8) (((ResolvedEffect *)effect_state)->kind);
+            (spawn_state->direction) = (u16) (((ResolvedEffect *)effect_state)->direction);
+            owner_sprite = ((ResolvedSprite *)((ObjectNodeHeader *)(owner))[-1].sprite);
+            (((ResolvedEffect *)effect_state)->tile_x) = (s8) ((owner_sprite->tile_x) + dir_step_x[((((ResolvedEffect *)effect_state)->direction) * 2)]);
+            (((ResolvedEffect *)effect_state)->tile_y) = (s8) ((owner_sprite->tile_y) + dir_step_y[((((ResolvedEffect *)effect_state)->direction) * 2)]);
             if ((((ResolvedActor *)owner)->target) != 0) {
-                (((ResolvedSpawn *)spawn_state)->target_x) = (s16) (s8) (((ResolvedActor *)owner)->tile_x);
-                (((ResolvedSpawn *)spawn_state)->target_y) = (s16) (s8) (((ResolvedActor *)owner)->tile_y);
-                (((ResolvedSpawn *)spawn_state)->origin_x) = (s16) (((ResolvedSprite *)owner_sprite)->tile_x);
-                (((ResolvedSpawn *)spawn_state)->origin_y) = (s16) (((ResolvedSprite *)owner_sprite)->tile_y);
-                (((ResolvedSpawn *)spawn_state)->has_target) = 1;
-                (((ResolvedSpawn *)spawn_state)->timer) = 0;
+                (spawn_state->target_x) = (s16) (s8) (((ResolvedActor *)owner)->tile_x);
+                (spawn_state->target_y) = (s16) (s8) (((ResolvedActor *)owner)->tile_y);
+                (spawn_state->origin_x) = (s16) (owner_sprite->tile_x);
+                (spawn_state->origin_y) = (s16) (owner_sprite->tile_y);
+                (spawn_state->has_target) = 1;
+                (spawn_state->timer) = 0;
                 set_or_clear_actor_status_slot((((ResolvedActor *)owner)->target), STATUS_DAMAGE_GUARD, (s8) (((u8) (((ResolvedEffect *)effect_state)->kind) >> 2) + 3 + (generate_random_value() & 3)));
                 packet_source = source_sprite;
             } else {
-                (((ResolvedSpawn *)spawn_state)->range) = 0x20;
-                (((ResolvedSpawn *)spawn_state)->timer) = 0;
-                (((ResolvedSpawn *)spawn_state)->has_target) = 0;
+                (spawn_state->range) = 0x20;
+                (spawn_state->timer) = 0;
+                (spawn_state->has_target) = 0;
                 packet_source = source_sprite;
             }
             source_packet_end = packet_source + 0x30;

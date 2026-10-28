@@ -45,7 +45,7 @@ extern void queue_visible_rectangle_copy(void *, void *);
 s32 apply_scratch_parameters_to_chain(void *object, MovingPosition *position, S_80099A1C_2 *offset_data)
 {
     u8 *scratch;
-    void *next_node;
+    S_80099A1C_4 *next_node;
     s32 transform_result;
 
     scratch = (u8 *)0x1F800000;
@@ -85,8 +85,8 @@ s32 apply_scratch_parameters_to_chain(void *object, MovingPosition *position, S_
         if (next_node == 0) {
             break;
         }
-        position = ((S_80099A1C_4 *)next_node)->unk_08;
-        offset_data = ((S_80099A1C_4 *)next_node)->unk_0C;
+        position = next_node->unk_08;
+        offset_data = next_node->unk_0C;
     } while (1);
     return 0;
 }

@@ -109,7 +109,7 @@ void advance_dungeon_tile_action_state(u8 *state, u8 *actor, u8 *target) {
     s32 countdown;
     u16 countdown_u;
     s32 actor_pos;
-    u8 *global;
+    S_807AE960_3 *global;
     u32 cd_mode;
     s32 table_base;
     u8 *global_end;
@@ -144,26 +144,26 @@ void advance_dungeon_tile_action_state(u8 *state, u8 *actor, u8 *target) {
         }
         remaining = (u16) ((S_807AE960_1 *)state)->unk_04.s - 1;
         ((S_807AE960_1 *)state)->unk_04.u = remaining;
-        global = (u8 *)0x80010000;
-        if (((S_807AE960_3 *)global)->unk_371A < 4U) {
+        global = (S_807AE960_3 *)0x80010000;
+        if (global->unk_371A < 4U) {
             if (remaining < 0) {
                 ((S_807AE960_1 *)state)->unk_04.s = 0;
             }
             break;
         }
-        if (((S_807AE960_3 *)global)->unk_2090 == 1) {
+        if (global->unk_2090 == 1) {
             g_dungeon_status.activity_counts.parts.pending_action_count = 1;
         }
         if (((S_807AE960_1 *)state)->unk_04.s > 0) {
             break;
         }
-        cd_mode = ((S_807AE960_3 *)global)->unk_2090;
+        cd_mode = global->unk_2090;
         if (cd_mode == 1) {
             if (read_sound_mode_blocking_status(4) != 0) {
                 ((S_807AE960_1 *)state)->unk_04.s = 0;
                 break;
             }
-            if (((S_807AE960_3 *)global)->unk_2090 == cd_mode) {
+            if (global->unk_2090 == cd_mode) {
                 g_dungeon_status.activity_counts.parts.pending_action_count = 0;
             }
         }
@@ -1458,7 +1458,7 @@ s32 update_special_actor_transition(void) {
     s32 entity_flags;
     s32 state = ((S_807B040C_1 *)entity)->unk_9B;
     SpriteFrameState *target = root->sprite;
-    u8 *entity_aux = entity;
+    S_807B040C_6 *entity_aux = (S_807B040C_6 *)entity;
     s32 direction;
     s32 dx;
     s32 dy;
@@ -1559,7 +1559,7 @@ s32 update_special_actor_transition(void) {
             }
             ((S_807B040C_1 *)entity)->unk_96.s = move_ticks;
 
-            entity_flags = ((S_807B040C_6 *)entity_aux)->unk_1C;
+            entity_flags = entity_aux->unk_1C;
             tile_x = target->tile_x;
             tile_y = target->tile_y;
             tile_flags = 0x3000;
@@ -1590,10 +1590,10 @@ s32 update_special_actor_transition(void) {
         motion[4] = ((((((S_807B040C_1 *)entity)->unk_AE.s16 << 6) + 0x20) << 16) -
                      motion[1]) /
                     ((S_807B040C_1 *)entity)->unk_96.s;
-        motion[5] = (((s16)ground_height - ((S_807B040C_6 *)entity_aux)->unk_88) << 16) /
+        motion[5] = (((s16)ground_height - entity_aux->unk_88) << 16) /
                     ((S_807B040C_1 *)entity)->unk_96.s;
-        ((S_807B040C_6 *)entity_aux)->unk_88 =
-            (u16)((S_807B040C_6 *)entity_aux)->unk_88 + ((S_807B040C_7 *)motion)->unk_16;
+        entity_aux->unk_88 =
+            (u16)entity_aux->unk_88 + ((S_807B040C_7 *)motion)->unk_16;
 
         dx = motion[3];
         motion[5] = 0;
@@ -1620,7 +1620,7 @@ s32 update_special_actor_transition(void) {
                 }
             }
         }
-        ((S_807B040C_6 *)entity_aux)->unk_2A = direction << 9;
+        entity_aux->unk_2A = direction << 9;
         ((S_807B040C_1 *)entity)->unk_96.u--;
         if ((s16)((S_807B040C_1 *)entity)->unk_96.u > 0) {
             return 0;
@@ -1768,7 +1768,7 @@ void emit_scattered_animated_particles(S_807B09A0_0 *emitter) {
             sprite->tpage_abr = 0x60;
             sprite->unk_00 = &D_800DEED0;
             sprite->flags = (u16) (sprite->flags | 0xC);
-            sprite_config = ((S_807B09A0_3 *)(&D_800DEED0))->unk_04;
+            sprite_config = D_800DEED0.source;
             sprite->unk_04 = 0;
             sprite->frame_ticks = 0;
             sprite->color.word = 0xA0A0A0;
@@ -1922,7 +1922,7 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
     u8 *scratch;
     u8 *colors;
     u8 *verts;
-    u8 *effect;
+    S_807B0B3C_1 *effect;
     s16 saved_a1 = caller_a1;
     void *saved_a2 = caller_a2;
     StackLocals stack;
@@ -1949,7 +1949,7 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
     u16 component_5;
     s32 coord;
     u8 **global_slot;
-    u8 *render_state_m;
+    S_807B0B3C_10 *render_state_m;
     u8 *bucket_ptr_m;
 
     scratch = (u8 *)0x1F800000;
@@ -1959,36 +1959,36 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
     verts = (u8 *)((u32)verts | 0x80);
     do {
         global_slot = (u8 **)(D_80083150 + 0x10);
-        effect = (u8 *)object;
+        effect = (S_807B0B3C_1 *)object;
         if ((((S_807B0B3C_0 *)object)->unk_06 >> 10) & 1) {
             u8 *vertex_pair;
-            u8 *vertex_ptr;
+            S_807B0B3C_3 *vertex_ptr;
             s32 coord_half;
 
             for (vertex_index = 0; vertex_index < 2; vertex_index++) {
                 vertex_pair = scratch + vertex_index * 0x10;
                 bucket_ptr_m = (u8 *)(vertex_index * 2);
-                coord_half = ((S_807B0B3C_1 *)effect)->unk_00.u;
+                coord_half = effect->unk_00.u;
                 stack.projection_flag = (s32)bucket_ptr_m;
                 ((S_807B0B3C_2 *)vertex_pair)->unk_08 = coord_half;
                 ((S_807B0B3C_2 *)vertex_pair)->unk_00 = coord_half;
-                vertex_ptr = vertex_pair + 8;
-                bucket_ptr_m = (u8 *)(((S_807B0B3C_1 *)effect)->unk_02.s);
+                vertex_ptr = (S_807B0B3C_3 *)(vertex_pair + 8);
+                bucket_ptr_m = (u8 *)(effect->unk_02.s);
                 if (vertex_index < 2) {
                     coord_half = (s32)bucket_ptr_m - 0x20;
-                    ((S_807B0B3C_3 *)vertex_ptr)->unk_02.v = coord_half;
+                    vertex_ptr->unk_02.v = coord_half;
                 } else {
                     coord_half = (s32)bucket_ptr_m + 0x20;
-                    ((S_807B0B3C_3 *)vertex_ptr)->unk_02.v = coord_half;
+                    vertex_ptr->unk_02.v = coord_half;
                 }
                 pair_addr = stack.projection_flag;
-                coord_half = ((S_807B0B3C_3 *)vertex_ptr)->unk_02.v;
+                coord_half = vertex_ptr->unk_02.v;
                 pair_addr <<= 3;
                 ((S_807B0B3C_2 *)vertex_pair)->unk_02 = coord_half;
-                draw_value = (u32)(((S_807B0B3C_1 *)effect)->unk_04);
+                draw_value = (u32)(effect->unk_04);
                 pair_addr += (u32)scratch;
                 ((S_807B0B3C_4 *)((u8 *)pair_addr))->unk_0C = (s32)draw_value;
-                coord_half = ((S_807B0B3C_1 *)effect)->unk_08.u16;
+                coord_half = effect->unk_08.u16;
                 frame_remainder = (s16)coord_half;
                 frame_remainder %= 5;
                 draw_value += frame_remainder;
@@ -2004,7 +2004,7 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
             second_pair = (s32)scratch + 0x10;
             pairs_end = (s32)scratch + 0x20;
     build_x_pairs:
-            bucket_ptr_m = (u8 *)(((S_807B0B3C_1 *)effect)->unk_00.s);
+            bucket_ptr_m = (u8 *)(effect->unk_00.s);
             vertex_ptr = (u8 *)pair_addr + 8;
             if (pair_addr < second_pair) {
                 caller_a1 = (s32)bucket_ptr_m - 0x20;
@@ -2015,13 +2015,13 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
             }
             caller_a1 = ((S_807B0B3C_3 *)vertex_ptr)->unk_00.v;
             ((S_807B0B3C_5 *)((u8 *)pair_addr))->unk_00 = caller_a1;
-            caller_a1 = ((S_807B0B3C_1 *)effect)->unk_02.u;
+            caller_a1 = effect->unk_02.u;
             bucket_ptr_m = (u8 *)((s32)((u32)8 + (u32)pair_addr));
             ((S_807B0B3C_6 *)((u8 *)(s32)bucket_ptr_m))->unk_02 = caller_a1;
             ((S_807B0B3C_5 *)((u8 *)pair_addr))->unk_02 = caller_a1;
-            draw_value = (u32)(((S_807B0B3C_1 *)effect)->unk_04);
+            draw_value = (u32)(effect->unk_04);
             ((S_807B0B3C_6 *)((u8 *)(s32)bucket_ptr_m))->unk_04 = (s32)draw_value;
-            caller_a1 = ((S_807B0B3C_1 *)effect)->unk_08.u16;
+            caller_a1 = effect->unk_08.u16;
             frame_remainder = (s16)caller_a1;
             frame_remainder %= 5;
             draw_value += frame_remainder;
@@ -2074,7 +2074,7 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
         ((S_807B0B3C_7 *)prim)->unk_20 = ((S_807B0B3C_8 *)verts)->unk_08;
         ((S_807B0B3C_7 *)prim)->unk_2C = ((S_807B0B3C_8 *)verts)->unk_0C;
 
-        draw_value = ((S_807B0B3C_1 *)effect)->unk_08.u16;
+        draw_value = effect->unk_08.u16;
         draw_value &= 7;
         tex_coord = (draw_value & 3) << 5;
         tex_left = tex_coord - 0x80;
@@ -2101,59 +2101,59 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
 
                 textured_offset = depth * 4;
                 prim_tag = ((S_807B0B3C_7 *)prim)->unk_00;
-                render_state_m = (u8 *)((u32)textured_offset + (u32)((RenderRootSlot *)global_slot)->root);
+                render_state_m = (S_807B0B3C_10 *)((u32)textured_offset + (u32)((RenderRootSlot *)global_slot)->root);
                 prim_tag &= 0xFF000000U;
 
-                bucket_tag = ((S_807B0B3C_9 *)render_state_m)->unk_B0;
+                bucket_tag = render_state_m->unk_B0;
 
                 ((S_807B0B3C_7 *)prim)->unk_00 = prim_tag | (bucket_tag & 0xFFFFFFU);
             }
             {
                 u8 *render_state;
-                u8 *bucket_ptr;
+                S_807B0B3C_10 *bucket_ptr;
 
                 render_state = ((RenderRootSlot *)global_slot)->root;
 
-                bucket_ptr = (u8 *)((u32)textured_offset + (unsigned long)render_state);
-                ((S_807B0B3C_10 *)bucket_ptr)->unk_B0 =
-                    (((S_807B0B3C_10 *)bucket_ptr)->unk_B0 & 0xFF000000U) |
+                bucket_ptr = (S_807B0B3C_10 *)((u32)textured_offset + (unsigned long)render_state);
+                bucket_ptr->unk_B0 =
+                    (bucket_ptr->unk_B0 & 0xFF000000U) |
                     ((u32)prim & 0xFFFFFFU);
             }
         }
 
         {
             u8 *vertex_ptr;
-            u8 *color_ptr;
+            S_807B0B3C_11 *color_ptr;
 
             for (vertex_index = 3; vertex_index >= 0; vertex_index--) {
                 vertex_ptr = scratch + vertex_index * 8;
-                color_ptr = colors + vertex_index * 4;
-                coord = ((S_807B0B3C_1 *)effect)->unk_00.s;
+                color_ptr = (S_807B0B3C_11 *)(colors + vertex_index * 4);
+                coord = effect->unk_00.s;
                 if (vertex_index < 2) {
                     ((S_807B0B3C_3 *)vertex_ptr)->unk_00.n = coord - 0x20;
                 } else {
                     ((S_807B0B3C_3 *)vertex_ptr)->unk_00.n = coord + 0x20;
                 }
-                coord = ((S_807B0B3C_1 *)effect)->unk_02.s;
+                coord = effect->unk_02.s;
                 if (vertex_index & 1) {
                     ((S_807B0B3C_3 *)vertex_ptr)->unk_02.n = coord + 0x20;
                 } else {
                     ((S_807B0B3C_3 *)vertex_ptr)->unk_02.n = coord - 0x20;
                 }
-                ((S_807B0B3C_3 *)vertex_ptr)->unk_04 = ((S_807B0B3C_1 *)effect)->unk_04;
-                tex_coord = (((S_807B0B3C_1 *)effect)->unk_08.u8 & 3) * 8;
-                ((S_807B0B3C_11 *)color_ptr)->unk_02 = tex_coord;
-                ((S_807B0B3C_11 *)color_ptr)->unk_01 = tex_coord;
-                ((S_807B0B3C_11 *)color_ptr)->unk_00 = tex_coord;
+                ((S_807B0B3C_3 *)vertex_ptr)->unk_04 = effect->unk_04;
+                tex_coord = (effect->unk_08.u8 & 3) * 8;
+                color_ptr->unk_02 = tex_coord;
+                color_ptr->unk_01 = tex_coord;
+                color_ptr->unk_00 = tex_coord;
             }
         }
 
-        coord = ((S_807B0B3C_1 *)effect)->unk_06;
+        coord = effect->unk_06;
         switch (coord) {
         case 0:
             ((S_807B0B3C_12 *)colors)->unk_08.u = 0x808080;
             ((S_807B0B3C_12 *)colors)->unk_00.u = 0x808080;
-            component = (*(u16 *)((u8 *)effect + 2));
+            component = effect->unk_02.u;
             {
                 u8 *vertex_ptr;
 
@@ -2163,7 +2163,7 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
             ((S_807B0B3C_14 *)scratch)->unk_02 = component;
             break;
         case 0x400:
-            component_2 = ((S_807B0B3C_1 *)effect)->unk_00.u;
+            component_2 = effect->unk_00.u;
             ((S_807B0B3C_12 *)colors)->unk_0C.u = 0x808080;
             ((S_807B0B3C_12 *)colors)->unk_08.u = 0x808080;
             ((S_807B0B3C_14 *)scratch)->unk_18 = component_2;
@@ -2172,7 +2172,7 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
         case 0x800:
             ((S_807B0B3C_12 *)colors)->unk_0C.u = 0x808080;
             ((S_807B0B3C_12 *)colors)->unk_04.u = 0x808080;
-            component_3 = (*(u16 *)((u8 *)effect + 2));
+            component_3 = effect->unk_02.u;
             {
                 u8 *vertex_ptr;
 
@@ -2182,7 +2182,7 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
             ((S_807B0B3C_14 *)scratch)->unk_0A = component_3;
             break;
         case 0xC00:
-            component_4 = ((S_807B0B3C_1 *)effect)->unk_00.u;
+            component_4 = effect->unk_00.u;
             ((S_807B0B3C_12 *)colors)->unk_04.u = 0x808080;
             ((S_807B0B3C_12 *)colors)->unk_00.u = 0x808080;
             ((S_807B0B3C_14 *)scratch)->unk_08 = component_4;
@@ -2236,20 +2236,20 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
                 ((S_807B0B3C_7 *)shaded_prim)->unk_20 = vertex;
                 prim_tag &= 0xFF000000U;
 
-                render_state_m = (u8 *)((u32)bucket_offset + (u32)((RenderRootSlot *)global_slot)->root);
-                bucket_tag = ((S_807B0B3C_9 *)render_state_m)->unk_B0;
+                render_state_m = (S_807B0B3C_10 *)((u32)bucket_offset + (u32)((RenderRootSlot *)global_slot)->root);
+                bucket_tag = render_state_m->unk_B0;
 
                 ((S_807B0B3C_7 *)shaded_prim)->unk_00 = prim_tag | (bucket_tag & 0xFFFFFFU);
             }
             {
                 u32 bucket_tag;
-                u8 *bucket;
+                S_807B0B3C_10 *bucket;
 
-                bucket = (u8 *)((u32)bucket_offset + (u32)((RenderRootSlot *)global_slot)->root);
-                bucket_tag = ((S_807B0B3C_10 *)bucket)->unk_B0 & 0xFF000000U;
+                bucket = (S_807B0B3C_10 *)((u32)bucket_offset + (u32)((RenderRootSlot *)global_slot)->root);
+                bucket_tag = bucket->unk_B0 & 0xFF000000U;
                 bucket_tag |= (u32)shaded_prim & 0xFFFFFFU;
 
-                (((S_807B0B3C_10 *)bucket)->unk_B0) = bucket_tag;
+                (bucket->unk_B0) = bucket_tag;
                 bucket_ptr_m = ((RenderRootSlot *)global_slot)->root;
                 page_x = draw_value;
                 draw_prim = *(u8 **)(bucket_ptr_m + 0x8D0);
@@ -2271,10 +2271,10 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
                 u32 bucket_tag;
 
                 prim_tag = ((S_807B0B3C_7 *)draw_prim)->unk_00;
-                render_state_m = (u8 *)((u32)bucket_offset + (u32)((RenderRootSlot *)global_slot)->root);
+                render_state_m = (S_807B0B3C_10 *)((u32)bucket_offset + (u32)((RenderRootSlot *)global_slot)->root);
                 prim_tag &= 0xFF000000U;
 
-                bucket_tag = ((S_807B0B3C_10 *)render_state_m)->unk_B0;
+                bucket_tag = render_state_m->unk_B0;
 
                 ((S_807B0B3C_7 *)draw_prim)->unk_00 = prim_tag | (bucket_tag & 0xFFFFFFU);
             }

@@ -315,7 +315,7 @@ retry:
             map[cell_index].value -= 0x20;
 
             copy_row_shift = config->shiftX;
-            (*(s16 *)((u8 *)entry + 6)) = map[cell_offset + (row_offset << copy_row_shift)].value;
+            entry->height = map[cell_offset + (row_offset << copy_row_shift)].value;
 
             flags_row_shift = config->shiftX;
             row_offset <<= flags_row_shift;

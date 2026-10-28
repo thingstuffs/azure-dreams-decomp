@@ -230,7 +230,7 @@ void initialize_dungeon_actor(void) {
     u8 *state;
     u8 *obj;
     u8 *entity;
-    u8 *room;
+    dungeon_setup_802835B8_S_800165B8_2 *room;
     u8 first_height;
     s16 height;
     s16 *delta_x;
@@ -248,9 +248,9 @@ void initialize_dungeon_actor(void) {
     u8 actor_y;
     u16 display_setting;
     s32 lift_height;
-    u8 *display_state;
+    dungeon_setup_802835B8_S_800165B8_8 *display_state;
     s32 bind_count;
-    u8 *bind_state;
+    DungeonGlobalStatus *bind_state;
     u8 *bind_angle;
     u8 *defaults_page;
     u16 init_flags;
@@ -276,10 +276,10 @@ void initialize_dungeon_actor(void) {
     dungeon_actor_ring_anchor = obj;
     ((dungeon_setup_802835B8_S_800165B8_1 *)obj)->unk_13 = 0;
     entity = obj;
-    room = (u8 *)&runtime_dispatch_state;
+    room = (dungeon_setup_802835B8_S_800165B8_2 *)&runtime_dispatch_state;
 
     do {
-        if (!(((dungeon_setup_802835B8_S_800165B8_2 *)room)->unk_16 & 1)) {
+        if (!(room->unk_16 & 1)) {
 retry_position:
             do {
             } while (select_dungeon_spawn_tile(&pos_x, &pos_y) < 0);
@@ -291,7 +291,7 @@ retry_position:
             if (current_dungeon_floor != 0x1F) {
                 break;
             }
-            bind_state = (u8 *)(-0x400);
+            bind_state = (DungeonGlobalStatus *)(-0x400);
             first_height = sample_terrain_surface_height((pos_x << 6) | 0x20,
                                          (pos_y << 6) | 0x20, (s32)bind_state);
             entry_index = -1;
@@ -299,7 +299,7 @@ retry_position:
             delta_y = dir_step_y;
             do {
             get_offset_map_cell_value_and_flags(pos_x, pos_y, (s16)entry_index, &flags);
-            bind_state = (u8 *)(-0x400);
+            bind_state = (DungeonGlobalStatus *)(-0x400);
             if (flags & 0x8000) {
                 goto retry_position;
             }
@@ -327,8 +327,8 @@ retry_position:
             }
             } while (entry_index < 2);
         } else {
-            pos_x = ((dungeon_setup_802835B8_S_800165B8_2 *)room)->unk_10;
-            pos_y = ((dungeon_setup_802835B8_S_800165B8_2 *)room)->unk_12;
+            pos_x = room->unk_10;
+            pos_y = room->unk_12;
         }
         call_target = actor;
     } while (0);
@@ -415,7 +415,7 @@ retry_position:
     delta_page = (u8 *)(((s32)delta_page) | (0x10));
     ((dungeon_setup_802835B8_S_800165B8_1 *)obj)->unk_A2 = (s32)delta_page;
     ((dungeon_setup_802835B8_S_800165B8_5 *)entity)->unk_14 |= ACTOR_PARTY_MEMBER;
-    bind_state = (u8 *)(0x8001020C);
+    bind_state = (DungeonGlobalStatus *)(0x8001020C);
     *(dungeon_setup_802835B8_Copy13 *)(entity + 0x34) = *(dungeon_setup_802835B8_Copy13 *)(u32)bind_state;
     ((dungeon_setup_802835B8_S_800165B8_5 *)entity)->unk_42 = 0;
     ((dungeon_setup_802835B8_S_800165B8_5 *)entity)->unk_41 = 0;
@@ -433,22 +433,22 @@ retry_position:
         display_index = *(u16 *)((u8 *)entry_index + 0x20A2);
         tile_y = ((dungeon_setup_802835B8_S_800165B8_3 *)state)->unk_25;
         display_setting = *(u16 *)((u8 *)display_table + (s16)display_index * 2);
-        bind_state = (u8 *)&g_dungeon_status;
+        bind_state = (DungeonGlobalStatus *)&g_dungeon_status;
         table_base->view.camera_rotation.parts.camera_rotation_x = display_setting;
         height_index = *(u16 *)((u8 *)entry_index + 0x20A0);
         *(u16 *)dungeon_camera_targets = display_setting;
         lift_height = *(u16 *)((u8 *)camera_depth_presets + (s16)height_index * 2);
         display_value = ((u16)table_base->view.camera_rotation.parts.camera_rotation_y);
-        display_state = dungeon_camera_targets;
-        ((dungeon_setup_802835B8_S_800165B8_8 *)display_state)->unk_04 = 0;
+        display_state = (dungeon_setup_802835B8_S_800165B8_8 *)dungeon_camera_targets;
+        display_state->unk_04 = 0;
         (*(u16 *)((u8 *)display_state + 2)) = display_value;
         dungeon_menu_action_state[0] = 0;
-        final_flags = ((DungeonGlobalStatus *)bind_state)->flags;
+        final_flags = bind_state->flags;
         *(void **)&dungeon_menu_action_state[1] = allocation;
         dungeon_menu_action_state[2] = 0;
         final_flags |= 2;
-        ((DungeonGlobalStatus *)bind_state)->flags = final_flags;
-        ((dungeon_setup_802835B8_S_800165B8_8 *)display_state)->dungeon_setup_802835B8_unk_06.s = lift_height;
+        bind_state->flags = final_flags;
+        display_state->dungeon_setup_802835B8_unk_06.s = lift_height;
         ((dungeon_setup_802835B8_S_800165B8_3 *)state)->unk_26 =
             find_active_rect_containing_point((s32)call_target, tile_y, bind_state, lift_height);
     }
@@ -458,7 +458,7 @@ retry_position:
         s32 actor_lift;
 
         call_target = actor;
-        actor_lift = ((dungeon_setup_802835B8_S_800165B8_8 *)display_state)->dungeon_setup_802835B8_unk_06.u;
+        actor_lift = display_state->dungeon_setup_802835B8_unk_06.u;
         saved_held_item_word = 0;
         held_item_record = 0;
         temporary_item_record = 0;
@@ -684,17 +684,17 @@ void clear_dungeon_state_bytes(void) {
 
 /* Clears the eight words of saved view vectors. */
 void clear_shared_state_values(void) {
-    u8 *state;
+    dungeon_setup_8028403C_S_8001703C_1 *state;
 
     ((dungeon_setup_8028403C_S_8001703C_0 *)(&saved_view_vectors))->unk_00 = 0;
-    state = (u8 *)&saved_view_vectors;
-    ((dungeon_setup_8028403C_S_8001703C_1 *)state)->unk_04 = 0;
-    ((dungeon_setup_8028403C_S_8001703C_1 *)state)->unk_08 = 0;
-    ((dungeon_setup_8028403C_S_8001703C_1 *)state)->unk_0C = 0;
-    ((dungeon_setup_8028403C_S_8001703C_1 *)state)->unk_10 = 0;
-    ((dungeon_setup_8028403C_S_8001703C_1 *)state)->unk_14 = 0;
-    ((dungeon_setup_8028403C_S_8001703C_1 *)state)->unk_18 = 0;
-    ((dungeon_setup_8028403C_S_8001703C_1 *)state)->unk_1C = 0;
+    state = (dungeon_setup_8028403C_S_8001703C_1 *)&saved_view_vectors;
+    state->unk_04 = 0;
+    state->unk_08 = 0;
+    state->unk_0C = 0;
+    state->unk_10 = 0;
+    state->unk_14 = 0;
+    state->unk_18 = 0;
+    state->unk_1C = 0;
 }
 
 /* Sets initial player properties and restores familiar records, inventory links, and saved entry tables. */

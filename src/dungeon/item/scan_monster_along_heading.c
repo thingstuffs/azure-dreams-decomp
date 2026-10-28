@@ -21,7 +21,7 @@ void *scan_actor_along_heading(EntityRec *source, s32 start_x, s32 start_y, s16 
     u16 x;
     u16 y;
     s16 height;
-    void *found;
+    S_800A05A4_1 *found;
     s32 i;
 
     found = 0;
@@ -36,7 +36,7 @@ void *scan_actor_along_heading(EntityRec *source, s32 start_x, s32 start_y, s16 
     }
     for (i = 0; i < max_steps; i++) {
         found = find_eligible_entry_at_coordinates(source, x, y);
-        if (found != 0 && abs(((S_800A05A4_1 *)found)->unk_88 - source->unk_88) <= height) {
+        if (found != 0 && abs(found->unk_88 - source->unk_88) <= height) {
             break;
         }
         if (is_map_coordinate_out_of_bounds(x + dir_step_x[dir], y + dir_step_y[dir]) != 0) {

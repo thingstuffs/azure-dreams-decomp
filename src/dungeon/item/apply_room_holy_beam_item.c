@@ -51,7 +51,7 @@ typedef struct S_800BF7FC_1 {
 s32 apply_room_holy_beam_item(void *target, DungeonItemEntry *item, s16 action, s32 action_param)
 {
     DungeonRecord *record;
-    u8 *record_obj;
+    S_800BF7FC_1 *record_obj;
     void *random_value;
     void *event_value;
     s8 record_index;
@@ -75,17 +75,17 @@ s32 apply_room_holy_beam_item(void *target, DungeonItemEntry *item, s16 action, 
             return 1;
         }
     } else {
-        record_obj = ((S_800BF7FC_0_pre *)target)[-1].unk_00;
-        record_index = ((S_800BF7FC_1 *)record_obj)->unk_26;
+        record_obj = (S_800BF7FC_1 *)((S_800BF7FC_0_pre *)target)[-1].unk_00;
+        record_index = record_obj->unk_26;
         if (record_index >= 0 && !(dungeon_rooms[record_index].flags & ROOM_HOLY_BEAM)) {
-            if (create_timed_region_flag_expiry(((S_800BF7FC_1 *)record_obj)->unk_24,
-                              ((S_800BF7FC_1 *)record_obj)->unk_25,
+            if (create_timed_region_flag_expiry(record_obj->unk_24,
+                              record_obj->unk_25,
                               ((EntityRec *)target)->unk_88,
                               item->unk_00, record_index) == 0) {
                 return 0;
             }
 
-            record = &dungeon_rooms[((S_800BF7FC_1 *)record_obj)->unk_26];
+            record = &dungeon_rooms[record_obj->unk_26];
             record->flags |= ROOM_HOLY_BEAM;
             create_view_color_flash(0x20C0C0, 1);
             random_value = get_unused_text_buffer();

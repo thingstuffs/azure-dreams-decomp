@@ -25,11 +25,11 @@ u8 *append_entity_display_text(void *record, u8 *out)
     u8 *src;
     s32 text_index;
     s32 word_offset;
-    u8 *table_page;
+    S_80099734_2 *table_page;
     u8 ch;
     do {
 
-        if ((((ActorRecord *)((u8 *)dungeon_actor_ring_anchor))->flags1C & ACTOR_BLIND) &&
+        if ((dungeon_actor_ring_anchor->flags1C & ACTOR_BLIND) &&
             ((*(u8 *)((u8 *)&((EntityRec *)record)->unk_10 + 3)) != 0)) {
             src = (u8 *)D_800DD728;
         } else if (((EntityRec *)record)->flags14 & ACTOR_PARTY_MEMBER) {
@@ -41,12 +41,12 @@ u8 *append_entity_display_text(void *record, u8 *out)
                     src = (u8 *)D_800DD728;
                     break;
                 }
-                table_page = (u8 *)0x80070000;
+                table_page = (S_80099734_2 *)0x80070000;
             } else {
-                table_page = (u8 *)0x80070000;
+                table_page = (S_80099734_2 *)0x80070000;
             }
             word_offset = text_index * 5;
-            src = ((S_80099734_3 *)((u8 *)((S_80099734_2 *)table_page)->unk_359C + word_offset * 4))->unk_04;
+            src = ((S_80099734_3 *)((u8 *)table_page->unk_359C + word_offset * 4))->unk_04;
         }
 
     } while (0);

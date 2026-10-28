@@ -25,7 +25,7 @@ void *find_monster_special_entry(s32 wanted_kind, s32 wanted_flag) {
     s32 group_80;
     s32 group_90;
     void *entries;
-    void *entry;
+    S_8009F9E8_0 *entry;
 
     entries = (void *)0x80010000;
     entry_index = *(u16 *)&monster_special_entry_index - 1;
@@ -40,10 +40,10 @@ void *find_monster_special_entry(s32 wanted_kind, s32 wanted_flag) {
         count_page = 0x80010000;
         do {
             entry = (void *)((u8 *)entries + entry_index * 2);
-            kind_group = ((S_8009F9E8_0 *)entry)->unk_01 & 0xF8;
+            kind_group = entry->unk_01 & 0xF8;
             if (kind_group == group_70 || kind_group == group_78 || kind_group == group_80 || kind_group == group_90) {
-                if (((S_8009F9E8_0 *)entry)->unk_01 == wanted_kind
-                    && (((S_8009F9E8_0 *)entry)->unk_00 & 0x20) == wanted_flag) {
+                if (entry->unk_01 == wanted_kind
+                    && (entry->unk_00 & 0x20) == wanted_flag) {
                     return entry;
                 }
             } else {

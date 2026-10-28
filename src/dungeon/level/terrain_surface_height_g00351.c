@@ -79,7 +79,7 @@ s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height) {
                             (unsigned long)(primitive->next * sizeof(Vertex)) +
                             (unsigned long)normals);
                         Vertex *vertex = (Vertex *)(
-                            (unsigned long)((*(u16 *)((u8 *)primitive + 0)) * sizeof(Vertex)) +
+                            (unsigned long)(primitive->v0 * sizeof(Vertex)) +
                             (unsigned long)vertices);
                         s32 delta_x = (s16)vertex->x - (s16)*(u16 *)&work->x;
                         s32 delta_y = (s16)vertex->y - (s16)*(u16 *)&work->y;

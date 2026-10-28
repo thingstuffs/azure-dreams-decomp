@@ -40,7 +40,7 @@ void create_timed_paired_particle_emitter(ObjectPosition *source, s32 effect_par
     s32 init_value;
     ObjectPosition *components;
     DungeonGlobalStatus *status;
-    u8 *state;
+    S_800C4AFC_0 *state;
     u8 *effect;
     u16 component_x;
     u16 component_y;
@@ -59,21 +59,21 @@ void create_timed_paired_particle_emitter(ObjectPosition *source, s32 effect_par
     effect -= 0x10;
     draw_textured_ellipse(effect, effect_init, 1, 0);
 
-    state = (u8 *)object + 0x20;
-    ((S_800C4AFC_0 *)state)->unk_02 = 0x40;
+    state = (S_800C4AFC_0 *)((u8 *)object + 0x20);
+    state->unk_02 = 0x40;
     object->update_callback = (void *)tick_paired_particle_emitter;
     components = object->position;
     component_x = (u16)source->x.w.i;
     components->x.w.i = component_x;
-    ((S_800C4AFC_0 *)state)->unk_20 = component_x;
+    state->unk_20 = component_x;
     component_y = (u16)source->y.w.i;
     components->y.w.i = component_y;
-    ((S_800C4AFC_0 *)state)->unk_22 = component_y;
+    state->unk_22 = component_y;
     component_z = (u16)source->z.w.i;
     components->z.w.i = component_z;
-    ((S_800C4AFC_0 *)state)->unk_24 = component_z;
-    ((S_800C4AFC_0 *)state)->unk_1C = source;
-    ((S_800C4AFC_0 *)state)->unk_28 = state_param;
+    state->unk_24 = component_z;
+    state->unk_1C = source;
+    state->unk_28 = state_param;
     play_sound_if_enabled(0x702);
     status = &g_dungeon_status;
     (*(u16 *)&status->activity_counts.parts.pending_action_count)++;

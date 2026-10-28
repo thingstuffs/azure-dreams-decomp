@@ -261,7 +261,7 @@ s32 select_floor_item_with_special_overrides(s8 *out_group, s8 *out_index, s32 u
 
 /* Sets an item's parameter and flags from category-specific random rolls. */
 void init_random_floor_item_parameters(void *entity_data) {
-    u8 *entity = entity_data;
+    floor_spawns_isolated_8028B824_S_8001E824_0 *entity = entity_data;
     s16 output_flags;
     s16 combined_flags;
     s16 output_value;
@@ -270,18 +270,18 @@ void init_random_floor_item_parameters(void *entity_data) {
     u8 case_value;
 
     output_flags = 0;
-    case_value = ((floor_spawns_isolated_8028B824_S_8001E824_0 *)entity)->unk_01;
+    case_value = entity->unk_01;
     output_value = output_flags;
     switch (case_value) {
     case ITEM_KIND_BALL:
         output_value = 1;
-        if (((floor_spawns_isolated_8028B824_S_8001E824_0 *)entity)->unk_00 != ITEM_ACID_RAIN_BALL) {
+        if (entity->unk_00 != ITEM_ACID_RAIN_BALL) {
             output_value = (generate_random_value() & 7) | 4;
         }
         output_flags = -0x80;
         break;
     case ITEM_KIND_SWORD:
-        if (((floor_spawns_isolated_8028B824_S_8001E824_0 *)entity)->unk_00 == ITEM_DARK_SWORD) {
+        if (entity->unk_00 == ITEM_DARK_SWORD) {
             output_flags |= 0x40;
         }
     case ITEM_KIND_SHIELD:
@@ -309,8 +309,8 @@ void init_random_floor_item_parameters(void *entity_data) {
     default:
         break;
     }
-    ((floor_spawns_isolated_8028B824_S_8001E824_0 *)entity)->unk_02 = output_value;
-    ((floor_spawns_isolated_8028B824_S_8001E824_0 *)entity)->unk_03 = output_flags;
+    entity->unk_02 = output_value;
+    entity->unk_03 = output_flags;
 }
 
 /* Clears the 64 words of dungeon_ground_items in reverse order. */
@@ -583,7 +583,7 @@ void generate_random_dungeon_item_drops(void)
                                             (unsigned long)cell_base);
             cell->x = x;
             cell->y = y;
-            ((floor_spawns_isolated_8028BC54_DungeonCell *)cell)->height = get_surface_height_at_coordinates((x << 6) | 32, (y << 6) | 32);
+            cell->height = get_surface_height_at_coordinates((x << 6) | 32, (y << 6) | 32);
             cell->flag7 = 0;
             cycle_map_cell_flags(x, y, TILE_HAS_ITEM);
             cell->object = get_item_category_value((void *)entry);
@@ -599,7 +599,7 @@ void generate_random_dungeon_item_drops(void)
 void restore_spawns_and_place_floor_traps(void) {
     u8 x;
     u8 y;
-    u8 *floor_config;
+    floor_spawns_isolated_8028BF0C_S_8001EF0C_1 *floor_config;
     floor_spawns_isolated_8028BF0C_SpawnPosition *position;
     floor_spawns_isolated_8028BF0C_SpawnMeta *meta;
     s32 *limits;
@@ -659,11 +659,11 @@ void restore_spawns_and_place_floor_traps(void) {
         slot++;
     } while (slot < 0x20);
 
-    floor_config = (u8 *)floor_generation_state;
-    if (((floor_spawns_isolated_8028BF0C_S_8001EF0C_1 *)floor_config)->unk_06 == 1) {
+    floor_config = (floor_spawns_isolated_8028BF0C_S_8001EF0C_1 *)floor_generation_state;
+    if (floor_config->unk_06 == 1) {
         spawn_limit = (generate_random_value() & 3) + 4;
     } else {
-        spawn_limit = ((floor_spawns_isolated_8028BF0C_S_8001EF0C_1 *)floor_config)->unk_06 / 2 + (generate_random_value() & 3);
+        spawn_limit = floor_config->unk_06 / 2 + (generate_random_value() & 3);
     }
     if (spawn_limit >= 0x21) {
         spawn_limit = 0x20;
