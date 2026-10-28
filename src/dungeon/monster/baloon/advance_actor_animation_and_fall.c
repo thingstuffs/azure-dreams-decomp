@@ -48,7 +48,7 @@ void advance_actor_animation_and_fall(ActorRecord *action, ObjectPosition *motio
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
         }
-        if (((S_801737F8_0 *)action)->unk_92.s !=
+        if (action->unk_90.parts.high.s !=
             (s16)(sample_terrain_surface_height(((u16) motion->x.w.i),
                                 ((u16) motion->y.w.i),
                                 (s16)(((u16)actor->ground_height) - 0x20)) -
@@ -65,23 +65,23 @@ void advance_actor_animation_and_fall(ActorRecord *action, ObjectPosition *motio
         select_sprite_entry(sprite,
             D_800E2380[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        ((S_801737F8_0 *)action)->unk_96.u = 0;
+        action->action_timer.u = 0;
         action->action_phase.u++;
         return;
 
     case 2:
         {
             s32 duration = 10;
-            u16 timer = ((S_801737F8_0 *)action)->unk_96.u + 1;
+            u16 timer = action->action_timer.u + 1;
 
-            ((S_801737F8_0 *)action)->unk_96.u = timer;
+            action->action_timer.u = timer;
             if ((s16)timer == duration || (sprite->flags & 0x8000)) {
                 resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
-                ((S_801737F8_0 *)action)->unk_96.u = duration;
+                action->action_timer.u = duration;
                 action->action_phase.u++;
                 sprite->flags |= 0x0800;
             }
-            if (((S_801737F8_0 *)action)->unk_96.s == 9) {
+            if (action->action_timer.s == 9) {
                 play_sound_if_enabled(0x809);
                 return;
             }
@@ -89,10 +89,10 @@ void advance_actor_animation_and_fall(ActorRecord *action, ObjectPosition *motio
         }
 
     case 3:
-        if (((S_801737F8_0 *)action)->unk_96.s > 0) {
-            u16 timer = ((S_801737F8_0 *)action)->unk_96.u - 1;
+        if (action->action_timer.s > 0) {
+            u16 timer = action->action_timer.u - 1;
 
-            ((S_801737F8_0 *)action)->unk_96.u = timer;
+            action->action_timer.u = timer;
             if ((timer << 16) != 0) {
                 return;
             }
@@ -105,8 +105,8 @@ void advance_actor_animation_and_fall(ActorRecord *action, ObjectPosition *motio
             return;
         }
 
-        if (((S_801737F8_0 *)action)->unk_92.s >= -0x1F) {
-            ((S_801737F8_0 *)action)->unk_92.u -= 4;
+        if (action->unk_90.parts.high.s >= -0x1F) {
+            action->unk_90.parts.high.u -= 4;
             return;
         }
         action->action_phase.u++;
@@ -115,7 +115,7 @@ void advance_actor_animation_and_fall(ActorRecord *action, ObjectPosition *motio
             return;
         }
         spend_actor_mp(actor, 0x100);
-        ((S_801737F8_0 *)action)->unk_8C = update_actor_turn_behavior;
+        action->unk_8C.address = update_actor_turn_behavior;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;

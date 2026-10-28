@@ -85,7 +85,7 @@ void advance_encounter_actor_effect_phase(void *effect, S_8016FC4C_6 *entity, Sp
     u16 angle;
     u8 phase;
     S_8016FC4C_4 *heading;
-    void *linked_entity;
+    SpriteLinkPrefixView *linked_entity;
     S_8016FC4C_2 *linked_object;
     void *link_slot;
     void *shrink_source;
@@ -102,7 +102,7 @@ void advance_encounter_actor_effect_phase(void *effect, S_8016FC4C_6 *entity, Sp
     do {
         linked_entity = ((S_8016FC4C_0 *)link_slot)->unk_AC;
         if (linked_entity != NULL) {
-            linked_object = ((SpriteLinkPrefixView *)linked_entity)[-1].sprite;
+            linked_object = linked_entity[-1].sprite;
             linked_object->unk_14 = (u16)(linked_object->unk_14 & 0xFFBF);
         }
         count -= 1;

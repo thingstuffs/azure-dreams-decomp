@@ -32,7 +32,7 @@ void advance_actor_animation_and_restore(ActorRecord *action, ObjectPosition *ac
     s32 state;
 
     state = action->action_phase.u;
-    ((S_801726D4_0 *)action)->unk_96--;
+    action->action_timer.u--;
     switch (state) {
     case 0:
         if (sprite->flags & 0x8000) {
@@ -62,7 +62,7 @@ void advance_actor_animation_and_restore(ActorRecord *action, ObjectPosition *ac
         if (sprite->flags & 0xE000) {
             set_record_integer_tile_center(actor_id, sprite->tile_x, sprite->tile_y);
             spend_actor_mp(actor, 0x100);
-            ((S_801726D4_0 *)action)->unk_8C = &ifrit_action_resume_address;
+            action->unk_8C.address = &ifrit_action_resume_address;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             if (actor->pending_turn_updates == 0) {

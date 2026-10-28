@@ -79,13 +79,13 @@ extern u8 ghosh_frame_set_2[];
 /* Update actor direction, copy linked output state, and propagate status flags. */
 void update_boss_actor_direction_state(void *actor_data, void *output_data, void *context_data)
 {
-    u8 *actor;
+    S_80172610_0 *actor;
     MovingPosition *output;
     u8 *context;
     u8 *owner;
     u8 *base;
     register u8 *saved_base;
-    u8 *linked;
+    S_80172610_3 *linked;
     MovingPosition *source;
     s32 facing_index;
     s32 direction_index;
@@ -100,13 +100,13 @@ void update_boss_actor_direction_state(void *actor_data, void *output_data, void
     actor = actor_data;
     output = output_data;
     context = context_data;
-    owner = ((S_80172610_0 *)actor)->unk_AC;
-    linked = ((S_80172610_1 *)owner)->unk_0C;
+    owner = actor->unk_AC;
+    linked = (S_80172610_3 *)((S_80172610_1 *)owner)->unk_0C;
     source = ((S_80172610_1 *)owner)->unk_08;
     base = owner + 0x20;
     saved_base = base;
 
-    if (((S_80172610_0 *)actor)->unk_9A != 0) {
+    if (actor->unk_9A != 0) {
         return;
     }
 
@@ -115,38 +115,38 @@ void update_boss_actor_direction_state(void *actor_data, void *output_data, void
         advance_sprite_animation_and_textures(context);
     }
 
-    if (((S_80172610_3 *)linked)->unk_2C == ghosh_frame_set_2) {
+    if (linked->unk_2C == ghosh_frame_set_2) {
         advance_sprite_animation_and_textures(context);
         advance_sprite_animation_and_textures(context);
     }
 
-    old_angle = ((S_80172610_0 *)actor)->unk_2A;
+    old_angle = actor->unk_2A;
     new_angle = ((S_80172610_2 *)base)->unk_2A.s;
     new_angle_bits = ((S_80172610_2 *)base)->unk_2A.u;
     if (old_angle != new_angle) {
-        (*(u16 *)((u8 *)actor + 0x2A)) = new_angle_bits;
+        actor->unk_2A = new_angle_bits;
         facing_index = ((g_game_work.view.camera_rotation.parts.viewAngle + new_angle + 0x100) >> 9) & 7;
         select_sprite_entry(context, (*(u8 *)((u8 *)(((S_80172610_4 *)context)->unk_2C) + facing_index)), 0);
     }
 
-    direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172610_0 *)actor)->unk_2A + 0x100) >> 9) & 7;
+    direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7;
     direction_short = direction_index;
-    if (((S_80172610_0 *)actor)->unk_94.s != direction_short) {
+    if (actor->unk_94.s != direction_short) {
         select_sprite_entry(context, (*(u8 *)((u8 *)(((S_80172610_4 *)context)->unk_2C) + direction_short)), 0);
-        ((S_80172610_0 *)actor)->unk_94.u = direction_index;
+        actor->unk_94.u = direction_index;
     }
 
-    ((S_80172610_4 *)context)->unk_14 = ((S_80172610_3 *)linked)->unk_14;
+    ((S_80172610_4 *)context)->unk_14 = linked->unk_14;
     output->x = source->x;
     output->y = source->y;
     output->z = source->z;
 
-    effect_index = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172610_0 *)actor)->unk_2A + 0x100) >> 9) & 7;
+    effect_index = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7;
     effect = view_direction_depth_biases[effect_index];
     ((S_80172610_4 *)context)->unk_06 = effect << 2;
-    ((S_80172610_4 *)context)->unk_1C = ((S_80172610_3 *)linked)->unk_1C;
-    ((S_80172610_4 *)context)->unk_1E = ((S_80172610_3 *)linked)->unk_1E;
-    ((S_80172610_4 *)context)->unk_12 = ((S_80172610_3 *)linked)->unk_12;
+    ((S_80172610_4 *)context)->unk_1C = linked->unk_1C;
+    ((S_80172610_4 *)context)->unk_1E = linked->unk_1E;
+    ((S_80172610_4 *)context)->unk_12 = linked->unk_12;
 
     if (((S_80172610_1 *)owner)->unk_1E & 0x8000) {
         (*(u16 *)((u8 *)actor + -2)) |= NODE_REMOVE;
@@ -154,10 +154,10 @@ void update_boss_actor_direction_state(void *actor_data, void *output_data, void
     }
 
     if (((S_80172610_8 *)saved_base)->unk_9A == 0x13) {
-        ((S_80172610_0 *)actor)->unk_9A++;
+        actor->unk_9A++;
         (*(u16 *)((u8 *)actor + -2)) |= 0x8000;
         global_flags = object_flag_block.flags;
-        ((S_80172610_0 *)actor)->unk_96 = 0;
+        actor->unk_96 = 0;
         object_flag_block.flags = global_flags | 0x8000;
     }
 }

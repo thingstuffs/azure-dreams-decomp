@@ -49,7 +49,7 @@ void update_multi_form_actor_behavior(ActorRecord *context, ObjectPosition *call
         current_table = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
         current_table--;
         g_dungeon_status.activity_counts.parts.pending_action_count = current_table;
-        kind = ((S_8016D0FC_0 *)context)->unk_AC;
+        kind = context->unk_AC.byte;
         if (kind == 0xE || (kind < 0xF ? kind == 0xD : kind == 0xF)) {
             (object_arg->frameTable) = beldo_large_frame_set_4;
             direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + actor_arg->facing + 0x100) >> 9;
@@ -58,7 +58,7 @@ void update_multi_form_actor_behavior(ActorRecord *context, ObjectPosition *call
         context->action_phase.u++;
         return;
     case 1:
-        kind = ((S_8016D0FC_0 *)context)->unk_AC;
+        kind = context->unk_AC.byte;
         if (kind == 0xE || (kind < 0xF ? kind == 0xD : kind == 0xF)) {
             current_table = object_arg->frameTable;
             expected_table = beldo_large_frame_set_4;
@@ -70,7 +70,7 @@ void update_multi_form_actor_behavior(ActorRecord *context, ObjectPosition *call
         }
         object = object_arg;
         if (actor_arg->mp_value.parts.whole != 0) {
-            kind = ((S_8016D0FC_0 *)context)->unk_AC;
+            kind = context->unk_AC.byte;
             if (kind == 0xE || (kind < 0xF ? kind == 0xD : kind == 0xF)) {
                 (object->frameTable) = beldo_large_frame_set_7;
                 select_sprite_entry(object,
@@ -106,7 +106,7 @@ void update_multi_form_actor_behavior(ActorRecord *context, ObjectPosition *call
             return;
         }
         if ((has_pending_actor_or_turn_action(actor_arg) << 16) != 0) {
-            if ((check_entity_relation(actor_arg, ((ActorRecord *)((u8 *)primary_actor_record))->previous_actor_header + 0x20) << 16) != 0) {
+            if ((check_entity_relation(actor_arg, primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
                 return;
             }
         }
@@ -115,7 +115,7 @@ void update_multi_form_actor_behavior(ActorRecord *context, ObjectPosition *call
         if (actor_arg->mp_value.parts.whole == 0) {
             return;
         }
-        kind = ((S_8016D0FC_0 *)context)->unk_AC;
+        kind = context->unk_AC.byte;
         if (kind == 0xE || (kind < 0xF ? kind == 0xD : kind == 0xF)) {
             (object->frameTable) = beldo_large_frame_set_7;
             select_sprite_entry(object,
@@ -131,7 +131,7 @@ void update_multi_form_actor_behavior(ActorRecord *context, ObjectPosition *call
             current_table = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
             current_table--;
             g_dungeon_status.activity_counts.parts.pending_action_count = current_table;
-            ((S_8016D0FC_0 *)context)->unk_8C = beldo_large_action_resume_address;
+            context->unk_8C.address = beldo_large_action_resume_address;
         }
         return;
     }

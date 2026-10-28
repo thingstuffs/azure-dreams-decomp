@@ -96,11 +96,11 @@ void advance_actor_action_and_refresh_animation(ActorRecord *actor, ObjectPositi
             }
             if (actor_flags & 0x80000) {
                 begin_actor_move_to_target_facing(actor, context, render_record, actor_state);
-                value = ((S_80173E50_0 *)actor)->unk_92;
-                value_offset = ((S_80173E50_0 *)actor)->unk_A2;
-                ((S_80173E50_0 *)actor)->unk_A2 = 0;
-                ((S_80173E50_0 *)actor)->unk_9E = 0;
-                ((S_80173E50_0 *)actor)->unk_92 = value - value_offset;
+                value = actor->unk_90.parts.high.u;
+                value_offset = actor->unk_A0.parts.high;
+                actor->unk_A0.parts.high = 0;
+                actor->unk_9E.s = 0;
+                actor->unk_90.parts.high.u = value - value_offset;
                 update_actor_state_after_map_check(actor, context, render_record, actor_state);
                 return;
             }
@@ -147,7 +147,7 @@ void advance_actor_action_and_refresh_animation(ActorRecord *actor, ObjectPositi
             0);
         (*(u32 *)&actor_state->flags1C) |= 0x40000;
         if (render_record->flags & 0x8000) {
-            ((S_80173E50_0 *)actor)->unk_8C = kewne_action_resume_address;
+            actor->unk_8C.address = kewne_action_resume_address;
             return;
         }
         actor->action_phase.u++;
@@ -160,7 +160,7 @@ void advance_actor_action_and_refresh_animation(ActorRecord *actor, ObjectPositi
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
 
-        ((S_80173E50_0 *)actor)->unk_8C = kewne_action_resume_address;
+        actor->unk_8C.address = kewne_action_resume_address;
         return;
     }
 }

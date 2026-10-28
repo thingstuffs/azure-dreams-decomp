@@ -123,8 +123,8 @@ void update_actor_behavior_from_position(ActorRecord *actor, ObjectPosition *con
                         reset_anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
                     sprite->frame_ticks = 1;
-                    ((S_801590EC_0 *)actor)->unk_A2.s = 0;
-                    ((S_801590EC_0 *)actor)->unk_9E = 0;
+                    actor->unk_A0.parts.high = 0;
+                    actor->unk_9E.s = 0;
                 }
             } else {
                 anim_table = D_8015DE40;
@@ -134,8 +134,8 @@ void update_actor_behavior_from_position(ActorRecord *actor, ObjectPosition *con
                         anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
                     sprite->frame_ticks = 1;
-                    ((S_801590EC_0 *)actor)->unk_A2.s = 0;
-                    ((S_801590EC_0 *)actor)->unk_9E = 0;
+                    actor->unk_A0.parts.high = 0;
+                    actor->unk_9E.s = 0;
                 }
             }
         }
@@ -153,10 +153,10 @@ void update_actor_behavior_from_position(ActorRecord *actor, ObjectPosition *con
             s16 position_delta;
 
             begin_actor_move_to_target_facing(actor, context, sprite, entity);
-            position_delta = ((S_801590EC_0 *)actor)->unk_92.u - ((S_801590EC_0 *)actor)->unk_A2.u;
-            ((S_801590EC_0 *)actor)->unk_A2.s = 0;
-            ((S_801590EC_0 *)actor)->unk_9E = 0;
-            ((S_801590EC_0 *)actor)->unk_92.s = position_delta;
+            position_delta = actor->unk_90.parts.high.u - actor->unk_A0.parts.high;
+            actor->unk_A0.parts.high = 0;
+            actor->unk_9E.s = 0;
+            actor->unk_90.parts.high.s = position_delta;
             func_8015C574(actor, context, sprite, entity);
             return;
         }

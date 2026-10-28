@@ -122,8 +122,8 @@ void update_actor_turn_behavior(ActorRecord *motion_arg, ObjectPosition *actor_i
                     ((u8 *)anim_table)[((g_game_work.view.camera_rotation.parts.viewAngle + move_data->facing + 0x100) >> 9) & 7],
                     0);
                 actor_arg->frame_ticks = 1;
-                ((S_80171F1C_0 *)motion_arg)->unk_A2.s = 0;
-                ((S_80171F1C_0 *)motion_arg)->unk_9E = 0;
+                motion_arg->unk_A0.parts.high = 0;
+                motion_arg->unk_9E.s = 0;
             }
         }
 
@@ -140,10 +140,10 @@ void update_actor_turn_behavior(ActorRecord *motion_arg, ObjectPosition *actor_i
             s16 base_height;
 
             begin_actor_move_to_target_facing(motion_arg, actor_index_arg, actor_arg, move_data);
-            base_height = ((S_80171F1C_0 *)motion_arg)->unk_92.u - ((S_80171F1C_0 *)motion_arg)->unk_A2.u;
-            ((S_80171F1C_0 *)motion_arg)->unk_A2.s = 0;
-            ((S_80171F1C_0 *)motion_arg)->unk_9E = 0;
-            ((S_80171F1C_0 *)motion_arg)->unk_92.s = base_height;
+            base_height = motion_arg->unk_90.parts.high.u - motion_arg->unk_A0.parts.high;
+            motion_arg->unk_A0.parts.high = 0;
+            motion_arg->unk_9E.s = 0;
+            motion_arg->unk_90.parts.high.s = base_height;
             func_8017531C(motion_arg, actor_index_arg, actor_arg, move_data);
             return;
         }

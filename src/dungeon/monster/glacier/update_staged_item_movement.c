@@ -30,7 +30,7 @@ void update_staged_item_movement(ActorRecord *action, ObjectPosition *motion, Sp
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(actor);
-        ((S_80173730_0 *)action)->unk_96.u = 4;
+        action->action_timer.u = 4;
         action->action_phase.u++;
         if (actor->hp == 0) {
             motion->velocity_z = 0;
@@ -42,13 +42,13 @@ void update_staged_item_movement(ActorRecord *action, ObjectPosition *motion, Sp
         if (!(target->flags & 0x8000)) {
             return;
         }
-        ((S_80173730_0 *)action)->unk_96.u = 0;
+        action->action_timer.u = 0;
         action->action_phase.u = 3;
         return;
 
     case 1:
-        timer = ((S_80173730_0 *)action)->unk_96.u - 1;
-        ((S_80173730_0 *)action)->unk_96.u = timer;
+        timer = action->action_timer.u - 1;
+        action->action_timer.u = timer;
         if (timer > 0) {
             motion->velocity_x =
                 *(s16 *)(((s8 *)dir_step_x) +
@@ -67,7 +67,7 @@ void update_staged_item_movement(ActorRecord *action, ObjectPosition *motion, Sp
         motion->velocity_y =
             *(s16 *)(((s8 *)dir_step_y) +
                 ((actor->movement_facing >> 8) & 0xE)) << 18;
-        ((S_80173730_0 *)action)->unk_96.u = 12;
+        action->action_timer.u = 12;
         action->action_phase.u++;
         return;
 
@@ -80,7 +80,7 @@ void update_staged_item_movement(ActorRecord *action, ObjectPosition *motion, Sp
             return;
         }
         {
-            s16 motion_timer = ((S_80173730_0 *)action)->unk_96.s;
+            s16 motion_timer = action->action_timer.s;
 
             if (motion_timer != 0) {
                 {
@@ -95,14 +95,14 @@ void update_staged_item_movement(ActorRecord *action, ObjectPosition *motion, Sp
                     s32 current_y = motion->y.w.i - 0x20;
 
                     motion->velocity_y = ((target_y - current_y) << 16)
-                    / ((S_80173730_0 *)action)->unk_96.s;
+                    / action->action_timer.s;
                 }
             }
         }
         {
-            u16 countdown = ((S_80173730_0 *)action)->unk_96.u;
+            u16 countdown = action->action_timer.u;
 
-            ((S_80173730_0 *)action)->unk_96.u = countdown - 1;
+            action->action_timer.u = countdown - 1;
             if ((countdown << 16) > 0) {
                 return;
             }
@@ -126,7 +126,7 @@ void update_staged_item_movement(ActorRecord *action, ObjectPosition *motion, Sp
         if (entity_addr == (s32)((u8 *)actor - 0x20)) {
             g_dungeon_status.pending_display_owner = entity_addr & 0x7FFFFFFF;
         }
-        ((S_80173730_0 *)action)->unk_8C = update_actor_timed_effects;
+        action->unk_8C.address = update_actor_timed_effects;
     }
         return;
     }

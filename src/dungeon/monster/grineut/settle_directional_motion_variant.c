@@ -50,7 +50,7 @@ void settle_directional_motion_variant(ActorRecord *action, ObjectPosition *moti
             return;
         }
         if (sprite->flags & 0x8000) {
-            ((S_8016D238_1 *)action)->unk_96.s = 0;
+            action->action_timer.s = 0;
             action->action_phase.u = 3;
             return;
         }
@@ -60,7 +60,7 @@ void settle_directional_motion_variant(ActorRecord *action, ObjectPosition *moti
         } else {
             timer = -1;
         }
-        ((S_8016D238_1 *)action)->unk_96.s = timer;
+        action->action_timer.s = timer;
 
         motion->velocity_x -= motion->velocity_x / 4;
         motion->velocity_y -= motion->velocity_y / 4;
@@ -69,13 +69,13 @@ void settle_directional_motion_variant(ActorRecord *action, ObjectPosition *moti
         motion->velocity_x -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
         motion->velocity_y -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
 
-        if (((S_8016D238_1 *)action)->unk_96.s > 0) {
-            ((S_8016D238_1 *)action)->unk_96.s = ((S_8016D238_1 *)action)->unk_96.u - 1;
+        if (action->action_timer.s > 0) {
+            action->action_timer.s = action->action_timer.u - 1;
         } else if (sprite->flags & 0x6000) {
-            ((S_8016D238_1 *)action)->unk_96.s = 0;
+            action->action_timer.s = 0;
         }
 
-        if (((S_8016D238_1 *)action)->unk_96.s != 0) {
+        if (action->action_timer.s != 0) {
             return;
         }
         if (actor->hp == 0) {
@@ -106,12 +106,12 @@ void settle_directional_motion_variant(ActorRecord *action, ObjectPosition *moti
             sprite,
             grineut_frame_set_12[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        ((S_8016D238_1 *)action)->unk_96.s = 8;
+        action->action_timer.s = 8;
         action->action_phase.u++;
         return;
 
     case 3:
-        timer = ((S_8016D238_1 *)action)->unk_96.s;
+        timer = action->action_timer.s;
         if (timer != 0) {
             {
                 s32 target_x = sprite->tile_x << 6;
@@ -122,12 +122,12 @@ void settle_directional_motion_variant(ActorRecord *action, ObjectPosition *moti
                 s32 target_y = sprite->tile_y << 6;
                 s32 current_y = motion->y.w.i - 0x20;
                 motion->velocity_y =
-                    ((target_y - current_y) << 15) / ((S_8016D238_1 *)action)->unk_96.s;
+                    ((target_y - current_y) << 15) / action->action_timer.s;
             }
         }
 
-        timer = ((S_8016D238_1 *)action)->unk_96.u - 1;
-        ((S_8016D238_1 *)action)->unk_96.s = timer;
+        timer = action->action_timer.u - 1;
+        action->action_timer.s = timer;
         if ((s32)(timer << 16) > 0) {
             return;
         }
@@ -143,7 +143,7 @@ void settle_directional_motion_variant(ActorRecord *action, ObjectPosition *moti
         if (tracked_actor == (s32)((u8 *)actor - 0x20)) {
             g_dungeon_status.pending_display_owner = tracked_actor & 0x7FFFFFFF;
         }
-        ((S_8016D238_1 *)action)->unk_8C = &grineut_slot_f_action_callback;
+        action->unk_8C.address = &grineut_slot_f_action_callback;
 
         return;
     default:

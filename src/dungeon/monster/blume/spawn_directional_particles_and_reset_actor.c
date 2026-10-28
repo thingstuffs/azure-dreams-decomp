@@ -108,17 +108,17 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
 
     velocity_table = *(PackedTable *)blume_slot_g_direction_steps;
 
-    switch (((S_80174BEC_0 *)state)->unk_9B) {
+    switch (state->action_phase.u) {
     case 0:
         source_pos->velocity_z = 0;
         source_pos->velocity_y = 0;
         source_pos->velocity_x = 0;
-        ((S_80174BEC_0 *)state)->unk_96.s = 0;
-        ((S_80174BEC_0 *)state)->unk_9B++;
+        state->action_timer.u = 0;
+        state->action_phase.u++;
         source_render->flags &= 0x9FFF;
 
     case 1:
-        frame = ((S_80174BEC_0 *)state)->unk_96.u;
+        frame = state->action_timer.s;
         if (frame == 0 || frame == 7) {
             s16 particle_index;
 
@@ -146,17 +146,17 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
                         s32 position_y;
                         ObjectPosition *position;
                         SpriteFrameState *render;
-                        u8 *motion;
+                        S_80174BEC_3 *motion;
                         u8 *copy_src;
                         u8 *copy_dst;
                         u8 *copy_end;
                         u8 animation;
-                        void *map;
+                        S_80174BEC_7 *map;
                         u32 direction_offset;
 
-                        motion = (u8 *)particle + 0x20;
-                        ((S_80174BEC_3 *)motion)->unk_96 = 0x28 - ((S_80174BEC_0 *)state)->unk_96.s;
-                        ((S_80174BEC_3 *)motion)->unk_9B = 0;
+                        motion = (S_80174BEC_3 *)((u8 *)particle + 0x20);
+                        motion->unk_96 = 0x28 - state->action_timer.u;
+                        motion->unk_9B = 0;
                         render = particle->sprite;
                         particle->update_callback = update_damped_height_effect;
 
@@ -176,12 +176,12 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
                         select_sprite_entry(render, animation, 0);
 
                         position = particle->position;
-                        ((MovingPosition *)position)->x = ((u16)source_pos->x.w.i);
-                        ((MovingPosition *)position)->y = ((u16)source_pos->y.w.i);
-                        ((MovingPosition *)position)->z = ((u16)source_pos->z.w.i);
+                        position->x.w.i = ((u16)source_pos->x.w.i);
+                        position->y.w.i = ((u16)source_pos->y.w.i);
+                        position->z.w.i = ((u16)source_pos->z.w.i);
 
                         map = ((S_80174BEC_0_pre *)state)[-1].unk_00;
-                        if (get_sprite_attachment_vector(((S_80174BEC_7 *)map)->unk_08, map, &map_offset, 1)) {
+                        if (get_sprite_attachment_vector(map->unk_08, map, &map_offset, 1)) {
                             ((MovingPosition *)position)->x += map_offset.x;
                             ((MovingPosition *)position)->y += map_offset.y;
                             ((MovingPosition *)position)->z += map_offset.z;
@@ -192,26 +192,26 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
                         coord = ((MovingPosition *)position)->x;
                         coord += offset_x;
                         position_y = ((MovingPosition *)position)->y + offset_y;
-                        ((MovingPosition *)position)->x = coord;
-                        ((MovingPosition *)position)->y = position_y;
+                        position->x.w.i = coord;
+                        position->y.w.i = position_y;
                         offset_z = rand() & 0x1F;
                         velocity_x = (s32)(offset_x << 16) >> 4;
                         velocity_y = (s32)(offset_y << 16) >> 4;
                         coord = ((MovingPosition *)position)->z;
                         coord -= 0x14;
                         coord += offset_z;
-                        ((MovingPosition *)position)->z = coord;
-                        ((S_80174BEC_3 *)motion)->unk_A4 = velocity_x;
-                        ((S_80174BEC_3 *)motion)->unk_A8 = velocity_y;
+                        position->z.w.i = coord;
+                        motion->unk_A4 = velocity_x;
+                        motion->unk_A8 = velocity_y;
 
                         direction_offset = (((u16)actor->facing) >> 7) & 0x1C;
-                        ((S_80174BEC_3 *)motion)->unk_A4 += (s32)((TableEntry *)((u8 *)directions + direction_offset))->x
+                        motion->unk_A4 += (s32)((TableEntry *)((u8 *)directions + direction_offset))->x
                         << 19;
                         direction_offset = (((u16)actor->facing) >> 7) & 0x1C;
-                        ((S_80174BEC_3 *)motion)->unk_A8 += (u32)((TableEntry *)((u8 *)directions + direction_offset))->y
+                        motion->unk_A8 += (u32)((TableEntry *)((u8 *)directions + direction_offset))->y
                         << 19;
-                        ((S_80174BEC_3 *)motion)->unk_AC = -((rand() & 0x7FFF) * 2);
-                        ((S_80174BEC_3 *)motion)->unk_B0 = 0x1000;
+                        motion->unk_AC = -((rand() & 0x7FFF) * 2);
+                        motion->unk_B0 = 0x1000;
                         render->scale_y = 0x1000;
                         render->scale_x = 0x1000;
                         render->color.c.b = 0x80;
@@ -247,7 +247,7 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
                         u32 direction_offset;
 
                         motion = (u8 *)particle + 0x20;
-                        ((S_80174BEC_3 *)motion)->unk_24 = 0x19 - ((S_80174BEC_0 *)state)->unk_96.s;
+                        ((S_80174BEC_3 *)motion)->unk_24 = 0x19 - state->action_timer.u;
                         ((S_80174BEC_4 *)particle)->unk_20 = 0;
                         particle->update_callback = update_growing_colliding_effect;
                         register_node(particle, project_sprite_chain);
@@ -258,9 +258,9 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
                         render->flags |= 2;
 
                         position = particle->position;
-                        ((MovingPosition *)position)->x = ((u16)source_pos->x.w.i);
-                        ((MovingPosition *)position)->y = ((u16)source_pos->y.w.i);
-                        ((MovingPosition *)position)->z = ((u16)source_pos->z.w.i);
+                        position->x.w.i = ((u16)source_pos->x.w.i);
+                        position->y.w.i = ((u16)source_pos->y.w.i);
+                        position->z.w.i = ((u16)source_pos->z.w.i);
 
                         map = ((S_80174BEC_0_pre *)state)[-1].unk_00;
                         if (resolve_record_orientation_or_fallback(((S_80174BEC_7 *)map)->unk_08, map, &map_offset, 1)) {
@@ -274,15 +274,15 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
                         coord = ((MovingPosition *)position)->x;
                         coord += offset_x;
                         position_y = ((MovingPosition *)position)->y + offset_y;
-                        ((MovingPosition *)position)->x = coord;
-                        ((MovingPosition *)position)->y = position_y;
+                        position->x.w.i = coord;
+                        position->y.w.i = position_y;
                         offset_z = rand() & 0x1F;
                         velocity_x = (s32)(offset_x << 16) >> 4;
                         velocity_y = (s32)(offset_y << 16) >> 4;
                         position_z = ((MovingPosition *)position)->z;
                         position_z -= 0x14;
                         position_z += offset_z;
-                        ((MovingPosition *)position)->z = position_z;
+                        position->z.w.i = position_z;
                         ((S_80174BEC_3 *)motion)->unk_60 = velocity_x;
                         ((S_80174BEC_3 *)motion)->unk_64 = velocity_y;
 
@@ -307,11 +307,11 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
             }
         }
 
-        ((S_80174BEC_0 *)state)->unk_96.s++;
+        state->action_timer.u++;
         if (source_render->flags & 0xE000) {
             void *active_object;
 
-            ((S_80174BEC_0 *)state)->unk_9B++;
+            state->action_phase.u++;
             active_object = actor->target;
             if (active_object != 0) {
                 toggle_attacker_target_status_pair(actor, active_object);
@@ -332,8 +332,8 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
                 source_render->flags &= 0xF7FF;
                 direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
                 select_sprite_entry(source_render, (*(u8 * *)&source_render->frameTable)[direction_index & 7], 0);
-                ((S_80174BEC_0 *)state)->unk_96.s = 0x14;
-                ((S_80174BEC_0 *)state)->unk_9B++;
+                state->action_timer.u = 0x14;
+                state->action_phase.u++;
             }
         }
         return;
@@ -342,11 +342,11 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
         {
             u16 timer;
 
-            timer = ((S_80174BEC_0 *)state)->unk_96.s;
-            ((S_80174BEC_0 *)state)->unk_96.s = timer - 1;
+            timer = state->action_timer.u;
+            state->action_timer.u = timer - 1;
             if ((s16)timer <= 0 || (source_render->flags & 0xE000)) {
                 spend_actor_mp(actor, 0x1000);
-                ((S_80174BEC_0 *)state)->unk_8C = blume_action_resume_address;
+                state->unk_8C.address = blume_action_resume_address;
                 g_dungeon_status.active_actor = 0;
                 (actor->action_flags) &= 0x7FFF;
             }

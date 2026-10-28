@@ -67,7 +67,7 @@ void update_boss_actor_movement(void *entity, ObjectPosition *motion, SpriteFram
     s32 direction_tiles;
     s32 slot_index;
     u8 *actor_slot;
-    void *actor_node;
+    S_8016F2E0_1_pre *actor_node;
     S_8016F2E0_2 *actor_record;
 
     if ((*(s32 *)((u8 *)entity + (0x14))) & 0x00800000) {
@@ -84,7 +84,7 @@ void update_boss_actor_movement(void *entity, ObjectPosition *motion, SpriteFram
         do {
             actor_node = ((S_8016F2E0_0 *)actor_slot)->unk_AC;
             if (actor_node != 0) {
-                actor_record = ((S_8016F2E0_1_pre *)actor_node)[-1].unk_00;
+                actor_record = actor_node[-1].unk_00;
                 actor_record->unk_14 &= 0xFFBF;
             }
             slot_index--;

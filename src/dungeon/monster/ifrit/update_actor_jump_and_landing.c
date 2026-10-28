@@ -60,18 +60,18 @@ void update_actor_jump_and_landing(ActorRecord *motion, ObjectPosition *position
 
     switch (phase) {
     case 0:
-        if (((S_80172288_0 *)motion)->unk_96 < 8) {
+        if (motion->action_timer.s < 8) {
             motion->action_state_flags |= 8;
             position->velocity_z = 0xFFEE0000;
             actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
             phase_value = motion->action_phase.u;
-            ((S_80172288_0 *)motion)->unk_A0 = 0;
+            motion->unk_A0.value = 0;
             motion->action_phase.u = phase_value + 1;
         }
         break;
     case 1:
-        frames_left = ((S_80172288_0 *)motion)->unk_96;
-        ((S_80172288_0 *)motion)->unk_90 -= ((S_80172288_0 *)motion)->unk_A0;
+        frames_left = motion->action_timer.s;
+        motion->unk_90.value -= motion->unk_A0.value;
         if (frames_left != 0) {
             {
                 s32 target_x;
@@ -87,13 +87,13 @@ void update_actor_jump_and_landing(ActorRecord *motion, ObjectPosition *position
             current_y = position->y.w.i - 0x20;
             position->velocity_y =
                 (((sprite->tile_y << 6) - current_y) << 16) /
-                ((S_80172288_0 *)motion)->unk_96;
-            ((S_80172288_0 *)motion)->unk_A0 += position->velocity_z;
+                motion->action_timer.s;
+            motion->unk_A0.value += position->velocity_z;
             position->velocity_z += 0x40000;
         }
-        ((S_80172288_0 *)motion)->unk_90 += ((S_80172288_0 *)motion)->unk_A0;
-        if (((S_80172288_0 *)motion)->unk_96 < 3) {
-            ((S_80172288_0 *)motion)->unk_90 = 0;
+        motion->unk_90.value += motion->unk_A0.value;
+        if (motion->action_timer.s < 3) {
+            motion->unk_90.value = 0;
             motion->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
             motion->action_phase.u++;
@@ -106,7 +106,7 @@ void update_actor_jump_and_landing(ActorRecord *motion, ObjectPosition *position
             position->velocity_y = 0;
             position->velocity_x = 0;
             set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
-            ((SpriteFrameState *)sprite)->frameTable = ifrit_direction_frames;
+            sprite->frameTable = ifrit_direction_frames;
             select_sprite_entry(
                 sprite,
                 ifrit_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -117,8 +117,8 @@ void update_actor_jump_and_landing(ActorRecord *motion, ObjectPosition *position
         break;
     }
 
-    timer = ((S_80172288_0 *)motion)->unk_96 - 1;
-    ((S_80172288_0 *)motion)->unk_96 = timer;
+    timer = motion->action_timer.s - 1;
+    motion->action_timer.s = timer;
     if ((timer << 16) <= 0) {
         position->velocity_z = 0;
         position->velocity_y = 0;
@@ -148,9 +148,9 @@ void update_actor_jump_and_landing(ActorRecord *motion, ObjectPosition *position
         if ((check_actor_floor_trap(sprite, actor) << 16) <= 0) {
             return;
         }
-        ((S_80172288_0 *)motion)->unk_8C = &ifrit_action_resume_address;
+        motion->unk_8C.address = &ifrit_action_resume_address;
         on_actor_status_updated(actor);
     }
-    ((SpriteFrameState *)sprite)->scale_x = frame_path.point[((S_80172288_0 *)motion)->unk_96].x;
-    ((SpriteFrameState *)sprite)->scale_y = frame_path.point[((S_80172288_0 *)motion)->unk_96].y;
+    sprite->scale_x = frame_path.point[motion->action_timer.s].x;
+    sprite->scale_y = frame_path.point[motion->action_timer.s].y;
 }

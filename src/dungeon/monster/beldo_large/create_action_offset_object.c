@@ -42,7 +42,7 @@ void create_action_offset_object(void) {
     ObjectPosition *object_pos;
     S_801715D0_6 *owner_state;
     ObjectPosition *owner_pos;
-    u8 *direction;
+    S_801715D0_7 *direction;
     u8 *direction_table;
     S_801715D0_3 *object_state;
     ObjectNodeHeader *object;
@@ -64,10 +64,10 @@ void create_action_offset_object(void) {
         object_pos->y.w.i = (u16) owner_pos->y.w.i;
         object_pos->z.w.i = (u16) owner_pos->z.w.i;
         direction_table = (u8 *)&beldo_large_direction_offsets;
-        direction = (u8 *) ((u32) (((u16) owner_state->unk_2A >> 7) & 0x1C) + (u32) direction_table);
-        object_pos->x.w.i = (u16) ((u16)object_pos->x.w.i + (((S_801715D0_7 *)direction)->unk_00 * 6));
-        direction = (u8 *) ((u32) (((u16) owner_state->unk_2A >> 7) & 0x1C) + (u32) direction_table);
-        object_pos->y.w.i = (u16) ((u16)object_pos->y.w.i + (((S_801715D0_7 *)direction)->unk_02 * 6));
+        direction = (S_801715D0_7 *) ((u32) (((u16) owner_state->unk_2A >> 7) & 0x1C) + (u32) direction_table);
+        object_pos->x.w.i = (u16) ((u16)object_pos->x.w.i + (direction->unk_00 * 6));
+        direction = (S_801715D0_7 *) ((u32) (((u16) owner_state->unk_2A >> 7) & 0x1C) + (u32) direction_table);
+        object_pos->y.w.i = (u16) ((u16)object_pos->y.w.i + (direction->unk_02 * 6));
         sprite = object->sprite;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;

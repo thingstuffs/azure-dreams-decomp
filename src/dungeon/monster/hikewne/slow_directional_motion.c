@@ -50,7 +50,7 @@ void slow_directional_motion(S_80173294_0 *motion_state, ObjectPosition *motion,
             begin_actor_display_action(motion_state, motion, tile_state, &hikewne_motion_frame_set);
             return;
         }
-        if (((SpriteFrameState *)tile_state)->flags & 0x8000) {
+        if (tile_state->unk_14.at00_u16.v & 0x8000) {
             motion_state->unk_96.s = 0;
             motion_state->unk_9B = 2;
             return;
@@ -76,7 +76,7 @@ void slow_directional_motion(S_80173294_0 *motion_state, ObjectPosition *motion,
 
         if (motion_state->unk_96.s > 0) {
             motion_state->unk_96.u = motion_state->unk_96.u - 1;
-        } else if (((SpriteFrameState *)tile_state)->flags & 0x6000) {
+        } else if (tile_state->unk_14.at00_u16.v & 0x6000) {
             motion_state->unk_96.s = 0;
         }
 
@@ -100,14 +100,14 @@ void slow_directional_motion(S_80173294_0 *motion_state, ObjectPosition *motion,
             s32 tile_coord;
             s32 offset_coord;
 
-            tile_coord = ((SpriteFrameState *)tile_state)->tile_x << 6;
+            tile_coord = tile_state->unk_24 << 6;
             offset_coord = motion->x.w.i;
             offset_coord -= 0x20;
             motion->velocity_x = ((tile_coord - offset_coord) << 15) / timer;
 
             offset_coord = motion->y.w.i;
             offset_coord -= 0x20;
-            tile_coord = ((SpriteFrameState *)tile_state)->tile_y << 6;
+            tile_coord = tile_state->unk_25 << 6;
             motion->velocity_y =
                 ((tile_coord - offset_coord) << 15) / motion_state->unk_96.s;
         }
@@ -121,8 +121,8 @@ void slow_directional_motion(S_80173294_0 *motion_state, ObjectPosition *motion,
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)tile_state)->tile_x,
-            ((SpriteFrameState *)tile_state)->tile_y);
+        set_record_integer_tile_center(motion, tile_state->unk_24,
+            tile_state->unk_25);
         {
 
             x_speed_or_entity = ((s32)g_dungeon_status.pending_display_owner);

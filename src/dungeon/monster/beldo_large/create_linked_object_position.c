@@ -66,8 +66,8 @@ void create_linked_object_position(void)
         object_pos->unk_0A =
             ((S_func_81339A5C_1 *)source_pos)->unk_0A;
         source_z = ((S_func_81339A5C_1 *)source_pos)->unk_0A;
-        object_y = ((S_func_81339A5C_1 *)object_pos)->unk_06.u;
-        object_z = ((S_func_81339A5C_1 *)object_pos)->unk_0A;
+        object_y = object_pos->unk_06.u;
+        object_z = object_pos->unk_0A;
         object_pos->unk_06.u = (u16)(object_y - 0x140);
         object_pos->unk_16 = source_z;
         object_pos->unk_0A = (u16)(object_z - 0x20);

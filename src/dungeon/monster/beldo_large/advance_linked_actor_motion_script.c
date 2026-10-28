@@ -377,7 +377,7 @@ void advance_linked_actor_motion_script(ActorRecord *state_in, ObjectPosition *m
                     /* fallthrough */
     case 16:
         motion_in->velocity_x = (((Rec_D_800E3D7C *)(((s32 *)(&view_reference_entity))))->unk_00.at00_vs32.v - motion_in->x.v) / (s16) state_in->action_timer.u;
-        motion_in->velocity_y = (((Rec_D_800E3D7C *)(((s32 *)(&view_reference_entity))))->unk_04.at00_s32.v - motion_in->y.v) / (s16) state_in->action_timer.u;
+        motion_in->velocity_y = (view_reference_entity.y.v - motion_in->y.v) / (s16) state_in->action_timer.u;
         motion_in->x.v += motion_in->velocity_x;
         motion_in->y.v += motion_in->velocity_y;
         return_frames = state_in->action_timer.u - 1;

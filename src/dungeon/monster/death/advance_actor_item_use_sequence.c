@@ -100,7 +100,7 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
     s32 i;
     u8 state;
     u8 next_state;
-    void *target;
+    S_801732C4_1_pre *target;
 
     special = 0;
     state = ((S_801732C4_0 *)action)->unk_9B;
@@ -157,14 +157,14 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
 
                 special_test = special;
                 if (special_test != 0) {
-                    target = primary_actor_record;
+                    target = (S_801732C4_1_pre *)primary_actor_record;
                     (actor->target) = target;
                     {
-                        u8 *item_id;
+                        S_801732C4_2 *item_id;
 
-                        item_id = ((S_801732C4_1_pre *)target)[-1].unk_00;
-                        actor->target_tile_x = ((S_801732C4_2 *)item_id)->unk_24;
-                        actor->target_tile_y = ((S_801732C4_2 *)item_id)->unk_25;
+                        item_id = target[-1].unk_00;
+                        actor->target_tile_x = item_id->unk_24;
+                        actor->target_tile_y = item_id->unk_25;
                     }
                 } else {
                     u8 *item_id;
@@ -175,7 +175,7 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
                     if (item_defs[((u8)item_id) * 20 + 0x12] == 2) {
                         target = (actor->target);
                         if (target != 0) {
-                            item_id = ((S_801732C4_1_pre *)target)[-1].unk_00;
+                            item_id = target[-1].unk_00;
                             actor->target_tile_x = ((S_801732C4_2 *)item_id)->unk_24;
                             actor->target_tile_y = ((S_801732C4_2 *)item_id)->unk_25;
                         }
@@ -271,7 +271,7 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
 
         {
             ObjectNodeHeader * object;
-            u8 *object_base;
+            S_801732C4_5 *object_base;
             ObjectPosition *transform;
             SpriteFrameState *display;
             u16 timer;
@@ -285,9 +285,9 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
             if (object == 0) {
                 return;
             }
-            object_base = (u8 *)object + 0x20;
-            ((S_801732C4_5 *)object_base)->unk_1A = 0x19;
-            ((S_801732C4_5 *)object_base)->unk_1C = 0x19;
+            object_base = (S_801732C4_5 *)((u8 *)object + 0x20);
+            object_base->unk_1A = 0x19;
+            object_base->unk_1C = 0x19;
             (object->update_callback) = D_80171080;
             register_node(object, project_sprite_chain);
             transform = object->position;
@@ -296,17 +296,17 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
             transform->z.w.i = ((u16)motion->z.w.i) - 0x60;
             display = object->sprite;
             (*(Packet12 *)((u8 *)object + 0x48)) = D_80174694;
-            ((S_801732C4_7 *)display)->unk_08 = (u8 *)object + 0x48;
-            ((S_801732C4_7 *)display)->unk_10 = 0x40;
-            ((S_801732C4_7 *)display)->unk_1E = 0x32C8;
-            ((S_801732C4_7 *)display)->unk_1C = 0x32C8;
-            ((S_801732C4_7 *)display)->unk_06 = 0x64;
-            ((S_801732C4_7 *)display)->unk_0C = 0;
-            flags = ((S_801732C4_7 *)display)->unk_14;
-            ((S_801732C4_7 *)display)->unk_14 = flags | 0xC;
-            ((S_801732C4_5 *)object_base)->unk_04 = 0x80;
-            ((S_801732C4_5 *)object_base)->unk_03 = 0x80;
-            ((S_801732C4_5 *)object_base)->unk_02 = 0x80;
+            display->source = (u8 *)object + 0x48;
+            display->tpage_abr = 0x40;
+            display->scale_y = 0x32C8;
+            display->scale_x = 0x32C8;
+            display->depth_bias = 0x64;
+            display->color.word = 0;
+            flags = display->flags;
+            display->flags = flags | 0xC;
+            object_base->unk_04 = 0x80;
+            object_base->unk_03 = 0x80;
+            object_base->unk_02 = 0x80;
         }
         return;
 

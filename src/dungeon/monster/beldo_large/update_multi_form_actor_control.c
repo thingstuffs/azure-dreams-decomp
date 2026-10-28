@@ -57,7 +57,7 @@ extern u8 beldo_large_frame_set_4[];
 /* Dispatches movement, attacks, and spells for four actor forms, with separate idle frames and timed idle
  * gestures. */
 void update_multi_form_actor_control(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
-    void *pose_actor;
+    Rec_func_800A9E70_arg0 *pose_actor;
     u16 distance;
     u8 *idle_table;
     u8 *pose2_table;
@@ -83,16 +83,16 @@ void update_multi_form_actor_control(ActorRecord *actor, ObjectPosition *context
     s32 state_changed;
 
     if (g_dungeon_status.flags & 0x1000) {
-        ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xEU;
+        actor->action_id.u = 0xEU;
         advance_multi_form_turn_path(actor, context, sprite, entity);
-        if (((Rec_func_800A9E70_arg0 *)actor)->unk_B0 != 1) {
+        if (actor->unk_B0.bytes[0] != 1) {
             return;
         }
         ((Rec_func_800A9E70_arg0 *)actor)->unk_AD = (u8) (((Rec_func_800A9E70_arg0 *)actor)->unk_AD + 1);
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
         return;
     }
-    if (((Rec_func_800A9E70_arg0 *)actor)->unk_B0 == 1) {
+    if (actor->unk_B0.bytes[0] == 1) {
         if (((Rec_func_800A9E70_arg0 *)actor)->unk_AD != 0) {
             g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - ((Rec_func_800A9E70_arg0 *)actor)->unk_AD);
             ((Rec_func_800A9E70_arg0 *)actor)->unk_AD = 0U;
@@ -100,7 +100,7 @@ void update_multi_form_actor_control(ActorRecord *actor, ObjectPosition *context
     }
     if (entity->mp_value.parts.whole == 0) {
         advance_actor_pending_action(actor, context, sprite, entity);
-        inactive_pose = ((Rec_func_800A9E70_arg0 *)actor)->unk_AC;
+        inactive_pose = actor->unk_AC.byte;
         switch (inactive_pose) {
         case 0xD:
             if (*(s32 **)&sprite->frameTable == (s32 *)((u8 *)&beldo_large_frame_set_13 + 8)) {
@@ -133,7 +133,7 @@ void update_multi_form_actor_control(ActorRecord *actor, ObjectPosition *context
         return;
     }
     if (entity->flags1C & ACTOR_ASLEEP) {
-        flagged_pose = ((Rec_func_800A9E70_arg0 *)actor)->unk_AC;
+        flagged_pose = actor->unk_AC.byte;
         switch (flagged_pose) {
         case 0xD:
             if (*(s32 **)&sprite->frameTable != &beldo_large_frame_set_4) {
@@ -141,7 +141,7 @@ void update_multi_form_actor_control(ActorRecord *actor, ObjectPosition *context
             }
             clear_mask = 0xFFFB0000U;
             state_changed = 1;
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = flagged_pose;
+            actor->action_id.u = flagged_pose;
             goto block_32;
         case 0xE:
             if (*(s32 **)&sprite->frameTable == &beldo_large_frame_set_4) {
@@ -154,10 +154,10 @@ void update_multi_form_actor_control(ActorRecord *actor, ObjectPosition *context
             }
 block_31:
             clear_mask = 0xFFFB0000U;
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xDU;
+            actor->action_id.u = 0xDU;
             state_changed = 1;
 block_32:
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_9B.as_s8 = (s8)state_changed;
+            actor->action_phase.s = (s8)state_changed;
             ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
             entity->flags1C = (s32) (entity->flags1C & (clear_mask | 0xFFFFU));
             return;
@@ -176,9 +176,9 @@ block_37:
         }
         {
             s16 idle_state = 0xE;
-            anim_state = ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8;
+            anim_state = actor->action_id.u;
             if (anim_state != idle_state) {
-                anim_state = ((Rec_func_800A9E70_arg0 *)actor)->unk_AC;
+                anim_state = actor->unk_AC.byte;
                 switch (anim_state) {
                 case 0:
                     if (*(u8 **)&sprite->frameTable != &beldo_large_frame_set_2) {
@@ -209,14 +209,14 @@ block_37:
                     }
                     break;
                 }
-                ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xEU;
-                ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;
-                ((Rec_func_800A9E70_arg0 *)actor)->unk_A0.at00_s16.v = (s16) ((rand() & 0x1F) + 0xF);
+                actor->action_id.u = 0xEU;
+                actor->unk_9E.u = 0U;
+                actor->unk_A0.parts.low = (s16) ((rand() & 0x1F) + 0xF);
             }
         }
-        ((Rec_func_800A9E70_arg0 *)actor)->unk_98 = (u16) (((Rec_func_800A9E70_arg0 *)actor)->unk_98 & 0xFFF3);
+        actor->action_state_flags = (u16) (actor->action_state_flags & 0xFFF3);
         if (entity->hp_delta != 0) {
-            active_pose = ((Rec_func_800A9E70_arg0 *)actor)->unk_AC;
+            active_pose = actor->unk_AC.byte;
             switch (active_pose) {
             case 0:
                 if (begin_ready_actor_directional_action(actor, context, sprite, beldo_large_frame_set_19) != 0) {
@@ -329,7 +329,7 @@ block_37:
         case 1:
         case 2:
         case 3:
-            action_pose = ((Rec_func_800A9E70_arg0 *)actor)->unk_AC;
+            action_pose = actor->unk_AC.byte;
             switch (action_pose) {
             case 0:
                 begin_actor_spell_action(actor, context, sprite, (u8 *)(&beldo_large_frame_set_6), &update_multi_form_actor_control);
@@ -350,7 +350,7 @@ block_37:
             return;
         }
     }
-    pose_actor = actor;
+    pose_actor = (Rec_func_800A9E70_arg0 *)actor;
     entity_flags = entity->flags1C;
     if (!(entity_flags & 0x2000)) {
         if (!(system_update_flags & 8)) {
@@ -377,7 +377,7 @@ block_37:
     if ((*(u16 *)0x80013714) & 8) {
         return;
     }
-    idle_pose = ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_AC;
+    idle_pose = pose_actor->unk_AC;
     switch (idle_pose) {
     case 0:
         next_table = &beldo_large_frame_set_2;
@@ -407,25 +407,25 @@ block_37:
             (sprite->frameTable) = &beldo_large_frame_set_1;
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)
                 + &beldo_large_frame_set_1), 0);
-            ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = 0U;
-            ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_A0.at00_s16.v = (s16) ((rand() & 0x3F) + 0x3C);
+            pose_actor->unk_9E.as_u16 = 0U;
+            pose_actor->unk_A0.at00_s16.v = (s16) ((rand() & 0x3F) + 0x3C);
         }
         if (pose2_table == &beldo_large_frame_set_1 || *(s32 **)&sprite->frameTable == &beldo_large_frame_set_1) {
-            pose2_idle_ticks = ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16;
-            ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = (u16) (pose2_idle_ticks + 1);
-            if ((s16) pose2_idle_ticks >= ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_A0.at00_s16.v) {
+            pose2_idle_ticks = pose_actor->unk_9E.as_u16;
+            pose_actor->unk_9E.as_u16 = (u16) (pose2_idle_ticks + 1);
+            if ((s16) pose2_idle_ticks >= pose_actor->unk_A0.at00_s16.v) {
                 (sprite->frameTable) = &beldo_large_frame_set_12;
                 select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)
                     + &beldo_large_frame_set_12), 0);
                 advance_sprite_animation_and_textures(sprite);
-                ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = 0U;
+                pose_actor->unk_9E.as_u16 = 0U;
             }
         }
         if (*(s32 **)&sprite->frameTable != &beldo_large_frame_set_12) {
             return;
         }
-        pose2_anim_ticks = ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16;
-        ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = (u16) (pose2_anim_ticks + 1);
+        pose2_anim_ticks = pose_actor->unk_9E.as_u16;
+        pose_actor->unk_9E.as_u16 = (u16) (pose2_anim_ticks + 1);
         if ((s16) pose2_anim_ticks < 0x12) {
             return;
         }
@@ -433,8 +433,8 @@ block_37:
         table_index = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
         table_index += (unsigned long)&beldo_large_frame_set_1;
         select_sprite_entry(sprite, *(u8 *)table_index, 0);
-        ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = 0U;
-        ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_A0.at00_s16.v = (s16) ((rand() & 0x3F) + 0x3C);
+        pose_actor->unk_9E.as_u16 = 0U;
+        pose_actor->unk_A0.at00_s16.v = (s16) ((rand() & 0x3F) + 0x3C);
         return;
     case 3:
         pose3_table = sprite->frameTable;
@@ -443,25 +443,25 @@ block_37:
             (sprite->frameTable) = idle_table;
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)
                 + idle_table), 0);
-            ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = 0U;
-            ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_A0.at00_s16.v = (s16) ((rand() & 0x3F) + 0x3C);
+            pose_actor->unk_9E.as_u16 = 0U;
+            pose_actor->unk_A0.at00_s16.v = (s16) ((rand() & 0x3F) + 0x3C);
         }
         if (pose3_table == idle_table || *(s32 **)&sprite->frameTable == idle_table) {
-            pose3_idle_ticks = ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16;
-            ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = (u16) (pose3_idle_ticks + 1);
-            if ((s16) pose3_idle_ticks >= ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_A0.at00_s16.v) {
+            pose3_idle_ticks = pose_actor->unk_9E.as_u16;
+            pose_actor->unk_9E.as_u16 = (u16) (pose3_idle_ticks + 1);
+            if ((s16) pose3_idle_ticks >= pose_actor->unk_A0.at00_s16.v) {
                 (sprite->frameTable) = &beldo_large_frame_set_9;
                 select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)
                     + &beldo_large_frame_set_9), 0);
                 advance_sprite_animation_and_textures(sprite);
-                ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = 0U;
+                pose_actor->unk_9E.as_u16 = 0U;
             }
         }
         if (*(s32 **)&sprite->frameTable != &beldo_large_frame_set_9) {
             return;
         }
-        pose3_anim_ticks = ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16;
-        ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = (u16) (pose3_anim_ticks + 1);
+        pose3_anim_ticks = pose_actor->unk_9E.as_u16;
+        pose_actor->unk_9E.as_u16 = (u16) (pose3_anim_ticks + 1);
         if ((s16) pose3_anim_ticks < 0x12) {
             return;
         }
@@ -469,8 +469,8 @@ block_37:
         table_index = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
         table_index += (unsigned long)&beldo_large_frame_set_3;
         select_sprite_entry(sprite, *(u8 *)table_index, 0);
-        ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = 0U;
-        ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_A0.at00_s16.v = (s16) ((rand() & 0x3F) + 0x3C);
+        pose_actor->unk_9E.as_u16 = 0U;
+        pose_actor->unk_A0.at00_s16.v = (s16) ((rand() & 0x3F) + 0x3C);
         return;
     }
 }

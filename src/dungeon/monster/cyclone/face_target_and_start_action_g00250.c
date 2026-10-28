@@ -144,9 +144,9 @@ s32 search_ahead_and_start_action(ActorRecord *action_state, ObjectPosition *act
         return -1;
     }
 
-    ((S_80172438_2 *)action_state)->unk_9B = 0;
+    action_state->action_phase.s = 0;
     ((S_80172438_2 *)action_state)->unk_8C = 0;
-    ((S_80172438_2 *)action_state)->unk_9A = 0x17;
+    action_state->action_id.s = 0x17;
     (sprite->frameTable) = cyclone_frame_set_2;
     select_sprite_entry(sprite,
                   cyclone_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -161,23 +161,23 @@ void update_action_state_direction_specific(ActorRecord *action_state, ObjectPos
     u8 *frame_table;
     s32 direction;
 
-    *((u8 *)actor + 0x71) = (u8)(*((u8 *)actor + 0x71) & 0x7F);
+    actor->movement_queue_state = (u8)(actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         {
             void *actor_base = (u8 *)actor - 0x20;
             apply_camera_offset_and_select_target(actor_base, action_param, 8, 0x300);
         }
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
-            *((s8 *)action_state + 0x9A) = 0x17;
+            action_state->action_id.s = 0x17;
             *(s32 *)((u8 *)action_state + 0x8C) = 0;
-            *((s8 *)action_state + 0x9B) = 0;
+            action_state->action_phase.s = 0;
             frame_table = &dungeon_resource_buffer[D_801764A0_OFF];
             sprite->frameTable = frame_table;
-            direction = ((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7;
+            direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
             select_sprite_entry(sprite, frame_table[direction], 0);
             advance_status_timers(actor);
-            *((u8 *)actor + 0x6D) = (u8)(*((u8 *)actor + 0x6D) - 1);
-            *(u16 *)((u8 *)action_state + 0x98) = (u16)(*(u16 *)((u8 *)action_state + 0x98) | 8);
+            actor->pending_turn_updates = (u8)(*((u8 *)actor + 0x6D) - 1);
+            action_state->action_state_flags = (u16)(action_state->action_state_flags | 8);
         }
     }
 }

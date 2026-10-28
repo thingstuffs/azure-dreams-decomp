@@ -38,7 +38,7 @@ void advance_baloon_along_path(ActorRecord *motion, ObjectPosition *actor_index,
                 actor,
                 baloon_default_frames[((g_game_work.view.camera_rotation.parts.viewAngle + move_data->facing + 0x100) >> 9) & 7],
                 0);
-            ((Rec_func_801724B0_arg0 *)motion)->unk_9E = 0;
+            motion->unk_9E.s = 0;
         }
 
         x = actor->tile_x;
@@ -76,20 +76,20 @@ void advance_baloon_along_path(ActorRecord *motion, ObjectPosition *actor_index,
             initialize_angle_indexed_target(motion, actor_index, actor, move_data);
             ((Rec_func_801724B0_arg0 *)motion)->unk_8C = 0;
         } else {
-            ((Rec_func_801724B0_arg0 *)motion)->unk_9A = 0xF;
+            motion->action_id.s = 0xF;
             ((Rec_func_801724B0_arg0 *)motion)->unk_8C = 0;
         }
 
         (move_data->flags1C) |= ACTOR_REFRESH_GROUND;
         if (g_dungeon_status.flags & 0x80) {
-            ((Rec_func_801724B0_arg0 *)motion)->unk_96 = 0;
+            motion->action_timer.s = 0;
             return;
         }
 
-        ((Rec_func_801724B0_arg0 *)motion)->unk_96 = 8;
+        motion->action_timer.s = 8;
         x = move_data->movement_queue_state;
         if (x > 0) {
-            ((Rec_func_801724B0_arg0 *)motion)->unk_96 = 8 / x;
+            motion->action_timer.s = 8 / x;
         }
     }
 

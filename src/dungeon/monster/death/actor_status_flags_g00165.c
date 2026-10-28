@@ -215,7 +215,7 @@ void advance_actor_states_and_entity_flags(ActorRecord *actor, ObjectPosition *c
     }
     case 1:
     {
-        u8 *dungeon_state;
+        S_8017409C_4 *dungeon_state;
         u32 entity_flags;
 
         if (entity->mp_value.parts.whole != 0) {
@@ -232,8 +232,8 @@ void advance_actor_states_and_entity_flags(ActorRecord *actor, ObjectPosition *c
             return;
         }
 
-        dungeon_state = (u8 *)&g_dungeon_status.turn_scale;
-        if (((S_8017409C_4 *)dungeon_state)->unk_02 & 0x1000) {
+        dungeon_state = (S_8017409C_4 *)&g_dungeon_status.turn_scale;
+        if (dungeon_state->unk_02 & 0x1000) {
             return;
         }
 
@@ -259,14 +259,14 @@ void advance_actor_states_and_entity_flags(ActorRecord *actor, ObjectPosition *c
             u32 packed_delta;
 
             begin_actor_move_to_target_facing(actor, context, animation, entity);
-            actor_value = ((S_8017409C_0 *)actor)->unk_92;
+            actor_value = actor->unk_90.parts.high.u;
             value_delta = ((S_8017409C_0 *)actor)->unk_A4.at02.v;
             packed_delta = ((S_8017409C_0 *)actor)->unk_A4.at00.v;
             ((S_8017409C_0 *)actor)->unk_A4.at02.v = 0;
             ((S_8017409C_0 *)actor)->unk_B8 = 0;
             ((S_8017409C_0 *)actor)->unk_AC = 0;
             ((S_8017409C_0 *)actor)->unk_B0 = 0;
-            ((S_8017409C_0 *)actor)->unk_92 = actor_value - value_delta;
+            actor->unk_90.parts.high.u = actor_value - value_delta;
             ((S_8017409C_0 *)actor)->unk_A8 = packed_delta;
             func_801743F0(actor, context, animation, entity);
             return;
@@ -302,7 +302,7 @@ void advance_actor_states_and_entity_flags(ActorRecord *actor, ObjectPosition *c
             death_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         (*(u32 *)&entity->flags1C) |= 0x40000;
-        ((S_8017409C_4 *)dungeon_state)->unk_0A++;
+        dungeon_state->unk_0A++;
     }
         actor->action_phase.u++;
         return;
@@ -312,7 +312,7 @@ void advance_actor_states_and_entity_flags(ActorRecord *actor, ObjectPosition *c
 
             dungeon_state = &g_dungeon_status.turn_scale;
             ((S_8017409C_2 *)dungeon_state)->unk_0A--;
-            ((S_8017409C_0 *)actor)->unk_8C = &death_action_resume_address;
+            actor->unk_8C.address = &death_action_resume_address;
         }
 
         return;

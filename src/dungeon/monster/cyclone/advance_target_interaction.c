@@ -44,7 +44,7 @@ extern u8 cyclone_move_direction_frames[8];
 void advance_target_interaction(ActorRecord *action, ObjectPosition *scene, SpriteFrameState *sprite, ActorRecord *actor) {
     u16 sprite_flags;
     u16 timer;
-    void *target;
+    S_80174764_3 *target;
 
     switch (action->action_phase.u) {
     case 0:
@@ -60,7 +60,7 @@ void advance_target_interaction(ActorRecord *action, ObjectPosition *scene, Spri
                 }
             } else {
                 target = actor->target;
-                if (((S_80174764_3 *)target)->unk_14 & 0x4000) {
+                if (target->unk_14 & 0x4000) {
                     if (request_random_slot_effect(target)) {
                         func_80176330(1, actor->target);
                     } else {
@@ -92,13 +92,13 @@ void advance_target_interaction(ActorRecord *action, ObjectPosition *scene, Spri
         }
         play_sound_if_enabled(0x708);
         timer = 0x20;
-        ((S_80174764_0 *)action)->unk_96 = timer;
+        action->action_timer.u = timer;
         action->action_phase.u++;
         break;
 
     case 1:
-        timer = ((S_80174764_0 *)action)->unk_96 - 1;
-        ((S_80174764_0 *)action)->unk_96 = timer;
+        timer = action->action_timer.u - 1;
+        action->action_timer.u = timer;
         if ((timer << 16) == 0 || (sprite->flags & 0x8000)) {
             if (actor->flags14 & ACTOR_PARTY_MEMBER) {
                 target = actor->target;
@@ -109,7 +109,7 @@ void advance_target_interaction(ActorRecord *action, ObjectPosition *scene, Spri
                 }
             } else {
                 target = actor->target;
-                if (((S_80174764_3 *)target)->unk_14 & 0x4000) {
+                if (target->unk_14 & 0x4000) {
                     if (request_random_slot_effect(target)) {
                         func_80176330(1, actor->target);
                     } else {
@@ -119,18 +119,18 @@ void advance_target_interaction(ActorRecord *action, ObjectPosition *scene, Spri
                     request_random_slot_effect(target);
                 }
             }
-            ((S_80174764_0 *)action)->unk_96 = 4;
+            action->action_timer.u = 4;
             action->action_phase.u++;
         }
         break;
 
     case 2:
-        timer = ((S_80174764_0 *)action)->unk_96 - 1;
-        ((S_80174764_0 *)action)->unk_96 = timer;
+        timer = action->action_timer.u - 1;
+        action->action_timer.u = timer;
         if ((timer << 16) == 0 || (sprite->flags & 0xE000)) {
             spend_actor_mp(actor, 0x400);
             set_record_integer_tile_center(scene, sprite->tile_x, sprite->tile_y);
-            ((S_80174764_0 *)action)->unk_8C = update_actor_animation;
+            action->unk_8C.address = update_actor_animation;
             g_dungeon_status.active_actor = 0;
             (actor->action_flags) &= 0x7FFF;
         }

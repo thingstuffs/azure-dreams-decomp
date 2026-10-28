@@ -237,7 +237,7 @@ void update_garuda_paired_move(S_func_81008664_1 *actor, S_func_81008664_5 *moti
         angle |= 0xFFFF;
         cleared_flags &= angle;
         ((S_func_81008664_3 *)entity)->unk_1C = cleared_flags;
-        actor_flags = (((S_func_81008664_1 *)actor)->unk_98);
+        actor_flags = actor->unk_98;
         angle = ((S_func_81008664_3 *)entity)->unk_2A;
         actor_flags |= 0xC;
         angle >>= 9;
@@ -379,7 +379,7 @@ place_actors:
         motion->unk_04 = world_coord;
         motion->unk_08.unk_08 = (s32) (((s16) partner->unk_88 - 0x100) << 0x10);
         partner_actor->unk_90.unk_90 = (s32) actor->unk_90.unk_90;
-        ((S_func_81008664_1 *)actor)->unk_96 = 8;
+        actor->unk_96 = 8;
         motion->unk_14 = (s32) ((s32) ((((S_func_81008664_3 *)entity)->unk_88 << 0x10)
             - motion->unk_08.unk_08) / (s16) actor->unk_96);
         anim_table2 = D_801748F8;
@@ -448,7 +448,7 @@ place_actors:
         motion->unk_00 = final_x;
         final_y = sprite->tile_y;
         reset_entity = entity;
-        ((S_func_81008664_5 *)motion)->unk_10 = 0;
+        motion->unk_10 = 0;
         motion->unk_0C = 0;
         final_y = ((final_y << 6) + 0x20) << 0x10;
         motion->unk_04 = final_y;
@@ -462,7 +462,7 @@ place_actors:
         active_count -= 1;
         g_dungeon_status.activity_counts.parts.pending_action_count = active_count;
         advance_status_timers(finish_entity);
-        ((S_func_81008664_1 *)actor)->unk_98 = (u16) (actor->unk_98 & 0xFFF3);
+        actor->unk_98 = (u16) (actor->unk_98 & 0xFFF3);
 
         {
             u32 restore_flags;
@@ -489,7 +489,7 @@ place_actors:
             u32 restore_y;
 
             restore_flags = partner->unk_1C;
-            restore_x = (((S_func_81008664_4 *)partner_sprite)->unk_24);
+            restore_x = partner_sprite->unk_24;
             restore_y = partner_sprite->unk_25;
             restore_flags &= 0x2000;
             restore_partner_mask = 0x3000;

@@ -94,7 +94,7 @@ void update_object_motion_and_landing(void *motion, void *position, void *object
     u16 scale;
     u16 probe_height;
     u32 tile_distance;
-    void *direction_step;
+    S_8016E528_3 *direction_step;
     u8 *direction_table;
 
     if (((S_8016E528_0 *)motion)->unk_12 == 3) {
@@ -216,11 +216,11 @@ mark_removed:
                 + ((S_8016E528_0 *)motion)->unk_50);
             direction_table = &ghosh_effect_direction_offsets;
             ((S_8016E528_0 *)motion)->unk_50 = (s32) (((S_8016E528_0 *)motion)->unk_50 + ((S_8016E528_0 *)motion)->unk_5C);
-            direction_step = (((S_8016E528_0 *)motion)->unk_18 * 4) + direction_table;
-            next_tile = ((S_8016E528_0 *)motion)->unk_48 + ((S_8016E528_3 *)direction_step)->unk_00;
+            direction_step = (S_8016E528_3 *)((((S_8016E528_0 *)motion)->unk_18 * 4) + direction_table);
+            next_tile = ((S_8016E528_0 *)motion)->unk_48 + direction_step->unk_00;
             world_x = ((S_8016E528_2 *)position)->unk_00.at02.v;
             if (next_tile == (world_x / 64)) {
-                next_tile = ((S_8016E528_0 *)motion)->unk_49 + ((S_8016E528_3 *)direction_step)->unk_02;
+                next_tile = ((S_8016E528_0 *)motion)->unk_49 + direction_step->unk_02;
                 world_y = ((S_8016E528_2 *)position)->unk_04.at02.v;
                 if (next_tile == (world_y / 64)) {
                     if (((check_left_tile_and_center_height((u16) ((S_8016E528_2 *)position)->unk_00.at02.v,

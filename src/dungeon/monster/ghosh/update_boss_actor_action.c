@@ -58,7 +58,7 @@ void update_boss_actor_action(ActorRecord *actor, ObjectPosition *context, Sprit
             actor->action_id.u = next_state;
         }
         actor->action_state_flags = (u16) (actor->action_state_flags & 0xFFF3);
-        if (!((((ActorRecord *)entity)->hp_delta == 0) || (begin_ready_actor_directional_action(actor, context, sprite, D_80174A64) == 0))) {
+        if (!((entity->hp_delta == 0) || (begin_ready_actor_directional_action(actor, context, sprite, D_80174A64) == 0))) {
             return;
         }
         if (entity->flags1C & ACTOR_LIFTED) {
@@ -66,7 +66,7 @@ void update_boss_actor_action(ActorRecord *actor, ObjectPosition *context, Sprit
             func_8017092C(actor, context, sprite, entity);
             sprite->frameTable = ghosh_direction_frames;
             select_sprite_entry(sprite, ghosh_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
-            ((S_8016F78C_0 *)actor)->unk_90 = 0;
+            actor->unk_90.value = 0;
             return;
         }
     }

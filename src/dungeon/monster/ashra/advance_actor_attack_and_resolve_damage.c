@@ -31,16 +31,16 @@ void advance_actor_attack_and_resolve_damage(ActorRecord *action, ObjectPosition
     s32 state;
 
     state = action->action_phase.u;
-    ((S_80172620_0 *)action)->unk_96--;
+    action->action_timer.u--;
     switch (state) {
     case 0:
-        if (((SpriteFrameState *)sprite)->flags & 0x8000) {
+        if (sprite->flags & 0x8000) {
             action->action_phase.u = 0xFF;
-            ((SpriteFrameState *)sprite)->flags |= 0x6000;
+            sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
         }
-        ((SpriteFrameState *)sprite)->frameTable = ashra_frame_set_3;
+        sprite->frameTable = ashra_frame_set_3;
         select_sprite_entry(sprite,
             ashra_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
@@ -48,9 +48,9 @@ void advance_actor_attack_and_resolve_damage(ActorRecord *action, ObjectPosition
         return;
 
     case 1:
-        if (((((SpriteFrameState *)sprite)->unk_04 == 6) &&
-             (((SpriteFrameState *)sprite)->flags & 0x1000)) ||
-            (((SpriteFrameState *)sprite)->flags & 0x8000)) {
+        if (((sprite->unk_04 == 6) &&
+             (sprite->flags & 0x1000)) ||
+            (sprite->flags & 0x8000)) {
             play_sound_if_enabled(0x808);
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             action->action_phase.u = 0xFF;
@@ -58,10 +58,10 @@ void advance_actor_attack_and_resolve_damage(ActorRecord *action, ObjectPosition
         return;
 
     case 0xFF:
-        if (((SpriteFrameState *)sprite)->flags & 0xE000) {
-            set_record_integer_tile_center(actor_id, ((SpriteFrameState *)sprite)->tile_x, ((SpriteFrameState *)sprite)->tile_y);
+        if (sprite->flags & 0xE000) {
+            set_record_integer_tile_center(actor_id, sprite->tile_x, sprite->tile_y);
             spend_actor_mp(actor, 0x100);
-            ((S_80172620_0 *)action)->unk_8C = &ashra_action_continuation_address;
+            action->unk_8C.address = &ashra_action_continuation_address;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             if (actor->pending_turn_updates == 0) {

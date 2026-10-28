@@ -94,7 +94,7 @@ void *spawn_animated_monster(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_
 /* Runs actor callbacks and updates facing, animation, movement, and ground contact. */
 void create_directional_template_effect(void *entity, R12_80170A44_S_80170A28_2 *motion, void *part)
 {
-    void *entity_base = entity;
+    R12_80170A44_S_80170A28_1 *entity_base = entity;
     s16 old_state;
     s32 state_or_direction;
     s16 direction_index;
@@ -169,14 +169,14 @@ void create_directional_template_effect(void *entity, R12_80170A44_S_80170A28_2 
         } else {
             ((R12_80170A44_S_80170A28_0 *)part)->unk_14 &= 0xFFFE;
         }
-        if (!(((R12_80170A44_S_80170A28_1 *)entity_base)->unk_1C & 0x20)) {
+        if (!(entity_base->unk_1C & 0x20)) {
             if (!(((R12_80170A44_S_80170A28_0 *)part)->unk_14 & 0x40)) {
                 advance_sprite_animation_and_textures(part);
             }
         } else {
             ((R12_80170A44_S_80170A28_0 *)part)->unk_14 |= 0x7000;
         }
-        apply_monster_koyaw_data(((R12_80170A44_S_80170A28_1 *)entity_base)->unk_1C, (u8 *)part + 0xC);
+        apply_monster_koyaw_data(entity_base->unk_1C, (u8 *)part + 0xC);
     } else {
         if (part_flags & 0x800) {
             new_part_flags = part_flags & 0x8FFF;
@@ -200,42 +200,42 @@ void create_directional_template_effect(void *entity, R12_80170A44_S_80170A28_2 
     if (!((*(u16 *)((u8 *)entity + 0x98)) & 4)) {
         ground_height = ((s16)sample_terrain_surface_height(motion->unk_00.at02.v,
                                motion->unk_04.at02.v,
-                               (s16)(((R12_80170A44_S_80170A28_1 *)entity_base)->unk_88 - 0x20)));
+                               (s16)(entity_base->unk_88 - 0x20)));
         if (ground_height < 0x200) {
-            base_height = (s16)((R12_80170A44_S_80170A28_1 *)entity_base)->unk_88;
+            base_height = (s16)entity_base->unk_88;
             if ((*(s16 *)((u8 *)entity + 0x92)) + base_height < ground_height) {
-                ((R12_80170A44_S_80170A28_1 *)entity_base)->unk_1C &= 0xF7FFFFFF;
+                entity_base->unk_1C &= 0xF7FFFFFF;
             } else if (ground_height >= base_height) {
                 (*(s32 *)((u8 *)entity + 0x90)) = 0;
                 motion->unk_14 = 0;
-                ((R12_80170A44_S_80170A28_1 *)entity_base)->unk_1C |= 0x08000000;
+                entity_base->unk_1C |= 0x08000000;
                 (*(s8 *)((u8 *)entity + 0x9D)) = 0;
             } else {
                 motion->unk_14 = 0;
-                ((R12_80170A44_S_80170A28_1 *)entity_base)->unk_1C |= 0x08000000;
+                entity_base->unk_1C |= 0x08000000;
                 (*(s8 *)((u8 *)entity + 0x9D)) = 0;
-                (*(s16 *)((u8 *)entity + 0x92)) = ground_height - ((R12_80170A44_S_80170A28_1 *)entity_base)->unk_88;
+                (*(s16 *)((u8 *)entity + 0x92)) = ground_height - entity_base->unk_88;
             }
 
-            entity_flags = ((R12_80170A44_S_80170A28_1 *)entity_base)->unk_1C;
+            entity_flags = entity_base->unk_1C;
             if (entity_flags & 0x40000000) {
-                ((R12_80170A44_S_80170A28_1 *)entity_base)->unk_1C = entity_flags & 0xBFFFFFFF;
+                entity_base->unk_1C = entity_flags & 0xBFFFFFFF;
                 ground_height = ((s16)sample_terrain_surface_height(
                     (((R12_80170A44_S_80170A28_0 *)part)->unk_24 << 6) | 0x20,
                     (((R12_80170A44_S_80170A28_0 *)part)->unk_25 << 6) | 0x20,
-                    (s16)(((R12_80170A44_S_80170A28_1 *)entity_base)->unk_88 - 0x20)));
+                    (s16)(entity_base->unk_88 - 0x20)));
                 (*(s16 *)((u8 *)entity + 0x92)) +=
-                    ((R12_80170A44_S_80170A28_1 *)entity_base)->unk_88 - ground_height;
-                ((R12_80170A44_S_80170A28_1 *)entity_base)->unk_88 = ground_height;
+                    entity_base->unk_88 - ground_height;
+                entity_base->unk_88 = ground_height;
             }
         } else {
-            ((R12_80170A44_S_80170A28_1 *)entity_base)->unk_1C &= 0xF7FFFFFF;
+            entity_base->unk_1C &= 0xF7FFFFFF;
         }
     } else {
-        ((R12_80170A44_S_80170A28_1 *)entity_base)->unk_1C &= 0xF7FFFFFF;
+        entity_base->unk_1C &= 0xF7FFFFFF;
     }
 
-    entity_base = (u8 *)entity_base + 0x88;
+    entity_base = (R12_80170A44_S_80170A28_1 *)((u8 *)entity_base + 0x88);
     motion->unk_0A =
         *(u16 *)entity_base + (*(u16 *)((u8 *)entity + 0x92));
     ((R12_80170A44_S_80170A28_0 *)part)->unk_14 |= 0x40;
@@ -257,30 +257,30 @@ void update_actor_state_and_select_target(ActorRecord *entity, ObjectPosition *c
     ActorRecord *owner;
 
     if (g_dungeon_status.flags & 0x1000) {
-        ((R12_80170E70_S_80170E70_0 *)entity)->unk_9A = 14;
+        entity->action_id.u = 14;
         advance_actor_path_script_step(entity, context, sprite, actor);
         return;
     }
 
-    if (((R12_80170E70_S_80170E70_1 *)actor)->unk_25 == 0) {
+    if (actor->mp_value.parts.whole == 0) {
         advance_actor_pending_action(entity, context, sprite, actor);
-        if (((SpriteFrameState *)sprite)->frameTable == ((u8 *)arachne_alt_direction_frames)) {
+        if (sprite->frameTable == ((u8 *)arachne_alt_direction_frames)) {
             return;
         }
         {
             u8 *effects = ((u8 *)arachne_reset_frames);
-            ((SpriteFrameState *)sprite)->frameTable = effects;
+            sprite->frameTable = effects;
             select_sprite_entry(
-                sprite,(u8)(effects[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_80170E70_S_80170E70_1 *)actor)->unk_2A + 0x100) >> 9) & 7]),
+                sprite,(u8)(effects[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7]),
                 0);
         }
         return;
     }
 
     if (((R12_80170E70_S_80170E70_1 *)actor)->unk_1C & 0x200) {
-        if (((SpriteFrameState *)sprite)->frameTable == ((u8 *)arachne_alt_direction_frames)) {
-            ((R12_80170E70_S_80170E70_0 *)entity)->unk_9A = 13;
-            ((R12_80170E70_S_80170E70_0 *)entity)->unk_9B = 1;
+        if (sprite->frameTable == ((u8 *)arachne_alt_direction_frames)) {
+            entity->action_id.u = 13;
+            entity->action_phase.u = 1;
             ((R12_80170E70_S_80170E70_0 *)entity)->unk_8C = 0;
             ((R12_80170E70_S_80170E70_1 *)actor)->unk_1C &= ~0x40000;
             return;
@@ -296,22 +296,22 @@ void update_actor_state_and_select_target(ActorRecord *entity, ObjectPosition *c
             return;
         }
 
-        current_state = ((R12_80170E70_S_80170E70_0 *)entity)->unk_9A;
+        current_state = entity->action_id.u;
         next_state = 14;
         if (current_state != next_state) {
             u8 *effect = ((u8 *)arachne_direction_frames);
 
-            if (((SpriteFrameState *)sprite)->frameTable != effect) {
-                ((SpriteFrameState *)sprite)->frameTable = effect;
+            if (sprite->frameTable != effect) {
+                sprite->frameTable = effect;
                 select_sprite_entry(
-                    sprite,(u8)(effect[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_80170E70_S_80170E70_1 *)actor)->unk_2A + 0x100) >> 9) & 7]),
+                    sprite,(u8)(effect[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7]),
                     0);
             }
-            ((R12_80170E70_S_80170E70_0 *)entity)->unk_9A = next_state;
+            entity->action_id.u = next_state;
         }
 
-        ((R12_80170E70_S_80170E70_0 *)entity)->unk_98 &= 0xFFF3;
-        if (((R12_80170E70_S_80170E70_1 *)actor)->unk_64 != 0) {
+        entity->action_state_flags &= 0xFFF3;
+        if (actor->hp_delta != 0) {
             if (begin_ready_actor_directional_action(entity, context, sprite, ((u8 *)D_80175A5C)) != 0) {
                 return;
             }
@@ -330,20 +330,20 @@ void update_actor_state_and_select_target(ActorRecord *entity, ObjectPosition *c
         }
     }
 
-    tile_id = ((s8)find_active_rect_containing_point((u8)((SpriteFrameState *)sprite)->tile_x,(u8)((SpriteFrameState *)sprite)->tile_y));
-    ((SpriteFrameState *)sprite)->room_index = tile_id;
+    tile_id = ((s8)find_active_rect_containing_point((u8)sprite->tile_x,(u8)sprite->tile_y));
+    sprite->room_index = tile_id;
 
-    if (((R12_80170E70_S_80170E70_1 *)actor)->unk_6D > 0) {
+    if (actor->pending_turn_updates > 0) {
         if (((R12_80170E70_S_80170E70_1 *)actor)->unk_1C & 0x20) {
             update_actor_status_and_mp(actor);
             return;
         }
-        if (*(u16 *)&((SpriteFrameState *)sprite)->tile_x == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
+        if (*(u16 *)&sprite->tile_x == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
             choose_arachne_move(entity, context, sprite, actor);
             return;
         }
 
-        action_flags = ((R12_80170E70_S_80170E70_1 *)actor)->unk_46;
+        action_flags = actor->action_flags;
         if ((action_flags & 0x8000) == 0) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((s16)check_entity_relation(
@@ -354,15 +354,15 @@ void update_actor_state_and_select_target(ActorRecord *entity, ObjectPosition *c
             if ((s16)relink_arachne_path(entity, context, sprite, 0) == 0) {
                 return;
             }
-            action_flags = ((R12_80170E70_S_80170E70_1 *)actor)->unk_46 | 0x4000;
-            ((R12_80170E70_S_80170E70_1 *)actor)->unk_46 = action_flags;
+            action_flags = actor->action_flags | 0x4000;
+            actor->action_flags = action_flags;
             if ((action_flags & 0x8000) == 0) {
                 choose_arachne_move(entity, context, sprite, actor);
                 return;
             }
         }
 
-        action_index = (((R12_80170E70_S_80170E70_1 *)actor)->unk_46 & 0x3FFF) - 1;
+        action_index = (actor->action_flags & 0x3FFF) - 1;
         switch (action_index) {
         case 7:
         case 8:
@@ -376,10 +376,10 @@ void update_actor_state_and_select_target(ActorRecord *entity, ObjectPosition *c
         case 5:
         case 6:
             target_angle = ((s16)get_rounded_facing_and_rounding_flag(
-                ((SpriteFrameState *)sprite)->tile_x, ((SpriteFrameState *)sprite)->tile_y,
+                sprite->tile_x, sprite->tile_y,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &path_distance));
             owner = primary_actor_record;
-            ((R12_80170E70_S_80170E70_1 *)actor)->unk_2A = target_angle;
+            actor->facing = target_angle;
             if (owner->action_id.u == 0x11) {
                 begin_actor_spell_action(entity, context, sprite, ((u8 *)arachne_frame_set), ((u8 *)update_actor_state_and_select_target));
                 return;
@@ -406,9 +406,9 @@ void update_actor_state_and_select_target(ActorRecord *entity, ObjectPosition *c
         if ((tile_id < 0) ||
             ((dungeon_rooms[tile_id].flags & 2) == 0)) {
             if ((actor_flags & 0x430) == 0) {
-                if ((s16)test_neighbor_position_relation((u8)((SpriteFrameState *)sprite)->tile_x,(u8)((SpriteFrameState *)sprite)->tile_y,(u8)(reference_tile_object.tile_position.parts.tile_x),(u8)(reference_tile_object.tile_position.parts.tile_y)) != 0) {
-                    ((R12_80170E70_S_80170E70_1 *)actor)->unk_2A = ((s16)get_rounded_facing_and_rounding_flag(
-                        ((SpriteFrameState *)sprite)->tile_x, ((SpriteFrameState *)sprite)->tile_y,
+                if ((s16)test_neighbor_position_relation((u8)sprite->tile_x,(u8)sprite->tile_y,(u8)(reference_tile_object.tile_position.parts.tile_x),(u8)(reference_tile_object.tile_position.parts.tile_y)) != 0) {
+                    actor->facing = ((s16)get_rounded_facing_and_rounding_flag(
+                        sprite->tile_x, sprite->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &path_distance));
                 }
             }
@@ -418,18 +418,18 @@ void update_actor_state_and_select_target(ActorRecord *entity, ObjectPosition *c
     if (g_dungeon_status.flags & 0x2000) {
         return;
     }
-    if (((SpriteFrameState *)sprite)->flags & 0x40) {
+    if (sprite->flags & 0x40) {
         return;
     }
     effect_table = ((u8 *)arachne_direction_frames);
-    if (((SpriteFrameState *)sprite)->frameTable == effect_table) {
+    if (sprite->frameTable == effect_table) {
         return;
     }
     {
         u8 *effects = effect_table;
-        ((SpriteFrameState *)sprite)->frameTable = effects;
+        sprite->frameTable = effects;
         select_sprite_entry(
-            sprite,(u8)(effects[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_80170E70_S_80170E70_1 *)actor)->unk_2A + 0x100) >> 9) & 7]),
+            sprite,(u8)(effects[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7]),
             0);
     }
 }
@@ -439,7 +439,7 @@ void update_actor_state_and_select_target(ActorRecord *entity, ObjectPosition *c
 void advance_actor_path_script_step(void *controller, ObjectPosition *context, void *entity, void *path_state)
 {
     ActorRecord *path_actor = controller;
-    void *state = path_state;
+    R12_801713D4_S_8017139C_0 *state = path_state;
     s32 move_flags;
     s16 direction;
     s16 move_result;
@@ -447,11 +447,11 @@ void advance_actor_path_script_step(void *controller, ObjectPosition *context, v
     s32 y;
     s32 control_flags;
 
-    if (((R12_801713D4_S_8017139C_0 *)state)->unk_71.s <= 0) {
+    if (state->unk_71.s <= 0) {
         return;
     }
 
-    if (((R12_801713D4_S_8017139C_0 *)state)->unk_71.u <= ((R12_801713D4_S_8017139C_0 *)state)->unk_8A.s) {
+    if (state->unk_71.u <= state->unk_8A.s) {
         return;
     }
 
@@ -459,14 +459,14 @@ void advance_actor_path_script_step(void *controller, ObjectPosition *context, v
         ((SpriteFrameState *)entity)->frameTable = ((u8 *)arachne_move_direction_frames);
         select_sprite_entry(
             entity,
-            ((u8 *)arachne_move_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_801713D4_S_8017139C_0 *)state)->unk_2A + 0x100) >> 9) & 7],
+            ((u8 *)arachne_move_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + state->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 
     x = ((SpriteFrameState *)entity)->tile_x;
     y = ((SpriteFrameState *)entity)->tile_y;
     move_flags = 0x3000;
-    if (((R12_801713D4_S_8017139C_0 *)state)->unk_1C & 0x2000) {
+    if (state->unk_1C & 0x2000) {
         move_flags = 0x300;
     }
     update_map_cell_flags_with_item_limit(x, y, move_flags);
@@ -474,29 +474,29 @@ void advance_actor_path_script_step(void *controller, ObjectPosition *context, v
     direction = ((s16)get_rounded_facing_and_rounding_flag(
         x,
         y,
-        ((R12_801713D4_S_8017139C_3 *)((u8 *)state + ((R12_801713D4_S_8017139C_0 *)state)->unk_8A.s))->unk_74,
-        ((R12_801713D4_S_8017139C_3 *)((u8 *)state + ((R12_801713D4_S_8017139C_0 *)state)->unk_8A.s))->unk_7C,
+        ((R12_801713D4_S_8017139C_3 *)((u8 *)state + state->unk_8A.s))->unk_74,
+        ((R12_801713D4_S_8017139C_3 *)((u8 *)state + state->unk_8A.s))->unk_7C,
         &path_actor->action_state_flags));
     move_result = ((s16)check_movement_clearance_and_height(direction, entity, state, 0x20));
 
     ((SpriteFrameState *)entity)->tile_x =
-        ((R12_801713D4_S_8017139C_3 *)((u8 *)state + ((R12_801713D4_S_8017139C_0 *)state)->unk_8A.s))->unk_74;
+        ((R12_801713D4_S_8017139C_3 *)((u8 *)state + state->unk_8A.s))->unk_74;
     move_flags = 0x3000;
     ((SpriteFrameState *)entity)->tile_y =
-        ((R12_801713D4_S_8017139C_3 *)((u8 *)state + ((R12_801713D4_S_8017139C_0 *)state)->unk_8A.s))->unk_7C;
-    ((R12_801713D4_S_8017139C_0 *)state)->unk_8A.u++;
+        ((R12_801713D4_S_8017139C_3 *)((u8 *)state + state->unk_8A.s))->unk_7C;
+    state->unk_8A.u++;
 
     {
         s32 next_x = ((SpriteFrameState *)entity)->tile_x;
         s32 next_y = ((SpriteFrameState *)entity)->tile_y;
 
-        if (((R12_801713D4_S_8017139C_0 *)state)->unk_1C & 0x2000) {
+        if (state->unk_1C & 0x2000) {
             move_flags = 0x300;
         }
         cycle_map_cell_flags(next_x, next_y, move_flags);
     }
 
-    ((R12_801713D4_S_8017139C_0 *)state)->unk_2A = direction;
+    state->unk_2A = direction;
     if (move_result == 3) {
         if (!(g_dungeon_status.flags & 0x80) && !(((SpriteFrameState *)entity)->flags & 0x8000)) {
             advance_linked_actor_motion_script(controller, context, entity, state);
@@ -510,7 +510,7 @@ void advance_actor_path_script_step(void *controller, ObjectPosition *context, v
         ((R12_801713D4_S_8017139C_2 *)controller)->unk_98 = control_flags;
     }
     ((R12_801713D4_S_8017139C_2 *)controller)->unk_8C = 0;
-    (*(s32 *)((u8 *)state + (0x1C))) |= 0x40000000;
+    state->unk_1C |= 0x40000000;
     if (g_dungeon_status.flags & 0x80) {
         ((R12_801713D4_S_8017139C_2 *)controller)->unk_96 = 0;
         return;
@@ -518,7 +518,7 @@ void advance_actor_path_script_step(void *controller, ObjectPosition *context, v
 
     ((R12_801713D4_S_8017139C_2 *)controller)->unk_96 = 8;
     {
-        s32 step_count = ((R12_801713D4_S_8017139C_0 *)state)->unk_71.u;
+        s32 step_count = state->unk_71.u;
         if (step_count > 0) {
             ((R12_801713D4_S_8017139C_2 *)controller)->unk_96 = 8 / step_count;
         }
@@ -1028,9 +1028,9 @@ void advance_action_and_spawn_effect(void *action, void *motion, void *entity, v
     s32 timer;
     u8 next_state;
     s32 shifted_timer;
-    void *action_actor;
+    R12_80172654_S_80172654_3 *action_actor;
     void *effect;
-    u8 *effect_data;
+    R12_80172654_S_80172654_6 *effect_data;
 
     state = ((R12_80172654_S_80172654_0 *)action)->phase.s;
     dir_offset = (((R12_80172654_S_80172654_1 *)actor)->unk_2A.s >> 8) & 0xE;
@@ -1045,7 +1045,7 @@ void advance_action_and_spawn_effect(void *action, void *motion, void *entity, v
         if (((SpriteFrameState *)entity)->flags & 0x8000) {
             ((R12_80172654_S_80172654_0 *)action)->phase.s = 0xFF;
             ((SpriteFrameState *)entity)->flags |= 0x6000;
-            resolve_attack_damage_and_effects(action_actor, entity,(s16)(((R12_80172654_S_80172654_3 *)action_actor)->unk_2A),(s16)(1));
+            resolve_attack_damage_and_effects(action_actor, entity,(s16)(action_actor->unk_2A),(s16)(1));
             return;
         }
         ((R12_80172654_S_80172654_4 *)motion)->unk_0C = (-dir_x) << 17;
@@ -1089,16 +1089,16 @@ void advance_action_and_spawn_effect(void *action, void *motion, void *entity, v
                 register_node(effect, ((u8 *)build_linked_curved_wireframe_grid));
                 ((R12_80172654_S_80172654_5 *)effect)->unk_10 = ((u8 *)dim_effect_after_delay);
                 ((R12_80172654_S_80172654_5 *)effect)->unk_20 = ((R12_80172654_S_80172654_4 *)motion)->unk_00.at02.v + effect_offset[0];
-                effect_data = (u8 *)effect + 0x20;
-                ((R12_80172654_S_80172654_6 *)effect_data)->unk_02 = ((R12_80172654_S_80172654_4 *)motion)->unk_04.at02.v + effect_offset[1];
-                ((R12_80172654_S_80172654_6 *)effect_data)->unk_04 = ((R12_80172654_S_80172654_4 *)motion)->unk_0A + effect_offset[2];
-                ((R12_80172654_S_80172654_6 *)effect_data)->unk_08 = 0xC0C0C0;
-                ((R12_80172654_S_80172654_6 *)effect_data)->unk_0E = 8;
-                ((R12_80172654_S_80172654_6 *)effect_data)->unk_12 =
+                effect_data = (R12_80172654_S_80172654_6 *)((u8 *)effect + 0x20);
+                effect_data->unk_02 = ((R12_80172654_S_80172654_4 *)motion)->unk_04.at02.v + effect_offset[1];
+                effect_data->unk_04 = ((R12_80172654_S_80172654_4 *)motion)->unk_0A + effect_offset[2];
+                effect_data->unk_08 = 0xC0C0C0;
+                effect_data->unk_0E = 8;
+                effect_data->unk_12 =
                     sample_terrain_surface_height(((((SpriteFrameState *)entity)->tile_x + dir_x) << 6) & 0xFFC0,
                                   ((((SpriteFrameState *)entity)->tile_y + dir_y) << 6) & 0xFFC0,(s16)((s16)(((R12_80172654_S_80172654_4 *)motion)->unk_0A - 0x80))) -
                     ((R12_80172654_S_80172654_4 *)motion)->unk_0A;
-                ((R12_80172654_S_80172654_6 *)effect_data)->unk_10 = ((R12_80172654_S_80172654_1 *)actor)->unk_2A.s;
+                effect_data->unk_10 = ((R12_80172654_S_80172654_1 *)actor)->unk_2A.s;
             }
             next_state = ((R12_80172654_S_80172654_0 *)action)->phase.u;
             next_state += 1;
@@ -1163,7 +1163,7 @@ void advance_actor_motion_and_wait(void *action, void *transform, void *sprite, 
     u16 saved_pos[4];
     u8 *motion;
     s16 special_motion;
-    void *target;
+    R12_80172AF8_S_80172AF8_2_pre *target;
     s32 wait_ticks;
     u8 *action_state;
 
@@ -1216,15 +1216,15 @@ void advance_actor_motion_and_wait(void *action, void *transform, void *sprite, 
             {
                 s16 use_special = special_motion;
                 if (use_special != 0) {
-                    target = primary_actor_record;
+                    target = (R12_80172AF8_S_80172AF8_2_pre *)primary_actor_record;
                     actor->target = target;
-                    action_state = ((R12_80172AF8_S_80172AF8_2_pre *)target)[-1].unk_00;
+                    action_state = target[-1].unk_00;
                     actor->target_tile_x = ((R12_80172AF8_S_80172AF8_3 *)action_state)->unk_24;
                     actor->target_tile_y = ((R12_80172AF8_S_80172AF8_3 *)action_state)->unk_25;
                 } else if (item_action_definitions[*motion].kind == 2) {
                     target = actor->target;
                     if (target != 0) {
-                        action_state = ((R12_80172AF8_S_80172AF8_2_pre *)target)[-1].unk_00;
+                        action_state = target[-1].unk_00;
                         actor->target_tile_x = ((R12_80172AF8_S_80172AF8_3 *)action_state)->unk_24;
                         actor->target_tile_y = ((R12_80172AF8_S_80172AF8_3 *)action_state)->unk_25;
                     }
@@ -1676,23 +1676,23 @@ void advance_arachne_status_action(void *in_controller, ObjectPosition *in_conte
 void resume_actor_target_selection_after_status_animation(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
     s32 state;
 
-    state = ((Rec_func_801736F4_arg0 *)controller)->unk_9B;
+    state = controller->action_phase.u;
     switch (state) {
     case 0:
     {
         u8 *direction_anims;
 
-        if (!(((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
 
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         direction_anims = ((u8 *)arachne_alt_direction_frames);
-        (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
+        sprite->frameTable = direction_anims;
         select_sprite_entry(sprite,
             direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        ((Rec_func_801736F4_arg0 *)controller)->unk_9B++;
+        controller->action_phase.u++;
         return;
     }
     case 1:
@@ -1701,13 +1701,13 @@ void resume_actor_target_selection_after_status_animation(ActorRecord *controlle
 
         if (entity->mp_value.parts.whole != 0) {
 
-            (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)arachne_reset_frames);
+            sprite->frameTable = ((u8 *)arachne_reset_frames);
             select_sprite_entry(sprite,
                 ((u8 *)arachne_reset_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             entity->flags1C |= 0x40000;
             g_dungeon_status.activity_counts.parts.pending_action_count++;
-            ((Rec_func_801736F4_arg0 *)controller)->unk_9B++;
+            controller->action_phase.u++;
             return;
         }
 
@@ -1753,21 +1753,21 @@ void resume_actor_target_selection_after_status_animation(ActorRecord *controlle
             return;
         }
 
-        (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)arachne_reset_frames);
+        sprite->frameTable = ((u8 *)arachne_reset_frames);
         select_sprite_entry(sprite,
             ((u8 *)arachne_reset_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         entity->flags1C |= 0x40000;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
-        ((Rec_func_801736F4_arg0 *)controller)->unk_9B++;
+        controller->action_phase.u++;
     }
         break;
     case 2:
-        if (((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0xE000) {
+        if (sprite->flags & 0xE000) {
 
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             entity->flags1C &= ~(ACTOR_MP_EMPTY | ACTOR_ASLEEP);
-            ((Rec_func_801736F4_arg0 *)controller)->unk_8C = ((void *)update_actor_state_and_select_target);
+            controller->unk_8C.address = ((void *)update_actor_state_and_select_target);
         }
 
         return;
@@ -1882,7 +1882,7 @@ s32 build_linked_curved_wireframe_grid(u8 *node, s32 next_node, s32 unused_2)
     u8 *ring_xy;
     R12_80173FDC_LineG2 *line;
     u8 *tpage;
-    u8 *display;
+    R12_80173FDC_S_80173FDC_3 *display;
     s32 row;
     s32 col;
     s32 ot_index;
@@ -1972,13 +1972,13 @@ grid_loop:
                     ot_index = ((s16)((R12_80173FDC_S_80173FDC_2 *)vertex_depth)->unk_00 +
                         (s16)((R12_80173FDC_S_80173FDC_2_pre *)vertex_depth)[-1].unk_00) >> 3;
                     if ((u32)ot_index < 0x1E0) {
-                        display = *(u8 * *)display_root;
-                        line = ((R12_80173FDC_S_80173FDC_3 *)display)->unk_8D0.p;
-                        ((R12_80173FDC_S_80173FDC_3 *)display)->unk_8D0.p2 = (u8 *)line + 0x14;
+                        display = (R12_80173FDC_S_80173FDC_3 *)(*(u8 * *)display_root);
+                        line = display->unk_8D0.p;
+                        display->unk_8D0.p2 = (u8 *)line + 0x14;
 
-                        display = *(u8 * *)display_root;
-                        tpage = ((R12_80173FDC_S_80173FDC_3 *)display)->unk_8D0.p2;
-                        ((R12_80173FDC_S_80173FDC_3 *)display)->unk_8D0.p2 = tpage + 0x0C;
+                        display = (R12_80173FDC_S_80173FDC_3 *)(*(u8 * *)display_root);
+                        tpage = display->unk_8D0.p2;
+                        display->unk_8D0.p2 = tpage + 0x0C;
 
                         SetDrawMode(tpage, 0, 0,(u16)(((u16)GetTPage(0, 1, 0, 0))), 0);
 
@@ -2029,13 +2029,13 @@ grid_loop:
                     ot_index = ((s16)((R12_80173FDC_S_80173FDC_6 *)ring_depth)->unk_00 +
                         (*(s16 *)((u8 *)depth_base + next_col * 2))) >> 3;
                     if ((u32)ot_index < 0x1E0) {
-                        display = *(u8 * *)display_root;
-                        line = ((R12_80173FDC_S_80173FDC_3 *)display)->unk_8D0.p;
-                        ((R12_80173FDC_S_80173FDC_3 *)display)->unk_8D0.p2 = (u8 *)line + 0x14;
+                        display = (R12_80173FDC_S_80173FDC_3 *)(*(u8 * *)display_root);
+                        line = display->unk_8D0.p;
+                        display->unk_8D0.p2 = (u8 *)line + 0x14;
 
-                        display = *(u8 * *)display_root;
-                        tpage = ((R12_80173FDC_S_80173FDC_3 *)display)->unk_8D0.p2;
-                        ((R12_80173FDC_S_80173FDC_3 *)display)->unk_8D0.p2 = tpage + 0x0C;
+                        display = (R12_80173FDC_S_80173FDC_3 *)(*(u8 * *)display_root);
+                        tpage = display->unk_8D0.p2;
+                        display->unk_8D0.p2 = tpage + 0x0C;
 
                         SetDrawMode(tpage, 0, 0,(u16)(((u16)GetTPage(0, 1, 0, 0))), 0);
 
@@ -2118,7 +2118,7 @@ void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_
     u8 *scratch = (u8 *)0x1F800000;
     u8 *draw_packet;
     GameWork *work_base;
-    u8 *context;
+    GpuContext *context;
     u8 *screen_start;
     u8 *screen_end;
     u8 *start_vertex;
@@ -2132,7 +2132,7 @@ void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_
     R12_80174618_MATRIX matrix;
     R12_80174618_EMPTY_ARG no_arg;
 
-    context = (u8 *)&g_game_work;
+    context = (GpuContext *)&g_game_work;
     ((R12_80174618_S_80174618_0 *)scratch)->unk_24.s = *(u8 **)context + 0xB0;
     ((R12_80174618_S_80174618_0 *)scratch)->unk_88 = position->unk_02;
     ((R12_80174618_S_80174618_0 *)scratch)->unk_8C = position->unk_06;
@@ -2159,10 +2159,10 @@ void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_
     start_vertex = scratch + 0xB0;
 
     field_value = ((R12_80174618_S_80174618_2 *)render_params)->unk_14;
-    context = *(u8 **)context;
+    context = (GpuContext *)(*(u8 **)context);
     ((R12_80174618_S_80174618_0 *)scratch)->unk_28 = field_value;
-    line_packet = ((GpuContext *)context)->packetCursor;
-    ((GpuContext *)context)->packetCursor = line_packet + 0x10;
+    line_packet = context->packetCursor;
+    context->packetCursor = line_packet + 0x10;
 
     field_value = endpoints->unk_64;
     ((R12_80174618_S_80174618_0 *)scratch)->unk_C0 = field_value;
@@ -2221,13 +2221,13 @@ void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_
     }
 
     {
-        u8 *draw_context;
+        GpuContext *draw_context;
         ((R12_80174618_P_TAG *)line_packet)->addr = ((R12_80174618_P_TAG *)&((R12_80174618_S_80174618_0 *)scratch)->unk_24.u[((R12_80174618_S_80174618_0 *)scratch)->unk_100])->addr;
         ((R12_80174618_P_TAG *)&((R12_80174618_S_80174618_0 *)scratch)->unk_24.u[((R12_80174618_S_80174618_0 *)scratch)->unk_100])->addr = (u32)line_packet;
 
         draw_context = work_base->draw_buffer;
-        draw_packet = ((GpuContext *)draw_context)->packetCursor;
-        ((GpuContext *)draw_context)->packetCursor = draw_packet + 0xC;
+        draw_packet = draw_context->packetCursor;
+        draw_context->packetCursor = draw_packet + 0xC;
         SetDrawMode(draw_packet, 0, 0, (u16)GetTPage(0, 1, 0, 0), 0);
 
         ((R12_80174618_P_TAG *)draw_packet)->addr = ((R12_80174618_P_TAG *)&((R12_80174618_S_80174618_0 *)scratch)->unk_24.u[((R12_80174618_S_80174618_0 *)scratch)->unk_100])->addr;
@@ -2240,7 +2240,7 @@ void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_
 /* Traverses linked effect nodes and projects each node's line endpoints into render packets. */
 s32 queue_line_packets_for_node_chain(void *initial_state, void *context, void *data) {
     void *state = initial_state;
-    void *next_node;
+    R12_80174954_Func800C138CData *next_node;
 
     for (;;) {
         transform_and_queue_line_packets(state, context, data,(s16)(0));
@@ -2249,8 +2249,8 @@ s32 queue_line_packets_for_node_chain(void *initial_state, void *context, void *
             return 0;
         }
         state = (u8 *)next_node + 0x20;
-        context = ((R12_80174954_Func800C138CData *)next_node)->context;
-        data = ((R12_80174954_Func800C138CData *)next_node)->data;
+        context = next_node->context;
+        data = next_node->data;
     }
 }
 
@@ -2278,7 +2278,7 @@ void build_animated_spherical_wireframe(void *effect, void *origin, void *tint) 
     s32 y_coordinate;
     s32 state_m;
     s16 vertices[10][6][3];
-    register void *object_origin;
+    register R12_801749EC_S_801749EC_10 *object_origin;
     void *line_data;
     s16 *closing_angle;
     s16 next_angle_index;
@@ -2314,21 +2314,21 @@ void build_animated_spherical_wireframe(void *effect, void *origin, void *tint) 
     u16 opening_progress;
     u16 old_phase;
     SpriteFrameState *meridian_render;
-    void *segment_start;
+    R12_801749EC_S_801749EC_13 *segment_start;
     SpriteFrameState *ring_render;
-    void *meridian_line;
+    R12_801749EC_S_801749EC_14 *meridian_line;
     void *opening_vertex;
     void *closing_vertex;
-    void *sector_or_ring_start;
+    R12_801749EC_S_801749EC_20 *sector_or_ring_start;
     void *meridian_object;
-    void *segment_end;
+    R12_801749EC_S_801749EC_12 *segment_end;
     void *ring_object;
-    void *next_vertex;
-    void *current_vertex;
+    R12_801749EC_S_801749EC_19 *next_vertex;
+    R12_801749EC_S_801749EC_21 *current_vertex;
     void *opening_angle_slot;
-    void *closing_angle_slot;
-    void *meridian_origin;
-    void *ring_origin;
+    R12_801749EC_S_801749EC_4 *closing_angle_slot;
+    R12_801749EC_S_801749EC_9 *meridian_origin;
+    R12_801749EC_S_801749EC_17 *ring_origin;
     register void *ring_data;
 
     object_origin = origin;
@@ -2391,10 +2391,10 @@ void build_animated_spherical_wireframe(void *effect, void *origin, void *tint) 
         ring_angles[9] = (0 - ((R12_801749EC_S_801749EC_1 *)effect)->unk_0C) + 0x400;
         do {
             closing_angle_slot = (void *)(((ring_index << 0x10) >> 0xF) + (s32)angle_base);
-            closing_angle_value = ((R12_801749EC_S_801749EC_4 *)closing_angle_slot)->unk_02 - 0xCC;
-            ((R12_801749EC_S_801749EC_4 *)closing_angle_slot)->unk_00 = closing_angle_value;
+            closing_angle_value = closing_angle_slot->unk_02 - 0xCC;
+            closing_angle_slot->unk_00 = closing_angle_value;
             if (closing_angle_value < -0x400) {
-                ((R12_801749EC_S_801749EC_4 *)closing_angle_slot)->unk_00 = angle_limit;
+                closing_angle_slot->unk_00 = angle_limit;
             }
             prev_angle_index = ring_index - 1;
             ring_index = prev_angle_index;
@@ -2426,17 +2426,17 @@ void build_animated_spherical_wireframe(void *effect, void *origin, void *tint) 
         meridian_object = allocate_flagged_object_node(0x212);
         if (meridian_object != NULL) {
             meridian_line = meridian_object + 0x20;
-            ((R12_801749EC_S_801749EC_6 *)meridian_line)->unk_1A = 1;
-            ((R12_801749EC_S_801749EC_6 *)meridian_line)->unk_1C = 1;
+            meridian_line->unk_1A = 1;
+            meridian_line->unk_1C = 1;
             ((R12_801749EC_S_801749EC_7 *)meridian_object)->unk_10 = ((u8 *)update_turning_fade_effect_and_model);
             register_node(meridian_object, &queue_line_packets_for_node_chain);
             meridian_render = ((R12_801749EC_S_801749EC_7 *)meridian_object)->unk_0C;
             meridian_render->tpage_abr = 0x20;
             meridian_render->flags = (u16) (meridian_render->flags | 0xC);
             meridian_origin = ((R12_801749EC_S_801749EC_7 *)meridian_object)->unk_08;
-            ((R12_801749EC_S_801749EC_9 *)meridian_origin)->unk_00 = (s32) ((R12_801749EC_S_801749EC_10 *)object_origin)->unk_00;
-            ((R12_801749EC_S_801749EC_9 *)meridian_origin)->unk_04 = (s32) ((R12_801749EC_S_801749EC_10 *)object_origin)->unk_04;
-            ((R12_801749EC_S_801749EC_9 *)meridian_origin)->unk_08 = (s32) ((R12_801749EC_S_801749EC_10 *)object_origin)->unk_08;
+            meridian_origin->unk_00 = (s32) object_origin->unk_00;
+            meridian_origin->unk_04 = (s32) object_origin->unk_04;
+            meridian_origin->unk_08 = (s32) object_origin->unk_08;
             meridian_render = ((R12_801749EC_S_801749EC_7 *)meridian_object)->unk_0C;
             meridian_render->scale_y = ONE;
             meridian_render->scale_x = ONE;
@@ -2446,14 +2446,14 @@ void build_animated_spherical_wireframe(void *effect, void *origin, void *tint) 
             segment_index = sector << 0x10;
             segment_index >>= 0x10;
             sector_offset = meridian * 6;
-            segment_end = (s8 *)vertices + (sector_offset + ((segment_index + 1) * 0x24));
-            ((R12_801749EC_S_801749EC_6 *)meridian_line)->unk_64 = (u16) ((R12_801749EC_S_801749EC_12 *)segment_end)->unk_00;
-            ((R12_801749EC_S_801749EC_6 *)meridian_line)->unk_66 = (u16) ((R12_801749EC_S_801749EC_12 *)segment_end)->unk_02;
-            ((R12_801749EC_S_801749EC_6 *)meridian_line)->unk_68 = (u16) ((R12_801749EC_S_801749EC_12 *)segment_end)->unk_04;
-            segment_start = (s8 *)vertices + (sector_offset + (segment_index * 0x24));
-            ((R12_801749EC_S_801749EC_6 *)meridian_line)->unk_6A = (u16) ((R12_801749EC_S_801749EC_13 *)segment_start)->unk_00;
-            ((R12_801749EC_S_801749EC_6 *)meridian_line)->unk_6C = (u16) ((R12_801749EC_S_801749EC_13 *)segment_start)->unk_02;
-            ((R12_801749EC_S_801749EC_6 *)meridian_line)->unk_6E = (u16) ((R12_801749EC_S_801749EC_13 *)segment_start)->unk_04;
+            segment_end = (R12_801749EC_S_801749EC_12 *)((s8 *)vertices + (sector_offset + ((segment_index + 1) * 0x24)));
+            meridian_line->unk_64 = (u16) segment_end->unk_00;
+            meridian_line->unk_66 = (u16) segment_end->unk_02;
+            meridian_line->unk_68 = (u16) segment_end->unk_04;
+            segment_start = (R12_801749EC_S_801749EC_13 *)((s8 *)vertices + (sector_offset + (segment_index * 0x24)));
+            meridian_line->unk_6A = (u16) segment_start->unk_00;
+            meridian_line->unk_6C = (u16) segment_start->unk_02;
+            meridian_line->unk_6E = (u16) segment_start->unk_04;
         }
         }
     }
@@ -2470,8 +2470,8 @@ void build_animated_spherical_wireframe(void *effect, void *origin, void *tint) 
             ring_object = allocate_flagged_object_node(0x212);
             if (ring_object != NULL) {
                 meridian_line = ring_object + 0x20;
-                ((R12_801749EC_S_801749EC_14 *)meridian_line)->unk_1A = 1;
-                ((R12_801749EC_S_801749EC_14 *)meridian_line)->unk_1C = 1;
+                meridian_line->unk_1A = 1;
+                meridian_line->unk_1C = 1;
                 ((R12_801749EC_S_801749EC_15 *)ring_object)->unk_10 = ((u8 *)update_turning_fade_effect_and_model);
                 register_node(ring_object, &queue_line_packets_for_node_chain);
                 ring_render = ((R12_801749EC_S_801749EC_15 *)ring_object)->unk_0C;
@@ -2485,9 +2485,9 @@ void build_animated_spherical_wireframe(void *effect, void *origin, void *tint) 
                     ring_render->flags = object_flags;
                 }
                 ring_origin = ((R12_801749EC_S_801749EC_15 *)ring_object)->unk_08;
-                ((R12_801749EC_S_801749EC_17 *)ring_origin)->unk_00 = (s32) ((R12_801749EC_S_801749EC_10 *)object_origin)->unk_00;
-                ((R12_801749EC_S_801749EC_17 *)ring_origin)->unk_04 = (s32) ((R12_801749EC_S_801749EC_10 *)object_origin)->unk_04;
-                ((R12_801749EC_S_801749EC_17 *)ring_origin)->unk_08 = (s32) ((R12_801749EC_S_801749EC_10 *)object_origin)->unk_08;
+                ring_origin->unk_00 = (s32) object_origin->unk_00;
+                ring_origin->unk_04 = (s32) object_origin->unk_04;
+                ring_origin->unk_08 = (s32) object_origin->unk_08;
                 ring_render = ((R12_801749EC_S_801749EC_15 *)ring_object)->unk_0C;
                 ring_render->scale_y = ONE;
                 ring_render->scale_x = ONE;
@@ -2495,20 +2495,20 @@ void build_animated_spherical_wireframe(void *effect, void *origin, void *tint) 
                 ring_render->color.c.g = (u8) ((R12_801749EC_S_801749EC_11 *)tint)->unk_0D;
                 ring_render->color.c.b = (u8) ((R12_801749EC_S_801749EC_11 *)tint)->unk_0E;
                 if (meridian != 5) {
-                    next_vertex = (s8 *)vertices + (((meridian + 1) * 6) + vertex_base_or_offset);
-                    ((R12_801749EC_S_801749EC_14 *)meridian_line)->unk_64 = (u16) ((R12_801749EC_S_801749EC_19 *)next_vertex)->unk_00;
-                    ((R12_801749EC_S_801749EC_14 *)meridian_line)->unk_66 = (u16) ((R12_801749EC_S_801749EC_19 *)next_vertex)->unk_02;
-                    ((R12_801749EC_S_801749EC_14 *)meridian_line)->unk_68 = (u16) ((R12_801749EC_S_801749EC_19 *)next_vertex)->unk_04;
+                    next_vertex = (R12_801749EC_S_801749EC_19 *)((s8 *)vertices + (((meridian + 1) * 6) + vertex_base_or_offset));
+                    meridian_line->unk_64 = (u16) next_vertex->unk_00;
+                    meridian_line->unk_66 = (u16) next_vertex->unk_02;
+                    meridian_line->unk_68 = (u16) next_vertex->unk_04;
                 } else {
-                    sector_or_ring_start = (s8 *)vertices + vertex_base_or_offset;
-                    ((R12_801749EC_S_801749EC_14 *)meridian_line)->unk_64 = (u16) ((R12_801749EC_S_801749EC_20 *)sector_or_ring_start)->unk_00;
-                    ((R12_801749EC_S_801749EC_14 *)meridian_line)->unk_66 = (u16) ((R12_801749EC_S_801749EC_20 *)sector_or_ring_start)->unk_02;
-                    ((R12_801749EC_S_801749EC_14 *)meridian_line)->unk_68 = (u16) ((R12_801749EC_S_801749EC_20 *)sector_or_ring_start)->unk_04;
+                    sector_or_ring_start = (R12_801749EC_S_801749EC_20 *)((s8 *)vertices + vertex_base_or_offset);
+                    meridian_line->unk_64 = (u16) sector_or_ring_start->unk_00;
+                    meridian_line->unk_66 = (u16) sector_or_ring_start->unk_02;
+                    meridian_line->unk_68 = (u16) sector_or_ring_start->unk_04;
                 }
-                current_vertex = (s8 *)vertices + ((meridian * 6) + vertex_base_or_offset);
-                ((R12_801749EC_S_801749EC_14 *)meridian_line)->unk_6A = (u16) ((R12_801749EC_S_801749EC_21 *)current_vertex)->unk_00;
-                ((R12_801749EC_S_801749EC_14 *)meridian_line)->unk_6C = (u16) ((R12_801749EC_S_801749EC_21 *)current_vertex)->unk_02;
-                ((R12_801749EC_S_801749EC_14 *)meridian_line)->unk_6E = (u16) ((R12_801749EC_S_801749EC_21 *)current_vertex)->unk_04;
+                current_vertex = (R12_801749EC_S_801749EC_21 *)((s8 *)vertices + ((meridian * 6) + vertex_base_or_offset));
+                meridian_line->unk_6A = (u16) current_vertex->unk_00;
+                meridian_line->unk_6C = (u16) current_vertex->unk_02;
+                meridian_line->unk_6E = (u16) current_vertex->unk_04;
             }
         }
     }
@@ -2526,19 +2526,19 @@ void build_animated_spherical_wireframe(void *effect, void *origin, void *tint) 
 /* Creates a gray spherical wireframe effect offset vertically from the supplied position. */
 void create_offset_effect(void *source_arg, void *spawn_pos_arg, void *unused_context)
 {
-    void *spawn_pos = spawn_pos_arg;
+    R12_80175180_S_80175180_5 *spawn_pos = spawn_pos_arg;
     u16 render_flags;
     void *effect;
     SpriteFrameState *render_part;
     R12_80175180_S_80175180_4 *position;
-    u8 *state;
+    R12_80175180_S_80175180_0 *state;
 
     effect = allocate_flagged_object_node(0x12);
-    state = (u8 *)effect + 0x20;
+    state = (R12_80175180_S_80175180_0 *)((u8 *)effect + 0x20);
     if (effect != 0) {
-        ((R12_80175180_S_80175180_0 *)state)->unk_08 = 0x4A;
-        ((R12_80175180_S_80175180_0 *)state)->unk_0A = ((R12_80175180_S_80175180_1 *)source_arg)->unk_96;
-        ((R12_80175180_S_80175180_0 *)state)->unk_0C = 0;
+        state->unk_08 = 0x4A;
+        state->unk_0A = ((R12_80175180_S_80175180_1 *)source_arg)->unk_96;
+        state->unk_0C = 0;
         ((R12_80175180_S_80175180_2 *)effect)->unk_10 = ((u8 *)build_animated_spherical_wireframe);
         source_arg = project_sprite_chain;
         register_node(effect, source_arg);
@@ -2550,9 +2550,9 @@ void create_offset_effect(void *source_arg, void *spawn_pos_arg, void *unused_co
         render_flags |= 0x80;
         render_part->flags = render_flags;
         position = ((R12_80175180_S_80175180_2 *)effect)->unk_08;
-        position->unk_00 = ((R12_80175180_S_80175180_5 *)spawn_pos)->unk_00;
-        position->unk_04 = ((R12_80175180_S_80175180_5 *)spawn_pos)->unk_04;
-        position->unk_08 = ((R12_80175180_S_80175180_5 *)spawn_pos)->unk_08 + 0xFFE80000;
+        position->unk_00 = spawn_pos->unk_00;
+        position->unk_04 = spawn_pos->unk_04;
+        position->unk_08 = spawn_pos->unk_08 + 0xFFE80000;
         render_part = ((R12_80175180_S_80175180_2 *)effect)->unk_0C;
         render_part->scale_y = 0x1000;
         render_part->scale_x = 0x1000;
@@ -2618,7 +2618,7 @@ void fade_effect_to_neutral(void *entity_data, void *unused, void *source_data)
         *(u16 *)(entity + 0x96) = fade_ticks;
         if ((fade_ticks << 16) <= 0) {
             *(u16 *)(entity - 2) |= 0x8000;
-            *(s32 *)((u8 *)(&object_flag_block)) |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
     }
 }

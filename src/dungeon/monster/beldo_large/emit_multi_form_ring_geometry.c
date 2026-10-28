@@ -95,7 +95,7 @@ void emit_multi_form_ring_geometry(void *animation, s32 *origin, void *color)
     s32 top_y;
     ObjectNodeHeader *object;
     u8 *part;
-    void *effect;
+    S_8016E4E8_4 *effect;
     s32 *position;
     u8 *texture;
     u8 *src_vertices;
@@ -167,23 +167,23 @@ void emit_multi_form_ring_geometry(void *animation, s32 *origin, void *color)
             object->update_callback = D_8016E4A4;
             register_node(object, D_8016E450);
 
-            effect = object->sprite;
-            state = ((S_8016E4E8_4 *)effect)->unk_14;
-            ((S_8016E4E8_4 *)effect)->unk_10 = 0x20;
+            effect = (S_8016E4E8_4 *)object->sprite;
+            state = effect->unk_14;
+            effect->unk_10 = 0x20;
             state |= 0xC;
-            ((S_8016E4E8_4 *)effect)->unk_14 = state;
+            effect->unk_14 = state;
 
             position = *(s32 * *)&object->position;
             position[0] = origin[0];
             position[1] = origin[1];
             color_index = 0;
             position[2] = origin[2];
-            effect = object->sprite;
-            ((S_8016E4E8_4 *)effect)->unk_1E = 0x1000;
-            ((S_8016E4E8_4 *)effect)->unk_1C = 0x1000;
-            ((S_8016E4E8_4 *)effect)->unk_0E = 0x80;
-            ((S_8016E4E8_4 *)effect)->unk_0D = 0x80;
-            ((S_8016E4E8_4 *)effect)->unk_0C = 0x80;
+            effect = (S_8016E4E8_4 *)object->sprite;
+            effect->unk_1E = 0x1000;
+            effect->unk_1C = 0x1000;
+            effect->unk_0E = 0x80;
+            effect->unk_0D = 0x80;
+            effect->unk_0C = 0x80;
 
             do {
                 part[color_index * 4] = ((S_8016E4E8_1 *)color)->unk_0C;
@@ -201,16 +201,16 @@ void emit_multi_form_ring_geometry(void *animation, s32 *origin, void *color)
                 part[0] = 0;
             }
 
-            ((S_8016E4E8_4 *)effect)->unk_06 = 0;
+            effect->unk_06 = 0;
             memcpy(part + 0x28, &D_80173B4C, 12);
 
             vertex_index = 0;
             src_vertices = (u8 *)animation;
             dst_vertices = part;
             texture = part + 0x28;
-            ((S_8016E4E8_4 *)effect)->unk_08.s = texture;
+            effect->unk_08.s = texture;
             texture[8] += ((S_8016E4E8_0 *)animation)->unk_1C * 4;
-            texture = ((S_8016E4E8_4 *)effect)->unk_08.u;
+            texture = effect->unk_08.u;
             frame_count = ((S_8016E4E8_0 *)animation)->unk_1E;
             texture[9] += (frame_count & 3) << 3;
 

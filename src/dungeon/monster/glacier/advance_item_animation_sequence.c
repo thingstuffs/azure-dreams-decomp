@@ -47,7 +47,7 @@ extern u8 D_801760CC[];
 /* Advances a timed actor animation sequence and resets its action on completion. */
 void advance_item_animation_sequence(S_80172F04_0 *action, S_80172F04_3 *motion, SpriteFrameState *animation, void *actor_ptr)
 {
-    void *actor;
+    S_80172F04_2 *actor;
     s32 state;
     u8 current_state;
     u16 timer;
@@ -61,7 +61,7 @@ void advance_item_animation_sequence(S_80172F04_0 *action, S_80172F04_3 *motion,
         if (animation->flags & 0x8000) {
             action->unk_9B = 3;
             animation->flags |= 0x6000;
-            resolve_attack_damage_and_effects(actor, animation, ((S_80172F04_2 *)actor)->unk_2A, 1);
+            resolve_attack_damage_and_effects(actor, animation, actor->unk_2A, 1);
             return;
         }
         motion->unk_14 = 0;
@@ -76,7 +76,7 @@ void advance_item_animation_sequence(S_80172F04_0 *action, S_80172F04_3 *motion,
         action->unk_96 = timer;
         if (((s16)timer == 4) || (animation->flags & 0x8000)) {
             animation->frameTable = D_801760CC;
-            work = g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172F04_2 *)actor)->unk_2A + 0x100;
+            work = g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100;
             work = ((s32)work >> 9) & 7;
             work += (u32)D_801760CC;
             select_sprite_entry(animation,
@@ -93,7 +93,7 @@ void advance_item_animation_sequence(S_80172F04_0 *action, S_80172F04_3 *motion,
         timer = action->unk_96 + 1;
         action->unk_96 = timer;
         if (((s16)timer == 4) || (animation->flags & 0x8000)) {
-            resolve_attack_damage_and_effects(actor, animation, ((S_80172F04_2 *)actor)->unk_2A, 1);
+            resolve_attack_damage_and_effects(actor, animation, actor->unk_2A, 1);
             current_state = action->unk_9B;
             action->unk_96 = 0;
             action->unk_9B = current_state + 1;
@@ -107,7 +107,7 @@ void advance_item_animation_sequence(S_80172F04_0 *action, S_80172F04_3 *motion,
             action->unk_8C = (u8 *)(update_actor_timed_effects);
             ((S_80172F04_4 *)resident_globals_page)->unk_346C = 0;
             advance_status_timers(call_actor);
-            ((S_80172F04_2 *)actor)->unk_46 &= 0x7FFF;
+            actor->unk_46 &= 0x7FFF;
         }
         return;
     default:

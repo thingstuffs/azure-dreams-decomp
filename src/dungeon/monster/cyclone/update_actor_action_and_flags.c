@@ -99,11 +99,11 @@ void update_actor_action_and_flags(ActorRecord *actor, ObjectPosition *action_ct
             u16 stat_delta;
 
             begin_actor_move_to_target_facing(actor, action_ctx, anim, entity);
-            stat_value = ((S_801741CC_0 *)actor)->unk_92;
+            stat_value = actor->unk_90.parts.high.u;
             stat_delta = ((S_801741CC_0 *)actor)->unk_A6;
             ((S_801741CC_0 *)actor)->unk_A6 = 0;
             ((S_801741CC_0 *)actor)->unk_AC = 0;
-            ((S_801741CC_0 *)actor)->unk_92 = stat_value - stat_delta;
+            actor->unk_90.parts.high.u = stat_value - stat_delta;
             func_80174520(actor, action_ctx, anim, entity);
             return;
         }
@@ -148,7 +148,7 @@ void update_actor_action_and_flags(ActorRecord *actor, ObjectPosition *action_ct
 
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             entity->flags1C &= ~ACTOR_MP_EMPTY;
-            ((S_801741CC_0 *)actor)->unk_8C = update_actor_animation;
+            actor->unk_8C.address = update_actor_animation;
         }
 
         return;

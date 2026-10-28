@@ -314,7 +314,7 @@ ordinary_cleanup:
             ((S_801714B8_0 *)actor)->unk_9E.u = idle_timer + 1;
             if (idle_timer >= ((S_801714B8_0 *)actor)->unk_A0) {
                 ObjectNodeHeader *object;
-                u8 *object_data;
+                S_801714B8_7 *object_data;
 
                 u8 *alt_table = glacier_frame_set_1;
 
@@ -331,20 +331,20 @@ ordinary_cleanup:
                 if (object != 0) {
                     initialize_object_rendering_and_params(object, actor, context);
                     object->update_callback = D_80170A0C;
-                    object_data = (u8 *)object + 0x20;
-                    ((S_801714B8_7 *)object_data)->unk_28 = context;
-                    ((S_801714B8_7 *)object_data)->unk_1C = ((S_801714B8_1 *)stats)->unk_2A.u;
+                    object_data = (S_801714B8_7 *)((u8 *)object + 0x20);
+                    object_data->unk_28 = context;
+                    object_data->unk_1C = ((S_801714B8_1 *)stats)->unk_2A.u;
 
                     {
-                        void *owner = ((S_801714B8_0_pre *)actor)[-1].unk_00;
+                        S_801714B8_8 *owner = ((S_801714B8_0_pre *)actor)[-1].unk_00;
 
                         if (resolve_record_orientation_or_fallback(
-                                ((S_801714B8_8 *)owner)->unk_08, owner, spawn_offset, 0xF)) {
-                            void *part = object->position;
+                                owner->unk_08, owner, spawn_offset, 0xF)) {
+                            ObjectPosition *part = object->position;
 
-                            *(u16 *)&((ObjectPosition *)part)->x.w.i += spawn_offset[0];
-                            *(u16 *)&((ObjectPosition *)part)->y.w.i += spawn_offset[1];
-                            *(u16 *)&((ObjectPosition *)part)->z.w.i += spawn_offset[2];
+                            *(u16 *)&part->x.w.i += spawn_offset[0];
+                            *(u16 *)&part->y.w.i += spawn_offset[1];
+                            *(u16 *)&part->z.w.i += spawn_offset[2];
                         }
                     }
                     {

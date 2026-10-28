@@ -256,16 +256,16 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, Spri
 
             effect_object = allocate_list_node(0x112, &scene_object_list_anchor.next);
             if (effect_object != 0) {
-                u8 *effect_state;
+                S_801730E4_5 *effect_state;
                 u8 *effect_data;
                 void *owner_sprite;
                 u8 animation_id;
 
-                effect_state = ((u8 *)effect_object) + 0x20;
-                ((S_801730E4_5 *)effect_state)->unk_96 = 0xF;
+                effect_state = (S_801730E4_5 *)(((u8 *)effect_object) + 0x20);
+                effect_state->unk_96 = 0xF;
                 effect_object->update_callback = &D_801708D4;
-                ((S_801730E4_5 *)effect_state)->unk_A8 = position;
-                ((S_801730E4_5 *)effect_state)->unk_94 = (((ActorFieldView_810318E4 *)actor)->field_2A.u16);
+                effect_state->unk_A8 = position;
+                effect_state->unk_94 = (((ActorFieldView_810318E4 *)actor)->field_2A.u16);
                 effect_data = *(u8 * *)&effect_object->sprite;
                 *(Copy48 *)effect_data = *(Copy48 *)sprite;
                 ((S_801730E4_7 *)effect_data)->unk_1E = 0x1000;

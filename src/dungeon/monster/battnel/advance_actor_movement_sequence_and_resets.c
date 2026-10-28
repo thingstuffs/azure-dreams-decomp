@@ -55,10 +55,10 @@ void advance_actor_movement_sequence_and_resets(ActorRecord *action, ObjectPosit
 
     direction_offset = (((u16)actor->facing) >> 8) & 0xE;
     x_step = *(s16 *)((u8 *)((s8 *)dir_step_x) + direction_offset);
-    ticks_left = ((S_801725D0_1 *)action)->unk_96.s - 1;
+    ticks_left = action->action_timer.u - 1;
     y_step = *(s16 *)((u8 *)((s8 *)dir_step_y) + direction_offset);
     state = action->action_phase.u;
-    ((S_801725D0_1 *)action)->unk_96.s = ticks_left;
+    action->action_timer.u = ticks_left;
 
     switch (state) {
     case 0:
@@ -86,49 +86,49 @@ void advance_actor_movement_sequence_and_resets(ActorRecord *action, ObjectPosit
                     ((sprite->tile_y + y_step) << 6) & 0xFFC0,
                     (s16)(((u16)actor->ground_height) - 0xA0)) - 0x34;
         }
-        ((S_801725D0_1 *)action)->unk_96.s = 2;
+        action->action_timer.u = 2;
         action->action_phase.u++;
         return;
 
     case 1:
-        ((S_801725D0_1 *)action)->unk_90.at02.v +=
+        action->unk_90.parts.high.u +=
             (((S_801725D0_1 *)action)->unk_A6 - motion->z.w.i) / 3;
-        if (((S_801725D0_1 *)action)->unk_96.u > 0) {
+        if (action->action_timer.s > 0) {
             return;
         }
 
         action->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        ((S_801725D0_1 *)action)->unk_90.at02u.v = -0x18;
-        ((S_801725D0_1 *)action)->unk_96.s = 4;
+        action->unk_90.parts.high.s = -0x18;
+        action->action_timer.u = 4;
         motion->velocity_x =
-            (x_step << 22) / ((S_801725D0_1 *)action)->unk_96.u;
-        motion->velocity_y = (y_step << 22) / ((S_801725D0_1 *)action)->unk_96.u;
+            (x_step << 22) / action->action_timer.s;
+        motion->velocity_y = (y_step << 22) / action->action_timer.s;
         action->action_phase.u++;
         return;
 
     case 2:
-        ((S_801725D0_1 *)action)->unk_90.at00.v +=
+        action->unk_90.value +=
             ((((S_801725D0_1 *)action)->unk_A6 - motion->z.w.i) / 3) << 16;
-        if (((S_801725D0_1 *)action)->unk_96.u > 0) {
+        if (action->action_timer.s > 0) {
             return;
         }
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        ((S_801725D0_1 *)action)->unk_96.s = 10;
+        action->action_timer.u = 10;
         action->action_phase.u++;
         return;
 
     case 3:
         height_delta = ((s32)(ticks_left << 16) >> 4) + 0x2000;
-        ((S_801725D0_1 *)action)->unk_90.at00.v -= height_delta;
-        if (((S_801725D0_1 *)action)->unk_96.u == 6) {
+        action->unk_90.value -= height_delta;
+        if (action->action_timer.s == 6) {
             play_sound_if_enabled(0x808);
         }
-        if (((S_801725D0_1 *)action)->unk_96.u == 2) {
+        if (action->action_timer.s == 2) {
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
         }
-        if (((S_801725D0_1 *)action)->unk_96.u > 0) {
+        if (action->action_timer.s > 0) {
             return;
         }
         motion->velocity_x = (0 - x_step) << 19;
@@ -147,7 +147,7 @@ void advance_actor_movement_sequence_and_resets(ActorRecord *action, ObjectPosit
         motion->velocity_x = 0;
         action->action_state_flags &= 0xFFF7;
         actor->flags1C |= ACTOR_GROUNDED;
-        ((S_801725D0_1 *)action)->unk_90.at00.v = 0;
+        action->unk_90.value = 0;
         sprite->frameTable = D_80173D04;
         select_sprite_entry(
             sprite,
@@ -155,7 +155,7 @@ void advance_actor_movement_sequence_and_resets(ActorRecord *action, ObjectPosit
             0);
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         spend_actor_mp(actor, 0x100);
-        ((S_801725D0_1 *)action)->unk_8C = &battnel_action_resume_address;
+        action->unk_8C.address = &battnel_action_resume_address;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         if (actor->pending_turn_updates == 0) {

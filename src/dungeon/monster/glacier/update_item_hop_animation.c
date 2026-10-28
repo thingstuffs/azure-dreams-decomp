@@ -64,39 +64,39 @@ void update_item_hop_animation(ActorRecord *action, ObjectPosition *motion, Spri
             0);
         action->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        ((S_80172AD8_0 *)action)->unk_9E.s = 5;
-        ((S_80172AD8_0 *)action)->unk_A4 = 0;
+        action->unk_9E.s = 5;
+        action->unk_A4 = 0;
         action->action_phase.u++;
                         /* fallthrough */
     case 1:
-        ((S_80172AD8_0 *)action)->unk_90 -= ((S_80172AD8_0 *)action)->unk_A4;
+        action->unk_90.value -= action->unk_A4;
         sprite->scale_x = 0xC00;
         sprite->scale_y = 0x1400;
-        move_frames = ((S_80172AD8_0 *)action)->unk_9E.s;
+        move_frames = action->unk_9E.s;
         if (move_frames != 0) {
             target_x = sprite->tile_x;
-            position_component = ((EntityRec *)motion)->x.w.i;
+            position_component = motion->x.w.i;
             target_x <<= 6;
             position_component -= 0x20;
-            ((EntityRec *)motion)->unk_0C = ((target_x - position_component) << 16) / move_frames;
+            motion->velocity_x = ((target_x - position_component) << 16) / move_frames;
 
-            position_component = ((EntityRec *)motion)->y.w.i - 0x20;
-            ((EntityRec *)motion)->unk_10 =
+            position_component = motion->y.w.i - 0x20;
+            motion->velocity_y =
                 (((sprite->tile_y << 6) - position_component) << 16) /
-                ((S_80172AD8_0 *)action)->unk_9E.s;
-            ((S_80172AD8_0 *)action)->unk_A4 =
-                (-rsin(((S_80172AD8_0 *)action)->unk_9E.s * 0x199)) << 9;
+                action->unk_9E.s;
+            action->unk_A4 =
+                (-rsin(action->unk_9E.s * 0x199)) << 9;
         }
 
-        height = ((S_80172AD8_0 *)action)->unk_90;
-        height_offset = ((S_80172AD8_0 *)action)->unk_A4;
-        frame_count = ((S_80172AD8_0 *)action)->unk_9E.u;
+        height = action->unk_90.value;
+        height_offset = action->unk_A4;
+        frame_count = action->unk_9E.u;
         height += height_offset;
         frame_count -= 1;
-        ((S_80172AD8_0 *)action)->unk_9E.u = frame_count;
-        ((S_80172AD8_0 *)action)->unk_90 = height;
+        action->unk_9E.u = frame_count;
+        action->unk_90.value = height;
         if ((frame_count << 16) < 0) {
-            ((S_80172AD8_0 *)action)->unk_90 = 0;
+            action->unk_90.value = 0;
             action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
             action->action_phase.u++;
@@ -105,9 +105,9 @@ void update_item_hop_animation(ActorRecord *action, ObjectPosition *motion, Spri
     case 2:
         if (actor->flags1C & ACTOR_GROUNDED) {
             action->action_state_flags &= 0xFFF7;
-            ((EntityRec *)motion)->flags14 = 0;
-            ((EntityRec *)motion)->unk_10 = 0;
-            ((EntityRec *)motion)->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
             sprite->scale_x = 0x1400;
             sprite->scale_y = 0xC00;
@@ -126,15 +126,15 @@ void update_item_hop_animation(ActorRecord *action, ObjectPosition *motion, Spri
         break;
     }
 
-    action_timer = ((S_80172AD8_0 *)action)->unk_96 - 1;
-    ((S_80172AD8_0 *)action)->unk_96 = action_timer;
+    action_timer = action->action_timer.u - 1;
+    action->action_timer.u = action_timer;
     if ((action_timer << 16) > 0) {
         return;
     }
 
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->velocity_z = 0;
+    motion->velocity_y = 0;
+    motion->velocity_x = 0;
     set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
     sprite->scale_x = 0x1000;
     sprite->scale_y = 0x1000;
@@ -160,7 +160,7 @@ void update_item_hop_animation(ActorRecord *action, ObjectPosition *motion, Spri
     }
 
     if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-        ((S_80172AD8_0 *)action)->unk_8C = update_actor_timed_effects;
+        action->unk_8C.address = update_actor_timed_effects;
         on_actor_status_updated(actor);
     }
 }

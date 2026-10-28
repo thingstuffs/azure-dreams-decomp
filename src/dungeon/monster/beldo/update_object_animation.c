@@ -194,7 +194,7 @@ void update_object_animation(ActorRecord *obj, ObjectPosition *motion, SpriteFra
         case 7:
         case 8:
             callback_state = state;
-            (*(void **)((u8 *)obj + (0x8C))) = &beldo_action_dispatch_address;
+            obj->unk_8C.address = &beldo_action_dispatch_address;
             update_actor_status_and_mp(callback_state);
             state->action_flags &= 0x7FFF;
             return;

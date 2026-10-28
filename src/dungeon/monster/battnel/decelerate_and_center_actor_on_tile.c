@@ -64,7 +64,7 @@ void decelerate_and_center_actor_on_tile(ActorRecord *action, ObjectPosition *mo
             return;
         }
         if (sprite->flags & 0x8000) {
-            ((S_80172EF4_1 *)action)->unk_96.s = 0;
+            action->action_timer.s = 0;
             action->action_phase.u = 2;
             return;
         }
@@ -73,7 +73,7 @@ void decelerate_and_center_actor_on_tile(ActorRecord *action, ObjectPosition *mo
         if (actor->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         }
-        ((S_80172EF4_1 *)action)->unk_96.s = timer;
+        action->action_timer.s = timer;
 
         velocity_x = motion->velocity_x;
         biased_velocity_x = velocity_x;
@@ -94,12 +94,12 @@ void decelerate_and_center_actor_on_tile(ActorRecord *action, ObjectPosition *mo
             *(s16 *)((u8 *)x_steps + brake_step_offset) << 0xF;
         motion->velocity_y -= *y_step << 0xF;
 
-        if (((S_80172EF4_1 *)action)->unk_96.s > 0) {
-            ((S_80172EF4_1 *)action)->unk_96.s = ((S_80172EF4_1 *)action)->unk_96.u - 1;
+        if (action->action_timer.s > 0) {
+            action->action_timer.s = action->action_timer.u - 1;
         } else if (sprite->flags & 0x6000) {
-            ((S_80172EF4_1 *)action)->unk_96.s = 0;
+            action->action_timer.s = 0;
         }
-        if (((S_80172EF4_1 *)action)->unk_96.s != 0) {
+        if (action->action_timer.s != 0) {
             return;
         }
         if (actor->hp == 0) {
@@ -109,12 +109,12 @@ void decelerate_and_center_actor_on_tile(ActorRecord *action, ObjectPosition *mo
             begin_actor_display_action(action, motion, sprite, &D_80173D24);
             return;
         }
-        ((S_80172EF4_1 *)action)->unk_96.s = 4;
+        action->action_timer.s = 4;
         action->action_phase.u++;
         return;
 
     case 2:
-        if (((S_80172EF4_1 *)action)->unk_96.s != 0) {
+        if (action->action_timer.s != 0) {
             target_x = sprite->tile_x << 6;
             offset_x = motion->x.w.i - 0x20;
             motion->velocity_x = (target_x - offset_x) << 0x10 >> 1;
@@ -123,8 +123,8 @@ void decelerate_and_center_actor_on_tile(ActorRecord *action, ObjectPosition *mo
             motion->velocity_y = (target_y - offset_y) << 0x10 >> 1;
         }
 
-        timer = ((S_80172EF4_1 *)action)->unk_96.u - 1;
-        ((S_80172EF4_1 *)action)->unk_96.s = timer;
+        timer = action->action_timer.u - 1;
+        action->action_timer.s = timer;
         if ((s32)(timer << 16) > 0) {
             return;
         }
@@ -143,7 +143,7 @@ void decelerate_and_center_actor_on_tile(ActorRecord *action, ObjectPosition *mo
         if (actor_ref == (s32)((u8 *)actor - 0x20)) {
             g_dungeon_status.pending_display_owner = actor_ref & 0x7FFFFFFF;
         }
-        ((S_80172EF4_1 *)action)->unk_8C = battnel_action_resume_address;
+        action->unk_8C.address = battnel_action_resume_address;
         return;
 
     default:

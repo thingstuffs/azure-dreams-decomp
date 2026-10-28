@@ -330,8 +330,8 @@ void update_actor_state_and_dispatch_transition(ActorRecord *actor, ObjectPositi
                     ((u8 *)animation_table)[((g_game_work.view.camera_rotation.parts.viewAngle + creature->facing + 0x100) >> 9) & 7],
                     0);
                 map_object->frame_ticks = 1;
-                ((R16_80171014_S_80171014_0 *)actor)->unk_A2.s = 0;
-                ((R16_80171014_S_80171014_0 *)actor)->unk_9E = 0;
+                actor->unk_A0.parts.high = 0;
+                actor->unk_9E.s = 0;
             }
         }
 
@@ -348,10 +348,10 @@ void update_actor_state_and_dispatch_transition(ActorRecord *actor, ObjectPositi
             s16 offset_delta;
 
             begin_actor_move_to_target_facing(actor, actor_context, map_object, creature);
-            offset_delta = ((R16_80171014_S_80171014_0 *)actor)->unk_92.u - ((R16_80171014_S_80171014_0 *)actor)->unk_A2.u;
-            ((R16_80171014_S_80171014_0 *)actor)->unk_A2.s = 0;
-            ((R16_80171014_S_80171014_0 *)actor)->unk_9E = 0;
-            ((R16_80171014_S_80171014_0 *)actor)->unk_92.s = offset_delta;
+            offset_delta = actor->unk_90.parts.high.u - actor->unk_A0.parts.high;
+            actor->unk_A0.parts.high = 0;
+            actor->unk_9E.s = 0;
+            actor->unk_90.parts.high.s = offset_delta;
             update_clown_parent_motion(actor, actor_context, map_object, creature);
             return;
         }
@@ -467,12 +467,12 @@ void advance_actor_path_step_and_update_counters(ActorRecord *motion_state, Obje
     u16 hp;
     u16 energy;
     u16 step_index;
-    void *path_entry;
+    R16_80171574_S_80171FC8_2 *path_entry;
 
     if (((R16_80171574_S_80171FC8_0 *)path_state)->unk_71.s <= 0) {
         return;
     }
-    if ((s32)((R16_80171574_S_80171FC8_0 *)path_state)->unk_71.u <= ((R16_80171574_S_80171FC8_0 *)path_state)->unk_8A.s) {
+    if ((s32)path_state->movement_queue_state <= path_state->unk_8A) {
         return;
     }
 
@@ -483,15 +483,15 @@ void advance_actor_path_step_and_update_counters(ActorRecord *motion_state, Obje
                       0);
     }
 
-    path_entry = (u8 *)path_state + ((R16_80171574_S_80171FC8_0 *)path_state)->unk_8A.s;
-    if (entity->tile_x == ((R16_80171574_S_80171FC8_2 *)path_entry)->unk_74 &&
-        entity->tile_y == ((R16_80171574_S_80171FC8_2 *)path_entry)->unk_7C) {
-        hp = ((R16_80171574_S_80171FC8_3 *)motion_state)->unk_92;
+    path_entry = (R16_80171574_S_80171FC8_2 *)((u8 *)path_state + path_state->unk_8A);
+    if (entity->tile_x == path_entry->unk_74 &&
+        entity->tile_y == path_entry->unk_7C) {
+        hp = motion_state->unk_90.parts.high.u;
         energy = ((R16_80171574_S_80171FC8_0 *)path_state)->unk_88;
-        ((R16_80171574_S_80171FC8_3 *)motion_state)->unk_92 = hp + 0x20;
+        motion_state->unk_90.parts.high.u = hp + 0x20;
         step_index = ((R16_80171574_S_80171FC8_0 *)path_state)->unk_8A.u;
-        ((R16_80171574_S_80171FC8_0 *)path_state)->unk_88 = energy - 0x20;
-        ((R16_80171574_S_80171FC8_0 *)path_state)->unk_8A.u = step_index + 1;
+        path_state->ground_height = energy - 0x20;
+        path_state->unk_8A = step_index + 1;
     } else {
         flags = path_state->flags1C;
         old_x = entity->tile_x;
@@ -504,9 +504,9 @@ void advance_actor_path_step_and_update_counters(ActorRecord *motion_state, Obje
         update_map_cell_flags_with_item_limit(old_x, old_y, distance);
 
         entity->tile_x = ((R16_80171574_S_80171FC8_4 *)((u8 *)path_state
-            + ((R16_80171574_S_80171FC8_0 *)path_state)->unk_8A.s))->unk_74;
+            + path_state->unk_8A))->unk_74;
         entity->tile_y = ((R16_80171574_S_80171FC8_4 *)((u8 *)path_state
-            + ((R16_80171574_S_80171FC8_0 *)path_state)->unk_8A.s))->unk_7C;
+            + path_state->unk_8A))->unk_7C;
         ((R16_80171574_S_80171FC8_0 *)path_state)->unk_8A.u += 1;
 
         cycle_map_cell_flags(entity->tile_x, entity->tile_y,
@@ -517,19 +517,19 @@ void advance_actor_path_step_and_update_counters(ActorRecord *motion_state, Obje
                           entity->tile_y, &motion_state->action_state_flags));
     }
 
-    ((R16_80171574_S_80171FC8_3 *)motion_state)->unk_9A = 0xF;
+    motion_state->action_id.s = 0xF;
     ((R16_80171574_S_80171FC8_3 *)motion_state)->unk_8C = 0;
     path_state->flags1C |= 0x40000000;
 
     if (g_dungeon_status.flags & 0x80) {
-        ((R16_80171574_S_80171FC8_3 *)motion_state)->unk_96 = 0;
+        motion_state->action_timer.u = 0;
         return;
     }
 
-    ((R16_80171574_S_80171FC8_3 *)motion_state)->unk_96 = 8;
-    step_count = ((R16_80171574_S_80171FC8_0 *)path_state)->unk_71.u;
+    motion_state->action_timer.u = 8;
+    step_count = path_state->movement_queue_state;
     if (step_count > 0) {
-        ((R16_80171574_S_80171FC8_3 *)motion_state)->unk_96 = 8 / step_count;
+        motion_state->action_timer.u = 8 / step_count;
     }
 
     return;
@@ -764,8 +764,8 @@ s32 initialize_transition_action(ActorRecord *action_state, ObjectPosition *acti
     if (g_dungeon_status.flags & 0x2000) {
         return -1;
     }
-    neighbor = probe_directional_neighbor(actor, ((SpriteFrameState *)source_obj)->tile_x,
-                                 ((SpriteFrameState *)source_obj)->tile_y, actor->facing);
+    neighbor = probe_directional_neighbor(actor, source_obj->tile_x,
+                                 source_obj->tile_y, actor->facing);
     if ((check_entity_interaction_compatibility(actor, neighbor) << 16) == 0) {
         return 0;
     }
@@ -783,12 +783,12 @@ s32 initialize_transition_action(ActorRecord *action_state, ObjectPosition *acti
     }
     apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_id, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
-        ((Rec_func_800A9E70_arg0 *)action_state)->unk_9A.as_u8 = 0x11;
-        ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_u8 = 0;
+        action_state->action_id.u = 0x11;
+        action_state->action_phase.u = 0;
         ((Rec_func_800A9E70_arg0 *)action_state)->unk_8C = 0;
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;
-        (((SpriteFrameState *)source_obj)->frameTable) = ((u8 *)D_80174214);
+        source_obj->frameTable = ((u8 *)D_80174214);
         select_sprite_entry(
             source_obj,
             ((u8 *)D_80174214)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -917,26 +917,26 @@ void finish_actor_action_animation(ActorRecord *action, ObjectPosition *motion, 
             resolve_attack_damage_and_effects(actor, anim,(s16)(actor->facing),(s16)(1));
             return;
         }
-        ((R16_801723F0_S_801723F0_3 *)motion)->unk_14 = 0;
-        ((R16_801723F0_S_801723F0_3 *)motion)->unk_10 = 0;
-        ((R16_801723F0_S_801723F0_3 *)motion)->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         anim->frameTable = ((u8 *)clown_frame_set);
         select_sprite_entry(anim,(u8)(((u8 *)clown_frame_set)[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7]),
             0);
-        ((R16_801723F0_S_801723F0_0 *)action)->unk_96 = 0;
+        action->action_timer.u = 0;
         action->action_phase.u++;
         play_sound_if_enabled(0x804);
         return;
     case 2:
-        ticks = ((R16_801723F0_S_801723F0_0 *)action)->unk_96 + 1;
-        ((R16_801723F0_S_801723F0_0 *)action)->unk_96 = ticks;
+        ticks = action->action_timer.u + 1;
+        action->action_timer.u = ticks;
         if (((s16)ticks == 8) || (anim->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, anim,(s16)(actor->facing),(s16)(1));
         }
     case 3:
         if (anim->flags & 0xE000) {
             spend_actor_mp(actor, 0x100);
-            ((R16_801723F0_S_801723F0_0 *)action)->unk_8C = ((u8 *)update_actor_state_and_dispatch_transition);
+            action->unk_8C.address = ((u8 *)update_actor_state_and_dispatch_transition);
             g_dungeon_status.active_actor = 0;
             (actor->action_flags) &= 0x7FFF;
             advance_status_timers(actor);
@@ -1317,11 +1317,11 @@ void advance_clown_status_action(ActorRecord *actor, ObjectPosition *context, Sp
             }
             if (actor_flags & 0x80000) {
                 begin_actor_move_to_target_facing(actor, context, render_record, actor_state);
-                value = ((R16_80172D50_S_80173E50_0 *)actor)->unk_92;
-                value_offset = ((R16_80172D50_S_80173E50_0 *)actor)->unk_A2;
-                ((R16_80172D50_S_80173E50_0 *)actor)->unk_A2 = 0;
-                ((R16_80172D50_S_80173E50_0 *)actor)->unk_9E = 0;
-                ((R16_80172D50_S_80173E50_0 *)actor)->unk_92 = value - value_offset;
+                value = actor->unk_90.parts.high.u;
+                value_offset = actor->unk_A0.parts.high;
+                actor->unk_A0.parts.high = 0;
+                actor->unk_9E.s = 0;
+                actor->unk_90.parts.high.u = value - value_offset;
                 update_clown_parent_motion(actor, context, render_record, actor_state);
                 return;
             }
@@ -1358,7 +1358,7 @@ void advance_clown_status_action(ActorRecord *actor, ObjectPosition *context, Sp
             0);
         (*(u32 *)&actor_state->flags1C) |= 0x40000;
         if (render_record->flags & 0x8000) {
-            ((R16_80172D50_S_80173E50_0 *)actor)->unk_8C = ((u8 *)update_actor_state_and_dispatch_transition);
+            actor->unk_8C.address = ((u8 *)update_actor_state_and_dispatch_transition);
             return;
         }
         actor->action_phase.u++;
@@ -1371,7 +1371,7 @@ void advance_clown_status_action(ActorRecord *actor, ObjectPosition *context, Sp
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
 
-        ((R16_80172D50_S_80173E50_0 *)actor)->unk_8C = ((u8 *)update_actor_state_and_dispatch_transition);
+        actor->unk_8C.address = ((u8 *)update_actor_state_and_dispatch_transition);
         return;
     }
 }
@@ -1380,7 +1380,7 @@ void advance_clown_status_action(ActorRecord *actor, ObjectPosition *context, Sp
 void advance_clown_mp_action(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *entity) {
     s32 state;
 
-    state = ((Rec_func_8017360C_arg0 *)actor)->unk_9B;
+    state = actor->action_phase.u;
     switch (state) {
     case 0:
     {
@@ -1396,7 +1396,7 @@ void advance_clown_mp_action(ActorRecord *actor, ObjectPosition *context, Sprite
         select_sprite_entry(animation,
             direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        ((Rec_func_8017360C_arg0 *)actor)->unk_9B++;
+        actor->action_phase.u++;
         return;
     }
     case 1:
@@ -1411,7 +1411,7 @@ void advance_clown_mp_action(ActorRecord *actor, ObjectPosition *context, Sprite
                 0);
             entity->flags1C |= 0x40000;
             g_dungeon_status.activity_counts.parts.pending_action_count++;
-            ((Rec_func_8017360C_arg0 *)actor)->unk_9B++;
+            actor->action_phase.u++;
             return;
         }
 
@@ -1440,11 +1440,11 @@ void advance_clown_mp_action(ActorRecord *actor, ObjectPosition *context, Sprite
             u16 pending_decrement;
 
             begin_actor_move_to_target_facing(actor, context, animation, entity);
-            stored_value = ((Rec_func_8017360C_arg0 *)actor)->unk_92;
-            pending_decrement = ((Rec_func_8017360C_arg0 *)actor)->unk_A2;
-            ((Rec_func_8017360C_arg0 *)actor)->unk_A2 = 0;
-            ((Rec_func_8017360C_arg0 *)actor)->unk_9E = 0;
-            ((Rec_func_8017360C_arg0 *)actor)->unk_92 = stored_value - pending_decrement;
+            stored_value = actor->unk_90.parts.high.u;
+            pending_decrement = actor->unk_A0.parts.high;
+            actor->unk_A0.parts.high = 0;
+            actor->unk_9E.u = 0;
+            actor->unk_90.parts.high.u = stored_value - pending_decrement;
             update_clown_parent_motion(actor, context, animation, entity);
             return;
         }
@@ -1471,7 +1471,7 @@ void advance_clown_mp_action(ActorRecord *actor, ObjectPosition *context, Sprite
             0);
         entity->flags1C |= 0x40000;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
-        ((Rec_func_8017360C_arg0 *)actor)->unk_9B++;
+        actor->action_phase.u++;
     }
         break;
     case 2:
@@ -1479,7 +1479,7 @@ void advance_clown_mp_action(ActorRecord *actor, ObjectPosition *context, Sprite
 
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             entity->flags1C &= ~ACTOR_MP_EMPTY;
-            ((Rec_func_8017360C_arg0 *)actor)->unk_8C.as_pv = ((void *)update_actor_state_and_dispatch_transition);
+            actor->unk_8C.address = ((void *)update_actor_state_and_dispatch_transition);
         }
 
         return;
@@ -1628,8 +1628,8 @@ void update_expanding_spiral_effect(void *effect, R16_80173738_FuncArg1 *positio
     ((R16_80173738_S_80173738_0 *)effect)->unk_1A = next_life;
     if ((next_life << 0x10) <= 0) {
         ((R16_80173738_S_80173738_0_pre *)effect)[-1].unk_00 = (u16) (((R16_80173738_S_80173738_0_pre *)effect)[-1].unk_00 | 0x8000);
-        ((R16_80173738_S_80173738_2 *)((s32 *)(&object_flag_block)))->unk_00 =
-            (s32) (((R16_80173738_S_80173738_2 *)((s32 *)(&object_flag_block)))->unk_00 | 0x8000);
+        object_flag_block.flags =
+            (s32) (object_flag_block.flags | 0x8000);
     }
 }
 

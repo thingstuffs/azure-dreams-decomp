@@ -110,7 +110,7 @@ void create_facing_offset_object(Arg0Object *owner, Arg1Object *height_source, A
     u8 secondary_y;
     SecondaryChild *secondary_child;
     SecondaryBlock *secondary_block;
-    void *secondary;
+    SecondaryObject *secondary;
 
     allocated = allocate_flagged_object_node(0x212);
     if (allocated != 0) {
@@ -150,7 +150,7 @@ void create_facing_offset_object(Arg0Object *owner, Arg1Object *height_source, A
         block->field30 = secondary;
         if (secondary != 0) {
             secondary_block = (SecondaryBlock *)((u8 *)secondary + 0x20);
-            secondary_child = ((SecondaryObject *)secondary)->child;
+            secondary_child = secondary->child;
             secondary_block->flags14 |= 0x100000;
             secondary_x = secondary_child->x24;
             secondary_y = secondary_child->y25;

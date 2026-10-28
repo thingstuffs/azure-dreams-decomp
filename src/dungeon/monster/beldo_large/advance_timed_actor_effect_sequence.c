@@ -93,9 +93,9 @@ void advance_timed_actor_effect_sequence(ActorRecord *sequence, ObjectPosition *
         if (!( sprite->flags & 0xE000)) {
             return;
         }
-        ((TransformFieldView_81336BB4 *)transform)->field_14 = 0;
-        ((TransformFieldView_81336BB4 *)transform)->field_10 = 0;
-        ((TransformFieldView_81336BB4 *)transform)->field_0C = 0;
+        transform->velocity_z = 0;
+        transform->velocity_y = 0;
+        transform->velocity_x = 0;
         set_record_integer_tile_center(transform, sprite->tile_x, sprite->tile_y);
         anim_mode = sequence->unk_AC.byte;
         switch (anim_mode) {

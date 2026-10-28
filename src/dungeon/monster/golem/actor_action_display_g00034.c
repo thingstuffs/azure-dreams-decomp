@@ -15,14 +15,14 @@ s32 attempt_actor_action_and_display(ActorRecord *action_out, ObjectPosition *ac
     s32 action_code;
     u16 state_flags;
 
-    ((S_80172050_0 *)acting_actor)->unk_71 &= 0x7F;
+    acting_actor->movement_queue_state &= 0x7F;
     if (g_dungeon_status.flags & 0x2000) {
         result = -1;
         return result;
     }
 
     computed_angle = probe_directional_neighbor(acting_actor, actor_info->tile_x,
-        actor_info->tile_y, ((S_80172050_0 *)acting_actor)->unk_2A);
+        actor_info->tile_y, acting_actor->facing);
     if ((check_entity_interaction_compatibility(((void *)(acting_actor)), computed_angle) << 16) == 0) {
         result = 0;
         return result;
@@ -33,7 +33,7 @@ s32 attempt_actor_action_and_display(ActorRecord *action_out, ObjectPosition *ac
         result = -1;
         return result;
     }
-    if (!(((S_80172050_0 *)acting_actor)->unk_46 & 0x8000)) {
+    if (!(acting_actor->action_flags & 0x8000)) {
         if (state_flags & 8) {
             result = -1;
             return result;
@@ -53,19 +53,19 @@ s32 attempt_actor_action_and_display(ActorRecord *action_out, ObjectPosition *ac
     if ((try_claim_dungeon_action_slot((s32)acting_actor) << 16) != 0) {
         result = -1;
     } else {
-        ((S_80172050_2 *)action_out)->unk_9A = 0x11;
+        action_out->action_id.s = 0x11;
         action_code = 0x7C;
-        ((S_80172050_2 *)action_out)->unk_9B = 0;
+        action_out->action_phase.s = 0;
         ((S_80172050_2 *)action_out)->unk_8C = 0;
-        ((S_80172050_0 *)acting_actor)->unk_84 = action_code;
-        ((S_80172050_0 *)acting_actor)->unk_85 = 4;
+        acting_actor->unk_84 = action_code;
+        acting_actor->unk_85 = 4;
         direction_table = &golem_frame_set;
         (actor_info->frameTable) = direction_table;
         select_sprite_entry(actor_info,
-            direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172050_0 *)acting_actor)->unk_2A + 0x100) >> 9) & 7],
+            direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + acting_actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_80172050_3 *)acting_actor)->unk_6D--;
-        prepare_directional_attack(acting_actor, actor_info, ((S_80172050_3 *)acting_actor)->unk_2A, 1, 0);
+        prepare_directional_attack(acting_actor, actor_info, acting_actor->facing, 1, 0);
         result = 1;
     }
     return result;
@@ -77,8 +77,8 @@ void update_eligible_actor_action(ActorRecord *action_state, ObjectPosition *act
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot((s32)actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, (void *)action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot((s32)actor) << 0x10) == 0) {
-            ((Rec_func_800A9E70_arg0 *)action_state)->unk_9A.as_s8 = 0x11;
-            ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_s8 = 0;
+            action_state->action_id.s = 0x11;
+            action_state->action_phase.s = 0;
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_8C = 0;
             (sprite->frameTable) = &golem_frame_set;
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)

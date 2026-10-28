@@ -44,7 +44,7 @@ typedef struct S_80174D24_4 {
 void advance_timed_target_flags(void *state, void *output, SpriteFrameState *target)
 {
     u16 offsets[3];
-    void *object;
+    S_80174D24_2 *object;
     Copy24 *source;
     s32 copy_word_a;
     s32 copy_word_b;
@@ -66,7 +66,7 @@ void advance_timed_target_flags(void *state, void *output, SpriteFrameState *tar
 
     object = ((S_80174D24_0 *)state)->unk_08;
     offset_mode = 0;
-    object_id = ((S_80174D24_2 *)object)->unk_08;
+    object_id = object->unk_08;
     if (resolve_record_orientation_or_fallback(object_id, object,
                       (s16 *)offsets, offset_mode) != 0) {
         ((S_80174D24_1 *)output)->unk_00.at02.v += offsets[0];

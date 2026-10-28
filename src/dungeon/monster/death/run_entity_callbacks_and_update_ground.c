@@ -38,7 +38,7 @@ typedef struct S_801653A8_2 {
  * ground contact. */
 void run_entity_callbacks_and_update_ground(void *entity, ObjectPosition *motion, void *sprite)
 {
-    void *entity_base = entity;
+    S_801653A8_2 *entity_base = entity;
     s16 old_state;
     u8 state_byte;
     s32 height_offset;
@@ -104,7 +104,7 @@ void run_entity_callbacks_and_update_ground(void *entity, ObjectPosition *motion
     initial_sprite_flags = ((SpriteFrameState *)sprite)->flags;
 
     if (!(initial_sprite_flags & 0x8000)) {
-        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801653A8_2 *)entity_base)->unk_2A + 0x100) >> 9) & 7;
+        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + entity_base->unk_2A + 0x100) >> 9) & 7;
         if ((*(s16 *)((u8 *)entity + 0x94)) != direction) {
             select_indirect_table_entry(sprite,
                 *(u8 *)(*(u8 * *)&((SpriteFrameState *)sprite)->frameTable + direction),
@@ -116,18 +116,18 @@ void run_entity_callbacks_and_update_ground(void *entity, ObjectPosition *motion
         } else {
             ((SpriteFrameState *)sprite)->flags &= 0xFFFE;
         }
-        apply_monster_koyaw_data(((S_801653A8_2 *)entity_base)->unk_1C, (u8 *)sprite + 0xC);
-        if (!(((S_801653A8_2 *)entity_base)->unk_1C & 0x20)) {
+        apply_monster_koyaw_data(entity_base->unk_1C, (u8 *)sprite + 0xC);
+        if (!(entity_base->unk_1C & 0x20)) {
             if (!(((SpriteFrameState *)sprite)->flags & 0x40)) {
                 advance_sprite_animation_and_textures(sprite);
             }
         } else {
             ((SpriteFrameState *)sprite)->flags |= 0x7000;
-            ((S_801653A8_2 *)entity_base)->unk_1C &= 0xFFFBFFFF;
+            entity_base->unk_1C &= 0xFFFBFFFF;
         }
 
-        ((S_801653A8_2 *)entity_base)->unk_1C &= 0xF7FFFFFF;
-        height_sum = ((S_801653A8_2 *)entity_base)->unk_1C;
+        entity_base->unk_1C &= 0xF7FFFFFF;
+        height_sum = entity_base->unk_1C;
         if (height_sum & 0x40000) {
             sprite_flags = ((SpriteFrameState *)sprite)->flags;
             if (!(sprite_flags & 0x40)) {
@@ -181,13 +181,13 @@ void run_entity_callbacks_and_update_ground(void *entity, ObjectPosition *motion
             if (height_offset == 0) {
                 ground_height = sample_terrain_surface_height(((u16)motion->x.w.i),
                                       ((u16)motion->y.w.i),
-                                      (s16)(((S_801653A8_2 *)entity_base)->unk_88 - 0x20)) -
-                        ((S_801653A8_2 *)entity_base)->unk_88;
+                                      (s16)(entity_base->unk_88 - 0x20)) -
+                        entity_base->unk_88;
                 if (ground_height < (*(s16 *)((u8 *)entity + 0x92))) {
                     (*(s16 *)((u8 *)entity + 0x92)) = ground_height;
                     (*(u8 *)((u8 *)entity + 0x9D)) = 0;
                     motion->velocity_z = 0;
-                    ((S_801653A8_2 *)entity_base)->unk_1C |= 0x08000000;
+                    entity_base->unk_1C |= 0x08000000;
                 }
             }
         }
@@ -197,8 +197,8 @@ void run_entity_callbacks_and_update_ground(void *entity, ObjectPosition *motion
         } else {
             ((SpriteFrameState *)sprite)->flags = initial_sprite_flags | 0x7000;
         }
-        ((S_801653A8_2 *)entity_base)->unk_1C &= 0xF7FFFFFF;
-        height_sum = ((S_801653A8_2 *)entity_base)->unk_1C;
+        entity_base->unk_1C &= 0xF7FFFFFF;
+        height_sum = entity_base->unk_1C;
 
         if (!(height_sum & 0x40000)) {
             height_adjust = (*(s32 *)((u8 *)entity + 0xA4));
@@ -212,13 +212,13 @@ void run_entity_callbacks_and_update_ground(void *entity, ObjectPosition *motion
             if (height_offset == 0) {
                 ground_height = sample_terrain_surface_height(((u16)motion->x.w.i),
                                       ((u16)motion->y.w.i),
-                                      (s16)(((S_801653A8_2 *)entity_base)->unk_88 - 0x20)) -
-                        ((S_801653A8_2 *)entity_base)->unk_88;
+                                      (s16)(entity_base->unk_88 - 0x20)) -
+                        entity_base->unk_88;
                 if (ground_height < (*(s16 *)((u8 *)entity + 0x92))) {
                     (*(s16 *)((u8 *)entity + 0x92)) = ground_height;
                     (*(u8 *)((u8 *)entity + 0x9D)) = 0;
                     motion->velocity_z = 0;
-                    ((S_801653A8_2 *)entity_base)->unk_1C |= 0x08000000;
+                    entity_base->unk_1C |= 0x08000000;
                 }
             }
         } else {
@@ -257,20 +257,20 @@ void run_entity_callbacks_and_update_ground(void *entity, ObjectPosition *motion
         }
     }
 
-    height_sum = ((S_801653A8_2 *)entity_base)->unk_1C;
+    height_sum = entity_base->unk_1C;
     if (height_sum & 0x40000000) {
-        ((S_801653A8_2 *)entity_base)->unk_1C = height_sum & 0xBFFFFFFF;
+        entity_base->unk_1C = height_sum & 0xBFFFFFFF;
         ground_height = sample_terrain_surface_height((((SpriteFrameState *)sprite)->tile_x << 6) | 0x20,
                               (((SpriteFrameState *)sprite)->tile_y << 6) | 0x20,
-                              (s16)(((S_801653A8_2 *)entity_base)->unk_88 - 0x20));
+                              (s16)(entity_base->unk_88 - 0x20));
         if (ground_height < 0x200) {
             (*(s16 *)((u8 *)entity + 0x92)) =
                 (u16)(*(s16 *)((u8 *)entity + 0x92)) +
-                (((S_801653A8_2 *)entity_base)->unk_88 - ground_height);
-            ((S_801653A8_2 *)entity_base)->unk_88 = ground_height;
+                (entity_base->unk_88 - ground_height);
+            entity_base->unk_88 = ground_height;
         }
     }
-    motion->z.w.i = ((S_801653A8_2 *)entity_base)->unk_88 +
+    motion->z.w.i = entity_base->unk_88 +
                              (u16)(*(s16 *)((u8 *)entity + 0x92)) -
                              (*(u16 *)((u8 *)entity + 0xA6));
     ((SpriteFrameState *)sprite)->flags |= 0x40;

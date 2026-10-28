@@ -258,18 +258,18 @@ void update_item_use_action(void *action, ObjectPosition *motion, SpriteFrameSta
                     continue;
                 }
                 {
-                    void *particle_part;
+                    S_801731C8_6 *particle_part;
                     s32 color_roll;
                     s16 color_choice;
 
                     ((S_801731C8_5 *)particle)->unk_22 = 8;
                     particle->update_callback = particle_script;
                     register_node(particle, project_sprite_chain);
-                    particle_part = particle->sprite;
-                    ((S_801731C8_6 *)particle_part)->unk_10 = low_color;
-                    ((S_801731C8_6 *)particle_part)->unk_14 |= 0xC;
+                    particle_part = (S_801731C8_6 *)particle->sprite;
+                    particle_part->unk_10 = low_color;
+                    particle_part->unk_14 |= 0xC;
 
-                    particle_part = particle->position;
+                    particle_part = (S_801731C8_6 *)particle->position;
                     {
                         s32 position_roll;
                         s32 position_base;
@@ -277,7 +277,7 @@ void update_item_use_action(void *action, ObjectPosition *motion, SpriteFrameSta
                         position_roll = rand();
                         position_base = ((u16)motion->x.w.i);
                         position_base -= 0x20;
-                        ((S_801731C8_6 *)particle_part)->unk_02 = position_base + (position_roll & 0x3F);
+                        particle_part->unk_02 = position_base + (position_roll & 0x3F);
                     }
                     {
                         s32 position_roll;
@@ -286,47 +286,47 @@ void update_item_use_action(void *action, ObjectPosition *motion, SpriteFrameSta
                         position_roll = rand();
                         position_base = ((u16)motion->y.w.i);
                         position_base -= 0x20;
-                        ((S_801731C8_6 *)particle_part)->unk_06 = position_base + (position_roll & 0x3F);
+                        particle_part->unk_06 = position_base + (position_roll & 0x3F);
                     }
-                    ((S_801731C8_6 *)particle_part)->unk_08.at02.v =
+                    particle_part->unk_08.at02.v =
                         ((u16)motion->z.w.i) - (rand() & 0x1F) - 0x30;
 
-                    particle_part = particle->sprite;
+                    particle_part = (S_801731C8_6 *)particle->sprite;
                     {
                         s32 initial_color;
 
-                        ((S_801731C8_6 *)particle_part)->unk_1E = 0x200;
-                        ((S_801731C8_6 *)particle_part)->unk_1C = 0x200;
+                        particle_part->unk_1E = 0x200;
+                        particle_part->unk_1C = 0x200;
                         initial_color = 0x80;
-                        ((S_801731C8_6 *)particle_part)->unk_0E = initial_color;
-                        ((S_801731C8_6 *)particle_part)->unk_0D = initial_color;
-                        ((S_801731C8_6 *)particle_part)->unk_0C = initial_color;
+                        particle_part->unk_0E = initial_color;
+                        particle_part->unk_0D = initial_color;
+                        particle_part->unk_0C = initial_color;
                     }
                     *(LocalPacket *)((u8 *)particle + 0x40) = D_801755D4;
-                    ((S_801731C8_6 *)particle_part)->unk_08.at00.v = (u8 *)particle + 0x40;
+                    particle_part->unk_08.at00.v = (u8 *)particle + 0x40;
 
                     color_roll = rand() & 3;
                     color_choice = color_roll;
                     if (color_choice == 0) {
                         continue;
                     }
-                    ((S_801731C8_6 *)particle_part)->unk_12 = color_roll + 0x7DC6;
-                    ((S_801731C8_6 *)particle_part)->unk_14 |= 0x100;
+                    particle_part->unk_12 = color_roll + 0x7DC6;
+                    particle_part->unk_14 |= 0x100;
                     switch (color_choice) {
                     case 1:
-                        ((S_801731C8_6 *)particle_part)->unk_0C = high_color;
-                        ((S_801731C8_6 *)particle_part)->unk_0E = low_color;
-                        ((S_801731C8_6 *)particle_part)->unk_0D = low_color;
+                        particle_part->unk_0C = high_color;
+                        particle_part->unk_0E = low_color;
+                        particle_part->unk_0D = low_color;
                         break;
                     case 2:
-                        ((S_801731C8_6 *)particle_part)->unk_0E = high_color;
-                        ((S_801731C8_6 *)particle_part)->unk_0C = low_color;
-                        ((S_801731C8_6 *)particle_part)->unk_0D = low_color;
+                        particle_part->unk_0E = high_color;
+                        particle_part->unk_0C = low_color;
+                        particle_part->unk_0D = low_color;
                         break;
                     case 3:
-                        ((S_801731C8_6 *)particle_part)->unk_0D = high_color;
-                        ((S_801731C8_6 *)particle_part)->unk_0E = low_color;
-                        ((S_801731C8_6 *)particle_part)->unk_0C = low_color;
+                        particle_part->unk_0D = high_color;
+                        particle_part->unk_0E = low_color;
+                        particle_part->unk_0C = low_color;
                         break;
                     }
                 }

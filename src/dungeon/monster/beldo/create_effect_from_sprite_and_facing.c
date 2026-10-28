@@ -42,7 +42,7 @@ void create_effect_from_sprite_and_facing(void *unused, MovingPosition *source_t
     ObjectNodeHeader *effect;
     S_80170E18_0 *effect_state;
     ObjectPosition *transform;
-    void *sprite_data;
+    Block16 *sprite_data;
     Block16 *src;
     Block16 *dst;
     Block16 *end;
@@ -56,7 +56,7 @@ void create_effect_from_sprite_and_facing(void *unused, MovingPosition *source_t
         effect->update_callback = &D_80170D44;
         effect_state->unk_AC = source_transform;
         sprite = effect->sprite;
-        src = (Block16 *)sprite_data;
+        src = sprite_data;
         dst = (Block16 *)sprite;
         end = src + 3;
         do {

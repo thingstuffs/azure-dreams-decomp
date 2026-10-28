@@ -36,71 +36,71 @@ typedef struct S_80172864_2 {
 /* Advances a timed action through animation setup, execution, and cleanup. */
 void advance_timed_action_and_cleanup(void *action_data, void *unused, SpriteFrameState *sprite, void *actor_data)
 {
-    register void *action = action_data;
-    register void *actor = actor_data;
+    register S_80172864_0 *action = action_data;
+    register S_80172864_2 *actor = actor_data;
     u8 state;
     u16 timer;
 
-    state = ((S_80172864_0 *)action)->unk_9B.n;
+    state = action->unk_9B.n;
     if ((u32)state >= 5) {
         return;
     }
     switch (state) {
     case 0:
-        timer = ((S_80172864_0 *)action)->unk_96.u;
-        ((S_80172864_0 *)action)->unk_96.u = timer + 1;
+        timer = action->unk_96.u;
+        action->unk_96.u = timer + 1;
         if ((s16)timer < 4 && !(sprite->flags & 0x8000)) {
             return;
         }
-        state = ((S_80172864_0 *)action)->unk_9B.v;
-        ((S_80172864_0 *)action)->unk_96.u = 0;
-        ((S_80172864_0 *)action)->unk_9B.n = state + 1;
+        state = action->unk_9B.v;
+        action->unk_96.u = 0;
+        action->unk_9B.n = state + 1;
         return;
 
     case 1:
-        if (((S_80172864_0 *)action)->unk_A2 != 0 &&
+        if (action->unk_A2 != 0 &&
             !(sprite->flags & 0x8000)) {
             return;
         }
         sprite->frameTable = hikewne_frame_set_16;
         select_sprite_entry(
             sprite,
-            hikewne_frame_set_16[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172864_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            hikewne_frame_set_16[((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
             0);
-        state = ((S_80172864_0 *)action)->unk_9B.n;
-        ((S_80172864_0 *)action)->unk_96.u = 0;
-        ((S_80172864_0 *)action)->unk_A2 = 0;
-        ((S_80172864_0 *)action)->unk_9E = 0;
-        ((S_80172864_0 *)action)->unk_9B.n = state + 1;
+        state = action->unk_9B.n;
+        action->unk_96.u = 0;
+        action->unk_A2 = 0;
+        action->unk_9E = 0;
+        action->unk_9B.n = state + 1;
         return;
 
     case 2:
-        timer = ((S_80172864_0 *)action)->unk_96.u + 1;
-        ((S_80172864_0 *)action)->unk_96.u = timer;
+        timer = action->unk_96.u + 1;
+        action->unk_96.u = timer;
         if ((s16)timer == 9 || (sprite->flags & 0x8000)) {
-            resolve_attack_damage_and_effects(actor, sprite, ((S_80172864_2 *)actor)->unk_2A, 1);
-            ((S_80172864_0 *)action)->unk_96.u = 0;
-            ((S_80172864_0 *)action)->unk_9B.n++;
+            resolve_attack_damage_and_effects(actor, sprite, actor->unk_2A, 1);
+            action->unk_96.u = 0;
+            action->unk_9B.n++;
         }
-        if (((S_80172864_0 *)action)->unk_96.s != 6) {
+        if (action->unk_96.s != 6) {
             return;
         }
         play_sound_if_enabled(0x808);
         return;
 
     case 3:
-        state = ((S_80172864_0 *)action)->unk_9B.n;
-        ((S_80172864_0 *)action)->unk_96.u = 0;
-        ((S_80172864_0 *)action)->unk_9B.n = state + 1;
+        state = action->unk_9B.n;
+        action->unk_96.u = 0;
+        action->unk_9B.n = state + 1;
     case 4:
         if (!(sprite->flags & 0xE000)) {
             return;
         }
         spend_actor_mp(actor, 0x100);
-        ((S_80172864_0 *)action)->unk_8C = update_actor_behavior_animation_and_facing;
+        action->unk_8C = update_actor_behavior_animation_and_facing;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
-        ((S_80172864_2 *)actor)->unk_46 &= 0x7FFF;
+        actor->unk_46 &= 0x7FFF;
 
         return;
     }

@@ -140,7 +140,7 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
                             >> 9) & 7],
                         1);
                     entity_in->frame_ticks = 1;
-                    motion_value = ((S_801719DC_0 *)motion_in)->unk_A4.at00.v;
+                    motion_value = motion_in->unk_A4;
                     ((S_801719DC_0 *)motion_in)->unk_A4.at02.v = 0;
                     ((S_801719DC_0 *)motion_in)->unk_B8 = 0;
                     ((S_801719DC_0 *)motion_in)->unk_AC = 0;
@@ -166,14 +166,14 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
             s32 motion_value;
 
             begin_actor_move_to_target_facing(motion_in, context_in, entity_in, actor_in);
-            base_offset = ((S_801719DC_0 *)motion_in)->unk_92;
+            base_offset = motion_in->unk_90.parts.high.u;
             offset_delta = ((S_801719DC_0 *)motion_in)->unk_A4.at02u.v;
-            motion_value = ((S_801719DC_0 *)motion_in)->unk_A4.at00.v;
+            motion_value = motion_in->unk_A4;
             ((S_801719DC_0 *)motion_in)->unk_A4.at02.v = 0;
             ((S_801719DC_0 *)motion_in)->unk_B8 = 0;
             ((S_801719DC_0 *)motion_in)->unk_AC = 0;
             ((S_801719DC_0 *)motion_in)->unk_B0 = 0;
-            ((S_801719DC_0 *)motion_in)->unk_92 = base_offset - offset_delta;
+            motion_in->unk_90.parts.high.u = base_offset - offset_delta;
             ((S_801719DC_0 *)motion_in)->unk_A8 = motion_value;
             func_801743F0(motion_in, context_in, entity_in, actor_in);
             return;
@@ -307,7 +307,7 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
                 ((u8 *)anim_table)[((g_game_work.view.camera_rotation.parts.viewAngle + actor_in->facing + 0x100) >> 9) & 7],
                 1);
             entity_in->frame_ticks = 1;
-            motion_value = ((S_801719DC_0 *)motion_in)->unk_A4.at00.v;
+            motion_value = motion_in->unk_A4;
             ((S_801719DC_0 *)motion_in)->unk_A4.at02.v = 0;
             ((S_801719DC_0 *)motion_in)->unk_B8 = 0;
             ((S_801719DC_0 *)motion_in)->unk_AC = 0;

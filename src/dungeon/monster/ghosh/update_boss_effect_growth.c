@@ -76,11 +76,11 @@ void update_boss_effect_growth(void *effect, EntityRec *position, S_80172874_2 *
     u16 grow_step;
     u16 shrink_step;
     u16 owner_value;
-    void *parent;
+    S_80172874_1_pre *parent;
 
     parent = ((S_80172874_0 *)base)->unk_20;
     source = ((S_80172874_0 *)base)->unk_24;
-    owner = ((S_80172874_1_pre *)parent)[-1].unk_00;
+    owner = parent[-1].unk_00;
     angle = transform->unk_1A;
     owner_value = owner->unk_06;
     next_angle = angle + 0x190;

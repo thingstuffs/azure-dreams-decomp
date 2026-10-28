@@ -13,12 +13,12 @@ void update_actor_render_effect_and_position(u8 *actor_data, u8 *output_data, u8
     ovl_9c32d4_809A32D4_Actor *actor;
     ovl_9c32d4_809A32D4_Output *output;
     u8 *initial_page;
-    u8 *rect_page;
-    u8 *region_page;
+    ovl_9c32d4_809A32D4_S_80174AD4_1 *rect_page;
+    ovl_9c32d4_809A32D4_S_80174AD4_3 *region_page;
     u8 *base_page;
     u8 *packet_list;
     void *page_packet;
-    void *rect_packet;
+    ovl_9c32d4_809A32D4_S_80174AD4_2 *rect_packet;
     void *region_packet;
     u8 alternate_page;
     u8 adjust_y;
@@ -62,23 +62,23 @@ void update_actor_render_effect_and_position(u8 *actor_data, u8 *output_data, u8
                       actor, (u8 *)actor + 4, packet_list, 0, 0x20);
 
         rect_page = DUNGEON_FROM_PAGE;
-        rect_packet = ((ovl_9c32d4_809A32D4_S_80174AD4_1 *)rect_page)->unk_8D0;
-        ((ovl_9c32d4_809A32D4_S_80174AD4_1 *)rect_page)->unk_8D0 = (u8 *)rect_packet + 0x10;
-        ((ovl_9c32d4_809A32D4_S_80174AD4_2 *)rect_packet)->unk_04 = 0x60000000;
-        ((ovl_9c32d4_809A32D4_S_80174AD4_2 *)rect_packet)->unk_03 = 3;
-        ((ovl_9c32d4_809A32D4_S_80174AD4_2 *)rect_packet)->unk_08 = draw_region.x;
+        rect_packet = rect_page->unk_8D0;
+        rect_page->unk_8D0 = (u8 *)rect_packet + 0x10;
+        rect_packet->unk_04 = 0x60000000;
+        rect_packet->unk_03 = 3;
+        rect_packet->unk_08 = draw_region.x;
         draw_y = draw_region.y;
         if (adjust_y != 0) {
             draw_y -= 0xE0;
         }
         packed_size = *(s32 *)&draw_region.w;
-        ((ovl_9c32d4_809A32D4_S_80174AD4_2 *)rect_packet)->unk_0A = draw_y;
-        ((ovl_9c32d4_809A32D4_S_80174AD4_2 *)rect_packet)->unk_0C = packed_size;
+        rect_packet->unk_0A = draw_y;
+        rect_packet->unk_0C = packed_size;
         AddPrim(packet_list, rect_packet);
 
         region_page = DUNGEON_FROM_PAGE;
-        region_packet = ((ovl_9c32d4_809A32D4_S_80174AD4_3 *)region_page)->unk_8D0;
-        ((ovl_9c32d4_809A32D4_S_80174AD4_3 *)region_page)->unk_8D0 = (u8 *)region_packet + 0xC;
+        region_packet = region_page->unk_8D0;
+        region_page->unk_8D0 = (u8 *)region_packet + 0xC;
         SetDrawArea(region_packet, (void *)&draw_region);
         AddPrim(packet_list, region_packet);
         actor->state++;

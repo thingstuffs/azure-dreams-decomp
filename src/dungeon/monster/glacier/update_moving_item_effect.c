@@ -274,7 +274,7 @@ void update_moving_item_effect(S_func_810332A4_1 *effect, S_func_810332A4_2 *mot
                     display->unk_24 += (u8)glacier_direction_offsets[effect->unk_1C].x;
                     display->unk_25 += (u8)glacier_direction_offsets[effect->unk_1C].y;
                     coord_base = (display->unk_24 << 6) + 0x20;
-                    object_y = (((S_func_810332A4_6 *)display)->unk_25 << 6) + 0x20;
+                    object_y = (display->unk_25 << 6) + 0x20;
 
                     if (!blocked) {
                         if ((check_left_tile_and_center_height((u16)coord_base, (u16)object_y,
@@ -312,7 +312,7 @@ void update_moving_item_effect(S_func_810332A4_1 *effect, S_func_810332A4_2 *mot
                             (u8)glacier_direction_offsets[effect->unk_1C].x;
                         display->unk_25 -=
                             (u8)glacier_direction_offsets[effect->unk_1C].y;
-                        set_record_integer_tile_center(transform, display->unk_24, ((S_func_810332A4_6 *)display)->unk_25);
+                        set_record_integer_tile_center(transform, display->unk_24, display->unk_25);
                         cycle_map_cell_flags(display->unk_24, display->unk_25,
                                       (object_data->unk_1C & 0x2000) ? 0x300 : 0x3000);
                         refresh_actor_proximity_state(object_data);

@@ -58,12 +58,12 @@ void advance_queued_movement_step(ActorRecord *motion, ObjectPosition *unused, S
     s32 step_count;
     s32 old_x;
     s32 old_y;
-    u8 *step;
+    S_801719C0_3 *step;
 
     if (((S_801719C0_0 *)path)->unk_71.s <= 0) {
         return;
     }
-    if (((S_801719C0_0 *)path)->unk_71.u <= ((S_801719C0_0 *)path)->unk_8A.s) {
+    if (path->movement_queue_state <= path->unk_8A) {
         return;
     }
 
@@ -74,16 +74,16 @@ void advance_queued_movement_step(ActorRecord *motion, ObjectPosition *unused, S
             beldo_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + path->facing + 0x100) >> 9) & 7],
             0);
         sprite->frame_ticks = 1;
-        ((S_801719C0_2 *)motion)->unk_A2 = 0;
-        ((S_801719C0_2 *)motion)->unk_9E = 0;
+        motion->unk_A0.parts.high = 0;
+        motion->unk_9E.s = 0;
     }
 
-    step = (u8 *)path + ((S_801719C0_0 *)path)->unk_8A.s;
-    if (sprite->tile_x == ((S_801719C0_3 *)step)->unk_74 &&
-        sprite->tile_y == ((S_801719C0_3 *)step)->unk_7C) {
+    step = (S_801719C0_3 *)((u8 *)path + path->unk_8A);
+    if (sprite->tile_x == step->unk_74 &&
+        sprite->tile_y == step->unk_7C) {
         u16 remaining_offset = ((S_801719C0_0 *)path)->unk_88;
-        ((S_801719C0_2 *)motion)->unk_92 += 0x20;
-        ((S_801719C0_0 *)path)->unk_88 = remaining_offset - 0x20;
+        motion->unk_90.parts.high.u += 0x20;
+        path->ground_height = remaining_offset - 0x20;
         ((S_801719C0_0 *)path)->unk_8A.u++;
     } else {
         old_x = sprite->tile_x;
@@ -95,9 +95,9 @@ void advance_queued_movement_step(ActorRecord *motion, ObjectPosition *unused, S
         update_map_cell_flags_with_item_limit(old_x, old_y, tile_mask);
 
         sprite->tile_x =
-            ((S_801719C0_4 *)((u8 *)path + ((S_801719C0_0 *)path)->unk_8A.s))->unk_74;
+            ((S_801719C0_4 *)((u8 *)path + path->unk_8A))->unk_74;
         sprite->tile_y =
-            ((S_801719C0_4 *)((u8 *)path + ((S_801719C0_0 *)path)->unk_8A.s))->unk_7C;
+            ((S_801719C0_4 *)((u8 *)path + path->unk_8A))->unk_7C;
         ((S_801719C0_0 *)path)->unk_8A.u++;
 
         cycle_map_cell_flags(sprite->tile_x, sprite->tile_y,
@@ -107,18 +107,18 @@ void advance_queued_movement_step(ActorRecord *motion, ObjectPosition *unused, S
             get_rounded_facing_and_rounding_flag(old_x, old_y, sprite->tile_x,
                           sprite->tile_y, (u8 *)motion + 0x98);
     }
-    ((S_801719C0_2 *)motion)->unk_9A = 0xF;
+    motion->action_id.s = 0xF;
     ((S_801719C0_2 *)motion)->unk_8C = 0;
     path->flags1C |= 0x40000000;
 
     if (g_dungeon_status.flags & 0x80) {
-        ((S_801719C0_2 *)motion)->unk_96 = 0;
+        motion->action_timer.s = 0;
         return;
     }
 
-    ((S_801719C0_2 *)motion)->unk_96 = 8;
-    step_count = ((S_801719C0_0 *)path)->unk_71.u;
+    motion->action_timer.s = 8;
+    step_count = path->movement_queue_state;
     if (step_count > 0) {
-        ((S_801719C0_2 *)motion)->unk_96 = 8 / step_count;
+        motion->action_timer.s = 8 / step_count;
     }
 }

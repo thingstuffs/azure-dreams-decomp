@@ -75,7 +75,7 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
     s32 flag_mask_hi;
     u8 *tile_table;
     u8 *tile_entry;
-    u8 *active_actor;
+    S_8016B778_4 *active_actor;
     if (g_dungeon_status.flags & 0x1000) {
         actor->unk_9A.as_u8 = 0xEU;
         advance_entity_along_path(actor, (void *)(context), map_actor, entity);
@@ -204,9 +204,9 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
         case 7:
             target_angle = get_rounded_facing_and_rounding_flag(map_actor->tile_x, map_actor->tile_y, reference_tile_object.tile_position.parts.tile_x,
                 reference_tile_object.tile_position.parts.tile_y, &target_distance);
-            active_actor = (u8 *)primary_actor_record;
+            active_actor = (S_8016B778_4 *)primary_actor_record;
             entity->facing = target_angle;
-            if (((S_8016B778_4 *)active_actor)->unk_9A != 0x11) {
+            if (active_actor->unk_9A != 0x11) {
                 update_actor_status_and_mp(entity);
                 return;
             }

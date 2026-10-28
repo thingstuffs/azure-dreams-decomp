@@ -80,15 +80,15 @@ void create_three_linked_palette_objects(S_80174910_2 *source, s32 effect_param)
             object->update_callback = object_callback;
             object_data->unk_18 = (void *) source->unk_0C;
             object_data->unk_1C = (void *) source->unk_08;
-            first_component = ((MovingPosition *)(((S_80174910_6 *)source)->unk_08))->x;
+            first_component = ((MovingPosition *)source->unk_08)->x;
             object_data->unk_24 = first_component;
             object_data->unk_22 = first_component;
             object_data->unk_20 = first_component;
-            second_component = ((MovingPosition *)(((S_80174910_6 *)source)->unk_08))->y;
+            second_component = ((MovingPosition *)source->unk_08)->y;
             object_data->unk_2A = second_component;
             object_data->unk_28 = second_component;
             object_data->unk_26 = second_component;
-            third_component = ((MovingPosition *)(((S_80174910_6 *)source)->unk_08))->z;
+            third_component = ((MovingPosition *)source->unk_08)->z;
             object_data->unk_0C = effect_param;
             object_data->unk_34 = object_index;
             object_data->unk_30 = third_component;
@@ -99,7 +99,7 @@ void create_three_linked_palette_objects(S_80174910_2 *source, s32 effect_param)
             scale_state->scale_x = 0x1000;
             register_node(object, project_sprite_chain);
             if (object_index == 0) {
-                texture_entry = ((S_80174910_9 *)(((S_80174910_6 *)source)->unk_0C))->unk_08;
+                texture_entry = ((S_80174910_9 *)source->unk_0C)->unk_08;
                 do {
                     entry_flags = *texture_entry;
                     texture_entry += 0xC;

@@ -51,7 +51,7 @@ void update_actor_direction_and_animation(ActorRecord *actor_arg, ObjectPosition
     u32 initial_flags = g_dungeon_status.flags;
 
     if (initial_flags & 0x1000) {
-        ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9A.as_u8 = 0xE;
+        actor_arg->action_id.u = 0xE;
         func_80171CA8(actor_arg, context_arg, sprite, entity_arg);
         return;
     }
@@ -74,8 +74,8 @@ void update_actor_direction_and_animation(ActorRecord *actor_arg, ObjectPosition
 
     if (((u32)entity_arg->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == barong_frame_set_2) {
-            ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9A.as_u8 = 0xD;
-            ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9B.as_u8 = 1;
+            actor_arg->action_id.u = 0xD;
+            actor_arg->action_phase.u = 1;
             ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_8C = 0;
             entity_arg->flags1C &= ~0x40000;
             return;
@@ -91,7 +91,7 @@ void update_actor_direction_and_animation(ActorRecord *actor_arg, ObjectPosition
             return;
         }
 
-        if (((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9A.as_u8 != 0xE) {
+        if (actor_arg->action_id.u != 0xE) {
             u8 idle_state = 0xE;
 
             anim_table = barong_direction_frames;
@@ -101,12 +101,12 @@ void update_actor_direction_and_animation(ActorRecord *actor_arg, ObjectPosition
                     anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + entity_arg->facing + 0x100) >> 9) & 7],
                     0);
             }
-            ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9E.as_s16 = 0;
-            ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_A0.at00_s16.v = (rand() & 0x1F) + 0xF;
-            ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9A.as_u8 = idle_state;
+            actor_arg->unk_9E.s = 0;
+            actor_arg->unk_A0.parts.low = (rand() & 0x1F) + 0xF;
+            actor_arg->action_id.u = idle_state;
         }
 
-        ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_98 &= 0xFFF3;
+        actor_arg->action_state_flags &= 0xFFF3;
         if (entity_arg->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor_arg, context_arg, sprite, barong_frame_set_4)) {
                 return;
@@ -127,7 +127,7 @@ void update_actor_direction_and_animation(ActorRecord *actor_arg, ObjectPosition
             anim_sprite = sprite;
             anim_entry = event_table + direction_index;
             select_sprite_entry(anim_sprite, anim_entry[0], 0);
-            ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_90.at00_s32.v = 0;
+            actor_arg->unk_90.value = 0;
             return;
         }
 

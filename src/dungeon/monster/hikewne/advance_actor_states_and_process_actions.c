@@ -26,7 +26,7 @@ extern u8 hikewne_frame_set_3[];
 void advance_actor_states_and_process_actions(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *entity) {
     s32 state;
 
-    state = ((Rec_func_8017360C_arg0 *)actor)->unk_9B;
+    state = actor->action_phase.u;
     switch (state) {
     case 0:
     {
@@ -42,7 +42,7 @@ void advance_actor_states_and_process_actions(ActorRecord *actor, ObjectPosition
         select_sprite_entry(animation,
             direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        ((Rec_func_8017360C_arg0 *)actor)->unk_9B++;
+        actor->action_phase.u++;
         return;
     }
     case 1:
@@ -57,7 +57,7 @@ void advance_actor_states_and_process_actions(ActorRecord *actor, ObjectPosition
                 0);
             entity->flags1C |= 0x40000;
             g_dungeon_status.activity_counts.parts.pending_action_count++;
-            ((Rec_func_8017360C_arg0 *)actor)->unk_9B++;
+            actor->action_phase.u++;
             return;
         }
 
@@ -86,11 +86,11 @@ void advance_actor_states_and_process_actions(ActorRecord *actor, ObjectPosition
             u16 pending_decrement;
 
             begin_actor_move_to_target_facing(actor, context, animation, entity);
-            stored_value = ((Rec_func_8017360C_arg0 *)actor)->unk_92;
-            pending_decrement = ((Rec_func_8017360C_arg0 *)actor)->unk_A2;
-            ((Rec_func_8017360C_arg0 *)actor)->unk_A2 = 0;
-            ((Rec_func_8017360C_arg0 *)actor)->unk_9E = 0;
-            ((Rec_func_8017360C_arg0 *)actor)->unk_92 = stored_value - pending_decrement;
+            stored_value = actor->unk_90.parts.high.u;
+            pending_decrement = actor->unk_A0.parts.high;
+            actor->unk_A0.parts.high = 0;
+            actor->unk_9E.u = 0;
+            actor->unk_90.parts.high.u = stored_value - pending_decrement;
             update_directional_sprite_state_and_signals(actor, context, animation, entity);
             return;
         }
@@ -117,7 +117,7 @@ void advance_actor_states_and_process_actions(ActorRecord *actor, ObjectPosition
             0);
         entity->flags1C |= 0x40000;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
-        ((Rec_func_8017360C_arg0 *)actor)->unk_9B++;
+        actor->action_phase.u++;
     }
         break;
     case 2:
@@ -125,7 +125,7 @@ void advance_actor_states_and_process_actions(ActorRecord *actor, ObjectPosition
 
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             entity->flags1C &= ~ACTOR_MP_EMPTY;
-            ((Rec_func_8017360C_arg0 *)actor)->unk_8C.as_pv = update_actor_behavior_animation_and_facing;
+            actor->unk_8C.address = update_actor_behavior_animation_and_facing;
         }
 
         return;

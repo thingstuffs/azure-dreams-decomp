@@ -62,7 +62,7 @@ void create_directional_template_effect(void *unused, MovingPosition *source_pos
     ObjectNodeHeader *effect;
     S_80975244_0 *effect_state;
     ObjectPosition *effect_pos;
-    void *template_data;
+    Block16 *template_data;
     Block16 *src;
     Block16 *dst;
     Block16 *end;
@@ -76,7 +76,7 @@ void create_directional_template_effect(void *unused, MovingPosition *source_pos
         effect->update_callback = advance_and_fade_transformed_effect;
         effect_state->unk_B0 = source_pos;
         sprite = effect->sprite;
-        src = (Block16 *)template_data;
+        src = template_data;
         dst = (Block16 *)sprite;
         end = src + 3;
         do {

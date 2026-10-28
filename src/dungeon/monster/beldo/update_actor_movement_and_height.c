@@ -76,7 +76,7 @@ typedef struct S_8017112C_4 {
 /* Updates actor behavior, movement, facing, and height. */
 void update_actor_movement_and_height(void *entity_arg, void *motion_arg, SpriteFrameState *monster_arg)
 {
-    void *actor = entity_arg;
+    S_8017112C_0 *actor = entity_arg;
     u16 state_direction;
     void *call_entity;
     void *call_motion;
@@ -98,14 +98,14 @@ void update_actor_movement_and_height(void *entity_arg, void *motion_arg, Sprite
     s32 height_step;
     DivProduct product;
     u8 *slot;
-    void *node;
-    void *record;
+    S_8017112C_2_pre *node;
+    S_8017112C_3 *record;
 
-    if (((S_8017112C_0 *)actor)->unk_BB == 0 && g_dungeon_status.activity_counts.parts.pending_action_count == 0) {
-        ((S_8017112C_0 *)actor)->unk_BB = 1;
+    if (actor->unk_BB == 0 && g_dungeon_status.activity_counts.parts.pending_action_count == 0) {
+        actor->unk_BB = 1;
         enqueue_runtime_pool_script(beldo_effect_pool_script);
-        ((S_8017112C_0 *)actor)->unk_6D.n = 0;
-        ((S_8017112C_0 *)actor)->unk_9B = 0;
+        actor->unk_6D.n = 0;
+        actor->unk_9B = 0;
     }
 
     flag_word = &(*(u16 *)0x80013714);
@@ -116,8 +116,8 @@ void update_actor_movement_and_height(void *entity_arg, void *motion_arg, Sprite
         do {
             node = ((S_8017112C_1 *)slot)->unk_AC;
             if (node != 0) {
-                record = ((S_8017112C_2_pre *)node)[-1].unk_00;
-                ((S_8017112C_3 *)record)->unk_14 &= 0xFFBF;
+                record = node[-1].unk_00;
+                record->unk_14 &= 0xFFBF;
             }
             slot_index--;
             slot -= 4;
@@ -130,14 +130,14 @@ void update_actor_movement_and_height(void *entity_arg, void *motion_arg, Sprite
             callback(entity_arg, motion_arg, monster_arg, actor);
             return;
         }
-        ((S_8017112C_0 *)actor)->unk_71 &= 0x7F;
+        actor->unk_71 &= 0x7F;
         return;
     }
 
     call_entity = entity_arg;
     call_motion = motion_arg;
     call_monster = monster_arg;
-    state_direction = ((S_8017112C_0 *)actor)->unk_6D.n2;
+    state_direction = actor->unk_6D.n2;
     if (refresh_actor_facing_and_lifecycle(call_entity, call_motion, call_monster, actor) != 0) {
         return;
     }
@@ -149,7 +149,7 @@ void update_actor_movement_and_height(void *entity_arg, void *motion_arg, Sprite
     beldo_callbacks[(*(u8 *)((u8 *)entity_arg + (0x9A)))](entity_arg, motion_arg, monster_arg, actor);
 
     saved_state = (s32)state_direction << 16;
-    current_state = ((S_8017112C_0 *)actor)->unk_6D.n2;
+    current_state = actor->unk_6D.n2;
     saved_state >>= 16;
     if (saved_state != current_state) {
         try_move_actor_to_valid_position(entity_arg, motion_arg, monster_arg, actor);
@@ -158,7 +158,7 @@ void update_actor_movement_and_height(void *entity_arg, void *motion_arg, Sprite
     ((S_8017112C_4 *)motion_arg)->unk_00 += ((S_8017112C_4 *)motion_arg)->unk_0C;
     (*(s32 *)((u8 *)motion_arg + (4))) += ((S_8017112C_4 *)motion_arg)->unk_10;
 
-    view_angle = g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017112C_0 *)actor)->unk_2A + 0x100;
+    view_angle = g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100;
     state_direction = (view_angle >> 9) & 7;
     if ((*(s16 *)((u8 *)entity_arg + (0x94))) != state_direction) {
         select_indirect_table_entry(monster_arg,
@@ -168,15 +168,15 @@ void update_actor_movement_and_height(void *entity_arg, void *motion_arg, Sprite
     }
 
     monster_arg->flags &= 0xFFFE;
-    apply_monster_koyaw_data(((S_8017112C_0 *)actor)->unk_1C, (u8 *)monster_arg + 0xC);
+    apply_monster_koyaw_data(actor->unk_1C, (u8 *)monster_arg + 0xC);
 
-    if (!(((S_8017112C_0 *)actor)->unk_1C & 0x20)) {
+    if (!(actor->unk_1C & 0x20)) {
         if (!(monster_arg->flags & 0x40)) {
             advance_sprite_animation_and_textures(monster_arg);
         }
     } else {
         monster_arg->flags |= 0x7000;
-        ((S_8017112C_0 *)actor)->unk_1C &= 0xFFFBFFFF;
+        actor->unk_1C &= 0xFFFBFFFF;
     }
 
     if ((*(s16 *)((u8 *)entity_arg + (0xB8))) == 1) {
@@ -208,14 +208,14 @@ void update_actor_movement_and_height(void *entity_arg, void *motion_arg, Sprite
         ((S_8017112C_4 *)motion_arg)->unk_08.at02.v = ((S_8017112C_4 *)motion_arg)->unk_08.at02u.v - 4;
     }
 
-    if (((S_8017112C_0 *)actor)->unk_1C & 0x40000000) {
-        ((S_8017112C_0 *)actor)->unk_1C &= 0xBFFFFFFF;
+    if (actor->unk_1C & 0x40000000) {
+        actor->unk_1C &= 0xBFFFFFFF;
         floor_height = sample_terrain_surface_height((monster_arg->tile_x << 6) | 0x20,
                               (monster_arg->tile_y << 6) | 0x20,
-                              (s16)(((S_8017112C_0 *)actor)->unk_88 - 0x20));
+                              (s16)(actor->unk_88 - 0x20));
         if (floor_height < 0x200) {
-            (*(u16 *)((u8 *)entity_arg + (0x92))) += ((S_8017112C_0 *)actor)->unk_88 - floor_height;
-            ((S_8017112C_0 *)actor)->unk_88 = floor_height;
+            (*(u16 *)((u8 *)entity_arg + (0x92))) += actor->unk_88 - floor_height;
+            actor->unk_88 = floor_height;
         }
     }
 

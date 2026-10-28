@@ -38,20 +38,20 @@ extern u8 D_8017558C[];
 /* Updates timed movement, returns the actor to its tile, and resets its action state. */
 void reset_actor_after_timed_movement(void *object_arg, void *motion_arg, void *actor_arg, void *room_arg)
 {
-    void *object = object_arg;
+    S_801738B8_0 *object = object_arg;
     ObjectPosition *motion = motion_arg;
     SpriteFrameState *actor= actor_arg;
-    void *room = room_arg;
+    S_801738B8_1 *room = room_arg;
     s16 timer;
     u16 old_timer;
     s32 room_ref;
 
-    switch (((S_801738B8_0 *)object)->unk_9B) {
+    switch (object->unk_9B) {
     case 0:
         apply_clamped_actor_value_delta(room);
-        ((S_801738B8_0 *)object)->unk_96.s = 4;
-        ((S_801738B8_0 *)object)->unk_9B++;
-        if (((S_801738B8_1 *)room)->unk_28 == 0) {
+        object->unk_96.s = 4;
+        object->unk_9B++;
+        if (room->unk_28 == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -61,20 +61,20 @@ void reset_actor_after_timed_movement(void *object_arg, void *motion_arg, void *
         if (!(actor->flags & 0x8000)) {
             return;
         }
-        ((S_801738B8_0 *)object)->unk_96.s = 0;
-        ((S_801738B8_0 *)object)->unk_9B = 3;
+        object->unk_96.s = 0;
+        object->unk_9B = 3;
         return;
 
     case 1:
-        timer = ((S_801738B8_0 *)object)->unk_96.u - 1;
-        ((S_801738B8_0 *)object)->unk_96.s = timer;
+        timer = object->unk_96.u - 1;
+        object->unk_96.s = timer;
         if (timer > 0) {
             motion->velocity_x =
                 *(s16 *)((u8 *)((s8 *)dir_step_x) +
-                    ((((S_801738B8_1 *)room)->unk_6A >> 8) & 0xE)) << 19;
+                    ((room->unk_6A >> 8) & 0xE)) << 19;
             motion->velocity_y =
                 *(s16 *)((u8 *)((s8 *)dir_step_y) +
-                    ((((S_801738B8_1 *)room)->unk_6A >> 8) & 0xE)) << 19;
+                    ((room->unk_6A >> 8) & 0xE)) << 19;
             return;
         }
         if (timer != 0) {
@@ -82,16 +82,16 @@ void reset_actor_after_timed_movement(void *object_arg, void *motion_arg, void *
         }
         motion->velocity_x =
             *(s16 *)((u8 *)((s8 *)dir_step_x) +
-                ((((S_801738B8_1 *)room)->unk_6A >> 8) & 0xE)) << 18;
+                ((room->unk_6A >> 8) & 0xE)) << 18;
         motion->velocity_y =
             *(s16 *)((u8 *)((s8 *)dir_step_y) +
-                ((((S_801738B8_1 *)room)->unk_6A >> 8) & 0xE)) << 18;
-        ((S_801738B8_0 *)object)->unk_96.s = 6;
-        ((S_801738B8_0 *)object)->unk_9B++;
+                ((room->unk_6A >> 8) & 0xE)) << 18;
+        object->unk_96.s = 6;
+        object->unk_9B++;
         return;
 
     case 2:
-        if (((S_801738B8_1 *)room)->unk_28 == 0) {
+        if (room->unk_28 == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -99,7 +99,7 @@ void reset_actor_after_timed_movement(void *object_arg, void *motion_arg, void *
             return;
         }
 
-        timer = ((S_801738B8_0 *)object)->unk_96.s;
+        timer = object->unk_96.s;
         if (timer != 0) {
             {
                 s32 target_coord = actor->tile_x << 6;
@@ -114,18 +114,18 @@ void reset_actor_after_timed_movement(void *object_arg, void *motion_arg, void *
 
                 motion->velocity_y =
                     ((target_coord - current_coord) << 16) /
-                    ((S_801738B8_0 *)object)->unk_96.s;
+                    object->unk_96.s;
             }
         }
-        old_timer = ((S_801738B8_0 *)object)->unk_96.u;
-        ((S_801738B8_0 *)object)->unk_96.s = old_timer - 1;
+        old_timer = object->unk_96.u;
+        object->unk_96.s = old_timer - 1;
         if ((s32)(old_timer << 16) > 0) {
             return;
         }
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        ((S_801738B8_0 *)object)->unk_9B++;
+        object->unk_9B++;
         return;
 
     case 3:
@@ -136,15 +136,15 @@ void reset_actor_after_timed_movement(void *object_arg, void *motion_arg, void *
         if (actor->frameTable == barong_frame_set_4) {
             (actor->frameTable) = barong_direction_frames;
             select_sprite_entry(actor,
-                barong_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801738B8_1 *)room)->unk_2A + 0x100)
+                barong_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + room->unk_2A + 0x100)
                     >> 9) & 7], 0);
         }
         room_ref = ((s32)g_dungeon_status.pending_display_owner);
         if (room_ref == (s32)((u8 *)room - 0x20)) {
             g_dungeon_status.pending_display_owner = room_ref & 0x7FFFFFFF;
         }
-        ((S_801738B8_0 *)object)->unk_8C = barong_action_resume_address;
-        ((S_801738B8_0 *)object)->unk_9A = 0xE;
+        object->unk_8C = barong_action_resume_address;
+        object->unk_9A = 0xE;
         return;
 
     default:

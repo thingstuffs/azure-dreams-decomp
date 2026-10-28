@@ -38,7 +38,7 @@ void advance_deforming_action_animation(void *action_in, void *direction_data_in
 {
     void *direction_data = direction_data_in;
     SpriteFrameState *sprite= sprite_in;
-    void *actor = actor_in;
+    S_801750F8_1 *actor = actor_in;
     u8 state;
 
     state = ((S_801750F8_0 *)action_in)->unk_9B;
@@ -51,7 +51,7 @@ void advance_deforming_action_animation(void *action_in, void *direction_data_in
 
         facing_angle = func_801744E0(direction_data);
         facing_angle = (facing_angle << 16) >> 7;
-        ((S_801750F8_1 *)actor)->unk_2A = facing_angle;
+        actor->unk_2A = facing_angle;
 
         timer = ++((S_801750F8_0 *)action_in)->unk_96.s;
         if (timer >= 0x78) {
@@ -60,16 +60,16 @@ void advance_deforming_action_animation(void *action_in, void *direction_data_in
             return;
         }
 
-        actor_flags = ((S_801750F8_1 *)actor)->unk_14;
+        actor_flags = actor->unk_14;
         if (!(actor_flags & 0x00800000)) {
             return;
         }
-        ((S_801750F8_1 *)actor)->unk_14 = actor_flags & 0xFF7FFFFF;
+        actor->unk_14 = actor_flags & 0xFF7FFFFF;
         ((S_801750F8_0 *)action_in)->unk_96.s = 0;
         ((S_801750F8_0 *)action_in)->unk_9B++;
         (sprite->frameTable) = D_801755BC;
         select_sprite_entry(sprite,
-            D_801755BC[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_801755BC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
             0);
         play_sound_if_enabled(0x51E);
         return;
@@ -83,7 +83,7 @@ void advance_deforming_action_animation(void *action_in, void *direction_data_in
         ((S_801750F8_0 *)action_in)->unk_9B++;
         (sprite->frameTable) = barong_frame_set_3;
         select_sprite_entry(sprite,
-            barong_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            barong_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
             0);
         sprite->flags |= 0x0800;
         return;
@@ -153,7 +153,7 @@ void advance_deforming_action_animation(void *action_in, void *direction_data_in
         sprite->scale_x = 0x1000;
         (sprite->frameTable) = D_801755C4;
         select_sprite_entry(sprite,
-            D_801755C4[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_801755C4[((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
             0);
         play_sound_if_enabled(0x509);
         create_randomized_item_object(action_in, direction_data, sprite, actor);
@@ -179,12 +179,12 @@ void advance_deforming_action_animation(void *action_in, void *direction_data_in
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         (sprite->frameTable) = barong_frame_set_1;
         select_sprite_entry(sprite,
-            barong_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            barong_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
             0);
         spend_actor_mp(actor, 0x1000);
         ((S_801750F8_0 *)action_in)->unk_8C = barong_action_resume_address;
         g_dungeon_status.active_actor = 0;
-        ((S_801750F8_1 *)actor)->unk_46 &= 0x7FFF;
+        actor->unk_46 &= 0x7FFF;
     }
     }
 

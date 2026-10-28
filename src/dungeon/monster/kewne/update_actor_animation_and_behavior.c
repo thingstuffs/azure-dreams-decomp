@@ -126,8 +126,8 @@ void update_actor_animation_and_behavior(ActorRecord *actor, ObjectPosition *con
                         reset_anim[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
                     sprite->frame_ticks = 1;
-                    ((S_801710EC_0 *)actor)->unk_A2.s = 0;
-                    ((S_801710EC_0 *)actor)->unk_9E = 0;
+                    actor->unk_A0.parts.high = 0;
+                    actor->unk_9E.s = 0;
                 }
             } else {
                 anim_table = kewne_direction_frames;
@@ -137,8 +137,8 @@ void update_actor_animation_and_behavior(ActorRecord *actor, ObjectPosition *con
                         anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
                     sprite->frame_ticks = 1;
-                    ((S_801710EC_0 *)actor)->unk_A2.s = 0;
-                    ((S_801710EC_0 *)actor)->unk_9E = 0;
+                    actor->unk_A0.parts.high = 0;
+                    actor->unk_9E.s = 0;
                 }
             }
         }
@@ -156,10 +156,10 @@ void update_actor_animation_and_behavior(ActorRecord *actor, ObjectPosition *con
             s16 adjusted_offset;
 
             begin_actor_move_to_target_facing(actor, context, sprite, entity);
-            adjusted_offset = ((S_801710EC_0 *)actor)->unk_92.u - ((S_801710EC_0 *)actor)->unk_A2.u;
-            ((S_801710EC_0 *)actor)->unk_A2.s = 0;
-            ((S_801710EC_0 *)actor)->unk_9E = 0;
-            ((S_801710EC_0 *)actor)->unk_92.s = adjusted_offset;
+            adjusted_offset = actor->unk_90.parts.high.u - actor->unk_A0.parts.high;
+            actor->unk_A0.parts.high = 0;
+            actor->unk_9E.s = 0;
+            actor->unk_90.parts.high.s = adjusted_offset;
             update_actor_state_after_map_check(actor, context, sprite, entity);
             return;
         }

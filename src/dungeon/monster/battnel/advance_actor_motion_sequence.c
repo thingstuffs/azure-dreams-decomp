@@ -126,9 +126,9 @@ void advance_actor_motion_sequence(ActorRecord *state, ObjectPosition *position,
                     actor->target_tile_y = abs(actor->target_tile_y);
                 }
             }
-            effect_pos[0] = ((u16)((EntityRec *)position)->x.w.i);
-            effect_pos[1] = ((u16)((EntityRec *)position)->y.w.i);
-            effect_pos[2] = ((u16)((EntityRec *)position)->z.w.i);
+            effect_pos[0] = ((u16)position->x.w.i);
+            effect_pos[1] = ((u16)position->y.w.i);
+            effect_pos[2] = ((u16)position->z.w.i);
             position = (void *)create_actor_spell_effect(actor, motion, special_motion, (u8 *)state + 0x98);
             if (position == 0) {
                 return;
@@ -140,15 +140,15 @@ void advance_actor_motion_sequence(ActorRecord *state, ObjectPosition *position,
             return;
         }
 
-        ((EntityRec *)position)->flags14 = 0;
-        ((EntityRec *)position)->unk_10 = 0;
-        ((EntityRec *)position)->unk_0C = 0;
+        position->velocity_z = 0;
+        position->velocity_y = 0;
+        position->velocity_x = 0;
         set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)&primary_actor_record->unk_A4 + 2)) = (*(u16 *)((u8 *)primary_actor_record + 0xA6)) - 1;
         advance_status_timers(actor);
         actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
-        ((S_80172A04_0 *)state)->unk_8C = battnel_action_resume_address;
+        state->unk_8C.address = battnel_action_resume_address;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -166,21 +166,21 @@ void advance_actor_motion_sequence(ActorRecord *state, ObjectPosition *position,
         if ((sprite->unk_04 == 4 && (sprite->flags & 0x1000)) ||
             (sprite->flags & 0xE000)) {
             sprite->flags |= 0x800;
-            ((S_80172A04_0 *)state)->unk_96 = 0x6;
+            state->action_timer.u = 0x6;
             state->action_state_flags |= 0x80;
         }
-        ticks_left = ((S_80172A04_0 *)state)->unk_96 - 1;
-        ((S_80172A04_0 *)state)->unk_96 = ticks_left;
+        ticks_left = state->action_timer.u - 1;
+        state->action_timer.u = ticks_left;
         if ((s16)ticks_left <= 0) {
-            ((S_80172A04_0 *)state)->unk_96 = 0;
+            state->action_timer.u = 0;
             sprite->flags &= 0xF7FF;
         }
         if ((sprite->flags & 0xE000) == 0) {
             return;
         }
-        ((EntityRec *)position)->flags14 = 0;
-        ((EntityRec *)position)->unk_10 = 0;
-        ((EntityRec *)position)->unk_0C = 0;
+        position->velocity_z = 0;
+        position->velocity_y = 0;
+        position->velocity_x = 0;
         set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
         {
             u8 *direction_table = battnel_direction_frames;
@@ -198,7 +198,7 @@ void advance_actor_motion_sequence(ActorRecord *state, ObjectPosition *position,
         }
         ((S_80172A04_7 *)action_state)->unk_0A = ((S_80172A04_7 *)action_state)->unk_0A - 1;
         sprite->flags &= 0xF7FF;
-        ((S_80172A04_0 *)state)->unk_8C = battnel_action_resume_address;
+        state->unk_8C.address = battnel_action_resume_address;
         advance_status_timers(actor);
         if (actor->pending_turn_updates > 0) {
             actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;

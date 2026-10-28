@@ -76,9 +76,9 @@ void *create_directional_target_object(void *emitter, Copy24 *position, void *so
             *((u16 *) (((u8 *) position_data) + 0xE)) += position_offset.z;
             *((u16 *) (((u8 *) transform) + 0xA)) = *((u16 *) (((u8 *) position_data) + 0xE));
         }
-        *((s32 *) (((u8 *) position_data) + 0x10)) = (((s32) target_position.words[0])
+        position_data->words[4] = (((s32) target_position.words[0])
             - (*((s32 *) (((u8 *) position_data) + 4)))) / 0x20;
-        *((s32 *) (((u8 *) position_data) + 0x14)) = (((s32) target_position.words[1])
+        position_data->words[5] = (((s32) target_position.words[1])
             - (*((s32 *) (((u8 *) position_data) + 8)))) / 0x20;
         result = object;
         return result;

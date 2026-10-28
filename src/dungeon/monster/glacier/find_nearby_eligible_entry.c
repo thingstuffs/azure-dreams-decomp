@@ -36,7 +36,7 @@ void *find_nearby_eligible_entry(u8 *current, s32 wanted_24, s32 wanted_25, s32 
     s32 filter_25;
     s32 scratch;
     s32 filter_24;
-    u8 *object;
+    S_801748FC_1 *object;
     s16 height;
 
     scratch = ((S_801748FC_0 *)current)->unk_5C;
@@ -49,10 +49,10 @@ void *find_nearby_eligible_entry(u8 *current, s32 wanted_24, s32 wanted_25, s32 
         target_height = scratch >> 0x10;
         min_height = target_height - 0x20;
         do {
-            object = ((S_801748FC_0_pre *)current)[-1].unk_00;
+            object = (S_801748FC_1 *)((S_801748FC_0_pre *)current)[-1].unk_00;
             entry = current - 0x20;
-            if ((((S_801748FC_1 *)object)->unk_24 == (filter_24 & 0xFFFF)) &&
-                (((S_801748FC_1 *)object)->unk_25 == (filter_25 & 0xFFFF)) &&
+            if ((object->unk_24 == (filter_24 & 0xFFFF)) &&
+                (object->unk_25 == (filter_25 & 0xFFFF)) &&
                 (height = ((S_801748FC_0 *)current)->unk_88,
                  height <= target_height + 0x20) &&
                 (height >= min_height) &&

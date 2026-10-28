@@ -54,7 +54,7 @@ void create_encounter_camera_controller(void) {
     object = allocate_flagged_object_node(0x12);
     if (object != 0) {
         (*(s16 *)((u8 *)object + 0x38)) = 0;
-        (*(s32 * *)((u8 *)object + 0x10)) = &D_801717A8;
+        object->update_callback = &D_801717A8;
         register_node(object, project_sprite_chain);
         render_state = object->sprite;
         render_state->depth_bias = 0;

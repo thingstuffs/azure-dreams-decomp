@@ -58,9 +58,9 @@ void update_actor_behavior_2(void *controller, ObjectPosition *context_in, Sprit
             cyclone_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         {
-            u8 *counter_base = (u8 *)&g_dungeon_status.turn_scale;
+            S_80173DD4_3 *counter_base = (S_80173DD4_3 *)&g_dungeon_status.turn_scale;
 
-            ((S_80173DD4_3 *)counter_base)->unk_0A--;
+            counter_base->unk_0A--;
         }
         ((Rec_func_80173DD4_arg0 *)controller)->unk_9B++;
         break;

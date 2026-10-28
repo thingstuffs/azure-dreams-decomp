@@ -83,7 +83,7 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
     u8 *effect_id;
     u8 state;
     u16 timer;
-    void *main_actor;
+    S_80172FC0_3 *main_actor;
     void *child;
 
     state = anim->action_phase.u;
@@ -140,15 +140,15 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
             if ((s16)is_special != 0) {
                 effect = primary_actor_record;
                 actor->target = effect;
-                main_actor = ((ObjectNodeHeader *)((u8 *)effect - 0x20))->sprite;
-                actor->target_tile_x = ((S_80172FC0_3 *)main_actor)->unk_24;
-                actor->target_tile_y = ((S_80172FC0_3 *)main_actor)->unk_25;
+                main_actor = (S_80172FC0_3 *)((ObjectNodeHeader *)((u8 *)effect - 0x20))->sprite;
+                actor->target_tile_x = main_actor->unk_24;
+                actor->target_tile_y = main_actor->unk_25;
             } else if (item_action_definitions[*effect_id].kind == 2) {
                 effect = actor->target;
                 if (effect != 0) {
-                    main_actor = ((ObjectNodeHeader *)((u8 *)effect - 0x20))->sprite;
-                    actor->target_tile_x = ((S_80172FC0_3 *)main_actor)->unk_24;
-                    actor->target_tile_y = ((S_80172FC0_3 *)main_actor)->unk_25;
+                    main_actor = (S_80172FC0_3 *)((ObjectNodeHeader *)((u8 *)effect - 0x20))->sprite;
+                    actor->target_tile_x = main_actor->unk_24;
+                    actor->target_tile_y = main_actor->unk_25;
                 }
             } else {
                 actor->target = scan_actor_along_heading(
@@ -176,16 +176,16 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
             }
         }
 
-        ((S_80172FC0_5 *)transform_arg)->unk_14 = 0;
-        ((S_80172FC0_5 *)transform_arg)->unk_10 = 0;
-        ((S_80172FC0_5 *)transform_arg)->unk_0C = 0;
+        transform_arg->velocity_z = 0;
+        transform_arg->velocity_y = 0;
+        transform_arg->velocity_x = 0;
         set_record_integer_tile_center(transform_arg, sprite->tile_x, sprite->tile_y);
-        main_actor = primary_actor_record;
+        main_actor = (S_80172FC0_3 *)primary_actor_record;
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)main_actor + 0xA6))--;
         advance_status_timers(actor);
         actor->pending_turn_updates--;
-        ((S_80172FC0_0 *)anim)->unk_8C = update_actor_animation;
+        anim->unk_8C.address = update_actor_animation;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -219,7 +219,7 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
             void *model_root;
             void *model;
             void *model_table;
-            void *selected_model;
+            S_80172FC0_6 *selected_model;
 
             {
                 s32 model_direction;
@@ -240,7 +240,7 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
                 s32 model_data;
 
                 sprite->unk_00 = selected_model;
-                model_data = ((S_80172FC0_6 *)selected_model)->unk_04;
+                model_data = selected_model->unk_04;
                 {
 
                     sprite->source = model_data;
@@ -255,7 +255,7 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
                         ((S_80172FC0_5 *)transform_arg)->unk_06 += offset[1];
                         height_offset = offset[2];
                         ((S_80172FC0_0 *)anim)->unk_B2 = height_offset;
-                        ((S_80172FC0_0 *)anim)->unk_90.at02.v =
+                        anim->unk_90.parts.high.u =
                             ((S_80172FC0_5 *)transform_arg)->unk_0A - ((u16)actor->ground_height) +
                             (s16)height_offset / 2;
                     }
@@ -290,7 +290,7 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
             scale = sprite->scale_y + 0x100;
             sprite->scale_y = scale;
             sprite->scale_x = scale;
-            ((S_80172FC0_0 *)anim)->unk_90.at02.v += (s16)((S_80172FC0_0 *)anim)->unk_B2 >> 4;
+            anim->unk_90.parts.high.u += (s16)((S_80172FC0_0 *)anim)->unk_B2 >> 4;
             return;
         }
         ((S_80172FC0_0 *)anim)->unk_AE.u = 4;
@@ -360,8 +360,8 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
 
             pool_flags = D_800814A0;
             ((S_80172FC0_0 *)anim)->unk_AC = 0;
-            ((S_80172FC0_0 *)anim)->unk_A4 = 0;
-            ((S_80172FC0_0 *)anim)->unk_90.at00.v = 0;
+            anim->unk_A4 = 0;
+            anim->unk_90.value = 0;
             active_child = ((S_80172FC0_0 *)anim)->unk_A0;
             child_flags = ~active_child->flags;
             child_flags &= 0x7FFF;
@@ -375,9 +375,9 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
         sprite->clut = ((S_80172FC0_0 *)anim)->unk_B8;
         sprite->color.word = ((S_80172FC0_0 *)anim)->unk_B4;
         sprite->tpage_abr = ((S_80172FC0_0 *)anim)->unk_BA;
-        ((S_80172FC0_5 *)transform_arg)->unk_14 = 0;
-        ((S_80172FC0_5 *)transform_arg)->unk_10 = 0;
-        ((S_80172FC0_5 *)transform_arg)->unk_0C = 0;
+        transform_arg->velocity_z = 0;
+        transform_arg->velocity_y = 0;
+        transform_arg->velocity_x = 0;
         set_record_integer_tile_center(transform_arg, sprite->tile_x, sprite->tile_y);
         anim->action_state_flags &= 0xFFF7;
         actor->flags1C |= ACTOR_REFRESH_GROUND;
@@ -395,7 +395,7 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
-        ((S_80172FC0_0 *)anim)->unk_8C = update_actor_animation;
+        anim->unk_8C.address = update_actor_animation;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         advance_status_timers(actor);

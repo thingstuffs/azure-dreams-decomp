@@ -123,7 +123,7 @@ void advance_turn_animation_and_restore_heading(S_80172480_0 *actor, ObjectPosit
             actor->unk_9B = phase;
             return;
         }
-        if (((S_80172480_4 *)(((u8 *)dungeon_actor_ring_anchor)))->unk_9A != 0x17) {
+        if (dungeon_actor_ring_anchor->action_id.u != 0x17) {
             {
                 u8 *animation_table = kewne_frame_set_4;
                 animation->frameTable = animation_table;

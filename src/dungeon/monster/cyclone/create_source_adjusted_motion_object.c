@@ -112,9 +112,9 @@ void *create_source_adjusted_motion_object(S_80175D04_0 *actor, Copy24 *start_po
             child_pos->z.w.i = ((S_80175D04_4 *)motion)->unk_0E;
         }
 
-        ((S_80175D04_4 *)motion)->unk_10 =
+        motion->words[4] =
             ((s32)target_pos.words[0] - ((S_80175D04_4 *)motion)->unk_04.at00.v) / 0x20;
-        ((S_80175D04_4 *)motion)->unk_14 =
+        motion->words[5] =
             ((s32)target_pos.words[1] - ((S_80175D04_4 *)motion)->unk_08.at00.v) / 0x20;
 
         return object;

@@ -43,25 +43,25 @@ extern u8 cyclone_view_direction_entries[];
 /* Allocate and initialize an object with source direction, render properties, and copied data. */
 void *create_directional_render_object(void *direction_src, Copy24 *initial_data, void *render_src) {
     SpriteFrameState *render_data;
-    void *object_state;
+    S_80175858_1 *object_state;
     ObjectNodeHeader *object;
     void *data_dst;
     u16 render_attr;
-    void *direction_ref = direction_src;
+    S_80175858_2 *direction_ref = direction_src;
     Copy24 *data_src = initial_data;
-    void *render_ref = render_src;
+    S_80175858_4 *render_ref = render_src;
 
     object = allocate_flagged_object_node(0x312);
     if (object != NULL) {
         object->update_callback = &D_8017573C;
         register_node(object, project_sprite_chain);
         object_state = ((void *)object) + 0x20;
-        ((S_80175858_1 *)object_state)->unk_04.s =
-            (u16)((S_80175858_2 *)direction_ref)->unk_2A;
+        object_state->unk_04.s =
+            (u16)direction_ref->unk_2A;
         render_data = object->sprite;
         render_data->animation_resource =
-            ((S_80175858_4 *)render_ref)->unk_28;
-        render_attr = ((S_80175858_4 *)render_ref)->unk_12;
+            render_ref->unk_28;
+        render_attr = render_ref->unk_12;
         render_data->color.word = 0x808080;
         render_data->scale_y = 0x800;
         render_data->scale_x = 0x800;
@@ -69,7 +69,7 @@ void *create_directional_render_object(void *direction_src, Copy24 *initial_data
         select_sprite_entry(
             render_data,
             cyclone_view_direction_entries[
-                ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80175858_1 *)object_state)->unk_04.u + 0x100) >> 9) &
+                ((g_game_work.view.camera_rotation.parts.viewAngle + object_state->unk_04.u + 0x100) >> 9) &
                 7],
             0);
         data_dst = object->position;

@@ -33,15 +33,15 @@ void create_boss_randomized_effect(S_80172F44_4 *position, s32 x_offset, s32 y_o
     ObjectNodeHeader *object;
     ObjectPosition *transform;
     SpriteFrameState *display;
-    u8 *state;
+    S_80172F44_0 *state;
     s32 random_value;
     s32 z_fixed;
     u16 x_integer;
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
-        state = (u8 *)object + 0x20;
-        ((S_80172F44_0 *)state)->unk_16 = 0x1A;
+        state = (S_80172F44_0 *)((u8 *)object + 0x20);
+        state->unk_16 = 0x1A;
         object->update_callback = update_accelerating_growing_particle;
         register_node(object, project_sprite_chain);
 
@@ -62,11 +62,11 @@ void create_boss_randomized_effect(S_80172F44_4 *position, s32 x_offset, s32 y_o
         *(u16 *)&transform->z.w.i += z_offset;
 
         random_value = rand();
-        ((S_80172F44_0 *)state)->unk_58 = random_value - 0x8000;
+        state->unk_58 = random_value - 0x8000;
         random_value = rand();
-        ((S_80172F44_0 *)state)->unk_5C = random_value - 0x8000;
+        state->unk_5C = random_value - 0x8000;
         random_value = rand();
-        ((S_80172F44_0 *)state)->unk_60 = random_value - 0x40000;
+        state->unk_60 = random_value - 0x40000;
 
         display = object->sprite;
         display->scale_y = 0x400;

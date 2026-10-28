@@ -62,7 +62,7 @@ void advance_actor_action_and_animation(S_8016D6F0_0 *actor, void *actor_id, Spr
 {
     TileObject *reference_pos;
     DungeonGlobalStatus *counter_base;
-    u8 *flags_page;
+    S_8016D6F0_5 *flags_page;
     DungeonGlobalStatus *reference_base;
     void *action_actor;
     s32 state;
@@ -94,8 +94,8 @@ void advance_actor_action_and_animation(S_8016D6F0_0 *actor, void *actor_id, Spr
             if (((S_8016D6F0_2 *)resident_globals_page)->unk_3462 & 0x1000) {
                 return;
             }
-            flags_page = (u8 *)0x80010000;
-            if (actor->unk_B4 == 0 && !(((S_8016D6F0_5 *)flags_page)->unk_3714 & 8)) {
+            flags_page = (S_8016D6F0_5 *)0x80010000;
+            if (actor->unk_B4 == 0 && !(flags_page->unk_3714 & 8)) {
                 if (entity->hp_delta != 0) {
                     if (begin_ready_actor_directional_action(actor, actor_id, sprite, ghosh_ready_action_frames) != 0) {
                         return;

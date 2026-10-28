@@ -59,34 +59,34 @@ void begin_multi_form_ring_script(void) {
     s32 object_data;
     s32 slot_offset;
     s32 slot_index;
-    void *active_data;
+    S_8016EE8C_0 *active_data;
     void *page_8001;
-    void *page_800e;
-    void *object_header;
+    S_8016EE8C_1 *page_800e;
+    S_8016EE8C_4 *object_header;
 
     slot_index = 0;
     page_8001 = (void *)0x80010000;
     page_800e = (void *)0x800E0000;
-    active_data = beldo_actor_nodes[0] + 0x20;
-    ((S_8016EE8C_0 *)active_data)->unk_AF = 1;
+    active_data = (S_8016EE8C_0 *)(beldo_actor_nodes[0] + 0x20);
+    active_data->unk_AF = 1;
     (((Page8001FieldView_81337E8C *)page_8001)->field_371A) = 0;
     (((Page8001FieldView_81337E8C *)page_8001)->field_3718) = 0;
     (((Page8001FieldView_81337E8C *)page_8001)->field_3716) = 0;
     g_dungeon_status.active_actor = 0;
     beldo_script_timer = 0;
-    ((S_8016EE8C_1 *)page_800e)->unk_296C = (s32) (((S_8016EE8C_1 *)page_800e)->unk_296C | 0x08000000);
+    page_800e->unk_296C = (s32) (page_800e->unk_296C | 0x08000000);
     ((S_8016EE8C_2 *)page_8001)->unk_3714 = (u16) ((((S_8016EE8C_2 *)page_8001)->unk_3714 | 9) & 0xFFEF);
     ((S_8016EE8C_2 *)page_8001)->unk_371C = (s32) D_80173C94;
     encounter_script_cursor = D_80173D5C;
-    ((S_8016EE8C_0 *)active_data)->unk_AB = 0;
+    active_data->unk_AB = 0;
     do {
         slot_offset = slot_index * 4;
         object_data = ((S_8016EE8C_5 *)((slot_offset + ((EntityRec *)(((s32 *)&dungeon_actor_ring_anchor)))->x.v)))->unk_AC;
         if (object_data != 0) {
             unlink_entity_node(object_data);
-            object_header = ((S_8016EE8C_5 *)((slot_offset + ((EntityRec *)(((s32 *)&dungeon_actor_ring_anchor)))->x.v)))->unk_AC
-            - 0x20;
-            ((S_8016EE8C_4 *)object_header)->unk_10 = (s32) (((S_8016EE8C_4 *)object_header)->unk_10 | 0x80000000);
+            object_header = (S_8016EE8C_4 *)(((S_8016EE8C_5 *)((slot_offset + ((EntityRec *)(((s32 *)&dungeon_actor_ring_anchor)))->x.v)))->unk_AC
+            - 0x20);
+            object_header->unk_10 = (s32) (object_header->unk_10 | 0x80000000);
         }
         slot_index += 1;
     } while (slot_index < 2);

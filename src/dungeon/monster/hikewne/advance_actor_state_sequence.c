@@ -83,7 +83,7 @@ void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, 
     case 1:
     {
         u8 *local_table_1;
-        if (((S_8017360C_0 *)action)->unk_92.s != 0) {
+        if (action->unk_90.parts.high.s != 0) {
             return;
         }
         local_table_1 = hikewne_frame_set_1;
@@ -93,7 +93,7 @@ void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, 
         effect_entry &= 7;
         effect_entry += (s32)local_table_1;
         select_sprite_entry(entity, *(u8 *)effect_entry, 0);
-        ((S_8017360C_0 *)action)->unk_96 = 0;
+        action->action_timer.u = 0;
         next_state = action->action_phase.u + 1;
         action->action_phase.u = next_state;
         return;
@@ -103,7 +103,7 @@ void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, 
     case 2:
     {
         u8 *local_table_2;
-        if ((s16)((S_8017360C_0 *)action)->unk_96++ < 2) {
+        if ((s16)action->action_timer.u++ < 2) {
             return;
         }
         local_table_2 = hikewne_frame_set_2;
@@ -113,7 +113,7 @@ void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, 
         effect_entry &= 7;
         effect_entry += (s32)local_table_2;
         select_sprite_entry(entity, *(u8 *)effect_entry, 0);
-        ((S_8017360C_0 *)action)->unk_96 = 0;
+        action->action_timer.u = 0;
         next_state = action->action_phase.u + 1;
         action->action_phase.u = next_state;
         return;
@@ -160,11 +160,11 @@ void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, 
                     u16 remaining_amount;
 
                     begin_actor_move_to_target_facing(action, context, entity, actor);
-                    remaining_amount = ((S_8017360C_0 *)action)->unk_92.u;
-                    remaining_amount -= ((S_8017360C_0 *)action)->unk_A2;
-                    ((S_8017360C_0 *)action)->unk_A2 = 0;
-                    ((S_8017360C_0 *)action)->unk_9E = 0;
-                    ((S_8017360C_0 *)action)->unk_92.u = remaining_amount;
+                    remaining_amount = action->unk_90.parts.high.u;
+                    remaining_amount -= action->unk_A0.parts.high;
+                    action->unk_A0.parts.high = 0;
+                    action->unk_9E.u = 0;
+                    action->unk_90.parts.high.u = remaining_amount;
                     update_directional_sprite_state_and_signals(action, context, entity, actor);
                     return;
                 }
@@ -239,7 +239,7 @@ void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, 
         effect_entry &= 7;
         effect_entry += (s32)local_table_4;
         select_sprite_entry(entity, *(u8 *)effect_entry, 0);
-        ((S_8017360C_0 *)action)->unk_96 = 0;
+        action->action_timer.u = 0;
         next_state = action->action_phase.u + 1;
         action->action_phase.u = next_state;
         return;
@@ -248,7 +248,7 @@ void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, 
     case 5:
     {
         u8 *local_table_5;
-        if ((s16)((S_8017360C_0 *)action)->unk_96++ < 4) {
+        if ((s16)action->action_timer.u++ < 4) {
             return;
         }
 
@@ -270,6 +270,6 @@ void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, 
         return;
     }
 
-    ((S_8017360C_0 *)action)->unk_8C = update_actor_behavior_animation_and_facing;
+    action->unk_8C.address = update_actor_behavior_animation_and_facing;
     return;
 }

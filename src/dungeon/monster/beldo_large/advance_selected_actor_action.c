@@ -146,7 +146,7 @@ void advance_selected_actor_action(ActorRecord *action, ObjectPosition *transfor
 
             if (create_actor_spell_effect(actor, action_slot, target_mode,
                               (u16 *)((u8 *)action + 0x98)) != 0) {
-                ((S_8016C190_0 *)action)->unk_96.s = 8;
+                action->action_timer.s = 8;
                 action->action_phase.u++;
             }
             return;
@@ -160,7 +160,7 @@ void advance_selected_actor_action(ActorRecord *action, ObjectPosition *transfor
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
         (*(u8 *)&actor->pending_turn_updates)--;
-        ((S_8016C190_0 *)action)->unk_8C = beldo_large_action_resume_address;
+        action->unk_8C.address = beldo_large_action_resume_address;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -177,8 +177,8 @@ void advance_selected_actor_action(ActorRecord *action, ObjectPosition *transfor
                         /* fall through */
 
     case 2:
-        ((S_8016C190_0 *)action)->unk_96.u--;
-        if ((s16)((S_8016C190_0 *)action)->unk_96.u > 0 &&
+        action->action_timer.u--;
+        if ((s16)action->action_timer.u > 0 &&
             !(sprite->flags & 0xE000)) {
             return;
         }
@@ -188,7 +188,7 @@ void advance_selected_actor_action(ActorRecord *action, ObjectPosition *transfor
 
     case 3:
         if ((g_dungeon_status.active_actor) == 0) {
-            ((S_8016C190_0 *)action)->unk_96.s = 0;
+            action->action_timer.s = 0;
         }
         if (!(sprite->flags & 0xE000)) {
             return;
@@ -199,7 +199,7 @@ void advance_selected_actor_action(ActorRecord *action, ObjectPosition *transfor
         transform->velocity_x = 0;
         set_record_integer_tile_center(transform, sprite->tile_x, sprite->tile_y);
 
-        switch (((S_8016C190_0 *)action)->unk_AC) {
+        switch (action->unk_AC.byte) {
         case 0:
             current_table = sprite->frameTable;
             direction_table = beldo_large_frame_set_2;
@@ -241,7 +241,7 @@ void advance_selected_actor_action(ActorRecord *action, ObjectPosition *transfor
             return;
         }
         ((S_8016C190_5 *)action_control)->unk_0A--;
-        ((S_8016C190_0 *)action)->unk_8C = beldo_large_action_resume_address;
+        action->unk_8C.address = beldo_large_action_resume_address;
         advance_status_timers(actor);
         (*(u8 *)&actor->pending_turn_updates)--;
         actor->target_tile_y = 0;

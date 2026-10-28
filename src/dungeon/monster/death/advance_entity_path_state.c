@@ -58,12 +58,12 @@ void advance_entity_path_state(ActorRecord *motion_state, ObjectPosition *unused
     u16 hp;
     u16 energy;
     u16 step_index;
-    void *path_entry;
+    S_80171FC8_2 *path_entry;
 
     if (((S_80171FC8_0 *)path_state)->unk_71.s <= 0) {
         return;
     }
-    if ((s32)((S_80171FC8_0 *)path_state)->unk_71.u <= ((S_80171FC8_0 *)path_state)->unk_8A.s) {
+    if ((s32)path_state->movement_queue_state <= path_state->unk_8A) {
         return;
     }
 
@@ -74,15 +74,15 @@ void advance_entity_path_state(ActorRecord *motion_state, ObjectPosition *unused
                       0);
     }
 
-    path_entry = (u8 *)path_state + ((S_80171FC8_0 *)path_state)->unk_8A.s;
-    if (entity->tile_x == ((S_80171FC8_2 *)path_entry)->unk_74 &&
-        entity->tile_y == ((S_80171FC8_2 *)path_entry)->unk_7C) {
-        hp = ((S_80171FC8_3 *)motion_state)->unk_92;
+    path_entry = (S_80171FC8_2 *)((u8 *)path_state + path_state->unk_8A);
+    if (entity->tile_x == path_entry->unk_74 &&
+        entity->tile_y == path_entry->unk_7C) {
+        hp = motion_state->unk_90.parts.high.u;
         energy = ((S_80171FC8_0 *)path_state)->unk_88;
-        ((S_80171FC8_3 *)motion_state)->unk_92 = hp + 0x20;
+        motion_state->unk_90.parts.high.u = hp + 0x20;
         step_index = ((S_80171FC8_0 *)path_state)->unk_8A.u;
-        ((S_80171FC8_0 *)path_state)->unk_88 = energy - 0x20;
-        ((S_80171FC8_0 *)path_state)->unk_8A.u = step_index + 1;
+        path_state->ground_height = energy - 0x20;
+        path_state->unk_8A = step_index + 1;
     } else {
         flags = path_state->flags1C;
         old_x = entity->tile_x;
@@ -95,9 +95,9 @@ void advance_entity_path_state(ActorRecord *motion_state, ObjectPosition *unused
         update_map_cell_flags_with_item_limit(old_x, old_y, distance);
 
         entity->tile_x = ((S_80171FC8_4 *)((u8 *)path_state
-            + ((S_80171FC8_0 *)path_state)->unk_8A.s))->unk_74;
+            + path_state->unk_8A))->unk_74;
         entity->tile_y = ((S_80171FC8_4 *)((u8 *)path_state
-            + ((S_80171FC8_0 *)path_state)->unk_8A.s))->unk_7C;
+            + path_state->unk_8A))->unk_7C;
         ((S_80171FC8_0 *)path_state)->unk_8A.u += 1;
 
         cycle_map_cell_flags(entity->tile_x, entity->tile_y,
@@ -108,19 +108,19 @@ void advance_entity_path_state(ActorRecord *motion_state, ObjectPosition *unused
                           entity->tile_y, &motion_state->action_state_flags);
     }
 
-    ((S_80171FC8_3 *)motion_state)->unk_9A = 0xF;
+    motion_state->action_id.s = 0xF;
     ((S_80171FC8_3 *)motion_state)->unk_8C = 0;
     path_state->flags1C |= 0x40000000;
 
     if (g_dungeon_status.flags & 0x80) {
-        ((S_80171FC8_3 *)motion_state)->unk_96 = 0;
+        motion_state->action_timer.u = 0;
         return;
     }
 
-    ((S_80171FC8_3 *)motion_state)->unk_96 = 8;
-    step_count = ((S_80171FC8_0 *)path_state)->unk_71.u;
+    motion_state->action_timer.u = 8;
+    step_count = path_state->movement_queue_state;
     if (step_count > 0) {
-        ((S_80171FC8_3 *)motion_state)->unk_96 = 8 / step_count;
+        motion_state->action_timer.u = 8 / step_count;
     }
 
     return;

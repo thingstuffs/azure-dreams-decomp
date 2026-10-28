@@ -49,7 +49,7 @@ void spawn_jittered_trail_particle(S_80171F30_1 *parent, s32 state_value, s16 ta
     SpriteFrameState *header;
     void *call_object;
     void *init_data;
-    void *tail;
+    S_80171F30_4 *tail;
     register s32 resource_addr;
     s32 mode_index;
     register s16 tail_value;
@@ -82,11 +82,11 @@ void spawn_jittered_trail_particle(S_80171F30_1 *parent, s32 state_value, s16 ta
         }
     }
     object->update_callback = (void *)resource_addr;
-    ((MovingPosition *)(object->position))->x =
+    object->position->x.w.i =
         ((MovingPosition *)(parent->unk_08))->x;
-    ((MovingPosition *)(object->position))->y =
+    object->position->y.w.i =
         ((MovingPosition *)(parent->unk_08))->y;
-    ((MovingPosition *)(object->position))->z =
+    object->position->z.w.i =
         ((MovingPosition *)(parent->unk_08))->z;
 
     if ((mode_value << 16) == 0) {
@@ -124,11 +124,11 @@ void spawn_jittered_trail_particle(S_80171F30_1 *parent, s32 state_value, s16 ta
     call_object = object;
     init_data = ghosh_object_callback_2;
     header = object->sprite;
-    tail = (u8 *)object + 0x20;
+    tail = (S_80171F30_4 *)((u8 *)object + 0x20);
     header->depth_bias = 0;
-    ((S_80171F30_4 *)tail)->unk_32 = tail_value;
-    ((S_80171F30_4 *)tail)->unk_34 = tail_value;
+    tail->unk_32 = tail_value;
+    tail->unk_34 = tail_value;
     register_node(call_object, init_data);
     ((S_80171F30_0 *)object)->unk_20 = state_value;
-    ((S_80171F30_4 *)tail)->unk_08 = state_value;
+    tail->unk_08 = state_value;
 }

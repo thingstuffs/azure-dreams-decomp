@@ -45,12 +45,12 @@ void advance_timed_actor_animation(ActorRecord *action, ObjectPosition *motion, 
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        ((S_80172F94_0 *)action)->unk_96.u = 0;
+        action->action_timer.u = 0;
         action->action_phase.u++;
         return;
 
     case 1:
-        if ((s16)++((S_80172F94_0 *)action)->unk_96.u == 4 ||
+        if ((s16)++action->action_timer.u == 4 ||
             (sprite->flags & 0x8000)) {
             sprite->frameTable = D_80175584;
             select_sprite_entry(sprite,
@@ -58,32 +58,32 @@ void advance_timed_actor_animation(ActorRecord *action, ObjectPosition *motion, 
                 0);
             sprite->flags |= 0x0800;
         }
-        if (((S_80172F94_0 *)action)->unk_96.s == 7 ||
+        if (action->action_timer.s == 7 ||
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
-            ((S_80172F94_0 *)action)->unk_96.u = 0;
+            action->action_timer.u = 0;
             action->action_phase.u++;
             return;
         }
         return;
 
     case 2:
-        ((S_80172F94_0 *)action)->unk_96.u = 0;
+        action->action_timer.u = 0;
         action->action_phase.u++;
 
     case 3:
-        if ((s16)++((S_80172F94_0 *)action)->unk_96.u == 7 ||
+        if ((s16)++action->action_timer.u == 7 ||
             (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
         }
 
-        if (((S_80172F94_0 *)action)->unk_96.s == 3) {
+        if (action->action_timer.s == 3) {
             play_sound_if_enabled(0x814);
         }
     case 4:
         if (sprite->flags & 0xE000) {
             spend_actor_mp(actor, 0x100);
-            ((S_80172F94_0 *)action)->unk_8C = barong_action_resume_address;
+            action->unk_8C.address = barong_action_resume_address;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;

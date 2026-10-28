@@ -24,9 +24,9 @@ void start_kewne_attack_action(ActorRecord *controller, ObjectPosition *action_c
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
-            ((S_809A0A34_1 *)controller)->unk_9A = 0x17;
+            controller->action_id.s = 0x17;
             (*(s32 *)((u8 *)controller + 0x8C)) = 0;
-            ((S_809A0A34_1 *)controller)->unk_9B = 0;
+            controller->action_phase.s = 0;
             (sprite->frameTable) = &kewne_frame_set_3;
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + &kewne_frame_set_3), 0);

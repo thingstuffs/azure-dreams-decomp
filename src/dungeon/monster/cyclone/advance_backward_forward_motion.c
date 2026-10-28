@@ -88,7 +88,7 @@ void advance_backward_forward_motion(ActorRecord *action, ObjectPosition *motion
             create_offset_directional_effect(action, motion, animation);
             play_sound_if_enabled(0x80E);
             action->action_phase.u++;
-            ((S_80172C98_0 *)action)->unk_96 = 0;
+            action->action_timer.u = 0;
         }
         return;
 
@@ -101,8 +101,8 @@ void advance_backward_forward_motion(ActorRecord *action, ObjectPosition *motion
                     motion->velocity_z = 0;
         }
 
-        timer = ((S_80172C98_0 *)action)->unk_96 + 1;
-        ((S_80172C98_0 *)action)->unk_96 = timer;
+        timer = action->action_timer.u + 1;
+        action->action_timer.u = timer;
         if (((s16)timer == 5) || (animation->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
             play_sound_if_enabled(0x808);
@@ -115,7 +115,7 @@ void advance_backward_forward_motion(ActorRecord *action, ObjectPosition *motion
             motion->velocity_x =
                 motion->velocity_y =
                     motion->velocity_z = 0;
-            ((S_80172C98_0 *)action)->unk_8C = update_actor_animation;
+            action->unk_8C.address = update_actor_animation;
             g_dungeon_status.active_actor = 0;
             (actor->action_flags) &= 0x7FFF;
             advance_status_timers(actor);

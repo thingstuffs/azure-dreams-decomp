@@ -107,10 +107,10 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
     u8 *anim;
     u16 timer;
     ObjectNodeHeader *effect;
-    void *effect_state;
+    S_801728C4_8 *effect_state;
     void *target_sprite;
     void (*callback)(void);
-    void *player_state;
+    S_801728C4_6 *player_state;
     void *special_target;
     s32 offset_x;
     s32 abs_x;
@@ -208,9 +208,9 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             set_record_integer_tile_center(motion, ((S_801728C4_4 *)sprite)->unk_24, ((S_801728C4_4 *)sprite)->unk_25);
-            player_state = ((u8 *)primary_actor_record);
+            player_state = ((S_801728C4_6 *)primary_actor_record);
             g_dungeon_status.active_actor = 0;
-            ((S_801728C4_6 *)player_state)->unk_A6--;
+            player_state->unk_A6--;
             advance_status_timers(actor);
             (*(u8 *)&actor->pending_turn_updates)--;
             ((S_801728C4_0 *)action)->unk_8C = ifrit_action_resume_address;
@@ -241,7 +241,7 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
                 effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
                 if (effect != 0) {
                     register_node(effect, project_sprite_chain);
-                    effect_state = (u8 *)effect + 0x20;
+                    effect_state = (S_801728C4_8 *)((u8 *)effect + 0x20);
                     effect->update_callback = tick_object_motion_and_expire;
                     effect->position->x.w.i =
                         ((u16)motion->x.w.i) + delta[0];
@@ -249,8 +249,8 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
                         ((u16)motion->y.w.i) + delta[1];
                     effect->position->z.w.i =
                         ((u16)motion->z.w.i) + delta[2];
-                    ((S_801728C4_8 *)effect_state)->unk_A4 = 0;
-                    ((S_801728C4_8 *)effect_state)->unk_96 = 4;
+                    effect_state->unk_A4 = 0;
+                    effect_state->unk_96 = 4;
                     target_sprite = effect->sprite;
                     ((S_801728C4_3 *)target_sprite)->unk_28 = ((S_801728C4_4 *)sprite)->unk_28;
                     ((S_801728C4_3 *)target_sprite)->unk_1E = 0x1000;
@@ -290,9 +290,9 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
                         ((rand() & 0xFF) - 0x80) << 11;
                     effect->position->velocity_z =
                         -(rand() & 0xFF) << 12;
-                    effect_state = (u8 *)effect + 0x20;
-                    ((S_801728C4_8 *)effect_state)->unk_A4 = 0;
-                    ((S_801728C4_8 *)effect_state)->unk_96 = 7;
+                    effect_state = (S_801728C4_8 *)((u8 *)effect + 0x20);
+                    effect_state->unk_A4 = 0;
+                    effect_state->unk_96 = 7;
                     target_sprite = effect->sprite;
                     ((S_801728C4_3 *)target_sprite)->unk_28 = ((S_801728C4_4 *)sprite)->unk_28;
                     ((S_801728C4_3 *)target_sprite)->unk_1E = 0x1000;

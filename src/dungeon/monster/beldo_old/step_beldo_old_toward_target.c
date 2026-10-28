@@ -50,8 +50,8 @@ extern DungeonRoom D_800E1D50[];   /* this build's room table */
 /* Updates an actor's movement direction, position, and remaining path steps. */
 void step_beldo_old_toward_target(Rec_func_800A9E70_arg0 *move_state_arg, void *action_context, SpriteFrameState *position_arg, ActorRecord *actor_arg)
 {
-    u8 *dungeon_state = (u8 *)&D_80085990;
-    u16 dungeon_flags = ((S_8127C3E0_0 *)dungeon_state)->unk_02;
+    S_8127C3E0_0 *dungeon_state = (S_8127C3E0_0 *)&D_80085990;
+    u16 dungeon_flags = dungeon_state->unk_02;
     s32 limit_detour = 0;
     s16 detour_test;
     s32 actor_flags;
@@ -69,7 +69,7 @@ void step_beldo_old_toward_target(Rec_func_800A9E70_arg0 *move_state_arg, void *
             func_800A86C4(actor_arg);
             return;
         }
-        if (((S_8127C3E0_0 *)dungeon_state)->unk_0C == actor_arg) {
+        if (dungeon_state->unk_0C == actor_arg) {
             actor_arg->action_flags = 0xC008;
         }
         return;
@@ -264,11 +264,11 @@ void step_beldo_old_toward_target(Rec_func_800A9E70_arg0 *move_state_arg, void *
     }
 
     {
-        u8 *dungeon_counts = (u8 *)&D_80085990;
+        S_8127C3E0_6 *dungeon_counts = (S_8127C3E0_6 *)&D_80085990;
         actor_arg->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         move_state_arg->unk_9C.as_u8 = position_arg->room_index;
         actor_arg->pending_turn_updates--;
-        ((S_8127C3E0_6 *)dungeon_counts)->unk_08++;
+        dungeon_counts->unk_08++;
     }
     if (actor_arg->pending_turn_updates == 0) {
         actor_arg->movement_queue_state &= 0x7F;

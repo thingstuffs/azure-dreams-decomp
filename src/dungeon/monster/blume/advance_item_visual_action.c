@@ -119,8 +119,8 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, Sprite
                     target = primary_actor_record;
                     (*(void * *)((u8 *)object + 0x60)) = target;
                     item_data = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
-                    (*(u8 *)((u8 *)object + 0x72)) = ((S_801737C8_2 *)item_data)->unk_24;
-                    (*(u8 *)((u8 *)object + 0x73)) = ((S_801737C8_2 *)item_data)->unk_25;
+                    (*(u8 *)((u8 *)object + 0x72)) = item_data->tile_x;
+                    (*(u8 *)((u8 *)object + 0x73)) = item_data->tile_y;
                 } else {
                     u8 *item_table;
                     u8 item_id;

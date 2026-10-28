@@ -85,7 +85,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
     void *particle_work;
     SpriteFrameState *sprite;
     ObjectPosition *particle_transform;
-    void *owner;
+    S_801757E0_6 *owner;
     Pair16 *directions;
     s32 spin_angle;
 
@@ -101,8 +101,8 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        ((S_801757E0_0 *)actor)->unk_96.u = 0xE;
-        ((S_801757E0_0 *)actor)->unk_AC.u = 0;
+        actor->action_timer.u = 0xE;
+        actor->unk_AC.byte = 0;
         ((S_801757E0_0 *)actor)->unk_AD.u = 0;
         actor->action_phase.u++;
         play_sound_if_enabled(0x80A);
@@ -126,7 +126,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
 
                 owner = ((S_801757E0_0_pre *)actor)[-1].unk_00;
                 particle_transform = particle->position;
-                if (resolve_record_orientation_or_fallback(((S_801757E0_6 *)owner)->unk_08, owner, offsets, 1)) {
+                if (resolve_record_orientation_or_fallback(owner->unk_08, owner, offsets, 1)) {
                     particle_transform->x.w.i = ((u16) motion->x.w.i);
                     particle_transform->y.w.i = ((u16) motion->y.w.i);
                     particle_transform->z.w.i = ((u16) motion->z.w.i);
@@ -158,12 +158,12 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
             }
         }
 
-        timer = ((S_801757E0_0 *)actor)->unk_96.u - 1;
-        ((S_801757E0_0 *)actor)->unk_96.u = timer;
+        timer = actor->action_timer.u - 1;
+        actor->action_timer.u = timer;
         if (timer > 0 && !(animation->flags & 0x8000)) {
             return;
         }
-        ((S_801757E0_0 *)actor)->unk_96.u = 0x78;
+        actor->action_timer.u = 0x78;
         actor->action_phase.u++;
         return;
 
@@ -172,17 +172,17 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
              (animation->flags & 0x1000)) ||
             (animation->flags & 0x8000)) {
             animation->flags |= 0x800;
-            ((S_801757E0_0 *)actor)->unk_96.u = 0x23;
+            actor->action_timer.u = 0x23;
         }
 
-        timer = ((S_801757E0_0 *)actor)->unk_96.u - 1;
-        ((S_801757E0_0 *)actor)->unk_96.u = timer;
+        timer = actor->action_timer.u - 1;
+        actor->action_timer.u = timer;
         if (timer <= 0 || (animation->flags & 0x8000)) {
-            ((S_801757E0_0 *)actor)->unk_96.u = 0;
+            actor->action_timer.u = 0;
             animation->flags &= 0xF7FF;
         }
 
-        if (!(((S_801757E0_0 *)actor)->unk_96.s != 0x0A && !(animation->flags & 0x8000))) {
+        if (!(actor->action_timer.s != 0x0A && !(animation->flags & 0x8000))) {
             directions = glacier_direction_offsets;
             ((S_801757E0_0 *)actor)->unk_AD.s = 0;
             x = motion->x.w.i +
@@ -244,7 +244,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
                     [((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
         }
-        ((S_801757E0_0 *)actor)->unk_96.u = 0;
+        actor->action_timer.u = 0;
         if (((S_801757E0_0 *)actor)->unk_AD.s == 0) {
             actor->action_phase.u++;
             return;
@@ -254,9 +254,9 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
 
     case 3:
     {
-        s16 spin_timer = ((S_801757E0_0 *)actor)->unk_96.u + 1;
+        s16 spin_timer = actor->action_timer.u + 1;
 
-        ((S_801757E0_0 *)actor)->unk_96.u = spin_timer;
+        actor->action_timer.u = spin_timer;
         if ((spin_timer & 3) == 0) {
 
             spin_angle = entity->facing;
@@ -268,20 +268,20 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
             entity->facing = spin_angle;
         }
     }
-        if (((S_801757E0_0 *)actor)->unk_96.s != 0x13) {
+        if (actor->action_timer.s != 0x13) {
             return;
         }
-        ((S_801757E0_0 *)actor)->unk_96.u = 0;
+        actor->action_timer.u = 0;
         actor->action_phase.u++;
         return;
 
     case 4:
-        timer = ((S_801757E0_0 *)actor)->unk_96.u + 1;
-        ((S_801757E0_0 *)actor)->unk_96.u = timer;
+        timer = actor->action_timer.u + 1;
+        actor->action_timer.u = timer;
         if (timer < 0x0A && !(animation->flags & 0x8000)) {
             return;
         }
-        ((S_801757E0_0 *)actor)->unk_96.u = 0;
+        actor->action_timer.u = 0;
         actor->action_phase.u++;
         (animation->frameTable) = glacier_frame_set_1;
         select_sprite_entry(animation,
@@ -295,26 +295,26 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
             select_sprite_entry(animation,
                 glacier_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
-            ((S_801757E0_0 *)actor)->unk_96.u = 0;
+            actor->action_timer.u = 0;
             actor->action_phase.u++;
         }
         return;
 
     case 6:
-        timer = ((S_801757E0_0 *)actor)->unk_96.u + 1;
-        ((S_801757E0_0 *)actor)->unk_96.u = timer;
+        timer = actor->action_timer.u + 1;
+        actor->action_timer.u = timer;
         if (timer < 0x14 && !(animation->flags & 0x8000)) {
             return;
         }
-        ((S_801757E0_0 *)actor)->unk_96.u = 0;
+        actor->action_timer.u = 0;
         actor->action_phase.u++;
         return;
 
     case 7:
     {
-        s16 spin_timer = ((S_801757E0_0 *)actor)->unk_96.u + 1;
+        s16 spin_timer = actor->action_timer.u + 1;
 
-        ((S_801757E0_0 *)actor)->unk_96.u = spin_timer;
+        actor->action_timer.u = spin_timer;
         if ((spin_timer & 3) == 0) {
 
             spin_angle = entity->facing;
@@ -326,33 +326,33 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
             entity->facing = spin_angle;
         }
     }
-        if (((S_801757E0_0 *)actor)->unk_96.s != 0x13) {
+        if (actor->action_timer.s != 0x13) {
             return;
         }
-        ((S_801757E0_0 *)actor)->unk_96.u = 0;
+        actor->action_timer.u = 0;
         actor->action_phase.u++;
         return;
 
     case 8:
-        if (((S_801757E0_0 *)actor)->unk_AC.s != 0x4D) {
+        if (actor->unk_AC.signed_byte != 0x4D) {
             return;
         }
-        ((S_801757E0_0 *)actor)->unk_96.u = 0;
+        actor->action_timer.u = 0;
         actor->action_phase.u++;
         return;
 
     case 9:
         spend_actor_mp(entity, 0x800);
-        ((S_801757E0_0 *)actor)->unk_8C = update_actor_timed_effects;
+        actor->unk_8C.address = update_actor_timed_effects;
         g_dungeon_status.active_actor = 0;
         (entity->action_flags) &= 0x7FFF;
 
     case 16:
-        timer = ((S_801757E0_0 *)actor)->unk_96.u + 1;
-        ((S_801757E0_0 *)actor)->unk_96.u = timer;
+        timer = actor->action_timer.u + 1;
+        actor->action_timer.u = timer;
         if (timer >= 0x1E) {
             actor->action_phase.u = 9;
-            ((S_801757E0_0 *)actor)->unk_96.u = 0;
+            actor->action_timer.u = 0;
         }
         return;
 

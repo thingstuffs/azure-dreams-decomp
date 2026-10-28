@@ -57,7 +57,7 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, SpriteFr
     s16 next_state;
     u8 state;
     void *target;
-    void *linked;
+    MovingTile *linked;
 
     is_special = 0;
     state = ((S_80172A48_0 *)action)->unk_9B;
@@ -116,9 +116,9 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, SpriteFr
                 if (special_target != 0) {
                     target = primary_actor_record;
                     (*(void * *)((u8 *)item + 0x60)) = target;
-                    linked = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
-                    (*(u8 *)((u8 *)item + 0x72)) = ((MovingTile *)linked)->tile_x;
-                    (*(u8 *)((u8 *)item + 0x73)) = ((MovingTile *)linked)->tile_y;
+                    linked = (MovingTile *)((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
+                    (*(u8 *)((u8 *)item + 0x72)) = linked->tile_x;
+                    (*(u8 *)((u8 *)item + 0x73)) = linked->tile_y;
                 } else {
                     u8 effect_id;
 
@@ -126,9 +126,9 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, SpriteFr
                     if (item_action_definitions[effect_id].kind == 2) {
                         target = (*(void **)((u8 *)item + 0x60));
                         if (target != 0) {
-                            linked = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
-                            (*(u8 *)((u8 *)item + 0x72)) = ((MovingTile *)linked)->tile_x;
-                            (*(u8 *)((u8 *)item + 0x73)) = ((MovingTile *)linked)->tile_y;
+                            linked = (MovingTile *)((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
+                            (*(u8 *)((u8 *)item + 0x72)) = linked->tile_x;
+                            (*(u8 *)((u8 *)item + 0x73)) = linked->tile_y;
                         }
                     } else {
                         s32 dx;

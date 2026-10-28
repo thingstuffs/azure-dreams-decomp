@@ -32,8 +32,8 @@ void advance_timed_directional_reset(ActorRecord *state, ObjectPosition *unused,
         ((S_80172334_0 *)state)->unk_A6 = 0x3CU;
         g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1;
         ((S_80172334_0 *)state)->unk_8C = 0;
-        ((S_80172334_0 *)state)->unk_9A = 0x17;
-        ((S_80172334_0 *)state)->unk_9B = 0;
+        state->action_id.s = 0x17;
+        state->action_phase.s = 0;
         (sprite->frameTable) = direction_table;
         select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + orientation->facing + 0x100) >> 9) & 7)
             + direction_table), 0);

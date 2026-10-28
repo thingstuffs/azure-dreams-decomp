@@ -42,7 +42,7 @@ extern u8 hikewne_direction_frames[];
 
 /* Advances the actor along its queued path and updates movement timing. */
 void advance_actor_along_queued_path(ActorRecord *motion, ObjectPosition *unused, SpriteFrameState *actor, ActorRecord *move_state) {
-    void *next_cell;
+    ActorStatusBytesView *next_cell;
     u8 *anim_table;
     s32 old_x;
     s32 old_y;
@@ -55,7 +55,7 @@ void advance_actor_along_queued_path(ActorRecord *motion, ObjectPosition *unused
     if (((S_80171A18_0 *)move_state)->unk_71.s <= 0) {
         return;
     }
-    if (((S_80171A18_0 *)move_state)->unk_71.u <= ((S_80171A18_0 *)move_state)->unk_8A.s) {
+    if (move_state->movement_queue_state <= move_state->unk_8A) {
         return;
     }
 
@@ -64,59 +64,59 @@ void advance_actor_along_queued_path(ActorRecord *motion, ObjectPosition *unused
         (actor->frameTable) = hikewne_direction_frames;
         select_sprite_entry(
             actor,
-            hikewne_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80171A18_0 *)move_state)->unk_2A + 0x100) >> 9) & 7],
+            hikewne_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + move_state->facing + 0x100) >> 9) & 7],
             0);
     }
 
-    next_cell = (u8 *)move_state + ((S_80171A18_0 *)move_state)->unk_8A.s;
-    if (actor->tile_x == ((ActorStatusBytesView *)next_cell)->path_x
-        && actor->tile_y == ((ActorStatusBytesView *)next_cell)->path_y) {
-        move_offset = ((S_80171A18_3 *)motion)->unk_92;
+    next_cell = (ActorStatusBytesView *)((u8 *)move_state + move_state->unk_8A);
+    if (actor->tile_x == next_cell->path_x
+        && actor->tile_y == next_cell->path_y) {
+        move_offset = motion->unk_90.parts.high.u;
         remaining_offset = ((S_80171A18_0 *)move_state)->unk_88;
-        ((S_80171A18_3 *)motion)->unk_92 = move_offset + 0x20;
-        ((S_80171A18_0 *)move_state)->unk_88 = remaining_offset - 0x20;
-        ((S_80171A18_0 *)move_state)->unk_8A.u = ((S_80171A18_0 *)move_state)->unk_8A.u + 1;
+        motion->unk_90.parts.high.u = move_offset + 0x20;
+        move_state->ground_height = remaining_offset - 0x20;
+        move_state->unk_8A = ((S_80171A18_0 *)move_state)->unk_8A.u + 1;
     } else {
         old_x = actor->tile_x;
         old_y = actor->tile_y;
         occupancy_mask = 0x3000;
-        if (((S_80171A18_0 *)move_state)->unk_1C & 0x2000) {
+        if (move_state->flags1C & 0x2000) {
             occupancy_mask = 0x300;
         }
         update_map_cell_flags_with_item_limit(old_x, old_y, occupancy_mask);
 
         actor->tile_x = ((ActorStatusBytesView *)((u8 *)move_state
-            + ((S_80171A18_0 *)move_state)->unk_8A.s))->path_x;
+            + move_state->unk_8A))->path_x;
         actor->tile_y = ((ActorStatusBytesView *)((u8 *)move_state
-            + ((S_80171A18_0 *)move_state)->unk_8A.s))->path_y;
+            + move_state->unk_8A))->path_y;
         ((S_80171A18_0 *)move_state)->unk_8A.u++;
 
         new_x = actor->tile_x;
         new_y = actor->tile_y;
         occupancy_mask = 0x3000;
-        if (((S_80171A18_0 *)move_state)->unk_1C & 0x2000) {
+        if (move_state->flags1C & 0x2000) {
             occupancy_mask = 0x300;
         }
         cycle_map_cell_flags(new_x, new_y, occupancy_mask);
 
-        ((S_80171A18_0 *)move_state)->unk_2A = get_rounded_facing_and_rounding_flag(
+        move_state->facing = get_rounded_facing_and_rounding_flag(
             old_x, old_y, actor->tile_x, actor->tile_y,
             &motion->action_state_flags);
     }
-    ((S_80171A18_3 *)motion)->unk_9A = 0xF;
+    motion->action_id.u = 0xF;
     ((S_80171A18_3 *)motion)->unk_8C = 0;
     (*(u32 *)((u8 *)move_state + 0x1C)) |= 0x40000000;
 
     if (g_dungeon_status.flags & 0x80) {
-        ((S_80171A18_3 *)motion)->unk_96 = 0;
+        motion->action_timer.u = 0;
         return;
     }
 
-    ((S_80171A18_3 *)motion)->unk_96 = 8;
+    motion->action_timer.u = 8;
     {
-        s32 step_count = ((S_80171A18_0 *)move_state)->unk_71.u;
+        s32 step_count = move_state->movement_queue_state;
         if (step_count > 0) {
-            ((S_80171A18_3 *)motion)->unk_96 = 8 / step_count;
+            motion->action_timer.u = 8 / step_count;
         }
     }
 }

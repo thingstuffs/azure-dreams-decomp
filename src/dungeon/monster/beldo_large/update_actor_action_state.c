@@ -57,7 +57,7 @@ void update_actor_action_state_2(ActorRecord *obj_arg, ObjectPosition *context_a
         if (!(target_arg->flags & 0xE000)) {
             return;
         }
-        obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
+        obj_kind = obj_arg->unk_AC.byte;
         if (obj_kind == 0xE || (obj_kind < 0xF ? obj_kind == 0xD : obj_kind == 0xF)) {
             (target_arg->frameTable) = beldo_large_frame_set_4;
             select_sprite_entry(target_arg, beldo_large_frame_set_4[((g_game_work.view.camera_rotation.parts.viewAngle + actor_arg->facing + 0x100)
@@ -71,7 +71,7 @@ void update_actor_action_state_2(ActorRecord *obj_arg, ObjectPosition *context_a
         return;
 
     case 1:
-        obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
+        obj_kind = obj_arg->unk_AC.byte;
         if (obj_kind == 0xE || (obj_kind < 0xF ? obj_kind == 0xD : obj_kind == 0xF)) {
             if (*(u8 **)&target_arg->frameTable != beldo_large_frame_set_4) {
                 (target_arg->frameTable) = beldo_large_frame_set_4;
@@ -81,7 +81,7 @@ void update_actor_action_state_2(ActorRecord *obj_arg, ObjectPosition *context_a
         }
         target = target_arg;
         if ((get_entity_effect_value(actor_arg, STATUS_SLEEP) << 0x10) == 0) {
-            obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
+            obj_kind = obj_arg->unk_AC.byte;
             if (obj_kind == 0xE || (obj_kind < 0xF ? obj_kind == 0xD : obj_kind == 0xF)) {
                 (target->frameTable) = beldo_large_frame_set_7;
                 select_sprite_entry(target, beldo_large_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle + actor_arg->facing + 0x100)
@@ -149,7 +149,7 @@ void update_actor_action_state_2(ActorRecord *obj_arg, ObjectPosition *context_a
             if ((get_entity_effect_value(actor_arg, STATUS_SLEEP) << 0x10) != 0) {
                 return;
             }
-            obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
+            obj_kind = obj_arg->unk_AC.byte;
             if (obj_kind == 0xE || (obj_kind < 0xF ? obj_kind == 0xD : obj_kind == 0xF)) {
                 (target->frameTable) = beldo_large_frame_set_7;
                 select_sprite_entry(target, beldo_large_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle + actor_arg->facing + 0x100)
@@ -181,5 +181,5 @@ void update_actor_action_state_2(ActorRecord *obj_arg, ObjectPosition *context_a
         return;
     }
     callback = &beldo_large_action_resume_address;
-    ((S_8016CC70_0 *)obj_arg)->unk_8C = callback;
+    obj_arg->unk_8C.address = callback;
 }

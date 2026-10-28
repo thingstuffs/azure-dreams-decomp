@@ -238,10 +238,10 @@ void update_actor_approach_descent_return(void *action, ObjectPosition *motion, 
         }
             ((S_80175CD8_0 *)action)->unk_9B++;
             {
-                u8 *player = ((u8 *)dungeon_actor_ring_anchor);
+                S_80175CD8_4 *player = ((S_80175CD8_4 *)dungeon_actor_ring_anchor);
 
                 ((S_80175CD8_0 *)action)->unk_96.s = 0;
-                ((S_80175CD8_4 *)player)->unk_14 |= 0x100000;
+                player->unk_14 |= 0x100000;
             }
             play_sound_if_enabled(0x603);
             return;

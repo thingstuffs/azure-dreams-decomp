@@ -58,10 +58,10 @@ void spawn_owned_motion_object(void)
     s32 x;
     s32 source_y;
     s32 direction_y;
-    void *owner_object;
+    S_8016EB14_0 *owner_object;
     S_8016EB14_5 *source_pos;
     S_8016EB14_6 *owner_state;
-    void *object_state;
+    S_8016EB14_3 *object_state;
     ObjectNodeHeader *spawned_object;
     SpriteFrameState *render_part;
     ObjectPosition *spawn_pos;
@@ -69,16 +69,16 @@ void spawn_owned_motion_object(void)
     u8 *direction_entry;
 
     owner_object = ghosh_actor_node;
-    source_pos = ((S_8016EB14_0 *)owner_object)->unk_08;
+    source_pos = owner_object->unk_08;
     owner_state = (u8 *)owner_object + 0x20;
     spawned_object = allocate_flagged_object_node(0x12);
     if (spawned_object != 0) {
         spawned_object->update_callback = update_object_motion_and_landing;
-        object_state = (u8 *)spawned_object + 0x20;
+        object_state = (S_8016EB14_3 *)((u8 *)spawned_object + 0x20);
         register_node(spawned_object, project_sprite_chain);
         render_part = spawned_object->sprite;
         render_part->flags &= 0xFFF3;
-        ((S_8016EB14_3 *)object_state)->unk_24 = owner_state;
+        object_state->unk_24 = owner_state;
         spawn_pos = spawned_object->position;
         spawn_pos->x.w.i = source_pos->unk_02.s;
         spawn_pos->y.w.i = source_pos->unk_06.s;
@@ -86,14 +86,14 @@ void spawn_owned_motion_object(void)
         direction_table = (u8 *)&ghosh_effect_direction_offsets;
         x = *(s16 *)(u8 *)(((owner_state->unk_2A >> 7) & 0x1C) +
                            (u32)direction_table);
-        ((S_8016EB14_3 *)object_state)->unk_4C = x << 18;
+        object_state->unk_4C = x << 18;
         direction_y = *(s16 *)((u8 *)(((owner_state->unk_2A >> 7) & 0x1C) +
                                       (u32)direction_table) + 2);
-        ((S_8016EB14_3 *)object_state)->unk_54 = 0xFFF80000;
-        ((S_8016EB14_3 *)object_state)->unk_60 = 0x14900;
-        ((S_8016EB14_3 *)object_state)->unk_50 = direction_y << 18;
+        object_state->unk_54 = 0xFFF80000;
+        object_state->unk_60 = 0x14900;
+        object_state->unk_50 = direction_y << 18;
 
-        ((S_8016EB14_3 *)object_state)->unk_18 = (owner_state->unk_2A >> 9) & 7;
+        object_state->unk_18 = (owner_state->unk_2A >> 9) & 7;
         render_part = spawned_object->sprite;
         render_part->scale_y = 0x1000;
         render_part->scale_x = 0x1000;
@@ -102,16 +102,16 @@ void spawn_owned_motion_object(void)
         owner_state->unk_AA = 0x4D;
 
         x = source_pos->unk_02.u;
-        ((S_8016EB14_3 *)object_state)->unk_48 = x / 64;
+        object_state->unk_48 = x / 64;
         source_y = source_pos->unk_06.u;
-        ((S_8016EB14_3 *)object_state)->unk_49 = source_y / 64;
+        object_state->unk_49 = source_y / 64;
         render_part->color.c.b = 0x80;
         render_part->color.c.g = 0x80;
         render_part->color.c.r = 0x80;
         render_part->source = &D_800777B8;
-        ((S_8016EB14_3 *)object_state)->unk_44 = 0xF;
-        ((S_8016EB14_3 *)object_state)->unk_45 = 1;
-        ((S_8016EB14_3 *)object_state)->unk_46 = 0;
-        ((S_8016EB14_3 *)object_state)->unk_47 = 0;
+        object_state->unk_44 = 0xF;
+        object_state->unk_45 = 1;
+        object_state->unk_46 = 0;
+        object_state->unk_47 = 0;
     }
 }

@@ -101,9 +101,9 @@ void update_particles_projectile_and_fade(void *effect_state, MovingPosition *po
     s32 particles_left;
     ObjectNodeHeader *spawned_object;
     void *particle_callback;
-    void *particle_state;
+    S_801733BC_4 *particle_state;
     SpriteFrameState *particle_render;
-    void *projectile_state;
+    S_801733BC_8 *projectile_state;
 
     DungeonGlobalStatus *effect_list;
     s32 random_offset;
@@ -125,11 +125,11 @@ void update_particles_projectile_and_fade(void *effect_state, MovingPosition *po
                 spawned_object->update_callback = particle_callback;
 
                 random_offset = rand();
-                ((MovingPosition *)(spawned_object->position))->x =
+                spawned_object->position->x.w.i =
                     position->x + (random_offset & 0x3F) - 0x20;
 
                 random_offset = rand();
-                ((MovingPosition *)(spawned_object->position))->y =
+                spawned_object->position->y.w.i =
                     position->y + (random_offset & 0x3F) - 0x20;
 
                 random_offset = rand();
@@ -146,12 +146,12 @@ void update_particles_projectile_and_fade(void *effect_state, MovingPosition *po
                     particle_color = 0x00500000;
                     source_z = position->z;
                     particle_color |= 0x5050;
-                    ((MovingPosition *)(spawned_object->position))->z =
+                    spawned_object->position->z.w.i =
                         source_z - random_offset - 0x10;
 
-                    particle_state = (u8 *)spawned_object + 0x20;
-                    ((S_801733BC_4 *)particle_state)->unk_A4 = particle_render;
-                    ((S_801733BC_4 *)particle_state)->unk_96 = 6;
+                    particle_state = (S_801733BC_4 *)((u8 *)spawned_object + 0x20);
+                    particle_state->unk_A4 = particle_render;
+                    particle_state->unk_96 = 6;
 
                     particle_render = spawned_object->sprite;
                     owner = ((S_801733BC_0 *)render_part)->unk_28;
@@ -222,15 +222,15 @@ void update_particles_projectile_and_fade(void *effect_state, MovingPosition *po
         spawned_object->update_callback = (void *)frames_left;
         ((S_801733BC_2 *)spawned_object)->unk_20 = position->x;
         projectile_y = position->y;
-        projectile_state = (u8 *)spawned_object + 0x20;
-        ((S_801733BC_8 *)projectile_state)->unk_02 = projectile_y;
+        projectile_state = (S_801733BC_8 *)((u8 *)spawned_object + 0x20);
+        projectile_state->unk_02 = projectile_y;
         projectile_z = position->z;
-        ((S_801733BC_8 *)projectile_state)->unk_10 = 0xFFFC0000;
-        ((S_801733BC_8 *)projectile_state)->unk_0C = 0;
-        ((S_801733BC_8 *)projectile_state)->unk_14 = 0xFFFE8000;
-        ((S_801733BC_8 *)projectile_state)->unk_18 = 0x14;
-        ((S_801733BC_8 *)projectile_state)->unk_08 = 0;
-        ((S_801733BC_8 *)projectile_state)->unk_04 = projectile_z;
+        projectile_state->unk_10 = 0xFFFC0000;
+        projectile_state->unk_0C = 0;
+        projectile_state->unk_14 = 0xFFFE8000;
+        projectile_state->unk_18 = 0x14;
+        projectile_state->unk_08 = 0;
+        projectile_state->unk_04 = projectile_z;
         break;
 
     case 2:

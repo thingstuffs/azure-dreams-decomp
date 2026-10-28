@@ -38,11 +38,11 @@ void create_boss_directional_effect(void *source, s16 angle, s32 initial_value, 
     if (effect != 0) {
         effect->update_callback = &func_801718E4;
         entry = (u8 *)&direction_table + ((angle >> 7) & 0x1C);
-        *((u16 *) (((s8 *) (effect->position)) + 2)) =
+        effect->position->x.w.i =
             (u16) (*((u16 *) (((s8 *) (*((void **) (((s8 *) source) + 8)))) + 2)));
-        *((u16 *) (((s8 *) (effect->position)) + 6)) =
+        effect->position->y.w.i =
             (u16) (*((u16 *) (((s8 *) (*((void **) (((s8 *) source) + 8)))) + 6)));
-        *((s16 *) (((s8 *) (effect->position)) + 0xA)) =
+        effect->position->z.w.i =
             (s16) ((*((u16 *) (((s8 *) (*((void **) (((s8 *) source) + 8)))) + 0xA))) - 0x14);
         x_position = effect->position;
         *((u16 *) (((s8 *) x_position) + 2)) = (u16) ((*((u16 *) (((s8 *) x_position) + 2)))
@@ -53,14 +53,14 @@ void create_boss_directional_effect(void *source, s16 angle, s32 initial_value, 
         effect->sprite->depth_bias = 6;
         source = ((void *)effect) + 0x20;
         if (spread_mode == 0) {
-            *((s32 *) (((s8 *) (effect->position)) + 0xC)) =
+            effect->position->velocity_x =
                 (s32) (((rand() & 0x7FFF) - 0x4000) << 7);
             y_velocity = (s32) (((rand() & 0x7FFF) - 0x4000) << 7);
             velocity_base = effect->position;
             *((s32 *) (((s8 *) velocity_base) + 0x10)) = y_velocity;
         }
         else {
-            *((s32 *) (((s8 *) (effect->position)) + 0xC)) =
+            effect->position->velocity_x =
                 (s32) (((rand() & 0x7FFF) - 0x4000) << 6);
             y_velocity = (s32) (((rand() & 0x7FFF) - 0x4000) << 6);
             velocity_base = effect->position;

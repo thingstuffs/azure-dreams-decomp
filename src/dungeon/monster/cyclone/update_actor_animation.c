@@ -158,7 +158,7 @@ void update_actor_animation(ActorRecord *actor_arg, ObjectPosition *context_arg,
 
         if (((S_80171094_1 *)stats)->unk_1C & 0x80000) {
             begin_actor_move_to_target_facing(actor_arg, context_arg, sprite_arg, stats);
-            ((S_80171094_0 *)actor_arg)->unk_92 -= ((S_80171094_0 *)actor_arg)->unk_A6.u;
+            actor_arg->unk_90.parts.high.u -= ((S_80171094_0 *)actor_arg)->unk_A6.u;
             ((S_80171094_0 *)actor_arg)->unk_A6.u = 0;
             ((S_80171094_0 *)actor_arg)->unk_AC.u = 0;
             func_80174520(actor_arg, context_arg, sprite_arg, stats);

@@ -58,27 +58,26 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
     SpriteFrameState *sprite;
     u32 dungeon_flags = g_dungeon_status.flags;
     if (dungeon_flags & 0x1000) {
-        *((u8 *) (((u8 *) actor) + 0x9A)) = 0xE;
+        actor->action_id.u = 0xE;
         func_801715F0(actor, context, sprite_arg, creature);
         return;
     }
-    if ((*((u8 *) (((u8 *) creature) + 0x25))) == 0) {
+    if (creature->mp_value.parts.whole == 0) {
         void *anim_table;
         advance_actor_pending_action(actor, context, sprite_arg, creature);
-        if ((*((void **) (((u8 *) sprite_arg) + 0x2C))) == garuda_frame_set_2) {
+        if (sprite_arg->frameTable == garuda_frame_set_2) {
             return;
         }
         anim_table = D_801748D8;
-        *((void **) (((u8 *) sprite_arg) + 0x2C)) = anim_table;
-        select_sprite_entry(sprite_arg, ((u8 *) anim_table)[(((g_game_work.view.camera_rotation.parts.viewAngle + (*((s16 *) (((u8 *) creature)
-            + 0x2A)))) + 0x100) >> 9) & 7], 0);
+        sprite_arg->frameTable = anim_table;
+        select_sprite_entry(sprite_arg, ((u8 *) anim_table)[(((g_game_work.view.camera_rotation.parts.viewAngle + creature->facing) + 0x100) >> 9) & 7], 0);
         return;
     }
     sprite = sprite_arg;
     if ((*((u32 *) (((u8 *) creature) + 0x1C))) & 0x200) {
         if ((sprite->frameTable) == garuda_frame_set_2) {
-            *((u8 *) (((u8 *) actor) + 0x9A)) = 0xD;
-            *((u8 *) (((u8 *) actor) + 0x9B)) = 1;
+            actor->action_id.u = 0xD;
+            actor->action_phase.u = 1;
             *((s32 *) (((u8 *) actor) + 0x8C)) = 0;
             *((u32 *) (((u8 *) creature) + 0x1C)) &= 0xFFFBFFFF;
             return;
@@ -95,12 +94,12 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
         {
             register void *current_anim;
             void *anim_table;
-            switch (*((u8 *) (((u8 *) actor) + 0x9A))) {
+            switch (actor->action_id.u) {
             case 0xE:
                 break;
 
             default:
-                *((u8 *) (((u8 *) actor) + 0x9A)) = 0xE;
+                actor->action_id.u = 0xE;
                 break;
 
             }
@@ -109,16 +108,15 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
             anim_table = garuda_walk_direction_frames;
             if (current_anim != anim_table) {
                 sprite->frameTable = anim_table;
-                select_sprite_entry(sprite, ((u8 *) anim_table)[(((g_game_work.view.camera_rotation.parts.viewAngle + (*((s16 *) (((u8 *) creature)
-                    + 0x2A)))) + 0x100) >> 9) & 7], 0);
+                select_sprite_entry(sprite, ((u8 *) anim_table)[(((g_game_work.view.camera_rotation.parts.viewAngle + creature->facing) + 0x100) >> 9) & 7], 0);
                 sprite->frame_ticks = 1;
                 *((s16 *) (((u8 *) actor) + 0xA6)) = 0;
                 *((s16 *) (((u8 *) actor) + 0xB2)) = 0;
             }
         }
         *((u32 *) (((u8 *) creature) + 0x1C)) |= 0x40000;
-        *((u16 *) (((u8 *) actor) + 0x98)) &= 0xFFF7;
-        if ((*((s16 *) (((u8 *) creature) + 0x64))) != 0) {
+        actor->action_state_flags &= 0xFFF7;
+        if (creature->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, context, sprite, D_80174890) != 0) {
                 return;
             }
@@ -126,10 +124,10 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
         if ((*((u32 *) (((u8 *) creature) + 0x1C))) & 0x80000) {
             s16 adjusted_offset;
             begin_actor_move_to_target_facing(actor, context, sprite, creature);
-            adjusted_offset = (*((u16 *) (((u8 *) actor) + 0x92))) - (*((u16 *) (((u8 *) actor) + 0xA6)));
+            adjusted_offset = actor->unk_90.parts.high.u - (*((u16 *) (((u8 *) actor) + 0xA6)));
             *((s16 *) (((u8 *) actor) + 0xA6)) = 0;
             *((s16 *) (((u8 *) actor) + 0xB2)) = 0;
-            *((s16 *) (((u8 *) actor) + 0x92)) = adjusted_offset;
+            actor->unk_90.parts.high.s = adjusted_offset;
             func_80173834(actor, context, sprite, creature);
             return;
         }
@@ -139,7 +137,7 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
     }
     room_id = find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
     sprite->room_index = room_id;
-    if ((*((s8 *) (((u8 *) creature) + 0x6D))) > 0) {
+    if (creature->pending_turn_updates > 0) {
         if ((*((u32 *) (((u8 *) creature) + 0x1C))) & 0x20) {
             update_actor_status_and_mp(creature);
             return;
@@ -148,7 +146,7 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
             func_80171848(actor, context, sprite, creature);
             return;
         }
-        if (!((*((u16 *) (((u8 *) creature) + 0x46))) & 0x8000)) {
+        if (!(creature->action_flags & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 {
                     ObjectNodeHeader *previous_node;
@@ -166,14 +164,14 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
             if ((func_80172414(actor, context, sprite, 0) << 16) == 0) {
                 return;
             }
-            action = (*((u16 *) (((u8 *) creature) + 0x46))) | 0x4000;
-            *((u16 *) (((u8 *) creature) + 0x46)) = action;
+            action = creature->action_flags | 0x4000;
+            creature->action_flags = action;
             if (!(action & 0x8000)) {
                 func_80171848(actor, context, sprite, creature);
                 return;
             }
         }
-        action = (*((u16 *) (((u8 *) creature) + 0x46))) & 0x3FFF;
+        action = creature->action_flags & 0x3FFF;
         if (((u32) (action - 1)) >= 12) {
             func_80171848(actor, context, sprite, creature);
             return;
@@ -181,7 +179,7 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
         switch (action - 1) {
         case 8:
         {
-            void *target = probe_directional_neighbor(creature, sprite->tile_x, sprite->tile_y, *((s16 *) (((u8 *) creature) + 0x2A)));
+            void *target = probe_directional_neighbor(creature, sprite->tile_x, sprite->tile_y, creature->facing);
             *((void **) (((u8 *) actor) + 0xA8)) = target;
             if (target == 0) {
                 func_80171848(actor, context, sprite, creature);
@@ -214,7 +212,7 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
             facing_angle = get_rounded_facing_and_rounding_flag(sprite->tile_x, sprite->tile_y,
                 player_pos->tile_position.parts.tile_x, player_pos->tile_position.parts.tile_y, &direction_aux);
             player = primary_actor_record;
-            *((s16 *) (((u8 *) creature) + 0x2A)) = facing_angle;
+            creature->facing = facing_angle;
             if ((*((u8 *) (((u8 *) player) + 0x9A))) == 0x11) {
                 begin_actor_spell_action(actor, context, sprite, &garuda_frame_set, update_creature_animation_action);
                 return;
@@ -243,7 +241,7 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
                 TileObject *player_pos = &reference_tile_object;
                 if ((test_neighbor_position_relation(sprite->tile_x, sprite->tile_y,
                     player_pos->tile_position.parts.tile_x, player_pos->tile_position.parts.tile_y) << 16) != 0) {
-                    *((s16 *) (((u8 *) creature) + 0x2A)) = get_rounded_facing_and_rounding_flag(sprite->tile_x,
+                    creature->facing = get_rounded_facing_and_rounding_flag(sprite->tile_x,
                         sprite->tile_y, player_pos->tile_position.parts.tile_x,
                         player_pos->tile_position.parts.tile_y, &direction_aux);
                 }

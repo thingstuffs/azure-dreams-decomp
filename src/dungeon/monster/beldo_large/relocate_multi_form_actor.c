@@ -19,21 +19,21 @@ void relocate_multi_form_actor(s32 offset_index)
 {
     s16 delta[2] = { 0, -12 };
     ObjectNodeHeader *object;
-    u8 *state;
+    S_8016EC04_1 *state;
     u8 *entity;
     void *motion;
     u8 *step;
     TileObject *origin;
 
     object = beldo_actor_nodes;
-    state = ((u8 *)object) + 0x20;
+    state = (S_8016EC04_1 *)(((u8 *)object) + 0x20);
     entity = *(u8 * *)&object->sprite;
     motion = object->position;
 
     ((SpriteFrameState *)entity)->flags &= 0xFF7F;
 
     update_map_cell_flags_with_item_limit(entity[0x24], entity[0x25],
-                  (((S_8016EC04_1 *)state)->unk_1C & 0x2000) ? 0x300 : 0x3000);
+                  (state->unk_1C & 0x2000) ? 0x300 : 0x3000);
 
     origin = &reference_tile_object;
     step = (u8 *)&delta[offset_index * 2];
@@ -43,5 +43,5 @@ void relocate_multi_form_actor(s32 offset_index)
     set_record_integer_tile_center(motion, entity[0x24], entity[0x25]);
 
     cycle_map_cell_flags(entity[0x24], entity[0x25],
-                  (((S_8016EC04_1 *)state)->unk_1C & 0x2000) ? 0x300 : 0x3000);
+                  (state->unk_1C & 0x2000) ? 0x300 : 0x3000);
 }

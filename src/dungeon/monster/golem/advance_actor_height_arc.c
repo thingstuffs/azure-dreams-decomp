@@ -87,10 +87,10 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
             }
         }
 
-        ((Rec_func_80172D08_arg1 *)motion)->unk_14 = 0;
-        ((Rec_func_80172D08_arg1 *)motion)->unk_10 = 0;
-        ((Rec_func_80172D08_arg1 *)motion)->unk_0C = 0;
-        ((S_80172D08_0 *)action)->unk_96.s = 6;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
+        action->action_timer.s = 6;
         action->action_phase.u++;
     }
 
@@ -99,23 +99,23 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
         s16 timer;
         s32 direction;
 
-        timer = ((S_80172D08_0 *)action)->unk_96.u - 1;
-        ((S_80172D08_0 *)action)->unk_96.u = timer;
+        timer = action->action_timer.u - 1;
+        action->action_timer.u = timer;
         if ((timer << 16) != 0) {
             return;
         }
 
         if (((S_80172D08_0 *)action)->unk_AF == 0) {
             direction = (((u16)actor->facing) >> 8) & 0xE;
-            ((Rec_func_80172D08_arg1 *)motion)->unk_0C =
+            motion->velocity_x =
                 (((s16 *)((s8 *)dir_step_x))[direction >> 1] << 22) / 8;
-            ((Rec_func_80172D08_arg1 *)motion)->unk_10 =
+            motion->velocity_y =
                 (((s16 *)((s8 *)dir_step_y))[direction >> 1] << 22) / 8;
         }
         action->action_state_flags |= 0xC;
         (*(u32 *)&actor->flags1C) &= ACTOR_GROUNDED_CLEAR_MASK;
-        ((S_80172D08_0 *)action)->unk_A0 = 0;
-        ((S_80172D08_0 *)action)->unk_96.s = 0x10;
+        action->unk_A0.value = 0;
+        action->action_timer.s = 0x10;
         action->action_phase.u++;
         return;
     }
@@ -128,8 +128,8 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
         u32 fall_step;
         s32 scaled_arc;
 
-        ((S_80172D08_0 *)action)->unk_90 -= ((S_80172D08_0 *)action)->unk_A0;
-        timer = ((S_80172D08_0 *)action)->unk_96.s;
+        action->unk_90.value -= action->unk_A0.value;
+        timer = action->action_timer.s;
         if (timer >= 9) {
             if (actor->target != 0) {
                 s32 height_delta;
@@ -138,20 +138,20 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
 
                 owner = actor->target;
                 owner = ((S_80172D08_4_pre *)owner)[-1].unk_00;
-                arc_sample = rsin(((S_80172D08_0 *)action)->unk_96.s << 7) >> 4;
+                arc_sample = rsin(action->action_timer.s << 7) >> 4;
                 fall_step = entity_height_offsets[
                     ((ActorRecord *)actor->target)->species] + 0x20;
                 scaled_arc = arc_sample * fall_step;
                 height_delta = (((S_80172D08_4 *)owner)->unk_0A - actor->ground_height) << 13;
-                height_delta *= 0x11 - ((S_80172D08_0 *)action)->unk_96.s;
+                height_delta *= 0x11 - action->action_timer.s;
                 arc_sample = scaled_arc << 8;
                 next_height = height_delta - arc_sample;
-                ((S_80172D08_0 *)action)->unk_A0 = next_height;
+                action->unk_A0.value = next_height;
             } else if (((S_80172D08_0 *)action)->unk_AF != 0) {
                 s32 arc_sample;
 
-                arc_sample = rsin(((S_80172D08_0 *)action)->unk_96.s << 7) >> 4;
-                ((S_80172D08_0 *)action)->unk_A0 = -((arc_sample * 3) << 13);
+                arc_sample = rsin(action->action_timer.s << 7) >> 4;
+                action->unk_A0.value = -((arc_sample * 3) << 13);
             } else {
                 s32 direction;
                 s32 height_offset;
@@ -166,26 +166,26 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
                     (((record->tile_y +
                        ((s16 *)((s8 *)dir_step_y))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
                     (s16)(((u16)actor->ground_height) - 0x20));
-                arc_sample = rsin(((S_80172D08_0 *)action)->unk_96.s << 7);
+                arc_sample = rsin(action->action_timer.s << 7);
                 signed_terrain_height = terrain_height << 16;
                 signed_terrain_height >>= 16;
                 height_delta = (signed_terrain_height - actor->ground_height) << 13;
-                scaled_arc = ((S_80172D08_0 *)action)->unk_96.s;
+                scaled_arc = action->action_timer.s;
                 height_offset = height_delta * (0x11 - scaled_arc);
                 arc_sample = ((arc_sample >> 4) * 3) << 13;
-                ((S_80172D08_0 *)action)->unk_A0 = height_offset - arc_sample;
+                action->unk_A0.value = height_offset - arc_sample;
             }
         } else {
-            ((Rec_func_80172D08_arg1 *)motion)->unk_10 = 0;
-            ((Rec_func_80172D08_arg1 *)motion)->unk_0C = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             fall_step = 0x40000;
-            next_height = ((S_80172D08_0 *)action)->unk_A0 + fall_step;
-            ((S_80172D08_0 *)action)->unk_A0 = next_height;
+            next_height = action->unk_A0.value + fall_step;
+            action->unk_A0.value = next_height;
         }
 
-        ((S_80172D08_0 *)action)->unk_90 += ((S_80172D08_0 *)action)->unk_A0;
-        next_timer = ((S_80172D08_0 *)action)->unk_96.u - 1;
-        ((S_80172D08_0 *)action)->unk_96.u = next_timer;
+        action->unk_90.value += action->unk_A0.value;
+        next_timer = action->action_timer.u - 1;
+        action->action_timer.u = next_timer;
         if (next_timer > 0) {
             return;
         }
@@ -212,12 +212,12 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
             (record->flags & 0xE000)) {
             if (((S_80172D08_0 *)action)->unk_AF == 0) {
                 direction = (((u16)actor->facing) >> 8) & 0xE;
-                ((Rec_func_80172D08_arg1 *)motion)->unk_0C =
+                motion->velocity_x =
                     -((((s16 *)((s8 *)dir_step_x))[direction >> 1] << 22) / 8);
-                ((Rec_func_80172D08_arg1 *)motion)->unk_10 =
+                motion->velocity_y =
                     -((((s16 *)((s8 *)dir_step_y))[direction >> 1] << 22) / 8);
             }
-            ((S_80172D08_0 *)action)->unk_96.s = 8;
+            action->action_timer.s = 8;
             action->action_phase.u++;
         }
         return;
@@ -227,9 +227,9 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
     {
         s16 timer;
 
-        ((S_80172D08_0 *)action)->unk_90 -= ((S_80172D08_0 *)action)->unk_A0;
-        timer = ((S_80172D08_0 *)action)->unk_96.u - 1;
-        ((S_80172D08_0 *)action)->unk_96.u = timer;
+        action->unk_90.value -= action->unk_A0.value;
+        timer = action->action_timer.u - 1;
+        action->action_timer.u = timer;
         if (timer >= 0) {
             if (actor->target != 0) {
                 s32 height_delta;
@@ -239,20 +239,20 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
 
                 owner = actor->target;
                 owner = ((S_80172D08_4_pre *)owner)[-1].unk_00;
-                arc_sample = rsin(((S_80172D08_0 *)action)->unk_96.s << 8);
+                arc_sample = rsin(action->action_timer.s << 8);
                 height_delta = ((S_80172D08_4 *)owner)->unk_0A -
                            entity_height_offsets[((ActorRecord *)actor->target)->species] -
                            actor->ground_height;
                 height_delta <<= 13;
-                height_offset = height_delta * ((S_80172D08_0 *)action)->unk_96.s;
+                height_offset = height_delta * action->action_timer.s;
                 arc_sample = (arc_sample >> 4) << 13;
-                ((S_80172D08_0 *)action)->unk_A0 = height_offset - arc_sample;
+                action->unk_A0.value = height_offset - arc_sample;
             } else if (((S_80172D08_0 *)action)->unk_AF != 0) {
                 s32 arc_sample;
 
-                arc_sample = rsin(((S_80172D08_0 *)action)->unk_96.s << 8) >> 4;
-                ((S_80172D08_0 *)action)->unk_A0 =
-                    -(((S_80172D08_0 *)action)->unk_96.s << 19) - (arc_sample << 13);
+                arc_sample = rsin(action->action_timer.s << 8) >> 4;
+                action->unk_A0.value =
+                    -(action->action_timer.s << 19) - (arc_sample << 13);
             } else {
                 s32 direction;
                 s32 height_delta;
@@ -268,33 +268,33 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
                     (((record->tile_y +
                        ((s16 *)((s8 *)dir_step_y))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
                     (s16)(((u16)actor->ground_height) - 0x20));
-                arc_sample = rsin(((S_80172D08_0 *)action)->unk_96.s << 8);
+                arc_sample = rsin(action->action_timer.s << 8);
                 signed_terrain_height = terrain_height << 16;
                 signed_terrain_height >>= 16;
                 base_height = actor->ground_height;
                 base_height += 0x40;
                 height_delta = signed_terrain_height - base_height;
                 height_delta <<= 13;
-                height_offset = height_delta * ((S_80172D08_0 *)action)->unk_96.s;
+                height_offset = height_delta * action->action_timer.s;
                 arc_sample = (arc_sample >> 4) << 13;
-                ((S_80172D08_0 *)action)->unk_A0 = height_offset - arc_sample;
+                action->unk_A0.value = height_offset - arc_sample;
             }
         } else {
-            ((Rec_func_80172D08_arg1 *)motion)->unk_14 = 0;
-            ((Rec_func_80172D08_arg1 *)motion)->unk_10 = 0;
-            ((Rec_func_80172D08_arg1 *)motion)->unk_0C = 0;
-            ((S_80172D08_0 *)action)->unk_A0 = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
+            action->unk_A0.value = 0;
         }
 
-        ((S_80172D08_0 *)action)->unk_90 += ((S_80172D08_0 *)action)->unk_A0;
+        action->unk_90.value += action->unk_A0.value;
         if (record->flags & 0xE000) {
-            ((Rec_func_80172D08_arg1 *)motion)->unk_14 = 0;
-            ((Rec_func_80172D08_arg1 *)motion)->unk_10 = 0;
-            ((Rec_func_80172D08_arg1 *)motion)->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             set_record_integer_tile_center(motion, record->tile_x,
                           record->tile_y);
             spend_actor_mp(actor, 0x200);
-            ((S_80172D08_0 *)action)->unk_8C = &golem_action_continuation_address;
+            action->unk_8C.address = &golem_action_continuation_address;
             g_dungeon_status.active_actor = 0;
             (actor->action_flags) &= 0x7FFF;
             action->action_state_flags &= 0xFFF3;

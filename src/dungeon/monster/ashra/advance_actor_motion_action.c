@@ -130,9 +130,9 @@ void advance_actor_motion_action(ActorRecord *action_state, ObjectPosition *posi
                     actor->target_tile_y = offset_y;
                 }
             }
-            saved_position[0] = ((u16)((EntityRec *)position)->x.w.i);
-            saved_position[1] = ((u16)((EntityRec *)position)->y.w.i);
-            saved_position[2] = ((u16)((EntityRec *)position)->z.w.i);
+            saved_position[0] = ((u16)position->x.w.i);
+            saved_position[1] = ((u16)position->y.w.i);
+            saved_position[2] = ((u16)position->z.w.i);
             position = (void *)create_actor_spell_effect(actor, motion, use_player, (u8 *)action_state + 0x98);
             if (position == 0) {
                 return;
@@ -144,15 +144,15 @@ void advance_actor_motion_action(ActorRecord *action_state, ObjectPosition *posi
             return;
         }
 
-        ((EntityRec *)position)->flags14 = 0;
-        ((EntityRec *)position)->unk_10 = 0;
-        ((EntityRec *)position)->unk_0C = 0;
+        position->velocity_z = 0;
+        position->velocity_y = 0;
+        position->velocity_x = 0;
         set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)&primary_actor_record->unk_A4 + 2)) = (*(u16 *)((u8 *)primary_actor_record + 0xA6)) - 1;
         advance_status_timers(actor);
         actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
-        ((S_80172810_0 *)action_state)->unk_8C = ashra_action_continuation_address;
+        action_state->unk_8C.address = ashra_action_continuation_address;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -170,21 +170,21 @@ void advance_actor_motion_action(ActorRecord *action_state, ObjectPosition *posi
         if ((sprite->unk_04 == 14 && (sprite->flags & 0x1000)) ||
             (sprite->flags & 0xE000)) {
             sprite->flags |= 0x800;
-            ((S_80172810_0 *)action_state)->unk_96 = 0x3;
+            action_state->action_timer.u = 0x3;
             action_state->action_state_flags |= 0x80;
         }
-        wait_ticks = ((S_80172810_0 *)action_state)->unk_96 - 1;
-        ((S_80172810_0 *)action_state)->unk_96 = wait_ticks;
+        wait_ticks = action_state->action_timer.u - 1;
+        action_state->action_timer.u = wait_ticks;
         if ((s16)wait_ticks <= 0) {
-            ((S_80172810_0 *)action_state)->unk_96 = 0;
+            action_state->action_timer.u = 0;
             sprite->flags &= 0xF7FF;
         }
         if ((sprite->flags & 0xE000) == 0) {
             return;
         }
-        ((EntityRec *)position)->flags14 = 0;
-        ((EntityRec *)position)->unk_10 = 0;
-        ((EntityRec *)position)->unk_0C = 0;
+        position->velocity_z = 0;
+        position->velocity_y = 0;
+        position->velocity_x = 0;
         set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
         {
             u8 *direction_frames = D_801739C0;
@@ -202,7 +202,7 @@ void advance_actor_motion_action(ActorRecord *action_state, ObjectPosition *posi
         }
         ((S_80172810_7 *)action_globals)->unk_0A = ((S_80172810_7 *)action_globals)->unk_0A - 1;
         sprite->flags &= 0xF7FF;
-        ((S_80172810_0 *)action_state)->unk_8C = ashra_action_continuation_address;
+        action_state->unk_8C.address = ashra_action_continuation_address;
         advance_status_timers(actor);
         if (actor->pending_turn_updates > 0) {
             actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;

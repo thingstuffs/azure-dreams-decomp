@@ -40,7 +40,7 @@ void advance_multi_form_turn_path(ActorRecord *actor, ObjectPosition *unused, Sp
     s32 old_x;
     s32 old_y;
     s16 direction;
-    u8 *path_step;
+    S_8016AFC4_3 *path_step;
 
     if (((s8)movement->movement_queue_state) <= 0) {
         return;
@@ -52,7 +52,7 @@ void advance_multi_form_turn_path(ActorRecord *actor, ObjectPosition *unused, Sp
         }
     }
 
-    behavior = ((Rec_func_800A9E70_arg0 *)actor)->unk_AC;
+    behavior = actor->unk_AC.byte;
     switch (behavior) {
     case 0:
         if (*(u8 **)&sprite->frameTable != beldo_large_frame_set_10) {
@@ -96,9 +96,9 @@ void advance_multi_form_turn_path(ActorRecord *actor, ObjectPosition *unused, Sp
     }
     update_map_cell_flags_with_item_limit(old_x, old_y, move_mode);
 
-    path_step = (u8 *)movement + movement->unk_8A;
-    direction = get_rounded_facing_and_rounding_flag(old_x, old_y, ((S_8016AFC4_3 *)path_step)->unk_74,
-                              ((S_8016AFC4_3 *)path_step)->unk_7C, &actor->action_state_flags);
+    path_step = (S_8016AFC4_3 *)((u8 *)movement + movement->unk_8A);
+    direction = get_rounded_facing_and_rounding_flag(old_x, old_y, path_step->unk_74,
+                              path_step->unk_7C, &actor->action_state_flags);
     check_movement_clearance_and_height(direction, sprite, movement, 0x20);
 
     sprite->tile_x =
@@ -111,23 +111,23 @@ void advance_multi_form_turn_path(ActorRecord *actor, ObjectPosition *unused, Sp
                   (movement->flags1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
 
     movement->facing = direction;
-    ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_s8 = 0xF;
+    actor->action_id.s = 0xF;
     ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
     (movement->flags1C) |= ACTOR_REFRESH_GROUND;
 
     if (g_dungeon_status.flags & 0x80) {
-        ((Rec_func_800A9E70_arg0 *)actor)->unk_96.as_s16 = 0;
+        actor->action_timer.s = 0;
         return;
     }
 
-    if (((Rec_func_800A9E70_arg0 *)actor)->unk_B0 != 0) {
-        ((Rec_func_800A9E70_arg0 *)actor)->unk_96.as_s16 = 0x10;
+    if (actor->unk_B0.bytes[0] != 0) {
+        actor->action_timer.s = 0x10;
     } else {
-        ((Rec_func_800A9E70_arg0 *)actor)->unk_96.as_s16 = 8;
+        actor->action_timer.s = 8;
     }
     step_count = movement->movement_queue_state;
     if (step_count > 0) {
-        ((Rec_func_800A9E70_arg0 *)actor)->unk_96.as_s16 =
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_96.as_s16 / step_count;
+        actor->action_timer.s =
+            actor->action_timer.s / step_count;
     }
 }

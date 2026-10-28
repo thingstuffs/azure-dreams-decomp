@@ -46,7 +46,7 @@ void *allocate_boss_actor(s16 mode, s16 config_24, s16 config_25, s16 config_0a)
     s16 saved_config_0a;
     s8 saved_config_25;
     void *actor;
-    void *actor_state;
+    S_8016F160_4 *actor_state;
 
     work = 0;
     saved_config_24 = config_24;
@@ -80,11 +80,11 @@ void *allocate_boss_actor(s16 mode, s16 config_24, s16 config_25, s16 config_0a)
 
         initialize_actor_sprite_and_animation(obj, part_a, part_b, saved_mode);
         actor_state = actor;
-        ((S_8016F160_4 *)actor_state)->unk_9A = 0xFF;
-        ((S_8016F160_4 *)actor_state)->unk_9C = -1;
-        ((S_8016F160_4 *)actor_state)->unk_8C = &ghosh_motion_resume_address;
-        ((S_8016F160_4 *)actor_state)->unk_9B = 0;
-        ((S_8016F160_4 *)actor_state)->unk_B0 = 0;
+        actor_state->unk_9A = 0xFF;
+        actor_state->unk_9C = -1;
+        actor_state->unk_8C = &ghosh_motion_resume_address;
+        actor_state->unk_9B = 0;
+        actor_state->unk_B0 = 0;
         part_b->flags |= 0x80;
         try_move_actor_to_valid_position(actor_state, part_a, part_b, work);
     }

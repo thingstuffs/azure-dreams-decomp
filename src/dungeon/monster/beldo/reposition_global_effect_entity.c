@@ -19,21 +19,21 @@ void reposition_global_effect_entity(s32 offset_index)
 {
     s16 offsets[2] = { 1, -1 };
     ObjectNodeHeader *object;
-    u8 *state;
+    S_8125414C_1 *state;
     u8 *entity;
     void *motion;
     u8 *offset_bytes;
     TileObject *origin;
 
     object = beldo_active_entity;
-    state = ((u8 *)object) + 0x20;
+    state = (S_8125414C_1 *)(((u8 *)object) + 0x20);
     entity = *(u8 * *)&object->sprite;
     motion = object->position;
 
     ((SpriteFrameState *)entity)->flags &= 0xFF7F;
 
     update_map_cell_flags_with_item_limit(entity[0x24], entity[0x25],
-                  (((S_8125414C_1 *)state)->unk_1C & 0x2000) ? 0x300 : 0x3000);
+                  (state->unk_1C & 0x2000) ? 0x300 : 0x3000);
 
     origin = &reference_tile_object;
     offset_bytes = (u8 *)&offsets[offset_index * 2];
@@ -43,5 +43,5 @@ void reposition_global_effect_entity(s32 offset_index)
     set_record_integer_tile_center(motion, entity[0x24], entity[0x25]);
 
     cycle_map_cell_flags(entity[0x24], entity[0x25],
-                  (((S_8125414C_1 *)state)->unk_1C & 0x2000) ? 0x300 : 0x3000);
+                  (state->unk_1C & 0x2000) ? 0x300 : 0x3000);
 }

@@ -38,7 +38,7 @@ typedef struct S_8016B3A8_2 {
  * ground contact. */
 void run_actor_callbacks_and_update_grounding(void *self, ObjectPosition *motion, void *sprite)
 {
-    void *actor_base = self;
+    S_8016B3A8_2 *actor_base = self;
     s16 old_state;
     u8 old_state_byte;
     s32 height_offset;
@@ -106,7 +106,7 @@ void run_actor_callbacks_and_update_grounding(void *self, ObjectPosition *motion
     initial_sprite_flags = ((SpriteFrameState *)sprite)->flags;
 
     if (!(initial_sprite_flags & 0x8000)) {
-        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016B3A8_2 *)actor_base)->unk_2A + 0x100) >> 9) & 7;
+        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor_base->unk_2A + 0x100) >> 9) & 7;
         if ((*(s16 *)((u8 *)self + 0x94)) != direction) {
             select_indirect_table_entry(sprite,
                 *(u8 *)(*(u8 * *)&((SpriteFrameState *)sprite)->frameTable + direction),
@@ -123,18 +123,18 @@ void run_actor_callbacks_and_update_grounding(void *self, ObjectPosition *motion
             }
             ((SpriteFrameState *)sprite)->flags = flip_flags;
         }
-        apply_monster_koyaw_data(((S_8016B3A8_2 *)actor_base)->unk_1C, (u8 *)sprite + 0xC);
-        if (!(((S_8016B3A8_2 *)actor_base)->unk_1C & 0x20)) {
+        apply_monster_koyaw_data(actor_base->unk_1C, (u8 *)sprite + 0xC);
+        if (!(actor_base->unk_1C & 0x20)) {
             if (!(((SpriteFrameState *)sprite)->flags & 0x40)) {
                 advance_sprite_animation_and_textures(sprite);
             }
         } else {
             ((SpriteFrameState *)sprite)->flags |= 0x7000;
-            ((S_8016B3A8_2 *)actor_base)->unk_1C &= 0xFFFBFFFF;
+            actor_base->unk_1C &= 0xFFFBFFFF;
         }
 
-        ((S_8016B3A8_2 *)actor_base)->unk_1C &= 0xF7FFFFFF;
-        actor_flags = ((S_8016B3A8_2 *)actor_base)->unk_1C;
+        actor_base->unk_1C &= 0xF7FFFFFF;
+        actor_flags = actor_base->unk_1C;
         if (actor_flags & 0x40000) {
             sprite_flags = ((SpriteFrameState *)sprite)->flags;
             if (!(sprite_flags & 0x40)) {
@@ -189,13 +189,13 @@ void run_actor_callbacks_and_update_grounding(void *self, ObjectPosition *motion
             if (height_offset == 0) {
                 floor_height = sample_terrain_surface_height(((u16)motion->x.w.i),
                                       ((u16)motion->y.w.i),
-                                      (s16)(((S_8016B3A8_2 *)actor_base)->unk_88 - 0x20)) -
-                        ((S_8016B3A8_2 *)actor_base)->unk_88;
+                                      (s16)(actor_base->unk_88 - 0x20)) -
+                        actor_base->unk_88;
                 if (floor_height < (*(s16 *)((u8 *)self + 0x92))) {
                     (*(s16 *)((u8 *)self + 0x92)) = floor_height;
                     (*(u8 *)((u8 *)self + 0x9D)) = 0;
                     motion->velocity_z = 0;
-                    ((S_8016B3A8_2 *)actor_base)->unk_1C |= 0x08000000;
+                    actor_base->unk_1C |= 0x08000000;
                 }
             }
         }
@@ -205,8 +205,8 @@ void run_actor_callbacks_and_update_grounding(void *self, ObjectPosition *motion
         } else {
             ((SpriteFrameState *)sprite)->flags = initial_sprite_flags | 0x7000;
         }
-        ((S_8016B3A8_2 *)actor_base)->unk_1C &= 0xF7FFFFFF;
-        actor_flags = ((S_8016B3A8_2 *)actor_base)->unk_1C;
+        actor_base->unk_1C &= 0xF7FFFFFF;
+        actor_flags = actor_base->unk_1C;
 
         if (!(actor_flags & 0x40000)) {
             adjustment = (*(s32 *)((u8 *)self + 0xA4));
@@ -220,13 +220,13 @@ void run_actor_callbacks_and_update_grounding(void *self, ObjectPosition *motion
             if (height_offset == 0) {
                 floor_height = sample_terrain_surface_height(((u16)motion->x.w.i),
                                       ((u16)motion->y.w.i),
-                                      (s16)(((S_8016B3A8_2 *)actor_base)->unk_88 - 0x20)) -
-                        ((S_8016B3A8_2 *)actor_base)->unk_88;
+                                      (s16)(actor_base->unk_88 - 0x20)) -
+                        actor_base->unk_88;
                 if (floor_height < (*(s16 *)((u8 *)self + 0x92))) {
                     (*(s16 *)((u8 *)self + 0x92)) = floor_height;
                     (*(u8 *)((u8 *)self + 0x9D)) = 0;
                     motion->velocity_z = 0;
-                    ((S_8016B3A8_2 *)actor_base)->unk_1C |= 0x08000000;
+                    actor_base->unk_1C |= 0x08000000;
                 }
             }
         } else {
@@ -264,20 +264,20 @@ void run_actor_callbacks_and_update_grounding(void *self, ObjectPosition *motion
             }
         }
     }
-    actor_flags = ((S_8016B3A8_2 *)actor_base)->unk_1C;
+    actor_flags = actor_base->unk_1C;
     if (actor_flags & 0x40000000) {
-        ((S_8016B3A8_2 *)actor_base)->unk_1C = actor_flags & 0xBFFFFFFF;
+        actor_base->unk_1C = actor_flags & 0xBFFFFFFF;
         floor_height = sample_terrain_surface_height((((SpriteFrameState *)sprite)->tile_x << 6) | 0x20,
                               (((SpriteFrameState *)sprite)->tile_y << 6) | 0x20,
-                              (s16)(((S_8016B3A8_2 *)actor_base)->unk_88 - 0x20));
+                              (s16)(actor_base->unk_88 - 0x20));
         if (floor_height < 0x200) {
             (*(s16 *)((u8 *)self + 0x92)) =
                 (u16)(*(s16 *)((u8 *)self + 0x92)) +
-                (((S_8016B3A8_2 *)actor_base)->unk_88 - floor_height);
-            ((S_8016B3A8_2 *)actor_base)->unk_88 = floor_height;
+                (actor_base->unk_88 - floor_height);
+            actor_base->unk_88 = floor_height;
         }
     }
-    motion->z.w.i = ((S_8016B3A8_2 *)actor_base)->unk_88 +
+    motion->z.w.i = actor_base->unk_88 +
                              (u16)(*(s16 *)((u8 *)self + 0x92)) -
                              (*(u16 *)((u8 *)self + 0xA6));
     ((SpriteFrameState *)sprite)->flags |= 0x40;

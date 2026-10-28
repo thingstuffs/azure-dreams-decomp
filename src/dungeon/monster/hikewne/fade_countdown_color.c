@@ -36,7 +36,7 @@ void fade_countdown_color(void *record_data, void *unused, SpriteFrameState *col
     if ((ticks_left << 0x10) <= 0) {
         ((S_8014C8E8_0 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((S_8014C8E8_0 *)((u8 *)record_data
             - 0x2))->unk_00 | 0x8000);
-        ((S_8014C8E8_2 *)((s32 *)(&object_flag_block)))->unk_00 =
-            (s32) (((S_8014C8E8_2 *)((s32 *)(&object_flag_block)))->unk_00 | 0x8000);
+        object_flag_block.flags =
+            (s32) (object_flag_block.flags | 0x8000);
     }
 }

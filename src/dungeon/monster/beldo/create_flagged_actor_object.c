@@ -61,7 +61,7 @@ void create_flagged_actor_object_2(void *root, void *output_pos, void *target_da
 void create_flagged_actor_object_2(void *root, void *output_pos, void *target_data)
 {
     s16 offset[3];
-    void *position_data;
+    S_81263000_2 *position_data;
     SpriteFrameState *target_part= target_data;
     S_81263000_1 *owner;
     S_81263000_5 *pos_data;
@@ -74,7 +74,7 @@ void create_flagged_actor_object_2(void *root, void *output_pos, void *target_da
     position_data = owner->unk_0C;
     pos_data = owner->unk_08;
 
-    if (!(((S_81263000_2 *)position_data)->unk_14 & 0x80)) {
+    if (!(position_data->unk_14 & 0x80)) {
         target_part->flags &= 0xFF7F;
     }
 
@@ -97,13 +97,13 @@ void create_flagged_actor_object_2(void *root, void *output_pos, void *target_da
     }
 
     pos_data = target_part->source;
-    target_part->scale_x = ((S_81263000_2 *)position_data)->unk_1C;
-    target_part->scale_y = ((S_81263000_2 *)position_data)->unk_1E;
-    target_part->flags = ((S_81263000_2 *)position_data)->unk_14;
+    target_part->scale_x = position_data->unk_1C;
+    target_part->scale_y = position_data->unk_1E;
+    target_part->flags = position_data->unk_14;
     pos_data->unk_01 &= 0xFE;
 
     if (((S_81263000_0 *)root)->unk_B6 == 1) {
-        phase = ((S_81263000_2 *)position_data)->unk_04.s8;
+        phase = position_data->unk_04.s8;
         if (phase < 8) {
             shade_a = (phase * 14) + 0x20;
             target_part->color.c.b = shade_a;
@@ -115,14 +115,14 @@ void create_flagged_actor_object_2(void *root, void *output_pos, void *target_da
             target_part->color.c.g = shade_a;
             target_part->color.c.r = shade_a;
         }
-        if (!(((S_81263000_2 *)position_data)->unk_14 & 0x8000) &&
-            ((S_81263000_2 *)position_data)->unk_04.u16 == 0x10C) {
+        if (!(position_data->unk_14 & 0x8000) &&
+            position_data->unk_04.u16 == 0x10C) {
             play_sound_if_enabled(0x709);
         }
     }
 
     if (((S_81263000_0 *)root)->unk_B6 == 2) {
-        phase = ((S_81263000_2 *)position_data)->unk_04.s8;
+        phase = position_data->unk_04.s8;
         if (phase < 8) {
             reverse_phase = 7;
             reverse_phase -= phase;
@@ -137,8 +137,8 @@ void create_flagged_actor_object_2(void *root, void *output_pos, void *target_da
             target_part->color.c.g = shade;
             target_part->color.c.r = shade;
         }
-        if (!(((S_81263000_2 *)position_data)->unk_14 & 0x8000) &&
-            ((S_81263000_2 *)position_data)->unk_04.u16 == 0x104) {
+        if (!(position_data->unk_14 & 0x8000) &&
+            position_data->unk_04.u16 == 0x104) {
             play_sound_if_enabled(0x709);
         }
     }

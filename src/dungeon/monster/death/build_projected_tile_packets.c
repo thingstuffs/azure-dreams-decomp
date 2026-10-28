@@ -166,11 +166,11 @@ void create_parent_return_effect(
     if (effect != 0) {
         effect->update_callback = advance_effect_toward_target;
 
-        ((SignedPositionView *)(effect->position))->x =
+        effect->position->x.w.i =
             ((MovingPosition *)(parent->unk_08))->x + offset_x;
-        ((SignedPositionView *)(effect->position))->y =
+        effect->position->y.w.i =
             ((MovingPosition *)(parent->unk_08))->y + offset_y;
-        ((SignedPositionView *)(effect->position))->z =
+        effect->position->z.w.i =
             ((MovingPosition *)(parent->unk_08))->z + offset_z - 100;
 
         effect_data = (u8 *)effect + 0x20;
@@ -213,7 +213,7 @@ void create_parent_return_effect(
 /* Creates a short-lived colored point effect offset from its owner with randomized velocity. */
 void spawn_parent_offset_random_motion_effect(void *parent_arg, register s16 effect_param_arg, register s32 state_value_arg,
     register s32 unused_arg, register s32 offset_x_arg, register s32 offset_y_arg, register s32 offset_z_arg) {
-    register void *parent = parent_arg;
+    register ObjectPayloadView *parent = parent_arg;
     register s16 effect_param = effect_param_arg;
     register s32 state_value = state_value_arg;
     register s32 offset_x = offset_x_arg;
@@ -228,18 +228,18 @@ void spawn_parent_offset_random_motion_effect(void *parent_arg, register s16 eff
         effect->update_callback = advance_damped_motion_and_fade_effect;
         /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: dungeon/func_80BC172C). */
         do {
-            parent_x = ((MovingPosition *)(((ObjectPayloadView *)parent)->unk_08))->x;
-            ((S_80BC172C_5 *)(effect->position))->unk_02 = (s16) (parent_x + offset_x);
-            ((S_80BC172C_5 *)(effect->position))->unk_06 =
-                (s16) (((MovingPosition *)(((ObjectPayloadView *)parent)->unk_08))->y + offset_y);
-            ((S_80BC172C_5 *)(effect->position))->unk_0A =
-                (s16) ((((MovingPosition *)(((ObjectPayloadView *)parent)->unk_08))->z + offset_z) - 0x64);
+            parent_x = ((MovingPosition *)(parent->unk_08))->x;
+            effect->position->x.w.i = (s16) (parent_x + offset_x);
+            effect->position->y.w.i =
+                (s16) (((MovingPosition *)(parent->unk_08))->y + offset_y);
+            effect->position->z.w.i =
+                (s16) ((((MovingPosition *)(parent->unk_08))->z + offset_z) - 0x64);
         } while (0);
         effect->sprite->depth_bias = 6;
-        ((S_80BC172C_5 *)(effect->position))->unk_0C = (s32) (((rand() & 0x7FFF) - 0x4000) << 7);
-        ((S_80BC172C_5 *)(effect->position))->unk_10 = (s32) (((rand() & 0x7FFF) - 0x4000) << 7);
+        effect->position->velocity_x = (s32) (((rand() & 0x7FFF) - 0x4000) << 7);
+        effect->position->velocity_y = (s32) (((rand() & 0x7FFF) - 0x4000) << 7);
         effect_data = ((void *)effect) + 0x20;
-        ((S_80BC172C_5 *)(effect->position))->unk_14 = (s32) (((rand() & 0x7FFF) - 0x4000) << 7);
+        effect->position->velocity_z = (s32) (((rand() & 0x7FFF) - 0x4000) << 7);
         effect_data->unk_14 = effect_param;
         effect_data->unk_32 = 5;
         effect_data->unk_34 = 5;

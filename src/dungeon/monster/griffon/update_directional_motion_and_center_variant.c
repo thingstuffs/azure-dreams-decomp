@@ -50,7 +50,7 @@ void update_directional_motion_and_center_variant(ActorRecord *controller, Objec
             return;
         }
         if (sprite->flags & 0x8000) {
-            ((S_8014F234_0 *)controller)->unk_96.s = 0;
+            controller->action_timer.s = 0;
             controller->action_phase.u = 3;
             return;
         }
@@ -60,7 +60,7 @@ void update_directional_motion_and_center_variant(ActorRecord *controller, Objec
         } else {
             timer = -1;
         }
-        ((S_8014F234_0 *)controller)->unk_96.s = timer;
+        controller->action_timer.s = timer;
 
         motion->velocity_x -= motion->velocity_x / 4;
         motion->velocity_y -= motion->velocity_y / 4;
@@ -71,13 +71,13 @@ void update_directional_motion_and_center_variant(ActorRecord *controller, Objec
         motion->velocity_y +=
             ((s16 *)((s8 *)dir_step_y))[(entity->movement_facing >> 9) & 7] << 14;
 
-        if (((S_8014F234_0 *)controller)->unk_96.s > 0) {
-            ((S_8014F234_0 *)controller)->unk_96.s = ((S_8014F234_0 *)controller)->unk_96.u - 1;
+        if (controller->action_timer.s > 0) {
+            controller->action_timer.s = controller->action_timer.u - 1;
         } else if (sprite->flags & 0x6000) {
-            ((S_8014F234_0 *)controller)->unk_96.s = 0;
+            controller->action_timer.s = 0;
         }
 
-        if (((S_8014F234_0 *)controller)->unk_96.s != 0) {
+        if (controller->action_timer.s != 0) {
             return;
         }
         if (entity->hp == 0) {
@@ -108,11 +108,11 @@ void update_directional_motion_and_center_variant(ActorRecord *controller, Objec
             sprite,
             griffon_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        ((S_8014F234_0 *)controller)->unk_96.s = 8;
+        controller->action_timer.s = 8;
         controller->action_phase.u++;
         return;
     case 3:
-        timer = ((S_8014F234_0 *)controller)->unk_96.s;
+        timer = controller->action_timer.s;
         if (timer != 0) {
             {
                 s32 tile_x = sprite->tile_x << 6;
@@ -123,12 +123,12 @@ void update_directional_motion_and_center_variant(ActorRecord *controller, Objec
                 s32 tile_y = sprite->tile_y << 6;
                 s32 offset_y = motion->y.w.i - 0x20;
                 motion->velocity_y =
-                    ((tile_y - offset_y) << 15) / ((S_8014F234_0 *)controller)->unk_96.s;
+                    ((tile_y - offset_y) << 15) / controller->action_timer.s;
             }
         }
 
-        timer = ((S_8014F234_0 *)controller)->unk_96.u - 1;
-        ((S_8014F234_0 *)controller)->unk_96.s = timer;
+        timer = controller->action_timer.u - 1;
+        controller->action_timer.s = timer;
         if ((s32)(timer << 16) > 0) {
             return;
         }
@@ -144,7 +144,7 @@ void update_directional_motion_and_center_variant(ActorRecord *controller, Objec
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
             g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
         }
-        ((S_8014F234_0 *)controller)->unk_8C = &griffon_slot_a_action_callback;
+        controller->unk_8C.address = &griffon_slot_a_action_callback;
 
         return;
     default:

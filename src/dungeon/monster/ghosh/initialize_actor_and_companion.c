@@ -80,16 +80,16 @@ extern ObjectNodeHeader *ghosh_actor_node;
  */
 void *initialize_actor_and_companion(s16 mode_flags, s32 config_24, s32 config_25, s32 config_0a)
 {
-    void *work_copy;
+    S_8016AEDC_4 *work_copy;
     u16 spawn_config_0a;
     s32 saved_config_24;
     s16 saved_config_25;
     ObjectNodeHeader *object;
-    void *work;
+    S_8016AEDC_1 *work;
     void *part_a;
     void *part_b;
     u8 *callback;
-    u8 *spawned;
+    S_8016AEDC_6 *spawned;
     s32 mode_kind;
     u16 saved_config_0a;
 
@@ -99,10 +99,10 @@ void *initialize_actor_and_companion(s16 mode_flags, s32 config_24, s32 config_2
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     saved_config_0a = config_0a;
     if (object != 0) {
-        work = object + 1;
+        work = (S_8016AEDC_1 *)(object + 1);
         ghosh_actor_node = object;
         object->update_callback = update_actor_animation_movement_and_terrain;
-        ((S_8016AEDC_1 *)work)->unk_13 = MONSTER_GHOSH;
+        work->unk_13 = MONSTER_GHOSH;
         register_node(object, project_sprite_chain);
 
         callback = ghosh_frame_set_3;
@@ -116,29 +116,29 @@ void *initialize_actor_and_companion(s16 mode_flags, s32 config_24, s32 config_2
 
         ((S_8016AEDC_3 *)part_b)->unk_25 = saved_config_25;
         if (mode_kind == 1) {
-            ((S_8016AEDC_1 *)work)->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            ((S_8016AEDC_1 *)work)->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            work->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            work->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
         } else if (mode_kind >= 2) {
-            ((S_8016AEDC_1 *)work)->unk_14 |= ACTOR_CLASS_ENABLED;
-            ((S_8016AEDC_1 *)work)->unk_1C |= ACTOR_PLAYER_SIDE;
+            work->unk_14 |= ACTOR_CLASS_ENABLED;
+            work->unk_1C |= ACTOR_PLAYER_SIDE;
         }
 
         initialize_actor_sprite_and_animation(object, part_a, part_b, (s16)mode_flags);
         {
 
-            ((S_8016AEDC_4 *)work_copy)->unk_9A = 0xFF;
-            ((S_8016AEDC_4 *)work_copy)->unk_9C = -1;
-            ((S_8016AEDC_4 *)work_copy)->unk_8C = &ghosh_action_resume_address;
-            ((S_8016AEDC_4 *)work_copy)->unk_AE = 0;
-            ((S_8016AEDC_4 *)work_copy)->unk_B4 = 0;
-            ((S_8016AEDC_4 *)work_copy)->unk_B0 = 0;
+            work_copy->unk_9A = 0xFF;
+            work_copy->unk_9C = -1;
+            work_copy->unk_8C = &ghosh_action_resume_address;
+            work_copy->unk_AE = 0;
+            work_copy->unk_B4 = 0;
+            work_copy->unk_B0 = 0;
             ((S_8016AEDC_5 *)part_b)->unk_14 |= 0x80;
             try_move_actor_to_valid_position(work_copy, part_a, part_b, work);
         }
-        ((S_8016AEDC_1 *)work)->unk_49 = 0xE;
-        ((S_8016AEDC_1 *)work)->unk_48 = 3;
-        ((S_8016AEDC_1 *)work)->unk_4A = random_dungeon_range_16(0x10, 0x18);
-        ((S_8016AEDC_1 *)work)->unk_4B = 1;
+        work->unk_49 = 0xE;
+        work->unk_48 = 3;
+        work->unk_4A = random_dungeon_range_16(0x10, 0x18);
+        work->unk_4B = 1;
     }
 
     {
@@ -153,9 +153,9 @@ void *initialize_actor_and_companion(s16 mode_flags, s32 config_24, s32 config_2
         spawn_config_25 = config_25 >> 16;
         spawned = allocate_boss_actor(spawn_mode, spawn_config_24, spawn_config_25, (s16)spawn_config_0a);
     }
-    retain_spawn_resource(((S_8016AEDC_6 *)spawned)->unk_13, 1);
-    func_80042640(spawned, ((S_8016AEDC_6 *)spawned)->unk_13);
-    ((S_8016AEDC_6 *)spawned)->unk_43 = 0xFF;
-    ((S_8016AEDC_6 *)spawned)->unk_12 = 0;
+    retain_spawn_resource(spawned->unk_13, 1);
+    func_80042640(spawned, spawned->unk_13);
+    spawned->unk_43 = 0xFF;
+    spawned->unk_12 = 0;
     return work;
 }

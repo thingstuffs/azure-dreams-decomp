@@ -36,7 +36,7 @@ void update_effect_fade_and_history(void *effect, MovingPosition *position, S_80
 {
     s16 trail_length;
     s32 sample_index;
-    u8 *trail_tail;
+    S_801747B8_2 *trail_tail;
 
     primitive->unk_08 = ((S_801747B8_3 *)((*(void * *)((u8 *)effect + 0x18))))->unk_08;
     primitive->unk_14 =
@@ -70,8 +70,8 @@ void update_effect_fade_and_history(void *effect, MovingPosition *position, S_80
         } while (sample_index < (*(s16 *)((u8 *)effect + 0x34)));
     }
 
-    trail_tail = (u8 *)(sample_index * 2 + (s32)(u8 *)effect);
-    ((S_801747B8_2 *)trail_tail)->unk_20 = ((MovingPosition *)((*(void * *)((u8 *)effect + 0x1C))))->x;
-    ((S_801747B8_2 *)trail_tail)->unk_26 = ((MovingPosition *)((*(void * *)((u8 *)effect + 0x1C))))->y;
-    ((S_801747B8_2 *)trail_tail)->unk_2C = ((MovingPosition *)((*(void * *)((u8 *)effect + 0x1C))))->z;
+    trail_tail = (S_801747B8_2 *)(sample_index * 2 + (s32)(u8 *)effect);
+    trail_tail->unk_20 = ((MovingPosition *)((*(void * *)((u8 *)effect + 0x1C))))->x;
+    trail_tail->unk_26 = ((MovingPosition *)((*(void * *)((u8 *)effect + 0x1C))))->y;
+    trail_tail->unk_2C = ((MovingPosition *)((*(void * *)((u8 *)effect + 0x1C))))->z;
 }
