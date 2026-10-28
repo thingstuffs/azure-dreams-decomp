@@ -29,6 +29,7 @@ void draw_filler_first_number(s32 first_number, s32 second_number, u16 width, s1
         do {
             u8 character;
 
+            /* Repeated test on purpose: the closest goto-free match to retail (ledger/spelling_revisits.jsonl). */
             if (fill_mode != 0 &&
                 (numeric_character_flags[character = *char_ptr] & 4) == 0) {
                 record.first = 0x1C0;

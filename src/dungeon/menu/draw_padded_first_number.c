@@ -29,6 +29,7 @@ void draw_padded_first_number(s32 first_number, s32 second_number, u16 width, s1
             s32 glyph_u;
             u8 char_code;
 
+            /* Repeated test on purpose: the closest goto-free match to retail (ledger/spelling_revisits.jsonl). */
             if (padding_mode != 0 &&
                 (numeric_character_flags[char_code = *cursor] & 4) == 0) {
                 glyph_u = 0x1C0;
