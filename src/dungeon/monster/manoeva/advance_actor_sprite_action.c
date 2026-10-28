@@ -58,15 +58,15 @@ void advance_actor_sprite_action(ActorRecord *action, ObjectPosition *motion, Sp
                 D_80176600[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             create_action_sprite_effect((u8 *)action - 0x20);
-            ((S_801726A4_0 *)action)->unk_96 = 0;
+            action->action_timer.u = 0;
             action->action_phase.u++;
             play_sound_if_enabled(0x804);
             return;
         }
         break;
     case 2:
-        frame_count = ((S_801726A4_0 *)action)->unk_96 + 1;
-        ((S_801726A4_0 *)action)->unk_96 = frame_count;
+        frame_count = action->action_timer.u + 1;
+        action->action_timer.u = frame_count;
 
         if ((s16)frame_count == state ||
             (sprite->flags & 0x8000)) {
@@ -86,7 +86,7 @@ void advance_actor_sprite_action(ActorRecord *action, ObjectPosition *motion, Sp
     case 3:
         if (sprite->flags & 0xE000) {
             spend_actor_mp(actor, 0x100);
-            ((S_801726A4_0 *)action)->unk_8C = manoeva_action_resume_address;
+            action->unk_8C.address = manoeva_action_resume_address;
             g_dungeon_status.active_actor = 0;
             (actor->action_flags) &= 0x7FFF;
             advance_status_timers(actor);

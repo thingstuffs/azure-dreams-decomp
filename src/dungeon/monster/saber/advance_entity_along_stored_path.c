@@ -37,14 +37,14 @@ typedef struct S_80171CD4_4 {
 /* Advance the entity along its stored path and update movement timing. */
 void advance_entity_along_stored_path(void *movement, void *motion, SpriteFrameState *entity, void *path_state) {
     ActorRecord *path_actor = movement;
-    void *state = path_state;
+    S_80171CD4_0 *state = path_state;
     s32 move_flags;
     s16 heading;
     s16 move_result;
     s16 x;
     s32 y;
 
-    if (((S_80171CD4_0 *)state)->unk_71.s <= 0) {
+    if (state->unk_71.s <= 0) {
         return;
     }
 
@@ -54,7 +54,7 @@ void advance_entity_along_stored_path(void *movement, void *motion, SpriteFrameS
         ((Rec_func_80171CD4_arg0 *)movement)->unk_9D = 0;
     }
 
-    if (((S_80171CD4_0 *)state)->unk_71.u <= ((S_80171CD4_0 *)state)->unk_8A.s) {
+    if (state->unk_71.u <= state->unk_8A.s) {
         return;
     }
 
@@ -62,14 +62,14 @@ void advance_entity_along_stored_path(void *movement, void *motion, SpriteFrameS
         (entity->frameTable) = saber_frame_set_9;
         select_sprite_entry(
             entity,
-            saber_frame_set_9[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80171CD4_0 *)state)->unk_2A + 0x100) >> 9) & 7],
+            saber_frame_set_9[((g_game_work.view.camera_rotation.parts.viewAngle + state->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 
     x = entity->tile_x;
     y = entity->tile_y;
     move_flags = 0x3000;
-    if (((S_80171CD4_0 *)state)->unk_1C & 0x2000) {
+    if (state->unk_1C & 0x2000) {
         move_flags = 0x300;
     }
     update_map_cell_flags_with_item_limit(x, y, move_flags);
@@ -77,29 +77,29 @@ void advance_entity_along_stored_path(void *movement, void *motion, SpriteFrameS
     heading = get_rounded_facing_and_rounding_flag(
         x,
         y,
-        ((S_80171CD4_4 *)((u8 *)state + ((S_80171CD4_0 *)state)->unk_8A.s))->unk_74,
-        ((S_80171CD4_4 *)((u8 *)state + ((S_80171CD4_0 *)state)->unk_8A.s))->unk_7C,
+        ((S_80171CD4_4 *)((u8 *)state + state->unk_8A.s))->unk_74,
+        ((S_80171CD4_4 *)((u8 *)state + state->unk_8A.s))->unk_7C,
         &path_actor->action_state_flags);
     move_result = check_movement_clearance_and_height(heading, entity, state, 0x20);
 
     entity->tile_x =
-        ((S_80171CD4_4 *)((u8 *)state + ((S_80171CD4_0 *)state)->unk_8A.s))->unk_74;
+        ((S_80171CD4_4 *)((u8 *)state + state->unk_8A.s))->unk_74;
     move_flags = 0x3000;
     entity->tile_y =
-        ((S_80171CD4_4 *)((u8 *)state + ((S_80171CD4_0 *)state)->unk_8A.s))->unk_7C;
-    ((S_80171CD4_0 *)state)->unk_8A.u++;
+        ((S_80171CD4_4 *)((u8 *)state + state->unk_8A.s))->unk_7C;
+    state->unk_8A.u++;
 
     {
         s32 next_x = entity->tile_x;
         s32 next_y = entity->tile_y;
 
-        if (((S_80171CD4_0 *)state)->unk_1C & 0x2000) {
+        if (state->unk_1C & 0x2000) {
             move_flags = 0x300;
         }
         cycle_map_cell_flags(next_x, next_y, move_flags);
     }
 
-    ((S_80171CD4_0 *)state)->unk_2A = heading;
+    state->unk_2A = heading;
     if (move_result == 3) {
         if (!(g_dungeon_status.flags & 0x80) && !(entity->flags & 0x8000)) {
             initialize_actor_facing_sprite(movement, motion, entity, state);
@@ -112,7 +112,7 @@ void advance_entity_along_stored_path(void *movement, void *motion, SpriteFrameS
         ((Rec_func_80171CD4_arg0 *)movement)->unk_9A.as_u8 = 0xF;
         ((Rec_func_80171CD4_arg0 *)movement)->unk_8C = 0;
     }
-    (*(s32 *)((u8 *)state + (0x1C))) |= 0x40000000;
+    state->unk_1C |= 0x40000000;
     if (g_dungeon_status.flags & 0x80) {
         ((Rec_func_80171CD4_arg0 *)movement)->unk_96 = 0;
         return;
@@ -120,7 +120,7 @@ void advance_entity_along_stored_path(void *movement, void *motion, SpriteFrameS
 
     ((Rec_func_80171CD4_arg0 *)movement)->unk_96 = 8;
     {
-        s32 step_count = ((S_80171CD4_0 *)state)->unk_71.u;
+        s32 step_count = state->unk_71.u;
         if (step_count > 0) {
             ((Rec_func_80171CD4_arg0 *)movement)->unk_96 = 8 / step_count;
         }

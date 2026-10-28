@@ -27,8 +27,8 @@ void start_actor_hit_reaction(ActorRecord *work, ObjectPosition *part_a, SpriteF
     actor->movement_queue_state = (u8)(actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((has_pending_dungeon_activity(actor) << 16) == 0)) {
         ((S_801720D8_1 *)work)->unk_8C = 0;
-        ((S_801720D8_1 *)work)->unk_9A = 0x17;
-        ((S_801720D8_1 *)work)->unk_9B = 0;
+        work->action_id.s = 0x17;
+        work->action_phase.s = 0;
         if (actor->flags1C & ACTOR_CONFUSED) {
             value = actor->flags14;
             if (!(value & 0x80000000)) {
@@ -37,7 +37,7 @@ void start_actor_hit_reaction(ActorRecord *work, ObjectPosition *part_a, SpriteF
                 actor->facing = (u16)(((u16)actor->facing) + ((generate_random_value() & 7) << 9));
             }
         }
-        ((S_801720D8_1 *)work)->unk_96 = 0;
+        work->action_timer.s = 0;
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
         actor->pending_turn_updates = (u8)(((u8)actor->pending_turn_updates) - 1);
         (part_b->frameTable) = viper_frame_set_1;

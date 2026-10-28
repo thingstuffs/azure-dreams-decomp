@@ -57,12 +57,12 @@ void update_actor_jump_and_landing(ActorRecord *jump, ObjectPosition *motion, Sp
         jump->action_state_flags |= 8;
         motion->velocity_z = 0xFFEE0000;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        ((S_80172288_0 *)jump)->unk_A4 = 0;
+        jump->unk_A4 = 0;
         jump->action_phase.u++;
 
     case 1:
-        jump_ticks = ((S_80172288_0 *)jump)->unk_96.s;
-        ((S_80172288_0 *)jump)->unk_90 -= ((S_80172288_0 *)jump)->unk_A4;
+        jump_ticks = jump->action_timer.s;
+        jump->unk_90.value -= jump->unk_A4;
         if (jump_ticks != 0) {
             {
                 s32 target_x = map_entity->tile_x << 6;
@@ -75,14 +75,14 @@ void update_actor_jump_and_landing(ActorRecord *jump, ObjectPosition *motion, Sp
                 s32 current_y = motion->y.w.i - 0x20;
 
                 motion->velocity_y = ((target_y - current_y) << 16) /
-                    ((S_80172288_0 *)jump)->unk_96.s;
+                    jump->action_timer.s;
             }
-            ((S_80172288_0 *)jump)->unk_A4 += motion->velocity_z;
+            jump->unk_A4 += motion->velocity_z;
             motion->velocity_z += 0x40000;
         }
-        ((S_80172288_0 *)jump)->unk_90 += ((S_80172288_0 *)jump)->unk_A4;
-        if (((S_80172288_0 *)jump)->unk_96.s < 2) {
-            ((S_80172288_0 *)jump)->unk_90 = 0;
+        jump->unk_90.value += jump->unk_A4;
+        if (jump->action_timer.s < 2) {
+            jump->unk_90.value = 0;
             jump->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
             jump->action_phase.u++;
@@ -107,8 +107,8 @@ void update_actor_jump_and_landing(ActorRecord *jump, ObjectPosition *motion, Sp
         break;
     }
 
-    ticks_left = ((S_80172288_0 *)jump)->unk_96.u - 1;
-    ((S_80172288_0 *)jump)->unk_96.s = ticks_left;
+    ticks_left = jump->action_timer.u - 1;
+    jump->action_timer.s = ticks_left;
     if ((ticks_left << 16) <= 0) {
         motion->velocity_z = 0;
         motion->velocity_y = 0;
@@ -138,7 +138,7 @@ void update_actor_jump_and_landing(ActorRecord *jump, ObjectPosition *motion, Sp
         }
 
         if ((check_actor_floor_trap(map_entity, actor) << 16) > 0) {
-            ((S_80172288_0 *)jump)->unk_8C = &naplass_action_continuation_address;
+            jump->unk_8C.address = &naplass_action_continuation_address;
             on_actor_status_updated(actor);
         }
     }

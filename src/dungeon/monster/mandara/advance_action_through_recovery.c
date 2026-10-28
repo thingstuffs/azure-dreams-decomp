@@ -103,14 +103,14 @@ void advance_action_through_recovery(ActorRecord *action_state, ObjectPosition *
                     target = primary_actor_record;
                     actor->target = target;
                     target_y = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
-                    actor->target_tile_x = ((S_80172DEC_3 *)target_y)->unk_24;
-                    actor->target_tile_y = ((S_80172DEC_3 *)target_y)->unk_25;
+                    actor->target_tile_x = target_y->tile_x;
+                    actor->target_tile_y = target_y->tile_y;
                 } else if (item_action_definitions[*motion].kind == 2) {
                     target = actor->target;
                     if (target != 0) {
                         target_y = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
-                        actor->target_tile_x = ((S_80172DEC_3 *)target_y)->unk_24;
-                        actor->target_tile_y = ((S_80172DEC_3 *)target_y)->unk_25;
+                        actor->target_tile_x = target_y->tile_x;
+                        actor->target_tile_y = target_y->tile_y;
                     }
                 } else {
                     actor->target =
@@ -143,7 +143,7 @@ void advance_action_through_recovery(ActorRecord *action_state, ObjectPosition *
         (*(u16 *)((u8 *)&primary_actor_record->unk_A4 + 2)) = (*(u16 *)((u8 *)primary_actor_record + 0xA6)) - 1;
         advance_status_timers(actor);
         actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
-        ((S_80172DEC_0 *)action_state)->unk_8C = update_long_actor_action;
+        action_state->unk_8C.address = update_long_actor_action;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -162,13 +162,13 @@ void advance_action_through_recovery(ActorRecord *action_state, ObjectPosition *
             ||
             (sprite->flags & 0xE000)) {
             sprite->flags |= 0x800;
-            ((S_80172DEC_0 *)action_state)->unk_96 = 0xE;
+            action_state->action_timer.u = 0xE;
             action_state->action_state_flags |= 0x80;
         }
-        ticks_left = ((S_80172DEC_0 *)action_state)->unk_96 - 1;
-        ((S_80172DEC_0 *)action_state)->unk_96 = ticks_left;
+        ticks_left = action_state->action_timer.u - 1;
+        action_state->action_timer.u = ticks_left;
         if ((s16)ticks_left <= 0) {
-            ((S_80172DEC_0 *)action_state)->unk_96 = 0;
+            action_state->action_timer.u = 0;
             sprite->flags &= 0xF7FF;
         }
         if ((sprite->flags & 0xE000) == 0) {
@@ -193,7 +193,7 @@ void advance_action_through_recovery(ActorRecord *action_state, ObjectPosition *
         }
         g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
         sprite->flags &= 0xF7FF;
-        ((S_80172DEC_0 *)action_state)->unk_8C = update_long_actor_action;
+        action_state->unk_8C.address = update_long_actor_action;
         advance_status_timers(actor);
         if (actor->pending_turn_updates > 0) {
             actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;

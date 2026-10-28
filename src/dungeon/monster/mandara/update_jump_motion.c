@@ -58,12 +58,12 @@ void update_jump_motion_2(ActorRecord *action, ObjectPosition *motion, SpriteFra
         action->action_state_flags |= 8;
         motion->velocity_z = 0xFFEE0000;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        ((S_80172834_0 *)action)->unk_A0 = 0;
+        action->unk_A0.value = 0;
         action->action_phase.u++;
 
     case 1:
-        frames_left = ((S_80172834_0 *)action)->unk_96.s;
-        ((S_80172834_0 *)action)->unk_90 -= ((S_80172834_0 *)action)->unk_A0;
+        frames_left = action->action_timer.s;
+        action->unk_90.value -= action->unk_A0.value;
         if (frames_left != 0) {
             {
                 s32 target_x = unit->tile_x << 6;
@@ -76,14 +76,14 @@ void update_jump_motion_2(ActorRecord *action, ObjectPosition *motion, SpriteFra
                 s32 current_y = motion->y.w.i - 0x20;
 
                 motion->velocity_y = ((target_y - current_y) << 16) /
-                    ((S_80172834_0 *)action)->unk_96.s;
+                    action->action_timer.s;
             }
-            ((S_80172834_0 *)action)->unk_A0 += motion->velocity_z;
+            action->unk_A0.value += motion->velocity_z;
             motion->velocity_z += 0x40000;
         }
-        ((S_80172834_0 *)action)->unk_90 += ((S_80172834_0 *)action)->unk_A0;
-        if (((S_80172834_0 *)action)->unk_96.s < 2) {
-            ((S_80172834_0 *)action)->unk_90 = 0;
+        action->unk_90.value += action->unk_A0.value;
+        if (action->action_timer.s < 2) {
+            action->unk_90.value = 0;
             action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
             action->action_phase.u++;
@@ -107,8 +107,8 @@ void update_jump_motion_2(ActorRecord *action, ObjectPosition *motion, SpriteFra
         break;
     }
 
-    next_timer = ((S_80172834_0 *)action)->unk_96.u - 1;
-    ((S_80172834_0 *)action)->unk_96.s = next_timer;
+    next_timer = action->action_timer.u - 1;
+    action->action_timer.s = next_timer;
     if ((next_timer << 16) <= 0) {
         motion->velocity_z = 0;
         motion->velocity_y = 0;
@@ -138,7 +138,7 @@ void update_jump_motion_2(ActorRecord *action, ObjectPosition *motion, SpriteFra
         }
 
         if ((check_actor_floor_trap(unit, actor) << 16) > 0) {
-            ((S_80172834_0 *)action)->unk_8C = update_long_actor_action;
+            action->unk_8C.handler = update_long_actor_action;
             on_actor_status_updated(actor);
         }
     }

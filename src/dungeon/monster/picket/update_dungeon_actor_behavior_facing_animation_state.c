@@ -53,7 +53,7 @@ void update_dungeon_actor_behavior_facing_animation_state(ActorRecord *actor, Ob
     u16 initial_flags = g_dungeon_status.flags;
 
     if (initial_flags & 0x1000) {
-        ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xE;
+        actor->action_id.u = 0xE;
         func_80171684(actor, context, sprite, entity);
         return;
     }
@@ -74,8 +74,8 @@ void update_dungeon_actor_behavior_facing_animation_state(ActorRecord *actor, Ob
 
     if (((u32)entity->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == &picket_frame_set_6) {
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xD;
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_9B.as_u8 = 1;
+            actor->action_id.u = 0xD;
+            actor->action_phase.u = 1;
             ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
             entity->flags1C &= 0xFFFBFFFF;
             return;
@@ -91,7 +91,7 @@ void update_dungeon_actor_behavior_facing_animation_state(ActorRecord *actor, Ob
             return;
         }
 
-        if (((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 != 0xE) {
+        if (actor->action_id.u != 0xE) {
             u8 actor_state = 0xE;
 
             anim_table = picket_frame_set_1;
@@ -101,10 +101,10 @@ void update_dungeon_actor_behavior_facing_animation_state(ActorRecord *actor, Ob
                     anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                     0);
             }
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = actor_state;
+            actor->action_id.u = actor_state;
         }
 
-        ((Rec_func_800A9E70_arg0 *)actor)->unk_98 &= 0xFFF3;
+        actor->action_state_flags &= 0xFFF3;
         if (entity->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, context, sprite, picket_frame_set_4) != 0) {
                 return;

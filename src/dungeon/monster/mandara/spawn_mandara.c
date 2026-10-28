@@ -64,7 +64,7 @@ void *spawn_mandara_in_slot_c(s32 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn
     s16 saved_tile_x;
     s16 saved_height;
     ObjectPosition *pin_part_a;
-    void *pin_actor;
+    S_80FC9000_4 *pin_actor;
 
     work = 0;
     call_id = 0x112;
@@ -113,10 +113,10 @@ void *spawn_mandara_in_slot_c(s32 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn
         initialize_actor_sprite_and_animation(obj, pin_part_a, part_b, saved_spawn_flags);
         index = 0;
         actor_value = part_b->clut;
-        ((S_80FC9000_4 *)pin_actor)->unk_9A = 0xFF;
-        ((S_80FC9000_4 *)pin_actor)->unk_9C = -1;
-        ((S_80FC9000_4 *)pin_actor)->unk_8C = D_80158F6C;
-        ((S_80FC9000_4 *)pin_actor)->unk_AE = actor_value;
+        pin_actor->unk_9A = 0xFF;
+        pin_actor->unk_9C = -1;
+        pin_actor->unk_8C = D_80158F6C;
+        pin_actor->unk_AE = actor_value;
 
         entry = *(u8 * *)&part_b->source;
         do {

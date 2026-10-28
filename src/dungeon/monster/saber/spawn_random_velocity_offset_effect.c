@@ -62,7 +62,7 @@ void spawn_random_velocity_offset_effect(void *state, MovingPosition *position, 
     angle_bias = &view_direction_depth_biases[
         ((*(s16 *)(angle_page + 0x3228) +
           ((S_80AC5820_1 *)state)->unk_94 + 0x100) >> 9) & 7];
-    ((SpriteFrameState *)result)->depth_bias = position_value - reference_value - *angle_bias * 2;
+    result->unk_06.as_s16 = position_value - reference_value - *angle_bias * 2;
 
     advance_sprite_animation_and_textures(result);
     ticks_left = ((S_80AC5820_1 *)state)->unk_96 - 1;

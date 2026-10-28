@@ -203,7 +203,7 @@ void advance_actor_item_action(void *actor_state, ObjectPosition *motion, Sprite
 
             effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
             if (effect != 0) {
-                u8 *effect_state;
+                S_80173A60_4 *effect_state;
                 SpriteFrameState *effect_sprite;
                 ObjectPosition *effect_pos;
                 u8 *anim_table;
@@ -211,11 +211,11 @@ void advance_actor_item_action(void *actor_state, ObjectPosition *motion, Sprite
                 s8 *height_offsets;
                 s32 direction_index;
 
-                effect_state = ((u8 *)effect) + 0x20;
-                ((S_80173A60_4 *)effect_state)->unk_96 = 0x10;
+                effect_state = (S_80173A60_4 *)(((u8 *)effect) + 0x20);
+                effect_state->unk_96 = 0x10;
                 effect->update_callback = D_800D58D8;
-                ((S_80173A60_4 *)effect_state)->unk_AC = motion;
-                ((S_80173A60_4 *)effect_state)->unk_94 = (*(u16 *)((u8 *)actor + 0x2A));
+                effect_state->unk_AC = motion;
+                effect_state->unk_94 = (*(u16 *)((u8 *)actor + 0x2A));
                 effect_sprite = effect->sprite;
                 *(Copy48 *)effect_sprite = *(Copy48 *)sprite;
                 effect_sprite->scale_y = 0x1000;
@@ -236,9 +236,9 @@ void advance_actor_item_action(void *actor_state, ObjectPosition *motion, Sprite
                           ((S_80173A60_0 *)actor_state)->unk_2A.s + 0x100) >> 9) & 7;
                 height_offsets = view_direction_depth_biases;
                 effect_sprite->depth_bias = -(height_offsets[direction_index] * 4);
-                ((S_80173A60_4 *)effect_state)->unk_94 =
+                effect_state->unk_94 =
                     (((S_80173A60_0 *)actor_state)->unk_2A.u >> 9) & 7;
-                ((S_80173A60_4 *)effect_state)->unk_2A = ((S_80173A60_0 *)actor_state)->unk_2A.u;
+                effect_state->unk_2A = ((S_80173A60_0 *)actor_state)->unk_2A.u;
 
                 effect_pos = effect->position;
                 effect_pos->x.w.i = ((u16)motion->x.w.i);
@@ -276,17 +276,17 @@ void advance_actor_item_action(void *actor_state, ObjectPosition *motion, Sprite
 
     case 3:
     {
-        u8 *action_status;
+        S_80173A60_9 *action_status;
 
-        action_status = ((u8 *)(&g_dungeon_status));
-        if (((S_80173A60_9 *)action_status)->unk_0C != 0) {
+        action_status = ((S_80173A60_9 *)(&g_dungeon_status));
+        if (action_status->unk_0C != 0) {
             return;
         }
         ((S_80173A60_0 *)actor_state)->unk_96.u = 0;
-        if (((S_80173A60_9 *)action_status)->unk_0C != 0) {
+        if (action_status->unk_0C != 0) {
             return;
         }
-        ((S_80173A60_9 *)action_status)->unk_0A--;
+        action_status->unk_0A--;
         ((S_80173A60_0 *)actor_state)->unk_8C = uboat_behavior_entry;
         advance_status_timers(actor);
         (*(u8 *)((u8 *)actor + 0x73)) = 0;

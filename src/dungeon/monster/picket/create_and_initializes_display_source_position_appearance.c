@@ -66,23 +66,23 @@ void create_and_initializes_display_source_position_appearance(void *source, Rec
     s32 zero;
     s32 sprite_size;
     S_80174D48_3 *sprite;
-    void *data_base;
-    void * data_base_2;
+    S_80174D48_1 *data_base;
+    S_80174D48_1 *data_base_2;
     void *object_data;
     void *texture;
-    void *object;
+    ProjectileObject *object;
     S_80174D48_2 *transform;
 
     if (((((AppearanceFieldView_80E8F548 *)appearance)->field_49) != 0) &&
         (object = allocate_flagged_object_node(0x12), object != NULL)) {
         init_object = object;
-        transform = ((ProjectileObject *)object)->position;
+        transform = object->position;
         data_base_2 = source;
-        coord_value = ((S_80174D48_1 *)data_base_2)->unk_00;
-        sprite = ((ProjectileObject *)object)->sprite;
+        coord_value = data_base_2->unk_00;
+        sprite = object->sprite;
         transform->unk_00 = coord_value;
-        transform->unk_04 = ((S_80174D48_1 *)data_base_2)->unk_04;
-        coord_z = ((S_80174D48_1 *)data_base_2)->unk_08;
+        transform->unk_04 = data_base_2->unk_04;
+        coord_z = data_base_2->unk_08;
         transform->unk_10 = 0;
         transform->unk_0C = 0;
         transform->unk_14 = 0xFFEE0000;
@@ -105,12 +105,12 @@ void create_and_initializes_display_source_position_appearance(void *source, Rec
             record_byte = record->unk_24;
         }
         active_object = object;
-        ((S_80174D48_1 *)data_base)->unk_A8 = record_byte;
+        data_base->unk_A8 = record_byte;
         record_byte = record->unk_25;
-        ((S_80174D48_1 *)data_base)->unk_AA = record_byte;
+        data_base->unk_AA = record_byte;
         zero = 0;
         (*(unaligned_s32 *)((u8 *)object_data + 0x48)) = (*(unaligned_s32 *)((u8 *)appearance + 0x48));
         create_tracked_effect(active_object, zero, zero, zero);
-        ((ProjectileObject *)object)->update_callback = update_a_timed_movement_animation_marks_completion;
+        object->update_callback = update_a_timed_movement_animation_marks_completion;
     }
 }

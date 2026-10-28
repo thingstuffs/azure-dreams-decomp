@@ -119,7 +119,7 @@ void create_knockback_travel_object(u8 *owner_data, ObjectPosition *position_arg
     work->y = target_y;
     work->hit = hit;
     work->flags = context_arg->f14 & 0x2007;
-    (*(u16 *)((u8 *)work + 0x3A)) = source_arg->f12;
+    work->source_id = source_arg->f12;
     owner_byte = owner_data[0xAC];
     work->owner_minus20 = (u8 *)context_arg - 0x20;
     work->context = context_arg;

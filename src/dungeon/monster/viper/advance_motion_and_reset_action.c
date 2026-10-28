@@ -148,7 +148,7 @@ void advance_motion_and_reset_action(ActorRecord *state, ObjectPosition *transfo
         (*(u16 *)((u8 *)&primary_actor_record->unk_A4 + 2)) = (*(u16 *)((u8 *)primary_actor_record + 0xA6)) - 1;
         advance_status_timers(actor);
         actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
-        ((S_80172F5C_0 *)state)->unk_8C = viper_action_continuation_address;
+        state->unk_8C.address = viper_action_continuation_address;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -170,12 +170,12 @@ void advance_motion_and_reset_action(ActorRecord *state, ObjectPosition *transfo
         if ((sprite->unk_04 == 7 && (sprite->flags & 0x1000)) ||
             (sprite->flags & 0x8000)) {
             sprite->flags |= 0x800;
-            ((S_80172F5C_0 *)state)->unk_96 = 8;
+            state->action_timer.u = 8;
         }
-        wait_ticks = ((S_80172F5C_0 *)state)->unk_96 - 1;
-        ((S_80172F5C_0 *)state)->unk_96 = wait_ticks;
+        wait_ticks = state->action_timer.u - 1;
+        state->action_timer.u = wait_ticks;
         if ((s16)wait_ticks <= 0) {
-            ((S_80172F5C_0 *)state)->unk_96 = 0;
+            state->action_timer.u = 0;
             sprite->flags &= 0xF7FF;
         }
         if ((sprite->flags & 0xE000) == 0) {
@@ -201,7 +201,7 @@ void advance_motion_and_reset_action(ActorRecord *state, ObjectPosition *transfo
         }
         ((S_80172F5C_7 *)action_state)->unk_0A = ((S_80172F5C_7 *)action_state)->unk_0A - 1;
         sprite->flags &= 0xF7FF;
-        ((S_80172F5C_0 *)state)->unk_8C = viper_action_continuation_address;
+        state->unk_8C.address = viper_action_continuation_address;
         advance_status_timers(actor);
         if (actor->pending_turn_updates > 0) {
             actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;

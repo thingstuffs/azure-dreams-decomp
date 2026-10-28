@@ -50,21 +50,21 @@ void advance_timed_sprite_flashing_sequence(ActorRecord *action, ObjectPosition 
             resolve_attack_damage_and_effects(call_actor, call_sprite, call_actor->facing, 1);
             return;
         }
-        ((MotionDeltaView *)motion)->velocity_z = 0;
-        ((MotionDeltaView *)motion)->velocity_y = 0;
-        ((MotionDeltaView *)motion)->velocity_x = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         sprite->frameTable = weadog_frame_set_2;
         select_sprite_entry(sprite,
             weadog_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        ((S_80173514_0 *)action)->unk_96.u = 0;
+        action->action_timer.u = 0;
         action->action_phase.u++;
         return;
     }
 
     case 1:
-        if ((s16)++((S_80173514_0 *)action)->unk_96.u == 5) {
-            ((S_80173514_0 *)action)->unk_96.u = 0;
+        if ((s16)++action->action_timer.u == 5) {
+            action->action_timer.u = 0;
             action->action_phase.u++;
             sprite->flags |= 0x0800;
             return;
@@ -72,9 +72,9 @@ void advance_timed_sprite_flashing_sequence(ActorRecord *action, ObjectPosition 
         return;
 
     case 2:
-        if ((s16)++((S_80173514_0 *)action)->unk_96.u == 6 ||
+        if ((s16)++action->action_timer.u == 6 ||
             (sprite->flags & 0xE000)) {
-            ((S_80173514_0 *)action)->unk_96.u = 0;
+            action->action_timer.u = 0;
             action->action_phase.u++;
             sprite->flags &= 0xF7FF;
             play_sound_if_enabled(0x804);
@@ -83,18 +83,18 @@ void advance_timed_sprite_flashing_sequence(ActorRecord *action, ObjectPosition 
         return;
 
     case 3:
-        if ((s16)++((S_80173514_0 *)action)->unk_96.u == 5 ||
+        if ((s16)++action->action_timer.u == 5 ||
             (sprite->flags & 0xE000)) {
             sprite->flags |= 0x0800;
         }
-        if (((S_80173514_0 *)action)->unk_96.s == 12 ||
+        if (action->action_timer.s == 12 ||
             (sprite->flags & 0xE000)) {
-            ((S_80173514_0 *)action)->unk_96.u = 0;
+            action->action_timer.u = 0;
             action->action_phase.u++;
             sprite->flags &= 0xF7FF;
         }
         call_actor = actor;
-        if (((S_80173514_0 *)action)->unk_96.s == 1 ||
+        if (action->action_timer.s == 1 ||
             (sprite->flags & 0xE000)) {
             call_sprite = sprite;
             resolve_attack_damage_and_effects(call_actor, call_sprite, call_actor->facing, 1);
@@ -105,7 +105,7 @@ void advance_timed_sprite_flashing_sequence(ActorRecord *action, ObjectPosition 
     case 4:
         if (sprite->flags & 0xE000) {
             spend_actor_mp(actor, 0x100);
-            ((S_80173514_0 *)action)->unk_8C = &weadog_action_resume_address;
+            action->unk_8C.address = &weadog_action_resume_address;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;

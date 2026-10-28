@@ -38,10 +38,10 @@ void advance_timed_directional_animation(ActorRecord *action_state, ObjectPositi
         if (animation->flags & 0x8000) {
             action_state->action_phase.u = 1;
             animation->flags |= 0x6000;
-            ((S_801727EC_0 *)action_state)->unk_96 = 1;
+            action_state->action_timer.u = 1;
             break;
         }
-        ((S_801727EC_0 *)action_state)->unk_96 = 7;
+        action_state->action_timer.u = 7;
         animation->frameTable = D_80174060;
         select_sprite_entry(animation,
                       D_80174060[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -50,8 +50,8 @@ void advance_timed_directional_animation(ActorRecord *action_state, ObjectPositi
         break;
 
     case 1:
-        ticks_left = ((S_801727EC_0 *)action_state)->unk_96 - 1;
-        ((S_801727EC_0 *)action_state)->unk_96 = ticks_left;
+        ticks_left = action_state->action_timer.u - 1;
+        action_state->action_timer.u = ticks_left;
         if (((ticks_left << 16) == 0) || (animation->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
             play_sound_if_enabled(0x804);
@@ -59,7 +59,7 @@ void advance_timed_directional_animation(ActorRecord *action_state, ObjectPositi
         if (animation->flags & 0xE000) {
             set_record_integer_tile_center(actor_id, animation->tile_x, animation->tile_y);
             spend_actor_mp(actor, 0x100);
-            ((S_801727EC_0 *)action_state)->unk_8C = &killer_action_resume_address;
+            action_state->unk_8C.address = &killer_action_resume_address;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             if (actor->pending_turn_updates == 0) {

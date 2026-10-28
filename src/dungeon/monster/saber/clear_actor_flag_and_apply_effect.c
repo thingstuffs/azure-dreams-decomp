@@ -17,9 +17,9 @@ void clear_actor_flag_and_apply_effect(ActorRecord *action_state, ObjectPosition
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, effect_arg, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
-            ((Rec_func_800A9E70_arg0 *)action_state)->unk_9A.as_s8 = 0x17;
+            action_state->action_id.s = 0x17;
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_8C = 0;
-            ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_s8 = 0;
+            action_state->action_phase.s = 0;
             (anim_state->frameTable) = &saber_frame_set_1;
             select_sprite_entry(anim_state,
                           *((((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)

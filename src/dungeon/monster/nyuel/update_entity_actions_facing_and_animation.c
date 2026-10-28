@@ -92,7 +92,7 @@ void update_entity_actions_facing_and_animation(ActorRecord *entity, ObjectPosit
     if (state_flags & 0x200) {
         if (sprite->frameTable == &nyuel_frame_set_1) {
             entity->action_id.u = 0xDU;
-            ((S_80170E9C_0 *)entity)->unk_9B = 1;
+            entity->action_phase.s = 1;
             ((S_80170E9C_0 *)entity)->unk_8C = 0;
             state->flags1C = (s32)(state->flags1C & 0xFFFBFFFF);
             sprite->color.c.b = 0x40;

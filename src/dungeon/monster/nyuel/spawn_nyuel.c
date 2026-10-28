@@ -66,7 +66,7 @@ void *spawn_mode_configured_monster(s32 spawn_flags, s8 tile_x, s16 tile_y, s16 
     flags_copy = held_flags;
     if (obj != 0) {
         register SpriteFrameState *part_b;
-        void *actor;
+        S_80170894_4 *actor;
 
         work = (u8 *)obj;
         work += 0x20;
@@ -120,7 +120,7 @@ void *spawn_mode_configured_monster(s32 spawn_flags, s8 tile_x, s16 tile_y, s16 
                     part_b->frameTable = func_80174F00;
                     callback_page = (u8 *)0x80170000;
                 }
-                ((S_80170894_4 *)actor)->unk_8C = callback_page + 0xE9C;
+                actor->unk_8C = callback_page + 0xE9C;
                 part_b->frameTable = func_80174ED8;
                 goto callback_done;
             }
@@ -130,8 +130,8 @@ void *spawn_mode_configured_monster(s32 spawn_flags, s8 tile_x, s16 tile_y, s16 
 callback_done:
         obj->update_callback = update_monster_facing_and_contact;
         initialize_actor_sprite_and_animation(obj, part_a, part_b, flags_copy);
-        ((S_80170894_4 *)actor)->unk_9A = 0xFF;
-        ((S_80170894_4 *)actor)->unk_9C = -1;
+        actor->unk_9A = 0xFF;
+        actor->unk_9C = -1;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

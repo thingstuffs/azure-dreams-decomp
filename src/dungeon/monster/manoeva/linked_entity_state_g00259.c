@@ -128,15 +128,15 @@ void initialize_object_and_clear_state(ActorRecord *action, ObjectPosition *unus
     if ((has_pending_dungeon_activity(entity) << 16) == 0) {
         s32 direction;
 
-        ((S_80173C40_2 *)action)->unk_9A = 0x17;
-        ((S_80173C40_2 *)action)->unk_9B = 0;
+        action->action_id.s = 0x17;
+        action->action_phase.s = 0;
         ((S_80173C40_2 *)action)->unk_8C = 0;
-        *(u8 **)((u8 *)animation + 0x2C) = D_80176670;
+        animation->frameTable = D_80176670;
 
         direction = ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
         select_sprite_entry(animation, D_80176670[direction], 0);
 
-        ((S_80173C40_2 *)action)->unk_96 = 0;
+        action->action_timer.s = 0;
         entity->flags1C |= 0x10000000;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
         entity->action_flags &= 0x7FFF;

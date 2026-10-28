@@ -62,7 +62,7 @@ void update_dungeon_actor_state(ActorRecord *actor, ObjectPosition *context, Spr
     u32 dungeon_flags = g_dungeon_status.flags;
 
     if (dungeon_flags & 0x1000) {
-        ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xE;
+        actor->action_id.u = 0xE;
         advance_stored_actor_path(actor, context, sprite_in, entity);
         return;
     }
@@ -84,8 +84,8 @@ void update_dungeon_actor_state(ActorRecord *actor, ObjectPosition *context, Spr
 
     if (((S_80171400_1 *)entity)->unk_1C & 0x200) {
         if (sprite_in->frameTable == kid_frame_set_4) {
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xD;
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_9B.as_u8 = 1;
+            actor->action_id.u = 0xD;
+            actor->action_phase.u = 1;
             ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
             ((S_80171400_1 *)entity)->unk_1C &= ~0x40000;
             return;
@@ -101,23 +101,23 @@ void update_dungeon_actor_state(ActorRecord *actor, ObjectPosition *context, Spr
             return;
         }
 
-        if (((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 != 0xE) {
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xE;
+        if (actor->action_id.u != 0xE) {
+            actor->action_id.u = 0xE;
         }
 
         if ((sprite_in->frameTable != kid_direction_frames) &&
             (sprite_in->frameTable != kid_alt_direction_frames)) {
             u8 *anim_table = kid_direction_frames;
 
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_A8 = 0;
+            actor->unk_A8.s = 0;
             (sprite_in->frameTable) = anim_table;
             select_sprite_entry(sprite_in,
                 anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
-                ((Rec_func_800A9E70_arg0 *)actor)->unk_A8);
+                actor->unk_A8.s);
         }
 
         ((S_80171400_1 *)entity)->unk_1C |= 0x40000;
-        ((Rec_func_800A9E70_arg0 *)actor)->unk_98 &= 0xFFF7;
+        actor->action_state_flags &= 0xFFF7;
 
         if (entity->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, context, sprite_in, D_80175150) != 0) {
@@ -127,7 +127,7 @@ void update_dungeon_actor_state(ActorRecord *actor, ObjectPosition *context, Spr
 
         if (((S_80171400_1 *)entity)->unk_1C & 0x80000) {
             begin_actor_move_to_target_facing(actor, context, sprite_in, entity);
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_A8 = 0;
+            actor->unk_A8.s = 0;
             func_80174218(actor, context, sprite_in, entity);
             return;
         }

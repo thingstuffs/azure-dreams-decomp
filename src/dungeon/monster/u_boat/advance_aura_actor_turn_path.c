@@ -76,7 +76,7 @@ void advance_aura_actor_turn_path(ActorRecord *actor, ObjectPosition *actor_slot
             select_sprite_entry(entity,
                 uboat_default_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172144_0 *)state)->unk_2A + 0x100) >> 9) & 7],
                 0);
-            if (((S_80172144_1 *)actor)->unk_B0 == 0) {
+            if (actor->unk_B0.bytes[0] == 0) {
                 create_owner_linked_directional_object(actor, actor_slot, entity);
             }
         }
@@ -126,18 +126,18 @@ void advance_aura_actor_turn_path(ActorRecord *actor, ObjectPosition *actor_slot
             ((S_80172144_1 *)actor)->unk_8C = 0;
             ((S_80172144_0 *)state)->unk_1C |= ACTOR_REFRESH_GROUND;
         } else {
-            ((S_80172144_1 *)actor)->unk_9A = 0xF;
+            actor->action_id.s = 0xF;
             ((S_80172144_1 *)actor)->unk_8C = 0;
             ((S_80172144_0 *)state)->unk_1C |= ACTOR_REFRESH_GROUND;
         }
         if (g_dungeon_status.flags & 0x80) {
-            ((S_80172144_1 *)actor)->unk_96 = 0;
+            actor->action_timer.s = 0;
             return;
         }
-        ((S_80172144_1 *)actor)->unk_96 = 8;
+        actor->action_timer.s = 8;
         step_count = ((S_80172144_0 *)state)->unk_71.u;
         if ((s32)step_count > 0) {
-            ((S_80172144_1 *)actor)->unk_96 = 8 / (s32)step_count;
+            actor->action_timer.s = 8 / (s32)step_count;
         }
     }
 }

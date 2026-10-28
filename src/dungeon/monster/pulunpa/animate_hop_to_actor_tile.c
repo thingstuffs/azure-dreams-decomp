@@ -61,8 +61,8 @@ void animate_hop_to_actor_tile(ActorRecord *action, ObjectPosition *motion, Spri
                 0);
             action->action_state_flags |= 8;
             actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-            ((S_801721B0_0 *)action)->unk_9E.s = 5;
-            ((S_801721B0_0 *)action)->unk_A0 = 0;
+            action->unk_9E.s = 5;
+            action->unk_A0.value = 0;
             action->action_phase.u++;
         } else {
             break;
@@ -70,29 +70,29 @@ void animate_hop_to_actor_tile(ActorRecord *action, ObjectPosition *motion, Spri
                         /* fallthrough */
 
     case 1:
-        hop_frames = ((S_801721B0_0 *)action)->unk_9E.s;
-        ((S_801721B0_0 *)action)->unk_90 =
-            ((S_801721B0_0 *)action)->unk_90 - ((S_801721B0_0 *)action)->unk_A0;
+        hop_frames = action->unk_9E.s;
+        action->unk_90.value =
+            action->unk_90.value - action->unk_A0.value;
         if (hop_frames != 0) {
-            ((Rec_func_800A5DFC_arg1 *)motion)->unk_0C =
+            motion->velocity_x =
                 (((sprite->tile_x << 6) -
-                  ({ ((Rec_func_800A5DFC_arg1 *)motion)->unk_02 - 0x20; })) <<
+                  ({ motion->x.w.i - 0x20; })) <<
                  0x10) /
                 hop_frames;
-            ((Rec_func_800A5DFC_arg1 *)motion)->unk_10 =
+            motion->velocity_y =
                 (((sprite->tile_y << 6) -
-                  (tile_origin_y = ((Rec_func_800A5DFC_arg1 *)motion)->unk_06 - 0x20)) <<
+                  (tile_origin_y = motion->y.w.i - 0x20)) <<
                  0x10) /
-                ((S_801721B0_0 *)action)->unk_9E.s;
-            ((S_801721B0_0 *)action)->unk_A0 =
-                (-rsin(((S_801721B0_0 *)action)->unk_9E.s * 0x199)) << 9;
+                action->unk_9E.s;
+            action->unk_A0.value =
+                (-rsin(action->unk_9E.s * 0x199)) << 9;
         }
-        ((S_801721B0_0 *)action)->unk_90 =
-            ((S_801721B0_0 *)action)->unk_90 + ((S_801721B0_0 *)action)->unk_A0;
-        next_hop_frame = ((S_801721B0_0 *)action)->unk_9E.u - 1;
-        ((S_801721B0_0 *)action)->unk_9E.s = next_hop_frame;
+        action->unk_90.value =
+            action->unk_90.value + action->unk_A0.value;
+        next_hop_frame = action->unk_9E.u - 1;
+        action->unk_9E.s = next_hop_frame;
         if ((s16)next_hop_frame < 0) {
-            ((S_801721B0_0 *)action)->unk_90 = 0;
+            action->unk_90.value = 0;
             action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
             action->action_phase.u++;
@@ -103,9 +103,9 @@ void animate_hop_to_actor_tile(ActorRecord *action, ObjectPosition *motion, Spri
     case 2:
         if (actor->flags1C & ACTOR_GROUNDED) {
             action->action_state_flags &= 0xFFF7;
-            ((Rec_func_800A5DFC_arg1 *)motion)->unk_14 = 0;
-            ((Rec_func_800A5DFC_arg1 *)motion)->unk_10 = 0;
-            ((Rec_func_800A5DFC_arg1 *)motion)->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             set_record_integer_tile_center(motion, sprite->tile_x,
                           sprite->tile_y);
             sprite->frameTable = D_801762E0;
@@ -120,12 +120,12 @@ void animate_hop_to_actor_tile(ActorRecord *action, ObjectPosition *motion, Spri
 
     }
 
-    action_timer = ((S_801721B0_0 *)action)->unk_96 - 1;
-    ((S_801721B0_0 *)action)->unk_96 = action_timer;
+    action_timer = action->action_timer.u - 1;
+    action->action_timer.u = action_timer;
     if ((action_timer << 0x10) <= 0) {
-        ((Rec_func_800A5DFC_arg1 *)motion)->unk_14 = 0;
-        ((Rec_func_800A5DFC_arg1 *)motion)->unk_10 = 0;
-        ((Rec_func_800A5DFC_arg1 *)motion)->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->tile_x,
                       sprite->tile_y);
         spend_actor_mp(actor, 4);
@@ -150,7 +150,7 @@ void animate_hop_to_actor_tile(ActorRecord *action, ObjectPosition *motion, Spri
         }
         apply_capped_damage_and_hit_effect(actor, motion);
         if ((check_actor_floor_trap(sprite, actor) << 0x10) > 0) {
-            ((S_801721B0_0 *)action)->unk_8C = pulunpa_action_resume_address;
+            action->unk_8C.address = pulunpa_action_resume_address;
             on_actor_status_updated(actor);
         }
     }

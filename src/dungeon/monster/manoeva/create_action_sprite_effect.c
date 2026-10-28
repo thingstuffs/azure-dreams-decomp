@@ -53,7 +53,7 @@ void create_action_sprite_effect(S_80174690_2 *source) {
         sprite->color.word = 0x808080;
         sprite->clut = (u16) (sprite->clut - 0x80);
         sprite->flags = (u16) (sprite->flags | 0xC);
-        sprite->animation_resource = (s32) ((S_80174690_5 *)(((S_80174690_4 *)effect_data)->unk_18))->unk_28;
+        sprite->animation_resource = (s32) ((S_80174690_5 *)effect_data->unk_18)->unk_28;
         select_sprite_entry(sprite, 0x44, 0);
         register_node(effect, project_sprite_chain);
     }

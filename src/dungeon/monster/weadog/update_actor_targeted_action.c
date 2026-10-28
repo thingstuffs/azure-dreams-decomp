@@ -169,7 +169,7 @@ void update_actor_targeted_action(ActorRecord *action, ObjectPosition *motion, S
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
         actor->pending_turn_updates--;
-        ((S_801737B0_0 *)action)->unk_8C = weadog_action_resume_address;
+        action->unk_8C.address = weadog_action_resume_address;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -187,7 +187,7 @@ void update_actor_targeted_action(ActorRecord *action, ObjectPosition *motion, S
     case 2:
         sprite_flags = sprite->flags;
         if (sprite_flags & 0x8000) {
-            ((S_801737B0_0 *)action)->unk_96.s = 0;
+            action->action_timer.u = 0;
             action->action_phase.u++;
             action->action_state_flags |= 0x80;
             return;
@@ -195,22 +195,22 @@ void update_actor_targeted_action(ActorRecord *action, ObjectPosition *motion, S
 
         if ((sprite->unk_04 == 2) && (sprite_flags & 0x1000)) {
             sprite->flags = sprite_flags | 0x800;
-            ((S_801737B0_0 *)action)->unk_96.s = 0x16;
+            action->action_timer.u = 0x16;
         }
         if (sprite->unk_04 < 2) {
             return;
         }
 
-        timer = ((S_801737B0_0 *)action)->unk_96.s - 1;
-        ((S_801737B0_0 *)action)->unk_96.s = timer;
+        timer = action->action_timer.u - 1;
+        action->action_timer.u = timer;
         if ((s16)timer <= 0) {
-            ((S_801737B0_0 *)action)->unk_96.s = 0;
+            action->action_timer.u = 0;
             action->action_phase.u++;
         }
-        if (((S_801737B0_0 *)action)->unk_96.u == 2) {
+        if (action->action_timer.s == 2) {
             action->action_state_flags |= 0x80;
         }
-        if (((S_801737B0_0 *)action)->unk_96.u < 0xA) {
+        if (action->action_timer.s < 0xA) {
             return;
         }
 
@@ -228,7 +228,7 @@ void update_actor_targeted_action(ActorRecord *action, ObjectPosition *motion, S
                 particle_origin,
                 particle_zero,
                 particle_color,
-                (s16)(((S_801737B0_0 *)action)->unk_96.s - 2),
+                (s16)(action->action_timer.u - 2),
                 offset_x,
                 offset_y,
                 offset_z);
@@ -238,17 +238,17 @@ void update_actor_targeted_action(ActorRecord *action, ObjectPosition *motion, S
         } while (1);
 
     case 3:
-        ((S_801737B0_0 *)action)->unk_96.s = 0x14;
+        action->action_timer.u = 0x14;
         action->action_phase.u++;
 
     case 4:
         if ((g_dungeon_status.active_actor) == 0) {
-            ((S_801737B0_0 *)action)->unk_96.s = 0;
+            action->action_timer.u = 0;
         }
-        timer = ((S_801737B0_0 *)action)->unk_96.s - 1;
-        ((S_801737B0_0 *)action)->unk_96.s = timer;
+        timer = action->action_timer.u - 1;
+        action->action_timer.u = timer;
         if ((s16)timer <= 0) {
-            ((S_801737B0_0 *)action)->unk_96.s = 0;
+            action->action_timer.u = 0;
             sprite->flags &= 0xF7FF;
         }
         if (!(sprite->flags & 0xE000)) {
@@ -270,7 +270,7 @@ void update_actor_targeted_action(ActorRecord *action, ObjectPosition *motion, S
         }
 
         g_dungeon_status.activity_counts.parts.pending_action_count--;
-        ((S_801737B0_0 *)action)->unk_8C = weadog_action_resume_address;
+        action->unk_8C.address = weadog_action_resume_address;
         advance_status_timers(actor);
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;

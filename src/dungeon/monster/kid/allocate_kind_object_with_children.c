@@ -20,7 +20,7 @@ void *allocate_kind_object_with_children(s32 kind, s32 part_x, s32 part_y, s32 c
     u16 saved_part_byte_24;
     ActorRecord *object;
     void *outer;
-    void *stable_object;
+    S_801588DC_4 *stable_object;
     s32 kind_copy;
     SpriteFrameState *part;
     ObjectNodeHeader *allocated;
@@ -56,7 +56,7 @@ void *allocate_kind_object_with_children(s32 kind, s32 part_x, s32 part_y, s32 c
             part_callback = D_8015D140;
             copy = root->position;
             ((S_801588DC_2 *)copy)->unk_08.at02.v = saved_copy_value;
-            stable_object = object;
+            stable_object = (S_801588DC_4 *)object;
             part = root->sprite;
             part->frameTable = part_callback;
         }
@@ -96,14 +96,14 @@ void *allocate_kind_object_with_children(s32 kind, s32 part_x, s32 part_y, s32 c
 
         outer = stable_object;
         outer_index = 0;
-        ((S_801588DC_4 *)stable_object)->unk_9A = 0xFF;
-        ((S_801588DC_4 *)stable_object)->unk_9C = -1;
-        ((S_801588DC_4 *)stable_object)->unk_8C = D_80159400;
+        stable_object->unk_9A = 0xFF;
+        stable_object->unk_9C = -1;
+        stable_object->unk_8C = D_80159400;
         object->flags1C |= 0x40000;
-        ((S_801588DC_4 *)stable_object)->unk_92 = -0x20;
-        ((S_801588DC_4 *)stable_object)->unk_A8 = 0;
-        ((S_801588DC_4 *)stable_object)->unk_9E = 1;
-        ((S_801588DC_4 *)stable_object)->unk_98 |= 0x4000;
+        stable_object->unk_92 = -0x20;
+        stable_object->unk_A8 = 0;
+        stable_object->unk_9E = 1;
+        stable_object->unk_98 |= 0x4000;
 
         do {
             saved_copy_value = (s32)allocate_list_node(0x112, &scene_object_list_anchor.next);
@@ -112,7 +112,7 @@ void *allocate_kind_object_with_children(s32 kind, s32 part_x, s32 part_y, s32 c
             if (allocated != 0) {
                 s32 item_offset;
                 s32 item_index;
-                register void *outer_base;
+                register S_801588DC_8 *outer_base;
                 u8 *table;
                 s32 more_items;
 
@@ -135,7 +135,7 @@ void *allocate_kind_object_with_children(s32 kind, s32 part_x, s32 part_y, s32 c
                     item->tpage_abr = 0x20;
                     item->color.word = 0x00808080;
                     item->animation_resource = part_value;
-                    outer_child = ((S_801588DC_8 *)outer_base)->unk_A4;
+                    outer_child = outer_base->unk_A4;
                     call_zero = 0;
                     outer_child->update_callback = child_object_update_address;
                     (*(void **)((u8 *)item + 0x2C)) = table;
@@ -155,7 +155,7 @@ void *allocate_kind_object_with_children(s32 kind, s32 part_x, s32 part_y, s32 c
             {
                 s32 child_count;
 
-                child_count = ((S_801588DC_4 *)stable_object)->unk_9E;
+                child_count = stable_object->unk_9E;
                 outer_index++;
                 if (outer_index >= child_count) {
                     break;

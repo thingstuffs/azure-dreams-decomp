@@ -96,18 +96,18 @@ void *spawn_mode_dependent_112_object_variant(s16 spawn_flags, s16 kind_id, s16 
             child_obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
             ((S_8015886C_5 *)current)->unk_A4 = child_obj;
             if (child_obj != 0) {
-                void *child;
+                S_8015886C_6 *child;
 
-                child = (u8 *)child_obj + 0x20;
+                child = (S_8015886C_6 *)((u8 *)child_obj + 0x20);
 
-                ((S_8015886C_6 *)child)->unk_02 = 1;
+                child->unk_02 = 1;
                 i = 0;
                 base = current;
                 elem_offset = 8;
-                while (i < ((S_8015886C_6 *)child)->unk_02) {
+                while (i < child->unk_02) {
                     elem = (u8 *)child + elem_offset;
-                    child_flags = ((S_8015886C_6 *)child)->unk_04;
-                    ((S_8015886C_6 *)child)->unk_04 = child_flags | 0x8000;
+                    child_flags = child->unk_04;
+                    child->unk_04 = child_flags | 0x8000;
                     child_arg = part_b->animation_resource;
                     elem_flags = elem->flags;
                     elem->tpage_abr = 96;
@@ -121,9 +121,9 @@ void *spawn_mode_dependent_112_object_variant(s16 spawn_flags, s16 kind_id, s16 
                     select_sprite_entry(elem, 39, 0);
                     elem_offset += 48;
                     i++;
-                    ((S_8015886C_6 *)child)->unk_06 = 0;
+                    child->unk_06 = 0;
                     texture_set_the_active_entries_matching_id_in_type_n_2_table_slots(part_b, draw_sprite_effect_quads, 0);
-                    ((S_8015886C_6 *)child)->unk_98 = (u8 *)obj + 30;
+                    child->unk_98 = (u8 *)obj + 30;
                 }
             }
             current = (u8 *)current + 4;

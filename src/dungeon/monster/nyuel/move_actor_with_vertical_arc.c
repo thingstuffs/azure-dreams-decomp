@@ -59,14 +59,14 @@ void move_actor_with_vertical_arc(ActorRecord *action, ObjectPosition *motion, S
         }
         action->action_state_flags |= 8;
         (*(u32 *)&actor->flags1C) &= ACTOR_GROUNDED_CLEAR_MASK;
-        ((S_80172158_0 *)action)->unk_9E = 6;
-        ((S_80172158_0 *)action)->unk_A0 = 0;
+        action->unk_9E.s = 6;
+        action->unk_A0.value = 0;
         action->action_phase.u++;
                         /* fall through */
     case 1:
-        move_ticks = ((S_80172158_0 *)action)->unk_9E;
-        ((S_80172158_0 *)action)->unk_90 =
-            ((S_80172158_0 *)action)->unk_90 - ((S_80172158_0 *)action)->unk_A0;
+        move_ticks = action->unk_9E.s;
+        action->unk_90.value =
+            action->unk_90.value - action->unk_A0.value;
         if (move_ticks != 0) {
             x_delta = sprite->tile_x;
             axis_pos = motion->x.w.i;
@@ -78,14 +78,14 @@ void move_actor_with_vertical_arc(ActorRecord *action, ObjectPosition *motion, S
             axis_pos = motion->y.w.i - 0x20;
             motion->velocity_y =
                 (((sprite->tile_y << 6) - axis_pos) << 16) /
-                (s16)((S_80172158_0 *)action)->unk_9E;
-            ((S_80172158_0 *)action)->unk_A0 =
-                (-rsin(((S_80172158_0 *)action)->unk_9E * 0x155)) << 9;
+                (s16)action->unk_9E.s;
+            action->unk_A0.value =
+                (-rsin(action->unk_9E.s * 0x155)) << 9;
         }
-        ((S_80172158_0 *)action)->unk_90 += ((S_80172158_0 *)action)->unk_A0;
-        next_move_ticks = --((S_80172158_0 *)action)->unk_9E;
+        action->unk_90.value += action->unk_A0.value;
+        next_move_ticks = --action->unk_9E.s;
         if (next_move_ticks < 0) {
-            ((S_80172158_0 *)action)->unk_90 = 0;
+            action->unk_90.value = 0;
             action->action_state_flags &= 0xFFF7;
             (*(u32 *)&actor->flags1C) |= ACTOR_GROUNDED;
             action->action_phase.u++;
@@ -111,8 +111,8 @@ void move_actor_with_vertical_arc(ActorRecord *action, ObjectPosition *motion, S
     default:
         break;
     }
-    action_ticks = ((S_80172158_0 *)action)->unk_96 - 1;
-    ((S_80172158_0 *)action)->unk_96 = action_ticks;
+    action_ticks = action->action_timer.u - 1;
+    action->action_timer.u = action_ticks;
     if ((action_ticks << 16) <= 0) {
         motion->velocity_z = 0;
         motion->velocity_y = 0;
@@ -139,7 +139,7 @@ void move_actor_with_vertical_arc(ActorRecord *action, ObjectPosition *motion, S
             }
         }
         if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-            ((S_80172158_0 *)action)->unk_8C = nyuel_action_resume_address;
+            action->unk_8C.address = nyuel_action_resume_address;
             on_actor_status_updated(actor);
         }
     }

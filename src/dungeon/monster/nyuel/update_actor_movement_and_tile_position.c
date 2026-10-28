@@ -97,7 +97,7 @@ void update_actor_movement_and_tile_position(ActorRecord *object, ObjectPosition
             else {
                 {
                     s32 direction = *(u8 *)(((u8 *)actor + 0x45));
-                    s32 player_angle = *((s16 *) (((u8 *) primary_actor_record) + 0x2A));
+                    s32 player_angle = primary_actor_record->facing;
                     s32 direction_offset;
                     s32 target_x;
                     s32 target_y;
@@ -140,7 +140,7 @@ void update_actor_movement_and_tile_position(ActorRecord *object, ObjectPosition
                 if (!(actor->action_flags & 0x8000)) {
                     target_record = probe_directional_neighbor(actor, tile->tile_x, tile->tile_y, actor->facing);
                     if (target_record != 0) {
-                        if ((*((s32 *) (((u8 *) target_record) + 0x1C))) & 0x2000) {
+                        if (target_record->flags1C & 0x2000) {
                             if (get_actor_height_difference(target_record, actor) < 0x81) {
                                 if ((check_diagonal_side_height((actor->facing >> 9) & 0xFFFF, tile->tile_x,
                                     tile->tile_y, (s16) ((u16)actor->ground_height - 0x20)) << 16) != 0) {

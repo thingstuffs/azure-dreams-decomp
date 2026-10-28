@@ -18,7 +18,7 @@ void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_
     void *obj_alt;
     SpriteFrameState *part_b;
     ObjectPosition *part_a;
-    void *work_copy;
+    S_8016A854_4 *work_copy;
     ObjectNodeHeader *object;
     S_8016A854_1 *work;
 
@@ -34,7 +34,7 @@ void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_
         part_a->z.w.i = attr_c;
         part_b = object->sprite;
         part_b->tile_y = attr_b;
-        work_copy = work;
+        work_copy = (S_8016A854_4 *)work;
         part_b->frameTable = D_8016DD30;
         kind = spawn_flags & 3;
         part_b->tile_x = attr_a;
@@ -55,15 +55,15 @@ void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_
             variant = generate_random_value() & 3;
         }
         initialize_actor_sprite_and_animation(object, part_a, part_b, spawn_flags);
-        ((S_8016A854_4 *)work_copy)->unk_9A = 0xFF;
-        ((S_8016A854_4 *)work_copy)->unk_9C = -1;
-        ((S_8016A854_4 *)work_copy)->unk_8C = func_8016AF74;
-        ((S_8016A854_4 *)work_copy)->unk_A4 = -1;
+        work_copy->unk_9A = 0xFF;
+        work_copy->unk_9C = -1;
+        work_copy->unk_8C = func_8016AF74;
+        work_copy->unk_A4 = -1;
         if (variant != 0) {
-            ((S_8016A854_4 *)work_copy)->unk_A6 = 0;
+            work_copy->unk_A6 = 0;
         } else {
             obj_alt = (u8 *)work_copy - 0x20;
-            ((S_8016A854_4 *)work_copy)->unk_A6 = 1;
+            work_copy->unk_A6 = 1;
             part_b->tpage_abr = 0x60;
             part_b->flags |= 0xC;
             part_b->clut -= 0x80;

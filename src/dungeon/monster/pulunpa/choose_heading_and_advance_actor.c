@@ -213,8 +213,8 @@ void choose_heading_and_advance_actor(void *context, s32 action, S_8017405C_1 *a
                 }
             }
             if (((S_8017405C_0 *)movement)->unk_1C & 0x20000) {
-                void *first_master;
-                void *second_master;
+                S_8017405C_7_pre *first_master;
+                S_8017405C_8_pre *second_master;
                 ((Rec_func_800A9E70_arg0 *)context)->unk_A6 = 0;
                 first_master = primary_actor_record->unk_AC.address;
                 if (first_master == 0 || (second_master = primary_actor_record->unk_B0.address) == 0) {
@@ -246,27 +246,27 @@ void choose_heading_and_advance_actor(void *context, s32 action, S_8017405C_1 *a
                         }
                     }
                 } else {
-                    void *first_pos = ((S_8017405C_7_pre *)first_master)[-1].unk_00;
-                    void *second_pos = ((S_8017405C_8_pre *)second_master)[-1].unk_00;
+                    S_8017405C_9 *first_pos = first_master[-1].unk_00;
+                    S_8017405C_10 *second_pos = second_master[-1].unk_00;
                     s16 first_distance = get_tile_chebyshev_distance(first_pos, actor);
                     if (first_distance < get_tile_chebyshev_distance(second_pos, actor)) {
                         ((S_8017405C_0 *)movement)->unk_2A.u = get_rounded_facing_and_rounding_flag(actor->unk_24.at00.v, actor->unk_24.at01.v,
-                                                            ((S_8017405C_9 *)first_pos)->unk_24,
-                                                                ((S_8017405C_9 *)first_pos)->unk_25,
+                                                            first_pos->unk_24,
+                                                                first_pos->unk_25,
                                                             (u8 *)context + 0x98);
                         if (test_neighbor_position_relation(actor->unk_24.at00.v, actor->unk_24.at01.v,
-                                          ((S_8017405C_9 *)first_pos)->unk_24, ((S_8017405C_9 *)first_pos)->unk_25)
+                                          first_pos->unk_24, first_pos->unk_25)
                                               != 0) {
                             ((S_8017405C_0 *)movement)->unk_71.u &= 0x7F;
                             return;
                         }
                     } else {
                         ((S_8017405C_0 *)movement)->unk_2A.u = get_rounded_facing_and_rounding_flag(actor->unk_24.at00.v, actor->unk_24.at01.v,
-                                                            ((S_8017405C_10 *)second_pos)->unk_24,
-                                                                ((S_8017405C_10 *)second_pos)->unk_25,
+                                                            second_pos->unk_24,
+                                                                second_pos->unk_25,
                                                             (u8 *)context + 0x98);
                         if (test_neighbor_position_relation(actor->unk_24.at00.v, actor->unk_24.at01.v,
-                                          ((S_8017405C_9 *)first_pos)->unk_24, ((S_8017405C_9 *)first_pos)->unk_25)
+                                          first_pos->unk_24, first_pos->unk_25)
                                               != 0) {
                             ((S_8017405C_0 *)movement)->unk_71.u &= 0x7F;
                             return;

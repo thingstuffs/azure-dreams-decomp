@@ -14,7 +14,7 @@ void handle_kill_actor_clear_flags_fire_burst_tile_post_death_message(void *work
     u8 call_a0;
     u8 call_a1;
     s32 call_flags;
-    void *work;
+    T_80173AD4_S_80173AD4_2 *work;
     SpriteFrameState *part_b;
 
     flags71 = ((T_80173AD4_S_80173AD4_0 *)actor)->unk_71;
@@ -22,13 +22,13 @@ void handle_kill_actor_clear_flags_fire_burst_tile_post_death_message(void *work
     ((T_80173AD4_S_80173AD4_0 *)actor)->unk_71 = flags71 & 0x7F;
     part_b = part_b_in;
     if (!(g_dungeon_status.flags & 0x2000) && ((has_pending_dungeon_activity(actor) << 0x10) == 0)) {
-        ((T_80173AD4_S_80173AD4_2 *)work)->unk_8C = 0;
-        ((T_80173AD4_S_80173AD4_2 *)work)->unk_9A = 0x17;
-        ((T_80173AD4_S_80173AD4_2 *)work)->unk_9B = 0;
-        ((T_80173AD4_S_80173AD4_2 *)work)->unk_96 = 0;
-        if (!(((T_80173AD4_S_80173AD4_2 *)work)->unk_98 & 0x8000)) {
-            ((T_80173AD4_S_80173AD4_2 *)work)->unk_A6 = (u16) part_b->clut;
-            ((T_80173AD4_S_80173AD4_2 *)work)->unk_AA = (s16) (((T_80173AD4_S_80173AD4_0 *)actor)->unk_14 & 7);
+        work->unk_8C = 0;
+        work->unk_9A = 0x17;
+        work->unk_9B = 0;
+        work->unk_96 = 0;
+        if (!(work->unk_98 & 0x8000)) {
+            work->unk_A6 = (u16) part_b->clut;
+            work->unk_AA = (s16) (((T_80173AD4_S_80173AD4_0 *)actor)->unk_14 & 7);
         }
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
         ((T_80173AD4_S_80173AD4_0 *)actor)->unk_6D = (u8) (((T_80173AD4_S_80173AD4_0 *)actor)->unk_6D - 1);

@@ -164,10 +164,10 @@ void update_entity_animation_and_color_fade(ActorRecord *controller, ObjectPosit
             return;
         }
         {
-            u8 *counter;
+            S_80173204_7 *counter;
 
-            counter = ((u8 *)(&g_dungeon_status));
-            ((S_80173204_7 *)counter)->unk_0A++;
+            counter = ((S_80173204_7 *)(&g_dungeon_status));
+            counter->unk_0A++;
         }
 
         controller->action_phase.u++;

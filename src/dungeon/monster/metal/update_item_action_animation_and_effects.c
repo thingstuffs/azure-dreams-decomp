@@ -102,23 +102,23 @@ void update_item_action_animation_and_effects(void *action, ObjectPosition *move
         }
 
         if (*item_slot != 0) {
-            u8 *item_id;
+            S_80173078_2 *item_id;
 
             ((S_80173078_0 *)action)->unk_98 &= 0xFF7F;
             if (special != 0) {
                 target = primary_actor_record;
                 (*(void * *)((u8 *)actor + 0x60)) = target;
-                item_id = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
-                (*(u8 *)((u8 *)actor + 0x72)) = ((S_80173078_2 *)item_id)->unk_24;
-                (*(u8 *)((u8 *)actor + 0x73)) = ((S_80173078_2 *)item_id)->unk_25;
+                item_id = (S_80173078_2 *)((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
+                (*(u8 *)((u8 *)actor + 0x72)) = item_id->unk_24;
+                (*(u8 *)((u8 *)actor + 0x73)) = item_id->unk_25;
             } else {
-                item_id = (u8 *)(*item_slot);
+                item_id = (S_80173078_2 *)(*item_slot);
                 if (item_action_definitions[((u8)item_id)].kind == 2) {
                     target = (*(void * *)((u8 *)actor + 0x60));
                     if (target != 0) {
-                        item_id = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
-                        (*(u8 *)((u8 *)actor + 0x72)) = ((S_80173078_2 *)item_id)->unk_24;
-                        (*(u8 *)((u8 *)actor + 0x73)) = ((S_80173078_2 *)item_id)->unk_25;
+                        item_id = (S_80173078_2 *)((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
+                        (*(u8 *)((u8 *)actor + 0x72)) = item_id->unk_24;
+                        (*(u8 *)((u8 *)actor + 0x73)) = item_id->unk_25;
                     }
                 } else {
                     s32 dx;

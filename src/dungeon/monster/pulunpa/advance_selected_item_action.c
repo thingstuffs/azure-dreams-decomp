@@ -56,7 +56,7 @@ void advance_selected_item_action(void *action, ObjectPosition *motion, void *sp
 {
     s32 special;
     u8 *selection;
-    void *active;
+    S_80172798_1_pre *active;
     u8 *scratch_pointer;
 
     special = 0;
@@ -111,9 +111,9 @@ void advance_selected_item_action(void *action, ObjectPosition *motion, void *sp
 
                 special_test = special;
                 if (special_test != 0) {
-                    active = primary_actor_record;
+                    active = (S_80172798_1_pre *)primary_actor_record;
                     (actor->target) = active;
-                    scratch_pointer = ((S_80172798_1_pre *)active)[-1].unk_00;
+                    scratch_pointer = active[-1].unk_00;
                     actor->target_tile_x = ((S_80172798_2 *)scratch_pointer)->unk_24;
                     actor->target_tile_y = ((S_80172798_2 *)scratch_pointer)->unk_25;
                 } else {
@@ -123,7 +123,7 @@ void advance_selected_item_action(void *action, ObjectPosition *motion, void *sp
                     if (item_action_definitions[item_id].kind == 2) {
                         active = (actor->target);
                         if (active != 0) {
-                            scratch_pointer = ((S_80172798_1_pre *)active)[-1].unk_00;
+                            scratch_pointer = active[-1].unk_00;
                             actor->target_tile_x = ((S_80172798_2 *)scratch_pointer)->unk_24;
                             actor->target_tile_y = ((S_80172798_2 *)scratch_pointer)->unk_25;
                         }

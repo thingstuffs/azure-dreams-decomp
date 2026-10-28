@@ -68,14 +68,14 @@ void advance_entity_animation_actions(ActorRecord *action, ObjectPosition *conte
     switch (state) {
     case 0:
     {
-        u8 *counter_state;
+        S_80173ED8_2 *counter_state;
 
         if ((sprite->flags & 0xE000) == 0) {
             return;
         }
 
-        counter_state = (u8 *)&g_dungeon_status.turn_scale;
-        ((S_80173ED8_2 *)counter_state)->unk_0A--;
+        counter_state = (S_80173ED8_2 *)&g_dungeon_status.turn_scale;
+        counter_state->unk_0A--;
         sprite->frameTable = kid_alt_spawn_direction_frames;
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
         select_sprite_entry(sprite, kid_alt_spawn_direction_frames[direction & 7], 0);

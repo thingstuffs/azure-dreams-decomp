@@ -103,7 +103,7 @@ void update_knockback_travel_object(void *motion, S_80174CCC_1 *position, Sprite
     S_80174CCC_7 *source;
     SpriteFrameState *owner;
     S_80174CCC_9 *parent;
-    register void *linked_object;
+    register S_80174CCC_8 *linked_object;
     s32 spawn_kind;
     s32 target_coord;
     s32 target_coord_x;
@@ -223,7 +223,7 @@ void update_knockback_travel_object(void *motion, S_80174CCC_1 *position, Sprite
                     }
                 }
 
-                parent = ((S_80174CCC_8 *)linked_object)->unk_A4;
+                parent = linked_object->unk_A4;
                 if (parent != 0) {
                     parent->unk_CA++;
                 }

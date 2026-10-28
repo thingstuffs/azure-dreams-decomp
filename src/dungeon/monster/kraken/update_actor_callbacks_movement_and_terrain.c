@@ -75,7 +75,7 @@ typedef struct S_80170B64_3 {
 /* Update actor callbacks, movement, sprite direction, and terrain-relative height. */
 void update_actor_callbacks_movement_and_terrain(void *actor, void *motion, void *sprite_arg)
 {
-    void *actor_base = actor;
+    S_80170B64_3 *actor_base = actor;
     s32 (*update_callback)(void *, void *, void *, void *);
     s32 (*pause_callback)(void *, void *, void *, void *);
     s16 floor_offset;
@@ -128,7 +128,7 @@ void update_actor_callbacks_movement_and_terrain(void *actor, void *motion, void
             ((TrailMotion *)motion)->unk_14;
         sprite_flags = ((S_80170B64_2 *)sprite_arg)->unk_14;
         if (!(sprite_flags & 0x8000)) {
-            view_direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170B64_3 *)actor_base)->unk_2A + 0x100) >> 9) & 7;
+            view_direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor_base->unk_2A + 0x100) >> 9) & 7;
             if (((S_80170B64_0 *)actor)->unk_94 != view_direction) {
                 select_indirect_table_entry(sprite_arg,
                     *(((u8 *)((S_80170B64_2 *)sprite_arg)->unk_2C.p) + view_direction),
@@ -140,17 +140,17 @@ void update_actor_callbacks_movement_and_terrain(void *actor, void *motion, void
             } else {
                 ((S_80170B64_2 *)sprite_arg)->unk_14 &= 0xFFFE;
             }
-            apply_monster_koyaw_data(((S_80170B64_3 *)actor_base)->unk_1C.s, sprite_arg + 0xC);
-            if (!(((S_80170B64_3 *)actor_base)->unk_1C.s & 0x20)) {
+            apply_monster_koyaw_data(actor_base->unk_1C.s, sprite_arg + 0xC);
+            if (!(actor_base->unk_1C.s & 0x20)) {
                 if (!(((S_80170B64_2 *)sprite_arg)->unk_14 & 0x40)) {
                     advance_sprite_animation_and_textures(sprite_arg);
                 }
             } else {
                 ((S_80170B64_2 *)sprite_arg)->unk_14 |= 0x7000;
-                ((S_80170B64_3 *)actor_base)->unk_1C.s &= 0xFFFBFFFF;
+                actor_base->unk_1C.s &= 0xFFFBFFFF;
             }
-            animated_flags = ((S_80170B64_3 *)actor_base)->unk_1C.s & 0xF7FFFFFF;
-            ((S_80170B64_3 *)actor_base)->unk_1C.s = animated_flags;
+            animated_flags = actor_base->unk_1C.s & 0xF7FFFFFF;
+            actor_base->unk_1C.s = animated_flags;
             if (animated_flags & 0x40000) {
                 if (!(((S_80170B64_2 *)sprite_arg)->unk_14 & 0x40)) {
                     animation_table = ((S_80170B64_2 *)sprite_arg)->unk_2C.i;
@@ -172,8 +172,8 @@ void update_actor_callbacks_movement_and_terrain(void *actor, void *motion, void
                 if (!(((S_80170B64_0 *)actor)->unk_98 & 8)) {
                     hover_floor_offset = sample_terrain_surface_height(((TrailMotion *)motion)->x.unk_02.unk_02,
                         ((TrailMotion *)motion)->y.unk_06.unk_06,
-                        (s16)(((S_80170B64_3 *)actor_base)->unk_88 - 0x20)) -
-                        ((S_80170B64_3 *)actor_base)->unk_88;
+                        (s16)(actor_base->unk_88 - 0x20)) -
+                        actor_base->unk_88;
                     if (((S_80170B64_0 *)actor)->unk_90.at02.v > ((s16)hover_floor_offset - 0x20)) {
                         ((S_80170B64_0 *)actor)->unk_90.at02.v =
                             ((S_80170B64_0 *)actor)->unk_90.at02u.v - 8;
@@ -191,13 +191,13 @@ void update_actor_callbacks_movement_and_terrain(void *actor, void *motion, void
                 if (!(((S_80170B64_0 *)actor)->unk_98 & 8)) {
                     floor_offset = sample_terrain_surface_height(((TrailMotion *)motion)->x.unk_02.unk_02,
                         ((TrailMotion *)motion)->y.unk_06.unk_06,
-                        (s16)(((S_80170B64_3 *)actor_base)->unk_88 - 0x20)) -
-                        ((S_80170B64_3 *)actor_base)->unk_88;
+                        (s16)(actor_base->unk_88 - 0x20)) -
+                        actor_base->unk_88;
                     if (floor_offset < ((S_80170B64_0 *)actor)->unk_90.at02.v) {
                         ((S_80170B64_0 *)actor)->unk_90.at02.v = floor_offset;
                         ((S_80170B64_0 *)actor)->unk_9D.s = 0;
                         ((TrailMotion *)motion)->unk_14 = 0;
-                        ((S_80170B64_3 *)actor_base)->unk_1C.u |= 0x08000000;
+                        actor_base->unk_1C.u |= 0x08000000;
                     }
                 }
             }
@@ -207,8 +207,8 @@ void update_actor_callbacks_movement_and_terrain(void *actor, void *motion, void
             } else {
                 ((S_80170B64_2 *)sprite_arg)->unk_14 = sprite_flags | 0x7000;
             }
-            static_flags = ((S_80170B64_3 *)actor_base)->unk_1C.s & 0xF7FFFFFF;
-            ((S_80170B64_3 *)actor_base)->unk_1C.s = static_flags;
+            static_flags = actor_base->unk_1C.s & 0xF7FFFFFF;
+            actor_base->unk_1C.s = static_flags;
             if (!(static_flags & 0x40000)) {
 
                 s32 height_adjustment = ((S_80170B64_0 *)actor)->unk_AC.at00.v;
@@ -218,13 +218,13 @@ void update_actor_callbacks_movement_and_terrain(void *actor, void *motion, void
                 if (!(((S_80170B64_0 *)actor)->unk_98 & 8)) {
                     floor_offset = sample_terrain_surface_height(((TrailMotion *)motion)->x.unk_02.unk_02,
                         ((TrailMotion *)motion)->y.unk_06.unk_06,
-                        (s16)(((S_80170B64_3 *)actor_base)->unk_88 - 0x20)) -
-                        ((S_80170B64_3 *)actor_base)->unk_88;
+                        (s16)(actor_base->unk_88 - 0x20)) -
+                        actor_base->unk_88;
                     if (floor_offset < ((S_80170B64_0 *)actor)->unk_90.at02.v) {
                         ((S_80170B64_0 *)actor)->unk_90.at02.v = floor_offset;
                         ((S_80170B64_0 *)actor)->unk_9D.s = 0;
                         ((TrailMotion *)motion)->unk_14 = 0;
-                        ((S_80170B64_3 *)actor_base)->unk_1C.u |= 0x08000000;
+                        actor_base->unk_1C.u |= 0x08000000;
                     }
                 }
             } else {
@@ -248,8 +248,8 @@ void update_actor_callbacks_movement_and_terrain(void *actor, void *motion, void
                 if (!(((S_80170B64_0 *)actor)->unk_98 & 8)) {
                     hover_floor_offset = sample_terrain_surface_height(((TrailMotion *)motion)->x.unk_02.unk_02,
                         ((TrailMotion *)motion)->y.unk_06.unk_06,
-                        (s16)(((S_80170B64_3 *)actor_base)->unk_88 - 0x20)) -
-                        ((S_80170B64_3 *)actor_base)->unk_88;
+                        (s16)(actor_base->unk_88 - 0x20)) -
+                        actor_base->unk_88;
                     if (((S_80170B64_0 *)actor)->unk_90.at02.v > ((s16)hover_floor_offset - 0x20)) {
                         ((S_80170B64_0 *)actor)->unk_90.at02.v =
                             ((S_80170B64_0 *)actor)->unk_90.at02u.v - 8;
@@ -260,21 +260,21 @@ void update_actor_callbacks_movement_and_terrain(void *actor, void *motion, void
                 }
             }
         }
-        actor_flags = ((S_80170B64_3 *)actor_base)->unk_1C.s;
+        actor_flags = actor_base->unk_1C.s;
         if (actor_flags & 0x40000000) {
-            ((S_80170B64_3 *)actor_base)->unk_1C.s = actor_flags & 0xBFFFFFFF;
+            actor_base->unk_1C.s = actor_flags & 0xBFFFFFFF;
             tile_height = sample_terrain_surface_height(
                 (((S_80170B64_2 *)sprite_arg)->unk_24 << 6) | 0x20,
                 (((S_80170B64_2 *)sprite_arg)->unk_25 << 6) | 0x20,
-                (s16)(((S_80170B64_3 *)actor_base)->unk_88 - 0x20));
+                (s16)(actor_base->unk_88 - 0x20));
             if (tile_height < 0x200) {
                 ((S_80170B64_0 *)actor)->unk_90.at02.v = (u16)((S_80170B64_0 *)actor)->unk_90.at02.v +
-                    (((S_80170B64_3 *)actor_base)->unk_88 - tile_height);
-                ((S_80170B64_3 *)actor_base)->unk_88 = tile_height;
+                    (actor_base->unk_88 - tile_height);
+                actor_base->unk_88 = tile_height;
             }
         }
         ((TrailMotion *)motion)->z = ((S_80170B64_0 *)actor)->unk_AC.at02.v +
-            (((S_80170B64_3 *)actor_base)->unk_88 + (u16)((S_80170B64_0 *)actor)->unk_90.at02.v);
+            (actor_base->unk_88 + (u16)((S_80170B64_0 *)actor)->unk_90.at02.v);
         ((S_80170B64_2 *)sprite_arg)->unk_14 |= 0x40;
     }
 

@@ -32,7 +32,7 @@ void advance_actor_action_animation_and_cleanup(ActorRecord *action, ObjectPosit
     s32 state;
 
     state = action->action_phase.u;
-    ((S_801726C4_0 *)action)->unk_96--;
+    action->action_timer.u--;
     switch (state) {
     case 0:
         if (animation->flags & 0x8000) {
@@ -62,7 +62,7 @@ void advance_actor_action_animation_and_cleanup(ActorRecord *action, ObjectPosit
         if (animation->flags & 0xE000) {
             set_record_integer_tile_center(actor_id, animation->tile_x, animation->tile_y);
             spend_actor_mp(actor, 0x200);
-            ((S_801726C4_0 *)action)->unk_8C = &maximum_action_continuation_address;
+            action->unk_8C.address = &maximum_action_continuation_address;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             if (actor->pending_turn_updates == 0) {

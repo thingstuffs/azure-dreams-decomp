@@ -64,7 +64,7 @@ void advance_directional_action_and_reset(ActorRecord *action, ObjectPosition *m
             return;
         }
         spend_actor_mp(actor, 0x100);
-        ((S_801725B8_0 *)action)->unk_8C = &pulunpa_action_resume_address;
+        action->unk_8C.address = &pulunpa_action_resume_address;
         g_dungeon_status.active_actor = 0;
         (actor->action_flags) &= 0x7FFF;
         advance_status_timers(actor);

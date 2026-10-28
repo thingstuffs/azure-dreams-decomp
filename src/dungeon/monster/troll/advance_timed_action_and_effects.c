@@ -44,19 +44,19 @@ void advance_timed_action_and_effects(ActorRecord *action, ObjectPosition *motio
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        ((S_801623C4_0 *)action)->unk_96.s = 0;
+        action->action_timer.u = 0;
         action->action_phase.u++;
         if (!(animation->flags & 0x8000)) {
             return;
         }
 
     case 1:
-        timer = ((S_801623C4_0 *)action)->unk_96.s + 1;
-        ((S_801623C4_0 *)action)->unk_96.s = timer;
+        timer = action->action_timer.u + 1;
+        action->action_timer.u = timer;
         if ((timer != 4) && !(animation->flags & 0x8000)) {
             return;
         }
-        ((S_801623C4_0 *)action)->unk_96.s = 0;
+        action->action_timer.u = 0;
         action->action_phase.u++;
         switch (actor->unk_48) {
         case 13:
@@ -84,14 +84,14 @@ void advance_timed_action_and_effects(ActorRecord *action, ObjectPosition *motio
         }
 
     case 2:
-        timer = ((S_801623C4_0 *)action)->unk_96.s + 1;
-        ((S_801623C4_0 *)action)->unk_96.s = timer;
+        timer = action->action_timer.u + 1;
+        action->action_timer.u = timer;
         if ((timer == 5) || (animation->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
-            ((S_801623C4_0 *)action)->unk_96.s = 0;
+            action->action_timer.u = 0;
             action->action_phase.u++;
         }
-        if (((S_801623C4_0 *)action)->unk_96.u == 3) {
+        if (action->action_timer.s == 3) {
             play_sound_if_enabled(0x804);
             return;
         }
@@ -100,7 +100,7 @@ void advance_timed_action_and_effects(ActorRecord *action, ObjectPosition *motio
     case 3:
         if (animation->flags & 0xE000) {
             spend_actor_mp(actor, 0x100);
-            ((S_801623C4_0 *)action)->unk_8C = D_801604BC;
+            action->unk_8C.address = D_801604BC;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -108,25 +108,25 @@ void advance_timed_action_and_effects(ActorRecord *action, ObjectPosition *motio
         return;
 
     case 5:
-        timer = ((S_801623C4_0 *)action)->unk_96.s + 1;
-        ((S_801623C4_0 *)action)->unk_96.s = timer;
+        timer = action->action_timer.u + 1;
+        action->action_timer.u = timer;
         if ((timer == 10) || (animation->flags & 0x8000)) {
             animation->flags |= 0x0800;
             play_sound_if_enabled(0x804);
             func_8015F21C(action, motion, animation, actor);
             func_8015F4FC(action, motion, animation, actor);
         }
-        if ((((S_801623C4_0 *)action)->unk_96.u == 12) ||
+        if ((action->action_timer.s == 12) ||
             (animation->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, animation, actor->facing,
-                ((S_801623C4_0 *)action)->unk_AA);
+                action->unk_AA);
         }
-        if ((((S_801623C4_0 *)action)->unk_96.u != 20) &&
+        if ((action->action_timer.s != 20) &&
             !(animation->flags & 0x8000)) {
             break;
         }
         animation->flags &= 0xF7FF;
-        ((S_801623C4_0 *)action)->unk_96.s = 0;
+        action->action_timer.u = 0;
         action->action_phase.u = 3;
 
     case 4:

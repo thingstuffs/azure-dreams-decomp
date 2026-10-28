@@ -17,7 +17,7 @@ void *create_tracked_effect_object(s16 mode, s16 value24, s16 value25, s16 value
     void *objectBaseForCallbacks;
     SpriteFrameState *data0C;
     ObjectPosition *data08;
-    void *objectState;
+    S_8015E854_4 *objectState;
     ObjectNodeHeader *objectBase;
     S_8015E854_1 *result;
 
@@ -33,7 +33,7 @@ void *create_tracked_effect_object(s16 mode, s16 value24, s16 value25, s16 value
         data08->z.w.i = value0A;
         data0C = objectBase->sprite;
         data0C->tile_y = value25;
-        objectState = result;
+        objectState = (S_8015E854_4 *)result;
         data0C->frameTable = D_80161D30;
         modeBits = mode & 3;
         data0C->tile_x = value24;
@@ -54,15 +54,15 @@ void *create_tracked_effect_object(s16 mode, s16 value24, s16 value25, s16 value
             optionValue = generate_random_value() & 3;
         }
         initialize_actor_sprite_and_animation(objectBase, data08, data0C, mode);
-        ((S_8015E854_4 *)objectState)->unk_9A = 0xFF;
-        ((S_8015E854_4 *)objectState)->unk_9C = -1;
-        ((S_8015E854_4 *)objectState)->unk_8C = func_8015EF74;
-        ((S_8015E854_4 *)objectState)->unk_A4 = -1;
+        objectState->unk_9A = 0xFF;
+        objectState->unk_9C = -1;
+        objectState->unk_8C = func_8015EF74;
+        objectState->unk_A4 = -1;
         if (optionValue != 0) {
-            ((S_8015E854_4 *)objectState)->unk_A6 = 0;
+            objectState->unk_A6 = 0;
         } else {
             objectBaseForCallbacks = (u8 *)objectState - 0x20;
-            ((S_8015E854_4 *)objectState)->unk_A6 = 1;
+            objectState->unk_A6 = 1;
             data0C->tpage_abr = 0x60;
             data0C->flags |= 0xC;
             data0C->clut -= 0x80;

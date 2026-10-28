@@ -41,15 +41,15 @@ typedef struct S_80173510_0 {
 void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *record, ActorRecord *actor) {
     u8 state;
 
-    state = ((S_80173510_0 *)action)->unk_9B.n;
+    state = action->action_phase.u;
     switch (state) {
 
     case 0:
         if (record->flags & 0x8000) {
             u8 *animation_ids;
 
-            ((S_80173510_0 *)action)->unk_9B.n = 5;
-            ((S_80173510_0 *)action)->unk_96.u = 0;
+            action->action_phase.u = 5;
+            action->action_timer.u = 0;
             record->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, record, actor->facing, 1);
 
@@ -58,7 +58,7 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
             select_sprite_entry(record,
                 animation_ids[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            if (((S_80173510_0 *)action)->unk_B0 != 0) {
+            if (action->unk_B0.bytes[0] != 0) {
                 return;
             }
             create_owner_linked_directional_object(action, motion, record);
@@ -68,9 +68,9 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        ((S_80173510_0 *)action)->unk_96.u = 2;
+        action->action_timer.u = 2;
         action->action_state_flags &= 0xFFF7;
-        ((S_80173510_0 *)action)->unk_9B.n++;
+        action->action_phase.u++;
         return;
 
     case 1:
@@ -79,15 +79,15 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
         s16 *direction_y;
         u16 timer;
 
-        timer = ((S_80173510_0 *)action)->unk_96.u;
-        ((S_80173510_0 *)action)->unk_96.u = timer - 1;
+        timer = action->action_timer.u;
+        action->action_timer.u = timer - 1;
         if ((s16)timer > 0 && !(record->flags & 0x8000)) {
             return;
         }
 
-        ((S_80173510_0 *)action)->unk_96.u = 0x12;
+        action->action_timer.u = 0x12;
         direction_x = (s16 *)((s8 *)dir_step_x);
-        ((S_80173510_0 *)action)->unk_9B.n++;
+        action->action_phase.u++;
         direction_y = (s16 *)((s8 *)dir_step_y);
         motion->velocity_x =
             -*(s16 *)((u8 *)direction_x +
@@ -106,13 +106,13 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
         s8 entity_kind;
         u16 timer;
 
-        if (((S_80173510_0 *)action)->unk_96.s == 0xB) {
+        if (action->action_timer.s == 0xB) {
             motion->velocity_x = 0;
             motion->velocity_y = 0;
         }
 
         eight = 8;
-        if (((S_80173510_0 *)action)->unk_96.s == eight) {
+        if (action->action_timer.s == eight) {
             u8 *animation_ids;
 
             animation_ids = u_boat_frame_set_1;
@@ -148,11 +148,11 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
             } while (particles_left >= 0);
         }
 
-        timer = ((S_80173510_0 *)action)->unk_96.u;
-        ((S_80173510_0 *)action)->unk_96.u = timer - 1;
+        timer = action->action_timer.u;
+        action->action_timer.u = timer - 1;
         if ((s16)timer <= 0 || (record->flags & 0x8000)) {
-            ((S_80173510_0 *)action)->unk_96.u = 4;
-            ((S_80173510_0 *)action)->unk_9B.n++;
+            action->action_timer.u = 4;
+            action->action_phase.u++;
         }
 
         if (*(u8 * *)&record->frameTable != u_boat_frame_set_1) {
@@ -166,8 +166,8 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
     {
         s16 timer;
 
-        timer = ((S_80173510_0 *)action)->unk_96.u - 1;
-        ((S_80173510_0 *)action)->unk_96.u = timer;
+        timer = action->action_timer.u - 1;
+        action->action_timer.u = timer;
         if (timer == 3 || (record->flags & 0x8000)) {
             u8 *animation_ids;
 
@@ -181,18 +181,18 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
             select_sprite_entry(record,
                 animation_ids[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            ((S_80173510_0 *)action)->unk_92 = -0x20;
-            if (((S_80173510_0 *)action)->unk_B0 == 0) {
+            action->unk_90.parts.high.s = -0x20;
+            if (action->unk_B0.bytes[0] == 0) {
                 create_owner_linked_directional_object(action, motion, record);
             }
         }
 
-        if (((S_80173510_0 *)action)->unk_96.s > 0 &&
+        if (action->action_timer.s > 0 &&
             !(record->flags & 0x8000)) {
             return;
         }
-        ((S_80173510_0 *)action)->unk_96.u = 2;
-        ((S_80173510_0 *)action)->unk_9B.n++;
+        action->action_timer.u = 2;
+        action->action_phase.u++;
         return;
     }
 
@@ -200,13 +200,13 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
     {
         u16 timer;
 
-        timer = ((S_80173510_0 *)action)->unk_96.u;
-        ((S_80173510_0 *)action)->unk_96.u = timer - 1;
+        timer = action->action_timer.u;
+        action->action_timer.u = timer - 1;
         if ((s16)timer > 0 && !(record->flags & 0x8000)) {
             return;
         }
-        ((S_80173510_0 *)action)->unk_96.u = 6;
-        ((S_80173510_0 *)action)->unk_9B.n++;
+        action->action_timer.u = 6;
+        action->action_phase.u++;
         return;
     }
 
@@ -216,7 +216,7 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
         s32 axis_position;
         s16 timer;
 
-        timer = ((S_80173510_0 *)action)->unk_96.s;
+        timer = action->action_timer.s;
         if (timer != 0) {
             distance = record->tile_x << 6;
             axis_position = motion->x.w.i;
@@ -229,17 +229,17 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
             axis_position -= 0x20;
             distance -= axis_position;
             motion->velocity_y =
-                (distance << 16) / ((S_80173510_0 *)action)->unk_96.s;
+                (distance << 16) / action->action_timer.s;
         }
 
-        ((S_80173510_0 *)action)->unk_96.u--;
-        if (((S_80173510_0 *)action)->unk_96.s > 0 &&
+        action->action_timer.u--;
+        if (action->action_timer.s > 0 &&
             !(record->flags & 0x8000)) {
             return;
         }
 
         spend_actor_mp(actor, 0x100);
-        ((S_80173510_0 *)action)->unk_8C = uboat_behavior_entry;
+        action->unk_8C.address = uboat_behavior_entry;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         motion->velocity_x = 0;

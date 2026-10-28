@@ -30,7 +30,7 @@ void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosit
         sprite->frameTable = direction_table;
         select_sprite_entry(sprite,
             direction_table[((g_game_work.view.camera_rotation.parts.viewAngle +
-                ((S_80D3B0B8_2 *)owner_data)->unk_2A.u + 0x100) >> 9) & 7], 0);
+                owner_data->facing + 0x100) >> 9) & 7], 0);
 
         position = object->position;
         position->x.w.i = ((S_80D3B0B8_6 *)source_position)->unk_02;
@@ -50,8 +50,8 @@ void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosit
         }
         sprite->depth_bias =
             view_direction_depth_biases[((g_game_work.view.camera_rotation.parts.viewAngle +
-                ((S_80D3B0B8_2 *)owner_data)->unk_2A.u + 0x100) >> 9) & 7] * 4;
-        ((S_80D3B0B8_2 *)owner_data)->unk_B0++;
+                owner_data->facing + 0x100) >> 9) & 7] * 4;
+        owner_data->unk_B0.bytes[0]++;
         create_tracked_effect(object, 0, ((u8 *)sprite) + 0x2C, object_data + 0x2A);
     }
 }

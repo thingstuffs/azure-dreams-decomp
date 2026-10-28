@@ -105,7 +105,7 @@ void update_entity_action_facing(ActorRecord *actor, ObjectPosition *context, Sp
             actor->action_id.u = next_state;
         }
 
-        ((S_80170EA8_0 *)actor)->unk_98.n &= 0xFFF3;
+        actor->action_state_flags &= 0xFFF3;
         if (entity->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, context, sprite, D_80174040)) {
                 return;
@@ -163,12 +163,12 @@ void update_entity_action_facing(ActorRecord *actor, ObjectPosition *context, Sp
 
         switch (entity->action_flags & ACTOR_ACTION_CODE_MASK) {
         case 9:
-            ((S_80170EA8_0 *)actor)->unk_98.v |= 0x8000;
+            actor->action_state_flags |= 0x8000;
             /* fallthrough */
         case 8:
             if (((u32)entity->flags1C) & ACTOR_PLAYER_SIDE) {
                 if ((entity->action_flags & ACTOR_ACTION_CODE_MASK) == 8) {
-                    ((S_80170EA8_0 *)actor)->unk_98.v &= 0x7FFF;
+                    actor->action_state_flags &= 0x7FFF;
                 }
             }
             if ((s16)validate_direction_and_initialize_action(actor, context, sprite, entity) == 0) {

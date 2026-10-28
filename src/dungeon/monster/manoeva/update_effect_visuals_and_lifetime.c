@@ -43,7 +43,7 @@ typedef struct S_80170AD0_2 {
 /* Updates actor callbacks, facing, movement, and floor contact. */
 void update_effect_visuals_and_lifetime(void *entity_arg, void *motion_arg, SpriteFrameState *monster_arg)
 {
-    void *actor = entity_arg;
+    S_80170AD0_0 *actor = entity_arg;
     s16 direction_index;
     register s32 direction;
     Callback callback;
@@ -79,7 +79,7 @@ void update_effect_visuals_and_lifetime(void *entity_arg, void *motion_arg, Spri
 
     manoeva_callbacks[(*(u8 *)((u8 *)entity_arg + 0x9A))](entity_arg, motion_arg, monster_arg, actor);
 
-    if ((s16)direction_index != ((S_80170AD0_0 *)actor)->unk_6D) {
+    if ((s16)direction_index != actor->unk_6D) {
         try_move_actor_to_valid_position(entity_arg, motion_arg, monster_arg, actor);
     }
 
@@ -88,7 +88,7 @@ void update_effect_visuals_and_lifetime(void *entity_arg, void *motion_arg, Spri
         s32 direction_sector;
 
         direction_sector =
-            (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170AD0_0 *)actor)->unk_2A + 0x100) >> 9;
+            (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9;
         direction = direction_sector & 7;
         direction_index = direction;
 
@@ -105,7 +105,7 @@ void update_effect_visuals_and_lifetime(void *entity_arg, void *motion_arg, Spri
             monster_arg->flags &= 0xFFFE;
         }
 
-        if (!(((S_80170AD0_0 *)actor)->unk_1C.u & 0x20)) {
+        if (!(actor->unk_1C.u & 0x20)) {
             if (!(monster_arg->flags & 0x40)) {
                 advance_sprite_animation_and_textures(monster_arg);
             }
@@ -113,7 +113,7 @@ void update_effect_visuals_and_lifetime(void *entity_arg, void *motion_arg, Spri
             monster_arg->flags |= 0x7000;
         }
 
-        apply_monster_koyaw_data(((S_80170AD0_0 *)actor)->unk_1C.s, (u8 *)monster_arg + 0xC);
+        apply_monster_koyaw_data(actor->unk_1C.s, (u8 *)monster_arg + 0xC);
     } else {
         monster_arg->flags =
             (monster_flags & 0x0800) ? (monster_flags & 0x8FFF) : (monster_flags | 0x7000);
@@ -134,42 +134,42 @@ void update_effect_visuals_and_lifetime(void *entity_arg, void *motion_arg, Spri
     if (!((*(u16 *)((u8 *)entity_arg + 0x98)) & 4)) {
         floor_height = sample_terrain_surface_height(((S_80170AD0_2 *)motion_arg)->unk_00.at02.v,
                               ((S_80170AD0_2 *)motion_arg)->unk_04.at02.v,
-                              (s16)(((S_80170AD0_0 *)actor)->unk_88.u - 0x20));
+                              (s16)(actor->unk_88.u - 0x20));
         if (floor_height < 0x200) {
-            actor_height = ((S_80170AD0_0 *)actor)->unk_88.s;
+            actor_height = actor->unk_88.s;
             if ((*(s16 *)((u8 *)entity_arg + 0x92)) + actor_height < floor_height) {
-                ((S_80170AD0_0 *)actor)->unk_1C.u &= 0xF7FFFFFF;
+                actor->unk_1C.u &= 0xF7FFFFFF;
             } else {
                 if (floor_height >= actor_height) {
                     (*(s32 *)((u8 *)entity_arg + 0x90)) = 0;
                 } else {
-                    (*(s16 *)((u8 *)entity_arg + 0x92)) = floor_height - ((S_80170AD0_0 *)actor)->unk_88.u;
+                    (*(s16 *)((u8 *)entity_arg + 0x92)) = floor_height - actor->unk_88.u;
                 }
 
                 ((S_80170AD0_2 *)motion_arg)->unk_14 = 0;
                 (*(u8 *)((u8 *)entity_arg + 0x9D)) = 0;
-                ((S_80170AD0_0 *)actor)->unk_1C.u |= 0x08000000;
+                actor->unk_1C.u |= 0x08000000;
             }
 
-            if (((S_80170AD0_0 *)actor)->unk_1C.u & 0x40000000) {
-                ((S_80170AD0_0 *)actor)->unk_1C.u &= 0xBFFFFFFF;
+            if (actor->unk_1C.u & 0x40000000) {
+                actor->unk_1C.u &= 0xBFFFFFFF;
                 floor_height = sample_terrain_surface_height(
                     (monster_arg->tile_x << 6) | 0x20,
                     (monster_arg->tile_y << 6) | 0x20,
-                    (s16)(((S_80170AD0_0 *)actor)->unk_88.u - 0x20));
+                    (s16)(actor->unk_88.u - 0x20));
                 (*(s16 *)((u8 *)entity_arg + 0x92)) +=
-                    ((S_80170AD0_0 *)actor)->unk_88.u - floor_height;
-                ((S_80170AD0_0 *)actor)->unk_88.u = floor_height;
+                    actor->unk_88.u - floor_height;
+                actor->unk_88.u = floor_height;
             }
         } else {
-            ((S_80170AD0_0 *)actor)->unk_1C.u &= 0xF7FFFFFF;
+            actor->unk_1C.u &= 0xF7FFFFFF;
         }
     } else {
-        ((S_80170AD0_0 *)actor)->unk_1C.u &= 0xF7FFFFFF;
+        actor->unk_1C.u &= 0xF7FFFFFF;
     }
 
     ((S_80170AD0_2 *)motion_arg)->unk_0A =
-        ((S_80170AD0_0 *)actor)->unk_88.u + (*(u16 *)((u8 *)entity_arg + 0x92));
+        actor->unk_88.u + (*(u16 *)((u8 *)entity_arg + 0x92));
     monster_arg->flags |= 0x40;
 
 }

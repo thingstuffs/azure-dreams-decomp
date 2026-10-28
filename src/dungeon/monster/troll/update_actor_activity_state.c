@@ -171,7 +171,7 @@ void update_actor_activity_state(ActorRecord *task, ObjectPosition *task_id, Spr
         }
 
         if (sprite_in->flags & 0x8000) {
-            ((T_80175050_S_80175050_0 *)task)->unk_8C = update_actor_behavior;
+            task->unk_8C.handler = update_actor_behavior;
             return;
         }
         ((T_80175050_S_80175050_3 *)((u8 *)(&g_dungeon_status)))->unk_0A++;
@@ -182,7 +182,7 @@ void update_actor_activity_state(ActorRecord *task, ObjectPosition *task_id, Spr
     case 2:
         if (sprite_in->flags & 0xE000) {
             ((T_80175050_S_80175050_3 *)((u8 *)(&g_dungeon_status)))->unk_0A--;
-            ((T_80175050_S_80175050_0 *)task)->unk_8C = update_actor_behavior;
+            task->unk_8C.handler = update_actor_behavior;
         }
         return;
 
@@ -198,7 +198,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, ObjectPosi
 {
     unsigned long table_entry;
 
-    switch (((T_80175574_S_80175574_0 *)controller)->unk_9B) {
+    switch (controller->state9b) {
     case 0:
         if (!(animation->flags & 0xE000)) {
             return;
@@ -210,12 +210,12 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, ObjectPosi
         }
         {
 
-            switch (((ActorRecord *)actor)->unk_48) {
+            switch (actor->kind48) {
             default:
                 break;
             case 13:
                 (animation->frameTable) = troll_kind13_direction_frames;
-                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->value2a + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)troll_kind13_direction_frames;
                 select_sprite_entry(animation,
                     *(u8 *)table_entry,
@@ -223,7 +223,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, ObjectPosi
                 break;
             case 14:
                 (animation->frameTable) = troll_kind14_direction_frames;
-                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->value2a + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)troll_kind14_direction_frames;
                 select_sprite_entry(animation,
                     *(u8 *)table_entry,
@@ -231,7 +231,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, ObjectPosi
                 break;
             case 15:
                 (animation->frameTable) = troll_kind15_direction_frames;
-                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->value2a + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)troll_kind15_direction_frames;
                 select_sprite_entry(animation,
                     *(u8 *)table_entry,
@@ -239,7 +239,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, ObjectPosi
                 break;
             }
         }
-        ((T_80175574_S_80175574_0 *)controller)->unk_9B++;
+        controller->state9b++;
         return;
 
     case 1:
@@ -247,7 +247,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, ObjectPosi
         u8 *dir_table;
         void *current_table;
 
-        switch (((ActorRecord *)actor)->unk_48) {
+        switch (actor->kind48) {
         default:
             break;
         case 13:
@@ -255,7 +255,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, ObjectPosi
             dir_table = troll_kind13_direction_frames;
             if (current_table != dir_table) {
                 (animation->frameTable) = dir_table;
-                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->value2a + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)dir_table;
                 select_sprite_entry(animation,
                     *(u8 *)table_entry,
@@ -267,7 +267,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, ObjectPosi
             dir_table = troll_kind14_direction_frames;
             if (current_table != dir_table) {
                 (animation->frameTable) = dir_table;
-                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->value2a + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)dir_table;
                 select_sprite_entry(animation,
                     *(u8 *)table_entry,
@@ -279,7 +279,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, ObjectPosi
             dir_table = troll_kind15_direction_frames;
             if (current_table != dir_table) {
                 (animation->frameTable) = dir_table;
-                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->value2a + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)dir_table;
                 select_sprite_entry(animation,
                     *(u8 *)table_entry,
@@ -289,11 +289,11 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, ObjectPosi
         }
     }
 
-        if (((ActorRecord *)actor)->mp_value.parts.whole != 0) {
-            switch (((ActorRecord *)actor)->unk_48) {
+        if (actor->flag25 != 0) {
+            switch (actor->kind48) {
             case 13:
                 (animation->frameTable) = troll_kind13_recovery_frames;
-                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->value2a + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)troll_kind13_recovery_frames;
                 select_sprite_entry(animation,
                     *(u8 *)table_entry,
@@ -301,7 +301,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, ObjectPosi
                 break;
             case 14:
                 (animation->frameTable) = troll_kind14_recovery_frames;
-                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->value2a + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)troll_kind14_recovery_frames;
                 select_sprite_entry(animation,
                     *(u8 *)table_entry,
@@ -309,7 +309,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, ObjectPosi
                 break;
             case 15:
                 (animation->frameTable) = troll_kind15_recovery_frames;
-                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->value2a + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)troll_kind15_recovery_frames;
                 select_sprite_entry(animation,
                     *(u8 *)table_entry,
@@ -320,7 +320,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, ObjectPosi
             if (g_dungeon_status.flags & 0x1000) {
                 return;
             }
-            if (((ActorRecord *)actor)->hp_delta != 0) {
+            if (actor->value64 != 0) {
                 if (begin_ready_actor_directional_action(controller, context, animation, 0) != 0) {
                     return;
                 }
@@ -341,7 +341,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, ObjectPosi
                     return;
                 }
             }
-            if (((ActorRecord *)actor)->pending_turn_updates == 0) {
+            if (actor->flag6d == 0) {
                 return;
             }
             if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
@@ -352,13 +352,13 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, ObjectPosi
             }
             update_actor_status_and_mp(actor);
             on_actor_status_updated(actor);
-            if (((ActorRecord *)actor)->mp_value.parts.whole == 0) {
+            if (actor->flag25 == 0) {
                 return;
             }
-            switch (((ActorRecord *)actor)->unk_48) {
+            switch (actor->kind48) {
             case 13:
                 (animation->frameTable) = troll_kind13_recovery_frames;
-                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->value2a + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)troll_kind13_recovery_frames;
                 select_sprite_entry(animation,
                     *(u8 *)table_entry,
@@ -366,7 +366,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, ObjectPosi
                 break;
             case 14:
                 (animation ->frameTable) = troll_kind14_recovery_frames;
-                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->value2a + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)troll_kind14_recovery_frames;
                 select_sprite_entry(animation,
                     *(u8 *)table_entry,
@@ -374,7 +374,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, ObjectPosi
                 break;
             case 15:
                 (animation ->frameTable) = troll_kind15_recovery_frames;
-                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->value2a + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)troll_kind15_recovery_frames;
                 select_sprite_entry(animation,
                     *(u8 *)table_entry,
@@ -390,7 +390,7 @@ increment_counter:
             counter_base->activity_counts.parts.pending_action_count++;
         }
 increment_state:
-        ((T_80175574_S_80175574_0 *)controller)->unk_9B++;
+        controller->state9b++;
         return;
 
     case 2:
@@ -402,7 +402,7 @@ increment_state:
 
             counter_base->activity_counts.parts.pending_action_count--;
         }
-        ((T_80175574_S_80175574_0 *)controller)->unk_8C = update_actor_behavior;
+        controller->field8c = update_actor_behavior;
         return;
 
     default:

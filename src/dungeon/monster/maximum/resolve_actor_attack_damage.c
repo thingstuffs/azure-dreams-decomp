@@ -198,7 +198,7 @@ void resolve_actor_attack_damage(ActorRecord *actor, ObjectPosition *motion, Spr
             (*(u16 *)((u8 *)&primary_actor_record->unk_A4 + 2)) = (u16) ((((D800814A8FieldView_810AF0B4 *)primary_actor_record)->field_A6) - 1);
             advance_status_timers(action);
             action->pending_turn_updates = (u8) (((u8)action->pending_turn_updates) - 1);
-            ((S_801728B4_0 *)actor)->unk_8C = &dispatch_monster_move_attack_spell;
+            actor->unk_8C.address = &dispatch_monster_move_attack_spell;
             action->target_tile_y = 0;
             action->target_tile_x = 0;
             action->action_flags = (u16) (action->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
@@ -224,13 +224,13 @@ void resolve_actor_attack_damage(ActorRecord *actor, ObjectPosition *motion, Spr
         if ((sprite->unk_04 == 4 && (sprite->flags & 0x1000)) ||
             (sprite->flags & 0xE000)) {
             sprite->flags = (u16) (sprite->flags | 0x800);
-            ((S_801728B4_0 *)actor)->unk_96 = 3U;
+            actor->action_timer.u = 3U;
             actor->action_state_flags = (u16) (actor->action_state_flags | 0x80);
         }
-        ticks_left = ((S_801728B4_0 *)actor)->unk_96 - 1;
-        ((S_801728B4_0 *)actor)->unk_96 = ticks_left;
+        ticks_left = actor->action_timer.u - 1;
+        actor->action_timer.u = ticks_left;
         if ((ticks_left << 0x10) <= 0) {
-            ((S_801728B4_0 *)actor)->unk_96 = 0U;
+            actor->action_timer.u = 0U;
             sprite->flags = (u16) (sprite->flags & 0xF7FF);
         }
         if (!(sprite->flags & 0xE000)) {
@@ -249,7 +249,7 @@ void resolve_actor_attack_damage(ActorRecord *actor, ObjectPosition *motion, Spr
         }
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         sprite->flags = (u16) (sprite->flags & 0xF7FF);
-        ((S_801728B4_0 *)actor)->unk_8C = &dispatch_monster_move_attack_spell;
+        actor->unk_8C.address = &dispatch_monster_move_attack_spell;
         advance_status_timers(action);
         if ((s8) ((u8)action->pending_turn_updates) > 0) {
             action->pending_turn_updates = (u8) (((u8)action->pending_turn_updates) - 1);

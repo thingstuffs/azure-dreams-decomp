@@ -49,12 +49,12 @@ void advance_directional_effect_action(ActorRecord *action, ObjectPosition *moti
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        ((S_80174A28_0 *)action)->unk_96 = 0x14;
+        action->action_timer.s = 0x14;
         action->action_phase.u++;
         break;
 
     case 1:
-        if ((--((S_80174A28_0 *)action)->unk_96 == 0x12) ||
+        if ((--action->action_timer.s == 0x12) ||
             (sprite->flags & 0x8000)) {
             OffsetPair *offset;
             u16 flags;
@@ -78,12 +78,12 @@ void advance_directional_effect_action(ActorRecord *action, ObjectPosition *moti
             coord_value = sprite->tile_y + y_offset;
             create_randomly_rotated_offset_effect(effect_actor, x_sum, coord_value & 0xFFFF, height);
         }
-        if ((((S_80174A28_0 *)action)->unk_96 == 0x0A) ||
+        if ((action->action_timer.s == 0x0A) ||
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
             play_sound_if_enabled(0x605);
         }
-        if ((((S_80174A28_0 *)action)->unk_96 == 9) ||
+        if ((action->action_timer.s == 9) ||
             (sprite->flags & 0x8000)) {
             OffsetPair *offset;
             u16 angle;
@@ -104,9 +104,9 @@ void advance_directional_effect_action(ActorRecord *action, ObjectPosition *moti
             x = x_sum & 0xFFFF;
             process_nodes_at_target_tile(actor, x, coord_value & 0xFFFF, height);
         }
-        if ((((S_80174A28_0 *)action)->unk_96 <= 0) ||
+        if ((action->action_timer.s <= 0) ||
             (sprite->flags & 0x8000)) {
-            ((S_80174A28_0 *)action)->unk_96 = 0;
+            action->action_timer.s = 0;
             action->action_phase.u++;
         }
         break;
@@ -123,7 +123,7 @@ void advance_directional_effect_action(ActorRecord *action, ObjectPosition *moti
                 sprite->flags &= 0xF7FF;
                 select_sprite_entry(sprite,
                     (*(u8 **)&sprite->frameTable)[((g_game_work.view.camera_rotation.parts.viewAngle +
-                        ((S_80174A28_3 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+                        actor->facing + 0x100) >> 9) & 7],
                     0);
                 action->action_phase.u++;
             }
@@ -132,7 +132,7 @@ void advance_directional_effect_action(ActorRecord *action, ObjectPosition *moti
 
     case 3:
         spend_actor_mp(actor, 0x400);
-        ((S_80174A28_0 *)action)->unk_8C = &saber_behavior_entry;
+        action->unk_8C.address = &saber_behavior_entry;
         g_dungeon_status.active_actor = 0;
         actor->action_flags &= 0x7FFF;
         break;

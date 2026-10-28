@@ -67,7 +67,7 @@ void advance_actor_targeted_action(ActorRecord *action, ObjectPosition *transfor
     u8 *anim_table;
     void *current_anim;
     s32 delay_slot;
-    u8 *control;
+    S_8017472C_6 *control;
 
     state = action->action_phase.u;
     use_player_target = 0;
@@ -149,7 +149,7 @@ void advance_actor_targeted_action(ActorRecord *action, ObjectPosition *transfor
                 (u8 *)action + 0x98) == 0) {
                 return;
             }
-            ((S_8017472C_0 *)action)->unk_96.s = 0x16;
+            action->action_timer.u = 0x16;
             ((S_8017472C_0 *)action)->unk_AE.s = 0xE;
             action->action_phase.u++;
             return;
@@ -163,7 +163,7 @@ void advance_actor_targeted_action(ActorRecord *action, ObjectPosition *transfor
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
         (*(u8 *)&actor->pending_turn_updates)--;
-        ((S_8017472C_0 *)action)->unk_8C = troll_action_dispatch_address;
+        action->unk_8C.address = troll_action_dispatch_address;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -180,7 +180,7 @@ void advance_actor_targeted_action(ActorRecord *action, ObjectPosition *transfor
 
     case 2:
         step = 0;
-        if (!(((S_8017472C_0 *)action)->unk_96.s & 1) &&
+        if (!(action->action_timer.u & 1) &&
             ((S_8017472C_0 *)action)->unk_AE.s != 0) {
             ((S_8017472C_0 *)action)->unk_AE.u--;
         }
@@ -188,11 +188,11 @@ void advance_actor_targeted_action(ActorRecord *action, ObjectPosition *transfor
             spawn_random_color_burst_particle(action, transform, sprite, actor);
         }
 
-        if (((S_8017472C_0 *)action)->unk_96.u == 0x16) {
+        if (action->action_timer.s == 0x16) {
             spawn_growing_rotating_flash(action, transform, sprite);
         }
-        ticks_left = ((S_8017472C_0 *)action)->unk_96.s - 1;
-        ((S_8017472C_0 *)action)->unk_96.s = ticks_left;
+        ticks_left = action->action_timer.u - 1;
+        action->action_timer.u = ticks_left;
         if ((s32)(ticks_left << 16) > 0 &&
             !(sprite->flags & 0xE000)) {
             return;
@@ -203,7 +203,7 @@ void advance_actor_targeted_action(ActorRecord *action, ObjectPosition *transfor
 
     case 3:
         if (D_8008346C == 0) {
-            ((S_8017472C_0 *)action)->unk_96.s = 0;
+            action->action_timer.u = 0;
         }
         if (!(sprite->flags & 0xE000)) {
             return;
@@ -225,7 +225,7 @@ void advance_actor_targeted_action(ActorRecord *action, ObjectPosition *transfor
                     *(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + (u32)anim_table), 0);
             }
 
-            control = (u8 *)&g_dungeon_status;
+            control = (S_8017472C_6 *)&g_dungeon_status;
             break;
         case 0xE:
             current_anim = sprite->frameTable;
@@ -236,7 +236,7 @@ void advance_actor_targeted_action(ActorRecord *action, ObjectPosition *transfor
                     *(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + (u32)anim_table), 0);
             }
 
-            control = (u8 *)&g_dungeon_status;
+            control = (S_8017472C_6 *)&g_dungeon_status;
             break;
         case 0xF:
             current_anim = sprite->frameTable;
@@ -247,18 +247,18 @@ void advance_actor_targeted_action(ActorRecord *action, ObjectPosition *transfor
                     *(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + (u32)anim_table), 0);
             }
 
-            control = (u8 *)&g_dungeon_status;
+            control = (S_8017472C_6 *)&g_dungeon_status;
             break;
         default:
             current_anim = (u8 *)&g_dungeon_status;
             control = current_anim;
             break;
         }
-        if (((S_8017472C_6 *)control)->unk_0C != 0) {
+        if (control->unk_0C != 0) {
             return;
         }
-        ((S_8017472C_6 *)control)->unk_0A--;
-        ((S_8017472C_0 *)action)->unk_8C = troll_action_dispatch_address;
+        control->unk_0A--;
+        action->unk_8C.address = troll_action_dispatch_address;
         advance_status_timers(actor);
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;

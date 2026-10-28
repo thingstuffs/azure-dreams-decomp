@@ -82,9 +82,9 @@ extern s32 rcos(s32);
 /* Updates effect position and animated scales, flagging invalid or fully expanded effects. */
 void update_terrain_scaled_actor_effect(void *effect, MovingPosition *out_position, void *out_render)
 {
-    void *owner_base;
+    S_8017474C_2 *owner_base;
     void *owner;
-    void *source_position;
+    S_8017474C_4 *source_position;
     s16 target_scale;
     s32 sampled_height;
     s32 scale_cap;
@@ -103,7 +103,7 @@ void update_terrain_scaled_actor_effect(void *effect, MovingPosition *out_positi
         owner_base = ((S_8017474C_0 *)effect)->unk_0C;
         owner = (u8 *)owner_base + 0x20;
         if ((((S_8017474C_1 *)owner)->unk_1C & 0x00800000) ||
-            (((S_8017474C_2 *)owner_base)->unk_1E & 0x8000) ||
+            (owner_base->unk_1E & 0x8000) ||
             (((S_8017474C_1 *)owner)->unk_8C == (void *)transfer_linked_object_state) ||
             ((get_entity_effect_value(owner, STATUS_FROG) << 16) != 0)) {
             (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
@@ -122,7 +122,7 @@ void update_terrain_scaled_actor_effect(void *effect, MovingPosition *out_positi
         }
 
         source_position = ((S_8017474C_0 *)effect)->unk_18;
-        height_scale = height_scale - ((sampled_height - ((S_8017474C_4 *)source_position)->unk_0A) << 6);
+        height_scale = height_scale - ((sampled_height - source_position->unk_0A) << 6);
         if (height_scale < 0) {
             height_scale = 0;
         }
@@ -131,7 +131,7 @@ void update_terrain_scaled_actor_effect(void *effect, MovingPosition *out_positi
         }
 
         if (height_scale >= 0xF81) {
-            out_position->x = ((S_8017474C_4 *)source_position)->unk_02;
+            out_position->x = source_position->unk_02;
             out_position->y = ((S_8017474C_7 *)(((S_8017474C_0 *)effect)->unk_18))->unk_06;
             out_position->z = sampled_height;
 

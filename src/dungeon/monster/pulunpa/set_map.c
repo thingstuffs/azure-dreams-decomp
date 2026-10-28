@@ -80,22 +80,22 @@ void update_creature_actions_and_animation(ActorRecord *actor, ObjectPosition *c
     u16 action_flags;
 
     if (g_dungeon_status.flags & 0x1000) {
-        ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 14;
+        actor->action_id.u = 14;
         func_80174924(actor, context, sprite, creature);
         return;
     }
     if (creature->mp_value.parts.whole == 0) {
         advance_actor_pending_action(actor, context, sprite, creature);
-        if (((S_80173B98_2 *)sprite)->unk_2C == &pulunpa_frame_set_3) {
+        if (sprite->frameTable == &pulunpa_frame_set_3) {
             return;
         }
         set_map(sprite, creature, (u8 *)&D_80176358);
         return;
     }
     if (creature->flags1C & ACTOR_ASLEEP) {
-        if (((S_80173B98_2 *)sprite)->unk_2C == &pulunpa_frame_set_3) {
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 13;
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_9B.as_s8 = 1;
+        if (sprite->frameTable == &pulunpa_frame_set_3) {
+            actor->action_id.u = 13;
+            actor->action_phase.s = 1;
             ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
             creature->flags1C &= 0xFFFBFFFF;
             return;
@@ -109,13 +109,13 @@ void update_creature_actions_and_animation(ActorRecord *actor, ObjectPosition *c
             begin_pushed_actor_move(actor, context, sprite, creature);
             return;
         }
-        if (((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 != 14) {
-            if (((S_80173B98_2 *)sprite)->unk_2C != (void *)pulunpa_frame_set_2) {
+        if (actor->action_id.u != 14) {
+            if (sprite->frameTable != (void *)pulunpa_frame_set_2) {
                 set_map(sprite, creature, pulunpa_frame_set_2);
             }
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 14;
+            actor->action_id.u = 14;
         }
-        ((Rec_func_800A9E70_arg0 *)actor)->unk_98 = (u16) (((Rec_func_800A9E70_arg0 *)actor)->unk_98 & 0xFFF3);
+        actor->action_state_flags = (u16) (actor->action_state_flags & 0xFFF3);
         if (creature->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, context, sprite, &D_80176370) != 0) {
                 return;
@@ -130,8 +130,8 @@ void update_creature_actions_and_animation(ActorRecord *actor, ObjectPosition *c
             process_selected_actor_record(actor, context, sprite, creature);
         }
     }
-    tile_index = find_active_rect_containing_point(((S_80173B98_2 *)sprite)->unk_24.at00.v, ((S_80173B98_2 *)sprite)->unk_24.at01.v);
-    ((S_80173B98_2 *)sprite)->unk_26 = tile_index;
+    tile_index = find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
+    sprite->room_index = tile_index;
     if (creature->pending_turn_updates > 0) {
         if (creature->flags1C & ACTOR_PARALYZED) {
             update_actor_status_and_mp(creature);
@@ -195,20 +195,20 @@ void update_creature_actions_and_animation(ActorRecord *actor, ObjectPosition *c
     if (!(status_flags & 0x2000)) {
         if (tile_index >= 0 && (dungeon_rooms[tile_index].flags & 2)) {
         } else if (!(status_flags & 0x430)) {
-            if ((test_neighbor_position_relation(((S_80173B98_2 *)sprite)->unk_24.at00.v, ((S_80173B98_2 *)sprite)->unk_24.at01.v,
+            if ((test_neighbor_position_relation(sprite->tile_x, sprite->tile_y,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 0x10) != 0) {
-                creature->facing = get_rounded_facing_and_rounding_flag(((S_80173B98_2 *)sprite)->unk_24.at00.v,
-                    ((S_80173B98_2 *)sprite)->unk_24.at01.v, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
+                creature->facing = get_rounded_facing_and_rounding_flag(sprite->tile_x,
+                    sprite->tile_y, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
             }
         }
     }
     if (g_dungeon_status.flags & 0x2000) {
         return;
     }
-    if (((S_80173B98_2 *)sprite)->unk_14 & 0x40) {
+    if (sprite->flags & 0x40) {
         return;
     }
-    if (((S_80173B98_2 *)sprite)->unk_2C == (void *)pulunpa_frame_set_2) {
+    if (sprite->frameTable == (void *)pulunpa_frame_set_2) {
         return;
     }
     set_map(sprite, creature, pulunpa_frame_set_2);

@@ -41,8 +41,8 @@ void update_directional_movement_and_settle(ActorRecord *action, ObjectPosition 
     dir_x = *(s16 *)((u8 *)((s8 *)dir_step_x) + dir_offset);
     dir_y = *(s16 *)((u8 *)((s8 *)dir_step_y) + dir_offset);
     state = action->action_phase.u;
-    ticks_left = ((S_801724F4_1 *)action)->unk_96 - 1;
-    ((S_801724F4_1 *)action)->unk_96 = ticks_left;
+    ticks_left = action->action_timer.u - 1;
+    action->action_timer.u = ticks_left;
 
     switch (state) {
     case 0:
@@ -66,7 +66,7 @@ void update_directional_movement_and_settle(ActorRecord *action, ObjectPosition 
                 0);
             motion->velocity_x = (dir_x << 18) + (dir_x << 17);
             motion->velocity_y = (dir_y << 18) + (dir_y << 17);
-            ((S_801724F4_1 *)action)->unk_96 = 8;
+            action->action_timer.u = 8;
             play_sound_if_enabled(0x607);
             action->action_phase.u++;
         }
@@ -94,7 +94,7 @@ void update_directional_movement_and_settle(ActorRecord *action, ObjectPosition 
             (*(u32 *)&actor->flags1C) |= 0x40000;
             set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
             spend_actor_mp(actor, 0x100);
-            ((S_801724F4_1 *)action)->unk_8C = &kraken_action_resume_address;
+            action->unk_8C.address = &kraken_action_resume_address;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             if (actor->pending_turn_updates == 0) {

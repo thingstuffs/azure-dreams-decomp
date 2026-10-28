@@ -18,7 +18,7 @@ s32 check_action_eligibility_updates_actor_state_directional_animation_success(A
     target_direction = probe_directional_neighbor(actor, sprite->tile_x,
         sprite->tile_y, actor->facing);
 
-    if ((((Rec_func_800A9E70_arg0 *)action_state)->unk_98 & 0x8000)
+    if ((action_state->action_state_flags & 0x8000)
         ? target_direction == 0
         : (check_entity_interaction_compatibility(actor, target_direction) << 0x10) == 0) {
         return 0;
@@ -45,12 +45,12 @@ s32 check_action_eligibility_updates_actor_state_directional_animation_success(A
     if ((try_claim_dungeon_action_slot(actor) << 0x10) != 0) {
         return -1;
     }
-    ((Rec_func_800A9E70_arg0 *)action_state)->unk_9A.as_s8 = 0x11;
-    ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_s8 = 0;
+    action_state->action_id.s = 0x11;
+    action_state->action_phase.s = 0;
     ((Rec_func_800A9E70_arg0 *)action_state)->unk_8C = 0;
     actor->unk_84 = 0x7C;
     actor->unk_85 = 0;
-    state_flag = ((Rec_func_800A9E70_arg0 *)action_state)->unk_98 & 0x8000;
+    state_flag = action_state->action_state_flags & 0x8000;
     /* BYTES: retail evidence: the test's operands survive (the arm compiled away); reconstructed as a conditional update of a local nothing reads in the retail build - any dead local set reproduces the bytes (lane r118_fable_f4; decision 45, docs/evidence/r97_decisions.md) */
     if (state_flag) {
         target_direction = 0;

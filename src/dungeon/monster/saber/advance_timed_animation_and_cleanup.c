@@ -41,44 +41,44 @@ void advance_timed_animation_and_cleanup(ActorRecord *sequence, ObjectPosition *
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        ((S_80172FD8_0 *)sequence)->unk_96.u = 0;
+        sequence->action_timer.u = 0;
         sequence->action_phase.u++;
         return;
 
     case 1:
-        if ((s16)++((S_80172FD8_0 *)sequence)->unk_96.u == 4 ||
+        if ((s16)++sequence->action_timer.u == 4 ||
             (sprite->flags & 0x8000)) {
             sprite->frameTable = D_80174E1C;
             select_sprite_entry(sprite,
                 D_80174E1C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            ((S_80172FD8_0 *)sequence)->unk_96.u = 0;
+            sequence->action_timer.u = 0;
             sequence->action_phase.u++;
             return;
         }
         return;
 
     case 2:
-        if ((s16)++((S_80172FD8_0 *)sequence)->unk_96.u == 9 ||
+        if ((s16)++sequence->action_timer.u == 9 ||
             (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
-            ((S_80172FD8_0 *)sequence)->unk_96.u = 0;
+            sequence->action_timer.u = 0;
             sequence->action_phase.u++;
         }
-        if (((S_80172FD8_0 *)sequence)->unk_96.s == 6) {
+        if (sequence->action_timer.s == 6) {
             play_sound_if_enabled(0x808);
             return;
         }
         return;
 
     case 3:
-        if ((s16)++((S_80172FD8_0 *)sequence)->unk_96.u == 6) {
+        if ((s16)++sequence->action_timer.u == 6) {
             sprite->flags |= 0x0800;
         }
-        if (((S_80172FD8_0 *)sequence)->unk_96.s == 15 ||
+        if (sequence->action_timer.s == 15 ||
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
-            ((S_80172FD8_0 *)sequence)->unk_96.u = 0;
+            sequence->action_timer.u = 0;
             sequence->action_phase.u++;
             return;
         }
@@ -87,7 +87,7 @@ void advance_timed_animation_and_cleanup(ActorRecord *sequence, ObjectPosition *
     case 4:
         if (sprite->flags & 0xE000) {
             spend_actor_mp(actor, 0x100);
-            ((S_80172FD8_0 *)sequence)->unk_8C = &saber_behavior_entry;
+            sequence->unk_8C.address = &saber_behavior_entry;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;

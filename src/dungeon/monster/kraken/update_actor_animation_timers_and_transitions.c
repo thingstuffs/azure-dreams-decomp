@@ -72,13 +72,13 @@ extern u8 kraken_frame_set_2[];
 /* Updates the actor's animation state, timers, and action transitions. */
 void update_actor_animation_timers_and_transitions(void *entity, ObjectPosition *motion, SpriteFrameState *sprite, void *actor)
 {
-    u8 *body_part;
+    S_8017352C_5 *body_part;
     SpriteFrameState *part_anim;
     DungeonGlobalStatus *global_base;
     u8 *body;
     DungeonGlobalStatus *state_zero_counter_base;
     DungeonGlobalStatus *animate_counter_base;
-    u8 *state_two_counter_base;
+    TrailHeightView *state_two_counter_base;
     s32 actor_flags;
     s32 state;
     u16 timer;
@@ -86,7 +86,7 @@ void update_actor_animation_timers_and_transitions(void *entity, ObjectPosition 
 
     body = ((S_8017352C_0 *)entity)->unk_A4;
     state = ((S_8017352C_0 *)entity)->unk_9B;
-    body_part = body + 0x20;
+    body_part = (S_8017352C_5 *)(body + 0x20);
     part_anim = body + 0x28;
     switch (state) {
     case 0:
@@ -140,12 +140,12 @@ void update_actor_animation_timers_and_transitions(void *entity, ObjectPosition 
             timer = ((S_8017352C_0 *)entity)->unk_96 - 1;
             ((S_8017352C_0 *)entity)->unk_96 = timer;
             if ((timer << 16) <= 0) {
-                ((S_8017352C_5 *)body_part)->unk_04 &= 0x7FFF;
+                body_part->unk_04 &= 0x7FFF;
                 select_sprite_entry(part_anim, 0x27, 0);
                 ((S_8017352C_0 *)entity)->unk_96 = (rand() & 0xF) + 0x20;
             }
             if (part_anim->flags & 0x6000) {
-                ((S_8017352C_5 *)body_part)->unk_04 |= 0x8000;
+                body_part->unk_04 |= 0x8000;
             }
             if (((S_8017352C_2 *)actor)->unk_6D == 0) {
                 return;
@@ -188,7 +188,7 @@ void update_actor_animation_timers_and_transitions(void *entity, ObjectPosition 
                 kraken_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((S_8017352C_2 *)actor)->unk_1C.u |= 0x40000;
-            ((S_8017352C_5 *)body_part)->unk_04 |= 0x8000;
+            body_part->unk_04 |= 0x8000;
             if (!(sprite->flags & 0x8000)) {
                 animate_counter_base = (u8 *)3;
                 ((S_8017352C_0 *)entity)->unk_96 = (s32)animate_counter_base;
@@ -206,7 +206,7 @@ void update_actor_animation_timers_and_transitions(void *entity, ObjectPosition 
                 kraken_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((S_8017352C_2 *)actor)->unk_1C.u |= 0x40000;
-            ((S_8017352C_5 *)body_part)->unk_04 |= 0x8000;
+            body_part->unk_04 |= 0x8000;
             if (!(sprite->flags & 0x8000)) {
                 animate_counter_base = (u8 *)3;
                 ((S_8017352C_0 *)entity)->unk_96 = (s32)animate_counter_base;
@@ -229,10 +229,10 @@ void update_actor_animation_timers_and_transitions(void *entity, ObjectPosition 
         if (!(sprite->flags & 0xE000)) {
             return;
         }
-        state_two_counter_base = (u8 *)&g_dungeon_status.turn_scale;
+        state_two_counter_base = (TrailHeightView *)&g_dungeon_status.turn_scale;
         motion->velocity_z = 0;
         ((S_8017352C_0 *)entity)->unk_A8 = 0;
-        ((TrailHeightView *)state_two_counter_base)->unk_0A--;
+        state_two_counter_base->unk_0A--;
 
         break;
     default:

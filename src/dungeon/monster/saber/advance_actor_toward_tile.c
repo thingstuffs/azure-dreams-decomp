@@ -65,12 +65,12 @@ void finish_saber_tile_hop(ActorRecord *action, ObjectPosition *motion, SpriteFr
             0);
         action->action_state_flags |= 8;
         entity->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        ((S_80ADF3AC_0 *)action)->unk_9E.s = 5;
-        ((S_80ADF3AC_0 *)action)->unk_A4 = 0;
+        action->unk_9E.s = 5;
+        action->unk_A4 = 0;
         action->action_phase.u++;
     case 1:
-        frames_left = ((S_80ADF3AC_0 *)action)->unk_9E.s;
-        ((S_80ADF3AC_0 *)action)->unk_90 -= ((S_80ADF3AC_0 *)action)->unk_A4;
+        frames_left = action->unk_9E.s;
+        action->unk_90.value -= action->unk_A4;
         if (frames_left != 0) {
             target_x = sprite->tile_x;
             pos_x = motion->x.w.i;
@@ -81,19 +81,19 @@ void finish_saber_tile_hop(ActorRecord *action, ObjectPosition *motion, SpriteFr
             pos_y -= 0x20;
             motion->velocity_y =
                 (((sprite->tile_y << 6) - pos_y) << 16) /
-                ((S_80ADF3AC_0 *)action)->unk_9E.s;
-            ((S_80ADF3AC_0 *)action)->unk_A4 =
-                (-rsin(((S_80ADF3AC_0 *)action)->unk_9E.s * 0x199)) << 10;
+                action->unk_9E.s;
+            action->unk_A4 =
+                (-rsin(action->unk_9E.s * 0x199)) << 10;
         }
-        height = ((S_80ADF3AC_0 *)action)->unk_90;
-        height_offset = ((S_80ADF3AC_0 *)action)->unk_A4;
-        next_frame = ((S_80ADF3AC_0 *)action)->unk_9E.u;
+        height = action->unk_90.value;
+        height_offset = action->unk_A4;
+        next_frame = action->unk_9E.u;
         height += height_offset;
         next_frame -= 1;
-        ((S_80ADF3AC_0 *)action)->unk_9E.u = next_frame;
-        ((S_80ADF3AC_0 *)action)->unk_90 = height;
+        action->unk_9E.u = next_frame;
+        action->unk_90.value = height;
         if ((next_frame << 16) < 0) {
-            ((S_80ADF3AC_0 *)action)->unk_90 = 0;
+            action->unk_90.value = 0;
             action->action_state_flags &= 0xFFF7;
             entity->flags1C |= ACTOR_GROUNDED;
             action->action_phase.u++;
@@ -123,8 +123,8 @@ void finish_saber_tile_hop(ActorRecord *action, ObjectPosition *motion, SpriteFr
             saber_frame_set_5[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
     }
-    action_timer = ((S_80ADF3AC_0 *)action)->unk_96 - 1;
-    ((S_80ADF3AC_0 *)action)->unk_96 = action_timer;
+    action_timer = action->action_timer.u - 1;
+    action->action_timer.u = action_timer;
     if ((action_timer << 16) > 0) {
         return;
     }
@@ -154,7 +154,7 @@ void finish_saber_tile_hop(ActorRecord *action, ObjectPosition *motion, SpriteFr
         }
     }
     if ((check_actor_floor_trap(sprite, entity) << 16) > 0) {
-        ((S_80ADF3AC_0 *)action)->unk_8C = &D_80159728;
+        action->unk_8C.address = &D_80159728;
         on_actor_status_updated(entity);
     }
 }

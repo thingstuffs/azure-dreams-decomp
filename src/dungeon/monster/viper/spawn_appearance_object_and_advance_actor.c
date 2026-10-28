@@ -50,7 +50,7 @@ void spawn_appearance_object_and_advance_actor(S_8017390C_0 *actor, void *transf
     s32 pos_z;
     s32 pos_x;
     s32 state;
-    void *work_data;
+    S_8017390C_3 *work_data;
     ObjectNodeHeader *spawned_obj;
     SpriteFrameState *spawned_render;
     void *spawned_data;
@@ -96,8 +96,8 @@ void spawn_appearance_object_and_advance_actor(S_8017390C_0 *actor, void *transf
                         ((S_8017390C_1 *)actor_data)->unk_49, ((S_8017390C_1 *)actor_data)->unk_48);
                     spawned_render->source = render_asset;
                 }
-                ((S_8017390C_3 *)work_data)->unk_A8 = render->unk_24;
-                ((S_8017390C_3 *)work_data)->unk_AA = render->unk_25;
+                work_data->unk_A8 = render->unk_24;
+                work_data->unk_AA = render->unk_25;
                 *(Unaligned32 *)((u8 *)spawned_data + 0x48) =
                     *(Unaligned32 *)((u8 *)actor_data + 0x48);
                 create_tracked_effect(spawned_obj, 0, 0, 0);

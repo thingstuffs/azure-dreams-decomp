@@ -6,7 +6,7 @@
 /* Updates entity callbacks, directional animation, movement, and ground contact. */
 void update_entity_callbacks_directional_animation_movement_ground_contact(void *actor, TrailMotion *motion, SpriteFrameState *part)
 {
-    void *entity = actor;
+    T_80170AA4_S_80170AA4_1 *entity = actor;
     s16 state_direction;
     s32 direction_index;
     void *call_entity;
@@ -87,7 +87,7 @@ void update_entity_callbacks_directional_animation_movement_ground_contact(void 
 
     part_flags = part->flags;
     if (!(part_flags & 0x8000)) {
-        view_angle = g_game_work.view.camera_rotation.parts.viewAngle + ((T_80170AA4_S_80170AA4_1 *)entity)->unk_2A + 0x100;
+        view_angle = g_game_work.view.camera_rotation.parts.viewAngle + entity->unk_2A + 0x100;
         state_direction = (view_angle >> 9) & ACTOR_ELEMENT_MASK;
         previous_direction = (*(s16 *)((u8 *)actor + 0x94));
         direction_index = (u16)state_direction;
@@ -106,14 +106,14 @@ void update_entity_callbacks_directional_animation_movement_ground_contact(void 
         } else {
             part->flags &= 0xFFFE;
         }
-        if (!(((T_80170AA4_S_80170AA4_1 *)entity)->unk_1C & 0x20)) {
+        if (!(entity->unk_1C & 0x20)) {
             if (!(part->flags & 0x40)) {
                 advance_sprite_animation_and_textures(part);
             }
         } else {
             part->flags |= 0x7000;
         }
-        apply_monster_koyaw_data(((T_80170AA4_S_80170AA4_1 *)entity)->unk_1C, (u8 *)part + 0xC);
+        apply_monster_koyaw_data(entity->unk_1C, (u8 *)part + 0xC);
     } else {
         if (part_flags & 0x800) {
             new_part_flags = part_flags & 0x8FFF;
@@ -136,44 +136,44 @@ void update_entity_callbacks_directional_animation_movement_ground_contact(void 
     if (!((*(u16 *)((u8 *)actor + 0x98)) & 4)) {
         ground_height = sample_terrain_surface_height(motion->x.unk_02.unk_02,
                                motion->y.unk_06.unk_06,
-                               (s16)(((T_80170AA4_S_80170AA4_1 *)entity)->unk_88 - 0x20));
+                               (s16)(entity->unk_88 - 0x20));
         if ((s16)ground_height < 0x200) {
-            base_height = (s16)((T_80170AA4_S_80170AA4_1 *)entity)->unk_88;
+            base_height = (s16)entity->unk_88;
             if ((*(s16 *)((u8 *)actor + 0x92)) + base_height < (s16)ground_height) {
-                ((T_80170AA4_S_80170AA4_1 *)entity)->unk_1C &= 0xF7FFFFFF;
+                entity->unk_1C &= 0xF7FFFFFF;
             } else {
                 if ((s16)ground_height >= base_height) {
                     (*(s32 *)((u8 *)actor + 0x90)) = 0;
                     motion->unk_14 = 0;
-                    ((T_80170AA4_S_80170AA4_1 *)entity)->unk_1C |= 0x08000000;
+                    entity->unk_1C |= 0x08000000;
                     (*(s8 *)((u8 *)actor + 0x9D)) = 0;
                 } else {
                     motion->unk_14 = 0;
-                    ((T_80170AA4_S_80170AA4_1 *)entity)->unk_1C |= 0x08000000;
+                    entity->unk_1C |= 0x08000000;
                     (*(s8 *)((u8 *)actor + 0x9D)) = 0;
-                    (*(s16 *)((u8 *)actor + 0x92)) = ground_height - ((T_80170AA4_S_80170AA4_1 *)entity)->unk_88;
+                    (*(s16 *)((u8 *)actor + 0x92)) = ground_height - entity->unk_88;
                 }
             }
-            entity_flags = ((T_80170AA4_S_80170AA4_1 *)entity)->unk_1C;
+            entity_flags = entity->unk_1C;
             if (entity_flags & 0x40000000) {
-                ((T_80170AA4_S_80170AA4_1 *)entity)->unk_1C = entity_flags & 0xBFFFFFFF;
+                entity->unk_1C = entity_flags & 0xBFFFFFFF;
                 ground_height = sample_terrain_surface_height(
                     (part->tile_x << 6) | 0x20,
                     (part->tile_y << 6) | 0x20,
-                    (s16)(((T_80170AA4_S_80170AA4_1 *)entity)->unk_88 - 0x20));
+                    (s16)(entity->unk_88 - 0x20));
                 (*(s16 *)((u8 *)actor + 0x92)) +=
-                    ((T_80170AA4_S_80170AA4_1 *)entity)->unk_88 - ground_height;
-                ((T_80170AA4_S_80170AA4_1 *)entity)->unk_88 = ground_height;
+                    entity->unk_88 - ground_height;
+                entity->unk_88 = ground_height;
             }
         } else {
-            ((T_80170AA4_S_80170AA4_1 *)entity)->unk_1C &= 0xF7FFFFFF;
+            entity->unk_1C &= 0xF7FFFFFF;
         }
     } else {
-        ((T_80170AA4_S_80170AA4_1 *)entity)->unk_1C &= 0xF7FFFFFF;
+        entity->unk_1C &= 0xF7FFFFFF;
     }
 
     motion->z =
-        ((T_80170AA4_S_80170AA4_1 *)entity)->unk_88 + (*(u16 *)((u8 *)actor + 0x92));
+        entity->unk_88 + (*(u16 *)((u8 *)actor + 0x92));
     part->flags |= 0x40;
 
     return;

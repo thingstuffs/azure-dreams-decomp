@@ -56,28 +56,28 @@ extern s32 picket_slot_f_item_result[];
  */
 s32 clear_actor_action_markers(void *origin, void *actor)
 {
-    u8 *origin_bytes = (u8 *)origin;
-    u8 *actor_bytes = (u8 *)actor;
+    OriginBytesFieldView_80E91000 *origin_bytes = (OriginBytesFieldView_80E91000 *)origin;
+    ActorBytesFieldView_80E91000 *actor_bytes = (ActorBytesFieldView_80E91000 *)actor;
     s32 direction_offset;
     s16 ground_index;
     ActorRecord *target;
     s32 item_offset;
-    u8 *inventory_base;
+    InventoryBaseFieldView_80E91000 *inventory_base;
     u8 *item_slot;
 
-    direction_offset = (((ActorBytesFieldView_80E91000 *)actor_bytes)->field_2A.u16 >> 8) & 0xE;
+    direction_offset = (actor_bytes->field_2A.u16 >> 8) & 0xE;
     ground_index = find_floor_item_at_world_position(
-        (s16)(((OriginBytesFieldView_80E91000 *)origin_bytes)->field_24 + *(u16 *)(((u8 *)dir_step_x) + direction_offset)),
-        (s16)(((OriginBytesFieldView_80E91000 *)origin_bytes)->field_25 + *(u16 *)(((u8 *)dir_step_y) + direction_offset)),
-        ((ActorBytesFieldView_80E91000 *)actor_bytes)->field_88);
+        (s16)(origin_bytes->field_24 + *(u16 *)(((u8 *)dir_step_x) + direction_offset)),
+        (s16)(origin_bytes->field_25 + *(u16 *)(((u8 *)dir_step_y) + direction_offset)),
+        actor_bytes->field_88);
     if (ground_index >= 0) {
         picket_slot_f_item_result[0] = ((s32 *)dungeon_ground_items)[ground_index];
         ((s32 *)dungeon_ground_items)[ground_index] = 0;
         return (s32)picket_slot_f_item_result;
     }
 
-    target = probe_directional_neighbor(actor, ((OriginBytesFieldView_80E91000 *)origin_bytes)->field_24, ((OriginBytesFieldView_80E91000 *)origin_bytes)->field_25,
-                           ((ActorBytesFieldView_80E91000 *)actor_bytes)->field_2A.s16);
+    target = probe_directional_neighbor(actor, origin_bytes->field_24, origin_bytes->field_25,
+                           actor_bytes->field_2A.s16);
     if (target != 0) {
         if (target == (void *)dungeon_actor_ring_anchor[0]) {
             if (is_linked_entity_flagged_80000(target, target) != 0) {
@@ -103,12 +103,12 @@ scan_loop:
                 }
                 item_offset =
                     (s32)((((generate_random_value() & 0xFFFF) % occupied_count) << 16) >> 14);
-                inventory_base = (u8 *)(item_offset + 0x80010000);
-                item_slot = (u8 *)(u32)((InventoryBaseFieldView_80E91000 *)inventory_base)->field_249;
+                inventory_base = (InventoryBaseFieldView_80E91000 *)(item_offset + 0x80010000);
+                item_slot = (u8 *)(u32)inventory_base->field_249;
                 if (item_slot == 0 || (u32)item_slot == 0x13) {
                     return 0;
                 }
-                if (((InventoryBaseFieldView_80E91000 *)inventory_base)->field_24B & 0x20) {
+                if (inventory_base->field_24B & 0x20) {
                     return 0;
                 }
                 {
@@ -123,10 +123,10 @@ scan_loop:
                 }
             }
         }
-        if (((TargetFieldView_80E91000 *)target)->field_48.u8_at_1.value == 0) {
+        if (target->unk_49 == 0) {
             return 0;
         }
-        if (((TargetFieldView_80E91000 *)target)->field_48.u8_at_3.value & 0x20) {
+        if (target->unk_4B & 0x20) {
             return 0;
         }
         {

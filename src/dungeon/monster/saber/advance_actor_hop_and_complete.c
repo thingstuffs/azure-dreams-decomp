@@ -67,13 +67,13 @@ void advance_actor_hop_and_complete(ActorRecord *action, ObjectPosition *motion,
             0);
         action->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        ((S_8014EBAC_0 *)action)->unk_9E.s = 5;
-        ((S_8014EBAC_0 *)action)->unk_A4 = 0;
+        action->unk_9E.s = 5;
+        action->unk_A4 = 0;
         action->action_phase.u++;
 
     case 1:
-        hop_ticks = ((S_8014EBAC_0 *)action)->unk_9E.s;
-        ((S_8014EBAC_0 *)action)->unk_90 -= ((S_8014EBAC_0 *)action)->unk_A4;
+        hop_ticks = action->unk_9E.s;
+        action->unk_90.value -= action->unk_A4;
         if (hop_ticks != 0) {
             target_x = sprite->tile_x;
             pos_x = motion->x.w.i;
@@ -86,21 +86,21 @@ void advance_actor_hop_and_complete(ActorRecord *action, ObjectPosition *motion,
             pos_y -= 0x20;
             motion->velocity_y =
                 (((sprite->tile_y << 6) - pos_y) << 16) /
-                ((S_8014EBAC_0 *)action)->unk_9E.s;
+                action->unk_9E.s;
 
-            ((S_8014EBAC_0 *)action)->unk_A4 =
-                (-rsin(((S_8014EBAC_0 *)action)->unk_9E.s * 0x199)) << 10;
+            action->unk_A4 =
+                (-rsin(action->unk_9E.s * 0x199)) << 10;
         }
 
-        height = ((S_8014EBAC_0 *)action)->unk_90;
-        hop_offset = ((S_8014EBAC_0 *)action)->unk_A4;
-        next_hop_ticks = ((S_8014EBAC_0 *)action)->unk_9E.u;
+        height = action->unk_90.value;
+        hop_offset = action->unk_A4;
+        next_hop_ticks = action->unk_9E.u;
         height += hop_offset;
         next_hop_ticks -= 1;
-        ((S_8014EBAC_0 *)action)->unk_9E.u = next_hop_ticks;
-        ((S_8014EBAC_0 *)action)->unk_90 = height;
+        action->unk_9E.u = next_hop_ticks;
+        action->unk_90.value = height;
         if ((next_hop_ticks << 16) < 0) {
-            ((S_8014EBAC_0 *)action)->unk_90 = 0;
+            action->unk_90.value = 0;
             action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
             action->action_phase.u++;
@@ -135,8 +135,8 @@ void advance_actor_hop_and_complete(ActorRecord *action, ObjectPosition *motion,
         break;
     }
 
-    action_ticks = ((S_8014EBAC_0 *)action)->unk_96 - 1;
-    ((S_8014EBAC_0 *)action)->unk_96 = action_ticks;
+    action_ticks = action->action_timer.u - 1;
+    action->action_timer.u = action_ticks;
     if ((action_ticks << 16) > 0) {
         return;
     }
@@ -170,7 +170,7 @@ void advance_actor_hop_and_complete(ActorRecord *action, ObjectPosition *motion,
     }
 
     if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-        ((S_8014EBAC_0 *)action)->unk_8C = &D_8014D728;
+        action->unk_8C.address = &D_8014D728;
         on_actor_status_updated(actor);
     }
 }

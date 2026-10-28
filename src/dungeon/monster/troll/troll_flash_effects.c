@@ -176,12 +176,12 @@ void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *
     void *init_effect;
     void *init_data;
     ObjectPosition *coords;
-    u8 *effect_state;
+    T_8017121C_S_8017121C_0 *effect_state;
     T_8017121C_S_8017121C_6 *source;
     SpriteFrameState *part;
     T_8017121C_S_8017121C_9 *target_coords;
     s16 *direction_table;
-    void *tracked_target;
+    T_8017121C_S_8017121C_8_pre *tracked_target;
     s32 delta_x;
     s32 delta_z;
     s32 fallback_x;
@@ -211,9 +211,9 @@ void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *
 
     init_effect = effect;
     init_data = ((u8 *)update_rotating_actor_aura);
-    effect_state = (u8 *)effect + 0x20;
-    ((T_8017121C_S_8017121C_0 *)effect_state)->unk_18 = 2;
-    ((T_8017121C_S_8017121C_0 *)effect_state)->unk_1A = 2;
+    effect_state = (T_8017121C_S_8017121C_0 *)((u8 *)effect + 0x20);
+    effect_state->unk_18 = 2;
+    effect_state->unk_1A = 2;
     effect->update_callback = update_stepped_rgb_flash;
     register_node(init_effect, init_data);
 
@@ -242,24 +242,24 @@ void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *
     part->color.c.b = 0xA0;
     part->color.c.g = 0xA0;
     part->color.c.r = 0xA0;
-    ((T_8017121C_S_8017121C_0 *)effect_state)->unk_00 = 0xA0;
-    ((T_8017121C_S_8017121C_0 *)effect_state)->unk_01 = part->color.c.g;
+    effect_state->unk_00 = 0xA0;
+    effect_state->unk_01 = part->color.c.g;
 
-    ((T_8017121C_S_8017121C_0 *)effect_state)->unk_02 = part->color.c.b;
+    effect_state->unk_02 = part->color.c.b;
 
     if (target->target == NULL) {
-        ((T_8017121C_S_8017121C_0 *)effect_state)->unk_60 = 0;
-        ((T_8017121C_S_8017121C_0 *)effect_state)->unk_5C = 0;
-        ((T_8017121C_S_8017121C_0 *)effect_state)->unk_58 = 0;
+        effect_state->unk_60 = 0;
+        effect_state->unk_5C = 0;
+        effect_state->unk_58 = 0;
         grid_axis = ((u8)target->unk_73);
     } else {
         target_flags = ((u32)target->flags14);
         untracked_mask = 0x04000000;
         if ((target_flags & untracked_mask) == 0) {
             direction_table = ((s16 *)D_80175EBC);
-            ((T_8017121C_S_8017121C_0 *)effect_state)->unk_60 = 0;
-            ((T_8017121C_S_8017121C_0 *)effect_state)->unk_5C = 0;
-            ((T_8017121C_S_8017121C_0 *)effect_state)->unk_58 = 0;
+            effect_state->unk_60 = 0;
+            effect_state->unk_5C = 0;
+            effect_state->unk_58 = 0;
 
             grid_axis = ((u16)target->facing);
             tracked_target = target->target;
@@ -268,13 +268,13 @@ void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *
             grid_axis &= 0x1C;
             grid_axis += (u32)direction_table;
             x_entry = (s16 *)grid_axis;
-            target_coords = ((T_8017121C_S_8017121C_8_pre *)tracked_target)[-1].unk_00;
+            target_coords = tracked_target[-1].unk_00;
             x_offset = *x_entry;
             target_x = target_coords->unk_02;
             x_offset <<= 4;
             delta_x = target_x - effect_x;
             delta_x -= x_offset;
-            ((T_8017121C_S_8017121C_0 *)effect_state)->unk_5A = delta_x / 2;
+            effect_state->unk_5A = delta_x / 2;
 
             y_table_addr = ((u16)target->facing);
             centered_coord = target_coords->unk_06;
@@ -288,19 +288,19 @@ void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *
             centered_coord -= y_offset;
             centered_coord += (u32)centered_coord >> 31;
             centered_coord >>= 1;
-            ((T_8017121C_S_8017121C_0 *)effect_state)->unk_5E = centered_coord;
+            effect_state->unk_5E = centered_coord;
 
             effect_z = coords->z.w.i;
             z_delta = target_coords->unk_0A - effect_z;
             delta_z = z_delta;
             delta_z -= entity_height_offsets[((T_8017121C_S_8017121C_10 *)(target->target))->unk_13] >> 1;
-            ((T_8017121C_S_8017121C_0 *)effect_state)->unk_62 = delta_z / 2;
+            effect_state->unk_62 = delta_z / 2;
             return;
         }
 
-        ((T_8017121C_S_8017121C_0 *)effect_state)->unk_60 = 0;
-        ((T_8017121C_S_8017121C_0 *)effect_state)->unk_5C = 0;
-        ((T_8017121C_S_8017121C_0 *)effect_state)->unk_58 = 0;
+        effect_state->unk_60 = 0;
+        effect_state->unk_5C = 0;
+        effect_state->unk_58 = 0;
 
         grid_axis = ((u8)target->unk_73);
     }
@@ -322,13 +322,13 @@ void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *
     centered_coord -= 0x20;
 
     fallback_x = scaled_x - centered_coord;
-    ((T_8017121C_S_8017121C_0 *)effect_state)->unk_5A = fallback_x / 2;
+    effect_state->unk_5A = fallback_x / 2;
     centered_coord = coords->y.w.i;
     scaled_y = (grid_y << 16) >> 10;
-    ((T_8017121C_S_8017121C_0 *)effect_state)->unk_62 = 0;
+    effect_state->unk_62 = 0;
     centered_coord -= 0x20;
     fallback_y = scaled_y - centered_coord;
-    ((T_8017121C_S_8017121C_0 *)effect_state)->unk_5E = fallback_y / 2;
+    effect_state->unk_5E = fallback_y / 2;
 }
 
 /* MECHANISM: Raw u8 shift/sign-extension idioms reproduce the fallback branches without widening
@@ -339,10 +339,10 @@ void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *
 /* Create and position an effect using a linked object or stored tile coordinates. */
 void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *source_pos, SpriteFrameState *sprite_template, ActorRecord *actor) {
     ObjectNodeHeader *effect;
-    void *effect_state;
+    T_801714FC_S_801714FC_1 *effect_state;
     void *effect_data;
     void *template_data;
-    void *linked_pos;
+    T_801714FC_S_801714FC_4 *linked_pos;
     u16 pos_offset[4];
 
     if ((actor->target) == 0 &&actor->target_tile_x >= 0) {
@@ -352,11 +352,11 @@ void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *sour
     if (effect == 0) {
         return;
     }
-    effect_state = (u8 *)effect + 0x20;
-    ((T_801714FC_S_801714FC_1 *)effect_state)->unk_96 = 0xa;
-    ((T_801714FC_S_801714FC_1 *)effect_state)->unk_9E = 0xa;
+    effect_state = (T_801714FC_S_801714FC_1 *)((u8 *)effect + 0x20);
+    effect_state->unk_96 = 0xa;
+    effect_state->unk_9E = 0xa;
     effect->update_callback = (void *)&update_normalized_gray_fade;
-    ((T_801714FC_S_801714FC_1 *)effect_state)->unk_94 = ((u16)actor->facing);
+    effect_state->unk_94 = ((u16)actor->facing);
     effect_data = effect->sprite;
     template_data = sprite_template;
     {
@@ -384,11 +384,11 @@ void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *sour
     if ((actor->target) != 0 && (actor->flags14 & 0x04000000) == 0) {
         u8 *direction_offsets = (u8 *)((u8 *)D_80175EBC);
         linked_pos = ((T_801714FC_S_801714FC_8_pre *)(actor->target))[-1].unk_00;
-        ((T_801714FC_S_801714FC_3 *)effect_data)->unk_02 = ((T_801714FC_S_801714FC_4 *)linked_pos)->unk_02
+        ((T_801714FC_S_801714FC_3 *)effect_data)->unk_02 = linked_pos->unk_02
         - ((*(s16 *)((u8 *)direction_offsets + ((((u16)actor->facing) >> 7) & 0x1c))) * 0x10);
-        ((T_801714FC_S_801714FC_3 *)effect_data)->unk_06 = ((T_801714FC_S_801714FC_4 *)linked_pos)->unk_06
+        ((T_801714FC_S_801714FC_3 *)effect_data)->unk_06 = linked_pos->unk_06
         - ((*(s16 *)((u8 *)direction_offsets + (((((u16)actor->facing) >> 7) & 0x1c) + 2))) * 0x10);
-        ((T_801714FC_S_801714FC_3 *)effect_data)->unk_0A = ((T_801714FC_S_801714FC_4 *)linked_pos)->unk_0A
+        ((T_801714FC_S_801714FC_3 *)effect_data)->unk_0A = linked_pos->unk_0A
         - (entity_height_offsets[((T_801714FC_S_801714FC_8 *)(actor->target))->unk_13] >> 1);
         return;
     }
@@ -404,8 +404,8 @@ void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *sour
         ((T_801714FC_S_801714FC_3 *)effect_data)->unk_06 = (tile_y << 6) + 0x20;
         ((T_801714FC_S_801714FC_3 *)effect_data)->unk_0A = ((Rec_func_8017121C_arg1 *)source_pos)->unk_0A;
         {
-            void *source_data = ((T_801714FC_S_801714FC_6_pre *)source_object)[-1].unk_00;
-            if (resolve_record_orientation_or_fallback(((T_801714FC_S_801714FC_7 *)source_data)->unk_08, source_data, pos_offset, 0) != 0) {
+            T_801714FC_S_801714FC_7 *source_data = ((T_801714FC_S_801714FC_6_pre *)source_object)[-1].unk_00;
+            if (resolve_record_orientation_or_fallback(source_data->unk_08, source_data, pos_offset, 0) != 0) {
                 ((T_801714FC_S_801714FC_3 *)effect_data)->unk_0A = ((T_801714FC_S_801714FC_3 *)effect_data)->unk_0A + pos_offset[2];
                 return;
             }
@@ -578,7 +578,7 @@ void create_tracked_attachment_sprite(void *attachment, T_80171BEC_S_80171BEC_3 
     T_80171BEC_Offset3 offset;
     ObjectNodeHeader *object;
     SpriteFrameState *render;
-    void *owner;
+    T_80171BEC_S_80171BEC_5 *owner;
     ObjectPosition *position;
 
     object = allocate_list_node(0x212, &scene_object_list_anchor.next);
@@ -598,7 +598,7 @@ void create_tracked_attachment_sprite(void *attachment, T_80171BEC_S_80171BEC_3 
         position->z.v = base_position->unk_08;
 
         owner = ((T_80171BEC_S_80171BEC_4_pre *)attachment)[-1].unk_00;
-        if (resolve_record_orientation_or_fallback(((T_80171BEC_S_80171BEC_5 *)owner)->unk_08, owner, &offset, 0) != 0) {
+        if (resolve_record_orientation_or_fallback(owner->unk_08, owner, &offset, 0) != 0) {
             *(u16 *)&position->x.w.i += offset.x;
             *(u16 *)&position->y.w.i += offset.y;
             *(u16 *)&position->z.w.i += offset.z;
@@ -652,7 +652,7 @@ void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initi
     if (object != 0) {
         result = (ActorRecord *)((u8 *)object + 0x20);
         object->update_callback = D_801720B4;
-        *(s8 *)((u8 *)result + 0x13) = 0x16;
+        result->species = 0x16;
         register_node(object, project_sprite_chain);
 
         default_frames = troll_frame_set_1;

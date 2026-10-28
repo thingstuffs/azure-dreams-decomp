@@ -114,7 +114,7 @@ void update_actor_state_and_directional_effect(ActorRecord *controller, ObjectPo
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         select_sprite_entry(sprite, effect_table[direction & 7], 0);
         actor->flags1C &= ~ACTOR_ASLEEP;
-        ((S_80173564_0 *)controller)->unk_8C = nyuel_action_resume_address;
+        controller->unk_8C.address = nyuel_action_resume_address;
         break;
     default:
         return;

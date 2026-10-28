@@ -43,7 +43,7 @@ typedef struct S_80170A98_2 {
 /* Updates monster facing, runs actor callbacks, and applies motion and floor contact. */
 void update_monster_facing_and_contact(void *entity, S_80170A98_2 *motion, SpriteFrameState *monster)
 {
-    void *actor = entity;
+    S_80170A98_1 *actor = entity;
     s32 direction;
     s16 direction_copy;
     s16 old_direction;
@@ -92,14 +92,14 @@ void update_monster_facing_and_contact(void *entity, S_80170A98_2 *motion, Sprit
             monster->flags &= 0xFFFE;
         }
 
-        if (!(((S_80170A98_1 *)actor)->unk_1C & 0x20)) {
+        if (!(actor->unk_1C & 0x20)) {
             if (!(monster->flags & 0x40)) {
                 advance_sprite_animation_and_textures(monster);
             }
-            apply_monster_koyaw_data(((S_80170A98_1 *)actor)->unk_1C, (u8 *)monster + 0xC);
+            apply_monster_koyaw_data(actor->unk_1C, (u8 *)monster + 0xC);
         } else {
             monster->flags |= 0x7000;
-            apply_monster_koyaw_data(((S_80170A98_1 *)actor)->unk_1C, (u8 *)monster + 0xC);
+            apply_monster_koyaw_data(actor->unk_1C, (u8 *)monster + 0xC);
         }
     } else {
         if (monster_flags & 0x0800) {
@@ -116,7 +116,7 @@ void update_monster_facing_and_contact(void *entity, S_80170A98_2 *motion, Sprit
 
     nyuel_callbacks[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, monster, actor);
 
-    if (old_direction != ((S_80170A98_1 *)actor)->unk_6D) {
+    if (old_direction != actor->unk_6D) {
         try_move_actor_to_valid_position(entity, motion, monster, actor);
     }
 
@@ -135,39 +135,39 @@ void update_monster_facing_and_contact(void *entity, S_80170A98_2 *motion, Sprit
     if (!((*(u16 *)((u8 *)entity + 0x98)) & 4)) {
         floor_height = sample_terrain_surface_height(motion->unk_00.at02.v,
                               motion->unk_04.at02.v,
-                              (s16)(((S_80170A98_1 *)actor)->unk_88.u - 0x20));
+                              (s16)(actor->unk_88.u - 0x20));
         if (floor_height < 0x200) {
-            actor_height = ((S_80170A98_1 *)actor)->unk_88.s;
+            actor_height = actor->unk_88.s;
             if ((*(s16 *)((u8 *)entity + 0x92)) + actor_height < floor_height) {
                 (*(u16 *)((u8 *)entity + 0x98)) &= 0xF7FFFFFF;
             } else {
                 if (floor_height >= actor_height) {
                     (*(s32 *)((u8 *)entity + 0x90)) = 0;
                 } else {
-                    (*(s16 *)((u8 *)entity + 0x92)) = floor_height - ((S_80170A98_1 *)actor)->unk_88.u;
+                    (*(s16 *)((u8 *)entity + 0x92)) = floor_height - actor->unk_88.u;
                 }
 
                 motion->unk_14 = 0;
-                ((S_80170A98_1 *)actor)->unk_1C |= 0x08000000;
+                actor->unk_1C |= 0x08000000;
                 (*(u8 *)((u8 *)entity + 0x9D)) = 0;
             }
-            if (((S_80170A98_1 *)actor)->unk_1C & 0x40000000) {
-                ((S_80170A98_1 *)actor)->unk_1C &= 0xBFFFFFFF;
+            if (actor->unk_1C & 0x40000000) {
+                actor->unk_1C &= 0xBFFFFFFF;
                 floor_height = sample_terrain_surface_height((monster->tile_x << 6) | 0x20,
                                       (monster->tile_y << 6) | 0x20,
-                                      (s16)(((S_80170A98_1 *)actor)->unk_88.u - 0x20));
-                (*(s16 *)((u8 *)entity + 0x92)) += ((S_80170A98_1 *)actor)->unk_88.u - floor_height;
-                ((S_80170A98_1 *)actor)->unk_88.u = floor_height;
+                                      (s16)(actor->unk_88.u - 0x20));
+                (*(s16 *)((u8 *)entity + 0x92)) += actor->unk_88.u - floor_height;
+                actor->unk_88.u = floor_height;
             }
         } else {
-            ((S_80170A98_1 *)actor)->unk_1C &= 0xF7FFFFFF;
+            actor->unk_1C &= 0xF7FFFFFF;
         }
     } else {
-        ((S_80170A98_1 *)actor)->unk_1C &= 0xF7FFFFFF;
+        actor->unk_1C &= 0xF7FFFFFF;
     }
 
     motion->unk_0A =
-        ((S_80170A98_1 *)actor)->unk_88.u + (*(u16 *)((u8 *)entity + 0x92));
+        actor->unk_88.u + (*(u16 *)((u8 *)entity + 0x92));
     monster->flags |= 0x40;
 
 }

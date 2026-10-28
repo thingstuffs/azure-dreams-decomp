@@ -91,16 +91,16 @@ void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *con
     u16 *direction_aux_ptr;
 
     if (g_dungeon_status.flags & 0x1000) {
-        ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xEU;
+        actor->action_id.u = 0xEU;
         func_801716CC(actor, context, sprite, status);
         return;
     }
     if (status->mp_value.parts.whole == 0) {
         advance_actor_pending_action(actor, context, sprite, status);
-        if (((S_801711A4_2 *)sprite)->unk_2C == &kraken_frame_set_2) {
+        if (sprite->frameTable == &kraken_frame_set_2) {
             return;
         }
-        (*(void **)((u8 *)sprite + 0x2C)) = &kraken_frame_set_6;
+        sprite->frameTable = &kraken_frame_set_6;
         select_sprite_entry(sprite, *(((u8 *)&kraken_frame_set_6) + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + status->facing + 0x100)
             >> 9) & 7)), 0);
         return;
@@ -108,15 +108,15 @@ void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *con
     if (status->flags1C & ACTOR_ASLEEP) {
         {
             void *action_actor = actor;
-            if (((S_801711A4_2 *)sprite)->unk_2C == &kraken_frame_set_2) {
+            if (sprite->frameTable == &kraken_frame_set_2) {
                 {
-                    void *reset_actor = actor;
+                    S_801711A4_3 *reset_actor = (S_801711A4_3 *)actor;
                     ActorRecord *reset_status = status;
                     s32 clear_mask = (s32)0xFFFB0000;
                     s32 flags;
-                    ((S_801711A4_3 *)reset_actor)->unk_9A = 0xDU;
-                    ((S_801711A4_3 *)reset_actor)->unk_9B = 1;
-                    ((S_801711A4_3 *)reset_actor)->unk_8C = 0;
+                    reset_actor->unk_9A = 0xDU;
+                    reset_actor->unk_9B = 1;
+                    reset_actor->unk_8C = 0;
                     flags = reset_status->flags1C;
                     clear_mask |= 0xFFFF;
                     flags &= clear_mask;
@@ -134,19 +134,19 @@ void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *con
             begin_pushed_actor_move(actor, context, sprite, status);
             return;
         }
-        if (((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 != 0xE) {
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xEU;
+        if (actor->action_id.u != 0xE) {
+            actor->action_id.u = 0xEU;
         }
-        if (((S_801711A4_2 *)sprite)->unk_2C != &kraken_frame_set_1) {
-            (*(void **)((u8 *)sprite + 0x2C)) = &kraken_frame_set_1;
+        if (sprite->frameTable != &kraken_frame_set_1) {
+            sprite->frameTable = &kraken_frame_set_1;
             select_sprite_entry(sprite, *(((u8 *)&kraken_frame_set_1) + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + status->facing + 0x100)
                 >> 9) & 7)), 0);
-            ((S_801711A4_2 *)sprite)->unk_05 = 1;
+            sprite->frame_ticks = 1;
             ((Rec_func_800A9E70_arg0 *)actor)->unk_AE = 0;
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_A8 = 0;
+            actor->unk_A8.s = 0;
         }
         status->flags1C = (s32) (status->flags1C | 0x40000);
-        ((Rec_func_800A9E70_arg0 *)actor)->unk_98 = (u16) (((Rec_func_800A9E70_arg0 *)actor)->unk_98 & 0xFFF7);
+        actor->action_state_flags = (u16) (actor->action_state_flags & 0xFFF7);
         if (status->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, context, sprite, kraken_frame_set) != 0) {
                 return;
@@ -154,7 +154,7 @@ void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *con
         }
         if (status->flags1C & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(actor, context, sprite, status);
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_A8 = 0;
+            actor->unk_A8.s = 0;
             func_80173D10(actor, context, sprite, status);
             return;
         }
@@ -162,8 +162,8 @@ void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *con
             process_selected_actor_record(actor, context, sprite, status);
         }
     }
-    room_id = find_active_rect_containing_point(((S_801711A4_2 *)sprite)->unk_24.at00.v, ((S_801711A4_2 *)sprite)->unk_24.at01.v);
-    ((S_801711A4_2 *)sprite)->unk_26 = room_id;
+    room_id = find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
+    sprite->room_index = room_id;
     if (status->pending_turn_updates > 0) {
         if (status->flags1C & ACTOR_PARALYZED) {
             update_actor_status_and_mp(status);
@@ -195,7 +195,7 @@ void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *con
                 case 5:
                 case 6:
                 case 7:
-                    angle = get_rounded_facing_and_rounding_flag(((S_801711A4_2 *)sprite)->unk_24.at00.v, ((S_801711A4_2 *)sprite)->unk_24.at01.v,
+                    angle = get_rounded_facing_and_rounding_flag(sprite->tile_x, sprite->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
                     active_actor = primary_actor_record;
                     status->facing = angle;
@@ -236,12 +236,12 @@ void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *con
     if (status_flags & 0x430) {
         return;
     }
-    if ((test_neighbor_position_relation(((S_801711A4_2 *)sprite)->unk_24.at00.v, ((S_801711A4_2 *)sprite)->unk_24.at01.v,
+    if ((test_neighbor_position_relation(sprite->tile_x, sprite->tile_y,
         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 0x10) == 0) {
         return;
     }
     direction_aux_ptr = &direction_aux;
-    angle = get_rounded_facing_and_rounding_flag(((S_801711A4_2 *)sprite)->unk_24.at00.v, ((S_801711A4_2 *)sprite)->unk_24.at01.v,
+    angle = get_rounded_facing_and_rounding_flag(sprite->tile_x, sprite->tile_y,
         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, direction_aux_ptr);
     status->facing = angle;
     return;

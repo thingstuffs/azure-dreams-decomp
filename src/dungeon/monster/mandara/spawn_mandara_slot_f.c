@@ -68,7 +68,7 @@ void *create_actor_with_parts_and_flags(s32 spawn_flags, s16 pos_x, s16 pos_y, s
     u8 *entry;
     s16 saved_part_value;
     ObjectPosition *pin_part_a;
-    void *pin_actor;
+    S_80FB7000_4 *pin_actor;
 
     work = 0;
     object_type = 0x112;
@@ -123,10 +123,10 @@ void *create_actor_with_parts_and_flags(s32 spawn_flags, s16 pos_x, s16 pos_y, s
 
         entry_index = 0;
         actor_value = part_b->clut;
-        ((S_80FB7000_4 *)pin_actor)->unk_9A = 0xFF;
-        ((S_80FB7000_4 *)pin_actor)->unk_9C = -1;
-        ((S_80FB7000_4 *)pin_actor)->unk_8C = D_8016AF6C;
-        ((S_80FB7000_4 *)pin_actor)->unk_AE = actor_value;
+        pin_actor->unk_9A = 0xFF;
+        pin_actor->unk_9C = -1;
+        pin_actor->unk_8C = D_8016AF6C;
+        pin_actor->unk_AE = actor_value;
 
         entry = *(u8 * *)&part_b->source;
         while (1) {

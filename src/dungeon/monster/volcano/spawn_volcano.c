@@ -23,7 +23,7 @@ void *spawn_variant_monster_slot_c(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 
     void *part_a;
     s16 saved_spawn_flags;
     SpriteFrameState *part_b;
-    void *actor;
+    S_80158854_4 *actor;
 
     work = 0;
     saved_tile_x = tile_x;
@@ -41,7 +41,7 @@ void *spawn_variant_monster_slot_c(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 
         part_b = obj->sprite;
         part_b->tile_x = saved_tile_x;
         part_b->tile_y = saved_tile_y;
-        actor = work;
+        actor = (S_80158854_4 *)work;
         kind = spawn_flags & 3;
 
         if (kind == 1) {
@@ -69,7 +69,7 @@ void *spawn_variant_monster_slot_c(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 
                         }
                     }
                     ;
-                    ((S_80158854_4 *)actor)->unk_8C = func_80158E5C;
+                    actor->unk_8C = func_80158E5C;
                 part_b->frameTable = volcano_slot_c_frame_set;
                 } else {
                     work->unk_8C.run = func_80158E5C;
@@ -79,8 +79,8 @@ void *spawn_variant_monster_slot_c(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 
         }
         obj->update_callback = func_80158A58;
         initialize_actor_sprite_and_animation(obj, part_a, part_b, (s16)saved_spawn_flags);
-        ((S_80158854_4 *)actor)->unk_9A = 0xFF;
-        ((S_80158854_4 *)actor)->unk_9C = -1;
+        actor->unk_9A = 0xFF;
+        actor->unk_9C = -1;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

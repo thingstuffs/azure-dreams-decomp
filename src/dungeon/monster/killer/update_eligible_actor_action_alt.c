@@ -20,32 +20,32 @@ void update_eligible_actor_action_alt(ActorRecord *action_state, ObjectPosition 
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)
         && (apply_camera_offset_and_select_target(((u8 *)actor - 0x20), context, 8, 0x300), ((try_claim_dungeon_action_slot(actor) << 0x10) == 0))) {
         ((Rec_func_800A9E70_arg0 *)action_state)->unk_8C = 0;
-        ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_s8 = 0;
-        if (((Rec_func_800A9E70_arg0 *)action_state)->unk_98 & 0x8000) {
-            ((Rec_func_800A9E70_arg0 *)action_state)->unk_9A.as_s8 = 0x17;
-            if (((EntityRec *)actor)->flags1C & ACTOR_ANGRY) {
-                ((Rec_func_800A9E70_arg0 *)action_state)->unk_98 =
-                    (u16) (((Rec_func_800A9E70_arg0 *)action_state)->unk_98 | 0x4000);
+        action_state->action_phase.s = 0;
+        if (action_state->action_state_flags & 0x8000) {
+            action_state->action_id.s = 0x17;
+            if (actor->flags1C & ACTOR_ANGRY) {
+                action_state->action_state_flags =
+                    (u16) (action_state->action_state_flags | 0x4000);
             } else {
-                ((Rec_func_800A9E70_arg0 *)action_state)->unk_98 =
-                    (u16) (((Rec_func_800A9E70_arg0 *)action_state)->unk_98 & 0xBFFF);
+                action_state->action_state_flags =
+                    (u16) (action_state->action_state_flags & 0xBFFF);
             }
-            ((Rec_func_800A9E70_arg0 *)action_state)->unk_AC = (u8) (*(u8 *)((u8 *)&((EntityRec *)actor)->x + 3));
+            action_state->unk_AC.byte = (u8) (*(u8 *)((u8 *)&((EntityRec *)actor)->x + 3));
             (*(u8 *)((u8 *)&((EntityRec *)actor)->x + 3)) = 0xFFU;
-            ((EntityRec *)actor)->unk_84 = 0x7E;
-            ((EntityRec *)actor)->unk_85 = 8;
+            actor->unk_84 = 0x7E;
+            actor->unk_85 = 8;
         } else {
-            ((Rec_func_800A9E70_arg0 *)action_state)->unk_9A.as_s8 = 0x11;
-            ((EntityRec *)actor)->unk_84 = 0x7C;
-            ((EntityRec *)actor)->unk_85 = 8;
+            action_state->action_id.s = 0x11;
+            actor->unk_84 = 0x7C;
+            actor->unk_85 = 8;
         }
         (sprite->frameTable) = killer_direction_frames;
-        select_sprite_entry(sprite, killer_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+        select_sprite_entry(sprite, killer_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
-        prepare_directional_attack(actor, sprite, ((EntityRec *)actor)->facing, 1, 0);
-        if (!(((Rec_func_800A9E70_arg0 *)action_state)->unk_98 & 0x8000)) {
-            ((EntityRec *)actor)->flags1C = (s32) (((EntityRec *)actor)->flags1C & 0xFEFFFFFF);
+        prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
+        if (!(action_state->action_state_flags & 0x8000)) {
+            actor->flags1C = (s32) (actor->flags1C & 0xFEFFFFFF);
         }
     }
 }

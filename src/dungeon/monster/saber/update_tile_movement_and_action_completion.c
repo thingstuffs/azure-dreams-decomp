@@ -65,41 +65,41 @@ void update_tile_movement_and_action_completion(ActorRecord *action, ObjectPosit
             0);
         action->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        ((S_8016CBAC_0 *)action)->unk_9E.s = 5;
-        ((S_8016CBAC_0 *)action)->unk_A4 = 0;
+        action->unk_9E.s = 5;
+        action->unk_A4 = 0;
         action->action_phase.u++;
                         /* fall through */
 
     case 1:
-        move_ticks = ((S_8016CBAC_0 *)action)->unk_9E.s;
-        ((S_8016CBAC_0 *)action)->unk_90 -= ((S_8016CBAC_0 *)action)->unk_A4;
+        move_ticks = action->unk_9E.s;
+        action->unk_90.value -= action->unk_A4;
         if (move_ticks != 0) {
             target_x = sprite->tile_x;
-            pos_x = ((EntityRec *)motion)->x.w.i;
+            pos_x = motion->x.w.i;
             target_x <<= 6;
             pos_x -= 0x20;
 
-            ((EntityRec *)motion)->unk_0C = ((target_x - pos_x) << 16) / move_ticks;
+            motion->velocity_x = ((target_x - pos_x) << 16) / move_ticks;
 
-            pos_y = ((EntityRec *)motion)->y.w.i;
+            pos_y = motion->y.w.i;
             pos_y -= 0x20;
-            ((EntityRec *)motion)->unk_10 =
+            motion->velocity_y =
                 (((sprite->tile_y << 6) - pos_y) << 16) /
-                ((S_8016CBAC_0 *)action)->unk_9E.s;
+                action->unk_9E.s;
 
-            ((S_8016CBAC_0 *)action)->unk_A4 =
-                (-rsin(((S_8016CBAC_0 *)action)->unk_9E.s * 0x199)) << 10;
+            action->unk_A4 =
+                (-rsin(action->unk_9E.s * 0x199)) << 10;
         }
 
-        height_offset = ((S_8016CBAC_0 *)action)->unk_90;
-        height_step = ((S_8016CBAC_0 *)action)->unk_A4;
-        next_tick = ((S_8016CBAC_0 *)action)->unk_9E.u;
+        height_offset = action->unk_90.value;
+        height_step = action->unk_A4;
+        next_tick = action->unk_9E.u;
         height_offset += height_step;
         next_tick -= 1;
-        ((S_8016CBAC_0 *)action)->unk_9E.u = next_tick;
-        ((S_8016CBAC_0 *)action)->unk_90 = height_offset;
+        action->unk_9E.u = next_tick;
+        action->unk_90.value = height_offset;
         if ((next_tick << 16) < 0) {
-            ((S_8016CBAC_0 *)action)->unk_90 = 0;
+            action->unk_90.value = 0;
             action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
             action->action_phase.u++;
@@ -109,9 +109,9 @@ void update_tile_movement_and_action_completion(ActorRecord *action, ObjectPosit
     case 2:
         if (actor->flags1C & ACTOR_GROUNDED) {
             action->action_state_flags &= 0xFFF7;
-            ((EntityRec *)motion)->flags14 = 0;
-            ((EntityRec *)motion)->unk_10 = 0;
-            ((EntityRec *)motion)->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
             sprite->frameTable = D_8016EE14;
             select_sprite_entry(
@@ -137,15 +137,15 @@ void update_tile_movement_and_action_completion(ActorRecord *action, ObjectPosit
     }
 
 decrement_timer:
-    action_ticks = ((S_8016CBAC_0 *)action)->unk_96 - 1;
-    ((S_8016CBAC_0 *)action)->unk_96 = action_ticks;
+    action_ticks = action->action_timer.u - 1;
+    action->action_timer.u = action_ticks;
     if ((action_ticks << 16) > 0) {
         return;
     }
 
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->velocity_z = 0;
+    motion->velocity_y = 0;
+    motion->velocity_x = 0;
     set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
     spend_actor_mp(actor, 4);
     advance_status_timers(actor);
@@ -172,7 +172,7 @@ decrement_timer:
     }
 
     if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-        ((S_8016CBAC_0 *)action)->unk_8C = &D_8016B728;
+        action->unk_8C.address = &D_8016B728;
         on_actor_status_updated(actor);
     }
 }

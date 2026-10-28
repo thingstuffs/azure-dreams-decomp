@@ -72,7 +72,7 @@ extern void create_actor_linked_effect(void *);
 /* Advances an actor's item action through source selection, animation, and cleanup. */
 void update_actor_item_use_animation(void *action, void *item, SpriteFrameState *sprite, void *actor)
 {
-    void *act = actor;
+    S_801728E4_1 *act = actor;
     u8 state;
     s32 use_global_source;
     u16 action_flags;
@@ -87,8 +87,8 @@ void update_actor_item_use_animation(void *action, void *item, SpriteFrameState 
             void *source_entity;
 
             item = 0;
-            if (((S_801728E4_1 *)act)->unk_1C & ACTOR_PLAYER_SIDE) {
-                switch (((S_801728E4_1 *)act)->unk_46 & 0x3FFF) {
+            if (act->unk_1C & ACTOR_PLAYER_SIDE) {
+                switch (act->unk_46 & 0x3FFF) {
                 case 7:
                     use_global_source = 1;
                     /* fallthrough */
@@ -111,7 +111,7 @@ void update_actor_item_use_animation(void *action, void *item, SpriteFrameState 
                     break;
                 }
             } else {
-                item_kind = ((S_801728E4_1 *)act)->unk_46 & 0x3FFF;
+                item_kind = act->unk_46 & 0x3FFF;
                 switch (item_kind) {
                 case 3:
                     item = (u8 *)act + 0xE;
@@ -137,26 +137,26 @@ void update_actor_item_use_animation(void *action, void *item, SpriteFrameState 
                 global_source_test = use_global_source;
                 if (global_source_test) {
                     source_entity = primary_actor_record;
-                    ((S_801728E4_1 *)act)->unk_60 = source_entity;
+                    act->unk_60 = source_entity;
                     source_sprite = *(u8 * *)&((ObjectNodeHeader *)((u8 *)source_entity - 0x20))->sprite;
-                    ((S_801728E4_1 *)act)->unk_72.s = ((S_801728E4_3 *)source_sprite)->unk_24;
-                    ((S_801728E4_1 *)act)->unk_73.s = ((S_801728E4_3 *)source_sprite)->unk_25;
+                    act->unk_72.s = ((S_801728E4_3 *)source_sprite)->unk_24;
+                    act->unk_73.s = ((S_801728E4_3 *)source_sprite)->unk_25;
                 } else if (item_action_definitions[(*(u8 *)&((EntityRec *)item)->x)].kind == 2) {
-                    source_entity = ((S_801728E4_1 *)act)->unk_60;
+                    source_entity = act->unk_60;
                     if (source_entity != 0) {
                         source_sprite = *(u8 * *)&((ObjectNodeHeader *)((u8 *)source_entity - 0x20))->sprite;
-                        ((S_801728E4_1 *)act)->unk_72.s = ((S_801728E4_3 *)source_sprite)->unk_24;
-                        ((S_801728E4_1 *)act)->unk_73.s = ((S_801728E4_3 *)source_sprite)->unk_25;
+                        act->unk_72.s = ((S_801728E4_3 *)source_sprite)->unk_24;
+                        act->unk_73.s = ((S_801728E4_3 *)source_sprite)->unk_25;
                     }
                 } else {
-                    ((S_801728E4_1 *)act)->unk_60 =
+                    act->unk_60 =
                         scan_actor_along_heading(act,
                                       sprite->tile_x,
                                       sprite->tile_y,
-                                      ((S_801728E4_1 *)act)->unk_2A,
+                                      act->unk_2A,
                                       0x10);
-                    ((S_801728E4_1 *)act)->unk_72.u = abs(((S_801728E4_1 *)act)->unk_72.u);
-                    ((S_801728E4_1 *)act)->unk_73.u = abs(((S_801728E4_1 *)act)->unk_73.u);
+                    act->unk_72.u = abs(act->unk_72.u);
+                    act->unk_73.u = abs(act->unk_73.u);
                 }
             }
         }
@@ -182,7 +182,7 @@ void update_actor_item_use_animation(void *action, void *item, SpriteFrameState 
         }
         (sprite->frameTable) = D_80176648;
         select_sprite_entry(sprite,
-            *(u8 *)((uptr)(((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7) +
+            *(u8 *)((uptr)(((g_game_work.view.camera_rotation.parts.viewAngle + act->unk_2A + 0x100) >> 9) & 7) +
                     (uptr)D_80176648),
             0);
         ((S_801728E4_0 *)action)->unk_9B++;
@@ -203,7 +203,7 @@ void update_actor_item_use_animation(void *action, void *item, SpriteFrameState 
 
         (sprite->frameTable) = manoeva_frame_set_2;
         select_sprite_entry(sprite,
-            *(u8 *)((uptr)(((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7) +
+            *(u8 *)((uptr)(((g_game_work.view.camera_rotation.parts.viewAngle + act->unk_2A + 0x100) >> 9) & 7) +
                     (uptr)manoeva_frame_set_2),
             0);
         ((S_801728E4_0 *)action)->unk_9B++;
@@ -213,7 +213,7 @@ void update_actor_item_use_animation(void *action, void *item, SpriteFrameState 
         if (sprite->flags & 0xE000) {
             (sprite->frameTable) = manoeva_frame_set_1;
             select_sprite_entry(sprite,
-                manoeva_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7],
+                manoeva_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + act->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
         ((EntityRec *)item)->flags14 = 0;
@@ -227,10 +227,10 @@ void update_actor_item_use_animation(void *action, void *item, SpriteFrameState 
         ((S_801728E4_5 *)source_sprite)->unk_0A--;
         ((S_801728E4_0 *)action)->unk_8C = manoeva_action_resume_address;
         advance_status_timers(act);
-        ((S_801728E4_1 *)act)->unk_73.s = 0;
-        ((S_801728E4_1 *)act)->unk_72.s = 0;
-        ((S_801728E4_1 *)act)->unk_6D--;
-        ((S_801728E4_1 *)act)->unk_46 &= 0x7FFF;
+        act->unk_73.s = 0;
+        act->unk_72.s = 0;
+        act->unk_6D--;
+        act->unk_46 &= 0x7FFF;
         play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         return;
     default:

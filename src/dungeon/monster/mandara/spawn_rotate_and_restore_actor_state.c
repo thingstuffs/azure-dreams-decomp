@@ -136,11 +136,11 @@ void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *mo
     Position2 center;
     s32 state;
     u8 *spawned_object;
-    u8 *rotating_object;
+    S_80174668_7 *rotating_object;
     ObjectPosition *particle_pos;
     ObjectNodeHeader *effect_alloc;
     u8 *direction_table;
-    u8 *effect_data;
+    S_80174668_6 *effect_data;
     SpriteFrameState *tile;
     void *context;
     void *previous_context;
@@ -182,8 +182,8 @@ void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *mo
         play_sound_if_enabled(0x60A);
 
         tile = ((ObjectNodeHeader *)((u8 *)((S_80174668_2 *)actor)->unk_60.u - 0x20))->sprite;
-        ((S_80174668_2 *)actor)->unk_72.s = ((S_80174668_4 *)tile)->unk_24;
-        ((S_80174668_2 *)actor)->unk_73.s = ((S_80174668_4 *)tile)->unk_25;
+        ((S_80174668_2 *)actor)->unk_72.s = tile->tile_x;
+        ((S_80174668_2 *)actor)->unk_73.s = tile->tile_y;
         center.x = spawn.x + (spawn.dx >> 1);
         center.y = spawn.y + (spawn.dy >> 1);
         draw_transformed_sprite_with_clip_rect(effect, &spawn, &center, 1, 0);
@@ -194,9 +194,9 @@ void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *mo
         }
         register_node(effect_alloc, draw_layered_wavy_object_strips);
         effect_alloc->update_callback = advance_actor_replacement_sequence;
-        effect_data = ((u8 *)effect_alloc) + 0x20;
-        ((S_80174668_6 *)effect_data)->unk_A2 = (sprite->tile_x << 6) + 0x20;
-        ((S_80174668_6 *)effect_data)->unk_A4 = (sprite->tile_y << 6) + 0x20;
+        effect_data = (S_80174668_6 *)(((u8 *)effect_alloc) + 0x20);
+        effect_data->unk_A2 = (sprite->tile_x << 6) + 0x20;
+        effect_data->unk_A4 = (sprite->tile_y << 6) + 0x20;
         {
             register u32 color;
             s32 countdown;
@@ -204,9 +204,9 @@ void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *mo
             color = 0x00808080;
             motion_param = motion->unk_0A;
             countdown = 0x3C;
-            ((S_80174668_6 *)effect_data)->unk_AC = color;
-            ((S_80174668_6 *)effect_data)->unk_96 = countdown;
-            ((S_80174668_6 *)effect_data)->unk_A6 = motion_param;
+            effect_data->unk_AC = color;
+            effect_data->unk_96 = countdown;
+            effect_data->unk_A6 = motion_param;
             effect->unk_96.s = countdown;
             return;
         }
@@ -214,12 +214,12 @@ void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *mo
     case 1:
         rotating_object = ((S_80174668_2 *)actor)->unk_60.s;
         if ((rotating_object != 0) && (effect->unk_96.s < 0x34)) {
-            ((S_80174668_7 *)rotating_object)->unk_2A =
-                (((S_80174668_7 *)rotating_object)->unk_2A + 0x200) & 0x3FFF;
+            rotating_object->unk_2A =
+                (rotating_object->unk_2A + 0x200) & 0x3FFF;
             effect_alloc = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (effect_alloc != 0) {
                 register_node(effect_alloc, project_sprite_chain);
-                effect_data = ((u8 *)effect_alloc) + 0x20;
+                effect_data = (S_80174668_6 *)(((u8 *)effect_alloc) + 0x20);
                 tile = effect_alloc->sprite;
                 effect_alloc->update_callback = mandara_object_callback_2;
 
@@ -245,19 +245,19 @@ void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *mo
                 }
                 ((S_80174668_12 *)(*(u8 * *)&effect_alloc->position))->unk_0A = height;
 
-                ((S_80174668_4 *)tile)->unk_1E = 0xC04;
-                ((S_80174668_4 *)tile)->unk_1C = 0xC04;
-                ((S_80174668_4 *)tile)->unk_10 = 0x60;
-                ((S_80174668_4 *)tile)->unk_00 = rotating_particle_sprite_entries;
-                ((S_80174668_4 *)tile)->unk_14 |= 0x0C;
+                tile->scale_y = 0xC04;
+                tile->scale_x = 0xC04;
+                tile->tpage_abr = 0x60;
+                tile->unk_00 = rotating_particle_sprite_entries;
+                tile->flags |= 0x0C;
                 {
                     u32 texture_word = ((u32)((SpriteSourceEntry *)rotating_particle_sprite_entries)->source);
-                    ((S_80174668_4 *)tile)->unk_04 = 0;
-                    ((S_80174668_4 *)tile)->unk_05 = 0;
-                    ((S_80174668_4 *)tile)->unk_0C = 0x00208020;
+                    tile->unk_04 = 0;
+                    tile->frame_ticks = 0;
+                    tile->color.word = 0x00208020;
                     ((S_80174668_4 *)tile)->unk_08 = texture_word;
                 }
-                ((S_80174668_6 *)effect_data)->unk_9A = 0;
+                effect_data->unk_9A = 0;
             }
         }
         ticks_left = effect->unk_96.u - 1;

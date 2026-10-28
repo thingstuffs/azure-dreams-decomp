@@ -127,7 +127,7 @@ void advance_move_action_particles(void *action, ObjectPosition *position, Sprit
     u16 offset_z;
     s32 color;
     s32 effect_value;
-    u8 *particle_fields;
+    S_80172840_8 *particle_fields;
     u32 heading;
     u8 *direction_x_ptr;
     is_special = 0;
@@ -287,26 +287,26 @@ void advance_move_action_particles(void *action, ObjectPosition *position, Sprit
                             particle_x = direction_x << 6;
                             origin_x += particle_x;
                             origin_x += random_x;
-                            ((S_80172840_12 *)(particle->position))->unk_02 =
+                            particle->position->x.w.i =
                                 origin_x - 0x1F;
                         }
-                        ((S_80172840_12 *)(particle->position))->unk_06 =
+                        particle->position->y.w.i =
                             ((u16) position->y.w.i) + coords[5] +
                             ((s32)direction_y << 6) + (generate_random_value() & 0x3F) - 0x1F;
-                        ((S_80172840_12 *)(particle->position))->unk_08 =
+                        particle->position->z.v =
                             position->z.v;
                         source_x = ((u16) position->x.w.i);
                         offset_x = coords[4];
-                        particle_fields = (u8 *)particle + 0x20;
-                        ((S_80172840_8 *)particle_fields)->unk_0C = source_x + offset_x;
+                        particle_fields = (S_80172840_8 *)((u8 *)particle + 0x20);
+                        particle_fields->unk_0C = source_x + offset_x;
                         source_y = ((u16) position->y.w.i);
                         offset_y = coords[5];
                         color = 0x700000;
-                        ((S_80172840_8 *)particle_fields)->unk_0E = source_y + offset_y;
+                        particle_fields->unk_0E = source_y + offset_y;
                         source_z = ((u16) position->z.w.i);
                         offset_z = coords[6];
-                        ((S_80172840_8 *)particle_fields)->unk_48 = 4;
-                        ((S_80172840_8 *)particle_fields)->unk_10 = source_z + offset_z;
+                        particle_fields->unk_48 = 4;
+                        particle_fields->unk_10 = source_z + offset_z;
                         particle_data->scale_y = 0x600;
                         particle_data->scale_x = 0x600;
                         particle_data->tpage_abr = 0x60;
@@ -318,7 +318,7 @@ void advance_move_action_particles(void *action, ObjectPosition *position, Sprit
                         particle_data->frame_ticks = 0;
                         particle_data->color.word = color;
                         particle_data->source = effect_value;
-                        ((S_80172840_8 *)particle_fields)->unk_4C = 0;
+                        particle_fields->unk_4C = 0;
                     }
                 }
             }

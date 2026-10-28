@@ -71,7 +71,7 @@ void enter_actor_aura_mode(void *actor_state, ObjectPosition *position, SpriteFr
     s32 phase;
     SpriteFrameState *effect_sprite;
     ObjectNodeHeader *effect;
-    void *effect_state;
+    S_80175BA8_5 *effect_state;
     ObjectPosition *effect_position;
 
     phase = ((S_80175BA8_0 *)actor_state)->unk_9B;
@@ -104,10 +104,10 @@ void enter_actor_aura_mode(void *actor_state, ObjectPosition *position, SpriteFr
                 ((S_80175BA8_0 *)actor_state)->unk_AC = effect;
                 effect->update_callback = D_80170CEC;
                 register_node(effect, clipped_sprite_renderer_address);
-                effect_state = (u8 *)effect + 0x20;
-                ((S_80175BA8_5 *)effect_state)->unk_38 = 5;
-                ((S_80175BA8_5 *)effect_state)->unk_40 = actor_state;
-                ((S_80175BA8_5 *)effect_state)->unk_44 = position;
+                effect_state = (S_80175BA8_5 *)((u8 *)effect + 0x20);
+                effect_state->unk_38 = 5;
+                effect_state->unk_40 = actor_state;
+                effect_state->unk_44 = position;
                 effect_sprite = effect->sprite;
                 effect_sprite->tpage_abr = 0x40;
                 effect_sprite->flags |= 0xC;

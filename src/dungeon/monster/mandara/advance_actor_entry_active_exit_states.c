@@ -71,7 +71,7 @@ extern u8 mandara_frame_set_1[];
 void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 state;
     s32 record_index;
-    u8 *effect_state;
+    S_8017382C_7 *effect_state;
 
     state = action->action_phase.u;
     switch (state) {
@@ -79,7 +79,7 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
     {
         s32 index_twice;
         s32 word_offset;
-        u8 *facing_record;
+        S_8017382C_3 *facing_record;
         u8 *record;
         u8 *direction_table;
         ObjectNodeHeader *effect;
@@ -101,10 +101,10 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
             record_index++;
         }
         word_offset = index_twice + record_index;
-        facing_record = (u8 *)((unsigned long)(word_offset << 2) +
+        facing_record = (S_8017382C_3 *)((unsigned long)(word_offset << 2) +
                        (unsigned long)*(u8 **)&sprite->source);
         ((S_8017382C_0 *)action)->unk_AC.s =
-            ((S_8017382C_3 *)facing_record)->unk_06 & 0xFFC0;
+            facing_record->unk_06 & 0xFFC0;
 
         direction_table = mandara_frame_set_1;
         (sprite->frameTable) = direction_table;
@@ -115,18 +115,18 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
 
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         effect = allocate_list_node(0x10, &scene_object_list_anchor.next);
-        effect_state = (u8 *)effect + 0x20;
+        effect_state = (S_8017382C_7 *)((u8 *)effect + 0x20);
         if (effect != 0) {
             effect->update_callback = mandara_object_callback;
-            ((S_8017382C_7 *)effect_state)->unk_A0 = 0;
+            effect_state->unk_A0 = 0;
             facing = ((S_8017382C_0 *)action)->unk_AC.s;
-            ((S_8017382C_7 *)effect_state)->unk_A4 = 0x100;
-            ((S_8017382C_7 *)effect_state)->unk_A6 = 1;
-            ((S_8017382C_7 *)effect_state)->unk_A8 = 8;
-            ((S_8017382C_7 *)effect_state)->unk_A2 = (s16)facing >> 6;
-            ((S_8017382C_0 *)action)->unk_96 = 8;
-            ((S_8017382C_7 *)effect_state)->unk_96 = 0;
-            ((S_8017382C_7 *)effect_state)->unk_9E = 0;
+            effect_state->unk_A4 = 0x100;
+            effect_state->unk_A6 = 1;
+            effect_state->unk_A8 = 8;
+            effect_state->unk_A2 = (s16)facing >> 6;
+            action->action_timer.u = 8;
+            effect_state->unk_96 = 0;
+            effect_state->unk_9E = 0;
         }
         action->action_phase.u++;
         return;
@@ -153,8 +153,8 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
                 ((angle_shifted >> 19) + 0x100)) -
             ((S_8017382C_0 *)action)->unk_AC.s;
 
-        timer = ((S_8017382C_0 *)action)->unk_96 - 1;
-        ((S_8017382C_0 *)action)->unk_96 = timer;
+        timer = action->action_timer.u - 1;
+        action->action_timer.u = timer;
         if ((s16)timer > 0) {
             if (!(sprite->flags & 0x8000)) {
                 return;
@@ -204,18 +204,18 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
                 0);
 
             effect = allocate_list_node(0x10, &scene_object_list_anchor.next);
-            effect_state = (u8 *)effect + 0x20;
+            effect_state = (S_8017382C_7 *)((u8 *)effect + 0x20);
             if (effect != 0) {
                 effect->update_callback = mandara_object_callback;
-                ((S_8017382C_7 *)effect_state)->unk_A0 = 0;
+                effect_state->unk_A0 = 0;
                 facing = ((S_8017382C_0 *)action)->unk_AC.s;
-                ((S_8017382C_7 *)effect_state)->unk_A4 = 0x100;
-                ((S_8017382C_7 *)effect_state)->unk_A6 = 1;
-                ((S_8017382C_7 *)effect_state)->unk_A8 = 8;
-                ((S_8017382C_7 *)effect_state)->unk_A2 = (s16)facing >> 6;
-                ((S_8017382C_0 *)action)->unk_96 = 8;
-                ((S_8017382C_7 *)effect_state)->unk_96 = 0;
-                ((S_8017382C_7 *)effect_state)->unk_9E = 1;
+                effect_state->unk_A4 = 0x100;
+                effect_state->unk_A6 = 1;
+                effect_state->unk_A8 = 8;
+                effect_state->unk_A2 = (s16)facing >> 6;
+                action->action_timer.u = 8;
+                effect_state->unk_96 = 0;
+                effect_state->unk_9E = 1;
             }
 
             ((S_8017382C_0 *)action)->unk_AE = sprite->clut + 0x40;
@@ -315,19 +315,19 @@ second_call:
             0);
 
         effect = allocate_list_node(0x10, &scene_object_list_anchor.next);
-        effect_state = (u8 *)effect + 0x20;
+        effect_state = (S_8017382C_7 *)((u8 *)effect + 0x20);
         if (effect != 0) {
             u16 angle;
             effect->update_callback = mandara_object_callback;
-            ((S_8017382C_7 *)effect_state)->unk_A0 = 0;
+            effect_state->unk_A0 = 0;
             angle = ((S_8017382C_0 *)action)->unk_AC.s;
-            ((S_8017382C_7 *)effect_state)->unk_A4 = 0x100;
-            ((S_8017382C_7 *)effect_state)->unk_A6 = 1;
-            ((S_8017382C_7 *)effect_state)->unk_A8 = 8;
-            ((S_8017382C_7 *)effect_state)->unk_A2 = (s16)angle >> 6;
-            ((S_8017382C_0 *)action)->unk_96 = 8;
-            ((S_8017382C_7 *)effect_state)->unk_96 = 0;
-            ((S_8017382C_7 *)effect_state)->unk_9E = 1;
+            effect_state->unk_A4 = 0x100;
+            effect_state->unk_A6 = 1;
+            effect_state->unk_A8 = 8;
+            effect_state->unk_A2 = (s16)angle >> 6;
+            action->action_timer.u = 8;
+            effect_state->unk_96 = 0;
+            effect_state->unk_9E = 1;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count++;
         action->action_phase.u++;
@@ -357,8 +357,8 @@ second_call:
             ((S_8017382C_0 *)action)->unk_AC.s;
 
         if (!(sprite->flags & 0x8000)) {
-            timer = ((S_8017382C_0 *)action)->unk_96 - 1;
-            ((S_8017382C_0 *)action)->unk_96 = timer;
+            timer = action->action_timer.u - 1;
+            action->action_timer.u = timer;
             if ((s16)timer > 0) {
                 return;
             }
@@ -366,7 +366,7 @@ second_call:
 
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         actor->flags1C &= ~ACTOR_ASLEEP;
-        ((S_8017382C_0 *)action)->unk_8C = mandara_action_resume_address;
+        action->unk_8C.address = mandara_action_resume_address;
         sprite->clut = ((S_8017382C_0 *)action)->unk_AE;
     }
     }

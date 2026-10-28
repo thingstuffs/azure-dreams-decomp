@@ -51,10 +51,10 @@ extern u8 D_800E2408[];
 
 /* Update the effect rotation, position, and fade, marking it finished when needed. */
 void update_rotating_actor_aura(void *effect, ObjectPosition *position, SpriteFrameState *visual) {
-    void *entity;
+    S_80170CEC_5 *entity;
     void *entity_saved;
-    void *source_position;
-    void *entity_base;
+    S_80170CEC_7 *source_position;
+    S_80170CEC_1 *entity_base;
     SpriteFrameState *record;
     u16 old_angle;
     u16 new_angle;
@@ -66,8 +66,8 @@ void update_rotating_actor_aura(void *effect, ObjectPosition *position, SpriteFr
     entity = ((S_80170CEC_0 *)effect)->unk_40;
     source_position = *(void **)((u8 *)effect + 0x44);
     old_angle = visual->angle_z;
-    entity_base = (u8 *)entity - 0x20;
-    record = ((S_80170CEC_1 *)entity_base)->unk_0C;
+    entity_base = (S_80170CEC_1 *)((u8 *)entity - 0x20);
+    record = entity_base->unk_0C;
     record_angle = (u16)record->depth_bias;
     new_angle = old_angle + 0x190;
     entity_saved = entity;
@@ -103,18 +103,18 @@ void update_rotating_actor_aura(void *effect, ObjectPosition *position, SpriteFr
             ((S_80170CEC_0 *)effect)->unk_38 = 0x14;
             ((S_80170CEC_0 *)effect)->unk_36.s = 0x14;
         }
-        if (((S_80170CEC_5 *)entity)->unk_9A == 1) {
+        if (entity->unk_9A == 1) {
             ((S_80170CEC_0 *)effect)->unk_2C.s = 3;
             ((S_80170CEC_0 *)effect)->unk_38 = 0x14;
             ((S_80170CEC_0 *)effect)->unk_36.s = 0x14;
         }
         if ((((S_80170CEC_4 *)entity_saved)->unk_14 & 0x100000) &&
-            (((u8 *)dungeon_actor_ring_anchor)[0x9A] != 0x28)) {
+            (dungeon_actor_ring_anchor->action_id.u != 0x28)) {
             ((S_80170CEC_0 *)effect)->unk_2C.s = 3;
             ((S_80170CEC_0 *)effect)->unk_38 = 0x14;
             ((S_80170CEC_0 *)effect)->unk_36.s = 0x14;
         }
-        if (((S_80170CEC_1 *)entity_base)->unk_1E & 0x8000) {
+        if (entity_base->unk_1E & 0x8000) {
             ((S_80170CEC_0 *)effect)->unk_2C.s = 3;
             ((S_80170CEC_0 *)effect)->unk_38 = 0x14;
             ((S_80170CEC_0 *)effect)->unk_36.s = 0x14;
@@ -125,14 +125,14 @@ void update_rotating_actor_aura(void *effect, ObjectPosition *position, SpriteFr
             ((S_80170CEC_0 *)effect)->unk_38 = 0x14;
             ((S_80170CEC_0 *)effect)->unk_36.s = 0x14;
         }
-        position->x.v = ((S_80170CEC_7 *)source_position)->unk_00;
-        position->y.v = ((S_80170CEC_7 *)source_position)->unk_04;
-        position->z.v = ((S_80170CEC_7 *)source_position)->unk_08;
+        position->x.v = source_position->unk_00;
+        position->y.v = source_position->unk_04;
+        position->z.v = source_position->unk_08;
         break;
     case 3:
-        position->x.v = ((S_80170CEC_7 *)source_position)->unk_00;
-        position->y.v = ((S_80170CEC_7 *)source_position)->unk_04;
-        position->z.v = ((S_80170CEC_7 *)source_position)->unk_08;
+        position->x.v = source_position->unk_00;
+        position->y.v = source_position->unk_04;
+        position->z.v = source_position->unk_08;
         visual->scale_x = record->scale_x;
         visual->scale_y = record->scale_y;
     case 2:

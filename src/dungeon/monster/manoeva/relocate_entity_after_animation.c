@@ -291,21 +291,21 @@ void relocate_entity_after_animation(S_80175594_0 *sprite, Rec_func_800D6DC0_arg
                               scratch + 0x90, scratch + 0x94);
             }
 
-            ((S_80175594_7 *)packet)->unk_08.s =
+            packet->x0 =
                 ((S_80175594_1 *)scratch)->unk_F0 + ((S_80175594_1 *)scratch)->unk_B8;
-            ((S_80175594_7 *)packet)->unk_0A.s =
+            packet->y0 =
                 ((S_80175594_1 *)scratch)->unk_F2 + ((S_80175594_1 *)scratch)->unk_BA;
-            ((S_80175594_7 *)packet)->unk_10.s =
+            packet->x1 =
                 ((S_80175594_1 *)scratch)->unk_F4 + ((S_80175594_1 *)scratch)->unk_B8;
-            ((S_80175594_7 *)packet)->unk_12.s =
+            packet->y1 =
                 ((S_80175594_1 *)scratch)->unk_F6 + ((S_80175594_1 *)scratch)->unk_BA;
-            ((S_80175594_7 *)packet)->unk_18.s =
+            packet->x2 =
                 ((S_80175594_1 *)scratch)->unk_F8 + ((S_80175594_1 *)scratch)->unk_B8;
-            ((S_80175594_7 *)packet)->unk_1A.s =
+            packet->y2 =
                 ((S_80175594_1 *)scratch)->unk_FA + ((S_80175594_1 *)scratch)->unk_BA;
-            ((S_80175594_7 *)packet)->unk_20.s =
+            packet->x3 =
                 ((S_80175594_1 *)scratch)->unk_FC + ((S_80175594_1 *)scratch)->unk_B8;
-            ((S_80175594_7 *)packet)->unk_22.s =
+            packet->y3 =
                 ((S_80175594_1 *)scratch)->unk_FE + ((S_80175594_1 *)scratch)->unk_BA;
 
             visible_0 = 0;
@@ -338,22 +338,22 @@ void relocate_entity_after_animation(S_80175594_0 *sprite, Rec_func_800D6DC0_arg
                      ((S_80175594_1 *)scratch)->unk_14.s32) << 8;
                 ((S_80175594_1 *)scratch)->unk_0C.s32 <<= 8;
 
-                ((S_80175594_7 *)packet)->unk_0E =
+                packet->clut =
                     render->unk_12 + texture->f6;
-                ((S_80175594_7 *)packet)->unk_0C =
+                packet->uv0 =
                     ((S_80175594_1 *)scratch)->unk_0C.u16 + ((S_80175594_1 *)scratch)->unk_08.u16;
-                ((S_80175594_7 *)packet)->unk_14.u16 =
+                packet->uv1 =
                     ((S_80175594_1 *)scratch)->unk_0C.u16 + ((S_80175594_1 *)scratch)->unk_10.u16;
                 if (render->unk_10 != 0) {
-                    ((S_80175594_7 *)packet)->unk_16 =
+                    packet->tpage =
                         render->unk_10 +
                         (texture->f4 & 0xFF9F);
                 } else {
-                    ((S_80175594_7 *)packet)->unk_16 = texture->f4;
+                    packet->tpage = texture->f4;
                 }
-                ((S_80175594_7 *)packet)->unk_1C.at00.v =
+                packet->uv2 =
                     ((S_80175594_1 *)scratch)->unk_14.u16 + ((S_80175594_1 *)scratch)->unk_08.u16;
-                ((S_80175594_7 *)packet)->unk_24.at00.v =
+                packet->uv3 =
                     ((S_80175594_1 *)scratch)->unk_14.u16 + ((S_80175594_1 *)scratch)->unk_10.u16;
 
                 if (((S_80175594_7 *)packet)->unk_14.u8 == 0) {
@@ -365,7 +365,7 @@ void relocate_entity_after_animation(S_80175594_0 *sprite, Rec_func_800D6DC0_arg
                     ((S_80175594_7 *)packet)->unk_24.at01.v--;
                 }
 
-                ((S_80175594_7 *)packet)->unk_04.at00.v = render->unk_0C;
+                packet->color = render->unk_0C;
                 SetPolyFT4(packet);
                 if (((S_80175594_1 *)scratch)->unk_24 & 8) {
                     ((S_80175594_7 *)packet)->unk_04.at03.v |= 2;

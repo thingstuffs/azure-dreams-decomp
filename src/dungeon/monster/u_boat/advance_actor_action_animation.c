@@ -41,7 +41,7 @@ void advance_actor_action_animation(ActorRecord *action, ObjectPosition *actor_i
     u16 value_before_reset;
     s32 actor_flags;
 
-    action_state = ((S_80174788_0 *)action)->unk_9B;
+    action_state = action->action_phase.u;
     switch (action_state) {
     case 0:
         if (!(sprite->flags & 0xE000)) {
@@ -55,7 +55,7 @@ void advance_actor_action_animation(ActorRecord *action, ObjectPosition *actor_i
         select_sprite_entry(sprite,
                       uboat_action_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                       0);
-        ((S_80174788_0 *)action)->unk_9B++;
+        action->action_phase.u++;
         return;
 
     case 1:
@@ -83,11 +83,11 @@ void advance_actor_action_animation(ActorRecord *action, ObjectPosition *actor_i
         }
         if (actor_flags & 0x80000) {
             begin_actor_move_to_target_facing(action, actor_index, sprite, actor);
-            value_before_reset = ((S_80174788_0 *)action)->unk_92;
-            reset_offset = ((S_80174788_0 *)action)->unk_A2;
-            ((S_80174788_0 *)action)->unk_A2 = 0;
-            ((S_80174788_0 *)action)->unk_9E = 0;
-            ((S_80174788_0 *)action)->unk_92 = value_before_reset - reset_offset;
+            value_before_reset = action->unk_90.parts.high.u;
+            reset_offset = action->unk_A0.parts.high;
+            action->unk_A0.parts.high = 0;
+            action->unk_9E.s = 0;
+            action->unk_90.parts.high.u = value_before_reset - reset_offset;
             update_actor_action_transition(action, actor_index, sprite, actor);
             return;
         }
@@ -111,7 +111,7 @@ void advance_actor_action_animation(ActorRecord *action, ObjectPosition *actor_i
         actor->flags1C |= 0x40000;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
 
-        ((S_80174788_0 *)action)->unk_9B++;
+        action->action_phase.u++;
         return;
 
     case 2:
@@ -123,7 +123,7 @@ void advance_actor_action_animation(ActorRecord *action, ObjectPosition *actor_i
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         actor->flags1C &= ~ACTOR_MP_EMPTY;
-        ((S_80174788_0 *)action)->unk_8C = uboat_behavior_entry;
+        action->unk_8C.address = uboat_behavior_entry;
 
         return;
     }

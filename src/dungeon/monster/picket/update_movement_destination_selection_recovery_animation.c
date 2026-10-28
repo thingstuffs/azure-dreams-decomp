@@ -94,7 +94,7 @@ void update_movement_destination_selection_recovery_animation(void *state, Objec
     case 0:
         update_map_cell_flags_with_item_limit(actor->tile_x, actor->tile_y,
             (((S_80174428_0 *)object)->unk_1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
-        (*(u8 **)((u8 *)actor + 0x2C)) = picket_frame_set_2;
+        actor->frameTable = picket_frame_set_2;
         select_sprite_entry(actor,
             picket_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
         motion->velocity_x = (x_step << 19) + (x_step << 18);
@@ -127,7 +127,7 @@ void update_movement_destination_selection_recovery_animation(void *state, Objec
         }
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        (*(u8 **)((u8 *)actor + 0x2C)) = picket_frame_set_1;
+        actor->frameTable = picket_frame_set_1;
         select_sprite_entry(actor,
             picket_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
         if (((S_80174428_0 *)object)->unk_1C & ACTOR_PLAYER_SIDE) {
@@ -212,7 +212,7 @@ void update_movement_destination_selection_recovery_animation(void *state, Objec
                 (actor->tile_y << 6) | 0x20,
                 (s16)(((u16) motion->z.w.i) - 0x80));
             ((S_80174428_0 *)object)->unk_88 = height;
-            ((S_80174428_2 *)actor)->unk_2C = picket_frame_set_1;
+            actor->frameTable = picket_frame_set_1;
             spend_actor_mp(object, 0x200);
             select_sprite_entry(actor,
                 ((u8 *)actor->frameTable)[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174428_0 *)object)->unk_2A.u + 0x100)

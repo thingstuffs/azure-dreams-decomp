@@ -61,8 +61,8 @@ s32 check_movement_and_initialize_action(ActorRecord *action_state, ObjectPositi
     }
     apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_ctx, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
-        ((S_80171E00_3 *)action_state)->unk_9A = 0x11;
-        ((S_80171E00_3 *)action_state)->unk_9B = 0;
+        action_state->action_id.s = 0x11;
+        action_state->action_phase.s = 0;
         ((S_80171E00_3 *)action_state)->unk_8C = 0;
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;

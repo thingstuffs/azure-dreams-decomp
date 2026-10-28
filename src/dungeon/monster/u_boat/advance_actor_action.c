@@ -93,11 +93,11 @@ void advance_actor_action(ActorRecord *action, ObjectPosition *context, SpriteFr
         }
         if (entity_flags & 0x80000) {
             begin_actor_move_to_target_facing(action, context, sprite, entity);
-            action_value = ((S_801743DC_0 *)action)->unk_92;
-            value_offset = ((S_801743DC_0 *)action)->unk_A2;
-            ((S_801743DC_0 *)action)->unk_A2 = 0;
-            ((S_801743DC_0 *)action)->unk_9E = 0;
-            ((S_801743DC_0 *)action)->unk_92 = action_value - value_offset;
+            action_value = action->unk_90.parts.high.u;
+            value_offset = action->unk_A0.parts.high;
+            action->unk_A0.parts.high = 0;
+            action->unk_9E.s = 0;
+            action->unk_90.parts.high.u = action_value - value_offset;
             update_actor_action_transition(action, context, sprite, entity);
             return;
         }
@@ -143,7 +143,7 @@ void advance_actor_action(ActorRecord *action, ObjectPosition *context, SpriteFr
             0);
         (*(u32 *)&entity->flags1C) |= 0x40000;
         if (sprite->flags & 0x8000) {
-            ((S_801743DC_0 *)action)->unk_8C = uboat_behavior_entry;
+            action->unk_8C.address = uboat_behavior_entry;
             return;
         }
         {
@@ -158,7 +158,7 @@ void advance_actor_action(ActorRecord *action, ObjectPosition *context, SpriteFr
             return;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
-        ((S_801743DC_0 *)action)->unk_8C = uboat_behavior_entry;
+        action->unk_8C.address = uboat_behavior_entry;
         return;
     default:
         return;

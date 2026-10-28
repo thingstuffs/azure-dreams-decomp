@@ -233,7 +233,7 @@ void advance_item_use_and_recovery(void *action_in, ObjectPosition *motion_in, S
             if (timer == 0xB || (sprite->flags & 0xE000)) {
                 effect_handle = allocate_list_node(0x112, &scene_object_list_anchor.next);
                 if (effect_handle != 0) {
-                    void *actor_model;
+                    S_80173230_9 *actor_model;
                     u8 animation_id;
 
                     effect_state = effect_handle + 0x20;
@@ -259,7 +259,7 @@ void advance_item_use_and_recovery(void *action_in, ObjectPosition *motion_in, S
                     actor_model = ((S_80173230_8 *)action_object)->unk_0C;
                     item_slot = ((S_80173230_6 *)((void *)effect_handle))->unk_08;
                     if (resolve_record_orientation_or_fallback(
-                            ((S_80173230_9 *)actor_model)->unk_08, actor_model, effect_offset, 1) != 0) {
+                            actor_model->unk_08, actor_model, effect_offset, 1) != 0) {
                         ((S_80173230_7 *)item_slot)->unk_02 = ((u16)motion_in->x.w.i);
                         ((S_80173230_7 *)item_slot)->unk_06 = ((u16)motion_in->y.w.i);
                         ((S_80173230_7 *)item_slot)->unk_0A = ((u16)motion_in->z.w.i);

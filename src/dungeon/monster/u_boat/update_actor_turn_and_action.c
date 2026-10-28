@@ -262,13 +262,13 @@ void update_actor_turn_and_action(void *entity, ObjectPosition *context, SpriteF
                 }
             }
             {
-                void *leader = dungeon_actor_ring_anchor;
+                S_80171A80_6 *leader = (S_80171A80_6 *)dungeon_actor_ring_anchor;
 
-                if (((S_80171A80_6 *)leader)->unk_A6 != 0) {
+                if (leader->unk_A6 != 0) {
                     choose_and_execute_actor_step(entity, context, sprite, actor);
                     return;
                 }
-                ((S_80171A80_6 *)leader)->unk_A6 = 2;
+                leader->unk_A6 = 2;
                 begin_actor_exclusive_action(entity, context, sprite, 1, 2);
                 return;
             }

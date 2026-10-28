@@ -41,7 +41,7 @@ void move_actor_briefly_and_realign(ActorRecord *action, ObjectPosition *motion,
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(entity);
-        ((S_80173964_0 *)action)->unk_96.s = 12;
+        action->action_timer.s = 12;
         action->action_phase.u++;
         if (entity->hp == 0) {
             motion->velocity_z = 0;
@@ -51,14 +51,14 @@ void move_actor_briefly_and_realign(ActorRecord *action, ObjectPosition *motion,
             return;
         }
         if (actor->flags & 0x8000) {
-            ((S_80173964_0 *)action)->unk_96.s = 0;
+            action->action_timer.s = 0;
             action->action_phase.u = 3;
         }
         return;
 
     case 1:
-        timer_bits = ((S_80173964_0 *)action)->unk_96.u - 1;
-        ((S_80173964_0 *)action)->unk_96.u = timer_bits;
+        timer_bits = action->action_timer.u - 1;
+        action->action_timer.u = timer_bits;
         timer = timer_bits;
         if (timer >= 11) {
             motion->velocity_x =
@@ -89,7 +89,7 @@ void move_actor_briefly_and_realign(ActorRecord *action, ObjectPosition *motion,
         }
         next_state = action->action_phase.u;
         timer = 4;
-        ((S_80173964_0 *)action)->unk_96.s = timer;
+        action->action_timer.s = timer;
         action->action_phase.u = next_state + 1;
         return;
 
@@ -101,7 +101,7 @@ void move_actor_briefly_and_realign(ActorRecord *action, ObjectPosition *motion,
             begin_actor_display_action(action, motion, actor, saber_frame_set);
             return;
         }
-        timer = ((S_80173964_0 *)action)->unk_96.s;
+        timer = action->action_timer.s;
         if (timer != 0) {
             target_x = actor->tile_x << 6;
             current_x = motion->x.w.i - 0x20;
@@ -109,10 +109,10 @@ void move_actor_briefly_and_realign(ActorRecord *action, ObjectPosition *motion,
             target_y = actor->tile_y << 6;
             current_y = motion->y.w.i - 0x20;
             motion->velocity_y =
-                ((target_y - current_y) << 16) / ((S_80173964_0 *)action)->unk_96.s;
+                ((target_y - current_y) << 16) / action->action_timer.s;
         }
-        timer_bits = ((S_80173964_0 *)action)->unk_96.u;
-        ((S_80173964_0 *)action)->unk_96.u = timer_bits - 1;
+        timer_bits = action->action_timer.u;
+        action->action_timer.u = timer_bits - 1;
         if ((s32)(timer_bits << 16) > 0) {
             return;
         }
@@ -138,7 +138,7 @@ void move_actor_briefly_and_realign(ActorRecord *action, ObjectPosition *motion,
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
             g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
         }
-        ((S_80173964_0 *)action)->unk_8C = &saber_behavior_entry;
+        action->unk_8C.address = &saber_behavior_entry;
 
         return;
     default:

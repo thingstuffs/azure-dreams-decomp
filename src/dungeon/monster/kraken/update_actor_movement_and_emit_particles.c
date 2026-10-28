@@ -205,7 +205,7 @@ void update_actor_movement_and_emit_particles(void *actor, ObjectPosition *motio
             motion->velocity_x = component_work;
             component_work = speed_work >> 1;
             speed_work += component_work;
-            ((S_80172D1C_2 *)motion)->unk_10.s = speed_work;
+            motion->velocity_y = speed_work;
         }
         next_timer = ((ActorActionTimerView *)actor)->timer.u - 1;
         ((ActorActionTimerView *)actor)->timer.s = next_timer;

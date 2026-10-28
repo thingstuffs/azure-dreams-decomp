@@ -85,16 +85,16 @@ void update_actor_timed_tile_motion(void *action, ObjectPosition *motion, Sprite
             s32 axis_pos;
 
             tile_delta = sprite->tile_x << 6;
-            axis_pos = ((EntityRec *)motion)->x.w.i;
+            axis_pos = motion->x.w.i;
             axis_pos -= 0x20;
             tile_delta -= axis_pos;
-            ((EntityRec *)motion)->unk_0C = (tile_delta << 16) / move_ticks;
+            motion->velocity_x = (tile_delta << 16) / move_ticks;
 
-            axis_pos = ((EntityRec *)motion)->y.w.i;
+            axis_pos = motion->y.w.i;
             tile_delta = sprite->tile_y << 6;
             axis_pos -= 0x20;
             tile_delta -= axis_pos;
-            ((EntityRec *)motion)->unk_10 =
+            motion->velocity_y =
                 (tile_delta << 16) / ((S_801730C4_0 *)action)->unk_A8;
             ((S_801730C4_0 *)action)->unk_A4 =
                 -rsin(((S_801730C4_0 *)action)->unk_A8 * 0x199) << 9;
@@ -114,9 +114,9 @@ void update_actor_timed_tile_motion(void *action, ObjectPosition *motion, Sprite
     case 2:
         if (((S_801730C4_2 *)actor)->unk_1C.s & 0x08000000) {
             ((S_801730C4_0 *)action)->unk_98 &= 0xFFF7;
-            ((EntityRec *)motion)->flags14 = 0;
-            ((EntityRec *)motion)->unk_10 = 0;
-            ((EntityRec *)motion)->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
             {
                 u8 *anim_table = uboat_timed_motion_frames_alt;
@@ -156,9 +156,9 @@ void update_actor_timed_tile_motion(void *action, ObjectPosition *motion, Sprite
         }
     }
 
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->velocity_z = 0;
+    motion->velocity_y = 0;
+    motion->velocity_x = 0;
     set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
     spend_actor_mp(actor, 0x10);
     advance_status_timers(actor);

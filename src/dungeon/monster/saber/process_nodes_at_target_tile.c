@@ -71,7 +71,7 @@ void process_nodes_at_target_tile(void *node, s32 target_x, s32 target_y, s32 ta
 {
     OffsetTable offsets = saber_direction_tile_offsets;
     void *head = node;
-    register void *owner = head;
+    register S_801745BC_4 *owner = head;
     s32 match_x = target_x;
     s32 match_y;
     register void *owner_data = ((S_801745BC_0_pre *)head)[-1].unk_04;
@@ -109,7 +109,7 @@ void process_nodes_at_target_tile(void *node, s32 target_x, s32 target_y, s32 ta
                         }
                         play_sound_if_enabled(target_y);
 
-                        angle = ((S_801745BC_4 *)owner)->unk_2A;
+                        angle = owner->unk_2A;
                         offset = (OffsetPair *)((u8 *)&offsets +
                             (((s16)angle >> 7) & 0x1C));
                         spawn_radial_particle_burst(
@@ -117,11 +117,11 @@ void process_nodes_at_target_tile(void *node, s32 target_x, s32 target_y, s32 ta
                             (s16)(position->y +
                                   ((s32)(offset->y << 16) >> 11)),
                             (s16)(position->z - 0x20),
-                            ((S_801745BC_4 *)owner)->unk_14,
+                            owner->unk_14,
                             (s32)(s16)angle);
                     } else {
                         resolve_attack_damage_and_effects(owner, owner_data,
-                            (s16)((S_801745BC_4 *)owner)->unk_2A, 1);
+                            (s16)owner->unk_2A, 1);
                     }
                 }
             }

@@ -13,10 +13,10 @@ void start_directional_action_and_record_tile(ActorRecord *action_state, ObjectP
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
-            ((Rec_func_800A9E70_arg0 *)action_state)->unk_9A.as_s8 = 0x17;
-            ((Rec_func_800A9E70_arg0 *)action_state)->unk_96.as_s16 = 0xF;
+            action_state->action_id.s = 0x17;
+            action_state->action_timer.s = 0xF;
             (*(s32 *)((u8 *)action_state + 0x8C)) = 0;
-            ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_s8 = 0;
+            action_state->action_phase.s = 0;
             (sprite->frameTable) = &D_80174EC8;
             select_sprite_entry(
                 sprite,
@@ -45,7 +45,7 @@ void advance_timed_actor_visual_effect(ActorRecord *effect_state, ObjectPosition
     ObjectPosition *anchor_pos;
     T_801748D0_S_801748D0_11 *owner_link;
     void *linked_owner;
-    void *linked_body;
+    T_801748D0_S_801748D0_6_pre *linked_body;
     void *owner;
     s16 count;
     u8 * object_or_height;
@@ -66,11 +66,11 @@ void advance_timed_actor_visual_effect(ActorRecord *effect_state, ObjectPosition
         position->velocity_z = 0;
         position->velocity_y = 0;
         position->velocity_x = 0;
-        timer = ((T_801748D0_S_801748D0_0 *)effect_state)->unk_96 - 1;
-        ((T_801748D0_S_801748D0_0 *)effect_state)->unk_96 = timer;
+        timer = effect_state->action_timer.u - 1;
+        effect_state->action_timer.u = timer;
         if (((timer << 16) <= 0) ||
             (source_mesh->flags & 0x8000)) {
-            ((T_801748D0_S_801748D0_0 *)effect_state)->unk_96 = 0;
+            effect_state->action_timer.u = 0;
             effect_state->action_phase.u++;
             flags = source_mesh->flags;
             source_mesh->flags = flags & 0xF7FF;
@@ -96,7 +96,7 @@ void advance_timed_actor_visual_effect(ActorRecord *effect_state, ObjectPosition
                 ((T_801748D0_S_801748D0_3 *)effect_body)->unk_A8 = position;
                 ((T_801748D0_S_801748D0_3 *)effect_body)->unk_A2 = 0;
             } else {
-                linked_owner = ((T_801748D0_S_801748D0_6_pre *)linked_body)[-1].unk_00;
+                linked_owner = linked_body[-1].unk_00;
                 ((T_801748D0_S_801748D0_3 *)effect_body)->unk_A2 = 1;
                 ((T_801748D0_S_801748D0_3 *)effect_body)->unk_A8 = linked_owner;
             }
@@ -150,7 +150,7 @@ void advance_timed_actor_visual_effect(ActorRecord *effect_state, ObjectPosition
             effect_mesh->depth_bias = 4;
 
         } while (++count < 1);
-        ((T_801748D0_S_801748D0_0 *)effect_state)->unk_96 = 0x2D;
+        effect_state->action_timer.u = 0x2D;
         effect_state->action_phase.u++;
         return;
     case 2:
@@ -163,8 +163,8 @@ void advance_timed_actor_visual_effect(ActorRecord *effect_state, ObjectPosition
             }
         }
         if (!(source_mesh->flags & 0x8000)) {
-            timer = ((T_801748D0_S_801748D0_0 *)effect_state)->unk_96 - 1;
-            ((T_801748D0_S_801748D0_0 *)effect_state)->unk_96 = timer;
+            timer = effect_state->action_timer.u - 1;
+            effect_state->action_timer.u = timer;
             if ((timer << 16) > 0) {
                 return;
             }
@@ -187,7 +187,7 @@ void advance_timed_actor_visual_effect(ActorRecord *effect_state, ObjectPosition
             check_action_six_eligibility(actor, owner_link);
         }
         spend_actor_mp(actor, 0x400);
-        ((T_801748D0_S_801748D0_0 *)effect_state)->unk_8C = update_actor_behavior_and_direction;
+        effect_state->unk_8C.address = update_actor_behavior_and_direction;
         g_dungeon_status.active_actor = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
 

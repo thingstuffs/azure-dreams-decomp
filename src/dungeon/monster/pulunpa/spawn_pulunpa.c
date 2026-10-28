@@ -66,7 +66,7 @@ void *create_actor_grid_object(s16 flags, s16 unused_kind_id, s16 variant, s16 u
     void *work;
     ObjectPosition *coord;
     SpriteFrameState *state;
-    void *actor;
+    S_80CBD000_4 *actor;
 
     work = 0;
     alloc_id = 0x112;
@@ -107,11 +107,11 @@ void *create_actor_grid_object(s16 flags, s16 unused_kind_id, s16 variant, s16 u
                 }
             }
             if (entity_spawn_variant_code < 10) {
-                ((S_80CBD000_4 *)actor)->unk_8C = pulunpa_action_resume_address;
+                actor->unk_8C = pulunpa_action_resume_address;
                 state->frameTable = pulunpa_frame_set_1;
             } else {
-                ((S_80CBD000_4 *)actor)->unk_A7 = 1;
-                ((S_80CBD000_4 *)actor)->unk_8C = pulunpa_variant_action_address;
+                actor->unk_A7 = 1;
+                actor->unk_8C = pulunpa_variant_action_address;
                 state->frameTable = pulunpa_frame_set_2;
             }
         } else {
@@ -121,9 +121,9 @@ void *create_actor_grid_object(s16 flags, s16 unused_kind_id, s16 variant, s16 u
 
         part->update_callback = D_80170AE0;
         initialize_actor_sprite_and_animation(part, coord, state, arg0_copy);
-        ((S_80CBD000_4 *)actor)->unk_9A = 0xFF;
-        ((S_80CBD000_4 *)actor)->unk_9C = -1;
-        ((S_80CBD000_4 *)actor)->unk_A8 = 0;
+        actor->unk_9A = 0xFF;
+        actor->unk_9C = -1;
+        actor->unk_A8 = 0;
         try_move_actor_to_valid_position(actor, coord, state, work);
     }
     return work;

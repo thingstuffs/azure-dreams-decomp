@@ -67,14 +67,14 @@ void advance_timed_entity_hop(ActorRecord *action, ObjectPosition *motion, Sprit
             0);
         action->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        ((S_80166BAC_0 *)action)->unk_9E.s = 5;
-        ((S_80166BAC_0 *)action)->unk_A4 = 0;
+        action->unk_9E.s = 5;
+        action->unk_A4 = 0;
         action->action_phase.u++;
                         /* fall through */
 
     case 1:
-        hop_frames = ((S_80166BAC_0 *)action)->unk_9E.s;
-        ((S_80166BAC_0 *)action)->unk_90 -= ((S_80166BAC_0 *)action)->unk_A4;
+        hop_frames = action->unk_9E.s;
+        action->unk_90.value -= action->unk_A4;
         if (hop_frames != 0) {
             target_x = map_entity->tile_x;
             pos_x = motion->x.w.i;
@@ -87,21 +87,21 @@ void advance_timed_entity_hop(ActorRecord *action, ObjectPosition *motion, Sprit
             pos_y -= 0x20;
             motion->velocity_y =
                 (((map_entity->tile_y << 6) - pos_y) << 16) /
-                ((S_80166BAC_0 *)action)->unk_9E.s;
+                action->unk_9E.s;
 
-            ((S_80166BAC_0 *)action)->unk_A4 =
-                (-rsin(((S_80166BAC_0 *)action)->unk_9E.s * 0x199)) << 10;
+            action->unk_A4 =
+                (-rsin(action->unk_9E.s * 0x199)) << 10;
         }
 
-        height_offset = ((S_80166BAC_0 *)action)->unk_90;
-        arc_offset = ((S_80166BAC_0 *)action)->unk_A4;
-        hop_timer = ((S_80166BAC_0 *)action)->unk_9E.u;
+        height_offset = action->unk_90.value;
+        arc_offset = action->unk_A4;
+        hop_timer = action->unk_9E.u;
         height_offset += arc_offset;
         hop_timer -= 1;
-        ((S_80166BAC_0 *)action)->unk_9E.u = hop_timer;
-        ((S_80166BAC_0 *)action)->unk_90 = height_offset;
+        action->unk_9E.u = hop_timer;
+        action->unk_90.value = height_offset;
         if ((hop_timer << 16) < 0) {
-            ((S_80166BAC_0 *)action)->unk_90 = 0;
+            action->unk_90.value = 0;
             action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
             action->action_phase.u++;
@@ -135,8 +135,8 @@ void advance_timed_entity_hop(ActorRecord *action, ObjectPosition *motion, Sprit
         break;
     }
 
-    action_timer = ((S_80166BAC_0 *)action)->unk_96 - 1;
-    ((S_80166BAC_0 *)action)->unk_96 = action_timer;
+    action_timer = action->action_timer.u - 1;
+    action->action_timer.u = action_timer;
     if ((action_timer << 16) > 0) {
         return;
     }
@@ -170,7 +170,7 @@ void advance_timed_entity_hop(ActorRecord *action, ObjectPosition *motion, Sprit
     }
 
     if ((check_actor_floor_trap(map_entity, actor) << 16) > 0) {
-        ((S_80166BAC_0 *)action)->unk_8C = &D_80165728;
+        action->unk_8C.address = &D_80165728;
         on_actor_status_updated(actor);
     }
 }

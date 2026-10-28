@@ -84,7 +84,7 @@ typedef struct {
 /* Update entity callbacks, appearance, movement, and floor contact. */
 void update_entity_callbacks_and_floor(void *entity_state, void *entity_motion, SpriteFrameState *entity_part)
 {
-    void *state_alias = entity_state;
+    CallbackActorState *state_alias = entity_state;
     u16 part_flags;
     u16 fade_frame;
     u8 *direction_frames;
@@ -160,7 +160,7 @@ void update_entity_callbacks_and_floor(void *entity_state, void *entity_motion, 
 
         part_flags = entity_part->flags;
         if (!(part_flags & 0x8000)) {
-            view_direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((CallbackActorState *)state_alias)->facing + 0x100) >> 9;
+            view_direction = (g_game_work.view.camera_rotation.parts.viewAngle + state_alias->facing + 0x100) >> 9;
             direction = view_direction & 7;
             if (((CallbackActorState *)entity_state)->sprite_direction != direction) {
                 direction_frames = *(u8 **)&entity_part->frameTable;
@@ -177,14 +177,14 @@ void update_entity_callbacks_and_floor(void *entity_state, void *entity_motion, 
                 entity_part->flags &= 0xFFFE;
             }
 
-            if (!(((CallbackActorState *)state_alias)->flags & 0x20)) {
+            if (!(state_alias->flags & 0x20)) {
                 if (!(entity_part->flags & 0x40)) {
                     advance_sprite_animation_and_textures(entity_part);
                 }
             } else {
                 entity_part->flags |= 0x7000;
             }
-            apply_monster_koyaw_data(((CallbackActorState *)state_alias)->flags, &entity_part->color.word);
+            apply_monster_koyaw_data(state_alias->flags, &entity_part->color.word);
         } else {
             if (part_flags & 0x800) {
                 entity_part->flags = part_flags & 0x8FFF;
@@ -206,41 +206,41 @@ void update_entity_callbacks_and_floor(void *entity_state, void *entity_motion, 
         ((CallbackActorState *)entity_state)->height_offset.value += ((CallbackActorMotion *)entity_motion)->velocity_z;
         if (!(((CallbackActorState *)entity_state)->action_flags & 4)) {
             sample_height = sample_terrain_surface_height(((CallbackActorMotion *)entity_motion)->x.halves.integer, ((CallbackActorMotion *)entity_motion)->y.halves.integer,
-                                          (s16)(((CallbackActorState *)state_alias)->floor_height - 0x20));
+                                          (s16)(state_alias->floor_height - 0x20));
             if ((s16)sample_height < 0x200) {
-                base_height = ((CallbackActorState *)state_alias)->floor_height;
+                base_height = state_alias->floor_height;
                 if ((((CallbackActorState *)entity_state)->height_offset.signed_halves.integer + base_height) < (s16)sample_height) {
-                    ((CallbackActorState *)state_alias)->flags &= 0xF7FFFFFF;
+                    state_alias->flags &= 0xF7FFFFFF;
                 } else {
                     if ((s16)sample_height >= base_height) {
                         ((CallbackActorState *)entity_state)->height_offset.value = 0;
                         ((CallbackActorMotion *)entity_motion)->velocity_z = 0;
-                        ((CallbackActorState *)state_alias)->flags |= 0x08000000;
+                        state_alias->flags |= 0x08000000;
                         ((CallbackActorState *)entity_state)->fall_ticks.signed_value = 0;
                     } else {
                         ((CallbackActorMotion *)entity_motion)->velocity_z = 0;
-                        ((CallbackActorState *)state_alias)->flags |= 0x08000000;
+                        state_alias->flags |= 0x08000000;
                         ((CallbackActorState *)entity_state)->fall_ticks.signed_value = 0;
-                        ((CallbackActorState *)entity_state)->height_offset.signed_halves.integer = (s16)sample_height - ((CallbackActorState *)state_alias)->floor_height;
+                        ((CallbackActorState *)entity_state)->height_offset.signed_halves.integer = (s16)sample_height - state_alias->floor_height;
                     }
                 }
-                state_flags = ((CallbackActorState *)state_alias)->flags;
+                state_flags = state_alias->flags;
                 if (state_flags & 0x40000000) {
-                    ((CallbackActorState *)state_alias)->flags = state_flags & 0xBFFFFFFF;
+                    state_alias->flags = state_flags & 0xBFFFFFFF;
                     sample_height = sample_terrain_surface_height((entity_part->tile_x << 6) | 0x20,
                                                  (entity_part->tile_y << 6) | 0x20,
-                                                 (s16)(((CallbackActorState *)state_alias)->floor_height - 0x20));
-                    ((CallbackActorState *)entity_state)->height_offset.signed_halves.integer += ((CallbackActorState *)state_alias)->floor_height - sample_height;
-                    ((CallbackActorState *)state_alias)->floor_height = sample_height;
+                                                 (s16)(state_alias->floor_height - 0x20));
+                    ((CallbackActorState *)entity_state)->height_offset.signed_halves.integer += state_alias->floor_height - sample_height;
+                    state_alias->floor_height = sample_height;
                 }
-                ((CallbackActorMotion *)entity_motion)->z.signed_halves.integer = ((CallbackActorState *)state_alias)->floor_height + ((CallbackActorState *)entity_state)->height_offset.unsigned_halves.integer;
+                ((CallbackActorMotion *)entity_motion)->z.signed_halves.integer = state_alias->floor_height + ((CallbackActorState *)entity_state)->height_offset.unsigned_halves.integer;
                 entity_part->flags |= 0x40;
                 return;
             }
         }
-        ((CallbackActorState *)state_alias)->flags &= 0xF7FFFFFF;
+        state_alias->flags &= 0xF7FFFFFF;
 
-        ((CallbackActorMotion *)entity_motion)->z.signed_halves.integer = ((CallbackActorState *)state_alias)->floor_height + ((CallbackActorState *)entity_state)->height_offset.unsigned_halves.integer;
+        ((CallbackActorMotion *)entity_motion)->z.signed_halves.integer = state_alias->floor_height + ((CallbackActorState *)entity_state)->height_offset.unsigned_halves.integer;
         entity_part->flags |= 0x40;
     }
 

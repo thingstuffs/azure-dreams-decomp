@@ -49,7 +49,7 @@ void update_actor_behavior_and_direction(ActorRecord *motion, ObjectPosition *re
     u32 initial_flags = g_dungeon_status.flags;
 
     if (initial_flags & 0x1000) {
-        ((Rec_func_800A9E70_arg0 *)motion)->unk_9A.as_u8 = 0xE;
+        motion->action_id.u = 0xE;
         func_80171CD8(motion, render_ctx, map_entity, actor);
         return;
     }
@@ -68,8 +68,8 @@ void update_actor_behavior_and_direction(ActorRecord *motion, ObjectPosition *re
 
     if (((u32)actor->flags1C) & ACTOR_ASLEEP) {
         if (map_entity->frameTable == noise_frame_set) {
-            ((Rec_func_800A9E70_arg0 *)motion)->unk_9A.as_u8 = 0xD;
-            ((Rec_func_800A9E70_arg0 *)motion)->unk_9B.as_u8 = 1;
+            motion->action_id.u = 0xD;
+            motion->action_phase.u = 1;
             ((Rec_func_800A9E70_arg0 *)motion)->unk_8C = 0;
             actor->flags1C &= ~0x40000;
             return;
@@ -89,7 +89,7 @@ void update_actor_behavior_and_direction(ActorRecord *motion, ObjectPosition *re
             u8 current_state;
             u8 idle_state;
 
-            current_state = *(u8 *)((u8 *)motion + 0x9A);
+            current_state = motion->action_id.u;
             idle_state = 0xE;
             if (current_state != idle_state) {
                 anim_table = noise_direction_frames;
@@ -99,13 +99,13 @@ void update_actor_behavior_and_direction(ActorRecord *motion, ObjectPosition *re
                         anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                         0);
                 }
-                ((Rec_func_800A9E70_arg0 *)motion)->unk_9E.as_s16 = 0;
-                ((Rec_func_800A9E70_arg0 *)motion)->unk_A0.at00_s16.v = (rand() & 0x1F) + 0xF;
-                ((Rec_func_800A9E70_arg0 *)motion)->unk_9A.as_u8 = idle_state;
+                motion->unk_9E.s = 0;
+                motion->unk_A0.parts.low = (rand() & 0x1F) + 0xF;
+                motion->action_id.u = idle_state;
             }
         }
 
-        ((Rec_func_800A9E70_arg0 *)motion)->unk_98 &= 0xFFF3;
+        motion->action_state_flags &= 0xFFF3;
         if (actor->hp_delta != 0) {
             if (begin_ready_actor_directional_action(motion, render_ctx, map_entity, D_80174E98)) {
                 return;

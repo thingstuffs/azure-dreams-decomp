@@ -78,18 +78,18 @@ void advance_actor_transition_state(void *owner_data, ObjectPosition *unused, Sp
             ObjectPosition *primary_table;
             TileObject *secondary_table;
 
-            saved_index = ((u16)((ActorRecord *)((u8 *)dungeon_actor_ring_anchor))->unk_8A);
-            saved_actor = ((ActorRecord *)((u8 *)dungeon_actor_ring_anchor))->target;
+            saved_index = ((u16)dungeon_actor_ring_anchor->unk_8A);
+            saved_actor = dungeon_actor_ring_anchor->target;
             actor_index = find_entity_slot_by_field_ac(actor);
             primary_table = &view_reference_entity;
             secondary_table = &reference_tile_object;
             actor_map = dungeon_actor_ring_anchor;
             owner[0xA9] = actor_index;
             actor_map->unk_8A = actor_index;
-            ((ActorRecord *)((u8 *)dungeon_actor_ring_anchor))->target = actor;
+            dungeon_actor_ring_anchor->target = actor;
             store_recalled_familiar(((u8 *)dungeon_actor_ring_anchor), primary_table, secondary_table, ((u8 *)dungeon_actor_ring_anchor));
-            (*(u8 * *)((u8 *)((u8 *)dungeon_actor_ring_anchor) + (0x60))) = saved_actor;
-            ((ActorRecord *)((u8 *)dungeon_actor_ring_anchor))->unk_8A = saved_index;
+            dungeon_actor_ring_anchor->target = saved_actor;
+            dungeon_actor_ring_anchor->unk_8A = saved_index;
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
 

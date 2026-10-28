@@ -63,7 +63,7 @@ void update_dungeon_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
     u32 initial_flags = g_dungeon_status.flags;
 
     if (initial_flags & 0x1000) {
-        ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9A.as_u8 = 0xE;
+        actor_arg->action_id.u = 0xE;
         func_80171510(actor_arg, context_arg, map_object_arg, actor_state_arg);
         return;
     }
@@ -87,8 +87,8 @@ void update_dungeon_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
 
     if (((S_80170F68_1 *)actor_state_arg)->unk_1C & ACTOR_ASLEEP) {
         if (map_object_arg->frameTable == D_80174000) {
-            ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9A.as_u8 = 0xD;
-            ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9B.as_u8 = 1;
+            actor_arg->action_id.u = 0xD;
+            actor_arg->action_phase.u = 1;
             ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_8C = 0;
             ((S_80170F68_1 *)actor_state_arg)->unk_1C &= ~0x40000;
             return;
@@ -104,7 +104,7 @@ void update_dungeon_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
             return;
         }
 
-        if (((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9A.as_u8 != 0xE) {
+        if (actor_arg->action_id.u != 0xE) {
             u8 next_state = 0xE;
 
             anim_table = tyrant_direction_frames;
@@ -115,10 +115,10 @@ void update_dungeon_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
                         >> 9) & 7],
                     0);
             }
-            ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9A.as_u8 = next_state;
+            actor_arg->action_id.u = next_state;
         }
 
-        ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_98 &= 0xFFF3;
+        actor_arg->action_state_flags &= 0xFFF3;
         if (actor_state_arg->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor_arg, context_arg, map_object_arg, D_80173FC0)) {
                 return;

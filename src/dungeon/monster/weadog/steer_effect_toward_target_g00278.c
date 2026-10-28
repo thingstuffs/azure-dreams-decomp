@@ -146,7 +146,7 @@ void create_random_color_offset_effect(
     s16 step;
     s32 color_high;
     s32 color_mid;
-    void *source_data;
+    DelayMotionZ *source_data;
     void *effect;
     SteeringEffectWork *effect_data;
 
@@ -162,27 +162,27 @@ void create_random_color_offset_effect(
             ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->z + held_offset_z;
 
         source_data = ((S_80171498_1 *)parent)->unk_0C;
-        if (resolve_record_orientation_or_fallback(((DelayMotionZ *)source_data)->unk_08, source_data, &source_offset, 0) != 0) {
+        if (resolve_record_orientation_or_fallback(source_data->unk_08, source_data, &source_offset, 0) != 0) {
             ((SignedPositionView *)(((ProjectileObject *)effect)->position))->x += source_offset.x;
             ((SignedPositionView *)(((ProjectileObject *)effect)->position))->y += source_offset.y;
             ((SignedPositionView *)(((ProjectileObject *)effect)->position))->z += source_offset.z;
         }
 
         effect_data = (u8 *)effect + 0x20;
-        ((S_80171498_3 *)effect_data)->unk_5A = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->x;
-        ((S_80171498_3 *)effect_data)->unk_5E = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->y;
-        ((S_80171498_3 *)effect_data)->unk_62 = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->z;
+        effect_data->target_x.w.i = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->x;
+        effect_data->target_y.w.i = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->y;
+        effect_data->target_z.w.i = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->z;
 
         source_data = ((S_80171498_1 *)parent)->unk_0C;
-        if (resolve_record_orientation_or_fallback(((DelayMotionZ *)source_data)->unk_08, source_data, &source_offset, 0) != 0) {
-            (*(s16 *)((u8 *)effect_data + 0x5A)) += source_offset.x;
-            (*(s16 *)((u8 *)effect_data + 0x5E)) += source_offset.y;
-            ((S_80171498_3 *)effect_data)->unk_62 += source_offset.z;
+        if (resolve_record_orientation_or_fallback(source_data->unk_08, source_data, &source_offset, 0) != 0) {
+            effect_data->target_x.w.i += source_offset.x;
+            effect_data->target_y.w.i += source_offset.y;
+            effect_data->target_z.w.i += source_offset.z;
         }
 
-        ((S_80171498_3 *)effect_data)->unk_36 = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->x;
-        ((S_80171498_3 *)effect_data)->unk_38 = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->y;
-        ((S_80171498_3 *)effect_data)->unk_3A = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->z;
+        effect_data->origin_x = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->x;
+        effect_data->origin_y = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->y;
+        effect_data->origin_z = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->z;
 
         step = 0;
         do {

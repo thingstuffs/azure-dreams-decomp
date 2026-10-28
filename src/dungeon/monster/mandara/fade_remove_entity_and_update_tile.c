@@ -48,15 +48,15 @@ void fade_remove_entity_and_update_tile(ActorRecord *fade_state, ObjectPosition 
                 announce_familiar_defeat(entity);
             }
         }
-        ((S_801735B8_0 *)fade_state)->unk_96.u = 6;
+        fade_state->action_timer.u = 6;
         fade_state->action_phase.u =
             (u8)(fade_state->action_phase.u + 1);
         visual_data->clut = 0xFF80;
                         /* fallthrough */
     case 2:
         entity->flags1C |= 0x10000000;
-        countdown = ((S_801735B8_0 *)fade_state)->unk_96.u - 1;
-        ((S_801735B8_0 *)fade_state)->unk_96.u = countdown;
+        countdown = fade_state->action_timer.u - 1;
+        fade_state->action_timer.u = countdown;
         if ((countdown << 16) <= 0) {
             if (visual_data->color.c.r >= 0x10U) {
                 visual_data->color.word += (s32)0xFFEFEFF0;
@@ -67,7 +67,7 @@ void fade_remove_entity_and_update_tile(ActorRecord *fade_state, ObjectPosition 
             visual_data->color.word = 0x00808080;
         }
 
-        if (((S_801735B8_0 *)fade_state)->unk_96.s == 0) {
+        if (fade_state->action_timer.s == 0) {
             play_sound_if_enabled(0x805);
         }
         if (!(visual_data->flags & 0x8000)) {

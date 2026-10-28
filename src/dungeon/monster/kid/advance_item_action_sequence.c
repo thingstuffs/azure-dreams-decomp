@@ -55,11 +55,11 @@ extern u8 kid_frame_set_1[];
  * restores idle. */
 void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     void *owner;
-    void *owner_flags;
+    S_80172D74_5 *owner_flags;
     SpriteFrameState *owner_sprite;
     u8 *item_slot;
     void *entity;
-    void *position;
+    S_80172D74_3 *position;
     s32 special_item;
     s32 step_x;
     s32 step_z;
@@ -71,12 +71,12 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
         u32 direction_index = ((u16)actor->facing >> 8) & 0xE;
 
         owner = ((S_80172D74_1 *)action)->unk_A4;
-        owner_flags = (u8 *)owner + 0x20;
+        owner_flags = (S_80172D74_5 *)((u8 *)owner + 0x20);
         step_x = *(s16 *)(((s8 *)dir_step_x) + direction_index);
         step_z = *(s16 *)(((s8 *)dir_step_y) + direction_index);
         owner_sprite = (u8 *)owner + 0x28;
     }
-    ((S_80172D74_1 *)action)->unk_96.s--;
+    action->action_timer.u--;
     switch (action->action_phase.u) {
     case 0:
         if (actor->flags1C & ACTOR_PLAYER_SIDE) {
@@ -127,9 +127,9 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
                 if (special_test != 0) {
                     entity = primary_actor_record;
                     actor->target = entity;
-                    position = ((ObjectNodeHeader *)((u8 *)entity - 0x20))->sprite;
-                    actor->target_tile_x = ((S_80172D74_3 *)position)->unk_24;
-                    actor->target_tile_y = ((S_80172D74_3 *)position)->unk_25;
+                    position = (S_80172D74_3 *)((ObjectNodeHeader *)((u8 *)entity - 0x20))->sprite;
+                    actor->target_tile_x = position->unk_24;
+                    actor->target_tile_y = position->unk_25;
                 } else {
                     u8 *item_defs = item_action_definitions;
                     u8 item_id = *item_slot;
@@ -138,9 +138,9 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
                         entity = actor->target;
 
                         if (entity != 0) {
-                            position = ((ObjectNodeHeader *)((u8 *)entity - 0x20))->sprite;
-                            actor->target_tile_x = ((S_80172D74_3 *)position)->unk_24;
-                            actor->target_tile_y = ((S_80172D74_3 *)position)->unk_25;
+                            position = (S_80172D74_3 *)((ObjectNodeHeader *)((u8 *)entity - 0x20))->sprite;
+                            actor->target_tile_x = position->unk_24;
+                            actor->target_tile_y = position->unk_25;
                         }
                     } else {
                         position = scan_actor_along_heading(actor,
@@ -153,7 +153,7 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
                 }
             }
 
-            ((S_80172D74_5 *)owner_flags)->unk_04 &= 0x7FFF;
+            owner_flags->unk_04 &= 0x7FFF;
             (owner_sprite->frameTable) = D_80175168;
             select_sprite_entry(owner_sprite,
                 D_80175168[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -165,7 +165,7 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
             create_source_positioned_object(motion, 3);
             play_sound_if_enabled(0x703);
             state_value = action->action_phase.u;
-            ((S_80172D74_1 *)action)->unk_96.s = 6;
+            action->action_timer.u = 6;
             action->action_phase.u = state_value + 1;
             return;
         }
@@ -181,7 +181,7 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
         }
         advance_status_timers(actor);
         (*(u8 *)&actor->pending_turn_updates)--;
-        ((S_80172D74_1 *)action)->unk_8C = kid_action_resume_address;
+        action->unk_8C.address = kid_action_resume_address;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -196,11 +196,11 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
         action->action_phase.u++;
 
     case 2:
-        if (((S_80172D74_1 *)action)->unk_96.u > 0 &&
+        if (action->action_timer.s > 0 &&
             !(sprite->flags & 0xE000)) {
             return;
         }
-        ((S_80172D74_1 *)action)->unk_96.s = 7;
+        action->action_timer.u = 7;
         action->action_state_flags |= 0x80;
         if (sprite->flags & 0x8000) {
             next_state = 0x10;
@@ -211,15 +211,15 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
         return;
 
     case 3:
-        if (((S_80172D74_1 *)action)->unk_96.u < 4) {
+        if (action->action_timer.s < 4) {
             motion->velocity_x = -step_x << 18;
             motion->velocity_y = -step_z << 18;
         }
-        if (((S_80172D74_1 *)action)->unk_96.u > 0) {
+        if (action->action_timer.s > 0) {
             return;
         }
         next_state = 4;
-        ((S_80172D74_1 *)action)->unk_96.s = next_state;
+        action->action_timer.u = next_state;
         next_state = 0x10;
         action->action_phase.u = next_state;
         return;
@@ -238,7 +238,7 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
             motion->velocity_y = (target_z - current_z) << 14;
         }
         if (!(owner_sprite->flags & 0x8000) &&
-            ((S_80172D74_1 *)action)->unk_96.u > 0) {
+            action->action_timer.s > 0) {
             return;
         }
         motion->velocity_z = 0;
@@ -253,8 +253,8 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
                 u8 *alternate_animation = kid_alt_direction_frames;
 
                 if (animation != alternate_animation && (sprite->flags & 0x6000)) {
-                    ((S_80172D74_5 *)owner_flags)->unk_04 |= 0x8000;
-                    ((S_80172D74_1 *)action)->unk_A8 = 0;
+                    owner_flags->unk_04 |= 0x8000;
+                    action->unk_A8.u = 0;
                     if (*(u8 **)&sprite->frameTable == kid_frame_set_1) {
                         next_animation = alternate_animation;
                     }
@@ -273,7 +273,7 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         sprite->flags &= 0xF7FF;
-        ((S_80172D74_1 *)action)->unk_8C = kid_action_resume_address;
+        action->unk_8C.address = kid_action_resume_address;
         advance_status_timers(actor);
         if (actor->pending_turn_updates > 0) {
             (*(u8 *)&actor->pending_turn_updates)--;

@@ -57,11 +57,11 @@ void update_a_jump_toward_target_tile_restores_actor_finishes(ActorRecord *jump_
         jump_state->action_state_flags |= 8;
         motion->velocity_z = 0xFFEE0000;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        ((S_80172540_0 *)jump_state)->unk_A0 = 0;
+        jump_state->unk_A0.value = 0;
         jump_state->action_phase.u++;
     case 1:
-        frames_left = ((S_80172540_0 *)jump_state)->unk_96.s;
-        ((S_80172540_0 *)jump_state)->unk_90 -= ((S_80172540_0 *)jump_state)->unk_A0;
+        frames_left = jump_state->action_timer.s;
+        jump_state->unk_90.value -= jump_state->unk_A0.value;
         if (frames_left != 0) {
             {
                 s32 target_x = map_entity->tile_x << 6;
@@ -74,14 +74,14 @@ void update_a_jump_toward_target_tile_restores_actor_finishes(ActorRecord *jump_
                 s32 current_y = motion->y.w.i - 0x20;
 
                 motion->velocity_y = ((target_y - current_y) << 16) /
-                    ((S_80172540_0 *)jump_state)->unk_96.s;
+                    jump_state->action_timer.s;
             }
-            ((S_80172540_0 *)jump_state)->unk_A0 += motion->velocity_z;
+            jump_state->unk_A0.value += motion->velocity_z;
             motion->velocity_z += 0x40000;
         }
-        ((S_80172540_0 *)jump_state)->unk_90 += ((S_80172540_0 *)jump_state)->unk_A0;
-        if (((S_80172540_0 *)jump_state)->unk_96.s < 2) {
-            ((S_80172540_0 *)jump_state)->unk_90 = 0;
+        jump_state->unk_90.value += jump_state->unk_A0.value;
+        if (jump_state->action_timer.s < 2) {
+            jump_state->unk_90.value = 0;
             jump_state->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
             jump_state->action_phase.u++;
@@ -102,8 +102,8 @@ void update_a_jump_toward_target_tile_restores_actor_finishes(ActorRecord *jump_
         }
     }
 
-    next_timer = ((S_80172540_0 *)jump_state)->unk_96.u - 1;
-    ((S_80172540_0 *)jump_state)->unk_96.s = next_timer;
+    next_timer = jump_state->action_timer.u - 1;
+    jump_state->action_timer.s = next_timer;
     if ((next_timer << 16) <= 0) {
         motion->velocity_z = 0;
         motion->velocity_y = 0;
@@ -133,7 +133,7 @@ void update_a_jump_toward_target_tile_restores_actor_finishes(ActorRecord *jump_
         }
 
         if ((check_actor_floor_trap(map_entity, actor) << 16) > 0) {
-            ((S_80172540_0 *)jump_state)->unk_8C = &picket_action_resume_address;
+            jump_state->unk_8C.address = &picket_action_resume_address;
             on_actor_status_updated(actor);
         }
     }

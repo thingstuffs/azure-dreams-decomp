@@ -57,7 +57,7 @@ BODY_STORAGE void *spawn_mode_dependent_112_object(s16 flags, s16 kind_id, s16 v
     void *object_base;
     SpriteFrameState *part1;
     ObjectPosition *part0;
-    void *actor;
+    S_80170854_4 *actor;
     ObjectNodeHeader *object;
     S_80170854_1 *result;
 
@@ -73,7 +73,7 @@ BODY_STORAGE void *spawn_mode_dependent_112_object(s16 flags, s16 kind_id, s16 v
         part0->z.w.i = spawn_value;
         part1 = object->sprite;
         part1->tile_y = variant;
-        actor = result;
+        actor = (S_80170854_4 *)result;
         part1->frameTable = stealth_frame_set;
         kind = flags & 3;
         part1->tile_x = kind_id;
@@ -94,15 +94,15 @@ BODY_STORAGE void *spawn_mode_dependent_112_object(s16 flags, s16 kind_id, s16 v
             mode = generate_random_value() & 3;
         }
         initialize_actor_sprite_and_animation(object, part0, part1, flags);
-        ((S_80170854_4 *)actor)->unk_9A = 0xFF;
-        ((S_80170854_4 *)actor)->unk_9C = -1;
-        ((S_80170854_4 *)actor)->unk_8C = stealth_behavior_entry;
-        ((S_80170854_4 *)actor)->unk_A4 = -1;
+        actor->unk_9A = 0xFF;
+        actor->unk_9C = -1;
+        actor->unk_8C = stealth_behavior_entry;
+        actor->unk_A4 = -1;
         if (mode != 0) {
-            ((S_80170854_4 *)actor)->unk_A6 = 0;
+            actor->unk_A6 = 0;
         } else {
             object_base = (u8 *)actor - 0x20;
-            ((S_80170854_4 *)actor)->unk_A6 = 1;
+            actor->unk_A6 = 1;
             part1->tpage_abr = 0x60;
             part1->flags |= 0xC;
             part1->clut -= 0x80;

@@ -18,7 +18,7 @@ void *spawn_variant_monster_slot_c(s16 flags, s16 tile_x, s16 tile_y, s16 spawn_
     void *object_base;
     SpriteFrameState *part1;
     ObjectPosition *part0;
-    void *actor;
+    S_80158854_4 *actor;
     ObjectNodeHeader *object;
     S_80158854_1 *result;
 
@@ -34,7 +34,7 @@ void *spawn_variant_monster_slot_c(s16 flags, s16 tile_x, s16 tile_y, s16 spawn_
         part0->z.w.i = spawn_height;
         part1 = object->sprite;
         part1->tile_y = tile_y;
-        actor = result;
+        actor = (S_80158854_4 *)result;
         part1->frameTable = D_8015BD30;
         kind = flags & 3;
         part1->tile_x = tile_x;
@@ -55,15 +55,15 @@ void *spawn_variant_monster_slot_c(s16 flags, s16 tile_x, s16 tile_y, s16 spawn_
             mode = generate_random_value() & 3;
         }
         initialize_actor_sprite_and_animation(object, part0, part1, flags);
-        ((S_80158854_4 *)actor)->unk_9A = 0xFF;
-        ((S_80158854_4 *)actor)->unk_9C = -1;
-        ((S_80158854_4 *)actor)->unk_8C = func_80158F74;
-        ((S_80158854_4 *)actor)->unk_A4 = -1;
+        actor->unk_9A = 0xFF;
+        actor->unk_9C = -1;
+        actor->unk_8C = func_80158F74;
+        actor->unk_A4 = -1;
         if (mode != 0) {
-            ((S_80158854_4 *)actor)->unk_A6 = 0;
+            actor->unk_A6 = 0;
         } else {
             object_base = (u8 *)actor - 0x20;
-            ((S_80158854_4 *)actor)->unk_A6 = 1;
+            actor->unk_A6 = 1;
             part1->tpage_abr = 0x60;
             part1->flags |= 0xC;
             part1->clut -= 0x80;

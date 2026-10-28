@@ -50,7 +50,7 @@ void update_creature_behavior_and_animation_2(ActorRecord *actor_in, ObjectPosit
     u32 initial_flags = g_dungeon_status.flags;
 
     if (initial_flags & 0x1000) {
-        ((Rec_func_800A9E70_arg0 *)actor_in)->unk_9A.as_u8 = 0xE;
+        actor_in->action_id.u = 0xE;
         advance_entity_along_stored_path(actor_in, context_in, sprite, creature_in);
         return;
     }
@@ -69,8 +69,8 @@ void update_creature_behavior_and_animation_2(ActorRecord *actor_in, ObjectPosit
 
     if (((u32)creature_in->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == saber_direction_frames_2) {
-            ((Rec_func_800A9E70_arg0 *)actor_in)->unk_9A.as_u8 = 0xD;
-            ((Rec_func_800A9E70_arg0 *)actor_in)->unk_9B.as_u8 = 1;
+            actor_in->action_id.u = 0xD;
+            actor_in->action_phase.u = 1;
             ((Rec_func_800A9E70_arg0 *)actor_in)->unk_8C = 0;
             creature_in->flags1C &= 0xFFFBFFFF;
             return;
@@ -87,7 +87,7 @@ void update_creature_behavior_and_animation_2(ActorRecord *actor_in, ObjectPosit
         }
 
         {
-            u32 current_state = ((Rec_func_800A9E70_arg0 *)actor_in)->unk_9A.as_u8;
+            u32 current_state = actor_in->action_id.u;
             u32 next_state;
 
             next_state = 0xE;
@@ -99,13 +99,13 @@ void update_creature_behavior_and_animation_2(ActorRecord *actor_in, ObjectPosit
                         anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + creature_in->facing + 0x100) >> 9) & 7],
                         0);
                 }
-                ((Rec_func_800A9E70_arg0 *)actor_in)->unk_9E.as_s16 = 0;
-                ((Rec_func_800A9E70_arg0 *)actor_in)->unk_A0.at00_s16.v = 0x14;
-                ((Rec_func_800A9E70_arg0 *)actor_in)->unk_9A.as_u8 = next_state;
+                actor_in->unk_9E.s = 0;
+                actor_in->unk_A0.parts.low = 0x14;
+                actor_in->action_id.u = next_state;
             }
         }
 
-        ((Rec_func_800A9E70_arg0 *)actor_in)->unk_98 &= 0xFFF3;
+        actor_in->action_state_flags &= 0xFFF3;
         if (creature_in->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor_in, context_in, sprite, saber_frame_set_10) != 0) {
                 return;
@@ -119,7 +119,7 @@ void update_creature_behavior_and_animation_2(ActorRecord *actor_in, ObjectPosit
             select_sprite_entry(sprite,
                 saber_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + creature_in->facing + 0x100) >> 9) & 7],
                 0);
-            ((Rec_func_800A9E70_arg0 *)actor_in)->unk_90.at00_s32.v = 0;
+            actor_in->unk_90.value = 0;
             return;
         }
 

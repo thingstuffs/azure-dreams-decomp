@@ -28,10 +28,10 @@ void advance_action_and_spawn_random_effects(ActorRecord *action, ObjectPosition
     u16 spawn_tick;
     u8 animation;
     s32 state;
-    void *owner_sprite;
+    T_80172FFC_S_80172FFC_9 *owner_sprite;
     ObjectPosition *effect_motion;
     SpriteFrameState *effect_sprite;
-    void *effect_data;
+    T_80172FFC_S_80172FFC_4 *effect_data;
     ObjectNodeHeader *effect;
     Packed32 *direction_source = &D_80170838;
 
@@ -46,9 +46,9 @@ void advance_action_and_spawn_random_effects(ActorRecord *action, ObjectPosition
         resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
         return;
     }
-    ((T_80172FFC_S_80172FFC_3 *)motion)->unk_14 = 0;
-    ((T_80172FFC_S_80172FFC_3 *)motion)->unk_10 = 0;
-    ((T_80172FFC_S_80172FFC_3 *)motion)->unk_0C = 0;
+    motion->velocity_z = 0;
+    motion->velocity_y = 0;
+    motion->velocity_x = 0;
     action->action_timer.u = 0U;
     action->action_phase.u = (u8) (action->action_phase.u + 1);
     return;
@@ -93,11 +93,11 @@ void advance_action_and_spawn_random_effects(ActorRecord *action, ObjectPosition
             effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
             effect_data = ((void *)effect) + 0x20;
             if (effect != NULL) {
-                ((T_80172FFC_S_80172FFC_4 *)effect_data)->unk_96 = 0x19;
-                ((T_80172FFC_S_80172FFC_4 *)effect_data)->unk_9E = 0x19;
+                effect_data->unk_96 = 0x19;
+                effect_data->unk_9E = 0x19;
                 effect->update_callback = &project_sprite_entries_to_quads;
-                ((T_80172FFC_S_80172FFC_4 *)effect_data)->unk_A8 = motion;
-                ((T_80172FFC_S_80172FFC_4 *)effect_data)->unk_94 = (u16) actor->facing;
+                effect_data->unk_A8 = motion;
+                effect_data->unk_94 = (u16) actor->facing;
                 effect_sprite = effect->sprite;
                 *(T_80172FFC_S_80172FFC_6 *)effect_sprite = *(T_80172FFC_S_80172FFC_6 *)sprite;
                 effect_sprite->scale_y = 0;
@@ -114,7 +114,7 @@ void advance_action_and_spawn_random_effects(ActorRecord *action, ObjectPosition
                 effect_motion->y.w.i = (u16) ((T_80172FFC_S_80172FFC_3 *)motion)->unk_06;
                 effect_motion->z.w.i = (u16) ((T_80172FFC_S_80172FFC_3 *)motion)->unk_0A;
                 owner_sprite = ((T_80172FFC_S_80172FFC_8 *)owner)->unk_0C;
-                if (resolve_record_orientation_or_fallback(((T_80172FFC_S_80172FFC_9 *)owner_sprite)->unk_08, owner_sprite, spawn_offset, 0) != 0) {
+                if (resolve_record_orientation_or_fallback(owner_sprite->unk_08, owner_sprite, spawn_offset, 0) != 0) {
                     effect_motion->x.w.i = (u16) (*(u16 *)&effect_motion->x.w.i
                         + spawn_offset[0]);
                     effect_motion->y.w.i = (u16) (*(u16 *)&effect_motion->y.w.i
@@ -124,12 +124,12 @@ void advance_action_and_spawn_random_effects(ActorRecord *action, ObjectPosition
                 }
                 effect_motion->velocity_z = (s32) (((0xD - (s16) action->action_timer.u)
                     << 0x11) + 0xFFE80000);
-                ((T_80172FFC_S_80172FFC_4 *)effect_data)->unk_B4 = 0xC000;
+                effect_data->unk_B4 = 0xC000;
                 effect_motion->velocity_x =
-                    (s32) (((T_80172FFC_S_80172FFC_10 *)(&directions[((u16) ((T_80172FFC_S_80172FFC_4 *)effect_data)->unk_94
+                    (s32) (((T_80172FFC_S_80172FFC_10 *)(&directions[((u16) effect_data->unk_94
                     >> 7) & 0x1C]))->unk_00 << 0x11);
                 effect_motion->velocity_y =
-                    (s32) (((T_80172FFC_S_80172FFC_10 *)(&directions[((u16) ((T_80172FFC_S_80172FFC_4 *)effect_data)->unk_94
+                    (s32) (((T_80172FFC_S_80172FFC_10 *)(&directions[((u16) effect_data->unk_94
                     >> 7) & 0x1C]))->unk_02 << 0x11);
                 random_value = rand();
                 velocity_base = effect_motion->velocity_x + 0xFFFE0000;
@@ -153,7 +153,7 @@ void advance_action_and_spawn_random_effects(ActorRecord *action, ObjectPosition
                 position[2] = ((T_80172FFC_S_80172FFC_3 *)motion)->unk_0A;
                 effect_sprite->depth_bias = (s16) ((effect_depth - RotTransPers(position_ptr,
                     screen_pos, &projection_aux, &projection_flags))
-                    - (view_direction_depth_biases[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((T_80172FFC_S_80172FFC_4 *)effect_data)->unk_94
+                    - (view_direction_depth_biases[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) effect_data->unk_94
                     + 0x100) >> 9) & 7] * 2));
             }
             next_count = spawn_count + 1;
@@ -165,7 +165,7 @@ void advance_action_and_spawn_random_effects(ActorRecord *action, ObjectPosition
     case 3:
     if (sprite->flags & 0xE000) {
         spend_actor_mp(actor, 0x100);
-        ((T_80172FFC_S_80172FFC_0 *)action)->unk_8C = &update_actor_behavior_and_direction;
+        action->unk_8C.handler = &update_actor_behavior_and_direction;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         actor->action_flags = (u16) (actor->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);

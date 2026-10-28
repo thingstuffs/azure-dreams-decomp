@@ -74,14 +74,14 @@ void update_actor_action_target_and_animation(ActorRecord *action, ObjectPositio
     u8 *entry;
     s32 current_state;
     s32 state;
-    void *visual_flags;
+    S_801727C8_5 *visual_flags;
     SpriteFrameState *effect_sprite;
     void *target_owner;
 
     is_special = 0;
-    visual_base = ((S_801727C8_0 *)action)->unk_A4;
+    visual_base = action->unk_A4;
     state = action->action_phase.u;
-    visual_flags = visual_base + 0x20;
+    visual_flags = (S_801727C8_5 *)(visual_base + 0x20);
     effect_sprite = visual_base + 0x28;
     switch (state) {
     case 0:
@@ -165,7 +165,7 @@ void update_actor_action_target_and_animation(ActorRecord *action, ObjectPositio
                 }
             }
             anim_table = &D_801741B4;
-            ((S_801727C8_5 *)visual_flags)->unk_04 = (u16) (((S_801727C8_5 *)visual_flags)->unk_04 & 0x7FFF);
+            visual_flags->unk_04 = (u16) (visual_flags->unk_04 & 0x7FFF);
             (effect_sprite->frameTable) = anim_table;
             select_sprite_entry(effect_sprite, *((u8 *) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + (s32) anim_table)), 0);
@@ -179,7 +179,7 @@ void update_actor_action_target_and_animation(ActorRecord *action, ObjectPositio
             {
                 state = 6;
 
-                ((S_801727C8_0 *)action)->unk_96 = (u16)state;
+                action->action_timer.u = (u16)state;
             }
             action->action_phase.u = (u8) (current_state + 1);
             return;
@@ -192,7 +192,7 @@ void update_actor_action_target_and_animation(ActorRecord *action, ObjectPositio
         (*(u16 *)((u8 *)&primary_actor_record->unk_A4 + 2)) = (u16) ((((D800814A8FieldView_80EB6FC8 *)primary_actor_record)->field_A6) - 1);
         advance_status_timers(actor);
         actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
-        ((S_801727C8_0 *)action)->unk_8C = &update_actor_animation_and_dispatch;
+        action->unk_8C.handler = &update_actor_animation_and_dispatch;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags = (u16) (actor->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
@@ -207,8 +207,8 @@ void update_actor_action_target_and_animation(ActorRecord *action, ObjectPositio
         action->action_phase.u = (u8) (action->action_phase.u + 1);
 
     case 2:
-        ticks_left = ((S_801727C8_0 *)action)->unk_96 - 1;
-        ((S_801727C8_0 *)action)->unk_96 = ticks_left;
+        ticks_left = action->action_timer.u - 1;
+        action->action_timer.u = ticks_left;
         if ((ticks_left << 0x10) > 0) {
             if (!(sprite->flags & 0xE000)) {
                 return;
@@ -234,8 +234,8 @@ void update_actor_action_target_and_animation(ActorRecord *action, ObjectPositio
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         if ((*(M2C_UNK * *)&sprite->frameTable) != &kraken_frame_set_1) {
             if (sprite->flags & 0x6000) {
-                ((S_801727C8_5 *)visual_flags)->unk_04 = (u16) (((S_801727C8_5 *)visual_flags)->unk_04 | 0x8000);
-                ((S_801727C8_0 *)action)->unk_A8 = 0;
+                visual_flags->unk_04 = (u16) (visual_flags->unk_04 | 0x8000);
+                action->unk_A8.s = 0;
                 sprite->frameTable = &kraken_frame_set_1;
                 select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                     + &kraken_frame_set_1), 0);
@@ -246,7 +246,7 @@ void update_actor_action_target_and_animation(ActorRecord *action, ObjectPositio
         }
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         sprite->flags = (u16) (sprite->flags & 0xF7FF);
-        ((S_801727C8_0 *)action)->unk_8C = &update_actor_animation_and_dispatch;
+        action->unk_8C.handler = &update_actor_animation_and_dispatch;
         advance_status_timers(actor);
         if ((s8) ((u8)actor->pending_turn_updates) > 0) {
             actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);

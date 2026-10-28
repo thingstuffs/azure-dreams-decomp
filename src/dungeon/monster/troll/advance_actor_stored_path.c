@@ -31,10 +31,10 @@ void advance_actor_stored_path_2(ActorRecord *movement, ObjectPosition *actor_in
     move_kind = ((T_80172CC0_S_80172CC0_0 *)state)->unk_48;
     switch (move_kind) {
     case 0xD:
-        current_table = ((SpriteFrameState *)actor)->frameTable;
+        current_table = actor->frameTable;
         direction_table = (u8 *)&troll_stored_path_frames;
     if (current_table != direction_table) {
-        ((SpriteFrameState *)actor)->frameTable = direction_table;
+        actor->frameTable = direction_table;
         direction_addr =
             ((g_game_work.view.camera_rotation.parts.viewAngle + ((T_80172CC0_S_80172CC0_0 *)state)->unk_2A + 0x100) >> 9) & 7;
         direction_addr += (unsigned long)direction_table;
@@ -42,10 +42,10 @@ void advance_actor_stored_path_2(ActorRecord *movement, ObjectPosition *actor_in
     }
         break;
     case 0xE:
-        current_table = ((SpriteFrameState *)actor)->frameTable;
+        current_table = actor->frameTable;
         direction_table = (u8 *)&troll_frame_set;
     if (current_table != direction_table) {
-        ((SpriteFrameState *)actor)->frameTable = direction_table;
+        actor->frameTable = direction_table;
         direction_addr =
             ((g_game_work.view.camera_rotation.parts.viewAngle + ((T_80172CC0_S_80172CC0_0 *)state)->unk_2A + 0x100) >> 9) & 7;
         direction_addr += (unsigned long)direction_table;
@@ -53,10 +53,10 @@ void advance_actor_stored_path_2(ActorRecord *movement, ObjectPosition *actor_in
     }
         break;
     case 0xF:
-        current_table = ((SpriteFrameState *)actor)->frameTable;
+        current_table = actor->frameTable;
         direction_table = (u8 *)&troll_frame_set_4;
     if (current_table != direction_table) {
-        ((SpriteFrameState *)actor)->frameTable = direction_table;
+        actor->frameTable = direction_table;
         direction_addr =
             ((g_game_work.view.camera_rotation.parts.viewAngle + ((T_80172CC0_S_80172CC0_0 *)state)->unk_2A + 0x100) >> 9) & 7;
         direction_addr += (unsigned long)direction_table;
@@ -68,8 +68,8 @@ void advance_actor_stored_path_2(ActorRecord *movement, ObjectPosition *actor_in
     }
 
     cell_flags = 0x3000;
-    x = ((SpriteFrameState *)actor)->tile_x;
-    y = ((SpriteFrameState *)actor)->tile_y;
+    x = actor->tile_x;
+    y = actor->tile_y;
     if (((T_80172CC0_S_80172CC0_0 *)state)->unk_1C & 0x2000) {
         cell_flags = 0x300;
     }
@@ -82,17 +82,17 @@ void advance_actor_stored_path_2(ActorRecord *movement, ObjectPosition *actor_in
     move_result = (s16)check_movement_clearance_and_height(heading, actor, state, 0x20);
 
     path_entry = (u8 *)state + ((T_80172CC0_S_80172CC0_0 *)state)->unk_8A.s;
-    ((SpriteFrameState *)actor)->tile_x = ((T_80172CC0_S_80172CC0_2 *)path_entry)->unk_74;
+    actor->tile_x = ((T_80172CC0_S_80172CC0_2 *)path_entry)->unk_74;
     cell_flags = 0x3000;
     path_entry = (u8 *)state + ((T_80172CC0_S_80172CC0_0 *)state)->unk_8A.s;
     /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: dungeon/func_80CE94C0). */
     do {
     } while (0);
-    ((SpriteFrameState *)actor)->tile_y = ((T_80172CC0_S_80172CC0_2 *)path_entry)->unk_7C;
+    actor->tile_y = ((T_80172CC0_S_80172CC0_2 *)path_entry)->unk_7C;
     ((T_80172CC0_S_80172CC0_0 *)state)->unk_8A.u++;
     {
-        s32 next_x = ((SpriteFrameState *)actor)->tile_x;
-        s32 next_y = ((SpriteFrameState *)actor)->tile_y;
+        s32 next_x = actor->tile_x;
+        s32 next_y = actor->tile_y;
 
         if (((T_80172CC0_S_80172CC0_0 *)state)->unk_1C & 0x2000) {
             cell_flags = 0x300;
@@ -101,23 +101,23 @@ void advance_actor_stored_path_2(ActorRecord *movement, ObjectPosition *actor_in
     }
 
     ((T_80172CC0_S_80172CC0_0 *)state)->unk_2A = heading;
-    if (move_result == 3 && !(g_dungeon_status.flags & 0x80) && !(((SpriteFrameState *)actor)->flags & 0x8000)) {
+    if (move_result == 3 && !(g_dungeon_status.flags & 0x80) && !(actor->flags & 0x8000)) {
         reset_actor_directional_animation(movement, actor_index, actor, state);
         ((Rec_func_80172CC0_arg0 *)movement)->unk_8C.as_s32 = 0;
     } else {
-        ((Rec_func_80172CC0_arg0 *)movement)->unk_9A.as_u8 = 0xF;
+        movement->action_id.u = 0xF;
         ((Rec_func_80172CC0_arg0 *)movement)->unk_8C.as_s32 = 0;
     }
     (((T_80172CC0_S_80172CC0_0 *)state)->unk_1C) |= 0x40000000;
     if (g_dungeon_status.flags & 0x80) {
-        ((Rec_func_80172CC0_arg0 *)movement)->unk_96.as_s16 = 0;
+        movement->action_timer.s = 0;
         return;
     }
 
-    ((Rec_func_80172CC0_arg0 *)movement)->unk_96.as_s16 = 8;
+    movement->action_timer.s = 8;
     x = ((T_80172CC0_S_80172CC0_0 *)state)->unk_71.u;
     if (x > 0) {
-        ((Rec_func_80172CC0_arg0 *)movement)->unk_96.as_s16 = 8 / x;
+        movement->action_timer.s = 8 / x;
     }
 }
 
@@ -430,8 +430,8 @@ s32 check_and_prepare_actor_move(ActorRecord *action_state, ObjectPosition *faci
         return -1;
     }
 
-    initial_target = probe_directional_neighbor(actor, ((T_80173734_S_80173734_2 *)origin)->unk_24,
-                            ((T_80173734_S_80173734_2 *)origin)->unk_25,
+    initial_target = probe_directional_neighbor(actor, origin->tile_x,
+                            origin->tile_y,
                             actor->facing);
     if ((check_entity_interaction_compatibility(actor, initial_target) << 16) == 0) {
         return 0;
@@ -460,94 +460,94 @@ s32 check_and_prepare_actor_move(ActorRecord *action_state, ObjectPosition *faci
     ((T_80173734_S_80173734_3 *)action_state)->unk_8C = 0;
     action_state->action_id.u = 0x11;
 
-    switch (((T_80173734_S_80173734_0 *)actor)->unk_48) {
+    switch (actor->unk_48) {
     case 13:
-        ((T_80173734_S_80173734_0 *)actor)->unk_84 = 0x78;
-        ((T_80173734_S_80173734_0 *)actor)->unk_85 = 8;
+        actor->unk_84 = 0x78;
+        actor->unk_85 = 8;
         break;
     case 14:
-        ((T_80173734_S_80173734_0 *)actor)->unk_84 = 0x70;
-        ((T_80173734_S_80173734_0 *)actor)->unk_85 = 2;
+        actor->unk_84 = 0x70;
+        actor->unk_85 = 2;
         break;
     case 15:
-        ((T_80173734_S_80173734_0 *)actor)->unk_84 = 0x74;
-        ((T_80173734_S_80173734_0 *)actor)->unk_85 = result;
+        actor->unk_84 = 0x74;
+        actor->unk_85 = result;
         break;
     }
 
     ((T_80173734_S_80173734_0 *)actor)->unk_6D--;
-    if (((T_80173734_S_80173734_0 *)actor)->unk_48 == 15) {
+    if (actor->unk_48 == 15) {
 
-        ((T_80173734_S_80173734_0 *)actor)->unk_60 =
-            scan_actor_along_heading(actor, ((T_80173734_S_80173734_2 *)origin)->unk_24,
-                          ((T_80173734_S_80173734_2 *)origin)->unk_25, actor->facing, 10);
+        actor->target =
+            scan_actor_along_heading(actor, origin->tile_x,
+                          origin->tile_y, actor->facing, 10);
         ((T_80173734_S_80173734_3 *)action_state)->unk_AC = 0;
-        if (((T_80173734_S_80173734_0 *)actor)->unk_60 != 0) {
+        if (actor->target != 0) {
             {
                 s16 target_distance = get_tile_chebyshev_distance(
-                    ((T_80173734_S_80173734_4_pre *)(((T_80173734_S_80173734_0 *)actor)->unk_60))[-1].unk_00, origin);
-                ((T_80173734_S_80173734_3 *)action_state)->unk_AA = target_distance;
+                    ((T_80173734_S_80173734_4_pre *)actor->target)[-1].unk_00, origin);
+                action_state->unk_AA = target_distance;
                 prepare_directional_attack(actor, origin, actor->facing, target_distance,
-                              ((T_80173734_S_80173734_0 *)actor)->unk_60);
+                              actor->target);
             }
 
             if (((T_80173734_S_80173734_0 *)actor)->unk_14 & 0x04000000) {
                 range_left = 10;
-                origin_x = ((T_80173734_S_80173734_2 *)origin)->unk_24;
-                origin_y = ((T_80173734_S_80173734_2 *)origin)->unk_25;
+                origin_x = origin->tile_x;
+                origin_y = origin->tile_y;
 
 loop:
-                next_x = ((T_80173734_S_80173734_0 *)actor)->unk_72;
-                next_y = ((T_80173734_S_80173734_0 *)actor)->unk_73;
+                next_x = actor->target_tile_x;
+                next_y = actor->target_tile_y;
                 resolve_attack_damage_and_effects(actor, origin, actor->facing,
-                              ((T_80173734_S_80173734_3 *)action_state)->unk_AA);
-                range_left -= ((T_80173734_S_80173734_3 *)action_state)->unk_AA;
+                              action_state->unk_AA);
+                range_left -= action_state->unk_AA;
                 if (range_left != 0) {
-                    ((T_80173734_S_80173734_2 *)origin)->unk_24 = next_x;
-                    ((T_80173734_S_80173734_2 *)origin)->unk_25 = next_y;
-                    ((T_80173734_S_80173734_0 *)actor)->unk_60 =
-                        scan_actor_along_heading(actor, ((T_80173734_S_80173734_2 *)origin)->unk_24,
-                                      ((T_80173734_S_80173734_2 *)origin)->unk_25,
+                    origin->tile_x = next_x;
+                    origin->tile_y = next_y;
+                    actor->target =
+                        scan_actor_along_heading(actor, origin->tile_x,
+                                      origin->tile_y,
                                       actor->facing, (s16)range_left);
-                    if (((T_80173734_S_80173734_0 *)actor)->unk_60 != 0) {
-                        ((T_80173734_S_80173734_2 *)origin)->unk_24 = origin_x;
-                        ((T_80173734_S_80173734_2 *)origin)->unk_25 = origin_y;
+                    if (actor->target != 0) {
+                        origin->tile_x = origin_x;
+                        origin->tile_y = origin_y;
                         {
                             s16 target_distance = get_tile_chebyshev_distance(
-                                ((T_80173734_S_80173734_4_pre *)(((T_80173734_S_80173734_0 *)actor)->unk_60))[-1].unk_00, origin);
-                            ((T_80173734_S_80173734_3 *)action_state)->unk_AA = target_distance;
+                                ((T_80173734_S_80173734_4_pre *)actor->target)[-1].unk_00, origin);
+                            action_state->unk_AA = target_distance;
                             prepare_directional_attack(actor, origin, actor->facing, target_distance,
-                                          ((T_80173734_S_80173734_0 *)actor)->unk_60);
+                                          actor->target);
                         }
                         if (((T_80173734_S_80173734_0 *)actor)->unk_14 & 0x04000000) {
                             goto loop;
                         }
                     } else {
                         prepare_directional_attack(actor, origin, actor->facing, 1, 0);
-                        ((T_80173734_S_80173734_3 *)action_state)->unk_AA = 1;
+                        action_state->unk_AA = 1;
                     }
                 }
-                ((T_80173734_S_80173734_2 *)origin)->unk_24 = origin_x;
-                ((T_80173734_S_80173734_2 *)origin)->unk_25 = origin_y;
+                origin->tile_x = origin_x;
+                origin->tile_y = origin_y;
             }
         } else {
             prepare_directional_attack(actor, origin, actor->facing, 1, 0);
-            ((T_80173734_S_80173734_3 *)action_state)->unk_AA = 1;
+            action_state->unk_AA = 1;
         }
 
         {
-            u32 direction_offset = (((T_80173734_S_80173734_0 *)actor)->unk_6A >> 8) & 0xE;
+            u32 direction_offset = (actor->movement_facing >> 8) & 0xE;
             setup_object_within_planar_range(
                 (u8 *)actor - 0x20,
-                (((T_80173734_S_80173734_2 *)origin)->unk_24 << 6) +
+                (origin->tile_x << 6) +
                     ((s16)*(u16 *)((u8 *)direction_x_offsets + direction_offset) >> 1) + 0x20,
-                (((T_80173734_S_80173734_2 *)origin)->unk_25 << 6) +
+                (origin->tile_y << 6) +
                     ((s16)*(u16 *)((u8 *)direction_y_offsets + direction_offset) >> 1) + 0x20,
-                ((T_80173734_S_80173734_0 *)actor)->unk_88, 8, 0x300);
+                actor->ground_height, 8, 0x300);
         }
     } else {
         prepare_directional_attack(actor, origin, actor->facing, 1, 0);
-        ((T_80173734_S_80173734_3 *)action_state)->unk_AA = 1;
+        action_state->unk_AA = 1;
     }
 
     return result;
@@ -585,43 +585,43 @@ void prepare_actor_path_movement(ActorRecord *action_input, ObjectPosition *x_of
 
     if (((T_80173B48_S_80173B48_0 *)actor)->unk_48 == 15) {
         ((T_80173B48_S_80173B48_0 *)actor)->unk_60 =
-            scan_actor_along_heading(actor, ((T_80173B48_S_80173B48_2 *)position_input)->unk_24,
-                          ((T_80173B48_S_80173B48_2 *)position_input)->unk_25, ((T_80173B48_S_80173B48_0 *)actor)->unk_2A, 10);
+            scan_actor_along_heading(actor, position_input->tile_x,
+                          position_input->tile_y, ((T_80173B48_S_80173B48_0 *)actor)->unk_2A, 10);
         ((T_80173B48_S_80173B48_1 *)action_input)->unk_AC = 0;
         if (((T_80173B48_S_80173B48_0 *)actor)->unk_60 != 0) {
             {
                 s16 travel_steps = get_tile_chebyshev_distance(
                     ((T_80173B48_S_80173B48_3_pre *)(((T_80173B48_S_80173B48_0 *)actor)->unk_60))[-1].unk_00, position_input);
-                ((T_80173B48_S_80173B48_1 *)action_input)->unk_AA = travel_steps;
+                action_input->unk_AA = travel_steps;
                 prepare_directional_attack(actor, position_input, ((T_80173B48_S_80173B48_0 *)actor)->unk_2A, travel_steps,
                               ((T_80173B48_S_80173B48_0 *)actor)->unk_60);
             }
 
             if (((T_80173B48_S_80173B48_0 *)actor)->unk_14 & 0x04000000) {
                 remaining_steps = 10;
-                saved_x = ((T_80173B48_S_80173B48_2 *)position_input)->unk_24;
-                saved_y = ((T_80173B48_S_80173B48_2 *)position_input)->unk_25;
+                saved_x = position_input->tile_x;
+                saved_y = position_input->tile_y;
 
 loop:
                 next_x = ((T_80173B48_S_80173B48_0 *)actor)->unk_72;
                 next_y = ((T_80173B48_S_80173B48_0 *)actor)->unk_73;
                 resolve_attack_damage_and_effects(actor, position_input, ((T_80173B48_S_80173B48_0 *)actor)->unk_2A,
-                              ((T_80173B48_S_80173B48_1 *)action_input)->unk_AA);
-                remaining_steps -= ((T_80173B48_S_80173B48_1 *)action_input)->unk_AA;
+                              action_input->unk_AA);
+                remaining_steps -= action_input->unk_AA;
                 if (remaining_steps != 0) {
-                    ((T_80173B48_S_80173B48_2 *)position_input)->unk_24 = next_x;
-                    ((T_80173B48_S_80173B48_2 *)position_input)->unk_25 = next_y;
+                    position_input->tile_x = next_x;
+                    position_input->tile_y = next_y;
                     ((T_80173B48_S_80173B48_0 *)actor)->unk_60 =
-                        scan_actor_along_heading(actor, ((T_80173B48_S_80173B48_2 *)position_input)->unk_24,
-                                      ((T_80173B48_S_80173B48_2 *)position_input)->unk_25,
+                        scan_actor_along_heading(actor, position_input->tile_x,
+                                      position_input->tile_y,
                                       ((T_80173B48_S_80173B48_0 *)actor)->unk_2A, (s16)remaining_steps);
                     if (((T_80173B48_S_80173B48_0 *)actor)->unk_60 != 0) {
-                        ((T_80173B48_S_80173B48_2 *)position_input)->unk_24 = saved_x;
-                        ((T_80173B48_S_80173B48_2 *)position_input)->unk_25 = saved_y;
+                        position_input->tile_x = saved_x;
+                        position_input->tile_y = saved_y;
                         {
                             s16 travel_steps = get_tile_chebyshev_distance(
                                 ((T_80173B48_S_80173B48_3_pre *)(((T_80173B48_S_80173B48_0 *)actor)->unk_60))[-1].unk_00, position_input);
-                            ((T_80173B48_S_80173B48_1 *)action_input)->unk_AA = travel_steps;
+                            action_input->unk_AA = travel_steps;
                             prepare_directional_attack(actor, position_input, ((T_80173B48_S_80173B48_0 *)actor)->unk_2A, travel_steps,
                                           ((T_80173B48_S_80173B48_0 *)actor)->unk_60);
                         }
@@ -630,31 +630,31 @@ loop:
                         }
                     } else {
                         prepare_directional_attack(actor, position_input, ((T_80173B48_S_80173B48_0 *)actor)->unk_2A, 1, 0);
-                        ((T_80173B48_S_80173B48_1 *)action_input)->unk_AA = 1;
+                        action_input->unk_AA = 1;
                     }
                 }
 
-                ((T_80173B48_S_80173B48_2 *)position_input)->unk_24 = saved_x;
-                ((T_80173B48_S_80173B48_2 *)position_input)->unk_25 = saved_y;
+                position_input->tile_x = saved_x;
+                position_input->tile_y = saved_y;
             }
         } else {
             prepare_directional_attack(actor, position_input, ((T_80173B48_S_80173B48_0 *)actor)->unk_2A, 1, 0);
-            ((T_80173B48_S_80173B48_1 *)action_input)->unk_AA = 1;
+            action_input->unk_AA = 1;
         }
 
         {
             u32 direction_offset = (((T_80173B48_S_80173B48_0 *)actor)->unk_6A >> 8) & 0xE;
             setup_object_within_planar_range(
                 (u8 *)actor - 0x20,
-                (((T_80173B48_S_80173B48_2 *)position_input)->unk_24 << 6) +
+                (position_input->tile_x << 6) +
                     ((s16)*(u16 *)((u8 *)direction_x_offsets + direction_offset) >> 1) + 0x20,
-                (((T_80173B48_S_80173B48_2 *)position_input)->unk_25 << 6) +
+                (position_input->tile_y << 6) +
                     ((s16)*(u16 *)((u8 *)direction_y_offsets + direction_offset) >> 1) + 0x20,
                 ((T_80173B48_S_80173B48_0 *)actor)->unk_88, 8, 0x300);
         }
     } else {
         prepare_directional_attack(actor, position_input, ((T_80173B48_S_80173B48_0 *)actor)->unk_2A, 1, 0);
-        ((T_80173B48_S_80173B48_1 *)action_input)->unk_AA = 1;
+        action_input->unk_AA = 1;
     }
 
     action_state = ((T_80173B48_S_80173B48_0 *)actor)->unk_48;

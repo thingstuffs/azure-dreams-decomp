@@ -41,22 +41,22 @@ void advance_timed_directional_action(ActorRecord *action, ObjectPosition *motio
     switch (state) {
 
     case 0:
-        ((Rec_func_8017121C_arg1 *)motion)->unk_14 = 0;
-        ((Rec_func_8017121C_arg1 *)motion)->unk_10 = 0;
-        ((Rec_func_8017121C_arg1 *)motion)->unk_0C = 0;
-        ((S_801743C4_0 *)action)->unk_96.s = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
+        action->action_timer.u = 0;
         action->action_phase.u++;
         if (!(sprite->flags & 0x8000)) {
             return;
         }
 
     case 1:
-        timer = ((S_801743C4_0 *)action)->unk_96.s + 1;
-        ((S_801743C4_0 *)action)->unk_96.s = timer;
+        timer = action->action_timer.u + 1;
+        action->action_timer.u = timer;
         if ((timer != 4) && !(sprite->flags & 0x8000)) {
             return;
         }
-        ((S_801743C4_0 *)action)->unk_96.s = 0;
+        action->action_timer.u = 0;
         action->action_phase.u++;
         switch (entity->unk_48) {
         case 13:
@@ -84,14 +84,14 @@ void advance_timed_directional_action(ActorRecord *action, ObjectPosition *motio
         }
 
     case 2:
-        timer = ((S_801743C4_0 *)action)->unk_96.s + 1;
-        ((S_801743C4_0 *)action)->unk_96.s = timer;
+        timer = action->action_timer.u + 1;
+        action->action_timer.u = timer;
         if ((timer == 5) || (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(entity, sprite, entity->facing, 1);
-            ((S_801743C4_0 *)action)->unk_96.s = 0;
+            action->action_timer.u = 0;
             action->action_phase.u++;
         }
-        if (((S_801743C4_0 *)action)->unk_96.u == 3) {
+        if (action->action_timer.s == 3) {
             play_sound_if_enabled(0x804);
             return;
         }
@@ -100,7 +100,7 @@ void advance_timed_directional_action(ActorRecord *action, ObjectPosition *motio
     case 3:
         if (sprite->flags & 0xE000) {
             spend_actor_mp(entity, 0x100);
-            ((S_801743C4_0 *)action)->unk_8C = troll_action_dispatch_address;
+            action->unk_8C.address = troll_action_dispatch_address;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(entity);
             entity->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -108,23 +108,23 @@ void advance_timed_directional_action(ActorRecord *action, ObjectPosition *motio
         return;
 
     case 5:
-        timer = ((S_801743C4_0 *)action)->unk_96.s + 1;
-        ((S_801743C4_0 *)action)->unk_96.s = timer;
+        timer = action->action_timer.u + 1;
+        action->action_timer.u = timer;
         if ((timer == 10) || (sprite->flags & 0x8000)) {
             sprite->flags |= 0x0800;
             play_sound_if_enabled(0x804);
             create_targeted_motion_effect(action, motion, sprite, entity);
             create_actor_action_effect(action, motion, sprite, entity);
         }
-        if ((((S_801743C4_0 *)action)->unk_96.u == 12) ||
+        if ((action->action_timer.s == 12) ||
             (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(entity, sprite, entity->facing,
-                ((S_801743C4_0 *)action)->unk_AA);
+                action->unk_AA);
         }
-        if ((((S_801743C4_0 *)action)->unk_96.u == 20) ||
+        if ((action->action_timer.s == 20) ||
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
-            ((S_801743C4_0 *)action)->unk_96.s = 0;
+            action->action_timer.u = 0;
             action->action_phase.u = 3;
         }
     case 4:

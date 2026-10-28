@@ -42,12 +42,12 @@ void advance_timed_actor_animation_and_restore(ActorRecord *action, ObjectPositi
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        ((S_80172E04_0 *)action)->unk_96.u = 0;
+        action->action_timer.u = 0;
         action->action_phase.u++;
         return;
 
     case 1:
-        if ((s16)++((S_80172E04_0 *)action)->unk_96.u == 4 ||
+        if ((s16)++action->action_timer.u == 4 ||
             (sprite->flags & 0x8000)) {
             sprite->frameTable = D_801742F0;
             select_sprite_entry(sprite,
@@ -55,31 +55,31 @@ void advance_timed_actor_animation_and_restore(ActorRecord *action, ObjectPositi
                 0);
             sprite->flags |= 0x0800;
         }
-        if (((S_80172E04_0 *)action)->unk_96.s == 7 ||
+        if (action->action_timer.s == 7 ||
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
-            ((S_80172E04_0 *)action)->unk_96.u = 0;
+            action->action_timer.u = 0;
             action->action_phase.u++;
             return;
         }
         return;
 
     case 2:
-        if ((s16)++((S_80172E04_0 *)action)->unk_96.u == 2) {
+        if ((s16)++action->action_timer.u == 2) {
             sprite->flags |= 0x0800;
         }
-        if (((S_80172E04_0 *)action)->unk_96.s == 8 ||
+        if (action->action_timer.s == 8 ||
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
             play_sound_if_enabled(0x808);
-            ((S_80172E04_0 *)action)->unk_96.u = 0;
+            action->action_timer.u = 0;
             action->action_phase.u++;
             return;
         }
         return;
 
     case 3:
-        if ((s16)++((S_80172E04_0 *)action)->unk_96.u == 2) {
+        if ((s16)++action->action_timer.u == 2) {
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             action->action_phase.u++;
         }
@@ -87,7 +87,7 @@ void advance_timed_actor_animation_and_restore(ActorRecord *action, ObjectPositi
     case 4:
         if (sprite->flags & 0xE000) {
             spend_actor_mp(actor, 0x100);
-            ((S_80172E04_0 *)action)->unk_8C = metal_action_resume_address;
+            action->unk_8C.address = metal_action_resume_address;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;

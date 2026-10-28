@@ -56,10 +56,10 @@ extern void select_nearby_target_and_initialize_slot(void * slot_id,void *target
 void prepare_actor_directional_action(u8 *entity, ObjectPosition *action_param, SpriteFrameState *action_sprite, u8 *frame_table, s32 fallback_state)
 {
     u8 *self;
-    u8 *player;
+    S_801717D0_3 *player;
     u8 *action_slot;
     u8 *action_table;
-    u8 *action_entry;
+    S_801717D0_5 *action_entry;
     u16 *action_flags;
     s32 action_word;
     u16 counter;
@@ -74,17 +74,17 @@ void prepare_actor_directional_action(u8 *entity, ObjectPosition *action_param, 
 
     if ((((S_801717D0_0 *)self)->unk_1C & ACTOR_PLAYER_SIDE) && ((((S_801717D0_0 *)self)->unk_46 & 0x3FFF) >= 5)) {
         special_action = 1;
-        if ((*(u16 *)((u8 *)&((ActorRecord *)((u8 *)dungeon_actor_ring_anchor))->unk_A4 + 2)) == 2) {
+        if ((*(u16 *)((u8 *)&dungeon_actor_ring_anchor->unk_A4 + 2)) == 2) {
             counter = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
             counter--;
             g_dungeon_status.activity_counts.parts.pending_action_count = counter;
         }
 
-        player = ((u8 *)dungeon_actor_ring_anchor);
-        if ((((S_801717D0_3 *)player)->unk_98.s32 & 0x3000) == 0x2000 &&
-            ((S_801717D0_3 *)player)->unk_A6 != special_action) {
-            ((S_801717D0_3 *)player)->unk_A6 = special_action;
-            ((S_801717D0_3 *)player)->unk_98.u16 |= 0x1000;
+        player = ((S_801717D0_3 *)dungeon_actor_ring_anchor);
+        if ((player->unk_98.s32 & 0x3000) == 0x2000 &&
+            player->unk_A6 != special_action) {
+            player->unk_A6 = special_action;
+            player->unk_98.u16 |= 0x1000;
             g_dungeon_status.activity_counts.parts.pending_action_count++;
         } else {
             advance_status_timers(self);
@@ -124,14 +124,14 @@ void prepare_actor_directional_action(u8 *entity, ObjectPosition *action_param, 
             action_slot = self;
             action_slot += entry_index * 3;
             entry_index = action_slot[8];
-            action_entry = action_table + entry_index * 20;
-            if (((S_801717D0_5 *)action_entry)->unk_12 == 2) {
+            action_entry = (S_801717D0_5 *)(action_table + entry_index * 20);
+            if (action_entry->unk_12 == 2) {
                 ((S_801717D0_0 *)self)->unk_60 =
                     scan_actor_along_heading(self,
                                   action_sprite->tile_x,
                                   action_sprite->tile_y,
                                   ((S_801717D0_0 *)self)->unk_2A.s,
-                                  ((S_801717D0_5 *)action_entry)->unk_13);
+                                  action_entry->unk_13);
             }
         }
         ((Rec_func_800A9E70_arg0 *)entity)->unk_9A.as_u8 = 0x12;

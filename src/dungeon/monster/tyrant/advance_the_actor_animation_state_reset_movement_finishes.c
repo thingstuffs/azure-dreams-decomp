@@ -48,7 +48,7 @@ void advance_the_actor_animation_state_reset_movement_finishes(ActorRecord *acti
     s32 state;
     s32 anim_kind;
     void *target_root;
-    void *target_source;
+    S_801729D4_3 *target_source;
     void *new_target;
     s32 target_x;
     s32 abs_x;
@@ -109,9 +109,9 @@ void advance_the_actor_animation_state_reset_movement_finishes(ActorRecord *acti
             if (reuse_test != 0) {
                 target_root = primary_actor_record;
                 actor->target = target_root;
-                target_source = ((ObjectNodeHeader *)((u8 *)target_root - 0x20))->sprite;
-                actor->target_tile_x = ((S_801729D4_3 *)target_source)->unk_24;
-                actor->target_tile_y = ((S_801729D4_3 *)target_source)->unk_25;
+                target_source = (S_801729D4_3 *)((ObjectNodeHeader *)((u8 *)target_root - 0x20))->sprite;
+                actor->target_tile_x = target_source->unk_24;
+                actor->target_tile_y = target_source->unk_25;
             } else {
                 new_target = scan_actor_along_heading(
                     actor, sprite->tile_x, sprite->tile_y,
@@ -142,7 +142,7 @@ void advance_the_actor_animation_state_reset_movement_finishes(ActorRecord *acti
         (*(u16 *)((u8 *)primary_actor_record + (0xA6)))--;
         advance_status_timers(actor);
         (*(u8 *)&actor->pending_turn_updates)--;
-        ((S_801729D4_0 *)action)->unk_8C = &tyrant_action_resume_address;
+        action->unk_8C.address = &tyrant_action_resume_address;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -162,12 +162,12 @@ void advance_the_actor_animation_state_reset_movement_finishes(ActorRecord *acti
              (sprite->flags & 0x1000)) ||
             (sprite->flags & 0xE000)) {
             sprite->flags |= 0x800;
-            ((S_801729D4_0 *)action)->unk_96 = 3;
+            action->action_timer.u = 3;
             action->action_state_flags |= 0x80;
         }
-        ((S_801729D4_0 *)action)->unk_96--;
-        if ((s16)((S_801729D4_0 *)action)->unk_96 <= 0) {
-            ((S_801729D4_0 *)action)->unk_96 = 0;
+        action->action_timer.u--;
+        if ((s16)action->action_timer.u <= 0) {
+            action->action_timer.u = 0;
             sprite->flags &= 0xF7FF;
         }
         if (sprite->flags & 0xE000) {
@@ -185,7 +185,7 @@ void advance_the_actor_animation_state_reset_movement_finishes(ActorRecord *acti
             if ((g_dungeon_status.active_actor) == 0) {
                 g_dungeon_status.activity_counts.parts.pending_action_count--;
                 sprite->flags &= 0xF7FF;
-                ((S_801729D4_0 *)action)->unk_8C = &tyrant_action_resume_address;
+                action->unk_8C.address = &tyrant_action_resume_address;
                 advance_status_timers(actor);
                 if (actor->pending_turn_updates > 0) {
                     (*(u8 *)&actor->pending_turn_updates)--;

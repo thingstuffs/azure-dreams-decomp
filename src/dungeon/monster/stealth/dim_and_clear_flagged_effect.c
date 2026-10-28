@@ -15,10 +15,10 @@ void dim_and_clear_flagged_effect(ActorRecord *effect, ObjectPosition *unused, S
     void *effect_object;
 
     if (effect->action_phase.u == 0) {
-        intensity = *(u8 *)((u8 *)primitive + 0xC) - 0x10;
-        *(u8 *)((u8 *)primitive + 0xE) = intensity;
-        *(u8 *)((u8 *)primitive + 0xD) = intensity;
-        *(u8 *)((u8 *)primitive + 0xC) = intensity;
+        intensity = primitive->color.c.r - 0x10;
+        primitive->color.c.b = intensity;
+        primitive->color.c.g = intensity;
+        primitive->color.c.r = intensity;
         if (primitive->flags & 0xE000) {
             effect_object = (u8 *)effect - 0x20;
             unlink_node(effect_object);
@@ -28,7 +28,7 @@ void dim_and_clear_flagged_effect(ActorRecord *effect, ObjectPosition *unused, S
             primitive->color.word = 0;
             owner->pending_turn_updates = 0;
             owner->action_flags &= 0x7FFF;
-            *(void **)((u8 *)effect + 0x8C) = stealth_behavior_entry;
+            effect->unk_8C.address = stealth_behavior_entry;
         }
     }
 }

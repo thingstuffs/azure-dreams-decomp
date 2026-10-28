@@ -32,7 +32,7 @@ void advance_actor_action_animation_to_completion(ActorRecord *action, ObjectPos
     s32 state;
 
     state = action->action_phase.u;
-    ((S_80172BFC_0 *)action)->unk_96--;
+    action->action_timer.u--;
     switch (state) {
     case 0:
         if (animation->flags & 0x8000) {
@@ -62,7 +62,7 @@ void advance_actor_action_animation_to_completion(ActorRecord *action, ObjectPos
         if (animation->flags & 0xE000) {
             set_record_integer_tile_center(actor_id, animation->tile_x, animation->tile_y);
             spend_actor_mp(actor, 0x100);
-            ((S_80172BFC_0 *)action)->unk_8C = update_long_actor_action;
+            action->unk_8C.handler = update_long_actor_action;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             if (actor->pending_turn_updates == 0) {

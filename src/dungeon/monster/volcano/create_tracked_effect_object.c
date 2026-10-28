@@ -23,7 +23,7 @@ void *create_tracked_effect_object(s16 flags, s16 kind_id, s16 variant, s16 spaw
     s8 saved_kind_id;
     ObjectPosition *part_a;
     SpriteFrameState *part_b;
-    void *actor;
+    S_8015E854_4 *actor;
 
     work = 0;
     saved_kind_id = kind_id;
@@ -40,7 +40,7 @@ void *create_tracked_effect_object(s16 flags, s16 kind_id, s16 variant, s16 spaw
         part_b = obj->sprite;
         part_b->tile_x = saved_kind_id;
         part_b->tile_y = saved_variant;
-        actor = work;
+        actor = (S_8015E854_4 *)work;
         kind = flags & 3;
 
         if (kind == 1) {
@@ -67,7 +67,7 @@ void *create_tracked_effect_object(s16 flags, s16 kind_id, s16 variant, s16 spaw
                             part_b->frameTable = D_80162538;
                         }
                     }
-                    ((S_8015E854_4 *)actor)->unk_8C = func_8015EE5C;
+                    actor->unk_8C = func_8015EE5C;
                     part_b->frameTable = volcano_frame_set_4;
                 } else {
                     work->unk_8C.handler = func_8015EE5C;
@@ -77,8 +77,8 @@ void *create_tracked_effect_object(s16 flags, s16 kind_id, s16 variant, s16 spaw
         }
         obj->update_callback = func_8015EA58;
         initialize_actor_sprite_and_animation(obj, part_a, part_b, (s16)flags);
-        ((S_8015E854_4 *)actor)->unk_9A = 0xFF;
-        ((S_8015E854_4 *)actor)->unk_9C = -1;
+        actor->unk_9A = 0xFF;
+        actor->unk_9C = -1;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;
