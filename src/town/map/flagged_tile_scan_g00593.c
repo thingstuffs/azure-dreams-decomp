@@ -263,7 +263,7 @@ void clear_flagged_cells_and_reset_list(void) {
         } while (*coordinateEntry != 0);
     }
     tile_key_pair_count[0] = 0;
-    *(u8 *)tile_coordinate_records[0] = 0;
+    tile_coordinate_records[0]->a = 0;
 }
 
 /* Clears visited tile flags, then scans from the camera's tile in a direction selected by the view angle. */

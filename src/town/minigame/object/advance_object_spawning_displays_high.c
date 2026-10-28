@@ -73,7 +73,7 @@ typedef struct S_800243D8_2 {
 void advance_object_spawning_displays_high(State8081A3D8 *controller)
 {
     ObjectNodeHeader *object;
-    u8 *object_data;
+    S_800243D8_2 *object_data;
     SpriteFrameState *inner_data;
     u8 *callback;
     s16 spawn_interval;
@@ -108,7 +108,7 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
 
             object = allocate_list_node(0x136, &scene_object_list_anchor.next);
             if (object != 0) {
-                u8 *object_tail = ((u8 *)object) + 0x20;
+                S_800243D8_1 *object_tail = (S_800243D8_1 *)(((u8 *)object) + 0x20);
                 object->update_callback = D_80024B48;
                 register_node(object, project_sprite_chain);
                 inner_data = object->sprite;
@@ -117,8 +117,8 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
                 ((IntVector3 *)(*(u8 * *)&object->position))->z = 0xFFFC0000;
                 {
                     u16 object_phase = controller->phase;
-                    ((S_800243D8_1 *)object_tail)->unk_AC = controller;
-                    ((S_800243D8_1 *)object_tail)->unk_A0 = object_phase;
+                    object_tail->unk_AC = controller;
+                    object_tail->unk_A0 = object_phase;
                 }
                 inner_data->scale_y = 0x1000;
                 inner_data->scale_x = 0x1000;
@@ -143,29 +143,29 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
 
         object = allocate_list_node(((s32)(1)), &scene_object_list_anchor.next);
         if (object != 0) {
-            object_data = ((u8 *)object) + 0x20;
+            object_data = (S_800243D8_2 *)(((u8 *)object) + 0x20);
             object->update_callback = minigame_display_callback_a;
             register_node(object, text_sprite_builder_address);
-            ((S_800243D8_2 *)object_data)->unk_14 = 0x7C;
-            ((S_800243D8_2 *)object_data)->unk_16.s = 0x78;
-            ((S_800243D8_2 *)object_data)->unk_1A = 0x7C80;
-            ((S_800243D8_2 *)object_data)->unk_10.at00.v = 0x00808080;
-            ((S_800243D8_2 *)object_data)->unk_04.at00.v = callback;
-            ((S_800243D8_2 *)object_data)->unk_02 = 0x96;
+            object_data->unk_14 = 0x7C;
+            object_data->unk_16.s = 0x78;
+            object_data->unk_1A = 0x7C80;
+            object_data->unk_10.at00.v = 0x00808080;
+            object_data->unk_04.at00.v = callback;
+            object_data->unk_02 = 0x96;
         }
 
         object = allocate_list_node(((s32)(1)), &scene_object_list_anchor.next);
         if (object != 0) {
-            object_data = ((u8 *)object) + 0x20;
+            object_data = (S_800243D8_2 *)(((u8 *)object) + 0x20);
             object->update_callback = minigame_display_callback_b;
             register_node(object, build_menu_line_tile_packets);
-            ((S_800243D8_2 *)object_data)->unk_0C.at00u.v = 0x74;
-            ((S_800243D8_2 *)object_data)->unk_0C.at02.v = 0x74;
-            ((S_800243D8_2 *)object_data)->unk_10.at00u.v = 0x58;
-            ((S_800243D8_2 *)object_data)->unk_10.at02.v = 0x10;
-            ((S_800243D8_2 *)object_data)->unk_08 = 0x00101010;
-            ((S_800243D8_2 *)object_data)->unk_02 = 0x96;
-            ((S_800243D8_2 *)object_data)->unk_16.u |= 1;
+            object_data->unk_0C.at00u.v = 0x74;
+            object_data->unk_0C.at02.v = 0x74;
+            object_data->unk_10.at00u.v = 0x58;
+            object_data->unk_10.at02.v = 0x10;
+            object_data->unk_08 = 0x00101010;
+            object_data->unk_02 = 0x96;
+            object_data->unk_16.u |= 1;
         }
         controller->timer = 0x96;
         controller->state = 3;
@@ -174,29 +174,29 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
     case 2:
         object = allocate_list_node(((s32)(1)), &scene_object_list_anchor.next);
         if (object != 0) {
-            object_data = ((u8 *)object) + 0x20;
+            object_data = (S_800243D8_2 *)(((u8 *)object) + 0x20);
             object->update_callback = minigame_display_callback_a;
             register_node(object, text_sprite_builder_address);
-            ((S_800243D8_2 *)object_data)->unk_14 = 0x80;
-            ((S_800243D8_2 *)object_data)->unk_16.s = 0x78;
-            ((S_800243D8_2 *)object_data)->unk_1A = 0x7C80;
-            ((S_800243D8_2 *)object_data)->unk_04.at00.v = D_800200C0;
-            ((S_800243D8_2 *)object_data)->unk_10.at00.v = 0x00808080;
-            ((S_800243D8_2 *)object_data)->unk_02 = 0x96;
+            object_data->unk_14 = 0x80;
+            object_data->unk_16.s = 0x78;
+            object_data->unk_1A = 0x7C80;
+            object_data->unk_04.at00.v = D_800200C0;
+            object_data->unk_10.at00.v = 0x00808080;
+            object_data->unk_02 = 0x96;
         }
 
         object = allocate_list_node(((s32)(1)), &scene_object_list_anchor.next);
         if (object != 0) {
-            object_data = ((u8 *)object) + 0x20;
+            object_data = (S_800243D8_2 *)(((u8 *)object) + 0x20);
             object->update_callback = minigame_display_callback_b;
             register_node(object, build_menu_line_tile_packets);
-            ((S_800243D8_2 *)object_data)->unk_0C.at00u.v = 0x78;
-            ((S_800243D8_2 *)object_data)->unk_0C.at02.v = 0x74;
-            ((S_800243D8_2 *)object_data)->unk_10.at00u.v = 0x50;
-            ((S_800243D8_2 *)object_data)->unk_10.at02.v = 0x10;
-            ((S_800243D8_2 *)object_data)->unk_08 = 0x00101010;
-            ((S_800243D8_2 *)object_data)->unk_02 = 0x96;
-            ((S_800243D8_2 *)object_data)->unk_16.u |= 1;
+            object_data->unk_0C.at00u.v = 0x78;
+            object_data->unk_0C.at02.v = 0x74;
+            object_data->unk_10.at00u.v = 0x50;
+            object_data->unk_10.at02.v = 0x10;
+            object_data->unk_08 = 0x00101010;
+            object_data->unk_02 = 0x96;
+            object_data->unk_16.u |= 1;
         }
         controller->state = 4;
         controller->timer = 0x64;

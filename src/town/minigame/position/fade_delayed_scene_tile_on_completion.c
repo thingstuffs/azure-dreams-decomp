@@ -25,7 +25,7 @@ void fade_delayed_scene_tile_on_completion(void *effect) {
     s16 state;
     s32 fade_rgb;
     u16 delay;
-    void *linked_object;
+    S_8002017C_1 *linked_object;
     s16 next_state;
     u16 flags;
 
@@ -46,7 +46,7 @@ void fade_delayed_scene_tile_on_completion(void *effect) {
         }
         return;
     case 1:
-        if (((S_8002017C_1 *)linked_object)->unk_2A & 1) {
+        if (linked_object->unk_2A & 1) {
             ((S_8002017C_0 *)effect)->unk_00.s++;
             return;
         }

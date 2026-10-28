@@ -25,14 +25,14 @@ typedef struct Copy24 {
 /* Allocates an object, copies six source words, and initializes its data. */
 void create_gym_mesh_object(void *source_words, s32 data_value_08, s32 object_value_10, s32 object_value_20) {
     S_80022E64_0 *object;
-    void *copy_dst;
+    Copy24 *copy_dst;
     SpriteFrameState *object_data;
 
     object = allocate_flagged_object_node(0x136);
     if (object != NULL) {
         register_node(object, draw_linked_lit_meshes);
         copy_dst = object->unk_08;
-        *(Copy24 *)copy_dst = *(Copy24 *)source_words;
+        *copy_dst = *(Copy24 *)source_words;
         object_data = object->unk_0C;
         object->unk_20 = object_value_20;
         object->unk_10 = object_value_10;

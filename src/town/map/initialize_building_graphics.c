@@ -30,7 +30,7 @@ void initialize_building_graphics(void)
     u8 *base, *status;
     u16 *image_rect, *first_rect, *palette_rect;
     u8 *image_data;
-    void *draw;
+    S_800B6FB8_0 *draw;
     s32 width, color, draw_setting;
     u16 image_width;
     void *draw_buffer;
@@ -39,16 +39,16 @@ void initialize_building_graphics(void)
     first_rect = image_rect;
     image_data = building_texture_frame_zero;
     base = g_game_work;
-    draw = base + 0x1DC;
+    draw = (S_800B6FB8_0 *)(base + 0x1DC);
     color = 0x7F;
     width = 0x2000;
-    ((S_800B6FB8_0 *)draw)->unk_14 = 7;
-    ((S_800B6FB8_0 *)draw)->unk_18 = color;
-    ((S_800B6FB8_0 *)draw)->unk_1C = width;
+    draw->unk_14 = 7;
+    draw->unk_18 = color;
+    draw->unk_1C = width;
     draw_setting = 7;
-    ((S_800B6FB8_0 *)draw)->unk_16 = draw_setting;
-    ((S_800B6FB8_0 *)draw)->unk_1A = color;
-    ((S_800B6FB8_0 *)draw)->unk_1E = width;
+    draw->unk_16 = draw_setting;
+    draw->unk_1A = color;
+    draw->unk_1E = width;
     status = ((u8 *)&runtime_dispatch_state);
 
     building_upload_rect[0] = 0x328;

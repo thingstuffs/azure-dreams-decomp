@@ -24,8 +24,8 @@ extern s32 classify_object_against_bounds(void *, void *);
 
 /* Deactivate the object when triggered; otherwise update its spin from nearby motion and advance rotation. */
 void deactivate_object_triggered(void *object, void *position, void *rotation) {
-    u8 *position_data = position;
-    u8 *rotation_data = rotation;
+    SignedPositionView *position_data = position;
+    S_800B9998_3 *rotation_data = rotation;
     s8 *active_flag;
     ObjectPosition *town_state;
     s32 dx;
@@ -61,8 +61,8 @@ void deactivate_object_triggered(void *object, void *position, void *rotation) {
     }
     town_state = &view_reference_entity;
     dx = town_state->x.w.i;
-    dy = ((SignedPositionView *)position_data)->x;
-    position_y = ((SignedPositionView *)position_data)->y;
+    dy = position_data->x;
+    position_y = position_data->y;
     dx -= dy;
     dx = abs(dx);
     dx = (s16)dx;
@@ -84,9 +84,9 @@ void deactivate_object_triggered(void *object, void *position, void *rotation) {
     }
 
     angle_step = ((S_800B9998_0 *)object)->unk_66.s + 0x80;
-    ((S_800B9998_3 *)rotation_data)->unk_1A.s = ((S_800B9998_3 *)rotation_data)->unk_1A.s + angle_step;
-    t = ((S_800B9998_3 *)rotation_data)->unk_1A.u;
-    ((S_800B9998_3 *)rotation_data)->unk_1A.u = t & 0xFFF;
+    rotation_data->unk_1A.s = rotation_data->unk_1A.s + angle_step;
+    t = rotation_data->unk_1A.u;
+    rotation_data->unk_1A.u = t & 0xFFF;
 
     return;
 }

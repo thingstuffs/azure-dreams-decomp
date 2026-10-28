@@ -72,7 +72,7 @@ void update_tako_minigame(TownState *state)
 
             scene_data->view.view_offset.parts.view_offset_x +=
                 (-0x80 - scene_data->view.view_offset.parts.view_offset_x) >> 1;
-            first_object = *(TownObject **)init_state;
+            first_object = init_state->objects[0];
             if (first_object->state != 1) {
                 break;
             }

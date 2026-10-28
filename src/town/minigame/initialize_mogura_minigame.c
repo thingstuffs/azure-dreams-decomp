@@ -56,7 +56,7 @@ s32 initialize_mogura_minigame(void)
 {
     TownRewardValues primary_values;
     TownRewardValues secondary_values;
-    void *parent_state;
+    S_80024100_1 *parent_state;
     ObjectNodeHeader *object;
     S_80024100_2 *element;
     void *update_callback;
@@ -82,12 +82,12 @@ s32 initialize_mogura_minigame(void)
 
     object = allocate_list_node(0x136, &scene_object_list_anchor.next);
     if (object != NULL) {
-        parent_state = (u8 *)object + 0x20;
+        parent_state = (S_80024100_1 *)((u8 *)object + 0x20);
         object->update_callback = &D_800243D8;
-        ((S_80024100_1 *)parent_state)->unk_0A = 0x1E;
+        parent_state->unk_0A = 0x1E;
         random_value = rand();
-        ((S_80024100_1 *)parent_state)->unk_04 = random_value & 3;
-        ((S_80024100_1 *)parent_state)->unk_0C |= 4;
+        parent_state->unk_04 = random_value & 3;
+        parent_state->unk_0C |= 4;
     }
 
     column = 2;

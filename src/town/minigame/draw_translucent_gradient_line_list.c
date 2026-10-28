@@ -57,27 +57,27 @@ s32 draw_translucent_gradient_line_list(void *first_entry) {
     s32 texture_page;
     u8 *entry;
     GameWork *arena_ptr;
-    u8 *depths;
+    S_8002222C_4 *depths;
     u8 *transform_work;
-    u8 *screen_xy;
+    S_8002222C_3 *screen_xy;
     s32 raw_depth;
 
     entry = first_entry;
     arena_ptr = &g_game_work;
-    screen_xy = (u8 *)0x1F800000;
-    depths = (u8 *)((u32)screen_xy | 0x100);
+    screen_xy = (S_8002222C_3 *)0x1F800000;
+    depths = (S_8002222C_4 *)((u32)screen_xy | 0x100);
     transform_work = (u8 *)((u32)screen_xy | 0x180);
     for (;;) {
         func_80065770(entry + 8, screen_xy, depths, transform_work,
                       transform_work, 2);
         {
-            u8 *arena;
+            S_8002222C_0 *arena;
             arena = arena_ptr->draw_buffer;
-            line_packet = ((S_8002222C_0 *)arena)->unk_8D0;
-            ((S_8002222C_0 *)arena)->unk_8D0 = line_packet + 0x14;
+            line_packet = arena->unk_8D0;
+            arena->unk_8D0 = line_packet + 0x14;
             arena = arena_ptr->draw_buffer;
-            mode_packet = ((S_8002222C_0 *)arena)->unk_8D0;
-            ((S_8002222C_0 *)arena)->unk_8D0 = mode_packet + 0xC;
+            mode_packet = arena->unk_8D0;
+            arena->unk_8D0 = mode_packet + 0xC;
             texture_page = GetTPage(0, 0, 0, 0);
         }
         SetDrawMode(mode_packet, 0, 0, texture_page & 0xFFFF, 0);
@@ -85,13 +85,13 @@ s32 draw_translucent_gradient_line_list(void *first_entry) {
         ((S_8002222C_2 *)line_packet)->unk_0C = ((S_8002222C_1 *)entry)->unk_1C;
         SetLineG2(line_packet);
         SetSemiTrans(line_packet, 1);
-        ((S_8002222C_2 *)line_packet)->unk_08 = ((S_8002222C_3 *)screen_xy)->unk_00;
-        ((S_8002222C_2 *)line_packet)->unk_10 = ((S_8002222C_3 *)screen_xy)->unk_04;
+        ((S_8002222C_2 *)line_packet)->unk_08 = screen_xy->unk_00;
+        ((S_8002222C_2 *)line_packet)->unk_10 = screen_xy->unk_04;
         {
             s32 min_depth;
-            raw_depth = ((S_8002222C_4 *)depths)->unk_00;
+            raw_depth = depths->unk_00;
             bucket_addr = raw_depth << 0x10;
-            min_depth = ((S_8002222C_4 *)depths)->unk_02 << 0x10;
+            min_depth = depths->unk_02 << 0x10;
             if (bucket_addr < min_depth) {
                 min_depth = bucket_addr >> 0x13;
             } else {

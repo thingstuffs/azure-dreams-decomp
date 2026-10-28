@@ -32,7 +32,7 @@ void tick_summed_scene_value_text(void *entry) {
     s32 value_index;
     s32 value_sum;
     u16 ticks_left;
-    void *linked_object;
+    S_80020510_1 *linked_object;
 
     value_sum = 0;
     value_index = 7;
@@ -57,7 +57,7 @@ void tick_summed_scene_value_text(void *entry) {
     case 1:
         format_decimal_field_space_padded(value_sum, strlen(((S_80020510_0 *)entry)->unk_04),
                       ((S_80020510_0 *)entry)->unk_04);
-        if (((S_80020510_1 *)linked_object)->unk_2A & 1) {
+        if (linked_object->unk_2A & 1) {
             flags = &((ObjectStatusPrefix16 *)entry)[-1].flags;
             *flags =
                 (u16) (((ObjectStatusPrefix16 *)entry)[-1].flags | 0x8000);

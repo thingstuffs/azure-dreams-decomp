@@ -11,9 +11,9 @@ typedef struct S_800C17A0_0 {
 
 /* town_seq_reserve: reserve the town sequence pair. */
 void town_seq_reserve(s16 sequence_effect, s16 sequence_id) {
-    u8 *reserved_sound;
+    S_800C17A0_0 *reserved_sound;
 
-    reserved_sound = town_pending_sound;
-    ((S_800C17A0_0 *)reserved_sound)->unk_04 = sequence_effect;
-    ((S_800C17A0_0 *)reserved_sound)->unk_06 = sequence_id;
+    reserved_sound = (S_800C17A0_0 *)town_pending_sound;
+    reserved_sound->unk_04 = sequence_effect;
+    reserved_sound->unk_06 = sequence_id;
 }

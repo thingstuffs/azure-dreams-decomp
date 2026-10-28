@@ -40,13 +40,13 @@ extern u8 D_800D0420[];
 /* Updates a bouncing pickup, awards its value on collection, and expires it. */
 void update_bouncing_pickup(void *pickup, ObjectPosition *motion, SpriteFrameState *sprite)
 {
-    void *source_object = ((S_800206D0_0 *)pickup)->unk_04;
+    S_800206D0_1 *source_object = ((S_800206D0_0 *)pickup)->unk_04;
     TownRewardValues reward_units = D_80020020;
     s32 timer;
     s32 reward = 1;
     u32 state;
 
-    if (((S_800206D0_1 *)source_object)->unk_20 & 8) {
+    if (source_object->unk_20 & 8) {
         ((S_800206D0_0 *)pickup)->unk_00 = 6;
     }
 
@@ -69,7 +69,7 @@ void update_bouncing_pickup(void *pickup, ObjectPosition *motion, SpriteFrameSta
         default:
             break;
         }
-        scaled_count = ((S_800206D0_1 *)source_object)->unk_1E / reward;
+        scaled_count = source_object->unk_1E / reward;
         reward = scaled_count % 10;
         if (((S_800206D0_0 *)pickup)->unk_56 < reward) {
             sprite->flags &= 0xFF7F;

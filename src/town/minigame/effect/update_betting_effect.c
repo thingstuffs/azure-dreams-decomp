@@ -126,8 +126,8 @@ typedef struct S_800211A4_13 {
 void update_betting_effect(TownEffect *input)
 {
     GameWork *controls;
-    u8 *primitive;
-    u8 *child;
+    S_800211A4_5 *primitive;
+    S_800211A4_6 *child;
     TownEffect *effect = input;
     EffectFrame frame;
     s32 state;
@@ -136,14 +136,14 @@ void update_betting_effect(TownEffect *input)
 #define digits frame.digits
 
     controls = &g_game_work;
-    child = (u8 *)effect->child + 0x20;
+    child = (S_800211A4_6 *)((u8 *)effect->child + 0x20);
     state = effect->state;
-    primitive = scene_object_payload_alias;
+    primitive = (S_800211A4_5 *)scene_object_payload_alias;
     switch (state) {
 
     case 0:
     {
-        void *object;
+        ProjectileObject *object;
         S_800211A4_1 *object_child;
         u8 *object_link;
         s32 column;
@@ -192,14 +192,14 @@ void update_betting_effect(TownEffect *input)
         for (column = 2; column >= 0; column--) {
             object = allocate_list_node(0x112, &scene_object_list_anchor.next);
             if (object != 0) {
-                object_child = ((ProjectileObject *)object)->sprite;
-                ((ProjectileObject *)object)->update_callback = update_minigame_approach_motion;
+                object_child = object->sprite;
+                object->update_callback = update_minigame_approach_motion;
                 object_link = (u8 *)object + 0x20;
                 register_node(object, project_sprite_chain);
-                ((S_800211A4_13 *)(((ProjectileObject *)object)->position))->unk_00 =
+                ((S_800211A4_13 *)(object->position))->unk_00 =
                     (column << 23) + 0x04600000;
-                ((S_800211A4_13 *)(((ProjectileObject *)object)->position))->unk_04 = 0x03600000;
-                ((S_800211A4_13 *)(((ProjectileObject *)object)->position))->unk_08 = 0xFE000000;
+                ((S_800211A4_13 *)(object->position))->unk_04 = 0x03600000;
+                ((S_800211A4_13 *)(object->position))->unk_08 = 0xFE000000;
                 object_child->unk_1C =
                     object_child->unk_1E = 0x1000;
                 object_child->unk_14 |= 0x000C;
@@ -231,14 +231,14 @@ void update_betting_effect(TownEffect *input)
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            ((S_800211A4_5 *)primitive)->unk_10 = 0;
+            primitive->unk_10 = 0;
             apply_global_scene_value(town_scene_record_handlers);
-            ((S_800211A4_5 *)primitive)->unk_00 = town_position_callback_address;
-            ((S_800211A4_5 *)primitive)->unk_04 = draw_translucent_gradient_line_list;
+            primitive->unk_00 = town_position_callback_address;
+            primitive->unk_04 = draw_translucent_gradient_line_list;
         }
-        ((S_800211A4_6 *)child)->unk_70 = 1;
-        ((S_800211A4_6 *)child)->unk_72 = 16;
-        ((S_800211A4_6 *)child)->unk_74 = 20;
+        child->unk_70 = 1;
+        child->unk_72 = 16;
+        child->unk_74 = 20;
         effect->timer = 5;
         effect->state = 2;
         break;
@@ -278,7 +278,7 @@ void update_betting_effect(TownEffect *input)
             if (effect->amount > 0) {
                 effect->state = 3;
                 effect->timer = 9;
-                ((ObjectPosition *)((u8 *)(&view_reference_entity)))->velocity_z = -0x240000;
+                view_reference_entity.velocity_z = -0x240000;
                 break;
             }
             break;
@@ -286,8 +286,8 @@ void update_betting_effect(TownEffect *input)
         if ((pressed_buttons & 0x20) == 0) {
             break;
         }
-        if (((S_800211A4_6 *)child)->unk_70 != 0) {
-            ((S_800211A4_6 *)child)->unk_70 = 3;
+        if (child->unk_70 != 0) {
+            child->unk_70 = 3;
         }
         effect->state = 10;
         break;
@@ -330,11 +330,11 @@ void update_betting_effect(TownEffect *input)
         timer_left = *timer_ptr - 1;
         *timer_ptr = (s16)timer_left;
         if ((s16)timer_left <= 0) {
-            ((ObjectPosition *)((u8 *)(&view_reference_entity)))->x.v = 0x03600000;
-            ((ObjectPosition *)((u8 *)(&view_reference_entity)))->y.v = 0x02A00000;
-            ((ObjectPosition *)((u8 *)(&view_reference_entity)))->velocity_y = 0;
-            ((ObjectPosition *)((u8 *)(&view_reference_entity)))->velocity_x = 0;
-            ((ObjectPosition *)((u8 *)(&view_reference_entity)))->velocity_z = 0x00180000;
+            view_reference_entity.x.v = 0x03600000;
+            view_reference_entity.y.v = 0x02A00000;
+            view_reference_entity.velocity_y = 0;
+            view_reference_entity.velocity_x = 0;
+            view_reference_entity.velocity_z = 0x00180000;
             effect->state = 12;
         }
         break;
@@ -345,8 +345,8 @@ void update_betting_effect(TownEffect *input)
         ObjectPosition *motion;
         s32 angle;
         motion = &view_reference_entity;
-        angle = (((S_800211A4_5 *)primitive)->unk_10 + 0x200) & 0xFFF;
-        ((S_800211A4_5 *)primitive)->unk_10 = angle;
+        angle = (primitive->unk_10 + 0x200) & 0xFFF;
+        primitive->unk_10 = angle;
         if (motion->z.v < (s32)0xFF000000 || angle != 0) {
             break;
         }
@@ -361,7 +361,7 @@ void update_betting_effect(TownEffect *input)
     {
         ObjectPosition *motion;
         if (((controls->pressed_buttons) & 0x40) == 0 ||
-            ((S_800211A4_6 *)child)->unk_70 != 2) {
+            child->unk_70 != 2) {
             break;
         }
         SD_Call(0x50A);
@@ -434,17 +434,17 @@ void update_betting_effect(TownEffect *input)
             break;
         case 48:
             SD_Call(0x508);
-            ((ObjectPosition *)((u8 *)(&view_reference_entity)))->velocity_z = (s32)0xFFFC0000;
+            view_reference_entity.velocity_z = (s32)0xFFFC0000;
             apply_global_scene_value(town_scene_record_handlers);
             break;
         case 61:
             SD_Call(0x508);
-            ((ObjectPosition *)((u8 *)(&view_reference_entity)))->velocity_z = (s32)0xFFFC8000;
+            view_reference_entity.velocity_z = (s32)0xFFFC8000;
             apply_global_scene_value(town_scene_record_handlers);
 
         }
 
-        if (((S_800211A4_6 *)child)->unk_70 != 3) {
+        if (child->unk_70 != 3) {
             break;
         }
         {
@@ -489,7 +489,7 @@ void update_betting_effect(TownEffect *input)
             break;
         case 10:
             SD_Call(0x508);
-            ((ObjectPosition *)((u8 *)(&view_reference_entity)))->velocity_z = (s32)0xFFFC0000;
+            view_reference_entity.velocity_z = (s32)0xFFFC0000;
             apply_global_scene_value(town_scene_record_handlers);
             break;
         case 18:
@@ -511,7 +511,7 @@ void update_betting_effect(TownEffect *input)
         {
             u8 *animation = town_scene_record_handlers;
             ObjectPosition *child_motion;
-            ((S_800211A4_6 *)child)->unk_70 = 4;
+            child->unk_70 = 4;
             child_motion = &view_reference_entity;
             child_motion->velocity_z = 0;
             child_motion->z.v = (s32)0xFFC00000;
@@ -539,11 +539,11 @@ void update_betting_effect(TownEffect *input)
         if (--effect->count == 0) {
             apply_global_scene_value(D_800D0080);
         }
-        if (((S_800211A4_6 *)child)->unk_70 != 0) {
+        if (child->unk_70 != 0) {
             break;
         }
         if (effect->phase == effect->phase2) {
-            ((S_800211A4_6 *)child)->unk_70 = 6;
+            child->unk_70 = 6;
             effect->timer = 30;
             effect->state = 8;
         } else {
@@ -569,7 +569,7 @@ void update_betting_effect(TownEffect *input)
         s32 random_value;
         s32 digit_count;
         u16 digit_count_raw;
-        u8 *digit;
+        S_800211A4_12 *digit;
         tick_dec = (u16)effect->ticks - 2;
         effect->ticks = (s16)tick_dec;
         if ((s16)tick_dec < 0) {
@@ -583,8 +583,8 @@ void update_betting_effect(TownEffect *input)
             break;
         }
 
-        particle_index = (((S_800211A4_3 *)effect)->unk_14 * ((S_800211A4_3 *)effect)->unk_10) / 100;
-        ((S_800211A4_3 *)effect)->unk_1A = 0xF0;
+        particle_index = (effect->amount * ((S_800211A4_3 *)effect)->unk_10) / 100;
+        effect->timer = 0xF0;
         payout_tens = particle_index / 10;
         ones_digit = particle_index - payout_tens * 10;
         digits[0] = (s16)ones_digit;
@@ -617,13 +617,13 @@ void update_betting_effect(TownEffect *input)
             do {
                 random_value = rand();
                 message.x = (s16)(random_value % 3);
-                digit = (u8 *)((s32)message.x * 2 + (s32)(u8 *)&frame);
-                digit_count = ((S_800211A4_12 *)digit)->unk_70.s;
-                digit_count_raw = ((S_800211A4_12 *)digit)->unk_70.u;
+                digit = (S_800211A4_12 *)((s32)message.x * 2 + (s32)(u8 *)&frame);
+                digit_count = digit->unk_70.s;
+                digit_count_raw = digit->unk_70.u;
             } while (digit_count <= 0);
             /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: town/func_8081E9A4). */
             do {
-                ((S_800211A4_12 *)digit)->unk_70.s = digit_count_raw - 1;
+                digit->unk_70.s = digit_count_raw - 1;
             } while (0);
             origin_xy = 0x03600000;
             angle = (particle_index << 12) / digit_sum;
@@ -658,7 +658,7 @@ void update_betting_effect(TownEffect *input)
     {
         s32 ticks_left;
         s32 money;
-        if (((S_800211A4_3 *)effect)->unk_14 != 0) {
+        if (effect->amount != 0) {
             money = town_money[0];
             if (effect->ticks < 2) {
                 town_money[0] = money + 100;

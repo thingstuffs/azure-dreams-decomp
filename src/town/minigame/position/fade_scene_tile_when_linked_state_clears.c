@@ -15,7 +15,7 @@ typedef struct S_80023F6C_1 {
 
 /* Wait for the linked object to clear, then reduce the level and set completion flags. */
 void fade_scene_tile_when_linked_state_clears(void *entry) {
-    void *object;
+    S_80023F6C_1 *object;
     s32 state;
     u16 prev_state;
     s32 level;
@@ -26,7 +26,7 @@ void fade_scene_tile_when_linked_state_clears(void *entry) {
 
     switch (state) {
     case 0:
-        if (((S_80023F6C_1 *)object)->unk_00 == 0) {
+        if (object->unk_00 == 0) {
             ((S_80023F6C_0 *)entry)->unk_00.u = prev_state + 1;
         }
         break;

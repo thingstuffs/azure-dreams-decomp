@@ -47,13 +47,13 @@ void initialize_object_at_current_position(void) {
     initialize_pointer_table_self_links();
     initialize_the_store_two_values_set_state_flags(&town_motion_list, (s32)(&view_reference_entity.x.v), (s32)(&D_800D0420));
     {
-        s8 *position_data;
+        S_800C01DC_1 *position_data;
         u16 *position_entry;
 
-        position_data = (s8 *) &map_runtime_state;
-        position_entry = ((S_800C01DC_1 *)position_data)->unk_10;
-        view_reference_entity.x.w.i = (s16) (((S_800C01DC_1 *)position_data)->unk_14 + position_entry[0]);
-        view_reference_entity.y.w.i = (s16) (((S_800C01DC_1 *)position_data)->unk_16 + position_entry[1]);
+        position_data = (S_800C01DC_1 *) &map_runtime_state;
+        position_entry = position_data->unk_10;
+        view_reference_entity.x.w.i = (s16) (position_data->unk_14 + position_entry[0]);
+        view_reference_entity.y.w.i = (s16) (position_data->unk_16 + position_entry[1]);
         view_reference_entity.z.w.i = query_lowered_transform_position(&view_reference_entity.x.v);
     }
     run_the_three_update_routines_context((s32)(&view_reference_entity.x.v));

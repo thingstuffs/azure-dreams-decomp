@@ -202,14 +202,14 @@ zone_found:
         {
             s32 collision_delta;
             s32 actor_y;
-            u8 *zone_data;
-            zone_data = (u8 *)D_80024020;
+            Zone *zone_data;
+            zone_data = (Zone *)D_80024020;
             height_or_box_y = *zone_id;
             actor_role_y = actor->x;
             actor_y = actor->y;
-            edge_coord = ((Zone *)zone_data)[height_or_box_y].x;
-            collision_delta = ((Zone *)zone_data)[height_or_box_y].w;
-            vz = ((Zone *)zone_data)[height_or_box_y].y;
+            edge_coord = zone_data[height_or_box_y].x;
+            collision_delta = zone_data[height_or_box_y].w;
+            vz = zone_data[height_or_box_y].y;
             velocity = edge_coord + collision_delta;
             collision_delta = velocity - 0x100;
             old_zone = vz - collision_delta;
@@ -219,7 +219,7 @@ zone_found:
             if (collision_delta < 0) {
                 PUSH(0x80000, -0x80000)
             }
-            collision_delta = ((Zone *)zone_data)[height_or_box_y].h;
+            collision_delta = zone_data[height_or_box_y].h;
             old_zone = ((s32)(vz + collision_delta)) - edge_coord;
             collision_delta = actor_role_y + old_zone;
             collision_delta = actor_y - collision_delta;
@@ -242,8 +242,8 @@ zone_found:
             s32 d4_4;
             zone_data = (u8 *)D_80024020;
             current_zone = *zone_id;
-            actor_x = ((Actor *)actor)->x;
-            actor_y = (*(s16 *)((u8 *)actor + 6));
+            actor_x = actor->x;
+            actor_y = actor->y;
             zone_y_m = ((Zone *)zone_data)[current_zone].y;
             zone_x = ((Zone *)zone_data)[current_zone].x;
             d4_1 = zone_y_m + ((Zone *)zone_data)[current_zone].h;

@@ -21,9 +21,9 @@ void create_tinted_animated_particle(s32 color, s32 x, s32 y, s32 z)
         object->update_callback = advance_fading_particle_until_animation_boundary;
         register_node(object, project_sprite_chain);
         sprite = object->sprite;
-        *((s32 *) (((s8 *) (object->position)) + 0)) = x;
-        *((s32 *) (((s8 *) (object->position)) + 4)) = y;
-        *((s32 *) (((s8 *) (object->position)) + 8)) = z;
+        (object->position)->x.v = x;
+        (object->position)->y.v = y;
+        (object->position)->z.v = z;
         *((s16 *) (((s8 *) sprite) + 0x1E)) = 0x1000;
         *((s16 *) (((s8 *) sprite) + 0x1C)) = 0x1000;
         *((s32 **) (((s8 *) sprite) + 0)) = &map_animation_sprite_entries;
@@ -37,7 +37,7 @@ void create_tinted_animated_particle(s32 color, s32 x, s32 y, s32 z)
             sprite->flags = (u16) ((sprite->flags) | 0xC);
         } else if (color == 0xF0F0F0) {
             sprite->tpage_abr = 0x60;
-            *((s32 *) (((s8 *) (object->position)) + 0x14)) = 0xFFF00000;
+            (object->position)->velocity_z = 0xFFF00000;
             sprite->flags = (u16) ((sprite->flags) | 0xC);
         }
     }

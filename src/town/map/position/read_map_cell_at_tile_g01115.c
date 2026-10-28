@@ -7,12 +7,12 @@
 /* Read the low 14 bits of the map entry at masked tile coordinates. */
 s32 read_map_cell_at_tile(s32 tile_x, s32 tile_y) {
     GameWork *map_state;
-    u8 *map_layout;
+    S_8008C134_0 *map_layout;
 
     map_state = &g_game_work;
-    map_layout = (u8 *)map_state + 0x1DC;
-    return *(u16 *)(((s32) (((((S_8008C134_0 *)map_layout)->unk_18 & tile_x)
-        + ((s16) (((S_8008C134_0 *)map_layout)->unk_1A & tile_y) << ((S_8008C134_0 *)map_layout)->unk_14)) << 0x10)
+    map_layout = (S_8008C134_0 *)((u8 *)map_state + 0x1DC);
+    return *(u16 *)(((s32) (((map_layout->unk_18 & tile_x)
+        + ((s16) (map_layout->unk_1A & tile_y) << map_layout->unk_14)) << 0x10)
         >> 0xF) + ((s32)map_state->map.cells)) & 0x3FFF;
 }
 

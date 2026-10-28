@@ -29,7 +29,7 @@ void advance_actor_state_nearby_activation(Rec_D_80082D58 *actor, s32 *position,
             s32 threshold;
             s32 distance;
 
-            distance = *(s32 *)((u8 *)(&view_reference_entity));
+            distance = view_reference_entity.x.v;
             check_value = *position;
             distance -= check_value;
             threshold = 0x3FFFFF;

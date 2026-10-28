@@ -20,19 +20,19 @@ typedef struct S_80020488_1 {
 /* Advances the context state and sets completion flags in response to entity fields. */
 void retire_scene_text_after_terminal_phase(void *context) {
     s16 state;
-    void *entity;
+    S_80020488_1 *entity;
 
     state = ((S_80020488_0 *)context)->unk_00.s;
     entity = ((S_80020488_0 *)context)->unk_0C;
     switch (state) {
     case 0:
-        if (((S_80020488_1 *)entity)->unk_36 == 0xFF) {
+        if (entity->unk_36 == 0xFF) {
             ((S_80020488_0 *)context)->unk_1C &= 0xFFFD;
             ((S_80020488_0 *)context)->unk_00.u++;
         }
         break;
     case 1:
-        if (((S_80020488_1 *)entity)->unk_2A & 1) {
+        if (entity->unk_2A & 1) {
             (*(u16 *)((u8 *)context + -2)) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }

@@ -30,14 +30,14 @@ void apply_item_and_update_matching_actor_state(s16 start_x, s16 start_y, s16 mo
     s32 pair_offset;
     GameWork *state;
     s8 *pair_src;
-    s8 *buffer_info;
+    S_800BDC98_1 *buffer_info;
     s8 *buffer;
 
     saved_pair = pair_index;
     selected_pair = saved_pair;
     memcpy(value_pairs, D_80089660, 0x10);
     state = &g_game_work;
-    buffer_info = (u8 *)state + 0x1DC;
+    buffer_info = (S_800BDC98_1 *)((u8 *)state + 0x1DC);
     buffer = ((s8 *)state->map.cells);
     height = 1;
     if ((mode == 2) || (selected_pair = 3, pair_test = saved_pair << 0x10, (pair_test == 0))) {
@@ -61,10 +61,10 @@ void apply_item_and_update_matching_actor_state(s16 start_x, s16 start_y, s16 mo
                     value_src = (s8 *)((long)((x - first_x) * 2) + (long)pair_src);
                     y_end = y_limit;
                     do {
-                        wrapped_y = y & ((S_800BDC98_1 *)buffer_info)->unk_1A;
+                        wrapped_y = y & buffer_info->unk_1A;
                         y += 1;
-                        *(u16 *)((long)((s32) (((((S_800BDC98_1 *)buffer_info)->unk_18 & x)
-                            + (wrapped_y << ((S_800BDC98_1 *)buffer_info)->unk_14)) << 0x10) >> 0xF)
+                        *(u16 *)((long)((s32) (((buffer_info->unk_18 & x)
+                            + (wrapped_y << buffer_info->unk_14)) << 0x10) >> 0xF)
                             + (long)buffer) = *(u16 *)value_src;
                     } while (y < y_end);
                 }

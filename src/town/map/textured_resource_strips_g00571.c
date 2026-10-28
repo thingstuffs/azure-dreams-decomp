@@ -39,7 +39,7 @@ s32 emit_bidirectional_angular_segments(S_800A3B80_3 *object, s32 unused, void *
     s32 stepped;
     s32 view_angle;
     GameWork *global_base;
-    void *town;
+    S_800A3B80_0 *town;
     void *output;
     void *next_output;
     S_800A3B80_5 *end_town;
@@ -54,7 +54,7 @@ s32 emit_bidirectional_angular_segments(S_800A3B80_3 *object, s32 unused, void *
     scratch = (TownStripScratch *)0x1F800000;
     global_base = &g_game_work;
     town = g_game_work.draw_buffer;
-    output = ((S_800A3B80_0 *)town)->unk_8D0;
+    output = town->unk_8D0;
     scratch->unk_20.p = (u8 *)town + 0x8B0;
     origin_y = D_80100D88;
     origin_x = town_display_offset;
@@ -320,9 +320,9 @@ void *project_visible_textured_strips(void *origin, void *render_flags, TownStri
     u16 right_x;
     u16 left_x;
     u32 bucket_index;
-    void *right_quad;
+    S_800A41D8_3 *right_quad;
     void *draw_mode;
-    void *right_colors;
+    S_800A41D8_4 *right_colors;
     void *buffer_end;
     void *packet_cursor;
     void *entry_cursor;
@@ -384,19 +384,19 @@ void *project_visible_textured_strips(void *origin, void *render_flags, TownStri
                 ((S_800A41D8_2 *)prim_buffer)->unk_48 = draw_state->unk_FC.at00u.v;
                 coord_value = (s32) ((s16) draw_state->unk_F0.at00.v
                     + (s16) draw_state->unk_F4.at00.v) >> 1;
-                ((S_800A41D8_3 *)right_quad)->unk_08 = (s16) coord_value;
+                right_quad->unk_08 = (s16) coord_value;
                 ((S_800A41D8_2 *)prim_buffer)->unk_10 = (s16) coord_value;
                 bottom_x = (s32) ((s16) draw_state->unk_F8.at00.v
                     + (s16) draw_state->unk_FC.at00.v) >> 1;
-                ((S_800A41D8_3 *)right_quad)->unk_18 = (s16) bottom_x;
+                right_quad->unk_18 = (s16) bottom_x;
                 ((S_800A41D8_2 *)prim_buffer)->unk_20 = (s16) bottom_x;
                 top_y = (s32) ((s16) draw_state->unk_F0.at02.v
                     + (s16) draw_state->unk_F4.at02.v) >> 1;
-                ((S_800A41D8_3 *)right_quad)->unk_0A = (s16) top_y;
+                right_quad->unk_0A = (s16) top_y;
                 ((S_800A41D8_2 *)prim_buffer)->unk_12 = (s16) top_y;
                 bottom_y = (s32) ((s16) draw_state->unk_F8.at02.v
                     + (s16) draw_state->unk_FC.at02.v) >> 1;
-                ((S_800A41D8_3 *)right_quad)->unk_1A = (s16) bottom_y;
+                right_quad->unk_1A = (s16) bottom_y;
                 ((S_800A41D8_2 *)prim_buffer)->unk_22 = (s16) bottom_y;
                 strip_offset = (s16) draw_state->unk_74 % 3584;
                 draw_state->unk_90 = (s32) strip_offset;
@@ -413,9 +413,9 @@ void *project_visible_textured_strips(void *origin, void *render_flags, TownStri
                 half_index = 0;
                 right_colors = prim_buffer + 0x28;
                 ((S_800A41D8_2 *)prim_buffer)->unk_06 = (s8) shade;
-                ((S_800A41D8_4 *)right_colors)->unk_06 = (s8) shade;
+                right_colors->unk_06 = (s8) shade;
                 ((S_800A41D8_2 *)prim_buffer)->unk_05 = (s8) shade;
-                ((S_800A41D8_4 *)right_colors)->unk_05 = (s8) shade;
+                right_colors->unk_05 = (s8) shade;
                 ((S_800A41D8_2 *)prim_buffer)->unk_04 = (s8) shade;
                 ((S_800A41D8_2 *)prim_buffer)->unk_2C = (s8) shade;
                 texture_entry = draw_state->unk_118.n + ((((strip_index & 1) * 2) + ((s32) (texture_id

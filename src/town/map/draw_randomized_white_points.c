@@ -60,7 +60,7 @@ s32 draw_randomized_white_points(void *first_object, void *first_coords)
     MovingPosition *coords;
     u32 addr_mask;
     u32 tag_mask;
-    u8 *arena;
+    GpuContext *arena;
     u8 *next_node;
     s32 random_value;
     s32 x_scale;
@@ -81,8 +81,8 @@ s32 draw_randomized_white_points(void *first_object, void *first_coords)
         point_index = 0;
         do {
             arena = render_state->draw_buffer;
-            packet = ((GpuContext *)arena)->packetCursor;
-            ((GpuContext *)arena)->packetCursor = packet + 0xC;
+            packet = arena->packetCursor;
+            arena->packetCursor = packet + 0xC;
             packet[3] = 2;
             packet[7] = 0x68;
             packet[4] = 0xFF;

@@ -48,7 +48,7 @@ void spawn_burst_particles_around_origin(void *self, void *origin)
     s32 rand_value;
     ObjectNodeHeader *object;
     SpriteFrameState *sprite;
-    u8 *motion;
+    S_800BBCA0_3 *motion;
     s32 *position;
     s32 *velocity;
 
@@ -69,7 +69,7 @@ void spawn_burst_particles_around_origin(void *self, void *origin)
                 object->update_callback = object_type;
                 register_node(object, project_sprite_chain);
                 sprite = object->sprite;
-                motion = ((u8 *)object) + 0x20;
+                motion = (S_800BBCA0_3 *)(((u8 *)object) + 0x20);
 
                 rand_value = rand();
                 position = *(s32 * *)&object->position;
@@ -81,14 +81,14 @@ void spawn_burst_particles_around_origin(void *self, void *origin)
                 position = *(s32 * *)&object->position;
                 position[2] = ((S_800BBCA0_2 *)origin)->unk_08.at00.v + (((rand_value & 0x1FF) - 0x100) << 13);
 
-                ((S_800BBCA0_3 *)motion)->unk_0C = ((S_800BBCA0_2 *)origin)->unk_00.at02.v;
-                ((S_800BBCA0_3 *)motion)->unk_0E = ((S_800BBCA0_2 *)origin)->unk_04.at02.v;
-                ((S_800BBCA0_3 *)motion)->unk_10 = ((S_800BBCA0_2 *)origin)->unk_08.at02.v;
+                motion->unk_0C = ((S_800BBCA0_2 *)origin)->unk_00.at02.v;
+                motion->unk_0E = ((S_800BBCA0_2 *)origin)->unk_04.at02.v;
+                motion->unk_10 = ((S_800BBCA0_2 *)origin)->unk_08.at02.v;
                 sprite->scale_y = 0x100;
                 sprite->scale_x = 0x100;
                 sprite->tpage_abr = 0x20;
                 sprite->flags |= 0xC;
-                ((S_800BBCA0_3 *)motion)->unk_48 = 6;
+                motion->unk_48 = 6;
                 sprite->unk_00 = sprite_type;
                 sprite->source = ((SpriteSourceEntry *)sprite_type)->source;
                 sprite->unk_04 = 0;
@@ -114,7 +114,7 @@ void spawn_burst_particles_around_origin(void *self, void *origin)
         sprite_type = D_800F1654;
         do {
             object = allocate_list_node(0x312, &scene_object_list_anchor.next);
-            motion = ((u8 *)object) + 0x20;
+            motion = (S_800BBCA0_3 *)(((u8 *)object) + 0x20);
             if (object != 0) {
                 object->update_callback = object_type;
                 register_node(object, project_sprite_chain);
@@ -143,8 +143,8 @@ void spawn_burst_particles_around_origin(void *self, void *origin)
                 sprite->scale_x = 0x200;
                 sprite->tpage_abr = 0x20;
                 sprite->flags |= 0xC;
-                ((S_800BBCA0_3 *)motion)->unk_48 = 0xF;
-                ((S_800BBCA0_3 *)motion)->unk_4C = 1;
+                motion->unk_48 = 0xF;
+                motion->unk_4C = 1;
                 sprite->unk_00 = sprite_type;
                 sprite->source = ((SpriteSourceEntry *)sprite_type)->source;
                 sprite->unk_04 = 0;

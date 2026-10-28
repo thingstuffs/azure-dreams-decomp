@@ -23,14 +23,14 @@ void fade_scene_tile_across_terminal_phase(void *effect) {
     s16 state;
     s32 color;
     s32 faded_color;
-    void *object;
+    S_80020260_1 *object;
 
     state = ((S_80020260_0 *)effect)->unk_00.s;
     object = ((S_80020260_0 *)effect)->unk_04;
 
     switch (state) {
     case 0:
-        if (((S_80020260_1 *)object)->unk_36 != 0xFF) {
+        if (object->unk_36 != 0xFF) {
             break;
         }
         ((S_80020260_0 *)effect)->unk_16 &= 0xFFFD;
@@ -41,7 +41,7 @@ void fade_scene_tile_across_terminal_phase(void *effect) {
         if (color <= 0x40403F) {
             ((S_80020260_0 *)effect)->unk_08 = color + 0x80808;
         }
-        if ((((S_80020260_1 *)object)->unk_2A & 1) == 0) {
+        if ((object->unk_2A & 1) == 0) {
             break;
         }
         ((S_80020260_0 *)effect)->unk_00.u++;

@@ -32,9 +32,9 @@ s32 create_directional_sprite_effect(void *position, s16 angle) {
 
             angle_short = (s16) saved_angle;
             data_ptr->z.v = position_z;
-            ((S_800BC574_7 *)(effect->position))->unk_0C =
+            effect->position->velocity_x =
                 (s32) (rcos(angle_short + world_state->view.camera_rotation.parts.viewAngle) * 0x30);
-            ((S_800BC574_7 *)(effect->position))->unk_10 =
+            effect->position->velocity_y =
                 (s32) (rsin(angle_short + world_state->view.camera_rotation.parts.viewAngle) * 0x30);
         }
         {

@@ -386,8 +386,8 @@ s16 find_smallest_surface_x_across_tiles(s32 query_x, s32 query_y, s32 query_z)
     GameWork *grid_data;
     u8 *vertices;
     u8 *entry;
-    u8 *plane;
-    u8 *vertex;
+    S_8008DA80_2 *plane;
+    S_8008DA80_3 *vertex;
     s16 block_base;
     s16 tile;
     s16 candidate_x;
@@ -482,19 +482,19 @@ s16 find_smallest_surface_x_across_tiles(s32 query_x, s32 query_y, s32 query_z)
                             - scratch->origin_z;
 
                         if (check_scratch_quad_half_turn_gaps((struct ScratchQuad *)(scratch)) != 0) {
-                            plane = (u8 *)(((S_8008DA80_1 *)entry)->unk_10 * 8 +
+                            plane = (S_8008DA80_2 *)(((S_8008DA80_1 *)entry)->unk_10 * 8 +
                                            (u32)scratch->height_data);
-                            vertex = (u8 *)(((S_8008DA80_1 *)entry)->unk_00 * 8 +
+                            vertex = (S_8008DA80_3 *)(((S_8008DA80_1 *)entry)->unk_00 * 8 +
                                             (u32)vertices);
                             plane_x =
-                                (((S_8008DA80_2 *)plane)->unk_02 *
-                                 (((S_8008DA80_3 *)vertex)->unk_02 -
+                                (plane->unk_02 *
+                                 (vertex->unk_02 -
                                   (s16)scratch->origin_y) +
-                                 ((S_8008DA80_2 *)plane)->unk_04 *
-                                 (((S_8008DA80_3 *)vertex)->unk_04 -
+                                 plane->unk_04 *
+                                 (vertex->unk_04 -
                                   (s16)scratch->origin_z) +
-                                 ((S_8008DA80_2 *)plane)->unk_00 * ((S_8008DA80_3 *)vertex)->unk_00) /
-                                ((S_8008DA80_2 *)plane)->unk_00;
+                                 plane->unk_00 * vertex->unk_00) /
+                                plane->unk_00;
                             scratch->result = plane_x;
                             plane_x += scratch->inner_index;
                             scratch->result = plane_x;

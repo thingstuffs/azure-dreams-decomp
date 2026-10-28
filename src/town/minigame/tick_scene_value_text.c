@@ -25,7 +25,7 @@ void tick_scene_value_text(void *message)
 {
     s16 state;
     u16 timer;
-    void *owner;
+    S_80020618_1 *owner;
 
     owner = ((S_80020618_0 *)message)->unk_0C;
     format_decimal_field_space_padded(
@@ -45,7 +45,7 @@ void tick_scene_value_text(void *message)
         break;
 
     case 1:
-        if (((S_80020618_1 *)owner)->unk_2A & 1) {
+        if (owner->unk_2A & 1) {
             (*(u16 *)((u8 *)message + -2)) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }

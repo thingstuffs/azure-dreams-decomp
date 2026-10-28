@@ -176,9 +176,9 @@ void update_snowball_minigame_actor(TownCollectionActor *object, ObjectPosition 
         s32 base_height;
 
         target = &view_reference_entity;
-        (*(s32 *)((u8 *)motion + 0xC)) =
+        motion->velocity_x =
             (target->x.v - motion->x.v) >> 1;
-        (*(s32 *)((u8 *)motion + 0x10)) =
+        motion->velocity_y =
             (target->y.v - motion->y.v) >> 1;
         target_height = target->z.v + town_target_height_offset;
         base_height = motion->z.v + 0x80000;
@@ -203,9 +203,9 @@ void update_snowball_minigame_actor(TownCollectionActor *object, ObjectPosition 
         ObjectPosition *target;
 
         target = &view_reference_entity;
-        (*(s32 *)((u8 *)motion + 0)) = target->x.v;
+        motion->x.v = target->x.v;
         (*(s32 *)((u8 *)motion + 4)) = target->y.v;
-        (*(s32 *)((u8 *)motion + 8)) =
+        motion->z.v =
             target->z.v + town_target_height_offset - 0x80000;
         if ((world->pressed_buttons) & 0x40) {
             if (target->z.w.i == 0) {
@@ -294,16 +294,16 @@ void update_snowball_minigame_actor(TownCollectionActor *object, ObjectPosition 
                     particle = allocate_list_node(0x136, &scene_object_list_anchor.next);
                     if (particle != NULL) {
                         SpriteFrameState *part;
-                        void *link;
+                        S_80020DF0_8 *link;
 
                         part = particle->sprite;
                         register_node(particle, project_sprite_chain);
-                        link = (u8 *)particle + 0x20;
+                        link = (S_80020DF0_8 *)((u8 *)particle + 0x20);
                         part->color.word = 0x00808080;
                         part->scale_y = scale;
                         part->scale_x = scale;
-                        ((S_80020DF0_8 *)link)->unk_04 = motion;
-                        ((S_80020DF0_8 *)link)->unk_02 = 0x78;
+                        link->unk_04 = motion;
+                        link->unk_02 = 0x78;
                         particle->update_callback = particle_data;
                         select_record_entry_and_value(part, snowball_actor_sprites, (s16)(index * 4));
                     }

@@ -34,18 +34,18 @@ extern u8 town_minigame_directional_frames[];
 /* Updates entity state and selects direction-dependent table entries. */
 void process_nonzero(void *object, void *output, void *entity_data)
 {
-    u8 *caller_obj = object;
-    u8 *output_bytes = output;
-    u8 *state_base = (u8 *)&scene_object_payload_alias;
+    S_80023A00_3 *caller_obj = object;
+    Copy24 *output_bytes = output;
+    MinigameBody *state_base = (MinigameBody *)&scene_object_payload_alias;
     s32 state;
     s32 initial_magnitude;
     s32 magnitude;
     u8 *direction_table;
 
     advance_sprite_animation_and_textures(entity_data);
-    *(Copy24 *)output_bytes = *(Copy24 *)((u8 *)(&view_reference_entity));
+    *output_bytes = *(Copy24 *)((u8 *)(&view_reference_entity));
     ((S_80023A00_0 *)object)->unk_2A =
-        (0x1400 - (*(u16 *)&((MinigameBody *)state_base)->unk_10)) & 0xFFF;
+        (0x1400 - (*(u16 *)&state_base->unk_10)) & 0xFFF;
 
     state = ((S_80023A00_0 *)object)->unk_18.s;
     switch (state) {
@@ -59,41 +59,41 @@ void process_nonzero(void *object, void *output, void *entity_data)
         ((SpriteFrameState *)entity_data)->animation_resource = initial_magnitude;
         select_sprite_entry(entity_data,
             town_minigame_directional_frames[((view_facing_angle_alias +
-                ((S_80023A00_3 *)caller_obj)->unk_2A + 0x100) >> 9) & 7],
+                caller_obj->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_80023A00_0 *)object)->unk_18.u++;
         /* fallthrough */
     case 2:
-        if (((MinigameBody *)state_base)->unk_08 == 2) {
+        if (state_base->unk_08 == 2) {
             (*(void * *)((u8 *)entity_data + 0x2C)) = minigame_motion_frames;
             select_sprite_entry(entity_data,
                 minigame_motion_frames[((*(s16 *)(D_80083220 + 8) +
-                    ((S_80023A00_3 *)caller_obj)->unk_2A + 0x100) >> 9) & 7],
+                    caller_obj->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((S_80023A00_0 *)object)->unk_18.u++;
         }
         break;
 
     case 3:
-        magnitude = ((MinigameBody *)state_base)->unk_48;
+        magnitude = state_base->unk_48;
         magnitude = abs(magnitude);
         if (0xFFFF >= magnitude) {
             (*(void * *)((u8 *)entity_data + 0x2C)) = town_minigame_directional_frames;
             select_sprite_entry(entity_data,
-                town_minigame_directional_frames[((view_facing_angle_alias + ((S_80023A00_3 *)caller_obj)->unk_2A + 0x100) >> 9) & 7],
+                town_minigame_directional_frames[((view_facing_angle_alias + caller_obj->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((S_80023A00_0 *)object)->unk_18.u++;
         }
         break;
 
     case 4:
-        magnitude = ((MinigameBody *)state_base)->unk_48;
+        magnitude = state_base->unk_48;
         magnitude = abs(magnitude);
         if (0xFFFF < magnitude) {
             direction_table = minigame_motion_frames;
             (*(void * *)((u8 *)entity_data + 0x2C)) = direction_table;
             select_sprite_entry(entity_data,
-                direction_table[((view_facing_angle_alias + ((S_80023A00_3 *)caller_obj)->unk_2A + 0x100) >> 9) & 7],
+                direction_table[((view_facing_angle_alias + caller_obj->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((S_80023A00_0 *)object)->unk_18.u--;
         }

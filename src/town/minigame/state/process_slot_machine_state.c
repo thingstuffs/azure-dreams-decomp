@@ -237,10 +237,10 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
         reel_mode = index;
         reel_slot = (u8 *)state + 8;
         do {
-            void *reel = ((ReelSlotCursor *)reel_slot)->reel;
+            SlotObject *reel = ((ReelSlotCursor *)reel_slot)->reel;
             reel_slot -= 4;
             index--;
-            ((SlotObject *)reel)->unk_24 = (s16)reel_mode;
+            reel->unk_24 = (s16)reel_mode;
         } while (index >= 0);
         state->mode.s = 5;
         return;
@@ -499,13 +499,13 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
                     sprite->clut = (u16)((*(u16 *)((u8 *)sprite + (0x12))) + 5);
                 }
                 {
-                    u8 *glyph = sprite;
+                    SpriteFrameState *glyph = sprite;
                     u8 *sprite_data = D_8007947C;
-                    ((SpriteFrameState *)glyph)->unk_00 = sprite_data;
-                    ((SpriteFrameState *)glyph)->source = ((SlotSpriteData *)sprite_data)->unk_04;
-                    ((SpriteFrameState *)glyph)->unk_04 = 0;
-                    ((SpriteFrameState *)glyph)->frame_ticks = 0;
-                    ((SpriteFrameState *)glyph)->color.word = 0x00808080;
+                    glyph->unk_00 = sprite_data;
+                    glyph->source = ((SlotSpriteData *)sprite_data)->unk_04;
+                    glyph->unk_04 = 0;
+                    glyph->frame_ticks = 0;
+                    glyph->color.word = 0x00808080;
                 }
                 ((SlotPayout *)payout_state)->unk_00 = state;
                 ((SlotPayout *)payout_state)->unk_50 = payout_callback;
