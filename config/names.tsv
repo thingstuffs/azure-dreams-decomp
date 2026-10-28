@@ -6835,8 +6835,8 @@
 0x80408394	func_80408394	set_record_values	owner decisions 65+68; shard:town; src/town/func_802F1394.c
 0x802F14DC	func_802F14DC	register_object_handles_and_flag	owner decisions 65+68; shard:town; src/town/func_802F14DC.c
 0x8001DD74	func_8001DD74	blit_default_rectangle	owner decisions 65+68; shard:town; src/town/func_80333574.c
-0x8001FBB4	func_8001FBB4	noop_hook_b	owner decisions 65+68; shard:town; src/town/func_80353EE4.c
-0x8001FBD4	func_8001FBD4	noop_hook_c	owner decisions 65+68; shard:town; src/town/func_80353F04.c
+0x8001FB9C	func_8001FB9C	set_script_flag_db3	docs/evidence/r124w_carve1_run15.md; complete street-event flag callback
+0x8001FBBC	func_8001FBBC	clear_script_flag_db3	docs/evidence/r124w_carve1_run15.md; complete street-event flag callback
 0x80468248	func_80468248	run_scene_service_218	owner decisions 65+68; shard:town; src/town/func_80468248.c
 0x80019358	func_80019358	run_event_a1	owner decisions 65+68; shard:town; src/town/func_80468358.c
 0x80019378	func_80019378	run_scene_service_310_twice	owner decisions 65+68; shard:town; src/town/func_80468378.c

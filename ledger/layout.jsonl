@@ -7262,8 +7262,8 @@
 {"id":"town/func_802F1394","path":"src/town/scene/set_record_values.c"}
 {"id":"town/func_80333574","path":"src/town/scene/blit_default_rectangle.c"}
 {"id":"town/func_80353E94","path":"src/town/scene/service/run_service_callback_code.c"}
-{"id":"town/func_80353EE4","path":"src/town/scene/hooks/noop_hook_b.c"}
-{"id":"town/func_80353F04","path":"src/town/scene/hooks/noop_hook_c.c"}
+{"id":"town/func_80353EE4","path":"src/town/scene/hooks/set_script_flag_db3.c"}
+{"id":"town/func_80353F04","path":"src/town/scene/hooks/clear_script_flag_db3.c"}
 {"id":"town/func_8035A5AC","path":"src/town/scene/service/run_service_callback_record.c"}
 {"id":"town/func_803E8320","path":"src/town/scene/service/invoke_scene_service.c"}
 {"id":"town/func_8046A0DC","path":"src/town/scene/event/event_state_store.c"}

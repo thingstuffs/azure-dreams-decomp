@@ -19,10 +19,10 @@ standalone_build:
     out_dir: work/s3_splat/extract
     container_path: work/s3_splat/extract/TOWN_TOWN.BIN
   window:
-    file_start: 0x2D3F04
+    file_start: 0x2D3EEC
     file_end: 0x2D3F0C
-    vram_start: 0x8001FBD4
-    true_vram_start: 0x8001FBD4
+    vram_start: 0x8001FBBC
+    true_vram_start: 0x8001FBBC
     base_confidence: proven-rowbase
   split_results: overlays/town/overlay_first_pass_results.json
   matched_sources:

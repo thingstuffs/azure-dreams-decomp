@@ -148,4 +148,8 @@ typedef struct {
     s16 reserved;
 } TownTerminalChoice;
 
+/* Street-event opcode 0x4C callbacks. */
+void set_script_flag_db3(void);
+void clear_script_flag_db3(void);
+
 #endif

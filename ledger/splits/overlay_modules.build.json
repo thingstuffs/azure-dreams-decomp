@@ -151775,7 +151775,7 @@
       ]
     },
     {
-      "source": "src/town/scene/hooks/noop_hook_b.c",
+      "source": "src/town/scene/hooks/set_script_flag_db3.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -151785,7 +151785,7 @@
       ]
     },
     {
-      "source": "src/town/scene/hooks/noop_hook_c.c",
+      "source": "src/town/scene/hooks/clear_script_flag_db3.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
