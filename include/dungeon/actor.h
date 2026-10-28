@@ -59,5 +59,7 @@ void apply_clamped_actor_value_delta(void *entity);
 
 /* dungeon/actor/process_selected_actor_record.c */
 s32 process_selected_actor_record(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
+s32 check_scaled_value_threshold(ActorRecord *state);
+
 
 #endif

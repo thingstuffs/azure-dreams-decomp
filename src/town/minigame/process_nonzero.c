@@ -2,6 +2,7 @@
 #include "shared/minigame_body.h"
 #include "common.h"
 #include "shared/entity_objects.h"
+#include "town/minigame/keima.h"
 extern int abs(int);
 
 typedef struct S_80023A00_0 {
@@ -20,7 +21,7 @@ typedef struct {
     s32 words[6];
 } Copy24;
 
-extern void update_directional_record(void *, void *, SpriteFrameState *);
+extern void update_directional_record(KeimaPathActor *, void *, SpriteFrameState *);
 extern void select_sprite_entry(void *, s32, s32);
 extern void advance_sprite_animation_and_textures(void *);
 
@@ -34,7 +35,7 @@ extern u8 town_minigame_directional_frames[];
 /* Updates entity state and selects direction-dependent table entries. */
 void process_nonzero(void *object, void *output, void *entity_data)
 {
-    S_80023A00_3 *caller_obj = object;
+    KeimaPathActor *caller_obj = object;
     Copy24 *output_bytes = output;
     MinigameBody *state_base = (MinigameBody *)&scene_object_payload_alias;
     s32 state;
@@ -59,7 +60,7 @@ void process_nonzero(void *object, void *output, void *entity_data)
         ((SpriteFrameState *)entity_data)->animation_resource = initial_magnitude;
         select_sprite_entry(entity_data,
             town_minigame_directional_frames[((view_facing_angle_alias +
-                caller_obj->unk_2A + 0x100) >> 9) & 7],
+                caller_obj->facing.s + 0x100) >> 9) & 7],
             0);
         ((S_80023A00_0 *)object)->unk_18.u++;
         /* fallthrough */
@@ -68,7 +69,7 @@ void process_nonzero(void *object, void *output, void *entity_data)
             (*(void * *)((u8 *)entity_data + 0x2C)) = minigame_motion_frames;
             select_sprite_entry(entity_data,
                 minigame_motion_frames[((*(s16 *)(D_80083220 + 8) +
-                    caller_obj->unk_2A + 0x100) >> 9) & 7],
+                    caller_obj->facing.s + 0x100) >> 9) & 7],
                 0);
             ((S_80023A00_0 *)object)->unk_18.u++;
         }
@@ -80,7 +81,7 @@ void process_nonzero(void *object, void *output, void *entity_data)
         if (0xFFFF >= magnitude) {
             (*(void * *)((u8 *)entity_data + 0x2C)) = town_minigame_directional_frames;
             select_sprite_entry(entity_data,
-                town_minigame_directional_frames[((view_facing_angle_alias + caller_obj->unk_2A + 0x100) >> 9) & 7],
+                town_minigame_directional_frames[((view_facing_angle_alias + caller_obj->facing.s + 0x100) >> 9) & 7],
                 0);
             ((S_80023A00_0 *)object)->unk_18.u++;
         }
@@ -93,7 +94,7 @@ void process_nonzero(void *object, void *output, void *entity_data)
             direction_table = minigame_motion_frames;
             (*(void * *)((u8 *)entity_data + 0x2C)) = direction_table;
             select_sprite_entry(entity_data,
-                direction_table[((view_facing_angle_alias + caller_obj->unk_2A + 0x100) >> 9) & 7],
+                direction_table[((view_facing_angle_alias + caller_obj->facing.s + 0x100) >> 9) & 7],
                 0);
             ((S_80023A00_0 *)object)->unk_18.u--;
         }

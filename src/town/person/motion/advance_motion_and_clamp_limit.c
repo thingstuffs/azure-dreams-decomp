@@ -6,7 +6,7 @@
 extern void add_hex_20000_s_signed_offset_hex_14(EntityRec *record);
 #include "town/person/object_setup.h"
 s32 func_800CDF00();     /* extern */
-s32 func_800CDF94();
+void func_800CDF94(void *object, EntityRec *unusedArg, void *initValue);
 
 
 /* Advance motion, clamp at its limit, and handle the remaining steps. */

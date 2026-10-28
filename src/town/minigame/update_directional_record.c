@@ -4,6 +4,7 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
+#include "town/minigame/keima.h"
 
 extern void select_indirect_table_entry(void *, u8, s8);
 extern void select_sprite_entry(void *, u8, s32);
@@ -19,7 +20,7 @@ typedef struct S_800211C4_2 {
 } S_800211C4_2;   /* arg1_hold in update_directional_record */
 
 /* Update the record for its current direction and set its direction flag. */
-void update_directional_record(S_800211C4_0 *orientation, void *state_ptr, SpriteFrameState *record) {
+void update_directional_record(KeimaPathActor *orientation, void *state_ptr, SpriteFrameState *record) {
     u8 *flags_page;
     void *flags_base;
     s32 direction;
@@ -29,8 +30,8 @@ void update_directional_record(S_800211C4_0 *orientation, void *state_ptr, Sprit
     u16 flags;
     S_800211C4_2 *state = state_ptr;
 
-    angle = (orientation->unk_2A + 0x2000) & 0xFFF;
-    orientation->unk_2A = angle;
+    angle = (orientation->facing.u + 0x2000) & 0xFFF;
+    orientation->facing.u = angle;
     angle_sector = (s32)(g_game_work.view.camera_rotation.parts.viewAngle + angle + 0x100) >> 9;
     direction = angle_sector & 7;
     if (record->flags & 0x6000) {

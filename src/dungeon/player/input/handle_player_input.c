@@ -50,7 +50,7 @@ typedef struct S_8008ACDC_9 {
 
 void func_8002534C(); /* extern */
 void try_move_player(); /* extern */
-void begin_player_jump(); /* extern */
+void begin_player_jump(Rec_func_8008ACDC_arg0 *state, void *unused, Rec_D_80082E80 *sprite, ActorRecord *actor); /* extern */
 s32 try_begin_lift_object(struct S_8008C5C4_2 *action, void *unused, SpriteAnimationTableView *position, EntityRec *actor);  /* extern */
 void apply_pending_byte_increase(); /* extern */
 void begin_parameterized_actor_action(); /* extern */

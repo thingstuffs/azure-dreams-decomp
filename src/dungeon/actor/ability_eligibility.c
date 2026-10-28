@@ -19,8 +19,8 @@ void copy_indexed_entry_data(void *entity) {
 }
 
 /* Checks whether the scaled value reaches the stored threshold. */
-s32 check_scaled_value_threshold(S_800A3518_0 *state) {
-    return ((s32) state->unk_29 / (s32) (((u8) state->unk_11 >> 1) + 2)) >= (s32) state->unk_28;
+s32 check_scaled_value_threshold(ActorRecord *state) {
+    return ((s32) state->max_hp / (s32) (((u8) state->level >> 1) + 2)) >= (s32) state->hp;
 }
 
 /* Return the first of three slots with a matching entry kind, or -1. */

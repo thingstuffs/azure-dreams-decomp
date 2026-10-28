@@ -4,6 +4,7 @@
 #include "shared/position_views.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "town/minigame/keima.h"
 
 typedef struct S_80956E6C_0 {
     u8 pad_00[0x8];
@@ -28,7 +29,7 @@ extern Palette D_800201B4;
 extern u8 D_80023FA8[];
 
 /* Create an object with a signed position, selected palette, and supplied settings. */
-void create_paletted_position_object(s32 signed_position, s32 palette_index, S_80956E6C_4 *settings, s32 field_28_value)
+void create_paletted_position_object(s32 signed_position, s32 palette_index, KeimaState *settings, s32 field_28_value)
 {
     Palette palette;
     s32 *palette_entries;
@@ -74,7 +75,7 @@ void create_paletted_position_object(s32 signed_position, s32 palette_index, S_8
         primitive->angle_z = value;
         ((S_80956E6C_0 *)object)->unk_08.s16 = field_28_value;
 
-        palette_value = settings->unk_4A;
+        palette_value = settings->unk_4A.s;
         tint_color = 0xC0C0C0;
         primitive->scale_y = palette_value;
         primitive->scale_x = palette_value;

@@ -208,7 +208,7 @@ extern s32 get_tile_chebyshev_distance(void *source, void *target);
 extern void end_status_effect_message(void *entity, s16 effect_id);
 
 /* Functions defined in this translation unit. */
-s32 check_scaled_value_threshold(S_800A3518_0 *state);
+s32 check_scaled_value_threshold(ActorRecord *state);
 s16 find_slot_by_definition_kind(u8 *slots, u8 kind);
 u8 get_definition_field_from_triple(s32 entry_addr, s32 entry_index);
 s32 compare_three_bit_masks_cyclically(s32 left_mask, s32 right_mask);

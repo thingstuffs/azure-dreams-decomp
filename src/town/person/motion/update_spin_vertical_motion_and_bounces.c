@@ -5,7 +5,7 @@
 
 extern void add_hex_20000_s_signed_offset_hex_14(EntityRec *record);
 #include "town/person/object_setup.h"
-s32 func_800CDE9C();     /* extern */
+void func_800CDE9C(void *object, EntityRec *unusedArg, void *initValue);     /* extern */
 s32 func_800CDFF8();
 
 /* Update spin and vertical motion, then handle ground contact and remaining bounces. */

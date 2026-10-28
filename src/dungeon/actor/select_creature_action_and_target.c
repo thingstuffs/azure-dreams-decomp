@@ -39,7 +39,6 @@ extern s32 update_actor_proximity_flag();
 #include "dungeon/actor/state.h"
 extern s32 has_low_actor_mp();
 extern s32 check_entity_interaction_compatibility();
-extern s32 check_scaled_value_threshold();
 extern s32 find_slot_by_definition_kind();
 extern s32 get_definition_field_from_triple();
 extern s32 choose_usable_ability_or_attack();
@@ -203,7 +202,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, ActorRecord *cre
                         idle_player_dist = get_tile_chebyshev_distance(position, idle_player_pos);
                         idle_player_range = get_definition_field_from_triple(creature, slot_or_distance);
                         if ((idle_player_dist << 16) < (idle_player_range << 16)) {
-                            if ((check_scaled_value_threshold(((u8 *)dungeon_actor_ring_anchor)) << 16) != 0) {
+                            if ((check_scaled_value_threshold(dungeon_actor_ring_anchor) << 16) != 0) {
                                 s32 result;
                                 register ActorRecord *player_target;
                                 creature->action_flags = (*(u16 *)&slot_or_distance + 1) | 0x8000;

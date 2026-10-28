@@ -21,7 +21,7 @@ extern void begin_player_menu_action();
 extern s32 resolve_player_input_facing(s16 direction_offset, u16 *flags, u16 *angle);
 extern s32 has_action_input_without_modifier(void);
 extern s32 begin_actor_attack();
-extern void finish_paralyzed_actor_action();
+extern void finish_paralyzed_actor_action(Rec_func_8008ACDC_arg0 *entity, s32 unused_1, SpriteFrameState *unused_2, ActorRecord *context);
 #include "dungeon/item.h"
 
 #include "dungeon/player/object/action_state.h"

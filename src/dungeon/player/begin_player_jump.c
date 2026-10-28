@@ -9,7 +9,7 @@ extern void play_sound_if_enabled(u32);
 extern u8 actor_attack_frames[];
 
 /* Initialize the action state and select the actor's directional sprite. */
-void begin_player_jump(Rec_func_8008ACDC_arg0 *state, s32 unused, Rec_D_80082E80 *sprite, ActorRecord *actor) {
+void begin_player_jump(Rec_func_8008ACDC_arg0 *state, void *unused, Rec_D_80082E80 *sprite, ActorRecord *actor) {
     state->unk_9A.as_s8 = 0x1A;
     state->unk_9B.as_s8 = 0;
     state->unk_8C.as_s32 = 0;

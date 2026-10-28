@@ -4,10 +4,12 @@
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "dungeon/actor.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
 extern void apply_pending_byte_increase(void *, s32, void *, void *);
 extern void begin_player_menu_action(void *, s32, void *, void *);
-extern void finish_paralyzed_actor_action(void *, s32, void *, void *);
+extern void finish_paralyzed_actor_action(void *, s32, SpriteFrameState *, ActorRecord *);
 
 extern s32 menu_action_argument;
 

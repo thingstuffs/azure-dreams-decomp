@@ -52,5 +52,8 @@ extern u8 D_80024408[];             /* betting model mode-three parameters */
 extern u8 D_800243F0[];             /* payout digit mode-three parameters */
 extern s32 D_80024444[];            /* payout digit mesh ids */
 extern u32 D_800245C8[];            /* saved casino palette row */
+struct KeimaPathActor;
+void update_directional_record(struct KeimaPathActor *orientation, void *state_ptr, SpriteFrameState *record);
+
 
 #endif

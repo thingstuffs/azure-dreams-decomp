@@ -28,7 +28,7 @@ typedef struct MinigameSlot {
 
 void func_80021120();   /* extern */
 s32 resolve_actor_zone_collisions(); /* extern */
-void func_80023E6C();   /* extern */
+void func_80023E6C(s32 signed_position, s32 palette_index, struct KeimaState *settings, s32 field_28_value);   /* extern */
 s32 rsin();                             /* extern */
 s32 rcos();           /* extern */
 s32 rand();                      /* extern */
