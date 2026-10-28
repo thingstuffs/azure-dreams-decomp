@@ -1,15 +1,15 @@
 #include "common.h"
 
-extern void submit_script_with_registered_context(s32 context);
-extern void SD_Call(s32 flags);
+#include "slus.h"
+
 extern void toggle_selected_entry_flag(void *state);
 extern void store_record_check_result(void *record);
 extern s32 check_entry_limit_or_combined_value(void *entry);
 extern void close_twin_shop(void *shop);
 extern void process_shop_object_data(s32 object_addr);
 
-extern s32 D_800D1558;
-extern s32 D_800D155C;
+extern void *D_800D1558;
+extern void *D_800D155C;
 
 /* Handles the selected entry according to its type, flags, and availability. */
 void handle_selected_entry(s32 *state) {

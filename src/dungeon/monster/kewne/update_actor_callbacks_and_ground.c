@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/kewne.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dir_step.h"
 #include "shared/game_work.h"
@@ -13,7 +14,6 @@ extern void apply_monster_koyaw_data(s32, void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern u8 kewne_action_resume_address[12];
-extern u8 kewne_direction_frames[12];
 extern ActorCallback kewne_callbacks[16];
 /* Update actor callbacks, movement, facing, animation, and ground height. */
 void update_actor_callbacks_and_ground(void *actor, void *motion, SpriteFrameState *sprite)

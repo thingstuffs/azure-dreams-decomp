@@ -36,4 +36,7 @@ void advance_timed_target_flags(void *state, void *output, SpriteFrameState *tar
 
 void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *stats);
 
+/* Directional frame entries; the full allocation extent is not inferred. */
+extern u8 golem_frame_set_1[];
+
 #endif

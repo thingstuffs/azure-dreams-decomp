@@ -71,7 +71,6 @@ extern s32 D_80027FD4[0x40];
 extern u8 D_800282D8[0x100];
 extern u8 D_800282E8[0x100];
 extern u8 D_800283A8[0x100];
-extern u8 card_slot_payload[0x4000];
 
 /* Builds and positions saved-slot text, play time and eight icons from the selected card record. */
 void card_boot_format_saved_slot_details(void *record) {

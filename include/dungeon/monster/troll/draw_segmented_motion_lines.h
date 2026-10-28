@@ -29,23 +29,10 @@ typedef struct SegmentedLineDrawMode {
     s32 command[2];
 } SegmentedLineDrawMode;
 
-/* The frame draw context as the line renderer uses it: the ordering table
- * starts at +0xB0 and the next free packet byte is at +0x8D0. Each packet
- * builder takes the cursor as its own packet type and advances past it. */
-typedef struct SegmentedLineContext {
-    u8 pad_000[0xB0];
-    GpuLinkTag ordering_table;
-    u8 pad_0B4[0x81C];
-    union {
-        SegmentedLinePacket *line;
-        SegmentedLineDrawMode *draw_mode;
-    } cursor;
-} SegmentedLineContext;
-
 /* Projection workspace in the scratchpad while the lines are built. */
 typedef struct SegmentedLineScratch {
     u8 pad_00[0x24];
-    GpuLinkTag *ordering_table;
+    union { int *words; GpuLinkTag *links; } ordering_table;
     u16 flags;
     u8 pad_2A[0xA];
     IntVector3 scale;

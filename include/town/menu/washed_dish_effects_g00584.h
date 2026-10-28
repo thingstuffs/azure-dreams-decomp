@@ -27,7 +27,6 @@ extern s32 dish_counter;
 extern TownRecord D_800F8A70[];
 
 /* Functions defined in this translation unit. */
-void initialize_timed_resource_object(void *object, s32 unused, void *context);
 void finalize_object_or_select_town_record(void *object, void *check_context, void *record_holder);
 s32 washed_dish_suu_set(s32 new_count);
 s32 washed_dish_suu_inc(void);

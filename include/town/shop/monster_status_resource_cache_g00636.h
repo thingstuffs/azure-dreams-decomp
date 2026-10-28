@@ -7,6 +7,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_800B683C_arg0.h"
 #include "shared/resident_resources.h"
+#include "engine/entity.h"
 
 typedef struct S_800B6CCC_0 {
     s32 unk_00;
@@ -20,7 +21,6 @@ typedef struct S_800B6E3C_2 {
     s16 unk_02;
 } S_800B6E3C_2;
 
-extern s32 get_entity_effect_value(void *, s8);
 extern s32 normalize_monster_status_species_code(s32);
 extern s32 select_mapped_object_status_code(void *);
 extern void *alloc_gpu_scratch_ring(s32 size);

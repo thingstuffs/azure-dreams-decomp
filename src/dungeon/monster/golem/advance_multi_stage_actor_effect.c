@@ -21,7 +21,6 @@ extern s32 create_randomized_offset_object(void *, void *, void *);
 
 extern u8 golem_direction_frames[8];
 extern u8 golem_frame_set_4[8];
-extern u8 golem_frame_set_1[8];
 
 typedef struct S_801735BC_0 {
     u8 pad_00[0x96];

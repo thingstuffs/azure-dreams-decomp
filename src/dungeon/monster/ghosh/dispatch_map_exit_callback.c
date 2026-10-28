@@ -1,6 +1,7 @@
 
 struct ObjectNodeHeader;
 #include "common.h"
+#include "dungeon/monster/ghosh.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/sys_flags.h"
 #include "shared/record_ptrs.h"
@@ -11,7 +12,6 @@ struct ObjectNodeHeader;
 extern void allocate_and_initialize_object(void);
 extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);
 
-extern u8 *ghosh_actor_node;
 extern u8 ghosh_frame_set_4[];
 
 /* Resets the Ghosh actor action and animation, updates system flags, and relinks up to two attached
@@ -24,8 +24,8 @@ void dispatch_map_exit_callback(s32 unused0, s32 unused1, s32 unused2, s32 unuse
     SpriteFrameState *linked;
 
     allocate_and_initialize_object();
-    base = ghosh_actor_node + 0x20;
-    linked = *(u8 **)(ghosh_actor_node + 0xC);
+    base = (void *)(ghosh_actor_node + 1);
+    linked = ghosh_actor_node->sprite;
     *(u16 *)(base + 0x46) &= 0x7FFF;
     system_update_flags &= 0xFFF6;
     set_monster_data_pointer();

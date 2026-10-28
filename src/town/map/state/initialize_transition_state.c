@@ -1,6 +1,6 @@
 #include "town/map/camera.h"
 
-extern void apply_and_store_setting(IntVector3 *setting);
+
 
 /* Install midpoint tracking and initialize its targets and position. */
 void initialize_transition_state(TownCameraState *state) {

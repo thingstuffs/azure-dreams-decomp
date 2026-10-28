@@ -2,6 +2,7 @@
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "common.h"
+#include "dungeon/monster/beldo_large.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "engine/node.h"
@@ -15,7 +16,6 @@ typedef struct {
 
 extern s32 D_801717A8;
 extern PackedVec encounter_object_position_template;
-extern void *beldo_camera_object;
 
 
 typedef struct S_80171C7C_0 {

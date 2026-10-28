@@ -1,5 +1,6 @@
 /* Ghosh direction-step lookup and queued path movement. */
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
@@ -31,15 +32,11 @@ s32 generate_random_value(void);                            /* extern */
 void update_actor_status_and_mp(struct ActorRecord *);                      /* extern */
 s16 sample_terrain_surface_height();                   /* extern */
 s32 begin_ghosh_front_attack(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);          /* extern */
-typedef struct {
-    u8 pad[0xC];
-    u16 flags;
-    u8 tail[6];
-} D_800E2970Entry;
+
 extern s16 actor_turn_angle_offsets[];
 extern s16 D_8006CCD8[8];
 extern u16 reference_tile_position_alias;
-extern D_800E2970Entry dungeon_rooms[];
+
 
 /* Returns the unsigned byte at the supplied byte offset in dir_step_y. */
 static __inline__ u8 get_y_step(s16 byte_offset) {

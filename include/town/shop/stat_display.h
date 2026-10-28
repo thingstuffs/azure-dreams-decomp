@@ -7,6 +7,7 @@
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/widget_views.h"
+#include "engine/item.h"
 
 typedef struct {
     s32 word;
@@ -70,7 +71,6 @@ extern u8 D_80089318[];
 extern u8 D_8008931C[];
 extern u8 D_80089324[];
 s32 lookup_item_category_mapped_value(s32, s32);
-s32 select_item_data();
 #include "sdk/bzero.h"
 void set_display_entry_text_and_position(struct S_800B5264_0 *, s32, s32, s16, s32);
 

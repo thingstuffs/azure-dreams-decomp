@@ -31,7 +31,6 @@ typedef struct S_8017169C_2 {
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 
-extern u8 kewne_direction_frames[];
 
 /* Advance the actor along its path and update its facing and movement timing. */
 void advance_actor_path_and_facing(void *motion, ObjectPosition *unused, SpriteFrameState *actor, void *path_state)

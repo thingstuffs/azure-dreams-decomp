@@ -17,8 +17,8 @@ void draw_segmented_motion_lines(SegmentedLineState *state,
     ObjectPosition *position, SpriteFrameState *sprite, s32 depth_bias)
 {
     void *draw_buffer_slot = &g_game_work.draw_buffer;
-    SegmentedLineContext **context_ref = draw_buffer_slot;
-    SegmentedLineContext *initial_context = *context_ref;
+    GpuContext **context_ref = draw_buffer_slot;
+    GpuContext *initial_context = *context_ref;
     SegmentedLineScratch *scratch = SEGMENTED_LINE_SCRATCH;
     SegmentedLinePacket *line;
     SegmentedLineDrawMode *draw_mode;
@@ -28,7 +28,7 @@ void draw_segmented_motion_lines(SegmentedLineState *state,
     u16 draw_page;
     u16 saved_depth_bias = depth_bias;
 
-    scratch->ordering_table = &initial_context->ordering_table;
+    scratch->ordering_table.words = &initial_context->orderTag;
     scratch->rotation.t[0] = position->x.w.i;
     scratch->rotation.t[1] = position->y.w.i;
     scratch->rotation.t[2] = position->z.w.i;
@@ -50,8 +50,8 @@ void draw_segmented_motion_lines(SegmentedLineState *state,
     segments = length / 16;
     if (segments == 0) segments = 1;
     for (index = 0; index < segments; index++) {
-        line = (*context_ref)->cursor.line;
-        (*context_ref)->cursor.line = line + 1;
+        line = (*context_ref)->packetCursor;
+        (*context_ref)->packetCursor = line + 1;
         scratch->point[0].vx = scratch->point[2].vx = state->vector_x.w.i * index / segments;
         next = index + 1;
         scratch->point[1].vx = scratch->point[3].vx = state->vector_x.w.i * next / segments;
@@ -75,14 +75,14 @@ void draw_segmented_motion_lines(SegmentedLineState *state,
             if (scratch->flags & 4) line->color.c.code |= 2;
             else line->color.c.code &= 0xFD;
         }
-        line->tag.addr = scratch->ordering_table[scratch->depth].addr;
-        scratch->ordering_table[scratch->depth].addr = (u32)line;
+        line->tag.addr = scratch->ordering_table.links[scratch->depth].addr;
+        scratch->ordering_table.links[scratch->depth].addr = (u32)line;
     }
-    draw_mode = (*context_ref)->cursor.draw_mode;
-    (*context_ref)->cursor.draw_mode = draw_mode + 1;
+    draw_mode = (*context_ref)->packetCursor;
+    (*context_ref)->packetCursor = draw_mode + 1;
     draw_page = GetTPage(0, 1, 0, 0);
     SetDrawMode(draw_mode, 0, 0, draw_page, 0);
-    draw_mode->tag.addr = scratch->ordering_table[scratch->depth].addr;
-    scratch->ordering_table[scratch->depth].addr = (u32)draw_mode;
+    draw_mode->tag.addr = scratch->ordering_table.links[scratch->depth].addr;
+    scratch->ordering_table.links[scratch->depth].addr = (u32)draw_mode;
     PopMatrix();
 }

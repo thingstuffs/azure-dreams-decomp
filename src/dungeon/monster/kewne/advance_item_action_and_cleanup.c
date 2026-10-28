@@ -1,6 +1,7 @@
 #include "sdk/libc.h"
 #include "shared/audio_commands.h"
 #include "common.h"
+#include "dungeon/monster/kewne.h"
 #include "shared/object_node.h"
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
@@ -19,7 +20,6 @@ extern u8 animation_tick_scale;
 extern u8 D_800DCF50;
 extern s32 D_800DDAB8[];
 extern u8 kewne_action_resume_address[];
-extern u8 kewne_direction_frames[];
 extern u8 D_80175F40[];
 extern u16 D_80175F6E;
 

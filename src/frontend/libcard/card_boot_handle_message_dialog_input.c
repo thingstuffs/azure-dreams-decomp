@@ -15,14 +15,6 @@ typedef struct S_80022524_0 {
     s32 * unk_20;
 } S_80022524_0;   /* arg0 in card_boot_handle_message_dialog_input */
 
-typedef struct S_800280B4 {
-    u8 pad_00[0x14];
-    u8 unk_14;
-    u8 pad_15[0x3];
-} S_800280B4;   /* 0x18-byte entries */
-
-extern S_800280B4 card_menu_entry_values[];
-
 /* Handles menu exit buttons and repeated left/right selection changes. */
 void card_boot_handle_message_dialog_input(S_80022524_0 *menu)
 {
@@ -94,7 +86,7 @@ void card_boot_handle_message_dialog_input(S_80022524_0 *menu)
         new_selection = advance_index_with_directional_clamp(
             menu->unk_00,
             direction,
-            card_menu_entry_values[menu->unk_08].unk_14);
+            card_menu_entry_values[menu->unk_08].choice_count);
         if (new_selection != menu->unk_00) {
             menu->unk_00 = new_selection;
             SD_Call(0x502);

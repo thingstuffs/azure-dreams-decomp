@@ -2,9 +2,39 @@
 #define DUNGEON_MONSTER_GHOSH_H
 
 #include "common.h"
+#include "shared/object_node.h"
+#include "shared/object_node.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_moving_views.h"
+
+/* Twelve copied sprite-source bytes; aggregate alignment remains one byte. */
+typedef struct GhoshSpriteTemplate {
+    u8 bytes[12];
+} GhoshSpriteTemplate;
+
+extern GhoshSpriteTemplate ghosh_sprite_payload_template;
+
+/* Byte-command streams and their halfword repeat counters. */
+extern u8 *ghosh_script_cursor;
+extern s16 ghosh_script_repeat_count;
+extern u8 *ghosh_command_stream;
+extern s16 ghosh_command_ticks;
+
+typedef struct GhoshDirectionOffset {
+    s16 x;
+    s16 y;
+} GhoshDirectionOffset;
+
+extern GhoshDirectionOffset ghosh_effect_direction_offsets[8];
+
+extern ObjectNodeHeader *ghosh_scripted_actor;
+
+extern ObjectNodeHeader *D_80174CDC;
+
+extern ObjectNodeHeader *ghosh_actor_node;
+
+extern ObjectNodeHeader *D_80174CC8;
 
 /* Monster-owned imports; preserve their registered declaration contracts. */
 extern u8 ghosh_direction_frames[];

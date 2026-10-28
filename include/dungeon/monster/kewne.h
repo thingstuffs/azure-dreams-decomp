@@ -17,4 +17,7 @@ void update_three_state_directional_motion(ActorRecord *action, ObjectPosition *
 
 void update_actor_animation_and_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 
+/* Directional frame entries; the full allocation extent is not inferred. */
+extern u8 kewne_direction_frames[];
+
 #endif

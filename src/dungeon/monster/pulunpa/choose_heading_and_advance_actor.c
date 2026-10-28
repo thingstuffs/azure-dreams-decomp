@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
@@ -81,11 +82,7 @@ typedef struct S_8017405C_11 {
 } S_8017405C_11;   /* (u8 *)d + (((S_8017405C_0 *)d)->unk_71.u & 0x7F) in choose_heading_and_advance_actor */
 
 
-typedef struct {
-    u8 pad0[0xC];
-    u16 flags;
-    u8 padE[6];
-} DungeonModeRecord;
+
 
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void update_actor_proximity_flag(void *, void *, s32, s32, void *);
@@ -109,7 +106,7 @@ extern s16 func_80174BCC(void *, s32, void *, void *);
 extern u8 reference_tile_object[];
 extern u16 reference_tile_position_alias;
 extern s16 actor_turn_angle_offsets[];
-extern DungeonModeRecord dungeon_rooms[];
+
 
 /*
  * Steers Pulunpa toward the nearer companion or a player-relative tile, tries clear headings, and

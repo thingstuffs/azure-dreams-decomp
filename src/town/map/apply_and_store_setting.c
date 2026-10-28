@@ -1,10 +1,10 @@
 #include "common.h"
 
-extern s32 bind_view_triplet_source(s32);
-extern s32 D_80100D90;
+#include "slus.h"
+#include "town/map/camera.h"
 
 /* Apply the setting and store its current value. */
-void apply_and_store_setting(s32 setting) {
+void apply_and_store_setting(IntVector3 *setting) {
     bind_view_triplet_source(setting);
     D_80100D90 = setting;
 }

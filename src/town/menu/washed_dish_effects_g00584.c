@@ -2,10 +2,11 @@
 /* inferred-strong G00584: washed_dish_effects_g00584; joins PD:town/engine:800D0E44,PD:town/engine:800F8A70; no crossing cuts. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D0E44, PD:town/engine:800F8A70. */
 #include "town/menu/washed_dish_effects_g00584.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 
 /* Initialize the object state, shared counter, context resource, and callback. */
-void initialize_timed_resource_object(void *object, s32 unused, void *context) {
+void initialize_timed_resource_object(void *object, void *unused, struct SpriteFrameState *context) {
     void *resource_base;
 
     *(s32 **) ((s8 *) object - 0x10) = &finalize_object_or_select_town_record;

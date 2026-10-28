@@ -14,4 +14,11 @@ void move_position_toward_target(void *work_data, void *position_data, void *com
 void initialize_object_handlers(void *object, void *unused_context, void *unused_setup);
 s32 select_object_setup_path(void *object, void *request_data, void *request_param);
 
+struct Rec_func_80094268_arg0;
+void initialize_two_value_adjustment_action(struct Rec_func_80094268_arg0 *actor, s32 unused, void *init_param);
+void initialize_reaction_movement(void *object, void *movement_state, void *initialization_value);
+
+void decrement_countdown_call(struct Rec_func_80094268_arg0 *object, s32 unused, void *callback_context);
+void decrement_reaction_timer_and_reinitialize(struct Rec_func_80094268_arg0 *object, void *context, void *setup);
+
 #endif

@@ -83,7 +83,6 @@ void step_person_y_up(PersonObject *object, ObjectPosition *position, s8 *output
 void step_person_y_down(PersonObject *object, ObjectPosition *position, s8 *output);
 void init_person_timer_sixteen(PersonObject *object, s32 unused, s8 *output);
 void init_person_heading_quarter_turn(PersonObject *object, s32 unused, s8 *output);
-void init_person_slot_sixty_one(PersonObject *object, s32 unused, PersonOutput *output);
 
 void start_person_target_move(PersonObject *object, ObjectPosition *position, s8 *output);
 

@@ -32,11 +32,11 @@ void func_80023E6C(s32 signed_position, s32 palette_index, struct KeimaState *se
 s32 rsin();                             /* extern */
 s32 rcos();           /* extern */
 s32 rand();                      /* extern */
-s32 create_dual_buffer_object();       /* extern */
-void set_object_data_pointer_2();              /* extern */
+#include "town/shop/display_objects.h"       /* extern */
+              /* extern */
 extern s32 town_money[0xB58];
 extern u8 D_80022514[0x100];
-extern s32 D_80024338[3];
+extern ObjectNodeHeader *D_80024338;
 
 extern s16 keima_selection_mask[8];
 extern s32 keima_payout_remaining[0xC58];
@@ -74,7 +74,7 @@ void update_keima_minigame(KeimaState *game) {
     s32 collision_value;
     s32 gold_total;
     s32 gold_remaining;
-    s32 payout_handle;
+    ObjectNodeHeader *payout_handle;
     s32 winning_mask;
     s32 shuffle_value;
     s32 y_step;
@@ -326,7 +326,7 @@ loop_3:
             s32 stage;
 
             if (keima_selection_mask[0] != 0) {
-                D_80024338[0] = create_dual_buffer_object(0, -0x50, 0x40);
+                D_80024338 = create_dual_buffer_object(0, -0x50, 0x40);
             }
             stage = game->stage.u;
                                      /* MATCH: the state load precedes timer materialization. */
@@ -395,7 +395,7 @@ loop_3:
             if (keima_selection_mask[0] != 0) {
                 gold_total = town_money[0];
                 gold_remaining = keima_payout_remaining[0];
-                payout_handle = D_80024338[0];
+                payout_handle = D_80024338;
                 gold_total += gold_remaining;
                 town_money[0] = gold_total;
                 set_object_data_pointer_2(payout_handle);

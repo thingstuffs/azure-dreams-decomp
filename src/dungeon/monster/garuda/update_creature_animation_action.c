@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/dungeon_floor.h"
 #include "shared/entity.h"
 #include "shared/tile_object.h"
 #include "shared/sprite_frame_state.h"
@@ -12,13 +13,7 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
-typedef struct
-{
-    u8 pad0[0xC];
-    u16 flags;
-    u8 padE[6];
-}
-DungeonRecord;
+
 typedef void (*DungeonCallback)(void *, void *, void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
@@ -48,7 +43,7 @@ extern u8 D_80174890[];
 extern u8 garuda_frame_set;
 extern u8 D_801748D8[];
 extern u8 garuda_frame_set_2[];
-extern DungeonRecord dungeon_rooms[];
+
 void update_creature_animation_action(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite_arg, ActorRecord *creature);
 /* Update creature animation and dispatch its dungeon action. */
 void update_creature_animation_action(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite_arg, ActorRecord *creature) {

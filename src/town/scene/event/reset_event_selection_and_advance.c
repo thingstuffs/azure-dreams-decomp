@@ -3,7 +3,7 @@
 #include "m2c_compat.h"
 
 
-u8 advance_to_next_enabled_entry(void);                                     /* extern */
+s32 advance_to_next_enabled_entry(void);                                     /* extern */
 
 /* Set unk_02 to 0xFF before forwarding three values to advance_to_next_enabled_entry. */
 void reset_event_selection_and_advance(void) {

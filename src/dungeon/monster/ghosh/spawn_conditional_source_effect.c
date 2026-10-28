@@ -50,16 +50,11 @@ typedef struct S_8016ECE4_6 {
     s16 unk_AA;
 } S_8016ECE4_6;
 
-typedef struct {
-    s16 field0;
-    s16 field2;
-} TableEntry;
+
 
 s32 rand(void);
 extern M2C_UNK D_800777F4;
 
-extern void *ghosh_actor_node[];
-extern TableEntry ghosh_effect_direction_offsets[];
 
 /* Spawn and initialize an effect at the source position when its mode and status allow it. */
 void spawn_conditional_source_effect(void) {
@@ -76,7 +71,7 @@ void spawn_conditional_source_effect(void) {
     ObjectPosition *effect_pos;
     void *source;
 
-    source = ghosh_actor_node[0];
+    source = ghosh_actor_node;
     {
         u8 *addr = (u8 *)0x80010000;   /* integer page, two genuine reads of the 16-bit counter at 0x80013610 (decision 44; func_8132C638 uses the same counter) */
         low_byte = addr[0x3611];
@@ -107,7 +102,7 @@ void spawn_conditional_source_effect(void) {
             sprite = effect->sprite;
             sprite->scale_y = 0x1000;
             sprite->scale_x = 0x1000;
-            sprite->depth_bias = (s16) (ghosh_effect_direction_offsets[((u16) source_state->unk_2A >> 9) & 7].field2 * 6);
+            sprite->depth_bias = (s16) (ghosh_effect_direction_offsets[((u16) source_state->unk_2A >> 9) & 7].y * 6);
             source_state->unk_AA = 0x4D;
             rounded_x = source_pos->unk_02.u;
             effect_state->unk_48 = (s8) (rounded_x / 64);

@@ -12,10 +12,4 @@ extern u8 D_800D5E04[];
 extern u8 D_800D5E08[];
 extern void func_800C3050(void *, s32, s32, s32, s32, s32);
 
-/* Functions defined in this translation unit. */
-void initialize_scene_slot_53(void *object, s32 unused, void *context);
-void initialize_scene_slot_55(void *object, s32 unused, void *context);
-void initialize_scene_slot_49(void *object, s32 unused, void *context);
-void configure_actor_slot_28_and_render_state(void *context, s32 unused, u16 *stateWords);
-
 #endif

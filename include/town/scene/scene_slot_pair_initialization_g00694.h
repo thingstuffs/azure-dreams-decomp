@@ -11,8 +11,4 @@ extern u8 D_800D7854[];
 extern u8 D_800D787C[];
 extern u8 D_800D7880[];
 
-/* Functions defined in this translation unit. */
-void initialize_scene_slot_41(void *object, s32 unused, void *context);
-void initialize_scene_slot_42(void *object, s32 unused, void *context);
-
 #endif

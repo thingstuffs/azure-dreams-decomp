@@ -11,7 +11,7 @@ s32 check_selected_entry_8(S_80017EB8_0 *position) {
     row = position->unk_01;
     column = position->unk_00;
     entry_value = ((S_80017EB8_4 *)((column * 0x14) + ((S_80017EB8_3 *)(((row * 0x14)
-        + ((s32)((TownResourceLinks *)town_scene_root->unk_24)->gridRows))))->unk_0C))->unk_00;
+        + ((TownResourceLinks *)town_scene_root->unk_24)->gridRows)))->unk_0C))->unk_00;
     if (get_record_value_tier() == 0) {
         if ((u32)(entry_value - 8) < 2U) {
             return 1;

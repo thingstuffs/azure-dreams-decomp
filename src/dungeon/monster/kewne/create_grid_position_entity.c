@@ -3,6 +3,7 @@
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "dungeon/monster/kewne.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -17,7 +18,6 @@ extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern void update_actor_callbacks_and_ground(void *actor, void *motion, SpriteFrameState *sprite);
 void update_actor_animation_and_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 
-extern u8 kewne_direction_frames[];
 extern u8 kewne_frame_set_1[];
 
 typedef struct S_801708B4_1 {

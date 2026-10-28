@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/death.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dir_step.h"
 #include "shared/game_work.h"
@@ -21,7 +22,6 @@ extern u8 death_frame_set_7[8];
 extern u8 death_frame_set_4[8];
 extern u8 death_frame_set_5[8];
 extern u8 death_frame_set_6[8];
-extern u8 death_frame_set[8];
 extern Callback D_801746A0[];
 
 typedef struct S_801713A8_2 {

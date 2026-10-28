@@ -4,6 +4,7 @@
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 #include "engine/graphics.h"
+#include "engine/node/allocation.h"
 
 typedef struct S_80174B90_4 {
     u8 pad_00[0x14];
@@ -24,7 +25,6 @@ typedef struct S_80174B90_7 {
 
    /* ((S_80174B90_6 *)arg0)->unk_08 in create_terrain_scaled_actor_effect */
 
-void *allocate_list_node();               /* extern */
 s32 register_node(ObjectNodeHeader *entry, void *registration_id);           /* extern */
 void D_8017474C(void *effect, MovingPosition *out_position, void *out_render);
 extern M2C_UNK D_80175540;
@@ -56,11 +56,15 @@ typedef struct S_80174B90_2 {
 
 /* Create an effect using the source object's rendering and transform data. */
 void create_terrain_scaled_actor_effect(S_80174B90_2 *source, s32 state_00, s32 state_04, s32 state_08) {
+    void *allocation_head_address;
+    ObjectNodeHeader **allocation_head;
     SpriteFrameState *render_data;
     S_80174B90_1 *effect_state;
     ObjectNodeHeader *effect;
 
-    effect = allocate_list_node(0x100, source);
+    allocation_head_address = source;
+    allocation_head = allocation_head_address;
+    effect = allocate_list_node(0x100,allocation_head);
     if (effect != NULL) {
         render_data = effect->sprite;
         effect_state = ((void *)effect) + 0x20;

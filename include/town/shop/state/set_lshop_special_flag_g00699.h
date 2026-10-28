@@ -21,5 +21,7 @@ extern void append_town_item(void *);
 /* Functions defined in this translation unit. */
 void set_lshop_special_flag(S_800191EC_0 *record);
 void process_lshop_entries(void *entries, s32 entry_mode);
+void process_lshop_value(void *entries);
+void process_lshop_value_plus_four(u8 *entries);
 
 #endif

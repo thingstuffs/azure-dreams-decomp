@@ -83,11 +83,11 @@ extern u8 D_800F2F28[];
 extern void create_scene_object_with_48_byte_payload(void *, TownDraw32 *);
 extern void create_scene_object_with_record_payload(void *, TownDraw24 *);
 extern void set_resident_bit(s32);
-extern void select_record_entry_and_value(TownData *, void *, s32);
+#include "slus.h"
 extern void func_8003E188(s32, void *);
 extern void *allocate_list_node(s32, void *);
 extern void register_node(TownObject *, void *);
-extern void SD_Call(s32);
+
 extern void configure_the_set_mode_n_2(TownPart *, TownTransform *, void *);
 
 /* Initializes the town display objects, panel lines, and image tiles. */

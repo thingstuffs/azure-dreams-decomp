@@ -38,8 +38,8 @@ typedef struct {
 extern s32 classify_object_against_bounds(void *, void *);
 extern void unlink_scene_list_node(void *node);
 extern void unlink_node_if_registered(void *object);
-extern void register_node(s32, void *);
-extern void configure_the_set_mode_n_3(s32, void *, void *);
+#include "engine/node.h"
+extern void configure_the_set_mode_n_3(void *, void *, void *);
 extern u8 lit_mesh_renderer_address[];
 extern u8 D_800D1BDC[];
 extern u8 D_800BB640[];
@@ -50,10 +50,10 @@ extern u8 D_800BB6C4[];
 
 /* Functions defined in this translation unit. */
 void clear_object_link_and_mark_complete(S_func_800BB508_0 *object, void *context);
-void initialize_object_state_and_appearance(s32 object_id, void *object, FuncData *state);
-void advance_object_state_angle(s32 object, s32 context, void *state);
+void initialize_object_state_and_appearance(void *object_id, void *object, FuncData *state);
+void advance_object_state_angle(void *object, void *context, void *state);
 void initialize_object_appearance_with_delay(void *object, void *context, void *state);
-void clear_object_link_and_complete(void *object, s32 value);
+void clear_object_link_and_complete(void *object, void *value);
 void set_handler_variant_b_with_counter_30(void *object, void *context, void *state);
 void init_object_with_countdown(void *object, void *context, void *state);
 void set_handler_variant_b_with_counter_14(void *object, void *context, void *state);

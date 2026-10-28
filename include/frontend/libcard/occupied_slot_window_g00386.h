@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:main/func_800105A0, CL:main/func_80010B18, CL:main/func_80010C44, CL:main/func_80010D64. */
 
 #include "common.h"
+#include "frontend/libcard.h"
 
 typedef struct {
     u8 pad[8];
@@ -36,7 +37,6 @@ extern void *build_positioned_text_glyphs(void *a0, void *a1, s32 a2);
 extern void func_8004E5A0(void *a0, s32 a1, void *a2);
 extern void remap_flagged_string_bytes(void *a0);
 extern u8 D_80078FD0[16];
-extern u8 card_slot_payload[0x8000];
 extern s16 D_80027F7C;
 extern s16 D_800282B0;
 extern void card_boot_layout_empty_slot_window(s32 *object);

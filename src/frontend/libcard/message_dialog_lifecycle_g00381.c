@@ -5,7 +5,7 @@
 #include "frontend/libcard.h"
 
 /* Record the maximum string length and last nonempty slot across five strings. */
-void card_boot_measure_five_line_message(u8 *text_block)
+void card_boot_measure_five_line_message(CardMenuEntry *entry)
 {
     u8 **strings;
     u8 *text;
@@ -19,7 +19,7 @@ void card_boot_measure_five_line_message(u8 *text_block)
     longest = 0;
     last_nonempty = longest;
     string_index = longest;
-    strings = (u8 **)text_block;
+    strings = entry->words;
     do {
         length = 0;
         text = *strings;
@@ -38,8 +38,8 @@ check:
         string_index++;
         strings++;
     } while (string_index < 5);
-    text_block[0x16] = longest;
-    text_block[0x17] = last_nonempty + 1;
+    entry->max_chars = longest;
+    entry->line_count = last_nonempty + 1;
 }
 
 /* Sets record fields and processes the selected table entry. */
@@ -48,7 +48,7 @@ void card_boot_bind_message_dialog_record(Rec_func_8002290C_arg0 *record, s32 va
     record->unk_20 = value_20;
     record->unk_08 = entry_index;
     record->unk_0C = value_0c;
-    card_boot_measure_five_line_message((entry_index * 0x18) + &((u8 *)card_menu_entry_values)[0]);
+    card_boot_measure_five_line_message(&card_menu_entry_values[entry_index]);
 }
 
 /* Sets record fields, processes its embedded data, and updates the record. */
@@ -67,7 +67,7 @@ void card_boot_activate_message_dialog(void *object)
     card_boot_build_message_window_packets((u8 *)object + 0x24, object);
     card_boot_layout_five_entry_list(object);
     entry_index = ((S_80022CD8_0 *)object)->unk_08;
-    ((S_80022CD8_0 *)object)->unk_00 = card_menu_entry_values[entry_index].unk_15;
+    ((S_80022CD8_0 *)object)->unk_00 = card_menu_entry_values[entry_index].default_choice;
     card_boot_update_message_choice_highlight(object);
     if (((S_80022CD8_0 *)object)->unk_0C == 2) {
         callback = D_800226A8;

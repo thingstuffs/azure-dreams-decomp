@@ -52,7 +52,6 @@ extern void clear_actor_flag_and_update_action(ActorRecord *controller, ObjectPo
 extern void advance_counter_unblocked_and_reset_action(void *, void *, void *, void *);
 extern void update_actor_state_after_map_check(void *, ObjectPosition *, void *, ActorRecord *);
 
-extern u8 kewne_direction_frames[];
 extern u8 D_80175E48[];
 extern u8 D_80175E98[];
 extern u8 kewne_frame_set_1[];

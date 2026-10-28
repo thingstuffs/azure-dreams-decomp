@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/libcard.h"
 #include "frontend/libcard/message.h"
 #include "main/data.h"
 
@@ -6,7 +7,6 @@
 typedef struct Bytes4 { u8 bytes[4]; } Bytes4;
 typedef struct Bytes24 { u8 bytes[24]; } Bytes24;
 extern u8 D_800200A0[];
-extern s32 card_menu_entry_values[];
 
 
 typedef struct S_80022774_0 {
@@ -31,8 +31,8 @@ void *card_boot_build_message_window_packets(void *buffer, void *layout)
     s32 entry_index;
     u8 record_tag;
     u32 texture_data;
-    unsigned long table_sum;
-    unsigned long entry_addr;
+    CardMenuEntry *table_base;
+    CardMenuEntry *entry;
     u8 *record;
     u8 *dimensions;
     u8 *flags;
@@ -42,11 +42,11 @@ void *card_boot_build_message_window_packets(void *buffer, void *layout)
     group_index = 0;
     record_tag = 0x48;
     texture_data = 0x104058;
-    table_sum = (unsigned long)card_menu_entry_values;
+    table_base = card_menu_entry_values;
     entry_index = ((S_80022774_0 *)layout)->unk_08;
-    entry_addr = entry_index * 0x18 + table_sum;
-    row_count = *(u8 *)(entry_addr + 0x17);
-    width = *(u8 *)(entry_addr + 0x16) * 4;
+    entry = table_base + entry_index;
+    row_count = entry->line_count;
+    width = entry->max_chars * 4;
     height = row_count * 0x11 + row_count - row_count;
     outer_width = width + 10;
     ((S_80022774_0 *)layout)->unk_18 = width + 8;

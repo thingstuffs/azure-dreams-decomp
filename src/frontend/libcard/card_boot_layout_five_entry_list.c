@@ -14,8 +14,6 @@ typedef struct MainEntry {
     MainPosition *position;
 } MainEntry;
 
-extern s32 card_menu_entry_values[][6];
-
 /* Positions five entries in a vertical list and initializes their values from the selected table. */
 void card_boot_layout_five_entry_list(void *context)
 {
@@ -27,6 +25,6 @@ void card_boot_layout_five_entry_list(void *context)
         entry->position->x = 0x124 - (*(s32 *)((u8 *)context + 0x18) / 2);
         entry->position->y = entry_index * 0x11 - (*(s32 *)((u8 *)context + 0x1C) / 2) + 0xFC;
         entry->value = decode_fullwidth_text((u8 *)context + 0x114 + entry_index * 0x180,
-                                     card_menu_entry_values[*(s32 *)((u8 *)context + 8)][entry_index], 1);
+                                     card_menu_entry_values[*(s32 *)((u8 *)context + 8)].words[entry_index], 1);
     }
 }

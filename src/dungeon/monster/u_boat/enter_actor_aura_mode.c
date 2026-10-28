@@ -7,6 +7,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/system.h"
 #include "dungeon/level.h"
+#include "engine/node/allocation.h"
 
 #ifndef NULL
 #define NULL 0
@@ -50,7 +51,6 @@ typedef struct S_80175BA8_5 {
     void * unk_44;
 } S_80175BA8_5;
 
-extern void *allocate_list_node();
 extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 
 extern u8 clipped_sprite_renderer_address[];
@@ -63,6 +63,8 @@ extern u8 D_80170CEC[];
 
 /* Updates the actor's height offset, spawns an effect, and advances its animation phases. */
 void enter_actor_aura_mode(void *actor_state, ObjectPosition *position, SpriteFrameState *sprite, void *actor_info) {
+    void *allocation_head_address;
+    ObjectNodeHeader **allocation_head;
     s16 target_offset;
     u16 next_offset;
     u16 phase_ticks;
@@ -99,7 +101,9 @@ void enter_actor_aura_mode(void *actor_state, ObjectPosition *position, SpriteFr
         ((S_80175BA8_0 *)actor_state)->unk_96 = phase_ticks;
         if (((s16)phase_ticks == 1) || (sprite->flags & 0x8000)) {
             ((S_80175BA8_0 *)actor_state)->unk_B5 = 1;
-            effect = allocate_list_node(0x12, (u8 *)actor_state - 0x20);
+            allocation_head_address = (u8 *)actor_state - 0x20;
+            allocation_head = allocation_head_address;
+            effect = allocate_list_node(0x12,allocation_head);
             if (effect != NULL) {
                 ((S_80175BA8_0 *)actor_state)->unk_AC = effect;
                 effect->update_callback = D_80170CEC;

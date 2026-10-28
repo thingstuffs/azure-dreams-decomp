@@ -29,12 +29,12 @@ extern u8 D_800F7DFC[];
 
 extern void clear_resident_bit(s32);
 extern void set_resident_bit(s32);
-extern void select_record_entry_and_value(void *, void *, s32);
+#include "slus.h"
 extern void sound_set_cd_cue_parameters(s32, s32, s32, s32);
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
 extern void clear_alternate_texture_regions(s32);
-extern s32 SD_Call(s32);
+
 extern void tw_sd_sq_ld_call(s32, s32);
 
 typedef struct S_800243D8_1 {

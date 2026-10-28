@@ -39,7 +39,7 @@ typedef struct S_80095760_2 {
 
 extern s16 D_800D0464[4];
 extern s32 D_800D046C[4];
-extern s16 input_angle_with_offset(s32, s16);
+extern s32 input_angle_with_offset(s32 unused, s32 angle_offset);
 
 /* Functions defined in this translation unit. */
 s32 select_an_available_entry_matching_direction_returns_status(void *record);

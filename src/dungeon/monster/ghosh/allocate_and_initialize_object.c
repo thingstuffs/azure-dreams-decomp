@@ -7,12 +7,10 @@
 #include "shared/dungeon_status.h"
 #include "engine/node.h"
 
-typedef struct {
-    u8 bytes[12];
-} Packed12;
 
 
-extern Packed12 ghosh_sprite_payload_template;
+
+
 
 typedef struct S_8016AC30_0 {
     u8 pad_00[0x2];
@@ -57,7 +55,7 @@ void allocate_and_initialize_object(void) {
         primitive->color.c.g = 0;
         primitive->color.c.r = 0;
 
-        (*(Packed12 *)((u8 *)object + 0x4C)) = ghosh_sprite_payload_template;
+        (*(GhoshSpriteTemplate *)((u8 *)object + 0x4C)) = ghosh_sprite_payload_template;
         primitive->source = (u8 *)object + 0x4C;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
     }

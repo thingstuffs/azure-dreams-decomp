@@ -26,8 +26,7 @@ void clear_shop_object_and_link(u8 *object_ref)
     object_flags = (u8 *)context->town_state;
     object_table = object_flags + 0x2F0;
     state_base = object_flags;
-    object_flags = (u8 *)object_ref[3];
-    slot = ((u8)object_flags) & 0x1F;
+    slot = object_ref[3] & 0x1F;
 
     if (object_ref[0] != object_table[slot * 0x54 + 0x13]) {
         object_flags = (u8 *)context->services;
@@ -43,8 +42,7 @@ void clear_shop_object_and_link(u8 *object_ref)
     entry = (u8 *)((u32)(((object_offset + slot) * 4 + slot) * 4) +
                    (unsigned long)object_table);
     entry[0x13] = 0;
-    entry = (u8 *)entry[0x43];
-    slot = ((u32)entry) & 0x3F;
+    slot = entry[0x43] & 0x3F;
     link_offset = slot * 4;
     link_state = state_base + link_offset;
     link_state[0x980] = 0;
@@ -98,12 +96,12 @@ void compact_lshop_entry_list(void) {
 }
 
 /* Return the first unused item slot, asserting on duplicate entries or a full pool. */
-s32 find_unused_item_slot(s32 *slot_list)
+void *find_unused_item_slot(void **slot_list)
 {
     u8 used_slots[0x100];
-    s32 *slot_cursor;
-    s32 slot_base;
-    s32 slot_addr;
+    void **slot_cursor;
+    void *slot_base;
+    void *slot_addr;
     s32 free_slot;
     u8 *used_map;
     u8 *used_flag;
@@ -115,7 +113,7 @@ s32 find_unused_item_slot(s32 *slot_list)
     initial_page = (u8 *)0x80010000;
     initial_root = town_scene_root;
     loaded_base = initial_root->town_state;
-    slot_base = (s32)loaded_base->slots;
+    slot_base = loaded_base->slots;
     clear_bytes(used_slots, 0x14);
     if (*slot_cursor != 0) {
         u8 *page;

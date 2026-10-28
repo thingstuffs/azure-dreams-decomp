@@ -1,5 +1,6 @@
 #include "shared/actor_status_flags.h"
 #include "common.h"
+#include "dungeon/monster/death.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
@@ -8,10 +9,9 @@
 #include "dungeon/player/object.h"
 
 
-extern void begin_actor_display_action();
+extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
 
 extern s32 death_action_resume_address;
-extern s32 death_frame_set;
 
 /* Advance the action delay, reset motion, and select the next handler. */
 void advance_action_delay_and_handler(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *action_info, ActorRecord *actor_data) {
@@ -29,7 +29,7 @@ void advance_action_delay_and_handler(ActorRecord *action, ObjectPosition *motio
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, action_info, &death_frame_set);
+            begin_actor_display_action(action, motion, action_info, death_frame_set);
             return;
         }
         if (action_info->flags & 0x8000) {
@@ -60,7 +60,7 @@ void advance_action_delay_and_handler(ActorRecord *action, ObjectPosition *motio
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, action_info, &death_frame_set);
+            begin_actor_display_action(action, motion, action_info, death_frame_set);
             return;
         } else {
             action->action_timer.s = 2;

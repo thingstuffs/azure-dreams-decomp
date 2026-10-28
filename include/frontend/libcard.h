@@ -7,6 +7,20 @@ struct ObjectNodeHeader;
 #include "common.h"
 #include "shared/object_node.h"
 
+/* Resident message records: five string pointers followed by four layout bytes.
+ * Retail consumers use a 24-byte stride; the full array bound is not established. */
+typedef struct CardMenuEntry {
+    u8 *words[5];
+    u8 choice_count;
+    u8 default_choice;
+    u8 max_chars;
+    u8 line_count;
+} CardMenuEntry;
+
+extern CardMenuEntry card_menu_entry_values[];
+/* Metadata +0xC byte view; slots are selected with a 0x80-byte stride. */
+extern u8 card_slot_payload[];
+
 typedef struct Node8002BB08 {
     ObjectNodeHeader header;
     s32 unk20;
@@ -366,7 +380,7 @@ void libcard_stop(void);
 struct S_800491F4 *link_save_heading_draw_nodes(void *input);
 
 /* message_dialog_lifecycle_g00381.c */
-void card_boot_measure_five_line_message(u8 *text_block);
+void card_boot_measure_five_line_message(CardMenuEntry *entry);
 void card_boot_bind_message_dialog_record(Rec_func_8002290C_arg0 *record, s32 value_14, s32 entry_index, s32 value_0c, s32 value_20);
 void card_boot_initialize_message_dialog_layout(s32 record, s32 value_14, s32 entry_index, s32 value_0c, s32 value_20);
 void card_boot_activate_message_dialog(void *object);

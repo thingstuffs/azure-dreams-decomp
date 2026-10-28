@@ -28,7 +28,7 @@ inline s32 inline_fn(s32 value)
 }
 
 /* Initializes a node, links it at the active list head, and assigns optional tail storage. */
-void *initialize_scene_object_in_buffer(s32 flags_or_addr, S_8003FE78 *buffer, s16 word_count)
+void *initialize_scene_object_in_buffer(s32 flags_or_addr, void *buffer, s16 word_count)
 {
     s32 flags = flags_or_addr | 0x80;
     S_8003FE78 *old_head;

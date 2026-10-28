@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/ghosh.h"
 #include "m2c_compat.h"
 
 typedef struct S_801725F0_0 {
@@ -7,9 +8,11 @@ typedef struct S_801725F0_0 {
 } S_801725F0_0;   /* D_80174CE0 in check_boss_effect_threshold */
 
 
-extern S_801725F0_0 *ghosh_scripted_actor;
 
 /* Check whether the stored byte meets the threshold. */
 s32 check_boss_effect_threshold(s32 threshold) {
-    return (s32) ghosh_scripted_actor->unk_BA >= threshold;
+    void *body = ghosh_scripted_actor + 1;
+    ActorRecord *actor = body;
+
+    return (s32)actor->action_id.u >= threshold;
 }

@@ -45,4 +45,11 @@ void init_twenty_one_tick_record_action_b(Rec_func_80094268_arg0 *record, void *
 void init_twenty_one_tick_record_action_c(Rec_func_80094268_arg0 *object, void *unused, void *handler_context);
 void init_motion_action_callback(s32 record, s32 setup_value, s32 init_value);
 
+struct EntityRec;
+void initialize_object_transform_and_handler(Rec_func_80094268_arg0 *object, struct EntityRec *transform, void *handler_context);
+void clear_shared_flag_and_initialize_object(void *state, void *context, void *mode);
+
+void initialize_record_with_handler_and_count(Rec_func_80094268_arg0 *record, struct EntityRec *setup_value, void *handler_context);
+void initialize_record_and_clear_shared_flag(Rec_func_80094268_arg0 *record, struct EntityRec *setup_value, void *handler_context);
+
 #endif

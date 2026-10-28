@@ -55,7 +55,7 @@ typedef struct GpuContext {
     /* 0x830 */ unsigned char pad_830[0x80];
     /* 0x8B0 */ unsigned int orderTag8B0; /* ordering-table tag used by clipped draw/fill packets */
     /* 0x8B4 */ unsigned char pad_8B4[0x1C];
-    /* 0x8D0 */ unsigned char *packetCursor; /* next free packet byte; reset to context +0x8D4 when reused, then advanced by each packet builder */
+    /* 0x8D0 */ void *packetCursor; /* next free packet byte; reset to context +0x8D4 when reused, then advanced by each packet builder */
 } GpuContext;
 
 /* Exact access views shared across registered binary consumers. */

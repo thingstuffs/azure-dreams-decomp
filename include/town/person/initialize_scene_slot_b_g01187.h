@@ -12,14 +12,4 @@ extern u8 scene_slot_b_value_58[];
 extern u8 scene_slot_b_value_5c[];
 extern void func_800C3050(void *object, u32 slot_index, void *field_58_value, void *field_5c_value, void *field_7c_value, void *field_80_value);
 
-/* Functions defined in this translation unit. */
-void initialize_scene_slot_46(void *object, s32 unused, void *context);
-void initialize_scene_slot_38(void *object, s32 unused, void *context);
-void initialize_scene_slot_30(void *object, s32 unused, void *context);
-void initialize_scene_slot_57_context(void *object, s32 unused, void *context);
-void initialize_scene_slot_62_context(void *object, s32 unused, void *context);
-void initialize_scene_slot_24(void *object, s32 unused, void *context);
-void configure_actor_slot_25_and_render_state(void *context, s32 unused, u16 *stateWords);
-void initialize_scene_slot_69(void *object, s32 unused, void *context);
-
 #endif

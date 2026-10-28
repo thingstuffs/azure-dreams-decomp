@@ -11,7 +11,6 @@ extern u8 upper_draw_context[2 * 0x108D4];
 
 struct SpriteFrameState;
 struct S_8003DF0C;
-struct S_8003FE78;
 struct S_80041E28_Dst;
 struct S_80041E28_Src;
 struct S_800422DC_Other;
@@ -73,7 +72,7 @@ void initialize_runtime_table_defaults(void);
 
 /* inline_fn.c */
 inline s32 inline_fn(s32 value);
-void *initialize_scene_object_in_buffer(s32 flags_or_addr, struct S_8003FE78 *buffer, s16 word_count);
+void *initialize_scene_object_in_buffer(s32 flags_or_addr, void *buffer, s16 word_count);
 
 /* load_and_open_monster_status_display.c */
 void load_and_open_monster_status_display(s32 first_arg, s32 second_arg, s32 third_arg, s32 fourth_arg, s32 fifth_arg);

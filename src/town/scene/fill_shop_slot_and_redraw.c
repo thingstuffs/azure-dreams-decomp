@@ -3,7 +3,7 @@
 struct S_8046C8C4_0;
 
 extern s32 copy_indexed_entry_value();
-extern s32 func_8001796C();
+extern s32 func_8001796C(void);
 extern void pass_entry_identifier_to_handler(struct S_8046C8C4_0 *table, s32 entry_index);
 extern s32 func_800198D0(s32 flagIndex);
 

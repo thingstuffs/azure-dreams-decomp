@@ -2,6 +2,7 @@
 
 struct ObjectPosition;
 #include "common.h"
+#include "dungeon/monster/ghosh.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -49,7 +50,6 @@ typedef struct {
 } Node;
 
 extern u8 D_80174B30[9];
-extern Node *D_80174CDC;
 
 extern void initialize_timed_motion_step(s32, s32);
 extern void create_offset_animation_sprite(void *,struct ObjectPosition *, Sub *);

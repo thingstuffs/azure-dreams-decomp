@@ -9,6 +9,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/monster/manoeva.h"
 #include "engine/graphics.h"
+#include "engine/node/allocation.h"
 
 #ifndef NULL
 #define NULL 0
@@ -24,7 +25,6 @@ typedef struct S_80175DD0_body {
    /* arg1 in spawn_offset_motion_object */
 
 extern s32 resolve_record_orientation_or_fallback();
-extern void *allocate_list_node();
 s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 
 extern s32 D_80175C60;
@@ -32,6 +32,8 @@ extern s32 D_80175D74;
 
 /* Creates an object at a source position offset and sets its orientation from the parent. */
 void spawn_offset_motion_object(void *parent_data, MovingPosition *origin, Rec_D_80082E80 *source_data, s16 position_index) {
+    void *allocation_head_address;
+    ObjectNodeHeader **allocation_head;
     u16 position_offset[3];
     u16 angle;
     s32 direction_offset;
@@ -42,7 +44,9 @@ void spawn_offset_motion_object(void *parent_data, MovingPosition *origin, Rec_D
     void *body_storage;
 
     if (resolve_record_orientation_or_fallback(source_data->unk_08, source_data, position_offset, position_index) != 0) {
-        object = allocate_list_node(0x300, (u8 *)parent_data - 0x20);
+        allocation_head_address = (u8 *)parent_data - 0x20;
+        allocation_head = allocation_head_address;
+        object = allocate_list_node(0x300,allocation_head);
         if ((object != NULL) &&
             ((body_storage = object + 1,
               motion = body_storage,

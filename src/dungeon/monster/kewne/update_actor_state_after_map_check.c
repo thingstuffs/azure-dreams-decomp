@@ -1,5 +1,6 @@
 #include "shared/entity.h"
 #include "common.h"
+#include "dungeon/monster/kewne.h"
 #include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -21,7 +22,6 @@ struct SpriteFrameState;
 extern void select_sprite_entry(void *, s16, s16);
 
 extern u8 kewne_action_resume_address[9];
-extern u8 kewne_direction_frames[9];
 extern u8 kewne_frame_set_1[9];
 
 /* Update actor and entity state after checking the map object. */

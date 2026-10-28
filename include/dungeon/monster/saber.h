@@ -5,6 +5,17 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
 
+typedef struct SaberTileOffset {
+    s16 x;
+    union { s16 s; u16 u; } y;
+} SaberTileOffset;
+
+typedef struct SaberTileOffsets {
+    SaberTileOffset entries[8];
+} SaberTileOffsets;
+
+extern SaberTileOffsets saber_direction_tile_offsets;
+
 /* Monster-owned imports; preserve their registered declaration contracts. */
 extern s32 saber_behavior_entry;
 extern u8 saber_direction_frames[];

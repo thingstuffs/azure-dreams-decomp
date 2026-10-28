@@ -47,4 +47,7 @@ void tcame_lock(void);
 void tcame_return(void);
 void tcame_return_plus(void);
 
+extern IntVector3 *D_80100D90;
+void apply_and_store_setting(IntVector3 *setting);
+
 #endif

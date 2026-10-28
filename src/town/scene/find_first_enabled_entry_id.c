@@ -11,7 +11,7 @@ extern u8 D_80017BC0[];
 extern s32 func_8001E670(s32 value);
 
 /* Return the first listed entry ID whose value passes the check, or zero. */
-u8 find_first_enabled_entry_id(void) {
+s32 find_first_enabled_entry_id(void) {
     s32 list_index = 0;
 
     if (D_80017BC0[list_index] != 0) {

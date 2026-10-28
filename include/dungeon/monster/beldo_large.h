@@ -3,8 +3,11 @@
 
 /* Function contracts owned by src/dungeon/monster/beldo_large/ (decision 74; maintained by tools/headers). */
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
+extern ObjectNodeHeader *beldo_camera_object;
+
 void create_multi_form_segment_ring(EntityRec *origin);
 void advance_linked_actor_motion_script(ActorRecord *state_in, ObjectPosition *motion_in, struct SpriteFrameState *sprite_in);
 

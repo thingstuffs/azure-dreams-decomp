@@ -81,4 +81,6 @@ StorageMenuNode *create_storage_item_menu(ItemMenuStateNode *owner);
 StorageMenuNode *create_storage_owner_menu(ItemMenuStateNode *owner);
 s32 load_storage_display_resource(StorageWork *work, s32 resource);
 
+void forward_offset_to_effect_finalizer(void *node);
+
 #endif

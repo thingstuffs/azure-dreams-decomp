@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/saber.h"
 #include "shared/dungeon_moving_views.h"
 
 typedef struct S_801745BC_0_pre {
@@ -50,16 +51,7 @@ typedef struct S_801745BC_4 {
    /* position in process_nodes_at_target_tile */
 
 
-typedef struct OffsetPair {
-    s16 x;
-    u16 y;
-} OffsetPair;
 
-typedef struct OffsetTable {
-    OffsetPair entries[8];
-} OffsetTable;
-
-extern OffsetTable saber_direction_tile_offsets;
 
 extern void initialize_timed_motion_step(u16, u32);
 extern void spawn_radial_particle_burst(s16, s16, s16, s16, s32);
@@ -69,7 +61,7 @@ extern void play_sound_if_enabled(s32);
 /* Process nodes at the target tile and height, triggering type-specific effects. */
 void process_nodes_at_target_tile(void *node, s32 target_x, s32 target_y, s32 target_height)
 {
-    OffsetTable offsets = saber_direction_tile_offsets;
+    SaberTileOffsets offsets = saber_direction_tile_offsets;
     void *head = node;
     register S_801745BC_4 *owner = head;
     s32 match_x = target_x;
@@ -98,7 +90,7 @@ void process_nodes_at_target_tile(void *node, s32 target_x, s32 target_y, s32 ta
                 if (((center_height + 0x40) >= height) && (low_height < height)) {
                     if ((u32)(((S_801745BC_1 *)node)->unk_13 - 0x33) < 4U) {
                         u16 angle;
-                        OffsetPair *offset;
+                        SaberTileOffset *offset;
 
                         ((S_801745BC_1 *)node)->unk_28 = 0;
                         ((S_801745BC_1 *)node)->unk_64 = -1;
@@ -110,12 +102,12 @@ void process_nodes_at_target_tile(void *node, s32 target_x, s32 target_y, s32 ta
                         play_sound_if_enabled(target_y);
 
                         angle = owner->unk_2A;
-                        offset = (OffsetPair *)((u8 *)&offsets +
+                        offset = (SaberTileOffset *)((u8 *)&offsets +
                             (((s16)angle >> 7) & 0x1C));
                         spawn_radial_particle_burst(
                             (s16)(position->x + (offset->x * 32)),
                             (s16)(position->y +
-                                  ((s32)(offset->y << 16) >> 11)),
+                                  ((s32)(offset->y.u << 16) >> 11)),
                             (s16)(position->z - 0x20),
                             owner->unk_14,
                             (s32)(s16)angle);

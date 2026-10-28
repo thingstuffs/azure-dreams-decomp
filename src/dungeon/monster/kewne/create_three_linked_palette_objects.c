@@ -5,6 +5,7 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
+#include "engine/node/allocation.h"
 
 typedef struct S_80174910_6 {
     u8 pad_00[0x8];
@@ -19,7 +20,6 @@ typedef struct S_80174910_9 {
     u8 * unk_08;
 } S_80174910_9;   /* ((S_80174910_6 *)arg0)->unk_0C in create_three_linked_palette_objects */
 
-void *allocate_list_node();               /* extern */
 s32 register_node(ObjectNodeHeader *entry, void *registration_id);           /* extern */
 extern void D_801747B8();
 extern u32 kewne_palette_colors[];
@@ -56,6 +56,8 @@ typedef struct S_80174910_4 {
 
 /* Creates three linked objects and initializes their shared palette data. */
 void create_three_linked_palette_objects(S_80174910_2 *source, s32 effect_param) {
+    void *allocation_head_address;
+    ObjectNodeHeader **allocation_head;
     u16 palette_rect[4];                                    /* compiler-managed */
     s16 next_palette_x;
     s32 object_index;
@@ -74,7 +76,9 @@ void create_three_linked_palette_objects(S_80174910_2 *source, s32 effect_param)
     object_index = 0;
     object_callback = &D_801747B8;
     do {
-        object = allocate_list_node(0x12, source);
+        allocation_head_address = source;
+        allocation_head = allocation_head_address;
+        object = allocate_list_node(0x12,allocation_head);
         object_data = ((void *)object) + 0x20;
         if (object != NULL) {
             object->update_callback = object_callback;

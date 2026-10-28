@@ -72,7 +72,6 @@ void * allocate_boss_actor(s16, s16, s16, s16);
 
 extern s32 ghosh_action_resume_address;
 extern u8 ghosh_frame_set_3[];
-extern ObjectNodeHeader *ghosh_actor_node;
 
 /*
  * Creates Ghosh and its companion one tile to the right, stores both nodes, and retains the

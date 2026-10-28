@@ -33,7 +33,7 @@ extern u8 D_80016034[16];
 void clear_shop_object_and_link(u8 *object_ref);
 void release_lshop_entry(s32 slotIndex);
 void compact_lshop_entry_list(void);
-s32 find_unused_item_slot(s32 *slot_list);
+void *find_unused_item_slot(void **slot_list);
 void append_town_item(const Copy4 *input);
 
 void func_80018BE4(s32 slot_index);

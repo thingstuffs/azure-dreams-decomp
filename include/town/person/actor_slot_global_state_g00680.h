@@ -13,10 +13,4 @@ extern u8 D_800D667C[];
 extern u8 D_800D66A4[];
 extern u8 D_800D66A8[];
 
-/* Functions defined in this translation unit. */
-void configure_actor_slot_75_and_copy_global(void *actor, s32 unused, void *state);
-void configure_actor_slot_76_and_copy_global(void *actor, s32 unused, void *state);
-void configure_actor_slot_77_and_copy_global(void *actor, s32 unused, void *state);
-void configure_actor_slot_78_and_copy_global(void *actor, s32 unused, void *state);
-
 #endif

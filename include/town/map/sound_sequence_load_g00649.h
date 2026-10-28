@@ -4,8 +4,8 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800C3E04, PD:town/engine:800D4244. */
 
 #include "common.h"
+#include "engine/audio.h"
 
-extern void select_sound_stream(s16, s32);
 extern s16 SD_Call(s32);
 
 

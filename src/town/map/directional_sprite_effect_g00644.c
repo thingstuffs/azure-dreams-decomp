@@ -46,8 +46,7 @@ s32 create_directional_sprite_effect(void *position, s16 angle) {
             init_value_2 = 0x1000;
             sprite->scale_y = init_value_2;
             sprite->scale_x = init_value_2;
-            init_value = (s32) effect->position;
-            init_value = ((S_800BC574_5 *)((void *) init_value))->unk_0C;
+            init_value = effect->position->velocity_x;
             if (init_value > 0) {
                 sprite->flags = (u16) (sprite->flags | 1);
             }

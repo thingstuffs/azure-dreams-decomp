@@ -23,7 +23,7 @@ typedef struct S_func_800A496C_2 {
 extern void update_view_gray_level(void);
 extern s16 map_scene_selector_alias;
 extern s8 map_wide_culling;
-extern s32 D_80100D90;
+
 extern s32 town_secondary_callback_state[];
 
 /* Run both contexts' callbacks, then update the flag from the current mode and threshold. */

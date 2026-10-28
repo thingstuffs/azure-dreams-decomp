@@ -1,5 +1,6 @@
 #include "shared/object_node_flags.h"
 #include "common.h"
+#include "dungeon/monster/ghosh.h"
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
 
@@ -15,14 +16,13 @@ typedef struct {
     s32 y;
 } Position;
 
-extern u8 *ghosh_actor_node[];
-extern u8 *D_80174CC8[];
 extern void play_sound_if_enabled(s32);
 
 /* Lowers the entity in two timed stages, then flags completion and clears the active pointer. */
 void lower_entity_in_timed_stages(Entity *entity, Position *pos)
 {
-    u8 *context_base = ghosh_actor_node[0];
+    void *node_data = ghosh_actor_node;
+    u8 *context_base = node_data;
     s32 state = entity->state;
     s32 expected_state;
     u16 initial_state;
@@ -53,9 +53,11 @@ void lower_entity_in_timed_stages(Entity *entity, Position *pos)
         pos->y += 0xFFFE0000;
         entity->timer++;
         if ((s16)entity->timer >= 20) {
-            u8 *active_context = D_80174CC8[0] + 0x20;
+            void *node_data = D_80174CC8;
+            u8 *active_context = node_data;
+            active_context += 0x20;
             ((ObjectNodeHeader *)((u8 *)active_context - 0x20))->flags |= NODE_REMOVE;
-            D_80174CC8[0] = 0;
+            D_80174CC8 = 0;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
 

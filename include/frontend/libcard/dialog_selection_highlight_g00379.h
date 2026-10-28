@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:main/func_8000F25C, CL:main/func_8000F300, CL:main/func_8000F33C, CL:main/func_8000F3B4. */
 
 #include "common.h"
+#include "frontend/libcard.h"
 #include "frontend/libcard/interfaces.h"
 
 typedef struct {
@@ -16,17 +17,8 @@ typedef struct {
     /* 0x0B */ s8 unkB;
 } Struct_8000F300;
 
-typedef struct {
-    s32 words[5];
-    u8 flag14;
-    u8 pad15;
-    u8 pad16;
-    u8 count17;
-} EntryT;
-
 void set_glyph_style_index(void *record, int index);
 void set_style_for_tagged_glyph_entries(u8 *entries, s32 process_arg);
-extern s32 card_menu_entry_values[3];
 void card_boot_measure_dialog_choice_word(u8 *, s32, s32 *, s32 *, s32 *);
 
 /* Functions defined in this translation unit. */

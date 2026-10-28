@@ -1,12 +1,12 @@
 #include "common.h"
 
-extern void initialize_scene_action_record(void *, s32, s32);
+#include "town/player/action_initializers.h"
 extern void initialize_actor_movement_interaction_action(void *,void *,void *);
 extern s32 select_an_eligible_source_entry_stores_pointer_in_destination(void *, s32 *);
 extern s32 town_actor_control[];
 
 /* Dispatch the actor's action using its cached entry or the entry lookup result. */
-void dispatch_actor_action(void *actor, s32 position, s32 context) {
+void dispatch_actor_action(void *actor, void *position, void *context) {
     s32 cached_entry;
     s32 action_result;
 

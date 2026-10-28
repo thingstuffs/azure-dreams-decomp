@@ -25,7 +25,7 @@ s32 get_status_active_entry_matching_direction(void *);
 void init_motion_action_callback(s32 record, s32 setup_value, s32 init_value);
 s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41(void);
 s32 select_response_for_source_and_target();
-void dispatch_actor_action(void *actor, s32 position, s32 context);
+void dispatch_actor_action(void *actor, void *position, void *context);
 #include "records/Rec_func_8009B828_arg0.h"
 void update_motion_toward_shared_target(Rec_func_8009B828_arg0 *state, s32 context, ObjectPosition *motion, s32 transition_arg);
 void update_motion_toward_town_target(void *state, s32 context, void *motion, s32 next_arg);

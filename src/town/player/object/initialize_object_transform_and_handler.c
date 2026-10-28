@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player/action_initializers.h"
 #include "shared/town_handler_entries.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"

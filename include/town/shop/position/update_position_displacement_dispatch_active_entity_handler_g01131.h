@@ -2,6 +2,7 @@
 #define TOWN_SHOP_POSITION_UPDATE_POSITION_DISPLACEMENT_DISPATCH_ACTIVE_ENTITY_HANDLER_G01131_H
 #include "sdk/libc.h"
 #include "sdk/libgte.h"
+#include "engine/window.h"
 
 struct SpriteFrameState;
 /* Update position displacement dispatch active entity handler. Shared declarations. */
@@ -136,7 +137,6 @@ extern s32 town_actor_scratch;
 /* Shared import declarations; data casts preserve each measured view. */
 extern s32 scene_object_payload_alias[3];
 extern s32 town_target_record[3];
-extern s16 scale_random_to_unsigned_halfword_limit(s32 limit);
 extern u8 town_slot_snapshot[];
 
 /* Functions defined in this translation unit. */

@@ -19,12 +19,12 @@ extern void handle_adjust_vector_toward_selected_angle_limit_magnitude(TownObjec
 extern void select_sound_command_from_mode(void);
 extern void compute_and_clamps_vector_based_adjustment_updates_town(struct TownObj *obj, s32 base_value, struct TownVec **vec_ptr);
 extern void clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2(TownObject *arg);
-extern void initialize_scene_action_record(void *context, TownObject *object, s32 update_arg);
+#include "town/player/action_initializers.h"
 extern void add_hex_20000_s_signed_offset_hex_14(TownObject *arg);
 
 
 /* Updates a town object based on its table value, limit, and a global flag. */
-void update_threshold_bound_object(void *context, TownObject *object, s32 update_arg)
+void update_threshold_bound_object(void *context, TownObject *object, void *update_arg)
 {
     s16 table_value;
 

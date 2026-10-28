@@ -2,13 +2,13 @@
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
+#include "engine/node/allocation.h"
 
 typedef struct Pair {
     s32 first;
     s32 second;
 } Pair;
 
-extern void *allocate_list_node();
 extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern void draw_textured_ellipse();
 extern u8 D_80175B1C[12];
@@ -36,6 +36,8 @@ typedef struct S_80175D7C_3 {
 
 /* Creates and initializes a child object linked to its parent state. */
 void create_linked_child_object(void *parent_state) {
+    void *allocation_head_address;
+    ObjectNodeHeader **allocation_head;
     Pair pair;
     s32 pair_first;
     s32 pair_second;
@@ -44,7 +46,9 @@ void create_linked_child_object(void *parent_state) {
     SpriteFrameState *visual;
     S_80175D7C_2 *child_state;
 
-    child = allocate_list_node(514, (u8 *)parent_state - 0x20);
+    allocation_head_address = (u8 *)parent_state - 0x20;
+    allocation_head = allocation_head_address;
+    child = allocate_list_node(514,allocation_head);
     if (child != 0) {
         child->update_callback = D_80175B1C;
         register_node(child, project_sprite_chain);

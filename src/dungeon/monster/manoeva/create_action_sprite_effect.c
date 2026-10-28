@@ -4,6 +4,7 @@
 #include "shared/slus_callbacks.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_moving_views.h"
+#include "engine/node/allocation.h"
 typedef struct S_801745F0_0 S_801745F0_0;
 
 typedef struct S_80047784 S_80047784;
@@ -18,7 +19,6 @@ typedef struct S_80174690_5 {
     s32 unk_28;
 } S_80174690_5;
 
-void *allocate_list_node();               /* extern */
 s32 register_node(ObjectNodeHeader *entry, void *registration_id);           /* extern */
 void select_sprite_entry(void *object, s16 table_index, s16 entry_index);    /* extern */
 void copy_linked_position_and_check_status(void *object, MovingPosition *dest, SpriteFrameState *status);
@@ -37,11 +37,15 @@ typedef struct S_80174690_2 {
 
 /* Creates an effect from the source and initializes its sprite and callbacks. */
 void create_action_sprite_effect(S_80174690_2 *source) {
+    void *allocation_head_address;
+    ObjectNodeHeader **allocation_head;
     SpriteFrameState *sprite;
     S_80174690_1 *effect_data;
     ObjectNodeHeader *effect;
 
-    effect = allocate_list_node(0x112, source);
+    allocation_head_address = source;
+    allocation_head = allocation_head_address;
+    effect = allocate_list_node(0x112,allocation_head);
     if (effect != 0) {
         sprite = effect->sprite;
         effect->update_callback = &copy_linked_position_and_check_status;

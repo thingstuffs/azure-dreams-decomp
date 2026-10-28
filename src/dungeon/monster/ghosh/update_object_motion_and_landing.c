@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/ghosh.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
@@ -6,7 +7,6 @@ s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 s32 find_valid_floor_item_position(s16 x, s16 y, s16 z, s16 *out_x, s16 *out_y, s16 *out_distance);
 s32 place_item_at_valid_floor_position();
 s16 sample_terrain_surface_height();
-extern u8 ghosh_effect_direction_offsets;
 
 
 typedef struct S_8016E528_0_pre {
@@ -214,7 +214,10 @@ mark_removed:
             ((S_8016E528_0 *)motion)->unk_4C = (s32) (((S_8016E528_0 *)motion)->unk_4C + ((S_8016E528_0 *)motion)->unk_58);
             ((S_8016E528_2 *)position)->unk_04.at00.v = (s32) (((S_8016E528_2 *)position)->unk_04.at00.v
                 + ((S_8016E528_0 *)motion)->unk_50);
-            direction_table = &ghosh_effect_direction_offsets;
+            {
+                void *table_data = ghosh_effect_direction_offsets;
+                direction_table = table_data;
+            }
             ((S_8016E528_0 *)motion)->unk_50 = (s32) (((S_8016E528_0 *)motion)->unk_50 + ((S_8016E528_0 *)motion)->unk_5C);
             direction_step = (S_8016E528_3 *)((((S_8016E528_0 *)motion)->unk_18 * 4) + direction_table);
             next_tile = ((S_8016E528_0 *)motion)->unk_48 + direction_step->unk_00;

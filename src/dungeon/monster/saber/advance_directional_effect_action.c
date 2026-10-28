@@ -5,16 +5,7 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/player/object.h"
 
-typedef struct OffsetPair {
-    s16 x;
-    s16 y;
-} OffsetPair;
 
-typedef struct OffsetTable {
-    OffsetPair entries[8];
-} OffsetTable;
-
-extern OffsetTable saber_direction_tile_offsets;
 #include "dungeon/monster/saber.h"
 
 
@@ -41,7 +32,7 @@ typedef struct S_80174A28_3 {
 
 /* Advances a timed directional action, triggers its effects, and resets the actor state. */
 void advance_directional_effect_action(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
-    OffsetTable offsets = saber_direction_tile_offsets;
+    SaberTileOffsets offsets = saber_direction_tile_offsets;
     s32 coord_value;
 
     switch (action->action_phase.u) {
@@ -56,7 +47,7 @@ void advance_directional_effect_action(ActorRecord *action, ObjectPosition *moti
     case 1:
         if ((--action->action_timer.s == 0x12) ||
             (sprite->flags & 0x8000)) {
-            OffsetPair *offset;
+            SaberTileOffset *offset;
             u16 flags;
             s32 height;
             s32 x_sum;
@@ -73,7 +64,7 @@ void advance_directional_effect_action(ActorRecord *action, ObjectPosition *moti
             offset = &offsets.entries[(((S_80174A28_3 *)actor)->unk_2A.u >> 9) & 7];
             x_offset = offset->x;
             x_sum = tile_x + x_offset;
-            y_offset = offset->y;
+            y_offset = offset->y.s;
             x_sum = x_sum & 0xFFFF;
             coord_value = sprite->tile_y + y_offset;
             create_randomly_rotated_offset_effect(effect_actor, x_sum, coord_value & 0xFFFF, height);
@@ -85,7 +76,7 @@ void advance_directional_effect_action(ActorRecord *action, ObjectPosition *moti
         }
         if ((action->action_timer.s == 9) ||
             (sprite->flags & 0x8000)) {
-            OffsetPair *offset;
+            SaberTileOffset *offset;
             u16 angle;
             s32 height;
             s32 tile_x;
@@ -99,7 +90,7 @@ void advance_directional_effect_action(ActorRecord *action, ObjectPosition *moti
             tile_x = sprite->tile_x;
             coord_value = offset->x;
             x_sum = tile_x + coord_value;
-            y_offset = offset->y;
+            y_offset = offset->y.s;
             coord_value = sprite->tile_y + y_offset;
             x = x_sum & 0xFFFF;
             process_nodes_at_target_tile(actor, x, coord_value & 0xFFFF, height);

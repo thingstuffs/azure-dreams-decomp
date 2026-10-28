@@ -29,12 +29,12 @@ typedef struct {
 
 /* Functions defined in this translation unit. */
 void move_flag_object_until_timer_expiry(TownCf814State *motion, TownCf814Obj *target, s32 unused, s32 duration, s32 step_x, s32 step_y);
-void run_32_tick_movement_phase(s32 state_addr, s32 object_addr, s32 unused);
-void move_flag_object_by_step_16_minus_4_plus_8(s32 input_first, s32 input_second, s32 input_third);
-void move_flag_object_by_step_16_plus_8_minus_4(s32 input_first, s32 input_second, s32 input_third);
-void move_flag_object_by_step_16_minus_8(s32 state, s32 obj, s32 unused);
-void move_flag_object_by_step_16_plus_8_plus_4(s32 input_first, s32 input_second, s32 input_third);
-void move_flag_object_by_step_16_minus_4_minus_8(s32 input_first, s32 input_second, s32 input_third);
-void move_flag_object_by_step_32_plus_y_4(s32 state, s32 object, s32 unused);
+void run_32_tick_movement_phase(TownCf814State *state_addr, TownCf814Obj *object_addr, s32 unused);
+void move_flag_object_by_step_16_minus_4_plus_8(TownCf814State *input_first, TownCf814Obj *input_second, s32 input_third);
+void move_flag_object_by_step_16_plus_8_minus_4(TownCf814State *input_first, TownCf814Obj *input_second, s32 input_third);
+void move_flag_object_by_step_16_minus_8(TownCf814State *state, TownCf814Obj *obj, s32 unused);
+void move_flag_object_by_step_16_plus_8_plus_4(TownCf814State *input_first, TownCf814Obj *input_second, s32 input_third);
+void move_flag_object_by_step_16_minus_4_minus_8(TownCf814State *input_first, TownCf814Obj *input_second, s32 input_third);
+void move_flag_object_by_step_32_plus_y_4(TownCf814State *state, TownCf814Obj *object, s32 unused);
 
 #endif

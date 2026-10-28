@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/ghosh.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -29,8 +30,6 @@ extern u8 D_8016EEBC[];
 extern u8 ghosh_frame_set_3[];
 extern u8 ghosh_frame_set_9[];
 extern u8 ghosh_frame_set_13[];
-extern u8 *ghosh_script_cursor[];
-extern s16 ghosh_script_repeat_count[];
 
 /* Executes the current actor script command and advances its repeat counter. */
 s32 execute_actor_script_command(u8 *actor_arg, s32 action_context, u8 *entity_arg) {
@@ -48,7 +47,7 @@ s32 execute_actor_script_command(u8 *actor_arg, s32 action_context, u8 *entity_a
         return 0;
     }
 
-    command_stream = ghosh_script_cursor[0];
+    command_stream = ghosh_script_cursor;
     command = command_stream[1];
     command_wide = command;
     if (command_wide == 0) {
@@ -58,11 +57,11 @@ s32 execute_actor_script_command(u8 *actor_arg, s32 action_context, u8 *entity_a
     }
 
     repeat_limit = command_stream[0];
-    repeat_count = ghosh_script_repeat_count[0] + 1;
-    ghosh_script_repeat_count[0] = repeat_count;
+    repeat_count = ghosh_script_repeat_count + 1;
+    ghosh_script_repeat_count = repeat_count;
     if (repeat_limit < repeat_count) {
-        ghosh_script_cursor[0] = command_stream + 2;
-        ghosh_script_repeat_count[0] = 0;
+        ghosh_script_cursor = command_stream + 2;
+        ghosh_script_repeat_count = 0;
     }
 
     ((S_8016EF10_1 *)actor)->unk_2A = (command & 7) << 9;

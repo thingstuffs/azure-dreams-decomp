@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/ghosh.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
@@ -36,11 +37,8 @@ extern void clear_actor_action_markers(u8 *state);
 
 extern u16 actor_direction_dispatch_key;
 extern s8 spell_effect_selector_cache;
-extern u8 * ghosh_actor_node;
 extern s32 D_801748C8[];
-extern s32 D_801749E0[];
-extern s32 *ghosh_script_cursor;
-extern s16 ghosh_script_repeat_count;
+extern u8 *D_801749E0[];
 
 /* Reset map state, update coordinate lookup values, and process both active entries. */
 void reset_map_state_and_process_entries(void) {
@@ -48,15 +46,19 @@ void reset_map_state_and_process_entries(void) {
     s16 entry_slot;
     u16 coord_result;
     u16 lookup_key;
-    u8 *map_object;
-    u8 *active_object;
+    SpriteFrameState *map_object;
+    ObjectNodeHeader *active_object;
     u8 *map_data;
     u8 *entry;
     SysWork *sys_work;
 
     entry_slot = 0;
     sys_work = (SysWork *)0x80010000;   /* integer page, five genuine accesses (decision 44); same SysWork view as func_81337FAC */
-    ghosh_actor_node[0xD2] = 1;
+    {
+        void *body = ghosh_actor_node + 1;
+        ActorRecord *actor = body;
+        actor->unk_B0.bytes[2] = 1;
+    }
     sys_work->f371A = 0;
     sys_work->f3718 = 0;
     sys_work->f3716 = 0;
@@ -65,14 +67,14 @@ void reset_map_state_and_process_entries(void) {
     sys_work->flags = (sys_work->flags | 9) & 0xFFEF;
     lookup_key = actor_direction_dispatch_key;
     sys_work->handler = (void *)D_801748C8[(lookup_key >> 9) & 7];
-    map_object = ((ActiveObjectFieldView_81326794 *)active_object)->field_0C;
+    map_object = active_object->sprite;
     spell_effect_selector_cache = -1;
-    map_data = active_object + 0x20;
-    coord_result = get_rounded_facing_and_rounding_flag(map_object[0x24], map_object[0x25],
+    map_data = (void *)(active_object + 1);
+    coord_result = get_rounded_facing_and_rounding_flag(map_object->tile_x, map_object->tile_y,
                            reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &coord_aux);
     ((MapDataFieldView_81326794 *)map_data)->field_2A = coord_result;
     ghosh_script_repeat_count = 0;
-    ghosh_script_cursor = (s32 *)D_801749E0[(coord_result >> 9) & 7];
+    ghosh_script_cursor = D_801749E0[(coord_result >> 9) & 7];
 
     for (entry_slot = 0; entry_slot < 2; entry_slot++) {
         entry = (&dungeon_actor_ring_anchor->unk_AC.address)[entry_slot];

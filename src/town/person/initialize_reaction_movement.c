@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/person/object_setup.h"
 
 #include "town/person/object/initialize_object_entries_api.h"
 extern s32 scale_random_to_unsigned_halfword_limit(s32);

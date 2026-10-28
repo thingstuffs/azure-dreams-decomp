@@ -3,6 +3,7 @@
 #include "sdk/libc.h"
 #include "dungeon/system.h"
 #include "dungeon/actor/state.h"
+#include "dungeon/actor/status.h"
 
 struct E_80170A58_S_80170A58_2;
 #include "common.h"
@@ -661,7 +662,6 @@ struct S_80047738;
 
 extern s32 check_entity_interaction_compatibility();
 extern s32 check_layer_offset_height();
-extern void set_or_clear_actor_status_slot(void *,s32,s32);
 extern void advance_status_timers(void *record);
 extern s32 display_text_with_fullwidth_adjustment(s8 *);
 extern s32 generate_random_value(void);

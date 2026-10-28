@@ -1,11 +1,10 @@
 #include "common.h"
+#include "dungeon/monster/ghosh.h"
 
 typedef s32 M2C_UNK;
 
 
-extern s32 ghosh_command_stream;
-extern s16 ghosh_command_ticks;
-extern M2C_UNK D_80174BEC[];
+extern u8 *D_80174BEC[];
 extern void *ghosh_boss_node;
 
 /* Select a table entry, reset its counter, and set the object flag. */

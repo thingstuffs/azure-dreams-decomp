@@ -17,16 +17,16 @@ typedef struct {
 } TownRecord;
 
 extern struct S_80082EA8 {
-    s32 ***p;
+    TownRecord ****p;
     s32 pad[2];
 } D_80082EA8;
 /* extern */
-extern s8 ***loaded_town_resource_attributes;
+extern TownRecord ****loaded_town_resource_attributes;
 
 extern s32 D_80100E2C[3];
 
 /* Functions defined in this translation unit. */
-s32 lookup_signed_index_value(s32 index);
+TownRecord *lookup_signed_index_value(s32 index);
 void set_flagged_record_values(TownRecord *record, s32 entryValue);
 void apply_pending_indexed_value(s32 index, s32 value);
 void apply_pending_table_entry(s32 index, s32 entryValue);

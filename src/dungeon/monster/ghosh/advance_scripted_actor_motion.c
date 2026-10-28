@@ -28,7 +28,6 @@ extern u8 ghosh_frame_set_11[];
 extern u8 ghosh_frame_set_1[];
 extern u8 ghosh_frame_set_5[];
 extern u8 ghosh_motion_path[];
-extern s32 ghosh_scripted_actor;
 
 typedef struct S_func_8132B8AC_0 {
     u8 pad_00[0x92];
@@ -129,7 +128,7 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
     s32 particle_color;
 
     direction_vectors = ghosh_effect_direction_vectors;
-    beldo = (S_func_8132B8AC_3 *)(ghosh_scripted_actor + 0x20);
+    beldo = (S_func_8132B8AC_3 *)(ghosh_scripted_actor + 1);
     advance_sprite_animation_and_textures(sprite);
     state = actor->unk_9A;
     switch (state) {

@@ -6,7 +6,7 @@
 #include "common.h"
 #include "town/shop/item_lookup.h"
 
-extern s32 get_index_address_in_range_four_byte_slots_n_1(void *target_addr, void *slot_addr, s32 slot_count);
+#include "town/shop/item_lookup.h"
 
 /* Functions defined in this translation unit. */
 s32 set_the_entry_flag_save_returned_table_index_success(void *entry);

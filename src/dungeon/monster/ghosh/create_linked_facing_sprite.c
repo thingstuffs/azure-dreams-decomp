@@ -1,5 +1,6 @@
 #include "engine/node.h"
 #include "common.h"
+#include "dungeon/monster/ghosh.h"
 #include "engine/graphics.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
@@ -7,7 +8,6 @@
 #define F(p,t,o) (*(t)((u8 *)(p)+(o)))
 extern s16 view_facing_angle_alias;
 extern s32 D_801714B0, ghosh_frame_set;
-extern void * D_80174CDC[3];
 struct ObjectNodeHeader; void * allocate_list_node(s32, struct ObjectNodeHeader * *);
 #include "dungeon/level/unlink_entity_node_api.h"
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
@@ -53,7 +53,7 @@ void create_linked_facing_sprite(u16 x, u16 y, s32 z) {
             tile_mask = 0x300;
         update_map_cell_flags_with_item_limit(tile_x, tile_y, tile_mask);
         unlink_entity_node(state);
-        D_80174CDC[0] = object;
+        D_80174CDC = object;
         F(object, s32**, 0x10) = (s32 *)((s32)F(object, s32**, 0x10) | 0x80000000);
     }
 }

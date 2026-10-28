@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:main/func_8000F934, CL:main/func_8000FAE8, CL:main/func_8000FB20, CL:main/func_8000FB48, CL:main/func_8000FBE8, CL:main/func_8000FC48, CL:main/func_8000FC90. */
 
 #include "common.h"
+#include "frontend/libcard.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_8002290C_arg0.h"
 #include "frontend/libcard/interfaces.h"
@@ -23,12 +24,6 @@ typedef struct S_80022CD8_0 {
     s32 unk_08;
     s32 unk_0C;
 } S_80022CD8_0;
-
-typedef struct S_800280B4 {
-    u8 pad_00[0x15];
-    u8 unk_15;
-    u8 pad_16[0x2];
-} S_800280B4;
 
 typedef struct S_set_handler_0 {
     u8 pad_00[0x10];
@@ -73,10 +68,8 @@ extern u8 D_80022CD8[];
 extern u8 menu_backdrop_tag[];
 extern u8 D_800287E8[];
 
-extern S_800280B4 card_menu_entry_values[];
-
 /* Functions defined in this translation unit. */
-void card_boot_measure_five_line_message(u8 *text_block);
+void card_boot_measure_five_line_message(CardMenuEntry *entry);
 void card_boot_bind_message_dialog_record(Rec_func_8002290C_arg0 *record, s32 value_14, s32 entry_index, s32 value_0c, s32 value_20);
 void card_boot_initialize_message_dialog_layout(s32 record, s32 value_14, s32 entry_index, s32 value_0c, s32 value_20);
 void card_boot_activate_message_dialog(void *object);

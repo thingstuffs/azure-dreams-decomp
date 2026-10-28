@@ -49,8 +49,6 @@ typedef struct S_8016EB14_6 {
 
 extern u8 D_800777B8;
 
-extern void *ghosh_actor_node;
-extern s16 ghosh_effect_direction_offsets[16];
 
 /* Spawn an object at the owner's position and initialize its motion and appearance. */
 void spawn_owned_motion_object(void)
@@ -59,6 +57,7 @@ void spawn_owned_motion_object(void)
     s32 source_y;
     s32 direction_y;
     S_8016EB14_0 *owner_object;
+    void *owner_data;
     S_8016EB14_5 *source_pos;
     S_8016EB14_6 *owner_state;
     S_8016EB14_3 *object_state;
@@ -68,7 +67,8 @@ void spawn_owned_motion_object(void)
     u8 *direction_table;
     u8 *direction_entry;
 
-    owner_object = ghosh_actor_node;
+    owner_data = ghosh_actor_node;
+    owner_object = owner_data;
     source_pos = owner_object->unk_08;
     owner_state = (u8 *)owner_object + 0x20;
     spawned_object = allocate_flagged_object_node(0x12);

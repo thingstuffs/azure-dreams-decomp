@@ -18,7 +18,7 @@ void clear_object_link_and_mark_complete(S_func_800BB508_0 *object, void *contex
 }
 
 /* Initialize object state, scale, and color, then offset and configure the object. */
-void initialize_object_state_and_appearance(s32 object_id, void *object, FuncData *state) {
+void initialize_object_state_and_appearance(void *object_id, void *object, FuncData *state) {
     register_node(object_id - 0x20, lit_mesh_renderer_address);
 
     state->unk12 = 0;
@@ -42,7 +42,7 @@ void initialize_object_state_and_appearance(s32 object_id, void *object, FuncDat
 }
 
 /* Update the object and advance its state angle by 0x20 modulo 0x1000. */
-void advance_object_state_angle(s32 object, s32 context, void *state) {
+void advance_object_state_angle(void *object, void *context, void *state) {
     u16 *angle = (u16 *)((u8 *)state + 0x1A);
     s32 t;
     clear_object_link_and_mark_complete(object, context);
@@ -59,7 +59,7 @@ void initialize_object_appearance_with_delay(void *object, void *context, void *
 }
 
 /* Forward the object and value to clear_object_link_and_mark_complete. */
-void clear_object_link_and_complete(void *object, s32 value) {
+void clear_object_link_and_complete(void *object, void *value) {
     clear_object_link_and_mark_complete(object, value);
 }
 

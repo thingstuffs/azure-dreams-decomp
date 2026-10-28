@@ -1,5 +1,6 @@
 #ifndef MODULES_TOWN_DOOR_H
 #define MODULES_TOWN_DOOR_H
+#include "engine/scene.h"
 
 struct S_800A092C_0;
 struct S_800A0958_0;
@@ -203,7 +204,6 @@ s32 service_script_controller(void);
 s32 func_800352FC(void);
 s16 initialize_object_items_in_reverse(void *ptr, s32 stateId, s16 currentState);
 void no_op_callback_a(void *ptr, s32 stateId, s32 stateArg);
-void load_indexed_resource_package(s32 value);
 void sound_set_cd_cue_parameters(s32 value0, s32 value1, s32 value2, s32 value3);
 void SD_Call(s32 value);
 extern void decrease_value_and_advance_counter();

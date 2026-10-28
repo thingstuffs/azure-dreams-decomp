@@ -15,7 +15,7 @@
 
 typedef struct S_80017EB8_3 {
     u8 pad_00[0xC];
-    s32 unk_0C;
+    void *unk_0C;
 } S_80017EB8_3;
 
 typedef struct S_80017EB8_4 {

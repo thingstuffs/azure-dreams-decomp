@@ -14,6 +14,7 @@
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/dungeon_delay_views.h"
 #include "town/person/position.h"
+#include "slus.h"
 
 #ifndef NULL
 #define NULL 0
@@ -78,7 +79,6 @@ extern s8 D_800D0D0C[];
 extern s8 D_800D0D30[];
 extern s32 town_movement_speed;
 extern void *D_80100E24_R;
-extern void select_record_entry_and_value(void *, void *, s8);
 extern void advance_sprite_animation_and_textures(void *);
 extern s32 update_object_and_clear_status_fields(void *);
 extern void set_state_bytes_from_flags(s32 flags, u8 *state);

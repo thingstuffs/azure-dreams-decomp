@@ -22,7 +22,7 @@ typedef struct S_8001975C_0 {
 extern s32 func_8001E670(s32 id);
 extern void func_8001E578(s32 id);
 extern void func_8001E5F0(s32 id);
-extern u8 find_first_enabled_entry_id(void);
+extern s32 find_first_enabled_entry_id(void);
 extern s32 count_enabled_town_entries(void);
 extern s32 find_first_enabled_paired_entry(void);
 extern s32 advance_to_next_enabled_entry(void);

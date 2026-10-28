@@ -8,7 +8,8 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
-s32 apply_selected_entry_values();
+struct Rec_func_800165F4_arg0;
+s32 apply_selected_entry_values(struct Rec_func_800165F4_arg0 *record, s32 entry_index);
 s32 process_checked_entry(void *object, s32 entryIndex);
 /* Update the context flag and dispatch the selected entry according to active flags. */
 void dispatch_entry_for_active_flags(void *context, s32 entry_index)

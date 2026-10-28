@@ -37,7 +37,7 @@ typedef struct {
 extern u8 D_80024450[];
 extern u8 scene_object_payload_alias[];
 extern s32 town_money[3];
-extern s32 betting_display_object[3];
+extern ObjectNodeHeader *betting_display_object;
 extern s32 camera_height_mode[3];
 extern u8 town_scene_record_handlers[];
 extern u8 D_800D0080[];
@@ -55,8 +55,8 @@ extern void initialize_town_context_action(void);
 extern void create_familiar_deployment_effect_with_owner_state(void);
 extern void apply_global_scene_value(void *);
 extern void initialize_scene_action_record(void *, void *, void *, ...);
-extern s32 create_dual_buffer_object(s32, s32, s32);
-extern void set_object_data_pointer_2(s32);
+#include "town/shop/display_objects.h"
+
 
    /* object in update_betting_effect */
 
@@ -216,15 +216,15 @@ void update_betting_effect(TownEffect *input)
     case 1:
     {
         ObjectPosition *motion;
-        s32 handle;
+        ObjectNodeHeader *display_object;
         s32 payout_scale;
         if (effect->phase == 3) {
             break;
         }
         SD_Call(0x523);
-        handle = create_dual_buffer_object(0, -80, 64);
+        display_object = create_dual_buffer_object(0, -80, 64);
         payout_scale = 6 / (effect->phase + 1);
-        betting_display_object[0] = handle;
+        betting_display_object = display_object;
         ((S_800211A4_3 *)effect)->unk_10 = payout_scale;
         if (service_script_controller() == 0) {
             motion = &view_reference_entity;
@@ -648,7 +648,7 @@ void update_betting_effect(TownEffect *input)
         if ((s16)timer_left > 0) {
             break;
         }
-        set_object_data_pointer_2(betting_display_object[0]);
+        set_object_data_pointer_2(betting_display_object);
         effect->state = 0;
         effect->flags |= 2;
         break;
@@ -671,7 +671,7 @@ void update_betting_effect(TownEffect *input)
         if ((s16)ticks_left > 0) {
             break;
         }
-        set_object_data_pointer_2(betting_display_object[0]);
+        set_object_data_pointer_2(betting_display_object);
         effect->ticks = 0;
         effect->state = 0;
         effect->flags |= 0xA;

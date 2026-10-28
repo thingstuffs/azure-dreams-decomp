@@ -4,6 +4,7 @@
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
 #include "sdk/libc.h"
+#include "engine/node/allocation.h"
 
 #ifndef NULL
 #define NULL 0
@@ -22,7 +23,6 @@ typedef struct EffectBase {
 } EffectBase;
 
 
-extern void *allocate_list_node();
 s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 
 extern s32 D_800D707C[];
@@ -64,6 +64,8 @@ typedef struct S_80D659DC_5 {
 
 /* Spawns an effect offset from the source with randomized velocity biased along the given angle. */
 void spawn_angled_random_velocity_effect(EntityRec *source, u32 angle, s32 effect_param) {
+    void *allocation_head_address;
+    ObjectNodeHeader **allocation_head;
     ObjectPosition *position_x;
     ObjectPosition *position_y;
     ObjectPosition *velocity_x;
@@ -72,7 +74,9 @@ void spawn_angled_random_velocity_effect(EntityRec *source, u32 angle, s32 effec
     EffectBase *base;
     ObjectNodeHeader *effect;
 
-    effect = allocate_list_node(0x211, source);
+    allocation_head_address = source;
+    allocation_head = allocation_head_address;
+    effect = allocate_list_node(0x211,allocation_head);
     if (effect != NULL) {
         base = (EffectBase *)(effect + 1);
         effect->update_callback = &D_800D707C;

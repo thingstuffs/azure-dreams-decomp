@@ -1,12 +1,12 @@
 
 struct ObjectNodeHeader;
 #include "common.h"
+#include "dungeon/monster/ghosh.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_floor.h"
 #include "shared/record_ptrs.h"
 #include "dungeon/item.h"
 
-extern s32 ghosh_actor_node[3];
 
 extern void func_8016E264(void);
 extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *);
@@ -18,7 +18,7 @@ void leave_map_screen_and_release_objects(void)
     void *object;
     u8 *ptr;
 
-    ptr = (u8 *)(ghosh_actor_node[0] + 0x20);
+    ptr = (u8 *)(ghosh_actor_node + 1);
     *(u16 *)(ptr + 0x46) &= 0x7FFF;
     dungeon_floor_flags &= 0xF7FFFFFF;
     system_update_flags &= 0xFFF6;

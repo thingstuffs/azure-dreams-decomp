@@ -1,9 +1,7 @@
 #include "common.h"
+#include "dungeon/monster/ghosh.h"
 
-extern void *ghosh_actor_node;
-extern s32 D_80174928[];
-extern s32 *ghosh_script_cursor;
-extern s16 ghosh_script_repeat_count;
+extern u8 D_80174928[];
 
 /* Initialize the current object state and reset the default table counter. */
 void initialize_map_object_state(void) {

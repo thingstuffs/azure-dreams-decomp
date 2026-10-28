@@ -129,7 +129,7 @@ extern s16 town_scene_effect_flips[];
 extern u8 town_position_reference_state[];
 #include "engine/texture.h"
 extern void step_actor_animation(void *,s32);
-extern s32 view_relative_angle_sector(s16);
+extern u32 view_relative_angle_sector(s32 angle);
 extern void clear_motion_along_blocked_directions_update_affected_axes(void *);
 extern void copy_entity_record_fields(void *, void *);
 /* arg0 in update_object_view_transition */
@@ -151,7 +151,7 @@ extern s32 map_view_transition_address;
 
 /* Shared import declarations; data casts preserve each measured view. */
 extern u8 D_800903FC[];
-extern s16 step_angle_12_toward(s32, s32, s32);
+extern s32 step_angle_12_toward(s32 angle_delta, s32 target_angle, s32 step);
 extern void add_hex_20000_s_signed_offset_hex_14(); /* Unprototyped: one or two arguments; retail reads only the first. */
 extern u8 town_blocked_directions[];
 extern u8 town_movement_speed[];

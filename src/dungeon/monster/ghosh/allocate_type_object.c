@@ -6,14 +6,10 @@
 #include "common.h"
 #include "engine/node.h"
 
-typedef struct {
-    u32 word0;
-    u32 word4;
-    u32 word8;
-} __attribute__((packed)) Copy12;
 
 
-extern Copy12 ghosh_sprite_payload_template;
+
+
 
 typedef struct S_8016AD00_0 {
     u8 pad_00[0x2];
@@ -61,7 +57,7 @@ void allocate_type_12_object(void)
         secondary_state->color.c.g = 0;
         secondary_state->color.c.r = 0;
 
-        (*(Copy12 *)((u8 *)object + 0x4C)) = ghosh_sprite_payload_template;
+        (*(GhoshSpriteTemplate *)((u8 *)object + 0x4C)) = ghosh_sprite_payload_template;
         secondary_state->source = (u8 *)object + 0x4C;
     }
 }
