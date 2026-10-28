@@ -25,17 +25,17 @@ void advance_effect_and_reduce_scale(void *effect, void *motion, void *scale) {
     ObjectStatusPrefix16 *effect_view = effect;
     u16 *flags;
     u16 next_scale;
-    void *object;
+    S_80814CC4_2 *object;
 
     object = ((S_80814CC4_0 *)effect)->unk_00;
     ((ObjectPosition *)motion)->x.v = (s32) (((ObjectPosition *)motion)->x.v + ((S_80814CC4_0 *)effect)->unk_04);
     ((ObjectPosition *)motion)->y.v = (s32) (((ObjectPosition *)motion)->y.v + ((ObjectPosition *)motion)->velocity_y);
-    ((S_80814CC4_2 *)object)->unk_58 = (u16) (((S_80814CC4_2 *)object)->unk_58 | 1);
+    object->unk_58 = (u16) (object->unk_58 | 1);
     next_scale = ((SpriteFrameState *)scale)->scale_y - 0x100;
     ((SpriteFrameState *)scale)->scale_x = next_scale;
     ((SpriteFrameState *)scale)->scale_y = next_scale;
     if ((u16) ((SpriteFrameState *)scale)->scale_x < 0x201U) {
-        ((S_80814CC4_2 *)object)->unk_58 = (u16) (((S_80814CC4_2 *)object)->unk_58 & 0xFFFE);
+        object->unk_58 = (u16) (object->unk_58 & 0xFFFE);
         flags = &effect_view[-1].flags;
         *flags = (u16) (effect_view[-1].flags | 0x8000);
         scene_object_flags |= 0x8000;

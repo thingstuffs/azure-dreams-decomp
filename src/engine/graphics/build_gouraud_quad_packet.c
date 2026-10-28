@@ -58,7 +58,7 @@ typedef struct S_8004BDDC_1 {
 
    /* Build a textured Gouraud quad packet with tinted vertex colors and adjusted UV bounds. */
 void *build_gouraud_quad_packet(s32 tint_a, s32 tint_b, void *packet, void *record, void *command) {
-    void *color_record;
+    PacketColorWords *color_record;
     s8 u_end;
     s8 v_end;
     void *color_1;
@@ -78,17 +78,17 @@ void *build_gouraud_quad_packet(s32 tint_a, s32 tint_b, void *packet, void *reco
     }
     color_record = (void *) ((u8 *) color_record + 0xC);
     color_1 = packet + 0x10;
-    ((S_8004BDDC_0 *)packet)->unk_10.at00.v = (s32) ((PacketColorWords *)color_record)->unk_00;
+    ((S_8004BDDC_0 *)packet)->unk_10.at00.v = (s32) color_record->unk_00;
     ((S_8004BDDC_0 *)packet)->unk_04 = (u8) ((S_8004BDDC_0 *)packet)->unk_10.at03.v;
     multiply_rgb_tint_saturated(color_1, tint_a);
     multiply_rgb_tint_saturated(color_1, tint_b);
     color_2 = packet + 0x1C;
-    ((S_8004BDDC_0 *)packet)->unk_1C.at00.v = (s32) ((PacketColorWords *)color_record)->unk_04;
+    ((S_8004BDDC_0 *)packet)->unk_1C.at00.v = (s32) color_record->unk_04;
     ((S_8004BDDC_0 *)packet)->unk_05 = (u8) ((S_8004BDDC_0 *)packet)->unk_1C.at03.v;
     multiply_rgb_tint_saturated(color_2, tint_a);
     multiply_rgb_tint_saturated(color_2, tint_b);
     color_3 = packet + 0x28;
-    ((S_8004BDDC_0 *)packet)->unk_28.at00.v = (s32) ((PacketColorWords *)color_record)->unk_08;
+    ((S_8004BDDC_0 *)packet)->unk_28.at00.v = (s32) color_record->unk_08;
     ((S_8004BDDC_0 *)packet)->unk_06 = (u8) ((S_8004BDDC_0 *)packet)->unk_28.at03.v;
     multiply_rgb_tint_saturated(color_3, tint_a);
     multiply_rgb_tint_saturated(color_3, tint_b);

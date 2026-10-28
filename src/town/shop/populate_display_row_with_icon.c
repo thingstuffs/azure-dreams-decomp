@@ -80,7 +80,7 @@ void populate_display_row_with_icon(void *entry_data, s32 display_base, s32 row_
     }
     display_node = (S_800B6094_3 *)((row_index * 4) + display_base);
     *icon_slot = display_value;
-    ((S_800B6094_6 *)(((S_800B6094_5 *)(((S_800B6094_4 *)display_node)->unk_38))->unk_04))->unk_08 = -0x30;
+    ((S_800B6094_6 *)(((S_800B6094_5 *)display_node->unk_38)->unk_04))->unk_08 = -0x30;
     display_node = display_node->unk_38;
     display_node = display_node->unk_04;
     display_node->unk_0A = (row_index * 0x10) + 0x67;

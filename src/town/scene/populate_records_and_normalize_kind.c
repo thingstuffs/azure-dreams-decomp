@@ -55,7 +55,7 @@ TownRecord *populate_records_and_normalize_kind(void)
             record_flags &= 0xC0;
         } while (record_flags != next_addr_or_end);
     }
-    if ((((TownRecord *)scene_record_list)->flags & 0xC0) != 0x80) {
+    if ((scene_record_list->flags & 0xC0) != 0x80) {
         s32 scan_index = 0;
         s32 end_flags;
 

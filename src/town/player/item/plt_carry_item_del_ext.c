@@ -37,13 +37,13 @@ void plt_carry_item_del_ext(void) {
     saved_object = ((CarryRecord *)base)->linked_object;
 
     if (get_linked_carry_item_data(context, first_value, second_value) != 0) {
-        u8 *linked_object;
+        CarryLinkedObject *linked_object;
 
         initialize_record_and_select_active_data(base, first_value, second_value);
         do {
-            linked_object = ((CarryRecord *)base)->linked_object;
+            linked_object = (CarryLinkedObject *)((CarryRecord *)base)->linked_object;
         } while (0);
-        if (linked_object != 0 && (((CarryLinkedObject *)linked_object)->type == 4 || ((CarryLinkedObject *)linked_object)->state == 0xD)) {
+        if (linked_object != 0 && (linked_object->type == 4 || linked_object->state == 0xD)) {
             ((CarryLinkedObject *)saved_object)->handler = &D_8009C340;
             ((CarryRecord *)base)->linked_object = 0;
         }

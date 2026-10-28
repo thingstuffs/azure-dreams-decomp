@@ -49,54 +49,54 @@ void animate_catalog_final_category_cursor(TownObject *obj)
     HalfFields *primary;
     HalfFields *secondary;
 
-    switch (((TownObject *)(obj))->state) {
+    switch (obj->state) {
     case CATALOG_CURSOR_NUMBER:
-        index_base = 1 - ((TownObject *)(obj))->side;
+        index_base = 1 - obj->side;
         side_stride8 = index_base << 3;
         side_stride16 = index_base << 4;
         side_offset = side_stride16 + side_stride8;
         slot_index = side_offset + 33;
-        index_base = ((TownObject *)(obj))->digit << 4;
+        index_base = obj->digit << 4;
         index_base = index_base + 1;
-        entry_index = index_base - ((TownObject *)(obj))->side;
+        entry_index = index_base - obj->side;
 
         if (is_catalog_entry_available((u8)entry_index) != 0) {
             s32 display_number = entry_index + 1;
 
-            *((TownObject *)(obj))->pool->slots[slot_index] = (u32)catalog_number_marker;
+            *obj->pool->slots[slot_index] = (u32)catalog_number_marker;
             slot_index = side_offset + 34;
-            *((TownObject *)(obj))->pool->slots[slot_index] = catalog_normal_digits[display_number / 10];
+            *obj->pool->slots[slot_index] = catalog_normal_digits[display_number / 10];
             slot_index = side_offset + 35;
-            *((TownObject *)(obj))->pool->slots[slot_index] = catalog_normal_digits[display_number % 10];
+            *obj->pool->slots[slot_index] = catalog_normal_digits[display_number % 10];
         }
         break;
 
     case CATALOG_CURSOR_HIDE:
     {
-        HalfFields *first_pair = ((TownObject *)(obj))->pool->pair->first;
+        HalfFields *first_pair = obj->pool->pair->first;
         first_pair->field6 = 0;
         first_pair->field4 = 0;
         return;
     }
 
     case CATALOG_CURSOR_POSITION:
-        ((TownObject *)(obj))->pool->pair->first->field8 = catalog_cursor_rows[((TownObject *)(obj))->side];
-        ((TownObject *)(obj))->pool->pair->first->fieldA = catalog_cursor_columns;
+        obj->pool->pair->first->field8 = catalog_cursor_rows[obj->side];
+        obj->pool->pair->first->fieldA = catalog_cursor_columns;
         break;
 
     default:
         return;
     }
 
-    pair = ((TownObject *)(obj))->pool->pair;
+    pair = obj->pool->pair;
     primary = pair->first;
     secondary = pair->second;
     secondary->field6 = primary->field8;
-    pair = ((TownObject *)(obj))->pool->pair;
+    pair = obj->pool->pair;
     primary = pair->first;
     secondary = pair->second;
     secondary->field8 = primary->fieldA;
-    primary = ((TownObject *)(obj))->pool->pair->first;
+    primary = obj->pool->pair->first;
     primary->field6 = 0x800;
     primary->field4 = 0x800;
 }

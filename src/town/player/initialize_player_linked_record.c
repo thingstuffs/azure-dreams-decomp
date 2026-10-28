@@ -16,6 +16,6 @@ extern void D_80099B70();
 
 /* Set up the object using its linked record and assign its next handler. */
 void initialize_player_linked_record(Rec_func_80094268_arg0 *object, void *ptr, void *ptr2) {
-    call_the_handler_selects_nonzero_entry((s32 *) ((S_8009A1A4_2 *)(((Rec_func_80094268_arg0 *)object)->unk_44))->unk_20, object, ptr2);
+    call_the_handler_selects_nonzero_entry((s32 *) ((S_8009A1A4_2 *)object->unk_44)->unk_20, object, ptr2);
     object->unk_04.as_pm = &D_80099B70;
 }

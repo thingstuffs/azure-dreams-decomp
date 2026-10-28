@@ -6,5 +6,5 @@
 
 /* Check whether the first entry's state byte is 2. */
 s32 is_event_state_two(void) {
-    return ((TownEventState *)(((u8 *)town_event_state)))->selected_entry == 2;
+    return town_event_state->selected_entry == 2;
 }

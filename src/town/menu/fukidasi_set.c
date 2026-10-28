@@ -48,7 +48,7 @@ void fukidasi_set(s32 entry_index, s32 part_index, s32 body_index, s32 body_valu
     void *object_template;
     ObjectPayloadView *entry;
     ObjectNodeHeader *object;
-    u8 *body;
+    S_800A75E4_4 *body;
     ObjectPosition *part;
     s32 *value_slot;
     SpriteFrameState *part_data;
@@ -66,17 +66,17 @@ void fukidasi_set(s32 entry_index, s32 part_index, s32 body_index, s32 body_valu
 
     object = create_town_effect_object(entry_or_body, entry_data, object_template, 0);
     if (object != NULL) {
-        body = (u8 *)object + 0x20;
+        body = (S_800A75E4_4 *)((u8 *)object + 0x20);
         part = object->position;
         part_data = object->sprite;
         part_data->source = D_800D0E24[part_index];
         register_node_if_unregistered(body, project_sprite_chain);
         part->z.w.i = (u16)part->z.w.i - 0x62;
-        ((S_800A75E4_4 *)body)->unk_90 = 0xA;
-        ((S_800A75E4_4 *)body)->unk_6C = body_value;
-        ((S_800A75E4_4 *)body)->unk_95 = part_index;
-        ((S_800A75E4_4 *)body)->unk_96 = body_index;
+        body->unk_90 = 0xA;
+        body->unk_6C = body_value;
+        body->unk_95 = part_index;
+        body->unk_96 = body_index;
         value_slot = D_800D0E3C;
-        ((S_800A75E4_4 *)body)->unk_50 = value_slot[body_index];
+        body->unk_50 = value_slot[body_index];
     }
 }

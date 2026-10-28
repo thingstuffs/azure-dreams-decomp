@@ -34,11 +34,11 @@ typedef struct S_800206C8_1 {
 /* Initializes the memory card slot object and its working state. */
 void *init_card_slot_object(s32 init_option)
 {
-    void *base;
-    void *slot_state;
+    S_800206C8_0 *base;
+    S_800206C8_1 *slot_state;
 
-    base = D_8040C318;
-    slot_state = D_8040C318 + 0x20;
+    base = (S_800206C8_0 *)D_8040C318;
+    slot_state = (S_800206C8_1 *)(D_8040C318 + 0x20);
     if (func_80047FD8(base) == 0) {
         base = (void *)(unsigned long)func_8003C714(0, base, 0x42);
         if (base == 0) {
@@ -52,9 +52,9 @@ void *init_card_slot_object(s32 init_option)
         func_8007BFE0(slot_state, 0xE4);
     }
     func_804075D0(slot_state, 4);
-    ((S_800206C8_0 *)base)->unk_0C = (s32)(unsigned long)((u8 *)slot_state + 0x50);
-    ((S_800206C8_1 *)slot_state)->unk_5C = func_804075A8(((S_800206C8_1 *)slot_state)->unk_60);
+    base->unk_0C = (s32)(unsigned long)((u8 *)slot_state + 0x50);
+    slot_state->unk_5C = func_804075A8(slot_state->unk_60);
     func_80407688(slot_state, init_option);
-    ((S_800206C8_0 *)base)->unk_10 = (s32)(unsigned long)D_80407298;
+    base->unk_10 = (s32)(unsigned long)D_80407298;
     return base;
 }

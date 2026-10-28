@@ -118,7 +118,7 @@ void update_slot_machine(void *machine, void *position)
         self->unk_64 = 0;
         func_802441A4(input);
         bet_state = 1;
-        *(s16 *)((u8 *)self + 0x5C) = bet_state;
+        self->unk_5C = bet_state;
     case 1:
         if (COUNT_VALUE < 1000U) {
             return;

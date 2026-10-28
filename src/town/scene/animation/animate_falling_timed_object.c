@@ -60,8 +60,8 @@ typedef struct S_8052BCCC_3 {
 
 /* Per-frame step for the town cutscene actor: integrate its motion, then run its ten-state dispatch. */
 void animate_falling_timed_object(void *obj, void *motion, void *incoming_out) {
-    void *aux;
-    void *out;
+    S_8052BCCC_2 *aux;
+    S_8052BCCC_3 *out;
     u16 table[14];
     s32 a0;
     s32 a1;
@@ -80,7 +80,7 @@ void animate_falling_timed_object(void *obj, void *motion, void *incoming_out) {
     ((ObjectPosition *)motion)->y.v += ((ObjectPosition *)motion)->velocity_y;
     ((ObjectPosition *)motion)->z.v += ((ObjectPosition *)motion)->velocity_z;
     ((S_8052BCCC_0 *)obj)->unk_A2 = ((S_8052BCCC_0 *)obj)->unk_A2 - 1;
-    ((S_8052BCCC_2 *)aux)->unk_0C |= 1;
+    aux->unk_0C |= 1;
 
     state = ((S_8052BCCC_0 *)obj)->unk_68;
     out = incoming_out;
@@ -89,16 +89,16 @@ void animate_falling_timed_object(void *obj, void *motion, void *incoming_out) {
     {
         s32 state0_flag;
         a1 = func_80071494() & 0xF;
-        if (((S_8052BCCC_2 *)aux)->unk_0A >= 25) {
+        if (aux->unk_0A >= 25) {
             a1 = func_80071494() & 7;
             a0 = a1 + 14;
         } else {
-            if (((S_8052BCCC_2 *)aux)->unk_0A >= 19) {
+            if (aux->unk_0A >= 19) {
                 state0_flag = a1 < 3;
                 if (state0_flag)
                     goto state0_small;
                 state0_flag = a1 < 5;
-            } else if (((S_8052BCCC_2 *)aux)->unk_0A >= 7) {
+            } else if (aux->unk_0A >= 7) {
                 state0_flag = a1 < 4;
                 if (state0_flag)
                     goto state0_small;
@@ -123,12 +123,12 @@ state0_finish:
         ((S_8052BCCC_0 *)obj)->unk_A6 = a0;
         ((ObjectPosition *)motion)->velocity_y = (s32)0xFFC00000 / (*(s16 *)((u8 *)(obj) + (0xA2)));
         if (((S_8052BCCC_0 *)obj)->unk_A0 < 2)
-            ((S_8052BCCC_3 *)out)->unk_14 |= 1;
+            out->unk_14 |= 1;
         if ((*(u16 *)((u8 *)(obj) + (0xA0))) & 1) {
-            ((S_8052BCCC_3 *)out)->unk_06 = -256;
+            out->unk_06 = -256;
             ((ObjectPosition *)motion)->velocity_y = 0 - ((ObjectPosition *)motion)->velocity_y;
         } else {
-            ((S_8052BCCC_3 *)out)->unk_06 = -64;
+            out->unk_06 = -64;
             func_80034A1C(out, D_8028E600, 0);
         }
         ((S_8052BCCC_0 *)obj)->unk_68 = 1;
@@ -184,9 +184,9 @@ state0_finish:
             ((ObjectPosition *)motion)->velocity_x = 0;
             ((ObjectPosition *)motion)->y.v += (s32)0xFFFC0000;
             (*(s32 *)((u8 *)(out) + (0))) = D_8028E568;
-            ((S_8052BCCC_3 *)out)->unk_08 = *(s32 *)D_8028E56C;
-            ((S_8052BCCC_3 *)out)->unk_04 = 0;
-            ((S_8052BCCC_3 *)out)->unk_05 = 0;
+            out->unk_08 = *(s32 *)D_8028E56C;
+            out->unk_04 = 0;
+            out->unk_05 = 0;
             if (func_80071494() & 7) {
                 u16 phase3;
                 /* BYTES: Redundant store retail really emits; the A6 load between the two A2 stores keeps cse from deleting the first store. */
@@ -216,17 +216,17 @@ state0_finish:
     case 4:
         if (((ObjectPosition *)motion)->z.v <= (s32)0xFFA80000 &&
             !(((S_8052BCCC_0 *)obj)->unk_A4 & 2)) {
-            ((S_8052BCCC_3 *)out)->unk_06 = 0;
+            out->unk_06 = 0;
             ((S_8052BCCC_0 *)obj)->unk_48 = D_805266D8;
             ((S_8052BCCC_0 *)obj)->unk_A4 |= 2;
             func_8023FA58(obj, motion, D_8053013C);
-            ((S_8052BCCC_2 *)aux)->unk_08 += 1;
+            aux->unk_08 += 1;
         }
         if ((*(s16 *)((u8 *)(obj) + (0xA2))) == 3) {
             (*(s32 *)((u8 *)(out) + (0))) = D_8028E568;
-            ((S_8052BCCC_3 *)out)->unk_08 = *(s32 *)D_8028E56C;
-            ((S_8052BCCC_3 *)out)->unk_04 = 0;
-            ((S_8052BCCC_3 *)out)->unk_05 = 0;
+            out->unk_08 = *(s32 *)D_8028E56C;
+            out->unk_04 = 0;
+            out->unk_05 = 0;
         }
         if ((*(s16 *)((u8 *)(obj) + (0xA2))) <= 0) {
             ((ObjectPosition *)motion)->velocity_z = 0;
@@ -261,12 +261,12 @@ state0_finish:
             if (((S_8052BCCC_0 *)obj)->unk_A0 & 1) {
                 value = (s32)D_8028E590;
             } else {
-                ((S_8052BCCC_3 *)out)->unk_06 = 64;
+                out->unk_06 = 64;
                 value = (s32)D_8028E600;
             }
             func_80034A1C(call_out, (void *)value, 0);
             ((S_8052BCCC_0 *)obj)->unk_A4 &= 0xFFFD;
-            ((S_8052BCCC_2 *)aux)->unk_0C &= 0xFFFB;
+            aux->unk_0C &= 0xFFFB;
             flag = (*(u16 *)((u8 *)(obj) + (0xA0)));
             ((S_8052BCCC_0 *)obj)->unk_A2 = 8;
             a1 = -0x80000;
@@ -306,8 +306,8 @@ state0_finish:
             phase = (*(s16 *)((u8 *)(obj) + (0xA2)));
         }
         if (phase < 6) {
-            ((S_8052BCCC_3 *)out)->unk_1C = (*(u16 *)((u8 *)(table) + (phase * 2)));
-            ((S_8052BCCC_3 *)out)->unk_1E = (*(u16 *)((u8 *)(table) + ((*(s16 *)((u8 *)(obj) + (0xA2))) * 2 + 16)));
+            out->unk_1C = (*(u16 *)((u8 *)(table) + (phase * 2)));
+            out->unk_1E = (*(u16 *)((u8 *)(table) + ((*(s16 *)((u8 *)(obj) + (0xA2))) * 2 + 16)));
         }
         if ((*(s16 *)((u8 *)(obj) + (0xA2))) <= 0)
             ((S_8052BCCC_0 *)obj)->unk_68 = 8;
@@ -328,9 +328,9 @@ state0_finish:
         }
         (*(u16 *)((u8 *)(obj) + (0xA4))) &= 0xFFFD;
         (*(s32 *)((u8 *)(out) + (0))) = D_8028E568;
-        ((S_8052BCCC_3 *)out)->unk_08 = *(s32 *)D_8028E56C;
-        ((S_8052BCCC_3 *)out)->unk_04 = 0;
-        ((S_8052BCCC_3 *)out)->unk_05 = 0;
+        out->unk_08 = *(s32 *)D_8028E56C;
+        out->unk_04 = 0;
+        out->unk_05 = 0;
         (*(u16 *)((u8 *)(obj) + (0xA2))) = 14;
         (*(s16 *)((u8 *)(obj) + (0x68))) = 9;
     }

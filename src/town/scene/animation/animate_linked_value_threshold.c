@@ -27,14 +27,14 @@ void animate_linked_value_threshold(void *record_ptr) {
     u16 *flags;
     s16 state;
     u16 threshold_value;
-    void *related_record;
+    S_808127A4_1 *related_record;
 
     state = ((S_808127A4_0 *)record_ptr)->unk_00.s;
     related_record = ((S_808127A4_0 *)record_ptr)->unk_0C;
     switch (state) {
     case 0:
         func_80058588(*((S_808127A4_0 *)record_ptr)->unk_08 * 0x3E8, 5, ((S_808127A4_0 *)record_ptr)->unk_04 + 4);
-        if (((S_808127A4_1 *)related_record)->unk_5C != 3) {
+        if (related_record->unk_5C != 3) {
             break;
         }
         if (((S_808127A4_0 *)record_ptr)->unk_16.s >= 0x78) {

@@ -41,11 +41,11 @@ typedef struct S_80095840_3 {
 s32 select_an_eligible_source_entry_stores_pointer_in_destination(void *destination, void *source)
 {
     S_80095840_0 *result;
-    void *candidates;
+    S_80095840_1 *candidates;
     s32 selection;
     s32 offset;
     s32 initial_angle;
-    void *entry;
+    S_80095840_3 *entry;
 
     result = destination;
     candidates = source;
@@ -64,13 +64,13 @@ s32 select_an_eligible_source_entry_stores_pointer_in_destination(void *destinat
     selection += offset;
     offset = *(s32 *)selection;
     if (offset != -1) {
-        selection = ((S_80095840_1 *)candidates)->unk_3A;
+        selection = candidates->unk_3A;
         if (selection != 0) {
 
-            selection = ((S_80095840_1 *)candidates)->unk_1C;
-            ((S_80095840_1 *)candidates)->unk_10 = selection;
-            ((S_80095840_1 *)candidates)->unk_18 = 0;
-            entry = (void *)((S_80095840_1 *)candidates)->unk_10;
+            selection = candidates->unk_1C;
+            candidates->unk_10 = selection;
+            candidates->unk_18 = 0;
+            entry = (void *)candidates->unk_10;
             offset = ((S_80095840_2 *)((void *)selection))->unk_14;
             if ((offset == 1) || (offset == 3)) {
                 result->unk_2C.u = 0;
@@ -88,10 +88,10 @@ s32 select_an_eligible_source_entry_stores_pointer_in_destination(void *destinat
             selection = offset * 4;
             selection += (s32)candidates;
             selection = ((S_80095840_2 *)((void *)selection))->unk_1C;
-            ((S_80095840_1 *)candidates)->unk_10 = selection;
-            ((S_80095840_1 *)candidates)->unk_18 = offset;
-            entry = (void *)((S_80095840_1 *)candidates)->unk_10;
-            offset = ((S_80095840_3 *)entry)->unk_14;
+            candidates->unk_10 = selection;
+            candidates->unk_18 = offset;
+            entry = (void *)candidates->unk_10;
+            offset = entry->unk_14;
             if ((offset != 1) && (offset != 3)) {
                 selection = 1;
                 result->unk_2C.s = entry;

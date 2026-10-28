@@ -95,7 +95,7 @@ s32 init_panel_display_nodes(void) {
     s16 line_x;
     s32 color_or_flags;
     s32 panel_width;
-    void *node;
+    S_8080C324_0 *node;
     S_8080C324_1 *root;
     S_8080C324_2 *render_state;
 
@@ -106,23 +106,23 @@ s32 init_panel_display_nodes(void) {
     node = func_800374FC(1, &scene_object_factory_data);
     if (node != 0) {
         root = (u8 *)node + 0x20;
-        ((S_8080C324_0 *)node)->unk_10 = (s32)D_80527D5C;
+        node->unk_10 = (s32)D_80527D5C;
     }
     node = func_800374FC(0x136, &scene_object_factory_data);
     root->unk_04 = node;
     if (node != 0) {
-        ((S_8080C324_0 *)node)->unk_10 = (s32)D_80527250;
+        node->unk_10 = (s32)D_80527250;
         func_8003BC18(node, score_sprite_draw_callback_address);
-        render_state = ((S_8080C324_0 *)node)->unk_0C;
-        ((IntVector3 *)(((S_8080C324_0 *)node)->unk_08))->x = 0x03A00000;
-        ((IntVector3 *)(((S_8080C324_0 *)node)->unk_08))->y = 0x01E00000;
-        ((IntVector3 *)(((S_8080C324_0 *)node)->unk_08))->z = 0x00200000;
-        ((S_8080C324_0 *)node)->unk_CC = root;
+        render_state = node->unk_0C;
+        ((IntVector3 *)(node->unk_08))->x = 0x03A00000;
+        ((IntVector3 *)(node->unk_08))->y = 0x01E00000;
+        ((IntVector3 *)(node->unk_08))->z = 0x00200000;
+        node->unk_CC = root;
         render_state->unk_1E = 0x1000;
         render_state->unk_1C = 0x1000;
         func_80034A1C(render_state, D_80289454, 0);
         render_state->unk_0C = 0x00808080;
-        func_8023FAE8((u8 *)node + 0x20, ((S_8080C324_0 *)node)->unk_08, D_8052FF84);
+        func_8023FAE8((u8 *)node + 0x20, node->unk_08, D_8052FF84);
     }
 
     remaining = 7;

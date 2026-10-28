@@ -34,15 +34,15 @@ void initialize_catalog_entry_packets(void)
     s32 grid_row;
     s32 grid_col;
     s32 entry_index;
-    s8 *entry_tail;
+    S_80123238_0_pre *entry_tail;
     Row *entry;
 
     entry = &catalog_grid_packets[0];
     entry_index = 0;
     do {
-        entry_tail = (s8 *)entry + 0xB;
+        entry_tail = (S_80123238_0_pre *)((s8 *)entry + 0xB);
         entry->f0 = 0xC0;
-        ((S_80123238_0_pre *)entry_tail)[-1].unk_00 = 0x2C;
+        entry_tail[-1].unk_00 = 0x2C;
         entry->f2 = 0;
         entry->f3 = 0;
         entry->f4 = 6;
@@ -50,10 +50,10 @@ void initialize_catalog_entry_packets(void)
         grid_row = entry_index / 3;
         grid_col = entry_index % 3;
         entry_index += 1;
-        ((S_80123238_0_pre *)entry_tail)[-1].unk_07 = (s8)(grid_col * 0x48);
-        ((S_80123238_0_pre *)entry_tail)[-1].unk_08 = (s8)((grid_row * 0x10) - 0x80);
-        ((S_80123238_0_pre *)entry_tail)[-1].unk_09 = 0x48;
-        ((S_80123238_0 *)entry_tail)->unk_00 = 0x10;
+        entry_tail[-1].unk_07 = (s8)(grid_col * 0x48);
+        entry_tail[-1].unk_08 = (s8)((grid_row * 0x10) - 0x80);
+        entry_tail[-1].unk_09 = 0x48;
+        entry_tail->unk_00 = 0x10;
         entry += 1;
     } while (entry_index < 0x10);
 }

@@ -16,7 +16,7 @@ typedef struct S_800C4864_2 {
 
 /* Update the object's state, clear its indexed flag, and store the lookup result. */
 void update_object_state_and_lookup(Rec_func_80094268_arg0 *object, void *lookup_key, void *state_value) {
-    initialize_object_entries((Struct800C5724 *)(object), state_value, ((S_800C4864_2 *)(((Rec_func_80094268_arg0 *)object)->unk_80))->unk_14);
+    initialize_object_entries((Struct800C5724 *)(object), state_value, ((S_800C4864_2 *)object->unk_80)->unk_14);
     object_index_slots[object->unk_60].unk_00 = 0;
     object->unk_54 = &apply_object_setup_update;
     object->unk_72.as_s16 = get_cached_or_coordinate_transform_value(object, lookup_key);

@@ -52,8 +52,8 @@ void step_cutscene_actor(void *obj, ObjectPosition *motion, SpriteFrameState *pa
     s32 flag;
     u16 count;
     u16 ticks;
-    void *owner;
-    void *target;
+    S_8080DF94_1 *owner;
+    S_8080DF94_4 *target;
     s32 vel_x;
     s32 step_x;
     s32 pos_x;
@@ -61,7 +61,7 @@ void step_cutscene_actor(void *obj, ObjectPosition *motion, SpriteFrameState *pa
     owner = ((S_8080DF94_0 *)obj)->unk_00;
     scratch_words = scratch.word;
     flag = 0;
-    target = (*(void **)((u8 *)(((S_8080DF94_1 *)owner)->unk_04) + (8)));
+    target = (*(void **)((u8 *)(owner->unk_04) + (8)));
     scratch = *(Copy12 *)D_80526430;
     func_8003EA54(part);
     func_80245C10(motion);
@@ -85,10 +85,10 @@ void step_cutscene_actor(void *obj, ObjectPosition *motion, SpriteFrameState *pa
             if (motion->velocity_x > 0) {
                 part->flags = (u16)(part->flags | 1);
             }
-            motion->velocity_y = (s32)((S_8080DF94_4 *)target)->unk_10;
+            motion->velocity_y = (s32)target->unk_10;
             ((S_8080DF94_0 *)obj)->unk_04 = 0x20;
         }
-        if (((S_8080DF94_1 *)owner)->unk_36 == 0xA) {
+        if (owner->unk_36 == 0xA) {
             if (func_80071494() & 1) {
                 flag = (s32)D_80289030;
             } else {
@@ -170,7 +170,7 @@ void step_cutscene_actor(void *obj, ObjectPosition *motion, SpriteFrameState *pa
         if ((u8)part->color.word < 0x20U) {
             part->color.word = 0;
         }
-        if ((((S_8080DF94_1 *)owner)->unk_36 == 9) || (ticks = ((S_8080DF94_0 *)obj)->unk_06 - 1,
+        if ((owner->unk_36 == 9) || (ticks = ((S_8080DF94_0 *)obj)->unk_06 - 1,
             ((S_8080DF94_0 *)obj)->unk_06 = ticks, ((ticks << 0x10) <= 0))) {
             ((S_8080DF94_0 *)obj)->unk_04 = 0xFFF;
         }

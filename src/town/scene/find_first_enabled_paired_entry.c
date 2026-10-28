@@ -14,15 +14,15 @@ typedef struct S_8001A360_0 {
 /* Process the first entry whose paired checks pass and fail, returning its index or zero. */
 s32 find_first_enabled_paired_entry(void) {
     s32 entry_index;
-    u8 *entry;
+    S_8001A360_0 *entry;
     u8 *table_base;
 
     table_base = town_selection_records;
     for (entry_index = 1; entry_index < 8; entry_index++) {
-        entry = table_base + entry_index * 12;
-        if ((func_8001E670(((S_8001A360_0 *)entry)->unk_04) != 0) && (func_8001E670(((S_8001A360_0 *)entry)->unk_06)
+        entry = (S_8001A360_0 *)(table_base + entry_index * 12);
+        if ((func_8001E670(entry->unk_04) != 0) && (func_8001E670(entry->unk_06)
             == 0)) {
-            func_8001E578(((S_8001A360_0 *)entry)->unk_06);
+            func_8001E578(entry->unk_06);
             return entry_index;
         }
     }

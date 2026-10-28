@@ -29,19 +29,19 @@ void fade_effect_parts(void *effect, void *unused, void *parts)
 {
     s32 ticks_left;
     u8 color;
-    void *part;
+    S_80050CDC_1 *part;
 
     part = ((S_80050CDC_0 *)parts)->unk_08;
-    ((S_80050CDC_1 *)part)->unk_02.u16 -= 0x40;
+    part->unk_02.u16 -= 0x40;
     part = ((S_80050CDC_0 *)parts)->unk_04;
-    ((S_80050CDC_1 *)part)->unk_0C += 0x20;
+    part->unk_0C += 0x20;
     part = ((S_80050CDC_0 *)parts)->unk_04;
-    ((S_80050CDC_1 *)part)->unk_08 -= 0x40;
+    part->unk_08 -= 0x40;
     part = ((S_80050CDC_0 *)parts)->unk_04;
-    color = ((S_80050CDC_1 *)part)->unk_02.u8 - 0x20;
-    ((S_80050CDC_1 *)part)->unk_02.u8 = color;
-    ((S_80050CDC_1 *)part)->unk_01 = color;
-    ((S_80050CDC_1 *)part)->unk_00 = color;
+    color = part->unk_02.u8 - 0x20;
+    part->unk_02.u8 = color;
+    part->unk_01 = color;
+    part->unk_00 = color;
 
     ticks_left = ((EffectCountdownView *)effect)->unk_08 - 1;
     ((EffectCountdownView *)effect)->unk_08 = ticks_left;

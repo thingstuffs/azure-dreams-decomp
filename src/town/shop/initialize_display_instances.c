@@ -48,8 +48,8 @@ void initialize_display_instances(Owner *owner, Template16 *instance16, Instance
     instance16->unk8 = template16->unk8;
     instance16->unkC = template16->unkC;
 
-    ((DisplayPositionWords *)instance12)->unk0 = *header_word;
-    ((DisplayPositionWords *)instance12)->unk4 = template12->unk4;
+    instance12->unk0 = *header_word;
+    instance12->unk4 = template12->unk4;
     ((DisplayPositionWords *)instance12)->unk8 = template12->unk8;
 
     owner->unk4 = (Instance16 *)instance16;

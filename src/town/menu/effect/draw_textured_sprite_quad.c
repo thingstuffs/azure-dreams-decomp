@@ -120,11 +120,11 @@ void draw_textured_sprite_quad(void *sprite, s32 position) {
     texture_window[3] = window_size;
 
     {
-        u8 *state = g_game_work.draw_buffer;
+        GpuContext *state = g_game_work.draw_buffer;
 
-        textured_quad = ((GpuContext *)state)->packetCursor;
+        textured_quad = state->packetCursor;
         quad_packet = textured_quad;
-        ((GpuContext *)state)->packetCursor = textured_quad + 0x28;
+        state->packetCursor = textured_quad + 0x28;
     }
     color |= 0x8080;
     ((S_800A17CC_1 *)textured_quad)->unk_04 = color;

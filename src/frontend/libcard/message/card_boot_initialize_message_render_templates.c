@@ -39,9 +39,9 @@ void card_boot_initialize_message_render_templates(S_8000F6E0_a0 *entity, S_8002
     primary_data->unk8 = primary_template->unk8;
     primary_data->unkC = primary_template->unkC;
 
-    ((DisplayPositionWords *)secondary_data)->unk0 = *secondary_head;
-    ((DisplayPositionWords *)secondary_data)->unk4 = secondary_template->unk4;
-    ((DisplayPositionWords *)secondary_data)->unk8 = secondary_template->unk8;
+    secondary_data->unk0 = *secondary_head;
+    secondary_data->unk4 = secondary_template->unk4;
+    secondary_data->unk8 = secondary_template->unk8;
 
     entity->unk4 = (S_8000F6E0_a1 *)primary_data;
     entity->unk8 = secondary_data;

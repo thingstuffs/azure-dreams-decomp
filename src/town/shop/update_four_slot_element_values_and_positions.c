@@ -56,7 +56,7 @@ void update_four_slot_element_values_and_positions(Rec_func_800B3FB8_arg0 *owner
     S_800B3FB8_0 *element;
 
     slot_offset = slot_index * 4;
-    element = ((S_800B3FB8_6 *)(slot_offset + ((Rec_func_800B3FB8_arg0 *)owner)->unk_5C))->unk_00;
+    element = ((S_800B3FB8_6 *)(slot_offset + owner->unk_5C))->unk_00;
     element->unk_00 = (s32) owner->unk_20;
     ((S_800B3FB8_7 *)(((S_800B3FB8_4 *)element)->unk_04))->unk_08.s = (u16) layout->unk_04;
     ((S_800B3FB8_7 *)(((S_800B3FB8_4 *)element)->unk_04))->unk_0A.s = (u16) layout->unk_06;

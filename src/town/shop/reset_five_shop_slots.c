@@ -21,21 +21,21 @@ typedef struct S_800B15B8_1 {
 
 /* Resets five slots and clears their associated resource handles. */
 void reset_five_shop_slots(Rec_func_800B15B8_arg0 *owner) {
-    void *slot_cursor;
+    S_800B15B8_1 *slot_cursor;
     s32 slot_index;
 
     u8 *slots;
 
     slots = owner->unk_CC;
     for (slot_index = 0; slot_index < 5; slot_index++) {
-        slot_cursor = slots + slot_index * 4;
-        *((S_800B15B8_1 *)slot_cursor)->unk_10 = 0;
-        flag_optional_object_for_removal(*((S_800B15B8_1 *)slot_cursor)->unk_38);
-        *((S_800B15B8_1 *)slot_cursor)->unk_38 = 0;
-        flag_optional_object_for_removal(*((S_800B15B8_1 *)slot_cursor)->unk_4C);
-        *((S_800B15B8_1 *)slot_cursor)->unk_4C = 0;
-        flag_optional_object_for_removal(*((S_800B15B8_1 *)slot_cursor)->unk_60);
-        *((S_800B15B8_1 *)slot_cursor)->unk_60 = 0;
+        slot_cursor = (S_800B15B8_1 *)(slots + slot_index * 4);
+        *slot_cursor->unk_10 = 0;
+        flag_optional_object_for_removal(*slot_cursor->unk_38);
+        *slot_cursor->unk_38 = 0;
+        flag_optional_object_for_removal(*slot_cursor->unk_4C);
+        *slot_cursor->unk_4C = 0;
+        flag_optional_object_for_removal(*slot_cursor->unk_60);
+        *slot_cursor->unk_60 = 0;
     }
 
 }

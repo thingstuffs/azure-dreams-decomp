@@ -103,7 +103,7 @@ s32 card_boot_animate_three_row_selection(S_80023258_0 *state)
     s32 old_offset;
     s32 next_offset;
     u8 offset;
-    void *color_node;
+    S_80023258_5 *color_node;
     S_80023258_1 *marker_node;
     SignedWidgetYView *marker_data;
 
@@ -163,7 +163,7 @@ s32 card_boot_animate_three_row_selection(S_80023258_0 *state)
             + entry_index * 4))->unk_1C8))->unk_04))->unk_01 =
             ((S_80023258_3 *)((u8 *)state + entry_index))->unk_7C * 3 + 0x68;
         color_node = ((S_80023258_4 *)((u8 *)state + entry_index * 4))->unk_1C8;
-        ((S_80023258_10 *)(((S_80023258_5 *)color_node)->unk_04))->unk_02 =
+        ((S_80023258_10 *)(color_node->unk_04))->unk_02 =
             ((S_80023258_3 *)((u8 *)state + entry_index))->unk_7C * 4 + 0x60;
         entry_index++;
     } while (entry_index < 3);

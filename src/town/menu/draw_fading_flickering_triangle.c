@@ -78,17 +78,17 @@ void draw_fading_flickering_triangle(void *effect)
     s32 wave_sum;
     s32 intensity;
     s32 draw_page;
-    u8 *params;
-    u8 *render_state;
+    S_800A2690_1 *params;
+    GpuContext *render_state;
     u8 *triangle;
     u8 *draw_packet;
 
-    params = ((S_800A2690_0 *)effect)->unk_14;
-    angle = ((S_800A2690_1 *)params)->unk_02;
-    base_x = ((S_800A2690_1 *)params)->unk_00;
-    base_phase_x = ((S_800A2690_1 *)params)->unk_04;
+    params = (S_800A2690_1 *)((S_800A2690_0 *)effect)->unk_14;
+    angle = params->unk_02;
+    base_x = params->unk_00;
+    base_phase_x = params->unk_04;
     ticks_left = ((S_800A2690_0 *)effect)->unk_04 - 1;
-    base_phase_y = ((S_800A2690_1 *)params)->unk_06;
+    base_phase_y = params->unk_06;
     center_x = base_x + ((S_800A2690_0 *)effect)->unk_08 + 0xA0;
     ((S_800A2690_0 *)effect)->unk_04 = ticks_left;
     phase_x = base_phase_x + ((S_800A2690_0 *)effect)->unk_0A;
@@ -98,9 +98,9 @@ void draw_fading_flickering_triangle(void *effect)
         (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     } else {
-        render_state = *(u8 **)&g_game_work.draw_buffer;
-        triangle = ((GpuContext *)render_state)->packetCursor;
-        ((GpuContext *)render_state)->packetCursor = triangle + 0x24;
+        render_state = (GpuContext *)(*(u8 **)&g_game_work.draw_buffer);
+        triangle = render_state->packetCursor;
+        render_state->packetCursor = triangle + 0x24;
 
         fade_wave = rsin(((s16)((S_800A2690_0 *)effect)->unk_04 << 11) /
                              ((S_800A2690_0 *)effect)->unk_06);
@@ -145,18 +145,18 @@ void draw_fading_flickering_triangle(void *effect)
         (*(s16 *)((u8 *)triangle + 0x1A)) =
             (((S_800A2690_0 *)effect)->unk_10 * rcos((s16)angle)) / 4096;
 
-        render_state = *(u8 **)&g_game_work.draw_buffer;
-        draw_packet = ((GpuContext *)render_state)->packetCursor;
-        ((GpuContext *)render_state)->packetCursor = draw_packet + 0xC;
+        render_state = (GpuContext *)(*(u8 **)&g_game_work.draw_buffer);
+        draw_packet = render_state->packetCursor;
+        render_state->packetCursor = draw_packet + 0xC;
         draw_page = GetTPage(0, 0, 0x140, 0);
         SetDrawMode(draw_packet, 0, 0, draw_page & 0xFFFF, 0);
         AddPrim(*(u8 **)&g_game_work.draw_buffer + 0xD8, draw_packet);
 
         AddPrim(*(u8 **)&g_game_work.draw_buffer + 0xD8, triangle);
 
-        render_state = *(u8 **)&g_game_work.draw_buffer;
-        draw_packet = ((GpuContext *)render_state)->packetCursor;
-        ((GpuContext *)render_state)->packetCursor = draw_packet + 0xC;
+        render_state = (GpuContext *)(*(u8 **)&g_game_work.draw_buffer);
+        draw_packet = render_state->packetCursor;
+        render_state->packetCursor = draw_packet + 0xC;
         draw_page = GetTPage(0, 1, 0x140, 0);
         SetDrawMode(draw_packet, 0, 0, draw_page & 0xFFFF, 0);
         AddPrim(*(u8 **)&g_game_work.draw_buffer + 0xD8, draw_packet);

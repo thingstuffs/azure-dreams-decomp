@@ -44,10 +44,10 @@ void select_record_by_four_flags(void)
             } while (flag_index < 4);
 
             if (flag_index == 4) {
-                void *root = *(void **)((s8 *)(&town_scene_root));
-                void *owner = ((Rec_D_80016000 *)root)->position;
+                Rec_D_80016000 *root = *(void **)((s8 *)(&town_scene_root));
+                S_8001C7A0_1 *owner = root->position;
 
-                ((S_8001C7A0_1 *)owner)->unk_10.s = record->next;
+                owner->unk_10.s = record->next;
                 return;
             }
             ri++;

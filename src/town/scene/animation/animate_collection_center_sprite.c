@@ -81,7 +81,7 @@ typedef struct S_8080EEC4_3 {
 void animate_collection_center_sprite(u8 **ctrl, u8 *setup, u8 *view)
 {
     LocalRecord local;
-    u8 *work;
+    S_8080EEC4_3 *work;
     s32 dx;
     s32 dy;
     s32 dx_square;
@@ -106,7 +106,7 @@ void animate_collection_center_sprite(u8 **ctrl, u8 *setup, u8 *view)
 
     dx = (town_motion_state - 0x03600000) >> 16;
     dy = (collection_target_y - 0x03600000) >> 16;
-    work = *ctrl;
+    work = (S_8080EEC4_3 *)(*ctrl);
     old_angle = ((S_8080EEC4_0 *)view)->unk_1A;
     local.rect.packed = D_80526470;
     dx_square = dx * dx;
@@ -166,9 +166,9 @@ void animate_collection_center_sprite(u8 **ctrl, u8 *setup, u8 *view)
     (*(s32 *)((u8 *)ctrl + (4))) = town_motion_state;
     ((S_8080EEC4_2 *)ctrl)->unk_08 = collection_target_y;
 
-    value = ((S_8080EEC4_3 *)work)->unk_14 /
-        ((((S_8080EEC4_3 *)work)->unk_22 << 8) + 0x300);
-    case_delta = (3 - ((S_8080EEC4_3 *)work)->unk_22) << 5;
+    value = work->unk_14 /
+        ((work->unk_22 << 8) + 0x300);
+    case_delta = (3 - work->unk_22) << 5;
     case_x = value + 0x40;
     step = case_delta + case_x;
 
@@ -202,7 +202,7 @@ void animate_collection_center_sprite(u8 **ctrl, u8 *setup, u8 *view)
         ((S_8080EEC4_0 *)view)->unk_1A = case_value_2;
         step_copy = step;
         if (distance >= 0xA1 && collection_target_y > 0x03600000 &&
-            ((S_8080EEC4_3 *)work)->unk_18 == 5) {
+            work->unk_18 == 5) {
             ((S_8080EEC4_2 *)ctrl)->unk_72.s = step_copy;
             ((S_8080EEC4_2 *)ctrl)->unk_70 = 3;
             break;
@@ -213,7 +213,7 @@ void animate_collection_center_sprite(u8 **ctrl, u8 *setup, u8 *view)
         dx = ((S_8080EEC4_0 *)view)->unk_1A & 0x7FF;
         dy = 0x155;
         if (dx >= 0x6AB) {
-            ((S_8080EEC4_3 *)work)->unk_24 = 0;
+            work->unk_24 = 0;
         } else {
             distance = 4;
             limit = 0x554;
@@ -227,16 +227,16 @@ void animate_collection_center_sprite(u8 **ctrl, u8 *setup, u8 *view)
                 }
                 break;
             }
-            ((S_8080EEC4_3 *)work)->unk_24 = (distance & 1) ? 1 : 2;
+            work->unk_24 = (distance & 1) ? 1 : 2;
         }
-        ((S_8080EEC4_3 *)work)->unk_1A.s = 0;
+        work->unk_1A.s = 0;
     case 4:
-        dx = ((S_8080EEC4_3 *)work)->unk_22 == 2 ? 6 : 5;
+        dx = work->unk_22 == 2 ? 6 : 5;
         value = ((S_8080EEC4_2 *)ctrl)->unk_72.s;
         value -= value >> dx;
         ((S_8080EEC4_2 *)ctrl)->unk_72.s = value;
         ((S_8080EEC4_0 *)view)->unk_1A += value;
-        ((S_8080EEC4_3 *)work)->unk_1A.u += ((S_8080EEC4_2 *)ctrl)->unk_72.u;
+        work->unk_1A.u += ((S_8080EEC4_2 *)ctrl)->unk_72.u;
         if (((S_8080EEC4_2 *)ctrl)->unk_72.s < (1 << dx)) {
             ((S_8080EEC4_2 *)ctrl)->unk_74.s = 0;
             ((S_8080EEC4_2 *)ctrl)->unk_70 = 5;
@@ -246,7 +246,7 @@ void animate_collection_center_sprite(u8 **ctrl, u8 *setup, u8 *view)
 
     case 5:
         ((S_8080EEC4_0 *)view)->unk_1A += ((S_8080EEC4_2 *)ctrl)->unk_72.u;
-        ((S_8080EEC4_3 *)work)->unk_1A.u += ((S_8080EEC4_2 *)ctrl)->unk_72.u;
+        work->unk_1A.u += ((S_8080EEC4_2 *)ctrl)->unk_72.u;
         case_value_3 = ((S_8080EEC4_2 *)ctrl)->unk_74.u + 1;
         ((S_8080EEC4_2 *)ctrl)->unk_74.u = case_value_3;
         if ((case_value_3 & 3) == 0) {

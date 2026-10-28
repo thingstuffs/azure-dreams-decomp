@@ -30,13 +30,13 @@ void blit_nonzero_u16_rectangle(u16 *source, S_8001A51C_1 *rect) {
     s32 dst_index;
     u16 *dst_base;
     s8 *grid_info;
-    void *buffer_state;
+    S_8001A51C_0 *buffer_state;
     u16 *src_cursor;
 
     src_cursor = source;
     buffer_state = ((TownResourceLinks *)town_scene_root->unk_24)->unk_70;
     grid_info = (s8 *)buffer_state + 0x1DC;
-    dst_base = ((S_8001A51C_0 *)buffer_state)->unk_1DC;
+    dst_base = buffer_state->unk_1DC;
     for (row = 0; row < rect->unk_06; row++) {
         for (col = 0; col < rect->unk_04; col++) {
             dst_index = rect->unk_00 + col + ((rect->unk_02 + row) << ((S_8001A51C_2 *)grid_info)->unk_14);

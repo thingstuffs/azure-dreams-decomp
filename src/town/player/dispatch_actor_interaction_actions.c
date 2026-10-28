@@ -44,7 +44,7 @@ void dispatch_actor_interaction_actions(Rec_func_8009431C_arg0 *actor, EntityRec
     s32 interaction_result;
     u8 *page_base;
     s32 *height_data;
-    u8 *shared_data;
+    S_80090A74_4 *shared_data;
     GameWork *input_state = &g_game_work;
 
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(record);
@@ -82,14 +82,14 @@ void dispatch_actor_interaction_actions(Rec_func_8009431C_arg0 *actor, EntityRec
             return;
         }
     } else {
-        shared_data = (u8 *)&town_actor_control;
+        shared_data = (S_80090A74_4 *)&town_actor_control;
         interaction_result = select_an_available_entry_matching_direction_returns_status(shared_data);
         if (interaction_result != 0) {
             if (interaction_result == -1) {
                 store_the_valid_shared_angle_in_offset_hex_10(actor);
                 initialize_record_and_select_active_data((s32)(actor), (s32)(record), context);
                 actor->unk_2C = 0;
-                submit_object_resource_data(((S_80090A74_4 *)shared_data)->unk_10);
+                submit_object_resource_data(shared_data->unk_10);
                 return;
             }
             init_movement_action((struct Rec_func_80094268_arg0 *)(actor), (s32)(record), context);

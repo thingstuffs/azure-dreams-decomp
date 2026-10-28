@@ -80,9 +80,9 @@ void update_settings_effect(void *effect) {
     s32 x_product;
     s32 y_product;
     ObjectNodeHeader *element;
-    void *element_state;
+    S_80089608_6 *element_state;
     SpriteFrameState *sprite;
-    void *owner;
+    S_80089608_1 *owner;
     void *callback;
 
     copy_dst = (Words4 *)&effect_tables[0];
@@ -103,10 +103,10 @@ void update_settings_effect(void *effect) {
         copy_dst++;
     } while (mask_src != ((Words4 *)&D_800887CC + 2));
     *(Words2 *)copy_dst = *(Words2 *)mask_src;
-    if (((S_80089608_1 *)owner)->unk_26 & 1) {
+    if (owner->unk_26 & 1) {
         ((S_80089608_0 *)effect)->unk_08 = 0xFF;
     }
-    if (((S_80089608_1 *)owner)->unk_20 >= 2) {
+    if (owner->unk_20 >= 2) {
         ((S_80089608_0 *)effect)->unk_08 = 0xFF;
         return;
     }
@@ -114,7 +114,7 @@ void update_settings_effect(void *effect) {
     switch (phase) {
     case 0:
         ((S_80089608_0 *)effect)->unk_04 = (s32) (((S_80089608_0 *)effect)->unk_04 + 0x20202);
-        if (((S_80089608_1 *)owner)->unk_20 == 1) {
+        if (owner->unk_20 == 1) {
             ((S_80089608_0 *)effect)->unk_08++;
         }
         break;
@@ -179,7 +179,7 @@ void update_settings_effect(void *effect) {
             sprite->frame_ticks = 0;
             sprite->color.word =
                 (s32) (((S_80089608_0 *)effect)->unk_04 & ((S_80089608_5 *)(effect_tables + color_step_or_index * 4))->unk_40);
-            ((S_80089608_6 *)element_state)->unk_0C = color_step_or_index;
+            element_state->unk_0C = color_step_or_index;
         }
         color_step_or_index -= 1;
     } while (color_step_or_index >= 0);

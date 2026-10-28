@@ -43,5 +43,5 @@ void card_boot_layout_left_right_labels(S_80026C94_0 *owner) {
     left_entry = (CardCallbackState *)(owner->unk_64);
     ((S_80026C94_6 *)(((S_80026C94_4 *)(CardCallbackState *)left_entry)->unk_04))->unk_08 = 0xC0;
     ((S_80026C94_6 *)(((S_80026C94_4 *)(CardCallbackState *)left_entry)->unk_04))->unk_0A = 0x20;
-    ((CardCallbackState *)left_entry)->callback = &D_80028430;
+    left_entry->callback = &D_80028430;
 }

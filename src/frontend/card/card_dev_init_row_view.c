@@ -60,8 +60,8 @@ void card_dev_init_row_view(S_8001CDA0_2 *entry, S_8001CDA0_0 *placement, S_8001
     entry->unk_04 = placement;
     entry->unk_08 = settings;
     entry->unk_00 = 0;
-    ((S_8001CDA0_4 *)(((S_8001CDA0_3 *)entry)->unk_04))->unk_08 = -0xA0;
-    ((S_8001CDA0_4 *)(((S_8001CDA0_3 *)entry)->unk_04))->unk_0A = (s16) ((row_index * 0x18) - 0x78);
-    ((S_8001CDA0_4 *)(((S_8001CDA0_3 *)entry)->unk_04))->unk_0C = 0x200;
-    ((S_8001CDA0_4 *)(((S_8001CDA0_3 *)entry)->unk_04))->unk_0F = 4;
+    ((S_8001CDA0_4 *)entry->unk_04)->unk_08 = -0xA0;
+    ((S_8001CDA0_4 *)entry->unk_04)->unk_0A = (s16) ((row_index * 0x18) - 0x78);
+    ((S_8001CDA0_4 *)entry->unk_04)->unk_0C = 0x200;
+    ((S_8001CDA0_4 *)entry->unk_04)->unk_0F = 4;
 }

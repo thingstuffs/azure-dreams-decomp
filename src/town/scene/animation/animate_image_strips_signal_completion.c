@@ -37,9 +37,9 @@ void animate_image_strips_signal_completion(CallbackState *callback)
     rect[2] = 0x10;
     rect[3] = 1;
 
-    switch (((S_8052DC78_0 *)callback)->unk_5C.s) {
+    switch (callback->state) {
     case 0:
-        ((S_8052DC78_0 *)callback)->unk_5E = 0x78;
+        callback->timer = 0x78;
         ((S_8052DC78_0 *)callback)->unk_5C.u++;
         break;
     case 1:
@@ -49,7 +49,7 @@ void animate_image_strips_signal_completion(CallbackState *callback)
     }
 
     rect[1] = 0x1D0;
-    if ((((S_8052DC78_0 *)callback)->unk_5E >> 1) & 1) {
+    if ((callback->timer >> 1) & 1) {
         image = D_805305D8;
         rect[0] = 0x40;
         func_8006E854(rect, image);
@@ -64,7 +64,7 @@ void animate_image_strips_signal_completion(CallbackState *callback)
     }
 
     rect[1] = 0x1F8;
-    phase = (s16)((S_8052DC78_0 *)callback)->unk_5E % 3;
+    phase = (s16)callback->timer % 3;
     switch (phase) {
     case 0:
         image = D_80530638;
@@ -91,8 +91,8 @@ void animate_image_strips_signal_completion(CallbackState *callback)
         break;
     }
 
-    timer = ((S_8052DC78_0 *)callback)->unk_5E - 1;
-    ((S_8052DC78_0 *)callback)->unk_5E = timer;
+    timer = callback->timer - 1;
+    callback->timer = timer;
     if ((s16)timer <= 0) {
         CallbackOwner *owner = (CallbackOwner *)((u8 *)callback - 2);
 

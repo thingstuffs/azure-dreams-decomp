@@ -30,25 +30,25 @@ extern s32 scene_choice_index;
 s32 mark_qualifying_entries_in_mode_two(void)
 {
     s32 entry_index;
-    void *source_entry;
-    void *dest_entry;
-    void *dest_state;
+    S_80017DBC_0 *source_entry;
+    S_80017DBC_1 *dest_entry;
+    S_80017DBC_2 *dest_state;
 
     if (scene_update_state == 2) {
-        dest_state = &D_80016608;
+        dest_state = (S_80017DBC_2 *)&D_80016608;
         for (entry_index = 1; entry_index < 8; entry_index++) {
-            source_entry = (u8 *)&town_indexed_values + entry_index * 0xC;
-            dest_entry = (u8 *)dest_state + entry_index * 0x14;
-            if (func_800198D0(((S_80017DBC_0 *)source_entry)->unk_04) != 0) {
-                if (((S_80017DBC_0 *)source_entry)->unk_08 != 0) {
-                    ((S_80017DBC_1 *)dest_entry)->unk_02 = 0x400;
+            source_entry = (S_80017DBC_0 *)((u8 *)&town_indexed_values + entry_index * 0xC);
+            dest_entry = (S_80017DBC_1 *)((u8 *)dest_state + entry_index * 0x14);
+            if (func_800198D0(source_entry->unk_04) != 0) {
+                if (source_entry->unk_08 != 0) {
+                    dest_entry->unk_02 = 0x400;
                     if (entry_index == 1) {
-                        ((S_80017DBC_2 *)dest_state)->unk_A2 = 0x400;
+                        dest_state->unk_A2 = 0x400;
                     } else {
-                        ((S_80017DBC_2 *)dest_state)->unk_B6 = 0x400;
+                        dest_state->unk_B6 = 0x400;
                     }
                 } else if (scene_choice_index == entry_index) {
-                    ((S_80017DBC_1 *)dest_entry)->unk_02 = 0x400;
+                    dest_entry->unk_02 = 0x400;
                 }
             }
         }

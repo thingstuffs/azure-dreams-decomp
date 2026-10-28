@@ -13,13 +13,13 @@ u8 * dispatch_event_d_8_a(u8 *entries) {
     s32 index;
     s32 marker;
     s32 tail_offset;
-    u8 *copy_source;
+    PackedWord *copy_source;
     u8 *entry;
     u8 *tail_base;
     u8 *tail;
 
-    copy_source = (u8 *)&D_80018880;
-    *(PackedWord *)entries = *(PackedWord *)copy_source;
+    copy_source = (PackedWord *)&D_80018880;
+    *(PackedWord *)entries = *copy_source;
     index = 1;
     marker = 0x18;
     do {

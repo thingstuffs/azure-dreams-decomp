@@ -28,11 +28,11 @@ void initialize_object_and_register_slot(PersonObject *object, s32 slot_index, v
 
     ((PointerField *)((u8 *)object - 0x10))->value = &message_motion_type_a;
     ((PointerField *)((u8 *)object + 0x50))->value = &D_800C3438;
-    ((WordField *)((u8 *)object + 0x60))->value = slot_index;
+    object->slot = slot_index;
     ((PointerField *)((u8 *)object + 0x58))->value = field_58_value;
     ((PointerField *)((u8 *)object + 0x5C))->value = field_5c_value;
-    ((PointerField *)((u8 *)object + 0x7C))->value = field_7c_value;
-    registered_slot = ((WordField *)((u8 *)object + 0x60))->value;
-    ((PointerField *)((u8 *)object + 0x80))->value = field_80_value;
+    object->data_7C = field_7c_value;
+    registered_slot = object->slot;
+    object->descriptor = field_80_value;
     object_index_slots[registered_slot].object = (u8 *)object - 0x20;
 }

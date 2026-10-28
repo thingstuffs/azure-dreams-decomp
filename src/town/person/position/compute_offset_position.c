@@ -40,7 +40,7 @@ void compute_offset_position(S_800C52D0_0 *object, IntVector3 *out_pos, SpriteFr
     offsets = object_data->unk_0C;
     out_pos->y = (s32) base_pos->y;
     out_pos->x = (s32) (base_pos->x + (offsets->scale_x * D_800D5138));
-    z_product = ((S_800C52D0_7 *)(((ObjectPayloadView *)offsets)->unk_08))->unk_03 * offsets->scale_y;
+    z_product = ((S_800C52D0_7 *)offsets->source)->unk_03 * offsets->scale_y;
     out_pos->z = (s32) (base_pos->z + ((z_product / 4096) * D_800D513C));
     state->angle_z = (u16) (state->angle_z - 0x20);
 }

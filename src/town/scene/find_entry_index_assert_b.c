@@ -38,11 +38,11 @@ s32 find_entry_28_index_or_assert(void *entries, s32 entry_id) {
     }
 
     if (((TownEventEntryValueView *)(((((entry_index * 8) - entry_index) * 4) + entries)))->value == 0) {
-        u8 *page = (u8 *)0x80010000;
+        S_800195B8_3 *page = (S_800195B8_3 *)0x80010000;
         void (*report_missing)(s32 *, s32 *, s32);
-        report_missing = ((S_800195B8_5 *)(((Rec_D_80016000 *)(((S_800195B8_3 *)page)->unk_6000))->services))->unk_168;
+        report_missing = ((S_800195B8_5 *)(((Rec_D_80016000 *)(page->unk_6000))->services))->unk_168;
         report_missing(&D_80016064, &D_8001608C, 0x37);
-        ((S_800195B8_5 *)(((Rec_D_80016000 *)(((S_800195B8_3 *)page)->unk_6000))->services))->unk_174(1);
+        ((S_800195B8_5 *)(((Rec_D_80016000 *)(page->unk_6000))->services))->unk_174(1);
     }
     return entry_index;
 }

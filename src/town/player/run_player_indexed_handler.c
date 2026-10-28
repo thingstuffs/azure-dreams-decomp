@@ -20,6 +20,6 @@ extern s32 initialize_record_with_handler_table();
 /* Run the object's indexed handler, clear its table flag, and reset its state. */
 void run_player_indexed_handler(Rec_func_80094268_arg0 *object, s32 position, s32 context) {
     call_the_handler_selects_nonzero_entry(((S_8009A3A4_2 *)(object->unk_44))->unk_14, object, context);
-    *(((u8 *)object_index_slots) + (((S_8009A3A4_1 *)object)->unk_40 * 8)) = 0;
+    *(((u8 *)object_index_slots) + (object->unk_40 * 8)) = 0;
     initialize_record_with_handler_table(object, position, context);
 }

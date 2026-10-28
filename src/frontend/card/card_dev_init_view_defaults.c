@@ -59,8 +59,8 @@ void card_dev_init_view_defaults(S_8001B974_2 *state, S_8001B974_0 *main_config,
     state->unk_04 = main_config;
     state->unk_08 = aux_config;
     state->unk_00 = 0;
-    ((S_8001B974_4 *)(((S_8001B974_3 *)state)->unk_04))->unk_08 = -0xA0;
-    ((S_8001B974_4 *)(((S_8001B974_3 *)state)->unk_04))->unk_0A = -0x48;
-    ((S_8001B974_4 *)(((S_8001B974_3 *)state)->unk_04))->unk_0C = 0x200;
-    ((S_8001B974_4 *)(((S_8001B974_3 *)state)->unk_04))->unk_0F = 4;
+    ((S_8001B974_4 *)state->unk_04)->unk_08 = -0xA0;
+    ((S_8001B974_4 *)state->unk_04)->unk_0A = -0x48;
+    ((S_8001B974_4 *)state->unk_04)->unk_0C = 0x200;
+    ((S_8001B974_4 *)state->unk_04)->unk_0F = 4;
 }

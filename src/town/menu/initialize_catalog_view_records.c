@@ -51,7 +51,7 @@ void initialize_catalog_view_records(Header *header, Template0 *primary_record, 
 
     ((CatalogRecordDefaults *)secondary_record)->unk0 = *default_word;
     ((CatalogRecordDefaults *)secondary_record)->unk4 = secondary_defaults->unk4;
-    ((CatalogRecordDefaults *)secondary_record)->unk8 = secondary_defaults->unk8;
+    secondary_record->unk8 = secondary_defaults->unk8;
 
     header->unk4 = (Record0 *)primary_record;
     header->unk8 = secondary_record;

@@ -91,7 +91,7 @@ void create_settings_controller(void) {
     s32 start_delay;
     s32 unit_scale;
     s32 sprite_id;
-    void *child_state;
+    S_80088BD0_6 *child_state;
     SpriteFrameState *sprite;
     ObjectNodeHeader *object;
     S_80088BD0_7 *effect_state;
@@ -136,9 +136,9 @@ void create_settings_controller(void) {
             sprite->frame_ticks = 0;
             sprite->color.word = 0x808080;
             sprite->source = sprite_id;
-            ((S_80088BD0_5 *)((s8 *)child_state - 0x20))->unk_20 = parent_state;
-            ((S_80088BD0_6 *)child_state)->unk_0C = child_index;
-            ((S_80088BD0_6 *)child_state)->unk_0A = start_delay;
+            child_state->unk_00 = parent_state;
+            child_state->unk_0C = child_index;
+            child_state->unk_0A = start_delay;
         }
         start_delay -= 0x1E;
         sprite_y -= 0x10;
@@ -183,8 +183,8 @@ void create_settings_controller(void) {
             sprite->scale_y = 0x1000;
             sprite->scale_x = 0x1000;
             sprite->color.word = 0x808080;
-            ((S_80088BD0_6 *)child_state)->unk_00 = parent_state;
-            ((S_80088BD0_6 *)child_state)->unk_0C = child_index;
+            child_state->unk_00 = parent_state;
+            child_state->unk_0C = child_index;
         }
         child_index -= 1;
     } while (child_index >= 0);

@@ -62,7 +62,7 @@ void render_shaded_object_primitive(void *object, MovingPosition *coords, void *
     s32 red_scaled;
     s32 green_scaled;
     s32 blue_scaled;
-    u8 *global_page;
+    S_800A1D1C_2 *global_page;
     u8 *scratch;
     void *position;
     void *matrix;
@@ -72,8 +72,8 @@ void render_shaded_object_primitive(void *object, MovingPosition *coords, void *
     scratch = (u8 *)0x1F800000;
     if (((S_800A1D1C_1 *)render_state)->unk_0A != 0) {
         ((ObjectRetirementFlags *)object)[-1].flags = (u16) (((ObjectRetirementFlags *)object)[-1].flags | 0x8000);
-        global_page = (u8 *)0x80080000;
-        ((S_800A1D1C_2 *)global_page)->unk_14A0 |= 0x8000;
+        global_page = (S_800A1D1C_2 *)0x80080000;
+        global_page->unk_14A0 |= 0x8000;
         return;
     }
     ((S_800A1D1C_0 *)object)->unk_00(object, coords, primitive);

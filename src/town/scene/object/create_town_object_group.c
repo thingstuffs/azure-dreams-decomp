@@ -78,7 +78,7 @@ void create_town_object_group(void)
 {
     StackData upload_rect;
     void **child_slots;
-    void *object;
+    S_8080E59C_0 *object;
     S_8080E59C_1 *render_part;
     ObjectPosition *object_state;
     u8 *child_slot;
@@ -95,7 +95,7 @@ void create_town_object_group(void)
     shared_state = D_8052643C;
     if (object != 0) {
         child_slots = (void **)((u8 *)object + 0x20);
-        ((S_8080E59C_0 *)object)->unk_10 = D_8052A0A4;
+        object->unk_10 = D_8052A0A4;
     }
 
     object = func_800373DC(0x136);
@@ -111,10 +111,10 @@ void create_town_object_group(void)
         setup_target = (u8 *)object + 0x2C;
         saved_state = (u8 *)object + 0x78;
         setup_table = D_805300DC;
-        object_state = ((S_8080E59C_0 *)object)->unk_08;
-        render_part = ((S_8080E59C_0 *)object)->unk_0C;
-        ((S_8080E59C_0 *)object)->unk_10 = animate_collection_center_sprite;
-        ((S_8080E59C_0 *)object)->unk_20 = child_slots;
+        object_state = object->unk_08;
+        render_part = object->unk_0C;
+        object->unk_10 = animate_collection_center_sprite;
+        object->unk_20 = child_slots;
         render_part->unk_1C = 0x1000;
         render_part->unk_1E = 0x1000;
         render_part->unk_20 = 0x1000;
@@ -134,7 +134,7 @@ void create_town_object_group(void)
         object_state->y.v = 0x03600000;
         object_state->z.v = 0;
         *(Copy24 *)saved_state = *(Copy24 *)object_state;
-        ((S_8080E59C_0 *)object)->unk_74.p32 = shared_state;
+        object->unk_74.p32 = shared_state;
         func_8023FA58(setup_target, saved_state, setup_table);
     }
 
@@ -150,12 +150,12 @@ void create_town_object_group(void)
 
             setup_target = (u8 *)object + 0x28;
             func_8003BC18(object, town_hud_object_template);
-            object_state = ((S_8080E59C_0 *)object)->unk_08;
-            render_part = ((S_8080E59C_0 *)object)->unk_0C;
+            object_state = object->unk_08;
+            render_part = object->unk_0C;
             setup_table = D_805300C4;
-            ((S_8080E59C_0 *)object)->unk_10 = D_8052AE20;
-            ((S_8080E59C_0 *)object)->unk_24 = child_slots;
-            ((S_8080E59C_0 *)object)->unk_74.s16 = child_index;
+            object->unk_10 = D_8052AE20;
+            object->unk_24 = child_slots;
+            object->unk_74.s16 = child_index;
             render_part->unk_12 = 0;
             render_part->unk_14 = 0;
             render_part->unk_10 = 0;
@@ -170,11 +170,11 @@ void create_town_object_group(void)
             render_part->unk_20 = unit_scale;
             render_part->unk_0C = 0x808080;
             render_part->unk_08 = *(s32 *)((u8 *)D_805300C4 + 0x54 +
-                (((S_8080E59C_0 *)object)->unk_74.s16 << 2));
+                (object->unk_74.s16 << 2));
             object_state->x.v = (child_index << 23) + 0x04600000;
             object_state->y.v = 0x03600000;
             object_state->z.v = 0;
-            ((S_8080E59C_0 *)object)->unk_70 = shared_state;
+            object->unk_70 = shared_state;
             func_8023FA58(setup_target, object_state, setup_table, render_part);
         }
         child_index--;

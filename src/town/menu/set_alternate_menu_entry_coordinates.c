@@ -90,11 +90,11 @@ void set_alternate_menu_entry_coordinates(MenuDisplay *object) {
     S_800AF36C_2 *x_parts;
     S_800AF36C_3 *y_parts;
 
-    digit = ((S_800AF36C_4 *)(((MenuDisplay *)object)->unk_00))->unk_18 % 10;
+    digit = ((S_800AF36C_4 *)object->unk_00)->unk_18 % 10;
     row = digit / 5;
-    ((S_800AF36C_15 *)(((S_800AF36C_10 *)(((S_800AF36C_5 *)(((MenuDisplay *)object)->unk_A8.as_pv))->unk_10))->unk_04))->unk_08 =
+    ((S_800AF36C_15 *)(((S_800AF36C_10 *)(((S_800AF36C_5 *)object->unk_A8.as_pv)->unk_10))->unk_04))->unk_08 =
         (s16) ((row << 7) - 0x38);
-    ((S_800AF36C_15 *)(((S_800AF36C_10 *)(((S_800AF36C_5 *)(((MenuDisplay *)object)->unk_A8.as_pv))->unk_10))->unk_04))->unk_0A =
+    ((S_800AF36C_15 *)(((S_800AF36C_10 *)(((S_800AF36C_5 *)object->unk_A8.as_pv)->unk_10))->unk_04))->unk_0A =
         (s16) (((digit - (row * 5)) << 4) + 8);
     x_parts = object->unk_A8.as_pv;
     ((S_800AF36C_11 *)(((S_800AF36C_6 *)(x_parts->unk_14))->unk_04))->unk_08 =

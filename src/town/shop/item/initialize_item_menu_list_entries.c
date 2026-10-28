@@ -113,8 +113,8 @@ void initialize_item_menu_list_entries(void *list) {
             u8 *row_slots_m;
             row_slot = row_index * 4;
             {
-                u8 *row_slots = (u8 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
-                ((SignedWidgetYView *)(((S_800AECA4_6 *)(((S_800AECA4_3 *)row_slots)->unk_38))->unk_04))->unk_0A = row_y;
+                S_800AECA4_3 *row_slots = (S_800AECA4_3 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
+                ((SignedWidgetYView *)(((S_800AECA4_6 *)(row_slots->unk_38))->unk_04))->unk_0A = row_y;
             }
             {
                 row_slots_m = (u8 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);

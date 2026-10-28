@@ -48,7 +48,7 @@ extern u8 D_80077EFC[];
 /* Initialize the object's shared references and three data block references. */
 void card_boot_bind_command_panel_resources(void *object)
 {
-    u8 *slot_cursor;
+    S_800233D0_1 *slot_cursor;
     void *shared_data;
     void *primary_table;
     void *secondary_table;
@@ -65,11 +65,11 @@ void card_boot_bind_command_panel_resources(void *object)
     ((S_800233D0_2 *)(((Rec_func_800233D0_arg0 *)object)->unk_1A0))->unk_00 = kind_value;
     ((S_800233D0_3 *)(((Rec_func_800233D0_arg0 *)object)->unk_1A4))->unk_00 = menu_leaf_template_6;
     do {
-        slot_cursor = (u8 *)object + slot_index * 4;
-        ((S_800233D0_4 *)(((S_800233D0_1 *)slot_cursor)->unk_1A8))->unk_00 = primary_table;
-        ((S_800233D0_5 *)(((S_800233D0_1 *)slot_cursor)->unk_1B8))->unk_00 = secondary_table;
-        ((S_800233D0_6 *)(((S_800233D0_1 *)slot_cursor)->unk_1C8))->unk_00 = shared_data;
-        ((S_800233D0_7 *)(((S_800233D0_1 *)slot_cursor)->unk_1D8))->unk_00 = (u8 *)object + block_offset;
+        slot_cursor = (S_800233D0_1 *)((u8 *)object + slot_index * 4);
+        ((S_800233D0_4 *)(slot_cursor->unk_1A8))->unk_00 = primary_table;
+        ((S_800233D0_5 *)(slot_cursor->unk_1B8))->unk_00 = secondary_table;
+        ((S_800233D0_6 *)(slot_cursor->unk_1C8))->unk_00 = shared_data;
+        ((S_800233D0_7 *)(slot_cursor->unk_1D8))->unk_00 = (u8 *)object + block_offset;
         block_offset += 0x48;
         slot_index++;
     } while (slot_index < 3);

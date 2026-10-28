@@ -37,7 +37,7 @@ void draw_random_tinted_quad_pair(u8 *effect)
     s32 vertex_index = 0;
     u32 rgb_mask = 0xFFFFFF;
     MenuLineScratch *scratch = (MenuLineScratch *)0x1F800000;
-    u8 *vertex_group;
+    S_800A1354_4 *vertex_group;
     s32 intensity;
     MenuLineG4 *quad;
     s32 random_value;
@@ -48,7 +48,7 @@ void draw_random_tinted_quad_pair(u8 *effect)
     do {
         GpuContext *render_ctx = *render_ctx_addr;
         u8 *draw_mode;
-        vertex_group = effect + (vertex_index * 4);
+        vertex_group = (S_800A1354_4 *)(effect + (vertex_index * 4));
 
         quad = render_ctx->packetCursor;
         render_ctx->packetCursor = (u8 *)(quad + 1);
@@ -77,9 +77,9 @@ void draw_random_tinted_quad_pair(u8 *effect)
         SetLineG4(quad);
         SetSemiTrans(quad, 1);
 
-        copy_odd_halfwords_3(scratch->vertices[0], ((ObjectPayloadView *)(((S_800A1354_4 *)vertex_group)->unk_54))->unk_08);
-        copy_odd_halfwords_3(scratch->vertices[1], ((ObjectPayloadView *)(((S_800A1354_4 *)vertex_group)->unk_58))->unk_08);
-        copy_odd_halfwords_3(scratch->vertices[2], ((ObjectPayloadView *)(((S_800A1354_4 *)vertex_group)->unk_5C))->unk_08);
+        copy_odd_halfwords_3(scratch->vertices[0], ((ObjectPayloadView *)(vertex_group->unk_54))->unk_08);
+        copy_odd_halfwords_3(scratch->vertices[1], ((ObjectPayloadView *)(vertex_group->unk_58))->unk_08);
+        copy_odd_halfwords_3(scratch->vertices[2], ((ObjectPayloadView *)(vertex_group->unk_5C))->unk_08);
         copy_menu_vector_halfwords(scratch->vertices[3], scratch->vertices[0]);
         scratch->depth = RotTransPers4(
             scratch->vertices[0], scratch->vertices[1], scratch->vertices[2], scratch->vertices[3], &scratch->screen.words[0], &scratch->screen.words[1],

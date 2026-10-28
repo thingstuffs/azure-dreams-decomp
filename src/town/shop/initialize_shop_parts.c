@@ -33,13 +33,13 @@ void initialize_shop_parts(TownOwner *owner, TownPartA *part_a, TownPartB *part_
     s32 *defaults_b = display_vector_defaults;
     s32 first_b_word;
 
-    ((s32 *)part_a)[0] = display_block_defaults[0];
+    part_a->unk0 = display_block_defaults[0];
     ((s32 *)part_a)[1] = defaults_a[1];
     ((s32 *)part_a)[2] = defaults_a[2];
     first_b_word = display_vector_defaults[0];
     ((s32 *)part_a)[3] = defaults_a[3];
-    ((s32 *)part_b)[0] = first_b_word;
-    ((s32 *)part_b)[1] = defaults_b[1];
+    part_b->unk0 = first_b_word;
+    part_b->unk4 = defaults_b[1];
     ((s32 *)part_b)[2] = defaults_b[2];
     owner->partA = part_a;
     owner->partB = part_b;

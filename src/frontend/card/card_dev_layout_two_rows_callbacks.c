@@ -52,5 +52,5 @@ void card_dev_layout_two_rows_callbacks(S_80020458_2 *owner) {
     firstChild = (CardCallbackState *)(((S_80020458_5 *)(owner->unk_60))->unk_04);
     ((S_80020458_7 *)(((S_80020458_4 *)(CardCallbackState *)firstChild)->unk_04))->unk_08 = 0xC0;
     ((S_80020458_7 *)(((S_80020458_4 *)(CardCallbackState *)firstChild)->unk_04))->unk_0A = 0x20;
-    ((CardCallbackState *)firstChild)->callback = &D_80409128;
+    firstChild->callback = &D_80409128;
 }

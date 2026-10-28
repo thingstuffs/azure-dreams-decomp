@@ -51,37 +51,37 @@ void animate_catalog_grid_cursor(TownObject *object)
     SpriteFields *source_sprite;
     SpriteFields *hidden_sprite;
 
-    state = ((TownObject *)(object))->state;
+    state = object->state;
     switch (state) {
     case CATALOG_CURSOR_NUMBER:
-        column = ((TownObject *)(object))->column;
-        row_offset = ((TownObject *)(object))->row << 3;
+        column = object->column;
+        row_offset = object->row << 3;
         slot_base = (row_offset + column) * 3;
         slot_index = slot_base + 33;
-        entry_id = (((TownObject *)(object))->digit << 4) + row_offset + column;
+        entry_id = (object->digit << 4) + row_offset + column;
         if (is_catalog_entry_available((u8)entry_id) != 0) {
-            *((TownObject *)(object))->town->slots[slot_index] = catalog_number_marker;
+            *object->town->slots[slot_index] = catalog_number_marker;
             slot_index = slot_base + 34;
-            *((TownObject *)(object))->town->slots[slot_index] = catalog_normal_digits[(entry_id + 1) / 10];
+            *object->town->slots[slot_index] = catalog_normal_digits[(entry_id + 1) / 10];
             slot_index = slot_base + 35;
-            *((TownObject *)(object))->town->slots[slot_index] = catalog_normal_digits[(entry_id + 1) % 10];
+            *object->town->slots[slot_index] = catalog_normal_digits[(entry_id + 1) % 10];
         }
         break;
     case CATALOG_CURSOR_HIDE:
-        hidden_sprite = ((TownObject *)(object))->town->display->src;
+        hidden_sprite = object->town->display->src;
         hidden_sprite->f6 = 0;
         hidden_sprite->f4 = 0;
         return;
     case CATALOG_CURSOR_POSITION:
-        ((TownObject *)(object))->town->display->src->f8 = catalog_cursor_rows[((TownObject *)(object))->row];
-        ((TownObject *)(object))->town->display->src->fA = catalog_cursor_columns[((TownObject *)(object))->index];
+        object->town->display->src->f8 = catalog_cursor_rows[object->row];
+        object->town->display->src->fA = catalog_cursor_columns[object->index];
         break;
     default:
         return;
     }
-    ((TownObject *)(object))->town->display->dst->f6 = ((TownObject *)(object))->town->display->src->f8;
-    ((TownObject *)(object))->town->display->dst->f8 = ((TownObject *)(object))->town->display->src->fA;
-    source_sprite = ((TownObject *)(object))->town->display->src;
+    object->town->display->dst->f6 = object->town->display->src->f8;
+    object->town->display->dst->f8 = object->town->display->src->fA;
+    source_sprite = object->town->display->src;
     source_sprite->f6 = 0x800;
     source_sprite->f4 = 0x800;
 

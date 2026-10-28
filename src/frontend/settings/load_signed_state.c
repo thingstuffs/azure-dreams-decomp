@@ -27,7 +27,7 @@ static __inline__ s16 load_signed_state(ColorEffect *effect)
 {
     s16 value;
 
-    value = ((SignedStateView *)effect)->value;
+    value = effect->state;
     return value;
 }
 
@@ -43,7 +43,7 @@ void update_settings_color_cycle(ColorEffect *effect)
     old_timer = effect->timer;
     owner = effect->owner;
     state = load_signed_state(effect);
-    initial_state = (u16)*(s16 *)effect;
+    initial_state = (u16)effect->state;
     timer = old_timer - 1;
     effect->timer = timer;
 

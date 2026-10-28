@@ -108,7 +108,7 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
     u16 *round_count;
     s32 height_or_index;
     s32 coord_delta;
-    void *owner;
+    S_80527D5C_1 *owner;
     u16 item_flags;
     u16 start_ticks;
     u16 move_ticks;
@@ -118,11 +118,11 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
     u16 start_x;
     u16 start_y;
     u16 finish_flags;
-    void *item;
-    void *position;
+    S_80527D5C_8 *item;
+    SignedPositionView *position;
     u16 *position_x;
     void *render_or_counts;
-    void *phase_data;
+    S_80527D5C_4 *phase_data;
     s32 direction_flags;
     s32 saved_flags;
     s32 record_color;
@@ -133,11 +133,11 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
     s32 eased_y;
     s32 item_slot;
 
-    owner = sequence->owner;
+    owner = (S_80527D5C_1 *)sequence->owner;
     state = sequence->state.s;
-    position = ((S_80527D5C_1 *)owner)->unk_08;
+    position = owner->unk_08;
     render_or_counts = collection_round_work;
-    phase_data = (u8 *) owner + 0x20;
+    phase_data = (S_80527D5C_4 *)((u8 *) owner + 0x20);
     switch (state) {
     case 0:
         start_x = ((TrailMotion *)(&town_motion_state))->x.unk_02.unk_02;
@@ -197,7 +197,7 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
             eased_y = ((0x4700000 - current_y) >> 1) + current_y;
             *position_y = eased_y;
         }
-        position = position_y - 1;
+        position = (SignedPositionView *)(position_y - 1);
         (*(u16 *)((u8 *)render_or_counts + (0x10))) =
             (u16) (((*(u16 *)((u8 *)render_or_counts + (0x10))) + 0x200) & 0xFFF);
         height_or_index = (s16) func_8025E01C(position);
@@ -212,7 +212,7 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
     }
 
     case 4:
-        if (((S_80527D5C_1 *)owner)->unk_88 == 7) {
+        if (owner->unk_88 == 7) {
             sequence->state.s = 5;
         }
         break;
@@ -226,7 +226,7 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
             ((S_80527D5C_3 *)(&collection_round_work))->unk_10.u =
                 ((S_80527D5C_3 *)(&collection_round_work))->unk_10.u + 0x200;
         }
-        if ((func_80052374(angle) == 0) && (((S_80527D5C_4 *)phase_data)->unk_68 == 8)) {
+        if ((func_80052374(angle) == 0) && (phase_data->unk_68 == 8)) {
             (*(u16 *)((u8 *)render_or_counts + (0x10))) = 0x800U;
             func_80244588();
             func_802445FC((s32) &func_80290318);
@@ -271,7 +271,7 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
         ((S_80527D5C_5 *)line_params)->unk_14 = 0x202020;
         ((S_80527D5C_5 *)line_params)->unk_10 = 0x202020;
         ((S_80527D5C_5 *)line_params)->unk_0A = sequence->saved_y.u - orbit_offset;
-        if (((S_80527D5C_4 *)phase_data)->unk_68 == 9) {
+        if (phase_data->unk_68 == 9) {
             func_80244588();
             func_802445FC((s32) &func_80290318);
             create_object_pair_word(&set_record_global_flags_object, line_params, line_params + 0x10, sequence);
@@ -308,7 +308,7 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
         sequence->unk_28.u = (u16) ((sequence->unk_28.u
             + sequence->angle_step.u + 0x1000) & 0xFFF);
         draw_rotating_collection_frame(sequence);
-        if (((S_80527D5C_4 *)phase_data)->unk_68 == 0xA) {
+        if (phase_data->unk_68 == 0xA) {
             func_802441A4();
             record_color = 0x808080;
             (*(s32 *)((u8 *)render_or_counts + (0))) = (s32) &func_80243A38;
@@ -337,25 +337,25 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
         for (height_or_index = 7; height_or_index >= 0; height_or_index--) {
             item_slot = (height_or_index << 2) + (s32) sequence;
             item = ((ObjectPayloadView *)item_slot)->unk_08;
-            item_flags = ((S_80527D5C_8 *)item)->unk_28;
+            item_flags = item->unk_28;
             {
-                coord_or_sound = (s32) ((S_80527D5C_8 *)item)->unk_08;
+                coord_or_sound = (s32) item->unk_08;
                 if (!(item_flags & 3)) {
                     s32 distance_x;
                     s32 delta_x;
 
                     delta_x = ((SignedPositionView *)((void *) coord_or_sound))->x;
-                    coord_delta = ((SignedPositionView *)position)->x;
+                    coord_delta = position->x;
                     delta_x -= coord_delta;
                     coord_delta = ((SignedPositionView *)((void *) coord_or_sound))->y;
-                    coord_or_sound = ((SignedPositionView *)position)->y;
+                    coord_or_sound = position->y;
                     distance_x = __builtin_abs(delta_x);
                     coord_delta -= coord_or_sound;
                     if (coord_delta < 0) {
                         coord_delta = -coord_delta;
                     }
                     if ((distance_x + coord_delta) < 0x20) {
-                        ((S_80527D5C_8 *)item)->unk_28 = (u16) (item_flags | 1);
+                        item->unk_28 = (u16) (item_flags | 1);
                         count_addr = sequence->round_index.s * 2;
                         count_addr += (s32) render_or_counts;
                         round_count = (u16 *)count_addr;
@@ -369,7 +369,7 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
                 }
             }
         }
-        if (((S_80527D5C_4 *)phase_data)->unk_68 == 0xB) {
+        if (phase_data->unk_68 == 0xB) {
             sequence->unk_28.u = 0x1EU;
             sequence->state.s = 9;
         }

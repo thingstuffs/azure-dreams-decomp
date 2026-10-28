@@ -114,7 +114,7 @@ void run_scheduled_three_actor_display(TownState *town_state)
     case 2:
         D_801328F8 = 0x400;
         if (*(u16 *)((u8 *)town_state + 26) & 1) {
-            *(u16 *)((u8 *)town_state + 26) &= ~1;
+            town_state->flags &= ~1;
             town_state->index++;
             if (town_state->index >= 10) {
                 town_state->state = 3;

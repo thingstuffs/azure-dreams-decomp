@@ -154,9 +154,9 @@ s32 draw_entry_overlays(void) {
     void *primitive;
     TileObject *entry;
     ObjectPosition *coord;
-    u8 *texture_rect;
+    S_800970FC_6 *texture_rect;
     TileObject *draw_entry;
-    u8 *draw_ctx;
+    S_800970FC_13 *draw_ctx;
     void **page_state;
     u32 *scratch_control;
     u16 *scratch_x;
@@ -201,23 +201,23 @@ s32 draw_entry_overlays(void) {
                 SetPolyFT4(primitive);
                 texture_depth = 2;
                 color = texture_depth;
-                texture_rect = player_overlay_texture_rect;
+                texture_rect = (S_800970FC_6 *)player_overlay_texture_rect;
                 page_mask = ~0xFF;
                 ((S_800970FC_4 *)primitive)->unk_16 = GetTPage(texture_depth, color,
                     (s16) (((S_800970FC_5 *)player_overlay_texture_rect)->unk_00.u & page_mask),
-                    (s16) (((S_800970FC_6 *)texture_rect)->unk_02.u & page_mask));
+                    (s16) (texture_rect->unk_02.u & page_mask));
                 SetSemiTrans(primitive, 1);
                 ((S_800970FC_4 *)primitive)->unk_0C = (s8) (((S_800970FC_5 *)player_overlay_texture_rect)->unk_00.s % 0x100);
-                ((S_800970FC_4 *)primitive)->unk_0D = (s8) (((S_800970FC_6 *)texture_rect)->unk_02.s % 0x100);
+                ((S_800970FC_4 *)primitive)->unk_0D = (s8) (texture_rect->unk_02.s % 0x100);
                 ((S_800970FC_4 *)primitive)->unk_14 = (s8) ((((S_800970FC_5 *)player_overlay_texture_rect)->unk_00.s % 0x100)
-                    + ((S_800970FC_6 *)texture_rect)->unk_04.u8);
-                ((S_800970FC_4 *)primitive)->unk_15 = (s8) (((S_800970FC_6 *)texture_rect)->unk_02.s % 0x100);
+                    + texture_rect->unk_04.u8);
+                ((S_800970FC_4 *)primitive)->unk_15 = (s8) (texture_rect->unk_02.s % 0x100);
                 ((S_800970FC_4 *)primitive)->unk_1C = (s8) (((S_800970FC_5 *)player_overlay_texture_rect)->unk_00.s % 0x100);
-                ((S_800970FC_4 *)primitive)->unk_1D = (s8) ((((S_800970FC_6 *)texture_rect)->unk_02.s % 0x100)
-                    + ((S_800970FC_6 *)texture_rect)->unk_06.u8);
+                ((S_800970FC_4 *)primitive)->unk_1D = (s8) ((texture_rect->unk_02.s % 0x100)
+                    + texture_rect->unk_06.u8);
                 ((S_800970FC_4 *)primitive)->unk_24 = (s8) ((((S_800970FC_5 *)player_overlay_texture_rect)->unk_00.s % 0x100)
-                    + ((S_800970FC_6 *)texture_rect)->unk_04.u8);
-                texture_y = ((S_800970FC_6 *)texture_rect)->unk_02.s;
+                    + texture_rect->unk_04.u8);
+                texture_y = texture_rect->unk_02.s;
                 if (texture_y < 0) {
                     rounded_texture_y = texture_y + 0xFF;
                     page_offset = alternate_page;
@@ -226,31 +226,31 @@ s32 draw_entry_overlays(void) {
                     page_offset = page_index;
                 }
                 uv_sum = texture_y - ((rounded_texture_y >> 8) * 0x100) +
-                         ((S_800970FC_6 *)texture_rect)->unk_06.u8;
+                         texture_rect->unk_06.u8;
                 ((S_800970FC_4 *)primitive)->unk_25 = uv_sum;
                 {
-                    u8 *rect;
+                    S_800970FC_8 *rect;
                     u32 edge_height;
-                    rect = D_800D04D8;
+                    rect = (S_800970FC_8 *)D_800D04D8;
                     quad_x = ((DisplayXHalfView *)D_800D04D8)->unk_00;
-                    rect_y = ((S_800970FC_8 *)rect)->unk_02;
+                    rect_y = rect->unk_02;
                     page_offset = page_index;
                     if (page_offset != 0) {
                         rect_y -= 0xE0;
                     }
                     (*(u16 *)((u8 *)primitive + 8)) = quad_x;
                     (*(s16 *)((u8 *)primitive + 0xA)) = rect_y;
-                    rect_width = ((S_800970FC_8 *)rect)->unk_04;
+                    rect_width = rect->unk_04;
                     (*(s16 *)((u8 *)primitive + 0x10)) = (s16) (quad_x + rect_width);
                     (*(s16 *)((u8 *)primitive + 0x12)) = rect_y;
                     (*(u16 *)((u8 *)primitive + 0x18)) = quad_x;
-                    rect_height = ((S_800970FC_8 *)rect)->unk_06;
+                    rect_height = rect->unk_06;
                     (*(s16 *)((u8 *)primitive + 0x1A)) = (s16) (rect_y + rect_height);
                     rect_width = 0;
-                    rect_width = ((S_800970FC_8 *)rect)->unk_04;
+                    rect_width = rect->unk_04;
                     (*(s16 *)((u8 *)primitive + 0x20)) = (s16) (quad_x + rect_width);
                     rect_height = 0;
-                    rect_height = ((S_800970FC_8 *)rect)->unk_06;
+                    rect_height = rect->unk_06;
                     (*(s16 *)((u8 *)primitive + 0x22)) = (s16) (rect_y + rect_height);
                     AddPrim(CUR_CTX + 0x830, primitive);
                     primitive = ((S_800970FC_9 *)CUR_CTX)->unk_8D0;
@@ -261,22 +261,22 @@ s32 draw_entry_overlays(void) {
                     SetPolyF4(primitive);
                     SetSemiTrans(primitive, 0);
                     (*(u16 *)((u8 *)primitive + 8)) = quad_x;
-                    fill_height = ((S_800970FC_8 *)rect)->unk_06;
+                    fill_height = rect->unk_06;
                     (*(s16 *)((u8 *)primitive + 0xA)) = (s16) ((rect_y + fill_height) - overlay_height);
-                    rect_width = ((S_800970FC_8 *)rect)->unk_04;
+                    rect_width = rect->unk_04;
                     (*(s16 *)((u8 *)primitive + 0xC)) = (s16) (quad_x + rect_width);
                     fill_height = 0;
-                    edge_height = ((S_800970FC_8 *)rect)->unk_06;
+                    edge_height = rect->unk_06;
                     (*(u16 *)((u8 *)primitive + 0x10)) = quad_x;
                     (*(s16 *)((u8 *)primitive + 0xE)) = (s16) ((rect_y + edge_height) - overlay_height);
                     edge_height = 0;
-                    fill_height = ((S_800970FC_8 *)rect)->unk_06;
+                    fill_height = rect->unk_06;
                     (*(s16 *)((u8 *)primitive + 0x12)) = (s16) (rect_y + fill_height);
                     rect_width = 0;
-                    rect_width = ((S_800970FC_8 *)rect)->unk_04;
+                    rect_width = rect->unk_04;
                     (*(s16 *)((u8 *)primitive + 0x14)) = (s16) (quad_x + rect_width);
                     fill_height = 0;
-                    fill_height = ((S_800970FC_8 *)rect)->unk_06;
+                    fill_height = rect->unk_06;
                     (*(s16 *)((u8 *)primitive + 0x16)) = (s16) (rect_y + fill_height);
                     AddPrim(CUR_CTX + 0x830, primitive);
                     primitive = ((S_800970FC_9 *)CUR_CTX)->unk_8D0;
@@ -288,17 +288,17 @@ s32 draw_entry_overlays(void) {
                     SetSemiTrans(primitive, 0);
                     ((S_800970FC_11 *)primitive)->unk_08 = quad_x;
                     ((S_800970FC_11 *)primitive)->unk_0A = rect_y;
-                    rect_width = ((S_800970FC_8 *)rect)->unk_04;
+                    rect_width = rect->unk_04;
                     ((S_800970FC_11 *)primitive)->unk_0C = (s16) (quad_x + rect_width);
                     ((S_800970FC_11 *)primitive)->unk_0E = rect_y;
                     ((S_800970FC_11 *)primitive)->unk_10 = quad_x;
-                    rect_height = ((S_800970FC_8 *)rect)->unk_06;
+                    rect_height = rect->unk_06;
                     ((S_800970FC_11 *)primitive)->unk_12 = (s16) (rect_y + rect_height);
                     rect_width = 0;
-                    rect_width = ((S_800970FC_8 *)rect)->unk_04;
+                    rect_width = rect->unk_04;
                     ((S_800970FC_11 *)primitive)->unk_14 = (s16) (quad_x + rect_width);
                     rect_height = 0;
-                    rect_height = ((S_800970FC_8 *)rect)->unk_06;
+                    rect_height = rect->unk_06;
                     (*(s16 *)((u8 *)primitive + 0x16)) = (s16) (rect_y + rect_height);
                     AddPrim(CUR_CTX + 0x830, primitive);
                     primitive = ((S_800970FC_9 *)CUR_CTX)->unk_8D0;
@@ -307,9 +307,9 @@ s32 draw_entry_overlays(void) {
                     AddPrim(CUR_CTX + 0x830, primitive);
                 }
                 draw_entry = &reference_tile_object;
-                quad_x = ((S_800970FC_6 *)texture_rect)->unk_00;
-                texture_top = ((S_800970FC_6 *)texture_rect)->unk_02.s;
-                saved_flags = ((S_800970FC_12 *)draw_entry)->unk_14;
+                quad_x = texture_rect->unk_00;
+                texture_top = texture_rect->unk_02.s;
+                saved_flags = draw_entry->sprite_flags;
                 saved_draw_param = draw_entry->tpage_offset;
                 {
                     if (page_offset != 0) {
@@ -323,7 +323,7 @@ s32 draw_entry_overlays(void) {
                 *scratch_x = (u16) draw_x;
                 *scratch_y = (u16) draw_y;
                 draw_entry->tpage_offset = 0x40U;
-                ((S_800970FC_12 *)draw_entry)->unk_14 = (u16) ((*(u16 *)((u8 *)draw_entry + 0x14)) | 0xC);
+                draw_entry->sprite_flags = (u16) ((*(u16 *)((u8 *)draw_entry + 0x14)) | 0xC);
                 draw_sprite_parts(0, draw_entry, 0x1F0);
                 scratch_x = (void *)0;
                 scratch_y = (void *)0;
@@ -332,13 +332,13 @@ s32 draw_entry_overlays(void) {
                 *scratch_x = (u16) draw_x;
                 *scratch_y = (u16) draw_y;
                 draw_entry->tpage_offset = 0x20U;
-                ((S_800970FC_12 *)draw_entry)->unk_14 = (u16) ((*(u16 *)((u8 *)draw_entry + 0x14)) & 0xFFF3);
+                draw_entry->sprite_flags = (u16) ((*(u16 *)((u8 *)draw_entry + 0x14)) & 0xFFF3);
                 draw_sprite_parts(0, draw_entry, 0x1F0);
                 draw_ctx = CUR_CTX;
-                ((S_800970FC_12 *)draw_entry)->unk_14 = saved_flags;
+                draw_entry->sprite_flags = saved_flags;
                 draw_entry->tpage_offset = saved_draw_param;
-                primitive = ((S_800970FC_13 *)draw_ctx)->unk_8D0;
-                ((S_800970FC_13 *)draw_ctx)->unk_8D0 = (void *) (primitive + 0xC);
+                primitive = draw_ctx->unk_8D0;
+                draw_ctx->unk_8D0 = (void *) (primitive + 0xC);
                 func_80067EF4(primitive, 0, 0);
                 AddPrim(CUR_CTX + 0x830, primitive);
                 primitive = ((S_800970FC_9 *)CUR_CTX)->unk_8D0;
@@ -350,13 +350,13 @@ s32 draw_entry_overlays(void) {
                 SetSemiTrans(primitive, 0);
                 (*(u16 *)((u8 *)primitive + 8)) = quad_x;
                 (*(s16 *)((u8 *)primitive + 0xA)) = texture_top;
-                (*(s16 *)((u8 *)primitive + 0xC)) = (s16) (quad_x + ((S_800970FC_6 *)texture_rect)->unk_04.u16);
+                (*(s16 *)((u8 *)primitive + 0xC)) = (s16) (quad_x + texture_rect->unk_04.u16);
                 (*(s16 *)((u8 *)primitive + 0xE)) = texture_top;
                 (*(u16 *)((u8 *)primitive + 0x10)) = quad_x;
-                bottom = texture_top + ((S_800970FC_6 *)texture_rect)->unk_06.u16;
+                bottom = texture_top + texture_rect->unk_06.u16;
                 (*(s16 *)((u8 *)primitive + 0x12)) = bottom;
-                (*(s16 *)((u8 *)primitive + 0x14)) = (s16) (quad_x + ((S_800970FC_6 *)texture_rect)->unk_04.u16);
-                bottom = texture_top + ((S_800970FC_6 *)texture_rect)->unk_06.u16;
+                (*(s16 *)((u8 *)primitive + 0x14)) = (s16) (quad_x + texture_rect->unk_04.u16);
+                bottom = texture_top + texture_rect->unk_06.u16;
                 (*(s16 *)((u8 *)primitive + 0x16)) = bottom;
                 AddPrim(CUR_CTX + 0x830, primitive);
                 primitive = ((S_800970FC_9 *)CUR_CTX)->unk_8D0;

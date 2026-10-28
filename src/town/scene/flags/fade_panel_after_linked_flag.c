@@ -26,7 +26,7 @@ void fade_panel_after_linked_flag(void *effect) {
     s16 state;
     s32 color;
     u16 timer;
-    void *linked_obj;
+    S_805267E0_1 *linked_obj;
     s16 next_state;
     u16 flags;
 
@@ -47,7 +47,7 @@ void fade_panel_after_linked_flag(void *effect) {
         }
         return;
     case 1:
-        if (((S_805267E0_1 *)linked_obj)->unk_2A & 1) {
+        if (linked_obj->unk_2A & 1) {
             ((S_805267E0_0 *)effect)->unk_00 = (s16) (state + 1);
             return;
         }

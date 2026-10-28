@@ -87,9 +87,9 @@ extern void D_8052F8C4();
 
 /* Per-frame step for the town scene object: dispatch its mode and update the sprite it draws. */
 void animate_rising_effect_object(void *obj, void *state_in, void *input) {
-    register void *obj_held = obj;
+    register S_8052F2C8_0 *obj_held = obj;
     register void *state_held = state_in;
-    register void *work;
+    register S_8052F2C8_3 *work;
     s16 state;
     s16 mode;
     s16 timer;
@@ -107,30 +107,30 @@ void animate_rising_effect_object(void *obj, void *state_in, void *input) {
     s32 work_value;
     s16 scale;
     u16 kind;
-    register void *root;
-    void *root_obj;
-    void *position;
-    void *data0;
+    register S_8052F2C8_1 *root;
+    S_8052F2C8_5 *root_obj;
+    ObjectPosition *position;
+    S_8052F2C8_4 *data0;
     TownScoreCounterView *data1;
     TownScoreCounterView *spawn_data;
-    void *entity_data;
+    S_8052F2C8_9 *entity_data;
     s32 *money;
 
     /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: town/func_808146C8). */
     do {
-        root = ((S_8052F2C8_0 *)obj_held)->unk_00;
+        root = obj_held->unk_00;
     } while (0);
-    ((S_8052F2C8_1 *)root)->unk_58 |= 1;
-    root_obj = ((S_8052F2C8_1 *)root)->unk_00;
+    root->unk_58 |= 1;
+    root_obj = root->unk_00;
     work = input;
 
-    if (((S_8052F2C8_1 *)root)->unk_54.s == 9) {
-        mode = ((S_8052F2C8_0 *)obj_held)->unk_0C.s;
+    if (root->unk_54.s == 9) {
+        mode = obj_held->unk_0C.s;
         if (mode == 1 && ((IntVector3 *)state_held)->x <= 0x04DFFFFF) {
-            state = ((S_8052F2C8_1 *)root)->unk_56;
+            state = root->unk_56;
             switch (state) {
             case 0:
-                ((S_8052F2C8_3 *)work)->unk_0C.u8 = 0xFF;
+                work->unk_0C.u8 = 0xFF;
                 count = 3;
                 do {
                     func_8052F960(state_held);
@@ -138,7 +138,7 @@ void animate_rising_effect_object(void *obj, void *state_in, void *input) {
                 } while (count >= 0);
                 break;
             case 1:
-                ((S_8052F2C8_3 *)work)->unk_14 |= 0xC;
+                work->unk_14 |= 0xC;
                 count = 2;
                 do {
                     func_8052FB08(state_held);
@@ -146,47 +146,47 @@ void animate_rising_effect_object(void *obj, void *state_in, void *input) {
                 } while (count >= 0);
                 break;
             case 2:
-                timer = ((S_8052F2C8_3 *)work)->unk_1E + 0x200;
-                ((S_8052F2C8_3 *)work)->unk_1E = timer;
-                ((S_8052F2C8_3 *)work)->unk_1C = timer;
+                timer = work->unk_1E + 0x200;
+                work->unk_1E = timer;
+                work->unk_1C = timer;
                 break;
             }
         }
     }
 
-    switch (((S_8052F2C8_0 *)obj_held)->unk_0C.s) {
+    switch (obj_held->unk_0C.s) {
     case 0:
-        if (((S_8052F2C8_0 *)obj_held)->unk_0E == 0x10) {
-            ((S_8052F2C8_1 *)root)->unk_58 |= 4;
+        if (obj_held->unk_0E == 0x10) {
+            root->unk_58 |= 4;
         } else {
-            ((S_8052F2C8_1 *)root)->unk_58 &= 0xFFFB;
+            root->unk_58 &= 0xFFFB;
         }
-        timer0 = (u16)((S_8052F2C8_0 *)obj_held)->unk_0E - 1;
-        ((S_8052F2C8_0 *)obj_held)->unk_0E = timer0;
+        timer0 = (u16)obj_held->unk_0E - 1;
+        obj_held->unk_0E = timer0;
         if ((timer0 << 16) > 0) {
             break;
         }
         func_80058F88(0x518);
-        data0 = ((S_8052F2C8_1 *)root)->unk_00;
-        ((S_8052F2C8_4 *)data0)->unk_12++;
-        ((S_8052F2C8_0 *)obj_held)->unk_0C.s = 1;
-        ((S_8052F2C8_3 *)work)->unk_14 &= 0xFF7F;
+        data0 = root->unk_00;
+        data0->unk_12++;
+        obj_held->unk_0C.s = 1;
+        work->unk_14 &= 0xFF7F;
         break;
 
     case 1:
-        step = ((S_8052F2C8_0 *)obj_held)->unk_04 + ((S_8052F2C8_0 *)obj_held)->unk_08;
-        ((S_8052F2C8_0 *)obj_held)->unk_04 = step;
-        sum = ((IntVector3 *)state_held)->x + ((S_8052F2C8_0 *)obj_held)->unk_04;
+        step = obj_held->unk_04 + obj_held->unk_08;
+        obj_held->unk_04 = step;
+        sum = ((IntVector3 *)state_held)->x + obj_held->unk_04;
         ((IntVector3 *)state_held)->x = sum;
         if (sum <= 0x0427FFFF) {
-            ((S_8052F2C8_0 *)obj_held)->unk_0E = 6;
+            obj_held->unk_0E = 6;
             money = &D_80095AAC;
             if (*(u8 *)money >= 9U) {
                 *money += 0xFFF7F7F8;
             }
-            ((S_8052F2C8_3 *)work)->unk_14 |= 0x80;
+            work->unk_14 |= 0x80;
             func_80058F88(0x506);
-            ((S_8052F2C8_0 *)obj_held)->unk_0C.s = 2;
+            obj_held->unk_0C.s = 2;
             break;
         }
         {
@@ -207,21 +207,21 @@ void animate_rising_effect_object(void *obj, void *state_in, void *input) {
         if (sum > 0x043FFFFF) {
             break;
         }
-        if (((S_8052F2C8_0 *)obj_held)->unk_10 & 4) {
+        if (obj_held->unk_10 & 4) {
             break;
         }
 
-        kind = ((S_8052F2C8_5 *)root_obj)->unk_16 - 3;
+        kind = root_obj->unk_16 - 3;
         if (kind < 3U) {
             func_80058F88(0x513);
-            ((S_8052F2C8_0 *)obj_held)->unk_04 = 0x180000;
-            ((S_8052F2C8_0 *)obj_held)->unk_0C.s = 3;
-            ((S_8052F2C8_0 *)obj_held)->unk_10 |= 4;
-            data1 = ((S_8052F2C8_1 *)root)->unk_00;
-            ((S_8052F2C8_1 *)root)->unk_54.u++;
+            obj_held->unk_04 = 0x180000;
+            obj_held->unk_0C.s = 3;
+            obj_held->unk_10 |= 4;
+            data1 = root->unk_00;
+            root->unk_54.u++;
             data1->unk_14 += 2;
-            if (((S_8052F2C8_1 *)root)->unk_54.s == 10) {
-                data1 = ((S_8052F2C8_1 *)root)->unk_00;
+            if (root->unk_54.s == 10) {
+                data1 = root->unk_00;
                 data1->unk_14 += 10;
             }
             break;
@@ -231,40 +231,40 @@ void animate_rising_effect_object(void *obj, void *state_in, void *input) {
         }
 
         func_80058F88(0x510);
-        ((S_8052F2C8_0 *)obj_held)->unk_10 |= 4;
-        spawn_data = ((S_8052F2C8_1 *)root)->unk_00;
+        obj_held->unk_10 |= 4;
+        spawn_data = root->unk_00;
         count = 1;
         spawn_data->unk_14++;
         scale = 0x1000;
         do {
             work = func_800373DC(0x136);
             if (work != NULL) {
-                ((S_8052F2C8_3 *)work)->unk_10 = D_8052F8C4;
+                work->unk_10 = D_8052F8C4;
                 func_8003BC18(work, score_sprite_draw_callback_address);
-                position = ((S_8052F2C8_3 *)work)->unk_08;
-                entity_data = ((S_8052F2C8_3 *)work)->unk_0C.p32;
-                ((ObjectPosition *)position)->x.v = ((IntVector3 *)state_held)->x;
-                ((ObjectPosition *)position)->y.v = ((IntVector3 *)state_held)->y;
-                ((ObjectPosition *)position)->z.v = ((IntVector3 *)state_held)->z;
-                work_value = ((S_8052F2C8_0 *)obj_held)->unk_04;
-                ((S_8052F2C8_3 *)work)->unk_20 = root;
-                ((S_8052F2C8_3 *)work)->unk_24 = work_value;
-                ((S_8052F2C8_9 *)entity_data)->unk_1E = scale;
-                ((S_8052F2C8_9 *)entity_data)->unk_1C = scale;
+                position = work->unk_08;
+                entity_data = work->unk_0C.p32;
+                position->x.v = ((IntVector3 *)state_held)->x;
+                position->y.v = ((IntVector3 *)state_held)->y;
+                position->z.v = ((IntVector3 *)state_held)->z;
+                work_value = obj_held->unk_04;
+                work->unk_20 = root;
+                work->unk_24 = work_value;
+                entity_data->unk_1E = scale;
+                entity_data->unk_1C = scale;
                 if (count != 0) {
-                    ((S_8052F2C8_9 *)entity_data)->unk_08 = D_8028E188;
-                    ((ObjectPosition *)position)->velocity_y = 0x80000;
+                    entity_data->unk_08 = D_8028E188;
+                    position->velocity_y = 0x80000;
                 } else {
-                    ((S_8052F2C8_9 *)entity_data)->unk_08 = D_8028E17C;
-                    ((ObjectPosition *)position)->velocity_y = 0xFFF80000;
+                    entity_data->unk_08 = D_8028E17C;
+                    position->velocity_y = 0xFFF80000;
                 }
-                ((S_8052F2C8_9 *)entity_data)->unk_04 = 0;
-                ((S_8052F2C8_9 *)entity_data)->unk_05 = 0;
-                ((S_8052F2C8_9 *)entity_data)->unk_0C = 0x808080;
+                entity_data->unk_04 = 0;
+                entity_data->unk_05 = 0;
+                entity_data->unk_0C = 0x808080;
             }
             count--;
         } while (count >= 0);
-        ((S_8052F2C8_0 *)obj_held)->unk_0C.u = 0xFF;
+        obj_held->unk_0C.u = 0xFF;
         break;
 
     case 2:
@@ -276,26 +276,26 @@ void animate_rising_effect_object(void *obj, void *state_in, void *input) {
             create_object_position_configures_color(0, x, ((IntVector3 *)state_held)->y + 0x80000,
                           ((rnd % 80) << 16) + 0xFFB00000);
         } while (count >= 0);
-        timer_end = (u16)((S_8052F2C8_0 *)obj_held)->unk_0E - 1;
-        ((S_8052F2C8_0 *)obj_held)->unk_0E = timer_end;
+        timer_end = (u16)obj_held->unk_0E - 1;
+        obj_held->unk_0E = timer_end;
         if ((timer_end << 16) <= 0) {
-            ((S_8052F2C8_0 *)obj_held)->unk_0C.u = 0xFF;
+            obj_held->unk_0C.u = 0xFF;
         }
         break;
 
     case 3:
-        ((S_8052F2C8_1 *)root)->unk_58 |= 2;
-        sum3 = ((IntVector3 *)state_held)->x + ((S_8052F2C8_0 *)obj_held)->unk_04;
+        root->unk_58 |= 2;
+        sum3 = ((IntVector3 *)state_held)->x + obj_held->unk_04;
         ((IntVector3 *)state_held)->x = sum3;
         if (sum3 > 0x055FFFFF) {
-            ((S_8052F2C8_0 *)obj_held)->unk_0E = 5;
+            obj_held->unk_0E = 5;
             func_80058F88(0x50C);
-            ((S_8052F2C8_0 *)obj_held)->unk_0C.s = 4;
+            obj_held->unk_0C.s = 4;
         }
         break;
 
     case 4:
-        ((S_8052F2C8_1 *)root)->unk_58 |= 2;
+        root->unk_58 |= 2;
         for (count4 = 7; count4 >= 0; count4--) {
             x4 = (((func_80071494() & 0xFF) - 0x80) << 14) + 0x05600000;
             color4 = ((func_80071494() & 0x3F) << 16) | 0xFFC00000;
@@ -303,15 +303,15 @@ void animate_rising_effect_object(void *obj, void *state_in, void *input) {
         }
 
 
-        timer_end = (u16)((S_8052F2C8_0 *)obj_held)->unk_0E - 1;
-        ((S_8052F2C8_0 *)obj_held)->unk_0E = timer_end;
+        timer_end = (u16)obj_held->unk_0E - 1;
+        obj_held->unk_0E = timer_end;
         if ((timer_end << 16) <= 0) {
-            ((S_8052F2C8_0 *)obj_held)->unk_0C.u = 0xFF;
+            obj_held->unk_0C.u = 0xFF;
         }
         break;
 
     case 0xFF:
-        ((S_8052F2C8_1 *)root)->unk_58 &= 0xFFFE;
+        root->unk_58 &= 0xFFFE;
         (*(u16 *)((u8 *)obj_held + -2)) |= 0x8000;
         scene_object_flags |= 0x8000;
         break;

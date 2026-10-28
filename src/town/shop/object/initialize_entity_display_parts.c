@@ -51,8 +51,8 @@ void initialize_entity_display_parts(Entity *entity, Template16 *part, EntityVec
     part->unk8 = part_template->unk8;
     part->unkC = part_template->unkC;
 
-    ((DisplayPositionWords *)vector)->unk0 = *vector_word;
-    ((DisplayPositionWords *)vector)->unk4 = vector_template->unk4;
+    vector->unk0 = *vector_word;
+    vector->unk4 = vector_template->unk4;
     ((DisplayPositionWords *)vector)->unk8 = vector_template->unk8;
 
     entity->unk4 = (EntityPart *)part;

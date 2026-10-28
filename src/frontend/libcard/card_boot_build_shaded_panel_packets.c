@@ -23,7 +23,7 @@ typedef struct S_800242D8_1 {
 void *card_boot_build_shaded_panel_packets(u8 *packet, u32 x, u32 y) {
     s32 packet_index;
     u8 *table_entry;
-    void *field_cursor;
+    S_800242D8_1_pre *field_cursor;
     s8 opcode;
     s32 main_color;
     s32 dark_color;
@@ -42,7 +42,7 @@ void *card_boot_build_shaded_panel_packets(u8 *packet, u32 x, u32 y) {
     x = (s32) ((y >> 0x1F) + y) >> 1;
     packet_tags = D_80027FD0;
     do {
-        field_cursor = packet + 0xB;
+        field_cursor = (S_800242D8_1_pre *)(packet + 0xB);
         table_entry = (u8 *) (packet_index + (long)packet_tags);
         packet_index += 1;
         (*(s8 *)((u8 *)field_cursor + -0xA)) = opcode;
@@ -50,8 +50,8 @@ void *card_boot_build_shaded_panel_packets(u8 *packet, u32 x, u32 y) {
         (*(s32 *)((u8 *)field_cursor + 1)) = main_color;
         (*(s32 *)((u8 *)field_cursor + 5)) = main_color;
         (*(s32 *)((u8 *)field_cursor + 9)) = dark_color;
-        ((S_800242D8_1_pre *)field_cursor)[-1].unk_00 = half_x;
-        ((S_800242D8_1 *)field_cursor)->unk_00 = x;
+        field_cursor[-1].unk_00 = half_x;
+        field_cursor->unk_00 = x;
         *packet = *table_entry;
         packet += 0x18;
     } while (packet_index < 4);

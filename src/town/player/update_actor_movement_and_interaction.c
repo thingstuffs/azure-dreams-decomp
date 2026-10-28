@@ -51,7 +51,7 @@ typedef struct S_800927EC_5 {
 /* Update the actor and dispatch town movement and interaction input. */
 void update_actor_movement_and_interaction(void *actor, EntityRec *position, s32 context) {
     GameWork *input = &g_game_work;
-    void *interaction;
+    S_800927EC_4 *interaction;
     s16 ground_height;
     s32 interaction_result;
     s32 target_handler;
@@ -103,13 +103,13 @@ void update_actor_movement_and_interaction(void *actor, EntityRec *position, s32
                     ((Rec_func_80094268_arg0 *)actor)->unk_2C = NULL;
                 }
             }
-            interaction = &town_actor_control;
-            interaction_result = select_response_for_source_and_target(((S_800927EC_4 *)interaction)->unk_10,
+            interaction = (S_800927EC_4 *)&town_actor_control;
+            interaction_result = select_response_for_source_and_target(interaction->unk_10,
                 ((Rec_func_80094268_arg0 *)actor)->unk_2C);
             if (interaction_result != 0) {
                 call_script(interaction_result);
             } else {
-                submit_object_resource_data(((S_800927EC_4 *)interaction)->unk_10);
+                submit_object_resource_data(interaction->unk_10);
             }
             town_player_action_callback = &D_80093B00;
             return;
