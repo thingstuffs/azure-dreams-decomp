@@ -49,20 +49,20 @@ void update_homing_arc_and_brighten_effect(void *effect, void *motion, void *spr
 
     case 1:
     {
-        void *source;
+        Row_8194C8F0_S_800240F0_1 *source;
         source = ((Row_8194C8F0_S_800240F0_6 *)(((Row_8194C8F0_S_800240F0_0 *)effect)->unk_00))->unk_0C;
-        if ((((Row_8194C8F0_S_800240F0_1 *)source)->unk_14 & 0x8000) ||
-            resolve_record_orientation_or_fallback(((Row_8194C8F0_S_800240F0_1 *)source)->unk_08, source, offset, 0) != 0) {
-            void *position;
+        if ((source->unk_14 & 0x8000) ||
+            resolve_record_orientation_or_fallback(source->unk_08, source, offset, 0) != 0) {
+            Row_8194C8F0_S_800240F0_3 *position;
             u16 source_z;
 
             position = ((Row_8194C8F0_S_800240F0_6 *)(((Row_8194C8F0_S_800240F0_0 *)effect)->unk_00))->unk_08;
-            ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_00.at02.v = ((Row_8194C8F0_S_800240F0_3 *)position)->unk_00.at02.v;
-            ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_04.at02.v = ((Row_8194C8F0_S_800240F0_3 *)position)->unk_04.at02.v;
-            source_z = ((Row_8194C8F0_S_800240F0_3 *)position)->unk_0A;
+            ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_00.at02.v = position->unk_00.at02.v;
+            ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_04.at02.v = position->unk_04.at02.v;
+            source_z = position->unk_0A;
             ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_08.at02.v = source_z;
 
-            if (!(((Row_8194C8F0_S_800240F0_1 *)source)->unk_14 & 0x8000)) {
+            if (!(source->unk_14 & 0x8000)) {
                 u16 offset_z;
 
                 ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_00.at02.v += offset[0];
@@ -204,10 +204,10 @@ void update_rotating_effect_and_fade(void *effect, void *position, SpriteFrameSt
     s32 y_product;
     u16 scale;
     u8 brightness;
-    void *counter_state;
+    Row_8194CD5C_S_8002455C_1 *counter_state;
 
     counter_state = ((Row_8194CD5C_S_8002455C_0 *)effect)->unk_00;
-    ((Row_8194CD5C_S_8002455C_1 *)counter_state)->unk_1A = (u16) (((Row_8194CD5C_S_8002455C_1 *)counter_state)->unk_1A + 1);
+    counter_state->unk_1A = (u16) (counter_state->unk_1A + 1);
     ((Row_8194CD5C_S_8002455C_0 *)effect)->unk_2E = (u16) (((Row_8194CD5C_S_8002455C_0 *)effect)->unk_2E + 0x100);
     ((Row_8194CD5C_S_8002455C_2 *)position)->unk_00.at00.v = (s32) ((Row_8194CD5C_S_8002455C_2 *)position)->unk_0C;
     ((Row_8194CD5C_S_8002455C_2 *)position)->unk_04.at00.v = (s32) ((Row_8194CD5C_S_8002455C_2 *)position)->unk_10;
@@ -331,10 +331,10 @@ void advance_object_motion_and_animation(void *object) {
     s32 velocity_y;
     s32 velocity_z;
     s32 position_y;
-    void *state;
+    Row_8194D118_S_80024918_1 *state;
 
     state = ((Row_8194D118_S_80024918_0 *)object)->unk_00;
-    ((Row_8194D118_S_80024918_1 *)state)->unk_1A = ((Row_8194D118_S_80024918_1 *)state)->unk_1A + 1;
+    state->unk_1A = state->unk_1A + 1;
     ((Row_8194D118_S_80024918_0 *)object)->unk_78 = ((u32)rsin(((Row_8194D118_S_80024918_0 *)object)->unk_74 << 8)) >> 6;
     velocity_y = ((Row_8194D118_S_80024918_0 *)object)->unk_44;
     ((Row_8194D118_S_80024918_0 *)object)->unk_34 += ((Row_8194D118_S_80024918_0 *)object)->unk_40;
@@ -362,7 +362,7 @@ void allocate_effect_with_endpoints(s32 object_value, void *start_pos, void *end
     s32 word_1;
     s32 word_2;
     s32 word_3;
-    void *state;
+    Row_8194D1E4_S_800249E4_0 *state;
     ObjectNodeHeader *object;
 
     object = allocate_flagged_object_node(0x212);
@@ -370,8 +370,8 @@ void allocate_effect_with_endpoints(s32 object_value, void *start_pos, void *end
         state = ((void *)object) + 0x20;
         (object->update_callback) = &D_80024918;
         (*(s32 *)((u8 *)object + 0x20)) = object_value;
-        ((Row_8194D1E4_S_800249E4_0 *)state)->unk_74 = 0;
-        ((Row_8194D1E4_S_800249E4_0 *)state)->unk_76 = setting;
+        state->unk_74 = 0;
+        state->unk_76 = setting;
         start_x = (*(s32 *)((u8 *)start_pos + 0));
         (*(s32 *)((u8 *)state + 0x1C)) = start_x;
         (*(s32 *)((u8 *)state + 0x34)) = start_x;
@@ -451,12 +451,12 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
     s32 backtrack_dx;
     s32 backtrack_dy;
     u8 tile_y;
-    void *actor_or_frame;
+    Row_8194D354_S_80024B54_5 *actor_or_frame;
     ObjectNodeHeader *effect_data;
     s32 offset_mode;
     void *target;
     ActorRecord *actor_value;
-    void *actor_value_2;
+    Row_8194D354_S_80024B54_1 *actor_value_2;
 
     state_or_heading = ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_0A.s;
     ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_10 = (u16)(((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_10 + 1);
@@ -519,9 +519,9 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
             (*(s32 *)((u8 *)position + 4)) = (s32)((*(s32 *)((u8 *)position + 4)) + (offset[1] << 0x10));
             (*(s32 *)((u8 *)position + 8)) = (s32)((*(s32 *)((u8 *)position + 8)) + (offset[2] << 0x10));
         }
-        actor_or_frame = primary_actor_record;
+        actor_or_frame = (Row_8194D354_S_80024B54_5 *)primary_actor_record;
         target = scan_actor_along_heading(actor_or_frame, tile_or_y_steps->tile_position.parts.tile_x,
-            tile_or_y_steps->tile_position.parts.tile_y, (s16)((Row_8194D354_S_80024B54_5 *)actor_or_frame)->unk_2A, 8);
+            tile_or_y_steps->tile_position.parts.tile_y, (s16)actor_or_frame->unk_2A, 8);
         ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_14 = target;
         if (target != NULL) {
             target_pos = *(M2C_UNK * *)&((ObjectNodeHeader *)((u8 *)target - 0x20))->position;
@@ -532,12 +532,12 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
             tile_y = tile_or_y_steps->tile_position.parts.tile_y;
             ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06.u = (u16)((tile_y << 6) + 0x20);
             do {
-                actor_or_frame = primary_actor_record;
-                forward_dx = dir_step_x[(((Row_8194D354_S_80024B54_5 *)actor_or_frame)->unk_2A >> 9) & 7];
+                actor_or_frame = (Row_8194D354_S_80024B54_5 *)primary_actor_record;
+                forward_dx = dir_step_x[(actor_or_frame->unk_2A >> 9) & 7];
                 ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02.u = (u16)(((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02.u + (forward_dx << 6));
-                forward_dy = dir_step_y[(((Row_8194D354_S_80024B54_5 *)actor_or_frame)->unk_2A >> 9) & 7];
+                forward_dy = dir_step_y[(actor_or_frame->unk_2A >> 9) & 7];
                 ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06.u = (u16)(((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06.u + (forward_dy << 6));
-                ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.u = (u16)((Row_8194D354_S_80024B54_5 *)actor_or_frame)->unk_88;
+                ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.u = (u16)actor_or_frame->unk_88;
                 ground_height = get_surface_height_at_record(target_pos);
                 ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.u = ground_height;
                 if ((s16)ground_height > 0x200) {
@@ -547,14 +547,14 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
                 position_valid = check_left_tile_and_center_height(((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02.u,
                     ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06.u, (s16)((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.u);
                 if ((position_valid << 0x10) != 0) {
-                    actor_or_frame = primary_actor_record;
-                    backtrack_dx = dir_step_x[(((Row_8194D354_S_80024B54_5 *)actor_or_frame)->unk_2A >> 9) & 7];
+                    actor_or_frame = (Row_8194D354_S_80024B54_5 *)primary_actor_record;
+                    backtrack_dx = dir_step_x[(actor_or_frame->unk_2A >> 9) & 7];
                     ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02.u = (u16)(((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02.u - (backtrack_dx
                         << 5));
-                    backtrack_dy = dir_step_y[(((Row_8194D354_S_80024B54_5 *)actor_or_frame)->unk_2A >> 9) & 7];
+                    backtrack_dy = dir_step_y[(actor_or_frame->unk_2A >> 9) & 7];
                     ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06.u = (u16)(((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06.u - (backtrack_dy
                         << 5));
-                    ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.u = (u16)((Row_8194D354_S_80024B54_5 *)actor_or_frame)->unk_88;
+                    ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.u = (u16)actor_or_frame->unk_88;
                     near_height = get_surface_height_at_record(target_pos);
                     ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.u = near_height;
                     if ((s16)near_height > 0x200) {
@@ -628,7 +628,7 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
             clear_tint_mask = 0xEFFFFFFF;
             neutral_color = 0x00808080;
             actor_value_2 = ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_14;
-            ((Row_8194D354_S_80024B54_1 *)actor_value_2)->unk_1C = (s32)(((Row_8194D354_S_80024B54_1 *)actor_value_2)->unk_1C & clear_tint_mask);
+            actor_value_2->unk_1C = (s32)(actor_value_2->unk_1C & clear_tint_mask);
             effect_data = ((ObjectNodeHeader *)((u8 *)actor_value_2 - 0x20))->sprite;
             (effect_data->sprite) = neutral_color;
         }

@@ -31,7 +31,7 @@ typedef struct S_800C9AAC_2 {
 void update_actor_facing_and_lifecycle(void *state, ObjectPosition *motion, SpriteFrameState *part)
 {
     u32 update_flags = g_dungeon_status.flags;
-    void *secondary = state;
+    S_800C9AAC_2 *secondary = state;
     Callback callback;
     s16 direction;
     s16 direction_index;
@@ -77,7 +77,7 @@ void update_actor_facing_and_lifecycle(void *state, ObjectPosition *motion, Spri
     part_flags = part->flags;
     adjusted_flags = part_flags & 0x8000;
     if (!adjusted_flags) {
-        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_800C9AAC_2 *)secondary)->unk_2A + 0x100) >> 9);
+        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + secondary->unk_2A + 0x100) >> 9);
         direction &= 7;
         direction_index = direction;
         if ((*(s16 *)((u8 *)state + (0x94))) != direction_index) {
@@ -90,23 +90,23 @@ void update_actor_facing_and_lifecycle(void *state, ObjectPosition *motion, Spri
         if (dir_sprite_flag[direction_index] != 0) {
             adjusted_flags = part->flags | 1;
             part->flags = adjusted_flags;
-            apply_monster_koyaw_data(((S_800C9AAC_2 *)secondary)->unk_1C, (u8 *)part + 0xC);
+            apply_monster_koyaw_data(secondary->unk_1C, (u8 *)part + 0xC);
         } else {
             adjusted_flags = part->flags & 0xFFFE;
             part->flags = adjusted_flags;
-            apply_monster_koyaw_data(((S_800C9AAC_2 *)secondary)->unk_1C, (u8 *)part + 0xC);
+            apply_monster_koyaw_data(secondary->unk_1C, (u8 *)part + 0xC);
         }
 
-        if (!(((S_800C9AAC_2 *)secondary)->unk_1C & 0x20)) {
+        if (!(secondary->unk_1C & 0x20)) {
             if (!(part->flags & 0x40)) {
                 advance_sprite_animation_and_textures(part);
             }
         } else {
             part->flags |= 0x7000;
-            ((S_800C9AAC_2 *)secondary)->unk_1C &= 0xFFFBFFFF;
+            secondary->unk_1C &= 0xFFFBFFFF;
         }
 
-        if (((S_800C9AAC_2 *)secondary)->unk_1C & 0x40000) {
+        if (secondary->unk_1C & 0x40000) {
             if (!(part->flags & 0x40)) {
                 u16 phase = (*(u16 *)((u8 *)state + (0x9E)));
                 (*(u16 *)((u8 *)state + (0x9E))) = phase + 1;
@@ -117,7 +117,7 @@ void update_actor_facing_and_lifecycle(void *state, ObjectPosition *motion, Spri
                 s32 min_height = -0x20;
                 s16 height;
                 sample_terrain_surface_height(((u16) motion->x.w.i), ((u16) motion->y.w.i),
-                    (s16)(((S_800C9AAC_2 *)secondary)->unk_88 - 0x20));
+                    (s16)(secondary->unk_88 - 0x20));
                 height = (*(s16 *)((u8 *)state + (0x92)));
                 if (min_height < height) {
                     (*(u16 *)((u8 *)state + (0x92))) -= 8;
@@ -134,8 +134,8 @@ void update_actor_facing_and_lifecycle(void *state, ObjectPosition *motion, Spri
             if (!((*(u16 *)((u8 *)state + (0x98))) & 8)) {
                 target_height = sample_terrain_surface_height(((u16) motion->x.w.i),
                     ((u16) motion->y.w.i),
-                    (s16)(((S_800C9AAC_2 *)secondary)->unk_88 - 0x20)) -
-                    ((S_800C9AAC_2 *)secondary)->unk_88;
+                    (s16)(secondary->unk_88 - 0x20)) -
+                    secondary->unk_88;
                 old_height = (*(u16 *)((u8 *)state + (0x92)));
                 if ((*(s16 *)((u8 *)state + (0x92))) < target_height) {
                     (*(u16 *)((u8 *)state + (0x92))) = old_height + 8;
@@ -159,22 +159,22 @@ void update_actor_facing_and_lifecycle(void *state, ObjectPosition *motion, Spri
 
     {
         s32 object_flags;
-        object_flags = ((S_800C9AAC_2 *)secondary)->unk_1C;
+        object_flags = secondary->unk_1C;
         if (object_flags & 0x40000000) {
             adjusted_flags = object_flags & 0xBFFFFFFF;
-            ((S_800C9AAC_2 *)secondary)->unk_1C = adjusted_flags;
+            secondary->unk_1C = adjusted_flags;
             target_height = sample_terrain_surface_height(
                 (part->tile_x << 6) | 0x20,
                 (part->tile_y << 6) | 0x20,
-                (s16)(((S_800C9AAC_2 *)secondary)->unk_88 - 0x20));
+                (s16)(secondary->unk_88 - 0x20));
             if (target_height < 0x200) {
-                (*(u16 *)((u8 *)state + (0x92))) += ((S_800C9AAC_2 *)secondary)->unk_88 - target_height;
-                ((S_800C9AAC_2 *)secondary)->unk_88 = target_height;
+                (*(u16 *)((u8 *)state + (0x92))) += secondary->unk_88 - target_height;
+                secondary->unk_88 = target_height;
             }
         }
     }
 
-    motion->z.w.i = ((S_800C9AAC_2 *)secondary)->unk_88 +
+    motion->z.w.i = secondary->unk_88 +
         (*(u16 *)((u8 *)state + (0x92))) - (*(u16 *)((u8 *)state + (0xA2)));
     part->flags |= 0x40;
 }

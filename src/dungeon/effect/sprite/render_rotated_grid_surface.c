@@ -4,7 +4,7 @@
 /* Projects a rotated 16-by-16 vertex grid and queues its textured quads for each linked object. */
 s32 render_rotated_grid_surface(void *node) {
     Row_81989558_Frame frame;
-    void *object;
+    Row_81989558_S_80024D58_Obj *object;
     u8 *source_points;
     u8 *grid_row;
     s32 ring_x;
@@ -57,7 +57,7 @@ s32 render_rotated_grid_surface(void *node) {
             frame.p.f514 = rotated_points + point_offset;
             frame.p.f528 = half_count * 2;
             {
-                s32 height = ((Row_81989558_S_80024D58_Obj *)object)->unk_04;
+                s32 height = object->unk_04;
                 *(s16 *)frame.space = (height + ring) << 6;
             }
             point_index = ring;
@@ -173,18 +173,18 @@ s32 render_rotated_grid_surface(void *node) {
                 ring = side * 4;
                 do {
                     {
-                        void *context = *render_context;
-                        u8 *quad = ((GpuContext *)context)->packetCursor;
+                        GpuContext *context = *render_context;
+                        u8 *quad = context->packetCursor;
                         u8 *top_pair;
                         u8 *bottom_pair;
                         u8 *src_base;
                         u8 *src_row;
-                        u8 *src_pair;
+                        Row_81989558_S_80024D58_Pair *src_pair;
                         u8 *dst_row;
-                        u8 *dst_pair;
+                        Row_81989558_S_80024D58_Pair *dst_pair;
                         s32 row_offset;
-                        ((GpuContext *)context)->packetCursor = quad + 0x28;
-                        ((PolyFT4 *)quad)->colorCode = ((Row_81989558_S_80024D58_Obj *)object)->unk_0C;
+                        context->packetCursor = quad + 0x28;
+                        ((PolyFT4 *)quad)->colorCode = object->unk_0C;
                         SetPolyFT4(quad);
                         SetSemiTrans(quad, 1);
                         ((PolyFT4 *)quad)->tpage = GetTPage(0, 3, 0x300, 0x100);
@@ -192,15 +192,15 @@ s32 render_rotated_grid_surface(void *node) {
                         row_offset = point_index << 6;
                         src_base = (u8 *) (row_offset + (long)source_points);
                         src_row = src_base + 0x100;
-                        src_pair = (u8 *) (ring + (long)src_row);
-                        ((PolyFT4 *)quad)->xy0 = ((Row_81989558_S_80024D58_Pair *)src_pair)->unk_00;
-                        ((PolyFT4 *)quad)->xy1 = ((Row_81989558_S_80024D58_Pair *)src_pair)->unk_04;
+                        src_pair = (Row_81989558_S_80024D58_Pair *) (ring + (long)src_row);
+                        ((PolyFT4 *)quad)->xy0 = src_pair->unk_00;
+                        ((PolyFT4 *)quad)->xy1 = src_pair->unk_04;
                         top_pair = frame.space + 320;
                         dst_row = top_pair + row_offset;
-                        dst_pair = (u8 *) (ring + (long)dst_row);
-                        ((PolyFT4 *)quad)->xy2 = ((Row_81989558_S_80024D58_Pair *)dst_pair)->unk_00;
+                        dst_pair = (Row_81989558_S_80024D58_Pair *) (ring + (long)dst_row);
+                        ((PolyFT4 *)quad)->xy2 = dst_pair->unk_00;
                         {
-                            s32 bottom_right = ((Row_81989558_S_80024D58_Pair *)dst_pair)->unk_04;
+                            s32 bottom_right = dst_pair->unk_04;
                             ((PolyFT4 *)quad)->u1 = 0xC0;
                             ((PolyFT4 *)quad)->u0 = 0xC0;
                             ((PolyFT4 *)quad)->u3 = 0xDF;

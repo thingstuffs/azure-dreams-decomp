@@ -73,7 +73,7 @@ typedef struct GlobalState {
 s32 build_sorted_effect_quads(void *quad_entry) {
     GlobalState **state_table = ((GlobalState * *)(&g_game_work));
     u8 *scratch = (u8 *)0x1F800000;
-    void *packet;
+    S_800259DC_2 *packet;
     u32 depth_index;
     s32 color_01;
     s32 color_23;
@@ -104,13 +104,13 @@ s32 build_sorted_effect_quads(void *quad_entry) {
         ((S_800259DC_0 *)scratch)->unk_C0 = depth_index;
         if (depth_index < 0x1E0U) {
             color_01 = ((S_800259DC_1 *)quad_entry)->unk_54;
-            ((S_800259DC_2 *)packet)->unk_0C = color_01;
-            ((S_800259DC_2 *)packet)->unk_04.at00.v = color_01;
+            packet->unk_0C = color_01;
+            packet->unk_04.at00.v = color_01;
             color_23 = ((S_800259DC_1 *)quad_entry)->unk_58;
-            ((S_800259DC_2 *)packet)->unk_1C = color_23;
-            ((S_800259DC_2 *)packet)->unk_14 = color_23;
+            packet->unk_1C = color_23;
+            packet->unk_14 = color_23;
             SetPolyG4(packet);
-            ((S_800259DC_2 *)packet)->unk_04.at03.v = (u8)(((S_800259DC_2 *)packet)->unk_04.at03.v | 2);
+            packet->unk_04.at03.v = (u8)(packet->unk_04.at03.v | 2);
             AddPrim((u8 *)((S_800259DC_0 *)scratch)->unk_20 +
                           (((S_800259DC_0 *)scratch)->unk_C0 * 4), packet);
             packet = ((S_800259DC_0 *)scratch)->unk_18;

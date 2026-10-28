@@ -113,7 +113,7 @@ void spawn_free_slot_display_effect(void *owner) {
     s32 rect_offset;
     Rect16 *rect;
     ObjectNodeHeader *child;
-    u8 *child_work;
+    S_80024104_0 *child_work;
     SpriteFrameState *display;
     ObjectPosition *source_words;
     ObjectPosition *child_words;
@@ -154,11 +154,11 @@ void spawn_free_slot_display_effect(void *owner) {
 
         child = allocate_flagged_object_node(0x212);
         if (child != 0) {
-            child_work = (u8 *)child + 0x20;
-            ((S_80024104_0 *)child_work)->unk_2A = 7;
-            ((S_80024104_0 *)child_work)->unk_2C = 7;
-            ((S_80024104_0 *)child_work)->unk_32 = slot;
-            ((S_80024104_0 *)child_work)->unk_60 = owner;
+            child_work = (S_80024104_0 *)((u8 *)child + 0x20);
+            child_work->unk_2A = 7;
+            child_work->unk_2C = 7;
+            child_work->unk_32 = slot;
+            child_work->unk_60 = owner;
             child->update_callback = (void *)fade_linked_display_sprite;
             register_node(child, project_sprite_chain);
 
@@ -168,9 +168,9 @@ void spawn_free_slot_display_effect(void *owner) {
 
             source_words = ((ObjectNodeHeader *)((u8 *)primary_actor_record - 0x20))->position;
             child_words = child->position;
-            child_words->x.v = ((s32 *)source_words)[0];
-            child_words->y.v = ((s32 *)source_words)[1];
-            child_words->z.v = ((s32 *)source_words)[2];
+            child_words->x.v = source_words->x.v;
+            child_words->y.v = source_words->y.v;
+            child_words->z.v = source_words->z.v;
 
             display = child->sprite;
             display->scale_y = 0x1000;
@@ -181,8 +181,8 @@ void spawn_free_slot_display_effect(void *owner) {
 
             *(PackedVec3 *)((u8 *)child + 0x92) = D_8002533C;
             display->source = (u8 *)child + 0x92;
-            ((S_80024104_0 *)child_work)->unk_7A = (u8)rect->x - 0x40;
-            ((S_80024104_0 *)child_work)->unk_7B = (u8)rect->y;
+            child_work->unk_7A = (u8)rect->x - 0x40;
+            child_work->unk_7B = (u8)rect->y;
         }
     }
 

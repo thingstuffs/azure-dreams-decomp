@@ -73,7 +73,7 @@ void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState 
             special_action = 1;
             if (((((S_800AAF00_2 *)((u8 *)dungeon_actor_ring_anchor))->unk_98.s32 & 0x3000) == 0x2000) &&
                 (((S_800AAF00_2 *)((u8 *)dungeon_actor_ring_anchor))->unk_A6 == 0)) {
-                ((S_800AAF00_2 *)((u8 *)dungeon_actor_ring_anchor))->unk_98.u16 |= 0x1000;
+                dungeon_actor_ring_anchor->action_state_flags |= 0x1000;
                 ((S_800AAF00_2 *)((u8 *)dungeon_actor_ring_anchor))->unk_A6++;
                 g_dungeon_status.activity_counts.parts.pending_action_count++;
             } else {

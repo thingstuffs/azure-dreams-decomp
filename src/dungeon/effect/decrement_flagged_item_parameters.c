@@ -12,7 +12,7 @@ void (*const dungeon_1966800_entry)(void *, void *) = decrement_flagged_item_par
    completion. */
 void decrement_flagged_item_parameters(void *action, void *saved_position)
 {
-    void *owner_work;
+    ObjectNodeHeader *owner_work;
     ObjectNodeHeader *owner;
     ObjectNodeHeader *effect;
     SpriteFrameState *effect_part;
@@ -62,7 +62,7 @@ void decrement_flagged_item_parameters(void *action, void *saved_position)
             effect->update_callback = &D_80024374;
             *((void **) (((u8 *) effect) + 0x20)) = action;
             register_node(effect, project_sprite_chain);
-            source_part = ((ObjectNodeHeader *) owner_work)[-1].sprite;
+            source_part = owner_work[-1].sprite;
             effect_part = effect->sprite;
             effect_part->animation_resource = source_part->animation_resource;
             effect_part->flags = source_part->flags & 0x97FF;

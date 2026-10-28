@@ -9,13 +9,13 @@
 /* Initialize the entity sprite position, scale, color, and active state. */
 void initialize_entity_sprite_effect(void *entity, EntityRec *position, SpriteFrameState *sprite, s16 unused)
 {
-    u8 *state = (u8 *)entity + 0x20;
+    S_800B22F0_1 *state = (S_800B22F0_1 *)((u8 *)entity + 0x20);
 
     sprite->room_index =
         find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
     set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
 
-    ((S_800B22F0_1 *)state)->unk_88 =
+    state->unk_88 =
         sample_terrain_surface_height(((u16)position->x.w.i), ((u16)position->y.w.i),
                       (s16)(((u16)position->z.w.i) - 0x20));
 
@@ -26,11 +26,11 @@ void initialize_entity_sprite_effect(void *entity, EntityRec *position, SpriteFr
     clear_entry_flag_and_link_owner(entity);
 
     cycle_map_cell_flags(sprite->tile_x, sprite->tile_y,
-                  (((S_800B22F0_1 *)state)->unk_1C & 0x2000) ? 0x300 : 0x3000);
+                  (state->unk_1C & 0x2000) ? 0x300 : 0x3000);
 
-    ((S_800B22F0_1 *)state)->unk_AD = 1;
-    ((S_800B22F0_1 *)state)->unk_71 = 0;
-    ((S_800B22F0_1 *)state)->unk_1C |= 0x40000000;
+    state->unk_AD = 1;
+    state->unk_71 = 0;
+    state->unk_1C |= 0x40000000;
     create_tracked_effect(entity, 0, (u8 *)sprite + 0x2C, (u8 *)entity + 0x4A);
 }
 
@@ -48,8 +48,8 @@ void *create_mode_configured_object(s16 mode, s32 part_b_byte_24, s32 part_b_byt
     s32 flags_14;
     s32 flags_1c;
     void *part_a;
-    void *obj;
-    void *work;
+    S_800B23F8_0 *obj;
+    S_800B23F8_1 *work;
     s16 init_mode;
 
     work = 0;
@@ -59,14 +59,14 @@ void *create_mode_configured_object(s16 mode, s32 part_b_byte_24, s32 part_b_byt
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     init_mode = mode;
     if (obj != 0) {
-        work = (u8 *)obj + 0x20;
-        ((S_800B23F8_0 *)obj)->unk_10 = &D_800B274C;
-        ((S_800B23F8_1 *)work)->unk_13 = 0x1E;
+        work = (S_800B23F8_1 *)((u8 *)obj + 0x20);
+        obj->unk_10 = &D_800B274C;
+        work->unk_13 = 0x1E;
         register_node(obj, project_sprite_chain);
 
-        part_a = ((S_800B23F8_0 *)obj)->unk_08;
+        part_a = obj->unk_08;
         ((S_800B23F8_2 *)part_a)->unk_0A = part_a_s16;
-        value_or_part_b = (long)((S_800B23F8_0 *)obj)->unk_0C;
+        value_or_part_b = (long)obj->unk_0C;
         kind_test = 1;
         ((SpriteFrameState *)value_or_part_b)->tile_y = byte_25;
         byte_or_work = (long)work;
@@ -74,18 +74,18 @@ void *create_mode_configured_object(s16 mode, s32 part_b_byte_24, s32 part_b_byt
 
         kind = mode & 3;
         if (kind == kind_test) {
-            flags_14 = ((S_800B23F8_1 *)work)->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            flags_1c = ((S_800B23F8_1 *)work)->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            flags_14 = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            flags_1c = work->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
         } else {
             kind_test = kind < 2;
             if (kind_test) {
                 goto post_kind;
             }
-            flags_14 = ((S_800B23F8_1 *)work)->unk_14 | ACTOR_CLASS_ENABLED;
-            flags_1c = ((S_800B23F8_1 *)work)->unk_1C | ACTOR_PLAYER_SIDE;
+            flags_14 = work->unk_14 | ACTOR_CLASS_ENABLED;
+            flags_1c = work->unk_1C | ACTOR_PLAYER_SIDE;
         }
-        ((S_800B23F8_1 *)work)->unk_14 = flags_14;
-        ((S_800B23F8_1 *)work)->unk_1C = flags_1c;
+        work->unk_14 = flags_14;
+        work->unk_1C = flags_1c;
 
 post_kind:
         initialize_entity_sprite_effect(obj, part_a, (void *)value_or_part_b, init_mode);

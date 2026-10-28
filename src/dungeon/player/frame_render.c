@@ -96,7 +96,7 @@ void queue_framebuffer_strip_quads(void) {
     u16 strip_y;
     u16 other_strip_y;
     void *packet;
-    u8 * context_slot;
+    S_80089588_2 *context_slot;
 
     alternate_buffer = (s32) g_game_work.draw_buffer != (s32) upper_draw_context;
     packet = ((Rec_D_80083160 *)g_game_work.draw_buffer)->unk_8D0;
@@ -120,7 +120,7 @@ void queue_framebuffer_strip_quads(void) {
         (*(s16 *)((u8 *)packet + 0x14)) = cmd_value;
         (*(s16 *)((u8 *)packet + 0xC)) = cmd_value;
     }
-    context_slot = (u8 *)(&g_game_work.draw_buffer);
+    context_slot = (S_80089588_2 *)(&g_game_work.draw_buffer);
     saved_alternate = alternate_buffer != 0;
     {
         register s32 strip_top;
@@ -135,7 +135,7 @@ void queue_framebuffer_strip_quads(void) {
     (*(u16 *)((u8 *)packet + 0xA)) = strip_y;
     (*(s16 *)((u8 *)packet + 0x16)) = strip_y + 0xE;
     (*(s16 *)((u8 *)packet + 0x12)) = strip_y + 0xE;
-    AddPrim(((S_80089588_2 *)context_slot)->unk_00 + 0x830, packet);
+    AddPrim(context_slot->unk_00 + 0x830, packet);
     packet += 0x18;
     {
         s32 cmd_value;
@@ -162,26 +162,26 @@ void queue_framebuffer_strip_quads(void) {
     (*(u16 *)((u8 *)packet + 0xA)) = other_strip_y;
     (*(s16 *)((u8 *)packet + 0x16)) = other_strip_y + 0xE;
     (*(s16 *)((u8 *)packet + 0x12)) = other_strip_y + 0xE;
-    AddPrim(((S_80089588_2 *)context_slot)->unk_00 + 0x7B0, packet);
+    AddPrim(context_slot->unk_00 + 0x7B0, packet);
     packet += 0x18;
     func_80067EF4(packet, 0, 1);
-    AddPrim(((S_80089588_2 *)context_slot)->unk_00 + 0x830, packet);
+    AddPrim(context_slot->unk_00 + 0x830, packet);
     packet += 0xC;
     SetDrawMode(packet, 0, 0, 0x20, 0);
-    AddPrim(((S_80089588_2 *)context_slot)->unk_00 + 0x7B0, packet);
+    AddPrim(context_slot->unk_00 + 0x7B0, packet);
     packet += 0xC;
     SetDrawMode(packet, 0, 0, 0x20, 0);
-    AddPrim(((S_80089588_2 *)context_slot)->unk_00 + 0x830, packet);
+    AddPrim(context_slot->unk_00 + 0x830, packet);
     packet += 0xC;
     draw_area[0] = 0x01C00000;
     draw_area[1] = 0x100100;
     SetDrawArea(packet, (s32) draw_area);
-    AddPrim(((S_80089588_2 *)context_slot)->unk_00 + 0x7B0, packet);
+    AddPrim(context_slot->unk_00 + 0x7B0, packet);
     packet += 0xC;
     SetDrawArea(packet, (s32) draw_area);
-    AddPrim(((S_80089588_2 *)context_slot)->unk_00 + 0x830, packet);
+    AddPrim(context_slot->unk_00 + 0x830, packet);
     packet += 0xC;
-    ((S_80089588_4 *)(((S_80089588_3 *)context_slot)->unk_00))->unk_8D0 = packet;
+    ((S_80089588_4 *)(context_slot->unk_00))->unk_8D0 = packet;
 }
 
 /* Dispatch eligible entry_m callbacks according to the current mode. */
@@ -230,7 +230,7 @@ first_scan:
         return;
     }
 
-    if (*(s32 *)((u8 *)primary_actor_record + 0x1C) & 0x10) {
+    if (primary_actor_record->flags1C & 0x10) {
         s32 i;
         Callback *special_scan;
 

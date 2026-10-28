@@ -71,8 +71,8 @@ s32 select_dungeon_spawn_tile(u8 *x_out, u8 *y_out)
 /* Advances staged entity loading and replaces the entity while transferring its state. */
 s32 advance_staged_entity_load(s32 unused, u8 *entity)
 {
-    u8 *base = (u8 *)((DungeonState *)&g_dungeon_status);
-    s32 count = ((S_800A504C_0 *)base)->unk_0A.s;
+    S_800A504C_0 *base = (S_800A504C_0 *)((DungeonState *)&g_dungeon_status);
+    s32 count = base->unk_0A.s;
     s32 offset;
     s32 load_result;
     u8 *load_spawned;
@@ -85,7 +85,7 @@ s32 advance_staged_entity_load(s32 unused, u8 *entity)
     s32 update_flags;
     s32 update_flags_2;
     s32 flags_result;
-    u8 *global_page;
+    S_800A504C_6 *global_page;
     u8 *copy_call_entity;
     s32 copy_call_zero;
     s32 scale;
@@ -95,8 +95,8 @@ s32 advance_staged_entity_load(s32 unused, u8 *entity)
     u8 *replacement;
     ObjectNodeHeader *shifted;
     u8 *entity_data;
-    u8 *mode_page;
-    u8 *record;
+    S_800A504C_2_pre *mode_page;
+    S_800A504C_5 *record;
     u8 *record_data;
     u8 *tail_dst;
     u8 *copy_src;
@@ -111,9 +111,9 @@ s32 advance_staged_entity_load(s32 unused, u8 *entity)
         return 0;
     }
 
-    mode_page = (u8 *)0x800E0000;
+    mode_page = (S_800A504C_2_pre *)0x800E0000;
     if (((S_800A504C_1 *)entity)->unk_14 & 0x4000) {
-        switch (((S_800A504C_2_pre *)mode_page)[-1].unk_00) {
+        switch (mode_page[-1].unk_00) {
         case 0:
 
         if (read_sound_mode_blocking_status(4) != 0) {
@@ -129,13 +129,13 @@ s32 advance_staged_entity_load(s32 unused, u8 *entity)
         load_monster_resource_data(((S_800A504C_1 *)entity)->unk_13, load_spawned, 0);
         entity_resource_read_complete[0] = 0;
         Control_CD(0xFF, set_byte_one, entity_resource_read_complete);
-        ((S_800A504C_2_pre *)mode_page)[-1].unk_00 = (s16)((u16)((S_800A504C_2_pre *)mode_page)[-1].unk_00 + 1);
+        mode_page[-1].unk_00 = (s16)((u16)mode_page[-1].unk_00 + 1);
         break;
 
 case 1:
         if (entity_resource_read_complete[0] != 0) {
             func_80047E30();
-            ((S_800A504C_2_pre *)mode_page)[-1].unk_00 = (s16)((u16)((S_800A504C_2_pre *)mode_page)[-1].unk_00 + 1);
+            mode_page[-1].unk_00 = (s16)((u16)mode_page[-1].unk_00 + 1);
             break;
         }
         return 0;
@@ -152,7 +152,7 @@ case 2:
         if (spawned == NULL) {
             return 0;
         }
-        base = entity;
+        base = (S_800A504C_0 *)entity;
         tail_dst = spawned;
         saved_word_5c = ((S_800A504C_3 *)tail_dst)->unk_5C;
         saved_word_58 = ((S_800A504C_3 *)tail_dst)->unk_58;
@@ -186,39 +186,39 @@ case 2:
         copy_entity_record(spawned, entity);
         ((S_800A504C_4 *)spawned)->unk_14 &= ~0x4000;
 
-        ((S_800A504C_3 *)tail_dst)->unk_8C = ((S_800A504C_0 *)base)->unk_8C;
-        ((S_800A504C_3 *)tail_dst)->unk_90 = ((S_800A504C_0 *)base)->unk_90;
-        ((S_800A504C_3 *)tail_dst)->unk_94 = ((S_800A504C_0 *)base)->unk_94;
-        ((S_800A504C_3 *)tail_dst)->unk_98 = ((S_800A504C_0 *)base)->unk_98;
-        ((S_800A504C_3 *)tail_dst)->unk_9A = ((S_800A504C_0 *)base)->unk_9A;
-        ((S_800A504C_3 *)tail_dst)->unk_9B = ((S_800A504C_0 *)base)->unk_9B;
+        ((S_800A504C_3 *)tail_dst)->unk_8C = base->unk_8C;
+        ((S_800A504C_3 *)tail_dst)->unk_90 = base->unk_90;
+        ((S_800A504C_3 *)tail_dst)->unk_94 = base->unk_94;
+        ((S_800A504C_3 *)tail_dst)->unk_98 = base->unk_98;
+        ((S_800A504C_3 *)tail_dst)->unk_9A = base->unk_9A;
+        ((S_800A504C_3 *)tail_dst)->unk_9B = base->unk_9B;
 
         offset = find_entity_slot_by_field_ac(entity);
-        record = ((u8 *)primary_actor_record);
+        record = ((S_800A504C_5 *)primary_actor_record);
         offset = (offset << 16) >> 14;
         offset += (s32)record;
-        record = (u8 *)offset;
-        ((S_800A504C_5 *)record)->unk_AC = spawned;
+        record = (S_800A504C_5 *)offset;
+        record->unk_AC = spawned;
         update_map_cell_flags_with_item_limit(entity_data[0x24], entity_data[0x25], 0x300);
         unlink_entity_node(spawned);
         shifted = spawned - 0x20;
         unlink_node(shifted);
         update_flags = 0x80000000;
         flags_result = ((S_800A504C_4 *)shifted)->unk_10.at00.v;
-        global_page = (u8 *)0x80080000;
+        global_page = (S_800A504C_6 *)0x80080000;
         ((S_800A504C_4 *)shifted)->unk_10.at00.v = flags_result | update_flags;
         update_flags = ((S_800A504C_1_pre *)entity)[-1].unk_12;
         ((S_800A504C_1_pre *)entity)[-1].unk_12 = update_flags | 0x8000;
-        update_flags_2 = ((S_800A504C_6 *)global_page)->unk_14A0;
+        update_flags_2 = global_page->unk_14A0;
         flags_result = 0;
         ((S_800A504C_7_pre *)D_800E0000)[-1].unk_00 = 0;
-        ((S_800A504C_6 *)global_page)->unk_14A0 = update_flags_2 | 0x8000;
+        global_page->unk_14A0 = update_flags_2 | 0x8000;
         return flags_result;
         default:
             return 0;
         }
     } else {
-        switch (((S_800A504C_2_pre *)mode_page)[-1].unk_00) {
+        switch (mode_page[-1].unk_00) {
         case 0:
 
         load_kind = 3;
@@ -236,7 +236,7 @@ case 2:
             entity_resource_read_complete[0] = 0;
             Control_CD(0xFF, set_byte_one, entity_resource_read_complete);
         }
-        ((S_800A504C_2_pre *)mode_page)[-1].unk_00 = (s16)((u16)((S_800A504C_2_pre *)mode_page)[-1].unk_00 + 1);
+        mode_page[-1].unk_00 = (s16)((u16)mode_page[-1].unk_00 + 1);
         break;
 
 case 1:
@@ -247,7 +247,7 @@ case 1:
             register_and_upload_sprite_resource(((S_800A504C_1 *)entity)->unk_13, loaded_entity_sprite_resource);
         }
 
-        ((S_800A504C_2_pre *)mode_page)[-1].unk_00 = (s16)((u16)((S_800A504C_2_pre *)mode_page)[-1].unk_00 + 1);
+        mode_page[-1].unk_00 = (s16)((u16)mode_page[-1].unk_00 + 1);
         break;
 
 case 2:
@@ -262,12 +262,12 @@ case 2:
         if (replacement != NULL) {
             ((S_800A504C_4 *)replacement)->unk_14 |= ACTOR_PARTY_MEMBER;
             offset = find_entity_slot_by_field_ac(entity);
-            record = ((u8 *)primary_actor_record);
+            record = ((S_800A504C_5 *)primary_actor_record);
             offset = (offset << 16) >> 14;
             offset += (s32)record;
-            record = (u8 *)offset;
-            record_data = ((S_800A504C_5 *)record)->unk_D0;
-            ((S_800A504C_5 *)record)->unk_AC = replacement;
+            record = (S_800A504C_5 *)offset;
+            record_data = record->unk_D0;
+            record->unk_AC = replacement;
             record_data[0] = ((S_800A504C_1 *)entity)->unk_13;
             (*(u8 * *)((u8 *)familiar_record_slots + (record_data[3] & 0x1F) * 4)) = replacement;
 
@@ -302,9 +302,9 @@ case 2:
             data_flags = ((S_800A504C_2 *)entity_data)->unk_14;
             sprite_resource_base = dungeon_resource_buffer;
             ((S_800A504C_2 *)entity_data)->unk_14 = data_flags & 0xFFFE;
-            remaining_count = ((S_800A504C_0 *)base)->unk_0A.u;
+            remaining_count = base->unk_0A.u;
             staged_spawn_count = count;
-            ((S_800A504C_0 *)base)->unk_0A.s = (s16)(remaining_count - 1);
+            base->unk_0A.s = (s16)(remaining_count - 1);
             (*(u16 *)((u8 *)entity + -2)) |= 0x8000;
             global_flags = object_flag_block.flags;
             ((S_800A504C_1 *)entity)->unk_90 = 0;

@@ -81,7 +81,7 @@ void create_inactive_type_twelve_object(void) {
                 Obj12State *object_state;
                 ObjectPosition *child;
                 s32 color;
-                void *config_value;
+                Obj12ConfigPage *config_value;
                 s32 config_word;
                 s32 config_word2;
                 s32 flags;
@@ -95,13 +95,13 @@ void create_inactive_type_twelve_object(void) {
                 config_value = (void *) 0x80010000;
                 render_data->scale_y = 0;
                 render_data->scale_x = 0;
-                field_value_2 = ((Obj12ConfigPage *)config_value)->unk_363C;
+                field_value_2 = config_value->unk_363C;
                 object_state = (Obj12State *)((u8 *)object + 0x20);
                 object_state->unk_1E = field_value_2;
-                field_value = ((Obj12ConfigPage *)config_value)->unk_3638;
+                field_value = config_value->unk_3638;
                 child->x.w.i = field_value;
                 object_state->unk_14 = field_value;
-                field_z = ((Obj12ConfigPage *)config_value)->unk_363A;
+                field_z = config_value->unk_363A;
                 child->y.w.i = field_z;
                 object_state->unk_16 = field_z;
                 object_state->unk_1A = 0x10;

@@ -63,9 +63,9 @@ extern M2C_UNK D_8010C984;
 void spawn_periodic_source_effect(void *source, s32 spawn_arg1, s32 spawn_arg2) {
     s16 elapsed_ticks;
     u16 remaining_ticks;
-    void *effect_position;
+    S_7FFEA1CC_2 *effect_position;
     void *effect;
-    void *render_state;
+    S_7FFEA1CC_3 *render_state;
 
     elapsed_ticks = ((S_7FFEA1CC_0 *)source)->unk_16 + 1;
     ((S_7FFEA1CC_0 *)source)->unk_16 = (u16) elapsed_ticks;
@@ -77,15 +77,15 @@ void spawn_periodic_source_effect(void *source, s32 spawn_arg1, s32 spawn_arg2) 
             ((S_7FFEA1CC_1 *)effect)->unk_40 = 0x1E;
             ((S_7FFEA1CC_1 *)effect)->unk_10 = &D_8010C460;
             effect_position = ((S_7FFEA1CC_1 *)effect)->unk_08;
-            ((S_7FFEA1CC_2 *)effect_position)->unk_0A = (u16) (((S_7FFEA1CC_2 *)effect_position)->unk_0A
+            effect_position->unk_0A = (u16) (effect_position->unk_0A
                 - (emitter_height_offsets[((S_7FFEA1CC_4 *)(((S_7FFEA1CC_0 *)source)->unk_00))->unk_13] >> 1));
             render_state = ((S_7FFEA1CC_1 *)effect)->unk_0C;
             memcpy((s8 *) effect + 0x62, &D_8010C984, 0xC);
-            ((S_7FFEA1CC_3 *)render_state)->unk_08 = (void *) (effect + 0x62);
-            ((S_7FFEA1CC_3 *)render_state)->unk_1E = 0x32C8;
-            ((S_7FFEA1CC_3 *)render_state)->unk_1C = 0x32C8;
-            ((S_7FFEA1CC_3 *)render_state)->unk_06 = 0x64;
-            ((S_7FFEA1CC_3 *)render_state)->unk_0C = 0;
+            render_state->unk_08 = (void *) (effect + 0x62);
+            render_state->unk_1E = 0x32C8;
+            render_state->unk_1C = 0x32C8;
+            render_state->unk_06 = 0x64;
+            render_state->unk_0C = 0;
         }
     }
     remaining_ticks = ((S_7FFEA1CC_0 *)source)->unk_1E - 1;

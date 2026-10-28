@@ -12,19 +12,19 @@
 void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Row_818E0800_S_818E0800_10 *actor_state)
 {
     void *actor;
-    void *actor_base;
+    Row_818E0800_S_818E0800_3 *actor_base;
     ObjectNodeHeader *entity;
     void *target;
     SpriteFrameState *render_state;
-    void *particle;
+    Row_818E0800_S_818E0800_5 *particle;
     register void *sprite_set;
     s32 particles_left;
-    register void *actor_data;
+    register Row_818E0800_S_818E0800_8 *actor_data;
     register s32 timer;
     s32 initial_state;
     s32 dispatch_state;
     s32 ground_z;
-    u8 * found_target;
+    Row_818E0800_S_818E0800_9_pre *found_target;
     s32 hit_effect;
 
     actor = ((void *)effect_arg->x.v);
@@ -33,17 +33,17 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
     timer -= 1;
     initial_state = effect_arg->z.w.i;
     effect_arg->unk_50 = timer;
-    actor_base = (u8 *)actor - 0x20;
+    actor_base = (Row_818E0800_S_818E0800_3 *)((u8 *)actor - 0x20);
 
     if (initial_state == 2) {
         target = ((Row_818E0800_S_818E0800_1 *)actor)->unk_60;
         if (target == 0) {
             ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_00.at00.v =
-                ((Row_818E0800_S_818E0800_12 *)(((Row_818E0800_S_818E0800_3 *)actor_base)->unk_08))->unk_00.at00.v;
+                ((Row_818E0800_S_818E0800_12 *)(actor_base->unk_08))->unk_00.at00.v;
             ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_04.at00.v =
-                ((Row_818E0800_S_818E0800_12 *)(((Row_818E0800_S_818E0800_3 *)actor_base)->unk_08))->unk_04.at00.v;
+                ((Row_818E0800_S_818E0800_12 *)(actor_base->unk_08))->unk_04.at00.v;
             ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_08.at00.v =
-                ((Row_818E0800_S_818E0800_13 *)(((Row_818E0800_S_818E0800_3 *)actor_base)->unk_08))->unk_08;
+                ((Row_818E0800_S_818E0800_13 *)(actor_base->unk_08))->unk_08;
         } else {
             entity = (u8 *)target - 0x20;
             ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_00.at00.v = (entity->position)->x.v;
@@ -59,19 +59,19 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
                 register_node(entity, project_sprite_chain);
                 render_state = entity->sprite;
                 entity->update_callback = shrink_spiraling_sprite_effect;
-                particle = (u8 *)entity + 0x20;
-                ((Row_818E0800_S_818E0800_5 *)particle)->unk_0C = ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_00.at02.v;
-                ((Row_818E0800_S_818E0800_5 *)particle)->unk_0E = ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_04.at02.v;
+                particle = (Row_818E0800_S_818E0800_5 *)((u8 *)entity + 0x20);
+                particle->unk_0C = ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_00.at02.v;
+                particle->unk_0E = ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_04.at02.v;
                 {
                     s32 particle_z;
                     particle_z = ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_08.at02.v;
-                    ((Row_818E0800_S_818E0800_5 *)particle)->unk_48 = 0;
-                    ((Row_818E0800_S_818E0800_5 *)particle)->unk_16 = 0;
-                    ((Row_818E0800_S_818E0800_5 *)particle)->unk_14 = 0;
+                    particle->unk_48 = 0;
+                    particle->unk_16 = 0;
+                    particle->unk_14 = 0;
                     particle_z += 0x10;
-                    ((Row_818E0800_S_818E0800_5 *)particle)->unk_10 = particle_z;
+                    particle->unk_10 = particle_z;
                 }
-                ((Row_818E0800_S_818E0800_5 *)particle)->unk_18 = rand();
+                particle->unk_18 = rand();
                 render_state->scale_y = 0x1000;
                 render_state->scale_x = 0x1000;
                 render_state->tpage_abr = 0x60;
@@ -81,7 +81,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
                 render_state->unk_04 = 0;
                 render_state->frame_ticks = 0;
                 ((Row_818E0800_S_818E0800_4 *)entity)->unk_20 = effect_arg;
-                ((Row_818E0800_S_818E0800_5 *)particle)->unk_4C = 0;
+                particle->unk_4C = 0;
             }
             particles_left -= 1;
         } while (particles_left >= 0);
@@ -93,16 +93,16 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
         if (!(((Row_818E0800_S_818E0800_14 *)(((void *)effect_arg->y.v)))->unk_00 & 0x80)) {
             return;
         }
-        found_target = (u8 *)scan_actor_along_heading(
-            actor, ((Row_818E0800_S_818E0800_8 *)actor_data)->unk_24, ((Row_818E0800_S_818E0800_8 *)actor_data)->unk_25,
+        found_target = (Row_818E0800_S_818E0800_9_pre *)scan_actor_along_heading(
+            actor, actor_data->unk_24, actor_data->unk_25,
             ((Row_818E0800_S_818E0800_1 *)actor)->unk_2A,
             (s16)get_definition_entry_byte_13(0x23));
         ((Row_818E0800_S_818E0800_1 *)actor)->unk_60 = found_target;
         if (found_target == 0) {
-            ((Row_818E0800_S_818E0800_1 *)actor)->unk_72.s = ((Row_818E0800_S_818E0800_8 *)actor_data)->unk_24;
-            ((Row_818E0800_S_818E0800_1 *)actor)->unk_73.s = ((Row_818E0800_S_818E0800_8 *)actor_data)->unk_25;
+            ((Row_818E0800_S_818E0800_1 *)actor)->unk_72.s = actor_data->unk_24;
+            ((Row_818E0800_S_818E0800_1 *)actor)->unk_73.s = actor_data->unk_25;
         } else {
-            render_state = ((Row_818E0800_S_818E0800_9_pre *)found_target)[-1].unk_00;
+            render_state = found_target[-1].unk_00;
             if (render_state->flags & 0x8000) {
                 if (actor_state->unk_14 & 0x8000) {
                     effect_arg->z.w.i = 0xF0;
@@ -113,11 +113,11 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
             ((Row_818E0800_S_818E0800_1 *)actor)->unk_73.s = render_state->tile_y;
         }
         ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_00.at02.v =
-            ((Row_818E0800_S_818E0800_12 *)(((Row_818E0800_S_818E0800_3 *)actor_base)->unk_08))->unk_00.at02.v;
+            ((Row_818E0800_S_818E0800_12 *)(actor_base->unk_08))->unk_00.at02.v;
         ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_04.at02.v =
-            ((Row_818E0800_S_818E0800_12 *)(((Row_818E0800_S_818E0800_3 *)actor_base)->unk_08))->unk_04.at02.v;
+            ((Row_818E0800_S_818E0800_12 *)(actor_base->unk_08))->unk_04.at02.v;
         ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_08.at02.v =
-            ((Row_818E0800_S_818E0800_12 *)(((Row_818E0800_S_818E0800_3 *)actor_base)->unk_08))->unk_0A;
+            ((Row_818E0800_S_818E0800_12 *)(actor_base->unk_08))->unk_0A;
         effect_arg->unk_50 = 8;
 
         {
@@ -137,7 +137,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
             ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_10.at02.v = delta_y;
         }
         ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_10.at00.v /= ((s16)effect_arg->unk_50);
-        ground_z = (s16)(((Row_818E0800_S_818E0800_12 *)(((Row_818E0800_S_818E0800_3 *)actor_base)->unk_08))->unk_0A - 0x30);
+        ground_z = (s16)(((Row_818E0800_S_818E0800_12 *)(actor_base->unk_08))->unk_0A - 0x30);
         ground_z = sample_terrain_surface_height(((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_00.at02.v,
             ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_04.at02.v, ground_z);
         ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_14.at02.v = ground_z - ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_08.at02.v;

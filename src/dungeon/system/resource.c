@@ -178,9 +178,9 @@ s32 install_resource_descriptor_at_front(s32 resource_kind, s32 resource_group, 
     shift_resource_entries_and_data(entry, alloc_size);
     func_8008AC84(entry + 1);
     resource_cache_records[0].field_0 = resource_kind;
-    ((ovl_d54c_7FFED850_S_8008AFB0_0 *)(&resource_cache_records[0]))->unk_01 = resource_group;
-    ((ovl_d54c_7FFED850_S_8008AFB0_0 *)(&resource_cache_records[0]))->unk_02 = resource_id;
-    ((ovl_d54c_7FFED850_S_8008AFB0_0 *)(&resource_cache_records[0]))->unk_04 = alloc_size;
+    resource_cache_records[0].field_1 = resource_group;
+    resource_cache_records[0].field_2 = resource_id;
+    resource_cache_records[0].field_4 = alloc_size;
     start_cd_read(resource, town_resource_buffer[0]);
     return 0;
 }

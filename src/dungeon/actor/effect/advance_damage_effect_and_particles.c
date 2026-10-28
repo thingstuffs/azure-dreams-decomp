@@ -72,7 +72,7 @@ void advance_damage_effect_and_particles(void *effect, ObjectPosition *context, 
     u8 red_2;
     u8 phase;
     void *effect_base;
-    void *actor_state;
+    S_800CABA8_2 *actor_state;
     void *actor_or_green;
     void *actor_or_green_2;
 
@@ -83,11 +83,11 @@ void advance_damage_effect_and_particles(void *effect, ObjectPosition *context, 
     case 0:
         ((S_800CABA8_0 *)effect)->unk_B8 = 1;
         if (record->flags & 0x8000) {
-            resolve_attack_damage_and_effects(actor_state, record, ((S_800CABA8_2 *)actor_state)->unk_2A, 0);
+            resolve_attack_damage_and_effects(actor_state, record, actor_state->unk_2A, 0);
             ((S_800CABA8_0 *)effect)->unk_9B = 4U;
             return;
         }
-        ((S_800CABA8_0 *)effect)->unk_B0 = (u16) ((S_800CABA8_2 *)actor_state)->unk_2A;
+        ((S_800CABA8_0 *)effect)->unk_B0 = (u16) actor_state->unk_2A;
         ((S_800CABA8_0 *)effect)->unk_9B = (u8) (((S_800CABA8_0 *)effect)->unk_9B + 1);
     case 1:
         ((S_800CABA8_0 *)effect)->unk_98 |= 8;
@@ -107,7 +107,7 @@ void advance_damage_effect_and_particles(void *effect, ObjectPosition *context, 
         effect_base = effect - 0x20;
         ((S_800CABA8_0 *)effect)->unk_A0.at00.v = (s32) (((S_800CABA8_0 *)effect)->unk_A0.at00.v
             - (((S_800CABA8_0 *)effect)->unk_A0.at00.v / (s16) ((S_800CABA8_0 *)effect)->timer.half.ticks));
-        spawn_salam_particles(effect_base, ((S_800CABA8_2 *)actor_state)->unk_2A, ((S_800CABA8_0 *)effect)->unk_AC.at00.v);
+        spawn_salam_particles(effect_base, actor_state->unk_2A, ((S_800CABA8_0 *)effect)->unk_AC.at00.v);
         create_source_linked_fading_effect(effect_base, 1);
         red_2 = (u8) ((S_800CABA8_0 *)effect)->unk_AC.at00.v;
         red_step = (s32) (0xE0 - red_2) / (s16) ((S_800CABA8_0 *)effect)->timer.half.ticks;
@@ -126,7 +126,7 @@ void advance_damage_effect_and_particles(void *effect, ObjectPosition *context, 
         if ((fade_ticks_left << 0x10) > 0) {
             return;
         }
-        resolve_attack_damage_and_effects(actor_state, record, ((S_800CABA8_2 *)actor_state)->unk_2A, 0);
+        resolve_attack_damage_and_effects(actor_state, record, actor_state->unk_2A, 0);
         phase_or_ticks = ((S_800CABA8_0 *)effect)->unk_9B;
         next_duration = 4;
         ((S_800CABA8_0 *)effect)->timer.half.ticks = next_duration;
@@ -134,8 +134,8 @@ void advance_damage_effect_and_particles(void *effect, ObjectPosition *context, 
         ((S_800CABA8_0 *)effect)->unk_9B = (u8) (phase_or_ticks + 1);
         return;
     case 3:
-        if ((s16) ((S_800CABA8_0 *)effect)->unk_B0 != ((S_800CABA8_2 *)actor_state)->unk_2A) {
-            ((S_800CABA8_2 *)actor_state)->unk_2A = (s16) ((u16) ((S_800CABA8_2 *)actor_state)->unk_2A + 0x200);
+        if ((s16) ((S_800CABA8_0 *)effect)->unk_B0 != actor_state->unk_2A) {
+            actor_state->unk_2A = (s16) ((u16) actor_state->unk_2A + 0x200);
             rotation_done = 0;
         } else {
             rotation_done = 1;
@@ -171,7 +171,7 @@ void advance_damage_effect_and_particles(void *effect, ObjectPosition *context, 
         ((S_800CABA8_0 *)effect)->unk_A0.at02.v = 0U;
         set_record_integer_tile_center(context, record->tile_x, record->tile_y);
         g_dungeon_status.active_actor = 0;
-        ((S_800CABA8_2 *)actor_state)->unk_46 = (u16) ((((S_800CABA8_2 *)actor_state)->unk_46) & 0x7FFF);
+        actor_state->unk_46 = (u16) ((actor_state->unk_46) & 0x7FFF);
         advance_status_timers(actor_state);
         cycles_left = ((S_800CABA8_0 *)effect)->unk_B6 - 1;
         ((S_800CABA8_0 *)effect)->unk_B6 = cycles_left;

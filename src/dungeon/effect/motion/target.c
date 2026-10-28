@@ -119,7 +119,7 @@ s32 render_linked_jittered_effect_strips(void *node_data) {
         Row_818E747C_Point2 *jitter_corner;
         Row_818E747C_Point2 *jitter_point;
         Row_818E747C_Point2 *segment_start;
-        u8 *node;
+        Row_818E747C_S_80024C7C_0 *node;
         GameWork *global_base;
         s32 corner_index;
         s32 segment_index;
@@ -137,16 +137,16 @@ s32 render_linked_jittered_effect_strips(void *node_data) {
         screen_base = screen_points;
         strip_base = strip_points;
 
-        world_points[4].x = (s16)(((Row_818E747C_S_80024C7C_0 *)node)->unk_0C + 0x20);
-        world_points[4].y = (s16)(((Row_818E747C_S_80024C7C_0 *)node)->unk_0E + 0x20);
-        world_points[4].z = ((Row_818E747C_S_80024C7C_0 *)node)->unk_10.s;
+        world_points[4].x = (s16)(node->unk_0C + 0x20);
+        world_points[4].y = (s16)(node->unk_0E + 0x20);
+        world_points[4].z = node->unk_10.s;
         for (corner_index = 3; corner_index >= 0; corner_index--) {
-            world_base[corner_index].x = (s16)(((Row_818E747C_S_80024C7C_0 *)node)->unk_0C +
+            world_base[corner_index].x = (s16)(node->unk_0C +
                                     ((corner_index >> 1) << 6));
-            world_base[corner_index].y = (s16)(((Row_818E747C_S_80024C7C_0 *)node)->unk_0E +
+            world_base[corner_index].y = (s16)(node->unk_0E +
                                     ((corner_index % 2) << 6));
-            world_base[corner_index].z = (s16)(((Row_818E747C_S_80024C7C_0 *)node)->unk_10.u +
-                                    ((Row_818E747C_S_80024C7C_0 *)node)->unk_4A);
+            world_base[corner_index].z = (s16)(node->unk_10.u +
+                                    node->unk_4A);
         }
         func_80065770(world_points, screen_points, depths, scratch, projection_aux, 5);
 
@@ -198,63 +198,63 @@ s32 render_linked_jittered_effect_strips(void *node_data) {
                         s16 vertex_y;
                         s16 tex_coord;
                         s32 next_index;
-                        void *primitive;
+                        Row_818E747C_S_80024C7C_3 *primitive;
                         u32 primitive_color;
 
                         {
-                            void *context = global_base->draw_buffer;
-                            primitive = ((Row_818E747C_S_80024C7C_2 *)context)->unk_8D0;
-                            ((Row_818E747C_S_80024C7C_2 *)context)->unk_8D0 =
+                            Row_818E747C_S_80024C7C_2 *context = global_base->draw_buffer;
+                            primitive = context->unk_8D0;
+                            context->unk_8D0 =
                                 (void *)((u8 *)primitive + 0x34);
                         }
                         primitive_color = 0x00808080;
-                        ((Row_818E747C_S_80024C7C_3 *)primitive)->unk_04 = primitive_color;
+                        primitive->unk_04 = primitive_color;
                         SetPolyFT4(primitive);
                         SetSemiTrans(primitive, 1);
-                        ((Row_818E747C_S_80024C7C_3 *)primitive)->unk_16 =
+                        primitive->unk_16 =
                             GetTPage(0, 1, 0x2C0, 0x100);
-                        ((Row_818E747C_S_80024C7C_3 *)primitive)->unk_0E = GetClut(0xA0, 0x1F7);
+                        primitive->unk_0E = GetClut(0xA0, 0x1F7);
 
                         vertex_y = segment_start->y;
-                        ((Row_818E747C_S_80024C7C_3 *)primitive)->unk_1A = (u16)vertex_y;
-                        ((Row_818E747C_S_80024C7C_3 *)primitive)->unk_0A = (u16)vertex_y;
+                        primitive->unk_1A = (u16)vertex_y;
+                        primitive->unk_0A = (u16)vertex_y;
                         next_index = segment_index + 1;
                         segment_end = &strip_base[next_index];
                         vertex_y = segment_end->y;
-                        ((Row_818E747C_S_80024C7C_3 *)primitive)->unk_22 = (u16)vertex_y;
-                        ((Row_818E747C_S_80024C7C_3 *)primitive)->unk_12 = (u16)vertex_y;
+                        primitive->unk_22 = (u16)vertex_y;
+                        primitive->unk_12 = (u16)vertex_y;
 
                         step = ((s32)((Row_818E747C_S_80024C7C_4 *)((u8 *)screen_base + screen_offset))->unk_02 -
                                       (s32)screen_points[4].y) >> 4;
                         if (step == 0) {
                             step = 1;
                         }
-                        ((Row_818E747C_S_80024C7C_3 *)primitive)->unk_08 =
+                        primitive->unk_08 =
                             (u16)(segment_start->x - step);
-                        ((Row_818E747C_S_80024C7C_3 *)primitive)->unk_10 =
+                        primitive->unk_10 =
                             (u16)(segment_end->x - step);
-                        ((Row_818E747C_S_80024C7C_3 *)primitive)->unk_18 =
-                            (s16)(((Row_818E747C_S_80024C7C_3 *)primitive)->unk_08 + step);
-                        ((Row_818E747C_S_80024C7C_3 *)primitive)->unk_20 =
-                            (s16)(((Row_818E747C_S_80024C7C_3 *)primitive)->unk_10 + step);
+                        primitive->unk_18 =
+                            (s16)(primitive->unk_08 + step);
+                        primitive->unk_20 =
+                            (s16)(primitive->unk_10 + step);
 
-                        tex_coord = ((Row_818E747C_S_80024C7C_0 *)node)->unk_40;
-                        ((Row_818E747C_S_80024C7C_3 *)primitive)->unk_1C = (u8)tex_coord;
-                        ((Row_818E747C_S_80024C7C_3 *)primitive)->unk_0C = (u8)tex_coord;
-                        tex_coord = (s16)(tex_coord + ((Row_818E747C_S_80024C7C_0 *)node)->unk_44);
-                        ((Row_818E747C_S_80024C7C_3 *)primitive)->unk_24 = (s8)tex_coord;
-                        ((Row_818E747C_S_80024C7C_3 *)primitive)->unk_14 = (s8)tex_coord;
-                        tex_coord = ((Row_818E747C_S_80024C7C_0 *)node)->unk_42;
-                        ((Row_818E747C_S_80024C7C_3 *)primitive)->unk_15 = (u8)tex_coord;
-                        ((Row_818E747C_S_80024C7C_3 *)primitive)->unk_0D = (u8)tex_coord;
-                        tex_coord = (s16)(tex_coord + ((Row_818E747C_S_80024C7C_0 *)node)->unk_46);
-                        ((Row_818E747C_S_80024C7C_3 *)primitive)->unk_25 = (s8)tex_coord;
-                        ((Row_818E747C_S_80024C7C_3 *)primitive)->unk_1D = (s8)tex_coord;
+                        tex_coord = node->unk_40;
+                        primitive->unk_1C = (u8)tex_coord;
+                        primitive->unk_0C = (u8)tex_coord;
+                        tex_coord = (s16)(tex_coord + node->unk_44);
+                        primitive->unk_24 = (s8)tex_coord;
+                        primitive->unk_14 = (s8)tex_coord;
+                        tex_coord = node->unk_42;
+                        primitive->unk_15 = (u8)tex_coord;
+                        primitive->unk_0D = (u8)tex_coord;
+                        tex_coord = (s16)(tex_coord + node->unk_46);
+                        primitive->unk_25 = (s8)tex_coord;
+                        primitive->unk_1D = (s8)tex_coord;
 
                         {
                             void *context = global_base->draw_buffer;
-                            ((Row_818E747C_S_80024C7C_3 *)primitive)->unk_00.s = (s32)(
-                                (((Row_818E747C_S_80024C7C_3 *)primitive)->unk_00.u & 0xFF000000) |
+                            primitive->unk_00.s = (s32)(
+                                (primitive->unk_00.u & 0xFF000000) |
                                 (((Row_818E747C_S_80024C7C_5 *)((u8 *)(ot_offset + (unsigned long)context)))->unk_B0 &
                                  address_mask));
                         }

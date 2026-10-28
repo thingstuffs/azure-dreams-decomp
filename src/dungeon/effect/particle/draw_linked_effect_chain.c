@@ -53,11 +53,11 @@ void project_vertex_shaded_effect_quad(void *quad, void *position, void *render_
         ((u32)packet & 0x00FFFFFF);
 
     {
-        u8 *render_context;
+        Row_819A088C_S_819A088C_5 *render_context;
 
         render_context = g_game_work.draw_buffer;
-        packet = ((Row_819A088C_S_819A088C_5 *)render_context)->unk_8D0;
-        ((Row_819A088C_S_819A088C_5 *)render_context)->unk_8D0 = packet + 0x24;
+        packet = render_context->unk_8D0;
+        render_context->unk_8D0 = packet + 0x24;
     }
 
     ((Row_819A088C_S_819A088C_0 *)scratch)->unk_B0 = ((Row_819A088C_S_819A088C_6 *)quad)->unk_54;
@@ -236,7 +236,7 @@ void fade_moving_effect(void *effect, Row_819A0EF0_S_800246F0_2 *motion, SpriteF
     motion->unk_04 = y + dy;
     if (((Row_819A0EF0_S_800246F0_0 *)effect)->unk_3A.u <= 0) {
         ((Row_819A0EF0_S_800246F0_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        ((Row_819A0EF0_S_800246F0_3 *)((u8 *)(&object_flag_block)))->unk_00 |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }
 
@@ -265,27 +265,27 @@ void shrink_effect_and_spawn_particles(Row_819A0FC0_S_func_819A0FC0_0 *fadeState
    ends. */
 void fade_quad_vertex_colors(void *fade_data)
 {
-    void *fade;
+    Row_819A1034_S_819A1034_0 *fade;
     s32 color_index;
     u16 ticks_left;
 
     fade = fade_data;
-    ticks_left = ((Row_819A1034_S_819A1034_0 *)fade)->unk_3A.s;
+    ticks_left = fade->unk_3A.s;
     (*(s16 *)linked_effect_update_flag) = 1;
     ticks_left--;
-    ((Row_819A1034_S_819A1034_0 *)fade)->unk_3A.s = ticks_left;
+    fade->unk_3A.s = ticks_left;
     for (color_index = 0; color_index < 4; color_index++) {
         ((Row_819A1034_S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_0C =
-            ((Row_819A1034_S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_1C * ((Row_819A1034_S_819A1034_0 *)fade)->unk_3A.u /
-            ((Row_819A1034_S_819A1034_0 *)fade)->unk_3C;
+            ((Row_819A1034_S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_1C * fade->unk_3A.u /
+            fade->unk_3C;
         ((Row_819A1034_S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_0D =
-            ((Row_819A1034_S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_1D * ((Row_819A1034_S_819A1034_0 *)fade)->unk_3A.u /
-            ((Row_819A1034_S_819A1034_0 *)fade)->unk_3C;
+            ((Row_819A1034_S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_1D * fade->unk_3A.u /
+            fade->unk_3C;
         ((Row_819A1034_S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_0E =
-            ((Row_819A1034_S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_1E * ((Row_819A1034_S_819A1034_0 *)fade)->unk_3A.u /
-            ((Row_819A1034_S_819A1034_0 *)fade)->unk_3C;
+            ((Row_819A1034_S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_1E * fade->unk_3A.u /
+            fade->unk_3C;
     }
-    if (((Row_819A1034_S_819A1034_0 *)fade)->unk_3A.u <= 0) {
+    if (fade->unk_3A.u <= 0) {
         (*(u16 *)((u8 *)fade + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -297,7 +297,7 @@ void advance_object_motion_and_animation(void *effect) {
     s32 elapsed_ticks;
     s32 color_index;
     u16 ticks_left;
-    void *color_ptr;
+    Row_819A1118_S_819A1118_1 *color_ptr;
 
     ticks_left = ((Row_819A1118_S_819A1118_0 *)effect)->unk_3A - 1;
     ((s16 *)linked_effect_update_flag)[0] = 1;
@@ -324,13 +324,13 @@ void advance_object_motion_and_animation(void *effect) {
             - (s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3A)) / (s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3E));
     }
     for (color_index = 0; color_index < 4; color_index++) {
-        color_ptr = (u8 *)effect + color_index * 4;
-        ((Row_819A1118_S_819A1118_1 *)color_ptr)->unk_0C =
-            (s8) ((s32) (((Row_819A1118_S_819A1118_1 *)color_ptr)->unk_1C * (s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3A) / (s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3C);
-        ((Row_819A1118_S_819A1118_1 *)color_ptr)->unk_0D =
-            (s8) ((s32) (((Row_819A1118_S_819A1118_1 *)color_ptr)->unk_1D * (s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3A) / (s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3C);
-        ((Row_819A1118_S_819A1118_1 *)color_ptr)->unk_0E =
-            (s8) ((s32) (((Row_819A1118_S_819A1118_1 *)color_ptr)->unk_1E * (s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3A) / (s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3C);
+        color_ptr = (Row_819A1118_S_819A1118_1 *)((u8 *)effect + color_index * 4);
+        color_ptr->unk_0C =
+            (s8) ((s32) (color_ptr->unk_1C * (s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3A) / (s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3C);
+        color_ptr->unk_0D =
+            (s8) ((s32) (color_ptr->unk_1D * (s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3A) / (s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3C);
+        color_ptr->unk_0E =
+            (s8) ((s32) (color_ptr->unk_1E * (s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3A) / (s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3C);
     }
     if ((s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3A <= 0) {
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((Row_819A1118_S_819A1118_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
@@ -392,15 +392,15 @@ void create_rotating_directional_sprite(Row_819A1450_S_819A1450_4 *source, s32 u
     ObjectNodeHeader *node;
     SpriteFrameState *part;
     ObjectPosition *coords;
-    u8 *setup;
+    Row_819A1450_S_819A1450_0 *setup;
     s16 direction;
 
     direction_table = D_80024034;
     node = allocate_flagged_object_node(0x212);
     if (node != 0) {
-        setup = (u8 *)node + 0x20;
-        ((Row_819A1450_S_819A1450_0 *)setup)->unk_3A = 5;
-        ((Row_819A1450_S_819A1450_0 *)setup)->unk_3C = 5;
+        setup = (Row_819A1450_S_819A1450_0 *)((u8 *)node + 0x20);
+        setup->unk_3A = 5;
+        setup->unk_3C = 5;
         node->update_callback = D_800246F0;
         register_node(node, project_sprite_chain);
 

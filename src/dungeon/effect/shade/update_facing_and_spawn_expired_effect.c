@@ -51,7 +51,7 @@ void update_facing_and_spawn_expired_effect(void *state, MovingPosition *positio
     void *direction_frames;
     u16 ticks_left;
     SpriteFrameState *effect_render;
-    void *owner;
+    S_800D58D8_6 *owner;
     ObjectPosition *effect_pos;
     ObjectNodeHeader *effect;
 
@@ -86,7 +86,7 @@ void update_facing_and_spawn_expired_effect(void *state, MovingPosition *positio
             effect_render->depth_bias = (u16) *(u16 *)&sprite->depth_bias;
             effect->update_callback = &D_800D586C;
             owner = ((S_800D58D8_0_pre *)state)[-1].unk_00;
-            if (resolve_record_orientation_or_fallback(((S_800D58D8_6 *)owner)->unk_08, owner, &delta, 0) != 0) {
+            if (resolve_record_orientation_or_fallback(owner->unk_08, owner, &delta, 0) != 0) {
                 effect_pos->x.w.i = (u16) ((u16)effect_pos->x.w.i + delta.x);
                 effect_pos->y.w.i = (u16) ((u16)effect_pos->y.w.i + delta.y);
                 effect_pos->z.w.i = (u16) ((u16)effect_pos->z.w.i + delta.z);

@@ -212,7 +212,7 @@ void clear_listed_tile_flags(void) {
 /* Processes directions around the current position based on the facing angle. */
 void process_current_facing_directions(void) {
     GameWork *state;
-    s8 *direction_work;
+    S_800D13B8_1 *direction_work;
     s32 next_axis_direction;
     s32 axis_index = 0;
     u16 *y_step;
@@ -234,12 +234,12 @@ void process_current_facing_directions(void) {
     u16 *diagonal_x_step;
 
     state = &g_game_work;
-    direction_work = (u8 *)state + 0x18;
+    direction_work = (S_800D13B8_1 *)((u8 *)state + 0x18);
     if (runtime_update_saved_vectors() != 0) {
         facing = 2 - ((s32) (state->view.camera_rotation.parts.viewAngle + 0x100) >> 9);
         clear_listed_tile_flags();
-        coord_x = (u16) ((S_800D13B8_1 *)direction_work)->unk_A4 >> 6;
-        coord_y = (u16) ((S_800D13B8_1 *)direction_work)->unk_A6 >> 6;
+        coord_x = (u16) direction_work->unk_A4 >> 6;
+        coord_y = (u16) direction_work->unk_A6 >> 6;
         direction = facing & 7;
         if (facing & 1) {
             diagonal_x = coord_x;

@@ -502,7 +502,7 @@ typedef struct S_818330F0_3 {
 void update_homing_brightening_effect(void *effect, void *position, SpriteFrameState *primitive) {
     s16 target_z;
     s16 current_z;
-    void *owner;
+    S_818330F0_3 *owner;
 
     ((SignedPositionView *)position)->x = (s16) ((u16) ((SignedPositionView *)position)->x
         + ((((S_818330F0_1 *)effect)->unk_0C - ((SignedPositionView *)position)->x) / 12));
@@ -515,7 +515,7 @@ void update_homing_brightening_effect(void *effect, void *position, SpriteFrameS
     primitive->color.word = (s32) (primitive->color.word
         + 0xC0C0C);
     owner = ((S_818330F0_1 *)effect)->unk_00;
-    ((S_818330F0_3 *)owner)->unk_52 = (u16) (((S_818330F0_3 *)owner)->unk_52 | 0x8000);
+    owner->unk_52 = (u16) (owner->unk_52 | 0x8000);
     advance_sprite_animation_and_textures(primitive);
     if ((u8) primitive->color.word >= 0x91U) {
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((u16 *)effect)[-1] | NODE_REMOVE);

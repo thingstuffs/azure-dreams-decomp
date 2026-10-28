@@ -821,7 +821,7 @@ void process_five_context_entries_or_fallback(void *effect, void *unused, void *
     PackedVector *source_ptr;
     PackedVector *render_source;
     Pair16 *derived_ptr;
-    void *output = primitive;
+    S_80025398_1 *output = primitive;
     Pair16 derived;
     s32 frame;
     s32 peak_frame;
@@ -848,23 +848,23 @@ void process_five_context_entries_or_fallback(void *effect, void *unused, void *
 
     if (frame < peak_frame) {
         fade_in = (frame << 7) / peak_frame;
-        ((S_80025398_1 *)output)->unk_1C.s += 0x50;
-        ((S_80025398_1 *)output)->unk_1E.s += 0x50;
-        ((S_80025398_1 *)output)->unk_0E.s = fade_in;
-        ((S_80025398_1 *)output)->unk_0D.s = fade_in;
-        ((S_80025398_1 *)output)->unk_0C.s = fade_in;
+        output->unk_1C.s += 0x50;
+        output->unk_1E.s += 0x50;
+        output->unk_0E.s = fade_in;
+        output->unk_0D.s = fade_in;
+        output->unk_0C.s = fade_in;
     } else {
         end_frame = ((S_80025398_0 *)effect)->unk_02;
         fade_out = ((end_frame - frame) << 7) / (end_frame - peak_frame);
-        vertex_x = ((S_80025398_1 *)output)->unk_1C.u;
-        vertex_y = ((S_80025398_1 *)output)->unk_1E.u;
+        vertex_x = output->unk_1C.u;
+        vertex_y = output->unk_1E.u;
         vertex_x += 0x50;
         vertex_y += 0x50;
-        ((S_80025398_1 *)output)->unk_1C.s = vertex_x;
-        ((S_80025398_1 *)output)->unk_1E.s = vertex_y;
-        ((S_80025398_1 *)output)->unk_0E.u = fade_out;
-        ((S_80025398_1 *)output)->unk_0D.u = fade_out;
-        ((S_80025398_1 *)output)->unk_0C.u = fade_out;
+        output->unk_1C.s = vertex_x;
+        output->unk_1E.s = vertex_y;
+        output->unk_0E.u = fade_out;
+        output->unk_0D.u = fade_out;
+        output->unk_0C.u = fade_out;
     }
 
     angle = ((S_80025398_0 *)effect)->unk_98;
@@ -893,7 +893,7 @@ void process_five_context_entries_or_fallback(void *effect, void *unused, void *
     switch (state) {
     case 0:
         ((S_80025398_0 *)effect)->unk_00.p = next_state;
-        ((S_80025398_1 *)output)->unk_14 &= 0xFF7F;
+        output->unk_14 &= 0xFF7F;
         break;
     case 1:
         break;
@@ -1039,9 +1039,9 @@ void update_timed(void *state, void *position_out, void *effect_arg) {
     u8 intensity;
     s16 frame_or_phase;
     u16 effect_flags;
-    void *owner;
-    void *motion;
-    void *owner_position;
+    S_818F9E48_2_pre *owner;
+    S_818F9E48_5 *motion;
+    S_818F9E48_4 *owner_position;
     u16 saved_scale_x;
     u16 saved_scale_y;
     s32 one;
@@ -1082,23 +1082,23 @@ void update_timed(void *state, void *position_out, void *effect_arg) {
 
     ((S_818F9E48_0 *)state)->unk_9A += 4;
     owner = ((S_818F9E48_0 *)state)->unk_2C;
-    owner_position = ((S_818F9E48_2_pre *)owner)[-1].unk_00;
-    motion = ((S_818F9E48_2_pre *)owner)[-1].unk_04;
-    ((S_818F9E48_3 *)position_out)->unk_00 = ((S_818F9E48_4 *)owner_position)->unk_00;
-    ((S_818F9E48_3 *)position_out)->unk_04 = ((S_818F9E48_4 *)owner_position)->unk_04;
-    ((S_818F9E48_3 *)position_out)->unk_08 = ((S_818F9E48_4 *)owner_position)->unk_08;
+    owner_position = owner[-1].unk_00;
+    motion = owner[-1].unk_04;
+    ((S_818F9E48_3 *)position_out)->unk_00 = owner_position->unk_00;
+    ((S_818F9E48_3 *)position_out)->unk_04 = owner_position->unk_04;
+    ((S_818F9E48_3 *)position_out)->unk_08 = owner_position->unk_08;
 
     switch (((S_818F9E48_0 *)state)->unk_00.s) {
     case 0:
     ((S_818F9E48_0 *)state)->unk_00.u++;
     effect_flags = ((S_818F9E48_1 *)effect_arg)->unk_14 & 0xFF7F;
     ((S_818F9E48_1 *)effect_arg)->unk_14 = effect_flags;
-    ((S_818F9E48_1 *)effect_arg)->unk_14 = effect_flags | (((S_818F9E48_5 *)motion)->unk_14 & 0xC);
-    ((S_818F9E48_1 *)effect_arg)->unk_10 = ((S_818F9E48_5 *)motion)->unk_10;
-    ((S_818F9E48_1 *)effect_arg)->unk_0C = ((S_818F9E48_5 *)motion)->unk_0C;
-    ((S_818F9E48_1 *)effect_arg)->unk_0D = ((S_818F9E48_5 *)motion)->unk_0D;
-    ((S_818F9E48_1 *)effect_arg)->unk_0E = ((S_818F9E48_5 *)motion)->unk_0E;
-    ((S_818F9E48_5 *)motion)->unk_14 |= 0x80;
+    ((S_818F9E48_1 *)effect_arg)->unk_14 = effect_flags | (motion->unk_14 & 0xC);
+    ((S_818F9E48_1 *)effect_arg)->unk_10 = motion->unk_10;
+    ((S_818F9E48_1 *)effect_arg)->unk_0C = motion->unk_0C;
+    ((S_818F9E48_1 *)effect_arg)->unk_0D = motion->unk_0D;
+    ((S_818F9E48_1 *)effect_arg)->unk_0E = motion->unk_0E;
+    motion->unk_14 |= 0x80;
         break;
     case 1:
         break;
@@ -1108,22 +1108,22 @@ void update_timed(void *state, void *position_out, void *effect_arg) {
     one = 1;
     anchor.x = origin.x + ((s16)origin.z >> 1);
     anchor.y = origin.y + 0x48;
-    saved_scale_x = ((S_818F9E48_5 *)motion)->unk_1C;
-    saved_scale_y = ((S_818F9E48_5 *)motion)->unk_1E;
+    saved_scale_x = motion->unk_1C;
+    saved_scale_y = motion->unk_1E;
     ((S_818F9E48_1 *)effect_arg)->unk_1C = saved_scale_x;
-    ((S_818F9E48_1 *)effect_arg)->unk_1E = ((S_818F9E48_5 *)motion)->unk_1E;
-    ((S_818F9E48_5 *)motion)->unk_1E = 0x1000;
-    ((S_818F9E48_5 *)motion)->unk_1C = 0x1000;
+    ((S_818F9E48_1 *)effect_arg)->unk_1E = motion->unk_1E;
+    motion->unk_1E = 0x1000;
+    motion->unk_1C = 0x1000;
     move_linked_effect_along_path(state, ((S_818F9E48_0 *)state)->unk_2C, &origin, &anchor, one, one);
-    ((S_818F9E48_5 *)motion)->unk_1C = saved_scale_x;
-    ((S_818F9E48_5 *)motion)->unk_1E = saved_scale_y;
+    motion->unk_1C = saved_scale_x;
+    motion->unk_1E = saved_scale_y;
 
     frame_or_phase = ((S_818F9E48_0 *)state)->unk_02.u + 1;
     ((S_818F9E48_0 *)state)->unk_02.u = frame_or_phase;
     if (frame_or_phase >= 0x65) {
         ((S_818F9E48_0 *)state)->unk_02.u = 0;
         ((S_818F9E48_0 *)state)->unk_00.u++;
-        ((S_818F9E48_5 *)motion)->unk_14 &= 0xFF7F;
+        motion->unk_14 &= 0xFF7F;
         ((S_818F9E48_6 *)(((S_818F9E48_0 *)state)->unk_30))->unk_9C = one;
         (*(u16 *)((u8 *)state + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

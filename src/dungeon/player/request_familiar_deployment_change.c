@@ -53,7 +53,7 @@ s32 request_familiar_deployment_change(void *actor, s32 param_a, void *param_b, 
     void *call_result;
     FamiliarItemSlotView *entry;
     void *hdr;
-    void *hdr3;
+    Rec_func_8008ACDC_arg0 *hdr3;
 
     ((Rec_func_8008ACDC_arg0 *)actor)->unk_8A = (s16) slot;
     if (reject_forbidden_familiar_recall(0) == 0) {
@@ -114,7 +114,7 @@ finish:
                 play_sound_if_enabled(0x506);
                 return 1;
             }
-            ((Rec_func_8008ACDC_arg0 *)hdr3)->unk_C8 = 0;
+            hdr3->unk_C8 = 0;
             reference_tile_object.selected_item = (s32) item;
             begin_familiar_deployment_change(actor, param_a, param_b, out_a, (s32) out_b);
             clear_player_linked_action_flags();

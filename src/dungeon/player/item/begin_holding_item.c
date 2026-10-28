@@ -89,7 +89,7 @@ void *begin_holding_item(void *actor, void *action, void *target, void *item)
     register ObjectNodeHeader *result;
     void *message_id;
     ObjectPosition *primitive;
-    void *state;
+    S_80098CF8_5 *state;
     void *text_cursor;
 
     actor_state = actor;
@@ -149,19 +149,19 @@ print_message:
         message = target;
         primitive->z.w.i = height - 0x30;
 
-        state = (u8 *)result + 0x20;
+        state = (S_80098CF8_5 *)((u8 *)result + 0x20);
         {
             register s32 data_word;
             u8 *sound_table;
             data_word = ((S_80098CF8_1 *)item)->unk_00.at00.v;
-            ((S_80098CF8_5 *)state)->unk_AC = 1;
-            ((S_80098CF8_5 *)state)->unk_90 = message;
-            ((S_80098CF8_5 *)state)->unk_8C = action;
-            ((S_80098CF8_5 *)state)->unk_A8 = 6;
-            ((S_80098CF8_5 *)state)->unk_98 = data_word;
+            state->unk_AC = 1;
+            state->unk_90 = message;
+            state->unk_8C = action;
+            state->unk_A8 = 6;
+            state->unk_98 = data_word;
             ((S_80098CF8_6 *)actor)->unk_BC = item;
             target_arg = (void *)((S_80098CF8_1 *)item)->unk_00.at00.v;
-            ((S_80098CF8_5 *)state)->unk_9C = held_item_record;
+            state->unk_9C = held_item_record;
             ((S_80098CF8_6 *)actor)->unk_8C = 0;
             ((S_80098CF8_6 *)actor)->unk_124 = 0;
             *(s32 *)held_item_record = (s32)target_arg;

@@ -50,9 +50,9 @@ s32 decrement_flagged_item_parameters(DungeonObject *object) {
 void update_random_particle_field(void *self, void *output)
 {
     Copy24 *copy_src;
-    void *effect;
-    void *output_data;
-    void *search_origin;
+    S_81934928_5 *effect;
+    Copy24 *output_data;
+    S_81934928_3 *search_origin;
     void *target;
     ObjectNodeHeader *particle;
     s32 rand_quotient;
@@ -75,7 +75,7 @@ void update_random_particle_field(void *self, void *output)
         }
         {
             ObjectPosition *copy_page;
-            *(Copy24 *)output_data = *(Copy24 *)&view_reference_entity;
+            *output_data = *(Copy24 *)&view_reference_entity;
             copy_page = &view_reference_entity;
             ((S_81934928_0 *)self)->unk_10.s = ((u16)copy_page->x.w.i);
             ((S_81934928_0 *)self)->unk_12.s = ((u16)copy_page->y.w.i);
@@ -98,7 +98,7 @@ void update_random_particle_field(void *self, void *output)
             if (particle != NULL) {
                 particle->update_callback = random_particle_update_address;
                 register_node(particle, D_80024740);
-                search_origin = (u8 *)particle + 0x20;
+                search_origin = (S_81934928_3 *)((u8 *)particle + 0x20);
 
                 rand_quotient = rand();
                 random_value = rand_quotient;
@@ -108,8 +108,8 @@ void update_random_particle_field(void *self, void *output)
                 if (value < 0) {
                     value = 0;
                 }
-                ((S_81934928_3 *)search_origin)->unk_0C = value;
-                ((S_81934928_3 *)search_origin)->unk_1E = value;
+                search_origin->unk_0C = value;
+                search_origin->unk_1E = value;
 
                 rand_quotient = rand();
                 random_value = rand_quotient;
@@ -119,12 +119,12 @@ void update_random_particle_field(void *self, void *output)
                 if (value < 0) {
                     value = 0;
                 }
-                ((S_81934928_3 *)search_origin)->unk_0E = value;
-                ((S_81934928_3 *)search_origin)->unk_22 = value;
+                search_origin->unk_0E = value;
+                search_origin->unk_22 = value;
 
                 value = ((S_81934928_0 *)self)->unk_14 - 0x100;
-                ((S_81934928_3 *)search_origin)->unk_10 = value;
-                ((S_81934928_3 *)search_origin)->unk_26 = value;
+                search_origin->unk_10 = value;
+                search_origin->unk_26 = value;
                 ((S_81934928_2 *)particle)->unk_20 = self;
             }
             spawn_index--;
@@ -139,7 +139,7 @@ void update_random_particle_field(void *self, void *output)
                 if ((((S_81934928_4 *)target)->unk_1C & 0x2000) == 0) {
                     copy_src = (Copy24 *)(u32)((S_81934928_0 *)self)->unk_09;
                     apply_attack_power_and_element_effects(target, 0x20, (s32)copy_src, 0xA,
-                                  ((S_81934928_5 *)effect)->unk_2A, effect, 2);
+                                  effect->unk_2A, effect, 2);
                 }
                 decrement_flagged_item_parameters(target);
             }

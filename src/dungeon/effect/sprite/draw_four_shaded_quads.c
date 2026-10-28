@@ -280,7 +280,7 @@ s32 draw_four_shaded_quads(S_func_818BC9CC_0 *effect, MovingPosition *position)
                               &scratch->unk_E0, &scratch->unk_E4,
                               (u8 *)scratch + 0x84, (u8 *)scratch + 0x88);
         }
-        ((S_func_818BC9CC_2 *)scratch)->unk_B4 = depth;
+        scratch->unk_B4 = depth;
         packet->unk_08 = scratch->unk_D8;
         packet->unk_0A = scratch->unk_DA;
         packet->unk_14 = scratch->unk_DC;

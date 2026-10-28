@@ -61,7 +61,7 @@ void update_player_push(void *actor, void *motion, SpriteFrameState *sprite, voi
     u16 settle_frames_left;
     u16 anim_flags;
     u8 action_state;
-    void *attachment;
+    ActorRecord *attachment;
     s32 *move_state;
 
     action_state = ((S_80092018_0 *)actor)->unk_9B;
@@ -102,7 +102,7 @@ void update_player_push(void *actor, void *motion, SpriteFrameState *sprite, voi
         set_sprite_animation_frame(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)model)->facing + 0x100) >> 9) & 7)
             + player_push_frames), 0, 1);
         attachment = ((S_80092018_0 *)actor)->unk_124;
-        ((ActorRecord *)attachment)->flags1C = (s32) (((ActorRecord *)attachment)->flags1C | 0x100);
+        attachment->flags1C = (s32) (attachment->flags1C | 0x100);
         ((ActorRecord *)(((S_80092018_0 *)actor)->unk_124))->movement_facing = (u16) ((ActorRecord *)model)->facing;
         ((ActorRecord *)(((S_80092018_0 *)actor)->unk_124))->target = model;
         ((S_80092018_0 *)actor)->unk_9B = (u8) (((S_80092018_0 *)actor)->unk_9B + 1);

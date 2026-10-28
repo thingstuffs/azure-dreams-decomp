@@ -75,7 +75,7 @@ void create_converging_fading_particle(
     s32 saved_offset_y = offset_y;
     s32 saved_offset_z = offset_z;
     ObjectNodeHeader *object;
-    void *state;
+    S_801652FC_0 *state;
     s32 calculation;
     s32 quotient_x;
     s32 quotient_y;
@@ -87,50 +87,50 @@ void create_converging_fading_particle(
     if (object != 0) {
         object->update_callback = update_converging_fading_particle;
 
-        ((S_801652FC_3 *)(object->position))->unk_02 =
+        object->position->x.w.i =
             ((MovingPosition *)(source_obj->unk_08))->x + saved_offset_x;
-        ((S_801652FC_3 *)(object->position))->unk_06 =
+        object->position->y.w.i =
             ((MovingPosition *)(source_obj->unk_08))->y + saved_offset_y;
-        ((S_801652FC_3 *)(object->position))->unk_0A =
+        object->position->z.w.i =
             ((MovingPosition *)(source_obj->unk_08))->z + saved_offset_z - 40;
 
-        state = (u8 *)object + 0x20;
-        ((S_801652FC_0 *)state)->unk_42 = ((MovingPosition *)(source_obj->unk_08))->x;
-        ((S_801652FC_0 *)state)->unk_44 = ((MovingPosition *)(source_obj->unk_08))->y;
-        ((S_801652FC_0 *)state)->unk_46 = ((MovingPosition *)(source_obj->unk_08))->z;
+        state = (S_801652FC_0 *)((u8 *)object + 0x20);
+        state->unk_42 = ((MovingPosition *)(source_obj->unk_08))->x;
+        state->unk_44 = ((MovingPosition *)(source_obj->unk_08))->y;
+        state->unk_46 = ((MovingPosition *)(source_obj->unk_08))->z;
 
         quotient_x = -(saved_offset_x << 16) / ((s16)duration / 8);
         calculation = quotient_x / 2;
-        ((S_801652FC_0 *)state)->unk_4C = calculation;
+        state->unk_4C = calculation;
         calculation = -(saved_offset_y << 16);
         quotient_y = calculation / ((s16)duration / 8);
         calculation = quotient_y / 2;
-        ((S_801652FC_0 *)state)->unk_50 = calculation;
+        state->unk_50 = calculation;
         calculation = -(saved_offset_z << 16);
         quotient_z = calculation / ((s16)duration / 8);
         rounded_x = quotient_z / 2;
-        ((S_801652FC_0 *)state)->unk_54 = rounded_x;
+        state->unk_54 = rounded_x;
 
         rounded_x = quotient_x;
         if (rounded_x < 0) {
             rounded_x += 3;
         }
-        ((S_801652FC_0 *)state)->unk_58 = rounded_x >> 2;
+        state->unk_58 = rounded_x >> 2;
 
         rounded_z = quotient_y;
         if (rounded_z < 0) {
             rounded_z += 3;
         }
-        ((S_801652FC_0 *)state)->unk_5C = rounded_z >> 2;
+        state->unk_5C = rounded_z >> 2;
 
         rounded_z = quotient_z;
-        ((S_801652FC_0 *)state)->unk_60 = (rounded_z / 4);
+        state->unk_60 = (rounded_z / 4);
 
-        ((S_801652FC_0 *)state)->unk_32 = duration;
+        state->unk_32 = duration;
         register_node(object, child_particle_draw_address);
         rounded_x = initial_value;
         ((S_801652FC_1 *)object)->unk_20 = rounded_x;
-        ((S_801652FC_0 *)state)->unk_08 = initial_value;
+        state->unk_08 = initial_value;
     }
 
 }

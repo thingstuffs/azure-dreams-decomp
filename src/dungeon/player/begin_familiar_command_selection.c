@@ -25,14 +25,14 @@ s32 begin_familiar_command_selection(Rec_func_8008D024_arg0 *actor, void *contex
     s32 slot_offset;
     ActorRecord *target;
     ActorRecord *actor_heading;
-    s8 *slot_base;
+    S_8008D024_0 *slot_base;
     u8 *direction_frames;
     s16 saved_mode;
 
     slot_offset = (s32)(target_index << 0x10) >> 0xE;
-    slot_base = (s8 *)((s32)slot_offset + (long)actor);
+    slot_base = (S_8008D024_0 *)((s32)slot_offset + (long)actor);
     actor_heading = actor;
-    target = ((S_8008D024_0 *)slot_base)->unk_AC;
+    target = slot_base->unk_AC;
     saved_mode = action_mode;
     if (target != 0) {
         target_flags = target->flags1C;
@@ -57,7 +57,7 @@ s32 begin_familiar_command_selection(Rec_func_8008D024_arg0 *actor, void *contex
                 }
                 display->frameTable = direction_frames;
                 set_sprite_animation_frame(display, direction_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle
-                    + ((ActorRecord *)actor_heading)->facing + 0x100) >> 9) & 7], 0, 1);
+                    + actor_heading->facing + 0x100) >> 9) & 7], 0, 1);
                 actor->unk_120 = saved_mode;
                 return 1;
             }

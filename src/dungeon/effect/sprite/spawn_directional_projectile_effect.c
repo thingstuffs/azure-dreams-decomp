@@ -33,7 +33,7 @@ void create_damped_directional_projectile(S_80921B2C_3 *position, s16 x_offset, 
     u8 *direction_source;
     s32 effect_type;
     u8 *global_state;
-    u8 *direction_state;
+    S_80921B2C_4 *direction_state;
     ObjectPosition *motion;
     SpriteFrameState *sprite;
     ObjectNodeHeader *effect;
@@ -42,7 +42,7 @@ void create_damped_directional_projectile(S_80921B2C_3 *position, s16 x_offset, 
     memcpy(direction_table, direction_source, 0x20);
     effect_type = 0x212;
     global_state = ((u8 *)(&scene_object_list_anchor));
-    direction_state = global_state + 0x20;
+    direction_state = (S_80921B2C_4 *)(global_state + 0x20);
     effect = allocate_flagged_object_node(effect_type);
     if (effect != 0) {
         u8 *directions = direction_table;
@@ -65,10 +65,10 @@ void create_damped_directional_projectile(S_80921B2C_3 *position, s16 x_offset, 
         motion->x.w.i = (u16) (*(u16 *)&motion->x.w.i + x_offset);
         motion->y.w.i = (u16) (*(u16 *)&motion->y.w.i + y_offset);
         motion->z.w.i = (u16) (*(u16 *)&motion->z.w.i + z_offset);
-        motion->velocity_x = (s32) ((*(s16 *)((u8 *)directions + (((u16) ((S_80921B2C_4 *)direction_state)->unk_2A
+        motion->velocity_x = (s32) ((*(s16 *)((u8 *)directions + (((u16) direction_state->unk_2A
             >> 7) & 0x1C))) * 0x180000);
         motion->velocity_y = (s32) ((s16) ((S_80921B2C_6 *)((s8 *)directions
-            + (((u16) ((S_80921B2C_4 *)direction_state)->unk_2A >> 7) & 0x1C)))->unk_02 * 0x180000);
+            + (((u16) direction_state->unk_2A >> 7) & 0x1C)))->unk_02 * 0x180000);
         sprite = effect->sprite;
         sprite->scale_y = 0x800;
         sprite->scale_x = 0x800;

@@ -32,7 +32,7 @@ void begin_familiar_deployment_change(void *obj, s32 unused, void *display, s32 
 
     {
         s32 action_kind;
-        register void *action_obj;
+        register ActorRecord *action_obj;
         s32 field_value;
         register s32 action_arg;
 
@@ -45,7 +45,7 @@ void begin_familiar_deployment_change(void *obj, s32 unused, void *display, s32 
         } else {
             action_kind = 0x88;
             action_obj = obj;
-            field_value = ((ActorRecord *)action_obj)->unk_8A;
+            field_value = action_obj->unk_8A;
             action_arg = 0;
         }
         append_packed_action_record(action_obj, action_kind, field_value, action_arg);

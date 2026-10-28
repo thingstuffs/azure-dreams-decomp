@@ -160,14 +160,14 @@ s32 draw_shaded_textured_quad(S_818C29D4_6 *sprite, MovingPosition *position)
         scratch + 0xD8, scratch + 0xDC, scratch + 0xE0, scratch + 0xE4,
         scratch + 0x84, scratch + 0x88);
     ((S_818C29D4_2 *)scratch)->unk_B4.v = ot_index;
-    ((S_818C29D4_5 *)poly)->unk_08 = ((S_818C29D4_2 *)scratch)->unk_D8;
-    ((S_818C29D4_5 *)poly)->unk_0A = ((S_818C29D4_2 *)scratch)->unk_DA;
-    ((S_818C29D4_5 *)poly)->unk_14 = ((S_818C29D4_2 *)scratch)->unk_DC;
-    ((S_818C29D4_5 *)poly)->unk_16 = ((S_818C29D4_2 *)scratch)->unk_DE;
-    ((S_818C29D4_5 *)poly)->unk_20 = ((S_818C29D4_2 *)scratch)->unk_E0;
-    ((S_818C29D4_5 *)poly)->unk_22 = ((S_818C29D4_2 *)scratch)->unk_E2;
-    ((S_818C29D4_5 *)poly)->unk_2C = ((S_818C29D4_2 *)scratch)->unk_E4;
-    ((S_818C29D4_5 *)poly)->unk_2E = ((S_818C29D4_2 *)scratch)->unk_E6;
+    poly->x0 = ((S_818C29D4_2 *)scratch)->unk_D8;
+    poly->y0 = ((S_818C29D4_2 *)scratch)->unk_DA;
+    poly->x1 = ((S_818C29D4_2 *)scratch)->unk_DC;
+    poly->y1 = ((S_818C29D4_2 *)scratch)->unk_DE;
+    poly->x2 = ((S_818C29D4_2 *)scratch)->unk_E0;
+    poly->y2 = ((S_818C29D4_2 *)scratch)->unk_E2;
+    poly->x3 = ((S_818C29D4_2 *)scratch)->unk_E4;
+    poly->y3 = ((S_818C29D4_2 *)scratch)->unk_E6;
     if (((S_818C29D4_2 *)scratch)->unk_B4.n < 0x1E0U) {
         u8 *draw_mode;
         u8 *draw_mode_2;

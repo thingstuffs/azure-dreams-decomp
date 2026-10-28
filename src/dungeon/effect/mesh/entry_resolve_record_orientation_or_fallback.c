@@ -79,7 +79,7 @@ void follow_source_then_seek_target(void *effect, ObjectPosition *motion, void *
     Vec16 delta;
     void *source;
     MovingPosition *source_pos;
-    void *target_pos;
+    S_81976850_5 *target_pos;
     ActorRecord *scene;
     void *object;
     s32 z_offset;
@@ -129,8 +129,8 @@ void follow_source_then_seek_target(void *effect, ObjectPosition *motion, void *
         ((S_81976850_4 *)visual)->unk_0C = brightness;
 
         target_pos = ((S_81976850_10 *)(((S_81976850_0 *)effect)->unk_04))->unk_08;
-        motion->velocity_x = ((S_81976850_5 *)target_pos)->unk_00;
-        (motion->velocity_y) = ((S_81976850_5 *)target_pos)->unk_04;
+        motion->velocity_x = target_pos->unk_00;
+        (motion->velocity_y) = target_pos->unk_04;
 
         scene = primary_actor_record;
         motion->velocity_z =

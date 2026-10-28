@@ -17,7 +17,7 @@ s32 try_move_actor_to_valid_position(void *action, void *context, void *position
         ((*(u16 *)((u8 *)action - 2) & NODE_REMOVE) == 0) &&
         ((*(u32 *)((u8 *)entity + 0x1C) & 0x80000) == 0) &&
         ((*(u32 *)((u8 *)entity + 0x14) & 0x100000) == 0) &&
-        ((player_state = *(u8 *)((u8 *)primary_actor_record + 0x9A)) != 0x18) &&
+        ((player_state = primary_actor_record->action_id.u) != 0x18) &&
         (player_state != 0x11) &&
         ((check_entity_eligibility(entity) << 16) != 0)) {
         old_x = *(u8 *)((u8 *)position + 0x24);

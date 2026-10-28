@@ -394,7 +394,7 @@ void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(vo
     u16 start_y;
     u16 top_z;
     u16 next_start_x;
-    u8 *point;
+    ovl_1930844_819112CC_S_819112CC_3 *point;
     s32 row_off;
     s32 modulo_result;
     s32 ot_slot;
@@ -544,27 +544,27 @@ void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(vo
         ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_1E = row_off;
         modulo_result = next_index % 5;
         row_off = modulo_result;
-        point = (u8 *)effect + row_off * 4;
-        next_start_x = ((ovl_1930844_819112CC_S_819112CC_3 *)point)->unk_18.at02.v;
+        point = (ovl_1930844_819112CC_S_819112CC_3 *)((u8 *)effect + row_off * 4);
+        next_start_x = point->unk_18.at02.v;
         ovl_1930844_819112CC_SP16(0x74) = next_start_x;
         ovl_1930844_819112CC_SP16(0x64) = next_start_x;
-        next_delta_x = target_x - ((ovl_1930844_819112CC_S_819112CC_3 *)point)->unk_18.at00.v;
+        next_delta_x = target_x - point->unk_18.at00.v;
         ovl_1930844_819112CC_SP32(0x108) = next_delta_x;
         if (interpolate != 0) {
             ovl_1930844_819112CC_SP32(0x108) = (next_delta_x / duration) * step;
         }
-        next_end_x = ((ovl_1930844_819112CC_S_819112CC_3 *)point)->unk_18.at02.v + ovl_1930844_819112CC_SP16(0x10A);
+        next_end_x = point->unk_18.at02.v + ovl_1930844_819112CC_SP16(0x10A);
         ovl_1930844_819112CC_SP16(0x7C) = next_end_x;
         ovl_1930844_819112CC_SP16(0x6C) = next_end_x;
-        next_start_y = ((ovl_1930844_819112CC_S_819112CC_3 *)point)->unk_2C.at02.v;
+        next_start_y = point->unk_2C.at02.v;
         ovl_1930844_819112CC_SP16(0x76) = next_start_y;
         ovl_1930844_819112CC_SP16(0x66) = next_start_y;
-        next_delta_y = target_y - ((ovl_1930844_819112CC_S_819112CC_3 *)point)->unk_2C.at00.v;
+        next_delta_y = target_y - point->unk_2C.at00.v;
         ovl_1930844_819112CC_SP32(0x10C) = next_delta_y;
         if (interpolate != 0) {
             ovl_1930844_819112CC_SP32(0x10C) = (next_delta_y / duration) * step;
         }
-        next_end_y = ((ovl_1930844_819112CC_S_819112CC_3 *)point)->unk_2C.at02.v;
+        next_end_y = point->unk_2C.at02.v;
         y_step = ovl_1930844_819112CC_SP16(0x10E);
         ovl_1930844_819112CC_SP32(0xB4) = RotAverage4(vertex_base, v1, v2, v3,
                                    sxy0, sxy1, sxy2, sxy3,
@@ -613,10 +613,10 @@ void draw_a_full_screen_color_overlay_mark_effect_complete_countdown_ends(void *
     s8 green_blue;
     s8 frames_left;
     void *overlay;
-    void *effect_state;
+    ovl_1930844_81911A8C_S_81911A8C_1 *effect_state;
 
     effect_state = ((ovl_1930844_81911A8C_S_81911A8C_0 *)effect)->unk_00;
-    ((ovl_1930844_81911A8C_S_81911A8C_1 *)effect_state)->unk_14 = (u16) (((ovl_1930844_81911A8C_S_81911A8C_1 *)effect_state)->unk_14 + 1);
+    effect_state->unk_14 = (u16) (effect_state->unk_14 + 1);
     overlay = ((ovl_1930844_81911A8C_S_81911A8C_5 *)(g_game_work.draw_buffer))->unk_8D0;
     ((ovl_1930844_81911A8C_S_81911A8C_5 *)(g_game_work.draw_buffer))->unk_8D0 =
         (void *) (overlay + 0x10);
@@ -856,13 +856,13 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
     s16 tile_y;
     s32 model;
     SpriteFrameState *source_sprite;
-    void *destination;
-    void *owner_links;
+    ovl_1930844_81912154_S_80025954_8 *destination;
+    ovl_1930844_81912154_S_80025954_3 *owner_links;
     void *owner;
-    void *target;
-    void *origin;
-    void *entity;
-    void *grid_source;
+    ovl_1930844_81912154_S_80025954_7_pre *target;
+    ovl_1930844_81912154_S_80025954_6 *origin;
+    ovl_1930844_81912154_S_80025954_9 *entity;
+    ovl_1930844_81912154_S_80025954_9 *grid_source;
     s16 *y_lookup_first;
     s16 source_coord;
     s16 *step_table;
@@ -881,17 +881,17 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
         ((ovl_1930844_81912154_S_80025954_2 *)appearance)->unk_0C = 0x808080;
     case 1:
         owner_links = owner - 0x20;
-        source_sprite = ((ovl_1930844_81912154_S_80025954_3 *)owner_links)->unk_0C;
+        source_sprite = owner_links->unk_0C;
         if (resolve_record_orientation_or_fallback(source_sprite->source, source_sprite, &stack.offset.orientation, 0) == 0
-            && !(((ovl_1930844_81912154_S_80025954_14 *)(((ovl_1930844_81912154_S_80025954_3 *)owner_links)->unk_0C))->unk_14 & 0x8000)) {
+            && !(((ovl_1930844_81912154_S_80025954_14 *)(owner_links->unk_0C))->unk_14 & 0x8000)) {
             break;
         }
-        origin = ((ovl_1930844_81912154_S_80025954_3 *)owner_links)->unk_08;
-        ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_00.at02.v = (u16) ((ovl_1930844_81912154_S_80025954_6 *)origin)->unk_02;
-        ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_04.at02.v = (u16) ((ovl_1930844_81912154_S_80025954_6 *)origin)->unk_06;
-        origin_z = ((ovl_1930844_81912154_S_80025954_6 *)origin)->unk_0A;
+        origin = owner_links->unk_08;
+        ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_00.at02.v = (u16) origin->unk_02;
+        ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_04.at02.v = (u16) origin->unk_06;
+        origin_z = origin->unk_0A;
         ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_08.at02.v = origin_z;
-        if (!(((ovl_1930844_81912154_S_80025954_14 *)(((ovl_1930844_81912154_S_80025954_3 *)owner_links)->unk_0C))->unk_14 & 0x8000)) {
+        if (!(((ovl_1930844_81912154_S_80025954_14 *)(owner_links->unk_0C))->unk_14 & 0x8000)) {
             ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_00.at02.v = (u16) (((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_00.at02.v
                 + stack.offset.distance[0]);
             ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_04.at02.v = (u16) (((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_04.at02.v
@@ -907,16 +907,16 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
         target = ((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_60;
         if (target != NULL) {
             step_count = 1;
-            destination = ((ovl_1930844_81912154_S_80025954_7_pre *)target)[-1].unk_00;
-            x_distance = ((ovl_1930844_81912154_S_80025954_8 *)destination)->unk_00.at02.v - ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_00.at02u.v;
+            destination = target[-1].unk_00;
+            x_distance = destination->unk_00.at02.v - ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_00.at02u.v;
             x_distance = abs(x_distance);
             stack.offset.distance[0] = x_distance;
-            y_distance = ((ovl_1930844_81912154_S_80025954_8 *)destination)->unk_04.at02.v - ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_04.at02u.v;
+            y_distance = destination->unk_04.at02.v - ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_04.at02u.v;
             y_distance = abs(y_distance);
             stack.offset.distance[1] = y_distance;
             entity = ((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_60;
-            z_table = entity_height_offsets[((ovl_1930844_81912154_S_80025954_9 *)entity)->unk_13] << 0x10;
-            z_distance = ((ovl_1930844_81912154_S_80025954_8 *)destination)->unk_08.at02.v - z_table;
+            z_table = entity_height_offsets[entity->unk_13] << 0x10;
+            z_distance = destination->unk_08.at02.v - z_table;
             z_base = ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_08.at02u.v + 0x300000;
             z_distance -= z_base;
             stack.offset.distance[2] = abs(z_distance);
@@ -932,13 +932,13 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
             if (travel_frames == 0) {
                 ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16 = 1;
             }
-            ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_0C = (((ovl_1930844_81912154_S_80025954_8 *)destination)->unk_00.at00.v
+            ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_0C = (destination->unk_00.at00.v
                 - ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_00.at00.v) / ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16;
-            ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_10 = (((ovl_1930844_81912154_S_80025954_8 *)destination)->unk_04.at00.v
+            ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_10 = (destination->unk_04.at00.v
                 - ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_04.at00.v) / ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16;
             entity = ((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_60;
-            z_table2 = entity_height_offsets[((ovl_1930844_81912154_S_80025954_9 *)entity)->unk_13] << 0x10;
-            z_velocity = ((ovl_1930844_81912154_S_80025954_8 *)destination)->unk_08.at00.v - z_table2;
+            z_table2 = entity_height_offsets[entity->unk_13] << 0x10;
+            z_velocity = destination->unk_08.at00.v - z_table2;
             z_base2 = ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_08.at00.v + 0x300000;
             z_velocity -= z_base2;
             ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_14 = z_velocity / ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16;
@@ -947,9 +947,9 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
         } else {
             table_origin = dir_step_x;
             step_count = 0;
-            grid_source = ((ovl_1930844_81912154_S_80025954_3 *)owner_links)->unk_0C;
-            tile_x = ((ovl_1930844_81912154_S_80025954_9 *)grid_source)->unk_24;
-            tile_y = ((ovl_1930844_81912154_S_80025954_9 *)grid_source)->unk_25;
+            grid_source = owner_links->unk_0C;
+            tile_x = grid_source->unk_24;
+            tile_y = grid_source->unk_25;
             end_tile_x = tile_x;
             end_tile_y = tile_y;
             do {
@@ -982,13 +982,13 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
                 end_tile_y = motion_value;
                 end_tile_x = source_coord;
             } while (step_count < 8);
-            destination = stack.motion;
+            destination = (ovl_1930844_81912154_S_80025954_8 *)stack.motion;
             x_scaled = (u32) end_tile_x << 0x10;
             step_table = table_origin;
             x_scaled >>= 0xA;
             goto grid_coords;
         grid_hit:
-            destination = stack.motion;
+            destination = (ovl_1930844_81912154_S_80025954_8 *)stack.motion;
             x_scaled = (u32) end_tile_x << 0x10;
             step_table = table_origin;
             x_scaled >>= 0xA;
@@ -996,12 +996,12 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
             axis_delta = x_scaled;
             direction = (step_table[(s16) ((Rec_func_80024170_arg0 *)state)->unk_0E] + 1) << 5;
             axis_delta += direction;
-            ((ovl_1930844_81912154_S_80025954_8 *)destination)->unk_00.at02.v = axis_delta;
+            destination->unk_00.at02.v = axis_delta;
             axis_delta = (u32) axis_delta << 0x10;
             model = ((s16) end_tile_y << 6) + ((dir_step_y[(s16) ((Rec_func_80024170_arg0 *)state)->unk_0E] + 1) << 5);
-            ((ovl_1930844_81912154_S_80025954_8 *)destination)->unk_04.at02.v = model;
+            destination->unk_04.at02.v = model;
             axis_delta >>= 0x10;
-            ((ovl_1930844_81912154_S_80025954_8 *)destination)->unk_08.at02u.v = ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_08.at02.v;
+            destination->unk_08.at02u.v = ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_08.at02.v;
             model = (u32) model << 0x10;
             axis_delta -= ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_00.at02u.v;
             axis_delta = __builtin_abs(axis_delta);
@@ -1021,7 +1021,7 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
             }
             ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_0C = (((ovl_1930844_81912154_S_80025954_12 *)(stack.motion))->unk_00
                 - ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_00.at00.v) / ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16;
-            y_velocity = (((ovl_1930844_81912154_S_80025954_8 *)destination)->unk_04.at00.v
+            y_velocity = (destination->unk_04.at00.v
                 - ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_04.at00.v) / ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16;
             ((ovl_1930844_81912154_S_80025954_11 *)motion)->unk_14 = 0;
             ((ovl_1930844_81912154_S_80025954_11 *)motion)->unk_10 = y_velocity;

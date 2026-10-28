@@ -190,8 +190,8 @@ void update_targeted_ribbon_trail(void *effect_data, Rec_func_80167A98_arg1 *ori
     u8 *copy_row;
     S_80167C74_9 *trail_row;
     ObjectNodeHeader *object;
-    u8 *interp_row;
-    u8 *head_pos;
+    S_80167C74_10 *interp_row;
+    S_80167C74_12 *head_pos;
     s32 table_base;
     u8 *case_base;
     u8 *interp_base;
@@ -372,13 +372,13 @@ copy_pairs:
             step_x = sum_x / particle_count;
             effect_object = effect_data - 0x20;
             particle_life = 0xA;
-            interp_row = (((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (u8 *)ribbon_vertices;
-            interp_y0 = ((S_80167C74_10 *)interp_row)->unk_1A;
-            interp_y1 = ((S_80167C74_10 *)interp_row)->unk_20;
-            interp_x1 = ((S_80167C74_10 *)interp_row)->unk_1E;
-            interp_z0 = ((S_80167C74_10 *)interp_row)->unk_1C;
-            interp_x0 = ((S_80167C74_10 *)interp_row)->unk_18;
-            interp_z1 = ((S_80167C74_10 *)interp_row)->unk_22;
+            interp_row = (S_80167C74_10 *)((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (u8 *)ribbon_vertices);
+            interp_y0 = interp_row->unk_1A;
+            interp_y1 = interp_row->unk_20;
+            interp_x1 = interp_row->unk_1E;
+            interp_z0 = interp_row->unk_1C;
+            interp_x0 = interp_row->unk_18;
+            interp_z1 = interp_row->unk_22;
             create_jittered_child_effect(effect_object, color->unk_0C.at00.v, particle_life, (s16) (interp_x0 + interp_x1 + step_x),
                 (s32) (s16) (interp_y0 + interp_y1 + step_y), (s32) (s16) (interp_z0 + interp_z1 + step_z));
             sum_z += delta_z;
@@ -388,9 +388,9 @@ copy_pairs:
         } while (history_index < (particle_count + 1));
     }
     object_table_base = (u8 *)&ribbon_vertices;
-    head_pos = (u8 *)((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (s32)object_table_base);
-    if ((((S_80167C74_12 *)head_pos)->unk_00 != 0x190) && (((S_80167C74_12 *)head_pos)->unk_02 != 0x190)
-        && (((S_80167C74_12 *)head_pos)->unk_04 != 0x190)) {
+    head_pos = (S_80167C74_12 *)((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (s32)object_table_base);
+    if ((head_pos->unk_00 != 0x190) && (head_pos->unk_02 != 0x190)
+        && (head_pos->unk_04 != 0x190)) {
         object_index = 0;
         object_limit = 8;
         object_base = object_table_base;

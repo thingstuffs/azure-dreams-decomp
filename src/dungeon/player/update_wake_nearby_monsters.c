@@ -60,7 +60,7 @@ void update_wake_nearby_monsters(void *controller, ObjectPosition *motion, void 
     s16 move_frames;
     u16 frame_count;
     u8 state;
-    void *count_state;
+    S_80092E90_3 *count_state;
     void *node;
 
     move_frames = g_dungeon_status.movement_frames_left;
@@ -78,11 +78,11 @@ void update_wake_nearby_monsters(void *controller, ObjectPosition *motion, void 
         motion->velocity_x = 0;
         motion->velocity_y = 0;
     }
-    count_state = &D_80083460;
-    frames_left = ((S_80092E90_3 *)count_state)->unk_04.n;
-    frame_count = ((S_80092E90_3 *)count_state)->unk_04.v;
+    count_state = (S_80092E90_3 *)&D_80083460;
+    frames_left = count_state->unk_04.n;
+    frame_count = count_state->unk_04.v;
     if (frames_left != 0) {
-        ((S_80092E90_3 *)count_state)->unk_04.n2 = frame_count - 1;
+        count_state->unk_04.n2 = frame_count - 1;
     }
 
     state = ((ActorActionStateView *)controller)->phase;

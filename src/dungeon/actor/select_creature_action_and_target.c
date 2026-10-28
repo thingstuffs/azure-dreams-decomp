@@ -122,13 +122,13 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, ActorRecord *cre
         update_actor_status_and_mp(creature);
         return -1;
     }
-    if (((u8 *)creature)[0x25] == 0) {
+    if (creature->mp_value.parts.whole == 0) {
         default_action = 0;
         goto return_default;
     }
     if ((has_low_actor_mp(creature) << 16) != 0) {
         if ((find_nearest_floor_item_in_room(position, 0x60C, &tile_x, &tile_y) << 16) != 0) {
-            if (((u8 *)creature)[0x13] != MONSTER_WEADOG) {
+            if (creature->species != MONSTER_WEADOG) {
                 if ((has_pending_actor_or_turn_action(creature) << 16) != 0) {
                     return -1;
                 }
@@ -141,19 +141,19 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, ActorRecord *cre
                          * still has 1 MP after eating. feed_actor_restore_mp adds 0xA00 for the same
                          * category-12, subtype-6 food before clamping.
                          */
-                        s32 hp = *(u16 *)((u8 *)creature + 0x24);
+                        s32 hp = creature->mp_value.whole;
                         if (0x10000 < (s32)hp) {
                             hp = 0xFFFF;
                         }
-                        *(u16 *)((u8 *)creature + 0x24) = hp;
-                        if (((u8 *)creature)[0x25] != 0) {
+                        creature->mp_value.whole = hp;
+                        if (creature->mp_value.parts.whole != 0) {
                             creature->flags1C &= ~ACTOR_MP_EMPTY;
                         }
                         {
-                            u8 max_hp = ((u8 *)creature)[0x66];
-                            if (max_hp < ((u8 *)creature)[0x25]) {
-                                ((u8 *)creature)[0x25] = max_hp;
-                                ((u8 *)creature)[0x24] = 0xFF;
+                            u8 max_hp = creature->max_mp;
+                            if (max_hp < creature->mp_value.parts.whole) {
+                                creature->mp_value.parts.whole = max_hp;
+                                creature->mp_value.parts.fraction = 0xFF;
                             }
                         }
                         /*
@@ -179,7 +179,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, ActorRecord *cre
     if ((creature->flags1C & (ACTOR_BLIND | ACTOR_CONFUSED | ACTOR_PLAYER_SIDE)) == 0x2000) {
         {
             ActorRecord *player = dungeon_actor_ring_anchor;
-            behavior_byte = ((u8 *)creature)[0x12];
+            behavior_byte = creature->unk_12;
             if ((player->flags1C & (ACTOR_PARALYZED | ACTOR_ASLEEP)) || (get_entity_effect_value(player, STATUS_FROG) << 16) != 0) {
                 if (creature->flags1C & ACTOR_PLAYER_AWARE) {
                     if (behavior_byte != 0) {
@@ -521,7 +521,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, ActorRecord *cre
         }
     }
 
-    switch (((u8 *)creature)[0x13]) {
+    switch (creature->species) {
 
     case MONSTER_BALOON:
     roll_actor_flag_once(creature, 0x10);
@@ -539,7 +539,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, ActorRecord *cre
     return 6;
 
     case MONSTER_TROLL:
-    if (((u8 *)creature)[0x48] != 0xF) {
+    if (creature->unk_48 != 0xF) {
         break;
     }
     if (!(creature->flags1C & ACTOR_PLAYER_AWARE)) {
@@ -783,7 +783,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, ActorRecord *cre
     }
 
     case MONSTER_PICKET:
-    if (((u8 *)creature)[0x49] == 0) {
+    if (creature->unk_49 == 0) {
         roll_actor_flag_once(creature, 2);
         if (!(creature->action_state_flags & 0x100)) {
             break;
@@ -808,7 +808,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, ActorRecord *cre
         return 2;
     }
     if ((s8)position[0x26] >= 0) {
-        select_actor_route_target(position, *(s8 *)((u8 *)creature + 0x9C), creature, (u8 *)creature + 0x98);
+        select_actor_route_target(position, creature->unk_9C, creature, (u8 *)creature + 0x98);
     } else {
         flee_player_pos = &reference_tile_object;
         if ((s16)get_tile_chebyshev_distance(position, flee_player_pos) == 1) {
@@ -825,7 +825,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, ActorRecord *cre
         u16 ability_flags = creature->action_state_flags;
         creature->action_state_flags = ability_flags & 0x7FFF;
     }
-    if (((u8 *)creature)[0x49] != 0) {
+    if (creature->unk_49 != 0) {
         break;
     }
     if ((find_nearest_floor_item_in_room(position, 0x12, &tile_x, &tile_y) << 16) == 0) {
@@ -839,10 +839,10 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, ActorRecord *cre
         s32 x_delta, y_distance, y_delta;
         (*(u16 *)&creature->facing) = action_result;
         ability_flags |= 0x8000;
-        *(u16 *)((u8 *)creature + 0xA8) = target_x;
+        creature->unk_A8.u = target_x;
         target_x <<= 16;
         target_x >>= 16;
-        *(u16 *)((u8 *)creature + 0xAA) = target_y;
+        creature->unk_AA = target_y;
         target_y <<= 16;
         target_y >>= 16;
         creature->action_state_flags = ability_flags;
@@ -1100,7 +1100,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, ActorRecord *cre
 
     case MONSTER_PULUNPA:
     if (((u8 *)creature)[0xA7] != 0) {
-        if (((u8 *)creature)[0xA8] == 0) {
+        if (creature->unk_A8.byte == 0) {
             STEPVEC(neighbor);
             target = neighbor;
             if (target != NULL) {
@@ -1139,7 +1139,7 @@ return_wait:
 
 check_forward_target:
     {
-        u8 kind = ((u8 *)creature)[0x13];
+        u8 kind = creature->species;
         if (kind != MONSTER_MANOEVA || (creature->flags14 & 0x20000000)) {
             {
 
@@ -1158,7 +1158,7 @@ check_forward_target:
             tile_y = ((TileObject *)position)->tile_position.parts.tile_y + *(u16 *)((facing * 2) + (u8 *)dir_step_y);
         }
         target = NULL;
-        if (((u8 *)creature)[0xAC] == 0) {
+        if (creature->unk_AC.byte == 0) {
             target = find_eligible_actor_at_tile_and_height(creature, *(u16 *)&tile_x, *(u16 *)&tile_y, creature->ground_height);
             if (target != NULL) {
                 u8 target_kind = target[0x13];
@@ -1167,7 +1167,7 @@ check_forward_target:
                 }
             }
         }
-        if (((u8 *)creature)[0xAC] < 2) {
+        if (creature->unk_AC.byte < 2) {
             if (target == NULL) {
                 target = (u8 *)((s16)find_floor_item_at_world_position(tile_x, tile_y, creature->ground_height) + 1);
             } else {

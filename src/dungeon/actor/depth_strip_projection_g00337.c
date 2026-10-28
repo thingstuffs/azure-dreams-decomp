@@ -339,16 +339,16 @@ s32 project_depth_strips_and_quads(S_800AFFB4_0 *origin, void *unused, S_800AFFB
                 texture_entry = (TwelveByteEntry *)render_data_in->unk_118 + (((strip_index & 1) << 1) + ((s16)texture_index << 2));
                 do {
                     SetPolyGT4(packet_buffer);
-                    info_byte = ((S_800AFFB4_3 *)((u8 *)texture_entry + 4))->unk_04;
+                    info_byte = texture_entry->bytes[8];
                     render_data_in->unk_08.s32 = info_byte;
-                    info_byte = ((S_800AFFB4_3 *)((u8 *)texture_entry + 4))->unk_05;
+                    info_byte = texture_entry->bytes[9];
                     render_data_in->unk_0C = info_byte;
                     shade_u = render_data_in->unk_08.s32;
-                    info_byte = ((S_800AFFB4_3 *)((u8 *)texture_entry + 4))->unk_06;
+                    info_byte = texture_entry->bytes[10];
                     render_data_in->unk_10.s32 = info_byte;
                     cached_v = render_data_in->unk_0C;
                     shade_uv = cached_v;
-                    info_byte = ((S_800AFFB4_3 *)((u8 *)texture_entry + 4))->unk_07;
+                    info_byte = texture_entry->bytes[11];
                     render_data_in->unk_14.s32 = info_byte;
                     vertex_value = cached_v;
                     shade_uv <<= 8;

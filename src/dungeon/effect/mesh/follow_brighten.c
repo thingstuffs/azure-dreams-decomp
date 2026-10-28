@@ -519,7 +519,7 @@ void update_movement_toward_child_terrain_target_animates_associated_effects(ovl
     s16 grid_y;
     u16 final_x;
 
-    void *cleanup_base;
+    ovl_18d0850_818B1664_Motion *cleanup_base;
 
     index = 7;
     angle_update = (u8 *)state_arg + 14;
@@ -611,14 +611,14 @@ loop_0:
             cleanup_base = (void *)(*(ovl_18d0850_818B1664_Motion **)((u8 *)entity->child - 0x18));
 
             color = motion_arg->x.half.hi;
-            work.distance[0] = abs(((ovl_18d0850_818B1664_Motion *)cleanup_base)->x.half.hi - color);
-            work.distance[1] = abs(((ovl_18d0850_818B1664_Motion *)cleanup_base)->y.half.hi - motion_arg->y.half.hi);
+            work.distance[0] = abs(cleanup_base->x.half.hi - color);
+            work.distance[1] = abs(cleanup_base->y.half.hi - motion_arg->y.half.hi);
             if (entity->child->flags & 0x40000) {
                 color = motion_arg->z.half.hi;
                 color -= 16;
-                work.distance[2] = abs(((ovl_18d0850_818B1664_Motion *)cleanup_base)->z.half.hi - color);
+                work.distance[2] = abs(cleanup_base->z.half.hi - color);
             } else {
-                work.distance[2] = abs(((ovl_18d0850_818B1664_Motion *)cleanup_base)->z.half.hi - motion_arg->z.half.hi);
+                work.distance[2] = abs(cleanup_base->z.half.hi - motion_arg->z.half.hi);
             }
             index = 1;
 
@@ -637,17 +637,17 @@ loop_0:
             }
 
             motion_arg->dx.half.hi =
-                (((ovl_18d0850_818B1664_Motion *)cleanup_base)->x.half.hi - motion_arg->x.half.hi) / state_arg->duration;
+                (cleanup_base->x.half.hi - motion_arg->x.half.hi) / state_arg->duration;
             motion_arg->dy.half.hi =
-                (((ovl_18d0850_818B1664_Motion *)cleanup_base)->y.half.hi - motion_arg->y.half.hi) / state_arg->duration;
+                (cleanup_base->y.half.hi - motion_arg->y.half.hi) / state_arg->duration;
             if (entity->child->flags & 0x40000) {
                 s32 coord;
                 coord = motion_arg->z.half.hi - 16;
                 motion_arg->dz.half.hi =
-                    (((ovl_18d0850_818B1664_Motion *)cleanup_base)->z.half.hi - coord) / state_arg->duration;
+                    (cleanup_base->z.half.hi - coord) / state_arg->duration;
             } else {
                 motion_arg->dz.half.hi =
-                    (((ovl_18d0850_818B1664_Motion *)cleanup_base)->z.half.hi - motion_arg->z.half.hi) /
+                    (cleanup_base->z.half.hi - motion_arg->z.half.hi) /
                     state_arg->duration;
             }
             next_state = (u16)state_arg->state + 1;
@@ -747,12 +747,12 @@ loop_0:
         state_arg->timer2 = 0;
         state_arg->state++;
         cleanup_base = (void *)(*(ovl_18d0850_818B1664_Motion **)((u8 *)entity->child - 0x18));
-        motion_arg->x.half.hi = ((ovl_18d0850_818B1664_Motion *)cleanup_base)->x.half.hi;
-        motion_arg->y.half.hi = ((ovl_18d0850_818B1664_Motion *)cleanup_base)->y.half.hi;
+        motion_arg->x.half.hi = cleanup_base->x.half.hi;
+        motion_arg->y.half.hi = cleanup_base->y.half.hi;
         if (entity->child->flags & 0x40000) {
-            motion_arg->z.half.hi = ((ovl_18d0850_818B1664_Motion *)cleanup_base)->z.half.hi + 16;
+            motion_arg->z.half.hi = cleanup_base->z.half.hi + 16;
         } else {
-            motion_arg->z.half.hi = ((ovl_18d0850_818B1664_Motion *)cleanup_base)->z.half.hi;
+            motion_arg->z.half.hi = cleanup_base->z.half.hi;
         }
 
         index = 7;

@@ -372,8 +372,8 @@ void update_flickering_effect_vertices(DungeonObj *obj)
 s32 draw_jittered_triangle_trails(void *first_item)
 {
     u16 screen_coords[3];
-    void *list_item;
-    void *item_data;
+    TrailChainPrefix *list_item;
+    TrailRenderItem *item_data;
     GameWork *render_context;
     u8 *draw_mode;
     u8 *triangle;
@@ -398,12 +398,12 @@ s32 draw_jittered_triangle_trails(void *first_item)
             triangle = *(u8 **)(render_context->draw_buffer + 0x8D0);
             *(u8 **)(render_context->draw_buffer + 0x8D0) = triangle + 0x14;
 
-            ((TrailTriangle *)triangle)->color = ((TrailRenderItem *)item_data)->color;
+            ((TrailTriangle *)triangle)->color = item_data->color;
             SetPolyF3(triangle);
             SetSemiTrans(triangle, 1);
 
             blend_mode = 3;
-            if (((TrailRenderItem *)item_data)->blend_control > 0) {
+            if (item_data->blend_control > 0) {
                 blend_mode = 1;
             }
             SetDrawMode(draw_mode, 0, 0,
@@ -441,8 +441,8 @@ s32 draw_jittered_triangle_trails(void *first_item)
             point_index--;
         } while (point_index >= 0);
 
-        if (((TrailChainPrefix *)list_item)[-1].chain_next == 0) break;
-        list_item = (void *)(((TrailChainPrefix *)list_item)[-1].chain_next + 0x20);
+        if (list_item[-1].chain_next == 0) break;
+        list_item = (void *)(list_item[-1].chain_next + 0x20);
     } while (1);
 
     return 0;

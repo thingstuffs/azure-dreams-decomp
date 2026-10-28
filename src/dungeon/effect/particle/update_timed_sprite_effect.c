@@ -392,7 +392,7 @@ void update_timed_sprite_effect(void *effect, void *motion, void *sprite) {
     s32 timer;
     u16 sprite_scale;
     u8 green_blue;
-    void *owner;
+    ProjectileOwnerFlags *owner;
 
     pos_x = ((ProjectileMotion *)motion)->x.s;
     vel_x = ((ProjectileMotion *)motion)->velocity_x;
@@ -402,7 +402,7 @@ void update_timed_sprite_effect(void *effect, void *motion, void *sprite) {
     ((ProjectileMotion *)motion)->y.s = (s32) (((ProjectileMotion *)motion)->y.s + vel_y);
     ((ProjectileMotion *)motion)->z.s = (s32) (((ProjectileMotion *)motion)->z.s + vel_z);
     owner = ((ProjectileParticle *)effect)->unk_00;
-    ((ProjectileOwnerFlags *)owner)->unk_10 = (s32) (((ProjectileOwnerFlags *)owner)->unk_10 | 0x8000);
+    owner->unk_10 = (s32) (owner->unk_10 | 0x8000);
     rounded_x = ((ProjectileMotion *)motion)->x.h.unk_02;
     if ((rounded_x / 64) == ((ProjectileParticle *)effect)->unk_04) {
         rounded_y = ((ProjectileMotion *)motion)->y.h.unk_06;
@@ -442,7 +442,7 @@ void update_timed_sprite_effect(void *effect, void *motion, void *sprite) {
                 sprite_word = ((SpriteSourceEntry *)shared_sprite_entries)->source;
             } else {
                 ((ProjectileSprite *)sprite)->unk_00 = &timed_projectile_sprite_entries;
-                sprite_word = ((SpriteSourceEntry *)(&timed_projectile_sprite_entries))->source;
+                sprite_word = timed_projectile_sprite_entries.source;
             }
             ((ProjectileSprite *)sprite)->unk_04 = 0;
             ((ProjectileSprite *)sprite)->unk_05 = 0;

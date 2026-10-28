@@ -96,7 +96,7 @@ void update_directional_actor_effect(void *effect, void *color_data) {
     s16 delay_left;
     s16 fade_left;
     s32 stage;
-    void *model;
+    S_8195281C_5 *model;
     SpriteFrameState *model_colors;
     S_8195281C_3 *actor_state;
     u16 ready_stage;
@@ -156,7 +156,7 @@ void update_directional_actor_effect(void *effect, void *color_data) {
         model = ((S_8195281C_10 *)(((S_8195281C_1 *)((int *)(&primary_actor_record)))->unk_00.i))->unk_60;
         if (model != 0) {
             model_colors = ((ObjectNodeHeader *)((u8 *)model - 0x20))->sprite;
-            ((S_8195281C_5 *)model)->unk_1C = (s32) (((S_8195281C_5 *)model)->unk_1C | 0x10000000);
+            model->unk_1C = (s32) (model->unk_1C | 0x10000000);
             model_colors->color.c.r = (u8) (model_colors->color.c.r - 4);
             model_colors->color.c.g = (u8) (model_colors->color.c.g - 4);
             model_colors->color.c.b = (u8) (model_colors->color.c.b - 4);
@@ -177,7 +177,7 @@ void update_directional_actor_effect(void *effect, void *color_data) {
                 break;
             }
         }
-        model = ((S_8195281C_7 *)(((u8 *)dungeon_actor_ring_anchor)))->unk_60;
+        model = dungeon_actor_ring_anchor->target;
         if (model != 0) {
             model_colors = ((ObjectNodeHeader *)((u8 *)model - 0x20))->sprite;
             model_colors->color.word = 0x808080;
@@ -193,8 +193,8 @@ void update_directional_actor_effect(void *effect, void *color_data) {
         g_dungeon_status.active_actor = 0;
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         ((S_8195281C_0_pre *)effect)[-1].unk_00 = (u16) (((S_8195281C_0_pre *)effect)[-1].unk_00 | 0x8000);
-        ((S_8195281C_9 *)((s32 *)(&object_flag_block)))->unk_00 =
-            (s32) (((S_8195281C_9 *)((s32 *)(&object_flag_block)))->unk_00 | 0x8000);
+        object_flag_block.flags =
+            (s32) (object_flag_block.flags | 0x8000);
     }
     D_800249A6[0] = 0;
     return;

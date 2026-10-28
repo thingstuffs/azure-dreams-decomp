@@ -63,7 +63,7 @@ void *create_owner_linked_pulsing_effect(void *spawn_pos, EntityRec *source_stat
     u16 object_flags;
     s32 global_flags;
     SpriteFrameState *map_data;
-    void *object_state;
+    S_800CB82C_4 *object_state;
     ObjectPosition *position;
     ObjectNodeHeader *object;
     MovingTile *owner_map;
@@ -84,18 +84,18 @@ void *create_owner_linked_pulsing_effect(void *spawn_pos, EntityRec *source_stat
         map_data->tile_y = (s8) ((u16) position->y.w.i >> 6);
         object_state = ((void *)object) + 0x20;
         (*(s16 *)((u8 *)object_state + 0x96)) = 0x10;
-        ((S_800CB82C_4 *)object_state)->unk_08 = (u8) active_spell_parameters;
-        ((S_800CB82C_4 *)object_state)->unk_09 = (u8) ((S_800CB82C_5 *)(&active_spell_parameters))->unk_01;
-        ((S_800CB82C_4 *)object_state)->unk_60 = owner;
+        object_state->unk_08 = (u8) active_spell_parameters;
+        object_state->unk_09 = (u8) ((S_800CB82C_5 *)(&active_spell_parameters))->unk_01;
+        object_state->unk_60 = owner;
         owner_map = ((SpriteLinkPrefixView *)owner)[-1].sprite;
-        ((S_800CB82C_4 *)object_state)->unk_72 = (u8) owner_map->tile_x;
-        ((S_800CB82C_4 *)object_state)->unk_73 = (u8) owner_map->tile_y;
-        ((S_800CB82C_4 *)object_state)->unk_88 = (u16) ((u16)source_state->unk_88);
-        ((S_800CB82C_4 *)object_state)->unk_13 = 0xFF;
-        ((S_800CB82C_4 *)object_state)->unk_14 = (s32) source_state->flags14;
-        ((S_800CB82C_4 *)object_state)->unk_1C = (s32) source_state->flags1C;
-        ((S_800CB82C_4 *)object_state)->unk_2A = (s16) (((Rec_D_800287A4 *)owner)->unk_2A - 0x800);
-        ((S_800CB82C_4 *)object_state)->unk_90 = (s32) ((S_800CB82C_2 *)spawn_pos)->unk_08.at00.v;
+        object_state->unk_72 = (u8) owner_map->tile_x;
+        object_state->unk_73 = (u8) owner_map->tile_y;
+        object_state->unk_88 = (u16) ((u16)source_state->unk_88);
+        object_state->unk_13 = 0xFF;
+        object_state->unk_14 = (s32) source_state->flags14;
+        object_state->unk_1C = (s32) source_state->flags1C;
+        object_state->unk_2A = (s16) (((Rec_D_800287A4 *)owner)->unk_2A - 0x800);
+        object_state->unk_90 = (s32) ((S_800CB82C_2 *)spawn_pos)->unk_08.at00.v;
         if (create_actor_spell_effect(object_state, ((void *)object) + 0x28, 0, ((void *)object) + 0xB8) == 0) {
             object_flags = object->flags | 0x8000;
             global_flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;

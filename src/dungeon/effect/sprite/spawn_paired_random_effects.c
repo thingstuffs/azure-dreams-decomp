@@ -24,11 +24,11 @@ void spawn_paired_random_effects(void *source, s16 effect_param, s32 render_para
             effect->update_callback = paired_random_effect_callback;
             register_node(effect, project_sprite_chain);
             effect_data = ((u8 *) effect) + 0x20;
-            *((s16 *) (((u8 *) (effect->position)) + 2)) =
+            effect->position->x.w.i =
                 ((*((u16 *) (((u8 *) (*((void **) (((u8 *) source) + 8)))) + 2))) + (rand() & 0x3F)) - 0x20;
-            *((s16 *) (((u8 *) (effect->position)) + 6)) =
+            effect->position->y.w.i =
                 ((*((u16 *) (((u8 *) (*((void **) (((u8 *) source) + 8)))) + 6))) + (rand() & 0x3F)) - 0x20;
-            *((s16 *) (((u8 *) (effect->position)) + 0xA)) =
+            effect->position->z.w.i =
                 ((*((u16 *) (((u8 *) (*((void **) (((u8 *) source) + 8)))) + 0xA))) + (rand() & 0x3F)) - 0x20;
             render_data = effect->sprite;
             render_data->source = D_8002822C;
@@ -49,11 +49,11 @@ void spawn_paired_random_effects(void *source, s16 effect_param, s32 render_para
             effect->update_callback = paired_random_effect_callback;
             register_node(effect, queue_linked_visible_rectangle_copies);
             effect_data = ((u8 *) effect) + 0x20;
-            *((s16 *) (((u8 *) (effect->position)) + 2)) =
+            effect->position->x.w.i =
                 ((*((u16 *) (((u8 *) (*((void **) (((u8 *) source) + 8)))) + 2))) + (rand() & 0x3F)) - 0x20;
-            *((s16 *) (((u8 *) (effect->position)) + 6)) =
+            effect->position->y.w.i =
                 ((*((u16 *) (((u8 *) (*((void **) (((u8 *) source) + 8)))) + 6))) + (rand() & 0x3F)) - 0x20;
-            *((s16 *) (((u8 *) (effect->position)) + 0xA)) =
+            effect->position->z.w.i =
                 ((*((u16 *) (((u8 *) (*((void **) (((u8 *) source) + 8)))) + 0xA))) + (rand() & 0x3F)) - 0x20;
             *((s16 *) (((u8 *) effect) + 0x20)) = 0x20;
             *((s16 *) (((u8 *) effect_data) + 2)) = 0x20;

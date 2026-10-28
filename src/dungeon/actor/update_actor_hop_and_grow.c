@@ -58,9 +58,9 @@ s32 update_actor_hop_and_grow(State *state, Motion *motion, Params *params, Extr
         state->field96 = 0x10;
         extra->field1C &= 0xFFFBFFFF;
         if ((*system_update_flags & 2) != 0) {
-            set_record_integer_tile_center(motion, ((SpriteFrameState *)params)->tile_x, ((SpriteFrameState *)params)->tile_y);
-            ((SpriteFrameState *)params)->scale_x = 0x1000;
-            ((SpriteFrameState *)params)->scale_y = 0x1000;
+            set_record_integer_tile_center(motion, params->field24, params->field25);
+            params->field1C = 0x1000;
+            params->field1E = 0x1000;
             state->field9B = 2;
         } else {
             state->field9B = (u8) (state->field9B + 1);
@@ -77,28 +77,28 @@ s32 update_actor_hop_and_grow(State *state, Motion *motion, Params *params, Extr
             if (move_frames > 0) {
                 current_y = motion->field6;
                 current_y -= 0x20;
-                motion->fieldC = (((((SpriteFrameState *)params)->tile_x << 6) - (current_x = motion->field2 - 0x20)) << 16) / move_frames;
-                motion->field10 = (((((SpriteFrameState *)params)->tile_y << 6) - current_y) << 16) / (state->field96 - 2);
+                motion->fieldC = (((params->field24 << 6) - (current_x = motion->field2 - 0x20)) << 16) / move_frames;
+                motion->field10 = (((params->field25 << 6) - current_y) << 16) / (state->field96 - 2);
             } else {
                 motion->field10 = 0;
                 motion->fieldC = 0;
-                set_record_integer_tile_center(motion, ((SpriteFrameState *)params)->tile_x, ((SpriteFrameState *)params)->tile_y);
+                set_record_integer_tile_center(motion, params->field24, params->field25);
             }
         }
         if (state->field96 != 0) {
             motion->field14 = ((-(rsin(state->field96 << 6) >> 4) - (height_offset = state->field92 + 0x20))
                 << 16) / state->field96;
         }
-        scale = ((SpriteFrameState *)params)->scale_x + extra->field8A;
-        ((SpriteFrameState *)params)->scale_x = scale;
-        ((SpriteFrameState *)params)->scale_y = scale;
+        scale = params->field1C + extra->field8A;
+        params->field1C = scale;
+        params->field1E = scale;
         frames_left = (u16) state->field96 - 1;
         state->field96 = frames_left;
         if ((s16) frames_left < 0) {
             motion->field14 = 0;
             motion->field10 = 0;
             motion->fieldC = 0;
-            set_record_integer_tile_center(motion, ((SpriteFrameState *)params)->tile_x, ((SpriteFrameState *)params)->tile_y);
+            set_record_integer_tile_center(motion, params->field24, params->field25);
             state->field92 = -0x20;
             state->field9B = (u8) (state->field9B + 1);
         }

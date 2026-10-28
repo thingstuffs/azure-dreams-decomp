@@ -97,7 +97,7 @@ s32 collect_ground_item(Ctx *ctx, char *text, Item *item, Unit *unit) {
     s32 item_kind;
 
     sys = &g_game_work;
-    item_lookup = find_floor_item_at_world_position(((SpriteFrameState *)item)->tile_x, ((SpriteFrameState *)item)->tile_y, unit->id);
+    item_lookup = find_floor_item_at_world_position(item->kind, item->sub, unit->id);
     item_id = item_lookup;
     if (item_id < 0) {
         if (ctx->mode < 0) {

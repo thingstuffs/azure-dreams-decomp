@@ -143,8 +143,8 @@ void *create_vertical_acceleration_sprite(s32 state_value, B22_81892AF0_Copy24 *
         register_node(object, project_sprite_chain);
         transform = *(B22_81892AF0_Copy24 * *)&object->position;
         *transform = *source_transform;
-        ((B22_81892AF0_S_81892AF0_3 *)transform)->unk_14 = 0x10000;
-        ((B22_81892AF0_S_81892AF0_3 *)transform)->unk_08 += 0xFD010000;
+        transform->words[5] = 0x10000;
+        transform->words[2] += 0xFD010000;
         return object;
     }
     return NULL;
@@ -215,7 +215,7 @@ s32 draw_red(void *effect, B22_81892C5C_S_81892C5C_2 *center)
         angle_step = 0x100;
 
         for (segment = 0; segment < 8; segment++) {
-            void *render_context;
+            B22_81892C5C_S_81892C5C_3 *render_context;
             s32 end_y_scaled;
             void *polyline;
             s32 start_angle;
@@ -226,8 +226,8 @@ s32 draw_red(void *effect, B22_81892C5C_S_81892C5C_2 *center)
             s32 x_trig;
 
             render_context = ot_ctx->draw_buffer;
-            polyline = ((B22_81892C5C_S_81892C5C_3 *)render_context)->unk_8D0;
-            ((B22_81892C5C_S_81892C5C_3 *)render_context)->unk_8D0 = (u8 *)polyline + 0x18;
+            polyline = render_context->unk_8D0;
+            render_context->unk_8D0 = (u8 *)polyline + 0x18;
             ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_00.at03.v = 5;
             ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_07 = 0x48;
             ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_14 = 0x55555555;
@@ -305,12 +305,12 @@ s32 draw_red(void *effect, B22_81892C5C_S_81892C5C_2 *center)
         }
 
         {
-            void *next_effect = ((B22_81892C5C_S_81892C5C_1_pre *)effect)[-1].unk_00;
+            B22_81892C5C_S_81892C5C_7 *next_effect = ((B22_81892C5C_S_81892C5C_1_pre *)effect)[-1].unk_00;
             if (next_effect == 0) {
                 break;
             }
             effect = (u8 *)next_effect + 0x20;
-            center = ((B22_81892C5C_S_81892C5C_7 *)next_effect)->unk_08;
+            center = next_effect->unk_08;
         }
     }
     {

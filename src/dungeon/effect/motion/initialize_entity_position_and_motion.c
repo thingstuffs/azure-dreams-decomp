@@ -22,7 +22,7 @@ void advance_image_tint_transition(void *transition) {
     u8 transition_kind;
     void *transition_data;
     GameWork *levels;
-    void *active_state;
+    ovl_19a332c_81982864_S_80024064_2 *active_state;
     void *source_data;
 
     levels = &g_game_work;
@@ -39,9 +39,9 @@ void advance_image_tint_transition(void *transition) {
         D_800269D0 = 0;
         tint_transition_kind = transition_kind;
         source_data = (*(void **)((u8 *)transition + 0));
-        ((ovl_19a332c_81982864_S_80024064_2 *)active_state)->unk_F4 = 0;
+        active_state->unk_F4 = 0;
         tint_transition_source = source_data;
-        ((ovl_19a332c_81982864_S_80024064_2 *)active_state)->unk_A8 = (u8) ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_08;
+        active_state->unk_A8 = (u8) ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_08;
         inventory_clear_circular_list_flag_2000(active_state);
         ((ovl_19a332c_81982864_S_80024064_6 *)((*(void **)((u8 *)((int *)(&primary_actor_record)) + 0))))->unk_96 = 0x14;
         ((ovl_19a332c_81982864_S_80024064_7 *)((*(void **)&((EntityRec *)((int *)(&primary_actor_record)))->x)))->unk_102 = 1;
@@ -259,7 +259,7 @@ void *spawn_random_motion_particles(s16 x, s16 y, s16 z, s16 heading, s16 count)
             s32 move_angle;
             ObjectPosition *motion;
             SpriteFrameState *sprite;
-            u8 *extra;
+            ovl_19a332c_81982F0C_S_8002470C_2 *extra;
 
             particle->update_callback = move_fade_and_expand_effect;
             register_node(particle, project_sprite_chain);
@@ -282,9 +282,9 @@ void *spawn_random_motion_particles(s16 x, s16 y, s16 z, s16 heading, s16 count)
             sprite->color.word = 0x808080;
             select_record_entry_and_value(sprite, D_80026AB0, rand() & 7);
 
-            extra = (u8 *)particle + 0x20;
-            ((ovl_19a332c_81982F0C_S_8002470C_2 *)extra)->unk_30 = (s16)((rand() & 7) + 0x10);
-            ((ovl_19a332c_81982F0C_S_8002470C_2 *)extra)->unk_36 = (s16)heading;
+            extra = (ovl_19a332c_81982F0C_S_8002470C_2 *)((u8 *)particle + 0x20);
+            extra->unk_30 = (s16)((rand() & 7) + 0x10);
+            extra->unk_36 = (s16)heading;
         }
         remaining--;
     }
@@ -1442,8 +1442,8 @@ void clear_object_buffer_and_state(void *tracker) {
     s16 next_ticks;
     ovl_19a332c_81984D4C_S_81984D4C_2 *target;
     GameView *state;
-    u8 *timer;
-    u8 *z_pending;
+    ovl_19a332c_81984D4C_S_81984D4C_1 *timer;
+    ovl_19a332c_81984D4C_S_81984D4C_3 *z_pending;
 
     blend_ticks = (*(s16 *)((u8 *)tracker + 0x24));
     state = &g_game_work.view;
@@ -1456,9 +1456,9 @@ void clear_object_buffer_and_state(void *tracker) {
     if (next_ticks < -0x80) {
         (*(s16 *)((u8 *)tracker + 0x24)) = -0x80;
     }
-    timer = camera_transition_timer;
-    if (((ovl_19a332c_81984D4C_S_81984D4C_1 *)timer)->unk_00.u != 0) {
-        ((ovl_19a332c_81984D4C_S_81984D4C_1 *)timer)->unk_00.s = (s8) (((ovl_19a332c_81984D4C_S_81984D4C_1 *)timer)->unk_00.u - 1);
+    timer = (ovl_19a332c_81984D4C_S_81984D4C_1 *)camera_transition_timer;
+    if (timer->unk_00.u != 0) {
+        timer->unk_00.s = (s8) (timer->unk_00.u - 1);
     }
     (*(u16 *)((u8 *)tracker + 4)) = (u16) ((ovl_19a332c_81984D4C_S_81984D4C_4 *)((*(void **)((u8 *)tracker + 0xC))))->unk_02;
     target = (*(void **)((u8 *)tracker + 0xC));
@@ -1466,12 +1466,12 @@ void clear_object_buffer_and_state(void *tracker) {
     (*(u16 *)((u8 *)tracker + 8)) = (u16) target->unk_0A;
     state->camera_position.parts.camera_position_x = (u16) ((u16)state->camera_position.parts.camera_position_x) + ((s32) ((s16) (*(u16 *)((u8 *)tracker + 4)) - state->camera_position.parts.camera_position_x) >> 2);
     state->camera_position.parts.camera_position_y = (u16) ((u16)state->camera_position.parts.camera_position_y) + ((s32) ((s16) (*(u16 *)((u8 *)tracker + 6)) - state->camera_position.parts.camera_position_y) >> 2);
-    z_pending = D_80026BE4;
-    if (((ovl_19a332c_81984D4C_S_81984D4C_3 *)z_pending)->unk_00.u != 0) {
+    z_pending = (ovl_19a332c_81984D4C_S_81984D4C_3 *)D_80026BE4;
+    if (z_pending->unk_00.u != 0) {
         state->camera_position.parts.camera_position_z = (u16) ((u16)state->camera_position.parts.camera_position_z) + ((s32) ((s16) (*(u16 *)((u8 *)tracker + 8)) - state->camera_position.parts.camera_position_z)
             >> 2);
     }
-    ((ovl_19a332c_81984D4C_S_81984D4C_3 *)z_pending)->unk_00.s = (s8) (state->camera_position.parts.camera_position_z != (s16) (*(u16 *)((u8 *)tracker + 8)));
+    z_pending->unk_00.s = (s8) (state->camera_position.parts.camera_position_z != (s16) (*(u16 *)((u8 *)tracker + 8)));
     state->view_offset.parts.view_offset_x = (u16) ((s32) (((u16)state->view_offset.parts.view_offset_x) << 0x10) >> 0x12);
     state->view_offset.parts.view_offset_y = (u16) ((s32) (((u16)state->view_offset.parts.view_offset_y) << 0x10) >> 0x12);
 }

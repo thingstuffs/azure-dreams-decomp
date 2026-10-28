@@ -109,7 +109,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
     u8 order_cmd;
     u8 item_cmd;
     u8 action_state;
-    void *command;
+    S_8008ACDC_6 *command;
     void *target;
     void *action_actor;
     void *call_actor;
@@ -190,14 +190,14 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                     if (command == NULL) {
                         return;
                     }
-                    normalized = ((S_8008ACDC_6 *)command)->unk_01 & 7;
+                    normalized = command->unk_01 & 7;
                     old_angle = ((S_8008ACDC_4 *)stats)->unk_2A.s;
                 } else {
                     command = advance_monster_timed_sequence();
                     if (command == NULL) {
                         return;
                     }
-                    normalized = ((S_8008ACDC_6 *)command)->unk_01 & 7;
+                    normalized = command->unk_01 & 7;
                     old_angle = ((S_8008ACDC_4 *)stats)->unk_2A.s;
                 }
                 normalized &= 0xFF;
@@ -242,7 +242,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                     ((S_8008ACDC_4 *)stats)->unk_2A.s = next_angle;
                     read_monster_script_entry();
                 } else {
-                    active_actor_command_code = (u8) (((S_8008ACDC_6 *)command)->unk_01 & 0xF8);
+                    active_actor_command_code = (u8) (command->unk_01 & 0xF8);
                     switch (active_actor_command_code) {
                     default:
                         return;
@@ -267,8 +267,8 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                         begin_player_jump(actor, motion, sprite, stats);
                         return;
                     case 0x48:
-                        if ((s16) dispatch_selected_item_use(actor, ((S_8008ACDC_6 *)command)->unk_00 & 0x1F,
-                            ((S_8008ACDC_6 *)command)->unk_02 & 0x1F) < 0) {
+                        if ((s16) dispatch_selected_item_use(actor, command->unk_00 & 0x1F,
+                            command->unk_02 & 0x1F) < 0) {
                             read_monster_script_entry();
                             return;
                         }
@@ -281,7 +281,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                         s32 action_kind;
                         void *slot_target;
 
-                        target_cmd = ((S_8008ACDC_6 *)command)->unk_00;
+                        target_cmd = command->unk_00;
                         target_slot_addr = target_cmd & 0x60;
                         command = (void *) ((u32) target_slot_addr >> 5);
 
@@ -295,14 +295,14 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                         read_monster_script_entry();
                         return;
                     case 0x58:
-                        begin_holding_item(actor, motion, sprite, select_item_record_pointer(((S_8008ACDC_6 *)command)->unk_00 & 0x1F));
+                        begin_holding_item(actor, motion, sprite, select_item_record_pointer(command->unk_00 & 0x1F));
                         return;
                     case 0x68:
-                        selected_target = select_item_record_pointer(((S_8008ACDC_6 *)command)->unk_00 & 0x1F);
+                        selected_target = select_item_record_pointer(command->unk_00 & 0x1F);
                         call_actor = actor;
                         call_motion = motion;
                         call_sprite = sprite;
-                        angle_bits = (s32)(((S_8008ACDC_6 *)command)->unk_00);
+                        angle_bits = (s32)(command->unk_00);
                         target = selected_target;
                         angle_bits = (s32)(((u32)angle_bits) & (0x60));
                         angle_bits = (s32)(((u32)angle_bits) >> (5));
@@ -310,7 +310,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                         return;
                     case 0x88:
                         call_actor = actor;
-                        angle_bits = ((S_8008ACDC_6 *)command)->unk_00;
+                        angle_bits = command->unk_00;
                         angle_bits &= 0x60;
                         angle_bits = (u32)angle_bits >> 5;
                         call_motion = motion;
@@ -321,23 +321,23 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                         request_familiar_deployment_change(call_actor, call_motion, call_sprite, target, (u32)angle_bits);
                         return;
                     case 0x70:
-                        mode_cmd = ((S_8008ACDC_6 *)command)->unk_00;
+                        mode_cmd = command->unk_00;
                         set_linked_actor_octant_facing((u32) (mode_cmd & 0x60) >> 5, mode_cmd & 7);
                         return;
                     case 0x78:
-                        item_cmd = ((S_8008ACDC_6 *)command)->unk_00;
+                        item_cmd = command->unk_00;
                         set_linked_actor_code_and_mirror((u32) (item_cmd & 0x60) >> 5, item_cmd & 0x1F);
                         return;
                     case 0x80:
-                        spell_cmd = ((S_8008ACDC_6 *)command)->unk_00;
+                        spell_cmd = command->unk_00;
                         set_linked_actor_pending_halfword((u32) (spell_cmd & 0x60) >> 5, spell_cmd & 0x1F);
                         return;
                     case 0x90:
-                        order_cmd = ((S_8008ACDC_6 *)command)->unk_00;
+                        order_cmd = command->unk_00;
                         set_familiar_formation_offset((u32) (order_cmd & 0x60) >> 5, order_cmd & 7);
                         return;
                     case 0x98:
-                        target = select_item_record_pointer(((S_8008ACDC_6 *)command)->unk_00 & 0x1F, old_angle);
+                        target = select_item_record_pointer(command->unk_00 & 0x1F, old_angle);
                         if (((S_8008ACDC_9 *)target)->unk_03 & 0x20) {
                             resolve_familiar_deployment_request(actor, motion, sprite, target);
                         } else {
@@ -349,11 +349,11 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                         return;
                     case 0xC8:
                         ((Rec_func_8008ACDC_arg0 *)actor)->unk_96.as_s16 =
-                            (s16) (((S_8008ACDC_6 *)command)->unk_00 & 0x7F);
+                            (s16) (command->unk_00 & 0x7F);
                         begin_parameterized_actor_action(actor, motion, sprite, &D_800DD148, 2);
                         return;
                     case 0xD8:
-                        actor_command_handlers[((S_8008ACDC_6 *)command)->unk_00 & 0x7F]();
+                        actor_command_handlers[command->unk_00 & 0x7F]();
                         return;
                     }
                 }

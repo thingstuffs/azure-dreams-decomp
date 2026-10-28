@@ -178,9 +178,9 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
     void *new_object;
     void *selected_object;
     void *old_object;
-    void *removed_object;
-    void *object_scale;
-    void *object_position;
+    ObjectStatusPrefix16 *removed_object;
+    S_8009345C_11 *object_scale;
+    S_8009345C_12 *object_position;
     ScratchS1 message_or_list;
 
     state = ((S_8009345C_0 *)actor)->phase;
@@ -239,7 +239,7 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
         decrement_monster_entry_count(((S_8009345C_15 *)(((S_8009345C_2 *)context)->unk_60))->unk_13, 3);
         unlink_entity_node(((S_8009345C_2 *)context)->unk_60);
         removed_object = ((S_8009345C_2 *)context)->unk_60;
-        ((ObjectStatusPrefix16 *)removed_object)[-1].flags = (u16) (((ObjectStatusPrefix16 *)removed_object)[-1].flags
+        removed_object[-1].flags = (u16) (removed_object[-1].flags
             | 0x8000);
         (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         if (selected_item_record_alias[0] == NULL) {
@@ -284,12 +284,12 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
                 (*(void **)((u8 *)(((familiar_deployment_slots.slot.s * 4) + actor)) + (0xAC))) = new_object;
                 familiar_record_slots[((S_8009345C_7 *)(*message_or_list.base))->unk_03 & 0x1F] = new_object;
                 object_scale = ((S_8009345C_10_pre *)new_object)[-1].unk_04;
-                ((S_8009345C_11 *)object_scale)->unk_1E = 0x800;
-                ((S_8009345C_11 *)object_scale)->unk_1C = 0x800;
+                object_scale->unk_1E = 0x800;
+                object_scale->unk_1C = 0x800;
                 object_position = ((S_8009345C_10_pre *)new_object)[-1].unk_00;
-                ((S_8009345C_12 *)object_position)->unk_02 = (u16) map->x;
-                ((S_8009345C_12 *)object_position)->unk_06 = (u16) map->y;
-                ((S_8009345C_12 *)object_position)->unk_0A = (s16) (map->z - 0x10);
+                object_position->unk_02 = (u16) map->x;
+                object_position->unk_06 = (u16) map->y;
+                object_position->unk_0A = (s16) (map->z - 0x10);
                 func_80042640(new_object, ((S_8009345C_10 *)new_object)->unk_13);
                 apply_actor_template_and_class(new_object, ((S_8009345C_10 *)new_object)->unk_13, *message_or_list.base);
                 object_flags = ((S_8009345C_10 *)new_object)->unk_1C;

@@ -104,7 +104,7 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
     s32 x_step;
     s32 end_frame;
     TileObject *resident_sprite;
-    void *source_data;
+    S_80025C80_3 *source_data;
     ActorRecord *source_data_2;
     s16 *update_ptr;
     s16 *update_y_base;
@@ -311,9 +311,9 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
             return;
         }
         source_data = linked_monster->unk_08;
-        ((S_80025C80_2 *)((void *)(motion_in)))->unk_00.at02.v = (s16) ((S_80025C80_3 *)source_data)->unk_02;
-        ((S_80025C80_2 *)((void *)(motion_in)))->unk_04.at02.v = (s16) ((S_80025C80_3 *)source_data)->unk_06;
-        ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at02.v = (s16) ((S_80025C80_3 *)source_data)->unk_0A;
+        ((S_80025C80_2 *)((void *)(motion_in)))->unk_00.at02.v = (s16) source_data->unk_02;
+        ((S_80025C80_2 *)((void *)(motion_in)))->unk_04.at02.v = (s16) source_data->unk_06;
+        ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at02.v = (s16) source_data->unk_0A;
         linked_sprite = ((S_80025C80_8 *)(((S_80025C80_0 *)effect_in)->unk_20))->unk_0C;
         func_800266D0(sprite, linked_sprite->unk_04);
         func_80026548(effect_in, sprite->frame_entry);

@@ -59,7 +59,7 @@ void build_visible_tile_quads(u8 *tiles)
 {
     u8 *scratch = (u8 *)0x1F800000;
     GameWork *globals = &g_game_work;
-    u8 *style;
+    S_800D1824_4 *style;
     u8 *prim;
     u8 *render_state;
     s32 x;
@@ -70,7 +70,7 @@ void build_visible_tile_quads(u8 *tiles)
 
     ((S_800D1824_0 *)scratch)->unk_28 = 0;
     render_state = ((u8 *)globals->draw_buffer);
-    style = ((S_800D1824_5 *)(((u8 *)globals->map.cell_faces)))->unk_10;
+    style = (S_800D1824_4 *)((S_800D1824_5 *)(((u8 *)globals->map.cell_faces)))->unk_10;
     prim = ((GpuContext *)render_state)->packetCursor;
     ((S_800D1824_0 *)scratch)->unk_2C = -0x1000;
     ((S_800D1824_0 *)scratch)->unk_20 = render_state + 0xB0;
@@ -120,10 +120,10 @@ void build_visible_tile_quads(u8 *tiles)
                 if ((u32)depth < 0x1E0) {
                     gte_stsxy(prim + 0x20);
                     func_80065034(scratch + 0x28, &globals->view.tint.word, prim + 4);
-                    *(u32 *)(prim + 0xC) = ((S_800D1824_4 *)style)->unk_08;
-                    *(u32 *)(prim + 0x14) = ((S_800D1824_4 *)style)->unk_0C;
-                    *(u16 *)(prim + 0x1C) = ((S_800D1824_4 *)style)->unk_12;
-                    *(u16 *)(prim + 0x24) = ((S_800D1824_4 *)style)->unk_14;
+                    *(u32 *)(prim + 0xC) = style->unk_08;
+                    *(u32 *)(prim + 0x14) = style->unk_0C;
+                    *(u16 *)(prim + 0x1C) = style->unk_12;
+                    *(u16 *)(prim + 0x24) = style->unk_14;
                     prim[3] = 9;
                     AddPrim(
                         (s32)((S_800D1824_0 *)scratch)->unk_20 +

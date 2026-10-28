@@ -17,8 +17,8 @@ void interpolate_view_parameters(void *tracker) {
     s16 next_ticks;
     Row_81916800_S_81916800_2 *target_values;
     GameView *blend_state;
-    u8 *countdown;
-    u8 *third_pending;
+    Row_81916800_S_81916800_1 *countdown;
+    Row_81916800_S_81916800_3 *third_pending;
 
     blend_ticks = (*(s16 *)((u8 *)tracker + 0x24));
     blend_state = &g_game_work.view;
@@ -31,9 +31,9 @@ void interpolate_view_parameters(void *tracker) {
     if (next_ticks < -0x80) {
         (*(s16 *)((u8 *)tracker + 0x24)) = -0x80;
     }
-    countdown = ((u8 *)camera_transition_timer);
-    if (((Row_81916800_S_81916800_1 *)countdown)->unk_00.u != 0) {
-        ((Row_81916800_S_81916800_1 *)countdown)->unk_00.s = (s8) (((Row_81916800_S_81916800_1 *)countdown)->unk_00.u - 1);
+    countdown = ((Row_81916800_S_81916800_1 *)camera_transition_timer);
+    if (countdown->unk_00.u != 0) {
+        countdown->unk_00.s = (s8) (countdown->unk_00.u - 1);
     }
     (*(u16 *)((u8 *)tracker + 4)) = (u16) ((Row_81916800_S_81916800_4 *)(*(void **)((u8 *)tracker + 0xC)))->unk_02;
     target_values = (*(void **)((u8 *)tracker + 0xC));
@@ -43,12 +43,12 @@ void interpolate_view_parameters(void *tracker) {
         - blend_state->camera_position.parts.camera_position_x) >> 2);
     blend_state->camera_position.parts.camera_position_y = (u16) ((u16)blend_state->camera_position.parts.camera_position_y) + ((s32) ((s16) (*(u16 *)((u8 *)tracker + 6))
         - blend_state->camera_position.parts.camera_position_y) >> 2);
-    third_pending = D_80025B1C;
-    if (((Row_81916800_S_81916800_3 *)third_pending)->unk_00.u != 0) {
+    third_pending = (Row_81916800_S_81916800_3 *)D_80025B1C;
+    if (third_pending->unk_00.u != 0) {
         blend_state->camera_position.parts.camera_position_z = (u16) ((u16)blend_state->camera_position.parts.camera_position_z) + ((s32) ((s16) (*(u16 *)((u8 *)tracker + 8))
             - blend_state->camera_position.parts.camera_position_z) >> 2);
     }
-    ((Row_81916800_S_81916800_3 *)third_pending)->unk_00.s = (s8) (blend_state->camera_position.parts.camera_position_z != (s16) (*(u16 *)((u8 *)tracker + 8)));
+    third_pending->unk_00.s = (s8) (blend_state->camera_position.parts.camera_position_z != (s16) (*(u16 *)((u8 *)tracker + 8)));
     blend_state->view_offset.parts.view_offset_x = (u16) ((s32) (((u16)blend_state->view_offset.parts.view_offset_x) << 0x10) >> 0x12);
     blend_state->view_offset.parts.view_offset_y = (u16) ((s32) (((u16)blend_state->view_offset.parts.view_offset_y) << 0x10) >> 0x12);
 }
@@ -281,7 +281,7 @@ void *create_radial_effect_from_source(void *source, Row_81917004_Copy24 *origin
     ObjectNodeHeader *effect;
     SpriteFrameState *part;
     Row_81917004_Copy24 *position;
-    u8 *effect_state;
+    Row_81917004_S_80024804_3 *effect_state;
     s32 scale_step;
     s32 direction_factor;
     s32 direction_factor_2;
@@ -312,7 +312,7 @@ void *create_radial_effect_from_source(void *source, Row_81917004_Copy24 *origin
         part->flags |= 0x0100;
 
         random_value = rand();
-        effect_state = (u8 *)effect + 0x20;
+        effect_state = (Row_81917004_S_80024804_3 *)((u8 *)effect + 0x20);
         part->angle_z = random_value % 0x1000;
 
         part_scale = ((step_word >> 16) << 8) + 0x500;
@@ -323,19 +323,19 @@ void *create_radial_effect_from_source(void *source, Row_81917004_Copy24 *origin
         position = *(Row_81917004_Copy24 * *)&effect->position;
         *position = *origin;
 
-        ((Row_81917004_S_80024804_3 *)effect_state)->unk_0E.u = ((Row_81917004_S_80024804_1 *)source)->unk_0E;
-        ((Row_81917004_S_80024804_3 *)effect_state)->unk_10.u = ((Row_81917004_S_80024804_1 *)source)->unk_10;
+        effect_state->unk_0E.u = ((Row_81917004_S_80024804_1 *)source)->unk_0E;
+        effect_state->unk_10.u = ((Row_81917004_S_80024804_1 *)source)->unk_10;
 
-        direction_factor = rsin(((Row_81917004_S_80024804_3 *)effect_state)->unk_0E.s);
+        direction_factor = rsin(effect_state->unk_0E.s);
         position->word[0] -= (scaled_factor = direction_factor >> 4) *
-            (rsin(((Row_81917004_S_80024804_3 *)effect_state)->unk_10.s) >> 4) * ((step_word >> 16) + 2) * 8;
+            (rsin(effect_state->unk_10.s) >> 4) * ((step_word >> 16) + 2) * 8;
 
-        direction_factor_2 = rsin(((Row_81917004_S_80024804_3 *)effect_state)->unk_0E.s);
+        direction_factor_2 = rsin(effect_state->unk_0E.s);
         position->word[1] -= (scaled_factor = direction_factor_2 >> 4) *
-            (rcos(((Row_81917004_S_80024804_3 *)effect_state)->unk_10.s) >> 4) * ((step_word >> 16) + 2) * 8;
+            (rcos(effect_state->unk_10.s) >> 4) * ((step_word >> 16) + 2) * 8;
 
         position->word[2] -=
-            ((rcos(((Row_81917004_S_80024804_3 *)effect_state)->unk_0E.s) >> 4) * ((step_word >> 16) + 2)) << 11;
+            ((rcos(effect_state->unk_0E.s) >> 4) * ((step_word >> 16) + 2)) << 11;
         return effect;
     }
 
@@ -421,12 +421,12 @@ void advance_radial_effect_state(void *motion, void *position, SpriteFrameState 
     s16 past_target;
     u16 size;
     u8 intensity;
-    void *object;
+    Row_8191740C_S_80024C0C_1 *object;
     ObjectFlagBlock *global_flags;
     s16 state;
 
     object = ((Row_8191740C_S_80024C0C_0 *)motion)->unk_00;
-    ((Row_8191740C_S_80024C0C_1 *)object)->unk_14++;
+    object->unk_14++;
     state = ((Row_8191740C_S_80024C0C_0 *)motion)->unk_04.s;
     switch (state) {
     case 0:
@@ -478,7 +478,7 @@ void advance_radial_effect_state(void *motion, void *position, SpriteFrameState 
         advance_sprite_animation_and_textures(effect);
         if (effect->flags & 0x6000) {
             object = ((Row_8191740C_S_80024C0C_0 *)motion)->unk_00;
-            ((Row_8191740C_S_80024C0C_1 *)object)->unk_16++;
+            object->unk_16++;
             global_flags = &object_flag_block;
             (*(u16 *)((u8 *)motion + (-2))) |= 0x8000;
             global_flags->flags |= 0x8000;
@@ -564,10 +564,10 @@ void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(void
     s32 scale;
     s16 phase;
     u8 brightness;
-    void *owner;
+    Row_81917894_S_80025094_1 *owner;
 
     owner = ((Row_81917894_S_80025094_0 *)effect)->unk_00;
-    ((Row_81917894_S_80025094_1 *)owner)->unk_14 = (u16) (((Row_81917894_S_80025094_1 *)owner)->unk_14 + 1);
+    owner->unk_14 = (u16) (owner->unk_14 + 1);
     advance_sprite_animation_and_textures(visual);
     ((Row_81917894_S_80025094_0 *)effect)->unk_06.u = (u16) (((Row_81917894_S_80025094_0 *)effect)->unk_06.u + 1);
     visual->angle_z = (u16) (visual->angle_z + 0x200);

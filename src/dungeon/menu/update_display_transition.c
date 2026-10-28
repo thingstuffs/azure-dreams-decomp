@@ -121,7 +121,7 @@ void update_display_transition(S_800DC1F8_0 *transition, void *anim_data) {
     S_800DC1F8_8 *color_reset;
     S_800DC1F8_9 *paired_color_reset;
     S_800DC1F8_7 *paired_color;
-    u8 *page_base;
+    S_800DC1F8_10 *page_base;
     S_800DC1F8_1 *state = anim_data;
 
     if (transition->unk_18 != 0) {
@@ -221,12 +221,12 @@ void update_display_transition(S_800DC1F8_0 *transition, void *anim_data) {
         }
     }
     if (transition->unk_24 == 0) {
-        page_base = (u8 *)0x80080000;
-        first_counter = ((S_800DC1F8_12 *)(((S_800DC1F8_10 *)page_base)->unk_14A8.i))->unk_28;
+        page_base = (S_800DC1F8_10 *)0x80080000;
+        first_counter = ((S_800DC1F8_12 *)(page_base->unk_14A8.i))->unk_28;
         if (first_counter != transition->unk_10) {
             draw_filler_first_number(first_counter, transition->unk_10, 3, 0x1CA, 0x19C, 1);
         }
-        second_counter = ((S_800DC1F8_13 *)(((S_800DC1F8_10 *)page_base)->unk_14A8.p))->unk_29;
+        second_counter = ((S_800DC1F8_13 *)(page_base->unk_14A8.p))->unk_29;
         if (second_counter != transition->unk_14) {
             draw_padded_first_number(second_counter, transition->unk_14, 3, 0x1DA, 0x1A4, 1);
         }

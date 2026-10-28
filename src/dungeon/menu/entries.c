@@ -768,7 +768,7 @@ void initialize_menu_header_records(void *unused, ovl_1831cd8_81813050_Header *h
 
     ((ovl_1831cd8_81813050_Template1 *)record_b)->unk0 = *first_word;
     ((ovl_1831cd8_81813050_Template1 *)record_b)->unk4 = defaults_b->unk4;
-    ((ovl_1831cd8_81813050_Template1 *)record_b)->unk8 = defaults_b->unk8;
+    record_b->unk8 = defaults_b->unk8;
 
     header->unk4 = (ovl_1831cd8_81813050_Record0 *)record_a;
     header->unk8 = record_b;

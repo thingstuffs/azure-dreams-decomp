@@ -73,8 +73,8 @@ s32 dispatch_dungeon_category_action(void *actor, void *action, s16 dispatch_mod
         }
     }
     if ((s16)dispatch_mode == 0x15) {
-        process_unflagged_linked_entries_alt(*(s32 *)((u8 *)dungeon_actor_ring_anchor + 0x5C));
-        process_unflagged_linked_entries(*(s32 *)((u8 *)dungeon_actor_ring_anchor + 0x5C));
+        process_unflagged_linked_entries_alt(dungeon_actor_ring_anchor->next_actor_header);
+        process_unflagged_linked_entries(dungeon_actor_ring_anchor->next_actor_header);
         g_dungeon_status.flags |= 0x812;
     }
     handler(actor, action, dispatch_mode, handler_param);

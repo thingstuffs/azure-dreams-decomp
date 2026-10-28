@@ -68,7 +68,7 @@ void *create_and_link_six_offset_objects(u16 x, u16 y, s16 z, void *source)
 
     ObjectPosition *coords;
     ObjectNodeHeader *object;
-    void *point_cursor;
+    S_80026C88_5 *point_cursor;
     SpriteFrameState *source_object;
     union { GteShortVector *offset; S_80026C88_4 *render; } pointers;
     void *list_head;
@@ -113,10 +113,10 @@ void *create_and_link_six_offset_objects(u16 x, u16 y, s16 z, void *source)
             state->unk_66 = 0x20;
             state->unk_6E = object_index;
             for (point_index = 0; point_index < 8; point_index++) {
-                point_cursor = (u8 *)state + point_index * 8;
-                ((S_80026C88_5 *)point_cursor)->unk_24 = (u16) *(u16 *)&coords->x.w.i;
-                ((S_80026C88_5 *)point_cursor)->unk_26 = (u16) *(u16 *)&coords->y.w.i;
-                ((S_80026C88_5 *)point_cursor)->unk_28 = (u16) *(u16 *)&coords->z.w.i;
+                point_cursor = (S_80026C88_5 *)((u8 *)state + point_index * 8);
+                point_cursor->unk_24 = (u16) *(u16 *)&coords->x.w.i;
+                point_cursor->unk_26 = (u16) *(u16 *)&coords->y.w.i;
+                point_cursor->unk_28 = (u16) *(u16 *)&coords->z.w.i;
             }
             state->unk_08 = list_head;
             list_head = object;

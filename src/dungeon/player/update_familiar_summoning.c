@@ -111,8 +111,8 @@ void update_familiar_summoning(u8 *actor, MovingPosition *position, void *animat
     u32 state;
     u32 previous_state;
     void *object;
-    void *object_scale;
-    void *object_position;
+    S_80095A10_6 *object_scale;
+    S_80095A10_7 *object_position;
 
     state = ((S_80095A10_0 *)actor)->unk_9B;
     resource_info = ((u8 *)reference_tile_object.selected_item);
@@ -165,12 +165,12 @@ void update_familiar_summoning(u8 *actor, MovingPosition *position, void *animat
             ((S_80095A10_2 *)context)->unk_60 = object;
             familiar_record_slots[((S_80095A10_3 *)resource_info)->unk_03 & 0x1F] = object;
             object_scale = ((S_80095A10_5_pre *)object)[-1].unk_04;
-            ((S_80095A10_6 *)object_scale)->unk_1E = 0x800;
-            ((S_80095A10_6 *)object_scale)->unk_1C = 0x800;
+            object_scale->unk_1E = 0x800;
+            object_scale->unk_1C = 0x800;
             object_position = ((S_80095A10_5_pre *)object)[-1].unk_00;
-            ((S_80095A10_7 *)object_position)->unk_02 = (u16) position->x;
-            ((S_80095A10_7 *)object_position)->unk_06 = (u16) position->y;
-            ((S_80095A10_7 *)object_position)->unk_0A = (s16) (position->z - 0x10);
+            object_position->unk_02 = (u16) position->x;
+            object_position->unk_06 = (u16) position->y;
+            object_position->unk_0A = (s16) (position->z - 0x10);
             func_80042640(object, ((S_80095A10_5 *)object)->unk_13);
             apply_actor_template_and_class(object, ((S_80095A10_5 *)object)->unk_13, resource_info);
             object_flags = ((S_80095A10_5 *)object)->unk_1C;

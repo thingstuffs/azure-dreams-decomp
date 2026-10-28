@@ -46,7 +46,7 @@ s32 begin_familiar_summoning(void *record, s32 input1, void *pointer_input, s32 
     s32 direction_index;
     s32 condition;
     s8 next_y;
-    void *child;
+    S_80095854_1 *child;
 
     status = 0;
     child = ((S_80095854_0 *)record)->unk_124;
@@ -54,7 +54,7 @@ s32 begin_familiar_summoning(void *record, s32 input1, void *pointer_input, s32 
     ((S_80095854_0 *)record)->unk_9B = 0;
     ((S_80095854_0 *)record)->unk_8C = 0;
     if (child != 0) {
-        value = ((S_80095854_1 *)child)->unk_13;
+        value = child->unk_13;
         value = value > 0;
         status = value;
     }

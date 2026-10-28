@@ -25,9 +25,9 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
     Vec3 delta;
     s32 target_timer;
     void *owner_start;
-    void *owner_sprite;
+    S_81844800_7 *owner_sprite;
     ObjectNodeHeader *spawned;
-    void *particle_data;
+    S_81844800_6 *particle_data;
     SpriteFrameState *sprite;
     s32 particles_left;
     S_81844800_5 *sprite_page;
@@ -47,7 +47,7 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
             do {
                 spawned = allocate_list_node(0x312, &scene_object_list_anchor.next);
                 if (spawned != 0) {
-                    particle_data = (u8 *)spawned + 0x20;
+                    particle_data = (S_81844800_6 *)((u8 *)spawned + 0x20);
                     sprite = spawned->sprite;
                     spawned->update_callback = fade_effect_sprite_to_black;
                     ((S_81844800_14 *)(spawned->position))->unk_00.s =
@@ -73,9 +73,9 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
                         }
                     }
                     ((S_81844800_2 *)spawned)->unk_20 = effect;
-                    ((S_81844800_6 *)particle_data)->unk_48 = rand() & 3;
-                    ((S_81844800_6 *)particle_data)->unk_4A = 8;
-                    ((S_81844800_6 *)particle_data)->unk_4C = 0;
+                    particle_data->unk_48 = rand() & 3;
+                    particle_data->unk_4A = 8;
+                    particle_data->unk_4C = 0;
                 }
                 particles_left--;
             } while (particles_left >= 0);
@@ -84,22 +84,22 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
     switch (((S_81844800_0 *)effect)->unk_0A.s) {
     case 0:
     {
-        void *target;
+        S_81844800_8_pre *target;
         if ((((S_81844800_15 *)(((S_81844800_0 *)effect)->unk_04))->unk_00 & 0x80) == 0) {
             return;
         }
         target = scan_actor_along_heading(
             owner,
-            ((S_81844800_7 *)owner_sprite)->unk_24,
-            ((S_81844800_7 *)owner_sprite)->unk_25,
+            owner_sprite->unk_24,
+            owner_sprite->unk_25,
             ((S_81844800_1 *)owner)->unk_2A,
             (s16)get_definition_entry_byte_13(9));
         ((S_81844800_1 *)owner)->unk_60 = target;
         if (target == 0) {
-            ((S_81844800_1 *)owner)->unk_72.s = ((S_81844800_7 *)owner_sprite)->unk_24;
-            ((S_81844800_1 *)owner)->unk_73.s = ((S_81844800_7 *)owner_sprite)->unk_25;
+            ((S_81844800_1 *)owner)->unk_72.s = owner_sprite->unk_24;
+            ((S_81844800_1 *)owner)->unk_73.s = owner_sprite->unk_25;
         } else {
-            sprite = ((S_81844800_8_pre *)target)[-1].unk_00;
+            sprite = target[-1].unk_00;
             if ((sprite->flags & 0x8000) != 0) {
                 if ((((S_81844800_9 *)source_render)->unk_14 & 0x8000) != 0) {
                     apply_attack_power_and_element_effects(
@@ -230,15 +230,15 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
         do {
             spawned = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (spawned != 0) {
-                particle_data = (u8 *)spawned + 0x20;
+                particle_data = (S_81844800_6 *)((u8 *)spawned + 0x20);
                 sprite = spawned->sprite;
                 spawned->update_callback = fade_effect_sprite_to_black;
-                ((S_81844800_14 *)(spawned->position))->unk_00.u =
+                spawned->position->x.v =
                     ((S_81844800_3 *)motion)->unk_00.at00.v;
-                ((S_81844800_14 *)(spawned->position))->unk_04.u =
+                spawned->position->y.v =
                     ((S_81844800_3 *)motion)->unk_04.at00.v;
                 state = (rand() & 0x3F) - 176;
-                ((S_81844800_14 *)(spawned->position))->unk_08.at02.v =
+                spawned->position->z.w.i =
                     ((S_81844800_3 *)motion)->unk_08.at02.v - state;
                 ((S_81844800_14 *)(spawned->position))->unk_0E = (rand() & 0xF) - 8;
                 ((S_81844800_14 *)(spawned->position))->unk_12 = (rand() & 0xF) - 8;
@@ -259,9 +259,9 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
                     }
                 }
                 ((S_81844800_2 *)spawned)->unk_20 = effect;
-                ((S_81844800_6 *)particle_data)->unk_48 = rand() & 3;
-                ((S_81844800_6 *)particle_data)->unk_4A = 16;
-                ((S_81844800_6 *)particle_data)->unk_4C = 0;
+                particle_data->unk_48 = rand() & 3;
+                particle_data->unk_4A = 16;
+                particle_data->unk_4C = 0;
             }
             particles_left--;
         } while (particles_left >= 0);

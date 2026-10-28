@@ -74,7 +74,7 @@ typedef struct S_800AACA4_11 {
 void begin_actor_throw_from_attachment(Rec_func_800A9E70_arg0 *state, EntityRec *motion, SpriteFrameState *tile, S_800AACA4_1 *entity) {
     LocalResult height_adjustment;
     S_800AACA4_3 *source_object;
-    void *entity_data;
+    S_800AACA4_2_pre *entity_data;
     S_800AACA4_4 *resource_table;
     S_800AACA4_5 *resource_entry;
     u32 target_offset;
@@ -92,7 +92,7 @@ void begin_actor_throw_from_attachment(Rec_func_800A9E70_arg0 *state, EntityRec 
     state->unk_96.as_s16 = 2;
 
     entity_data = entity->unk_60;
-    source_object = ((S_800AACA4_2_pre *)entity_data)[-1].unk_04;
+    source_object = entity_data[-1].unk_04;
     resource_table = ((S_800AACA4_9 *)(source_object->unk_28))->unk_00;
     resource_entry = (*(void * *)((u8 *)(resource_table->unk_00)
         + ((S_800AACA4_10 *)(source_object->unk_2C))->unk_02 * 4));
@@ -101,7 +101,7 @@ void begin_actor_throw_from_attachment(Rec_func_800A9E70_arg0 *state, EntityRec 
     }
 
     entity_data = entity->unk_60;
-    motion->z.w.i = ((S_800AACA4_11 *)(((S_800AACA4_2_pre *)entity_data)[-1].unk_00))->unk_0A + height_adjustment.value;
+    motion->z.w.i = ((S_800AACA4_11 *)(entity_data[-1].unk_00))->unk_0A + height_adjustment.value;
     tile->tile_x = source_object->unk_24;
     tile->tile_y = source_object->unk_25;
     set_record_integer_tile_center(motion, tile->tile_x, tile->tile_y);

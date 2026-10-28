@@ -37,8 +37,8 @@ void follow_selection_and_blink_sprite(void *motion_state, ObjectPosition *posit
     s16 move_ticks;
     s32 target_y;
     s16 ticks_left;
-    void *target_pos;
-    void *target_node;
+    S_81809800_4 *target_pos;
+    S_81809800_3 *target_node;
     void *owner;
     s32 current_y;
     s32 node_index;
@@ -51,26 +51,26 @@ void follow_selection_and_blink_sprite(void *motion_state, ObjectPosition *posit
     update_counts = selection_animation_counters;
     target_node = ((S_81809800_1 *)(((node_index * 4) + owner)))->unk_0C;
     current_y = position->x.w.i;
-    target_pos = ((S_81809800_3 *)target_node)->unk_08;
-    target_y = ((S_81809800_4 *)target_pos)->unk_00.at02.v;
+    target_pos = target_node->unk_08;
+    target_y = target_pos->unk_00.at02.v;
     update_counts[0] = (s16) ((u16) update_counts[0] + 1);
-    if ((target_y != current_y) || (((S_81809800_4 *)target_pos)->unk_04.at02.v
+    if ((target_y != current_y) || (target_pos->unk_04.at02.v
         != position->y.w.i)) {
         ((EntityRec *)motion_state)->z.w.i = 2;
     }
     move_ticks = ((EntityRec *)motion_state)->z.w.i;
     if (move_ticks != 0) {
         position->x.v = (s32) (position->x.v
-            + ((s32) (((S_81809800_4 *)target_pos)->unk_00.at00.v
+            + ((s32) (target_pos->unk_00.at00.v
             - position->x.v) / move_ticks));
         position->y.v = (s32) (position->y.v
-            + ((s32) (((S_81809800_4 *)target_pos)->unk_04.at00.v
+            + ((s32) (target_pos->unk_04.at00.v
             - position->y.v) / (s16) ((EntityRec *)motion_state)->z.w.i));
         ticks_left = (u16) ((EntityRec *)motion_state)->z.w.i - 1;
         ((EntityRec *)motion_state)->z.w.i = ticks_left;
         if ((ticks_left << 0x10) <= 0) {
-            position->x.w.i = (s16) (u16) ((S_81809800_4 *)target_pos)->unk_00.at02.v;
-            position->y.w.i = (s16) (u16) ((S_81809800_4 *)target_pos)->unk_04.at02.v;
+            position->x.w.i = (s16) (u16) target_pos->unk_00.at02.v;
+            position->y.w.i = (s16) (u16) target_pos->unk_04.at02.v;
             ((EntityRec *)motion_state)->z.w.i = 0;
         }
     }
@@ -310,20 +310,20 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, void *appea
                     side_offset += (s32)side_ptr;
                     cell = (S_8002520C_6 *)(world_node->unk_0C);
                     actor = ((S_8002520C_11 *)((void *) side_offset))->unk_AC;
-                    direction = (get_rounded_facing_and_rounding_flag(1, 1, ((S_8002520C_12 *)cell)->unk_24, ((S_8002520C_12 *)cell)->unk_25,
+                    direction = (get_rounded_facing_and_rounding_flag(1, 1, cell->unk_24, cell->unk_25,
                         &target_y) >> 9) & 7;
                 }
                 {
                     s32 turned_dir;
-                    u8 *direction_entry;
+                    S_8002520C_13 *direction_entry;
 
                     turned_dir = direction - 2;
                     step_index = ((S_8002520C_0 *)menu)->unk_26;
                     direction_page = (u8 *)0x80010000;
-                    direction_entry = ((s16)step_index * 2) + direction_page;
-                    if ((turned_dir & 7) != ((S_8002520C_13 *)direction_entry)->unk_2094) {
+                    direction_entry = (S_8002520C_13 *)(((s16)step_index * 2) + direction_page);
+                    if ((turned_dir & 7) != direction_entry->unk_2094) {
                         direction = (direction - 2) & 7;
-                        ((S_8002520C_13 *)direction_entry)->unk_2094 = direction;
+                        direction_entry->unk_2094 = direction;
                         actor->unk_45 = (s8) direction;
                         append_packed_action_record(((S_8002520C_9 *)world_page)->unk_3D7C, 0x90, ((S_8002520C_0 *)menu)->unk_26,
                             direction);
@@ -478,10 +478,10 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, void *appea
 /* Fades a directional actor sprite in and out with the selection menu while updating its facing animation. */
 void update_directional_object_fade(void *state_arg, void *buffer_arg, void *obj_arg)
 {
-    void *state;
+    S_80025A14_0 *state;
     u16 update_count;
     s32 fade_ticks;
-    void *buffer = buffer_arg;
+    S_80025A14_1 *buffer = buffer_arg;
     u16 render_flags;
     s8 phase;
     u8 fade_in_value;
@@ -496,13 +496,13 @@ void update_directional_object_fade(void *state_arg, void *buffer_arg, void *obj
     state = state_arg;
     update_count++;
     (*(u16 *)selection_animation_counters) = update_count;
-    phase = ((S_80025A14_0 *)state)->unk_72.s;
+    phase = state->unk_72.s;
     switch (phase) {
     case PREVIEW_FADE_INIT:
         unit_scale = 0x1000;
-        ((S_80025A14_1 *)buffer)->unk_02 = 0;
-        ((S_80025A14_1 *)buffer)->unk_06 = 0;
-        ((S_80025A14_1 *)buffer)->unk_0A = 0;
+        buffer->unk_02 = 0;
+        buffer->unk_06 = 0;
+        buffer->unk_0A = 0;
         ((S_80025A14_2 *)obj_arg)->unk_1E = unit_scale;
         ((S_80025A14_2 *)obj_arg)->unk_1C = unit_scale;
         ((S_80025A14_2 *)obj_arg)->unk_0E = 0;
@@ -512,11 +512,11 @@ void update_directional_object_fade(void *state_arg, void *buffer_arg, void *obj
         ((S_80025A14_2 *)obj_arg)->unk_14 = reference_tile_object.sprite_flags & 0xFFFC;
         ((S_80025A14_2 *)obj_arg)->unk_2C = player_camera_reset_frames;
         ((S_80025A14_2 *)obj_arg)->unk_14 |= 0x200;
-        ((S_80025A14_0 *)state)->unk_73.s = 8;
-        ((S_80025A14_0 *)state)->unk_72.s = ((S_80025A14_0 *)state)->unk_72.u + 1;
+        state->unk_73.s = 8;
+        state->unk_72.s = state->unk_72.u + 1;
                         /* fall through */
     case PREVIEW_FADE_IN:
-        fade_ticks = (s32)((S_80025A14_0 *)state)->unk_73.s;
+        fade_ticks = (s32)state->unk_73.s;
         if (fade_ticks != 0) {
             fade_in_value = ((S_80025A14_2 *)obj_arg)->unk_0E;
             fade_in_value += (0x40 - fade_in_value) / fade_ticks;
@@ -524,27 +524,27 @@ void update_directional_object_fade(void *state_arg, void *buffer_arg, void *obj
             ((S_80025A14_2 *)obj_arg)->unk_0D = fade_in_value;
             ((S_80025A14_2 *)obj_arg)->unk_0C = fade_in_value;
         }
-        fade_in_value_2 = ((S_80025A14_0 *)state)->unk_73.u - 1;
-        ((S_80025A14_0 *)state)->unk_73.u = fade_in_value_2;
+        fade_in_value_2 = state->unk_73.u - 1;
+        state->unk_73.u = fade_in_value_2;
         if ((s8)fade_in_value_2 <= 0) {
             ((S_80025A14_2 *)obj_arg)->unk_0E = 0x40;
             ((S_80025A14_2 *)obj_arg)->unk_0D = 0x40;
             ((S_80025A14_2 *)obj_arg)->unk_0C = 0x40;
-            current_phase = ((S_80025A14_0 *)state)->unk_72.u;
-            ((S_80025A14_0 *)state)->unk_73.u = 0;
-            ((S_80025A14_0 *)state)->unk_72.u = current_phase + 1;
+            current_phase = state->unk_72.u;
+            state->unk_73.u = 0;
+            state->unk_72.u = current_phase + 1;
         }
                         /* fall through */
     case PREVIEW_FADE_HOLD:
         if (selection_menu_closing != 0) {
-            ((S_80025A14_0 *)state)->unk_73.u = 8;
-            ((S_80025A14_1 *)buffer)->unk_16 = 8;
-            current_phase = ((S_80025A14_0 *)state)->unk_72.u;
-            ((S_80025A14_0 *)state)->unk_72.u = current_phase + 1;
+            state->unk_73.u = 8;
+            buffer->unk_16 = 8;
+            current_phase = state->unk_72.u;
+            state->unk_72.u = current_phase + 1;
         }
         break;
     case PREVIEW_FADE_OUT:
-        fade_ticks = (s32)((S_80025A14_0 *)state)->unk_73.s;
+        fade_ticks = (s32)state->unk_73.s;
         if (fade_ticks != 0) {
             fade_out_value = ((S_80025A14_2 *)obj_arg)->unk_0E;
             fade_out_value += (0 - fade_out_value) / fade_ticks;
@@ -552,22 +552,22 @@ void update_directional_object_fade(void *state_arg, void *buffer_arg, void *obj
             ((S_80025A14_2 *)obj_arg)->unk_0D = fade_out_value;
             ((S_80025A14_2 *)obj_arg)->unk_0C = fade_out_value;
         }
-        fade_out_value = ((S_80025A14_0 *)state)->unk_73.u - 1;
-        ((S_80025A14_0 *)state)->unk_73.u = fade_out_value;
+        fade_out_value = state->unk_73.u - 1;
+        state->unk_73.u = fade_out_value;
         if ((s8)fade_out_value <= 0) {
-            current_phase = ((S_80025A14_0 *)state)->unk_72.u;
-            ((S_80025A14_0 *)state)->unk_72.u = current_phase + 1;
+            current_phase = state->unk_72.u;
+            state->unk_72.u = current_phase + 1;
         }
         break;
     default:
         return;
     }
 
-    owner = ((S_80025A14_0 *)state)->unk_58;
+    owner = state->unk_58;
     owner = ((S_80025A14_4_pre *)owner)[-1].unk_00;
     direction = ((((S_80025A14_4 *)owner)->unk_1A + 0x500) >> 9) & 7;
-    if (((S_80025A14_0 *)state)->unk_46 != direction) {
-        ((S_80025A14_0 *)state)->unk_46 = direction;
+    if (state->unk_46 != direction) {
+        state->unk_46 = direction;
         texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(obj_arg, ((u8 *)((S_80025A14_2 *)obj_arg)->unk_2C)[direction],
                       ((S_80025A14_2 *)obj_arg)->unk_04, 2);
     }
@@ -793,24 +793,24 @@ void initialize_children_or_shutdown(void *owner)
     s32 cleanup_flags;
     s32 alloc_flags;
     register void *entity_arg;
-    void *child;
+    S_80026190_5 *child;
     u8 *status_page;
     s32 mode;
-    u8 *flag_page;
-    u8 *cleanup_page;
+    S_80026190_15 *flag_page;
+    S_80026190_8 *cleanup_page;
     GameWork *status;
     void *source;
     SpriteFrameState *parent;
-    void *main_child;
-    void *aux_child;
+    S_80026190_2 *main_child;
+    S_80026190_3 *aux_child;
     void *child_object;
     void *alloc_container;
     void *setup_container;
     s32 mask_work;
     void *spawn_container;
-    void *spawn_child;
+    S_80026190_13 *spawn_child;
     ObjectNodeHeader *spawn_resource;
-    void *entity;
+    S_80026190_17 *entity;
 
     status_page = (u8 *)((s8 *)(&g_game_work));
     state = ((S_80026190_0 *)owner)->unk_1C.s;
@@ -828,11 +828,11 @@ void initialize_children_or_shutdown(void *owner)
     if (status->buttons & 0x20) {
         main_child = ((S_80026190_0 *)owner)->unk_00;
         if (main_child != NULL) {
-            ((S_80026190_2 *)main_child)->unk_1C = SELECTION_MENU_WAIT_CHILDREN;
+            main_child->unk_1C = SELECTION_MENU_WAIT_CHILDREN;
         }
         aux_child = ((S_80026190_0 *)owner)->unk_04;
         if (aux_child != NULL) {
-            ((S_80026190_3 *)aux_child)->unk_0E = SELECTION_SHADE_OUT_INIT;
+            aux_child->unk_0E = SELECTION_SHADE_OUT_INIT;
         }
         selection_menu_closing = 1;
         ((S_80026190_0 *)owner)->unk_1C.s = stop_state;
@@ -850,12 +850,12 @@ void initialize_children_or_shutdown(void *owner)
         return;
     }
     ((S_80026190_4 *)((void *)object_or_kind))->unk_10.s = (void *)update_selection_menu_animation;
-    child = (u8 *)object_or_kind + 0x20;
+    child = (S_80026190_5 *)((u8 *)object_or_kind + 0x20);
     ((S_80026190_0 *)owner)->unk_00 = child;
-    ((S_80026190_5 *)child)->unk_26 = ((S_80026190_0 *)owner)->unk_26;
+    child->unk_26 = ((S_80026190_0 *)owner)->unk_26;
 
     child_object = allocate_flagged_object_node(0x112);
-    ((S_80026190_5 *)child)->unk_08 = child_object;
+    child->unk_08 = child_object;
     if (child_object == NULL) {
         alloc_container = ((S_80026190_0 *)owner)->unk_00;
         alloc_bits = ((ObjectNodeHeader *)((u8 *)alloc_container - 0x20))->flags;
@@ -870,24 +870,24 @@ void initialize_children_or_shutdown(void *owner)
     object_or_kind = (s32)child_object;
     ((S_80026190_4 *)((void *)object_or_kind))->unk_10.s = (void *)update_directional_object_fade;
     ((S_80026190_4 *)((void *)object_or_kind))->unk_78 = ((S_80026190_0 *)owner)->unk_00;
-    if ((((S_80026190_5 *)child)->unk_14 = allocate_sprite_data_object((s32)child)) == NULL) {
+    if ((child->unk_14 = allocate_sprite_data_object((s32)child)) == NULL) {
         setup_container = ((S_80026190_0 *)owner)->unk_00;
         owner_bits = ((ObjectNodeHeader *)((u8 *)setup_container - 0x20))->flags;
-        cleanup_page = (u8 *)0x80080000;
+        cleanup_page = (S_80026190_8 *)0x80080000;
         ((ObjectNodeHeader *)((u8 *)setup_container - 0x20))->flags = owner_bits | 0x8000;
         ((S_80026190_0 *)owner)->unk_00 = NULL;
-        mask_work = (s32)(((S_80026190_5 *)child)->unk_08);
-        cleanup_flags = ((S_80026190_8 *)cleanup_page)->unk_14A0;
+        mask_work = (s32)(child->unk_08);
+        cleanup_flags = cleanup_page->unk_14A0;
         child_bits = ((S_80026190_9 *)((void *)mask_work))->unk_1E;
         cleanup_flags |= 0x8000;
-        ((S_80026190_8 *)cleanup_page)->unk_14A0 = cleanup_flags;
+        cleanup_page->unk_14A0 = cleanup_flags;
         ((S_80026190_9 *)((void *)mask_work))->unk_1E = child_bits | 0x8000;
-        ((S_80026190_5 *)child)->unk_08 = NULL;
+        child->unk_08 = NULL;
         return;
     }
 
     for (source_slot = 0; source_slot < 2; source_slot++) {
-    flag_page = (u8 *)0x80080000;
+    flag_page = (S_80026190_15 *)0x80080000;
     source = *(void **)(((u8 *)dungeon_actor_ring_anchor) + (source_slot * 4) + 0xAC);
     if (source != NULL) {
         object_or_kind = 0x1E;
@@ -926,33 +926,33 @@ void initialize_children_or_shutdown(void *owner)
             ((ObjectNodeHeader *)((u8 *)spawn_container - 0x20))->flags |= NODE_REMOVE;
             ((S_80026190_0 *)owner)->unk_00 = NULL;
 
-            spawn_child = ((S_80026190_5 *)child)->unk_08;
-            ((S_80026190_13 *)spawn_child)->unk_1E |= 0x8000;
-            ((S_80026190_5 *)child)->unk_08 = NULL;
+            spawn_child = child->unk_08;
+            spawn_child->unk_1E |= 0x8000;
+            child->unk_08 = NULL;
 
-            spawn_resource = ((S_80026190_5 *)child)->unk_14;
+            spawn_resource = child->unk_14;
             spawn_resource->flags |= 0x8000;
 
-            parent_value = ((S_80026190_15 *)flag_page)->unk_14A0.s;
-            entity_arg = ((S_80026190_5 *)child)->unk_0C;
-            ((S_80026190_5 *)child)->unk_14 = NULL;
+            parent_value = flag_page->unk_14A0.s;
+            entity_arg = child->unk_0C;
+            child->unk_14 = NULL;
             flags_mask = parent_value | 0x8000;
-            ((S_80026190_15 *)flag_page)->unk_14A0.u = flags_mask;
+            flag_page->unk_14A0.u = flags_mask;
             if (entity_arg != NULL) {
                 spawn_bits = ((S_80026190_16 *)entity_arg)->unk_1E;
-                ((S_80026190_15 *)flag_page)->unk_14A0.s = flags_mask;
+                flag_page->unk_14A0.s = flags_mask;
                 ((S_80026190_16 *)entity_arg)->unk_1E = spawn_bits | 0x8000;
-                ((S_80026190_5 *)child)->unk_0C = NULL;
+                child->unk_0C = NULL;
             }
             return;
         }
 
         func_80042640(entity, (s16)object_or_kind);
-        ((S_80026190_17 *)entity)->unk_14 = 0;
-        ((S_80026190_17 *)entity)->unk_1C = 0;
+        entity->unk_14 = 0;
+        entity->unk_1C = 0;
         copy_entity_record(entity, source);
 
-        ((S_80026190_17 *)entity)->unk_13 = object_or_kind;
+        entity->unk_13 = object_or_kind;
         for (clear_pairs_left = 3; clear_pairs_left >= 0; clear_pairs_left--) {
             ((u8 *)entity)[clear_pairs_left * 2 + 0x2C] = 0;
             ((u8 *)entity)[clear_pairs_left * 2 + 0x2D] = 0;
@@ -961,11 +961,11 @@ void initialize_children_or_shutdown(void *owner)
         mask_work = 0xBFFFFFFF;
         entity_arg = entity;
         entity_flags = 0x64;
-        ((S_80026190_17 *)entity)->unk_25 = entity_flags;
-        ((S_80026190_17 *)entity)->unk_88 = 0;
-        ((S_80026190_17 *)entity)->unk_1C &= ~0x1EF8;
-        ((S_80026190_17 *)entity)->unk_1C &= mask_work;
-        ((S_80026190_17 *)entity)->unk_1C |= 0x40000;
+        entity->unk_25 = entity_flags;
+        entity->unk_88 = 0;
+        entity->unk_1C &= ~0x1EF8;
+        entity->unk_1C &= mask_work;
+        entity->unk_1C |= 0x40000;
         unlink_entity_node(entity_arg);
 
         flags_mask = ((S_80026190_10 *)source)->unk_14;
@@ -981,13 +981,13 @@ void initialize_children_or_shutdown(void *owner)
 
         object_or_kind = (s32)entity - 0x20;
         *(s32 *)((u8 *)child + (source_slot * 4) + 0xC) = object_or_kind;
-        ((S_80026190_17 *)entity)->unk_5C = ((S_80026190_4 *)((void *)object_or_kind))->unk_10.u | 0x80000000;
-        ((S_80026190_17 *)entity)->unk_58 = ((S_80026190_0 *)owner)->unk_00;
-        ((S_80026190_17 *)entity)->unk_6A = source_slot;
+        entity->unk_5C = ((S_80026190_4 *)((void *)object_or_kind))->unk_10.u | 0x80000000;
+        entity->unk_58 = ((S_80026190_0 *)owner)->unk_00;
+        entity->unk_6A = source_slot;
         unlink_node((void *)object_or_kind);
         retire_tracked_effect_by_id((void *)object_or_kind);
         update_map_cell_flags_with_item_limit(parent->tile_x, parent->tile_y, 0x300);
-        ((S_80026190_17 *)entity)->unk_87 = 0xFF;
+        entity->unk_87 = 0xFF;
         ((S_80026190_4 *)((void *)object_or_kind))->unk_10.s = (void *)draw_and_restore_fading_object;
     }
     }

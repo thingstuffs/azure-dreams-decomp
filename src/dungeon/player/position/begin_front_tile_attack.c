@@ -58,29 +58,29 @@ typedef struct S_8008C8BC_4 {
 
 /* Selects a target in the facing direction and initializes the entity action state. */
 s32 begin_front_tile_attack(void *actor_state_arg, void *unused, void *position_arg, void *entity_arg) {
-    register void *entity = entity_arg;
+    register S_8008C8BC_0 *entity = entity_arg;
     s32 direction;
     u8 *page_or_entity;
-    void *target;
+    ActorRecord *target;
 
-    direction = ((u16) ((S_8008C8BC_0 *)entity)->unk_2A >> 9) & 7;
+    direction = ((u16) entity->unk_2A >> 9) & 7;
     if ((check_diagonal_side_height(direction, ((MovingTile *)position_arg)->tile_x, ((MovingTile *)position_arg)->tile_y,
-        (s16) (((S_8008C8BC_0 *)entity)->unk_88 - 0x20)) << 0x10) != 0) {
+        (s16) (entity->unk_88 - 0x20)) << 0x10) != 0) {
         target = find_eligible_actor_at_tile_and_height(entity, (((MovingTile *)position_arg)->tile_x
             + ((u16 *)dir_step_x)[direction]) & 0xFFFF, (((MovingTile *)position_arg)->tile_y
-            + ((u16 *)dir_step_y)[direction]) & 0xFFFF, (s16) ((S_8008C8BC_0 *)entity)->unk_88);
+            + ((u16 *)dir_step_y)[direction]) & 0xFFFF, (s16) entity->unk_88);
         page_or_entity = (u8 *)0x80010000;
-        ((S_8008C8BC_0 *)entity)->unk_60.p = target;
+        entity->unk_60.p = target;
         if (!(((S_8008C8BC_2 *)page_or_entity)->unk_3714 & 1) && (target != 0)
-            && (((ActorRecord *)target)->flags14 & 0x4000)
-            && (((S_8008C8BC_2 *)page_or_entity)->unk_3186 & 1) && !(((S_8008C8BC_0 *)entity)->unk_1C & 0x410)) {
-            ((S_8008C8BC_0 *)entity)->unk_60.p = NULL;
+            && (target->flags14 & 0x4000)
+            && (((S_8008C8BC_2 *)page_or_entity)->unk_3186 & 1) && !(entity->unk_1C & 0x410)) {
+            entity->unk_60.p = NULL;
             return 0;
         }
         page_or_entity = (u8 *)entity;
-        prepare_directional_attack(page_or_entity, position_arg, (s16) ((S_8008C8BC_0 *)entity)->unk_2A, 1, 0);
+        prepare_directional_attack(page_or_entity, position_arg, (s16) entity->unk_2A, 1, 0);
     } else {
-        ((S_8008C8BC_0 *)entity)->unk_60.p = NULL;
+        entity->unk_60.p = NULL;
     }
     ((S_8008C8BC_4 *)actor_state_arg)->unk_9A = 0x11;
     ((S_8008C8BC_4 *)actor_state_arg)->unk_9B = 0;
@@ -89,7 +89,7 @@ s32 begin_front_tile_attack(void *actor_state_arg, void *unused, void *position_
     ((S_8008C8BC_4 *)actor_state_arg)->unk_A6 = 0;
     ((S_8008C8BC_4 *)actor_state_arg)->unk_98 = (u16) ((((S_8008C8BC_4 *)actor_state_arg)->unk_98 | 0x2000) & 0xEFFF);
     g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 0x400);
-    process_unflagged_linked_entries_alt(((S_8008C8BC_0 *)entity)->unk_5C);
+    process_unflagged_linked_entries_alt(entity->unk_5C);
     append_packed_action_record(entity, 0x18, 0, 0);
     if (check_action_available_without_nearby_actor() != 0) {
         g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 0x80);

@@ -285,10 +285,10 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, SpriteFrame
             actor_entry4->unk_D0 = 0;
         }
         globals_page4 = (void *)0x800E0000;
-        if (((S_800AB778_22 *)(((S_800AB778_19 *)globals_page4)->unk_3D7C))->unk_110 != NULL) {
+        if (((S_800AB778_22 *)globals_page4->unk_3D7C)->unk_110 != NULL) {
             decrement_monster_entry_count(((Rec_D_80082E80 *)actor)->unk_12.at01_u8.v, 3);
             object_id4 =
-                ((S_800AB778_24 *)(((S_800AB778_22 *)(((S_800AB778_19 *)globals_page4)->unk_3D7C))->unk_110))->unk_03 & 0x1F;
+                ((S_800AB778_24 *)(((S_800AB778_22 *)globals_page4->unk_3D7C)->unk_110))->unk_03 & 0x1F;
             object_slot4 = &familiar_record_slots[object_id4];
             ((S_800AB778_7 *)(*object_slot4))->unk_13 = 0;
             familiar_record_storage[object_id4].field13 = 0;
@@ -355,7 +355,7 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, SpriteFrame
         }
         globals_page16 = (void *)0x800E0000;
         object_id16 =
-            ((S_800AB778_25 *)(((S_800AB778_23 *)(((S_800AB778_20 *)globals_page16)->unk_3D7C))->unk_110))->unk_03 & 0x1F;
+            ((S_800AB778_25 *)(((S_800AB778_23 *)globals_page16->unk_3D7C)->unk_110))->unk_03 & 0x1F;
         object_slot16 = &familiar_record_slots[object_id16];
         ((S_800AB778_13 *)(*object_slot16))->unk_13 = 0;
         familiar_record_storage[object_id16].field13 = 0;

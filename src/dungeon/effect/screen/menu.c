@@ -404,7 +404,7 @@ void update_arcing_effect(void *motion, S_800B8830_3 *coords, S_800B8830_1 *rend
     FuncInput current_pos;
     s16 state;
     s16 one;
-    void *source;
+    S_800B8830_2 *source;
     MovingPosition *pos_record;
     s32 curve;
     u16 render_flags;
@@ -423,8 +423,8 @@ void update_arcing_effect(void *motion, S_800B8830_3 *coords, S_800B8830_1 *rend
                 /* fallthrough */
     case 1:
         source = ((S_800B8830_10 *)(((S_800B8830_0 *)motion)->unk_00))->unk_0C;
-        if ((((S_800B8830_2 *)source)->unk_14 & 0x8000) ||
-            resolve_record_orientation_or_fallback(((S_800B8830_2 *)source)->unk_08, source, &delta, 0) != NULL) {
+        if ((source->unk_14 & 0x8000) ||
+            resolve_record_orientation_or_fallback(source->unk_08, source, &delta, 0) != NULL) {
             u16 source_z;
 
             pos_record = ((S_800B8830_10 *)(((S_800B8830_0 *)motion)->unk_00))->unk_08;
@@ -433,7 +433,7 @@ void update_arcing_effect(void *motion, S_800B8830_3 *coords, S_800B8830_1 *rend
             source_z = pos_record->z;
             coords->unk_08.at02.v = source_z;
 
-            if (!(((S_800B8830_2 *)source)->unk_14 & 0x8000)) {
+            if (!(source->unk_14 & 0x8000)) {
                 u16 offset_z;
 
                 coords->unk_00.at02.v += (u16)delta.x;
@@ -500,7 +500,7 @@ void update_arcing_effect(void *motion, S_800B8830_3 *coords, S_800B8830_1 *rend
         coords->unk_08.at00.v = target_pos[2];
         spawn_blinking_sprite_flash(coords->unk_00.at02u.v, coords->unk_04.at02u.v, coords->unk_08.at02u.v);
         {
-            void *flags_page;
+            S_800B8830_9 *flags_page;
             s32 final_flags;
             u16 object_flags;
 
@@ -509,11 +509,11 @@ void update_arcing_effect(void *motion, S_800B8830_3 *coords, S_800B8830_1 *rend
             object_flags |= 0x8000;
             ((S_800B8830_0_pre *)motion)[-1].unk_00 = object_flags;
             counter = ((S_800B8830_0 *)motion)->unk_20.u;
-            final_flags = ((S_800B8830_9 *)flags_page)->unk_14A0;
+            final_flags = flags_page->unk_14A0;
             counter += 1;
             final_flags |= 0x8000;
             ((S_800B8830_0 *)motion)->unk_20.u = counter;
-            ((S_800B8830_9 *)flags_page)->unk_14A0 = final_flags;
+            flags_page->unk_14A0 = final_flags;
         }
         return;
     }
@@ -588,7 +588,7 @@ void create_timed_model_effect(void *owner, s32 value, void *child_data, void *t
         object = (Object_800B34C0 *)&object->tail;
 
         if (tail_data != 0) {
-            ((Tail *)object)->valueC = tail_data;
+            object->child = tail_data;
         } else {
             u8 *fallback;
 
@@ -1577,12 +1577,12 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
             work->cur_x += (target_pos[0] - work->cur_x) / work->timer;
             work->cur_y += (target_pos[1] - work->cur_y) / work->timer;
             if ((work->mode) != 2) {
-                u8 *height_base;
+                Node *height_base;
                 s32 current_height;
                 trig_value = rsin(work->timer << 8);
-                height_base = (u8 *)work->node;
+                height_base = (Node *)work->node;
                 current_height = work->y.whole;
-                entity = ((Node *)height_base)->entity;
+                entity = height_base->entity;
                 entity = (Entity *)(u32)entity->kind;
                 entity = (Entity *)((u8 *)entity + (u32)entity_height_offsets);
                 height_step = (target_pos[2] - ((s32)*(u8 *)entity << 16) - current_height) / (work->timer);
@@ -1639,7 +1639,7 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
                         work->timer = new_timer;
                         work->node = (Node *)&object->left;
                         if (work->mode == 2) {
-                            ((Render *)render)->flags = 0x00101080;
+                            render->flags = 0x00101080;
                         }
                     }
                 }
@@ -1658,7 +1658,7 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
                         work->timer = new_timer;
                         work->node = (Node *)&object->right;
                         if (work->mode == 2) {
-                            ((Render *)render)->flags = 0x00801010;
+                            render->flags = 0x00801010;
                         }
                     }
                 }
@@ -1687,7 +1687,7 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
                     s32 action;
                     s32 amount;
                     GlobalObj *object;
-                    result = get_special_table_data_index(((Work *)work)->handle);
+                    result = get_special_table_data_index(work->handle);
                     action = 0x48;
                     result = (s32)((u32)result << 16);
                     amount = result >> 16;
@@ -1711,7 +1711,7 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
             Entity *target_entity;
             s32 *target_pos;
             count = 8;
-            state_node = (*(Node **)((u8 *)work + 0));
+            state_node = work->node;
             counter_base_2 = (u8 *)D_800E0000;
             target_entity = state_node->entity;
             target_pos = *(s32 **)((u8 *)target_entity - 0x18);
@@ -1862,7 +1862,7 @@ void *create_item_target_selector(u8 *selection_data) {
     ObjectPosition *layout;
     Obj_800B4914 **object_slot;
     s32 part_index;
-    u8 *global_page;
+    S_800BA074_1 *global_page;
     s32 last_part;
 
 
@@ -1873,7 +1873,7 @@ void *create_item_target_selector(u8 *selection_data) {
     part_index = 0;
     last_part = 2;
     layout = &view_reference_entity;
-    global_page = (u8 *)0x800E0000;
+    global_page = (S_800BA074_1 *)0x800E0000;
     object_slot = objects;
     do {
         *object_slot = allocate_flagged_object_node(0x12);
@@ -1925,15 +1925,15 @@ void *create_item_target_selector(u8 *selection_data) {
                 } else {
                     part_state->f2C = selection_data;
                 }
-                if (is_selectable_menu_target(((S_800BA074_2 *)(((S_800BA074_1 *)global_page)->unk_3D7C))->unk_AC) != 0) {
+                if (is_selectable_menu_target(((S_800BA074_2 *)(global_page->unk_3D7C))->unk_AC) != 0) {
                     part_state->fE = 8;
-                    part_state->f0 = ((S_800BA074_1 *)global_page)->unk_3D7C + 0xAC;
+                    part_state->f0 = global_page->unk_3D7C + 0xAC;
                     if (part_state->f12 == last_part) {
                         sprite->fC = 0x101080;
                     }
-                } else if (is_selectable_menu_target(((S_800BA074_2 *)(((S_800BA074_1 *)global_page)->unk_3D7C))->unk_B0) != 0) {
+                } else if (is_selectable_menu_target(((S_800BA074_2 *)(global_page->unk_3D7C))->unk_B0) != 0) {
                     part_state->fE = 8;
-                    part_state->f0 = ((S_800BA074_1 *)global_page)->unk_3D7C + 0xB0;
+                    part_state->f0 = global_page->unk_3D7C + 0xB0;
                     if (part_state->f12 == last_part) {
                         sprite->fC = 0x801010;
                     }
@@ -2392,7 +2392,7 @@ void update_selection_tile_markers(S_800B50B0_Entity *entity, s32 selection) {
     u8 entry_id;
     u8 entry_type;
     u16 angle;
-    void *child;
+    S_800B50B0_Entity *child;
     S_800BA810_3 *child_position;
     S_800BA810_1 *position;
 
@@ -2488,7 +2488,7 @@ void update_selection_tile_markers(S_800B50B0_Entity *entity, s32 selection) {
             if (child != NULL) {
                 child_position = ((S_800BA810_2 *)((u8 *)child - 0x18))->unk_00;
                 create_pulsing_tile_sprite((u16) child_position->unk_02 >> 6, (u16) child_position->unk_06 >> 6,
-                    ((S_800B50B0_Entity *)child)->height88, 0xFF);
+                    child->height88, 0xFF);
             }
         }
     }
@@ -2958,7 +2958,7 @@ void draw_content_or_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, s3
     CoordPair bottom_center;
     u8 **state_addr;
     u8 *state;
-    u8 *buf;
+    GpuContext *buf;
     u8 *ordering_table;
     u8 *packet;
     u8 *primitive;
@@ -2979,9 +2979,9 @@ void draw_content_or_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, s3
         bottom_center.x = ((S_800BB2E4_1 *)rect)->unk_00 + (s16)((S_800BB2E4_1 *)rect)->unk_04 / 2;
         bottom_center.y = ((S_800BB2E4_1 *)rect)->unk_02.u + ((S_800BB2E4_1 *)rect)->unk_06;
         draw_transformed_sprite_with_clip_rect(content_id, rect, &bottom_center, 0, 0);
-        buf = *(u8 **)((u8 *)(&g_game_work));
-        primitive = ((GpuContext *)buf)->packetCursor;
-        ((GpuContext *)buf)->packetCursor = primitive + 0xC;
+        buf = (GpuContext *)(*(u8 **)((u8 *)(&g_game_work)));
+        primitive = buf->packetCursor;
+        buf->packetCursor = primitive + 0xC;
         func_80067EF4(primitive, 1, 0);
         AddPrim(ordering_table, primitive);
     } else if (fill == 0) {
@@ -2998,17 +2998,17 @@ void draw_content_or_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, s3
         ((S_800BB2E4_2 *)packet)->unk_04.at03.v = 0x40;
         AddPrim(ordering_table, packet);
 
-        buf = *(u8 **)((u8 *)(&g_game_work));
-        primitive = ((GpuContext *)buf)->packetCursor;
-        ((GpuContext *)buf)->packetCursor = primitive + 0xC;
+        buf = (GpuContext *)(*(u8 **)((u8 *)(&g_game_work)));
+        primitive = buf->packetCursor;
+        buf->packetCursor = primitive + 0xC;
         func_80067EF4(primitive, 0, 0);
         AddPrim(ordering_table, primitive);
     }
 
     if (fill != 0) {
-        buf = *state_addr;
-        packet = ((GpuContext *)buf)->packetCursor;
-        ((GpuContext *)buf)->packetCursor = packet + 0x10;
+        buf = (GpuContext *)(*state_addr);
+        packet = buf->packetCursor;
+        buf->packetCursor = packet + 0x10;
         ((S_800BB2E4_2 *)packet)->unk_04.at00.v = 0x60000000;
         ((S_800BB2E4_2 *)packet)->unk_03 = 3;
         ((S_800BB2E4_2 *)packet)->unk_08.at00u.v = ((S_800BB2E4_1 *)rect)->unk_00;
@@ -3021,15 +3021,15 @@ void draw_content_or_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, s3
         ((S_800BB2E4_2 *)packet)->unk_0C.at02.v = ((S_800BB2E4_1 *)rect)->unk_06;
         AddPrim(ordering_table, packet);
 
-        buf = *state_addr;
-        primitive = ((GpuContext *)buf)->packetCursor;
-        ((GpuContext *)buf)->packetCursor = primitive + 0xC;
+        buf = (GpuContext *)(*state_addr);
+        primitive = buf->packetCursor;
+        buf->packetCursor = primitive + 0xC;
         func_80067EF4(primitive, 0, 1);
         AddPrim(ordering_table, primitive);
 
-        buf = *state_addr;
-        primitive = ((GpuContext *)buf)->packetCursor;
-        ((GpuContext *)buf)->packetCursor = primitive + 0xC;
+        buf = (GpuContext *)(*state_addr);
+        primitive = buf->packetCursor;
+        buf->packetCursor = primitive + 0xC;
         SetDrawArea(primitive, rect);
         AddPrim(ordering_table, primitive);
     }
@@ -3301,7 +3301,7 @@ void *create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transfor
     effect = allocate_list_node(0x12, &scene_object_list_anchor.next);
     if (effect != NULL) {
         s32 angle_index;
-        void *setup_cursor;
+        S_800BBA40_3 *setup_cursor;
 
         play_sound_if_enabled(0x704);
         ((S_800BBA40_0 *)effect)->unk_10 = update_five_point_effect;
@@ -3319,13 +3319,13 @@ void *create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transfor
         setup_base = effect + 0x20;
         select_record_entry_and_value(effect + 0x2C, held_transform, 0);
         setup_cursor = setup_base;
-        ((S_800BBA40_3 *)setup_cursor)->unk_2A = (s16) scale;
-        ((S_800BBA40_3 *)setup_cursor)->unk_28 = (s16) scale;
-        ((S_800BBA40_3 *)setup_cursor)->unk_18 = 0x808080;
+        setup_cursor->unk_2A = (s16) scale;
+        setup_cursor->unk_28 = (s16) scale;
+        setup_cursor->unk_18 = 0x808080;
         angle = -0x400;
-        ((S_800BBA40_3 *)setup_cursor)->unk_5C = setup_word_5c;
+        setup_cursor->unk_5C = setup_word_5c;
         angle_index = 0;
-        ((S_800BBA40_3 *)setup_cursor)->unk_60 = setup_word_60;
+        setup_cursor->unk_60 = setup_word_60;
         do {
             ((S_800BBA40_3 *)(setup_base + angle_index * 2))->unk_3C = angle;
             angle += 0x999;
@@ -3763,24 +3763,24 @@ extern void retire_effect_when_owner_or_value_ends(void *context);
 /* Creates an object and initializes its owner, parameter, and mode-dependent fields. */
 void *create_tracked_effect(ObjectNodeHeader **owner, s16 mode, s32 param)
 {
-    void *object;
-    u8 *fields;
+    S_800BC26C_0 *object;
+    S_800BC26C_1 *fields;
     s16 saved_mode;
 
     object = allocate_list_node(0x110, owner);
     saved_mode = mode;
     if (object != NULL) {
-        ((S_800BC26C_0 *)object)->unk_10 = retire_effect_when_owner_or_value_ends;
+        object->unk_10 = retire_effect_when_owner_or_value_ends;
         register_node(object, traverse_nodes_and_render_unflagged);
-        fields = (u8 *)object + 0x20;
-        ((S_800BC26C_0 *)object)->unk_20 = owner;
-        ((S_800BC26C_1 *)fields)->unk_04 = param;
+        fields = (S_800BC26C_1 *)((u8 *)object + 0x20);
+        object->unk_20 = owner;
+        fields->unk_04 = param;
         if (mode != 0) {
-            ((S_800BC26C_1 *)fields)->unk_0C = 0x7F80;
+            fields->unk_0C = 0x7F80;
         } else {
-            ((S_800BC26C_1 *)fields)->unk_0C = 0x7FC0;
+            fields->unk_0C = 0x7FC0;
         }
-        ((S_800BC26C_1 *)fields)->unk_0E = saved_mode;
+        fields->unk_0E = saved_mode;
     }
     return object;
 }

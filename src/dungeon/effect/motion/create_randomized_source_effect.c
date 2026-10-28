@@ -84,7 +84,7 @@ void advance_timed_effect_motion(void *object, Row_8191CA88_S_8191CA88_3 *motion
     s32 signed_timer;
     s32 wait_duration;
     s32 waiting;
-    u8 *global_base;
+    Row_8191CA88_S_8191CA88_4 *global_base;
     s32 x_position;
     s32 x_velocity;
     s16 next_state;
@@ -145,8 +145,8 @@ void advance_timed_effect_motion(void *object, Row_8191CA88_S_8191CA88_3 *motion
 
     case 3:
         ((Row_8191CA88_S_8191CA88_0_pre *)object)[-1].unk_00 |= 0x8000;
-        global_base = (u8 *)0x80080000;
-        ((Row_8191CA88_S_8191CA88_4 *)global_base)->unk_14A0 |= 0x8000;
+        global_base = (Row_8191CA88_S_8191CA88_4 *)0x80080000;
+        global_base->unk_14A0 |= 0x8000;
 
         return;
     default:
@@ -158,7 +158,7 @@ void advance_timed_effect_motion(void *object, Row_8191CA88_S_8191CA88_3 *motion
    vertical velocity. */
 void * create_scaled_rotating_effect(void *params_input, void *transform_input) {
     Row_8191CBCC_S_8191CBCC_2 *params = params_input;
-    void *source_transform = transform_input;
+    Blk24 *source_transform = transform_input;
     s16 depth_scale;
     s32 size_fixed;
     s32 variant_random;
@@ -203,7 +203,7 @@ void * create_scaled_rotating_effect(void *params_input, void *transform_input) 
             ObjectPosition *transform;
 
             transform = object->position;
-            *(Blk24 *) transform = *(Blk24 *) source_transform;
+            *(Blk24 *) transform = *source_transform;
             depth_scale = state->unk_14.u;
             adjusted_depth = ((transform->velocity_z * depth_scale) -
                               (params->unk_10.u << 0x13)) / depth_scale;

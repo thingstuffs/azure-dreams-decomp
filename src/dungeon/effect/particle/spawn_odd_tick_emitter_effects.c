@@ -57,9 +57,9 @@ typedef struct S_7FFE99BC_3 {
 void spawn_odd_tick_emitter_effects(void *emitter, s32 spawn_param_1, s32 spawn_param_2) {
     s16 tick;
     u16 ticks_left;
-    void *effect_state;
+    S_7FFE99BC_1 *effect_state;
     void *effect;
-    void *effect_config;
+    S_7FFE99BC_2 *effect_config;
 
     tick = ((S_7FFE99BC_0 *)emitter)->unk_16 + 1;
     ((S_7FFE99BC_0 *)emitter)->unk_16 = (u16)tick;
@@ -71,15 +71,15 @@ void spawn_odd_tick_emitter_effects(void *emitter, s32 spawn_param_1, s32 spawn_
             (*(s16 *)((u8 *)effect + 0x40)) = 0x1E;
             (*(s32 **)((u8 *)effect + 0x10)) = &D_8010BF40;
             effect_state = (*(void **)((u8 *)effect + 8));
-            ((S_7FFE99BC_1 *)effect_state)->unk_0A =
-                (u16)(((S_7FFE99BC_1 *)effect_state)->unk_0A -
+            effect_state->unk_0A =
+                (u16)(effect_state->unk_0A -
                 (emitter_height_offsets[(u8)((S_7FFE99BC_3 *)(((S_7FFE99BC_0 *)emitter)->unk_00))->unk_13] >> 1));
             effect_config = (*(void **)((u8 *)effect + 0xC));
             (*(Packed12 *)((u8 *)effect + 0x62)) = D_8010C450;
-            ((S_7FFE99BC_2 *)effect_config)->unk_08 = (void *)(effect + 0x62);
-            ((S_7FFE99BC_2 *)effect_config)->unk_1E = 0x3E8;
-            ((S_7FFE99BC_2 *)effect_config)->unk_1C = 0x3E8;
-            ((S_7FFE99BC_2 *)effect_config)->unk_06 = 0x64;
+            effect_config->unk_08 = (void *)(effect + 0x62);
+            effect_config->unk_1E = 0x3E8;
+            effect_config->unk_1C = 0x3E8;
+            effect_config->unk_06 = 0x64;
         }
     }
     ticks_left = ((S_7FFE99BC_0 *)emitter)->unk_1E - 1;

@@ -65,7 +65,7 @@ void advance_screen_transition(State *ctx)
     s32 rect_words[2];
     s32 phase;
     s32 fade_duration;
-    void *parent;
+    S_80024078_2_pre *parent;
     ActorRecord *object;
     void *child;
     s16 previous_state;
@@ -93,7 +93,7 @@ case 1:
     }
 
     parent = ctx->field_0;
-    child = update_actor_effect_sequence(((S_80024078_2_pre *)parent)[-1].unk_00, (s32)parent);
+    child = update_actor_effect_sequence(parent[-1].unk_00, (s32)parent);
     ctx->child = child;
     if (child == 0) {
         break;
@@ -101,7 +101,7 @@ case 1:
 
     fade_duration = 0x20;
     {
-        previous_state = ((S_80024078_3 *)ctx)->unk_0A;
+        previous_state = ctx->state;
     }
     phase = -1;
     ctx->timer_1A = fade_duration;

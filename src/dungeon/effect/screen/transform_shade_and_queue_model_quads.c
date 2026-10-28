@@ -143,7 +143,7 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
     u8 *base_color;
     u8 *state;
     u8 **state_table = (u8 **)((u8 *)(&g_game_work));
-    u8 *descriptor;
+    S_800C9088_4 *descriptor;
     u8 *vertex0;
     u8 *vertex1;
     u8 *vertex2;
@@ -156,8 +156,8 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
     u32 z_index;
     u16 vertex_z;
     u16 vertex3_z;
-    u8 *vertex2_pos;
-    u8 *vertex3_pos;
+    S_800C9088_7 *vertex2_pos;
+    S_800C9088_8 *vertex3_pos;
     s32 depth;
     s32 winding;
     s32 flags;
@@ -213,24 +213,24 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
     packet = ((GpuContext *)state)->packetCursor;
     ((S_800C9088_0 *)model)->unk_14 |= 0x8000;
 
-    descriptor = ((S_800C9088_0 *)model)->unk_08;
-    indices = ((S_800C9088_4 *)descriptor)->unk_00;
-    positions = ((S_800C9088_4 *)descriptor)->unk_04;
-    normals = ((S_800C9088_4 *)descriptor)->unk_08;
+    descriptor = (S_800C9088_4 *)((S_800C9088_0 *)model)->unk_08;
+    indices = descriptor->unk_00;
+    positions = descriptor->unk_04;
+    normals = descriptor->unk_08;
 
     for (;;) {
     vertex_xy = ((S_800C9088_12 *)(positions + ((u16 *)indices)[0] * 8))->unk_00;
     vertex_index = (*(u16 *)((u8 *)indices + 2));
     ((S_800C9088_1 *)scratch)->unk_70 = vertex_xy;
     vertex_xy = ((S_800C9088_6 *)(positions + vertex_index * 8))->unk_00;
-    vertex2_pos = (u8 *)((*(u16 *)((u8 *)indices + 4)) * 8 + (u32)positions);
+    vertex2_pos = (S_800C9088_7 *)((*(u16 *)((u8 *)indices + 4)) * 8 + (u32)positions);
     ((S_800C9088_1 *)scratch)->unk_78 = vertex_xy;
     last_index = (*(u16 *)((u8 *)indices + 6));
-    vertex2_xy = ((S_800C9088_7 *)vertex2_pos)->unk_00;
-    vertex3_pos = (u8 *)(last_index * 8 + (unsigned long)positions);
+    vertex2_xy = vertex2_pos->unk_00;
+    vertex3_pos = (S_800C9088_8 *)(last_index * 8 + (unsigned long)positions);
     ((S_800C9088_1 *)scratch)->unk_80 = vertex2_xy;
     z_index = ((u16 *)indices)[0];
-    vertex3_xy = ((S_800C9088_8 *)vertex3_pos)->unk_00;
+    vertex3_xy = vertex3_pos->unk_00;
 
     vertex_z = ((S_800C9088_9 *)(positions + z_index * 8))->unk_04;
     ((S_800C9088_1 *)scratch)->unk_74 = vertex_z;

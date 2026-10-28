@@ -72,16 +72,16 @@ void emit_parent_relative_particles(void *emitter, ObjectPosition *position, M2C
     s32 spawn_index;
     u16 age;
     u16 lifetime;
-    void *parent;
-    void *particle_state;
-    void *particle;
+    S_7FFE89B0_2 *parent;
+    S_7FFE89B0_4 *particle_state;
+    S_7FFE89B0_3 *particle;
 
     parent = ((S_7FFE89B0_0 *)emitter)->unk_24;
-    position->x.w.i = (s16) (((MovingPosition *)(((S_7FFE89B0_2 *)parent)->unk_08))->x
+    position->x.w.i = (s16) (((MovingPosition *)(parent->unk_08))->x
         + ((S_7FFE89B0_0 *)emitter)->unk_3C);
-    position->y.w.i = (s16) (((MovingPosition *)(((S_7FFE89B0_2 *)parent)->unk_08))->y
+    position->y.w.i = (s16) (((MovingPosition *)(parent->unk_08))->y
         + ((S_7FFE89B0_0 *)emitter)->unk_3E);
-    position->z.w.i = (s16) (((MovingPosition *)(((S_7FFE89B0_2 *)parent)->unk_08))->z
+    position->z.w.i = (s16) (((MovingPosition *)(parent->unk_08))->z
         + ((S_7FFE89B0_0 *)emitter)->unk_40);
     age = ((S_7FFE89B0_0 *)emitter)->unk_16 + 1;
     ((S_7FFE89B0_0 *)emitter)->unk_16 = age;
@@ -92,14 +92,14 @@ void emit_parent_relative_particles(void *emitter, ObjectPosition *position, M2C
             spawn_index += 1;
             if (particle != NULL) {
                 func_7010B864(particle, emitter, position, spawn_context);
-                ((S_7FFE89B0_3 *)particle)->unk_3E = 0xA;
-                ((S_7FFE89B0_3 *)particle)->unk_40 = 0xA;
-                ((S_7FFE89B0_3 *)particle)->unk_10 = &D_8010B4EC;
-                particle_state = ((S_7FFE89B0_3 *)particle)->unk_08;
-                ((S_7FFE89B0_4 *)particle_state)->unk_0C = (s32) (((func_700750E0() & 0x7FFF) - 0x4000) << 7);
-                ((S_7FFE89B0_4 *)particle_state)->unk_10 = (s32) (((func_700750E0() & 0x7FFF) - 0x4000) << 7);
-                ((S_7FFE89B0_4 *)particle_state)->unk_14 = (s32) (((func_700750E0() & 0x7FFF) - 0x4000) << 7);
-                ((S_7FFE89B0_4 *)particle_state)->unk_0A = (u16) (((S_7FFE89B0_4 *)particle_state)->unk_0A
+                particle->unk_3E = 0xA;
+                particle->unk_40 = 0xA;
+                particle->unk_10 = &D_8010B4EC;
+                particle_state = particle->unk_08;
+                particle_state->unk_0C = (s32) (((func_700750E0() & 0x7FFF) - 0x4000) << 7);
+                particle_state->unk_10 = (s32) (((func_700750E0() & 0x7FFF) - 0x4000) << 7);
+                particle_state->unk_14 = (s32) (((func_700750E0() & 0x7FFF) - 0x4000) << 7);
+                particle_state->unk_0A = (u16) (particle_state->unk_0A
                     - (emitter_height_offsets[((S_7FFE89B0_6 *)(((S_7FFE89B0_0 *)emitter)->unk_00))->unk_13] >> 1));
             }
         } while (spawn_index < 4);

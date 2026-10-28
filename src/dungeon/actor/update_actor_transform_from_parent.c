@@ -61,10 +61,10 @@ s32 update_actor_transform_from_parent(Rec_func_800A9E70_arg0 *state, ObjectPosi
     u8 tile_y;
     SpriteFrameState *parent_data;
     MovingPosition *parent_position;
-    void *parent;
+    S_800AC82C_2_pre *parent;
     S_800AC82C_6 *parent_rotation;
 
-    ((SpriteFrameState *)tile)->depth_bias = 0;
+    tile->unk_06.as_s16 = 0;
     phase = state->unk_9B.as_u8;
     if (phase != 0) {
         if (phase != 1) {
@@ -88,33 +88,33 @@ s32 update_actor_transform_from_parent(Rec_func_800A9E70_arg0 *state, ObjectPosi
         return 0;
     }
     parent = (*(void **)((u8 *)actor + 0x60));
-    parent_data = ((S_800AC82C_2_pre *)parent)[-1].unk_04;
-    parent_position = ((S_800AC82C_2_pre *)parent)[-1].unk_00;
-    ((SpriteFrameState *)tile)->tile_x = (u8) parent_data->tile_x;
-    ((SpriteFrameState *)tile)->tile_y = (u8) parent_data->tile_y;
+    parent_data = parent[-1].unk_04;
+    parent_position = parent[-1].unk_00;
+    tile->unk_24 = (u8) parent_data->tile_x;
+    tile->unk_25 = (u8) parent_data->tile_y;
     if (!((*(s32 *)((u8 *)actor + 0x1C)) & ACTOR_LIFTED)) {
         position->velocity_y = 0;
         position->velocity_x = 0;
         state->unk_98 = (u16) (state->unk_98 & 0xFFF7);
         facing = ((S_800AC82C_7 *)((*(void **)((u8 *)actor + 0x60))))->unk_2A;
         (*(u16 *)((u8 *)actor + 0x6A)) = facing;
-        ((SpriteFrameState *)tile)->tile_x = (u8) (parent_data->tile_x + *(u8 *) &dir_step_x[(facing >> 9) & 7]);
-        ((SpriteFrameState *)tile)->tile_y = (u8) (parent_data->tile_y + *(u8 *) &dir_step_y[((u16) (*(u16 *)((u8 *)actor + 0x6A)) >> 9) & 7]);
-        set_record_integer_tile_center(position, ((SpriteFrameState *)tile)->tile_x, ((SpriteFrameState *)tile)->tile_y);
+        tile->unk_24 = (u8) (parent_data->tile_x + *(u8 *) &dir_step_x[(facing >> 9) & 7]);
+        tile->unk_25 = (u8) (parent_data->tile_y + *(u8 *) &dir_step_y[((u16) (*(u16 *)((u8 *)actor + 0x6A)) >> 9) & 7]);
+        set_record_integer_tile_center(position, tile->unk_24, tile->unk_25);
         ground_height = sample_terrain_surface_height(((u16)position->x.w.i), ((u16)position->y.w.i), (s16) ((*(u16 *)((u8 *)actor
             + 0x88)) - 0x20));
         if (ground_height < 0x200) {
             state->unk_90.at02_s16.v = 0;
             (*(u16 *)((u8 *)actor + 0x88)) = (u16) ground_height;
         }
-        if ((find_valid_nearby_position(actor, ((SpriteFrameState *)tile)->tile_x, ((SpriteFrameState *)tile)->tile_y, &dest_x, &dest_y) << 0x10) != 0) {
-            ((SpriteFrameState *)tile)->tile_x = dest_x;
-            ((SpriteFrameState *)tile)->tile_y = dest_y;
-            set_record_integer_tile_center(position, ((SpriteFrameState *)tile)->tile_x, ((SpriteFrameState *)tile)->tile_y);
+        if ((find_valid_nearby_position(actor, tile->unk_24, tile->unk_25, &dest_x, &dest_y) << 0x10) != 0) {
+            tile->unk_24 = dest_x;
+            tile->unk_25 = dest_y;
+            set_record_integer_tile_center(position, tile->unk_24, tile->unk_25);
             flags = (*(s32 *)((u8 *)actor + 0x1C)) | ACTOR_REFRESH_GROUND;
             (*(s32 *)((u8 *)actor + 0x1C)) = flags;
-            tile_x = ((SpriteFrameState *)tile)->tile_x;
-            tile_y = ((SpriteFrameState *)tile)->tile_y;
+            tile_x = tile->unk_24;
+            tile_y = tile->unk_25;
             tile_mask = 0x3000;
             if (flags & ACTOR_PLAYER_SIDE) {
                 tile_mask = 0x300;
@@ -123,7 +123,7 @@ s32 update_actor_transform_from_parent(Rec_func_800A9E70_arg0 *state, ObjectPosi
             (*(s8 *)((u8 *)actor + 0x71)) = 0;
             return 1;
         }
-        set_record_integer_tile_center(position, ((SpriteFrameState *)tile)->tile_x, ((SpriteFrameState *)tile)->tile_y);
+        set_record_integer_tile_center(position, tile->unk_24, tile->unk_25);
         try_move_actor_to_valid_position(state, position, tile, actor);
         return 0;
     }
@@ -133,7 +133,7 @@ s32 update_actor_transform_from_parent(Rec_func_800A9E70_arg0 *state, ObjectPosi
         parent_height = ((S_800AC82C_7 *)((*(void **)((u8 *)actor + 0x60))))->unk_88;
         (*(u16 *)((u8 *)actor + 0x88)) = parent_height;
         state->unk_90.at02_s16.v = (s16) (((parent_position->z + ((u16)offset.vz)) - parent_height) + 8);
-        ((SpriteFrameState *)tile)->depth_bias = 0x10;
+        tile->unk_06.as_s16 = 0x10;
         (*(s32 *)((u8 *)actor + 0x1C)) = (s32) ((*(s32 *)((u8 *)actor + 0x1C)) | ACTOR_REFRESH_GROUND);
         parent_rotation = (*(void **)((u8 *)actor + 0x60));
         prev_parent_angle = (*(s16 *)((u8 *)actor + 0x6A));

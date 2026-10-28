@@ -35,8 +35,8 @@ typedef struct S_800D1E34_2 {
 /* Run entity callbacks, advance movement, and resolve floor contact. */
 void update_actor_floor_contact(void *object_arg, void *motion_arg, void *entity_arg)
 {
-    void *object = object_arg;
-    register void *motion = motion_arg;
+    S_800D1E34_2 *object = object_arg;
+    register S_800D1E34_1 *motion = motion_arg;
     SpriteFrameState *entity= entity_arg;
     void *object_base = object;
     EntityCallback callback;
@@ -62,32 +62,32 @@ void update_actor_floor_contact(void *object_arg, void *motion_arg, void *entity
         }
     }
 
-    ((S_800D1E34_1 *)motion)->unk_00.at00.v += ((S_800D1E34_1 *)motion)->unk_0C;
-    ((S_800D1E34_1 *)motion)->unk_04.at00.v += ((S_800D1E34_1 *)motion)->unk_10;
+    motion->unk_00.at00.v += motion->unk_0C;
+    motion->unk_04.at00.v += motion->unk_10;
 
-    if (((S_800D1E34_2 *)object)->unk_98 & 8) {
-        ((S_800D1E34_2 *)object)->unk_9D.n = 0;
+    if (object->unk_98 & 8) {
+        object->unk_9D.n = 0;
     } else {
-        ((S_800D1E34_1 *)motion)->unk_14 += ((S_800D1E34_2 *)object)->unk_9D.n2 * 0x14000;
-        ((S_800D1E34_2 *)object)->unk_9D.v++;
+        motion->unk_14 += object->unk_9D.n2 * 0x14000;
+        object->unk_9D.v++;
     }
-    ((S_800D1E34_2 *)object)->unk_90.at00.v += ((S_800D1E34_1 *)motion)->unk_14;
+    object->unk_90.at00.v += motion->unk_14;
 
-    if (!(((S_800D1E34_2 *)object)->unk_98 & 4)) {
-        floor_height = sample_terrain_surface_height(((S_800D1E34_1 *)motion)->unk_00.at02.v, ((S_800D1E34_1 *)motion)->unk_04.at02.v,
+    if (!(object->unk_98 & 4)) {
+        floor_height = sample_terrain_surface_height(motion->unk_00.at02.v, motion->unk_04.at02.v,
                               (s16)((*(u16 *)((u8 *)object_base + (0x88))) - 0x20));
         if (floor_height < 0x200) {
-            if (((S_800D1E34_2 *)object)->unk_90.at02.v + (*(s16 *)((u8 *)object_base + (0x88))) < floor_height) {
-                ((S_800D1E34_2 *)object)->unk_98 &= 0xFFFF;   /* BYTES: +0x98 no-op write-back: retail reads the field, the unchanged store compiles away (decision 39) */
+            if (object->unk_90.at02.v + (*(s16 *)((u8 *)object_base + (0x88))) < floor_height) {
+                object->unk_98 &= 0xFFFF;   /* BYTES: +0x98 no-op write-back: retail reads the field, the unchanged store compiles away (decision 39) */
             } else {
                 if (floor_height >= (*(s16 *)((u8 *)object_base + (0x88)))) {
-                    ((S_800D1E34_2 *)object)->unk_90.at00.v = 0;
+                    object->unk_90.at00.v = 0;
                 } else {
-                    ((S_800D1E34_2 *)object)->unk_90.at02.v = floor_height - (*(u16 *)((u8 *)object_base + (0x88)));
+                    object->unk_90.at02.v = floor_height - (*(u16 *)((u8 *)object_base + (0x88)));
                 }
-                ((S_800D1E34_1 *)motion)->unk_14 = 0;
+                motion->unk_14 = 0;
                 (*(u32 *)((u8 *)object_base + (0x1C))) |= 0x08000000;
-                ((S_800D1E34_2 *)object)->unk_9D.n = 0;
+                object->unk_9D.n = 0;
             }
 
             if ((*(u32 *)((u8 *)object_base + (0x1C))) & 0x40000000) {
@@ -96,7 +96,7 @@ void update_actor_floor_contact(void *object_arg, void *motion_arg, void *entity
                     (entity->tile_x << 6) | 0x20,
                     (entity->tile_y << 6) | 0x20,
                     (s16)((*(u16 *)((u8 *)object_base + (0x88))) - 0x20));
-                ((S_800D1E34_2 *)object)->unk_90.at02u.v += (*(u16 *)((u8 *)object_base + (0x88))) - floor_height;
+                object->unk_90.at02u.v += (*(u16 *)((u8 *)object_base + (0x88))) - floor_height;
                 (*(u16 *)((u8 *)object_base + (0x88))) = floor_height;
             }
         } else {
@@ -106,8 +106,8 @@ void update_actor_floor_contact(void *object_arg, void *motion_arg, void *entity
         (*(u32 *)((u8 *)object_base + (0x1C))) &= ~0x08000000;
     }
 
-    ((S_800D1E34_1 *)motion)->unk_0A = (*(u16 *)((u8 *)object_base + (0x88)))
-        + ((S_800D1E34_2 *)object)->unk_90.at02u.v;
+    motion->unk_0A = (*(u16 *)((u8 *)object_base + (0x88)))
+        + object->unk_90.at02u.v;
     entity->flags |= 0x40;
     (*(u32 *)((u8 *)object_base + (0x1C))) |= 0x200;
 }

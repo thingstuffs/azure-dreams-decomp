@@ -135,7 +135,7 @@ void emit_attached_directional_particle_chain(void *effect, S_818154FC_5 *positi
     s32 state;
     u16 spawn_tick;
     u16 angle;
-    u8 *point_table;
+    LocalPoints *point_table;
     ObjectPosition *spawn_position;
     ObjectNodeHeader *node;
     S_818154FC_4 *parent_sprite;
@@ -145,8 +145,8 @@ void emit_attached_directional_particle_chain(void *effect, S_818154FC_5 *positi
     SpriteFrameState *spawn_sprite;
 
     parent = ((S_818154FC_0 *)effect)->unk_00;
-    point_table = (u8 *)&attached_particle_points;
-    points = *(LocalPoints *)point_table;
+    point_table = (LocalPoints *)&attached_particle_points;
+    points = *point_table;
     point_base = (LocalPoint *)&points;
     state = ((S_818154FC_0 *)effect)->unk_0A.s;
     parent_node = parent - 0x20;
@@ -213,31 +213,31 @@ void emit_attached_directional_particle_chain(void *effect, S_818154FC_5 *positi
 
             node = allocate_flagged_object_node(0x12);
             if (node != NULL) {
-                u8 *work;
+                S_818154FC_7 *work;
                 MovingTile *map;
                 s32 index;
 
-                work = ((u8 *)node) + 0x20;
+                work = (S_818154FC_7 *)(((u8 *)node) + 0x20);
                 {
                     s16 *entry;
 
                     index = ((S_818154FC_0 *)effect)->unk_7E.s;
                     entry = (s16 *)((u8 *)point_base + index * 4);
-                    ((S_818154FC_7 *)work)->unk_58 = (s32)entry[0] << 16;
+                    work->unk_58 = (s32)entry[0] << 16;
                 }
                 {
                     u16 *entry;
 
                     index = ((S_818154FC_0 *)effect)->unk_7E.s;
                     entry = (u16 *)((u8 *)point_base + index * 4);
-                    ((S_818154FC_7 *)work)->unk_5C = (s32)entry[1] << 16;
+                    work->unk_5C = (s32)entry[1] << 16;
                 }
-                ((S_818154FC_7 *)work)->unk_2C = parent;
-                ((S_818154FC_7 *)work)->unk_30 = ((S_818154FC_3 *)parent)->unk_60.s;
-                ((S_818154FC_7 *)work)->unk_0A =
+                work->unk_2C = parent;
+                work->unk_30 = ((S_818154FC_3 *)parent)->unk_60.s;
+                work->unk_0A =
                     (((S_818154FC_0 *)effect)->unk_84.u - 1) / 2;
-                ((S_818154FC_7 *)work)->unk_15 = ((S_818154FC_0 *)effect)->unk_09;
-                ((S_818154FC_7 *)work)->unk_16 = ((S_818154FC_0 *)effect)->unk_7E.u;
+                work->unk_15 = ((S_818154FC_0 *)effect)->unk_09;
+                work->unk_16 = ((S_818154FC_0 *)effect)->unk_7E.u;
 
                 {
                     u8 *table_base = (u8 *)dir_step_x;
@@ -262,13 +262,13 @@ void emit_attached_directional_particle_chain(void *effect, S_818154FC_5 *positi
                     s32 z_step;
                     s32 other_z;
 
-                    ((S_818154FC_7 *)work)->unk_08 = 1;
+                    work->unk_08 = 1;
                     if (((S_818154FC_3 *)parent)->unk_72 != map->tile_x) {
                         tile_distance = __builtin_abs(((S_818154FC_3 *)parent)->unk_72 - map->tile_x);
-                        ((S_818154FC_7 *)work)->unk_02.s = tile_distance * 2;
+                        work->unk_02.s = tile_distance * 2;
                     } else {
                         tile_distance = __builtin_abs(((S_818154FC_3 *)parent)->unk_73 - map->tile_y);
-                        ((S_818154FC_7 *)work)->unk_02.s = tile_distance * 2;
+                        work->unk_02.s = tile_distance * 2;
                     }
 
                     compare_one = 1;
@@ -276,7 +276,7 @@ void emit_attached_directional_particle_chain(void *effect, S_818154FC_5 *positi
                     if (((S_818154FC_0 *)effect)->unk_84.u == compare_one) {
                         s32 duration;
 
-                        duration = ((S_818154FC_7 *)work)->unk_02.s;
+                        duration = work->unk_02.s;
                         if (duration != 0) {
                             z_step = motion->z.v;
                             other_z = position->unk_08.at00.v;
@@ -284,21 +284,21 @@ void emit_attached_directional_particle_chain(void *effect, S_818154FC_5 *positi
                             z_step -= 0x200000;
                             other_z = duration - 1;
                             z_step /= other_z;
-                            ((S_818154FC_7 *)work)->unk_60 = z_step;
+                            work->unk_60 = z_step;
                             position->unk_14 = z_step;
                         }
                     } else {
-                        ((S_818154FC_7 *)work)->unk_60 = position->unk_14;
+                        work->unk_60 = position->unk_14;
                     }
                 } else {
-                    ((S_818154FC_7 *)work)->unk_02.s = 8;
-                    ((S_818154FC_7 *)work)->unk_08 = 0;
+                    work->unk_02.s = 8;
+                    work->unk_08 = 0;
                 }
                 if (((S_818154FC_0 *)effect)->unk_84.u == 9) {
                     if (((S_818154FC_3 *)parent)->unk_60.u != NULL) {
                         u16 end_time;
 
-                        end_time = ((S_818154FC_7 *)work)->unk_02.u;
+                        end_time = work->unk_02.u;
                         end_time += 0x28;
                         ((S_818154FC_0 *)effect)->unk_86 = end_time;
                     } else {

@@ -45,9 +45,9 @@ s32 check_familiar_deployment_placement(void *actor, void *unused, void *positio
     s32 direction_offset;
     s32 blocked_result;
     s16 *x_coord;
-    void *actor_base;
-    void *status;
-    void *selected_slot;
+    ActorRecord *actor_base;
+    S_8009402C_2 *status;
+    ActorRecord *selected_slot;
 
     actor_base = actor;
     x_coord = out_x;
@@ -62,7 +62,7 @@ s32 check_familiar_deployment_placement(void *actor, void *unused, void *positio
         if (((shifted_result = find_valid_nearby_position(0, next_x, next_y, x_coord, out_y) << 0x10) == 0) ||
             ((((S_8009402C_0 *)actor)->unk_1C & 0x100000) &&
              (status = ((S_8009402C_0 *)actor)->unk_124, (status != NULL)) &&
-             (((S_8009402C_2 *)status)->unk_13 > 0) &&
+             (status->unk_13 > 0) &&
              (saved_x = *x_coord, saved_y = *out_y,
               cycle_map_cell_flags(saved_x, saved_y, 0x8000),
               probe_result = find_valid_nearby_position(0, next_x, next_y, x_coord, out_y),
@@ -71,8 +71,8 @@ s32 check_familiar_deployment_placement(void *actor, void *unused, void *positio
             return 1;
         }
     }
-    selected_slot = ((S_8009402C_5 *)(((((ActorRecord *)actor_base)->unk_8A * 4) + actor)))->unk_AC;
-    if ((selected_slot != NULL) && !(((ActorRecord *)selected_slot)->flags1C & 0x20000)) {
+    selected_slot = ((S_8009402C_5 *)(((actor_base->unk_8A * 4) + actor)))->unk_AC;
+    if ((selected_slot != NULL) && !(selected_slot->flags1C & 0x20000)) {
         return 2;
     }
     clear_player_linked_action_flags();

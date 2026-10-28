@@ -78,9 +78,9 @@ static __inline__ s32 endpoint_delta(u16 end, u16 start)
 /* Draw eight shaded lines with animated endpoints and insert them into the ordering table. */
 s32 draw_animated_shaded_lines(void *effect_data)
 {
-    u8 *effect = effect_data;
+    S_800247D4_3 *effect = effect_data;
     u8 *initial_render_ctx = g_game_work.draw_buffer;
-    u8 *render_ctx;
+    GpuContext *render_ctx;
     u8 **ctx_ref = (u8 **)((u8 *)(&g_game_work));
     s32 red_scale = 15;
     s32 blue_scale = 23;
@@ -114,25 +114,25 @@ s32 draw_animated_shaded_lines(void *effect_data)
 
     do {
         s32 red;
-        render_ctx = *ctx_ref;
-        packet = ((GpuContext *)render_ctx)->packetCursor;
-        ((GpuContext *)render_ctx)->packetCursor = packet + 0x14;
+        render_ctx = (GpuContext *)(*ctx_ref);
+        packet = render_ctx->packetCursor;
+        render_ctx->packetCursor = packet + 0x14;
 
         ((S_800247D4_2 *)packet)->unk_00.at03.v = 4;
         ((S_800247D4_2 *)packet)->unk_07 = 0x50;
 
-        ((S_800247D4_0 *)scratch)->unk_64 = ((S_800247D4_3 *)effect)->unk_3A;
-        ((S_800247D4_0 *)scratch)->unk_66 = ((S_800247D4_3 *)effect)->unk_3E;
-        ((S_800247D4_0 *)scratch)->unk_68 = ((S_800247D4_3 *)effect)->unk_42;
+        ((S_800247D4_0 *)scratch)->unk_64 = effect->unk_3A;
+        ((S_800247D4_0 *)scratch)->unk_66 = effect->unk_3E;
+        ((S_800247D4_0 *)scratch)->unk_68 = effect->unk_42;
 
         angle = (radial_step % 8) << 9;
         ((S_800247D4_0 *)scratch)->unk_6C =
-            ((S_800247D4_3 *)effect)->unk_52 + ((rsin(angle) * 2) >> 8);
+            effect->unk_52 + ((rsin(angle) * 2) >> 8);
         ((S_800247D4_0 *)scratch)->unk_6E =
-            ((S_800247D4_3 *)effect)->unk_56 + ((rcos(angle) * 2) >> 8);
-        ((S_800247D4_0 *)scratch)->unk_70 = ((S_800247D4_3 *)effect)->unk_5A;
+            effect->unk_56 + ((rcos(angle) * 2) >> 8);
+        ((S_800247D4_0 *)scratch)->unk_70 = effect->unk_5A;
 
-        stage_index = ((S_800247D4_3 *)effect)->unk_10 - 1;
+        stage_index = effect->unk_10 - 1;
         switch (stage_index) {
         case 0: case 1: case 2: case 3: case 4: case 5: case 6:
         {
@@ -144,7 +144,7 @@ s32 draw_animated_shaded_lines(void *effect_data)
             fixed_delta |= endpoint_delta(end_or_blue, start_or_fade);
             fixed_delta &= delta_mask;
             fixed_delta >>= 3;
-            fixed_delta *= ((S_800247D4_3 *)effect)->unk_10 + 1;
+            fixed_delta *= effect->unk_10 + 1;
 
             offset_or_depth = fixed_delta >> 16;
             end_or_blue = ((S_800247D4_0 *)scratch)->unk_6E;
@@ -155,7 +155,7 @@ s32 draw_animated_shaded_lines(void *effect_data)
             start_or_fade += offset_or_depth;
             ((S_800247D4_0 *)scratch)->unk_6C = start_or_fade;
             fixed_delta >>= 3;
-            fixed_delta *= ((S_800247D4_3 *)effect)->unk_10 + 1;
+            fixed_delta *= effect->unk_10 + 1;
 
             offset_or_depth = fixed_delta >> 16;
             end_or_blue = ((S_800247D4_0 *)scratch)->unk_70;
@@ -166,11 +166,11 @@ s32 draw_animated_shaded_lines(void *effect_data)
             y_or_blue += offset_or_depth;
             ((S_800247D4_0 *)scratch)->unk_6E = y_or_blue;
             fixed_delta >>= 3;
-            fixed_delta *= ((S_800247D4_3 *)effect)->unk_10 + 1;
+            fixed_delta *= effect->unk_10 + 1;
             start_or_fade += fixed_delta >> 16;
             ((S_800247D4_0 *)scratch)->unk_70 = start_or_fade;
 
-            start_or_fade = ((S_800247D4_3 *)effect)->unk_10;
+            start_or_fade = effect->unk_10;
             {
                 s32 red_offset =
                     (start_or_fade + 1) * red_scale;
@@ -210,7 +210,7 @@ s32 draw_animated_shaded_lines(void *effect_data)
             fixed_delta |= endpoint_delta(end_or_blue, start_or_fade);
             fixed_delta &= delta_mask;
             fixed_delta >>= 3;
-            fixed_delta *= ((S_800247D4_3 *)effect)->unk_10 - 7;
+            fixed_delta *= effect->unk_10 - 7;
 
             offset_or_depth = fixed_delta >> 16;
             end_or_blue = ((S_800247D4_0 *)scratch)->unk_6E;
@@ -221,7 +221,7 @@ s32 draw_animated_shaded_lines(void *effect_data)
             start_or_fade += offset_or_depth;
             ((S_800247D4_0 *)scratch)->unk_64 = start_or_fade;
             fixed_delta >>= 3;
-            fixed_delta *= ((S_800247D4_3 *)effect)->unk_10 - 7;
+            fixed_delta *= effect->unk_10 - 7;
 
             offset_or_depth = fixed_delta >> 16;
             end_or_blue = ((S_800247D4_0 *)scratch)->unk_70;
@@ -232,11 +232,11 @@ s32 draw_animated_shaded_lines(void *effect_data)
             y_or_blue += offset_or_depth;
             ((S_800247D4_0 *)scratch)->unk_66 = y_or_blue;
             fixed_delta >>= 3;
-            fixed_delta *= ((S_800247D4_3 *)effect)->unk_10 - 7;
+            fixed_delta *= effect->unk_10 - 7;
             start_or_fade += fixed_delta >> 16;
             ((S_800247D4_0 *)scratch)->unk_68 = start_or_fade;
 
-            start_or_fade = ((S_800247D4_3 *)effect)->unk_10;
+            start_or_fade = effect->unk_10;
             color_step = start_or_fade - 7;
             {
                 s32 red_offset =

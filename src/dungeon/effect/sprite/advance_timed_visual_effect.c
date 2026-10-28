@@ -40,7 +40,7 @@ void finish_timed_visual_effect(void *object) {
    time expires. */
 void advance_timed_visual_effect(void *state, void *position, void *visual) {
     void *object;
-    void *linked_visual;
+    Row_818FEF80_S_818FEF80_4 *linked_visual;
     s16 ticks_left;
 
     object = ((Row_818FEF80_S_818FEF80_0 *)state)->unk_30;
@@ -62,7 +62,7 @@ void advance_timed_visual_effect(void *state, void *position, void *visual) {
     object = ((Row_818FEF80_S_818FEF80_0 *)state)->unk_30;
     linked_visual = ((Row_818FEF80_S_818FEF80_1_pre *)object)[-1].unk_00;
     ((Row_818FEF80_S_818FEF80_3 *)visual)->unk_14 &= 0xFF7F;
-    ((Row_818FEF80_S_818FEF80_4 *)linked_visual)->unk_14 |= 0x80;
+    linked_visual->unk_14 |= 0x80;
 
     ticks_left = ((Row_818FEF80_S_818FEF80_0 *)state)->unk_02.u;
     if (ticks_left < 0x3C) {
@@ -79,9 +79,9 @@ void advance_timed_visual_effect(void *state, void *position, void *visual) {
         u16 linked_flags;
 
         ((Row_818FEF80_S_818FEF80_0_pre *)state)[-1].unk_00 |= 0x8000;
-        linked_flags = ((Row_818FEF80_S_818FEF80_4 *)linked_visual)->unk_14;
+        linked_flags = linked_visual->unk_14;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
-        ((Row_818FEF80_S_818FEF80_4 *)linked_visual)->unk_14 = linked_flags & 0xFF7F;
+        linked_visual->unk_14 = linked_flags & 0xFF7F;
     }
 }
 

@@ -123,7 +123,7 @@ void update_throw_carried_object(u8 *actor, ObjectPosition *motion, u8 *animatio
         {
             u32 set_mask;
             u32 linked_flags;
-            u8 *linked_object;
+            S_8008FA7C_4 *linked_object;
             u8 *linked_result;
             u8 *active_anim;
             u8 *active_table;
@@ -133,12 +133,12 @@ void update_throw_carried_object(u8 *actor, ObjectPosition *motion, u8 *animatio
             u32 entity_flags;
 
             mask_or_base = 0xFFEF0000;
-            linked_object = ((S_8008FA7C_3 *)actor)->unk_124.p;
+            linked_object = (S_8008FA7C_4 *)((S_8008FA7C_3 *)actor)->unk_124.p;
             set_mask = 0x200000;
-            linked_flags = ((S_8008FA7C_4 *)linked_object)->unk_1C;
+            linked_flags = linked_object->unk_1C;
             mask_or_base |= 0xFFFF;
             linked_flags |= set_mask;
-            ((S_8008FA7C_4 *)linked_object)->unk_1C = linked_flags;
+            linked_object->unk_1C = linked_flags;
             linked_result = ((S_8008FA7C_3 *)actor)->unk_124.p;
             active_anim = animation;
             ((ActorRecord *)linked_result)->unk_8A = action_result;

@@ -19,7 +19,7 @@ void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *positio
     u16 column;
     s32 texture_u;
     u8 *edge_cache;
-    void *graphics;
+    GpuContext *graphics;
     s32 column_or_x;
     s32 packed_uv;
     s32 texture_value;
@@ -37,7 +37,7 @@ void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *positio
     DM_S32(0xE8) = *(s16 *)((u8 *)position + 6);
     position_z = *(s16 *)((u8 *)position + 0xA);
     DM_S32(0xEC) = position_z;
-    packet = ((GpuContext *)graphics)->packetCursor;
+    packet = graphics->packetCursor;
     state->unk_14 = (u16)(state->unk_14 | 0x8000);
     depth_bias = depth_offset;
     PushMatrix();
@@ -421,7 +421,7 @@ s32 draw_linked_gap_effects(void *state, void *position, void *appearance) {
 s32 draw_linked_shaded_tiles(void *first_point, void *first_position)
 {
     void *point = first_point;
-    void *position = first_position;
+    Row_818F30EC_S_800248EC_1 *position = first_position;
     GameWork *render_state = &g_game_work;
     u32 addr_mask = 0x00FFFFFF;
     u8 *render_ctx = g_game_work.draw_buffer;
@@ -431,10 +431,10 @@ s32 draw_linked_shaded_tiles(void *first_point, void *first_position)
         (Row_818F30EC_Scratch800248EC *)0x1F800000;
     Row_818F30EC_Packet800248EC *tile;
     Row_818F30EC_Packet800248EC *draw_mode;
-    u8 *final_render_ctx;
+    GpuContext *final_render_ctx;
     s32 color_value;
     s32 draw_page;
-    void *next_node;
+    Row_818F30EC_S_800248EC_4 *next_node;
 
     packet_start = ((GpuContext *)render_ctx)->packetCursor;
     scratch->ot = (u32 *)(render_ctx + 0xB0);
@@ -442,9 +442,9 @@ s32 draw_linked_shaded_tiles(void *first_point, void *first_position)
 
     for (;;) {
         tile = *(Row_818F30EC_Packet800248EC **)&scratch->cursor;
-        scratch->x = ((Row_818F30EC_S_800248EC_1 *)position)->unk_02;
-        scratch->y = ((Row_818F30EC_S_800248EC_1 *)position)->unk_06;
-        scratch->z = ((Row_818F30EC_S_800248EC_1 *)position)->unk_0A;
+        scratch->x = position->unk_02;
+        scratch->y = position->unk_06;
+        scratch->z = position->unk_0A;
         scratch->cursor = (u8 *)tile + 0xC;
         scratch->index = RotTransPers(scratch, (u8 *)tile + 8,
                                        &scratch->xy, &scratch->depth);
@@ -468,7 +468,7 @@ s32 draw_linked_shaded_tiles(void *first_point, void *first_position)
             tile->b = (color_value / 128);
 
             ((Row_818F30EC_S_800248EC_2 *)tile)->unk_03 = 2;
-            ((Row_818F30EC_S_800248EC_2 *)tile)->unk_04.at03.v = 0x6A;
+            tile->code = 0x6A;
             ((Row_818F30EC_P_TAG *)&tile->tag)->addr = ((Row_818F30EC_P_TAG *)&scratch->ot[scratch->index])->addr;
             ((Row_818F30EC_P_TAG *)&scratch->ot[scratch->index])->addr = (u32)tile;
 
@@ -484,7 +484,7 @@ s32 draw_linked_shaded_tiles(void *first_point, void *first_position)
         next_node = ((Row_818F30EC_S_800248EC_3_pre *)point)[-1].unk_00;
         if (next_node != 0) {
             point = (u8 *)next_node + 0x20;
-            position = ((Row_818F30EC_S_800248EC_4 *)next_node)->unk_08;
+            position = next_node->unk_08;
             continue;
         }
 
@@ -492,7 +492,7 @@ s32 draw_linked_shaded_tiles(void *first_point, void *first_position)
     }
 
     final_render_ctx = render_state->draw_buffer;
-    ((GpuContext *)final_render_ctx)->packetCursor = scratch->cursor;
+    final_render_ctx->packetCursor = scratch->cursor;
     return 0;
 }
 

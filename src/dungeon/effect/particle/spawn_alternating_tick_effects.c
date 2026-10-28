@@ -54,8 +54,8 @@ void spawn_alternating_tick_effects(void *effect, s32 init_param_1, s32 init_par
     s16 age;
     u16 remaining_life;
     void *spawned_effect;
-    void *part;
-    void *primitive;
+    S_7FFEB1CC_2 *part;
+    S_7FFEB1CC_1 *primitive;
 
     age = ((S_7FFEB1CC_0 *)effect)->unk_16 + 1;
     ((S_7FFEB1CC_0 *)effect)->unk_16 = age;
@@ -68,18 +68,18 @@ void spawn_alternating_tick_effects(void *effect, s32 init_param_1, s32 init_par
             (*(s32 * *)((u8 *)spawned_effect + 0x10)) = &D_8010CEE0;
 
             primitive = (*(void * *)((u8 *)spawned_effect + 8));
-            ((S_7FFEB1CC_1 *)primitive)->unk_0A =
-                ((S_7FFEB1CC_1 *)primitive)->unk_0A -
+            primitive->unk_0A =
+                primitive->unk_0A -
                 (emitter_height_offsets[(u8)((S_7FFEB1CC_3 *)(((S_7FFEB1CC_0 *)effect)->unk_00))->unk_13] >> 1);
 
             part = (*(void * *)((u8 *)spawned_effect + 0xC));
             (*(Packed12 *)((u8 *)spawned_effect + 0x62)) = D_8010D40C;
-            ((S_7FFEB1CC_2 *)part)->unk_08 = (u8 *)spawned_effect + 0x62;
-            ((S_7FFEB1CC_2 *)part)->unk_10 = 0x40;
-            ((S_7FFEB1CC_2 *)part)->unk_1E = 0x32C8;
-            ((S_7FFEB1CC_2 *)part)->unk_1C = 0x32C8;
-            ((S_7FFEB1CC_2 *)part)->unk_06 = 0x64;
-            ((S_7FFEB1CC_2 *)part)->unk_0C = 0;
+            part->unk_08 = (u8 *)spawned_effect + 0x62;
+            part->unk_10 = 0x40;
+            part->unk_1E = 0x32C8;
+            part->unk_1C = 0x32C8;
+            part->unk_06 = 0x64;
+            part->unk_0C = 0;
         }
     }
 

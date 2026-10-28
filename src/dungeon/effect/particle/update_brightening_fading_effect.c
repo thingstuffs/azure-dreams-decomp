@@ -32,7 +32,7 @@ void (*const dungeon_197e800_entry)(void *) = update_directional_actor_effect;
 /* Advances the object's state and draws its 7-by-7 grid. */
 void update_directional_actor_effect(void *object)
 {
-    u8 *object_bytes = object;
+    S_8002401C_0 *object_bytes = object;
     GameWork *palette = &g_game_work;
     u8 *source;
     s32 *row;
@@ -53,21 +53,21 @@ void update_directional_actor_effect(void *object)
     s32 dependency_scratch;
     s32 state;
 
-    state = ((S_8002401C_0 *)object_bytes)->unk_0A.s;
+    state = object_bytes->unk_0A.s;
     switch (state) {
     case 0:
         row_index = 0;
         brightening_effect_update_count.value = 1;
-        config_byte = ((S_8002401C_0 *)object_bytes)->unk_09;
+        config_byte = object_bytes->unk_09;
         D_80027328 = 0;
-        source_obj = ((S_8002401C_0 *)object_bytes)->unk_00.s;
+        source_obj = object_bytes->unk_00.s;
         bright_effect_config_byte = config_byte;
-        D_800273C0 = ((S_8002401C_0 *)object_bytes)->unk_00.s;
+        D_800273C0 = object_bytes->unk_00.s;
         bright_effect_source_actor = source_obj;
 
         ((PlayerRecord *)primary_actor_record)->unk_F4 = 0;
         ((PlayerRecord *)primary_actor_record)->unk_102 = 1;
-        primary_actor_record->unk_A8.byte = ((S_8002401C_0 *)object_bytes)->unk_08;
+        primary_actor_record->unk_A8.byte = object_bytes->unk_08;
 
         clear_row = D_800274DC[0];
         do {
@@ -93,36 +93,36 @@ void update_directional_actor_effect(void *object)
                   (dir_step_x[direction_offset >> 1] * 4)),
             (s16)(reference_tile_object.tile_position.parts.tile_y +
                   (dir_step_y[direction_offset >> 1] * 4)));
-        ((S_8002401C_0 *)object_bytes)->unk_0A.u++;
+        object_bytes->unk_0A.u++;
                         /* fallthrough */
 
     case 1:
-        if ((((S_8002401C_4 *)(((S_8002401C_0 *)object_bytes)->unk_04))->unk_00 & 0x80) != 0) {
-            source = ((S_8002401C_0 *)object_bytes)->unk_00.u;
+        if ((((S_8002401C_4 *)(object_bytes->unk_04))->unk_00 & 0x80) != 0) {
+            source = object_bytes->unk_00.u;
             created_obj = create_brightening_fading_effect(((S_8002401C_2_pre *)source)[-1].unk_00, source);
-            ((S_8002401C_0 *)object_bytes)->unk_0C = created_obj;
+            object_bytes->unk_0C = created_obj;
             if (created_obj != 0) {
                 display = primary_actor_record;
-                ((S_8002401C_0 *)object_bytes)->unk_1C.s = 0x10;
+                object_bytes->unk_1C.s = 0x10;
                 ((S_8002401C_3 *)display)->unk_A6--;
-                ((S_8002401C_0 *)object_bytes)->unk_0A.u++;
+                object_bytes->unk_0A.u++;
             }
         }
         break;
 
     case 2:
-        ((S_8002401C_0 *)object_bytes)->unk_1C.u--;
-        if (((S_8002401C_0 *)object_bytes)->unk_1C.s >= 0) {
+        object_bytes->unk_1C.u--;
+        if (object_bytes->unk_1C.s >= 0) {
             break;
         }
         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
-        ((S_8002401C_0 *)object_bytes)->unk_0A.u++;
+        object_bytes->unk_0A.u++;
                             /* fallthrough */
 
     case 3:
         if ((s16)brightening_effect_update_count.value == 0) {
             restore_saved_map_tile_region();
-            ((S_8002401C_0 *)object_bytes)->unk_0A.u++;
+            object_bytes->unk_0A.u++;
         }
         break;
 
@@ -337,7 +337,7 @@ void *allocate_map_cell_object(s16 world_x, s16 world_y, s16 world_z, s16 coord_
     ObjectNodeHeader *obj;
     SpriteFrameState *work;
     MapGrid *map;
-    u8 *coord;
+    S_8195EF44_5 *coord;
     ObjectPosition *render;
     s32 cell_x;
     s32 cell_y;
@@ -358,25 +358,25 @@ void *allocate_map_cell_object(s16 world_x, s16 world_y, s16 world_z, s16 coord_
             object_flag_block.flags = global_flags;
             return NULL;
         }
-        coord = (u8 *)obj + 0x20;
+        coord = (S_8195EF44_5 *)((u8 *)obj + 0x20);
         obj->update_callback = update_effect_and_spawn_fragments;
         register_node(obj, draw_linked_lit_meshes);
         render = obj->position;
         render->x.w.i = world_x;
-        ((S_8195EF44_5 *)coord)->unk_38 = world_x;
+        coord->unk_38 = world_x;
         render->y.w.i = world_y;
-        ((S_8195EF44_5 *)coord)->unk_3A = world_y;
+        coord->unk_3A = world_y;
         render->z.w.i = world_z;
-        ((S_8195EF44_5 *)coord)->unk_3C = world_z;
+        coord->unk_3C = world_z;
         work->offset_x = 0x1000;
         work->scale_y = 0x1000;
         work->scale_x = 0x1000;
         work->tpage_abr = 0x20;
         work->color.word = 0x808080;
         work->flags = 0xC;
-        ((S_8195EF44_5 *)coord)->unk_4C = 0xC;
-        ((S_8195EF44_5 *)coord)->unk_60 = coord_60;
-        ((S_8195EF44_5 *)coord)->unk_62 = world_z;
+        coord->unk_4C = 0xC;
+        coord->unk_60 = coord_60;
+        coord->unk_62 = world_z;
     }
     return obj;
 }
@@ -519,9 +519,9 @@ void project_height_grid_object_quad(void *unused, void *origin, u8 *object, s16
     u8 *height_grid = ((u8 *)terrain_effect_height_grid);
     u8 *render_ctx;
     u8 *packet;
-    u8 *texture;
-    u8 *height_row;
-    u8 *next_height_row;
+    S_8195F43C_6 *texture;
+    S_8195F43C_2 *height_row;
+    S_8195F43C_3 *next_height_row;
     u32 depth;
     s16 left;
     s16 right;
@@ -546,19 +546,19 @@ void project_height_grid_object_quad(void *unused, void *origin, u8 *object, s16
     ((S_8195F43C_0 *)scratch)->unk_E8 = ((S_8195F43C_1 *)origin)->unk_06 + ((tile_y - 3) << 6);
     ((S_8195F43C_0 *)scratch)->unk_EC = ((S_8195F43C_1 *)origin)->unk_0A;
 
-    height_row = (u8 *)((u32)(tile_y * 2) +
+    height_row = (S_8195F43C_2 *)((u32)(tile_y * 2) +
         (unsigned long)(height_grid + tile_x * 0x10));
     height_grid += 0x10;
-    next_height_row = (u8 *)((u32)(tile_y * 2) +
+    next_height_row = (S_8195F43C_3 *)((u32)(tile_y * 2) +
         (unsigned long)(height_grid + tile_x * 0x10));
     {
 
-        depth = ((S_8195F43C_2 *)height_row)->unk_00;
+        depth = height_row->unk_00;
         ((S_8195F43C_0 *)scratch)->unk_74 = (s16)depth / 2;
     }
-    ((S_8195F43C_0 *)scratch)->unk_7C = (s16)((S_8195F43C_3 *)next_height_row)->unk_00 / 2;
-    ((S_8195F43C_0 *)scratch)->unk_84 = (s16)((S_8195F43C_2 *)height_row)->unk_02 / 2;
-    ((S_8195F43C_0 *)scratch)->unk_8C = (s16)((S_8195F43C_3 *)next_height_row)->unk_02 / 2;
+    ((S_8195F43C_0 *)scratch)->unk_7C = (s16)next_height_row->unk_00 / 2;
+    ((S_8195F43C_0 *)scratch)->unk_84 = (s16)height_row->unk_02 / 2;
+    ((S_8195F43C_0 *)scratch)->unk_8C = (s16)next_height_row->unk_02 / 2;
 
     packet = ((GpuContext *)render_ctx)->packetCursor;
     PushMatrix();
@@ -577,17 +577,17 @@ void project_height_grid_object_quad(void *unused, void *origin, u8 *object, s16
     SetTransMatrix(scratch + 0x50);
     SetRotMatrix(scratch + 0x50);
 
-    texture = ((S_8195F43C_5 *)object)->unk_08;
-    left = (s8)((S_8195F43C_6 *)texture)->unk_02;
+    texture = (S_8195F43C_6 *)((S_8195F43C_5 *)object)->unk_08;
+    left = (s8)texture->unk_02;
     ((S_8195F43C_0 *)scratch)->unk_80 = left;
     ((S_8195F43C_0 *)scratch)->unk_70 = left;
-    right = left + ((S_8195F43C_6 *)texture)->unk_0A;
+    right = left + texture->unk_0A;
     ((S_8195F43C_0 *)scratch)->unk_88 = right;
     ((S_8195F43C_0 *)scratch)->unk_78 = right;
-    top = (s8)((S_8195F43C_6 *)texture)->unk_03;
+    top = (s8)texture->unk_03;
     ((S_8195F43C_0 *)scratch)->unk_7A = top;
     ((S_8195F43C_0 *)scratch)->unk_72 = top;
-    bottom = top + ((S_8195F43C_6 *)texture)->unk_0B;
+    bottom = top + texture->unk_0B;
     ((S_8195F43C_0 *)scratch)->unk_8A = bottom;
     ((S_8195F43C_0 *)scratch)->unk_82 = bottom;
 
@@ -619,17 +619,17 @@ void project_height_grid_object_quad(void *unused, void *origin, u8 *object, s16
         }
 
         if ((visible_012 | visible_3) != 0) {
-            PFIELD(scratch, s32, 8) = ((S_8195F43C_6 *)texture)->unk_08;
-            PFIELD(scratch, s32, 0x10) = ((S_8195F43C_6 *)texture)->unk_0A;
-            PFIELD(scratch, s32, 0xC) = ((S_8195F43C_6 *)texture)->unk_09;
-            PFIELD(scratch, s32, 0x14) = ((S_8195F43C_6 *)texture)->unk_0B;
+            PFIELD(scratch, s32, 8) = texture->unk_08;
+            PFIELD(scratch, s32, 0x10) = texture->unk_0A;
+            PFIELD(scratch, s32, 0xC) = texture->unk_09;
+            PFIELD(scratch, s32, 0x14) = texture->unk_0B;
 
             ((S_8195F43C_7 *)packet)->unk_0E = ((S_8195F43C_5 *)object)->unk_12 + (*(u16 *)((u8 *)texture + 6));
             page_offset = ((S_8195F43C_5 *)object)->unk_10;
             if (page_offset != 0) {
-                (*(u16 *)((u8 *)packet + 0x16)) = page_offset + (((S_8195F43C_6 *)texture)->unk_04 & 0xFF9F);
+                (*(u16 *)((u8 *)packet + 0x16)) = page_offset + (texture->unk_04 & 0xFF9F);
             } else {
-                (*(u16 *)((u8 *)packet + 0x16)) = ((S_8195F43C_6 *)texture)->unk_04;
+                (*(u16 *)((u8 *)packet + 0x16)) = texture->unk_04;
             }
 
             {
@@ -897,7 +897,7 @@ void draw_depth_biased_textured_quad(s32 unused, S_8195FD40_1 *position, S_8195F
     u8 u_left;
     u8 v_top;
     u8 *packet;
-    u8 *texture;
+    S_8195FD40_5 *texture;
 
     (void)unused;
     ((S_8195FD40_0 *)scratch)->unk_20 = *render_context + 0xB0;
@@ -905,7 +905,7 @@ void draw_depth_biased_textured_quad(s32 unused, S_8195FD40_1 *position, S_8195F
     ((S_8195FD40_0 *)scratch)->unk_E8 = position->unk_06;
     ((S_8195FD40_0 *)scratch)->unk_EC = position->unk_0A;
     packet = ((GpuContext *)(*render_context))->packetCursor;
-    texture = quad->unk_08;
+    texture = (S_8195FD40_5 *)quad->unk_08;
     PushMatrix();
 
     ((S_8195FD40_0 *)scratch)->unk_30 = quad->unk_1C * 2;
@@ -957,19 +957,19 @@ void draw_depth_biased_textured_quad(s32 unused, S_8195FD40_1 *position, S_8195F
         }
 
         if ((first_three_visible | corner3_visible) != 0) {
-            u_left = ((S_8195FD40_5 *)texture)->unk_08;
+            u_left = texture->unk_08;
             ((S_8195FD40_4 *)packet)->unk_1C = u_left;
             ((S_8195FD40_4 *)packet)->unk_0C = u_left;
-            u_right = ((S_8195FD40_5 *)texture)->unk_08 + ((S_8195FD40_5 *)texture)->unk_0A;
+            u_right = texture->unk_08 + texture->unk_0A;
             ((S_8195FD40_4 *)packet)->unk_24 = u_right;
             ((S_8195FD40_4 *)packet)->unk_14 = u_right;
-            v_top = ((S_8195FD40_5 *)texture)->unk_09;
+            v_top = texture->unk_09;
             ((S_8195FD40_4 *)packet)->unk_15 = v_top;
             ((S_8195FD40_4 *)packet)->unk_0D = v_top;
-            v_bottom = ((S_8195FD40_5 *)texture)->unk_09 + ((S_8195FD40_5 *)texture)->unk_0B;
+            v_bottom = texture->unk_09 + texture->unk_0B;
             ((S_8195FD40_4 *)packet)->unk_25 = v_bottom;
             ((S_8195FD40_4 *)packet)->unk_1D = v_bottom;
-            ((S_8195FD40_4 *)packet)->unk_16 = ((S_8195FD40_5 *)texture)->unk_04;
+            ((S_8195FD40_4 *)packet)->unk_16 = texture->unk_04;
             ((S_8195FD40_4 *)packet)->unk_04.at00.v = quad->unk_0C;
             ((S_8195FD40_4 *)packet)->unk_00.at03.v = 9;
             ((S_8195FD40_4 *)packet)->unk_04.at03.v = 0x2C;
@@ -1209,83 +1209,83 @@ void restore_saved_map_tile_region(void)
 
    /* Select a cell surface at the given position using plane height and containment tests. */
 void *select_containing_cell_surface(s32 world_x, s32 world_y, s16 min_height) {
-    u8 *scratch;
+    S_81960530_0 *scratch;
     u8 *polygon;
     u8 *vertices;
     u8 *planes;
     u8 *best_polygon;
-    u8 *map_entry;
-    u8 *vertex;
-    u8 *plane_vertex;
+    S_81960530_2 *map_entry;
+    S_81960530_5 *vertex;
+    S_81960530_7 *plane_vertex;
     MapGrid *map_data;
-    u8 *plane;
+    S_81960530_6 *plane;
     s16 cell_index;
     s32 height;
     u16 cell_x;
     u16 cell_y;
 
-    scratch = (u8 *)0x1F800000;
-    ((S_81960530_0 *)scratch)->unk_148 = 0x400;
-    ((S_81960530_0 *)scratch)->unk_140.s = world_x & 0x3F;
-    ((S_81960530_0 *)scratch)->unk_142.s = world_y & 0x3F;
-    ((S_81960530_0 *)scratch)->unk_14C = min_height;
+    scratch = (S_81960530_0 *)0x1F800000;
+    scratch->unk_148 = 0x400;
+    scratch->unk_140.s = world_x & 0x3F;
+    scratch->unk_142.s = world_y & 0x3F;
+    scratch->unk_14C = min_height;
 
     cell_index = (u16)world_x >> 6;
-    ((S_81960530_0 *)scratch)->unk_150 = cell_index;
+    scratch->unk_150 = cell_index;
     map_data = &g_game_work.map;
     cell_index += ((u16)world_y >> 6) << map_data->shiftX;
     (*(s16 *)((u8 *)scratch + 0x150)) = cell_index;
-    map_entry = (u8 *)((long)cell_index * 6 + (unsigned long)*(u8 **)((u8 *)(&g_game_work.map)));
+    map_entry = (S_81960530_2 *)((long)cell_index * 6 + (unsigned long)*(u8 **)((u8 *)(&g_game_work.map)));
     vertices = ((u8 *)map_data->vertices);
     planes = ((u8 *)map_data->surface_planes);
     best_polygon = 0;
-    if (((S_81960530_2 *)map_entry)->unk_00 != 0) {
-        ((S_81960530_0 *)scratch)->unk_152.s = -((S_81960530_2 *)map_entry)->unk_02;
-        best_polygon = (*(u8 * *)((u8 *)(((u8 **)map_data->cell_faces)) + ((S_81960530_2 *)map_entry)->unk_00 * 4));
+    if (map_entry->unk_00 != 0) {
+        scratch->unk_152.s = -map_entry->unk_02;
+        best_polygon = (*(u8 * *)((u8 *)(((u8 **)map_data->cell_faces)) + map_entry->unk_00 * 4));
         polygon = best_polygon;
         if (((S_81960530_8 *)(planes + ((S_81960530_3 *)best_polygon)->unk_10 * 8))->unk_04 < -0x7FF) {
             do {
                 if ((((S_81960530_4 *)polygon)->unk_17.u & 1) == 0) {
-                    cell_x = ((S_81960530_0 *)scratch)->unk_140.u;
-                    cell_y = ((S_81960530_0 *)scratch)->unk_142.u;
+                    cell_x = scratch->unk_140.u;
+                    cell_y = scratch->unk_142.u;
 
-                    vertex = (u8 *)((unsigned long)((S_81960530_4 *)polygon)->unk_00 * 8 + (unsigned long)vertices);
-                    ((S_81960530_0 *)scratch)->unk_154.at00.v = ((S_81960530_5 *)vertex)->unk_00;
-                    ((S_81960530_0 *)scratch)->unk_154.at00u.v = ((S_81960530_0 *)scratch)->unk_154.at00p.v - cell_x;
-                    ((S_81960530_0 *)scratch)->unk_154.at02.v = ((S_81960530_0 *)scratch)->unk_154.at02u.v - cell_y;
+                    vertex = (S_81960530_5 *)((unsigned long)((S_81960530_4 *)polygon)->unk_00 * 8 + (unsigned long)vertices);
+                    scratch->unk_154.at00.v = vertex->unk_00;
+                    scratch->unk_154.at00u.v = scratch->unk_154.at00p.v - cell_x;
+                    scratch->unk_154.at02.v = scratch->unk_154.at02u.v - cell_y;
 
-                    vertex = (u8 *)((unsigned long)((S_81960530_4 *)polygon)->unk_02 * 8 + (unsigned long)vertices);
-                    ((S_81960530_0 *)scratch)->unk_158.at00.v = ((S_81960530_5 *)vertex)->unk_00;
-                    ((S_81960530_0 *)scratch)->unk_158.at00u.v = ((S_81960530_0 *)scratch)->unk_158.at00p.v - cell_x;
-                    ((S_81960530_0 *)scratch)->unk_158.at02.v = ((S_81960530_0 *)scratch)->unk_158.at02u.v - cell_y;
+                    vertex = (S_81960530_5 *)((unsigned long)((S_81960530_4 *)polygon)->unk_02 * 8 + (unsigned long)vertices);
+                    scratch->unk_158.at00.v = vertex->unk_00;
+                    scratch->unk_158.at00u.v = scratch->unk_158.at00p.v - cell_x;
+                    scratch->unk_158.at02.v = scratch->unk_158.at02u.v - cell_y;
 
-                    vertex = (u8 *)((unsigned long)((S_81960530_4 *)polygon)->unk_06 * 8 + (unsigned long)vertices);
-                    ((S_81960530_0 *)scratch)->unk_15C.at00.v = ((S_81960530_5 *)vertex)->unk_00;
-                    ((S_81960530_0 *)scratch)->unk_15C.at00u.v = ((S_81960530_0 *)scratch)->unk_15C.at00p.v - cell_x;
-                    ((S_81960530_0 *)scratch)->unk_15C.at02.v = ((S_81960530_0 *)scratch)->unk_15C.at02u.v - cell_y;
+                    vertex = (S_81960530_5 *)((unsigned long)((S_81960530_4 *)polygon)->unk_06 * 8 + (unsigned long)vertices);
+                    scratch->unk_15C.at00.v = vertex->unk_00;
+                    scratch->unk_15C.at00u.v = scratch->unk_15C.at00p.v - cell_x;
+                    scratch->unk_15C.at02.v = scratch->unk_15C.at02u.v - cell_y;
 
-                    vertex = (u8 *)((unsigned long)((S_81960530_4 *)polygon)->unk_04 * 8 + (unsigned long)vertices);
-                    ((S_81960530_0 *)scratch)->unk_160.at00.v = ((S_81960530_5 *)vertex)->unk_00;
-                    ((S_81960530_0 *)scratch)->unk_160.at00u.v = ((S_81960530_0 *)scratch)->unk_160.at00p.v - cell_x;
-                    ((S_81960530_0 *)scratch)->unk_160.at02.v = ((S_81960530_0 *)scratch)->unk_160.at02u.v - cell_y;
+                    vertex = (S_81960530_5 *)((unsigned long)((S_81960530_4 *)polygon)->unk_04 * 8 + (unsigned long)vertices);
+                    scratch->unk_160.at00.v = vertex->unk_00;
+                    scratch->unk_160.at00u.v = scratch->unk_160.at00p.v - cell_x;
+                    scratch->unk_160.at02.v = scratch->unk_160.at02u.v - cell_y;
 
                     if (are_quad_corner_turns_within_half_revolution(scratch) != 0) {
-                        plane = (u8 *)((unsigned long)((S_81960530_4 *)polygon)->unk_10 * 8 + (unsigned long)planes);
-                        plane_vertex = (u8 *)((unsigned long)((S_81960530_4 *)polygon)->unk_00 * 8
+                        plane = (S_81960530_6 *)((unsigned long)((S_81960530_4 *)polygon)->unk_10 * 8 + (unsigned long)planes);
+                        plane_vertex = (S_81960530_7 *)((unsigned long)((S_81960530_4 *)polygon)->unk_00 * 8
                             + (unsigned long)vertices);
-                        height = (((S_81960530_6 *)plane)->unk_00 * (((S_81960530_7 *)plane_vertex)->unk_00
-                            - (s16)((S_81960530_0 *)scratch)->unk_140.u) +
-                                  ((S_81960530_6 *)plane)->unk_02 * (((S_81960530_7 *)plane_vertex)->unk_02
-                                      - (s16)((S_81960530_0 *)scratch)->unk_142.u) +
-                                  ((S_81960530_6 *)plane)->unk_04 * ((S_81960530_7 *)plane_vertex)->unk_04) /
-                                ((S_81960530_6 *)plane)->unk_04;
-                        ((S_81960530_0 *)scratch)->unk_144 = height;
-                        height += (s16)((S_81960530_0 *)scratch)->unk_152.u;
-                        ((S_81960530_0 *)scratch)->unk_144 = height;
-                        if (height >= ((S_81960530_0 *)scratch)->unk_14C &&
-                            height < ((S_81960530_0 *)scratch)->unk_148) {
+                        height = (plane->unk_00 * (plane_vertex->unk_00
+                            - (s16)scratch->unk_140.u) +
+                                  plane->unk_02 * (plane_vertex->unk_02
+                                      - (s16)scratch->unk_142.u) +
+                                  plane->unk_04 * plane_vertex->unk_04) /
+                                plane->unk_04;
+                        scratch->unk_144 = height;
+                        height += (s16)scratch->unk_152.u;
+                        scratch->unk_144 = height;
+                        if (height >= scratch->unk_14C &&
+                            height < scratch->unk_148) {
                             best_polygon = polygon;
-                            ((S_81960530_0 *)scratch)->unk_148 = height;
+                            scratch->unk_148 = height;
                         }
                     }
                 }
@@ -1622,9 +1622,9 @@ void create_linked_objects(void *quad, S_81960CD4_2 *motion, S_81960CD4_3 *effec
             remaining_count = *(s16 *)((u16 *)&brightening_effect_update_count);
             if (remaining_count != 0) {
                 effect_count = brightening_effect_update_count.value - 1;
-                (*(u16 *)((u16 *)&brightening_effect_update_count)) = effect_count;
+                brightening_effect_update_count.value = effect_count;
                 if ((s16)effect_count == 1) {
-                    (*(u16 *)((u16 *)&brightening_effect_update_count)) = 0U;
+                    brightening_effect_update_count.value = 0U;
                 }
             }
             ((S_81960CD4_1_pre *)quad)[-1].unk_00 = (u16)(((S_81960CD4_1_pre *)quad)[-1].unk_00 | 0x8000);
@@ -1724,10 +1724,10 @@ void create_terrain_tile_quad(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
     s16 saved_row;
     s8 *height_row;
     ObjectPosition *output;
-    void *quad;
+    TempOutput *quad;
     s16 *top_heights;
     s16 *top_row;
-    u8 * height_or_child;
+    TempChild *height_or_child;
     TempObj *object;
 
     object = allocate_flagged_object_node(0x202);
@@ -1755,8 +1755,8 @@ void create_terrain_tile_quad(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
         bottom_heights_addr += (s32)height_row;
         y_offset = (row - 3) << 6;
         output = object->field8;
-        local_x_or_height = ((s16 *)origin)[1];
-        local_y = ((s16 *)origin)[3];
+        local_x_or_height = origin->unk_02;
+        local_y = origin->unk_06;
         local_height = top_heights[0];
         height_tr = (u16)top_heights[1];
         height_tr = (u32)height_tr << 16;
@@ -1767,7 +1767,7 @@ void create_terrain_tile_quad(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
         height_br = (u16)((s16 *)bottom_heights_addr)[1];
         height_br = (u32)height_br << 16;
         height_br >>= 16;
-        origin_height = (u16)((s16 *)origin)[5];
+        origin_height = (u16)origin->unk_0A;
         origin_height = (u32)origin_height << 16;
         origin_height >>= 16;
         local_x_or_height += x_offset;
@@ -1785,50 +1785,50 @@ void create_terrain_tile_quad(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
         output->x.w.i = local_x_or_height;
         output = (s16 *)output + 3;
         output->x.w.frac = local_y;
-        height_or_child = (u8 *)object->fieldC;
+        height_or_child = (TempChild *)object->fieldC;
         quad = (void *)&object->field20;
-        ((TempChild *)height_or_child)->field1E = 0x800;
-        ((TempChild *)height_or_child)->field1C = 0x800;
-        ((TempChild *)height_or_child)->field14 = 0xC;
+        height_or_child->field1E = 0x800;
+        height_or_child->field1C = 0x800;
+        height_or_child->field14 = 0xC;
         left_x = ((u16) origin->unk_02 + x_offset) - 0x20;
-        ((TempOutput *)quad)->field20 = left_x;
-        ((TempOutput *)quad)->field10 = left_x;
+        quad->field20 = left_x;
+        quad->field10 = left_x;
         right_x = ((u16) origin->unk_02 + ((column - 2) << 6)) - 0x20;
-        ((TempOutput *)quad)->field28 = right_x;
-        ((TempOutput *)quad)->field18 = right_x;
+        quad->field28 = right_x;
+        quad->field18 = right_x;
         top_y = ((u16) origin->unk_06 + y_offset) - 0x20;
-        ((TempOutput *)quad)->field1A = top_y;
-        ((TempOutput *)quad)->field12 = top_y;
+        quad->field1A = top_y;
+        quad->field12 = top_y;
         row -= 2;
         row <<= 2;
         row <<= 2;
         row <<= 2;
         bottom_y = ((u16) origin->unk_06 + row) - 0x20;
-        ((TempOutput *)quad)->field2A = bottom_y;
-        ((TempOutput *)quad)->field22 = bottom_y;
-        ((TempOutput *)quad)->field14 = (s16) ((u16) origin->unk_0A + (u16) top_heights[0]);
-        ((TempOutput *)quad)->field1C = (s16) ((u16) origin->unk_0A + (u16) top_heights[1]);
+        quad->field2A = bottom_y;
+        quad->field22 = bottom_y;
+        quad->field14 = (s16) ((u16) origin->unk_0A + (u16) top_heights[0]);
+        quad->field1C = (s16) ((u16) origin->unk_0A + (u16) top_heights[1]);
         tile_y -= 0x80;
-        ((TempOutput *)quad)->field24 = (s16) ((u16) origin->unk_0A + (u16) ((s16 *)bottom_heights_addr)[0]);
+        quad->field24 = (s16) ((u16) origin->unk_0A + (u16) ((s16 *)bottom_heights_addr)[0]);
         height = (u16) origin->unk_0A;
         x_or_height = (u16) ((s16 *)bottom_heights_addr)[1];
         height += x_or_height;
-        ((TempOutput *)quad)->field2C = height;
+        quad->field2C = height;
         y_or_color = 0xF8F82CC0;
         height = 0x13D;
         object->field20 = y_or_color;
-        ((TempOutput *)quad)->field4 = height;
+        quad->field4 = height;
         height = column * 0x10;
-        ((TempOutput *)quad)->field8 = (s8) height;
+        quad->field8 = (s8) height;
         height = 6;
-        ((TempOutput *)quad)->field9 = (s8) tile_y;
+        quad->field9 = (s8) tile_y;
         if (column == height) {
             height = 0xF;
         } else {
             height = 0x10;
         }
         height_bl = (s8)height;
-        ((TempOutput *)quad)->fieldA = height_bl;
+        quad->fieldA = height_bl;
         height = saved_row;
         x_or_height = 6;
         if (height == x_or_height) {
@@ -1839,10 +1839,10 @@ void create_terrain_tile_quad(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
         height_tr = height;
         height_tr = (u32)height_tr << 24;
         height_tr >>= 24;
-        ((TempOutput *)quad)->fieldB = height_tr;
-        ((TempChild *)height_or_child)->field8 = quad;
-        ((TempOutput *)quad)->field4C = 8;
-        (*(s16 *)((s16 *)&brightening_effect_update_count)) = (s16) ((*(u16 *)((s16 *)&brightening_effect_update_count)) + 1);
+        quad->fieldB = height_tr;
+        height_or_child->field8 = quad;
+        quad->field4C = 8;
+        brightening_effect_update_count.value = (s16) ((*(u16 *)((s16 *)&brightening_effect_update_count)) + 1);
     }
 }
 #include "modules/dungeon_ovl_197e800.h"
@@ -1889,7 +1889,7 @@ void interpolate_target_and_finish_transition(State *state, Target *target, S_fu
         position.x = ((u16)view_reference_entity.x.w.i);
         position.y = ((u16)view_reference_entity.y.w.i);
         position.z = ((S_func_819615E4_2 *)((u8 *)dungeon_actor_ring_anchor))->unk_88.u16_value - 0x50;
-        transform_offset = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_func_819615E4_2 *)((u8 *)dungeon_actor_ring_anchor))->unk_2A.s16_value + 0x100) >> 7) & 0x1C;
+        transform_offset = ((g_game_work.view.camera_rotation.parts.viewAngle + dungeon_actor_ring_anchor->facing + 0x100) >> 7) & 0x1C;
         resolve_record_orientation_or_fallback(((S_func_819615E4_3 *)((s32)transform_offset + (long)actor_direction_sprites))->unk_00, ((u8 *)(&reference_tile_object)),
                       &position_offset, 0);
         position.x += position_offset.x;
@@ -1994,7 +1994,7 @@ void interpolate_target_and_finish_transition(State *state, Target *target, S_fu
                     (((S_func_819615E4_5 *)((u8 *)((s8 *)dir_step_x) + direction_offset))->unk_00 * 4)) << 6) + 0x20),
             (s16)(((table->tile_position.parts.tile_y +
                     (((S_func_819615E4_6 *)((u8 *)((s8 *)dir_step_y) + direction_offset))->unk_00 * 4)) << 6) + 0x20),
-            ((S_func_819615E4_2 *)((u8 *)dungeon_actor_ring_anchor))->unk_88.s16_value);
+            dungeon_actor_ring_anchor->ground_height);
         *(u16 *)((u8 *)state - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;

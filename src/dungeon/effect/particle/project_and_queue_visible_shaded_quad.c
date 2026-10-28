@@ -601,7 +601,7 @@ typedef struct S_81971398_2 {
 /* Advance the fade, scale four vertex colors, and flag completion when the timer expires. */
 void fade_timed_quad_vertices(void *fade_data)
 {
-    void *fade;
+    S_81971398_0 *fade;
     s32 vertex_index;
     S_81971398_2 *vertex;
     u8 *global_page;
@@ -610,23 +610,23 @@ void fade_timed_quad_vertices(void *fade_data)
     fade = fade_data;
     vertex_index = 0;
     global_page = (u8 *)&fading_quad_effect_updated - 0x5FF4;
-    ticks_left = ((S_81971398_0 *)fade)->unk_38.s;
+    ticks_left = fade->unk_38.s;
     ((S_81971398_1 *)global_page)->unk_5FF4 = 1;
     ticks_left--;
-    ((S_81971398_0 *)fade)->unk_38.s = ticks_left;
+    fade->unk_38.s = ticks_left;
     for (; vertex_index < 4; vertex_index++) {
         vertex = (S_81971398_2 *)((u32 *)fade + vertex_index);
         vertex->unk_0C =
-            vertex->unk_1C * ((S_81971398_0 *)fade)->unk_38.u /
-            ((S_81971398_0 *)fade)->unk_3A;
+            vertex->unk_1C * fade->unk_38.u /
+            fade->unk_3A;
         vertex->unk_0D =
-            vertex->unk_1D * ((S_81971398_0 *)fade)->unk_38.u /
-            ((S_81971398_0 *)fade)->unk_3A;
+            vertex->unk_1D * fade->unk_38.u /
+            fade->unk_3A;
         vertex->unk_0E =
-            vertex->unk_1E * ((S_81971398_0 *)fade)->unk_38.u /
-            ((S_81971398_0 *)fade)->unk_3A;
+            vertex->unk_1E * fade->unk_38.u /
+            fade->unk_3A;
     }
-    if (((S_81971398_0 *)fade)->unk_38.u <= 0) {
+    if (fade->unk_38.u <= 0) {
         (*(u16 *)((u8 *)fade + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -766,13 +766,13 @@ void create_fading_jittered_sprite(u16 *source, s32 unused_1, s32 unused_2, s16 
     SpriteFrameState *render_sprite;
     u16 *position;
     ObjectNodeHeader *object;
-    u8 *object_data;
+    S_819715D4_0 *object_data;
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
-        object_data = (u8 *)object + 0x20;
-        ((S_819715D4_0 *)object_data)->unk_38 = 0x14;
-        ((S_819715D4_0 *)object_data)->unk_3A = 0x14;
+        object_data = (S_819715D4_0 *)((u8 *)object + 0x20);
+        object_data->unk_38 = 0x14;
+        object_data->unk_3A = 0x14;
         object->update_callback = (u8 *)fade_effect_color_by_quarter;
         register_node(object, project_sprite_chain);
         sprite = object->sprite;
@@ -1096,16 +1096,16 @@ extern s32 rand(void);
 void advance_effect_sequence(void *effect, void *owner, void *context_arg)
 {
     ObjectPosition *position;
-    u8 *effect_data_m;
+    S_8197192C_7 *effect_data_m;
     ObjectNodeHeader *effect_obj;
     u32 state;
-    u8 * state_2;
+    MovingPosition *state_2;
     void *context;
     u32 light_color;
     u32 light_color_2;
     u32 dark_color;
     ActorRecord *player;
-    void *player_2;
+    S_8197192C_1 *player_2;
     u16 coord_z;
     u16 heading;
 
@@ -1118,21 +1118,21 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
         ((PlayerRecord *)player)->unk_F4 = 0;
         player->action_timer.u = 20;
         reference_tile_object.depth_bias = 6;
-        state_2 = (u8 *)(&view_reference_entity);
+        state_2 = (MovingPosition *)(&view_reference_entity);
         ((S_8197192C_0 *)effect)->unk_0A.u = ((S_8197192C_0 *)effect)->unk_0A.u + 1;
-        ((S_8197192C_0 *)effect)->unk_7C.s = ((MovingPosition *)state_2)->x;
-        ((S_8197192C_0 *)effect)->unk_7E.s = ((MovingPosition *)state_2)->y;
-        coord_z = ((MovingPosition *)state_2)->z;
+        ((S_8197192C_0 *)effect)->unk_7C.s = state_2->x;
+        ((S_8197192C_0 *)effect)->unk_7E.s = state_2->y;
+        coord_z = state_2->z;
         ((S_8197192C_4 *)&fading_quad_effect_updated)->unk_00 = 1;
         ((S_8197192C_0 *)effect)->unk_80.s = coord_z;
     case 1:
         if ((((S_8197192C_14 *)(((S_8197192C_0 *)effect)->unk_04))->unk_00 & 0x80) == 0) {
             return;
         }
-        player_2 = primary_actor_record;
+        player_2 = (S_8197192C_1 *)primary_actor_record;
         ((S_8197192C_0 *)effect)->unk_2C.s = 33;
-        ((S_8197192C_1 *)player_2)->unk_A6 = ((S_8197192C_1 *)player_2)->unk_A6 - 1;
-        ((S_8197192C_1 *)player_2)->unk_A8 = ((S_8197192C_0 *)effect)->unk_08;
+        player_2->unk_A6 = player_2->unk_A6 - 1;
+        player_2->unk_A8 = ((S_8197192C_0 *)effect)->unk_08;
         player = primary_actor_record;
         heading = ((u16)player->facing);
         ((S_8197192C_0 *)effect)->unk_0A.u = ((S_8197192C_0 *)effect)->unk_0A.u + 1;
@@ -1186,15 +1186,15 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
 
                     effect_obj = allocate_flagged_object_node(0x212);
                     if (effect_obj != 0) {
-                        effect_data_m = (u8 *)effect_obj + 0x20;
-                        ((S_8197192C_7 *)effect_data_m)->unk_38 = 20;
-                        ((S_8197192C_7 *)effect_data_m)->unk_3A = 20;
+                        effect_data_m = (S_8197192C_7 *)((u8 *)effect_obj + 0x20);
+                        effect_data_m->unk_38 = 20;
+                        effect_data_m->unk_3A = 20;
                         effect_obj->update_callback = (void *)advance_timed_visual;
                         register_node(effect_obj, project_sprite_chain);
                         sprite = effect_obj->sprite;
                         world_pos = &view_reference_entity;
-                        ((S_8197192C_8 *)sprite)->unk_10 = 0x60;
-                        ((S_8197192C_8 *)sprite)->unk_14 = ((S_8197192C_8 *)sprite)->unk_14 | 0x0C;
+                        sprite->tpage_abr = 0x60;
+                        sprite->flags = sprite->flags | 0x0C;
                         position = effect_obj->position;
                         position->x.w.i = ((S_8197192C_0 *)effect)->unk_2E.u +
                                               ((u16)world_pos->x.w.i);
@@ -1203,13 +1203,13 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                         position->z.w.i = ((S_8197192C_0 *)effect)->unk_32.u +
                                                ((u16)world_pos->z.w.i);
                         sprite = effect_obj->sprite;
-                        ((S_8197192C_8 *)sprite)->unk_1E = 0x1000;
-                        ((S_8197192C_8 *)sprite)->unk_1C = 0x1000;
-                        ((S_8197192C_8 *)sprite)->unk_0E = 0x20;
-                        ((S_8197192C_8 *)sprite)->unk_0D = 0x20;
-                        ((S_8197192C_8 *)sprite)->unk_0C = 0x20;
+                        sprite->scale_y = 0x1000;
+                        sprite->scale_x = 0x1000;
+                        sprite->color.c.b = 0x20;
+                        sprite->color.c.g = 0x20;
+                        sprite->color.c.r = 0x20;
                         *(Data12 *)((u8 *)effect_obj + 0xA2) = D_80025FD0;
-                        ((S_8197192C_8 *)sprite)->unk_08 = (u8 *)effect_obj + 0xA2;
+                        sprite->source = (u8 *)effect_obj + 0xA2;
                     }
                 }
             }
@@ -1220,7 +1220,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
             s32 point_index;
             s32 step;
             ObjectPosition *world_pos;
-            u8 *outer_point;
+            S_8197192C_9 *outer_point;
             if (((S_8197192C_0 *)effect)->unk_2C.u >= 10) {
                 return;
             }
@@ -1246,7 +1246,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                 }
             point_index = segment << 1;
             {
-                outer_point = (u8 *)effect + ((point_index + segment) << 2);
+                outer_point = (S_8197192C_9 *)((u8 *)effect + ((point_index + segment) << 2));
                 point_index++;
                 {
                     u32 shifted_x;
@@ -1259,31 +1259,31 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                     half_x += shifted_x >> 31;
                     world_pos = &view_reference_entity;
                     half_x >>= 1;
-                    ((S_8197192C_9 *)outer_point)->unk_4C = (s16)(half_x +
+                    outer_point->unk_4C = (s16)(half_x +
                         (world_pos->x.w.i - origin_x) / 2);
                 }
-                ((S_8197192C_9 *)outer_point)->unk_4E = (s16)(((s16)((S_8197192C_0 *)effect)->unk_30.u) / 2 +
+                outer_point->unk_4E = (s16)(((s16)((S_8197192C_0 *)effect)->unk_30.u) / 2 +
                     (world_pos->y.w.i - ((S_8197192C_0 *)effect)->unk_7E.u) / 2);
-                ((S_8197192C_9 *)outer_point)->unk_50 = (s16)(((s16)((S_8197192C_0 *)effect)->unk_32.u) / 2 +
+                outer_point->unk_50 = (s16)(((s16)((S_8197192C_0 *)effect)->unk_32.u) / 2 +
                     (world_pos->z.w.i - ((S_8197192C_0 *)effect)->unk_80.u) / 2);
             }
 
             {
-                u8 *inner_point = (u8 *)effect + (((point_index << 1) + point_index) << 1);
-                ((S_8197192C_11 *)inner_point)->unk_4C = (s16)(((s16)((S_8197192C_0 *)effect)->unk_2E.u) / 4 +
+                S_8197192C_11 *inner_point = (S_8197192C_11 *)((u8 *)effect + (((point_index << 1) + point_index) << 1));
+                inner_point->unk_4C = (s16)(((s16)((S_8197192C_0 *)effect)->unk_2E.u) / 4 +
                     (world_pos->x.w.i - ((S_8197192C_0 *)effect)->unk_7C.u) / 2);
-                ((S_8197192C_11 *)inner_point)->unk_4E = (s16)(((s16)((S_8197192C_0 *)effect)->unk_30.u) / 4 +
+                inner_point->unk_4E = (s16)(((s16)((S_8197192C_0 *)effect)->unk_30.u) / 4 +
                     (world_pos->y.w.i - ((S_8197192C_0 *)effect)->unk_7E.u) / 2);
-                ((S_8197192C_11 *)inner_point)->unk_50 = (s16)(((s16)((S_8197192C_0 *)effect)->unk_32.u) / 4 +
+                inner_point->unk_50 = (s16)(((s16)((S_8197192C_0 *)effect)->unk_32.u) / 4 +
                     (world_pos->z.w.i - ((S_8197192C_0 *)effect)->unk_80.u) / 2);
             }
                 }
             }
 
             if (((S_8197192C_0 *)effect)->unk_2C.u == 4) {
-                u8 *effect_data;
+                S_8197192C_7 *effect_data;
                 effect_obj = allocate_flagged_object_node(0x212);
-                effect_data = (u8 *)effect_obj + 0x20;
+                effect_data = (S_8197192C_7 *)((u8 *)effect_obj + 0x20);
                 if (effect_obj != 0) {
 
                     SpriteFrameState *sprite;
@@ -1291,45 +1291,45 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                     light_color_2 = 0x00E0E0E0;
                     dark_color = 0x00804020;
                     init_data = (void *)draw_linked_records_zero_depth_bias;
-                    ((S_8197192C_7 *)effect_data)->unk_1C = light_color_2;
-                    ((S_8197192C_7 *)effect_data)->unk_24 = dark_color;
-                    ((S_8197192C_7 *)effect_data)->unk_28 = dark_color;
-                    ((S_8197192C_7 *)effect_data)->unk_20 = light_color_2;
-                    ((S_8197192C_7 *)effect_data)->unk_38 = 20;
-                    ((S_8197192C_7 *)effect_data)->unk_3A = 20;
-                    ((S_8197192C_7 *)effect_data)->unk_0C = ((S_8197192C_7 *)effect_data)->unk_1C;
-                    ((S_8197192C_7 *)effect_data)->unk_10 = ((S_8197192C_7 *)effect_data)->unk_20;
-                    ((S_8197192C_7 *)effect_data)->unk_14 = ((S_8197192C_7 *)effect_data)->unk_24;
-                    ((S_8197192C_7 *)effect_data)->unk_18 = ((S_8197192C_7 *)effect_data)->unk_28;
+                    effect_data->unk_1C = light_color_2;
+                    effect_data->unk_24 = dark_color;
+                    effect_data->unk_28 = dark_color;
+                    effect_data->unk_20 = light_color_2;
+                    effect_data->unk_38 = 20;
+                    effect_data->unk_3A = 20;
+                    effect_data->unk_0C = effect_data->unk_1C;
+                    effect_data->unk_10 = effect_data->unk_20;
+                    effect_data->unk_14 = effect_data->unk_24;
+                    effect_data->unk_18 = effect_data->unk_28;
                     effect_obj->update_callback = (void *)fade_timed_quad_vertices;
                     register_node(effect_obj, init_data);
                     sprite = effect_obj->sprite;
-                    ((S_8197192C_8 *)sprite)->unk_10 = 0x20;
-                    ((S_8197192C_8 *)sprite)->unk_14 = ((S_8197192C_8 *)sprite)->unk_14 | 0x0C;
-                    ((S_8197192C_7 *)effect_data)->unk_4C = ((S_8197192C_0 *)effect)->unk_58.s;
-                    ((S_8197192C_7 *)effect_data)->unk_4E = ((S_8197192C_0 *)effect)->unk_5A.s;
-                    ((S_8197192C_7 *)effect_data)->unk_50 = ((S_8197192C_0 *)effect)->unk_5C.s;
-                    ((S_8197192C_7 *)effect_data)->unk_52 = ((S_8197192C_0 *)effect)->unk_4C.s;
-                    ((S_8197192C_7 *)effect_data)->unk_54 = ((S_8197192C_0 *)effect)->unk_4E.s;
-                    ((S_8197192C_7 *)effect_data)->unk_56 = ((S_8197192C_0 *)effect)->unk_50.s;
-                    ((S_8197192C_7 *)effect_data)->unk_58 = ((S_8197192C_0 *)effect)->unk_5E;
-                    ((S_8197192C_7 *)effect_data)->unk_5A = ((S_8197192C_0 *)effect)->unk_60;
-                    ((S_8197192C_7 *)effect_data)->unk_5C = ((S_8197192C_0 *)effect)->unk_62;
-                    ((S_8197192C_7 *)effect_data)->unk_5E = ((S_8197192C_0 *)effect)->unk_52;
-                    ((S_8197192C_7 *)effect_data)->unk_60 = ((S_8197192C_0 *)effect)->unk_54;
-                    ((S_8197192C_7 *)effect_data)->unk_62 = ((S_8197192C_0 *)effect)->unk_56;
+                    sprite->tpage_abr = 0x20;
+                    sprite->flags = sprite->flags | 0x0C;
+                    effect_data->unk_4C = ((S_8197192C_0 *)effect)->unk_58.s;
+                    effect_data->unk_4E = ((S_8197192C_0 *)effect)->unk_5A.s;
+                    effect_data->unk_50 = ((S_8197192C_0 *)effect)->unk_5C.s;
+                    effect_data->unk_52 = ((S_8197192C_0 *)effect)->unk_4C.s;
+                    effect_data->unk_54 = ((S_8197192C_0 *)effect)->unk_4E.s;
+                    effect_data->unk_56 = ((S_8197192C_0 *)effect)->unk_50.s;
+                    effect_data->unk_58 = ((S_8197192C_0 *)effect)->unk_5E;
+                    effect_data->unk_5A = ((S_8197192C_0 *)effect)->unk_60;
+                    effect_data->unk_5C = ((S_8197192C_0 *)effect)->unk_62;
+                    effect_data->unk_5E = ((S_8197192C_0 *)effect)->unk_52;
+                    effect_data->unk_60 = ((S_8197192C_0 *)effect)->unk_54;
+                    effect_data->unk_62 = ((S_8197192C_0 *)effect)->unk_56;
                     position = effect_obj->position;
                     position->x.w.i = ((S_8197192C_0 *)effect)->unk_7C.s;
                     position->y.w.i = ((S_8197192C_0 *)effect)->unk_7E.s;
                     position->z.w.i = ((S_8197192C_0 *)effect)->unk_80.s;
                     sprite = effect_obj->sprite;
-                    ((S_8197192C_8 *)sprite)->unk_1E = 0x1000;
-                    ((S_8197192C_8 *)sprite)->unk_1C = 0x1000;
-                    ((S_8197192C_8 *)sprite)->unk_0E = 0x80;
-                    ((S_8197192C_8 *)sprite)->unk_0D = 0x80;
-                    ((S_8197192C_8 *)sprite)->unk_0C = 0x80;
+                    sprite->scale_y = 0x1000;
+                    sprite->scale_x = 0x1000;
+                    sprite->color.c.b = 0x80;
+                    sprite->color.c.g = 0x80;
+                    sprite->color.c.r = 0x80;
                     *(Data12 *)((u8 *)effect_obj + 0xA2) = visible_quad_payload_template;
-                    ((S_8197192C_8 *)sprite)->unk_08 = (u8 *)effect_obj + 0xA2;
+                    sprite->source = (u8 *)effect_obj + 0xA2;
                 }
             }
             if (((S_8197192C_0 *)effect)->unk_2C.u == 2) {
@@ -1356,8 +1356,8 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                     effect_obj->update_callback = (void *)fade_timed_quad_vertices;
                     register_node(effect_obj, init_data);
                     sprite = effect_obj->sprite;
-                    ((S_8197192C_8 *)sprite)->unk_10 = 0x20;
-                    ((S_8197192C_8 *)sprite)->unk_14 = ((S_8197192C_8 *)sprite)->unk_14 | 0x0C;
+                    sprite->tpage_abr = 0x20;
+                    sprite->flags = sprite->flags | 0x0C;
                     ((S_8197192C_7 *)effect_data)->unk_4C = ((S_8197192C_0 *)effect)->unk_64.s;
                     ((S_8197192C_7 *)effect_data)->unk_4E = ((S_8197192C_0 *)effect)->unk_66.s;
                     ((S_8197192C_7 *)effect_data)->unk_50 = ((S_8197192C_0 *)effect)->unk_68.s;
@@ -1375,13 +1375,13 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                     position->y.w.i = ((S_8197192C_0 *)effect)->unk_7E.s;
                     position->z.w.i = ((S_8197192C_0 *)effect)->unk_80.s;
                     sprite = effect_obj->sprite;
-                    ((S_8197192C_8 *)sprite)->unk_1E = 0x1000;
-                    ((S_8197192C_8 *)sprite)->unk_1C = 0x1000;
-                    ((S_8197192C_8 *)sprite)->unk_0E = 0x80;
-                    ((S_8197192C_8 *)sprite)->unk_0D = 0x80;
-                    ((S_8197192C_8 *)sprite)->unk_0C = 0x80;
+                    sprite->scale_y = 0x1000;
+                    sprite->scale_x = 0x1000;
+                    sprite->color.c.b = 0x80;
+                    sprite->color.c.g = 0x80;
+                    sprite->color.c.r = 0x80;
                     *(Data12 *)((u8 *)effect_obj + 0xA2) = visible_quad_payload_template;
-                    ((S_8197192C_8 *)sprite)->unk_08 = (u8 *)effect_obj + 0xA2;
+                    sprite->source = (u8 *)effect_obj + 0xA2;
                 }
             }
             if (((S_8197192C_0 *)effect)->unk_2C.u == 1) {
@@ -1389,49 +1389,49 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                 if (effect_obj != 0) {
                     SpriteFrameState *sprite;
                     void *init_data;
-                    effect_data_m = (u8 *)effect_obj + 0x20;
+                    effect_data_m = (S_8197192C_7 *)((u8 *)effect_obj + 0x20);
                     light_color = 0x00E0E0E0;
                     dark_color = 0x00804020;
                     init_data = (void *)draw_linked_records_zero_depth_bias;
-                    ((S_8197192C_7 *)effect_data_m)->unk_1C = light_color;
-                    ((S_8197192C_7 *)effect_data_m)->unk_24 = dark_color;
-                    ((S_8197192C_7 *)effect_data_m)->unk_28 = dark_color;
-                    ((S_8197192C_7 *)effect_data_m)->unk_20 = light_color;
-                    ((S_8197192C_7 *)effect_data_m)->unk_38 = 20;
-                    ((S_8197192C_7 *)effect_data_m)->unk_3A = 20;
-                    ((S_8197192C_7 *)effect_data_m)->unk_0C = ((S_8197192C_7 *)effect_data_m)->unk_1C;
-                    ((S_8197192C_7 *)effect_data_m)->unk_10 = ((S_8197192C_7 *)effect_data_m)->unk_20;
-                    ((S_8197192C_7 *)effect_data_m)->unk_14 = ((S_8197192C_7 *)effect_data_m)->unk_24;
-                    ((S_8197192C_7 *)effect_data_m)->unk_18 = ((S_8197192C_7 *)effect_data_m)->unk_28;
+                    effect_data_m->unk_1C = light_color;
+                    effect_data_m->unk_24 = dark_color;
+                    effect_data_m->unk_28 = dark_color;
+                    effect_data_m->unk_20 = light_color;
+                    effect_data_m->unk_38 = 20;
+                    effect_data_m->unk_3A = 20;
+                    effect_data_m->unk_0C = effect_data_m->unk_1C;
+                    effect_data_m->unk_10 = effect_data_m->unk_20;
+                    effect_data_m->unk_14 = effect_data_m->unk_24;
+                    effect_data_m->unk_18 = effect_data_m->unk_28;
                     effect_obj->update_callback = (void *)fade_timed_quad_vertices;
                     register_node(effect_obj, init_data);
                     sprite = effect_obj->sprite;
-                    ((S_8197192C_8 *)sprite)->unk_10 = 0x20;
-                    ((S_8197192C_8 *)sprite)->unk_14 = ((S_8197192C_8 *)sprite)->unk_14 | 0x0C;
-                    ((S_8197192C_7 *)effect_data_m)->unk_4C = ((S_8197192C_0 *)effect)->unk_70.s;
-                    ((S_8197192C_7 *)effect_data_m)->unk_4E = ((S_8197192C_0 *)effect)->unk_72.s;
-                    ((S_8197192C_7 *)effect_data_m)->unk_50 = ((S_8197192C_0 *)effect)->unk_74.s;
-                    ((S_8197192C_7 *)effect_data_m)->unk_52 = ((S_8197192C_0 *)effect)->unk_64.s;
-                    ((S_8197192C_7 *)effect_data_m)->unk_54 = ((S_8197192C_0 *)effect)->unk_66.s;
-                    ((S_8197192C_7 *)effect_data_m)->unk_56 = ((S_8197192C_0 *)effect)->unk_68.s;
-                    ((S_8197192C_7 *)effect_data_m)->unk_58 = ((S_8197192C_0 *)effect)->unk_76;
-                    ((S_8197192C_7 *)effect_data_m)->unk_5A = ((S_8197192C_0 *)effect)->unk_78;
-                    ((S_8197192C_7 *)effect_data_m)->unk_5C = ((S_8197192C_0 *)effect)->unk_7A;
-                    ((S_8197192C_7 *)effect_data_m)->unk_5E = ((S_8197192C_0 *)effect)->unk_6A;
-                    ((S_8197192C_7 *)effect_data_m)->unk_60 = ((S_8197192C_0 *)effect)->unk_6C;
-                    ((S_8197192C_7 *)effect_data_m)->unk_62 = ((S_8197192C_0 *)effect)->unk_6E;
+                    sprite->tpage_abr = 0x20;
+                    sprite->flags = sprite->flags | 0x0C;
+                    effect_data_m->unk_4C = ((S_8197192C_0 *)effect)->unk_70.s;
+                    effect_data_m->unk_4E = ((S_8197192C_0 *)effect)->unk_72.s;
+                    effect_data_m->unk_50 = ((S_8197192C_0 *)effect)->unk_74.s;
+                    effect_data_m->unk_52 = ((S_8197192C_0 *)effect)->unk_64.s;
+                    effect_data_m->unk_54 = ((S_8197192C_0 *)effect)->unk_66.s;
+                    effect_data_m->unk_56 = ((S_8197192C_0 *)effect)->unk_68.s;
+                    effect_data_m->unk_58 = ((S_8197192C_0 *)effect)->unk_76;
+                    effect_data_m->unk_5A = ((S_8197192C_0 *)effect)->unk_78;
+                    effect_data_m->unk_5C = ((S_8197192C_0 *)effect)->unk_7A;
+                    effect_data_m->unk_5E = ((S_8197192C_0 *)effect)->unk_6A;
+                    effect_data_m->unk_60 = ((S_8197192C_0 *)effect)->unk_6C;
+                    effect_data_m->unk_62 = ((S_8197192C_0 *)effect)->unk_6E;
                     position = effect_obj->position;
                     position->x.w.i = ((S_8197192C_0 *)effect)->unk_7C.s;
                     position->y.w.i = ((S_8197192C_0 *)effect)->unk_7E.s;
                     position->z.w.i = ((S_8197192C_0 *)effect)->unk_80.s;
                     sprite = effect_obj->sprite;
-                    ((S_8197192C_8 *)sprite)->unk_1E = 0x1000;
-                    ((S_8197192C_8 *)sprite)->unk_1C = 0x1000;
-                    ((S_8197192C_8 *)sprite)->unk_0E = 0x80;
-                    ((S_8197192C_8 *)sprite)->unk_0D = 0x80;
-                    ((S_8197192C_8 *)sprite)->unk_0C = 0x80;
+                    sprite->scale_y = 0x1000;
+                    sprite->scale_x = 0x1000;
+                    sprite->color.c.b = 0x80;
+                    sprite->color.c.g = 0x80;
+                    sprite->color.c.r = 0x80;
                     *(Data12 *)((u8 *)effect_obj + 0xA2) = visible_quad_payload_template;
-                    ((S_8197192C_8 *)sprite)->unk_08 = (u8 *)effect_obj + 0xA2;
+                    sprite->source = (u8 *)effect_obj + 0xA2;
                 }
             }
 
@@ -1500,19 +1500,19 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
     case 3:
     {
         s32 angle;
-        void *source_obj;
+        S_8197192C_1 *source_obj;
         ObjectPosition *source_owner;
         u8 *angle_base;
         u8 *angle_table;
         u8 angle_count;
-        u8 *status_page;
+        S_8197192C_12 *status_page;
         if (((S_8197192C_0 *)effect)->unk_2C.u != 16) {
-            status_page = (u8 *)0x80080000;
+            status_page = (S_8197192C_12 *)0x80080000;
         } else {
         source_obj = ((S_8197192C_15 *)((*(void **)&((EntityRec *)((void **)(&primary_actor_record)))->x)))->unk_60;
         if (source_obj != 0) {
             angle_table = entity_height_offsets;
-            angle_count = angle_table[((S_8197192C_1 *)source_obj)->unk_10.at03.v];
+            angle_count = angle_table[source_obj->unk_10.at03.v];
             source_owner = ((ObjectNodeHeader *)((u8 *)source_obj - 0x20))->position;
             angle = 0;
             if (angle_count != 0) {
@@ -1522,14 +1522,14 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                         create_origin_following_fade_sprite(effect, source_owner, context, 0, (OffsetYZ){0, (s16)angle});
                         angle -= 15;
                     }
-                } while (-*(u8 *)((u32)((S_8197192C_1 *)source_obj)->unk_10.at03.v + (u32)angle_base) < angle);
+                } while (-*(u8 *)((u32)source_obj->unk_10.at03.v + (u32)angle_base) < angle);
             }
         }
-        status_page = (u8 *)0x80080000;
+        status_page = (S_8197192C_12 *)0x80080000;
         }
         {
             u16 next_state = 4;
-            if ((((S_8197192C_12 *)status_page)->unk_2E94 & 0x8000) == 0) {
+            if ((status_page->unk_2E94 & 0x8000) == 0) {
                 ((S_8197192C_0 *)effect)->unk_2C.s = ((S_8197192C_0 *)effect)->unk_2C.s - 1;
                 if ((s16)((S_8197192C_0 *)effect)->unk_2C.s >= 0) {
                     return;

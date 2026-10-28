@@ -18,7 +18,7 @@ extern u8 actor_attack_frames[];
 /* Initializes the actor's action and turns it toward the current target. */
 void begin_actor_turn_toward_target(void *action, void *unused, void *actor, void *motion) {
     s32 distance;
-    void *target;
+    MovingTile *target;
 
     if (((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x8000) {
         ((ActorRecord *)motion)->flags14 &= 0xFFFDFFFF;
@@ -35,6 +35,6 @@ void begin_actor_turn_toward_target(void *action, void *unused, void *actor, voi
     target = ((SpriteLinkPrefixView *)(g_dungeon_status.active_actor))[-1].sprite;
     ((Rec_func_8008ACDC_arg0 *)action)->unk_11A = (u16) ((ActorRecord *)motion)->facing;
     ((ActorRecord *)motion)->facing = get_rounded_facing_and_rounding_flag(((Rec_D_80082E80 *)actor)->unk_24,
-        ((Rec_D_80082E80 *)actor)->unk_25, ((MovingTile *)target)->tile_x, ((MovingTile *)target)->tile_y,
+        ((Rec_D_80082E80 *)actor)->unk_25, target->tile_x, target->tile_y,
         &distance);
 }

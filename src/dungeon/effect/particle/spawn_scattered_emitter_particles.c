@@ -60,17 +60,17 @@ typedef struct S_7FFE9150_4 {
 void spawn_scattered_emitter_particles(void *emitter, ObjectPosition *position, M2C_UNK spawn_context) {
     u16 age;
     u16 life_left;
-    void *parent;
-    void *particle_coords;
+    S_7FFE9150_2 *parent;
+    S_7FFE9150_3 *particle_coords;
     void *particle;
-    void *particle_render;
+    S_7FFE9150_4 *particle_render;
 
     parent = ((S_7FFE9150_0 *)emitter)->unk_24;
-    position->x.w.i = (s16)(((MovingPosition *)(((S_7FFE9150_2 *)parent)->unk_08))->x
+    position->x.w.i = (s16)(((MovingPosition *)(parent->unk_08))->x
         + ((S_7FFE9150_0 *)emitter)->unk_3C);
-    position->y.w.i = (s16)(((MovingPosition *)(((S_7FFE9150_2 *)parent)->unk_08))->y
+    position->y.w.i = (s16)(((MovingPosition *)(parent->unk_08))->y
         + ((S_7FFE9150_0 *)emitter)->unk_3E);
-    position->z.w.i = (s16)(((MovingPosition *)(((S_7FFE9150_2 *)parent)->unk_08))->z
+    position->z.w.i = (s16)(((MovingPosition *)(parent->unk_08))->z
         + ((S_7FFE9150_0 *)emitter)->unk_40);
     age = ((S_7FFE9150_0 *)emitter)->unk_16 + 1;
     ((S_7FFE9150_0 *)emitter)->unk_16 = age;
@@ -82,14 +82,14 @@ void spawn_scattered_emitter_particles(void *emitter, ObjectPosition *position, 
             (*(s16 *)((u8 *)particle + 0x3E)) = 0x14;
             (*(s16 *)((u8 *)particle + 0x40)) = 0x14;
             (*(M2C_UNK **)((u8 *)particle + 0x10)) = &D_8010BA44;
-            ((S_7FFE9150_3 *)particle_coords)->unk_00 = (s32)((((func_700750E0() & 0x7FFF) - 0x4000) << 7)
-                + ((S_7FFE9150_3 *)particle_coords)->unk_00);
-            ((S_7FFE9150_3 *)particle_coords)->unk_04 = (s32)((((func_700750E0() & 0x7FFF) - 0x4000) << 7)
-                + ((S_7FFE9150_3 *)particle_coords)->unk_04);
+            particle_coords->unk_00 = (s32)((((func_700750E0() & 0x7FFF) - 0x4000) << 7)
+                + particle_coords->unk_00);
+            particle_coords->unk_04 = (s32)((((func_700750E0() & 0x7FFF) - 0x4000) << 7)
+                + particle_coords->unk_04);
             particle_render = (*(void **)((u8 *)particle + 0xC));
             (*(Copy12 *)((u8 *)particle + 0x62)) = D_8010BF30;
-            ((S_7FFE9150_4 *)particle_render)->unk_08 = (void *)((u8 *)particle + 0x62);
-            ((S_7FFE9150_4 *)particle_render)->unk_1C = 0x400;
+            particle_render->unk_08 = (void *)((u8 *)particle + 0x62);
+            particle_render->unk_1C = 0x400;
         }
     }
     life_left = ((S_7FFE9150_0 *)emitter)->unk_1E - 1;

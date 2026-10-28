@@ -96,7 +96,7 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
 {
     State81978428 *self = state;
     s32 *position = position_out;
-    void *target_pos;
+    S_81978428_6 *target_pos;
     s32 step_count;
     TileObject *tile_map;
     u8 *tint_data;
@@ -130,18 +130,18 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
     case 1:
         {
             u8 *player_page;
-            u8 *player_state;
+            S_81978428_2 *player_state;
             u8 *facing_player;
 
             if ((((S_81978428_1 *)(self->part4))->unk_00 & 0x80) == 0) {
                 break;
             }
             player_page = (u8 *)0x80080000;
-            player_state = *(u8 **)(player_page + 0x14A8);
+            player_state = (S_81978428_2 *)(*(u8 **)(player_page + 0x14A8));
             self->timer = 10;
-            ((S_81978428_2 *)player_state)->unk_96 = 8;
-            ((S_81978428_2 *)player_state)->unk_A6--;
-            ((S_81978428_2 *)player_state)->unk_A8 = self->kind;
+            player_state->unk_96 = 8;
+            player_state->unk_A6--;
+            player_state->unk_A8 = self->kind;
             facing_player = *(u8 **)(player_page + 0x14A8);
             self->angle = ((S_81978428_3 *)facing_player)->unk_2A;
             self->state++;
@@ -178,15 +178,15 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
         if (spawned_object != 0) {
             target_pos = *(void **)((u8 *)spawned_object - 0x18);
         } else {
-            target_pos = &fallback_pos;
+            target_pos = (S_81978428_6 *)&fallback_pos;
             {
                 u8 tile_x;
                 u8 tile_y;
 
                 tile_x = tile_map->tile_position.parts.tile_x;
-                ((S_81978428_6 *)target_pos)->unk_02.s = (tile_x << 6) + 0x20;
+                target_pos->unk_02.s = (tile_x << 6) + 0x20;
                 tile_y = tile_map->tile_position.parts.tile_y;
-                ((S_81978428_6 *)target_pos)->unk_06.s = (tile_y << 6) + 0x20;
+                target_pos->unk_06.s = (tile_y << 6) + 0x20;
             }
 
             for (step_count = 0; step_count < 8; step_count++) {
@@ -195,33 +195,33 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
 
                     player = primary_actor_record;
                     tile_step = dir_step_x[(((u16)player->facing) >> 9) & 7];
-                    ((S_81978428_6 *)target_pos)->unk_02.u += tile_step << 6;
+                    target_pos->unk_02.u += tile_step << 6;
                     tile_step_2 = dir_step_y[(((u16)player->facing) >> 9) & 7];
-                    ((S_81978428_6 *)target_pos)->unk_06.u += tile_step_2 << 6;
-                    ((S_81978428_6 *)target_pos)->unk_0A.s = ((u16)player->ground_height);
+                    target_pos->unk_06.u += tile_step_2 << 6;
+                    target_pos->unk_0A.s = ((u16)player->ground_height);
                 }
-                ((S_81978428_6 *)target_pos)->unk_0A.s = get_surface_height_at_record(target_pos);
-                if (((S_81978428_6 *)target_pos)->unk_0A.u >= 0x201) {
+                target_pos->unk_0A.s = get_surface_height_at_record(target_pos);
+                if (target_pos->unk_0A.u >= 0x201) {
                     ActorRecord *player;
                     player = primary_actor_record;
-                    ((S_81978428_6 *)target_pos)->unk_0A.s = ((u16)player->ground_height);
+                    target_pos->unk_0A.s = ((u16)player->ground_height);
                 }
 
-                if ((check_left_tile_and_center_height(((S_81978428_6 *)target_pos)->unk_02.s, ((S_81978428_6 *)target_pos)->unk_06.s,
-                                    ((S_81978428_6 *)target_pos)->unk_0A.u) << 16) != 0) {
+                if ((check_left_tile_and_center_height(target_pos->unk_02.s, target_pos->unk_06.s,
+                                    target_pos->unk_0A.u) << 16) != 0) {
                     ActorRecord *player;
 
                     player = primary_actor_record;
                     tile_step_3 = dir_step_x[(((u16)player->facing) >> 9) & 7];
-                    ((S_81978428_6 *)target_pos)->unk_02.u -= tile_step_3 << 6;
+                    target_pos->unk_02.u -= tile_step_3 << 6;
                     tile_step_4 = dir_step_y[(((u16)player->facing) >> 9) & 7];
-                    ((S_81978428_6 *)target_pos)->unk_06.u -= tile_step_4 << 6;
-                    ((S_81978428_6 *)target_pos)->unk_0A.s = ((u16)player->ground_height);
-                    ((S_81978428_6 *)target_pos)->unk_0A.s = get_surface_height_at_record(target_pos);
-                    if (((S_81978428_6 *)target_pos)->unk_0A.u >= 0x201) {
+                    target_pos->unk_06.u -= tile_step_4 << 6;
+                    target_pos->unk_0A.s = ((u16)player->ground_height);
+                    target_pos->unk_0A.s = get_surface_height_at_record(target_pos);
+                    if (target_pos->unk_0A.u >= 0x201) {
                         ActorRecord *height_player;
                         height_player = primary_actor_record;
-                        ((S_81978428_6 *)target_pos)->unk_0A.s = ((u16)height_player->ground_height);
+                        target_pos->unk_0A.s = ((u16)height_player->ground_height);
                     }
                     break;
                 }
@@ -262,13 +262,13 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
 
     case 4:
         {
-            u8 *tinted_object = self->object;
+            S_81978428_8 *tinted_object = self->object;
 
             if (tinted_object != 0) {
                 u8 *reloaded_object;
                 s16 tint_timer;
 
-                ((S_81978428_8 *)tinted_object)->unk_1C |= 0x10000000;
+                tinted_object->unk_1C |= 0x10000000;
                 tint_timer = self->timer;
                 reloaded_object = *(u8 **)((u8 *)self + 0x14);
                 tint_data = *(u8 **)(reloaded_object - 0x14);

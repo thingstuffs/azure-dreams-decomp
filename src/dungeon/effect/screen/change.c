@@ -1217,7 +1217,7 @@ void refresh_packed_grid_nibbles(void) {
     register u8 *base;
     u8 *cursor;
     u8 *state;
-    u8 *grid_dims;
+    S_8009D6F4_0 *grid_dims;
     register u8 *table;
     s32 first_col;
     s32 dimension_unit;
@@ -1234,8 +1234,8 @@ void refresh_packed_grid_nibbles(void) {
     cursor = base;
     row_index = 0;
     state = ((u8 *)(&g_game_work));
-    grid_dims = state + 0x1DC;
-    if ((1 << ((S_8009D6F4_0 *)grid_dims)->unk_16) > 0) {
+    grid_dims = (S_8009D6F4_0 *)(state + 0x1DC);
+    if ((1 << grid_dims->unk_16) > 0) {
         s32 col_index;
         s32 nibble_mask;
         s32 next_col;
@@ -1245,7 +1245,7 @@ void refresh_packed_grid_nibbles(void) {
         table = (u8 *)generation_cells;
         do {
             col_index = 0;
-            if (first_col < (dimension_unit << ((S_8009D6F4_0 *)grid_dims)->unk_14)) {
+            if (first_col < (dimension_unit << grid_dims->unk_14)) {
                 nibble_mask = row_index << 16;
                 row = nibble_mask >> 16;
                 do {
@@ -1266,7 +1266,7 @@ void refresh_packed_grid_nibbles(void) {
                         register s16 shift;
 
                         col = (s16) col_index;
-                        shift = ((S_8009D6F4_0 *)grid_dims)->unk_14;
+                        shift = grid_dims->unk_14;
                         value_bits_2 = (s16) (((S_8009D6F4_1 *)(((((row << shift) + col) * 6) + table)))->unk_02 + 0x200) / 64;
                         clamped_level = value_bits_2;
                         level = value_bits_2;
@@ -1295,11 +1295,11 @@ void refresh_packed_grid_nibbles(void) {
                         next_col = col_index + 1;
                         col_index = next_col;
                     }
-                } while ((s16) next_col < (dimension_unit << ((S_8009D6F4_0 *)grid_dims)->unk_14));
+                } while ((s16) next_col < (dimension_unit << grid_dims->unk_14));
             }
             next_row = row_index + 1;
             row_index = next_row;
-        } while (next_row < (dimension_unit << ((S_8009D6F4_0 *)grid_dims)->unk_16));
+        } while (next_row < (dimension_unit << grid_dims->unk_16));
     }
     LoadImage(&saved_data, base);
 }

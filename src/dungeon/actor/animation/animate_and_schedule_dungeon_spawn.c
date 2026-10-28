@@ -52,13 +52,13 @@ void animate_and_schedule_dungeon_spawn(EntityRec *state) {
         mode = held_item_record;
         if ((mode[0] != 3) || (mode[1] != 6)) {
             if ((*(s16 *)&state->z) == 0) {
-                (*(s16 *)&state->z) = 0x40;
+                state->z.w.frac = 0x40;
             }
         }
     }
     if ((*(s16 *)&state->z) != 0) {
         spawn_delay = (u16) (*(s16 *)&state->z) - 1;
-        (*(s16 *)&state->z) = spawn_delay;
+        state->z.w.frac = spawn_delay;
         if ((spawn_delay << 0x10) == 0) {
             spawn_data.a = 3;
             spawn_data.b = 6;

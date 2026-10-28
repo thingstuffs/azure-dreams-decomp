@@ -467,8 +467,8 @@ spawn_trail:
         }
         g_dungeon_status.active_actor = 0;
         ((ObjectNodeHeader *)((u8 *)effect - 0x20))->flags = (u16) (((ObjectNodeHeader *)((u8 *)effect - 0x20))->flags | NODE_REMOVE);
-        ((S_8182C800_22 *)((s32 *)(&object_flag_block)))->unk_00 =
-            (s32) (((S_8182C800_22 *)((s32 *)(&object_flag_block)))->unk_00 | 0x8000);
+        object_flag_block.flags =
+            (s32) (object_flag_block.flags | 0x8000);
         return;
     }
 }

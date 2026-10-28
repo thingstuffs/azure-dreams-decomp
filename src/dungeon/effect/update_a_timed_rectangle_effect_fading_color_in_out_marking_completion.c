@@ -53,7 +53,7 @@ void update_a_timed_rectangle_effect_fading_color_in_out_marking_completion(void
     s16 next_frame;
     s16 state;
     s16 frame;
-    void *sprite;
+    S_80025360_1 *sprite;
     s32 one;
     s16 rect_x;
     u16 flags;
@@ -67,9 +67,9 @@ void update_a_timed_rectangle_effect_fading_color_in_out_marking_completion(void
     switch (state) {
     case 0:
     ((S_80025360_0 *)effect_arg)->unk_00 = (s16)((u16)((S_80025360_0 *)effect_arg)->unk_00 + 1);
-    flags = ((S_80025360_1 *)sprite)->unk_14;
+    flags = sprite->unk_14;
     flags &= 0xFF7F;
-    ((S_80025360_1 *)sprite)->unk_14 = flags;
+    sprite->unk_14 = flags;
         break;
     case 1:
         break;
@@ -87,14 +87,14 @@ void update_a_timed_rectangle_effect_fading_color_in_out_marking_completion(void
     draw_effect_and_restore_clip(((S_80025360_0 *)effect_arg)->unk_48, &work.rect, &work.x, one, one);
     frame = ((S_80025360_0 *)effect_arg)->unk_02;
     if (frame < 0x15) {
-        ((S_80025360_1 *)sprite)->unk_0E = (s8)((frame << 7) / 20);
-        ((S_80025360_1 *)sprite)->unk_0D = (s8)((((S_80025360_0 *)effect_arg)->unk_02 << 7) / 20);
-        ((S_80025360_1 *)sprite)->unk_0C = (s8)((((S_80025360_0 *)effect_arg)->unk_02 << 7) / 20);
+        sprite->unk_0E = (s8)((frame << 7) / 20);
+        sprite->unk_0D = (s8)((((S_80025360_0 *)effect_arg)->unk_02 << 7) / 20);
+        sprite->unk_0C = (s8)((((S_80025360_0 *)effect_arg)->unk_02 << 7) / 20);
     }
     if (((S_80025360_0 *)effect_arg)->unk_02 >= 0x51) {
-        ((S_80025360_1 *)sprite)->unk_0E = (s8)(((0x64 - ((S_80025360_0 *)effect_arg)->unk_02) << 7) / 20);
-        ((S_80025360_1 *)sprite)->unk_0D = (s8)(((0x64 - ((S_80025360_0 *)effect_arg)->unk_02) << 7) / 20);
-        ((S_80025360_1 *)sprite)->unk_0C = (s8)(((0x64 - ((S_80025360_0 *)effect_arg)->unk_02) << 7) / 20);
+        sprite->unk_0E = (s8)(((0x64 - ((S_80025360_0 *)effect_arg)->unk_02) << 7) / 20);
+        sprite->unk_0D = (s8)(((0x64 - ((S_80025360_0 *)effect_arg)->unk_02) << 7) / 20);
+        sprite->unk_0C = (s8)(((0x64 - ((S_80025360_0 *)effect_arg)->unk_02) << 7) / 20);
     }
     next_frame = (u16)((S_80025360_0 *)effect_arg)->unk_02 + 1;
     ((S_80025360_0 *)effect_arg)->unk_02 = next_frame;

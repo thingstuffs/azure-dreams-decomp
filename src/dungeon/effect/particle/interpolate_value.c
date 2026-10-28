@@ -138,7 +138,7 @@ void update_animated_textured_ribbon(u8 *effect, void *origin, void *color_in)
     void *render_data;
     u8 *vertex_base;
     u8 *texture_data;
-    void *texture;
+    S_80168C88_12 *texture;
     s32 coord;
     u8 *far_coord;
     s16 ticks_left;
@@ -253,7 +253,7 @@ void update_animated_textured_ribbon(u8 *effect, void *origin, void *color_in)
             ((S_80168C88_9 *)render_data)->unk_08 = texture_data;
             ((S_80168C88_11 *)texture_data)->unk_08 += ((S_80168C88_0 *)effect)->unk_1C * 4;
             texture = ((S_80168C88_9 *)render_data)->unk_08;
-            ((S_80168C88_12 *)texture)->unk_09 += (((S_80168C88_0 *)effect)->unk_1E & 3) * 8;
+            texture->unk_09 += (((S_80168C88_0 *)effect)->unk_1E & 3) * 8;
 
             do {
                 coord = 0;

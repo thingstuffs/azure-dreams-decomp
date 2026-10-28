@@ -293,8 +293,8 @@ void advance_colliding_particle_sprite(void *effect, S_8196ACE4_0 *position, Spr
     if ((life_left << 0x10) <= 0) {
         ((S_8196ACE4_1_pre *)effect)[-1].unk_00 = (u16) (((S_8196ACE4_1_pre *)effect)[-1].unk_00 | 0x8000);
         {
-            u8 *status_page = (u8 *)0x80080000;
-            ((S_8196ACE4_4 *)status_page)->unk_14A0 |= 0x8000;
+            S_8196ACE4_4 *status_page = (S_8196ACE4_4 *)0x80080000;
+            status_page->unk_14A0 |= 0x8000;
         }
     }
     if (sprite->flags & 0x8000) {
@@ -620,7 +620,7 @@ void create_timed_rectangle_effect(void *owner) {
     s32 rect_offset;
     Rect16 *rect;
     ObjectNodeHeader *child;
-    u8 *child_work;
+    S_8196BA5C_0 *child_work;
     SpriteFrameState *display;
     ObjectPosition *source_vector;
     ObjectPosition *child_vector;
@@ -661,11 +661,11 @@ void create_timed_rectangle_effect(void *owner) {
 
         child = allocate_flagged_object_node(0x212);
         if (child != 0) {
-            child_work = (u8 *)child + 0x20;
-            ((S_8196BA5C_0 *)child_work)->unk_2C = 7;
-            ((S_8196BA5C_0 *)child_work)->unk_2E = 7;
-            ((S_8196BA5C_0 *)child_work)->unk_50 = slot;
-            ((S_8196BA5C_0 *)child_work)->unk_7C = owner;
+            child_work = (S_8196BA5C_0 *)((u8 *)child + 0x20);
+            child_work->unk_2C = 7;
+            child_work->unk_2E = 7;
+            child_work->unk_50 = slot;
+            child_work->unk_7C = owner;
             child->update_callback = apply_random_actor_value_adjustment;
             register_node(child, project_sprite_chain);
 
@@ -675,9 +675,9 @@ void create_timed_rectangle_effect(void *owner) {
 
             source_vector = ((ObjectNodeHeader *)((u8 *)primary_actor_record - 0x20))->position;
             child_vector = child->position;
-            child_vector->x.v = ((s32 *)source_vector)[0];
-            child_vector->y.v = ((s32 *)source_vector)[1];
-            child_vector->z.v = ((s32 *)source_vector)[2];
+            child_vector->x.v = source_vector->x.v;
+            child_vector->y.v = source_vector->y.v;
+            child_vector->z.v = source_vector->z.v;
 
             display = child->sprite;
             display->scale_y = 0x1000;
@@ -688,8 +688,8 @@ void create_timed_rectangle_effect(void *owner) {
 
             *(PackedVec3 *)((u8 *)child + 0x58) = staged_particle_sprite_data;
             display->source = (u8 *)child + 0x58;
-            ((S_8196BA5C_0 *)child_work)->unk_40 = (u8)rect->x - 0x40;
-            ((S_8196BA5C_0 *)child_work)->unk_41 = (u8)rect->y;
+            child_work->unk_40 = (u8)rect->x - 0x40;
+            child_work->unk_41 = (u8)rect->y;
         }
     }
 
@@ -714,16 +714,16 @@ void create_timed_rectangle_effect(void *owner) {
 /* Creates a display object at the source position with zero scale and color. */
 void create_staged_rectangle_sprite(void *source, s32 unused_position, s32 unused_render) {
     ObjectNodeHeader *object;
-    u8 *object_state;
+    S_8196BD3C_0 *object_state;
     SpriteFrameState *display;
     void *source_pos;
     ObjectPosition *object_pos;
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
-        object_state = (u8 *)object + 0x20;
-        ((S_8196BD3C_0 *)object_state)->unk_2C = 0xB;
-        ((S_8196BD3C_0 *)object_state)->unk_7C = source;
+        object_state = (S_8196BD3C_0 *)((u8 *)object + 0x20);
+        object_state->unk_2C = 0xB;
+        object_state->unk_7C = source;
         object->update_callback = create_timed_rectangle_effect;
         register_node(object, project_sprite_chain);
 

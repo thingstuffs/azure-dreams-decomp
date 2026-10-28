@@ -491,7 +491,7 @@ void * create_tile_centered_item_effect(s32 tile_x, s32 tile_y, s32 height, s32 
                   s32 field_aa, s32 field_ac, s32 field_ae) {
     ObjectNodeHeader *object;
     ObjectPosition *position;
-    u8 *fields;
+    S_800A794C_2 *fields;
     s32 payload;
 
     object = create_item_render_object(((s32 *)&scene_object_list_anchor.next), payload_ptr, 0, 0, 0);
@@ -504,13 +504,13 @@ void * create_tile_centered_item_effect(s32 tile_x, s32 tile_y, s32 height, s32 
     position->y.w.i = (s16)((tile_y << 6) + 0x20);
     position->z.w.i = height;
 
-    fields = ((u8 *)object) + 0x20;
+    fields = (S_800A794C_2 *)(((u8 *)object) + 0x20);
     payload = *payload_ptr;
-    ((S_800A794C_2 *)fields)->unk_A0 = 4;
-    ((S_800A794C_2 *)fields)->unk_AA = (s16)field_aa;
-    ((S_800A794C_2 *)fields)->unk_AC = (s16)field_ac;
-    ((S_800A794C_2 *)fields)->unk_98 = payload;
-    ((S_800A794C_2 *)fields)->unk_AE = (s16)field_ae;
+    fields->unk_A0 = 4;
+    fields->unk_AA = (s16)field_aa;
+    fields->unk_AC = (s16)field_ac;
+    fields->unk_98 = payload;
+    fields->unk_AE = (s16)field_ae;
     g_dungeon_status.activity_counts.parts.pending_action_count++;
     return object;
 }
@@ -1152,14 +1152,14 @@ void update_dropped_object_motion(void *object, register ObjectPosition *motion,
     u8 *next_x_steps;
     S_800A871C_5 *launch_source;
     SpriteFrameState *source_sprite;
-    void *drop_sprite;
+    S_800A871C_12 *drop_sprite;
     S_800A871C_17 *hit_object;
     void *drop_source;
     u8 *y_steps;
-    u8 *y_step;
+    S_800A871C_6 *y_step;
     s32 target_height;
     s32 height_delta;
-    u8 *world_page;
+    S_800A871C_15 *world_page;
     ActorRecord *height_source;
     s32 source_height;
     s32 dungeon_flags;
@@ -1199,10 +1199,10 @@ void update_dropped_object_motion(void *object, register ObjectPosition *motion,
                 s16 *x_steps = (s16 *)((s8 *)dir_step_x);
                 dir_offset = direction * 2;
                 y_steps = (u8 *)((s8 *)dir_step_y);
-                y_step = (u8 *)((unsigned long)dir_offset + (unsigned long)y_steps);
+                y_step = (S_800A871C_6 *)((unsigned long)dir_offset + (unsigned long)y_steps);
                 target_height = effect_height_short((((((S_800A871C_4 *)tile)->unk_24.n + (*(s16 *)((u8 *)x_steps
                     + dir_offset) * travel_steps)) << 6) + 0x20) & 0xFFE0,
-                    (((((S_800A871C_4 *)tile)->unk_25.n + (((S_800A871C_6 *)y_step)->unk_00 * travel_steps)) << 6)
+                    (((((S_800A871C_4 *)tile)->unk_25.n + (y_step->unk_00 * travel_steps)) << 6)
                     + 0x20) & 0xFFE0, motion->z.w.i);
                 if (target_height < 0x200) {
                     height_delta = target_height - motion->z.w.i;
@@ -1238,7 +1238,7 @@ void update_dropped_object_motion(void *object, register ObjectPosition *motion,
             (*(u16 *)((u8 *)object_data + (0x88))) = ((u16)height_source->ground_height);
         } else if (((S_800A871C_1 *)object)->unk_A2 != 0) {
             if ((*(s32 *)((u8 *)object_data + (0x1C))) & 0x80000) {
-                world_page = (u8 *)0x800E0000;
+                world_page = (S_800A871C_15 *)0x800E0000;
                 goto check_completion;
             }
             {
@@ -1248,10 +1248,10 @@ void update_dropped_object_motion(void *object, register ObjectPosition *motion,
                 drop_sprite = ((S_800A871C_11_pre *)drop_source)[-1].unk_00;
                 (*(s16 *)((u8 *)object_data + (0x6A))) = (s16) drop_heading;
                 drop_dir_offset = (drop_heading >> 8) & 0xE;
-                ((S_800A871C_4 *)tile)->unk_24.n = (u8) (((S_800A871C_12 *)drop_sprite)->unk_24
+                ((S_800A871C_4 *)tile)->unk_24.n = (u8) (drop_sprite->unk_24
                     + ((S_800A871C_13 *)((u8 *)((unsigned long)drop_dir_offset
                     + (unsigned long)drop_x_steps)))->unk_00);
-                ((S_800A871C_4 *)tile)->unk_25.n = (u8) (((S_800A871C_12 *)drop_sprite)->unk_25
+                ((S_800A871C_4 *)tile)->unk_25.n = (u8) (drop_sprite->unk_25
                     + ((S_800A871C_14 *)((u8 *)((s8 *)dir_step_y) + drop_dir_offset))->unk_00);
                 set_record_integer_tile_center(motion, ((S_800A871C_4 *)tile)->unk_24.v, ((S_800A871C_4 *)tile)->unk_25.v);
                 drop_height = effect_height_short((((S_800A871C_4 *)tile)->unk_24.n << 6) | 0x20,
@@ -1274,9 +1274,9 @@ void update_dropped_object_motion(void *object, register ObjectPosition *motion,
         } else {
             return;
         }
-        world_page = (u8 *)0x800E0000;
+        world_page = (S_800A871C_15 *)0x800E0000;
 check_completion:
-        if (((S_800A871C_22 *)(((S_800A871C_15 *)world_page)->unk_3D7C))->unk_124 == 0) {
+        if (((S_800A871C_22 *)(world_page->unk_3D7C))->unk_124 == 0) {
             void *finished_object = object_data;
             s8 *flags_page = DUNGEON_FLAGS_PAGE;
             s32 floor_flags;

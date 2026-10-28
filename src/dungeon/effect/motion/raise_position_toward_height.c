@@ -699,8 +699,8 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
     Point capture_point;
     CoordTable directions;
     S_func_8190B2D0_1 *owner;
-    u8 * owner_base;
-    register void *source_pos;
+    S_func_8190B2D0_2 *owner_base;
+    register S_func_8190B2D0_3 *source_pos;
     s32 state;
     S_func_8190B2D0_3 *target_pos;
     S_func_8190B2D0_4 *motion_or_child = motion_arg;
@@ -709,8 +709,8 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
     owner = effect->unk_0;
     capture_rect = D_80024038;
     directions = rising_effect_octant_offsets;
-    owner_base = ((u8 *)owner - 32);
-    source_pos = ((S_func_8190B2D0_2 *)owner_base)->unk_8;
+    owner_base = ((S_func_8190B2D0_2 *)((u8 *)owner - 32));
+    source_pos = owner_base->unk_8;
     state = effect->unk_A.s16;
 
     switch (state) {
@@ -741,17 +741,17 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
         s32 height_or_steps;
         s32 coordinate_steps;
         s32 target_coord;
-        offset_ready = get_sprite_attachment_vector(((S_func_8190B2D0_5 *)((S_func_8190B2D0_2 *)owner_base)->unk_C)->unk_8,
-                           ((S_func_8190B2D0_2 *)owner_base)->unk_C, start_offset, 0);
+        offset_ready = get_sprite_attachment_vector(((S_func_8190B2D0_5 *)owner_base->unk_C)->unk_8,
+                           owner_base->unk_C, start_offset, 0);
         if (offset_ready == 0 &&
-            !(((S_func_8190B2D0_5 *)((S_func_8190B2D0_2 *)owner_base)->unk_C)->unk_14 & 0x8000)) {
+            !(((S_func_8190B2D0_5 *)owner_base->unk_C)->unk_14 & 0x8000)) {
             return;
         }
-        motion_or_child->unk_0.at_2_u16.unk_2 = ((S_func_8190B2D0_3 *)source_pos)->unk_0.at_2_u16.unk_2;
-        motion_or_child->unk_4.at_6_u16.unk_6 = ((S_func_8190B2D0_3 *)source_pos)->unk_4.at_6_u16.unk_6;
-        base_z = ((S_func_8190B2D0_3 *)source_pos)->unk_8.at_A_u16.unk_A;
+        motion_or_child->unk_0.at_2_u16.unk_2 = source_pos->unk_0.at_2_u16.unk_2;
+        motion_or_child->unk_4.at_6_u16.unk_6 = source_pos->unk_4.at_6_u16.unk_6;
+        base_z = source_pos->unk_8.at_A_u16.unk_A;
         motion_or_child->unk_8.at_A_u16.unk_A = base_z;
-        if (!(((S_func_8190B2D0_5 *)((S_func_8190B2D0_2 *)owner_base)->unk_C)->unk_14 & 0x8000)) {
+        if (!(((S_func_8190B2D0_5 *)owner_base->unk_C)->unk_14 & 0x8000)) {
             motion_or_child->unk_0.at_2_u16.unk_2 += start_offset[0];
             motion_or_child->unk_4.at_6_u16.unk_6 += start_offset[1];
             motion_or_child->unk_8.at_A_u16.unk_A += start_offset[2];
@@ -902,7 +902,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
     case 3:
     {
         ObjectPosition *child_pos;
-        u8 * child_data;
+        S_func_8190B2D0_7 *child_data;
         s32 frame;
         void *child_object;
         S_func_8190B2D0_6 *target;
@@ -932,10 +932,10 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
             motion_or_child = allocate_flagged_object_node(0x212);
             if (motion_or_child != 0) {
                 child_object = motion_or_child;
-                child_data = ((u8 *)motion_or_child + 32);
-                ((S_func_8190B2D0_7 *)child_data)->unk_2C = owner;
-                ((S_func_8190B2D0_7 *)child_data)->unk_30 = owner->unk_60;
-                ((S_func_8190B2D0_7 *)child_data)->unk_34 = effect;
+                child_data = ((S_func_8190B2D0_7 *)((u8 *)motion_or_child + 32));
+                child_data->unk_2C = owner;
+                child_data->unk_30 = owner->unk_60;
+                child_data->unk_34 = effect;
                 motion_or_child->unk_10.ptr = advance_the_animation_draws_rectangles_in_randomized_order;
                 register_node(child_object, project_sprite_chain);
                 sprite = motion_or_child->unk_C.ptr;
@@ -943,8 +943,8 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
                 sprite->depth_bias = 6;
                 sprite->flags |= 0xC;
                 child_pos = motion_or_child->unk_8.ptr;
-                ((S_func_8190B2D0_7 *)child_data)->unk_A = 0;
-                ((S_func_8190B2D0_7 *)child_data)->unk_C = 0;
+                child_data->unk_A = 0;
+                child_data->unk_C = 0;
                 target = owner->unk_60;
                 target_pos = ((S_func_8190B2D0_2 *)((u8 *)target - 32))->unk_8;
                 child_pos->x.v = target_pos->unk_0.u32;

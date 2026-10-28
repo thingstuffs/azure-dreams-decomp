@@ -190,8 +190,8 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
             actor->unk_73.as_u8 = actor_data->tile_y;
         } else {
             prim = ((S_func_818DA800_5 *)((u8 *)target_actor - 0x20))->unk_0C;
-            actor->unk_72.as_u8 = ((MovingTile *)prim)->tile_x;
-            actor->unk_73.as_u8 = ((MovingTile *)prim)->tile_y;
+            actor->unk_72.as_u8 = prim->tile_x;
+            actor->unk_73.as_u8 = prim->tile_y;
         }
     }
 
@@ -264,7 +264,7 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
                     prim_color = 0xC00000;
                 }
                 position_or_z_offset = -0x100000;
-                ((S_func_818DA800_2 *)burst_obj->position)->unk_08.as_s32 =
+                burst_obj->position->z.v =
                     motion->unk_08.as_s32 + position_or_z_offset;
                 prim->scale_y = 0xC00;
                 prim->tpage_abr = 0x60;

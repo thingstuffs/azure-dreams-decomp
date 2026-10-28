@@ -61,8 +61,8 @@ typedef struct S_80025198_5 {
 void *allocate_item_object(s32 value_00, s32 value_10, s32 value_18, void *descriptor, s32 setup_arg) {
     s32 *display_ids;
     s32 resource_index;
-    void *descriptor_data;
-    void *state;
+    S_80025198_2 *descriptor_data;
+    S_80025198_1 *state;
     s32 *globals_base;
     ObjectNodeHeader *object;
     void *resource_cursor;
@@ -72,26 +72,26 @@ void *allocate_item_object(s32 value_00, s32 value_10, s32 value_18, void *descr
         descriptor_data = descriptor;
         state = ((void *)object) + 0x20;
         ((S_80025198_0 *)object)->unk_20 = value_00;
-        ((S_80025198_1 *)state)->unk_10 = value_10;
-        ((S_80025198_1 *)state)->unk_14 = (s32) ((S_80025198_2 *)descriptor_data)->unk_01;
-        ((S_80025198_1 *)state)->unk_18 = value_18;
-        ((S_80025198_1 *)state)->unk_1C = (s32) ((S_80025198_2 *)descriptor_data)->unk_00;
+        state->unk_10 = value_10;
+        state->unk_14 = (s32) descriptor_data->unk_01;
+        state->unk_18 = value_18;
+        state->unk_1C = (s32) descriptor_data->unk_00;
         set_item_data_from_lookup(state, descriptor_data, setup_arg);
         (object->update_callback) = 0;
         if (runtime_dispatch_state.mode != 1) {
             clear_state_flag_bit();
         }
         display_ids = &item_panel_display_ids;
-        ((S_80025198_1 *)state)->unk_2C = window_create_animated_content_panel(8, 0xEC, 0x64, 0xEC, 0x64, 0x50, 1, item_panel_display_ids);
-        ((S_80025198_1 *)state)->unk_30 = window_create_animated_content_panel(4, 0xEC, 0x64, 0xEC, 0x74, 0x50, 1,
+        state->unk_2C = window_create_animated_content_panel(8, 0xEC, 0x64, 0xEC, 0x64, 0x50, 1, item_panel_display_ids);
+        state->unk_30 = window_create_animated_content_panel(4, 0xEC, 0x64, 0xEC, 0x74, 0x50, 1,
             ((S_80025198_3 *)display_ids)->unk_04);
-        ((S_80025198_1 *)state)->unk_34 = window_create_animated_content_panel(0x10, 0xEC, 0x64, 0xEC, 0x84, 0x50, 1,
+        state->unk_34 = window_create_animated_content_panel(0x10, 0xEC, 0x64, 0xEC, 0x84, 0x50, 1,
             ((S_80025198_3 *)display_ids)->unk_08);
-        ((S_80025198_1 *)state)->unk_20 = inventory_allocate_and_initialize_child(object, ((S_80025198_1 *)state)->unk_14,
-            ((S_80025198_1 *)state)->unk_04);
-        ((S_80025198_1 *)state)->unk_24 = create_menu_child_object(object, ((S_80025198_1 *)state)->unk_14);
-        ((S_80025198_1 *)state)->unk_28 = allocate_initialized_child_object(object, ((S_80025198_1 *)state)->unk_14,
-            ((S_80025198_1 *)state)->unk_04);
+        state->unk_20 = inventory_allocate_and_initialize_child(object, state->unk_14,
+            state->unk_04);
+        state->unk_24 = create_menu_child_object(object, state->unk_14);
+        state->unk_28 = allocate_initialized_child_object(object, state->unk_14,
+            state->unk_04);
         globals_base = (s32 *) 0x80080000;
         for (resource_index = 0, resource_cursor = state; resource_index < 3; resource_index++, resource_cursor += 4) {
             if (((S_80025198_4 *)resource_cursor)->unk_20 == 0) {

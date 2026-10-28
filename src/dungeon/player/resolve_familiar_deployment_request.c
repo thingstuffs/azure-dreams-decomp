@@ -107,19 +107,19 @@ void resolve_familiar_deployment_request(void *context_ptr, s32 unused_one, void
 
     index = find_entity_slot_by_field_ac(object);
     {
-        void *st;
+        S_800956B8_4 *st;
 
         if (index >= 0) {
             void *tail_selected;
             tail_selected = ((S_800956B8_2 *)((u8 *)context_ptr + index * 4))->unk_AC;
             st = tail_selected;
-            ((S_800956B8_4 *)st)->unk_9A = 2;
+            st->unk_9A = 2;
         } else {
             st = ((Rec_func_8008D024_arg0 *)context_ptr)->unk_60;
-            ((S_800956B8_4 *)st)->unk_9A = 2;
+            st->unk_9A = 2;
         }
-        ((S_800956B8_4 *)st)->unk_9B = 0;
-        ((S_800956B8_4 *)st)->unk_8C = 0;
+        st->unk_9B = 0;
+        st->unk_8C = 0;
         ((Rec_func_8008D024_arg0 *)context_ptr)->unk_110 = selection_ptr;
     }
 }

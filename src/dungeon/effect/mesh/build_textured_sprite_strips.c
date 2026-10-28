@@ -83,7 +83,7 @@ void build_textured_sprite_strips(void *screen_pos, void *sprite, s32 *ordering_
     s32 origin_byte;
     s32 restore_mode;
     s32 angle_bias;
-    u8 *row_quad;
+    Blk40 *row_quad;
     GpuContext *render_state;
     void *callback_sprite;
     s32 callback_param;
@@ -92,7 +92,7 @@ void build_textured_sprite_strips(void *screen_pos, void *sprite, s32 *ordering_
     s16 strip_bottom;
     u16 base_tpage;
     FnPtr draw_callback;
-    u8 *first_quad;
+    Blk40 *first_quad;
     s32 *mode_link;
     s32 *right_row_link;
     s32 *restore_link;
@@ -348,7 +348,7 @@ void build_textured_sprite_strips(void *screen_pos, void *sprite, s32 *ordering_
                 }
                 frame->unk_0C.as_u8_0F.unk_0F = origin_byte;
             }
-            first_quad = (u8 *)packet;
+            first_quad = (Blk40 *)packet;
             packet->unk_04 = (s32) frame->unk_0C.as_s32_0C;
             ((S_func_81904990_1 *)((u8 *)sprite - 0x18))->unk_7A = (u16) packet->unk_0A;
             strip_bottom = (u16) packet->unk_0A + ((S_func_81904990_1 *)((u8 *)sprite - 0x18))->unk_7C;
@@ -361,7 +361,7 @@ void build_textured_sprite_strips(void *screen_pos, void *sprite, s32 *ordering_
             *first_link = (*first_link & length_mask) | first_addr;
             packet->unk_00.as_s8_03.unk_03 = quad_words;
 
-            *(Blk40 *)packet = *(Blk40 *)first_quad;
+            *(Blk40 *)packet = *first_quad;
             row_index = 1;
             wrapped_v_offset = -0x30;
             second_addr = (s32) packet & addr_mask;
@@ -375,7 +375,7 @@ void build_textured_sprite_strips(void *screen_pos, void *sprite, s32 *ordering_
             *second_link = (*second_link & length_mask) | second_addr;
             do {
             packet->unk_00.as_s8_03.unk_03 = quad_words;
-            *(Blk40 *)packet = *(Blk40 *)first_quad;
+            *(Blk40 *)packet = *first_quad;
             packet->unk_0A = (s16) (((S_func_81904990_1 *)((u8 *)sprite
                 - 0x18))->unk_7A + ((u16 *)((u8 *)sprite + 0x62))[row_index]);
             packet->unk_12 = (s16) (((S_func_81904990_1 *)((u8 *)sprite
@@ -412,14 +412,14 @@ void build_textured_sprite_strips(void *screen_pos, void *sprite, s32 *ordering_
                 packet->unk_1C.as_u8_1D.unk_1D = (u8) tail_value;
                 packet->unk_24.as_u8_25.unk_25 = (u8) tail_uv;
             }
-            row_quad = (u8 *)packet;
+            row_quad = (Blk40 *)packet;
             left_row_addr = (s32) packet & addr_mask;
             packet->unk_00.as_s32_00 = (packet->unk_00.as_s32_00 & length_mask) | (*scratch->unk_20 & addr_mask);
             left_row_link = scratch->unk_20;
             packet = (S_func_81904990_7 *)((u8 *)packet + 40);
             *left_row_link = (*left_row_link & length_mask) | left_row_addr;
             packet->unk_00.as_s8_03.unk_03 = quad_words;
-            *(Blk40 *)packet = *(Blk40 *)row_quad;
+            *(Blk40 *)packet = *row_quad;
             wrapped_v_offset += 0x10;
             row_index += 1;
             right_row_addr = (s32) packet & addr_mask;

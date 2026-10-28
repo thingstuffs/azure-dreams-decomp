@@ -139,7 +139,7 @@ s32 select_target_tile_for_actor_action(void *object_ptr, void *action_context, 
     u8 *object;
     u8 *actor;
     void *context;
-    void *target;
+    MovingTile *target;
     u16 global_flags;
 
     object = object_ptr;
@@ -151,7 +151,7 @@ s32 select_target_tile_for_actor_action(void *object_ptr, void *action_context, 
 
         ((S_800CA788_1 *)actor)->unk_14 |= 0x2000;
         ((S_800CA788_1 *)actor)->unk_1C |= 0x2000;
-        target_direction = find_eligible_entry_at_coordinates(actor, ((MovingTile *)target)->tile_x, ((MovingTile *)target)->tile_y);
+        target_direction = find_eligible_entry_at_coordinates(actor, target->tile_x, target->tile_y);
         clear_action_flag = ~0x2000;
         ((S_800CA788_1 *)actor)->unk_14 &= clear_action_flag;
         ((S_800CA788_1 *)actor)->unk_1C &= clear_action_flag;
@@ -210,7 +210,7 @@ s32 choose_best_eligible_entry_for_actor(void *actor_arg, s32 action_arg, Moving
     s32 clear_flag_mask;
     MovingTile *target;
     s32 found_entry;
-    void *target_entry;
+    SpriteLinkPrefixView *target_entry;
 
     actor = actor_arg;
     ((S_800CA93C_0 *)actor)->unk_14 |= 0x2000;
@@ -222,7 +222,7 @@ s32 choose_best_eligible_entry_for_actor(void *actor_arg, s32 action_arg, Moving
     target_entry = ((S_800CA93C_0 *)actor)->unk_60;
     ((S_800CA93C_0 *)actor)->unk_1C &= clear_flag_mask;
     if (target_entry != 0) {
-        target = ((SpriteLinkPrefixView *)target_entry)[-1].sprite;
+        target = target_entry[-1].sprite;
         ((S_800CA93C_0 *)actor)->unk_14 |= 0x2000;
         ((S_800CA93C_0 *)actor)->unk_1C |= 0x2000;
         found_entry = find_eligible_entry_at_coordinates(

@@ -236,7 +236,7 @@ void *merge_creature_abilities_and_state(void *first, void *second, void *destin
     s32 scan_index;
 
     u8 *ability_data;
-    u8 *slot_addr;
+    S_800277F4_17 *slot_addr;
     u8 *slot_base;
     u8 matched_ability;
     u8 ability_level;
@@ -246,17 +246,17 @@ void *merge_creature_abilities_and_state(void *first, void *second, void *destin
     u8 room_x;
     u8 room_y;
     u8 merge_key;
-    void *donor_ability;
+    S_800277F4_3 *donor_ability;
     void *primary_output;
-    void *merged_entry;
-    void *donor_position;
-    void *result_ability;
-    void *fallback_output;
-    void *result_primary_data;
+    S_800277F4_15 *merged_entry;
+    MovingTile *donor_position;
+    S_800277F4_7 *result_ability;
+    S_800277F4_13 *fallback_output;
+    S_800277F4_2 *result_primary_data;
     u8 *visited_slot;
-    void *donor_primary_data;
+    S_800277F4_6 *donor_primary_data;
     void *donor_runtime;
-    void *clear_entry;
+    S_800277F4_1 *clear_entry;
     void *source;
     void *other;
     void *result;
@@ -306,9 +306,9 @@ void *merge_creature_abilities_and_state(void *first, void *second, void *destin
                 next_clear = ability_count - 1;
                 ability_count = next_clear;
                 clear_slot = clear_shifted >> 0x10;
-                clear_entry = clear_abilities + (clear_slot * 3);
-                ((S_800277F4_1 *)clear_entry)->unk_00 = 0;
-                ((S_800277F4_1 *)clear_entry)->unk_02 = 0;
+                clear_entry = (S_800277F4_1 *)(clear_abilities + (clear_slot * 3));
+                clear_entry->unk_00 = 0;
+                clear_entry->unk_02 = 0;
                 clear_donor_seen[clear_slot] = 0;
                 clear_result_seen[clear_slot] = 0;
             }
@@ -324,23 +324,23 @@ void *merge_creature_abilities_and_state(void *first, void *second, void *destin
                 primary_seen_base[0x10] = (u8) seen_mark;
             }
             result_primary_data = result + (result_primary * 3);
-            element_mask = (s16) find_slot_by_item_group(donor, ((S_800277F4_2 *)result_primary_data)->unk_08);
+            element_mask = (s16) find_slot_by_item_group(donor, result_primary_data->unk_08);
             if (element_mask >= 0) {
                 donor_seen[element_mask] = (u8) seen_mark;
                 donor_ability = donor + (element_mask * 3);
             }
             if (element_mask >= 0 &&
-                (u8) ((S_800277F4_2 *)result_primary_data)->unk_0A < (u8) ((S_800277F4_3 *)donor_ability)->unk_0A) {
+                (u8) result_primary_data->unk_0A < (u8) donor_ability->unk_0A) {
                 primary_output = merged_abilities + ((s16)ability_count * 3);
-                ((S_800277F4_4 *)primary_output)->unk_00 = ((S_800277F4_3 *)donor_ability)->unk_08;
-                ((S_800277F4_4 *)primary_output)->unk_02 = ((S_800277F4_3 *)donor_ability)->unk_0A;
+                ((S_800277F4_4 *)primary_output)->unk_00 = donor_ability->unk_08;
+                ((S_800277F4_4 *)primary_output)->unk_02 = donor_ability->unk_0A;
             } else {
                 {
                     s32 copy_dst_index = (s16) ability_count;
                     s32 copy_dst_offset;
                     u8 *copy_dst;
                     s32 copy_src_index;
-                    u8 *copy_src;
+                    S_800277F4_5 *copy_src;
 
                     copy_dst_offset = copy_dst_index * 3;
                     copy_dst = merged_abilities;
@@ -348,8 +348,8 @@ void *merge_creature_abilities_and_state(void *first, void *second, void *destin
 
                     copy_src = result + (copy_src_index * 3);
 
-                    (*(u8 *)((u8 *)copy_dst + copy_dst_offset)) = (u8) ((S_800277F4_5 *)copy_src)->unk_08;
-                    (*(u8 *)((u8 *)copy_dst + copy_dst_offset + 2)) = (u8) ((S_800277F4_5 *)copy_src)->unk_0A;
+                    (*(u8 *)((u8 *)copy_dst + copy_dst_offset)) = (u8) copy_src->unk_08;
+                    (*(u8 *)((u8 *)copy_dst + copy_dst_offset + 2)) = (u8) copy_src->unk_0A;
                 }
             }
             ability_count += 1;
@@ -366,7 +366,7 @@ merge_donor_primary:
             }
             if (*visited_slot == 0) {
                 donor_primary_data = donor + (donor_primary * 3);
-                merge_out = (u8 *)find_slot_by_item_group(result, ((S_800277F4_6 *)donor_primary_data)->unk_08);
+                merge_out = (u8 *)find_slot_by_item_group(result, donor_primary_data->unk_08);
                 if (((s16)merge_out) >= 0) {
                     merge_buffer[((s16)merge_out)] = 1;
                 }
@@ -375,8 +375,8 @@ merge_donor_primary:
                     result_ability = result + (((s16)merge_out) * 3);
                 }
                 if (((s16)merge_out) >= 0 &&
-                    (u8) ((S_800277F4_6 *)donor_primary_data)->unk_0A
-                        < (u8) ((S_800277F4_7 *)result_ability)->unk_0A) {
+                    (u8) donor_primary_data->unk_0A
+                        < (u8) result_ability->unk_0A) {
                     s32 copy_dst_index = (s16) ability_count;
                     s32 copy_dst_offset;
                     u8 *copy_dst;
@@ -384,9 +384,9 @@ merge_donor_primary:
                     copy_dst_offset = copy_dst_index * 3;
                     copy_dst = merged_abilities;
 
-                    matched_ability = ((S_800277F4_7 *)result_ability)->unk_08;
+                    matched_ability = result_ability->unk_08;
                     copy_dst[copy_dst_offset + 0] = matched_ability;
-                    copy_dst[copy_dst_offset + 2] = ((S_800277F4_7 *)result_ability)->unk_0A;
+                    copy_dst[copy_dst_offset + 2] = result_ability->unk_0A;
                 } else {
                     s32 copy_dst_index = (s16) ability_count;
                     s32 copy_dst_offset;
@@ -473,7 +473,7 @@ merge_donor_primary:
                     }
                     ability_data[2] = ((S_800277F4_12 *)((other_data + match_offset)))->unk_0A;
                 } else {
-                    fallback_output = merge_out + ((s16)ability_count * 3);
+                    fallback_output = (S_800277F4_13 *)(merge_out + ((s16)ability_count * 3));
                     clear_result_seen = donor;
                     if (source_side == 0) {
                         clear_result_seen = result;
@@ -487,21 +487,21 @@ merge_donor_primary:
 
                         fallback_source = clear_result_seen + fallback_offset;
 
-                        ((S_800277F4_13 *)fallback_output)->unk_00 = ((S_800277F4_14 *)fallback_source)->unk_08;
+                        fallback_output->unk_00 = ((S_800277F4_14 *)fallback_source)->unk_08;
                         second_source = donor;
                         if (source_side == 0) {
                             second_source = result;
                         }
 
 
-                        ((S_800277F4_13 *)fallback_output)->unk_02 = ((S_800277F4_14 *)(second_source
+                        fallback_output->unk_02 = ((S_800277F4_14 *)(second_source
                             + fallback_offset))->unk_0A;
                     }
                 }
-                merged_entry = merge_out + ((s16)ability_count * 3);
-                if (((S_800277F4_15 *)merged_entry)->unk_00 == 0x2E) {
-                    ((S_800277F4_15 *)merged_entry)->unk_00 = 0U;
-                    ((S_800277F4_15 *)merged_entry)->unk_02 = 0;
+                merged_entry = (S_800277F4_15 *)(merge_out + ((s16)ability_count * 3));
+                if (merged_entry->unk_00 == 0x2E) {
+                    merged_entry->unk_00 = 0U;
+                    merged_entry->unk_02 = 0;
                 }
                 ability_count += 1;
                 {
@@ -610,13 +610,13 @@ merge_donor_primary:
                 u8 *slot_page = resident_globals_page;
                 slot_base = *(u8 **) (slot_page + 0x14A8);
             }
-            slot_addr = (u8 *) (((s32) (slot_index << 0x10) >> 0xE) + (long)slot_base);
+            slot_addr = (S_800277F4_17 *) (((s32) (slot_index << 0x10) >> 0xE) + (long)slot_base);
 
             slot_flags = (*(s32 *)((u8 *)donor + 0x1C)) & 0x2000;
             donor_position = ((S_800277F4_8_pre *)donor)[-1].unk_00;
-            donor_runtime = ((S_800277F4_17 *)slot_addr)->unk_D0;
-            room_x = ((MovingTile *)donor_position)->tile_x;
-            room_y = ((MovingTile *)donor_position)->tile_y;
+            donor_runtime = slot_addr->unk_D0;
+            room_x = donor_position->tile_x;
+            room_y = donor_position->tile_y;
             map_mask = 0x3000;
             if (slot_flags != 0) {
                 map_mask = 0x300;
@@ -641,11 +641,11 @@ merge_donor_primary:
             {
                 u8 *slot_page = resident_globals_page;
                 u8 *runtime_base;
-                u8 *runtime_addr;
+                S_800277F4_19 *runtime_addr;
                 runtime_base = *(u8 **) (slot_page + 0x14A8);
-                runtime_addr = (u8 *) (((s32) (slot_index << 0x10) >> 0xE) + (long)runtime_base);
+                runtime_addr = (S_800277F4_19 *) (((s32) (slot_index << 0x10) >> 0xE) + (long)runtime_base);
 
-                ((S_800277F4_19 *)runtime_addr)->unk_D0 = 0;
+                runtime_addr->unk_D0 = 0;
             }
             zero_words(&familiar_record_storage[(((S_800277F4_20 *)donor_runtime)->unk_03 & 0x1F) * 0x8C], 0x23);
             familiar_record_slots[((S_800277F4_20 *)donor_runtime)->unk_03 & 0x1F] = 0;

@@ -318,11 +318,11 @@ void *choose_best_eligible_entry(void *owner_arg, void *start, s32 score_limit)
 {
     void *candidate;
     S_800A3D18_4 *base;
-    void *best;
+    S_800A3D18_5 *best;
     void *special;
     s16 special_score;
     s16 best_score;
-    u8 *global_page;
+    S_800A3D18_3 *global_page;
     S_800A3D18_2 *candidate_owner;
     void *next_link;
     s32 score;
@@ -347,7 +347,7 @@ void *choose_best_eligible_entry(void *owner_arg, void *start, s32 score_limit)
     next_link = ((S_800A3D18_1 *)candidate)->unk_5C;
     candidate = (u8 *)next_link + 0x20;
     if (candidate != base) {
-        global_page = (u8 *)0x800e0000;
+        global_page = (S_800A3D18_3 *)0x800e0000;
         while (candidate != base) {
             void *entry_link;
             if ((s16)check_entity_interaction_compatibility(base, candidate) != 0 && (s16)check_entity_eligibility(candidate) != 0) {
@@ -355,7 +355,7 @@ void *choose_best_eligible_entry(void *owner_arg, void *start, s32 score_limit)
                 if (((S_800A3D18_0 *)owner_arg)->unk_26 == candidate_owner->unk_26) {
                     score = get_tile_chebyshev_distance(candidate_owner, owner_arg);
                     if ((s16)score < best_score) {
-                        if (candidate == ((S_800A3D18_3 *)global_page)->unk_3D7C) {
+                        if (candidate == global_page->unk_3D7C) {
                             special = candidate;
                             special_score = score;
                         } else {
@@ -369,7 +369,7 @@ void *choose_best_eligible_entry(void *owner_arg, void *start, s32 score_limit)
                                               candidate_owner->unk_24,
                                               candidate_owner->unk_25,
                                               ((S_800A3D18_1 *)candidate)->unk_88) != 0) {
-                    if (candidate == ((S_800A3D18_3 *)global_page)->unk_3D7C) {
+                    if (candidate == global_page->unk_3D7C) {
                         special = candidate;
                         special_score = 1;
                     } else {
@@ -393,7 +393,7 @@ void *choose_best_eligible_entry(void *owner_arg, void *start, s32 score_limit)
         special_cmp = (s16)special_score;
         best_cmp = (s16)best_score;
         if (special_cmp == best_cmp) {
-            if (((S_800A3D18_5 *)best)->unk_1C & 8) {
+            if (best->unk_1C & 8) {
                 best = special;
             } else if (!((((PlayerRecord *)((u8 *)dungeon_actor_ring_anchor))->unk_128 + ((S_800A3D18_1 *)candidate)->unk_43) & 3)) {
                 best = special;
@@ -412,7 +412,7 @@ void *find_eligible_nearby_entry(s32 x, s32 y, void *end, void *owner)
     s32 found_id;
     s32 target_x;
     void *current;
-    u8 *entry_data;
+    S_800A3F28_1 *entry_data;
     s32 distance;
     s32 radius;
     s32 target_y;
@@ -426,16 +426,16 @@ void *find_eligible_nearby_entry(s32 x, s32 y, void *end, void *owner)
         target_y = (s16)y;
         do {
             if ((check_entity_eligibility(current) << 16) != 0) {
-                entry_data = ((S_800A3F28_0_pre *)current)[-1].unk_00;
-                if (lookup_id == ((S_800A3F28_1 *)entry_data)->unk_26 && lookup_id >= 0) {
+                entry_data = (S_800A3F28_1 *)((S_800A3F28_0_pre *)current)[-1].unk_00;
+                if (lookup_id == entry_data->unk_26 && lookup_id >= 0) {
                     return current;
                 }
-                distance = target_x - ((S_800A3F28_1 *)entry_data)->unk_24;
+                distance = target_x - entry_data->unk_24;
                 if (distance < 0) {
                     distance = -distance;
                 }
                 if (radius >= distance) {
-                    distance = target_y - ((S_800A3F28_1 *)entry_data)->unk_25;
+                    distance = target_y - entry_data->unk_25;
                     if (distance < 0) {
                         distance = -distance;
                     }

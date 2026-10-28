@@ -76,7 +76,7 @@ extern u8 scene_mode_code;
 void advance_go_up_trap_sequence(void *trap_state_in, void *motion_state_in, void *animation_in) {
     S_800CB9DC_2 *motion_state = motion_state_in;
     SpriteFrameState *animation= animation_in;
-    void *actor_data;
+    MovingTile *actor_data;
     s32 tile_mask;
     s32 vertical_speed;
     u16 elapsed_frames;
@@ -126,8 +126,8 @@ void advance_go_up_trap_sequence(void *trap_state_in, void *motion_state_in, voi
                 s32 actor_flags;
 
                 actor_flags = ((S_800CB9DC_1 *)actor)->unk_1C;
-                tile_x = ((MovingTile *)actor_data)->tile_x;
-                tile_y = ((MovingTile *)actor_data)->tile_y;
+                tile_x = actor_data->tile_x;
+                tile_y = actor_data->tile_y;
                 tile_mask = 0x3000;
                 if (actor_flags & 0x2000) {
                     tile_mask = 0x300;
@@ -137,34 +137,34 @@ void advance_go_up_trap_sequence(void *trap_state_in, void *motion_state_in, voi
             detach_record_and_update_slot_state(actor);
             unlink_entity_node(actor);
             {
-                u8 *status_page;
+                S_800CB9DC_7 *status_page;
                 DungeonGlobalStatus *actor_counts;
                 s32 global_flags;
                 u16 actor_count;
                 u16 removal_flags;
 
-                status_page = (u8 *)0x80080000;
+                status_page = (S_800CB9DC_7 *)0x80080000;
                 actor_counts = &g_dungeon_status;
                 removal_flags = ((S_800CB9DC_1_pre *)actor)[-1].unk_16;
                 ((S_800CB9DC_1_pre *)actor)[-1].unk_16 = removal_flags | 0x8000;
-                global_flags = ((S_800CB9DC_7 *)status_page)->unk_14A0 | 0x8000;
+                global_flags = status_page->unk_14A0 | 0x8000;
                 actor_count = ((u16)actor_counts->activity_counts.parts.pending_action_count);
                 actor_count--;
-                ((S_800CB9DC_7 *)status_page)->unk_14A0 = global_flags;
+                status_page->unk_14A0 = global_flags;
                 actor_counts->activity_counts.parts.pending_action_count = actor_count;
             }
         }
         {
             s32 global_flags;
-            u8 *status_page_again;
+            S_800CB9DC_9 *status_page_again;
             u16 removal_flags;
 
             removal_flags = ((S_800CB9DC_0_pre *)trap_state_in)[-1].unk_00;
-            status_page_again = (u8 *)0x80080000;
+            status_page_again = (S_800CB9DC_9 *)0x80080000;
             ((S_800CB9DC_0_pre *)trap_state_in)[-1].unk_00 = removal_flags | 0x8000;
-            global_flags = ((S_800CB9DC_9 *)status_page_again)->unk_14A0.s;
+            global_flags = status_page_again->unk_14A0.s;
             global_flags |= 0x8000;
-            ((S_800CB9DC_9 *)status_page_again)->unk_14A0.u = global_flags;
+            status_page_again->unk_14A0.u = global_flags;
         }
     }
 }

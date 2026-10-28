@@ -74,7 +74,7 @@ void update_attached_effect_position(void *object, MovingPosition *position, voi
     s32 base_phase;
     s16 phase;
     s32 reflected_phase;
-    void *color;
+    S_800B0D34_2 *color;
     void *info;
     s32 mode;
 
@@ -91,20 +91,20 @@ void update_attached_effect_position(void *object, MovingPosition *position, voi
         }
     }
 
-    color = (u8 *)color + 4;
+    color = (S_800B0D34_2 *)((u8 *)color + 4);
     if ((s32)((S_800B0D34_1 *)info)->unk_29 /
         (s32)((((S_800B0D34_1 *)info)->unk_11 >> 1) + 2) >=
         (s32)((S_800B0D34_1 *)info)->unk_28) {
-        ((S_800B0D34_2 *)color)->unk_00 = -0x80 - phase * 8;
-        ((S_800B0D34_2 *)color)->unk_02 = 0x10;
-        ((S_800B0D34_2 *)color)->unk_01 = 0x10;
+        color->unk_00 = -0x80 - phase * 8;
+        color->unk_02 = 0x10;
+        color->unk_01 = 0x10;
     }
 
-    color = (u8 *)color + 4;
+    color = (S_800B0D34_2 *)((u8 *)color + 4);
     if (((S_800B0D34_1 *)info)->unk_25 < 10) {
-        ((S_800B0D34_2 *)color)->unk_00 = -0x80 - phase * 8;
-        ((S_800B0D34_2 *)color)->unk_02 = 0x10;
-        ((S_800B0D34_2 *)color)->unk_01 = 0x10;
+        color->unk_00 = -0x80 - phase * 8;
+        color->unk_02 = 0x10;
+        color->unk_01 = 0x10;
     }
 
     mode = ((S_800B0D34_0 *)object)->unk_10.s;
@@ -137,9 +137,9 @@ void update_attached_effect_position(void *object, MovingPosition *position, voi
                 s32 *flags_base = (s32 *)0x80080000;
                 void *entry_cursor = object;
                 do {
-                    void *entry = ((S_800B0D34_5 *)entry_cursor)->unk_28;
+                    S_800B0D34_6_pre *entry = ((S_800B0D34_5 *)entry_cursor)->unk_28;
                     if (entry != 0) {
-                        ((S_800B0D34_6_pre *)entry)[-1].unk_00 |= 0x8000;
+                        entry[-1].unk_00 |= 0x8000;
                         flags_base[0x14A0 / 4] |= 0x8000;
                     }
                     entry_index++;

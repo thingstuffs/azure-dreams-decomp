@@ -77,16 +77,16 @@ void update_emitter_and_spawn_particles(void *emitter, MovingPosition *position,
     s32 spawn_count;
     u16 age;
     u16 life_left;
-    void *parent;
-    void *particle_pos;
-    void *particle;
+    S_7FFE79F4_2 *parent;
+    S_7FFE79F4_4 *particle_pos;
+    S_7FFE79F4_3 *particle;
 
     parent = ((S_7FFE79F4_0 *)emitter)->unk_24;
-    position->x = (u16) (((MovingPosition *)(((S_7FFE79F4_2 *)parent)->unk_08))->x
+    position->x = (u16) (((MovingPosition *)(parent->unk_08))->x
         + ((S_7FFE79F4_0 *)emitter)->unk_3C);
-    position->y = (u16) (((MovingPosition *)(((S_7FFE79F4_2 *)parent)->unk_08))->y
+    position->y = (u16) (((MovingPosition *)(parent->unk_08))->y
         + ((S_7FFE79F4_0 *)emitter)->unk_3E);
-    position->z = (u16) (((MovingPosition *)(((S_7FFE79F4_2 *)parent)->unk_08))->z
+    position->z = (u16) (((MovingPosition *)(parent->unk_08))->z
         + ((S_7FFE79F4_0 *)emitter)->unk_40);
     age = ((S_7FFE79F4_0 *)emitter)->unk_16 + 1;
     ((S_7FFE79F4_0 *)emitter)->unk_16 = age;
@@ -98,26 +98,26 @@ void update_emitter_and_spawn_particles(void *emitter, MovingPosition *position,
             if (particle != NULL) {
                 func_7010AE28(particle, emitter, position, init_arg);
                 product = 0x28;
-                ((S_7FFE79F4_3 *)particle)->unk_3E = product;
-                ((S_7FFE79F4_3 *)particle)->unk_40 = product;
+                particle->unk_3E = product;
+                particle->unk_40 = product;
                 product = (func_700750E0() & 0x1F) << 7;
-                ((S_7FFE79F4_3 *)particle)->unk_48 = product;
+                particle->unk_48 = product;
                 product = 0x32;
-                ((S_7FFE79F4_3 *)particle)->unk_4A = product;
-                particle_pos = ((S_7FFE79F4_3 *)particle)->unk_08;
-                ((S_7FFE79F4_3 *)particle)->unk_58 = (u16) position->x;
-                ((S_7FFE79F4_3 *)particle)->unk_5A = (u16) position->y;
-                ((S_7FFE79F4_3 *)particle)->unk_10 = &D_8010AA44;
-                product = ((S_7FFE79F4_3 *)particle)->unk_4A * func_7006DD28(((S_7FFE79F4_3 *)particle)->unk_48);
-                coordinate = ((S_7FFE79F4_3 *)particle)->unk_58;
+                particle->unk_4A = product;
+                particle_pos = particle->unk_08;
+                particle->unk_58 = (u16) position->x;
+                particle->unk_5A = (u16) position->y;
+                particle->unk_10 = &D_8010AA44;
+                product = particle->unk_4A * func_7006DD28(particle->unk_48);
+                coordinate = particle->unk_58;
                 coordinate += product >> 0xC;
-                ((S_7FFE79F4_4 *)particle_pos)->unk_02 = coordinate;
-                product = ((S_7FFE79F4_3 *)particle)->unk_4A * func_7006DC5C(((S_7FFE79F4_3 *)particle)->unk_48);
-                coordinate = ((S_7FFE79F4_3 *)particle)->unk_5A;
+                particle_pos->unk_02 = coordinate;
+                product = particle->unk_4A * func_7006DC5C(particle->unk_48);
+                coordinate = particle->unk_5A;
                 coordinate += product >> 0xC;
-                ((S_7FFE79F4_4 *)particle_pos)->unk_06 = coordinate;
+                particle_pos->unk_06 = coordinate;
                 product = func_700750E0() & 0x3F;
-                ((S_7FFE79F4_4 *)particle_pos)->unk_0A = (s16)(position->z - product);
+                particle_pos->unk_0A = (s16)(position->z - product);
             }
         } while (spawn_count < 4);
     }

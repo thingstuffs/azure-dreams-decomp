@@ -54,11 +54,11 @@ void project_and_queue_shaded_quad(void *quad, void *position, void *render_stat
         ((u32)packet & 0x00FFFFFF);
 
     {
-        u8 *render_context;
+        Row_81922998_S_80024198_5 *render_context;
 
         render_context = g_game_work.draw_buffer;
-        packet = ((Row_81922998_S_80024198_5 *)render_context)->unk_8D0;
-        ((Row_81922998_S_80024198_5 *)render_context)->unk_8D0 = packet + 0x24;
+        packet = render_context->unk_8D0;
+        render_context->unk_8D0 = packet + 0x24;
     }
 
     ((Row_81922998_S_80024198_0 *)scratch)->unk_B0 = ((Row_81922998_S_80024198_6 *)quad)->unk_20;
@@ -444,7 +444,7 @@ void update_effect_cycle_and_bursts(void *effect, void *motion, SpriteFrameState
     u16 initial_state;
     u16 clamped_scale;
     u8 effect_id;
-    void *target_position;
+    Row_8192365C_S_80024E5C_3 *target_position;
 
     initial_state = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58.u;
     (*(s16 *)shaded_effect_update_flag) = 1;
@@ -488,13 +488,13 @@ void update_effect_cycle_and_bursts(void *effect, void *motion, SpriteFrameState
                 target_position = ((Row_8192365C_S_80024E5C_4_pre *)(((Row_8192365C_S_80024E5C_0 *)effect)->unk_88))[-1].unk_00;
                 sprite->depth_bias = 8;
                 if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.s == 0) {
-                    delta_x = ((Row_8192365C_S_80024E5C_3 *)target_position)->unk_00.at02.v;
+                    delta_x = target_position->unk_00.at02.v;
                     delta_x -= ((Row_8192365C_S_80024E5C_2 *)motion)->unk_00.at02u.v;
                     distance_x = abs(delta_x);
                     if (distance_x < 0) {
                         distance_x += 0x3F;
                     }
-                    travel_distance = abs(((Row_8192365C_S_80024E5C_3 *)target_position)->unk_04.at02.v -
+                    travel_distance = abs(target_position->unk_04.at02.v -
                                           ((Row_8192365C_S_80024E5C_2 *)motion)->unk_04.at02u.v);
                     if (travel_distance < 0) {
                         travel_distance += 0x3F;
@@ -504,12 +504,12 @@ void update_effect_cycle_and_bursts(void *effect, void *motion, SpriteFrameState
                 }
                 height_table = entity_height_offsets;
                 travel_frames = (s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u;
-                target_z = ((Row_8192365C_S_80024E5C_3 *)target_position)->unk_08
+                target_z = target_position->unk_08
                 - (((u8) *(((Row_8192365C_S_80024E5C_4 *)(((Row_8192365C_S_80024E5C_0 *)effect)->unk_88))->unk_13 + height_table) >> 1)
                     << 0x10);
                 near_target = travel_frames < 0xE;
-                target_x_or_z_step = ((Row_8192365C_S_80024E5C_3 *)target_position)->unk_00.at00.v;
-                target_y = ((Row_8192365C_S_80024E5C_3 *)target_position)->unk_04.at00.v;
+                target_x_or_z_step = target_position->unk_00.at00.v;
+                target_y = target_position->unk_04.at00.v;
                 if (near_target == 0) {
                     current_x = ((Row_8192365C_S_80024E5C_2 *)motion)->unk_00.at00.v;
                     ((Row_8192365C_S_80024E5C_2 *)motion)->unk_0C = (s32) ((target_x_or_z_step - current_x) / (s32) (travel_frames

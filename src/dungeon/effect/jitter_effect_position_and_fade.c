@@ -41,13 +41,13 @@ void jitter_effect_position_and_fade(void *effect, void *position, void *sprite)
     u16 next_scale;
     u32 next_packet;
     u8 brightness;
-    void *anchor;
+    JitterMotion *anchor;
     JitterAxis *motion_axis;
 
     anchor = (((JitterEffect *)effect)->anchor);
     D_80024A70 += 1;
     if (anchor != NULL) {
-        (((JitterMotion *)(position))->axes[3].whole.bits) = (u16) (((JitterMotion *)(anchor))->axes[0].whole.bits);
+        (((JitterMotion *)(position))->axes[3].whole.bits) = (u16) (anchor->axes[0].whole.bits);
         (((JitterMotion *)(position))->axes[4].whole.bits) = (u16) (((JitterMotion *)((((JitterEffect *)effect)->anchor)))->axes[1].whole.bits);
         (((JitterMotion *)(position))->axes[5].whole.bits) = (u16) (((JitterMotion *)((((JitterEffect *)effect)->anchor)))->axes[2].whole.bits);
     }
@@ -59,7 +59,7 @@ void jitter_effect_position_and_fade(void *effect, void *position, void *sprite)
         jitter = (rand() & 0xF) - 8;
         base_value = *base_coord;
         base_coord += 1;
-        (((JitterAxis *)motion_axis)->whole.value) = (s16) (base_value + (jitter * D_80024AE0[(((JitterEffect *)effect)->phase)]));
+        motion_axis->whole.value = (s16) (base_value + (jitter * D_80024AE0[(((JitterEffect *)effect)->phase)]));
         motion_axis++;
     } while (axes_left > 0);
     next_packet = (((JitterSprite *)sprite)->packet) + 0xC;

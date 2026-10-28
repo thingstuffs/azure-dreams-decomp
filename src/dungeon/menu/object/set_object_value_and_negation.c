@@ -37,5 +37,5 @@ void set_object_value_and_negation(S_800DC628_0 *object, s16 value) {
     data->unk_34 = value;
     data->unk_28 = value;
     data->unk_0E = value;
-    ((S_800DC628_3 *)(((S_800DC628_2 *)object)->unk_08))->unk_1A = (s16) (0 - value);
+    ((S_800DC628_3 *)object->unk_08)->unk_1A = (s16) (0 - value);
 }

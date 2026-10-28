@@ -98,11 +98,11 @@ void animate_spiral_grayscale_effect(void *effect, void *position) {
     s32 fade_angle_fixed;
     s32 grow_angle_fixed;
     u16 angular_speed;
-    void *effect_data;
+    ovl_188898c_81868B84_S_81868B84_1 *effect_data;
     s16 state;
 
     effect_data = ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_0C;
-    ((ovl_188898c_81868B84_S_81868B84_1 *)effect_data)->unk_14 = (u16) (((ovl_188898c_81868B84_S_81868B84_1 *)effect_data)->unk_14 + 1);
+    effect_data->unk_14 = (u16) (effect_data->unk_14 + 1);
     ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_02.s = (u16) (((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_02.s + 1);
     state = *(s16 *)effect;
     switch (state) {
@@ -313,7 +313,7 @@ static __inline__ s32 first_delta_s32_s32(s32 end, s32 start)
 /* Interpolate and shade a line, project its endpoints, and add it to the ordering table. */
 s32 interpolate_shade_and_queue_line(void *line_data, void *unused_render_context)
 {
-    u8 *line;
+    ovl_188898c_818690C8_S_800248C8_3 *line;
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet;
     void *projection_work_a;
@@ -334,20 +334,20 @@ s32 interpolate_shade_and_queue_line(void *line_data, void *unused_render_contex
 
     ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_18 = (u32 *)(render_ctx + 0xB0);
     packet = ((GpuContext *)render_ctx)->packetCursor;
-    line = line_bytes;
+    line = (ovl_188898c_818690C8_S_800248C8_3 *)line_bytes;
     ((GpuContext *)render_ctx)->packetCursor = packet + 0x14;
 
     ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_00.at03.v = 4;
     ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_07 = 0x50;
 
-    ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_64 = ((ovl_188898c_818690C8_S_800248C8_3 *)line)->unk_1A;
-    ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_66 = ((ovl_188898c_818690C8_S_800248C8_3 *)line)->unk_1E;
-    ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_68 = ((ovl_188898c_818690C8_S_800248C8_3 *)line)->unk_22;
-    ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_6C = ((ovl_188898c_818690C8_S_800248C8_3 *)line)->unk_32;
-    ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_6E = ((ovl_188898c_818690C8_S_800248C8_3 *)line)->unk_36;
-    ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_70 = ((ovl_188898c_818690C8_S_800248C8_3 *)line)->unk_3A;
+    ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_64 = line->unk_1A;
+    ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_66 = line->unk_1E;
+    ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_68 = line->unk_22;
+    ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_6C = line->unk_32;
+    ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_6E = line->unk_36;
+    ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_70 = line->unk_3A;
 
-    index = ((ovl_188898c_818690C8_S_800248C8_3 *)line)->unk_10 - 1;
+    index = line->unk_10 - 1;
     switch (index) {
     case 0:
     case 1:
@@ -369,7 +369,7 @@ s32 interpolate_shade_and_queue_line(void *line_data, void *unused_render_contex
         coord_delta.word = first_delta_s32_s32(((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_6C,
             (x0 = ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_64)) << 16;
         coord_delta.word >>= 3;
-        coord_delta.word *= ((ovl_188898c_818690C8_S_800248C8_3 *)line)->unk_10 + 1;
+        coord_delta.word *= line->unk_10 + 1;
 
         y0 = ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_66;
         mask = 0xFFFF0000;
@@ -378,7 +378,7 @@ s32 interpolate_shade_and_queue_line(void *line_data, void *unused_render_contex
         coord_delta.word &= mask;
         ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_6C = x0 + step_x;
         coord_delta.word >>= 3;
-        coord_delta.word *= ((ovl_188898c_818690C8_S_800248C8_3 *)line)->unk_10 + 1;
+        coord_delta.word *= line->unk_10 + 1;
 
         end_z = ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_70;
         z0 = ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_68;
@@ -387,17 +387,17 @@ s32 interpolate_shade_and_queue_line(void *line_data, void *unused_render_contex
         coord_delta.word &= mask;
         ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_6E = y0 + step_y;
         coord_delta.word >>= 3;
-        coord_delta.word *= ((ovl_188898c_818690C8_S_800248C8_3 *)line)->unk_10 + 1;
+        coord_delta.word *= line->unk_10 + 1;
         z0 += coord_delta.half.high;
         ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_70 = z0;
     }
         {
             s32 level;
 
-            bit_mask = ((ovl_188898c_818690C8_S_800248C8_3 *)line)->unk_10;
+            bit_mask = line->unk_10;
             multiplier = 15;
             level = bit_mask + 1;
-            line = (u8 *)(level * multiplier);
+            line = (ovl_188898c_818690C8_S_800248C8_3 *)(level * multiplier);
             multiplier = 23;
             coord_y = level * multiplier;
             level = 0x40;
@@ -441,7 +441,7 @@ s32 interpolate_shade_and_queue_line(void *line_data, void *unused_render_contex
         coord_delta.word = first_delta_s32_s32(((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_6C,
             (x0 = ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_64)) << 16;
         coord_delta.word >>= 3;
-        coord_delta.word *= ((ovl_188898c_818690C8_S_800248C8_3 *)line)->unk_10 - 7;
+        coord_delta.word *= line->unk_10 - 7;
 
         y0 = ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_66;
         mask = 0xFFFF0000;
@@ -450,7 +450,7 @@ s32 interpolate_shade_and_queue_line(void *line_data, void *unused_render_contex
         coord_delta.word &= mask;
         ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_64 = x0 + step_x;
         coord_delta.word >>= 3;
-        coord_delta.word *= ((ovl_188898c_818690C8_S_800248C8_3 *)line)->unk_10 - 7;
+        coord_delta.word *= line->unk_10 - 7;
 
         end_z = ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_70;
         z0 = ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_68;
@@ -459,7 +459,7 @@ s32 interpolate_shade_and_queue_line(void *line_data, void *unused_render_contex
         coord_delta.word &= mask;
         ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_66 = y0 + step_y;
         coord_delta.word >>= 3;
-        coord_delta.word *= ((ovl_188898c_818690C8_S_800248C8_3 *)line)->unk_10 - 7;
+        coord_delta.word *= line->unk_10 - 7;
         z0 += coord_delta.half.high;
         ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_68 = z0;
     }
@@ -467,10 +467,10 @@ s32 interpolate_shade_and_queue_line(void *line_data, void *unused_render_contex
             s32 k;
             s32 k23;
 
-            coord_y = ((ovl_188898c_818690C8_S_800248C8_3 *)line)->unk_10;
+            coord_y = line->unk_10;
             k = 15;
             bit_mask = coord_y - 7;
-            line = (u8 *)(bit_mask * k);
+            line = (ovl_188898c_818690C8_S_800248C8_3 *)(bit_mask * k);
             k23 = 23;
             bit_mask *= k23;
             ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_0D = 0;
@@ -687,16 +687,16 @@ void move_linked_effect_along_path(ovl_188898c_818694D4_Controller *input_ctrl, 
         {
 
             linked_motion = (ovl_188898c_818694D4_Motion *)input_ctrl->target;
-            ((ovl_188898c_818694D4_Fixed32 *)linked_motion)[2].val = 0;
-            ((ovl_188898c_818694D4_Fixed32 *)linked_motion)[1].val = 0;
+            linked_motion->z.val = 0;
+            linked_motion->y.val = 0;
             input_ctrl->target[0].val = 0;
-            ((ovl_188898c_818694D4_Fixed32 *)linked_motion)[0].h.hi = ((end_x << 16) >> 10) + 32;
-            ((ovl_188898c_818694D4_Fixed32 *)linked_motion)[1].h.hi = ((end_y << 16) >> 10) + 32;
-            ((ovl_188898c_818694D4_Fixed32 *)linked_motion)[2].h.hi = -1024;
-            ((ovl_188898c_818694D4_Fixed32 *)linked_motion)[2].h.hi = sample_terrain_surface_height((u16)((ovl_188898c_818694D4_Fixed32 *)linked_motion)[0].h.hi,
-                (u16)((ovl_188898c_818694D4_Fixed32 *)linked_motion)[1].h.hi, -1024);
-            if ((s16)((ovl_188898c_818694D4_Fixed32 *)linked_motion)[2].h.hi >= 513) {
-                ((ovl_188898c_818694D4_Fixed32 *)linked_motion)[2].h.hi = input_motion->z.h.hi + 32;
+            linked_motion->x.h.hi = ((end_x << 16) >> 10) + 32;
+            linked_motion->y.h.hi = ((end_y << 16) >> 10) + 32;
+            linked_motion->z.h.hi = -1024;
+            linked_motion->z.h.hi = sample_terrain_surface_height((u16)linked_motion->x.h.hi,
+                (u16)linked_motion->y.h.hi, -1024);
+            if ((s16)linked_motion->z.h.hi >= 513) {
+                linked_motion->z.h.hi = input_motion->z.h.hi + 32;
             }
         }
 

@@ -96,7 +96,7 @@ void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameSta
     void *move_state;
     s32 tail_data_flags;
     SpriteFrameState *call_arg;
-    void *record;
+    S_8008EAC8_6 *record;
     void *looked_up;
 
     if (((Rec_func_8008ACDC_arg0 *)object)->unk_9A.as_u8 != 0xE) {
@@ -172,7 +172,7 @@ void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameSta
                 }
                 record = advance_monster_timed_sequence();
                 if (record != NULL) {
-                    direction = ((S_8008EAC8_6 *)record)->unk_01 & 7;
+                    direction = record->unk_01 & 7;
                     facing = ((S_8008EAC8_1 *)entity)->unk_2A.u;
                     expected_facing = (u8)direction;
                     target_facing = direction << 9;
@@ -229,22 +229,22 @@ void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameSta
                             + (s16) ((S_8008EAC8_1 *)entity)->unk_2A.u + 0x100) >> 9) & 7) + (u32) player_carry_frames), 0, 1);
                         return;
                     }
-                    active_actor_command_code = (s8) (((S_8008EAC8_6 *)record)->unk_01 & 0xF8);
+                    active_actor_command_code = (s8) (record->unk_01 & 0xF8);
                     code = active_actor_command_code;
                     switch (code) {
                     case 0x10:
                         begin_player_wait_turn(object, aux_entity, sprite, entity);
                         return;
                     case 0x48:
-                        if (dispatch_selected_item_use(object, ((S_8008EAC8_6 *)record)->unk_00 & 0x1F,
-                            ((S_8008EAC8_6 *)record)->unk_02 & 0x1F) >= 0) {
+                        if (dispatch_selected_item_use(object, record->unk_00 & 0x1F,
+                            record->unk_02 & 0x1F) >= 0) {
                             initialize_monster_script_counter();
                             return;
                         }
                         read_monster_script_entry();
                         return;
                     case 0x50:
-                        data_50 = ((S_8008EAC8_6 *)record)->unk_00;
+                        data_50 = record->unk_00;
                         record = (void *) ((u32) (data_50 & 0x60) >> 5);
                         looked_up = select_item_record_pointer(data_50 & 0x1F);
                         if (dispatch_dungeon_category_action(((S_8008EAC8_7 *)(((((u32) record) * 4) + object)))->unk_AC, looked_up, 0x15,
@@ -254,14 +254,14 @@ void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameSta
                         }
                         return;
                     case 0x68:
-                        looked_up = select_item_record_pointer(((S_8008EAC8_6 *)record)->unk_00 & 0x1F);
-                        slot = ((S_8008EAC8_6 *)record)->unk_00;
+                        looked_up = select_item_record_pointer(record->unk_00 & 0x1F);
+                        slot = record->unk_00;
                         slot &= 0x60;
                         slot >>= 5;
                         request_familiar_deployment_change(object, aux_entity, sprite, (s32) looked_up, slot);
                         return;
                     case 0x88:
-                        slot = ((S_8008EAC8_6 *)record)->unk_00;
+                        slot = record->unk_00;
                         slot &= 0x60;
                         slot >>= 5;
                         {
@@ -271,23 +271,23 @@ void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameSta
                         }
                         return;
                     case 0x70:
-                        data_70 = ((S_8008EAC8_6 *)record)->unk_00;
+                        data_70 = record->unk_00;
                         set_linked_actor_octant_facing((u32) (data_70 & 0x60) >> 5, data_70 & 7);
                         return;
                     case 0x78:
-                        data_78 = ((S_8008EAC8_6 *)record)->unk_00;
+                        data_78 = record->unk_00;
                         set_linked_actor_code_and_mirror((u32) (data_78 & 0x60) >> 5, data_78 & 0x1F);
                         return;
                     case 0x80:
-                        data_80 = ((S_8008EAC8_6 *)record)->unk_00;
+                        data_80 = record->unk_00;
                         set_linked_actor_pending_halfword((u32) (data_80 & 0x60) >> 5, data_80 & 0x1F);
                         return;
                     case 0x90:
-                        data_90 = ((S_8008EAC8_6 *)record)->unk_00;
+                        data_90 = record->unk_00;
                         set_familiar_formation_offset((u32) (data_90 & 0x60) >> 5, data_90 & 7);
                         return;
                     case 0x98:
-                        looked_up = select_item_record_pointer(((S_8008EAC8_6 *)record)->unk_00 & 0x1F);
+                        looked_up = select_item_record_pointer(record->unk_00 & 0x1F);
                         if (((S_8008EAC8_9 *)looked_up)->unk_03 & 0x20) {
                             resolve_familiar_deployment_request(object, aux_entity, sprite, looked_up);
                             return;
@@ -298,7 +298,7 @@ void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameSta
                         func_8002534C(object, aux_entity, sprite, entity);
                         return;
                     case 0xD8:
-                        actor_command_handlers[((S_8008EAC8_6 *)record)->unk_00 & 0x7F](target_facing, facing);
+                        actor_command_handlers[record->unk_00 & 0x7F](target_facing, facing);
                         return;
                     case 8:
                         move_state = object;

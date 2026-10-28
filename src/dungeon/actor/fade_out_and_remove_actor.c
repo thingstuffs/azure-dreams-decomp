@@ -32,13 +32,13 @@ void fade_out_and_remove_actor(void *actor_data, s32 unused, SpriteFrameState *v
     u8 brightness;
     u8 effect_x;
     u8 effect_y;
-    void *actor;
+    S_800ACBE4_2 *actor;
 
     state = ((S_800ACBE4_0 *)actor_data)->unk_9B;
     actor = current_actor;
     switch (state) {
     case 0:
-        actor = (u8 *)actor_data - 0x20;
+        actor = (S_800ACBE4_2 *)((u8 *)actor_data - 0x20);
         unlink_node(actor);
         visual->clut -= 0x80;
         visual->flags |= 0xC;
@@ -65,7 +65,7 @@ void fade_out_and_remove_actor(void *actor_data, s32 unused, SpriteFrameState *v
         *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
     }
     detach_record_and_update_slot_state(actor);
-    actor_status = ((S_800ACBE4_2 *)actor)->unk_1C;
+    actor_status = actor->unk_1C;
     effect_x = visual->tile_x;
     effect_y = visual->tile_y;
     effect_size = 0x3000;
@@ -73,10 +73,10 @@ void fade_out_and_remove_actor(void *actor_data, s32 unused, SpriteFrameState *v
         effect_size = 0x300;
     }
     update_map_cell_flags_with_item_limit(effect_x, effect_y, effect_size);
-    actor_flags = ((S_800ACBE4_2 *)actor)->unk_14;
+    actor_flags = actor->unk_14;
     if (actor_flags & 0x400000) {
-        ((S_800ACBE4_2 *)actor)->unk_14 = actor_flags & 0xFFBFFFFF;
-        ((S_800ACBE4_2 *)actor)->unk_1C |= 0x400000;
+        actor->unk_14 = actor_flags & 0xFFBFFFFF;
+        actor->unk_1C |= 0x400000;
     }
     unlink_entity_node(actor);
     (*(u16 *)((u8 *)actor + -2)) |= NODE_REMOVE;

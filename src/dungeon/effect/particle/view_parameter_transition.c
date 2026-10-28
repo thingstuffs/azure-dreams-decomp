@@ -233,7 +233,7 @@ void spawn_parent_attached_effect(ObjectNodeHeader *parent, s16 field_34, s32 fi
     if (spawned != 0) {
         spawned->update_callback = (void *)create_randomized_transform_effect;
         jitter_x = rand() & 0x1F;
-        position_x = ((ObjectPosition *)source_obj->position)->x.w.i;
+        position_x = source_obj->position->x.w.i;
         dest_x = spawned->position;
         position_x += jitter_x;
         bias_x = offset_x - 0x10;
@@ -241,7 +241,7 @@ void spawn_parent_attached_effect(ObjectNodeHeader *parent, s16 field_34, s32 fi
         dest_x->x.w.i = position_x;
 
         jitter_y = rand() & 0x1F;
-        position_y = ((ObjectPosition *)source_obj->position)->y.w.i;
+        position_y = source_obj->position->y.w.i;
         dest_y = spawned->position;
         position_y += jitter_y;
         bias_y = offset_y - 0x10;
@@ -250,7 +250,7 @@ void spawn_parent_attached_effect(ObjectNodeHeader *parent, s16 field_34, s32 fi
 
         jitter_z = rand();
         jitter_z &= 0x1F;
-        position_z = ((ObjectPosition *)source_obj->position)->z.w.i;
+        position_z = source_obj->position->z.w.i;
         fields = (PointRecord *)(spawned + 1);
         dest_z = spawned->position;
         position_z += jitter_z;

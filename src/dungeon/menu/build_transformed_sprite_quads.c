@@ -161,7 +161,7 @@ s32 build_transformed_sprite_quads(void *draw_area, void *placement, void *sprit
     u8 *state = *state_ptr;
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet = ((GpuContext *)state)->packetCursor;
-    u8 *frame;
+    S_8009E798_5 *frame;
     u8 *copy;
     u8 *prim;
     s16 lower_buffer = state != upper_draw_context;
@@ -181,7 +181,7 @@ s32 build_transformed_sprite_quads(void *draw_area, void *placement, void *sprit
     ((S_8009E798_1 *)scratch)->unk_34 = ((S_8009E798_3 *)sprite)->unk_1E;
     ((S_8009E798_1 *)scratch)->unk_00.u = ((S_8009E798_2 *)placement)->unk_02;
     ((S_8009E798_1 *)scratch)->unk_02 = ((S_8009E798_2 *)placement)->unk_06;
-    frame = ((S_8009E798_3 *)sprite)->unk_08;
+    frame = (S_8009E798_5 *)((S_8009E798_3 *)sprite)->unk_08;
     ((S_8009E798_1 *)scratch)->unk_24 = ((S_8009E798_3 *)sprite)->unk_14.at00.v;
     PushMatrix();
 
@@ -206,19 +206,19 @@ s32 build_transformed_sprite_quads(void *draw_area, void *placement, void *sprit
     ((S_8009E798_1 *)scratch)->unk_100 -= ((S_8009E798_1 *)scratch)->unk_00.u;
     ((S_8009E798_1 *)scratch)->unk_102 -= ((S_8009E798_1 *)scratch)->unk_02;
 
-    ((S_8009E798_1 *)scratch)->unk_08 = ((S_8009E798_5 *)frame)->unk_08.at00.v;
-    ((S_8009E798_1 *)scratch)->unk_0C = ((S_8009E798_5 *)frame)->unk_08.at01.v;
-    ((S_8009E798_1 *)scratch)->unk_10 = ((S_8009E798_5 *)frame)->unk_08.at02.v;
-    ((S_8009E798_1 *)scratch)->unk_14 = ((S_8009E798_5 *)frame)->unk_08.at03.v;
+    ((S_8009E798_1 *)scratch)->unk_08 = frame->unk_08.at00.v;
+    ((S_8009E798_1 *)scratch)->unk_0C = frame->unk_08.at01.v;
+    ((S_8009E798_1 *)scratch)->unk_10 = frame->unk_08.at02.v;
+    ((S_8009E798_1 *)scratch)->unk_14 = frame->unk_08.at03.v;
 
-    vertex_x = (s8)((S_8009E798_5 *)frame)->unk_02;
+    vertex_x = (s8)frame->unk_02;
     ((S_8009E798_1 *)scratch)->unk_80 = vertex_x;
     ((S_8009E798_1 *)scratch)->unk_70 = vertex_x;
     vertex_x += ((S_8009E798_1 *)scratch)->unk_10;
     ((S_8009E798_1 *)scratch)->unk_88 = vertex_x;
     ((S_8009E798_1 *)scratch)->unk_78 = vertex_x;
 
-    vertex_y = (s8)((S_8009E798_5 *)frame)->unk_03;
+    vertex_y = (s8)frame->unk_03;
     ((S_8009E798_1 *)scratch)->unk_8C = 0;
     ((S_8009E798_1 *)scratch)->unk_84 = 0;
     ((S_8009E798_1 *)scratch)->unk_7C = 0;
@@ -249,11 +249,11 @@ s32 build_transformed_sprite_quads(void *draw_area, void *placement, void *sprit
     ((S_8009E798_1 *)scratch)->unk_0C <<= 8;
 
     ((S_8009E798_6 *)packet)->unk_0E = ((S_8009E798_3 *)sprite)->unk_12
-        + ((S_8009E798_5 *)frame)->unk_04.at02.v;
+        + frame->unk_04.at02.v;
     ((S_8009E798_6 *)packet)->unk_0C = ((S_8009E798_1 *)scratch)->unk_0C + ((S_8009E798_1 *)scratch)->unk_08;
     (*(s32 *)((u8 *)packet + 0x14)) = ((S_8009E798_1 *)scratch)->unk_0C +
         ((S_8009E798_1 *)scratch)->unk_10 +
-        ((((S_8009E798_3 *)sprite)->unk_10 | ((S_8009E798_5 *)frame)->unk_04.at00.v) << 16);
+        ((((S_8009E798_3 *)sprite)->unk_10 | frame->unk_04.at00.v) << 16);
     (*(u16 *)((u8 *)packet + 0x1C)) = ((S_8009E798_1 *)scratch)->unk_14 + ((S_8009E798_1 *)scratch)->unk_08;
     ((S_8009E798_6 *)packet)->unk_24 = ((S_8009E798_1 *)scratch)->unk_14 + ((S_8009E798_1 *)scratch)->unk_10;
     ((S_8009E798_6 *)packet)->unk_04.at00.v = ((S_8009E798_3 *)sprite)->unk_0C.at00.v;

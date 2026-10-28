@@ -14,7 +14,7 @@ void spawn_jittered_child_effect(
     s16 offset_y,
     s16 offset_z)
 {
-    void *source_obj = source;
+    Row_818FECCC_S_818FECCC_1 *source_obj = source;
     u32 saved_field_28 = field_28;
     s16 saved_field_52 = field_52;
     ObjectNodeHeader *object_cursor;
@@ -37,7 +37,7 @@ void spawn_jittered_child_effect(
     if (object_cursor != NULL) {
         object_cursor->update_callback = D_80024400;
         jitter_x = rand() & 0x1F;
-        position_x = ((Row_818FECCC_S_818FECCC_6 *)(((Row_818FECCC_S_818FECCC_1 *)source_obj)->unk_08))->unk_02;
+        position_x = ((Row_818FECCC_S_818FECCC_6 *)(source_obj->unk_08))->unk_02;
         dest_x = object_cursor->position;
         position_x += jitter_x;
         bias_x = offset_x - 0x10;
@@ -45,7 +45,7 @@ void spawn_jittered_child_effect(
         dest_x->x.w.i = (s16)position_x;
 
         jitter_y = rand() & 0x1F;
-        position_y = ((Row_818FECCC_S_818FECCC_6 *)(((Row_818FECCC_S_818FECCC_1 *)source_obj)->unk_08))->unk_06;
+        position_y = ((Row_818FECCC_S_818FECCC_6 *)(source_obj->unk_08))->unk_06;
         dest_y = object_cursor->position;
         position_y += jitter_y;
         bias_y = offset_y - 0x10;
@@ -55,7 +55,7 @@ void spawn_jittered_child_effect(
         jitter_z = rand();
         init_data = &D_800241B0;
         jitter_z &= 0x1F;
-        position_z = ((Row_818FECCC_S_818FECCC_6 *)(((Row_818FECCC_S_818FECCC_1 *)source_obj)->unk_08))->unk_0A;
+        position_z = ((Row_818FECCC_S_818FECCC_6 *)(source_obj->unk_08))->unk_0A;
         fields = (Row_818FECCC_S_818FECCC_0 *)((u8 *)object_cursor + 0x20);
         dest_z = object_cursor->position;
         position_z += jitter_z;

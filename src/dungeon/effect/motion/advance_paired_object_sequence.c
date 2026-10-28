@@ -185,11 +185,11 @@ void advance_paired_object_sequence(void *sequence, void *position, void *actor,
         s32 slot_value;
         u8 * page_cursor;
         void *object_m;
-        void *child;
+        S_800253C0_17 *child;
         void *message_text;
         s32 object_index_m;
         s32 old_x;
-        void *prim_m;
+        S_800253C0_9 *prim_m;
         s32 table_index_m;
     case 0:
         if (((S_800253C0_0 *)sequence)->unk_AC == 0 || ((S_800253C0_0 *)sequence)->unk_B0 == 0) {
@@ -306,22 +306,22 @@ case 4:
             frames_left = ((S_800253C0_0 *)sequence)->unk_96.n;
             coord = coord << 6;
             prim_m = ((S_800253C0_5_pre *)object_m)[-1].unk_00;
-            previous_x = ((S_800253C0_9 *)prim_m)->unk_02.s - 0x20;
+            previous_x = prim_m->unk_02.s - 0x20;
             coord = coord - previous_x;
-            ((S_800253C0_9 *)prim_m)->unk_02.u = ((S_800253C0_9 *)prim_m)->unk_02.u + coord / frames_left;
+            prim_m->unk_02.u = prim_m->unk_02.u + coord / frames_left;
             coord_y = (s32)((S_800253C0_8 *)actor)->unk_25;
             {
                 coord_y = coord_y + table_y[table_index_m >> 1];
             }
             coord_y = coord_y << 6;
-            old_y = ((S_800253C0_9 *)prim_m)->unk_06.s - 0x20;
+            old_y = prim_m->unk_06.s - 0x20;
             coord_y = coord_y - old_y;
-            ((S_800253C0_9 *)prim_m)->unk_06.u = ((S_800253C0_9 *)prim_m)->unk_06.u +
+            prim_m->unk_06.u = prim_m->unk_06.u +
                 coord_y / ((S_800253C0_0 *)sequence)->unk_96.n;
             {
-                s32 old_z = ((S_800253C0_9 *)prim_m)->unk_0A.s;
+                s32 old_z = prim_m->unk_0A.s;
                 s32 z_delta = ((S_800253C0_10 *)position)->unk_0A.s - old_z;
-                ((S_800253C0_9 *)prim_m)->unk_0A.u = ((S_800253C0_9 *)prim_m)->unk_0A.u +
+                prim_m->unk_0A.u = prim_m->unk_0A.u +
                     z_delta / ((S_800253C0_0 *)sequence)->unk_96.n;
             }
 
@@ -362,10 +362,10 @@ case 4:
                 table_index &= 0xE;
                 x = (s32)((S_800253C0_8 *)actor)->unk_24 + snap_x[table_index >> 1];
                 prim_m = ((S_800253C0_5_pre *)object_m)[-1].unk_00;
-                ((S_800253C0_9 *)prim_m)->unk_02.s = (x << 6) + 0x20;
+                prim_m->unk_02.s = (x << 6) + 0x20;
                 y = (s32)((S_800253C0_8 *)actor)->unk_25 + snap_y[table_index >> 1];
-                ((S_800253C0_9 *)prim_m)->unk_06.s = (y << 6) + 0x20;
-                ((S_800253C0_9 *)prim_m)->unk_0A.u = ((S_800253C0_10 *)position)->unk_0A.u;
+                prim_m->unk_06.s = (y << 6) + 0x20;
+                prim_m->unk_0A.u = ((S_800253C0_10 *)position)->unk_0A.u;
                 final_slot = (u8 *)final_slot + 4;
                 object_index_m++;
             } while (object_index_m < 2);
@@ -474,15 +474,15 @@ case 4:
                 ((S_800253C0_1 *)owner)->unk_60 = object_m;
                 if (object_m != 0) {
                     void *other;
-                    void *child_slot;
+                    S_800253C0_4 *child_slot;
                     object_index_m = 0;
                     do {
-                        child_slot = (u8 *)sequence + object_index_m * sizeof(void *);
+                        child_slot = (S_800253C0_4 *)((u8 *)sequence + object_index_m * sizeof(void *));
                         slot_value = (s16)object_index_m;
-                        other = ((S_800253C0_4 *)child_slot)->unk_AC;
+                        other = child_slot->unk_AC;
                         create_linked_objects(((S_800253C0_14_pre *)other)[-1].unk_00, other,
                             slot_value, object_m == other);
-                        if (object_m == ((S_800253C0_4 *)child_slot)->unk_AC) {
+                        if (object_m == child_slot->unk_AC) {
                             s32 angle;
                             s32 index;
                             s32 x;
@@ -546,16 +546,16 @@ case 4:
                 u32 blue;
                 object_m = ((S_800253C0_4 *)child_slot)->unk_AC;
                 child = ((S_800253C0_5_pre *)object_m)[-1].unk_04;
-                red = ((S_800253C0_17 *)child)->unk_0C.at00.v;
-                green = ((S_800253C0_17 *)child)->unk_0C.at01.v;
-                ((S_800253C0_17 *)child)->unk_0C.at00.v = red - (red >> 1);
-                ((S_800253C0_17 *)child)->unk_0C.at01.v = green - (green >> 1);
-                blue = ((S_800253C0_17 *)child)->unk_0C.at02.v;
-                ((S_800253C0_17 *)child)->unk_0C.at02.v = blue - (blue >> 1);
-                if (((S_800253C0_17 *)child)->unk_0C.at00.v < 5) {
-                    ((S_800253C0_17 *)child)->unk_0C.at02.v = 0;
-                    ((S_800253C0_17 *)child)->unk_0C.at01.v = 0;
-                    ((S_800253C0_17 *)child)->unk_0C.at00.v = 0;
+                red = child->unk_0C.at00.v;
+                green = child->unk_0C.at01.v;
+                child->unk_0C.at00.v = red - (red >> 1);
+                child->unk_0C.at01.v = green - (green >> 1);
+                blue = child->unk_0C.at02.v;
+                child->unk_0C.at02.v = blue - (blue >> 1);
+                if (child->unk_0C.at00.v < 5) {
+                    child->unk_0C.at02.v = 0;
+                    child->unk_0C.at01.v = 0;
+                    child->unk_0C.at00.v = 0;
                 }
                 object_index_m++;
                 child_slot = (u8 *)child_slot + 4;
@@ -626,20 +626,20 @@ loop_7:
                     s32 z;
                     prim_m = ((S_800253C0_5_pre *)object_m)[-1].unk_00;
                     child = ((S_800253C0_5_pre *)object_m)[-1].unk_04;
-                    ((S_800253C0_17 *)child)->unk_0C.at00p.v = 0x808080;
-                    ((S_800253C0_17 *)child)->unk_10 = 0;
-                    ((S_800253C0_17 *)child)->unk_12.u &= 0x3F;
-                    ((S_800253C0_17 *)child)->unk_14.u &= 0xFFF3;
+                    child->unk_0C.at00p.v = 0x808080;
+                    child->unk_10 = 0;
+                    child->unk_12.u &= 0x3F;
+                    child->unk_14.u &= 0xFFF3;
                     index = (((-restore_scene->view.camera_rotation.parts.viewAngle + 0x500) >> 8) & 0xE);
                     x = ((S_800253C0_8 *)actor)->unk_24 + row_x[index >> 1];
-                    ((S_800253C0_9 *)prim_m)->unk_02.s = (x << 6) + 0x20;
+                    prim_m->unk_02.s = (x << 6) + 0x20;
                     effect_size = 16;
                     y_table = (u8 *)((s8 *)dir_step_y);
                     y = ((S_800253C0_8 *)actor)->unk_25 + *(s16 *)((s32)(index + (s32)y_table));
-                    ((S_800253C0_9 *)prim_m)->unk_06.s = (y << 6) + 0x20;
+                    prim_m->unk_06.s = (y << 6) + 0x20;
                     z = ((S_800253C0_10 *)position)->unk_0A.u;
-                    ((S_800253C0_9 *)prim_m)->unk_0A.u = z;
-                    create_four_groups_of_angular_effects(((S_800253C0_9 *)prim_m)->unk_02.s, ((S_800253C0_9 *)prim_m)->unk_06.s,
+                    prim_m->unk_0A.u = z;
+                    create_four_groups_of_angular_effects(prim_m->unk_02.s, prim_m->unk_06.s,
                         (s16)(z - 0x20), effect_size);
                 }
                 object_index_m++;
@@ -702,27 +702,27 @@ loop_7:
                 prim_m = ((S_800253C0_5_pre *)object_m)[-1].unk_00;
                 {
                     s32 coord;
-                    coord = (s32)((S_800253C0_17 *)child)->unk_24;
+                    coord = (s32)child->unk_24;
                     coord = coord << 6;
-                    old_x = ((S_800253C0_9 *)prim_m)->unk_02.s - 0x20;
+                    old_x = prim_m->unk_02.s - 0x20;
                     coord = coord - old_x;
-                    ((S_800253C0_9 *)prim_m)->unk_02.u = ((S_800253C0_9 *)prim_m)->unk_02.u +
+                    prim_m->unk_02.u = prim_m->unk_02.u +
                         coord / ((S_800253C0_0 *)sequence)->unk_96.n;
                 }
                 {
                     s32 y;
                     s32 old_y;
-                    y = (s32)((S_800253C0_17 *)child)->unk_25;
+                    y = (s32)child->unk_25;
                     y = y << 6;
-                    old_y = ((S_800253C0_9 *)prim_m)->unk_06.s - 0x20;
+                    old_y = prim_m->unk_06.s - 0x20;
                     y = y - old_y;
-                    ((S_800253C0_9 *)prim_m)->unk_06.u = ((S_800253C0_9 *)prim_m)->unk_06.u +
+                    prim_m->unk_06.u = prim_m->unk_06.u +
                         y / ((S_800253C0_0 *)sequence)->unk_96.n;
                 }
                 {
-                    s32 old_z = ((S_800253C0_9 *)prim_m)->unk_0A.s;
+                    s32 old_z = prim_m->unk_0A.s;
                     s32 z_delta = ((S_800253C0_5 *)object_m)->unk_88.s - old_z;
-                    ((S_800253C0_9 *)prim_m)->unk_0A.u = ((S_800253C0_9 *)prim_m)->unk_0A.u +
+                    prim_m->unk_0A.u = prim_m->unk_0A.u +
                         z_delta / ((S_800253C0_0 *)sequence)->unk_96.n;
                 }
                 saved_angle = ((S_800253C0_5 *)object_m)->unk_8A;
@@ -752,11 +752,11 @@ loop_7:
             object_m = ((S_800253C0_12 *)final_slot)->unk_AC;
             if (object_m != 0) {
                 child = ((S_800253C0_5_pre *)object_m)[-1].unk_04;
-                x = ((S_800253C0_17 *)child)->unk_24;
+                x = child->unk_24;
                 prim_m = ((S_800253C0_5_pre *)object_m)[-1].unk_00;
-                ((S_800253C0_9 *)prim_m)->unk_02.s = (x << 6) + 0x20;
-                ((S_800253C0_9 *)prim_m)->unk_06.s = ((s32)((S_800253C0_17 *)child)->unk_25 << 6) + 0x20;
-                ((S_800253C0_9 *)prim_m)->unk_0A.u = ((S_800253C0_5 *)object_m)->unk_88.u;
+                prim_m->unk_02.s = (x << 6) + 0x20;
+                prim_m->unk_06.s = ((s32)child->unk_25 << 6) + 0x20;
+                prim_m->unk_0A.u = ((S_800253C0_5 *)object_m)->unk_88.u;
                 ((S_800253C0_5 *)object_m)->unk_14 &= clear_flags;
             }
             object_index_m++;
@@ -769,7 +769,7 @@ loop_7:
 
     case 12:
         ((S_800253C0_3 *)actor)->unk_2C = D_800DD150;
-        anim_entry = D_800DD150 + ((((((Rec_D_80083160 *)((u8 *)(&g_game_work)))->unk_C8.as_s16 +
+        anim_entry = D_800DD150 + ((((g_game_work.view.camera_rotation.parts.viewAngle +
             ((S_800253C0_1 *)owner)->unk_2A.s) + 0x100) >> 9) & 7);
         set_sprite_animation_frame(actor, *anim_entry, 0, 1);
         state = ((S_800253C0_0 *)sequence)->unk_9B.n;

@@ -69,7 +69,7 @@ void spawn_free_slot_display_effect(void *owner) {
     s32 rect_offset;
     Rect16 *rect;
     ObjectNodeHeader *effect;
-    u8 *effect_work;
+    S_80024104_0 *effect_work;
     SpriteFrameState *display;
     ObjectPosition *vector_src;
     ObjectPosition *vector_dst;
@@ -109,11 +109,11 @@ void spawn_free_slot_display_effect(void *owner) {
 
         effect = allocate_flagged_object_node(0x212);
         if (effect != 0) {
-            effect_work = (u8 *)effect + 0x20;
-            ((S_80024104_0 *)effect_work)->unk_2A = 7;
-            ((S_80024104_0 *)effect_work)->unk_2C = 7;
-            ((S_80024104_0 *)effect_work)->unk_32 = slot;
-            ((S_80024104_0 *)effect_work)->unk_60 = owner;
+            effect_work = (S_80024104_0 *)((u8 *)effect + 0x20);
+            effect_work->unk_2A = 7;
+            effect_work->unk_2C = 7;
+            effect_work->unk_32 = slot;
+            effect_work->unk_60 = owner;
             effect->update_callback = fade_tinted_display_sprite;
             register_node(effect, project_sprite_chain);
 
@@ -123,9 +123,9 @@ void spawn_free_slot_display_effect(void *owner) {
 
             vector_src = ((ObjectNodeHeader *)((u8 *)primary_actor_record - 0x20))->position;
             vector_dst = effect->position;
-            vector_dst->x.v = ((s32 *)vector_src)[0];
-            vector_dst->y.v = ((s32 *)vector_src)[1];
-            vector_dst->z.v = ((s32 *)vector_src)[2];
+            vector_dst->x.v = vector_src->x.v;
+            vector_dst->y.v = vector_src->y.v;
+            vector_dst->z.v = vector_src->z.v;
 
             display = effect->sprite;
             display->scale_y = 0x1000;
@@ -136,8 +136,8 @@ void spawn_free_slot_display_effect(void *owner) {
 
             *(PackedVec3 *)((u8 *)effect + 0x92) = tint_particle_sprite_data;
             display->source = (u8 *)effect + 0x92;
-            ((S_80024104_0 *)effect_work)->unk_7A = (u8)rect->x - 0x40;
-            ((S_80024104_0 *)effect_work)->unk_7B = (u8)rect->y;
+            effect_work->unk_7A = (u8)rect->x - 0x40;
+            effect_work->unk_7B = (u8)rect->y;
         }
     }
 
@@ -389,23 +389,23 @@ void *create_packed_sprite_effect(void *source, void *unused_1, void *unused_2, 
         (object->update_callback) = &decrement_object_counter;
         register_node(object, project_sprite_chain);
         render_state = object->sprite;
-        ((S_800249F0_1 *)render_state)->unk_14 |= 0xC;
+        render_state->flags |= 0xC;
         render_param_copy = render_param;
-        ((S_800249F0_1 *)render_state)->unk_10 = (s16) (render_param_copy << 5);
-        ((S_800249F0_1 *)render_state)->unk_14 |= 0x80;
+        render_state->tpage_abr = (s16) (render_param_copy << 5);
+        render_state->flags |= 0x80;
         source_position = ((S_800249F0_2_pre *)source)[-1].unk_00;
         position = object->position;
         position->x.v = (s32) source_position->unk_00;
         position->y.v = (s32) source_position->unk_04;
         position->z.v = (s32) source_position->unk_08;
         render_state = object->sprite;
-        ((S_800249F0_5 *)render_state)->unk_1C = (s16) render_x;
-        ((S_800249F0_5 *)render_state)->unk_1E = (s16) render_y;
-        ((S_800249F0_5 *)render_state)->unk_0E = 0x80;
-        ((S_800249F0_5 *)render_state)->unk_0D = 0x80;
-        ((S_800249F0_5 *)render_state)->unk_0C = (s8) render_mode;
+        render_state->scale_x = (s16) render_x;
+        render_state->scale_y = (s16) render_y;
+        render_state->color.c.b = 0x80;
+        render_state->color.c.g = 0x80;
+        render_state->color.c.r = (s8) render_mode;
         (*(Packed12 *)((u8 *)object + 0x92)) = *(Packed12 *)packed_data;
-        ((S_800249F0_5 *)render_state)->unk_08 = (void *) (((void *)object) + 0x92);
+        render_state->source = (void *) (((void *)object) + 0x92);
         return state;
     } else {
         return NULL;

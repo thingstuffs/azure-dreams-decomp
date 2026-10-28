@@ -11,7 +11,7 @@ s32 transform_linked_quad_batches(u8 *initial_batch, s32 initial_dispatch_arg, u
     u8 *transform = (u8 *)0x1F8000D0;
     GameWork *global_addr = &g_game_work;
     u8 *scratch;
-    u8 *manager;
+    S_800B06F0_7 *manager;
     u8 *initial_manager;
     u8 *packet;
     u8 **primitive_list;
@@ -191,7 +191,7 @@ s32 transform_linked_quad_batches(u8 *initial_batch, s32 initial_dispatch_arg, u
     params = ((S_800B06F0_6 *)next_batch)->unk_0C;
     }
     manager = global_addr->draw_buffer;
-    ((S_800B06F0_7 *)manager)->unk_8D0 = packet;
+    manager->unk_8D0 = packet;
     return hard_zero;
 }
 
