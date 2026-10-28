@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "town/map/animation.h"
 #include "shared/object_node.h"
 #include "shared/dungeon_delay_views.h"
@@ -12,7 +13,10 @@ s32 draw_randomized_white_points(void *first_object, void *first_coords);
    /* arg1 in initialize_object_header_and_state */
 
 /* Initializes an object's header and state, including its associated state value. */
-void initialize_object_header_and_state(TownMapPhaseObject *objectState, DelayMotionZ *associatedState) {
+void initialize_object_header_and_state(void *body, void *placement, struct SpriteFrameState *unused_sprite) {
+    TownMapPhaseObject *objectState = body;
+    DelayMotionZ *associatedState = placement;
+
     ObjectNodeHeader *objectHeader;
 
     objectHeader = (u8 *)objectState - 0x20;

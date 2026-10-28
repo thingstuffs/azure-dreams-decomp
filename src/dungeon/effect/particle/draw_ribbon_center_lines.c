@@ -85,7 +85,7 @@ void draw_ribbon_center_lines(RibbonLineGeometry *geometry, ObjectPosition *posi
     u8 *scratch = (u8 *)0x1F800000;
     u8 *render_state = g_game_work.draw_buffer;
     u32 draw_flags;
-    u8 **render_state_ref;
+    void **render_state_ref;
     u8 *packet;
     s8 *texture_entry;
     u32 color;

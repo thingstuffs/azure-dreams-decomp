@@ -11,14 +11,8 @@
 #include "dungeon/actor/animation.h"
 #include "engine/node/allocation.h"
 #include "engine/node.h"
+#include "dungeon/actor/status.h"
 
-typedef struct S_80170854_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} S_80170854_1;   /* result in spawn_mode_dependent_112_object */
 
 
 typedef struct S_80170854_4 {
@@ -39,7 +33,6 @@ extern u8 D_80173D78[];
 #include "dungeon/monster/stealth.h"
 
 extern s32 generate_random_value(void);
-extern s16 set_or_clear_actor_status_slot();
 extern void retire_tracked_effect_by_id();
 
 #define BODY_STORAGE
@@ -59,34 +52,36 @@ BODY_STORAGE void *spawn_mode_dependent_112_object(s16 flags, s16 kind_id, s16 v
     ObjectPosition *part0;
     S_80170854_4 *actor;
     ObjectNodeHeader *object;
-    S_80170854_1 *result;
+    ActorRecord *result;
+    void *body;
 
     result = 0;
     mode = 1;
     object = allocate_list_node(274, &scene_object_list_anchor.next);
     if (object != 0) {
-        result = (u8 *)object + 0x20;
+        body = object + 1;
+        result = body;
         object->update_callback = D_80170A8C;
-        result->unk_13 = MONSTER_STEALTH;
+        result->species = MONSTER_STEALTH;
         register_node(object, project_sprite_chain);
         part0 = *(void ** *)&object->position;
         part0->z.w.i = spawn_value;
         part1 = object->sprite;
         part1->tile_y = variant;
-        actor = (S_80170854_4 *)result;
+        actor = body;
         part1->frameTable = stealth_frame_set;
         kind = flags & 3;
         part1->tile_x = kind_id;
         if (kind == 1) {
-            result->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            result->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            result->flags14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            result->flags1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
         } else if (kind >= 2) {
-            result->unk_14 |= ACTOR_CLASS_ENABLED;
-            result->unk_1C |= ACTOR_PLAYER_SIDE;
+            result->flags14 |= ACTOR_CLASS_ENABLED;
+            result->flags1C |= ACTOR_PLAYER_SIDE;
         } else if (((flags & ~3) << 16) == 0) {
-            if (!(result->unk_14 & ACTOR_RESIST_SLEEP)) {
+            if (!(result->flags14 & ACTOR_RESIST_SLEEP)) {
                 if (generate_random_value() & 1) {
-                    result->unk_1C |= ACTOR_ASLEEP;
+                    result->flags1C |= ACTOR_ASLEEP;
                     set_or_clear_actor_status_slot(result, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                     part1->frameTable = D_80173D78;
                 }

@@ -6,8 +6,8 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "dungeon/effect/screen.h"                 /* extern */
 #include "dungeon/actor.h"
-s16 cap_pending_actor_value_delta(void *entry);                      /* extern */
-void *create_actor_value_popup(); /* extern */
+#include "dungeon/effect.h"
+s32 cap_pending_actor_value_delta(void *entry);                      /* extern */
 
 
 /* Adds 0x200 to the object's unk_64 and runs callbacks when its mode-2 check returns zero. */

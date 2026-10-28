@@ -22,12 +22,12 @@ void (*const resource12_slot0_entry1)(void *entity, R12_80170A44_S_80170A28_2 *m
 void *spawn_animated_monster(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)
 {
     s32 kind;
-    R12_8017087C_Work *work;
-    void *obj;
-    R12_8017087C_S_8017087C_1 *part_a;
+    ActorRecord *work;
+    ObjectNodeHeader *obj;
+    ObjectPosition *part_a;
     SpriteFrameState *part_b;
     void *resource;
-    R12_8017087C_Work *actor;
+    ActorRecord *actor;
     s32 left;
     s32 right;
     s8 saved_tile_x;
@@ -41,15 +41,15 @@ void *spawn_animated_monster(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_
     saved_tile_y = tile_y;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (R12_8017087C_Work *)((u8 *)obj + 0x20);
-        ((R12_8017087C_S_8017087C_0 *)obj)->unk_10 = ((u8 *)create_directional_template_effect);
-        work->byte13 = 0xC;
+        work = (void *)(obj + 1);
+        obj->update_callback = create_directional_template_effect;
+        work->species = 0xC;
         register_node(obj, project_sprite_chain);
 
-        resource = ((u8 *)arachne_direction_frames);
-        part_a = ((R12_8017087C_S_8017087C_0 *)obj)->unk_08;
-        part_a->unk_0A = saved_height;
-        part_b = ((R12_8017087C_S_8017087C_0 *)obj)->unk_0C;
+        resource = arachne_direction_frames;
+        part_a = obj->position;
+        part_a->z.w.i = saved_height;
+        part_b = obj->sprite;
         kind = spawn_flags & 3;
         part_b->tile_y = saved_tile_y;
         actor = work;
@@ -58,14 +58,14 @@ void *spawn_animated_monster(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_
 
         if (kind == 1) {
             left = work->flags14 | 0x6000;
-            right = work->flags1c | 0x6000;
+            right = work->flags1C | 0x6000;
             work->flags14 = left;
-            work->flags1c = right;
+            work->flags1C = right;
         } else if (kind >= 2) {
             left = work->flags14 | 0x2000;
-            right = work->flags1c | 0x2000;
+            right = work->flags1C | 0x2000;
             work->flags14 = left;
-            work->flags1c = right;
+            work->flags1C = right;
         } else {
             call_a1 = obj;
             if (((spawn_flags & ~3) << 16) == 0) {
@@ -76,16 +76,16 @@ void *spawn_animated_monster(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_
                     if (left & 1) {
                         set_or_clear_actor_status_slot(work, 1,
                                       (generate_random_value() & 0x3F) | 0x20);
-                        part_b->frameTable = ((u8 *)arachne_alt_direction_frames);
+                        part_b->frameTable = arachne_alt_direction_frames;
                     }
                 }
             }
         }
         call_a1 = obj;
         initialize_actor_sprite_and_animation(call_a1, part_a, part_b, spawn_flags);
-        actor->byte9a = 0xFF;
-        actor->byte9c = -1;
-        actor->ptr8c = ((void *)update_actor_state_and_select_target);
+        actor->action_id.u = 0xFF;
+        actor->unk_9C = -1;
+        actor->unk_8C.address = update_actor_state_and_select_target;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;
@@ -879,18 +879,18 @@ s32 relink_arachne_path(void *entity_arg, ObjectPosition *primary_context_arg, v
  * after a positive signed floor-trap result. Clears the secondary action halfword when dungeon
  * status flag 0x80 is set. /
  */
-void finish_actor_tile_move_then_select_target(R12_801721F8_S_801724A8_0 *state, s32 context, s32 source, s32 target) {
+void finish_actor_tile_move_then_select_target(ActorRecord *state, ObjectPosition *context, SpriteFrameState *source, ActorRecord *target) {
     if (update_actor_movement_to_tile(state, context, source, target) != 0) {
         spend_actor_mp(target, 4);
         advance_status_timers(target);
         if ((check_actor_floor_trap(source, target) << 0x10) <= 0) {
             return;
         }
-        state->unk_8C = ((void *)update_actor_state_and_select_target);
-        state->unk_90.at00.v = 0;
+        state->unk_8C.handler = update_actor_state_and_select_target;
+        state->unk_90.value = 0;
     }
     if (g_dungeon_status.flags & 0x80) {
-        state->unk_90.at02.v = 0;
+        state->unk_90.parts.high.s = 0;
     }
 }
 
@@ -1341,7 +1341,7 @@ void apply_knockback_then_restore_target_selection(R12_80172FE8_S_801730B8_1 *ac
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, entity, ((s32 *)arachne_reset_frames));
+            begin_actor_display_action(action, motion, entity, arachne_reset_frames);
             return;
         }
         if (entity->flags & 0x8000) {
@@ -1376,7 +1376,7 @@ void apply_knockback_then_restore_target_selection(R12_80172FE8_S_801730B8_1 *ac
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, entity, ((s32 *)arachne_reset_frames));
+            begin_actor_display_action(action, motion, entity, arachne_reset_frames);
             return;
         } else {
             action->timer.s = 8;

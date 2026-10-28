@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/list_setup.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 
@@ -60,7 +61,6 @@ typedef struct AnimData {
 
 extern s32 rand(void);
 extern void select_record_entry_and_value(void *state, void *entries, short index);
-extern void configure_the_set_mode_n_1(Actor *, Motion *, void *);
 extern void unlink_scene_list_node(Actor *);
 extern void unlink_node_if_registered(Actor *);
 extern void SD_Call(s32);

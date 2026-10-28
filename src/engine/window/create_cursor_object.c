@@ -58,13 +58,13 @@ typedef struct S_80036B10_8 {
 
 
 void runtime_initialize_state_value(Rec_D_80081FDC *state, s32 initialValue);
-void prepend_embedded_object_node();
+void prepend_embedded_object_node(void *owner, void *object_data);
 extern u8 window_node_list_storage[];
 extern void runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback(void);
 extern void update_cursor_callback(void);
 
 /* Initializes and links a task, then sets up its source record, state, and rendering data. */
-void create_cursor_object(s32 task_buffer, Rec_D_80081FDC *record, s32 *source, s16 state_value, s32 setup_arg) {
+void create_cursor_object(void *task_buffer, Rec_D_80081FDC *record, s32 *source, s16 state_value, void *setup_arg) {
     S_80036B10_1 *state;
     S_80036B10_3 *render_data;
     void *task;

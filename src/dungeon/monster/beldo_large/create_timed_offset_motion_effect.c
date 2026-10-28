@@ -48,7 +48,7 @@ extern u8 D_80170BB0[];
 extern u8 D_80173B88[];
 
 /* Create an offset object and initialize its motion and render data. */
-void create_timed_offset_motion_effect(s32 unused, s16 duration, s32 offset_x, s32 offset_y, s32 offset_z) {
+void create_timed_offset_motion_effect(u8 *unused, s16 duration, s32 offset_x, s32 offset_y, s32 offset_z) {
     s32 fixed_value;
     ObjectNodeHeader *obj;
     S_80170D2C_0 *work;

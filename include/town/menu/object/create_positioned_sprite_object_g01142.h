@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01142 - CL:town/func_800A9BA8. */
 
 #include "common.h"
+#include "shared/sprite_source.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -59,7 +60,7 @@ extern void unlink_node_if_registered(void *);
 extern void add_hex_20000_s_signed_offset_hex_14(void *record);
 
 /* Functions defined in this translation unit. */
-ObjectNodeHeader *create_positioned_sprite_object(IntVector3 *position, s32 state_value, s32 graphic_id);
+ObjectNodeHeader *create_positioned_sprite_object(IntVector3 *position, s32 state_value, SpriteSourceEntry *graphic_id);
 ObjectNodeHeader *create_preset_sprite_object(IntVector3 *position);
 void copy_indexed_motion_value_and_advance(Rec_D_80082D58 *object, EntityRec *output, s32 unused);
 void invoke_emote_object_callback(S_800A7338_0 *object, void *motion, s32 context);

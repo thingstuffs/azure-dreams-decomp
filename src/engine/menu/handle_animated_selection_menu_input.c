@@ -57,13 +57,13 @@ void handle_animated_selection_menu_input(S_8004FAA4_1 *menu) {
         }
         if (index_delta == 0) {
             if ((input->pressed_buttons) & 1) {
-                if (((s32)primary_actor_record->unk_B0.address) != 0) {
+                if (primary_actor_record->unk_B0.address != 0) {
                     next_index = find_resolved_selection_menu_index(menu, 1);
                     menu->unk_28 = 4;
                     index_delta = next_index - menu->unk_30;
                 }
             } else if ((input->pressed_buttons) & 2) {
-                if (((s32)primary_actor_record->unk_AC.address) != 0) {
+                if (primary_actor_record->unk_AC.address != 0) {
                     next_index = find_resolved_selection_menu_index(menu, 0);
                     menu->unk_28 = 4;
                     index_delta = next_index - menu->unk_30;

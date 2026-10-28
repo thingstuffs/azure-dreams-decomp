@@ -3,6 +3,7 @@
 #include "shared/entity.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
+#include "dungeon/item/monster_resource_slots_g00325.h"
 #include "shared/slus_cd_callback.h"
 #include "shared/slus_callbacks.h"
 #include "shared/tile_object.h"
@@ -11,6 +12,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/player/state.h"
 #include "engine/graphics.h"
+#include "dungeon/player.h"
 
 typedef struct S_80095A10_0 {
     u8 pad_00[0x8C];
@@ -84,11 +86,9 @@ void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 void runtime_map_type_16_entry_code();
 s32 queue_cd_resource();
 void runtime_no_op_callback(u32 unused_state);
-void create_familiar_deployment_overlay();
 void resolve_familiar_deployment_request();
 void process_unflagged_linked_entries(s32 firstEntryBase);
 void process_unflagged_linked_entries_alt(s32 firstNodeBase);
-void *(*load_monster_resource_data())(s32, s8, s8, s16);
 u8 * find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type);
 s32 play_sound_if_enabled(s32 query_value);
 extern s32 loaded_entity_sprite_resource;
@@ -99,7 +99,7 @@ extern void *familiar_record_slots[];
 extern s8 entity_resource_read_complete;
 
 /* Advances the resource loading, object creation, and animation sequence. */
-void update_familiar_summoning(u8 *actor, MovingPosition *position, void *animation, u8 *context) {
+void update_familiar_summoning(u8 *actor, ObjectPosition *position, void *animation, u8 *context) {
 
     u8 *animation_table;
     void *load_resource;
@@ -168,9 +168,9 @@ void update_familiar_summoning(u8 *actor, MovingPosition *position, void *animat
             object_scale->unk_1E = 0x800;
             object_scale->unk_1C = 0x800;
             object_position = ((S_80095A10_5_pre *)object)[-1].unk_00;
-            object_position->unk_02 = (u16) position->x;
-            object_position->unk_06 = (u16) position->y;
-            object_position->unk_0A = (s16) (position->z - 0x10);
+            object_position->unk_02 = (u16) position->x.w.i;
+            object_position->unk_06 = (u16) position->y.w.i;
+            object_position->unk_0A = (s16) (position->z.w.i - 0x10);
             func_80042640(object, ((S_80095A10_5 *)object)->unk_13);
             apply_actor_template_and_class(object, ((S_80095A10_5 *)object)->unk_13, resource_info);
             object_flags = ((S_80095A10_5 *)object)->unk_1C;

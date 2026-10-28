@@ -21,6 +21,7 @@
 #include "dungeon/item/message.h"
 #include "engine/town.h"
 #include "slus.h"
+#include "dungeon/effect.h"
 struct S_8009BE2C_2;
 
 typedef struct S_8009BE2C_1 {
@@ -136,7 +137,6 @@ void create_type_212_object(s32 flag, s8 value) {
 
 s32 generate_random_value(void);
 s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 
 extern u8 D_80088CAC[];
@@ -145,7 +145,7 @@ extern u8 D_800E0D6D[];
 
 /* Randomly adds a quarter of the source value to the target and reports the change. */
 void add_random_quarter_value(void *source, void *target) {
-    int direction_aux;
+    union { s32 word; u16 halves[2]; } direction_aux;
     s32 amount;
     s16 signed_amount;
     void *message_start;
@@ -168,7 +168,7 @@ void add_random_quarter_value(void *source, void *target) {
                 *(u8 *)((s8 *)source_entity + 0x25),
                 *(u8 *)((s8 *)target_entity + 0x24),
                 *(u8 *)((s8 *)target_entity + 0x25),
-                &direction_aux
+                &direction_aux.halves[0]
                 );
             create_actor_value_popup(3, target, -amount, 0);
             message_end = get_unused_text_buffer();
@@ -200,7 +200,6 @@ s32 clamp_adjusted_value_0_to_99();
 extern void create_type_212_object(s32 flag, s8 value);
 s32 play_sound_if_enabled(s32 query_value);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
-extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 s32 find_directional_entry_and_clear_flag(s32 origin_x, s32 origin_y, u32 direction, s16 search_param);
 s32 prepare_quarter_damage_return(struct Object *object, struct Other *source);
 extern u8 D_800E0D7B[23];
@@ -887,11 +886,10 @@ s32 clamp_adjusted_value_0_to_99();
 
 
 s32 play_sound_if_enabled(s32);
-extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 
 /* Compute elemental damage for a target and trigger its hit response. */
 void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 power_bonus, s16 elements,
-                   u16 hit_angle, s32 source_flags, u16 hit_kind) {
+                   u16 hit_angle, void *source, u16 hit_kind) {
     s32 event_id;
     s16 affinity_product;
     s32 shown_damage;
@@ -905,6 +903,7 @@ void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 po
     s16 requested_bonus;
     s32 affinity_shift;
     SpriteFrameState *position;
+    union { void *record; s32 flags; } source_word;
     register u16 base = base_power;
     s16 element_mask = elements;
     s32 base_shift;
@@ -912,7 +911,7 @@ void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 po
     requested_bonus = power_bonus;
     bonus = requested_bonus;
     affinity = 0;
-    if ((target != 0) && (try_trigger_target_record_effect(target, (u16) element_mask, source_flags) == 0)) {
+    if ((target != 0) && (try_trigger_target_record_effect(target, (u16) element_mask, source) == 0)) {
         if (requested_bonus == 0xFF) {
             bonus = dungeon_actor_ring_anchor->level * 4;
             if (bonus >= 0x64) {
@@ -993,7 +992,7 @@ void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 po
             affinity_adjust = (s16) ((u32) (affinity_product + 3) >> 2);
         }
         power += affinity_adjust;
-        damage_delta = (s32) ((s16) ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_36.s - power) / 2;
+        damage_delta = (s32) (((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_36.u - power) / 2;
         ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_78.s = (u16) damage_delta;
         if ((s16) damage_delta >= 0) {
             ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_78.u = -1;
@@ -1006,17 +1005,19 @@ void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 po
             shown_damage = 0;
         }
         create_actor_value_popup(3, target, shown_damage, 0);
-        if (target == ((u8 *)dungeon_actor_ring_anchor)) {
+        if (target == dungeon_actor_ring_anchor) {
             pending_player_damage_kind = (u8) hit_kind;
             clear_player_linked_action_flags();
         }
-        ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_74 = source_flags;
+        /* BYTES: reinterpret the source word only after its pointer uses. */
+        source_word.record = source;
+        ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_74 = source_word.flags;
         g_dungeon_status.pending_display_owner = target - 0x20;
         if (!(((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite->flags & 0x8000)) {
             initialize_timed_motion_step(8, 0x10);
         }
         event_id = 0x601;
-        if ((source_flags != 0) && !(source_flags & 0x20000000)) {
+        if ((source_word.flags != 0) && !(source_word.flags & 0x20000000)) {
             event_id = 0x602;
         }
         play_sound_if_enabled(event_id);

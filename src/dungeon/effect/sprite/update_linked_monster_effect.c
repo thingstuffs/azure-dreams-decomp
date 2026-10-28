@@ -1,3 +1,4 @@
+#include "shared/dungeon_effect_status.h"
 #include "engine/scene.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -22,7 +23,6 @@ s32 check_layer_offset_height();              /* extern */
 extern u16 sprite_effect_update_count;
 extern s16 linked_monster_effect_updated[6];
 extern u8 linked_monster_attack_option;
-extern s32 linked_monster_attack_event;
 extern s32 D_800C9034();
 
 typedef struct S_80025C80_0_pre {
@@ -257,7 +257,7 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
                 if (found_tile != 0) {
                     tile_object = found_tile;
                     apply_attack_power_and_element_effects(tile_object, 0xC, linked_monster_attack_option, 9,
-                        (s32) (s16) (((S_80025C80_0 *)effect_in)->unk_40.u << 9), linked_monster_attack_event, 5);
+                        (s32) (s16) (((S_80025C80_0 *)effect_in)->unk_40.u << 9), linked_monster_attack_event[0], 5);
                 }
             }
             func_8002589C(effect_in - 0x20, (s16) ((S_80025C80_0 *)effect_in)->unk_40.u, 0xF0);

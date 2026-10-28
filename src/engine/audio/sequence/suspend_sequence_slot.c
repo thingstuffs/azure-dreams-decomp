@@ -2,13 +2,6 @@
 #include "engine/audio/sequence.h"
 #include "engine/audio/spu.h"
 
-typedef struct {
-    s32 field_0;
-    s32 field_4;
-    u16 field_8;
-    u16 field_A;
-    u8 pad0C[0x40 - 0x0C];
-} S_8005B070_req;
 
 extern s32 audio_voice_count[4];
 extern s32 audio_voice_masks[24];
@@ -20,7 +13,7 @@ extern SoundSequenceSlot audio_sequence_slots[8];
 /* Process eligible entries and set the selected slot state to 4. */
 void suspend_sequence_slot(s16 slot_index)
 {
-    S_8005B070_req request;
+    SpuVoiceAttr_ request;
     u8 *entry;
     s32 entry_index;
     s32 *entry_id;
@@ -36,10 +29,10 @@ loop:
             if (*(u16 *)(entry + 0x1A) != 0) {
                 s32 request_type;
                 request_type = 3;
-                request.field_4 = request_type;
-                request.field_0 = *entry_id;
-                request.field_8 = 0;
-                request.field_A = 0;
+                request.mask = request_type;
+                request.voice = *entry_id;
+                request.volume.left = 0;
+                request.volume.right = 0;
                 apply_spu_voice_attributes(&request);
             }
         }

@@ -7,6 +7,7 @@
 #include "shared/dir_step.h"
 #include "dungeon/level.h"
 #include "dungeon/system.h"
+#include "dungeon/actor/state.h"
 
 typedef struct PairAction {
     u8 pad_00[0x8C];
@@ -27,14 +28,6 @@ typedef struct PairAction {
     void *partner;
     s32 savedHandler;
 } PairAction;
-typedef struct PartnerState {
-    u8 pad_00[0x13];
-    u8 heightClass;
-    u8 pad_14[8];
-    s32 flags;
-    u8 pad_20[0x68];
-    u16 groundHeight;
-} PartnerState;
 typedef struct CreatureState {
     u8 pad_00[0x1C];
     s32 flags;
@@ -103,8 +96,7 @@ typedef struct SignedHeight {
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 #include "dungeon/actor/state/advance_status_timers_api.h"
 s32 select_dungeon_spawn_tile(u8 *, u8 *);
-void refresh_actor_proximity_state(u8 *);
-struct S_800AD594_0; void spend_actor_mp(struct S_800AD594_0 *, s32);
+struct S_800AD594_0; void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 extern s16 dungeon_room_count;
 extern s32 D_8016B058;
 extern u8 D_8016E888[];
@@ -172,7 +164,7 @@ void restore_bank_actor_callback(PairAction *actor, ActorMotion *motion, SpriteF
     s16 *angle_or_count;
     void *tile_x_ptr;
     ActorSprite *partner_sprite;
-    PartnerState *partner;
+    ActorRecord *partner;
     PartnerAction *partner_actor;
 
     partner = actor->partner;
@@ -183,7 +175,7 @@ void restore_bank_actor_callback(PairAction *actor, ActorMotion *motion, SpriteF
     switch (state) {
     case 0:
         actor->savedHandler = (s32) partner_actor->handler;
-        if (partner->flags & 0x40000) {
+        if (partner->flags1C & 0x40000) {
             actor->flags = (u16) (actor->flags | 0x1000);
         } else {
             actor->flags = (u16) (actor->flags & 0xEFFF);
@@ -196,12 +188,12 @@ void restore_bank_actor_callback(PairAction *actor, ActorMotion *motion, SpriteF
         if (partner_actor->flags & 4) {
             actor->flags = (u16) (actor->flags | 0x2000);
             partner_actor->handler = 0;
-            partner_flags = partner->flags;
+            partner_flags = partner->flags1C;
             partner_sprite = ((ObjectHeaderTail *) ((u8 *) partner - 0x18))->sprite;
         } else {
             actor->flags = (u16) (actor->flags & 0xDFFF);
             partner_actor->handler = 0;
-            partner_flags = partner->flags;
+            partner_flags = partner->flags1C;
             partner_sprite = ((ObjectHeaderTail *) ((u8 *) partner - 0x18))->sprite;
         }
         partner_flags &= 0x2000;
@@ -258,7 +250,7 @@ void restore_bank_actor_callback(PairAction *actor, ActorMotion *motion, SpriteF
         y_velocity = y_velocity / (s16) actor->ticks;
         motion->dz = 0;
         motion->dy = y_velocity;
-        partner->flags = (s32) (partner->flags & 0xFFFBFFFF);
+        partner->flags1C = (s32) (partner->flags1C & 0xFFFBFFFF);
         partner_actor->flags = (u16) (partner_actor->flags | 0xC);
         anim_table0 = D_8016E8F0;
         angle_or_count = &g_game_work.view.camera_rotation.parts.viewAngle;
@@ -271,13 +263,13 @@ void restore_bank_actor_callback(PairAction *actor, ActorMotion *motion, SpriteF
         launch_ticks = (u16) actor->ticks - 1;
         actor->ticks = launch_ticks;
         if (launch_ticks == 8) {
-            height_offset = entity_height_offsets[partner->heightClass];
+            height_offset = entity_height_offsets[partner->species];
             height_value = ((SignedHeight *) partner_motion)->integer;
             entity_height = (s16)((CreatureState *)entity)->groundHeight;
             motion->dz = (s32) ((s32) ((((height_value - entity_height) - height_offset) + 0x10)
                 << 0x10) / launch_ticks);
-            partner_actor->heightOffset.parts.integer = (u16) (partner_actor->heightOffset.parts.integer + partner->groundHeight);
-            partner->groundHeight = 0U;
+            partner_actor->heightOffset.parts.integer = (u16) (partner_actor->heightOffset.parts.integer + (u16)partner->ground_height);
+            partner->ground_height = 0U;
         }
         if (actor->ticks > 0) {
             return;
@@ -300,7 +292,7 @@ void restore_bank_actor_callback(PairAction *actor, ActorMotion *motion, SpriteF
         return;
     case 2:
         motion->dz = (s32) (motion->dz + 0xFFFE0000);
-        height_adjust = entity_height_offsets[partner->heightClass];
+        height_adjust = entity_height_offsets[partner->species];
         partner_actor->heightOffset.parts.integer = (u16) ((motion->z.parts.integer + height_adjust) - 0x10);
         fall_ticks = (u16) actor->ticks - 1;
         actor->ticks = fall_ticks;
@@ -350,7 +342,7 @@ void restore_bank_actor_callback(PairAction *actor, ActorMotion *motion, SpriteF
             }
             partner_height = sample_terrain_surface_height((partner_sprite->tileX << 6) | 0x20, (partner_sprite->tileY << 6) | 0x20,
                 (s16) (motion->z.parts.integer - 0x80));
-            partner->groundHeight = partner_height;
+            partner->ground_height = partner_height;
             if ((s16) partner_height >= 0x201) {
                 continue;
             }
@@ -367,7 +359,7 @@ commit_tile_positions:
         world_coord = ((world_coord << 6) + 0x20) << 0x10;
         partner_motion->y = world_coord;
         motion->y = world_coord;
-        motion->z.word = (s32) (((s16) partner->groundHeight - 0x100) << 0x10);
+        motion->z.word = (s32) (((s16) (u16)partner->ground_height - 0x100) << 0x10);
         partner_actor->heightOffset.word = (s32) actor->heightOffset.word;
         actor->ticks = 8;
         motion->dz = (s32) ((s32) ((((CreatureState *)entity)->groundHeight << 0x10)
@@ -379,7 +371,7 @@ commit_tile_positions:
         rise_anim = rise_anim + (u32) anim_table2;
         select_sprite_entry((struct S_80047784 *)(sprite), ((AnimationFrame *) rise_anim)->frame, 0);
         refresh_actor_proximity_state(entity);
-        refresh_actor_proximity_state((u8 *)(partner));
+        refresh_actor_proximity_state(partner);
         actor->phase = actor->phase + 1;
         return;
     case 3:
@@ -397,7 +389,7 @@ commit_tile_positions:
         actor->heightOffset.word = 0;
         partner_actor->heightOffset.word = 0;
         if (actor->flags & 0x1000) {
-            partner->flags = (s32) (partner->flags | 0x40000);
+            partner->flags1C = (s32) (partner->flags1C | 0x40000);
         }
         if (!(actor->flags & 0x4000)) {
             partner_actor->flags = (u16) (partner_actor->flags & 0xFFF7);
@@ -406,7 +398,7 @@ commit_tile_positions:
             partner_actor->flags = (u16) (partner_actor->flags & 0xFFFB);
         }
         ((CreatureState *)entity)->flags = (s32) (((CreatureState *)entity)->flags | 0x40000000);
-        partner->flags = (s32) (partner->flags | 0x40000000);
+        partner->flags1C = (s32) (partner->flags1C | 0x40000000);
         {
             s16 angle_or_duration;
             s32 return_step_offset;
@@ -477,7 +469,7 @@ commit_tile_positions:
             u32 restore_x;
             u32 restore_y;
 
-            restore_flags = partner->flags;
+            restore_flags = partner->flags1C;
             restore_x = partner_sprite->tileX;
             restore_y = partner_sprite->tileY;
             restore_flags &= 0x2000;

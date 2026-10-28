@@ -4,6 +4,9 @@
 /* Original-file evidence (G00684): inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800CE070, CL:town/func_800CE380, CL:town/func_800CE408, PD:town/engine:800D68B0. */
 
 #include "common.h"
+#include "town/person/object_setup.h"
+#include "town/scene/list_setup.h"
+#include "town/event/object_setup.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -83,20 +86,17 @@ void unlink_node_if_registered(void *block_data);
 /* extern */
 void clear_object_slot_and_mark_removed(void *);
 s32 is_default_object_data(Rec_func_80094268_arg0 *);
-void configure_the_set_mode_n_3(struct Rec_D_800CFCB4 *, s32, s32);
-void initialize_optional_object_state(void *, s32, struct Rec_D_80082E80 *, s32);
 /* extern */
 extern void D_800CBAAC();
 extern M2C_UNK D_800D6A58;
 void * create_town_effect_object(s32, struct IntVector3 *, s32, s32);
 
-extern s32 D_800D68B0[];
+extern void *D_800D68B0[];
 
 /* Functions defined in this translation unit. */
 void * create_and_invoke_render_object(s32 initial_value, s32 resource_index);
 void update_entity_relative_position(Rec_D_80082D58 *entity, IntVector3 *out_pos);
 void invoke_object_handler(S_800CBAAC_0 *object, s32 callback_arg1, s32 callback_arg2);
-void initialize_record_from_table_index(void *record_data, s32 context, Rec_D_80082E80 *state);
 void allocate_variant_object(s32 variant, s32 x, s32 y);
 
 #endif

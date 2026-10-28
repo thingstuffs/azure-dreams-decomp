@@ -34,7 +34,7 @@ void start_actor_attack(void *, ObjectPosition *, s32, void *);
 struct Rec_func_800A9E70_arg0; s32 resolve_actor_movement_action(struct Rec_func_800A9E70_arg0 *, ObjectPosition *, s32, s32);
 void update_multi_form_actor_movement(ActorRecord *object, ObjectPosition *update_param, SpriteFrameState *state, ActorRecord *input);
 struct Rec_func_800A9E70_arg0; void complete_actor_facing_action(struct Rec_func_800A9E70_arg0 *, ObjectPosition *, s32, struct ActorRecord *);
-struct Rec_func_800A9E70_arg0; void start_actor_directional_action(struct Rec_func_800A9E70_arg0 *, ObjectPosition *, void *, struct ActorRecord *);
+struct Rec_func_800A9E70_arg0; void start_actor_directional_action(struct Rec_func_800A9E70_arg0 *, ObjectPosition *, SpriteFrameState *, struct ActorRecord *);
 s32 advance_actor_effect_sequence_2();
 extern u8 beldo_large_frame_set_2;
 extern u8 beldo_large_frame_set_5;

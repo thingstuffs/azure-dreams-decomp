@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:main/func_800112D8, CL:main/func_80011390, CL:main/func_80011818, CL:main/func_800119B4, PD:main/image_25c800:800283EC. */
 
 #include "common.h"
+#include "frontend/card.h"
 #include "frontend/libcard.h"
 #include "modules/main_server_ship_interfaces.h"
 #include "m2c_compat.h"
@@ -59,7 +60,6 @@ extern void *D_800283B8[];
 extern u8 D_800283C4[];
 extern void *D_800283F4[];
 extern u8 D_800283FC[];
-extern u8 card_save_slot_metadata;
 
 extern void *decode_fullwidth_text(void *entries, u8 *text, s32 initial_octave);
 extern u8 *card_empty_slot_guidance_lines[];

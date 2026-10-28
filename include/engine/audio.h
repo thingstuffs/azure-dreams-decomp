@@ -138,7 +138,7 @@ void sound_set_sequence_volume_scale(s16 new_value);
 void sound_set_spu_master_volume(s32 left_volume, s32 right_volume);
 
 /* sound_start_scaled_primary_and_secondary_voices.c */
-void sound_start_scaled_primary_and_secondary_voices(s32 target_id, void *target_data);
+void sound_start_scaled_primary_and_secondary_voices(s32 target_id, s32 note_pitch);
 
 /* sound_stream_load.c */
 s32 func_8004437C(s16 entry_index, s16 mode);

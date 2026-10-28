@@ -1444,7 +1444,7 @@ typedef struct S_807B040C_7 {
 } S_807B040C_7;   /* motion in update_special_actor_transition */
 
 extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
-extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
+extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern s32 check_left_tile_and_center_height(s32, s32, s16);
 

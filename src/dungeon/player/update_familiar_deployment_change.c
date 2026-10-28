@@ -4,6 +4,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor/callback.h"
 #include "common.h"
+#include "dungeon/item/monster_resource_slots_g00325.h"
 #include "shared/slus_cd_callback.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
@@ -12,6 +13,7 @@
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/player/state.h"
+#include "dungeon/player.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 Control_CD(); /* extern */
@@ -22,12 +24,10 @@ void runtime_map_type_16_entry_code();                      /* extern */
 void * register_and_upload_sprite_resource();                     /* extern */
 s32 begin_sprite_resource_load_with_completion_flag();                   /* extern */
 void set_sprite_animation_frame(SpriteFrameState *obj, s16 frame_group, s16 frame_index, s32 slot_index); /* extern */
-void create_familiar_deployment_overlay();      /* extern */
 void store_recalled_familiar(); /* extern */
 void process_unflagged_linked_entries(s32 firstEntryBase);                         /* extern */
 void process_unflagged_linked_entries_alt(s32 firstNodeBase);                         /* extern */
 void unlink_entity_node(struct EntityLinkNode *node);                      /* extern */
-void *(*load_monster_resource_data())(M2C_UNK, s8, s8, s16); /* extern */
 s32 retain_spawn_resource(s16 entry_type, s16 entry_key);                 /* extern */
 u8 * find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type);                     /* extern */
 void decrement_monster_entry_count(s16 requested_id, s16 requested_type);                 /* extern */
@@ -157,7 +157,7 @@ typedef struct S_8009345C_16 {
 } S_8009345C_16;   /* slot selects the owner's familiar record */
 
 /* Advances the object replacement sequence, including animation, messages, and cleanup. */
-void update_familiar_deployment_change(void *actor, MovingPosition *map, void *entity, void *context) {
+void update_familiar_deployment_change(void *actor, ObjectPosition *map, void *entity, void *context) {
 
     u8 *remove_text;
     u8 *create_text;
@@ -287,9 +287,9 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
                 object_scale->unk_1E = 0x800;
                 object_scale->unk_1C = 0x800;
                 object_position = ((S_8009345C_10_pre *)new_object)[-1].unk_00;
-                object_position->unk_02 = (u16) map->x;
-                object_position->unk_06 = (u16) map->y;
-                object_position->unk_0A = (s16) (map->z - 0x10);
+                object_position->unk_02 = (u16) map->x.w.i;
+                object_position->unk_06 = (u16) map->y.w.i;
+                object_position->unk_0A = (s16) (map->z.w.i - 0x10);
                 func_80042640(new_object, ((S_8009345C_10 *)new_object)->unk_13);
                 apply_actor_template_and_class(new_object, ((S_8009345C_10 *)new_object)->unk_13, *message_or_list.base);
                 object_flags = ((S_8009345C_10 *)new_object)->unk_1C;

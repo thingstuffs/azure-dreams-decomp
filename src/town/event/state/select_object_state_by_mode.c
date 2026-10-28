@@ -1,28 +1,28 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
+#include "town/scene/list_setup.h"
+#include "town/event/object_setup.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800CFCB4.h"
 #include "shared/dungeon_effect_views.h"
 
-void handle_insert_initialize_two_values_status_flags(Rec_D_800CFCB4 *node, s32 value_08, s32 value_0c);        /* extern */
-void configure_the_set_mode_n_3(Rec_D_800CFCB4 *record, s32 setup_value, s32 setup_param);                         /* extern */
-void initialize_optional_object_state(); /* extern */
 extern M2C_UNK D_800D0690;
 
 
    /* Select a state value and update the record according to its mode flag. */
-void select_object_state_by_mode(Rec_D_800CFCB4 *record, s32 context, EffectStateWordView *state, s32 default_value,
-    s32 alternate_value, s32 update_value) {
+void select_object_state_by_mode(Rec_D_800CFCB4 *record, void *context, SpriteFrameState *state, void *default_value,
+    void *alternate_value, void *update_value) {
     if (record->unk_94 != 0) {
-        state->unk_08 = alternate_value;
+        state->source = alternate_value;
         configure_the_set_mode_n_3(record, context, update_value);
         initialize_optional_object_state(record, context, state, 0);
         return;
     }
-    state->unk_08 = default_value;
+    state->source = default_value;
     handle_insert_initialize_two_values_status_flags(record, context, update_value);
     {
         void *next_record;
-        s32 next_context;
+        void *next_context;
         void *next_state;
         s32 *shared_data;
 

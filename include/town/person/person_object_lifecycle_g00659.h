@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800C5ABC, CL:town/func_800C6064, PD:town/engine:800D5028. */
 
 #include "common.h"
+#include "town/scene/list_setup.h"
 #include "records/Rec_func_80094268_arg0.h"
 /* extern */
 #include "town/scene/object/unlink_scene_list_node_api.h"                      /* extern */
@@ -51,12 +52,11 @@ extern M2C_UNK D_800D5058;
 extern s32 runtime_is_record_field_set(void *);
 #include "town/person/state_updates.h"
 void register_node_if_unregistered(void *block_data, void *registration_id);
-void configure_the_set_mode_n_1(struct Rec_func_8008F074_arg0 *, s32, s32);
 
 /* Functions defined in this translation unit. */
 void update_object_position_or_cleanup(Rec_func_80094268_arg0 *object, void *position, void *motion);
 void update_object_motion_and_flags(TargetObj *obj, void *callback_arg, void *motion_data);
 void dispatch_object_state(void *object, void *context, void *dispatch_data);
-void initialize_person_object(Rec_func_80094268_arg0 *object, s32 context, void *animation);
+void initialize_person_object(Rec_func_80094268_arg0 *object, void *context, void *animation);
 
 #endif

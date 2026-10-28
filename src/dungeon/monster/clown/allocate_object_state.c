@@ -19,7 +19,8 @@ void *allocate_object_state_and_callbacks(s16 init_flags, s16 grid_x, s16 grid_y
     ObjectPosition *config;
     ObjectNodeHeader *object;
     S_8014C878_4 *extended_state;
-    S_8014C878_1 *state;
+    ActorRecord *state;
+    void *body;
     s8 saved_x;
     register s16 saved_type;
     s8 saved_y;
@@ -30,31 +31,31 @@ void *allocate_object_state_and_callbacks(s16 init_flags, s16 grid_x, s16 grid_y
     saved_y = grid_y;
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != 0) {
-        state = 
-        ((void *)object)+ 0x20;
+        body = object + 1;
+        state = body;
         object->update_callback = &clown_object_callback;
-        state->unk_13 = MONSTER_CLOWN;
+        state->species = MONSTER_CLOWN;
         register_node(object, project_sprite_chain);
         config = object->position;
         config->z.w.i = saved_type;
         placement = object->sprite;
         mode = init_flags & 3;
         placement->tile_y = saved_y;
-        extended_state = state;
+        extended_state = body;
         placement->frameTable = &D_8015020C;
         placement->tile_x = saved_x;
         if (mode == 1) {
-            state_flags = state->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            update_flags = state->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-            state->unk_14 = state_flags;
-            state->unk_1C = update_flags;
+            state_flags = state->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            update_flags = state->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            state->flags14 = state_flags;
+            state->flags1C = update_flags;
         } else if (mode >= 2) {
-            state_flags = state->unk_14 | ACTOR_CLASS_ENABLED;
-            update_flags = state->unk_1C | ACTOR_PLAYER_SIDE;
-            state->unk_14 = state_flags;
-            state->unk_1C = update_flags;
+            state_flags = state->flags14 | ACTOR_CLASS_ENABLED;
+            update_flags = state->flags1C | ACTOR_PLAYER_SIDE;
+            state->flags14 = state_flags;
+            state->flags1C = update_flags;
         } else if (((init_flags & ~3) << 0x10) == 0) {
-            if (!(state->unk_14 & ACTOR_RESIST_SLEEP)) {
+            if (!(state->flags14 & ACTOR_RESIST_SLEEP)) {
                 if (generate_random_value() & 1) {
                     set_or_clear_actor_status_slot(state, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                     placement->frameTable = &D_8015025C;
@@ -65,7 +66,7 @@ void *allocate_object_state_and_callbacks(s16 init_flags, s16 grid_x, s16 grid_y
         extended_state->unk_9A = 0xFF;
         extended_state->unk_9C = -1;
         extended_state->unk_8C = &D_8014D014;
-        state->unk_1C = (s32)(state->unk_1C | 0x40000);
+        state->flags1C = (s32)(state->flags1C | 0x40000);
         extended_state->unk_92 = -0x20;
         try_move_actor_to_valid_position(extended_state, config, placement, state);
     }

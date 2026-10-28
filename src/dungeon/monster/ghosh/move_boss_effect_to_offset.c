@@ -1,9 +1,9 @@
 #include "common.h"
+#include "dungeon/monster/ghosh.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "dungeon/level.h"
 #include "dungeon/player/object.h"
-extern s32 ghosh_boss_node[3];
 typedef struct {
     u8 data[24];
 } Config24;
@@ -38,13 +38,14 @@ void move_boss_effect_to_offset(s32 offset_index) {
     SpriteFrameState *entity;
     S_80171168_2 *entity_state;
 
+
     offset_table = (const Config24 *)D_8016A87C;
     offsets = *offset_table;
     offset_pair = (s16 *)offsets.data;
     old_cell_mask = 0x3000;
-    entity_state = *ghosh_boss_node + 0x20;
-    entity = ((S_80171168_0 *)(*ghosh_boss_node))->unk_0C;
-    position = ((S_80171168_0 *)(*ghosh_boss_node))->position;
+    entity_state = (void *)(ghosh_boss_node + 1);
+    entity = ghosh_boss_node->sprite;
+    position = ghosh_boss_node->position;
     entity->flags = (u16) (entity->flags & 0xFF7F);
     old_x = entity->tile_x;
     old_y = entity->tile_y;

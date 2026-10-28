@@ -12,6 +12,7 @@
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "dungeon/effect.h"
 
 /* Same three position slots, with the signed spawn and unsigned raise views
  * visible together. Retail loads at +2,+6,+10; raise also updates the z word. */
@@ -531,7 +532,6 @@ extern void adjust_source_value_and_finalize(u8 *, u8 *);
 #include "dungeon/effect/screen.h"
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 generate_random_value(void);
-extern void create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 extern u8 counter_halved_message[];
 extern u8 counter_halve_failed_message[];
 extern void CompMatrix(void *, void *, void *);

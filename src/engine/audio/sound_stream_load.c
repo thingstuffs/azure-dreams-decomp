@@ -45,7 +45,7 @@ s32 load_sound_set(s16 state_index)
         S_8006E6F4 *state_table = sound_set_resources;
         S_8006E6F4 *state_entry = state_table + state_index;
 
-        Control_CD(6, (void *)state_entry->field4, 0);
+        Control_CD(6, state_entry->field4, 0);
         DrawSync(0);
         {
             void *state_callback = state_entry->field0;

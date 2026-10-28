@@ -84,7 +84,7 @@ typedef struct {
 #define ovl_1930844_81910EC0_S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define ovl_1930844_81910EC0_U32_AT(p, o) (*(u32 *)((u8 *)(p) + (o)))
 #define ovl_1930844_81910EC0_PTR_AT(p, o) (*(u8 **)((u8 *)(p) + (o)))
-#define ovl_1930844_81910EC0_GFX_ROOT_SLOT ((u8 *)&g_game_work)
+#define ovl_1930844_81910EC0_GFX_ROOT_SLOT (&g_game_work)
 typedef struct ovl_1930844_819112CC_S_819112CC_0 {
     u8 pad_00[0xA];
     s16 unk_0A;
@@ -173,7 +173,7 @@ typedef struct {} ovl_1930844_819112CC_EmptyArg;
 #define ovl_1930844_819112CC_setaddr(p, _addr) (((ovl_1930844_819112CC_P_TAG *)(p))->addr = (u32)(_addr))
 #define ovl_1930844_819112CC_getaddr(p) (u32)(((ovl_1930844_819112CC_P_TAG *)(p))->addr)
 #define ovl_1930844_819112CC_SP32(off) (scratch->w[(off) / 4])
-#define ovl_1930844_819112CC_GFX_ROOT_SLOT ((u8 *)&g_game_work)
+#define ovl_1930844_819112CC_GFX_ROOT_SLOT (&g_game_work)
 typedef struct ovl_1930844_81911A8C_S_81911A8C_0_pre {
     u16 unk_00;
 } ovl_1930844_81911A8C_S_81911A8C_0_pre;

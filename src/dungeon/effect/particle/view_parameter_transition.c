@@ -87,9 +87,9 @@ void apply_random_actor_value_adjustment(S_func_8186E800_0 *entity, s32 effect_p
         } else if (entity->unk_14 & ACTOR_PARTY_MEMBER) {
             message_end = get_unused_text_buffer();
             message_start = message_end;
-            message_end = expand_text_control_codes(&no_effect_target_prefix, message_end);
+            message_end = expand_text_control_codes(no_effect_target_prefix, message_end);
             message_end = append_entity_display_text(entity, message_end);
-            message_end = expand_text_control_codes(&D_80024034, message_end);
+            message_end = expand_text_control_codes(D_80024034, message_end);
             clear_byte_and_advance(message_end);
             display_text_with_fullwidth_adjustment(message_start);
         }

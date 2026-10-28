@@ -7,5 +7,5 @@ typedef struct S_800491F4 S_800491F4;
 
 /* Builds a reverse chain of paired choice nodes using card_choice_chain_indices and limit 4. */
 void card_boot_link_paired_choice_display_entries(S_800491F4 **nodes) {
-    build_reverse_indexed_chain(nodes, &card_choice_chain_indices, 4);
+    build_reverse_indexed_chain(nodes, card_choice_chain_indices, 4);
 }

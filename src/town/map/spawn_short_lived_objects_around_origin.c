@@ -17,7 +17,7 @@ typedef struct {
 
 typedef struct {
     u8 pad00[4];
-    s32 word;
+    void *word;
 } Resource;
 
 typedef struct {
@@ -52,8 +52,8 @@ typedef struct {
     s16 count;
 } Self;
 
-extern void *allocate_list_node(s32, void *);
-extern void register_node(Object *, void *);
+
+#include "engine/node.h"
 extern s32 rand(void);
 
 extern u8 D_800BBA98[];
@@ -85,7 +85,7 @@ void spawn_short_lived_objects_around_origin(Self *self, Copy24 *origin) {
 
                 primitive->scale_y = 0x1000;
                 primitive->scale_x = 0x1000;
-                object = (Object *)((u8 *)object + 0x20);
+                object = (void *)((u8 *)object + 0x20);
                 if (origin->word[3] < 0) {
                     primitive->flags |= 1;
                 }

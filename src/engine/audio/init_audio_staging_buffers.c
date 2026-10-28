@@ -1,5 +1,6 @@
 #include "common.h"
 #include "engine/audio.h"
+#include "engine/audio/slots.h"
 #include "slus/data.h"
 
 
@@ -12,13 +13,7 @@ typedef struct {
 } S_80084538;
 extern S_80084538 audio_staging_destinations;
 
-typedef struct {
-    s32 f0;
-    s32 f1;
-    s32 f2;
-    s32 f3;
-} S_800847C0;
-extern S_800847C0 audio_staging_spu_offsets;
+
 
 typedef struct {
     s32 f0;
@@ -38,10 +33,10 @@ void init_audio_staging_buffers(void) {
     audio_staging_destinations.f2 = audio_staging_storage + 0x4020;
     audio_staging_destinations.f3 = audio_staging_storage + 0x4E40;
 
-    audio_staging_spu_offsets.f0 = 0x1010;
-    audio_staging_spu_offsets.f1 = second_offset;
-    audio_staging_spu_offsets.f2 = third_offset;
-    audio_staging_spu_offsets.f3 = fourth_offset;
+    audio_staging_spu_offsets[0] = 0x1010;
+    audio_staging_spu_offsets[1] = second_offset;
+    audio_staging_spu_offsets[2] = third_offset;
+    audio_staging_spu_offsets[3] = fourth_offset;
 
     audio_staging_sizes.f0 = first_size;
     audio_staging_sizes.f1 = second_size;

@@ -35,7 +35,7 @@ S_8004A330_Entity *window_create_animated_content_panel(s32 style_flags, s16 sta
                                  s16 target_y, s16 width, s32 flags, s32 content_id) {
     S_8004A330_Entity *entity;
     S_8004A330_Sub20 *state;
-    s32 buffer_addr;
+    void *buffer_addr;
     s32 saved_style_flags = style_flags;
     u16 entity_flags;
     s32 global_flags;
@@ -45,7 +45,7 @@ S_8004A330_Entity *window_create_animated_content_panel(s32 style_flags, s16 sta
     if (entity != 0) {
         state = &entity->sub20;
         buffer_addr = create_callback_pair_default(0);
-        state->field8 = (void *)buffer_addr;
+        state->field8 = buffer_addr;
         if (buffer_addr != 0) {
             state->field0 = (u16)flags;
             state->x = (s16)(target_x - 0xA0);

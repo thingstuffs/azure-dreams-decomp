@@ -2,6 +2,7 @@
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/dir_step.h"
+#include "shared/record_ptrs.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -44,7 +45,7 @@ extern s32 generate_random_value(void);
 extern s32 find_floor_item_at_world_position(s32 input_x, s32 input_y, s32 input_z);
 extern s32 is_linked_entity_flagged_80000(void *, void *);
 
-extern s32 dungeon_actor_ring_anchor[];
+
 extern s32 picket_slot_f_item_result[];
 
 
@@ -79,7 +80,7 @@ s32 clear_actor_action_markers(void *origin, void *actor)
     target = probe_directional_neighbor(actor, origin_bytes->field_24, origin_bytes->field_25,
                            actor_bytes->field_2A.s16);
     if (target != 0) {
-        if (target == (void *)dungeon_actor_ring_anchor[0]) {
+        if (target == dungeon_actor_ring_anchor) {
             if (is_linked_entity_flagged_80000(target, target) != 0) {
                 return 0;
             }

@@ -1,37 +1,31 @@
 #include "common.h"
 #include "engine/node.h"
 
-/* Doubly-linked list node: next at 0x0, prev at 0x4, flags at 0x1E */
-typedef struct S_8003FFF0 {
-    struct S_8003FFF0 *next;      /* 0x00 */
-    struct S_8003FFF0 *prev;      /* 0x04 */
-    u8 pad[0x1E - 0x08];
-    u16 flags;                    /* 0x1E */
-} S_8003FFF0;
 
-extern S_8003FFF0 *active_node_list_head;
+
+extern ObjectNodeHeader *active_node_list_head;
 
 /* Unlinks a node from its doubly-linked list, clears flag 0x4000, and resets its links. */
-void unlink_active_node(S_8003FFF0 *node) {
-    S_8003FFF0 *prev = node->prev;
-    S_8003FFF0 *next;
+void unlink_active_node(ObjectNodeHeader *node) {
+    ObjectNodeHeader **prev = node->pprev;
+    ObjectNodeHeader *next;
 
     node->flags &= 0xBFFF;
 
     if (prev != 0) {
         next = node->next;
         if (next != 0) {
-            next->prev = prev;
+            next->pprev = prev;
         }
-        prev->next = next;
+        *prev = next;
     } else {
         next = node->next;
         active_node_list_head = next;
         if (next != 0) {
-            next->prev = 0;
+            next->pprev = 0;
         }
     }
 
     node->next = 0;
-    node->prev = 0;
+    node->pprev = 0;
 }

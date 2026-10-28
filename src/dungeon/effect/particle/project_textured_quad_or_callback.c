@@ -57,9 +57,9 @@ void apply_random_duration_actor_status(void *entity, s32 direction, void *unuse
         } else if (*(s32 *)((u8 *)entity + 0x14) & ACTOR_PARTY_MEMBER) {
             message_end = get_unused_text_buffer();
             message_start = message_end;
-            message_end = expand_text_control_codes(&no_effect_target_prefix, message_end);
+            message_end = expand_text_control_codes(no_effect_target_prefix, message_end);
             message_end = append_entity_display_text(entity, message_end);
-            message_end = expand_text_control_codes(&D_80024034, message_end);
+            message_end = expand_text_control_codes(D_80024034, message_end);
             clear_byte_and_advance(message_end);
             display_text_with_fullwidth_adjustment(message_start);
         }
@@ -388,7 +388,7 @@ void draw_textured_sphere_mesh(void *mesh, void *position, void *material, u16 d
     u8 *page;
     u8 *initial_page;
     u32 page_dependency;
-    u8 **page_ptr;
+    void **page_ptr;
     u8 *quad;
     s32 column_count;
     s32 row_count;
@@ -787,29 +787,29 @@ void create_terrain_seeking_point_effect(
     s16 y_offset,
     s16 z_offset)
 {
-    S_func_81875B38_1 *source_obj = source;
+    ObjectNodeHeader *source_obj = source;
     S_func_81875B38_2 *effect_ptr;
     S_func_81875B38_2 *effect_obj;
     u16 jitter;
     u16 effect_pos;
 
-    effect_ptr = allocate_list_node(0x211, source_obj);
+    effect_ptr = allocate_list_node(0x211, &source_obj->next);
     if (effect_ptr != NULL) {
         effect_ptr->unk_10 = advance_point_effect_toward_terrain;
         jitter = rand() & 0x1F;
-        effect_pos = ((MovingPosition *)source_obj->unk_08)->x + jitter;
+        effect_pos = ((MovingPosition *)source_obj->position)->x + jitter;
         effect_pos += x_offset - 0x10;
         ((ObjectPosition *)effect_ptr->unk_08)->x.w.i = effect_pos;
 
         jitter = rand() & 0x1F;
-        effect_pos = ((MovingPosition *)source_obj->unk_08)->y + jitter;
+        effect_pos = ((MovingPosition *)source_obj->position)->y + jitter;
         effect_pos += y_offset - 0x10;
         ((ObjectPosition *)effect_ptr->unk_08)->y.w.i = effect_pos;
 
         jitter = rand() & 0x1F;
         effect_obj = effect_ptr;
         effect_ptr = effect_offset_32(effect_obj);
-        effect_pos = ((MovingPosition *)source_obj->unk_08)->z + jitter;
+        effect_pos = ((MovingPosition *)source_obj->position)->z + jitter;
         effect_pos += z_offset - 0x10;
         ((ObjectPosition *)effect_obj->unk_08)->z.w.i = effect_pos;
         ((S_func_81875B38_5 *)effect_ptr)->unk_14 = property_34;

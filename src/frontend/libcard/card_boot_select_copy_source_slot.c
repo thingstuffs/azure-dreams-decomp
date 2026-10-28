@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card.h"
 #include "frontend/libcard/menu_callbacks.h"
 #include "main/data.h"
 
@@ -10,10 +11,9 @@ extern u8 D_80024FAC[];
 
 /* Select an entry handler and update the owning object's callback. */
 void card_boot_select_copy_source_slot(void *state) {
-    extern s32 card_save_slot_metadata[];
     s32 entry_id = *(s32 *)((u8 *)state + 0x28);
 
-    if (card_save_slot_metadata[entry_id * 32] != 0) {
+    if (card_save_slot_metadata[entry_id].words[0] != 0) {
         *(s32 *)((u8 *)state + 0x2C) = entry_id;
         update_spark_effect(state, entry_id);
         *(s32 **)((u8 *)state - 0x10) = (s32 *)D_80025584;

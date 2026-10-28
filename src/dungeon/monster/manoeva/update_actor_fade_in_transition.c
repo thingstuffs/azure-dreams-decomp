@@ -15,6 +15,7 @@
 #include "dungeon/actor/status.h"
 #include "engine/entity.h"
 #include "engine/node.h"
+#include "dungeon/monster/manoeva.h"
 
 
 
@@ -28,7 +29,6 @@ extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern void resolve_familiar_deployment_request(void *, void *, void *, s32);
 extern s32 find_entity_slot_by_field_ac(void *);
 extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
-extern void create_terrain_scaled_actor_effect(void *, void *, void *, void *);
 
 extern u8 manoeva_action_resume_address[];
 extern u8 manoeva_frame_set[];
@@ -87,8 +87,8 @@ void update_actor_fade_in_transition(ActorRecord *actor_state, ObjectPosition *c
         sprite->tpage_abr = 0;
         sprite->clut += 0x80;
         sprite->flags &= 0xFFF3;
-        create_terrain_scaled_actor_effect(actor_base, (u8 *)actor_data + 0x2A,
-                      (u8 *)actor_state + 0x9A, (u8 *)actor_state + 0x98);
+        create_terrain_scaled_actor_effect(actor_base, &actor_data->facing,
+                      &actor_state->action_id.u, &actor_state->action_state_flags);
         actor_state->action_phase.u++;
         break;
 

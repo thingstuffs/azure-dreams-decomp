@@ -12,6 +12,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/actor/status.h"
 #include "engine/graphics.h"
+#include "engine/node/allocation.h"
 
    /* obj in update_actor_action_controller */
 
@@ -71,7 +72,6 @@ typedef struct S_8017086C_8 {
     void * unk_A4;
 } S_8017086C_8;   /* base in update_actor_action_controller */
 
-extern void *allocate_list_node();
 extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void); /* Retail RNG reads no argument registers. */
 extern void initialize_actor_sprite_and_animation();
@@ -113,7 +113,7 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
     work = 0;
     saved_value_25 = value_25;
     saved_mode = mode;
-    obj = allocate_list_node(0x112, (saved_value_24 = value_24, ((u8 *)(&scene_object_list_anchor))));
+    obj = allocate_list_node(0x112, (saved_value_24 = value_24, &scene_object_list_anchor.next));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((ProjectileObject *)obj)->update_callback = update_actor_callbacks_movement_and_terrain;

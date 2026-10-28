@@ -973,7 +973,7 @@ void compact_item_entry_table(s32 entry_index) {
 
 void unlink_entity_node(struct EntityLinkNode *node);
 s32 check_neighbor_tile_blocking();
-void *find_eligible_actor_at_tile_and_height(struct Node *node, s16 x, s16 y_in, s16 value);
+void *find_eligible_actor_at_tile_and_height(struct Node *node, s32 x, s32 y_in, s16 value);
 void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);
 s32 place_item_at_valid_floor_position(s32 x, s32 y, s32 z, s32 unused, s32 *object_data);
 extern s32 held_item_record;
@@ -1426,7 +1426,7 @@ extern u8 D_800A871C[];
 
 extern void * allocate_list_node(s32 flags, void **list_head);
 extern s32 register_node(void *entry, void *registration_id);
-extern s32 clear_entry_flag_and_link_owner(struct ObjectNodeHeader *);
+extern void clear_entry_flag_and_link_owner(ObjectNodeHeader *entry);
 extern s32 get_item_category_value(void *item);
 extern void create_tracked_effect(void *, s32, s32, s32);
 

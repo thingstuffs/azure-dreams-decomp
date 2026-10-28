@@ -4,6 +4,7 @@
 #include "dungeon/system.h"
 #include "dungeon/actor/state.h"
 #include "dungeon/actor/status.h"
+#include "shared/dungeon_sprite_data.h"
 
 struct E_80170A58_S_80170A58_2;
 #include "common.h"
@@ -594,7 +595,7 @@ typedef struct E_801742AC_S_80DE6AAC_5 {
 /* Build an encoded message from the record and this bank's suffix. */
 extern s16 actor_turn_angle_offsets[8];
 extern u8 item_action_definitions[];
-extern E_80174084_M2C_UNK secondary_sprite[3];
+
 extern E_801742AC_M2C_UNK D_800DEEC0;
 extern u8 volcano_frame_set_3[];
 extern u8 volcano_frame_set_1[];

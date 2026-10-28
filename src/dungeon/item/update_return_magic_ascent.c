@@ -74,7 +74,7 @@ void update_return_magic_ascent(DungeonObject *obj, MotionState *motion, EffectS
     StackData draw_data;
     s16 use_alt_buffer;
     u32 buffer_diff;
-    RenderState **render_state_slot;
+    void **render_state_slot;
     RenderState *render_state;
     RenderState *call_state;
     Primitive *prim;

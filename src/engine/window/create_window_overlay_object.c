@@ -76,7 +76,7 @@ extern void draw_window_rects(void *);
 extern u8 window_node_list_storage[];
 
 /* Initializes an actor-linked display node, clears its image region, and sets callbacks and rendering data. */
-void create_window_overlay_object(s32 node_addr, void *display, u8 *image, s32 *state_ref,
+void create_window_overlay_object(void *node_addr, void *display, u8 *image, s32 *state_ref,
                    s32 option, u8 *owner) {
     S_func_80035E58_0 *node;
     S_func_80035E58_1 *node_data;

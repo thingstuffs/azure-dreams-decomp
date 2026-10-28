@@ -12,7 +12,7 @@ void initialize_enabled_scene_object(void) {
     ObjectPosition *position;
     s8 *state;
     s32 *saved_position;
-    s32 object_resource;
+    void *object_resource;
     s32 *default_position;
     s32 coordinate;
     s32 default_z;
@@ -31,7 +31,7 @@ void initialize_enabled_scene_object(void) {
         object = create_town_effect_object(((s8 *)(&scene_object_list_anchor)), 0, D_800A6684, 0);
         if (object != NULL) {
             position = object->position;
-            object_resource = *(s32 *)&object->sprite;
+            object_resource = object->sprite;
             saved_position = bike_saved_position;
             position->x.v = bike_saved_position[0];
             state = ((s8 *)object) + 0x20;
@@ -57,7 +57,7 @@ void initialize_enabled_scene_object(void) {
             *(s32 *)(state + 0xA0) = position_y;
             handle_insert_initialize_two_values_status_flags(state, position, D_800D0CAC);
             initialize_optional_object_state(state, position, object_resource, D_800D0C90);
-            initialize_object_entries((Struct800C5724 *)state, (s8 *)object_resource, (s32 *)D_80100E24_R);
+            initialize_object_entries((Struct800C5724 *)state, object_resource, (s32 *)D_80100E24_R);
             ((ObjectNodeHeader *)((u8 *)state - 0x20))->update_callback = D_800A6684;
             set_flagged_entry_values((u32 *)D_800D0D54, 0);
         }

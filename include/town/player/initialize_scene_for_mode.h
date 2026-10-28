@@ -1,6 +1,7 @@
 #ifndef MODULES_TOWN_PLAYER_INIT_H
 #define MODULES_TOWN_PLAYER_INIT_H
 #include "town/shop/item_lookup.h"
+#include "town/scene/list_setup.h"
 #include "town/person/position.h"
 #include "town/player/coordinates.h"
 
@@ -132,7 +133,6 @@ extern func_80092868_TownObject *initialize_scene_object_in_buffer(s32 flags, vo
 extern void register_node(func_80092868_TownObject *object, void *data);
 extern void func_8004491C(func_80092868_TownObject *object, void *data);
 extern void initialize_circular_list_head(void);
-extern void handle_insert_initialize_two_values_status_flags(void *node, func_80092868_ScenePos *scene, void *value_0c);
 extern void initialize_pointer_table_self_links(void);
 extern void initialize_the_store_two_values_set_state_flags(void *record, func_80092868_ScenePos *scene, void *value_0c);
 extern void initialize_six_global_pointers_corresponding_storage_blocks(void);

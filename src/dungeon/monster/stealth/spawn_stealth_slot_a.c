@@ -11,6 +11,7 @@
 #include "m2c_compat.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/animation.h"
+#include "dungeon/actor/status.h"
 
 typedef struct S_80F2D000_1 {
     u8 pad_00[0x13];
@@ -38,7 +39,6 @@ typedef struct S_80F2D000_4 {
 } S_80F2D000_4;   /* work_copy in spawn_effect_object */
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s16 set_or_clear_actor_status_slot();        /* extern */
 s32 generate_random_value(void);                          /* extern */
 void retire_tracked_effect_by_id();                      /* extern */
 extern M2C_UNK D_8014CA8C;
@@ -59,7 +59,7 @@ void *spawn_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
     ObjectPosition *part_a;
     void *work_copy;
     ObjectNodeHeader *object;
-    S_80F2D000_1 *work;
+    ActorRecord *work;
 
     unksp20 = (s32) *(s8 *)-0x149C;
     work = NULL;
@@ -68,7 +68,7 @@ void *spawn_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
     if (object != NULL) {
         work = ((void *)object) + 0x20;
         object->update_callback = &D_8014CA8C;
-        work->unk_13 = MONSTER_STEALTH;
+        work->species = MONSTER_STEALTH;
         register_node(object, project_sprite_chain);
         part_a = object->position;
         part_a->z.w.i = attr_c;
@@ -79,15 +79,15 @@ void *spawn_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
         kind = spawn_flags & 3;
         part_b->tile_x = attr_a;
         if (kind == 1) {
-            work->unk_14 = (s32) (work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER));
-            work->unk_1C = (s32) (work->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER));
+            work->flags14 = (s32) (work->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER));
+            work->flags1C = (s32) (work->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER));
         } else if (kind >= 2) {
-            work->unk_14 = (s32) (work->unk_14 | ACTOR_CLASS_ENABLED);
-            work->unk_1C = (s32) (work->unk_1C | ACTOR_PLAYER_SIDE);
+            work->flags14 = (s32) (work->flags14 | ACTOR_CLASS_ENABLED);
+            work->flags1C = (s32) (work->flags1C | ACTOR_PLAYER_SIDE);
         } else if (((spawn_flags & ~3) << 0x10) == 0) {
-            if (!(work->unk_14 & ACTOR_RESIST_SLEEP)) {
+            if (!(work->flags14 & ACTOR_RESIST_SLEEP)) {
                 if (generate_random_value() & 1) {
-                    work->unk_1C = (s32) (work->unk_1C | ACTOR_ASLEEP);
+                    work->flags1C = (s32) (work->flags1C | ACTOR_ASLEEP);
                     set_or_clear_actor_status_slot(work, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                     part_b->frameTable = &D_8014FD78;
                 }

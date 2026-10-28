@@ -30,8 +30,8 @@ LOCATION = re.compile(r'^(.*?):(\d+):(\d+): (warning|error|fatal error): (.*?)(?
 FUNCTION = re.compile(r"^.*?: In (?:function|member function) [‘'](.*?)[’']:")
 
 
-def native_flags(port, root):
-    """Read non-coverage CFLAGS without executing the asset-extracting builder."""
+def native_flags(port, root, compiler_id='gcc'):
+    """Read non-coverage flags without executing the asset-extracting builder."""
     def literal(node):
         if isinstance(node, ast.Constant) and isinstance(node.value, str):
             return node.value
@@ -49,19 +49,41 @@ def native_flags(port, root):
             return str(literal(node.args[0]))
         raise ValueError('unsupported native CFLAGS expression; review port/tools/build.py')
 
+    def shared_api():
+        source = port / 'tools/native_units.py'
+        functions = [node for node in ast.parse(source.read_text()).body
+                     if isinstance(node, ast.FunctionDef) and node.name == 'cflags']
+        if len(functions) != 1 or functions[0].decorator_list:
+            raise ValueError('native_units must define one undecorated cflags function')
+        # Compile only the public flag function. Module startup, disc readers,
+        # source adapters and the builder are never executed by this reader.
+        namespace = {'Path': Path, 're': re}
+        tree = ast.Module(body=functions, type_ignores=[])
+        try:
+            exec(compile(tree, str(source), 'exec'), namespace)
+            return namespace['cflags'](port, port / 'gen/include', compiler_id,
+                                       optimization='1', sanitize=False, coverage=False)
+        except (NameError, TypeError) as error:
+            raise ValueError('native_units.cflags API changed; review the lint flag reader') from error
+
     flags = None
     for node in ast.parse((port / 'tools/build.py').read_text()).body:
         if isinstance(node, ast.Assign) and any(
                 isinstance(t, ast.Name) and t.id == 'CFLAGS' for t in node.targets):
-            flags = literal(node.value)
+            value = node.value
+            if (isinstance(value, ast.Call) and isinstance(value.func, ast.Attribute)
+                    and value.func.attr == 'cflags' and isinstance(value.func.value, ast.Name)
+                    and value.func.value.id == 'native_units'):
+                flags = shared_api()
+            else:
+                flags = literal(value)
         elif (isinstance(node, ast.AugAssign) and isinstance(node.target, ast.Name)
                 and node.target.id == 'CFLAGS'):
             if flags is None or not isinstance(node.op, ast.Add):
                 raise ValueError('unsupported native CFLAGS assignment')
             flags += literal(node.value)
     if not isinstance(flags, list) or not all(isinstance(f, str) for f in flags):
-        raise ValueError('native builder must define a literal CFLAGS list')
-    # Preserve include order, substituting original game headers for adapters.
+        raise ValueError('native builder must define a literal list or native_units.cflags call')
     flags = [f.replace(str(port / 'gen/include'), str(root / 'include'))
              for f in flags if f not in ('-w', '-m32', '-m64')]
     flags += ['-O1', *('-W' + w for w in WARNINGS), '-fdiagnostics-color=never',
@@ -216,8 +238,8 @@ def main(argv=None):
         selected = sorted(set(args.only)) if args.only else sorted(available)
         if not selected or set(selected) - available.keys():
             raise ValueError('no registered TUs selected, or an unregistered --only path')
-        flags = native_flags(port, root)
         version = subprocess.check_output([args.cc, '--version'], text=True).splitlines()[0]
+        flags = native_flags(port, root, version)
         baseline = json.loads(args.baseline.read_text()) if args.check else None
         if args.check and not isinstance(baseline, dict):
             raise ValueError('baseline must be a JSON object')

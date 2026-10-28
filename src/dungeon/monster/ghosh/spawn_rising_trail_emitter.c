@@ -2,6 +2,7 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "dungeon/monster/ghosh.h"
 #include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_D_80174CD8.h"
@@ -25,7 +26,6 @@ typedef struct S_80172160_1 {
 void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 rand(); /* Unprototyped: retail supplies an ignored argument; dropping it changes this TU. */
 void update_rising_trail_emitter(void *record_data, S_801720D0_0 *state);
-extern Rec_D_80174CD8 *ghosh_boss_node;
 
 /* Spawn and initialize an effect at a random offset from the source position. */
 void spawn_rising_trail_emitter(void)
@@ -39,7 +39,7 @@ void spawn_rising_trail_emitter(void)
     s32 random_offset;
     s32 coord;
 
-    source_pos = ghosh_boss_node->unk_08;
+    source_pos = ghosh_boss_node->position;
     effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
         effect_state = ((void *)effect) + 0x20;

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "slus.h"
 
 typedef struct S_80174300_0 {
     u8 pad_00[0x1E];
@@ -25,12 +26,11 @@ typedef struct S_80174300_1 {
 } S_80174300_1;   /* arg1 in advance_item_motion_collision */
 
 
-extern s32 advance_sprite_animation_and_textures();
 extern s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern s16 sample_terrain_surface_height();
 
 /* Advance motion, resolve collisions, and flag expired movement. */
-void advance_item_motion_collision(void *motion, void *position, s32 update_arg) {
+void advance_item_motion_collision(void *motion, void *position, void *update_arg) {
     s32 height;
 
     ((S_80174300_0 *)motion)->unk_1E = ((S_80174300_0 *)motion)->unk_1E - 1;

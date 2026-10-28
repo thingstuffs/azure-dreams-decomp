@@ -39,7 +39,6 @@ typedef struct S_8016E998_1 {
 } S_8016E998_1;
 
 void emit_multi_form_ring_geometry(void *animation, s32 *origin, void *color);
-extern void *D_80175D78;
 
 /* Creates sixteen radial effect segments around the supplied position. */
 void create_multi_form_segment_ring(EntityRec *origin) {
@@ -54,7 +53,7 @@ void create_multi_form_segment_ring(EntityRec *origin) {
     s32 end_angle;
     s32 segment_index;
     s32 *effect_handler;
-    void **effect_slot;
+    ObjectNodeHeader **effect_slot;
     SpriteFrameState *appearance;
     S_8016E998_0 *effect_data;
     ObjectNodeHeader *effect;
@@ -62,7 +61,7 @@ void create_multi_form_segment_ring(EntityRec *origin) {
 
     segment_index = 0;
     effect_handler = &emit_multi_form_ring_geometry;
-    effect_slot = &D_80175D78;
+    effect_slot = D_80175D78;
     end_angle = 0x100;
     do {
         effect = allocate_flagged_object_node(0x12);
@@ -112,7 +111,7 @@ void create_multi_form_segment_ring(EntityRec *origin) {
             effect_data->unk_02 = appearance->color.c.b;
             *effect_slot = effect;
         }
-        effect_slot = (void **)((s8 *)((void **)((s8 *)effect_slot + 4)));
+        effect_slot++;
         segment_index += 1;
         end_angle += 0x100;
     } while (segment_index < 0x10);

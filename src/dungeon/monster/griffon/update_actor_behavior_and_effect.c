@@ -922,18 +922,18 @@ s32 relink_griffon_path(void *entity_arg, void *primary_context_arg, void *secon
  * its counter only after a positive signed floor-trap result. Clears the secondary action halfword
  * under dungeon status flag 0x80. /
  */
-void finish_actor_tile_move_then_resume_effect_behavior(R08_801723C4_S_801724A8_0 *state, s32 context, s32 source, s32 target) {
+void finish_actor_tile_move_then_resume_effect_behavior(ActorRecord *state, ObjectPosition *context, SpriteFrameState *source, ActorRecord *target) {
     if (update_actor_movement_to_tile(state, context, source, target) != 0) {
         spend_actor_mp(target, 4);
         advance_status_timers(target);
         if ((check_actor_floor_trap(source, target) << 0x10) <= 0) {
             return;
         }
-        state->unk_8C = ((void *)update_actor_behavior_and_effect);
-        state->unk_90.at00.v = 0;
+        state->unk_8C.handler = update_actor_behavior_and_effect;
+        state->unk_90.value = 0;
     }
     if (g_dungeon_status.flags & 0x80) {
-        state->unk_90.at02.v = 0;
+        state->unk_90.parts.high.s = 0;
     }
 }
 

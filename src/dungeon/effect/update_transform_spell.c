@@ -54,7 +54,7 @@ void update_transform_spell(TransformSpellState *spell, ObjectPosition *motion, 
     case 0:
         source_sprite = ((ObjectNodeHeader *)source_actor - 1)->sprite;
         direction_byte_offset = ((u16)primary_actor_record->facing >> 8) & 0xE;
-        source_actor->facing = get_rounded_facing_and_rounding_flag(source_sprite->tile_x, source_sprite->tile_y, D_80082E80.tile_x + D_8006CCD8[direction_byte_offset / 2], D_80082E80.tile_y + D_8006CCE8[direction_byte_offset / 2], &result_flags.word);
+        source_actor->facing = get_rounded_facing_and_rounding_flag(source_sprite->tile_x, source_sprite->tile_y, D_80082E80.tile_x + D_8006CCD8[direction_byte_offset / 2], D_80082E80.tile_y + D_8006CCE8[direction_byte_offset / 2], &result_flags.halves[0]);
         spell->ticks.s = 0;
         spell->phase++;
         spell->direction.s = (source_actor->facing >> 9) & 7;

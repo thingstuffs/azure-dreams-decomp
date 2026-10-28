@@ -34,11 +34,13 @@ void draw_catalog_entry_page(S_80123A60_0 *state) {
     DrawSync(0);
     slot = 0;
     if (state->unk_0F == 3) {
-        slot = state->unk_0F;
-        entry_id = slot * 0x10;
+        s32 page;
+
+        page = state->unk_0F;
+        entry_id = page * 0x10;
         if (is_catalog_entry_available(entry_id & 0xF0) & 0xFF) {
             entry_table = &catalog_glyphs;
-            draw_vram_glyph_text(*(((slot * 0x20) + entry_id) + entry_table), 0x180, 0x80);
+            draw_vram_glyph_text(*(((page * 0x20) + entry_id) + entry_table), 0x180, 0x80);
         }
         entry_id += 1;
         if (is_catalog_entry_available(entry_id & 0xFF) & 0xFF) {
@@ -52,16 +54,13 @@ void draw_catalog_entry_page(S_80123A60_0 *state) {
     entry_id = group * 0x10;
     entry_table_3 = &catalog_glyphs;
     entry = ((group * 0x20) + entry_id) + entry_table_3;
-loop_0:
-    {
+    do {
         if (is_catalog_entry_available(entry_id & 0xFF) & 0xFF) {
             draw_vram_glyph_text(*entry, (s16) (((slot % 3) * 0x12) + 0x180), (s16) (((slot / 3) * 0x10) + 0x80));
         }
         slot += 1;
         entry += 3;
         entry_id += 1;
-    }
-    if (slot < 0x10)
-        goto loop_0;
+    } while (slot < 0x10);
     DrawSync(0);
 }

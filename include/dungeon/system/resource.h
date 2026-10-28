@@ -1,6 +1,8 @@
 #ifndef DUNGEON_OVL_D54C_H
 #define DUNGEON_OVL_D54C_H
 #include "common.h"
+#include "sdk/memory.h"
+#include "engine/resource.h"
 #include "m2c_compat.h"
 typedef struct ovl_d54c_7FFED588_Entry {
     s32 a;
@@ -62,11 +64,9 @@ extern ovl_d54c_7FFED6EC_DungeonEntry resource_cache_records[];
 typedef struct {
     s32 value0, value4, value8, valueC, value10, value14;
     u8 pad18[0x14];
-    s32 field_2C;
+    u8 *field_2C;
 } DungeonCacheState;
 extern DungeonCacheState town_resource_context;
-extern s32 alloc_gpu_scratch_ring(s32 size);
-extern void memcpy(s32, s32, s32);
 extern u32 *D_801131EC;
 extern void start_cd_read(u32 *, s32);
 extern void func_80053CFC(u32 *, s32);

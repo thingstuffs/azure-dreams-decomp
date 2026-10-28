@@ -135,7 +135,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
     u8 current_kind;
     void *nearby_object;
     S_812A524C_34 *nearby_tile;
-    S_812A524C_9 *facing_actor;
+    ActorRecord *facing_actor;
 
     facing_map_src = &D_80170804;
     entity = actor_in;
@@ -146,17 +146,17 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
         ((S_812A524C_0 *)(&D_800FBE22))->unk_00.u = (u16) ((S_812A524C_1 *)(&script_motion_phase))->unk_00.u;
     }
     if (((S_812A524C_1 *)(&script_motion_phase))->unk_00.s
-        != ((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A) {
+        != dungeon_actor_ring_anchor->action_id.u) {
         ((S_812A524C_1 *)(&script_motion_phase))->unk_00.u =
-            (u16) ((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A;
+            (u16) dungeon_actor_ring_anchor->action_id.u;
     }
     action_state = actor_in->unk_B8;
     if (action_state == 2) {
         direction = get_direction_toward_target_position(motion_in);
         actor_in->facing = (s16) (direction << 9);
         if ((actor_in->unk_B8 == action_state)
-            && (((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A == 0xE)) {
-            ((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_2A =
+            && (dungeon_actor_ring_anchor->action_id.u == 0xE)) {
+            dungeon_actor_ring_anchor->facing =
                 (s16) (facing_lookup[direction & 7] << 9);
         }
     }
@@ -190,19 +190,19 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                 && (event_0 = &reference_tile_object, position_0 = &view_reference_entity,
                     (((event_0->tile_position.parts.tile_x << 6) + 0x20) == position_0->x.w.i))
                 && (((event_0->tile_position.parts.tile_y << 6) + 0x20) == position_0->y.w.i)) {
-                actor_kind = ((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A;
+                actor_kind = dungeon_actor_ring_anchor->action_id.u;
                 if ((actor_kind != 0x19) && (actor_kind != 0x1B) && !(entity->flags1C & 0x80000)) {
-                    if ((actor_in->unk_B9 == 0) && !(system_update_flags[0] & 1)) {
+                    if ((actor_in->unk_B9 == 0) && !(system_update_flags & 1)) {
                         actor_in->unk_B9 = 1U;
                         enqueue_runtime_pool_script(&D_8006EE9C);
                         entity->pending_turn_updates = 0U;
                         actor_in->action_phase.u = 0;
                         actor_in->unk_B8 = 2U;
                         start_direction = get_direction_toward_target_position(motion_in);
-                        facing_actor = (*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00);
+                        facing_actor = dungeon_actor_ring_anchor;
                         entity->facing = (s16) (start_direction << 9);
-                        if (facing_actor->unk_9A == 0xE) {
-                            facing_actor->unk_2A = (s16) (((u16 *)&facing_map)[start_direction & 7] << 9);
+                        if (facing_actor->action_id.u == 0xE) {
+                            facing_actor->facing = (s16) (((u16 *)&facing_map)[start_direction & 7] << 9);
                         }
                         ((S_812A524C_5 *)(&scripted_status_target))->unk_00 = find_linked_entity_of_type_21(entity);
                     }
@@ -223,7 +223,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                     }
                                 }
                             }
-                            current_kind = ((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A;
+                            current_kind = dungeon_actor_ring_anchor->action_id.u;
                             if ((current_kind != 0x19) && (current_kind != 0x1B)
                                 && ((((S_812A524C_0 *)(&D_800FBE22))->unk_00.s == 0x1B)
                                     || (((S_812A524C_0 *)(&D_800FBE22))->unk_00.s == 0x1F)
@@ -256,7 +256,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                         }
                                     }
                                 }
-                                if (((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A == 0x1C) {
+                                if (dungeon_actor_ring_anchor->action_id.u == 0x1C) {
                                     enqueue_runtime_pool_script(&D_800FB8DF);
                                     entity->pending_turn_updates = 0U;
                                     actor_in->action_phase.u = 0;
@@ -314,7 +314,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                     }
                                                 }
                                             }
-                                            if ((((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A
+                                            if ((dungeon_actor_ring_anchor->action_id.u
                                                  != 0x19) && ((flag_base->pressed_buttons) & 0x20)) {
                                                 enqueue_runtime_pool_script(&kewne_spawn_pool_script);
                                                 entity->pending_turn_updates = 0U;
@@ -341,7 +341,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                         }
                                                     }
                                                 }
-                                                if ((((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A
+                                                if ((dungeon_actor_ring_anchor->action_id.u
                                                      != 0x19) && (flag_base->buttons & 0x10)) {
                                                     enqueue_runtime_pool_script(&D_8006F50D);
                                                     entity->pending_turn_updates = 0U;
@@ -353,7 +353,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                             }
                                             if (actor_in->unk_B8 == 0) {
                                                 if (!((*(s32 *)&actor_in->unk_B0.address) & 0x10)
-                                                    && (((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A
+                                                    && (dungeon_actor_ring_anchor->action_id.u
                                                         != 0x23)) {
                                                     scan_index_10 = 0;
                                                     scan_kind = 0xF;
@@ -373,7 +373,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                 }
                                                 if (actor_in->unk_B8 == 0) {
                                                     if (!((*(s32 *)&actor_in->unk_B0.address) & 0x80)
-                                                        && (((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A
+                                                        && (dungeon_actor_ring_anchor->action_id.u
                                                             != 0x23)) {
                                                         scan_index_80 = 0;
                                                         scan_kind = 0x12;
@@ -393,7 +393,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                     }
                                                     if (actor_in->unk_B8 == 0) {
                                                         if (!((*(s32 *)&actor_in->unk_B0.address) & 0x100)
-                                                            && (((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A
+                                                            && (dungeon_actor_ring_anchor->action_id.u
                                                                 != 0x23)) {
                                                             scan_index_100 = 0;
                                                             scan_kind = 4;

@@ -6,6 +6,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_delay_views.h"
+#include "town/scene/list_setup.h"
 
 /* motion in update_transform_motion_page */
 typedef struct S_800C2988_1 {
@@ -18,7 +19,6 @@ typedef struct S_800C2988_1 {
 } S_800C2988_1;
 
 extern u8 D_800D4FB8;
-void configure_the_set_mode_n_1();
 /* extern */
 extern s32 map_scene_selector_alias;
 extern void D_800C2A10(void *object);

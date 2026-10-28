@@ -12,17 +12,17 @@ typedef struct S_8003DF0C {
 S_8003DF0C *find_last_flagged_record_by_id(S_8003DF0C *entry, s32 want, u16 *idx_out)
 {
     u32 entry_count;
-    u32 match_address;
+    S_8003DF0C *match_address;
     u8 entry_flags;
 
     match_address = 0;
     *idx_out = 0;
-    entry_count = match_address;
+    entry_count = 0;
 
     do {
         if (entry->flags & 0x20) {
             if (entry->id == want) {
-                match_address = (u32)entry;
+                match_address = entry;
                 *idx_out = entry_count;
             }
         }
@@ -32,5 +32,5 @@ S_8003DF0C *find_last_flagged_record_by_id(S_8003DF0C *entry, s32 want, u16 *idx
     } while (!(entry_flags & 0x80));
 
     *idx_out = *idx_out - (entry_count >> 1);
-    return (S_8003DF0C *)match_address;
+    return match_address;
 }

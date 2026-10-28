@@ -11,10 +11,10 @@
 #include "dungeon/item.h"
 #include "dungeon/player/item.h"
 #include "dungeon/item/message.h"
+#include "dungeon/player.h"
 
 
 
-extern s32 begin_parameterized_actor_action();
 extern s32 process_record_and_update_linked_state();
 extern void clear_slot_and_update_linked_state(DungeonItemEntry *slot);
 extern u8 * expand_text_control_codes(const u8 *src, u8 *dst);

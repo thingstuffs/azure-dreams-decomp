@@ -1,5 +1,6 @@
 #include "shared/actor_status_flags.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/item/actor_target.h"
 
 struct ObjectPosition;
 #include "common.h"
@@ -44,7 +45,6 @@ typedef struct S_800AAF00_3 {
     u8 unk_9B;
 } S_800AAF00_3;   /* owner in begin_actor_spell_action */
 
-extern void * scan_actor_along_heading();
 struct ActorRecord;
 extern s16 try_claim_dungeon_action_slot(struct ActorRecord *actor);
 extern s32 generate_random_value(void);
@@ -55,8 +55,8 @@ void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState 
     void *object;
     s32 special_action;
     u8 *slot_data;
-    u8 *type_data;
-    u8 *type_table;
+    DefEntry *type_data;
+    DefEntry *type_table;
     u16 *slot_flags;
     u16 input_flags;
     s32 slot_offset;
@@ -114,14 +114,14 @@ void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState 
                 slot_data = object;
                 slot_data += slot_offset;
                 type_index = slot_data[8];
-                type_data = type_table + type_index * 20;
-                if ((type_data[0x12] == 2) && (((S_800AAF00_0 *)object)->unk_60 == 0)) {
+                type_data = type_table + type_index;
+                if ((type_data->kind == 2) && (((S_800AAF00_0 *)object)->unk_60 == 0)) {
                     ((S_800AAF00_0 *)object)->unk_60 = scan_actor_along_heading(
                         object,
                         target->tile_x,
                         target->tile_y,
                         ((S_800AAF00_0 *)object)->unk_2A.s,
-                        type_data[0x13]);
+                        type_data->unk_13);
 
                 }
             }

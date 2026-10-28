@@ -481,7 +481,7 @@ void spawn_random_color_burst_particle(void *source, ObjectPosition *position) {
  * scheduler seams retain the random_byte_1 load-delay nop, while a split random_byte_2 live range
  * hoists its lbu.
  */
-void spawn_growing_rotating_flash(void *unused, s32 *position) {
+void spawn_growing_rotating_flash(void *unused, ObjectPosition *position, SpriteFrameState *unused_sprite) {
     T_80171928_Object *object;
     T_80171928_Header *header;
     SpriteFrameState *child;
@@ -498,9 +498,9 @@ void spawn_growing_rotating_flash(void *unused, s32 *position) {
         child->tpage_abr = 0x60;
         child->flags |= 0xC;
         object_pos = object->header.position;
-        object_pos->x.v = position[0];
-        object_pos->y.v = position[1];
-        object_pos->z.v = position[2] + (s32)0xFFB00000;
+        object_pos->x.v = position->x.v;
+        object_pos->y.v = position->y.v;
+        object_pos->z.v = position->z.v + (s32)0xFFB00000;
         child = object->header.sprite;
         child->scale_y = 0x190;
         child->scale_x = 0x190;

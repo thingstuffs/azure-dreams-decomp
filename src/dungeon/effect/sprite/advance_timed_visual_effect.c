@@ -222,7 +222,7 @@ void create_owner_linked_mirrored_sprite(void *effect, ObjectPosition *source_po
         body->target = owner->actor->target;
         body->owner = owner;
         node->header.update_callback = &D_80024750;
-        register_node(node, project_sprite_chain);
+        register_node(&node->header, project_sprite_chain);
         sprite = node->header.sprite;
         sprite->tpage_abr = 0x20;
         sprite->depth_bias = 0;

@@ -1,3 +1,5 @@
+#include "shared/sprite_frame_state.h"
+#include "shared/entity.h"
 #include "common.h"
 #include "engine/node.h"
 #include "slus.h"
@@ -32,11 +34,7 @@ struct SpriteFrameState;
 extern struct Elem arc_motion_sprite_source[2];
 
 typedef struct {
-    unsigned char pad00[8];
-    int *f8;             /* 0x08: pointer to a 3-int vector */
-    struct Dst *fc;      /* 0x0C */
-    void (*func)(void);  /* 0x10 */
-    unsigned char pad14[0x20 - 0x14];
+    ObjectNodeHeader header;
     void *f20;           /* 0x20 */
     short f24;           /* 0x24 */
     short f26;           /* 0x26 */
@@ -45,25 +43,25 @@ typedef struct {
 /* Initializes the object callbacks, sub-object state, linked record, and fixed vector. */
 void scene_initialize_arc_motion_sprite(S_80051708 *object, void *sub_object)
 {
-    struct Dst *record;
-    int *vector;
+    SpriteFrameState *record;
+    ObjectPosition *vector;
     char *sub_fields = (char *)&object->f20;
 
-    object->func = update_staged_motion_effect;
+    object->header.update_callback = update_staged_motion_effect;
     object->f20 = sub_object;
     ((short *)sub_fields)[2] = 0;
     ((short *)sub_fields)[3] = 0;
 
-    record = object->fc;
-    record->fc = 0x808080;
+    record = object->header.sprite;
+    record->color.word = 0x808080;
     select_record_entry_and_value(record, arc_motion_sprite_source, 0);
 
-    *(short *)((char *)record + 0x1E) = 0x1000;
-    *(short *)((char *)record + 0x1C) = 0x1000;
-    register_node(object, draw_linked_sprites);
+    record->scale_y = 0x1000;
+    record->scale_x = 0x1000;
+    register_node(&object->header, draw_linked_sprites);
 
-    vector = object->f8;
-    vector[0] = 0x1C00000;
-    vector[1] = 0xC00000;
-    vector[2] = 0x800000;
+    vector = object->header.position;
+    vector->x.v = 0x1C00000;
+    vector->y.v = 0xC00000;
+    vector->z.v = 0x800000;
 }

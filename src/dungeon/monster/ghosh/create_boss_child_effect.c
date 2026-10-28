@@ -8,6 +8,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/monster/ghosh.h"
 #include "engine/graphics.h"
+#include "engine/node/allocation.h"
 
 typedef struct S_80172B00_0 {
     u8 pad_00[0x2A];
@@ -16,7 +17,7 @@ typedef struct S_80172B00_0 {
     u16 unk_94;
     s16 unk_96;
     u8 pad_98[0x14];
-    s32 unk_AC;
+    ObjectNodeHeader *unk_AC;
 } S_80172B00_0;
 
 typedef struct S_80172B00_2 {
@@ -34,7 +35,6 @@ typedef struct S_80172B00_7 {
     u16 unk_1E;
 } S_80172B00_7;   /* arg2 in create_boss_child_effect */
 
-void *allocate_list_node();                  /* extern */
 s32 register_node(ObjectNodeHeader *entry, void *registration_id); /* extern */
 void * create_tracked_effect(); /* extern */
 extern s8 view_direction_depth_biases[];
@@ -51,7 +51,7 @@ typedef struct {
 
 /* Creates a child effect with copied position and sprite data and direction-dependent appearance. */
 void create_boss_child_effect(void *parent_data, MovingPosition *source_pos, void *sprite_template) {
-    s32 parent_object;
+    ObjectNodeHeader *parent_object;
     SpriteFrameState *sprite;
     void *effect_data;
     ObjectNodeHeader *effect_object;
@@ -64,7 +64,7 @@ void create_boss_child_effect(void *parent_data, MovingPosition *source_pos, voi
     s16 setup_mode;
 
     parent_object = parent_data - 0x20;
-    effect_object = allocate_list_node(0x112, parent_object);
+    effect_object = allocate_list_node(0x112, &parent_object->next);
     effect_data = ((void *)effect_object) + 0x20;
     if (effect_object != NULL) {
         ((S_80172B00_0 *)effect_data)->unk_96 = 0x78;

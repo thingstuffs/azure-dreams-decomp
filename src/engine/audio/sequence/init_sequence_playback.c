@@ -13,7 +13,6 @@ typedef struct {
 } S_80058B70;
 
 extern S_80058B70 audio_sequence_tracks[32];
-extern s32 audio_sequence_data_base[4];   /* [0] = base pointer to another struct */
 extern s32 audio_sequence_format[4];
 extern s32 audio_sequence_timing_division[4];
 extern s32 audio_sequence_track_count[4];
@@ -95,7 +94,7 @@ s32 init_sequence_playback(void)
     case 2:
         audio_sequence_multitrack_mode[0] = 1;
         {
-            s8 *mode_data = (s8 *)audio_sequence_data_base[0];
+            u8 *mode_data = audio_sequence_data_base[0];
             audio_sequence_timing_division[0] = *(s32 *)(mode_data + 8);
             audio_sequence_track_count[0] = *(s32 *)(mode_data + 0xC);
             audio_sequence_stream_limit[0] = *(s32 *)(mode_data + 4);

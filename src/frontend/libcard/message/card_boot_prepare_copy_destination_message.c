@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card.h"
 #include "frontend/libcard/state.h"
 
 typedef struct S_800254E4_0_pre {
@@ -13,16 +14,10 @@ typedef struct S_800254E4_0 {
     u8 * unk_34;
 } S_800254E4_0;   /* base in card_boot_prepare_copy_destination_message */
 
-typedef struct TableEntry {
-    s32 value;
-    u8 pad[0x7C];
-} TableEntry;
-
 #include "modules/main_server_ship_interfaces.h"
 #include "frontend/libcard.h"
 #include "frontend/libcard/message.h"
 
-extern TableEntry card_save_slot_metadata[];
 
 /* Selects a record update based on its table entry and status and assigns data pointers. */
 void card_boot_prepare_copy_destination_message(void *context)
@@ -35,7 +30,7 @@ void card_boot_prepare_copy_destination_message(void *context)
     table_index = ((S_800254E4_0 *)record)->unk_28;
     context = record - 0x20;
 
-    if (card_save_slot_metadata[table_index].value == 0) {
+    if (card_save_slot_metadata[table_index].words[0] == 0) {
         status = card_boot_get_remaining_block_summary();
         context = 0;
         context = record - 0x20;

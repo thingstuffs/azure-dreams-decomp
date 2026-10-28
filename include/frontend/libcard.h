@@ -18,8 +18,13 @@ typedef struct CardMenuEntry {
 } CardMenuEntry;
 
 extern CardMenuEntry card_menu_entry_values[];
+/* Three command labels are read; the complete array bound is unestablished. */
+extern u8 *D_800282BC[];
 /* Metadata +0xC byte view; slots are selected with a 0x80-byte stride. */
 extern u8 card_slot_payload[];
+/* Byte index sequences stop at their node limit; complete bounds are unestablished. */
+extern u8 card_choice_chain_indices[];
+extern u8 card_panel_chain_indices[];
 
 typedef struct Node8002BB08 {
     ObjectNodeHeader header;
@@ -188,7 +193,7 @@ void card_boot_layout_three_row_command_panel(void *panel);
 void card_boot_link_paired_choice_display_entries(struct S_800491F4 **nodes);
 
 /* card_boot_link_three_row_panel_entries.c */
-void card_boot_link_three_row_panel_entries(struct S_800491F4 **input);
+struct S_800491F4 *card_boot_link_three_row_panel_entries(struct S_800491F4 **input);
 
 /* card_boot_mark_object_complete.c */
 void card_boot_mark_object_complete(struct ObjectNodeHeader *object);

@@ -15,7 +15,7 @@ struct S_800511B4_entity;
 void *create_linked_zukan_task(struct S_800511B4_entity *related_entity);
 
 /* insert_active_node_after.c */
-void insert_active_node_after(struct S_80040060 *anchor, struct S_80040060 *node);
+void insert_active_node_after(struct ObjectNodeHeader *anchor, struct ObjectNodeHeader *node);
 
 /* integrate_active_node_vectors.c */
 void integrate_active_node_vectors(void);
@@ -38,7 +38,7 @@ void run_node_callback_and_set_marker(void *entry, void *output, void *context);
 void table_set_bit_hex_8000_in_node_global_flags_node_exists(struct ObjectNodeHeader *node);
 
 /* unlink_active_node.c */
-void unlink_active_node(struct S_8003FFF0 *node);
+void unlink_active_node(struct ObjectNodeHeader *node);
 
 /* unlink_node.c */
 void func_80044A50(struct ObjectNodeHeader *node);

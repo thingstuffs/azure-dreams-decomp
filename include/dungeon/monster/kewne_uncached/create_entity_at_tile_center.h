@@ -14,6 +14,8 @@
 #include "dungeon/level.h"
 #include "engine/node/allocation.h"
 #include "engine/node.h"
+#include "shared/sys_flags.h"
+#include "shared/record_ptrs.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
@@ -50,12 +52,6 @@ typedef struct S_812A524C_6 {
 } S_812A524C_6;   /* &D_80013714 in func_80170A4C */
 
 
-typedef struct S_812A524C_9 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x6E];
-    u8 unk_9A;
-} S_812A524C_9;   /* temp_actor in func_80170A4C */
 
 
 
@@ -80,12 +76,6 @@ typedef struct S_812A524C_36 {
 
 
 
-typedef struct S_812A524C_39 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x6E];
-    u8 unk_9A;
-} S_812A524C_39;   /* ((Rec_D_800E3D7C *)D_800E3D7C)->unk_00.at00_pv.v in func_80170A4C */
 
 typedef struct S_812A524C_40 {
     u8 pad_00[0xC];
@@ -101,7 +91,7 @@ void apply_monster_koyaw_data();                 /* extern */
 struct ObjectNodeHeader;
 void update_actor_status_and_mp(ActorRecord *entity);                      /* extern */
 s32 refresh_actor_facing_and_lifecycle();  /* extern */
-extern u16 system_update_flags[8];
+
 extern u8 D_8006EE9C[16];
 extern u8 kewne_spawn_pool_script[16];
 extern u8 D_8006F50D[16];
@@ -115,7 +105,7 @@ extern u8 D_80070AF8[16];
 extern u8 D_80070C11[16];
 extern u8 D_80070E63[16];
 extern u8 dungeon_floor_flags[16];
-extern u8 dungeon_actor_ring_anchor[16];
+
 extern u8 D_800FB3C8[16];
 extern u8 D_800FB8DF[16];
 extern u8 D_800FBAD7[16];

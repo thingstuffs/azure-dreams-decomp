@@ -21,4 +21,6 @@ void update_staged_actor_movement(void *action, ObjectPosition *motion, SpriteFr
 void animate_effect_colors(void *effect_state, s32 unused, void *primitive);
 void initialize_counted_entity_action(void *entity_data, ObjectPosition *unused_1, s32 unused_2, void *other_data);
 
+void create_randomly_rotated_offset_effect(void *unused_ptr, ObjectPosition *source_pos, SpriteFrameState *unused_value, s16 scale);
+
 #endif

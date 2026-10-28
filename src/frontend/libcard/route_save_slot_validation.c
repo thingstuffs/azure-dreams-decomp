@@ -1,7 +1,7 @@
 #include "common.h"
+#include "frontend/card.h"
 #include "frontend/libcard/interfaces.h"
 
-extern s32 card_save_slot_metadata[];
 
 #include "modules/main_server_ship_interfaces.h"
 #include "frontend/libcard.h"
@@ -10,7 +10,7 @@ void func_800264D8(void *context);
 
 /* Selects a state table or handler based on the context and current status. */
 void route_save_slot_validation(void *context) {
-    if (card_save_slot_metadata[*(s32 *)((s8 *)context + 0x2C) << 5] != 0) {
+    if (card_save_slot_metadata[*(s32 *)((s8 *)context + 0x2C)].words[0] != 0) {
         *(s32 **)((s8 *)context - 0x10) = D_8002644C;
         return;
     }

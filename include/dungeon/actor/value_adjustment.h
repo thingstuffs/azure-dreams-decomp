@@ -2,6 +2,7 @@
 #define DUNGEON_OVL_191E87C_H
 #include "common.h"
 #include "m2c_compat.h"
+#include "dungeon/effect.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 typedef struct Row_818FE800_Target {
@@ -22,7 +23,6 @@ s32 adjust_source_value_and_finalize(void *, void *);
 #include "dungeon/effect/screen.h"
 s32 display_text_with_fullwidth_adjustment(void *text);
 s32 generate_random_value(void);
-void * create_actor_value_popup(s32 flags, void *source_data, s16 value, u16 callback_mode);
 void update_effect_particles_and_cleanup(void);
 void func_80024658(void);
 void randomize_counted_sprite_angle(void);

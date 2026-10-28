@@ -15,10 +15,10 @@ extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32
 extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
-extern void clear_byte_and_advance(s8 *byte_ptr);
-extern u8 * append_typed_formatted_value(void *,u8 *);
+extern u8 *clear_byte_and_advance(u8 *byte_ptr);
+extern u8 *append_typed_formatted_value(DungeonItemEntry *data, u8 *buffer);
 extern void play_sound_if_enabled(s32);
-extern void display_text_with_fullwidth_adjustment(s8 *text);
+extern void display_text_with_fullwidth_adjustment(u8 *text);
 extern void place_actor_item(void *, struct DungeonItemEntry *);
 extern void display_actor_item_status_message(void *, struct DungeonItemEntry *);
 extern s32 feed_actor_restore_mp(void *, s32, struct DungeonItemEntry *);
@@ -30,7 +30,7 @@ extern u8 D_800E1788[];
 /* Applies a curse-removal item effect and reports changes to equipped items. */
 s32 use_item_to_clear_equipment_flags(void *target, DungeonItemEntry *item, s16 use_mode, s32 use_context)
 {
-    u8 *equipment;
+    DungeonItemEntry *equipment;
     void *message_buf;
     s32 uncursed;
 
@@ -64,9 +64,9 @@ s32 use_item_to_clear_equipment_flags(void *target, DungeonItemEntry *item, s16 
         clear_slots_of_type(target, STATUS_CURSE);
 
         uncursed = 0;
-        equipment = *(u8 **)(((u8 *)dungeon_actor_ring_anchor) + 0x4C);
-        if (equipment[1] != 0 && (equipment[3] & 0x40) != 0) {
-            equipment[3] &= 0xBF;
+        equipment = *(DungeonItemEntry **)(((u8 *)dungeon_actor_ring_anchor) + 0x4C);
+        if (equipment->kind != 0 && (equipment->unk_03 & 0x40) != 0) {
+            equipment->unk_03 &= 0xBF;
             message_buf = get_unused_text_buffer();
             clear_byte_and_advance(expand_text_control_codes(D_800E1756,
                                         append_typed_formatted_value(equipment, message_buf)));
@@ -74,9 +74,9 @@ s32 use_item_to_clear_equipment_flags(void *target, DungeonItemEntry *item, s16 
             uncursed = 1;
         }
 
-        equipment = *(u8 **)(((u8 *)dungeon_actor_ring_anchor) + 0x50);
-        if (equipment[1] != 0 && (equipment[3] & 0x40) != 0) {
-            equipment[3] &= 0xBF;
+        equipment = *(DungeonItemEntry **)(((u8 *)dungeon_actor_ring_anchor) + 0x50);
+        if (equipment->kind != 0 && (equipment->unk_03 & 0x40) != 0) {
+            equipment->unk_03 &= 0xBF;
             message_buf = get_unused_text_buffer();
             clear_byte_and_advance(expand_text_control_codes(D_800E176F,
                                         append_typed_formatted_value(equipment, message_buf)));

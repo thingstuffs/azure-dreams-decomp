@@ -77,7 +77,7 @@ void render_shaded_map_tiles(void) {
     register void *vertex_input;
     GameWork *render_state;
 
-    render_state = (S_func_800AED64_1 *)&g_game_work;
+    render_state = &g_game_work;
     map_data = (u8 *)render_state + 0x1DC;
     tile_map = render_state->map.cells;
     vertices = map_data->unk_08;

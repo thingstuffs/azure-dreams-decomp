@@ -27,6 +27,7 @@
 #include "engine/node/allocation.h"
 #include "dungeon/actor/state.h"
 #include "dungeon/player/object.h"
+#include "dungeon/actor/status.h"
 struct SpriteFrameState;
 struct ObjectPosition;
 
@@ -113,11 +114,6 @@ typedef struct R08_80172280_S_80172628_0 {
     u8 pad_72[0x28];
     s8 unk_9A;
 } R08_80172280_S_80172628_0;
-typedef struct R08_801723C4_S_801724A8_0 {
-    u8 pad_00[0x8C];
-    ActorActionHandler unk_8C;
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_90;   
-} R08_801723C4_S_801724A8_0;
 typedef struct R08_8017245C_S_80172478_0 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -387,8 +383,7 @@ struct Entry;
 struct ObjectNodeHeader;
 struct ObjectNodeHeader;
 s32 relink_entity_and_clear_high_flag();
-void advance_status_timers();
-s32 update_actor_movement_to_tile();
+s32 update_actor_movement_to_tile(void *move_state, void *motion, void *target_tile, ActorRecord *actor);
 void spend_actor_mp();
 
 void on_actor_status_updated(void *actor);
@@ -471,7 +466,7 @@ void begin_griffon_step_animation(void *object, void *unused, void *display, voi
 s32 update_actor_animation_behavior_and_facing(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor);
 void begin_griffon_attack(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 s32 relink_griffon_path(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
-void finish_actor_tile_move_then_resume_effect_behavior(R08_801723C4_S_801724A8_0 *state, s32 context, s32 source, s32 target);
+void finish_actor_tile_move_then_resume_effect_behavior(ActorRecord *state, ObjectPosition *context, SpriteFrameState *source, ActorRecord *target);
 void hop_griffon_to_tile(void *action, void *motion,struct SpriteFrameState *sprite, void *actor);
 void advance_a_timed_actor_animation_applies_completion_effects(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
 void update_staged_movement_and_return_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);

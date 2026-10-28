@@ -14,7 +14,7 @@ typedef struct S_800D9884_0 {
 
 
 
-void spend_actor_mp();            /* extern */
+void spend_actor_mp(ActorRecord *entity, s32 base_reduction);            /* extern */
                 /* Updates the target and resets state after a successful check or a reset flag. */
 void update_actor_target_after_check(S_800D9884_0 *state, void *motion, void *source, void *target) {
     if (update_actor_movement_to_tile(state, motion, source, target) != 0) {

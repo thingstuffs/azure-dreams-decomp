@@ -6,9 +6,9 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/actor/state.h"
 
-void refresh_actor_proximity_state();                      /* extern */
-void spend_actor_mp();             /* extern */
+void spend_actor_mp(ActorRecord *entity, s32 base_reduction);             /* extern */
 
 
 /* Process an entity's pending updates and clear its update flags. */

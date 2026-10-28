@@ -51,7 +51,8 @@ void initialize_object_and_register_slot(PersonObject *object, s32 slot, void *d
                                          void *data_7C, void *descriptor);
 /* Point descriptor list 1 and the +0x7C table at fixed data; callers pass the
  * whole callback context. */
-void initialize_object_referenced_data_pointers(PersonObject *object, s32 context, s8 *output);
+struct SpriteFrameState;
+void initialize_object_referenced_data_pointers(PersonObject *object, void *context, struct SpriteFrameState *output);
 s32 get_clamped_transform_coordinate(ObjectPosition *position);
 
 /* Handlers the person callbacks install in PersonObject.handler. */
@@ -76,7 +77,6 @@ extern u8 D_800D57A4[], D_800D57A8[], D_800D5774[], D_800D577C[];
 extern u8 D_800D6C7C[], D_800D6C80[], D_800D6C4C[], D_800D6C54[];
 
 void reset_person_descriptor_entries(PersonObject *object, s32 unused, s8 *output);
-void init_person_slot_four(PersonObject *object);
 void apply_person_descriptor_tail(PersonObject *object, ObjectPosition *position, s8 *output);
 void reset_person_heading_c00(PersonObject *object, s32 unused, s8 *output);
 void step_person_y_up(PersonObject *object, ObjectPosition *position, s8 *output);
@@ -88,20 +88,13 @@ void start_person_target_move(PersonObject *object, ObjectPosition *position, s8
 
 void install_update_after_flag_clear(PersonObject *object, ObjectPosition *position, s8 *output);
 
-void init_person_slot_thirty_five(PersonObject *object);
 
-void init_person_slot_nineteen(PersonObject *object);
 
-void init_person_slot_thirty_three(PersonObject *object);
 
-void init_person_slot_fifty_one(PersonObject *object);
 
-void init_person_slot_fifty(PersonObject *object);
 
-void init_person_slot_eight(PersonObject *object, s32 context, s8 *output);
 
 void initialize_object_configuration_x(PersonObject *object);
-void initialize_variant_object(PersonObject *object);
 
 void clear_record_indexed_flag(void *state, s32 unused_context, void *unused_state_context);
 

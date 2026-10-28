@@ -3,6 +3,7 @@
 
 /* Present C interface; historical filename and TU boundary remain inferred. */
 #include "common.h"
+#include "engine/audio/sequence.h"
 
 #include "common.h"
 
@@ -34,7 +35,6 @@ typedef struct {
     s32 f14;
 } S_80057A94_msg;
 
-extern s32 audio_get_current_bank_tone_record(void *row, s32 column);
 extern s32 is_tone_parameter_flag_set(void);
 extern void SpuSetReverb(s32 enable);
 extern s32 SpuSetReverbModeParam(void *settings);

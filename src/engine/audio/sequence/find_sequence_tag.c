@@ -3,7 +3,6 @@
 #include "slus/data.h"
 
 /* D_80085FA4: [0] = base address of a byte table; accessed via %hi/%lo (forced size>8) */
-extern s32 audio_sequence_data_base[4];
 
 /*
  * Searches the byte table for audio_sequence_track_tag's four bytes, returning the index after the
@@ -18,7 +17,7 @@ s32 find_sequence_tag(s32 start_index)
     s32 byte_index = start_index;
 
     do {
-        if (compare_byte_span(audio_sequence_track_tag, (s8 *)audio_sequence_data_base[0] + byte_index, 4) == 0) {
+        if (compare_byte_span(audio_sequence_track_tag, audio_sequence_data_base[0] + byte_index, 4) == 0) {
             return byte_index + 4;
         }
         byte_index = byte_index + 1;

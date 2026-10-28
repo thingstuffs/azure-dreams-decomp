@@ -13,7 +13,8 @@
 void *spawn_effect_object(s16 flags, s16 value_24, s16 value_25, s16 value_0A)
 {
     s32 kind;
-    S_8014C854_1 *work;
+    ActorRecord *work;
+    void *body;
     ObjectNodeHeader *obj;
     ObjectPosition *part_a;
     SpriteFrameState *part_b;
@@ -30,11 +31,11 @@ void *spawn_effect_object(s16 flags, s16 value_24, s16 value_25, s16 value_0A)
     saved_arg3 = value_0A;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = obj;
-        work = (u8 *)work + 0x20;
-        actor = work;
+        body = obj + 1;
+        work = body;
+        actor = body;
         obj->update_callback = D_8014CA30;
-        work->unk_13 = MONSTER_BATTNEL;
+        work->species = MONSTER_BATTNEL;
         register_node(obj, project_sprite_chain);
 
         part_a = obj->position;
@@ -46,20 +47,20 @@ void *spawn_effect_object(s16 flags, s16 value_24, s16 value_25, s16 value_0A)
         part_b->tile_x = saved_arg1;
 
         if (kind == 1) {
-            left = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            right = work->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-            work->unk_14 = left;
-            work->unk_1C = right;
+            left = work->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            right = work->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            work->flags14 = left;
+            work->flags1C = right;
         } else if (kind >= 2) {
-            left = work->unk_14 | ACTOR_CLASS_ENABLED;
-            right = work->unk_1C | ACTOR_PLAYER_SIDE;
-            work->unk_14 = left;
-            work->unk_1C = right;
+            left = work->flags14 | ACTOR_CLASS_ENABLED;
+            right = work->flags1C | ACTOR_PLAYER_SIDE;
+            work->flags14 = left;
+            work->flags1C = right;
         } else {
-            if (((flags & ~3) << 16) == 0 && !(work->unk_14 & ACTOR_RESIST_SLEEP)) {
+            if (((flags & ~3) << 16) == 0 && !(work->flags14 & ACTOR_RESIST_SLEEP)) {
                 left = generate_random_value();
                 if (left & 1) {
-                    work->unk_1C |= ACTOR_ASLEEP;
+                    work->flags1C |= ACTOR_ASLEEP;
                     set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                   (generate_random_value() & 0x3F) | 0x20);
                     part_b->frameTable = D_8014FD4C;

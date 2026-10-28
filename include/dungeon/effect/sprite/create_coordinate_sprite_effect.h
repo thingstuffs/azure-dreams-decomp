@@ -7,6 +7,7 @@
 #include "shared/slus_callbacks.h"
 #include "records/Rec_D_80082E80.h"
 #include "sdk/libgte.h"
+#include "dungeon/effect.h"
 
 /* Applies a flag-adjusted stat increase to an eligible target and updates its state. */
 typedef struct {
@@ -161,7 +162,6 @@ typedef struct Row_818A4ED0_S_818A4ED0_3 {
 s32 get_random_scaled_value(s16 input_value);
 void apply_clamped_actor_value_delta(void *);
 void cap_pending_actor_value_delta(void *);
-void create_actor_value_popup(s32 flags, void *source_data, s16 value, u16 callback_mode);
 void select_record_entry_and_value(void *state, void *entries, short index);
 void advance_sprite_animation_and_textures(void *);
 s32 rand(void);

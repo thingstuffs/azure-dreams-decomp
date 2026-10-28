@@ -11,6 +11,7 @@ void initialize_randomized_motion_vector(u8 *obj, s32 *vec, SpriteFrameState *re
     s32 direction_angle;
     s32 direction_term;
     s32 init_value;
+    SpriteSourceEntry *init_entry;
     s32 product;
     s32 scale_numerator;
     s32 scale_sample;
@@ -25,9 +26,9 @@ void initialize_randomized_motion_vector(u8 *obj, s32 *vec, SpriteFrameState *re
     record->unk_04 = 0;
     record->frame_ticks = 0;
 
-    init_value = D_800D0B20[((S_800A3508_1 *)obj)->unk_22];
-    if (init_value != 0) {
-        select_record_entry_and_value(record, init_value, 0);
+    init_entry = D_800D0B20[((S_800A3508_1 *)obj)->unk_22];
+    if (init_entry != 0) {
+        select_record_entry_and_value(record, init_entry, 0);
     }
 
     register_node(obj - 0x20, project_sprite_chain);
@@ -97,7 +98,7 @@ void advance_motion_and_reset_appearance(S_800A378C_0 *state, ObjectPosition *tr
     transform->velocity_y = (s32) (transform->velocity_y - state->unk_30);
     transform->velocity_z = (s32) (transform->velocity_z - state->unk_34);
     add_motion_deltas_to_position(transform);
-    if (*((s32 *)&D_800D0B20 + state->unk_22) != 0) {
+    if (D_800D0B20[state->unk_22] != 0) {
         advance_sprite_animation_and_textures(appearance);
     }
 }

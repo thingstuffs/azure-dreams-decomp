@@ -6,6 +6,8 @@
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/game_work.h"
+#include "dungeon/player.h"
+#include "dungeon/effect.h"
 
 typedef struct Ent {
     u8 a;
@@ -50,7 +52,6 @@ extern char D_800E0AFA[];
 extern char D_800E0B07[];
 
 s32 find_floor_item_at_world_position(s32, s32, s32);
-void begin_player_trap_trigger(Ctx *, char *, Item *, Unit *);
 void *get_unused_text_buffer(void);
 char *write_text_byte_and_advance(s8 value, s8 *dest);
 char *expand_text_control_codes(char *, char *);
@@ -59,11 +60,10 @@ void clear_byte_and_advance(char *);
 void display_text_with_fullwidth_adjustment(s8 *text);
 s32 find_last_zero_entry_run_start(void);
 s32 find_and_clear_empty_item_slot(void);
-void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
+void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s32 extra_byte);
 #include "dungeon/item.h"
 
 s32 get_scaled_byte_value(DungeonItemEntry *);
-void create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 void update_map_cell_flags_with_item_limit(s32, s32, s32);
 
 /* Picks up an item, applying special effects or moving it into inventory. */

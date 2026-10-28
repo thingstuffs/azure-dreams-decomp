@@ -62,8 +62,11 @@ s32 runtime_is_record_field_set(void *record_data);
 /* runtime_is_record_handler_changed.c */
 s32 runtime_is_record_handler_changed(Rec_D_80082A38 *record);
 
+/* entry_runtime_prepend_doubly_linked_node.c: links the self-reference at body +0x54. */
+void prepend_embedded_object_node(void *owner, void *object_data);
+
 /* runtime_prepend_doubly_linked_node.c */
-void runtime_prepend_doubly_linked_node(void *owner, struct S_80035068_0 *node);
+void runtime_prepend_doubly_linked_node(void *owner, void *node_data);
 
 /* runtime_render_linked_textured_sprites.c */
 s32 runtime_render_linked_textured_sprites(u8 *node_data, u8 *position, u8 *render_state);
@@ -78,7 +81,7 @@ void runtime_set_record_value_and_buffer(void *record, s32 value);
 void runtime_store_value_in_shifted_slot_pool(s32 value);
 
 /* runtime_unlink_doubly_linked_node.c */
-void runtime_unlink_doubly_linked_node(struct S_80035090_0 *node);
+void runtime_unlink_doubly_linked_node(void *node_data);
 
 /* set_resident_bitmap_bit.c */
 void set_resident_bitmap_bit(s32 bit_id);

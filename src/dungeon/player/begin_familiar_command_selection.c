@@ -12,7 +12,7 @@
 extern u8 player_carry_frames[8];
 extern u8 player_wait_frames[8];
 
-extern void create_panel_effect_object(void *);
+extern void *create_panel_effect_object(void *owner);
 
 typedef struct S_8008D024_0 {
     u8 pad_00[0xAC];

@@ -104,7 +104,7 @@ void draw_wave_distorted_sprite(void *screen_pos, u8 *wave, void *context, s32 *
     s32 wave_index;
     Scratchpad *scratch;
     screen_link = screen_pos;
-    globals = (u8 *) (&g_game_work.draw_buffer);
+    globals = &g_game_work;
     sprite = *((void **) (((s8 *) context) + (-0x14)));
     part = *((void **) (((s8 *) sprite) + 8));
     callback_arg = *((s32 *) (((s8 *) context) + (-0x18)));
@@ -456,7 +456,7 @@ void move_linked_effect_along_path(s32 draw_param_a, s32 draw_param_b, Position 
     Coord pos;
     u16 clear_enabled;
     DungeonState *state;
-    DungeonState **state_ptr;
+    void **state_ptr;
     u8 *packet;
     u32 *ordering_table;
     s16 offset_y;

@@ -2,11 +2,11 @@
 
 typedef struct {
     s32 unk0;
-    s32 unk4;
+    char *unk4;
 } UnkStruct800223E8;
 
 extern s32 pickup_reward_total[];
-extern s32 strlen(s32 text);
+#include "sdk/libc.h"
 extern void format_decimal_field_space_padded(s32 value, s32 width, char *buf);
 
 // Clamp the value to 999999 and format it into the text buffer.

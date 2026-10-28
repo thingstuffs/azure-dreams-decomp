@@ -14,7 +14,7 @@ typedef struct S_8001B828_0 {
 
 
 extern void advance_dispatch_state_to_two(void);
-extern s8 find_first_enabled_entry_id(void);
+extern s32 find_first_enabled_entry_id(void);
 extern s32 check_event_value_in_list(s32);
 extern void *clear_event_resource_state_and_get_buffer(s32);
 #include "town/scene.h"

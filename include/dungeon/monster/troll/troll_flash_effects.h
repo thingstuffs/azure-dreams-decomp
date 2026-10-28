@@ -422,7 +422,7 @@ void update_growing_bouncing_effect(void *effect, void *position,struct SpriteFr
 void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unused, EntityRec *target);
 void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *source_pos, SpriteFrameState *sprite_template, ActorRecord *actor);
 void spawn_random_color_burst_particle(void *source, ObjectPosition *position);
-void spawn_growing_rotating_flash(void *unused, s32 *position);
+void spawn_growing_rotating_flash(void *unused, ObjectPosition *position, SpriteFrameState *unused_sprite);
 void update_tracked_attachment_sprite(void *object, T_80171A38_S_80171A38_4 *position, T_80171A38_S_80171A38_3 *part_state);
 void create_tracked_attachment_sprite(void *attachment, T_80171BEC_S_80171BEC_3 *base_position);
 void * create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_height);

@@ -917,18 +917,18 @@ s32 relink_grineut_path(void *entity_arg, ObjectPosition *primary_context_arg, v
  * its counter only after a positive signed floor-trap result. Clears the secondary action halfword
  * under dungeon status flag 0x80. /
  */
-void move_grineut_to_tile(R07_801723E0_S_801724A8_0 *state, s32 context, s32 source, s32 target) {
+void move_grineut_to_tile(ActorRecord *state, ObjectPosition *context, SpriteFrameState *source, ActorRecord *target) {
     if (update_actor_movement_to_tile(state, context, source, target) != 0) {
         spend_actor_mp(target, 4);
         advance_status_timers(target);
         if ((check_actor_floor_trap(source, target) << 0x10) <= 0) {
             return;
         }
-        state->unk_8C = ((void *)dispatch_monster_move_attack_spell);
-        state->unk_90.at00.v = 0;
+        state->unk_8C.handler = dispatch_monster_move_attack_spell;
+        state->unk_90.value = 0;
     }
     if (g_dungeon_status.flags & 0x80) {
-        state->unk_90.at02.v = 0;
+        state->unk_90.parts.high.s = 0;
     }
 }
 

@@ -1,3 +1,4 @@
+#include "shared/dungeon_effect_status.h"
 #include "shared/object_node_flags.h"
 #include "shared/audio_commands.h"
 /* Warp sequencing, camera effects, linked sprite pieces, particle trails, and color fades. */
@@ -13,7 +14,8 @@ void (*const dungeon_19cc800_entry)(struct EventState *event) = run_warp_effect_
 #include "shared/entity.h"
 
 typedef struct EventState {
-    u8 pad00[0xA];
+    void *source;
+    u8 pad04[6];
     s16 state;
     s32 result;
     u8 pad10[0xA];
@@ -41,7 +43,6 @@ extern u8 D_80028260[];
 extern u8 D_80028780[];
 extern s16 D_800287A0;
 extern u8 warp_attack_option;
-extern s32 warp_attack_event;
 
 extern void upload_vram_row_and_cache(void *, s32, s32, s32);
 extern void decode_and_upload_image(void *, void *);
@@ -73,7 +74,7 @@ void run_warp_effect_sequence(EventState *event) {
         event_option = ((u8 *)event)[9];
         warp_position_phase = 0;
         warp_attack_option = event_option;
-        warp_attack_event = *(s32 *)event;
+        warp_attack_event = event->source;
         ((PlayerRecord *)object)->unk_F4 = 0;
         object->unk_A8.byte = ((u8 *)event)[8];
         ((PlayerRecord *)primary_actor_record)->unk_102 = 1;
@@ -880,7 +881,6 @@ s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 void spawn_opposite_offset_effect(void *source_data, u32 direction_bits);
 extern s8 D_8002758C[];
 extern u8 warp_attack_option;
-extern s32 warp_attack_event;
 
 /* Per-frame homing-projectile step: fade in/out, fly toward the target tile, wake anything it passes and expire. */
 void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {

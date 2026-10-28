@@ -9,6 +9,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "records/Rec_func_800A9E70_arg0.h"
 
 typedef struct S_80171A80_0 {
     u8 pad_00[0x8C];
@@ -53,7 +54,7 @@ void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosit
 extern void prepare_actor_directional_action(u8 *entity, ObjectPosition *action_param, SpriteFrameState *action_sprite, u8 *frame_table, s32 fallback_state);
 void advance_aura_actor_turn_path(ActorRecord *actor, ObjectPosition *actor_slot, SpriteFrameState *entity_arg, ActorRecord *state_arg);
 #include "dungeon/monster/u_boat.h"
-extern s32 try_turn_actor_toward_target(void *, ObjectPosition *, void *, void *);
+s32 try_turn_actor_toward_target(Rec_func_800A9E70_arg0 *action_state, ObjectPosition *action_context, SpriteFrameState *target, ActorRecord *actor);
 extern void begin_actor_action(void *, ObjectPosition *, void *, void *);
 extern s32 func_80172EA8(void *, void *, void *, s32);
 extern void update_actor_action_transition(void *state, ObjectPosition *update_mode, SpriteFrameState *sprite, void *entity);

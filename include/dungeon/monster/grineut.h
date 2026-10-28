@@ -26,6 +26,7 @@
 #include "dungeon/actor/state.h"
 #include "dungeon/item/actor_target.h"
 #include "dungeon/player/object.h"
+#include "dungeon/actor/status.h"
 
 typedef s32 R07_80170854_M2C_UNK;
 
@@ -135,11 +136,6 @@ typedef struct R07_8017229C_S_80172628_0 {
     u8 pad_72[0x28];
     s8 unk_9A;
 } R07_8017229C_S_80172628_0;
-typedef struct R07_801723E0_S_801724A8_0 {
-    u8 pad_00[0x8C];
-    ActorActionHandler unk_8C;
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_90;   
-} R07_801723E0_S_801724A8_0;
 typedef struct R07_80172478_S_80172478_0 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -235,8 +231,7 @@ s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s
 struct ObjectNodeHeader;
 struct S_80047738;
 s32 relink_entity_and_clear_high_flag();
-void advance_status_timers();
-s32 update_actor_movement_to_tile();
+s32 update_actor_movement_to_tile(void *move_state, void *motion, void *target_tile, ActorRecord *actor);
 void spend_actor_mp();
 
 void on_actor_status_updated(void *actor);
@@ -289,7 +284,7 @@ void initialize_opposite_facing_effect(ActorRecord *effect, ObjectPosition *posi
 s32 try_grineut_attack(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor);
 void begin_grineut_attack(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 s32 relink_grineut_path(void *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
-void move_grineut_to_tile(R07_801723E0_S_801724A8_0 *state, s32 context, s32 source, s32 target);
+void move_grineut_to_tile(ActorRecord *state, ObjectPosition *context, SpriteFrameState *source, ActorRecord *target);
 void advance_target_hop(void *action, void *motion, void *sprite, void *actor);
 void update_grineut_linked_motion(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
 void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);

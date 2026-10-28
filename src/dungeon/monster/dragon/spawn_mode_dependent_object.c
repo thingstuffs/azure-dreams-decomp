@@ -1317,7 +1317,7 @@ void slow_directional_movement_to_tile(R03_80172F14_S_80172F14_1 *controller, Ob
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(controller, motion, entity, ((s32 *)D_80173CC4));
+            begin_actor_display_action(controller, motion, entity, D_80173CC4);
             return;
         }
         if (entity->flags & 0x8000) {
@@ -1396,7 +1396,7 @@ void slow_directional_movement_to_tile(R03_80172F14_S_80172F14_1 *controller, Ob
         }
         if (((EntityRec *)source)->unk_28 == 0) {
             motion->velocity_z = 0;
-            begin_actor_display_action(controller, motion, entity, ((s32 *)D_80173CC4));
+            begin_actor_display_action(controller, motion, entity, D_80173CC4);
             return;
         }
         controller->timer.s = 8;

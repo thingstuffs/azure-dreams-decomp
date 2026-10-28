@@ -9,6 +9,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "engine/town.h"
+#include "dungeon/effect.h"
 
 typedef struct DungeonObject {
     u8 pad00[5];
@@ -43,7 +44,6 @@ void display_item_status_message(void *entity, struct DungeonItemEntry *item, s3
 extern s32 generate_random_value(void);
 s32 cap_pending_actor_value_delta(void *entry);
 extern s32 feed_actor_restore_mp(DungeonObject *, u32, struct DungeonItemEntry *);
-extern void create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 
 /* Applies an item effect, selects its amount, and displays the result. */
 s32 use_random_healing_item(DungeonObject *obj, DungeonItemEntry *payload, s16 effect_arg) {

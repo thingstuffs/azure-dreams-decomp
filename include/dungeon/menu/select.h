@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_1829800_H
 #define DUNGEON_OVL_1829800_H
 #include "common.h"
+#include "dungeon/item/monster_resource_slots_g00325.h"
 #include "dungeon/menu.h"
 #include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
@@ -411,7 +412,7 @@ typedef struct S_800260C8_3 {
 
 /* Update the active index and reset the previous entry's state and offsets. */
 
-typedef void *(*SpawnFunc)(s32, s32, s32, s16);
+typedef MonsterFactory SpawnFunc;
 
 typedef struct S_80026190_0 {
     void * unk_00;
@@ -740,7 +741,6 @@ extern void func_8004397C(void *);
 extern void unlink_node(void *);
 extern void func_80044A50(void *);
 extern void enqueue_script_message_command(void);
-extern void *load_monster_resource_data(s32 resource_id, u8 *resource_entry, s32 wait_for_read);
 extern u8 *find_or_retain_sprite_resource_slot(s32, s32);
 struct EntityLinkNode;
 extern void unlink_entity_node(struct EntityLinkNode *node);

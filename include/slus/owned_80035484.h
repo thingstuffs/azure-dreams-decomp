@@ -3,6 +3,7 @@
 
 /* Present C interface; historical filename and TU boundary remain inferred. */
 #include "common.h"
+#include "engine/node/allocation.h"
 
 #include "common.h"
 
@@ -65,7 +66,6 @@ typedef struct S_func_80035484_5 {
 
 extern void runtime_initialize_state_value(void *modelPtr, s32 value);
 extern void prepend_embedded_object_node(void *configPtr, void *statePtr);
-extern void *initialize_runtime_node_storage(s32 value, s32 address, s32 value2, void **tablePtr);
 extern s32 register_node(void *objectPtr, void (*callback)(void));
 extern s32 func_8004491C(void *objectPtr, void (*callback)(void));
 
@@ -82,7 +82,7 @@ extern void *window_node_list_storage[3];
 
 /* Creates a runtime object and initializes its model, transform, and appearance. */
 
-void create_window_object(s32 object_addr, S_func_80035484_4 *model, S_func_80035484_5 *config);
-void func_80035484(s32 object_addr, S_func_80035484_4 *model, S_func_80035484_5 *config);
+void create_window_object(void *object_addr, S_func_80035484_4 *model, S_func_80035484_5 *config);
+void func_80035484(void *object_addr, S_func_80035484_4 *model, S_func_80035484_5 *config);
 
 #endif

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
 #include "slus/data.h"
 
 
@@ -10,11 +11,6 @@ typedef struct {
     u8 unk1B;
 } S_800561D8_D80086A40;
 
-typedef struct {
-    u8 pad00[8];
-    s16 unk8;
-    s16 unkA;
-} S_800561D8_D80086C00;
 
 typedef struct {
     u16 f0;
@@ -46,7 +42,7 @@ typedef struct {
 } S_800561D8_Arg1;
 
 extern S_800561D8_D80086A40 audio_bank_slots[16];
-extern S_800561D8_D80086C00 audio_sequence_slots[8];
+extern SoundSequenceSlot audio_sequence_slots[8];
 extern S_800561D8_D80073738 audio_master_level;
 
 /* Compute voice pan and stereo volumes from channel gains and sound parameters. */
@@ -105,11 +101,11 @@ void audio_compute_voice_stereo_volumes(S_800561D8_Arg0 *voice_arg, S_800561D8_A
     }
 
     {
-        S_800561D8_D80086C00 *channel_gains = audio_sequence_slots;
-        S_800561D8_D80086C00 *gain_entry;
+        SoundSequenceSlot *channel_gains = audio_sequence_slots;
+        SoundSequenceSlot *gain_entry;
         gain_entry = &channel_gains[((s32)(audio_current_bank_slot[0]))];
-        product = left_volume * gain_entry->unk8;
-        scale = gain_entry->unkA;
+        product = left_volume * (s16)gain_entry->left_gain;
+        scale = (s16)gain_entry->right_gain;
         pan_value = right_volume * scale;
         left_volume = product >> 7;
         right_volume = pan_value >> 7;

@@ -10,6 +10,7 @@
 #include "dungeon/actor/animation.h"
 #include "engine/node/allocation.h"
 #include "engine/node.h"
+#include "dungeon/actor/status.h"
 #if 0 /* rowbase_rename_reverify precondition marker: dead declaration, never
 seen by the real compiler;
 satisfies the tool's textual defines()
@@ -51,7 +52,6 @@ struct DungeonSub1 {
     s8 field9c;
 };
 
-s16 set_or_clear_actor_status_slot();
 s32 generate_random_value(void);
 extern u8 D_8015EA7C[];
 extern M2C_UNK D_8015EEA8;
@@ -64,7 +64,8 @@ void *spawn_killer_slot_d(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_
 /* Creates Killer with default frames at D_80162038, applies spawn flags, and attempts valid tile
  * placement. */
 void *spawn_killer_slot_d(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_value) {
-    DungeonSub1 *state;
+    ActorRecord *state;
+    void *body;
     ObjectNodeHeader *node;
     u16 saved_placement;
     ObjectPosition *node_data;
@@ -83,9 +84,10 @@ void *spawn_killer_slot_d(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_
     grid_x = 0x112;
     node = allocate_list_node(grid_x, &scene_object_list_anchor.next);
     if (node != NULL) {
-        state = (DungeonSub1 *)((u8 *)node + 0x20);
+        body = node + 1;
+        state = body;
         node->update_callback = &D_8015EA7C;
-        state->field13 = 0x28;
+        state->species = 0x28;
         register_node(node, project_sprite_chain);
         flags = (s32) &D_80162038;
         node_data = node->position;
@@ -93,21 +95,21 @@ void *spawn_killer_slot_d(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_
         placement = node->sprite;
         mode = setup_bits & 3;
         placement->tile_y = saved_grid_y;
-        init_state = state;
+        init_state = body;
         placement->frameTable = (void *) flags;
         placement->tile_x = saved_grid_x;
         if (mode == 1) {
-            state->field14 |= 0x6000;
-            state->field1c |= 0x6000;
+            state->flags14 |= 0x6000;
+            state->flags1C |= 0x6000;
         } else if (mode >= 2) {
-            state->field14 |= 0x2000;
-            state->field1c |= 0x2000;
+            state->flags14 |= 0x2000;
+            state->flags1C |= 0x2000;
         } else {
             flags = setup_bits & ~3;
             if ((flags << 0x10) == 0) {
-                if (!(state->field14 & 0x200)) {
+                if (!(state->flags14 & 0x200)) {
                     if (generate_random_value() & 1) {
-                        state->field1c |= 0x200;
+                        state->flags1C |= 0x200;
                         set_or_clear_actor_status_slot(state, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                         placement->frameTable = &D_80162088;
                     }

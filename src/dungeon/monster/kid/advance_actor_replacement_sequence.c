@@ -17,6 +17,7 @@
 #include "sdk/libc.h"
 #include "dungeon/system.h"
 #include "engine/node.h"
+#include "dungeon/monster/kid.h"
 
 typedef struct S_80174B20_14 {
     u8 pad_00[0x60];
@@ -104,7 +105,7 @@ s32 lookup_masked_byte_table();  /* extern */
 #include "dungeon/actor/advance_staged_entity_load_api.h"                /* extern */
 s32 create_status_linked_render_effect();     /* extern */
 #include "dungeon/select_nearby_target_and_initialize_slot_api.h" /* extern */
-void create_randomly_rotated_offset_effect(); /* extern */
+
 extern s32 cd_cue_base;
 extern void *actor_effect_color_targets[];
 extern u8 dungeon_resource_buffer[];

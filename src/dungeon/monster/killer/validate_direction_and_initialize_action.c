@@ -56,7 +56,7 @@ extern s32 check_entity_interaction_compatibility(void *, s32);
 extern void apply_camera_offset_and_select_target(void *,void *, s32, s32);
 
 /* Validates the actor's direction and state, then initializes its action and animation. */
-s32 validate_direction_and_initialize_action(Arg0 *action_state, ObjectPosition *action_id, SpriteFrameState *sprite, Arg3 *actor) {
+s32 validate_direction_and_initialize_action(ActorRecord *action_state, ObjectPosition *action_id, SpriteFrameState *sprite, Arg3 *actor) {
     DungeonGlobalStatus *flags_base;
     u8 *direction_frames;
     u16 flags;
@@ -96,21 +96,21 @@ s32 validate_direction_and_initialize_action(Arg0 *action_state, ObjectPosition 
         return -1;
     }
 
-    action_state->field_9b = 0;
-    action_state->field_8c = 0;
-    if (action_state->field_98 & 0x8000) {
-        action_state->field_9a = 0x17;
+    action_state->action_phase.s = 0;
+    action_state->unk_8C.run = 0;
+    if (action_state->action_state_flags & 0x8000) {
+        action_state->action_id.s = 0x17;
         if (actor->field_1c & 0x1000) {
-            action_state->field_98 |= 0x4000;
+            action_state->action_state_flags |= 0x4000;
         } else {
-            action_state->field_98 &= 0xBFFF;
+            action_state->action_state_flags &= 0xBFFF;
         }
-        action_state->field_ac = actor->field_03;
+        action_state->unk_AC.byte = actor->field_03;
         actor->field_03 = 0xFF;
         actor->field_84 = 0x7E;
         actor->field_85 = 8;
     } else {
-        action_state->field_9a = 0x11;
+        action_state->action_id.s = 0x11;
         actor->field_84 = 0x7C;
         actor->field_85 = 8;
     }
@@ -120,7 +120,7 @@ s32 validate_direction_and_initialize_action(Arg0 *action_state, ObjectPosition 
     select_sprite_entry(sprite, direction_frames[(((s32)g_game_work.view.camera_rotation.parts.viewAngle + actor->field_2a + 0x100) >> 9) & 7], 0);
     actor->field_6d--;
     prepare_directional_attack(actor, sprite, actor->field_2a, 1, 0);
-    if ((action_state->field_98 & 0x8000) == 0) {
+    if ((action_state->action_state_flags & 0x8000) == 0) {
         actor->field_1c &= 0xFEFFFFFF;
     }
     return result;

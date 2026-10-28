@@ -30,7 +30,7 @@ typedef struct S_80093C70_5 {
 extern void dungeon_familiar_deploy_update_address(void *object_data, void *unused, void *state_data);
 
 /* Creates a sprite effect at the supplied position and links it to its owner. */
-void create_familiar_deployment_effect_with_owner_state(void *owner_body, EntityRec *source_pos, SpriteFrameState *owner) {
+void create_familiar_deployment_effect_with_owner_state(void *owner_body, ObjectPosition *source_pos, SpriteFrameState *owner) {
     ObjectNodeHeader *owner_node = owner_body - 0x20;
     SpriteFrameState *sprite;
     ObjectNodeHeader *effect;

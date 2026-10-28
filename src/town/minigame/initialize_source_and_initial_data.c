@@ -7,7 +7,7 @@
 void initialize_source_and_initial_data(minigame_pickup_source *source_data, minigame_pickup_initial *initial_data)
 {
     ObjectNodeHeader *object;
-    Object *allocated;
+    ObjectNodeHeader *allocated;
     Payload88 *payload;
     SpriteFrameState *part;
     u8 *table;

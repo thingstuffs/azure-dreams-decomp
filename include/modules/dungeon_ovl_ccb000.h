@@ -51,10 +51,8 @@ typedef struct {
 } CL_CCB000_8017087C_Part;
 
 typedef struct {
-    u8 pad0[8];
-    CL_CCB000_8017087C_CopyFields *copy;
-    CL_CCB000_8017087C_Part *part;
-    u8 pad10[0x50];
+    ObjectNodeHeader header;
+    u8 pad20[0x40];
     s32 field60;
 } CL_CCB000_8017087C_Object;
 
@@ -955,9 +953,7 @@ typedef struct CL_CCB000_80174D14_S_80C97514_4 {
 } CL_CCB000_80174D14_S_80C97514_4;   /* temp_a1 in func_8015CD14 */
 
 typedef struct CL_CCB000_80174D14_S_80C97514_5 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-    void (*unk_10)(u8 *, void *, u8 *);
+    ObjectNodeHeader header;
 } CL_CCB000_80174D14_S_80C97514_5;   /* temp_v0_2 in func_8015CD14 */
 
 typedef struct CL_CCB000_80174D14_S_80C97514_7 {
@@ -1065,8 +1061,8 @@ extern s32 func_80042900(void *, s32);
 extern void clear_slots_of_type(void *, s32);
 extern void func_80042B68(void *, s32);
 extern int read_stream_cue_start_offset(void);
-extern void register_node(CL_CCB000_8017087C_Object *, void *);
-extern void func_8004491C(CL_CCB000_8017087C_Object *, void *);
+extern s32 register_node(ObjectNodeHeader *, void *);
+extern s32 func_8004491C(ObjectNodeHeader *, void *);
 extern void unlink_node(void *node);
 extern void func_80044A50(void *node);
 extern void select_sprite_entry(void *, s16, s16);

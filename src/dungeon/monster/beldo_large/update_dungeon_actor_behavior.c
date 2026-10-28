@@ -4,17 +4,14 @@
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/monster/beldo_large.h"
+#include "shared/tile_object.h"
 
 typedef struct {
     u8 bytes[8];
 } Copy8 __attribute__((packed));
 
-typedef struct {
-    u8 pad[0xC];
-    u8 c;
-    u8 d;
-    u8 e;
-} Particle;
+
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define S8_AT(p, o)  (*(s8 *)((u8 *)(p) + (o)))
@@ -26,9 +23,8 @@ extern s32 rand(void);
 extern void draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s32);
 extern void create_offset_particle_effect();
 extern void spawn_directional_projectile_effect();
-extern void create_timed_offset_motion_effect();
 
-extern Particle reference_tile_object;
+
 extern Copy8 D_80164A4C;
 extern u8 *beldo_actor_nodes;
 
@@ -39,7 +35,7 @@ void update_dungeon_actor_behavior(void *effect) {
     u16 blit_data[8];
     u8 *burst_context;
     u8 *render_state;
-    Particle *particle;
+    TileObject *particle;
     s32 timer_snapshot;
     ActorRecord * actor;
     s16 state;
@@ -99,13 +95,13 @@ void update_dungeon_actor_behavior(void *effect) {
         }
         flag_mask = 0x10000000;
         particle = &reference_tile_object;
-        particle_level = particle->c;
+        particle_level = particle->primitive_color.parts.color_r;
         U32_AT(render_state, 0x1C) |= flag_mask;
         if (particle_level < 0xFC) {
-            shade = particle->e + 3;
-            particle->e = shade;
-            particle->d = shade;
-            particle->c = shade;
+            shade = particle->primitive_color.parts.color_b + 3;
+            particle->primitive_color.parts.color_b = shade;
+            particle->primitive_color.parts.color_g = shade;
+            particle->primitive_color.parts.color_r = shade;
         }
 
         timer_snapshot = S16_AT(effect, 0x18);
@@ -169,17 +165,17 @@ void update_dungeon_actor_behavior(void *effect) {
             } while (early_count > 0);
         } else {
         }
-        if (reference_tile_object.c >= 0x81) {
-            shade = reference_tile_object.e - 3;
-            reference_tile_object.e = shade;
-            reference_tile_object.d = shade;
-            reference_tile_object.c = shade;
+        if (reference_tile_object.primitive_color.parts.color_r >= 0x81) {
+            shade = reference_tile_object.primitive_color.parts.color_b - 3;
+            reference_tile_object.primitive_color.parts.color_b = shade;
+            reference_tile_object.primitive_color.parts.color_g = shade;
+            reference_tile_object.primitive_color.parts.color_r = shade;
             return;
         }
         render_flags = U32_AT(render_state, 0x1C);
-        reference_tile_object.e = 0x80;
-        reference_tile_object.d = 0x80;
-        reference_tile_object.c = 0x80;
+        reference_tile_object.primitive_color.parts.color_b = 0x80;
+        reference_tile_object.primitive_color.parts.color_g = 0x80;
+        reference_tile_object.primitive_color.parts.color_r = 0x80;
         U32_AT(render_state, 0x1C) = render_flags & 0xEFFFFFFF;
 
         next_state = U16_AT(effect, 0x12);

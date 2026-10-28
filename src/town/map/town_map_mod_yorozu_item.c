@@ -1,4 +1,5 @@
 #include "modules/town_map_props.h"
+#include "town/scene/list_setup.h"
 #include "shared/game_work.h"
 #include "town/person/position.h"
 typedef union
@@ -15,7 +16,6 @@ typedef union
 SpBuf;
 extern void strcpy(void *, s32);
 extern s32 strlen(void *);
-extern void configure_the_set_mode_n_1(void *, s32, void *);
 extern s16 dir_step_x[][2];
 extern s16 dir_step_y[][2];
 extern u8 *D_80073600[];
@@ -30,7 +30,6 @@ extern u8 D_800D225C[];
 extern u8 D_80112070[];
 extern void strcpy(void *, s32);
 extern s32 strlen(void *);
-extern void configure_the_set_mode_n_1(void *, s32, void *);
 
 /* town_map_mod_yorozu_item: Creates a town object by type and initializes its position and display data. */
 void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
@@ -221,5 +220,5 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
     name_buffer[entry_index] = 1;
     *((void **) (((u8 *) y_or_state.object) + 0x48)) = name_buffer;
     object_state = (s32 *) y_or_state.object;
-    configure_the_set_mode_n_1(object_state, *((s32 *) (x_or_object.object + 8)), D_800D225C + (D_800D2238[object_type] * 0x18));
+    configure_the_set_mode_n_1(object_state, *((void **) (x_or_object.object + 8)), D_800D225C + (D_800D2238[object_type] * 0x18));
 }

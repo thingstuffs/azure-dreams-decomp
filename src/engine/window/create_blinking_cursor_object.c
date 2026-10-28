@@ -6,7 +6,6 @@
 #include "engine/object.h"
 #include "engine/window.h"
 
-typedef struct { unsigned char pad_00[0x54]; void *unk_54; } Struct800350B0;
 
 typedef struct S_80036D4C_4 {
     u8 pad_00[0x20];
@@ -53,7 +52,6 @@ typedef struct S_80036D4C_3 {
     u16 unk_14;
 } S_80036D4C_3;   /* temp_s2 in create_blinking_cursor_object */
 
-void prepend_embedded_object_node(void *context, Struct800350B0 *object);
 void copy_texture_descriptor_with_page_offsets(); /* extern */
 extern u8 blinking_cursor_texture_template_0[];
 extern u8 blinking_cursor_texture_template_1[];
@@ -65,8 +63,8 @@ extern u8 window_node_list_storage[];
 void update_blinking_cursor_with_bright_idle();
 
 /* Initializes and links a runtime node, then sets its record, state, and display data. */
-void create_blinking_cursor_object(s32 node_addr, Rec_D_80081FDC *record, s32 *config, s16 initial_mode, s32 initial_value,
-    s32 setup_id) {
+void create_blinking_cursor_object(void *node_addr, Rec_D_80081FDC *record, s32 *config, s16 initial_mode, s32 initial_value,
+    void *setup_id) {
     S_80036D4C_1 *state;
     S_80036D4C_3 *display;
     void *node;

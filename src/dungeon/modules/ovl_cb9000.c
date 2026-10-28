@@ -20,27 +20,27 @@ void (*const cb9000_update_entry)(void *,CL_CB9000_80170C24_S_80170C24_2 *,void 
 /* Links a sprite effect, stores its owner value, copies its position, and sets neutral color and scale. */
 void initialize_gray_sprite_copy(CL_CB9000_8017087C_Object *object, s32 field60_value, CL_CB9000_8017087C_CopyFields *source_coords)
 {
-    CL_CB9000_8017087C_Part *part;
-    CL_CB9000_8017087C_CopyFields *copy;
+    SpriteFrameState *part;
+    ObjectPosition *copy;
 
     object->field60 = field60_value;
-    register_node(object, project_sprite_chain);
+    register_node(&object->header, project_sprite_chain);
 
-    part = object->part;
-    part->field10 = 0x20;
-    part->field14 |= 0xC;
+    part = object->header.sprite;
+    part->tpage_abr = 0x20;
+    part->flags |= 0xC;
 
-    copy = object->copy;
-    copy->x = source_coords->x;
-    copy->y = source_coords->y;
-    copy->z = source_coords->z;
+    copy = object->header.position;
+    copy->x.w.i = source_coords->x;
+    copy->y.w.i = source_coords->y;
+    copy->z.w.i = source_coords->z;
 
-    part = object->part;
-    part->field1E = 0x1000;
-    part->field1C = 0x1000;
-    part->b = 0x80;
-    part->g = 0x80;
-    part->r = 0x80;
+    part = object->header.sprite;
+    part->scale_y = 0x1000;
+    part->scale_x = 0x1000;
+    part->color.c.b = 0x80;
+    part->color.c.g = 0x80;
+    part->color.c.r = 0x80;
 }
 
 
@@ -98,19 +98,19 @@ void *spawn_block_slot_f(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 spawn_heig
     s32 kind;
     s32 flags0;
     s32 flags1;
-    void *result;
+    ActorRecord *result;
     ObjectNodeHeader *object;
     ObjectPosition *part0;
     SpriteFrameState *part1;
-    CL_CB9000_80170A5C_S_80170A5C_4 *result_copy;
+    ActorRecord *result_copy;
 
     result = 0;
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != 0) {
-        result = (u8 *)object;
-        result += 0x20;
+        result = (void *)object;
+        result = (void *)result + 0x20;
         object->update_callback = update_block_motion_and_facing_slot_f;
-        ((CL_CB9000_80170A5C_S_80170A5C_1 *)result)->unk_13 = 20;
+        result->species = 20;
         register_node(object, project_sprite_chain);
 
         {
@@ -128,30 +128,30 @@ void *spawn_block_slot_f(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 spawn_heig
         part1->tile_x = tile_x;
 
         if (kind == 1) {
-            flags0 = ((ActorRecord *)result)->flags14;
-            flags1 = ((ActorRecord *)result)->flags1C;
+            flags0 = result->flags14;
+            flags1 = result->flags1C;
             flags0 |= 0x6000;
             flags1 |= 0x6000;
-            ((ActorRecord *)result)->flags14 = flags0;
-            ((ActorRecord *)result)->flags1C = flags1;
+            result->flags14 = flags0;
+            result->flags1C = flags1;
         } else if (kind >= 2) {
-            flags0 = ((ActorRecord *)result)->flags14;
-            flags1 = ((ActorRecord *)result)->flags1C;
+            flags0 = result->flags14;
+            flags1 = result->flags1C;
             flags0 |= 0x2000;
             flags1 |= 0x2000;
-            ((ActorRecord *)result)->flags14 = flags0;
-            ((ActorRecord *)result)->flags1C = flags1;
+            result->flags14 = flags0;
+            result->flags1C = flags1;
         } else if (((spawn_flags & -4) << 16) == 0 &&
-                   (((ActorRecord *)result)->flags14 & ACTOR_RESIST_SLEEP) == 0 &&
+                   (result->flags14 & ACTOR_RESIST_SLEEP) == 0 &&
                    (generate_random_value() & 1) != 0) {
             set_or_clear_actor_status_slot(result, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
             part1->frameTable = cb9000_frame_set_1;
         }
 
         initialize_actor_sprite_and_animation(object, part0, part1, spawn_flags);
-        result_copy->unk_9A = 0xFF;
+        result_copy->action_id.u = 0xFF;
         result_copy->unk_9C = -1;
-        result_copy->unk_8C = dispatch_block_turn_actions_slot_f;
+        result_copy->unk_8C.address = dispatch_block_turn_actions_slot_f;
         try_move_actor_to_valid_position(result_copy, part0, part1, result);
     }
     return result;
@@ -1520,9 +1520,9 @@ void update_block_status_animation_slot_f(void *action, void *context, void *spr
 
 /* Waits for actor MP to recover while servicing forced actions, then restores its regular animation
    and behavior. */
-void wait_block_mp_recovery_slot_f(void *actor_in, s32 actor_index, void *target, void *entity_in)
+void wait_block_mp_recovery_slot_f(void *actor_in, ObjectPosition *position, void *target, void *entity_in)
 {
-    EntityRec *entity = entity_in;
+    ActorRecord *entity = entity_in;
     s32 state;
     s32 entity_flags;
     s32 direction;
@@ -1546,7 +1546,7 @@ void wait_block_mp_recovery_slot_f(void *actor_in, s32 actor_index, void *target
     return;
 
     case 1:
-    if (entity->tileY != 0) {
+    if (entity->mp_value.parts.whole != 0) {
         DungeonGlobalStatus *shared_counter;
 
         (*(void * *)((u8 *)target + 0x2C)) = cb9000_status_frames;
@@ -1561,8 +1561,8 @@ void wait_block_mp_recovery_slot_f(void *actor_in, s32 actor_index, void *target
         if (shared_state->flags & 0x1000) {
             return;
         }
-        if (entity->unk_64 != 0) {
-            if (begin_ready_actor_directional_action(actor_in, actor_index, target, 0) != 0) {
+        if (entity->hp_delta != 0) {
+            if (begin_ready_actor_directional_action(actor_in, position, target, 0) != 0) {
                 return;
             }
         }
@@ -1571,15 +1571,15 @@ void wait_block_mp_recovery_slot_f(void *actor_in, s32 actor_index, void *target
         }
         entity_flags = entity->flags1C;
         if (entity_flags & 0x100) {
-            begin_pushed_actor_move(actor_in, actor_index, target, entity);
+            begin_pushed_actor_move(actor_in, position, target, entity);
             return;
         }
         if (entity_flags & 0x80000) {
-            begin_actor_move_to_target_facing(actor_in, actor_index, target, entity);
-            update_block_parent_motion_slot_f(actor_in, actor_index, target, entity);
+            begin_actor_move_to_target_facing(actor_in, position, target, entity);
+            update_block_parent_motion_slot_f(actor_in, position, target, entity);
             return;
         }
-        if (entity->unk_6D == 0) {
+        if (entity->pending_turn_updates == 0) {
             return;
         }
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
@@ -1592,7 +1592,7 @@ void wait_block_mp_recovery_slot_f(void *actor_in, s32 actor_index, void *target
             update_actor_status_and_mp(entity);
         }
         on_actor_status_updated(entity);
-        if (entity->tileY == 0) {
+        if (entity->mp_value.parts.whole == 0) {
             return;
         }
         (*(void * *)((u8 *)target + 0x2C)) = cb9000_status_frames;
@@ -2267,6 +2267,7 @@ void update_block_replacement_slot_f(void *state, EntityRec *position, SpriteFra
     GameWork *scene_color = &g_game_work;
     CL_CB9000_80174D14_S_80C97514_7 *render_obj;
     CL_CB9000_80174D14_S_80C97514_5 *effect;
+    SpriteFrameState *effect_sprite;
     void *new_model;
     void *model;
 
@@ -2332,23 +2333,23 @@ void update_block_replacement_slot_f(void *state, EntityRec *position, SpriteFra
         if (effect == NULL) {
             return;
         }
-        effect->unk_10 = restore_scene_tint_slot_f;
-        register_node(effect, project_sprite_chain);
+        effect->header.update_callback = restore_scene_tint_slot_f;
+        register_node(&effect->header, project_sprite_chain);
         ((CL_CB9000_80174D14_S_80C97514_0 *)state)->unk_AC = effect;
-        ((ObjectPosition *)((CL_CB9000_80174D14_S_80C97514_12 *)effect)->unk_08)->x.v = (s32) position->x.v;
-        ((ObjectPosition *)((CL_CB9000_80174D14_S_80C97514_12 *)effect)->unk_08)->y.v = (s32) position->y.v;
-        ((ObjectPosition *)((CL_CB9000_80174D14_S_80C97514_12 *)effect)->unk_08)->z.v = (s32) position->z.v;
-        render_obj = effect->unk_0C;
-        render_obj->unk_1E = 0x1000;
-        render_obj->unk_1C = 0x1000;
-        render_obj->unk_0C.s = 0x808080;
+        effect->header.position->x.v = (s32) position->x.v;
+        effect->header.position->y.v = (s32) position->y.v;
+        effect->header.position->z.v = (s32) position->z.v;
+        effect_sprite = effect->header.sprite;
+        effect_sprite->scale_y = 0x1000;
+        effect_sprite->scale_x = 0x1000;
+        effect_sprite->color.word = 0x808080;
         effect_type = lookup_masked_byte_table(actor) - 1;
         effect_index = effect_type;
         if ((effect_type << 0x10) < 0) {
             effect_index = rand() % 3;
         }
         effect_data = (void *)(*((s32 *)&D_8016F318 + (s16) effect_index) + (u8 *)&dungeon_resource_buffer);
-        select_record_entry_and_value(render_obj, effect_data, 0);
+        select_record_entry_and_value(effect_sprite, effect_data, 0);
         entity->flags = (u16) (entity->flags | 0x80);
         ((CL_CB9000_80174D14_S_80C97514_0 *)state)->timer = 0U;
         next_state = ((CL_CB9000_80174D14_S_80C97514_0 *)state)->phase + 1;

@@ -4,6 +4,7 @@
 #include "dungeon/effect/state.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
+#include "dungeon/item/monster_resource_slots_g00325.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_floor.h"
 #include "shared/record_ptrs.h"
@@ -22,6 +23,7 @@
 #include "dungeon/player/object.h"
 #include "dungeon/player/state.h"
 #include "dungeon/item/message.h"
+#include "dungeon/player.h"
 
 typedef struct {
     u8 pad[0x29C];
@@ -157,7 +159,6 @@ s32 func_8003E188(s32, s32);
 s32 func_80042640(void *, s32);
 #include "engine/graphics.h"
 s32 strcpy(void *, s32);
-void create_familiar_deployment_overlay();
 struct DungeonItemEntry;
 s16 find_table_value_index();
 void process_unflagged_linked_entries(s32 firstEntryBase);
@@ -165,19 +166,17 @@ void process_unflagged_linked_entries_alt(s32 firstNodeBase);
 struct EntityLinkNode;
 void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
+void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s32 extra_byte);
 #include "dungeon/item.h"
 #include "engine/resource.h"
 #include "slus.h"
 
-void *(*load_monster_resource_data())(s32, u8, u8, s16);
 u8 * find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type);
-void raise_entity_level(void *entity_data, s32 show_message);
+s32 raise_entity_level(void *entity_data, s32 show_message);
 s32 play_sound_if_enabled(s32 query_value);
 s32 display_text_with_fullwidth_adjustment(s8 *text);
 s32 generate_random_value(void);
 void clear_selected_item_flag_400();
-void *create_actor_value_popup();
 #define D_80010000_PTR ((D_80010000_T *)0x80010000)
 extern s32 monster_species_table;
 
@@ -200,7 +199,7 @@ extern void *familiar_record_slots[];
 extern u8 familiar_record_storage[];
 
 /* Advances the item interaction, spawning, initializing, and saving a linked creature. */
-void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_func_800B1364_2 *position, SpriteFrameState *sprite,
+void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, ObjectPosition *position, SpriteFrameState *sprite,
     S_func_800B1364_4 *actor) {
     GteShortVector spawn_offset;
     s16 spawn_height;
@@ -411,8 +410,8 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
             spawn_offset.vx = 0;
             spawn_offset.vz = 0 - (*((u8 *)entity_height_offsets));
         }
-        spawn_directed_and_scattered_particles(position->unk_02 + spawn_offset.vx, position->unk_06 + spawn_offset.vy,
-            position->unk_0A + spawn_offset.vz);
+        spawn_directed_and_scattered_particles(position->x.w.i + spawn_offset.vx, position->y.w.i + spawn_offset.vy,
+            position->z.w.i + spawn_offset.vz);
         action->unk_9B = (u8) (action->unk_9B + 1);
         return;
     case 7:
@@ -434,9 +433,9 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
             spawn_offset.vz = 0 - (*((u8 *)entity_height_offsets));
         }
         creature_pos = ((S_func_800B1364_18 *)((u8 *)creature - 0x18))->unk_00;
-        creature_pos->unk_02 = (s16) ((u16) position->unk_02 + (u16) spawn_offset.vx);
-        creature_pos->unk_06 = (s16) ((u16) position->unk_06 + (u16) spawn_offset.vy);
-        spawn_height = (u16) position->unk_0A + (u16) spawn_offset.vz;
+        creature_pos->unk_02 = (s16) ((u16) position->x.w.i + (u16) spawn_offset.vx);
+        creature_pos->unk_06 = (s16) ((u16) position->y.w.i + (u16) spawn_offset.vy);
+        spawn_height = (u16) position->z.w.i + (u16) spawn_offset.vz;
         creature_pos->unk_0A = spawn_height;
         creature->unk_88 = spawn_height;
         actor->unk_60 = creature;

@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "slus.h"
 #include "common.h"
 #include "shared/object_flags.h"
@@ -36,8 +37,7 @@ extern u8 D_800D232C[];
 extern s32 D_800D2344[3];
 
 /* Creates and initializes an object, then sets the caller and global flags. */
-void spawn_fixed_effect_object(void *caller_data)
-{
+void spawn_fixed_effect_object(void *caller_data, void *unused_position, struct SpriteFrameState *unused_sprite) {
     S_800BF3F0_3 *transform;
     IntVector3 *position;
     void *object;

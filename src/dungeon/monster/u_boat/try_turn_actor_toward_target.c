@@ -2,7 +2,7 @@
 #include "shared/actor_action_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
-#include "records/Rec_D_80082E80.h"
+#include "shared/sprite_frame_state.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
 void prepare_directional_attack(void *, void *, s16, s32, s32);
@@ -19,7 +19,7 @@ extern u8 resident_globals_page[];
  * Checks a compatible neighbor within 64 height units, then starts U-Boat's normal attack or
  * exclusive action mode.
  */
-s32 try_turn_actor_toward_target(Rec_func_800A9E70_arg0 *action_state, ObjectPosition *action_context, Rec_D_80082E80 *target, ActorRecord *actor) {
+s32 try_turn_actor_toward_target(Rec_func_800A9E70_arg0 *action_state, ObjectPosition *action_context, SpriteFrameState *target, ActorRecord *actor) {
     s32 target_angle;
     u16 result;
     u16 *global_flags;
@@ -35,8 +35,8 @@ s32 try_turn_actor_toward_target(Rec_func_800A9E70_arg0 *action_state, ObjectPos
         return -1;
     }
 
-    target_angle = probe_directional_neighbor(actor, target->unk_24,
-        target->unk_25, actor->facing);
+    target_angle = probe_directional_neighbor(actor, target->tile_x,
+        target->tile_y, actor->facing);
     if ((check_entity_interaction_compatibility(actor, target_angle) << 0x10) == 0) {
         return result;
     }

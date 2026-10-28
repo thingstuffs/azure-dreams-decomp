@@ -47,7 +47,7 @@ extern void play_sound_if_enabled(s32);
 extern void update_actor_status_and_mp(Entity *);
 extern void advance_actor_movement_step(u8 *movement_in, ObjectPosition *action_ctx, u8 *position, u8 *actor);
 extern void complete_actor_facing_action(Entity *, ObjectPosition *, Aux *, Entity *);
-extern void start_actor_directional_action(Entity *, ObjectPosition *, void *, Entity *);
+extern void start_actor_directional_action(Entity *, ObjectPosition *, SpriteFrameState *, Entity *);
 extern void advance_multi_form_ring_phase(void);
 extern void advance_secondary_object_state(void);
 extern void func_80170838(void);

@@ -8,6 +8,7 @@
 #include "dungeon/actor/animation.h"
 #include "engine/node/allocation.h"
 #include "engine/node.h"
+#include "dungeon/actor/status.h"
 struct ObjectNodeHeader;
 struct ObjectNodeHeader;
 
@@ -58,7 +59,6 @@ extern void func_8015EF74(ActorRecord *actor_in, ObjectPosition *actor_data_in, 
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
-extern s16 set_or_clear_actor_status_slot();
 extern void unlink_node(struct ObjectNodeHeader *node);
 extern void func_80044A50(struct ObjectNodeHeader *node);
 extern void retire_tracked_effect_by_id();

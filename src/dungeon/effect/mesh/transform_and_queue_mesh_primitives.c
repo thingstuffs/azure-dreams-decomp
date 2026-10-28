@@ -54,9 +54,9 @@ void try_apply_wind_protection(S_func_8187A800_0 *target, s32 effect_arg, Sprite
         } else if (target->unk_14 & ACTOR_PARTY_MEMBER) {
             message = get_unused_text_buffer();
             message_start = message;
-            message = expand_text_control_codes(&no_effect_target_prefix, message);
+            message = expand_text_control_codes(no_effect_target_prefix, message);
             message = append_entity_display_text(target, message);
-            message = expand_text_control_codes(&D_80024034, message);
+            message = expand_text_control_codes(D_80024034, message);
             clear_byte_and_advance(message);
             display_text_with_fullwidth_adjustment(message_start);
         }
@@ -905,7 +905,7 @@ void create_terrain_seeking_colored_point(
     s16 y_offset,
     s32 z_offset)
 {
-    S_func_800250B0_0 *source_obj = source;
+    ObjectNodeHeader *source_obj = source;
     s16 saved_field_04 = field_04_value;
     u32 saved_field_00 = field_00_value;
     s16 saved_pair ;
@@ -926,12 +926,12 @@ void create_terrain_seeking_colored_point(
     ObjectPosition *y_dest;
     ObjectPosition *z_dest;
 
-    spawned_obj = allocate_list_node(0x211, source_obj);
+    spawned_obj = allocate_list_node(0x211, &source_obj->next);
     if (spawned_obj != NULL) {
         saved_pair = paired_value;
         spawned_obj->unk_10 = advance_colored_point_toward_terrain;
         z_offset = rand() & 0x1F;
-        x_pos = ((MovingPosition *)source_obj->unk_08)->x;
+        x_pos = ((MovingPosition *)source_obj->position)->x;
         x_dest = spawned_obj->unk_08;
         x_pos += z_offset;
         x_bias = x_offset - 0x10;
@@ -939,7 +939,7 @@ void create_terrain_seeking_colored_point(
         x_dest->x.w.i = (s16)x_pos;
 
         y_jitter = rand() & 0x1F;
-        y_pos = ((MovingPosition *)source_obj->unk_08)->y;
+        y_pos = ((MovingPosition *)source_obj->position)->y;
         y_dest = spawned_obj->unk_08;
         y_pos += y_jitter;
         y_bias = y_offset - 0x10;
@@ -950,7 +950,7 @@ void create_terrain_seeking_colored_point(
         init_obj = spawned_obj;
         init_data = project_colored_point_to_ordering_table;
         z_jitter &= 0x1F;
-        z_pos = ((MovingPosition *)source_obj->unk_08)->z;
+        z_pos = ((MovingPosition *)source_obj->position)->z;
         actor_data = (S_func_800250B0_3 *)((u8 *)spawned_obj + 0x20);
         z_dest = spawned_obj->unk_08;
         z_pos += z_jitter;

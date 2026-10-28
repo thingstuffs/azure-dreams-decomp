@@ -8,9 +8,9 @@
 
 typedef struct InnerA464 {
     u8 pad0[0x8];
-    s32 field_8;
+    u16 *field_8;
     u8 padC[0x18 - 0xC];
-    s32 field_18;
+    u16 *field_18;
 } InnerA464;
 
 typedef struct ObjA464 {

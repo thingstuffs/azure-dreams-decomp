@@ -14,13 +14,6 @@
 
 typedef s32 M2C_UNK;
 
-typedef struct S_80B85054_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} S_80B85054_1;   /* work in func_80B85054 */
 
 typedef struct S_80B85054_2 {
     u8 pad_00[0xA];
@@ -39,7 +32,7 @@ typedef struct S_80B85054_4 {
 } S_80B85054_4;   /* actor in func_80B85054 */
 
 extern s32 generate_random_value(void);
-extern void set_or_clear_actor_status_slot();
+s16 set_or_clear_actor_status_slot(ActorRecord *owner, s8 id, s8 value);
 extern u8 D_80158A30[];
 extern M2C_UNK D_80158E5C;
 extern u8 D_8015BD0C[];
@@ -51,7 +44,8 @@ extern u8 D_8015BD4C[];
 void *create_battnel_actor(s16 spawn_flags, s16 part_byte_24, s16 part_byte_25, s16 part_value)
 {
     s32 kind;
-    S_80B85054_1 *work = 0;
+    ActorRecord *work = 0;
+    void *body;
     ObjectNodeHeader *obj;
     ObjectPosition *part_a;
     SpriteFrameState *part_b;
@@ -68,9 +62,10 @@ void *create_battnel_actor(s16 spawn_flags, s16 part_byte_24, s16 part_byte_25, 
     saved_byte_25 = part_byte_25;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (u8 *)obj + 0x20;
+        body = obj + 1;
+        work = body;
         obj->update_callback = D_80158A30;
-        work->unk_13 = MONSTER_BATTNEL;
+        work->species = MONSTER_BATTNEL;
         register_node(obj, project_sprite_chain);
 
         part_a = obj->position;
@@ -78,32 +73,32 @@ void *create_battnel_actor(s16 spawn_flags, s16 part_byte_24, s16 part_byte_25, 
         part_b = obj->sprite;
         kind = spawn_flags & 3;
         part_b->tile_y = saved_byte_25;
-        actor = work;
+        actor = body;
         part_b->frameTable = D_8015BD0C;
         part_b->tile_x = saved_byte_24;
         do {
 
             if (kind == 1) {
-                flags_or_roll = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-                secondary_flags = work->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-                work->unk_14 = flags_or_roll;
-                work->unk_1C = secondary_flags;
+                flags_or_roll = work->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+                secondary_flags = work->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+                work->flags14 = flags_or_roll;
+                work->flags1C = secondary_flags;
             } else if (kind >= 2) {
-                flags_or_roll = work->unk_14 | ACTOR_CLASS_ENABLED;
-                secondary_flags = work->unk_1C | ACTOR_PLAYER_SIDE;
-                work->unk_14 = flags_or_roll;
-                work->unk_1C = secondary_flags;
+                flags_or_roll = work->flags14 | ACTOR_CLASS_ENABLED;
+                secondary_flags = work->flags1C | ACTOR_PLAYER_SIDE;
+                work->flags14 = flags_or_roll;
+                work->flags1C = secondary_flags;
             } else {
                 part_arg = obj;
                 if (((spawn_flags & ~3) << 16) == 0) {
-                    if (!(work->unk_14 & ACTOR_RESIST_SLEEP)) {
+                    if (!(work->flags14 & ACTOR_RESIST_SLEEP)) {
                         part_arg = part_a;
                         flags_or_roll = generate_random_value();
                         part_arg = obj;
                         if (!(flags_or_roll & 1)) {
                             break;
                         }
-                        work->unk_1C |= ACTOR_ASLEEP;
+                        work->flags1C |= ACTOR_ASLEEP;
                         set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                       (generate_random_value() & 0x3F) | 0x20);
                         part_b->frameTable = D_8015BD4C;

@@ -50,6 +50,14 @@ void queue_framebuffer_strip_quads(void);
 void dispatch_object_renderers(void);
 
 
+void begin_parameterized_actor_action(void *object, void *unused_1, void *unused_2, void *word_value, s32 halfword_value);
+
 void begin_player_menu_action(void *actor, void *unused_1, void *unused_2, void *action_value);
+
+void begin_player_trap_trigger(void *object, void *unused_1, void *unused_2, void *shared_value);
+
+void create_familiar_deployment_overlay(void *owner_body, ObjectPosition *source_pos, SpriteFrameState *owner);
+
+void begin_player_jump(struct Rec_func_8008ACDC_arg0 *state, void *unused, SpriteFrameState *sprite, ActorRecord *actor);
 
 #endif

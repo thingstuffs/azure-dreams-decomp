@@ -42,4 +42,6 @@ void initialize_mother_event_actor(void *actor, void *state, void *init_param);
 void choose_mother_event_direction(Rec_func_80094268_arg0 *entity, void *bounds_arg, void *context_arg);
 void initialize_mother_event_with_timer_16(void *object, void *unused, void *init_data);
 
+void func_800C7A00(void *object, void *motion, void *init_data, s32 check_arg);
+
 #endif

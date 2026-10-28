@@ -2,13 +2,6 @@
 #include "engine/audio/sequence.h"
 #include "engine/audio/spu.h"
 
-typedef struct {
-    s32 field_0;
-    s32 field_4;
-    u16 field_8;
-    u16 field_A;
-    u8 pad0C[0x40 - 0x0C];
-} S_8005B16C_req;
 
 extern s32 audio_voice_count[4];
 extern s32 audio_voice_masks[24];
@@ -20,7 +13,7 @@ extern SoundSequenceSlot audio_sequence_slots[8];
 /* Dispatches type-3 requests for active channels and marks the selected slot active. */
 void activate_sequence_slot(s16 slot_index)
 {
-    S_8005B16C_req request;
+    SpuVoiceAttr_ request;
     u8 *channel;
     s32 channel_index;
     s32 *channel_flags;
@@ -36,10 +29,10 @@ loop:
             if (*(u16 *)(channel + 0x1A) != 0) {
                 s32 request_type;
                 request_type = 3;
-                request.field_4 = request_type;
-                request.field_0 = *channel_flags;
-                request.field_8 = *(u16 *)(channel + 0x10);
-                request.field_A = *(u16 *)(channel + 0x12);
+                request.mask = request_type;
+                request.voice = *channel_flags;
+                request.volume.left = *(u16 *)(channel + 0x10);
+                request.volume.right = *(u16 *)(channel + 0x12);
                 apply_spu_voice_attributes(&request);
             }
         }

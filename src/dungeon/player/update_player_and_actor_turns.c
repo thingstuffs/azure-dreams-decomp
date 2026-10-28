@@ -39,7 +39,7 @@ extern void set_camera_targets(void *target_position, void *target_rotation, s32
 extern void queue_view_slot(int slot_selector);                     /* extern */
 extern short SD_Call(int flags);                     /* extern */
 #include "dungeon/player/input.h"
-s32 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);                 /* extern */
+s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);                 /* extern */
 void *find_eligible_actor_at_tile_and_height(struct Node *node, s16 x, s16 y_in, s16 value);           /* extern */
 s32 set_monster_reachability_flag(void);                             /* extern */
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);                           /* extern */

@@ -1004,7 +1004,7 @@ extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 extern s32 check_entity_interaction_compatibility();
 extern s32 advance_staged_entity_load();
 extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
-extern void *create_actor_spell_effect(void *, void *, s32, void *);
+void *create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);
 extern void on_actor_status_updated(void *);
 extern void func_800A9A04(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
@@ -1049,9 +1049,9 @@ void *create_linked_object_position(s16 spawn_flags, s16 attr_a, s16 attr_b, s32
 void set_boss_effect_flag(void *entity, CB_80170C24_S_80170C24_2 *motion, void *monster);
 void dispatch_actor_turn_and_motion(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_actor_stored_path(ActorRecord *motion, ObjectPosition *update_param, SpriteFrameState *entity, ActorRecord *state);
-void choose_and_step_actor_path(Rec_func_800A9E70_arg0 *move_data, ObjectPosition *context, TileObject *position_data, ActorRecord *actor_data);
+void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context, TileObject *position_data, ActorRecord *actor_data);
 void begin_directional_actor_animation(ActorRecord *state, ObjectPosition *unused_position, SpriteFrameState *render_state, ActorRecord *entity);
-s32 try_begin_adjacent_actor_attack(Rec_func_800A9E70_arg0 *action_state, ObjectPosition *motion_param, void *sprite_arg, ActorRecord *actor);
+s32 try_begin_adjacent_actor_attack(ActorRecord *action_state, ObjectPosition *motion_param, void *sprite_arg, ActorRecord *actor);
 void begin_unchecked_directional_attack(ActorRecord *state, ObjectPosition *position, SpriteFrameState *render_state, ActorRecord *entity);
 s32 resolve_actor_action_readiness(void *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
 void finish_actor_step_and_status(ActorRecord *state_arg, ObjectPosition *position, SpriteFrameState *render_state, ActorRecord *entity);

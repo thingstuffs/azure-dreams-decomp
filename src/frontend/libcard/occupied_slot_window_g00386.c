@@ -55,9 +55,9 @@ void card_boot_layout_alternate_slot_window(void *context) {
 void card_boot_populate_slot_window_display(s32 *state) {
     func_80023BE4((u8 *)state + 0x134, 0x80, 0x18);
     func_80023BE4((u8 *)state + 0x1AC, 0x2A, 0x14);
-    if (card_save_slot_metadata[*state].unk0 != 0) {
+    if (card_save_slot_metadata[*state].words[0] != 0) {
         card_boot_format_occupied_slot_window(state);
-        if (card_save_slot_metadata[*state].unk8 != 0) {
+        if (card_save_slot_metadata[*state].halfwords[4] != 0) {
             card_boot_layout_alternate_slot_window(state);
             return;
         }

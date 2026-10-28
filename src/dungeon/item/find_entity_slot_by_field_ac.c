@@ -1,15 +1,16 @@
+#include "dungeon/item/actor_target.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
 /* Finds the first matching value in the four slots at offset 0xAC, or returns -1. */
-s32 find_entity_slot_by_field_ac(s32 target_value) {
+s32 find_entity_slot_by_field_ac(void *target_value) {
     s32 slot;
-    s32 *slot_ptr;
-    s32 slot_value;
+    void **slot_ptr;
+    void *slot_value;
     s16 match_index;
 
     slot = 0;
-    slot_ptr = (s32 *)((u8 *)dungeon_actor_ring_anchor);
+    slot_ptr = (void **)dungeon_actor_ring_anchor;
     do {
         slot_value = slot_ptr[0x2B];
         if (slot_value != target_value) {

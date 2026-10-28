@@ -12,14 +12,9 @@
 #include "dungeon/actor.h"
 #include "engine/node/allocation.h"
 #include "engine/node.h"
+#include "dungeon/actor/animation.h"
+#include "dungeon/actor/status.h"
 
-typedef struct S_80FF9000_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} S_80FF9000_1;   /* work in spawn_killer_slot_b */
 
 typedef struct S_80FF9000_2 {
     u8 pad_00[0xA];
@@ -42,9 +37,7 @@ check for the proven-region rename of func_80152800. */
     void func_80152800(void);
 #endif
 
-s16 set_or_clear_actor_status_slot();
 s32 generate_random_value(void);
-void initialize_actor_sprite_and_animation();
 extern u8 D_80152A7C[];
 extern M2C_UNK D_80152EA8;
 extern M2C_UNK D_80156038;
@@ -59,7 +52,8 @@ void *spawn_killer_slot_b(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_valu
     s16 saved_x;
     s16 saved_y;
     s16 init_flags;
-    S_80FF9000_1 *work;
+    ActorRecord *work;
+    void *body;
     s32 alloc_kind;
     void *alloc_desc;
     s32 random_bits;
@@ -81,36 +75,37 @@ void *spawn_killer_slot_b(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_valu
     obj = allocate_list_node(alloc_kind, alloc_desc);
     init_flags = spawn_flags;
     if (obj != NULL) {
-        work = ((void *)obj) + 0x20;
+        body = obj + 1;
+        work = body;
         obj->update_callback = &D_80152A7C;
-        work->unk_13 = MONSTER_KILLER;
+        work->species = MONSTER_KILLER;
         register_node(obj, project_sprite_chain);
         part_a = obj->position;
         part_a->z.w.i = part_value;
         part_b = obj->sprite;
         kind = spawn_flags & 3;
         part_b->tile_y = saved_y;
-        actor = work;
+        actor = body;
         part_b->frameTable = &D_80156038;
         part_b->tile_x = saved_x;
 
         if (kind == 1) {
-            flags_14 = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            flags_1c = work->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-            work->unk_14 = flags_14;
-            work->unk_1C = flags_1c;
+            flags_14 = work->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            flags_1c = work->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            work->flags14 = flags_14;
+            work->flags1C = flags_1c;
         } else if (kind >= 2) {
-            flags_14 = work->unk_14 | ACTOR_CLASS_ENABLED;
-            flags_1c = work->unk_1C | ACTOR_PLAYER_SIDE;
-            work->unk_14 = flags_14;
-            work->unk_1C = flags_1c;
+            flags_14 = work->flags14 | ACTOR_CLASS_ENABLED;
+            flags_1c = work->flags1C | ACTOR_PLAYER_SIDE;
+            work->flags14 = flags_14;
+            work->flags1C = flags_1c;
         } else {
             extra_flags = (spawn_flags & ~3) << 0x10;
             if (extra_flags == 0) {
-                if (!(work->unk_14 & ACTOR_RESIST_SLEEP)) {
+                if (!(work->flags14 & ACTOR_RESIST_SLEEP)) {
                     random_bits = generate_random_value();
                     if (random_bits & 1) {
-                        work->unk_1C = (s32) (work->unk_1C | ACTOR_ASLEEP);
+                        work->flags1C = (s32) (work->flags1C | ACTOR_ASLEEP);
                         set_or_clear_actor_status_slot(work, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                         part_b->frameTable = &D_80156088;
                     }
@@ -118,7 +113,7 @@ void *spawn_killer_slot_b(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_valu
             }
         }
 
-        initialize_actor_sprite_and_animation((s32)obj, part_a, part_b, init_flags);
+        initialize_actor_sprite_and_animation(obj, part_a, part_b, init_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_80152EA8;

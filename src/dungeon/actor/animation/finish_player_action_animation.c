@@ -1,14 +1,14 @@
+#include "dungeon/actor/animation.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
-#include "records/Rec_func_8008ACDC_arg0.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
 /* Reset the entity to state 0x3A and clear its context's 0x20 flag. */
-void finish_paralyzed_actor_action(Rec_func_8008ACDC_arg0 *entity, s32 unused_1, SpriteFrameState *unused_2, ActorRecord *context) {
-    entity->unk_9A.as_s8 = 0x3A;
-    entity->unk_9B.as_s8 = 0;
-    entity->unk_8C.as_s32 = 0;
-    entity->unk_96.as_s16 = 0;
+void finish_paralyzed_actor_action(ActorRecord *entity, s32 unused_1, SpriteFrameState *unused_2, ActorRecord *context) {
+    entity->action_id.s = 0x3A;
+    entity->action_phase.s = 0;
+    entity->unk_8C.address = 0;
+    entity->action_timer.s = 0;
     context->flags1C = (s32) (context->flags1C & ~ACTOR_PARALYZED);
 }

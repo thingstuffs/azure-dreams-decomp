@@ -201,6 +201,15 @@ a compatible function type, catching arity, return and parameter regressions eve
 when both names are unused. `test_header_types.py` exercises valid pairs and
 wrong arity, return, parameter and function/data pairs with GCC and Clang.
 
+The flag reader accepts both legacy literal `CFLAGS` lists and the shared
+`native_units.cflags` API. It selects GCC or Clang flags for the requested compiler,
+with O1, sanitizers off and coverage off; pointer-width and diagnostic options
+remain owned by the lint commands. Only the flag function is evaluated: builder
+startup, module startup and disc extraction are not executed. Compiler, flags,
+TU selection and diagnostic occurrence pins remain enforced by the existing baseline.
+Run `python3 -m unittest discover -s tools/tests -p test_native_flag_api.py -v`
+for compatibility and startup-side-effect regression checks.
+
 The bundled `soundness_gcc_baseline.json` records the reviewed 6,013-TU GCC
 callback census (24 diagnostic groups, 29 occurrences); it is not an LTO or Clang baseline.
 

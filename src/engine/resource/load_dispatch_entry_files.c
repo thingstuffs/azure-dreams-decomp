@@ -6,7 +6,7 @@ typedef struct S_8006CE80_inner {
     s32 unk00;
     s32 unk04;
     s32 unk08;
-    s32 *unk0C; /* null-terminated list of callback args */
+    void **unk0C; /* null-terminated list of resource descriptor pointers */
 } S_8006CE80_inner;
 
 typedef struct S_8006CE80 {
@@ -25,7 +25,7 @@ extern S_8006CE80 dispatch_resource_records[35];
 void load_dispatch_entry_files(u16 entry_index) {
     S_8006CE80 *entry;
     S_8006CE80_inner *record;
-    s32 *callback_args;
+    void **callback_args;
 
     entry = &dispatch_resource_records[entry_index];
     record = entry->unk04;

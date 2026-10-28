@@ -83,4 +83,52 @@ void configure_actor_slot_65_and_render_state(void *context, void *unused, struc
 
 void configure_actor_slot_66_and_render_state(void *context, void *unused, struct SpriteFrameState *stateWords);
 
+void initialize_transform_object(void *object, void *unused_position, struct SpriteFrameState *unused_sprite);
+
+void init_actor_slot_30(void *actor, void *unused_position, struct SpriteFrameState *unused_sprite);
+
+void init_person_slot_fifty_one(void *body, void *unused_position, struct SpriteFrameState *unused_sprite);
+
+void configure_actor_slot_16(void *actor, void *unused_position, struct SpriteFrameState *unused_sprite);
+
+void configure_actor_slot_22(void *actor, void *unused_position, struct SpriteFrameState *unused_sprite);
+
+void init_person_slot_nineteen(void *body, void *unused_position, struct SpriteFrameState *unused_sprite);
+
+void configure_actor_mode_13(void *actor, void *unused_position, struct SpriteFrameState *unused_sprite);
+
+void init_person_slot_thirty_five(void *body, void *unused_position, struct SpriteFrameState *unused_sprite);
+
+void configure_actor_slot_63(void *actor, void *unused_position, struct SpriteFrameState *unused_sprite);
+
+void configure_actor_slot_32(void *actor, void *unused_position, struct SpriteFrameState *unused_sprite);
+
+void init_person_slot_four(void *body, void *unused_position, struct SpriteFrameState *unused_sprite);
+
+void initialize_variant_object(void *body, void *unused_position, struct SpriteFrameState *unused_sprite);
+
+void init_person_slot_thirty_three(void *body, void *unused_position, struct SpriteFrameState *unused_sprite);
+
+void init_person_slot_fifty(void *body, void *unused_position, struct SpriteFrameState *unused_sprite);
+
+void configure_actor_slot_34(void *actor, void *unused_position, struct SpriteFrameState *unused_sprite);
+
+void configure_actor_slot_14(void *actor, void *unused_position, struct SpriteFrameState *unused_sprite);
+
+void configure_actor_slot_20(void *actor, void *unused_position, struct SpriteFrameState *unused_sprite);
+
+void configure_actor_slot_58(void *actor, void *unused_position, struct SpriteFrameState *unused_sprite);
+
+void configure_actor_slot_43(void *actor, void *unused_position, struct SpriteFrameState *unused_sprite);
+
+void configure_actor_slot_80(void *actor, void *unused_position, struct SpriteFrameState *unused_sprite);
+
+void configure_actor_slot_5(void *actor, void *unused_position, struct SpriteFrameState *unused_sprite);
+
+void init_person_slot_eight(void *object, void *position, struct SpriteFrameState *state);
+
+void initialize_object_slot_9_data(void *object, void *position, struct SpriteFrameState *state);
+
+void initialize_object_slot_9_and_display(void *object, void *position, struct SpriteFrameState *state);
+
 #endif

@@ -1,6 +1,7 @@
 #ifndef MODULES_TOWN_DOOR_H
 #define MODULES_TOWN_DOOR_H
 #include "engine/scene.h"
+#include "town/map/object_setup.h"
 
 struct S_800A092C_0;
 struct S_800A0958_0;
@@ -25,7 +26,7 @@ typedef struct S_800A0668_1 {
 typedef struct S_800A06A4_0 {
     s32 * unk_00;
     u8 pad_04[0x14];
-    s32 unk_18;
+    void *position;
     s32 * unk_1C;
     u8 pad_20[0x40];
     s32 * unk_60;
@@ -164,7 +165,7 @@ typedef struct S_800A0F10_0 {
 } S_800A0F10_0;
 
 s32 check_door_status_inverted(void *object);
-void initialize_door_variant(void *record_data, s32 initial_value);
+
 void handle_door_check_result(S_func_800A0708_0 *object, void *callback_arg, s32 callback_data);
 void install_next_door_handler(void *object, void *unused_context, void *update_context, s32 unused_data);
 void emit_door_position_effect(S800A3088Arg0 *entity, s32 action, S800A3088Arg2 *position);

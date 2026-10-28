@@ -60,7 +60,7 @@ s32 draw_adjacent_row_quads(void)
 
             /* This address is needed only by the loop's terminal writeback. */
     {
-        u8 **state_slot = &g_game_work.draw_buffer;
+        void **state_slot = &g_game_work.draw_buffer;
 
         if (D_80026476 > 0) {
             vertices = particle_quad_vertices;

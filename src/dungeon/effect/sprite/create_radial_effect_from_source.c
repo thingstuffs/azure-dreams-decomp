@@ -951,7 +951,7 @@ s32 build_shaded_quads_adjacent_vertex_rows_adds_them_ordering_table(void)
 
             /* This address is needed only by the loop's terminal writeback. */
     {
-        u8 **state_slot = &g_game_work.draw_buffer;
+        void **state_slot = &g_game_work.draw_buffer;
 
         if (D_8002632A > 0) {
             vertices = staged_glow_data;

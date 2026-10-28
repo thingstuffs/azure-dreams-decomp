@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/list_setup.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -8,7 +9,6 @@
 
 struct S_8003FE78; void * initialize_scene_object_in_buffer(s32, struct S_8003FE78 *, s16);
 void initialize_circular_list_head(void);
-struct Rec_D_800CFCB4; void handle_insert_initialize_two_values_status_flags(struct Rec_D_800CFCB4 *, s32, s32);
 void initialize_pointer_table_self_links(void);
 struct Rec_D_800FE490; void initialize_the_store_two_values_set_state_flags(struct Rec_D_800FE490 *, s32, s32);
 void run_the_three_update_routines_context(s32);
@@ -43,7 +43,7 @@ void initialize_object_at_current_position(void) {
     object->sprite = &reference_tile_object.frame_entry;
     object->position = &view_reference_entity.x.v;
     initialize_circular_list_head();
-    handle_insert_initialize_two_values_status_flags(&town_actor_control, (s32)(&view_reference_entity.x.v), (s32)(&D_800D0420));
+    handle_insert_initialize_two_values_status_flags(&town_actor_control, &view_reference_entity.x.v, &D_800D0420);
     initialize_pointer_table_self_links();
     initialize_the_store_two_values_set_state_flags(&town_motion_list, (s32)(&view_reference_entity.x.v), (s32)(&D_800D0420));
     {

@@ -88,7 +88,6 @@ extern void func_8003E188(s32, void *);
 extern void *allocate_list_node(s32, void *);
 extern void register_node(TownObject *, void *);
 
-extern void configure_the_set_mode_n_2(TownPart *, TownTransform *, void *);
 
 /* Initializes the town display objects, panel lines, and image tiles. */
 s32 initialize_snowball_minigame(void)

@@ -26,34 +26,15 @@
 #include "dungeon/player/object.h"
 #include "engine/texture.h"
 #include "engine/node/allocation.h"
+#include "dungeon/actor/status.h"
 struct ObjectPosition;
 
 #define NULL 0
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 typedef s32 R12_8017087C_M2C_UNK;
-typedef struct R12_8017087C_S_8017087C_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} R12_8017087C_S_8017087C_0;
-typedef struct R12_8017087C_S_8017087C_1 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} R12_8017087C_S_8017087C_1;
-typedef struct R12_8017087C_Work {
-    u8 pad0[0x13];
-    s8 byte13;
-    s32 flags14;
-    u8 pad18[4];
-    s32 flags1c;
-    u8 pad20[0x6C];
-    void *ptr8c;
-    u8 pad90[0xA];
-    u8 byte9a;
-    u8 pad9b;
-    s8 byte9c;
-} R12_8017087C_Work;
+
+
+
 typedef void (*R12_80170A44_EntityCallback)(void *, void *, void *, void *);
 typedef struct R12_80170A44_S_80170A28_0 {
     u8 pad_00[0x4];
@@ -140,11 +121,6 @@ typedef struct R12_801720B4_S_80172628_0 {
     u8 pad_72[0x28];
     s8 unk_9A;
 } R12_801720B4_S_80172628_0;
-typedef struct R12_801721F8_S_801724A8_0 {
-    u8 pad_00[0x8C];
-    ActorActionHandler unk_8C;
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_90;   
-} R12_801721F8_S_801724A8_0;
 typedef struct R12_80172290_S_80172290_0 {
     u8 pad_00[0x8C];
     u8 * unk_8C;
@@ -657,7 +633,6 @@ void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 s32 generate_random_value(void);
-s32 set_or_clear_actor_status_slot();
 void initialize_actor_sprite_and_animation(void *entity, void *position, SpriteFrameState *sprite, s32 init_flags);
 void advance_sprite_animation_and_textures(void *entity);
 void apply_monster_koyaw_data(s32 flags, s8 *dst);
@@ -696,8 +671,8 @@ struct Entry;
 struct ObjectNodeHeader;
 struct ObjectNodeHeader;
 s32 relink_entity_and_clear_high_flag();
-void advance_status_timers();
-s32 update_actor_movement_to_tile();
+void advance_status_timers(void *record);
+s32 update_actor_movement_to_tile(void *move_state, void *motion, void *target_tile, ActorRecord *actor);
 void spend_actor_mp();
 
 void on_actor_status_updated(void *actor);
@@ -709,7 +684,7 @@ s32 get_cd_command_queue_depth(void);
 void * scan_actor_along_heading();
 void * create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);
 void create_two_row_object_group(void *payload, s16 value_scale);
-void begin_actor_display_action();
+void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
 void unlink_entity_node();
 void distribute_experience_and_report_gains();
 void * detach_record_and_update_slot_state(void *record);
@@ -791,7 +766,7 @@ void advance_linked_actor_motion_script(void *object, ObjectPosition *unused, vo
 s32 try_arachne_attack(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor);
 void select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
 s32 relink_arachne_path(void *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
-void finish_actor_tile_move_then_select_target(R12_801721F8_S_801724A8_0 *state, s32 context, s32 source, s32 target);
+void finish_actor_tile_move_then_select_target(ActorRecord *state, ObjectPosition *context, SpriteFrameState *source, ActorRecord *target);
 void complete_actor_arc_movement(void *action, void *motion, void *map_actor, void *actor);
 void check_boss_effect_threshold(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
 void advance_action_and_spawn_effect(void *action, void *motion, void *entity, void *actor);

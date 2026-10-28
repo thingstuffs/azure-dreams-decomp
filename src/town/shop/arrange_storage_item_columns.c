@@ -7,7 +7,6 @@ extern u8 shop_cursor_template[];
 extern u8 D_80071244[];
 extern void func_800B5020(void *work);
 extern void populate_paged_entries_with_brightness(void *page, void *source, s32 value);
-extern void forward_source_data_to_component(void *object);
 extern void update_control_indicators_and_flags(void *object);
 extern void forward_record_fields_to_page_loader(void *loader, void *object);
 extern s32 display_block_defaults[4];

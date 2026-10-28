@@ -2,6 +2,7 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "dungeon/monster/ghosh.h"
 #include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_D_80174CD8.h"
@@ -19,7 +20,6 @@ typedef struct S_801722F0_1 {
 
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void update_cascading_trail_emitter(void *record_data);
-extern Rec_D_80174CD8 *ghosh_boss_node;
 
 /* Create an effect at the source position and play its sound. */
 void spawn_cascading_trail_emitter(void) {
@@ -30,7 +30,7 @@ void spawn_cascading_trail_emitter(void) {
     S_801722F0_1 *effect_params;
     ObjectPosition *effect_pos;
 
-    source_pos = ghosh_boss_node->unk_08;
+    source_pos = ghosh_boss_node->position;
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
         setup_data = project_sprite_chain;

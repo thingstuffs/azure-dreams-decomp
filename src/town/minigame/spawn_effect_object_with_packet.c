@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "slus.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -21,8 +22,7 @@ extern u8 D_800D2348[];
 extern s32 D_800D2360;
 
 /* Initialize an object and its packet, then set the caller and global flags. */
-void spawn_effect_object_with_packet(void *caller_data)
-{
+void spawn_effect_object_with_packet(void *caller_data, void *unused_position, struct SpriteFrameState *unused_sprite) {
     ObjectNodeHeader *obj;
     SpriteFrameState *part;
     void *setup;

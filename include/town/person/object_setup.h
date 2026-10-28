@@ -21,4 +21,11 @@ void initialize_reaction_movement(void *object, void *movement_state, void *init
 void decrement_countdown_call(struct Rec_func_80094268_arg0 *object, s32 unused, void *callback_context);
 void decrement_reaction_timer_and_reinitialize(struct Rec_func_80094268_arg0 *object, void *context, void *setup);
 
+struct SpriteFrameState;
+struct Rec_D_800CFCB4;
+
+void initialize_reaction_context(void *object, void *position, struct SpriteFrameState *state);
+void initialize_record_from_table_index(void *object, void *position, struct SpriteFrameState *state);
+void initialize_object_sprite(struct Rec_D_800CFCB4 *object, void *position, struct SpriteFrameState *state);
+
 #endif

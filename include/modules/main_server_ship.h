@@ -8,7 +8,7 @@ typedef struct MainCardPair { s32 a; s32 b; } MainCardPair;
 typedef struct CallbackSet { card_event_callback_fn value[5]; } CallbackSet;
 typedef struct CallbackWork { CallbackSet first; s32 pad; CallbackSet second; } CallbackWork;
 typedef struct MainCardDirectoryEntry { u8 name[0x18]; s32 size; u8 tail[0xC]; } MainCardDirectoryEntry;
-typedef struct MainSaveSlot { s32 words[32]; } MainSaveSlot;
+#include "frontend/card.h"
 extern u8 card_event_error_format[];
 extern u8 card_server_filename[];
 extern CallbackSet card_software_handlers;
@@ -36,7 +36,6 @@ extern MainCardPair card_filtered_status;
 extern MainCardPair card_presence_flags;
 extern s32 card_event_backend_mode[];
 extern s32 card_hardware_status[];
-extern MainSaveSlot card_save_slot_metadata[5];
 extern MainCardPair card_slot_completion_flags;
 extern s32 card_remaining_block_counts[];
 extern s32 card_directory_counts[];

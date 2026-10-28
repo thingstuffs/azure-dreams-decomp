@@ -2,6 +2,9 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_8009BE50, PD:dungeon/engine:800E3DA0, PD:dungeon/engine:800E3DB0, PD:dungeon/engine:800E3DD0, PD:dungeon/engine:800E3DE0. */
 #include "dungeon/item/monster_resource_slots_g00325.h"
 
+/* BYTES: this caller passes the promoted key; a narrow prototype changes its register allocation. */
+extern void mark_sprite_resource_for_purge(s32 lookup_key);
+
 /* Return whether one of six entries matches the ID, treating 0x39 as 2. */
 s32 has_matching_six_slot_entry(entry_id)
 s16 entry_id;
@@ -104,7 +107,7 @@ scan:
         type_three = 3;
         match_id = (s16)slot_id;
         type_two = 2;
-        slot_ids = (s8 *)monster_resource_cache_ids;
+        slot_ids = monster_resource_cache_ids;
         entry_id = entry + 1;
         do {
             if (((slot_type != type_one) && (slot_type != type_three)) || (*entry == slot_type)) {

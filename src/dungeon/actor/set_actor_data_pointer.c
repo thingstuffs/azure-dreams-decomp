@@ -5,7 +5,7 @@ extern u8 actor_default_action_address;
 
 typedef struct S_800D491C_0 {
     u8 pad_00[0x8C];
-    s32 * unk_8C;
+    void *unk_8C;
 } S_800D491C_0;   /* arg0 in set_actor_data_pointer */
 
 /* Sets the object data pointer when the status check is positive. */

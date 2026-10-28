@@ -9,7 +9,7 @@
 
 typedef struct S_80036210_2 {
     u8 pad_00[0x80];
-    s32 unk_80;
+    void *unk_80;
 } S_80036210_2;   /* ((Rec_func_80036210_arg0 *)arg0)->unk_74.as_pv in func_80036210 */
 
 extern u8 triggered_cursor_record_storage[];

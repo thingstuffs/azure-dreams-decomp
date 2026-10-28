@@ -1,7 +1,8 @@
 #include "common.h"
+struct State;
 
 extern void adjust_source_value_and_finalize(void *context, const void *source);
-extern s32 roll_threshold_effect_variant_b(void *entity, s16 chance, s16 effect_value);
+extern s32 roll_threshold_effect_variant_b(struct State *state_ptr, s16 limit_input, s16 byte_input);
 extern s32 wrap_position_and_set_state_value(s32 state_value);
 extern s32 D_800DCF14;
 extern u8 D_800E191B[];

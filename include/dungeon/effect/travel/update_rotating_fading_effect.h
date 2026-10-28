@@ -14,6 +14,7 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/level.h"
 #include "dungeon/system.h"
+#include "dungeon/effect.h"
 typedef struct ovl_18ca83c_818AABB8_S_800243B8_0 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -138,7 +139,6 @@ extern void func_80025118(void);
 extern s32 get_random_scaled_value(s16 input_value);
 extern void apply_clamped_actor_value_delta(void *);
 extern void cap_pending_actor_value_delta(void *);
-extern void create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void register_node(void *, void *);
 extern void func_8004491C(void *, void *);

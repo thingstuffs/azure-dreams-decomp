@@ -14,4 +14,8 @@ extern u32 D_8009AB74;
 void move_player_toward_target(void *state, void *object);
 void approach_player_target_position(void *state, void *motion);
 
+struct SpriteFrameState;
+
+void set_motion_handler_and_copy_signed_byte(void *record_data, void *placement, struct SpriteFrameState *unused_sprite);
+
 #endif

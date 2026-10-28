@@ -1,4 +1,6 @@
 #include "common.h"
+#include "town/map/object_setup.h"
+#include "town/scene/list_setup.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_D_80082E80.h"
@@ -11,14 +13,13 @@ typedef struct S_800BC8D0_1_pre {
 
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void register_node(void *, void *);
-extern void configure_the_set_mode_n_3(void *, s32, void *);
 extern u8 D_80089634[];
 extern u8 D_800BE0D4[];
 extern s32 town_object_defaults[];
 extern u8 D_800D20F4[];
 
 /* Initializes the object with default data and updates its associated state. */
-void initialize_object_with_default_data(void *object, s32 init_arg, SpriteFrameState *state)
+void initialize_object_with_default_data(void *object, void *init_arg, SpriteFrameState *state)
 {
     s32 *defaults;
 

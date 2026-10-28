@@ -7,7 +7,7 @@
 #include "town/person/position.h"
 
 /* Creates a positioned object and initializes its state and sprite. */
-ObjectNodeHeader *create_positioned_sprite_object(IntVector3 *position, s32 state_value, s32 graphic_id) {
+ObjectNodeHeader *create_positioned_sprite_object(IntVector3 *position, s32 state_value, SpriteSourceEntry *graphic_id) {
     ObjectNodeHeader *object;
     void *object_state;
     ObjectPosition *transform;

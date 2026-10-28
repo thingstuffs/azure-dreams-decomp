@@ -1,6 +1,7 @@
 #include "shared/actor_status_flags.h"
 #include "dungeon/player.h"
 #include "common.h"
+#include "dungeon/item/monster_resource_slots_g00325.h"
 #include "shared/sys_flags.h"
 #include "shared/entity.h"
 #include "dungeon/level.h"
@@ -38,7 +39,6 @@ extern s32 get_entity_class();
 
 extern void equip_item_and_update_status();
 extern void change_equipped_item_and_notify();
-extern void *(*load_monster_resource_data(s32 resource_id, s32 resource_slot, s32 wait_for_read))(s32, s16, s16, s16);
 extern s32 retain_spawn_resource(s16 entry_type, s16 entry_key);
 extern u8 * find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type);
 extern s32 select_dungeon_spawn_tile(u8 *x_out, u8 *y_out);

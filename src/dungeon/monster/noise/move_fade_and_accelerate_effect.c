@@ -92,11 +92,12 @@ void spawn_random_velocity_offset_effect(EntityRec *parent, s16 effect_id, s32 e
 void *create_actor_with_direction_behavior(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     s32 kind;
-    T_80171190_Work *work;
+    ActorRecord *work;
+    void *body;
     ObjectNodeHeader *obj;
     void *part_storage;
     SignedHeightView *part_a;
-    T_80171190_S_80171190_2 *part_b;
+    SpriteFrameState *part_b;
     void *resource;
     T_80171190_Work *actor;
     s32 left;
@@ -112,9 +113,10 @@ void *create_actor_with_direction_behavior(s16 flags, s16 kind_id, s16 variant, 
     saved_variant = variant;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (T_80171190_Work *)((u8 *)obj + 0x20);
+        body = obj + 1;
+        work = body;
         obj->update_callback = D_80171358;
-        work->byte13 = 0x17;
+        work->species = 0x17;
         register_node(obj, project_sprite_chain);
 
         resource = noise_direction_frames;
@@ -124,21 +126,21 @@ void *create_actor_with_direction_behavior(s16 flags, s16 kind_id, s16 variant, 
         part_storage = obj->sprite;
         part_b = part_storage;
         kind = flags & 3;
-        part_b->unk_25 = saved_variant;
-        actor = work;
-        part_b->unk_2C = resource;
-        part_b->unk_24 = saved_kind_id;
+        part_b->tile_y = saved_variant;
+        actor = body;
+        part_b->frameTable = resource;
+        part_b->tile_x = saved_kind_id;
 
         if (kind == 1) {
             left = work->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            right = work->flags1c | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            right = work->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             work->flags14 = left;
-            work->flags1c = right;
+            work->flags1C = right;
         } else if (kind >= 2) {
             left = work->flags14 | ACTOR_CLASS_ENABLED;
-            right = work->flags1c | ACTOR_PLAYER_SIDE;
+            right = work->flags1C | ACTOR_PLAYER_SIDE;
             work->flags14 = left;
-            work->flags1c = right;
+            work->flags1C = right;
         } else {
             call_a1 = obj;
             if (((flags & ~3) << 16) == 0) {
@@ -149,7 +151,7 @@ void *create_actor_with_direction_behavior(s16 flags, s16 kind_id, s16 variant, 
                     if (left & 1) {
                         set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                       (generate_random_value() & 0x3F) | 0x20);
-                        part_b->unk_2C = noise_frame_set;
+                        part_b->frameTable = noise_frame_set;
                     }
                 }
             }

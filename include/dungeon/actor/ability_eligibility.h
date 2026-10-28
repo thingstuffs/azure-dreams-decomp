@@ -34,24 +34,12 @@ typedef struct S_800A34BC_0 {
     void * unk_04;
 } S_800A34BC_0;
 
-typedef struct S_800A3518_0 {
-    u8 pad_00[0x11];
-    u8 unk_11;
-    u8 pad_12[0x16];
-    u8 unk_28;
-    u8 unk_29;
-} S_800A3518_0;
-
 typedef struct {
     u8 pad0[0x11];
     u8 kind;
     u8 pad12[2];
 } DungeonEntry;
 
-typedef struct {
-    u8 pad[0x13];
-    u8 f13;
-} S_D_8006DE24;
 
 typedef struct S_800A36B4_0 {
     void * unk_00;
@@ -184,7 +172,7 @@ typedef struct S_800A4ACC_1 {
 
 #include "engine/item.h"
 extern int abs(int);
-extern s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
+extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern s32 generate_random_value(void);
 extern s32 check_monster_neighbor_relations(u8, u8, s16, u8, u8, s16);
@@ -210,7 +198,7 @@ extern void end_status_effect_message(void *entity, s16 effect_id);
 /* Functions defined in this translation unit. */
 s32 check_scaled_value_threshold(ActorRecord *state);
 s16 find_slot_by_definition_kind(u8 *slots, u8 kind);
-u8 get_definition_field_from_triple(s32 entry_addr, s32 entry_index);
+s32 get_definition_field_from_triple(ActorRecord *actor, s32 entry_index);
 s32 compare_three_bit_masks_cyclically(s32 left_mask, s32 right_mask);
 s32 get_definition_entry_byte_13(s16 entry_index);
 s32 choose_usable_ability_or_attack(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_ability);

@@ -1,6 +1,8 @@
 #ifndef TOWN_MAP_DIRECTIONAL_SPRITE_EFFECT_G00644_H
 #define TOWN_MAP_DIRECTIONAL_SPRITE_EFFECT_G00644_H
 #include "engine/node/allocation.h"
+#include "town/map/object_setup.h"
+#include "town/scene/list_setup.h"
 #include "engine/node.h"
 
 struct SpriteFrameState;
@@ -66,7 +68,6 @@ extern void D_800BC6CC();
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry town_directional_sprite_entries[];
 void select_record_entry_and_value(void *state,void *entries, short index);
-void configure_the_set_mode_n_1(struct Rec_func_8008F074_arg0 *, s32, s32);
 /* extern */
 extern void D_800BC764();
 extern M2C_UNK town_map_motion_defaults;
@@ -77,6 +78,5 @@ extern void advance_sprite_animation_and_textures(void *);
 s32 create_directional_sprite_effect(void *position, s16 angle);
 void advance_coordinates_and_propagate_flags(void *object_data, ObjectPosition *motion,struct SpriteFrameState *status);
 void wait_then_process_record(S_800BC764_0 *context, void *unused, struct SpriteFrameState *record);
-void initialize_record_resources(void *record, s32 init_context, s32 resource_target);
 
 #endif

@@ -29,7 +29,7 @@ extern void append_packed_action_record(void *object_ptr, s32 action_code, s32 p
 void update_actor_movement_and_map_flags(void *obj, s32 move_mode, SpriteFrameState *actor, void *map)
 {
     GameWork *globals;
-    register s16 move_kind;
+    register s16 movement_kind;
     register s32 move_result;
     register u16 *move_state;
     DungeonGlobalStatus *updated_state;
@@ -39,8 +39,8 @@ void update_actor_movement_and_map_flags(void *obj, s32 move_mode, SpriteFrameSt
     globals = &g_game_work;
     clear_pending_item_action_state();
     move_result = classify_adjacent_tile_height(S16(map, 0x2A), move_mode, actor, S16(map, 0x88), 0x20);
-    move_kind = (s16)move_result;
-    if (move_kind > 0) {
+    movement_kind = (s16)move_result;
+    if (movement_kind > 0) {
         U8(obj, 0x9B) = 0;
         update_map_cell_flags_with_item_limit(U8(actor, 0x24), actor->tile_y, 0x300);
         {
@@ -58,7 +58,7 @@ void update_actor_movement_and_map_flags(void *obj, s32 move_mode, SpriteFrameSt
         move_state[1] |= 8;
         S32(obj, 0x8C) = 0;
 
-        if (move_kind != 4) {
+        if (movement_kind != 4) {
             if (system_update_flags & 2) {
                 void *anim_entry;
 

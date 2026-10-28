@@ -13,14 +13,8 @@
 #include "dungeon/actor/animation.h"
 #include "engine/node/allocation.h"
 #include "engine/node.h"
+#include "dungeon/actor/status.h"
 
-typedef struct S_80DA7000_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} S_80DA7000_1;
 
 typedef struct S_80DA7000_2 {
     u8 pad_00[0xA];
@@ -36,7 +30,6 @@ typedef struct S_80DA7000_4 {
     s8 unk_9C;
 } S_80DA7000_4;
 
-s16 set_or_clear_actor_status_slot(); /* extern */
 s32 generate_random_value(void);
 extern M2C_UNK D_80158A3C;
 extern M2C_UNK D_80158E68;
@@ -53,7 +46,8 @@ void *damp_effect_motion_and_fade_sprite(s16 init_flags, s16 value_24, s16 value
     ObjectPosition *data_08;
     ObjectNodeHeader *object;
     S_80DA7000_4 *extended_state;
-    S_80DA7000_1 *state = NULL;
+    ActorRecord *state = NULL;
+    void *body;
     s8 saved_value_24;
     s8 saved_value_25;
     s16 saved_value_0a;
@@ -65,31 +59,32 @@ void *damp_effect_motion_and_fade_sprite(s16 init_flags, s16 value_24, s16 value
     saved_value_25 = value_25;
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != NULL) {
-        state = ((void *)object) + 0x20;
+        body = object + 1;
+        state = body;
         object->update_callback = &D_80158A3C;
-        state->unk_13 = MONSTER_DREAMIN;
+        state->species = MONSTER_DREAMIN;
         register_node(object, project_sprite_chain);
         data_08 = object->position;
         data_08->z.w.i = saved_value_0a;
         data_0c = object->sprite;
         init_mode = init_flags & 3;
         data_0c->tile_y = saved_value_25;
-        extended_state = state;
+        extended_state = body;
         data_0c->frameTable = &D_8015B86C;
         data_0c->tile_x = saved_value_24;
         if (init_mode == 1) {
-            state->unk_14 = (s32) (state->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER));
-            state->unk_1C = (s32) (state->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER));
+            state->flags14 = (s32) (state->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER));
+            state->flags1C = (s32) (state->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER));
         } else if (init_mode >= 2) {
-            state->unk_14 = (s32) (state->unk_14 | ACTOR_CLASS_ENABLED);
-            state->unk_1C = (s32) (state->unk_1C | ACTOR_PLAYER_SIDE);
+            state->flags14 = (s32) (state->flags14 | ACTOR_CLASS_ENABLED);
+            state->flags1C = (s32) (state->flags1C | ACTOR_PLAYER_SIDE);
         } else {
             object_arg = object;
             if (((init_flags & ~3) << 0x10) == 0) {
-                if (!(state->unk_14 & ACTOR_RESIST_SLEEP)) {
+                if (!(state->flags14 & ACTOR_RESIST_SLEEP)) {
                     data_arg = data_08;
                     if (generate_random_value() & 1) {
-                        state->unk_1C = (s32) (state->unk_1C | ACTOR_ASLEEP);
+                        state->flags1C = (s32) (state->flags1C | ACTOR_ASLEEP);
                         set_or_clear_actor_status_slot(state, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                     }
                 }

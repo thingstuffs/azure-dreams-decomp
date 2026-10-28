@@ -4,18 +4,18 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/actor/state.h"
 
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 extern s32 select_dungeon_spawn_tile(u8 *x_out, u8 *y_out);
-extern s32 refresh_actor_proximity_state();
 typedef struct {
     u8 pad[10];
     u16 counter;
 } DungeonState;
 
 /* Resets entity state, selects a new position, and increments the dungeon counter. */
-void begin_actor_random_warp(Rec_func_800A9E70_arg0 *entity, void *unused, void *position, EntityRec *entity_state) {
+void begin_actor_random_warp(Rec_func_800A9E70_arg0 *entity, void *unused, void *position, ActorRecord *entity_state) {
     s32 tile_mask;
     s32 flags;
     s32 tile_x;

@@ -5,7 +5,7 @@
 #include "dungeon/actor/status.h"
 
 s16 try_claim_dungeon_action_slot(ActorRecord *actor);                          /* extern */
-s32 apply_camera_offset_and_select_target(); /* extern */
+s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value); /* extern */
 
 
 typedef struct S_80174824_1 {
@@ -19,7 +19,7 @@ typedef struct S_80174824_1 {
 } S_80174824_1;   /* arg0 in reset_actor_action_state_after_completion */
 
 /* Clears an entity flag and resets its action state after processing completes. */
-void reset_actor_action_state_after_completion(S_80174824_1 *action_state, s32 context, s32 unused, ActorRecord *entity) {
+void reset_actor_action_state_after_completion(S_80174824_1 *action_state, void *context, s32 unused, ActorRecord *entity) {
     entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(entity) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)entity - 0x20, context, 8, 0x300);

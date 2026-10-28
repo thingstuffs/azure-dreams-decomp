@@ -1,7 +1,7 @@
 #include "common.h"
+#include "dungeon/monster/beldo_large.h"
 #include "m2c_compat.h"
 
-extern s32 D_80175D64;
 
 typedef struct S_80170510_0 {
     u8 pad_00[0x12];
@@ -13,8 +13,10 @@ typedef struct S_80170510_0 {
 /* Clear the state value at 0x18 and increment the counter at 0x12. */
 void advance_secondary_object_state(void) {
     S_80170510_0 *state;
+    void *body;
 
-    state = D_80175D64 + 0x20;
+    body = D_80175D64 + 1;
+    state = body;
     state->unk_18 = 0;
     state->unk_12 = (u16) (state->unk_12 + 1);
 }

@@ -88,7 +88,7 @@ s16 get_tile_chebyshev_distance();
 s32 display_text_with_fullwidth_adjustment(s8 *text);
 s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 void setup_object_within_planar_range(void *object, s32 x, s32 y, s32 height, s32 mode, s32 settings);
-void spend_actor_mp(struct S_800AD594_0 *entity, s32 base_reduction);
+void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 extern u8 D_80089080[];
 extern u8 spell_mp_costs[];
 extern u8 alternate_spell_mp_costs[];

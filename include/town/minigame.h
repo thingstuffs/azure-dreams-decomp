@@ -43,7 +43,7 @@ void update_betting_effect();
 void update_effect_position_spin_phases(struct SpinPhaseWork *state_arg, ObjectPosition *target_arg, SpriteFrameState *effect_arg);
 void update_minigame_transition(struct S_80021E88_0 *controller, Rec_func_80021E88_arg1 *position, struct S_80021E88_2 *display);
 /* Mode-three record setup (town/scene/configure_set_mode_n_d.c) as the minigame constructors call it. */
-void configure_the_set_mode_n_3(void *record, void *position, void *params);
+#include "town/scene/list_setup.h"
 extern s32 pickup_reward_total[];
 extern u8 D_80020014[];             /* callback data word shared by the casino models */
 extern SceneImageRect D_80020018;   /* initializer of the casino palette rectangle (112, 449, 48, 1) */
@@ -52,6 +52,8 @@ extern u8 D_80024408[];             /* betting model mode-three parameters */
 extern u8 D_800243F0[];             /* payout digit mode-three parameters */
 extern s32 D_80024444[];            /* payout digit mesh ids */
 extern u32 D_800245C8[];            /* saved casino palette row */
+struct KeimaPathActor;
+
 struct KeimaPathActor;
 void update_directional_record(struct KeimaPathActor *orientation, void *state_ptr, SpriteFrameState *record);
 

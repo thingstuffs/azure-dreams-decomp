@@ -36,10 +36,13 @@ s32 sound_apply_indexed_voice_envelope(s32 table_index, SoundVoiceRecord *source
 typedef struct SoundSequenceSlot {
     /* 0x00 */ s16 sequence_id; /* -1 marks a free entry */
     /* 0x02 */ s16 state;
-    /* 0x04 */ s32 data_address; /* integer representation is intentional */
+    /* 0x04 */ u8 *data_address; /* recognized sequence header retained by this slot */
     /* 0x08 */ u16 left_gain;
     /* 0x0A */ u16 right_gain;
 } SoundSequenceSlot;
+
+/* Working sequence bytes; element zero holds the currently selected header. */
+extern u8 *audio_sequence_data_base[4];
 
 struct PlaybackState;
 struct S_80055E84;
@@ -57,7 +60,7 @@ void audio_apply_channel_control(u8 channel, u8 control, u32 value);
 s16 audio_configure_explicit_voice(s16 sound_id, s32 voice_id, s16 note, unsigned short note_offset, u16 pitch, u16 left_volume, u16 right_volume);
 
 /* audio_get_current_bank_tone_record.c */
-s32 audio_get_current_bank_tone_record(s32 *row, s32 column);
+void *audio_get_current_bank_tone_record(void *row_data, s32 column);
 
 /* audio_initialize_resident_sequence.c */
 void audio_initialize_resident_sequence(void);

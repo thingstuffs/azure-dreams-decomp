@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_delay_views.h"
 
 typedef struct S_800A8B98_0 {
@@ -13,7 +14,9 @@ typedef struct S_800A8B98_0 {
 void process_raised_position_pair(s32 unused_arg, s32 *position);
 
 /* Sets the record's pointer and state and copies its signed byte to the output's high half. */
-void set_record_pointer_and_byte(void *record_data, DelayMotionZ *output) {
+void set_record_pointer_and_byte(void *record_data, void *placement, struct SpriteFrameState *unused_sprite) {
+    DelayMotionZ *output = placement;
+
     ((S_800A8B98_0 *)((u8 *)record_data - 0x10))->unk_00 = &process_raised_position_pair;
     output->unk_08 = (s32) (((S_800A8B98_0 *)((u8 *)record_data - 0x10))->unk_A6 << 0x10);
     ((S_800A8B98_0 *)((u8 *)record_data - 0x10))->unk_7C = 5;

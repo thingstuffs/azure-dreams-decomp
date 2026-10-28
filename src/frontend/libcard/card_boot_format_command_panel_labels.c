@@ -5,14 +5,14 @@
 
 /* Processes three table values with addresses spaced 0x48 bytes apart from base + 0x90. */
 void card_boot_format_command_panel_labels(s32 baseAddress) {
-    s32 *tableEntry;
+    u8 **tableEntry;
     s32 entryAddress;
-    s32 tableValue;
+    u8 *tableValue;
     s32 entryOffset;
     s32 entriesProcessed;
 
     entriesProcessed = 0;
-    tableEntry = &D_800282BC;
+    tableEntry = D_800282BC;
     entryOffset = 0x90;
     do {
         tableValue = *tableEntry;

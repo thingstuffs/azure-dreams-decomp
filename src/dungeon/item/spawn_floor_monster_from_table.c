@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/item/monster_resource_slots_g00325.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/object_flags.h"
@@ -6,7 +7,7 @@
 #include "dungeon/level.h"
 extern int abs(int);
 
-typedef void *(*SpawnFunc)(s32, s32, s32, s32);
+typedef MonsterFactory SpawnFunc;
 
 extern u32 level_experience_table[];
 extern u8 entity_spawn_variant_code;
@@ -16,9 +17,7 @@ struct EntityLinkNode;
 extern void unlink_entity_node(struct EntityLinkNode *node);
 extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
 extern s32 find_active_rect_containing_point(s32, s32);
-extern SpawnFunc load_monster_resource_data(s32 resource_id, u8 *resource_entry, s32 wait_for_read);
 extern void retain_spawn_resource(s16 entry_type, s16 entry_key);
-extern void *find_or_retain_sprite_resource_slot(s32, s32);
 extern void raise_entity_level(void *, s32);
 extern void * detach_record_and_update_slot_state(void *);
 extern void select_dungeon_spawn_tile(u8 *, u8 *);

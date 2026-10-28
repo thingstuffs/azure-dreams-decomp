@@ -1195,7 +1195,7 @@ void update_staged_movement_and_direction(void *action, void *motion, SpriteFram
 #include "dungeon/monster/univern.h"
 
 /* Targets and starts a spell effect, waits for loading and animation, then restores movement and status. */
-void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80172C18_Position *pos, SpriteFrameState *actor, R17_80172C18_Entity *ent)
+void update_entity_item_action_and_idle_return(R17_80172C18_State *state, ObjectPosition *pos, SpriteFrameState *actor, R17_80172C18_Entity *ent)
 {
     u8 *item_slot;
     s32 state_index;
@@ -1313,9 +1313,9 @@ void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80
             return;
         }
 
-        pos->f14 = 0;
-        pos->f10 = 0;
-        pos->fC = 0;
+        pos->velocity_z = 0;
+        pos->velocity_y = 0;
+        pos->velocity_x = 0;
         set_record_integer_tile_center(pos,(u8)(actor->tile_x),(u8)(actor->tile_y));
         {
             R17_80172C18_MainObj *main_obj;
@@ -1368,9 +1368,9 @@ void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80
         }
 
         sub_actor->flags4 |= 0x8000;
-        pos->f14 = 0;
-        pos->f10 = 0;
-        pos->fC = 0;
+        pos->velocity_z = 0;
+        pos->velocity_y = 0;
+        pos->velocity_x = 0;
         set_record_integer_tile_center(pos,(u8)(actor->tile_x),(u8)(actor->tile_y));
         state->flags98 &= 0xFFF7;
         ent->flags1C |= ACTOR_GROUNDED;

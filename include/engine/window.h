@@ -63,10 +63,10 @@ void copy_window_params(struct Container *container, struct Source *source);
 void func_800375C0(struct Container *container, struct Source *source);
 
 /* create_blinking_cursor_object.c */
-void create_blinking_cursor_object(s32 node_addr, Rec_D_80081FDC *record, s32 *config, s16 initial_mode, s32 initial_value, s32 setup_id);
+void create_blinking_cursor_object(void *node_addr, Rec_D_80081FDC *record, s32 *config, s16 initial_mode, s32 initial_value, void *setup_id);
 
 /* create_cursor_object.c */
-void create_cursor_object(s32 task_buffer, Rec_D_80081FDC *record, s32 *source, s16 state_value, s32 setup_arg);
+void create_cursor_object(void *task_buffer, Rec_D_80081FDC *record, s32 *source, s16 state_value, void *setup_arg);
 
 /* create_default_window_object.c */
 void create_default_window_object(s32 value);
@@ -76,11 +76,11 @@ void func_80034F58(s32 value);
 void initialize_message_window_runtime_task(void);
 
 /* create_window_object.c */
-void create_window_object(s32 object_addr, struct S_func_80035484_4 *model, struct S_func_80035484_5 *config);
-void func_80035484(s32 object_addr, struct S_func_80035484_4 *model, struct S_func_80035484_5 *config);
+void create_window_object(void *object_addr, struct S_func_80035484_4 *model, struct S_func_80035484_5 *config);
+void func_80035484(void *object_addr, struct S_func_80035484_4 *model, struct S_func_80035484_5 *config);
 
 /* create_window_overlay_object.c */
-void create_window_overlay_object(s32 node_addr, void *display, u8 *image, s32 *state_ref, s32 option, u8 *owner);
+void create_window_overlay_object(void *node_addr, void *display, u8 *image, s32 *state_ref, s32 option, u8 *owner);
 
 /* entry_copy_window_offset_rectangle.c */
 void select_menu_initializer_from_message_handler(void *object);
@@ -95,13 +95,13 @@ void handle_wrapping_menu_cursor_input(struct CursorState *cursor, s32 unused_1,
 void display_sound_selection_and_prepare_playback(struct Func80035AF8State *state);
 
 /* init_cursor_color_object.c */
-void init_cursor_color_object(void *object, void *model, s32 *data, s16 index, s16 table_index, s32 list);
+void init_cursor_color_object(void *object, void *model, s32 *data, s16 index, s16 table_index, void *list);
 
 /* init_cursor_display_object.c */
-void init_cursor_display_object(void *object, void *display, s32 *data, s16 data_index, s16 table_offset, s32 list_head);
+void init_cursor_display_object(void *object, void *display, s32 *data, s16 data_index, s16 table_offset, void *list_head);
 
 /* init_cursor_sprite_object.c */
-void init_cursor_sprite_object(s32 node_addr, Rec_D_80081FDC *transform, s32 *script_data, s16 cursor_offset, s32 sprite_base, s32 owner);
+void init_cursor_sprite_object(void *node_addr, Rec_D_80081FDC *transform, s32 *script_data, s16 cursor_offset, s32 sprite_base, void *owner);
 
 /* init_menu_choice_object.c */
 void init_menu_choice_object(struct S_func_800362D0_0 *object);

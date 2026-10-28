@@ -24,7 +24,6 @@ typedef struct {
 
 extern u8 encounter_overlay_work[0x3A81];
 extern void *beldo_actor_nodes;
-extern void *D_80175D64;
 
 /* Creates an object from the current object's data and initializes its position and appearance. */
 void create_secondary_encounter_object(void) {

@@ -4,6 +4,8 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A8BC8, CL:town/func_800A9234, CL:town/func_800A9334, CL:town/func_800A9410, PD:town/engine:800D0C78, PD:town/engine:800D0D54, PD:town/engine:80100E24, PD:town/engine:80100E28. */
 
 #include "common.h"
+#include "town/scene/list_setup.h"
+#include "town/event/object_setup.h"
 #include "shared/sprite_frame_state.h"
 #include "script_symbols.h"
 #include "shared/object_node.h"
@@ -67,8 +69,6 @@ typedef struct S_800A6994_0 {
 
 extern s32 test_resident_bitmap_bit(s32 bit_id);
 extern void *create_town_effect_object();
-extern void handle_insert_initialize_two_values_status_flags();
-extern void initialize_optional_object_state();
 extern s8 D_800A6684[];
 extern s32 bike_default_position[];
 extern s8 D_800D0C90[];

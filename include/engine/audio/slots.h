@@ -6,6 +6,9 @@
 
 struct S_8005A778_Arg0;
 
+/* Four scalar SPU RAM addresses, initialized by init_audio_staging_buffers. */
+extern u32 audio_staging_spu_offsets[4];
+
 /* bind_sound_slot_owner.c */
 s16 bind_sound_slot_owner(s32 owner, s16 entry_id);
 
@@ -16,7 +19,7 @@ s16 copy_sound_slot_info(s16 idx, u8 *dst);
 void free_sound_slot(s16 slot_index);
 
 /* init_sound_slot_from_header.c */
-s32 init_sound_slot_from_header(struct S_8005A778_Arg0 *header, s16 requested_slot, void *payload);
+s32 init_sound_slot_from_header(struct S_8005A778_Arg0 *header, s16 requested_slot, u32 spu_addr);
 
 /* read_sound_slot_chunk.c */
 s32 read_sound_slot_chunk(s32 dest, u32 read_size, s16 entry_id);

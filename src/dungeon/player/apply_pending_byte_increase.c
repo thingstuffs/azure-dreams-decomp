@@ -1,25 +1,19 @@
 #include "common.h"
-#include "m2c_compat.h"
-
-typedef struct S_8008CBA0_0 {
-    u8 pad_00[0x28];
-    u8 unk_28;
-    u8 unk_29;
-    u8 pad_2A[0x3A];
-    union { u8 u8; u16 u16; } unk_64;   /* accessed as both */
-} S_8008CBA0_0;   /* arg3 in apply_pending_byte_increase */
-
+#include "shared/entity.h"
 
 /* Apply the pending increase, clamp to the limit, and clear the pending value. */
-void apply_pending_byte_increase(s32 unused_0, s32 unused_1, s32 unused_2, S_8008CBA0_0 *object) {
+void apply_pending_byte_increase(void *unused_0, s32 unused_1, void *unused_2, ActorRecord *object) {
     u8 updated_value;
     u8 value_limit;
+    u8 pending;
 
-    updated_value = object->unk_28 + object->unk_64.u8;
-    value_limit = object->unk_29;
-    object->unk_28 = updated_value;
+    updated_value = object->hp;
+    pending = object->hp_delta;
+    updated_value += pending;
+    value_limit = object->max_hp;
+    object->hp = updated_value;
     if (value_limit < (u32) (updated_value & 0xFF)) {
-        object->unk_28 = value_limit;
+        object->hp = value_limit;
     }
-    object->unk_64.u16 = 0;
+    object->hp_delta = 0;
 }

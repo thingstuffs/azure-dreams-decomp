@@ -8,6 +8,7 @@
 /* Position object initialization declarations (G00563). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A2ACC. */
 #include "common.h"
+#include "town/event/object_setup.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "records/Rec_D_800CFCB4.h"
@@ -15,6 +16,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "shared/dungeon_projectile_views.h"
 #include "m2c_compat.h"
+#include "town/scene/list_setup.h"
 
 typedef struct S_800A022C_0 {
     u8 pad_00[0x15];
@@ -95,9 +97,7 @@ void *allocate_list_node();
 /* extern */
 s32 lookup_item_category_mapped_value(s32 category_index, s32 record_index);
 /* extern */
-void configure_the_set_mode_n_4();
 /* extern */
-void initialize_optional_object_state();
 /* extern */
 extern s32 item_effect_descriptor;
 void dispatch_object_or_switch_alternate_state(func_800A075C_S_func_8009DEBC_0 *object, s32 source, s32 context);

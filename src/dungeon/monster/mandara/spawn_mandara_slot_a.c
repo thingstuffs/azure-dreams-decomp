@@ -13,6 +13,7 @@
 #include "dungeon/actor/animation.h"
 #include "engine/node/allocation.h"
 #include "engine/node.h"
+#include "dungeon/actor/status.h"
 
 typedef struct ActionState ActionState;
 typedef struct ActorMotion ActorMotion;
@@ -47,7 +48,6 @@ typedef struct S_80FD5000_4 {
 } S_80FD5000_4;
 
 s32 MoveImage(void *, s32, s32);
-s16 set_or_clear_actor_status_slot(); /* extern */
 s32 generate_random_value(void);
 extern M2C_UNK D_8014CB40;
 void update_creature_action_and_animation(ActorRecord *self_object, ObjectPosition *aux_entity, SpriteFrameState *sprite, ActorRecord *entity);
@@ -73,7 +73,8 @@ typedef struct {
 void *spawn_mandara_slot_a(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 heading)
 {
     s32 kind;
-    S_80FD5000_1 *actor_state;
+    ActorRecord *actor_state;
+    void *body;
     ObjectNodeHeader *created;
     ObjectPosition *position;
     SpriteFrameState *monster;
@@ -92,9 +93,10 @@ void *spawn_mandara_slot_a(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 heading)
     actor_state = 0;
     created = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (created != 0) {
-        actor_state = (S_80FD5000_1 *)((u8 *)created + 0x20);
+        body = created + 1;
+        actor_state = body;
         created->update_callback = &D_8014CB40;
-        actor_state->unk_13 = MONSTER_MANDARA;
+        actor_state->species = MONSTER_MANDARA;
         register_node(created, project_sprite_chain);
 
         position = created->position;
@@ -102,20 +104,20 @@ void *spawn_mandara_slot_a(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 heading)
         monster = created->sprite;
         kind = spawn_flags & 3;
         monster->tile_y = tile_y;
-        actor = actor_state;
+        actor = body;
         monster->frameTable = &D_80151258;
         monster->tile_x = tile_x;
 
         if (kind == 1) {
-            actor_state->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            actor_state->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            actor_state->flags14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            actor_state->flags1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
         } else if (kind >= 2) {
-            actor_state->unk_14 |= ACTOR_CLASS_ENABLED;
-            actor_state->unk_1C |= ACTOR_PLAYER_SIDE;
+            actor_state->flags14 |= ACTOR_CLASS_ENABLED;
+            actor_state->flags1C |= ACTOR_PLAYER_SIDE;
         } else if (((spawn_flags & -4) << 16) == 0) {
-            if ((actor_state->unk_14 & ACTOR_RESIST_SLEEP) == 0) {
+            if ((actor_state->flags14 & ACTOR_RESIST_SLEEP) == 0) {
                 if ((generate_random_value() & 1) != 0) {
-                    actor_state->unk_1C |= ACTOR_ASLEEP;
+                    actor_state->flags1C |= ACTOR_ASLEEP;
                     set_or_clear_actor_status_slot(actor_state, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                     monster->frameTable = &D_80151298;
                 }

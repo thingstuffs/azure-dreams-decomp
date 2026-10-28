@@ -1,4 +1,5 @@
 #include "slus.h"
+struct EntityHdr;
 
 struct ObjectPosition;
 #include "shared/dungeon_actor_callbacks.h"
@@ -22,7 +23,7 @@ void display_formatted_context_message(void *context);                   /* exte
 void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);   /* extern */
 s32 play_sound_if_enabled(s32 query_value);                     /* extern */
 void *create_panel_effect_object(void *owner);                      /* extern */
-s32 create_familiar_selection_marker();                          /* extern */
+void * create_familiar_selection_marker(struct EntityHdr **entity_ref);                          /* extern */
 void update_selection_tile_markers();                 /* extern */
 s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);   /* extern */
 extern u8 D_80012D6D;
@@ -58,7 +59,7 @@ void update_familiar_command_selection(void *state, s32 context_a, void *context
     s16 selection_code;
     s16 slot_index;
     s32 selection_result;
-    s32 selection_ready;
+    void *selection_ready;
     s32 candidate_flags;
     s32 phase;
     void **candidate_slot;
@@ -71,7 +72,7 @@ void update_familiar_command_selection(void *state, s32 context_a, void *context
     switch (phase) {
     case FAMILIAR_COMMAND_OPEN:
         selection_ready = create_familiar_selection_marker(state + 0x104);
-        (*(s32 *)((u8 *)state + 0xC8)) = selection_ready;
+        (*(void **)((u8 *)state + 0xC8)) = selection_ready;
         if (selection_ready == 0) {
             return;
         }

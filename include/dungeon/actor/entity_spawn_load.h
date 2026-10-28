@@ -3,6 +3,7 @@
 /* Select dungeon spawn tiles and advance staged entity loading. */
 
 #include "common.h"
+#include "dungeon/item/monster_resource_slots_g00325.h"
 #include "shared/dungeon_floor.h"
 #include "shared/slus_cd_callback.h"
 #include "shared/slus_callbacks.h"
@@ -11,6 +12,7 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/item/actor_target.h"
 
 #ifndef NULL
 #define NULL 0
@@ -56,7 +58,7 @@ typedef struct TablePage {
     Table84Entry table84[64];
 } TablePage;
 
-typedef void *(*SpawnFunc)(s32, u8, u8, s16);
+typedef MonsterFactory SpawnFunc;
 
 typedef struct S_800A504C_0 {
     u8 pad_00[0xA];
@@ -191,10 +193,8 @@ extern s32 read_sound_mode_blocking_status(s32 mode);
 struct EntityLinkNode;
 void unlink_entity_node(struct EntityLinkNode *node);
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-extern SpawnFunc load_monster_resource_data();
 extern s32 retain_spawn_resource(s16 entry_type, s16 entry_key);
 extern u8 * find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type);
-extern s32 find_entity_slot_by_field_ac();
 extern u8 D_80023000[];
 extern u8 *sprite_resource_base;
 extern s32 loaded_entity_sprite_resource;

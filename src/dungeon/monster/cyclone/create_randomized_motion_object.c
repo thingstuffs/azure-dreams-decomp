@@ -4,7 +4,6 @@
 #include "shared/dungeon_sprite_data.h"
 #include "shared/entity.h"
 #include "shared/slus_callbacks.h"
-#include "records/Rec_func_80173DD4_arg0.h"
 #include "sdk/libc.h"
 #include "engine/node.h"
 
@@ -24,14 +23,7 @@ typedef struct S_80175060_1 {
     s16 unk_1E;
 } S_80175060_1;
 
-typedef struct S_80175060_3 {
-    s32 unk_00;
-    s32 unk_04;
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80175060_3;
+
 
 void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
 extern void advance_sprite_animation_and_textures(void *entity);                      /* extern */
@@ -40,7 +32,7 @@ extern void update_radial_motion_or_complete(u16 *motion, s32 *position, SpriteF
 /* Creates an object with randomized phase and rotation and copies its initial state. */
 /* Creates a gray effect at the owner's height with randomized rotation and phase, preserving the initial
  * motion origin. */
-void * create_randomized_motion_object(Rec_func_80173DD4_arg0 *owner, EntityRec *initial_state) {
+void * create_randomized_motion_object(ActorRecord *owner, ObjectPosition *initial_state) {
     s32 color;
     s32 four;
     s32 phase_rand;
@@ -50,6 +42,7 @@ void * create_randomized_motion_object(Rec_func_80173DD4_arg0 *owner, EntityRec 
     S_80175060_1 *part;
     ObjectNodeHeader *object;
     ObjectPosition *state;
+    u16 height;
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
@@ -80,12 +73,13 @@ void * create_randomized_motion_object(Rec_func_80173DD4_arg0 *owner, EntityRec 
             s32 copy_word_1;
 
             state = object->position;
-            *(S_80175060_3 *)state = *(S_80175060_3 *)initial_state;
+            *state = *initial_state;
             copy_word_1 = state->y.v;
             state->velocity_x = state->x.v;
             state->velocity_y = copy_word_1;
         }
-        state->z.w.i = owner->unk_88;
+        height = owner->ground_height;
+        state->z.w.i = height;
         return object;
     }
     return 0;

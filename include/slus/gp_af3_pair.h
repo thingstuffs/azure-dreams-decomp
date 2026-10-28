@@ -48,8 +48,8 @@ extern s8 sound_stream_state_index;
 /* S_8006E6F4: array of 8-byte entries, indexed by state; forces %hi/%lo
  * addressing (accessed with a computed base + reused offsets). */
 typedef struct {
-    s32 field0; /* offset 0x0 */
-    s32 field4; /* offset 0x4 */
+    void *field0; /* first sound-set CD descriptor */
+    void *field4; /* companion sound-set CD descriptor */
 } S_8006E6F4;
 extern S_8006E6F4 sound_set_resources[];
 

@@ -30,7 +30,7 @@ void update_current_and_saved_coordinates(S_800A51CC_0 *object)
     s32 position_pair;
     u16 coord;
 
-    reference = ((u8 *)(&g_game_work));
+    reference = &g_game_work;
     position_pair = object->unk_00.at00.v;
     if ((position_pair != *(s32 *)&reference->view.view_offset.words[0]) ||
         (object->unk_04.s != reference->view.view_offset.parts.view_offset_z)) {

@@ -24,7 +24,7 @@ void update_item_hop_animation(ActorRecord *action, ObjectPosition *motion, Spri
 void update_actor_timed_effects(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *sprite_arg, ActorRecord *stats_arg);
 
 /* Callback entry points. */
-void advance_item_motion_collision(void *motion, void *position, s32 update_arg);
+void advance_item_motion_collision(void *motion, void *position, void *update_arg);
 void update_monster_appearance_motion(void *entity_arg, void *motion_arg, void *monster_arg);
 
 #endif

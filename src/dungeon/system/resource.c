@@ -93,7 +93,7 @@ void move_resource_to_front(s32 entry_index) {
     s32 saved_field_1;
     s32 saved_field_2;
     s32 data_size;
-    s32 scratch_buffer;
+    void *scratch_buffer;
 
     entries = resource_cache_records;
     entry = &entries[entry_index];

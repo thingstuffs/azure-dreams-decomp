@@ -1,10 +1,10 @@
+#include "dungeon/effect/sprite.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/entity_objects.h"
 #include "shared/dungeon_status.h"
 
 extern void *allocate_list_node(s32 kind, void *owner);
-extern void update_effect_controller(void);
 
 /* Increment the dungeon count and initialize a new object's callback and rotation. */
 void create_rotating_effect(void)

@@ -25,14 +25,14 @@ typedef struct S_func_800362D0_1 {
     u8 unk_26;
     u8 unk_27;
     u8 pad_28[0x58];
-    s32 unk_80;
+    void *unk_80;
 } S_func_800362D0_1;
 
 extern u8 menu_choice_display_data[];
 extern u8 menu_choice_cursor_storage[];
 
 extern void init_cursor_display_object(void *data_ptr_a, void *data_ptr_b, s32 *object, s16 value,
-                          s16 index_offset, s32 field_value);
+                          s16 index_offset, void *field_value);
 extern void handle_wrapping_menu_cursor_input(void);
 
 /* Initializes the object from its child data and sets the next callback. */

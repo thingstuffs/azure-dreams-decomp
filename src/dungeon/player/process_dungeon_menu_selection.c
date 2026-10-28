@@ -103,7 +103,7 @@ void equip_item_and_update_status();              /* extern */
 void change_equipped_item_and_notify();              /* extern */
 s16 get_special_table_data_index();                          /* extern */
 void display_formatted_context_message(void *context);                   /* extern */
-void append_packed_action_record();   /* extern */
+void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s32 extra_byte);   /* extern */
 s32 display_text_with_fullwidth_adjustment(s8 *text);                         /* extern */
 s32 is_selectable_menu_target();                             /* extern */
 void update_selection_tile_markers(struct S_800B50B0_Entity *entity, s32 selection);            /* extern */

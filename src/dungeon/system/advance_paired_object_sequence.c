@@ -1,3 +1,4 @@
+#include "sdk/libc.h"
 #include "shared/runtime_dispatch.h"
 #include "common.h"
 #include "dungeon/item.h"
@@ -7,7 +8,7 @@ struct ObjA464;
 
 typedef struct {
     s32 field_0;
-    s32 field_4;
+    const char *field_4;
     s32 field_8;
     s32 field_C;
     s32 field_10;
@@ -24,7 +25,6 @@ typedef struct {
 
 extern void cleanup_object_resources();
 extern void flag_object_and_release_inner(struct ObjA464 *obj, s32 unused);
-extern void strcpy();
 
 /* Processes entity fields and copies its string for selected type and state values. */
 void advance_paired_object_sequence(Entity *entity) {

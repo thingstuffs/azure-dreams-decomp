@@ -1,10 +1,10 @@
 #include "common.h"
+#include "dungeon/monster/beldo_large.h"
 
-extern s32 D_80175D78[];
 
 /* Clear one state field and increment the counter for each of sixteen objects. */
 void advance_multi_form_ring_phase(void) {
-    s32 *object_entry;
+    ObjectNodeHeader **object_entry;
     s32 object_index;
     void *state;
     u16 count;
@@ -12,7 +12,7 @@ void advance_multi_form_ring_phase(void) {
     object_index = 0;
     object_entry = D_80175D78;
     do {
-        state = *object_entry + 0x20;
+        state = *object_entry + 1;
         count = *(u16 *)(state + 0x12);
 
         *(s16 *)(state + 0x18) = 0;

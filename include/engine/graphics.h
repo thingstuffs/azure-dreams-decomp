@@ -45,13 +45,13 @@ s32 advance_timed_tagged_stream(struct FrameState *state);
 void apply_block_16_template_to_nodes(struct S_8004CC38_Node **nodes, s32 node_count);
 
 /* apply_command_colors.c */
-void *apply_command_colors(struct Tint8004C080 *tint0, struct Tint8004C080 *tint1, u8 *packet, void *record, u8 *command, s32 *count);
+void *apply_command_colors(void *tint0, void *tint1, u8 *packet, void *record, u8 *command, s32 *count);
 
 /* begin_sprite_resource_load_with_completion_flag.c */
 void *begin_sprite_resource_load_with_completion_flag(s32 packed_code, s32 *callback_state);
 
 /* build_gouraud_quad_packet.c */
-void *build_gouraud_quad_packet(s32 tint_a, s32 tint_b, void *packet, void *record, void *command);
+void *build_gouraud_quad_packet(void *tint_a, void *tint_b, void *packet, void *record, void *command);
 
 /* build_screen_outline.c */
 void build_screen_outline(struct RectU16_80046884 *rect, struct Geometry_80046884 *geometry, s32 depth);

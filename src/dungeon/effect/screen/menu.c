@@ -51,7 +51,7 @@ extern void draw_textured_ellipse_segments(struct DungeonPosition *position, str
 void draw_textured_ellipse(s32 draw_value, DungeonInput *rect, u16 fill_rect, u16 draw_mode) {
     GpuContext *initial_state;
     GpuContext *active_state;
-    GpuContext **state_slot = &g_game_work.draw_buffer;
+    void **state_slot = &g_game_work.draw_buffer;
     u8 *draw_list;
     u8 *command_cursor;
     DungeonPacket *fill_packet;
@@ -1546,10 +1546,10 @@ typedef struct GlobalObj {
 
 extern s32 rsin(s32, ...);
 extern s32 rcos(s32, ...);
-extern s32 get_special_table_data_index(s32 dataAddress);
+extern s16 get_special_table_data_index(s32 dataAddress);
 struct S_800BA33C_0;
 extern s32 is_selectable_menu_target(struct S_800BA33C_0 *object);
-extern void append_packed_action_record();
+extern void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s32 extra_byte);
 extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 
 /* Updates entity selection, interpolates its position, and animates the rendered output. */

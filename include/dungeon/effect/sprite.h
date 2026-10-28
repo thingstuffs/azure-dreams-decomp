@@ -23,4 +23,7 @@ void update_spiral_effect(void *effect, ObjectPosition *motion, SpriteFrameState
 /* Callback entry points. */
 void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite_in);
 
+struct S_func_800D7FB8_0;
+void update_effect_controller(struct S_func_800D7FB8_0 *controller);
+
 #endif

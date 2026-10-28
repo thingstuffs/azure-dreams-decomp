@@ -26,7 +26,7 @@ void update_block_hop_shrink_slot_a(void *state,void *position,void *render_stat
 void update_block_removal_slot_a(void *state,void *position,void *render_state,void *entity);
 void finish_block_hop_grow_slot_a(S_80173364_0 *state,void *position,void *render_state,void *entity);
 void update_block_status_animation_slot_a(void *action, void *context, void *sprite_in, void *actor_in);
-void wait_block_mp_recovery_slot_a(void *actor_in, s32 actor_index, void *target, void *entity_in);
+void wait_block_mp_recovery_slot_a(void *actor_in, ObjectPosition *position, void *target, void *entity_in);
 void update_block_parent_motion_slot_a(S_80173A38_0 *state, void *position, CL_CD7000_80173A38_S_80173A38_1 *sprite, CL_CD7000_80173A38_S_80173A38_2 *actor);
 void finish_block_thrown_travel_slot_a(S_80173B00_0 *state,void *position,void *render_state,void *entity);
 void finish_block_terrain_move_slot_a(S_80173B64_0 *state,void *position,void *render_state,void *entity);

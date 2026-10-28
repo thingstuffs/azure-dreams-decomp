@@ -7,6 +7,7 @@
 #include "engine/runtime.h"
 #include "slus.h"
 #include "sdk/libgpu.h"
+#include "town/scene/list_setup.h"
 
 #ifndef NULL
 #define NULL 0
@@ -53,7 +54,6 @@ extern u32 minigame_image_backup[];
 extern u8 D_800246E0[];
 
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern void configure_the_set_mode_n_3();
 
 /* Creates parent and child display objects and uploads their graphics data. */
 void create_minigame_display_objects(void)

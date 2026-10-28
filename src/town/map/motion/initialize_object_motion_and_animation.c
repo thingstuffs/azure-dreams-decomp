@@ -1,4 +1,6 @@
 #include "common.h"
+#include "town/map/object_setup.h"
+#include "town/scene/list_setup.h"
 #include "shared/slus_callbacks.h"
 
 typedef struct Func800BF66CObject {
@@ -12,14 +14,14 @@ typedef struct Func800BF66CObject {
 
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void register_node(void *, void *);
-extern void configure_the_set_mode_n_1(void *, s32, void *);
 extern u8 D_800BC990[];
 extern u8 town_map_motion_defaults[];
 extern s32 D_800D211C[];
 extern s32 D_800D212C;
 
 /* Initialize the object state, motion, and animation. */
-void initialize_object_motion_and_animation(Func800BF66CObject *object, s32 motion, s32 anim) {
+void initialize_object_motion_and_animation(void *object_data, void *motion, struct SpriteFrameState *anim) {
+    Func800BF66CObject *object = object_data;
     *(void **)((u8 *)object - 0x10) = D_800BC990;
     object->field50 = 0;
     register_node((u8 *)object - 0x20, project_sprite_chain);

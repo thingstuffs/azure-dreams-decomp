@@ -1,6 +1,6 @@
 #include "common.h"
+#include "town/event/object_setup.h"
 
-extern void initialize_actor_action_with_defaults(void *actor, void *action_id, void *action_state, void *state_data);
 extern s32 D_800F8B6C[];
 
 /* Initialize the record, clear its counter, and set its flags. */

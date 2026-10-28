@@ -514,8 +514,7 @@ void advance_actor_stored_path(ActorRecord *motion, ObjectPosition *update_param
 
 /* Chooses a clear step or attack, records the actor's path, and updates occupied tiles and movement
  * counts. */
-void choose_and_step_actor_path(Rec_func_800A9E70_arg0 *move_data, ObjectPosition *context, TileObject *position_data, ActorRecord *actor_data)
-{
+void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context, TileObject *position_data, ActorRecord *actor_data) {
     u16 dungeon_flags = g_dungeon_status.flags;
     s32 limit_detour = 0;
     s16 detour_check;
@@ -543,7 +542,7 @@ void choose_and_step_actor_path(Rec_func_800A9E70_arg0 *move_data, ObjectPositio
         return;
     }
 
-    update_actor_proximity_flag(position_data, actor_data, 3, 6, &move_data->unk_9C.as_s8);
+    update_actor_proximity_flag(position_data, actor_data, 3, 6, &move_data->unk_9C);
     actor_flags = actor_data->flags1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
@@ -554,7 +553,7 @@ void choose_and_step_actor_path(Rec_func_800A9E70_arg0 *move_data, ObjectPositio
                 s16 target_angle = (s16)get_rounded_facing_and_rounding_flag(
                     position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
                     blocker_owner->tile_x, blocker_owner->tile_y,
-                    &move_data->unk_98);
+                    &move_data->action_state_flags);
                 actor_data->facing = target_angle;
                 actor_data->movement_queue_state &= 0x7F;
                 return;
@@ -593,7 +592,7 @@ void choose_and_step_actor_path(Rec_func_800A9E70_arg0 *move_data, ObjectPositio
                     return;
                 }
 
-                turn_data = (u8 *)&move_data->unk_98;
+                turn_data = (u8 *)&move_data->action_state_flags;
                 target_angle = (s16)get_rounded_facing_and_rounding_flag(
                     position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
                     (s16)target_x, (s16)target_y, (u16 *)turn_data);
@@ -609,14 +608,14 @@ void choose_and_step_actor_path(Rec_func_800A9E70_arg0 *move_data, ObjectPositio
                     limit_detour = 1;
                 }
             } else {
-                select_actor_route_target((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
-                              &move_data->unk_98);
+                select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+                              &move_data->action_state_flags);
             }
         }
     } else if (position_data->room_index >= 0 &&
                dungeon_rooms[position_data->room_index].flags & ROOM_HOLY_BEAM) {
-        select_actor_route_target((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
-                      &move_data->unk_98);
+        select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+                      &move_data->action_state_flags);
     } else if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
         current_angle = (s32)probe_directional_neighbor(actor_data, position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y, actor_data->facing);
         blocker = (EntityRec *)current_angle;
@@ -636,7 +635,7 @@ void choose_and_step_actor_path(Rec_func_800A9E70_arg0 *move_data, ObjectPositio
             TileObject *target_position = &reference_tile_object;
             actor_data->facing = (s16)get_rounded_facing_and_rounding_flag(
                 position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
-                target_position->tile_position.parts.tile_x, target_position->tile_position.parts.tile_y, &move_data->unk_98);
+                target_position->tile_position.parts.tile_x, target_position->tile_position.parts.tile_y, &move_data->action_state_flags);
             if ((s16)test_neighbor_position_relation(
                     position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
                     target_position->tile_position.parts.tile_x, target_position->tile_position.parts.tile_y) != 0) {
@@ -652,8 +651,8 @@ void choose_and_step_actor_path(Rec_func_800A9E70_arg0 *move_data, ObjectPositio
                 }
             }
         } else {
-            select_actor_route_target((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
-                          &move_data->unk_98);
+            select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+                          &move_data->action_state_flags);
         }
     }
 
@@ -661,7 +660,7 @@ void choose_and_step_actor_path(Rec_func_800A9E70_arg0 *move_data, ObjectPositio
     turn_table = actor_turn_angle_offsets;
 
     for (; turn_index < 8; turn_index++) {
-        turn_flags = move_data->unk_98;
+        turn_flags = move_data->action_state_flags;
         current_angle = actor_data->facing;
         if (turn_flags & 2) {
             trial_angle = current_angle - turn_table[turn_index];
@@ -732,7 +731,7 @@ void choose_and_step_actor_path(Rec_func_800A9E70_arg0 *move_data, ObjectPositio
 
     {
         actor_data->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-        move_data->unk_9C.as_u8 = position_data->room_index;
+        move_data->unk_9C = position_data->room_index;
         actor_data->pending_turn_updates--;
         g_dungeon_status.activity_counts.parts.pending_movement_count++;
     }
@@ -763,8 +762,7 @@ void begin_directional_actor_animation(ActorRecord *state, ObjectPosition *unuse
 }
 
 /* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
-s32 try_begin_adjacent_actor_attack(Rec_func_800A9E70_arg0 *action_state, ObjectPosition *motion_param, void *sprite_arg, ActorRecord *actor)
-{
+s32 try_begin_adjacent_actor_attack(ActorRecord *action_state, ObjectPosition *motion_param, void *sprite_arg, ActorRecord *actor) {
     ActorRecord *neighbor;
     u16 status_flags;
     u8 actor_flags;
@@ -799,9 +797,9 @@ s32 try_begin_adjacent_actor_attack(Rec_func_800A9E70_arg0 *action_state, Object
 
     apply_camera_offset_and_select_target((u8 *)actor - 0x20, motion_param, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
-        action_state->unk_9A.as_u8 = 0x11;
-        action_state->unk_9B.as_u8 = 0;
-        action_state->unk_8C = 0;
+        action_state->action_id.s = 0x11;
+        action_state->action_phase.s = 0;
+        action_state->unk_8C.run = 0;
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;
         ((CB_80171FBC_S_80171DA0_1 *)sprite_arg)->unk_2C = block_slot_g_direction_frames;

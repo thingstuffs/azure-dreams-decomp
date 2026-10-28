@@ -1,15 +1,10 @@
 #include "common.h"
+#include "frontend/card.h"
 #include "frontend/libcard/state.h"
 #include "frontend/libcard/menu_callbacks.h"
 #include "frontend/libcard.h"
 #include "frontend/libcard/resource.h"
 
-typedef struct TableEntry_800252CC {
-    s32 value;
-    u8 pad04[0x7C];
-} TableEntry_800252CC;
-
-extern TableEntry_800252CC card_save_slot_metadata[];
 
 #define FIELD32(base, offset) (*(s32 *)((u8 *)(base) + (offset)))
 #define FIELDP(base, offset) (*(void **)((u8 *)(base) + (offset)))
@@ -21,7 +16,7 @@ void card_boot_begin_selected_slot_load(void *state)
     void *parent;
 
     parent = (u8 *)state - 0x20;
-    if (card_save_slot_metadata[FIELD32(state, 0x28)].value != 0) {
+    if (card_save_slot_metadata[FIELD32(state, 0x28)].words[0] != 0) {
         enabled = 1;
         FIELD32(state, 0x3C) = enabled;
         card_boot_show_loading_progress(parent, (u8 *)state + 0x40);

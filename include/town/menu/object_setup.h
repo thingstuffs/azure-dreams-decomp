@@ -10,4 +10,7 @@ void initialize_timed_resource_object(void *object, void *unused, struct SpriteF
 
 void initialize_indexed_resource_object(void *object, void *unused, struct SpriteFrameState *context);
 
+void initialize_emote_animation(void *object, void *position, struct SpriteFrameState *state);
+void initialize_emote_sprite_and_scene(void *object, void *position, struct SpriteFrameState *state);
+
 #endif

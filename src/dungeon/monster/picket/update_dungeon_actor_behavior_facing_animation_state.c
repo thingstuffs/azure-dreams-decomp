@@ -33,7 +33,7 @@ extern void func_8017224C(ActorRecord *action_state, ObjectPosition *action_cont
 extern s32 advance_actor_states(void *, void *, void *, s32);
 extern void func_80174060(void *, void *, void *, void *);
 extern void start_the_actor_s_attack_step_clear_hex_71_busy_bit_latch(void *, ObjectPosition *, void *, void *);
-extern void clear_the_state_flag_allowed_resets_entity_selects_directional(void *, ObjectPosition *, void *, void *);
+extern void clear_the_state_flag_allowed_resets_entity_selects_directional(ActorRecord *, ObjectPosition *, void *, void *);
 
 
 extern u8 picket_frame_set_1[];

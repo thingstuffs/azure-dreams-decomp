@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:main/func_800105A0, CL:main/func_80010B18, CL:main/func_80010C44, CL:main/func_80010D64. */
 
 #include "common.h"
+#include "frontend/card.h"
 #include "frontend/libcard.h"
 
 typedef struct {
@@ -26,13 +27,6 @@ typedef struct {
     } *unk4;
 } UnkTarget;
 
-typedef struct {
-    /* 0x00 */ s32 unk0;
-    /* 0x04 */ u8 pad4[4];
-    /* 0x08 */ s16 unk8;
-    /* 0x0A */ u8 pad10[0x80 - 0x0A];
-} EntryS80083E98;
-
 extern void *build_positioned_text_glyphs(void *a0, void *a1, s32 a2);
 extern void func_8004E5A0(void *a0, s32 a1, void *a2);
 extern void remap_flagged_string_bytes(void *a0);
@@ -41,8 +35,6 @@ extern s16 D_80027F7C;
 extern s16 D_800282B0;
 extern void card_boot_layout_empty_slot_window(s32 *object);
 extern void func_80023BE4(void *, s32, s32);
-// size 0x80
-extern EntryS80083E98 card_save_slot_metadata[];
 
 extern void *decode_fullwidth_text(void *entries, u8 *text, s32 initial_octave);
 

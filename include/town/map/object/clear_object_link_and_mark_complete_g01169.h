@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01169 - CL:town/func_800BDDA8, CL:town/func_800BDE1C. */
 
 #include "common.h"
+#include "town/scene/list_setup.h"
 #include "shared/object_flags.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
@@ -39,7 +40,6 @@ extern s32 classify_object_against_bounds(void *, void *);
 extern void unlink_scene_list_node(void *node);
 extern void unlink_node_if_registered(void *object);
 #include "engine/node.h"
-extern void configure_the_set_mode_n_3(void *, void *, void *);
 extern u8 lit_mesh_renderer_address[];
 extern u8 D_800D1BDC[];
 extern u8 D_800BB640[];

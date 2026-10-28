@@ -58,7 +58,6 @@ void update_effect_motion_size_and_brightness(void *effect_fields, struct Signed
 void advance_object_animation_and_effect(TownMapFallingObject *object);
 void spawn_randomized_timed_objects(TownMapSpawnState *source);
 void update_four_phase_animation(TownMapPhaseObject *entity, void *context);
-void initialize_object_header_and_state(TownMapPhaseObject *objectState, DelayMotionZ *associatedState);
 
 /* Callback entry points. */
 void advance_building_animation_frame(u16 *frame_tick);

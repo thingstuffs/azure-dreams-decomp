@@ -233,7 +233,7 @@ s32 get_cd_command_queue_depth(void);
 void * scan_actor_along_heading();
 void * create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);
 void create_two_row_object_group(void *payload, s16 value_scale);
-void begin_actor_display_action();
+void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
 
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 s32 func_80042900(ActorRecord *entry, s32 effect_id);

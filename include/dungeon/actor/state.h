@@ -28,4 +28,6 @@ struct ObjectPosition;
 struct SpriteFrameState;
 s32 update_actor_defeat_removal(struct ActorRecord *state, struct ObjectPosition *position, struct SpriteFrameState *sprite, struct ActorRecord *entity_data);
 
+void refresh_actor_proximity_state(struct ActorRecord *context);
+
 #endif

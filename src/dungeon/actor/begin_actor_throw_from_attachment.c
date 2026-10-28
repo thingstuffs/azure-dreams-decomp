@@ -71,7 +71,7 @@ typedef struct S_800AACA4_11 {
 } S_800AACA4_11;   /* ((S_800AACA4_2_pre *)root)[-1].unk_00 in begin_actor_throw_from_attachment */
 
 /* Initialize movement from the source object, set vertical speed, and advance the tile. */
-void begin_actor_throw_from_attachment(Rec_func_800A9E70_arg0 *state, EntityRec *motion, SpriteFrameState *tile, S_800AACA4_1 *entity) {
+void begin_actor_throw_from_attachment(Rec_func_800A9E70_arg0 *state, ObjectPosition *motion, SpriteFrameState *tile, S_800AACA4_1 *entity) {
     LocalResult height_adjustment;
     S_800AACA4_3 *source_object;
     S_800AACA4_2_pre *entity_data;
@@ -118,9 +118,9 @@ void begin_actor_throw_from_attachment(Rec_func_800A9E70_arg0 *state, EntityRec 
         travel_duration = entity->unk_8A.u + 2;
         entity->unk_8A.s = travel_duration;
         if (target_height < 0x200) {
-            motion->flags14 = -((motion->z.w.i - target_height) << 15) / travel_duration;
+            motion->velocity_z = -((motion->z.w.i - target_height) << 15) / travel_duration;
         } else {
-            motion->flags14 = -((motion->z.w.i - ((S_800AACA4_8 *)(entity->unk_60))->unk_88) << 15) / travel_duration;
+            motion->velocity_z = -((motion->z.w.i - ((S_800AACA4_8 *)(entity->unk_60))->unk_88) << 15) / travel_duration;
         }
         entity->unk_8A.s = entity->unk_8A.u - 2;
     }

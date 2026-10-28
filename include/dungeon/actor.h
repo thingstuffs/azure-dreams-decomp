@@ -62,4 +62,8 @@ s32 process_selected_actor_record(ActorRecord *body, ObjectPosition *position, S
 s32 check_scaled_value_threshold(ActorRecord *state);
 
 
+struct S_800C8DB0_0;
+s32 attempt_action_six_if_eligible(struct S_800C8DB0_0 *entity, s16 threshold, s8 action_arg);
+
+
 #endif

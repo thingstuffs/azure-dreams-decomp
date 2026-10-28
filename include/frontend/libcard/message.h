@@ -10,6 +10,10 @@ struct S_800226A8_0;
 struct S_8002742C_0;
 struct S_800491F4;
 
+/* Byte index sequences stop at their node limit; complete bounds are unestablished. */
+extern u8 card_message_chain_indices[];
+extern u8 card_slot_chain_indices[];
+
 /* card_boot_build_message_window_packets.c */
 void *card_boot_build_message_window_packets(void *buffer, void *layout);
 

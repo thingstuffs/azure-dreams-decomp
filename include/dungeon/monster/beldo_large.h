@@ -6,7 +6,15 @@
 #include "shared/object_node.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
+#include "records/Rec_func_800A9E70_arg0.h"
 extern ObjectNodeHeader *beldo_camera_object;
+
+extern ObjectNodeHeader *D_80175D64;
+
+/* Both the constructor and phase loop visit sixteen node slots. */
+extern ObjectNodeHeader *D_80175D78[16];
+
+extern ObjectNodeHeader *encounter_offset_object;
 
 void create_multi_form_segment_ring(EntityRec *origin);
 void advance_linked_actor_motion_script(ActorRecord *state_in, ObjectPosition *motion_in, struct SpriteFrameState *sprite_in);
@@ -23,5 +31,9 @@ void register_encounter_cd_callbacks(s32 input_value);
 void advance_timed_blink_effect(void *state_data, void *unused, void *color_data);
 void darken_encounter_view_color(u16 *entry);
 void update_dungeon_actor_behavior(void *effect);
+void create_timed_offset_motion_effect(u8 *unused, s16 duration, s32 offset_x, s32 offset_y, s32 offset_z);
+void start_actor_directional_action(Rec_func_800A9E70_arg0 *state, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *actor);
+
+
 
 #endif

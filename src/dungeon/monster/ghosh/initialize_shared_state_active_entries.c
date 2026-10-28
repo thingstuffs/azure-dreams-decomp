@@ -24,7 +24,6 @@ extern void clear_actor_pending_update_markers(void *state);
 extern void unlink_entity_node(void *node);
 
 extern u8 D_80174B38[];
-extern void *ghosh_boss_node[3];
 extern Unaligned32 D_80174C58;
 
 /* Initialize shared state and update the two active entries and their header flags. */
@@ -35,7 +34,7 @@ void initialize_shared_state_active_entries(void)
     u8 *entry_header;
 
     ghosh_command_stream = D_80174B38;
-    state_data = (StateData *)((u8 *)ghosh_boss_node[0] + 0x20);
+    state_data = (StateData *)((u8 *)ghosh_boss_node + 0x20);
     ghosh_command_ticks = 0;
     {
         Unaligned32 *source;

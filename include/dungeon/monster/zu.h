@@ -22,7 +22,7 @@ s16 sample_terrain_surface_height();
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 s32 check_entity_relation();
-s16 get_actor_height_difference();
+s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
 void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
 s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 void spend_actor_mp();
@@ -43,7 +43,7 @@ void update_bank_staged_movement(void *action, void *motion,struct SpriteFrameSt
 void update_bank_actor_targeted_action(ActorRecord *owner_input, ObjectPosition *motion_input, SpriteFrameState *actor_input, ActorRecord *object);
 void restore_bank_actor_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity);
 void slow_directional_motion(void *effect_data, void *motion_data, void *sprite_data, void *object_data);
-void forward_bank_actor_callback_a(ActorRecord *state, s32 action, SpriteFrameState *source, ActorRecord *target);
+void forward_bank_actor_callback_a(ActorRecord *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target);
 void forward_bank_actor_callback_b(void *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target);
 void restore_bank_actor_callback_a(ActorRecord *state, ObjectPosition *action, struct SpriteFrameState *source, ActorRecord *target);
 void handle_actor_action_effects(ActorRecord *controller, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);

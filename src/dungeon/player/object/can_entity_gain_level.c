@@ -13,6 +13,7 @@
 #include "shared/record_ptrs.h"
 #include "dungeon/player/object.h"
 #include "engine/town.h"
+#include "dungeon/effect.h"
 #define F(p,t,o) (*(t *)((u8 *)(p) + (o)))
 extern s32 get_entity_effect_value(void *entry, s32 effect_id);
 extern s32 entity_level_thresholds[];
@@ -71,7 +72,6 @@ s32 can_entity_gain_level(void *entity) {
 
 extern s32 apply_entity_effects(); /* Slot contract: loading images do not establish one callee contract. */
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
-extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 
 extern u8 species_base_stats[];
 extern u8 species_growth_table[];
@@ -432,7 +432,6 @@ loop_0:
 extern s32 apply_entity_effects(); /* Slot contract: loading images do not establish one callee contract. */
 extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
-extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 
 extern u8 species_base_stats[];
 extern s32 entity_level_thresholds[];
@@ -908,7 +907,6 @@ void accumulate_experience_award(u8 *record, u16 amount)
 #define NULL 0
 #endif
 
-extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 
 typedef struct S_800A2DB8_0 {
     u8 pad_00[0x6];

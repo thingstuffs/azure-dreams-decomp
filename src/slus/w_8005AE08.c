@@ -22,7 +22,7 @@ s16 allocate_sequence_bank_slot(void *header, s32 sequence_id)
     slot = audio_sequence_slots;
     while (slot_index < 8) {
         if (slot->sequence_id == free_id) {
-            slot->data_address = (s32)header;
+            slot->data_address = header;
             slot->sequence_id = sequence_id;
             slot->state = 2;
             return slot_index;

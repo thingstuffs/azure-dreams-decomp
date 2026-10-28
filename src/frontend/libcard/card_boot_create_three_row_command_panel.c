@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/libcard.h"
 #include "shared/object_node.h"
 #include "engine/node.h"
 #include "engine/scene.h"
@@ -6,16 +7,15 @@
 #include "sdk/libc.h"
 #include "slus.h"
 
-typedef struct S_800238D4_1 {
-    u8 pad_00[0x19C];
-    s32 unk_19C;
-} S_800238D4_1;   /* work in card_boot_create_three_row_command_panel */
+typedef struct CardCommandPanelState {
+    u8 pad_00[0x190];
+    u8 sprite[0xC];
+    struct S_800491F4 *chain;
+    struct S_800491F4 *nodes[18];
+} CardCommandPanelState;   /* work in card_boot_create_three_row_command_panel */
 
-extern void process_nonzero(void *record);
 extern void func_800237EC(void *state, s32 value);
-extern s32 card_boot_link_three_row_panel_entries(void *input);
 #include "frontend/libcard/interfaces.h"
-extern void card_boot_animate_three_row_selection(void *state);
 
 extern u8 menu_backdrop_tag[];
 
@@ -23,10 +23,11 @@ extern u8 menu_backdrop_tag[];
 void *card_boot_create_three_row_command_panel(void *init_value)
 {
     ObjectNodeHeader *object;
-    u8 *state;
+    CardCommandPanelState *state;
+    void *body;
 
     object = card_command_panel_object;
-    state = card_command_panel_object + 0x20;
+    state = (CardCommandPanelState *)(card_command_panel_object + 0x20);
     if (find_active_list_node(object) == 0) {
         object = initialize_scene_object_in_buffer(0, object, 0x112);
         register_node(object, menu_backdrop_tag);
@@ -37,10 +38,11 @@ void *card_boot_create_three_row_command_panel(void *init_value)
     }
 
     func_800237EC(state, 0x12);
-    object->sprite = state + 0x190;
-    ((S_800238D4_1 *)state)->unk_19C = card_boot_link_three_row_panel_entries(state + 0x1A0);
+    object->sprite = state->sprite;
+    state->chain = card_boot_link_three_row_panel_entries(state->nodes);
     card_boot_initialize_three_row_command_panel(state, init_value);
     object->update_callback = card_boot_animate_three_row_selection;
-    card_boot_animate_three_row_selection(state);
+    body = state;
+    card_boot_animate_three_row_selection(body);
     return object;
 }

@@ -1882,7 +1882,7 @@ void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, EntityRec *pos
         if (state->unk_9B != 6) {
             return;
         }
-        if (create_status_linked_render_effect(position, (*(s32 *)D_801742E8), (*(s16 *)clown_fade_count), ((s32 *)staged_spawn_count)) == 0) {
+        if (create_status_linked_render_effect(position, (*(s32 *)D_801742E8), (*(s16 *)clown_fade_count), staged_spawn_count) == 0) {
             return;
         }
         state->unk_96 = 0x10U;

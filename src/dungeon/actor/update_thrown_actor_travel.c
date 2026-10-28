@@ -16,7 +16,7 @@ void apply_attack_power_and_element_effects(); /* extern */
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);                           /* extern */
 s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result); /* extern */
 void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);              /* extern */
-void begin_actor_random_warp(); /* extern */
+void begin_actor_random_warp(Rec_func_800A9E70_arg0 *entity, void *unused, void *position, ActorRecord *entity_state); /* extern */
 
 /* Advance tile movement, handle object contact, and finalize the stopping position. */
 s32 update_thrown_actor_travel(void *move_state, ObjectPosition *motion, SpriteFrameState *tile_pos, ActorRecord *actor) {

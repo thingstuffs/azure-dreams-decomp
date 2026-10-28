@@ -29,7 +29,7 @@ typedef struct Object {
 } Object;
 
 extern void select_record_entry_and_value(void *state, void *entries, short index);
-extern void register_node(Object *, void *);
+#include "engine/node.h"
 extern u8 D_80165580;
 
 /* Creates a gray half-scale spark at the source position plus the supplied offsets. */

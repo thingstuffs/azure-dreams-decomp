@@ -13,11 +13,5 @@ extern u8 scene_slot_e_value_58[];
 extern u8 scene_slot_e_value_5c[];
 
 /* Functions defined in this translation unit. */
-void configure_actor_slot_34(void *actor);
-void configure_actor_slot_14(void *actor);
-void configure_actor_slot_20(void *actor);
-void configure_actor_slot_58(void *actor);
-void configure_actor_slot_43(void *actor);
-void configure_actor_slot_80(void *actor);
 
 #endif

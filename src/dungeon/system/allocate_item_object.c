@@ -1,3 +1,4 @@
+#include "engine/window.h"
 #include "shared/object_node_flags.h"
 #include "shared/object_node.h"
 #include "shared/runtime_dispatch.h"
@@ -12,7 +13,6 @@ extern void advance_paired_object_sequence();
 extern s32 inventory_allocate_and_initialize_child();
 extern s32 allocate_initialized_child_object();
 extern s32 create_menu_child_object();
-extern s32 window_create_animated_content_panel();
 extern s32 item_panel_display_ids;
 
 typedef struct S_80025198_0 {
@@ -31,9 +31,9 @@ typedef struct S_80025198_1 {
     s32 unk_20;
     s32 unk_24;
     s32 unk_28;
-    s32 unk_2C;
-    s32 unk_30;
-    s32 unk_34;
+    void *unk_2C;
+    void *unk_30;
+    void *unk_34;
 } S_80025198_1;
 
 typedef struct S_80025198_2 {

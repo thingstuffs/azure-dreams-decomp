@@ -1,12 +1,12 @@
 
 struct ObjectNodeHeader;
 #include "common.h"
+#include "dungeon/monster/ghosh.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_floor.h"
 #include "shared/record_ptrs.h"
 #include "dungeon/item.h"
 
-extern s32 ghosh_boss_node[3];
 
 extern void func_80173ED0(void);
 extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *);
@@ -18,7 +18,7 @@ void teardown_boss_secondary_state(void) {
     u8 *ptr;
     u16 *flags = ((u16 *)&system_update_flags);
 
-    ptr = (u8 *)(ghosh_boss_node[0] + 0x20);
+    ptr = (u8 *)(ghosh_boss_node + 1);
     /*
      * BUG: the Ghosh dialogue script releases this companion (clearing ghosh_boss_node) before it calls
      * this teardown, so the node is null and the AND below reaches the halfword at 0x00000066. Harmless

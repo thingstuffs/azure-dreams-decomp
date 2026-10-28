@@ -19,34 +19,36 @@ void *create_tracked_effect_object(s16 mode, s16 value24, s16 value25, s16 value
     ObjectPosition *data08;
     S_8015E854_4 *objectState;
     ObjectNodeHeader *objectBase;
-    S_8015E854_1 *result;
+    ActorRecord *result;
+    void *body;
 
     result = 0;
     optionValue = 1;
     objectBase = allocate_list_node(274, &scene_object_list_anchor.next);
     if (objectBase != 0) {
-        result = (u8 *)objectBase + 0x20;
+        body = objectBase + 1;
+        result = body;
         objectBase->update_callback = func_8015EA8C;
-        result->unk_13 = MONSTER_STEALTH;
+        result->species = MONSTER_STEALTH;
         register_node(objectBase, project_sprite_chain);
         data08 = *(void ** *)&objectBase->position;
         data08->z.w.i = value0A;
         data0C = objectBase->sprite;
         data0C->tile_y = value25;
-        objectState = (S_8015E854_4 *)result;
+        objectState = body;
         data0C->frameTable = D_80161D30;
         modeBits = mode & 3;
         data0C->tile_x = value24;
         if (modeBits == 1) {
-            result->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            result->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            result->flags14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            result->flags1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
         } else if (modeBits >= 2) {
-            result->unk_14 |= ACTOR_CLASS_ENABLED;
-            result->unk_1C |= ACTOR_PLAYER_SIDE;
+            result->flags14 |= ACTOR_CLASS_ENABLED;
+            result->flags1C |= ACTOR_PLAYER_SIDE;
         } else if (((mode & ~3) << 16) == 0) {
-            if (!(result->unk_14 & ACTOR_RESIST_SLEEP)) {
+            if (!(result->flags14 & ACTOR_RESIST_SLEEP)) {
                 if (generate_random_value() & 1) {
-                    result->unk_1C |= ACTOR_ASLEEP;
+                    result->flags1C |= ACTOR_ASLEEP;
                     set_or_clear_actor_status_slot(result, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                     data0C->frameTable = D_80161D78;
                 }

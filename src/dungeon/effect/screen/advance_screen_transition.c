@@ -1,3 +1,4 @@
+#include "shared/dungeon_effect_status.h"
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
@@ -54,7 +55,6 @@ extern u8 D_80028F68[];
 extern u8 screen_transition_pixels[];
 extern s16 linked_monster_effect_updated[6];
 extern u8 linked_monster_attack_option[12];
-extern s32 linked_monster_attack_event[3];
 extern u16 sprite_effect_update_count[];
 extern u8 screen_effect_sprite_entries[12];
 
@@ -78,7 +78,7 @@ void advance_screen_transition(State *ctx)
     upload_vram_row_and_cache(screen_transition_pixels, 0x7AC0, 1, 2);
     linked_monster_effect_updated[0] = 1;
     linked_monster_attack_option[0] = ctx->field_9;
-    linked_monster_attack_event[0] = (s32)ctx->field_0;
+    linked_monster_attack_event[0] = ctx->field_0;
 
     object = primary_actor_record;
     ((PlayerRecord *)object)->unk_F4 = screen_effect_sprite_entries;

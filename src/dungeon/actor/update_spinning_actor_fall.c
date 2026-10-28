@@ -16,7 +16,7 @@ typedef struct {
 
 extern void unlink_entity_node(struct EntityLinkNode *node);
 #include "dungeon/player/object.h"
-extern s32 * detach_record_and_update_slot_state(void *record);
+extern void * detach_record_and_update_slot_state(void *record);
 
 
 typedef struct S_800AC5C8_0 {

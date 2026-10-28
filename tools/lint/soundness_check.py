@@ -97,7 +97,7 @@ def main(argv=None):
         clang = 'clang' in compiler.lower()
         if clang and args.mode == 'lto':
             raise ValueError('LTO mode requires GCC; use clang for callback mode')
-        flags = [f for f in lint.native_flags(port, root)
+        flags = [f for f in lint.native_flags(port, root, compiler)
                  if not f.startswith('-W') and not f.startswith('-O') and f != '-fmax-errors=0']
         flags += ['-m32', '-O1', '-fwrapv']
         flags += (['-Wcast-function-type-strict', '-Wincompatible-function-pointer-types',

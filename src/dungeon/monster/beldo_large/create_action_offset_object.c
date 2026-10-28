@@ -1,5 +1,6 @@
 #include "shared/entity.h"
 #include "common.h"
+#include "dungeon/monster/beldo_large.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
@@ -13,7 +14,6 @@ extern M2C_UNK D_80077854;
 extern void initialize_action_offset_and_notify(void *action, void *position);
 extern s16 beldo_large_direction_offsets[];
 extern void *beldo_script_node;
-extern void *encounter_offset_object;
 
 typedef struct S_801715D0_3 {
     u8 pad_00[0x24];

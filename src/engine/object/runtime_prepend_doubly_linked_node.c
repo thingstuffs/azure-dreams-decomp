@@ -20,7 +20,8 @@ typedef struct S_80035068_0 {
 
 
 /* Insert a node at the front of the owner's doubly linked list. */
-void runtime_prepend_doubly_linked_node(void *owner, S_80035068_0 *node) {
+void runtime_prepend_doubly_linked_node(void *owner, void *node_data) {
+    S_80035068_0 *node = node_data;
     node->unk_04 = owner + 8;
     node->unk_08 = (void *) ((Rec_func_80034F58_arg0 *)owner)->unk_10;
     ((S_80035068_3 *)(((Rec_func_80034F58_arg0 *)owner)->unk_10))->unk_04 = node;

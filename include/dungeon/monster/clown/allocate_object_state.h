@@ -7,6 +7,7 @@
 #include "dungeon/actor/animation.h"
 #include "engine/node/allocation.h"
 #include "engine/node.h"
+#include "dungeon/actor/status.h"
 struct ObjectNodeHeader;
 
 extern s32 clown_object_callback;
@@ -16,7 +17,6 @@ extern s32 D_8015025C;
 
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
-extern void set_or_clear_actor_status_slot();
 extern s32 generate_random_value(void);
 
 typedef struct S_8014C878_1 {

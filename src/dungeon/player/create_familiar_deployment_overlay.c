@@ -1,3 +1,4 @@
+#include "dungeon/player.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
@@ -24,7 +25,7 @@ typedef struct S_80093D8C_0 {
 } S_80093D8C_0;
 
 /* Create a sprite effect at the supplied position and attach it to its owner. */
-void create_familiar_deployment_overlay(void *owner_body, EntityRec *source_pos, SpriteFrameState *owner) {
+void create_familiar_deployment_overlay(void *owner_body, ObjectPosition *source_pos, SpriteFrameState *owner) {
     ObjectNodeHeader *owner_node = owner_body - 0x20;
     SpriteFrameState *sprite;
     S_80093D8C_0 *effect;

@@ -134,7 +134,6 @@ extern u8 D_80173DAC[16];
 extern u8 beldo_large_frame_set_14[16];
 extern void *beldo_actor_nodes[3];
 extern void *beldo_script_node[3];
-extern void *encounter_offset_object[16];
 
 /* Advances a scripted movement sequence and updates the sprite facing. */
 /* Runs Beldo's timed leaps, turns, and sprite effects, changes map flags, and saves party state for a
@@ -388,7 +387,7 @@ void advance_linked_actor_motion_script(ActorRecord *state_in, ObjectPosition *m
             u32 direction_offset;
             state_in->action_timer.u = 0U;
             state_in->action_id.u = (u8) (state_in->action_id.u + 1);
-            ((S_80171D74_10 *)(encounter_offset_object[0]))->unk_32 = 3;
+            ((S_80171D74_10 *)(encounter_offset_object))->unk_32 = 3;
             sprite_in->frameTable = &beldo_large_frame_set_8;
             select_sprite_entry(sprite_in, beldo_large_frame_set_8[((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
                 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);

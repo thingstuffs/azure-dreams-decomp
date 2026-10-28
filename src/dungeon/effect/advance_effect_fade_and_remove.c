@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_source.h"
 #include "dungeon/effect.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
@@ -13,7 +14,7 @@ typedef struct S_800B7C14_1_pre {
 
 typedef struct S_800B7C14_1 {
     u8 pad_00[0x8];
-    s32 unk_08;
+    SpriteSourceEntry *sprite_entries;
     u8 pad_0C[0x4];
     u16 unk_10;
     s16 unk_12;
@@ -34,7 +35,7 @@ void advance_effect_fade_and_remove(void *effect, ObjectPosition *motion, Sprite
     if (primitive->unk_00 != 0) {
         advance_sprite_animation_and_textures(primitive);
         if (primitive->flags & 0x4000) {
-            select_record_entry_and_value(primitive, ((S_800B7C14_1 *)effect)->unk_08, 0);
+            select_record_entry_and_value(primitive, ((S_800B7C14_1 *)effect)->sprite_entries, 0);
         }
     }
     motion->x.v = (s32) (motion->x.v + motion->velocity_x);

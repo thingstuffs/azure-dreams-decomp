@@ -43,7 +43,7 @@ void update_eligible_actor_action(ActorRecord *action_state, ObjectPosition *act
 void advance_timed_directional_reset(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *orientation);
 extern s32 func_801727D8(); /* Slot contract: loading images do not establish one callee contract. */
 extern s32 func_80174698();
-extern s32 require_object_flag();
+extern s32 require_object_flag(struct GolemActionWork *object, ActorRecord *flag_record);
 
 /* Update an actor's dungeon actions, status, facing, and animation. */
 /* Dispatches Golem's movement, attacks, spells, and turn processing, creating a sprite copy for its

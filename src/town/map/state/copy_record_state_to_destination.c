@@ -1,28 +1,25 @@
 #include "modules/town_map_props.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "shared/sprite_source.h"
 
 typedef struct TownPropAnimationActor {
     char pad0[0x68];
     s16 state;   /* 0x68 */
     char pad6A[0xA0 - 0x6A];
-    s32 fieldA0; /* 0xA0 */
-    s32 fieldA4; /* 0xA4 */
-    s32 fieldA8; /* 0xA8 */
+    SpriteSourceEntry *fieldA0; /* 0xA0 */
+    SpriteSourceEntry *fieldA4; /* 0xA4 */
+    SpriteSourceEntry *fieldA8; /* 0xA8 */
 } S0;
 
-typedef struct TownPropAnimationDestination {
-    char pad0[0x14];
-    u16 field14; /* 0x14 */
-} S1;
 
 
 /* Cycles a town prop's animations as its script-controlled trigger becomes active or inactive. */
-void copy_record_state_to_destination(S0 *self, s32 unused_value, S1 *destination) {
+void copy_record_state_to_destination(S0 *self, s32 unused_value, SpriteFrameState *destination) {
     S0 *obj = self;
     SpriteFrameState *dst= destination;
     s32 state;
-    s32 callValue;
+    SpriteSourceEntry *callValue;
 
     advance_sprite_animation_and_textures(dst);
     state = obj->state;

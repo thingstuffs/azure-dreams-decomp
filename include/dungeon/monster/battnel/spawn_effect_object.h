@@ -7,6 +7,7 @@
 #include "dungeon/actor/animation.h"
 #include "engine/node/allocation.h"
 #include "engine/node.h"
+#include "dungeon/actor/status.h"
 struct ObjectNodeHeader;
 
 typedef s32 M2C_UNK;
@@ -46,7 +47,6 @@ typedef struct S_8014C854_4 {
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
-extern void set_or_clear_actor_status_slot();
 extern u8 D_8014CA30[];
 extern M2C_UNK D_8014CE5C;
 extern u8 D_8014FD0C[];

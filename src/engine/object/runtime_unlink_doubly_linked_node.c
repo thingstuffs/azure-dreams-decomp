@@ -27,7 +27,8 @@ typedef struct S_80035090_0 {
 
 
 /* Unlink a node from a doubly linked list by connecting its neighbors. */
-void runtime_unlink_doubly_linked_node(S_80035090_0 *node) {
+void runtime_unlink_doubly_linked_node(void *node_data) {
+    S_80035090_0 *node = node_data;
     ((ListBacklinkView *)node->unk_04)->unk_08 = (void *) node->unk_08;
     ((S_80035090_3 *)node->unk_08)->unk_04 = (void *) node->unk_04;
 }

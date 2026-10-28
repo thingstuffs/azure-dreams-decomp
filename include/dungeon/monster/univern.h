@@ -24,6 +24,7 @@
 #include "dungeon/actor/motion.h"
 #include "dungeon/system.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/player/object.h"
 struct S_800AC480_0;
 struct S_800AC480_3;
 struct S_800AD594_0;
@@ -326,11 +327,10 @@ void spend_actor_mp(struct S_800AD594_0 *entity, s32 base_reduction);
 
 s32 update_linked_actor_motion(void *state, void *transform, void *config, void *object);
 void * resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-void set_record_integer_tile_center();
 void * scan_actor_along_heading();
 void * create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);
 s32 get_cd_command_queue_depth(void);
-void create_source_positioned_object();
+void create_source_positioned_object(ObjectPosition *source_pos, s16 initial_value);
 void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
 void unlink_entity_node();
 void distribute_experience_and_report_gains();
@@ -382,7 +382,7 @@ s32 relink_univern_path(void *entity_arg, ObjectPosition *primary_context_arg, v
 void finish_actor_tile_move_then_resume_ground_movement(void *state, void *motion, void *source, void *target);
 void finish_linked_actor_motion_and_floor_trap_then_resume_ground_movement(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
 void update_staged_movement_and_direction(void *action, void *motion, struct SpriteFrameState *sprite, void *actor);
-void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80172C18_Position *pos, struct SpriteFrameState *actor, R17_80172C18_Entity *ent);
+void update_entity_item_action_and_idle_return(R17_80172C18_State *state, ObjectPosition *pos, struct SpriteFrameState *actor, R17_80172C18_Entity *ent);
 void advance_univern_flight(void *action, void *motion, struct SpriteFrameState *sprite, void *actor);
 void advance_familiar_defeat_sequence(R17_80173614_S_func_80C17E14_0 *action, MotionDeltaView *motion, R17_80173614_S_func_80C17E14_2 *sprite,
     R17_80173614_S_func_80C17E14_3 *entity);

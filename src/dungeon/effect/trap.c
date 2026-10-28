@@ -1,3 +1,4 @@
+#include "dungeon/actor.h"
 #include "shared/actor_property_flags.h"
 #include "sdk/libgte.h"
 #include "shared/actor_status_ids.h"
@@ -6,6 +7,7 @@
 #include "modules/trap_effects_candidate.h"
 #include "shared/object_node.h"
 #include "common.h"
+#include "dungeon/item/monster_resource_slots_g00325.h"
 #include "m2c_compat.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_status.h"
@@ -14,6 +16,7 @@
 #include "dungeon/player.h"
 #include "dungeon/system.h"
 #include "engine/audio.h"
+#include "engine/scene.h"
 struct Dst;
 struct Elem;
 
@@ -813,7 +816,6 @@ typedef struct S_800CCA14_2 {
 } S_800CCA14_2;
 
 
-void *initialize_scene_object_in_buffer();      /* extern */
 s32 find_object_near_tile_height();                   /* extern */
 void apply_attack_power_and_element_effects(); /* extern */
 extern void * create_tile_center_quad_effect(s16 tile_x, s16 tile_y, s16 z, s16 tail_value, s16 render_mode, u16 tail_config);
@@ -1012,7 +1014,7 @@ typedef struct S_800CCDA0_3 {
 } S_800CCDA0_3;   /* arg2 in update_bouncing_trap_effect */
 
 
-extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, s32, s32);
+extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);
 extern s32 play_sound_if_enabled(s32 query_value);
 
 
@@ -1923,7 +1925,6 @@ extern u8 D_800DF870[];
 
 extern s32 generate_random_value(void);
 extern s32 play_sound_if_enabled(s32 query_value);
-extern void attempt_action_six_if_eligible(void *, s32, s32);
 extern void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound);
 
 /* Applies a chance-based effect, with visual and sound feedback for unflagged entries. */
@@ -2345,7 +2346,7 @@ typedef struct {
 } GridEffectObject;
 
 extern void initialize_timed_motion_step(); /* Unprototyped: two or three arguments; retail reads only the first two. */
-extern s32 random_dungeon_range_16(s32, s32);
+extern s32 random_dungeon_range_16(u32 bound_a, u32 bound_b);
 extern s32 get_surface_height_at_coordinates(s32, s32);
 
 extern u8 floor_trap_update_address[];
@@ -2504,10 +2505,10 @@ typedef struct S_800CE748_3 {
 
 void *get_unused_text_buffer(void);
 u8 *expand_text_control_codes(u8 *src, u8 *dst);
-void clear_byte_and_advance(s8 *byte_ptr);
+u8 *clear_byte_and_advance(u8 *byte_ptr);
 void * write_text_byte_and_advance(s8 value, s8 *dest);
 extern s32 play_sound_if_enabled(s32 query_value);
-void display_text_with_fullwidth_adjustment(s8 *text);
+s32 display_text_with_fullwidth_adjustment(s8 *text);
 s32 generate_random_value(void);
 s32 is_linked_object_flagged_10000(void *);
 
@@ -2653,7 +2654,7 @@ s32 update_trap_effect_grid(void *record, s32 unused1, s32 unused2, s32 unused3)
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
-typedef void *(*SpawnFunc)(s32, s32, s32, s32);
+typedef MonsterFactory SpawnFunc;
 
 typedef struct DungeonSlot {
     u8 unk0;
@@ -2683,13 +2684,12 @@ extern void func_80042640(void *, s32);
 extern void SD_Call(s32);
 extern void display_formatted_context_message(); /* Unprototyped: one or three arguments; retail retains only the text context. */
 extern s32 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
-extern SpawnFunc load_monster_resource_data(s32 resource_id, u8 *resource_entry, s32 wait_for_read);
-extern void retain_spawn_resource(s16 entry_type, s16 entry_key);
+extern s32 retain_spawn_resource(s16 entry_type, s16 entry_key);
 extern u8 *find_or_retain_sprite_resource_slot(s32, s32);
 extern void raise_entity_level(void *, s32);
 extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 generate_random_value(void);
-extern s32 random_dungeon_range_16(s32, s32);
+extern s32 random_dungeon_range_16(u32 bound_a, u32 bound_b);
 
 /* Spawns and levels monster den monsters, then advances the event delays and cleanup. */
 void advance_monster_den_sequence(void *den_event) {

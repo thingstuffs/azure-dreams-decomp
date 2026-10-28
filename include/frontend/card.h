@@ -4,6 +4,16 @@
 
 #include "common.h"
 
+/* Cached save headers use a 128-byte stride. Retail reads words and the
+ * halfword at +8; the complete table allocation bound is unestablished. */
+typedef union CardSaveSlot {
+    s32 words[32];
+    s16 halfwords[64];
+    u8 bytes[128];
+} CardSaveSlot;
+
+extern CardSaveSlot card_save_slot_metadata[];
+
 struct MainPacket12;
 struct MainValue;
 struct Menu;

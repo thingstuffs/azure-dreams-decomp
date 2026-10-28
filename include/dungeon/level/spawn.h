@@ -1,6 +1,7 @@
 #ifndef DUNGEON_FLOOR_SPAWNS_H
 #define DUNGEON_FLOOR_SPAWNS_H
 #include "common.h"
+#include "dungeon/item/monster_resource_slots_g00325.h"
 #include "modules/dungeon_floor_switch_owners.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_item_entries.h"
@@ -97,14 +98,14 @@ typedef struct {
     u16 flags;
     u16 pad16;
 } floor_spawns_isolated_8028BF0C_SpawnPosition;
-typedef void *(*SpawnFunc)(s32, s32, s32, s32);
+typedef MonsterFactory SpawnFunc;
 #define floor_spawns_isolated_8028BF0C_PAGE_8008 ((u8 *)0x80080000)
 extern s32 select_dungeon_spawn_tile(u8 *, u8 *);
 extern s16 count_matching_packed_entity_keys(s32, s32);
 extern s32 generate_random_value(void);
 extern s32 find_first_empty_floor_item_slot(void);
 extern s32 get_item_category_value(void *item);
-extern s16 get_surface_height_at_coordinates(s32, s32);
+extern s32 get_surface_height_at_coordinates(s32 xCoord, s32 yCoord);
 extern u8 floor_species_pool[];
 extern s16 floor_generation_state[3];
 extern s32 floor_loaded_content_flags[];
@@ -124,7 +125,6 @@ extern u8 *D_800735C4[];
 extern u8 floor_object_sprite_sources[];
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void func_80042640(void *, s32);
-extern SpawnFunc load_monster_resource_data(s32 resource_id, u8 *resource_entry, s32 wait_for_read);
 extern void retain_spawn_resource(s32, s32);
 extern u8 *find_or_retain_sprite_resource_slot(s32, s32);
 extern void raise_entity_level(void *, s32);

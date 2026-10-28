@@ -1,3 +1,5 @@
+#include "shared/sprite_frame_state.h"
+#include "shared/entity.h"
 #include "common.h"
 
 #include "common.h"
@@ -25,11 +27,7 @@ typedef struct S_800520B4_Ptr {
 
 
 typedef struct S_800520B4 {
-    u8 pad_0x00[8];
-    IntVector3 *vec;
-    S_800520B4_Ptr *ptr;
-    void (*update_func)(void);
-    u8 pad_0x14[0xC];
+    ObjectNodeHeader header;
     S_800520B4_Sub sub;
 } S_800520B4;
 
@@ -42,10 +40,10 @@ struct SpriteFrameState;
 void init_color_fade_effect(S_800520B4 *object, void *context)
 {
     s16 *state_words;
-    S_800520B4_Ptr *settings;
-    IntVector3 *vector;
+    SpriteFrameState *settings;
+    ObjectPosition *vector;
 
-    object->update_func = update_color_fade_effect;
+    object->header.update_callback = update_color_fade_effect;
     state_words = (s16 *)((u8 *)object + 0x20);
     object->sub.field_0x00 = context;
     state_words[2] = 0;
@@ -53,16 +51,16 @@ void init_color_fade_effect(S_800520B4 *object, void *context)
     state_words[5] = 0;
     state_words[6] = 0;
 
-    settings = object->ptr;
-    settings->field_0x08 = color_fade_visual_data;
-    settings->field_0x0C = 0;
-    settings->field_0x1E = 0x1000;
-    settings->field_0x1C = 0x1000;
+    settings = object->header.sprite;
+    settings->source = color_fade_visual_data;
+    settings->color.word = 0;
+    settings->scale_y = 0x1000;
+    settings->scale_x = 0x1000;
 
-    register_node(object, draw_linked_sprites);
+    register_node(&object->header, draw_linked_sprites);
 
-    vector = object->vec;
-    vector->x = 0x980000;
-    vector->y = 0x800000;
-    vector->z = 0xA00000;
+    vector = object->header.position;
+    vector->x.v = 0x980000;
+    vector->y.v = 0x800000;
+    vector->z.v = 0xA00000;
 }

@@ -5,23 +5,6 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/player.h"
 
-typedef struct S_800AD594_0 {
-    u8 pad_00[0x13];
-    union { s8 s; u8 u; } unk_13;   /* accessed as both */
-    u8 pad_14[0x8];
-    s32 unk_1C;
-    u8 pad_20[0x4];
-    union {
-        struct { u16 v; } at00;
-        struct { u8 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-    u8 pad_26[0x2E];
-    s32 unk_54;
-    u8 pad_58[0xE];
-    u8 unk_66;
-} S_800AD594_0;   /* arg0 in spend_actor_mp */
-
 typedef struct S_800AD594_1 {
     u8 pad_00[0xA];
     u16 unk_0A;
@@ -36,7 +19,7 @@ extern s32 get_entity_effect_value(void *, s32);
  * kind 0x39 above zero in dungeon mode one; otherwise handles exhausted MP by clearing lifted
  * links and recording the transition in the pending-action count.
  */
-void spend_actor_mp(S_800AD594_0 *entity, s32 base_reduction) {
+void spend_actor_mp(ActorRecord *entity, s32 base_reduction) {
     s32 remaining_amount;
     s32 reduction;
     s32 one;
@@ -44,12 +27,12 @@ void spend_actor_mp(S_800AD594_0 *entity, s32 base_reduction) {
     u8 level_limit;
 
     reduction = base_reduction;
-    if (entity->unk_13.s > 0) {
-        remaining_amount = entity->unk_24.at00.v;
-        initial_level = entity->unk_24.at01.v;
+    if ((s8)entity->species > 0) {
+        remaining_amount = entity->mp_value.whole;
+        initial_level = entity->mp_value.parts.whole;
         if ((get_entity_effect_value(entity, STATUS_NO_MP_DRAIN) << 16) != 0) {
             reduction = 0;
-        } else if (entity->unk_54 & 0x100) {
+        } else if (entity->status_flags & 0x100) {
             reduction = (reduction + 1) >> 1;
         }
         if ((get_entity_effect_value(entity, STATUS_MP_DRAIN) << 16) != 0) {
@@ -61,25 +44,25 @@ void spend_actor_mp(S_800AD594_0 *entity, s32 base_reduction) {
         } else if (remaining_amount > 0x10000) {
             remaining_amount = 0xFFFF;
         }
-        level_limit = entity->unk_66;
-        entity->unk_24.at00.v = (u16)remaining_amount;
-        if (level_limit < entity->unk_24.at01.v) {
-            entity->unk_24.at01.v = level_limit;
-            entity->unk_24.at00u.v = 0xFF;
+        level_limit = entity->max_mp;
+        entity->mp_value.whole = (u16)remaining_amount;
+        if (level_limit < entity->mp_value.parts.whole) {
+            entity->mp_value.parts.whole = level_limit;
+            entity->mp_value.parts.fraction = 0xFF;
         }
-        if (entity->unk_24.at01.v == 0) {
+        if (entity->mp_value.parts.whole == 0) {
             s32 dungeon_mode;
 
             one = 1;
 
             dungeon_mode = *(s32 *)0x80012090;
             if ((dungeon_mode == one) &&
-                ((entity->unk_13.u == MONSTER_KEWNE) ||
-                 (entity->unk_13.u == 0x39))) {
-                entity->unk_24.at01.v = dungeon_mode;
+                ((entity->species == MONSTER_KEWNE) ||
+                 (entity->species == 0x39))) {
+                entity->mp_value.parts.whole = dungeon_mode;
                 return;
             }
-            if (entity->unk_1C & ACTOR_LIFTED) {
+            if (entity->flags1C & ACTOR_LIFTED) {
                 clear_player_linked_action_flags();
             }
             if (initial_level != 0) {

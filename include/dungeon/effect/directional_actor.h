@@ -9,6 +9,7 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/level.h"
+#include "dungeon/item/actor_target.h"
 typedef struct Row_818E0800_S_818E0800_0_pre {
     u16 unk_00;
 } Row_818E0800_S_818E0800_0_pre;   /* the 0x2 bytes before arg0 in func_8002401C, addressed as arg0[-1] */
@@ -169,7 +170,6 @@ void func_8004491C(void *, void *);
 s32 rand(void);
 void jitter_effect_position_and_fade(void *, s32);
 void initialize_timed_motion_step(s32, s32);
-void *scan_actor_along_heading();
 s32 get_definition_entry_byte_13(s16 entry_index);
 s32 try_trigger_target_record_effect(void *, s32, void *);
 void play_sound_if_enabled(s32);

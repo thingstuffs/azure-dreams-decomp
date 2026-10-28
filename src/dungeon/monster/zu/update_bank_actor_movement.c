@@ -709,7 +709,7 @@ void select_bank_actor_movement(ActorRecord *move_data, ObjectPosition *context,
     s16 turn_index;
     s16 *turn_table;
     s32 step_offset;
-    EntityRec *blocker;
+    ActorRecord *blocker;
 
     if ((dungeon_flags & 0x4000) || (s8)actor_data->movement_queue_state >= 0) {
         if (actor_data->unk_12 >= 2 ||
@@ -731,7 +731,7 @@ void select_bank_actor_movement(ActorRecord *move_data, ObjectPosition *context,
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
             current_angle = (s32)find_adjacent_actor(actor_data, position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y);
-            blocker = (EntityRec *)current_angle;
+            blocker = (ActorRecord *)current_angle;
             if (blocker != 0) {
                 EntityRec *blocker_owner = (EntityRec *)((ObjectNodeHeader *)blocker - 1)->sprite;
                 s16 target_angle = (s16)get_rounded_facing_and_rounding_flag(
@@ -802,7 +802,7 @@ void select_bank_actor_movement(ActorRecord *move_data, ObjectPosition *context,
                       &move_data->action_state_flags);
     } else if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
         current_angle = (s32)probe_directional_neighbor(actor_data, position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y, actor_data->facing);
-        blocker = (EntityRec *)current_angle;
+        blocker = (ActorRecord *)current_angle;
         if (blocker != 0 &&
             (blocker->flags1C & ACTOR_PLAYER_SIDE) &&
             (s16)get_actor_height_difference(blocker, actor_data) < 0x81) {
@@ -1960,10 +1960,10 @@ void slow_directional_motion(void *effect_data, void *motion_data, void *sprite_
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
-extern s32 update_actor_hop_and_shrink(void *, s32,struct SpriteFrameState *, void *);
+s32 update_actor_hop_and_shrink(void *animation, void *motion, SpriteFrameState *scale, void *render);
 
 /* Forward all four bank callback arguments to the resident handler. */
-void forward_bank_actor_callback_a(ActorRecord *state, s32 action, SpriteFrameState *source, ActorRecord *target) {
+void forward_bank_actor_callback_a(ActorRecord *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target) {
     update_actor_hop_and_shrink(state, action, source, target);
 }
 

@@ -1,5 +1,6 @@
 #include "engine/audio/sequence.h"
 #include "dungeon/item.h"
+#include "dungeon/effect.h"
 struct PulsingEffectWork;
 s32 display_text_with_fullwidth_adjustment(s8 *text);
 #include "dungeon/item/message/text.h"
@@ -11,7 +12,6 @@ void *get_unused_text_buffer(); /* Unprototyped: this retail caller sets three i
 /* Complete native TU in retail file order. Review pending. */
 #include "dungeon/system/util.h"
 #include "common.h"
-#include "dungeon/effect.h"
 #include "dungeon/menu.h"
 #include "dungeon/system.h"
 #include "engine/node/allocation.h"
@@ -440,7 +440,6 @@ void create_timed_status_object(void) {
 #include "shared/entity.h"
 #include "records/Rec_func_800A5DFC_arg1.h"
 
-void *create_actor_value_popup(); /* extern */
 typedef struct S_800A5DFC_0_pre {
     void * unk_00;
     u8 pad_04[0x10];

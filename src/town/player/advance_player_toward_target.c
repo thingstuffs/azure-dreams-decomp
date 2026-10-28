@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player/call_the_handler_selects_nonzero_entry_api.h"
 #include "town/player.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
@@ -14,15 +15,14 @@ typedef struct S_8009B014_1 {
     s16 unk_32;
 } S_8009B014_1;   /* arg0 in advance_player_toward_target */
 
-extern void call_the_handler_selects_nonzero_entry(void *entries, void *record, s32 handler_param);
 extern void clear_entity_record_fields(void *record);
 
-extern u8 town_scene_record_handlers[3];
+extern s32 town_scene_record_handlers[];
 extern s32 town_player_target_adjustment;
 extern s32 D_800D0640[3];
 
 /* Updates motion toward the target and advances the state when the countdown expires. */
-void advance_player_toward_target(void *state, ObjectPosition *motion, s32 context) {
+void advance_player_toward_target(void *state, ObjectPosition *motion, void *context) {
     u16 ticks_left;
     s32 target_index;
     s32 *target_bases;

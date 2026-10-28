@@ -3,6 +3,7 @@
 
 /* Present C interface; historical filename and TU boundary remain inferred. */
 #include "common.h"
+#include "engine/node/allocation.h"
 
 #include "common.h"
 #include "records/Rec_func_80034F58_arg0.h"
@@ -58,7 +59,6 @@ typedef struct S_80035888_6 {
 } S_80035888_6;   /* ((S_80035888_1 *)object)->unk_74 in func_80035888 */
 
 
-extern void *initialize_runtime_node_storage(s32, void *, s32, void *);
 extern void register_node(void *, void *);
 extern void func_8004491C(void *, void *);
 extern void runtime_initialize_state_value(void *, s32);

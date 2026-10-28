@@ -26,7 +26,7 @@ extern s32 process_selected_actor_record(ActorRecord *body, ObjectPosition *posi
 extern void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState *target, u8 *direction_table, void *next_state);
 extern void func_80171438(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
 extern void func_8017167C(void *, void *, void *, void *);
-extern s32 validate_direction_and_initialize_action(void *, ObjectPosition *, void *, void *);
+extern s32 validate_direction_and_initialize_action(ActorRecord *, ObjectPosition *, void *, void *);
 void update_eligible_actor_action_alt(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
 extern s32 func_80172230(void *, void *, void *, s32);
 extern void func_80173A84(void *, void *, void *, void *);

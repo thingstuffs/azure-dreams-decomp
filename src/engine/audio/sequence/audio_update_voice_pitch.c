@@ -31,22 +31,16 @@ typedef struct S_80056654_1 {
     u8 pad_3C[0x14];
     s16 unk_50;
     u16 unk_52;
+    u8 pad_54[0x9C - 0x54];
 } S_80056654_1;   /* temp_a2 in audio_update_voice_pitch */
 
 
-typedef struct {
-    s32 field0;
-    s32 field4;
-    u8 pad8[0x16 - 8];
-    s16 field16;
-    s16 field18;
-    u8 pad1A[0x40 - 0x1A];
-} S_80084918;
+
 
 s32 audio_compute_pitch_bend_offset(void *, s32);
 extern s32 audio_voice_masks[];
-extern S_80084918 audio_voice_request;
-extern u8 audio_channel_controls[];
+extern SpuVoiceAttr_ audio_voice_request;
+extern S_80056654_1 audio_channel_controls[];
 
 /* Updates voice pitch parameters and clears a completed pitch adjustment. */
 void audio_update_voice_pitch(S_80056654_0 *state, s32 force_update) {
@@ -58,7 +52,7 @@ void audio_update_voice_pitch(S_80056654_0 *state, s32 force_update) {
     s32 coarse_pitch;
     s32 *voice_entry;
     s32 *voice_table;
-    channel = audio_channel_controls + (state->unk_06 * 0x9C);
+    channel = audio_channel_controls + state->unk_06;
     if ((state->unk_4C != 0) || (state->unk_30 != 0) ||
         (channel->unk_08 != 0) || (channel->unk_50 != 0) ||
         (channel->unk_1C != state->unk_70) || (force_update != 0)) {
@@ -67,20 +61,20 @@ void audio_update_voice_pitch(S_80056654_0 *state, s32 force_update) {
         pitch_adjustment = audio_compute_pitch_bend_offset(state, channel->unk_1C);
         voice_table = audio_voice_masks;
         base_pitch = (state->unk_0C << 7) + pitch_adjustment;
-        audio_voice_request.field4 = 0x60;
+        audio_voice_request.mask = 0x60;
         voice_entry = voice_table + state->unk_00;
         packed_pitch = pitch_offset + base_pitch;
         coarse_pitch = (s32) (packed_pitch << 0x10) >> 0x17;
         packed_pitch &= 0x7F;
-        audio_voice_request.field0 = *voice_entry;
+        audio_voice_request.voice = *voice_entry;
         coarse_pitch <<= 8;
         packed_pitch |= coarse_pitch;
         if (state->unk_23 != 0) {
-            audio_voice_request.field18 = (s16) (((state->unk_22 - 1) << 8) | (0x7F - state->unk_23));
+            audio_voice_request.sample_note = (s16) (((state->unk_22 - 1) << 8) | (0x7F - state->unk_23));
         } else {
-            audio_voice_request.field18 = (s16) (state->unk_23 | (state->unk_22 << 8));
+            audio_voice_request.sample_note = (s16) (state->unk_23 | (state->unk_22 << 8));
         }
-        audio_voice_request.field16 = (s16) packed_pitch;
+        audio_voice_request.note = (s16) packed_pitch;
         apply_spu_voice_attributes(&audio_voice_request);
     }
     if (state->unk_30 != 0) {

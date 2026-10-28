@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_effect_views.h"
 
 typedef struct S_800A9858_0 {
@@ -12,7 +13,9 @@ void set_resident_flag_when_item_present(u16 *record);
 void retire_object_on_check_or_callback(void *object, void *input, void *context);
 
 /* Initialize the record's pointers and clear the associated state field. */
-void initialize_variant_record_pointers_and_clear_state(void *record_data, EffectStateWordView *state) {
+void initialize_variant_record_pointers_and_clear_state(void *record_data, void *placement, struct SpriteFrameState *unused_sprite) {
+    EffectStateWordView *state = placement;
+
     ((S_800A9858_0 *)((u8 *)record_data - 0x10))->unk_00 = &retire_object_on_check_or_callback;
     ((S_800A9858_0 *)((u8 *)record_data - 0x10))->unk_60 = &set_resident_flag_when_item_present;
     state->unk_08 = 0;

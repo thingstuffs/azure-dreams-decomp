@@ -794,7 +794,7 @@ void initialize_children_or_shutdown(void *owner)
     s32 alloc_flags;
     register void *entity_arg;
     S_80026190_5 *child;
-    u8 *status_page;
+    void *status_page;
     s32 mode;
     S_80026190_15 *flag_page;
     S_80026190_8 *cleanup_page;
@@ -810,9 +810,10 @@ void initialize_children_or_shutdown(void *owner)
     void *spawn_container;
     S_80026190_13 *spawn_child;
     ObjectNodeHeader *spawn_resource;
+    MonsterFactory factory;
     S_80026190_17 *entity;
 
-    status_page = (u8 *)((s8 *)(&g_game_work));
+    status_page = &g_game_work;
     state = ((S_80026190_0 *)owner)->unk_1C.s;
     stop_state = 2;
     if (state == stop_state) {
@@ -911,9 +912,9 @@ void initialize_children_or_shutdown(void *owner)
         shifted_kind = object_or_kind << 16;
         signed_kind = shifted_kind >> 16;
 
-        entity = load_monster_resource_data(signed_kind, find_or_retain_sprite_resource_slot(signed_kind, 3), 1);
+        factory = load_monster_resource_data(signed_kind, find_or_retain_sprite_resource_slot(signed_kind, 3), 1);
         drain_cd_command_queue();
-        entity = ((SpawnFunc)entity)(1, 0, 0, ((S_80026190_10 *)source)->unk_88);
+        entity = factory(1, 0, 0, ((S_80026190_10 *)source)->unk_88);
 
         status_page = (u8 *)0x80010000;
         mode = ((S_80026190_11 *)status_page)->unk_2090;

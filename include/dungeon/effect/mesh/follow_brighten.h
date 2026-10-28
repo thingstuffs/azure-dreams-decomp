@@ -14,6 +14,7 @@
 #include "shared/dir_step.h"
 #include "sdk/libc.h"
 #include "dungeon/level.h"
+#include "dungeon/effect.h"
 typedef struct { u8 pad00[0x14]; u16 flags; } ovl_18d0850_818B097C_EffectCounter;
 typedef struct { ovl_18d0850_818B097C_EffectCounter *parent; } ovl_18d0850_818B097C_EffectOwner;
 typedef struct ovl_18d0850_818B09F8_SubObj {
@@ -270,7 +271,6 @@ typedef struct ovl_18d0850_818B1664_LargeScalar {
 extern s32 get_random_scaled_value(s16 input_value);
 extern void apply_clamped_actor_value_delta(void *entity);
 extern void cap_pending_actor_value_delta(void *entry);
-extern void create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 extern void LoadImage();
 s32 DrawSync(s32);
 extern void advance_sprite_animation_and_textures(void *);

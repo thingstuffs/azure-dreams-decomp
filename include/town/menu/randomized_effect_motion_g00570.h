@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D0B20. */
 
 #include "common.h"
+#include "shared/sprite_source.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_D_80082E80.h"
@@ -37,7 +38,7 @@ extern s32 rsin(s32);
 extern s32 rcos(s32);
 extern u8 D_800A378C[];
 extern s16 D_800D0B18[];
-extern s32 D_800D0B50[];
+extern u8 *D_800D0B50[];
 /* extern */
 void advance_sprite_animation_and_textures(void *entity);
 /* extern */
@@ -45,7 +46,7 @@ extern void D_800A38A8(void *object, void *unused_context, u8 *primitive);
 
 extern u32 scale_random_to_unsigned_halfword_limit(s32);
 extern void add_motion_deltas_to_position(ObjectPosition *);
-extern s32 D_800D0B20[];
+extern SpriteSourceEntry *D_800D0B20[];
 
 /* Functions defined in this translation unit. */
 void initialize_randomized_motion_vector(u8 *obj, s32 *vec, SpriteFrameState *record);

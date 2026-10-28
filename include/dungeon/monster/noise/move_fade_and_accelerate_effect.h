@@ -3,6 +3,8 @@
 #include "common.h"
 #include "sdk/libc.h"
 #include "dungeon/actor.h"
+#include "dungeon/actor/animation.h"
+#include "dungeon/actor/status.h"
 #ifndef NULL
 #define NULL 0
 void update_actor_behavior_and_direction(ActorRecord *motion, ObjectPosition *render_ctx, SpriteFrameState *map_entity, ActorRecord *actor);
@@ -118,8 +120,6 @@ extern void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
-extern void set_or_clear_actor_status_slot();
-extern void initialize_actor_sprite_and_animation();
 extern u8 D_80171358[];
 extern u8 noise_direction_frames[];
 extern u8 noise_frame_set[];

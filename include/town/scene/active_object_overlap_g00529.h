@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8009263C. */
 
 #include "common.h"
+#include "shared/entity.h"
 
 typedef struct Box {
     s32 x;
@@ -17,8 +18,8 @@ typedef struct Box {
 typedef struct Node {
     u8 pad0[4];
     struct Node *next;
-    s32 field8;
-    s32 fieldC;
+    ObjectPosition *field8;
+    Box *fieldC;
     u8 pad10[4];
     u8 type;
     u8 active;
@@ -26,7 +27,7 @@ typedef struct Node {
 } Node;
 
 /* Functions defined in this translation unit. */
-s32 handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(Box *box_a, Box *offset_a, Box *box_b, Box *offset_b);
+s32 handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(Box *box_a, ObjectPosition *offset_a, Box *box_b, ObjectPosition *offset_b);
 s32 low_12_values_within_511(s32 value_a, s32 value_b);
 Node *handle_finds_first_eligible_active_node_in_circular_list(Node *origin);
 

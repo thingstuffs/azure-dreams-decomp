@@ -1,9 +1,9 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
 #include "slus/data.h"
 
 
 
-extern s32 audio_sequence_data_base[4];
 
 typedef struct {
     s32 unk00;
@@ -18,7 +18,7 @@ s32 read_next_byte_and_finish(S_800589B8 *reader)
     s32 byte_value;
     s32 byte_count;
 
-    byte_value = ((u8 *)audio_sequence_data_base[0])[reader->unk00];
+    byte_value = audio_sequence_data_base[0][reader->unk00];
     position = reader->unk00;
     byte_count = audio_sequence_stream_limit[0];
     position = position + 1;

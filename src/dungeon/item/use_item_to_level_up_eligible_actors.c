@@ -11,6 +11,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/item.h"
+#include "dungeon/effect.h"
 
 extern s32 entity_level_thresholds[];
 extern u8 D_800E131C[];
@@ -24,7 +25,6 @@ extern void raise_entity_level(void *, s32);
 extern void place_actor_item(void *, struct DungeonItemEntry *);
 extern void display_actor_item_status_message(void *, struct DungeonItemEntry *, s16);
 extern s32 feed_actor_restore_mp(void *, s32, struct DungeonItemEntry *);
-extern void create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 
 typedef struct S_800BF9EC_2_pre {
     void * unk_00;

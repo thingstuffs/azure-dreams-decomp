@@ -360,7 +360,7 @@ s32 lookup_masked_byte_table();
 void unlink_entity_node(struct EntityLinkNode *node);
 void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 s32 advance_staged_entity_load();
-s32 create_status_linked_render_effect();
+void * create_status_linked_render_effect(EntityRec *source_pos, s32 render_param, s16 initial_state, s8 *status);
 s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 extern u8 clown_direction_frames[];
 extern u8 clown_alt_direction_frames[];

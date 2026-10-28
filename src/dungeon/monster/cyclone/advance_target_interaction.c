@@ -18,10 +18,6 @@ typedef struct S_80174764_0 {
     u8 unk_9B;
 } S_80174764_0;   /* arg0 in advance_target_interaction */
 
-typedef struct S_80174764_3 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-} S_80174764_3;   /* target in advance_target_interaction */
 
 typedef struct S_80174764_4 {
     u8 pad_00[0x14];
@@ -32,7 +28,7 @@ extern void select_sprite_entry(void *, s16, s16);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 extern void spawn_312_effect_object(void *, void *, void *);
-extern s32 request_random_slot_effect(void *);
+extern s32 request_random_slot_effect(ActorRecord *);
 extern s32 check_object_code_19(void *);
 extern void format_entity_message(s32, void *);
 extern void func_80176330(s32, void *);
@@ -44,7 +40,7 @@ extern u8 cyclone_move_direction_frames[8];
 void advance_target_interaction(ActorRecord *action, ObjectPosition *scene, SpriteFrameState *sprite, ActorRecord *actor) {
     u16 sprite_flags;
     u16 timer;
-    S_80174764_3 *target;
+    ActorRecord *target;
 
     switch (action->action_phase.u) {
     case 0:
@@ -60,7 +56,7 @@ void advance_target_interaction(ActorRecord *action, ObjectPosition *scene, Spri
                 }
             } else {
                 target = actor->target;
-                if (target->unk_14 & 0x4000) {
+                if (target->flags14 & 0x4000) {
                     if (request_random_slot_effect(target)) {
                         func_80176330(1, actor->target);
                     } else {
@@ -109,7 +105,7 @@ void advance_target_interaction(ActorRecord *action, ObjectPosition *scene, Spri
                 }
             } else {
                 target = actor->target;
-                if (target->unk_14 & 0x4000) {
+                if (target->flags14 & 0x4000) {
                     if (request_random_slot_effect(target)) {
                         func_80176330(1, actor->target);
                     } else {

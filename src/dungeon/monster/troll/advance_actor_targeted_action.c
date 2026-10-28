@@ -13,6 +13,8 @@
 #include "dungeon/player/object.h"
 #include "dungeon/system.h"
 #include "dungeon/actor/status.h"
+#include "shared/dungeon_status.h"
+#include "dungeon/monster/troll.h"
 
 typedef struct S_8017472C_0 {
     u8 pad_00[0x8C];
@@ -42,9 +44,8 @@ extern int abs(int);
 extern void *scan_actor_along_heading();
 extern void *create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);
 extern void spawn_random_color_burst_particle();
-extern void spawn_growing_rotating_flash();
 
-extern s32 g_dungeon_status;
+
 extern s32 D_8008346C;
 extern u8 troll_action_dispatch_address[];
 extern u8 troll_frame_set_1[];

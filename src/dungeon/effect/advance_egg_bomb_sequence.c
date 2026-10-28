@@ -1,6 +1,7 @@
 #include "dungeon/actor/status.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "dungeon/item/monster_resource_slots_g00325.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -23,14 +24,13 @@ typedef struct {
 extern s32 entity_level_thresholds[];
 extern void func_8003E188(s32 field_index, s32 flag);
 extern void func_80042640(void *obj, s16 monsterId);
-s32 *(*load_monster_resource_data())(s32, s16, s16, s16); /* extern */
 u8 * find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type);
 void raise_entity_level(void *entity_data, s32 show_message); /* extern */
 s32 choose_usable_ability_or_attack();
 s32 choose_best_eligible_entry();
 s32 display_text_with_fullwidth_adjustment(s8 *text); /* extern */
 void clear_selected_item_flag_400();
-void check_entity_relation(s32 *, u8 *);
+s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern u8 D_800E0A42[];
 extern u8 D_800E0A56[20];
 extern u8 D_800E0A6A[12];
@@ -43,7 +43,7 @@ typedef struct S_800B7774_0_pre {
 typedef struct S_800B7774_0 {
     u8 unk_00;
     u8 pad_01[0x3];
-    s32 * unk_04;
+    ActorRecord *unk_04;
     u8 pad_08[0x2];
     union { s16 s; u16 u; } unk_0A;   /* accessed as both */
     u16 unk_0C;
@@ -103,8 +103,8 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
     s32 held_y;
     u16 action_parameter;
     s16 phase;
-    s32 *monster;
-    s32 *tracked_monster;
+    ActorRecord *monster;
+    ActorRecord *tracked_monster;
     s32 action_data;
     void *message_id;
     s32 action_id;
@@ -181,10 +181,10 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
             }
             display_text_with_fullwidth_adjustment(message_id);
             {
-                s32 *call_obj;
-                u8 *call_state;
+                ActorRecord *call_obj;
+                ActorRecord *call_state;
                 call_obj = monster;
-                call_state = ((u8 *)dungeon_actor_ring_anchor);
+                call_state = dungeon_actor_ring_anchor;
                 ((S_800B7774_0 *)egg_bomb)->unk_0C = 0x10U;
                 check_entity_relation(call_obj, call_state);
             }

@@ -28,7 +28,6 @@ typedef struct {
 extern Entity audio_sequence_tracks[];
 extern s32 audio_sequence_track_count[3];
 extern s32 audio_sequence_format[4];
-extern u8 *audio_sequence_data_base[4];
 
 extern void scale_value_with_remainder(Entity *);
 

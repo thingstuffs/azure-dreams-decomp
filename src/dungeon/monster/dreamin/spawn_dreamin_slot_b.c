@@ -14,18 +14,12 @@
 #include "dungeon/actor/animation.h"
 #include "engine/node/allocation.h"
 #include "engine/node.h"
+#include "dungeon/actor/status.h"
 
 typedef struct R03_80170A28_S_80170A28_2 R03_80170A28_S_80170A28_2;
 typedef struct ActorActionView ActorActionView;
 typedef struct ActorSpriteView ActorSpriteView;
 
-typedef struct S_80DAD000_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} S_80DAD000_1;
 
 typedef struct S_80DAD000_2 {
     u8 pad_00[0xA];
@@ -41,7 +35,6 @@ typedef struct S_80DAD000_4 {
     s8 unk_9C;
 } S_80DAD000_4;
 
-s16 set_or_clear_actor_status_slot(); /* extern */
 s32 generate_random_value(void);
 void func_80152A3C(void *entity, R03_80170A28_S_80170A28_2 *motion, void *part);
 void func_80152E68(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
@@ -58,7 +51,8 @@ void *spawn_dreamin_slot_b(s16 spawn_flags, s16 spawn_x, s16 spawn_y, s16 initia
     ObjectPosition *base_data;
     ObjectNodeHeader *object;
     S_80DAD000_4 *extended_state;
-    S_80DAD000_1 *state = NULL;
+    ActorRecord *state = NULL;
+    void *body;
     s8 saved_x;
     s8 saved_y;
     s16 saved_value;
@@ -72,33 +66,34 @@ void *spawn_dreamin_slot_b(s16 spawn_flags, s16 spawn_x, s16 spawn_y, s16 initia
     saved_y = spawn_y;
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != NULL) {
-        state = ((void *)object) + 0x20;
+        body = object + 1;
+        state = body;
         object->update_callback = &func_80152A3C;
-        state->unk_13 = MONSTER_DREAMIN;
+        state->species = MONSTER_DREAMIN;
         register_node(object, project_sprite_chain);
         base_data = object->position;
         base_data->z.w.i = saved_value;
         placement = object->sprite;
         spawn_mode = spawn_flags & 3;
         placement->tile_y = saved_y;
-        extended_state = state;
+        extended_state = body;
         placement->frameTable = &D_8015586C;
         placement->tile_x = saved_x;
         if (spawn_mode == 1) {
-            flags_14 = state->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            flags_1c = state->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-            state->unk_14 = flags_14;
-            state->unk_1C = flags_1c;
+            flags_14 = state->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            flags_1c = state->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            state->flags14 = flags_14;
+            state->flags1C = flags_1c;
         } else if (spawn_mode >= 2) {
-            flags_14 = state->unk_14 | ACTOR_CLASS_ENABLED;
-            flags_1c = state->unk_1C | ACTOR_PLAYER_SIDE;
-            state->unk_14 = flags_14;
-            state->unk_1C = flags_1c;
+            flags_14 = state->flags14 | ACTOR_CLASS_ENABLED;
+            flags_1c = state->flags1C | ACTOR_PLAYER_SIDE;
+            state->flags14 = flags_14;
+            state->flags1C = flags_1c;
         } else {
             if (((spawn_flags & ~3) << 0x10) == 0) {
-                if (!(state->unk_14 & ACTOR_RESIST_SLEEP)) {
+                if (!(state->flags14 & ACTOR_RESIST_SLEEP)) {
                     if (generate_random_value() & 1) {
-                        state->unk_1C = (s32) (state->unk_1C | ACTOR_ASLEEP);
+                        state->flags1C = (s32) (state->flags1C | ACTOR_ASLEEP);
                         set_or_clear_actor_status_slot(state, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                     }
                 }

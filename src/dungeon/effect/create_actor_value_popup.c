@@ -1,3 +1,4 @@
+#include "dungeon/effect.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
 #include "common.h"
@@ -58,7 +59,7 @@ typedef struct S_800B4C7C_6 {
 } S_800B4C7C_6;
 
 /* Creates and positions a text object showing a formatted value or preset message. */
-void *create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode) {
+void *create_actor_value_popup(s32 flags, void *source_data, s16 value, u16 callback_mode) {
     u8 text_buffer[16];
     void *callback;
     s16 glyph_or_index;

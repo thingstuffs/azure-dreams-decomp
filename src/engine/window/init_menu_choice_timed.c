@@ -8,7 +8,7 @@ typedef struct Child {
     u8 unk26;
     u8 unk27;
     u8 unk28[0x58];
-    u32 unk80;
+    void *unk80;
 } Child;
 
 typedef struct Object Object;

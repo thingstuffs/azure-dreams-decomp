@@ -33,7 +33,7 @@ extern S_8005A778_D80086A40 audio_bank_slots[16];
 extern S_8007382C sound_slot_transfer_cursor;
 
 /* Initializes a free or requested slot from the header and returns its index. */
-s32 init_sound_slot_from_header(S_8005A778_Arg0 *header, s16 requested_slot, void *payload)
+s32 init_sound_slot_from_header(S_8005A778_Arg0 *header, s16 requested_slot, u32 spu_addr)
 {
     s16 slot;
     s32 result;
@@ -76,12 +76,12 @@ s32 init_sound_slot_from_header(S_8005A778_Arg0 *header, s16 requested_slot, voi
     entry->unk04 = header;
     offset_blocks = header_fields->unk12;
     entry->unk08 = (offset_blocks << 9) + 0xA20;
-    entry->unk10 = (s32)payload;
+    entry->unk10 = spu_addr;
     entry->unk14 = header_fields->unk0C - entry->unk08;
     entry->unk18 = header_fields->unk18;
     entry->unk1B = header_fields->unk19;
 
-    result = (entry->unk10 = reserve_sound_ram_block(payload, entry->unk14));
+    result = (entry->unk10 = reserve_sound_ram_block(spu_addr, entry->unk14));
     if (result == -1) {
         return -1;
     }

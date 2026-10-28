@@ -9,7 +9,7 @@
 
 typedef struct S_800CABA8_0 {
     u8 pad_00[0x8C];
-    s32 * unk_8C;
+    void *unk_8C;
     u8 pad_90[4];
     union {
         struct { u16 pad_94; s16 ticks; } half;

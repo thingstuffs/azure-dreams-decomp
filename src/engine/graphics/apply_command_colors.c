@@ -34,17 +34,12 @@ typedef struct S_8004C080_1 {
    /* record in apply_command_colors */
 
 
-typedef struct Tint8004C080 {
-    u8 r;
-    u8 g;
-    u8 b;
-    u8 cd;
-} Tint8004C080;
+
 
 extern void SetTexWindow(void *packet, s16 *values);
 
 /* Apply command colors or draw settings to a GPU packet and return the next record. */
-void *apply_command_colors(Tint8004C080 *tint0, Tint8004C080 *tint1,
+void *apply_command_colors(void *tint0, void *tint1,
                     u8 *packet, void *record, u8 *command, s32 *count)
 {
     u8 opcode;

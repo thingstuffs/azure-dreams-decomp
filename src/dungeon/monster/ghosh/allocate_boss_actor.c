@@ -16,7 +16,6 @@ extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 void ghosh_motion_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 #include "dungeon/monster/ghosh.h"
-extern void *ghosh_boss_node;
 
 
 

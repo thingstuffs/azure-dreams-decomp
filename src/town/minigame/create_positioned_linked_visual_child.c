@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "town/minigame/object_setup.h"
 #include "slus.h"
 #include "engine/graphics.h"
 #include "shared/object_node.h"
@@ -7,6 +8,7 @@
 #include "records/Rec_func_8008F074_arg0.h"
 #include "shared/vector.h"
 #include "engine/node.h"
+#include "town/scene/list_setup.h"
 
 typedef struct S_800BF9E4_0_pre {
     u8 * unk_00;
@@ -22,7 +24,6 @@ typedef struct S_800BF9E4_5 {
 struct Dst;
 struct Elem;
 
-extern void configure_the_set_mode_n_1();
 
 
 
@@ -33,7 +34,8 @@ extern s32 D_800D237C[];
 extern u8 D_800F9F78[];
 
 /* Initialize the object and create a positioned visual child linked to it. */
-void create_positioned_linked_visual_child(void *object, IntVector3 *position, s32 resource_context) {
+void create_positioned_linked_visual_child(void *object, void *placement, SpriteFrameState *resource_context) {
+    IntVector3 *position = placement;
     ObjectNodeHeader *child;
     S_800BF9E4_5 *child_data;
     SpriteFrameState *child_visual;

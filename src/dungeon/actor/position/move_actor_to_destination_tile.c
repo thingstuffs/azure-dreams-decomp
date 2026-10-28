@@ -5,16 +5,16 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
+#include "dungeon/player.h"
 
-void begin_player_trap_trigger(); /* extern */
 void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);              /* extern */
 extern void destination_motion_resume_address(void *actor, s32 actor_id, SpriteFrameState *sprite, ActorRecord *actor_data);
 
 /* Move the actor toward the destination tile and finish movement when the timer expires. */
-void move_actor_to_destination_tile(Rec_func_8008ACDC_arg0 *actor, ObjectPosition *motion, SpriteFrameState *destination, s32 context) {
+void move_actor_to_destination_tile(Rec_func_8008ACDC_arg0 *actor, ObjectPosition *motion, SpriteFrameState *destination, void *context) {
     s16 frames_left;
     u16 actor_flags;
-    s32 saved_context;
+    void *saved_context;
     saved_context = context;
 
     if (g_dungeon_status.flags & 0x80) {

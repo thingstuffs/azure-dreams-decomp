@@ -22,8 +22,9 @@ typedef struct S_8003FF2C {
 } S_8003FF2C;
 
 /* Clears and prepends a node, setting its flags and optional tail payload pointers. */
-S_8003FF2C *initialize_runtime_node_storage(s32 flags, S_8003FF2C *storage, s16 word_count, S_8003FF2C **list_head)
+void *initialize_runtime_node_storage(s32 flags, void *storage, s16 word_count, void *list_storage)
 {
+    S_8003FF2C **list_head = list_storage;
     S_8003FF2C *old_head;
     S_8003FF2C *payload_cursor;
     S_8003FF2C *node;

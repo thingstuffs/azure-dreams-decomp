@@ -9,6 +9,7 @@
 #include "engine/menu.h"
 #include "dungeon/system.h"
 #include "engine/node.h"
+#include "dungeon/actor/state.h"
 
 typedef struct S_8017390C_0 {
     u8 pad_00[0x96];
@@ -38,14 +39,13 @@ typedef struct {
     s32 value;
 } __attribute__((packed)) Unaligned32;
 
-extern s32 update_actor_defeat_removal();
 extern void *create_tracked_effect();
 
 extern M2C_UNK item_effect_descriptor;
 void func_80173770(void *actor, ObjectPosition *motion, SpriteFrameState *visual);
 
 /* Spawns an object from stored appearance data and advances the actor's state. */
-void spawn_appearance_object_and_advance_actor(S_8017390C_0 *actor, void *transform, Rec_func_800AD058_arg2 *render, void *actor_data)
+void spawn_appearance_object_and_advance_actor(ActorRecord *actor, void *transform, struct SpriteFrameState *render, void *actor_data)
 {
     s32 pos_z;
     s32 pos_x;
@@ -59,13 +59,13 @@ void spawn_appearance_object_and_advance_actor(S_8017390C_0 *actor, void *transf
     void *init_obj;
     s32 angle;
 
-    state = actor->unk_9B;
+    state = actor->action_phase.u;
     switch (state) {
     case 0:
         if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             return;
         }
-        actor->unk_9B = 1;
+        actor->action_phase.u = 1;
     case 1:
         if (((S_8017390C_1 *)actor_data)->unk_49 != 0) {
             spawned_obj = allocate_flagged_object_node(0x12);
@@ -96,8 +96,8 @@ void spawn_appearance_object_and_advance_actor(S_8017390C_0 *actor, void *transf
                         ((S_8017390C_1 *)actor_data)->unk_49, ((S_8017390C_1 *)actor_data)->unk_48);
                     spawned_render->source = render_asset;
                 }
-                work_data->unk_A8 = render->unk_24;
-                work_data->unk_AA = render->unk_25;
+                work_data->unk_A8 = render->tile_x;
+                work_data->unk_AA = render->tile_y;
                 *(Unaligned32 *)((u8 *)spawned_data + 0x48) =
                     *(Unaligned32 *)((u8 *)actor_data + 0x48);
                 create_tracked_effect(spawned_obj, 0, 0, 0);
@@ -107,13 +107,13 @@ void spawn_appearance_object_and_advance_actor(S_8017390C_0 *actor, void *transf
             ((S_8017390C_1 *)actor_data)->unk_49 = 0;
         }
 
-        render->unk_10 = 0x20;
-        render->unk_12 -= 0x80;
-        render->unk_14 |= 0xC;
+        render->tpage_abr = 0x20;
+        render->clut -= 0x80;
+        render->flags |= 0xC;
         ((S_8017390C_1 *)actor_data)->unk_1C |= 0x10000000;
-        render->unk_0C = 0x808080;
-        actor->unk_96 = 0x10;
-        actor->unk_9B++;
+        render->color.word = 0x808080;
+        actor->action_timer.s = 0x10;
+        actor->action_phase.u++;
         play_sound_if_enabled(0x805);
         return;
     case 2:

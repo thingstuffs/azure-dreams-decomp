@@ -14,7 +14,7 @@ s32 check_door_status_inverted(void *object) {
 }
 
 /* Initialize the record and select its handler according to its variant. */
-void initialize_door_variant(void *record_data, s32 initial_value) {
+void initialize_door_variant(void *record_data, void *position, struct SpriteFrameState *unused_sprite) {
     u32 variant;
 
     variant = ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_A4;
@@ -35,7 +35,7 @@ void initialize_door_variant(void *record_data, s32 initial_value) {
         }
         ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_60 = handler.pointer;
     }
-    ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_18 = initial_value;
+    ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->position = position;
     ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_1C = &D_800D09E0;
     ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_78 = 0;
 }

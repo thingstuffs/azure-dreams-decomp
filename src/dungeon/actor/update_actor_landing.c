@@ -26,13 +26,13 @@ typedef struct S_800D991C_0 {
 void select_record_entry_and_value(void *state, void *entries, short index);        /* extern */
 void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);              /* extern */
 void on_actor_status_updated(void *actor);                      /* extern */
-void spend_actor_mp();             /* extern */
+void spend_actor_mp(ActorRecord *entity, s32 base_reduction);             /* extern */
                   /* extern */
 extern void *actor_action_frames[];
 
 /* Update airborne movement toward a map tile and finish the landing transition. */
 void update_actor_landing(void *motion_state, ObjectPosition *transform, SpriteFrameState *map_entity, ActorRecord *actor) {
-    s32 direction_aux;
+    union { s32 word; u16 halves[2]; } direction_aux;
     void **animation_table;
     s32 frames_left;
     s16 next_timer;
@@ -108,7 +108,7 @@ void update_actor_landing(void *motion_state, ObjectPosition *transform, SpriteF
                 if (!(actor_flags & (ACTOR_BLIND | ACTOR_CONFUSED))) {
                     if (actor_flags & ACTOR_PLAYER_AWARE) {
                         actor->facing = get_rounded_facing_and_rounding_flag(map_entity->tile_x,
-                            map_entity->tile_y, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
+                            map_entity->tile_y, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux.halves[0]);
                     }
                 }
             }
