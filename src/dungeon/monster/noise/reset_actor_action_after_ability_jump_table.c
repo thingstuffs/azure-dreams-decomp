@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-extern void reset_actor_action_after_ability(void);
+extern void reset_actor_action_after_ability(ActorRecord *motion, ObjectPosition *render_ctx, SpriteFrameState *map_entity, ActorRecord *actor);
 
 /* jump_table; owner: dungeon/func_80D23F60. */
 const void *const noise_slot_d_behavior_targets[12] __attribute__((aligned(4))) = {

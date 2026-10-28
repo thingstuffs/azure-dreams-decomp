@@ -8,6 +8,8 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/level.h"
+#include "engine/node.h"
+#include "engine/node/allocation.h"
 
 typedef struct S_80174668_0 {
     u8 pad_00[0x8C];
@@ -103,8 +105,6 @@ typedef struct {
     s16 y;
 } Position2;
 
-extern void *allocate_list_node(s32, void *);
-extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 rand(void);
 extern void *get_unused_text_buffer(void);

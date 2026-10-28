@@ -94,10 +94,10 @@ void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 void *advance_staged_entity_load();
 s32 create_status_linked_render_effect();
 s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
-void create_cylindrical_effect();
+void create_cylindrical_effect(); /* Unprototyped: retail passes an unused sprite; dropping it changes bytes. */
 s32 lookup_masked_byte_table(void *, ...);
 extern u8 *actor_effect_color_targets[];
-extern void func_8017487C(u8 *task, void *context, u8 *input);
+extern void func_8017487C(u8 *task, void *context, SpriteFrameState *input);
 extern u32 nyuel_image_commands;
 extern s32 D_80174FB4;
 extern u8 nyuel_image_load_done[];

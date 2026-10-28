@@ -13,6 +13,7 @@
 #include "dungeon/player/object.h"
 #include "dungeon/system.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/item/actor_target.h"
 extern s32 cd_cue_base[];
 extern u8 animation_tick_scale;
 extern u8 D_800DCF50;
@@ -25,12 +26,11 @@ extern u16 D_80175F6E;
 extern s32 Control_CD();
 extern void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
 extern s32 read_stream_cue_start_offset(void);
-extern void *scan_actor_along_heading();
 extern s16 resolve_alternate_spell_id(s32 tile_index);
 extern void *create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);
 extern void create_actor_linked_effect(void *sourceData);
-extern s32 create_linked_source_object();
-extern s32 create_linked_child_object();
+extern void create_linked_source_object(void *source);
+extern void create_linked_child_object(void *parent);
 
 typedef struct S_80173560_0 {
     u8 pad_00[0x8C];

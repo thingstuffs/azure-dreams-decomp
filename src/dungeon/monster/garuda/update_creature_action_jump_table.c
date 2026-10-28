@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-extern void update_creature_action(void);
+extern void update_creature_action(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite_arg, ActorRecord *creature);
 
 /* jump_table; owner: dungeon/func_8101D858. */
 const void *const garuda_slot_c_behavior_targets[12] __attribute__((aligned(4))) = {

@@ -5,12 +5,12 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
+#include "engine/node.h"
 
 typedef struct {
     u8 bytes[12];
 } Packed12;
 
-extern void register_node(void *, void *);
 
 extern Packed12 ghosh_sprite_payload_template;
 

@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-extern void update_ability_actor_behavior(void);
+extern void update_ability_actor_behavior(ActorRecord *motion, ObjectPosition *render_ctx, SpriteFrameState *map_entity, ActorRecord *actor);
 
 /* jump_table; owner: dungeon/func_80D29F60. */
 const void *const noise_slot_c_behavior_targets[12] __attribute__((aligned(4))) = {

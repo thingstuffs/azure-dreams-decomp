@@ -30,6 +30,8 @@
 #include "dungeon/actor/status.h"
 #include "engine/node/allocation.h"
 #include "records/Rec_func_80173DD4_arg0.h"
+#include "dungeon/actor/state.h"
+#include "dungeon/item/actor_target.h"
 struct EntityLinkNode;
 struct S_800AC480_0;
 struct S_800AC480_3;
@@ -325,11 +327,9 @@ s32 spend_actor_mp();
 s32 update_linked_actor_motion(void *state, void *transform, void *config, void *object);
 void * resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 s32 get_cd_command_queue_depth(void);
-void * scan_actor_along_heading();
 void *create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);
 void create_actor_linked_effect(void *sourceData);
 void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
-s32 update_actor_defeat_removal(u8 *state, s32 *position, u8 *sprite, u8 *entity_data);
 
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 s32 func_80042900(ActorRecord *entry, s32 effect_id);

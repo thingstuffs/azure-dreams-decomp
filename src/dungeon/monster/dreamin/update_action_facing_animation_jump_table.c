@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-extern void update_action_facing_animation(void);
+extern void update_action_facing_animation(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
 
 /* jump_table; owner: dungeon/func_80D95668. */
 const void *const dreamin_slot_f_behavior_targets[12] __attribute__((aligned(4))) = {

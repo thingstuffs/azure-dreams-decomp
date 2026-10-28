@@ -8,6 +8,9 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "dungeon/actor/status.h"
+#include "engine/node.h"
+#include "engine/node/allocation.h"
+#include "dungeon/player/object.h"
 
 typedef u32 az_uptr;
 
@@ -56,12 +59,9 @@ typedef struct S_80172790_3 {
 } S_80172790_3;   /* part in update_staged_actor_movement */
 
 
-extern void *allocate_list_node(s32, void *);
-extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 rand(void);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void set_record_integer_tile_center(void *, s32, s32);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 

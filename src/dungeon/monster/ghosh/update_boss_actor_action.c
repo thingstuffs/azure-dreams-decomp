@@ -11,12 +11,12 @@
 
 #include "engine/graphics/select_sprite_entry_api.h"         /* extern */
 #include "dungeon/actor/motion.h"
-struct ActorRecord; s32 check_entity_relation(struct ActorRecord *, struct ActorRecord *);                     /* extern */
+struct ActorRecord; s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);                     /* extern */
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);                           /* extern */
 void update_actor_status_and_mp(struct ActorRecord *);                      /* extern */
 s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames); /* extern */
 struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2; void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor); /* extern */
-void func_8016FA84(void *actor, void *action, void *entity, void *path_arg);                            /* extern */
+void func_8016FA84(void *actor, void *action, SpriteFrameState *entity, void *path_arg);                            /* extern */
 void advance_boss_actor_movement_state(void *, void *, void *, void *); /* extern */
 struct Rec_func_800A9E70_arg0; s32 update_boss_action_result(struct Rec_func_800A9E70_arg0 *, s32, s32, s16); /* extern */
 s32 func_8017092C(); /* extern */

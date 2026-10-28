@@ -4,6 +4,7 @@
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_moving_views.h"
+#include "engine/node/allocation.h"
 
 typedef struct S_80172A14_0 {
     u8 pad_00[0xAC];
@@ -20,8 +21,7 @@ typedef struct S_80172A14_2 {
 
    /* arg1 in create_boss_linked_effect */
 
-extern void *allocate_list_node(s32, void *);
-extern void register_node(void *, void *);
+extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 
 extern u8 D_80172874[];
 extern u8 D_80174ABC[];
@@ -35,7 +35,7 @@ void create_boss_linked_effect(void *owner, MovingPosition *source_pos) {
     S_80172A14_2 *effect_state;
     ObjectPosition *effect_pos;
 
-    effect = allocate_list_node(0x12, (u8 *)owner - 0x20);
+    effect = allocate_list_node(0x12, &((ObjectNodeHeader *)owner - 1)->next);
     if (effect != 0) {
         ((S_80172A14_0 *)owner)->unk_AC = effect;
         effect->update_callback = D_80172874;

@@ -13,27 +13,27 @@ extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern void select_sprite_entry(void *, s32, s32);
 extern void advance_sprite_animation_and_textures(void *);
 extern s32 rand(void);
-extern s32 check_entity_relation(void *, void *);
+extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s32 find_active_rect_containing_point(s32, s32);
 extern s32 test_neighbor_position_relation(s32, s32, s32, s32);
 extern s16 get_rounded_facing_and_rounding_flag(s32, s32, s32, s32, void *);
 extern s32 can_entity_gain_level(void *);
-extern void update_actor_status_and_mp(void *);
+extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern s32 reset_actor_action_state(void *, void *, void *, void *);
+extern s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
 extern s32 process_selected_actor_record(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern void begin_actor_spell_action(void *, void *, void *, void *, void *);
+extern void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState *target, u8 *direction_table, void *next_state);
 extern void initialize_object_rendering_and_params(void *, void *, void *);
-extern void func_80171C3C(void *, void *, void *, void *);
+extern void func_80171C3C(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
 extern void func_80171E80(void *, void *, void *, void *);
-extern s32 func_8017263C(void *, void *, void *, void *);
-extern void func_80172800(void *, void *, void *, void *);
+extern s32 func_8017263C(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
+extern void func_80172800(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
 extern s32 func_80172918(void *, void *, void *, s32);
 extern void func_8017412C(void *, void *, void *, void *);
-extern void func_801756E0(void *, void *, void *, void *);
+extern void func_801756E0(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *anim_state, ActorRecord *actor);
 
 extern u8 secondary_sprite[];
 extern void *D_80170808[];
@@ -190,9 +190,18 @@ void update_actor_timed_effects(ActorRecord *actor_arg, ObjectPosition *context_
             }
             if (!(((S_801714B8_1 *)stats)->unk_46 & 0x8000)) {
                 if (g_dungeon_status.flags & 0x2000) {
-                    if ((s16)check_entity_relation(stats,
-                            (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {
-                        return;
+                    {
+                        ObjectNodeHeader *previous_node;
+                        void *previous_body;
+                        ActorRecord *previous_actor;
+
+                        previous_node = primary_actor_record->previous_actor_header;
+                        previous_body = previous_node + 1;
+                        previous_actor = previous_body;
+                        if ((s16)check_entity_relation(stats,
+                                previous_actor) != 0) {
+                            return;
+                        }
                     }
                 }
                 if ((s16)func_80172918(actor, context, sprite, 0) == 0) {

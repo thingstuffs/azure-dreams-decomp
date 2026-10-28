@@ -21,27 +21,27 @@ void (*const cb3000_update_entry)(void *,CB_80170C24_S_80170C24_2 *,void *) = se
 /* Stores the owner value, copies the source position, and initializes a gray sprite for rendering. */
 void initialize_block_sprite_copy(CB_8017087C_Object *object, s32 field60_value, CB_8017087C_CopyFields *source_coords)
 {
-    CB_8017087C_Part *part;
-    CB_8017087C_CopyFields *copy;
+    SpriteFrameState *part;
+    ObjectPosition *copy;
 
     object->field60 = field60_value;
-    register_node(object, project_sprite_chain);
+    register_node(&object->header, project_sprite_chain);
 
-    part = object->part;
-    part->field10 = 0x20;
-    part->field14 |= 0xC;
+    part = object->header.sprite;
+    part->tpage_abr = 0x20;
+    part->flags |= 0xC;
 
-    copy = object->copy;
-    copy->x = source_coords->x;
-    copy->y = source_coords->y;
-    copy->z = source_coords->z;
+    copy = object->header.position;
+    copy->x.w.i = source_coords->x;
+    copy->y.w.i = source_coords->y;
+    copy->z.w.i = source_coords->z;
 
-    part = object->part;
-    part->field1E = 0x1000;
-    part->field1C = 0x1000;
-    part->b = 0x80;
-    part->g = 0x80;
-    part->r = 0x80;
+    part = object->header.sprite;
+    part->scale_y = 0x1000;
+    part->scale_x = 0x1000;
+    part->color.c.b = 0x80;
+    part->color.c.g = 0x80;
+    part->color.c.r = 0x80;
 }
 
 
@@ -302,6 +302,9 @@ void set_boss_effect_flag(void *entity, CB_80170C24_S_80170C24_2 *motion, void *
 
 /* Selects movement, attacks, and spells from actor status, MP, and its position relative to the player. */
 void dispatch_actor_turn_and_motion(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+    ObjectNodeHeader *previous_node;
+    void *previous_body;
+    ActorRecord *previous_actor;
  u16 terrain_flags;
  u8 *frames;
  s32 room;
@@ -364,7 +367,8 @@ void dispatch_actor_turn_and_motion(ActorRecord *state, ObjectPosition *motion, 
     return;
    }
    if(!(actor->action_flags & 0x8000)) {
-    if((!(g_dungeon_status.flags & 0x2000) || (check_entity_relation(actor,primary_actor_record->previous_actor_header+0x20)<<16)==0)
+    if((!(g_dungeon_status.flags & 0x2000) || (check_entity_relation(actor,(previous_node = primary_actor_record->previous_actor_header,
+        previous_body = previous_node + 1, previous_actor = previous_body))<<16)==0)
        && (resolve_actor_action_readiness(state,motion,sprite,0)<<16)!=0) {
      flags=actor->action_flags | 0x4000;
      actor->action_flags=flags;
@@ -702,9 +706,18 @@ void choose_and_step_actor_path(Rec_func_800A9E70_arg0 *move_data, ObjectPositio
 
         if (turn_index == 0 &&
             *(u16 *)(&reference_tile_object.tile_position.parts.tile_x) != *(u16 *)&position_data->tile_position.parts.tile_x) {
-            if ((s16)check_entity_relation(actor_data,
-                    (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {
-                return;
+            {
+                ObjectNodeHeader *previous_node;
+                void *previous_body;
+                ActorRecord *previous_actor;
+
+                previous_node = primary_actor_record->previous_actor_header;
+                previous_body = previous_node + 1;
+                previous_actor = previous_body;
+                if ((s16)check_entity_relation(actor_data,
+                        previous_actor) != 0) {
+                    return;
+                }
             }
         }
 
@@ -1448,9 +1461,18 @@ void wait_actor_status_and_animate(ActorRecord *action, ObjectPosition *context,
                 return;
             }
             if ((has_pending_actor_or_turn_action(actor_in) << 16) != 0) {
-                if ((check_entity_relation(actor_in,
-                        (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
-                    return;
+                {
+                    ObjectNodeHeader *previous_node;
+                    void *previous_body;
+                    ActorRecord *previous_actor;
+
+                    previous_node = primary_actor_record->previous_actor_header;
+                    previous_body = previous_node + 1;
+                    previous_actor = previous_body;
+                    if ((check_entity_relation(actor_in,
+                            previous_actor) << 16) != 0) {
+                        return;
+                    }
                 }
             }
             update_actor_status_and_mp(actor_in);
@@ -1585,9 +1607,18 @@ void wait_actor_mp_and_animate(ActorRecord *actor_in, ObjectPosition *actor_inde
             return;
         }
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
-            if ((check_entity_relation(entity,
-                    (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
-                return;
+            {
+                ObjectNodeHeader *previous_node;
+                void *previous_body;
+                ActorRecord *previous_actor;
+
+                previous_node = primary_actor_record->previous_actor_header;
+                previous_body = previous_node + 1;
+                previous_actor = previous_body;
+                if ((check_entity_relation(entity,
+                        previous_actor) << 16) != 0) {
+                    return;
+                }
             }
             update_actor_status_and_mp(entity);
         } else {
@@ -2271,7 +2302,8 @@ void replace_actor_with_faded_effect(void *state, EntityRec *position, SpriteFra
     CB_80174D14_S_80C97514_4 *effect_data;
     GameWork *scene_color = &g_game_work;
     CB_80174D14_S_80C97514_7 *render_obj;
-    CB_80174D14_S_80C97514_5 *effect;
+    ObjectNodeHeader *effect;
+    void *render_storage;
     void *new_model;
     void *model;
 
@@ -2337,13 +2369,14 @@ void replace_actor_with_faded_effect(void *state, EntityRec *position, SpriteFra
         if (effect == NULL) {
             return;
         }
-        effect->unk_10 = finish_sprite_and_restore_tint;
+        effect->update_callback = finish_sprite_and_restore_tint;
         register_node(effect, project_sprite_chain);
         ((CB_80174D14_S_80C97514_0 *)state)->unk_AC = effect;
         ((CB_80174D14_S_80C97514_14 *)(((CB_80174D14_S_80C97514_12 *)effect)->unk_08))->unk_00 = (s32) position->x.v;
         ((CB_80174D14_S_80C97514_14 *)(((CB_80174D14_S_80C97514_12 *)effect)->unk_08))->unk_04 = (s32) position->y.v;
         ((CB_80174D14_S_80C97514_14 *)(((CB_80174D14_S_80C97514_12 *)effect)->unk_08))->unk_08 = (s32) position->z.v;
-        render_obj = effect->unk_0C;
+        render_storage = effect->sprite;
+        render_obj = render_storage;
         render_obj->unk_1E = 0x1000;
         render_obj->unk_1C = 0x1000;
         render_obj->unk_0C.s = 0x808080;

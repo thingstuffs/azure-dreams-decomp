@@ -5,6 +5,9 @@
 #include "shared/slus_callbacks.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/actor/animation.h"
+#include "engine/node.h"
+#include "engine/node/allocation.h"
 struct S_80170A98_2;
 
 #ifndef NULL
@@ -30,16 +33,11 @@ typedef struct S_8016A800_4 {
     s8 unk_9C;
 } S_8016A800_4;   /* (void *)arg2_work in func_8016A854 */
 
-extern void *allocate_list_node(s32, void *);
-extern void *func_8003FD64(s32, void *);
-extern void register_node(void *, void *);
-extern void func_8004491C(void *, void *);
 extern s32 generate_random_value(void);
-extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern void func_8016AA58(void *entity, struct S_80170A98_2 *motion, SpriteFrameState *monster);
-extern void func_8016AE5C(void *actor_in, void *context_in, void *sprite_in, void *status_in);
+extern void func_8016AE5C(ActorRecord *actor_in, ObjectPosition *context_in, SpriteFrameState *sprite_in, ActorRecord *status_in);
 extern u8 volcano_frame_set_5[];
 extern u8 D_8016E538[];
 

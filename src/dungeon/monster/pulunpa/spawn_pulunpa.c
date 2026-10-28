@@ -8,6 +8,8 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/actor/animation.h"
+#include "engine/node/allocation.h"
 
 typedef struct S_80CBD000_0 {
     u8 pad_00[0x13];
@@ -36,10 +38,8 @@ typedef struct S_80CBD000_4 {
     s8 unk_A8;
 } S_80CBD000_4;   /* actor in create_actor_grid_object */
 
-extern void *allocate_list_node(s32, void *);
-extern void register_node(void *, void *);
+extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
-extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern u8 entity_spawn_variant_code;
@@ -61,7 +61,7 @@ void *create_actor_grid_object(s16 flags, s16 unused_kind_id, s16 variant, s16 u
     s32 random;
     s16 arg0_copy;
     s32 alloc_id;
-    ObjectNodeHeader *alloc_base;
+    ObjectNodeHeader **list_head;
     ObjectNodeHeader *part;
     void *work;
     ObjectPosition *coord;
@@ -71,9 +71,9 @@ void *create_actor_grid_object(s16 flags, s16 unused_kind_id, s16 variant, s16 u
     work = 0;
     alloc_id = 0x112;
     kind_id = unused_kind_id;
-    alloc_base = &scene_object_list_anchor;
+    list_head = &scene_object_list_anchor.next;
     spawn_value = unused_spawn;
-    part = allocate_list_node(alloc_id, alloc_base);
+    part = allocate_list_node(alloc_id, list_head);
     arg0_copy = flags;
     if (part != 0) {
         work = (u8 *)part + 0x20;

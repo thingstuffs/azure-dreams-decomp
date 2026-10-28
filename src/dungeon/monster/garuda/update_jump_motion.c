@@ -7,6 +7,7 @@
 #include "shared/sprite_frame_state.h"
 #include "engine/cd.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/player/object.h"
 extern int abs(int);
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
@@ -32,7 +33,6 @@ typedef struct S_80172834_3 {
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
-extern void set_record_integer_tile_center(void *, s32, s32);
 extern void play_sound_if_enabled(s32);
 extern void * create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);
 extern void create_two_row_object_group(void *payload, s16 value_scale);
@@ -45,7 +45,7 @@ void update_jump_motion_2(void *action_state, ObjectPosition *motion, SpriteFram
     u8 *action_data;
     s32 phase;
     s32 is_special;
-    void *target;
+    ActorRecord *target;
     s16 x;
     s32 y;
     u16 position[3];

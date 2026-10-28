@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-extern void update_actor_behavior_and_idle_delay(void);
+extern void update_actor_behavior_and_idle_delay(ActorRecord *motion, ObjectPosition *render_ctx, SpriteFrameState *map_entity, ActorRecord *actor);
 
 /* jump_table; owner: dungeon/func_80D17F60. */
 const void *const noise_slot_f_behavior_targets[12] __attribute__((aligned(4))) = {

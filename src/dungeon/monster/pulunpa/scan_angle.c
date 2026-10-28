@@ -29,7 +29,7 @@ void select_sprite_entry(void *, u8, s32);
 void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
 s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 #include "dungeon/player/object/action_state.h"
-void update_actor_status_and_mp(void *);
+void update_actor_status_and_mp(ActorRecord *entity);
 void build_and_display_encoded_message(void *);
 extern u8 D_80176348[];
 

@@ -6,13 +6,13 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/level.h"
+#include "engine/node.h"
 
 typedef void (*EntityCallback)(void *, void *, void *, void *);
 
 #include "dungeon/monster/stealth.h"
 extern EntityCallback stealth_callbacks[];
 
-extern void register_node(void *, void *);
 extern void select_indirect_table_entry(void *, u8, s8);
 extern void advance_sprite_animation_and_textures(void *);
 extern void apply_monster_koyaw_data(s32, void *);
@@ -142,7 +142,7 @@ void update_entity_callbacks_and_floor(void *entity_state, void *entity_motion, 
                 ((CallbackActorState *)entity_state)->fade_frame.signed_value = 0;
                 ((CallbackActorState *)entity_state)->fade_state = 0;
                 entity_part->color.word = 0;
-                register_node((u8 *)entity_state - 0x20, project_sprite_chain);
+                register_node((ObjectNodeHeader *)entity_state - 1, project_sprite_chain);
             }
         }
 

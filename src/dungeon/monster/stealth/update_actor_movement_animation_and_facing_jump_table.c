@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-extern void update_actor_movement_animation_and_facing(void);
+extern void update_actor_movement_animation_and_facing(ActorRecord *actor_in, ObjectPosition *actor_data_in, SpriteFrameState *sprite_in, ActorRecord *status_in);
 
 /* jump_table; owner: dungeon/func_80F2D774. */
 const void *const stealth_slot_a_behavior_targets[12] __attribute__((aligned(4))) = {

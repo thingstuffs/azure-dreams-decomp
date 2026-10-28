@@ -272,11 +272,8 @@ typedef struct {
 } T_80171928_Child;
 
 typedef struct {
-    u8 pad0[8];
-    u32 *data;
-    T_80171928_Child *child;
-    void *field10;
-    u8 pad14[0x30];
+    ObjectNodeHeader header;
+    u8 pad20[0x24];
     T_80171928_Blob12 blob;
 } T_80171928_Object;
 
@@ -399,8 +396,8 @@ extern void advance_sprite_animation_and_textures(void *entity);
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern s16 sample_terrain_surface_height(u16 x, u16 y, s16 min_height);
 extern s32 resolve_record_orientation_or_fallback(void *, void *, T_8017121C_Vec3u16 *, s32);
-extern void register_node(void *, void *);
-extern void func_8004491C(void *, void *);
+extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
+extern s32 func_8004491C(ObjectNodeHeader *entry, void *registration_id);
 extern void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 extern void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);

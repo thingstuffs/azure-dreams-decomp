@@ -1,6 +1,7 @@
 #include "common.h"
+#include "shared/entity.h"
 
-extern void advance_action_and_activate_effect(void);
+extern void advance_action_and_activate_effect(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor);
 
 /* jump_table; owner: dungeon/func_80A310C4. */
 const void *const D_8015E858[7] __attribute__((aligned(4))) = {

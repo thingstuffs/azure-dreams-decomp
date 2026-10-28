@@ -3,6 +3,7 @@
 #include "shared/object_node.h"
 #include "shared/game_work.h"
 #include "engine/graphics.h"
+#include "engine/node.h"
 
 typedef struct {
     u8 pad_00[0x96];
@@ -19,7 +20,6 @@ typedef struct {
 } BaloonTemplateNode;
 
 extern void *allocate_list_node(s32, ObjectNodeHeader **);
-extern void register_node(void *, void *);
 extern u8 D_800D6FEC[];
 extern u8 D_800E23C8[];
 
@@ -50,7 +50,7 @@ void create_directional_template_effect(void *unused, BaloonTemplateAnchor *anch
         sprite->clut = 0xFF80;
         sprite->depth_bias = -6;
         sprite->flags |= 0xC;
-        register_node(object, project_sprite_chain);
+        register_node(&object->header, project_sprite_chain);
         {
             u8 *frames = D_800E23C8;
             sprite->frameTable = frames;

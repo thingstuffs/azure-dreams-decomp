@@ -5,12 +5,12 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
+#include "dungeon/actor/animation.h"
+#include "engine/node.h"
+#include "engine/node/allocation.h"
 
 extern u8 *beldo_actor_nodes[3];
 extern void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
-extern void *allocate_list_node(s32, u8 *);
-extern void register_node(u8 *,void *);
-extern void initialize_actor_sprite_and_animation(u8 *, void *, void *, s32);
 extern void try_move_actor_to_valid_position(void *, void *, void *,void *);
 extern s32 clear_center_tile_flags_when_enabled(void);
 

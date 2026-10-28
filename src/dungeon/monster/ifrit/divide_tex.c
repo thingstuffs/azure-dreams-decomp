@@ -18,8 +18,10 @@ typedef struct S_func_80174228_0 {
     s16 unk_42;
     u8 pad_44[4];
     u16 unk_48[24];
-    s16 unk_78;
-    s16 unk_7A;
+    union {
+        s32 word;
+        struct { s16 x; s16 y; } parts;
+    } screen;
     union { s32 s32; u16 u16; } unk_7C;
 } S_func_80174228_0;
 
@@ -102,12 +104,11 @@ typedef struct S_func_80174228_10 {
 } S_func_80174228_10;
 
 #define TMP ((S_func_80174228_0 *)storage)->unk_7C.s32
-#define OUTX ((S_func_80174228_0 *)storage)->unk_78
-#define OUTY ((S_func_80174228_0 *)storage)->unk_7A
+#define SCREEN ((S_func_80174228_0 *)storage)->screen
 
 /* Returns the signed input divided by 23 with integer truncation. */
 static __inline__ s16 divide_tex(s16 n) { return n / 23; }
-extern s32 RotTransPers();
+extern s32 RotTransPers(void *vertex, s32 *screen, s32 *p, s32 *flag);
 extern void transform_rotated_vertices();
 
 extern u8 D_8017087C[];
@@ -226,14 +227,14 @@ s32 render_linked_items_as_textured_strips(u8 *item_data)
         vertex = setup_source + 0x18;
 
         do {
-            vertex_depth = RotTransPers(vertex, &OUTX, scratch_ptr, scratch_ptr);
+            vertex_depth = RotTransPers(vertex, &SCREEN.word, scratch_ptr, scratch_ptr);
             prev_depth = depth;
-            screen_x = OUTX;
+            screen_x = SCREEN.parts.x;
             biased_depth = prev_depth - 8;
             next_depth = biased_depth + vertex_depth;
             extends_right = (s16)max_xy.word < screen_x;
             depth = next_depth;
-            bits_x = (u16)OUTX;
+            bits_x = (u16)SCREEN.parts.x;
             if (extends_right) {
                 max_xy.word &= 0xFFFF0000;
                 max_xy.word = bits_x | max_xy.word;
@@ -241,8 +242,8 @@ s32 render_linked_items_as_textured_strips(u8 *item_data)
                 min_xy.word &= 0xFFFF0000;
                 min_xy.word = bits_x | min_xy.word;
             }
-            screen_y = OUTY;
-            bits_y = (u16)OUTY;
+            screen_y = SCREEN.parts.y;
+            bits_y = (u16)SCREEN.parts.y;
             if ((max_xy.word >> 16) < screen_y) {
                 max_xy.word &= 0xFFFF;
                 max_xy.word = max_xy.word | (bits_y << 16);

@@ -7,6 +7,8 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/actor/animation.h"
+#include "engine/node/allocation.h"
 
 typedef struct S_80170894_0 {
     u8 pad_00[0x13];
@@ -27,10 +29,8 @@ typedef struct S_80170894_4 {
     s8 unk_9C;
 } S_80170894_4;   /* actor in func_80170894 */
 
-extern void *allocate_list_node(s32, const void *);
-extern void register_node(void *,void *);
+extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
-extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern void update_monster_facing_and_contact(void);
@@ -53,16 +53,16 @@ void *spawn_mode_configured_monster(s32 spawn_flags, s8 tile_x, s16 tile_y, s16 
     ObjectPosition *part_a;
     s16 flags_copy;
     s32 call_id;
-    ObjectNodeHeader *call_target;
+    ObjectNodeHeader **list_head;
 
     held_flags = spawn_flags;
     work = 0;
     call_id = 0x112;
     saved_tile_x = tile_x;
-    call_target = &scene_object_list_anchor;
+    list_head = &scene_object_list_anchor.next;
     saved_height = spawn_height;
     saved_tile_y = tile_y;
-    obj = allocate_list_node(call_id, call_target);
+    obj = allocate_list_node(call_id, list_head);
     flags_copy = held_flags;
     if (obj != 0) {
         register SpriteFrameState *part_b;

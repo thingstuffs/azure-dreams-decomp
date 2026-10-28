@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-extern void advance_actor_action_variant_a(void);
+extern void advance_actor_action_variant_a(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 /* jump_table; owner: dungeon/func_80EF3D14. */
 const void *const D_8015E870[5] __attribute__((aligned(4))) = {

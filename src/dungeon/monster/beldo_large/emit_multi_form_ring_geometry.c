@@ -1,6 +1,7 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
+#include "engine/node.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct { u16 flags; } AnimationFieldView_813374E8Prefix;
@@ -71,7 +72,6 @@ typedef struct {
     u8 bytes[12];
 } Data12;
 
-extern void register_node(void *, void *);
 extern void play_sound_if_enabled(s32);
 extern void *memcpy(void *, const void *, u32);
 

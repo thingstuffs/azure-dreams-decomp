@@ -1,13 +1,13 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
+#include "engine/node.h"
 
 typedef struct {
     u8 bytes[12];
 } Blob12;
 
 extern void **ghosh_boss_node[];
-void register_node(void *, void *);
 extern s32 D_801723D0;
 extern Blob12 D_80174AC8;
 

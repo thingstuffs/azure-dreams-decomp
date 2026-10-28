@@ -25,6 +25,8 @@
 #include "dungeon/system.h"
 #include "engine/texture.h"
 #include "engine/node/allocation.h"
+#include "dungeon/actor/state.h"
+#include "dungeon/player/object.h"
 struct SpriteFrameState;
 struct ObjectPosition;
 
@@ -389,7 +391,6 @@ void advance_status_timers();
 s32 update_actor_movement_to_tile();
 void spend_actor_mp();
 
-void set_record_integer_tile_center();
 void on_actor_status_updated(void *actor);
 void func_800A9A04(void *actor);
 s32 update_linked_actor_motion(void *state, void *transform, void *config, void *object);
@@ -398,8 +399,7 @@ s32 get_cd_command_queue_depth(void);
 void * scan_actor_along_heading();
 void * create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);
 void create_two_row_object_group(void *payload, s16 value_scale);
-void begin_actor_display_action();
-s32 update_actor_defeat_removal(u8 *state, s32 *position, u8 *sprite, u8 *entity_data);
+void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
 s32 update_actor_hop_and_shrink(void *animation, void *motion, SpriteFrameState *scale, void *render);
 
 s32 update_actor_hop_and_grow();

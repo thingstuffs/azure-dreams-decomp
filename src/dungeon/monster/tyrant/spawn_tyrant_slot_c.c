@@ -42,7 +42,7 @@ typedef struct S_func_80158898_4 {
 s16 set_or_clear_actor_status_slot();
 s32 generate_random_value(void);
 void func_80158AA4(void *actor, T_80170AA4_S_80170AA4_2 *motion, void *part);
-void func_80158F68(Rec_func_800A9E70_arg0 *action, void *context, ActorSpriteView *sprite, EntityRec *actor);
+void func_80158F68(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *map_object_arg, ActorRecord *actor_state_arg);
 extern M2C_UNK D_8015BFB8;
 extern M2C_UNK D_8015C000;
 

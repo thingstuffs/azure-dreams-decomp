@@ -11,6 +11,7 @@
 #include "shared/dungeon_status.h"
 #include "engine/cd.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/player/object.h"
 extern int abs(int);
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
@@ -62,7 +63,6 @@ typedef struct S_80172FC0_6 {
 extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
 extern void select_sprite_entry(void *, u8, s32);
 extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
-extern void set_record_integer_tile_center(void *, u8, u8);
 extern void play_sound_if_enabled(s32);
 extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context);
 extern void create_actor_linked_effect(void *);

@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "dungeon/player/object.h"
 
 struct SpriteFrameState;
 
@@ -11,9 +12,8 @@ struct ObjectPosition;
 #include "records/Rec_D_80082E80.h"
 
 
-extern void set_record_integer_tile_center(void *, u8, u8);
 extern s32 generate_random_value(void);
-extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
 extern void apply_clamped_actor_value_delta(void *);
 extern void create_knockback_travel_object(void *,struct ObjectPosition *, void *, void *);
 extern void spawn_manoeva_particle_burst(void *,struct SpriteFrameState *);

@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-extern void advance_actor_facing_effect_state(void);
+extern void advance_actor_facing_effect_state(ActorRecord *action, ObjectPosition *context, SpriteFrameState *entity, ActorRecord *actor);
 
 /* jump_table; owner: dungeon/func_8128F6C4. */
 const void *const D_8015D880[6] __attribute__((aligned(4))) = {

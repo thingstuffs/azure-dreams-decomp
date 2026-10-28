@@ -1,6 +1,8 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "dungeon/player/object.h"
+#include "shared/sprite_frame_state.h"
 
 #define FIELD_U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define FIELD_S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
@@ -8,8 +10,7 @@
 #define FIELD_S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define FIELD_PTR(p, o) (*(void **)((u8 *)(p) + (o)))
 
-extern void set_record_integer_tile_center(void *, u8, u8);
-extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
 extern void apply_clamped_actor_value_delta(void *);
 extern s32 kewne_action_resume_address[];
 extern u8 D_80175E90[];

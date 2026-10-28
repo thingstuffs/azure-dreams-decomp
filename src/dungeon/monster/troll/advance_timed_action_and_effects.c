@@ -25,7 +25,7 @@ extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, 
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 extern void func_8015F21C(void *, void *, void *, void *);
-extern void func_8015F4FC(void *, void *, void *, void *);
+extern void func_8015F4FC(ActorRecord *source_object, ObjectPosition *source_pos, SpriteFrameState *sprite_template, ActorRecord *actor);
 
 extern u8 D_801604BC[];
 extern u8 D_80163DDC[8];

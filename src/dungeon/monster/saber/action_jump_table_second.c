@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-extern void advance_attack_with_delayed_sprite_flash(void);
+extern void advance_attack_with_delayed_sprite_flash(ActorRecord *sequence, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 /* jump_table; owner: dungeon/func_80AD97D8. */
 const void *const saber_slot_d_action_targets[5] __attribute__((aligned(4))) = {

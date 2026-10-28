@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/actor_status_flags.h"
 #include "dungeon/monster/baloon.h"
 #include "common.h"
@@ -11,12 +12,12 @@
 #include "shared/sprite_frame_state.h"
 
 extern void select_sprite_entry(void *, s32, s32);
-extern s32 check_entity_relation(void *, void *);
+extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 extern s32 test_neighbor_position_relation(s32, s32, s32, s32);
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern s32 can_entity_gain_level(void *);
-extern void update_actor_status_and_mp(void *);
+extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
@@ -163,9 +164,18 @@ void update_actor_turn_behavior(ActorRecord *motion_arg, ObjectPosition *actor_i
         if (*(u16 *)&actor_arg->tile_x != reference_tile_object.tile_position.word) {
             if (!(move_data->action_flags & 0x8000)) {
                 if (g_dungeon_status.flags & 0x2000) {
-                    if ((check_entity_relation(move_data,
-                            (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
-                        return;
+                    {
+                        ObjectNodeHeader *previous_node;
+                        void *previous_body;
+                        ActorRecord *previous_actor;
+
+                        previous_node = primary_actor_record->previous_actor_header;
+                        previous_body = previous_node + 1;
+                        previous_actor = previous_body;
+                        if ((check_entity_relation(move_data,
+                                previous_actor) << 16) != 0) {
+                            return;
+                        }
                     }
                 }
                 if ((func_801731DC(motion_arg, actor_index_arg, actor_arg, 0) << 16) == 0) {

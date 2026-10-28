@@ -1953,11 +1953,11 @@ s32 project_flame_sprite_chain(void *initial_payload, s32 entry_data, R06_80173E
 s32 append_linked_shaded_point_packets(u8 *node, void *vertex_arg)
 {
     u8 **state_ptr;
-    u8 *scratch;
+    R06_80173E94_S_80173E94_1 *scratch;
     register u8 *state;
     register u8 *final_state;
     register u8 *packet_end;
-    register u8 *packet;
+    register R06_80173E94_S_80173E94_3 *packet;
     u8 *mode_packet;
     u8 *vertex;
     void *previous;
@@ -1967,22 +1967,22 @@ s32 append_linked_shaded_point_packets(u8 *node, void *vertex_arg)
     vertex = vertex_arg;
     state_ptr = (u8 **)((u8 *)(&g_game_work));
     state = g_game_work.draw_buffer;
-    scratch = (u8 *)0x1F800000;
+    scratch = (R06_80173E94_S_80173E94_1 *)0x1F800000;
 
-    *(u8 **)(scratch + 0x18) = ((GpuContext *)state)->packetCursor;
-    ((R06_80173E94_S_80173E94_1 *)scratch)->unk_20.p = state + 0xB0;
+    scratch->unk_18 = ((GpuContext *)state)->packetCursor;
+    scratch->unk_20.p = state + 0xB0;
 
     do {
         vertex_x = ((R06_80173E94_S_80173E94_2 *)vertex)->unk_02;
-        packet = *(u8 **)(scratch + 0x18);
-        ((R06_80173E94_S_80173E94_1 *)scratch)->unk_00 = vertex_x;
-        ((R06_80173E94_S_80173E94_1 *)scratch)->unk_02 = ((R06_80173E94_S_80173E94_2 *)vertex)->unk_06;
-        ((R06_80173E94_S_80173E94_1 *)scratch)->unk_04 = ((R06_80173E94_S_80173E94_2 *)vertex)->unk_0A;
-        *(u8 **)(scratch + 0x18) = packet + 0xC;
+        packet = scratch->unk_18;
+        scratch->unk_00 = vertex_x;
+        scratch->unk_02 = ((R06_80173E94_S_80173E94_2 *)vertex)->unk_06;
+        scratch->unk_04 = ((R06_80173E94_S_80173E94_2 *)vertex)->unk_0A;
+        scratch->unk_18 = packet + 1;
 
-        depth_index = RotTransPers(scratch, packet + 8, scratch + 0x90,
-                             scratch + 0x94);
-        ((R06_80173E94_S_80173E94_1 *)scratch)->unk_C0 = depth_index;
+        depth_index = RotTransPers(scratch, &packet->screen, &scratch->transform_p,
+                             &scratch->transform_flags);
+        scratch->unk_C0 = depth_index;
 
         if (depth_index < 0x1E0) {
             s32 shade_or_page;
@@ -1991,20 +1991,20 @@ s32 append_linked_shaded_point_packets(u8 *node, void *vertex_arg)
             s32 page_x;
             s32 tile_code;
 
-            ((R06_80173E94_S_80173E94_3 *)packet)->unk_04.at00.v = ((R06_80173E94_S_80173E94_4 *)node)->unk_08;
-            shade_or_page = ((R06_80173E94_S_80173E94_3 *)packet)->unk_04.at00u.v * ((R06_80173E94_S_80173E94_4 *)node)->unk_32;
+            packet->unk_04.at00.v = ((R06_80173E94_S_80173E94_4 *)node)->unk_08;
+            shade_or_page = packet->unk_04.at00u.v * ((R06_80173E94_S_80173E94_4 *)node)->unk_32;
             if (shade_or_page < 0) {
                 shade_or_page += 0xFF;
             }
-            ((R06_80173E94_S_80173E94_3 *)packet)->unk_04.at00u.v = shade_or_page >> 8;
+            packet->unk_04.at00u.v = shade_or_page >> 8;
 
-            shade_or_page = ((R06_80173E94_S_80173E94_3 *)packet)->unk_04.at01.v * ((R06_80173E94_S_80173E94_4 *)node)->unk_32;
+            shade_or_page = packet->unk_04.at01.v * ((R06_80173E94_S_80173E94_4 *)node)->unk_32;
             if (shade_or_page < 0) {
                 shade_or_page += 0xFF;
             }
-            ((R06_80173E94_S_80173E94_3 *)packet)->unk_04.at01.v = shade_or_page >> 8;
+            packet->unk_04.at01.v = shade_or_page >> 8;
 
-            shade_or_page = ((R06_80173E94_S_80173E94_3 *)packet)->unk_04.at02.v * ((R06_80173E94_S_80173E94_4 *)node)->unk_32;
+            shade_or_page = packet->unk_04.at02.v * ((R06_80173E94_S_80173E94_4 *)node)->unk_32;
             if (shade_or_page < 0) {
                 shade_or_page += 0xFF;
                 pixel_mode = 0;
@@ -2012,39 +2012,39 @@ s32 append_linked_shaded_point_packets(u8 *node, void *vertex_arg)
                 pixel_mode = 0;
             }
             blend_mode = 1;
-            ((R06_80173E94_S_80173E94_3 *)packet)->unk_04.at02.v = shade_or_page >> 8;
-            ((R06_80173E94_S_80173E94_3 *)packet)->unk_00.at03.v = 2;
+            packet->unk_04.at02.v = shade_or_page >> 8;
+            packet->unk_00.at03.v = 2;
             tile_code = 0x6A;
             page_x = pixel_mode;
-            ((R06_80173E94_S_80173E94_3 *)packet)->unk_04.at03.v = tile_code;
+            packet->unk_04.at03.v = tile_code;
 
             ((R06_80173E94_OrderingTag *)packet)->addr =
-                ((R06_80173E94_OrderingTag *)(((R06_80173E94_S_80173E94_1 *)scratch)->unk_20.p2
-                    + ((R06_80173E94_S_80173E94_1 *)scratch)->unk_C0))->addr;
+                ((R06_80173E94_OrderingTag *)(scratch->unk_20.p2
+                    + scratch->unk_C0))->addr;
             {
                 u32 *ot_entry;
                 u32 ot_tag;
                 u32 packet_addr;
 
-                ot_entry = (u32 *)(((R06_80173E94_S_80173E94_1 *)scratch)->unk_C0 << 2);
+                ot_entry = (u32 *)(scratch->unk_C0 << 2);
                 ot_entry = (u32 *)((u32)ot_entry +
-                                   (u32)((R06_80173E94_S_80173E94_1 *)scratch)->unk_20.p2);
+                                   (u32)scratch->unk_20.p2);
                 ot_tag = *ot_entry;
                 *ot_entry = ((u32)((ot_tag & 0xFF000000) | ((u32)((u32)packet & 0x00FFFFFF))));
             }
 
-            mode_packet = *(u8 **)(scratch + 0x18);
-            ((R06_80173E94_S_80173E94_1 *)scratch)->unk_18 = mode_packet + 0xC;
+            mode_packet = scratch->unk_18;
+            scratch->unk_18 = mode_packet + 0xC;
             shade_or_page = GetTPage(pixel_mode, blend_mode, page_x, pixel_mode);
             SetDrawMode(mode_packet, 0, 0, (u16)shade_or_page, 0);
 
             ((R06_80173E94_OrderingTag *)mode_packet)->addr =
-                ((R06_80173E94_OrderingTag *)(((R06_80173E94_S_80173E94_1 *)scratch)->unk_20.p2
-                    + ((R06_80173E94_S_80173E94_1 *)scratch)->unk_C0))->addr;
+                ((R06_80173E94_OrderingTag *)(scratch->unk_20.p2
+                    + scratch->unk_C0))->addr;
             mode_packet = (u8 *)((u32)mode_packet & 0x00FFFFFF);
-            (*(u32 *)((u8 *)(((R06_80173E94_S_80173E94_1 *)scratch)->unk_20.p2) + ((R06_80173E94_S_80173E94_1 *)scratch)->unk_C0 * 4)) =
-                ((*(u32 *)((u8 *)(((R06_80173E94_S_80173E94_1 *)scratch)->unk_20.p2)
-                    + ((R06_80173E94_S_80173E94_1 *)scratch)->unk_C0 * 4)) & 0xFF000000) |
+            (*(u32 *)((u8 *)(scratch->unk_20.p2) + scratch->unk_C0 * 4)) =
+                ((*(u32 *)((u8 *)(scratch->unk_20.p2)
+                    + scratch->unk_C0 * 4)) & 0xFF000000) |
                 (u32)mode_packet;
         }
 
@@ -2057,7 +2057,7 @@ s32 append_linked_shaded_point_packets(u8 *node, void *vertex_arg)
     } while (1);
 
     final_state = *state_ptr;
-    packet_end = ((R06_80173E94_S_80173E94_1 *)scratch)->unk_18;
+    packet_end = scratch->unk_18;
     ((GpuContext *)final_state)->packetCursor = packet_end;
     return 0;
 }
@@ -2163,146 +2163,149 @@ void advance_actor_action_and_update_status(
  */
 void project_and_queue_textured_quad(void *quad, void *position, void *draw_state, s16 depth_bias)
 {
-    u8 *scratch = (u8 *)0x1F800000;
-    u8 *packet;
+    R06_80174334_S_80174334_0 *scratch = (R06_80174334_S_80174334_0 *)0x1F800000;
+    R06_80174334_S_80174334_5 *packet;
+    void *packet_data;
     u8 *texture;
     s32 ot_index;
     u16 draw_flags;
     u8 tex_flags;
     R06_80174334_MATRIX matrix;
 
-    ((R06_80174334_S_80174334_0 *)scratch)->unk_24.p = *(u8 **)&g_game_work.draw_buffer + 0xB0;
-    ((R06_80174334_S_80174334_0 *)scratch)->unk_88 = ((R06_80174334_S_80174334_1 *)position)->unk_02;
-    ((R06_80174334_S_80174334_0 *)scratch)->unk_8C = ((R06_80174334_S_80174334_1 *)position)->unk_06;
-    ((R06_80174334_S_80174334_0 *)scratch)->unk_90 = ((R06_80174334_S_80174334_1 *)position)->unk_0A;
+    scratch->unk_24.p = *(u8 **)&g_game_work.draw_buffer + 0xB0;
+    scratch->matrices.position.x = ((R06_80174334_S_80174334_1 *)position)->unk_02;
+    scratch->matrices.position.y = ((R06_80174334_S_80174334_1 *)position)->unk_06;
+    scratch->matrices.position.z = ((R06_80174334_S_80174334_1 *)position)->unk_0A;
     ((R06_80174334_S_80174334_2 *)draw_state)->unk_14 |= 0x8000;
 
     PushMatrix();
 
-    ((R06_80174334_S_80174334_0 *)scratch)->unk_3C = 0x2000;
-    ((R06_80174334_S_80174334_0 *)scratch)->unk_38 = 0x2000;
-    ((R06_80174334_S_80174334_0 *)scratch)->unk_34 = 0x2000;
-    ((R06_80174334_S_80174334_0 *)scratch)->unk_A4 = ((R06_80174334_S_80174334_2 *)draw_state)->unk_16;
-    ((R06_80174334_S_80174334_0 *)scratch)->unk_A8 = ((R06_80174334_S_80174334_2 *)draw_state)->unk_1A;
-    ((R06_80174334_S_80174334_0 *)scratch)->unk_A6 = ((R06_80174334_S_80174334_2 *)draw_state)->unk_18;
-    RotMatrix(scratch + 0xA4, scratch + 0x74);
+    scratch->unk_3C = 0x2000;
+    scratch->unk_38 = 0x2000;
+    scratch->unk_34 = 0x2000;
+    scratch->unk_A4 = ((R06_80174334_S_80174334_2 *)draw_state)->unk_16;
+    scratch->unk_A8 = ((R06_80174334_S_80174334_2 *)draw_state)->unk_1A;
+    scratch->unk_A6 = ((R06_80174334_S_80174334_2 *)draw_state)->unk_18;
+    RotMatrix(&scratch->unk_A4, &scratch->matrices.transform[1]);
     ReadRotMatrix(&matrix);
-    CompMatrix(&matrix, scratch + 0x74, scratch + 0x54);
-    ScaleMatrix(scratch + 0x54, scratch + 0x34);
-    SetTransMatrix(scratch + 0x54);
-    SetRotMatrix(scratch + 0x54);
+    CompMatrix(&matrix, &scratch->matrices.transform[1], &scratch->matrices.transform[0]);
+    ScaleMatrix(&scratch->matrices.transform[0], &scratch->unk_34);
+    SetTransMatrix(&scratch->matrices.transform[0]);
+    SetRotMatrix(&scratch->matrices.transform[0]);
 
     texture = ((R06_80174334_S_80174334_2 *)draw_state)->unk_08;
-    ((R06_80174334_S_80174334_0 *)scratch)->unk_28 = ((R06_80174334_S_80174334_2 *)draw_state)->unk_14;
-    ((R06_80174334_S_80174334_0 *)scratch)->unk_0C.s32 = texture[8];
-    ((R06_80174334_S_80174334_0 *)scratch)->unk_10.s32 = texture[9];
+    scratch->unk_28 = ((R06_80174334_S_80174334_2 *)draw_state)->unk_14;
+    scratch->unk_0C.s32 = texture[8];
+    scratch->unk_10.s32 = texture[9];
+    /* BYTES: this raw word store keeps the following draw-buffer load in order. */
     (*(s32 *)((u8 *)scratch + 0x14)) = texture[0xA];
-    ((R06_80174334_S_80174334_0 *)scratch)->unk_18.s32 = texture[0xB];
-    packet = ((GpuContext *)(*(u8 **)&g_game_work.draw_buffer))->packetCursor;
-    ((GpuContext *)(*(u8 **)&g_game_work.draw_buffer))->packetCursor = packet + 0x34;
+    scratch->unk_18.s32 = texture[0xB];
+    packet_data = ((GpuContext *)(*(u8 **)&g_game_work.draw_buffer))->packetCursor;
+    packet = packet_data;
+    ((GpuContext *)(*(u8 **)&g_game_work.draw_buffer))->packetCursor = packet_data + 0x34;
 
-    ((R06_80174334_S_80174334_0 *)scratch)->unk_B0 = ((R06_80174334_S_80174334_4 *)quad)->unk_64;
-    ((R06_80174334_S_80174334_0 *)scratch)->unk_B8 = ((R06_80174334_S_80174334_4 *)quad)->unk_6A;
-    ((R06_80174334_S_80174334_0 *)scratch)->unk_C0 = ((R06_80174334_S_80174334_4 *)quad)->unk_70;
-    ((R06_80174334_S_80174334_0 *)scratch)->unk_C8 = ((R06_80174334_S_80174334_4 *)quad)->unk_76;
-    ((R06_80174334_S_80174334_0 *)scratch)->unk_B2 = ((R06_80174334_S_80174334_4 *)quad)->unk_66;
-    ((R06_80174334_S_80174334_0 *)scratch)->unk_BA = ((R06_80174334_S_80174334_4 *)quad)->unk_6C;
-    ((R06_80174334_S_80174334_0 *)scratch)->unk_C2 = ((R06_80174334_S_80174334_4 *)quad)->unk_72;
-    ((R06_80174334_S_80174334_0 *)scratch)->unk_CA = ((R06_80174334_S_80174334_4 *)quad)->unk_78;
-    ((R06_80174334_S_80174334_0 *)scratch)->unk_B4 = ((R06_80174334_S_80174334_4 *)quad)->unk_68;
-    ((R06_80174334_S_80174334_0 *)scratch)->unk_BC = ((R06_80174334_S_80174334_4 *)quad)->unk_6E;
-    ((R06_80174334_S_80174334_0 *)scratch)->unk_C4 = ((R06_80174334_S_80174334_4 *)quad)->unk_74;
-    ((R06_80174334_S_80174334_0 *)scratch)->unk_CC = ((R06_80174334_S_80174334_4 *)quad)->unk_7A;
+    scratch->unk_B0 = ((R06_80174334_S_80174334_4 *)quad)->unk_64;
+    scratch->unk_B8 = ((R06_80174334_S_80174334_4 *)quad)->unk_6A;
+    scratch->unk_C0 = ((R06_80174334_S_80174334_4 *)quad)->unk_70;
+    scratch->unk_C8 = ((R06_80174334_S_80174334_4 *)quad)->unk_76;
+    scratch->unk_B2 = ((R06_80174334_S_80174334_4 *)quad)->unk_66;
+    scratch->unk_BA = ((R06_80174334_S_80174334_4 *)quad)->unk_6C;
+    scratch->unk_C2 = ((R06_80174334_S_80174334_4 *)quad)->unk_72;
+    scratch->unk_CA = ((R06_80174334_S_80174334_4 *)quad)->unk_78;
+    scratch->unk_B4 = ((R06_80174334_S_80174334_4 *)quad)->unk_68;
+    scratch->unk_BC = ((R06_80174334_S_80174334_4 *)quad)->unk_6E;
+    scratch->unk_C4 = ((R06_80174334_S_80174334_4 *)quad)->unk_74;
+    scratch->unk_CC = ((R06_80174334_S_80174334_4 *)quad)->unk_7A;
 
-    ot_index = RotAverage4(scratch + 0xB0, scratch + 0xB8,
-                             scratch + 0xC0, scratch + 0xC8,
-                             packet + 8, packet + 0x14,
-                             packet + 0x20, packet + 0x2C,
-                             scratch + 0xD0, scratch + 0xD4) - depth_bias - 6;
-    ((R06_80174334_S_80174334_0 *)scratch)->unk_100 = ot_index;
+    ot_index = RotAverage4(&scratch->unk_B0, &scratch->unk_B8,
+                             &scratch->unk_C0, &scratch->unk_C8,
+                             &packet->xy0.word, &packet->xy1.word,
+                             &packet->xy2.word, &packet->xy3.word,
+                             &scratch->transform_p, &scratch->transform_flags) - depth_bias - 6;
+    scratch->unk_100 = ot_index;
 
     if ((u32)ot_index < 0x1E0) {
-        if ((((u16)(((R06_80174334_S_80174334_5 *)packet)->unk_08.u + 0x20) < 0x181) &&
-             ((u16)(((R06_80174334_S_80174334_5 *)packet)->unk_0A.u + 0x20) < 0x121)) |
-            (((u16)(((R06_80174334_S_80174334_5 *)packet)->unk_14 + 0x20) < 0x181) &&
-             ((u16)(((R06_80174334_S_80174334_5 *)packet)->unk_16 + 0x20) < 0x121)) |
-            (((u16)(((R06_80174334_S_80174334_5 *)packet)->unk_20 + 0x20) < 0x181) &&
-             ((u16)(((R06_80174334_S_80174334_5 *)packet)->unk_22 + 0x20) < 0x121)) |
-            (((u16)(((R06_80174334_S_80174334_5 *)packet)->unk_2C.u + 0x20) < 0x181) &&
-             ((u16)(((R06_80174334_S_80174334_5 *)packet)->unk_2E.u + 0x20) < 0x121))) {
+        if ((((u16)(packet->xy0.parts.x.u + 0x20) < 0x181) &&
+             ((u16)(packet->xy0.parts.y.u + 0x20) < 0x121)) |
+            (((u16)(packet->xy1.parts.x + 0x20) < 0x181) &&
+             ((u16)(packet->xy1.parts.y + 0x20) < 0x121)) |
+            (((u16)(packet->xy2.parts.x + 0x20) < 0x181) &&
+             ((u16)(packet->xy2.parts.y + 0x20) < 0x121)) |
+            (((u16)(packet->xy3.parts.x.u + 0x20) < 0x181) &&
+             ((u16)(packet->xy3.parts.y.u + 0x20) < 0x121))) {
             ((R06_80174334_S_80174334_2 *)draw_state)->unk_14 &= 0x7FFF;
 
-            ((R06_80174334_S_80174334_0 *)scratch)->unk_14.s32 += ((R06_80174334_S_80174334_0 *)scratch)->unk_0C.s32;
-            if (((R06_80174334_S_80174334_0 *)scratch)->unk_14.s32 & 0x100) {
-                ((R06_80174334_S_80174334_0 *)scratch)->unk_14.s32--;
+            scratch->unk_14.s32 += scratch->unk_0C.s32;
+            if (scratch->unk_14.s32 & 0x100) {
+                scratch->unk_14.s32--;
             }
-            ((R06_80174334_S_80174334_0 *)scratch)->unk_18.s32 += ((R06_80174334_S_80174334_0 *)scratch)->unk_10.s32;
-            if (((R06_80174334_S_80174334_0 *)scratch)->unk_18.s32 & 0x100) {
-                ((R06_80174334_S_80174334_0 *)scratch)->unk_18.s32--;
+            scratch->unk_18.s32 += scratch->unk_10.s32;
+            if (scratch->unk_18.s32 & 0x100) {
+                scratch->unk_18.s32--;
             }
-            ((R06_80174334_S_80174334_0 *)scratch)->unk_10.s32 <<= 8;
-            ((R06_80174334_S_80174334_0 *)scratch)->unk_18.s32 <<= 8;
+            scratch->unk_10.s32 <<= 8;
+            scratch->unk_18.s32 <<= 8;
 
             if (((R06_80174334_S_80174334_2 *)draw_state)->unk_12) {
-                if (((R06_80174334_S_80174334_0 *)scratch)->unk_28 & 0x100) {
-                    ((R06_80174334_S_80174334_5 *)packet)->unk_0E = ((R06_80174334_S_80174334_2 *)draw_state)->unk_12;
+                if (scratch->unk_28 & 0x100) {
+                    packet->unk_0E = ((R06_80174334_S_80174334_2 *)draw_state)->unk_12;
                 } else {
-                    ((R06_80174334_S_80174334_5 *)packet)->unk_0E = ((R06_80174334_S_80174334_2 *)draw_state)->unk_12 +
+                    packet->unk_0E = ((R06_80174334_S_80174334_2 *)draw_state)->unk_12 +
                                               ((R06_80174334_S_80174334_6 *)texture)->unk_06;
                 }
             } else {
-                ((R06_80174334_S_80174334_5 *)packet)->unk_0E = ((R06_80174334_S_80174334_6 *)texture)->unk_06;
+                packet->unk_0E = ((R06_80174334_S_80174334_6 *)texture)->unk_06;
             }
 
-            ((R06_80174334_S_80174334_5 *)packet)->unk_0C = ((R06_80174334_S_80174334_0 *)scratch)->unk_10.u16 +
-                                      ((R06_80174334_S_80174334_0 *)scratch)->unk_0C.u16;
-            ((R06_80174334_S_80174334_5 *)packet)->unk_18.u16 = ((R06_80174334_S_80174334_0 *)scratch)->unk_10.u16 +
-                                       ((R06_80174334_S_80174334_0 *)scratch)->unk_14.u16;
+            packet->unk_0C = scratch->unk_10.u16 +
+                                      scratch->unk_0C.u16;
+            packet->unk_18.u16 = scratch->unk_10.u16 +
+                                       scratch->unk_14.u16;
 
             if (((R06_80174334_S_80174334_2 *)draw_state)->unk_10) {
-                ((R06_80174334_S_80174334_5 *)packet)->unk_1A = ((R06_80174334_S_80174334_2 *)draw_state)->unk_10 +
+                packet->unk_1A = ((R06_80174334_S_80174334_2 *)draw_state)->unk_10 +
                                            (((R06_80174334_S_80174334_6 *)texture)->unk_04 & 0xFF9F);
             } else {
-                ((R06_80174334_S_80174334_5 *)packet)->unk_1A = ((R06_80174334_S_80174334_6 *)texture)->unk_04;
+                packet->unk_1A = ((R06_80174334_S_80174334_6 *)texture)->unk_04;
             }
 
-            ((R06_80174334_S_80174334_5 *)packet)->unk_24.at00.v = ((R06_80174334_S_80174334_0 *)scratch)->unk_18.u16 +
-                                       ((R06_80174334_S_80174334_0 *)scratch)->unk_0C.u16;
-            ((R06_80174334_S_80174334_5 *)packet)->unk_30.at00.v = ((R06_80174334_S_80174334_0 *)scratch)->unk_18.u16 +
-                                       ((R06_80174334_S_80174334_0 *)scratch)->unk_14.u16;
+            packet->unk_24.at00.v = scratch->unk_18.u16 +
+                                       scratch->unk_0C.u16;
+            packet->unk_30.at00.v = scratch->unk_18.u16 +
+                                       scratch->unk_14.u16;
 
-            if (((R06_80174334_S_80174334_5 *)packet)->unk_08.s > ((R06_80174334_S_80174334_5 *)packet)->unk_2C.s) {
-                ((R06_80174334_S_80174334_5 *)packet)->unk_18.u8--;
-                ((R06_80174334_S_80174334_5 *)packet)->unk_30.at00u.v--;
+            if (packet->xy0.parts.x.s > packet->xy3.parts.x.s) {
+                packet->unk_18.u8--;
+                packet->unk_30.at00u.v--;
             }
-            if (((R06_80174334_S_80174334_5 *)packet)->unk_0A.s > ((R06_80174334_S_80174334_5 *)packet)->unk_2E.s) {
-                ((R06_80174334_S_80174334_5 *)packet)->unk_24.at01.v--;
-                ((R06_80174334_S_80174334_5 *)packet)->unk_30.at01.v--;
+            if (packet->xy0.parts.y.s > packet->xy3.parts.y.s) {
+                packet->unk_24.at01.v--;
+                packet->unk_30.at01.v--;
             }
 
-            ((R06_80174334_S_80174334_5 *)packet)->unk_04.at00.v = ((R06_80174334_S_80174334_4 *)quad)->unk_04;
-            ((R06_80174334_S_80174334_5 *)packet)->unk_10 = ((R06_80174334_S_80174334_4 *)quad)->unk_08;
-            ((R06_80174334_S_80174334_5 *)packet)->unk_1C = ((R06_80174334_S_80174334_4 *)quad)->unk_0C;
-            ((R06_80174334_S_80174334_5 *)packet)->unk_28 = ((R06_80174334_S_80174334_4 *)quad)->unk_10;
+            packet->unk_04.at00.v = ((R06_80174334_S_80174334_4 *)quad)->unk_04;
+            packet->unk_10 = ((R06_80174334_S_80174334_4 *)quad)->unk_08;
+            packet->unk_1C = ((R06_80174334_S_80174334_4 *)quad)->unk_0C;
+            packet->unk_28 = ((R06_80174334_S_80174334_4 *)quad)->unk_10;
 
             SetPolyGT4(packet);
 
             tex_flags = texture[1];
             ((R06_80174334_S_80174334_2 *)draw_state)->unk_0F = tex_flags;
-            draw_flags = ((R06_80174334_S_80174334_0 *)scratch)->unk_28;
+            draw_flags = scratch->unk_28;
             if (draw_flags & 8) {
                 ((R06_80174334_S_80174334_2 *)draw_state)->unk_0F = (draw_flags & 4) ?
                     (tex_flags | 2) : (tex_flags & 0xFD);
             }
 
-            ((R06_80174334_S_80174334_5 *)packet)->unk_04.at03.v |= ((R06_80174334_S_80174334_2 *)draw_state)->unk_0F;
-            ((R06_80174334_S_80174334_5 *)packet)->unk_00 = (((R06_80174334_S_80174334_5 *)packet)->unk_00 & 0xFF000000) |
-                ((*(u32 *)((u8 *)(((R06_80174334_S_80174334_0 *)scratch)->unk_24.p2)
-                    + ((R06_80174334_S_80174334_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
+            packet->unk_04.at03.v |= ((R06_80174334_S_80174334_2 *)draw_state)->unk_0F;
+            packet->unk_00 = (packet->unk_00 & 0xFF000000) |
+                ((*(u32 *)((u8 *)(scratch->unk_24.p2)
+                    + scratch->unk_100 * 4)) & 0x00FFFFFF);
 
-            (*(u32 *)((u8 *)(((R06_80174334_S_80174334_0 *)scratch)->unk_24.p2) + ((R06_80174334_S_80174334_0 *)scratch)->unk_100 * 4)) =
-                ((*(u32 *)((u8 *)(((R06_80174334_S_80174334_0 *)scratch)->unk_24.p2)
-                    + ((R06_80174334_S_80174334_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
+            (*(u32 *)((u8 *)(scratch->unk_24.p2) + scratch->unk_100 * 4)) =
+                ((*(u32 *)((u8 *)(scratch->unk_24.p2)
+                    + scratch->unk_100 * 4)) & 0xFF000000) |
                 ((u32)packet & 0x00FFFFFF);
         }
     }

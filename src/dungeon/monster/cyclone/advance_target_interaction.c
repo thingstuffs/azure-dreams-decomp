@@ -6,6 +6,7 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
+#include "dungeon/player/object.h"
 
 typedef struct S_80174764_0 {
     u8 pad_00[0x8C];
@@ -28,7 +29,6 @@ typedef struct S_80174764_4 {
 } S_80174764_4;   /* ((Rec_D_800E3D7C *)arg3)->unk_60.as_pv in advance_target_interaction */
 
 extern void select_sprite_entry(void *, s16, s16);
-extern void set_record_integer_tile_center(void *, u8, u8);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 extern void spawn_312_effect_object(void *, void *, void *);

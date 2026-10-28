@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 /* Ghosh tile stepping and staged actor movement. */
 #include "common.h"
 #include "shared/tile_object.h"
@@ -46,7 +47,7 @@ typedef struct S_8016FCE4_4 {
 
    /* (arg3 + ((u8) ((S_8016FCE4_0 *)arg3)->unk_71.s & 0x7F)) in advance_boss_actor_movement_state */
 
-s32 check_entity_relation(void *, void *);
+s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 s32 check_movement_clearance_and_height(s32, void *, void *, s32);
 s32 test_neighbor_position_relation(s32, s32, s32, s32);
@@ -56,7 +57,7 @@ s16 get_rounded_facing_and_rounding_flag(s32, s32, s32, s32, void *);
 void select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
 void update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 s32 generate_random_value(void);
-void update_actor_status_and_mp(void *);
+void update_actor_status_and_mp(ActorRecord *entity);
 extern s16 actor_turn_angle_offsets[];
 extern TileObject D_80082E80_b __asm__("D_80082E80");
 
@@ -68,6 +69,9 @@ static __inline__ u8 advance_tile(u8 tile, const u8 * table, u16 index)
 
 /* Choose a movement heading, advance the actor_in, and update its movement state. */
 void advance_boss_actor_movement_state(void *move_state, void *unused, void *position_in, void *actor_in) {
+    ObjectNodeHeader *previous_node;
+    void *previous_body;
+    ActorRecord *previous_actor;
     s32 tile_mask;
     register s16 *turn_offsets;
     s32 y_address;
@@ -212,7 +216,8 @@ void advance_boss_actor_movement_state(void *move_state, void *unused, void *pos
                 }
             }
             if ((turn_index != 0) || (reference_tile_object.tile_position.word == ((S_8016FCE4_1 *)position_in)->unk_24.at00u.v)
-                || ((check_entity_relation(actor_in, ((s32)((ActorRecord *)((u8 *)primary_actor_record))->previous_actor_header) + 0x20) << 0x10) == 0)) {
+                || ((check_entity_relation(actor_in, (previous_node = primary_actor_record->previous_actor_header,
+                    previous_body = previous_node + 1, previous_actor = previous_body)) << 0x10) == 0)) {
                 turn_index += 1;
                 turn_offsets += 1;
             } else {

@@ -25,16 +25,16 @@ void *allocate_object_with_child_displays(s32 kind, s32 part_value_24, s32 part_
     SpriteFrameState *part;
     ObjectNodeHeader *allocated;
     s32 allocation_size;
-    ObjectNodeHeader *allocation_pool;
+    ObjectNodeHeader **list_head;
 
     saved_kind = kind;
     object = 0;
     allocation_size = 0x112;
     saved_part_byte_24 = part_value_24;
-    allocation_pool = &scene_object_list_anchor;
+    list_head = &scene_object_list_anchor.next;
     saved_copy_value = copy_value;
     saved_part_value = part_value_25;
-    allocated = allocate_list_node(allocation_size, allocation_pool);
+    allocated = allocate_list_node(allocation_size, list_head);
     kind_copy = saved_kind;
     root = allocated;
     if (allocated != 0) {

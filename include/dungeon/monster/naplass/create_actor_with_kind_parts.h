@@ -4,6 +4,10 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/sprite_frame_state.h"
+#include "shared/entity.h"
+#include "dungeon/actor/animation.h"
+#include "engine/node.h"
+#include "engine/node/allocation.h"
 struct R03_80170A28_S_80170A28_2;
 
 typedef s32 M2C_UNK;
@@ -34,16 +38,11 @@ typedef struct Work {
     s32 flags1c;
 } Work;
 
-extern void *allocate_list_node(s32, void *);
-extern void *func_8003FD64(s32, void *);
-extern void register_node(void *, void *);
-extern void func_8004491C(void *, void *);
 extern s32 generate_random_value(void);
 extern void set_or_clear_actor_status_slot(void *, s32, s32);
-extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern void func_8014CA3C(void *entity, struct R03_80170A28_S_80170A28_2 *motion, void *part);
-extern void dispatch_dungeon_actor_behavior_and_facing(void *actor_in, void *actor_data_in, SpriteFrameState *sprite_in, void *status_in);
+extern void dispatch_dungeon_actor_behavior_and_facing(ActorRecord *actor_in, ObjectPosition *actor_data_in, SpriteFrameState *sprite_in, ActorRecord *status_in);
 extern u8 D_80150194[];
 extern u8 D_801501DC[];
 

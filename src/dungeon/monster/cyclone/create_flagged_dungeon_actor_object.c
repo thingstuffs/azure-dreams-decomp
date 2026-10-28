@@ -8,6 +8,9 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/actor/animation.h"
+#include "engine/node.h"
+#include "engine/node/allocation.h"
 
 typedef struct S_80170890_1 {
     u8 pad_00[0x13];
@@ -34,10 +37,7 @@ typedef struct S_80170890_5 {
     u16 unk_00;
 } S_80170890_5;   /* (u8 *)(((index + count) << 2) + (u32)table) + 6 in create_flagged_dungeon_actor_object */
 
-extern void *allocate_list_node(s32, void *);
-extern void register_node(void *, void *);
 extern s32 generate_random_value(void);
-extern void initialize_actor_sprite_and_animation(void *, void *, void *, s32);
 extern void LoadImage(void *, void *);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 

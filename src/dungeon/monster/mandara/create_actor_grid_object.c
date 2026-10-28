@@ -7,6 +7,9 @@
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
+#include "dungeon/actor/animation.h"
+#include "engine/node.h"
+#include "engine/node/allocation.h"
 
 typedef void (*Callback)(void);
 
@@ -22,21 +25,18 @@ typedef struct {
     s16 h;
 } Rect;
 
-extern void *allocate_list_node(s32, void *);
-extern void register_node(void *, void *);
 extern s32 generate_random_value(void); /* Retail RNG at 0x800A6D30 reads no incoming argument registers, including a3. */
 extern void set_or_clear_actor_status_slot(void *, s32, s32);
-extern void initialize_actor_sprite_and_animation(void *, void *, void *, s32);
 extern void MoveImage(Rect *, s32, s32);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern void func_80170B40(void);
-extern void update_actor_movement_and_height(void);
+extern void update_actor_movement_and_height(void *entity_arg, void *motion_arg, SpriteFrameState *monster_arg);
 extern void func_80171198(void);
 extern void func_8017126C(void);
 extern void func_801713FC(void);
 extern void func_80171444(void);
-extern void advance_path_motion(void);
+extern void advance_path_motion(void *motion, ObjectPosition *unused, SpriteFrameState *entity, void *path_state);
 extern void func_80171740(void);
 extern void func_80171784(void);
 extern void func_80171794(void);
@@ -45,7 +45,7 @@ extern void func_80172EA8(void);
 extern void func_80172EB0(void);
 extern void func_80172EB8(void);
 extern void func_80172EF8(void);
-extern void restore_bank_actor_tile(void);
+extern void restore_bank_actor_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity);
 extern void func_80172F08(void);
 extern void func_80172F10(void);
 extern void func_80175258(void);

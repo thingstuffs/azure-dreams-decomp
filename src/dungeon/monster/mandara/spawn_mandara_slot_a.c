@@ -26,7 +26,7 @@ typedef struct S_80FD5000_1 {
     u8 pad_18[0x4];
     s32 unk_1C;
     u8 pad_20[0x6C];
-    void (*unk_8C)(ActionState *, ActorMotion *, ActorSprite *, CreatureState *);
+    ActorActionHandler unk_8C;
     u8 pad_90[0xA];
     u8 unk_9A;
     u8 pad_9B[0x1];
@@ -50,7 +50,7 @@ s32 MoveImage(void *, s32, s32);
 s16 set_or_clear_actor_status_slot(); /* extern */
 s32 generate_random_value(void);
 extern M2C_UNK D_8014CB40;
-void update_creature_action_and_animation(ActionState *action_state, ActorMotion *motion, ActorSprite *sprite, CreatureState *entity);
+void update_creature_action_and_animation(ActorRecord *self_object, ObjectPosition *aux_entity, SpriteFrameState *sprite, ActorRecord *entity);
 extern M2C_UNK D_80151258;
 extern M2C_UNK D_80151298;
 

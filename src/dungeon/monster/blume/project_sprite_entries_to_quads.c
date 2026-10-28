@@ -62,7 +62,7 @@ void project_sprite_entries_to_quads(T_80170874_S_80DB9000_1 *sprite_size, T_801
     scratch_page->unk_08 = position->unk_0A;
     packet = state->unk_8D0;
     render_state = &g_game_work;
-    scratch_page->unk_100 = RotTransPers((u8 *)0x1F800004, (u8 *)0x1F8000F8, (u8 *)0x1F8000D0, (u8 *)0x1F8000D4);
+    scratch_page->unk_100 = RotTransPers(&scratch_page->unk_04, &scratch_page->origin.word, &scratch_page->transform_p, &scratch_page->transform_flags);
     sprite->unk_14 = (u16)(sprite->unk_14 | 0x8000);
     depth = scratch_page->unk_100;
     depth_scaled = depth * 4;
@@ -73,15 +73,15 @@ void project_sprite_entries_to_quads(T_80170874_S_80DB9000_1 *sprite_size, T_801
     scratch_page->unk_100 = ot_index;
     if (ot_index < 0x1D6U) {
         PushMatrix();
-        screen_offset_2 = scratch_page->unk_F8;
+        screen_offset_2 = scratch_page->origin.parts.x;
         screen_offset_2 -= 0xA0;
-        scratch_page->unk_F8 = screen_offset_2;
-        screen_offset = scratch_page->unk_FA;
+        scratch_page->origin.parts.x = screen_offset_2;
+        screen_offset = scratch_page->origin.parts.y;
         view_rot_x = render_state->view.camera_rotation.parts.camera_rotation_x;
         view_rot_y = render_state->view.camera_rotation.parts.camera_rotation_y;
         view_rot_z = render_state->view.camera_rotation.parts.viewAngle;
         screen_offset -= 0x78;
-        scratch_page->unk_FA = screen_offset;
+        scratch_page->origin.parts.y = screen_offset;
         scratch_page->unk_34 = view_rot_x;
         scratch_page->unk_38.u32 = view_rot_y;
         scratch_page->unk_3C.u32 = view_rot_z;
@@ -153,19 +153,19 @@ void project_sprite_entries_to_quads(T_80170874_S_80DB9000_1 *sprite_size, T_801
                 scratch_page->unk_CA = bottom_y;
                 scratch_page->unk_C2 = bottom_y;
             }
-            RotTransPers4((u8 *)scratch_page + 0xB0, (u8 *)scratch_page + 0xB8, (u8 *)scratch_page + 0xC0,
-                (u8 *)scratch_page + 0xC8, (u8 *)scratch_page + 0x94, (u8 *)scratch_page + 0x98,
-                (u8 *)scratch_page + 0x9C, (u8 *)scratch_page + 0xA0, (u8 *)scratch_page + 0xD0,
-                (u8 *)scratch_page + 0xD4);
-            packet->unk_08 = scratch_page->unk_94 + scratch_page->unk_F8;
-            packet->unk_0A = scratch_page->unk_96 + scratch_page->unk_FA;
-            packet->unk_10 = scratch_page->unk_98 + scratch_page->unk_F8;
-            packet->unk_12 = scratch_page->unk_9A + scratch_page->unk_FA;
-            packet->unk_18 = scratch_page->unk_9C + scratch_page->unk_F8;
-            packet->unk_1A = scratch_page->unk_9E + scratch_page->unk_FA;
+            RotTransPers4(&scratch_page->unk_B0, &scratch_page->unk_B8, &scratch_page->unk_C0,
+                &scratch_page->unk_C8, &scratch_page->screen[0].word, &scratch_page->screen[1].word,
+                &scratch_page->screen[2].word, &scratch_page->screen[3].word, &scratch_page->transform_p,
+                &scratch_page->transform_flags);
+            packet->unk_08 = scratch_page->screen[0].parts.x + scratch_page->origin.parts.x;
+            packet->unk_0A = scratch_page->screen[0].parts.y + scratch_page->origin.parts.y;
+            packet->unk_10 = scratch_page->screen[1].parts.x + scratch_page->origin.parts.x;
+            packet->unk_12 = scratch_page->screen[1].parts.y + scratch_page->origin.parts.y;
+            packet->unk_18 = scratch_page->screen[2].parts.x + scratch_page->origin.parts.x;
+            packet->unk_1A = scratch_page->screen[2].parts.y + scratch_page->origin.parts.y;
             corner0_visible = 0;
-            packet->unk_20 = scratch_page->unk_A0 + scratch_page->unk_F8;
-            screen_y3 = scratch_page->unk_A2 + scratch_page->unk_FA;
+            packet->unk_20 = scratch_page->screen[3].parts.x + scratch_page->origin.parts.x;
+            screen_y3 = scratch_page->screen[3].parts.y + scratch_page->origin.parts.y;
             packet->unk_22 = screen_y3;
             if ((u32)((packet->unk_08 + 0x20) & 0xFFFF) < 0x181U) {
                 u32 y_bound = (u32)((packet->unk_0A + 0x20) & 0xFFFF);

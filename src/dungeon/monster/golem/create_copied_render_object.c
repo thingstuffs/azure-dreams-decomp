@@ -6,6 +6,7 @@
 #include "shared/entity.h"
 #include "dungeon/monster/golem.h"
 #include "engine/node/allocation.h"
+#include "engine/node.h"
 
 typedef struct { s32 word[6]; } Copy24;
 
@@ -29,7 +30,6 @@ typedef struct S_80174EB4_6 {
     s32 unk_08;
 } S_80174EB4_6;   /* query_arg in create_copied_render_object */
 
-extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
 

@@ -7,13 +7,13 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/actor/animation.h"
+#include "engine/node.h"
+#include "engine/node/allocation.h"
 
 typedef void (*Callback)(void);
 
-extern void *allocate_list_node(s32, void *);
-extern s32 register_node(void *, void *);
 extern s32 generate_random_value(void);
-extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern void D_8016AAA4(void);
 extern void D_8016DFB8(void);

@@ -2,10 +2,10 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
+#include "dungeon/player/object.h"
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 rsin(s32);
-extern void set_record_integer_tile_center(void *, u8, u8);
 
 extern u8 ghosh_frame_set_8[];
 extern u8 ghosh_frame_bank[];

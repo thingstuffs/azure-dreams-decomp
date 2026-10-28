@@ -10,6 +10,7 @@
 #include "shared/dungeon_status.h"
 #include "engine/cd.h"
 #include "dungeon/actor/status.h"
+#include "engine/node/allocation.h"
 extern int abs(int);
 
 typedef struct {
@@ -97,7 +98,6 @@ typedef struct S_func_80FDD1A0_4 {
     u8 unk_BB;
 } S_func_80FDD1A0_4;
 
-extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
 extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);

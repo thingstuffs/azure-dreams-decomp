@@ -4,6 +4,8 @@
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_moving_views.h"
+#include "engine/node.h"
+#include "engine/node/allocation.h"
 
 typedef struct S_80171F30_0 {
     u8 pad_00[0x8];
@@ -36,8 +38,6 @@ extern u8 ghosh_object_callback_2[];
 extern u8 D_80171CC0[];
 extern u8 D_80171E60[];
 
-extern void *allocate_list_node(s32, void *);
-extern void register_node(void *, void *);
 extern s32 rand(void);
 
 /* Creates an object at a randomized offset from its parent and initializes its mode and state. */

@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-extern void advance_actor_animation_and_reset_motion(void);
+extern void advance_actor_animation_and_reset_motion(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 /* jump_table; owner: dungeon/func_8106D1D4. */
 const void *const tyrant_slot_d_action_targets[7] __attribute__((aligned(4))) = {

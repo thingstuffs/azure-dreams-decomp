@@ -5,6 +5,7 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "dungeon/actor/animation.h"
 
 typedef struct ChildA {
     u8 pad_00[10];
@@ -34,11 +35,7 @@ typedef struct Body {
 } Body;
 
 typedef struct Object {
-    u8 pad_00[8];
-    ChildA *child_a_08;
-    SpriteFrameState *child_b_0C;
-    void *field_10;
-    u8 pad_14[12];
+    ObjectNodeHeader header;
     Body body_20;
 } Object;
 
@@ -47,13 +44,12 @@ extern u8 nyuel_frame_set_7[9];
 extern u8 D_80162F00[9];
 extern u8 D_8015EA98[9];
 
-extern void *allocate_list_node(s32, void *);
-extern Object *func_8003FD64(s32, void *);
-extern void register_node(Object *, void *);
-extern void func_8004491C(Object *, void *);
+extern void *allocate_list_node(s32 flags, ObjectNodeHeader **list_head);
+extern void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
+extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
+extern s32 func_8004491C(ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
 extern void set_or_clear_actor_status_slot(Body *, s32, s32);
-extern void initialize_actor_sprite_and_animation(Object *, ChildA *, ChildB *, s16);
 extern void try_move_actor_to_valid_position(void *,void *,void *,void *);
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */

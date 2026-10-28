@@ -25,16 +25,16 @@ void *create_actor_with_child_sprites(s32 kind, s32 part_x, s32 part_y, s32 copy
     SpriteFrameState *part;
     ObjectNodeHeader *allocated;
     s32 allocation_size;
-    ObjectNodeHeader *allocation_pool;
+    ObjectNodeHeader **list_head;
 
     saved_kind = kind;
     object = 0;
     allocation_size = 0x112;
     saved_part_byte_24 = part_x;
-    allocation_pool = &scene_object_list_anchor;
+    list_head = &scene_object_list_anchor.next;
     saved_copy_value = copy_value;
     saved_part_y = part_y;
-    allocated = allocate_list_node(allocation_size, allocation_pool);
+    allocated = allocate_list_node(allocation_size, list_head);
     kind_copy = saved_kind;
     root = allocated;
     if (allocated != 0) {

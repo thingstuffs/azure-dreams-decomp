@@ -3,6 +3,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/player/object.h"
 
 #define U8(p, o) (*(u8 *)((u8 *)(p) + (o)))
 #define S8(p, o) (*(s8 *)((u8 *)(p) + (o)))
@@ -13,7 +14,6 @@
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void set_record_integer_tile_center(void *, s32, s32);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 

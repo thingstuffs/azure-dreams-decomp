@@ -5,6 +5,7 @@
 #include "shared/slus_callbacks.h"
 #include "shared/dir_step.h"
 #include "shared/dungeon_moving_views.h"
+#include "engine/node.h"
 
 typedef struct {
     u32 words[6];
@@ -16,7 +17,6 @@ typedef struct {
     u16 z;
 } Vec3u16;
 
-extern void register_node(void *object, void *callback);
 extern void select_sprite_entry(void *object, s32 kind, s32 value);
 extern void *resolve_record_orientation_or_fallback(void *ptr, void *ptr1, Vec3u16 *out, s32 value3);
 

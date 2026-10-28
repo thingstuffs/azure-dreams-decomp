@@ -3,6 +3,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/player/object.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
@@ -45,7 +46,6 @@ typedef struct Obj3 {
 } Obj3;
 
 extern void spend_actor_mp(Obj3 *, s32);
-extern void set_record_integer_tile_center(void *, u8, u8);
 extern void play_sound_if_enabled(s32);
 struct SpriteFrameState;
 extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);

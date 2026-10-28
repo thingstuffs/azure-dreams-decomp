@@ -11,6 +11,9 @@
 #include "shared/entity.h"
 #include "engine/cd.h"
 #include "dungeon/actor/status.h"
+#include "engine/node.h"
+#include "engine/node/allocation.h"
+#include "dungeon/player/object.h"
 extern u8 D_801740FC[];
 extern int abs(int);
 
@@ -79,12 +82,9 @@ extern u8 ifrit_action_resume_address[];
 extern u8 D_80174850[];
 
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
-extern void *allocate_list_node(s32, void *);
-extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 rand(void);
 extern void *scan_actor_along_heading(void *, s32, s32, s32, s32);
-extern void set_record_integer_tile_center(void *, s32, s32);
 extern void play_sound_if_enabled(s32);
 extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context);
 extern void create_two_row_object_group(void *payload, s16 value_scale);

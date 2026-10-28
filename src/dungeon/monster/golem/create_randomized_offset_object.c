@@ -14,7 +14,7 @@ typedef struct {
 } Copy24;
 
 extern void *allocate_list_node(s32, s32);
-extern void register_node(void *, void *);
+extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 rand(void);
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);

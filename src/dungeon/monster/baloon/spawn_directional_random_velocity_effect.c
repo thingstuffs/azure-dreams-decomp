@@ -4,6 +4,7 @@
 #include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_moving_views.h"
+#include "engine/node.h"
 
 typedef s32 M2C_UNK;
 
@@ -42,7 +43,6 @@ typedef struct S_80D65C5C_4 {
    /* ((S_80D65C5C_1 *)arg0)->unk_08 in spawn_directional_random_velocity_effect */
 
 extern s32 rand(void);
-extern void register_node(void *, void *);
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 
 extern s16 actor_direction_step_pairs[];

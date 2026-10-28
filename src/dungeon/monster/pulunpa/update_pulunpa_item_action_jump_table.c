@@ -1,6 +1,7 @@
 #include "common.h"
+#include "shared/entity.h"
 
-extern void func_80175480(void);
+extern void func_80175480(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor);
 
 /* jump_table; owner: dungeon/func_80CC1C80. */
 const void *const D_80170888[7] __attribute__((aligned(4))) = {

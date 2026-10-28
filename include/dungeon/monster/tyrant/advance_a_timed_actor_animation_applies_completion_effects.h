@@ -6,6 +6,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/player/object.h"
 
 
 typedef struct {
@@ -34,7 +35,6 @@ struct SpriteFrameState;
 extern void select_sprite_entry(void *, s16, s16);
 extern void func_80047784(void *, u8, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void set_record_integer_tile_center(void *, u8, u8);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(T_801727CC_Obj3 *, s32);
 extern void * actor_update_node_cursor[];

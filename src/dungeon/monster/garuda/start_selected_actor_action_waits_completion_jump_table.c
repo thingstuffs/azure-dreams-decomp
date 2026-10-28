@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-extern void start_the_selected_actor_action_waits_completion_resets_state(void);
+extern void start_the_selected_actor_action_waits_completion_resets_state(void *action_state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 /* jump_table; owner: dungeon/func_81019034. */
 const void *const D_8015E858[7] __attribute__((aligned(4))) = {

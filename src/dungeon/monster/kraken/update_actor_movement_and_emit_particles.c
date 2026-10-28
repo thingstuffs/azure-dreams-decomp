@@ -12,6 +12,9 @@
 #include "shared/actor_action.h"
 #include "shared/dungeon_projectile_views.h"
 #include "engine/graphics.h"
+#include "engine/node.h"
+#include "engine/node/allocation.h"
+#include "dungeon/player/object.h"
 
    /* arg0 in update_actor_movement_and_emit_particles */
 
@@ -46,11 +49,8 @@ typedef struct S_80172D1C_8 {
     s32 unk_14;
 } S_80172D1C_8;   /* ((S_80172D1C_1 *)obj)->unk_08 in update_actor_movement_and_emit_particles */
 
-extern void *allocate_list_node(s32, void *);
-extern void register_node(void *, void *);
 extern s32 rand(void);
-extern void set_record_integer_tile_center(void *, s32, s32);
-extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
 extern void apply_clamped_actor_value_delta(void *);
 
 extern u8 kraken_action_resume_address[];

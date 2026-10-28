@@ -17,14 +17,14 @@ void *spawn_effect_object(s32 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
     ObjectPosition *part_a;
     s16 flags_s16;
     s32 alloc_kind;
-    ObjectNodeHeader *alloc_data;
+    ObjectNodeHeader **list_head;
     u32 flags0;
     u32 flags1;
     s32 random;
 
     alloc_kind = 0x112;
-    alloc_data = &scene_object_list_anchor;
-    object = allocate_list_node(alloc_kind, alloc_data);
+    list_head = &scene_object_list_anchor.next;
+    object = allocate_list_node(alloc_kind, list_head);
     flags_s16 = spawn_flags;
     if (object != 0) {
         work = ((u8 *)object) + 0x20;
@@ -39,12 +39,12 @@ void *spawn_effect_object(s32 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
         work_copy = (long)work;
 
         if ((spawn_flags & 3) == 1) {
-            *(Callback *)(work + 0x8C) = func_8014CE5C;
+            *(ActorActionHandler *)(work + 0x8C) = func_8014CE5C;
             *(u32 *)(work + 0x14) |= 0x6000;
             *(u32 *)(work + 0x1C) |= 0x6000;
             ((SpriteFrameState *)part_b)->frameTable = volcano_frame_set;
         } else if ((spawn_flags & 3) >= 2) {
-            *(Callback *)(work + 0x8C) = func_8014CE5C;
+            *(ActorActionHandler *)(work + 0x8C) = func_8014CE5C;
             flags0 = *(u32 *)(work + 0x14) | 0x2000;
             flags1 = *(u32 *)(work + 0x1C) | 0x2000;
             *(u32 *)(work + 0x14) = flags0;
@@ -60,10 +60,10 @@ void *spawn_effect_object(s32 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
                         ((SpriteFrameState *)part_b)->frameTable = D_80150538;
                     }
                 }
-                *(Callback *)((u8 *)work_copy + 0x8C) = func_8014CE5C;
+                *(ActorActionHandler *)((u8 *)work_copy + 0x8C) = func_8014CE5C;
                 ((SpriteFrameState *)part_b)->frameTable = volcano_frame_set;
             } else {
-                *(Callback *)(work + 0x8C) = func_8014CE5C;
+                *(ActorActionHandler *)(work + 0x8C) = func_8014CE5C;
                 ((SpriteFrameState *)part_b)->frameTable = volcano_frame_set;
             }
         }

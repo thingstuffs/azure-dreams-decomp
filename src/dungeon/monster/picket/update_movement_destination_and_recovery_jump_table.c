@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-extern void update_movement_destination_and_recovery(void);
+extern void update_movement_destination_and_recovery(void *state, ObjectPosition *motion, SpriteFrameState *actor, void *object);
 
 /* jump_table; owner: dungeon/func_80E94C28. */
 const void *const D_8016A8F0[6] __attribute__((aligned(4))) = {

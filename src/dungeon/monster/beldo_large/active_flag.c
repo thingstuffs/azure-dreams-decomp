@@ -11,6 +11,7 @@
 #include "engine/node/allocation.h"
 #include "engine/graphics.h"
 #include "engine/node.h"
+#include "dungeon/actor/animation.h"
 
 
 typedef struct S_80173140_2 {
@@ -25,7 +26,6 @@ typedef struct S_80173140_5 {
 
 void unlink_entity_node();                      /* extern */
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
-void initialize_actor_sprite_and_animation(void *, void *, void *, s32); /* extern */
 #include "dungeon/monster/beldo_large.h"
 extern u8 beldo_large_frame_set_8[16];
 extern void *beldo_script_node;

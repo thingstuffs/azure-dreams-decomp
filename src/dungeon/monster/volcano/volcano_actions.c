@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/entity.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_property_flags.h"
@@ -16,36 +17,36 @@ void *(*const e0365c_spawn_entry)(s16,s16,s16,s16) = spawn_mode_dependent_112_ob
 /* Creates a Volcano actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
 void *spawn_mode_dependent_112_object(s16 flags,s16 attr_x,s16 attr_y,s16 attr_height) {
- E_80170854_SpawnActor *actor=0;
+ ActorRecord *actor=0;
  E_80170854_SpawnObject *object;
- E_80170854_SpawnMotion *motion;
+ ObjectPosition *motion;
  s16 saved_flags;
  s32 kind;
  s8 tile_x; s16 height; s8 tile_y;
  {
  SpriteFrameState *sprite;
- E_80170854_SpawnState *state;
+ ActorRecord *state;
  tile_x=attr_x; height=attr_height; tile_y=attr_y;
  object=allocate_list_node(0x112,&scene_object_list_anchor.next);
  saved_flags=flags;
  if(object) {
-  actor=(E_80170854_SpawnActor *)((u8 *)object+0x20);
-  actor->kind=0x1C;
-  register_node(object,project_sprite_chain);
-  motion=object->motion;
+  actor=(ActorRecord *)(&object->header+1);
+  actor->species=0x1C;
+  register_node(&object->header,project_sprite_chain);
+  motion=object->header.position;
   kind=flags&3;
-  motion->height=height;
-  sprite=object->sprite;
+  motion->z.w.i=height;
+  sprite=object->header.sprite;
   sprite->tile_x=tile_x;
   sprite->tile_y=tile_y;
-  state=(E_80170854_SpawnState *)actor;
+  state=actor;
   if(kind==1) {
-   actor->handler=update_actor_behavior_facing_and_animation_2;
+   actor->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
    actor->flags14|=(ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
    actor->flags1C|=(ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
    sprite->frameTable=volcano_frame_set_6;
   } else if(kind>=2) {
-   actor->handler=update_actor_behavior_facing_and_animation_2;
+   actor->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
    actor->flags14|=ACTOR_CLASS_ENABLED;
    actor->flags1C|=ACTOR_PLAYER_SIDE;
    sprite->frameTable=volcano_frame_set_6;
@@ -54,15 +55,15 @@ void *spawn_mode_dependent_112_object(s16 flags,s16 attr_x,s16 attr_y,s16 attr_h
     set_or_clear_actor_status_slot(actor,STATUS_SLEEP,(generate_random_value()&0x3F)|0x20);
     sprite->frameTable=volcano_frame_set_2;
    }
-   state->handler=update_actor_behavior_facing_and_animation_2;
+   state->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
    sprite->frameTable=volcano_frame_set_6;
-  } else { actor->handler=update_actor_behavior_facing_and_animation_2;
+  } else { actor->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
    sprite->frameTable=volcano_frame_set_6;
   }
-  object->update=update_entity_facing_and_ground;
-  initialize_actor_sprite_and_animation(object,motion,sprite,saved_flags);
-  state->action_id=0xFF;
-  state->direction=-1;
+  object->header.update_callback=update_entity_facing_and_ground;
+  initialize_actor_sprite_and_animation(&object->header,motion,sprite,saved_flags);
+  state->action_id.u=0xFF;
+  state->unk_9C=-1;
   try_move_actor_to_valid_position(state,motion,sprite,actor);
  }
  }
@@ -303,9 +304,18 @@ void update_actor_behavior_facing_and_animation_2(ActorRecord *actor_in, ObjectP
         }
         if (!(((E_80170E5C_S_80170E5C_1 *)status)->unk_46 & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
-                if ((s16)check_entity_relation(status,
-                        (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {
-                    return;
+                {
+                    ObjectNodeHeader *previous_node;
+                    void *previous_body;
+                    ActorRecord *previous_actor;
+
+                    previous_node = primary_actor_record->previous_actor_header;
+                    previous_body = previous_node + 1;
+                    previous_actor = previous_body;
+                    if ((s16)check_entity_relation(status,
+                            previous_actor) != 0) {
+                        return;
+                    }
                 }
             }
             if ((s16)select_actor_relation_state(actor_in, context_in, sprite_in, 0) == 0) {
@@ -604,8 +614,17 @@ void update_actor_targeting_and_movement(ActorRecord *object, ObjectPosition *en
             }
             if (turn_index == 0) {
                 if ((*((u16 *) (((u8 *) (((s8 *)&reference_tile_object.tile_position.parts.tile_x))) + 0))) != (*(u16 *)(((u8 *)tile + 0x24)))) {
-                    if ((check_entity_relation(actor, (*((s32 *) (((u8 *) primary_actor_record) + 0x58))) + 0x20) << 16) != 0) {
-                        return;
+                    {
+                        ObjectNodeHeader *previous_node;
+                        void *previous_body;
+                        ActorRecord *previous_actor;
+
+                        previous_node = primary_actor_record->previous_actor_header;
+                        previous_body = previous_node + 1;
+                        previous_actor = previous_body;
+                        if ((check_entity_relation(actor, previous_actor) << 16) != 0) {
+                            return;
+                        }
                     }
                 }
             }
@@ -1464,9 +1483,18 @@ void handle_actor_pending_action(ActorRecord *action, ObjectPosition *context, S
             }
 
             if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
-                if ((check_entity_relation(entity,
-                        (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
-                    return;
+                {
+                    ObjectNodeHeader *previous_node;
+                    void *previous_body;
+                    ActorRecord *previous_actor;
+
+                    previous_node = primary_actor_record->previous_actor_header;
+                    previous_body = previous_node + 1;
+                    previous_actor = previous_body;
+                    if ((check_entity_relation(entity,
+                            previous_actor) << 16) != 0) {
+                        return;
+                    }
                 }
             }
 
@@ -1579,8 +1607,17 @@ void handle_actor_action_effects(ActorRecord *controller, ObjectPosition *contex
                 ActorRecord *owner;
 
                 owner = primary_actor_record;
-                if ((s16)check_entity_relation(actor, (u8 *)owner->previous_actor_header + 0x20) != 0) {
-                    return;
+                {
+                    ObjectNodeHeader *previous_node;
+                    void *previous_body;
+                    ActorRecord *previous_actor;
+
+                    previous_node = owner->previous_actor_header;
+                    previous_body = previous_node + 1;
+                    previous_actor = previous_body;
+                    if ((s16)check_entity_relation(actor, previous_actor) != 0) {
+                        return;
+                    }
                 }
             }
 
@@ -1889,7 +1926,8 @@ void create_four_directional_effects(void *owner_arg, ObjectPosition *motion_arg
     void *render_config;
     SpriteFrameState *render_data;
     E_80174084_S_80DE6884_4 *motion;
-    E_80174084_S_80DE6884_1 *effect;
+    ObjectNodeHeader *effect;
+    void *motion_storage;
 
     origin = origin_arg;
     offsets[2] = 0;
@@ -1903,8 +1941,8 @@ void create_four_directional_effects(void *owner_arg, ObjectPosition *motion_arg
         effect = allocate_flagged_object_node(0x212);
         if (effect != 0) {
             render_config = &secondary_sprite;
-            render_data = effect->unk_0C;
-            effect->unk_10 = effect_data;
+            render_data = effect->sprite;
+            effect->update_callback = effect_data;
             render_data->color.c.b = 0x60;
             render_data->color.c.g = 0x60;
             render_data->color.c.r = 0x60;
@@ -1916,7 +1954,8 @@ void create_four_directional_effects(void *owner_arg, ObjectPosition *motion_arg
             render_data->scale_y = 0x1000;
             render_data->scale_x = 0x1000;
             register_node(effect, project_sprite_chain);
-            motion = effect->unk_08;
+            motion_storage = effect->position;
+            motion = motion_storage;
             *(E_80174084_S_80DE6884_3 *)motion = *(E_80174084_S_80DE6884_3 *)motion_arg;
             motion->unk_00.at02.v = offset_coord(motion->unk_00.at02.v, offsets[0]);
             motion->unk_04.at02.v = offset_coord(motion->unk_04.at02.v, offsets[1]);

@@ -1,6 +1,7 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 
-extern void advance_overlay_actor_action(void);
+extern void advance_overlay_actor_action(void *action, void *motion, SpriteFrameState *sprite, void *actor);
 
 /* jump_table; owner: dungeon/func_81264D6C. */
 const void *const beldo_slot_d_action_targets[9] __attribute__((aligned(4))) = {

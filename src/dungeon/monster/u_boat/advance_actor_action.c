@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
@@ -21,20 +22,20 @@ typedef struct S_801743DC_0 {
     u16 unk_A2;
 } S_801743DC_0;   /* arg0 in advance_actor_action */
 
-extern s32 get_entity_effect_value(void *, s32);
-extern void clear_slots_of_type(void *, s32);
+extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
+extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 extern void select_sprite_entry(void *, u8, s32);
-extern s32 check_entity_relation(void *, void *);
+extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s32 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 extern s32 generate_random_value(void);
 extern void on_actor_status_updated(void *);
-extern void update_actor_status_and_mp(void *);
+extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern void update_actor_action_transition(void *, ObjectPosition *, void *, void *);
+extern void update_actor_action_transition(void *state, ObjectPosition *update_mode, SpriteFrameState *sprite, void *entity);
 
 extern u8 uboat_action_frames[];
 extern u8 u_boat_motion_frames[];
@@ -106,9 +107,18 @@ void advance_actor_action(ActorRecord *action, ObjectPosition *context, SpriteFr
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
             ActorRecord *owner = primary_actor_record;
 
-            if ((check_entity_relation(entity,
-                    (u8 *)owner->previous_actor_header + 0x20) << 16) != 0) {
-                return;
+            {
+                ObjectNodeHeader *previous_node;
+                void *previous_body;
+                ActorRecord *previous_actor;
+
+                previous_node = owner->previous_actor_header;
+                previous_body = previous_node + 1;
+                previous_actor = previous_body;
+                if ((check_entity_relation(entity,
+                        previous_actor) << 16) != 0) {
+                    return;
+                }
             }
         }
         update_actor_status_and_mp(entity);

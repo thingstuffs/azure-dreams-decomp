@@ -43,7 +43,7 @@ typedef struct S_80DA1000_4 {
 s16 set_or_clear_actor_status_slot(); /* extern */
 s32 generate_random_value(void);
 void func_8015EA3C(void *entity, R03_80170A28_S_80170A28_2 *motion, void *part);
-void func_8015EE68(ActorActionView *action, void *context, ActorSpriteView *sprite, ActorRecord *entity);
+void func_8015EE68(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
 extern M2C_UNK D_8016186C;
 
 void *move_and_fade_effect_sprite(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 type_id) ;

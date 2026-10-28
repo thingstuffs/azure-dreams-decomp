@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-extern void update_picket_move_action_slot_a(void);
+extern void update_picket_move_action_slot_a(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 /* jump_table; owner: dungeon/func_80EB1490. */
 const void *const picket_slot_a_action_targets[17] __attribute__((aligned(4))) = {

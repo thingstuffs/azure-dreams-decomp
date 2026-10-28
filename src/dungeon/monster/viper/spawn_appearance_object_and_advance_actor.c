@@ -42,7 +42,7 @@ extern s32 update_actor_defeat_removal();
 extern void *create_tracked_effect();
 
 extern M2C_UNK item_effect_descriptor;
-void func_80173770(void *actor, void *motion, void *visual);
+void func_80173770(void *actor, ObjectPosition *motion, SpriteFrameState *visual);
 
 /* Spawns an object from stored appearance data and advances the actor's state. */
 void spawn_appearance_object_and_advance_actor(S_8017390C_0 *actor, void *transform, Rec_func_800AD058_arg2 *render, void *actor_data)

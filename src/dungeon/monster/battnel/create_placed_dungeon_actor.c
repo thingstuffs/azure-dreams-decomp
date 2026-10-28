@@ -8,6 +8,9 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/actor/animation.h"
+#include "engine/node.h"
+#include "engine/node/allocation.h"
 
 typedef struct S_80B7F054_1 {
     u8 pad_00[0x13];
@@ -33,10 +36,7 @@ typedef struct S_80B7F054_4 {
     s16 unk_A4;
 } S_80B7F054_4;   /* actor in create_placed_dungeon_actor */
 
-extern void *allocate_list_node(s32, const void *);
-extern void register_node(void *,void *);
 extern s32 generate_random_value(void);
-extern void initialize_actor_sprite_and_animation(void *, void *, void *, s32);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern u8 D_8015EA30[];
 extern u8 D_80161D0C[];

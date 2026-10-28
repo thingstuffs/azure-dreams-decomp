@@ -27,6 +27,7 @@
 #include "dungeon/system.h"
 #include "engine/node/allocation.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/actor/state.h"
 struct S_800AC480_0;
 struct S_800AC480_3;
 
@@ -233,7 +234,6 @@ void * scan_actor_along_heading();
 void * create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);
 void create_two_row_object_group(void *payload, s16 value_scale);
 void begin_actor_display_action();
-s32 update_actor_defeat_removal(u8 *state, s32 *position, u8 *sprite, u8 *entity_data);
 
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 s32 func_80042900(ActorRecord *entry, s32 effect_id);

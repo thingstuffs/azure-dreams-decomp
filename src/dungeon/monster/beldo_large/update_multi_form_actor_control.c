@@ -15,7 +15,7 @@
 #include "engine/graphics/select_sprite_entry_api.h"
 #include "slus.h"
 #include "sdk/libc.h"
-struct ActorRecord; s32 check_entity_relation(struct ActorRecord *, struct ActorRecord *);
+struct ActorRecord; s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 s32 test_neighbor_position_relation(s32, s32, s32, s32);
 s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
@@ -25,11 +25,11 @@ void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, vo
 s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 s32 advance_actor_pending_action(void *, void *, void *, void *);
 struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2; void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-s32 reset_actor_action_state(void *, void *, void *, u8 *);
-void begin_actor_spell_action(void *, void *, void *, u8 *, void *);
+s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
+void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState *target, u8 *direction_table, void *next_state);
 void advance_multi_form_turn_path(ActorRecord *actor, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *movement);
 void advance_actor_movement_step(u8 *, ObjectPosition *, u8 *, u8 *);
-struct Rec_D_80082E80; struct Rec_func_800A9E70_arg0; s32 try_actor_attack(struct Rec_func_800A9E70_arg0 *, ObjectPosition *, struct Rec_D_80082E80 *, struct ActorRecord *);
+struct Rec_D_80082E80; struct Rec_func_800A9E70_arg0; s32 try_actor_attack(ActorRecord *action_state, ObjectPosition *action_id, SpriteFrameState *target, ActorRecord *actor);
 void start_actor_attack(void *, ObjectPosition *, s32, void *);
 struct Rec_func_800A9E70_arg0; s32 resolve_actor_movement_action(struct Rec_func_800A9E70_arg0 *, ObjectPosition *, s32, s32);
 void update_multi_form_actor_movement(ActorRecord *object, ObjectPosition *update_param, SpriteFrameState *state, ActorRecord *input);

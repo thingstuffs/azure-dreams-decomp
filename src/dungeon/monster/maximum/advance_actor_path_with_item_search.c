@@ -14,13 +14,13 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 extern int abs(int);
 
-extern s32 check_entity_relation(void *, void *);
+extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s32 check_diagonal_side_height(s32, u8, u8, s16);
 extern s16 check_movement_clearance_and_height(s16, void *, void *, s32);
 extern s32 test_neighbor_position_relation(u8, u8, u8, u8);
-extern s16 get_actor_height_difference(void *, void *);
+extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
 extern void *find_adjacent_actor(void *, u8, u8);
 extern void *probe_directional_neighbor(void *, u8, u8, s16);
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
@@ -28,9 +28,9 @@ extern void select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 
 extern void update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 extern s32 generate_random_value(void);
 extern s16 find_nearest_floor_item_in_room(void *, s32, s16 *, s16 *);
-extern void update_actor_status_and_mp(void *);
+extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
-extern s16 func_80171EBC(void *, void *, void *, void *);
+extern s32 func_80171EBC(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
 
 extern s8 actor_turn_angle_offsets;
 
@@ -299,10 +299,19 @@ loop_setup:
 
         if (turn_index == 0) {
             if (reference_tile_object.tile_position.word != *(u16 *)&position_arg->tile_x) {
-                if ((s16)check_entity_relation(
-                        actor_arg,
-                        (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {
-                    return;
+                {
+                    ObjectNodeHeader *previous_node;
+                    void *previous_body;
+                    ActorRecord *previous_actor;
+
+                    previous_node = primary_actor_record->previous_actor_header;
+                    previous_body = previous_node + 1;
+                    previous_actor = previous_body;
+                    if ((s16)check_entity_relation(
+                            actor_arg,
+                            previous_actor) != 0) {
+                        return;
+                    }
                 }
             }
         }

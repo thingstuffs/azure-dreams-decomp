@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-extern void func_8016B138(void);
+extern void func_8016B138(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *stats_in);
 
 /* jump_table; owner: dungeon/func_80F8D938. */
 const void *const zu_slot_f_behavior_targets[12] __attribute__((aligned(4))) = {

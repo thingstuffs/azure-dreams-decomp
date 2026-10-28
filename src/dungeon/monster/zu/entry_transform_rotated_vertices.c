@@ -36,7 +36,7 @@ typedef struct S_80F90E88_2 {
 
 
 
-s32 RotTransPers();
+s32 RotTransPers(void *vertex, s32 *screen, s32 *p, s32 *flag);
 u16 GetTPage(s32, s32, s32, s32);
 s32 SetSemiTrans(void *, s32);
 s32 SetPolyG4(void *);
@@ -63,8 +63,10 @@ typedef struct {
 } TransformRec;
 
 typedef struct {
-    s16 x;
-    s16 y;
+    union {
+        s32 word;
+        struct { s16 x; s16 y; } parts;
+    } xy;
     s32 z;
 } ScreenPoint;
 
@@ -170,10 +172,10 @@ loop_0:
     max_xy &= hi_mask;
     max_xy |= 0x8AD0;
 loop_1:
-    depth = RotTransPers(&points[side], &screen, z_ptr, z_ptr);
+    depth = RotTransPers(&points[side], &screen.xy.word, z_ptr, z_ptr);
     depth -= 4;
-    coord = screen.x;
-    coord_bits = (u16) screen.x;
+    coord = screen.xy.parts.x;
+    coord_bits = (u16) screen.xy.parts.x;
     if ((s16) max_xy < coord) {
         max_xy &= hi_mask;
         merged = coord_bits | max_xy;
@@ -184,8 +186,8 @@ loop_1:
         merged = coord_bits | min_xy;
         min_xy = merged;
     }
-    coord = screen.y;
-    coord_bits = (u16) screen.y;
+    coord = screen.xy.parts.y;
+    coord_bits = (u16) screen.xy.parts.y;
     if ((max_xy >> 0x10) < coord) {
         upper = coord_bits << 0x10;
         max_xy &= 0xFFFF;

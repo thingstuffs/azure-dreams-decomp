@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
@@ -18,15 +19,15 @@ typedef struct S_8016CC70_0 {
 } S_8016CC70_0;   /* obj in update_actor_action_state_2 */
 
 
-s32 get_entity_effect_value(void *, s32);
-void clear_slots_of_type(void *, s32);
+s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
+void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 void select_sprite_entry(void *, s32, s32);
-s32 check_entity_relation(void *, void *);
+s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 s32 generate_random_value(void);
 void on_actor_status_updated(void *);
-void update_actor_status_and_mp(void *);
+void update_actor_status_and_mp(ActorRecord *entity);
 void begin_pushed_actor_move(void *,void *, void *, void *);
 s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 void advance_actor_pending_action(void *, void *, void *, void *);
@@ -120,8 +121,17 @@ void update_actor_action_state_2(ActorRecord *obj_arg, ObjectPosition *context_a
                 return;
             }
             if ((has_pending_actor_or_turn_action(actor_arg) << 0x10) != 0) {
-                if ((check_entity_relation(actor_arg, (u8 *)primary_actor_record->previous_actor_header + 0x20) << 0x10) != 0) {
-                    return;
+                {
+                    ObjectNodeHeader *previous_node;
+                    void *previous_body;
+                    ActorRecord *previous_actor;
+
+                    previous_node = primary_actor_record->previous_actor_header;
+                    previous_body = previous_node + 1;
+                    previous_actor = previous_body;
+                    if ((check_entity_relation(actor_arg, previous_actor) << 0x10) != 0) {
+                        return;
+                    }
                 }
             }
             update_actor_status_and_mp(actor_arg);

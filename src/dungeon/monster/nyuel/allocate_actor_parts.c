@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -16,7 +17,7 @@ Body *allocate_actor_parts(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c) 
     s16 arg0_copy;
     Body *body;
     Object *object;
-    ChildA *child_a;
+    ObjectPosition *child_a;
     SpriteFrameState *child_b;
     Body *body_alias;
 
@@ -30,12 +31,12 @@ Body *allocate_actor_parts(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c) 
     if (object != 0) {
         body = &object->body_20;
         body->field_13 = 14;
-        register_node(object, project_sprite_chain);
+        register_node(&object->header, project_sprite_chain);
 
-        child_a = object->child_a_08;
+        child_a = object->header.position;
         attr_b = held_flags & 3;
-        child_a->field_0A = held_c;
-        child_b = object->child_b_0C;
+        child_a->z.w.i = held_c;
+        child_b = object->header.sprite;
         child_b->tile_x = held_a;
         child_b->tile_y = held_b;
         body_alias = body;
@@ -63,8 +64,8 @@ Body *allocate_actor_parts(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c) 
                 child_b->frameTable = nyuel_frame_set_7;
             }
         }
-        object->field_10 = D_8015EA98;
-        initialize_actor_sprite_and_animation(object, child_a, child_b, (s16)arg0_copy);
+        object->header.update_callback = D_8015EA98;
+        initialize_actor_sprite_and_animation(&object->header, child_a, child_b, (s16)arg0_copy);
         body_alias->field_9A = 0xFF;
         body_alias->field_9C = -1;
         try_move_actor_to_valid_position(body_alias, child_a, child_b, body);

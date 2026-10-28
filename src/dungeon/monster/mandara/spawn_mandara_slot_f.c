@@ -6,6 +6,8 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/actor/animation.h"
+#include "engine/node/allocation.h"
 typedef struct { u8 pad[6]; u16 count; } CountView;
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -29,10 +31,8 @@ typedef struct S_80FB7000_4 {
     u16 unk_AE;
 } S_80FB7000_4;   /* pin_actor in create_actor_with_parts_and_flags */
 
-extern void *allocate_list_node(s32, void *);
-extern void register_node(void *, void *);
+extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
-extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern void MoveImage(s16 *, s32, s32);
 
@@ -53,7 +53,7 @@ void *create_actor_with_parts_and_flags(s32 spawn_flags, s16 pos_x, s16 pos_y, s
     void *work;
     ObjectNodeHeader *obj;
     s32 object_type;
-    ObjectNodeHeader *object_pool;
+    ObjectNodeHeader **list_head;
     SpriteFrameState *part_b;
     void *part_a;
     s16 saved_flags;
@@ -73,8 +73,8 @@ void *create_actor_with_parts_and_flags(s32 spawn_flags, s16 pos_x, s16 pos_y, s
     work = 0;
     object_type = 0x112;
     saved_part_value = part_a_value;
-    object_pool = &scene_object_list_anchor;
-    obj = allocate_list_node(object_type, object_pool);
+    list_head = &scene_object_list_anchor.next;
+    obj = allocate_list_node(object_type, list_head);
     saved_flags = (s16)spawn_flags;
     if (obj != 0) {
         work = (u8 *)obj + 0x20;

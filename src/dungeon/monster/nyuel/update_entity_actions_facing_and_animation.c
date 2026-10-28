@@ -50,7 +50,7 @@ s32 process_selected_actor_record(ActorRecord *body, ObjectPosition *position, S
 void begin_actor_spell_action();
 extern void func_801737C4(Actor *actor, s32 action, Entity *entity, MapObject *map_object);
 s32 complete_timed_tile_movement(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
-extern void func_801747D0(void *entity_data, s32 unused_1, s32 unused_2, void *other_data);
+extern void func_801747D0(void *entity_data, ObjectPosition *unused_1, s32 unused_2, void *other_data);
 extern u8 nyuel_frame_set_2[];
 extern u8 nyuel_frame_set_3[];
 extern u8 nyuel_frame_set_1[];

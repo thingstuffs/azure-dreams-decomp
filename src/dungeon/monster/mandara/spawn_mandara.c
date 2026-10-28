@@ -4,6 +4,8 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/actor/animation.h"
+#include "engine/node/allocation.h"
 typedef struct { u8 pad[6]; u16 count; } CountView;
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -27,11 +29,9 @@ typedef struct S_80FC9000_4 {
     u16 unk_AE;
 } S_80FC9000_4;   /* pin_actor in func_801588A4 */
 
-extern void *allocate_list_node(s32, void *);
-extern void register_node(void *, void *);
+extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern void MoveImage(s16 *, s32, s32);
 extern s32 generate_random_value(void);
-extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern u8 D_80158B40[];
 extern u8 D_80158F6C[];
@@ -48,7 +48,7 @@ void *spawn_mandara_in_slot_c(s32 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn
     void *work;
     ObjectNodeHeader *obj;
     s32 call_id;
-    ObjectNodeHeader *call_target;
+    ObjectNodeHeader **list_head;
     SpriteFrameState *part_b;
     void *part_a;
     s16 saved_spawn_flags;
@@ -70,8 +70,8 @@ void *spawn_mandara_in_slot_c(s32 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn
     call_id = 0x112;
     saved_tile_x = tile_x;
     saved_height = spawn_height;
-    call_target = &scene_object_list_anchor;
-    obj = allocate_list_node(call_id, call_target);
+    list_head = &scene_object_list_anchor.next;
+    obj = allocate_list_node(call_id, list_head);
     saved_spawn_flags = (s16)spawn_flags;
     if (obj != 0) {
         work = (u8 *)obj + 0x20;

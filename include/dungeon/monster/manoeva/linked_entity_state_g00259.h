@@ -1,5 +1,7 @@
 #ifndef DUNGEON_MONSTER_MANOEVA_LINKED_ENTITY_STATE_G00259_H
 #define DUNGEON_MONSTER_MANOEVA_LINKED_ENTITY_STATE_G00259_H
+#include "dungeon/player/object.h"
+#include "engine/entity.h"
 
 struct ObjectNodeHeader;
 /* Linked entity state shared declarations (G00259). */
@@ -39,11 +41,9 @@ typedef struct S_80173D40_1 {
 } S_80173D40_1;
 
 extern void copy_entity_record(void *, void *);
-extern s32 get_entity_effect_value(void *, s32);
 extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *);
 extern u8 *find_monster_entry_by_type_and_id(s32, s32);
 extern s32 find_entity_slot_by_field_ac(void *);
-extern void set_record_integer_tile_center(s32, s32, s32);
 
 extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 #include "dungeon/player/object/action_state.h"

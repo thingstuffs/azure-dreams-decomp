@@ -6,6 +6,8 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
+#include "engine/node.h"
+#include "engine/node/allocation.h"
 
 typedef struct S_809750E8_0 {
     u16 unk_00;
@@ -51,10 +53,6 @@ typedef struct {
     s32 word3;
 } Block16;
 
-extern void *allocate_list_node(s32, void *);
-extern void *func_8003FD64(s32, void *);
-extern void register_node(void *, void *);
-extern void func_8004491C(void *, void *);
 extern void select_sprite_entry(void *, u8, s32);
 extern void func_80047784(void *, u8, s32);
 void advance_and_fade_transformed_effect(void *effect, MovingPosition *transform, SpriteFrameState *render_state);

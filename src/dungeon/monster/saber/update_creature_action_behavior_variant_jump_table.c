@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-extern void update_creature_action_behavior_variant(void);
+extern void update_creature_action_behavior_variant(ActorRecord *actor_in, ObjectPosition *context_in, SpriteFrameState *sprite, ActorRecord *creature_in);
 
 /* jump_table; owner: dungeon/func_80AE9F28. */
 const void *const saber_slot_a_behavior_targets[12] __attribute__((aligned(4))) = {

@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-extern void update_dungeon_actor_behavior_and_animation(void);
+extern void update_dungeon_actor_behavior_and_animation(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *map_object_arg, ActorRecord *actor_state_arg);
 
 /* jump_table; owner: dungeon/func_8106B768. */
 const void *const tyrant_slot_d_behavior_targets[12] __attribute__((aligned(4))) = {

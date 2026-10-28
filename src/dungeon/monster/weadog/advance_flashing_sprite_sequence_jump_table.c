@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-extern void advance_flashing_sprite_sequence(void);
+extern void advance_flashing_sprite_sequence(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 /* jump_table; owner: dungeon/func_80EE7D14. */
 const void *const D_8016A870[5] __attribute__((aligned(4))) = {

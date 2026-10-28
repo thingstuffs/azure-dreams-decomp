@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-extern void update_creature_action_and_animation(void);
+extern void update_creature_action_and_animation(ActorRecord *self_object, ObjectPosition *aux_entity, SpriteFrameState *sprite, ActorRecord *entity);
 
 /* jump_table; owner: dungeon/func_80FD576C. */
 const void *const mandara_slot_a_behavior_targets[5] __attribute__((aligned(4))) = {

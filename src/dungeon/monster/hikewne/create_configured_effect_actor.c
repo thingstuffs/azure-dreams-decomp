@@ -8,6 +8,9 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "dungeon/actor/animation.h"
+#include "engine/node.h"
+#include "engine/node/allocation.h"
 
 typedef struct S_80170BB0_1 {
     u8 pad_00[0x13];
@@ -35,11 +38,8 @@ typedef struct S_80170BB0_4 {
     s8 unk_9C;
 } S_80170BB0_4;   /* actor2 in create_configured_effect_actor */
 
-extern void *allocate_list_node(s32, void *);
-extern void register_node(void *, void *);
 extern s32 generate_random_value(void);
 extern void set_or_clear_actor_status_slot(void *, s32, s32);
-extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern u8 hikewne_direction_frames[16];

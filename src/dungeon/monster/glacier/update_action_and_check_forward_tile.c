@@ -8,6 +8,8 @@
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/level.h"
+#include "engine/node.h"
+#include "dungeon/player/object.h"
 
 typedef struct {
     s16 x;
@@ -16,11 +18,9 @@ typedef struct {
 
 extern void select_record_entry_and_value(void *, void *, s32);
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
-extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 rand(void);
 extern void get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
-extern void set_record_integer_tile_center(void *, s32, s32);
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);

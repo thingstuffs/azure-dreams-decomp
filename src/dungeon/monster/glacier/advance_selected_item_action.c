@@ -13,6 +13,9 @@
 #include "engine/cd.h"
 #include "dungeon/actor/status.h"
 #include "engine/scene.h"
+#include "engine/node.h"
+#include "engine/node/allocation.h"
+#include "dungeon/player/object.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -49,11 +52,8 @@ typedef struct Copy48 {
     u32 words[12];
 } Copy48;
 
-extern void *allocate_list_node(s32, void *);
-extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, u8, s32);
 extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
-extern void set_record_integer_tile_center(void *, u8, u8);
 extern void play_sound_if_enabled(s32);
 extern s32 create_actor_spell_effect(void *, u8 *, s32, void *);
 

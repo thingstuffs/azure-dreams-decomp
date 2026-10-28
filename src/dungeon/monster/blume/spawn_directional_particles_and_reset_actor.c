@@ -9,6 +9,9 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_moving_views.h"
 #include "engine/scene.h"
+#include "engine/node.h"
+#include "engine/node/allocation.h"
+#include "dungeon/player/object.h"
 
 typedef struct S_80174BEC_0_pre {
     void * unk_00;
@@ -81,11 +84,8 @@ typedef struct {
 
 extern void select_record_entry_and_value(void *, void *, s32);
 extern s32 get_sprite_attachment_vector(void *, void *, Vec3u *, s32);
-extern void *allocate_list_node(s32, void *);
-extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, u8, s32);
 extern s32 rand(void);
-extern void set_record_integer_tile_center(void *, u8, u8);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 extern void toggle_attacker_target_status_pair(void *, void *);

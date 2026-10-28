@@ -44,7 +44,7 @@ void *create_tracked_effect_object(s16 flags, s16 kind_id, s16 variant, s16 spaw
         kind = flags & 3;
 
         if (kind == 1) {
-            work->unk_8C.run = func_8015EE5C;
+            work->unk_8C.handler = func_8015EE5C;
             left = work->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
             right = work->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             work->flags14 = left;
@@ -52,7 +52,7 @@ void *create_tracked_effect_object(s16 flags, s16 kind_id, s16 variant, s16 spaw
             part_b->frameTable = volcano_frame_set_4;
         } else {
             if (kind >= 2) {
-                work->unk_8C.run = func_8015EE5C;
+                work->unk_8C.handler = func_8015EE5C;
                 left = work->flags14 | ACTOR_CLASS_ENABLED;
                 right = work->flags1C | ACTOR_PLAYER_SIDE;
                 work->flags14 = left;
@@ -70,7 +70,7 @@ void *create_tracked_effect_object(s16 flags, s16 kind_id, s16 variant, s16 spaw
                     ((S_8015E854_4 *)actor)->unk_8C = func_8015EE5C;
                     part_b->frameTable = volcano_frame_set_4;
                 } else {
-                    work->unk_8C.run = func_8015EE5C;
+                    work->unk_8C.handler = func_8015EE5C;
                     part_b->frameTable = volcano_frame_set_4;
                 }
             }

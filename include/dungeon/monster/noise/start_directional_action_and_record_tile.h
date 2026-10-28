@@ -12,6 +12,9 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "dungeon/actor/status.h"
+#include "engine/node.h"
+#include "engine/node/allocation.h"
+#include "dungeon/player/object.h"
 
 typedef struct T_801748D0_S_801748D0_0 {
     u8 pad_00[0x8C];
@@ -80,12 +83,7 @@ extern void * find_eligible_actor_at_tile_and_height();
 extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 extern s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 extern s32 resolve_record_orientation_or_fallback(s32, void *, s16 *, s16);
-extern void * allocate_list_node(s32, void *);
-extern void * func_8003FD64(s32, void *);
-extern void register_node(void *, void *);
-extern void func_8004491C(void *, void *);
 extern s32 RotTransPers(void *, void *, void *, void *);
-extern void set_record_integer_tile_center(void *, u8, u8);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 extern void check_action_six_eligibility(void *, void *);

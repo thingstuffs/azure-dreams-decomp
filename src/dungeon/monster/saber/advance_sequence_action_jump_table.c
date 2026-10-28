@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-extern void advance_sequence_action(void);
+extern void advance_sequence_action(ActorRecord *sequence, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 /* jump_table; owner: dungeon/func_80ACD7D8. */
 const void *const saber_slot_f_action_targets[5] __attribute__((aligned(4))) = {

@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-extern void update_actor_ability_action_and_effects(void);
+extern void update_actor_ability_action_and_effects(ActorRecord *owner_input, ObjectPosition *motion_input, SpriteFrameState *actor_input, ActorRecord *object);
 
 /* jump_table; owner: dungeon/func_80FA7240. */
 const void *const D_80152838[7] __attribute__((aligned(4))) = {

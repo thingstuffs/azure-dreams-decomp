@@ -4,6 +4,7 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
+#include "engine/node.h"
 
 typedef struct S_8016EB14_0 {
     u8 pad_00[0x8];
@@ -46,7 +47,6 @@ typedef struct S_8016EB14_6 {
     s16 unk_AA;
 } S_8016EB14_6;   /* owner in spawn_owned_motion_object */
 
-extern void register_node(void *, void *);
 extern u8 D_800777B8;
 
 extern void *ghosh_actor_node;

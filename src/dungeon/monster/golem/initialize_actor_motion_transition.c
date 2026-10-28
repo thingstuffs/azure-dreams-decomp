@@ -7,7 +7,7 @@
 
 
 
-void func_80170E94(void *actor, void *context, void *sprite, void *stats);
+void func_80170E94(struct GolemActionWork *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *stats);
 
 
 

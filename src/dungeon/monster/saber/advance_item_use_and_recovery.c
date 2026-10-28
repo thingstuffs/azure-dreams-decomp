@@ -4,6 +4,9 @@
 #include "shared/sprite_frame_state.h"
 #include "engine/cd.h"
 #include "dungeon/actor/status.h"
+#include "engine/node.h"
+#include "engine/node/allocation.h"
+#include "dungeon/player/object.h"
 extern int abs(int);
 #include "shared/def_table.h"
 #include "shared/object_node.h"
@@ -19,11 +22,8 @@ typedef struct {
 } Copy48;
 
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
-extern void *allocate_list_node(s32, void *);
-extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
 extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
-extern void set_record_integer_tile_center(void *, u8, u8);
 extern void play_sound_if_enabled(s32);
 extern void *create_actor_spell_effect(void *actor, void *effect_record, s16 mode, void *context);
 

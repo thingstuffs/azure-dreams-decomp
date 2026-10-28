@@ -24,7 +24,7 @@ extern s32 generate_random_value(void);
 extern u8 ifrit_object_callback_4[];
 extern u8 D_8016E820[];
 extern u8 D_8016E860[];
-void func_8016AE84(void *controller, void *context, void *entity, ActorRecord *actor_state);
+void func_8016AE84(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *entity, ActorRecord *actor_state);
 
 /* Creates an Ifrit actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */

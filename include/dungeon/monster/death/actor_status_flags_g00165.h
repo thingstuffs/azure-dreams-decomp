@@ -88,15 +88,15 @@ typedef struct S_8017409C_4 {
 } S_8017409C_4;
 
 /* global in advance_actor_action_state_handle_status */
-extern s32 get_entity_effect_value(void *, s32);
-extern void clear_slots_of_type(void *, s32);
+extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
+extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 extern void select_sprite_entry(void *, s32, s32);
-extern s32 check_entity_relation(void *, void *);
+extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 extern s32 generate_random_value(void);
 extern void on_actor_status_updated(void *);
-extern void update_actor_status_and_mp(void *);
+extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void advance_actor_pending_action(void *, void *, void *, void *);

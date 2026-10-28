@@ -30,7 +30,7 @@ typedef struct BeldoMoveState {
     u8 unk_AF;
 } BeldoMoveState;
 
-struct ActorRecord; s32 check_entity_relation(struct ActorRecord *, struct ActorRecord *);
+struct ActorRecord; s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 void cycle_map_cell_flags(s16, s16, u16);
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 s32 check_diagonal_side_height(s32, s16, s16, s16);

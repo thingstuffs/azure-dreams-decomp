@@ -7,6 +7,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/player/object.h"
 
 typedef struct S_80174428_0 {
     u8 pad_00[0x1C];
@@ -55,7 +56,6 @@ extern u16 D_80174FD4[];
 extern void select_sprite_entry(void *, s32, s32);
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-extern void set_record_integer_tile_center(void *, s32, s32);
 extern s16 select_dungeon_spawn_tile(u8 *, u8 *);
 extern void play_sound_if_enabled(s32);
 extern void refresh_actor_proximity_state(u8 *context);

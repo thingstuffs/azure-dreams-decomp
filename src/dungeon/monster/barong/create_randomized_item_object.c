@@ -4,6 +4,7 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
+#include "engine/node.h"
 
 typedef struct {
     u8 pad0[2];
@@ -28,28 +29,9 @@ typedef struct {
     DungeonArg arg;
 } DungeonObjectArg;
 
-typedef struct {
-    u8 pad0[2];
-    u16 x;
-    u8 pad4[2];
-    u16 y;
-    u8 pad8[2];
-    u16 z;
-} EntityPosition;
 
-typedef struct {
-    u8 pad0[6];
-    s16 height;
-    s32 result;
-    u8 red;
-    u8 green;
-    u8 blue;
-    u8 padF[5];
-    u16 flags;
-    u8 pad16[6];
-    u16 scale_y;
-    u16 scale_x;
-} EntityRender;
+
+
 
 typedef struct {
     u8 pad0[0x24];
@@ -70,11 +52,7 @@ typedef struct {
 } EntityWork;
 
 typedef struct {
-    u8 pad0[8];
-    EntityPosition *position;
-    EntityRender *render;
-    void *callback;
-    u8 pad14[0xC];
+    ObjectNodeHeader header;
     EntityWork work;
 } Entity;
 
@@ -95,7 +73,6 @@ typedef struct {
     s16 y;
 } DirectionVector;
 
-extern void register_node(Entity *, void *);
 extern s32 select_random_replacement_item(DungeonArg *selection, u8 *context);
 
 extern DungeonGroup item_category_groups[];
@@ -121,10 +98,10 @@ void create_randomized_item_object(void *owner, SourcePosition *source_pos, void
         return;
     }
 
-    entity->callback = update_motion_and_terrain_collision;
-    register_node(entity, project_sprite_chain);
+    entity->header.update_callback = update_motion_and_terrain_collision;
+    register_node(&entity->header, project_sprite_chain);
 
-    render = entity->render;
+    render = entity->header.sprite;
     render->flags &= 0xFFF3;
     work = &entity->work;
     work->owner = owner;
@@ -133,7 +110,7 @@ void create_randomized_item_object(void *owner, SourcePosition *source_pos, void
     object->arg.index = 0;
     object->arg.group = 0;
 
-    position = entity->position;
+    position = entity->header.position;
     position->x.w.i = source_pos->x;
     position->y.w.i = source_pos->y;
     position->z.w.i = source_pos->z - 0x20;
@@ -144,7 +121,7 @@ void create_randomized_item_object(void *owner, SourcePosition *source_pos, void
     work->scale = 0x14900;
     work->mode = (object->mode >> 9) & 7;
 
-    render = entity->render;
+    render = entity->header.sprite;
     render->scale_y = 0x1000;
     render->scale_x = 0x1000;
     render->depth_bias = barong_direction_vectors[(object->mode >> 9) & 7].y * 6;

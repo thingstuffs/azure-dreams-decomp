@@ -6,6 +6,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "dungeon/actor.h"
+#include "engine/entity.h"
 
 typedef struct S_80173A3C_0 {
     u8 pad_00[0x96];
@@ -22,7 +23,6 @@ extern void play_sound_if_enabled(s32);
 extern void distribute_experience_and_report_gains(void *);
 extern void * detach_record_and_update_slot_state(void *);
 extern void create_effect_or_fallback(s32, s32, s32, void *);
-extern s32 get_entity_effect_value(void *, s32);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern void unlink_entity_node(void *);
 

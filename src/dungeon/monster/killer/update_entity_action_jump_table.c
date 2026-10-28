@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-extern void update_entity_action(void);
+extern void update_entity_action(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 
 /* jump_table; owner: dungeon/func_80FED6A8. */
 const void *const killer_slot_d_behavior_targets[12] __attribute__((aligned(4))) = {

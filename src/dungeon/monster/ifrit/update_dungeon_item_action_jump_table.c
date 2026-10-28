@@ -1,6 +1,7 @@
 #include "common.h"
+#include "shared/entity.h"
 
-extern void update_dungeon_item_action(void);
+extern void update_dungeon_item_action(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor);
 
 /* jump_table; owner: dungeon/func_80A250C4. */
 const void *const ifrit_slot_f_action_cases[7] __attribute__((aligned(4))) = {

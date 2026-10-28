@@ -10,6 +10,7 @@
 #include "records/Rec_func_800AA258_arg2.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "engine/node/allocation.h"
 
 typedef struct S_8017382C_0 {
     u8 pad_00[0x8C];
@@ -44,17 +45,16 @@ typedef struct S_8017382C_7 {
     s16 unk_A8;
 } S_8017382C_7;   /* child in advance_actor_entry_active_exit_states */
 
-extern void *allocate_list_node(s32, void *);
-extern s32 get_entity_effect_value(void *, s32);
-extern void clear_slots_of_type(void *, s32);
+extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
+extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 extern void select_sprite_entry(void *, u8, s32);
 extern s32 GetClut(s32, s32);
-extern s32 check_entity_relation(void *, void *);
+extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 extern s32 generate_random_value(void *);
 extern void on_actor_status_updated(void *);
-extern void update_actor_status_and_mp(void *);
+extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
@@ -265,9 +265,18 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
             return;
         }
         if ((s16)has_pending_actor_or_turn_action(actor) != 0) {
-            if ((s16)check_entity_relation(
-                    actor, (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {
-                return;
+            {
+                ObjectNodeHeader *previous_node;
+                void *previous_body;
+                ActorRecord *previous_actor;
+
+                previous_node = primary_actor_record->previous_actor_header;
+                previous_body = previous_node + 1;
+                previous_actor = previous_body;
+                if ((s16)check_entity_relation(
+                        actor, previous_actor) != 0) {
+                    return;
+                }
             }
         }
 

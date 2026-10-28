@@ -10,21 +10,21 @@
 #include "dungeon/system.h"
 #include "engine/node/allocation.h"
 #include "engine/node.h"
+#include "dungeon/actor/status.h"
 struct ObjectNodeHeader;
 struct SpriteFrameState;
 extern u8 zu_default_frames[];
-void select_sprite_entry();
-void func_80047784();
+void select_sprite_entry(void *object_data, s16 table_index, s16 entry_index);
+void func_80047784(void *object_data, s16 table_index, s16 entry_index);
 s32 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
 /* This retail bank used the signed-halfword declaration. */
 s16 sample_terrain_surface_height();
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-void cycle_map_cell_flags();
+void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 s32 check_entity_relation();
 s16 get_actor_height_difference();
 void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
 s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
-void advance_status_timers();
 void spend_actor_mp();
 s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 s32 get_rounded_facing_and_rounding_flag();

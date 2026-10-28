@@ -13,6 +13,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "engine/cd.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/player/object.h"
 extern int abs(int);
 
 typedef struct S_80172C90_1 {
@@ -43,7 +44,6 @@ extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void *create_actor_spell_effect(void *actor, void *effect_record, s16 mode, void *context);
 extern void play_sound_if_enabled(s32);
 extern void create_two_effect_groups(void *, void *, void *, s32);
-extern void set_record_integer_tile_center(void *, u8, u8);
 extern void select_sprite_entry(void *, u8, s32);
 
 extern u8 picket_action_resume_address[];

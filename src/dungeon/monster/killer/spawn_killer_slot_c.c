@@ -44,7 +44,7 @@ typedef struct S_80FF3000_4 {
 s16 set_or_clear_actor_status_slot();
 s32 generate_random_value(void);
 void func_80158A7C(void *entity, R03_80170A28_S_80170A28_2 *motion, void *part);
-void func_80158EA8(ActionState *actor, void *context, ActorSprite *sprite, EntityRec *entity);
+void func_80158EA8(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 extern M2C_UNK D_8015C038;
 extern M2C_UNK D_8015C088;
 

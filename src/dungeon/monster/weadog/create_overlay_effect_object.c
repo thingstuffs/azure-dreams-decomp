@@ -8,6 +8,8 @@
 #include "shared/dungeon_projectile_views.h"
 #include "shared/position_views.h"
 #include "dungeon/actor/status.h"
+#include "engine/node.h"
+#include "engine/node/allocation.h"
 
    /* object in create_overlay_effect_object */
 
@@ -38,8 +40,6 @@ typedef struct S_80171718_4 {
     s8 unk_9C;
 } S_80171718_4;   /* result_copy in create_overlay_effect_object */
 
-extern void *allocate_list_node(s32, void *);
-extern void register_node(void *, void *);
 extern s32 generate_random_value(void);
 extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);

@@ -4,6 +4,7 @@
 #include "shared/slus_callbacks.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_80172D08_arg1.h"
+#include "engine/node.h"
 
 typedef struct { s32 word[6]; } Copy24;
 
@@ -21,7 +22,6 @@ typedef struct S_80174A6C_5 {
     s32 unk_08;
 } S_80174A6C_5;   /* query_arg in create_primitive_state_object */
 
-extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
 

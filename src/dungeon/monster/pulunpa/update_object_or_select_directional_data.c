@@ -2,8 +2,9 @@
 #include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
+#include "records/Rec_D_80082E80.h"
 
-extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
+extern s32 update_actor_transform_from_parent(Rec_func_800A9E70_arg0 *state, ObjectPosition *position, Rec_D_80082E80 *tile, void *actor);
 
 extern void select_sprite_entry(void *, u8, s32);
 

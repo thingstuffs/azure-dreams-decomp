@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
+#include "shared/entity.h"
 
 typedef struct S_80170224_0 {
     u8 pad_00[0x46];
@@ -14,7 +15,7 @@ typedef struct S_80170224_0 {
 
 extern s16 relink_entity_and_clear_high_flag(void *context, void *position, void *entity, s16 near_range, s16 far_range, s32 state_out_addr);
 extern void advance_boss_actor_movement_state(void *, s32, s32, void *);
-extern void update_actor_status_and_mp(void *);
+extern void update_actor_status_and_mp(ActorRecord *entity);
 #include "dungeon/player/object/action_state.h"
 
 /* Updates an entity's state and flags according to its action result. */

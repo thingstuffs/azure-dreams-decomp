@@ -7,6 +7,7 @@
 #include "shared/dir_step.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/player/object.h"
 
 typedef struct S_80161234_0 {
     u8 pad_00[0x8C];
@@ -18,8 +19,7 @@ typedef struct S_80161234_0 {
 } S_80161234_0;   /* arg0 in advance_entity_movement_and_settle_tile */
 
 extern void select_sprite_entry(void *, s32, s32);
-extern void set_record_integer_tile_center(void *, s32, s32);
-extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
 extern void apply_clamped_actor_value_delta(void *);
 
 extern u8 griffon_slot_d_action_callback;

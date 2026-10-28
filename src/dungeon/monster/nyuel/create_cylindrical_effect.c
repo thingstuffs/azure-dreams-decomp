@@ -3,26 +3,10 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
+#include "engine/node.h"
 
-typedef struct {
-    s32 x;
-    s32 y;
-    s32 z;
-} Vec3i;
 
-typedef struct {
-    u8 pad_00[0x0C];
-    u8 field_0C;
-    u8 field_0D;
-    u8 field_0E;
-    u8 pad_0F;
-    u16 field_10;
-    u8 pad_12[2];
-    u16 field_14;
-    u8 pad_16[6];
-    s16 field_1C;
-    s16 field_1E;
-} Prim;
+
 
 typedef struct {
     u8 pad_00[4];
@@ -48,26 +32,17 @@ typedef struct {
 } Sub;
 
 typedef struct {
-    u8 pad_00[8];
-    Vec3i *vec;
-    Prim *prim;
-    void (*callback)(void);
-    u8 pad_14[0x0C];
+    ObjectNodeHeader header;
     Sub sub;
 } Entity;
 
-typedef struct {
-    u8 pad_00[0x96];
-    u16 field_96;
-} Source;
 
-extern void register_node(Entity *, void *);
 extern s32 rcos(s32);
 extern s32 rsin(s32);
 extern void D_8017414C(void);
 
 /* Creates a 16-segment cylindrical effect at the supplied position. */
-void create_cylindrical_effect(Source *source, Vec3i *origin)
+void create_cylindrical_effect(ActorRecord *source, ObjectPosition *origin)
 {
     s16 segment;
     void (*callback)(void);
@@ -100,20 +75,20 @@ void create_cylindrical_effect(Source *source, Vec3i *origin)
         lifetime = 50;
         init_entity = entity;
         sub->field_1A = lifetime;
-        sub->field_1C = source->field_96;
-        entity->callback = callback;
-        register_node(init_entity, project_sprite_chain);
+        sub->field_1C = source->action_timer.u;
+        entity->header.update_callback = callback;
+        register_node(&init_entity->header, project_sprite_chain);
 
-        prim = entity->prim;
+        prim = entity->header.sprite;
         prim->flags |= 0xC;
         prim->tpage_abr = base_color;
         prim->flags |= 0x80;
 
-        position = entity->vec;
-        position->x.v = origin->x;
+        position = entity->header.position;
+        position->x.v = origin->x.v;
         next_angle = (segment + 1) << 8;
-        position->y.v = origin->y;
-        position->z.v = origin->z;
+        position->y.v = origin->y.v;
+        position->z.v = origin->z.v;
 
         sub->field_6E = -64;
         sub->field_68 = -64;
@@ -144,7 +119,7 @@ void create_cylindrical_effect(Source *source, Vec3i *origin)
         sub->field_78 = radial_offset;
         sub->field_6C = radial_offset;
 
-        prim = entity->prim;
+        prim = entity->header.sprite;
         prim->color.c.r = base_color;
         color_copy = base_color;
         unit_scale = 4096;

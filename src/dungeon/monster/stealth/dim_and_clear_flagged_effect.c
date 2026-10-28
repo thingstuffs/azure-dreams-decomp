@@ -2,8 +2,8 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
+#include "engine/node.h"
 
-extern void unlink_node(void *);
 extern void retire_tracked_effect_by_id(void *);
 extern void spend_actor_mp(void *, s32);
 

@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-extern void update_actor_behavior_variant_e(void);
+extern void update_actor_behavior_variant_e(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *stats_in);
 
 /* jump_table; owner: dungeon/func_80F9F938. */
 const void *const zu_slot_c_behavior_targets[12] __attribute__((aligned(4))) = {

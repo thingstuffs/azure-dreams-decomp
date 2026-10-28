@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/actor_status_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -34,28 +35,28 @@ typedef struct S_80171A80_6 {
 } S_80171A80_6;   /* global in update_actor_turn_and_action */
 
 extern void select_sprite_entry(void *, s32, s32);
-extern s32 check_entity_relation(void *, void *);
+extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern s32 test_neighbor_position_relation(s32, s32, s32, s32);
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern s32 can_entity_gain_level(void *);
-extern void update_actor_status_and_mp(void *);
+extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern s32 reset_actor_action_state(void *actor, void * unused, void *sprite, u8 *direction_frames);
+extern s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
 extern s32 process_selected_actor_record(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern void begin_actor_spell_action(void *actor, void * effect_param, void *target, u8 *direction_table, void * next_state);
+extern void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState *target, u8 *direction_table, void *next_state);
 extern void reset_action_and_decrement_actor_count(void *, void *, void *, void *);
 void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosition *source_position, SpriteFrameState *source_sprite);
-extern void prepare_actor_directional_action(u8 *entity, ObjectPosition *action_param, u8 *action_sprite, u8 *frame_table, s32 fallback_state);
+extern void prepare_actor_directional_action(u8 *entity, ObjectPosition *action_param, SpriteFrameState *action_sprite, u8 *frame_table, s32 fallback_state);
 void advance_aura_actor_turn_path(ActorRecord *actor, ObjectPosition *actor_slot, SpriteFrameState *entity_arg, ActorRecord *state_arg);
 #include "dungeon/monster/u_boat.h"
 extern s32 try_turn_actor_toward_target(void *, ObjectPosition *, void *, void *);
 extern void begin_actor_action(void *, ObjectPosition *, void *, void *);
 extern s32 func_80172EA8(void *, void *, void *, s32);
-extern void update_actor_action_transition(void *, ObjectPosition *, void *, void *);
+extern void update_actor_action_transition(void *state, ObjectPosition *update_mode, SpriteFrameState *sprite, void *entity);
 void complete_actor_action(ActorRecord *actor, ObjectPosition *unused_1, SpriteFrameState *unused_2, void *entity);
 extern void begin_actor_exclusive_action(void *, ObjectPosition *, void *, s32, s32);
 
@@ -184,9 +185,18 @@ void update_actor_turn_and_action(void *entity, ObjectPosition *context, SpriteF
         }
         if (!(actor->action_flags & ACTOR_ACTION_PENDING)) {
             if (g_dungeon_status.flags & 0x2000) {
-                if ((check_entity_relation(actor,
-                        (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
-                    return;
+                {
+                    ObjectNodeHeader *previous_node;
+                    void *previous_body;
+                    ActorRecord *previous_actor;
+
+                    previous_node = primary_actor_record->previous_actor_header;
+                    previous_body = previous_node + 1;
+                    previous_actor = previous_body;
+                    if ((check_entity_relation(actor,
+                            previous_actor) << 16) != 0) {
+                        return;
+                    }
                 }
             }
             if ((func_80172EA8(entity, context, sprite, 0) << 16) == 0) {

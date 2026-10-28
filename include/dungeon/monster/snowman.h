@@ -31,6 +31,7 @@
 #include "engine/texture.h"
 #include "dungeon/actor/status.h"
 #include "engine/node/allocation.h"
+#include "dungeon/actor/state.h"
 struct EntityLinkNode;
 struct S_800AC480_0;
 struct S_800AC480_3;
@@ -48,10 +49,9 @@ typedef struct R10_8017092C_Scratch {
     u8 pad20[4];
     u8 *table;
     u8 pad28[0xA8];
-    u16 out0;
-    u16 padD2;
-    u16 out1;
-    u8 padD4[0x2A];
+    s32 out0;
+    s32 out1;
+    u8 padD8[0x28];
     s32 index;
 } R10_8017092C_Scratch;
 typedef struct R10_8017092C_Packet {
@@ -66,6 +66,7 @@ typedef struct R10_8017092C_Packet {
             u8 command;
         } color;
     } data;
+    s32 screen;
 } R10_8017092C_Packet;
 typedef struct {
     u8 color[3];
@@ -538,7 +539,7 @@ extern s32 Control_CD();
 typedef struct { s16 x; u16 y; } Resource10DirectionOffset;
 extern const Resource10DirectionOffset D_80170854[8];
 extern const Resource10DirectionOffset D_80170874[8];
-s32 RotTransPers();
+s32 RotTransPers(void *vertex, s32 *screen, s32 *p, s32 *flag);
 void advance_sprite_animation_and_textures(void *entity);
 s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
@@ -592,7 +593,6 @@ s32 get_cd_command_queue_depth(void);
 void *scan_actor_along_heading();
 void *create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);
 void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
-s32 update_actor_defeat_removal(u8 *state, s32 *position, u8 *sprite, u8 *entity_data);
 
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 s32 func_80042900(ActorRecord *entry, s32 effect_id);

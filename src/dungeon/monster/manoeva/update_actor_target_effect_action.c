@@ -10,6 +10,9 @@
 #include "dungeon/monster/manoeva.h"
 #include "dungeon/system.h"
 #include "dungeon/level.h"
+#include "engine/node.h"
+#include "dungeon/item/message.h"
+#include "dungeon/item/message/text.h"
 
 typedef struct S_80173D78_1 {
     u8 pad_00[0xC];
@@ -59,20 +62,14 @@ typedef struct S_80173D78_5 {
 
 extern u8 D_8017086C[];
 extern u8 D_80170898[];
-void func_80170EE4(void *actor_state_in, void *update_context_in, void *map_object, void *actor_data);
+void func_80170EE4(ActorRecord *actor_state_in, ObjectPosition *update_context_in, SpriteFrameState *map_object, ActorRecord *actor_data);
 void transfer_linked_object_state(ActorRecord *owner, ObjectPosition *object_id, SpriteFrameState *dest_object, ActorRecord *dest_state);
 
 s32 register_node(ObjectNodeHeader *entry, void *registration_id);
-void unlink_node();
-s32 get_unused_text_buffer();
-s32 expand_text_control_codes();
-void clear_byte_and_advance();
-s32 write_text_byte_and_advance();
-s32 append_entity_display_text();
 void unlink_entity_node();
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 void *find_eligible_actor_at_tile_and_height();
-void display_text_with_fullwidth_adjustment();
+s32 display_text_with_fullwidth_adjustment(s8 *text);
 s32 find_floor_item_at_world_position(s32 input_x, s32 input_y, s32 input_z);
 void update_actor_status_and_mp();
 void retire_tracked_effect_by_id();
@@ -91,9 +88,9 @@ void update_actor_target_effect_action(void *action, void *context, S_80173D78_1
     s32 target_x;
     s32 target_y;
     s32 direction_offset;
-    s32 saved_random;
-    s32 random_value;
-    s32 random_arg;
+    u8 *text_start;
+    u8 *text_end;
+    u8 *text_buffer;
     s32 tile_mask;
     s32 map_flags;
     u32 sound_x;
@@ -149,15 +146,15 @@ void update_actor_target_effect_action(void *action, void *context, S_80173D78_1
             if (target != 0) {
                 state = target->unk_13;
                 if (((u32)(state - 1) >= 0x2DU) || (state == 0x1E)) {
-                    random_value = get_unused_text_buffer();
-                    random_arg = random_value;
-                    random_value = append_entity_display_text(actor, saved_random = random_arg);
+                    text_end = get_unused_text_buffer();
+                    text_buffer = text_end;
+                    text_end = append_entity_display_text(actor, text_start = text_buffer);
                     clear_byte_and_advance(
-                        expand_text_control_codes(&D_80170898,
+                        expand_text_control_codes(D_80170898,
                             append_entity_display_text(target,
                                 write_text_byte_and_advance(0xA,
-                                    expand_text_control_codes(&D_8017086C, random_value)))));
-                    display_text_with_fullwidth_adjustment(saved_random);
+                                    expand_text_control_codes(D_8017086C, text_end)))));
+                    display_text_with_fullwidth_adjustment(text_start);
                     play_sound_if_enabled(0x506);
                     actor->unk_60.i = 0;
                 }

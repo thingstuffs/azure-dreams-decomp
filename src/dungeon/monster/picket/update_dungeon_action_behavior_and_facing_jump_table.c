@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-extern void update_dungeon_action_behavior_and_facing(void);
+extern void update_dungeon_action_behavior_and_facing(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 
 /* jump_table; owner: dungeon/func_80E9D8F4. */
 const void *const picket_slot_d_behavior_targets[12] __attribute__((aligned(4))) = {

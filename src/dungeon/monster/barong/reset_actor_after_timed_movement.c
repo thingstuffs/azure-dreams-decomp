@@ -4,6 +4,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "dungeon/player/object.h"
 
 typedef struct S_801738B8_0 {
     u8 pad_00[0x8C];
@@ -26,8 +27,7 @@ typedef struct S_801738B8_1 {
 
 
 extern void select_sprite_entry(void *, s32, s32);
-extern void set_record_integer_tile_center(void *, s32, s32);
-extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
 extern void apply_clamped_actor_value_delta(void *);
 
 extern u8 barong_action_resume_address[];

@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-extern void advance_actor_ability_and_reset_action(void);
+extern void advance_actor_ability_and_reset_action(ActorRecord *action_state, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 
 /* jump_table; owner: dungeon/func_80DB5070. */
 const void *const dreamin_slot_a_action_targets[7] __attribute__((aligned(4))) = {

@@ -21,4 +21,6 @@ void update_actor_state_and_directional_effect(ActorRecord *controller, ObjectPo
 void advance_action_phases_and_animation(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void func_80171B58(void *action, s32 context, SpriteFrameState *sprite, void *state);
 
+void create_cylindrical_effect(ActorRecord *source, ObjectPosition *origin);
+
 #endif

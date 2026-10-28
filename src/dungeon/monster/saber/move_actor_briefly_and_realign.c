@@ -5,6 +5,7 @@
 #include "shared/dir_step.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/player/object.h"
 
 typedef struct S_80173964_0 {
     u8 pad_00[0x8C];
@@ -16,8 +17,7 @@ typedef struct S_80173964_0 {
 } S_80173964_0;   /* arg0 in move_actor_briefly_and_realign */
 
 extern void select_sprite_entry(void *, s32, s32);
-extern void set_record_integer_tile_center(void *, s32, s32);
-extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
 extern void apply_clamped_actor_value_delta(void *);
 
 #include "dungeon/monster/saber.h"

@@ -5,6 +5,10 @@
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
+#include "dungeon/actor/animation.h"
+#include "engine/node.h"
+#include "engine/node/allocation.h"
+#include "dungeon/actor/status.h"
 
 /* The factory also stores the strength variant in the low byte of +0xAC, which
  * ActorRecord types as the saved callback pointer (unk_AC); the view reaches it. */
@@ -16,11 +20,7 @@ typedef union SpawnState {
     } fields;
 } SpawnState;
 
-extern ObjectNodeHeader *allocate_list_node(s32, ObjectNodeHeader **);
-extern void register_node(ObjectNodeHeader *, void *);
 extern s32 generate_random_value(void);
-extern void set_or_clear_actor_status_slot(ActorRecord *, s32, s32);
-extern void initialize_actor_sprite_and_animation(ObjectNodeHeader *, ObjectPosition *, SpriteFrameState *, s16);
 extern void try_move_actor_to_valid_position(void *,void *,void *,void *);
 extern void create_terrain_scaled_actor_effect(ObjectNodeHeader *, s16 *, u8 *, u16 *);
 extern u8 entity_spawn_variant_code;

@@ -15,18 +15,9 @@
 #include "dungeon/level/room_flags.h"
 #include "dungeon/item/actor_target.h"
 
-/* Movement-state fields this handler reads from its first argument.  The +0xB2 selector byte has no field in
- * Rec_func_800A9E70_arg0 (which covers +0x98/+0x9C), so this one handler keeps a minimal local view. */
-typedef struct GhoshMoveState {
-    u8 pad_00[0x98];
-    u16 unk_98;
-    u8 pad_9A[0x2];
-    s8 unk_9C;
-    u8 pad_9D[0x15];
-    u8 unk_B2;
-} GhoshMoveState;
 
-struct ActorRecord; s32 check_entity_relation(struct ActorRecord *, struct ActorRecord *);                     /* extern */
+
+struct ActorRecord; s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);                     /* extern */
 void cycle_map_cell_flags(s16, s16, u16);             /* extern */
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"             /* extern */
 s32 check_diagonal_side_height(s32, s16, s16, s16);                /* extern */
@@ -39,7 +30,7 @@ s32 update_actor_proximity_flag(void *, void *, s32, s32, s8 *); /* extern */
 s32 generate_random_value(void);                            /* extern */
 void update_actor_status_and_mp(struct ActorRecord *);                      /* extern */
 s16 sample_terrain_surface_height();                   /* extern */
-s32 begin_ghosh_front_attack();          /* extern */
+s32 begin_ghosh_front_attack(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);          /* extern */
 typedef struct {
     u8 pad[0xC];
     u16 flags;
@@ -58,7 +49,7 @@ static __inline__ u8 get_y_step(s16 byte_offset) {
 /* Selects a movement direction and advances the actor path through available tiles. */
 /* Chooses a clear path step toward a player-relative tile or nearby actor, records the path, and updates
  * occupancy. */
-void advance_actor_path(GhoshMoveState *motion, ObjectPosition *context, SpriteFrameState *position, ActorRecord *actor) {
+void advance_actor_path(ActorRecord *motion, ObjectPosition *context, SpriteFrameState *position, ActorRecord *actor) {
     s32 turn_index;
     s32 near_target;
     u8 *x_offsets;
@@ -129,7 +120,7 @@ void advance_actor_path(GhoshMoveState *motion, ObjectPosition *context, SpriteF
                     source_y = position->tile_y;
                     dest_x = target_position->tile_x;
                     dest_y = target_position->tile_y;
-                    motion_flags = &motion->unk_98;
+                    motion_flags = &motion->action_state_flags;
                     actor->facing = get_rounded_facing_and_rounding_flag(source_x, source_y, dest_x, dest_y, motion_flags);
                     actor->movement_queue_state &= 0x7F;
                     return;
@@ -150,7 +141,7 @@ void advance_actor_path(GhoshMoveState *motion, ObjectPosition *context, SpriteF
                     return;
                 }
             }
-        } else if (motion->unk_B2 != 0) {
+        } else if (motion->unk_B0.bytes[2] != 0) {
             if (!(actor->action_flags & ACTOR_ACTION_PENDING)) {
                 if (actor_flags & 0x20000) {
                     direction_offset = ((((u8 *)&actor->unk_44)[1] + (primary_actor_record->facing >> 9)) & 7) * 2;
@@ -163,7 +154,7 @@ void advance_actor_path(GhoshMoveState *motion, ObjectPosition *context, SpriteF
                     target_y = world_y + y_offset;
                     if ((current_x != (target_x & 0xFFFF)) || (position->tile_y != (target_y & 0xFFFF))) {
                         target_angle = get_rounded_facing_and_rounding_flag(position->tile_x, position->tile_y, (s16) target_x,
-                            (s16) target_y, &motion->unk_98);
+                            (s16) target_y, &motion->action_state_flags);
                         actor->facing = target_angle;
                         if ((check_movement_clearance_and_height(target_angle, position, actor, 0x20) << 0x10) <= 0) {
                             u8 *fallback_position;
@@ -171,7 +162,7 @@ void advance_actor_path(GhoshMoveState *motion, ObjectPosition *context, SpriteF
                             fallback_position = (u8 *)&reference_tile_position_alias - 0x24;
                             actor->facing = get_rounded_facing_and_rounding_flag(position->tile_x,
                                 position->tile_y, fallback_position[0x24], fallback_position[0x25],
-                                &motion->unk_98);
+                                &motion->action_state_flags);
                         }
                         world_position = (u8 *)&reference_tile_position_alias - 0x24;
                         result = test_neighbor_position_relation(position->tile_x, position->tile_y, world_position[0x24],
@@ -184,7 +175,7 @@ void advance_actor_path(GhoshMoveState *motion, ObjectPosition *context, SpriteF
                         return;
                     }
                 } else {
-                    select_actor_route_target((u8 *)position, motion->unk_9C, (u8 *)actor, &motion->unk_98);
+                    select_actor_route_target((u8 *)position, motion->unk_9C, (u8 *)actor, &motion->action_state_flags);
                 }
             }
         } else {
@@ -204,7 +195,7 @@ void advance_actor_path(GhoshMoveState *motion, ObjectPosition *context, SpriteF
 
                             world_origin = &reference_tile_object;
                             actor->facing = get_rounded_facing_and_rounding_flag(position->tile_x,
-                                position->tile_y, world_origin->tile_position.parts.tile_x, world_origin->tile_position.parts.tile_y, &motion->unk_98);
+                                position->tile_y, world_origin->tile_position.parts.tile_x, world_origin->tile_position.parts.tile_y, &motion->action_state_flags);
                             if ((test_neighbor_position_relation(position->tile_x, position->tile_y, world_origin->tile_position.parts.tile_x,
                                 world_origin->tile_position.parts.tile_y) << 0x10) != 0) {
                                 actor_distance = get_actor_height_difference(primary_actor_record, actor);
@@ -219,7 +210,7 @@ void advance_actor_path(GhoshMoveState *motion, ObjectPosition *context, SpriteF
                             } else {
                             }
                         } else {
-                            select_actor_route_target((u8 *)position, motion->unk_9C, (u8 *)actor, &motion->unk_98);
+                            select_actor_route_target((u8 *)position, motion->unk_9C, (u8 *)actor, &motion->action_state_flags);
                         }
                     } else {
                         actor->movement_queue_state &= 0x7F;
@@ -227,14 +218,14 @@ void advance_actor_path(GhoshMoveState *motion, ObjectPosition *context, SpriteF
                     }
                 }
             } else {
-                select_actor_route_target((u8 *)position, motion->unk_9C, (u8 *)actor, &motion->unk_98);
+                select_actor_route_target((u8 *)position, motion->unk_9C, (u8 *)actor, &motion->action_state_flags);
             }
         }
         turn_index = 0;
         x_offsets = (u8 *)D_8006CCD8;
         do {
             current_angle = actor->facing;
-            if (motion->unk_98 & 2) {
+            if (motion->action_state_flags & 2) {
                 move_value = actor_turn_angle_offsets[turn_index];
                 candidate_angle = current_angle - move_value;
             } else {

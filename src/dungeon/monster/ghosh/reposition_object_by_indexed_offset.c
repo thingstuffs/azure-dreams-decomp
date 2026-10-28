@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/tile_object.h"
 #include "dungeon/level.h"
+#include "dungeon/player/object.h"
 
 typedef struct {
     u32 words[3];
@@ -12,7 +13,6 @@ typedef struct {
 } Status;
 
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-extern void set_record_integer_tile_center(s32, s32, s32);
 extern Copy12 D_8016A858[];
 extern u8 *ghosh_actor_node;
 
@@ -22,7 +22,7 @@ void reposition_object_by_indexed_offset(s32 offset_index) {
     s32 old_tile_mask;
     u8 *offset_bytes;
     s16 *xy_offset;
-    s32 object_handle;
+    ObjectPosition *position;
     u8 *object;
     TileObject *origin;
     u8 *state;
@@ -37,7 +37,7 @@ void reposition_object_by_indexed_offset(s32 offset_index) {
     object = *(u8 **)(state + 0xC);
     old_tile_mask = 0x3000;
     status = (Status *)state + 1;
-    object_handle = *(s32 *)(state + 8);
+    position = *(ObjectPosition **)(state + 8);
     *(u16 *)(object + 0x14) &= 0xFF7F;
     x = object[0x24];
     y = object[0x25];
@@ -51,7 +51,7 @@ void reposition_object_by_indexed_offset(s32 offset_index) {
     xy_offset = (s16 *)(offset_bytes + offset_pos);
     object[0x24] = origin->tile_position.parts.tile_x + ((u8 *)xy_offset)[0];
     object[0x25] = origin->tile_position.parts.tile_y + ((u8 *)xy_offset)[1];
-    set_record_integer_tile_center(object_handle, object[0x24], object[0x25]);
+    set_record_integer_tile_center(position, object[0x24], object[0x25]);
     status_flags = *(s32 *)&status->flags;
     x = object[0x24];
     updated_y = object[0x25];

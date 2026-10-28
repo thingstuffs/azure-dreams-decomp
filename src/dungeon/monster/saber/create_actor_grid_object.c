@@ -1,3 +1,5 @@
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
 struct ObjectPosition;
 struct SpriteFrameState;
@@ -9,9 +11,8 @@ extern s32 RotTransPers(void *, void *, void *, void *);
 extern s32 GetTPage(s32, s32, s32, s32);
 extern void SetDrawMode(void *, s32, s32, u16, s32);
 
-typedef void (*Callback)(void);
 
-extern void spawn_saber(void);
+extern void * spawn_saber(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c);
 extern void update_entity_callbacks_and_floor_motion(void);
 extern void func_80171B54(void);
 extern void func_80171B80(void);
@@ -26,19 +27,19 @@ extern void func_80173158(void);
 extern void func_801731D0(void);
 extern void func_8017329C(void);
 extern void func_801734CC(void);
-extern void advance_timed_sprite_flashing_sequence(void);
+extern void advance_timed_sprite_flashing_sequence(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_80173744(void);
 extern void func_801737CC(void);
 extern void func_8017334C(void);
 extern void func_80173344(void);
 extern void func_8017333C(void);
-extern void complete_directional_hop_to_tile(void);
+extern void complete_directional_hop_to_tile(void *actor, void *motion, void *render, void *context);
 extern void func_801732F8(void);
 extern void func_801732F0(void);
 extern void func_801732E8(void);
 
 struct CallbackBlock {
-    Callback callbacks[33];
+    void *callbacks[33];
     u32 vectors[8];
 };
 

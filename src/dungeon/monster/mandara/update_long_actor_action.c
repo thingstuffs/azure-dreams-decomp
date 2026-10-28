@@ -10,6 +10,8 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "engine/node/allocation.h"
+#include "dungeon/player/object.h"
 
 typedef struct S_80170F6C_0 {
     u8 pad_00[0x8C];
@@ -76,33 +78,31 @@ typedef struct {
     u8 padE[6];
 } DungeonRecord;
 
-extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 rsin(s32);
-extern s32 check_entity_relation(void *, void *);
+extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern s32 test_neighbor_position_relation(s32, s32, s32, s32);
 extern s16 get_rounded_facing_and_rounding_flag(s32, s32, s32, s32, void *);
 extern s32 can_entity_gain_level(void *);
-extern void set_record_integer_tile_center(void *, s32, s32);
-extern void update_actor_status_and_mp(void *);
+extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern s32 reset_actor_action_state(void *, void *, void *, void *);
+extern s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
 extern s32 process_selected_actor_record(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern void begin_actor_spell_action(void *, void *, void *, void *, void *);
+extern void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState *target, u8 *direction_table, void *next_state);
 
-extern void func_80171910(void *, void *, void *, void *);
+extern void func_80171910(void *controller, ObjectPosition *context, void *entity, void *path_state);
 extern void advance_actor_path_step(void *, void *, void *, void *);
 s32 validate_transition_and_update_action(ActorRecord *state, ObjectPosition *transition_id, SpriteFrameState *sprite, ActorRecord *actor);
 void reset_action_and_select_facing_animation(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 extern s32 func_80172658(void *, void *, void *, s32);
 extern void func_80174250(void *, void *, void *, void *);
 
-extern void *primary_actor_record[3];
+#include "shared/record_ptrs.h"
 extern u8 secondary_sprite[];
 extern u8 mandara_object_callback_2[];
 #include "dungeon/monster/mandara.h"
@@ -114,6 +114,9 @@ extern u8 mandara_frame_set[];
 /* Selects movement, attacks, and spells from actor status, including a timed directional particle
  * sequence. */
 void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_entity, SpriteFrameState *sprite, ActorRecord *entity) {
+    ObjectNodeHeader *previous_node;
+    void *previous_body;
+    ActorRecord *previous_actor;
     u16 initial_flags = g_dungeon_status.flags;
     void *post_current;
     u8 *post_table;
@@ -378,7 +381,8 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
         if (!(((S_80170F6C_1 *)entity)->unk_46 & 0x8000)) {
             if ((g_dungeon_status.flags & 0x2000) &&
                 ((check_entity_relation(entity,
-                    (u8 *)((S_80170F6C_8 *)(primary_actor_record[0]))->unk_58 + 0x20) << 16) != 0)) {
+                    (previous_node = primary_actor_record->previous_actor_header,
+                    previous_body = previous_node + 1, previous_actor = previous_body)) << 16) != 0)) {
                 return;
             }
             if ((func_80172658(self_object, aux_entity, sprite, 0) << 16) == 0) {
@@ -420,7 +424,7 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
                 sprite->tile_x, sprite->tile_y,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                 &scratch);
-            status_object = primary_actor_record[0];
+            status_object = primary_actor_record;
             ((S_80170F6C_1 *)entity)->unk_2A.s = next_position;
             if (((S_80170F6C_10 *)status_object)->unk_9A == 0x11) {
                 begin_actor_spell_action(self_object, aux_entity, sprite, D_80175290, update_long_actor_action);

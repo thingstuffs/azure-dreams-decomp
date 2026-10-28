@@ -7,6 +7,7 @@
 #include "records/Rec_func_801744DC_arg1.h"
 #include "records/Rec_func_801744DC_arg0.h"
 #include "shared/dungeon_moving_views.h"
+#include "engine/node.h"
 
 typedef struct S_801746EC_0 {
     u8 pad_00[0x1E];
@@ -26,7 +27,6 @@ typedef struct {
     s16 y;
 } Pair16;
 
-extern void register_node(void *, void *);
 extern void select_record_entry_and_value(void *, void *, s32);
 extern s32 rand(void);
 

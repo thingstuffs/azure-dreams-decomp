@@ -5,6 +5,7 @@
 #include "shared/slus_callbacks.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_moving_views.h"
+#include "engine/node.h"
 
    /* dst in create_offset_actor_object */
 
@@ -12,7 +13,6 @@ typedef struct {
     s32 w[6];
 } Block24;
 
-extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
 

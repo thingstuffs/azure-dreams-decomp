@@ -109,7 +109,7 @@ extern s32 cd_cue_base;
 extern void *actor_effect_color_targets[];
 extern u8 dungeon_resource_buffer[];
 s32 update_actor_state_after_map_check(void *initial_payload, s32 entry_data, Entry *entry, s32 unused);
-void blend_effect_channels_to_gray(u8 *task, void *context, u8 *input);
+void blend_effect_channels_to_gray(u8 *task, void *context, SpriteFrameState *input);
 extern u32 kid_image_commands;
 extern s32 D_80175200[];
 extern s16 D_80175218;

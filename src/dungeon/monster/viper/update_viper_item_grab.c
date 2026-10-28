@@ -19,7 +19,7 @@ typedef struct {
 
 typedef struct {
     u8 pad00[0x8C];
-    void (*callback)(void);
+    ActorActionHandler callback;
     u8 pad90[6];
     s16 timer;
     u8 pad98[3];
@@ -82,7 +82,7 @@ extern void select_sprite_entry(void *, s16, s16);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(Object *, s32);
 extern void update_timed_effect_size_and_position(void);
-extern void update_dungeon_actor_actions(void);
+extern void update_dungeon_actor_actions(ActorRecord *actor_in, ObjectPosition *actor_data_in, SpriteFrameState *sprite_in, ActorRecord *status_in);
 extern int abs(int);
 
 /* Moves the entity forward, then returns it to its saved position and restores its callback. */

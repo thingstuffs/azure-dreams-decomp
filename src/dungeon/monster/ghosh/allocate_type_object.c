@@ -4,6 +4,7 @@
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "common.h"
+#include "engine/node.h"
 
 typedef struct {
     u32 word0;
@@ -11,7 +12,6 @@ typedef struct {
     u32 word8;
 } __attribute__((packed)) Copy12;
 
-extern void register_node(void *, void *);
 
 extern Copy12 ghosh_sprite_payload_template;
 

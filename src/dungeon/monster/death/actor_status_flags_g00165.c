@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/entity.h"
 #include "shared/actor_status_ids.h"
 /* Actor status flags (G00165).
@@ -93,9 +94,18 @@ void advance_actor_action_state_handle_status(void *action_in, ObjectPosition *c
                 return;
             }
             if ((has_pending_actor_or_turn_action(actor_in) << 16) != 0) {
-                if ((check_entity_relation(actor_in,
-                        (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
-                    return;
+                {
+                    ObjectNodeHeader *previous_node;
+                    void *previous_body;
+                    ActorRecord *previous_actor;
+
+                    previous_node = primary_actor_record->previous_actor_header;
+                    previous_body = previous_node + 1;
+                    previous_actor = previous_body;
+                    if ((check_entity_relation(actor_in,
+                            previous_actor) << 16) != 0) {
+                        return;
+                    }
                 }
             }
 
@@ -266,9 +276,18 @@ void advance_actor_states_and_entity_flags(ActorRecord *actor, ObjectPosition *c
             return;
         }
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
-            if ((check_entity_relation(entity,
-                    (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
-                return;
+            {
+                ObjectNodeHeader *previous_node;
+                void *previous_body;
+                ActorRecord *previous_actor;
+
+                previous_node = primary_actor_record->previous_actor_header;
+                previous_body = previous_node + 1;
+                previous_actor = previous_body;
+                if ((check_entity_relation(entity,
+                        previous_actor) << 16) != 0) {
+                    return;
+                }
             }
         }
 

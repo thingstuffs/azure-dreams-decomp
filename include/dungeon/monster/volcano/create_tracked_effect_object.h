@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_E15054_H
 #define DUNGEON_OVL_E15054_H
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/sprite_frame_state.h"
@@ -21,7 +22,7 @@ typedef struct S_8015E854_0 {
     u8 pad_18[0x4];
     s32 unk_1C;
     u8 pad_20[0x6C];
-    void * unk_8C;
+    ActorActionHandler unk_8C;
 } S_8015E854_0;   /* work in func_8015E854 */
 
 typedef struct S_8015E854_3 {
@@ -34,7 +35,7 @@ typedef struct S_8015E854_3 {
 
 typedef struct S_8015E854_4 {
     u8 pad_00[0x8C];
-    void * unk_8C;
+    ActorActionHandler unk_8C;
     u8 pad_90[0xA];
     u8 unk_9A;
     u8 pad_9B[0x1];
@@ -42,7 +43,7 @@ typedef struct S_8015E854_4 {
 } S_8015E854_4;   /* actor in func_8015E854 */
 
 extern void func_8015EA58(void *entity, struct S_80170A98_2 *motion, SpriteFrameState *monster);
-extern void func_8015EE5C(void *actor_in, void *context_in, void *sprite_in, void *status_in);
+extern void func_8015EE5C(ActorRecord *actor_in, ObjectPosition *context_in, SpriteFrameState *sprite_in, ActorRecord *status_in);
 extern u8 volcano_frame_set_4[];
 extern u8 D_80162538[];
 

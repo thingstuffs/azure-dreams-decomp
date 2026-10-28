@@ -29,16 +29,16 @@ void *create_actor_child_display(s32 kind, s32 part_byte_24, s32 part_byte_25, s
     SpriteFrameState *part;
     ObjectNodeHeader *allocated;
     s32 allocation_size;
-    ObjectNodeHeader *allocation_pool;
+    ObjectNodeHeader **list_head;
 
     saved_kind = kind;
     object = 0;
     allocation_size = 0x112;
     saved_part_byte_24 = part_byte_24;
-    allocation_pool = &scene_object_list_anchor;
+    list_head = &scene_object_list_anchor.next;
     saved_halfword = copy_halfword;
     saved_byte_25 = part_byte_25;
-    allocated = allocate_list_node(allocation_size, allocation_pool);
+    allocated = allocate_list_node(allocation_size, list_head);
     kind_copy = saved_kind;
     root = allocated;
     if (allocated != 0) {

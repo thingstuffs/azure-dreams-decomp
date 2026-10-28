@@ -75,14 +75,10 @@ typedef struct T_80170874_S_80DB9000_4 {
     u32 unk_88;
     u32 unk_8C;
     u32 unk_90;
-    u16 unk_94;
-    u16 unk_96;
-    u16 unk_98;
-    u16 unk_9A;
-    u16 unk_9C;
-    u16 unk_9E;
-    u16 unk_A0;
-    u16 unk_A2;
+    union {
+        s32 word;
+        struct { u16 x; u16 y; } parts;
+    } screen[4];
     u16 unk_A4;
     u16 unk_A6;
     u16 unk_A8;
@@ -104,9 +100,14 @@ typedef struct T_80170874_S_80DB9000_4 {
     u16 unk_C8;
     u16 unk_CA;
     u16 unk_CC;
-    u8 pad_CE[0x2A];
-    u16 unk_F8;
-    u16 unk_FA;
+    u8 pad_CE[2];
+    s32 transform_p;
+    s32 transform_flags;
+    u8 pad_D8[0x20];
+    union {
+        s32 word;
+        struct { u16 x; u16 y; } parts;
+    } origin;
     u8 pad_FC[0x4];
     u32 unk_100;
 } T_80170874_S_80DB9000_4;
@@ -190,8 +191,8 @@ void PopMatrix(void);
 void * ScaleMatrix(void *, void *);
 void SetRotMatrix(void *);
 void SetTransMatrix(void *);
-extern u32 RotTransPers();
-extern void RotTransPers4();
+extern s32 RotTransPers(void *vertex, s32 *screen, s32 *p, s32 *flag);
+extern s32 RotTransPers4(void *v0, void *v1, void *v2, void *v3, s32 *s0, s32 *s1, s32 *s2, s32 *s3, s32 *p, s32 *flag);
 extern void RotMatrix();
 extern s32 sprite_projection_matrix[];
 void project_sprite_entries_to_quads(T_80170874_S_80DB9000_1 *sprite_size, T_80170874_S_80DB9000_2 *position, T_80170874_S_80DB9000_3 *sprite, s16 depth_bias);

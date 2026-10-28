@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/actor_status_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -27,22 +28,22 @@ typedef struct S_8014DFA4_0 {
 } S_8014DFA4_0;   /* arg0 in update_actor_animation_and_dispatch_actions */
 
 extern void select_sprite_entry(void *, s32, s32);
-extern s32 check_entity_relation(void *, void *);
+extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern s32 test_neighbor_position_relation(s32, s32, s32, s32);
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern s32 can_entity_gain_level(void *);
-extern void update_actor_status_and_mp(void *);
+extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern s32 reset_actor_action_state(void *actor, void * unused, void *sprite, u8 *direction_frames);
+extern s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
 extern s32 process_selected_actor_record(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern void begin_actor_spell_action(void *actor, void * effect_param, void *target, u8 *direction_table, void * next_state);
+extern void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState *target, u8 *direction_table, void *next_state);
 extern void func_8014E510(void *, void *, void *, void *);
 extern void func_8014E6C8(void *, void *, void *, void *);
-extern s32 func_8014EE10(void *, void *, void *, void *);
+extern s32 func_8014EE10(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
 extern void func_8014F0A8(void *, void *, void *, void *);
 extern s32 func_8014F1CC(void *, void *, void *, void *);
 extern void func_80151078(void *, void *, void *, void *);
@@ -177,9 +178,18 @@ void update_actor_animation_and_dispatch_actions(void *actor, ObjectPosition *ac
         }
         if (!(entity->action_flags & ACTOR_ACTION_PENDING)) {
             if (g_dungeon_status.flags & 0x2000) {
-                if ((check_entity_relation(entity,
-                        (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
-                    return;
+                {
+                    ObjectNodeHeader *previous_node;
+                    void *previous_body;
+                    ActorRecord *previous_actor;
+
+                    previous_node = primary_actor_record->previous_actor_header;
+                    previous_body = previous_node + 1;
+                    previous_actor = previous_body;
+                    if ((check_entity_relation(entity,
+                            previous_actor) << 16) != 0) {
+                        return;
+                    }
                 }
             }
             if ((func_8014F1CC(actor, actor_aux, sprite, 0) << 16) == 0) {

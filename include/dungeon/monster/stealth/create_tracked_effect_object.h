@@ -53,7 +53,7 @@ typedef struct S_8015E854_4 {
 extern void func_8015EA8C(void *entity_state, void *entity_motion, SpriteFrameState *entity_part);
 extern u8 D_80161D30[];
 extern u8 D_80161D78[];
-extern void func_8015EF74(void *actor_in, void *actor_data_in, SpriteFrameState *sprite_in, void *status_in);
+extern void func_8015EF74(ActorRecord *actor_in, ObjectPosition *actor_data_in, SpriteFrameState *sprite_in, ActorRecord *status_in);
 
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);

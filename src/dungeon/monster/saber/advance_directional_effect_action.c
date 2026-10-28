@@ -3,6 +3,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/player/object.h"
 
 typedef struct OffsetPair {
     s16 x;
@@ -18,7 +19,6 @@ extern OffsetTable saber_direction_tile_offsets;
 
 
 extern void select_sprite_entry(void *, s32, s32);
-extern void set_record_integer_tile_center(void *, s32, s32);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 extern void process_nodes_at_target_tile(void *, s32, s32, s32);

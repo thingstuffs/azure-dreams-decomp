@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
@@ -14,15 +15,15 @@ typedef struct S_80173204_7 {
     u16 unk_0A;
 } S_80173204_7;   /* counter in update_entity_animation_and_color_fade */
 
-extern s32 get_entity_effect_value(void *, s32);
-extern void clear_slots_of_type(void *, s32);
+extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
+extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 extern void select_sprite_entry(void *, u8, s32);
-extern s32 check_entity_relation(void *, s32);
+extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 extern s32 generate_random_value(void);
 extern void on_actor_status_updated(void *);
-extern void update_actor_status_and_mp(void *);
+extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *,void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
@@ -119,10 +120,19 @@ void update_entity_animation_and_color_fade(ActorRecord *controller, ObjectPosit
             return;
         }
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
-            if ((check_entity_relation(
-                     entity,
-                     ((s32)primary_actor_record->previous_actor_header) + 0x20) << 16) != 0) {
-                return;
+            {
+                ObjectNodeHeader *previous_node;
+                void *previous_body;
+                ActorRecord *previous_actor;
+
+                previous_node = primary_actor_record->previous_actor_header;
+                previous_body = previous_node + 1;
+                previous_actor = previous_body;
+                if ((check_entity_relation(
+                         entity,
+                         previous_actor) << 16) != 0) {
+                    return;
+                }
             }
         }
         update_actor_status_and_mp(entity);

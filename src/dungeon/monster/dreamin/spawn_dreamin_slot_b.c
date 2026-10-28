@@ -44,7 +44,7 @@ typedef struct S_80DAD000_4 {
 s16 set_or_clear_actor_status_slot(); /* extern */
 s32 generate_random_value(void);
 void func_80152A3C(void *entity, R03_80170A28_S_80170A28_2 *motion, void *part);
-void func_80152E68(ActorActionView *action, void *context, ActorSpriteView *sprite, ActorRecord *entity);
+void func_80152E68(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
 extern M2C_UNK D_8015586C;
 
 void *spawn_dreamin_slot_b(s16 spawn_flags, s16 spawn_x, s16 spawn_y, s16 initial_value) ;

@@ -5,6 +5,7 @@
 #include "shared/dungeon_sprite_data.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
+#include "engine/node.h"
 
 typedef struct Node {
     u8 pad0[8];
@@ -13,7 +14,6 @@ typedef struct Node {
     void *data10;
 } Node;
 
-extern void register_node(Node *, void *);
 extern void select_record_entry_and_value(void *, void *, s32);
 
 /* Allocate and initialize an effect node with default parameters and data. */

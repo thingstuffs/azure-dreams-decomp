@@ -16,4 +16,5 @@ void advance_actor_animation_and_restore(ActorRecord *action, ObjectPosition *ac
 s32 render_linked_items_as_textured_strips(u8 *item_data);
 void tick_object_motion_and_expire(void *object_data, void *motion_data, void *work_data);
 
+void advance_actor_action_and_status(ActorRecord *in_action, ObjectPosition *in_context, SpriteFrameState *in_sprite, ActorRecord *in_actor);
 #endif

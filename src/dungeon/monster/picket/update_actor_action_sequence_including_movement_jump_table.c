@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-extern void update_the_actor_action_sequence_including_movement_landing_recovery_at_8015_ac_90(void);
+extern void update_the_actor_action_sequence_including_movement_landing_recovery_at_8015_ac_90(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 /* jump_table; owner: dungeon/func_80EA5490. */
 const void *const picket_slot_c_action_targets[17] __attribute__((aligned(4))) = {

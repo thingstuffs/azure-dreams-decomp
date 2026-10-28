@@ -14,6 +14,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/entity.h"
+#include "dungeon/monster/ghosh.h"
 
 typedef struct {
     u8 before_callback[0x8C];
@@ -37,7 +38,6 @@ typedef struct S_8016B778_5 {
 
 extern u8 ghosh_frame_set_12[];
 extern u8 ghosh_frame_set_4[];
-#include "dungeon/monster/ghosh.h"
 extern u8 ghosh_frame_set_3[];
 extern u8 ghosh_action_resume_address[];
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
@@ -47,11 +47,10 @@ struct ActorRecord; void update_actor_status_and_mp(struct ActorRecord *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 s32 begin_ready_actor_directional_action();
 struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2; void begin_actor_move_to_target_facing(struct Rec_func_800A9E70_arg0 *, void *, struct Rec_func_800AA258_arg2 *, struct ActorRecord *);
-s32 reset_actor_action_state(void *, void *, void *, u8 *);
-void begin_actor_spell_action(void *, void *, void *, u8 *, void *);
+s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
+void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState *target, u8 *direction_table, void *next_state);
 void advance_entity_along_path(void *, void *, SpriteFrameState *, void *);
 void advance_actor_path();
-s32 begin_ghosh_front_attack();
 struct Rec_func_800A9E70_arg0; void clear_actor_flag_and_advance_action(struct Rec_func_800A9E70_arg0 *, s32, void *, struct ActorRecord *);
 struct Rec_func_800A9E70_arg0; s32 dispatch_actor_action_phase(struct Rec_func_800A9E70_arg0 *, s32, s32, s32);
 extern void func_8016DAA4(CallbackOwner *owner, s32 unused, s32 first, s32 second);

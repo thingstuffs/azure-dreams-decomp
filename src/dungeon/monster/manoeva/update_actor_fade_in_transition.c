@@ -11,6 +11,10 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "dungeon/level.h"
+#include "shared/object_node.h"
+#include "dungeon/actor/status.h"
+#include "engine/entity.h"
+#include "engine/node.h"
 
 
 
@@ -20,13 +24,10 @@ typedef struct S_8017427C_4 {
 } S_8017427C_4;   /* D_800E3D7C + index * 4 in update_actor_fade_in_transition */
 
 extern s8 func_80042518(void *, s32);
-extern s32 get_entity_effect_value(void *, s32);
-extern void register_node(void *, void *);
-extern void unlink_node(void *);
+extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern void resolve_familiar_deployment_request(void *, void *, void *, s32);
 extern s32 find_entity_slot_by_field_ac(void *);
-extern void set_or_clear_actor_status_slot(void *, s32, s32);
-extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
 extern void create_terrain_scaled_actor_effect(void *, void *, void *, void *);
 
 extern u8 manoeva_action_resume_address[];

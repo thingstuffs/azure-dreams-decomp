@@ -3,6 +3,7 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
+#include "engine/node.h"
 
 #ifndef NULL
 #define NULL 0
@@ -25,20 +26,7 @@ typedef struct {
 } FuncArg1;
 
 
-typedef struct {
-    u8 pad00[6];
-    s16 field06;
-    u8 pad08[4];
-    s32 field0C;
-    u16 field10;
-    s16 field12;
-    u16 field14;
-    u8 pad16[6];
-    s16 field1C;
-    s16 field1E;
-    u8 pad20[8];
-    s32 field28;
-} FuncInner;
+
 
 typedef struct {
     u8 pad00[4];
@@ -47,16 +35,11 @@ typedef struct {
 } FuncTail;
 
 typedef struct {
-    u8 pad00[8];
-    FuncArg1 *buffer;
-    FuncInner *inner;
-    void *field10;
-    u8 pad14[0xC];
+    ObjectNodeHeader header;
     FuncTail tail;
 } FuncTemp;
 
 extern u32 D_80175480;
-extern void register_node(FuncTemp *, u8 *);
 struct SpriteFrameState;
 extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
 
@@ -71,14 +54,14 @@ s32 create_offset_directional_effect(FuncArg0 *source, FuncArg1 *position, Sprit
 
     effect = allocate_flagged_object_node(0x312);
     if (effect != NULL) {
-        effect->field10 = &D_80175480;
-        register_node(effect, project_sprite_chain);
+        effect->header.update_callback = &D_80175480;
+        register_node(&effect->header, project_sprite_chain);
         angle = source->field2A;
         direction_state = &effect->tail;
         biased_angle = angle;
         direction_state->field04 = (s16) (((angle % 4096) << 0x10) >> 0x19);
         direction_state->field06 = source->fieldB0;
-        sprite = effect->inner;
+        sprite = effect->header.sprite;
         sprite->animation_resource = render_context->animation_resource;
         sprite->flags |= 0x100;
         sprite->clut = direction_state->field06 + ((direction_state->field04 + 6) % 8);
@@ -89,7 +72,7 @@ s32 create_offset_directional_effect(FuncArg0 *source, FuncArg1 *position, Sprit
         sprite->flags |= 0xC;
         sprite->tpage_abr |= 0x20;
         select_sprite_entry(sprite, 0x31, 0);
-        effect_position = effect->buffer;
+        effect_position = effect->header.position;
         *(FuncArg1 *)effect_position = *position;
         effect_position->x.v += effect_position->velocity_x;
         effect_position->y.v += effect_position->velocity_y;

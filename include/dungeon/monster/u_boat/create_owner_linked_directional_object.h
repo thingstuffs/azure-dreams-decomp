@@ -7,6 +7,8 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
+#include "engine/node.h"
+#include "engine/node/allocation.h"
 
 typedef struct S_80D3B0B8_0 {
     u8 pad_00[0x2A];
@@ -41,10 +43,6 @@ typedef struct Copy16 {
 
 typedef struct { Copy16 block[3]; } Copy48;
 
-extern void *allocate_list_node(s32, void *);
-extern void *func_8003FD64(s32, void *);
-extern void register_node(void *, void *);
-extern void func_8004491C(void *, void *);
 extern void select_sprite_entry(void *, u8, s32);
 extern void func_80047784(void *, u8, s32);
 extern void create_tracked_effect(void *, s32, void *, void *);

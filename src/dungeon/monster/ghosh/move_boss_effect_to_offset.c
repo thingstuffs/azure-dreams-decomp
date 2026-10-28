@@ -2,17 +2,17 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "dungeon/level.h"
+#include "dungeon/player/object.h"
 extern s32 ghosh_boss_node[3];
 typedef struct {
     u8 data[24];
 } Config24;
 extern u8 D_8016A87C[];
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-extern void set_record_integer_tile_center(s32, u8, u8);
 
 typedef struct S_80171168_0 {
     u8 pad_00[0x8];
-    s32 unk_08;
+    ObjectPosition *position;
     void * unk_0C;
 } S_80171168_0;   /* *D_80174CD8 in move_boss_effect_to_offset */
 
@@ -34,7 +34,7 @@ void move_boss_effect_to_offset(s32 offset_index) {
     u8 new_x;
     u8 new_y;
     register s16 *offset_pair;
-    s32 entity_id;
+    ObjectPosition *position;
     SpriteFrameState *entity;
     S_80171168_2 *entity_state;
 
@@ -44,7 +44,7 @@ void move_boss_effect_to_offset(s32 offset_index) {
     old_cell_mask = 0x3000;
     entity_state = *ghosh_boss_node + 0x20;
     entity = ((S_80171168_0 *)(*ghosh_boss_node))->unk_0C;
-    entity_id = ((S_80171168_0 *)(*ghosh_boss_node))->unk_08;
+    position = ((S_80171168_0 *)(*ghosh_boss_node))->position;
     entity->flags = (u16) (entity->flags & 0xFF7F);
     old_x = entity->tile_x;
     old_y = entity->tile_y;
@@ -57,7 +57,7 @@ void move_boss_effect_to_offset(s32 offset_index) {
     offset_bytes = (u8 *)offset_pair;
     entity->tile_x = (u8) (origin->tile_position.parts.tile_x + offset_bytes[0]);
     entity->tile_y = (u8) (origin->tile_position.parts.tile_y + offset_bytes[1]);
-    set_record_integer_tile_center(entity_id, entity->tile_x, entity->tile_y);
+    set_record_integer_tile_center(position, entity->tile_x, entity->tile_y);
     new_x = entity->tile_x;
     new_y = entity->tile_y;
     new_cell_mask = 0x3000;

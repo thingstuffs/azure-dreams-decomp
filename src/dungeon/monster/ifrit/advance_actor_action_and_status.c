@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
@@ -28,15 +29,15 @@ typedef struct S_8017388C_2 {
     s8 unk_6D;
 } S_8017388C_2;   /* arg3 in advance_actor_action_and_status */
 
-extern s32 get_entity_effect_value(void *, s32);
-extern void clear_slots_of_type(void *, s32);
+extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
+extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 extern void select_sprite_entry(void *, s32, s32);
-extern s32 check_entity_relation(void *, void *);
+extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 extern s32 generate_random_value(void);
 extern void on_actor_status_updated(void *);
-extern void update_actor_status_and_mp(void *);
+extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
@@ -47,7 +48,7 @@ extern u8 ifrit_action_resume_address[];
 extern u8 ifrit_frame_set[];
 
 /* Advance the actor action through animation setup, status handling, and completion. */
-void advance_actor_action_and_status(void *in_action, ObjectPosition *in_context, SpriteFrameState *in_sprite, ActorRecord *in_actor) {
+void advance_actor_action_and_status(ActorRecord *in_action, ObjectPosition *in_context, SpriteFrameState *in_sprite, ActorRecord *in_actor) {
     void *context = in_context;
     void *actor = in_actor;
     s32 state;
@@ -114,9 +115,18 @@ void advance_actor_action_and_status(void *in_action, ObjectPosition *in_context
             }
 
             if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
-                if ((check_entity_relation(actor,
-                    (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
-                    return;
+                {
+                    ObjectNodeHeader *previous_node;
+                    void *previous_body;
+                    ActorRecord *previous_actor;
+
+                    previous_node = primary_actor_record->previous_actor_header;
+                    previous_body = previous_node + 1;
+                    previous_actor = previous_body;
+                    if ((check_entity_relation(actor,
+                        previous_actor) << 16) != 0) {
+                        return;
+                    }
                 }
             }
 
@@ -165,6 +175,6 @@ void advance_actor_action_and_status(void *in_action, ObjectPosition *in_context
         return;
     }
     ((S_8017388C_2 *)actor)->unk_1C &= ~ACTOR_ASLEEP;
-    in_action = (u8 *)in_action + 0x8C;
+    in_action = (void *)&in_action->unk_8C.address; /* BYTES: retiring this parameter as the callback-slot cursor preserves the retail save order. */
     *(void **)in_action = ifrit_action_resume_address;
 }

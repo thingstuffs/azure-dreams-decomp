@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-extern void advance_ability_action_and_reset_state(void);
+extern void advance_ability_action_and_reset_state(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 /* jump_table; owner: dungeon/func_80D25E4C. */
 const void *const D_8015E858[7] __attribute__((aligned(4))) = {

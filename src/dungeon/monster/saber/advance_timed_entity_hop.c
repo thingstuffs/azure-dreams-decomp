@@ -10,6 +10,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/player/object.h"
 
 typedef struct S_80166BAC_0 {
     u8 pad_00[0x8C];
@@ -29,7 +30,6 @@ typedef struct S_80166BAC_0 {
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 rsin(s32);
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern void set_record_integer_tile_center(void *, s32, s32);
 extern void on_actor_status_updated(void *);
 extern void spend_actor_mp(void *, s32);
 

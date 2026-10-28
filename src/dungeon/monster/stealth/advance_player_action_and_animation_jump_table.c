@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-extern void advance_player_action_and_animation(void);
+extern void advance_player_action_and_animation(void *motion_state, void *transform, SpriteFrameState *sprite, ActorRecord *actor);
 
 /* jump_table; owner: dungeon/func_80F2F2A8. */
 const void *const stealth_slot_a_action_targets[7] __attribute__((aligned(4))) = {

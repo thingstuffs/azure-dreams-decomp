@@ -17,4 +17,5 @@ void update_growing_colliding_effect(void *effect, void *position, SpriteFrameSt
 /* Callback entry points. */
 void update_fading_motion_effect(void *effect, void *transform, void *color);
 
+void advance_actor_staged_animation(ActorRecord *action_data, ObjectPosition *motion, SpriteFrameState *animation, ActorRecord *actor);
 #endif

@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
@@ -98,9 +99,18 @@ void update_actor_status_callback(void *actor_in, ObjectPosition *context_in, Sp
             if ((has_pending_actor_or_turn_action(entity_in) << 16) != 0) {
                 ActorRecord *owner = primary_actor_record;
 
-                if ((check_entity_relation(entity_in,
-                        (u8 *)owner->previous_actor_header + 0x20) << 16) != 0) {
-                    return;
+                {
+                    ObjectNodeHeader *previous_node;
+                    void *previous_body;
+                    ActorRecord *previous_actor;
+
+                    previous_node = owner->previous_actor_header;
+                    previous_body = previous_node + 1;
+                    previous_actor = previous_body;
+                    if ((check_entity_relation(entity_in,
+                            previous_actor) << 16) != 0) {
+                        return;
+                    }
                 }
             }
             update_actor_status_and_mp(entity_in);
@@ -244,9 +254,18 @@ void advance_entity_directional_events(void *entity, ObjectPosition *context, Sp
             return;
         }
         if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
-            if ((check_entity_relation(actor,
-                    (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
-                return;
+            {
+                ObjectNodeHeader *previous_node;
+                void *previous_body;
+                ActorRecord *previous_actor;
+
+                previous_node = primary_actor_record->previous_actor_header;
+                previous_body = previous_node + 1;
+                previous_actor = previous_body;
+                if ((check_entity_relation(actor,
+                        previous_actor) << 16) != 0) {
+                    return;
+                }
             }
         }
 

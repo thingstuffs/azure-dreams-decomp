@@ -5,6 +5,7 @@
 #include "shared/monster_ids.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "dungeon/actor/animation.h"
 
 
 typedef struct S_8016AEDC_1 {
@@ -66,7 +67,6 @@ void func_80042640(void *, s16);
 s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 s32 retain_spawn_resource(s16, s16);
 extern s32 random_dungeon_range_16(u32 bound_a, u32 bound_b);
-void initialize_actor_sprite_and_animation(void *, void *, void *, s32);
 s32 try_move_actor_to_valid_position(void *, void *, void *, void *);
 void * allocate_boss_actor(s16, s16, s16, s16);
 

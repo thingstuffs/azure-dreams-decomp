@@ -39,7 +39,7 @@ typedef struct {
 
 void select_record_entry_and_value(void *state, void *entries, short index);
 s32 register_node(ObjectNodeHeader *entry, void *registration_id);
-void func_80170D60(void *destination, s32 unused, void *source);
+void func_80170D60(void *destination, s32 unused, SpriteFrameState *source);
 
 /* Creates and configures a node at a fixed offset from the given position. */
 void create_offset_animation_sprite(void *unused, ObjectPosition *origin) {

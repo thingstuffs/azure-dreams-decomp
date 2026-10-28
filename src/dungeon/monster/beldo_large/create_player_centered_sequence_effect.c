@@ -5,6 +5,7 @@
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
+#include "engine/node.h"
 
 #ifndef NULL
 #define NULL 0
@@ -49,7 +50,6 @@ typedef struct {
     PackedVec3i field48;
 } Object;
 
-extern void register_node(void *, void *);
 
 extern u8 encounter_object_position_template[12];
 

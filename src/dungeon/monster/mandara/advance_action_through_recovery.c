@@ -12,6 +12,7 @@
 #include "shared/entity.h"
 #include "engine/cd.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/player/object.h"
 extern int abs(int);
 
 typedef struct S_80172DEC_0 {
@@ -32,7 +33,6 @@ typedef struct S_80172DEC_3 {
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
-extern void set_record_integer_tile_center(void *, u8, u8);
 extern void play_sound_if_enabled(s32);
 extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context);
 extern void create_two_effect_groups(void *, void *, void *, s32);
@@ -44,7 +44,7 @@ void advance_action_through_recovery(ActorRecord *action_state, ObjectPosition *
     u16 saved_position[3];
     u8 *motion;
     s32 use_global_target;
-    void *target;
+    ActorRecord *target;
     s32 target_x;
     s32 abs_x;
     s32 abs_y;

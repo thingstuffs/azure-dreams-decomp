@@ -3,6 +3,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "dungeon/level.h"
+#include "dungeon/player/object.h"
 
 typedef struct S_8016EC04_1 {
     u8 pad_00[0x1C];
@@ -12,7 +13,6 @@ typedef struct S_8016EC04_1 {
 extern u8 *beldo_actor_nodes;
 
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-extern void set_record_integer_tile_center(void *, s32, s32);
 
 /* Reposition the current entity relative to the origin using the selected offset. */
 void relocate_multi_form_actor(s32 offset_index)

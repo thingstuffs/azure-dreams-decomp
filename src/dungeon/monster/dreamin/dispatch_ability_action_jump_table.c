@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-extern void dispatch_ability_action(void);
+extern void dispatch_ability_action(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
 
 /* jump_table; owner: dungeon/func_80DA7668. */
 const void *const dreamin_slot_c_behavior_targets[12] __attribute__((aligned(4))) = {

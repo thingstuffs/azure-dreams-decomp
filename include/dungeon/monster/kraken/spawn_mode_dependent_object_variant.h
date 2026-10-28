@@ -78,7 +78,7 @@ extern void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_i
 extern void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots();
 
 extern void func_80158B64(void *actor, void *motion, void *sprite_arg);
-extern void func_801591A4(void *actor, s32 context, void *sprite, ActorRecord *status);
+extern void func_801591A4(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *status);
 extern u8 D_8015C18C[];
 extern u8 D_8015C1CC[];
 

@@ -87,7 +87,7 @@ typedef struct {
     u8 padE[6];
 } DungeonModeRecord;
 
-extern void update_actor_status_and_mp(void *);
+extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void update_actor_proximity_flag(void *, void *, s32, s32, void *);
 extern void * find_adjacent_actor(void *, s32, s32);
 extern s32 get_rounded_facing_and_rounding_flag(s16, s16, s16, s16, void *);
@@ -95,14 +95,14 @@ extern s32 generate_random_value(void);
 extern void *probe_directional_neighbor(void *, s32, s32, s32);
 extern s16 check_movement_clearance_and_height(s16, void *, void *, s32);
 extern void select_actor_route_target(void *, s32, void *, void *);
-extern s16 get_actor_height_difference(void *, void *);
+extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
 extern s16 check_diagonal_side_height(s32, s32, s32, s32);
 extern s32 calculate_planar_heading(s16, s16, s16, s16);
 extern s16 get_tile_chebyshev_distance(void *, void *);
 extern s16 test_neighbor_position_relation(s32, s32, s32, s32);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern void cycle_map_cell_flags(s32, s32, s32);
-extern s16 check_entity_relation(void *, void *);
+extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
 extern s16 func_80174BCC(void *, s32, void *, void *);
 

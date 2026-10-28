@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-extern void update_object_animation_and_facing_state(void);
+extern void update_object_animation_and_facing_state(ActorRecord *obj, ObjectPosition *motion, SpriteFrameState *part, ActorRecord *state);
 
 /* jump_table; owner: dungeon/func_81257D14. */
 const void *const beldo_slot_f_behavior_targets[12] __attribute__((aligned(4))) = {

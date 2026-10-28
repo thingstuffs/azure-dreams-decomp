@@ -1,6 +1,7 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 
-extern void advance_actor_action_and_completion(void);
+extern void advance_actor_action_and_completion(void *action, void *motion, SpriteFrameState *sprite, void *actor);
 
 /* jump_table; owner: dungeon/func_8128ED6C. */
 const void *const D_8015D860[7] __attribute__((aligned(4))) = {

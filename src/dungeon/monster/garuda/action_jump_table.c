@@ -1,6 +1,9 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
+struct ActorMotion;
+struct PairAction;
 
-extern void func_8015BE64(void);
+extern void func_8015BE64(struct PairAction *actor, struct ActorMotion *motion, SpriteFrameState *sprite, void *entity);
 
 /* jump_table; owner: dungeon/func_81020664. */
 const void *const D_80158878[5] __attribute__((aligned(4))) = {

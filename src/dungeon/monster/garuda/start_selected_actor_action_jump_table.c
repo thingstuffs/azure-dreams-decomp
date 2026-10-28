@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-extern void start_selected_actor_action(void);
+extern void start_selected_actor_action(void *action_state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 /* jump_table; owner: dungeon/func_8100D034. */
 const void *const garuda_slot_f_action_cases[7] __attribute__((aligned(4))) = {

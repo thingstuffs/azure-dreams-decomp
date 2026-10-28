@@ -10,6 +10,7 @@
 #include "records/Rec_func_80172D08_arg1.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/level.h"
+#include "dungeon/player/object.h"
 
 typedef struct S_80172D08_0 {
     u8 pad_00[0x8C];
@@ -38,7 +39,6 @@ typedef struct S_80172D08_4 {
 
 extern s32 rsin(s32);
 extern void * resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void set_record_integer_tile_center(void *, u8, u8);
 s32 check_layer_offset_height(u16 x, u16 y, s16 height, u32 flags);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);

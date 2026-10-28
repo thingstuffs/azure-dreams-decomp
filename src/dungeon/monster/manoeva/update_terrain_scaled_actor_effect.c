@@ -4,6 +4,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/level.h"
+#include "engine/entity.h"
 
 typedef struct S_8017474C_0 {
     u8 pad_00[0x4];
@@ -75,7 +76,6 @@ typedef struct S_8017474C_8 {
     u16 unk_12;
 } S_8017474C_8;   /* ((S_8017474C_0 *)arg0)->unk_14 in update_terrain_scaled_actor_effect */
 
-extern s32 get_entity_effect_value(void *, s32);
 extern s32 rsin(s32);
 extern s32 rcos(s32);
 

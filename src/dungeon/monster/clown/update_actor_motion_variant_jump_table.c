@@ -1,6 +1,7 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 
-extern void update_actor_motion_variant(void);
+extern void update_actor_motion_variant(void *owner, void *motion, SpriteFrameState *actor, void *object_in);
 
 /* jump_table; owner: dungeon/func_80BFEDA4. */
 const void *const clown_slot_d_action_targets[7] __attribute__((aligned(4))) = {

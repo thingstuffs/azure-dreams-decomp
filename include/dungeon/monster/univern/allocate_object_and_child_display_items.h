@@ -4,6 +4,8 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/actor/animation.h"
+#include "engine/node/allocation.h"
 
 typedef unsigned long uptr;
 
@@ -66,12 +68,10 @@ typedef struct S_8016A89C_8 {
     void * unk_A4;
 } S_8016A89C_8;   /* outer_base in func_8016A89C */
 
-extern void *allocate_list_node(s32, void *);
-extern void *func_8003FD64(s32, void *);
-extern void register_node(void *, void *);
-extern void func_8004491C(void *, void *);
+extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
+extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
+extern s32 func_8004491C(ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
-extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
 extern void func_80047784(void *, s32, s32);

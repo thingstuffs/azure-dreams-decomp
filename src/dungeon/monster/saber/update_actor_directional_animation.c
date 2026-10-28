@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/record_ptrs.h"
@@ -5,15 +6,15 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
+#include "dungeon/actor/motion.h"
 
 extern void select_sprite_entry(void *, u8, s32);
-extern s32 check_entity_relation(void *, void *);
+extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 #include "dungeon/player/object/action_state.h"
 extern void on_actor_status_updated(void *);
-extern void update_actor_status_and_mp(void *);
+extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *,void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void update_timed_effect_size_and_position(void *, s32, void *, void *);
 
 #include "dungeon/monster/saber.h"
@@ -90,9 +91,18 @@ void update_actor_directional_animation(ActorRecord *actor_in, void *actor_index
             return;
         }
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
-            if ((check_entity_relation(entity,
-                    (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
-                return;
+            {
+                ObjectNodeHeader *previous_node;
+                void *previous_body;
+                ActorRecord *previous_actor;
+
+                previous_node = primary_actor_record->previous_actor_header;
+                previous_body = previous_node + 1;
+                previous_actor = previous_body;
+                if ((check_entity_relation(entity,
+                        previous_actor) << 16) != 0) {
+                    return;
+                }
             }
             update_actor_status_and_mp(entity);
         } else {

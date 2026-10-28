@@ -4,6 +4,8 @@
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "engine/node.h"
+#include "dungeon/player/object.h"
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define S8_AT(p, o)  (*(s8 *)((u8 *)(p) + (o)))
@@ -23,9 +25,7 @@ extern s32 weadog_action_resume_address;
 extern u8 weadog_frame_set_3[];
 extern u8 D_80174F18[];
 
-extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
-extern void set_record_integer_tile_center(void *, s32, s32);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 

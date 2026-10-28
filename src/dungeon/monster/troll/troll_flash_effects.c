@@ -484,31 +484,31 @@ void spawn_random_color_burst_particle(void *source, ObjectPosition *position) {
 void spawn_growing_rotating_flash(void *unused, s32 *position) {
     T_80171928_Object *object;
     T_80171928_Header *header;
-    T_80171928_Child *child;
-    u32 *object_pos;
+    SpriteFrameState *child;
+    ObjectPosition *object_pos;
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         header = (T_80171928_Header *)((u8 *)object + 0x20);
         header->value18 = 0x1C;
         header->value1a = 0x1C;
-        object->field10 = &update_growing_rotating_flash;
-        register_node(object, project_sprite_chain);
-        child = object->child;
-        child->value10 = 0x60;
-        child->flags14 |= 0xC;
-        object_pos = object->data;
-        object_pos[0] = position[0];
-        object_pos[1] = position[1];
-        object_pos[2] = position[2] + (s32)0xFFB00000;
-        child = object->child;
-        child->value1e = 0x190;
-        child->value1c = 0x190;
-        child->color_e = 0x80;
-        child->color_d = 0x80;
-        child->color_c = 0x80;
+        object->header.update_callback = &update_growing_rotating_flash;
+        register_node(&object->header, project_sprite_chain);
+        child = object->header.sprite;
+        child->tpage_abr = 0x60;
+        child->flags |= 0xC;
+        object_pos = object->header.position;
+        object_pos->x.v = position[0];
+        object_pos->y.v = position[1];
+        object_pos->z.v = position[2] + (s32)0xFFB00000;
+        child = object->header.sprite;
+        child->scale_y = 0x190;
+        child->scale_x = 0x190;
+        child->color.c.b = 0x80;
+        child->color.c.g = 0x80;
+        child->color.c.r = 0x80;
         object->blob = D_80175EDC;
-        child->field8 = &object->blob;
+        child->source = &object->blob;
     }
 }
 

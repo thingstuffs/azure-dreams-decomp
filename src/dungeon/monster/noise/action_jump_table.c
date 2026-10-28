@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-extern void func_8016D64C(void);
+extern void func_8016D64C(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 /* jump_table; owner: dungeon/func_80D19E4C. */
 const void *const noise_slot_f_action_cases[7] __attribute__((aligned(4))) = {

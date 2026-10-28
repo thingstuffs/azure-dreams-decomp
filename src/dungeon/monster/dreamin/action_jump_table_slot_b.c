@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-extern void func_80152E68(void);
+extern void func_80152E68(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
 
 /* jump_table; owner: dungeon/func_80DAD668. */
 const void *const D_80152808[12] __attribute__((aligned(4))) = {

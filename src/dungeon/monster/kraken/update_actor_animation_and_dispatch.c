@@ -63,10 +63,10 @@ void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *positi
 s32 reset_actor_action_state();
 s32 process_selected_actor_record(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void begin_actor_spell_action();
-extern void func_801716CC(void *motion, s32 unused, void *actor, void *path_state);
+extern void func_801716CC(void *motion, ObjectPosition *unused, SpriteFrameState *actor, void *path_state);
 extern void func_80171884(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject *position_data, ActorRecord *actor_data);
-s32 func_80171FCC(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *sprite_arg, ActorRecord *actor);
-extern void func_80172190(void *action_state, void *context, void *sprite, ActorRecord *actor);
+s32 func_80171FCC(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
+extern void func_80172190(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
 s32 func_801722B8(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
 extern void func_80173D10(Actor *actor, s32 action, Entity *entity, MapObject *map_object);
 void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *status);

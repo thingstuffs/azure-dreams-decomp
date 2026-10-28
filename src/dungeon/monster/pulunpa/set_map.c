@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/actor_status_flags.h"
 /* Pulunpa map selection and actor action and animation updates. */
 #include "shared/sprite_frame_state.h"
@@ -36,21 +37,21 @@ typedef struct S_80173B98_2 {
 } S_80173B98_2;   /* arg2 in update_creature_actions_and_animation */
 
 void select_sprite_entry(void *sprite, u8 frame, s32 mode);
-s32 check_entity_relation(void *creature, s32 offset);
+s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 s8 find_active_rect_containing_point(u8 tile_x, u8 tile_y);
 s32 test_neighbor_position_relation(u8 source_x, u8 source_y, u8 target_x, u8 target_y);
 s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 s32 can_entity_gain_level(void *creature);
-void update_actor_status_and_mp(void *creature);
+void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *state, void *unused,void *position,void *actor);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern s32 advance_actor_pending_action(void *actor_state, void *action, void *status, void *actor);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-s32 reset_actor_action_state(void *actor, void * unused, void *sprite, u8 *direction_frames);
+s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
 extern s32 process_selected_actor_record(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void update_object_or_select_directional_data(void *object_arg, void *context, void *source_arg, void *target_arg);
 extern void choose_heading_and_advance_actor(void *context, s32 action, S_8017405C_1 *actor, void *movement);
-void func_80174924(void *, s32, void *, void *);
+void func_80174924(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
 extern s32 check_object_action_and_clear_flags(void *object, s32 query_x, s32 query_y, s32 action_override);
 s32 select_nearby_target_and_start_action(ActorRecord *action_state, ObjectPosition *unused, SpriteFrameState *actor_pos_arg, ActorRecord *actor);
 
@@ -142,8 +143,17 @@ void update_creature_actions_and_animation(ActorRecord *actor, ObjectPosition *c
         }
         if (!(creature->action_flags & ACTOR_ACTION_PENDING)) {
             if (g_dungeon_status.flags & 0x2000) {
-                if ((check_entity_relation(creature, ((s32)primary_actor_record->previous_actor_header) + 0x20) << 0x10) != 0) {
-                    return;
+                {
+                    ObjectNodeHeader *previous_node;
+                    void *previous_body;
+                    ActorRecord *previous_actor;
+
+                    previous_node = primary_actor_record->previous_actor_header;
+                    previous_body = previous_node + 1;
+                    previous_actor = previous_body;
+                    if ((check_entity_relation(creature, previous_actor) << 0x10) != 0) {
+                        return;
+                    }
                 }
             }
             if ((check_object_action_and_clear_flags(actor, context, sprite, 0) << 0x10) == 0) {

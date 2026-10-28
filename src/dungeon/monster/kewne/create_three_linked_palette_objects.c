@@ -1,4 +1,5 @@
 #include "common.h"
+#include "sdk/libgpu.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
@@ -20,9 +21,8 @@ typedef struct S_80174910_9 {
 
 void *allocate_list_node();               /* extern */
 s32 register_node(ObjectNodeHeader *entry, void *registration_id);           /* extern */
-s32 LoadImage();              /* extern */
 extern void D_801747B8();
-extern u8 kewne_palette_colors[];
+extern u32 kewne_palette_colors[];
 
 typedef struct S_80174910_1 {
     u8 pad_00[0xC];
@@ -114,7 +114,7 @@ void create_three_linked_palette_objects(S_80174910_2 *source, s32 effect_param)
                 palette_rect[0] = 0;
                 palette_rect[1] = (s16) ((u32) (((clut_id & 0xFFC0) - 0x40) & 0xFFFF) >> 6);
                 do {
-                    LoadImage((s16 *) palette_rect, kewne_palette_colors);
+                    LoadImage(palette_rect, kewne_palette_colors);
                     next_palette_x = palette_rect[0] + 0x10;
                     palette_rect[0] = next_palette_x;
                 } while (next_palette_x < 0x100);

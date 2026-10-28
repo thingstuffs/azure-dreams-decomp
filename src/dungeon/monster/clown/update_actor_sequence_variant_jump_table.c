@@ -1,6 +1,9 @@
 #include "common.h"
+#include "records/Rec_func_801732A4_arg0.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-extern void update_actor_sequence_variant(void);
+extern void update_actor_sequence_variant(Rec_func_801732A4_arg0 *state, EntityRec *position, SpriteFrameState *actor, void *model);
 
 /* jump_table; owner: dungeon/func_80C004EC. */
 const void *const D_8015E858[8] __attribute__((aligned(4))) = {

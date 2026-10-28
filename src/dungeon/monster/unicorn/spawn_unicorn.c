@@ -4,15 +4,15 @@
 #include "shared/monster_ids.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "dungeon/actor/animation.h"
+#include "engine/node.h"
+#include "engine/node/allocation.h"
+#include "dungeon/actor/status.h"
 
 /* The update callback is the shared dragon code at this bank's own address;
  * its canonical name sits at 0x80170A28 and the home bank does not rebind it. */
 extern u8 D_80170A50[];
-extern ObjectNodeHeader *allocate_list_node(s32, ObjectNodeHeader **);
-extern void register_node(ObjectNodeHeader *, void *);
 extern s32 generate_random_value(void);
-extern void set_or_clear_actor_status_slot(ActorRecord *, s32, s32);
-extern void initialize_actor_sprite_and_animation(ObjectNodeHeader *, ObjectPosition *, SpriteFrameState *, s16);
 extern void try_move_actor_to_valid_position(void *,void *,void *,void *);
 
 /* Allocate Unicorn, set its spawn state and frames, and try a valid tile. */

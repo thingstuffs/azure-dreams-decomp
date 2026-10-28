@@ -9,6 +9,8 @@
 #include "records/Rec_D_80083460.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/actor.h"
+#include "engine/node.h"
+#include "engine/node/allocation.h"
 
 typedef struct S_801733BC_0 {
     u8 pad_00[0xC];
@@ -80,8 +82,6 @@ extern Rect D_80170874;
 
 extern u8 D_801741A4[];
 
-extern void *allocate_list_node(s32, void *);
-extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, s16, s16);
 extern s32 rand(void);
 extern void unlink_entity_node(void *);

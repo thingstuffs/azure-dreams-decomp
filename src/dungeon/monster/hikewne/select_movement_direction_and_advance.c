@@ -17,20 +17,20 @@
 #include "dungeon/monster/hikewne.h"
 
 s32 validate_action_and_apply_effect(ActorRecord *action, ObjectPosition *effect, SpriteFrameState *target, ActorRecord *actor_data);
-extern void update_actor_status_and_mp(void *);
+extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 extern void *find_adjacent_actor(void *, u8, u8);
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern s32 generate_random_value(void);
 extern void *probe_directional_neighbor(void *, u8, u8, s16);
-extern s16 get_actor_height_difference(void *, void *);
+extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
 extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s16 test_neighbor_position_relation(s32, s32, s32, s32);
 extern void select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
 extern s16 check_directional_move_and_terrain(s16, void *, void *, s32);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
-extern s16 check_entity_relation(void *, void *);
+extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
 
 extern s16 actor_turn_angle_offsets[];
@@ -229,9 +229,18 @@ void select_movement_direction_and_advance(ActorRecord *move_data, ObjectPositio
 
         if (turn_index == 0 &&
             reference_tile_object.tile_position.word != *(u16 *)&position_data->tile_x) {
-            if (check_entity_relation(actor_data,
-                    (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {
-                return;
+            {
+                ObjectNodeHeader *previous_node;
+                void *previous_body;
+                ActorRecord *previous_actor;
+
+                previous_node = primary_actor_record->previous_actor_header;
+                previous_body = previous_node + 1;
+                previous_actor = previous_body;
+                if (check_entity_relation(actor_data,
+                        previous_actor) != 0) {
+                    return;
+                }
             }
         }
     }

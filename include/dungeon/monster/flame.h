@@ -1,6 +1,7 @@
 #ifndef DUNGEON_RESOURCE06_SLOT0_H
 #define DUNGEON_RESOURCE06_SLOT0_H
 #include "common.h"
+#include "shared/vector.h"
 #include "dungeon/actor.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -302,10 +303,13 @@ typedef struct R06_80173E94_S_80173E94_1 {
     u16 unk_02;
     u16 unk_04;
     u8 pad_06[0x12];
-    u8 * unk_18;
+    void * unk_18;
     u8 pad_1C[0x4];
     union { u8 * p; u32 * p2; } unk_20;   
-    u8 pad_24[0x9C];
+    u8 pad_24[0x6C];
+    s32 transform_p;
+    s32 transform_flags;
+    u8 pad_98[0x28];
     u32 unk_C0;
 } R06_80173E94_S_80173E94_1;
 typedef struct R06_80173E94_S_80173E94_2 {
@@ -325,6 +329,7 @@ typedef struct R06_80173E94_S_80173E94_3 {
         struct { u8 pad[0x2]; u8 v; } at02;
         struct { u8 pad[0x3]; u8 v; } at03;
     } unk_04;   
+    s32 screen;
 } R06_80173E94_S_80173E94_3;
 typedef struct R06_80173E94_S_80173E94_4_pre {
     void * unk_00;
@@ -394,10 +399,16 @@ typedef struct R06_80174334_S_80174334_0 {
     s32 unk_34;
     s32 unk_38;
     s32 unk_3C;
-    u8 pad_40[0x48];
-    s32 unk_88;
-    s32 unk_8C;
-    s32 unk_90;
+    u8 pad_40[0x14];
+    union {
+        GteMatrix transform[2];
+        struct {
+            u8 pad_00[0x34];
+            s32 x;
+            s32 y;
+            s32 z;
+        } position;
+    } matrices;
     u8 pad_94[0x10];
     u16 unk_A4;
     u16 unk_A6;
@@ -418,7 +429,10 @@ typedef struct R06_80174334_S_80174334_0 {
     u16 unk_C8;
     u16 unk_CA;
     u16 unk_CC;
-    u8 pad_CE[0x32];
+    u8 pad_CE[2];
+    s32 transform_p;
+    s32 transform_flags;
+    u8 pad_D8[0x28];
     s32 unk_100;
 } R06_80174334_S_80174334_0;
 typedef struct R06_80174334_S_80174334_1 {
@@ -464,23 +478,31 @@ typedef struct R06_80174334_S_80174334_4 {
 typedef struct R06_80174334_S_80174334_5 {
     u32 unk_00;
     union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_04;   
-    union { u16 u; s16 s; } unk_08;   
-    union { u16 u; s16 s; } unk_0A;   
+    union {
+        s32 word;
+        struct { union { u16 u; s16 s; } x; union { u16 u; s16 s; } y; } parts;
+    } xy0;
     u16 unk_0C;
     u16 unk_0E;
     u32 unk_10;
-    u16 unk_14;
-    u16 unk_16;
+    union {
+        s32 word;
+        struct { u16 x; u16 y; } parts;
+    } xy1;
     union { u16 u16; u8 u8; } unk_18;   
     u16 unk_1A;
     u32 unk_1C;
-    u16 unk_20;
-    u16 unk_22;
+    union {
+        s32 word;
+        struct { u16 x; u16 y; } parts;
+    } xy2;
     union { struct { u16 v; } at00; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   
     u8 pad_26[0x2];
     u32 unk_28;
-    union { u16 u; s16 s; } unk_2C;   
-    union { u16 u; s16 s; } unk_2E;   
+    union {
+        s32 word;
+        struct { union { u16 u; s16 s; } x; union { u16 u; s16 s; } y; } parts;
+    } xy3;
     union {
         struct { u16 v; } at00;
         struct { u8 v; } at00u;
@@ -743,7 +765,7 @@ s32 update_spinning_actor_fall();
 s32 update_actor_fade_in();
 void project_sprite_commands();
 void func_800453E0(void *context, void *position, struct Entry *entry, s16 depth_bias);
-s32 RotTransPers();
+s32 RotTransPers(void *vertex, s32 *screen, s32 *p, s32 *flag);
 void * CompMatrix(void *, void *, void *);
 void PushMatrix(void);
 void PopMatrix(void);
@@ -751,7 +773,7 @@ void * ReadRotMatrix(void *);
 void * ScaleMatrix(void *, void *);
 void SetRotMatrix(void *);
 void SetTransMatrix(void *);
-s32 RotAverage4();
+s32 RotAverage4(void *v0, void *v1, void *v2, void *v3, s32 *s0, s32 *s1, s32 *s2, s32 *s3, s32 *p, s32 *flag);
 void * RotMatrix(void *, void *);
 s32 rcos(s32);
 void unlink_node();

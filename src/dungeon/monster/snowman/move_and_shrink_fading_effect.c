@@ -43,7 +43,7 @@ s32 draw_snowman_point_chain(u8 *node_data, u16 *position)
         scratch->in2 = position[5];
 
         scratch->current = (u8 *)packet + 0xC;
-        depth_index = RotTransPers(&scratch->in0, (u8 *)packet + 8,
+        depth_index = RotTransPers(&scratch->in0, &packet->screen,
                               &scratch->out0, &scratch->out1);
         scratch->index = depth_index;
 
