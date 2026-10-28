@@ -336,11 +336,14 @@ def prune(directory, max_bytes):
 def enforce_cap(directory, cap):
     # Publication accounts bytes under the same lock. Only an over-cap cache
     # needs an LRU inventory; ordinary misses do constant-time metadata IO.
+    # The inventory walks every entry under the shared lock (minutes on a full
+    # lane cache), so prune to a low watermark: pruning exactly to the cap made
+    # every later miss walk again and serialised all lanes' compiles.
     with locked(directory):
         counter = directory/'bytes'
         total = int(counter.read_text()) if counter.exists() else cap+1
     if total > cap:
-        prune(directory, cap)
+        prune(directory, cap*3//4)
 
 
 def refresh_proof(root, recipe_path, spec):

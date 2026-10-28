@@ -196,6 +196,15 @@ class CacheTests(unittest.TestCase):
         self.assertFalse((self.directory/second).exists())
         self.assertEqual(C.prune(self.directory, 0)['bytes'], 0)
 
+    def test_over_cap_prunes_to_low_watermark(self):
+        first, inputs, outputs = self.fixture()
+        size = sum(p.stat().st_size for p in (self.directory/first).iterdir())
+        with patch.object(C, 'prune', wraps=C.prune) as spy:
+            C.enforce_cap(self.directory, size)
+            spy.assert_not_called()
+            C.enforce_cap(self.directory, size-1)
+            spy.assert_called_once_with(self.directory, (size-1)*3//4)
+
     def test_verify_recompiles_hit_and_rejects_different_bytes(self):
         calls = []
         def build():
