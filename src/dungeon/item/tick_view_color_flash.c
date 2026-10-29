@@ -2,6 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/item.h"
 
 typedef struct S_800C4C00_0 {
     u8 unk_00;

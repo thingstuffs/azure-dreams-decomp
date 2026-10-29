@@ -7,6 +7,13 @@
 #include "dungeon/level.h"
 #include "dungeon/system.h"
 #include "engine/entity.h"
+#include "dungeon/actor.h"
+#include "dungeon/item.h"
+#include "dungeon/item/effect.h"
+#include "dungeon/player/item.h"
+#include "engine/scene.h"
+#include "engine/script.h"
+#include "slus.h"
 
 typedef struct S_80041E28_Dst S_80041E28_Dst;
 typedef struct S_80041E28_Src S_80041E28_Src;
@@ -30,19 +37,9 @@ extern s32 familiar_turn_counters_alias;
 extern s16 actor_event_values[];
 extern u8 restore_actor_script[];
 
-extern void restore_actor_stats_from_snapshot(S_80041E28_Dst *dst, S_80041E28_Src *src);
-extern void apply_actor_template_and_class(void *, s32, void *);
-extern void call_script(s32 value);
-extern void replay_actor_status_slots(ActorRecord *object);
-extern void func_80042640(void *obj, s16 monsterId);
 extern s32 get_entity_class();
 
 extern void equip_item_and_update_status();
-extern void change_equipped_item_and_notify();
-extern s32 retain_spawn_resource(s16 entry_type, s16 entry_key);
-extern u8 * find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type);
-extern s32 select_dungeon_spawn_tile(u8 *x_out, u8 *y_out);
-extern void *create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 direction, s16 effect_mode);
 
 typedef struct S_80094988_0 {
     u8 pad_00[0x2D50];

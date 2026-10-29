@@ -3,6 +3,9 @@
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
+#include "dungeon/effect/screen.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 
 typedef struct S_800C9088_0 {
     u8 pad_00[0x8];
@@ -115,22 +118,7 @@ typedef struct {
     s32 t[3];
 } MATRIX;
 
-extern void *CompMatrix(void *, void *, void *);
-extern void PushMatrix(void);
-extern void PopMatrix(void);
-extern void ReadRotMatrix(void *);
-extern void TransMatrix(void *, void *);
-extern void *ScaleMatrix(void *, void *);
-extern void SetRotMatrix(void *);
-extern void SetTransMatrix(void *);
 extern void func_80065034(void *, void *, void *);
-extern s32 NormalClip(s32, s32, s32);
-extern s32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void RotMatrixX(u16, void *);
-extern void RotMatrixY(u16, void *);
-extern void RotMatrixZ(u16, void *);
-extern void AddPrim(void *, void *);
-extern void SetPolyGT4(void *);
 
 /* Transform, shade, and enqueue visible textured quads for the model. */
 void transform_shade_and_queue_model_quads(void *parent_matrix, void *translation, void *model, s16 depth_bias)
@@ -343,11 +331,8 @@ typedef struct S_800C95C0_1_pre {
     u8 pad_04[0x4];
 } S_800C95C0_1_pre;   /* the 0x8 bytes before state in queue_linked_visible_rectangle_copies, addressed as state[-1] */
 
-
-extern s32 RotTransPers(void *, void *, ...);
 struct S_Rect;
 struct S_Arg1;
-extern void queue_visible_rectangle_copy(struct S_Rect *copy_rect, struct S_Arg1 *source);
 
 /* Updates each linked state from its input values and delta using scratchpad memory. */
 s32 queue_linked_visible_rectangle_copies(void *initial_state, void *input_values, s16 *initial_delta) {
@@ -378,7 +363,6 @@ s32 queue_linked_visible_rectangle_copies(void *initial_state, void *input_value
 
 struct S_Rect;
 struct S_Arg1;
-extern void queue_visible_rectangle_copy(struct S_Rect *copy_rect, struct S_Arg1 *source);
 
 /* Processes linked entries with position values staged in scratchpad memory. */
 s32 process_linked_entries_at_position(void *entry_data, void *position) {
@@ -434,7 +418,6 @@ typedef struct {
 extern u8 resident_globals_page[];
 extern u8 upper_draw_context[16];
 extern void func_80066890(u8 *dst, S_Stack *rect, s32 x, s32 y);
-extern void AddPrim(void *, void *);
 
 /* Queue a rectangle copy when both source and destination fit on screen. */
 void queue_visible_rectangle_copy(S_Rect *copy_rect, S_Arg1 *source) {

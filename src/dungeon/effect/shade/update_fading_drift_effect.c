@@ -1,13 +1,12 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
+#include "slus.h"
 
 typedef struct {
     void *unk0;
     u16 unk4;
 } State;
-
-extern void advance_sprite_animation_and_textures(void *);
 
 /* Updates effect motion and fading, marking completion when the timer expires. */
 void update_fading_drift_effect(State *state, void *position, SpriteFrameState *visual) {

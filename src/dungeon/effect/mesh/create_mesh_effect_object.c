@@ -1,7 +1,7 @@
 #include "shared/object_node.h"
 #include "dungeon/effect/mesh.h"
+#include "engine/node.h"
 
-extern void register_node(void *object, void *data);
 extern s16 tile_key_pair_count;
 extern void *tile_coordinate_records;
 

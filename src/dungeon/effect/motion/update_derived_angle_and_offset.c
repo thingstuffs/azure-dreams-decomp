@@ -2,9 +2,9 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
-
-extern s32 rcos(s32);
-extern void advance_sprite_animation_and_textures(void *);
+#include "dungeon/effect/motion.h"
+#include "sdk/libgte.h"
+#include "slus.h"
 
 /* Update the derived angle and offset, then propagate status flags. */
 void update_derived_angle_and_offset(void *angle_source, void *offset_state, SpriteFrameState *angle_state)

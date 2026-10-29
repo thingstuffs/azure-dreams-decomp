@@ -6,6 +6,8 @@
  * if/else joins (gap probe 5). No pins, no noreturn scaffolding. */
 #include "common.h"
 #include "shared/game_work.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 
 typedef struct S_801663AC_0 {
     u8 pad_00[0xC];
@@ -122,17 +124,6 @@ typedef struct {
     s16 pad;
     s32 t[3];
 } MATRIX;
-
-extern void CompMatrix(void *, void *, void *);
-extern void PushMatrix(void);
-extern void PopMatrix(void);
-extern void ReadRotMatrix(void *);
-extern void ScaleMatrix(void *, void *);
-extern void SetRotMatrix(void *);
-extern void SetTransMatrix(void *);
-extern s32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void RotMatrix(void *, void *);
-extern void SetPolyGT4(void *);
 
 /* Transform a textured quad and add it to the ordering table if visible. */
 void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, void *render_state, s16 depth_bias)

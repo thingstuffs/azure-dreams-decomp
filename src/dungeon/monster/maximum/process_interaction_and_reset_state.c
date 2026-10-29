@@ -13,7 +13,7 @@ typedef struct S_801722DC_0 {
 } S_801722DC_0;   /* arg0 in process_interaction_and_reset_state */
 
 
-void spend_actor_mp();            /* extern */
+void spend_actor_mp(ActorRecord *entity, s32 base_reduction);            /* extern */
                 /* extern */
 void dispatch_monster_move_attack_spell(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 

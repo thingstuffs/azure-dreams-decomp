@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "slus.h"
 
 /* Guards on a0's byte field at offset 0x9B == 0xFF: if so, marks bit 0x8000
  * on a0's 16-bit flags word located 2 bytes before the parameter itself,
@@ -12,8 +13,6 @@
 typedef struct {
     u8 pad[0x9B + 1];
 } S_800D2200_a0;
-
-extern void advance_sprite_animation_and_textures(void *target);
 
 /* Marks the record and global flags for a sentinel byte, then processes the target. */
 void process_effect_on_sentinel(S_800D2200_a0 *record, s32 unused, void *target)

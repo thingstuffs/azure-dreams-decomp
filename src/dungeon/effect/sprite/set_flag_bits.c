@@ -5,6 +5,8 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "engine/node.h"
+#include "dungeon/effect/sprite.h"
+#include "slus.h"
 
 typedef struct S_8092192C_2 {
     s32 unk_00;
@@ -23,7 +25,6 @@ typedef struct S_8092192C_4 {
 } S_8092192C_4;
 
 extern u8 shared_sprite_entries[];
-void select_record_entry_and_value(void *state, void *entries, short index);
 void func_800F68AC(s16 *state, s32 *position, u16 *object);
 
 /* Returns the union of the supplied flag word and mask. */

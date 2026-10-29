@@ -4,6 +4,8 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/level.h"
+#include "dungeon/item.h"
+#include "dungeon/item/effect.h"
 
 #ifndef NULL
 #define NULL 0
@@ -37,7 +39,6 @@ extern u8 D_800C1EC4;
 
 extern s32 get_entity_class(void *);
 extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
-extern void create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 direction, s16 effect_mode);
 
 /* Creates a relocation task and updates the object's tile and height. */
 void *teleport_familiar_near_player(void *object, s16 action_arg) {

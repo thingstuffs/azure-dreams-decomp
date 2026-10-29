@@ -17,6 +17,9 @@
 #include "shared/dungeon_moving_views.h"
 #include "shared/dungeon_effect_views.h"
 #include "sdk/libgpu.h"
+#include "dungeon/effect/particle.h"
+#include "engine/scene.h"
+#include "sdk/libgte.h"
 
 typedef struct S_func_81856800_1 {
     void * unk_00;
@@ -178,18 +181,13 @@ typedef union SignedProduct {
     } words;
 } SignedProduct;
 
-extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
-
 extern void apply_attack_power_and_element_effects(void *, s32, u8, s32, s32, void *, s32);
 
 extern u8 moving_sprite_entries[];
 extern u8 rotating_particle_sprite_entries[];
 extern u8 shared_sprite_entries[];
 
-extern void fade_packed_object_color_to_zero(void *);
 extern void animate_jittering_five_point_effect();
-
-void run_fading_sprite_projectile(S_func_81856800_1 *action, S_func_81856800_2 *motion_arg);
 
 /* Native module entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The state table of the switch below follows
@@ -681,8 +679,6 @@ typedef struct DungeonShape {
     u8 pad44[2];
     s16 unk46;
 } DungeonShape;
-
-extern s32 RotTransPers(void *world_vertex, void *screen_point, void *ptr2, void *ptr3);
 
 typedef struct DungeonTag {
     unsigned addr : 24;

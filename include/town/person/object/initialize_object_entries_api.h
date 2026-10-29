@@ -2,6 +2,7 @@
 #define TOWN_PERSON_OBJECT_INITIALIZE_OBJECT_ENTRIES_API_H
 
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 
 /* Directional entry-selection state inside a town object.
  * initialize_object_entries stores the list, counts it and selects output by heading. */
@@ -14,6 +15,6 @@ typedef struct {
     /* 0x78 */ s32 *unk78; /* zero-terminated array of entry words supplied by the initializer caller */
 } Struct800C5724;
 
-void initialize_object_entries(Struct800C5724 *, s8 *, s32 *);
+void initialize_object_entries(Struct800C5724 *state, SpriteFrameState *output, s32 *entries);
 
 #endif

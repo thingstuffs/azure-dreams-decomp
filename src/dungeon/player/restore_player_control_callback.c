@@ -3,8 +3,8 @@
 #include "dungeon/player/input.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
-
-extern s32 get_entity_effect_value(void *entry, s32 effect_id);
+#include "dungeon/player.h"
+#include "engine/entity.h"
 
 /* Selects the target dispatch pointer from the source type and flags. */
 void restore_player_control_callback(void *target, void *source) {

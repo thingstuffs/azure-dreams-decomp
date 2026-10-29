@@ -28,4 +28,6 @@ void initialize_reaction_context(void *object, void *position, struct SpriteFram
 void initialize_record_from_table_index(void *object, void *position, struct SpriteFrameState *state);
 void initialize_object_sprite(struct Rec_D_800CFCB4 *object, void *position, struct SpriteFrameState *state);
 
+void initialize_person_resources(void *object, void *position, struct SpriteFrameState *state);
+
 #endif

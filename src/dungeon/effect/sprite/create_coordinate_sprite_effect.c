@@ -4,6 +4,7 @@
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/sprite/create_coordinate_sprite_effect.h"
+#include "dungeon/effect/sprite.h"
 
 /* Adds a random actor value delta with an optional half bonus, clamps it, displays a popup, and
    applies it. */

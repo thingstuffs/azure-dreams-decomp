@@ -2,6 +2,8 @@
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 
 typedef struct S_80166968_0 {
     u8 pad_00[0x24];
@@ -66,18 +68,6 @@ typedef struct {
     s16 pad;
     s32 t[3];
 } MATRIX;
-
-extern void CompMatrix(void *, void *, void *);
-extern void PushMatrix(void);
-extern void PopMatrix(void);
-extern void ReadRotMatrix(void *);
-extern void ScaleMatrix(void *, void *);
-extern void SetRotMatrix(void *);
-extern void SetTransMatrix(void *);
-extern s32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void RotMatrix(void *, void *);
-extern u16 GetTPage(s32, s32, s32, s32);
-extern void SetDrawMode(void *, s32, s32, u16, s32);
 
 /* Project edge midpoints and queue line and draw-mode packets in the ordering table. */
 void draw_ribbon_center_lines(RibbonLineGeometry *geometry, ObjectPosition *position, SpriteFrameState *render_data, s32 depth_bias)

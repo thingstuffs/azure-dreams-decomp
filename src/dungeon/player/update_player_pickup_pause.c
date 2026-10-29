@@ -1,6 +1,7 @@
 #include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/game_work.h"
+#include "dungeon/player.h"
 
 
 /* Waits for a countdown or global state change before resetting the object's handler. */

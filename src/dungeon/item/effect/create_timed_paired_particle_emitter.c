@@ -4,6 +4,9 @@
 #include "shared/object_node.h"
 #include "shared/dungeon_status.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/item/effect.h"
+#include "dungeon/system.h"
+#include "engine/node.h"
 
 #ifndef NULL
 #define NULL 0
@@ -25,9 +28,7 @@ typedef struct S_800C4AFC_0 {
 
    /* (void *)temp in create_timed_paired_particle_emitter */
 
-extern void *allocate_list_node(s32, void *);
 extern void draw_textured_ellipse(void *, s32 *, s32, s32);
-extern void play_sound_if_enabled(s32);
 extern void tick_paired_particle_emitter(void);
 
 extern u8 D_800DCF78[12];

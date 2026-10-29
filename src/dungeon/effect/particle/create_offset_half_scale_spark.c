@@ -4,6 +4,8 @@
 #include "common.h"
 #include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
+#include "dungeon/effect/particle.h"
+#include "slus.h"
 
 typedef struct Sprite {
     u8 pad0[6];
@@ -28,7 +30,6 @@ typedef struct Object {
     void *callback;
 } Object;
 
-extern void select_record_entry_and_value(void *state, void *entries, short index);
 #include "engine/node.h"
 extern u8 D_80165580;
 

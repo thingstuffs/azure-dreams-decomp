@@ -7,6 +7,7 @@
 #include "sdk/libc.h"
 #include "sdk/libgte.h"
 #include "engine/node/allocation.h"
+#include "dungeon/effect/mesh.h"
 
 typedef s32 M2C_UNK;
 

@@ -13,7 +13,7 @@ typedef struct S_801724A8_0 {
 } S_801724A8_0;   /* arg0 in update_the_target_conditionally_resets_caller_state */
 
 
-void spend_actor_mp();            /* extern */
+void spend_actor_mp(ActorRecord *entity, s32 base_reduction);            /* extern */
                 /* extern */
 void update_dungeon_actor_behavior_facing_animation_state(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 

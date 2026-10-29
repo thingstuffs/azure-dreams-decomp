@@ -201,4 +201,7 @@ extern s16 scene_sprite_wave_tick;
 extern s16 secondary_transition_slot_index;
 extern s16 transition_runtime_slot_index;
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+void transform_vector_with_saved_matrix(GteMatrix *matrix, GteShortVector *input_vec, GteTranslationVector *output_vec);
+
 #endif

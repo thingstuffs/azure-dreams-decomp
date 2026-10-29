@@ -11,6 +11,7 @@
 #include "dungeon/monster/barong.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/player/object.h"
+#include "dungeon/actor/spell_resource_ids_g01008.h"
 
 typedef struct S_80172B4C_0 {
     u8 pad_00[0x8C];
@@ -31,7 +32,7 @@ extern void select_sprite_entry(void *, s32, s32);
 extern s32 rsin(s32);
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void on_actor_status_updated(void *);
-extern void spend_actor_mp(void *, s32);
+
 
 
 extern u8 barong_action_resume_address[];

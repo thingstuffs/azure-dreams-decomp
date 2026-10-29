@@ -1,8 +1,8 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
-
-extern void advance_sprite_animation_and_textures(void *target);
+#include "dungeon/effect/motion.h"
+#include "slus.h"
 
 /* Increment the linked object's counter, process the target, and propagate its status flags. */
 void advance_linked_object_counter(void *entry, s32 unused, SpriteFrameState *target) {

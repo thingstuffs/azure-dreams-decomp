@@ -1,5 +1,8 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "dungeon/item.h"
+#include "sdk/libc.h"
+#include "sdk/libgte.h"
 
 typedef struct EffectState EffectState;
 typedef struct EffectWork EffectWork;
@@ -36,10 +39,6 @@ struct EffectColor {
     u16 value_1c;
     u16 value_1e;
 };
-
-extern s32 rsin(s32);
-extern s32 rcos(s32);
-extern s32 rand(void);
 
 /* Updates effect brightness, paired color values, and motion through three stages. */
 void animate_orbiting_effect_particle(EffectState *state, EffectWork *work, EffectColor *color) {

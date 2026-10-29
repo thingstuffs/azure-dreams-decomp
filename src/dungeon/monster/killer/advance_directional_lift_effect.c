@@ -41,7 +41,7 @@ extern void clear_byte_and_advance(s8 *byte_ptr);
 extern u8 *append_entity_display_text(void *record, u8 *out);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern void spend_actor_mp(void *, s32);
+void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
 extern void *actor_update_node_cursor;
 extern u8 D_80170854[];

@@ -12,6 +12,7 @@
 #include "engine/node.h"
 #include "engine/node/allocation.h"
 #include "dungeon/player/object.h"
+#include "dungeon/actor/spell_resource_ids_g01008.h"
 
 typedef struct S_80174BEC_0_pre {
     void * unk_00;
@@ -87,7 +88,7 @@ extern s32 get_sprite_attachment_vector(void *, void *, Vec3u *, s32);
 extern void select_sprite_entry(void *, u8, s32);
 extern s32 rand(void);
 extern void play_sound_if_enabled(s32);
-extern void spend_actor_mp(void *, s32);
+
 extern void toggle_attacker_target_status_pair(void *, void *);
 
 extern u8 blume_slot_g_direction_steps[];

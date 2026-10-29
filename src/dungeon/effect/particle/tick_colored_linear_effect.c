@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "dungeon/effect/particle.h"
 
 typedef struct S_801654F0_0 {
     s32 unk_00;

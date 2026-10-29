@@ -1,4 +1,5 @@
 #include "common.h"
+#include "sdk/libgte.h"
 
 typedef struct {
     s16 u0[2];
@@ -28,8 +29,6 @@ typedef struct {
 
 extern void func_80024770(s32, s32, s32);
 extern void fade_scene_tile_after_completion_flag(s32, s32, s32, s32);
-extern s32 rsin(s32);
-extern s32 rcos(s32);
 
 /* Builds scaled vertices and submits a shaded strip using scratchpad storage. */
 s32 draw_shaded_rotating_vertex_strip(Record *record) {

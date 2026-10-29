@@ -5,7 +5,7 @@
 
 
 /* Reset the record to state 0x34 with flag bit 0 cleared. */
-void reset_record_to_state_34(void *state, s32 unused_context, struct SpriteFrameState *unused_sprite, struct ActorRecord *unused_actor) {
+void reset_record_to_state_34(void *state, void *unused_context, struct SpriteFrameState *unused_sprite, struct ActorRecord *unused_actor) {
     Rec_func_8008ACDC_arg0 *record;
 
     record = state;

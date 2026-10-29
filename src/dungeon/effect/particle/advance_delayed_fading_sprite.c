@@ -9,6 +9,7 @@
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/effect/particle.h"
 
 #define F(p, t, o) (*(t *)((u8 *)(p) + (o)))
 

@@ -13,7 +13,7 @@
 #include "dungeon/system.h"
 #include "dungeon/item/message.h"
 
-extern s32 process_record_and_update_linked_state();
+#include "dungeon/player/state.h"
 extern void create_type_212_object(s32 flag, s8 value);
 extern void refresh_packed_grid_nibbles(void);
 extern s32 mark_active_nodes_by_callback();
@@ -31,7 +31,7 @@ extern u8 floor_trap_update_address[];
 #define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
 /* Apply a target effect and clear dungeon entities and tiles when requested. */
-s32 flatten_floor_terrain(void *target, DungeonItemEntry *effect_arg, s16 effect_id, s32 context) {
+s32 flatten_floor_terrain(void *target, DungeonItemEntry *effect_arg, s16 effect_id, void *context) {
     s32 *dungeon_state = ((s32 *)(&g_game_work));
     u8 *grid_info;
     s32 grid_base;

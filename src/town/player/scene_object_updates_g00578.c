@@ -121,9 +121,9 @@ void update_entity_sprite_and_effects(void *entity, EntityRec *position, SpriteF
 }
 
 /* Initialize object state and position, then invoke its new callback. */
-void save_and_clear_entity_flag_ten(Obj *obj, State *state, VecState *motion, s32 callback_arg)
+void save_and_clear_entity_flag_ten(Obj *obj, State *state, VecState *motion, void *callback_arg)
 {
-    s32 resource_arg;
+    void *resource_arg;
     void *resource;
 
     resource_arg = callback_arg;
@@ -133,7 +133,7 @@ void save_and_clear_entity_flag_ten(Obj *obj, State *state, VecState *motion, s3
     motion->dy = 0;
     motion->dz = 0;
     obj->callback = update_actor_position_and_heading;
-    initialize_object_entries((Struct800C5724 *)obj, (s8 *)resource_arg, (s32 *)resource);
+    initialize_object_entries((Struct800C5724 *)obj, resource_arg, (s32 *)resource);
     update_target_from_previous_state();
     motion->x = view_reference_entity.x.v;
     motion->y = view_reference_entity.y.v;
@@ -144,7 +144,7 @@ void save_and_clear_entity_flag_ten(Obj *obj, State *state, VecState *motion, s3
 }
 
 /* Updates the actor position and rounds its heading, or restores the fixed position and heading. */
-void update_actor_position_and_heading(void *actor, s32 update_context, void *position, s32 setup_context) {
+void update_actor_position_and_heading(void *actor, s32 update_context, void *position, void *setup_context) {
     u32 heading;
     ObjectNodeHeader *state;
     s32 *saved_position;
@@ -157,7 +157,7 @@ void update_actor_position_and_heading(void *actor, s32 update_context, void *po
         saved_position = (s32 *)&bike_saved_position;
         ((EntityRec *)saved_position)->y.v = ((EntityRec *)position)->y.v;
         ((DelayMotionZ *)saved_position)->unk_08 = (*(s32 *)((u8 *)position + 8));
-        initialize_object_entries((Struct800C5724 *)actor, (s8 *)setup_context, (s32 *)D_80100E24);
+        initialize_object_entries((Struct800C5724 *)actor, setup_context, (s32 *)D_80100E24);
         select_object_value_by_height_band(actor, update_context, position, setup_context);
         heading = ((Rec_func_80094268_arg0 *)actor)->unk_72.as_u16;
         heading += 0x200;

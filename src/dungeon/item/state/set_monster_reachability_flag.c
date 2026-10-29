@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "dungeon/item/state.h"
 
 extern u16 monster_special_entry_index;
 

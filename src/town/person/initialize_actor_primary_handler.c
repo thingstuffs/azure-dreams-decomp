@@ -1,9 +1,10 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "town/person/state_updates.h"
 
 /* Pointer arguments follow the matched initialize_object_entries body. */
-extern void initialize_object_entries(void *state, s8 *output, s32 *entries);
+extern void initialize_object_entries(void *state, SpriteFrameState *output, s32 *entries);
 
 extern s32 D_800D64DC[];
 extern u8 D_800CA020[];

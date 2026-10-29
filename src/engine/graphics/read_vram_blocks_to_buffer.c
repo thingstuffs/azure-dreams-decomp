@@ -9,11 +9,11 @@ typedef struct {
 
 /* D_80081480 / D_8008148C: pointer-valued words (retail neighbours D_80081485 / D_80081490 bound them). */
 typedef struct {
-    s32 field_0;
+    void *field_0;
 } S_80081480_8004B568;
 
 typedef struct {
-    s32 field_0;
+    void *field_0;
 } S_8008148C_8004B568;
 
 extern S_80081480_8004B568 gpu_scratch_write_pointer;
@@ -49,9 +49,9 @@ void read_vram_blocks_to_buffer(void)
         rect.x = rect_x;
         rect.w = rect_w;
         rect.h = rect_h;
-        StoreImage(&rect, (void *)gpu_scratch_buffer_base.field_0);
+        StoreImage(&rect, gpu_scratch_buffer_base.field_0);
         rect_y += 0x80;
         DrawSync(0);
-        decode_dst = decompress_lz((void *)gpu_scratch_write_pointer.field_0, decode_dst);
+        decode_dst = decompress_lz(gpu_scratch_write_pointer.field_0, decode_dst);
     }
 }

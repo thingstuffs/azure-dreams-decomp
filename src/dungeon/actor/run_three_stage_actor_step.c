@@ -4,7 +4,7 @@
 
 typedef struct S_80096AE0_0 {
     u8 pad_00[0x8C];
-    u8 * unk_8C;
+    void (*unk_8C)(void *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
     u8 pad_90[0x6];
     u16 unk_96;
     u8 pad_98[0x3];

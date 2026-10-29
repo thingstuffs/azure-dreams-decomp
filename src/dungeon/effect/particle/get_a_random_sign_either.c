@@ -2,6 +2,7 @@
 #include "shared/object_node.h"
 #include "dungeon/effect/particle/get_a_random_sign_either.h"
 #include "shared/object_flags.h"
+#include "dungeon/effect/particle.h"
 
 
 /* Maps a random low bit to either -1 or 1. */

@@ -7,18 +7,11 @@
 #include "shared/dungeon_moving_views.h"
 #include "engine/graphics.h"
 #include "engine/node.h"
+#include "engine/scene.h"
 
 typedef struct {
     s32 word[6];
 } Copy24;
-
-typedef struct {
-    u16 x;
-    u16 y;
-    u16 z;
-} Vec3u16;
-
-extern s32 resolve_record_orientation_or_fallback();
 
 extern s32 cyclone_spawn_update_address;
 
@@ -26,13 +19,6 @@ typedef struct S_80E122F4_0 {
     u8 pad_00[0x60];
     void * unk_60;
 } S_80E122F4_0;   /* owner in func_80E122F4 */
-
-typedef struct S_80E122F4_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0x1C];
-    s32 unk_28;
-} S_80E122F4_2;   /* source_obj in func_80E122F4 */
 
 typedef struct S_80E122F4_3 {
     u8 pad_00[0x4];
@@ -65,10 +51,10 @@ typedef struct S_80E122F4_6 {
 /* Spawn a 0x312 effect object at the source's position, offset into the owner's room and depth-sorted against the camera. */
 void *create_source_to_owner_sprite(S_80E122F4_0 *owner, void *transform, void *source)
 {
-    Vec3u16 offset;
+    GteOffset offset;
     S_80E122F4_5 *reference;
     ObjectNodeHeader * obj;
-    S_80E122F4_2 *source_obj;
+    SpriteFrameState *source_obj;
     ObjectPosition *coords;
     SpriteFrameState *child;
     S_80E122F4_3 *part;
@@ -82,7 +68,7 @@ void *create_source_to_owner_sprite(S_80E122F4_0 *owner, void *transform, void *
         register_node(obj, project_sprite_chain);
 
         child = obj->sprite;
-        child->animation_resource = source_obj->unk_28;
+        child->animation_resource = source_obj->animation_resource;
         child->scale_y = 0x800;
         child->scale_x = 0x800;
         child->color.word = 0x808080;
@@ -93,16 +79,16 @@ void *create_source_to_owner_sprite(S_80E122F4_0 *owner, void *transform, void *
         coords = obj->position;
         (*(Copy24 *)((u8 *)obj + 0x24)) = *(Copy24 *)transform;
 
-        offset.z = 0;
-        offset.y = 0;
-        offset.x = 0;
+        offset.distance[2] = 0;
+        offset.distance[1] = 0;
+        offset.distance[0] = 0;
         part = (u8 *)obj + 0x20;
-        if (resolve_record_orientation_or_fallback(source_obj->unk_08, source_obj, &offset, 1) != 0) {
-            part->unk_04.at02.v += offset.x;
+        if (resolve_record_orientation_or_fallback(source_obj->source, source_obj, &offset.orientation, 1) != 0) {
+            part->unk_04.at02.v += offset.distance[0];
             coords->x.w.i = part->unk_04.at02.v;
-            part->unk_08.at02.v += offset.y;
+            part->unk_08.at02.v += offset.distance[1];
             coords->y.w.i = part->unk_08.at02.v;
-            part->unk_0C.at02.v += offset.z;
+            part->unk_0C.at02.v += offset.distance[2];
             coords->z.w.i = part->unk_0C.at02.v;
         }
 

@@ -2,6 +2,8 @@
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
+#include "dungeon/effect/sprite.h"
+#include "sdk/libgte.h"
 
 typedef struct S_800247D4_0 {
     u8 pad_00[0x18];
@@ -64,10 +66,6 @@ typedef struct S_800247D4_3 {
 typedef struct S_800247D4_4 {
     u32 unk_00;
 } S_800247D4_4;   /* (void *)scaled_index in draw_animated_shaded_lines */
-
-extern s32 rsin(s32);
-extern s32 rcos(s32);
-extern s32 RotTransPers(void *, void *, void *, void *);
 
 /* Returns the end-minus-start difference shifted into the high halfword. */
 static __inline__ s32 endpoint_delta(u16 end, u16 start)

@@ -18,9 +18,9 @@ typedef struct S_func_8187A800_0 {
 
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
-extern void clear_byte_and_advance(s8 *byte_ptr);
+extern u8 *clear_byte_and_advance(u8 *byte_ptr);
 extern u8 *append_entity_display_text(void *record, u8 *out);
-extern void adjust_source_value_and_finalize(void *, void *);
+extern void adjust_source_value_and_finalize(void *, const void *);
 #include "dungeon/effect/screen.h"
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 get_random_scaled_value(s16 input_value);

@@ -15,7 +15,7 @@ extern void store_recalled_familiar(void *, void *, void *, void *);
 extern void unlink_entity_node(void *);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
-extern u8 find_entity_slot_by_field_ac(void *);
+s32 find_entity_slot_by_field_ac(void *target_value);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 #include "dungeon/monster/pulunpa.h"

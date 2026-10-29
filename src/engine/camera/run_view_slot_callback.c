@@ -2,7 +2,7 @@
 #include "engine/camera.h"
 
 /* Wait for a callback while polling is enabled, then invoke it with the data following its slot. */
-void run_view_slot_callback(void (**callback_slot)(void *), s32 *poll_enabled, void *poll_context)
+void run_view_slot_callback(void (**callback_slot)(void *), s32 *poll_enabled, s32 slot_selector)
 {
     void (*callback)(void *);
 
@@ -15,6 +15,6 @@ void run_view_slot_callback(void (**callback_slot)(void *), s32 *poll_enabled, v
         if (*poll_enabled == 0) {
             break;
         }
-        restore_view_slot(poll_context);
+        restore_view_slot(slot_selector);
     }
 }

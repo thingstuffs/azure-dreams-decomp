@@ -17,8 +17,7 @@ struct SpriteFrameState;
 
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void request_scene_dispatch_state(s32);
-extern void apply_pending_byte_increase();
-extern void begin_player_menu_action();
+#include "dungeon/player.h"
 extern s32 resolve_player_input_facing(s16 direction_offset, u16 *flags, u16 *angle);
 extern s32 has_action_input_without_modifier(void);
 extern s32 begin_actor_attack();
@@ -42,7 +41,7 @@ typedef struct S_80096384_5 {
 } S_80096384_5;   /* temp_v0_2 in handle_actor_commands_and_facing */
 
 /* Handles actor commands, turns toward the requested direction, and updates the sprite. */
-void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameState *sprite, ActorRecord *actor_data)
+void handle_actor_commands_and_facing(void *actor, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor_data)
 {
     s16 status_value;
     s16 input_angle;
@@ -89,11 +88,11 @@ void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameStat
     g_dungeon_status.flags &= 0xFF7F;
     status_value = actor_data->hp_delta;
     if (status_value < 0) {
-        run_saved_actor_action(actor, actor_id, sprite, actor_data);
+        run_saved_actor_action(actor, motion, sprite, actor_data);
         return;
     }
     if (status_value > 0) {
-        apply_pending_byte_increase(actor, actor_id, sprite, actor_data);
+        apply_pending_byte_increase(actor, motion, sprite, actor_data);
     }
 
     data_flags = actor_data->flags14;
@@ -103,19 +102,19 @@ void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameStat
 
     actor_flags = ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2;
     if (!(actor_flags & 0x10)) {
-        reset_record_to_state_34(actor, actor_id, sprite, actor_data);
+        reset_record_to_state_34(actor, motion, sprite, actor_data);
         return;
     }
 
     status_flags = actor_data->flags1C;
     if (status_flags & 0x200) {
-        finish_paralyzed_actor_action(actor, actor_id, sprite, actor_data);
+        finish_paralyzed_actor_action(actor, motion, sprite, actor_data);
         return;
     }
 
     if (!(g_dungeon_status.flags & 4)) {
         if (status_flags & 0x20) {
-            begin_action_33_and_dispatch(actor, actor_id, sprite, actor_data);
+            begin_action_33_and_dispatch(actor, motion, sprite, actor_data);
             return;
         }
         flags_page = (u16 *)0x80010000;
@@ -183,13 +182,13 @@ void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameStat
                     command_state = active_actor_command_code[0];
                     switch (command_state) {
                     case 8:
-                        update_actor_movement_and_map_flags(actor, actor_id, sprite, actor_data);
+                        update_actor_movement_and_map_flags(actor, motion, sprite, actor_data);
                         return;
                     case 0x10:
-                        begin_action_33_and_dispatch(actor, actor_id, sprite, actor_data);
+                        begin_action_33_and_dispatch(actor, motion, sprite, actor_data);
                         return;
                     case 0x18:
-                        begin_actor_attack(actor, actor_id, sprite, actor_data);
+                        begin_actor_attack(actor, motion, sprite, actor_data);
                         break;
                     case 0xD8:
                         actor_command_handlers[command->unk_00 & 0x7F]();
@@ -216,14 +215,14 @@ void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameStat
                 ((lookup_definition_pair_value(sprite->tile_x,
                     sprite->tile_y) << 16) != 0)) {
                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 &= 0xFDFF;
-                begin_player_menu_action(actor, actor_id, sprite, player_menu_action_data);
+                begin_player_menu_action(actor, motion, sprite, player_menu_action_data);
                 return;
             }
 
             if (input->buttons & 0x80) {
                 actor_data->unk_8A = 2;
                 menu_action_argument[0] = 2;
-                begin_player_menu_action(actor, actor_id, sprite, D_8004F5F4);
+                begin_player_menu_action(actor, motion, sprite, D_8004F5F4);
                 reference_tile_object.selected_item = 0;
                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_C8 = 0;
                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_104 = 0;
@@ -249,7 +248,7 @@ void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameStat
                                 ((u16)actor_data->facing) +
                                 (generate_random_value() & 0xE00);
                         }
-                        update_actor_movement_and_map_flags(actor, actor_id, sprite, actor_data);
+                        update_actor_movement_and_map_flags(actor, motion, sprite, actor_data);
                         if (((Rec_func_8008ACDC_arg0 *)actor)->unk_9A.as_u8 != 0x32) {
                             return;
                         }
@@ -264,7 +263,7 @@ void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameStat
             input_flags = ((u32)input->buttons);
             if ((input_flags & 0x30) == 0x30) {
                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 &= 0xFFFE;
-                begin_action_33_and_dispatch(actor, actor_id, sprite, actor_data);
+                begin_action_33_and_dispatch(actor, motion, sprite, actor_data);
                 return;
             }
 
@@ -279,7 +278,7 @@ void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameStat
                 action_bit = input_flags & 0x40;
                 if (action_bit != 0) {
                     ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = tail_flags & 0xFFFE;
-                    if ((begin_actor_attack(actor, actor_id, sprite, actor_data) << 16) != 0) {
+                    if ((begin_actor_attack(actor, motion, sprite, actor_data) << 16) != 0) {
                         return;
                     }
                 }

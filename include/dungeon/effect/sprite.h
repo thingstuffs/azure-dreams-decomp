@@ -26,4 +26,24 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
 struct S_func_800D7FB8_0;
 void update_effect_controller(struct S_func_800D7FB8_0 *controller);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+#include "shared/dungeon_moving_views.h"
+s32 draw_shaded_textured_cylinder(void *unused_data, MovingPosition *center, s32 unused_value, s16 rotation, s32 height, s16 radius, u8 blend_mode, u8 brightness);
+
+struct EffectColor;
+struct S_func_81886800_1;
+struct S_func_81886800_11;
+struct S_func_81886800_3;
+void check_the_target_using_scaled_low_byte_conditionally_applies_global_800_e_1_d_01(void *target, s32 value, void *record);
+void create_a_sprite_effect_position_randomized_rotation(s16 x, s16 y, s16 z);
+void create_quad_fragments_vertex_grid_randomized_motion_rotation(void);
+void handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mark(void *effect, s32 unused, struct EffectColor *color);
+void run_jittered_point_sequence(void *sequence, void *out_position);
+void run_radial_sprite_sequence(struct S_func_81886800_1 *effect, struct S_func_81886800_11 *motion, struct S_func_81886800_3 *sprite);
+void update_jittered_effect_points(void *effect);
+void update_pulsing_actor_color(void *state_data, s32 unused, void *actor_data);
+void update_randomized_intermediate_points(void *self);
+
+s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(void *first_owner, void *first_vertices, void *first_line);
+
 #endif

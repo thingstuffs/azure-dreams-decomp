@@ -12,6 +12,7 @@
 #include "engine/cd.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/player/object.h"
+#include "engine/scene.h"
 extern int abs(int);
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
@@ -60,7 +61,6 @@ typedef struct S_80172FC0_6 {
     s32 unk_04;
 } S_80172FC0_6;   /* selected_model in update_shrinking_fading_effect */
 
-extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
 extern void select_sprite_entry(void *, u8, s32);
 extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void play_sound_if_enabled(s32);
@@ -78,7 +78,7 @@ extern u8 cyclone_view_direction_entries[];
 /* Starts the selected spell, shrinks and swaps the sprite, fades it out, then restores its appearance and
  * movement. */
 void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform_arg, SpriteFrameState *sprite, ActorRecord *actor) {
-    u16 offset[3];
+    GteOffset offset;
     s32 is_special;
     u8 *effect_id;
     u8 state;
@@ -244,16 +244,16 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
                 {
 
                     sprite->source = model_data;
-                    offset[2] = 0;
-                    offset[1] = 0;
-                    offset[0] = 0;
+                    offset.distance[2] = 0;
+                    offset.distance[1] = 0;
+                    offset.distance[0] = 0;
                     if (resolve_record_orientation_or_fallback(
-                            *(s32 *)&sprite->source, sprite, offset, 0) != 0) {
+                            sprite->source, sprite, &offset.orientation, 0) != 0) {
                         u16 height_offset;
 
-                        ((S_80172FC0_5 *)transform_arg)->unk_02 += offset[0];
-                        ((S_80172FC0_5 *)transform_arg)->unk_06 += offset[1];
-                        height_offset = offset[2];
+                        ((S_80172FC0_5 *)transform_arg)->unk_02 += offset.distance[0];
+                        ((S_80172FC0_5 *)transform_arg)->unk_06 += offset.distance[1];
+                        height_offset = offset.distance[2];
                         ((S_80172FC0_0 *)anim)->unk_B2 = height_offset;
                         anim->unk_90.parts.high.u =
                             ((S_80172FC0_5 *)transform_arg)->unk_0A - ((u16)actor->ground_height) +

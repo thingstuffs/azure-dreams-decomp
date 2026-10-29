@@ -8,12 +8,13 @@
 #include "shared/entity.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/player/object.h"
+#include "dungeon/actor/spell_resource_ids_g01008.h"
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 rsin(s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void play_sound_if_enabled(s32);
-extern void spend_actor_mp(void *, s32);
+
 extern void create_parent_position_effect(EntityRec *parent, s32 effect_param, u8 *effect_data);
 
 extern u8 kewne_action_resume_address[9];

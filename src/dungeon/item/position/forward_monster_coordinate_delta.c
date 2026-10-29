@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/item/position.h"
 
 s16 ratan2();              /* extern */
 

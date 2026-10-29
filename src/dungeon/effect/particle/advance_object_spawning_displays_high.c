@@ -14,26 +14,22 @@
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/effect/particle.h"
+#include "engine/graphics.h"
+#include "sdk/libc.h"
+#include "sdk/libgpu.h"
+#include "slus.h"
 
 void (*const dungeon_1960800_entry)(void *, void *, void *) = (void (*)(void *, void *, void *))advance_actor_tint_particle_sequence;
 const RectTable high_particle_texture_rects = {{{832,320,64,64},{832,384,64,64},{832,448,64,64},{896,256,64,64},{896,320,64,64},{896,384,64,64},{896,448,64,64},{832,256,64,64}}};
 
-void fade_tinted_display_sprite(void *effect, void *unused, void *primitive)
-;
 /* Advance the effect fade and mark it finished when its countdown expires. */
-extern s32 GetTPage(s32, s32, s32, s32);
-extern void SetDrawMode(void *, s32, s32, s32, s32);
-extern s32 rand(void);
 extern u8 D_80025704[16];
 extern u8 D_80025710[16];
 extern u8 D_800256EC[16];
 extern u8 timed_projectile_sprite_entries[];
 extern u8 high_particle_sprite_entries[];
 extern u8 effect_sprite_sources[];
-extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
-extern s32 func_8003DF74(void *, void *, void *, s32);
-extern s32 rand(void);
-extern s32 read_sound_mode_blocking_status(s32);
 
 /* Fades a red-tinted sprite, adjusts its offset, and clears the owner's indexed slot when the
    countdown ends. */

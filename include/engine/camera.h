@@ -23,13 +23,13 @@ void move_view_record(struct S_8004D75C *dst, struct S_8004D75C *src);
 void queue_view_slot(int slot_selector);
 
 /* restore_view_slot.c */
-void restore_view_slot(void *record_selector);
+void restore_view_slot(s32 record_selector);
 
 /* run_view_callbacks.c */
 void run_view_callbacks(void);
 
 /* run_view_slot_callback.c */
-void run_view_slot_callback(void (**callback_slot)(void *), s32 *poll_enabled, void *poll_context);
+void run_view_slot_callback(void (**callback_slot)(void *), s32 *poll_enabled, s32 slot_selector);
 
 /* set_camera_targets.c */
 void set_camera_targets(void *target_position, void *target_rotation, u16 transition_param);

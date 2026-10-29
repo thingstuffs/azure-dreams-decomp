@@ -6,12 +6,13 @@
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_moving_views.h"
 #include "engine/node.h"
+#include "dungeon/effect/motion.h"
+#include "slus.h"
 
 typedef s32 M2C_UNK;
 
    /* arg0 in create_type_212_effect_object */
 
-extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 D_80024374;
 
 /* Creates a type 0x212 object, initializes its appearance, and copies the supplied components. */

@@ -6,6 +6,7 @@
 #include "shared/dungeon_status.h"
 #include "engine/node.h"
 #include "dungeon/player/object.h"
+#include "dungeon/actor/spell_resource_ids_g01008.h"
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define S8_AT(p, o)  (*(s8 *)((u8 *)(p) + (o)))
@@ -27,7 +28,7 @@ extern u8 D_80174F18[];
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void play_sound_if_enabled(s32);
-extern void spend_actor_mp(void *, s32);
+
 
 /* Spawns a moving actor and advances the action through animation and recovery. */
 void spawn_moving_actor(void *action_work, void *position, SpriteFrameState *sprite, void *actor) {

@@ -7,8 +7,8 @@
 #include "shared/dungeon_moving_views.h"
 #include "sdk/libgte.h"
 #include "engine/node.h"
+#include "slus.h"
 
-void select_record_entry_and_value(void *state, void *entries, short index);      /* extern */
 extern M2C_UNK D_800246AC;
 extern u8 D_800E0000[];
 

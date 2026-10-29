@@ -7,11 +7,12 @@
 #include "shared/entity.h"
 #include "shared/position_views.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/actor/spell_resource_ids_g01008.h"
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void play_sound_if_enabled(s32);
-extern void spend_actor_mp(void *, s32);
+
 
 extern s32 weadog_action_resume_address;
 extern u8 weadog_frame_set_2[];

@@ -1,6 +1,8 @@
 #ifndef MODULES_TOWN_DOOR_H
 #define MODULES_TOWN_DOOR_H
 #include "engine/scene.h"
+#include "town/scene/collision.h"
+#include "town/menu/motion.h"
 #include "town/map/object_setup.h"
 
 struct S_800A092C_0;
@@ -83,7 +85,7 @@ typedef struct S_800A092C_0 {
 
 typedef struct S_800A0958_0 {
     u8 pad_00[0x50];
-    void (*unk_50)(S800A3088Arg0 *, s32,  S800A3088Arg2 *);
+    void (*unk_50)(S800A3088Arg0 *, void *, S800A3088Arg2 *);
     u8 pad_54[0x1A];
     u16 unk_6E;
 } S_800A0958_0;
@@ -168,7 +170,7 @@ s32 check_door_status_inverted(void *object);
 
 void handle_door_check_result(S_func_800A0708_0 *object, void *callback_arg, s32 callback_data);
 void install_next_door_handler(void *object, void *unused_context, void *update_context, s32 unused_data);
-void emit_door_position_effect(S800A3088Arg0 *entity, s32 action, S800A3088Arg2 *position);
+void emit_door_position_effect(S800A3088Arg0 *entity, void *action, S800A3088Arg2 *position);
 void open_door_to_target(void *object, void *context);
 void door_no_op(void);
 void advance_door_open_angle(S_800A08F0_0 *door);
@@ -188,7 +190,7 @@ void update_door_completion_state(u8 *object, s32 unused, s32 state_id, s32 stat
 void advance_door_state_counter(S_800A0DAC_0 *state, s32 unused, s32 context_a, s32 context_b);
 void tick_door_countdown(Rec_func_800A0668_arg0 *object, S_800A0E3C_1 *source, s32 update_arg_a, s32 update_arg_b);
 void into_dn_door_jobs(void);
-s32 check_door_input_and_angle(Rec_func_800A0668_arg0 *object, s32 test_value);
+s32 check_door_input_and_angle(Rec_func_800A0668_arg0 *object, void *test_value);
 
 extern void unlink_node_if_registered(void *);
 extern void func_80033D08(void *);
@@ -207,22 +209,20 @@ s16 initialize_object_items_in_reverse(void *ptr, s32 stateId, s16 currentState)
 void no_op_callback_a(void *ptr, s32 stateId, s32 stateArg);
 void sound_set_cd_cue_parameters(s32 value0, s32 value1, s32 value2, s32 value3);
 void SD_Call(s32 value);
-extern void decrease_value_and_advance_counter();
 extern void clear_resident_bit_patterns(void);
 extern void clear_resident_bitmap_bit(s32 a0);
 extern void apply_building_pending_updates(void);
 extern void dispatch_conditional_table_pairs(void);
-s32 get_smallest_signed_overlap_axis_amount_two_intersecting_boxes();
 
 extern s32 D_800D09E0;
 extern ListHead active_node_list_head;
 extern s32 D_800D4404;
-extern u8 door_transition_state[];
+extern Rec_D_80100B70 door_transition_state;
 extern s32 cd_cue_base[];
 extern s16 current_dungeon_floor;
 extern s32 scene_object_payload_alias;
 extern s32 actor_input_dispatch_address;
 extern s32 actor_input_interaction_address;
-extern s32 town_actor_control;
+extern ColliderView town_actor_control;
 
 #endif

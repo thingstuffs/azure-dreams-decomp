@@ -5,6 +5,8 @@
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 #include "sdk/libc.h"
+#include "dungeon/item/effect.h"
+#include "dungeon/system.h"
 
 typedef struct S_800C4F20_10 {
     u8 pad_00[0x1C];
@@ -86,7 +88,6 @@ typedef struct S_800C4F20_8 {
 
 s32 rsin();
 s32 rcos(s32);
-s32 play_sound_if_enabled(s32 query_value);
 
 /* Updates an object's staged scale and position animation. */
 void update_orbiting_teleport_effect(void *anim, S_800C4F20_5 *position, S_800C4F20_1 *transform) {

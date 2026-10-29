@@ -692,7 +692,7 @@ extern s32 update_spinning_actor_fall(void *,void *,void *,void *);
 extern s32 propagate_actor_action_flag(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
 extern s32 update_actor_fade_in(void *,void *,void *,void *);
-extern void spend_actor_mp(void *,s32);
+void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
 extern s32 relink_entity_and_clear_high_flag();
 extern void create_actor_linked_effect(void *);

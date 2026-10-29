@@ -43,13 +43,14 @@ extern u8 player_put_down_frames[];
 extern u8 active_actor_command_code[];
 
 #include "engine/graphics.h"
+#include "dungeon/item.h"
+#include "dungeon/player/motion.h"
+#include "dungeon/player/position.h"
 
-extern void check_tile_entry_at_adjusted_height();
 extern void process_unflagged_linked_entries(s32 firstEntryBase);
 extern void process_unflagged_linked_entries_alt(s32 firstNodeBase);
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s16 classify_adjacent_tile_height();
-extern void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
 
 /* Update movement state, position, and animation from the movement result. */
 void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, SpriteFrameState *sprite, EntityRec *actor) {

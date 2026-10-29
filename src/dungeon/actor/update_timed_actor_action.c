@@ -15,7 +15,7 @@ typedef struct {
 
 typedef struct {
     u8 pad0[0x8c];
-    u8 *callback;
+    void (*callback)(void *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
     u8 pad90[6];
     u16 counter;
     u8 pad98[3];

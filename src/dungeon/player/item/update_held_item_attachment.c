@@ -6,6 +6,7 @@
 #include "shared/object_flags.h"
 #include "shared/entity.h"
 #include "sdk/libgte.h"
+#include "dungeon/player/item.h"
 
    /* the 0x2 bytes before arg0 in update_held_item_attachment, addressed as arg0[-1] */
 

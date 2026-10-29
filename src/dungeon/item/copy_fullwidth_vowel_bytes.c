@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/item.h"
 
 extern u8 D_800E045F[];
 

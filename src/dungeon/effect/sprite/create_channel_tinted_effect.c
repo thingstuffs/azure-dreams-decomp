@@ -7,6 +7,8 @@
 #include "records/Rec_D_80082E80.h"
 #include "sdk/libc.h"
 #include "engine/node.h"
+#include "dungeon/effect/sprite.h"
+#include "slus.h"
 
 struct Dst;
 struct Elem;
@@ -30,7 +32,6 @@ typedef struct Copy24 {
     s32 words[6];
 } Copy24;
 
-void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
 void func_800248C0(void *state, s32 unused, Rec_D_80082E80 *primitive);
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry flash_sprite_entries[];

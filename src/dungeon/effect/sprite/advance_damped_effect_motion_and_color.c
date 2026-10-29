@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
+#include "dungeon/effect/sprite.h"
 
 /* Three-word object task callback installed in the node's +0x10 slot.
  * The dispatcher supplies payload, position/motion and render data. */

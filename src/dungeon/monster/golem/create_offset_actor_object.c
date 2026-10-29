@@ -6,6 +6,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_moving_views.h"
 #include "engine/node.h"
+#include "engine/scene.h"
 
    /* dst in create_offset_actor_object */
 
@@ -14,14 +15,13 @@ typedef struct {
 } Block24;
 
 extern void select_sprite_entry(void *, s32, s32);
-extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
 
 extern u8 golem_object_callback[9];
 
 /* Creates and initializes an object, copies its data, and applies queried offsets. */
-void * create_offset_actor_object(void *unused, ObjectPosition *source_data, Rec_D_80082E80 *source_state)
+void * create_offset_actor_object(void *unused, ObjectPosition *source_data, SpriteFrameState *source_state)
 {
-    u16 offsets[3];
+    GteOffset offsets;
     ObjectNodeHeader *object;
     ObjectPosition *object_data;
     SpriteFrameState *primitive;
@@ -32,7 +32,7 @@ void * create_offset_actor_object(void *unused, ObjectPosition *source_data, Rec
         register_node(object, project_sprite_chain);
 
         primitive = object->sprite;
-        primitive->animation_resource = source_state->unk_28.at00_s32.v;
+        primitive->animation_resource = source_state->animation_resource;
         primitive->color.c.b = 0x80;
         primitive->color.c.g = 0x80;
         primitive->color.c.r = 0x80;
@@ -46,13 +46,13 @@ void * create_offset_actor_object(void *unused, ObjectPosition *source_data, Rec
         object_data = object->position;
         *(Block24 *)object_data = *(Block24 *)source_data;
 
-        offsets[2] = 0;
-        offsets[1] = 0;
-        offsets[0] = 0;
-        if (resolve_record_orientation_or_fallback(source_state->unk_08, source_state, offsets, 0) != 0) {
-            object_data->x.w.i = (u16)object_data->x.w.i + (offsets[0]);
-            object_data->y.w.i = (u16)object_data->y.w.i + (offsets[1]);
-            object_data->z.w.i = (u16)object_data->z.w.i + (offsets[2]);
+        offsets.distance[2] = 0;
+        offsets.distance[1] = 0;
+        offsets.distance[0] = 0;
+        if (resolve_record_orientation_or_fallback(source_state->source, source_state, &offsets.orientation, 0) != 0) {
+            object_data->x.w.i = (u16)object_data->x.w.i + (offsets.distance[0]);
+            object_data->y.w.i = (u16)object_data->y.w.i + (offsets.distance[1]);
+            object_data->z.w.i = (u16)object_data->z.w.i + (offsets.distance[2]);
         }
         return object;
     }

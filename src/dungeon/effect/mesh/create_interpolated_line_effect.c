@@ -1,5 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "dungeon/effect/mesh.h"
 
 typedef struct ObjSub {
     u8 pad00[4];

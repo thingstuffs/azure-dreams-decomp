@@ -9,6 +9,10 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/actor/effect.h"
+#include "dungeon/effect/particle.h"
+#include "dungeon/effect/screen.h"
+#include "dungeon/item.h"
 
 typedef struct S_func_818DA800_1 {
     void *unk_00;
@@ -131,16 +135,12 @@ typedef struct S_func_818DA800_11 {
 } S_func_818DA800_11;
 
 extern s32 get_definition_entry_byte_13(s16 entry_index);
-extern void *scan_actor_along_heading(void *, u8, u8, s16, s16);
-extern s32 try_trigger_target_record_effect(void *, s32, void *);
-extern void try_apply_effect_four_by_chance(void *, s32, s32);
 
 #define D_80024538 ((u8 *)advance_target_growth_and_fade)
 extern u8 ribbon_sprite_entries[];
 #define D_80024684 ((u8 *)create_coordinate_sprite_object)
 
 extern u8 current_spell_effect_variant[];
-void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion);
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The phase table of the switch below follows

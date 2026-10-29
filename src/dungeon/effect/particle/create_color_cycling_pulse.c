@@ -4,6 +4,7 @@
 #include "shared/entity.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
+#include "engine/node.h"
 
 #ifndef NULL
 #define NULL 0
@@ -12,8 +13,6 @@
 typedef struct {
     s32 word[3];
 } __attribute__((packed)) PackedCopy12;
-
-extern void register_node(void *, void *);
 
 extern u8 D_80173B58[48];
 

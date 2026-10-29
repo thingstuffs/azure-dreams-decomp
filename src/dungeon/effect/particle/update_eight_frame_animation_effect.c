@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
+#include "dungeon/effect/particle.h"
 
 typedef struct S_818FEDEC_0_pre {
     u16 unk_00;

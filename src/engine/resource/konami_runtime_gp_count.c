@@ -11,7 +11,7 @@ void bind_and_load_indexed_resource_record(void *data, s32 entry_index)
     void *paired_data;
 
     entries = runtime_resource_directory;
-    entry_index *= 8;
+    entry_index *= sizeof(Func8003C6F8Entry);
     entry = (Func8003C6F8Entry *)((u8 *)entries + entry_index);
     paired_data = entry->field_4;
     entry->field_0 = data;

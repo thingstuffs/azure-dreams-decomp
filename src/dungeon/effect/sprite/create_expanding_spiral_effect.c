@@ -3,6 +3,9 @@
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_moving_views.h"
 #include "engine/node.h"
+#include "dungeon/effect/sprite.h"
+#include "sdk/libgte.h"
+#include "slus.h"
 
 typedef s32 M2C_UNK;
 
@@ -10,10 +13,6 @@ typedef s32 M2C_UNK;
 #define NULL 0
 #endif
 
-
-extern void select_record_entry_and_value(void *state, void *entries, short index);
-extern s32 rsin(s32);
-extern s32 rcos(s32);
 extern M2C_UNK D_80024330[];
 extern u8 ribbon_sprite_entries[];
 

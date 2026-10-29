@@ -10,22 +10,16 @@
 #include "shared/dungeon_moving_views.h"
 #include "shared/object_links.h"
 #include "dungeon/level.h"
+#include "dungeon/item/position.h"
+#include "dungeon/item/state.h"
+#include "dungeon/player/state.h"
+#include "dungeon/system.h"
+#include "engine/entity.h"
 
-
-extern s32 get_entity_effect_value(void *actor, s32 value);
-extern void clear_slots_of_type(void *actor, s32 value);
 #include "dungeon/player/item.h"
-extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *object_data);
-extern void *get_unused_text_buffer(void);
-extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
-extern void clear_byte_and_advance(s8 *byte_ptr);
-extern void *write_text_byte_and_advance(s8 value, s8 *dest);
-extern u8 * append_typed_formatted_value(void *object_data,u8 *value);
-extern u8 *append_entity_display_text(void *record, u8 *out);
-extern void * write_status_prefix_bytes(void *value);
+#include "dungeon/item.h"
+#include "dungeon/item/message.h"
 extern void update_map_cell_flags_with_item_limit(u8 x, u8 y, s32 flags);
-extern void play_sound_if_enabled(s32 value);
-extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 select_and_initialize_entry_at_position(s16 x, s16 y, s16 z, s32 type_id, s32 entry_value);
 extern s32 create_central_and_child_effects(u8 x, u8 y, s16 value, s32 mode, s32 object_data_value);
 

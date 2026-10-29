@@ -8,6 +8,10 @@
 #include "shared/game_work.h"
 #include "dungeon/player.h"
 #include "dungeon/effect.h"
+#include "dungeon/actor/effect.h"
+#include "dungeon/player/item.h"
+#include "dungeon/system.h"
+#include "dungeon/item/message.h"
 
 typedef struct Ent {
     u8 a;
@@ -51,16 +55,6 @@ extern char D_800E0AD8[];
 extern char D_800E0AFA[];
 extern char D_800E0B07[];
 
-s32 find_floor_item_at_world_position(s32, s32, s32);
-void *get_unused_text_buffer(void);
-char *write_text_byte_and_advance(s8 value, s8 *dest);
-char *expand_text_control_codes(char *, char *);
-char *append_typed_formatted_value(DungeonItemEntry *, char *);
-void clear_byte_and_advance(char *);
-void display_text_with_fullwidth_adjustment(s8 *text);
-s32 find_last_zero_entry_run_start(void);
-s32 find_and_clear_empty_item_slot(void);
-void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s32 extra_byte);
 #include "dungeon/item.h"
 
 s32 get_scaled_byte_value(DungeonItemEntry *);

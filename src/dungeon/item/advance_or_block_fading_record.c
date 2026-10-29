@@ -2,8 +2,9 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/item.h"
+#include "slus.h"
 
-extern void advance_sprite_animation_and_textures(void *record);
 typedef struct S_80099B18_1_pre {
     u16 unk_00;
 } S_80099B18_1_pre;   /* the 0x2 bytes before arg0 in advance_or_block_fading_record, addressed as arg0[-1] */

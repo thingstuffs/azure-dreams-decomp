@@ -11,6 +11,7 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/level.h"
 #include "dungeon/player/object.h"
+#include "dungeon/actor/spell_resource_ids_g01008.h"
 
 typedef struct S_80172D08_0 {
     u8 pad_00[0x8C];
@@ -41,7 +42,7 @@ extern s32 rsin(s32);
 extern void * resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 s32 check_layer_offset_height(u16 x, u16 y, s16 height, u32 flags);
 extern void play_sound_if_enabled(s32);
-extern void spend_actor_mp(void *, s32);
+
 extern void * create_primitive_state_object(void *, void *, void *);
 
 extern u8 golem_action_continuation_address;

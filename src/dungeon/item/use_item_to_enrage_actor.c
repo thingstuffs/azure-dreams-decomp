@@ -24,7 +24,7 @@ extern u8 D_800E15E5[];
 extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
-extern void *clear_byte_and_advance(s8 *byte_ptr);
+extern u8 *clear_byte_and_advance(u8 *byte_ptr);
 extern u8 *append_entity_display_text(void *record, u8 *out);
 extern s32 set_or_clear_actor_status_slot(void *, s32, s32);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);

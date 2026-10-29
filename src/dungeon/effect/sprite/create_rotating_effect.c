@@ -3,8 +3,7 @@
 #include "shared/object_node.h"
 #include "shared/entity_objects.h"
 #include "shared/dungeon_status.h"
-
-extern void *allocate_list_node(s32 kind, void *owner);
+#include "engine/node.h"
 
 /* Increment the dungeon count and initialize a new object's callback and rotation. */
 void create_rotating_effect(void)

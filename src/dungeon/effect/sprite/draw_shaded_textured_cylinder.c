@@ -2,6 +2,9 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/effect/sprite.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 
 typedef struct S_80024930_0 {
     u8 pad_00[0x18];
@@ -84,11 +87,6 @@ typedef struct S_80024930_4 {
 
 
 typedef struct TagWord { u32 addr:24; u32 len:8; } TagWord;
-
-extern s32 rsin(s32);
-extern s32 rcos(s32);
-extern u32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern s32 GetTPage(s32, s32, s32, s32);
 
 /* Draws a shaded, textured cylindrical wall using 16 quads. */
 s32 draw_shaded_textured_cylinder(void *unused_data, MovingPosition *center, s32 unused_value, s16 rotation,

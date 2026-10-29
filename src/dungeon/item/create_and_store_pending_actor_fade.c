@@ -1,6 +1,7 @@
 #include "common.h"
+#include "dungeon/item.h"
+#include "dungeon/item/effect.h"
 
-extern s32 create_linked_actor_fade_effect(s32);
 typedef struct {
     s32 value;
     s32 pad[2];

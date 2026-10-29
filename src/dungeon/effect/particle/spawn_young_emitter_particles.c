@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/effect/particle.h"
 
 typedef struct S_7FFEA9D4_4 {
     u8 pad_00[0xC];

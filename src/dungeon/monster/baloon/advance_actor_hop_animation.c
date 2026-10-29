@@ -9,6 +9,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/player/object.h"
+#include "dungeon/actor/spell_resource_ids_g01008.h"
 
 typedef struct S_801733B4_0 {
     u8 pad_00[0x8C];
@@ -40,14 +41,14 @@ extern void select_sprite_entry(void *, s32, s32);
 extern s32 rsin(s32);
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void on_actor_status_updated(void *);
-extern void spend_actor_mp(void *, s32);
+
 
 extern u8 baloon_default_frames[];
 extern u8 baloon_hop_frames[];
 extern u8 D_800E2370[];
 
 /* Advances the actor's hop animation and finishes the action when its timer expires. */
-void advance_actor_hop_animation(void *motion, void *position, SpriteFrameState *sprite, void *actor)
+void advance_actor_hop_animation(void *motion, ObjectPosition *position, SpriteFrameState *sprite, void *actor)
 {
     u16 facing_aux;
     s32 y_offset;
@@ -75,12 +76,12 @@ void advance_actor_hop_animation(void *motion, void *position, SpriteFrameState 
     case 1:
         ((S_801733B4_0 *)motion)->unk_90.at00.v -= ((S_801733B4_0 *)motion)->unk_A4;
         if (((S_801733B4_0 *)motion)->unk_AA.u != 0) {
-            ((EntityRec *)position)->unk_0C =
+            position->velocity_x =
                 (((sprite->tile_x << 6) -
-                  ({ ((EntityRec *)position)->x.w.i - 0x20; })) << 16) /
+                  ({ position->x.w.i - 0x20; })) << 16) /
                 ((S_801733B4_0 *)motion)->unk_AA.u;
-            y_offset = ((EntityRec *)position)->y.w.i - 0x20;
-            ((EntityRec *)position)->unk_10 =
+            y_offset = position->y.w.i - 0x20;
+            position->velocity_y =
                 (((sprite->tile_y << 6) - y_offset) << 16) /
                 ((S_801733B4_0 *)motion)->unk_AA.u;
             ((S_801733B4_0 *)motion)->unk_A4 =
@@ -99,9 +100,9 @@ void advance_actor_hop_animation(void *motion, void *position, SpriteFrameState 
     case 2:
         if (((S_801733B4_1 *)actor)->unk_1C.s & 0x08000000) {
             ((S_801733B4_0 *)motion)->unk_98 &= 0xFFF7;
-            ((EntityRec *)position)->flags14 = 0;
-            ((EntityRec *)position)->unk_10 = 0;
-            ((EntityRec *)position)->unk_0C = 0;
+            position->velocity_z = 0;
+            position->velocity_y = 0;
+            position->velocity_x = 0;
             set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
             sprite->frameTable = D_800E2370;
             select_sprite_entry(sprite,
@@ -127,9 +128,9 @@ void advance_actor_hop_animation(void *motion, void *position, SpriteFrameState 
     if (((s32)timer_value << 16) <= 0) {
         s32 actor_flags;
 
-        ((EntityRec *)position)->flags14 = 0;
-        ((EntityRec *)position)->unk_10 = 0;
-        ((EntityRec *)position)->unk_0C = 0;
+        position->velocity_z = 0;
+        position->velocity_y = 0;
+        position->velocity_x = 0;
         set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
         spend_actor_mp(actor, 4);
         advance_status_timers(actor);

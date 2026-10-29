@@ -10,6 +10,8 @@
 #include "dungeon/level.h"
 #include "engine/node.h"
 #include "dungeon/player/object.h"
+#include "dungeon/actor/spell_resource_ids_g01008.h"
+#include "engine/scene.h"
 
 typedef struct {
     s16 x;
@@ -17,13 +19,13 @@ typedef struct {
 } Pair16;
 
 extern void select_record_entry_and_value(void *, void *, s32);
-extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
+
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 rand(void);
 s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern void play_sound_if_enabled(s32);
-extern void spend_actor_mp(void *, s32);
+
 extern void * find_first_entry_matching_keys(void *node, u16 key_a, u16 key_b, s16 range_center);
 extern void create_facing_offset_object(void *, void *, void *);
 
@@ -61,18 +63,13 @@ typedef struct S_801757E0_3 {
     s32 unk_64;
 } S_801757E0_3;   /* work in update_action_and_check_forward_tile */
 
-typedef struct S_801757E0_6 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_801757E0_6;   /* owner in update_action_and_check_forward_tile */
-
    /* transform in update_action_and_check_forward_tile */
 
 /* Update the action sequence, spawning particles and checking the tile ahead. */
 /* Emits particles, checks the tile ahead before creating a moving effect, spins while it runs, then spends
  * MP. */
 void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *animation, ActorRecord *entity) {
-    u16 offsets[3];
+    GteOffset offsets;
     u16 collision_flags;
     s16 timer;
     s16 floor_height;
@@ -85,7 +82,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
     void *particle_work;
     SpriteFrameState *sprite;
     ObjectPosition *particle_transform;
-    S_801757E0_6 *owner;
+    SpriteFrameState *owner;
     Pair16 *directions;
     s32 spin_angle;
 
@@ -126,13 +123,13 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
 
                 owner = ((S_801757E0_0_pre *)actor)[-1].unk_00;
                 particle_transform = particle->position;
-                if (resolve_record_orientation_or_fallback(owner->unk_08, owner, offsets, 1)) {
+                if (resolve_record_orientation_or_fallback(owner->source, owner, &offsets.orientation, 1)) {
                     particle_transform->x.w.i = ((u16) motion->x.w.i);
                     particle_transform->y.w.i = ((u16) motion->y.w.i);
                     particle_transform->z.w.i = ((u16) motion->z.w.i);
-                    particle_transform->x.w.i = (u16)particle_transform->x.w.i + (offsets[0]);
-                    particle_transform->y.w.i = (u16)particle_transform->y.w.i + (offsets[1]);
-                    particle_transform->z.w.i = (u16)particle_transform->z.w.i + (offsets[2]);
+                    particle_transform->x.w.i = (u16)particle_transform->x.w.i + (offsets.distance[0]);
+                    particle_transform->y.w.i = (u16)particle_transform->y.w.i + (offsets.distance[1]);
+                    particle_transform->z.w.i = (u16)particle_transform->z.w.i + (offsets.distance[2]);
                 }
 
                 x = (rand() & 0x1F) - 0x10;

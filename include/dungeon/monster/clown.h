@@ -322,7 +322,7 @@ struct ObjectNodeHeader;
 struct ObjectNodeHeader;
 s32 relink_entity_and_clear_high_flag();
 s32 update_actor_movement_to_tile(void *move_state, void *motion, void *target_tile, ActorRecord *actor);
-s32 spend_actor_mp();
+void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
 s32 update_linked_actor_motion(void *state, void *transform, void *config, void *object);
 void * resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);

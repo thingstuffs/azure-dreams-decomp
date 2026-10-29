@@ -152,7 +152,7 @@ extern void *get_unused_text_buffer(void);
 extern void *write_text_byte_and_advance(s8 value, s8 *dest);
 extern u8 *append_entity_display_text(void *record, u8 *out);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
-extern void *clear_byte_and_advance(s8 *byte_ptr);
+extern u8 *clear_byte_and_advance(u8 *byte_ptr);
 extern void * write_status_prefix_bytes(void *);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void *select_object_by_flags_and_keys(void *, void *, void *);

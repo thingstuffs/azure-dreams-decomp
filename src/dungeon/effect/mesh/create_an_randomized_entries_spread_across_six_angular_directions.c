@@ -3,6 +3,7 @@
 #include "sdk/libc.h"
 #include "engine/node/allocation.h"
 #include "engine/node.h"
+#include "dungeon/effect/mesh.h"
 
 #ifndef NULL
 #define NULL 0

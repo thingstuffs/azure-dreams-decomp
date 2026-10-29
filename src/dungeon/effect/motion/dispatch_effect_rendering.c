@@ -1,7 +1,6 @@
 #include "common.h"
+#include "dungeon/effect/motion.h"
 
-extern s32 draw_concentric_effect_layers(void *, s32, s32);
-extern s32 draw_cylindrical(void *, s32, s32);
 extern s32 func_80024EF8(void *, s32, s32);
 
 /*

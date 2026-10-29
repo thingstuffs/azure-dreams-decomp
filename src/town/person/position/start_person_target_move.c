@@ -9,7 +9,7 @@
  * callers disagree, so the declaration stays with each caller. */
 
 /* Start movement toward the object's target, or place it immediately for speed -128. */
-void start_person_target_move(PersonObject *object, ObjectPosition *position, s8 *output) {
+void start_person_target_move(PersonObject *object, ObjectPosition *position, SpriteFrameState *output) {
     ObjectIndexSlot *slots;
     s32 distance;
     s32 timer;

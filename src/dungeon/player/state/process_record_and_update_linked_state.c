@@ -4,6 +4,7 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/player/item.h"
 #include "dungeon/player/state.h"
+#include "dungeon/effect/screen.h"
 typedef struct Ent Ent;
 
 typedef struct S_80098864_0 {
@@ -19,10 +20,6 @@ typedef struct S_80098864_1 {
     s32 unk_60;
 } S_80098864_1;
 
-
-
-
-s32 resolve_attack_damage_and_effects();
 Ent *prepare_directional_attack();
 
 /* Processes a record and updates its linked state on success. */

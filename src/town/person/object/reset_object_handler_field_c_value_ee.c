@@ -10,11 +10,11 @@ extern s32 D_800C3FC8;
  * Reinitializes entries from linked data offset 0x1C, clears the indexed object slot, and installs
  * D_800C3FC8 with count 0x15.
  */
-void reset_object_handler_field_6c_value_15_46ee4(void *object, s32 unused, s32 updateValue) {
+void reset_object_handler_field_6c_value_15_46ee4(void *object, s32 unused, SpriteFrameState *updateValue) {
     void *objectData;
 
     objectData = *(void **)((u8 *)object + 0x80);
-    func_800C2E84(object, (s8 *)(updateValue), (s32 *)(*(s32 *)((u8 *)objectData + 0x1C)));
+    func_800C2E84(object, updateValue, (s32 *)(*(s32 *)((u8 *)objectData + 0x1C)));
     object_index_slots[*(s32 *)((u8 *)object + 0x60)].unk_00 = 0;
     *(void **)((u8 *)object + 0x54) = &D_800C3FC8;
     *(s16 *)((u8 *)object + 0x6C) = 0x15;

@@ -4,6 +4,7 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "sdk/libc.h"
+#include "dungeon/effect/sprite.h"
 void (*const dungeon_18ee800_entry)(void *, void *, void *) = follow_entity_effect_and_cleanup;
 const B32_818CFB74_PackedOffsets sprite_route_direction_offsets = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
 #include "dungeon/effect/sprite/route.h"
@@ -399,7 +400,6 @@ void advance_damped_ground_sliding_sprite(void *state, B32_818CEDC8_S_818CEDC8_0
 #include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
-extern int abs(int);
 
    /* the 0x2 bytes before entity in update_chasing_star_effect, addressed as entity[-1] */
 

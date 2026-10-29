@@ -1,6 +1,6 @@
 #include "common.h"
-
-extern s32 draw_shaded_textured_cylinder();
+#include "dungeon/effect/motion.h"
+#include "dungeon/effect/sprite.h"
 
 /* Draw two cylindrical effect layers with opposing rotation. */
 s32 draw_cylindrical(void *effect, s32 position, s32 render_param) {

@@ -5,6 +5,7 @@
 #include "engine/node.h"
 #include "sdk/libc.h"
 #include "sdk/libgte.h"
+#include "slus.h"
 
 typedef unsigned long uptr;
 typedef long long s64_local;
@@ -21,8 +22,6 @@ typedef union {
 #ifndef NULL
 #define NULL 0
 #endif
-
-extern void select_record_entry_and_value(void *state, void *entries, short index);
 
 extern u8 D_80024710[];
 extern u8 shared_sprite_entries[];

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/dungeon_effect_source.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/effect/motion.h"
 
 #ifndef NULL
 #define NULL 0

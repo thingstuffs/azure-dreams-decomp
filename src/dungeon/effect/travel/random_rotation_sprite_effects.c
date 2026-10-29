@@ -6,6 +6,7 @@
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/system.h"
+#include "dungeon/effect/travel.h"
 void (*const dungeon_ovl_18b8824_entry)(ovl_18b8824_81898EBC_EffectState *state, ovl_18b8824_81898EBC_Motion *motion, ovl_18b8824_81898EBC_ColorPart *part) = advance_launched_effect;
 
 /* Advances and spins a particle, increments its owner's counter, and removes it after its lifetime. */

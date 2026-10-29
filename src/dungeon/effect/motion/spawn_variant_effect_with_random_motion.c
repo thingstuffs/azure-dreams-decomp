@@ -10,6 +10,7 @@
 #include "sdk/libc.h"
 #include "sdk/libgte.h"
 #include "engine/node.h"
+#include "slus.h"
 
 
 typedef struct S_800B7D74_2 {
@@ -33,7 +34,6 @@ struct S_80083178__jr {
     /* 0xD8 */ void *ptr;
 };                                                  /* size = 0xDC */
 
-void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
 extern M2C_UNK D_8006E24C;
 extern M2C_UNK D_8006E258;
 #include "shared/sprite_source.h"

@@ -7,6 +7,8 @@ typedef struct { u8 pad[0x3714]; u16 flags; } SysPage;
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+#include "dungeon/item.h"
+#include "engine/graphics.h"
 
 typedef s32 M2C_UNK;
 
@@ -19,9 +21,6 @@ typedef struct S_8008C7B4_0 {
     s8 unk_9B;
 } S_8008C7B4_0;   /* arg0 in begin_player_wait_turn */
 
-
-extern void set_sprite_animation_frame(struct SpriteFrameState *obj, s16 frame_group, s16 frame_index, s32 slot_index);
-extern void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
 extern u8 player_carry_frames[8];
 
 /* Reset state, update control flags, and select the entity's directional sprite. */

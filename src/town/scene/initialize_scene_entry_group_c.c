@@ -1,7 +1,8 @@
 #include "common.h"
+#include "town/person/object/initialize_object_entries_api.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_index_slots.h"
 
-extern void initialize_object_entries(void *, s8 *, s32 *);
 extern void func_800C899C(void *, s32, s32);
 extern s32 D_800D62BC[];
 

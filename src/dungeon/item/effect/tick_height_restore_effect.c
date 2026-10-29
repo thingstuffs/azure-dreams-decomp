@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/item/effect.h"
 
 
 /* Decrements an entity's countdown and finalizes it when the countdown expires. */

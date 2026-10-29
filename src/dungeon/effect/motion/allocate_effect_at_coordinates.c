@@ -4,8 +4,9 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/effect/motion.h"
+#include "slus.h"
 
-void select_record_entry_and_value(void *state, void *entries, short index);
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern M2C_UNK D_80024224;
 #include "shared/sprite_source.h"

@@ -3,6 +3,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
+#include "engine/scene.h"
 
 typedef struct {
     s32 words[6];
@@ -10,7 +11,6 @@ typedef struct {
 
 extern s32 golem_frame_set_3;
 
-s32 resolve_record_orientation_or_fallback(s32, void *, s16 *, s32);
 void select_sprite_entry(void *, s32, s32);
 void advance_sprite_animation_and_textures(void *);
 
@@ -30,11 +30,6 @@ typedef struct S_80174D24_1 {
     s32 unk_14;
 } S_80174D24_1;   /* arg1 in advance_timed_target_flags */
 
-typedef struct S_80174D24_2 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_80174D24_2;   /* object in advance_timed_target_flags */
-
 typedef struct S_80174D24_4 {
     u8 pad_00[0x2C];
     void * unk_2C;
@@ -43,13 +38,13 @@ typedef struct S_80174D24_4 {
 /* Copies object data with offsets and advances a timed target flag cycle. */
 void advance_timed_target_flags(void *state, void *output, SpriteFrameState *target)
 {
-    u16 offsets[3];
-    S_80174D24_2 *object;
+    GteOffset offsets;
+    SpriteFrameState *object;
     Copy24 *source;
     s32 copy_word_a;
     s32 copy_word_b;
     s32 offset_mode;
-    s32 object_id;
+    struct SpriteAttachment *object_id;
     s32 phase;
     u16 old_ticks;
     s32 signed_ticks;
@@ -66,12 +61,12 @@ void advance_timed_target_flags(void *state, void *output, SpriteFrameState *tar
 
     object = ((S_80174D24_0 *)state)->unk_08;
     offset_mode = 0;
-    object_id = object->unk_08;
+    object_id = object->source;
     if (resolve_record_orientation_or_fallback(object_id, object,
-                      (s16 *)offsets, offset_mode) != 0) {
-        ((S_80174D24_1 *)output)->unk_00.at02.v += offsets[0];
-        ((S_80174D24_1 *)output)->unk_04.at02.v += offsets[1];
-        ((S_80174D24_1 *)output)->unk_08.at02.v += offsets[2];
+                      &offsets.orientation, offset_mode) != 0) {
+        ((S_80174D24_1 *)output)->unk_00.at02.v += offsets.distance[0];
+        ((S_80174D24_1 *)output)->unk_04.at02.v += offsets.distance[1];
+        ((S_80174D24_1 *)output)->unk_08.at02.v += offsets.distance[2];
     }
 
     old_ticks = ((S_80174D24_0 *)state)->unk_02;

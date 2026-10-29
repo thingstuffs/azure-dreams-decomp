@@ -20,7 +20,7 @@ extern u8 * expand_text_control_codes(u8 *src, u8 *dst);
 extern void * write_text_byte_and_advance(s8 value, s8 *dest);
 extern void * append_value_seven_suffix(u8 *dst);
 extern u8 * append_typed_formatted_value(void *,u8 *);
-extern void copy_fullwidth_vowel_bytes(void *,void *);
+extern void *copy_fullwidth_vowel_bytes(void *dst, void *character);
 extern void * write_status_prefix_bytes(void *);
 extern void clear_byte_and_advance(s8 *byte_ptr);
 extern void display_text_with_fullwidth_adjustment(s8 *text);

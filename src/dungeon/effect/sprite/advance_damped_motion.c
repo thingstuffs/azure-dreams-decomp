@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
-extern int abs(int);
+#include "sdk/libc.h"
 
 typedef struct {
     s32 x;

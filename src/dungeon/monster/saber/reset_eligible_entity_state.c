@@ -4,9 +4,10 @@
 #include "dungeon/actor/status.h"
 
 
-extern void spend_actor_mp(s32, s32);
+
 
 #include "dungeon/monster/saber.h"
+#include "dungeon/actor/spell_resource_ids_g01008.h"
 
 /* Updates the actor and resets the entity state when the checks succeed. */
 void reset_eligible_entity_state(void *entity_arg, void *motion, void *check_arg, void *actor_arg) {

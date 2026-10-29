@@ -12,7 +12,7 @@ typedef struct {
 } Entry;
 
 extern s32 fade_manager_state[];
-extern s32 runtime_resource_directory[];
+extern u8 *runtime_resource_directory[];
 
 /* Processes the selected entry and uploads its two image regions to VRAM. */
 s32 activate_indexed_resource_and_upload_images(s32 entry_group, s32 entry_index) {

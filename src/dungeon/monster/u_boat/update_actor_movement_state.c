@@ -5,10 +5,11 @@
 #include "dungeon/actor/status.h"
 
 
-extern void spend_actor_mp(void *, s32);
+
 
 
 #include "dungeon/monster/u_boat.h"
+#include "dungeon/actor/spell_resource_ids_g01008.h"
 
 /* Updates actor behavior and state fields according to mode and input. */
 void update_actor_movement_state(void *state, void *motion, void *action_arg, void *actor_arg)

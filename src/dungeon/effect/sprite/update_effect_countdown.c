@@ -3,6 +3,7 @@
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 #include "slus.h"
+#include "dungeon/effect/sprite.h"
 
 typedef struct S_800D6FEC_0_pre {
     u16 unk_00;

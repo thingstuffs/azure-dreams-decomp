@@ -5,8 +5,9 @@
 #include "shared/slus_callbacks.h"
 #include "engine/node/allocation.h"
 #include "engine/node.h"
+#include "dungeon/effect/sprite.h"
+#include "sdk/libc.h"
 
-extern s32 rand(void);
 extern u8 paired_random_effect_callback[12];
 extern u8 D_8002822C[12];
 

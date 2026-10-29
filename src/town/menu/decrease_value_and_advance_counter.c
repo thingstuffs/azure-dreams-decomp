@@ -1,12 +1,12 @@
 #include "common.h"
+#include "town/menu/motion.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80100B70.h"
 
-void draw_textured_sprite_quad(Rec_D_80100B70 *, s32);                            /* extern */
 
 
 /* Decrease the value with a floor of four, advance the cyclic counter, and update the record. */
-void decrease_value_and_advance_counter(Rec_D_80100B70 *record, s32 value) {
+void decrease_value_and_advance_counter(Rec_D_80100B70 *record, s32 value, s32 unused_context) {
     u16 reduced_value;
 
     reduced_value = record->unk_12 - 4;

@@ -7,9 +7,10 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "engine/scene.h"
 
 extern void select_record_entry_and_value(void *, void *, s32);
-extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
+
 extern void select_sprite_entry(void *, s32, s32);
 extern void advance_sprite_animation_and_textures(void *);
 extern s32 rand(void);
@@ -84,11 +85,6 @@ typedef struct S_801714B8_7 {
     void * unk_28;
 } S_801714B8_7;   /* object_data in update_actor_timed_effects */
 
-typedef struct S_801714B8_8 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_801714B8_8;   /* owner in update_actor_timed_effects */
-
 /* Updates actor behavior, facing, and timed animation effects in the dungeon. */
 /* Dispatches Glacier's movement, attacks, spells, and turn processing, adding timed idle gestures and an
  * attached effect. */
@@ -99,7 +95,7 @@ void update_actor_timed_effects(ActorRecord *actor_arg, ObjectPosition *context_
     void *stats;
     s32 room_id;
     u16 distance;
-    u16 spawn_offset[3];
+    GteOffset spawn_offset;
     u32 initial_flags = g_dungeon_status.flags;
 
     actor = actor_arg;
@@ -336,15 +332,15 @@ ordinary_cleanup:
                     object_data->unk_1C = ((S_801714B8_1 *)stats)->unk_2A.u;
 
                     {
-                        S_801714B8_8 *owner = ((S_801714B8_0_pre *)actor)[-1].unk_00;
+                        SpriteFrameState *owner = ((S_801714B8_0_pre *)actor)[-1].unk_00;
 
                         if (resolve_record_orientation_or_fallback(
-                                owner->unk_08, owner, spawn_offset, 0xF)) {
+                                owner->source, owner, &spawn_offset.orientation, 0xF)) {
                             ObjectPosition *part = object->position;
 
-                            *(u16 *)&part->x.w.i += spawn_offset[0];
-                            *(u16 *)&part->y.w.i += spawn_offset[1];
-                            *(u16 *)&part->z.w.i += spawn_offset[2];
+                            *(u16 *)&part->x.w.i += spawn_offset.distance[0];
+                            *(u16 *)&part->y.w.i += spawn_offset.distance[1];
+                            *(u16 *)&part->z.w.i += spawn_offset.distance[2];
                         }
                     }
                     {

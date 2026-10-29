@@ -11,8 +11,8 @@ extern u8 D_800E202D[16];
 extern s16 find_entity_slot_by_field_ac(void *target_value);
 extern s32 find_entity_slot_by_field_e4(void *target_value);
 extern void *get_unused_text_buffer(void);
-extern u8 * expand_text_control_codes(void *src,u8 *dst);
-extern void clear_byte_and_advance(s8 *byte_ptr);
+extern u8 *expand_text_control_codes(const u8 *source, u8 *buffer);
+extern u8 *clear_byte_and_advance(u8 *byte_ptr);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 
 extern u8 D_800E05E1[];

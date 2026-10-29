@@ -24,4 +24,16 @@ void run_actor_fade_in(void *owner, s32 context, void *effect);
 /* Callback entry points. */
 void advance_effect_positions_and_fade(void *effect, void *positions, void *color);
 
+void clear_selected_item_flag_400(void *selection);
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+s32 place_item_at_valid_floor_position(s32 x, s32 y, s32 z, s32 unused, s32 *object_data);
+
+s32 try_apply_effect_four_by_chance(void *actor, s32 chance, s32 action);
+void *create_item_render_object(void *parent, void *sprite_source, s16 x, s32 y, s16 z);
+s32 find_floor_item_at_world_position(s32 input_x, s32 input_y, s32 input_z);
+
+s32 find_valid_floor_item_position(s16 x, s16 y, s16 z, s16 *out_x, s16 *out_y, s16 *out_distance);
+
+void mark_category_items_flag_400(s32 group_bit);
+
 #endif

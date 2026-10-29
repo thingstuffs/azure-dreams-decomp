@@ -192,8 +192,8 @@ void audio_set_channel_pitch_bend_value(s32 unused, s16 index, s32 value);
 void resource_load_current_optional_descriptor(void);
 
 /* konami_runtime_directory.c */
-s32 find_runtime_table_key_index(s32 key);
-s32 find_or_load_runtime_resource_key(s32 key);
+s32 find_runtime_table_key_index(void *key);
+s32 find_or_load_runtime_resource_key(void *key);
 void initialize_runtime_resource_directory(void);
 
 /* konami_runtime_w_80038AB8.c */

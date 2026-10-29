@@ -29,7 +29,7 @@ void raise_entity_level(void *entity_data, s32 show_message); /* extern */
 s32 choose_usable_ability_or_attack();
 s32 choose_best_eligible_entry();
 s32 display_text_with_fullwidth_adjustment(s8 *text); /* extern */
-void clear_selected_item_flag_400();
+#include "dungeon/actor/effect.h"
 s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern u8 D_800E0A42[];
 extern u8 D_800E0A56[20];

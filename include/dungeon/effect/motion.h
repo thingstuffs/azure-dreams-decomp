@@ -35,4 +35,9 @@ typedef struct CylindricalEffectWork {
  * once a whole period passes with it still clear. */
 extern s16 particle_effect_active;
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+s32 draw_concentric_effect_layers(void *effect, s32 position, s32 render_param);
+s32 draw_cylindrical(void *effect, s32 position, s32 render_param);
+void process_effect_modes_and_completion(void *state);
+
 #endif

@@ -1,29 +1,17 @@
 #include "common.h"
+#include "town/scene/collision.h"
 
-typedef struct {
-    s32 *part0;
-    s32 *part1;
-} Parts92360;
-
-typedef struct {
-    u8 pad0[8];
-    Parts92360 parts;
-} Object92360;
-
-typedef struct {
-    s32 axis;
-    s32 amount;
-} Result92360;
-
-extern Result92360 box_overlap[];
+extern CollisionOverlap box_overlap[];
 
 /* Returns the smallest signed overlap axis and amount for two intersecting object boxes. */
-Result92360 *get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(Object92360 *box_a, Object92360 *box_b)
+CollisionOverlap *get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(void *first_box, void *second_box)
 {
-    register s32 *a_bounds = box_a->parts.part1;
-    register s32 *b_bounds = box_b->parts.part1;
-    register s32 *a_position = box_a->parts.part0;
-    register s32 *b_position = box_b->parts.part0;
+    ColliderView *box_a = first_box;
+    ColliderView *box_b = second_box;
+    register s32 *a_bounds = &box_a->bounds->offset_x;
+    register s32 *b_bounds = &box_b->bounds->offset_x;
+    register s32 *a_position = &box_a->position->x.v;
+    register s32 *b_position = &box_b->position->x.v;
     s32 *a_offset = a_bounds;
     s32 *a_coords = a_position;
     s32 *b_coords = b_position;

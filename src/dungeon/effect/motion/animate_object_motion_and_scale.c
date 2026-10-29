@@ -1,6 +1,7 @@
 #include "common.h"
 #include "dungeon/effect/motion.h"
 #include "shared/object_flags.h"
+#include "dungeon/actor/effect.h"
 
 typedef struct S_800B80D8_0 {
     u8 pad_00[0xA2];
@@ -19,9 +20,6 @@ typedef struct S_800B80D8_1 {
     u16 unk_1E;
 } S_800B80D8_1;   /* arg2 in animate_object_motion_and_scale */
 
-
-
-extern void place_item_at_valid_floor_position(s32, s32, s32, s32 , void *);
 extern s32 item_effect_descriptor;
 
 /* Animate object motion and scale, then signal completion. */

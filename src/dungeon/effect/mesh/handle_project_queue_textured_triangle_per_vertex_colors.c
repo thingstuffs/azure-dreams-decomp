@@ -1,5 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "dungeon/effect/mesh.h"
+#include "sdk/libgpu.h"
 
 typedef struct Packet81976CB0 {
     u8 link_bytes[3];
@@ -75,7 +77,6 @@ typedef struct Scratch81976CB0 {
 } Scratch81976CB0;
 
 extern s32 *effect_position_source;
-extern s32 GetTPage(s32, s32, s32, s32);
 extern s32 func_80065530(void *, void *, void *, void *, void *, void *, void *, void *);
 
 /*

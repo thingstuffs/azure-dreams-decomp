@@ -71,4 +71,8 @@ extern u8 D_800E6000[16400];
 s32 queue_projected_mesh_points_and_texture_packets(u8 *node_data, u16 *position);
 void build_visible_tile_quads(u8 *tiles);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias);
+void render_map_cell_mesh(void);
+
 #endif

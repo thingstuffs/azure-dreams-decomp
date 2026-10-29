@@ -1,6 +1,10 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
+#include "dungeon/effect/sprite.h"
+#include "sdk/libc.h"
+#include "sdk/libgte.h"
+#include "slus.h"
 
 typedef struct S_800D81D4_0_pre {
     u16 unk_00;
@@ -31,12 +35,6 @@ typedef struct S_800D81D4_1 {
     u8 pad_0C[0x8];
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_14;   /* overlapping accesses */
 } S_800D81D4_1;   /* p1 in update_orbiting_effect_particle */
-
-void advance_sprite_animation_and_textures(void *);
-s32 rsin(s32);
-s32 rcos(s32);
-s32 SquareRoot0(s32);
-s32 rand(void);
 
 /* Updates a rotating effect's motion, color, and lifetime. */
 void update_orbiting_effect_particle(S_800D81D4_0 *effect, S_800D81D4_1 *motion, void *primitive_data) {

@@ -4,6 +4,8 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
+#include "engine/node.h"
+#include "engine/scene.h"
 
 #ifndef NULL
 #define NULL 0
@@ -44,8 +46,6 @@ typedef struct S_8195AB84_4 {
 } S_8195AB84_4;   /* tail in create_linked_object_chain */
 
 extern void func_80025B5C();
-extern s32 has_enough_available_runtime_nodes(s32);
-extern void *allocate_list_node(s32, void *);
 
 extern u8 D_80028268[];
 extern int D_800814A0;

@@ -5,16 +5,15 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/level.h"
+#include "dungeon/actor/state.h"
+#include "dungeon/item/position.h"
+#include "dungeon/item/state.h"
+#include "dungeon/player/state.h"
+#include "dungeon/system.h"
 #define F(p,t,o) (*(t *)((u8 *)(p)+(o)))
 extern u8 reference_tile_object[],view_reference_entity[],D_800893D8[],D_800E16E3[],D_800E1713[],dungeon_floor_object_positions[];
-extern s32 select_and_initialize_entry_at_position(s16 x, s16 y, s16 z, s32 type_id, s32 entry_value);
 #include "dungeon/player/item.h"
-extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
-extern void clear_byte_and_advance(s8 *byte_ptr);
-extern void display_formatted_context_message(void *);
-extern void play_sound_if_enabled(s32);
-extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern void try_apply_confusion_status(void *, s32, s32);
+#include "dungeon/item/message.h"
 /* Processes an actor's item and updates its object entry, effects, and item count. */
 s32 apply_malicious_light_tile_item(void *actor, DungeonItemEntry *item, s16 action) {
     s16 entry_index;

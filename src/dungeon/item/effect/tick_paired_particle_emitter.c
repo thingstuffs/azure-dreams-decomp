@@ -6,6 +6,8 @@
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
+#include "engine/node.h"
+#include "sdk/libc.h"
 
 typedef struct {
     u8 pad0[2];
@@ -63,9 +65,6 @@ typedef struct {
 
 extern u8 D_800C4640[];
 extern u8 D_800DF564[];
-
-extern s32 rand(void);
-extern s32 register_node(void *, void *);
 
 /* Spawn two effects at the source position and decrement its remaining count. */
 void tick_paired_particle_emitter(FuncArg *source) {

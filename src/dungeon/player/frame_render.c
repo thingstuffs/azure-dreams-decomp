@@ -16,6 +16,12 @@
 #include "shared/dungeon_floor.h"
 #include "shared/object_node.h"
 #include "shared/record_ptrs.h"
+#include "dungeon/effect/mesh.h"
+#include "engine/camera.h"
+#include "engine/effect.h"
+#include "engine/entity.h"
+#include "engine/node.h"
+#include "sdk/libgpu.h"
 
 typedef struct {
     u8 before_flags[0x1C];
@@ -45,19 +51,9 @@ typedef s32 (*Callback)(void *, struct ObjectPosition *, struct SpriteFrameState
 extern s32 D_800814A0;
 extern u8 node_update_mode;
 extern u16 system_update_flags;
-extern void run_active_node_callbacks(void);
 extern void remove_marked_active_nodes(void);
-extern void integrate_active_node_vectors(void);
-extern void run_view_callbacks(void);
-extern void process_current_facing_directions(void);
-extern void render_map_cell_mesh(void);
-extern void append_draw_mode_primitive(void);
 extern u8 upper_draw_context[16];
-s32 AddPrim(void *, void *);
-s32 SetDrawArea(void *, s32);
 s32 func_80067EF4(void *, s32, s32);
-s32 SetDrawMode(void *, s32, s32, s32, s32);
-extern s32 is_frame_packet_arena_overflowed(s32);
 extern Callback D_800DCF80[];
 extern u8 D_800E0000[];
 

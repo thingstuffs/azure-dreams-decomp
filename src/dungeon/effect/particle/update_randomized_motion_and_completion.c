@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dir_step.h"
+#include "dungeon/effect/particle.h"
 
 typedef struct S_81814C48_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */

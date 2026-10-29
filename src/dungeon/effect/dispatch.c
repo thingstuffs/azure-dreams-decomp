@@ -628,7 +628,7 @@ extern u8 D_800E0B65[];
 extern u8 D_800E0B73[];
 extern u8 D_800E0BA1[];
 
-void initialize_timed_motion_step(); /* Unprototyped: two or three arguments; retail reads only the first two. */
+void initialize_timed_motion_step(u16 countdown, u32 amount);
 s32 get_entity_class();
 void snapshot_inventory_and_familiars(void *input_state);
 void *get_unused_text_buffer(void);

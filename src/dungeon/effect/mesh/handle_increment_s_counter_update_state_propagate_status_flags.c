@@ -1,8 +1,8 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
-
-extern void advance_sprite_animation_and_textures(void *state);
+#include "dungeon/effect/mesh.h"
+#include "slus.h"
 
 /*
  * Increments the linked object's counter and advances sprite animation; flags removal when the

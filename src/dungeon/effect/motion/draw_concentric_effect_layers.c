@@ -1,7 +1,7 @@
 #include "common.h"
-
-extern s32 rsin(s32);
-extern void draw_shaded_textured_cylinder(void *, s32, s32, s32, s32, s32, s32, s32);
+#include "dungeon/effect/motion.h"
+#include "dungeon/effect/sprite.h"
+#include "sdk/libgte.h"
 
 /* Draw two concentric effect layers with phase-scaled height and radii. */
 s32 draw_concentric_effect_layers(void *effect, s32 position, s32 render_param) {

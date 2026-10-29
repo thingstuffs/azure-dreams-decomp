@@ -2,9 +2,9 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
-
-extern s32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern s16 GetTPage();
+#include "dungeon/effect/mesh.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 
 typedef struct {
     u32 addr : 24;

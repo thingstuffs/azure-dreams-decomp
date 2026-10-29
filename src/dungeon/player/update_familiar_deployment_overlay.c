@@ -2,10 +2,11 @@
 #include "shared/tile_object.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
+#include "dungeon/player.h"
+#include "engine/graphics.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 familiar_save_frames[];
-extern void step_actor_animation(void *,s32);
 
 enum DeploymentOverlayState {
     DEPLOY_OVERLAY_GROW = 0,

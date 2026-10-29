@@ -6,7 +6,7 @@
 #include "dungeon/system.h"
 
 
-extern void append_packed_action_record(s32 object_ptr, s32 action_code, s32 payload, s32 extra_byte);
+extern void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s32 extra_byte);
 
 typedef struct ActionDispatchState {
     u8 pad_00[0x8C];
@@ -17,9 +17,9 @@ typedef struct ActionDispatchState {
 } ActionDispatchState;
 
 /* Sets the object action to 0x33, conditionally sets a global flag, and dispatches the target. */
-void begin_action_33_and_dispatch(void *object, s32 unused_1, s32 unused_2, s32 target) {
+void begin_action_33_and_dispatch(void *object, void *unused_1, void *unused_2, void *target) {
     s32 action = 0x33;
-    u32 saved_target;
+    void *saved_target;
 
     ((ActionDispatchState *)object)->action = action;
     ((ActionDispatchState *)object)->phase = 0;

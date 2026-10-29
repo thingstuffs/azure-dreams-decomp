@@ -3,6 +3,7 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "engine/node.h"
+#include "dungeon/effect/sprite.h"
 
 typedef struct S_818BCFB0_0 {
     u8 pad_00[0x8];

@@ -2,6 +2,7 @@
 #include "shared/actor_property_flags.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
+#include "shared/dungeon_item_entries.h"
 #include "shared/def_table.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -12,11 +13,6 @@
 #include "dungeon/system.h"
 #include "dungeon/item/message.h"
 extern int abs(int);
-
-typedef struct S_800C0E88_1 {
-    u8 pad_00[0x2];
-    union { s8 s; u8 u; } unk_02;   /* accessed as both */
-} S_800C0E88_1;   /* data in use_magic_ball */
 
 typedef struct S_800C0E88_2_pre {
     u8 * unk_00;
@@ -51,7 +47,7 @@ typedef struct S_800C0E88_4 {
 
 
 extern void begin_mode_selected_item_action(void *object,void *unused_1,void *unused_2,void *mode);
-extern s32 process_record_and_update_linked_state();
+#include "dungeon/player/state.h"
 extern void clear_slot_and_update_linked_state();
 extern void *get_unused_text_buffer(void);
 extern u8 * copy_selected_text_without_terminator(void *text_id, u8 *dest);
@@ -71,7 +67,7 @@ extern u8 D_800E1456[];
 extern u8 D_800E146F[];
 
 /* Applies data to an object, updates its slots, and handles delayed consumption. */
-s32 use_magic_ball(u8 *object, u8 *data, s16 action, void *context)
+s32 use_magic_ball(u8 *object, DungeonItemEntry *data, s16 action, void *context)
 {
     u8 *slot_scan;
     u8 *object_record;
@@ -97,7 +93,7 @@ s32 use_magic_ball(u8 *object, u8 *data, s16 action, void *context)
     current_object = dungeon_actor_ring_anchor;
     if (object == current_object) {
         callback = &view_reference_entity;
-        data[3] |= 0x20;
+        data->unk_03 |= 0x20;
         active_object = dungeon_actor_ring_anchor;
         ((PlayerRecord *)active_object)->pending_item_action = data;
         begin_mode_selected_item_action(active_object, callback, ((u8 *)(&reference_tile_object)), active_object);
@@ -107,8 +103,8 @@ s32 use_magic_ball(u8 *object, u8 *data, s16 action, void *context)
     if ((u32)object <= 0x9FFFFFFF) {
         display_actor_item_status_message(object, data);
 
-        if (((S_800C0E88_1 *)data)->unk_02.s >= 10 && data[0] < 16) {
-            slot = ((data[0] - 1) * 3) + 1;
+        if (data->unk_02 >= 10 && data->unk_00 < 16) {
+            slot = ((data->unk_00 - 1) * 3) + 1;
             if ((s16)find_slot_by_item_group(object, slot) >= 0) {
                 clear_slot_and_update_linked_state(data);
                 tail_status = (u8 *)0x80080000;
@@ -119,17 +115,17 @@ scan_next:
                 if (slot_scan[8] == 0) {
                     flags = ((S_800C0E88_2 *)object)->unk_14;
                     if (flags & ACTOR_ELEMENT_FIRE) {
-                        scan_slot = ((data[0] - 1) * 3) + 1;
+                        scan_slot = ((data->unk_00 - 1) * 3) + 1;
                         slot_scan[8] = scan_slot;
                     } else if (flags & ACTOR_ELEMENT_WATER) {
-                        scan_slot = ((data[0] - 1) * 3) + 2;
+                        scan_slot = ((data->unk_00 - 1) * 3) + 2;
                         slot_scan[8] = scan_slot;
                     } else if (flags & ACTOR_ELEMENT_WIND) {
-                        scan_slot = ((data[0] - 1) * 3) + 3;
+                        scan_slot = ((data->unk_00 - 1) * 3) + 3;
                         slot_scan[8] = scan_slot;
                     }
 
-                    slot_count = ((S_800C0E88_1 *)data)->unk_02.s;
+                    slot_count = data->unk_02;
                     slot_count /= 10;
                     ((S_800C0E88_3 *)slot_scan)->unk_0A = slot_count;
                     ((S_800C0E88_3 *)slot_scan)->unk_09 = slot_count;
@@ -167,18 +163,18 @@ scan_next:
         }
         tail_status += 0x3460;
         ((S_800C0E88_4 *)tail_status)->unk_0A--;
-    } else if (((S_800C0E88_1 *)data)->unk_02.s == 0) {
+    } else if (data->unk_02 == 0) {
         display_formatted_context_message(D_800E1456);
         tail_status = ((u8 *)(&g_dungeon_status));
-        data[3] &= 0xDF;
+        data->unk_03 &= 0xDF;
         ((S_800C0E88_4 *)tail_status)->unk_0A--;
     } else {
         current_object->action_state_flags &= 0xFF7F;
         ((S_800C0E88_2 *)object)->unk_09 = 0xFF;
 
-        slot = (data[0] - 1) * 3;
+        slot = (data->unk_00 - 1) * 3;
         ((S_800C0E88_2 *)object)->unk_08 = slot + 1;
-        flags = *(u16 *)(item_category_tables[0] + (data[0] * 20));
+        flags = *(u16 *)(item_category_tables[0] + (data->unk_00 * 20));
         if (flags & 2) {
             ((S_800C0E88_2 *)object)->unk_08 = slot + 2;
         } else if (flags & 4) {
@@ -193,13 +189,13 @@ scan_next:
         ((S_800C0E88_2 *)object)->unk_72 = abs(((S_800C0E88_2 *)object)->unk_72);
         ((S_800C0E88_2 *)object)->unk_73 = abs(((S_800C0E88_2 *)object)->unk_73);
 
-        if (data[3] & 0x20) {
+        if (data->unk_03 & 0x20) {
             if (create_actor_spell_effect(object, object + 8, 0,
                               ((u8 *)dungeon_actor_ring_anchor) + 0x98) == 0) {
                 return 0;
             }
             magic_ball_delay[0] = 16;
-            data[3] &= 0xDF;
+            data->unk_03 &= 0xDF;
         }
 
         delay_timer = magic_ball_delay[0] - 1;
@@ -216,7 +212,8 @@ scan_next:
         status = &g_dungeon_status;
         status->active_actor = object;
         primary_actor_record->action_state_flags |= 0x80;
-        ((S_800C0E88_1 *)data)->unk_02.u--;
+        /* BYTES: read the unsigned charge byte before decrementing it. */
+        data->unk_02 = (u8)data->unk_02 - 1;
 
         message_start = get_unused_text_buffer();
         message_end = copy_selected_text_without_terminator(data, message_start);

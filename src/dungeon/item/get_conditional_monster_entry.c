@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/dungeon_floor.h"
+#include "dungeon/item.h"
 
 
 /* Return the indexed entry value when its condition is nonzero, or zero otherwise. */

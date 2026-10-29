@@ -8,7 +8,7 @@
 s32 runtime_directory_entry_count = 4;
 
 /* Return the index of a matching table key, or -1 if absent. */
-s32 find_runtime_table_key_index(s32 key)
+s32 find_runtime_table_key_index(void *key)
 {
     s32 entry_index;
     s32 result;
@@ -16,17 +16,17 @@ s32 find_runtime_table_key_index(s32 key)
     entry_index = 0;
     if (runtime_directory_entry_count > 0) {
         s32 entry_count;
-        s32 *entry_key;
+        RuntimeResourceEntry *entry_key;
 
         entry_count = runtime_directory_entry_count;
-        entry_key = (s32 *)&runtime_resource_directory;
+        entry_key = runtime_resource_directory.entries;
         do {
-            if (key == *entry_key) {
+            if (key == entry_key->key) {
                 result = entry_index;
                 return result;
             }
             entry_index++;
-            entry_key += 2;
+            entry_key++;
         } while (entry_index < entry_count);
     }
 
@@ -36,7 +36,7 @@ s32 find_runtime_table_key_index(s32 key)
 
 
 /* Returns the key's index, assigning the last index if lookup fails or is bypassed. */
-s32 find_or_load_runtime_resource_key(s32 key)
+s32 find_or_load_runtime_resource_key(void *key)
 {
     s32 index;
 
@@ -60,13 +60,13 @@ void initialize_runtime_resource_directory(void)
 {
     GpTablePrefix default_state;
 
-    __builtin_memcpy(&default_state, &runtime_directory_defaults, 0x20);
+    __builtin_memcpy(&default_state, &runtime_directory_defaults, sizeof(default_state));
     if (runtime_dispatch_state.mode != 2) {
         runtime_resource_directory = runtime_directory_defaults;
         runtime_directory_entry_count = 4;
     } else {
-        runtime_resource_directory.value[0] = 0;
-        runtime_resource_directory.value[1] = (u32)runtime_single_resource_data;
+        runtime_resource_directory.entries[0].key = 0;
+        runtime_resource_directory.entries[0].data = runtime_single_resource_data;
         runtime_directory_entry_count = 1;
     }
 }

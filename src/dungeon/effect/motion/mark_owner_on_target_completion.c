@@ -6,6 +6,10 @@
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_moving_views.h"
+#include "engine/node.h"
+#include "sdk/libc.h"
+#include "sdk/libgte.h"
+#include "slus.h"
 
 typedef struct S_80024550_1 {
     u8 pad_00[0x8];
@@ -13,12 +17,6 @@ typedef struct S_80024550_1 {
 } S_80024550_1;
 
    /* arg0 in mark_owner_on_target_completion */
-
-extern s32 rand(void);
-extern void select_record_entry_and_value(void *state, void *entries, short index);
-extern s32 rcos(s32);
-extern s32 rsin(s32);
-extern void register_node(void *, void *);
 
 extern u8 D_800244A4[];
 

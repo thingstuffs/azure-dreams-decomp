@@ -1,6 +1,7 @@
 #include "shared/runtime_dispatch.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
+#include "dungeon/effect/sprite.h"
 
 
 

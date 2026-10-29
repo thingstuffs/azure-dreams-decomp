@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "dungeon/item/position.h"
 
 
 /* Return whether the coordinates are outside the dungeon bounds. */

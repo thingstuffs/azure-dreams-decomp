@@ -1033,7 +1033,6 @@ extern void initialize_projected_sprite_chain_a(void *, void *, SpriteFrameState
 extern void initialize_projected_sprite_chain_b(void *, void *, SpriteFrameState *);
 extern void initialize_projected_sprite_chain_c(void *, void *, SpriteFrameState *);
 extern void initialize_randomized_object_state(void *, void *, SpriteFrameState *);
-extern void initialize_person_resources(void *, void *, SpriteFrameState *);
 extern void initialize_object_data_transform_color(void *, void *, SpriteFrameState *);
 extern void initialize_effect_with_child_sprites(void *, void *, SpriteFrameState *);
 extern void initialize_effect_with_random_angle(void *, void *, SpriteFrameState *);

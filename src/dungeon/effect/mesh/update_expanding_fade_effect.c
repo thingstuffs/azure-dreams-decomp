@@ -5,6 +5,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "sdk/libc.h"
 #include "sdk/libgte.h"
+#include "slus.h"
 
 typedef struct S_81977E0C_0_pre {
     u16 unk_00;
@@ -24,7 +25,6 @@ typedef struct S_81977E0C_3 {
     u16 unk_0A;
 } S_81977E0C_3;   /* D_80026208 in update_expanding_fade_effect */
 
-extern void advance_sprite_animation_and_textures(void *);
 extern s32 *effect_position_source;
 
 /* Expand and fade a spiraling effect while updating its position. */

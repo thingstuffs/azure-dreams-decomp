@@ -1,21 +1,22 @@
 /* G00670: mother event motion. */
 /* Original-file evidence (G00670): inferred (adjacency/recipe/locality), inferred-strong - CL:town/engine@4A4DC, CL:town/func_800CA30C, CL:town/func_800CA364, CL:town/func_800CA490, PD:town/engine:80113220. */
 #include "town/person/mother_event_motion_g00670.h"
+#include "town/scene/collision.h"
 
 /* Applies a motion offset or interpolates the position toward the object coordinates. */
 void apply_mother_event_motion_offset(void *object, void *position, s32 update_arg) {
-    s32 *motion_entry;
+    CollisionOverlap *motion_entry;
     s32 state;
     s32 frames_left;
 
-    motion_entry = get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(object, town_actor_control);
+    motion_entry = get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(object, &town_actor_control);
     if (motion_entry != 0) {
-        state = motion_entry[0];
+        state = motion_entry->axis;
         if (state != 2) {
             if (state == 0) {
-                ((s32 *)position)[0] -= motion_entry[1];
+                ((s32 *)position)[0] -= motion_entry->amount;
             } else if (state == 1) {
-                ((s32 *)position)[1] -= motion_entry[1];
+                ((s32 *)position)[1] -= motion_entry->amount;
             }
             begin_mother_event_pause(object, position, update_arg);
             return;

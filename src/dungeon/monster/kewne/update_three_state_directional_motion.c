@@ -7,6 +7,7 @@
 #include "shared/dir_step.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/player/object.h"
+#include "dungeon/actor/spell_resource_ids_g01008.h"
 #define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 
@@ -17,7 +18,7 @@
 extern void select_sprite_entry(void *, u8, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void play_sound_if_enabled(s32);
-extern void spend_actor_mp(void *, s32);
+
 
 extern u8 D_80175E88[];
 extern u8 resident_globals_page[];

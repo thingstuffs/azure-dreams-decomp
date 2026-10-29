@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
+#include "dungeon/player/motion.h"
 
 /* Converts directional input to an angle, optionally stepping from the current angle, and updates flags. */
 s32 resolve_player_input_facing(s16 direction_offset, u16 *flags, u16 *angle) {

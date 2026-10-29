@@ -6,6 +6,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 #include "shared/game_work.h"
+#include "dungeon/effect/particle.h"
 
 /* Transforms four colored vertices and queues a visible shaded quad with the requested depth bias. */
 void project_vertex_shaded_effect_quad(void *quad, void *position, void *render_state, s16 depth_bias)

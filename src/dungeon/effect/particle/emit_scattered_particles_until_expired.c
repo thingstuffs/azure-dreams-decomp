@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/effect/particle.h"
 
 typedef struct Position {
     u16 unk0;

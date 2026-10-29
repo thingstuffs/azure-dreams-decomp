@@ -9,7 +9,7 @@
 extern u8 D_800DF334[];
 void spawn_spiraling();
 #include "engine/node/allocation.h"
-s16 calculate_planar_heading(s16 start_x, s16 start_y, s16 end_x, s16 end_y);
+#include "dungeon/item/position.h"
 void draw_textured_ellipse();
 extern M2C_UNK D_80028214;
 extern M2C_UNK D_80024728;

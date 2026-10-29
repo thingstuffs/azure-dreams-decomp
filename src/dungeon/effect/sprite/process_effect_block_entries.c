@@ -1,8 +1,7 @@
 #include "shared/object_flags.h"
 #include "common.h"
 #include "dungeon/effect/sprite.h"
-
-extern void advance_sprite_animation_and_textures(void *entry);
+#include "slus.h"
 
 extern struct {
     s32 value;

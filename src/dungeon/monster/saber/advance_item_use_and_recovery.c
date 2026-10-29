@@ -7,6 +7,7 @@
 #include "engine/node.h"
 #include "engine/node/allocation.h"
 #include "dungeon/player/object.h"
+#include "engine/scene.h"
 extern int abs(int);
 #include "shared/def_table.h"
 #include "shared/object_node.h"
@@ -21,7 +22,6 @@ typedef struct {
     u32 words[12];
 } Copy48;
 
-extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern void select_sprite_entry(void *, s32, s32);
 extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void play_sound_if_enabled(s32);
@@ -91,11 +91,6 @@ typedef struct S_80173230_8 {
     void * unk_0C;
 } S_80173230_8;   /* base in advance_item_use_and_recovery */
 
-typedef struct S_80173230_9 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_80173230_9;   /* source in advance_item_use_and_recovery */
-
 /* Advances item use, its visual effect, and the actor's recovery animation. */
 /* Starts a targeted spell, creates an attached sprite effect and briefly changes the actor's palette, then
  * restores idle. */
@@ -104,7 +99,7 @@ void advance_item_use_and_recovery(void *action_in, ObjectPosition *motion_in, S
     u8 *effect_state;
     u8 * effect_handle;
     s16 special_or_effect;
-    u16 effect_offset[4];
+    GteOffset effect_offset;
     u8 *item_slot;
     u8 *action_object;
     s32 next_state;
@@ -233,7 +228,7 @@ void advance_item_use_and_recovery(void *action_in, ObjectPosition *motion_in, S
             if (timer == 0xB || (sprite->flags & 0xE000)) {
                 effect_handle = allocate_list_node(0x112, &scene_object_list_anchor.next);
                 if (effect_handle != 0) {
-                    S_80173230_9 *actor_model;
+                    SpriteFrameState *actor_model;
                     u8 animation_id;
 
                     effect_state = effect_handle + 0x20;
@@ -259,13 +254,13 @@ void advance_item_use_and_recovery(void *action_in, ObjectPosition *motion_in, S
                     actor_model = ((S_80173230_8 *)action_object)->unk_0C;
                     item_slot = ((S_80173230_6 *)((void *)effect_handle))->unk_08;
                     if (resolve_record_orientation_or_fallback(
-                            actor_model->unk_08, actor_model, effect_offset, 1) != 0) {
+                            actor_model->source, actor_model, &effect_offset.orientation, 1) != 0) {
                         ((S_80173230_7 *)item_slot)->unk_02 = ((u16)motion_in->x.w.i);
                         ((S_80173230_7 *)item_slot)->unk_06 = ((u16)motion_in->y.w.i);
                         ((S_80173230_7 *)item_slot)->unk_0A = ((u16)motion_in->z.w.i);
-                        ((S_80173230_7 *)item_slot)->unk_02 += effect_offset[0];
-                        ((S_80173230_7 *)item_slot)->unk_06 += effect_offset[1];
-                        ((S_80173230_7 *)item_slot)->unk_0A += effect_offset[2];
+                        ((S_80173230_7 *)item_slot)->unk_02 += effect_offset.distance[0];
+                        ((S_80173230_7 *)item_slot)->unk_06 += effect_offset.distance[1];
+                        ((S_80173230_7 *)item_slot)->unk_0A += effect_offset.distance[2];
                     }
                 }
             }

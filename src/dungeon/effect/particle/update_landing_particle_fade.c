@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "dungeon/effect/particle.h"
 
 
 extern s16 encounter_blink_update_flag;

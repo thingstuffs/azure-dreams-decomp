@@ -1,6 +1,7 @@
 /* Special table index (G00320). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800934E8. */
 #include "dungeon/player/special_table_index_g00320.h"
+#include "dungeon/player.h"
 
 /* Returns the index of a matching table entry address, or -1. */
 s32 find_table_entry_address_index(s32 entry_address) {

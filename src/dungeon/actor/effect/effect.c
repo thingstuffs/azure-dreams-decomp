@@ -1529,17 +1529,13 @@ void mark_category_items_flag_400(s32 group_bit) {
 #include "modules/dungeon_engine_entity_effects_fragment_c2fbc.h"
 #include "common.h"
 
-typedef struct {
-    u8 index;
-    u8 group;
-} DungeonArg;
-
-
 /* Updates the selected item through item_clear_recorded_category_pair and clears its flag 0x400 in the item category table. */
-void clear_selected_item_flag_400(DungeonArg *selection)
+void clear_selected_item_flag_400(void *selection)
 {
-    item_clear_recorded_category_pair(selection->group, selection->index);
-    item_category_groups[selection->group].entries[selection->index].flags &= 0xFBFF;
+    u8 *key = selection;
+
+    item_clear_recorded_category_pair(key[1], key[0]);
+    item_category_groups[key[1]].entries[key[0]].flags &= 0xFBFF;
 }
 #include "modules/dungeon_engine_entity_effects_fragment_c2fbc.h"
 #include "common.h"

@@ -1,8 +1,8 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
-
-extern void advance_sprite_animation_and_textures(void *target);
+#include "dungeon/effect/sprite.h"
+#include "slus.h"
 
 /* Marks the record when target flags are set, then processes the target. */
 void process_effect_on_target_flags(u16 *record, void *unused, SpriteFrameState *target) {

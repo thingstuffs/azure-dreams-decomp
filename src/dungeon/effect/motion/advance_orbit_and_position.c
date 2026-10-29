@@ -3,12 +3,12 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "sdk/libgte.h"
+#include "dungeon/effect/motion.h"
+#include "slus.h"
 
 struct Dst;
 struct Elem;
 
-void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
-void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry high_particle_sprite_entries[];
 

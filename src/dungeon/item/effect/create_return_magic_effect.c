@@ -2,6 +2,7 @@
 #include "dungeon/item.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/item/effect.h"
 
 typedef struct {
     u8 pad00[0x10];

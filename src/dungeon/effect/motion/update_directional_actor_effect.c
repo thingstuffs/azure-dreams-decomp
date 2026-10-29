@@ -10,6 +10,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "dungeon/effect/motion.h"
 
 typedef struct S_8195281C_0_pre {
     u16 unk_00;
@@ -87,7 +88,6 @@ typedef struct S_8195281C_10 {
 void (*const dungeon_1972800_entry)(void *, void *) = update_directional_actor_effect;
 
 /* Advances a timed effect sequence, fading model colors and marking completion. */
-extern void process_effect_modes_and_completion(void *state);
 
 /* Loads effect textures, launches a model effect, darkens and restores its target, and waits for
    completion. */

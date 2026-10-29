@@ -8,6 +8,10 @@
 #include "shared/tile_object.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/item.h"
+#include "engine/scene.h"
+#include "sdk/libgpu.h"
+#include "slus.h"
 
 typedef struct S_func_819A6800_1 {
     void *unk_00;
@@ -98,22 +102,13 @@ typedef struct S_func_819A6800_9 {
 
 extern u8 primary_actor_record[16];
 struct S_800244BC_2;
-void advance_target_chasing_emitter(void *, struct S_800244BC_2 *, s32);
-void update_jittered_effect_points(void *);
 s32 update_segment(void *);
 extern u8 moving_sprite_entries[];
 extern u32 D_800814A0[];
 
 #define GLOBAL_OBJECT (*(void **)primary_actor_record)
 
-extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
-extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
-extern s32 read_sound_mode_blocking_status(s32);
-extern u16 GetTPage(s32, s32, s32, s32);
-extern u16 GetClut(s32, s32);
 extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);
-
-void run_jittered_point_sequence(void *sequence, void *out_position);
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The state table of the switch below follows
@@ -381,10 +376,7 @@ typedef struct {
 } CopyDestination __attribute__((packed));
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 resolve_record_orientation_or_fallback();       /* extern */
 s32 rsin(s32, s16 *); /* extern */
-extern u16 GetTPage(s32, s32, s32, s32); /* extern */
-void update_randomized_intermediate_points(void *);
 
 /* Move toward the target while spawning effects, then mark the sequence complete. */
 void advance_target_chasing_emitter(void *object, S_800244BC_2 *position, s32 context) {
@@ -501,7 +493,6 @@ typedef struct S_80024810_1 {
 } S_80024810_1;
 
 /* micro-lane E 2026-08-14: true base 0x80024810 (delta 0x7E65D800) */
-s32 resolve_record_orientation_or_fallback();       /* extern */
 
 /* Update the effect's jittered points between endpoints and advance its animation. */
 void update_jittered_effect_points(void *effect) {
@@ -573,10 +564,7 @@ void update_jittered_effect_points(void *effect) {
 #include "modules/dungeon_ovl_19c6800.h"
 #include "common.h"
 #include "shared/game_work.h"
-int abs(int);
 s32 RotTransPers();
-s32 SetSemiTrans(void *, s32);
-s32 SetPolyFT4(void *);
 void transform_rotated_vertices();
 typedef struct
 {
@@ -752,8 +740,6 @@ typedef struct S_819A764C_2 {
 } S_819A764C_2;   /* dst in func_819A764C */
 
 s32 update_segment(void *);
-extern u16 GetClut(s32, s32);
-extern s32 rand(void);
 
 /* Update randomized intermediate points and advance the effect state. */
 void update_randomized_intermediate_points(void *self)

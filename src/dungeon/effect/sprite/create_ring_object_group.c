@@ -5,7 +5,8 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "sdk/libgte.h"
-void register_node(void *, void *); /* extern */
+#include "dungeon/effect/sprite.h"
+#include "engine/node.h"
 extern u8 D_800250B4[];
 extern u8 ring_effect_work[];
 

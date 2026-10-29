@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/dir_step.h"
+#include "dungeon/item/position.h"
 
 extern s16 find_active_rect_containing_point(s32, s32);
 

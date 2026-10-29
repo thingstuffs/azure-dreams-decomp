@@ -3,19 +3,11 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/game_work.h"
+#include "dungeon/effect/mesh.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 
 typedef void (*Callback)(s32, void *, void *, void *);
-
-extern void CompMatrix(void *, void *, void *);
-extern void PushMatrix(void);
-extern void PopMatrix(void);
-extern void ReadRotMatrix(void *);
-extern void ScaleMatrix(void *, void *);
-extern void SetRotMatrix(void *);
-extern void SetTransMatrix(void *);
-extern s32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void RotMatrix(void *, void *);
-extern void AddPrim(void *, void *);
 
 typedef struct S_800D07C8_0 {
     u8 pad_00[0x8];

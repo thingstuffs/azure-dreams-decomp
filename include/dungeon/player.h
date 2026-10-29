@@ -19,9 +19,10 @@ typedef struct FamiliarItemSlotView {
 void begin_actor_turn_toward_target(void *action, void *unused, void *actor, void *motion);
 s32 begin_familiar_command_selection(Rec_func_8008D024_arg0 *actor, void *context, SpriteFrameState *display, s32 target_index, s32 action_mode);
 s32 begin_familiar_summoning(void *record, s32 input1, void *pointer_input, s32 value_input);
-void begin_player_damage_reaction(void *action, void *unused, void *sprite, EntityRec *actor);
+void apply_pending_byte_increase(void *unused_0, void *unused_1, void *unused_2, ActorRecord *object);
+void begin_player_damage_reaction(void *action, void *unused, void *sprite, ActorRecord *actor);
 void begin_player_pickup_animation(u8 *actor, s32 effect_arg, u8 *target, u8 *source);
-void begin_player_sleep_action(void *record, void *unused, void *object, EntityRec *entity);
+void begin_player_sleep_action(void *record, void *unused, void *object, ActorRecord *entity);
 void begin_player_wait_turn(void *state, void *mode, void *sprite, EntityRec *entity);
 s32 begin_selected_target_level_up(void *actor_state, void *action_arg, void *sprite, void *target);
 s32 begin_target_flagged_action(void *actor, s32 action_arg, s32 unused, void *target);
@@ -59,5 +60,13 @@ void begin_player_trap_trigger(void *object, void *unused_1, void *unused_2, voi
 void create_familiar_deployment_overlay(void *owner_body, ObjectPosition *source_pos, SpriteFrameState *owner);
 
 void begin_player_jump(struct Rec_func_8008ACDC_arg0 *state, void *unused, SpriteFrameState *sprite, ActorRecord *actor);
+
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+struct S_80098614_0;
+void change_equipped_item_and_notify(struct S_80098614_0 *actor, u8 *requested_item);
+
+void restore_player_control_callback(void *target, void *source);
+
+s16 get_special_table_data_index(s32 dataAddress);
 
 #endif

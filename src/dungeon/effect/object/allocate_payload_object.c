@@ -1,9 +1,9 @@
 #include "common.h"
 #include "dungeon/effect/object.h"
 #include "shared/object_node.h"
+#include "dungeon/effect.h"
 
 #include "engine/node/allocation.h"                  /* extern */
-extern void update_oriented_offset_effect_position(void *state, void *position);
 
 typedef struct S_800B341C_0 {
     u8 pad_00[0x10];

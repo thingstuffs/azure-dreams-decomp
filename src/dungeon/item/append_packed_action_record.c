@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/dungeon_floor.h"
+#include "dungeon/item.h"
 
 typedef struct DungeonWriteState {
     u8 pad0[4];
@@ -8,8 +9,6 @@ typedef struct DungeonWriteState {
     u8 pad8[4];
     u8 *data;
 } DungeonWriteState;
-
-extern u8 *find_monster_special_entry(s32 wanted_kind, s32 wanted_flag);
 
 /* Records an object action in the dungeon buffer, combining compatible entries. */
 void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s32 extra_byte) {

@@ -5,6 +5,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "slus.h"
+#include "engine/node.h"
 
 typedef struct {
     u8 red;
@@ -52,8 +53,6 @@ typedef struct S_func_81331914_4 {
     u8 unk_0D;
     u8 unk_0E;
 } S_func_81331914_4;
-
-extern void register_node(void *, void *);
 
 extern u8 ribbon_sprite_entries[];
 extern u8 D_80166914[];

@@ -3,9 +3,10 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "engine/node.h"
+#include "dungeon/actor/spell_resource_ids_g01008.h"
 
 extern void retire_tracked_effect_by_id(void *);
-extern void spend_actor_mp(void *, s32);
+
 
 #include "dungeon/monster/stealth.h"
 

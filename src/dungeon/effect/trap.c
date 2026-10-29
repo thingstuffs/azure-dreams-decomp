@@ -178,7 +178,7 @@ extern u8 D_800E1B2E[];
 
 extern void display_formatted_context_message(); /* Unprototyped: one or three arguments; retail retains only the text context. */
 extern s32 get_entity_effect_value();
-extern void initialize_timed_motion_step(); /* Unprototyped: two or three arguments; retail reads only the first two. */
+extern void initialize_timed_motion_step(u16 countdown, u32 amount);
 extern s32 play_sound_if_enabled(s32 query_value);
 
 /* Advances a timed Z transition, waits for readiness, and marks completion. */
@@ -250,7 +250,7 @@ extern u8 D_800E1B5D;
 extern s32 has_enough_available_runtime_nodes(s32 a0);
 extern s32 get_entity_effect_value();
 extern s16 set_or_clear_actor_status_slot();
-extern void initialize_timed_motion_step(); /* Unprototyped: two or three arguments; retail reads only the first two. */
+extern void initialize_timed_motion_step(u16 countdown, u32 amount);
 extern s32 play_sound_if_enabled(s32 query_value);
 extern void display_formatted_context_message(); /* Unprototyped: one or three arguments; retail retains only the text context. */
 
@@ -1463,7 +1463,7 @@ typedef struct S_800CD474_3 {
 } S_800CD474_3;   /* global_base in advance_falling_trap_effect */
 
 
-extern void initialize_timed_motion_step(); /* Unprototyped: two or three arguments; retail reads only the first two. */
+extern void initialize_timed_motion_step(u16 countdown, u32 amount);
 extern s32 play_sound_if_enabled(s32 query_value);
 
 /* Advance a falling effect through impact, flashing, and fade-out. */
@@ -2131,7 +2131,7 @@ extern s32 play_sound_if_enabled(s32 query_value);
 extern void mark_all_actors_with_high_flag(void);
 extern void add_value_to_active_entries_at_tile(s16 x, s16 y, s32 amount);
 extern void set_value_of_active_entries_at_tile(s16 x, s16 y, s16 value);
-extern void initialize_timed_motion_step(); /* Unprototyped: two or three arguments; retail reads only the first two. */
+extern void initialize_timed_motion_step(u16 countdown, u32 amount);
 
 /* Animate a 5x5 tile patch to target heights, wait, then restore its initial heights. */
 void update_long_lived_trap_effect(DungeonEffect *effect) {
@@ -2345,7 +2345,7 @@ typedef struct {
     s16 field_22;
 } GridEffectObject;
 
-extern void initialize_timed_motion_step(); /* Unprototyped: two or three arguments; retail reads only the first two. */
+extern void initialize_timed_motion_step(u16 countdown, u32 amount);
 extern s32 random_dungeon_range_16(u32 bound_a, u32 bound_b);
 extern s32 get_surface_height_at_coordinates(s32, s32);
 
@@ -2679,7 +2679,7 @@ extern s8 entity_spawn_variant_code;
 
 
 extern s32 has_enough_available_runtime_nodes(s32);
-extern void initialize_timed_motion_step(); /* Unprototyped: two or three arguments; retail reads only the first two. */
+extern void initialize_timed_motion_step(u16 countdown, u32 amount);
 extern void func_80042640(void *, s32);
 extern void SD_Call(s32);
 extern void display_formatted_context_message(); /* Unprototyped: one or three arguments; retail retains only the text context. */

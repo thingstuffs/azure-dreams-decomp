@@ -9,11 +9,11 @@
 #include "dungeon/player.h"
 #include "dungeon/player/position.h"
 #include "sdk/libgte.h"
+#include "dungeon/actor.h"
+#include "dungeon/player/motion.h"
+#include "dungeon/player/object.h"
+#include "engine/graphics.h"
 
-
-void set_sprite_animation_frame(struct SpriteFrameState *obj, s16 frame_group, s16 frame_index, s32 slot_index); /* extern */
-void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);              /* extern */
-void apply_clamped_actor_value_delta(void *entity);                      /* extern */
 extern u8 player_wait_frames[8];
 extern u8 player_damage_frames_2[8];
 

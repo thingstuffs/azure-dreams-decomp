@@ -15,6 +15,7 @@
 #include "engine/node.h"
 #include "engine/node/allocation.h"
 #include "dungeon/player/object.h"
+#include "dungeon/actor/spell_resource_ids_g01008.h"
 
 typedef struct T_801748D0_S_801748D0_0 {
     u8 pad_00[0x8C];
@@ -85,7 +86,7 @@ extern s32 apply_camera_offset_and_select_target(void *object_addr, void *source
 extern s32 resolve_record_orientation_or_fallback(s32, void *, s16 *, s16);
 extern s32 RotTransPers(void *, void *, void *, void *);
 extern void play_sound_if_enabled(s32);
-extern void spend_actor_mp(void *, s32);
+
 extern void check_action_six_eligibility(void *, void *);
 extern u8 D_80174EC8;
 extern s8 view_direction_depth_biases[];

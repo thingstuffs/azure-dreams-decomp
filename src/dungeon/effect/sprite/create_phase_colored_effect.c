@@ -6,6 +6,8 @@
 #include "shared/slus_callbacks.h"
 #include "sdk/libc.h"
 #include "engine/node.h"
+#include "dungeon/effect/sprite.h"
+#include "slus.h"
 
 typedef struct S_818BD52C_0 {
     u8 pad_00[0x8];
@@ -50,8 +52,6 @@ typedef struct S_818BD52C_5 {
 typedef struct {
     s32 word[6];
 } Copy24;
-
-extern void select_record_entry_and_value(void *state, void *entries, short index);
 
 extern u8 D_80024BB0[];
 extern u8 shared_sprite_entries[];

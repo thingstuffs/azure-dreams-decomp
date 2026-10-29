@@ -13,7 +13,7 @@
 #include "dungeon/system.h"
 
 
-extern s32 process_record_and_update_linked_state();
+#include "dungeon/player/state.h"
 extern void clear_slot_and_update_linked_state(DungeonItemEntry *slot);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 
@@ -22,7 +22,7 @@ extern u8 floor_objects[];
 
 
 /* Apply an entity event or mark eligible slots, then finish the event. */
-s32 make_floor_traps_invisible(ActorRecord *entity, DungeonItemEntry *event, s16 event_type, s32 event_arg) {
+s32 make_floor_traps_invisible(ActorRecord *entity, DungeonItemEntry *event, s16 event_type, void *event_arg) {
     void *message_arg;
     u8 *slot;
     u8 *event_state;

@@ -4,6 +4,8 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "sdk/libc.h"
+#include "dungeon/effect/sprite.h"
+#include "engine/node.h"
 
 typedef struct S_818BDB44_0 {
     u8 pad_00[0x8];
@@ -46,8 +48,6 @@ typedef struct S_818BDB44_5 {
 typedef struct {
     s32 words[6];
 } Copy24;
-
-extern void register_node(void *, void *);
 
 extern u8 D_80024F4C[];
 extern u8 tinted_sprite_entries[];

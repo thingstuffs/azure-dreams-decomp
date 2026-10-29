@@ -13,7 +13,7 @@ void jyotyu_set_reserve_all(void);
 void jyotyu_set_reserve_dngn(void);
 void announce_familiar_defeat(void *input_data);
 void fade_out_and_remove_actor(void *actor_data, s32 unused, SpriteFrameState *visual, void *current_actor);
-void begin_action_33_and_dispatch(void *object, s32 unused_1, s32 unused_2, s32 target);
+void begin_action_33_and_dispatch(void *object, void *unused_1, void *unused_2, void *target);
 s32 check_active_object_state_567(void);
 s32 check_enabled_neighbor_height(s32 world_x, s32 world_y, s16 world_z, u32 direction, s32 disabled);
 s32 check_entity_eligibility(void *entity);
@@ -23,10 +23,10 @@ s32 choose_best_eligible_entry_for_actor(void *actor_arg, s32 action_arg, Moving
 void copy_indexed_entry_data(void *entity);
 void *find_eligible_nearby_entry(s32 x, s32 y, void *end, void *owner);
 void rotate_actor_movement_queue(MovingTile *position, void *state);
-void run_saved_actor_action(void *object, s32 unused, void *animation, void *actor);
+void run_saved_actor_action(void *object, void *unused, void *animation, void *actor);
 void spawn_salam_particles(ObjectNodeHeader *source, s16 effect_param, s32 render_param);
 void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite, ActorRecord *status);
-extern void update_actor_movement_and_map_flags(void *obj, s32 move_mode,struct SpriteFrameState *actor, void *map);
+extern void update_actor_movement_and_map_flags(void *obj, ObjectPosition *move_mode,struct SpriteFrameState *actor, void *map);
 
 struct S_800AB778_1;
 s32 advance_actor_removal(struct S_800AB778_1 *state, void *unused_context, SpriteFrameState *visual, void *actor);
@@ -48,7 +48,7 @@ s32 resolve_monster_move_choice(ActorRecord *initial, ObjectPosition *position, 
 s32 roll_actor_stack_split(void *actor, s32 chance);
 
 /* Callback entry points. */
-void apply_pending_actor_updates(void *controller, s32 move_state, void *entity, void *actor);
+void apply_pending_actor_updates(void *controller, ObjectPosition *move_state, SpriteFrameState *entity, ActorRecord *actor);
 void fade_color_toward_half_and_complete(void *effect, s32 unused, void *color);
 
 /* dungeon/actor/movement_overlap_wait_g00334.c */
@@ -65,5 +65,9 @@ s32 check_scaled_value_threshold(ActorRecord *state);
 struct S_800C8DB0_0;
 s32 attempt_action_six_if_eligible(struct S_800C8DB0_0 *entity, s16 threshold, s8 action_arg);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+s32 select_dungeon_spawn_tile(u8 *x_out, u8 *y_out);
+
+s32 lookup_definition_pair_value(s16 firstKey, s16 secondKey);
 
 #endif

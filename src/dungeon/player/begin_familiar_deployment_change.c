@@ -3,10 +3,9 @@
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
-
-extern void set_sprite_animation_frame(void *, u8, s32, s32);
-extern s32 get_special_table_data_index(s32);
-extern void append_packed_action_record(void *, s32, s32, s32);
+#include "dungeon/item.h"
+#include "engine/graphics.h"
+#include "dungeon/player.h"
 
 extern u8 familiar_summon_frames[];
 

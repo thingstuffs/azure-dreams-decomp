@@ -4,6 +4,8 @@
 #include "dungeon/effect/particle/create_an_linked_parent_initialize_position_part_data.h"
 #include "shared/game_work.h"
 #include "engine/graphics.h"
+#include "dungeon/effect/particle.h"
+#include "slus.h"
 void (*const dungeon_19b4800_entry)(struct TransitionState *, void *, void *) = update_palette_particle_transition;
 const RectTable linked_particle_texture_rects = {{
  {0x340,0x140,0x40,0x40}, {0x340,0x180,0x40,0x40},
@@ -35,7 +37,6 @@ typedef struct S_81994800_2 {
 } S_81994800_2;   /* ((((Rec_D_800E3D7C *)arg0)->unk_32 * 2) + ((Rec_D_800E3D7C *)arg0)->unk_60.as_s32) in func_8002405C */
 
 extern s16 parent_effect_update_flag;
-void fade_linked_display_sprite(void *effect, void *unused_context, void *effect_params);
 /* Advance the effect countdown, update its parameters, and flag completion. */
 void fade_linked_display_sprite(void *effect, void *unused_context, void *effect_params) {
     s32 scale;
@@ -394,9 +395,6 @@ extern PaletteControl ellipse_palette_channel_limits;
 extern s16 parent_effect_update_flag;
 extern u16 D_80082E94;
 extern AnimationState reference_tile_object;
-
-
-extern s32 read_sound_mode_blocking_status(s32);
 
 extern void draw_textured_ellipse(PaletteControl *, RectWords *, s32, s32);
 

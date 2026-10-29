@@ -9,6 +9,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/player/object.h"
+#include "dungeon/actor/spell_resource_ids_g01008.h"
 
 typedef struct S_80172290_0 {
     u8 pad_00[0x8C];
@@ -25,7 +26,7 @@ typedef struct S_80172290_0 {
 
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void on_actor_status_updated(void *);
-extern void spend_actor_mp(void *, s32);
+
 
 
 extern s32 battnel_action_resume_address;

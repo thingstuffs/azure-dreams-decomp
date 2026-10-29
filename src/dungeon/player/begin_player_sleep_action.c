@@ -3,14 +3,12 @@
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "shared/entity.h"
 #include "dungeon/player.h"
+#include "engine/graphics.h"
 
-
-
-extern void set_sprite_animation_frame(struct SpriteFrameState *obj, s16 frame_group, s16 frame_index, s32 slot_index); /* extern */
 extern u8 D_800DD0E8;
 
 /* Resets the player's sleep action state and installs the directional sleep animation. */
-void begin_player_sleep_action(void *record, void *unused, void *object, EntityRec *entity) {
+void begin_player_sleep_action(void *record, void *unused, void *object, ActorRecord *entity) {
         /* MATCH: Keep the shared data pointer in a0 after the first call. */
     u8 *data;
     s32 mask;

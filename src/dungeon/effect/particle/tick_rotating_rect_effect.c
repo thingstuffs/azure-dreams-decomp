@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "dungeon/effect/particle.h"
 
 typedef struct {
     u16 x;

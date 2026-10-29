@@ -1,7 +1,6 @@
 #include "common.h"
-
-extern void RotMatrix(void *, void *);
-extern void ScaleMatrix(void *, s32 *);
+#include "dungeon/effect/sprite.h"
+#include "sdk/libgte.h"
 
 /* Initializes the destination from the source position and signed vector components. */
 void initialize_destination_from_vector(void *dest, void *source) {

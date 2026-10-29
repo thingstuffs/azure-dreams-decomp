@@ -7,6 +7,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
 #include "dungeon/player/object.h"
+#include "dungeon/actor/spell_resource_ids_g01008.h"
 
 typedef struct S_80174764_0 {
     u8 pad_00[0x8C];
@@ -26,7 +27,7 @@ typedef struct S_80174764_4 {
 
 extern void select_sprite_entry(void *, s16, s16);
 extern void play_sound_if_enabled(s32);
-extern void spend_actor_mp(void *, s32);
+
 extern void spawn_312_effect_object(void *, void *, void *);
 extern s32 request_random_slot_effect(ActorRecord *);
 extern s32 check_object_code_19(void *);

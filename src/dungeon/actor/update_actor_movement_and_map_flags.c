@@ -26,7 +26,7 @@ extern void append_packed_action_record(void *object_ptr, s32 action_code, s32 p
 #define P32(p, o) (*(void **)((u8 *)(p) + (o)))
 
 /* Moves the actor and updates its animation, movement state, and map flags. */
-void update_actor_movement_and_map_flags(void *obj, s32 move_mode, SpriteFrameState *actor, void *map)
+void update_actor_movement_and_map_flags(void *obj, ObjectPosition *move_mode, SpriteFrameState *actor, void *map)
 {
     GameWork *globals;
     register s16 movement_kind;

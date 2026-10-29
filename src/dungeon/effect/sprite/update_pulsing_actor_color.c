@@ -2,6 +2,7 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "sdk/libgte.h"
+#include "dungeon/effect/sprite.h"
 
 typedef struct S_800F62BC_0_pre {
     u16 unk_00;

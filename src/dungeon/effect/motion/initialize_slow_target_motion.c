@@ -4,6 +4,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "dungeon/player/object.h"
+#include "dungeon/actor.h"
 
 typedef struct {
     u8 pad0[0x8c];
@@ -50,7 +51,6 @@ typedef struct {
 } Global83460;
 
 extern void unlink_entity_node(Entity *);
-extern void apply_clamped_actor_value_delta(Entity *);
 
 /* Initializes and slows entity motion, then stops it or moves it to the target tile. */
 void initialize_slow_target_motion(StateObj *motion_state, Motion *motion, Params *params, Entity *entity) {

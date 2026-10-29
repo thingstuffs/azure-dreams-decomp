@@ -9,7 +9,7 @@
 
 
 
-void dispatch_actor_state_handler(Rec_func_8008ACDC_arg0 *actor, void *context, SpriteFrameState *object, EntityRec *state);
+void dispatch_actor_state_handler(Rec_func_8008ACDC_arg0 *actor, void *context, SpriteFrameState *object, ActorRecord *state);
 
 
 

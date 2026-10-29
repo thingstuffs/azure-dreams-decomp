@@ -5,6 +5,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "sdk/libc.h"
+#include "dungeon/effect/particle.h"
 
 typedef struct S_80167540_0 {
     u16 unk_00;

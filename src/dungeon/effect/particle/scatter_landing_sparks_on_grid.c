@@ -6,11 +6,12 @@
 #include "shared/dungeon_particle_template.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/effect/particle.h"
+#include "engine/node.h"
+#include "sdk/libc.h"
 
 typedef void (*LandingParticleCallback)(u8 *, u8 *, u8 *);
 
-void register_node(void *, void *);
-s32 rand(void);
 s32 func_80167088(s32);
 
 extern void D_80165AB8(u8 *, u8 *, u8 *);

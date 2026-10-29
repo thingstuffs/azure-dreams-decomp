@@ -8,6 +8,7 @@
 #include "shared/dir_step.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/player/object.h"
+#include "dungeon/actor/spell_resource_ids_g01008.h"
 
 typedef struct S_80174428_0 {
     u8 pad_00[0x1C];
@@ -58,8 +59,8 @@ extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s16 select_dungeon_spawn_tile(u8 *, u8 *);
 extern void play_sound_if_enabled(s32);
-extern void refresh_actor_proximity_state(u8 *context);
-extern void spend_actor_mp(void *, s32);
+void refresh_actor_proximity_state(ActorRecord *context);
+
 extern s16 sample_terrain_surface_height(s32, s32, s16);
 
 /* Updates movement, destination selection, and recovery animation for the object. */

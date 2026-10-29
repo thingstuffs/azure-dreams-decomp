@@ -5,6 +5,10 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/system.h"
+#include "engine/graphics.h"
+#include "engine/resource.h"
+#include "slus.h"
 
 
 typedef struct S_80024078_2_pre {
@@ -45,11 +49,7 @@ typedef struct {
     s16 timer_22;
 } State;
 
-extern s32 decode_and_upload_image(u8 *, Rect *);
-extern s32 upload_vram_row_and_cache();
 extern void *update_actor_effect_sequence(void *, s32);
-extern s32 read_sound_mode_blocking_status(s32);
-extern void play_sound_if_enabled(s32);
 
 extern u8 D_80028F68[];
 extern u8 screen_transition_pixels[];

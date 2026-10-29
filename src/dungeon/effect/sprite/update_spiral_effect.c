@@ -4,12 +4,9 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-
-extern void advance_sprite_animation_and_textures(void *);
-extern s32 rsin(s32);
-extern s32 rcos(s32);
-extern s32 rand(void);
-
+#include "sdk/libc.h"
+#include "sdk/libgte.h"
+#include "slus.h"
 
 typedef struct S_800D7D30_1 {
     u8 pad_00[0xC];

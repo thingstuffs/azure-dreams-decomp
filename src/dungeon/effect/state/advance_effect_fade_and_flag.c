@@ -3,6 +3,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
+#include "slus.h"
 
 
 typedef struct S_800B63A8_1_pre {
@@ -23,8 +24,6 @@ typedef struct S_800B63A8_1 {
     u8 pad_17[0x1];
     u8 unk_18;
 } S_800B63A8_1;   /* arg0 in advance_effect_fade_and_flag */
-
-extern void advance_sprite_animation_and_textures(void *entity);            /* extern */
 
 /* Advance effect motion, fade its color, and flag it when its lifetime expires. */
 void advance_effect_fade_and_flag(void *effect, ObjectPosition *motion, SpriteFrameState *primitive) {

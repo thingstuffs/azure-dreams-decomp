@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/player.h"
 
 extern u8 floor_objects[];
 

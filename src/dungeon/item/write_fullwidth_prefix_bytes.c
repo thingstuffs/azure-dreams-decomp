@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "dungeon/item.h"
 
 typedef struct S_800998A4_0 {
     union { u8 s; s8 u; } unk_00;   /* accessed as both */

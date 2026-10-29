@@ -7,10 +7,9 @@
 #include "shared/dungeon_moving_views.h"
 #include "shared/object_links.h"
 #include "dungeon/player.h"
+#include "dungeon/item.h"
+#include "engine/graphics.h"
 
-
-extern void set_sprite_animation_frame(struct SpriteFrameState *obj, s16 frame_group, s16 frame_index, s32 slot_index); /* extern */
-s16 get_rounded_facing_and_rounding_flag();       /* extern */
 extern u8 actor_attack_frames[];
 
    /* the 0x14 bytes before ((S_80091B5C_3 *)base)->unk_0C in begin_actor_turn_toward_target, addressed as ((S_80091B5C_3 *)base)->unk_0C[-1] */

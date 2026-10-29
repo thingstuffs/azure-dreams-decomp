@@ -6,6 +6,10 @@
 #include "shared/object_node.h"
 #include "sdk/libgpu.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/effect/sprite.h"
+#include "dungeon/item.h"
+#include "sdk/libc.h"
+#include "sdk/libgte.h"
 void (*const dungeon_18a0800_entry)(TrackingEffect *, ObjectPosition *, SpriteFrameState *) = follow_brighten;
 #include "modules/dungeon_ovl_18a0800.h"
 #include "dungeon/effect/travel.h"
@@ -15,8 +19,6 @@ void (*const dungeon_18a0800_entry)(TrackingEffect *, ObjectPosition *, SpriteFr
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-
-extern int abs(int);
 
 #define F(p, t, o) (*(t *)((u8 *)(p) + (o)))
 
@@ -811,8 +813,6 @@ typedef struct S_800250E8_2 {
     u16 unk_14;
 } S_800250E8_2;   /* tail_arg in update_spark_effect */
 
-extern s32 rand(void);
-
 /* Updates effect motion and marks it inactive when its lifetime or owner expires. */
 void update_spark_effect(void *effect, S_800250E8_0 *motion, void *owner)
 {
@@ -937,8 +937,6 @@ typedef struct S_800252E0_8 {
     void * unk_8D0;
 } S_800252E0_8;   /* ((S_800252E0_6 *)global_slot)->unk_00 in queue_projected_point_primitives */
 
-extern s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(void *first_owner, void *first_vertices, void *first_line);
-extern u32 RotTransPers();
 extern u8 resident_globals_page[];
 
 /* Queue projected point primitives from a linked list into the ordering table. */
@@ -1161,7 +1159,6 @@ void *create_effect_from_endpoints(S_80025654_2 *endpoints, S_80025654_4 *settin
 #include "common.h"
 
 #include "dungeon/effect/screen.h"
-extern void adjust_source_value_and_finalize(void *, void *);
 extern u8 D_800E1CD5[9];
 
 /* Conditionally applies D_800E1CD5 using a check indexed by the supplied value's low byte. */

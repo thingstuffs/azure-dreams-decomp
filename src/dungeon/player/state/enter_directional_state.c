@@ -2,8 +2,8 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/player/state.h"
+#include "engine/graphics.h"
 
-extern void set_sprite_animation_frame(void *, u8, s32, s32);
 extern u8 D_800DD000[];
 
 /* Enters state 0x17, selects its directional animation, and resets state progress. */

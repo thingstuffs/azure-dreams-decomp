@@ -5,6 +5,8 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "engine/node/allocation.h"
+#include "dungeon/effect/mesh.h"
+#include "slus.h"
 
 #ifndef NULL
 #define NULL 0
@@ -35,7 +37,6 @@ typedef struct S_81977D08_5 {
     u8 unk_13;
 } S_81977D08_5;   /* ((S_81977D08_4 *)arg0)->unk_14 in create_an_owner_linked_sprite_effect_position_vertical_offset */
 
-extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 extern s32 D_8002548C;

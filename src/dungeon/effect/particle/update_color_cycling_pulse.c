@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
+#include "dungeon/effect/particle.h"
 
 typedef struct S_801671AC_0 {
     u8 pad_00[0xC];

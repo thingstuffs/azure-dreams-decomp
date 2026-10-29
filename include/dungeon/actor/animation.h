@@ -5,7 +5,7 @@
 #include "common.h"
 #include "dungeon/actor/motion.h"
 void *reset_actor_animation_state(void *entity);
-void finish_paralyzed_actor_action(ActorRecord *entity, s32 unused_1, SpriteFrameState *unused_2, ActorRecord *context);
+void finish_paralyzed_actor_action(ActorRecord *entity, void *unused_1, SpriteFrameState *unused_2, ActorRecord *context);
 
 
 void update_trailing_effect_animation(ActorTrailWork *effect, TrailMotion *transform, SpriteFrameState *render_data);

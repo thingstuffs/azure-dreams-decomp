@@ -12,6 +12,9 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/actor.h"
 #include "sdk/libgpu.h"
+#include "dungeon/effect/sprite.h"
+#include "engine/scene.h"
+#include "sdk/libc.h"
 
 typedef s32 M2C_UNK;
 
@@ -89,7 +92,6 @@ typedef struct S_81988800_12 {
 
 extern M2C_UNK D_80024D58;
 
-extern s32 resolve_record_orientation_or_fallback();
 extern void apply_attack_power_and_element_effects();
 
 void update_directional_actor_effect(void *state_data, void *position_data);
@@ -506,9 +508,6 @@ typedef struct Resource {
 } Resource;
 
 extern u8 directional_sprite_entries[];
-
-extern s32 resolve_record_orientation_or_fallback(void *, void *, s16 *, s32);
-extern s32 rand(void);
 
 /* Moves an animated effect toward the actor's sprite offset and emits randomized fragments until it ends. */
 void update_effect_and_spawn_fragments(MainObject *obj)

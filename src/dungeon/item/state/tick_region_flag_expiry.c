@@ -3,9 +3,10 @@
 #include "dungeon/level/room_flags.h"
 #include "common.h"
 #include "shared/object_flags.h"
+#include "dungeon/item/message.h"
+#include "dungeon/item/state.h"
 typedef struct { u16 unk00; } Pre;
 typedef struct { u8 pad[8]; u16 unk08; s16 unk0A; s16 unk0C; } State;
-extern void display_formatted_context_message(void *);
 extern u16 dungeon_status_flags_alias;
 extern s32 D_800E18C8;
 /* Counts active dungeon ticks, optionally reports expiry and clears room flag 2, then removes the timer. */

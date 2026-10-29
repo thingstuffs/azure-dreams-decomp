@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "dungeon/player/state.h"
 
 typedef struct S_80098CEC_0 {
     u8 pad_00[0x3];

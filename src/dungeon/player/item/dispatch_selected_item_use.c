@@ -5,6 +5,7 @@
 #include "records/Rec_D_80082EB0.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "dungeon/player.h"
+#include "dungeon/player/item.h"
 struct S_80098614_0;
 
 
@@ -27,7 +28,6 @@ typedef struct S_80095538_1 {
 } S_80095538_1;   /* &D_80082EB0 in dispatch_selected_item_use */
 
 void equip_item_and_update_status();              /* extern */
-void change_equipped_item_and_notify(struct S_80098614_0 *actor, u8 *requested_item);              /* extern */
 s32 select_item_record_pointer(); /* Unprototyped: one or two arguments; the second register argument is ignored. */                             /* extern */
 
 /* Dispatches an item effect or equipment update according to the item type. */

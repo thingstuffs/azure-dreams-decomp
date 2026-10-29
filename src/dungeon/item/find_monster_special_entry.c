@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/item.h"
 
 typedef struct S_8009F9E8_0 {
     u8 unk_00;

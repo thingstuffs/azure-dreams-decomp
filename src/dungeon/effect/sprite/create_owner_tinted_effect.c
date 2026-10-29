@@ -5,6 +5,7 @@
 #include "shared/slus_callbacks.h"
 #include "engine/node.h"
 #include "sdk/libc.h"
+#include "dungeon/effect/sprite.h"
 
 #ifndef NULL
 #define NULL 0

@@ -2,6 +2,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
 #include "shared/object_flags.h"
+#include "dungeon/effect/sprite.h"
 
 typedef struct S_819598B4_0_pre {
     u16 unk_00;

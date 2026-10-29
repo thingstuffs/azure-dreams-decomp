@@ -1,5 +1,6 @@
 #include "dungeon/effect/motion/advance_arc_motion_and_rotation.h"
 #include "shared/object_flags.h"
+#include "dungeon/effect/motion.h"
 
 
 /* Advances a rotating sprite along its velocity with a sinusoidal height offset and removes it after

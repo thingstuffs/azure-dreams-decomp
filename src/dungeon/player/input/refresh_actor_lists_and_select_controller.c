@@ -2,9 +2,7 @@
 #include "dungeon/player/input.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
-
-extern void process_unflagged_linked_entries(s32);
-extern void process_unflagged_linked_entries_alt(s32);
+#include "dungeon/level.h"
 
 /* Updates global flags and stores the pointer selected by the source flags. */
 void *refresh_actor_lists_and_select_controller(void *state, void *unused_1, void *unused_2, void *source) {

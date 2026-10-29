@@ -3,6 +3,7 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "engine/runtime.h"
+#include "dungeon/effect/sprite.h"
 #define ARM_RRX(x, shift) (0)
 
 

@@ -4,6 +4,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "engine/node.h"
+#include "dungeon/effect/particle.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct { u16 flags; } EffectFieldView_81331C88Prefix;

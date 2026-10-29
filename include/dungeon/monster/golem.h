@@ -39,7 +39,9 @@ void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *contex
 /* Directional frame entries; the full allocation extent is not inferred. */
 extern u8 golem_frame_set_1[];
 s32 consume_pending_flag(struct GolemActionWork *object, ActorRecord *flag_record);
-void finish_successful_actor_action(ActorRecord *action_entity, ObjectPosition *action, SpriteFrameState *source_actor, void *target_actor);
+void finish_successful_actor_action(ActorRecord *action_entity, ObjectPosition *action, SpriteFrameState *source_actor, ActorRecord *target_actor);
+void * create_offset_actor_object(void *unused, ObjectPosition *source_data, SpriteFrameState *source_state);
+
 
 
 

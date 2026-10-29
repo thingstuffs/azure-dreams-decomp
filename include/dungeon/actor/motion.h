@@ -77,6 +77,6 @@ typedef struct ActorTrailWork {
 
 void update_position_history_and_shading(ActorTrailWork *obj, TrailMotion *coords_out, SpriteFrameState *rgb);
 
-void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameState *sprite, ActorRecord *actor_data);
+void handle_actor_commands_and_facing(void *actor, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor_data);
 
 #endif

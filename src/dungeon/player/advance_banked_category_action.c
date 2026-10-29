@@ -1,9 +1,7 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
-extern void restore_player_control_callback(void *, void *);
-extern void process_unflagged_linked_entries(s32);
-extern void process_unflagged_linked_entries_alt(s32);
-extern void func_800BCFBC(s32);
+#include "dungeon/level.h"
+#include "dungeon/player.h"
 extern s32 *dungeon_category_action_handlers[];
 
 /* Runs a banked callback and advances the object state when it completes. */

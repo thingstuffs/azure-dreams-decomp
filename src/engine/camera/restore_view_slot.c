@@ -3,7 +3,7 @@
 #include "engine/camera.h"
 
 /* Moves the selected 0x44-byte dispatch record back to its callback slot and clears the source callback. */
-void restore_view_slot(void *record_selector)
+void restore_view_slot(s32 record_selector)
 {
     char *dispatch_table = (char *)(&g_game_work.view);
     void *dst;

@@ -21,4 +21,7 @@ void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameSta
 s32 update_sound_settings_from_pad(void *actor, void *unused_motion,
     void *unused_sprite, void *unused_stats);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+void handle_player_input(void *actor, void *motion, register void *sprite, void *stats);
+
 #endif

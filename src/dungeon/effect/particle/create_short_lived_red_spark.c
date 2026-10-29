@@ -7,6 +7,8 @@
 #include "shared/dungeon_moving_views.h"
 #include "sdk/libc.h"
 #include "engine/node.h"
+#include "dungeon/effect/particle.h"
+#include "slus.h"
 
 typedef struct S_80166204_4 {
     u8 pad_00[0x8];
@@ -39,7 +41,6 @@ typedef struct S_80166204_1 {
     u16 unk_46;
 } S_80166204_1;
 
-void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
 extern void D_80165A0C();
 
 /* Creates an offset effect with randomized motion and initializes its display properties. */

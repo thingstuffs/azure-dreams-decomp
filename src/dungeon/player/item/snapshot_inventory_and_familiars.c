@@ -1,5 +1,9 @@
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "dungeon/player/item.h"
+#include "engine/entity.h"
+#include "engine/scene.h"
+#include "slus.h"
 
 typedef struct { u8 bytes[4]; } WordCopy;
 
@@ -10,9 +14,6 @@ typedef struct {
 extern s32 familiar_record_slots[];
 extern u8 familiar_record_storage[];
 
-extern void build_entity_slot_snapshot(void *, void *);
-extern s8 get_bounded_stride_index(s32, void *, s32, s32);
-extern s32 get_entity_effect_value(void *, s32);
 extern void pack_item_flag_400_bitmap(u16);
 
 /* Snapshot records and state fields, converting stored pointers to table indices. */

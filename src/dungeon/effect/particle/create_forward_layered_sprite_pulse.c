@@ -6,6 +6,8 @@
 
 #include "records/Rec_D_80082E80.h"
 #include "engine/node.h"
+#include "dungeon/effect/particle.h"
+#include "slus.h"
 
 struct Dst;
 struct Elem;
@@ -24,10 +26,8 @@ typedef struct {
     s32 words[8];
 } __attribute__((packed)) LocalTable;
 
-void select_record_entry_and_value(void *state, void *entries, short index);
 extern u8 ribbon_sprite_entries[];
 extern LocalTable D_8016482C;
-void update_flickering_layer_sprite(void *effect_data, void *unused, SpriteFrameState *effect);
 extern s32 beldo_actor_nodes;
 
 typedef struct S_801677FC_0 {

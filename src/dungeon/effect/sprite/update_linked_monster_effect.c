@@ -12,6 +12,7 @@
 
 #include "slus/gp_shared_81510.h"
 #include "engine/node.h"
+#include "dungeon/effect/sprite.h"
 
 s32 func_8002589C(void *, s32, s32);        /* extern */
 s32 func_80026548(void *, s32);                 /* extern */

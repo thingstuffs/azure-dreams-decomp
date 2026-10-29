@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "slus.h"
+#include "dungeon/effect/sprite.h"
 
 
 /* Increment the object counter, advance paired state values, and propagate status flags. */

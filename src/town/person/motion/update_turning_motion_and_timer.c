@@ -1,12 +1,12 @@
 #include "common.h"
+#include "town/scene/collision.h"
 
 #include "town/person/object_setup.h"
 extern s32 rsin(s32 angle);
 extern s32 rcos(s32 angle);
-extern s32 *get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(void *box_a, void *box_b);
 extern void initialize_object_from_context(void *object, s32 unusedArg, void *initValue);
 
-extern u8 town_actor_control[];
+extern ColliderView town_actor_control;
 
 #define S16_AT(p, off) (*(s16 *)((u8 *)(p) + (off)))
 #define U16_AT(p, off) (*(u16 *)((u8 *)(p) + (off)))
@@ -14,7 +14,7 @@ extern u8 town_actor_control[];
 
 /* Updates turning motion, applies a position adjustment, and checks the timer. */
 void update_turning_motion_and_timer(void *actor, void *position, void *update_param, s32 check_param) {
-    s32 *adjustment;
+    CollisionOverlap *adjustment;
     s32 axis;
     u16 angle;
     u16 timer;
@@ -33,14 +33,14 @@ void update_turning_motion_and_timer(void *actor, void *position, void *update_p
         rcos(S16_AT(actor, 0x86)) / (0x1000 / S16_AT(actor, 0x84)) -
         U16_AT(actor, 0x84);
 
-    adjustment = get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(actor, town_actor_control);
+    adjustment = get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(actor, &town_actor_control);
     if (adjustment != 0) {
-        axis = adjustment[0];
+        axis = adjustment->axis;
         if (axis != 2) {
             if (axis == 0) {
-                S32_AT(position, 0) -= adjustment[1];
+                S32_AT(position, 0) -= adjustment->amount;
             } else if (axis == 1) {
-                S32_AT(position, 4) -= adjustment[1];
+                S32_AT(position, 4) -= adjustment->amount;
             }
             initialize_object_from_context(actor, position, update_param);
             return;

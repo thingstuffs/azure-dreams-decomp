@@ -51,7 +51,6 @@ typedef struct S_8008ACDC_9 {
 void func_8002534C(); /* extern */
 void try_move_player(); /* extern */
 s32 try_begin_lift_object(struct S_8008C5C4_2 *action, void *unused, SpriteAnimationTableView *position, EntityRec *actor);  /* extern */
-void apply_pending_byte_increase(); /* extern */
 s32 resolve_player_input_facing(s16 direction_offset, u16 *flags, u16 *angle);             /* extern */
 s32 request_familiar_deployment_change(); /* extern */
 #include "dungeon/player/input.h"

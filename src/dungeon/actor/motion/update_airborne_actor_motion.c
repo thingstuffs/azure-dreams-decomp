@@ -11,7 +11,7 @@ struct ObjectPosition;
 
 typedef struct S_800974DC_0 {
     u8 pad_00[0x8C];
-    void (*unk_8C)(void *, s32,  SpriteFrameState *, ActorRecord *);
+    void (*unk_8C)(void *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
     u8 pad_90[0x6];
     union { u16 s; s16 u; } unk_96;   /* accessed as both */
     u16 unk_98;
@@ -38,7 +38,7 @@ void process_unflagged_linked_entries(s32 firstEntryBase); /* extern */
 void * resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y); /* extern */
 s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value); /* extern */
-void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameState *sprite, ActorRecord *actor_data);
+void handle_actor_commands_and_facing(void *actor, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor_data);
 extern void *actor_default_frames[];
 extern u8 actor_alternate_frames[8];
 

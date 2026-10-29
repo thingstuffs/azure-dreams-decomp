@@ -8,11 +8,12 @@
 #include "records/Rec_func_80167A98_arg1.h"
 #include "records/Rec_func_80167A98_arg0.h"
 #include "engine/node.h"
+#include "dungeon/effect/particle.h"
+#include "slus.h"
 
 struct Dst;
 struct Elem;
 
-extern void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
 typedef struct {
     s16 x;
     s16 y;

@@ -41,4 +41,22 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite);
 
 void create_timed_paired_particle_emitter(ObjectPosition *source, s32 effect_param, void *actor);
 
+void *copy_fullwidth_vowel_bytes(void *dst, void *character);
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+void *scan_actor_along_heading(EntityRec *source, s32 start_x, s32 start_y, s16 heading, s16 max_steps);
+
+void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s32 extra_byte);
+
+void *find_monster_special_entry(s32 wanted_kind, s32 wanted_flag);
+u8 *find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type);
+
+s32 retain_spawn_resource(s16 entry_type, s16 entry_key);
+
+
+#include "shared/dungeon_item_entries.h"
+u8 *append_typed_formatted_value(DungeonItemEntry *data, u8 *buffer);
+
+u8 *append_entity_display_text(void *record, u8 *out);
+u8 *clear_byte_and_advance(u8 *byte_ptr);
+
 #endif

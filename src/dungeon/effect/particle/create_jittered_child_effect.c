@@ -3,6 +3,9 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/effect/particle.h"
+#include "engine/node.h"
+#include "sdk/libc.h"
 
 typedef struct S_80165018_0 {
     u8 pad_00[0x8];
@@ -30,9 +33,6 @@ typedef struct S_80165018_4 {
 
    /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in create_jittered_child_effect */
 
-extern void *allocate_list_node(s32, void *);
-extern void register_node(void *, void *);
-extern s32 rand(void);
 extern u8 child_particle_draw_address[];
 extern u8 D_80164DA4[];
 

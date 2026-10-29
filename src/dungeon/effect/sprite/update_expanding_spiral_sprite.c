@@ -1,11 +1,10 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
+#include "dungeon/effect/sprite.h"
+#include "sdk/libgte.h"
+#include "slus.h"
 
-extern s32 rsin(s32);
-extern s32 rcos(s32);
-extern void advance_sprite_animation_and_textures(void *);
-extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern u8 ribbon_sprite_entries[];
 
 #define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))

@@ -1,6 +1,7 @@
 /* Target-following sprite motion, timed texture changes, and jittered strip rendering. */
 #include "dungeon/effect/motion/target.h"
 #include "shared/object_flags.h"
+#include "dungeon/effect/motion.h"
 
 
 #include "shared/sprite_frame_state.h"/* Eases a sprite toward its moving target, advances its animation, and removes it after brightening. */

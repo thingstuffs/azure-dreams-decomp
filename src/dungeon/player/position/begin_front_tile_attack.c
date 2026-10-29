@@ -6,6 +6,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/player/position.h"
 #include "dungeon/system.h"
+#include "dungeon/item.h"
 typedef struct Ent Ent;
 
 typedef long long s64;
@@ -17,7 +18,6 @@ void process_unflagged_linked_entries_alt(s32 firstNodeBase);
 s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 void * find_eligible_actor_at_tile_and_height();
 Ent *prepare_directional_attack();
-void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
 
 typedef struct S_8008C8BC_0 {
     u8 pad_00[0x1C];

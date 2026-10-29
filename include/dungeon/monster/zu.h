@@ -25,7 +25,7 @@ s32 check_entity_relation();
 s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
 void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
 s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
-void spend_actor_mp();
+void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 s32 get_rounded_facing_and_rounding_flag();
 s32 register_node(struct ObjectNodeHeader *entry, void *registration_id);

@@ -5,6 +5,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "sdk/libgte.h"
 #include "slus.h"
+#include "dungeon/effect/sprite.h"
 
 typedef struct S_818BD3B0_0_pre {
     u16 flags; /* 0x00 */
@@ -33,7 +34,6 @@ typedef struct S_818BD3B0_2 {
     s32 center_z; /* 0x14 */
 } S_818BD3B0_2;   /* arg1 in update_orbital_motion_effect */
 
-void select_record_entry_and_value(void *state, void *entries, short index);
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry shared_sprite_entries[];
 

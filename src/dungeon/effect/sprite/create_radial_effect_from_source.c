@@ -14,7 +14,10 @@
 #include "shared/dir_step.h"
 #include "dungeon/effect/sprite.h"
 #include "dungeon/actor/status.h"
-extern int abs(int);
+#include "dungeon.h"
+#include "dungeon/item.h"
+#include "engine/graphics.h"
+#include "slus.h"
 
 typedef struct S_func_81886800_1 {
     void *unk_00;
@@ -256,18 +259,13 @@ typedef struct S_func_81886800_19 {
 } S_func_81886800_19;
 
 extern void draw_textured_ellipse(void *, void *, s32, s32);
-extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
 extern s32 rsin(s32);
-extern s16 set_item_w0(s32 start_x, s32 start_y, s32 end_x, s32 end_y);
 extern s32 check_left_tile_and_center_height(s32, s32, s32);
 extern void ratan2(s32, s32);
-extern void check_the_target_using_scaled_low_byte_conditionally_applies_global_800_e_1_d_01(void *, s32, void *);
 
 extern u8 D_8002632C[];
 extern u8 D_80026344[];
 extern u8 D_80026878[];
-
-void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func_81886800_3 *sprite);
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The state table of the switch below follows
@@ -623,9 +621,6 @@ typedef struct {
 
 extern u8 last_frame_ticks[];
 
-extern void create_a_sprite_effect_position_randomized_rotation(s16 x, s16 y, s16 z);
-extern void create_quad_fragments_vertex_grid_randomized_motion_rotation(void);
-
 /* Advances the effect through color buildup, flicker, and fade, then restores the object color. */
 void create_radial_effect_from_source(EffectState *effect, Vec3s *pos)
 {
@@ -828,7 +823,6 @@ void handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mar
 #include "modules/dungeon_native_abi.h"
 #include "shared/object_node.h"
 
-extern void handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mark(void *effect, s32 unused, struct EffectColor *color);
 extern u8 linked_mesh_processor_address[];
 
 /* One 4-byte slot of the fade record: only the second halfword is used. */
@@ -1414,7 +1408,6 @@ typedef struct Motion {
 } Motion;
 
 extern u16 D_80026326;
-extern void advance_sprite_animation_and_textures(void *color);
 
 /*
  * Integrates velocity with X/Y damping and Z acceleration 0x4000, fades each color channel by one
@@ -1462,8 +1455,6 @@ void advance_and_fade_effect_flagging_expiration_timer_runs_out(Actor *actor, Mo
 
 struct Dst;
 struct Elem;
-
-extern void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
 
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry D_800263F8[];
@@ -1884,7 +1875,6 @@ void create_quad_fragments_vertex_grid_randomized_motion_rotation(void) {
 #include "common.h"
 
 #include "dungeon/effect/screen.h"
-extern void adjust_source_value_and_finalize(void *, void *);
 extern u8 D_800E1D01[9];
 
 /*

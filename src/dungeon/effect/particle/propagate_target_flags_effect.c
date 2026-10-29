@@ -17,17 +17,18 @@
 #include "shared/record_ptrs.h"
 #include "shared/tile_object.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/effect/particle.h"
+#include "engine/audio.h"
+#include "engine/graphics.h"
+#include "sdk/libc.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 
 void (*const dungeon_198a800_entry)(Work *, s32, s32) = update_staged_particle_effect;
 const NativeOffsets58 target_effect_direction_steps = {{{1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1},{0,-1},{1,-1}}};
 const RectTable target_particle_texture_rects = {{{832,320,64,64},{832,384,64,64},{832,448,64,64},{896,256,64,64},{896,320,64,64},{896,384,64,64},{896,448,64,64},{832,256,64,64}}};
 
 /* Updates a countdown-driven visual and clears its owner slot when the countdown expires. */
-extern u32 RotTransPers(void *, void *, void *, void *);
-extern s32 GetTPage(s32, s32, s32, s32);
-extern void SetDrawMode(void *, s32, s32, s32, s32);
-extern s32 rand(void);
-extern s32 draw_flagged_particle_points(PointRecord *, ObjectPosition *);
 extern void advance_counter_and_propagate_target_flags(void *);
 extern u8 shared_sprite_entries[];
 extern u8 fading_sprite_entries[];
@@ -36,9 +37,6 @@ extern s16 linked_effect_chain_count[6];
 extern Template12 D_80026990;
 extern Template12 D_8002699C;
 extern Template12 D_800269A8;
-extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
-extern void drain_audio_commands_and_service_channels(void);
-extern u32 func_80069EF8(void);
 
 /* Shifts the sprite color toward blue, adjusts its offset, and clears its owner's indexed slot when
    the timer ends. */

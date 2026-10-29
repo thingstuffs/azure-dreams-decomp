@@ -4,6 +4,7 @@
 #include "shared/game_work.h"
 
 #include "dungeon/level/terrain_surface_height_g00351.h"
+#include "dungeon/effect/mesh.h"
 
 
 /* Rounds the sampled or fallback height up to a 64-unit boundary relative to the cell height. */

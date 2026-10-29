@@ -6,6 +6,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor.h"
 #include "shared/game_work.h"
+#include "dungeon/effect/sprite.h"
 void (*const dungeon_ovl_188298c_entry)(ovl_188298c_818632E4_Controller *ctrl, ovl_188298c_818632E4_Motion *motion, void *render_data) = move_to_linked_object_and_apply_arrival_effects;
 
 /* Attempts a status effect on compatible, eligible actors within two tiles of the supplied center. */

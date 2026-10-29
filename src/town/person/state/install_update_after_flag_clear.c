@@ -6,9 +6,9 @@ extern s32 D_800C5FDC[];
 extern s32 D_800D5590[];
 
 /* Clear the table flag, update the target move, and install D_800C5FDC. */
-void install_update_after_flag_clear(PersonObject *object, ObjectPosition *position, s8 *output) {
+void install_update_after_flag_clear(PersonObject *object, ObjectPosition *position, SpriteFrameState *output) {
     void *updateObject;
-    s8 *stagedUpdateValue;
+    SpriteFrameState *stagedUpdateValue;
 
     object_index_slots[object->slot].unk_00 = 0;
     start_person_target_move(object, position, output);

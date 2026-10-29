@@ -2,6 +2,7 @@
 #include "dungeon/effect/particle.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
+#include "engine/node.h"
 
 typedef struct {
     u8 bytes[12];
@@ -39,8 +40,6 @@ typedef struct {
 } Subobject;
 
 extern u8 encounter_object_position_template[12];
-
-extern void register_node(Object *, u8 *);
 
 /* Creates an object at an offset position and initializes its selected variant. */
 void create_rotating_clipped_sprite(u32 *source_pos, s16 variant) {

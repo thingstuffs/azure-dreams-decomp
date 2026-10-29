@@ -17,7 +17,6 @@
 extern u32 *dungeon_category_action_handlers[];
 extern u8 floor_objects[];
 
-extern s16 get_special_table_data_index(void *);
 extern void process_unflagged_linked_entries(s32);
 extern void process_unflagged_linked_entries_alt(s32);
 extern s32 find_entry_at_tile_coordinates(s16 x, s16 y, s16 z);

@@ -3,7 +3,7 @@
 #include "town/person/object_setup.h"
 
 /* Clamp height, advance the timer, and move two units along Y until expiry. */
-void step_person_y_down(PersonObject *object, ObjectPosition *position, s8 *output) {
+void step_person_y_down(PersonObject *object, ObjectPosition *position, SpriteFrameState *output) {
     position->z.w.i = get_clamped_transform_coordinate(position);
     object->timer--;
     if (object->timer < 0) {

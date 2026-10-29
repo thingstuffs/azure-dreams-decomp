@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
+#include "engine/scene.h"
 
 typedef struct S_81263000_0_pre {
     u16 unk_00;
@@ -46,12 +47,6 @@ typedef struct S_81263000_5 {
     u16 unk_0A;
 } S_81263000_5;   /* copy in create_flagged_actor_object_2 */
 
-typedef struct S_81263000_6 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_81263000_6;   /* callee_part in create_flagged_actor_object_2 */
-
-extern s32 resolve_record_orientation_or_fallback(s32, void *, s16 *, s16);
 extern void advance_sprite_animation_and_textures(void *);
 extern void play_sound_if_enabled(s32);
 
@@ -60,12 +55,12 @@ void create_flagged_actor_object_2(void *root, void *output_pos, void *target_da
 /* Update part position, shading, and flags from its owner. */
 void create_flagged_actor_object_2(void *root, void *output_pos, void *target_data)
 {
-    s16 offset[3];
+    GteShortVector offset;
     S_81263000_2 *position_data;
     SpriteFrameState *target_part= target_data;
     S_81263000_1 *owner;
     S_81263000_5 *pos_data;
-    S_81263000_6 *motion_part;
+    SpriteFrameState *motion_part;
     s8 phase;
     s16 shade_a;
     s32 reverse_phase;
@@ -83,17 +78,17 @@ void create_flagged_actor_object_2(void *root, void *output_pos, void *target_da
     ((MovingPosition *)output_pos)->z = pos_data->unk_0A;
 
     motion_part = owner->unk_0C;
-    if (resolve_record_orientation_or_fallback(motion_part->unk_08, motion_part, offset,
+    if (resolve_record_orientation_or_fallback(motion_part->source, motion_part, &offset,
                       ((S_81263000_0 *)root)->unk_B6) != 0) {
         ((MovingPosition *)output_pos)->x +=
-            (offset[0] + ((S_81263000_0 *)root)->unk_B0) / 2;
+            (offset.vx + ((S_81263000_0 *)root)->unk_B0) / 2;
         ((MovingPosition *)output_pos)->y +=
-            (offset[1] + ((S_81263000_0 *)root)->unk_B2) / 2;
+            (offset.vy + ((S_81263000_0 *)root)->unk_B2) / 2;
         ((MovingPosition *)output_pos)->z +=
-            (offset[2] + ((S_81263000_0 *)root)->unk_B4) / 2;
-        ((S_81263000_0 *)root)->unk_B0 = offset[0];
-        ((S_81263000_0 *)root)->unk_B2 = offset[1];
-        ((S_81263000_0 *)root)->unk_B4 = offset[2];
+            (offset.vz + ((S_81263000_0 *)root)->unk_B4) / 2;
+        ((S_81263000_0 *)root)->unk_B0 = offset.vx;
+        ((S_81263000_0 *)root)->unk_B2 = offset.vy;
+        ((S_81263000_0 *)root)->unk_B4 = offset.vz;
     }
 
     pos_data = target_part->source;

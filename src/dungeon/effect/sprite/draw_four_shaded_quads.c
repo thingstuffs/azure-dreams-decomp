@@ -1,6 +1,9 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/effect/sprite.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 
 typedef struct S_func_818BC9CC_0 {
     u8 pad_00[0x4];
@@ -104,13 +107,6 @@ typedef struct S_func_818BC9CC_5 {
 typedef struct { unsigned addr : 24; unsigned len : 8; } PacketTag;
 
 #define OT_ADDR(sc) ((u32 *)((((S_func_818BC9CC_2 *)(sc))->unk_B4 << 2) + (u32)(sc)->unk_18))
-
-extern s32 rsin(s32);
-extern s32 rcos(s32);
-extern u32 RotAverage4(void *, void *, void *, void *, void *, void *,
-                         void *, void *, void *, void *);
-extern u16 GetTPage(s32, s32, s32, s32);
-extern void SetDrawMode(void *, s32, s32, u16, void *);
 
 /* Draw four shaded textured quads around the given position. */
 s32 draw_four_shaded_quads(S_func_818BC9CC_0 *effect, MovingPosition *position)

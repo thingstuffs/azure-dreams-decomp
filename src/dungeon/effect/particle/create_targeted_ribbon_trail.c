@@ -3,6 +3,8 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
+#include "engine/node.h"
+#include "slus.h"
 
 #ifndef NULL
 #define NULL 0
@@ -61,9 +63,6 @@ typedef struct {
     u8 pad_14[0x0C];
     EffectPayload payload;
 } EffectObject;
-
-extern void select_record_entry_and_value(void *state, void *entries, short index);
-extern void register_node(EffectObject *, void *);
 
 extern u8 ribbon_sprite_entries[];
 extern LocalPositionTable D_8016484C;

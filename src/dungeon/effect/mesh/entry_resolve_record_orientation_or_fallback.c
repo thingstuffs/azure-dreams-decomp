@@ -8,6 +8,8 @@
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
 #include "engine/scene.h"
+#include "engine/node.h"
+#include "sdk/libgte.h"
 
 typedef struct S_81976850_0 {
     void * unk_00;
@@ -69,9 +71,6 @@ typedef struct Vec16 {
 } Vec16;
 
 extern u8 *actor_direction_sprites;
-
-extern void register_node(void *, void *);
-extern s32 rsin(s32);
 
 /* Follow the source, then brighten and move to the target over ten frames. */
 void follow_source_then_seek_target(void *effect, ObjectPosition *motion, void *visual)

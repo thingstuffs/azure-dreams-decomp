@@ -15,12 +15,11 @@
 
 
 
-extern s32 process_record_and_update_linked_state();
+#include "dungeon/player/state.h"
 extern void clear_slot_and_update_linked_state(DungeonItemEntry *slot);
 extern u8 * expand_text_control_codes(const u8 *src, u8 *dst);
 extern u8 * clear_byte_and_advance(u8 *byte_ptr);
 extern u8 *append_typed_formatted_value(DungeonItemEntry *data, u8 *buffer);
-extern void * copy_fullwidth_vowel_bytes();
 extern void * append_value_seven_suffix(u8 *dst);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 place_actor_item();
@@ -35,13 +34,13 @@ extern u8 D_800E1156[];
 extern u8 D_800E116E[];
 
 /* Applies an action to a target or held item and updates the action counter. */
-s32 dispatch_selected_item_action(u32 target, DungeonItemEntry *action, s16 action_kind, s32 context) {
+s32 dispatch_selected_item_action(u32 target, DungeonItemEntry *action, s16 action_kind, void *context) {
     ActorRecord *state;
     DungeonItemEntry *item;
     void *action_value;
     register void *value;
-    u32 choice_index;
-    s32 call_context = context;
+    u8 *text_patch;
+    void *call_context = context;
     void *value_arg;
     void *result_value;
     u8 item_type;
@@ -87,12 +86,12 @@ s32 dispatch_selected_item_action(u32 target, DungeonItemEntry *action, s16 acti
                         item->unk_02 = (u8)(item->unk_02 + 1);
                     }
                     value = append_value_seven_suffix(expand_text_control_codes(D_800E110B, value));
-                    choice_index = value - 2;
+                    text_patch = value - 2;
                     value = expand_text_control_codes(D_80089364, value);
                     result_value = append_typed_formatted_value(item, value);
                     value_arg = value;
                     value = result_value;
-                    copy_fullwidth_vowel_bytes(choice_index, value_arg);
+                    copy_fullwidth_vowel_bytes(text_patch, value_arg);
                     value = expand_text_control_codes(D_80089368, value);
                 } else {
                     value = expand_text_control_codes(D_800E112A, append_typed_formatted_value(item, action_value));

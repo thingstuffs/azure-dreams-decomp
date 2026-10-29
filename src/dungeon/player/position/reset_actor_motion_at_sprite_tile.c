@@ -3,9 +3,9 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/player.h"
 #include "dungeon/player/position.h"
+#include "dungeon/player/object.h"
+#include "engine/graphics.h"
 
-extern void set_sprite_animation_frame(void *, u8, s32, s32);
-extern void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);
 extern u8 D_800DD120[];
 
 /* Set the facing animation, reset actor state, and update the map entry. */

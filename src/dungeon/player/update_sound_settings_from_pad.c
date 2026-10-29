@@ -15,10 +15,10 @@ extern u8 animation_tick_scale[16];
 
 
 #include "dungeon/player/object/action_state.h"
+#include "dungeon/player.h"
+#include "engine/camera.h"
 extern u16 camera_depth_index[5];
 extern s16 camera_depth_presets[];
-s32 queue_view_slot(s32 enable);
-void set_camera_targets(void *target_position, void *target_rotation, u16 transition_param);
 /* Config-screen input step: apply the pad's sound-setting changes and report whether input is still accepted. */
 s32 update_sound_settings_from_pad(void *actor, void *unused_motion,
     void *unused_sprite, void *unused_stats)

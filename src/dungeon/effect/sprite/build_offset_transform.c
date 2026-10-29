@@ -1,4 +1,7 @@
 #include "common.h"
+#include "dungeon/effect/sprite.h"
+#include "engine/scene.h"
+#include "sdk/libgte.h"
 
 typedef struct {
     s16 m[3][3];
@@ -10,10 +13,6 @@ typedef struct {
 typedef struct {
     s32 vx, vy, vz;
 } S_8003E0C4_VECTOR;
-
-
-s32 RotMatrix(s32, s32 *);
-void transform_vector_with_saved_matrix(S_8003E0C4_MATRIX *matrix, S_8003E0C4_SVECTOR *input_vec, S_8003E0C4_VECTOR *output_vec);
 
 /* Builds a transform with a fixed-point offset and passes it to the output helper. */
 void build_offset_transform(s32 source, s32 offset, s32 output) {

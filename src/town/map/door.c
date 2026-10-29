@@ -81,7 +81,8 @@ void install_next_door_handler(void *object, void *unused_context, void *update_
 }
 
 /* Set the entity effect and emit it at the supplied position when the checks pass. */
-void emit_door_position_effect(S800A3088Arg0 *entity, s32 action, S800A3088Arg2 *position) {
+void emit_door_position_effect(S800A3088Arg0 *entity, void *action, S800A3088Arg2 *position) {
+    s32 position_x;
     if (entity->unk68 == 0) {
         if (check_door_status_inverted(entity) != 0) {
             return;
@@ -91,8 +92,8 @@ void emit_door_position_effect(S800A3088Arg0 *entity, s32 action, S800A3088Arg2 
     }
     if (check_door_input_and_angle(entity, action) != 0) {
         entity->unk50 = open_door_to_target;
-        action = position->unk2;
-        initialize_player_entity_callbacks(entity->unk72, action, position->unk6);
+        position_x = position->unk2;
+        initialize_player_entity_callbacks(entity->unk72, position_x, position->unk6);
     }
 }
 
@@ -297,10 +298,10 @@ void set_door_handler_if_ready(S_800A0CC0_0 *object, s32 value_1, s32 value_2, s
 void update_door_completion_state(u8 *object, s32 unused, s32 state_id, s32 state_arg) {
     s16 state;
 
-    state = initialize_object_items_in_reverse(door_transition_state, state_id, *(s16 *)(object + 0x90));
+    state = initialize_object_items_in_reverse(&door_transition_state, state_id, *(s16 *)(object + 0x90));
     *(s16 *)(object + 0x90) = state;
     if ((s32)(state << 0x10) == 0) {
-        no_op_callback_a(door_transition_state, state_id, state_arg);
+        no_op_callback_a(&door_transition_state, state_id, state_arg);
         *(void **)(object + 0x50) = advance_door_state_counter;
         load_indexed_resource_package(0);
         sound_set_cd_cue_parameters(0, cd_cue_base[0], 0x0600065E, 0x030008B6);
@@ -344,7 +345,7 @@ void into_dn_door_jobs(void) {
 }
 
 /* Tests the input and object angle against either supported global state. */
-s32 check_door_input_and_angle(Rec_func_800A0668_arg0 *object, s32 test_value) {
+s32 check_door_input_and_angle(Rec_func_800A0668_arg0 *object, void *test_value) {
     if (get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(test_value, &town_actor_control) != 0) {
         s32 *global_base = &scene_object_payload_alias;
         s32 global_angle = ((S_800A0F10_0 *)global_base)->unk_10 & 0xFFF;

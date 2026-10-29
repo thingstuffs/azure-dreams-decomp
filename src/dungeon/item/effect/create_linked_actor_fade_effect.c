@@ -3,6 +3,9 @@
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
+#include "dungeon/effect/screen.h"
+#include "dungeon/item/effect.h"
+#include "engine/node.h"
 
 #ifndef NULL
 #define NULL 0
@@ -49,11 +52,6 @@ typedef struct EntityFields {
 
 extern u8 D_800C0404[];
 extern u8 return_magic_sprite_data[];
-
-extern void *allocate_list_node(s32, EntityFields *);
-extern void unlink_node(EntityFields *);
-extern void retire_tracked_effect_by_id(EntityFields *);
-extern void register_node(EntityFields *, void *);
 
 /* Creates and configures an entity, copies source fields, and links it to the source. */
 void *create_linked_actor_fade_effect(EntityFields *source) {

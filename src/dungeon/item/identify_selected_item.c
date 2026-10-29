@@ -27,12 +27,12 @@ extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32
 extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
-extern void clear_byte_and_advance(s8 *byte_ptr);
-extern u8 * append_typed_formatted_value(void *,u8 *);
+extern u8 *clear_byte_and_advance(u8 *byte_ptr);
+extern u8 *append_typed_formatted_value(DungeonItemEntry *data, u8 *buffer);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void place_actor_item(void *, struct DungeonItemEntry *);
 extern void display_actor_item_status_message(void *, struct DungeonItemEntry *);
-extern void clear_selected_item_flag_400(void *);
+#include "dungeon/actor/effect.h"
 extern s32 feed_actor_restore_mp(void *, s32, struct DungeonItemEntry *);
 
 /*

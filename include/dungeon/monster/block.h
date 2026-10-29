@@ -1031,7 +1031,7 @@ extern s32 propagate_actor_action_flag(ActorRecord *body, ObjectPosition *positi
 extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
 extern s32 update_actor_fade_in(void *,void *,void *);
 extern void apply_clamped_actor_value_delta(void *);
-extern void spend_actor_mp(void *, s32);
+void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
 extern void * create_status_linked_render_effect(EntityRec *source_pos, s32 render_param, s16 initial_state, s8 *status);
 extern s32 relink_entity_and_clear_high_flag();

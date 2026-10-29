@@ -1,6 +1,9 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
+#include "dungeon/effect/mesh.h"
+#include "engine/node.h"
+#include "sdk/libc.h"
 
 typedef struct S_81976BC0_0 {
     u8 pad_00[0xC];
@@ -19,8 +22,6 @@ typedef struct S_81976BC0_1 {
     s16 unk_10;
 } S_81976BC0_1;   /* fields in create_an_initialize_fields_randomized_child_state */
 
-extern void *allocate_list_node(s32, void *);
-extern s32 rand(void);
 extern u8 D_80024050[];
 extern s32 D_800261E4[];
 

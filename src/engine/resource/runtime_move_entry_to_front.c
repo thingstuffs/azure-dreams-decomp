@@ -2,8 +2,8 @@
 #include "engine/resource.h"
 
 typedef struct Entry {
-    s32 word0;
-    s32 word1;
+    void *word0;
+    void *word1;
 } Entry;
 
 extern Entry runtime_resource_directory[];

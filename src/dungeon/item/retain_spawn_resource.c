@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/item.h"
 
 #ifndef NULL
 #define NULL 0
@@ -10,8 +11,6 @@ typedef struct {
     s8 type;
     u8 count;
 } Entry;
-
-extern u8 * find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type);
 
 /* Normalize the entry type and increment the matching entry and dungeon counts. */
 s32 retain_spawn_resource(s16 entry_type, s16 entry_key) {

@@ -1,6 +1,8 @@
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
+#include "dungeon/effect/mesh.h"
+#include "sdk/libgpu.h"
 
 typedef struct S_800D1824_0 {
     u8 pad_00[0x20];
@@ -52,7 +54,6 @@ typedef struct S_800D1824_5 {
 
 
 extern void func_80065034(void *ptr, void *ptr2, void *ptr3);
-extern void AddPrim(s32 value, void *ptr);
 
 /* Transform grid tiles into quads and add visible ones to the ordering table. */
 void build_visible_tile_quads(u8 *tiles)

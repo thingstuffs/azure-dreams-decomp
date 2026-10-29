@@ -5,6 +5,8 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "engine/node.h"
+#include "dungeon/effect/particle.h"
+#include "slus.h"
 typedef struct S_801690D8_0 {
     u8 unk_00;
     u8 unk_01;
@@ -54,10 +56,8 @@ typedef struct {
     u8 bytes[32];
 } Copy32;
 
-extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern u8 ribbon_sprite_entries[3];
 extern Copy32 D_801648DC;
-void update_animated_textured_ribbon(u8 *effect, void *origin, void *color_in);
 extern u8 ribbon_vertices[96];
 
 typedef struct S_801690D8_8 {

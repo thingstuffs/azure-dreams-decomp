@@ -22,6 +22,8 @@
 #include "engine/town.h"
 #include "slus.h"
 #include "dungeon/effect.h"
+#include "engine/entity.h"
+#include "engine/util.h"
 struct S_8009BE2C_2;
 
 typedef struct S_8009BE2C_1 {
@@ -136,7 +138,6 @@ void create_type_212_object(s32 flag, s8 value) {
 #define NULL ((void *)0)
 
 s32 generate_random_value(void);
-s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 
 extern u8 D_80088CAC[];
@@ -194,14 +195,11 @@ void add_random_quarter_value(void *source, void *target) {
 typedef struct ActiveEntry { u8 pad0; u8 active; u8 pad2[2]; } ActiveEntry;
 extern u8 D_800E0000[];
 
-s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 s32 clamp_adjusted_value_0_to_99();
  /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
-extern void create_type_212_object(s32 flag, s8 value);
 s32 play_sound_if_enabled(s32 query_value);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 s32 find_directional_entry_and_clear_flag(s32 origin_x, s32 origin_y, u32 direction, s16 search_param);
-s32 prepare_quarter_damage_return(struct Object *object, struct Other *source);
 extern u8 D_800E0D7B[23];
 extern u8 D_800E0D92[12];
 extern u8 D_800E0D9E[26];
@@ -620,11 +618,9 @@ extern u16 direction_x_offsets[];
 extern u16 direction_y_offsets[];
 
 extern s32 generate_random_value(void);
-extern void setup_object_within_planar_range(void *, s32, s32, s32, s32, s32);
 extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern Ent *find_eligible_actor_at_tile_and_height(Ent *, s32, s32, s16);
 extern s32 get_clamped_adjusted_value(Ent *);
-extern void func_8003E188(s32, s32);
 
 /* Finds a directional attack target, updates facing and hit flags, and rolls attack and evasion values. */
 Ent *prepare_directional_attack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent2) {
@@ -1035,7 +1031,6 @@ void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 po
 #include "shared/entity.h"
 #include "records/Rec_D_800287A4.h"
 
-s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);                 /* extern */
 s32 generate_random_value(void); /* Retail RNG at 0x800A6D30 reads no argument registers, including $a3. */
 
 
@@ -1105,8 +1100,6 @@ s32 try_trigger_target_record_effect(void *entity_in, s32 flags, void *record_in
  */
 #include "modules/dungeon_engine_transition_effects_fragment_b7c20.h"
 #include "common.h"
-
-extern void zero_words(int *dst, int count);          /* extern */
 
 /* Process the 0x200-byte global buffer and run the follow-up routine. */
 void process_global_buffer_and_submit(void) {
@@ -1315,8 +1308,6 @@ typedef struct {
     s16 field_14;
     s16 field_16;
 } DungeonConfig;
-
-extern void create_type_212_object(s32 flag, s8 value);
 
 /* Pack dungeon cell height levels into nibbles and submit the buffer. */
 void pack_and_submit_cell_height_levels(void) {

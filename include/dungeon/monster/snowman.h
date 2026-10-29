@@ -582,7 +582,7 @@ struct ObjectNodeHeader;
 struct ObjectNodeHeader;
 s32 relink_entity_and_clear_high_flag();
 s32 update_actor_movement_to_tile(void *move_state, void *motion, void *target_tile, ActorRecord *actor);
-void spend_actor_mp();
+void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
 s32 rsin(s32);
 void on_actor_status_updated(void *actor);

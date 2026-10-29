@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "engine/node/allocation.h"
+#include "dungeon/item/state.h"
 
 extern s32 D_800C4E00[4];
 

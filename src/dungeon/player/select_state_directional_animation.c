@@ -4,11 +4,10 @@
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "shared/entity.h"
 #include "dungeon/player.h"
+#include "engine/graphics.h"
 
 extern u8 player_tile_motion_frames[];
 extern u8 player_alternate_motion_frames[];
-
-extern void set_sprite_animation_frame(void *, s16, s16, s32);
 
 /* Reset entity state and select its animation page and directional entry. */
 void select_state_16_directional_animation(void *entity, void *unused, void *animation, EntityRec *state) {

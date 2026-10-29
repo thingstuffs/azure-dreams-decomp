@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/sprite/draw.h"
 #include "shared/game_work.h"
+#include "dungeon/effect/sprite.h"
 
 /* Projects waving sprite strips, queues visible textured quads, and invokes custom part callbacks. */
 void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *position, Row_818F2800_S_BODY_1 *state, s32 depth_offset)

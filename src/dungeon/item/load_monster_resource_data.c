@@ -1,10 +1,8 @@
 #include "common.h"
 #include "engine/cd.h"
 #include "dungeon/item/monster_resource_slots_g00325.h"
-
-extern int abs(int);
-extern s32 Control_CD(s32 event_code, void *event_data, s32 payload);
-extern s32 pack_tagged_resource_descriptor();
+#include "sdk/libc.h"
+#include "slus.h"
 
 extern u8 D_800E58A8[];
 extern u8 D_80164800[];

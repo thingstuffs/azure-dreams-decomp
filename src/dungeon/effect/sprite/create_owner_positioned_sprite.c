@@ -27,6 +27,7 @@ typedef struct Pair {
 
 #include "engine/node/allocation.h"
 #include "shared/entity.h"
+#include "dungeon/effect/sprite.h"
 void draw_textured_ellipse();
 extern u8 D_80025AC4[12];
 extern u8 screen_effect_sprite_entries[12];

@@ -4,6 +4,10 @@
 #include "common.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/item/effect.h"
+#include "dungeon/system.h"
+#include "engine/node.h"
+#include "sdk/libc.h"
 
 #ifndef NULL
 #define NULL 0
@@ -37,10 +41,6 @@ typedef struct S_800C542C_5 {
 extern u8 D_800C4F20[];
 extern u8 D_800C55A0[];
 extern u8 D_800DF630[];
-
-extern void register_node(void *, void *);
-extern int rand(void);
-extern void play_sound_if_enabled(s32);
 
 /* Creates and initializes a display object linked to its owner. */
 void *create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 direction, s16 effect_mode)

@@ -3,11 +3,11 @@
 #include "shared/object_flags.h"
 #include "records/Rec_func_800243C4_arg1.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/effect/screen.h"
+#include "engine/node.h"
+#include "engine/scene.h"
 
-
-extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern s32 create_linked_effect_segments(void *);
-extern void register_node(void *, void *);
 
 typedef struct CounterView {
     u16 value;

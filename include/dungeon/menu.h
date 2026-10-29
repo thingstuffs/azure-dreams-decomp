@@ -33,4 +33,8 @@ void draw_padded_first_number(s32 first, s32 second, u16 width, s16 y, u16 x, s1
 /* Callback entry points. */
 s32 build_transformed_sprite_quads(void *draw_area, void *placement, void *sprite);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact, u16 flags);
+void *create_panel_effect_object(void *owner);
+
 #endif

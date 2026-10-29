@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/effect/sprite.h"
 
 /* Return whether any of 20 referenced entries matches the combined byte key. */
 s32 has_saved_entry_key(s32 key, s32 key_low) {

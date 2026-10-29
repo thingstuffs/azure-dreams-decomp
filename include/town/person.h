@@ -76,17 +76,17 @@ extern u8 D_800D6718[], D_800D671C[], D_800D66E8[], D_800D66F0[];
 extern u8 D_800D57A4[], D_800D57A8[], D_800D5774[], D_800D577C[];
 extern u8 D_800D6C7C[], D_800D6C80[], D_800D6C4C[], D_800D6C54[];
 
-void reset_person_descriptor_entries(PersonObject *object, s32 unused, s8 *output);
-void apply_person_descriptor_tail(PersonObject *object, ObjectPosition *position, s8 *output);
-void reset_person_heading_c00(PersonObject *object, s32 unused, s8 *output);
-void step_person_y_up(PersonObject *object, ObjectPosition *position, s8 *output);
-void step_person_y_down(PersonObject *object, ObjectPosition *position, s8 *output);
-void init_person_timer_sixteen(PersonObject *object, s32 unused, s8 *output);
-void init_person_heading_quarter_turn(PersonObject *object, s32 unused, s8 *output);
+void reset_person_descriptor_entries(PersonObject *object, s32 unused, SpriteFrameState *output);
+void apply_person_descriptor_tail(PersonObject *object, ObjectPosition *position, SpriteFrameState *output);
+void reset_person_heading_c00(PersonObject *object, s32 unused, SpriteFrameState *output);
+void step_person_y_up(PersonObject *object, ObjectPosition *position, SpriteFrameState *output);
+void step_person_y_down(PersonObject *object, ObjectPosition *position, SpriteFrameState *output);
+void init_person_timer_sixteen(PersonObject *object, s32 unused, SpriteFrameState *output);
+void init_person_heading_quarter_turn(PersonObject *object, s32 unused, SpriteFrameState *output);
 
-void start_person_target_move(PersonObject *object, ObjectPosition *position, s8 *output);
+void start_person_target_move(PersonObject *object, ObjectPosition *position, SpriteFrameState *output);
 
-void install_update_after_flag_clear(PersonObject *object, ObjectPosition *position, s8 *output);
+void install_update_after_flag_clear(PersonObject *object, ObjectPosition *position, SpriteFrameState *output);
 
 
 

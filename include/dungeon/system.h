@@ -27,4 +27,10 @@ void place_actor_item(void *object_context, struct DungeonItemEntry *target);
 s16 get_maximum_sampled_offset_value(s32 base_position, s32 offsets, s32 offset_count);
 s32 check_four_vector_half_turn_gaps(s16 x_a, s16 y_a, s16 x_b, s16 y_b, u16 x_c, u16 y_c, u16 x_d, u16 y_d);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+s32 display_text_with_fullwidth_adjustment(s8 *text);
+
+s32 find_and_clear_empty_item_slot(void);
+s32 find_last_zero_entry_run_start(void);
+
 #endif

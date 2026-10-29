@@ -3,6 +3,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/effect.h"
+#include "dungeon/effect/object.h"
 
 typedef s32 M2C_UNK;
 

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "dungeon/player/item.h"
+#include "engine/scene.h"
 
 typedef struct DungeonSlot {
     s8 pad_00[0x13];
@@ -8,7 +9,6 @@ typedef struct DungeonSlot {
 } DungeonSlot;
 
 extern DungeonSlot *familiar_record_slots[];
-extern void build_entity_slot_snapshot(DungeonSlot *slot, DungeonSlot *other);
 
 /* Resets slot state and updates slots referenced by records of type 0x13. */
 void snapshot_inventory_familiar_records(void)

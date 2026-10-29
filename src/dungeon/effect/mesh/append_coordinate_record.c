@@ -1,4 +1,6 @@
 #include "common.h"
+#include "dungeon/effect/mesh.h"
+#include "engine/effect.h"
 
 typedef struct {
     u8 x;
@@ -8,8 +10,6 @@ typedef struct {
 
 extern s16 tile_key_pair_count[5];
 extern Record *tile_coordinate_records[3];
-
-extern s32 has_runtime_key_pair(s32 x, s32 y);
 
 /* Appends a coordinate record with a value or sentinel if capacity and the position check allow. */
 void append_coordinate_record(s32 x, s32 y, s32 value, s32 store_value)

@@ -176,7 +176,7 @@ s32 raise_entity_level(void *entity_data, s32 show_message);
 s32 play_sound_if_enabled(s32 query_value);
 s32 display_text_with_fullwidth_adjustment(s8 *text);
 s32 generate_random_value(void);
-void clear_selected_item_flag_400();
+#include "dungeon/actor/effect.h"
 #define D_80010000_PTR ((D_80010000_T *)0x80010000)
 extern s32 monster_species_table;
 

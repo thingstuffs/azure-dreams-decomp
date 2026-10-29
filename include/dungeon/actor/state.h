@@ -22,12 +22,15 @@ void roll_actor_flag_once(void *actor_data, s32 divisor);
 
 void initialize_action_state_29(void *state, s32 unused_context, struct SpriteFrameState *unused_sprite, struct ActorRecord *unused_actor);
 
-void reset_record_to_state_34(void *state, s32 unused_context, struct SpriteFrameState *unused_sprite, struct ActorRecord *unused_actor);
+void reset_record_to_state_34(void *state, void *unused_context, struct SpriteFrameState *unused_sprite, struct ActorRecord *unused_actor);
 
 struct ObjectPosition;
 struct SpriteFrameState;
 s32 update_actor_defeat_removal(struct ActorRecord *state, struct ObjectPosition *position, struct SpriteFrameState *sprite, struct ActorRecord *entity_data);
 
 void refresh_actor_proximity_state(struct ActorRecord *context);
+
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+s32 try_apply_confusion_status(void *ptr, s32 threshold_input, s32 kind_input);
 
 #endif

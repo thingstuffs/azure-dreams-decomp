@@ -32,7 +32,7 @@ void update_actor_status_and_motion(ActorRecord *action_state, ObjectPosition *a
 extern s32 func_801731DC(void *, void *, void *, s32);
 extern void func_8017531C(void *, void *, void *, void *);
 extern void clear_high_flag_and_update_counter(void *, void *, void *, void *);
-extern void update_actor_counter_and_status(void *, void *, void *, void *);
+extern void update_actor_counter_and_status(void *, ObjectPosition *, SpriteFrameState *, void *);
 
 extern u8 baloon_default_frames[];
 extern u8 D_800E2358[];

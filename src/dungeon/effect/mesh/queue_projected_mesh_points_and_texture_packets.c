@@ -1,6 +1,9 @@
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
+#include "dungeon/effect/mesh.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 
 
 
@@ -34,10 +37,6 @@ typedef struct Packet {
         } color;
     } data;
 } Packet;
-
-extern s32 RotTransPers(void *, void *, void *, void *);
-extern s32 GetTPage(s32, s32, s32, s32);
-extern void SetDrawMode(void *, s32, s32, u16, s32);
 
 /* Queues projected points and texture-page packets in the ordering table. */
 s32 queue_projected_mesh_points_and_texture_packets(u8 *node_data, u16 *position)

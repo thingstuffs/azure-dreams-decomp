@@ -114,7 +114,7 @@ extern u8 *append_entity_display_text(void *record, u8 *out);
 extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern void spend_actor_mp(void *, s32);
+void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 extern void draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s32);
 extern void try_apply_confusion_status(void *, s32, s32);
 

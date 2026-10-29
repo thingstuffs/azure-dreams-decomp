@@ -1,6 +1,5 @@
 #include "dungeon/item/message.h"
-
-extern s32 display_text_with_fullwidth_adjustment(s8 *text);
+#include "dungeon/system.h"
 
 /* Expand the supplied text into a free buffer and display the result. */
 void display_formatted_context_message(void *context) {

@@ -1,8 +1,8 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "dungeon/player.h"
+#include "dungeon/item.h"
 
-extern void adjust_source_value_and_finalize(void *context, const void *source);
 extern u8 D_800E0600[];
 
 /* Passes a nonzero table entry to adjust_source_value_and_finalize when the global state is 1. */

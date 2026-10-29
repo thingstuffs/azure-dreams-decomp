@@ -31,4 +31,26 @@ void update_color_cycling_pulse(void *state_data, void *unused, void *color);
 void update_reverse_rotating_clipped_sprite(void *effect, s32 unused, void *rotation);
 void update_staged_particle_emitter(void *effect_data);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+#include "shared/dungeon_effect_views.h"
+struct D_800DB420_Obj;
+struct D_800DB420_RngOut;
+struct S_func_81856800_1;
+struct S_func_81856800_2;
+struct S_func_818DA800_1;
+struct S_func_818DA800_2;
+void advance_jittered_effect_modes(struct D_800DB420_Obj *state, struct D_800DB420_RngOut *position, SpriteFrameState *effect);
+s32 draw_flagged_particle_points(PointRecord *first_point, ObjectPosition *first_position);
+s32 draw_linked_textured_quads(void *first_quad);
+void fade_linked_display_sprite(void *effect, void *unused_context, void *effect_params);
+void fade_packed_object_color_to_zero(void *object);
+void fade_tinted_display_sprite(void *effect, void *unused, void *primitive);
+void run_fading_sprite_projectile(struct S_func_81856800_1 *action, struct S_func_81856800_2 *motion_arg);
+void run_growing_target_effect(struct S_func_818DA800_1 *effect_state, struct S_func_818DA800_2 *motion);
+void spawn_scattered_timed_objects(void *source_owner, void *spawn_params);
+void update_animated_textured_ribbon(u8 *effect, void *origin, void *color_in);
+void update_flickering_layer_sprite(void *effect_data, void *unused, SpriteFrameState *effect);
+void update_landing_particle_fade(u8 *object, u8 *motion, u8 *sprite);
+void update_rotating_effect_vertices(void *effect_data);
+
 #endif

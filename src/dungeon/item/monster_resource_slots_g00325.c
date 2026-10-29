@@ -1,6 +1,7 @@
 /* Monster resource slots (G00325). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_8009BE50, PD:dungeon/engine:800E3DA0, PD:dungeon/engine:800E3DB0, PD:dungeon/engine:800E3DD0, PD:dungeon/engine:800E3DE0. */
 #include "dungeon/item/monster_resource_slots_g00325.h"
+#include "dungeon/item.h"
 
 /* BYTES: this caller passes the promoted key; a narrow prototype changes its register allocation. */
 extern void mark_sprite_resource_for_purge(s32 lookup_key);

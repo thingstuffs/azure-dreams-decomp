@@ -6,6 +6,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "engine/node.h"
+#include "dungeon/effect/sprite.h"
 
 extern u8 shared_sprite_entries[];
 extern u8 D_800F6000[];

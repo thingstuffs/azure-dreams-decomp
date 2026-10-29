@@ -8,6 +8,7 @@
 #include "shared/entity.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/player/object.h"
+#include "dungeon/actor/spell_resource_ids_g01008.h"
 
 typedef struct S_801730C4_0 {
     u8 pad_00[0x8C];
@@ -38,7 +39,7 @@ extern void select_sprite_entry(void *, u8, s32);
 extern s32 rsin(s32);
 extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void on_actor_status_updated(void *);
-extern void spend_actor_mp(void *, s32);
+
 
 void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosition *source_position, SpriteFrameState *source_sprite);
 

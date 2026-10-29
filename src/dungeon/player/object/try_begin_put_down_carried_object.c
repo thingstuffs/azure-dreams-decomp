@@ -8,11 +8,11 @@
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "dungeon/player/object.h"
 #include "engine/graphics.h"
+#include "dungeon/actor/effect.h"
+#include "dungeon/item.h"
 
 s32 check_movement_clearance_and_height();
-void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
 s32 check_layer_offset_height(u16 x, u16 y, s16 height, u32 flags);
-s32 find_valid_floor_item_position(s16 x, s16 y, s16 z, s16 *out_x, s16 *out_y, s16 *out_distance);
 extern u8 held_item_kind_alias;
 extern u8 player_put_down_frames[];
 

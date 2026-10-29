@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/effect/sprite.h"
 
 extern s8 spell_effect_selector_cache;
 

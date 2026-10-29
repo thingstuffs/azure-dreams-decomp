@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "dungeon/effect/particle.h"
 
 #ifndef NULL
 #define NULL 0

@@ -9,6 +9,10 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/effect/screen.h"
+#include "engine/scene.h"
+#include "sdk/libgte.h"
+#include "slus.h"
 
 #define U8_AT(p, off) (*(u8 *)((u8 *)(p) + (off)))
 #define U16_AT(p, off) (*(u16 *)((u8 *)(p) + (off)))
@@ -19,7 +23,6 @@
 extern u8 D_80024A64[];
 extern u16 D_80024A70[];
 
-extern s32 read_sound_mode_blocking_status(s32);
 extern void draw_textured_ellipse(void *, void *, s32, s32);
 extern u8 resident_globals_page[];
 
@@ -239,9 +242,6 @@ extern void *actor_direction_sprites;
 /* Ordinary declaration: the private selector authenticates this one
  * returning tail by qid/geometry/context instead of using an asm symbol alias. */
 extern void *create_positioned(void *, s32, s32, s32, void *, s32, s32, s32, void *);
-extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
-extern s32 rsin(s32);
-extern void spawn_blinking_sprite_flash(s16, s16, s16);
 
 /* Updates source-relative position, delays movement, and advances an arc toward the target. */
 void update_source_relative_position_delays_movement_advances_arc_toward_target(void *self, void *coords)

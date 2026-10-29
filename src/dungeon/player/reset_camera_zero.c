@@ -2,11 +2,11 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/player.h"
+#include "engine/graphics.h"
 
 typedef void (*StateFunc)(void *, void *, void *, void *);
 
-extern void set_sprite_animation_frame(void *, u8, s32, s32);
-extern void handle_player_input(void *, void *, void *, void *);
 #include "dungeon/player/input.h"
 
 extern u8 player_camera_reset_frames[8];

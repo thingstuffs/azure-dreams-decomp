@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
+#include "dungeon/item/state.h"
 extern s16 get_tile_chebyshev_distance(void *, void *);
 
 /* Updates and returns the state flag using a source index and two thresholds. */

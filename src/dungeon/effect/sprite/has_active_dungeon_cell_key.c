@@ -1,5 +1,6 @@
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
+#include "dungeon/effect/sprite.h"
 /* Returns whether any of the 64 ground-item entries starts with the supplied packed 16-bit key. */
 s32 has_active_dungeon_cell_key(s32 key_high, s32 key_low) {
     s32 index;

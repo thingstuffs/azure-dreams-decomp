@@ -6,11 +6,12 @@
 #include "shared/slus_callbacks.h"
 #include "sdk/libc.h"
 #include "engine/node.h"
+#include "dungeon/effect/sprite.h"
+#include "slus.h"
 
 struct Dst;
 struct Elem;
 
-void select_record_entry_and_value(void *state, void *entries, short index);
 void func_8002418C(void *object_ref, void *unused, void *state);
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry rising_sprite_entries[];

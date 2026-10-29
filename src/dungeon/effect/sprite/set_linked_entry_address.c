@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "dungeon/effect/sprite.h"
 
 typedef struct S_8195AED0_1 {
     u8 pad_00[0x8];

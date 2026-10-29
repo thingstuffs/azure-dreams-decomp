@@ -3,10 +3,10 @@
 #include "shared/entity.h"
 #include "common.h"
 #include "m2c_compat.h"
+#include "dungeon/effect/sprite.h"
+#include "engine/node.h"
+#include "sdk/libgte.h"
 
-void register_node(void *, void *);                /* extern */
-s32 rsin(s32);                           /* extern */
-s32 rcos(s32);                           /* extern */
 extern M2C_UNK D_80025528;
 
 typedef struct S_81959E04_2 {

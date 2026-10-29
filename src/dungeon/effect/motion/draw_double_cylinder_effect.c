@@ -1,4 +1,6 @@
 #include "dungeon/effect/motion.h"
+#include "dungeon/effect/sprite.h"
+#include "sdk/libgte.h"
 typedef struct S_80024930_1 S_80024930_1;
 
 typedef struct S_80024EF8_0 {
@@ -10,8 +12,6 @@ typedef struct S_80024EF8_0 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 draw_shaded_textured_cylinder(void *unused_data, S_80024930_1 *center, s32 unused_value, s16 rotation, s32 height, s16 radius, u8 blend_mode, u8 brightness); /* extern */
-s32 rsin(s32);                                                    /* extern */
 
 /* Draws two effect layers with opposing angles and phase-dependent sizes. */
 s32 draw_counter_rotating_cylinders(S_80024EF8_0 *effect, s32 center, s32 unused_value) {

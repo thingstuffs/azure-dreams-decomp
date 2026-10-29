@@ -25,7 +25,7 @@ s32 test_resident_bit(s32);
 void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
 void *get_unused_text_buffer(void);
 u8 *expand_text_control_codes(u8 *src, u8 *dst);
-void clear_byte_and_advance(s8 *byte_ptr);
+u8 *clear_byte_and_advance(u8 *byte_ptr);
 u8 * append_typed_formatted_value(struct DungeonItemEntry *,u8 *);
 u8 *append_entity_display_text(void *record, u8 *out);
 void display_formatted_context_message(void *);

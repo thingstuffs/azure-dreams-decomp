@@ -2,6 +2,8 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
+#include "dungeon/item/message.h"
+#include "engine/item.h"
 
 typedef struct DungeonState {
     u8 pad[0x1C];
@@ -10,7 +12,6 @@ typedef struct DungeonState {
 
 extern void * D_800DD724[];
 
-extern s32 select_item_data(void *, s32 *);
 extern s32 strlen(const u8 *);
 extern void memcpy(void *, const void *, s32);
 

@@ -7,6 +7,10 @@
 #include "dungeon/player/item.h"
 #include "engine/graphics.h"
 #include "dungeon/item/message.h"
+#include "dungeon/actor/effect.h"
+#include "dungeon/player.h"
+#include "dungeon/player/state.h"
+#include "dungeon/system.h"
 struct S_80098614_0;
 
 typedef struct S_80098CF8_0 {
@@ -63,13 +67,7 @@ typedef struct S_80098CF8_6 {
 } S_80098CF8_6;   /* s3 in begin_holding_item */
 
 extern void equip_item_and_update_status();
-extern void change_equipped_item_and_notify(struct S_80098614_0 *actor, u8 *requested_item);
 struct DungeonItemEntry;
-extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *slot);
-extern void * get_unused_text_buffer(void);
-extern s32 play_sound_if_enabled(s32 query_value);
-extern s32 display_text_with_fullwidth_adjustment(s8 *text);
-extern void *create_item_render_object(void *parent, void *sprite_source, s16 x, s32 y, s16 z);
 
 extern u8 held_item_record[];
 extern u8 player_item_render_update_address[];

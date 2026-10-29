@@ -1,6 +1,8 @@
 #include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/object_flags.h"
+#include "dungeon/effect/sprite.h"
+#include "sdk/libc.h"
 
 typedef struct S_func_818BD74C_0 {
     void *unk_00;
@@ -49,7 +51,6 @@ typedef struct S_func_818BD74C_4 {
 extern void func_800247B0(void *, void *, s16);
 extern void create_colored(void *, void *, s16, s32);
 extern void func_80024D2C(void *, void *, s16, s16);
-extern s32 rand(void);
 
 /* Animate a moving effect through color cycling, shrinking, and radial emission. */
 void update_color_cycling_shrink_effect(void *effect_arg, S_func_818BD74C_1 *motion, void *sprite) {

@@ -16,32 +16,37 @@ s32 SpuGetKeyStatus(s32 voice_mask)
     s32 voice;
     s32 bit_base;
     s32 voice_index;
-    s32 result;
+    /* On PS1 these work words reuse registers for scalar and address phases. */
+    union {
+        s32 value;
+        unsigned long address;
+    } result, work_mask;
     u16 active;
 
+    work_mask.value = voice_mask;
     voice = -1;
     voice_index = 0;
     bit_base = 1;
     for (; voice_index < 24; voice_index++) {
-        if ((voice_mask & (bit_base << voice_index)) != 0) {
+        if ((work_mask.value & (bit_base << voice_index)) != 0) {
             voice = voice_index;
             break;
         }
     }
 
-    result = -1;
-    if (voice == result) {
-        return result;
+    result.value = -1;
+    if (voice == result.value) {
+        return result.value;
     }
 
-    voice_mask = voice << 4;
-    result = (s32)spu_registers;
+    work_mask.value = voice << 4;
+    result.address = (unsigned long)spu_registers;
     voice_index = spu_active_voice_mask;
-    voice_mask = voice_mask + result;
-    result = 1;
-    result = result << voice;
-    voice_index = voice_index & result;
-    active = *(u16 *)(voice_mask + 0xC);
+    work_mask.address = work_mask.value + result.address;
+    result.value = 1;
+    result.value = result.value << voice;
+    voice_index = voice_index & result.value;
+    active = *(u16 *)(work_mask.address + 0xC);
     if (voice_index != 0) {
         if (active != 0) {
             return 1;

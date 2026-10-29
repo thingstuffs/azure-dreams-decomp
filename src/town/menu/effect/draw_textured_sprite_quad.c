@@ -1,4 +1,5 @@
 #include "shared/gpu_packets.h"
+#include "town/menu/motion.h"
 #include "common.h"
 #include "shared/game_work.h"
 

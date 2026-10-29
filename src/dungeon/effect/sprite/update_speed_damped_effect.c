@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dir_step.h"
+#include "dungeon/effect/sprite.h"
 
 extern s16 sample_terrain_surface_height(u16, u16, s16);
 extern u16 sprite_effect_update_count[];

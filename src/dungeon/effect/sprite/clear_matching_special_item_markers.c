@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/effect/sprite.h"
 
 /* Clears matching table entries and the associated byte in each indexed record. */
 void clear_matching_special_item_markers(void) {

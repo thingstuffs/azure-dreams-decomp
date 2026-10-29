@@ -10,6 +10,9 @@ struct ObjectPosition;
 #include "dungeon/effect/particle/project_textured_quad_or_callback.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
+#include "engine/graphics.h"
+#include "sdk/libgte.h"
+#include "dungeon/item/message.h"
 struct S_800259D8_2;
 void update_animated_effect_sprite(void *, void *, struct S_800259D8_2 *);
 void (*const dungeon_1894800_entry)(void *, void *, struct S_800259D8_2 *) = update_animated_effect_sprite;
@@ -25,11 +28,9 @@ extern const u8 no_effect_target_prefix[48];
 extern const u8 D_80024034[4];
 extern u8 D_800E1C8A[38];
 
-extern void *get_unused_text_buffer(void);
-extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
-extern void clear_byte_and_advance(s8 *byte_ptr);
+extern u8 *clear_byte_and_advance(u8 *byte_ptr);
 extern u8 *append_entity_display_text(void *record, u8 *out);
-extern void adjust_source_value_and_finalize(void *, void *);
+extern void adjust_source_value_and_finalize(void *, const void *);
 #include "dungeon/effect/screen.h"
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 get_random_scaled_value(s16 input_value);
@@ -161,16 +162,6 @@ typedef struct S_81874988_5 {
         struct { u8 pad[0x1]; u8 v; } at01;
     } unk_24;   /* overlapping accesses */
 } S_81874988_5;   /* packet in project_textured_quad_or_callback */
-
-extern void CompMatrix(void *, void *, void *);
-extern void PushMatrix(void);
-extern void PopMatrix(void);
-extern void ReadRotMatrix(void *);
-extern void ScaleMatrix(void *, void *);
-extern void SetRotMatrix(void *);
-extern void SetTransMatrix(void *);
-extern s32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void RotMatrix(void *, void *);
 
 /* Projects a textured quad and queues it for drawing, or invokes its texture callback. */
 void project_textured_quad_or_callback(void *quad, ObjectPosition *position, SpriteFrameState *material, s16 depth_bias)
@@ -363,19 +354,6 @@ typedef struct {
     u32 addr : 24;
     u32 len : 8;
 } P_TAG;
-
-s32 rsin(s32);
-s32 rcos(s32);
-void CompMatrix(void *, void *, void *);
-void PushMatrix(void);
-void PopMatrix(void);
-void ReadRotMatrix(void *);
-void ScaleMatrix(void *, void *);
-void SetRotMatrix(void *);
-void SetTransMatrix(void *);
-s32 RotAverage4(void *, void *, void *, void *, void *,
-                  void *, void *, void *, void *, void *);
-void RotMatrix(void *, void *);
 
 /* Draws a textured spherical mesh and adds its visible quads to the ordering table. */
 void draw_textured_sphere_mesh(void *mesh, void *position, void *material, u16 depth_bias) {
@@ -634,8 +612,6 @@ s32 draw_chained_object_records(void *record, void *context, void *data) {
 #define FIELD_U16(base, off) (*(u16 *)((u8 *)(base) + (off)))
 #define FIELD_U32(base, off) (*(u32 *)((u8 *)(base) + (off)))
 #define FIELD_PTR(base, off) (*(u8 **)((u8 *)(base) + (off)))
-
-extern s32 RotTransPers(void *, void *, void *, void *);
 
 /* Projects a colored point and links its drawing packets into the ordering table. */
 s32 project_colored_point(u8 *render_data, u8 *source_vertex)
@@ -1056,9 +1032,6 @@ typedef struct S_81876014_6 {
     u8 unk_0E;
 } S_81876014_6;   /* ((S_81876014_0 *)arg0)->unk_48 in update_effect_quad_and_completion */
 
-extern s32 rsin(s32);
-extern s32 rcos(s32);
-
 /* Update the effect quad, copy its position and color, and flag completion based on owner state. */
 void update_effect_quad_and_completion(void *effect, void *position_out, void *color_out) {
     s32 y_factor;
@@ -1353,12 +1326,8 @@ extern Copy12 D_80026634;
 extern Copy12 D_80026640;
 extern Copy12 D_8002664C;
 
-extern s32 get_sprite_attachment_vector(void *, void *, Vec3s *, s32);
 extern s32 check_adjacent_tile_height_clearance(u16, u16, s16, void *);
 extern void create_terrain_seeking_point_effect(void *, s32, s32, s16, s16, s16, s16);
-
-extern s32 rcos(s32);
-extern s32 rsin(s32);
 
 /* Moves an effect toward its target, emits particles, changes target colors, and applies a timed status. */
 void update_animated_effect_sprite(void *effect, void *entity, S_800259D8_2 *sprite)

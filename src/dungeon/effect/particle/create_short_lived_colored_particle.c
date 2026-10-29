@@ -4,6 +4,9 @@
 #include "shared/dungeon_particle_template.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/effect/particle.h"
+#include "engine/node.h"
+#include "sdk/libc.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -16,8 +19,6 @@ typedef struct Copy12 {
     s32 word[3];
 } __attribute__((packed)) Copy12;
 
-void register_node(void *, void *);
-s32 rand(void);
 extern u8 D_801654F0[];
 
 

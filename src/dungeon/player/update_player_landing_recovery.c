@@ -3,6 +3,9 @@
 #include "shared/entity.h"
 #include "common.h"
 #include "shared/game_work.h"
+#include "dungeon/player.h"
+#include "engine/graphics.h"
+#include "slus.h"
 
 typedef struct S_8008E504_0 {
     u8 pad_00[0x8C];
@@ -22,8 +25,6 @@ extern s32 saved_held_item_word;
 
 extern u8 player_landing_frame_set[];
 
-extern void initialize_timed_motion_step(s32, s32);
-extern void set_sprite_animation_frame(void *, u8, s32, s32);
 #include "dungeon/player/input.h"
 
 /* Advances an actor's timed animation state and selects its next behavior. */

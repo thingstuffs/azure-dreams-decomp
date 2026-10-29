@@ -7,6 +7,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "dungeon/actor.h"
+#include "dungeon/effect/particle.h"
 
 #define HI16(v) (((s16 *)&(v))[1])
 #define HI16U(v) (((u16 *)&(v))[1])

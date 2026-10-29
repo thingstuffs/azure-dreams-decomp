@@ -1,4 +1,5 @@
 #include "dungeon/effect/sprite/render_rotated_grid_surface.h"
+#include "dungeon/effect/sprite.h"
 
 
 /* Projects a rotated 16-by-16 vertex grid and queues its textured quads for each linked object. */

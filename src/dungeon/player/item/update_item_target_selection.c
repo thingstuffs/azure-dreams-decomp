@@ -5,6 +5,8 @@
 #include "common.h"
 #include "shared/tile_object.h"
 #include "records/Rec_D_80082EB0.h"
+#include "dungeon/effect/screen.h"
+#include "dungeon/player/item.h"
 
 typedef struct S_80091958_0 {
     u8 pad_00[0x8C];
@@ -14,8 +16,6 @@ typedef struct S_80091958_0 {
     u8 pad_9C[0x2C];
     void * unk_C8;
 } S_80091958_0;   /* arg0 in update_item_target_selection */
-
-void *create_item_target_selector(u8 *selection_data);
 
 enum ItemTargetPhase {
     ITEM_TARGET_OPEN = 0,

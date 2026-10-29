@@ -8,6 +8,7 @@
 #include "shared/entity.h"
 #include "records/Rec_func_8017121C_arg1.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/actor/spell_resource_ids_g01008.h"
 
 typedef struct S_801743C4_0 {
     u8 pad_00[0x8C];
@@ -23,7 +24,7 @@ typedef struct S_801743C4_0 {
 extern void select_sprite_entry(void *, s32, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void play_sound_if_enabled(s32);
-extern void spend_actor_mp(void *, s32);
+
 extern void create_targeted_motion_effect(void *, void *, void *, void *);
 void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *source_pos, SpriteFrameState *sprite_template, ActorRecord *actor);
 

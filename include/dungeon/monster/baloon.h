@@ -8,7 +8,7 @@
 
 
 
-void advance_actor_hop_animation(void *motion, void *position, SpriteFrameState *sprite, void *actor);
+void advance_actor_hop_animation(void *motion, ObjectPosition *position, SpriteFrameState *sprite, void *actor);
 
 
 

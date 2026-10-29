@@ -1,6 +1,7 @@
 #include "common.h"
 #include "dungeon/item/actor_target.h"
 #include "shared/record_ptrs.h"
+#include "dungeon/item.h"
 
 extern u8 held_item_record[];
 

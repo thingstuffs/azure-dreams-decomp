@@ -4,6 +4,7 @@
 #include "shared/object_node.h"
 #include "dungeon/effect/sprite/advance_timed_visual_effect.h"
 #include "shared/object_flags.h"
+#include "dungeon/effect/sprite.h"
 
 
 /* Keeps both sprite scales at normal size and removes the effect when its countdown ends. */

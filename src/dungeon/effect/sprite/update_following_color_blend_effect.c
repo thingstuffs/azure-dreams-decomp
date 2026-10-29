@@ -7,8 +7,10 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
-extern int abs(int);
-
+#include "dungeon/effect/sprite.h"
+#include "engine/node.h"
+#include "engine/scene.h"
+#include "sdk/libc.h"
 
 typedef struct {
     s16 x;
@@ -46,8 +48,6 @@ typedef struct FollowingColorPrefix { u16 flags; } FollowingColorPrefix;
 extern void interpolate_view_parameters(void *, s16, Vec3i *);
 extern void spawn_spiraling(s16 from_x, s16 from_y, s16 from_z, s16 to_x, s16 to_y, s16 to_z, s16 *angles);
 extern s32 func_80025344(s16, s16, s16, s16);
-extern void resolve_record_orientation_or_fallback(s32, u8 *, Vec3s *, s32);
-extern void register_node(void *, void *);
 
 extern u16 sprite_effect_update_count;
 extern s32 linked_mesh_processor_address;

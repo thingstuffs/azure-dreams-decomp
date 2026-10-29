@@ -11,10 +11,9 @@
 #include "slus.h"
 #include "dungeon/level.h"
 #include "sdk/libgpu.h"
+#include "engine/graphics.h"
 
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern s32 draw_linked_textured_quads(void *first_quad);
-extern void update_rotating_effect_vertices(void *effect_data);
 
 typedef struct {
     u32 words[2];
@@ -352,8 +351,6 @@ void update_rotating_effect_vertices(void *effect_data) {
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
 
-extern void spawn_scattered_timed_objects(void *source_owner, void *spawn_params);
-
 typedef struct S_800DAE44_2 {
     u8 pad_00[0x10];
     s16 unk_10;
@@ -575,7 +572,6 @@ void update_timed_effect_animation(void *effect, ObjectPosition *motion, SpriteF
 struct D_800DB420_Obj;
 struct D_800DB420_RngOut;
 struct D_800DB420_Effect;
-extern void advance_jittered_effect_modes(struct D_800DB420_Obj *state, struct D_800DB420_RngOut *position, SpriteFrameState *effect);
 
 typedef struct S_800DB2DC_0 {
     u8 pad_00[0xC];
@@ -694,8 +690,6 @@ typedef struct D_800DB420_Effect {
     u8 unk12[0x1A];
     u8 *data2c;
 } D_800DB420_Effect;
-
-extern void select_sprite_entry(void *, s32, s32);
 
 /* Jitter the position and advance the effect through its modes and countdown. */
 void advance_jittered_effect_modes(D_800DB420_Obj *state, D_800DB420_RngOut *position, SpriteFrameState *effect) {

@@ -5,6 +5,8 @@
 #include "shared/gpu_packets.h"
 #include "sdk/libgte.h"
 #include "dungeon/level.h"
+#include "dungeon/effect/mesh.h"
+#include "engine/graphics.h"
 
 
 /* One face of a cell's face list (0x18 bytes): four vertex indices, the packet's UV/CLUT and UV/tpage words, then the
@@ -136,7 +138,6 @@ typedef struct DrawSettings {
     u8 draw_flags;              /* 0x05 */
 } DrawSettings;
 
-s32 build_screen_outline();
 #include "engine/effect.h"
 
 /* Render visible dungeon cells as lit, textured polygons in the ordering table. */

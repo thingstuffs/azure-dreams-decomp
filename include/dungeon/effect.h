@@ -30,4 +30,15 @@ s32 draw_ball_effect_points(struct PointRecord *, struct ObjectPosition *);
 s32 process_linked_states_mode_zero(void *initial_state, void *context, void *data);
 void jitter_effect_position_and_fade(void *effect, void *position, void *sprite);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+#include "shared/dungeon_moving_views.h"
+void update_oriented_offset_effect_position(void *state, MovingPosition *position);
+
+struct Object;
+struct Other;
+s32 prepare_quarter_damage_return(struct Object *object, struct Other *source);
+s32 process_linked_mesh_states_mode_0(void *initial_state, s32 value, void *data);
+s32 select_nearby_target_and_initialize_slot(void *tracked_object, void *target_data, s32 target_id, s32 slot_value);
+void setup_object_within_planar_range(void *object, s32 x, s32 y, s32 height, s32 mode, s32 settings);
+
 #endif

@@ -5,7 +5,7 @@
 #include "dungeon/actor/status.h"
 
 
-extern s32 spend_actor_mp();
+extern void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
 
 extern s32 hikewne_action_resume_address[];

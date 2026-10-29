@@ -1,8 +1,9 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/effect/sprite.h"
+#include "engine/node.h"
 
-extern void *allocate_list_node(s32 flags, void *list_head);
 extern u8 D_800D7A78[];
 
 // Creates an object, assigns its data and payload, and increments the object count.

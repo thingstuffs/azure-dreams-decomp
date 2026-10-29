@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "dungeon/effect/sprite.h"
 
 typedef struct Inner {
     u8 pad0[2];

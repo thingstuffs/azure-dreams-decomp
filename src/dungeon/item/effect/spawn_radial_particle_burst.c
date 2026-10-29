@@ -5,14 +5,14 @@
 #include "shared/dungeon_sprite_data.h"
 #include "m2c_compat.h"
 #include "shared/slus_callbacks.h"
+#include "dungeon/item/effect.h"
+#include "sdk/libgte.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
 extern void register_node(void *, u8 *, s32, void *);
-extern s32 rsin(s32);
-extern s32 rcos(s32);
 
 extern u8 D_80099B18[];
 extern s32 rising_sprite_entries[3];

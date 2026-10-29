@@ -7,6 +7,7 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800D6DC0_arg2.h"
 #include "dungeon/level.h"
+#include "dungeon/actor/spell_resource_ids_g01008.h"
 
 typedef struct S_80175594_0 {
     u8 pad_00[0x8C];
@@ -59,8 +60,8 @@ extern s32 rand(void);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s16 select_dungeon_spawn_tile(u8 *, u8 *);
 extern void play_sound_if_enabled(s32);
-extern void refresh_actor_proximity_state(u8 *context);
-extern void spend_actor_mp(void *, s32);
+void refresh_actor_proximity_state(ActorRecord *context);
+
 extern void create_radial_effect_segments(void *, void *, void *, void *);
 extern void create_anchored_directional_object(void *, void *, void *, void *, s32);
 extern void create_origin_motion_effect(void *, void *, void *, s32, s32, s32);

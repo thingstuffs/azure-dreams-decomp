@@ -15,6 +15,9 @@ struct ObjectPosition;
 #include "dungeon/effect/screen.h"
 #include "dungeon/menu.h"
 #include "dungeon/player.h"
+#include "dungeon/effect.h"
+#include "dungeon/item.h"
+#include "dungeon/item/position.h"
 
 
 
@@ -786,7 +789,6 @@ typedef struct {
     s16 unk22;
 } FuncObject;
 
-extern s32 process_linked_mesh_states_mode_0(void *initial_state, s32 value, void *data);
 struct Object_800B36B8;
 struct Effect;
 extern void attenuate_effect_scale_and_brightness(struct Object_800B36B8 *object, s32 unused, struct Effect *effect);
@@ -1298,8 +1300,6 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
 
 extern void *screen_effect_target[];
 
-extern void advance_sprite_animation_and_textures(void *);
-
 /* Updates a target marker's position, scale, color, and rotation. */
 void update_familiar_selection_marker(FamiliarMarkerWork *state, ObjectPosition *position_arg, SpriteFrameState *marker_arg) {
     ActorRecord *target;
@@ -1426,9 +1426,6 @@ typedef struct EntityHdr {
 extern u8 menu_effect_sprite_entries[];
 extern s16 camera_depth_target[5];
 
-extern void select_record_entry_and_value(void *state, void *entries, short index);
-extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
-
 /* Creates and initializes a display object attached to the entity. */
 void *create_familiar_selection_marker(EntityHdr **entity_ref) {
     Obj_800B4204 *object;
@@ -1549,8 +1546,6 @@ extern s32 rcos(s32, ...);
 extern s16 get_special_table_data_index(s32 dataAddress);
 struct S_800BA33C_0;
 extern s32 is_selectable_menu_target(struct S_800BA33C_0 *object);
-extern void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s32 extra_byte);
-extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 
 /* Updates entity selection, interpolates its position, and animates the rendered output. */
 void update_item_target_marker(Work *work, Out *out, Render *render_arg)
@@ -1820,16 +1815,11 @@ typedef struct D_80083780_t {
 } D_80083780_t;
 
 extern s32 has_enough_available_runtime_nodes(s32);
-extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
-extern void select_record_entry_and_value(void *state, void *entries, short index);
-
-
 
 extern void func_800BA2A0(void);
 extern void func_800BA308(void);
 struct S_800BA33C_0;
 extern s32 is_selectable_menu_target(struct S_800BA33C_0 *object);
-extern void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact, u16 flags);
 
 extern u8 menu_effect_sprite_entries[];
 struct Work;
@@ -3041,7 +3031,6 @@ void draw_content_or_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, s3
 
 extern s32 rsin(s32, ...);
 extern s32 rcos(s32, ...);
-s16 calculate_planar_heading(s16 start_x, s16 start_y, s16 end_x, s16 end_y);
 extern void * create_orbiting_color_particle(s16 x, s16 y, s16 z, s16 angle, s16 value_50, s16 value_58, s32 state_word, s16 value_48);
 
 typedef struct DungeonWork {
@@ -3237,8 +3226,6 @@ s32 process_linked_menu_effect(u8 *buffer, s32 value, void *data) {
 #include "shared/entity_objects.h"
 #include "m2c_compat.h"
 
-extern void select_record_entry_and_value(void *state, void *entries, short index);
-extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 struct S_800BB55C_2;
 extern void update_five_point_effect(void *effect, struct S_800BB55C_2 *position, s32 restore_link);
 extern s32 process_linked_menu_effect(u8 *buffer, s32 value, void *data);

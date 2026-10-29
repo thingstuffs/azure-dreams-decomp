@@ -3,6 +3,7 @@
 #include "dungeon/effect/travel/cycle_seven_color_fade.h"
 #include "shared/sprite_frame_state.h"
 #include "sdk/libc.h"
+#include "dungeon/effect/travel.h"
 void (*const dungeon_18d6800_entry)(B28_818B7F38_S_80025738_0 *, B28_818B7F38_S_80025738_5 *, B28_818B7F38_S_80025738_2 *) = advance_movement_toward_reachable_tile;
 #include "dungeon/effect/travel/cycle_seven_color_fade.h"
 #include "common.h"
@@ -846,7 +847,6 @@ s32 spawn_owned_random_spin_effect(void *owner, B28_818B7E14_DungeonSource *sour
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
-extern int abs(int);
 
    /* Advance movement toward a target or a reachable tile, then finish the timed action. */
 void advance_movement_toward_reachable_tile(void *state, void *motion_in, void *render) {

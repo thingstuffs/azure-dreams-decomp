@@ -9,6 +9,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/player/object.h"
+#include "dungeon/actor/spell_resource_ids_g01008.h"
 
 typedef struct T_8017406C_S_8017406C_0 {
     u8 pad_00[0x8C];
@@ -31,7 +32,7 @@ extern s32 rsin(s32);
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void on_actor_status_updated(void *);
 extern void func_800A9A04(void *);
-extern void spend_actor_mp(void *, s32);
+
 
 void create_tinted_sprite_effect_supplied_position(ActorRecord *animation, ObjectPosition *motion, SpriteFrameState *tile, ActorRecord *actor);
 void update_actor_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);

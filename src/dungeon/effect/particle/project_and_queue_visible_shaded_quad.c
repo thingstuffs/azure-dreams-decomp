@@ -3,6 +3,10 @@
 /* Visible shaded quad and point rendering, jittered sprites, and timed emission sequences. */
 #include "dungeon/effect/particle/project_and_queue_visible_shaded_quad.h"
 #include "shared/sprite_frame_state.h"
+#include "engine/graphics.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
+#include "slus.h"
 void (* const dungeon_1990800_entry)(void *, void *, void *) = advance_effect_sequence;
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "dungeon/effect/particle.h"
@@ -12,18 +16,6 @@ typedef struct {
     s16 pad;
     s32 t[3];
 } MATRIX;
-
-extern void CompMatrix(void *, void *, void *);
-extern void PushMatrix(void);
-extern void PopMatrix(void);
-extern void ReadRotMatrix(void *);
-extern void ScaleMatrix(void *, void *);
-extern void SetRotMatrix(void *);
-extern void SetTransMatrix(void *);
-extern s32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void RotMatrix(void *, void *);
-extern u16 GetTPage(s32, s32, s32, s32);
-extern void SetDrawMode(void *, s32, s32, u16, s32);
 
 typedef struct S_func_81970800_1 {
     u8 pad_00[0x24];
@@ -285,8 +277,6 @@ s32 draw_linked_records_zero_depth_bias(void *record, void *transform, void *obj
 #include "shared/game_work.h"
 #include "shared/object_node.h"
 
-extern u32 RotTransPers();
-
 /* Position the point is projected from: three 4-byte slots, only the second halfword of each is used. */
 
 /* The effect point's record (the object header precedes it). */
@@ -546,8 +536,6 @@ typedef struct {
     s32 delta;
 } Motion;
 
-extern void advance_sprite_animation_and_textures(void *render_data);
-
 /* Advance a timed effect, update its intensity and motion, and flag completion. */
 void fade_effect_color_by_quarter(Obj *effect, Motion *motion, s8 *render_data)
 {
@@ -749,7 +737,6 @@ struct Bank1990800_19915d4_Object {
     s16 unk5A;
 };
 
-extern void select_record_entry_and_value(void *state, void *entries, short index);
 s32 rand();
 extern u8 fading_sprite_entries[];
 
@@ -1088,8 +1075,6 @@ typedef struct {
 extern Data12 D_80025FD0;
 extern Data12 visible_quad_payload_template;
 
-extern s32 read_sound_mode_blocking_status(s32);
-extern void *get_sprite_attachment_vector(void *, void *, void *, s16);
 extern s32 rand(void);
 
 /* Advance the effect sequence, spawning sprites and particles along its sampled path. */

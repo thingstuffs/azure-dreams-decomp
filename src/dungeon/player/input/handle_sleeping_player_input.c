@@ -10,21 +10,20 @@
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "dungeon/player.h"
 
-void apply_pending_byte_increase();
 #include "dungeon/player/object.h"
 extern void * create_animated_selection_menu_owner(void *unused, void *source);
 extern s32 menu_action_argument[];
 
 /* Reset movement and dispatch actor actions based on state and input flags. */
 void handle_sleeping_player_input(Rec_func_8008ACDC_arg0 *controller, ObjectPosition *move_state, SpriteFrameState *entity,
-    EntityRec *actor) {
+    ActorRecord *actor) {
     s16 action_state;
     GameWork *input_state = &g_game_work;
 
     move_state->velocity_y = 0;
     move_state->velocity_x = 0;
     set_record_integer_tile_center(move_state, entity->tile_x, entity->tile_y);
-    action_state = actor->unk_64;
+    action_state = actor->hp_delta;
     if ((action_state < 0) || (controller->unk_10C & 1)) {
         entity->flags = (u16)(entity->flags & 0xF7FF);
         begin_player_damage_reaction(controller, move_state, entity, actor);

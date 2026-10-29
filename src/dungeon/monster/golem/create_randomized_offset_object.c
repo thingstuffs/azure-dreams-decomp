@@ -4,6 +4,7 @@
 #include "shared/slus_callbacks.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_moving_views.h"
+#include "engine/scene.h"
 
 #ifndef NULL
 #define NULL 0
@@ -17,7 +18,7 @@ extern void *allocate_list_node(s32, s32);
 extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 rand(void);
 extern void select_sprite_entry(void *, s32, s32);
-extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
+
 extern u8 D_80175018;
 
 typedef struct S_8017589C_1 {
@@ -34,22 +35,17 @@ typedef struct S_8017589C_1 {
     s32 unk_4C;
 } S_8017589C_1;   /* work in create_randomized_offset_object */
 
-typedef struct S_8017589C_4 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_8017589C_4;   /* source in create_randomized_offset_object */
-
    /* copy in create_randomized_offset_object */
 
 /* Creates an object with randomized initial state and source-derived offsets. */
 void *create_randomized_offset_object(s32 allocation_param, Copy24 *initial_data, Rec_D_80082E80 *source_node)
 {
-    u16 delta[3];
+    GteOffset delta;
     s32 random_value;
     ObjectNodeHeader *object;
     S_8017589C_1 *work;
     SpriteFrameState *node;
-    S_8017589C_4 *source;
+    SpriteFrameState *source;
     Copy24 *copy;
 
     object = allocate_list_node(0x312, allocation_param - 0x20);
@@ -83,17 +79,17 @@ void *create_randomized_offset_object(s32 allocation_param, Copy24 *initial_data
         copy = *(Copy24 * *)&object->position;
         *copy = *initial_data;
 
-        delta[2] = 0;
-        delta[1] = 0;
-        delta[0] = 0;
+        delta.distance[2] = 0;
+        delta.distance[1] = 0;
+        delta.distance[0] = 0;
         source = work->unk_48;
-        if (resolve_record_orientation_or_fallback(source->unk_08, source, delta, 3) != 0) {
-            ((MovingPosition *)copy)->x += delta[0];
-            ((MovingPosition *)copy)->y += delta[1];
-            ((MovingPosition *)copy)->z += delta[2];
-            work->unk_0A = delta[0];
-            work->unk_0C = delta[1];
-            work->unk_0E.u = delta[2];
+        if (resolve_record_orientation_or_fallback(source->source, source, &delta.orientation, 3) != 0) {
+            ((MovingPosition *)copy)->x += delta.distance[0];
+            ((MovingPosition *)copy)->y += delta.distance[1];
+            ((MovingPosition *)copy)->z += delta.distance[2];
+            work->unk_0A = delta.distance[0];
+            work->unk_0C = delta.distance[1];
+            work->unk_0E.u = delta.distance[2];
         } else {
             work->unk_0A = 0;
             work->unk_0C = 0;

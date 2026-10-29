@@ -9,10 +9,9 @@
 #include "shared/entity.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "dungeon/player.h"
-
-extern void set_sprite_animation_frame(void *, u8, s32, s32);
-extern s32 collect_ground_item(void *, void *, void *, void *);
-extern void set_record_integer_tile_center(void *, u8, u8);
+#include "dungeon/player/item.h"
+#include "dungeon/player/object.h"
+#include "engine/graphics.h"
 
 extern u8 player_tile_motion_frames[];
 

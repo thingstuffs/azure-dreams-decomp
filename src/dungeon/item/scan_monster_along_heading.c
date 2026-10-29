@@ -2,7 +2,9 @@
 #include "dungeon/item/actor_target.h"
 #include "shared/dir_step.h"
 #include "shared/entity.h"
-extern int abs(int);
+#include "dungeon/item.h"
+#include "dungeon/item/position.h"
+#include "sdk/libc.h"
 
 typedef struct S_800A05A4_1 {
     u8 pad_00[0x88];
@@ -11,7 +13,6 @@ typedef struct S_800A05A4_1 {
 
 
 extern void *find_eligible_entry_at_coordinates(void *, u16, u16);
-extern s32 is_map_coordinate_out_of_bounds(s16, s16);
 extern s16 check_layer_offset_height(u16, u16, s16, u32);
 
 /* Scans along a heading for an object within the height range and records the stopping coordinates. */

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
+#include "slus.h"
 
 typedef struct S_81814A80_0 {
     u16 unk_00;
@@ -28,7 +29,6 @@ typedef struct {
 } Flags;
 
 extern s16 D_80025338;
-extern void advance_sprite_animation_and_textures(void *flags);
 
 /* Accumulate motion, process the update mode, and mark expired or flagged state. */
 void accumulate_effect_motion(State *state, s32 *sum, SpriteFrameState *flags) {

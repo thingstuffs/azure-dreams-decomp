@@ -17,7 +17,7 @@ extern void * allocate_list_node(s32, void *);
 extern s32 register_node(void *, void *);
 extern void * get_unused_text_buffer(void);
 extern void * expand_text_control_codes(void *, void *);
-extern void * clear_byte_and_advance(void *);
+extern u8 *clear_byte_and_advance(u8 *byte_ptr);
 extern u8 *append_entity_display_text(void *, u8 *);
 extern s16 set_or_clear_actor_status_slot(void *, s8, s8);
 extern s32 display_text_with_fullwidth_adjustment(s8 *);

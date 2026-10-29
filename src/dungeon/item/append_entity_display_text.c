@@ -4,6 +4,7 @@
 #include "dungeon/item/message.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
+#include "dungeon/item.h"
 
 
 typedef struct S_80099734_2 {

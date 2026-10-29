@@ -7,6 +7,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "sdk/libc.h"
 #include "engine/node.h"
+#include "dungeon/effect/particle.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {

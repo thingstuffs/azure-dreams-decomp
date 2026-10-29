@@ -17,4 +17,17 @@ s32 queue_linked_visible_rectangle_copies(void *initial_state, void *input_value
 
 void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 power_bonus, s16 elements, u16 hit_angle, void *source, u16 hit_kind);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+void spawn_blinking_sprite_flash(s16 x, s16 y, s16 z);
+
+struct S_Arg1;
+struct S_Rect;
+void create_type_212_object(s32 flag, s8 value);
+void queue_visible_rectangle_copy(struct S_Rect *copy_rect, struct S_Arg1 *source);
+void retire_tracked_effect_by_id(s32 targetId);
+
+void *create_item_target_selector(u8 *selection_data);
+
+void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+
 #endif

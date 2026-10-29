@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/sprite/render_rotated_effect_quads.h"
 #include "shared/game_work.h"
+#include "dungeon/effect/sprite.h"
 
 /* Projects rotated sprite parts as waving scanline quads and links their packets into the ordering table. */
 void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_mode)
