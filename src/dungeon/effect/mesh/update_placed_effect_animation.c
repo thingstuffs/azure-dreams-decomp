@@ -84,7 +84,7 @@ typedef struct {
 extern void func_800243C0(void *, void *);
 extern s32 read_sound_mode_blocking_status(s32);
 extern void play_sound_if_enabled(s32);
-extern void *scan_actor_along_heading();
+#include "dungeon/item/actor_target.h"
 extern u16 get_surface_height_at_record(void *);
 extern s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern void func_80025A9C(void *, void *, void *);

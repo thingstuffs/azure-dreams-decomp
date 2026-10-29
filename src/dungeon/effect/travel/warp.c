@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "shared/dungeon_effect_status.h"
 #include "shared/object_node_flags.h"
 #include "shared/audio_commands.h"
@@ -282,12 +283,12 @@ typedef struct EffectRecord {
 
 /* The render data the header's unk_0C points at. */
 
-extern void draw_textured_ellipse();
+void draw_textured_ellipse(void *parameters, GpuRect *rectangle, u16 fill_rect, u16 draw_mode);
 extern u8 D_8002746C[9];
 
 /* Allocate and initialize an effect object from the supplied part data. */
 void *allocate_initialized_effect_object(EntityRec *source_pos, s32 offset_base) {
-    s32 init_data[2];
+    GpuRectBuffer init_data;
     ObjectNodeHeader *object;
     ObjectPosition *pos;
     SpriteFrameState *sprite;
@@ -295,9 +296,9 @@ void *allocate_initialized_effect_object(EntityRec *source_pos, s32 offset_base)
 
     object = allocate_flagged_object_node(0x12);
     if (object != NULL) {
-        init_data[0] = 0x01000340;
-        init_data[1] = 0x00200020;
-        draw_textured_ellipse(D_8002746C, init_data, 1, 0);
+        init_data.words[0] = 0x01000340;
+        init_data.words[1] = 0x00200020;
+        draw_textured_ellipse(D_8002746C, &init_data.rect, 1, 0);
 
         pos = object->position;
         object->update_callback = advance_effect_phases;
@@ -737,14 +738,14 @@ typedef struct Rect {
     s32 second;
 } Rect;
 
-void draw_textured_ellipse();
+void draw_textured_ellipse(void *parameters, GpuRect *rectangle, u16 fill_rect, u16 draw_mode);
 extern u8 D_80027454[12];
 extern u8 D_80027490[12];
 extern u8 D_800274A8[12];
 
 /* Creates an object at its owner's position and initializes its sprite and angle. */
 void create_warp_follower_sprite(ObjectNodeHeader *owner, s16 angle) {
-    Rect rect;
+    GpuRectBuffer rect;
     ObjectNodeHeader *spawned;
     SpriteFrameState *sprite;
     FollowerRecord *record;
@@ -766,10 +767,10 @@ void create_warp_follower_sprite(ObjectNodeHeader *owner, s16 angle) {
         sprite->color.word = 0x808080;
         record->owner = owner;
         record->angle = angle;
-        rect.first = 0x01400340;
-        rect.second = 0x200020;
-        draw_textured_ellipse(D_80027490, &rect, 0, 0);
-        draw_textured_ellipse(D_800274A8, &rect, 1, 0);
+        rect.words[0] = 0x01400340;
+        rect.words[1] = 0x200020;
+        draw_textured_ellipse(D_80027490, &rect.rect, 0, 0);
+        draw_textured_ellipse(D_800274A8, &rect.rect, 1, 0);
     }
 }
 

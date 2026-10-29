@@ -10,7 +10,7 @@ void update_spiraling_effect_growth_and_fade(void *, void *, void *);
 void spawn_spiraling(void *, s16, s16, void *, s32);
 void process_effect_modes_and_completion(void *);
 void allocate_and_initialize_effect_object(s32, s16, s16, s32);
-void draw_textured_ellipse(s32, void *, u16, u16);
+#include "dungeon/effect/screen.h"
 void create_timed_model_effect(s32, void *, s32, s32);
 s32 rsin(s32);
 s32 rcos(s32);

@@ -27,7 +27,6 @@ typedef struct S_80095538_1 {
     s32 unk_04;
 } S_80095538_1;   /* &D_80082EB0 in dispatch_selected_item_use */
 
-void equip_item_and_update_status();              /* extern */
 s32 select_item_record_pointer(); /* Unprototyped: one or two arguments; the second register argument is ignored. */                             /* extern */
 
 /* Dispatches an item effect or equipment update according to the item type. */

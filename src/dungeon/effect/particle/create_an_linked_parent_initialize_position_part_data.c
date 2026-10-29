@@ -396,7 +396,7 @@ extern s16 parent_effect_update_flag;
 extern u16 D_80082E94;
 extern AnimationState reference_tile_object;
 
-extern void draw_textured_ellipse(PaletteControl *, RectWords *, s32, s32);
+#include "dungeon/effect/screen.h"
 
 /* Five-stage palette/particle transition, reconstructed from the complete
  * retail instruction span. The object views cover only fields used here.
@@ -410,7 +410,7 @@ extern void draw_textured_ellipse(PaletteControl *, RectWords *, s32, s32);
 void update_palette_particle_transition(TransitionState *state, void *context, void *parameters) {
     GameWork *transition_flags = &g_game_work;
     PaletteControl *first_palette;
-    RectWords upload_rect;
+    GpuRectBuffer upload_rect;
     s16 source_rect[4];
     s16 destination_xy[2];
     u16 actor_facing;
@@ -445,9 +445,9 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
         ellipse_palette_channel_limits.high_r = 0xFF;
         ellipse_palette_channel_limits.high_g = 0xFF;
         ellipse_palette_channel_limits.high_b = 0xFF;
-        upload_rect.xy = 0x01000340;
-        upload_rect.wh = 0x400040;
-        draw_textured_ellipse(&ellipse_palette_channel_limits, &upload_rect, 1, 0);
+        upload_rect.words[0] = 0x01000340;
+        upload_rect.words[1] = 0x400040;
+        draw_textured_ellipse(&ellipse_palette_channel_limits, &upload_rect.rect, 1, 0);
         parent_effect_update_flag = 1;
         state->phase++;
         /* fallthrough */
@@ -792,8 +792,8 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
         first_palette->high_r = upload_value;
         first_palette->high_g = upload_value;
         first_palette->high_b = upload_value;
-        upload_rect = (RectWords){0x01400380, 0x00400040};
-        draw_textured_ellipse(&ellipse_palette_channel_limits, &upload_rect, 1, 0);
+        upload_rect = (GpuRectBuffer){{0x01400380, 0x00400040}};
+        draw_textured_ellipse(&ellipse_palette_channel_limits, &upload_rect.rect, 1, 0);
         if (state->ticks >= 0xF) {
             if (!(state->countdown & 1)) {
                 ellipse_palette_channel_limits.low_r = 0;
@@ -810,9 +810,9 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                 ellipse_palette_channel_limits.high_g = 0;
                 ellipse_palette_channel_limits.high_b = 0;
             }
-            upload_rect.xy = 0x01800380;
-            upload_rect.wh = 0x400040;
-            draw_textured_ellipse(&ellipse_palette_channel_limits, &upload_rect, 1, 0);
+            upload_rect.words[0] = 0x01800380;
+            upload_rect.words[1] = 0x400040;
+            draw_textured_ellipse(&ellipse_palette_channel_limits, &upload_rect.rect, 1, 0);
         }
     }
 }

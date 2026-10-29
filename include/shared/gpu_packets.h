@@ -80,4 +80,24 @@ typedef struct DisplayXHalfView {
     unsigned short unk_00;
 } DisplayXHalfView;
 
+/* Eight-byte screen rectangle: unsigned X/size and signed Y. */
+typedef struct GpuRect {
+    unsigned short x;
+    short y;
+    union {
+        unsigned int word4;
+        struct {
+            unsigned short z;
+            unsigned short w;
+        } half;
+    } data;
+} GpuRect;
+
+/* Alternate construction views retain the original aligned word stores. */
+typedef union GpuRectBuffer {
+    int words[2];
+    short halves[4];
+    GpuRect rect;
+} GpuRectBuffer;
+
 #endif

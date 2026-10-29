@@ -30,17 +30,7 @@ typedef struct {
     u32 wordC;
 } DungeonPacket;
 
-typedef struct {
-    u16 x;
-    s16 y;
-    union {
-        u32 word4;
-        struct {
-            u16 z;
-            u16 w;
-        } half;
-    } data;
-} DungeonInput;
+
 
 extern u8 upper_draw_context[16];
 
@@ -51,7 +41,7 @@ struct DungeonParameters;
 extern void draw_textured_ellipse_segments(struct DungeonPosition *position, struct DungeonParameters *parameters, s32 draw_order, s32 blend_mode);
 
 /* Draw at the rectangle center and optionally emit a filled rectangle. */
-void draw_textured_ellipse(s32 draw_value, DungeonInput *rect, u16 fill_rect, u16 draw_mode) {
+void draw_textured_ellipse(void *draw_value, GpuRect *rect, u16 fill_rect, u16 draw_mode) {
     GpuContext *initial_state;
     GpuContext *active_state;
     void **state_slot = &g_game_work.draw_buffer;

@@ -48,11 +48,10 @@ typedef struct S_800C0E88_4 {
 
 extern void begin_mode_selected_item_action(void *object,void *unused_1,void *unused_2,void *mode);
 #include "dungeon/player/state.h"
-extern void clear_slot_and_update_linked_state();
 extern void *get_unused_text_buffer(void);
 extern u8 * copy_selected_text_without_terminator(void *text_id, u8 *dest);
 extern void display_formatted_context_message(void *context);
-extern void *scan_actor_along_heading();
+#include "dungeon/item/actor_target.h"
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 find_slot_by_item_group(void *entry, s16 target);
 struct DungeonItemEntry;
@@ -75,6 +74,8 @@ s32 use_magic_ball(u8 *object, DungeonItemEntry *data, s16 action, void *context
     ActorRecord *current_object;
     u8 *tail_status;
     ActorRecord *active_object;
+    ActorRecord *search_actor;
+    void *search_body;
     ObjectPosition *callback;
     u8 *message_table;
     void *message_start;
@@ -183,8 +184,10 @@ scan_next:
 
         object_record = ((S_800C0E88_2_pre *)object)[-1].unk_00;
         object = (u8 *)((u32)object & 0xDFFFFFFF);
+        search_body = object;
+        search_actor = search_body;
         ((S_800C0E88_2 *)object)->unk_60 = scan_actor_along_heading(
-            object, object_record[0x24], object_record[0x25], ((S_800C0E88_2 *)object)->unk_2A, 16);
+            search_actor, object_record[0x24], object_record[0x25], ((S_800C0E88_2 *)object)->unk_2A, 16);
 
         ((S_800C0E88_2 *)object)->unk_72 = abs(((S_800C0E88_2 *)object)->unk_72);
         ((S_800C0E88_2 *)object)->unk_73 = abs(((S_800C0E88_2 *)object)->unk_73);

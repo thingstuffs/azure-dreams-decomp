@@ -44,7 +44,7 @@ s32 select_and_initialize_entry_at_position(s16 x, s16 y, s16 z, s32 type_id, s3
 }
 
 /* Process the target with parameters 7 and 0x10 and report success. */
-s32 process_target_with_action_seven(s32 target) {
+s32 process_target_with_action_seven(void *target) {
     set_or_clear_actor_status_slot(target, STATUS_SPEED, 0x10);
     return 1;
 }

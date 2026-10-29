@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "dungeon/actor.h"
 #include "shared/actor_property_flags.h"
 #include "sdk/libgte.h"
@@ -177,7 +178,7 @@ extern u8 D_800E1B08[];
 extern u8 D_800E1B2E[];
 
 extern void display_formatted_context_message(); /* Unprototyped: one or three arguments; retail retains only the text context. */
-extern s32 get_entity_effect_value();
+extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern void initialize_timed_motion_step(u16 countdown, u32 amount);
 extern s32 play_sound_if_enabled(s32 query_value);
 
@@ -209,7 +210,7 @@ void advance_timed_z_transition(s16 *transition) {
     {
         DungeonGlobalStatus *settings = &g_dungeon_status;
         if ((settings->flags & 0x10) &&
-            ((get_entity_effect_value(((u8 *)dungeon_actor_ring_anchor), 0x1C) << 16) == 0)) {
+            ((get_entity_effect_value(dungeon_actor_ring_anchor, 0x1C) << 16) == 0)) {
             transition[2] = 0x10;
             transition[1] = (u16)transition[1] + 1;
             settings->activity_counts.parts.pending_action_count = (u16)((u16)settings->activity_counts.parts.pending_action_count) + 1;
@@ -248,21 +249,21 @@ extern s32 D_800CBDB4;
 extern u8 D_800E1B5D;
 
 extern s32 has_enough_available_runtime_nodes(s32 a0);
-extern s32 get_entity_effect_value();
-extern s16 set_or_clear_actor_status_slot();
+extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
+#include "dungeon/actor/status.h"
 extern void initialize_timed_motion_step(u16 countdown, u32 amount);
 extern s32 play_sound_if_enabled(s32 query_value);
 extern void display_formatted_context_message(); /* Unprototyped: one or three arguments; retail retains only the text context. */
 
 /* Creates an effect for the active entity or displays its status message. */
-s32 create_active_entity_effect_or_message(s32 entity)
+s32 create_active_entity_effect_or_message(ActorRecord *entity)
 {
     void *effect;
     s32 status;
     register s32 effect_id;
     register s32 effect_id_half;
 
-    if (entity == ((s32)dungeon_actor_ring_anchor)) {
+    if (entity == dungeon_actor_ring_anchor) {
         if (has_enough_available_runtime_nodes(1) == 0) {
             return 0;
         }
@@ -293,7 +294,7 @@ s32 create_active_entity_effect_or_message(s32 entity)
 #define U32(p,o) (*(u32 *)((u8 *)(p)+(o)))
 #define P32(p,o) (*(void **)((u8 *)(p)+(o)))
 extern s32 generate_random_value(void);
-extern s16 set_or_clear_actor_status_slot();
+#include "dungeon/actor/status.h"
 extern s32 play_sound_if_enabled(s32 query_value);
 extern void adjust_source_value_and_finalize(void *context, const void *source);
 
@@ -894,13 +895,13 @@ extern s32 D_800DCF78;
 
 extern s32 play_sound_if_enabled(s32 query_value);
 s32 generate_random_value(void);
-void draw_textured_ellipse(void *, void *, s32, s32);
+void draw_textured_ellipse(void *parameters, GpuRect *rectangle, u16 fill_rect, u16 draw_mode);
 extern void create_five_part_target_effect(u16 x, u16 y, s16 z);
 
 /* Take the item in map slot `slot`: with no object, drop the slot's 0x80 flag and bump the pickup count; otherwise roll the object's 0x3 chance and give the fallback cue at or above 0x40, then cue 0x817 for the slot's item. */
 s32 take_map_item_slot(void *object, s16 slot)
 {
-    s32 stack_args[2];
+    GpuRectBuffer stack_args;
     s16 value;
     s32 random;
     s32 index;
@@ -957,9 +958,9 @@ s32 take_map_item_slot(void *object, s16 slot)
         }
 
         D_800DCF78 = 0x00202080;
-        stack_args[0] = 0x01000340;
-        stack_args[1] = 0x00200020;
-        draw_textured_ellipse((u8 *)&D_800DCF78 - 0x10, stack_args, 1, 0);
+        stack_args.words[0] = 0x01000340;
+        stack_args.words[1] = 0x00200020;
+        draw_textured_ellipse((u8 *)&D_800DCF78 - 0x10, &stack_args.rect, 1, 0);
         trap_resource_slot = 0;
     }
 
@@ -1769,9 +1770,9 @@ void tick_trap_effect_countdown(S_800C81B0_a0 *object)
 #include "shared/entity.h"
 
 
-extern s32 get_entity_effect_value();
+extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern void adjust_source_value_and_finalize(void *context, const void *source);
-extern s16 set_or_clear_actor_status_slot();
+#include "dungeon/actor/status.h"
 extern u8 D_800E1C25[];
 
 /* Runs action 0xA when eligible, using the prior state for the flagged callback. */
@@ -1803,7 +1804,7 @@ s32 run_action_ten_if_eligible(ActorRecord *entity, s8 action_arg) {
 #include "shared/dungeon_status.h"
 
 
-extern s32 get_entity_effect_value();
+extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern s32 has_enough_available_runtime_nodes(s32);
 extern void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound);
 extern s32 play_sound_if_enabled(s32 query_value);
@@ -1877,7 +1878,7 @@ s32 trigger_step_trap_effect(void *object) {
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
-extern s32 get_entity_effect_value();
+extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern s32 generate_random_value(void);
 
 

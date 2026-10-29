@@ -3,6 +3,7 @@
 
 /* Function contracts owned by src/dungeon/effect/screen/ (decision 74; maintained by tools/headers). */
 #include "common.h"
+#include "shared/gpu_packets.h"
 #include "shared/entity.h"
 void add_random_quarter_value(void *source, void *target);
 void create_wrapped_texture_scroll(s16 value);
@@ -29,5 +30,8 @@ void retire_tracked_effect_by_id(s32 targetId);
 void *create_item_target_selector(u8 *selection_data);
 
 void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+
+/* Rectangle buffers contain packed x/y and width/height words. */
+void draw_textured_ellipse(void *parameters, GpuRect *rectangle, u16 fill_rect, u16 draw_mode);
 
 #endif

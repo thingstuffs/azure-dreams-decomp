@@ -258,7 +258,7 @@ typedef struct S_func_81886800_19 {
     s32 unk_00;
 } S_func_81886800_19;
 
-extern void draw_textured_ellipse(void *, void *, s32, s32);
+#include "dungeon/effect/screen.h"
 extern s32 rsin(s32);
 extern s32 check_left_tile_and_center_height(s32, s32, s32);
 extern void ratan2(s32, s32);
@@ -282,7 +282,7 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
     s32 state;
     u16 owner_flags;
     s16 surface_pos[3];
-    s32 texture_rect[2];
+    GpuRectBuffer texture_rect;
 
     owner = effect->unk_00;
     state = effect->unk_0A.s16;
@@ -290,9 +290,9 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
     owner_motion = owner_base->unk_08;
     switch (state) {
     case 0:
-    texture_rect[0] = 0x01000340;
-    texture_rect[1] = 0x00200020;
-    draw_textured_ellipse(D_8002632C, texture_rect, 1, 0);
+    texture_rect.words[0] = 0x01000340;
+    texture_rect.words[1] = 0x00200020;
+    draw_textured_ellipse(D_8002632C, &texture_rect.rect, 1, 0);
 
     sprite->unk_0C.u32 = 0x00808080;
     sprite->unk_1E = 0x555;

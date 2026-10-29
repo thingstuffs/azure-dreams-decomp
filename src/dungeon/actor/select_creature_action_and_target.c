@@ -25,17 +25,17 @@ extern int abs(int);
 /* ---- globals (declared array-style so every access stays %hi/%lo, never $gp) ---- */
 
 /* ---- ordinary callees ---- */
-extern s32 clear_slot_and_update_linked_state();
+#include "dungeon/player/state.h"
 extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern u8 *find_eligible_actor_at_tile_and_height();
 extern s32 get_tile_chebyshev_distance();
 extern s32 get_actor_height_difference();
 extern void * find_adjacent_actor(void *entity, u16 x, u16 y);
 extern void * find_monster_neighbor_candidate(void *entity, u16 x, u16 y);
-extern u8 *scan_actor_along_heading();
+void *scan_actor_along_heading(ActorRecord *source, s32 start_x, s32 start_y, s16 heading, s16 max_steps);
 extern s32 get_rounded_facing_and_rounding_flag();
 extern s32 select_actor_route_target();
-extern s32 update_actor_proximity_flag();
+s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor/state.h"
 extern s32 has_low_actor_mp();
@@ -62,7 +62,7 @@ extern s32 check_global_or_linked_flag_20000();
     }
 
 /* Selects a creature's next action and target from its behavior, species, and nearby tiles. */
-s32 select_creature_action_and_target(s32 unused, u8 *position, ActorRecord *creature, s32 lower_limit, u16 upper_limit, s32 status_out_addr)
+s32 select_creature_action_and_target(void *unused, u8 *position, ActorRecord *creature, s32 lower_limit, u16 upper_limit, s8 *status_out_addr)
 {
     register s32 neighbor_check;
     s32 saved_lower_limit;
@@ -161,7 +161,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, ActorRecord *cre
                          * Unless this food is selected, the now-empty tile still blocks item placement;
                          * remove_floor_items_at_tile clears the flag too.
                          */
-                        clear_slot_and_update_linked_state((entry_index * 4) + (u8 *)((u8 *)dungeon_ground_items));
+                        clear_slot_and_update_linked_state(&dungeon_ground_items[entry_index]);
                     }
                     return 0;
                 }

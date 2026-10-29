@@ -1234,7 +1234,7 @@ typedef struct Bank7ce_18_Pair {
     s32 second;
 } Bank7ce_18_Pair;
 
-extern void draw_textured_ellipse();
+#include "dungeon/effect/screen.h"
 extern u8 D_800FBE30[12];
 extern u8 D_800FBE3C[12];
 
@@ -1259,10 +1259,10 @@ typedef struct S_807B004C_3 {
 
 /* Creates a child object, initializes its state, and loads its graphics. */
 void create_owner_attached_color_effect(void *parent_data) {
-    Bank7ce_18_Pair texture_rect;
+    GpuRectBuffer texture_rect;
     s32 rect_origin;
     s32 rect_size;
-    Bank7ce_18_Pair *rect_ptr;
+    GpuRect *rect_ptr;
     ObjectNodeHeader *child;
     SpriteFrameState *render_state;
     S_807B004C_2 *child_data;
@@ -1273,7 +1273,7 @@ void create_owner_attached_color_effect(void *parent_data) {
         register_node(child, project_sprite_chain);
         rect_origin = 0x01000340;
         rect_size = 0x200020;
-        rect_ptr = &texture_rect;
+        rect_ptr = &texture_rect.rect;
         render_state = child->sprite;
         render_state->source = D_800FBE30;
         render_state->scale_x = 0x1000;
@@ -1282,8 +1282,8 @@ void create_owner_attached_color_effect(void *parent_data) {
         ((S_807B004C_0 *)child)->unk_20 = parent_data;
         child_data->unk_0A = ((S_807B004C_3 *)parent_data)->unk_2A;
         child_data->unk_0C = 0x30;
-        texture_rect.second = rect_size;
-        texture_rect.first = rect_origin;
+        texture_rect.words[1] = rect_size;
+        texture_rect.words[0] = rect_origin;
         draw_textured_ellipse(D_800FBE3C, rect_ptr, 1, 0);
     }
 }

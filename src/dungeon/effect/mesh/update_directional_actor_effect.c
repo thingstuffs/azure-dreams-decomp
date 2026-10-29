@@ -23,7 +23,6 @@
 extern u8 D_80024A64[];
 extern u16 D_80024A70[];
 
-extern void draw_textured_ellipse(void *, void *, s32, s32);
 extern u8 resident_globals_page[];
 
 #define MANAGER_PTR() ((void *)(u32)U32_AT(((u8 *)(&primary_actor_record)), 0))
@@ -134,11 +133,11 @@ void update_directional_actor_effect(TargetTintWork *state_data)
     }
     if (state->phase.s >= 2) {
         u8 *draw_data = (u8 *)&D_80024A70[2];
-        s32 draw_params[2];
+        GpuRectBuffer draw_params;
 
-        draw_params[0] = 0x01000360;
-        draw_params[1] = 0x00200020;
-        draw_textured_ellipse(draw_data, draw_params, 1, 0);
+        draw_params.words[0] = 0x01000360;
+        draw_params.words[1] = 0x00200020;
+        draw_textured_ellipse(draw_data, &draw_params.rect, 1, 0);
         U8_AT(draw_data, 8) += 0x10;
     }
     D_80024A70[0] = 0;

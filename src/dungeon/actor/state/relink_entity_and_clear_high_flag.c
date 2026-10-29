@@ -17,11 +17,11 @@ typedef struct DungeonOwner {
 
 
 extern s32 check_entity_relation(void *, void *);
-extern s16 select_creature_action_and_target(void *, void *, void *, s16, s16, s32);
+extern s16 select_creature_action_and_target(void *, u8 *, ActorRecord *, s16, s16, s8 *);
 
 /* Process an entity and clear its high flag when relinking it into the active list. */
 s16 relink_entity_and_clear_high_flag(void *context, void *position, void *entity,
-                  s16 near_range, s16 far_range, s32 state_out_addr) {
+                  s16 near_range, s16 far_range, s8 *state_out_addr) {
     register u16 entity_flags;
     s16 result = select_creature_action_and_target(context, position, entity, near_range, far_range, state_out_addr);
 

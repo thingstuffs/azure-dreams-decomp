@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #ifndef DUNGEON_OVL_19A332C_H
 #define DUNGEON_OVL_19A332C_H
 #include "common.h"
@@ -565,7 +566,7 @@ extern void *tint_transition_source;
 extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
 extern void register_node(void *, void *);
 extern void func_8004491C(void *, void *);
-extern s32 draw_textured_ellipse(void *, void *, s32, s32);
+void draw_textured_ellipse(void *parameters, GpuRect *rectangle, u16 fill_rect, u16 draw_mode);
 extern s32 D_800269D4;
 extern s32 D_800269FC;
 extern s32 D_800DF31C;

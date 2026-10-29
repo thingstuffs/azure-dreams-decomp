@@ -184,13 +184,13 @@ s32 draw_n_16_shaded_line_segments_link_them_ordering_table_depth(void *unused_0
   s32 *point_base = points_addr;
   s32 initial_z = plane_z;
   s16 phase = (s16) color_phase;
-  u8 *scratch;
+  ScratchPad *scratch;
   u8 *line_prim;
   GpuContext *initial_ctx;
   GameWork *render_state = &g_game_work;
   s32 depth;
   initial_ctx = *((GpuContext **) (globals_page + 0x3160));
-  scratch = (u8 *) 0x1F800000;
+  scratch = (ScratchPad *) 0x1F800000;
   ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_70 = (u16) initial_z;
   ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_68 = (u16) initial_z;
   ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->ot = (u32 *) (((u8 *) initial_ctx) + 0xB0);
@@ -262,12 +262,12 @@ s32 draw_n_16_shaded_line_segments_link_them_ordering_table_depth(void *unused_0
       ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_6E = (*((u16 *) (origin_bytes + 6))) + coord_offset;
     }
     {
-      u8 *start_vertex = scratch + 0x64;
-      u8 *end_vertex = scratch + 0x6C;
-      u8 *start_screen = scratch + 0xD8;
-      u8 *end_screen = scratch + 0xDC;
-      u8 *projection_aux = scratch + 0x84;
-      u8 *projection_flags = scratch + 0x88;
+      u8 *start_vertex = &scratch->b[0x64];
+      u8 *end_vertex = &scratch->b[0x6C];
+      s32 *start_screen = &scratch->sw[54];
+      s32 *end_screen = &scratch->sw[55];
+      s32 *projection_aux = &scratch->sw[33];
+      s32 *projection_flags = &scratch->sw[34];
       ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_F4 = RotTransPers(start_vertex, start_screen, projection_aux, projection_flags);
       ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_F8 = RotTransPers(end_vertex, end_screen, projection_aux, projection_flags);
     }

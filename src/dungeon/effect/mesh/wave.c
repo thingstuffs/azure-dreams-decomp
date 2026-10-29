@@ -1155,7 +1155,7 @@ typedef struct OutPair {
     u16 x;
     u16 y;
     u16 z;
-    Pair pair;
+    GpuRectBuffer pair;
 } OutPair;
 
 typedef struct Triple {
@@ -1171,7 +1171,7 @@ extern Copy12 D_80026698;
 extern Copy12 D_800266A4;
 extern u8 current_spell_effect_variant[256];
 
-extern void draw_textured_ellipse(void *, void *, s32, s32);
+#include "dungeon/effect/screen.h"
 extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
 extern s32 rand(void);
 extern s32 check_adjacent_tile_height_clearance(u16, u16, s16, void *);
@@ -1431,9 +1431,9 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
         colors->unk_14 = 4;
         colors->unk_15 = 4;
         colors->unk_16 = 4;
-        out_pair.pair.a = packed_pos;
-        out_pair.pair.b = packed_size;
-        draw_textured_ellipse(colors, &out_pair.pair, 1, 0);
+        out_pair.pair.words[0] = packed_pos;
+        out_pair.pair.words[1] = packed_size;
+        draw_textured_ellipse(colors, &out_pair.pair.rect, 1, 0);
         phase = self->state.u;
         wave_effect_update_flag = 1;
         self->state.u = phase + 1;

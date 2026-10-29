@@ -25,7 +25,7 @@ void (*const dungeon_18a0800_entry)(TrackingEffect *, ObjectPosition *, SpriteFr
 extern u8 D_800257D0[];
 extern u8 D_800257E8[];
 
-extern void draw_textured_ellipse(void *, s32 *, s32, s32);
+#include "dungeon/effect/screen.h"
 extern s16 set_item_w0(s32 start_x, s32 start_y, s32 end_x, s32 end_y);
 extern s32 check_left_tile_and_center_height(s32, s32, s16);
 
@@ -58,7 +58,7 @@ void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameSt
     u32 texture_flags;
     u32 texture_size;
     s16 attach_offset[3];
-    s32 texture_init[2];
+    GpuRectBuffer texture_init;
 
     owner = self->owner;
     state = self->state.s;
@@ -74,9 +74,9 @@ void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameSt
         part->scale_x = 0x800;
         part->source = D_800257E8;
         self->direction.u = ((u16)owner->facing >> 9) & 7;
-        texture_init[0] = texture_flags;
-        texture_init[1] = texture_size;
-        draw_textured_ellipse(D_800257D0, texture_init, 1, 0);
+        texture_init.words[0] = texture_flags;
+        texture_init.words[1] = texture_size;
+        draw_textured_ellipse(D_800257D0, &texture_init.rect, 1, 0);
         self->state.u++;
 
     case 1:

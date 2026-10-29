@@ -9,7 +9,7 @@ typedef struct {
 
 s32 rsin(s16);
 s32 rcos(s16);
-void draw_textured_ellipse(void *, s32 *, s32, s32);
+#include "dungeon/effect/screen.h"
 
 extern Counter staged_fade_count;
 extern u8 staged_glow_data[];
@@ -61,7 +61,7 @@ typedef struct S_80025E48_2 {
 /* Update the effect position, staged motion, and color fades, then mark completion. */
 void update_staged_effect_fade(void *effect, S_80025E48_1 *points, S_80025E48_2 *tint)
 {
-    s32 draw_params[2];
+    GpuRectBuffer draw_params;
     s16 state;
     s16 angle;
     s32 base_angle;
@@ -149,12 +149,12 @@ void update_staged_effect_fade(void *effect, S_80025E48_1 *points, S_80025E48_2 
                 glow = staged_glow_data;
                 glow_color = glow[0xC];
                 color_step = (0x14 - glow_color) / ((S_80025E48_0 *)effect)->unk_1A.s;
-                draw_params[0] = 0x01000340;
-                draw_params[1] = 0x00200020;
+                draw_params.words[0] = 0x01000340;
+                draw_params.words[1] = 0x00200020;
                 glow_color += color_step;
                 glow[0xC] = glow_color;
                 glow[0xD] = glow_color;
-                draw_textured_ellipse(glow, draw_params, 1, 0);
+                draw_textured_ellipse(glow, &draw_params.rect, 1, 0);
             }
             frames_left = ((S_80025E48_0 *)effect)->unk_1A.u - 1;
             ((S_80025E48_0 *)effect)->unk_1A.u = frames_left;
@@ -193,12 +193,12 @@ void update_staged_effect_fade(void *effect, S_80025E48_1 *points, S_80025E48_2 
                 glow_color = glow[0xC];
                 color_step = (0x10 - glow_color) /
                     ((S_80025E48_0 *)effect)->unk_1A.s;
-                draw_params[0] = 0x01000340;
-                draw_params[1] = 0x00200020;
+                draw_params.words[0] = 0x01000340;
+                draw_params.words[1] = 0x00200020;
                 glow_color += color_step;
                 glow[0xC] = glow_color;
                 glow[0xD] = glow_color;
-                draw_textured_ellipse(glow, draw_params, 1, 0);
+                draw_textured_ellipse(glow, &draw_params.rect, 1, 0);
             }
             if (((S_80025E48_0 *)effect)->unk_24 != 0) {
                 fast_color = tint->unk_0D;

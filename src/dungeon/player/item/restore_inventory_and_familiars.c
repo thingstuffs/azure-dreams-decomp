@@ -39,7 +39,6 @@ extern u8 restore_actor_script[];
 
 extern s32 get_entity_class();
 
-extern void equip_item_and_update_status();
 
 typedef struct S_80094988_0 {
     u8 pad_00[0x2D50];
@@ -88,7 +87,7 @@ typedef struct S_80094988_12 {
     u8 pad_00[0xAC];
     void * unk_AC;
     u8 pad_B0[0x20];
-    void ** unk_D0;
+    DungeonItemEntry * unk_D0;
 } S_80094988_12;   /* slot_rec in restore_inventory_and_familiars */
 
 typedef struct S_80094988_13 {
@@ -120,7 +119,7 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
     u32 scratch;
     s32 slot_i;
     s32 i;
-    u8 *slot_ptr;
+    DungeonItemEntry *slot_ptr;
     S_80094988_12 *slot_rec;
     S_80094988_13 *spawned;
     void *cursor;
@@ -184,18 +183,18 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
     } while (i < 2);
 
     if (((S_80094988_7 *)0x80010000)->unk_21E0 != 0xFF) {
-        slot_ptr = (u8 *)((void **)0x80010248 + ((S_80094988_7 *)0x80010000)->unk_21E0);
+        slot_ptr = (DungeonItemEntry *)((void **)0x80010248 + ((S_80094988_7 *)0x80010000)->unk_21E0);
     } else {
         slot_ptr = 0;
     }
     equip_item_and_update_status(actor, slot_ptr);
     if (((S_80094988_7 *)0x80010000)->unk_21E1 != 0xFF) {
-        slot_ptr = (u8 *)((void **)0x80010248 + ((S_80094988_7 *)0x80010000)->unk_21E1);
+        slot_ptr = (DungeonItemEntry *)((void **)0x80010248 + ((S_80094988_7 *)0x80010000)->unk_21E1);
     } else {
         slot_ptr = 0;
     }
     change_equipped_item_and_notify(actor, slot_ptr);
-    slot_ptr = (u8 *)0x80010248;
+    slot_ptr = (DungeonItemEntry *)0x80010248;
     slot_i = 0;
     slot_flags = (u8 *)0x8001024B;
     do {
@@ -213,7 +212,7 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
                 } while (i < 2);
                 if ((scratch << 0x10) != 0) {
                     scratch -= 1;
-                    kind = find_or_retain_sprite_resource_slot(*slot_ptr, 3);
+                    kind = find_or_retain_sprite_resource_slot(slot_ptr->unk_00, 3);
                     if (kind != 0) {
                         if ((find_valid_nearby_position(0, (s16)spawn_x, (s16)spawn_y,
                                            &place_x, &place_y) << 0x10) == 0) {
@@ -222,7 +221,7 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
                             place_x = (s16)rand_x;
                             place_y = (s16)rand_y;
                         }
-                        spawned = load_monster_resource_data(*slot_ptr, kind, 1)(
+                        spawned = load_monster_resource_data(slot_ptr->unk_00, kind, 1)(
                             1, place_x, place_y,
                             actor->ground_height);
                         sign_shift = scratch << 16;
@@ -248,7 +247,7 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
                             familiar_record_slots[((S_80094988_9 *)slot_flags)->unk_00 & 0x1F] =
                                 (s32)spawned;
                             update_owner_class_bits(spawned);
-                            retain_spawn_resource(*slot_ptr, 3);
+                            retain_spawn_resource(slot_ptr->unk_00, 3);
                             replay_actor_status_slots(spawned);
                             create_orbiting_teleport_effect(
                                 spawned,
@@ -261,7 +260,7 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
         }
         slot_i += 1;
         slot_flags += 4;
-        slot_ptr += 4;
+        slot_ptr += 1;
     } while (slot_i < 0x14);
     if (flag_was_set == 0) {
         save_page = (u8 *)0x80010000;

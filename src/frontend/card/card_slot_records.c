@@ -6,9 +6,6 @@
 #include "frontend/card.h"
 #include "frontend/libcard.h"
 
-
-void release_card_record_handles(CardHandleOwner *);
-
 /* Processes the object header and invokes two follow-up routines. */
 
 void inventory_copy_and_sign_extend_record_fields(s32 object_data) {

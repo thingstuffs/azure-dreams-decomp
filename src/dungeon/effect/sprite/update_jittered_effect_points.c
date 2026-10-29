@@ -133,7 +133,7 @@ void run_jittered_point_sequence(void *sequence, void *out_position)
     SpriteFrameState *sprite;
     u8 *global_slot;
     S_func_819A6800_4 *global_object;
-    S_func_819A6800_4 *reloaded_object;
+    PlayerRecord *reloaded_object;
 
     timer = SELF->unk_50.u - 1;
     state = SELF->unk_0A.s;
@@ -150,10 +150,10 @@ void run_jittered_point_sequence(void *sequence, void *out_position)
         ((S_func_819A6800_5 *)(out_position))->unk_04.u = ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_04.u;
         ((S_func_819A6800_5 *)(out_position))->unk_08.u = ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_08.u;
 
-        new_object = scan_actor_along_heading(reloaded_object,
+        new_object = scan_actor_along_heading(&reloaded_object->actor,
                                    reference_tile_object.tile_position.parts.tile_x,
                                    reference_tile_object.tile_position.parts.tile_y,
-                                   reloaded_object->unk_2A,
+                                   reloaded_object->actor.facing,
                                    7);
         owner->unk_60.p = new_object;
         if (new_object == 0) {
@@ -564,7 +564,7 @@ void update_jittered_effect_points(void *effect) {
 #include "modules/dungeon_ovl_19c6800.h"
 #include "common.h"
 #include "shared/game_work.h"
-s32 RotTransPers();
+s32 RotTransPers(void *, s32 *, s32 *, s32 *);
 void transform_rotated_vertices();
 typedef struct
 {
@@ -574,10 +574,10 @@ typedef struct
     u16 pad;
 }
 E_SVEC;
-typedef struct
+typedef union
 {
-    u16 x;
-    u16 y;
+    s32 word;
+    struct { u16 x; u16 y; } half;
 }
 E_DVEC;
 typedef struct
@@ -622,14 +622,14 @@ s32 update_segment(void *node)
         obj = node;
         i = 4;
         do {
-            otz[i] = (s32) (RotTransPers(((u8 *) obj) + ((i * 8) + 4), &sxy[i], &p, &p) - 8);
+            otz[i] = (s32) (RotTransPers(((u8 *) obj) + ((i * 8) + 4), &sxy[i].word, &p, &p) - 8);
             i -= 1;
         }
         while (i >= 0);
         scratch.x = *((u16 *) (((s8 *) obj) + 4));
         scratch.y = *((u16 *) (((s8 *) obj) + 6));
         scratch.z = (u16) ((*((u16 *) (((s8 *) obj) + 8))) + 0x30);
-        RotTransPers(&scratch, &sxy[5], &p, &p);
+        RotTransPers(&scratch, &sxy[5].word, &p, &p);
         scratch.x = 0;
         scratch.z = 0;
         prim.p1 = &scratch;
@@ -641,11 +641,11 @@ s32 update_segment(void *node)
         prim.f10 = 0;
         prim.f1A = 0;
         prim.f18 = 1;
-        dy = (s16) sxy[0].y;
-        dy = dy - ((s16) sxy[5].y);
+        dy = (s16) sxy[0].half.y;
+        dy = dy - ((s16) sxy[5].half.y);
         scratch.y = (u16) abs((s32) dy);
         prim.f0C = *(u16 *)&base->view.camera_rotation.parts.viewAngle;
-        transform_rotated_vertices(&prim, (s16) sxy[5].y);
+        transform_rotated_vertices(&prim, (s16) sxy[5].half.y);
         for (i = 0; i < 4; i++) {
             poly = *((void **) (((s8 *) (base->draw_buffer)) + 0x8D0));
             *((void **) (((s8 *) (base->draw_buffer)) + 0x8D0)) = (void *) (((u8 *) poly) + 0x28);
@@ -654,14 +654,14 @@ s32 update_segment(void *node)
             SetSemiTrans(poly, 1);
             *((u16 *) (((s8 *) poly) + 0x16)) = (u16) (*((u16 *) (((s8 *) obj) + 0x40)));
             *((u16 *) (((s8 *) poly) + 0xE)) = (u16) (*((u16 *) (((s8 *) obj) + 0x42)));
-            *((s16 *) (((s8 *) poly) + 8)) = (s16) (sxy[i].x - scratch.x);
-            *((s16 *) (((s8 *) poly) + 0x10)) = (s16) (sxy[i + 1].x - scratch.x);
-            *((s16 *) (((s8 *) poly) + 0x18)) = (s16) (sxy[i].x + scratch.x);
-            *((s16 *) (((s8 *) poly) + 0x20)) = (s16) (sxy[i + 1].x + scratch.x);
-            *((s16 *) (((s8 *) poly) + 0xA)) = (s16) (sxy[i].y - scratch.y);
-            *((s16 *) (((s8 *) poly) + 0x1A)) = (s16) (sxy[i].y + scratch.y);
-            *((s16 *) (((s8 *) poly) + 0x12)) = (s16) (sxy[i + 1].y - scratch.y);
-            *((s16 *) (((s8 *) poly) + 0x22)) = (s16) (sxy[i + 1].y + scratch.y);
+            *((s16 *) (((s8 *) poly) + 8)) = (s16) (sxy[i].half.x - scratch.x);
+            *((s16 *) (((s8 *) poly) + 0x10)) = (s16) (sxy[i + 1].half.x - scratch.x);
+            *((s16 *) (((s8 *) poly) + 0x18)) = (s16) (sxy[i].half.x + scratch.x);
+            *((s16 *) (((s8 *) poly) + 0x20)) = (s16) (sxy[i + 1].half.x + scratch.x);
+            *((s16 *) (((s8 *) poly) + 0xA)) = (s16) (sxy[i].half.y - scratch.y);
+            *((s16 *) (((s8 *) poly) + 0x1A)) = (s16) (sxy[i].half.y + scratch.y);
+            *((s16 *) (((s8 *) poly) + 0x12)) = (s16) (sxy[i + 1].half.y - scratch.y);
+            *((s16 *) (((s8 *) poly) + 0x22)) = (s16) (sxy[i + 1].half.y + scratch.y);
             colour_a = *((u8 *) (((s8 *) obj) + 0x2C));
             *((u8 *) (((s8 *) poly) + 0x1C)) = colour_a;
             *((u8 *) (((s8 *) poly) + 0xC)) = colour_a;

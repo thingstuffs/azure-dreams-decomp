@@ -28,7 +28,7 @@ typedef struct S_800C4AFC_0 {
 
    /* (void *)temp in create_timed_paired_particle_emitter */
 
-extern void draw_textured_ellipse(void *, s32 *, s32, s32);
+#include "dungeon/effect/screen.h"
 extern void tick_paired_particle_emitter(void);
 
 extern u8 D_800DCF78[12];
@@ -36,7 +36,7 @@ extern u8 D_800DCF78[12];
 /* Create an effect object, copy its source components, and initialize its state. */
 void create_timed_paired_particle_emitter(ObjectPosition *source, s32 effect_param, void *state_param)
 {
-    s32 effect_init[2];
+    GpuRectBuffer effect_init;
     ObjectNodeHeader *object;
     s32 init_value;
     ObjectPosition *components;
@@ -53,12 +53,12 @@ void create_timed_paired_particle_emitter(ObjectPosition *source, s32 effect_par
     }
 
     *(s32 *)D_800DCF78 = effect_param;
-    effect_init[0] = 0x01000340;
+    effect_init.words[0] = 0x01000340;
     init_value = 0x00200020;
-    effect_init[1] = init_value;
+    effect_init.words[1] = init_value;
     effect = D_800DCF78;
     effect -= 0x10;
-    draw_textured_ellipse(effect, effect_init, 1, 0);
+    draw_textured_ellipse(effect, &effect_init.rect, 1, 0);
 
     state = (S_800C4AFC_0 *)((u8 *)object + 0x20);
     state->unk_02 = 0x40;

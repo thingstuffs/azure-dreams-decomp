@@ -9,7 +9,7 @@ void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *positio
 {
     u8 *scratch;
     u8 *part;
-    u8 *packet;
+    PolyFT4 *packet;
     s32 angle;
     s32 half;
     s32 strip_x;
@@ -48,12 +48,12 @@ void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *positio
     DM_U16(0x100) = state->unk_16;
     DM_U16(0x104) = state->unk_1A;
     DM_U16(0x102) = state->unk_18;
-    RotMatrix(0x1F800100, 0x1F8000D0);
+    RotMatrix(scratch + 0x100, scratch + 0xD0);
     ReadRotMatrix(&transform_buf[0]);
-    CompMatrix(&transform_buf[0], 0x1F8000D0, 0x1F800050);
-    ScaleMatrix(0x1F800050, 0x1F800030);
-    SetTransMatrix(0x1F800050);
-    SetRotMatrix(0x1F800050);
+    CompMatrix(&transform_buf[0], scratch + 0xD0, scratch + 0x50);
+    ScaleMatrix(scratch + 0x50, scratch + 0x30);
+    SetTransMatrix(scratch + 0x50);
+    SetRotMatrix(scratch + 0x50);
     edge_cache = (u8 *)&transform_buf[0];
     {
         s32 init_flags;
@@ -221,8 +221,8 @@ void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *positio
                         }
                     }
                     DM_S32(0xC0) = (RotAverage4(scratch + 0x70, scratch + 0x78, scratch + 0x80, scratch + 0x88,
-                                                  packet + 8, packet + 0x10, packet + 0x18, packet + 0x20,
-                                                  scratch + 0x90, scratch + 0x94)
+                                                  &packet->xy0, &packet->xy1, &packet->xy2, &packet->xy3,
+                                                  &DM_S32(0x90), &DM_S32(0x94))
                                     - (s32)(s16)depth_bias) - 6;
                     cache = (Row_818F2800_S_BODY_6 *)(half * 2 + (long)edge_cache);
                     if (cache->unk_20.s != invalid_coord) {
@@ -366,7 +366,7 @@ void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *positio
                             ((u32 *)((u8 *)DM_U32(0x20)))[DM_S32(0xC0)] =
                                 (((u32 *)((u8 *)DM_U32(0x20)))[DM_S32(0xC0)] & 0xFF000000)
                             | ((s32)packet & 0xFFFFFF);
-                            packet += 0x28;
+                            packet++;
                         }
                     }
                     half += 1;
@@ -447,7 +447,7 @@ s32 draw_linked_shaded_tiles(void *first_point, void *first_position)
         scratch->y = position->unk_06;
         scratch->z = position->unk_0A;
         scratch->cursor = (u8 *)tile + 0xC;
-        scratch->index = RotTransPers(scratch, (u8 *)tile + 8,
+        scratch->index = RotTransPers(scratch, &tile->data,
                                        &scratch->xy, &scratch->depth);
 
         if (scratch->index < 0x1E0U) {

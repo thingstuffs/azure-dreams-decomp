@@ -28,7 +28,7 @@ typedef struct Pair {
 #include "engine/node/allocation.h"
 #include "shared/entity.h"
 #include "dungeon/effect/sprite.h"
-void draw_textured_ellipse();
+#include "dungeon/effect/screen.h"
 extern u8 D_80025AC4[12];
 extern u8 screen_effect_sprite_entries[12];
 extern u8 D_80028238[12];
@@ -36,7 +36,7 @@ extern u8 D_80028250[12];
 
 /* Creates an object at its owner's position and initializes its sprite and angle. */
 void create_owner_positioned_sprite(ObjectNodeHeader *owner, s16 angle) {
-    Pair rect;
+    GpuRectBuffer rect;
     ObjectNodeHeader *spawned;
     SpriteFrameState *node;
     ObjectTail *tail;
@@ -58,9 +58,9 @@ void create_owner_positioned_sprite(ObjectNodeHeader *owner, s16 angle) {
         node->color.word = 0x808080;
         tail->owner = owner;
         tail->angle = angle;
-        rect.first = 0x01400340;
-        rect.second = 0x200020;
-        draw_textured_ellipse(D_80028238, &rect, 0, 0);
-        draw_textured_ellipse(D_80028250, &rect, 1, 0);
+        rect.words[0] = 0x01400340;
+        rect.words[1] = 0x200020;
+        draw_textured_ellipse(D_80028238, &rect.rect, 0, 0);
+        draw_textured_ellipse(D_80028250, &rect.rect, 1, 0);
     }
 }

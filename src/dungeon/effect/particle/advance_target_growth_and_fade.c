@@ -150,7 +150,7 @@ void (*const dungeon_18fa800_entry)(S_func_818DA800_1 *, S_func_818DA800_2 *) = 
 /* Advances a targeted effect through movement, particle spawning, target interaction, and cleanup. */
 void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion)
 {
-    S_func_818DA800_3 *actor;
+    ActorRecord *actor;
     MovingTile *actor_data;
     void *image_base;
     void *resource_base;
@@ -183,15 +183,15 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
         target_actor = scan_actor_along_heading(actor,
             actor_data->tile_x,
             actor_data->tile_y,
-            actor->unk_2A, height);
-        actor->unk_60 = target_actor;
+            actor->facing, height);
+        actor->target = target_actor;
         if (target_actor == 0) {
-            actor->unk_72.as_u8 = actor_data->tile_x;
-            actor->unk_73.as_u8 = actor_data->tile_y;
+            actor->target_tile_x = actor_data->tile_x;
+            actor->target_tile_y = actor_data->tile_y;
         } else {
             prim = ((S_func_818DA800_5 *)((u8 *)target_actor - 0x20))->unk_0C;
-            actor->unk_72.as_u8 = prim->tile_x;
-            actor->unk_73.as_u8 = prim->tile_y;
+            actor->target_tile_x = prim->tile_x;
+            actor->target_tile_y = prim->tile_y;
         }
     }
 
@@ -202,12 +202,12 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
     motion->unk_08.half.unk_0A.as_u16 =
         ((S_func_818DA800_2 *)((S_func_818DA800_5 *)(void *)actor_header)->unk_08)->unk_08.half.unk_0A.as_u16;
     effect_state->unk_50.as_u16 = 8;
-    tile_coord = actor->unk_72.as_s8;
+    tile_coord = actor->target_tile_x;
     motion->unk_0C.half.unk_0E =
         (tile_coord << 6) - (motion->unk_00.half.unk_02.as_u16 - 0x20);
     motion->unk_0C.as_s32 = motion->unk_0C.as_s32 /
         effect_state->unk_50.as_s16;
-    tile_coord = actor->unk_73.as_s8;
+    tile_coord = actor->target_tile_y;
     motion->unk_10.half.unk_12 =
         (tile_coord << 6) - (motion->unk_04.half.unk_06.as_u16 - 0x20);
     motion->unk_10.as_s32 = motion->unk_10.as_s32 /
@@ -286,13 +286,13 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
                 prim->frame_ticks = 0;
                 child_state->unk_00 = effect_state;
                 child_state->unk_48 =
-                    actor->unk_60 ? 0x20 : 0xA;
+                    actor->target ? 0x20 : 0xA;
                 child_state->unk_4C = 0;
             }
             actor_or_corner--;
         } while (actor_or_corner >= 0);
     }
-    if (actor->unk_60 != 0) {
+    if (actor->target != 0) {
         S_func_818DA800_5 *impact_obj;
         impact_obj = allocate_list_node(0x201, &scene_object_list_anchor.next);
         if (impact_obj != 0) {
@@ -322,7 +322,7 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
     if (effect_state->unk_50.as_s16 > 0) {
         break;
     }
-    if (actor->unk_60 == 0) {
+    if (actor->target == 0) {
         effect_state->unk_50.as_u16 = 8;
         effect_state->unk_0A.as_u16 = 5;
         break;
@@ -335,11 +335,11 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
     if (effect_state->unk_50.as_s16 > 0) {
         break;
     }
-    if (actor->unk_60 != 0 &&
-        try_trigger_target_record_effect(actor->unk_60, 1, actor) == 0 &&
-        (((S_func_818DA800_3 *)actor->unk_60)->unk_14 & 4) != 0) {
+    if (actor->target != 0 &&
+        try_trigger_target_record_effect(actor->target, 1, actor) == 0 &&
+        (((S_func_818DA800_3 *)actor->target)->unk_14 & 4) != 0) {
         try_apply_effect_four_by_chance(
-            actor->unk_60,
+            actor->target,
             ((S_func_818DA800_10 *)current_spell_effect_variant)->unk_00 == 0xFF ? 0xFF : 0x10,
             2);
     }

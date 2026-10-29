@@ -7,7 +7,7 @@
 void register_node(void *, void *);
 s32 rsin(s32);
 s32 rcos(s32);
-void draw_textured_ellipse(void *, void *, s32, s32);
+#include "dungeon/effect/screen.h"
 
 extern u8 D_80028880[9];
 extern u8 D_8002888C[9];

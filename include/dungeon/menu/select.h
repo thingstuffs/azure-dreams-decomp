@@ -676,7 +676,7 @@ typedef struct {
     s32 depth;
     s32 depth_base;
     u8 pad9[0x28];
-    u8 buf[0x24];
+    s32 buf[9];
     s32 facing;
     u8 pad10[0x24];
     s32 clear;
@@ -759,7 +759,7 @@ void * RotMatrix(void *, void *);
 void * ScaleMatrix(void *, void *);
 void SetRotMatrix(void *);
 void SetTransMatrix(void *);
-extern s32 RotTransPers();
+#include "sdk/libgte.h"
 extern s32 func_800656C0();
 extern void func_80065034();
 extern void project_sprite_commands();

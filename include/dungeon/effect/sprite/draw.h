@@ -164,8 +164,8 @@ typedef struct {
     u8 pad1C[4];
     u32 *ot;
     u8 pad24[0x6C];
-    u32 xy;
-    u32 depth;
+    s32 xy;
+    s32 depth;
     u8 pad98[0x28];
     u32 index;
 } Row_818F30EC_Scratch800248EC;
@@ -176,22 +176,12 @@ typedef struct {
     u8 g;
     u8 b;
     u8 code;
-    u32 data;
+    s32 data;
 } Row_818F30EC_Packet800248EC;
 
 /* Projects linked points and queues shaded tiles with draw-mode packets. */
 
-s32 rsin(s32);
-void CompMatrix();
-void PushMatrix(void);
-void PopMatrix(void);
-void * ReadRotMatrix(void *);
-void ScaleMatrix();
-void SetRotMatrix();
-void SetTransMatrix();
-s32 RotAverage4();
-void RotMatrix();
-u32 RotTransPers(void *, void *, void *, void *);
+#include "sdk/libgte.h"
 s32 GetTPage(s32, s32, s32, s32);
 void SetDrawMode(void *, s32, s32, s32, s32);
 

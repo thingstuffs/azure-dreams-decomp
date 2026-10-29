@@ -117,14 +117,14 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
     pivot_y = *((u16 *) (((s8 *) sprite) + 0x22));
     scratch->sw[58] = pivot_y;
     scratch->h[133] = pivot_y;
-    RotMatrix(0x1F800100, 0x1F8000D0);
+    RotMatrix(&scratch->b[0x100], &scratch->b[0xD0]);
     scratch->sw[12] = (s32) (*((u16 *) (((s8 *) sprite) + 0x1C)));
     scratch->sw[13] = (s32) (*((u16 *) (((s8 *) sprite) + 0x1E)));
     scratch->sw[14] = 0x1000;
-    ScaleMatrix(0x1F8000D0, 0x1F800030);
-    CompMatrix(view_matrix, 0x1F8000D0, 0x1F800050);
-    SetTransMatrix(0x1F800050);
-    SetRotMatrix(0x1F800050);
+    ScaleMatrix(&scratch->b[0xD0], &scratch->b[0x30]);
+    CompMatrix(view_matrix, &scratch->b[0xD0], &scratch->b[0x50]);
+    SetTransMatrix(&scratch->b[0x50]);
+    SetRotMatrix(&scratch->b[0x50]);
     scratch->h[18] = (u16) (*((u16 *) (((s8 *) sprite) + 0x14)));
     do {
     frame_data = frame + 8;
@@ -169,8 +169,8 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
             scratch->h[69] = quad_y;
             scratch->h[65] = quad_y;
         }
-        RotTransPers4((u8 *)scratch + 0x70, (u8 *)scratch + 0x78, (u8 *)scratch + 0x80, (u8 *)scratch + 0x88, (u8 *)scratch + 0xF0, (u8 *)scratch + 0xF4,
-            (u8 *)scratch + 0xF8, (u8 *)scratch + 0xFC, (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
+        RotTransPers4((u8 *)scratch + 0x70, (u8 *)scratch + 0x78, (u8 *)scratch + 0x80, (u8 *)scratch + 0x88, &scratch->sw[60], &scratch->sw[61],
+            &scratch->sw[62], &scratch->sw[63], &scratch->sw[36], &scratch->sw[37]);
         *((s16 *) (((s8 *) packet) + 8)) = (s16) ((scratch->h[120]) + (scratch->h[92]));
         *((s16 *) (((s8 *) packet) + 0xA)) = (s16) ((scratch->h[121])
             + (scratch->h[93]));

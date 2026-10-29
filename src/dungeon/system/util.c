@@ -192,14 +192,14 @@ void update_pulsing_effect_brightness(PulsingEffectWork *effect, s32 unused, Spr
 
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 s32 play_sound_if_enabled(s32 query_value);                     /* extern */
-void draw_textured_ellipse(); /* extern */
+#include "dungeon/effect/screen.h"
 extern void D_800A5828(struct PulsingEffectWork *effect, s32 unused, SpriteFrameState *render_state);
 extern M2C_UNK D_800DD854;
 extern M2C_UNK D_800DD860;
 
 /* Creates an object and initializes its attached data and resources. */
 void *create_textured_ellipse_effect(s32 object_id, s32 state_value) {
-    s32 resource_params[2];
+    GpuRectBuffer resource_params;
     ObjectNodeHeader *object;
     SpriteFrameState *render_data;
     PulsingEffectWork *state_data;
@@ -216,9 +216,9 @@ void *create_textured_ellipse_effect(s32 object_id, s32 state_value) {
         state_data = (PulsingEffectWork *)((u8 *)object + 0x20);
         state_data->target = (void *)state_value;
         state_data->timer.s = 4;
-        resource_params[0] = 0x01800340;
-        resource_params[1] = 0x400040;
-        draw_textured_ellipse(&D_800DD860, resource_params, 1, 0);
+        resource_params.words[0] = 0x01800340;
+        resource_params.words[1] = 0x400040;
+        draw_textured_ellipse(&D_800DD860, &resource_params.rect, 1, 0);
         play_sound_if_enabled(0x60F);
     }
     return object;

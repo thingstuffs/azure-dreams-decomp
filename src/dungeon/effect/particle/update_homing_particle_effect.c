@@ -154,7 +154,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
     S_func_81832800_5 *source_sprite;
     SpriteFrameState *sprite;
     S_func_81832800_6 *particle_data;
-    EntityRec *source;
+    ActorRecord *source;
     S_func_81832800_3 *object;
     ObjectPosition *particle_position;
     EntityRec *found_target;
@@ -252,13 +252,13 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
                 (s32)(s16) get_definition_entry_byte_13(6));
             source->target = found_target;
             if (found_target == NULL) {
-                source->unk_72 = (u8) source_sprite->unk_24;
-                source->unk_73 = (u8) source_sprite->unk_25;
+                source->target_tile_x = (u8) source_sprite->unk_24;
+                source->target_tile_y = (u8) source_sprite->unk_25;
             } else {
                 sprite = ((ObjectNodeHeader *)((u8 *)found_target - 0x20))->sprite;
                 if (!(sprite->flags & 0x8000) || !(((S_func_81832800_5 *) effect_sprite)->unk_14 & 0x8000)) {
-                    source->unk_72 = (u8) sprite->tile_x;
-                    source->unk_73 = (u8) sprite->tile_y;
+                    source->target_tile_x = (u8) sprite->tile_x;
+                    source->target_tile_y = (u8) sprite->tile_y;
                 } else {
                     effect->unk_0A = 0xF0;
                     return;
@@ -267,8 +267,8 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
             position->unk_00.as_s32 = (s32) ((S_func_81832800_4 *) source_object->unk_08)->unk_00.as_s32;
             position->unk_04.as_s32 = (s32) ((S_func_81832800_4 *) source_object->unk_08)->unk_04.as_s32;
             position->unk_08.as_s32 = (s32) ((S_func_81832800_4 *) source_object->unk_08)->unk_08.as_s32;
-            count = abs(source->unk_72 - source_sprite->unk_24);
-            jitter_count = abs(source->unk_73 - source_sprite->unk_25);
+            count = abs(source->target_tile_x - source_sprite->unk_24);
+            jitter_count = abs(source->target_tile_y - source_sprite->unk_25);
             if (count < jitter_count) {
                 count = jitter_count;
             }

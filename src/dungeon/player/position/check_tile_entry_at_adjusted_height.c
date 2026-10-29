@@ -6,7 +6,8 @@
 #include "dungeon/player/position.h"
 
 /* Call find_flagged_tile_entry with a temporary tile-based value in unk_88. */
-s16 check_tile_entry_at_adjusted_height(s32 context, s32 data, SpriteFrameState *tile, EntityRec *state) {
+s16 check_tile_entry_at_adjusted_height(void *context, s32 data, SpriteFrameState *tile, void *state_data) {
+    EntityRec *state = state_data;
     s16 result;
     u16 saved_value;
 

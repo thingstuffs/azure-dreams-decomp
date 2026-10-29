@@ -92,7 +92,7 @@ void (*const dungeon_1972800_entry)(void *, void *) = update_directional_actor_e
 /* Loads effect textures, launches a model effect, darkens and restores its target, and waits for
    completion. */
 void update_directional_actor_effect(void *effect, void *color_data) {
-    s32 upload_rect[2];
+    GpuRectBuffer upload_rect;
     s16 delay_left;
     s16 fade_left;
     s32 stage;
@@ -111,11 +111,11 @@ void update_directional_actor_effect(void *effect, void *color_data) {
     ((S_8195281C_0 *)effect)->unk_16 = (u16) (((S_8195281C_0 *)effect)->unk_16 + 1);
     switch (stage) {
     case 0:
-        upload_rect[0] = 0x01000340;
-        upload_rect[1] = 0x200020;
-        draw_textured_ellipse(D_800DF334, upload_rect, 1, 0);
-        upload_rect[0] = 0x01000360;
-        draw_textured_ellipse(D_80024980, upload_rect, 1, 0);
+        upload_rect.words[0] = 0x01000340;
+        upload_rect.words[1] = 0x200020;
+        draw_textured_ellipse(D_800DF334, &upload_rect.rect, 1, 0);
+        upload_rect.words[0] = 0x01000360;
+        draw_textured_ellipse(D_80024980, &upload_rect.rect, 1, 0);
         ((S_8195281C_10 *)(((S_8195281C_1 *)((int *)(&primary_actor_record)))->unk_00.i))->unk_F4 = directional_effect_sprite_data;
         create_timed_model_effect(((S_8195281C_0 *)effect)->unk_00 - 0x20, ((S_8195281C_0 *)effect)->unk_04, 0, 0);
         ((S_8195281C_0 *)effect)->unk_0A.s = (s16) ((u16) ((S_8195281C_0 *)effect)->unk_0A.s + 1);

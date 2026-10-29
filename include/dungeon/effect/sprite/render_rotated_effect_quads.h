@@ -73,14 +73,14 @@ typedef struct Row_818ED25C_S_80024A5C_7 {
  * Keeping the page pointer live across setup and spelling the sign extension as one expression
  * reproduce the retail allocation and call-argument order. */
 s32 rsin(s32);
-void CompMatrix();
+void *CompMatrix(void *, void *, void *);
 void PushMatrix();
 void PopMatrix();
-void ScaleMatrix();
-void SetRotMatrix();
-void SetTransMatrix();
-void RotTransPers4();
-void RotMatrix();
+void *ScaleMatrix(void *, void *);
+void SetRotMatrix(void *);
+void SetTransMatrix(void *);
+s32 RotTransPers4(void *, void *, void *, void *, s32 *, s32 *, s32 *, s32 *, s32 *, s32 *);
+void *RotMatrix(void *, void *);
 void func_80067EF4();
 void SetDrawArea(void *, void *);
 extern u8 effect_view_matrix[3];

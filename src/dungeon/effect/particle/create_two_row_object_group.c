@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "shared/sprite_frame_state.h"
 #include "sdk/libc.h"
 #include "dungeon/effect/particle.h"
@@ -90,12 +91,12 @@ typedef struct S_800DA93C_4 {
     u32 unk_B0;
 } S_800DA93C_4;   /* (u8 *)work in draw_linked_textured_quads */
 
-extern s32 RotTransPers();
+extern s32 RotTransPers(void *, s32 *, s32 *, s32 *);
 
 /* Build textured quad packets from a linked list and insert them into the ordering table. */
 s32 draw_linked_textured_quads(void *first_quad) {
     void *quad_data;
-    void *packet;
+    PolyFT4 *packet;
     GameWork *render_state;
     s32 scratch;
     s32 depth;
@@ -120,13 +121,13 @@ s32 draw_linked_textured_quads(void *first_quad) {
         ((S_800DA93C_0 *)(render_state->draw_buffer))->unk_8D0 = (u8 *)packet + 0x28;
 
         depth = RotTransPers((u8 *)quad_data + 0x28,
-                              (u8 *)packet + 8, &scratch, &scratch);
+                              &packet->xy0, &scratch, &scratch);
         depth += RotTransPers((u8 *)quad_data + 0x30,
-                               (u8 *)packet + 0x10, &scratch, &scratch);
+                               &packet->xy1, &scratch, &scratch);
         depth += RotTransPers((u8 *)quad_data + 0x38,
-                               (u8 *)packet + 0x18, &scratch, &scratch);
+                               &packet->xy2, &scratch, &scratch);
         depth += RotTransPers((u8 *)quad_data + 0x40,
-                               (u8 *)packet + 0x20, &scratch, &scratch);
+                               &packet->xy3, &scratch, &scratch);
         depth = (depth >> 2) - 8;
 
         if ((u32)depth < 0x1E0U) {

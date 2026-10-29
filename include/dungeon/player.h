@@ -62,8 +62,11 @@ void create_familiar_deployment_overlay(void *owner_body, ObjectPosition *source
 void begin_player_jump(struct Rec_func_8008ACDC_arg0 *state, void *unused, SpriteFrameState *sprite, ActorRecord *actor);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+struct DungeonItemEntry;
+void equip_item_and_update_status(ActorRecord *context, struct DungeonItemEntry *item);
+
 struct S_80098614_0;
-void change_equipped_item_and_notify(struct S_80098614_0 *actor, u8 *requested_item);
+void change_equipped_item_and_notify(struct S_80098614_0 *actor, struct DungeonItemEntry *requested_item);
 
 void restore_player_control_callback(void *target, void *source);
 

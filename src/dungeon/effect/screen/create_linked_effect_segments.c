@@ -10,7 +10,7 @@ extern u8 D_800DF334[];
 void spawn_spiraling();
 #include "engine/node/allocation.h"
 #include "dungeon/item/position.h"
-void draw_textured_ellipse();
+#include "dungeon/effect/screen.h"
 extern M2C_UNK D_80028214;
 extern M2C_UNK D_80024728;
 
@@ -44,7 +44,7 @@ typedef struct S_80024ED4_4 {
 
 /* Creates up to sixteen linked effect segments at the given position. */
 void *create_linked_effect_segments(Rec_func_800243C4_arg1 *position) {
-    s32 setup_params[2];
+    GpuRectBuffer setup_params;
     s32 segment_index;
     s32 alloc_flags;
     s16 angle;
@@ -95,9 +95,9 @@ void *create_linked_effect_segments(Rec_func_800243C4_arg1 *position) {
                 segment_state->unk_18 = (s16) (coords->unk_0A - 0x40);
                 spawn_spiraling((s16) coords->unk_02, (s16) coords->unk_06, (s16) coords->unk_0A, segment_state->unk_14,
                     (s32) segment_state->unk_16, (s32) segment_state->unk_18, ((void *)segment) + 0x2C);
-                setup_params[0] = 0x01200340;
-                setup_params[1] = 0x200020;
-                draw_textured_ellipse(D_800DF334, setup_params, 1, 0);
+                setup_params.words[0] = 0x01200340;
+                setup_params.words[1] = 0x200020;
+                draw_textured_ellipse(D_800DF334, &setup_params.rect, 1, 0);
             }
             segment_state->unk_08 = previous_segment;
             previous_segment = &segment->next;

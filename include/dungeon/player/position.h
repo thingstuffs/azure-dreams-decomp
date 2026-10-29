@@ -17,8 +17,8 @@ void advance_alternate_tile_center_motion(void *actor, ObjectPosition *motion, S
 void advance_normal_tile_center_motion(void *entity, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *facing);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
-s16 check_tile_entry_at_adjusted_height(s32 context, s32 data, SpriteFrameState *tile, EntityRec *state);
+s16 check_tile_entry_at_adjusted_height(void *context, s32 data, SpriteFrameState *tile, void *state_data);
 
-s32 find_flagged_tile_entry(void *state, void *unused, void *position, void *lookup_context);
+s16 find_flagged_tile_entry(void *state, s32 unused, void *position, void *lookup_context);
 
 #endif

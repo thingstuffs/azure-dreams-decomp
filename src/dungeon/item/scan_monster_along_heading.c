@@ -16,7 +16,7 @@ extern void *find_eligible_entry_at_coordinates(void *, u16, u16);
 extern s16 check_layer_offset_height(u16, u16, s16, u32);
 
 /* Scans along a heading for an object within the height range and records the stopping coordinates. */
-void *scan_actor_along_heading(EntityRec *source, s32 start_x, s32 start_y, s16 heading, s16 max_steps)
+void *scan_actor_along_heading(ActorRecord *source, s32 start_x, s32 start_y, s16 heading, s16 max_steps)
 {
     s32 dir;
     u16 x;
@@ -31,30 +31,30 @@ void *scan_actor_along_heading(EntityRec *source, s32 start_x, s32 start_y, s16 
     x = dir_step_x[dir] + start_x;
     y = dir_step_y[dir] + start_y;
     if (is_map_coordinate_out_of_bounds(x, y) != 0) {
-        source->unk_72 = dir_step_x[dir] - x;
-        source->unk_73 = dir_step_y[dir] - y;
+        source->target_tile_x = dir_step_x[dir] - x;
+        source->target_tile_y = dir_step_y[dir] - y;
         return 0;
     }
     for (i = 0; i < max_steps; i++) {
         found = find_eligible_entry_at_coordinates(source, x, y);
-        if (found != 0 && abs(found->unk_88 - source->unk_88) <= height) {
+        if (found != 0 && abs(found->unk_88 - source->ground_height) <= height) {
             break;
         }
         if (is_map_coordinate_out_of_bounds(x + dir_step_x[dir], y + dir_step_y[dir]) != 0) {
-            source->unk_72 = dir_step_x[dir] - x;
-            source->unk_73 = dir_step_y[dir] - y;
+            source->target_tile_x = dir_step_x[dir] - x;
+            source->target_tile_y = dir_step_y[dir] - y;
             return 0;
         }
-        if (check_layer_offset_height(x << 6, y << 6, source->unk_88 - height, heading << 9) != 0) {
-            source->unk_72 = -x;
-            source->unk_73 = -y;
+        if (check_layer_offset_height(x << 6, y << 6, source->ground_height - height, heading << 9) != 0) {
+            source->target_tile_x = -x;
+            source->target_tile_y = -y;
             return 0;
         }
         height += 0x20;
         x += dir_step_x[dir];
         y += dir_step_y[dir];
     }
-    source->unk_72 = x;
-    source->unk_73 = y;
+    source->target_tile_x = x;
+    source->target_tile_y = y;
     return found;
 }

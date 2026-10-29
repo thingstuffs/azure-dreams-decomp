@@ -46,7 +46,7 @@ s32 find_entry_at_tile_coordinates(s16 x, s16 y, s16 z);
 /* extern */
 void clear_slot_and_detach_entity(s32 slot_index);
 /* extern */
-s16 set_or_clear_actor_status_slot();
+#include "dungeon/actor/status.h"
 extern s32 get_entity_effect_value(void *entry, s32 effect_id);
 extern void clear_slots_of_type(void *object, s32 value);
 extern void adjust_source_value_and_finalize(void *context, const void *source);
@@ -63,7 +63,7 @@ extern D_800E39C8_entry dungeon_floor_object_positions[];
 
 /* Functions defined in this translation unit. */
 s32 select_and_initialize_entry_at_position(s16 x, s16 y, s16 z, s32 type_id, s32 entry_value);
-s32 process_target_with_action_seven(s32 target);
+s32 process_target_with_action_seven(void *target);
 s32 handle_type_two_query_result(void *object);
 s32 call_slot_handler_and_update_status(s32 handler_id, void *object_ptr, s32 slot_id, s8 update_state);
 

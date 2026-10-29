@@ -66,7 +66,6 @@ typedef struct S_80098CF8_6 {
     s32 unk_124;
 } S_80098CF8_6;   /* s3 in begin_holding_item */
 
-extern void equip_item_and_update_status();
 struct DungeonItemEntry;
 
 extern u8 held_item_record[];

@@ -185,7 +185,7 @@ extern TileObject D_80082E80_initial __asm__("D_80082E80");
 extern s16 actor_turn_angle_offsets[];
 s32 check_entity_relation();
 s32 select_actor_route_target();
-s32 update_actor_proximity_flag();
+s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 s32 generate_random_value(void);
 
 struct Dst; struct Elem;

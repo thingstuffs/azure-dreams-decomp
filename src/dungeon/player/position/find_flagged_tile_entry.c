@@ -11,7 +11,7 @@ typedef struct {
 extern DungeonEntry floor_objects[];
 
 /* Store the looked-up dungeon entry index if flag 0x80 is set, or report failure. */
-s32 find_flagged_tile_entry(void *state, void *unused, void *position, void *lookup_context) {
+s16 find_flagged_tile_entry(void *state, s32 unused, void *position, void *lookup_context) {
     s16 entry_index;
     s32 failed;
 

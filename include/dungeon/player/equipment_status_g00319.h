@@ -4,30 +4,15 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:dungeon/engine:800E07C0, PD:dungeon/engine:800E07D3. */
 
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/dungeon_item_entries.h"
 #include "m2c_compat.h"
-
-typedef struct {
-    u8 b0;
-    u8 b1;
-    u8 b2;
-    u8 b3;
-} Item;
-
-typedef struct {
-    u8 pad0[0x1C];
-    s32 flags;
-    u8 pad20[0x2C];
-    Item *field4C;
-    u8 pad50[0x34];
-    u8 b84;
-    u8 b85;
-} Arg0;
 
 typedef struct S_80098614_0 {
     u8 pad_00[0x1C];
     s32 unk_1C;
     u8 pad_20[0x30];
-    union { u8 * p; void * p2; } unk_50;   /* accessed as both */
+    union { DungeonItemEntry * p; void * p2; } unk_50;   /* accessed as both */
     u8 pad_54[0x32];
     u8 unk_86;
 } S_80098614_0;
@@ -69,7 +54,7 @@ struct DungeonItemEntry;
 extern u8 *append_typed_formatted_value(struct DungeonItemEntry *, u8 *);
 
 /* Functions defined in this translation unit. */
-void equip_item_and_update_status(Arg0 *context, Item *item);
-void change_equipped_item_and_notify(S_80098614_0 *actor, u8 *requested_item);
+void equip_item_and_update_status(ActorRecord *context, DungeonItemEntry *item);
+void change_equipped_item_and_notify(S_80098614_0 *actor, DungeonItemEntry *requested_item);
 
 #endif

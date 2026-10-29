@@ -397,7 +397,7 @@ void advance_actor_traversable_heading(void *move_state, void *context, S_800D92
     s16 target_heading;
     s16 direction_or_x;
     s32 next_y;
-    s32 room_cache;
+    s8 *room_cache;
     void * turn_flags;
     s32 flags_or_heading;
     s32 actor_flags;

@@ -282,7 +282,8 @@ extern u8 shared_sprite_entries[];
 extern s32 rsin(s32);
 extern s32 rcos(s32);
 extern unsigned char resident_globals_page[];
-s32 RotTransPers();
+#include "sdk/libgte.h"
+#include "shared/scratchpad.h"
 u16 GetTPage(s32, s32, s32, s32);
 void SetDrawMode(void *, s32, s32, s32, void *);
 extern M2C_UNK D_8002588C;

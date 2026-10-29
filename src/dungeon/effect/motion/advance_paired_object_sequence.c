@@ -145,7 +145,7 @@ extern void Control_CD(s32,void *, s32);
 extern void play_sound_if_enabled(s32);
 extern void *create_and_link_six_offset_objects(s16, s16, s16, void *);
 extern void *create_six_offset_effects(void *, void *, void *, void *);
-extern void draw_textured_ellipse(void *, void *, s32, s32);
+#include "dungeon/effect/screen.h"
 extern void process_adjacent_objects_with_gray_nodes(void *, void *);
 extern s32 has_enough_available_runtime_nodes(s32);
 extern void *get_unused_text_buffer(void);
@@ -415,14 +415,14 @@ case 4:
             object_index_m++;
         } while (object_index_m < 2);
         {
-            s16 texture_rect[4];
+            GpuRectBuffer texture_rect;
             ((S_800253C0_0 *)sequence)->unk_9B.n++;
             ((S_800253C0_0 *)sequence)->unk_96.n = 60;
-            texture_rect[0] = 0x340;
-            texture_rect[1] = 0x180;
-            texture_rect[3] = 0x40;
-            texture_rect[2] = 0x40;
-            draw_textured_ellipse(D_800287F0, texture_rect, 1, 0);
+            texture_rect.halves[0] = 0x340;
+            texture_rect.halves[1] = 0x180;
+            texture_rect.halves[3] = 0x40;
+            texture_rect.halves[2] = 0x40;
+            draw_textured_ellipse(D_800287F0, &texture_rect.rect, 1, 0);
         }
         return;
     }

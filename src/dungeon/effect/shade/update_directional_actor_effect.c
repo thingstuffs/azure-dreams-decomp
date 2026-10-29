@@ -520,7 +520,7 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
             (*(s32 *)((u8 *)position + 8)) = (s32)((*(s32 *)((u8 *)position + 8)) + (offset[2] << 0x10));
         }
         actor_or_frame = (Row_8194D354_S_80024B54_5 *)primary_actor_record;
-        target = scan_actor_along_heading(actor_or_frame, tile_or_y_steps->tile_position.parts.tile_x,
+        target = scan_actor_along_heading(primary_actor_record, tile_or_y_steps->tile_position.parts.tile_x,
             tile_or_y_steps->tile_position.parts.tile_y, (s16)actor_or_frame->unk_2A, 8);
         ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_14 = target;
         if (target != NULL) {

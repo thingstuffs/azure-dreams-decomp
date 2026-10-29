@@ -173,7 +173,7 @@ void initialize_entity_position_and_motion(ovl_19a332c_81982B2C_Entity *entity, 
    owner link. */
 void *allocate_two_part_object(ovl_19a332c_81982CEC_S_800244EC_2 *source_part, s32 offset)
 {
-    s32 rect[2];
+    GpuRectBuffer rect;
     s32 rect_size;
     ObjectNodeHeader *obj;
     ovl_19a332c_81982CEC_S_800244EC_1 *part;
@@ -181,13 +181,13 @@ void *allocate_two_part_object(ovl_19a332c_81982CEC_S_800244EC_2 *source_part, s
 
     obj = allocate_flagged_object_node(2);
     if (obj != NULL) {
-        rect[0] = 0x01000340;
+        rect.words[0] = 0x01000340;
         rect_size = 0x200020;
-        rect[1] = rect_size;
-        draw_textured_ellipse(&D_800DF31C, rect, 1, 0);
-        rect[0] = 0x01200340;
-        rect[1] = rect_size;
-        draw_textured_ellipse(&D_800269D4, rect, 1, 0);
+        rect.words[1] = rect_size;
+        draw_textured_ellipse(&D_800DF31C, &rect.rect, 1, 0);
+        rect.words[0] = 0x01200340;
+        rect.words[1] = rect_size;
+        draw_textured_ellipse(&D_800269D4, &rect.rect, 1, 0);
         part = obj->position;
         obj->update_callback = (void *)initialize_entity_position_and_motion;
         part->unk_02 = source_part->unk_02;

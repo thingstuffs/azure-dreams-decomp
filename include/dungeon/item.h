@@ -43,7 +43,7 @@ void create_timed_paired_particle_emitter(ObjectPosition *source, s32 effect_par
 
 void *copy_fullwidth_vowel_bytes(void *dst, void *character);
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
-void *scan_actor_along_heading(EntityRec *source, s32 start_x, s32 start_y, s16 heading, s16 max_steps);
+void *scan_actor_along_heading(ActorRecord *source, s32 start_x, s32 start_y, s16 heading, s16 max_steps);
 
 void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s32 extra_byte);
 
@@ -58,5 +58,7 @@ u8 *append_typed_formatted_value(DungeonItemEntry *data, u8 *buffer);
 
 u8 *append_entity_display_text(void *record, u8 *out);
 u8 *clear_byte_and_advance(u8 *byte_ptr);
+
+s32 use_item_to_restore_eyesight(void *entity, DungeonItemEntry *item, s16 effect);
 
 #endif
