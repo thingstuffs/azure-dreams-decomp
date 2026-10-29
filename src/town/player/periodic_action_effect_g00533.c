@@ -1,6 +1,7 @@
 /* G00533: periodic action effect. */
 /* Original-file evidence (G00533): inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8009408C. */
 #include "town/player/periodic_action_effect_g00533.h"
+#include "town/player.h"
 
 /* Updates actor height, emits periodic effects, and handles the active state. */
 void update_actor_with_periodic_effect(Rec_func_80094268_arg0 *actor, EntityRec *position, s32 context) {

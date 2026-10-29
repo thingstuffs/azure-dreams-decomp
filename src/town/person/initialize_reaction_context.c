@@ -6,6 +6,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "engine/menu.h"
+#include "town/person.h"
 
 extern s32 D_800D0678[];
 

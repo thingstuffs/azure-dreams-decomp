@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/entity.h"
+#include "town/player/object.h"
 
 #include "town/player/object/entity_record_fields.h"                      /* extern */
 void adjust_object_motion_at_threshold(s32 context, EntityRec *record, s32 action_data);

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "town/person/position.h"
+#include "town/person/motion.h"
 
 
 /* Returns the quarter-turn sector of the stored angle relative to the offset input angle. */

@@ -1,7 +1,8 @@
 #include "common.h"
 #include "shared/object_index_slots.h"
+#include "engine/node.h"
+#include "town/player.h"
 
-extern void unlink_node_if_registered(void *actor);
 extern void initialize_record_with_handler_table(void *record, s32 setup_value, s32 init_value);
 
 /* Clean up the actor, clear its indexed flag, and complete its current action. */

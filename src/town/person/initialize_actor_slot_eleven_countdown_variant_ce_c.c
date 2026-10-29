@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "records/Rec_func_80094268_arg0.h"
+#include "town/person.h"
 
 
 extern void func_800C2E84(void *state, SpriteFrameState *output, s32 *entries);

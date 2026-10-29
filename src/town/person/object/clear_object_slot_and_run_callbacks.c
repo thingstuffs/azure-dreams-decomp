@@ -1,10 +1,10 @@
 #include "common.h"
 #include "shared/object_index_slots.h"
 #include "records/Rec_D_80082D58.h"
+#include "engine/node.h"
+#include "town/person/object.h"
 
-void unlink_node_if_registered(void *block_data);
 #include "town/scene/object/unlink_scene_list_node_api.h"                      /* extern */
-void clear_object_slot_and_mark_removed(void *);                      /* extern */
 #include "town/person/object_setup.h"
 
 

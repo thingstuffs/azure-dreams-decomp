@@ -5,9 +5,10 @@
 #include "town/scene/list_setup.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800CFCB4.h"
+#include "slus.h"
+#include "town/person/object.h"
 struct Dst;
 struct Elem;
-void select_record_entry_and_value(void *state, void *entries, short index); /* extern */
 extern s32 D_800D0678[];
 extern M2C_UNK D_800D0690;
 extern u8 D_800ED15C[];

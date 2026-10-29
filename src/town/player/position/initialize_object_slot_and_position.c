@@ -2,8 +2,7 @@
 #include "town/player.h"
 #include "shared/object_index_slots.h"
 #include "shared/town_handler.h"
-
-extern void create_indexed_effect_object(s32 index, s32 kind);
+#include "town/menu.h"
 
 extern u8 D_800D01C0[];
 

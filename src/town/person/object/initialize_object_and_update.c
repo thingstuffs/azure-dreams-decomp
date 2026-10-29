@@ -2,6 +2,7 @@
 
 extern s32 person_motion_tag;
 #include "town/person/object_setup.h"
+#include "town/person/object.h"
 
 // Initialize the object's state and delegate the remaining setup.
 void initialize_object_and_update(void *object, void *update_context, void *setup_context) {

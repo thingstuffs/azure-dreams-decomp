@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/player/script_flags.h"
+#include "town/player/state.h"
 
 
 /* Dispatches consecutive indices to one of two handlers according to successive mask bits. */

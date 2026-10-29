@@ -2,6 +2,7 @@
 #include "shared/entity.h"
 #include "records/Rec_func_80097D54_arg0.h"
 #include "town/person/position.h"
+#include "town/player/motion.h"
 
 extern s32 initialize_target_and_handler_table();
 

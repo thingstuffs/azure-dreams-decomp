@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01125 - CL:town/func_8009D150.
  */
 #include "town/player/approach_player_angle_target_g01125.h"
+#include "town/player.h"
 
 /* Move toward an angle-offset target and advance state when the timer expires. */
 void approach_player_angle_target(S_8009A724_0 *state, S_8009A724_1 *position) {

@@ -7,10 +7,10 @@
 #include "m2c_compat.h"
 #include "shared/vector.h"
 #include "engine/node/allocation.h"
-void register_node_if_unregistered(void *block_data, void *registration_id);           /* extern */
+#include "engine/node.h"
+#include "slus.h"
 struct Dst;
 struct Elem;
-void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
 void load_indexed_state_value();      /* extern */
 typedef struct S_800C8B8C_0 S_800C8B8C_0;
 void call_owner_callback(S_800C8B8C_0 *owner, void *motion, s32 context);

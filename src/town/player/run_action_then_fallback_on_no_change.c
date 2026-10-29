@@ -1,12 +1,10 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "m2c_compat.h"
+#include "town/player.h"
 
 /* extern */
-void initialize_scene_action_record();      /* extern */
 
-
-void dispatch_actor_interaction_actions(s32 *, ObjectPosition *, s32);
 /* Runs the fallback if the value is unchanged and both state fields are zero. */
 void run_action_then_fallback_on_no_change(s32 *value, ObjectPosition *state, s32 context) {
     s32 old_value;

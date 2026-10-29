@@ -1,5 +1,6 @@
 #include "town/person.h"
 #include "shared/object_index_slots.h"
+#include "town/person/object.h"
 
 /* Select descriptor list +0x0C, clear its slot, and start the timed handler. */
 void reset_person_descriptor_entries(PersonObject *object, s32 unused, SpriteFrameState *output) {

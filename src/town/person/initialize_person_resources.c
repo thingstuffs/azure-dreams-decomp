@@ -4,6 +4,7 @@
 #include "town/scene/list_setup.h"
 
 #include "town/person/object/initialize_object_entries_api.h"
+#include "town/person.h"
 
 extern s32 town_object_resource_table[];
 extern s32 D_800D11D0[];

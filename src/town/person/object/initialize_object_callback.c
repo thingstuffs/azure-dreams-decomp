@@ -5,6 +5,7 @@
 
 
 #include "town/person/object/initialize_object_entries_api.h"
+#include "town/person/object.h"
 extern M2C_UNK D_800C8788;
 extern s32 D_800D627C[];
 

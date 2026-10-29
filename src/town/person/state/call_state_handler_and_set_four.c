@@ -1,5 +1,6 @@
 #include "common.h"
 #include "records/Rec_func_80094268_arg0.h"
+#include "town/person/state.h"
 
 /* extern */
 extern s8 person_slot_reset_byte;

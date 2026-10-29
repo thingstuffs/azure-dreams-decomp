@@ -1,6 +1,7 @@
 /* G00677: timed actor motion. */
 /* Original-file evidence (G00677): inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D6268. */
 #include "town/person/timed_actor_motion_g00677.h"
+#include "town/person.h"
 
 /* Decrement the object's countdown and advance its state when the countdown expires. */
 void advance_object_after_timeout_variant_2(Rec_func_80094268_arg0 *object, s32 unused, void *updateContext) {

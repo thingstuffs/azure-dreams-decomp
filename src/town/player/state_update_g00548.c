@@ -1,6 +1,7 @@
 /* Advance and update the player state (G00548). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8009D728, PD:town/engine:800D0620. */
 #include "town/player/state_update_g00548.h"
+#include "town/player.h"
 
 /* Update the entity state and handler from global flags and the signed counter. */
 void update_player_global_state(Entity *entity, void *ptr, void *ptr2) {

@@ -3,15 +3,15 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "engine/node.h"
+#include "engine/menu.h"
+#include "town/person.h"
+#include "town/person/position.h"
 typedef struct {
     s32 x;
     s32 y;
     s32 z;
 } Vec3_32;
-void compute_offset_position_linked_object(void *object, Vec3_32 *out_pos);            /* extern */
 struct ObjectNodeHeader; void * allocate_list_node(s32, struct ObjectNodeHeader * *);            /* extern */
-
-s32 lookup_item_category_mapped_value(s32, s32);                /* extern */
 
 typedef struct S_800C6C10_1 {
     u8 pad_00[0x9C];

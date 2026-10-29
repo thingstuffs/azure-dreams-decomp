@@ -1,4 +1,6 @@
 #include "common.h"
+#include "town/player.h"
+#include "town/player/position.h"
 
 typedef struct {
     u8 unk0[0xC];
@@ -7,8 +9,6 @@ typedef struct {
 } TownObject;
 
 extern void update_state_limits(TownObject *);
-extern s32 clamp_coordinates_to_bounds(TownObject *, void *);
-extern s32 push_point_to_containing_edges(TownObject *, void *);
 
 /* Update the object and clear fields selected by the combined status flags. */
 s32 update_object_and_clear_status_fields(TownObject *object) {

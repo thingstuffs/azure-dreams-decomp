@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "town/player/script_flags.h"
+#include "town/player/state.h"
 
 
 /* Clears the indexed flag bit unless the index is 1. */

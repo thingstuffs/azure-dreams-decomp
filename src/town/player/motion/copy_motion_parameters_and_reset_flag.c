@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player/motion.h"
 
 extern s8 town_action_reset_byte[9];
 extern s32 town_position_callback_address[3];

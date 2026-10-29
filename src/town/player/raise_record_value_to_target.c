@@ -2,8 +2,9 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
+#include "engine/object.h"
+#include "town/player.h"
 
-void set_resident_bitmap_bit(s32);                     /* extern */
 #include "town/player/initialize_record_with_handler_table_api.h"        /* extern */
 
 

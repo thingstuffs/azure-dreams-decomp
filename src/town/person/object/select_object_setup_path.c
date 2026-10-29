@@ -1,7 +1,7 @@
 #include "common.h"
 
 #include "engine/script.h"
-extern s32 check_active_transform_object(void *other);
+#include "town/person/object.h"
 #include "town/person/object_setup.h"
 extern u8 D_80082A39[16];
 

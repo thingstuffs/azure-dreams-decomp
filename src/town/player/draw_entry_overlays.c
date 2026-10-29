@@ -7,6 +7,11 @@
 #include "shared/gpu_packets.h"
 #include "shared/position_query.h"
 #include "shared/position_views.h"
+#include "engine/graphics.h"
+#include "sdk/libgpu.h"
+#include "town/map.h"
+#include "town/map/position.h"
+#include "town/player.h"
 
    /* coord in draw_entry_overlays */
 
@@ -101,17 +106,7 @@ typedef struct S_800970FC_14 {
     u8 unk_06;
 } S_800970FC_14;   /* temp_s0_8 in draw_entry_overlays */
 
-extern void draw_sprite_parts(void *unused, u8 *sprite, s32 ot_depth);
-extern void project_sprite_commands(void *, void *, void *, s16);
-extern s32 GetTPage(s32, s32, s32, s32);
-extern void AddPrim(void *, void *);
-extern void SetSemiTrans(void *, s32);
-extern void SetPolyF4(void *);
-extern void SetPolyFT4(void *);
-extern void SetDrawArea(void *, void *);
 extern void func_80067EF4(void *, s32, s32);
-extern s32 read_map_cell_at_world_position(s16, s16);
-extern s32 check_masked_value_in_current_range(s32);
 extern u8 scene_object_payload_alias[];
 extern u8 view_reference_entity[];
 extern s32 overlay_height_in_range[3];

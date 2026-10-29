@@ -4,6 +4,7 @@
 /* extern */
 
 #include "town/person/object_setup.h"
+#include "town/person.h"
 /* Decrement the countdown, then call func_800C5864 and clear unk_72 when it expires. */
 void decrement_countdown_call(Rec_func_80094268_arg0 *object, s32 callback_arg_1, void *callback_arg_2) {
     u16 countdown;

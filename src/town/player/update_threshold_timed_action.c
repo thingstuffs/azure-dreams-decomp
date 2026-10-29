@@ -11,7 +11,8 @@
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"
 #include "town/player/move_both_components_toward_zero_direction_dependent_steps_clamping_zero_api.h"
 #include "town/player/coordinates.h"
-void initialize_action_object(s32 **record, void *ptr, void *ptr2);
+#include "town.h"
+#include "town/player.h"
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"
 void init_actor_action_state(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);

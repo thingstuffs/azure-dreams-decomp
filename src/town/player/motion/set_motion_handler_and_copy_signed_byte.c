@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_delay_views.h"
+#include "town/player/motion.h"
 
 typedef struct S_80097D08_0 {
     void (*unk_00)();

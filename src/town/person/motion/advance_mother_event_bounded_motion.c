@@ -24,8 +24,9 @@ typedef struct Motion {
 
 extern s16 query_lowered_transform_position();
 #include "town/person/object_setup.h"
+#include "sdk/libc.h"
+#include "town/person/motion.h"
 extern void initialize_mother_event_actor(); /* Slot contract: loading images do not establish one callee contract. */
-extern int abs(int);
 
 extern s32 town_x_acceleration[4];
 extern s32 town_x_speed_limits[4];

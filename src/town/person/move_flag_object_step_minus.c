@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/person.h"
 
 s32 func_800CD158(s32, s32, s32, s32);
 

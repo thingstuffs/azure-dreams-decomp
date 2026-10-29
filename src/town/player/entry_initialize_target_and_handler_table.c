@@ -3,7 +3,8 @@
 #include "records/Rec_func_80097D54_arg0.h"
 #include "engine/script.h"
 #include "records/Rec_func_80094268_arg0.h"
-void init_flagged_entity_action(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);    /* extern */
+#include "town.h"
+#include "town/player.h"
 void initialize_target_and_handler_table();    /* extern */
 extern M2C_UNK D_800CFFF0;
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player.h"
 
 typedef struct S_80095840_0 {
     u8 pad_00[0x10];

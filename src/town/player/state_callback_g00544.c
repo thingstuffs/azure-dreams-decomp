@@ -1,6 +1,7 @@
 /* Dispatch state callbacks by mode (G00544). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8009A688. */
 #include "town/player/state_callback_g00544.h"
+#include "town/player.h"
 
 /* Dispatches the player action or indexed callback according to script activity and the signed mode. */
 void dispatch_state_callback_by_mode(s32 value, void *ptr, void *ptr2, s32 unused) {

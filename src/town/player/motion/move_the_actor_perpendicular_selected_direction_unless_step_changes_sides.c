@@ -3,6 +3,9 @@
 #include "town/player/coordinates.h"
 #include "shared/game_work.h"
 #include "shared/vector.h"
+#include "sdk/libgte.h"
+#include "town.h"
+#include "town/player/motion.h"
 
 
 
@@ -14,9 +17,6 @@ typedef struct {
     s16 fieldC8;
 } TownState;
 
-extern s16 input_angle_with_offset(s32, s16);
-extern s32 rsin(s32);
-extern s32 rcos(s32);
 extern void func_800652AC(IntVector3 *, IntVector3 *, IntVector3 *);
 
 /*

@@ -3,11 +3,10 @@
 #include "shared/town_handler_entries.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/town_handler.h"
+#include "town/player.h"
 
 #include "town/player/object/entity_record_fields.h"                     /* extern */
 typedef struct S_80098078_0 S_80098078_0;
-void tick_countdown_and_initialize_target(S_80098078_0 *state, s32 value);
-
 
 /* Initialize the record, assign its handler and count, and apply the setup value. */
 void initialize_record_with_handler_and_count(Rec_func_80094268_arg0 *record, EntityRec *setup_value, void *ptr2) {

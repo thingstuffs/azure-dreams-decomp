@@ -3,6 +3,7 @@
 #include "records/Rec_func_800AB030_arg0.h"
 #include "sdk/libgte.h"
 #include "town/person/lookup_motion.h"
+#include "town/person.h"
 
 
 

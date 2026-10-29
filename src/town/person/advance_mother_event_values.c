@@ -3,6 +3,7 @@
 
 
 #include "town/person/object_setup.h"
+#include "town/person.h"
 
 
 typedef struct S_800C7DB8_1 {

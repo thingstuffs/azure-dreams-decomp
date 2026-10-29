@@ -8,6 +8,7 @@ typedef struct {
 
 #include "town/person/object/initialize_object_entries_api.h"
 #include "town/person/object_setup.h"
+#include "town/person.h"
 
 /* Apply descriptor setup, clear the indexed flag, and reset the object callback and state. */
 void apply_descriptor_setup_clear_indexed(void *object, s32 unused, void *setup_context) {

@@ -1,5 +1,6 @@
 #include "common.h"
-extern int abs(int);
+#include "sdk/libc.h"
+#include "town/map.h"
 
 typedef struct {
     s32 x;
@@ -8,7 +9,6 @@ typedef struct {
     s32 unused[3];
 } Vec3s32;
 
-s16 min_indexed_query(s32, s32, s32);
 extern void *town_primary_probe_samples[3];
 extern s32 town_primary_probe_offset[3];
 

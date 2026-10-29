@@ -2,12 +2,12 @@
 #include "shared/town_handler_entries.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/town_handler.h"
+#include "town/player.h"
+#include "town/player/object.h"
 
 #include "town/player/object/entity_record_fields.h"                     /* extern */
 extern s8 town_action_reset_byte;
 typedef struct S_800980B4_0 S_800980B4_0;
-void tick_countdown_and_reset_value(S_800980B4_0 *state, s32 value, s32 mode);
-
 
 /* Initialize the object's data and state, then run the setup callback. */
 void initialize_object_and_reset_value(Rec_func_80094268_arg0 *object, s32 setupArgument, void *ptr2) {

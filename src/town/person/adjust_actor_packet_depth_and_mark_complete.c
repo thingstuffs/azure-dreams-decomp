@@ -3,6 +3,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "records/Rec_D_80082E80.h"
+#include "town/person.h"
 
 typedef struct EffectScaleState {
     u8 pad_00[8];

@@ -1,9 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "sdk/libgte.h"
-
-
-s32 runtime_estimate_vector_length(s32, s32);                        /* extern */
+#include "engine/resource.h"
 
 typedef struct {
     s32 pad[3];

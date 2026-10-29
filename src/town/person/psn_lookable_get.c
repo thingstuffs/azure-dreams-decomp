@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/object.h"
+#include "town/person.h"
 
 typedef struct Node Node;
 
@@ -17,8 +19,6 @@ extern struct {
 } active_node_list_head;
 extern u8 message_motion_type_a[];
 extern u8 message_motion_type_b[];
-
-extern s32 runtime_is_record_field_set(void *);
 
 /* psn_lookable_get: find the first eligible person node with the requested ID. */
 Node *psn_lookable_get(s16 target_id)

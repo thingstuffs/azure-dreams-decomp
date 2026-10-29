@@ -4,6 +4,7 @@
 #include "shared/object_index_slots.h"
 
 #include "town/person/object/object_entries_aliases.h"
+#include "town/person/object.h"
 
 
 void reset_object_handler_field_6c_value_15(void *object, s32 unused, SpriteFrameState *updateValue) {

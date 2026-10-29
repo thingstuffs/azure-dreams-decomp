@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/person/state.h"
 
 #include "town/person/object/initialize_object_entries_api.h"          /* extern */
 #include "town/person.h"

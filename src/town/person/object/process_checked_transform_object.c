@@ -1,9 +1,8 @@
 #include "common.h"
 #include "shared/object_flags.h"
-
-extern s32 service_script_controller(void);
-extern s32 check_active_transform_object(void *other);
-extern void unlink_scene_list_node(void *node);
+#include "engine/script.h"
+#include "town/person/object.h"
+#include "town/scene/object.h"
 
 /* Process the object and set its header and global flags when both checks pass. */
 void process_checked_transform_object(void *object, s32 check_value_1, s32 check_value_2, s32 check_value_3) {

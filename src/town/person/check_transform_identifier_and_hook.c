@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/person.h"
 
 extern s32 scene_object_payload_alias;
 extern s32 town_position_callback_address[3];

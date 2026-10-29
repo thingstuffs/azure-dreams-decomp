@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/person.h"
 
 typedef struct {
     u8 pad0[0x6C];
@@ -7,8 +8,6 @@ typedef struct {
     u16 pad70;
     u16 output;
 } TownObject;
-
-extern void func_800CA60C(TownObject *obj, s32 update_input_1, s32 update_input_2);
 
 /* Raise output as the timer counts down, then set it to the base value plus 0x800. */
 void raise_reaction_output_until_expiry(TownObject *obj, s32 update_input_1, s32 update_input_2) {

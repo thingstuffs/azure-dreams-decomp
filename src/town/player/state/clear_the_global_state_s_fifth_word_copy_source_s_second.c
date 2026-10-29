@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player/state.h"
 
 extern s32 town_collision_motion[];
 

@@ -6,6 +6,7 @@
 extern void *D_800834A0;
 
 #include "town/person/object_setup.h"
+#include "town/person/motion.h"
 
 
 typedef struct S_800C7CF0_2 {

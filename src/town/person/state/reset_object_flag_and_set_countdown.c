@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/person/state.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s8 person_slot_reset_byte;

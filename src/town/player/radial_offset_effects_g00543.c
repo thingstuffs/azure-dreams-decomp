@@ -3,6 +3,7 @@
 #include "town/player/radial_offset_effects_g00543.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
+#include "town/player.h"
 
 /* Creates an offset effect with randomized motion and initializes its appearance. */
 void *create_randomized_offset_effect(S_8009792C_2 *source, u32 angle) {

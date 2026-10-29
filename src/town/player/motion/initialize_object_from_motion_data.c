@@ -1,11 +1,12 @@
 #include "common.h"
 #include "shared/town_handler.h"
+#include "town/player/motion.h"
+#include "town/player/object.h"
 
 typedef struct {
     unsigned char pad04[0];
 } Unknown;
 
-extern void clear_entity_record_fields(void *);
 extern signed char town_action_reset_byte;
 extern int D_80098764;
 extern int D_800D01B8[];

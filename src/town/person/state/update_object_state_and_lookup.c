@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_index_slots.h"
 #include "records/Rec_func_80094268_arg0.h"
+#include "town/person/state.h"
 
 
 typedef struct S_800C4864_2 {

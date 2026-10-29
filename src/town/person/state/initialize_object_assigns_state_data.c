@@ -1,5 +1,6 @@
 #include "common.h"
 #include "records/Rec_func_80094268_arg0.h"
+#include "town/person/state.h"
 
 #include "town/person/object/initialize_object_entries_api.h"                /* extern */
 #include "town/person/state_updates.h"

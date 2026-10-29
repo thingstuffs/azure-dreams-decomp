@@ -2,6 +2,7 @@
 
 #include "town/person/state_updates.h"
 #include "town/person/object/initialize_object_entries_api.h"
+#include "town/person.h"
 extern s32 D_800C34CC;
 
 /* Updates the object using its stored value and installs its next handler. */

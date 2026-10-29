@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/scene/list_setup.h"
 #include "m2c_compat.h"
+#include "town/person/object.h"
 
 extern M2C_UNK D_800C26C0[3];
 extern void *person_transform_defaults[3];

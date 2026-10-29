@@ -4,6 +4,7 @@
 
 extern s32 D_800C3FC8;
 #include "town/person/object/object_entries_aliases.h"
+#include "town/person/object.h"
 
 
 /*

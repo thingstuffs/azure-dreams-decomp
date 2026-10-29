@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/town_handler_entries.h"
+#include "town/player/object.h"
 
 typedef struct {
     void *callback0;
@@ -13,7 +14,6 @@ typedef struct {
     s16 y;
 } Entity;
 
-extern void clear_entity_record_fields(s32 record);
 extern void call_the_handler_selects_nonzero_entry(void *entries, void *record,void *handler_param);
 
 extern Entity scene_object_payload_alias;

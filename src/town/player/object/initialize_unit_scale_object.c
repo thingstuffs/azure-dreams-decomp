@@ -3,6 +3,8 @@
 #include "shared/sprite_frame_state.h"
 #include "town/scene/list_setup.h"
 #include "town/player/object_setup.h"
+#include "town/menu.h"
+#include "town/player/object.h"
 
 typedef struct S_800A6E1C_0 {
     void (*unk_00)();
@@ -10,8 +12,6 @@ typedef struct S_800A6E1C_0 {
     void (*unk_60)();
 } S_800A6E1C_0;   /* arg0 in initialize_unit_scale_object; pointer addresses record offset 0x10 */
 
-
-void initialize_object_transform_and_state(s32, void *, s32);             /* extern */
 extern void unit_scale_record_handler_address();
 extern void D_800A6EA4();
 extern M2C_UNK D_800D0DC0;

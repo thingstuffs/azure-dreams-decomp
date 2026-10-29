@@ -6,20 +6,17 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "records/Rec_func_80094268_arg0.h"
+#include "town.h"
+#include "town/player.h"
+#include "town/player/object.h"
 
 #include "engine/object/test_resident_bitmap_bit_api.h"                         /* extern */
 #include "town/player/coordinates.h"
-void init_threshold_countdown_action(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);
 struct Rec_func_80094268_arg0; struct ObjectPosition; void initialize_actor_action_state(struct Rec_func_80094268_arg0 *, struct ObjectPosition *, s32);     /* extern */
-void initialize_action_object(s32 **record, void *ptr, void *ptr2);
-void initialize_action_object_and_play_sound(s32 * *, s32, s32);     /* extern */
 void initialize_action_handler_with_count_six(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);
-void initialize_action_object_with_counter(Rec_func_80094268_arg0 *record, s32 unused, s32 setup_value);
 void initialize_actor_movement_interaction_action(s32 **record, void *ptr, void *ptr2);
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"                      /* extern */
 #include "town/player/move_both_components_toward_zero_direction_dependent_steps_clamping_zero_api.h"                      /* extern */
-s32 select_an_available_entry_matching_direction_returns_status(void *);            /* extern */
-s32 select_an_eligible_source_entry_stores_pointer_in_destination(void *, void *);               /* extern */
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"      /* extern */
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"                      /* extern */
 struct Rec_D_800CFCB4; extern struct Rec_D_800CFCB4 town_actor_control;

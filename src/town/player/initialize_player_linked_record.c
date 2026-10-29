@@ -3,6 +3,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/town_handler.h"
+#include "town/player.h"
 
 
 typedef struct S_8009A1A4_2 {

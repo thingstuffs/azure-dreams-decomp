@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player.h"
 
 typedef struct {
     s32 x;
@@ -16,7 +17,6 @@ typedef struct {
 
 extern s32 D_800D636C[2];
 extern u8 D_800C8C3C[];
-extern void add_hex_20000_s_signed_offset_hex_14(ObjectState *);
 
 /* Moves the object by its velocity and switches callbacks when vertical velocity is nonnegative. */
 void move_object_velocity(Owner *owner, ObjectState *state)

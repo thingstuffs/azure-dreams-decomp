@@ -2,6 +2,7 @@
 #include "town/person/object_slots.h"
 #include "town/person/actor_data_references_g00663.h"
 #include "town/person.h"
+#include "town/person/object.h"
 
 extern void * create_owner_following_sprite(void *state_value);
 

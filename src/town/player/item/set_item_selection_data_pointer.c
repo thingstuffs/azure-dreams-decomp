@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/player.h"
 #include "town/player/action_initializers.h"
+#include "town/player/item.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 

@@ -8,8 +8,10 @@
 
 #include "engine/object/test_resident_bitmap_bit_api.h"
 #include "town/player/coordinates.h"
+#include "town/map.h"
+#include "town/map/position.h"
+#include "town/player/input.h"
 extern void submit_object_resource_data();
-s32 read_map_cell_at_world_position(s16, s16);
 extern void initialize_scene_action_record();
 void init_ground_input_fallback(s32 * *, void *, void *);
 struct Rec_func_80094268_arg0; void initialize_randomized_object_action(struct Rec_func_80094268_arg0 *, s32, s32);
@@ -30,7 +32,6 @@ s32 select_an_eligible_source_entry_stores_pointer_in_destination(void *, void *
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"
 void initialize_record_and_select_active_data(s32, s32, s32);
-s32 check_masked_value_in_current_range(s32);
 
 extern s32 town_actor_control[];
 

@@ -2,10 +2,11 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
+#include "engine/object.h"
+#include "town/person/object.h"
+#include "town/person/state.h"
 
-void set_resident_bitmap_bit(s32);                     /* extern */
 #include "town/scene/object/unlink_scene_list_node_api.h"                      /* extern */
-void clear_object_slot_and_mark_removed(void *);                      /* extern */
 
 typedef struct S_800C56A8_0 {
     s32 unk_00;

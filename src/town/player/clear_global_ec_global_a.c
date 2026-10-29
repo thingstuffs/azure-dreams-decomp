@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player.h"
 
 extern s8 D_80082A39;
 extern s32 D_80110EC0;

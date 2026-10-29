@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_index_slots.h"
+#include "town/person.h"
 
 typedef struct {
     s32 unk0;       /* 0x00 */

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/town_handler.h"
+#include "town/player.h"
 
 extern s32 scene_fallback_request_address;
 extern u8 town_scene_record_handlers[];

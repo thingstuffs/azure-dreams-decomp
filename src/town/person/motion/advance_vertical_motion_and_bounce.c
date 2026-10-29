@@ -3,8 +3,9 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "town/person/position.h"
+#include "town/person/motion.h"
+#include "town/player.h"
 
-void add_hex_20000_s_signed_offset_hex_14(EntityRec *record);                      /* extern */
 #include "town/person/object_setup.h"
 extern M2C_UNK person_bounce_handler_address;
 

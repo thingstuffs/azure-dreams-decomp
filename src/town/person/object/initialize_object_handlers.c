@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/person/object_setup.h"
 #include "shared/object_index_slots.h"
+#include "town/person/object.h"
 
 extern u32 person_motion_tag[4];
 extern u32 person_slot_flag_handler_address[4];

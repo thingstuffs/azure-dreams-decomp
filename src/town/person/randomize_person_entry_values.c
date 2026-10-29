@@ -1,6 +1,5 @@
 #include "common.h"
-
-extern int rand(void);
+#include "sdk/libc.h"
 
 typedef struct {
     /* 0x0 */ u8 unk0;

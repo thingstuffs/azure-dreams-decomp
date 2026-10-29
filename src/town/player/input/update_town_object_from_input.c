@@ -1,5 +1,8 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "town.h"
+#include "town/player.h"
+#include "town/player/position.h"
 
 typedef struct {
     u8 pad0[0x14];
@@ -8,12 +11,7 @@ typedef struct {
 
 extern u8 town_blocked_directions[];
 
-extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(TownObject *);
-extern void store_the_valid_shared_angle_in_offset_hex_10(void *);
 extern void handle_adjust_vector_toward_selected_angle_limit_magnitude(TownObject *);
-extern void clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2(TownObject *);
-extern void add_hex_20000_s_signed_offset_hex_14(TownObject *);
-extern void init_sound_threshold_action(void *, TownObject *, void *);
 extern void initialize_threshold_interaction_object(void *, TownObject *, void *);
 
 /* Updates the town object and dispatches its action based on input and state. */

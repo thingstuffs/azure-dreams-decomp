@@ -1,4 +1,5 @@
 #include "town/player/carry_item.h"
+#include "town/player/item.h"
 
 /* Return the linked record data when its type or data tag qualifies, or zero. */
 void *get_linked_carry_item_data(void *record, s32 unused_first, s32 unused_second) {

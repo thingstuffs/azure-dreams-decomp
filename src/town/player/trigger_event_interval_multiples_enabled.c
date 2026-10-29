@@ -1,6 +1,7 @@
 #include "common.h"
+#include "slus.h"
+#include "town/player.h"
 
-short SD_Call(int flags);
 extern s32 overlay_height_in_range;
 
 /* Queue sound command 0x519 at interval multiples when enabled. */

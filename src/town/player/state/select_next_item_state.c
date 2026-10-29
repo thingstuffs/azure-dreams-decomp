@@ -1,7 +1,8 @@
 #include "common.h"
 #include "town/shop/item_lookup.h"
+#include "town/map/resource.h"
+#include "town/player/state.h"
 
-extern void write_resource_command(void *value, s32 code);
 #include "town/player/action_initializers.h"
 extern s32 D_80088D44;
 extern s32 town_motion_action_address;

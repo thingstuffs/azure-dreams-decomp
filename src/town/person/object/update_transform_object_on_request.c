@@ -1,13 +1,13 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "engine/script.h"
+#include "town/person/object.h"
+#include "town/scene/object.h"
 
 typedef struct {
     void *value;
     void *pad[2];
 } PointerGlobal;
-
-extern s32 service_script_controller(void);
-extern void unlink_scene_list_node(void *node);
 
 extern PointerGlobal current_transform_object;
 extern PointerGlobal scene_object_payload_alias;

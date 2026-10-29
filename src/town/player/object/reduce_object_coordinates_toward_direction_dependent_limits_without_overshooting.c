@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
-extern int abs(int);
+#include "sdk/libc.h"
+#include "sdk/libgte.h"
 
 typedef struct {
     s32 unk0[3];
@@ -8,8 +9,6 @@ typedef struct {
     s32 y;
 } TownObject;
 
-extern s32 rsin(s32);
-extern s32 rcos(s32);
 extern s16 input_angle_with_offset(s32, s16);
 
 /*

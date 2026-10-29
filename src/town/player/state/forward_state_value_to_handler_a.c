@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/player/state.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 void initialize_target_and_handler_table(void *, s32);                            /* extern */

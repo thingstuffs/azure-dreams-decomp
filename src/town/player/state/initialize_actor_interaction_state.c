@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/position_views.h"
+#include "town/player/state.h"
 
 extern void town_interaction_action_address(void *self_arg, SignedHeightView *target_arg, s32 context_arg);
 

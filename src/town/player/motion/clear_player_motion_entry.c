@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_index_slots.h"
 #include "m2c_compat.h"
+#include "town/player/motion.h"
 
 /* extern */
 

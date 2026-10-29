@@ -2,6 +2,7 @@
 #include "shared/object_index_slots.h"
 
 #include "town/person/object/initialize_object_entries_api.h"
+#include "town/person/state.h"
 extern u8 D_800CB0F0[];
 extern s32 D_800D68D4[];
 

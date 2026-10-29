@@ -1,5 +1,5 @@
 #include "common.h"
-extern int abs(int);
+#include "sdk/libc.h"
 
 typedef struct {
     s32 x;

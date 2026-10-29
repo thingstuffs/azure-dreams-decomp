@@ -7,8 +7,8 @@
    /* ((Rec_func_80094268_arg0 *)arg0)->unk_44 in reset_player_slot_state */
 #include "shared/entity.h"
 #include "shared/runtime_dispatch.h"
-void move_player_toward_target_with_timer(Rec_func_80094268_arg0 *motion, EntityRec *position, s32 context);
-
+#include "town/player/motion.h"
+#include "town/player/state.h"
 
 /* Updates the object using its linked data, clears its slot flag, and resets its state. */
 void reset_player_slot_state(Rec_func_80094268_arg0 *object, void *ptr, void *ptr2) {

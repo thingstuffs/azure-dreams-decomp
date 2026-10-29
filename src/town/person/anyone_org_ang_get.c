@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_index_slots.h"
+#include "town/person.h"
 
 typedef struct {
     s32 unk0;
@@ -7,8 +8,6 @@ typedef struct {
 } Entry;
 
 extern s32 runtime_script_state[];
-
-extern s32 map_angle_to_cardinal_direction(s16 angle);
 
 /* anyone_org_ang_get: store the actor's converted original angle in the script variables. */
 void anyone_org_ang_get(s32 actor_id, void *script_context) {

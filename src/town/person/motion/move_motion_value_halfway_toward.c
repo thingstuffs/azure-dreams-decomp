@@ -2,6 +2,7 @@
 #include "shared/entity_objects.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_delay_views.h"
+#include "town/person/motion.h"
 
 extern void D_800C5BA8(void *state, s32 *coords);
 extern s32 town_target_height_offset;

@@ -5,23 +5,20 @@
 #include "shared/game_work.h"
 #include "shared/entity.h"
 #include "town/player/coordinates.h"
+#include "engine/object.h"
+#include "town/player.h"
+#include "town/player/input.h"
+#include "town/player/position.h"
 
 
 #define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
 
-extern s32 test_resident_bitmap_bit(s32);
 extern void init_threshold_countdown_action(void *, void *,void *);
 extern void initialize_actor_action_state(void *, void *, s32);
 extern void initialize_action_object(void *, void *, s32);
 extern void initialize_action_handler_with_count_six(void *, void *,void *);
 extern void initialize_action_object_with_counter(void *, void *, s32);
 extern void initialize_actor_movement_interaction_action(void *, void *,void *);
-extern void store_the_valid_shared_angle_in_offset_hex_10(void *);
-extern void move_both_components_toward_zero_direction_dependent_steps_clamping_zero(void *);
-extern s32 select_an_available_entry_matching_direction_returns_status(void *);
-extern s32 select_an_eligible_source_entry_stores_pointer_in_destination(void *, void *);
-extern void compute_and_clamps_vector_based_adjustment_updates_town(void *, s16, void *);
-extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(void *);
 
 extern s32 town_actor_control;
 

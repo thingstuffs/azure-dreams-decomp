@@ -1,6 +1,7 @@
 /* Transform state (G00657). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800C520C. */
 #include "town/person/transform_state_g00657.h"
+#include "town/person.h"
 
 /* Returns the address of the indexed 24-byte entry. */
 void *get_transform_entry_by_index(s32 entry_index) {

@@ -1,6 +1,7 @@
 #include "common.h"
+#include "engine/script.h"
+#include "town/player.h"
 
-s32 service_script_controller(void);        /* extern */
 extern s32 (*town_player_action_callback)(s32, s32, s32);
 
 /*

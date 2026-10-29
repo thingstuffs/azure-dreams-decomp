@@ -2,12 +2,11 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082D58.h"
 #include "town/person/position.h"
+#include "engine/node.h"
+#include "town/player.h"
+#include "town/scene.h"
 
-
-extern void unlink_node_if_registered(void *);
-extern void add_hex_20000_s_signed_offset_hex_14(void *);
 extern void load_indexed_state_value(void *, void *, s32);
-extern void func_800C8D34(void *, void *, s32);
 extern s32 D_800D636C[2];
 
 

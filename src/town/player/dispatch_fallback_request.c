@@ -2,6 +2,7 @@
 
 #include "engine/script.h"
 #include "town/player/action_initializers.h"
+#include "town/player.h"
 
 /* Run the fallback handler when the request check returns zero. */
 void dispatch_fallback_request(Rec_func_80094268_arg0 *request, void *request_data, void *request_param, s32 check_param) {

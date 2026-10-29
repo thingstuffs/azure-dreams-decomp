@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/person/object.h"
 
 extern M2C_UNK D_800D6330;
 extern M2C_UNK D_800D6338;

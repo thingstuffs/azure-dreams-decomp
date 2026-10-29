@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/player/script_flags.h"
+#include "town/player/state.h"
 
 
 /* Builds a bitmask of nonzero query results for consecutive indices. */

@@ -1,15 +1,15 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "records/Rec_func_80090C68_arg0.h"
+#include "town/player/object.h"
+#include "town/player/state.h"
 
 
 
 extern void dispatch_actor_interaction_actions(void *, s32, s32);
 extern void initialize_shared_scene_data();
 extern s32 init_button_transition_action();
-extern s32 run_the_action_sequence_context_unless_flag_hex_a_5_set();
 extern void run_the_three_update_routines_context(s32 context);
-extern void clear_entity_record_fields();
 /* Updates the record, then handles a flagged action or countdown if its state is unchanged. */
 void update_entity_and_handle_flagged_action(void *record, s32 context, s32 update_arg) {
     s32 previous_state;

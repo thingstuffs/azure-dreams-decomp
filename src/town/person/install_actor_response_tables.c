@@ -21,6 +21,7 @@ typedef struct S_800C5D38_1 {
 
 
 #include "town/person/object_setup.h"
+#include "town/person.h"
 /* Install the actor's response tables and process input when either masked flag is set. */
 void install_actor_response_tables(S_800C5D38_1 *actor, void *context, SpriteFlagsView *input) {
     if (input->flags & 0x6000) {

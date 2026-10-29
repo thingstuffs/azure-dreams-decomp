@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00705 - CL:town/func_80330320.
  */
 #include "town/player/squared_distance_g00705.h"
+#include "town/player.h"
 
 /* Compute the squared distance between two 3D points. */
 s32 squared_distance_3s(GteShortVector *point_a, GteShortVector *point_b) {

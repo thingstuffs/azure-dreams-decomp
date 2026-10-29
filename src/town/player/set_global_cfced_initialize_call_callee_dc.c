@@ -1,5 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/player.h"
+#include "town/player/state.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 /* extern */
@@ -12,8 +14,6 @@ typedef struct S_80096728_0 {
     s32 unk_10;
 } S_80096728_0;   /* arg0 in set_global_800_cfced_initialize_call_callee_800954_dc */
 
-
-void clear_the_global_state_s_fifth_word_copy_source_s_second(S_80096728_0 *);
 /* Set D_800CFCED, initialize the record, and call clear_the_global_state_s_fifth_word_copy_source_s_second. */
 void set_global_800_cfced_initialize_call_callee_800954_dc(S_80096728_0 *record, s32 initial_value) {
     D_800CFCED = 1;

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/person/object.h"
 
 extern void D_800C2864();
 extern void *current_transform_object;

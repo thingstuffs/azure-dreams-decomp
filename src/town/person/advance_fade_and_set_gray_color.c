@@ -1,7 +1,7 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "engine/object.h"
 
-extern void set_resident_bitmap_bit(s32);
 extern u8 D_800CC524;
 
 typedef struct {

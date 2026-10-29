@@ -2,9 +2,10 @@
 
 
 #include "town/person/object_setup.h"
+#include "sdk/libc.h"
+#include "town/person/motion.h"
+#include "town/person/state.h"
 extern s16 get_clamped_transform_coordinate(void *object, s32 step_x, s32 step_y);
-extern void initialize_object_assigns_state_data(void *object, void *unusedArg, void *initializationArg);
-extern int abs(int);
 
 extern s32 town_x_acceleration[4];
 extern s32 town_x_speed_limits[4];

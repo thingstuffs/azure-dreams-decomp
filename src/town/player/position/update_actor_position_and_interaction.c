@@ -6,29 +6,26 @@
 #include "shared/entity.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "town/player/coordinates.h"
+#include "engine/script.h"
+#include "town/event.h"
+#include "town/event/motion.h"
+#include "town/player.h"
+#include "town/player/position.h"
+#include "town/shop.h"
 
-void call_script(s32);
 void submit_object_resource_data();
 void initialize_actor_movement_interaction_action(s32 **record, void *ptr, void *ptr2);
 struct ObjectPosition; void initialize_input_driven_scene_object(s32 * *, struct ObjectPosition *, s32);
 void initialize_action_callback_from_entry(s32 **record, void *ptr, void *ptr2);
 void initialize_busy_checked_countdown_action(Rec_func_80094268_arg0 *record,void *unused,void *setup_value);
-void play_periodic_sound(s32, s32);
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"
 void handle_adjust_vector_toward_selected_angle_limit_magnitude();
 #include "town/player/move_both_components_toward_zero_direction_dependent_steps_clamping_zero_api.h"
-s32 select_an_available_entry_matching_direction_returns_status(void *);
-s32 get_status_active_entry_matching_direction(void *);
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"
 void init_motion_action_callback(s32 record, s32 setup_value, s32 init_value);
-s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41(void);
-s32 select_response_for_source_and_target();
-void dispatch_actor_action(void *actor, void *position, void *context);
 #include "records/Rec_func_8009B828_arg0.h"
-void update_motion_toward_shared_target(Rec_func_8009B828_arg0 *state, s32 context, ObjectPosition *motion, s32 transition_arg);
-void update_motion_toward_town_target(void *state, s32 context, void *motion, s32 next_arg);
 extern u8 town_owner_dispatch_address[];
 extern s32 town_actor_control;
 extern s32 *town_player_action_callback;

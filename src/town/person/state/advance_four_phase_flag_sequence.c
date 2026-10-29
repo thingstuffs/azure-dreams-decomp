@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/person/state.h"
 
 typedef struct S_800CCD68_0 {
     u8 pad_00[0x68];

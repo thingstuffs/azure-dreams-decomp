@@ -1,7 +1,7 @@
 #include "town/player/carry_item.h"
 #include "shared/object_node.h"
-
-extern void initialize_record_and_select_active_data(void *record, s32 setup_value, s32 init_value);
+#include "town/player.h"
+#include "town/player/item.h"
 
 extern s32 scene_object_payload_alias;
 extern s32 D_8009C340;

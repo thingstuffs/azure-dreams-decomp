@@ -1,5 +1,5 @@
 #include "common.h"
-void reset_matching_transform_object(s32 object_addr);
+#include "town/person/object.h"
 extern s32 current_transform_object;
 
 typedef struct S_800C2864_0 {

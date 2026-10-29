@@ -1,5 +1,7 @@
 #include "town/person/jump_motion.h"
 #include "town/person/position.h"
+#include "town/person/motion.h"
+#include "town/player.h"
 
 typedef struct S_800CC070_0 {
     u8 pad_00[0x68];
@@ -14,8 +16,6 @@ typedef struct S_800CC070_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_14;   /* overlapping accesses */
 } S_800CC070_1;   /* arg1 in update_jump_motion */
 
-
-extern void add_hex_20000_s_signed_offset_hex_14(void *);
 #include "town/person/object/initialize_object_entries_api.h"
 extern s32 D_800D6ABC;
 extern s32 D_800D6AD0;

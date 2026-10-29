@@ -1,7 +1,9 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "m2c_compat.h"
-extern int abs(int);
+#include "sdk/libc.h"
+#include "town/player.h"
+#include "town/player/position.h"
 
 typedef struct Motion {
     u8 pad_00[0xC];
@@ -9,12 +11,9 @@ typedef struct Motion {
     s32 dy;
 } Motion;
 
-s16 call_callee_8008_c_4_c_8_global_800_d_0410_parameter(s32 input_value, s32 parameter);
 s16 call_callee_8008_c_570_global_800_d_0414_parameter(s32 input_value, s32 parameter);
 s16 call_callee_8008_c_610_global_800_d_0418_parameter(s32 input_value, s32 parameter);
 s16 call_callee_8008_c_6_b_8_global_800_d_041_c_parameter(s32 input_value, s32 parameter);
-void call_the_callee_80096208_callee_800962_b_8(void *);                 /* extern */
-void call_the_callee_800962_b_8_callee_80096208(void *);                 /* extern */
 extern Motion town_collision_motion;
 #define D_80100000 ((s32 *)0x80100000)
 

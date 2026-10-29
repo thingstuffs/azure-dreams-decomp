@@ -18,7 +18,7 @@ typedef struct S_80098544_1 {
 
 
 #include "town/player/object/entity_record_fields.h"
-void update_falling_actor_and_handle_ground(s32 context, EntityRec *actor, s32 action_arg);
+#include "town/player.h"
 
 /* Advance the fixed-point coordinates toward their targets and finish when the countdown expires. */
 void advance_coordinates_toward_target(S_80098544_0 *state, S_80098544_1 *position) {

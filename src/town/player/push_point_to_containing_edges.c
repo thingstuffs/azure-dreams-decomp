@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player.h"
 
 extern s32 player_blocking_rects[];
 

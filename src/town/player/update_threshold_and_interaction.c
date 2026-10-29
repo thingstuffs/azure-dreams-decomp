@@ -7,11 +7,11 @@
 #include "shared/town_handler.h"
 #include "town/person/effects.h"
 #include "town/player/coordinates.h"
-void initialize_action_object_type_six(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);     /* extern */
-void select_sound_command_from_mode(void);                            /* extern */
+#include "town.h"
+#include "town/player.h"
+#include "town/system.h"
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"                      /* extern */
 void handle_adjust_vector_toward_selected_angle_limit_magnitude();                      /* extern */
-void add_hex_20000_s_signed_offset_hex_14(EntityRec *record);                      /* extern */
 #include "town/player/clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2_api.h"                      /* extern */
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"      /* extern */
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"                      /* extern */

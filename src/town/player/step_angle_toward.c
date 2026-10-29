@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player.h"
 
 /* Steps toward the target angle along the shorter 12-bit arc. */
 s32 step_angle_12_toward(s32 angle_delta, s32 target_angle, s32 step) {

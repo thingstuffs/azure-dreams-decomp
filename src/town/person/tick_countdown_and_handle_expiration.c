@@ -3,6 +3,7 @@
 void func_800CDFF8(void *, void *, void *);    /* extern */
 
 #include "town/person/object_setup.h"
+#include "town/person.h"
 /* Decrement the object's countdown when its update returns zero and handle expiration. */
 void tick_countdown_and_handle_expiration(Rec_func_80094268_arg0 *object, void *context_a, void *context_b, s32 update_arg) {
     u16 countdown;

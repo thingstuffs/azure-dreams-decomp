@@ -1,6 +1,7 @@
 #include "common.h"
+#include "town/person.h"
+#include "town/scene.h"
 
-extern void initialize_the_store_two_values_set_state_flags(void *record, s32 value_08, void *value_0c);
 extern void *person_transform_defaults[];
 extern s32 D_800C283C[];
 

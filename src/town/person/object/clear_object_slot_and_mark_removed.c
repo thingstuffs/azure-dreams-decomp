@@ -4,6 +4,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/object_links.h"
+#include "town/person/object.h"
 
    /* the 0x2 bytes before arg0 in clear_object_slot_and_mark_removed, addressed as arg0[-1] */
 

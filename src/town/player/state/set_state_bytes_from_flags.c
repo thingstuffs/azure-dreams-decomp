@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player/state.h"
 
 /* Set state bytes from flags, giving lower bits priority within each pair. */
 void set_state_bytes_from_flags(s32 flags, u8 *state) {

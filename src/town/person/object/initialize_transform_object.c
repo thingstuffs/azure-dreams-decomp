@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
+#include "town/person/object.h"
 
 extern void *D_800C25C0;
 extern s32 D_800D4FA0[];

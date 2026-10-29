@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "town/person.h"
 
 
 /* Return whether the rounded, wrapped angle difference exceeds half the divisions. */

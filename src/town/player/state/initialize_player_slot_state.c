@@ -4,6 +4,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/town_handler.h"
+#include "town/player/state.h"
 
 
 typedef struct S_80099E70_2 {

@@ -1,5 +1,6 @@
 #include "common.h"
-void forward_state_value_to_handler_b(void *state, s32 value);
+#include "town/player.h"
+#include "town/player/state.h"
 
 typedef struct S_80098CD8_0 {
     u8 pad_00[0x4];

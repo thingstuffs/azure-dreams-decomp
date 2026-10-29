@@ -4,6 +4,8 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
+#include "slus.h"
+#include "town/person.h"
 
 
 typedef struct S_800ABB20_1 {
@@ -12,8 +14,6 @@ typedef struct S_800ABB20_1 {
     u16 unk_04;
     s16 unk_06;
 } S_800ABB20_1;   /* arg0 in update_person_effect_fade; pointer addresses record offset 0x2 */
-
-extern void advance_sprite_animation_and_textures(void *primitive);
 
 /* Update effect motion, fade its brightness, and mark it expired when its timer ends. */
 void update_person_effect_fade(void *effect_record, ObjectPosition *motion, SpriteFrameState *primitive) {

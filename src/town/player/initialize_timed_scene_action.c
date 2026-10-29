@@ -1,8 +1,9 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
+#include "slus.h"
+#include "town/player.h"
 
-short SD_Call(int flags);
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"  /* extern */
 extern void D_80091AF0(void *state, void *object, s32 context);
 extern s32 timed_scene_handler_entries;

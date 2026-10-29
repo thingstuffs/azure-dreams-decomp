@@ -2,7 +2,8 @@
 #include "town/player/action_initializers.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/town_handler.h"
-void update_entity_and_handle_flagged_action(void *record, s32 context, s32 update_arg);
+#include "town/player.h"
+#include "town/player/object.h"
 extern u8 town_scene_record_handlers[];
 
 

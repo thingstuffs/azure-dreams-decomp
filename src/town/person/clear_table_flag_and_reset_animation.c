@@ -11,6 +11,7 @@ typedef struct S_800C70B8_1 {
 
 #include "town/person/object/initialize_object_entries_api.h"
 #include "town/person/object_setup.h"
+#include "town/person.h"
 
 
 /* Clears the object's table flag and resets its animation before updating it. */

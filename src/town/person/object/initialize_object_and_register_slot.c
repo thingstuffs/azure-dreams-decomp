@@ -1,5 +1,6 @@
 #include "town/person.h"
 #include "shared/object_index_slots.h"
+#include "town/person/object.h"
 
 typedef struct {
     s32 active;

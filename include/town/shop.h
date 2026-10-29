@@ -24,4 +24,9 @@ void item_menu_no_op(struct ItemMenuPart **parts, struct ItemMenuObject *object)
 
 #include "town/shop/storage_menu.h"
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41(void);
+
+void * create_item_menu_object(s32 selector);
+
 #endif

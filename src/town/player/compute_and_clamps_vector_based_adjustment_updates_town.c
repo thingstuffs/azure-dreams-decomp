@@ -1,5 +1,6 @@
 #include "common.h"
-extern int abs(int);
+#include "sdk/libc.h"
+#include "town/player.h"
 
 typedef struct TownObj {
     s32 unk0;
@@ -17,7 +18,6 @@ typedef struct TownVec {
 } TownVec;
 
 extern s8 D_800CFCE9;
-void clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2(TownObj *source);
 
 /* Computes and clamps a vector-based adjustment, then updates the town object. */
 void compute_and_clamps_vector_based_adjustment_updates_town(TownObj *obj, s32 base_value, TownVec **vec_ptr)

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/entity_objects.h"
+#include "town/person/motion.h"
 
 typedef struct {
     u8 pad0;

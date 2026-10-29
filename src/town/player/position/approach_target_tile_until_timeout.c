@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/player.h"
 #include "town/player/action_initializers.h"
+#include "town/player/position.h"
 
 typedef struct S_800935BC_0 {
     s32 unk_00;

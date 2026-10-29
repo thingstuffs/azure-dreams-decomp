@@ -1,8 +1,9 @@
 #include "shared/position_query.h"
 #include "common.h"
 #include "town/player/coordinates.h"
+#include "town/player.h"
+#include "town/player/position.h"
 
-extern void compute_and_clamps_vector_based_adjustment_updates_town(void *obj, s16 base_value, void *vec_ptr);
 extern void initialize_record_with_handler_table(void *record, void *setup_value, s32 init_value);
 
 extern u8 town_actor_control[];

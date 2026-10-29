@@ -3,6 +3,7 @@
 /* G00534: selection object action. */
 /* Original-file evidence (G00534): inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_80096098. */
 #include "town/player/selection_object_action_g00534.h"
+#include "town/player.h"
 
 /* Returns whether the town state matches one of the accepted state pairs. */
 s32 is_town_state_pair_accepted(void) {

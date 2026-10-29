@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player/state.h"
 
 extern u8 D_800133A6;
 extern s32 player_motion_bounds[4];

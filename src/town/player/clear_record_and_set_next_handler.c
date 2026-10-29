@@ -1,7 +1,8 @@
 #include "common.h"
+#include "town/player.h"
+#include "town/player/position.h"
 
 #include "town/player/object/entity_record_fields.h"                     /* extern */
-void refresh_object_position_and_initialize(void *context, void *object, s32 mode);
 
 typedef struct S_80098F10_0 {
     u8 pad_00[0x4];

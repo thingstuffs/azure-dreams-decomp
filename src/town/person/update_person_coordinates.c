@@ -1,6 +1,7 @@
 #include "common.h"
 #include "records/Rec_func_800AB030_arg0.h"
 #include "town/person/lookup_motion.h"
+#include "town/person.h"
 
 typedef struct {
     s32 pad[3];

@@ -1,11 +1,11 @@
 #include "common.h"
 #include "shared/town_handler_entries.h"
 #include "records/Rec_func_80094268_arg0.h"
+#include "town/player.h"
+#include "town/player/object.h"
 
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"  /* extern */
 #include "engine/window.h"
-void store_the_valid_shared_angle_in_offset_hex_10(Rec_func_80094268_arg0 *);                            /* extern */
-void call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58(s32);                     /* extern */
 extern s32 actor_input_interaction_address;
 
 

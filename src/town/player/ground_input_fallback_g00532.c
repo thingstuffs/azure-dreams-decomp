@@ -1,6 +1,7 @@
 /* G00532: ground input fallback. */
 /* Original-file evidence (G00532): inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800938A0. */
 #include "town/player/ground_input_fallback_g00532.h"
+#include "town/player.h"
 
 /* Update the actor against ground height, then dispatch input actions. */
 void update_actor_ground_and_input(s32 controller, EntityRec *actor, s32 context) {

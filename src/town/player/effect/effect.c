@@ -1,4 +1,7 @@
 #include "common.h"
+#include "engine/window.h"
+#include "town/player.h"
+#include "town/player/effect.h"
 
 typedef struct {
     s32 unk0;
@@ -9,8 +12,6 @@ typedef struct {
     s32 unk14;
 } UnkStackData;
 
-extern s32 scale_random_to_unsigned_halfword_limit(s32);
-extern void spawn_radial_objects(s32, UnkStackData *, s32);
 extern UnkStackData D_80088D60;
 
 /* Decrements an object's countdown and triggers a randomized update when it expires. */

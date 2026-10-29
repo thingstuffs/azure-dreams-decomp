@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player.h"
 
 extern s16 evaluate_summed_vector_minus_base(s32 input_value, s32 value, s32 parameter);
 extern s32 town_primary_probe_samples;

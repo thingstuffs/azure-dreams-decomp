@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/person/object_setup.h"
+#include "town/person/object.h"
 
 /* Forward the object and update arguments to apply_object_setup_and_update. */
 void forward_object_setup_arguments(void *object, void *context, void *update_data) {

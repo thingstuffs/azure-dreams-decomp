@@ -3,10 +3,8 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "sdk/libgte.h"
-extern int abs(int);
-
-s32 ratan2(s32, s32);             /* extern */
-
+#include "sdk/libc.h"
+#include "town/player.h"
 
 /* Returns the larger of value and bound, enforcing a lower limit. */
 static __inline__ s32 clamp_min(s32 value, s32 bound) { if (bound < value) return value; return bound; }

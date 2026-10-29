@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player/position.h"
 
 extern s32 player_motion_bounds[4];
 

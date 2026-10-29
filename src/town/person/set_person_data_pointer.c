@@ -1,5 +1,6 @@
 #include "common.h"
-void update_person_global_state(void *object, s32 call_arg, s32 *values);
+#include "town/person.h"
+#include "town/person/state.h"
 
 typedef struct S_800AAE20_0 {
     u8 pad_00[0x50];

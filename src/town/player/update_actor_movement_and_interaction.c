@@ -7,27 +7,24 @@
 #include "records/Rec_func_80094268_arg0.h"
 #include "records/Rec_D_800CFCC4.h"
 #include "town/player/coordinates.h"
+#include "engine/script.h"
+#include "town.h"
+#include "town/event.h"
+#include "town/player/state.h"
+#include "town/shop.h"
 
-void call_script(s32);                         /* extern */
 void submit_object_resource_data();                         /* extern */
 struct Rec_func_80094268_arg0; void initialize_actor_position_interaction_action(struct Rec_func_80094268_arg0 *, s32, s32);     /* extern */
 struct ObjectPosition; void initialize_input_driven_scene_object(s32 * *, struct ObjectPosition *, s32);     /* extern */
 void initialize_action_callback_from_entry(s32 **record, void *ptr, void *ptr2);
 void initialize_busy_checked_countdown_action(Rec_func_80094268_arg0 *record,void *unused,void *setup_value);
-void init_timed_dispatch_action(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);
-s32 run_the_action_sequence_context_unless_flag_hex_a_5_set(s32);                          /* extern */
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"                      /* extern */
 #include "town/player/move_both_components_toward_zero_direction_dependent_steps_clamping_zero_api.h"                      /* extern */
-void run_the_three_update_routines_context(s32);                      /* extern */
-s32 select_an_available_entry_matching_direction_returns_status(void *);                   /* extern */
-s32 get_status_active_entry_matching_direction(void *);                       /* extern */
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"      /* extern */
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"                      /* extern */
 void init_motion_action_callback(s32 record, s32 setup_value, s32 init_value);
 #include "town/player/object/entity_record_fields.h"                      /* extern */
 #include "town/player.h"
-s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41(void);                                /* extern */
-s32 select_response_for_source_and_target();                     /* extern */
 extern void D_80093B00();
 extern void D_8009B828();
 extern void actor_target_motion_address();

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/position_views.h"
 #include "shared/vector.h"
+#include "town/player/position.h"
 
    /* arg0 in follow_linked_position_until_timeout */
 

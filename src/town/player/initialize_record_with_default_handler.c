@@ -4,6 +4,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/town_handler.h"
+#include "town/player.h"
 
 extern s8 town_action_reset_byte;
 

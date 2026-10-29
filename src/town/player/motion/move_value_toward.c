@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player/motion.h"
 
 typedef struct S_800981D4_0 {
     u8 pad_00[0x6];

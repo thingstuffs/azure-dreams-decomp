@@ -9,6 +9,7 @@ typedef struct {
 #include "town/person/object/initialize_object_entries_api.h"
 
 #include "town/person/object_setup.h"
+#include "town/person/motion.h"
 
 /* Initialize the object's animation, clear its record flag, and update its facing. */
 void initialize_object_animation_and_facing(void *object, void *position, void *animation_state) {

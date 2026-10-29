@@ -1,4 +1,5 @@
 #include "town/person.h"
+#include "town/person/object.h"
 
 
 /* Select descriptor list +0x24, then forward all three callback inputs. */

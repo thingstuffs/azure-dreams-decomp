@@ -1,15 +1,15 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "engine/node.h"
+#include "town/menu.h"
+#include "town/player/object.h"
+#include "town/scene/object.h"
 
 /* Global 32-bit "used"/flags word, same one touched by func_8004B530 /
  * set_object_cleanup_flag / propagate_scene_flag family. Declared as an array (>8B) so gcc
  * uses %hi/%lo addressing with a SINGLE shared base register across the
  * read and write halves of the |= (see w_800510DC.c), matching retail's
  * one lui reused for both the load and the store. */
-
-extern int classify_object_against_bounds(void *, void *);
-extern void unlink_scene_list_node(void *node);
-extern void unlink_node_if_registered(void *object);
 
 typedef void (*S_800A9590_Callback)(void *, void *, void *, void *);
 

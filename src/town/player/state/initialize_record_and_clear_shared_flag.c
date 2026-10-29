@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "town/player/action_initializers.h"
+#include "town/player/state.h"
 extern s8 town_action_reset_byte;
 
 /* Initializes the record handler and count, then clears town_action_reset_byte. */

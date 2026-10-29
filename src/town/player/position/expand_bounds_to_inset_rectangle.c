@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player/position.h"
 
 /* Expands fixed-point bounds to include the inset rectangle. */
 void expand_bounds_to_inset_rectangle(s32 *bounds, s16 *rect) {

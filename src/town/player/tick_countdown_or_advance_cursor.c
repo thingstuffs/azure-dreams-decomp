@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player.h"
 
 typedef struct {
     u8 pad[0xA];
@@ -9,8 +10,6 @@ typedef struct {
     u16 pad;
     u16 unk2;
 } Func8009AA20Arg1;
-
-extern void initialize_record_with_handler_and_countdown_800(Func8009AA20Arg0 *record, Func8009AA20Arg1 *setup_value, s32 init_context);
 
 /* Decrement the countdown, invoking its handler when exhausted or advancing the cursor by four. */
 void tick_countdown_or_advance_cursor(Func8009AA20Arg0 *countdown_state, Func8009AA20Arg1 *cursor_state, s32 context_value) {

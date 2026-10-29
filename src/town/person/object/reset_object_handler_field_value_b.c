@@ -4,6 +4,7 @@
 
 extern s32 person_reset_handler_address;
 #include "town/person/object/object_entries_aliases.h"
+#include "town/person/object.h"
 
 
 void reset_object_handler_field_72_value_400(void *object, s32 unused, SpriteFrameState *updateValue) {

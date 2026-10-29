@@ -152,4 +152,13 @@ typedef struct {
 void set_script_flag_db3(void);
 void clear_script_flag_db3(void);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+#include "records/Rec_D_800FE490.h"
+struct FallingObjectState;
+void func_800C8D34(struct FallingObjectState *object, void *context, void *sprite);
+void initialize_the_store_two_values_set_state_flags(Rec_D_800FE490 *record, s32 value_08, s32 value_0c);
+
+struct Node;
+struct Node *handle_finds_first_eligible_active_node_in_circular_list(struct Node *origin);
+
 #endif

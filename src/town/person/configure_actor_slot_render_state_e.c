@@ -1,8 +1,9 @@
 /* Configure this callback using its own slot, table addresses and state constants. */
 #include "common.h"
 #include "shared/sprite_frame_state.h"
+#include "town/person.h"
+#include "town/person/object.h"
 
-extern void func_800C3050(void *object, u32 slot_index, void *field_58_value, void *field_5c_value, void *field_7c_value, void *field_80_value);
 extern u8 D_800D6AE4[];
 extern u8 D_800D6AEC[];
 extern u8 D_800D6B14[];

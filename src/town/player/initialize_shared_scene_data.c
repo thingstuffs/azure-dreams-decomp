@@ -1,7 +1,6 @@
 #include "common.h"
-void noop_player_scene_action(void);
+#include "town/player.h"
 #include "records/Rec_func_80094268_arg0.h"
-void initialize_scene_action_record(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);
 extern s32 *town_player_action_callback;
 
 /* Initializes the output pointer and the shared data pointer. */

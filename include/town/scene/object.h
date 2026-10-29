@@ -50,4 +50,8 @@ void initialize_sprite_six(SpriteSixState *state, ObjectPosition *position, Spri
 /* Callback entry points. */
 void update_panel_aggregate_value(void *entry);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+#include "records/Rec_func_80094268_arg0.h"
+void unlink_scene_list_node(Rec_func_80094268_arg0 *node);
+
 #endif

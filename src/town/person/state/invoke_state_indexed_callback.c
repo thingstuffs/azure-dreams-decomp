@@ -1,4 +1,5 @@
 #include "town/person/jump_motion.h"
+#include "town/person/state.h"
 
 typedef void (*TownCallback)(void *, void *, void *);
 

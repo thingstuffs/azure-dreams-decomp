@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
+#include "town/player/position.h"
 
 
 /* Adds each of the three motion increments to its corresponding position component. */

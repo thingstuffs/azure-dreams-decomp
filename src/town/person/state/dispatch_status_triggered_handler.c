@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
-
-void install_object_handler_and_clear_slot_flag(void *object);
+#include "town/person/state.h"
 
    /* arg2 in dispatch_status_triggered_handler */
 

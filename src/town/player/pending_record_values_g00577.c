@@ -1,6 +1,7 @@
 /* Apply pending values to flagged player records (G00577). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A8BC8, CL:town/func_800A8C3C, CL:town/func_800A8C68, PD:town/engine:80100E2C. */
 #include "town/player/pending_record_values_g00577.h"
+#include "town/player.h"
 
 /* Looks up a table value using the signed low 16 bits of the index. */
 TownRecord *lookup_signed_index_value(s32 index) {

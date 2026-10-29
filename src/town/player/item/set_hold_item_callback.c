@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/player/item.h"
 
 extern void D_80093BAC();
 extern s32 *town_player_action_callback;

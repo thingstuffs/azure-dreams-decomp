@@ -2,8 +2,9 @@
 #include "shared/entity.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "town/person/position.h"
+#include "town/person/motion.h"
+#include "town/player.h"
 
-extern void add_hex_20000_s_signed_offset_hex_14(EntityRec *record);
 #include "town/person/object_setup.h"
 void func_800CDE9C(void *object, EntityRec *unusedArg, void *initValue);     /* extern */
 s32 func_800CDFF8();

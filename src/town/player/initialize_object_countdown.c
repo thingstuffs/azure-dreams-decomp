@@ -1,11 +1,12 @@
 #include "common.h"
 #include "records/Rec_func_80094268_arg0.h"
+#include "town/player.h"
+#include "town/player/object.h"
 
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"  /* extern */
 #include "town/player/object/entity_record_fields.h"                     /* extern */
 extern s8 town_action_reset_byte;
 typedef struct S_80097EC0_0 S_80097EC0_0;
-void tick_countdown_and_initialize_object(S_80097EC0_0 *state, void *context, s32 mode);
 extern s32 D_800D0178;
 
 

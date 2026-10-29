@@ -1,6 +1,9 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/object_links.h"
+#include "engine/node.h"
+#include "town/menu.h"
+#include "town/player/object.h"
 
 
 typedef struct S_func_800A6C4C_0 {
@@ -9,10 +12,6 @@ typedef struct S_func_800A6C4C_0 {
     u8 pad_54[0x44];
     s8 *unk_98;
 } S_func_800A6C4C_0;
-
-
-extern s32 classify_object_against_bounds(void *, s32);
-extern void unlink_node_if_registered(void *object);
 
 /* Clears and marks a handled object, or dispatches to its callback. */
 void clear_handled_object_or_callback(S_func_800A6C4C_0 *object, s32 input, s32 callback_data) {

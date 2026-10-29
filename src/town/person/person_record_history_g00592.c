@@ -1,6 +1,7 @@
 /* Person record history (G00592). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AD79C, CL:town/func_800AD7FC, PD:town/engine:80100E40. */
 #include "town/person/person_record_history_g00592.h"
+#include "town/person.h"
 
 /* Fill eight records with the selected values from the two global arrays. */
 void fill_person_records(void) {

@@ -6,6 +6,8 @@
 #include "shared/dir_step.h"
 #include "sdk/libc.h"
 #include "town/person/effects.h"
+#include "slus.h"
+#include "town/person.h"
 
 #ifndef NULL
 #define NULL 0
@@ -49,7 +51,6 @@ typedef struct {
 } Object;
 
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern void select_record_entry_and_value(void *state, void *entries, short index);
 
 extern s32 town_radial_offset_callback;
 extern s32 radial_sprite_entries;

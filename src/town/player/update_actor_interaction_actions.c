@@ -4,16 +4,12 @@
 #include "shared/game_work.h"
 #include "shared/position_views.h"
 #include "town/player/coordinates.h"
-
-void initialize_scene_action_record();     /* extern */
-void initialize_motion_action();     /* extern */
-void initialize_actor_action_state();     /* extern */
-void initialize_action_object(s32 **record, void *ptr, void *ptr2);     /* extern */
-void move_both_components_toward_zero_direction_dependent_steps_clamping_zero();                      /* extern */
-void compute_and_clamps_vector_based_adjustment_updates_town();      /* extern */
-void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile();                      /* extern */
-s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41(void);                                /* extern */
-
+#include "town.h"
+#include "town/player.h"
+#include "town/player/motion.h"
+#include "town/player/position.h"
+#include "town/player/state.h"
+#include "town/shop.h"
 
    /* target in update_actor_interaction_actions */
 

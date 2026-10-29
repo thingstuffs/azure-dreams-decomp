@@ -2,7 +2,6 @@
 #include "town/player.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/entity.h"
-void update_threshold_and_interaction(Rec_func_80094268_arg0 *state, EntityRec *entity, s32 context);
 
 typedef struct S_8009431C_0 {
     void (*unk_00)(Rec_func_80094268_arg0 *state, EntityRec *entity, s32 context);

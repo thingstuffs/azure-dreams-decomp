@@ -1,10 +1,7 @@
 #include "common.h"
 #include "records/Rec_func_800AB030_arg0.h"
+#include "town/person.h"
 
-
-extern s32 get_person_lookup_step(void *);
-extern void load_record_halfwords_3(void *, s32);
-extern s32 advance_person_lookup_value(void *);
 extern u8 person_approach_handler_address[];
 extern u8 person_approach_state_address[];
 

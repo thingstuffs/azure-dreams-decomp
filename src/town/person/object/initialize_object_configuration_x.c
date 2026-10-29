@@ -2,6 +2,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "town/person.h"
+#include "town/person/object.h"
 
 
 typedef struct S_800C838C_1 {

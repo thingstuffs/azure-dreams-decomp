@@ -2,11 +2,12 @@
 #include "shared/entity.h"
 #include "records/Rec_func_800C9B44_arg0.h"
 #include "engine/window.h"
+#include "town/person.h"
 
 extern void (*D_800D65D8[])(void *, void *, void *);
 
 /* Choose a random action and an in-bounds heading, then dispatch the action. */
-void choose_reaction_action_and_heading(Rec_func_800C9B44_arg0 *actor, EntityRec *motion, void *context) {
+void choose_reaction_action_and_heading(Rec_func_800C9B44_arg0 *actor, EntityRec *motion, s32 context) {
     s32 x_radius;
     s32 y_radius;
     s32 current_x;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player/item.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 *town_player_action_callback[3];

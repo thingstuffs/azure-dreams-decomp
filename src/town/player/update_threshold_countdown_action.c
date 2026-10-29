@@ -2,13 +2,9 @@
 #include "common.h"
 #include "shared/town_action_flag.h"
 #include "town/player/coordinates.h"
-
-extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(void *object);
-extern void move_both_components_toward_zero_direction_dependent_steps_clamping_zero(void *object);
-extern void compute_and_clamps_vector_based_adjustment_updates_town(void *object, s16 value, void *data);
-extern void initialize_action_object(void *state, void *object, s32 context);
-extern void initialize_timed_scene_action(void *state, void *object, s32 context);
-
+#include "town.h"
+#include "town/player.h"
+#include "town/player/position.h"
 
 /* Update the object, check its target value, and advance the countdown. */
 void update_threshold_countdown_action(void *state, void *object, s32 context) {

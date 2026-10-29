@@ -1,10 +1,10 @@
 #include "script_symbols.h"
 #include "common.h"
-
-extern s32 test_resident_bitmap_bit(s32);
-extern void SD_Call(s32);
-extern void clear_global_80110_ec_0_global_80082_a_39(void);
-extern s32 create_item_menu_object(s32);
+#include "engine/object.h"
+#include "slus.h"
+#include "town/player.h"
+#include "town/player/state.h"
+#include "town/shop.h"
 
 /*
  * Returns zero while F_minigame_tyu is set; otherwise plays sound 0x514, clears the two action

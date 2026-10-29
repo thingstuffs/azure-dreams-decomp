@@ -1,5 +1,6 @@
 #include "common.h"
 #include "records/Rec_func_80094268_arg0.h"
+#include "town/player/motion.h"
 
 
 typedef struct S_8009A344_1 {

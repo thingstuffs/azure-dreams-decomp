@@ -5,6 +5,7 @@
 
 #include "town/person/object/initialize_object_entries_api.h"
 #include "town/person/state_updates.h"
+#include "town/person/state.h"
 extern s32 D_800D54C4[];
 
 /* Process the object when either of its 0x6000 flag bits is set. */

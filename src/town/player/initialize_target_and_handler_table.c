@@ -1,7 +1,7 @@
 #include "common.h"
 #include "town/player.h"
+#include "town/player/object.h"
 
-extern void clear_entity_record_fields(s32 record);
 extern s8 player_handler_reset_byte;
 
 typedef struct {

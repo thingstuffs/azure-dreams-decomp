@@ -1,9 +1,9 @@
 #include "common.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "town/person/state_updates.h"
+#include "engine/script.h"
+#include "town/person.h"
 
-
-extern s32 service_script_controller(void);
 extern u8 object_index_slots[9];
 extern s32 town_actor_control[5];
 extern volatile M2C_UNK D_800D5084[20];

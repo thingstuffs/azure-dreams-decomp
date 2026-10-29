@@ -1,8 +1,9 @@
 #include "common.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/entity.h"
+#include "town/person/object.h"
+#include "town/player.h"
 
-void add_hex_20000_s_signed_offset_hex_14(EntityRec *record);                      /* extern */
 s32 func_800CE04C(s32, s32, s32);
 
 

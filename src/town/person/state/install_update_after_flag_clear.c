@@ -1,6 +1,7 @@
 #include "town/person.h"
 #include "town/person/object/initialize_object_entries_api.h"
 #include "shared/object_index_slots.h"
+#include "town/person/state.h"
 
 extern s32 D_800C5FDC[];
 extern s32 D_800D5590[];

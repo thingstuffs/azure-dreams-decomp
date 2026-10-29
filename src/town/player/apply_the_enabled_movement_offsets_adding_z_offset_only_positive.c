@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/vector.h"
+#include "town/player.h"
 
 typedef struct TownMoveInner {
     s32 unk0[3];

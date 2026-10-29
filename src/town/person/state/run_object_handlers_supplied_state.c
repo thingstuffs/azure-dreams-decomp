@@ -1,8 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
-
-void create_timed_effect_object(s32, s32, s32);                            /* extern */
-void move_position_toward_target(void *, void *, s32);       /* extern */
+#include "town/menu/object.h"
+#include "town/person/position.h"
+#include "town/person/state.h"
 
 /* Run both object handlers with the supplied state and context. */
 void run_object_handlers_supplied_state(s32 object, s32 state, s32 context) {

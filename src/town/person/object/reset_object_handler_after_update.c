@@ -3,6 +3,7 @@
 
 extern s32 D_800C3A98;
 #include "town/person/object/initialize_object_entries_api.h"
+#include "town/person/object.h"
 
 // Updates an object using its linked data, then resets its indexed flag and state.
 void reset_object_handler_after_update(void *object, s32 unused, void *updateValue) {

@@ -2,6 +2,7 @@
 #include "town/person/state_updates.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
+#include "town/person/object.h"
 
 #include "town/person/object/initialize_object_entries_api.h"          /* extern */
 extern M2C_UNK D_800C9864;

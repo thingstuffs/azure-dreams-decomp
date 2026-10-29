@@ -1,6 +1,7 @@
 #include "common.h"
+#include "town/player.h"
+#include "town/player/motion.h"
 
-extern void copy_motion_parameters_and_reset_flag(s32 record, s32 source);
 extern void initialize_record_with_handler_table(s32 record, s32 setup_value, s32 init_value);
 extern s32 town_motion_action_address;
 extern s32 *town_player_action_callback;

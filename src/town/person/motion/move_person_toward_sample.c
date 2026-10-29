@@ -4,8 +4,9 @@
 #include "records/Rec_func_800AB014_arg0.h"
 #include "town/person/person_record_history_g00592.h"
 #include "town/person/lookup_motion.h"
+#include "town/person.h"
+#include "town/person/motion.h"
 
-s32 get_person_lookup_step(Rec_func_800AAE98_arg0 *coordinates);                          /* extern */
 extern void D_800AB5C0();
 
 typedef struct {

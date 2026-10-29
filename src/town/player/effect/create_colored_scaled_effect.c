@@ -1,12 +1,13 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
+#include "town/event/state.h"
+#include "town/menu.h"
+#include "town/player/effect.h"
 #ifndef NULL
 #define NULL 0
 #endif
 
-extern void *create_town_effect_object(s32, s32, void *, s32);
-extern void *initialize_object_transform_and_state(void *, void *, s32);
 extern s32 D_800A6B10;
 
 /* Creates an object and initializes its model scale, color, and flags. */

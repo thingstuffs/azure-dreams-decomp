@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "town/player.h"
 
 
 /* Returns the sector of the wrapped angle difference with a 0x500 offset. */

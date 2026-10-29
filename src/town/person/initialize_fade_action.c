@@ -2,10 +2,9 @@
 #include "m2c_compat.h"
 #include "shared/object_index_slots.h"
 #include "records/Rec_func_80094268_arg0.h"
+#include "slus.h"
+#include "town/person.h"
 
-
-void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
-short SD_Call(int flags);
 #include "town/person/object/initialize_object_entries_api.h"
 
 extern M2C_UNK D_800CC4B0[3];

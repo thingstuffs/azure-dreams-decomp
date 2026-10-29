@@ -3,9 +3,8 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 #include "town/person/object_setup.h"
+#include "town/person.h"
 void func_800CB73C(Rec_func_80094268_arg0 *);                            /* extern */
-void allocate_variant_object(s32, s32, s32);                /* extern */
-
 
 /* Decrement the actor's countdown and run its expiration actions when it expires. */
 void update_actor_countdown_completion(Rec_func_80094268_arg0 *actor, void *update_context, void *setup_context) {

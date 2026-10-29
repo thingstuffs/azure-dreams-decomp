@@ -2,8 +2,9 @@
 #include "shared/object_index_slots.h"
 
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"
-s16 clamp_transform_coordinate_deltas(s32, s32, void *);
-void forward_player_motion_state(void *state, s32 value, s32 mode);
+#include "town/person/position.h"
+#include "town/player/motion.h"
+#include "town/player/position.h"
 
 /* Clears the object slot flag, sets its handler, and updates its position-dependent value. */
 void set_player_handler_and_position_value(void *object, s32 value_arg, s32 handler_param) {

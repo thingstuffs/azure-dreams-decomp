@@ -1,5 +1,8 @@
 #include "common.h"
 #include "town/person/effects.h"
+#include "sdk/libc.h"
+#include "sdk/libgte.h"
+#include "town/player.h"
 
 typedef struct {
     u8 pad0[2];
@@ -13,10 +16,6 @@ typedef struct {
     u8 pad14[2];
     s16 field_16;
 } UnkStack;
-
-s32 rsin(s32);
-s32 rcos(s32);
-s32 rand(void);
 
 /* Spawns effects near the source with randomized positions and evenly spaced directions. */
 void spawn_directional_effects(void *source, s32 effect_count)

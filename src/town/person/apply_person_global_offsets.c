@@ -1,8 +1,8 @@
 #include "common.h"
+#include "town/player/position.h"
 
 extern s16 town_motion_x_step;
 extern s16 town_motion_y_step;
-extern void add_motion_deltas_to_position(void *arg);
 
 typedef struct {
     s32 unk0[3];

@@ -8,6 +8,7 @@ typedef struct {
 } ObjectSlot;
 
 #include "town/person/object_setup.h"
+#include "town/person/object.h"
 
 /* Store the object in its slot, mark the slot inactive, and call the next handler. */
 void store_object_slot_and_dispatch(void *object, void *update_context, void *setup_context) {

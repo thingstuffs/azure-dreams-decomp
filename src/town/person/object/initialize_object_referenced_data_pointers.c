@@ -1,5 +1,6 @@
 #include "town/person.h"
 #include "m2c_compat.h"
+#include "town/person/object.h"
 
 
 

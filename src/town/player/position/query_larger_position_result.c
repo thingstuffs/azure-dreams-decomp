@@ -1,9 +1,10 @@
 #include "common.h"
+#include "sdk/libc.h"
+#include "town/player/position.h"
 
 
 
 extern s32 get_maximum_sampled_offset_value();
-extern int abs(int);
 extern s32 *town_position_entry_samples;
 extern s32 town_secondary_probe_offset;
 

@@ -1,5 +1,7 @@
 #include "common.h"
 #include "shared/vector.h"
+#include "town.h"
+#include "town/player/position.h"
 
 
 typedef struct PositionLink {
@@ -18,7 +20,6 @@ typedef struct TownObject {
 } TownObject;
 
 extern TownState town_actor_control;
-extern void init_linked_position_action(TownObject *, IntVector3 *, void *);
 
 /*
  * Moves each coordinate halfway toward the linked actor position and starts

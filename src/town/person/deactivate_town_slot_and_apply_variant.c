@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_index_slots.h"
+#include "town/person.h"
 
 typedef struct {
     u8 active;

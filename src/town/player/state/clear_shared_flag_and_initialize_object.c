@@ -2,6 +2,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/entity.h"
+#include "town/player/state.h"
 
 #include "town/player/action_initializers.h"                            /* extern */
 extern s8 town_action_reset_byte;

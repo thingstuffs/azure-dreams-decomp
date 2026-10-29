@@ -2,10 +2,8 @@
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/entity.h"
 #include "town/player/action_initializers.h"
-
-
-
-extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(EntityRec *position);
+#include "town/player.h"
+#include "town/player/position.h"
 
 /* Advance interpolation toward the target and finish when the countdown expires. */
 void interpolate_actor_height_until_timeout(Rec_func_80094268_arg0 *state, EntityRec *motion, void *context) {

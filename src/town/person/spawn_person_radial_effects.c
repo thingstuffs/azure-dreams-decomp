@@ -4,6 +4,7 @@
 #include "sdk/libgte.h"
 #include "sdk/libc.h"
 #include "town/person/effects.h"
+#include "town/person.h"
 
 
 typedef struct {

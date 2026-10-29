@@ -1,5 +1,7 @@
 #include "common.h"
+#include "town/person.h"
 #include "records/Rec_func_80094268_arg0.h"
+#include "engine/window.h"
 
 typedef struct S_800C382C_0 {
     u8 pad_00[0x2];
@@ -11,8 +13,6 @@ typedef struct S_800C382C_0 {
     s32 unk_10;
 } S_800C382C_0;   /* arg1 in choose_random_movement_direction */
 
-extern s32 scale_random_to_unsigned_halfword_limit(s32 limit);
-extern void initialize_object_entries(void *state, void *output, void *entries);
 extern s32 D_800C355C;
 
 /* Chooses a random movement direction and advances the entity state. */

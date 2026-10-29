@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_index_slots.h"
+#include "town/player/object.h"
 
 extern u8 D_800D05E0[];
 

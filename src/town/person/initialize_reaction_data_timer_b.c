@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/person.h"
 typedef struct {
     s16 unk0;
     s16 x;

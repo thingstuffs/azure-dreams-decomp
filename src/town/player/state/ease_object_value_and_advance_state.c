@@ -1,6 +1,7 @@
 #include "common.h"
+#include "town/player/object.h"
+#include "town/player/state.h"
 
-extern void clear_entity_record_fields(void *);
 extern u8 D_80098544[8];
 
 /* Ease the object's value toward -0x800000 until the timer expires, then advance the state. */

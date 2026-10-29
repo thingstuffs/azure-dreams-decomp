@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/person.h"
 
 typedef struct S_800C830C_0 {
     u8 pad_00[0x74];

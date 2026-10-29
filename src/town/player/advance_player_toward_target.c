@@ -3,6 +3,7 @@
 #include "town/player.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
+#include "town/player/object.h"
 
 typedef struct S_8009B014_1 {
     u8 pad_00[0x4];
@@ -14,8 +15,6 @@ typedef struct S_8009B014_1 {
     u8 pad_12[0x20];
     s16 unk_32;
 } S_8009B014_1;   /* arg0 in advance_player_toward_target */
-
-extern void clear_entity_record_fields(void *record);
 
 extern s32 town_scene_record_handlers[];
 extern s32 town_player_target_adjustment;

@@ -2,6 +2,7 @@
 #include "town/person/actor_data_references_g00663.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "m2c_compat.h"
+#include "town/person/object.h"
 
 
 typedef struct S_800C641C_2 {

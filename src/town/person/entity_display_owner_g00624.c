@@ -1,6 +1,7 @@
 /* Entity display owner (G00624). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B678C, CL:town/func_800B6858, CL:town/func_800B6980, CL:town/func_800B6A28, CL:town/func_800B6BF0, CL:town/func_800B6C88, CL:town/func_800B6D34. */
 #include "town/person/entity_display_owner_g00624.h"
+#include "town/person.h"
 
 /* Initializes two child entries with data addresses and coordinate offsets. */
 void initialize_dual_child_entries(S_800B4350_0 *owner) {

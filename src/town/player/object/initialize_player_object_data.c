@@ -1,9 +1,9 @@
 #include "common.h"
 #include "shared/object_node.h"
+#include "town/player/object.h"
 
 extern void initialize_scene_action_record(void *buffer, s32 header_value08, s32 header_value0C);
 extern void call_the_handler_selects_nonzero_entry(void *entries, void *record,void *handler_param);
-extern void clear_entity_record_fields(s32 record);
 
 extern u8 scene_object_payload_alias[];
 extern u8 town_scene_record_handlers[];

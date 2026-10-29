@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/person/state.h"
 
 extern void D_800AAC64(void *object, s32 context, s32 update_param, void *color_data);
 

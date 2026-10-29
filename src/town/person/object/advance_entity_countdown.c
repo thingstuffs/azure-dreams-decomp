@@ -5,6 +5,7 @@
 /* extern */
 
 #include "town/person/object_setup.h"
+#include "town/person/object.h"
 /* Decrement the countdown and call apply_object_setup_and_update when it reaches zero. */
 void advance_entity_countdown(Rec_func_80094268_arg0 *object, void *context, void *update_data) {
     u16 remaining_ticks;

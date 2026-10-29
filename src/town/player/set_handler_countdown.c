@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/player.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern void D_80098140(void *state, s32 value);

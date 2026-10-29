@@ -1,6 +1,7 @@
 #include "common.h"
+#include "town/player/object.h"
+#include "town/player/position.h"
 
-extern void clear_entity_record_fields(void *record);
 extern void initialize_record_with_handler_table(void *record, void *setup_value, s32 init_value);
 
 /* Move the position toward its target until the countdown expires, then finish the move. */

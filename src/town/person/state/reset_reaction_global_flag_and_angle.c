@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/person/state.h"
 
 extern s8 D_800826B8;
 

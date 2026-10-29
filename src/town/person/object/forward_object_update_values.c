@@ -3,6 +3,7 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "town/person/object_setup.h"
+#include "town/person/object.h"
 
 /* Forward the object and two setup contexts to the selector. */
 void forward_object_update_values(void *object, void *value_1, void *value_2, s32 value_3) {

@@ -5,6 +5,7 @@
 
 
 #include "town/person/object_setup.h"
+#include "town/person.h"
 /* Decrement the countdown, then restore unk_72 from unk_6E and call apply_object_setup_and_update when it expires. */
 void decrement_mother_event_timer_and_restore(Rec_func_80094268_arg0 *object, void *callback_arg_1, void *callback_arg_2) {
     u16 countdown;

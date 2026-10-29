@@ -2,6 +2,7 @@
 #include "shared/object_index_slots.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
+#include "town/person/state.h"
 
 #include "town/person/object/initialize_object_entries_api.h"          /* extern */
 extern void D_800C5ADC();

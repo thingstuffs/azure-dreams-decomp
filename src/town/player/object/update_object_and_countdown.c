@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "records/Rec_func_80094268_arg0.h"
+#include "town/player/object.h"
 
 #include "town/player/initialize_record_with_handler_table_api.h"     /* extern */
 #include "town/person/position.h"

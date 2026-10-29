@@ -1,10 +1,10 @@
 #include "common.h"
 #include "shared/object_node.h"
+#include "engine/script.h"
+#include "town/player/object.h"
 
-extern void call_script(void *value);
 extern void call_the_handler_selects_nonzero_entry(void *entries, void *record,void *handler_param);
 extern void init_motion_action_callback(void *block, s32 header_param_08, s32 header_param_0c);
-extern void clear_entity_record_fields(s32 record);
 
 extern u8 D_8006CADE[];
 extern u8 scene_object_payload_alias[];

@@ -4,8 +4,7 @@
 #include "shared/town_handler.h"
 #include "shared/entity.h"
 #include "shared/position_views.h"
-void update_threshold_timed_action(Rec_func_80094268_arg0 *state, EntityRec *entity, s32 context);
-
+#include "town/player.h"
 
    /* Initialize the record with its handler, count, and a value from the source record. */
 void initialize_source_bound_action(Rec_func_80094268_arg0 *record, UnsignedCountdownView *source_record, void *ptr2) {

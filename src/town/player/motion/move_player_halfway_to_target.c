@@ -2,6 +2,8 @@
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/entity.h"
 #include "shared/vector.h"
+#include "town/player/motion.h"
+#include "town/player/object.h"
 
 
 typedef struct Position {
@@ -20,7 +22,6 @@ extern u8 town_scene_record_handlers[];
 extern IntVector3 D_800D0624;
 
 extern void call_the_handler_selects_nonzero_entry();
-extern void clear_entity_record_fields();
 
 /* Compute half the offset to the target, then snap to it and advance state when the timer expires. */
 void move_player_halfway_to_target(Rec_func_80094268_arg0 *state, Position *position, s32 context)

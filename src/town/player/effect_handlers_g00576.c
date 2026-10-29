@@ -1,6 +1,7 @@
 /* Initialize player effect handlers from prior state (G00576). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A7DDC. */
 #include "town/player/effect_handlers_g00576.h"
+#include "town/player.h"
 
 /* Set the record handlers, initialize its data, clear the global state, and finish setup. */
 void initialize_effect_record_handlers(void *record_data, s32 unused, s32 destination) {

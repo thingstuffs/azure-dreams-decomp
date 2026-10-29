@@ -3,6 +3,7 @@
  */
 #include "town/person/configure_actor_slot_e_g01193.h"
 #include "shared/sprite_frame_state.h"
+#include "town/person.h"
 
 /*
  * Calls func_800C3050 with actor, 0x22, scene_slot_e_data_a, scene_slot_e_data_b,

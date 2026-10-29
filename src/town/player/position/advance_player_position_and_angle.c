@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/person/position.h"
+#include "town/player/position.h"
 
 typedef struct {
     u8 pad_00[0xA];

@@ -1,9 +1,8 @@
 #include "common.h"
+#include "town/person.h"
 #include "shared/sprite_frame_state.h"
 #include "records/Rec_func_80094268_arg0.h"
 
-/* Pointer arguments follow the matched initialize_object_entries body. */
-extern void initialize_object_entries(void *state, SpriteFrameState *output, s32 *entries);
 #include "shared/object_index_slots.h"
 
 extern u8 D_800C3C7C[];

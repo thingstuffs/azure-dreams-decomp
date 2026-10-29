@@ -1,6 +1,7 @@
 /* G00671: actor output state. */
 /* Original-file evidence (G00671): inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800CAA34. */
 #include "town/person/actor_output_state_g00671.h"
+#include "town/person.h"
 
 /* Set the object value to its base plus the source value minus 76. */
 void set_object_value_base_plus(Rec_func_800AB030_arg0 *source, EntityRec *object) {

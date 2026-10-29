@@ -1,9 +1,8 @@
 #include "common.h"
 #include "records/Rec_func_80094268_arg0.h"
-
-
-extern s32 rsin(s32);
-
+#include "sdk/libgte.h"
+#include "town/person.h"
+#include "town/person/object.h"
 
 typedef struct S_800C4E30_1 {
     u8 pad_00[0x1C];
@@ -11,8 +10,6 @@ typedef struct S_800C4E30_1 {
     s16 unk_1E;
 } S_800C4E30_1;   /* arg2 in animate_scale_and_restore */
 
-
-extern void apply_object_setup_and_update(Rec_func_80094268_arg0 *, void *, S_800C4E30_1 *);
 /* Advance the scale animation countdown and restore normal scale when it ends. */
 void animate_scale_and_restore(Rec_func_80094268_arg0 *state, void *context, S_800C4E30_1 *scale) {
     s16 frames_left;

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "town/person.h"
 
 /*
  * Quantizes the wrapped angle from the shared heading plus a quarter turn into sectors.

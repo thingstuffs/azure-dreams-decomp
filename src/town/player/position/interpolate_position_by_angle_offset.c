@@ -1,11 +1,9 @@
 #include "common.h"
 #include "shared/entity.h"
+#include "sdk/libgte.h"
+#include "town/player/object.h"
+#include "town/player/position.h"
 
-
-
-extern s32 rsin(s32 value_a);
-extern s32 rcos(s32 value_b);
-extern void clear_entity_record_fields(void *record);
 extern s32 D_80098690;
 
 typedef struct S_80098764_0 {

@@ -2,9 +2,8 @@
 #include "town/scene/collision.h"
 
 #include "town/person/object_setup.h"
-extern s32 rsin(s32 angle);
-extern s32 rcos(s32 angle);
-extern void initialize_object_from_context(void *object, s32 unusedArg, void *initValue);
+#include "sdk/libgte.h"
+#include "town/person/object.h"
 
 extern ColliderView town_actor_control;
 

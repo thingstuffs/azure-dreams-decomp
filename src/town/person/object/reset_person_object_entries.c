@@ -1,6 +1,6 @@
 #include "common.h"
-
-extern void apply_entity_effects(void *object);
+#include "engine/entity.h"
+#include "town/person/object.h"
 
 /* Clears object entries and flags, restores saved fields, and updates the object. */
 void reset_person_object_entries(void *object)

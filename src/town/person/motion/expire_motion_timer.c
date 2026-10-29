@@ -1,7 +1,7 @@
 #include "common.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/entity.h"
-void advance_motion_and_switch_handler(Rec_func_80094268_arg0 *object, EntityRec *motion, void *context);
+#include "town/person/motion.h"
 
 typedef struct S_800C3FC8_0 {
     u8 pad_00[0x54];

@@ -1,8 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
+#include "town/player.h"
 
-void clear_slot_n_3_copies_slot_n_0(EntityRec *);                            /* extern */
 extern s8 D_800CFCEB;
 
 

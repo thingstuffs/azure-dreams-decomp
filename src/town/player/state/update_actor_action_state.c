@@ -1,11 +1,11 @@
 #include "common.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/entity.h"
+#include "town.h"
+#include "town/player/position.h"
+#include "town/player/state.h"
 
-
-extern s32 init_height_interpolation_action(void *, void *, s32);
 extern void call_the_handler_selects_nonzero_entry(void *, void *,void *);
-extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(void *);
 extern s32 timed_scene_handler_entries;
 extern s32 D_800D00F0;
 extern s32 D_800D00F8;

@@ -2,8 +2,9 @@
 #include "town/player.h"
 #include "shared/object_index_slots.h"
 #include "records/Rec_func_80094268_arg0.h"
+#include "engine/node.h"
+#include "town/player/motion.h"
 
-void register_node_if_unregistered(void *block_data, void *registration_id);
 #include "town/player/initialize_record_with_handler_table_api.h"
 
 /* Processes the object, clears its indexed flag, and invokes the next handler. */

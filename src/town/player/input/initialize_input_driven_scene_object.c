@@ -1,8 +1,9 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/town_handler_entries.h"
+#include "town/player/input.h"
+#include "town/player/state.h"
 
-void dispatch_sound_by_global_flag(void);                            /* extern */
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h" /* extern */
 extern s32 town_input_object_address;
 

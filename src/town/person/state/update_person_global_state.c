@@ -1,6 +1,7 @@
 #include "common.h"
+#include "town/person.h"
+#include "town/person/state.h"
 
-extern void initialize_person_vector(void *, s32, s32 *);
 extern s32 scene_object_payload_alias;
 extern u8 town_input_motion_address[];
 extern s32 *town_saved_motion_pointer;

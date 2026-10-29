@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "town/player.h"
 
 
 /* Return whether any of the 34 entries contains the requested byte value. */

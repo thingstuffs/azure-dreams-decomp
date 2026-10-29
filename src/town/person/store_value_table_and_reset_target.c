@@ -7,6 +7,7 @@
 
 #include "town/system/person_idle_dispatch.h"
 #include "town/person/position.h"
+#include "town/person.h"
  /* Slot contract: loading images do not establish one callee contract. */
 
 /* Store the value table, apply the selected value to the target, and clear its status byte. */

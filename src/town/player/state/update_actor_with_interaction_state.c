@@ -5,20 +5,17 @@
 #include "shared/entity.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "town/player/coordinates.h"
+#include "town/player.h"
+#include "town/player/position.h"
 
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-
-extern void initialize_scene_action_record();
 extern void initialize_actor_action_state();
 void initialize_action_object(s32 **record, void *ptr, void *ptr2);
 void initialize_actor_movement_interaction_action(s32 **record, void *ptr, void *ptr2);
-extern void move_both_components_toward_zero_direction_dependent_steps_clamping_zero(EntityRec *record);
-extern void compute_and_clamps_vector_based_adjustment_updates_town();
-extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(EntityRec *position);
 
 extern void *town_target_record[3];
 

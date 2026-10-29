@@ -2,6 +2,7 @@
 #include "shared/object_index_slots.h"
 #include "shared/town_handler.h"
 #include "slus.h"
+#include "town/player/object.h"
 
 typedef struct TownEntry {
     u8 pad0[2];
@@ -20,7 +21,6 @@ typedef struct TownObject {
     s32 entry_index;
 } TownObject;
 
-extern void clear_entity_record_fields();
 extern u8 D_800983BC;
 extern u8 D_800D0158;
 extern u16 town_facing_angles[];

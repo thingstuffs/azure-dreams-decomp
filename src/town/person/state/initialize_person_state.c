@@ -1,8 +1,8 @@
 #include "common.h"
 #include "shared/entity_objects.h"
+#include "town/person.h"
+#include "town/person/state.h"
 
-extern void fill_person_records(void);
-extern s32 get_person_lookup_step(void *coordinates);
 extern u8 person_object_update_address[];
 extern u8 person_approach_state_address[];
 

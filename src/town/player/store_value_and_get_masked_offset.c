@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/tile_object.h"
+#include "town/player.h"
 
 extern s32 D_80100E2C;
 

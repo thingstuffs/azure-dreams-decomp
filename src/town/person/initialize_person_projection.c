@@ -1,14 +1,9 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
+#include "sdk/libgte.h"
+#include "town/person.h"
 
-void SetFogFar(s32, s32);                /* extern */
-void SetLightMatrix(void *);                      /* extern */
-void SetColorMatrix(void *);                      /* extern */
-void SetBackColor(s32, s32, s32);   /* extern */
-void SetFarColor(s32, s32, s32);   /* extern */
-void SetGeomOffset(s32, s32);            /* extern */
-void SetGeomScreen(s32);                     /* extern */
 extern struct S_800AB7FC_1 map_runtime_state;
 /* Retail writes +0x19..+0x1B; the asset allocation extent is not established here. */
 extern u8 upper_draw_context[];

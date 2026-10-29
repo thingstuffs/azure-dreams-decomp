@@ -1,5 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/player/position.h"
+#include "town/player/state.h"
 
 typedef struct {
     s32 unk0;
@@ -9,7 +11,6 @@ typedef struct {
     s32 unk10;
 } State;
 
-void expand_bounds_to_inset_rectangle();                 /* extern */
 extern s16 D_8006ADD6;
 extern s32 player_motion_bounds[4];
 extern State player_blocking_rects;

@@ -2,7 +2,8 @@
 #include "town/person/object_setup.h"
 
 #include "town/person/object/initialize_object_entries_api.h"
-extern s32 scale_random_to_unsigned_halfword_limit(s32);
+#include "engine/window.h"
+#include "town/person.h"
 extern u8 D_800C9AD4[];
 extern s32 D_800D6504[];
 

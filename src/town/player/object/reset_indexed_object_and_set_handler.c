@@ -4,6 +4,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/town_handler.h"
+#include "town/player/object.h"
 
 #include "town/player/object/entity_record_fields.h"                     /* extern */
 extern void D_8009AA2C(void *state, void *object);

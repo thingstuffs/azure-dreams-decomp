@@ -6,6 +6,7 @@
 
 
 #include "town/person/object/initialize_object_entries_api.h"
+#include "town/person.h"
 extern s32 D_800D5670[];
 
 

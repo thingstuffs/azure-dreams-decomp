@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "town/player.h"
 
 typedef struct {
     u8 bytes[8];

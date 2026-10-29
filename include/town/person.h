@@ -112,4 +112,27 @@ typedef struct PersonSetupState {
 void begin_mother_event_pause(PersonSetupState *object, void *unused, void *context);
 void initialize_reaction_object_four(PersonSetupState *object, void *unused, void *context);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+#include "records/Rec_func_80094268_arg0.h"
+#include "records/Rec_func_800AAE98_arg0.h"
+#include "records/Rec_func_800AB030_arg0.h"
+s32 advance_person_lookup_value(Rec_func_800AB030_arg0 *record);
+void allocate_variant_object(s32 variant, s32 x, s32 y);
+s32 check_heading_past_half_sector(s32 angle, s16 divisions);
+void func_800CA60C(Rec_func_80094268_arg0 *actor, void *unused, void *output);
+s32 get_person_lookup_step(Rec_func_800AAE98_arg0 *coordinates);
+void load_record_halfwords_3(void *destination, s32 entry_index);
+s32 map_angle_to_cardinal_direction(s16 angle);
+s32 quantize_heading_to_sector(s32 referenceAngle, s16 sectorCount);
+void shift_history_and_store_current_values(void);
+
+#include "shared/position_views.h"
+struct S_800AAE30_1;
+struct S_800C7C88_0;
+void fill_person_records(void);
+void initialize_mother_event_defaults(struct S_800C7C88_0 *object);
+void initialize_person_vector(struct S_800AAE30_1 *object, void *unusedContext, MotionDeltaView *outputVector);
+
+void anyone_now_pos_get(s32 actor_id);
+
 #endif

@@ -1,11 +1,10 @@
 #include "common.h"
 
 #include "records/Rec_func_80094268_arg0.h"
+#include "town/person/state.h"
 typedef struct ReactionState ReactionState;
 
 /* extern */
-void func_800CDF00(Rec_func_80094268_arg0 *actor, ReactionState *state, s8 *output);
-
 
 #include "town/person/object_setup.h"
 /* Decrement the counter when the check returns zero and enter state 3 when it expires. */

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "town/person.h"
 
 #define FIELD_U16(base, offset) (*(u16 *)((u8 *)(base) + (offset)))
 

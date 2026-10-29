@@ -1,6 +1,7 @@
 #include "common.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "m2c_compat.h"
+#include "town/person/object.h"
 
 extern M2C_UNK D_800D68E8;
 

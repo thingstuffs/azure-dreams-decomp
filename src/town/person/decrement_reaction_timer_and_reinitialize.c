@@ -7,6 +7,7 @@
 
 
 #include "town/person/object_setup.h"
+#include "town/person.h"
 /* Decrement the object countdown and call initialize_reaction_movement when it expires. */
 void decrement_reaction_timer_and_reinitialize(Rec_func_80094268_arg0 *object, void *context, void *param) {
     u16 countdown;

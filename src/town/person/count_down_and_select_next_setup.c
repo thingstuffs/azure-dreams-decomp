@@ -7,6 +7,7 @@ struct Rec_func_80094268_arg0; void initialize_object_and_data_pointer(struct Re
 void func_800CDE4C(void *, s32, void *);    /* extern */
 #include "records/Rec_D_800CFCB4.h"
 #include "engine/window.h"
+#include "town/person.h"
 extern ColliderView town_actor_control;
 
 /* Count down when the object is ready and choose its next setup when the timer expires. */

@@ -1,6 +1,7 @@
 /* Actor data references (G00663). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D58B8. */
 #include "town/person/actor_data_references_g00663.h"
+#include "town/person.h"
 
 /* Set both linked pointers to D_800D58B8. */
 void set_linked_data_pointers_variant_1(Rec_func_80094268_arg0 *record, void *unused_context, struct SpriteFrameState *unused_sprite) {

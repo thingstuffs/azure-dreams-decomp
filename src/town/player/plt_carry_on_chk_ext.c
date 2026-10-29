@@ -1,4 +1,5 @@
 #include "town/player/carry_item.h"
+#include "town/player.h"
 
 extern s32 scene_object_payload_alias;
 

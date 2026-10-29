@@ -1,8 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/player.h"
+#include "town/player/state.h"
 
-void initialize_state_from_terminated_entries(s32);                            /* extern */
-void initialize_mode_state_tables(void);                            /* extern */
 extern s16 map_scene_selector_alias;
 
 /* Dispatch to the parameterized handler in state 12 or the default handler otherwise. */

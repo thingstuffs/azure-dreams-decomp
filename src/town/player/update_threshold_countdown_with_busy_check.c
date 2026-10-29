@@ -2,14 +2,12 @@
 #include "common.h"
 #include "shared/town_action_flag.h"
 #include "town/player/coordinates.h"
+#include "town.h"
+#include "town/player.h"
+#include "town/player/position.h"
+#include "town/shop.h"
 
-extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(void *object);
-extern void move_both_components_toward_zero_direction_dependent_steps_clamping_zero(void *object);
-extern void compute_and_clamps_vector_based_adjustment_updates_town(void *object, s16 value, void *data);
-extern void initialize_action_object(void *state, void *object, s32 context);
 extern void initialize_actor_interaction_state_19(void *state, void *object, s32 context);
-extern s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41(void);
-
 
 /* Update the object, handle its value threshold, and advance the countdown. */
 void update_threshold_countdown_with_busy_check(void *state, void *object, s32 context) {

@@ -3,8 +3,7 @@
 #include "m2c_compat.h"
 #include "engine/resource.h"
 #include "sdk/libgte.h"
-
-s32 input_angle_with_offset(s32 unused, s32 angle_offset);                        /* extern */
+#include "town.h"
 
 typedef struct {
     u8 pad[0xC];

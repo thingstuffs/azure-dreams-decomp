@@ -2,6 +2,7 @@
 #include "m2c_compat.h"
 #include "shared/position_views.h"
 #include "sdk/libgte.h"
+#include "town/person.h"
 
 extern void D_800AADB0();
 

@@ -1,8 +1,8 @@
 #include "common.h"
 
 #include "town/player/action_initializers.h"
+#include "town/player.h"
 extern void initialize_actor_movement_interaction_action(void *,void *,void *);
-extern s32 select_an_eligible_source_entry_stores_pointer_in_destination(void *, s32 *);
 extern s32 town_actor_control[];
 
 /* Dispatch the actor's action using its cached entry or the entry lookup result. */

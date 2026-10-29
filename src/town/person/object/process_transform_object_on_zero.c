@@ -1,7 +1,8 @@
 #include "common.h"
+#include "engine/script.h"
+#include "town/person/object.h"
+#include "town/scene/object.h"
 
-extern s32 service_script_controller(void);
-extern void unlink_scene_list_node(void *node);
 extern struct { s32 v; s32 pad[2]; } object_flag_block;
 
 /* On a zero result, process the object and set its flag and the global flag. */
