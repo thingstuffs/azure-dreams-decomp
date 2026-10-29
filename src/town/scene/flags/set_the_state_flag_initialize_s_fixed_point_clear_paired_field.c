@@ -2,6 +2,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_800CFCB4.h"
 #include "shared/entity.h"
+#include "town/scene/flags.h"
 /* Set the state flag, initialize the object's fixed-point value, and clear its paired field. */
 void set_the_state_flag_initialize_s_fixed_point_clear_paired_field(Rec_D_800CFCB4 *state, EntityRec *object, s32 initial_value) {
     state->unk_35 = 1;

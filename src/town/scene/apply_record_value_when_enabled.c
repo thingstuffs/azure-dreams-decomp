@@ -4,6 +4,7 @@
 #include "town/player.h"
 #include "town/player/script_flags.h"
 #include "town/scene/record_actions.h"
+#include "town/scene.h"
 
 
 

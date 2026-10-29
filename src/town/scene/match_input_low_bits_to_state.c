@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/scene.h"
 
 typedef struct TownInput {
     u8 pad0[3];

@@ -1,6 +1,7 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "town/scene/event.h"
 
 extern s8 D_80018EBC[];
 extern s32 scene_state_dispatch_context;

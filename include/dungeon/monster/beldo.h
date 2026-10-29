@@ -10,4 +10,7 @@ void create_attached_sprite_with_offset(void *owner_data, MovingPosition *base_p
 
 void run_actor_callbacks_and_adjust_global_flag(void *entity_ptr, void *motion, void *check_arg, void *actor_arg);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+void update_actor_movement_and_height(void *entity_arg, void *motion_arg, SpriteFrameState *monster_arg);
+
 #endif

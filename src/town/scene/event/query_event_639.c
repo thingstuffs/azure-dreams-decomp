@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene/event.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_80019458(s32);

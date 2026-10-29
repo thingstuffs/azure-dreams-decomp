@@ -5,6 +5,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/scene/event.h"
 
 typedef struct S_8059E540_2 {
     u8 pad_00[0x6000];

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 extern void *town_motion_list[];
 

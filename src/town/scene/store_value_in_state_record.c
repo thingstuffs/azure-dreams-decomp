@@ -1,5 +1,6 @@
 #include "shared/town_event_state.h"
 #include "common.h"
+#include "town/scene.h"
 
 typedef unsigned long uptr;
 
@@ -7,8 +8,6 @@ typedef struct {
     u8 pad[0x10];
     void *records;
 } TownObject;
-
-extern s32 build_selected_entry_output(s32);
 
 /* Update the selected object record when the current state is 1. */
 s32 store_value_in_state_1_record(TownObject *object, s32 record_index) {

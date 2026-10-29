@@ -1,6 +1,7 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town/player/script_flags.h"
+#include "town/scene/flags.h"
 
 s32 func_80017D9C(s32, s32);
 extern void func_80018854(s32); /* placed copy of set_script_flag_bit */

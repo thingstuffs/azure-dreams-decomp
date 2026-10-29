@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/town_event_buffer.h"
+#include "town/scene.h"
 
 
 /* Check for record bytes 13 and 4 with flag 0x20 set. */

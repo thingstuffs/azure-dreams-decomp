@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 extern s8 scene_music_hold;
 

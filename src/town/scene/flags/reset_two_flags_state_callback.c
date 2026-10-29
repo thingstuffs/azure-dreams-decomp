@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/scene/flags.h"
 void func_80018BD0(s32);                     /* extern */
 
 

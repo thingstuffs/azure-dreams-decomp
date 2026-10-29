@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/town_root.h"
 #include "shared/record_ptrs.h"
+#include "town/scene/flags.h"
 
 
 typedef struct S_8001C7A0_1 {

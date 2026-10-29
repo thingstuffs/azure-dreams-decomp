@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/money.h"
 
 extern s32 scene_price;
 

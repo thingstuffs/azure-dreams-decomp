@@ -4,6 +4,7 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "engine/node.h"
+#include "engine/graphics.h"
 
 #ifndef NULL
 #define NULL 0
@@ -41,7 +42,6 @@ typedef struct {
 
 extern u32 D_80175480;
 struct SpriteFrameState;
-extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
 
 /* Creates a directional effect and applies the supplied position offsets. */
 s32 create_offset_directional_effect(FuncArg0 *source, FuncArg1 *position, SpriteFrameState *render_context) {

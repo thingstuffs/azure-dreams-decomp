@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "modules/town_ovl_3ef1c8.h"
+#include "town/scene.h"
 
 /* Applies the slot value while flag 0x799 is clear; otherwise dispatches by the helper threshold of 26. */
 s32 dispatch_by_state_code_0x799(void *slot_index, s32 slot_value) {

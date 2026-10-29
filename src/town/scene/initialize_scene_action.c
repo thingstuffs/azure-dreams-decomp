@@ -4,6 +4,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "town/player/script_flags.h"
+#include "town/scene.h"
 
 
 

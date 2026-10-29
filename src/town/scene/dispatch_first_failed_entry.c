@@ -1,5 +1,6 @@
 /* Relinked copy of town/func_80875404 (func_80875404.c); retail differs only at relocation sites. */
 #include "common.h"
+#include "town/scene.h"
 
 typedef struct {
     s16 value[4];

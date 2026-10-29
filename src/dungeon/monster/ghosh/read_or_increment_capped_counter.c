@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/ghosh.h"
 
 /* Return the stored count and optionally increment it up to 9999. */
 s32 read_or_increment_capped_counter(s32 read_only) {

@@ -2,6 +2,8 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/monster/ghosh.h"
+#include "slus.h"
 
 typedef struct S_80172DFC_0_pre {
     u16 unk_00;
@@ -25,8 +27,6 @@ typedef struct S_80172DFC_1 {
     s32 unk_04;
     s32 unk_08;
 } S_80172DFC_1;   /* arg1 in update_accelerating_growing_particle */
-
-extern void advance_sprite_animation_and_textures(void *);
 
 /* Advance effect motion and animation, and flag completion when its lifetime ends. */
 void update_accelerating_growing_particle(void *effect, S_80172DFC_1 *position, SpriteFrameState *animation) {

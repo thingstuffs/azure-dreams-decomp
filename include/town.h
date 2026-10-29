@@ -28,4 +28,12 @@ void init_linked_position_action(Rec_func_80094268_arg0 *record, s32 unused, s32
 
 void init_height_interpolation_action(Rec_func_80094268_arg0 *record, void *unused, void *handler_context);
 
+void forward_context_request_to_handler_b(void *context, s32 request);
+void forward_context_request_to_handler_c(void *context, s32 request);
+s32 forward_context_request_to_handler_d(void *context, s32 request);
+void forward_context_request_to_handler_e(void *context, s32 request);
+void forward_context_request_to_handler_f(void *context, s32 request);
+void forward_context_request_to_handler_g(void *context, s32 request);
+void set_scene_entry_flag_k(void);
+
 #endif

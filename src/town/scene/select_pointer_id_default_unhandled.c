@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/scene/milestone_rewards.h"
+#include "town/scene.h"
 
 extern u8 scene_string_fallback[];
 extern u8 scene_choice_text[];

@@ -1,5 +1,6 @@
 /* Relinked copy of town/func_80878110 (func_80878110.c); retail differs only at relocation sites. */
 #include "common.h"
+#include "town/scene.h"
 
 typedef struct ListLink {
     u16 first;

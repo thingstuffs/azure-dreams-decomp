@@ -1,13 +1,14 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town/player/script_flags.h"
+#include "town/scene.h"
+#include "town/shop.h"
+#include "town/shop/object.h"
 
 typedef struct Copy4 {
     u8 bytes[4];
 } Copy4;
 
-extern void append_town_item(const Copy4 *);
-extern s32 count_free_item_slots(void);
 extern Copy4 D_8001BE5C;
 extern s32 D_8001EACC;
 extern s32 D_8001EBCA;

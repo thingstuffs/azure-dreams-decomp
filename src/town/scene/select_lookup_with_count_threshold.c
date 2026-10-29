@@ -1,5 +1,6 @@
 #include "modules/town_ovl_3ef1c8.h"
 #include "town/scene/response_checks.h"
+#include "town/scene.h"
 
 /* Looks up a response, applies the helper-result >= 10 override, then checks for a state fallback. */
 s32 select_lookup_with_count_threshold(s32 object, s32 check_value, s32 selection) {

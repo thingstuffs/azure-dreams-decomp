@@ -2,6 +2,7 @@
 #include "shared/object_node.h"
 #include "shared/entity_objects.h"
 #include "m2c_compat.h"
+#include "dungeon/monster/beldo_large.h"
 
 extern u8 *beldo_actor_nodes[3];
 

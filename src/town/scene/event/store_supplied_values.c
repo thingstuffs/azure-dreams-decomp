@@ -2,6 +2,7 @@
 #include "town/scene/entry_requests.h"
 #include "common.h"
 #include "town/player/script_flags.h"
+#include "town/scene/event.h"
 
 extern void func_8001611C(s32 value_18e44, s32 value_18e48); /* placed copy of set_global_entry_pair */
 void func_80017EB0(s32, s32);                /* extern */

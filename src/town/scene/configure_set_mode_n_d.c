@@ -2,6 +2,7 @@
 #include "town/scene/list_setup.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800CFCB4.h"
+#include "town/scene.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 

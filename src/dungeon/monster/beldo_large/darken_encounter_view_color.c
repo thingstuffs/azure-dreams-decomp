@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
+#include "dungeon/monster/beldo_large.h"
 
 
 /* Decrease three state bytes, or set entry and global flags below the threshold. */

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/scene.h"
 
 void clear_byte_offset_4_eight(void);                            /* extern */
 extern s32 scene_dispatch_mode_index;

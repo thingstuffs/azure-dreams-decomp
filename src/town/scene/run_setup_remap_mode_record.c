@@ -1,4 +1,6 @@
 #include "common.h"
+#include "town/devkit.h"
+#include "town/scene.h"
 
 typedef s32 (*TownCallback3)(void *, void *, s32);
 typedef s32 (*TownCallback1)(s32);
@@ -21,8 +23,6 @@ typedef struct TownGlobals {
 extern TownGlobals D_town_data_view __asm__("D_00000000");
 extern TownGlobals D_town_ptr_view __asm__("D_00000000");
 extern TownGlobals D_town_flag_load_view __asm__("D_00000000");
-
-extern s32 shift_index_and_add_offset_b(void);
 
 /* Runs setup callbacks, chooses the mode-specific record list, and remaps fields until the terminator. */
 void run_setup_and_remap_mode_records(s32 table_index, s32 mode) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/hooks.h"
 
 extern u8 catalog_selection_state[];
 

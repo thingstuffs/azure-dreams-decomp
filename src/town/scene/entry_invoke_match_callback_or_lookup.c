@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/town_scene_image.h"
+#include "town/scene.h"
 
-extern void invoke_match_callback_or_lookup(void);
 extern void forward_scene_inputs_b(void);
 
 /* The scene image's two entry records (include/shared/town_scene_image.h); the entry

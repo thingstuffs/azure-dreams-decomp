@@ -4,6 +4,7 @@
 #include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
+#include "engine/graphics.h"
 
 typedef struct {
     s8 pad_00[0x8C];
@@ -19,7 +20,6 @@ typedef struct {
 extern s32 update_actor_transform_from_parent(Actor *, void *, void *, void *);
 
 struct SpriteFrameState;
-extern void select_sprite_entry(void *, s16, s16);
 
 extern u8 kewne_action_resume_address[9];
 extern u8 kewne_frame_set_1[9];

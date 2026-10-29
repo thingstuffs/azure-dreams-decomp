@@ -1,6 +1,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/scene.h"
 
 typedef struct S_806D2BB8_0 {
     s32 unk_00;

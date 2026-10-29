@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 extern s32 func_80017200(void);
 /* Returns 20 minus the result of func_80017200. */

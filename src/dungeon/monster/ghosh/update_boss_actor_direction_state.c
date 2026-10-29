@@ -2,6 +2,10 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/item.h"
+#include "dungeon/monster/ghosh.h"
+#include "engine/graphics.h"
+#include "slus.h"
 
 typedef struct S_80172610_0 {
     u8 pad_00[0x2A];
@@ -67,11 +71,6 @@ typedef struct S_80172610_8 {
     u8 pad_00[0x9A];
     u8 unk_9A;
 } S_80172610_8;   /* saved_base in update_boss_actor_direction_state */
-
-
-extern void select_sprite_entry(void *, s32, s32);
-extern void advance_sprite_animation_and_textures(void *);
-extern void apply_monster_koyaw_data(void *, void *);
 
 extern s8 view_direction_depth_biases[];
 extern u8 ghosh_frame_set_2[];

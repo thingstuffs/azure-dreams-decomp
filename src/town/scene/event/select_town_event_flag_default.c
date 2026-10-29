@@ -1,6 +1,7 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "town/scene/event.h"
 
 typedef s32 (*TownCallback)();
 

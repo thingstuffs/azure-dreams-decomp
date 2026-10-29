@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "town/scene/flags.h"
 
 typedef s32 (*IndexFunc)(s32);
 typedef void (*UseFunc)(s16, s8);

@@ -61,4 +61,6 @@ u8 *clear_byte_and_advance(u8 *byte_ptr);
 
 s32 use_item_to_restore_eyesight(void *entity, DungeonItemEntry *item, s16 effect);
 
+void apply_monster_koyaw_data(s32 flags, s8 *dst);
+
 #endif

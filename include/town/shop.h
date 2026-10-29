@@ -29,4 +29,7 @@ s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41(void);
 
 void * create_item_menu_object(s32 selector);
 
+s32 advance_shop_entry_index_107(s32 index);
+s32 count_free_item_slots(void);
+
 #endif

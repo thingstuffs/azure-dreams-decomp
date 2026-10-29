@@ -2,8 +2,8 @@
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
-
-extern void setup_object_within_planar_range(void *, s32, s32, s32, s32, s32);
+#include "dungeon/effect.h"
+#include "dungeon/monster/ghosh.h"
 
 /* Invokes the placement helper at the tile center using the current entity value. */
 void place_boss_effect_at_tile_center(void) {

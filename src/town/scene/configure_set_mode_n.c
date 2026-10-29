@@ -2,6 +2,7 @@
 #include "town/scene/list_setup.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_8008F074_arg0.h"
+#include "town/scene.h"
 
 
 

@@ -2,6 +2,7 @@
 #include "shared/town_root.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "town/scene.h"
 
 typedef struct S_func_8065C05C_0 {
     s8 unk_00;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 extern s32 func_800198D0(s32 flagIndex);
 extern s16 D_800164BC;

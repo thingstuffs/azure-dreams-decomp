@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene.h"
 
 extern void func_800197D8(s32);
 extern void func_80019850(s32);

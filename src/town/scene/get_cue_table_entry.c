@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 extern u8 scene_rows[];
 extern u8 D_80019A6C[];

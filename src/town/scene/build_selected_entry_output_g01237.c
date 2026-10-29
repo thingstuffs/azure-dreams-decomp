@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01237 - PR:town/ll34_3e5000_80016000:80017ADC, PR:town/ll34_3e5000_80016000:80017AE8, PR:town/ll34_3e5000_80016000:80017AF4, PR:town/ll34_3e5000_80016000:80017B00, PR:town/ll34_3e5000_80016000:80017B0C, PR:town/ll34_3e5000_80016000:80017B18.
  */
 #include "town/scene/build_selected_entry_output_g01237.h"
+#include "town/scene.h"
 
 /* Sets entry flags from record state and selection, then prepares the output buffer. */
 u8 *build_selected_entry_output(s32 selected_index) {

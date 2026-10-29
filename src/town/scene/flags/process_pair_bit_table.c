@@ -1,5 +1,6 @@
 /* Relinked copy of town/func_808813CC (func_808813CC.c); retail differs only at relocation sites. */
 #include "common.h"
+#include "town/scene/flags.h"
 
 
 extern void func_80700C28(s32 bit_index);

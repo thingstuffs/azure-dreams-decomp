@@ -1,4 +1,6 @@
 #include "common.h"
+#include "town/scene.h"
+#include "town/scene/object.h"
 
 
 typedef struct Func80813E14Stack {
@@ -58,8 +60,6 @@ extern u32 func_80071494(void);
 extern void func_8023FB18(void *);
 extern void create_object_position_configures_color(u32, s32, s32, u32);
 extern void create_object_initializes_position_sprite(void *, s32, s32);
-extern void func_8052FE94(s32);
-
 
 typedef struct S_8052EA14_0 {
     u32 unk_00;

@@ -11,6 +11,10 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/level.h"
+#include "dungeon/actor.h"
+#include "dungeon/item.h"
+#include "engine/entity.h"
+#include "engine/object.h"
 
 #ifndef NULL
 #define NULL ((void *)0)
@@ -18,14 +22,10 @@
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
-s32 enqueue_runtime_pool_script(void *);
-extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 #include "engine/texture/select_indirect_table_entry_api.h"
 #include "slus.h"
-void apply_monster_koyaw_data(s32, s8 *);
 struct Owner_800A48F0; 
 struct ActorRecord; struct Rec_func_800A9E70_arg0; struct S_800A9E70_2; s32 refresh_actor_facing_and_lifecycle(struct Rec_func_800A9E70_arg0 *, s32, struct S_800A9E70_2 *, struct ActorRecord *);
-s32 try_move_actor_to_valid_position(void *, void *, void *, void *);
 void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 
 extern Callback beldo_large_callbacks[];

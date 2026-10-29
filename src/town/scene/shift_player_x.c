@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "town/scene.h"
 /* Call the scene object's 0x248 method, then advance the state's x field by 0x20. */
 void shift_player_x(void)
 {

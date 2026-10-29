@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_links.h"
+#include "town/scene.h"
 
    /* the 0x2 bytes before arg0 in process_state_zero_record, addressed as arg0[-1] */
 

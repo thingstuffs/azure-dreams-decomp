@@ -1,8 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/scene.h"
+#include "town/scene/event.h"
 
-
-extern void advance_dispatch_state_to_two(void);
 extern M2C_UNK scene_event_data;
 extern u8 scene_mode_event_data[];
 extern M2C_UNK D_8002576F;

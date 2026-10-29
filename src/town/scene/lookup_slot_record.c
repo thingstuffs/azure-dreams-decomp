@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene.h"
 void func_800176B8(void *, s32);             /* extern */
 void initialize_state_two_entries_pointer(s32 bit_index);                         /* extern */
 s32 func_8001868C(s32 flagIndex);                         /* extern */

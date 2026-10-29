@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "town/scene.h"
 
 typedef struct TownRecord {
     u8 tag;

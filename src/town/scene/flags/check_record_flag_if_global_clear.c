@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/scene/flags/event_checks.h"
+#include "town/scene/flags.h"
 
 /* This TOWN module's copy of check_flag_test_record (src/town/func_806D2D84.c). */
 

@@ -2,6 +2,7 @@
 #include "shared/town_pointees.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/scene/motion.h"
 
 
 typedef struct S_806F18F8_4 {

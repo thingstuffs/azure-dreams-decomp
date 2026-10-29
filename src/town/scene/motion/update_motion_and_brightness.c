@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/object_links.h"
+#include "town/scene/motion.h"
 
 
 typedef struct S_80814610_1 {

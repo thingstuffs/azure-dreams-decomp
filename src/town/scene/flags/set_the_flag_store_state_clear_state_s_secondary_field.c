@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/scene/flags.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 typedef struct S_8008F534_0 {

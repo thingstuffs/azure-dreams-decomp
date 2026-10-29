@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene.h"
 
 extern u8 D_800189CC[16];
 extern u8 scene_event_lookup_context[16];

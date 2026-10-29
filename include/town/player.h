@@ -93,4 +93,6 @@ void play_periodic_sound(s32 count, s32 interval);
 void clear_global_80110_ec_0_global_80082_a_39(void);
 s32 push_point_to_containing_edges(s32 *x, s32 *y);
 
+s32 sum_enabled_record_weights(void);
+
 #endif

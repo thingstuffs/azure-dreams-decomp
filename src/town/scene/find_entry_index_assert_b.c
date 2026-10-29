@@ -3,6 +3,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/town_event_state.h"
+#include "town/scene.h"
 
 typedef struct S_800195B8_0 {
     s32 unk_00;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 s32 func_80017B98(s32 grid_y, s32 grid_x);                /* extern */
 

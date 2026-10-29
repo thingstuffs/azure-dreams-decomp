@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/vector.h"
-extern int abs(int);
-
+#include "sdk/libc.h"
+#include "town/scene.h"
 
    /* other in blend_point_2s_by_signed_weight */
 

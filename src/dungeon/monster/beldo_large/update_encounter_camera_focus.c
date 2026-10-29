@@ -2,6 +2,7 @@
 #include "shared/object_node.h"
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"
+#include "engine/camera.h"
 
 typedef struct {
     u8 pad_00[0x12];
@@ -31,8 +32,6 @@ extern u16 dungeon_camera_targets[4];
 extern s16 beldo_camera_rotation[4];
 extern s16 beldo_camera_position[4];
 
-extern void set_camera_targets(void *, void *, s32);
-extern void queue_view_slot(s32);
 extern s16 get_player_relative_point_octant(void *);
 
 /*

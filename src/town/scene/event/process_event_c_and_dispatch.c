@@ -5,6 +5,7 @@
 #include "town/player.h"
 #include "town/player/script_flags.h"
 #include "town/scene/position_entries.h"
+#include "town/scene/event.h"
 
 extern ScenePositionEntry D_8001BB44;
 

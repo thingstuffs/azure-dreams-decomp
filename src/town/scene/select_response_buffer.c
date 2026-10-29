@@ -1,9 +1,7 @@
 #include "shared/town_event_state.h"
 #include "common.h"
+#include "town/scene/event.h"
 
-extern void set_event_state_and_dispatch_a_2(void);
-extern s32 check_event_value_in_list(s32 target_value);
-extern s32 find_first_enabled_entry_id(void);
 #include "town/scene.h"
 
 extern u8 scene_mode_response_data[];

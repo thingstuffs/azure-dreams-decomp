@@ -1,6 +1,7 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town/scene/position_entries.h"
+#include "town/scene/event.h"
 
 extern ScenePositionEntry D_80018E2C;
 extern s32 scene_state_dispatch_context;

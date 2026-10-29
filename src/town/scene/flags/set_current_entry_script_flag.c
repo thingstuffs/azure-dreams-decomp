@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "town/player/script_flags.h"
+#include "town/scene/flags.h"
 extern u8 D_80020000[];
 
 extern s32 D_8001C370[3];

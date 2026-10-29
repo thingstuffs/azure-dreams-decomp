@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/scene/collision.h"
+#include "town/scene/motion.h"
 
 extern CollisionOverlap box_overlap[];
 

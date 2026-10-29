@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene.h"
 struct S_8046C8C4_0;
 
 extern s32 copy_indexed_entry_value();

@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01229 - CL:town/func_804686A4.
  */
 #include "town/scene/flags/call_reset_dispatch_state_flags_g01229.h"
+#include "town/scene/flags.h"
 
 /* Resets dispatch state and flags, increments the first town event byte, and returns zero. */
 void *call_reset_dispatch_state_flags(void) {

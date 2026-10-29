@@ -2,6 +2,8 @@
 #include "common.h"
 #include "town/scene/entry_requests.h"
 #include "shared/record_ptrs.h"
+#include "town.h"
+#include "town/scene.h"
 
 typedef struct S_80016B0C_0 {
     u8 pad_00[0x8];
@@ -28,7 +30,6 @@ extern s32 scene_cell_dispatch_code;
 extern void *scene_current_cell_pointer;
 
 extern s32 func_80018504(void *object, s32 entry_index);
-extern void set_scene_entry_flag_k(void);
 extern void func_80018D54(void *, u8 *);
 extern void func_80019458(s32);
 extern s32 func_800194D8(s32);

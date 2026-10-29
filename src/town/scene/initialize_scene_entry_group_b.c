@@ -2,6 +2,7 @@
 #include "town/person/object/initialize_object_entries_api.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_index_slots.h"
+#include "town/scene.h"
 
 extern void func_800C68E0(void *, s32, s32);
 extern s32 D_800D58E0[];

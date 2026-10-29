@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/beldo_large.h"
 
 typedef struct DungeonState {
     s8 pad00[0x12];

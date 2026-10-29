@@ -1,6 +1,7 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town/scene/milestone_rewards.h"
+#include "town/scene/flags.h"
 
 extern char scene_string_fallback[];
 extern char scene_choice_text[];

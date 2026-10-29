@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/scene.h"
 
 extern void func_800182A8(s32, s32, s32);
 extern s32 D_8001691C;

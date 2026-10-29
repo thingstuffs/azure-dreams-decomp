@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
+#include "town/scene.h"
 
 
 typedef struct Copy12 {

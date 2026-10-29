@@ -2,6 +2,7 @@
 #include "common.h"
 #include "town/scene/milestone_rewards.h"
 #include "shared/record_ptrs.h"
+#include "town/scene/event.h"
 
 extern char scene_string_fallback[];
 extern char D_8001BFF8[];

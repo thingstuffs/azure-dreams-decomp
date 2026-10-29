@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/monster/ghosh.h"
 
 #define FIELD(base, type, offset) (*(type)((u8 *)(base) + (offset)))
 

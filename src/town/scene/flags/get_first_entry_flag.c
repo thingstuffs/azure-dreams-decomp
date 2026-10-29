@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/flags.h"
 
 /* Copy, in this TOWN script module, of the module-0 helper find_eligible_entry (src/town/func_8032F794.c). */
 

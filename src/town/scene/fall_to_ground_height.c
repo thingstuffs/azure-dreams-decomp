@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/scene.h"
 
 short func_8025E01C(void *position);                          /* extern */
 

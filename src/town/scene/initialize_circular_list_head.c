@@ -1,5 +1,6 @@
 #include "common.h"
 #include "sdk/libc.h"
+#include "town/scene.h"
 
 extern void *town_actor_control[];
 

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/scene/record_actions.h"
+#include "town/scene/hooks.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 

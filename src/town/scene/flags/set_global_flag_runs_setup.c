@@ -1,11 +1,12 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "engine/audio.h"
+#include "engine/movie.h"
+#include "engine/scene.h"
+#include "sdk/libgpu.h"
+#include "slus.h"
+#include "town/scene/flags.h"
 
-void play_movie_with_fixed_display_flag(s32 table_index, s32 flags);
-void file_load_com(void *packed_data);
-short SD_Call(int flags);
-void drain_audio_commands_and_service_channels(void);
-s32 SetDispMask(s32);
 extern s8 scene_music_hold;
 extern u32 town_scene_resource_descriptor[2];
 extern u32 D_800D1D54[2];

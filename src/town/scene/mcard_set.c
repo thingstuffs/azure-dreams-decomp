@@ -8,6 +8,7 @@ typedef struct {
 } S800083498;
 
 #include "slus/resource_transition_task.h"
+#include "town/scene.h"
 
 /* Set up mcard_func_set after clearing flag bit 0x2000. */
 void *mcard_func_set(void) {

@@ -1,12 +1,12 @@
 /* Relinked copy of town/func_80881478 (func_80881478.c); retail differs only at relocation sites. */
 #include "common.h"
+#include "town/scene.h"
 
 
 extern s32 devkit_scene_list_length[];
 extern u8 D_807000C4[];
 extern void func_80700804(s32);
 extern void func_80700894(s32);
-extern void post_code_0x107_when_slot_ready(s32, s32);
 
 /* Read the selected table value between mode-one setup and completion calls. */
 s32 read_table_between_one_setup(void) {

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "engine/camera.h"
 
 typedef struct {
     u16 unk0;
@@ -16,8 +17,6 @@ typedef struct {
 
 extern S_80174CF0 D_80174CF0;
 extern S_800DCE60 dungeon_camera_targets;
-extern void queue_view_slot(s32);
-void set_camera_targets(void *, void *, s32);
 
 /* Initializes the destination state from the source and submits it for processing. */
 void initialize_destination_state(void)

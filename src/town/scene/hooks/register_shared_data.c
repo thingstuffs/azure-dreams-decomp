@@ -2,6 +2,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "shared/town_dispatch_data.h"
+#include "town/scene/hooks.h"
 
 
 void * dispatch_event_d_8_a(void *record);

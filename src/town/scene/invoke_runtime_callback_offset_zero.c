@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 /* Link-at-0 devkit image copy of shop_invoke_runtime_callback (src/town/func_80878640.c). */
 

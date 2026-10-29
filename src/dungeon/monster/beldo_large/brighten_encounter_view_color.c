@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
+#include "dungeon/monster/beldo_large.h"
 
 /* Increment three dungeon state bytes by two, or set flags when the first reaches 0x80. */
 void brighten_encounter_view_color(u16 *dataCursor)

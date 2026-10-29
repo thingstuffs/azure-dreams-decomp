@@ -1,6 +1,7 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/scene/event.h"
 void func_8001A5CC(s32);                     /* extern */
 extern M2C_UNK D_8001AFB8;
 extern s32 *D_8001B170;

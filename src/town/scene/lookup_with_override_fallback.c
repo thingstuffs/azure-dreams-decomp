@@ -3,6 +3,7 @@
 #include "m2c_compat.h"
 #include "town/scene/position_entries.h"
 #include "town/scene/entry_requests.h"
+#include "town/scene.h"
 
 extern ScenePositionEntry D_8001B234;
 extern M2C_UNK D_8001DE4A;

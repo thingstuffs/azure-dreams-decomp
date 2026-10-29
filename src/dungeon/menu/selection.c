@@ -284,7 +284,7 @@ void *allocate_initialized_child_object(s32 parent_object, s32 type_code, s32 co
             initialize_embedded_object_state(state, parent_object, type_code, config_value);
             register_node(object, draw_tinted_node_sprites_scratch);
         } else {
-            flag_object_for_removal(*(s32 *)(state + 0x74));
+            flag_object_for_removal(*(unsigned short **)(state + 0x74));
             object ->flags |= 0x8000;
             object = 0;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -295,7 +295,7 @@ void *allocate_initialized_child_object(s32 parent_object, s32 type_code, s32 co
 
 /* Flags a nonzero referenced handle for removal and clears the handle word. */
 void release_object_handle(ovl_1831370_81811B44_S_80026B44_0 *owner) {
-    s32 handle;
+    void *handle;
 
     handle = *owner->unk_0C;
     if (handle != 0) {

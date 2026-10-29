@@ -1,5 +1,6 @@
 /* Relinked copy of town/func_80877FEC (func_80877FEC.c); its print interface slot is +0x64 (twin +0x68), otherwise retail differs only at relocation sites. */
 #include "common.h"
+#include "town/scene.h"
 
 typedef void (*PrintValue)(char *format, char *name, s32 value);
 

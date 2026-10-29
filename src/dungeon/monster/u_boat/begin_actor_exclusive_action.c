@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/monster/u_boat.h"
 
 typedef struct S_func_80D40744_0 {
     u8 pad_00[0x6D];

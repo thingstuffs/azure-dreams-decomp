@@ -1,6 +1,7 @@
 #include "common.h"
+#include "town/scene.h"
+#include "town/scene/event.h"
 
-extern void advance_dispatch_state_to_two(void);
 extern u8 scene_event_data[];
 extern u8 scene_mode_event_data[];
 extern u8 D_80022E7E[];

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/object.h"
 
 #ifndef NULL
 #define NULL 0

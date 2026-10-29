@@ -2,6 +2,7 @@
 #include "common.h"
 #include "town/scene/milestone_rewards.h"
 #include "shared/record_ptrs.h"
+#include "town/scene/resource.h"
 
 typedef void (*TownCallback)(s32, s32, s32, s32);
 

@@ -1,8 +1,9 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town/player/script_flags.h"
+#include "town/scene.h"
+#include "town/scene/flags.h"
 
-extern void set_current_entry_script_flag(void);
 #include "town/scene/record_actions.h"
 
 /* Run the preliminary callback for condition 0x12C4, then dispatch the argument pair. */

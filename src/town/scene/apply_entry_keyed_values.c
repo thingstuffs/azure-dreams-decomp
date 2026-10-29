@@ -2,6 +2,7 @@
 
 #include "town/scene/entry_requests.h"
 #include "town/scene/flags.h"
+#include "town/scene.h"
 
 /*
  * Finds the eight-byte entry by key, uses its selector to index the resource table, and submits

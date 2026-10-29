@@ -3,6 +3,7 @@
 #include "shared/town_root.h"
 #include "shared/town_event_state.h"
 #include "shared/town_pointees.h"
+#include "town/scene/object.h"
 
 
 typedef s32 (*TownCallback)(void *, void *, s32);

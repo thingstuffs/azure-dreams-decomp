@@ -7,6 +7,7 @@
 #include "shared/slus_callbacks.h"
 #include "records/Rec_D_80175D50.h"
 #include "engine/graphics.h"
+#include "engine/node.h"
 
 #ifndef NULL
 #define NULL 0
@@ -17,7 +18,6 @@ typedef struct S_80170700_1_body {
     s16 unk_18;
 } S_80170700_1_body;
 
-s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 typedef struct {
     s32 w[12];
 } Copy48;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 /* Sets flag 0x8000 on each indexed record until the 0xFF terminator. */
 void mark_indexed_records_8000_rev_b(s32 records_base, u8 *indices) {

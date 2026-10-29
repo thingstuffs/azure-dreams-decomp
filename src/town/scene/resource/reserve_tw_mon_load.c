@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/resource.h"
 
 extern s32 town_resource_request;
 

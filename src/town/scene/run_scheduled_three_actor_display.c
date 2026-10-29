@@ -28,6 +28,7 @@
  *     keeps the CODE_LABEL that splits the basic block (retail's table entry 1 points there).
  */
 #include "common.h"
+#include "town/scene.h"
 
 typedef struct TownActor {
     u8 pad0[0x70];

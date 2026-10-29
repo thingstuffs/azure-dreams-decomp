@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 typedef struct S_80017DBC_0 {
     u8 pad_00[0x4];

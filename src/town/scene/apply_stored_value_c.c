@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/scene/script_hooks.h"
+#include "town/scene.h"
 s32 func_8001E670(s32);                         /* extern */
 extern s16 scene_event_test_id;
 

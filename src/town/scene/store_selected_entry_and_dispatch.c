@@ -2,6 +2,7 @@
 #include "shared/town_event_state.h"
 #include "common.h"
 #include "town/scene/entry_output.h"
+#include "town/scene.h"
 
 
 void func_8001E578(); /* Unprototyped: one or two arguments; the second register argument is ignored. */

@@ -2,6 +2,7 @@
 #include "common.h"
 #include "town/player/script_flags.h"
 #include "town/scene/record_actions.h"
+#include "town/scene/flags.h"
 
 
 /* Checks the entry and override flags before calling the handler. */

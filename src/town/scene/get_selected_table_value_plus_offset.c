@@ -1,9 +1,10 @@
 /* Relinked copy of town/get_table_entry_plus_global (get_table_entry_plus_global.c); retail differs only at relocation sites. */
 #include "common.h"
+#include "town/scene.h"
+#include "town/scene/flags.h"
 
 extern s32 func_80000760(s32);
 extern s32 func_800007F0(s32);
-extern s32 post_code_107_if_entry_bit_0(s32, s32);
 
 extern s32 D_00000D9C[3];
 extern s32 D_00000DC8[3];

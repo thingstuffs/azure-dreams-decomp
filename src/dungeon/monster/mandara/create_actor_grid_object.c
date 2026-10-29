@@ -10,6 +10,11 @@
 #include "dungeon/actor/animation.h"
 #include "engine/node.h"
 #include "engine/node/allocation.h"
+#include "dungeon/monster/beldo.h"
+#include "dungeon/monster/cyclone.h"
+#include "dungeon/monster/mandara.h"
+#include "sdk/libgpu.h"
+#include "dungeon/monster/zu.h"
 
 typedef void (*Callback)(void);
 
@@ -26,17 +31,14 @@ typedef struct {
 } Rect;
 
 extern s32 generate_random_value(void); /* Retail RNG at 0x800A6D30 reads no incoming argument registers, including a3. */
-extern void set_or_clear_actor_status_slot(void *, s32, s32);
-extern void MoveImage(Rect *, s32, s32);
+extern s16 set_or_clear_actor_status_slot(ActorRecord *owner, s8 id, s8 value);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern void func_80170B40(void);
-extern void update_actor_movement_and_height(void *entity_arg, void *motion_arg, SpriteFrameState *monster_arg);
 extern void func_80171198(void);
 extern void func_8017126C(void);
 extern void func_801713FC(void);
 extern void func_80171444(void);
-extern void advance_path_motion(void *motion, ObjectPosition *unused, SpriteFrameState *entity, void *path_state);
 extern void func_80171740(void);
 extern void func_80171784(void);
 extern void func_80171794(void);
@@ -45,12 +47,10 @@ extern void func_80172EA8(void);
 extern void func_80172EB0(void);
 extern void func_80172EB8(void);
 extern void func_80172EF8(void);
-extern void restore_bank_actor_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity);
 extern void func_80172F08(void);
 extern void func_80172F10(void);
 extern void func_80175258(void);
 extern void func_80175298(void);
-void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_entity, SpriteFrameState *sprite, ActorRecord *entity);
 
 void *create_actor_grid_object(s16, s32, s16, s16);
 

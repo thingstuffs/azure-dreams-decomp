@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/town_lookup_data.h"
 #include "m2c_compat.h"
+#include "town/scene.h"
 
 s32 func_800179A0(void);
 s32 func_80017B24();         /* extern */

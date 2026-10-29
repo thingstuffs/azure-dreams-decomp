@@ -1,6 +1,7 @@
 /* Build and submit active object records (G00710). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_80470EB8, CL:town/func_80470F3C, PD:town/image_3ef000:8001B318. */
 #include "town/scene/active_object_records_g00710.h"
+#include "town/scene.h"
 
 /* Checks whether the selected entry is 8 or 9 and get_record_value_tier returns zero. */
 s32 check_selected_entry_8(S_80017EB8_0 *position) {

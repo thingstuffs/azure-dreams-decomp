@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/hooks.h"
 
 extern s32 func_800178C0(s32, s32);
 /* Calls return with func_800178C0(grid_y,grid_x)! = - 1. */

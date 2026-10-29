@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/flags.h"
 extern s32 *devkit_state_slots;
 /* Sets a bit in the shared flag bitmap, leaving flag ID 0 unchanged. */
 void set_indexed_flag_bit(s32 flag_id) {

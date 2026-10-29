@@ -3,10 +3,9 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/scene/dialogue.h"
+#include "town/scene/event.h"
 
-
-
-extern u8 * select_event_data_table(s32 unused, s32 selector);
 extern void func_8001E578(s32);
 
 /* Dispatch the enabled town message coordinates and advance the town state. */

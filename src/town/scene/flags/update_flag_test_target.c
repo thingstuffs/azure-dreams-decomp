@@ -1,7 +1,6 @@
 #include "common.h"
+#include "town/scene/flags.h"
 
-extern void set_flag_test_indexed_bit(s32 bit_index);
-extern void clear_indexed_flag_unless_identifier(s32 flag_id);
 extern s32 select_data_array_based_flag(s32 flagIndex);
 
 /* Updates the target based on the source's state, then updates the source. */

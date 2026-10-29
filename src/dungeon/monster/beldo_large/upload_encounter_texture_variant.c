@@ -1,7 +1,8 @@
 #include "common.h"
+#include "dungeon/monster/beldo_large.h"
+#include "engine/graphics.h"
 
 extern u16 encounter_image_load_commands[8];
-extern void run_image_load_commands(void *data_base,void *scratch);
 
 /* Update the shared data for mode one and pass it to the handler. */
 void upload_encounter_texture_variant(s32 mode)

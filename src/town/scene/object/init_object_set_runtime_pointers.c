@@ -1,6 +1,8 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "town/scene/flags.h"
+#include "town/scene/event.h"
+#include "town/scene/object.h"
 
 typedef struct TownRuntime {
     u8 pad_00[0x28];
@@ -16,9 +18,6 @@ extern u8 D_8001C480[0x10];
 extern u8 D_8001DA10;
 extern u8 scene_object_image_data;
 extern u8 D_8001DCD0;
-
-extern void initialize_active_event_data(void);
-extern void build_object_set_and_select_lists(s32, void *, void *);
 
 /* Initializes town resources and stores their pointers in the runtime. */
 void init_object_set_runtime_pointers(void) {

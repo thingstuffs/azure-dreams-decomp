@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00704 - XB:town/func_8032FE28.
  */
 #include "town/scene/set_scaled_record_coordinates_g00704.h"
+#include "town/scene.h"
 
 /* Store coordinates scaled by 64 and offset by 0x220. */
 void set_scaled_record_coordinates(s32 unused, s32 x, s32 y) {

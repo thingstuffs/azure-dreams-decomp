@@ -1,7 +1,8 @@
 #include "common.h"
 #include "town/scene/motion/offset_queries.h"
+#include "town/map.h"
+#include "town/scene/motion.h"
 
-extern s16 min_indexed_query(s32 *values, void *ptr, s32 value);
 extern s32 D_800CFD58;
 
 typedef struct {

@@ -1,8 +1,8 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/scene.h"
 
-void *find_entry_by_paired_key(void *, s32);                /* extern */
 extern s8 D_8001DCCC[];
 
 typedef struct {

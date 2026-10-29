@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/hooks.h"
 
 extern s32 func_80016B20(s32, s32);
 /* Calls func_80016B20 with object, entry_index and returns its result. */

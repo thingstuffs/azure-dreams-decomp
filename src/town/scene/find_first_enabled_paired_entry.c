@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 
 extern void func_8001E578(s32 bit_index);

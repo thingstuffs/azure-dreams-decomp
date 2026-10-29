@@ -3,6 +3,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/scene/position_entries.h"
+#include "town/scene.h"
 
 typedef void (*Callback3)(s32 *, s32 *, s32);
 

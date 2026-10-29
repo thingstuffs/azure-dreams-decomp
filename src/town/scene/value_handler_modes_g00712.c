@@ -1,6 +1,7 @@
 /* Dispatch value handler modes (G00712). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8032EA2C. */
 #include "town/scene/value_handler_modes_g00712.h"
+#include "town/scene.h"
 
 /* Calls func_80018FDC with the supplied value and a zero second argument. */
 void call_value_handler_mode_0(void *entries) {

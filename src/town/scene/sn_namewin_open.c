@@ -1,5 +1,6 @@
 #include "common.h"
-int create_item_view_without_event(int, int);              /* extern */
+#include "slus.h"
+#include "town/scene.h"
 extern s32 active_item_view[];
 
 /* sn_namewin_open: Open the name window and store its handle. */

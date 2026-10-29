@@ -2,6 +2,7 @@
 #include "town/player.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/scene/service.h"
 
 
 /* Start keima, select the fixed data pointer, and clear its script flag. */

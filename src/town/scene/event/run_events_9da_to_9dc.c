@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene/event.h"
 
 s32 check_ready_or_run_followup(s32);
 s32 func_8001779C(s32);

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "town/scene/motion.h"
 
 
 typedef s32 (*FuncT)(s32);

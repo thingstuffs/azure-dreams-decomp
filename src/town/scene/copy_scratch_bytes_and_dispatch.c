@@ -1,5 +1,7 @@
 #include "sdk/libc.h"
 #include "common.h"
+#include "town/scene.h"
+#include "town/shop/object.h"
 
 
 typedef struct {
@@ -9,7 +11,6 @@ typedef struct {
 } TownSystemScratch;
 
 extern TownSystemScratch town_system_scratch;
-extern void append_town_item(void *);
 
 /* Pass a four-byte copy of the system scratch data to append_shop_entry. */
 void copy_scratch_bytes_and_dispatch(void)

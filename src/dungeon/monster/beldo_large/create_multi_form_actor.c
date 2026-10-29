@@ -8,10 +8,10 @@
 #include "dungeon/actor/animation.h"
 #include "engine/node.h"
 #include "engine/node/allocation.h"
+#include "dungeon/actor.h"
 
 extern u8 *beldo_actor_nodes[3];
 extern void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
-extern void try_move_actor_to_valid_position(void *, void *, void *,void *);
 extern s32 clear_center_tile_flags_when_enabled(void);
 
 extern M2C_UNK D_80173980;

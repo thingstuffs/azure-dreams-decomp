@@ -3,6 +3,7 @@
 #include "shared/town_root.h"
 #include "shared/town_pointees.h"
 #include "m2c_compat.h"
+#include "town/scene/flags.h"
 
 
 

@@ -5,8 +5,7 @@ struct ActorRecord;
 struct ObjectPosition;
 struct SpriteFrameState;
 #include "common.h"
-
-void advance_action_through_recovery(ActorRecord *action_state, ObjectPosition *transform, SpriteFrameState *sprite, ActorRecord *actor);
+#include "dungeon/monster/mandara.h"
 
 /* Exact jump_table span; dispatch consumer dungeon/func_80FB35EC. */
 const void *const D_80170850[7] __attribute__((aligned(4))) = {

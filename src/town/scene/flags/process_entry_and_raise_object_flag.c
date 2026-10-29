@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_links.h"
+#include "town/scene/flags.h"
 
    /* the 0x2 bytes before arg0 in process_entry_and_raise_object_flag, addressed as arg0[-1] */
 

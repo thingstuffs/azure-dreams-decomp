@@ -1,5 +1,6 @@
 #include "shared/town_event_state.h"
 #include "common.h"
+#include "town/scene/event.h"
 
 typedef void (*TownCallback)(void);
 

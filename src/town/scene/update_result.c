@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/scene/script_hooks.h"
 #include "m2c_compat.h"
+#include "town/scene.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 D_80019438;

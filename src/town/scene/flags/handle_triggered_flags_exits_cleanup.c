@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/scene.h"
+#include "town/scene/flags.h"
 
 void func_80000858(s32, s32);                /* extern */
 void func_80000BC8(s32);                         /* extern */

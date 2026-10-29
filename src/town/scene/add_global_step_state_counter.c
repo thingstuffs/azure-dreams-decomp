@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/scene.h"
 
 typedef struct { u8 pad[0x2D5C]; u32 counter; } Counter;
 typedef struct { u8 pad[0x38]; Counter *work; } State;

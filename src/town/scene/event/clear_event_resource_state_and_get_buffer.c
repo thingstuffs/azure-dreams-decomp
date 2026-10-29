@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/scene/event.h"
 
 extern s32 D_8001E958;
 extern M2C_UNK D_80021CC0;

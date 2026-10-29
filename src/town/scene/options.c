@@ -3,6 +3,7 @@
 #include "m2c_compat.h"
 #include "shared/town_root.h"
 #include "shared/vector.h"
+#include "town/scene.h"
 extern u8 D_80018FD0[];
 
 

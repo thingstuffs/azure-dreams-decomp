@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/scene/collection.h"
+#include "town/scene/object.h"
 
 typedef struct S_808106E0_0 {
     u8 pad_00[0x10];

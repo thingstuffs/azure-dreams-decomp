@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene/flags.h"
 
 extern void func_80018B58(s32 bit_index);
 extern void func_80018BD0(s32 bit_index);

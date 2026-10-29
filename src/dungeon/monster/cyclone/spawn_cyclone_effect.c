@@ -8,6 +8,7 @@
 #include "engine/graphics.h"
 #include "engine/node.h"
 #include "engine/scene.h"
+#include "dungeon/monster/cyclone.h"
 
 typedef struct {
     s32 word[6];

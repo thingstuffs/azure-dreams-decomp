@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "town/scene.h"
 
 extern s32 scene_progress_step;
 typedef struct { u8 pad[0x110]; s32 counter; } StepState;

@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/scene/motion.h"
 
 
 

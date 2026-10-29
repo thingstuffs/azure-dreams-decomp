@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/flags.h"
 
 extern void * town_scene_root;
 

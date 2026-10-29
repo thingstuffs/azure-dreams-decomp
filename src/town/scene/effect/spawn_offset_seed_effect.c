@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/dungeon_projectile_views.h"
+#include "town/scene/effect.h"
 
    /* slot in spawn_offset_seed_effect */
 

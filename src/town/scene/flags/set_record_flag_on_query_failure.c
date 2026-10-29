@@ -1,12 +1,11 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/scene.h"
+#include "town/scene/flags.h"
 
 typedef struct S_80017158_0 {
     s32 unk_00;
 } S_80017158_0;   /* arg0 in set_record_flag_on_query_failure; pointer addresses record offset 0x1C */
-
-
-s32 process_checked_entry(void *, s32);                                /* extern */
 
 /* Set the record flag 0x8000 when the query returns zero and return the query result. */
 s32 set_record_flag_on_query_failure(void *record_field, s32 query_value) {

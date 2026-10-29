@@ -4,9 +4,10 @@
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
+#include "engine/node.h"
+#include "town/map/object.h"
+#include "town/scene.h"
 
-extern void deactivate_object_triggered(void *, void *, void *);
-extern void register_node(ObjectNodeHeader *, void *);
 extern u8 lit_mesh_renderer_address[];
 
 void initialize_sprite_six(SpriteSixState *state, ObjectPosition *position, SpriteSixRender *render) {

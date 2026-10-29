@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 extern void func_80047358(void *, void *, s32);
 extern u8 D_80408D28[];

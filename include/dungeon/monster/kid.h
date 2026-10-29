@@ -23,4 +23,7 @@ void initialize_counted_entity_action(void *entity_data, ObjectPosition *unused_
 
 void create_randomly_rotated_offset_effect(void *unused_ptr, ObjectPosition *source_pos, SpriteFrameState *unused_value, s16 scale);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+void complete_directional_hop_to_tile(void *action, void *motion, void *sprite, void *actor);
+
 #endif

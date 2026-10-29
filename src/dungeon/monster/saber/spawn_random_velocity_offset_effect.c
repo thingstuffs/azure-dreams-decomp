@@ -3,6 +3,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_moving_views.h"
 #include "slus.h"
+#include "sdk/libgte.h"
 extern u8 resident_globals_page[];
 
    /* arg1 in spawn_random_velocity_offset_effect */
@@ -20,8 +21,6 @@ typedef struct S_80AC5820_1 {
 } S_80AC5820_1;   /* arg0 in spawn_random_velocity_offset_effect */
 
    /* other in spawn_random_velocity_offset_effect */
-
-extern s32 RotTransPers(void *, void *, void *, void *);
 
 extern s32 object_flag_block __attribute__((section(".data")));
 extern s16 view_facing_angle_alias __attribute__((section(".data")));

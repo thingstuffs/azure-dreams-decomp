@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 extern u8 D_800170C8[];
 /* Returns a pointer to D_800170C8. */

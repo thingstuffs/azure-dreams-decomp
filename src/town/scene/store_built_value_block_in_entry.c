@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/town_event_state.h"
 #include "town/scene/build_selected_entry_output_g01237.h"
+#include "town/scene.h"
 
    /* ((arg1 * 0x10) + arg0->unk_10) in store_built_value_block_in_entry */
 

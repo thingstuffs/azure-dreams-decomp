@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/dialogue.h"
 
 /* Append the source string to the destination and return the destination start. */
 u8 *append_string(u8 *dst, u8 *src) {

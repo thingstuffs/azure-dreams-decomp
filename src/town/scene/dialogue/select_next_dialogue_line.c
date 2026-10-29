@@ -3,6 +3,8 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/scene.h"
+#include "town/scene/dialogue.h"
 
 typedef s32 (*StateQuery)(s32);
 
@@ -22,7 +24,6 @@ extern s8 D_800172A3[];
 extern s8 D_800173E4[];
 extern s8 D_80017501[];
 
-extern s32 count_listed_enabled_records(void);
 extern void func_8001E578(s32);
 extern s32 func_8001E670(s32);
 extern s32 func_8001E82C(void);

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/scene/hooks.h"
 
 extern s32 script_rescan_request;
 /* Stores 1 in script_rescan_request. */

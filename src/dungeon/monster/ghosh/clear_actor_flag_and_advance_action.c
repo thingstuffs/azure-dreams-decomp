@@ -2,12 +2,12 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
+#include "dungeon/monster/ghosh.h"
 #include "shared/entity.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 typedef struct Ent Ent;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-Ent *prepare_directional_attack(); /* extern */
 s16 try_claim_dungeon_action_slot(ActorRecord *actor);                          /* extern */
 
 

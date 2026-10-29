@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/dialogue.h"
 
 extern u8 *D_8012F130;
 

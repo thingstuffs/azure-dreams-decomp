@@ -1,6 +1,7 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "town/scene.h"
 
 extern s32 func_80018668(s32);
 extern void func_80018570(s32);

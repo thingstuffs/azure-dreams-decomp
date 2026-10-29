@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "dungeon/monster/ghosh.h"
 
 typedef struct S_8016F140_0 {
     u8 pad_00[0x46];

@@ -1,7 +1,8 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene.h"
+#include "town/scene/event.h"
 
-extern s32 get_special_data_for_low_value_id(s32);
 extern s32 func_800178A8(void *, s32, s32);
 extern s32 func_80017904(void *, s32, s32);
 extern s32 func_80017960(void *, void *, s32, s32);

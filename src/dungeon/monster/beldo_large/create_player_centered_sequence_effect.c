@@ -6,6 +6,7 @@
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "engine/node.h"
+#include "dungeon/monster/beldo_large.h"
 
 #ifndef NULL
 #define NULL 0

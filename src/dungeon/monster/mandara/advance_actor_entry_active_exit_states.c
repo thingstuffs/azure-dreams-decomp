@@ -47,7 +47,7 @@ typedef struct S_8017382C_7 {
 
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
-extern void select_sprite_entry(void *, u8, s32);
+extern void select_sprite_entry(void *, s16, s16);
 extern s32 GetClut(s32, s32);
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s16 get_tile_chebyshev_distance(void *, void *);

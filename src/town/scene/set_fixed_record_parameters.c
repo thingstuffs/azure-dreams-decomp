@@ -1,6 +1,7 @@
 /* Applies fixed position-trace parameters and sets two linked record states. */
 /* Complete assigned cohort in retail order; compiled once as one native TU. */
 #include "town/scene/set_fixed_record_parameters.h"
+#include "town/scene.h"
 
 
 /* Calls blend_position_and_trace with the fixed parameters (7, 1, 1, 2). */

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/scene.h"
+#include "town/scene/hooks.h"
 
 extern s32 func_8001689C(void *request);
 

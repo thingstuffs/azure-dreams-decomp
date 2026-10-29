@@ -1,4 +1,5 @@
 #include "common.h"
+#include "sdk/libgpu.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -28,12 +29,6 @@ typedef struct S_80174424_1 {
     u8 pad_212[0x6];
     s16 unk_218;
 } S_80174424_1;   /* out in blend_animation_palette_and_complete */
-
-
-extern void DrawSync(s32);
-extern void LoadImage(void *, void *);
-extern void StoreImage(void *, void *);
-
 
 /* Blend palette colors for the current animation frame and flag completion. */
 void blend_animation_palette_and_complete(void *effect)

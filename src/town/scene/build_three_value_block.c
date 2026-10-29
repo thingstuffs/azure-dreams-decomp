@@ -1,6 +1,7 @@
 #include "common.h"
+#include "town/scene.h"
+#include "town/scene/motion.h"
 
-extern void copy_callback_value_to_destination(s32, u32 *);
 extern s32 D_80017AAC[];
 extern s32 scene_first_component_values[];
 extern s32 scene_second_component_values[];

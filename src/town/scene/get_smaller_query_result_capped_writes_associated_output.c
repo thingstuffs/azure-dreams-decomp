@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
+#include "town/scene.h"
 
 s16 select_lowest_corrected_probe(); /* extern */
 s16 forward_surface_query_with_argument(); /* Unprototyped: two or three arguments; the third register argument is ignored. */                    /* extern */

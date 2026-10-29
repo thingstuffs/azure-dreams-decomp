@@ -2,6 +2,7 @@
 #include "shared/town_pointees.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "town/scene.h"
 
 extern s32 D_8001C9F4;
 extern s32 func_80018BD0(s32);

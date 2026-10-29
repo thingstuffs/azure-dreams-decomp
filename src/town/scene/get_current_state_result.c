@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene.h"
 
 extern s32 scene_update_state[3];
 

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/town_state.h"
+#include "town/scene/animation.h"
 
 
 

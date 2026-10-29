@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 extern s32 town_table_contains_first_byte_c(s32);
 /* Calls return with town_table_contains_first_byte_c(0xc)! = 0. */

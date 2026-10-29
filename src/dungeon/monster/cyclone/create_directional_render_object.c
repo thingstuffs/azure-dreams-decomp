@@ -4,6 +4,7 @@
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "engine/node.h"
+#include "engine/graphics.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -36,7 +37,6 @@ typedef struct {
     s32 words[6];
 } Copy24;
 
-void select_sprite_entry(void *, u8, s32);
 extern u8 D_8017573C;
 extern u8 cyclone_view_direction_entries[];
 

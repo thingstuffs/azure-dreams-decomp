@@ -1,8 +1,7 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town/player/script_flags.h"
-
-extern s32 apply_selected_entry_values(void *, s32);
+#include "town/scene.h"
 
 /* Select the handler for 0xDB8 based on the query result and return its truth value. */
 s32 select_db_8_handler(void *object, s32 query_value) {

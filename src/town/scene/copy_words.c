@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 /* Copies count 32-bit words from src to dst. */
 void copy_words(s32 *dst, s32 *src, s32 count) {

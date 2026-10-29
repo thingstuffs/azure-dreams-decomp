@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/motion.h"
 
 typedef struct {
     u16 x;

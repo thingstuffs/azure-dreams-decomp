@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
+#include "town/scene/flags.h"
 
 
 typedef struct S_80016D20_0 {

@@ -3,6 +3,10 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
+#include "engine/node.h"
+#include "sdk/libc.h"
+#include "sdk/libgte.h"
+#include "town/scene.h"
 
 static __inline__ EffectNode *effect_node(EffectState *state) {
     EffectPointer view;
@@ -10,11 +14,6 @@ static __inline__ EffectNode *effect_node(EffectState *state) {
     return view.node - 1;
 }
 
-extern EffectNode *allocate_list_node(s32, void *);
-extern void register_node(EffectNode *, void *);
-extern s32 rsin(s32);
-extern s32 rand(void);
-extern void configure_the_set_mode_n_3(void *, void *, void *);
 extern u8 clipped_sprite_renderer_address[];
 extern u8 lit_mesh_renderer_address[];
 extern u8 map_particle_owner_update_address[];

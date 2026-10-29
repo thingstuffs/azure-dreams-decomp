@@ -11,4 +11,7 @@ void advance_timed_actor_hop(void *action, void *motion, SpriteFrameState *sprit
 void advance_timed_hop_and_recover(void *motion_state, void *motion, SpriteFrameState *sprite, void *actor);
 void update_weadog_timed_move(void *action, void *motion, SpriteFrameState *sprite, void *actor);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+void advance_timed_sprite_flashing_sequence(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
+
 #endif

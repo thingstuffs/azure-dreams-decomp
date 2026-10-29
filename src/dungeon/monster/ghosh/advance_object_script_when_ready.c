@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/monster/ghosh.h"
 
 typedef struct DungeonState {
     u8 pad0[10];
@@ -9,7 +10,6 @@ typedef struct DungeonState {
 } DungeonState;
 
 extern u8 ghosh_action_resume_address[];
-extern void allocate_type_12_object(void);
 
 /* Advances the object's counter and switches its script when the dungeon is ready. */
 void advance_object_script_when_ready(void *object, s32 unused_1, s32 unused_2, s32 state_base)

@@ -7,6 +7,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "engine/graphics.h"
 #include "dungeon/level.h"
+#include "dungeon/monster/cyclone.h"
 
 typedef struct S_801716D8_0 {
     u8 pad_00[0x1C];

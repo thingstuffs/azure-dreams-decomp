@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene/event.h"
 void func_80018C74(s32);                     /* extern */
 void func_80018CEC(s32);                     /* extern */
 

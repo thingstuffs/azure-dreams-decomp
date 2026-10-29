@@ -3,6 +3,7 @@
 #include "m2c_compat.h"
 #include "town/player.h"
 #include "town/player/script_flags.h"
+#include "town/scene/event.h"
 
 
 /* Process ID 0xD51 and return its preceding query result. */

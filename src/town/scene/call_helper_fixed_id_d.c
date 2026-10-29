@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene.h"
 
 extern s32 func_8001A64C(s32);
 /* Calls func_8001A64C with F_bar_top and returns its result. */

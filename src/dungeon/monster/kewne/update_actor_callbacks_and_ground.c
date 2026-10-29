@@ -6,13 +6,13 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/level.h"
 #include "engine/texture.h"
+#include "dungeon/actor.h"
+#include "dungeon/item.h"
+#include "sdk/libgte.h"
+#include "slus.h"
 
 typedef s32 (*ActorCallback)(void *, void *, void *, void *);
-extern void advance_sprite_animation_and_textures(void *);
-extern s32 rsin(s32);
-extern void apply_monster_koyaw_data(s32, void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
-extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern u8 kewne_action_resume_address[12];
 extern ActorCallback kewne_callbacks[16];
 /* Update actor callbacks, movement, facing, animation, and ground height. */

@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D5EF4, PD:town/engine:800D5EFC, PD:town/engine:800D5F24, PD:town/engine:800D5F28.
  */
 #include "town/scene/scene_slot_context_initialization_g00669.h"
+#include "town/scene.h"
 
 /* Registers the object in scene slot 41 using the four local setup tables. */
 void initialize_scene_slot_41_context(void *object, void *unused, struct SpriteFrameState *context)

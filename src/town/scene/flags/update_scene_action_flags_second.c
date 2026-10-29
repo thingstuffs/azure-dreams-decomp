@@ -3,6 +3,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "town/player/script_flags.h"
+#include "town/scene/flags.h"
 
 #define FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 

@@ -1,3 +1,4 @@
+#include "shared/scratchpad.h"
 #include "dungeon/system.h"
 #include "engine/resource.h"
 #include "dungeon/item/message.h"
@@ -1132,13 +1133,13 @@ extern void *ScaleMatrix(void *, void *);
 extern void SetRotMatrix(void *);
 extern void SetTransMatrix(void *);
 extern s32 RotTransPers(void *, void *, ...);
-void RotTransPers4();
+s32 RotTransPers4(void *, void *, void *, void *, s32 *, s32 *, s32 *, s32 *, s32 *, s32 *);
 extern void *RotMatrix(void *, void *);
 extern s32 sprite_projection_matrix[];
 
 /* Draws sprite parts as a 4-by-4 grid of textured quads, invoking custom part callbacks. */
 void draw_sprite_parts_as_quad_grid(s32 context, void *position, void *sprite, s16 depth_bias) {
-    u8 *scratch = (u8 *)0x1F800000;
+    ScratchPad *scratch = (ScratchPad *)0x1F800000;
     u8 *state;
     GameWork *render_globals;
     s32 packet_next;
@@ -1208,124 +1209,124 @@ void draw_sprite_parts_as_quad_grid(s32 context, void *position, void *sprite, s
 
     render_globals = &g_game_work;
     state = g_game_work.draw_buffer;
-    *(u32 *)(scratch + 0x0EC) = NULL;
-    *(u16 *)(scratch + 0x08C) = 0;
-    *(u16 *)(scratch + 0x084) = 0;
-    *(u16 *)(scratch + 0x07C) = 0;
-    *(u16 *)(scratch + 0x074) = 0;
-    *(u32 *)(scratch + 0x020) = state + 0xB0;
-    *(u16 *)(scratch + 0x000) = (u16)(*(u16 *)((u8 *)position + 2));
-    *(u16 *)(scratch + 0x002) = (u16)(*(u16 *)((u8 *)position + 6));
-    *(u16 *)(scratch + 0x004) = (u16)(*(u16 *)((u8 *)position + 0xA));
+    *(u32 *)(scratch->b + 0x0EC) = NULL;
+    *(u16 *)(scratch->b + 0x08C) = 0;
+    *(u16 *)(scratch->b + 0x084) = 0;
+    *(u16 *)(scratch->b + 0x07C) = 0;
+    *(u16 *)(scratch->b + 0x074) = 0;
+    *(u8 **)(scratch->b + 0x020) = state + 0xB0;
+    *(u16 *)(scratch->b + 0x000) = (u16)(*(u16 *)((u8 *)position + 2));
+    *(u16 *)(scratch->b + 0x002) = (u16)(*(u16 *)((u8 *)position + 6));
+    *(u16 *)(scratch->b + 0x004) = (u16)(*(u16 *)((u8 *)position + 0xA));
     packet_next = *(s32 *)(state + 0x8D0);
-    ((ScratchDepth *)scratch)->depth = RotTransPers(scratch, scratch + 0xB8, scratch + 0x90, scratch + 0x94);
+    ((ScratchDepth *)scratch)->depth = RotTransPers(scratch, scratch->b + 0xB8, scratch->b + 0x90, scratch->b + 0x94);
     matrix_or_u = (s32)sprite_projection_matrix;
     (*(u16 *)((u8 *)sprite + 0x14)) = (u16)((*(u16 *)((u8 *)sprite + 0x14)) | 0x8000);
     depth = ((ScratchDepth *)scratch)->depth;
     *(s32 *)((u8 *)matrix_or_u + 0x1C) = (s32)(depth * 4);
     depth -= 8;
     sort_depth = depth - depth_bias;
-    *(u32 *)(scratch + 0x0C0) = sort_depth;
+    *(u32 *)(scratch->b + 0x0C0) = sort_depth;
     if (sort_depth < 0x1E0U) {
         PushMatrix();
-        *(u16 *)(scratch + 0x0B8) = (u16)(*(u16 *)(scratch + 0x0B8) - 0xA0);
-        *(u16 *)(scratch + 0x0BA) = (u16)(*(u16 *)(scratch + 0x0BA) - 0x78);
-        *(u32 *)(scratch + 0x030) = render_globals->view.camera_rotation.parts.camera_rotation_x;
-        *(u32 *)(scratch + 0x034) = render_globals->view.camera_rotation.parts.camera_rotation_y;
-        *(u32 *)(scratch + 0x038) = render_globals->view.camera_rotation.parts.viewAngle;
-        ((RotationWork *)(scratch + 0x100))->x = (u16)(*(u16 *)((u8 *)sprite + 0x16));
-        ((RotationWork *)(scratch + 0x100))->z = (s16)(((S_800C6B40_0 *)sprite)->unk_1A - (u16)*(u32 *)(scratch + 0x034));
-        ((RotationWork *)(scratch + 0x100))->y = (s16)((((u16)*(u32 *)(scratch + 0x038) + 0x100) & 0x1FF)
+        *(u16 *)(scratch->b + 0x0B8) = (u16)(*(u16 *)(scratch->b + 0x0B8) - 0xA0);
+        *(u16 *)(scratch->b + 0x0BA) = (u16)(*(u16 *)(scratch->b + 0x0BA) - 0x78);
+        *(u32 *)(scratch->b + 0x030) = render_globals->view.camera_rotation.parts.camera_rotation_x;
+        *(u32 *)(scratch->b + 0x034) = render_globals->view.camera_rotation.parts.camera_rotation_y;
+        *(u32 *)(scratch->b + 0x038) = render_globals->view.camera_rotation.parts.viewAngle;
+        ((RotationWork *)(scratch->b + 0x100))->x = (u16)(*(u16 *)((u8 *)sprite + 0x16));
+        ((RotationWork *)(scratch->b + 0x100))->z = (s16)(((S_800C6B40_0 *)sprite)->unk_1A - (u16)*(u32 *)(scratch->b + 0x034));
+        ((RotationWork *)(scratch->b + 0x100))->y = (s16)((((u16)*(u32 *)(scratch->b + 0x038) + 0x100) & 0x1FF)
             + (angle_offset = (s32)((S_800C6B40_0 *)sprite)->unk_18 - 0x100));
         origin_x = ((S_800C6B40_0 *)sprite)->unk_20;
-        *(u32 *)(scratch + 0x0E4) = origin_x;
-        ((RotationWork *)(scratch + 0x100))->origin_x = origin_x;
+        *(u32 *)(scratch->b + 0x0E4) = origin_x;
+        ((RotationWork *)(scratch->b + 0x100))->origin_x = origin_x;
         origin_y = (*(u16 *)((u8 *)sprite + 0x22));
-        *(u32 *)(scratch + 0x0E8) = origin_y;
-        ((RotationWork *)(scratch + 0x100))->origin_y = origin_y;
+        *(u32 *)(scratch->b + 0x0E8) = origin_y;
+        ((RotationWork *)(scratch->b + 0x100))->origin_y = origin_y;
         RotMatrix(0x1F800100, 0x1F8000D0);
-        *(u32 *)(scratch + 0x030) = (void *)((S_800C6B40_0 *)sprite)->unk_1C;
-        *(u32 *)(scratch + 0x034) = (void *)(*(u16 *)((u8 *)sprite + 0x1E));
-        *(u32 *)(scratch + 0x038) = NULL;
-        ScaleMatrix(scratch + 0xD0, scratch + 0x30);
-        CompMatrix((s32 *)matrix_or_u, scratch + 0xD0, scratch + 0x50);
-        SetTransMatrix(scratch + 0x50);
-        SetRotMatrix(scratch + 0x50);
+        *(u32 *)(scratch->b + 0x030) = ((S_800C6B40_0 *)sprite)->unk_1C;
+        *(u32 *)(scratch->b + 0x034) = *(u16 *)((u8 *)sprite + 0x1E);
+        *(u32 *)(scratch->b + 0x038) = NULL;
+        ScaleMatrix(scratch->b + 0xD0, scratch->b + 0x30);
+        CompMatrix((s32 *)matrix_or_u, scratch->b + 0xD0, scratch->b + 0x50);
+        SetTransMatrix(scratch->b + 0x50);
+        SetRotMatrix(scratch->b + 0x50);
         sprite_flags = ((S_800C6B40_0 *)sprite)->unk_14;
         part = ((S_800C6B40_0 *)sprite)->unk_08;
-        *(u16 *)(scratch + 0x024) = (u16)sprite_flags;
+        *(u16 *)(scratch->b + 0x024) = (u16)sprite_flags;
         do {
             if (!(((S_800C6B40_1 *)part)->unk_00 & 0x20)) {
-                *(u32 *)(scratch + 0x008) = (s32)((S_800C6B40_1 *)part)->unk_08.at00.v;
-                *(u32 *)(scratch + 0x00C) = (s32)((S_800C6B40_1 *)part)->unk_08.at01.v;
-                *(u32 *)(scratch + 0x010) = (s32)((S_800C6B40_1 *)part)->unk_08.at02.v;
-                *(u32 *)(scratch + 0x014) = (s32)((S_800C6B40_1 *)part)->unk_08.at03.v;
-                if ((((S_800C6B40_1 *)part)->unk_00 ^ (u32)*(u16 *)(scratch + 0x024)) & 1) {
-                    local_x = (0 - (s8)(*(u8 *)((u8 *)part + 2))) - (s32)(u32)*(u16 *)(scratch + 0x108);
-                    flipped_width = *(u16 *)(scratch + 0x010);
-                    *(u16 *)(scratch + 0x080) = local_x;
-                    *(u16 *)(scratch + 0x070) = local_x;
+                *(u32 *)(scratch->b + 0x008) = (s32)((S_800C6B40_1 *)part)->unk_08.at00.v;
+                *(u32 *)(scratch->b + 0x00C) = (s32)((S_800C6B40_1 *)part)->unk_08.at01.v;
+                *(u32 *)(scratch->b + 0x010) = (s32)((S_800C6B40_1 *)part)->unk_08.at02.v;
+                *(u32 *)(scratch->b + 0x014) = (s32)((S_800C6B40_1 *)part)->unk_08.at03.v;
+                if ((((S_800C6B40_1 *)part)->unk_00 ^ (u32)*(u16 *)(scratch->b + 0x024)) & 1) {
+                    local_x = (0 - (s8)(*(u8 *)((u8 *)part + 2))) - (s32)(u32)*(u16 *)(scratch->b + 0x108);
+                    flipped_width = *(u16 *)(scratch->b + 0x010);
+                    *(u16 *)(scratch->b + 0x080) = local_x;
+                    *(u16 *)(scratch->b + 0x070) = local_x;
                     local_x -= flipped_width;
-                    *(u16 *)(scratch + 0x088) = local_x;
-                    *(u16 *)(scratch + 0x078) = local_x;
+                    *(u16 *)(scratch->b + 0x088) = local_x;
+                    *(u16 *)(scratch->b + 0x078) = local_x;
                 } else {
-                    local_x = (s8)(*(u8 *)((u8 *)part + 2)) - (s32)(u32)*(u16 *)(scratch + 0x108);
-                    normal_width = *(u16 *)(scratch + 0x010);
-                    *(u16 *)(scratch + 0x080) = local_x;
-                    *(u16 *)(scratch + 0x070) = local_x;
+                    local_x = (s8)(*(u8 *)((u8 *)part + 2)) - (s32)(u32)*(u16 *)(scratch->b + 0x108);
+                    normal_width = *(u16 *)(scratch->b + 0x010);
+                    *(u16 *)(scratch->b + 0x080) = local_x;
+                    *(u16 *)(scratch->b + 0x070) = local_x;
                     local_x += normal_width;
-                    *(u16 *)(scratch + 0x088) = local_x;
-                    *(u16 *)(scratch + 0x078) = local_x;
+                    *(u16 *)(scratch->b + 0x088) = local_x;
+                    *(u16 *)(scratch->b + 0x078) = local_x;
                 }
-                if ((((S_800C6B40_1 *)part)->unk_00 ^ (u32)*(u16 *)(scratch + 0x024)) & 2) {
-                    local_y = (0 - (s8)(*(u8 *)((u8 *)part + 3))) - (s32)(u32)*(u16 *)(scratch + 0x10A);
-                    flipped_height = *(u16 *)(scratch + 0x014);
-                    *(u16 *)(scratch + 0x07A) = local_y;
-                    *(u16 *)(scratch + 0x072) = local_y;
+                if ((((S_800C6B40_1 *)part)->unk_00 ^ (u32)*(u16 *)(scratch->b + 0x024)) & 2) {
+                    local_y = (0 - (s8)(*(u8 *)((u8 *)part + 3))) - (s32)(u32)*(u16 *)(scratch->b + 0x10A);
+                    flipped_height = *(u16 *)(scratch->b + 0x014);
+                    *(u16 *)(scratch->b + 0x07A) = local_y;
+                    *(u16 *)(scratch->b + 0x072) = local_y;
                     local_y -= flipped_height;
-                    *(u16 *)(scratch + 0x08A) = local_y;
-                    *(u16 *)(scratch + 0x082) = local_y;
+                    *(u16 *)(scratch->b + 0x08A) = local_y;
+                    *(u16 *)(scratch->b + 0x082) = local_y;
                 } else {
-                    local_y = (s8)(*(u8 *)((u8 *)part + 3)) - (s32)(u32)*(u16 *)(scratch + 0x10A);
-                    normal_height = *(u16 *)(scratch + 0x014);
-                    *(u16 *)(scratch + 0x07A) = local_y;
-                    *(u16 *)(scratch + 0x072) = local_y;
+                    local_y = (s8)(*(u8 *)((u8 *)part + 3)) - (s32)(u32)*(u16 *)(scratch->b + 0x10A);
+                    normal_height = *(u16 *)(scratch->b + 0x014);
+                    *(u16 *)(scratch->b + 0x07A) = local_y;
+                    *(u16 *)(scratch->b + 0x072) = local_y;
                     local_y += normal_height;
-                    *(u16 *)(scratch + 0x08A) = local_y;
-                    *(u16 *)(scratch + 0x082) = local_y;
+                    *(u16 *)(scratch->b + 0x08A) = local_y;
+                    *(u16 *)(scratch->b + 0x082) = local_y;
                 }
-                RotTransPers4(scratch + 0x70, scratch + 0x78, scratch + 0x80, scratch + 0x88, scratch + 0xF0,
-                    scratch + 0xF4, scratch + 0xF8, scratch + 0xFC, scratch + 0x90, scratch + 0x94);
-                width = *(u32 *)(scratch + 0x010);
+                RotTransPers4(scratch->b + 0x70, scratch->b + 0x78, scratch->b + 0x80, scratch->b + 0x88, &scratch->sw[60],
+                    &scratch->sw[61], &scratch->sw[62], &scratch->sw[63], &scratch->sw[36], &scratch->sw[37]);
+                width = *(u32 *)(scratch->b + 0x010);
                 if (width < 0) {
                     width += 3;
                 }
-                height = *(u32 *)(scratch + 0x014);
+                height = *(u32 *)(scratch->b + 0x014);
                 u_step = width >> 2;
                 if (height < 0) {
                     height += 3;
                 }
-                top_dx = (s16)*(u16 *)(scratch + 0x0F4) - (s16)*(u16 *)(scratch + 0x0F0);
+                top_dx = (s16)*(u16 *)(scratch->b + 0x0F4) - (s16)*(u16 *)(scratch->b + 0x0F0);
                 top_dx_fixed = top_dx << 0x10;
                 v_step = height >> 2;
                 if (top_dx_fixed < 0) {
                     top_dx_fixed += 3;
                 }
-                projected_left_y = *(u16 *)(scratch + 0x0F2);
-                left_dy = (s16)*(u16 *)(scratch + 0x0FA) - (s16)projected_left_y;
+                projected_left_y = *(u16 *)(scratch->b + 0x0F2);
+                left_dy = (s16)*(u16 *)(scratch->b + 0x0FA) - (s16)projected_left_y;
                 left_dy_fixed = left_dy << 0x10;
                 top_x_step = top_dx_fixed >> 2;
                 if (left_dy_fixed < 0) {
                     left_dy_fixed += 3;
                 }
-                bottom_dx = (s16)*(u16 *)(scratch + 0x0FC) - (s16)*(u16 *)(scratch + 0x0F8);
+                bottom_dx = (s16)*(u16 *)(scratch->b + 0x0FC) - (s16)*(u16 *)(scratch->b + 0x0F8);
                 bottom_dx_fixed = bottom_dx << 0x10;
                 left_y_step = left_dy_fixed >> 2;
                 if (bottom_dx_fixed < 0) {
                     bottom_dx_fixed += 3;
                 }
-                projected_right_y = *(u16 *)(scratch + 0x0F6);
-                right_dy = (s16)*(u16 *)(scratch + 0x0FE) - (s16)projected_right_y;
+                projected_right_y = *(u16 *)(scratch->b + 0x0F6);
+                right_dy = (s16)*(u16 *)(scratch->b + 0x0FE) - (s16)projected_right_y;
                 right_dy_fixed = right_dy << 0x10;
                 bottom_x_step = bottom_dx_fixed >> 2;
                 if (right_dy_fixed < 0) {
@@ -1333,8 +1334,8 @@ void draw_sprite_parts_as_quad_grid(s32 context, void *position, void *sprite, s
                 }
                 row = 0;
                 right_y_step = right_dy_fixed >> 2;
-                center_y = *(u16 *)(scratch + 0x0BA);
-                texture_v = *(u32 *)(scratch + 0x00C);
+                center_y = *(u16 *)(scratch->b + 0x0BA);
+                texture_v = *(u32 *)(scratch->b + 0x00C);
                 left_y = ((s16)center_y + (s16)projected_left_y) << 0x10;
                 right_y = ((s16)center_y + (s16)projected_right_y) << 0x10;
                 next_right_y = right_y + right_y_step;
@@ -1342,11 +1343,11 @@ void draw_sprite_parts_as_quad_grid(s32 context, void *position, void *sprite, s
                     column = 0;
                     bottom_y = next_right_y >> 0x10;
                     bottom_clip_y = (bottom_y + 0x20) & 0xFFFF;
-                    center_x = *(u16 *)(scratch + 0x0B8);
-                    matrix_or_u = *(u32 *)(scratch + 0x008);
-                    projected_left_x = *(u16 *)(scratch + 0x0F0);
+                    center_x = *(u16 *)(scratch->b + 0x0B8);
+                    matrix_or_u = *(u32 *)(scratch->b + 0x008);
+                    projected_left_x = *(u16 *)(scratch->b + 0x0F0);
                     top_x = ((s16)center_x + (s16)projected_left_x) << 0x10;
-                    bottom_x = ((s16)center_x + (s16)*(u16 *)(scratch + 0x0F8)) << 0x10;
+                    bottom_x = ((s16)center_x + (s16)*(u16 *)(scratch->b + 0x0F8)) << 0x10;
                     do {
                         top_left_visible = 0;
                         ((QuadPrim *)packet_next)->x0 = (u16)(top_x >> 0x10);
@@ -1414,7 +1415,7 @@ void draw_sprite_parts_as_quad_grid(s32 context, void *position, void *sprite, s
                             ((QuadPrim *)packet_next)->tpage = tpage;
                             ((QuadPrim *)packet_next)->unk_04.color = (s32)((S_800C6B40_0 *)sprite)->unk_0C.at00.v;
                             ((QuadPrim *)packet_next)->unk_04.at03.code = 0x2C;
-                            draw_flags = *(u16 *)(scratch + 0x024);
+                            draw_flags = *(u16 *)(scratch->b + 0x024);
                             if (draw_flags & 8) {
                                 if (!(draw_flags & 4)) {
                                     command = 0x2C;
@@ -1424,7 +1425,7 @@ void draw_sprite_parts_as_quad_grid(s32 context, void *position, void *sprite, s
                                     ((QuadPrim *)packet_next)->unk_04.at03.code = command;
                                 }
                             }
-                            AddPrim((u8 *)*(u32 *)(scratch + 0x020) + ((u32)*(u32 *)(scratch + 0x0C0) * 4),
+                            AddPrim((u8 *)*(u32 *)(scratch->b + 0x020) + ((u32)*(u32 *)(scratch->b + 0x0C0) * 4),
                                 packet_next);
                             packet_next += 0x28;
                         }

@@ -1,5 +1,6 @@
 #include "town/scene.h"
 #include "town/player.h"
+#include "town/scene/flags.h"
 
 
 /* Update the current script flag when the linked value passes the check. */

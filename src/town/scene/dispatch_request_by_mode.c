@@ -1,8 +1,9 @@
 #include "common.h"
 #include "town/scene/position_entries.h"
 #include "town/scene/entry_requests.h"
+#include "town/scene.h"
+#include "town/shop.h"
 
-extern s32 count_free_item_slots(void);
 extern ScenePositionEntry D_8001BB4C[];
 extern s32 scene_dispatch_context;
 extern s32 D_8001FAE8[];

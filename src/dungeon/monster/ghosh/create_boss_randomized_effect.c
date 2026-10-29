@@ -5,6 +5,8 @@
 #include "common.h"
 #include "shared/dungeon_sprite_data.h"
 #include "engine/node.h"
+#include "sdk/libc.h"
+#include "slus.h"
 
 typedef struct S_80172F44_0 {
     u8 pad_00[0x16];
@@ -21,8 +23,6 @@ typedef struct S_80172F44_4 {
     s32 unk_08;
 } S_80172F44_4;   /* arg0 in create_boss_randomized_effect */
 
-extern s32 rand(void);
-extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void update_accelerating_growing_particle(void);
 
 /* Creates a visual effect at an offset position with randomized state. */

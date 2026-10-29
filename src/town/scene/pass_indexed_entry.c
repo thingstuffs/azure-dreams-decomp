@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/scene/entry_requests.h"
+#include "town/scene.h"
 
 struct S_8046C8C4_1;
 

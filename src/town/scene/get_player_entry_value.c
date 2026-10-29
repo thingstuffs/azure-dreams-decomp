@@ -1,6 +1,7 @@
 #include "script_symbols.h"
 #include "shared/town_event_state.h"
 #include "common.h"
+#include "town/scene.h"
 
 typedef struct {
     u8 pad[8];

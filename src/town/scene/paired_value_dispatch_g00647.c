@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800C3620, PD:town/engine:800D25C0.
  */
 #include "town/scene/paired_value_dispatch_g00647.h"
+#include "town/scene.h"
 
 /* Run setup, assign the retrieved object handler when present, and return -1. */
 s32 run_setup_and_get_object_handler(s32 context, s32 value, s32 options) {

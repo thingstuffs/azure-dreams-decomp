@@ -3,6 +3,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/scene.h"
 void func_8001886C(s32);                     /* extern */
 
 /* Decrement the countdown and invoke handler 0x5FF when it reaches zero. */

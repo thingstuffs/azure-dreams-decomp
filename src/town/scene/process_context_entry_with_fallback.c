@@ -1,9 +1,9 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town/player/script_flags.h"
+#include "town/scene.h"
+#include "town/scene/flags.h"
 
-extern s32 has_matching_entry_result(s32, s32);
-extern void set_current_entry_script_flag(void);
 #include "town/scene/record_actions.h"
 
 /* Processes the selected context entry and applies a fallback value on failure. */

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/player/script_flags.h"
 #include "town/scene/flags.h"
+#include "town/scene.h"
 
 
 /* Updates two dependent IDs according to the checked ID's status, then updates the checked ID. */

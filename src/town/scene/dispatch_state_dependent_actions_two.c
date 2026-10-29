@@ -1,6 +1,7 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "town/scene.h"
 
 typedef struct TownCallback {
     u8 pad_00[0x218];

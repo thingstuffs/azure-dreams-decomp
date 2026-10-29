@@ -1,9 +1,8 @@
 #include "common.h"
 #include "town/scene/collision.h"
 #include "shared/entity.h"
-extern int abs(int);
-
-
+#include "sdk/libc.h"
+#include "town/scene/motion.h"
 
 /*
  * Walks the collider ring, rejects disabled or separated boxes, and dispatches overlapping boxes

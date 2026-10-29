@@ -1,8 +1,7 @@
 #include "dungeon/monster/cyclone.h"
 #include "shared/object_flags.h"
-
-extern void advance_sprite_animation_and_textures(void *object);
-extern void select_sprite_entry(void *object, s32 kind, s32 value);
+#include "engine/graphics.h"
+#include "slus.h"
 
 /*
  * Animates an eight-step effect, moves it during the first five steps, switches palette rows, and

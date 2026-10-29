@@ -3,6 +3,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "m2c_compat.h"
+#include "town/scene/event.h"
 
 s32 func_80017744(s32);
 s32 func_800177BC(s32);

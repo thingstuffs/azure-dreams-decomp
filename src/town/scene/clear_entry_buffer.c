@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/town_event_buffer.h"
+#include "town/scene.h"
 
 s32 func_80018824(void *, s32);
 

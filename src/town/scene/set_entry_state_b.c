@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/scene.h"
 
 /* Eight-byte entries selected by the town root's current index. */
 typedef struct TownEntryStatus {

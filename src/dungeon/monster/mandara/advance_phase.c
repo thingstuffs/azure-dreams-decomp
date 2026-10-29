@@ -1,6 +1,10 @@
 /* Mandara effect phase updates and layered wavy-strip rendering. */
 #include "common.h"
 #include "shared/game_work.h"
+#include "dungeon/effect/particle.h"
+#include "dungeon/monster/mandara.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 
 #define FIELD(p, type, off) (*(type *)((u8 *)(p) + (off)))
 
@@ -40,13 +44,6 @@ typedef struct {
 
 extern u8 D_8017089C[];
 extern u8 upper_draw_context[];
-
-extern void transform_rotated_vertices(void *);
-extern s32 RotTransPers(void *, void *, void *, void *);
-extern s32 rsin(s32);
-extern void SetPolyFT4(void *);
-extern void SetSemiTrans(void *, s32);
-extern s32 GetTPage(s32, s32, s32, s32);
 
 /* Adds 80 and four times the layer index to the phase. */
 static __inline__ s32 advance_phase(s32 phase, s32 layer)

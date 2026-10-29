@@ -2,6 +2,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_8008F2D4_arg0.h"
 #include "records/Rec_func_8008F2D4_arg1.h"
+#include "town/scene/flags.h"
 
 /* Sets the control flag and initializes the record with a value and a cleared trailing field. */
 void set_the_control_flag_initializes_cleared_trailing_field(Rec_func_8008F2D4_arg0 *control, Rec_func_8008F2D4_arg1 *record, s32 initial_value) {

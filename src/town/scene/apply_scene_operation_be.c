@@ -1,6 +1,7 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town/player/script_flags.h"
+#include "town/scene.h"
 
 s32 lookup_entry_and_apply_record_code();     /* extern */
 extern s32 D_80018E48;

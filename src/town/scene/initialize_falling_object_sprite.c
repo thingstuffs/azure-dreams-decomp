@@ -1,8 +1,9 @@
 #include "town/scene/object.h"
 #include "town/scene/list_setup.h"
 #include "common.h"
-extern void select_record_entry_and_value(void *sprite, void *entries, s16 index);
-extern void initialize_optional_object_state(void *object, void *context, void *sprite, void *entries);
+#include "slus.h"
+#include "town/event/state.h"
+#include "town/scene.h"
 extern u8 D_800EE344[];
 extern s32 D_800D0678[];
 extern s32 D_800D0690[];

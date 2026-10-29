@@ -5,6 +5,7 @@
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "engine/node.h"
+#include "dungeon/monster/beldo_large.h"
 
 typedef struct S_80170D2C_0 {
     u8 pad_00[0x18];

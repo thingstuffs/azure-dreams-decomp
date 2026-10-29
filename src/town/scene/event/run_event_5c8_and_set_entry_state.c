@@ -3,6 +3,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "town/player/script_flags.h"
+#include "town/scene/event.h"
 
 
 typedef struct S_8051FC84_1 {

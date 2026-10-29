@@ -2,6 +2,9 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/monster/cyclone.h"
+#include "engine/graphics.h"
+#include "slus.h"
 
 typedef struct S_8017573C_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -9,8 +12,6 @@ typedef struct S_8017573C_0 {
     s16 unk_04;
 } S_8017573C_0;   /* arg0 in grow_object_after_delay */
 
-extern void select_sprite_entry(void *, u8, s32);
-extern void advance_sprite_animation_and_textures(void *);
 extern u8 cyclone_move_direction_frames[8];
 
 /* Updates object direction and grows it to full scale after an eight-tick delay. */

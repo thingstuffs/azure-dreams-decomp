@@ -1,15 +1,13 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
+#include "dungeon/monster/ghosh.h"
 
 typedef struct S_80172274_0 {
     u16 unk_00;
     u8 pad_02[0x16];
     u16 unk_18;
 } S_80172274_0;   /* arg0 in update_cascading_trail_emitter; pointer addresses record offset 0x2 */
-
-
-void spawn_rising_trail_emitter(void);                            /* extern */
 
 /* Decrement the record counter, calling the update on even counts and setting flags at zero. */
 void update_cascading_trail_emitter(void *record_data) {

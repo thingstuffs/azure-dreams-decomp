@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 typedef struct DevEntry {
     u16 code;
@@ -13,7 +14,6 @@ extern s32 func_80700928(s32 id);
 extern void func_80700BD8(s32 code);
 extern void func_80700C28(s32 code);
 extern s32 func_80700A78();
-extern void post_code_0x107_when_slot_ready(s32 group, s32 slot);
 
 /* Post the entry's code when the gates allow it and return the handler's result; otherwise check slot 0 and return the id. */
 s32 post_entry_gates_allow_handler(s32 id) {

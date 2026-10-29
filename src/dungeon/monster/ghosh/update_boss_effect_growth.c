@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/entity.h"
+#include "dungeon/monster/ghosh.h"
 
 typedef struct S_80172874_0_pre {
     u16 unk_00;

@@ -3,6 +3,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "m2c_compat.h"
+#include "town/scene.h"
 
 extern void func_80017670(s32);
 extern M2C_UNK scene_event_data;

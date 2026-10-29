@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "town/scene/service.h"
 /* Call the scene object's 0x20C and 0x228 methods with 0. */
 void run_scene_services_20c_228(void)
 {

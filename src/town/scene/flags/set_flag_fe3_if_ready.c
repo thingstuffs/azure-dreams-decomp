@@ -1,6 +1,7 @@
 #include "script_symbols.h"
 #include "town/scene/entry_flag_queries.h"
 #include "common.h"
+#include "town/scene/flags.h"
 
 extern void func_80018C74(s32);
 extern void func_80018CEC(s32);

@@ -4,6 +4,8 @@
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/item.h"
+#include "dungeon/monster/beldo_large.h"
 
 typedef struct {
     u8 pad[0x3714];
@@ -20,9 +22,7 @@ typedef struct {
 } DungeonCounters;
 
 extern void unlink_entity_node(void *);
-extern u16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void func_80164BA4(void *);
-extern void upload_encounter_texture(void);
 
 extern u16 actor_direction_dispatch_key;
 extern u8 D_80173C8C[];

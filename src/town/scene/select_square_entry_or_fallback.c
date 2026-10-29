@@ -1,9 +1,9 @@
 #include "town/scene.h"
+#include "town/scene/flags.h"
+#include "town/scene/motion.h"
 extern u8 D_8001BB9C[];
 extern u8 D_8001EA73[];
 extern u8 D_8001C354[];
-extern void *apply_entry_position(void *, void *, void *, s32);
-extern s32 resolve_entry_flag(void *, void *, s32);
 
 void *select_square_entry_or_fallback(SquareSceneEntry *entry, s32 unused, s32 selection) {
     void *records = D_8001BB9C;

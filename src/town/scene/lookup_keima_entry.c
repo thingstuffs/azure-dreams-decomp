@@ -1,4 +1,5 @@
 #include "town/scene/entry_requests.h"
+#include "town/scene.h"
 
 /* This overlay's placed copies of apply_entry_position (0x80016D10) and
  * resolve_entry_flag (0x80016C58).  Their names bind to the home copies, not

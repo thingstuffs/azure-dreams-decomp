@@ -4,6 +4,8 @@
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_moving_views.h"
 #include "engine/node.h"
+#include "dungeon/monster/saber.h"
+#include "slus.h"
 
 typedef struct S_80AC55DC_0 {
     u8 pad_00[0x8];
@@ -49,8 +51,6 @@ typedef struct S_80AC55DC_5 {
 } S_80AC55DC_5;   /* ((S_80AC55DC_0 *)node)->unk_08 in create_returning_sprite_effect */
 
    /* ((S_80AC55DC_1 *)arg0)->unk_08 in create_returning_sprite_effect */
-
-extern void select_record_entry_and_value(void *state, void *entries, short index);
 
 extern u8 shared_sprite_entries[];
 extern u8 saber_return_effect_update_address[];

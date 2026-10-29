@@ -1,5 +1,6 @@
 /* Relinked copy of town/pass_pair_16_bit_table (pass_pair_16_bit_table.c); retail differs only at relocation sites. */
 #include "common.h"
+#include "town/scene.h"
 
 extern void func_80000B90(u16);
 extern u8 D_FFFFFE94[];

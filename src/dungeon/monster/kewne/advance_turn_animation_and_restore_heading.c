@@ -6,6 +6,7 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "engine/graphics.h"
+#include "dungeon/monster/kewne.h"
 
 extern u8 kewne_action_resume_address[];
 extern u8 kewne_turn_frames[];

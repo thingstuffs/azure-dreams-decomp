@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 typedef struct TownEntry {
     u8 field0;
@@ -15,7 +16,6 @@ typedef struct TownState {
 extern TownEntry resource_cache_records[];
 extern TownState town_resource_context;
 extern s32 sum_resource_bytes(s32 index);
-extern void copy_words_backward_from_offset(void *dst, void *src, s32 value);
 
 /* Shifts town entries up one slot and relocates their associated data by the given offset. */
 void shift_resource_entries_and_data(s32 count, s32 data_offset) {

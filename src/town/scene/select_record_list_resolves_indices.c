@@ -1,6 +1,8 @@
 /* Relinked copy of town/func_80880298 (func_80880298.c); its callback table puts the two entries at +0x64/+0x70 (twin +0x68/+0x74), otherwise retail differs only at relocation sites. */
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "town/devkit.h"
+#include "town/scene.h"
 typedef void (*Callback3)(void *, void *, s32);
 typedef void (*Callback1)(s32);
 
@@ -23,7 +25,6 @@ extern s32 D_A0700B28[];
 extern s32 *D_A0700B4C[];
 extern CallbackTable *devkit_page_trace_methods[];
 extern GlobalState *D_A0700B44[];
-extern void shift_index_and_add_offset_c(void);
 
 /* Selects a record list and resolves its indices through the global lookup table. */
 void select_record_list_resolves_indices(s32 list_index) {

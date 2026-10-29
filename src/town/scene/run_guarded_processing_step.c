@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 void func_80016A78(void);
 void func_80016B20(s32, s32);
 s32 apply_record_value_for_either_flag(s32, s32);

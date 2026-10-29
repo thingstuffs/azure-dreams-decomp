@@ -1,5 +1,6 @@
 /* Relinked copy of town/func_80875404 (func_80875404.c); retail differs only at relocation sites. */
 #include "town/scene.h"
+#include "town/scene/flags.h"
 
 typedef struct {
     s16 value[4];
@@ -10,7 +11,6 @@ typedef struct {
     Callback callback[4];
 } CallbackTable;
 
-extern s32 test_indexed_flag_bit(s16 value);
 extern u8 D_80700018[];
 
 /* Call the indexed callback at the first failed value test or the end of the list. */

@@ -6,6 +6,7 @@
 #include "shared/object_payload.h"
 #include "town/scene/animation.h"
 #include "town/scene/object.h"
+#include "town/scene.h"
 
 s32 func_80052374();                             /* extern */
 void func_80058F88();        /* extern */ /* Unprototyped: JP identity SD_Call(int); the surplus source arguments preserve the retail instruction stream. */

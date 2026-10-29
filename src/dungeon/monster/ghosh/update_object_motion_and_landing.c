@@ -2,10 +2,9 @@
 #include "dungeon/monster/ghosh.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
+#include "dungeon/actor/effect.h"
 
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
-s32 find_valid_floor_item_position(s16 x, s16 y, s16 z, s16 *out_x, s16 *out_y, s16 *out_distance);
-s32 place_item_at_valid_floor_position();
 s16 sample_terrain_surface_height();
 
 

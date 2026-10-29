@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/scene/script_hooks.h"
 #include "m2c_compat.h"
+#include "town/scene.h"
 
 extern u8 D_80017800[];
 extern void *D_800178D0;

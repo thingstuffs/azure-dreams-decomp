@@ -3,6 +3,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "town/scene/record_actions.h"
+#include "town/scene/object.h"
 
 
 typedef struct S_80016844_2 {

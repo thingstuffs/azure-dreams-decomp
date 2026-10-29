@@ -1,6 +1,8 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/monster/kewne.h"
+#include "engine/graphics.h"
 
 typedef struct S_80047784 S_80047784;
 
@@ -43,7 +45,6 @@ typedef struct S_func_809A0B58_2 {
 
 
 struct SpriteFrameState;
-void select_sprite_entry(void *, s16, s16);
 extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern u8 kewne_frame_set[9];
 

@@ -1,9 +1,9 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "town/scene.h"
+#include "town/scene/object.h"
 
 typedef s32 (*Callback)(s32);
-
-extern s32 count_listed_enabled_records(void);
 
 /* Check whether the object callback returns 2 when the prerequisite value is at least 2. */
 s32 check_object_callback_returns_two(void) {

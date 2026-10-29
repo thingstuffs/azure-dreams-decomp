@@ -1,6 +1,7 @@
 /* Prepare progress interactions (G00708). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_80470808, PD:town/image_3ef000:8001B718. */
 #include "town/scene/progress_interaction_g00708.h"
+#include "town/scene.h"
 
 void mark_progress_state_ready(void) {
     ((TownProgressState *)town_scene_root->event_data)->unk_B0 = 1;

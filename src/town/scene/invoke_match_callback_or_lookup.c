@@ -1,4 +1,5 @@
 #include "modules/town_ovl_3ef1c8.h"
+#include "town/scene.h"
 
 void invoke_match_callback_or_lookup(void)
 {

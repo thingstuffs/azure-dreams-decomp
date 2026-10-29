@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 /* Copies count integers from src to dst in forward order. */
 void copy_forward_word_span(int *dst, int *src, int count) {

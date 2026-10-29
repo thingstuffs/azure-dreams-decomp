@@ -2,6 +2,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "shared/town_event_state.h"
+#include "town/scene.h"
 
 
 typedef void (*Callback3)(void *, void *, s32);

@@ -3,6 +3,7 @@
  * Only the strong PD gap is included; complete file edges remain unknown.
  */
 #include "town/scene/event_cycle_reset_g00753.h"
+#include "town/scene.h"
 
 /* Resets the town buffer and updates callback-dependent and default flags. */
 void reset_buffer_and_event_flags(void) {

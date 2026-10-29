@@ -4,6 +4,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/vector.h"
+#include "town/scene/object.h"
 
 #ifndef NULL
 #define NULL 0

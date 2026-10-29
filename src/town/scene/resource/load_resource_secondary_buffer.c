@@ -1,6 +1,7 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/scene/resource.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_8001E578(s32, ...);

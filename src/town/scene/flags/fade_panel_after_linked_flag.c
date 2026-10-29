@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/object_links.h"
+#include "town/scene/flags.h"
 
    /* the 0x2 bytes before arg0 in fade_panel_after_linked_flag, addressed as arg0[-1] */
 

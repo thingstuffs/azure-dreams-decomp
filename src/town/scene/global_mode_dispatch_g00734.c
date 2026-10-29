@@ -3,6 +3,7 @@
  * Exclude the weaker left CL:town/func_805D29B4 join; complete file edges remain unknown.
  */
 #include "town/scene/global_mode_dispatch_g00734.h"
+#include "town/scene.h"
 
 /* Processes the selected entry for event eight, then runs the completion callback. */
 s32 run_operation(s32 unused_context, s32 unused_arg, s32 event_kind) {

@@ -1,7 +1,7 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene.h"
 
-extern void *get_special_data_for_low_value_id(s32 id);
 extern s32 func_800178A8(void *table, s32 lookup_key, s32 entry_id);
 extern void *func_80017960(void *table, void *fallback_table, s32 lookup_key, s32 entry_id);
 extern void initialize_state_two_entries_pointer(s32 value);

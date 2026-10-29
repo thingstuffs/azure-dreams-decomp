@@ -2,8 +2,9 @@
 #include "shared/town_dispatch_object.h"
 #include "m2c_compat.h"
 #include "town/scene/position_entries.h"
+#include "town/scene.h"
+#include "town/scene/flags.h"
 
-extern s32 resolve_entry_flag();
 extern ScenePositionEntry D_8001BB7C;
 extern u8 D_8001E891;
 

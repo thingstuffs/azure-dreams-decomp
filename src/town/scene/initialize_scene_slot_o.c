@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "town/person.h"
+#include "town/scene.h"
 
 extern u8 D_800D77C0[];
 extern u8 D_800D77C8[];

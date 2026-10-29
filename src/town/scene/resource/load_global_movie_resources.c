@@ -1,9 +1,9 @@
 #include "common.h"
 #include "engine/scene.h"
+#include "town/scene/resource.h"
 
 typedef s32 T;
 
-extern void reserve_twch_load(s32 character_id);
 extern T town_scene_resource_descriptor;
 extern T D_800D1D54;
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/flags.h"
 
 extern void func_80000C18(u16);
 extern u8 D_00000000[];

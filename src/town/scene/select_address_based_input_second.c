@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene.h"
 
 extern s32 func_8001A64C(s32);
 extern char D_8001B9E8[];

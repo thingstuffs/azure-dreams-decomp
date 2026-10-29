@@ -3,6 +3,7 @@
 #include "shared/record_ptrs.h"
 #include "town/player/script_flags.h"
 #include "town/scene/record_actions.h"
+#include "town/player/state.h"
 
 typedef struct S_800161C0_0 {
     u8 pad_00[0x24];
@@ -19,9 +20,6 @@ typedef struct S_800161C0_2 {
     s16 unk_2A;
 } S_800161C0_2;   /* ((S_800161C0_1 *)(((S_800161C0_0 *)(*(void **)D_80016000))->unk_24))->unk_74 in advance_floor_event_counter */
 
-
-s32 read_script_flag_range(s32, s32);
-extern void write_script_flag_range(s32 base, s32 bits, s32 count);
 extern void func_8001DCD4(s32 slot_id);
 
 #define CURRENT_FLOOR() \

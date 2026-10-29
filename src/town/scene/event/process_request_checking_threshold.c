@@ -1,8 +1,7 @@
 #include "common.h"
 #include "town/player.h"
-
-extern void apply_selected_entry_values(s32 record, s32 entry_index);
-extern void set_current_entry_script_flag(void);
+#include "town/scene.h"
+#include "town/scene/flags.h"
 
 /*
  * Sets the current entry script flag when the linked record field reaches 25, then applies the

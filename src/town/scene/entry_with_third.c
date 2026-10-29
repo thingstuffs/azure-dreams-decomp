@@ -1,7 +1,8 @@
 #include "town/paired_indicators.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
-extern int abs(int);
+#include "sdk/libc.h"
+#include "town/scene.h"
 
 #ifndef NULL
 #define NULL 0

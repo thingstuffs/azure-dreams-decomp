@@ -1,4 +1,6 @@
 #include "common.h"
+#include "town/scene/animation.h"
+#include "town/scene/effect.h"
 
 typedef struct { s32 words[22]; } Payload88;
 typedef struct { s32 words[6]; } Initial24;
@@ -30,7 +32,6 @@ extern void *func_800373DC(s32);
 extern void func_8003BC18(void *, void *);
 extern void func_8023FA58(void *, void *, void *);
 extern u8 score_sprite_draw_callback_address[], D_8052643C[], score_bounce_update_address[];
-extern void animate_bouncing_score_object(State *, Motion *, Actor *);
 extern s32 score_object_images[3];
 
 /* Create an object, copy its two records, and initialize rendering state. */

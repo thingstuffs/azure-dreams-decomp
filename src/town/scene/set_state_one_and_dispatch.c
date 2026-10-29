@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene.h"
 
 void set_selected_entry_state_3(void);                            /* extern */
 void func_800193E0(s32);                     /* extern */

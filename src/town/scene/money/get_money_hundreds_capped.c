@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/scene/money.h"
 
 
 /* Adds 100 to the stored value, divides by 100, and caps the result at ten. */

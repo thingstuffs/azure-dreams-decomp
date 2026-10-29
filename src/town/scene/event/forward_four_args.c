@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/scene/entry_requests.h"
+#include "town/scene/event.h"
 void func_800176B8(s32, s32, s32, s32);                            /* extern */
 
 /* Forward the inputs to func_800176B8. */

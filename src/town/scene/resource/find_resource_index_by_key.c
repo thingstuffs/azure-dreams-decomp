@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/resource.h"
 
 typedef struct TownEntry {
     s8 field0;

@@ -2,6 +2,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "town/scene/history.h"
+#include "town/scene.h"
 
 typedef struct GroupLimit_8001D048 {
     s16 limit;

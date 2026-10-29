@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/scene/script_hooks.h"
 #include "m2c_compat.h"
+#include "town/scene.h"
 
 s32 store_record_value_and_table_lookup(); /* Slot contract: loading images do not establish one callee contract. */ /* extern */
 

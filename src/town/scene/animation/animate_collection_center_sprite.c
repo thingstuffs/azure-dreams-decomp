@@ -1,6 +1,6 @@
 #include "common.h"
-extern int abs(int);
-
+#include "sdk/libc.h"
+#include "town/scene/animation.h"
 
 typedef struct {
     s16 x;

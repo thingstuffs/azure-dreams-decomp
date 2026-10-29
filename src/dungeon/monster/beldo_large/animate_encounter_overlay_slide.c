@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "dungeon/monster/beldo_large.h"
 
 typedef struct S_8016F99C_0_pre {
     u16 unk_00;

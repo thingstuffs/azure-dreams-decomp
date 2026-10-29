@@ -2,6 +2,7 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "town/scene/dialogue.h"
 
 typedef s32 (*TownCallback)(s32, s32);
 

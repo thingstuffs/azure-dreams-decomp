@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 typedef struct TownStateEntry {
     u8 pad_00[0x8];

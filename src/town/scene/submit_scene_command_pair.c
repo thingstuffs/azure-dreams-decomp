@@ -1,5 +1,6 @@
 /* Submits a two-byte scene command and compares a stored value with the returned threshold. */
 #include "town/scene/submit_scene_command_pair.h"
+#include "town/scene.h"
 
 
 u32 submit_scene_command_pair(s32 unused_query, s32 unused_param) {

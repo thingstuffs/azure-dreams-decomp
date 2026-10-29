@@ -1,8 +1,9 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
+#include "dungeon/item.h"
+#include "dungeon/monster/beldo_large.h"
 
-extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern u8 *beldo_actor_nodes;
 
 /* Returns the signed coordinate calculation result scaled down by nine bits. */

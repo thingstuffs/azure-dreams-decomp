@@ -1,8 +1,8 @@
 #include "common.h"
 #include "shared/object_flags.h"
-
-extern void advance_sprite_animation_and_textures(void *object);
-extern void select_sprite_entry(void *object, s32 kind, s32 value);
+#include "dungeon/monster/cyclone.h"
+#include "engine/graphics.h"
+#include "slus.h"
 
 /* Advances the animation, moves its sprite, and marks completion after eight ticks. */
 void advance_eight_tick_animation(u16 *anim, u32 *motion, u16 *sprite) {

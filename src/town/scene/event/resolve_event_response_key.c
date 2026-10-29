@@ -3,10 +3,10 @@
 #include "town/scene.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/scene/event.h"
 
 typedef s32 (*Callback)(s32, void *);
 
-extern s32 count_enabled_town_entries(void);
 extern void *D_80018094[];
 extern void *D_800180B4[];
 extern s16 town_response_key_indices[];

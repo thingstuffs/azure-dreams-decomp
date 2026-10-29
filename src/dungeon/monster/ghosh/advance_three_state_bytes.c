@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
+#include "dungeon/monster/ghosh.h"
 
 /* Increments three state bytes while the first is below 0x80, otherwise sets flag bits. */
 void advance_three_state_bytes(u16 *words)

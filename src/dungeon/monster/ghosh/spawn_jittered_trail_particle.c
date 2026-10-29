@@ -6,6 +6,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "engine/node.h"
 #include "engine/node/allocation.h"
+#include "sdk/libc.h"
 
 typedef struct S_80171F30_0 {
     u8 pad_00[0x8];
@@ -37,8 +38,6 @@ typedef struct S_80171F30_4 {
 extern u8 ghosh_object_callback_2[];
 extern u8 D_80171CC0[];
 extern u8 D_80171E60[];
-
-extern s32 rand(void);
 
 /* Creates an object at a randomized offset from its parent and initializes its mode and state. */
 /* Creates a parent-linked trail particle with mode-specific callbacks and jitter ranges, copying the

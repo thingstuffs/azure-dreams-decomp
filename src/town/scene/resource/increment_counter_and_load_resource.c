@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/resource.h"
 
 extern u8 D_80526650[];
 extern s32 func_8003B0B8();

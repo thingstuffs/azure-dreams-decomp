@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00738 - PD:town/ll34_581000_80016000:80017FB8, PD:town/ll34_594800_80016000:80019268.
  */
 #include "town/scene/service/cache_scaled_service_result_g00738.h"
+#include "town/scene/service.h"
 
 /* Call the callback with fixed arguments and cache three quarters of its result. */
 u32 invoke_state_callback(void) {

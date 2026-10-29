@@ -1,6 +1,7 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town.h"
+#include "town/scene/object.h"
 
 s32 func_800177CC(s32, s32);
 void initialize_state_two_entries_pointer(s32 bit_index);                         /* extern */

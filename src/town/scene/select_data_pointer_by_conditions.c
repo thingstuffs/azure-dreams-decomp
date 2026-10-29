@@ -2,6 +2,7 @@
 #include "shared/town_root.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "town/scene.h"
 
 typedef struct {
     u16 values[4];

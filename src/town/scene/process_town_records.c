@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/player/script_flags.h"
+#include "town/scene.h"
 
 typedef struct {
     s16 unk0;

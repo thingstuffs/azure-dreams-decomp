@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/scene/service.h"
 
 /* Slot 0x2D8 of the town service table (still padding in shared/town_services.h). */
 typedef struct TownServiceSlot2D8 {

@@ -6,6 +6,8 @@
 #include "shared/slus_callbacks.h"
 #include "sdk/libc.h"
 #include "engine/node.h"
+#include "dungeon/monster/cyclone.h"
+#include "slus.h"
 
 typedef struct S_80175060_1 {
     u8 pad_00[0x4];
@@ -22,12 +24,6 @@ typedef struct S_80175060_1 {
     s16 unk_1C;
     s16 unk_1E;
 } S_80175060_1;
-
-
-
-void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
-extern void advance_sprite_animation_and_textures(void *entity);                      /* extern */
-extern void update_radial_motion_or_complete(u16 *motion, s32 *position, SpriteFrameState *object);
 
 /* Creates an object with randomized phase and rotation and copies its initial state. */
 /* Creates a gray effect at the owner's height with randomized rotation and phase, preserving the initial

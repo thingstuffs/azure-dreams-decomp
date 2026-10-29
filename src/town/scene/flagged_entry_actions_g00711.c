@@ -1,6 +1,7 @@
 /* Process flagged entries and clear scene history (G00711). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_80471198. */
 #include "town/scene/flagged_entry_actions_g00711.h"
+#include "town/scene.h"
 
 /* Pass the two context regions to func_80018824 with their sizes. */
 void clear_state_history_and_head_indices(void) {

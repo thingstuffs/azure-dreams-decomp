@@ -22,6 +22,7 @@ typedef struct S_80170A54_2 {
 
 
 #include "engine/texture.h"
+#include "dungeon/monster/ghosh.h"
 extern void *primary_actor_record[3];
 extern u8 resident_globals_page[];
 

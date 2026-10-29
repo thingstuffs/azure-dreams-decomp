@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/object.h"
 s32 func_80058588(s32, s32, const char *);
 s32 func_80071424(const char *);
 extern s32 scene_object_flags;

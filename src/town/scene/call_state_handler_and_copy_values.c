@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "town/scene.h"
 
 typedef struct S_func_8001A854_0 {
     void *unk_00;

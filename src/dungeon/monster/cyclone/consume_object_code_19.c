@@ -1,6 +1,7 @@
 #include "shared/actor_status_ids.h"
 #include "common.h"
 #include "engine/entity.h"
+#include "dungeon/monster/cyclone.h"
 
 
 /* Checks object code 0x19, exits on failure, and applies it on success. */

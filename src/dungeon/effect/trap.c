@@ -177,7 +177,7 @@ value_ready:
 extern u8 D_800E1B08[];
 extern u8 D_800E1B2E[];
 
-extern void display_formatted_context_message(); /* Unprototyped: one or three arguments; retail retains only the text context. */
+extern void display_formatted_context_message(void *context);
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern void initialize_timed_motion_step(u16 countdown, u32 amount);
 extern s32 play_sound_if_enabled(s32 query_value);
@@ -253,7 +253,7 @@ extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 #include "dungeon/actor/status.h"
 extern void initialize_timed_motion_step(u16 countdown, u32 amount);
 extern s32 play_sound_if_enabled(s32 query_value);
-extern void display_formatted_context_message(); /* Unprototyped: one or three arguments; retail retains only the text context. */
+extern void display_formatted_context_message(void *context);
 
 /* Creates an effect for the active entity or displays its status message. */
 s32 create_active_entity_effect_or_message(ActorRecord *entity)
@@ -2683,7 +2683,7 @@ extern s32 has_enough_available_runtime_nodes(s32);
 extern void initialize_timed_motion_step(u16 countdown, u32 amount);
 extern void func_80042640(void *, s32);
 extern void SD_Call(s32);
-extern void display_formatted_context_message(); /* Unprototyped: one or three arguments; retail retains only the text context. */
+extern void display_formatted_context_message(void *context);
 extern s32 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern s32 retain_spawn_resource(s16 entry_type, s16 entry_key);
 extern u8 *find_or_retain_sprite_resource_slot(s32, s32);

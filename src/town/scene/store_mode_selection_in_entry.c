@@ -2,6 +2,8 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/scene.h"
+#include "town/scene/event.h"
 
 
 typedef s32 (*Callback)(s32);
@@ -13,11 +15,6 @@ typedef struct S_8001BFF4_1 {
 } S_8001BFF4_1;   /* arg0 in store_mode_2_selection_in_entry */
 
    /* (u8 *)((S_8001BFF4_1 *)arg0)->unk_10 + arg1 * 0x10 in store_mode_2_selection_in_entry */
-
-
-extern s32 check_event_value_in_list(s32);
-extern s32 build_selected_entry_output(s32);
-extern s32 build_entry_list(s32);
 
 /* Updates the indexed entry from the current selection in mode 2. */
 s32 store_mode_2_selection_in_entry(S_8001BFF4_1 *context, s32 entry_index) {

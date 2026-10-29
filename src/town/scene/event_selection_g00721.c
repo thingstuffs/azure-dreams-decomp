@@ -3,6 +3,7 @@
  * Only the two strong CL gaps are included; complete file edges remain unknown.
  */
 #include "town/scene/event_selection_g00721.h"
+#include "town/scene.h"
 
 /* Return the candidate if check_event_value_in_list succeeds, otherwise use find_first_enabled_entry_id. */
 s32 choose_valid_entry_or_fallback(s32 candidate) {

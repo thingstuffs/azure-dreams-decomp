@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 s32 blit_nonzero_rectangle_from_table_b(void);
 

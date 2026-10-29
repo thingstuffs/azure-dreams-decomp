@@ -1,5 +1,6 @@
 #include "shared/town_event_state.h"
 #include "common.h"
+#include "town/scene.h"
 
 typedef struct S_8001B960_0 {
     u8 pad_00[0x10];
@@ -7,9 +8,6 @@ typedef struct S_8001B960_0 {
 } S_8001B960_0;   /* obj in store_current_value_if_state_zero */
 
    /* (index * 0x10) + ((S_8001B960_0 *)obj)->unk_10 in store_current_value_if_state_zero */
-
-
-extern s32 build_three_value_block(void);
 
 /* Store the current handler in the object's table slot unless the global gate is set. */
 s32 store_current_value_if_state_zero(S_8001B960_0 *obj, s32 index) {

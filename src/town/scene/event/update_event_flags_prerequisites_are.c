@@ -2,6 +2,7 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "town/scene/event.h"
 
 extern s32 func_8001A554(s32 flag_id);
 extern s32 func_8001A64C(s32 flag_id);

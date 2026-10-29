@@ -3,6 +3,7 @@
  */
 #include "town/scene/scene_slot_pair_initialization_g00694.h"
 #include "shared/sprite_frame_state.h"
+#include "town/scene.h"
 
 /*
  * Registers the object in scene slot 41 using the four local setup tables and sets the context

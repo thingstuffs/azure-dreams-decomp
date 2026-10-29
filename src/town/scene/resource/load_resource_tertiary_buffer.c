@@ -1,6 +1,7 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/scene/resource.h"
 void func_8001E578(s32);                     /* extern */
 extern M2C_UNK D_80023DB5;
 

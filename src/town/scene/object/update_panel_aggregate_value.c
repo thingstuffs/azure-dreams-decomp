@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_links.h"
+#include "town/scene/object.h"
 
    /* the 0x2 bytes before entry in update_panel_aggregate_value, addressed as entry[-1] */
 

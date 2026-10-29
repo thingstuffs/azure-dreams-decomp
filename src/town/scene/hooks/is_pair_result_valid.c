@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/hooks.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_8001DA48(s32, s32);                                /* extern */

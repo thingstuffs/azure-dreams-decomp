@@ -3,6 +3,7 @@
 #include "shared/town_state.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "town/scene.h"
 
 
 extern void (*D_80017618)(void);

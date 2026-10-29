@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 /* TOWN file 0x3EAB90 (rowbase sweep_3EA000, delta 0x7FC31000; the local `j` lands inside this
  * function only at that base).  Same shape as the matched selector select_record_by_mode

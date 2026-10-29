@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 extern s16 scene_selection_index;
 

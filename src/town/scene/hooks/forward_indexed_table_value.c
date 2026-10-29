@@ -1,6 +1,7 @@
 /* Relinked copy of town/func_80874D24 (func_80874D24.c); retail differs only at relocation sites. */
 #include "common.h"
 #include "town/scene/flags.h"
+#include "town/scene/hooks.h"
 
 extern u8 D_A0700F2C[];
 

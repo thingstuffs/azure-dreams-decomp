@@ -7,6 +7,7 @@
 
 #include "engine/graphics.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/monster/beldo_large.h"
 extern u8 beldo_large_frame_set_6[];
 
 /*

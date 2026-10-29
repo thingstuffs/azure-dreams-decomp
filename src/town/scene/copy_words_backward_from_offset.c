@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 /* Copy words backward from the supplied byte offset in the source and destination. */
 void copy_words_backward_from_offset(s32 dest_addr, s32 src_addr, s32 byte_count) {

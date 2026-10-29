@@ -6,6 +6,7 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/monster/beldo_large.h"
 #include "shared/tile_object.h"
+#include "sdk/libc.h"
 
 typedef struct {
     u8 bytes[8];
@@ -19,7 +20,6 @@ typedef struct {
 #define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define U32_AT(p, o) (*(u32 *)((u8 *)(p) + (o)))
 
-extern s32 rand(void);
 extern void draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s32);
 extern void create_offset_particle_effect();
 extern void spawn_directional_projectile_effect();

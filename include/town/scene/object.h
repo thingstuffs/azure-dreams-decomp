@@ -54,4 +54,13 @@ void update_panel_aggregate_value(void *entry);
 #include "records/Rec_func_80094268_arg0.h"
 void unlink_scene_list_node(Rec_func_80094268_arg0 *node);
 
+void func_8052FE94(s16 object_value);
+
+void build_object_set_and_select_lists(s32 *records, void *ost_w, void *osel_w);
+void build_object_set_and_select_lists_rev_b(s32 *entries, s32 ost_w, s32 *osel_w);
+
+void init_object_set_runtime_pointers_rev_b(void);
+
+s32 check_object_callback_returns_two(void);
+
 #endif

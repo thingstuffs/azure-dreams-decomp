@@ -1,10 +1,9 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
-
-extern void advance_sprite_animation_and_textures(void *);
-extern s32 rsin(s16);
-extern s32 rcos(s16);
+#include "dungeon/monster/cyclone.h"
+#include "sdk/libgte.h"
+#include "slus.h"
 
 /* Updates radial position or sets completion flags based on the object state. */
 void update_radial_motion_or_complete(u16 *motion, s32 *position, SpriteFrameState *object)

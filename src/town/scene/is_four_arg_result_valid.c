@@ -1,4 +1,5 @@
 #include "town/scene/grid_entry_query.h"
+#include "town/scene.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_8001979C(s32, s32);                                /* extern */

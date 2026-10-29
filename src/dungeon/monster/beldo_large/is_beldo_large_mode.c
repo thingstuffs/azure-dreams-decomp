@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/beldo_large.h"
 
 typedef struct { u8 pad[0xBA]; u8 mode; } Owner;
 extern Owner *beldo_script_node;

@@ -1,6 +1,7 @@
 #include "script_symbols.h"
 #include "shared/town_event_state.h"
 #include "common.h"
+#include "town/scene/event.h"
 
 extern s32 D_80017F94[];
 extern s32 D_80017FB4[];

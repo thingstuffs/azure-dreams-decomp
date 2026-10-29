@@ -1,7 +1,7 @@
 #include "common.h"
 #include "town/player.h"
+#include "town/scene/flags.h"
 
-extern void set_current_entry_script_flag(void);
 extern s32 apply_selected_entry_values(); /* Slot contract: loading images do not establish one callee contract. */
 
 /* Run the preliminary callback at a count of ten or more, then dispatch the argument pair. */

@@ -5,6 +5,8 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_moving_views.h"
 #include "engine/node/allocation.h"
+#include "dungeon/monster/ghosh.h"
+#include "engine/node.h"
 
 typedef struct S_80172A14_0 {
     u8 pad_00[0xAC];
@@ -20,8 +22,6 @@ typedef struct S_80172A14_2 {
 } S_80172A14_2;
 
    /* arg1 in create_boss_linked_effect */
-
-extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 
 extern u8 D_80172874[];
 extern u8 D_80174ABC[];

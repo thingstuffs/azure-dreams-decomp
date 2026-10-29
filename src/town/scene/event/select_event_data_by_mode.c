@@ -1,5 +1,6 @@
 #include "shared/town_event_state.h"
 #include "common.h"
+#include "town/scene/event.h"
 
 extern s8 scene_event_data[];
 extern u8 scene_mode_event_data[];

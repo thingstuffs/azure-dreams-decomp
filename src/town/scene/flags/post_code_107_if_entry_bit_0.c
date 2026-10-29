@@ -1,5 +1,6 @@
 /* Relinked copy of town/call_entry_has_bit_0 (call_entry_has_bit_0.c); it posts code 0x107 (twin 0x278), otherwise retail differs only at relocation sites. */
 #include "common.h"
+#include "town/scene/flags.h"
 
 extern u8 D_00000DC4[];
 extern void func_80000B40(s32);

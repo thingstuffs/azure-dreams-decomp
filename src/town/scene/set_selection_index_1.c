@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/scene.h"
 
 extern s32 scene_selection_index;
 /* Stores 1 in scene_selection_index. */

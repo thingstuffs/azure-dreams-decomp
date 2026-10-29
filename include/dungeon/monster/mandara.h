@@ -21,4 +21,11 @@ s32 draw_layered_wavy_object_strips(void *object_data, void *unused, void *appea
 void advance_actor_replacement_sequence(void *effect, s32 unused, void *primitive);
 void blend_animation_palette_and_complete(void *effect);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+void advance_action_through_recovery(ActorRecord *action_state, ObjectPosition *transform, SpriteFrameState *sprite, ActorRecord *actor);
+void *create_actor_with_parts_and_flags(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value);
+void *spawn_mandara_in_slot_c(s32 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height);
+void *spawn_mandara_in_slot_d(s16 flags, s16 kind_id, s16 tile_y, s16 spawn_height);
+void *spawn_mandara_slot_a(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 heading);
+
 #endif

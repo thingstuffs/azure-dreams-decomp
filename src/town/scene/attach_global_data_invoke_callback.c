@@ -1,8 +1,8 @@
 #include "common.h"
 #include "town/scene.h"
+#include "town/scene/hooks.h"
 extern u8 D_80017760[];
 extern s32 func_800161E4(void);
-extern s32 func_800161DC(void);
 typedef struct { u8 pad[0x40]; void *value; } Child;
 typedef struct { u8 pad[0x1C]; Child *child; } State;
 extern State *town_scene_root;

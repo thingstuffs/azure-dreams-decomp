@@ -2,6 +2,7 @@
 #include "common.h"
 #include "town/scene/grid_entry_query.h"
 #include "shared/record_ptrs.h"
+#include "town/scene.h"
 
 
 

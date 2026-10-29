@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/scene/dialogue.h"
 
 typedef struct S_8080BCD4_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */

@@ -1,5 +1,6 @@
 /* Relinked copy of town/func_808B82AC (func_808B82AC.c); retail differs only at relocation sites. */
 #include "common.h"
+#include "town/scene.h"
 
 extern s32 scene_captured_flags[];
 extern s32 D_00004134[];

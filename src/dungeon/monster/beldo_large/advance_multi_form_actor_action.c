@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "dungeon/monster/beldo_large.h"
 
 extern void *beldo_actor_nodes[3];
 

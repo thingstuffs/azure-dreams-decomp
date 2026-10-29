@@ -1,4 +1,5 @@
 #include "modules/town_ovl_5ff1d0.h"
+#include "town/scene.h"
 
 /*
  * Returns whether func_80017978 accepts the supplied inputs, skipping that call until

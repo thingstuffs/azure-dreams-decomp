@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/entity.h"
+#include "town/scene.h"
 
 #define COUNT_VALUE (scene_value_total)
 #define COUNT_STORE(x) (scene_value_total = (x))

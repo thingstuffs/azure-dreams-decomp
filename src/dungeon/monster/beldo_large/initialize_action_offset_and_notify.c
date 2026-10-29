@@ -2,6 +2,7 @@
 #include "shared/object_node.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
+#include "dungeon/monster/beldo_large.h"
 
 extern void equip_item_and_update_status(void *, void *);
 extern s16 beldo_large_direction_offsets[];

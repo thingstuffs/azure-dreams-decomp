@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene.h"
 void func_80018BD0(s32);                     /* extern */
 
 /* Processes IDs 0xFB7 and 0xFB8, then returns zero. */

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/scene/object.h"
 
 /* Run town service callback 0x84 with zero. */
 void invoke_scene_callback(void) {

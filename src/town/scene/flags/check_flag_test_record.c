@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/scene/flags/event_checks.h"
 #include "m2c_compat.h"
+#include "town/scene/flags.h"
 
 s32 select_data_array_based_flag(s32 flagIndex);                             /* extern */
 extern s16 D_800160B2;

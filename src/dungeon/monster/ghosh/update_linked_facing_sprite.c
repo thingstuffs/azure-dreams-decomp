@@ -4,6 +4,8 @@
 #include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "records/Rec_D_80082E80.h"
+#include "engine/texture.h"
+#include "slus.h"
 
 typedef struct S_801714B0_0 {
     u8 pad_00[0x2A];
@@ -14,10 +16,6 @@ typedef struct S_801714B0_1 {
     u8 pad_00[0x94];
     s16 unk_94;
 } S_801714B0_1;   /* arg0 in update_linked_facing_sprite */
-
-
-extern void select_indirect_table_entry(void *, u8, s8);
-extern void advance_sprite_animation_and_textures(void *);
 
 /* Updates the record's directional selection and flag from the entity's facing. */
 void update_linked_facing_sprite(S_801714B0_1 *state, void *unused, SpriteFrameState *record)

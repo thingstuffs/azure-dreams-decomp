@@ -1,8 +1,8 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town/player/script_flags.h"
-
-extern void * apply_entry_position(void *entries, void *object,void *context, s32 selection);
+#include "town/scene.h"
+#include "town/scene/motion.h"
 
 extern u8 D_8001BE24[];
 extern u8 scene_dispatch_context[];

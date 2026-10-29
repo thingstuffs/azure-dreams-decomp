@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/beldo_large.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u32 encounter_object_slots[3];

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/hooks.h"
 void func_80017A48(void *, s32);                            /* extern */
 
 /* Pass the context and entry index to func_80017A48. */

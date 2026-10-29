@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/scene.h"
 
 typedef struct S_8001A188_0 {
     u8 pad_00[0x10];

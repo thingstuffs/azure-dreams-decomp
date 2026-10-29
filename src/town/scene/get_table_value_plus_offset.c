@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "town/scene.h"
 
 extern s32 scene_captured_value;
 extern s32 scene_captured_flags;

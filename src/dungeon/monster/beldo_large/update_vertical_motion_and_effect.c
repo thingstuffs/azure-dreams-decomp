@@ -2,6 +2,7 @@
 #include "dungeon/monster/beldo_large.h"
 #include "shared/object_flags.h"
 #include "sdk/libgte.h"
+#include "dungeon/actor/effect.h"
 
 typedef struct S_8017085C_0 {
     u8 pad_00[0x12];
@@ -20,9 +21,6 @@ typedef struct S_8017085C_2 {
     u8 pad_00[0x8];
     s32 unk_08;
 } S_8017085C_2;   /* arg2 in update_vertical_motion_and_effect */
-
-
-extern void place_item_at_valid_floor_position();
 
 /* Updates vertical animation and triggers an effect upon reaching the resting height. */
 void update_vertical_motion_and_effect(void *motion, ObjectPosition *position, void *effect) {

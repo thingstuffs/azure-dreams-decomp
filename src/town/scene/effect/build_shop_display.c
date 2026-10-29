@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/scene/collection.h"
 #include "town/scene/effect.h"
+#include "town/scene/object.h"
 
 typedef struct S_80813AB0_0 {
     u8 pad_00[0x8];
@@ -56,7 +57,6 @@ extern void *func_800374FC(s32 flags, struct ObjectNodeHeader **list_head);
 extern s32 func_8003BC18();
 extern s32 func_80071494(void);
 extern s32 func_8023FA58();
-extern void func_8052FE94(s16 object_value);
 
 extern u8 score_sprite_draw_callback_address[];
 extern u8 menu_entry_draw_callback_address[];

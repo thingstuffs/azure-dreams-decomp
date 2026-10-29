@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/resource.h"
 
 extern void func_8003B0B8(void *, void *);
 extern void *func_800373DC(s32);

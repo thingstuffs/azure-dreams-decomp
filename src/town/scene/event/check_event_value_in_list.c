@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/event.h"
 
 extern u8 town_event_value_list[];
 

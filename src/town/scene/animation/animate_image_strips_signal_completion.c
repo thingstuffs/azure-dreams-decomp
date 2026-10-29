@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/animation.h"
 
 typedef struct S_8052DC78_0 {
     u8 pad_00[0x5C];

@@ -4,6 +4,7 @@
 #include "shared/town_pointees.h"
 #include "m2c_compat.h"
 #include "town/scene/record_queries.h"
+#include "town/scene.h"
 
 
    /* ((S_8001AAF0_1 *)(((Rec_D_80016000 *)D_80016000)->unk_24))->unk_68 in get_current_nested_record_value */

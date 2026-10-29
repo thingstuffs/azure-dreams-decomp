@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/scene/entry_requests.h"
 #include "town/player/script_flags.h"
+#include "town/scene.h"
 
 
 // Processes the selected entry if the object's handle passes its status check.

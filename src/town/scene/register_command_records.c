@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/scene/script_hooks.h"
 #include "shared/record_ptrs.h"
+#include "town/scene.h"
 extern void initialize_fifteen_four_byte_records(u8 *);
 extern u8 D_80019B08;
 extern s32 D_80019B88;

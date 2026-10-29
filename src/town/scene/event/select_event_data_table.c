@@ -1,5 +1,6 @@
 #include "shared/town_event_state.h"
 #include "common.h"
+#include "town/scene/event.h"
 
 extern u8 D_800178F8[8];
 extern u8 D_800178FC[8];

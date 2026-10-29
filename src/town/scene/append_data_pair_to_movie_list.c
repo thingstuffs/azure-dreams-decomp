@@ -1,6 +1,7 @@
 #include "shared/game_work.h"
 
 #include "engine/movie.h"
+#include "town/scene.h"
 
 struct S_8003AF58_1; void append_list_tail(void *, struct S_8003AF58_1 *);
 extern MovieListNode town_movie_callback_list;

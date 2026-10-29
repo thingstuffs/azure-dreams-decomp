@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 extern s32 func_80017710(s32 *table_base, s32 lookup_key);
 extern s32 D_80018D78[];

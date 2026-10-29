@@ -53,4 +53,6 @@ void update_flickering_layer_sprite(void *effect_data, void *unused, SpriteFrame
 void update_landing_particle_fade(u8 *object, u8 *motion, u8 *sprite);
 void update_rotating_effect_vertices(void *effect_data);
 
+void transform_rotated_vertices(void *transform_data);
+
 #endif

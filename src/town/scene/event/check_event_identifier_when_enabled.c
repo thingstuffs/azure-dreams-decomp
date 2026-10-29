@@ -1,6 +1,7 @@
 #include "shared/town_event_state.h"
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/scene/event.h"
 
 
 s32 func_8001E670(s32 flagIndex);                             /* extern */

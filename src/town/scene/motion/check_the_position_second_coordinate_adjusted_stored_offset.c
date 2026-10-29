@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/scene/motion/offset_queries.h"
+#include "town/scene/motion.h"
 
 typedef struct {
     s32 unk0;

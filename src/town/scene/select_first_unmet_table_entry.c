@@ -1,8 +1,9 @@
 /* Relinked copy of town/func_80878260 (func_80878260.c); retail differs only at relocation sites. */
 #include "common.h"
+#include "town/scene.h"
+#include "town/shop.h"
 
 extern u8 D_00000DB4[];
-extern void advance_shop_entry_index_107(s32 index);
 extern s32 func_80000BE4(u16 value);
 
 /* Select the first table entry whose value check returns zero. */

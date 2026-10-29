@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/scene/event.h"
 
 extern void func_800177BC(s32 bit_index);
 extern s32 D_80017D64;

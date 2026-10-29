@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/hooks.h"
 
 extern s32 scene_stored_first_value;
 extern s32 D_80018E48;

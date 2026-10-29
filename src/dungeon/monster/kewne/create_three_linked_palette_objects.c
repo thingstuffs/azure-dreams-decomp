@@ -6,6 +6,8 @@
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 #include "engine/node/allocation.h"
+#include "dungeon/monster/kewne.h"
+#include "engine/node.h"
 
 typedef struct S_80174910_6 {
     u8 pad_00[0x8];
@@ -20,7 +22,6 @@ typedef struct S_80174910_9 {
     u8 * unk_08;
 } S_80174910_9;   /* ((S_80174910_6 *)arg0)->unk_0C in create_three_linked_palette_objects */
 
-s32 register_node(ObjectNodeHeader *entry, void *registration_id);           /* extern */
 extern void D_801747B8();
 extern u32 kewne_palette_colors[];
 

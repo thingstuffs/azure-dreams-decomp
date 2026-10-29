@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 extern s32 scene_captured_flags[];
 extern s32 D_00004114[];

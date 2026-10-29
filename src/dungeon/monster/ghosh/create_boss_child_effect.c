@@ -9,6 +9,7 @@
 #include "dungeon/monster/ghosh.h"
 #include "engine/graphics.h"
 #include "engine/node/allocation.h"
+#include "engine/node.h"
 
 typedef struct S_80172B00_0 {
     u8 pad_00[0x2A];
@@ -35,7 +36,6 @@ typedef struct S_80172B00_7 {
     u16 unk_1E;
 } S_80172B00_7;   /* arg2 in create_boss_child_effect */
 
-s32 register_node(ObjectNodeHeader *entry, void *registration_id); /* extern */
 void * create_tracked_effect(); /* extern */
 extern s8 view_direction_depth_biases[];
 void D_80172610(void *actor_data, void *output_data, void *context_data);

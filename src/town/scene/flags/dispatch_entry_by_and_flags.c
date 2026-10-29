@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "modules/town_ovl_3ef1c8.h"
+#include "town/scene/flags.h"
 
 /*
  * Applies the signed indexed value and returns one when either F_sbs22_pad28 or F_sbs22_pad29 is

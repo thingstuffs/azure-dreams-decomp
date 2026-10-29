@@ -2,6 +2,7 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town/player/script_flags.h"
+#include "town/scene/event.h"
 
 /* Process IDs 0x97F, 0x145B, and 0x11FA in sequence. */
 void process_event_sequence(void) {

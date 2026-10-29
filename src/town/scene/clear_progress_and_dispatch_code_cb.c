@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "modules/town_ovl_3ef1c8.h"
+#include "town/scene.h"
 
 void clear_progress_and_dispatch_code_12_cb(void *handler_id, s32 handler_arg) {
     ((TownProgressState *)town_scene_root->event_data)->unk_B0 = 0;

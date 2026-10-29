@@ -2,6 +2,7 @@
 #include "records/Rec_func_800165F4_arg0.h"
 #include "town/player/script_flags.h"
 #include "town/scene/record_actions.h"
+#include "town/scene.h"
 
 
 typedef struct S_80019B54_1 {

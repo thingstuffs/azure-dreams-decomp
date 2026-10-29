@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8008D588, CL:town/func_8008D5BC, CL:town/func_8008D630, CL:town/func_8008D6EC, CL:town/func_8008D7CC, CL:town/func_8008D850, CL:town/func_8008D988, PD:town/engine:800CF720.
  */
 #include "town/scene/resource/resource_install_g00520.h"
+#include "town/scene/resource.h"
 
 /* Look up a value by three packed key fields in the zero-value-terminated table. */
 u32 *find_packed_resource_descriptor(s32 flag_bit, s32 high_key, s32 low_key) {

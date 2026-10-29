@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene.h"
 
 extern void func_80018C74(s32);
 /* Calls func_80018C74 with Ft_cheriru_love. */

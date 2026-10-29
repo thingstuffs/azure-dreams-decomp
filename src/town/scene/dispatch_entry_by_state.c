@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "modules/town_ovl_3ef1c8.h"
+#include "town/scene.h"
 
 /*
  * Calls func_80019928 while F_sbs22_pad28 is set; otherwise applies the signed indexed entry value

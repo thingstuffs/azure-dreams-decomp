@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "town/scene.h"
 
 
 /* Set the linked record's second and third values to 1696 and 800. */

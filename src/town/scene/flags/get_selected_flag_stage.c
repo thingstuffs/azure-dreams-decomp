@@ -1,5 +1,6 @@
 /* Relinked copy of town/func_80878314 (func_80878314.c); the selected-flag operand is spelled as the symbol it is (the twin spells the address as a literal), otherwise retail differs only at relocation sites. */
 #include "common.h"
+#include "town/scene/flags.h"
 
 extern u16 D_00003F5A[];
 

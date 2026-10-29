@@ -1,8 +1,7 @@
 #include "common.h"
+#include "town/scene.h"
 
 typedef void (*EntryCallback)(void *);
-
-extern void copy_words(void *, void *, s32);
 
 typedef union PackedWord {
     u32 word;

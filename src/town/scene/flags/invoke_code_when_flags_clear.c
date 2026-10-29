@@ -5,6 +5,7 @@
 #include "m2c_compat.h"
 #include "town/player.h"
 #include "town/player/script_flags.h"
+#include "town/scene/flags.h"
 
 
 

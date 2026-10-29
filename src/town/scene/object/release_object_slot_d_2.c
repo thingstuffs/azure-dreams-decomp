@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/object.h"
 
 void release_object_and_compact_slot_list(s32 slotIndex);
 s32 func_80017BBC(s32 match_byte_1, s32 match_byte_0);                /* extern */

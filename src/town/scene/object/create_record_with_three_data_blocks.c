@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/scene/collection.h"
+#include "town/scene/object.h"
 
 extern void *func_800374FC(s32, void *);
 extern void func_8003BC18(void *, void *);

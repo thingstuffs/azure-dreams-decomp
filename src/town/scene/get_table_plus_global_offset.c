@@ -1,11 +1,11 @@
 /* Relinked copy of town/func_808B81FC (func_808B81FC.c); it uses mode 2 (twin mode 3), otherwise retail differs only at relocation sites. */
 #include "common.h"
+#include "town/scene.h"
 
 extern s32 scene_captured_value[];
 extern s32 D_00003FC4[];
 extern s32 D_000045F8[];
 
-extern s32 print_scene_sequence_number_sno(s32 mode);
 extern s32 set_flag_entry_has_bit(s32 index, s32 mode);
 
 /* Return the selected table value plus the global offset after mode-two calls. */

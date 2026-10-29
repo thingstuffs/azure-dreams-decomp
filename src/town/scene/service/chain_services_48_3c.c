@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "town/scene/service.h"
 
 extern s32 D_800183D0[];
 extern s32 scene_service_arguments[];

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/scene/record_actions.h"
+#include "town/scene.h"
 
 s32 func_80017FEC(void);                                /* extern */
 

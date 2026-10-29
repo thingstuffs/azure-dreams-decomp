@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/scene/resource.h"
 void func_80017BA0(s32, s32);                            /* extern */
 extern M2C_UNK D_8001CC5C;
 

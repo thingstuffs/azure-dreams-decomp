@@ -5,6 +5,8 @@
 #include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
 #include "engine/node.h"
+#include "dungeon/monster/ghosh.h"
+#include "slus.h"
 
 typedef s32 M2C_UNK;
 struct Dst;
@@ -38,8 +40,6 @@ typedef struct {
     Sub *sub;
     s32 *callback;
 } Node;
-
-extern void select_record_entry_and_value(void *state, void *entries, short index);
 
 extern s32 rising_sprite_entries[3];
 extern M2C_UNK D_80170D60[3];

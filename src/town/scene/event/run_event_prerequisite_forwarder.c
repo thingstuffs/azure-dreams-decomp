@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene/event.h"
 
 extern s32 D_80018DFC;
 extern s32 scene_state_dispatch_context;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/animation.h"
 typedef struct { s16 x; s16 y; s16 z; s16 pad; } Vec3s;
 extern u8 D_80528910[];
 extern u16 D_80132AEA[];

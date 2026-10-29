@@ -1,6 +1,7 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town/player/script_flags.h"
+#include "town/scene.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 

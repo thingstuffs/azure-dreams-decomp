@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/scene/collection.h"
 #include "shared/vector.h"
+#include "town/scene.h"
 
 typedef struct S_func_8080F4A4_1 {
     s32 unk_00;

@@ -2,6 +2,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "shared/town_pointees.h"
+#include "town/scene/object.h"
 
 
 /* Set the referenced structure's two values to 1248 and 992. */

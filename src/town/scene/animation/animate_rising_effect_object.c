@@ -3,8 +3,9 @@
 #include "shared/minigame_body.h"
 #include "shared/vector.h"
 #include "town/scene/effect.h"
+#include "sdk/libc.h"
+#include "town/scene/animation.h"
 struct SpawnSeed;
-extern int abs(int);
 
 #ifndef NULL
 #define NULL 0

@@ -1,6 +1,7 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town/scene/position_entries.h"
+#include "town/scene.h"
 
 extern ScenePositionEntry D_80018E1C;
 extern ScenePositionEntry D_80018E34;

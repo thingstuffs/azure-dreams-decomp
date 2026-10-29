@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 extern u32 func_8001E670(s16 value);
 extern u8 town_counted_record_ids[];

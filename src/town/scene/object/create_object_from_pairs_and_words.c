@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/scene/collection.h"
+#include "town/scene/object.h"
 
 typedef struct {
     u8 data[8];

@@ -2,6 +2,7 @@
 
 #include "town/scene/entry_requests.h"
 #include "town/player/script_flags.h"
+#include "town/scene/flags.h"
 
 /* Resolve a table entry to its referenced flag and query that flag. */
 s32 resolve_entry_flag(void *entry_table, void *context, s32 entry_key) {

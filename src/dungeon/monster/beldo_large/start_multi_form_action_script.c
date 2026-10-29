@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/beldo_large.h"
 
 extern s32 D_80173D5C;
 extern u8 *beldo_actor_nodes[3];

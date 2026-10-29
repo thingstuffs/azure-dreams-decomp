@@ -1,6 +1,6 @@
 #include "common.h"
+#include "town/scene.h"
 
-extern void *get_special_data_for_low_value_id(s32 id);
 extern s32 func_800178A8(void *entry_table, s32 entry_id, s32 entry_type);
 extern void *func_80017960(void *entry_table, void *aux_table, s32 entry_id, s32 entry_type);
 

@@ -2,6 +2,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "town/player/coordinates.h"
+#include "town/scene.h"
 
 
 extern u8 D_8001F244[];

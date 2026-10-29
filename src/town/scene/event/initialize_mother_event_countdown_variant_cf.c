@@ -4,6 +4,7 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 #include "town/person/object/object_entries_aliases.h"
+#include "town/scene/event.h"
 extern s8 D_800826B8;
 extern s32 D_800CA0D4;
 extern s32 D_800D64DC;

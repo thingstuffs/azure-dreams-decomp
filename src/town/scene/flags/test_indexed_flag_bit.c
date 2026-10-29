@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/flags.h"
 extern s32 *devkit_state_slots;
 /*
  * Returns zero for bit zero and one for bit one; other indices return the selected bit mask from

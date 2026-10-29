@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/town_dispatch_data.h"
+#include "town/scene.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_80016B1C(void *entry, s32 callback_mode);              /* extern */

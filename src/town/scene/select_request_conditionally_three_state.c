@@ -1,8 +1,8 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/scene.h"
 
-u8 *get_special_data_by_id(s32 id);
 s32 func_800178A8();             /* extern */
 s32 * func_80017960(void *, void *, s32, s32);
 s32 func_8001868C(s32 flagIndex);                         /* extern */

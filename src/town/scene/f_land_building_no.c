@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 /* f_LandBuildingNo: returns the indexed table byte. */
 u8 f_LandBuildingNo(s32 entry_index) {

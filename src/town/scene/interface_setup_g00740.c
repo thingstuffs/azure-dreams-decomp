@@ -3,6 +3,7 @@
  * Only the strong PD gap is included; complete file edges remain unknown.
  */
 #include "town/scene/interface_setup_g00740.h"
+#include "town/scene.h"
 
 /* Calls func_800181C8 with the selected 24-byte entry and two forwarded values. */
 void call_24_byte_entry_two(void *firstValue, s32 unusedValue, s32 secondValue) {

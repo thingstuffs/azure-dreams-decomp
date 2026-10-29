@@ -1,5 +1,6 @@
 #include "common.h"
 #include "sdk/libc.h"
+#include "town/scene.h"
 
 
 /* rand_sn: Return a random value modulo the given limit. */

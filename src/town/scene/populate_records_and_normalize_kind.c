@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/scene.h"
 
 typedef struct TownRecord {
     u8 pad_00;
@@ -14,7 +15,6 @@ typedef struct TownRecord {
 
 typedef s32 (*TownIndexFunc)(s32);
 
-void copy_town_record_pair_fields(TownRecord *, s32 *);
 s32 apply_stored_value_17974(void);
 extern s32 *D_80018868[];
 extern u8 *D_80018874[];

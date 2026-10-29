@@ -1,7 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
-void play_movie_with_fixed_display_flag(s32 table_index, s32 flags);            /* extern */
-void file_load_com(void *packed_data);                   /* extern */
+#include "engine/movie.h"
+#include "engine/scene.h"
+#include "town/scene.h"
 extern s8 scene_music_hold;
 extern u32 town_scene_resource_descriptor[2];
 

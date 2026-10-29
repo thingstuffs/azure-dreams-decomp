@@ -13,9 +13,9 @@ typedef struct S_8016BBC0_0 {
 } S_8016BBC0_0;   /* base in resolve_actor_movement_action */
 
 #include "dungeon/player/object/action_state.h"
+#include "dungeon/monster/beldo_large.h"
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s16 relink_entity_and_clear_high_flag(void *context, void *position, void *entity, s16 near_range, s16 far_range, s32 state_out_addr);
-extern void advance_actor_movement_step(u8 *movement_in, ObjectPosition *action_ctx, u8 *position, u8 *actor);
 
 /* Update the actor's action delay, dispatch movement, and clear completed action flags. */
 s32 resolve_actor_movement_action(Rec_func_800A9E70_arg0 *entity, ObjectPosition *action_ctx, s32 position, s32 force_move)

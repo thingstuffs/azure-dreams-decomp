@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "modules/town_ovl_3ef1c8.h"
+#include "town/scene.h"
 
 /* Applies the slot value while flag 0x798 is clear; otherwise dispatches by the helper threshold of 26. */
 s32 dispatch_menu_pair_by_798_state(void *slot_index, s32 slot_value) {

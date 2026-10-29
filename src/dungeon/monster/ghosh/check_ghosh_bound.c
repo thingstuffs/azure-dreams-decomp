@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/ghosh.h"
 
 /* The local callee consumes a signed bound in a0 and returns its sample in v0.
  * See docs/evidence/r121_hardholds.md for its complete body and placement. */

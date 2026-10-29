@@ -3,6 +3,7 @@
  * Only the two strong CL/PD gaps are included; complete file edges remain unknown.
  */
 #include "town/scene/event_state_dispatch_g00731.h"
+#include "town/scene.h"
 
 /* Return whether both checks for 0x1200 and 0x1201 return zero. */
 s32 check_town_event_flags_clear(void) {

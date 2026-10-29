@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 extern u8 town_selection_records[96];
 s32 func_8001E670(s32 flagIndex);

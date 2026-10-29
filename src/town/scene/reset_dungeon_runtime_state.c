@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/scene.h"
 typedef struct Town654Request { u8 prefix[0x18]; s16 flag_18; } Town654Request;
 extern s32 func_8001868C(s32 flag);
 extern void initialize_state_two_entries_pointer(s32 flag);

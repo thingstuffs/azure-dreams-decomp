@@ -3,6 +3,8 @@
 #include "shared/game_work.h"
 #include "records/Rec_func_80171CD4_arg0.h"
 #include "records/Rec_func_80171CD4_arg1.h"
+#include "dungeon/monster/saber.h"
+#include "engine/graphics.h"
 
 typedef struct S_80047784 S_80047784;
 
@@ -12,7 +14,6 @@ typedef struct S_80172688_1 {
 } S_80172688_1;   /* arg3 in initialize_actor_facing_sprite */
 
 struct SpriteFrameState;
-extern void select_sprite_entry(void *, s16, s16);         /* extern */
 extern u8 D_80174E04;
 
 /* Initialize actor state and select the sprite frame for its facing angle. */

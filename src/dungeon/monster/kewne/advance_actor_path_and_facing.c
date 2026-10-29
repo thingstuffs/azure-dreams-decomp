@@ -7,6 +7,7 @@
 #include "shared/actor_status.h"
 #include "engine/graphics.h"
 #include "dungeon/level.h"
+#include "dungeon/item.h"
 
 typedef struct S_8017169C_0 {
     u8 pad_00[0x1C];
@@ -29,8 +30,6 @@ typedef struct S_8017169C_2 {
    /* (u8 *)arg3 + ((S_8017169C_0 *)arg3)->unk_8A.s in advance_actor_path_and_facing */
 
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-
 
 /* Advance the actor along its path and update its facing and movement timing. */
 void advance_actor_path_and_facing(void *motion, ObjectPosition *unused, SpriteFrameState *actor, void *path_state)

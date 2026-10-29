@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "town/scene/resource.h"
 
 extern s32 map_scene_selector_alias[];
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/flags.h"
 
 extern void *func_80016BD0(void *, void *, s32, s32);
 extern s32 record_value_table_contains_first_byte_d(u32);

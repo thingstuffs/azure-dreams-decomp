@@ -1,6 +1,7 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town/player/script_flags.h"
+#include "town/scene/flags.h"
 
 
 /* Updates flag 0x5C4 to reflect flag 0x5C3 and returns its state. */

@@ -1,8 +1,8 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town/player/script_flags.h"
+#include "town/scene.h"
 
-extern s32 lookup_with_override_fallback(void *, s32, s32);
 extern void func_80017A8C(s16, s16, s16);
 
 extern u8 D_80019DBC[];

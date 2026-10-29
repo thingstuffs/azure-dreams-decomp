@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/scene.h"
 
 s32 func_800191E8(s32 *);
 extern M2C_UNK D_8001AA2E;

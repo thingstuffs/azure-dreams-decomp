@@ -1,5 +1,6 @@
 #include "modules/town_ovl_3ef1c8.h"
 #include "town/scene/response_checks.h"
+#include "town/scene.h"
 
 /* Selects an interaction response from a table, a progress flag, and a one-time response latch. */
 s32 select_one_time_interaction_response(void *object, s32 check_value, s32 selection)

@@ -6,6 +6,7 @@
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "engine/node.h"
+#include "slus.h"
 
 typedef struct Node {
     u8 pad0[8];
@@ -13,8 +14,6 @@ typedef struct Node {
     void *partC;
     void *data10;
 } Node;
-
-extern void select_record_entry_and_value(void *, void *, s32);
 
 /* Allocate and initialize an effect node with default parameters and data. */
 void create_boss_effect_node(void)

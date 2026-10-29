@@ -1,6 +1,7 @@
 #include "common.h"
+#include "town/scene.h"
+#include "town/scene/event.h"
 
-extern void set_event_state_and_dispatch_a_2(void);
 extern u8 scene_mode_response_data[];
 extern u8 D_8001914C[];
 extern u8 D_8001EEA7[];

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
+#include "town/scene.h"
 extern M2C_UNK D_8001C048;
 /* Call the scene object's 0x268 method with the D_8001C048 record. */
 void invoke_scene_record_handler(void)

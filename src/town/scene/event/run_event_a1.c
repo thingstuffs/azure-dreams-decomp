@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene/event.h"
 void func_8001E578(s32);                     /* extern */
 
 /* Calls func_8001E578 with 0xA1. */

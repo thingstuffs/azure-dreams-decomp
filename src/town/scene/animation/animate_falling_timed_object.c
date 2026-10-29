@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/entity.h"
+#include "town/scene/animation.h"
 
 
 extern void func_80034A1C(void *, ...);

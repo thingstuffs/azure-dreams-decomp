@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/scene/service.h"
 
 /* Run town service callback 0x280 with the code plus flag 0x1000. */
 void call_scene_service_280_with_flag_1000(s32 code) {

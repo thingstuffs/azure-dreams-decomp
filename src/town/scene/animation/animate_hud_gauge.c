@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/animation.h"
 
 typedef struct S_80813294_0 {
     void * unk_00;

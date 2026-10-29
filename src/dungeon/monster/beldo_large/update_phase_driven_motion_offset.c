@@ -1,6 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80175D54.h"
+#include "dungeon/monster/beldo_large.h"
+#include "sdk/libgte.h"
 
 typedef struct S_8016F5D8_0 {
     u8 pad_00[0x4];
@@ -22,8 +24,6 @@ typedef struct S_8016F5D8_2 {
     s16 unk_0A;
 } S_8016F5D8_2;   /* arg1 in update_phase_driven_motion_offset */
 
-
-s32 rsin(s32 angle);
 extern u8 beldo_large_frame_set_8[16];
 extern u8 beldo_large_frame_set_14[16];
 extern u8 *beldo_script_node;

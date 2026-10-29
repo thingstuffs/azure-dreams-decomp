@@ -1,12 +1,9 @@
 #include "shared/town_event_state.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "town/scene.h"
 
 typedef s32 (*Callback)(s32);
-
-
-extern s32 build_selected_entry_output(s32);
-extern s32 build_entry_list(s32);
 
 /* Updates the selected entry using a callback-selected lookup when state is 2. */
 s32 store_state_2_entry_by_callback(void *object, s32 entry_index) {

@@ -2,8 +2,9 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/player/script_flags.h"
+#include "town/scene.h"
+#include "town/scene/event.h"
 
-s32 select_status_code_from_callback(void);                            /* extern */
 extern M2C_UNK D_8001B314;
 extern s32 *D_8001C370;
 extern s8 D_8001ED72;

@@ -151,7 +151,7 @@ typedef struct {
 } ovl_1831370_818119E8_Vec3;
 typedef struct ovl_1831370_81811B44_S_80026B44_0 {
     u8 pad_00[0xC];
-    s32 * unk_0C;
+    void ** unk_0C;
 } ovl_1831370_81811B44_S_80026B44_0;
 typedef struct {
     u8 pad[0x70];
@@ -191,10 +191,10 @@ extern s32 D_80029508[2];
 extern s32 func_80048EE4(void *pool, s32 record_count);
 extern void texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(s32 entries, void *value, s32 count);
 extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
-extern void flag_object_for_removal();
+extern void flag_object_for_removal(unsigned short *object);
 extern int draw_tinted_node_sprites_scratch(void *object, int unused, void *data);
 extern int func_8004CAA0(void *object, int unused, void *data);
-void flag_optional_object_for_removal();
+void flag_optional_object_for_removal(void *object);
 extern int D_800814A0;
 extern u8 text_editor_empty_pair[12];
 void set_indexed_object_field(ovl_1831370_81811370_S_80026370_0 *object, s32 index);

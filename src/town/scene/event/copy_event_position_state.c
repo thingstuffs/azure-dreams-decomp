@@ -2,6 +2,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "shared/town_pointees.h"
+#include "town/scene/event.h"
 
 
 /* Invoke state callbacks and copy the base position into two pairs, offsetting the first Y by 32. */

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/scene/script_hooks.h"
 #include "shared/town_event_buffer.h"
+#include "town/scene.h"
 
 extern s32 func_800189FC(void *, s32);
 extern s32 scene_price;

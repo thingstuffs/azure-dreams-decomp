@@ -2,9 +2,8 @@
 #include "dungeon/monster/beldo_large.h"
 #include "shared/slus_cd_callback.h"
 #include "shared/slus_callbacks.h"
+#include "slus.h"
 
-
-extern void Control_CD(s32, void *, void *);
 extern s8 encounter_cd_ready;
 
 /* Clears the status flag and registers the callback and status handlers. */

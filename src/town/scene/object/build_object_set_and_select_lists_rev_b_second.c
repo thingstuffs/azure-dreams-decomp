@@ -2,6 +2,8 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "shared/town_pointees.h"
+#include "town/scene/flags.h"
+#include "town/scene/object.h"
 
 
 typedef void (*ReportFunc)(void *, void *, u32);
@@ -31,7 +33,6 @@ typedef struct TownBucket {
     u8 pad_1c[4];
 } TownBucket;
 
-extern s32 run_flag_test_callbacks(void *);
 extern s32 check_query_0x5bc_nonzero(s32, s32, s32, s32);
 extern void get_entry_masked_key_initializes(void *, void *);
 

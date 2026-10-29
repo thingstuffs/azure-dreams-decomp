@@ -84,5 +84,11 @@ s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s
 void prepare_directional_attack(ActorRecord *actor, SpriteFrameState *sprite, s16 facing, s32 mode, s32 extra);
 void set_boss_effect_data_pointer(ActorRecord *object, ObjectPosition *unused_1, SpriteFrameState *unused_2, ActorRecord *flag_owner);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+struct S_801720D0_0;
+void advance_boss_actor_movement_state(void *move_state, void *unused, void *position_in, void *actor_in);
+void allocate_type_12_object(void);
+void spawn_rising_trail_emitter(void);
+void update_rising_trail_emitter(void *record_data, struct S_801720D0_0 *state);
 
 #endif

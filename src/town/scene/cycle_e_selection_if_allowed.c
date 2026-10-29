@@ -1,14 +1,14 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town/player/script_flags.h"
+#include "town/player/state.h"
+#include "town/scene.h"
 
 typedef struct {
     s32 words[4];
 } PackedWord;
 
 extern PackedWord D_80016024;
-extern s32 read_script_flag_range(s32, s32);
-extern void write_script_flag_range(s32, s32, s32);
 
 /* Returns the selected table value, cycling the selection when the 0xDB0 check fails. */
 s32 cycle_d_6_e_selection_if_allowed(void)

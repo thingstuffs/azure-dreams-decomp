@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/scene/object.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 scene_registered_data_handle;

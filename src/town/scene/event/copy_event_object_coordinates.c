@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "town/scene/event.h"
 /* Call the scene object's 0x248 method, then copy the state's two coordinate pairs across with an offset. */
 void copy_event_object_coordinates(void)
 {

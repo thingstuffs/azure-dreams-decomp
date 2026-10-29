@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/event.h"
 
 s32 func_80017BA0(s32, s32);
 extern s32 scene_stored_first_value;

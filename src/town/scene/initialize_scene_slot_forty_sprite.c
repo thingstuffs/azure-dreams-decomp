@@ -1,8 +1,9 @@
 #include "town/scene/object.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
+#include "town/person/object.h"
+#include "town/scene.h"
 
-extern void initialize_object_and_register_slot(void *, s32, void *, void *, void *, void *);
 extern u8 D_800D6B14[];
 extern u8 D_800D6B18[];
 extern u8 D_800D6AE4[];

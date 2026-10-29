@@ -1,6 +1,6 @@
 #include "common.h"
+#include "town/scene.h"
 
-extern s32 lookup_with_override_fallback(s32 key, s32 unused, s32 context);
 extern u8 D_8001C769[];
 extern u8 D_8001D244[];
 

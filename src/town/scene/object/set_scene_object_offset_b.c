@@ -2,6 +2,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "shared/town_pointees.h"
+#include "town/scene/object.h"
 
 
 /* Set the inner object's unk4 and unk8 fields to 1248 and 1184. */

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80175D50.h"
+#include "dungeon/monster/beldo_large.h"
 
 
 extern Rec_D_80175D50 *beldo_actor_nodes;

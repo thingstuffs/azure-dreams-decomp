@@ -1,9 +1,10 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town/player/script_flags.h"
+#include "town/scene.h"
+#include "town/scene/motion.h"
 
 extern s32 get_referenced_object_active_flag(void);
-extern void * apply_entry_position(void *entries, void *object,void *context, s32 selection);
 
 extern s32 D_8001BB3C;
 extern s32 scene_dispatch_context;

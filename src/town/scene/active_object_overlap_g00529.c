@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8009263C.
  */
 #include "town/scene/active_object_overlap_g00529.h"
+#include "town/scene.h"
 
 /*
  * Adds each box origin to its supplied offset and returns one only when all three inclusive

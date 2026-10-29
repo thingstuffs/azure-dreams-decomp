@@ -161,4 +161,46 @@ void initialize_the_store_two_values_set_state_flags(Rec_D_800FE490 *record, s32
 struct Node;
 struct Node *handle_finds_first_eligible_active_node_in_circular_list(struct Node *origin);
 
+s32 count_listed_enabled_records(void);
+
+void advance_dispatch_state_to_two(void);
+s32 advance_to_next_enabled_entry(void);
+s32 apply_selected_entry_values(Rec_func_800165F4_arg0 *record, s32 entry_index);
+s32 check_callback_record_bytes(s32 expected_second, s32 expected_first);
+s32 count_enabled_town_entries(void);
+s32 find_first_enabled_entry_id(void);
+s32 *get_special_data_for_low_value_id(s32 id);
+s32 process_checked_entry(void *object, s32 entryIndex);
+s32 select_status_code_from_callback(void);
+
+void dispatch_paired_table_values(void);
+void process_flagged_type_0x18_entries(void);
+
+struct S_func_8001A854_4;
+s32 blend_point_2s_by_signed_weight(void *base_point, void *other_point, s32 blend_weight, s32 other_weight, void *result_point);
+void call_state_handler_and_copy_values(struct S_func_8001A854_4 *output, s32 handler_arg);
+
+void copy_words_backward_from_offset(s32 dest_addr, s32 src_addr, s32 byte_count);
+
+struct S_8001A188_0;
+struct S_8001A188_1;
+void *build_entry_list(s32 entry_index);
+u8 *build_selected_entry_output(s32 selected_index);
+s32 build_three_value_block(void);
+void configure_the_set_mode_n_3(void *record, void *position, void *bounds);
+void copy_town_record_pair_fields(struct S_8001A188_0 *dest, struct S_8001A188_1 *src);
+void copy_words(s32 *dst, s32 *src, s32 count);
+s32 *find_entry_by_paired_key(s32 *entries, s32 key);
+s32 find_entry_index_by_grid_bytes(s32 match_byte_1, s32 match_byte_0);
+u8 *get_special_data_by_id(s32 id);
+s32 has_matching_entry_result(s32 first_value, s32 second_value);
+void invoke_match_callback_or_lookup(void);
+s32 *lookup_with_override_fallback(void *key, s32 unused, s32 context);
+void post_code_0x107_when_slot_ready(s32 group, s32 slot);
+s32 prepare_stored_value_pair(void);
+void print_scene_sequence_number_sno(s32 kind);
+void process_flagged_entries_follow_four(u8 *entries);
+void run_setup_and_remap_mode_records(s32 table_index, s32 mode);
+s32 try_decrement_state_counter(s32 grid_y, s32 grid_x);
+
 #endif

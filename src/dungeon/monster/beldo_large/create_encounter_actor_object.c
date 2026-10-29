@@ -5,13 +5,12 @@
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_moving_views.h"
+#include "engine/node.h"
 
 typedef struct S_func_8133A3F0_0_body {
     u8 pad_00[0x18];
     s16 unk_18;
 } S_func_8133A3F0_0_body;
-
-s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 
 extern s8 encounter_recovery_flag;
 

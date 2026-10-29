@@ -2,6 +2,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/player/script_flags.h"
+#include "town/scene/event.h"
 
 extern M2C_UNK scene_event_buffer;
 

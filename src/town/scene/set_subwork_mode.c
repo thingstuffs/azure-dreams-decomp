@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 typedef struct { u8 pad[0x6F]; u8 mode; } Subwork;
 typedef struct { u8 pad[0x40]; Subwork *subwork; } Work;

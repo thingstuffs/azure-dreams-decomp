@@ -2,6 +2,7 @@
 #include "common.h"
 #include "town/scene/entry_requests.h"
 #include "town/player/script_flags.h"
+#include "town/scene.h"
 
 typedef struct SceneActionEntry {
     u8 pad_00[0x18];

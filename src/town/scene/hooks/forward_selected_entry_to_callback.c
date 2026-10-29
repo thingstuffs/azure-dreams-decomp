@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/hooks.h"
 
 extern u8 D_80010000[];
 extern s32 D_800186B4;

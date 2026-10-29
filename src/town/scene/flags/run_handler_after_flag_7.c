@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/scene/entry_requests.h"
+#include "town/scene/flags.h"
 
 extern s32 func_80017990(s32);
 extern void func_80016CD8(void);

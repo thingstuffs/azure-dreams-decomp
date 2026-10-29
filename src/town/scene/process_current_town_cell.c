@@ -4,6 +4,7 @@
 #include "shared/town_root.h"
 #include "m2c_compat.h"
 #include "town/scene/record_actions.h"
+#include "town/scene.h"
 
 typedef struct S_805D2FC4_2 {
     u8 pad_00[0x4];

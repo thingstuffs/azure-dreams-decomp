@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/event.h"
 
 extern s32 func_800175A8();
 

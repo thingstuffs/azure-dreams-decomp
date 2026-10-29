@@ -1,5 +1,6 @@
 #include "town/scene.h"
 #include "town/player.h"
+#include "town/scene/flags.h"
 
 
 /* Set the indexed entry flag while the fixed script flag is enabled. */

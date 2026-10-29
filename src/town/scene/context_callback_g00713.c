@@ -1,6 +1,7 @@
 /* Dispatch context callbacks and initialize entry tables (G00713). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8047E130. */
 #include "town/scene/context_callback_g00713.h"
+#include "town/scene.h"
 
 void dispatch_town_callback_or_default(s32 value0, s32 value1)
 {

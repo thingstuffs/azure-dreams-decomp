@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/effect.h"
 
 extern s32 scene_object_flags;
 

@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene/event.h"
 void func_800194D8(s32);                     /* extern */
 
 /* Calls func_800194D8 with ID 0x63C. */

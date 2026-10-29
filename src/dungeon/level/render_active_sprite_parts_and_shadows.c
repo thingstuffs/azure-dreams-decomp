@@ -59,9 +59,14 @@ typedef struct S_SCRATCH {
     u16 unk_088;
     u16 unk_08A;
     u16 unk_08C;
-    u8 pad_08E[0x2A];
-    u16 unk_0B8;
-    u16 unk_0BA;
+    u8 pad_08E[2];
+    s32 projection_aux;
+    s32 projection_flags;
+    u8 pad_098[0x20];
+    union {
+        s32 word;
+        struct { u16 x; u16 y; } half;
+    } screen;
     u8 pad_0BC[0x4];
     s32 unk_0C0;
     u8 pad_0C4[0x20];
@@ -86,7 +91,7 @@ void ReadRotMatrix(void *);
 s32 ScaleMatrix(void *, void *);              /* extern */
 s32 SetRotMatrix(void *);                   /* extern */
 s32 SetTransMatrix(void *);                   /* extern */
-u32 RotTransPers(); /* extern */
+s32 RotTransPers(void *, s32 *, s32 *, s32 *);
 typedef struct S_800AFA68_part {
     u8 unk_00;
     u8 unk_01;
@@ -125,8 +130,8 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
     s32 entry_index;
     u8 *rotation_matrix;
     u8 *view_matrix;
-    u8 *depth_cue;
-    u8 *transform_flags;
+    s32 *depth_cue;
+    s32 *transform_flags;
 
     GameWork *game_base = &g_game_work;
     u8 *matrix_base;
@@ -211,8 +216,8 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
     entry_index = 0;
     rotation_matrix = (u8 *) 0x1F8000D0;
     view_matrix = (u8 *) 0x1F800050;
-    depth_cue = (u8 *) 0x1F800090;
-    transform_flags = (u8 *) 0x1F800094;
+    depth_cue = &scr->projection_aux;
+    transform_flags = &scr->projection_flags;
     matrix_base = (u8 *)&effect_view_matrix + 32;
     do {
     entry_table = (u8 *) (&floor_objects);
@@ -348,7 +353,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
             scr->unk_0E4 = 0;
             scr->unk_0E8 = 0;
             scr->unk_0EC = 0;
-            sprite_depth = RotTransPers((u8 *)scr, (u8 *)&scr->unk_0B8, (u8 *)scr + 0x90, (u8 *)scr + 0x94);
+            sprite_depth = RotTransPers(scr, &scr->screen.word, &scr->projection_aux, &scr->projection_flags);
             scr->unk_0C0 = sprite_depth;
             sprite_depth <<= 2;
             *((s32 *) (((s8 *) matrix_base) + 0x1C)) = sprite_depth;
@@ -359,9 +364,9 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                 continue;
             }
             {
-                scr->unk_0B8 = (u16) ((scr->unk_0B8) - 0xA0);
+                scr->screen.half.x = (u16) ((scr->screen.half.x) - 0xA0);
                 pitch_bits = camera.pitch;
-                scr->unk_0BA = (u16) ((scr->unk_0BA) - 0x78);
+                scr->screen.half.y = (u16) ((scr->screen.half.y) - 0x78);
 
                 scr->unk_100 = (s16) ((*((u16 *) (((s8 *) render_params) + 0x16)))
                     + (((s32) (pitch_bits << 0x10)) >> 0x11));
@@ -398,21 +403,21 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                     quad = scr->unk_018;
                     scr->unk_018 = quad + 0x28;
                     *((u16 *) (((s8 *) quad) + 8)) = (u16) (((s32) (scr->unk_0F0))
-                        + ((s32) (scr->unk_0B8)));
+                        + ((s32) (scr->screen.half.x)));
                     *((u16 *) (((s8 *) quad) + 0xA)) = (u16) (((s32) (scr->unk_0F2))
-                        + ((s32) (scr->unk_0BA)));
+                        + ((s32) (scr->screen.half.y)));
                     *((u16 *) (((s8 *) quad) + 0x10)) = (u16) (((s32) (scr->unk_0F4))
-                        + ((s32) (scr->unk_0B8)));
+                        + ((s32) (scr->screen.half.x)));
                     *((u16 *) (((s8 *) quad) + 0x12)) = (u16) (((s32) (scr->unk_0F6))
-                        + ((s32) (scr->unk_0BA)));
+                        + ((s32) (scr->screen.half.y)));
                     *((u16 *) (((s8 *) quad) + 0x18)) = (u16) (((s32) (scr->unk_0F8))
-                        + ((s32) (scr->unk_0B8)));
+                        + ((s32) (scr->screen.half.x)));
                     *((u16 *) (((s8 *) quad) + 0x1A)) = (u16) (((s32) (scr->unk_0FA))
-                        + ((s32) (scr->unk_0BA)));
+                        + ((s32) (scr->screen.half.y)));
                     sprite_pair_visible = 0;
                     *((u16 *) (((s8 *) quad) + 0x20)) = (u16) (((s32) (scr->unk_0FC))
-                        + ((s32) (scr->unk_0B8)));
-                    corner_y_or_height = (u16) (((s32) (scr->unk_0FE)) + ((s32) (scr->unk_0BA)));
+                        + ((s32) (scr->screen.half.x)));
+                    corner_y_or_height = (u16) (((s32) (scr->unk_0FE)) + ((s32) (scr->screen.half.y)));
                     *((u16 *) (((s8 *) quad) + 0x22)) = corner_y_or_height;
                     if (((u32) (((*((u16 *) (((s8 *) quad) + 8))) + 0x20) & 0xFFFF)) < 0x181U) {
                         u16 visibility_y = (u16) ((*((u16 *) (((s8 *) quad) + 0xA))) + 0x20);
@@ -484,16 +489,16 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                             world_pos_y = scr->unk_002;
                             scr->unk_004 = sample_terrain_surface_height(world_pos_x, world_pos_y,
                                 (s16)(shadow_scale[2] = (s16)scr->unk_004 - 4));
-                            depth_or_height = RotTransPers((u8 *)scr, (u8 *)&scr->unk_0B8, depth_cue, transform_flags);
+                            depth_or_height = RotTransPers(scr, &scr->screen.word, depth_cue, transform_flags);
                             scr->unk_0C0 = depth_or_height;
                             depth_or_height = (u32)depth_or_height * 4;
                             *((s32 *) (((s8 *) matrix_base) + 0x1C)) = depth_or_height;
                             scr->unk_0C0 -= 3;
-                            projected_y = scr->unk_0BA;
-                            scr->unk_0B8 = (u16) ((scr->unk_0B8) - 0xA0);
+                            projected_y = scr->screen.half.y;
+                            scr->screen.half.x = (u16) ((scr->screen.half.x) - 0xA0);
                             ground_height = scr->unk_004;
                             ground_height_shifted = ((s32) ground_height) << 0x10;
-                            scr->unk_0BA = (u16) (projected_y - 0x78);
+                            scr->screen.half.y = (u16) (projected_y - 0x78);
                             height_scale = ((shadow_scale[2] - (ground_height_shifted >> 0x10)) << 5) + 0x1000;
                             shadow_scale[2] = height_scale;
                             if (height_scale < 0) {
@@ -529,21 +534,21 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                                      right_x += 6, scr->unk_078 = right_x, *((GeomSideEffects *) 0)));
                             }
                             *((u16 *) (((s8 *) quad) + 8)) =
-                                (u16) (((s32) (scr->unk_0F0)) + ((s32) (scr->unk_0B8)));
+                                (u16) (((s32) (scr->unk_0F0)) + ((s32) (scr->screen.half.x)));
                             *((u16 *) (((s8 *) quad) + 0xA)) =
-                                (u16) (((s32) (scr->unk_0F2)) + ((s32) (scr->unk_0BA)));
+                                (u16) (((s32) (scr->unk_0F2)) + ((s32) (scr->screen.half.y)));
                             *((u16 *) (((s8 *) quad) + 0x10)) =
-                                (u16) (((s32) (scr->unk_0F4)) + ((s32) (scr->unk_0B8)));
+                                (u16) (((s32) (scr->unk_0F4)) + ((s32) (scr->screen.half.x)));
                             *((u16 *) (((s8 *) quad) + 0x12)) =
-                                (u16) (((s32) (scr->unk_0F6)) + ((s32) (scr->unk_0BA)));
+                                (u16) (((s32) (scr->unk_0F6)) + ((s32) (scr->screen.half.y)));
                             *((u16 *) (((s8 *) quad) + 0x18)) =
-                                (u16) (((s32) (scr->unk_0F8)) + ((s32) (scr->unk_0B8)));
+                                (u16) (((s32) (scr->unk_0F8)) + ((s32) (scr->screen.half.x)));
                             *((u16 *) (((s8 *) quad) + 0x1A)) =
-                                (u16) (((s32) (scr->unk_0FA)) + ((s32) (scr->unk_0BA)));
+                                (u16) (((s32) (scr->unk_0FA)) + ((s32) (scr->screen.half.y)));
                             *((u16 *) (((s8 *) quad) + 0x20)) =
-                                (u16) (((s32) (scr->unk_0FC)) + ((s32) (scr->unk_0B8)));
+                                (u16) (((s32) (scr->unk_0FC)) + ((s32) (scr->screen.half.x)));
                             *((u16 *) (((s8 *) quad) + 0x22)) =
-                                (u16) (((s32) (scr->unk_0FE)) + ((s32) (scr->unk_0BA)));
+                                (u16) (((s32) (scr->unk_0FE)) + ((s32) (scr->screen.half.y)));
                             *((s8 *) (((s8 *) quad) + 3)) = 9;
                             *((s32 *) (((s8 *) quad) + 0xC)) =
                                 (((s32) (scr->unk_00C.s32)) + ((s32) (scr->unk_008.s32)))

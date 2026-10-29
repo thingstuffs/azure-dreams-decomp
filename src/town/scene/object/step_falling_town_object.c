@@ -5,6 +5,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_links.h"
 #include "town/paired_indicators.h"
+#include "town/scene/object.h"
 
 /* Work passed with the node's motion and sprite parts. The callback integrates
  * and bounces the position, then awards the value selected by kind. */

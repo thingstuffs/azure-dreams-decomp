@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/menu/window.h"
+#include "town/scene.h"
 
 extern s32 runtime_script_state[];
 extern u8 town_map_variant[];

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/scene.h"
 
 extern u8 scene_rows[];
 extern s32 selected_scene_row_index;

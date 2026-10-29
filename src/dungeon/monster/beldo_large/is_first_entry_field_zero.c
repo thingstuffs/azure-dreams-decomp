@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "dungeon/monster/beldo_large.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 *beldo_actor_nodes[3];

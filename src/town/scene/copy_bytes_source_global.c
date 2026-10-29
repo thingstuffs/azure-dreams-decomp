@@ -1,5 +1,6 @@
 /* Relinked copy of town/func_808834DC (func_808834DC.c); retail differs only at relocation sites. */
 #include "common.h"
+#include "town/scene.h"
 
 typedef struct CopyBlock {
     s32 words[4];

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 extern s32 func_800187FC(void);
 /* Returns the result of func_800187FC with no arguments. */

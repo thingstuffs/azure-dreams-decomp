@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/dialogue.h"
 
 /* Copy a zero-terminated string and return the destination. */
 u8 *copy_string(u8 *destination, u8 *source) {

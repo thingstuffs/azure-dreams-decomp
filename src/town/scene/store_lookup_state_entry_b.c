@@ -1,5 +1,6 @@
 #include "shared/town_event_state.h"
 #include "common.h"
+#include "town/scene.h"
 
    /* ((arg1 * 0x10) + arg0->unk_10) in store_lookup_in_state_7_entry */
 

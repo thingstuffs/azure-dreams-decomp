@@ -1,6 +1,7 @@
 #include "script_symbols.h"
 #include "shared/town_event_state.h"
 #include "common.h"
+#include "town/scene/event.h"
 
 extern void func_8001E578(s32 id);
 

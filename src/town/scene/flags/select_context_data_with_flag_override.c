@@ -2,8 +2,9 @@
 #include "common.h"
 #include "town/player.h"
 #include "town/player/script_flags.h"
+#include "town/scene/flags.h"
+#include "town/scene/motion.h"
 
-extern u8 *apply_entry_position();
 extern u8 D_8001BDB4[16];
 extern u8 scene_dispatch_context[16];
 extern u8 D_8001E20F[16];

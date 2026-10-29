@@ -1,6 +1,7 @@
 #include "town/scene.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "town/scene/dialogue.h"
 
 typedef void (*TownCallback)(s32, s32);
 

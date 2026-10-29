@@ -1,10 +1,8 @@
 #include "common.h"
 #include "town/scene.h"
+#include "sdk/libgpu.h"
 
 typedef SceneImageRect RECT;
-
-extern int LoadImage(RECT *rect, void *p);
-extern void DrawSync(s32 a0);
 
 extern RECT D_800D43B0;
 extern RECT D_800D43B8;

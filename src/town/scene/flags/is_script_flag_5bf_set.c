@@ -1,6 +1,7 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town/player/script_flags.h"
+#include "town/scene/flags.h"
 
 
 /* Returns whether func_80018B5C reports a nonzero result for 0x5BF. */

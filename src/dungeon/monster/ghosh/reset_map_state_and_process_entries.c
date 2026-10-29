@@ -4,6 +4,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/item.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -32,7 +33,6 @@ typedef struct {
 } SysWork;
 
 extern void unlink_entity_node(void *);
-extern u16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void clear_actor_action_markers(u8 *state);
 
 extern u16 actor_direction_dispatch_key;

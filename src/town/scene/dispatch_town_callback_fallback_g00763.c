@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00763 - CL:town/func_80774928.
  */
 #include "town/scene/dispatch_town_callback_fallback_g00763.h"
+#include "town/scene.h"
 
 /* Runs the current town cell's callback, or installs shared buffer pointers when the callback is absent. */
 void dispatch_town_callback_or_fallback(s32 value0, s32 value1)

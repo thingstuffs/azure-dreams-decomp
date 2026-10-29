@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene/event.h"
 
 extern s32 func_80019458(s32);
 /* Calls func_80019458 with F_sbs14_pad13 and returns its result. */

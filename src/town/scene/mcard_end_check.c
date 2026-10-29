@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 extern u16 D_800834B6;
 

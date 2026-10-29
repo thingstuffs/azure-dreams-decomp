@@ -4,6 +4,7 @@
 #include "modules/dungeon_ovl_9c32d4.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/monster/kewne.h"
 
 /* Prepares an ellipse render region, follows the linked position, emits particles, and fades out the
  * effect. */

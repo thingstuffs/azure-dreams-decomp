@@ -1,5 +1,6 @@
 #include "town/scene.h"
 #include "town/player.h"
+#include "town/scene/flags.h"
 
 
 /* Raise the fixed script flag used by this scene's setup callers. */

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "town/scene/fixed_position.h"
+#include "town/scene.h"
 
 
 /* Copy three signed 16-bit components into the current 32-bit component array. */

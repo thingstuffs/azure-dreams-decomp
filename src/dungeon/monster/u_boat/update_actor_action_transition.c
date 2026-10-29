@@ -3,11 +3,9 @@
 #include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
+#include "engine/graphics.h"
 
 extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
-
-extern void select_sprite_entry(void *, u8, s32);
-void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosition *source_position, SpriteFrameState *source_sprite);
 
 extern u8 uboat_default_frames[];
 extern u8 uboat_action_frames[];

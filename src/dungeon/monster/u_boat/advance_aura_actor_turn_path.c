@@ -8,12 +8,12 @@
 #include "dungeon/monster/barong.h"
 #include "engine/graphics.h"
 #include "dungeon/level.h"
+#include "dungeon/monster/u_boat.h"
+#include "engine/entity.h"
 
-extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s16 check_movement_clearance_and_height();
 extern s16 get_rounded_facing_and_rounding_flag();
-void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosition *source_position, SpriteFrameState *source_sprite);
 extern u8 uboat_default_frames[];
 
 typedef struct S_80172144_0 {

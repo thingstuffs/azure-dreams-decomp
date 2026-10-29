@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/scene/entry_requests.h"
+#include "town/scene.h"
 
 extern void *func_80017B0C(void *, void *, s32, s32);
 extern s32 func_80017A54(void *, s32, s32);

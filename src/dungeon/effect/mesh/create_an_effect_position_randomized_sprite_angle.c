@@ -631,7 +631,7 @@ void draw_a_full_screen_color_overlay_mark_effect_complete_countdown_ends(void *
     ((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_05 = green_blue;
     SetTile(overlay);
     ((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_07 = (u8) (((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_07 | 2);
-    AddPrim(*(s32 *)&g_game_work.draw_buffer + 0xB0, overlay);
+    AddPrim(g_game_work.draw_buffer + 0xB0, overlay);
     frames_left = (u8) ((ovl_1930844_81911A8C_S_81911A8C_4 *)fade_state)->unk_05 - 1;
     ((ovl_1930844_81911A8C_S_81911A8C_4 *)fade_state)->unk_05 = frames_left;
     if ((frames_left << 0x18) == 0) {

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/entity_objects.h"
+#include "dungeon/monster/beldo_large.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {

@@ -3,6 +3,8 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "dungeon/monster/beldo_large.h"
+#include "engine/node.h"
 
 #ifndef NULL
 #define NULL 0
@@ -13,8 +15,6 @@ typedef struct PackedVec3 {
     s32 y;
     s32 z;
 } __attribute__((packed)) PackedVec3;
-
-extern void register_node(void *, void *);
 
 extern u8 D_8016F99C[];
 extern u8 D_80173B1C[];

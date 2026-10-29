@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/event.h"
 
 extern s32 record_value_table_contains_first_byte(s32);
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 extern void initialize_floor_generation_state(void);
 extern s32 set_selected_entry_state_3(s32);

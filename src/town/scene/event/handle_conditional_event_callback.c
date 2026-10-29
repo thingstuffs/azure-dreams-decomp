@@ -4,11 +4,11 @@
 #include "shared/town_root.h"
 #include "m2c_compat.h"
 #include "town/player/script_flags.h"
+#include "town/scene.h"
+#include "town/scene/event.h"
+#include "town/scene/flags.h"
+#include "town/scene/motion.h"
 
-
-extern s32 check_callback_record_bytes(s32, s32);
-extern void set_current_entry_script_flag(void);
-extern void apply_entry_position(void *, void *,void *, s32);
 typedef struct ScenePositionEntry {
     s16 key;
     s16 selector;

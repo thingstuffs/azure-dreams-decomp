@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 extern s16 func_8025E01C(void *);
 

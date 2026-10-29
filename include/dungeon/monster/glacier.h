@@ -27,4 +27,7 @@ void update_actor_timed_effects(ActorRecord *actor_arg, ObjectPosition *context_
 void advance_item_motion_collision(void *motion, void *position, void *update_arg);
 void update_monster_appearance_motion(void *entity_arg, void *motion_arg, void *monster_arg);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+void advance_selected_item_action_2(void *action, ObjectPosition *position, SpriteFrameState *sprite, void *actor);
+
 #endif

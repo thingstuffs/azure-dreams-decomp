@@ -359,7 +359,7 @@ extern s32 RotTransPers(void *, void *, void *, void *);
 extern s32 GetTPage(s32, s32, s32, s32);
 extern void SetDrawMode(void *, s32, s32, u16, s32);
 extern u32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-void AddPrim();
+void AddPrim(void *ordering_table, void *primitive);
 void SetTile(void *);
 extern int abs(int);
 void apply_attack_power_and_element_effects();

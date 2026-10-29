@@ -6,6 +6,8 @@
 #include "shared/dir_step.h"
 #include "shared/dungeon_moving_views.h"
 #include "engine/node.h"
+#include "engine/graphics.h"
+#include "engine/scene.h"
 
 typedef struct {
     u32 words[6];
@@ -16,9 +18,6 @@ typedef struct {
     u16 y;
     u16 z;
 } Vec3u16;
-
-extern void select_sprite_entry(void *object, s32 kind, s32 value);
-extern void *resolve_record_orientation_or_fallback(void *ptr, void *ptr1, Vec3u16 *out, s32 value3);
 
 extern u8 cyclone_spawn_update_address;
 

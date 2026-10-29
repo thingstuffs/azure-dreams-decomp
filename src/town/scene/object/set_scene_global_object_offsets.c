@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/scene/object.h"
 
 
 /* Sets the global object's inner fields to 1248 and 1184. */

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 /* TOWN bank at link delta 0x7FA17000: see src/town/func_80680108.c for the module identity.
  * The callee is this bank's mirror of process_lshop_value_plus_four (src/town/func_8032EB08.c),

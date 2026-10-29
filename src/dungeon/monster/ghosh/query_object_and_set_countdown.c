@@ -1,8 +1,8 @@
 #include "common.h"
 #include "dungeon/monster/ghosh.h"
+#include "dungeon/item/effect.h"
 
 struct EntityFields;
-extern void *create_linked_actor_fade_effect(struct EntityFields *source);
 
 /* Store the object query result and set an active flag and countdown when nonzero. */
 s32 query_object_and_set_countdown(void) {

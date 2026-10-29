@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01118 - CL:town/func_80091840.
  */
 #include "town/scene/object/prepend_scene_list_node_g01118.h"
+#include "town/scene/object.h"
 
 /* Insert a nonnull node immediately after the list head. */
 s32 prepend_scene_list_node(TownSceneListNode *node) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 /* Initialize fifteen four-byte records with sequential IDs and append a zero terminator. */
 void *init_sequential_command_records(void *records) {

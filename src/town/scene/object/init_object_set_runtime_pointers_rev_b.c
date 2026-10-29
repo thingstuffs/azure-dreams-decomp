@@ -3,10 +3,10 @@
 #include "shared/town_root.h"
 #include "m2c_compat.h"
 #include "town/scene/flags.h"
+#include "town/scene/object.h"
 
 
 void func_80016098(void);                            /* extern */
-void build_object_set_and_select_lists_rev_b();   /* extern */
 extern s16 D_800160B0;
 extern s16 D_800160B2;
 extern s32 D_80016E40;

@@ -1,8 +1,7 @@
 #include "common.h"
+#include "town/scene/dialogue.h"
 extern u8 scene_shared_text_buffer[];
 
-extern void copy_string(u8 *destination, u8 *source);
-extern void append_string(u8 *dst, u8 *src);
 extern u8 D_80016108[];
 
 /* Prepare and return the shared text buffer using the source and D_80016108. */

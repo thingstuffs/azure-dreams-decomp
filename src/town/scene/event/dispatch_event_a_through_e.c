@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene/event.h"
 void func_800193E0(s32);                     /* extern */
 
 /* Calls func_800193E0 with argument 0x63A. */

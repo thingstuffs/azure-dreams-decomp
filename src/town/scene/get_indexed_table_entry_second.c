@@ -1,6 +1,7 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/scene.h"
 void check_ready_or_run_followup(s32);                     /* extern */
 extern s32 func_80017948(s32 target_value); /* placed copy of record_value_table_contains */
 s32 func_80017990(s32 target_value);                         /* extern */

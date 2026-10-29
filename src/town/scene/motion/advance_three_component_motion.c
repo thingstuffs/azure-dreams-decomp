@@ -2,6 +2,7 @@
 #include "shared/entity.h"
 #include "m2c_compat.h"
 #include "shared/object_links.h"
+#include "town/scene/motion.h"
 
 
    /* the 0x2 bytes before arg0 in advance_three_component_motion, addressed as arg0[-1] */

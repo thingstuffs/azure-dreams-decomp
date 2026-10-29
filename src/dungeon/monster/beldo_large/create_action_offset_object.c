@@ -11,7 +11,6 @@
 #include "engine/node.h"
 
 extern M2C_UNK D_80077854;
-extern void initialize_action_offset_and_notify(void *action, void *position);
 extern s16 beldo_large_direction_offsets[];
 extern void *beldo_script_node;
 

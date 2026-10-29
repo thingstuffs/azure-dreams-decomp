@@ -1,5 +1,6 @@
 /* Relinked copy of town/func_808786C0 (func_808786C0.c); retail differs only at relocation sites. */
 #include "common.h"
+#include "town/scene/flags.h"
 
 extern s32 *D_A0700F44[];
 

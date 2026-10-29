@@ -6,11 +6,11 @@ struct SpriteFrameState;
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
-
-extern s32 RotTransPers(void *, void *, void *, void *);
-extern s32 GetTPage(s32, s32, s32, s32);
-extern void SetDrawMode(void *, s32, s32, u16, s32);
-
+#include "dungeon/monster/glacier.h"
+#include "dungeon/monster/kid.h"
+#include "dungeon/monster/weadog.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 
 extern void * spawn_saber(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c);
 extern void update_entity_callbacks_and_floor_motion(void);
@@ -22,18 +22,15 @@ extern void func_80171AE4(void);
 extern void func_80171B44(void);
 extern void func_80173020(void);
 extern void func_80173070(void);
-extern void advance_selected_item_action_2(void *action, struct ObjectPosition *position,struct SpriteFrameState *sprite, void *actor);
 extern void func_80173158(void);
 extern void func_801731D0(void);
 extern void func_8017329C(void);
 extern void func_801734CC(void);
-extern void advance_timed_sprite_flashing_sequence(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_80173744(void);
 extern void func_801737CC(void);
 extern void func_8017334C(void);
 extern void func_80173344(void);
 extern void func_8017333C(void);
-extern void complete_directional_hop_to_tile(void *actor, void *motion, void *render, void *context);
 extern void func_801732F8(void);
 extern void func_801732F0(void);
 extern void func_801732E8(void);

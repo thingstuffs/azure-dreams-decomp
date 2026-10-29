@@ -1,5 +1,6 @@
 #include "shared/town_event_state.h"
 #include "common.h"
+#include "town/scene.h"
 
 typedef unsigned long uptr;
 
@@ -7,8 +8,6 @@ typedef struct {
     u8 pad[0x10];
     void *records;
 } TownObject;
-
-extern s32 prepare_stored_value_pair(void);
 
 s32 store_state_1_entry_value(TownObject *object, s32 index, s32 unused2, s32 unused3) {
     if (town_event_state->selection_mode != 1) {

@@ -3,6 +3,7 @@
 #include "m2c_compat.h"
 #include "town/player/script_flags.h"
 #include "town/scene/position_entries.h"
+#include "town/scene/event.h"
 
 void decrement_current_entry_counter_condition(void);                            /* extern */
 extern s32 func_80017F8C(void *entry_table, void *context, s32 entry_key); /* placed copy of resolve_entry_flag */

@@ -5,7 +5,8 @@
 #include "shared/entity.h"
 #include "m2c_compat.h"
 #include "shared/object_links.h"
-extern int abs(int);
+#include "sdk/libc.h"
+#include "town/scene/object.h"
 
    /* the 0x2 bytes before in0 in update_sequenced_object, addressed as in0[-1] */
 

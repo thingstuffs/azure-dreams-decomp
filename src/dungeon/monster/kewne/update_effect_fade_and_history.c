@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/monster/kewne.h"
 
 
 typedef struct S_801747B8_0 {

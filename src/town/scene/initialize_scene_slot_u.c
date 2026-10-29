@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/person.h"
+#include "town/scene.h"
 
 extern u8 D_800D7A98[];
 extern u8 D_800D7AA0[];

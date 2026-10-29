@@ -3,6 +3,7 @@
 #include "m2c_compat.h"
 #include "shared/town_root.h"
 #include "shared/town_pointees.h"
+#include "town/scene.h"
 
 
 

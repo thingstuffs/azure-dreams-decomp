@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/scene/flags.h"
 
 typedef struct S_80016BD4_2 {
     u8 pad_00[0x4];

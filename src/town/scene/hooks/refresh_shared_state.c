@@ -3,10 +3,9 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "town/scene/value_handler_modes_g00712.h"
+#include "town/scene.h"
+#include "town/scene/hooks.h"
 
-
-
-void process_flagged_type_0x18_entries(void);                            /* extern */
 extern s32 scene_price;
 
 /* Refresh the shared state and subtract D_8001B210 from the context counter. */

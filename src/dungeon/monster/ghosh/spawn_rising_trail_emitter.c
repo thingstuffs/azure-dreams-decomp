@@ -7,6 +7,7 @@
 #include "shared/slus_callbacks.h"
 #include "records/Rec_D_80174CD8.h"
 #include "engine/node.h"
+#include "slus.h"
 
 typedef struct S_801720D0_0 S_801720D0_0;
 
@@ -23,9 +24,7 @@ typedef struct S_80172160_1 {
     s16 unk_18;
 } S_80172160_1;
 
-void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 rand(); /* Unprototyped: retail supplies an ignored argument; dropping it changes this TU. */
-void update_rising_trail_emitter(void *record_data, S_801720D0_0 *state);
 
 /* Spawn and initialize an effect at a random offset from the source position. */
 void spawn_rising_trail_emitter(void)

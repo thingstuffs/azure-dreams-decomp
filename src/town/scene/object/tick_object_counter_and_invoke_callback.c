@@ -2,6 +2,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "town/scene.h"
+#include "town/scene/object.h"
 
 
 extern u32 scene_progress_step[];

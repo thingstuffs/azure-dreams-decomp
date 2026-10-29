@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/scene/animation.h"
 #include "shared/entity.h"
+#include "town/scene/object.h"
 
 typedef struct S_8080E59C_0 {
     u8 pad_00[0x8];

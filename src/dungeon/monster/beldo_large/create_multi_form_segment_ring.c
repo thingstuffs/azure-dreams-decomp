@@ -38,8 +38,6 @@ typedef struct S_8016E998_1 {
     s8 unk_20;
 } S_8016E998_1;
 
-void emit_multi_form_ring_geometry(void *animation, s32 *origin, void *color);
-
 /* Creates sixteen radial effect segments around the supplied position. */
 void create_multi_form_segment_ring(EntityRec *origin) {
     s32 origin_z;

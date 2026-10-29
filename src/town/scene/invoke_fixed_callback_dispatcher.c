@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 typedef void (*OsetCallback)(u8 *base, s32 bits, s32 count);
 

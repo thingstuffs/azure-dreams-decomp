@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/event.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 D_8001E958;

@@ -3,6 +3,8 @@
 #include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
+#include "dungeon/monster/beldo_large.h"
+#include "engine/graphics.h"
 
 typedef struct {
     u8 pad_00[0x8C];
@@ -27,7 +29,6 @@ extern u8 beldo_large_frame_set_1[];
 extern u8 beldo_large_frame_set_3[];
 extern void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 
-extern void select_sprite_entry(void *, s32, s32);
 extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
 
 

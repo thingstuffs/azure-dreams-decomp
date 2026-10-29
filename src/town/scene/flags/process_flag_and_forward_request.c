@@ -5,9 +5,7 @@
 #include "town/scene.h"
 #include "town/player.h"
 #include "town/player/script_flags.h"
-
-s32 process_checked_entry(void *object, s32 entryIndex);             /* extern */
-
+#include "town/scene/flags.h"
 
 /* Process flag 0xD52, conditionally select the object value, and forward the request. */
 void process_flag_and_forward_request(Rec_func_800165F4_arg0 *object, s32 request_data) {

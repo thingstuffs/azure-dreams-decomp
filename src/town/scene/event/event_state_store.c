@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/town_event_state.h"
 #include "town/scene/entry_output.h"
+#include "town/scene/event.h"
 
 typedef struct TownStateEntry {
     u8 pad_00[0x8];

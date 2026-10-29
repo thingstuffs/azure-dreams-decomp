@@ -1,6 +1,7 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town/player/script_flags.h"
+#include "town/scene.h"
 
 extern u8 D_8001EB20[];
 extern u8 D_8001EC6A[];

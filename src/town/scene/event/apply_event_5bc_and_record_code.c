@@ -2,6 +2,7 @@
 #include "common.h"
 #include "town/player/script_flags.h"
 #include "town/scene/record_actions.h"
+#include "town/scene/event.h"
 
 
 /* Apply operation 0x5BC and the record code, then dispatch the record and context. */

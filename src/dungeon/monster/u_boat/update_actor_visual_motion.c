@@ -9,15 +9,14 @@ typedef void (*Callback)(void *, void *, void *, void *);
 
 extern u8 uboat_default_frames[];
 #include "dungeon/monster/u_boat.h"
+#include "dungeon/actor.h"
+#include "dungeon/item.h"
+#include "engine/texture.h"
+#include "sdk/libgte.h"
+#include "slus.h"
 extern Callback uboat_callbacks[];
 
-extern void select_indirect_table_entry(void *, u8, s8);
-extern void advance_sprite_animation_and_textures(void *);
-extern s32 rsin(s32);
-extern void apply_monster_koyaw_data(u32, void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
-extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
-
 
    /* part in update_actor_visual_motion */
 

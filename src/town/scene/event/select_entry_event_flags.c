@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene/event.h"
 
 typedef struct Func806D835CRoot {
     u8 pad0[0x38];

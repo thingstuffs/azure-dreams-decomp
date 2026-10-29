@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_80092594.
  */
 #include "town/scene/secondary_object_list_g00528.h"
+#include "town/scene.h"
 
 /*
  * Inserts the node immediately before the town_motion_list sentinel and updates both neighboring

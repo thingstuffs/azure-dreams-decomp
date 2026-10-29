@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "town/scene.h"
 /* True when the scene state's counter has reached the -64 threshold. */
 s32 is_player_counter_at_threshold(void)
 {

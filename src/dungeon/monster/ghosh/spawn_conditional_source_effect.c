@@ -6,6 +6,7 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "engine/node.h"
+#include "sdk/libc.h"
 
 typedef struct S_8016ECE4_0 {
     u8 pad_00[0x8];
@@ -50,9 +51,6 @@ typedef struct S_8016ECE4_6 {
     s16 unk_AA;
 } S_8016ECE4_6;
 
-
-
-s32 rand(void);
 extern M2C_UNK D_800777F4;
 
 
