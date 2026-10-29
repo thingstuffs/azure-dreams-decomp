@@ -2,5 +2,5 @@
 #include "frontend/card.h"
 
 /* Returns without performing any work. */
-void no_op_card_hook(void) {
+void no_op_card_hook(s32 value) {
 }

@@ -59,7 +59,6 @@ void func_80051900(void *);                       /* extern */
 void func_80051B50(void *, void *, s32); /* extern */
 void func_8007BF50(void *, void *);                /* extern */
 void func_8007BF80(void *, s32);                  /* extern */
-extern M2C_UNK card_slot_detail_records[];
 extern u8 card_slot_header_cache[];
 
 /* Build the selected slot's text fields and position its status icons. */
@@ -93,7 +92,7 @@ void card_build_selected_slot_details(void *panel) {
     widget = ((S_80404EA0_0 *)panel)->slot_widget;
     func_8003830C(((S_80404EA0_0 *)panel)->slot_index + 1, text_buf);
     func_8007BF50(text_buf, D_80400660);
-    func_8007BF50(text_buf, (s16 *)((((S_80404EA0_0 *)panel)->slot_index << 7) + (u8 *)&card_slot_detail_records));
+    func_8007BF50(text_buf, card_slot_detail_records[((S_80404EA0_0 *)panel)->slot_index].halfwords);
     slot_text = panel + 0x80;
     func_80051B50(slot_text, text_buf, 1);
     widget->unk_00.s = slot_text;

@@ -24,11 +24,11 @@ extern void func_8007C040(void *ptr0, void *ptr1, s32 value);
 extern s32 func_8040422C(void *ptr);
 extern void func_80404224(void);
 extern void func_80404254(void *body, s32 value);
-extern void func_80404314(void *body, s32 init_value, s32 slot_index);
+extern void func_80404314(void *body, void *init_value, s32 slot_index);
 extern void func_80404570(void *record);
 
-/* Create or reset a slot record, initialize its body, and install its callback. */
-void init_card_window_slot_object(s32 init_value, s32 slot_index)
+/* Create or reset a slot record, initialize its body, install its callback and return it. */
+u8 *init_card_window_slot_object(u8 *init_value, s32 slot_index)
 {
     u8 *record;
     u8 *body;
@@ -69,13 +69,9 @@ void init_card_window_slot_object(s32 init_value, s32 slot_index)
         u8 *callback_record;
         Callback callback;
 
-        if (init_value != 0) {
-            callback_record = record + (init_value - init_value);
-            callback = func_80404224;
-        } else {
-            callback_record = record + init_value;
-            callback = func_80404224;
-        }
-        (*(Callback *)((u8 *)callback_record + 0x10)) = callback;
+        callback_record = record;
+        callback = func_80404224;
+        (*(Callback *)(callback_record + 0x10)) = callback;
     }
+    return record;
 }

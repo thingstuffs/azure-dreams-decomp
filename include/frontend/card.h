@@ -14,6 +14,10 @@ typedef union CardSaveSlot {
 
 extern CardSaveSlot card_save_slot_metadata[];
 
+/* Slot title and detail view at header-cache +12, with the same 128-byte
+ * stride. The numeric detail is word 8; the full table bound is unknown. */
+extern CardSaveSlot card_slot_detail_records[];
+
 struct MainPacket12;
 struct MainValue;
 struct Menu;
@@ -475,7 +479,7 @@ void *init_card_slot_object(s32 init_option);
 void * init_card_sme_object(s32 init_option);
 
 /* init_card_window_slot_object.c */
-void init_card_window_slot_object(s32 init_value, s32 slot_index);
+u8 *init_card_window_slot_object(u8 *init_value, s32 slot_index);
 
 /* init_dialog_object.c */
 void init_dialog_object(void *object_addr);
@@ -494,7 +498,7 @@ void func_80089A14(unsigned short *data);
 void mark_object_flags_dirty(unsigned short *data);
 
 /* no_op_card_hook.c */
-void no_op_card_hook(void);
+void no_op_card_hook(s32 value);
 
 /* refresh_object_value.c */
 void refresh_object_value(void *object);
