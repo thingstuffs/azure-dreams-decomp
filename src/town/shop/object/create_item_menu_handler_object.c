@@ -2,6 +2,7 @@
 #include "shared/object_node.h"
 #include "shared/item_menu.h"
 #include "town/shop/item_menu_actions.h"
+#include "town/shop/object.h"
 #ifndef NULL
 #define NULL 0
 #endif

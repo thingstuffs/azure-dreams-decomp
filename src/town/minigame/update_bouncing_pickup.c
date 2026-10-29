@@ -6,6 +6,9 @@
 #include "shared/entity_objects.h"
 #include "shared/object_flags.h"
 #include "shared/town_state.h"
+#include "sdk/libc.h"
+#include "slus.h"
+#include "town/scene/object.h"
 
 typedef struct S_800206D0_0 {
     s16 unk_00;
@@ -23,11 +26,6 @@ typedef struct S_800206D0_1 {
     s16 unk_1E;
     u16 unk_20;
 } S_800206D0_1;   /* object in update_bouncing_pickup */
-
-extern void advance_sprite_animation_and_textures(void *);
-extern void SD_Call(s32);
-extern s32 rand(void);
-extern void unlink_scene_list_node(void *);
 
 extern s32 town_money[];
 extern TownRewardValues D_80020020;

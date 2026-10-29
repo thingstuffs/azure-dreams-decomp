@@ -3,6 +3,8 @@
 #include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_effect_views.h"
+#include "town/map.h"
+#include "town/player/object.h"
 
 typedef struct S_800A9734_0 {
     void (*unk_00)(void *, void *, void *);
@@ -12,8 +14,6 @@ typedef struct S_800A9734_0 {
 
    /* arg1 in initialize_record_with_defaults */
 
-
-void retire_object_on_check_or_callback(void *object, void *input, void *context);
 extern M2C_UNK D_800D0E60;
 
 /* Initializes the record and context using the default data. */

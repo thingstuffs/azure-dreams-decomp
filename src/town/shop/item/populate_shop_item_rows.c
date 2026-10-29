@@ -2,22 +2,16 @@
 #include "town/shop/shop_window_layout_g00610.h"
 #include "m2c_compat.h"
 #include "sdk/libc.h"
+#include "engine/item.h"
+#include "engine/menu.h"
+#include "engine/text.h"
+#include "engine/util.h"
+#include "slus.h"
+#include "town/shop.h"
+#include "town/shop/item.h"
 
-
-
-s32 get_item_sell_money(void *);                             /* extern */
-s32 get_item_buy_money(void *);                         /* extern */
-s32 lookup_item_category_mapped_value(s32, s32);                          /* extern */
-s32 select_item_data();                      /* extern */
-s32 func_8004DC14();                        /* extern */
-char * func_8004E5A0(int, unsigned short, char *);     /* extern */
-u8 * remap_flagged_string_bytes(u8 *);                   /* extern */
-s32 func_8004E928();              /* extern */
-void update_current_shop_page(void *);                      /* extern */
 struct S_func_800B361C_0; void update_shop_state_flags(struct S_func_800B361C_0 *);                      /* extern */
 s32 allocate_and_initialize_shop_object(s32);                             /* extern */
-s32 check_shop_entry_type_and_flags(void *);                             /* extern */
-void reset_five_shop_slots(void *);                            /* extern */
 extern M2C_UNK D_800D1600;
 
 

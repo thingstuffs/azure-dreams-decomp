@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A7198, CL:town/func_800A7434, CL:town/func_800A74B0, CL:town/func_800A7588.
  */
 #include "town/map/target_interpolation_g00573.h"
+#include "town/map.h"
 
 /* Reset state when the value source changes; otherwise copy its three values. */
 void reset_or_copy_state_values(TownCameraState *state) {

@@ -1,7 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-
-void fill_ten_paged_output_slots(s32 * *, s32 *, s32);            /* extern */
+#include "town/shop.h"
 
 typedef struct S_800B30D8_0 {
     void * unk_00;

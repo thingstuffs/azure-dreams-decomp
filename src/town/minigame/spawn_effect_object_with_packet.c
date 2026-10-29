@@ -4,6 +4,9 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/object_flags.h"
+#include "engine/node.h"
+#include "town/minigame.h"
+#include "town/scene.h"
 
 #ifndef NULL
 #define NULL 0
@@ -13,9 +16,6 @@ typedef struct S_800BF654_2 {
     u8 pad_00[0x48];
     s32 unk_48;
 } S_800BF654_2;   /* setup in spawn_effect_object_with_packet */
-
-extern void register_node(void *entry, void *registration_id);
-extern void configure_the_set_mode_n_1(void *record, void *setup_value, void *setup_param);
 
 extern u8 D_800BF4CC[];
 extern u8 D_800D2348[];

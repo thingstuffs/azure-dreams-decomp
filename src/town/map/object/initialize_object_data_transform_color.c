@@ -1,6 +1,7 @@
 #include "common.h"
 #include "slus.h"
 #include "shared/game_work.h"
+#include "engine/node.h"
 
 typedef struct {
     u32 unk0;
@@ -22,8 +23,6 @@ typedef struct {
     s16 unk1E;
     s16 unk20;
 } FuncData;
-
-extern void register_node(void *, void *);
 
 extern u8 D_800B9998[];
 

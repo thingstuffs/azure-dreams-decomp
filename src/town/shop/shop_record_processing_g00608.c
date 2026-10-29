@@ -1,6 +1,7 @@
 /* Shop record processing (G00608). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B3110. */
 #include "town/shop/shop_record_processing_g00608.h"
+#include "town/shop.h"
 
 /* Initializes two consecutive records with source bytes and fixed control values. */
 void initialize_shop_display_records(void *destination, S_800B0870_1 *source) {

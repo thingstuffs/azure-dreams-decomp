@@ -1,11 +1,10 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "slus.h"
 
 typedef struct {
     s32 words[6];
 } CopyRecord;
-
-extern void advance_sprite_animation_and_textures(void *);
 
 /* Copies an entry's record, decrements its count, and flags exhaustion. */
 void copy_scene_effect_until_timer_expires(u8 *entry, CopyRecord *out_record, void *update_arg)

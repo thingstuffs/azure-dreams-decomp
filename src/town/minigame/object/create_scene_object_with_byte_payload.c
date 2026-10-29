@@ -1,12 +1,13 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "engine/node/allocation.h"
+#include "engine/node.h"
+#include "town/minigame/object.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-extern void register_node(void *, void *);
 extern s32 text_sprite_builder_address[4];
 
 typedef struct CopyBlock {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/map.h"
 
 typedef struct TownEntry {
     s16 value;

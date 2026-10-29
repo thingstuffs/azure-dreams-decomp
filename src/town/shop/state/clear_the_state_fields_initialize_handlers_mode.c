@@ -16,9 +16,10 @@ typedef struct S_8009EC3C_2 {
 } S_8009EC3C_2;   /* arg0 in clear_the_state_fields_initialize_handlers_mode; pointer addresses record offset 0x10 */
 #include "town/menu/window.h"
 #include "shared/position_views.h"
+#include "town/shop.h"
+#include "town/shop/state.h"
 void invoke_entity_callback_and_follow_up(func_800A06C8_EntityLike *entity, s32 callback_id, s32 callback_data);
 typedef struct S_8009ECF0_0 S_8009ECF0_0;
-void run_both_updates_decrement_countdown_check_completion(S_8009ECF0_0 *state, s32 update_ctx, s32 update_data, s32 finish_ctx);
 
 /* Clear the state fields and initialize the record handlers and mode. */
 void clear_the_state_fields_initialize_handlers_mode(void *record_data, S_8009EC3C_0 *state, MotionDeltaView *values) {

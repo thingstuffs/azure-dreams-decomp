@@ -4,12 +4,11 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
-
-extern void *allocate_list_node(s32, void *);
-extern void register_node(void *, void *);
-extern s32 rsin(s32);
-extern s32 rand(void);
-extern void configure_the_set_mode_n_3(void *, void *, void *);
+#include "engine/node.h"
+#include "sdk/libc.h"
+#include "sdk/libgte.h"
+#include "town/map/effect.h"
+#include "town/scene.h"
 
 extern u8 map_particle_owner_update_address[];
 extern u8 D_800B9D64[];

@@ -10,6 +10,12 @@
 #include "shared/slus_callbacks.h"
 #include "shared/entity.h"
 #include "town/person/position.h"
+#include "engine/node.h"
+#include "engine/runtime.h"
+#include "engine/script.h"
+#include "sdk/libc.h"
+#include "slus.h"
+#include "town/player.h"
 
 #ifndef NULL
 #define NULL 0
@@ -58,16 +64,6 @@ typedef struct S_80022F60_5 {
     s16 unk_52;
     s16 unk_54;
 } S_80022F60_5;   /* sprite in update_gym_minigame */
-
-extern void clear_resident_bit(s32);
-extern s32 test_resident_bit(s32);
-extern s32 service_script_controller(void);
-extern void *allocate_list_node(s32, void *);
-extern void register_node(void *, void *);
-extern void SD_Call(s32);
-extern s32 rand(void);
-extern void apply_global_scene_value(void *);
-extern void initialize_scene_action_record(void *, void *, void *);
 
 extern u8 gym_object_state_address[];
 extern u8 D_80023994[];

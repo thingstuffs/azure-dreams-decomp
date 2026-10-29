@@ -1,6 +1,8 @@
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "engine/graphics.h"
+#include "engine/node.h"
 
 typedef struct {
     u16 field_0x00;
@@ -33,10 +35,8 @@ typedef struct {
     s16 field_0x22;
 } Object;
 
-extern void register_node(void *, void *);
 struct ObjectPosition;
 struct SpriteFrameState;
-extern s32 draw_linked_sprites(void *, struct ObjectPosition *, struct SpriteFrameState *);
 
 /* Create an object at the supplied position and initialize its callback and display data. */
 void create_positioned_callback_object(Input *position, s32 object_value, s32 data_value)

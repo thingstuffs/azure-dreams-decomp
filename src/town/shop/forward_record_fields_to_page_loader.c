@@ -1,6 +1,5 @@
 #include "common.h"
-
-extern void fill_ten_paged_entry_slots(s32, void *, s32);
+#include "town/shop.h"
 
 /* Forwards a value and the record's fields to fill_ten_paged_entry_slots. */
 void forward_record_fields_to_page_loader(s32 value, u8 **record_ref) {

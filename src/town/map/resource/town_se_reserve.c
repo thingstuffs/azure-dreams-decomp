@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/map/resource.h"
 
 extern s16 town_pending_sound[2];
 

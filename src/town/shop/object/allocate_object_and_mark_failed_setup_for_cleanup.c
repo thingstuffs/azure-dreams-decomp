@@ -3,13 +3,12 @@
 #include "shared/object_flags.h"
 #include "town/shop/monster_status_initialization_g00634.h"
 #include "engine/node.h"
+#include "engine/graphics.h"
+#include "engine/item.h"
+#include "town/shop.h"
+#include "town/shop/object.h"
 
-
-void release_null_terminated_entries(u16 **entries);                      /* extern */
 s32 link_monster_status_display_entries();                             /* extern */
-s32 load_storage_display_resource();                 /* extern */
-int draw_tinted_node_sprites_scratch(void *forwarded_ptr, int unused_arg, void *second_ptr);
-void invoke_object_first_callback(void *obj);
 
 typedef struct S_800B6A0C_1 {
     u8 pad_00[0x94];

@@ -2,6 +2,7 @@
 /* inferred-strong G00652: range_group_checks_g00652; joins CL:town/func_800C4508; no crossing cuts. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800C4508. */
 #include "town/map/range_group_checks_g00652.h"
+#include "town/map.h"
 
 /* Returns the first range group containing value as a one-based index, or zero if none. */
 s32 find_containing_range_group(s32 value, s16 **range_groups)

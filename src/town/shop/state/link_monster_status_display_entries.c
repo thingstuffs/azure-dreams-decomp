@@ -1,6 +1,7 @@
 #include "common.h"
+#include "engine/texture.h"
+#include "town/shop/state.h"
 
-extern void build_reverse_indexed_chain(void *a0, void *a1, int a2);
 extern u8 monster_display_chain_indices[];
 
 /* Calls build_reverse_indexed_chain with target, monster_display_chain_indices, 24. */

@@ -1,9 +1,9 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "engine/window.h"
+#include "engine/node.h"
+#include "town/map/state.h"
 
-
-void register_node_if_unregistered(void *block_data, void *registration_id);
 struct S_800A8BBC_0; void write_square_position_offsets(s16, s16, s16, s16, struct S_800A8BBC_0 *);
 extern M2C_UNK map_random_state_draw_address[3];
 extern M2C_UNK D_800A9624[3];

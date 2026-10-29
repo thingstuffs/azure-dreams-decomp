@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/object.h"
+#include "town/map.h"
 
 typedef struct S_800B83DC_0 {
     u8 pad_00[0x33A4];
@@ -24,7 +26,6 @@ typedef struct {
     u8 padA[22];
 } Record;
 
-extern s32 test_resident_bitmap_bit(s32);
 extern Record town_building_records[];
 extern u8 town_building_slot_rectangles[];
 

@@ -1,7 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "engine/scene.h"
+#include "town/map/resource.h"
 
-void file_load_com(void *packed_data);
 extern u32 D_800D1B64[2];
 
 /* Pass D_800D1B64 to file_load_com. */

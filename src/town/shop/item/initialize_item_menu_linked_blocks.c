@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/gpu_packets.h"
+#include "town/shop/item.h"
 
 typedef struct S_800AFF00_0 {
     s32 unk_00;

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "town/map/state.h"
 
 typedef struct ListNode {
     struct ListNode *next;

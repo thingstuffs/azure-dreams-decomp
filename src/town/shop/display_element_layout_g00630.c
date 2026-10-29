@@ -1,6 +1,7 @@
 /* Lay out three display elements and complementary values (G00630). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B79CC. */
 #include "town/shop/display_element_layout_g00630.h"
+#include "town/shop.h"
 
 /* Set two entry bytes to complementary values derived from the amount. */
 void *set_complementary_entry_bytes(void *entry, s16 amount) {

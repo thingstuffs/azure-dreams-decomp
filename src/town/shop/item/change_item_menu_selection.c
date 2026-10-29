@@ -1,8 +1,8 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "town/shop/item_menu_cursor_transition_g00601.h"
-
-int advance_index_with_single_wrap(int, int, int);
+#include "slus.h"
+#include "town/shop/item.h"
 
 /* Update the selection and install its delay callback when the row changes. */
 void change_item_menu_selection(ObjectNodeHeader *object, s32 value_arg, s32 reset_value) {

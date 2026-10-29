@@ -1,6 +1,9 @@
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
+#include "town/minigame.h"
 
 typedef struct S_8002415C_0_pre {
     u8 * unk_00;
@@ -30,14 +33,6 @@ typedef struct PacketTag {
 #define addPrim(ordering_table, primitive) \
 (setaddr((primitive), getaddr(ordering_table)), \
     setaddr((ordering_table), (primitive)))
-
-
-
-extern s32 RotTransPers(void *, void *, void *, void *);
-extern s32 GetTPage(s32, s32, s32, s32);
-extern void SetSemiTrans(void *, s32);
-extern void SetLineF2(void *);
-extern void SetDrawMode(void *, s32, s32, u16, s32);
 
 /* Queue enabled nodes as line primitives with draw modes, sorted by average depth. */
 s32 draw_depth_sorted_line_nodes(u8 *node)

@@ -5,6 +5,7 @@
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_projectile_views.h"
 #include "sdk/libc.h"
+#include "town/minigame/effect.h"
 
 #ifndef NULL
 #define NULL 0

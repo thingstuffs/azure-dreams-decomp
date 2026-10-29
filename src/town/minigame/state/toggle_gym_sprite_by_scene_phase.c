@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
+#include "town/minigame/state.h"
 
    /* arg2 in toggle_gym_sprite_by_scene_phase */
 

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "town/map.h"
+#include "town/minigame/object.h"
 
 typedef struct S_800BF72C_3 {
     u8 pad_00[0xA0];
@@ -9,9 +11,6 @@ typedef struct S_800BF72C_4 {
     u8 pad_00[0x68];
     u16 unk_68;
 } S_800BF72C_4;   /* ((S_800BF72C_3 *)arg0)->unk_A0 in advance_object_bounded_movement_phases */
-
-
-void create_directional_sprite_effect(void *, s16);
 
 /* The final state reset is coupled to the non-overflow path.  This is a
  * defined source-level guard whose natural branch leader is the epilogue. */

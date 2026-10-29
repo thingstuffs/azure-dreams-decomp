@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/item_menu.h"
+#include "town/shop/state.h"
 
 extern s32 D_800AFD5C;
 

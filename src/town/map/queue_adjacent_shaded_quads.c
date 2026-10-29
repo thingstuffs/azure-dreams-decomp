@@ -1,6 +1,8 @@
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
+#include "sdk/libgpu.h"
+#include "town/map.h"
 
 typedef struct Func800AB788Arg {
     u8 pad00[0x24];
@@ -43,12 +45,6 @@ typedef struct Func800AB788Poly {
     u16 x3;
     u16 y3;
 } Func800AB788Poly;
-
-extern u16 GetTPage(s32, s32, s32, s32);
-extern void AddPrim(void *, void *);
-extern void SetSemiTrans(void *, s32);
-extern void SetPolyG4(void *);
-extern void SetDrawMode(void *, s32, s32, u16, s32);
 
 /* Queue two adjoining shaded quads whose vertices fall within the screen margin. */
 void queue_adjacent_shaded_quads(Func800AB788Arg *strip)

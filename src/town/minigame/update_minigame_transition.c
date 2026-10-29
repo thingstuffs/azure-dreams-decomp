@@ -1,5 +1,6 @@
 #include "common.h"
 #include "records/Rec_func_80021E88_arg1.h"
+#include "town/menu.h"
 
 typedef struct S_80021E88_0 {
     s16 unk_00;
@@ -29,8 +30,6 @@ typedef struct S_80021E88_4 {
     s16 unk_22;
 } S_80021E88_4;   /* ((S_80021E88_0 *)arg0)->unk_04 in update_minigame_transition */
 
-
-extern s32 test_three_axis_box_overlap(void *, void *);
 extern u32 town_money;
 extern u8 D_800243F0[];
 extern s32 D_80024438[];

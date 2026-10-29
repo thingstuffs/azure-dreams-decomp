@@ -1,7 +1,6 @@
 #include "common.h"
 #include "town/shop/item_lookup.h"
-
-extern u8 * find_item_by_key_pair(s32 first_key, s32 second_key);
+#include "town/shop/item.h"
 
 /* serch_item_plown: Check both player item searches for the requested kind and type. */
 s32 serch_item_plown(s32 item_kind, s32 item_type) {

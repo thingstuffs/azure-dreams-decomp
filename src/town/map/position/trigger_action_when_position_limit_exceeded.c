@@ -2,6 +2,8 @@
 #include "shared/entity_objects.h"
 
 #include "town/map/trigger_callbacks.h"
+#include "sdk/libc.h"
+#include "slus.h"
 
 typedef map_trigger_record S_800C1F8C_0;   /* arg0 in trigger_action_when_position_limit_exceeded */
 
@@ -13,8 +15,6 @@ typedef struct Position {
     s16 y;
 } Position;
 
-extern void SD_Call(s32);
-extern s32 abs(s32);
 extern u8 town_map_trigger_handler[];
 
 

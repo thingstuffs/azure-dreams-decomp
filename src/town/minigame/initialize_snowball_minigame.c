@@ -3,6 +3,10 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "engine/node.h"
+#include "engine/runtime.h"
+#include "engine/util.h"
+#include "town/minigame/object.h"
 
 typedef struct TownDraw24 {
     s16 unk00;
@@ -80,14 +84,7 @@ extern s16 D_800272B0[];
 extern s32 D_800272C0[];
 extern u8 D_800F2F28[];
 
-extern void create_scene_object_with_48_byte_payload(void *, TownDraw32 *);
-extern void create_scene_object_with_record_payload(void *, TownDraw24 *);
-extern void set_resident_bit(s32);
 #include "slus.h"
-extern void func_8003E188(s32, void *);
-extern void *allocate_list_node(s32, void *);
-extern void register_node(TownObject *, void *);
-
 
 /* Initializes the town display objects, panel lines, and image tiles. */
 s32 initialize_snowball_minigame(void)

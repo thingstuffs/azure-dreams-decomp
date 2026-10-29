@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/shop.h"
 
 typedef struct TownFlagWord {
     u8 pad00[3];

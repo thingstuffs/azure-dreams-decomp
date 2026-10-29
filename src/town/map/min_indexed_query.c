@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/map.h"
 
 s16 evaluate_summed_vector_minus_base();               /* extern */
 

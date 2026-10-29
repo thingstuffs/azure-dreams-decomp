@@ -6,12 +6,8 @@
 #include "shared/game_work.h"
 #include "shared/entity.h"
 #include "town/person/position.h"
-
-
-extern void apply_global_scene_value(void *);
-
-
-
+#include "town/minigame.h"
+#include "town/player.h"
 
 extern u8 D_800D00C0[];
 

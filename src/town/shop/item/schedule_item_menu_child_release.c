@@ -1,5 +1,6 @@
 #include "common.h"
-void finish_item_menu_child_and_release_list(void *record);
+#include "town/shop.h"
+#include "town/shop/item.h"
 
 typedef struct S_800B0700_0 {
     u8 pad_00[0x10];

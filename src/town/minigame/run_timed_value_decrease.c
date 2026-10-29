@@ -1,6 +1,8 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "town/person/effects.h"
+#include "sdk/libc.h"
+#include "town/minigame.h"
 
 typedef struct S_80023158_0 {
     void * unk_00;
@@ -13,9 +15,6 @@ typedef struct S_80023158_1 {
     u8 pad_00[0x2C];
     s16 unk_2C;
 } S_80023158_1;   /* obj in run_timed_value_decrease */
-
-
-extern s32 rand(void);
 
 /* Runs a 24-tick value decrease with random callbacks, then waits to reset. */
 void run_timed_value_decrease(S_80023158_0 *sequence, EntityRec *target)

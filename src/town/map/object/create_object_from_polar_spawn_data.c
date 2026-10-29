@@ -4,6 +4,7 @@
 #include "m2c_compat.h"
 #include "sdk/libgte.h"
 #include "engine/node/allocation.h"
+#include "town/map/object.h"
 
 extern void D_800BB894();
 

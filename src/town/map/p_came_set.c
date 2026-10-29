@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/map.h"
 
 extern s32 camera_height_mode[3];
 

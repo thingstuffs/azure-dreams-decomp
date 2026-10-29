@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/object.h"
 
 typedef struct {
     u8 pad0[3];
@@ -11,7 +12,6 @@ typedef struct {
     u8 padA[22];
 } Record;
 
-extern s32 test_resident_bitmap_bit(s32);
 extern Record town_building_records[];
 extern u8 town_building_slot_rectangles[];
 

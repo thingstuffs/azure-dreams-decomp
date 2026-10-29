@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/shop/item.h"
 
 typedef struct S_800AEBC4_2 {
     u8 pad_00[0x2];

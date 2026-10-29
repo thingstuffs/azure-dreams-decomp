@@ -3,6 +3,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AF9D8, PD:town/engine:800D1548. */
 #include "town/map/shaded_tile_rendering_g00594.h"
 #include "shared/game_work.h"
+#include "town/map.h"
 
 /* Set texture coordinates, page, and palette for a 32-by-32 quad. */
 void set_texture_quad_32_uv(u16 texture_page, u16 palette, u8 texture_u, u8 texture_v) {

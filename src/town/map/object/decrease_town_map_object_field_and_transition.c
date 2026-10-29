@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/position_views.h"
+#include "town/map/object.h"
 
 typedef struct S_8008BA44_0 {
     void * unk_00;

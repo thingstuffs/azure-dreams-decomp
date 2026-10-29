@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "town/map/state.h"
 
 extern s32 map_transition_handler_address;
 extern s32 map_fallback_handler_address;

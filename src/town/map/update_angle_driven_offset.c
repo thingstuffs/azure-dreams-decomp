@@ -2,13 +2,10 @@
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082D58.h"
 #include "shared/dungeon_delay_views.h"
-
-
-extern void unlink_node_if_registered(void *);
-extern s32 rsin(s32);
-extern s32 rcos(s32);
-extern void unlink_scene_list_node(void *);
-
+#include "engine/node.h"
+#include "sdk/libgte.h"
+#include "town/map.h"
+#include "town/scene/object.h"
 
    /* arg1 in update_angle_driven_offset */
 

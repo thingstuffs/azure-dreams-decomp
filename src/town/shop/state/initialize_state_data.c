@@ -1,10 +1,9 @@
 #include "common.h"
 #include "engine/sprite.h"
+#include "engine/texture.h"
+#include "engine/util.h"
+#include "town/shop/state.h"
 
-
-
-s32 func_80049004();
-s32 texture_set_the_field_offset_hex_8_in_each_entry_pointer_array();
 extern s32 display_vector_defaults[];
 
 typedef struct S_800B44F0_0 {

@@ -1,6 +1,7 @@
 /* Build and join monster status display chains (G00632). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B8D04, CL:town/func_800B8D2C. */
 #include "town/shop/monster_status_display_chains_g00632.h"
+#include "town/shop.h"
 
 /*
  * Calls build_reverse_indexed_chain with (struct S_800491F4 * *)nodes,

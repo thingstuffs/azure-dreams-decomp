@@ -2,6 +2,7 @@
 #include "shared/entity.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
+#include "town/minigame.h"
 
 
 typedef struct S_80026B00_1 {

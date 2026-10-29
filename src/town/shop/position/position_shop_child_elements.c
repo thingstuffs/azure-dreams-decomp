@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800B0C68_arg0.h"
+#include "town/shop/position.h"
 
 
 typedef struct S_800B0D0C_1 {

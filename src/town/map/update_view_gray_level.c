@@ -1,9 +1,9 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "town/map.h"
+#include "town/player.h"
 
 extern u32 view_gray_command[];
-
-extern s32 step_angle_12_toward(s32, s32, s32);
 
 /* Applies a pending intensity change to three channels and clears completed state. */
 void update_view_gray_level(void)

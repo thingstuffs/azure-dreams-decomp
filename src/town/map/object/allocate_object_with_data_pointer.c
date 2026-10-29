@@ -1,6 +1,7 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/map/object.h"
 
 extern void D_800B90B4(void);
 

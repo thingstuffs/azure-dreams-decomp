@@ -1,6 +1,7 @@
 #include "common.h"
+#include "engine/texture.h"
+#include "town/shop.h"
 
-extern void build_reverse_indexed_chain(s32, void *, s32);
 extern u8 shop_node_order[];
 
 /* Calls build_reverse_indexed_chain with node_table, shop_node_order, 31. */

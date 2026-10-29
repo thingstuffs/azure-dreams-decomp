@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/map.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u32 view_gray_command[];

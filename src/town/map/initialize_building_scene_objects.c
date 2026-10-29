@@ -1,5 +1,7 @@
 #include "town/map/building_grid_g00638.h"
 #include "common.h"
+#include "town/map.h"
+#include "town/menu.h"
 
 typedef struct {
     u16 field0;
@@ -21,12 +23,7 @@ extern u8 D_80126E3C[12];
 extern u8 D_80127024[12];
 extern u8 D_80127FA8[12];
 
-void initialize_shared_script_data(void);
 void scale_coordinates_and_append_pointers(s32, s32, s32, s32, void *);
-void create_entry_builder_controller(void);
-void set_texture_quad_32_uv(u16, u16, u8, u8);
-void blit_indexed_origin_u16_block(s32, s32, s32, s32);
-void blit_origin_u16_block(s32, s32, void *, s32);
 
 /* Draws the active town entry and its state-dependent overlays. */
 void initialize_building_scene_objects(s32 draw_param) {

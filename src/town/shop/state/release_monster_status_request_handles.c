@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800B683C_arg0.h"
+#include "town/shop/state.h"
 
 void update_cd_queue_head_entry();                         /* extern */
 

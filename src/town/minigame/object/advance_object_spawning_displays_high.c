@@ -6,6 +6,11 @@
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/vector.h"
+#include "engine/graphics.h"
+#include "engine/node.h"
+#include "engine/runtime.h"
+#include "town/map.h"
+#include "town/minigame/object.h"
 
 typedef struct State8081A3D8 {
     s16 state;
@@ -27,15 +32,7 @@ extern s32 text_sprite_builder_address[4];
 
 extern u8 D_800F7DFC[];
 
-extern void clear_resident_bit(s32);
-extern void set_resident_bit(s32);
 #include "slus.h"
-extern void sound_set_cd_cue_parameters(s32, s32, s32, s32);
-extern void *allocate_list_node(s32, void *);
-extern void register_node(void *, void *);
-extern void clear_alternate_texture_regions(s32);
-
-extern void tw_sd_sq_ld_call(s32, s32);
 
 typedef struct S_800243D8_1 {
     u8 pad_00[0xA0];

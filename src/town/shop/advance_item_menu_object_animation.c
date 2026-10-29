@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/shop/item_menu_cursor_transition_g00601.h"
 #include "m2c_compat.h"
+#include "town/shop.h"
 
 typedef struct S_800AE630_2 {
     u8 pad_00[0xD0];

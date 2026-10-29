@@ -4,6 +4,13 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "engine/node.h"
+#include "engine/util.h"
+#include "sdk/libc.h"
+#include "slus.h"
+#include "town/map.h"
+#include "town/minigame.h"
+#include "town/scene.h"
 
 #ifndef NULL
 #define NULL 0
@@ -81,15 +88,6 @@ extern u8 D_80026F50[];
 extern s32 text_sprite_builder_address[4];
 
 extern u8 tako_minigame_sprites[];
-
-extern void create_timed_sound(s16 value);
-extern void select_record_entry_and_value(void *, void *, s32);
-extern void func_8003E188(s32, s32);
-extern void *allocate_list_node(s32, void *);
-extern void register_node(void *, void *);
-extern s32 rand(void);
-extern void configure_the_set_mode_n_1(void *, void *, void *);
-extern void tw_sd_sq_ld_call(s32, s32);
 
 /* Creates a parent object, three children, paired display rows, and a final display element. */
 s32 initialize_tako_minigame(void)

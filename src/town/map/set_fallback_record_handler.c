@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_node.h"
+#include "town/map.h"
 
 extern s32 D_800A5638;
 extern s32 D_800A5A98;

@@ -2,6 +2,7 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "shared/object_links.h"
+#include "town/minigame/state.h"
 
 typedef struct S_80022454_1 {
     u8 pad_00[0x4];

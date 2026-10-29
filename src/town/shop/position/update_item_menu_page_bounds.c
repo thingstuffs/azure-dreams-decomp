@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/item_menu.h"
+#include "town/shop/position.h"
 
 extern u8 item_menu_primary_page_data[];
 extern u8 card_selection_display_data[];

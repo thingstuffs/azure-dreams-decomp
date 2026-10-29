@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_node.h"
+#include "engine/node.h"
 
 #ifndef NULL
 #define NULL 0
@@ -33,8 +34,6 @@ typedef struct {
     EffectSub sub;
 } Effect;
 
-extern void *allocate_list_node(s32, void *);
-extern void register_node(void *, void *);
 extern void D_8002222C(void);
 
 /* Creates an effect with two vectors, two colors, and the supplied parameters. */

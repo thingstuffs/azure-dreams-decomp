@@ -2,9 +2,9 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
-extern int abs(int);
-
-extern void register_node(void *, void *);
+#include "engine/node.h"
+#include "sdk/libc.h"
+#include "town/minigame.h"
 
 extern u8 D_80024334[16];
 extern u16 D_80024500[8];

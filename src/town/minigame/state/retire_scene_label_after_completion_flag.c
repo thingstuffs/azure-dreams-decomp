@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "town/minigame/state.h"
 
 
 /* Set object and global flags when the state is zero and linked bit 1 is set. */

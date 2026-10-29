@@ -1,6 +1,5 @@
 #include "common.h"
-
-extern void find_unused_pool_slot(void *used_addrs, s32 pool_index, s32 slot_count);
+#include "town/shop.h"
 
 /* Calls find_unused_pool_slot with (void *)0x8001029C, 0, 20. */
 void find_unused_default_pool_slot(void) {

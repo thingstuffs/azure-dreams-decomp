@@ -2,6 +2,7 @@
 #include "common.h"
 #include "engine/item.h"
 #include "shared/item_menu.h"
+#include "town/shop/item.h"
 
 /* Gives up to ten rows (parts 26-35) item labels for the entries of the menu's current page. */
 void populate_item_menu_page_entries(ItemMenuPart **parts, ItemMenuObject *object) {

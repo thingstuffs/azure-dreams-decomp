@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "town/paired_indicators.h"
 #include "shared/dungeon_moving_views.h"
+#include "town/minigame/object.h"
 
 
    /* arg1 in apply_minigame_object_tint */

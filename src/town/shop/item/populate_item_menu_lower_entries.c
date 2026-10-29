@@ -2,8 +2,8 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/item_menu.h"
-
-s32 lookup_item_category_mapped_value(s32, s32);
+#include "engine/menu.h"
+#include "town/shop/item.h"
 
 /* Leading id and kind bytes of a listed item record. */
 typedef struct S_800AF520_2 {

@@ -2,6 +2,7 @@
 #include "shared/object_flags.h"
 #include "sdk/libc.h"
 #include "engine/text.h"
+#include "town/minigame.h"
 
 typedef struct S_80020618_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */

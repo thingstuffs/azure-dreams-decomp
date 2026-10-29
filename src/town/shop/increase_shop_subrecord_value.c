@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/shop.h"
 
 typedef struct S_800B0824_0 {
     void (*unk_00)(void *);
@@ -15,7 +16,6 @@ typedef struct S_800B0824_2 {
     u8 pad_00[0x6];
     u16 unk_06;
 } S_800B0824_2;
-void process_shop_embedded_data(void *record);
 
 /* Increase the subrecord value by 0x200, clamp it to 0x1000, and switch handlers at the limit. */
 void increase_shop_subrecord_value(void *record_data) {

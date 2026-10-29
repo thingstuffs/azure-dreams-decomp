@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "town/map.h"
 
 typedef struct S_800A51CC_0 {
     union {

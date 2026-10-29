@@ -1,6 +1,7 @@
 /* Relinked copy of town/func_808781C8 (func_808781C8.c); its step flag is 0x278 (twin 0x1F9), otherwise retail differs only at relocation sites. */
 #include "common.h"
 #include "town/scene.h"
+#include "town/shop.h"
 
 typedef struct {
     u16 field_0;

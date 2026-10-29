@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01131 - CL:town/func_800A1A60, CL:town/func_800A1D2C, CL:town/func_800A1D60.
  */
 #include "town/shop/position/update_position_displacement_dispatch_active_entity_handler_g01131.h"
+#include "town/shop/position.h"
 
 /* Update position and displacement, then dispatch the active entity handler. */
 void update_position_displacement_dispatch_active_entity_handler(Rec_func_8009EE9C_arg0 *entity, s32 entity_id, S_8009EE9C_0 *motion, s32 context) {

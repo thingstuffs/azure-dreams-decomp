@@ -3,6 +3,7 @@
 
 
 #include "slus.h"
+#include "town/shop.h"
 
 
 

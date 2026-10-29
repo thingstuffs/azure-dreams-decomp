@@ -2,6 +2,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B0CB4. */
 #include "town/shop/item_menu_object_lifecycle_g00600.h"
 #include "shared/object_flags.h"
+#include "town/shop.h"
 
 /* Create an object and initialize its state, releasing the state if setup fails. */
 void * create_item_menu_object(s32 selector) {

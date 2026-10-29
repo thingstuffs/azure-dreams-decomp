@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/map.h"
 
 extern u16 town_tile_grid[];
 

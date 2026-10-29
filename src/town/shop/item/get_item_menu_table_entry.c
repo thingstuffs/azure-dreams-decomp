@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/shop/item.h"
 
 extern s32 D_800D156C[];
 

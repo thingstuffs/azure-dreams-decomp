@@ -7,6 +7,9 @@
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/town_state.h"
+#include "sdk/libc.h"
+#include "slus.h"
+#include "town/scene/object.h"
 
 typedef struct S_800236BC_1 {
     void * unk_00;
@@ -22,11 +25,6 @@ typedef struct S_800236BC_3 {
     u8 pad_00[0x62];
     u16 unk_62;
 } S_800236BC_3;   /* ((S_800236BC_1 *)arg0)->unk_00 in update_bouncing_pickup_after_hit */
-
-extern void advance_sprite_animation_and_textures(void *);
-extern void SD_Call(s32);
-extern s32 rand(void);
-extern void unlink_scene_list_node(void *);
 
 extern s32 town_money[];
 extern TownRewardValues D_80020278;

@@ -2,6 +2,9 @@
 #include "shared/object_flags.h"
 #include "records/Rec_func_800B15B8_arg0.h"
 #include "shared/object_links.h"
+#include "engine/item.h"
+#include "town/shop.h"
+#include "town/shop/state.h"
 
    /* the 0x2 bytes before arg0 in decay_shop_state_and_cleanup, addressed as arg0[-1] */
 
@@ -20,8 +23,6 @@ typedef struct S_800B1664_4 {
     u8 pad_00[0x6];
     u16 unk_06;
 } S_800B1664_4;   /* ((Rec_func_800B15B8_arg0 *)arg0)->unk_C0 in decay_shop_state_and_cleanup */
-void release_null_terminated_entries(u16 **entries);
-void reset_five_shop_slots(Rec_func_800B15B8_arg0 *owner);
 
 /* Halve a state value, decrement another, and trigger cleanup below the threshold. */
 void decay_shop_state_and_cleanup(void *object) {

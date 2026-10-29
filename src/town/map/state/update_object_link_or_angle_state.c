@@ -1,8 +1,8 @@
 #include "common.h"
 #include "shared/object_flags.h"
-
-extern s32 classify_object_against_bounds(void *, void *);
-extern void unlink_node_if_registered(void *object);
+#include "engine/node.h"
+#include "town/map/state.h"
+#include "town/menu.h"
 
 /* Clear the object's linked flag and mark completion, or advance its wrapped angle. */
 void update_object_link_or_angle_state(void *object, void *context)

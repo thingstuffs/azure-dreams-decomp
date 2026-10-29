@@ -1,6 +1,7 @@
 /* Advance monster status opening and display spacing (G00633). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B8E20, CL:town/func_800B8E78. */
 #include "town/shop/monster_status_opening_g00633.h"
+#include "town/shop.h"
 
 /* Updates two display entries for the mode and adjusts their spacing. */
 void update_mode_display_spacing(S_800B65D8_3 *base, s32 display_mode) {

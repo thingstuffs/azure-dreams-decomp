@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_effect_views.h"
+#include "town/shop/object.h"
 
 struct TownObject; void set_shop_slot_colors(struct TownObject *, s32);                 /* extern */
 

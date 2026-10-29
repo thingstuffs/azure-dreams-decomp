@@ -27,6 +27,7 @@ typedef struct {
 
 extern void *const D_80089684[9];
 #include "shared/sprite_source.h"
+#include "town/map/animation.h"
 extern SpriteSourceEntry D_800F9D80[];
 
 typedef struct S_800BE214_0 {

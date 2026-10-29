@@ -1,5 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "slus.h"
+#include "town/shop.h"
 
 typedef struct S_800B2F38_0 {
     u8 pad_00[0xA8];
@@ -12,8 +14,6 @@ typedef struct S_800B2F38_1 {
     s32 ** unk_14;
 } S_800B2F38_1;   /* ((S_800B2F38_0 *)arg0)->unk_A8 in apply_linked_record_defaults */
 
-
-void initialize_scaled_entry_cursor(struct S8004CBFC_a0 *state, struct S8004CBFC_a1 *entry, int *cursor);
 extern M2C_UNK D_80071244;
 struct S8004CBFC_a1; extern struct S8004CBFC_a1 shop_cursor_template;
 

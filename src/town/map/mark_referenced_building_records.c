@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/map.h"
 
 extern u8 town_building_records[];
 

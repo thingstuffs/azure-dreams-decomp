@@ -9,6 +9,8 @@
 #include "engine/node/allocation.h"
 #include "town/person/position.h"
 #include "engine/node.h"
+#include "slus.h"
+#include "town/minigame.h"
 
 typedef struct {
     s32 v[5];
@@ -76,8 +78,6 @@ extern void func_8002108C();
 extern void func_80021120();
 extern u8 D_80022FD8[];
 extern void func_80023DA0();
-extern void select_record_entry_and_value(void *state, void *entries, short index);
-
 
 /* Initializes the interface owner, widgets, and sprite objects. */
 s32 initialize_keima_interface(void) {

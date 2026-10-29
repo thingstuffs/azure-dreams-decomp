@@ -1,5 +1,6 @@
 #include "town/map/camera.h"
 #include "shared/entity_objects.h"
+#include "town/map.h"
 
 /* Copy the default position and initialize the primary camera callbacks. */
 void initialize_control_block(TownCameraState *control) {

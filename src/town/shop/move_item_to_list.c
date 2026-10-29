@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/item_ids.h"
 #include "records/Rec_func_800B1DCC_arg0.h"
+#include "town.h"
 
 typedef struct S_800B2400_8 {
     u8 pad_00[0x3C];
@@ -28,7 +29,6 @@ typedef struct {
 } __attribute__((packed)) PackedItemWord;
 
 s32 get_mode_value_or_default(s32);
-void remove_selected_entry_from_list(s32, s32);
 u32 find_unused_pool_slot(s32 *, s32, s32);
 struct TownB4C60; void get_zero_based_group_index(struct TownB4C60 *);
 s32 count_nonzero_entries(s32 *);

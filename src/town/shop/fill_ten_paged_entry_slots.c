@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
-
-s32 create_item_label();                             /* extern */
+#include "engine/item.h"
+#include "town/shop.h"
 
 typedef struct S_800B2D00_0 {
     s32 unk_00;

@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "engine/object/test_resident_bitmap_bit_api.h"
+#include "town/map/object.h"
 extern u8 town_building_records[];
 extern u8 town_building_slot_rectangles[];
 

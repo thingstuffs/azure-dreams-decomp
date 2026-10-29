@@ -9,6 +9,7 @@
 #include "shared/vector.h"
 #include "engine/node.h"
 #include "town/scene/list_setup.h"
+#include "town/minigame.h"
 
 typedef struct S_800BF9E4_0_pre {
     u8 * unk_00;

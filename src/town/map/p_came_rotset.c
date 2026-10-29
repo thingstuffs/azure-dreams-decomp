@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/map.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 camera_turn_lock[3];

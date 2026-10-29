@@ -7,6 +7,8 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_effect_views.h"
 #include "shared/vector.h"
+#include "sdk/libc.h"
+#include "town/map/effect.h"
 
 #ifndef NULL
 #define NULL 0
@@ -55,7 +57,6 @@ typedef struct Object {
 
 extern void *allocate_list_node();
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern s32 rand(void);
 
 extern u8 map_particle_owner_update_address[];
 extern u8 town_child_sprite_callback_address[];

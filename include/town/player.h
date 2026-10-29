@@ -95,4 +95,12 @@ s32 push_point_to_containing_edges(s32 *x, s32 *y);
 
 s32 sum_enabled_record_weights(void);
 
+void apply_global_scene_value(s32 value);
+void initialize_town_context_action(void);
+
+s32 step_angle_12_toward(s32 angle_delta, s32 target_angle, s32 step);
+
+void apply_pending_indexed_value(s32 index, s32 value);
+void apply_pending_table_entry(s32 index, s32 entryValue);
+
 #endif

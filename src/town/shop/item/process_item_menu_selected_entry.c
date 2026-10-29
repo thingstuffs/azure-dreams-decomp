@@ -2,13 +2,9 @@
 #include "m2c_compat.h"
 #include "shared/item_menu.h"
 #include "town/shop.h"
-
-int get_item_name_with_shared_text_table(void *);
-void populate_item_menu_page_entries(ItemMenuPart **parts, ItemMenuObject *object);
-extern void update_item_menu_enabled_record(ItemMenuObject *);
-void populate_item_menu_lower_entries(ItemMenuObject *);
-void populate_current_item_menu_page(ItemMenuObject *);
-extern void update_item_menu_page_bounds(ItemMenuObject *);
+#include "slus.h"
+#include "town/shop/item.h"
+#include "town/shop/position.h"
 
 /* Runs the record handlers, then processes the selected entry. */
 void process_item_menu_selected_entry(ItemMenuObject *record) {

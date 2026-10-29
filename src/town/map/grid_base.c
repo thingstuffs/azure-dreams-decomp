@@ -1,5 +1,6 @@
 /* Copies nonzero cells from a size-prefixed block into the shared map grid. */
 #include "common.h"
+#include "town/map.h"
 
 extern u16 town_tile_grid[];
 

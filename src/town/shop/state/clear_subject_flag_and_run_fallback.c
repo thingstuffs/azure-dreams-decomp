@@ -1,7 +1,8 @@
 #include "common.h"
+#include "town/event/object.h"
+#include "town/shop/state.h"
 
 extern s32 process_the_item_index_available_report_success(s32 context, void *subject, s32 motion, s32 extra, void *scratch);
-extern void select_object_value_by_height_band(s32 object, void *context, s32 position, s32 output);
 
 // Clear the subject flag and run the fallback actor handler if the check fails.
 void clear_subject_flag_and_run_fallback(s32 actor, void *subject, s32 motion, s32 context) {

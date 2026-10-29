@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "town/map/building_grid_g00638.h"
+#include "town/map.h"
 
 extern u8 town_tile_grid[];
 

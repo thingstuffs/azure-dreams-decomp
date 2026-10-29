@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "town/map/object_callback.h"
+#include "town/map.h"
 
 extern void apply_nearby_object_effects(void);
 extern void *map_active_callbacks[];

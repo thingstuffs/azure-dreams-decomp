@@ -1,6 +1,9 @@
 #include "shared/object_node.h"
 #include "engine/menu.h"
 #include "common.h"
+#include "engine/audio/sequence.h"
+#include "engine/node.h"
+#include "town/minigame.h"
 
 #ifndef NULL
 #define NULL 0
@@ -32,8 +35,6 @@ typedef struct {
     s32 word[2];
 } __attribute__((packed)) Packed8;
 
-extern void register_node(void *, void *);
-extern void *decode_fullwidth_text(void *, void *, s32);
 extern void create_positioned_callback_object(void *, void *, void *);
 
 extern Packed8 D_8002021C;

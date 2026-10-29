@@ -4,6 +4,7 @@
 #include "shared/object_links.h"
 #include "sdk/libc.h"
 #include "engine/text.h"
+#include "town/minigame/state.h"
 
    /* the 0x2 bytes before arg0 in submit_text_zero_state_entry, addressed as arg0[-1] */
 

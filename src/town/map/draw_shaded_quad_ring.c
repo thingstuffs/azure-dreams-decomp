@@ -1,9 +1,9 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "town/map.h"
+#include "town/map/effect.h"
+#include "town/shop.h"
 
-extern void update_projected_effect_points(void *, s32, s32, s32);
-extern void queue_adjacent_shaded_quads(void *);
-extern s32 find_target_byte_index_in_list(void);
 extern s32 ring_segment_counts[];
 extern s32 ring_segment_count;
 

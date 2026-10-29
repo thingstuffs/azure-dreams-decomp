@@ -3,6 +3,8 @@
 #include "town/map/course.h"
 #include "m2c_compat.h"
 #include "shared/town_handler.h"
+#include "engine/node.h"
+#include "town/map/object.h"
 
 typedef struct S_800C02C4_0 {
     void * unk_00;
@@ -12,10 +14,6 @@ typedef struct S_800C02C4_0 {
     u8 pad_24[0x4];
     s16 unk_28;
 } S_800C02C4_0;   /* arg0 in initialize_object_rendering_resources; pointer addresses record offset 0x10 */
-
-void unlink_node_if_registered(void *);                      /* extern */
-void apply_pending_indexed_value();          /* extern */
-void apply_pending_table_entry();          /* extern */
 
 extern void D_800C035C();
 extern M2C_UNK D_800D0C58;

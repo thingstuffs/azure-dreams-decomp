@@ -2,6 +2,9 @@
 #include "town/map/object_setup.h"
 #include "town/scene/list_setup.h"
 #include "shared/slus_callbacks.h"
+#include "engine/node.h"
+#include "slus.h"
+#include "town/map/motion.h"
 
 typedef struct Func800BF66CObject {
     u8 pad00[0x48];
@@ -12,8 +15,6 @@ typedef struct Func800BF66CObject {
     s16 fieldA6;
 } Func800BF66CObject;
 
-extern void select_record_entry_and_value(void *state, void *entries, short index);
-extern void register_node(void *, void *);
 extern u8 D_800BC990[];
 extern u8 town_map_motion_defaults[];
 extern s32 D_800D211C[];

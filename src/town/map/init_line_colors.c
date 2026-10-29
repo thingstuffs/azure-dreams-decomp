@@ -2,6 +2,9 @@
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
+#include "town/map.h"
 
 typedef struct S_800BFFF4_0_pre {
     u8 * unk_00;
@@ -29,11 +32,6 @@ typedef struct LineG2 { u32 tag; PackedColor color0; s16 x0; s16 y0; PackedColor
 
 /* Writes the packed start and end colors into the line primitive. */
 static __inline__ void init_line_colors(LineG2 *line, u32 color0, u32 color1) { line->color0.word = color0; line->color1.word = color1; }
-s32 RotTransPers(void *, void *, void *, void *);
-s32 GetTPage(s32, s32, s32, s32);
-void SetSemiTrans(LineG2 *, s32);
-void SetLineG2(LineG2 *);
-void SetDrawMode(void *, s32, s32, s32, s32);
 
 /* Draw depth-sorted gradient lines for the linked nodes. */
 s32 draw_depth_sorted_gradient_lines(u8 *node)

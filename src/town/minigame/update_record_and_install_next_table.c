@@ -4,6 +4,7 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "shared/object_links.h"
+#include "town/minigame.h"
 
    /* the 0x2 bytes before arg0 in update_record_and_install_next_table, addressed as arg0[-1] */
 

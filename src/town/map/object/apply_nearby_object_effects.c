@@ -1,6 +1,8 @@
 #include "common.h"
 #include "shared/entity_objects.h"
-extern int abs(int);
+#include "engine/object.h"
+#include "sdk/libc.h"
+#include "town/map.h"
 
 typedef struct {
     void *callback;
@@ -23,8 +25,6 @@ typedef struct {
     s16 pad_A;
 } TownPosition;
 
-extern s32 test_resident_bitmap_bit(s32);
-extern void tw_sd_sq_ld_call(s32, s32);
 extern u8 D_800C21F8[];
 
 /* Applies an eligible nearby object's effects and updates its callback. */

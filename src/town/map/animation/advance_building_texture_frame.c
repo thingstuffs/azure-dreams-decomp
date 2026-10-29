@@ -1,7 +1,8 @@
 #include "common.h"
+#include "sdk/libgpu.h"
+#include "town/map/animation.h"
 extern u8 building_upload_rect[];
 
-extern void LoadImage(void *, void *);
 extern u8 building_texture_frame_zero[];
 extern u8 building_texture_frame_one[];
 extern u8 building_texture_frame_two[];

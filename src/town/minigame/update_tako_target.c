@@ -1,18 +1,17 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
+#include "sdk/libc.h"
+#include "slus.h"
+#include "town/minigame/effect.h"
+#include "town/scene/object.h"
 
 extern u8 tako_target_timing_table[];
 extern u8 tako_minigame_sprites[16];
 extern u8 D_800F79E8[16];
 
-extern s32 rand(void);
-extern void advance_sprite_animation_and_textures(void *);
-extern void select_record_entry_and_value(void *state, void *entries, short index);
-extern void create_tinted_animated_particle(s32, s32, s32, s32);
 extern void create_tako_projectile(void *, s32, s32);
 extern void create_timed_sound(s16 value);
-extern void unlink_scene_list_node(void *);
 
 typedef struct B {
     u8 pad0[0x10];

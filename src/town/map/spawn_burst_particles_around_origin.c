@@ -4,6 +4,10 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
+#include "engine/node.h"
+#include "engine/runtime.h"
+#include "sdk/libc.h"
+#include "town/map.h"
 
 typedef struct S_800BBCA0_0 {
     u8 pad_00[0x48];
@@ -28,12 +32,6 @@ typedef struct S_800BBCA0_3 {
     u8 pad_4A[0x2];
     s16 unk_4C;
 } S_800BBCA0_3;   /* motion in spawn_burst_particles_around_origin */
-
-
-extern s32 test_resident_bit(s32);
-extern void *allocate_list_node(s32, void *);
-extern void register_node(void *, void *);
-extern s32 rand(void);
 
 extern u8 D_800BC00C[];
 extern u8 D_800F1654[];

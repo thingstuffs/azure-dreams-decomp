@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "town/map/building_grid_g00638.h"
+#include "town/map.h"
 
 /* Blit an image at its origin-adjusted position into a 128-wide buffer, skipping zero pixels. */
 void blit_indexed_origin_u16_block(s32 dst_x, s32 dst_y, s32 image_id, void *dst) {

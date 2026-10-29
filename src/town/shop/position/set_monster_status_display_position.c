@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/shop/position.h"
 
 typedef struct S_800B6C94_0 {
     u8 pad_00[0xC];

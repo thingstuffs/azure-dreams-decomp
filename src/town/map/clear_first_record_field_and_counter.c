@@ -1,6 +1,7 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/map.h"
 
 extern s16 tile_key_pair_count;
 extern s32 tile_coordinate_records;

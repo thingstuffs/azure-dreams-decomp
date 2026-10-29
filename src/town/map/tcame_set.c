@@ -1,4 +1,5 @@
 #include "town/map/camera.h"
+#include "town/map.h"
 
 /* Set midpoint tracking and both default targets. */
 void tcame_chase2_set(void) {

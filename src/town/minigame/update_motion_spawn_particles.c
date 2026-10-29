@@ -35,11 +35,10 @@ typedef struct Object {
 
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 #include "engine/node.h"
+#include "sdk/libc.h"
+#include "sdk/libgpu.h"
+#include "town/minigame.h"
 extern void SD_Call(s32, s32);
-extern void DrawSync(s32);
-extern void LoadImage(void *, void *);
-extern void StoreImage(void *, void *);
-extern s32 rand(void);
 extern void set_linked_object_and_global_flags(void);
 
 extern u8 pool_palette_rect_2[];

@@ -2,14 +2,14 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
+#include "slus.h"
+#include "town/map.h"
 
 typedef struct S_800A8440_1 {
     u16 unk_00;
     u8 pad_02[0x2];
     u16 unk_04;
 } S_800A8440_1;   /* arg0 in fade_timed_primitive; pointer addresses record offset 0x2 */
-
-void advance_sprite_animation_and_textures(void *entity);
 
 /* Fades the primitive and sets completion flags when the countdown expires. */
 void fade_timed_primitive(void *record_fields, void *unused, SpriteFrameState *primitive) {

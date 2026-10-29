@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "slus.h"
+#include "town/minigame.h"
 
 
 /* Advances and darkens a moving effect, updates its visual, and propagates status flags. */

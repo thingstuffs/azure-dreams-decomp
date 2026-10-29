@@ -3,6 +3,7 @@
 #include "shared/object_node.h"
 #include "town/shop/shop_state_initialization_g00599.h"
 #include "shared/object_flags.h"
+#include "town/shop.h"
 
 /*
  * Copies runtime_script_state word 0x20 to record word 0xC and its Record68 block at word 0x32 to

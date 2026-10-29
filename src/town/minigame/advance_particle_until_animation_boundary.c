@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
+#include "slus.h"
 
 typedef struct {
     s32 field0;
@@ -10,8 +11,6 @@ typedef struct {
     s32 field10;
     s32 field14;
 } S_8081C8DC;
-
-extern void advance_sprite_animation_and_textures(void *result);
 
 /* Advances the position and propagates flags from the processed result. */
 void advance_particle_until_animation_boundary(void *object_data, S_8081C8DC *motion, SpriteFrameState *result)

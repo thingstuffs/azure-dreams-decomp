@@ -3,6 +3,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
+#include "town/map.h"
 
 
 typedef struct S_800BDDD0_0 {

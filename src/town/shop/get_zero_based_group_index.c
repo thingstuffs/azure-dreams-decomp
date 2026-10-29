@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/shop.h"
 
 typedef struct TownB4C60 {
     s32 unk0;

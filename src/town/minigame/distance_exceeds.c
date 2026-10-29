@@ -2,6 +2,9 @@
 #include "common.h"
 
 #include "shared/entity_objects.h"
+#include "slus.h"
+#include "town/minigame.h"
+#include "town/person.h"
 
 /* Returns whether the absolute signed distance exceeds the supplied limit. */
 static __inline__ s16 distance_exceeds(s32 limit, s32 distance) {
@@ -21,8 +24,6 @@ typedef struct S1 {
 } S1;
 
 extern s32 service_script_controller(s32, s32 *, S1 *);
-extern s32 check_transform_identifier_and_hook(S0 *);
-extern void SD_Call(s32);
 static s32 state;
 
 

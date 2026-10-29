@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/map.h"
 extern u8 D_8008BA00[];
 extern u8 D_8008BC58[];
 

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/item_menu.h"
+#include "town/shop/state.h"
 
 
 extern ItemMenuSceneState item_menu_scene_state;

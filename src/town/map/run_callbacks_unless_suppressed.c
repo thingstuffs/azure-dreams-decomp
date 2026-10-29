@@ -1,6 +1,8 @@
 #include "common.h"
 #include "town/map/object_callback.h"
 #include "shared/object_flags.h"
+#include "town/map.h"
+#include "town/menu.h"
 
 typedef struct CallbackEntry CallbackEntry;
 typedef void (*Callback)(CallbackEntry *);
@@ -10,7 +12,6 @@ struct CallbackEntry {
     u8 pad[20];
 };
 
-extern s32 classify_object_against_bounds(void *, void *);
 extern CallbackEntry map_active_callbacks[];
 
 /* Runs callbacks unless the object check triggers status clearing and flag updates. */

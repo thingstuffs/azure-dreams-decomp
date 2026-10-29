@@ -2,6 +2,7 @@
 #include "shared/object_flags.h"
 #include "shared/object_links.h"
 #include "sdk/libgpu.h"
+#include "town/minigame.h"
 
 
 

@@ -3,6 +3,7 @@
 #include "town/shop/item_equip_selection_g00560.h"
 #include "town/shop/item_lookup.h"
 #include "shared/dungeon_item_entries.h"
+#include "town/shop.h"
 
 /*
  * Sets entry flag 0x20 and searches 20 four-byte slots at 0x80010248; saves a successful index at

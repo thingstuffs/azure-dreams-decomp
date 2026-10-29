@@ -1,6 +1,7 @@
 /* Item menu cursor transition (G00601). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B0FD4, CL:town/func_800B10F4. */
 #include "town/shop/item_menu_cursor_transition_g00601.h"
+#include "town/shop.h"
 
 /* Sets fixed values and color bytes on each item's linked records. */
 void style_item_menu_entry_records(ItemMenuTransition *collection) {

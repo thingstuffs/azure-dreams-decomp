@@ -36,4 +36,12 @@ void forward_context_request_to_handler_f(void *context, s32 request);
 void forward_context_request_to_handler_g(void *context, s32 request);
 void set_scene_entry_flag_k(void);
 
+#include "shared/item_menu.h"
+struct S_800B3178_0;
+void call_the_same_context_both_processing_routines(s32 value, s32 context);
+void populate_paged_entries_with_brightness(void **entries, struct S_800B3178_0 *page_info, s32 source_table);
+void position_decimal_digit_parts(ItemMenuObject *object);
+void remove_selected_entry_from_list(s32 list_addr, s32 index);
+void run_entry_update_steps(s32 entry_id);
+
 #endif

@@ -3,6 +3,7 @@
 #include "engine/text.h"
 #include "sdk/libc.h"
 #include "engine/node/allocation.h"
+#include "town/minigame.h"
 
 typedef struct {
     s16 unk0;       /* 0x00 */

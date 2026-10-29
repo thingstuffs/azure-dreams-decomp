@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/map.h"
 
 /* Adjusts three 16-bit fields in the record by fixed offsets. */
 void adjust_record_fields(s32 unused, void *record) {

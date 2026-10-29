@@ -2,6 +2,9 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_moving_views.h"
+#include "sdk/libc.h"
+#include "sdk/libgte.h"
+#include "town/map.h"
 
 typedef struct S_800BB218_0 {
     u16 unk_00;
@@ -41,12 +44,6 @@ typedef struct S_800BB218_5 {
     u8 pad_00[0x8];
     u8 * unk_08;
 } S_800BB218_5;   /* next in draw_randomized_white_points */
-
-
-extern s32 rsin(s32);
-extern s32 rcos(s32);
-extern s32 RotTransPers(void *, void *, void *, void *);
-extern s32 rand(void);
 
 /* Draws randomized white points around each object in the linked chain. */
 s32 draw_randomized_white_points(void *first_object, void *first_coords)

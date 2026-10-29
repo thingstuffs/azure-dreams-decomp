@@ -1,6 +1,7 @@
 /* Initialize monster status state and entry objects (G00634). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B9044, CL:town/func_800B90DC, CL:town/func_800B914C, CL:town/func_800B9168. */
 #include "town/shop/monster_status_initialization_g00634.h"
+#include "town/shop.h"
 
 /* Returns the indexed entry from D_800D17C8. */
 s32 get_monster_status_type_data(s32 index) {

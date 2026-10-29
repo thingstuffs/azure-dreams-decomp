@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/item_menu.h"
+#include "town/shop/position.h"
 
 /* Set the positions of the two side indicators (parts 38 and 39). */
 void position_item_menu_side_indicators(ItemMenuPart **parts) {

@@ -1,14 +1,12 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "m2c_compat.h"
+#include "engine/cd.h"
+#include "engine/object.h"
+#include "slus.h"
+#include "town/map.h"
+#include "town/map/position.h"
 
-
-
-void set_resident_bitmap_bit(s32);
-void clear_resident_bitmap_bit(s32);
-s32 Control_CD(s32 event_code, void *event_data, s32 payload);
-void drain_cd_command_queue(void);
-void apply_building_tile_entry(s16, s16, u8);
 extern u32 D_800D1BF4[2];
 extern u8 town_building_records[];
 extern u8 town_building_slot_rectangles[];

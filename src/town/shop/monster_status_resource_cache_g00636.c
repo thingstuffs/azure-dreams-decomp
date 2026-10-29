@@ -1,6 +1,7 @@
 /* Initialize and refresh monster status resource cache (G00636). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B956C, CL:town/func_800B958C, CL:town/func_800B95F4, CL:town/func_800B9634, CL:town/func_800B97F4. */
 #include "town/shop/monster_status_resource_cache_g00636.h"
+#include "town/shop.h"
 
 /* Initialize an entry with a mode-dependent value offset and a fixed data offset. */
 void initialize_mode_offset_entry(s32 mode, s32 value_base, S_800B6CCC_0 *entry, s32 data_base) {

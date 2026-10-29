@@ -1,5 +1,8 @@
 #include "common.h"
 #include "shared/def_table.h"
+#include "engine/entity.h"
+#include "slus.h"
+#include "town/shop.h"
 
 typedef struct S_800B6094_4 {
     u8 pad_00[0x38];
@@ -16,14 +19,7 @@ typedef struct S_800B6094_6 {
     s16 unk_08;
 } S_800B6094_6;
 
-
-s32 runtime_test_table_byte_pattern(s16);
-s32 lookup_patterned_display_icon(s32 index);
-s32 lookup_unpatterned_display_icon(s32);
-int get_low_flag_priority(int);
 struct S_800B5264_0; void set_display_entry_text_and_position(struct S_800B5264_0 *, s32, s32, s16, s32);
-s32 set_storage_entry_text(s32, const void *, s32, s32, s32);
-s32 build_encoded_display_sequence();
 
 typedef struct S_800B6094_0 {
     u8 unk_00;

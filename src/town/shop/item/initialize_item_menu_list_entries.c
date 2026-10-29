@@ -1,6 +1,10 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/widget_views.h"
+#include "engine/util.h"
+#include "slus.h"
+#include "town/shop.h"
+#include "town/shop/item.h"
 
 typedef struct S_800AECA4_2 {
     u8 pad_00[0xD8];
@@ -60,11 +64,6 @@ typedef struct S_800AECA4_10 {
 
    /* ((S_800AECA4_10 *)(((S_800AECA4_5 *)(((S_800AECA4_2 *)arg0)->unk_D8))->unk_00))->unk_04 in initialize_item_menu_list_entries */
 
-
-int get_menu_count_template(int);
-s32 func_8004DC14();
-s32 get_item_menu_table_entry(s32);
-void animate_item_menu_cursor_transition(void *);
 extern u8 menu_leaf_template_6[12];
 extern u8 D_80077EF0[12];
 extern u8 D_80077EFC[12];

@@ -5,6 +5,8 @@
 #include "shared/slus_callbacks.h"
 #include "shared/object_payload.h"
 #include "engine/node/allocation.h"
+#include "slus.h"
+#include "town/minigame.h"
 
    /* (u8 *)arg0 + count * 4 in create_eight_linked_scene_sprites */
 
@@ -23,7 +25,6 @@ typedef struct S_8002082C_3 {
     s16 unk_34;
 } S_8002082C_3;   /* arg0 in create_eight_linked_scene_sprites */
 
-extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 typedef struct {

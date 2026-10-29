@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/shop.h"
 
 typedef struct S_800B4AB0_0 {
     void * unk_00;

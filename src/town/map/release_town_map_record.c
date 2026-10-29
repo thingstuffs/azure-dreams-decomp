@@ -1,6 +1,7 @@
 #include "common.h"
+#include "engine/object.h"
+#include "town/map.h"
 
-extern void runtime_clear_value(s32 *value);
 extern struct { s32 v; s32 pad[0x520]; } object_flag_block;
 
 /* Process the referenced record, clear its preceding word, and set local and global flags. */

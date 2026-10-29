@@ -2,6 +2,8 @@
 #include "town/scene/list_setup.h"
 #include "shared/game_work.h"
 #include "town/person/position.h"
+#include "sdk/libc.h"
+#include "town/map.h"
 typedef union
 {
     s32 coord;
@@ -14,8 +16,6 @@ typedef union
     s16 h[10];
 }
 SpBuf;
-extern void strcpy(void *, s32);
-extern s32 strlen(void *);
 extern s16 dir_step_x[][2];
 extern s16 dir_step_y[][2];
 extern u8 *D_80073600[];
@@ -28,8 +28,6 @@ extern s32 D_800D21B4[];
 extern s8 D_800D2238[];
 extern u8 D_800D225C[];
 extern u8 D_80112070[];
-extern void strcpy(void *, s32);
-extern s32 strlen(void *);
 
 /* town_map_mod_yorozu_item: Creates a town object by type and initializes its position and display data. */
 void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)

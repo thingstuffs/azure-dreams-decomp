@@ -3,6 +3,8 @@
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/position_views.h"
+#include "slus.h"
+#include "town/map/motion.h"
 
 typedef struct S_800BC00C_0 {
     u16 unk_00;
@@ -26,7 +28,6 @@ typedef struct {
     s32 f10;
     s32 f14;
 } State1;
-void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 
 /* Update effect motion, size and brightness, then mark it finished. */
 void update_effect_motion_size_and_brightness(void *effect_fields, SignedPositionView *position, SpriteFrameState *sprite) {

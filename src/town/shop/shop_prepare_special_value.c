@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
-
-void set_linked_flag(s32 bit_index);                     /* extern */
+#include "town/shop.h"
+#include "town/shop/state.h"
 
 /* Calls shop_set_indexed_flag with 0x20C and returns the value at 0x80701FBC. */
 s32 flag_then_read_word(void) {

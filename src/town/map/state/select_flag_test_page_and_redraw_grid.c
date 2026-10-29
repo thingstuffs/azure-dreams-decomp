@@ -1,5 +1,6 @@
 /* Relinked copy of town/func_80875204 (func_80875204.c); retail differs only at relocation sites. */
 #include "common.h"
+#include "town/map/state.h"
 
 void func_80700188();                     /* extern */
 s32 func_80700590(void);                            /* extern */

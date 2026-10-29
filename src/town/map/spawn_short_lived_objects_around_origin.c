@@ -54,7 +54,7 @@ typedef struct {
 
 
 #include "engine/node.h"
-extern s32 rand(void);
+#include "sdk/libc.h"
 
 extern u8 D_800BBA98[];
 extern Resource D_800F162C[];

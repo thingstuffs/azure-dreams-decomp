@@ -1,8 +1,5 @@
 #include "common.h"
-
-extern void initialize_item_menu_record_fields(s32 objectData, s32 owner, s32 listConfig, s32 entryCount, s32 entryIds);
-extern void initialize_item_menu_linked_record_vectors(s32 objectData, s32 dataC8, s32 dataA0, s32 dataB0, s32 x, s32 y);
-extern void initialize_item_menu_list_entries(s32 objectData);
+#include "town/shop/item.h"
 
 /* Initialize a list object's configuration, position, and display entries. */
 void initialize_item_menu_list_display(s32 objectData, s32 owner, s32 listConfig, s32 entryCount, s32 x, s32 y, s32 entryIds) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/shop/object.h"
 
 struct ObjectNodeHeader; void link_typed_list_node(struct ObjectNodeHeader *, struct ObjectNodeHeader *);
 extern u8 shop_display_presets[];

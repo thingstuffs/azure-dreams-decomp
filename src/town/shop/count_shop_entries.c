@@ -1,6 +1,7 @@
 #include "shared/town_root.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "town/shop.h"
 
 
 /* Count entries in the zero-terminated table. */

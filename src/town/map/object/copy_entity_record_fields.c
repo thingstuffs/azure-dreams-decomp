@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
+#include "town/map/object.h"
 
 
 /* Copy six fields from the source record to the destination. */

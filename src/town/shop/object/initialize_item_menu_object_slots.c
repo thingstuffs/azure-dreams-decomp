@@ -1,15 +1,10 @@
 #include "common.h"
 #include "shared/item_menu.h"
+#include "town/shop/item.h"
+#include "town/shop/object.h"
+#include "town/shop/position.h"
 
 extern u8 item_menu_slot_handler_address[];
-
-extern void initialize_item_menu_panel_rectangle(void *record);
-extern void set_item_menu_entry_coordinates(ItemMenuObject *object);
-extern void layout_item_menu_upper_pair_columns(ItemMenuPart **parts);
-extern void layout_item_menu_lower_item_columns(ItemMenuPart **parts);
-extern void position_item_menu_side_indicators(ItemMenuPart **parts);
-extern void layout_item_menu_lower_pair_columns(ItemMenuPart **parts);
-extern void process_item_menu_selected_entry(ItemMenuObject *object);
 
 /* Initialize four object slots with shared or embedded data and paired offsets. */
 void initialize_item_menu_object_slots(ItemMenuObject *object) {

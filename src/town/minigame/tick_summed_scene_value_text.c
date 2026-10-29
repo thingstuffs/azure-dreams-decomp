@@ -4,6 +4,7 @@
 #include "shared/object_links.h"
 #include "sdk/libc.h"
 #include "engine/text.h"
+#include "town/minigame.h"
 
    /* the 0x2 bytes before arg0 in tick_summed_scene_value_text, addressed as arg0[-1] */
 

@@ -1,4 +1,7 @@
 #include "common.h"
+#include "engine/audio.h"
+#include "slus.h"
+#include "town/map.h"
 
 typedef struct {
     u8 pad0[0x18];
@@ -16,11 +19,6 @@ typedef struct {
 
 extern TownState map_runtime_state;
 extern TownEntry map_sound_settings[];
-
-extern s32 find_sound_entry_or_terminator_index(s16 target_value);
-extern void reset_audio_command_state(void);
-extern void audio_load_sound_effect_bank(s32 effect);
-extern s16 SD_Call(s32 sound);
 
 /* town_sd_se_callagain: replay the selected town entry's effect and sound when the town state is 12. */
 s32 town_sd_se_callagain(void) {

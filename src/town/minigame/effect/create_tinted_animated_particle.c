@@ -4,6 +4,7 @@
 #include "shared/game_work.h"
 #include "shared/slus_callbacks.h"
 #include "engine/node.h"
+#include "town/minigame/effect.h"
 
 
 

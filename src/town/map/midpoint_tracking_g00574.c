@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A75EC, CL:town/func_800A76BC.
  */
 #include "town/map/midpoint_tracking_g00574.h"
+#include "town/map.h"
 
 /* Restart tracking when the current point changes; otherwise update the midpoint. */
 void restart_or_update_midpoint_tracking(TownCameraState *state) {

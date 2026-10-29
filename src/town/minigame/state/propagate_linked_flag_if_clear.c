@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "town/minigame/state.h"
 
 
 /* Propagate bit 15 from the linked record when the record status is zero. */

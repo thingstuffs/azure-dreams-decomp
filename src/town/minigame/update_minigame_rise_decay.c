@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/minigame.h"
 
 typedef struct Town215E0Inner {
     u8 pad0[0x5C];

@@ -1,6 +1,6 @@
 #include "common.h"
-
-extern s32 lookup_item_category_mapped_value(s32 a0, s32 a1);
+#include "engine/menu.h"
+#include "town/shop.h"
 
 /* Fills ten output slots from the current page of records, zeroing unused slots. */
 void fill_ten_paged_output_slots(s32 **outputs, s32 *page_info, s32 record_table) {

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/item_menu.h"
+#include "town/shop/item.h"
 
 /* Arrange the ten objects in two columns of five. */
 void layout_item_menu_lower_item_columns(ItemMenuPart **parts)

@@ -3,6 +3,7 @@
 #include "shared/object_node.h"
 #include "engine/node/allocation.h"
 #include "engine/node.h"
+#include "town/minigame/object.h"
 
 typedef struct {
     s32 words[10];

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/shop.h"
 
 typedef struct TownEntry {
     u8 pad0[0x10];

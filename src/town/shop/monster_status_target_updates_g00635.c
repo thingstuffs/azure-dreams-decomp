@@ -2,6 +2,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B93B0, CL:town/func_800B97F4. */
 #include "town/shop/monster_status_target_updates_g00635.h"
 #include "shared/object_flags.h"
+#include "town/shop.h"
 
 /* Processes 24 entries by type and clears the handle and type of handled entries. */
 void process_handled_entry_types(void **entries) {

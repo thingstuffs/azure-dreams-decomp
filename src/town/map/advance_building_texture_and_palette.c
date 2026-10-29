@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/map.h"
 
 extern u16 building_upload_rect[];
 extern u8 building_texture_frame_zero[];

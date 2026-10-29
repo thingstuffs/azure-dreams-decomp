@@ -1,6 +1,7 @@
 #include "common.h"
+#include "town/map.h"
+#include "town/map/position.h"
 
-extern s32 copy_variant_building_tiles(s16 x, s16 y, u16 *src_tiles);
 extern u16 *D_800D17D8[];
 
 /* Apply the selected table entry at the given coordinates. */

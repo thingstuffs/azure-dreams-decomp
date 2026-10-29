@@ -1,7 +1,8 @@
 #include "common.h"
+#include "town/shop.h"
+#include "town/shop/state.h"
 typedef struct MotionVector MotionVector;
 typedef struct TownActor TownActor;
-void move_toward_target_check_completion_countdown_expires(TownActor *actor, s32 context, MotionVector *motion, s32 extra);
 
 typedef struct S_8009EB20_0 {
     u8 pad_00[0x15];

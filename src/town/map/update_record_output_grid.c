@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/dungeon_delay_views.h"
 #include "shared/town_pointees.h"
+#include "town/map.h"
 
 typedef struct S_800BDE7C_0 {
     u8 pad_00[0x68];

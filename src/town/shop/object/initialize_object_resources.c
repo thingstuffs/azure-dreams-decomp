@@ -1,8 +1,9 @@
 #include "common.h"
 #include "engine/resource.h"
+#include "engine/texture.h"
+#include "engine/util.h"
+#include "town/shop/object.h"
 
-extern s32 func_80049004();
-extern s32 texture_set_the_field_offset_hex_8_in_each_entry_pointer_array();
 extern s32 display_vector_defaults[];
 
 /* Initializes object resources and defaults, returning whether the auxiliary allocation succeeds. */

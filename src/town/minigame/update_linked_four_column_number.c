@@ -3,6 +3,7 @@
 #include "m2c_compat.h"
 #include "shared/object_links.h"
 #include "engine/text.h"
+#include "town/minigame.h"
 
    /* the 0x2 bytes before arg0 in update_linked_four_column_number, addressed as arg0[-1] */
 

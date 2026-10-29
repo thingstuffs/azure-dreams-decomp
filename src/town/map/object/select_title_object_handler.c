@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/resource.h"
+#include "engine/script.h"
 
 typedef struct {
     u8 pad0[0x10];
@@ -30,9 +32,6 @@ extern s32 D_800A5638;
 extern s32 map_view_transition_address;
 extern s32 D_800A5A98;
 extern TownState town_position_reference_state;
-
-extern s32 service_script_controller(void);
-extern s32 runtime_estimate_vector_length(s32, s32);
 
 /* Pick the title-screen object's next handler and timing from the current scene and progress flags. */
 void select_title_object_handler(TownObject *obj)

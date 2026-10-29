@@ -1,6 +1,7 @@
 /* Update slot countdowns, choices, and resource colors (G00621). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B6384, CL:town/func_800B63B8, CL:town/func_800B64A4. */
 #include "town/shop/slot_resource_updates_g00621.h"
+#include "town/shop.h"
 
 /* Move three channel values a quarter of the way toward 0x80, snapping when within four. */
 void move_color_channels_toward_neutral(u8 *channels)

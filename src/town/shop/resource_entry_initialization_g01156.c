@@ -4,6 +4,7 @@
 #include "shared/object_node.h"
 #include "town/shop/resource_entry_initialization_g01156.h"
 #include "shared/object_flags.h"
+#include "town/shop.h"
 
 /* Collect pointers to enabled entries and terminate the list with 0. */
 void collect_enabled_entry_pointers(s32 *entries, s32 entry_count) {

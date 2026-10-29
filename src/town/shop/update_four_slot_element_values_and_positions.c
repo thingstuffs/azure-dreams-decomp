@@ -2,6 +2,8 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800B3FB8_arg0.h"
+#include "engine/util.h"
+#include "town/shop.h"
 
 
 typedef struct S_800B3FB8_4 {
@@ -27,9 +29,6 @@ typedef struct S_800B3FB8_7 {
     union { u16 s; s16 u; } unk_08;   /* accessed as both */
     union { u16 s; s16 u; } unk_0A;   /* accessed as both */
 } S_800B3FB8_7;
-
-
-s32 func_8004DC14();                    /* extern */
 
 typedef struct S_800B3FB8_0 {
     s32 unk_00;

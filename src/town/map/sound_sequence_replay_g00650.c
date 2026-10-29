@@ -1,6 +1,7 @@
 /* Sound sequence replay (G00650). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800C3E80. */
 #include "town/map/sound_sequence_replay_g00650.h"
+#include "town/map.h"
 
 /* town_sd_sq_callagain_sub: replay and record the town or fallback sequence with the supplied flags. */
 s32 town_sd_sq_callagain_sub(s32 sequence_flags) {

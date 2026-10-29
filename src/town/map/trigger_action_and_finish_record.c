@@ -1,9 +1,9 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "shared/object_flags.h"
-
-extern s32 set_resident_bitmap_bit(s32 bit_id);
-extern s32 serch_item_plown(s32 first_value, s32 second_value);
+#include "engine/object.h"
+#include "town/map.h"
+#include "town/shop/item.h"
 
 /* Trigger action 0xAB and mark the record finished when the condition check succeeds. */
 void trigger_action_and_finish_record(u16 *record) {

@@ -1,6 +1,7 @@
 /* Shop subrecord values (G00611). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B3FDC. */
 #include "town/shop/shop_subrecord_values_g00611.h"
+#include "town/shop.h"
 
 /* Set the decrease or increase indicator color when the current and target values differ. */
 void set_shop_change_indicator_color(S_800B173C_0 *record, s32 target_value) {

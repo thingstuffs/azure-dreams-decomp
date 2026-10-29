@@ -6,6 +6,8 @@
 #include "shared/object_flags.h"
 #include "shared/object_links.h"
 #include "engine/runtime.h"
+#include "sdk/libc.h"
+#include "town/map.h"
 
 #ifndef NULL
 #define NULL 0
@@ -15,7 +17,6 @@
 
 struct ObjectNodeHeader; void * allocate_list_node(s32, struct ObjectNodeHeader * *);
 void register_node(void *, void *);
-s32 rand(void);
 extern void D_800BFD14();
 extern s32 D_800BFFF4(u8 *node);
 

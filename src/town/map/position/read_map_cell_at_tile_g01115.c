@@ -3,6 +3,7 @@
  */
 #include "town/map/position/read_map_cell_at_tile_g01115.h"
 #include "shared/object_flags.h"
+#include "town/map/position.h"
 
 /* Read the low 14 bits of the map entry at masked tile coordinates. */
 s32 read_map_cell_at_tile(s32 tile_x, s32 tile_y) {

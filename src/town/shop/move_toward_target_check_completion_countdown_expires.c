@@ -1,5 +1,8 @@
 #include "common.h"
 #include "shared/entity_objects.h"
+#include "town/event/object.h"
+#include "town/player/position.h"
+#include "town/shop.h"
 
 typedef struct MotionVector {
     s32 x;
@@ -17,11 +20,8 @@ typedef struct TownActor {
 
 extern s32 town_target_height_offset;
 
-extern void add_motion_deltas_to_position(MotionVector *motion);
 extern s32 process_the_item_index_available_report_success(TownActor *actor, s32 context,
                          MotionVector *motion, s32 extra, s32 *work);
-extern void select_object_value_by_height_band(TownActor *actor, s32 context,
-                          MotionVector *motion, s32 extra);
 
 /*
  * Moves halfway toward view_reference_entity with a Z offset of 0x200000 each update. After

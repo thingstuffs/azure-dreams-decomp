@@ -203,4 +203,8 @@ void process_flagged_entries_follow_four(u8 *entries);
 void run_setup_and_remap_mode_records(s32 table_index, s32 mode);
 s32 try_decrement_state_counter(s32 grid_y, s32 grid_x);
 
+u8 *select_town_byte_array(void);
+
+void configure_the_set_mode_n_1(void *record, void *position, void *bounds);
+
 #endif

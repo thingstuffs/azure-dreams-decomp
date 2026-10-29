@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/object_flags.h"
+#include "sdk/libgte.h"
 
 typedef struct S_800220A8_0 {
     s16 unk_00;
@@ -13,9 +14,6 @@ typedef struct S_800220A8_2 {
     u8 pad_00[0x18];
     s16 unk_18;
 } S_800220A8_2;   /* ((S_800220A8_0 *)arg0)->unk_04 in update_minigame_approach_motion */
-
-
-s32 rsin(s32);
 
 /* Update motion through approach, oscillation, and withdrawal, flagging completion. */
 void update_minigame_approach_motion(void *motion_state, void *motion) {

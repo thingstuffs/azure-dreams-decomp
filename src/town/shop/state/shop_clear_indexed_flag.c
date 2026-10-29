@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/shop/state.h"
 
 extern s32 *shop_indexed_flag_words[];
 

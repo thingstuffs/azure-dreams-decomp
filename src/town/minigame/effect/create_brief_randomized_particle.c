@@ -4,6 +4,7 @@
 #include "shared/dungeon_projectile_views.h"
 #include "sdk/libc.h"
 #include "engine/node.h"
+#include "town/minigame/effect.h"
 
 #ifndef NULL
 #define NULL 0

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/resource.h"
+#include "town/shop.h"
 
 typedef struct {
     u8 pad0[6];
@@ -15,7 +17,6 @@ typedef struct {
     void *recordsOwner;
 } TownState;
 
-extern s32 runtime_estimate_vector_length(s32, s32);
 extern s32 town_record_capacities[];
 extern TownState *town_script_state_slots;
 

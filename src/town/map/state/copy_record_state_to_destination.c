@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/sprite_source.h"
+#include "town/map/state.h"
 
 typedef struct TownPropAnimationActor {
     char pad0[0x68];

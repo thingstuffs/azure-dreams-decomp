@@ -2,6 +2,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B2F64. */
 #include "town/shop/item_menu_display_lifecycle_g00607.h"
 #include "shared/object_node.h"
+#include "town/shop.h"
 
 /* Create a display controller and its child display object. */
 void *create_item_menu_display_controller(s32 owner, s32 display_config, s32 x, s32 y, s32 init_config) {

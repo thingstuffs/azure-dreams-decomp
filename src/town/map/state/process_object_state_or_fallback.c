@@ -1,6 +1,8 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "engine/node.h"
+#include "town/map/state.h"
+#include "town/menu.h"
 
 
 typedef struct S_func_800A9624_1 {
@@ -10,8 +12,6 @@ typedef struct S_func_800A9624_1 {
     s8 *unk_98;
 } S_func_800A9624_1;
 
-void register_node_if_unregistered(void *, void *);
-extern s32 classify_record_by_state_and_position(void *,void *);
 struct S_800A8BBC_0; void write_square_position_offsets(s16, s16, s16, s16, struct S_800A8BBC_0 *);
 extern s32 map_random_state_draw_address;
 

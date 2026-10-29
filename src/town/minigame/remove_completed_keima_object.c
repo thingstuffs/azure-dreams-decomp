@@ -1,5 +1,6 @@
 #include "town/minigame/keima.h"
 #include "shared/object_flags.h"
+#include "town/minigame.h"
 
 typedef union KeimaExitNode {
     KeimaExitState *body;

@@ -1,6 +1,6 @@
 #include "town/map/camera.h"
-
-extern u32 service_script_controller(void);
+#include "engine/script.h"
+#include "town/map/object.h"
 
 /* Switch to the target selector when the script controller is active. */
 void set_object_callback_when_active(TownCameraState *object) {

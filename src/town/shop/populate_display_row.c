@@ -1,4 +1,8 @@
 #include "common.h"
+#include "engine/item.h"
+#include "engine/menu.h"
+#include "town/shop.h"
+#include "town/shop/position.h"
 
 typedef struct S_800B61C0_0 {
     u8 pad_00[0x20];
@@ -25,11 +29,6 @@ typedef struct S_800B61C0_3 {
     s16 unk_0A;
 } S_800B61C0_3;
 
-
-s32 lookup_item_category_mapped_value(s32, s32);
-extern s32 select_item_data();
-extern s32 set_display_entry_text_and_position();
-extern s32 set_storage_entry_text();
 extern u8 * format_optional_signed_value();
 
 

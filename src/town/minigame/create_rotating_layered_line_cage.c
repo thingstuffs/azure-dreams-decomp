@@ -1,6 +1,8 @@
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "shared/entity.h"
+#include "sdk/libgte.h"
+#include "town/minigame.h"
 
 typedef struct {
     s16 x;
@@ -12,8 +14,6 @@ typedef struct {
 extern u8 D_8002241C[];
 
 extern void create_paired_vector_color_effect(void *, void *, void *, void *);
-extern s32 rsin(s32);
-extern s32 rcos(s32);
 
 /* Draws three depth layers of a rotating four-corner effect with complementary grayscale colors. */
 void create_rotating_layered_line_cage(u8 *effect)

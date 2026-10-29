@@ -6,6 +6,9 @@
 #include "shared/dungeon_projectile_views.h"
 #include "shared/object_links.h"
 #include "shared/vector.h"
+#include "engine/node.h"
+#include "town/minigame.h"
+#include "town/scene.h"
 
 #ifndef NULL
 #define NULL 0
@@ -28,9 +31,6 @@ typedef struct S_800BF3F0_3 {
 } S_800BF3F0_3;
 
    /* the 0x2 bytes before arg0 in spawn_fixed_effect_object, addressed as arg0[-1] */
-
-extern void register_node(void *, void *);
-extern void configure_the_set_mode_n_1(void *, void *, void *);
 
 extern u8 D_800BF1C8[];
 extern u8 D_800D232C[];

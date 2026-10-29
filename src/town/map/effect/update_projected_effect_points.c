@@ -1,6 +1,7 @@
 #include "common.h"
 #include "sdk/libgte.h"
 #include "town/map/animation.h"
+#include "town/map/effect.h"
 
 
 

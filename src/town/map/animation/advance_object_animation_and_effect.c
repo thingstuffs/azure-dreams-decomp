@@ -4,9 +4,8 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
+#include "engine/node.h"
 
-extern void *allocate_list_node(s32, void *);
-extern s32 register_node(void *, void *);
 extern u8 D_800BFF7C[9];
 extern u8 map_animation_sprite_entries[9];
 

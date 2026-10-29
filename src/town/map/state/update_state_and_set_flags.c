@@ -1,8 +1,8 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
-
-extern int advance_sprite_animation_and_textures(void *arg);
+#include "slus.h"
+#include "town/map/state.h"
 
 /*
  * Advances sprite animation and reduces the packed color by adding 0xFFEFEFF0, then flags removal

@@ -4,6 +4,7 @@ struct ObjectNodeHeader;
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01113 - CL:town/func_8008E0B8.
  */
 #include "town/map/town_map_set_g01113.h"
+#include "town/map.h"
 
 /* Allocates and links eleven town map objects; returns 0 if allocation fails and 1 after setup. */
 s32 town_map_set(s32 value_7c, s32 value_78)

@@ -3,7 +3,10 @@
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "town/minigame/keima.h"
-extern int abs(int);
+#include "engine/graphics.h"
+#include "sdk/libc.h"
+#include "slus.h"
+#include "town/minigame.h"
 
 typedef struct S_80023A00_0 {
     u8 pad_00[0x18];
@@ -20,10 +23,6 @@ typedef struct S_80023A00_3 {
 typedef struct {
     s32 words[6];
 } Copy24;
-
-extern void update_directional_record(KeimaPathActor *, void *, SpriteFrameState *);
-extern void select_sprite_entry(void *, s32, s32);
-extern void advance_sprite_animation_and_textures(void *);
 
 extern s32 loaded_town_resource_attributes[];
 extern s16 view_facing_angle_alias;

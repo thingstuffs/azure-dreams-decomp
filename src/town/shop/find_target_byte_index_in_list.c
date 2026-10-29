@@ -1,5 +1,6 @@
 #include "sdk/libc.h"
 #include "common.h"
+#include "town/shop.h"
 
 extern u8 D_80089260[];
 

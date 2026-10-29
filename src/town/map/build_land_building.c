@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/map.h"
 
 /* BuildLandBuilding: store the selected palette and preserve the previous common palette. */
 void BuildLandBuilding(s32 slot, s16 palette)

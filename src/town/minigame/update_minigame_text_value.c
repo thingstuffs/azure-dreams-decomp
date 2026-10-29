@@ -7,7 +7,7 @@ typedef struct {
 
 extern s32 pickup_reward_total[];
 #include "sdk/libc.h"
-extern void format_decimal_field_space_padded(s32 value, s32 width, char *buf);
+#include "engine/text.h"
 
 // Clamp the value to 999999 and format it into the text buffer.
 void update_minigame_text_value(UnkStruct800223E8 *textEntry)

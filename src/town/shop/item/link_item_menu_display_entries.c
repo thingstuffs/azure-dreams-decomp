@@ -1,6 +1,7 @@
 #include "common.h"
+#include "engine/texture.h"
+#include "town/shop/item.h"
 
-extern void build_reverse_indexed_chain(s32, void *, s32);
 extern u8 item_display_chain_indices[];
 
 /* Calls build_reverse_indexed_chain with entries, item_display_chain_indices, 26. */

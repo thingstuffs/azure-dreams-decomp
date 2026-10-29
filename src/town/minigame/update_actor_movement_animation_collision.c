@@ -2,6 +2,12 @@
 #include "town/scene/list_setup.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
+#include "engine/node.h"
+#include "sdk/libc.h"
+#include "slus.h"
+#include "town/menu.h"
+#include "town/minigame.h"
+#include "town/scene/object.h"
 
 typedef struct Motion {
     s32 x;
@@ -58,14 +64,6 @@ typedef struct AnimData {
     void *data4;
     u32 pad8;
 } AnimData;
-
-extern s32 rand(void);
-extern void select_record_entry_and_value(void *state, void *entries, short index);
-extern void unlink_scene_list_node(Actor *);
-extern void unlink_node_if_registered(Actor *);
-extern void SD_Call(s32);
-extern void advance_sprite_animation_and_textures(void *);
-extern s32 test_three_axis_box_overlap(void *, Motion *);
 
 extern u8 D_800F7DD4[];
 extern u8 D_800F7D64[];

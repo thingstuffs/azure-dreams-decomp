@@ -1,6 +1,9 @@
 #include "common.h"
 #include "shared/vector.h"
 #include "engine/window.h"
+#include "town/map.h"
+#include "town/map/position.h"
+#include "town/player.h"
 
 
 typedef struct {
@@ -16,8 +19,6 @@ typedef struct {
     s32 unused_10;
 } Work;
 
-extern void spawn_radial_objects();
-extern void spawn_radial_effect_objects();
 extern Pair D_80089128;
 
 /* Process a position and its raised copy using a local vector pair. */

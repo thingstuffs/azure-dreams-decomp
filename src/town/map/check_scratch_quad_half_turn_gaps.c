@@ -1,4 +1,6 @@
 #include "common.h"
+#include "sdk/libgte.h"
+#include "town/map.h"
 
 typedef union Quad {
     u32 words[4];
@@ -17,8 +19,6 @@ typedef struct ScratchQuad {
     s32 diff2;
     s32 diff3;
 } ScratchQuad;
-
-extern s32 ratan2(s16, s16);
 
 /* Checks the quad's angular gaps against a half-turn limit. */
 s32 check_scratch_quad_half_turn_gaps(ScratchQuad *scratch) {

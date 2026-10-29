@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/map.h"
 
 extern s32 *D_800718B0[];
 extern u8 town_map_event_kind;

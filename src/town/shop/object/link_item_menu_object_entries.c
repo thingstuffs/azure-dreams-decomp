@@ -1,8 +1,9 @@
 #include "common.h"
 #include "shared/item_menu.h"
+#include "engine/texture.h"
+#include "town/shop/object.h"
 
 extern u8 D_800891F8[0x29];
-extern ItemMenuPart *build_reverse_indexed_chain(ItemMenuPart **parts, u8 *indices, s32 index_limit);
 
 typedef struct CopyData {
     u32 words[10];

@@ -1,6 +1,7 @@
 #include "common.h"
+#include "town/shop.h"
+#include "town/system.h"
 
-extern s32 sum_flagged_entry_values(u8 *entry, s32 mode);
 extern s32 script_status;
 
 /* Store whether the record check returns a nonzero result. */

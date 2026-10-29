@@ -1,6 +1,8 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_delay_views.h"
+#include "town/map.h"
+#include "town/map/position.h"
 
 typedef struct S_800A8B98_0 {
     void (*unk_00)(s32,  s32 *);
@@ -11,7 +13,6 @@ typedef struct S_800A8B98_0 {
 } S_800A8B98_0;   /* arg0 in set_record_pointer_and_byte; pointer addresses record offset 0x10 */
 
    /* arg1 in set_record_pointer_and_byte */
-void process_raised_position_pair(s32 unused_arg, s32 *position);
 
 /* Sets the record's pointer and state and copies its signed byte to the output's high half. */
 void set_record_pointer_and_byte(void *record_data, void *placement, struct SpriteFrameState *unused_sprite) {

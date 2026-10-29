@@ -3,6 +3,14 @@
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
+#include "engine/graphics.h"
+#include "engine/runtime.h"
+#include "sdk/libc.h"
+#include "slus.h"
+#include "town/map.h"
+#include "town/minigame.h"
+#include "town/minigame/effect.h"
+#include "town/player/object.h"
 
 typedef struct TownObject {
     u8 pad0[0x70];
@@ -27,18 +35,6 @@ typedef struct TownState {
 extern u16 tako_best_score;
 extern u8 tako_target_timing_table[];
 extern s16 D_800834C8[1];
-
-extern void create_tinted_animated_particle(s32, s32, s32, s32);
-extern void clear_resident_bit(s32);
-extern void set_resident_bit(s32);
-extern void sound_set_cd_cue_parameters(s32, s32, s32, s32);
-extern void clear_alternate_texture_regions(s32);
-extern void load_default_object_palette(s32);
-extern void SD_Call(s32);
-extern s32 rand(void);
-extern void initialize_global_player_object(void);
-extern void initialize_player_object_data(void);
-extern void tw_sd_sq_ld_call(s32, s32);
 
 /* Advances a three-object shuffle sequence and handles its effects and completion. */
 void update_tako_minigame(TownState *state)

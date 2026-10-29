@@ -10,6 +10,12 @@
 #include "town/minigame/entry_state.h"
 #include "town/person/position.h"
 #include "town/person/effects.h"
+#include "engine/graphics.h"
+#include "engine/object.h"
+#include "engine/runtime.h"
+#include "town/map/motion.h"
+#include "town/player/position.h"
+#include "town/scene/resource.h"
 
 
 
@@ -35,17 +41,12 @@ typedef struct {
     s32 w[5];
 } Blk20;
 
-void set_resident_bit(s16 value);              /* extern */
 typedef struct InputRecord InputRecord;
-void change_map(InputRecord *input);                       /* extern */
 #include "engine/texture.h"
 typedef struct {
     u8 pad[0x14];
     u16 unk14;
 } S_80048AC8;
-void step_actor_animation(S_80048AC8 *entity, s32 slot_index);             /* extern */
-void reserve_tw_mon_load(s32 reservation_value);     /* extern */
-void add_motion_deltas_to_position(ObjectPosition *motion);                      /* extern */
 struct IntVector3; void apply_the_enabled_movement_offsets_adding_z_offset_only_positive(struct IntVector3 *);                      /* extern */
 #include "town/player/clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2_api.h"                      /* extern */
 struct Rec_D_800FE490; void update_the_s_field_10_using_callee_8008_fe_90(struct Rec_D_800FE490 *);                   /* extern */

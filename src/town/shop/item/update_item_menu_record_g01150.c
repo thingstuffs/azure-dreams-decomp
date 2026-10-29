@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01150 - CL:town/func_800B2100, CL:town/func_800B2150, CL:town/func_800B2264.
  */
 #include "town/shop/item/update_item_menu_record_g01150.h"
+#include "town/shop/item.h"
 
 /* Run the record update sequence and process its stored value. */
 void update_item_menu_record(ItemMenuObject *record) {

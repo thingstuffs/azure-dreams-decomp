@@ -4,11 +4,8 @@
 #include "shared/object_node.h"
 #include "shared/dungeon_delay_views.h"
 #include "engine/node.h"
-
-
-s32 draw_randomized_white_points(void *first_object, void *first_coords);
-
-
+#include "town/map.h"
+#include "town/map/state.h"
 
    /* arg1 in initialize_object_header_and_state */
 

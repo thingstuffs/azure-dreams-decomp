@@ -2,6 +2,7 @@
 #include "town/shop/shop_window_layout_g00610.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_effect_views.h"
+#include "town/shop.h"
 
 
 

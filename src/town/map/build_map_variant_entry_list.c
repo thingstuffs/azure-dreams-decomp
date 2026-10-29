@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/map.h"
 
 extern u8 D_800136B8;
 extern void *town_map_entry_list[];

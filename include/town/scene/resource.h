@@ -12,4 +12,6 @@ void reset_resource_entry(s32 index);
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void reserve_twch_load(s32 character_id);
 
+void reserve_tw_mon_load(s32 reservation_value);
+
 #endif

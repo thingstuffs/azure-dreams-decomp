@@ -3,6 +3,8 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "slus.h"
+#include "sdk/libc.h"
+#include "town/map/motion.h"
 
 typedef struct S_800BBA98_0 {
     u16 unk_00;
@@ -28,8 +30,6 @@ typedef struct {
     s16 f12;
     u16 f14;
 } Arg2State;
-
-s32 rand(void);
 
 /* Updates the effect's motion and fade state, then refreshes its display. */
 void update_effect_motion_and_fade(void *effect, void *motion_data, void *display_data) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/shop.h"
 #include "town/shop/storage_menu.h"                         /* extern */
 
 /* Calls func_800B4B7C with the offset advanced by 0x20. */

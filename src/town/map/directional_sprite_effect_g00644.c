@@ -4,6 +4,7 @@
 #include "shared/entity.h"
 #include "town/map/directional_sprite_effect_g00644.h"
 #include "shared/object_flags.h"
+#include "town/map.h"
 
 #include "shared/object_node.h"/* Creates an effect at the supplied position with directional motion and initializes its sprite. */
 s32 create_directional_sprite_effect(void *position, s16 angle) {

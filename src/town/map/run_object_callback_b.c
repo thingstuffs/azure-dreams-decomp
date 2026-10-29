@@ -1,4 +1,5 @@
 #include "town/map/object_callback.h"
+#include "town/map.h"
 
 typedef struct S_8008B9D8_0 {
     u8 pad_00[0x68];

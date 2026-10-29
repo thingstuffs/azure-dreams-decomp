@@ -3,6 +3,12 @@
 #include "shared/object_node.h"
 #include "shared/town_state.h"
 #include "engine/runtime.h"
+#include "engine/node.h"
+#include "engine/util.h"
+#include "sdk/libc.h"
+#include "slus.h"
+#include "town/map.h"
+#include "town/minigame.h"
 
 #ifndef NULL
 #define NULL 0
@@ -43,13 +49,6 @@ extern s32 D_80024954;
 extern s32 D_800249A0;
 extern s32 D_80024A30;
 extern s32 text_sprite_builder_address[4];
-
-extern void func_8003E188(s32, void *);
-extern void *allocate_list_node(s32, void *);
-extern void register_node(void *, void *);
-extern void load_default_object_palette(s32);
-extern s32 rand(void);
-extern void tw_sd_sq_ld_call(s32, s32);
 
 /* Initializes shared state and three columns of linked display objects. */
 s32 initialize_mogura_minigame(void)

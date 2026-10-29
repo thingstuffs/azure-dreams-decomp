@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/shop.h"
 
 /* Check whether the entry passes the type and flag filter. */
 s32 check_shop_entry_type_and_flags(void *entry) {

@@ -5,6 +5,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/object_links.h"
 #include "slus.h"
+#include "town/map/motion.h"
 
 
    /* the 0x2 bytes before arg0 in update_fading_effect_motion, addressed as arg0[-1] */

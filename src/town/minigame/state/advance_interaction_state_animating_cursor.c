@@ -1,5 +1,11 @@
 #include "common.h"
 #include "shared/entity_objects.h"
+#include "engine/script.h"
+#include "sdk/libc.h"
+#include "sdk/libgpu.h"
+#include "slus.h"
+#include "town/minigame/state.h"
+#include "town/person.h"
 
 
 typedef struct Obj {
@@ -36,12 +42,6 @@ extern EntryPair D_800898C4;
 extern u8 D_80011F81[];
 extern Counter town_money;
 
-extern int abs(int);
-
-extern s32 service_script_controller(void);
-extern void SD_Call(s32);
-extern void MoveImage(void *, s32, s32);
-extern s32 check_transform_identifier_and_hook(Obj *);
 /* Advances the interaction state, animating the cursor and vertical position. */
 void advance_interaction_state_animating_cursor(Obj *self, Arg1 *position, Arg2 *cursor_data) {
     EntryPair entries;

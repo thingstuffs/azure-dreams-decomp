@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/shop.h"
 
 extern u8 devkit_globals_page[];
 extern s32 devkit_shop_selection[3];

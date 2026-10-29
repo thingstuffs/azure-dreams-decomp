@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AE700, CL:town/func_800AE78C, CL:town/func_800AEA50, CL:town/func_800AEC1C.
  */
 #include "town/map/flagged_tile_scan_g00593.h"
+#include "town/map.h"
 
 /* Appends an accepted byte pair to the first list and marks its end. */
 void append_valid_key_pair(s32 first_value, s32 second_value, u32 unused_cell) {

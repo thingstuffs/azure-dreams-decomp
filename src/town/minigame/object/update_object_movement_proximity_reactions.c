@@ -9,7 +9,8 @@
 #include "slus.h"
 #include "sdk/libc.h"
 #include "engine/node.h"
-extern int abs(int);
+#include "town/minigame/effect.h"
+#include "town/minigame/object.h"
 
 #define S8(p, o)  (*(s8 *)((u8 *)(p) + (o)))
 #define U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
@@ -18,11 +19,6 @@ extern int abs(int);
 #define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define U32(p, o) (*(u32 *)((u8 *)(p) + (o)))
 #define PTR(p, o) (*(u8 **)((u8 *)(p) + (o)))
-
-extern void create_tinted_animated_particle(s32 color, s32 x, s32 y, s32 z);
-extern void create_randomized_trail_particle();
-extern void create_brief_randomized_particle();
-
 
 extern u8 D_80026748[];
 extern u8 D_800F7950[];

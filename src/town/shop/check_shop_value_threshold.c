@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/shop.h"
 
 extern u8 town_scene_root[0x10];
 

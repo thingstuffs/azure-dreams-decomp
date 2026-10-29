@@ -1,10 +1,9 @@
 #include "common.h"
+#include "town/map.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
-
-extern void draw_shaded_quad_ring(s32 shape, s32 source);
 
 typedef struct {
     s32 unk00;

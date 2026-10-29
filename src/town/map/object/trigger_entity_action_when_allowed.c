@@ -4,12 +4,11 @@
 #include "town/map/trigger_callbacks.h"
 #include "slus.h"
 #include "engine/object.h"
+#include "sdk/libc.h"
 
 typedef map_trigger_record Entity;
 
 extern s32 D_800C1F8C;
-extern int abs(int);
-
 
 /* Triggers the entity action and updates its handler when its predicate and distance checks pass. */
 void trigger_entity_action_when_allowed(Entity *entity)

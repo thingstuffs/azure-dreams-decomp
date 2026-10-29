@@ -5,9 +5,9 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "town/minigame/keima.h"
-
-extern void select_indirect_table_entry(void *, u8, s8);
-extern void select_sprite_entry(void *, u8, s32);
+#include "engine/graphics.h"
+#include "engine/texture.h"
+#include "town/minigame.h"
 
 typedef struct S_800211C4_0 {
     u8 pad_00[0x2A];

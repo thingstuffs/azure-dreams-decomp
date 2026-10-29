@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/shop.h"
 
 /* Return the first free four-byte entry index, or -1 if none is available. */
 s32 get_first_free_four_byte_entry_index_n_1_none_available(void *entry, s32 entry_count) {

@@ -1,6 +1,7 @@
 #include "shared/object_node.h"
 #include "town/map/animation.h"
 #include "common.h"
+#include "town/map.h"
 
 typedef struct Obj {
     u8 pad0[0x10];

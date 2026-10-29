@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/minigame.h"
 
 typedef struct S_80023404_0 {
     u8 pad_00[0x4];
@@ -9,9 +10,6 @@ typedef struct S_80023404_0 {
     union { s16 s; u16 u; } unk_0C;   /* accessed as both */
     union { s16 s; u16 u; } unk_0E;   /* accessed as both */
 } S_80023404_0;   /* arg0 in update_minigame_scroll */
-
-
-extern void draw_scrolling_column(s16, s16, s16);
 
 /* Updates scrolling through 12 positions, accelerating or settling according to state. */
 void update_minigame_scroll(S_80023404_0 *scroll)

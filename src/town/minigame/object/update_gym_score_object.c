@@ -3,6 +3,9 @@
 #include "shared/town_handler_entries.h"
 #include "shared/object_flags.h"
 #include "shared/entity.h"
+#include "slus.h"
+#include "town/minigame/object.h"
+#include "town/player.h"
 
 
 
@@ -12,10 +15,6 @@
 
 
 extern ObjectPosition view_reference_entity;
-
-extern void sound_set_cd_cue_parameters(s32, s32, s32, s32);
-extern void SD_Call(s32);
-extern void apply_global_scene_value(void *);
 
 /* Update object motion, scoring, and timed state transitions. */
 void update_gym_score_object(GymScoreObject *obj, ObjectPosition *motion)

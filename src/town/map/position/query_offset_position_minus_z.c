@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/map.h"
 
 typedef struct {
     s32 x;
@@ -13,8 +14,6 @@ typedef struct {
     s32 z;
     s32 pad[3];
 } S_8008ECC0_Vec;
-
-extern s16 forward_highest_surface_query(S_8008ECC0_Vec *record);
 
 /* Query the summed position and subtract the selected offset's integer z component. */
 s16 query_offset_position_minus_z(S_8008ECC0 *position, S_8008ECC0 *offsets, s32 offset_index)

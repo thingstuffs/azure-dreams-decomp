@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/item_menu.h"
 #include "town/shop/item_menu_cursor_transition_g00601.h"
+#include "town/shop/item.h"
 
 /* Animate the selection, advance its counter, and clear the callback after the delay. */
 void tick_item_menu_selection_delay(ItemMenuTransition *state) {

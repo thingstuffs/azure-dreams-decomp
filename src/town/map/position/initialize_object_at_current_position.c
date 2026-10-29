@@ -6,16 +6,17 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "town/person/position.h"
+#include "town/map/object.h"
+#include "town/map/position.h"
+#include "town/player.h"
 
 struct S_8003FE78; void * initialize_scene_object_in_buffer(s32, struct S_8003FE78 *, s16);
 void initialize_circular_list_head(void);
 void initialize_pointer_table_self_links(void);
 struct Rec_D_800FE490; void initialize_the_store_two_values_set_state_flags(struct Rec_D_800FE490 *, s32, s32);
-void run_the_three_update_routines_context(s32);
 
 extern struct S_800C01DC_1 map_runtime_state;
 typedef struct S_800C02C4_1 S_800C02C4_1;
-void initialize_object_rendering_resources(void *object_data, void *unused, S_800C02C4_1 *render_data);
 #include "records/Rec_D_800CFCB4.h"
 extern Rec_D_800CFCB4 town_actor_control;
 extern u8 D_800D0420[];

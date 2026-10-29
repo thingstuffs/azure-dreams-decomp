@@ -1,7 +1,8 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "engine/object.h"
+#include "town/shop.h"
 
-extern void clear_resident_bitmap_bit(s32 flag_id);
 extern s16 shop_resident_flag_ids[];
 
 /* Processes the terminated ID list, 54 evenly spaced IDs, and ID 0xD31. */

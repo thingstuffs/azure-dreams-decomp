@@ -1,5 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "engine/resource.h"
+#include "town/shop.h"
 
 typedef struct Inner_800B45A0 {
     u8 pad0[8];
@@ -18,7 +20,6 @@ typedef struct Obj_800B45A0 {
 } Obj_800B45A0;
 
 extern void noop_release_notification(void *ptr_a, void *ptr_b);
-extern void flag_object_for_removal(void *ptr);
 
 /* Advance the inner value and mark completion when it exceeds the object's threshold. */
 void advance_inner_value_and_complete(Obj_800B45A0 *obj)

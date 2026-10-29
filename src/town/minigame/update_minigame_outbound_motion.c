@@ -1,5 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "engine/text.h"
+#include "town/minigame.h"
 
 typedef struct S_800232F4_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -16,8 +18,6 @@ typedef struct S_800232F4_1 {
     s16 unk_5C;
 } S_800232F4_1;   /* owner in update_minigame_outbound_motion */
 
-
-extern void format_decimal_field_space_padded(s32 value, s32 width, char *buf);
 /* Updates the display value, then moves the object outward and flags it when out of bounds. */
 void update_minigame_outbound_motion(void *object)
 {

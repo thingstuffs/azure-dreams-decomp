@@ -1,9 +1,6 @@
 #include "common.h"
-
-
-
-
-void * texture_build_a_hex_48_byte_two_color_swapped_pattern_blocks_returns_base(void *, void *);
+#include "engine/texture.h"
+#include "town/shop/state.h"
 
 typedef struct S_800B6580_0 {
     u8 pad_00[0x3C];

@@ -2,8 +2,9 @@
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"
 #include "slus.h"
+#include "engine/script.h"
+#include "town/map.h"
 
-void call_script(s32);
 void send_resource_command_23(s32);
 
 extern u8 D_80072210[];

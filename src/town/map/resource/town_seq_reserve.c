@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/map/resource.h"
 
 extern u8 town_pending_sound[];
 

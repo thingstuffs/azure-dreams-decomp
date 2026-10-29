@@ -1,4 +1,5 @@
 #include "town/map/camera.h"
+#include "town/map.h"
 
 #ifndef NULL
 #define NULL 0
@@ -20,7 +21,6 @@ typedef struct S_func_800A496C_2 {
     s16 unk_06;
 } S_func_800A496C_2;
 
-extern void update_view_gray_level(void);
 extern s16 map_scene_selector_alias;
 extern s8 map_wide_culling;
 

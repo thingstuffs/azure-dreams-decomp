@@ -57,5 +57,8 @@ struct KeimaPathActor;
 struct KeimaPathActor;
 void update_directional_record(struct KeimaPathActor *orientation, void *state_ptr, SpriteFrameState *record);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+void create_timed_sound(s16 value);
+void draw_scrolling_column(s16 column, s16 tile_index, s16 scroll_y);
 
 #endif

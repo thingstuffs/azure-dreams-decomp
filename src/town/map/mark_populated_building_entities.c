@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/map.h"
 
 typedef unsigned long uptr;
 

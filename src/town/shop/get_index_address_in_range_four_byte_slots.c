@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/shop/item_lookup.h"
+#include "town/shop.h"
 
 /*
  * Searches slot_count addresses starting at slot_addr in steps of four, returning the zero-based

@@ -1,6 +1,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "town/shop.h"
+#include "town/shop/item.h"
 
 typedef void (*Func_800B0E0C_Callback)(s32);
 extern Func_800B0E0C_Callback D_800D157C[];

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_node.h"
+#include "town/shop.h"
 
 typedef void (*Callback)(void *, s32);
 

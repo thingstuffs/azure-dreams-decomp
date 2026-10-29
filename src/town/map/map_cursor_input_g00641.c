@@ -3,6 +3,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800BBAA4. */
 #include "town/map/map_cursor_input_g00641.h"
 #include "shared/game_work.h"
+#include "town/map.h"
 
 /* Store the state byte and invoke the handler at the stored tile center. */
 void store_state_and_update_tile_center(s32 state)

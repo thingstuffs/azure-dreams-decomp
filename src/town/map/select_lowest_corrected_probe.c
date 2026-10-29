@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/vector.h"
-extern int abs(int);
-
+#include "sdk/libc.h"
 
 typedef struct { s32 x; s32 y; s32 z; s32 pad; } Vec4i;
 typedef struct { IntVector3 work; s32 unused[3]; s32 item; } WorkArea;

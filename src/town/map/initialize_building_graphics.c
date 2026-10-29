@@ -1,5 +1,8 @@
 #include "shared/runtime_dispatch.h"
 #include "common.h"
+#include "engine/scene.h"
+#include "sdk/libgpu.h"
+#include "town/map.h"
 
 typedef struct S_800B6FB8_0 {
     u8 pad_00[0x14];
@@ -16,11 +19,6 @@ typedef struct S_800B6FB8_2 {
     u8 pad_00[0x1DC];
     void * unk_1DC;
 } S_800B6FB8_2;   /* base in initialize_building_graphics */
-
-void runtime_load_packed_resource_chunks(s16, u8 *);
-extern void DrawSync();
-extern void StoreImage();
-void update_active_building_entries(void);
 
 extern u8 g_game_work[], building_texture_frame_zero[], building_texture_backup[], building_palette_backup[], D_8012F004[], town_tile_grid[];
 extern u16 building_upload_rect[];

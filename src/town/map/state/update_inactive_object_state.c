@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "engine/node.h"
 
 typedef struct {
     s8 pad00[0x98];
@@ -11,8 +12,6 @@ typedef struct {
     u8 pad00[0x1A];
     u16 field_1A;
 } State;
-
-extern void unlink_node_if_registered(void *block_data);
 
 /* Mark inactive objects or advance their wrapped 12-bit state value. */
 void update_inactive_object_state(Obj *obj, void *unused, State *state)

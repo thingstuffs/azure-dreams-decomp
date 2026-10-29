@@ -1,9 +1,10 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/item_menu.h"
+#include "slus.h"
+#include "town/shop/item.h"
 
 struct S8004CBFC_a1;
-void initialize_scaled_entry_cursor(FrameState *state, struct S8004CBFC_a1 *entry, int *cursor);      /* extern */
 extern M2C_UNK D_80071244;
 extern struct S8004CBFC_a1 shop_cursor_template;
 

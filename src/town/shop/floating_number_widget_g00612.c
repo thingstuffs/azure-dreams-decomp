@@ -3,6 +3,7 @@
 #include "town/shop/floating_number_widget_g00612.h"
 #include "shared/object_node.h"
 #include "town/shop/display_objects.h"
+#include "town/shop.h"
 
 /*
  * Binds the panel heading, supplied value, and decoded fullwidth text to their display records,

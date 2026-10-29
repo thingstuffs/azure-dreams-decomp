@@ -2,9 +2,8 @@
 #include "common.h"
 #include "shared/item_menu.h"
 #include "engine/item.h"
-
-void *func_8004DC14();
-void clear_item_menu_entry_groups(ItemMenuPart **parts);
+#include "engine/util.h"
+#include "town/shop/item.h"
 
 /* Clear both item-row groups, then give up to ten rows (parts 16-25) the labels of the current page's entries. */
 void populate_current_item_menu_page(ItemMenuObject *state) {

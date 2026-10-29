@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
+#include "town/minigame/effect.h"
 
 typedef struct S_8002241C_0 {
     u16 unk_00;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/shop.h"
 
 typedef struct S_800B0BD0_0 {
     u8 pad_00[0xC];
@@ -12,8 +13,6 @@ typedef struct S_800B0BD0_1 {
     u8 pad_00[0x24];
     s32 unk_24;
 } S_800B0BD0_1;
-
-extern void set_shop_slot_colors(void *object, s32 index);
 
 /* Updates up to five entries on the current page and clears unused slots. */
 void update_current_shop_page(void *list) {

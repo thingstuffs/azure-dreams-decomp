@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/object_links.h"
+#include "town/minigame/object.h"
 
    /* the 0x2 bytes before arg0 in fade_linked_object_color, addressed as arg0[-1] */
 

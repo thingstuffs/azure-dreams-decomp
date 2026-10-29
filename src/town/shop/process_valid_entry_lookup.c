@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/shop.h"
 
-s32 select_choice_from_input_flags(s32);                                /* extern */
 void write_indexed_template_value();                    /* extern */
 
 /* Processes the entry when its lookup returns a valid index. */

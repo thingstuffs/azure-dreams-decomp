@@ -1,5 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "town/map/resource.h"
 
 extern s32 building_resource_update_address;
 

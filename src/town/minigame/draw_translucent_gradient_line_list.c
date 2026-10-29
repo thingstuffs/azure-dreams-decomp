@@ -1,5 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "sdk/libgpu.h"
+#include "town/minigame.h"
 
 typedef struct OtTag {
     u32 addr : 24;
@@ -43,10 +45,6 @@ typedef struct S_8002222C_4 {
 
 
 extern void func_80065770(void *, void *, void *, void *, void *, s32);
-extern s32 GetTPage(s32, s32, s32, s32);
-extern void SetSemiTrans(void *, s32);
-extern void SetLineG2(void *);
-extern void SetDrawMode(void *, s32, s32, s32, s32);
 
 /* Build line and draw-mode packets for each entry and link them into the ordering table. */
 s32 draw_translucent_gradient_line_list(void *first_entry) {

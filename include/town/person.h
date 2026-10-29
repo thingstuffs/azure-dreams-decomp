@@ -135,4 +135,9 @@ void initialize_person_vector(struct S_800AAE30_1 *object, void *unusedContext, 
 
 void anyone_now_pos_get(s32 actor_id);
 
+void func_800B44B0(u8 *owner, s32 base_value);
+void initialize_four_slot_object_owner(u8 *owner, s32 base_value);
+
+s32 check_transform_identifier_and_hook(s32 requested_id);
+
 #endif

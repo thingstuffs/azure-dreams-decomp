@@ -1,5 +1,6 @@
 #include "common.h"
-void flag_optional_object_for_removal(void *object);                         /* extern */
+#include "slus.h"
+#include "town/shop/item.h"
 #include "shared/item_menu.h"
 
 /* Releases and clears the label objects of the two item-row groups (parts 16-25 and 26-35). */

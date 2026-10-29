@@ -1,6 +1,7 @@
 /* State countdown updates (G00558). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A1510. */
 #include "town/shop/state_countdown_updates_g00558.h"
+#include "town/shop.h"
 
 /* Resets object state and passes the selected result to select_a_town_entry_writes_root_relative_coordinates_output. */
 void reset_object_state_passes_selected_result_callee_800_a_00_e_8(void *object, void *status, void *context, s32 unused_finish_ctx) {

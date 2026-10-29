@@ -4,6 +4,7 @@
 #include "shared/object_flags.h"
 
 #include "shared/entity.h"
+#include "town/map.h"
 #include "shared/object_node.h"/* Updates randomized movement, animation, and landing states for a town actor. */
 #include "town/person/position.h"
 void update_randomized_actor_movement(void *actor, ObjectPosition *motion, SpriteFrameState *sprite, s32 update_mode)

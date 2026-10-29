@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/shop.h"
 
 extern void D_800AE2A4();
 

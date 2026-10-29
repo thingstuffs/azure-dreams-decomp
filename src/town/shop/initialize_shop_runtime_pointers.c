@@ -1,6 +1,7 @@
 #include "common.h"
+#include "town/scene.h"
+#include "town/shop.h"
 
-extern s32 select_town_byte_array(void);
 extern s32 D_80018810;
 extern s32 *D_800189D8[];
 

@@ -3,6 +3,7 @@
  */
 #include "town/map/object/clear_object_link_and_mark_complete_g01169.h"
 #include "shared/object_flags.h"
+#include "town/map/object.h"
 
 /* On a successful object check, clear its linked byte and set object and global flags. */
 void clear_object_link_and_mark_complete(S_func_800BB508_0 *object, void *context) {

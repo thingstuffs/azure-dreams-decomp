@@ -1,7 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-
-void dispatch_item_menu_data_update(void *);                      /* extern */
+#include "town/shop/item.h"
 
 typedef struct S_800AEEBC_0 {
     u8 pad_00[0x28];

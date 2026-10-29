@@ -1,4 +1,7 @@
 #include "common.h"
+#include "engine/util.h"
+#include "slus.h"
+#include "town/shop/position.h"
 
 typedef struct S_800B5264_1 {
     u8 pad_00[0x4];
@@ -12,10 +15,6 @@ typedef struct S_800B5264_2 {
     u8 pad_0C[0x2];
     s8 unk_0E;
 } S_800B5264_2;   /* ((S_800B5264_1 *)arg0)->unk_04 in set_display_entry_text_and_position */
-
-
-s32 func_8004DC14();                /* extern */
-void flag_optional_object_for_removal(void *object);
 
 typedef struct S_800B5264_0 {
     s32 unk_00;

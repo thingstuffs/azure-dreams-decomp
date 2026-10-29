@@ -1,6 +1,7 @@
 #include "modules/town_map_props.h"
 #include "common.h"
 #include "shared/sprite_source.h"
+#include "town/map/state.h"
 
 typedef struct S_800BDFA0_0 {
     u8 pad_00[0x68];

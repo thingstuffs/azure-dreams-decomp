@@ -2,6 +2,7 @@
 #include "shared/object_flags.h"
 #include "shared/object_links.h"
 #include "slus.h"
+#include "town/minigame.h"
 
    /* the 0x2 bytes before arg0 in tick_timed_sound, addressed as arg0[-1] */
 

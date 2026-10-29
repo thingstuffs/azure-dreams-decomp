@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/shop.h"
 
 
 /* Moves the first color channel toward neutral gray and copies it to the other two. */

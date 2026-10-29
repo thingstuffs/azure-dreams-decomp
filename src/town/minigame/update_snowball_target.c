@@ -2,6 +2,10 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "town/person/position.h"
+#include "sdk/libc.h"
+#include "slus.h"
+#include "town/minigame.h"
+#include "town/player/position.h"
 
 typedef struct PtrSet {
     void *ptr[3];
@@ -53,11 +57,6 @@ extern u8 D_800F2A5C[0x68];
 extern u8 D_800F2AC4[0x40];
 extern u8 D_800F2B04[0x28];
 extern u8 D_800F2B2C[0x28];
-
-extern void select_record_entry_and_value(void *state, void *entries, short index);
-extern void advance_sprite_animation_and_textures(void *);
-extern s32 rand(void);
-extern void add_motion_deltas_to_position(MotionRecord *);
 
 /* Updates a sprite's launch, bounce, and fade states. */
 void update_snowball_target(StateRecord *state, MotionRecord *motion, SpriteFrameState *sprite)

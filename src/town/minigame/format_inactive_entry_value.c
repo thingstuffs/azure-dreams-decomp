@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "engine/text.h"
 
 typedef struct {
     u8 bytes[7];
@@ -14,7 +15,6 @@ typedef struct {
 } Entry;
 
 extern Copy7 D_80020198;
-extern void format_decimal_field_space_padded(s32 value, s32 width, char *buf);
 
 /* Format an inactive entry's value in units of 30 and propagate its status flag. */
 void format_inactive_entry_value(Entry *entry)

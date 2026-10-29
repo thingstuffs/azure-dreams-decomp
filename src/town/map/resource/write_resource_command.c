@@ -1,7 +1,8 @@
 #include "common.h"
+#include "engine/script.h"
+#include "town/map/resource.h"
 
 extern s8 town_resource_command[];
-extern void call_script(s8 *);
 
 /* Pack a value in little-endian order and a code into the shared buffer and submit it. */
 void write_resource_command(s32 value, s8 code) {

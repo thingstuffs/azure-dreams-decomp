@@ -2,6 +2,7 @@
 
 #include "slus.h"
 #include "town/map/camera.h"
+#include "town/map.h"
 
 /* Apply the setting and store its current value. */
 void apply_and_store_setting(IntVector3 *setting) {

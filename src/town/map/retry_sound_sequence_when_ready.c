@@ -1,8 +1,9 @@
 #include "common.h"
 #include "town/map/object_callback.h"
 #include "m2c_compat.h"
+#include "town/event.h"
+#include "town/map.h"
 
-s32 find_unflagged_node_by_key();                       /* extern */
 #include "town/map/sound_sequence_replay_g00650.h"
 s32 apply_nearby_object_effects();                       /* extern */
 extern M2C_UNK map_active_callbacks;

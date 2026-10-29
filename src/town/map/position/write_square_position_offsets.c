@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/map/position.h"
 
 s16 *town_map_mod_read_p();                       /* extern */
 

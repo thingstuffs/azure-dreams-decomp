@@ -5,14 +5,15 @@
 #include "shared/slus_callbacks.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800CFCB4.h"
+#include "engine/node.h"
+#include "slus.h"
+#include "town/map/object.h"
 
 typedef struct S_800BC8D0_1_pre {
     void * unk_00;
     u8 pad_04[0xC];
 } S_800BC8D0_1_pre;   /* the 0x10 bytes before arg0 in initialize_object_with_default_data, addressed as arg0[-1] */
 
-extern void select_record_entry_and_value(void *state, void *entries, short index);
-extern void register_node(void *, void *);
 extern u8 D_80089634[];
 extern u8 D_800BE0D4[];
 extern s32 town_object_defaults[];

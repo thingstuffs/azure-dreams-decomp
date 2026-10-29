@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/entity_objects.h"
-extern int abs(int);
+#include "sdk/libc.h"
 
 typedef struct Position {
     s16 pad0;

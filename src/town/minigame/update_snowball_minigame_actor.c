@@ -9,7 +9,13 @@
 #include "shared/object_flags.h"
 #include "shared/entity.h"
 #include "town/person/position.h"
-extern int abs(int);
+#include "engine/node.h"
+#include "engine/runtime.h"
+#include "sdk/libc.h"
+#include "sdk/libgte.h"
+#include "slus.h"
+#include "town/player/position.h"
+#include "town/scene/object.h"
 
 #ifndef NULL
 #define NULL 0
@@ -41,19 +47,6 @@ extern u8 D_800F2F28[];
 extern u8 D_800F2F80[];
 extern u8 D_800F2FE0[];
 extern u8 snowball_actor_sprites[];
-
-extern void clear_resident_bit(s32);
-extern void set_resident_bit(s32);
-extern void select_record_entry_and_value(void *state, void *entries, short index);
-extern void sound_set_cd_cue_parameters(s32, s32, s32, s32);
-extern void *allocate_list_node(s32, void *);
-extern void register_node(void *, void *);
-extern void advance_sprite_animation_and_textures(void *);
-extern void SD_Call(s32);
-extern s32 rsin(s32);
-extern s32 rcos(s32);
-extern void unlink_scene_list_node(void *);
-extern void add_motion_deltas_to_position(void *);
 
 /* Updates actor movement, animation, scoring, and departure through its state sequence. */
 void update_snowball_minigame_actor(TownCollectionActor *object, ObjectPosition *motion, SpriteFrameState *sprite)

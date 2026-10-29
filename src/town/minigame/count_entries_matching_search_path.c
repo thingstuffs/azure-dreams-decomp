@@ -9,6 +9,14 @@
 #include "shared/object_payload.h"
 #include "shared/town_pointees.h"
 #include "town/person/position.h"
+#include "engine/runtime.h"
+#include "engine/script.h"
+#include "sdk/libc.h"
+#include "sdk/libgte.h"
+#include "slus.h"
+#include "town/map.h"
+#include "town/minigame/object.h"
+#include "town/player.h"
 
    /* root in count_entries_matching_search_path */
 
@@ -82,22 +90,11 @@ extern s32 scene_object_payload_alias;
 extern u8 town_interaction_action_address[];
 extern s32 town_position_callback_address[3];
 
-extern int abs(int);
-extern void create_scene_object_with_48_byte_payload(void *, TownDraw32 *);
 extern void create_eight_linked_scene_sprites(void *);
 extern void create_paired_vector_color_effect(void *, TownPos *, s32 *, void *);
 extern void create_rotating_layered_line_cage(u8 *effect);
-extern void clear_resident_bit(s32);
-extern s32 service_script_controller(void);
 extern void return_zero_variadic(void *, s32);
-extern void SD_Call(s32);
-extern s32 rsin(s32);
-extern s32 rcos(s32);
-extern void initialize_town_context_action(void);
 extern void create_familiar_deployment_effect_with_owner_state(void);
-extern void apply_global_scene_value(void *);
-extern void initialize_scene_action_record(void *, void *, void *);
-extern void tw_sd_sq_ld_call(s32, s32);
 
 /* Town cutscene step machine: the 0x36 stage byte selects this frame's work -- seed the camera motion, run each animation phase in turn, and once past stage 4 clamp the camera to its limits. */
 void count_entries_matching_search_path(TownCollectionSequence *scene)

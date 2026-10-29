@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/item_menu.h"
+#include "town/shop/item.h"
 
 /* Places the selection cursor pair (parts 4 and 5) on the entry chosen by the last decimal digit
  * of the selected position: two columns of five rows. */

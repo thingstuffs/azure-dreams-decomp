@@ -3,7 +3,10 @@
 #include "shared/entity_objects.h"
 #include "shared/object_flags.h"
 #include "shared/entity.h"
-extern int abs(int);
+#include "engine/node.h"
+#include "sdk/libc.h"
+#include "town/map/object.h"
+#include "town/menu.h"
 
 typedef struct S_800B9998_0 {
     u8 pad_00[0x66];
@@ -17,10 +20,6 @@ typedef struct S_800B9998_3 {
     u8 pad_00[0x1A];
     union { u16 s; u16 u; } unk_1A;   /* accessed as both */
 } S_800B9998_3;   /* p2 in deactivate_object_triggered */
-
-
-extern void unlink_node_if_registered(void *);
-extern s32 classify_object_against_bounds(void *, void *);
 
 /* Deactivate the object when triggered; otherwise update its spin from nearby motion and advance rotation. */
 void deactivate_object_triggered(void *object, void *position, void *rotation) {

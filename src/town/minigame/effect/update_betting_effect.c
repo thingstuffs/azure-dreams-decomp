@@ -23,6 +23,11 @@ typedef struct {
 } TownEffect;
 
 #include "town/minigame/pickup_data.h"
+#include "engine/node.h"
+#include "engine/script.h"
+#include "sdk/libc.h"
+#include "sdk/libgte.h"
+#include "slus.h"
 
 typedef minigame_pickup_source EffectMessage;
 
@@ -44,13 +49,6 @@ extern u8 D_800D0080[];
 extern u8 town_position_callback_address[];
 extern void draw_translucent_gradient_line_list(void);
 
-extern s32 service_script_controller(void);
-extern void *allocate_list_node(s32, void *);
-extern void register_node(void *, void *);
-extern void SD_Call(s32);
-extern s32 rsin(s32);
-extern s32 rcos(s32);
-extern s32 rand(void);
 extern void initialize_town_context_action(void);
 extern void create_familiar_deployment_effect_with_owner_state(void);
 extern void apply_global_scene_value(void *);

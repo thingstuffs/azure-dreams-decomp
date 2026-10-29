@@ -3,6 +3,7 @@
  */
 #include "town/map/textured_resource_strips_g00571.h"
 #include "shared/object_node.h"
+#include "town/map.h"
 
 /* Process linked states until a nonzero signed 16-bit result or the end of the chain. */
 s32 process_linked_state_chain(void *initial_state, s32 carrier1, u8 *carrier2) {

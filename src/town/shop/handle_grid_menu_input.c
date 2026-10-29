@@ -1,12 +1,9 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "engine/menu.h"
+#include "slus.h"
+#include "town/shop.h"
 
-extern s32 advance_index_with_directional_clamp(s32 selection, s32 step, s32 count);
-extern void SD_Call(s32 sound_id);
-extern void pass_indexed_entry_address(void *menu);
-extern void close_twin_shop(void *shop);
-extern void set_shop_subrecord_values(s32 menu_context, s32 row, s32 selection);
-extern void store_shop_embedded_value(s32 menu_context, s32 selection);
 extern s32 script_status;
 
 /* Handles grid menu navigation, confirmation, and cancellation. */

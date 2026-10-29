@@ -12,6 +12,7 @@
 #include "town/person/position.h"
 #include "town/person/effects.h"
 #include "town/minigame.h"
+#include "town/player/position.h"
 
 
 
@@ -19,7 +20,6 @@
 
 
 s32 rand();              /* extern */
-void add_motion_deltas_to_position(ObjectPosition *motion);                      /* extern */
 
 typedef struct {
     s32 field0;

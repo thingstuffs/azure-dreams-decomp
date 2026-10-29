@@ -3,6 +3,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D4668. */
 #include "town/map/object_callback_tables_g00653.h"
 #include "shared/object_node.h"
+#include "town/map.h"
 
 /* Initializes an object and replaces the callbacks in the active table entries. */
 void initialize_object_and_replace_callbacks(void) {

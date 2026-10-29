@@ -1,12 +1,13 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "engine/item.h"
+#include "engine/resource.h"
+#include "town/shop/state.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-extern void release_null_terminated_entries(void *a0);
-extern void flag_object_for_removal(void *a0);
 extern void func_800B5020(void *a0);
 
 /* Releases display entries and linked resources, then marks the object and global list for cleanup. */

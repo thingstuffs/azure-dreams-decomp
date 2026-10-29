@@ -5,6 +5,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/vector.h"
+#include "town/map/object.h"
 
 /* Creates an object at the supplied position and initializes its visual properties. */
 void *create_positioned_visual_object(TownPropPosition *source_pos, s32 object_data, s32 angle, s32 visual_data) {

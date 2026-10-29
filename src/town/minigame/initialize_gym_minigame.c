@@ -4,6 +4,9 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/vector.h"
+#include "engine/node.h"
+#include "town/minigame/object.h"
+#include "town/scene.h"
 
 typedef struct S_80022C8C_0 {
     u8 pad_00[0x8];
@@ -24,10 +27,6 @@ extern s32 D_80022F60;
 extern s32 D_800240B0;
 extern s32 D_80026F0C;
 extern s32 gym_sprite_source;
-
-extern void create_gym_mesh_object(void *, s32, void *, void *);
-extern void register_node(void *, void *);
-extern void configure_the_set_mode_n_3(void *, void *, void *);
 
 /* Creates linked town objects at fixed positions and initializes their display data. */
 s32 initialize_gym_minigame(void)

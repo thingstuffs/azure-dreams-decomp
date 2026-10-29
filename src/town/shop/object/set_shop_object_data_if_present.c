@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/shop/object.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern void D_800B1664(void *object);

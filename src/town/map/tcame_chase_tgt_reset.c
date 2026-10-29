@@ -1,4 +1,5 @@
 #include "town/map/camera.h"
+#include "town/map.h"
 
 /* Restore the default camera target. */
 void tcame_chase_tgt_reset(void) {

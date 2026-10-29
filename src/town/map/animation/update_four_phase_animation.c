@@ -2,12 +2,9 @@
 #include "town/map/animation.h"
 #include "shared/object_flags.h"
 #include "shared/object_links.h"
+#include "town/menu.h"
 
    /* the 0x2 bytes before arg0 in update_four_phase_animation, addressed as arg0[-1] */
-
-
-
-extern s32 classify_object_against_bounds(void *, void *);
 
 /* Updates a four-phase animation and clears its activity flag on completion. */
 void update_four_phase_animation(TownMapPhaseObject *entity, void *context) {

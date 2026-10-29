@@ -1,6 +1,7 @@
 /* Item pointer removal (G00615). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B4A30, CL:town/func_800B4AB4. */
 #include "town/shop/item_pointer_removal_g00615.h"
+#include "town/shop.h"
 
 /* Return the first matching value index, or the number of entries searched. */
 s32 find_value_index_or_count(s32 *values, s32 target_value, s32 count) {

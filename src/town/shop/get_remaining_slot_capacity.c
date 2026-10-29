@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/shop.h"
 
 s32 func_800B0718(void);                                /* extern */
 

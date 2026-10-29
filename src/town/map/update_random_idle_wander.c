@@ -1,18 +1,15 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dir_step.h"
-extern int abs(int);
+#include "engine/script.h"
+#include "sdk/libc.h"
+#include "slus.h"
+#include "town/map.h"
+#include "town/person.h"
 
 #define F_S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define F_U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define F_S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
-
-extern s32 service_script_controller(void);
-extern s32 check_transform_identifier_and_hook(void *);
-extern void SD_Call(s32);
-extern void advance_sprite_animation_and_textures(void *);
-extern s32 rand(void);
-extern void select_record_entry_and_value(void *state, void *entries, short index);
 
 extern void *D_800D210C[];
 extern u8 D_800E9CD4[];

@@ -2,6 +2,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B6EE8. */
 #include "town/shop/object_component_refresh_g00626.h"
 #include "shared/object_flags.h"
+#include "town/shop.h"
 
 /* Flags both referenced objects for removal in each of five paired entries from the owner table. */
 void submit_five_paired_entry_values(S_800B4648_0 *owner) {

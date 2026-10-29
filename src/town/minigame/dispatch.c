@@ -4,6 +4,7 @@
 #include "town/minigame/dispatch.h"
 #include "common.h"
 #include "m2c_compat.h"
+#include "engine/object.h"
 
 
 /* Initialize D_800D4740 with selector 6 and run the follow-up setup. */
@@ -128,7 +129,6 @@ void scr_func_sn_casino_slot(void) {
 
 typedef struct InputRecord InputRecord;
 
-void change_map(InputRecord *input);
 extern s32 D_800D4758[];
 
 /* change_map_of: Change the map using the selected table entry. */
@@ -139,9 +139,6 @@ s32 change_map_of(s32 map_index) {
 #include "town/minigame/dispatch.h"
 #include "common.h"
 
-extern s32 test_resident_bitmap_bit(s32 bit_id);
-extern void set_resident_bitmap_bit(s32 bit_id);
-extern void clear_resident_bitmap_bit(s32 flag_id);
 extern s16 D_800D4770[];
 
 /* Dispatches each table pair's second value according to the test of its first value. */

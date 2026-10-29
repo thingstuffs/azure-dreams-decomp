@@ -2,6 +2,11 @@
 #include "shared/entity.h"
 #include "shared/entity_objects.h"
 #include "shared/sprite_frame_state.h"
+#include "sdk/libc.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
+#include "slus.h"
+#include "town/minigame/position.h"
 
 /* Context reached through the callback work's first word. Only the fields
  * read or written by this spin controller are described here. */
@@ -32,7 +37,6 @@ typedef struct SpinPhaseWork {
     union { s16 s; u16 u; } phase_value;
     u16 stop_ticks;
 } SpinPhaseWork;
-extern int abs(int);
 
 typedef struct {
     s16 x;
@@ -43,11 +47,6 @@ typedef struct {
 
 extern u8 D_8002004C[];
 extern u8 D_800245DC[];
-
-extern s32 SquareRoot0(s32);
-extern void LoadImage(LocalPoint *, void *);
-extern void SD_Call(s32);
-
 
 /* Update the effect position, spin phases, animated icons, and rotation sound. */
 void update_effect_position_spin_phases(SpinPhaseWork *state_arg, ObjectPosition *target_arg, SpriteFrameState *effect_arg)

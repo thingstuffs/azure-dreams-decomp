@@ -1,6 +1,7 @@
 #include "modules/town_map_props.h"
 #include "common.h"
 #include "shared/game_work.h"
+#include "town/map/state.h"
 
 extern const u16 D_80089660[8];
 

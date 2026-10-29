@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/shop/state.h"
 
 typedef struct TownLink TownLink;
 

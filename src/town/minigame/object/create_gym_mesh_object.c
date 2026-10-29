@@ -2,6 +2,8 @@
 #include "slus.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "engine/node.h"
+#include "town/minigame/object.h"
 
 #ifndef NULL
 #define NULL 0
@@ -15,8 +17,6 @@ typedef struct S_80022E64_0 {
     u8 pad_14[0xC];
     s32 unk_20;
 } S_80022E64_0;   /* obj in create_gym_mesh_object */
-
-extern void register_node(void *, void *);
 
 typedef struct Copy24 {
     s32 word[6];

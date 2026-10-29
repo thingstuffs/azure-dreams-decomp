@@ -1,8 +1,9 @@
 #include "town/map/camera.h"
 #include "shared/object_index_slots.h"
+#include "engine/script.h"
+#include "town/map/object.h"
 
 extern s32 runtime_script_state[];
-extern s32 service_script_controller(void);
 
 typedef struct CameraObjectPosition {
     u8 pad_00[8];

@@ -1,12 +1,11 @@
 #include "common.h"
 
 #include "slus.h"
+#include "town/shop.h"
+#include "town/shop/object.h"
+#include "town/system.h"
 
-extern void toggle_selected_entry_flag(void *state);
-extern void store_record_check_result(void *record);
 extern s32 check_entry_limit_or_combined_value(void *entry);
-extern void close_twin_shop(void *shop);
-extern void process_shop_object_data(s32 object_addr);
 
 extern void *D_800D1558;
 extern void *D_800D155C;

@@ -5,6 +5,7 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/vector.h"
+#include "town/map/object.h"
 
 /* Creates an object at the given position and initializes its graphics. */
 void *create_positioned_graphic_object_2(TownPropPosition *position, s32 object_param, s32 graphics_id) {

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "town/minigame.h"
 
 typedef struct S_80022514_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */

@@ -2,6 +2,7 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "shared/object_links.h"
+#include "town/minigame/object.h"
 
    /* the 0x2 bytes before arg0 in retire_scene_node_when_linked_value_clears, addressed as arg0[-1] */
 
