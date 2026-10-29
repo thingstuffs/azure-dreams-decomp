@@ -18,12 +18,12 @@ typedef struct S_80172314_2 {
 
 extern s32 prepare_directional_attack();
 extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
-void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
 extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 extern s32 check_entity_interaction_compatibility();
 extern s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 #include "dungeon/monster/mandara.h"
 #include "engine/graphics.h"
+#include "dungeon/item.h"
 
 /* Validate an actor transition and update its state and directional animation on success. */
 s32 validate_transition_and_update_action(ActorRecord *state, ObjectPosition *transition_id, SpriteFrameState *sprite, ActorRecord *actor) {

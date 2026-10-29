@@ -15,8 +15,6 @@ extern void select_sprite_entry(void *, s32, s32);
 extern s32 rand(void);
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s32 find_active_rect_containing_point(s32, s32);
-extern s32 test_neighbor_position_relation(s32, s32, s32, s32);
-extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
@@ -37,6 +35,7 @@ extern void start_direction_based_action(void *action_state, void *unused, Sprit
 
 extern u8 barong_action_resume_address[];
 #include "dungeon/monster/barong.h"
+#include "dungeon/item.h"
 extern u8 barong_frame_set_1[];
 extern u8 barong_frame_set_4[];
 extern u8 barong_frame_set[];

@@ -60,7 +60,6 @@ extern u8 tracked_actor_callback_address[];
 extern s32 D_800CFCCC;
 extern s32 D_800CFDD8[];
 extern s16 get_smaller_query_result_capped_hex_80_writes_associated_output(void *, void *);
-extern void set_the_state_flag_initialize_s_fixed_point_clear_paired_field(void *, void *, s16);
 extern void call_the_same_context_both_processing_routines(void *, void *);
 extern void set_actor_drop_state(void *, void *, void *, void *);
 extern void actor_surface_callback_address(void *actor, void *subject, void *motion, void *context);

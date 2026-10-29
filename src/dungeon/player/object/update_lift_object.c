@@ -7,8 +7,8 @@
 #include "shared/dungeon_status.h"
 #include "engine/graphics.h"
 #include "sdk/libc.h"
+#include "dungeon/item.h"
 
-extern void adjust_source_value_and_finalize(void *context, const void *source);
 extern void process_unflagged_linked_entries();
 extern void process_unflagged_linked_entries_alt();
 extern s32 play_sound_if_enabled(s32 query_value);

@@ -31,7 +31,6 @@ typedef struct T_80170AA4_S_80170AA4_1 {
 
 extern void func_80042984(void *entity);
 extern void advance_sprite_animation_and_textures(void *entity);
-extern void apply_monster_koyaw_data(s32 flags, s8 *dst);
 extern s32 refresh_actor_facing_and_lifecycle();
 extern T_80170AA4_EntityCallback tyrant_callbacks[];
 void update_entity_callbacks_directional_animation_movement_ground_contact(void *actor, TrailMotion *motion, SpriteFrameState *part);

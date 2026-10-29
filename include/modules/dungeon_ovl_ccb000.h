@@ -1094,14 +1094,14 @@ extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, 
 extern void prepare_directional_attack(void *, void *, s16, s32, s32);
 extern s32 find_active_rect_containing_point(s32, s32);
 extern s16 get_tile_chebyshev_distance(void *, void *);
-extern s32 test_neighbor_position_relation(s32,s32,s32,s32);
+extern s16 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
 extern s16 get_actor_height_difference(void *,void *);
 extern void apply_monster_koyaw_data(s32 flags, s8 *dst);
-extern void * find_adjacent_actor(void *, u8, u8);
-extern s32 probe_directional_neighbor();
-extern void *scan_actor_along_heading(void *, s32, s32, s32, s32);
-extern s32 get_rounded_facing_and_rounding_flag(s16,s16,s16,s16,u16 *);
-extern void select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
+extern void *find_adjacent_actor(void *entity, u16 x, u16 y);
+extern s32 probe_directional_neighbor(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern void *scan_actor_along_heading(ActorRecord *source, s32 start_x, s32 start_y, s16 heading, s16 max_steps);
+extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
 extern void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 extern void update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 extern s32 can_entity_gain_level(void *);

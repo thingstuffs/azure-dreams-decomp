@@ -19,7 +19,7 @@ u8 *expand_text_control_codes(void *src, void *dst);
 void *clear_byte_and_advance(void *byte_ptr);
 void *write_text_byte_and_advance(s8 value, void *dest);
 u8 *append_entity_display_text(void *record, void *out);
-s32 adjust_source_value_and_finalize(void *, void *);
+void adjust_source_value_and_finalize(void *context, const void *source);
 #include "dungeon/effect/screen.h"
 s32 display_text_with_fullwidth_adjustment(void *text);
 s32 generate_random_value(void);

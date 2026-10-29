@@ -10,6 +10,7 @@
 #include "engine/cd.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/item.h"
 struct S_80170E18_3;
 
 /* Sparse views for fields not covered by the existing record types. */
@@ -21,7 +22,6 @@ typedef struct {
 extern int abs(int);
 
 extern s32 select_sprite_entry();
-extern void *scan_actor_along_heading();
 extern void set_record_integer_tile_center();
 extern void advance_status_timers();
 extern void play_sound_if_enabled();

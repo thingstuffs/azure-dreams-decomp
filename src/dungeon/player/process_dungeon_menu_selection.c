@@ -94,13 +94,13 @@ void select_record_entry_and_value(void *state, void *entries, short index);    
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);                 /* extern */
 #include "dungeon/player/item.h"
 #include "dungeon/actor/state.h"
+#include "dungeon/item.h"
 struct S_80094270_2;
 struct S_800B50B0_Entity;
 s32 request_familiar_deployment_change(void *actor, s32 param_a, void *param_b, struct S_80094270_2 *item, s32 slot); /* extern */
 void resolve_familiar_deployment_request(void *context_ptr, s32 unused_one, void *unused_two, void *selection_ptr); /* extern */
 void restore_player_control_callback(void *target, void *source);              /* extern */
 void display_formatted_context_message(void *context);                   /* extern */
-void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s32 extra_byte);   /* extern */
 s32 display_text_with_fullwidth_adjustment(s8 *text);                         /* extern */
 s32 is_selectable_menu_target();                             /* extern */
 void update_selection_tile_markers(struct S_800B50B0_Entity *entity, s32 selection);            /* extern */

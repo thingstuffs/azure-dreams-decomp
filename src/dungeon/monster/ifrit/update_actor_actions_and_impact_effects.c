@@ -79,12 +79,12 @@ typedef struct S_801728C4_8 {
 
 extern u8 ifrit_action_resume_address[];
 #include "dungeon/monster/ifrit.h"
+#include "dungeon/item.h"
 extern u8 D_80174850[];
 
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 rand(void);
-extern void *scan_actor_along_heading(void *, s32, s32, s32, s32);
 extern void play_sound_if_enabled(s32);
 extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context);
 extern void create_two_row_object_group(void *payload, s16 value_scale);

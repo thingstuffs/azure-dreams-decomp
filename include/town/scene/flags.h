@@ -52,4 +52,17 @@ s32 set_record_flag_on_query_failure(void *record_field, s32 query_value);
 s32 test_indexed_flag_bit(s32 bit);
 s32 update_scene_flag_5_c_4(void);
 
+#include "shared/entity.h"
+#include "records/Rec_D_800CFCB4.h"
+#include "records/Rec_func_8008F2D4_arg0.h"
+#include "records/Rec_func_8008F2D4_arg1.h"
+struct ScriptContext;
+struct ScriptEntry8;
+s32 get_2_flag_flag(void);
+s32 query_referenced_flag_for_table_entry(struct ScriptEntry8 *entry_table, struct ScriptContext *context, s32 entry_key);
+void set_the_control_flag_initializes_cleared_trailing_field(Rec_func_8008F2D4_arg0 *control, Rec_func_8008F2D4_arg1 *record, s32 initial_value);
+void set_the_flag_initializes_state(Rec_func_8008F2D4_arg0 *record, Rec_func_8008F2D4_arg1 *state, s32 value);
+void set_the_state_flag_initialize_s_fixed_point_clear_paired_field(Rec_D_800CFCB4 *state, EntityRec *object, s32 initial_value);
+s32 update_scene_action_flags(s32 object, s32 context);
+
 #endif

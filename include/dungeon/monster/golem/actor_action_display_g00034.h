@@ -46,7 +46,7 @@ typedef struct S_80172050_3 {
 typedef struct Ent Ent;
 
 extern s32 get_actor_height_difference(s32, void *);
-extern s32 probe_directional_neighbor(void *, s32, s32, s32);
+extern s32 probe_directional_neighbor(void *, s32, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 check_entity_interaction_compatibility(void *, s32);
 extern u8 golem_frame_set;
 

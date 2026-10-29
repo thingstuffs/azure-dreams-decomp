@@ -35,9 +35,7 @@ void cycle_map_cell_flags(s16, s16, u16);
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 s32 check_diagonal_side_height(s32, s16, s16, s16);
 extern s32 check_movement_clearance_and_height();
-s32 test_neighbor_position_relation(s32, s32, s32, s32);
 s16 get_actor_height_difference(struct ActorRecord *, struct ActorRecord *);
-s32 select_actor_route_target(u8 *, s32, u8 *, u16 *);
 s32 update_actor_proximity_flag(void *, void *, s32, s32, s8 *);
 extern s32 generate_random_value(void);
 void update_actor_status_and_mp(struct ActorRecord *);

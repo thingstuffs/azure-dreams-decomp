@@ -3,6 +3,7 @@
 #include "dungeon/effect/particle/create_randomly_rotated_sprite_object.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/system.h"
+#include "dungeon/item.h"
 void (*const dungeon_18b2800_entry)(B22_81893474_EffectState *, ObjectPosition *, B22_81893474_ColorPart *) = update_effect_launch_travel_impact_cleanup;
 #include "dungeon/effect/particle/create_randomly_rotated_sprite_object.h"
 #include "common.h"

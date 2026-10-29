@@ -129,6 +129,7 @@ extern u8 D_80170874[];
 extern u8 mandara_object_callback_2[];
 #include "dungeon/monster/mandara.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/item.h"
 
 /* Spawns and rotates an object, emits particles, then restores the actor state. */
 /* Targets a monster ahead, rotates it amid green particles, attempts confusion, and spends Mandara's MP

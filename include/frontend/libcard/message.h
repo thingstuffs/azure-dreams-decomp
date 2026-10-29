@@ -39,7 +39,7 @@ void card_boot_initialize_slot_window(void *record, s32 setup_value, s32 process
 void card_boot_layout_empty_slot_window(void *object);
 
 /* card_boot_link_message_display_entries.c */
-void card_boot_link_message_display_entries(struct S_800491F4 **input);
+struct S_800491F4 *card_boot_link_message_display_entries(struct S_800491F4 **input);
 
 /* card_boot_link_slot_window_entries.c */
 void card_boot_link_slot_window_entries(struct S_800491F4 **value);

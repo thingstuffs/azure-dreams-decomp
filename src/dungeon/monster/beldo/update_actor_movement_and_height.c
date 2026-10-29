@@ -5,6 +5,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/item.h"
 
 typedef s32 M2C_UNK;
 extern int abs(int);
@@ -19,7 +20,6 @@ typedef union {
 extern void enqueue_runtime_pool_script();
 extern void select_indirect_table_entry();
 extern void advance_sprite_animation_and_textures();
-extern void apply_monster_koyaw_data();
 extern s32 refresh_actor_facing_and_lifecycle();
 extern void try_move_actor_to_valid_position();
 s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);

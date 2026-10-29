@@ -8,6 +8,7 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/monster/nyuel.h"
 #include "engine/graphics.h"
+#include "dungeon/item.h"
 
 typedef s32 M2C_UNK;
 typedef struct {
@@ -37,8 +38,6 @@ typedef struct S_80170E9C_0 {
 
 s32 check_entity_relation();
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
-s32 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
-s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 s32 can_entity_gain_level(void *entity);
 void update_actor_status_and_mp(ActorRecord *entity);
 void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);

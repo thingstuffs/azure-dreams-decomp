@@ -24,7 +24,6 @@ typedef struct {
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 rand(void);
-extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void play_sound_if_enabled(s32);
 extern void * create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);
 
@@ -32,6 +31,7 @@ extern u8 D_80170FD8[];
 
 extern u8 blume_action_resume_address[];
 #include "dungeon/monster/blume.h"
+#include "dungeon/item.h"
 extern u8 D_80175424[12];
 
 typedef struct S_801737C8_0 {

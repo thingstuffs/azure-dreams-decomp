@@ -11,6 +11,7 @@
 #include "shared/actor_action_flags.h"
 #include "shared/monster_ids.h"
 #include "shared/object_flags.h"
+#include "dungeon/item.h"
 void * (*const resource17_slot0_entry0)(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value) = spawn_univern_actor;
 void (*const resource17_slot0_entry1)(void *actor, void *motion, void *object) = create_anchored_directional_object;
 #include "dungeon/monster/univern.h"

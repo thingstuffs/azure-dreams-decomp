@@ -43,7 +43,6 @@ s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);             
 void *find_eligible_actor_at_tile_and_height(struct Node *node, s16 x, s16 y_in, s16 value);           /* extern */
 s32 set_monster_reachability_flag(void);                             /* extern */
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);                           /* extern */
-void apply_monster_koyaw_data(s32 flags, s8 *dst);                 /* extern */
 s32 can_entity_gain_level(void *entity);                      /* extern */
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/item.h"

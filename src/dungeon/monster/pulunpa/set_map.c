@@ -15,6 +15,7 @@
 typedef s32 M2C_UNK;
 typedef struct S_800AA258_2 S_800AA258_2;
 #include "records/Rec_func_800AA258_arg2.h"
+#include "dungeon/item.h"
 typedef struct S_8017405C_1 S_8017405C_1;
 
 typedef struct S_set_map_0 {
@@ -39,8 +40,6 @@ typedef struct S_80173B98_2 {
 void select_sprite_entry(void *sprite, u8 frame, s32 mode);
 s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 s8 find_active_rect_containing_point(u8 tile_x, u8 tile_y);
-s32 test_neighbor_position_relation(u8 source_x, u8 source_y, u8 target_x, u8 target_y);
-s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 s32 can_entity_gain_level(void *creature);
 void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *state, void *unused,void *position,void *actor);

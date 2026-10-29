@@ -516,7 +516,7 @@ void process_five_context_entries_or_fallback(void *context);
 /* save_file_updates_g00378.c */
 s32 card_boot_verify_save_xor_checksum(void *save_data);
 s32 card_boot_write_save_via_temporary_path(s32 slot, void *data);
-void card_boot_load_save_and_clear_marker(s32 entry_index, void *data, s32 update_entry);
+s32 card_boot_load_save_and_clear_marker(s32 entry_index, void *data, s32 update_entry);
 
 /* set_layout_params.c */
 void set_layout_params(struct S_8001BEA4_0 *record, s32 value_14, s32 value_08, s32 value_0c, s32 value_20);

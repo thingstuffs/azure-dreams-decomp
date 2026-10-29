@@ -13,7 +13,7 @@
 
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s16 check_movement_clearance_and_height();
-extern s16 get_rounded_facing_and_rounding_flag();
+extern s16 get_rounded_facing_and_rounding_flag(); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */
 extern u8 uboat_default_frames[];
 
 typedef struct S_80172144_0 {

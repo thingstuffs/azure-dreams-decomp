@@ -986,14 +986,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
 extern void prepare_directional_attack(void *, void *, s16, s32, s32);
 extern s32 find_active_rect_containing_point(s32, s32);
 extern s16 get_tile_chebyshev_distance(void *, void *);
-s16 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
 extern s16 get_actor_height_difference(void *,void *);
-extern void apply_monster_koyaw_data(s32 flags, s8 *dst);
-void *find_adjacent_actor(void *entity, u16 x, u16 y);
-void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
-extern void *scan_actor_along_heading(void *, s32, s32, s32, s32);
-extern s32 get_rounded_facing_and_rounding_flag(s16,s16,s16,s16,u16 *);
-s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
 extern void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 extern s32 can_entity_gain_level(void *);

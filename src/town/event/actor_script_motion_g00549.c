@@ -2,6 +2,7 @@
 /* inferred-strong G00549: actor_script_motion_g00549; joins CL:town/func_8009DB64; no crossing cuts. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8009DB64. */
 #include "town/event/actor_script_motion_g00549.h"
+#include "town/scene/flags.h"
 
 /* Dispatches town object actions for the active script and owner state. */
 s32 dispatch_active_town_object_script(TownObject *object, void *owner, void *context, void *extra_ptr) {

@@ -47,7 +47,7 @@ typedef struct S_80022D60_1 {
 /* base in card_boot_create_or_reset_message_dialog */
 typedef struct S_80022D60_2 {
     u8 pad_00[0x8C8];
-    s32 unk_8C8;
+    struct S_800491F4 *unk_8C8;
 } S_80022D60_2;
 
 extern void card_boot_initialize_message_render_templates(s32 entity, s32 primary_data, s32 secondary_data);
@@ -57,7 +57,7 @@ extern void card_boot_build_message_window_packets(void *buffer, void *layout);
 extern void card_boot_update_message_choice_highlight(void *object);
 extern u8 D_80022524[];
 extern u8 D_800226A8[];
-extern s32 card_boot_link_message_display_entries(void *ptr);
+extern struct S_800491F4 *card_boot_link_message_display_entries(void *ptr);
 extern void card_boot_initialize_dialog_draw_nodes(void *context, s32 value);
 extern void card_boot_close_message_dialog(s32 condition);
 extern void *initialize_scene_object_in_buffer(s32 value0, void *ptr, s32 value2);

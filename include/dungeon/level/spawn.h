@@ -125,7 +125,7 @@ extern u8 *D_800735C4[];
 extern u8 floor_object_sprite_sources[];
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void func_80042640(void *, s32);
-extern void retain_spawn_resource(s32, s32);
+extern void retain_spawn_resource(s32, s32); /* Unprototyped: retail call narrows its arguments to this declaration; no shared prototype keeps it */
 extern u8 *find_or_retain_sprite_resource_slot(s32, s32);
 extern void raise_entity_level(void *, s32);
 extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);

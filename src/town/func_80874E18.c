@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/flags.h"
 
 typedef struct {
     u8 pad[0xBBC];
@@ -24,7 +25,6 @@ extern CallbackOwner *devkit_callback_owner[4];
 
 extern s32 func_80700D84(void);
 extern s32 func_80701060(s32 *word, s32 old_value);
-extern s32 test_indexed_flag_bit(s16 value);
 
 /* Record the pressed input, or toggle the 0x40000000 state flag from the callback's answer and advance the slot. */
 s32 record_devkit_input_and_advance_slot(s32 slot) {

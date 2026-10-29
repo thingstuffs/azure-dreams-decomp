@@ -12,6 +12,7 @@
 #include "dungeon/player/object.h"
 #include "dungeon/actor/status.h"
 #include "engine/graphics.h"
+#include "dungeon/item.h"
 
 typedef struct S_80047784 S_80047784;
 
@@ -30,7 +31,6 @@ typedef struct S_80172834_0 {
 
 struct SpriteFrameState;
 
-s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void on_actor_status_updated(void *actor);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 

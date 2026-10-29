@@ -193,7 +193,6 @@ extern s32 read_sound_mode_blocking_status(s32 mode);
 struct EntityLinkNode;
 void unlink_entity_node(struct EntityLinkNode *node);
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-extern s32 retain_spawn_resource(s16 entry_type, s16 entry_key);
 extern u8 * find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type);
 extern u8 D_80023000[];
 extern u8 *sprite_resource_base;

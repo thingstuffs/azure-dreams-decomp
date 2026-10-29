@@ -28,7 +28,6 @@ MonsterFactory load_monster_resource_data(s32 resource_id, void *resource_entry,
 /* Functions defined in this translation unit. */
 s32 has_matching_six_slot_entry(s32 entry_id_word);
 u8 *find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type);
-u8 *find_monster_entry_by_type_and_id(s16 entry_id, s32 entry_type);
 void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 
 #endif

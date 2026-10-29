@@ -5,13 +5,12 @@
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
 #include "shared/entity.h"
+#include "dungeon/item.h"
 
 extern u8 resident_globals_page[];
 
 void set_sprite_animation_frame(struct SpriteFrameState *obj, s16 frame_group, s16 frame_index, s32 slot_index);
-extern void adjust_source_value_and_finalize(void *context, const void *source);
 extern s32 spawn_object_at_target_position();
-extern void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
 extern s32 play_sound_if_enabled(s32 query_value);
 extern u8 player_lift_frames[];
 extern u8 D_800E0495[];

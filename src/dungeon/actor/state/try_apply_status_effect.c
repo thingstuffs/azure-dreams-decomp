@@ -1,7 +1,7 @@
 #include "common.h"
+#include "dungeon/item.h"
 struct State;
 
-extern void adjust_source_value_and_finalize(void *context, const void *source);
 extern s32 roll_threshold_effect_variant_a(struct State *state_ptr, s16 limit_input, s16 byte_input);
 extern void wrap_position_and_set_state_value(s32 state_value);
 

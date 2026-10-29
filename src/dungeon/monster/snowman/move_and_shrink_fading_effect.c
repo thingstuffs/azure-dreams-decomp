@@ -17,6 +17,7 @@
 #include "shared/tile_object.h"
 #include "shared/actor_status.h"
 #include "dungeon/level/room_flags.h"
+#include "dungeon/item.h"
 
 void * (*const resource10_slot0_entry0)(s16 flags, s16 kind_id, s16 variant, s32 spawn_value) = create_actor_with_optional_status;
 void (*const resource10_slot0_entry1)(u8 *actor, u8 *motion, u8 *object) = update_actor_callbacks_animation_and_ground;

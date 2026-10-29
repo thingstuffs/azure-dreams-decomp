@@ -15,6 +15,7 @@
 #include "engine/node.h"
 #include "engine/node/allocation.h"
 #include "dungeon/player/object.h"
+#include "dungeon/item.h"
 
 typedef struct S_80172840_0 {
     u8 pad_00[0x1C];
@@ -90,7 +91,6 @@ typedef struct S_80172840_12 {
 extern int abs(int);
 extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
 extern void select_sprite_entry(void *, s32, s32);
-extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void play_sound_if_enabled(s32);
 extern s32 generate_random_value(void);
 extern void *create_actor_spell_effect(void *, void *, s32, void *);

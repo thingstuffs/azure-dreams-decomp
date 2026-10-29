@@ -6,6 +6,7 @@
 #include "dungeon/effect/particle/fade_effect_sprite_to_black.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/item.h"
 /* Loader entry pointer; gcc emits the five-state switch table after alignment. */
 void (*const dungeon_184c800_entry)(void *, void *, void *) = update_directional_actor_effect;
 

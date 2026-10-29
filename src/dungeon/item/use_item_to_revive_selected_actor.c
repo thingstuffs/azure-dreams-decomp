@@ -13,10 +13,10 @@
 #include "dungeon/player/item.h"
 #include "dungeon/system.h"
 #include "dungeon/player/state.h"
+#include "dungeon/item.h"
 
 void apply_entity_effects(void *);             /* extern */
 void display_formatted_context_message(void *context);                   /* extern */
-void adjust_source_value_and_finalize(void *context, const void *source);           /* extern */
 extern u8 D_800E1580[34];
 extern u8 D_800E15A2[];
 extern void *familiar_record_slots[];

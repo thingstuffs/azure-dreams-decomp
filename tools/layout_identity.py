@@ -30,7 +30,11 @@ def canonical(data):
     return FILE_DIRECTIVE.sub(b'', data)
 
 
-def reassemble(root, data, directory, container):
+def reassemble(root, data, directory, container, asflags=(), evidence=None):
+    """Assemble one ccproc stream through maspsx.
+
+    `asflags` are the TU's production maspsx flags; `evidence` ({MASPSX_NORETURN_FILE, MASPSX_SIBCALL_FILE:
+    root-relative path}) the production recipe's own tables, else the container-wide config tables."""
     out = directory / 'canonical.o'
     env = dict(os.environ)
     for key in ('AZURE_MASPSX', 'AZURE_MASPSX_COMPANION', 'MASPSX_NORETURN_FILE',
@@ -40,10 +44,12 @@ def reassemble(root, data, directory, container):
     bank = directory / 'noreturn_syms.bank.txt'
     env['MASPSX_NORETURN_FILE'] = str(bank if bank.is_file() else root / 'config' / ('noreturn_syms' + suffix + '.txt'))
     env['MASPSX_SIBCALL_FILE'] = str(root / 'config' / ('sibcall_syms' + suffix + '.txt'))
+    for key, path in (evidence or {}).items():
+        env[key] = str(root / path)
     command = [root / '.venv/bin/python', root / 'toolchain/maspsx/maspsx.py',
                '--aspsx-version=2.79', '--dont-force-G0', '--run-assembler',
                '--gnu-as-path=mipsel-linux-gnu-as', '-I' + str(root),
-               '-I' + str(root / 'include'), '-EL', '-march=r3000', '-G8',
+               '-I' + str(root / 'include'), '-EL', '-march=r3000', '-G8', *asflags,
                '-o', out]
     result = subprocess.run(list(map(str, command)), input=data, capture_output=True, env=env, cwd=root)
     if result.returncode:

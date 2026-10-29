@@ -16,7 +16,7 @@ u8 *expand_text_control_codes(u8 *src, u8 *dst);
 void clear_byte_and_advance(s8 *byte_ptr);
 void *write_text_byte_and_advance(s8 value, s8 *dest);
 u8 * append_typed_formatted_value(s32,u8 *);
-u8 * process_eligible_object_value(s32, u8 *);
+u8 * process_eligible_object_value(s32, u8 *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 u8 *append_entity_display_text(void *record, u8 *out);
 void play_sound_if_enabled(s32);
 void display_text_with_fullwidth_adjustment(s8 *text);

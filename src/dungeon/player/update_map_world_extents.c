@@ -12,9 +12,8 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "engine/graphics.h"
+#include "dungeon/item.h"
 
-
-extern u8 * process_eligible_object_value();
 extern void process_unflagged_linked_entries(s32 firstEntryBase);
 extern void process_unflagged_linked_entries_alt(s32 firstNodeBase);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);

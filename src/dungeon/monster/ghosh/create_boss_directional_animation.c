@@ -11,6 +11,7 @@
 #include "engine/node/allocation.h"
 #include "engine/graphics.h"
 #include "engine/node.h"
+#include "dungeon/item.h"
 
 typedef struct S_func_8132B8AC_0 S_func_8132B8AC_0;
 typedef struct S_func_8132B8AC_1 S_func_8132B8AC_1;
@@ -24,7 +25,6 @@ typedef struct S_80173F6C_5 {
 extern u8 ghosh_frame_set_1[];
 void unlink_entity_node(); /* extern */
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags); /* extern */
-s32 retain_spawn_resource(s16 entry_type, s16 entry_key); /* extern */
 void create_boss_linked_effect(); /* extern */
 void func_801730AC(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *motion, S_func_8132B8AC_2 *sprite);
 

@@ -32,6 +32,7 @@ extern void *create_actor_spell_effect(void *actor, void *effect_record, s16 mod
 
 extern u8 D_80171020[];
 #include "dungeon/monster/saber.h"
+#include "dungeon/item.h"
 
 extern u8 D_80174E34[];
 

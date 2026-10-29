@@ -8,6 +8,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import time
 import unittest
 from unittest.mock import patch
 
@@ -244,3 +245,86 @@ class NativeCheckHookTests(unittest.TestCase):
             steps=[s['step'] for s in json.loads((root/'build/landing/timings.json').read_text())['steps']]
             self.assertEqual(steps[-1],'native-check')
             self.assertNotIn('configure',steps)
+
+
+class CodemapRefreshHookTests(unittest.TestCase):
+    """The post-landing code map refresh: niced, bounded, skippable and never fatal."""
+
+    def fixture(self, td, body, db=True):
+        root = Path(td)
+        tool = root/'tools/codemap/codemap.py'
+        tool.parent.mkdir(parents=True)
+        tool.write_text('import json, os, sys, time\n'
+                        'open(os.path.join(os.path.dirname(__file__), "argv.json"), "w").write('
+                        'json.dumps([os.nice(0)] + sys.argv[1:]))\n' + body)
+        if db:
+            (root/'build').mkdir()
+            (root/'build/codemap.db').write_bytes(b'')
+        return root, tool.parent/'argv.json'
+
+    def run_hook(self, root, environ, timeout=None):
+        with contextlib.redirect_stdout(io.StringIO()) as out:
+            result = L.codemap_refresh(root, environ=environ, timeout=timeout)
+        return result, out.getvalue(), (root/'build/landing/codemap.log').read_text()
+
+    def test_refresh_runs_niced_against_this_root(self):
+        with tempfile.TemporaryDirectory() as td:
+            root, argv_file = self.fixture(td, 'print("refresh: ok")\n')
+            result, out, log = self.run_hook(root, {})
+            self.assertEqual(result, 'pass')
+            argv = json.loads(argv_file.read_text())
+            self.assertEqual(argv[0], min(19, os.nice(0) + 10))                   # nice -n 10
+            self.assertEqual(argv[1:], ['refresh', '--root', str(root.resolve())])
+            self.assertIn('refresh: ok', log)
+            self.assertIn('PASS', out)
+
+    def test_skips(self):
+        with tempfile.TemporaryDirectory() as td:
+            root, argv_file = self.fixture(td, '')
+            self.assertEqual(self.run_hook(root, {L.CODEMAP_ENV: '0'})[0], 'skipped')
+            self.assertFalse(argv_file.exists())
+        with tempfile.TemporaryDirectory() as td:
+            root, argv_file = self.fixture(td, '', db=False)
+            result, _, log = self.run_hook(root, {})
+            self.assertEqual(result, 'skipped')
+            self.assertIn('no build/codemap.db', log)
+            self.assertFalse(argv_file.exists())
+            self.assertEqual(self.run_hook(root, {L.CODEMAP_ENV: '1'})[0], 'pass')   # 1 builds a missing map
+
+    def test_failure_is_a_warning_not_an_error(self):
+        with tempfile.TemporaryDirectory() as td:
+            root, _ = self.fixture(td, 'sys.exit("broken map")\n')
+            result, out, log = self.run_hook(root, {})
+            self.assertEqual(result, 'warning')
+            self.assertIn('WARNING: refresh exited 1', out)
+            self.assertIn('broken map', log)
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root/'build').mkdir()
+            (root/'build/codemap.db').write_bytes(b'')
+            self.assertEqual(self.run_hook(root, {})[0], 'warning')                  # tool missing
+            self.assertEqual(self.run_hook(root, {L.CODEMAP_TIMEOUT_ENV: 'soon'})[0], 'warning')
+
+    def test_timeout_stops_the_refresh_process_group(self):
+        with tempfile.TemporaryDirectory() as td:
+            root, _ = self.fixture(td, 'import subprocess\n'
+                                       'child = subprocess.Popen([sys.executable, "-c", "import time; time.sleep(60)"])\n'
+                                       'open(os.path.join(os.path.dirname(__file__), "child"), "w").write(str(child.pid))\n'
+                                       'time.sleep(60)\n')
+            started = time.monotonic()
+            result, out, _ = self.run_hook(root, {}, timeout=2)
+            self.assertEqual(result, 'warning')
+            self.assertIn('exceeded', out)
+            self.assertLess(time.monotonic() - started, 30)
+            child = int((root/'tools/codemap/child').read_text())
+            for _ in range(50):          # the worker the refresh started went with it
+                try:
+                    os.kill(child, 0)
+                except ProcessLookupError:
+                    break
+                with open('/proc/%d/stat' % child) as fh:
+                    if fh.read().split(') ')[-1].startswith('Z'):
+                        break
+                time.sleep(0.1)
+            else:
+                self.fail('refresh worker survived the timeout')

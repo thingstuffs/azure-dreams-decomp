@@ -190,7 +190,7 @@ void card_boot_layout_left_right_labels(struct S_80026C94_0 *owner);
 void card_boot_layout_three_row_command_panel(void *panel);
 
 /* card_boot_link_paired_choice_display_entries.c */
-void card_boot_link_paired_choice_display_entries(struct S_800491F4 **nodes);
+struct S_800491F4 *card_boot_link_paired_choice_display_entries(struct S_800491F4 **nodes);
 
 /* card_boot_link_three_row_panel_entries.c */
 struct S_800491F4 *card_boot_link_three_row_panel_entries(struct S_800491F4 **input);
@@ -373,7 +373,7 @@ void libcard_init(s32 slot);
 s16 libcard_query_status(void);
 
 /* libcard_select_slot.c */
-void libcard_select_slot(s32 slot);
+s32 libcard_select_slot(s32 slot);
 
 /* libcard_start.c */
 void libcard_start(void);

@@ -6,10 +6,10 @@
 #include "slus.h"
 #include "dungeon/actor.h"
 #include "engine/texture.h"
+#include "dungeon/item.h"
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
-extern void apply_monster_koyaw_data(s32 flags, s8 *dst);
 extern s32 refresh_actor_facing_and_lifecycle();
 extern s16 sample_terrain_surface_height();
 

@@ -17,6 +17,7 @@
 #include "dungeon/player/object.h"
 #include "dungeon/system.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/item.h"
 extern int abs(int);
 
 
@@ -38,7 +39,6 @@ typedef struct S_801737B0_0 {
 extern u8 weadog_action_resume_address[];
 extern u8 weadog_frame_set_3[];
 
-extern void *scan_actor_along_heading();
 extern void * create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);
 extern void create_random_color_offset_effect(void *parent, s16 initial_14, s32 unused, s16 initial_32, s16 offset_x, s16 offset_y, s16 offset_z);
 

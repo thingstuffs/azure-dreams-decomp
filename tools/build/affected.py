@@ -94,12 +94,15 @@ class Graph:
                     (path.stem in current_slus) if family == 'slus' and current_slus else True
                 (self.recipes if live else self.stale)[path.stem] = spec
         self.images = {}           # image name -> {tag, output, recipes, path}
+        self.recipe_rows = {}      # recipe id -> registry rows its linked units place (image unit `rows`)
         for path in sorted((state / 'images').glob('*.json')):
             spec = _read_json(path)
             if spec['image'] not in self.registered:
                 continue           # stale check files from older builds
             self.images[spec['image']] = dict(tag=spec['tag'], output=spec['output'], path=str(path),
                                               recipes=[u['recipe'] for u in spec['units']])
+            for unit in spec['units']:
+                self.recipe_rows.setdefault(unit['recipe'], set()).update(unit.get('rows') or ())
         self.slus_image = 'slus/slus_bin' if 'slus/slus_bin' in self.registered else None
         self._real = {}
         self._by_dep = None

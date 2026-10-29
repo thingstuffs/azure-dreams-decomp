@@ -7,12 +7,12 @@
 #include "m2c_compat.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/level.h"
+#include "dungeon/item.h"
 
 void select_indirect_table_entry(void *, u8, s8);              /* extern */
 void select_sprite_entry(void *, u8, s32);             /* extern */
 void advance_sprite_animation_and_textures(void *);                       /* extern */
 s32 rsin(s32);                            /* extern */
-void apply_monster_koyaw_data(s32, void *);               /* extern */
 s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *); /* extern */
 s32 try_move_actor_to_valid_position(void *, void *, void *, void *); /* extern */
 void kid_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite_in, ActorRecord *entity);

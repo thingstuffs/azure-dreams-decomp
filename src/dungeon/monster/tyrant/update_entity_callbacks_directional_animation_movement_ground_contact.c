@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/tyrant/update_entity_callbacks_directional_animation_movement_ground_contact.h"
 #include "engine/entity.h"
+#include "dungeon/item.h"
 
 /* Updates entity callbacks, directional animation, movement, and ground contact. */
 void update_entity_callbacks_directional_animation_movement_ground_contact(void *actor, TrailMotion *motion, SpriteFrameState *part)

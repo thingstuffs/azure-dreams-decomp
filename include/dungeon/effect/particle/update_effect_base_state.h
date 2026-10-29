@@ -199,7 +199,6 @@ extern u8 secondary_sprite[];
 extern u8 fading_sprite_entries[];
 extern s32 rand(void);
 extern s32 get_definition_entry_byte_13(s16 entry_index);
-extern void *scan_actor_along_heading(void *, u8, u8, s16, s16);
 extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);
 extern void *resolve_record_orientation_or_fallback(void *, void *, Vec3 *, s32);
 extern s32 RotTransPers(Packed8 *, Coord *, Coord *, Coord *);

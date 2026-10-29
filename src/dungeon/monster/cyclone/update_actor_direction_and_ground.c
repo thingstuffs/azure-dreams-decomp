@@ -5,6 +5,7 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/level.h"
 #include "engine/texture.h"
+#include "dungeon/item.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -84,7 +85,6 @@ extern ActorCallback cyclone_callbacks[];
 
 extern void advance_sprite_animation_and_textures(Entity *);
 extern s32 rsin(s32);
-extern void apply_monster_koyaw_data(s32, void *);
 extern s32 refresh_actor_facing_and_lifecycle(Actor *, Motion *, Entity *, Actor *);
 extern void try_move_actor_to_valid_position(Actor *, Motion *, Entity *, Actor *);
 

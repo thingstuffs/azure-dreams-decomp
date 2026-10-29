@@ -10,6 +10,7 @@ struct ObjectPosition;
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "engine/graphics.h"
+#include "dungeon/item.h"
 
 typedef struct S_800AAF00_0 {
     u8 pad_00[0x14];

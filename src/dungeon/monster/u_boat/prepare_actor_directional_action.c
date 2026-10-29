@@ -10,6 +10,7 @@ struct ObjectPosition;
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
+#include "dungeon/item.h"
 
 typedef struct S_801717D0_0 {
     u8 pad_00[0x14];
@@ -47,7 +48,6 @@ typedef struct S_801717D0_5 {
 } S_801717D0_5;   /* entry in prepare_actor_directional_action */
 
 extern void select_sprite_entry(void *, u8, s32);
-extern void *scan_actor_along_heading(void *, u8, u8, s16, u8);
 extern s32 try_claim_dungeon_action_slot(void *);
 extern s32 generate_random_value(void);
 extern void select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s16 slot_value);

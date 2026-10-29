@@ -10,6 +10,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/effect/particle.h"
+#include "dungeon/item.h"
 
 #define F(p, t, o) (*(t *)((u8 *)(p) + (o)))
 

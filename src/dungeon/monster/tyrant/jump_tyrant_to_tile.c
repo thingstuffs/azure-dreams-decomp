@@ -10,6 +10,7 @@
 #include "engine/graphics.h"
 #include "dungeon/player/object.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/item.h"
 
 
 typedef struct S_80172258_0 {
@@ -25,10 +26,6 @@ typedef struct S_80172258_0 {
     s32 unk_A0;
 } S_80172258_0;   /* arg0 in jump_tyrant_to_tile */
 
-
-
-
-s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 void on_actor_status_updated(void *actor);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 

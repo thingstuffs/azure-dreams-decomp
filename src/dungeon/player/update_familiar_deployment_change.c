@@ -28,10 +28,10 @@ void store_recalled_familiar(); /* extern */
 void process_unflagged_linked_entries(s32 firstEntryBase);                         /* extern */
 void process_unflagged_linked_entries_alt(s32 firstNodeBase);                         /* extern */
 void unlink_entity_node(struct EntityLinkNode *node);                      /* extern */
-s32 retain_spawn_resource(s16 entry_type, s16 entry_key);                 /* extern */
 u8 * find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type);                     /* extern */
 void decrement_monster_entry_count(s16 requested_id, s16 requested_type);                 /* extern */
 #include "dungeon/player/object/action_state.h"
+#include "dungeon/item.h"
 struct Entity;
 struct EntityLinkNode;
 void mark_owned_linked_actor_actions(struct Entity *owner_entity);                      /* extern */

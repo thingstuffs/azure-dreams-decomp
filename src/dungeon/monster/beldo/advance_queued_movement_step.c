@@ -3,11 +3,11 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/item.h"
 
 extern s32 select_sprite_entry();
 extern s32 cycle_map_cell_flags();
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-extern s16 get_rounded_facing_and_rounding_flag();
 
 extern u8 beldo_frame_set_1[8];
 

@@ -5,6 +5,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:dungeon/engine:800DF258. */
 #include "dungeon/level/target_action_dispatch_g00342.h"
 #include "dungeon/level.h"
+#include "dungeon/item.h"
 
 /* Selects and initializes an entry at the given position, returning its slot. */
 s32 select_and_initialize_entry_at_position(s16 x, s16 y, s16 z, s32 type_id, s32 entry_value) {

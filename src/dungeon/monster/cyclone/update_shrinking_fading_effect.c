@@ -18,6 +18,7 @@
 extern int abs(int);
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/item.h"
 
 typedef struct S_80172FC0_0 {
     u8 pad_00[0x8C];
@@ -62,9 +63,6 @@ typedef struct S_80172FC0_6 {
     u8 pad_00[0x4];
     s32 unk_04;
 } S_80172FC0_6;   /* selected_model in update_shrinking_fading_effect */
-
-
-extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 
 void *create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);
 extern void create_actor_linked_effect(void *);

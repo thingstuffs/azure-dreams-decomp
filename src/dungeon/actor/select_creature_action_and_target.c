@@ -30,14 +30,11 @@ extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u
 extern u8 *find_eligible_actor_at_tile_and_height();
 extern s32 get_tile_chebyshev_distance();
 extern s32 get_actor_height_difference();
-extern void * find_adjacent_actor(void *entity, u16 x, u16 y);
 extern void * find_monster_neighbor_candidate(void *entity, u16 x, u16 y);
-void *scan_actor_along_heading(ActorRecord *source, s32 start_x, s32 start_y, s16 heading, s16 max_steps);
-extern s32 get_rounded_facing_and_rounding_flag();
-extern s32 select_actor_route_target();
 s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor/state.h"
+#include "dungeon/item.h"
 extern s32 has_low_actor_mp();
 extern s32 check_entity_interaction_compatibility();
 extern s32 find_slot_by_definition_kind();

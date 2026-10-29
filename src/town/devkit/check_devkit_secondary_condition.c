@@ -1,6 +1,6 @@
 #include "common.h"
+#include "town/scene/flags.h"
 
-extern s32 test_indexed_flag_bit(s16 value);
 extern s16 D_80700BAC[];
 extern u8 devkit_flag_ids[];
 

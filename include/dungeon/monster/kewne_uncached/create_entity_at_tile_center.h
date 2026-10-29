@@ -86,7 +86,6 @@ s32 enqueue_runtime_pool_script(void *input_data); /* extern */
 void clear_slots_of_type();
 void func_80042B68(ActorRecord *owner, s8 match_type);                /* extern */
 void advance_sprite_animation_and_textures(void *entity);                      /* extern */
-void apply_monster_koyaw_data();                 /* extern */
 #include "dungeon/player/object/action_state.h"
 struct ObjectNodeHeader;
 void update_actor_status_and_mp(ActorRecord *entity);                      /* extern */

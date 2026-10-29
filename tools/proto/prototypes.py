@@ -749,6 +749,15 @@ def candidates(root, scope=(), skip=(), wide_only=False, symbols=(), prefer_head
                   for path in corpus.c_files}
     edits, holds = [], []
     skipped = {(r['file'], r['symbol']): r['reason'] for r in skip}
+    # Names the signature-consensus solver proved have no single legal prototype (or whose listed sites
+    # are per-site floors) are recorded once in ledger/prototype_floors.jsonl and never re-tried.
+    floors = {}
+    floor_path = Path(root) / 'ledger/prototype_floors.jsonl'
+    if floor_path.exists():
+        for line in floor_path.read_text().splitlines():
+            if line.strip():
+                record = json.loads(line)
+                floors[record['name']] = record
     remaining = [s for s in sites if unprototyped(s, types)]
     anchors = Counter((s.path, s.name, compact(s.text)) for s in remaining)
     visited = set()
@@ -773,6 +782,12 @@ def candidates(root, scope=(), skip=(), wide_only=False, symbols=(), prefer_head
         why = skipped.get((site.path, site.name), '')
         if why:
             holds.append(dict(hold, reason=why))
+            continue
+        floor = floors.get(site.name)
+        if floor and (floor.get('status') != 'partial'
+                      or site.path in {b['path'] for b in floor.get('blocking', ())}):
+            holds.append(dict(hold, reason='prototype_floor:' + floor['floor_class'],
+                              evidence='ledger/prototype_floors.jsonl'))
             continue
         if site.complex or site.ndecl != 1:
             holds.append(dict(hold, reason='complex_or_multiple_declarators'))

@@ -14,8 +14,8 @@ struct ObjectNodeHeader;
 
 #include "dungeon/player/item.h"
 #include "dungeon/system.h"
+#include "dungeon/item.h"
 void *get_unused_text_buffer(void);
-void adjust_source_value_and_finalize(void *context, const void *source);
 s32 display_text_with_fullwidth_adjustment(s8 *text);
 struct DungeonItemEntry;
 void place_actor_item(void *object_context, struct DungeonItemEntry *target);

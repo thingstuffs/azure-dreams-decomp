@@ -20,7 +20,7 @@ typedef struct S_800C9F34_3 {
 } S_800C9F34_3;
 #include "shared/dungeon_moving_views.h"
 #include "shared/actor_status.h"
-extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+#include "dungeon/item.h"
 typedef struct S_800CA0DC_0 {
     u8 pad_00[0x1C];
     s32 unk_1C;

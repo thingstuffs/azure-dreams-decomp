@@ -8,12 +8,11 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/monster/manoeva.h"
+#include "dungeon/item.h"
 
 extern void select_sprite_entry(void *, u8, s32);
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s8 find_active_rect_containing_point(u8, u8);
-extern s32 test_neighbor_position_relation(u8, u8, u8, u8);
-extern s16 get_rounded_facing_and_rounding_flag(u8, u8, u8, u8, s16 *);
 extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);

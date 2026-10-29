@@ -43,8 +43,6 @@ typedef struct S_80171094_1 {
 extern void select_sprite_entry(void *, u8, s32);
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s8 find_active_rect_containing_point(u8, u8);
-extern s32 test_neighbor_position_relation(u8, u8, u8, u8);
-extern s16 get_rounded_facing_and_rounding_flag(u8, u8, u8, u8, s16 *);
 extern s32 can_entity_gain_level(void *);
 extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
@@ -70,6 +68,7 @@ extern void func_80174520(void *, void *, void *, void *);
 extern u8 cyclone_move_direction_frames[];
 extern u8 D_80176468[];
 #include "dungeon/monster/cyclone.h"
+#include "dungeon/item.h"
 extern u8 D_801764A8[];
 
 /* Updates actor animation, status, and behavior according to dungeon state. */

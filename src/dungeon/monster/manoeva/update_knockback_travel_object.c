@@ -4,6 +4,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/item.h"
 
 typedef struct S_80174CCC_0 {
     u8 pad_00[0xC];
@@ -90,7 +91,6 @@ extern void func_80042640(void *, s32);
 extern void select_sprite_entry(void *, s32, s32);
 extern void advance_sprite_animation_and_textures(void *);
 extern s32 rsin(s32);
-extern void retain_spawn_resource(s16 entry_type, s16 entry_key);
 extern u8 *find_or_retain_sprite_resource_slot(s32, s32);
 extern void *create_grid_position_entity(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 height);
 

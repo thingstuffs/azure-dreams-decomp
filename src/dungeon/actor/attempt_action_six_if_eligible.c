@@ -3,6 +3,7 @@
 #include "shared/actor_status_ids.h"
 #include "common.h"
 #include "m2c_compat.h"
+#include "dungeon/item.h"
 
 typedef struct S_800C8DB0_0 {
     u8 pad_00[0x3];
@@ -16,8 +17,6 @@ typedef struct S_800C8DB0_0 {
     s32 unk_14;
 } S_800C8DB0_0;   /* arg0 in attempt_action_six_if_eligible */
 
-
-void adjust_source_value_and_finalize(void *context, const void *source);
 s32 generate_random_value(void);
 void wrap_position_and_set_state_value(s32 state_value);
 extern s32 D_800DCF20;

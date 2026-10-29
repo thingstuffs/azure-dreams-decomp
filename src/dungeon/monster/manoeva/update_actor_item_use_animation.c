@@ -11,6 +11,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/player/object.h"
+#include "dungeon/item.h"
 extern int abs(int);
 
 typedef __SIZE_TYPE__ uptr;
@@ -64,7 +65,6 @@ extern u8 D_80176648[8];
 extern u8 manoeva_frame_set_2[8];
 
 extern void select_sprite_entry(void *, s32, s32);
-extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void play_sound_if_enabled(s32);
 extern void * create_actor_spell_effect(void *, void *, s32, void *);
 extern void create_actor_linked_effect(void *);

@@ -5,6 +5,7 @@
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/particle.h"
+#include "dungeon/item.h"
 /* Normal selector 9: ordinary typed entry pointer; gcc emits the state table. */
 void (*const dungeon_1864800_entry)(void *, void *, void *) = run_fading_target_projectile;
 #include "dungeon/effect/particle/update_effect_base_state.h"

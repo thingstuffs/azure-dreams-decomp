@@ -37,8 +37,6 @@ typedef struct S_80170E5C_1 {
 extern void select_sprite_entry(void *, s32, s32);
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s32 find_active_rect_containing_point(s32, s32);
-extern s32 test_neighbor_position_relation(s32, s32, s32, s32);
-extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
@@ -56,6 +54,7 @@ extern s32 func_801720B4(void *, void *, void *, s32);
 extern void func_80173AC0(void *, void *, void *, void *);
 
 #include "dungeon/monster/battnel.h"
+#include "dungeon/item.h"
 extern u8 D_80173D14[];
 extern u8 D_80173D1C[];
 extern u8 D_80173D3C[];

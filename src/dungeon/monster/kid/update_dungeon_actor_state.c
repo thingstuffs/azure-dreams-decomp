@@ -9,6 +9,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
+#include "dungeon/item.h"
 
 typedef struct S_80171400_1 {
     u8 pad_00[0x1C];
@@ -28,8 +29,6 @@ typedef struct S_80171400_1 {
 extern void select_sprite_entry(void *, s32, s32);
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s8 find_active_rect_containing_point(s32, s32);
-extern s32 test_neighbor_position_relation(s32, s32, s32, s32);
-extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);

@@ -49,7 +49,6 @@ void clear_slot_and_detach_entity(s32 slot_index);
 #include "dungeon/actor/status.h"
 extern s32 get_entity_effect_value(void *entry, s32 effect_id);
 extern void clear_slots_of_type(void *object, s32 value);
-extern void adjust_source_value_and_finalize(void *context, const void *source);
 extern s8 D_800E0DF5[];
 extern D_800DF2A8_fn D_800DF2A8[];
 extern u8 trap_request_blocked[16];

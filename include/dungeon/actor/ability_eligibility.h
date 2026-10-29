@@ -175,7 +175,7 @@ extern int abs(int);
 extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern s32 generate_random_value(void);
-extern s32 check_monster_neighbor_relations(u8, u8, s16, u8, u8, s16);
+extern s32 check_monster_neighbor_relations(u8, u8, s16, u8, u8, s16); /* Unprototyped: retail call passes more arguments than the callee reads */
 extern s32 check_entity_interaction_compatibility(void *, void *);
 /* data in find_eligible_nearby_entry */
 extern s32 find_active_rect_containing_point(u16, u16);

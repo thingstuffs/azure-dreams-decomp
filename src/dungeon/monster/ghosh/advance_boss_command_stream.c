@@ -22,7 +22,6 @@ typedef struct S_80174320_2 {
 
 extern void select_sprite_entry(void *, u8, s32);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-extern void retain_spawn_resource(s16 entry_type, s16 entry_key);
 extern void update_actor_status_and_mp(void *);
 extern void advance_boss_actor_movement_state(void *, void *, void *, void *);
 extern void create_linked_facing_sprite(u16 x, u16 y, s32 z);
@@ -30,6 +29,7 @@ extern void create_boss_offset_effect(void);
 extern void update_boss_timed_animation(void *, void *, SpriteFrameState *, void *);
 
 #include "dungeon/monster/ghosh.h"
+#include "dungeon/item.h"
 extern u8 D_80174A9C[];
 extern u8 ghosh_command_f8_frames[];
 extern u8 ghosh_command_f0_frames[];

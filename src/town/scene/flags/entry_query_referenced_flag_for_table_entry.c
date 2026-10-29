@@ -3,7 +3,7 @@
 #include "common.h"
 #include "town/player/script_flags.h"
 
-void query_referenced_flag_for_table_entry(s32, s32);
+s32 query_referenced_flag_for_table_entry(s32, s32); /* Unprototyped: retail call passes a different argument count */
 
 /* Raise event 0x5BC and, when check 0x9A passes, forward the pair to the handler. */
 s32 dispatch_entry_flag_query_if_ready(s32 target, s32 value) {

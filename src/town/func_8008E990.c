@@ -1,9 +1,9 @@
 #include "common.h"
 
-extern s32 map_cell_address_at_tile();
+extern s16 *map_cell_address_at_tile();
 
-/* town_map_mod_read_p: convert world coordinates to tiles and compute the map entry address. */
-void town_map_mod_read_p(s16 world_x, s16 world_y) {
+/* town_map_mod_read_p: convert world coordinates to tiles and return the map cell there. */
+s16 *town_map_mod_read_p(s16 world_x, s16 world_y) {
     s32 tile_x;
     s32 tile_y;
 
@@ -13,5 +13,5 @@ void town_map_mod_read_p(s16 world_x, s16 world_y) {
     }
     tile_y = (s16)world_y;
     tile_x >>= 6;
-    map_cell_address_at_tile(tile_x, (tile_y / 64));
+    return map_cell_address_at_tile(tile_x, (tile_y / 64));
 }

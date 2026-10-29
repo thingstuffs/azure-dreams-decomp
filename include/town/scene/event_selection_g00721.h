@@ -32,7 +32,7 @@ extern s32 find_first_enabled_entry_id(void);
 extern s32 check_event_value_in_list(s32);
 extern s32 town_selected_valid_entry[];
 s32 count_enabled_town_entries(void);
-u8 reset_event_selection_and_advance(void);
+s32 reset_event_selection_and_advance(void);
 extern LocalValues D_80019164;
 extern s8 D_8001F2D4[];
 extern s32 func_8001E670(s32);

@@ -122,12 +122,12 @@ s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 s32 get_entity_class();
 struct DungeonItemEntry;
 void clear_slot_and_update_linked_state(struct DungeonItemEntry *slot);
-void adjust_source_value_and_finalize(void *context, const void *source);
 void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 s16 find_entity_slot_by_field_ac();
 #include "dungeon/player/object/action_state.h"
+#include "dungeon/item.h"
 struct Entity;
 struct EntityLinkNode;
 void mark_owned_linked_actor_actions(struct Entity *owner_entity);

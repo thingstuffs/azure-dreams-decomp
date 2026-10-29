@@ -12,6 +12,13 @@ repository), the 'native-check' step runs its port/tools/natcheck.py against
 this root before configure; it reads the tree and writes nothing in it besides
 build/landing/native-check.{log,json}. Unset, the step records a SKIP. See
 docs/BUILD.md, "Optional native compile check".
+
+Code map refresh: after a landing succeeds, build/codemap.db (tools/codemap) is
+refreshed incrementally at nice 10 under a time limit. It never fails a landing:
+a refresh error or timeout is logged as a warning in build/landing/codemap.log.
+AZURE_CODEMAP_REFRESH=0 skips it; unset, it runs only when the db already
+exists; 1 also builds a missing db. AZURE_CODEMAP_TIMEOUT sets the limit in
+seconds (default 600).
 """
 import argparse
 import hashlib
@@ -20,6 +27,7 @@ import os
 from pathlib import Path
 import re
 import resource
+import signal
 import subprocess
 import sys
 import time
@@ -153,6 +161,67 @@ def native_check(root, jobs=4, require=False, allow_pin_drift=False, environ=Non
     detail = '\n  '.join(shown[:16] + (['... '+str(len(shown)-16)+' more lines'] if len(shown) > 16 else []))
     hint = ' (pins only: --allow-native-pin-drift accepts this)' if code == NATIVE_PIN_DRIFT else ''
     raise ValueError('native check failed'+hint+' (see build/landing/native-check.log)'+('\n  '+detail if detail else ''))
+
+
+CODEMAP_ENV = 'AZURE_CODEMAP_REFRESH'
+CODEMAP_TIMEOUT_ENV = 'AZURE_CODEMAP_TIMEOUT'
+CODEMAP_TIMEOUT = 600
+
+
+def codemap_refresh(root, environ=None, timeout=None):
+    """Refresh build/codemap.db after a successful landing. Never raises.
+
+    Returns 'skipped', 'pass' or 'warning'; the reason is in build/landing/codemap.log.
+    The refresh runs at nice 10 in its own process group, which is killed on timeout.
+    """
+    environ = os.environ if environ is None else environ
+    root = Path(root)
+    log = root/'build/landing/codemap.log'
+    def finish(result, message):
+        try:
+            log.parent.mkdir(parents=True, exist_ok=True)
+            with log.open('a') as stream:
+                stream.write(message+'\n')
+        except OSError:
+            pass
+        print('codemap-refresh '+message)
+        return result
+    try:
+        log.parent.mkdir(parents=True, exist_ok=True)
+        log.write_text('')
+        mode = environ.get(CODEMAP_ENV, '').strip()
+        if mode == '0':
+            return finish('skipped', 'SKIP: '+CODEMAP_ENV+'=0')
+        db = root/'build/codemap.db'
+        if not db.exists() and mode != '1':
+            return finish('skipped', 'SKIP: no build/codemap.db (codemap.py build creates it; '
+                          +CODEMAP_ENV+'=1 builds it here)')
+        tool = root/'tools/codemap/codemap.py'
+        if not tool.is_file():
+            return finish('warning', 'WARNING: tools/codemap/codemap.py is missing; map not refreshed')
+        limit = timeout if timeout is not None else float(environ.get(CODEMAP_TIMEOUT_ENV) or CODEMAP_TIMEOUT)
+        argv = ['nice', '-n', '10', sys.executable, str(tool), 'refresh', '--root', str(root.resolve())]
+        started = time.monotonic()
+        with log.open('ab') as stream:
+            proc = subprocess.Popen(argv, cwd=root, stdout=stream, stderr=subprocess.STDOUT,
+                                    start_new_session=True)
+            try:
+                code = proc.wait(timeout=limit)
+            except subprocess.TimeoutExpired:
+                # The refresh and its worker pool share the session this call created.
+                os.killpg(proc.pid, signal.SIGTERM)
+                try:
+                    proc.wait(timeout=30)
+                except subprocess.TimeoutExpired:
+                    os.killpg(proc.pid, signal.SIGKILL)
+                    proc.wait()
+                return finish('warning', 'WARNING: refresh exceeded %gs and was stopped; the map is stale '
+                              '(codemap.py refresh)' % limit)
+        if code:
+            return finish('warning', 'WARNING: refresh exited %d; the map may be stale (see this log)' % code)
+        return finish('pass', 'PASS: refreshed in %.1fs' % (time.monotonic()-started))
+    except Exception as exc:   # a landing never fails on its code map
+        return finish('warning', 'WARNING: refresh not run: %s: %s' % (type(exc).__name__, exc))
 
 
 def clean(root):
@@ -320,7 +389,15 @@ def main(argv=None, root=ROOT):
             raise ValueError('empty landing')
         step('stage', ['git','add','--',*staged])
         step('commit', ['git','commit','-m',args.message])
+    # The landing has succeeded; its code map refresh is advisory and never fails it.
+    started, cpu, load = time.monotonic(), resource.getrusage(resource.RUSAGE_CHILDREN), os.getloadavg()
+    codemap = codemap_refresh(root)
+    after = resource.getrusage(resource.RUSAGE_CHILDREN)
+    steps.append(dict(step='codemap', wall_seconds=time.monotonic()-started,
+                      cpu_seconds=after.ru_utime+after.ru_stime-cpu.ru_utime-cpu.ru_stime,
+                      returncode=0, load_start=list(load), load_end=list(os.getloadavg()), result=codemap))
     record = dict(complete=True, committed=not args.no_commit, steps=steps, native_check=native.get('result'),
+                  codemap=codemap,
                   patches=[dict(name=q.name,sha256=hashlib.sha256(q.read_bytes()).hexdigest()) for q in patches],
                   changed_files=staged)
     (log_dir/'timings.json').write_text(json.dumps(record,indent=2)+'\n')

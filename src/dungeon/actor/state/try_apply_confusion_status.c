@@ -2,6 +2,7 @@
 #include "common.h"
 #include "dungeon/item/message.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/item.h"
 
 extern s32 generate_random_value(void);
 extern void wrap_position_and_set_state_value(s32 value);

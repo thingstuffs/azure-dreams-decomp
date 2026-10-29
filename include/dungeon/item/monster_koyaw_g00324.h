@@ -15,6 +15,5 @@ extern u8 D_800DD850[];
 
 /* Functions defined in this translation unit. */
 void itm_mon_koyaw_set(u8 *src, s8 *dst);
-void apply_monster_koyaw_data(s32 flags, s8 *dst);
 
 #endif

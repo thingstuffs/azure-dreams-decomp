@@ -79,7 +79,7 @@ void create_single_callback_payload(void *object);
 struct ObjectNodeHeader *find_active_list_node(struct ObjectNodeHeader *target);
 void submit_global_cd_command_six(void);
 void load_bin_nametwin(void);
-int create_item_view_without_event(int object, int value);
+void *create_item_view_without_event(int object, int value);
 void initialize_scaled_entry_cursor(struct S8004CBFC_a0 *state, struct S8004CBFC_a1 *entry, int *cursor);
 void *advance_packed_record_by_type(void *object);
 void decode_glyph_id_to_byte_rectangle(u32 value, u8 *record);
@@ -98,7 +98,7 @@ void clear_vram_callback_state(void);
 
 #include "slus/resource_transition_task.h"
 void build_menu_backdrop_display_buffers(void *object);
-void link_menu_backdrop_display_nodes(void *entries);
+void *link_menu_backdrop_display_nodes(void *entries);
 void set_menu_backdrop_initial_value(int *dst, int value);
 void noop_selection_menu_animation_idle(void);
 int read_selected_menu_entry_word(char *object);

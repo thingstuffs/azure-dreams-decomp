@@ -112,8 +112,6 @@ typedef struct S_800CBCA0_1 {
     u8 unk_25;
 } S_800CBCA0_1;   /* parent in check_entity_chance_and_trigger_parent_action */
 
-
-extern void adjust_source_value_and_finalize(void *context, const void *source);
 extern s32 generate_random_value(void);
 extern void * create_owned_tile_center_effect(s16 tile_x, u16 tile_y, s16 height, void *owner);
 extern u8 D_800E1AE6[];
@@ -296,7 +294,6 @@ s32 create_active_entity_effect_or_message(ActorRecord *entity)
 extern s32 generate_random_value(void);
 #include "dungeon/actor/status.h"
 extern s32 play_sound_if_enabled(s32 query_value);
-extern void adjust_source_value_and_finalize(void *context, const void *source);
 
 extern u8 D_800E1BBC[];
 /* Attempts a random status effect and plays its visual and sound effects on success. */
@@ -353,7 +350,6 @@ typedef struct S_800CC18C_0 {
 
 
 extern u8 D_800E1BDA[];
-extern void adjust_source_value_and_finalize(void *context, const void *source);
 extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 generate_random_value(void);
 extern s32 begin_actor_random_warp(void *, s32, s32, void *);
@@ -1254,8 +1250,6 @@ s32 spawn_source_sprite_effect(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 r
 #include "common.h"
 #include "shared/entity.h"
 
-
-extern void adjust_source_value_and_finalize(void *context, const void *source);
 extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 roll_chance_and_run_action(void *record, s16 chance, s8 action);
 extern void wrap_position_and_set_state_value(s32);
@@ -1331,7 +1325,6 @@ typedef struct S_800CD294_1 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 extern s32 D_800DCF14;
-extern void adjust_source_value_and_finalize(void *context, const void *source);
 extern s32 play_sound_if_enabled(s32 query_value);
 s32 roll_threshold_effect_variant_b(struct State *state_ptr, s16 limit_input, s8 byte_input);        /* extern */
 void wrap_position_and_set_state_value(s32 state_value);                         /* extern */
@@ -1372,8 +1365,6 @@ s32 check_trap_record_and_trigger_effects(void *record_data) {
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-
-extern void adjust_source_value_and_finalize(void *context, const void *source);
 extern s32 roll_threshold_effect_variant_a(struct State *state_ptr, s16 limit_input, s8 byte_input);
 extern void wrap_position_and_set_state_value(s32 state_value);
 extern s32 D_800DCF1C;
@@ -1771,7 +1762,6 @@ void tick_trap_effect_countdown(S_800C81B0_a0 *object)
 
 
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
-extern void adjust_source_value_and_finalize(void *context, const void *source);
 #include "dungeon/actor/status.h"
 extern u8 D_800E1C25[];
 
@@ -2685,7 +2675,6 @@ extern void func_80042640(void *, s32);
 extern void SD_Call(s32);
 extern void display_formatted_context_message(void *context);
 extern s32 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
-extern s32 retain_spawn_resource(s16 entry_type, s16 entry_key);
 extern u8 *find_or_retain_sprite_resource_slot(s32, s32);
 extern void raise_entity_level(void *, s32);
 extern s32 play_sound_if_enabled(s32 query_value);

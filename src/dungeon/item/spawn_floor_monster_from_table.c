@@ -5,6 +5,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/level.h"
+#include "dungeon/item.h"
 extern int abs(int);
 
 typedef MonsterFactory SpawnFunc;
@@ -17,7 +18,6 @@ struct EntityLinkNode;
 extern void unlink_entity_node(struct EntityLinkNode *node);
 extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
 extern s32 find_active_rect_containing_point(s32, s32);
-extern void retain_spawn_resource(s16 entry_type, s16 entry_key);
 extern void raise_entity_level(void *, s32);
 extern void * detach_record_and_update_slot_state(void *);
 extern void select_dungeon_spawn_tile(u8 *, u8 *);

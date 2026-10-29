@@ -11,7 +11,7 @@
 #include "dungeon/system.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/player/state.h"
-void adjust_source_value_and_finalize(void *context, const void *source);           /* extern */
+#include "dungeon/item.h"
 void create_colored_effect_with_sound(void *source, s32 color, unsigned short sound_id);    /* extern */
 extern u8 D_800E1843[];
 

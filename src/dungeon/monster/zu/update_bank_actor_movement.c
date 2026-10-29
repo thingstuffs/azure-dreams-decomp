@@ -117,7 +117,7 @@ typedef void (*Callback)(void *, void *, void *, void *);
 extern void select_indirect_table_entry(void *, u8, s8);
 extern void advance_sprite_animation_and_textures(void *);
 extern s32 rsin(s32);
-extern void apply_monster_koyaw_data(s32, void *);
+extern void apply_monster_koyaw_data(s32 flags, s8 *dst);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 extern Callback zu_callbacks[];
 
@@ -687,10 +687,10 @@ void advance_bank_actor_path(void *motion, ObjectPosition *unused, void *entity,
 
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
-extern void * find_adjacent_actor(void *, u8, u8);
+extern void *find_adjacent_actor(void *entity, u16 x, u16 y);
 extern s32 generate_random_value(void);
 extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
-extern void select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
+extern s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
 extern s16 check_directional_move_and_terrain(s16, void *, void *, s32);
 extern s16 actor_turn_angle_offsets[];
 
@@ -1420,7 +1420,7 @@ void update_bank_staged_movement(void *action, void *motion, SpriteFrameState *m
 #include "shared/object_links.h"
 extern int abs(int);
 
-extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
+extern void *scan_actor_along_heading(ActorRecord *source, s32 start_x, s32 start_y, s16 heading, s16 max_steps);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void *create_actor_spell_effect(void *actor, void *effect_record, s16 mode, void *context);
 extern void create_source_positioned_object(ObjectPosition *source_pos, s16 initial_value);

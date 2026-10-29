@@ -1,10 +1,9 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/scene/flags.h"
 
 s32 handle_evaluate_position_after_subtracting_stored_offset_first_component();                           /* extern */
 s32 query_position_with_first_component_offset();                           /* extern */
-void set_the_control_flag_initializes_cleared_trailing_field();             /* extern */
-void set_the_flag_initializes_state();             /* extern */
 
 /*
  * Computes the upper and lower fixed-point bounds and starts the corresponding boundary adjustment

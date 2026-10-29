@@ -52,6 +52,7 @@ extern void *get_unused_text_buffer(void);
 extern u8 * copy_selected_text_without_terminator(void *text_id, u8 *dest);
 extern void display_formatted_context_message(void *context);
 #include "dungeon/item/actor_target.h"
+#include "dungeon/item.h"
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 find_slot_by_item_group(void *entry, s16 target);
 struct DungeonItemEntry;

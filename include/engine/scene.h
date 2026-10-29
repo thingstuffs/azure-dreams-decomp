@@ -75,7 +75,7 @@ inline s32 inline_fn(s32 value);
 void *initialize_scene_object_in_buffer(s32 flags_or_addr, void *buffer, s16 word_count);
 
 /* load_and_open_monster_status_display.c */
-void load_and_open_monster_status_display(s32 first_arg, s32 second_arg, s32 third_arg, s32 fourth_arg, s32 fifth_arg);
+void *load_and_open_monster_status_display(s32 first_arg, s32 second_arg, s32 third_arg, s32 fourth_arg, s32 fifth_arg);
 
 /* load_indexed_resource_package.c */
 int load_indexed_resource_package(short table_index);

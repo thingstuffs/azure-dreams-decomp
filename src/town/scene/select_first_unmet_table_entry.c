@@ -6,8 +6,8 @@
 extern u8 D_00000DB4[];
 extern s32 func_80000BE4(u16 value);
 
-/* Select the first table entry whose value check returns zero. */
-void select_first_unmet_table_entry(void) {
+/* Select the first table entry whose value check returns zero; returns the selection's result. */
+s32 select_first_unmet_table_entry(void) {
     s32 index = 0;
     s32 offset = 0;
 
@@ -15,5 +15,5 @@ void select_first_unmet_table_entry(void) {
         offset += 4;
         index += 1;
     }
-    advance_shop_entry_index_107(index);
+    return advance_shop_entry_index_107(index);
 }

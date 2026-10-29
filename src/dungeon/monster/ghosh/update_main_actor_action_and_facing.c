@@ -41,7 +41,6 @@ extern u8 ghosh_frame_set_4[];
 extern u8 ghosh_frame_set_3[];
 extern u8 ghosh_action_resume_address[];
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
-s32 test_neighbor_position_relation(s32, s32, s32, s32);
 s32 can_entity_gain_level(void *entity);
 struct ActorRecord; void update_actor_status_and_mp(struct ActorRecord *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);

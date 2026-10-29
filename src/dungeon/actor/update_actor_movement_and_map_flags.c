@@ -7,6 +7,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/system.h"
 #include "dungeon/level.h"
+#include "dungeon/item.h"
 
 extern u8 destination_motion_resume_address[];
 extern u8 actor_default_frames[];
@@ -17,7 +18,6 @@ extern void process_unflagged_linked_entries(s32 firstEntryBase);
 extern void process_unflagged_linked_entries_alt(s32 firstNodeBase);
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s32 classify_adjacent_tile_height();
-extern void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
 
 #define U8(p, o) (*(u8 *)((u8 *)(p) + (o)))
 #define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))

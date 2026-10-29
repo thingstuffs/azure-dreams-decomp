@@ -646,10 +646,10 @@ void load_bin_nametwin(void)
     submit_global_cd_command_six();
 }
 
-extern int create_item_view_for_entry(int a0, int a1, int a2);
+extern void *create_item_view_for_entry(int a0, int a1, int a2);
 
-/* Forward an object and value with a zero event parameter. */
-int create_item_view_without_event(int object, int value)
+/* Forward an object and value with a zero event parameter; returns the item view. */
+void *create_item_view_without_event(int object, int value)
 {
     return create_item_view_for_entry(object, value, 0);
 }
@@ -825,12 +825,12 @@ void build_menu_backdrop_display_buffers(void *object)
 
 extern unsigned char menu_backdrop_link_indices[16];
 
-extern void build_reverse_indexed_chain(void *a0, void *a1, int a2);
+extern void *build_reverse_indexed_chain(void *a0, void *a1, int a2);
 
-/* Link entries using the fixed index table and limit seven. */
-void link_menu_backdrop_display_nodes(void *entries)
+/* Link entries using the fixed index table and limit seven; returns the chain. */
+void *link_menu_backdrop_display_nodes(void *entries)
 {
-    build_reverse_indexed_chain(entries, menu_backdrop_link_indices, 7);
+    return build_reverse_indexed_chain(entries, menu_backdrop_link_indices, 7);
 }
 
 /* Store a word through the supplied pointer. */
@@ -920,7 +920,7 @@ void invoke_leading_object_callback(struct VtableObj *object, void *position, vo
 
 extern unsigned char selection_menu_link_indices[16];
 
-extern void build_reverse_indexed_chain(void *a0, void *a1, int a2);
+extern void *build_reverse_indexed_chain(void *a0, void *a1, int a2);
 
 /* Link entries using the fixed index table and limit 0x11. */
 void link_seventeen_indexed_entries(void *entries)

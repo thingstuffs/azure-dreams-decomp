@@ -63,4 +63,17 @@ s32 use_item_to_restore_eyesight(void *entity, DungeonItemEntry *item, s16 effec
 
 void apply_monster_koyaw_data(s32 flags, s8 *dst);
 
+struct ovl_1830850_81811168_DungeonObj81811168;
+struct Object;
+s32 check_monster_neighbor_relations(s16 x0, s16 y0, s16 check_param, s16 x1, s16 y1);
+void *find_adjacent_actor(void *entity, u16 x, u16 y);
+u8 *find_monster_entry_by_type_and_id(s16 entry_id, s32 entry_type);
+s32 get_active_region_data(s16 entry_index);
+struct ovl_1830850_81811168_DungeonObj81811168 *inventory_allocate_and_initialize_child(s32 parent_obj, s32 initial_value, s32 text_addr);
+void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
+u8 *process_eligible_object_value(struct Object *object, u8 *input_value);
+s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
+void *teleport_familiar_near_player(void *object, s16 action_arg);
+s16 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
+
 #endif

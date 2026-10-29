@@ -7,6 +7,7 @@
 #include "shared/actor_status.h"
 #include "engine/graphics.h"
 #include "dungeon/level.h"
+#include "dungeon/item.h"
 
 typedef struct S_80171960_0 {
     u8 pad_00[0x1C];
@@ -31,7 +32,6 @@ typedef struct S_80171960_2 {
    /* (u8 *)arg3 + ((S_80171960_0 *)arg3)->unk_8A.s in advance_stored_actor_path */
 
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-extern s16 get_rounded_facing_and_rounding_flag();
 
 extern u8 kid_direction_frames[];
 extern u8 kid_alt_direction_frames[];

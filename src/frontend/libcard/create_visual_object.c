@@ -10,7 +10,7 @@ struct ObjectNodeHeader;
 #include "slus.h"
 
 extern void card_boot_mark_object_complete(struct ObjectNodeHeader *object);
-extern s32 card_boot_link_paired_choice_display_entries(void *nodes);
+extern void *card_boot_link_paired_choice_display_entries(void *nodes);
 extern void card_boot_initialize_paired_choice_panel(s8 *record, s32 initial_value);
 
 extern u8 menu_backdrop_tag[];
@@ -33,7 +33,7 @@ void *create_visual_object(s32 init_value, s32 stored_value)
     }
     init_card_choice_nodes(data, 4);
     object->sprite = (u8 *)data + 0x50;
-    *(s32 *)((u8 *)data + 0x5C) = card_boot_link_paired_choice_display_entries((u8 *)data + 0x60);
+    *(void **)((u8 *)data + 0x5C) = card_boot_link_paired_choice_display_entries((u8 *)data + 0x60);
     *(s32 *)((u8 *)data + 0x24) = stored_value;
     card_boot_initialize_paired_choice_panel(data, init_value);
     object->update_callback = D_80026AE4;

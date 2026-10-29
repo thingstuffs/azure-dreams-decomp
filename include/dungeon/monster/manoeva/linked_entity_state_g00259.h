@@ -42,7 +42,7 @@ typedef struct S_80173D40_1 {
 
 extern void copy_entity_record(void *, void *);
 extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *);
-extern u8 *find_monster_entry_by_type_and_id(s32, s32);
+extern u8 *find_monster_entry_by_type_and_id(s32, s32); /* Unprototyped: retail call narrows its arguments to this declaration; no shared prototype keeps it */
 extern s32 find_entity_slot_by_field_ac(void *);
 
 extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);

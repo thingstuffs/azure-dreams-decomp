@@ -60,7 +60,6 @@ void register_node(void *, void *);
 void func_8004491C(void *, void *);
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 s32 get_definition_entry_byte_13(s16 entry_index);
-void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 void play_sound_if_enabled(s32);
 void unlink_node(void *);
 void func_80044A50(void *);

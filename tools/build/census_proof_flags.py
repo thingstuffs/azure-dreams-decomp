@@ -5,8 +5,10 @@
 
 The proof map (`layout_compile_identity.recipes`) records, per physical TU, a cell, cc flags and maspsx
 `asflags`; `capture_one` compiles it with `gcc -S` -> ccproc -> `layout_identity.reassemble` (maspsx
-with container-wide noreturn/sibcall tables and NO asflags).  The build compiles the same source
-through `build_ovl/tools/cc.sh <cell> <ccflags> <maspsx flags>` with the recipe's own evidence files.
+with container-wide noreturn/sibcall tables) at the cell, cc flags and maspsx flags of every linked
+production recipe of the source (`production_compiles`; it used to pass NO maspsx flags).
+The build compiles the same source through `build_ovl/tools/cc.sh <cell> <ccflags> <maspsx flags>` with the
+recipe's own evidence files.
 
 Static part (no compile): every ordinary row TU in the proof map joined with its linked production
 recipe(s) on source; counts of cell / cc-flag / maspsx-flag disagreements.
@@ -41,7 +43,8 @@ def _capture(args):
     os.chdir(root)
     import layout_compile_identity as L
     try:
-        return rel, L.capture_one(root, rel, recipe)['raw_sha256'], None
+        res = L.capture_one(root, rel, recipe)
+        return rel, dict(res.get('variant_raw_sha256') or {}, primary=res['raw_sha256']), None
     except Exception as exc:
         return rel, None, str(exc)[-300:]
 
@@ -104,9 +107,10 @@ def main(argv=None):
         for r in todo:
             path = root / graph.recipes[r['recipe']]['output']
             build[r['recipe']] = hashlib.sha256(path.read_bytes()).hexdigest() if path.is_file() else None
+        sources = sorted({r['source'] for r in todo})
         with ProcessPoolExecutor(max_workers=args.workers) as ex:
             caps = {rel: (sha, err) for rel, sha, err in
-                    ex.map(_capture, [(str(root), r['source'], physical[r['source']]) for r in todo], chunksize=4)}
+                    ex.map(_capture, [(str(root), rel, physical[rel]) for rel in sources], chunksize=4)}
         t_capture = time.monotonic() - started
         run = 'build/.affected/census-%d' % os.getpid()
         tasks = []
@@ -128,6 +132,7 @@ def main(argv=None):
         for r in todo:
             sha_build = build[r['recipe']]
             cap, err = caps[r['source']]
+            cap = None if err else cap.get(r['recipe'], cap['primary'])
             res = stripped[r['recipe']]
             c = 'capture_error' if err else 'capture_equal' if cap == sha_build else 'capture_differs'
             if r['asflags']:

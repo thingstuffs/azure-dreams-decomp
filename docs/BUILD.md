@@ -218,11 +218,28 @@ image is judged by its objects. `tools/typing/tu_identity.py` and
 `tools/headers/extern_wave.py` run it after their complete-TU filter
 (`--proof build-graph`, the default when the root has a built tree).
 
+The standalone typing captures (`layout_compile_identity.capture_one`, used by
+`tu_identity`, `cast_wave`, `retype_family` and the probes) compile each row TU
+at the cell, cc flags, maspsx flags and evidence tables of every linked
+production recipe of that source, so they prove the object the build links
+(`tools/build/census_proof_flags.py --all` measures capture against
+`build/obj`). The first capture in a process loads the build graph (about ten
+seconds); a root without a generated graph falls back to the registry recipe.
+
 `tools/codemap/codemap.py build|refresh|check|query` keeps `build/codemap.db`,
 a SQLite map of recipes, images, header closures, every declaration and call
 site (clang), retail ABI facts per function and call (capstone over the linked
-objects), names and debt sites. It is a build artefact; `refresh` is
-incremental by source/closure and object hashes.
+objects), per-placement call binding, names and debt sites. It is a build
+artefact; `refresh` is incremental by source/closure and object hashes. The
+binding (`tools/codemap/bind.py`) follows each image's link map and linked
+bytes to the function a call site really reaches in its bank, so queries such
+as `query voidret` join callers and callees per placement rather than by name.
+`check` tells a lane whether a copied map is current for its tree (read-only;
+exit 0 fresh, 1 stale): only files whose size or mtime differ from the stored
+stat are hashed, `--full` hashes all. A successful `land_make.py` landing
+refreshes an existing map at nice 10 under a time limit and never fails on it
+(`build/landing/codemap.log`; `AZURE_CODEMAP_REFRESH=0` skips, `=1` also builds
+a missing map, `AZURE_CODEMAP_TIMEOUT` seconds, default 600).
 
 | Symptom | Next step |
 | --- | --- |

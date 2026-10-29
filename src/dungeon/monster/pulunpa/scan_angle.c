@@ -26,9 +26,8 @@ typedef struct S_80175E6C_6_pre {
 } S_80175E6C_6_pre;   /* the 0x14 bytes before ((Rec_D_800E3D7C *)arg3)->unk_60.as_pv in select_nearby_target_and_start_action, addressed as ((Rec_D_800E3D7C *)arg3)->unk_60.as_pv[-1] */
 
 void select_sprite_entry(void *, u8, s32);
-void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
-s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 #include "dungeon/player/object/action_state.h"
+#include "dungeon/item.h"
 void update_actor_status_and_mp(ActorRecord *entity);
 void build_and_display_encoded_message(void *);
 extern u8 D_80176348[];

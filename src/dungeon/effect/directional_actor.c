@@ -6,6 +6,7 @@
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/directional_actor.h"
+#include "dungeon/item.h"
 
 /* Moves to a directional target, emits spiraling particles, and attempts a timed target effect before
    cleanup. */

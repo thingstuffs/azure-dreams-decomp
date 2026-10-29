@@ -4,8 +4,8 @@
 #include "town/scene.h"
 #include "town/scene/event.h"
 
-/* Set unk_02 to 0xFF before forwarding three values to advance_to_next_enabled_entry. */
-void reset_event_selection_and_advance(void) {
+/* Clear the selected entry (0xFF), advance to the next enabled entry and return what that advance returns. */
+s32 reset_event_selection_and_advance(void) {
     town_event_state->entry_index = 0xFF;
-    advance_to_next_enabled_entry();
+    return advance_to_next_enabled_entry();
 }

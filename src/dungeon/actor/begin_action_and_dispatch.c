@@ -4,9 +4,7 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/actor.h"
 #include "dungeon/system.h"
-
-
-extern void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s32 extra_byte);
+#include "dungeon/item.h"
 
 typedef struct ActionDispatchState {
     u8 pad_00[0x8C];

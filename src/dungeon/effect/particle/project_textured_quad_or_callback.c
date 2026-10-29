@@ -13,6 +13,7 @@ struct ObjectPosition;
 #include "engine/graphics.h"
 #include "sdk/libgte.h"
 #include "dungeon/item/message.h"
+#include "dungeon/item.h"
 struct S_800259D8_2;
 void update_animated_effect_sprite(void *, void *, struct S_800259D8_2 *);
 void (*const dungeon_1894800_entry)(void *, void *, struct S_800259D8_2 *) = update_animated_effect_sprite;
@@ -30,7 +31,6 @@ extern u8 D_800E1C8A[38];
 
 extern u8 *clear_byte_and_advance(u8 *byte_ptr);
 extern u8 *append_entity_display_text(void *record, u8 *out);
-extern void adjust_source_value_and_finalize(void *, const void *);
 #include "dungeon/effect/screen.h"
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 get_random_scaled_value(s16 input_value);

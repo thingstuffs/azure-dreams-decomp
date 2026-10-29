@@ -20,7 +20,7 @@ extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void place_actor_item(void *, struct DungeonItemEntry *);
 extern void display_actor_item_status_message(void *, struct DungeonItemEntry *, s16);
-extern void teleport_familiar_near_player(s32, s16);
+extern void teleport_familiar_near_player(s32, s16); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 has_enough_available_runtime_nodes(s32);
 
 /* Applies a target action or processes occupied player slots and updates the action count. */

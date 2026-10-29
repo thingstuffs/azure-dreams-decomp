@@ -7,11 +7,11 @@
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "engine/graphics.h"
+#include "dungeon/item.h"
 typedef struct Ent Ent;
 
 Ent *prepare_directional_attack();
 s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
-void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
 s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 s32 check_entity_interaction_compatibility();
 s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);

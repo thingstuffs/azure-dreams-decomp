@@ -14,7 +14,6 @@
 #include "dungeon/system.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/player/state.h"
-extern void adjust_source_value_and_finalize(void *context, const void *source);
 
 extern u8 D_800E0F07[];
 

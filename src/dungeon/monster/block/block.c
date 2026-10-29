@@ -14,6 +14,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect.h"
 #include "engine/cd.h"
+#include "dungeon/item.h"
 
 void *(*const cb3000_spawn_entry)(s16,s16,s16,s32) = create_linked_object_position;
 void (*const cb3000_update_entry)(void *,CB_80170C24_S_80170C24_2 *,void *) = set_boss_effect_flag;

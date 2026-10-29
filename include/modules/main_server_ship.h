@@ -78,6 +78,6 @@ void card_boot_cache_save_header(s32 entry_index, void *source);
 void card_boot_store_save_xor_checksum(void *buffer);
 s32 card_boot_verify_save_xor_checksum(void *save_data);
 s32 card_boot_write_save_via_temporary_path(s32 slot, void *data);
-void card_boot_load_save_and_clear_marker(s32 entry_index, void *data, s32 update_entry);
+s32 card_boot_load_save_and_clear_marker(s32 entry_index, void *data, s32 update_entry);
 #include "modules/main_server_ship_interfaces.h"
 #endif

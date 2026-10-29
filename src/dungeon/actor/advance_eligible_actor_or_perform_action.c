@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
+#include "dungeon/item.h"
 
 typedef struct S_800C8150_1 {
     u8 pad_00[0xAC];
@@ -18,7 +19,6 @@ typedef struct TablePage {
     s16 entries[1];
 } TablePage;
 
-extern void adjust_source_value_and_finalize(void *context, const void *source);
 extern s16 find_entity_slot_by_field_ac(void *);
 extern s32 try_apply_effect_four_by_chance(void *actor, s32 chance, s32 action);
 

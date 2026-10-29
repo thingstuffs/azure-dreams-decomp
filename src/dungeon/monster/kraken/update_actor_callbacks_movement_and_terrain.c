@@ -10,10 +10,10 @@
 #include "engine/texture.h"
 #include "dungeon/actor.h"
 #include "dungeon/level.h"
+#include "dungeon/item.h"
 
 
 void advance_sprite_animation_and_textures(void *entity);
-void apply_monster_koyaw_data(s32 flags, s8 *dst);
 s32 refresh_actor_facing_and_lifecycle();
 void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *status);
 extern M2C_UNK D_80174174[];

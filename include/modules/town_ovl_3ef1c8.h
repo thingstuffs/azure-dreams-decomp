@@ -128,7 +128,6 @@ s32 select_scene_result_with_overrides(s32 context, s32 check_value, s32 selecto
 void *select_lookup_with_progress_threshold(s32 selector, s32 check_value, s32 lookup_value);
 s32 select_lookup_with_count_threshold(s32 object, s32 check_value, s32 selection);
 s32 run_preliminary_callback_count_ten(s32 context, s32 check_value, s32 selector);
-s32 update_scene_action_flags(s32 context, s32 check_value, s32 selector);
 void invoke_handler_with_code_7_a_0(void);
 s32 check_interaction_13_type_3(void);
 s32 select_interaction_result_with_refresh(s32 input, s32 check_value, s32 context);

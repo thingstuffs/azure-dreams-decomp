@@ -164,7 +164,6 @@ typedef struct {
 
 extern void advance_sprite_animation_and_textures(void *entity);
 extern s32 rand(void);
-extern void apply_monster_koyaw_data(s32 flags, s8 *dst);
 extern s32 refresh_actor_facing_and_lifecycle();
 extern s32 try_move_actor_to_valid_position(void *action, void *context, void *position, void *entity);
 extern u8 actor_action_resume_address;
@@ -184,15 +183,12 @@ extern void *actor_action_frames[];
 extern TileObject D_80082E80_initial __asm__("D_80082E80");
 extern s16 actor_turn_angle_offsets[];
 s32 check_entity_relation();
-s32 select_actor_route_target();
 s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 s32 generate_random_value(void);
 
 struct Dst; struct Elem;
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
-extern s32 test_neighbor_position_relation(s32, s32, s32, s32);
-extern s32 get_rounded_facing_and_rounding_flag(s16, s16, s16, s16, u16 *);
 extern void update_actor_status_and_mp(ActorRecord *);
 extern void cycle_map_cell_flags(s16, s16, u16);
 extern void update_map_cell_flags_with_item_limit(s32, s32, u16);

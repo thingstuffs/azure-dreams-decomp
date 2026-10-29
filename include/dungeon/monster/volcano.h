@@ -645,17 +645,10 @@ extern void * resolve_attack_damage_and_effects(void *attacker_in, void *tile_in
 extern E_80171E10_Ent * prepare_directional_attack();
 extern s32 find_active_rect_containing_point(s32, s32);
 extern s16 get_tile_chebyshev_distance(void *, void *);
-s16 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
 /* Signed differences arrive sign-extended in the 32-bit v0 ABI slot.
  * The two signed comparisons explicitly narrow that slot; the other caller
  * performs modulo-16-bit arithmetic. One whole-bank declaration is used. */
 extern s32 get_actor_height_difference(void *,void *);
-extern void apply_monster_koyaw_data(s32 flags, s8 *dst);
-void *find_adjacent_actor(void *entity, u16 x, u16 y);
-void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
-void *scan_actor_along_heading(EntityRec *source, s32 start_x, s32 start_y, s16 heading, s16 max_steps);
-extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern void select_actor_route_target();
 extern s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 extern s32 can_entity_gain_level(void *);
 extern void set_record_integer_tile_center(void *, s32, s32);

@@ -23,7 +23,6 @@ typedef struct Copy48 {
 } Copy48;
 
 extern void select_sprite_entry(void *, u8, s32);
-extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void play_sound_if_enabled(s32);
 extern void *create_actor_spell_effect(void *actor, void *effect_record, s16 mode, void *context);
 void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosition *source_position, SpriteFrameState *source_sprite);
@@ -33,6 +32,7 @@ extern s8 view_direction_depth_biases[];
 extern u8 uboat_default_frames[];
 extern u8 D_800E2410[];
 #include "dungeon/monster/u_boat.h"
+#include "dungeon/item.h"
 
 typedef struct S_80173A60_0 {
     u8 pad_00[0x2A];

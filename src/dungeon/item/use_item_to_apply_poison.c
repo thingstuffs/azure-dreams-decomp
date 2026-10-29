@@ -23,7 +23,6 @@
 #include "dungeon/system.h"
 #include "dungeon/player/state.h"
 #include "dungeon/actor/status.h"
-void adjust_source_value_and_finalize(void *context, const void *source);           /* extern */
 extern u8 D_800E1729[17];
 
 /* Handles an item action for an entity, including its effect and item cleanup. */

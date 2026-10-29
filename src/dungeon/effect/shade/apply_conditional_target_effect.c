@@ -3,7 +3,7 @@
 
 #include "dungeon/effect/screen.h"
 #include "dungeon/actor/status.h"
-extern void adjust_source_value_and_finalize(void *, void *);
+#include "dungeon/item.h"
 extern u8 D_800E1D28[9];
 
 /* Conditionally apply D_800E1D28 to the target after checking a scaled low-byte value. */

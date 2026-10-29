@@ -251,7 +251,6 @@ void inventory_initialize_owner_pointers_and_offsets(ovl_1830850_81810E3C_Source
 void initialize_text_editor_context(void *object, s32 range_start, s32 initial_value, s32 text_addr);
 void inventory_initialize_object_from_embedded_data(void *object, s32 init_value, s32 init_value_2, s32 init_value_3);
 s32 inventory_copy_state_vector_after_buffers(ovl_1830850_818110CC_Unk818110CC *state, s32 input);
-ovl_1830850_81811168_DungeonObj81811168 *inventory_allocate_and_initialize_child(s32 parent_obj, s32 initial_value, s32 text_addr);
 void inventory_clear_referenced_handle(ovl_1830850_81811250_S_80026250_0 *context);
 void inventory_set_embedded_state_one(s32 object_addr);
 #endif

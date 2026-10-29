@@ -5,6 +5,7 @@
 #include "shared/dungeon_status.h"
 #include "engine/graphics.h"
 #include "dungeon/level.h"
+#include "dungeon/item.h"
 
 typedef struct S_80171FC8_0 {
     u8 pad_00[0x1C];
@@ -44,7 +45,6 @@ typedef struct S_80171FC8_4 {
 } S_80171FC8_4;   /* (u8 *)arg3 + ((S_80171FC8_0 *)arg3)->unk_8A.s in advance_entity_path_state */
 
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 
 extern u8 death_direction_frames[];
 

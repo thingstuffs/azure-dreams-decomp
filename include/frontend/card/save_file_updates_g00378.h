@@ -11,6 +11,6 @@ extern void rename(void *old_name, void *new_name);
 /* Functions defined in this translation unit. */
 s32 card_boot_verify_save_xor_checksum(void *save_data);
 s32 card_boot_write_save_via_temporary_path(s32 slot, void *data);
-void card_boot_load_save_and_clear_marker(s32 entry_index, void *data, s32 update_entry);
+s32 card_boot_load_save_and_clear_marker(s32 entry_index, void *data, s32 update_entry);
 
 #endif

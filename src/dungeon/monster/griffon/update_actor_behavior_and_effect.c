@@ -13,6 +13,7 @@
 #include "engine/cd.h"
 #include "shared/actor_status.h"
 #include "dungeon/level/room_flags.h"
+#include "dungeon/item.h"
 
 void * (*const resource08_slot0_entry0)(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id) = spawn_animated_monster;
 void (*const resource08_slot0_entry1)(void *entity, R08_80170A50_S_80170A28_2 *motion, void *part) = update_griffon_motion_and_facing;

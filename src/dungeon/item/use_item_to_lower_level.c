@@ -20,7 +20,7 @@ typedef struct {
 
 
 #include "dungeon/player/item.h"
-void adjust_source_value_and_finalize(void *context, const void *source);
+#include "dungeon/item.h"
 extern u8 D_800E173A[28];
 
 /* Processes an entity's item interaction and consumes the item when finished. */

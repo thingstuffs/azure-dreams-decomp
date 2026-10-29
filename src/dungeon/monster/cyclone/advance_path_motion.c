@@ -45,7 +45,7 @@ typedef struct S_801716D8_4 {
 
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
 s32 check_movement_clearance_and_height(); /* extern */
-s16 get_rounded_facing_and_rounding_flag();             /* extern */
+s16 get_rounded_facing_and_rounding_flag(); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */             /* extern */
 extern u8 cyclone_move_direction_frames[8];
 
 /* Advance the entity along its stored path and update its heading and movement timing. */

@@ -22,7 +22,7 @@ void join_monster_status_display_chains(S_800B648C_0 *owner, s32 source) {
             tail = tail->unk_0C.u;
         } while (tail->unk_0C.s != 0);
     }
-    tail->unk_0C.s = link_monster_status_display_entries(source);
+    tail->unk_0C.u = link_monster_status_display_entries(source);
 }
 
 /* Processes the object's embedded data, then selects a handler by its mode flag. */

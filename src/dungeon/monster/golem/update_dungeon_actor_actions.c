@@ -27,7 +27,6 @@ extern u8 D_80175F60;
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern s32 check_entity_relation();
 extern s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
-extern s32 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
 extern s32 can_entity_gain_level(void *entity);
 extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);

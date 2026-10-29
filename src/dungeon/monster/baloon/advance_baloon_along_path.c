@@ -8,6 +8,7 @@
 #include "records/Rec_func_801724B0_arg0.h"
 #include "engine/graphics.h"
 #include "dungeon/level.h"
+#include "dungeon/item.h"
 
 typedef struct S_801724B0_3 {
     u8 pad_00[0x74];
@@ -18,7 +19,6 @@ typedef struct S_801724B0_3 {
 
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s16 check_movement_clearance_and_height();
-extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 void initialize_angle_indexed_target(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *target, ActorRecord *angleSource);
 
 extern u8 baloon_default_frames[8];

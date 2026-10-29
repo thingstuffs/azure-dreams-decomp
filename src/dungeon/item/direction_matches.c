@@ -12,9 +12,9 @@ extern s16 actor_turn_angle_offsets[];
 extern u16 direction_x_offsets[];
 extern u16 direction_y_offsets[];
 
-extern Elem *get_active_region_data(s16);
+extern Elem *get_active_region_data(s16); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 generate_random_value(void);
-extern s32 get_rounded_facing_and_rounding_flag(s16, s16, s16, s16, u16 *);
+extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 
 /*
  * Tests the entry halfword against the direction selector: below two for 0, equal to two for 1, or

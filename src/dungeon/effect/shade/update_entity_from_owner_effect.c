@@ -3,7 +3,7 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 
-extern void apply_monster_koyaw_data(void *, void *);
+extern void apply_monster_koyaw_data(void *, void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void advance_sprite_animation_and_textures(void *);
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 get_entity_effect_value(void *, s32);

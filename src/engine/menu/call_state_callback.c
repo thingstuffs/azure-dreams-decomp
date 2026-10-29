@@ -6,7 +6,7 @@
 
 /* table of callback function pointers indexed by the same state/id field;
    called as fn(parent_ptr, arg) */
-typedef void (*Fn_8007179C)(void *, s32);
+typedef s32 (*Fn_8007179C)(void *, s32);
 extern Fn_8007179C menu_state_callbacks[];
 
 extern s32 func_800213AC(void);
@@ -18,7 +18,7 @@ typedef struct S_8004FF20 {
 } S_8004FF20;
 
 /* Calls the object's state callback with its parent and a flag-dependent argument. */
-void call_state_callback(S_8004FF20 *obj) {
+s32 call_state_callback(S_8004FF20 *obj) {
     s32 callback_arg = 0;
 
     if (menu_state_callback_flags[obj->unk1C] != 0) {
@@ -30,5 +30,5 @@ void call_state_callback(S_8004FF20 *obj) {
         }
     }
 
-    menu_state_callbacks[obj->unk1C]((u8 *)obj - 0x20, callback_arg);
+    return menu_state_callbacks[obj->unk1C]((u8 *)obj - 0x20, callback_arg);
 }

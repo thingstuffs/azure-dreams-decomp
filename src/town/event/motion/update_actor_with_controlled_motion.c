@@ -3,6 +3,7 @@
 #include "common.h"
 #include "shared/town_state.h"
 #include "records/Rec_D_800CFCB4.h"
+#include "town/scene/flags.h"
 
 typedef struct Actor Actor;
 typedef struct Subject Subject;
@@ -54,7 +55,6 @@ typedef struct MotionDelta {
 } MotionDelta;
 
 extern s32 get_smaller_query_result_capped_hex_80_writes_associated_output(EntityRec *source, s32 *out_detail);
-extern void set_the_state_flag_initialize_s_fixed_point_clear_paired_field(Rec_D_800CFCB4 *state, EntityRec *object, s32 initial_value);
 extern void call_the_same_context_both_processing_routines(Subject *, Motion *);
 extern void select_object_value_by_height_band(Actor *, Subject *, Motion *, TownMovementOutput *);
 extern void set_actor_drop_state(Actor *, Subject *, Motion *, TownMovementOutput *);

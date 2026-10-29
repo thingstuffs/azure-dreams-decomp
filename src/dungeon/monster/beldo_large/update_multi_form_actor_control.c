@@ -15,10 +15,9 @@
 #include "engine/graphics/select_sprite_entry_api.h"
 #include "slus.h"
 #include "sdk/libc.h"
+#include "dungeon/item.h"
 struct ActorRecord; s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
-s32 test_neighbor_position_relation(s32, s32, s32, s32);
-s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 s32 can_entity_gain_level(void *entity);
 void update_actor_status_and_mp(struct ActorRecord *);
 void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);

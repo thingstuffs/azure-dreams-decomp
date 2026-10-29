@@ -53,13 +53,13 @@ typedef struct Copy48 {
 } Copy48;
 
 extern void select_sprite_entry(void *, u8, s32);
-extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void play_sound_if_enabled(s32);
 extern s32 create_actor_spell_effect(void *, u8 *, s32, void *);
 
 extern u8 D_801708D4;
 
 #include "dungeon/monster/glacier.h"
+#include "dungeon/item.h"
 extern u8 D_801760FC[];
 
 typedef struct S_801730E4_0 {

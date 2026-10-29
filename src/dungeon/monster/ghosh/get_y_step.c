@@ -23,10 +23,10 @@ void cycle_map_cell_flags(s16, s16, u16);             /* extern */
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"             /* extern */
 s32 check_diagonal_side_height(s32, s16, s16, s16);                /* extern */
 s32 check_movement_clearance_and_height();    /* extern */
-s32 test_neighbor_position_relation(s32, s32, s32, s32);                  /* extern */
+s16 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);                  /* extern */
 s16 get_actor_height_difference(struct ActorRecord *, struct ActorRecord *);                  /* extern */
-u16 get_rounded_facing_and_rounding_flag();          /* extern */
-s32 select_actor_route_target(u8 *, s32, u8 *, u16 *);  /* extern */
+u16 get_rounded_facing_and_rounding_flag(); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */          /* extern */
+s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);  /* extern */
 s32 update_actor_proximity_flag(void *, void *, s32, s32, s8 *); /* extern */
 s32 generate_random_value(void);                            /* extern */
 void update_actor_status_and_mp(struct ActorRecord *);                      /* extern */

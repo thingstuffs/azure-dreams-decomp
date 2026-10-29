@@ -38,7 +38,6 @@ typedef struct S_801730C4_2 {
 
 
 extern s32 rsin(s32);
-extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void on_actor_status_updated(void *);
 
 
@@ -48,6 +47,7 @@ extern u8 uboat_default_frames[];
 extern u8 uboat_timed_motion_frames[];
 extern u8 uboat_timed_motion_frames_alt[];
 #include "dungeon/monster/u_boat.h"
+#include "dungeon/item.h"
 
 /* Updates timed actor movement, landing animations, and the next action. */
 void update_actor_timed_tile_motion(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *actor)

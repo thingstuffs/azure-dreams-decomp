@@ -6,7 +6,10 @@
                                                                 include-closure sha changed, re-read objects
                                                                 whose sha changed, reload the build graph
                                                                 when build/.state/index.json changed
-    codemap.py check   [--root R] [--db PATH]                   stored shas vs the tree (exit 1 when stale)
+    codemap.py check   [--root R] [--db PATH] [--full]          is the map current for this tree? (read-only;
+                                                                exit 0 fresh, 1 stale, 2 no map).  Quick: only
+                                                                files whose size/mtime differ from the stored
+                                                                stat are hashed; --full hashes every file
     codemap.py query decls NAME | callers NAME | affected PATH... | families [--limit N] [--kind K]
                      | census [OUT.tsv] [--type-level] | abi NAME | voidret | sql "..."
 
@@ -15,9 +18,10 @@ Default db: <root>/build/codemap.db (build/ is gitignored).  Sources:
   clang         `clang -Xclang -ast-dump=json` per src/*.c file (tools/codemap/ast_facts.py), in memory
   retail ABI    capstone over the byte-exact linked objects (tools/codemap/abi.py)
   names         config/names.tsv;  debt  tools/lint/debt_check.analyze per src/include file
+  call binding  each image's link map + linked bytes: the function every call site reaches (bind.py)
 
 Tables: meta, source_file, recipe, tu, tu_dep, image, image_unit, name, function, decl, defn, call_site,
-retail_fn, retail_call, debt_site, fact_key (incremental state).  Header declaration sites are stored
+retail_fn, retail_call, call_bind, debt_site, fact_key (incremental state).  Header declaration sites are stored
 once (file/line/col/name/signature unique) with the first TU that saw them; `seen` counts TUs.
 """
 from __future__ import annotations
@@ -41,7 +45,7 @@ sys.path[:0] = [str(HERE.parent), str(TOOLS / 'build')]
 
 SCHEMA = '''
 CREATE TABLE meta(key TEXT PRIMARY KEY, value TEXT);
-CREATE TABLE source_file(path TEXT PRIMARY KEY, sha256 TEXT NOT NULL, kind TEXT);
+CREATE TABLE source_file(path TEXT PRIMARY KEY, sha256 TEXT NOT NULL, kind TEXT, size INTEGER, mtime_ns INTEGER);
 CREATE TABLE recipe(id TEXT PRIMARY KEY, family TEXT, kind TEXT, source TEXT, physical TEXT, owner TEXT, home TEXT,
     output TEXT, args TEXT, recipe_sha256 TEXT, declaration_context_sha256 TEXT, linked INTEGER);
 CREATE INDEX recipe_physical ON recipe(physical);
@@ -87,13 +91,31 @@ CREATE INDEX retail_call_recipe ON retail_call(recipe);
 CREATE TABLE debt_site(file TEXT, function TEXT, line INTEGER, class TEXT, count INTEGER);
 CREATE INDEX debt_file ON debt_site(file);
 CREATE TABLE fact_key(kind TEXT, key TEXT, sha256 TEXT, PRIMARY KEY(kind, key));
+CREATE TABLE call_bind(image TEXT, caller_recipe TEXT, caller TEXT, offset INTEGER, target INTEGER,
+    callee_image TEXT, callee_recipe TEXT, callee TEXT, how TEXT);
+CREATE INDEX call_bind_callee ON call_bind(callee_recipe, callee);
+CREATE INDEX call_bind_caller ON call_bind(caller_recipe, caller, offset);
 '''
+
+# Tables added after the first released schema: created on open when an older map lacks them.
+LATE_TABLES = {'call_bind': SCHEMA[SCHEMA.index('CREATE TABLE call_bind'):]}
 
 QUAL = re.compile(r'\b(?:const|volatile|register|extern|static|inline)\b')
 
 
 def sha256(blob):
     return hashlib.sha256(blob).hexdigest()
+
+
+# Extractor sources per fact phase: a changed extractor makes that phase's stored facts stale.
+TOOL_SOURCES = {'clang': (HERE.parent / 'ast_facts.py',),
+                'abi': (HERE.parent / 'abi.py', TOOLS / 'build/affected.py'),
+                'bind': (HERE.parent / 'bind.py',),
+                'debt': (TOOLS / 'lint/debt_check.py',)}
+
+
+def tool_stamp(paths):
+    return sha256(b''.join(p.read_bytes() for p in paths if p.is_file()))
 
 
 def norm_sig(signature):
@@ -179,6 +201,11 @@ class CodeMap:
         self.workers, self.nice, self.log = workers, nice, log
         self.db = None
 
+    def open_readonly(self):
+        """Query/check connection that never writes the db (a lane's copied map stays as copied)."""
+        self.db = sqlite3.connect('file:%s?mode=ro' % self.db_path.resolve(), uri=True)
+        return self.db
+
     def open(self, fresh=False):
         if fresh and self.db_path.exists():
             self.db_path.unlink()
@@ -189,6 +216,16 @@ class CodeMap:
         self.db.execute('PRAGMA synchronous=NORMAL')
         if new:
             self.db.executescript(SCHEMA)
+        else:
+            # Maps built before the stat columns existed: add them (a NULL stat just means "hash this file").
+            have = {r[1] for r in self.db.execute('PRAGMA table_info(source_file)')}
+            for column in ('size', 'mtime_ns'):
+                if column not in have:
+                    self.db.execute('ALTER TABLE source_file ADD COLUMN %s INTEGER' % column)
+            tables = {r[0] for r in self.db.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+            for table, ddl in LATE_TABLES.items():
+                if table not in tables:
+                    self.db.executescript(ddl)
         return self.db
 
     def pool(self):
@@ -202,14 +239,23 @@ class CodeMap:
         self.db.execute('INSERT OR REPLACE INTO fact_key VALUES (?,?,?)', (kind, name, value))
 
     # ---- source files ----
-    def scan_sources(self):
-        files = {}
-        for top, kind in (('src', 'c'), ('include', 'h')):
+    def scan_stats(self):
+        """{path: (size, mtime_ns)} of every src/include .c/.h file (stat only, nothing read)."""
+        stats = {}
+        for top in ('src', 'include'):
             for dirpath, _, names in os.walk(self.root / top):
                 for n in names:
                     if n.endswith(('.c', '.h')):
                         p = Path(dirpath) / n
-                        files[p.relative_to(self.root).as_posix()] = sha256(p.read_bytes())
+                        st = p.stat()
+                        stats[p.relative_to(self.root).as_posix()] = (st.st_size, st.st_mtime_ns)
+        return stats
+
+    def scan_sources(self):
+        files = {}
+        self.stats = self.scan_stats()
+        for rel in self.stats:
+            files[rel] = sha256((self.root / rel).read_bytes())
         return files
 
     # ---- build graph ----
@@ -425,6 +471,68 @@ class CodeMap:
         self.log('abi: analysed %d objects in %.1fs' % (len(todo), time.monotonic() - t))
         return len(todo)
 
+    # ---- per-placement call binding ----
+    def refresh_bind(self, force=False):
+        """call_bind: every retail call site bound to the function its image really reaches (bind.py).
+
+        Recomputed whole when any image's link map or linked image, any object fact or the graph changed:
+        a cross-image target depends on every image that could be resident."""
+        import bind
+        db = self.db
+        images = db.execute("SELECT name, tag, output, kind FROM image WHERE kind != 'slus' ORDER BY name").fetchall()
+        parts = [self.key('graph', 'index.json') or '']
+        for name, tag, output, kind in images:
+            for path in (self.root / 'build/.state/link' / tag / 'image.map', self.root / output):
+                try:
+                    st = path.stat()
+                    parts.append('%s:%d:%d' % (path.name, st.st_size, st.st_mtime_ns))
+                except OSError:
+                    parts.append(path.name + ':-')
+        parts += ['%s=%s' % r for r in db.execute("SELECT key, sha256 FROM fact_key WHERE kind='obj' ORDER BY key")]
+        elf = self.root / 'build_slus/build/slus_006.14.elf'
+        parts.append(sha256(elf.read_bytes()) if elf.is_file() else '-')
+        stamp = sha256('\n'.join(parts).encode())
+        if not force and self.key('bind', 'all') == stamp:
+            self.log('bind: unchanged')
+            return 0
+        t = time.monotonic()
+        real = {r[0] for r in db.execute("SELECT DISTINCT u.recipe FROM image_unit u JOIN image i ON i.name = u.image "
+                                         "WHERE i.kind = 'image'")}
+        checks = [(n, tag, out) for n, tag, out, kind in images if kind == 'check']
+        check_units = {r[0]: r[1] for r in db.execute("SELECT image, recipe FROM image_unit u JOIN image i "
+                                                      "ON i.name = u.image WHERE i.kind = 'check'")}
+        rows = [(n, tag, out) for n, tag, out, kind in images if kind == 'image']
+        # A recipe linked only by its check image is placed there (e.g. a row no assembled image holds).
+        rows += [r for r in checks if check_units.get(r[0]) not in real]
+        layouts = bind.load_layouts(self.root, rows, bind.object_sections(self.root), log=self.log)
+        slus_symbols = {}
+        for rid, symbol in db.execute("SELECT f.recipe, f.symbol FROM retail_fn f JOIN recipe r ON r.id = f.recipe "
+                                      "WHERE r.family = 'slus'"):
+            slus_symbols.setdefault(symbol, rid)
+        binder = bind.Binder(layouts, bind.slus_functions(self.root, slus_symbols))
+        calls = defaultdict(list)
+        for rid, caller, offset, callee in db.execute("SELECT recipe, caller, offset, callee FROM retail_call "
+                                                      "WHERE kind = 'call' AND callee != '<indirect>'"):
+            calls[rid].append((caller, offset, callee))
+        db.execute('DELETE FROM call_bind')
+        out = []
+        for name, layout in layouts.items():
+            for rid in sorted({fn[0] for fn in layout.functions.values()}):
+                for caller, offset, _ in calls.get(rid, ()):
+                    for target, image, crid, csym, how in binder.bind(layout, rid, caller, offset):
+                        out.append((name, rid, caller, offset, target, image, crid, csym, how))
+        for rid, family in db.execute("SELECT id, family FROM recipe WHERE family = 'slus'").fetchall():
+            for caller, offset, callee in calls.get(rid, ()):
+                crid = slus_symbols.get(callee)
+                out.append(('slus/slus_bin', rid, caller, offset, None, 'slus/slus_bin' if crid else None, crid,
+                            callee if crid else None, 'slus_symbol' if crid else 'unresolved'))
+        db.executemany('INSERT INTO call_bind VALUES (?,?,?,?,?,?,?,?,?)', out)
+        self.set_key('bind', 'all', stamp)
+        db.commit()
+        self.log('bind: %d call sites over %d images in %.1fs (%s)' % (
+            len(out), len(layouts), time.monotonic() - t, dict(Counter(r[-1] for r in out))))
+        return len(out)
+
     # ---- debt ----
     def refresh_debt(self, files, force=False):
         db = self.db
@@ -474,8 +582,10 @@ class CodeMap:
     def record_sources(self, files):
         db = self.db
         db.execute('DELETE FROM source_file')
-        db.executemany('INSERT INTO source_file VALUES (?,?,?)',
-                       [(p, s, 'c' if p.endswith('.c') else 'h') for p, s in files.items()])
+        stats = getattr(self, 'stats', {})
+        db.executemany('INSERT INTO source_file VALUES (?,?,?,?,?)',
+                       [(p, s, 'c' if p.endswith('.c') else 'h') + tuple(stats.get(p, (None, None)))
+                        for p, s in files.items()])
         db.execute("INSERT OR REPLACE INTO meta VALUES ('refreshed_at', ?)", (time.strftime('%Y-%m-%dT%H:%M:%S'),))
         head = self.root / 'SCRATCH_HEAD'
         if head.is_file():
@@ -490,16 +600,14 @@ class CodeMap:
         s = time.monotonic(); self.load_graph(force); timings['graph'] = time.monotonic() - s
         s = time.monotonic(); self.load_names(); timings['names'] = time.monotonic() - s
         # A changed extractor invalidates its facts: key each phase by its tool sources too.
-        tools = {'clang': [HERE.parent / 'ast_facts.py'], 'abi': [HERE.parent / 'abi.py', TOOLS / 'build/affected.py'],
-                 'debt': [TOOLS / 'lint/debt_check.py']}
-        stale = {}
-        for phase, paths in tools.items():
-            stamp = sha256(b''.join(p.read_bytes() for p in paths if p.is_file()))
-            stale[phase] = force or self.key('tool', phase) != stamp
-            tools[phase] = stamp
+        tools, stale = {}, {}
+        for phase, paths in TOOL_SOURCES.items():
+            tools[phase] = tool_stamp(paths)
+            stale[phase] = force or self.key('tool', phase) != tools[phase]
         s = time.monotonic(); parsed = self.refresh_tus(files, stale['clang']); timings['clang'] = time.monotonic() - s
         s = time.monotonic(); objects = self.refresh_abi(stale['abi']); timings['abi'] = time.monotonic() - s
         s = time.monotonic(); self.refresh_debt(files, stale['debt']); timings['debt'] = time.monotonic() - s
+        s = time.monotonic(); self.refresh_bind(stale['bind']); timings['bind'] = time.monotonic() - s
         for phase, stamp in tools.items():
             self.set_key('tool', phase, stamp)
         s = time.monotonic(); self.derive(); self.record_sources(files); timings['derive'] = time.monotonic() - s
@@ -508,21 +616,52 @@ class CodeMap:
         self.db.execute("INSERT OR REPLACE INTO meta VALUES ('last_refresh', ?)",
                         (json.dumps(dict(timings, parsed=parsed, objects=objects)),))
         self.db.commit()
+        # Fold the WAL into the db file: lanes copy build/codemap.db alone, and frames left in -wal would be lost.
+        self.db.execute('PRAGMA wal_checkpoint(TRUNCATE)')
         self.log('refresh: ' + json.dumps(dict(timings, parsed=parsed, objects=objects)))
         return timings
 
-    def check(self):
-        files = self.scan_sources()
-        stored = dict(self.db.execute('SELECT path, sha256 FROM source_file'))
-        changed = sorted(p for p in files if stored.get(p) != files[p])
-        removed = sorted(set(stored) - set(files))
+    def check(self, full=False):
+        """Is this map current for this root's tree?  Read-only.
+
+        Quick by default (what a lane runs on a copied db): a source whose size and mtime equal the stored
+        stat is taken as unchanged; only the others are hashed (a copied root keeps the mtimes of
+        content-identical files, and a touched but unchanged file still compares fresh).  `full` hashes every
+        file.  Also compared: the build graph index, names.tsv and the extractor tools' own sources."""
+        started = time.monotonic()
+        have = {r[1] for r in self.db.execute('PRAGMA table_info(source_file)')}
+        stat_cols = 'size, mtime_ns' if {'size', 'mtime_ns'} <= have else 'NULL, NULL'
+        stored = {r[0]: (r[1], r[2], r[3]) for r in
+                  self.db.execute('SELECT path, sha256, %s FROM source_file' % stat_cols)}
+        stats = self.scan_stats()
+        changed, hashed = [], 0
+        for rel, stat in stats.items():
+            old = stored.get(rel)
+            if old is None:
+                changed.append(rel)
+                continue
+            if not full and old[1:] == stat:
+                continue
+            hashed += 1
+            if sha256((self.root / rel).read_bytes()) != old[0]:
+                changed.append(rel)
+        changed.sort()
+        removed = sorted(set(stored) - set(stats))
         index = self.root / 'build/.state/index.json'
         graph_stale = index.is_file() and self.key('graph', 'index.json') != sha256(index.read_bytes())
         names = self.root / 'config/names.tsv'
         names_stale = names.is_file() and self.key('names', 'config/names.tsv') != sha256(names.read_bytes())
-        return dict(fresh=not (changed or removed or graph_stale or names_stale), changed=changed[:50],
-                    changed_count=len(changed), removed=removed[:50], graph_stale=graph_stale,
-                    names_stale=names_stale)
+        tools_stale = sorted(phase for phase, paths in TOOL_SOURCES.items()
+                             if self.key('tool', phase) != tool_stamp(paths))
+        head = self.db.execute("SELECT value FROM meta WHERE key='scratch_head'").fetchone()
+        scratch = self.root / 'SCRATCH_HEAD'
+        return dict(fresh=not (changed or removed or graph_stale or names_stale or tools_stale),
+                    changed=changed[:50], changed_count=len(changed), removed=removed[:50],
+                    removed_count=len(removed), graph_stale=graph_stale, names_stale=names_stale,
+                    tools_stale=tools_stale, files=len(stats), hashed=hashed,
+                    built_at_head=head[0] if head else None,
+                    root_head=scratch.read_text().strip() if scratch.is_file() else None,
+                    mode='full' if full else 'quick', seconds=round(time.monotonic() - started, 2))
 
 
 # ------------------------------------------------------------------------------------------ queries
@@ -675,21 +814,83 @@ def q_census(db, out=None, key='norm'):
                 top=[dict(name=r[0], signatures=r[1], kind=r[2], sites=r[3], defs=r[4]) for r in table[:15]])
 
 
+V0_READ = ('raw', 'ext_s16', 'ext_s8', 'ext_u16', 'ext_u8', 'store8', 'store16', 'store32', 'test')
+
+
+def callee_definition(db, recipe, symbol, cache):
+    """(file, C name, normalised signature) of the definition a bound callee (recipe, object symbol) compiles.
+
+    The C name is the names.tsv name of the symbol, or the symbol itself (unnamed functions keep their
+    address name); the definition is the one with that name in the recipe's own source or its production
+    closure (a placement copy reaches its owner TU, a SLUS partition its render inputs), the own source
+    first.  (physical, None, None) when no single definition is found."""
+    key = (recipe, symbol)
+    if key not in cache:
+        row = db.execute('SELECT physical FROM recipe WHERE id = ?', (recipe,)).fetchone()
+        physical = row[0] if row else None
+        names = {r[0] for r in db.execute('SELECT name FROM name WHERE symbol = ?', (symbol,))} | {symbol}
+        closure = {physical} | {r[0] for r in db.execute('SELECT path FROM tu_dep WHERE recipe = ?', (recipe,))}
+        hits = [(f, n, norm) for n, f, norm in db.execute(
+            'SELECT name, file, norm FROM defn WHERE name IN (%s)' % ','.join('?' * len(names)), sorted(names))
+            if f in closure]
+        own = [h for h in hits if h[0] == physical]
+        hits = own or hits
+        cache[key] = hits[0] if len({(h[0], h[1]) for h in hits}) == 1 else (physical, None, None)
+    return cache[key]
+
+
 def q_voidret(db, limit=40):
-    """C definitions returning void whose retail callers use v0 after the call (the voidret class),
-    and non-void definitions whose retail body never writes v0 on some path."""
-    used = ('raw', 'ext_s16', 'ext_s8', 'ext_u16', 'ext_u8', 'store8', 'store16', 'store32', 'test')
+    """C definitions returning void whose retail callers use v0, joined per placement and bank.
+
+    Each retail call site is bound through its image's link (call_bind): the callee is the function its
+    caller's bank really reaches, not every definition sharing the callee's name.  `void_but_v0_read` lists
+    definitions whose bound callers read v0 (own image, a resident image or the SLUS); `ambiguous` lists
+    void definitions reachable only through a target several loadable banks define (which bank is loaded is
+    not pinned by the link); `name_join` is the old by-name count for comparison.  Per definition: the
+    callee's retail facts (v0_at_return 'none' = a path that never writes v0) and the reading sites."""
+    if not db.execute('SELECT 1 FROM call_bind LIMIT 1').fetchone():
+        raise ValueError('call_bind is empty: run codemap.py refresh on a built tree')
+    used = ','.join('?' * len(V0_READ))
     rows = db.execute(
-        "SELECT d.name, d.file, COUNT(*) AS sites, SUM(c.v0_use IN (%s)) AS v0_used "
-        "FROM defn d JOIN retail_call c ON c.callee_name = d.name "
-        "WHERE d.norm LIKE 'void(%%' GROUP BY d.name, d.file HAVING v0_used > 0 ORDER BY v0_used DESC"
-        % ','.join('?' * len(used)), used).fetchall()
-    void_read = [dict(name=r[0], file=r[1], retail_sites=r[2], v0_used=r[3]) for r in rows]
+        'SELECT b.image, b.caller_recipe, b.caller, b.offset, b.callee_recipe, b.callee, b.how, c.v0_use '
+        'FROM call_bind b JOIN retail_call c ON c.recipe = b.caller_recipe AND c.caller = b.caller '
+        'AND c.offset = b.offset WHERE c.v0_use IN (%s) AND b.callee_recipe IS NOT NULL' % used, V0_READ).fetchall()
+    cache, groups, ambiguous = {}, {}, {}
+    caller_names = {}
+    for image, crec, caller, offset, rid, symbol, how, use in rows:
+        file, name, norm = callee_definition(db, rid, symbol, cache)
+        if norm is None or not norm.startswith('void('):
+            continue
+        facts = db.execute('SELECT v0_at_return, return_ext FROM retail_fn WHERE recipe = ? AND symbol = ?',
+                           (rid, symbol)).fetchone()
+        if crec not in caller_names:
+            caller_names[crec] = db.execute('SELECT physical FROM recipe WHERE id = ?', (crec,)).fetchone()[0]
+        site = dict(image=image, caller=caller, caller_source=caller_names[crec], offset=offset, v0_use=use,
+                    how=how, callee_recipe=rid, callee_symbol=symbol)
+        target = ambiguous if how == 'ambiguous' else groups
+        g = target.setdefault((file, name), dict(name=name, file=file, sites=[], images=set(), facts=set()))
+        g['sites'].append(site)
+        g['images'].add(image)
+        if facts:
+            g['facts'].add('v0_at_return=%s return_ext=%s' % facts)
+    def render(table):
+        out = []
+        for g in sorted(table.values(), key=lambda g: (-len(g['sites']), g['file'] or '', g['name'] or '')):
+            out.append(dict(name=g['name'], file=g['file'], v0_read_sites=len(g['sites']), images=len(g['images']),
+                             callee_facts=sorted(g['facts']), sites=g['sites'][:12]))
+        return out
+    void_read = render(groups)
+    # Ambiguous definitions also bound unambiguously elsewhere are already listed above.
+    amb = [g for g in render(ambiguous) if (g['file'], g['name']) not in groups]
+    name_join = db.execute(
+        "SELECT COUNT(*) FROM (SELECT d.name, d.file FROM defn d JOIN retail_call c ON c.callee_name = d.name "
+        "WHERE d.norm LIKE 'void(%%' AND c.v0_use IN (%s) GROUP BY d.name, d.file)" % used, V0_READ).fetchone()[0]
     rows = db.execute(
         "SELECT DISTINCT d.name, d.file, f.v0_at_return FROM defn d JOIN retail_fn f ON f.name = d.name "
         "WHERE d.norm NOT LIKE 'void(%' AND f.v0_all_paths = 0 AND f.v0_at_return LIKE '%none%'").fetchall()
     value_missing = [dict(name=r[0], file=r[1], v0_at_return=r[2]) for r in rows]
     return dict(void_but_v0_read=len(void_read), void_examples=void_read[:limit],
+                ambiguous=len(amb), ambiguous_examples=amb[:limit], name_join=name_join,
                 nonvoid_without_v0_on_some_path=len(value_missing), nonvoid_examples=value_missing[:limit])
 
 
@@ -714,6 +915,7 @@ def main(argv=None):
     ap.add_argument('--limit', type=int, default=40)
     ap.add_argument('--kind', help='families: only this conflict kind prefix')
     ap.add_argument('--only', help='build/refresh: restrict parse/abi/debt work to this path prefix')
+    ap.add_argument('--full', action='store_true', help='check: hash every source (default: stat first)')
     ap.add_argument('--type-level', action='store_true',
                     help='census/families: compare desugared types (typedef/tag spellings are not conflicts)')
     a = ap.parse_intermixed_args(argv)
@@ -728,11 +930,17 @@ def main(argv=None):
     if not cm.db_path.exists():
         print('no codemap at %s (run codemap.py build)' % cm.db_path, file=sys.stderr)
         return 2
-    db = cm.open()
     if a.mode == 'check':
-        res = cm.check()
+        cm.open_readonly()
+        res = cm.check(full=a.full)
         print(json.dumps(res, indent=1))
+        print('codemap %s: %s (%d changed, %d removed%s%s%s; %d of %d files hashed, %.1fs)' % (
+            'FRESH' if res['fresh'] else 'STALE', cm.db_path, res['changed_count'], res['removed_count'],
+            ', graph' if res['graph_stale'] else '', ', names' if res['names_stale'] else '',
+            ', tools ' + '+'.join(res['tools_stale']) if res['tools_stale'] else '', res['hashed'], res['files'],
+            res['seconds']), file=sys.stderr)
         return 0 if res['fresh'] else 1
+    db = cm.open()
     if not a.args:
         ap.error('query needs: decls NAME | callers NAME | affected PATH... | families | abi NAME | sql TEXT')
     what, rest = a.args[0], a.args[1:]

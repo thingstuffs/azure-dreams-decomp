@@ -14,8 +14,8 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/system.h"
 #include "dungeon/player/state.h"
+#include "dungeon/item.h"
 struct Owner_800A48F0;
-void adjust_source_value_and_finalize(void *context, const void *source);           /* extern */
 void create_colored_effect_with_sound(void *source, s32 color, unsigned short sound_id);    /* extern */
 extern u8 D_800E206A[24];
 

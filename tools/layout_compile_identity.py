@@ -133,6 +133,77 @@ def normalize_local_labels(stream):
     return LOCAL_LABEL.sub(b'$L', stream)
 
 
+_PRODUCTION = {}
+EVIDENCE_ENV = ('MASPSX_NORETURN_FILE', 'MASPSX_SIBCALL_FILE')
+
+
+def production_recipes(root):
+    """{physical source: [linked production compile]} from the root's generated build graph, else None.
+
+    One entry per current overlay recipe that an image links and that compiles the source itself through
+    cc.sh (row TUs and native modules; placement copies compile a derived file and SLUS rows have their own
+    capture path): recipe id, cell, cc flags, maspsx flags, maspsx evidence files (the recipe's noreturn /
+    sibcall tables) and the registry rows its image units place.
+    Cached per process until build/.state/index.json changes."""
+    root = Path(root).resolve()
+    index = root / 'build/.state/index.json'
+    if not index.is_file():
+        return None
+    st = index.stat()
+    stamp = (st.st_mtime_ns, st.st_size)
+    hit = _PRODUCTION.get(root)
+    if hit and hit[0] == stamp:
+        return hit[1]
+    build_tools = str(Path(__file__).resolve().parent / 'build')
+    if build_tools not in sys.path:
+        sys.path.insert(0, build_tools)
+    import affected
+    graph = affected.Graph(root)
+    linked = set()
+    for spec in graph.images.values():
+        linked.update(spec['recipes'])
+    table = {}
+    for rid, spec in sorted(graph.recipes.items()):
+        if spec['_family'] != 'overlay' or spec.get('projection') or rid not in linked \
+                or not spec.get('wrapper', '').endswith('cc.sh') or not spec.get('source'):
+            continue
+        args = list(spec.get('args') or ()) + ['', '', '']
+        table.setdefault(spec['source'], []).append(dict(
+            id=rid, cell=args[0], flags=args[1].split(), asflags=args[2].split(),
+            evidence={k: v for k, v in sorted((spec.get('env') or {}).items()) if k in EVIDENCE_ENV},
+            rows=sorted(graph.recipe_rows.get(rid, ())), module='module' in spec))
+    _PRODUCTION[root] = (stamp, table)
+    return table
+
+
+def production_compiles(root, rel, recipe):
+    """The compiles a capture of `rel` must reproduce: [{id, ids, cell, flags, asflags, evidence}], primary first.
+
+    The build links every linked production recipe of the source; each distinct (cell, cc flags, maspsx
+    flags) is one compile.  The primary is the recipe placing the proof map's own row (a native module:
+    its module recipe).  A source without a linked production recipe (no built graph, an unlinked facade)
+    falls back to the proof map's registry recipe."""
+    table = production_recipes(root)
+    linked = (table or {}).get(rel, [])
+    if recipe['kind'] == 'overlay_module':
+        linked = [r for r in linked if r['module']] or linked
+    if not linked:
+        return [dict(id=None, ids=[], cell=recipe['cell'], flags=list(recipe['flags']),
+                     asflags=list(recipe['asflags']), evidence={})]
+    row = recipe.get('row_id')
+    linked = sorted(linked, key=lambda r: (row not in r['rows'], r['module'] != (recipe['kind'] == 'overlay_module'),
+                                           r['id']))
+    out = {}
+    for r in linked:
+        evidence = r.get('evidence') or {}
+        key = (r['cell'], tuple(r['flags']), tuple(r['asflags']), tuple(sorted(evidence.items())))
+        if key not in out:
+            out[key] = dict(id=r['id'], ids=[], cell=r['cell'], flags=list(r['flags']), asflags=list(r['asflags']),
+                            evidence=dict(evidence))
+        out[key]['ids'].append(r['id'])
+    return list(out.values())
+
+
 def capture_one(root, rel, recipe):
     root = Path(root).resolve()
     source = root / rel
@@ -154,32 +225,55 @@ def capture_one(root, rel, recipe):
                 raise ValueError(rel + ': ' + error)
             raw = out.read_bytes()
             stream = (out.parent / 'a.proc.s').read_bytes()
+            asflags, evidence, variants, others = recipe['asflags'], {}, None, []
         else:
-            cc = root / 'toolchain/compilers' / ('gcc-' + recipe['cell'])
-            asm = workspace / 'source.s'
-            flags = recipe['flags']
-            if '-O2' not in flags:
-                flags = ['-O2', *flags]
-            command([cc / 'gcc', '-B' + str(cc) + '/', '-S', *flags,
-                     '-I' + str(root / 'include'), '-w', source, '-o', asm], cwd=root)
-            stream = command([sys.executable, root / 'tools/build/ccproc.py',
-                              '--names-tsv', root / 'config/names.tsv'], cwd=root,
-                             data=asm.read_bytes())
-            raw_dir = workspace / 'raw'
-            raw_dir.mkdir()
-            # A stable family census is sufficient for before/after object
-            # identity; the scoped gate remains responsible for retail MATCH.
-            reassemble(root, stream, raw_dir, recipe['container'])
-            raw = (raw_dir / 'canonical.o').read_bytes()
+            # The build's own compiles of this source (cell, cc flags, maspsx flags and evidence tables of each
+            # linked production recipe): proving a different object than the one linked proves nothing.
+            compiles = production_compiles(root, rel, recipe)
+            streams, objects = {}, {}
+            for n, c in enumerate(compiles):
+                key = (c['cell'], tuple(c['flags']))
+                if key not in streams:
+                    cc = root / 'toolchain/compilers' / ('gcc-' + c['cell'])
+                    asm = workspace / ('source%d.s' % n)
+                    flags = c['flags']
+                    if '-O2' not in flags:
+                        flags = ['-O2', *flags]
+                    command([cc / 'gcc', '-B' + str(cc) + '/', '-S', *flags,
+                             '-I' + str(root / 'include'), '-w', source, '-o', asm], cwd=root)
+                    streams[key] = command([sys.executable, root / 'tools/build/ccproc.py',
+                                            '--names-tsv', root / 'config/names.tsv'], cwd=root,
+                                           data=asm.read_bytes())
+                raw_dir = workspace / ('raw%d' % n)
+                raw_dir.mkdir()
+                # A stable family census is sufficient for before/after object
+                # identity; the scoped gate remains responsible for retail MATCH.
+                reassemble(root, streams[key], raw_dir, recipe['container'], c['asflags'], c['evidence'])
+                objects[n] = (raw_dir / 'canonical.o').read_bytes()
+            primary = compiles[0]
+            stream, raw = streams[(primary['cell'], tuple(primary['flags']))], objects[0]
+            asflags, evidence = primary['asflags'], primary['evidence']
+            variants = None
+            if len(compiles) > 1:
+                variants = {rid: digest(objects[n]) for n, c in enumerate(compiles) for rid in c['ids']}
+            others = [streams[k] for k in sorted(streams) if streams[k] is not stream]
         canonical_stream = canonical(stream)
+        # Another cell/cc flags compiles another stream: the assembly digests cover every stream.
+        listed = [canonical_stream] + [canonical(s) for s in others]
         clean_dir = workspace / 'normalized'
         clean_dir.mkdir()
         clean_sha = reassemble(root, canonical_stream, clean_dir,
-                               recipe['container'] if recipe['container'] != 'slus' else 'main')
-    return {'source': rel, 'kind': recipe['kind'], 'recipe': recipe,
-            'raw_sha256': digest(raw), 'canonical_assembly_sha256': digest(canonical_stream),
-            'label_normalized_assembly_sha256': digest(normalize_local_labels(canonical_stream)),
-            'canonical_object_sha256': clean_sha}
+                               recipe['container'] if recipe['container'] != 'slus' else 'main',
+                               asflags if recipe['container'] != 'slus' else (), evidence)
+    result = {'source': rel, 'kind': recipe['kind'], 'recipe': recipe,
+              'raw_sha256': digest(raw), 'canonical_assembly_sha256': digest(b''.join(listed)),
+              'label_normalized_assembly_sha256': digest(b''.join(map(normalize_local_labels, listed))),
+              'canonical_object_sha256': clean_sha}
+    if variants:
+        # Several distinct production compiles: each linked recipe's raw object (recipe id -> sha).  raw_sha256
+        # is the primary's; one stream through different maspsx flags is covered by the assembly digests.
+        result['variant_raw_sha256'] = variants
+    return result
 
 
 def run(root, table, *, snapshot=None, compare=None, headers=None, inline=None, results=None):

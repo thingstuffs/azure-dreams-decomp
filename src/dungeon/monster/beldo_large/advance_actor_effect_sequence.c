@@ -3,6 +3,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
+#include "dungeon/item.h"
 
 #define SEQUENCE_INDEX_ADVANCE(index, base) ((index) += (s32)(base))
 #define SEQUENCE_INDEX_BYTE(index, base) (*(u8 *)(index))
@@ -42,7 +43,6 @@ struct Aux {
 
 struct SpriteFrameState;
 extern void select_sprite_entry(void *, s16, s16);
-extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void play_sound_if_enabled(s32);
 extern void update_actor_status_and_mp(Entity *);
 extern void advance_actor_movement_step(u8 *movement_in, ObjectPosition *action_ctx, u8 *position, u8 *actor);

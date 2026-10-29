@@ -8,11 +8,11 @@
 #include "town/shop.h"
 #include "town/shop/object.h"
 
-s32 link_monster_status_display_entries();                             /* extern */
+void *link_monster_status_display_entries();                           /* extern */
 
 typedef struct S_800B6A0C_1 {
     u8 pad_00[0x94];
-    s32 unk_94;
+    void *unk_94;
     s32 unk_98;
 } S_800B6A0C_1;
 

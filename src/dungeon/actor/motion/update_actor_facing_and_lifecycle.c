@@ -5,13 +5,13 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/level.h"
+#include "dungeon/item.h"
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void advance_sprite_animation_and_textures(void *);
 extern s32 rsin(s32);
-extern void apply_monster_koyaw_data(s32, void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 
 extern u8 actor_motion_resume_address;

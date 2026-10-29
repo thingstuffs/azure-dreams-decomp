@@ -1,8 +1,8 @@
 #include "common.h"
+#include "dungeon/item.h"
 
 extern s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s16 find_active_rect_containing_point(u16, u16);
-extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 
 /* Checks distinct neighboring positions for equal values or a successful fallback check. */
 s32 check_monster_neighbor_relations(s16 x0, s16 y0, s16 check_param, s16 x1, s16 y1) {

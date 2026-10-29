@@ -5,6 +5,7 @@
 #include "dungeon/actor/action_target_selection_g00359.h"
 #include "dungeon/actor.h"
 #include "shared/tile_object.h"
+#include "dungeon/item.h"
 
 /* Checks whether a directional step is in bounds and clear of obstacles. */
 s32 get_adjacent_tile_for_action(u32 action_flags, EntityRec *position, S_800CA1E0_2 *object, u16 height_offset) {

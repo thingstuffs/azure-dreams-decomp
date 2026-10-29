@@ -11,6 +11,7 @@ struct ObjectPosition;
 #include "m2c_compat.h"
 #include "records/Rec_D_80082EB0.h"
 #include "dungeon/player.h"
+#include "dungeon/item.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern void *player_action_tag[];
@@ -20,7 +21,6 @@ extern s32 menu_action_argument[];
 s32 resolve_player_input_facing(s16 direction_offset, u16 *flags, u16 *angle);                /* extern */
 s32 check_familiar_deployment_placement(); /* extern */
 void display_formatted_context_message(void *context);                   /* extern */
-void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);   /* extern */
 s32 play_sound_if_enabled(s32 query_value);                     /* extern */
 void *create_panel_effect_object(void *owner);                      /* extern */
 void * create_familiar_selection_marker(struct EntityHdr **entity_ref);                          /* extern */

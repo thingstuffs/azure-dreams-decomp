@@ -32,12 +32,12 @@ typedef struct S_80172DEC_3 {
 } S_80172DEC_3;   /* rec in advance_action_through_recovery */
 
 extern void select_sprite_entry(void *, s32, s32);
-extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void play_sound_if_enabled(s32);
 extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context);
 extern void create_two_effect_groups(void *, void *, void *, s32);
 
 #include "dungeon/monster/mandara.h"
+#include "dungeon/item.h"
 
 /* Advances an actor action through motion selection, execution, and recovery. */
 void advance_action_through_recovery(ActorRecord *action_state, ObjectPosition *transform, SpriteFrameState *sprite, ActorRecord *actor) {

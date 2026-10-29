@@ -32,7 +32,7 @@ void clear_item_menu_entry_groups(ItemMenuPart **parts);
 void dispatch_item_menu_data_update(void *data);
 
 /* dispatch_item_menu_entry_callback.c */
-void dispatch_item_menu_entry_callback(struct S_800AE56C_0 *state, s32 callback_arg);
+s32 dispatch_item_menu_entry_callback(struct S_800AE56C_0 *state, s32 callback_arg);
 
 /* find_item_by_key_pair.c */
 u8 *find_item_by_key_pair(s32 first_key, s32 second_key);
@@ -66,7 +66,7 @@ void initialize_item_menu_record_fields(void *record, s32 value_3c, s32 value_34
 s32 initialize_item_menu_scene_value(s32 value);
 
 /* invoke_item_menu_offset_handler.c */
-void invoke_item_menu_offset_handler(u8 *object, s32 callback_arg);
+s32 invoke_item_menu_offset_handler(u8 *object, s32 callback_arg);
 
 /* item_menu_no_op.c */
 void item_menu_no_op(struct ItemMenuPart **parts, struct ItemMenuObject *object);
@@ -84,7 +84,7 @@ void layout_item_menu_lower_pair_columns(ItemMenuPart **parts);
 void layout_item_menu_upper_pair_columns(ItemMenuPart **parts);
 
 /* link_item_menu_display_entries.c */
-void link_item_menu_display_entries(s32 entries);
+void *link_item_menu_display_entries(s32 entries);
 
 /* populate_current_item_menu_page.c */
 void populate_current_item_menu_page(ItemMenuObject *state);

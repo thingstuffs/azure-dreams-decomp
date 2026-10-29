@@ -49,8 +49,8 @@ s32 calc_item_value(u8 *item, s32 use_value1);
 void *create_item_label(void *init_data);
 
 /* create_item_view_for_entry.c */
-void create_item_view_for_entry(int target, int record_addr, int entry_value);
-void func_8004B854(int target, int record_addr, int entry_value);
+void *create_item_view_for_entry(int target, int record_addr, int entry_value);
+void *func_8004B854(int target, int record_addr, int entry_value);
 
 /* decode_item_code.c */
 void *decode_glyph_rectangle(void *dest, u8 item_code);

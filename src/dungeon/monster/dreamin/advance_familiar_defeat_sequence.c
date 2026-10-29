@@ -6,6 +6,7 @@
 #include "engine/graphics.h"
 #include "dungeon/system.h"
 #include "dungeon/item/actor_target.h"
+#include "dungeon/item.h"
 
 #define U8(p, o) (*(u8 *)((u8 *)(p) + (o)))
 #define S8(p, o) (*(s8 *)((u8 *)(p) + (o)))

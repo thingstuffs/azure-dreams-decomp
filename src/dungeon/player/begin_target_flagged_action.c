@@ -3,6 +3,7 @@ struct ObjectPosition;
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "dungeon/player.h"
+#include "dungeon/item.h"
 
 extern u8 D_80081471;
 extern u8 held_item_kind_alias;
@@ -10,10 +11,8 @@ extern u8 D_800E04BA[];
 extern u8 D_800E04E6[];
 
 extern void display_formatted_context_message(void *data_ptr);
-extern void adjust_source_value_and_finalize(void *context, const void *source);
 extern void select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s16 slot_value);
 extern s16 get_special_table_data_index(s32 actor_value);
-extern void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
 
 /* Start the actor action and apply its target effect unless a blocking flag is set. */
 s32 begin_target_flagged_action(void *actor, s32 action_arg, s32 unused, void *target) {

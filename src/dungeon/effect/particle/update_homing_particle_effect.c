@@ -19,6 +19,7 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/level.h"
 #include "dungeon/item/actor_target.h"
+#include "dungeon/item.h"
 
 extern int abs(int);
 

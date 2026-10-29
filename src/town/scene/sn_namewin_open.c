@@ -1,7 +1,7 @@
 #include "common.h"
 #include "slus.h"
 #include "town/scene.h"
-extern s32 active_item_view[];
+extern void *active_item_view[];
 
 /* sn_namewin_open: Open the name window and store its handle. */
 s32 sn_namewin_open(void) {

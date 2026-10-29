@@ -1,4 +1,5 @@
 #include "dungeon/item/message.h"
+#include "dungeon/item.h"
 
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 

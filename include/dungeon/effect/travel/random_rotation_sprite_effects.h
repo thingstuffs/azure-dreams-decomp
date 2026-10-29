@@ -152,7 +152,6 @@ extern SpriteSourceEntry D_80024EF4[];
 extern SpriteSourceEntry D_80024E40[];
 extern u8 D_80024FC4[];
 extern int abs(int);
-extern s16 get_rounded_facing_and_rounding_flag(u8, u8, s16, s16, s16 *);
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern s16 get_surface_height_at_record(void *);
 extern s32 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);

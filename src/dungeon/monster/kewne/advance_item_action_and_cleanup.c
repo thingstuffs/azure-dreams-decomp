@@ -15,6 +15,7 @@
 #include "dungeon/system.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/item/actor_target.h"
+#include "dungeon/item.h"
 extern s32 cd_cue_base[];
 extern u8 animation_tick_scale;
 extern u8 D_800DCF50;

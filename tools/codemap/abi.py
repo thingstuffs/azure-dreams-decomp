@@ -16,7 +16,8 @@ Per function (one `.text.*` FUNC symbol):
   calls_out, sibcalls, indirect_jumps, indirect_calls
 Per call site (`jal` with an R_MIPS_26 relocation, `jalr`, and sibcall `j`):
   callee, offset, args (a0-a3 -> setup pattern since the previous call in the block, or 'inherited'),
-  v0_use  'unused' | 'raw' | 'ext_s16' | 'ext_s8' | 'ext_u16' | 'ext_u8' | 'store8' | 'store16' |
+  v0_use  (an lwl/lwr pair loading v0 is a write, not a use)
+          'unused' | 'raw' | 'ext_s16' | 'ext_s8' | 'ext_u16' | 'ext_u8' | 'store8' | 'store16' |
           'store32' | 'test' | 'returned' | 'tail'
 Read-only; capstone 5 (no regs_access on MIPS: def/use comes from the operand shapes below).
 """
@@ -311,6 +312,9 @@ def analyze_function(code, base, size, relocs, own_section, name):
             j = k + 2
             while j < n:
                 nxt = insns[j]
+                if nxt.mn in ('lwl', 'lwr') and nxt.ops[:1] == ['v0'] and j + 1 < n and \
+                        insns[j + 1].mn == ('lwr' if nxt.mn == 'lwl' else 'lwl') and insns[j + 1].ops[:1] == ['v0']:
+                    break       # an unaligned-load pair writes all of v0 (lwl's merge read is not a use)
                 if 'v0' in nxt.reads:
                     mn = nxt.mn
                     if mn == 'sll' and nxt.imm in (16, 24):

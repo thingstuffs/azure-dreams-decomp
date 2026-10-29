@@ -45,7 +45,7 @@ void begin_selection_menu_index_change(struct S_8004FA2C *object, int target);
 s32 build_menu_line_tile_packets(struct S_80053A88_Node *first_node);
 
 /* call_state_callback.c */
-void call_state_callback(struct S_8004FF20 *obj);
+s32 call_state_callback(struct S_8004FF20 *obj);
 
 /* create_animated_selection_menu.c */
 void *create_animated_selection_menu(void *init_data);

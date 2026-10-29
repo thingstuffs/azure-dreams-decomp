@@ -2,7 +2,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 typedef struct S_8008E94C_Sub {
-    s32 f0;
+    s16 *cells;
     u8 pad4[0x10];
     s16 shift;
     u16 pad16;
@@ -15,24 +15,26 @@ typedef struct S_80083160_View {
 } S_80083160_View;
 
 /*
- * Wraps X/Y with the map masks, combines them using the row shift, and adds twice the signed
- * low-halfword tile index to the cell-data base.
+ * Wraps X/Y with the map masks, combines them using the row shift, and returns the cell at the
+ * signed low-halfword tile index of the cell data.
  */
-static s32 map_cell_address_at_tile(s32 tile_x, s32 tile_y)
+static s16 *map_cell_address_at_tile(s32 tile_x, s32 tile_y)
 {
     S_80083160_View *map_state = ((S_80083160_View *)&g_game_work);
     S_8008E94C_Sub *map_layout = &map_state->sub;
     s32 tile_index;
+    s16 cell_index;
 
     tile_index = (map_layout->mask1 & tile_x) + ((s16)(map_layout->mask2 & tile_y) << map_layout->shift);
-    return map_state->sub.f0 + ((tile_index << 0x10) >> 0xF);
+    cell_index = tile_index;
+    return map_state->sub.cells + cell_index;
 }
 
 /*
- * Divides signed world X/Y by 64 with truncation toward zero and passes the resulting tile
- * coordinates to map_cell_address_at_tile; the address is discarded.
+ * Divides signed world X/Y by 64 with truncation toward zero and returns the map cell at the
+ * resulting tile coordinates (map_cell_address_at_tile).
  */
-void town_map_mod_read_p(s16 world_x, s16 world_y) {
+s16 *town_map_mod_read_p(s16 world_x, s16 world_y) {
     s32 tile_x;
     s32 tile_y;
 
@@ -42,5 +44,5 @@ void town_map_mod_read_p(s16 world_x, s16 world_y) {
     }
     tile_y = (s16)world_y;
     tile_x >>= 6;
-    map_cell_address_at_tile(tile_x, (tile_y / 64));
+    return map_cell_address_at_tile(tile_x, (tile_y / 64));
 }

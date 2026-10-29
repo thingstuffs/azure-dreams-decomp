@@ -6,6 +6,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/item.h"
 
 /* Starts Ghosh's front attack against a compatible neighbour within 64 height
  * units; returns 1 when started, 0 if no target suits, -1 while busy. */

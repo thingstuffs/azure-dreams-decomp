@@ -14,6 +14,7 @@
 #include "engine/graphics.h"
 #include "dungeon/system.h"
 #include "dungeon/item/actor_target.h"
+#include "dungeon/item.h"
 
 
 typedef s32 M2C_UNK;

@@ -166,7 +166,6 @@ void process_unflagged_linked_entries_alt(s32 firstNodeBase);
 struct EntityLinkNode;
 void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s32 extra_byte);
 #include "dungeon/item.h"
 #include "engine/resource.h"
 #include "slus.h"

@@ -11,8 +11,8 @@
 
 #include "dungeon/player/item.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/item.h"
 extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
-extern void adjust_source_value_and_finalize(void *context, const void *source);
 extern void play_sound_if_enabled(s32);
 extern void place_actor_item(void *, struct DungeonItemEntry *);
 extern void display_item_status_message(void *, struct DungeonItemEntry *, s16);
