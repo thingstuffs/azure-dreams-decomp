@@ -7,6 +7,7 @@
 #include "town/person/object/initialize_object_entries_api.h"
 #include "town/person/object_setup.h"
 #include "town/person/state.h"
+#include "town/person/object.h"
 extern s32 person_menu_object_entries[];
 extern M2C_UNK D_800D5624;
 extern M2C_UNK D_800D562C;

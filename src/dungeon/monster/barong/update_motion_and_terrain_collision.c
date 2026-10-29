@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "dungeon/actor/effect.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct { u16 flags; } MotionFieldView_80E64FF0Prefix;
@@ -75,8 +76,6 @@ typedef struct S_801747F0_3 {
 extern u8 barong_direction_vectors[16];
 
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
-extern s32 find_valid_floor_item_position(s16 x, s16 y, s16 z, s16 *out_x, s16 *out_y, s16 *out_distance);
-extern s32 place_item_at_valid_floor_position(s32 x, s32 y, s32 z, s32 unused, s32 *object_data);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
 
 /* Update motion and terrain collisions, then settle at a target or finish falling. */

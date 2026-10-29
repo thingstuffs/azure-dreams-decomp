@@ -9,6 +9,7 @@ typedef struct {
 } TownObject;
 
 #include "town/person/object_setup.h"
+#include "town/person/object.h"
 
 /* Decrement the timer and lower output until expiry restores the base value. */
 void lower_reaction_output_until_expiry(TownObject *obj, void *update_input_1, void *update_input_2) {

@@ -75,8 +75,8 @@ extern u8 viper_frame_set_1[];
 extern u8 viper_frame_set_5[];
 extern void *actor_update_node_cursor[];
 
-extern s32 find_floor_item_at_world_position(s16, s16, s16);
-extern Spawned *create_item_render_object(void *parent, void *sprite_source, s16 x, s32 y, s16 z);
+extern s32 find_floor_item_at_world_position(s16, s16, s16); /* Unprototyped: retail call narrows its arguments to this declaration; no shared prototype keeps it */
+extern void *create_item_render_object(void *parent, void *sprite_source, s16 x, s32 y, s16 z);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 struct SpriteFrameState;
 extern void select_sprite_entry(void *, s16, s16);

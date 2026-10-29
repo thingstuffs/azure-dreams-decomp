@@ -6,6 +6,7 @@
 #include "town/scene/flags.h"
 #include "town/scene.h"
 #include "town/event/object.h"
+#include "town/scene/motion.h"
 
 typedef struct Actor Actor;
 typedef struct Subject Subject;

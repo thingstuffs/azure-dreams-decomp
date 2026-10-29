@@ -12,7 +12,6 @@
 #include "engine/text.h"
 char *func_8004E5A0();
 char *func_8004E634();
-void *find_first_ended_record();
 extern void D_800B45E0(void *effect, ObjectPosition *motion, SpriteFrameState *sprite);
 extern void D_800B490C(void *effect, ObjectPosition *motion, SpriteFrameState *sprite);
 extern u8 *D_800DF24C[];

@@ -14,7 +14,7 @@ typedef struct {
 extern s32 familiar_record_slots[];
 extern u8 familiar_record_storage[];
 
-extern void pack_item_flag_400_bitmap(u16);
+extern void pack_item_flag_400_bitmap(u16); /* Unprototyped: retail call passes more arguments than the callee reads */
 
 /* Snapshot records and state fields, converting stored pointers to table indices. */
 void snapshot_inventory_and_familiars(void *input_state) {

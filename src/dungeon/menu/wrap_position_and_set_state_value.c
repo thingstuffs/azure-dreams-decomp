@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "dungeon/menu.h"
 
 extern s32 dungeon_menu_object;
 

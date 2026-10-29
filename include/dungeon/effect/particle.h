@@ -55,4 +55,12 @@ void update_rotating_effect_vertices(void *effect_data);
 
 void transform_rotated_vertices(void *transform_data);
 
+struct ObjectNodeHeader;
+struct ParticleCleanupWork;
+void create_forward_layered_sprite_pulse(void);
+void create_layered_sprite_pulse(EntityRec *origin);
+void create_random_velocity_child_effect(struct ObjectNodeHeader *parent, s32 state_value, s16 pair_value, s16 offset_x, s16 offset_y, s16 offset_z);
+void create_short_lived_child_particle(struct ObjectNodeHeader *source, s16 effect_param, s32 state_value, s16 offset_x, s16 offset_y, s16 offset_z, s32 motion_z);
+void update_effect_particles_and_cleanup(struct ParticleCleanupWork *effect, void *motion, void *sprite);
+
 #endif

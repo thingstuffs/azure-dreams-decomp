@@ -4,6 +4,7 @@
 #include "shared/object_index_slots.h"
 #include "town/person/object_setup.h"
 #include "town/person/position.h"
+#include "town/person/object.h"
 
 /* advance_reaction_motion_to_limit declares this with an s16 result; the two
  * callers disagree, so the declaration stays with each caller. */

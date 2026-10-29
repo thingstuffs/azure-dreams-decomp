@@ -156,7 +156,6 @@ typedef struct MotionSource {
 extern s32 service_script_controller(void);
 extern s32 check_transform_identifier_and_hook(s32);
 extern s16 SD_Call(s32);
-extern void unlink_scene_list_node(void *);
 extern void unlink_node_if_registered(void *);
 extern s32 D_800E9E34[];
 extern s32 D_800E9E54[];

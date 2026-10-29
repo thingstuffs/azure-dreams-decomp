@@ -214,7 +214,6 @@ void initialize_object_destination_fields(ovl_1831370_81811878_Source *src, ovl_
 void initialize_object_phase_data(void *recordFields, s32 recordValue2C, s32 typeCode, s32 recordValue24);
 void initialize_embedded_object_state(void *state, s32 parent, s32 type, s32 config);
 s32 get_and_position_object_handle(void *object);
-void *allocate_initialized_child_object(s32 parent_object, s32 type_code, s32 config_value);
 void release_object_handle(ovl_1831370_81811B44_S_80026B44_0 *owner);
 void cleanup_object_resources(ovl_1831370_81811B94_CleanupObject *object);
 u32 has_available_object(void *object);

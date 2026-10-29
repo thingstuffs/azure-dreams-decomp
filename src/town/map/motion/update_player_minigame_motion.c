@@ -44,6 +44,7 @@ typedef struct {
 typedef struct InputRecord InputRecord;
 #include "engine/texture.h"
 #include "town/player.h"
+#include "town/map/object.h"
 typedef struct {
     u8 pad[0x14];
     u16 unk14;
@@ -51,7 +52,7 @@ typedef struct {
 struct IntVector3;                       /* extern */
 #include "town/player/clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2_api.h"                      /* extern */
 struct Rec_D_800FE490; void update_the_s_field_10_using_callee_8008_fe_90(struct Rec_D_800FE490 *);                   /* extern */
-struct ObjectPosition; struct ObjectPosition; void copy_entity_record_fields(struct ObjectPosition *, struct ObjectPosition *);           /* extern */
+struct ObjectPosition; struct ObjectPosition;            /* extern */
 extern s32 D_800135B4;
 extern u8 D_8006CCF8[];
 extern M2C_UNK D_80089960;

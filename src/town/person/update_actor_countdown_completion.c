@@ -4,6 +4,7 @@
 
 #include "town/person/object_setup.h"
 #include "town/person.h"
+#include "town/person/object.h"
 void func_800CB73C(Rec_func_80094268_arg0 *);                            /* extern */
 
 /* Decrement the actor's countdown and run its expiration actions when it expires. */

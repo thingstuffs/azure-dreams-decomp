@@ -1,5 +1,6 @@
 #include "common.h"
 #include "dungeon/system.h"
+#include "dungeon/menu.h"
 
 typedef struct {
     u8 text[17];
@@ -7,7 +8,6 @@ typedef struct {
     u8 type;
 } Record818105FC;
 
-extern char *get_mapped_menu_table_entry(s32 row_id, s32 entry_index);
 extern s32 strncmp(const char *lhs, const char *rhs, s32 count);
 extern char *strncpy(char *dst, const char *src, s32 count);
 

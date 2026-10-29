@@ -2,7 +2,7 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 apply_object_setup_and_update(void *);                            /* extern */
+s32 apply_object_setup_and_update(void *); /* Unprototyped: retail call passes a different argument count */                            /* extern */
 
 
 /* Decrement the object counter and call its handler when it reaches zero. */

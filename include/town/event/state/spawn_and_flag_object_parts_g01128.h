@@ -116,7 +116,6 @@ extern u8 D_80088D78[8];
 extern M2C_UNK D_800D06C8[3];
 
 /* Shared import declarations; data casts preserve each measured view. */
-extern void unlink_scene_list_node(void *node);
 extern void unlink_node_if_registered(void *block_data);
 extern u8 D_800814A0[];
 

@@ -5,6 +5,7 @@
 
 #include "town/person/object_setup.h"
 #include "town/player.h"
+#include "town/person/object.h"
 
 /* Advance the object's position and stop its movement when it exceeds the limit. */
 void advance_object_position(void *context, EntityRec *object, void *finish_arg) {

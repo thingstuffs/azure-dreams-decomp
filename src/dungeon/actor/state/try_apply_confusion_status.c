@@ -3,9 +3,9 @@
 #include "dungeon/item/message.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/item.h"
+#include "dungeon/menu.h"
 
 extern s32 generate_random_value(void);
-extern void wrap_position_and_set_state_value(s32 value);
 
 extern s32 D_800DCF10[];
 extern u8 D_800E1A55[];

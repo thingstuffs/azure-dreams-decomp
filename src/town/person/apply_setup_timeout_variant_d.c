@@ -6,6 +6,7 @@
 
 #include "town/person/object_setup.h"
 #include "town/person.h"
+#include "town/person/object.h"
 /* Decrement the countdown and call apply_object_setup_and_update when it reaches zero. */
 void apply_setup_on_timeout_variant_4(Rec_func_80094268_arg0 *object, void *context, void *update_data) {
     u16 remaining_ticks;

@@ -137,7 +137,6 @@ extern void initialize_pointer_table_self_links(void);
 extern void initialize_the_store_two_values_set_state_flags(void *record, func_80092868_ScenePos *scene, void *value_0c); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void initialize_six_global_pointers_corresponding_storage_blocks(void);
 extern void run_the_three_update_routines_context(void *owner); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern void copy_entity_record_fields(void *, void *);
 extern void create_person_object(void);
 extern void initialize_object_at_current_position(void);
 void set_resident_bitmap_bit(s32 bit_id);
@@ -158,7 +157,7 @@ extern void update_the_s_field_10_using_callee_8008_fe_90(void *owner);
 extern s32 get_whether_has_attached_state_type_n_1_n_3(void *owner);
 extern void compute_and_clamps_vector_based_adjustment_updates_town(struct TownObj *obj, s32 base_value, struct TownVec **vec_ptr);
 extern void update_object_and_clear_status_fields(void *owner);
-extern void turn_entity_toward_target(void *owner, void *node_in, s32 mode);
+extern void turn_entity_toward_target(void *owner, void *node_in, s32 mode); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 check_masked_value_in_current_range(u16 owner);
 extern s32 runtime_estimate_vector_length(s32, s32);
 #include "engine/texture.h"
@@ -166,7 +165,6 @@ extern void step_actor_animation(void *,s32);
 extern void func_80048AC8(void *, s32);
 extern s32 step_angle_12_toward(s32 angle_delta, s32 target_angle, s32 step);
 extern u32 view_relative_angle_sector(s32 angle);
-extern void clear_motion_along_blocked_directions_update_affected_axes(void *);
 #include "town/player/fallback_handler_position_g00541.h"
 
 extern func_80092868_TownState map_runtime_state;

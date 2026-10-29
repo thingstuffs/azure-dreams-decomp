@@ -76,7 +76,6 @@ typedef struct S_800C5214_0 {
 
 void create_resource_display_object(s16 resource_index);
 /* extern */
-void copy_entity_record_fields();
 /* extern */
 extern M2C_UNK D_800D50DC;
 extern M2C_UNK D_800D50F0;

@@ -122,8 +122,8 @@ void snapshot_inventory_and_familiars();                 /* extern */
 s32 is_special_floor_entry_absent();                      /* extern */
 void create_rotating_clipped_sprite(u32 *, s16);             /* extern */
 struct S_8016738C_3; void create_color_cycling_pulse(struct S_8016738C_3 *);                      /* extern */
-struct EntityRec; void create_layered_sprite_pulse(struct EntityRec *);                      /* extern */
-void create_forward_layered_sprite_pulse();                  /* extern */
+struct EntityRec; void create_layered_sprite_pulse(EntityRec *origin);                      /* extern */
+void create_forward_layered_sprite_pulse(); /* Unprototyped: retail call passes more arguments than the callee reads */                  /* extern */
 struct S_8016F5D8_0; struct S_8016F5D8_1; struct S_8016F5D8_2; void update_phase_driven_motion_offset(struct S_8016F5D8_1 *, struct S_8016F5D8_2 *, struct S_8016F5D8_0 *);      /* extern */
 void apply_script_direction_record(void *, u8 *, void *);      /* extern */
 void create_action_offset_object(void);                            /* extern */

@@ -7,6 +7,7 @@
 #include "records/Rec_func_800AD058_arg0.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/state.h"
+#include "dungeon/effect.h"
 struct EntityLinkNode;
 
 
@@ -18,8 +19,6 @@ void distribute_experience_and_report_gains(EntityRec *entity); /* extern */
 void * detach_record_and_update_slot_state(void *record); /* extern */
 s32 play_sound_if_enabled(s32 query_value); /* extern */
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
-void *create_effect_or_fallback(u32 x, u32 y, s32 z, void *effect_data);
-
 
 typedef struct S_800AD058_1 {
     u8 pad_00[0xC];

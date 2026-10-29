@@ -141,7 +141,6 @@ extern u8 town_slot_snapshot[];
 /* Functions defined in this translation unit. */
 void update_position_displacement_dispatch_active_entity_handler(Rec_func_8009EE9C_arg0 *entity, s32 entity_id, S_8009EE9C_0 *motion, s32 context);
 void update_motion_toward_target_resolves_entity_countdown_expires(void *entity, s32 context, ObjectPosition *motion, s32 mode);
-void initialize_entity_flags_transform_type_dependent_variant(void *entity, void *state, void *transform, s32 unused);
 void initialize_the_entity_s_action_copy_selected_state_hex_13(Rec_func_8009EE9C_arg0 *entity, S_8009F1C0_0 *action, void *unused_motion, s32 unused_context);
 s32 get_target_itemp(void);
 void update_the_target_offset_advance_phase_handle_active_event(void *state, s32 event_id, DelayMotionZ *target, s32 context);

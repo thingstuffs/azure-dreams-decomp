@@ -4,6 +4,7 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
+#include "dungeon/effect.h"
 
 #ifndef NULL
 #define NULL 0
@@ -21,8 +22,8 @@ typedef struct {
 
 extern void register_node(void *, void *);
 extern void play_sound_if_enabled(s32);
-extern s32 get_item_category_value(void *, s32);
-extern void place_item_at_valid_floor_position(s32, s32, s32, void *, void *);
+extern s32 get_item_category_value(void *, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
+extern void place_item_at_valid_floor_position(s32, s32, s32, void *, void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void create_tracked_effect(void *, s32, s32, s32);
 
 extern u8 item_effect_descriptor[9];

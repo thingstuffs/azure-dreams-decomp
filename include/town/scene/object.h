@@ -63,4 +63,7 @@ void init_object_set_runtime_pointers_rev_b(void);
 
 s32 check_object_callback_returns_two(void);
 
+struct TownSceneListNode;
+s32 append_scene_list_node(struct TownSceneListNode *node);
+
 #endif

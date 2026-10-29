@@ -11,6 +11,7 @@
 #include "dungeon/level.h"
 #include "dungeon/system.h"
 #include "dungeon/actor.h"
+#include "dungeon/actor/effect.h"
 
 /* Clears all three halfwords in each of the 4,096 generation cells. */
 void clear_generation_cell_grid(void) {

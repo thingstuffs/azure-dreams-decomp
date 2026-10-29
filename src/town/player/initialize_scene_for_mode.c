@@ -7,6 +7,9 @@
 #include "shared/tile_object.h"
 #include "town/shop/item_lookup.h"
 #include "town/person/position.h"
+#include "town/map/object.h"
+#include "town/scene/motion.h"
+#include "town/player/motion.h"
 
 /* Initialize the town scene and configure its object for the current mode. */
 void initialize_scene_for_mode(void)

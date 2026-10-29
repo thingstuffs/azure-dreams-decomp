@@ -9,6 +9,7 @@
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/actor/effect.h"
 
 
 void *get_unused_text_buffer(void);
@@ -20,7 +21,6 @@ u8 * process_eligible_object_value(s32, u8 *); /* Unprototyped: uses the value a
 u8 *append_entity_display_text(void *record, u8 *out);
 void play_sound_if_enabled(s32);
 void display_text_with_fullwidth_adjustment(s8 *text);
-void *create_item_render_object(void *parent, void *sprite_source, s16 x, s32 y, s16 z);
 extern s32 held_item_record;
 extern s32 player_item_render_update_address;
 extern u8 D_800DD100[];

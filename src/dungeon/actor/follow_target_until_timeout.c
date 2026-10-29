@@ -6,7 +6,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 resident_globals_page[];
 s32 call_the_same_context_both_processing_routines(s32, ObjectPosition *);             /* extern */
-s32 handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(s32, ObjectPosition *);             /* extern */
+s32 handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(s32, ObjectPosition *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */             /* extern */
 s32 initialize_object_and_maybe_play_sound(void *, s32, ObjectPosition *, s32); /* extern */
 
 

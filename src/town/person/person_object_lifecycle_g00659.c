@@ -2,6 +2,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800C5ABC, CL:town/func_800C6064, PD:town/engine:800D5028. */
 #include "town/person/person_object_lifecycle_g00659.h"
 #include "town/person.h"
+#include "town/scene/object.h"
 
 /* Update the object motion or clear its state and clean it up when the position check fails. */
 void update_object_position_or_cleanup(Rec_func_80094268_arg0 *object, void *position, void *motion) {

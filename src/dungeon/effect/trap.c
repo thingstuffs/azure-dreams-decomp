@@ -18,6 +18,8 @@
 #include "dungeon/system.h"
 #include "engine/audio.h"
 #include "engine/scene.h"
+#include "dungeon/actor/effect.h"
+#include "dungeon/menu.h"
 struct Dst;
 struct Elem;
 
@@ -462,7 +464,6 @@ extern s16 D_8006CCD8[], D_8006CCE8[];
 extern s32 find_object_near_tile_height();
 extern void apply_attack_power_and_element_effects();
 extern s32 find_entry_at_tile_coordinates(s16 x, s16 y, s16 z);
-extern s32 find_floor_item_at_world_position(s32 input_x, s32 input_y, s32 input_z);
 extern s32 take_map_item_slot(void *object, s16 slot);
 
 
@@ -1252,7 +1253,6 @@ s32 spawn_source_sprite_effect(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 r
 
 extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 roll_chance_and_run_action(void *record, s16 chance, s8 action);
-extern void wrap_position_and_set_state_value(s32);
 extern s32 D_800DCF0C;
 extern u8 D_800E1BF3[];
 
@@ -1326,8 +1326,6 @@ typedef struct S_800CD294_1 {
 
 extern s32 D_800DCF14;
 extern s32 play_sound_if_enabled(s32 query_value);
-s32 roll_threshold_effect_variant_b(struct State *state_ptr, s16 limit_input, s8 byte_input);        /* extern */
-void wrap_position_and_set_state_value(s32 state_value);                         /* extern */
 extern u8 D_800E1C03[17];
 
 /* Checks the record and triggers the associated visual and sound effects on success. */
@@ -1365,8 +1363,6 @@ s32 check_trap_record_and_trigger_effects(void *record_data) {
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-extern s32 roll_threshold_effect_variant_a(struct State *state_ptr, s16 limit_input, s8 byte_input);
-extern void wrap_position_and_set_state_value(s32 state_value);
 extern s32 D_800DCF1C;
 extern u8 D_800E1C14[17];
 

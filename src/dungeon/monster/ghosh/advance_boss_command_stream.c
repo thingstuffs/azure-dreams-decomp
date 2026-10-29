@@ -26,7 +26,6 @@ extern void update_actor_status_and_mp(void *);
 extern void advance_boss_actor_movement_state(void *, void *, void *, void *);
 extern void create_linked_facing_sprite(u16 x, u16 y, s32 z);
 extern void create_boss_offset_effect(void);
-extern void update_boss_timed_animation(void *, void *, SpriteFrameState *, void *);
 
 #include "dungeon/monster/ghosh.h"
 #include "dungeon/item.h"

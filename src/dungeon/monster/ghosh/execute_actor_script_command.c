@@ -23,7 +23,6 @@ typedef struct S_8016EF10_1 {
 
 extern s32 update_actor_status_and_mp();
 extern s32 func_8016A928();
-extern s32 advance_actor_path();
 
 extern u8 D_800DF45C[];
 extern u8 D_8016EEBC[];

@@ -4,6 +4,7 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 #include "town/person/object_setup.h"
+#include "town/person/object.h"
 void * create_owner_following_sprite(s32);                      /* extern */
 
 

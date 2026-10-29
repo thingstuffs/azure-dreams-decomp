@@ -8,6 +8,7 @@ extern s8 D_80024AE0[];
 
 extern u16 D_80024A70;
 #include "shared/object_flags.h"
+#include "dungeon/effect.h"
 
 typedef union { u16 bits; s16 value; } JitterHalf;
 typedef struct { u16 fraction; JitterHalf whole; } JitterAxis;

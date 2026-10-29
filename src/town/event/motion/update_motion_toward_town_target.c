@@ -2,6 +2,7 @@
 #include "town/scene/collision.h"
 #include "shared/entity_objects.h"
 #include "town/player/position.h"
+#include "town/scene/motion.h"
 
 extern void call_the_same_context_both_processing_routines(void *value, void *context);
 extern void initialize_object_and_maybe_play_sound(void *context, s32 object, void *state, s32 extra);

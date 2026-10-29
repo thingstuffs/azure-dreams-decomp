@@ -1,8 +1,9 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
+#include "town/scene/object.h"
 
-struct Node; s32 append_scene_list_node(struct Node *);                      /* extern */
+struct Node;                       /* extern */
 #include "town/scene/object/unlink_scene_list_node_api.h"                      /* extern */
 #include "shared/town_state.h"
 struct Actor;

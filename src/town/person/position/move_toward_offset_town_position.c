@@ -24,6 +24,7 @@ typedef struct {
 
 extern TownCoordOwner *person_offset_target_owner;
 #include "town/person/object_setup.h"
+#include "town/person/object.h"
 
 /* Moves the position toward the town coordinates plus a vertical offset until the countdown expires. */
 void move_toward_offset_town_position(TownActor *actor, TownVec2 *position, void *completion_arg)

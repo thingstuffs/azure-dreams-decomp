@@ -3,6 +3,7 @@
 #include "records/Rec_D_80082D58.h"
 #include "engine/node.h"
 #include "town/person/object.h"
+#include "town/scene/object.h"
 
 #include "town/scene/object/unlink_scene_list_node_api.h"                      /* extern */
 #include "town/person/object_setup.h"

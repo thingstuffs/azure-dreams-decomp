@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "town/shop/item_lookup.h"
+#include "town/scene/object.h"
 /* Sibling of w_800510DC.c / code9.c / code10.c: sets the "used"/flag bit
  * (0x8000) on a 16-bit flags field 2 bytes before a0, and on the global
  * 32-bit flags word D_800814A0. Here the target reuses a SINGLE lui-computed
@@ -10,7 +11,6 @@
  * w_800510DC.c rather than the two-independent-lui -G0 shape. */
 
 extern void copy_a_pointer_table_initializes_extra_data_tag_hex_13(void *a0, void *a1); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern void unlink_scene_list_node(void *a0);
 extern void unlink_node_if_registered(void *a0);
 extern void func_80033D08(void *a0);
 

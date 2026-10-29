@@ -5,6 +5,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/player/object.h"
+#include "dungeon/effect/particle.h"
 
 typedef union {
     u16 unsigned_value;
@@ -60,7 +61,6 @@ extern void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition
 struct SpriteFrameState;
 extern void select_sprite_entry(void *, s16, s16);
 extern void play_sound_if_enabled(s32);
-extern void create_layered_sprite_pulse(DungeonWork *);
 extern void create_targeted_ribbon_trail(DungeonState *, DungeonWork *, DungeonObject *, u8 *, s32);
 
 /*

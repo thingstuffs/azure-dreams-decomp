@@ -10,6 +10,7 @@
 #include "town/player.h"
 #include "town/event/state.h"
 #include "town/player/position.h"
+#include "town/scene/object.h"
 
 /* Process an object action and set the object and global 0x8000 flags. */
 void spawn_and_flag_object_parts(unsigned short *object, s32 unused, s32 action_id)

@@ -4,6 +4,7 @@
 
 
 #include "town/person/object_setup.h"
+#include "town/person/object.h"
 
 /* Ease the position toward its target, snapping to it when the timer expires. */
 void ease_reaction_position_to_target(Rec_func_80094268_arg0 *state, EntityRec *position, void *update_arg) {

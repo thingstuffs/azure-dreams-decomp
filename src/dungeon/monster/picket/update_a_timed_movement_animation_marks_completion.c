@@ -1,6 +1,7 @@
 #include "common.h"
 #include "dungeon/monster/picket.h"
 #include "shared/object_flags.h"
+#include "dungeon/actor/effect.h"
 
 typedef struct S_80174978_0 {
     u8 pad_00[0x96];
@@ -11,11 +12,6 @@ typedef struct S_80174978_0 {
     s16 unk_A8;
     s16 unk_AA;
 } S_80174978_0;   /* arg0 in update_a_timed_movement_animation_marks_completion */
-
-
-
-
-extern s32 place_item_at_valid_floor_position(s32 x, s32 y, s32 z, s32 unused, s32 *object_data);
 
 /* Updates a timed movement animation and marks its completion. */
 void update_a_timed_movement_animation_marks_completion(void *actor, ObjectPosition *motion, SpriteFrameState *visual) {

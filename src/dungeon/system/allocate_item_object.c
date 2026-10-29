@@ -12,8 +12,8 @@ extern void set_item_data_from_lookup();
 
 extern void advance_paired_object_sequence();
 extern s32 inventory_allocate_and_initialize_child(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern s32 allocate_initialized_child_object();
-extern s32 create_menu_child_object();
+extern s32 allocate_initialized_child_object(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern s32 create_menu_child_object(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 item_panel_display_ids;
 
 typedef struct S_80025198_0 {

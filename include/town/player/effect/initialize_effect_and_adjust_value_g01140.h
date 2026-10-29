@@ -127,8 +127,6 @@ extern s16 town_scene_effect_flips[];
 extern u8 town_position_reference_state[];
 #include "engine/texture.h"
 extern void step_actor_animation(void *,s32);
-extern void clear_motion_along_blocked_directions_update_affected_axes(void *);
-extern void copy_entity_record_fields(void *, void *);
 /* arg0 in update_object_view_transition */
 s32 read_map_cell_at_world_position(s16, s16);
 /* extern */
@@ -154,7 +152,6 @@ extern u8 town_movement_speed[];
 /* Functions defined in this translation unit. */
 void initialize_effect_and_adjust_value(void *object, EntityRec *record, s32 init_value);
 void update_effect_record_and_dispatch(void *handler, ObjectPosition *record, s32 context);
-void turn_entity_toward_target(void *entity, void *transform, void *sprite);
 s32 compute_height_based_offset(EntityRec *state);
 void update_object_view_transition(S_800A58CC_2 *state_arg, void *object);
 void update_actor_movement_and_actions(State *state, Actor *actor);

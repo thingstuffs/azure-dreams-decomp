@@ -15,6 +15,7 @@ extern M2C_UNK D_800D62C4;
 
 #include "town/person/object_setup.h"
 #include "town/person.h"
+#include "town/person/object.h"
 /* Set the object data pointer and clear its indexed flag before calling apply_object_setup_and_update. */
 void initialize_indexed_scene_object(Rec_func_80094268_arg0 *object, void *param_1, void *param_2) {
     ((S_800C8600_2 *)object->unk_80)->unk_04 = &D_800D62C4;

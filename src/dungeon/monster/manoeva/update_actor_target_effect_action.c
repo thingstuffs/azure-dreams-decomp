@@ -13,6 +13,7 @@
 #include "engine/node.h"
 #include "dungeon/item/message.h"
 #include "dungeon/item/message/text.h"
+#include "dungeon/actor/effect.h"
 
 typedef struct S_80173D78_1 {
     u8 pad_00[0xC];
@@ -70,7 +71,6 @@ void unlink_entity_node();
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 void *find_eligible_actor_at_tile_and_height();
 s32 display_text_with_fullwidth_adjustment(s8 *text);
-s32 find_floor_item_at_world_position(s32 input_x, s32 input_y, s32 input_z);
 void update_actor_status_and_mp();
 void retire_tracked_effect_by_id();
 void *spawn_manoeva_from_record();

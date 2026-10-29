@@ -184,7 +184,6 @@ extern DungeonSlot *familiar_record_slots[];
 extern u8 temporary_item_record[];
 extern u8 floor_objects[];
 s16 find_entry_at_tile_coordinates(s16 x, s16 y, s16 z);
-s32 find_floor_item_at_world_position(s32 input_x, s32 input_y, s32 input_z);
 extern void clear_slots_of_type(void *, s8);
 extern void apply_entity_action_flags(void *, s32);
 extern void apply_capped_damage_and_hit_effect();

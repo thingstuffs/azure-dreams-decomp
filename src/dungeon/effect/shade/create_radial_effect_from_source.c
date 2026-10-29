@@ -6,8 +6,8 @@
 #include "shared/object_node.h"
 #include "engine/node.h"
 typedef struct ParticleOrigin ParticleOrigin;
-void *create_moving_fading_particle(ParticleOrigin *origin, s16 angle, s16 radius, s16 height_offset, ObjectNodeHeader **allocation_head);
 #include "engine/node/allocation.h"
+#include "dungeon/effect.h"
 
 extern M2C_UNK D_800247AC[3];
 s32 draw_adjacent_row_quads(void);

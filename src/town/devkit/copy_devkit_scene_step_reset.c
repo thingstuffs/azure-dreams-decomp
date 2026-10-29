@@ -8,7 +8,7 @@ extern s32 D_80700710;
 extern void func_80700894(s32);
 extern s32 func_80700A78(void);
 extern void process_pair_16_bit_table(void);
-extern void redraw_devkit_list_and_rekey_rows(s32, s32);
+extern void redraw_devkit_list_and_rekey_rows(s32, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
 
 /* Devkit scene step: reset the cursor, rebuild the list, latch its length and redraw. */
 s32 copy_devkit_scene_step_reset(void) {

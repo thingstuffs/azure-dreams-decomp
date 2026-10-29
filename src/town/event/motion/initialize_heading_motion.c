@@ -2,6 +2,7 @@
 #include "town/scene/collision.h"
 #include "shared/object_node.h"
 #include "town/player/position.h"
+#include "town/scene/motion.h"
 
 extern s32 rsin(s32 value_a);
 extern s32 rcos(s32 value_b);

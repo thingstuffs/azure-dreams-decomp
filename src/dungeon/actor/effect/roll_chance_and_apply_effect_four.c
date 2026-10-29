@@ -2,6 +2,7 @@
 #include "common.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/actor.h"
+#include "dungeon/actor/effect.h"
 
 typedef struct State {
     u8 pad[3];

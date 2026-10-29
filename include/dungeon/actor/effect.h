@@ -36,4 +36,14 @@ s32 find_valid_floor_item_position(s16 x, s16 y, s16 z, s16 *out_x, s16 *out_y, 
 
 void mark_category_items_flag_400(s32 group_bit);
 
+struct ObjectNodeHeader;
+struct State;
+void *create_source_linked_fading_effect(struct ObjectNodeHeader *source, s16 copy_position);
+s32 get_item_category_value(void *item_data);
+void pack_item_flag_400_bitmap(void);
+s32 roll_chance_and_apply_effect_four(struct State *state, s16 value, s16 flag);
+s32 roll_threshold_effect_variant_a(struct State *state_ptr, s16 limit_input, s16 byte_input);
+s32 roll_threshold_effect_variant_b(struct State *state_ptr, s16 limit_input, s16 byte_input);
+s32 try_apply_threshold_effect_variant_b(void *entity, s16 chance, s16 effect_value);
+
 #endif

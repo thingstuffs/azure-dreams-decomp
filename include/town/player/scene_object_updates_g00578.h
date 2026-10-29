@@ -81,7 +81,7 @@ extern void *D_80100E24_R;
 extern void advance_sprite_animation_and_textures(void *);
 extern s32 update_object_and_clear_status_fields(void *);
 extern void set_state_bytes_from_flags(s32 flags, u8 *state);
-extern void create_colored_scaled_effect(StackRecord *);
+extern void create_colored_scaled_effect(StackRecord *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void update_sine_pulse_color(StackRecord *);
 extern void update_target_from_previous_state(void);
 extern void apply_pending_indexed_value(s32, s32);

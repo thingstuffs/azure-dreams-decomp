@@ -37,4 +37,10 @@ s32 build_transformed_sprite_quads(void *draw_area, void *placement, void *sprit
 void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact, u16 flags);
 void *create_panel_effect_object(void *owner);
 
+void *allocate_initialized_child_object(s32 parent_object, s32 type_code, s32 config_value);
+void *create_menu_child_object(s32 parent_obj, s32 descriptor_value);
+s8 *find_first_ended_record(s8 *record);
+void *get_mapped_menu_table_entry(s32 row_id, s32 entry_index);
+void wrap_position_and_set_state_value(s32 state_value);
+
 #endif

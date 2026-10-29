@@ -7,6 +7,7 @@
 #include "town/player.h"
 
 #include "town/person/object_setup.h"
+#include "town/person/object.h"
 extern M2C_UNK person_bounce_handler_address;
 
 

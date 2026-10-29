@@ -3,6 +3,7 @@
 #include "town/shop/shop_window_layout_g00610.h"
 #include "town/shop.h"
 #include "town/shop/item.h"
+#include "town/shop/position.h"
 
 /* Initialize UI resources and position five rows of display elements. */
 void initialize_shop_window_layout(ShopWindow *ui) {

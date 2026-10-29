@@ -91,4 +91,8 @@ void allocate_type_12_object(void);
 void spawn_rising_trail_emitter(void);
 void update_rising_trail_emitter(void *record_data, struct S_801720D0_0 *state);
 
+void advance_actor_path(ActorRecord *motion, ObjectPosition *context, SpriteFrameState *position, ActorRecord *actor);
+void clear_actor_flag_and_advance_action(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *effect_context, ActorRecord *actor);
+void update_boss_timed_animation(void *actor, ObjectPosition *transform, SpriteFrameState *animation, void *motion);
+
 #endif

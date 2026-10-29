@@ -1,5 +1,6 @@
 /* Relinked copy of town/func_808816D8 (func_808816D8.c); the busy-flag store names this copy's flag 0x807007B0 (twin 0x80700740), otherwise retail differs only at relocation sites. */
 #include "common.h"
+#include "town/devkit.h"
 
 typedef struct Func808816D8Callbacks {
     u8 pad68[0x68];

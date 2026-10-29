@@ -28,7 +28,7 @@ typedef struct {
 } Record;
 
 extern void func_80024770(s32, s32, s32);
-extern void fade_scene_tile_after_completion_flag(s32, s32, s32, s32);
+extern void fade_scene_tile_after_completion_flag(s32, s32, s32, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
 
 /* Builds scaled vertices and submits a shaded strip using scratchpad storage. */
 s32 draw_shaded_rotating_vertex_strip(Record *record) {

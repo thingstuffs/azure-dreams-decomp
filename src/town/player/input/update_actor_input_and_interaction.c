@@ -16,7 +16,7 @@ extern s32 runtime_estimate_vector_length(s32 value, s32 other_value);
 extern void submit_object_resource_data(s32 value);
 extern void initialize_scene_action_record(void *action_state, void *actor, s32 context);
 extern void init_unchanged_action_fallback(void *action_state, void *actor, s32 context);
-extern void initialize_motion_action(void *action_state, void *actor, s32 context);
+extern void initialize_motion_action(void *action_state, void *actor, s32 context); /* Unprototyped: owner prototype fails to compile at this consumer */
 extern void init_threshold_countdown_action(void *action_state, void *actor,void *context);
 extern void initialize_actor_action_state(void *action_state, void *actor, s32 context);
 extern void initialize_action_object(void *action_state, void *actor, s32 context);

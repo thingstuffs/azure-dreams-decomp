@@ -494,7 +494,6 @@ void apply_capped_damage_and_hit_effect(ActorRecord *entity, Rec_func_800A5DFC_a
 extern s32 lookup_item_category_mapped_value(u8, u8);
 extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
 extern s32 play_sound_if_enabled(s32);
-extern s32 place_item_at_valid_floor_position(s32 x, s32 y, s32 z, s32 unused, s32 *object_data);
 
 /* Processes a target using the linked object's position, then decrements the shared count. */
 void place_actor_item(void *object_context, struct DungeonItemEntry *target) {

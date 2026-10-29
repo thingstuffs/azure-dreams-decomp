@@ -4,6 +4,7 @@
 #include "engine/object.h"
 #include "town/person/object.h"
 #include "town/person.h"
+#include "town/scene/object.h"
 
 #include "town/scene/object/unlink_scene_list_node_api.h"                      /* extern */
 

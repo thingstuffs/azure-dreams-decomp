@@ -11,6 +11,7 @@ struct ObjectNodeHeader;
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
+#include "dungeon/actor/effect.h"
 
 #define FLD(p, t, o) (*(t *)((u8 *)(p) + (o)))
 
@@ -33,7 +34,6 @@ extern s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 extern void set_record_integer_tile_center(void *a0, u8 a1, u8 a2);
 extern void select_record_entry_and_value(void *a0, s32 a1, s32 a2);
 extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *a0);
-extern void create_source_linked_fading_effect(struct ObjectNodeHeader *, s16);
 extern void register_node(void *a0, void *a1);
 
 /* Creates an entity at the given tile and height and initializes its sprite state. */

@@ -1,5 +1,6 @@
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "dungeon/actor/effect.h"
 
 typedef struct State {
     u8 pad[3];

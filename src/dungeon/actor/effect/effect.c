@@ -357,7 +357,6 @@ typedef struct DungeonDescriptor {
 } DungeonDescriptor;
 
 extern void D_800A7548();
-extern void * create_item_render_object(void *parent, void *sprite_source, s16 x, s32 y, s16 z);
 
 /* Create a dungeon descriptor centered on the given tile at the specified z coordinate. */
 DungeonDescriptor *create_timed_effect_at_tile(s32 tile_x, s32 tile_y, s32 z, s32 *init_data) {
@@ -482,8 +481,6 @@ typedef struct S_800A794C_2 {
     s16 unk_AE;
 } S_800A794C_2;   /* fields in func_800A794C */
 
-extern void * create_item_render_object(void *parent, void *sprite_source, s16 x, s32 y, s16 z);
-
 extern u8 D_800A77AC[];
 
 /* Create an object at the tile center, initialize its fields, and increment the object count. */
@@ -557,11 +554,9 @@ extern u8 * append_typed_formatted_value(s32 *,u8 *);
 
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 find_first_empty_floor_item_slot(void);
-extern s32 find_valid_floor_item_position(s16 x, s16 y, s16 z, s16 *out_x, s16 *out_y, s16 *out_distance);
 struct DungeonDescriptor;
 extern struct DungeonDescriptor * create_timed_effect_at_tile(s32 tile_x, s32 tile_y, s32 z, s32 *init_data);
 extern void * create_tile_centered_item_effect(s32, s32, s32, s32 *, s32, s32, s32);
-extern s32 get_item_category_value(void *item);
 
 /* Registers an object at a resolved dungeon position or processes its fallback placement. */
 s32 place_item_at_valid_floor_position(s32 x, s32 y, s32 z, s32 unused, s32 *object_data) {
@@ -917,7 +912,6 @@ s32 render_floor_items(s32 unused0, s32 unused1, SpriteFrameState *render_params
 #define F(e,t,o) (*(t)((s8 *)(e)+(o)))
 extern void * allocate_list_node(s32 flags, void **list_head);
 extern s32 register_node(void *entry, void *registration_id);
-extern s32 get_item_category_value(void *item);
 extern void create_tracked_effect(void *, s32, s32, s32);
 
 /* Create a sprite object with the supplied position and default color and scale. */
@@ -975,7 +969,6 @@ void unlink_entity_node(struct EntityLinkNode *node);
 s32 check_neighbor_tile_blocking();
 void *find_eligible_actor_at_tile_and_height(struct Node *node, s32 x, s32 y_in, s16 value);
 void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);
-s32 place_item_at_valid_floor_position(s32 x, s32 y, s32 z, s32 unused, s32 *object_data);
 extern s32 held_item_record;
 extern u8 D_800DD7DC[];
 extern s32 saved_held_item_word;
@@ -1427,7 +1420,6 @@ extern u8 D_800A871C[];
 extern void * allocate_list_node(s32 flags, void **list_head);
 extern s32 register_node(void *entry, void *registration_id);
 extern void clear_entry_flag_and_link_owner(ObjectNodeHeader *entry);
-extern s32 get_item_category_value(void *item);
 extern void create_tracked_effect(void *, s32, s32, s32);
 
 /* Creates a dungeon object at a tile or the supplied coordinates. */

@@ -14,6 +14,7 @@
 #include "dungeon/player/item.h"
 #include "dungeon/player/state.h"
 #include "dungeon/item/message.h"
+#include "dungeon/actor/effect.h"
 
 typedef struct S_800C08A4_0 {
     void * unk_00;
@@ -51,7 +52,6 @@ s32 display_text_with_fullwidth_adjustment(s8 *text); /* extern */
 struct DungeonItemEntry;
 void place_actor_item(void *object_context, struct DungeonItemEntry *target); /* extern */
 s32 generate_random_value(void);
-s32 place_item_at_valid_floor_position(); /* extern */
 extern u8 D_80089378[];
 extern u8 D_8008937C[];
 extern u8 D_800E13DA[15];

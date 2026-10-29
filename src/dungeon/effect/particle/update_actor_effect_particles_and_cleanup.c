@@ -13,6 +13,7 @@
 #include "shared/slus_callbacks.h"
 #include "engine/graphics.h"
 #include "dungeon/actor.h"
+#include "dungeon/actor/effect.h"
 
 typedef struct DungeonState818D4800 {
     u8 pad0[0x8D0];
@@ -58,7 +59,6 @@ extern void unlink_node(void *);
 extern s32 rand(void);
 extern s32 try_trigger_target_record_effect(void *, s32, void *);
 extern s32 generate_random_value(void);
-extern void try_apply_threshold_effect_variant_b(void *entity, s16 chance, s16 effect_value);
 
 /* Projects linked points and queues visible square particles with color scaled by each point's intensity. */
 s32 draw_actor_effect_points(void *object_data, void *position_data)

@@ -103,7 +103,6 @@ typedef MonsterFactory SpawnFunc;
 extern s16 count_matching_packed_entity_keys(s32, s32);
 extern s32 generate_random_value(void);
 extern s32 find_first_empty_floor_item_slot(void);
-extern s32 get_item_category_value(void *item);
 extern s32 get_surface_height_at_coordinates(s32 xCoord, s32 yCoord);
 extern u8 floor_species_pool[];
 extern s16 floor_generation_state[3];

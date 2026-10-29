@@ -4,11 +4,11 @@
 #include "town/scene.h"
 #include "town/player.h"
 #include "town/player/position.h"
+#include "town/scene/motion.h"
 
 typedef void (*Callback)(void *, void *, void *, s32);
 
 extern void call_the_same_context_both_processing_routines(void *, void *);
-extern void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(void *, void *);
 extern s32 read_map_cell_at_world_position(s16, s16);
 extern s32 check_masked_value_in_current_range(u16);
 extern void SD_Call(s32);

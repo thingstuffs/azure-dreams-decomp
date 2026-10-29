@@ -5,6 +5,7 @@
 #include "shared/object_flags.h"
 #include "town/map/object.h"
 #include "town/scene.h"
+#include "town/scene/object.h"
 
 /* On a successful object check, clear its linked byte and set object and global flags. */
 void clear_object_link_and_mark_complete(S_func_800BB508_0 *object, void *context) {

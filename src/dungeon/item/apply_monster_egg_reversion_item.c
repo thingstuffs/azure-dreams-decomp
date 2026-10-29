@@ -48,7 +48,7 @@ void * detach_record_and_update_slot_state(void *record);
 s32 display_text_with_fullwidth_adjustment(s8 *text);
 s32 generate_random_value(void);
 #include "dungeon/actor/effect.h"
-void * create_effect_or_fallback(u32 x, u32 y, s32 z, void *effect_data);
+#include "dungeon/effect.h"
 
 extern u8 D_80089360[];
 extern u8 D_800E1095[0x1E];

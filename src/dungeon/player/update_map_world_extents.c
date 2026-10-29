@@ -14,9 +14,9 @@
 #include "engine/graphics.h"
 #include "dungeon/item.h"
 #include "dungeon/level.h"
+#include "dungeon/actor/effect.h"
 
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
-extern void *create_item_render_object(void *parent, void *sprite_source, s16 x, s32 y, s16 z);
 
 extern u8 player_item_render_update_address[12];
 extern u8 player_carry_frames[8];

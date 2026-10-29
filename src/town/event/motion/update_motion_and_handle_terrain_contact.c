@@ -8,6 +8,7 @@
 #include "town/scene.h"
 #include "town/player.h"
 #include "town/player/position.h"
+#include "town/scene/motion.h"
 
 typedef void (*Callback)(void *, void *, void *, s32);
 

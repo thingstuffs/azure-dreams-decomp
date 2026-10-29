@@ -1,8 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/scene/flags.h"
+#include "town/scene/motion.h"
 
-s32 handle_evaluate_position_after_subtracting_stored_offset_first_component();                           /* extern */
 s32 query_position_with_first_component_offset();                           /* extern */
 
 /*

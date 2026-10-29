@@ -35,13 +35,13 @@ s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor/state.h"
 #include "dungeon/item.h"
+#include "dungeon/actor/effect.h"
 extern s32 has_low_actor_mp();
 extern s32 check_entity_interaction_compatibility();
 extern s32 get_definition_field_from_triple(ActorRecord *actor, s32 entry_index);
 extern s32 choose_usable_ability_or_attack();
 extern s32 check_left_tile_and_center_height();
 extern s32 find_nearest_floor_item_in_room();
-extern s32 find_floor_item_at_world_position(s32 input_x, s32 input_y, s32 input_z);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s32 check_global_or_linked_flag_20000();
 

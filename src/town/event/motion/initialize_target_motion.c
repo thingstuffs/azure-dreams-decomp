@@ -6,6 +6,7 @@
 #include "shared/entity.h"
 #include "records/Rec_func_8009B828_arg0.h"
 #include "town/event/motion.h"
+#include "town/scene/motion.h"
 
 extern void actor_target_motion_address();
 extern s32 town_target_height_offset[];

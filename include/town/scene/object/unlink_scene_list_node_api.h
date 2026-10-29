@@ -5,6 +5,4 @@
 
 struct Rec_func_80094268_arg0;
 
-void unlink_scene_list_node(struct Rec_func_80094268_arg0 *);
-
 #endif

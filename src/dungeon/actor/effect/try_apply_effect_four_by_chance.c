@@ -1,8 +1,8 @@
 #include "common.h"
 #include "dungeon/item.h"
+#include "dungeon/actor/effect.h"
+#include "dungeon/menu.h"
 
-extern s32 roll_chance_and_apply_effect_four(void *, s16, s16);
-extern void wrap_position_and_set_state_value(s32);
 extern u8 D_800E19E8[];
 extern u8 D_800E1A01[];
 extern s32 D_800DCF18;

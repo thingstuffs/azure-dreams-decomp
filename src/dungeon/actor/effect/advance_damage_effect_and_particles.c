@@ -44,7 +44,6 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
 #include "dungeon/player/object.h"
 #include "dungeon/actor/state.h"
 #include "shared/object_node.h"
-void *create_source_linked_fading_effect(ObjectNodeHeader *source, s16 copy_position);
 extern u8 actor_motion_resume_address;
 
 /* Advances the actor rotation and color effect through fading and cleanup. */

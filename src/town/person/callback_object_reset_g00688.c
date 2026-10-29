@@ -2,6 +2,7 @@
 /* Original-file evidence (G00688): inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800CEC24. */
 #include "town/person/callback_object_reset_g00688.h"
 #include "town/person.h"
+#include "town/person/object.h"
 
 /* Prepare the context and forward the arguments to the next handler. */
 void prepare_and_forward_callback(void *object, void *context, SpriteFrameState *callback_arg) {

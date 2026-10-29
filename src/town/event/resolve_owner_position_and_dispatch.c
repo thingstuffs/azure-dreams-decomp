@@ -7,6 +7,7 @@
 #include "engine/script.h"
 #include "shared/position_views.h"
 #include "town/scene.h"
+#include "town/scene/motion.h"
 
 
 typedef struct {

@@ -41,4 +41,9 @@ s32 process_linked_mesh_states_mode_0(void *initial_state, s32 value, void *data
 s32 select_nearby_target_and_initialize_slot(void *tracked_object, void *target_data, s32 target_id, s32 slot_value);
 void setup_object_within_planar_range(void *object, s32 x, s32 y, s32 height, s32 mode, s32 settings);
 
+struct ObjectNodeHeader;
+void *create_effect_or_fallback(u32 x, u32 y, s32 z, void *effect_data);
+void *create_moving_fading_particle(ObjectPosition *origin, s16 angle, s16 radius, s16 height_offset, struct ObjectNodeHeader **allocation_head);
+void transform_mesh_and_append_draw_packets(u8 *params, u8 *record, void *mesh_data, s32 depth_offset);
+
 #endif

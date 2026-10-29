@@ -3,6 +3,7 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "sdk/libgte.h"
+#include "dungeon/effect.h"
 
 typedef struct ParticleRenderOwner {
     u8 pad_00[0xC];

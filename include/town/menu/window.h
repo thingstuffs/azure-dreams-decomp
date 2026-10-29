@@ -410,7 +410,6 @@ void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
 void unlink_node_if_registered(void *block_data);
 void func_80033D08(void *block_data);
 extern void advance_sprite_animation_and_textures(void *callback_data);
-void unlink_scene_list_node(Rec_func_80094268_arg0 *node);
 s32 update_object_and_clear_status_fields();
 extern void set_state_bytes_from_flags(s32 flags, u8 *state);
 extern s32 update_state_when_active(s32 state);
@@ -426,7 +425,6 @@ extern void *create_item_view_for_entry(s32 first, void *data, s32 value);
 extern void *func_8004B854(s32 first, void *data, s32 value);
 void clear_global_80110_ec_0_global_80082_a_39(void);
 void * open_twin_souko(s32 option);
-extern void initialize_entity_flags_transform_type_dependent_variant();
 u32 scale_random_to_unsigned_halfword_limit(s32 limit);
 
 extern u8 lit_mesh_renderer_address[];

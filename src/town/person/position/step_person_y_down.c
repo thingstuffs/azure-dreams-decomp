@@ -1,6 +1,7 @@
 #include "town/person.h"
 
 #include "town/person/object_setup.h"
+#include "town/person/object.h"
 
 /* Clamp height, advance the timer, and move two units along Y until expiry. */
 void step_person_y_down(PersonObject *object, ObjectPosition *position, SpriteFrameState *output) {

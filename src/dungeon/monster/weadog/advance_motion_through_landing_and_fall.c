@@ -1,6 +1,7 @@
 #include "shared/object_flags.h"
 #include "common.h"
 #include "shared/object_links.h"
+#include "dungeon/actor/effect.h"
 
 typedef struct GridPoint {
     union {
@@ -99,8 +100,6 @@ typedef struct S_func_80EF7000_4 {
 
 
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
-extern s32 find_valid_floor_item_position(s8, s8, s16, s16 *, s16 *, s16 *);
-extern s32 place_item_at_valid_floor_position(s32 x, s32 y, s32 z, s32 unused, s32 *object_data);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
 
 extern u8 weadog_slot_c_direction_steps[];

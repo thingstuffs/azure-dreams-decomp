@@ -18,6 +18,7 @@ typedef struct S_800CB4C0_6 {
 void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
 extern void D_800CB374(void *effect, void *unused, SpriteFrameState *primitive);
 #include "shared/sprite_source.h"
+#include "dungeon/actor/effect.h"
 extern SpriteSourceEntry D_800E02CC[];
 
 typedef struct S_800CB4C0_5 {

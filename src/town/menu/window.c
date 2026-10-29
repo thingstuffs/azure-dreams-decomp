@@ -24,6 +24,10 @@
 #include "town/menu.h"
 #include "town/menu/object.h"
 #include "town/event/state.h"
+#include "town/map/effect.h"
+#include "town/map/object.h"
+#include "town/shop/position.h"
+#include "town/map/state.h"
 
 
 /* Initializes an object with default transform and global state values. */
@@ -1037,13 +1041,7 @@ extern void initialize_flagged_actor_action_d(void *, void *, SpriteFrameState *
 extern void initialize_projected_sprite_chain_a(void *, void *, SpriteFrameState *);
 extern void initialize_projected_sprite_chain_b(void *, void *, SpriteFrameState *);
 extern void initialize_projected_sprite_chain_c(void *, void *, SpriteFrameState *);
-extern void initialize_randomized_object_state(void *, void *, SpriteFrameState *);
 extern void initialize_object_data_transform_color(void *, void *, SpriteFrameState *);
-extern void initialize_effect_with_child_sprites(void *, void *, SpriteFrameState *);
-extern void initialize_effect_with_random_angle(void *, void *, SpriteFrameState *);
-extern void initialize_random_particle_effect(void *, void *, SpriteFrameState *);
-extern void initialize_object_appearance_with_delay(void *, void *, SpriteFrameState *);
-extern void init_object_with_countdown(void *, void *, SpriteFrameState *);
 extern void initialize_object_and_dispatch_by_state(void *, void *, SpriteFrameState *);
 extern void initialize_object_resources_2(void *, void *, SpriteFrameState *);
 extern void func_800C60DC(void *, void *, SpriteFrameState *);

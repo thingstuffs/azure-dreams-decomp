@@ -56,7 +56,7 @@ typedef struct S_8016FC4C_8 {
 } S_8016FC4C_8;   /* (u8 *)common_page in advance_encounter_actor_effect_phase */
 
 s32 rand(void);
-void create_random_velocity_child_effect();
+void create_random_velocity_child_effect(); /* Unprototyped: canonical s16 parameters change this caller's argument setup; no shared prototype keeps it */
 void create_offset_half_scale_spark(void *, s32, s32, s32);
 extern s16 beldo_large_direction_offsets[16];
 extern void *beldo_actor_nodes[3];

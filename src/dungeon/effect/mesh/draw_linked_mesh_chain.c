@@ -15,7 +15,7 @@ typedef struct {
     s32 value;
     ChainPayload *payload;
 } ChainHeader;
-extern void transform_mesh_and_append_draw_packets(void *, s32, ChainPayload *, s16);
+extern void transform_mesh_and_append_draw_packets(void *, s32, ChainPayload *, s16); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /*
  * Transforms and queues each linked mesh using its payload kind, follows the chain headers, and

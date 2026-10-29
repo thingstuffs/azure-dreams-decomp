@@ -168,7 +168,7 @@ void *func_8003FD64(s32, void *);
 void register_node(void *, void *);
 void func_8004491C(void *, void *);
 s32 rand(void);
-void jitter_effect_position_and_fade(void *, s32);
+void jitter_effect_position_and_fade(void *, s32); /* Unprototyped: retail call passes a different argument count */
 void initialize_timed_motion_step(s32, s32);
 s32 get_definition_entry_byte_13(s16 entry_index);
 s32 try_trigger_target_record_effect(void *, s32, void *);

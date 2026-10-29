@@ -3,6 +3,7 @@
 #include "shared/game_work.h"
 #include "shared/entity.h"
 #include "dungeon/player/object.h"
+#include "dungeon/monster/ghosh.h"
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 rsin(s32);

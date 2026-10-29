@@ -10,6 +10,7 @@ void unlink_node_if_registered(void *block_data);
 void select_record_entry_and_value(void *state, void *entries, short index);
 #include "town/scene/object/unlink_scene_list_node_api.h"
 #include "town/person.h"
+#include "town/scene/object.h"
 s32 update_state_when_active();
 struct func_8009F880_S_8009CFE0_0; s32 classify_object_against_bounds(struct func_8009F880_S_8009CFE0_0 *, void *);
 
