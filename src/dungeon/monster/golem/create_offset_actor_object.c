@@ -7,6 +7,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "engine/node.h"
 #include "engine/scene.h"
+#include "engine/graphics.h"
 
    /* dst in create_offset_actor_object */
 
@@ -14,7 +15,7 @@ typedef struct {
     s32 w[6];
 } Block24;
 
-extern void select_sprite_entry(void *, s32, s32);
+
 
 extern u8 golem_object_callback[9];
 

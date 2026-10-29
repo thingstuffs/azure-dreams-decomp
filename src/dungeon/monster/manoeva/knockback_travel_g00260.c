@@ -29,10 +29,11 @@ s32 check_adjacent_tile_height(s16 tile_x, s16 tile_y, s32 height, s16 direction
 /* Find a reachable target tile and create an object with the source display and context. */
 /* Checks monster and resource limits, finds a reachable nearby tile, and creates a copied-sprite travel
  * effect. */
-void create_knockback_travel_object(u8 *owner_data, ObjectPosition *position_arg, Source *source_arg, Context *context_arg) {
+void create_knockback_travel_object(ActorRecord *owner_data, ObjectPosition *position_arg, SpriteFrameState *source_arg, ActorRecord *context_arg) {
     Vec3s world_offset;
     Vec3s local_offset;
     u16 hit;
+    u16 property_flags;
     s32 direction;
     s32 trial_dir;
     s32 target_y;
@@ -47,8 +48,8 @@ void create_knockback_travel_object(u8 *owner_data, ObjectPosition *position_arg
     u32 initial_result;
 
     target_y = target_x = 0;
-    if (context_arg->f60 == ((u8 *)dungeon_actor_ring_anchor)) {
-        special_data = *(u8 **)((u8 *)context_arg->f60 + 0x4C);
+    if (context_arg->target == ((u8 *)dungeon_actor_ring_anchor)) {
+        special_data = *(u8 **)((u8 *)context_arg->target + 0x4C);
         if (special_data != 0) {
             if (special_data[1] == 15 && special_data[0] == 8) {
                 return;
@@ -59,19 +60,19 @@ void create_knockback_travel_object(u8 *owner_data, ObjectPosition *position_arg
     if (g_dungeon_status.monster_count >= 32) {
         return;
     }
-    if (!find_or_retain_sprite_resource_slot(context_arg->f13, 1) && !find_or_retain_sprite_resource_slot(context_arg->f13, 3)) {
+    if (!find_or_retain_sprite_resource_slot(context_arg->species, 1) && !find_or_retain_sprite_resource_slot(context_arg->species, 3)) {
         return;
     }
 
-    direction = (((s16)context_arg->f2A >> 9) + 4) & 7;
-    initial_result = (u16)check_adjacent_tile_height(source_arg->x, source_arg->y, position_arg->z.w.i, direction, &hit) << 16;
+    direction = (((s16)context_arg->facing >> 9) + 4) & 7;
+    initial_result = (u16)check_adjacent_tile_height(source_arg->tile_x, source_arg->tile_y, position_arg->z.w.i, direction, &hit) << 16;
     if (initial_result == 0) {
         for (trial_dir = 0; trial_dir < 8; trial_dir++) {
-            if ((s16)check_adjacent_tile_height((s16)(source_arg->x + dir_step_x[direction]),
-                                   (s16)(source_arg->y + dir_step_y[direction]),
+            if ((s16)check_adjacent_tile_height((s16)(source_arg->tile_x + dir_step_x[direction]),
+                                   (s16)(source_arg->tile_y + dir_step_y[direction]),
                                    position_arg->z.w.i, (s16)trial_dir, &hit) != 0) {
-                target_x = ((u16 *)dir_step_x)[trial_dir] + (source_arg->x + ((u16 *)dir_step_x)[direction]);
-                target_y = ((u16 *)dir_step_y)[trial_dir] + (source_arg->y + ((u16 *)dir_step_y)[direction]);
+                target_x = ((u16 *)dir_step_x)[trial_dir] + (source_arg->tile_x + ((u16 *)dir_step_x)[direction]);
+                target_y = ((u16 *)dir_step_y)[trial_dir] + (source_arg->tile_y + ((u16 *)dir_step_y)[direction]);
                 break;
             }
         }
@@ -79,49 +80,50 @@ void create_knockback_travel_object(u8 *owner_data, ObjectPosition *position_arg
             return;
         }
     } else {
-        target_x = source_arg->x + ((u16 *)dir_step_x)[direction];
-        target_y = source_arg->y + ((u16 *)dir_step_y)[direction];
+        target_x = source_arg->tile_x + ((u16 *)dir_step_x)[direction];
+        target_y = source_arg->tile_y + ((u16 *)dir_step_y)[direction];
     }
 
-    object = allocate_list_node(0x100, owner_data - 0x20);
+    object = allocate_list_node(0x100, &(((ObjectNodeHeader *)owner_data) - 1)->next);
     if (object == 0) {
         return;
     }
 
-    display = object->display;
-    work = (Work *)((u8 *)object + 0x20);
-    object->callback = &manoeva_knockback_callback_address;
+    display = object->node.sprite;
+    work = &object->work;
+    object->node.update_callback = &manoeva_knockback_callback_address;
     work->source = source_arg;
     work->position = position_arg;
 
     display->scale_y = 0x1000;
     display->scale_x = 0x1000;
     display->color.word = 0x00808080;
-    display->animation_resource = source_arg->f28;
-    display->clut = source_arg->f12;
+    display->animation_resource = source_arg->animation_resource;
+    display->clut = source_arg->clut;
 
-    offset_x_index = ((g_game_work.view.camera_rotation.parts.viewAngle + context_arg->f2A + 0x100) >> 8) & 0xE;
+    offset_x_index = ((g_game_work.view.camera_rotation.parts.viewAngle + context_arg->facing + 0x100) >> 8) & 0xE;
     local_offset.x = D_801766F0[offset_x_index];
-    offset_y_index = ((g_game_work.view.camera_rotation.parts.viewAngle + context_arg->f2A + 0x100) >> 8) & 0xE;
+    offset_y_index = ((g_game_work.view.camera_rotation.parts.viewAngle + context_arg->facing + 0x100) >> 8) & 0xE;
     local_offset.y = D_801766F0[offset_y_index + 1];
     local_offset.z = 0;
     project_vector_by_view_angle(&local_offset, &world_offset);
 
-    object->position->x = position_arg->x.w.i + world_offset.x;
-    object->position->y = position_arg->y.w.i + world_offset.y;
-    object->position->z = position_arg->z.w.i + world_offset.z;
+    object->node.position->x.w.i = position_arg->x.w.i + world_offset.x;
+    object->node.position->y.w.i = position_arg->y.w.i + world_offset.y;
+    object->node.position->z.w.i = position_arg->z.w.i + world_offset.z;
     select_sprite_entry(display, 0x41, 0);
-    register_node(object, project_sprite_chain);
+    register_node(&object->node, project_sprite_chain);
 
-    object->field20 = &context_arg->f2A;
+    object->work.facing = &context_arg->facing;
     work->f20 = 8;
     work->x = target_x;
     work->y = target_y;
     work->hit = hit;
-    work->flags = context_arg->f14 & 0x2007;
-    work->source_id = source_arg->f12;
-    owner_byte = owner_data[0xAC];
-    work->owner_minus20 = (u8 *)context_arg - 0x20;
+    property_flags = context_arg->flags14;
+    work->flags = property_flags & 0x2007;
+    work->source_id = source_arg->clut;
+    owner_byte = owner_data->unk_AC.byte;
+    work->actor_node = (ObjectNodeHeader *)context_arg - 1;
     work->context = context_arg;
     work->owner_byte = owner_byte;
 

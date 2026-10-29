@@ -29,5 +29,7 @@ void transfer_linked_object_state(ActorRecord *owner, ObjectPosition *object_id,
 void update_an_effect_s_lifetime_fades_color_advances_motion(void *effect, s32 *motion, u8 *color_data);
 
 void create_terrain_scaled_actor_effect(ObjectNodeHeader *source, s16 *facing, u8 *action, u16 *flags);
+void create_knockback_travel_object(ActorRecord *owner_data, ObjectPosition *position_arg, SpriteFrameState *source_arg, ActorRecord *context_arg);
+
 
 #endif

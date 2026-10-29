@@ -9,6 +9,8 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/player/object.h"
 #include "dungeon/actor/spell_resource_ids_g01008.h"
+#include "engine/graphics.h"
+#include "dungeon/system.h"
 
 typedef struct S_80174428_0 {
     u8 pad_00[0x1C];
@@ -54,11 +56,11 @@ extern u8 picket_frame_set_8[];
 extern u16 D_80174FC4[];
 extern u16 D_80174FD4[];
 
-extern void select_sprite_entry(void *, s32, s32);
+
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s16 select_dungeon_spawn_tile(u8 *, u8 *);
-extern void play_sound_if_enabled(s32);
+
 void refresh_actor_proximity_state(ActorRecord *context);
 
 extern s16 sample_terrain_surface_height(s32, s32, s16);

@@ -14,6 +14,12 @@ Steps (a lane runs this and reviews receipt.json / holds.tsv / folder.patch):
   4. Recapture the proof set.  A changed TU is rolled back: its own edit first; when the TU is unedited (or
      still changes) every changed header in its closure is restored together with the folder TUs that
      depended on it.  Repeats until every TU is identical.
+     With --proof build-graph (default when the root has a built tree) the TU-identical state is then
+     proven on the build graph (tools/build/affected.py): every production recipe whose closure holds an
+     edited file -- placement copies in every bank and SLUS partitions included, and every edited file's
+     own recipes wherever the file lives -- is compiled at its production recipe and compared with the
+     root's pre-wave build/obj; images with a changed object are relinked.  A changed recipe rolls back
+     like a changed TU (its own edit, else every consumer of the edited headers in its closure).
   5. Debt ratchet: an edited file whose per-function lexical debt rises (tools/lint/debt_check) is restored.
   6. Writes receipt.json, holds.tsv (TU, header, reason), files.tsv (local externs before/after),
      folder.patch and wave.log.
@@ -132,6 +138,31 @@ def proof_set(root, edited, physical, deps):
     return sorted(quoted | {t for t, ds in deps.items() if ds & edited})
 
 
+def load_affected(here=HERE):
+    import importlib.util
+    spec = importlib.util.spec_from_file_location('tools_build_affected', here.parent / 'build/affected.py')
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def build_graph_round(AF, graph, root, original, edited, workers, log):
+    """Build-graph proof of the current state: (report, {failing recipe id: edited files in its closure})."""
+    known = {f: sha(t) for f, t in original.items() if t is not None and f in edited}
+    report = AF.prove(root, sorted(edited), root, workers=workers, known=known, graph=graph, log=log)
+    for line in AF.summary(report, limit=12):
+        log('build-graph ' + line)
+    blame = {}
+    if report['verdict'] == 'CHANGED':
+        for rid, rec in report['recipes'].items():
+            if rec['verdict'] != 'CHANGED':
+                continue
+            spec = graph.recipes[rid]
+            closure = {graph.real(d) for d in spec.get('dependencies', ())} | {graph.own_source(spec)}
+            blame[rid] = sorted(f for f in edited if graph.real(f) in closure)
+    return report, blame
+
+
 def plan_folder(root, files, data, skip):
     plan = P.build(root, scope_files=files, include_data=data)
     hof = lambda r: plan.fn_for_def(r.definition).header      # noqa: E731
@@ -187,6 +218,8 @@ def main(argv=None):
     ap.add_argument('--data', action='store_true', help='also move data externs (opt-in)')
     ap.add_argument('--deps-cache', type=Path, help='reuse clang -MM closures across runs (.json.gz)')
     ap.add_argument('--dry-run', action='store_true', help='plan, byte-decide and prove; restore every file')
+    ap.add_argument('--proof', choices=('auto', 'tu', 'build-graph'), default='auto',
+                    help='auto: build-graph when the root has a built tree (build/.state/index.json + build/obj)')
     args = ap.parse_args(argv)
     if not 1 <= args.workers <= 6:
         ap.error('between 1 and 6 workers on this host')
@@ -205,6 +238,16 @@ def main(argv=None):
         logf.write(line + '\n')
         logf.flush()
 
+    proof = args.proof
+    if proof == 'auto':
+        proof = 'build-graph' if (root / 'build/.state/index.json').is_file() and (root / 'build/obj').is_dir() else 'tu'
+        if proof == 'tu':
+            log('no built tree: proof falls back to standalone TU capture (no placement copies, no images)')
+    AF = graph = None
+    graph_reports = []
+    if proof == 'build-graph':
+        AF = load_affected()
+        graph = AF.Graph(root)
     folder = args.folder.rstrip('/')
     skip = set()
     if args.skip_list:
@@ -282,6 +325,32 @@ def main(argv=None):
             failed = [t for t in check if not identical(before[t], after[t])]
             log(f'proof round {rounds}: {len(check) - len(failed)}/{len(check)} TUs identical'
                 + (f'; changed: {failed[:6]}' if failed else ''))
+            if not failed and AF is not None and edited:
+                report, blame = build_graph_round(AF, graph, root, original, edited, args.workers, log)
+                graph_reports.append({k: report.get(k) for k in ('verdict', 'counts', 'seconds')}
+                                     | {'recipes': len(report['scope']['recipes']) + len(report['scope']['slus_recipes']),
+                                        'images': len(report['scope']['images'])})
+                if report['verdict'] in ('ERROR', 'STALE_BASE'):
+                    raise RuntimeError('build-graph proof %s (rebuild the root before the wave): %s' % (
+                        report['verdict'], report.get('error') or next(
+                            (r.get('error') for r in report['recipes'].values() if r['verdict'] != 'PASS'), '')))
+                for rid, files_seen in sorted(blame.items()):
+                    label = 'recipe_changed:' + (report['recipes'][rid].get('owner') or report['recipes'][rid]['source'])
+                    own = [f for f in files_seen if f.endswith('.c')]
+                    hdrs = [f for f in files_seen if f.endswith('.h')]
+                    if not own and not hdrs:
+                        raise RuntimeError(f'recipe {rid} changed without an edited input')
+                    for f in own:
+                        restore(f, '*', label)
+                    if own:
+                        continue
+                    for h in hdrs:
+                        for rel, (orig, edit) in jobs.items():
+                            if h in accepted.get(rel, []):
+                                restore(rel, h, 'header_' + label)
+                if blame:
+                    sync_headers()
+                    continue
             if not failed:
                 rises = [rel for rel in sorted(jobs) if read(root, rel) != original[rel]
                          and debt_rises(rel, original[rel], read(root, rel))]
@@ -349,6 +418,7 @@ def main(argv=None):
             'proof_set': len(tus), 'proof_rounds': rounds, 'baseline_capture_errors': bad_before,
             'holds_by_reason': dict(Counter(w.split(':')[0] for _, _, w in holds).most_common()),
             'proven_identical_tus': len(proven),
+            'proof': proof, 'build_graph_rounds': graph_reports,
             'tentative_tus_kept': sorted(r for r, v in verdicts.items() if v.get('tentative')
                                          and read(root, r) != original[r]),
         }

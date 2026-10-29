@@ -15,7 +15,7 @@ struct ObjectPosition;
 extern s32 generate_random_value(void);
 extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
 extern void apply_clamped_actor_value_delta(void *);
-extern void create_knockback_travel_object(void *,struct ObjectPosition *, void *, void *);
+extern void create_knockback_travel_object(ActorRecord *,struct ObjectPosition *, SpriteFrameState *, ActorRecord *);
 extern void spawn_manoeva_particle_burst(void *,struct SpriteFrameState *);
 
 extern u8 manoeva_action_resume_address[];

@@ -6,6 +6,7 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/actor/status.h"
+#include "engine/graphics.h"
 
 typedef struct S_80173C20_0 {
     u8 pad_00[0x8C];
@@ -34,13 +35,13 @@ typedef struct S_80173C20_1 {
 } S_80173C20_1;   /* entity_data in advance_directional_lift_effect */
 
 
-extern void select_sprite_entry(void *, s32, s32);
+
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
-extern void clear_byte_and_advance(s8 *byte_ptr);
+u8 *clear_byte_and_advance(u8 *byte_ptr);
 extern u8 *append_entity_display_text(void *record, u8 *out);
-extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void display_text_with_fullwidth_adjustment(s8 *text);
+void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+s32 display_text_with_fullwidth_adjustment(s8 *text);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
 extern void *actor_update_node_cursor;

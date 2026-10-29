@@ -31,7 +31,7 @@ typedef struct S_8017364C_0 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 void *scan_actor_along_heading();      /* extern */
 void * create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);       /* extern */
-void spawn_random_velocity_offset_effect(EntityRec *parent, s16 effect_id, s32 effect_param, s32 unused, s16 x_offset, s16 y_offset, s16 z_offset); /* extern */
+void spawn_random_velocity_offset_effect(ObjectNodeHeader *parent, s16 effect_id, s32 effect_param, s32 unused, s16 x_offset, s16 y_offset, s16 z_offset); /* extern */
 void noise_ability_resume_address(ActorRecord *motion, ObjectPosition *render_ctx, SpriteFrameState *map_entity, ActorRecord *actor);
 extern u8 noise_direction_frames[9];
 

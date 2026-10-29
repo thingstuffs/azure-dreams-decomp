@@ -10,6 +10,7 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/player/object.h"
 #include "dungeon/actor/spell_resource_ids_g01008.h"
+#include "dungeon/item.h"
 
 typedef struct T_8017406C_S_8017406C_0 {
     u8 pad_00[0x8C];
@@ -29,7 +30,7 @@ typedef struct T_8017406C_S_8017406C_0 {
 
 
 extern s32 rsin(s32);
-extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+
 extern void on_actor_status_updated(void *);
 extern void func_800A9A04(void *);
 

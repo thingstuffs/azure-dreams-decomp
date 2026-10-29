@@ -5,23 +5,21 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_moving_views.h"
+#include "engine/node.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
 typedef struct S_80E3CC80_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-    u8 pad_14[0x2C];
+    ObjectNodeHeader node;
+    u8 pad_20[0x20];
     s16 unk_40;
 } S_80E3CC80_0;   /* object in spawn_manoeva_particle_burst */
 
    /* arg0 in spawn_manoeva_particle_burst */
 
-extern void register_node(void *object, void *data);
+
 extern void select_sprite_entry(void *object, s32 table_index, s32 entry_index);
 extern s32 rand(void);
 
@@ -39,9 +37,9 @@ void spawn_manoeva_particle_burst(MovingPosition *origin, SpriteFrameState *sour
     do {
         particle = allocate_flagged_object_node(0x300);
         if (particle != NULL) {
-            particle->unk_10 = update_an_effect_s_lifetime_fades_color_advances_motion;
-            register_node(particle, project_sprite_chain);
-            sprite = particle->unk_0C;
+            particle->node.update_callback = update_an_effect_s_lifetime_fades_color_advances_motion;
+            register_node(&particle->node, project_sprite_chain);
+            sprite = particle->node.sprite;
             sprite->scale_y = 0x800;
             sprite->scale_x = 0x800;
             sprite->color.word = 0x808080;
@@ -53,7 +51,7 @@ void spawn_manoeva_particle_burst(MovingPosition *origin, SpriteFrameState *sour
             sprite->flags = sprite_flags | 0xC;
             sprite->clut = source_y - 0x80;
             select_sprite_entry(sprite, 0x41, 0);
-            motion = particle->unk_08;
+            motion = particle->node.position;
             motion->x.w.i = origin->x;
             motion->y.w.i = origin->y;
             motion->z.w.i = origin->z - (rand() & 0x1F);

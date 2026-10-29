@@ -40,7 +40,7 @@ void *spawn_configured_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s
     work = 0;
     held_b = attr_b;
     held_flags = spawn_flags;
-    obj = allocate_list_node(0x112, (held_a = attr_a, ((u8 *)(&scene_object_list_anchor))));
+    obj = allocate_list_node(0x112, (held_a = attr_a, &scene_object_list_anchor.next));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         obj->update_callback = func_8014CB64;

@@ -2096,7 +2096,7 @@ void advance_actor_action_and_update_status(
     s16 y_offset,
     s16 z_offset)
 {
-    R06_80174214_S_80174214_1 *source_obj = source;
+    ObjectNodeHeader *source_obj = source;
     s16 saved_value_34 = value_34;
     u32 saved_value_28 = value_28;
     s16 saved_value_52 = value_52;
@@ -2116,11 +2116,11 @@ void advance_actor_action_and_update_status(
     ObjectPosition *y_dest;
     ObjectPosition *z_dest;
 
-    object_fields = allocate_list_node(0x211, source_obj);
+    object_fields = allocate_list_node(0x211, &source_obj->next);
     if (object_fields != NULL) {
         object_fields->update_callback = (u8 *)advance_randomized_motion_and_complete;
         x_jitter = rand() & 0x1F;
-        x_pos = ((R06_80174214_S_80174214_6 *)(source_obj->unk_08))->unk_02;
+        x_pos = ((R06_80174214_S_80174214_6 *)(source_obj->position))->unk_02;
         x_dest = object_fields->position;
         x_pos += x_jitter;
         x_bias = x_offset - 0x10;
@@ -2128,7 +2128,7 @@ void advance_actor_action_and_update_status(
         x_dest->x.w.i = (s16)x_pos;
 
         y_jitter = rand() & 0x1F;
-        y_pos = ((R06_80174214_S_80174214_6 *)(source_obj->unk_08))->unk_06;
+        y_pos = ((R06_80174214_S_80174214_6 *)(source_obj->position))->unk_06;
         y_dest = object_fields->position;
         y_pos += y_jitter;
         y_bias = y_offset - 0x10;
@@ -2137,7 +2137,7 @@ void advance_actor_action_and_update_status(
 
         z_jitter = rand();
         init_data = ((void *)append_linked_shaded_point_packets);
-        z_pos = ((R06_80174214_S_80174214_6 *)(source_obj->unk_08))->unk_0A;
+        z_pos = ((R06_80174214_S_80174214_6 *)(source_obj->position))->unk_0A;
         z_jitter &= 0x1F;
         fields = (R06_80174214_S_80174214_0 *)((u8 *)object_fields + 0x20);
         z_dest = object_fields->position;

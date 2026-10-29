@@ -8,6 +8,7 @@
 #include "shared/entity.h"
 #include "dungeon/player/object.h"
 #include "dungeon/actor/spell_resource_ids_g01008.h"
+#include "dungeon/system.h"
 
 typedef struct S_80174764_0 {
     u8 pad_00[0x8C];
@@ -26,7 +27,7 @@ typedef struct S_80174764_4 {
 } S_80174764_4;   /* ((Rec_D_800E3D7C *)arg3)->unk_60.as_pv in advance_target_interaction */
 
 extern void select_sprite_entry(void *, s16, s16);
-extern void play_sound_if_enabled(s32);
+
 
 extern void spawn_312_effect_object(void *, void *, void *);
 extern s32 request_random_slot_effect(ActorRecord *);

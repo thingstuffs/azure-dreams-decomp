@@ -27,6 +27,7 @@
 #include "dungeon/item/actor_target.h"
 #include "dungeon/player/object.h"
 #include "dungeon/actor/status.h"
+#include "engine/texture.h"
 
 typedef s32 R07_80170854_M2C_UNK;
 
@@ -193,17 +194,17 @@ s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 s32 generate_random_value(void);
 s16 set_or_clear_actor_status_slot(ActorRecord *owner, s8 id, s8 value);
 void initialize_actor_sprite_and_animation(void *entity, void *position, SpriteFrameState *sprite, s32 init_flags);
-void select_indirect_table_entry(struct S_80047738 *state, s16 table_index, s16 entry_index);
+
 void advance_sprite_animation_and_textures(void *entity);
 void apply_monster_koyaw_data(s32 flags, s8 *dst);
 s32 refresh_actor_facing_and_lifecycle();
 s16 sample_terrain_surface_height();
 s32 resolve_record_orientation_or_fallback();
 void select_sprite_entry();
-void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
+void func_80047784(void *object_data, s16 table_index, s16 entry_index);
 s32 check_entity_relation();
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
-s32 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
+s16 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
 s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 s32 can_entity_gain_level(void *entity);
 void update_actor_status_and_mp(ActorRecord *entity);
@@ -221,7 +222,7 @@ s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 
 void * find_adjacent_actor(void *entity, u16 x, u16 y);
 void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
 s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
-s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
+s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
 s32 prepare_directional_attack();
 s16 try_claim_dungeon_action_slot(ActorRecord *actor);

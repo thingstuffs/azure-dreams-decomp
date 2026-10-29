@@ -3,6 +3,9 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/actor/status.h"
+#include "engine/graphics.h"
+#include "dungeon/system.h"
+#include "dungeon/item/actor_target.h"
 
 #define U8(p, o) (*(u8 *)((u8 *)(p) + (o)))
 #define S8(p, o) (*(s8 *)((u8 *)(p) + (o)))
@@ -11,14 +14,14 @@
 #define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define PTR(p, o) (*(void **)((u8 *)(p) + (o)))
 
-extern void select_sprite_entry(void *, s32, s32);
+
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
-extern void clear_byte_and_advance(s8 *byte_ptr);
+u8 *clear_byte_and_advance(u8 *byte_ptr);
 extern u8 *append_entity_display_text(void *record, u8 *out);
-extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
-extern void play_sound_if_enabled(s32);
-extern void display_text_with_fullwidth_adjustment(s8 *text);
+
+
+s32 display_text_with_fullwidth_adjustment(s8 *text);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 extern void try_apply_action_by_chance(void *, s32, s32);
 

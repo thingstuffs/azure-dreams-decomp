@@ -8,11 +8,13 @@
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/actor/spell_resource_ids_g01008.h"
+#include "engine/graphics.h"
+#include "dungeon/system.h"
 
-extern void select_sprite_entry(void *, u8, s32);
+
 extern s32 rand(void);
-extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void play_sound_if_enabled(s32);
+void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+
 
 extern void spawn_randomized_directional_effect(void *, s16, s32, s32);
 void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosition *source_position, SpriteFrameState *source_sprite);

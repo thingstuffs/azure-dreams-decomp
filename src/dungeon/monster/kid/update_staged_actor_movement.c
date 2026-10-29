@@ -12,6 +12,8 @@
 #include "engine/node/allocation.h"
 #include "dungeon/player/object.h"
 #include "dungeon/actor/spell_resource_ids_g01008.h"
+#include "engine/graphics.h"
+#include "dungeon/system.h"
 
 typedef u32 az_uptr;
 
@@ -60,10 +62,10 @@ typedef struct S_80172790_3 {
 } S_80172790_3;   /* part in update_staged_actor_movement */
 
 
-extern void select_sprite_entry(void *, s32, s32);
+
 extern s32 rand(void);
-extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void play_sound_if_enabled(s32);
+void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+
 
 
 extern u8 directional_effect_entries[];

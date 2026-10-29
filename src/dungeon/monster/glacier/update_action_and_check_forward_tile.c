@@ -12,19 +12,21 @@
 #include "dungeon/player/object.h"
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 #include "engine/scene.h"
+#include "engine/graphics.h"
+#include "dungeon/system.h"
 
 typedef struct {
     s16 x;
     s16 y;
 } Pair16;
 
-extern void select_record_entry_and_value(void *, void *, s32);
+void select_record_entry_and_value(void *state_data, void *entry_data, short index);
 
-extern void select_sprite_entry(void *, s32, s32);
+
 extern s32 rand(void);
 s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
-extern void play_sound_if_enabled(s32);
+
 
 extern void * find_first_entry_matching_keys(void *node, u16 key_a, u16 key_b, s16 range_center);
 extern void create_facing_offset_object(void *, void *, void *);

@@ -16,6 +16,8 @@
 #include "engine/node/allocation.h"
 #include "dungeon/player/object.h"
 #include "dungeon/actor/spell_resource_ids_g01008.h"
+#include "dungeon/system.h"
+#include "engine/graphics.h"
 
 typedef struct T_801748D0_S_801748D0_0 {
     u8 pad_00[0x8C];
@@ -79,13 +81,13 @@ typedef struct {
 } T_801748D0_MeshCopy;
 
 extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
-extern void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
+
 extern void * find_eligible_actor_at_tile_and_height();
 extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 extern s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 extern s32 resolve_record_orientation_or_fallback(s32, void *, s16 *, s16);
 extern s32 RotTransPers(void *, void *, void *, void *);
-extern void play_sound_if_enabled(s32);
+
 
 extern void check_action_six_eligibility(void *, void *);
 extern u8 D_80174EC8;

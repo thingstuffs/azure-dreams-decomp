@@ -15,6 +15,7 @@
 #include "engine/node/allocation.h"
 #include "engine/node.h"
 #include "dungeon/actor/spell_resource_ids_g01008.h"
+#include "engine/graphics.h"
 struct ObjectNodeHeader;
 
 typedef struct T_80172FFC_S_80172FFC_0 {
@@ -93,7 +94,7 @@ extern s32 resolve_record_orientation_or_fallback();
 extern void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
-extern void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
+
 extern void * resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 
 extern s8 view_direction_depth_biases[];

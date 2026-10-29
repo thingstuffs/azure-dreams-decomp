@@ -10,6 +10,9 @@
 #include "dungeon/level.h"
 #include "engine/node.h"
 #include "engine/node/allocation.h"
+#include "engine/graphics.h"
+#include "dungeon/system.h"
+#include "dungeon/item/actor_target.h"
 
 typedef struct S_80174668_0 {
     u8 pad_00[0x8C];
@@ -105,18 +108,18 @@ typedef struct {
     s16 y;
 } Position2;
 
-extern void select_sprite_entry(void *, s32, s32);
+
 extern s32 rand(void);
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
-extern void clear_byte_and_advance(s8 *byte_ptr);
+u8 *clear_byte_and_advance(u8 *byte_ptr);
 extern u8 *append_entity_display_text(void *record, u8 *out);
-extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
-extern void play_sound_if_enabled(s32);
-extern void display_text_with_fullwidth_adjustment(s8 *text);
+
+
+s32 display_text_with_fullwidth_adjustment(s8 *text);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 extern void draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s32);
-extern void try_apply_confusion_status(void *, s32, s32);
+s32 try_apply_confusion_status(void *ptr, s32 threshold_input, s32 kind_input);
 
 extern u8 rotating_particle_sprite_entries[];
 extern u32 actor_update_node_cursor[];

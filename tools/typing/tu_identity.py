@@ -14,6 +14,14 @@ and canonical object SHA-256.  A rewrite is accepted only when every TU is raw- 
 whose canonical assembly differs only in compiler-local `$L<n>` label numbering (structured control flow
 can renumber labels without changing a byte).  Such TUs are reported as label_only; raw and canonical
 object equality are still required.
+
+--proof build-graph (the default when the root has a built tree: build/.state/index.json + build/obj)
+adds the build-graph proof after the TU filter passes: tools/build/affected.py compiles every
+production recipe whose closure contains an edited file (placement copies and SLUS partitions included)
+at its production args, compares raw objects and relocations with the root's pre-edit build/obj and
+relinks every image with a changed object.  The snapshot records the pre-edit sha of each --edit file
+(<receipt>.base.json) so the baseline objects are checked against the text they were built from.
+--proof tu keeps the standalone-capture proof only.
 """
 from __future__ import annotations
 
@@ -110,6 +118,36 @@ def verdict(before, after, ignore_local_labels=False):
     return rec, accepted
 
 
+def _build_graph_ready(root):
+    return (root / 'build/.state/index.json').is_file() and (root / 'build/obj').is_dir()
+
+
+def _proof_mode(args, root):
+    if args.proof != 'auto':
+        return args.proof
+    if _build_graph_ready(root):
+        return 'build-graph'
+    print('tu_identity: no built tree in %s; proof falls back to standalone TU capture' % root, file=sys.stderr)
+    return 'tu'
+
+
+def _sidecar(receipt):
+    return receipt.with_name(receipt.name + '.base.json')
+
+
+def build_graph_proof(root, edited, known, workers):
+    """affected.prove over the edit set; returns (report, accepted)."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location('tools_build_affected', TOOLS / 'build/affected.py')
+    AF = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(AF)
+    report = AF.prove(root, sorted(edited), root, workers=min(max(workers, 1), 8), known=known,
+                      log=lambda m: print('build-graph ' + m, file=sys.stderr, flush=True))
+    for line in AF.summary(report):
+        print('build-graph ' + line, file=sys.stderr)
+    return report, report['verdict'] == 'PASS'
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('mode', choices=('snapshot', 'compare'))
@@ -119,6 +157,8 @@ def main(argv=None):
     ap.add_argument('--receipt', type=Path, required=True)
     ap.add_argument('--results', type=Path)
     ap.add_argument('--workers', type=int, default=6)
+    ap.add_argument('--proof', choices=('auto', 'tu', 'build-graph'), default='auto',
+                    help='auto: build-graph when the root has a built tree, else tu')
     ap.add_argument('--ignore-local-labels', action='store_true',
                     help='compare: accept TUs whose objects are equal and whose assembly differs only in $L<n> numbering')
     args = ap.parse_args(argv)
@@ -134,6 +174,11 @@ def main(argv=None):
             tus, diff = proof_set(root, args.edit, physical, args.workers)
         recs = capture(root, tus, physical, args.workers)
         args.receipt.parent.mkdir(parents=True, exist_ok=True)
+        if _proof_mode(args, root) == 'build-graph':
+            import hashlib
+            known = {e: hashlib.sha256((root / e).read_bytes()).hexdigest() for e in args.edit if (root / e).is_file()}
+            _sidecar(args.receipt).write_text(json.dumps({'proof': 'build-graph', 'edited_sha256': known},
+                                                         indent=1, sort_keys=True) + '\n')
         with open(args.receipt, 'w') as fh:
             for r in recs:
                 r['edited'] = sorted(args.edit)
@@ -150,11 +195,30 @@ def main(argv=None):
         if not accepted:
             bad.append(rec)
         out.append(rec)
+    graph_summary = None
+    side = _sidecar(args.receipt)
+    if not bad and side.is_file() and args.proof != 'tu':
+        meta = json.loads(side.read_text())
+        edited = sorted(set(meta['edited_sha256']) | {e for r in before for e in r.get('edited', [])})
+        report, accepted = build_graph_proof(root, edited, meta['edited_sha256'], args.workers)
+        graph_summary = {'verdict': report['verdict'], 'counts': report.get('counts', {}),
+                         'recipes': len(report['scope']['recipes']) + len(report['scope']['slus_recipes']),
+                         'images': len(report['scope']['images']), 'seconds': report.get('seconds'),
+                         'not_pass': {k: v for k, v in report['recipes'].items() if v['verdict'] != 'PASS'},
+                         'images_not_pass': {k: v for k, v in report['images'].items() if v['verdict'] != 'PASS'},
+                         'error': report.get('error')}
+        if not accepted:
+            bad.append({'source': '<build-graph>', 'verdict': report['verdict']})
+    elif not bad and args.proof == 'build-graph':
+        raise SystemExit('--proof build-graph needs a snapshot taken with it (%s missing)' % side)
     if args.results:
-        args.results.write_text(''.join(json.dumps(r, sort_keys=True) + '\n' for r in out))
-    print(json.dumps({'tus': len(out), 'identical': len(out) - len(bad),
+        rows = out + ([{'source': '<build-graph>', 'build_graph': graph_summary}] if graph_summary else [])
+        args.results.write_text(''.join(json.dumps(r, sort_keys=True) + '\n' for r in rows))
+    print(json.dumps({'tus': len(out), 'identical': len(out) - len([b for b in bad if b['source'] != '<build-graph>']),
                       'label_only': [r['source'] for r in out if r.get('label_only')][:50],
-                      'changed_or_error': [r['source'] for r in bad][:50]}))
+                      'changed_or_error': [r['source'] for r in bad][:50],
+                      'build_graph': None if graph_summary is None else
+                      {k: graph_summary[k] for k in ('verdict', 'counts', 'recipes', 'images', 'seconds')}}))
     return 1 if bad else 0
 
 

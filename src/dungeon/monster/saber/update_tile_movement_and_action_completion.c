@@ -12,6 +12,8 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/player/object.h"
 #include "dungeon/actor/spell_resource_ids_g01008.h"
+#include "engine/graphics.h"
+#include "dungeon/item.h"
 
 typedef struct S_8016CBAC_0 {
     u8 pad_00[0x8C];
@@ -28,9 +30,9 @@ typedef struct S_8016CBAC_0 {
     s32 unk_A4;
 } S_8016CBAC_0;   /* arg0 in update_tile_movement_and_action_completion */
 
-extern void select_sprite_entry(void *, s32, s32);
+
 extern s32 rsin(s32);
-extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+
 extern void on_actor_status_updated(void *);
 
 

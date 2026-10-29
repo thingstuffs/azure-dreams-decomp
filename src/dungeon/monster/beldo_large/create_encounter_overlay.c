@@ -39,7 +39,7 @@ void create_encounter_overlay(s32 variant)
 {
     ObjectNodeHeader *obj;
     u8 *part;
-    u8 *call_obj;
+    ObjectNodeHeader *call_obj;
     SpriteFrameState *sprite;
     u8 *copy_src;
     u8 *sprite_vector;

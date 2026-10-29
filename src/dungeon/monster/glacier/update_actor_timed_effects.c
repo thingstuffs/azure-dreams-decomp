@@ -8,21 +8,24 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "engine/scene.h"
+#include "engine/graphics.h"
+#include "dungeon/item.h"
+#include "slus.h"
 
-extern void select_record_entry_and_value(void *, void *, s32);
 
-extern void select_sprite_entry(void *, s32, s32);
+
+
 extern void advance_sprite_animation_and_textures(void *);
 extern s32 rand(void);
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s32 find_active_rect_containing_point(s32, s32);
-extern s32 test_neighbor_position_relation(s32, s32, s32, s32);
-extern s16 get_rounded_facing_and_rounding_flag(s32, s32, s32, s32, void *);
+s16 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
+
 extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-extern void advance_actor_pending_action(void *, void *, void *, void *);
+s32 advance_actor_pending_action(void *actor_state, void *action, void *status, void *actor);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
 extern s32 process_selected_actor_record(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);

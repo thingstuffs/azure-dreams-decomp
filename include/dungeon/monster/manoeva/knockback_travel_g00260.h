@@ -1,6 +1,10 @@
 #ifndef DUNGEON_MONSTER_MANOEVA_KNOCKBACK_TRAVEL_G00260_H
 #define DUNGEON_MONSTER_MANOEVA_KNOCKBACK_TRAVEL_G00260_H
 #include "dungeon/level.h"
+#include "shared/entity.h"
+#include "engine/node/allocation.h"
+#include "shared/object_node.h"
+#include "engine/node.h"
 
 struct ObjectPosition;
 /* Knockback travel shared declarations (G00260). */
@@ -20,45 +24,13 @@ typedef struct {
     s16 z;
 } Vec3s;
 
-typedef struct {
-    u8 pad0[2];
-    s16 x;
-    u8 pad4[2];
-    s16 y;
-    u8 pad8[2];
-    s16 z;
-} Position;
 
-typedef struct {
-    u8 pad0[0x12];
-    u16 f12;
-    u8 pad14[0x10];
-    u8 x;
-    u8 y;
-    u8 pad26[2];
-    s32 f28;
-} Source;
 
-typedef struct {
-    u8 pad0[0x13];
-    u8 f13;
-    u16 f14;
-    u8 pad16[0x14];
-    s16 f2A;
-    u8 pad2C[0x34];
-    void *f60;
-} Context;
 
-typedef struct {
-    u8 pad0[8];
-    Position *position;
-    void *display;
-    void *callback;
-    void *data;
-    u8 pad14[8];
-    void *field20;
-    u8 pad24[4];
-} Object;
+
+
+
+
 
 typedef struct {
     u8 pad0[0xC];
@@ -73,11 +45,12 @@ typedef struct {
 } Display;
 
 typedef struct {
-    u8 pad0[0xC];
-    void *owner_minus20;
-    Context *context;
-    Source *source;
-    Position *position;
+    s16 *facing;
+    u8 pad04[8];
+    ObjectNodeHeader *actor_node;
+    ActorRecord *context;
+    SpriteFrameState *source;
+    struct ObjectPosition *position;
     u8 pad1C[4];
     s16 f20;
     u8 pad22[0x10];
@@ -89,17 +62,22 @@ typedef struct {
     u16 owner_byte;
 } Work;
 
+typedef struct {
+    ObjectNodeHeader node;
+    Work work;
+} Object;
+
 extern s32 get_offset_map_cell_value_and_flags(s16, s16, s16, u16 *);
 extern s32 *manoeva_knockback_callback_address;
 extern s8 D_801766F0[];
 extern u8 *find_or_retain_sprite_resource_slot(s32, s32);
-extern void *allocate_list_node(s32, void *);
+
 extern void project_vector_by_view_angle(Vec3s *, Vec3s *);
 extern void select_sprite_entry(void *, s32, s32);
-extern void register_node(Object *, void *);
+
 
 /* Functions defined in this translation unit. */
 s32 check_adjacent_tile_height(s16 tile_x, s16 tile_y, s32 height, s16 direction, s16 *sample_out);
-void create_knockback_travel_object(u8 *owner_data,struct ObjectPosition *position_arg, Source *source_arg, Context *context_arg);
+void create_knockback_travel_object(ActorRecord *owner_data,struct ObjectPosition *position_arg, SpriteFrameState *source_arg, ActorRecord *context_arg);
 
 #endif

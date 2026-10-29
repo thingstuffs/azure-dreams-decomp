@@ -13,6 +13,8 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/player/object.h"
 #include "engine/scene.h"
+#include "engine/graphics.h"
+#include "dungeon/system.h"
 extern int abs(int);
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
@@ -61,10 +63,10 @@ typedef struct S_80172FC0_6 {
     s32 unk_04;
 } S_80172FC0_6;   /* selected_model in update_shrinking_fading_effect */
 
-extern void select_sprite_entry(void *, u8, s32);
+
 extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
-extern void play_sound_if_enabled(s32);
-extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context);
+
+void *create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);
 extern void create_actor_linked_effect(void *);
 extern void *create_directional_render_object(void *, void *, void *);
 

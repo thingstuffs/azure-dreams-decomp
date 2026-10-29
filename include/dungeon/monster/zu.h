@@ -16,7 +16,7 @@ struct SpriteFrameState;
 extern u8 zu_default_frames[];
 void select_sprite_entry(void *object_data, s16 table_index, s16 entry_index);
 void func_80047784(void *object_data, s16 table_index, s16 entry_index);
-s32 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
+s16 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
 /* This retail bank used the signed-halfword declaration. */
 s16 sample_terrain_surface_height();
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);

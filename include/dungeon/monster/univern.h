@@ -25,6 +25,8 @@
 #include "dungeon/system.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/player/object.h"
+#include "engine/graphics.h"
+#include "engine/node/allocation.h"
 struct S_800AC480_0;
 struct S_800AC480_3;
 struct S_800AD594_0;
@@ -281,13 +283,12 @@ typedef struct R17_80173F10_S_80173ED8_5 {
 
 
 
-void *allocate_list_node();
 void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 s32 generate_random_value(void);
 void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
-void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
+
 void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots();
 void select_indirect_table_entry(void *state_data, s16 table_index, s16 entry_index);
 void advance_sprite_animation_and_textures(void *entity);
@@ -296,7 +297,7 @@ s32 refresh_actor_facing_and_lifecycle();
 s16 sample_terrain_surface_height();
 s32 check_entity_relation();
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
-s32 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
+s16 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
 s32 get_rounded_facing_and_rounding_flag();
 s32 can_entity_gain_level(void *entity);
 void update_actor_status_and_mp(ActorRecord *entity);
@@ -312,7 +313,7 @@ s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 
 void * find_adjacent_actor(void *entity, u16 x, u16 y);
 void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
 s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
-s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
+s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
 s32 check_directional_move_and_terrain();
 s32 prepare_directional_attack();

@@ -4,6 +4,7 @@
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 #include "engine/scene.h"
+#include "engine/graphics.h"
 
 typedef struct {
     s32 words[6];
@@ -11,7 +12,7 @@ typedef struct {
 
 extern s32 golem_frame_set_3;
 
-void select_sprite_entry(void *, s32, s32);
+
 void advance_sprite_animation_and_textures(void *);
 
 typedef struct S_80174D24_0 {

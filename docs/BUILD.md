@@ -194,6 +194,36 @@ inputs requires `make configure`. Configuration and proof use content digests;
 an old receipt alone does not prove a changed tree. See
 [CONTRIBUTING.md](../CONTRIBUTING.md) for candidate checks and evidence.
 
+### Scoped proof of an edit (build graph)
+
+`tools/build/affected.py` proves a source/header edit on the generated build
+graph itself, without `make configure` or a full build:
+
+```sh
+python3 tools/build/affected.py set include/town/scene.h            # recipes + images, no compile
+python3 tools/build/affected.py prove --edited-from-git HEAD        # compile, compare, relink
+python3 tools/build/affected.py prove --base ../master-root FILE... # baseline from another built root
+```
+
+The affected set is every current recipe in `build/.state/recipes` and
+`slus-recipes` whose production dependency closure or own source contains an
+edited file (placement copies are reached through their owner TU; SLUS
+partition bodies through their render rule), plus every image that links one.
+`prove` compiles each at its production arguments, evidence files and name
+input into `build/.affected/<run>/`, compares raw object bytes and relocations
+with the baseline `build/obj` (whose `.proof.json` must name the pre-edit
+text), and relinks only images with a changed object. Verdicts are `PASS`,
+`CHANGED` (with the first differing symbol), `STALE_BASE` or `ERROR`; the SLUS
+image is judged by its objects. `tools/typing/tu_identity.py` and
+`tools/headers/extern_wave.py` run it after their complete-TU filter
+(`--proof build-graph`, the default when the root has a built tree).
+
+`tools/codemap/codemap.py build|refresh|check|query` keeps `build/codemap.db`,
+a SQLite map of recipes, images, header closures, every declaration and call
+site (clang), retail ABI facts per function and call (capstone over the linked
+objects), names and debt sites. It is a build artefact; `refresh` is
+incremental by source/closure and object hashes.
+
 | Symptom | Next step |
 | --- | --- |
 | Setup reports a wrong disc SHA-1 | Check the region, dump format and locked hash; supply an unmodified supported image |

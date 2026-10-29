@@ -7,6 +7,8 @@
 #include "engine/node.h"
 #include "dungeon/player/object.h"
 #include "dungeon/actor/spell_resource_ids_g01008.h"
+#include "engine/graphics.h"
+#include "dungeon/system.h"
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define S8_AT(p, o)  (*(s8 *)((u8 *)(p) + (o)))
@@ -26,8 +28,8 @@ extern s32 weadog_action_resume_address;
 extern u8 weadog_frame_set_3[];
 extern u8 D_80174F18[];
 
-extern void select_sprite_entry(void *, s32, s32);
-extern void play_sound_if_enabled(s32);
+
+
 
 
 /* Spawns a moving actor and advances the action through animation and recovery. */

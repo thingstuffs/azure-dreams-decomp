@@ -3,6 +3,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
 #include "engine/scene.h"
+#include "dungeon/system.h"
 
 typedef struct S_81263000_0_pre {
     u16 unk_00;
@@ -48,7 +49,7 @@ typedef struct S_81263000_5 {
 } S_81263000_5;   /* copy in create_flagged_actor_object_2 */
 
 extern void advance_sprite_animation_and_textures(void *);
-extern void play_sound_if_enabled(s32);
+
 
 void create_flagged_actor_object_2(void *root, void *output_pos, void *target_data)
 ;

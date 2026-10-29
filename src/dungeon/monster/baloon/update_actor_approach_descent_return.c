@@ -85,7 +85,7 @@ extern u8 *append_entity_display_text(void *record, u8 *out);
 extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void check_action_boundary_and_set_flag(void);
-extern void spend_actor_mp(void *, s32);
+void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 extern void create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 direction, s16 effect_mode);
 
 /* Updates the actor's approach, descent, and return sequence. */
@@ -113,7 +113,7 @@ void update_actor_approach_descent_return(void *action, ObjectPosition *motion, 
         switch (state) {
         case 0:
         {
-            u8 *effect_actor;
+            ActorRecord *effect_actor;
             s32 effect_flags;
             s32 tile_dx;
             s32 tile_dy;

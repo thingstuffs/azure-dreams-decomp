@@ -12,6 +12,7 @@
 #include "shared/dir_step.h"
 #include "engine/node/allocation.h"
 #include "dungeon/player/object.h"
+#include "engine/node.h"
 
 typedef struct S_80170F6C_0 {
     u8 pad_00[0x8C];
@@ -54,11 +55,8 @@ typedef struct S_80170F6C_3 {
 } S_80170F6C_3;   /* arg1 in update_long_actor_action */
 
 typedef struct S_80170F6C_4 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-    u8 pad_14[0xA6];
+    ObjectNodeHeader node;
+    u8 pad_20[0x9A];
     u8 unk_BA;
 } S_80170F6C_4;   /* object in update_long_actor_action */
 
@@ -252,14 +250,14 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
 
                 object = allocate_list_node(0x312, &scene_object_list_anchor.next);
                 if (object != 0) {
-                    register_node(object, project_sprite_chain);
-                    payload = object->unk_08;
-                    object->unk_10 = mandara_object_callback_2;
-                    part = object->unk_0C;
+                    register_node(&object->node, project_sprite_chain);
+                    payload = object->node.position;
+                    object->node.update_callback = mandara_object_callback_2;
+                    part = object->node.sprite;
                     payload->x.v = aux_entity->x.v;
-                    payload = object->unk_08;
+                    payload = object->node.position;
                     payload->y.v = aux_entity->y.v;
-                    payload = object->unk_08;
+                    payload = object->node.position;
                     payload_word = ((S_80170F6C_3 *)aux_entity)->unk_08;
                     color = 0x00800000;
                     payload->z.v = payload_word;

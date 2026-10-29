@@ -5,6 +5,8 @@
 #include "dungeon/actor/state.h"
 #include "dungeon/actor/status.h"
 #include "shared/dungeon_sprite_data.h"
+#include "engine/graphics.h"
+#include "engine/texture.h"
 
 struct E_80170A58_S_80170A58_2;
 #include "common.h"
@@ -623,27 +625,27 @@ extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 extern void func_80042B68(ActorRecord *owner, s8 match_type);
 extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 func_8004491C(ObjectNodeHeader *entry, void *registration_id);
-extern void select_indirect_table_entry(struct S_80047738 *state, s16 table_index, s16 entry_index);
-extern void select_sprite_entry(void *, s32, s32);
-extern void func_80047784(void *, s32, s32);
+
+void select_sprite_entry(void *object_data, s16 table_index, s16 entry_index);
+
 extern void advance_sprite_animation_and_textures(void *arg);
 extern s32 rsin(s32);
 extern s32 rcos(s32);
-extern u8 *get_unused_text_buffer(void);
+void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *,u8 *);
-extern void *clear_byte_and_advance(s8 *);
+u8 *clear_byte_and_advance(u8 *byte_ptr);
 extern u8 *append_entity_display_text(void *,u8 *);
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-extern s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
+s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s16 check_movement_clearance_and_height(s16,void *,void *,s32);
 extern s32 find_eligible_entry_at_coordinates();
 extern void * resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern E_80171E10_Ent * prepare_directional_attack();
 extern s32 find_active_rect_containing_point(s32, s32);
 extern s16 get_tile_chebyshev_distance(void *, void *);
-extern s32 test_neighbor_position_relation(s32, s32, s32, s32);
+s16 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
 /* Signed differences arrive sign-extended in the 32-bit v0 ABI slot.
  * The two signed comparisons explicitly narrow that slot; the other caller
  * performs modulo-16-bit arithmetic. One whole-bank declaration is used. */
@@ -651,7 +653,7 @@ extern s32 get_actor_height_difference(void *,void *);
 extern void apply_monster_koyaw_data(s32 flags, s8 *dst);
 void *find_adjacent_actor(void *entity, u16 x, u16 y);
 void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
-extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
+void *scan_actor_along_heading(EntityRec *source, s32 start_x, s32 start_y, s16 heading, s16 max_steps);
 extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void select_actor_route_target();
 extern s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
@@ -666,7 +668,7 @@ extern s32 check_layer_offset_height();
 extern void advance_status_timers(void *record);
 extern s32 display_text_with_fullwidth_adjustment(s8 *);
 extern s32 generate_random_value(void);
-extern void *create_actor_spell_effect(void *, void *, s32, void *);
+void *create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);
 extern void on_actor_status_updated(void *);
 extern void func_800A9A04(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
@@ -674,7 +676,7 @@ extern void initialize_actor_sprite_and_animation(void *entity, void *position, 
 extern s32 refresh_actor_facing_and_lifecycle();
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-extern void advance_actor_pending_action(void *, void *, void *, void *);
+s32 advance_actor_pending_action(void *actor_state, void *action, void *status, void *actor);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
 extern void begin_actor_display_action();
@@ -697,7 +699,7 @@ void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 extern s32 relink_entity_and_clear_high_flag();
 extern void create_actor_linked_effect(void *);
 extern s16 sample_terrain_surface_height(s32,s32,s16);
-extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s16 slot_value);
+s32 select_nearby_target_and_initialize_slot(void *tracked_object, void *target_data, s32 target_id, s32 slot_value);
 extern s32 apply_camera_offset_and_select_target(void * object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 extern void *create_actor_with_tile_flags(s32, s16, s16, s16);
 

@@ -10,11 +10,13 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/player/object.h"
 #include "dungeon/actor/spell_resource_ids_g01008.h"
+#include "engine/graphics.h"
+#include "dungeon/system.h"
 
-extern void select_sprite_entry(void *, s32, s32);
+
 extern s32 rsin(s32);
-extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void play_sound_if_enabled(s32);
+void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+
 
 extern void create_parent_attached_effect(void *, void *, void *);
 

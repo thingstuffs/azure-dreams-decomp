@@ -34,13 +34,13 @@ void *spawn_univern_actor(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
     SpriteFrameState *part;
     ObjectNodeHeader *allocated;
     s32 allocation_size;
-    ObjectNodeHeader *allocation_pool;
+    ObjectNodeHeader **allocation_pool;
 
     saved_kind = kind;
     object = 0;
     allocation_size = 0x112;
     saved_tile_x = tile_x;
-    allocation_pool = &scene_object_list_anchor;
+    allocation_pool = &scene_object_list_anchor.next;
 
     saved_copy_value = copy_value;
     saved_tile_y = tile_y;

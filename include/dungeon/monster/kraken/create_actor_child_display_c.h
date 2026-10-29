@@ -8,6 +8,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/actor/animation.h"
 #include "dungeon/actor/status.h"
+#include "engine/node/allocation.h"
 struct ObjectNodeHeader;
 
 typedef struct S_8015E86C_1 {
@@ -68,7 +69,6 @@ typedef struct S_8015E86C_8 {
     void * unk_A4;
 } S_8015E86C_8;   /* base in func_8015E86C */
 
-extern void *allocate_list_node();
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);

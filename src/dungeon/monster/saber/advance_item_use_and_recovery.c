@@ -8,6 +8,9 @@
 #include "engine/node/allocation.h"
 #include "dungeon/player/object.h"
 #include "engine/scene.h"
+#include "engine/graphics.h"
+#include "dungeon/system.h"
+#include "dungeon/item/actor_target.h"
 extern int abs(int);
 #include "shared/def_table.h"
 #include "shared/object_node.h"
@@ -22,9 +25,9 @@ typedef struct {
     u32 words[12];
 } Copy48;
 
-extern void select_sprite_entry(void *, s32, s32);
-extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
-extern void play_sound_if_enabled(s32);
+
+
+
 extern void *create_actor_spell_effect(void *actor, void *effect_record, s16 mode, void *context);
 
 extern u8 D_80171020[];

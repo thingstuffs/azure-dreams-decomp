@@ -5,7 +5,7 @@
 #include "shared/sprite_frame_state.h"
 
 /* Updates timed actor movement and sprite scaling, then handles completion. */
-void update_timed_actor_movement_and_scale(ActorRecord *state, T_80172B6C_Motion *motion, SpriteFrameState *sprite, T_80172B6C_Actor *actor) {
+void update_timed_actor_movement_and_scale(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     s16 direction_scratch;
     s32 current_state;
 
@@ -20,10 +20,10 @@ void update_timed_actor_movement_and_scale(ActorRecord *state, T_80172B6C_Motion
             break;
         sprite->frameTable = D_80174EA8;
         select_sprite_entry(sprite,
-                      D_80174EA8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->value_2a + 0x100) >> 9) & 7],
+                      D_80174EA8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                       0);
         state->action_state_flags |= 8;
-        actor->flags_1c &= ACTOR_GROUNDED_CLEAR_MASK;
+        actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         state->unk_9E.s = 5;
         state->unk_A4 = 0;
         state->action_phase.u += 1;
@@ -42,10 +42,10 @@ void update_timed_actor_movement_and_scale(ActorRecord *state, T_80172B6C_Motion
         frames_left = state->unk_9E.s;
         if (frames_left != 0) {
             target_x = sprite->tile_x << 6;
-            current_x = motion->value_02 - 0x20;
-            motion->value_0c = ((target_x - current_x) << 16) / frames_left;
-            current_y = motion->value_06 - 0x20;
-            motion->value_10 = (((sprite->tile_y << 6) - current_y) << 16) /
+            current_x = motion->x.w.i - 0x20;
+            motion->velocity_x = ((target_x - current_x) << 16) / frames_left;
+            current_y = motion->y.w.i - 0x20;
+            motion->velocity_y = (((sprite->tile_y << 6) - current_y) << 16) /
                                state->unk_9E.s;
             frames_left = state->unk_9E.s;
             state->unk_A4 = (-rsin(frames_left * 0x199)) << 9;
@@ -76,23 +76,23 @@ void update_timed_actor_movement_and_scale(ActorRecord *state, T_80172B6C_Motion
         if ((next_count << 16) < 0) {
             state->unk_90.value = 0;
             state->action_state_flags &= 0xfff7;
-            actor->flags_1c |= ACTOR_GROUNDED;
+            actor->flags1C |= ACTOR_GROUNDED;
             state->action_phase.u += 1;
         }
     }
                     /* fall through */
     case 2:
-        if (actor->flags_1c & ACTOR_GROUNDED) {
+        if (actor->flags1C & ACTOR_GROUNDED) {
             state->action_state_flags &= 0xfff7;
-            motion->value_14 = 0;
-            motion->value_10 = 0;
-            motion->value_0c = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
             sprite->scale_y = 0x1000;
             sprite->scale_x = 0x1000;
             sprite->frameTable = D_80174EB0;
             select_sprite_entry(sprite,
-                          D_80174EB0[((g_game_work.view.camera_rotation.parts.viewAngle + actor->value_2a + 0x100) >> 9) & 7],
+                          D_80174EB0[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                           0);
             state->action_phase.u += 1;
         }
@@ -111,9 +111,9 @@ void update_timed_actor_movement_and_scale(ActorRecord *state, T_80172B6C_Motion
         if ((next_timer << 16) <= 0) {
             s32 actor_flags;
 
-            motion->value_14 = 0;
-            motion->value_10 = 0;
-            motion->value_0c = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
             sprite->scale_x = 0x1000;
             sprite->scale_y = 0x1000;
@@ -121,15 +121,15 @@ void update_timed_actor_movement_and_scale(ActorRecord *state, T_80172B6C_Motion
             advance_status_timers(actor);
             if (g_dungeon_status.activity_counts.parts.pending_movement_count != 0)
                 g_dungeon_status.activity_counts.parts.pending_movement_count = (u16)g_dungeon_status.activity_counts.parts.pending_movement_count - 1;
-            actor_flags = actor->flags_1c;
+            actor_flags = actor->flags1C;
             if (actor_flags & 0x2000) {
-                if (actor->flags_46 & 0x8000) {
-                    actor->flags_46 &= 0x7fff;
+                if (actor->action_flags & 0x8000) {
+                    actor->action_flags &= 0x7fff;
                 }
             } else {
                 if (!(actor_flags & 0x410)) {
                     if (actor_flags & 0x20000) {
-                        actor->value_2a = get_rounded_facing_and_rounding_flag(sprite->tile_x, sprite->tile_y,
+                        actor->facing = get_rounded_facing_and_rounding_flag(sprite->tile_x, sprite->tile_y,
                                                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                                                         &direction_scratch);
                     }

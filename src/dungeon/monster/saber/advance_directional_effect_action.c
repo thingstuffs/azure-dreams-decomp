@@ -8,13 +8,15 @@
 
 #include "dungeon/monster/saber.h"
 #include "dungeon/actor/spell_resource_ids_g01008.h"
+#include "engine/graphics.h"
+#include "dungeon/system.h"
 
 
-extern void select_sprite_entry(void *, s32, s32);
-extern void play_sound_if_enabled(s32);
+
+
 
 extern void process_nodes_at_target_tile(void *, s32, s32, s32);
-extern void create_randomly_rotated_offset_effect(void *, s32, s32, s32);
+void create_randomly_rotated_offset_effect(void *node, s32 tile_x, s32 tile_y, s16 target_height);
 
 typedef struct S_80174A28_0 {
     u8 pad_00[0x8C];

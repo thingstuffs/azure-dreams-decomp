@@ -50,7 +50,7 @@ void move_fade_and_accelerate_effect(T_80170F0C_S_func_80D1170C_1 *effect, IntVe
 /* Spawns an effect at an offset from its parent with randomized velocity. */
 /* Creates an offset Noise particle with randomized velocity, a two-step X/Y displacement, and copied
  * effect parameters. */
-void spawn_random_velocity_offset_effect(EntityRec *parent, s16 effect_id, s32 effect_param, s32 unused, s16 x_offset,
+void spawn_random_velocity_offset_effect(ObjectNodeHeader *parent, s16 effect_id, s32 effect_param, s32 unused, s16 x_offset,
     s16 y_offset, s16 z_offset) {
     register s16 saved_effect_id = effect_id;
     register s32 saved_effect_param = effect_param;
@@ -59,17 +59,17 @@ void spawn_random_velocity_offset_effect(EntityRec *parent, s16 effect_id, s32 e
     T_80171020_S_80171020_1 *effect_state;
     ObjectNodeHeader *effect;
 
-    effect = allocate_list_node(0x211, parent);
+    effect = allocate_list_node(0x211, &parent->next);
     if (effect == NULL) {
         return;
     }
     effect->update_callback = &move_fade_and_accelerate_effect;
     (effect->position)->x.w.i =
-        (s16) (((T_80171020_S_80171020_7 *)((*(void * *)&parent->z)))->unk_02 + x_offset);
+        (s16) (((T_80171020_S_80171020_7 *)parent->position)->unk_02 + x_offset);
     (effect->position)->y.w.i =
-        (s16) (((T_80171020_S_80171020_7 *)((*(void * *)&parent->z)))->unk_06 + y_offset);
+        (s16) (((T_80171020_S_80171020_7 *)parent->position)->unk_06 + y_offset);
     (effect->position)->z.w.i =
-        (s16) (((T_80171020_S_80171020_7 *)((*(void * *)&parent->z)))->unk_0A + z_offset);
+        (s16) (((T_80171020_S_80171020_7 *)parent->position)->unk_0A + z_offset);
     effect_state = ((void *)effect) + 0x20;
     effect_state->unk_40 = (s32) (((rand() & 0x7FFF) - 0x4000) * 0x10);
     effect_state->unk_44 = (s32) (((rand() & 0x7FFF) - 0x4000) * 0x10);

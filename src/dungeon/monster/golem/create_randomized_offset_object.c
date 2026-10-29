@@ -5,6 +5,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_moving_views.h"
 #include "engine/scene.h"
+#include "engine/graphics.h"
 
 #ifndef NULL
 #define NULL 0
@@ -17,7 +18,7 @@ typedef struct {
 extern void *allocate_list_node(s32, s32);
 extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 rand(void);
-extern void select_sprite_entry(void *, s32, s32);
+
 
 extern u8 D_80175018;
 

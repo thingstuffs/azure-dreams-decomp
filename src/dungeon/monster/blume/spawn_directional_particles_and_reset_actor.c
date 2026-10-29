@@ -13,6 +13,7 @@
 #include "engine/node/allocation.h"
 #include "dungeon/player/object.h"
 #include "dungeon/actor/spell_resource_ids_g01008.h"
+#include "dungeon/system.h"
 
 typedef struct S_80174BEC_0_pre {
     void * unk_00;
@@ -83,13 +84,13 @@ typedef struct {
     u32 words[8];
 } __attribute__((packed)) PackedTable;
 
-extern void select_record_entry_and_value(void *, void *, s32);
+void select_record_entry_and_value(void *state_data, void *entry_data, short index);
 extern s32 get_sprite_attachment_vector(void *, void *, Vec3u *, s32);
-extern void select_sprite_entry(void *, u8, s32);
+void select_sprite_entry(void *object_data, s16 table_index, s16 entry_index);
 extern s32 rand(void);
-extern void play_sound_if_enabled(s32);
 
-extern void toggle_attacker_target_status_pair(void *, void *);
+
+u32 toggle_attacker_target_status_pair(void *attacker, void *target);
 
 extern u8 blume_slot_g_direction_steps[];
 
