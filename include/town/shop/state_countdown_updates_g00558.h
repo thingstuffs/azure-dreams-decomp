@@ -14,8 +14,6 @@ typedef struct S_8009ECF0_0 {
 } S_8009ECF0_0;
 
 extern s32 get_nearest_unflagged_s_result_n_1_none_available(s32 record_set, void *target);
-extern void select_a_town_entry_writes_root_relative_coordinates_output(s32 entryIndex);
-extern s32 find_target_byte_index_in_list(void);
 extern s32 D_8009ED7C;
 extern u8 D_80100B3B;
 void call_the_same_context_both_processing_routines(s32, s32);

@@ -9,6 +9,7 @@
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 #include "engine/graphics.h"
 #include "dungeon/system.h"
+#include "dungeon/actor.h"
 
 extern u8 blume_action_resume_address[];
 void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);

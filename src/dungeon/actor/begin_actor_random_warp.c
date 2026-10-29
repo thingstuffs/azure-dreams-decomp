@@ -5,10 +5,10 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/actor/state.h"
+#include "dungeon/actor.h"
 
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
-extern s32 select_dungeon_spawn_tile(u8 *x_out, u8 *y_out);
 typedef struct {
     u8 pad[10];
     u16 counter;

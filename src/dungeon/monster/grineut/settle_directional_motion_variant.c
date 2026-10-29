@@ -19,8 +19,6 @@ typedef struct S_8016D238_1 {
 } S_8016D238_1;   /* arg0 in settle_directional_motion_variant */
 
 extern void select_sprite_entry(void *, s32, s32);
-extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
-extern void apply_clamped_actor_value_delta(void *);
 
 extern u8 grineut_slot_f_action_callback;
 extern u8 grineut_frame_set_12[];

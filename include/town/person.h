@@ -4,8 +4,13 @@
 #include "common.h"
 #include "town/system/object_hooks.h"
 #include "records/Rec_func_800C9B44_arg0.h"
+#include "records/Rec_func_80094268_arg0.h"
 #include "shared/entity.h"
+#include "shared/position_views.h"
 #include "town/person/object/initialize_object_entries_api.h"
+
+struct ReactionAccumulators;
+struct ReactionFlagState;
 
 
 /* choose_reaction_action_and_heading.c */
@@ -56,8 +61,8 @@ void initialize_object_referenced_data_pointers(PersonObject *object, void *cont
 s32 get_clamped_transform_coordinate(ObjectPosition *position);
 
 /* Handlers the person callbacks install in PersonObject.handler. */
-void advance_actor_reaction_downward(void *context, void *accumulators, void *flag_state);
-void tick_countdown_toward_target(void *state, void *current, void *context);
+void advance_actor_reaction_downward(void *context, struct ReactionAccumulators *accumulators, struct ReactionFlagState *flagState);
+void tick_countdown_toward_target(Rec_func_80094268_arg0 *state, SignedPositionView *current, void *context);
 
 
 /* Zero-terminated entry list shared by the quarter-turn and timed-countdown
@@ -113,7 +118,6 @@ void begin_mother_event_pause(PersonSetupState *object, void *unused, void *cont
 void initialize_reaction_object_four(PersonSetupState *object, void *unused, void *context);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
-#include "records/Rec_func_80094268_arg0.h"
 #include "records/Rec_func_800AAE98_arg0.h"
 #include "records/Rec_func_800AB030_arg0.h"
 s32 advance_person_lookup_value(Rec_func_800AB030_arg0 *record);
@@ -126,7 +130,6 @@ s32 map_angle_to_cardinal_direction(s16 angle);
 s32 quantize_heading_to_sector(s32 referenceAngle, s16 sectorCount);
 void shift_history_and_store_current_values(void);
 
-#include "shared/position_views.h"
 struct S_800AAE30_1;
 struct S_800C7C88_0;
 void fill_person_records(void);
@@ -139,5 +142,11 @@ void func_800B44B0(u8 *owner, s32 base_value);
 void initialize_four_slot_object_owner(u8 *owner, s32 base_value);
 
 s32 check_transform_identifier_and_hook(s32 requested_id);
+
+#include "records/Rec_D_80082D58.h"
+void *create_and_invoke_render_object(s32 initial_value, s32 resource_index);
+void initialize_mother_event_actor(void *actor, void *state, void *init_param);
+void load_indexed_state_value(Rec_D_80082D58 *object, EntityRec *state);
+void set_record_data_pointer(Rec_func_80094268_arg0 *record);
 
 #endif

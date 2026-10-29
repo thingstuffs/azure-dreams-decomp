@@ -2,6 +2,7 @@
 #include "town/scene/grid_queries.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/player.h"
 
 
 typedef struct S_80018094_1 {
@@ -19,7 +20,6 @@ typedef struct {
     s16 h;
 } Rect;
 
-extern void copy_current_record_components_3();
 extern u32 points_within_squared_threshold();
 
 

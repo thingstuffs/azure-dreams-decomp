@@ -18,6 +18,7 @@
 #include "dungeon/system.h"
 #include "engine/node.h"
 #include "dungeon/monster/kid.h"
+#include "dungeon/actor.h"
 
 typedef struct S_80174B20_14 {
     u8 pad_00[0x60];

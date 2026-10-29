@@ -10,6 +10,7 @@
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 #include "engine/graphics.h"
 #include "dungeon/system.h"
+#include "dungeon/actor.h"
 #define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 

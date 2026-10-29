@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/event/object_setup.h"
+#include "town/event/object.h"
 
 extern s32 D_800F8B6C[];
 

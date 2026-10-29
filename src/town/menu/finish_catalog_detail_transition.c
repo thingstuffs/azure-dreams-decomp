@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/menu.h"
 
 /* extern */
 
@@ -11,8 +12,6 @@ typedef struct S_80125420_0 {
     s8 unk_0A;
 } S_80125420_0;   /* arg0 in finish_catalog_detail_transition */
 
-
-void reset_catalog_scroll_indicators(S_80125420_0 *);
 /* Advance the counter and invoke completion when it reaches the target, then reset the state. */
 void finish_catalog_detail_transition(S_80125420_0 *state) {
     u16 next_count;

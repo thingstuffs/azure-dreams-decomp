@@ -1,6 +1,7 @@
 /* G00540: position upper bound. */
 /* Original-file evidence (G00540): inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_80099028, CL:town/func_80099080, PD:town/engine:800FE5D4. */
 #include "town/player/position_upper_bound_g00540.h"
+#include "town/player.h"
 
 /*
  * Subtracts D_800FE5D4 from a copy of Z and returns max_adjusted_z_query over four entries from

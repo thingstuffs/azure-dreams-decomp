@@ -1,8 +1,6 @@
 #include "common.h"
+#include "town/shop/item.h"
 
-
-extern void set_item_menu_data_pointer();
-extern void set_item_menu_secondary_handler();
 extern s32 invoke_item_menu_offset_handler();
 
 /* Dispatch the request's payload according to its result code. */

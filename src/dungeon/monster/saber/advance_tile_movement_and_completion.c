@@ -32,10 +32,6 @@ typedef struct S_80172BAC_0 {
 
 extern s32 rsin(s32);
 
-extern void on_actor_status_updated(void *);
-
-
-
 #include "dungeon/monster/saber.h"
 
 extern u8 D_80174E0C[];

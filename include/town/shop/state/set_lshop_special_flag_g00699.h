@@ -16,7 +16,6 @@ typedef struct S_800191EC_0 {
 
 extern void release_lshop_entry(s32);
 extern void compact_lshop_entry_list(void);
-extern void append_town_item(void *);
 
 /* Functions defined in this translation unit. */
 void set_lshop_special_flag(S_800191EC_0 *record);

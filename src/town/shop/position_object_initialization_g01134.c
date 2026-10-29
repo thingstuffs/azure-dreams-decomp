@@ -3,6 +3,9 @@
  */
 #include "town/shop/position_object_initialization_g01134.h"
 #include "town/shop.h"
+#include "town/scene.h"
+#include "town/event/state.h"
+#include "town/player/position.h"
 
 /* Initialize the record and active flag, then install the object handler. */
 void initialize_the_active_flag_install_handler(S_800A022C_2 *object, S_800A022C_0 *state, ObjectPosition *record, void *unused_render) {

@@ -47,8 +47,6 @@ void tick_item_menu_selection_delay(ItemMenuTransition *state);
 /* Selection-delay entry address used by the display callback installer. */
 void D_800AE5B8(ItemMenuTransition *state);
 void invoke_item_menu_node_callback(ItemMenuTransition *state);
-void advance_item_menu_object_animation(ItemMenuTransition *object);
 struct ObjectNodeHeader;
-void change_item_menu_selection(struct ObjectNodeHeader *object, s32 value_arg, s32 reset_value);
 
 #endif

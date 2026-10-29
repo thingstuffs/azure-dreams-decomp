@@ -349,5 +349,4 @@ extern s32 try_apply_confusion_status(void *ptr, s32 threshold_input, s32 kind_i
 extern void drain_audio_commands_and_service_channels(void);
 extern s32 generate_random_value(void);
 extern s32 try_trigger_target_record_effect();
-extern s16 check_adjacent_tile_height_clearance(u16 x, u16 y, s32 z, void *skip_check);
 #endif

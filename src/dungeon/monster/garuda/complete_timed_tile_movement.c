@@ -13,6 +13,7 @@
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 #include "engine/graphics.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
 
 typedef struct S_80173A08_0 {
     u8 pad_00[0x8C];
@@ -31,9 +32,6 @@ typedef struct S_80173A08_0 {
 
 
 extern s32 rsin(s32);
-
-extern void on_actor_status_updated(void *);
-
 
 extern u8 D_801748A0[];
 extern u8 D_801748A8[];

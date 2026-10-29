@@ -12,7 +12,6 @@
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 rsin(s32);
-extern void on_actor_status_updated(void *);
 
 extern u8 ghosh_action_resume_address[];
 extern u8 ghosh_frame_set_3[];

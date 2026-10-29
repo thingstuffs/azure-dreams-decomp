@@ -41,11 +41,11 @@ typedef struct S_80172AA8_7 {
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void play_sound_if_enabled(s32);
-extern void *create_actor_spell_effect(void *actor, void *effect_record, s16 mode, void *context);
 extern void create_two_row_object_group(void *, s16);
 
 #include "dungeon/monster/stealth.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
 extern u8 stealth_frame_set[];
 
 /* Advances the actor's selected motion and handles completion and recovery. */

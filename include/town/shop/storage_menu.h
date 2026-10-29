@@ -71,11 +71,7 @@ typedef struct StorageMenuNode {
 } StorageMenuNode;
 
 void arrange_storage_item_columns(StorageEntry **objects);
-void set_storage_entry_text(StorageEntry *entry, s32 text, s32 style, s16 x, s32 y);
-void initialize_storage_cursor(StorageOwner *object);
 void refresh_storage_page(StoragePageOwner *object);
-void update_storage_display(StorageOwner *object);
-void initialize_storage_display_links(StorageDisplayLinks *state, StorageDisplayBlock *primary, StorageVector *secondary);
 void *process_target_with_code_33(void *target);
 StorageMenuNode *create_storage_item_menu(ItemMenuStateNode *owner);
 StorageMenuNode *create_storage_owner_menu(ItemMenuStateNode *owner);

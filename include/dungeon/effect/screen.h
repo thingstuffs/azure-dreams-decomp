@@ -34,4 +34,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
 /* Rectangle buffers contain packed x/y and width/height words. */
 void draw_textured_ellipse(void *parameters, GpuRect *rectangle, u16 fill_rect, u16 draw_mode);
 
+void *create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transform_data, s16 scale, s32 setup_word_5c, s32 setup_word_60);
+void *create_orbiting_color_particle(s16 x, s16 y, s16 z, s16 angle, s16 value_50, s16 value_58, s32 state_word, s16 value_48);
+
 #endif

@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01145 - CL:town/func_800AC118, CL:town/func_800AC164, CL:town/func_800AC198, CL:town/func_800AC210, CL:town/func_800AC278, CL:town/func_800AC2D8, CL:town/func_800AC37C, CL:town/func_800AC3CC (+1 more).
  */
 #include "town/event/item_query_checks_g01145.h"
+#include "town/event.h"
 
 /* Returns the matching index in the sentinel-terminated table, or -1. */
 s32 find_sentinel_table_value_index(s32 target_value) {

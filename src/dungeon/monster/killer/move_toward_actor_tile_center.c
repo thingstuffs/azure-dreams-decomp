@@ -60,7 +60,6 @@ struct SpriteFrameState;
 extern void select_sprite_entry(void *, s16, s16);
 extern s32 rsin(s32);
 extern void set_record_integer_tile_center(Motion *, u8, u8);
-void on_actor_status_updated(void *actor);
 extern void spend_actor_mp(Entity *, s32);
 
 

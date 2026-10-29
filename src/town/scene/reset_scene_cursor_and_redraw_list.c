@@ -7,7 +7,7 @@ extern s32 D_00000DA0;
 extern void func_800007F0(s32);
 extern s32 select_first_unmet_table_entry(void);
 extern void pass_pair_table_values(void);
-extern void set_up_town_resolves_record(s32, s32);
+extern void set_up_town_resolves_record(s32, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
 
 /* Devkit scene step: reset the cursor, rebuild the list, latch its length and redraw. */
 s32 reset_scene_cursor_and_redraw_list(void) {

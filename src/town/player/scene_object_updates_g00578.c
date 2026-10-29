@@ -6,6 +6,9 @@
 #include "shared/sprite_frame_state.h"
 #include "town/person/position.h"
 #include "town/player.h"
+#include "town/person.h"
+#include "town/event/object.h"
+#include "town/event/state.h"
 
 /* Creates and initializes the enabled town object using its saved or default position. */
 void initialize_enabled_scene_object(void) {

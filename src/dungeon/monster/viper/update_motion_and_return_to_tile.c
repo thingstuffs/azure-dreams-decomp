@@ -8,9 +8,6 @@
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
 
-
-extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
-
 extern u8 viper_action_continuation_address;
 extern u8 viper_frame_set[];
 

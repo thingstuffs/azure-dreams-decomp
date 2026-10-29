@@ -13,6 +13,7 @@
 #include "dungeon/player/state.h"
 #include "engine/graphics.h"
 #include "dungeon/player.h"
+#include "dungeon/level.h"
 
 typedef struct S_80095A10_0 {
     u8 pad_00[0x8C];
@@ -87,8 +88,6 @@ void runtime_map_type_16_entry_code();
 s32 queue_cd_resource();
 void runtime_no_op_callback(u32 unused_state);
 void resolve_familiar_deployment_request();
-void process_unflagged_linked_entries(s32 firstEntryBase);
-void process_unflagged_linked_entries_alt(s32 firstNodeBase);
 u8 * find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type);
 s32 play_sound_if_enabled(s32 query_value);
 extern s32 loaded_entity_sprite_resource;

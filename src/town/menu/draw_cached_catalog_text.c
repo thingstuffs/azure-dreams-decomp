@@ -1,7 +1,7 @@
 #include "common.h"
 
 s32 LoadTPage(s32, s32, s32, s32, s32, s32, s32);
-s32 get_cached_catalog_glyph();                             /* extern */
+s32 get_cached_catalog_glyph(); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */                             /* extern */
 
 typedef struct S_801239B8_0 {
     u8 unk_00;

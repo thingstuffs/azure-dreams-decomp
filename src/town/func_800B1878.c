@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "engine/graphics.h"
+#include "town/shop.h"
 struct ItemMenuTransition;
 
 typedef struct S_800AEFD8_0 {
@@ -19,13 +20,11 @@ typedef struct S_800AEFD8_1 {
 
 extern void *allocate_list_node(s32 value, void *parent);
 extern s32 load_item_menu_display_resource(void *payload, s32 value);
-extern void *link_item_menu_display_entries(void *value);
+extern void *link_item_menu_display_entries(void *value); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void initialize_item_menu_list_display(void *payload, void *parent, s32 resource_id, s32 resource_data,
-                          s32 x, s32 y, s32 context);
+                          s32 x, s32 y, s32 context); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void register_node(void *object, void *callback);
 extern void release_null_terminated_entries(void *address);
-extern void advance_item_menu_object_animation(struct ItemMenuTransition *object);
-
 
 /* Create and initialize a child object at (x, y), marking allocation failure for cleanup. */
 void *create_item_menu_child_at_position(void *parent, s32 x, s32 y, s32 resource_id,

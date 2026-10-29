@@ -9,10 +9,9 @@
 void unlink_node_if_registered(void *block_data);
 void select_record_entry_and_value(void *state, void *entries, short index);
 #include "town/scene/object/unlink_scene_list_node_api.h"
+#include "town/person.h"
 s32 update_state_when_active();
 struct func_8009F880_S_8009CFE0_0; s32 classify_object_against_bounds(struct func_8009F880_S_8009CFE0_0 *, void *);
-s32 quantize_heading_to_sector(s32, s16);
-s32 check_heading_past_half_sector(s32, s16);
 
    /* the 0x2 bytes before arg0 in update_person_object, addressed as arg0[-1] */
 

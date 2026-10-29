@@ -6,6 +6,7 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/level.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
 extern int abs(int);
 
 typedef MonsterFactory SpawnFunc;
@@ -20,7 +21,6 @@ extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
 extern s32 find_active_rect_containing_point(s32, s32);
 extern void raise_entity_level(void *, s32);
 extern void * detach_record_and_update_slot_state(void *);
-extern void select_dungeon_spawn_tile(u8 *, u8 *);
 /* Retail 0x800A6D30 (+0xC15D0 in DUNGEON.BIN), 48 bytes: RNG reads no argument registers, including a3. */
 extern s32 generate_random_value(void);
 extern s32 select_random_eligible_item_entry(void *);

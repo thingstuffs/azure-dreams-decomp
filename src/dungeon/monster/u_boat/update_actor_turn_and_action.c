@@ -42,11 +42,8 @@ extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
-extern s32 process_selected_actor_record(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState *target, u8 *direction_table, void *next_state);
 extern void reset_action_and_decrement_actor_count(void *, void *, void *, void *);
 void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosition *source_position, SpriteFrameState *source_sprite);
 extern void prepare_actor_directional_action(u8 *entity, ObjectPosition *action_param, SpriteFrameState *action_sprite, u8 *frame_table, s32 fallback_state);
@@ -66,6 +63,7 @@ extern u8 u_boat_frame_set[];
 extern u8 uboat_action_frames[];
 #include "dungeon/monster/u_boat.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
 
 /* Updates dungeon actor animation, status, and action dispatch. */
 void update_actor_turn_and_action(void *entity, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor)

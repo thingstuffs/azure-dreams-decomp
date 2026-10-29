@@ -36,7 +36,6 @@ typedef struct S_800B2BA0_1 {
 s32 func_800B0718();
 void get_zero_based_group_index(struct TownB4C60 *);
 /* extern */
-void store_table_index_and_entry_bytes();
 /* extern */
 /* extern */
 s32 func_800B3924();

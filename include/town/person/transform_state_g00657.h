@@ -23,7 +23,6 @@ extern u8 D_800D4FB8;
 extern s32 map_scene_selector_alias;
 extern void D_800C2A10(void *object);
 extern s16 D_800FE4A6;
-extern s32 low_12_values_within_511(s16 value_a, s16 value_b);
 
 /* Functions defined in this translation unit. */
 void *get_transform_entry_by_index(s32 entry_index);

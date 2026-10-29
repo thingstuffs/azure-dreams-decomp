@@ -7,7 +7,7 @@
 
 
 extern void dispatch_actor_interaction_actions(void *, s32, s32);
-extern void initialize_shared_scene_data();
+extern void initialize_shared_scene_data(); /* Unprototyped: retail call passes more arguments than the callee reads */
 extern s32 init_button_transition_action();
 extern void run_the_three_update_routines_context(s32 context);
 /* Updates the record, then handles a flagged action or countdown if its state is unchanged. */

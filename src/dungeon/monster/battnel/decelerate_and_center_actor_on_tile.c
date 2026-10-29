@@ -18,8 +18,6 @@ typedef struct S_80172EF4_1 {
     u8 unk_9B;
 } S_80172EF4_1;   /* arg0 in decelerate_and_center_actor_on_tile */
 
-extern void begin_actor_display_action();
-
 extern u8 battnel_action_resume_address[];
 #include "dungeon/monster/battnel.h"
 #include "engine/graphics.h"

@@ -10,11 +10,10 @@ struct ObjectPosition;
 #include "shared/dir_step.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/actor.h"
 
 
 extern s32 generate_random_value(void);
-extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
-extern void apply_clamped_actor_value_delta(void *);
 extern void create_knockback_travel_object(ActorRecord *,struct ObjectPosition *, SpriteFrameState *, ActorRecord *);
 extern void spawn_manoeva_particle_burst(void *,struct SpriteFrameState *);
 

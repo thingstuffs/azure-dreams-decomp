@@ -33,10 +33,6 @@ typedef struct S_80172B4C_0 {
 
 extern s32 rsin(s32);
 
-extern void on_actor_status_updated(void *);
-
-
-
 extern u8 barong_action_resume_address[];
 #include "dungeon/monster/barong.h"
 extern u8 D_80175574[];

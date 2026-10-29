@@ -26,12 +26,11 @@ void play_periodic_sound(s32, s32);
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"
 extern void handle_adjust_vector_toward_selected_angle_limit_magnitude();
 extern void reduce_object_coordinates_toward_direction_dependent_limits_without_overshooting();
-void call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58(s32);
 s32 select_an_available_entry_matching_direction_returns_status(void *);
 s32 select_an_eligible_source_entry_stores_pointer_in_destination(void *, void *);
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"
-void initialize_record_and_select_active_data(s32, s32, s32);
+#include "town/player.h"
 
 extern s32 town_actor_control[];
 

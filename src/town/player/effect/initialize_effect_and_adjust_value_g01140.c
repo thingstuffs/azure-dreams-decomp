@@ -5,6 +5,8 @@
 #include "town/player/effect/initialize_effect_and_adjust_value_g01140.h"
 #include "shared/game_work.h"
 #include "town/player/effect.h"
+#include "town/player.h"
+#include "town/player/position.h"
 
 /* Initialize the object and adjust its record value before final setup. */
 void initialize_effect_and_adjust_value(void *object, EntityRec *record, s32 init_value) {

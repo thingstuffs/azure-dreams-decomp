@@ -1,6 +1,5 @@
 #include "common.h"
-
-extern void apply_clamped_actor_value_delta(void *arg);
+#include "dungeon/actor.h"
 
 /* Updates the record and clamps the byte at 0x28 to the limit at 0x29. */
 void apply_actor_delta_and_cap_value(s32 unused_0, s32 unused_1, s32 unused_2, u8 *record) {

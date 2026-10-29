@@ -4,6 +4,8 @@
 #include "shared/town_state.h"
 #include "records/Rec_D_800CFCB4.h"
 #include "town/scene/flags.h"
+#include "town/scene.h"
+#include "town/event/object.h"
 
 typedef struct Actor Actor;
 typedef struct Subject Subject;
@@ -54,10 +56,8 @@ typedef struct MotionDelta {
     u16 y;
 } MotionDelta;
 
-extern s32 get_smaller_query_result_capped_hex_80_writes_associated_output(EntityRec *source, s32 *out_detail);
 extern void call_the_same_context_both_processing_routines(Subject *, Motion *);
-extern void select_object_value_by_height_band(Actor *, Subject *, Motion *, TownMovementOutput *);
-extern void set_actor_drop_state(Actor *, Subject *, Motion *, TownMovementOutput *);
+extern void set_actor_drop_state(Actor *, Subject *, Motion *, TownMovementOutput *); /* Unprototyped: retail call passes more arguments than the callee reads */
 
 extern void D_800924EC(void *context, EntityRec *entity, s32 update_arg);
 extern void actor_surface_callback_address(void *actor, void *subject, void *motion, void *context);

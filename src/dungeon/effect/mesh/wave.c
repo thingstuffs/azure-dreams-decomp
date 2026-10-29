@@ -4,6 +4,7 @@
 #include "shared/sprite_frame_state.h"
 #include "modules/dungeon_ovl_1918800.h"
 #include "common.h"
+#include "dungeon/actor.h"
 void (*const dungeon_1918800_entry)(struct ProjectileSelf *self, struct OutView *position, struct PacketView *render_data) = set_record_pair_to_one;
 const PackedVector wave_texture_rect = {832,340,96,84};
 const PackedVector wave_source_rect = {832,256,96,84};
@@ -1174,7 +1175,6 @@ extern u8 current_spell_effect_variant[256];
 #include "dungeon/effect/screen.h"
 extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
 extern s32 rand(void);
-extern s32 check_adjacent_tile_height_clearance(u16, u16, s16, void *);
 extern s32 try_trigger_target_record_effect(void *, s32, void *);
 extern s32 generate_random_value(void);
 extern void try_apply_action_by_chance(void *, s32, s32);

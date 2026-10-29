@@ -103,4 +103,11 @@ s32 step_angle_12_toward(s32 angle_delta, s32 target_angle, s32 step);
 void apply_pending_indexed_value(s32 index, s32 value);
 void apply_pending_table_entry(s32 index, s32 entryValue);
 
+#include "shared/vector.h"
+void apply_the_enabled_movement_offsets_adding_z_offset_only_positive(IntVector3 *out);
+void copy_current_record_components_3(void *output);
+void dispatch_parameterized_or_default(s32 handler_param);
+void initialize_shared_scene_data(s32 **out_ptr);
+u32 view_relative_angle_sector(s32 angle);
+
 #endif

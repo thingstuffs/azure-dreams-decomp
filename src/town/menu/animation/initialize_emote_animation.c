@@ -6,6 +6,7 @@ struct Dst;
 struct Elem;
 void select_record_entry_and_value(void *state, void *entries, short index); /* extern */
 #include "shared/sprite_source.h"
+#include "town/event/state.h"
 extern SpriteSourceEntry emote_sprite_entries[];
 
 /* Initialize the object's animation data and default behavior. */

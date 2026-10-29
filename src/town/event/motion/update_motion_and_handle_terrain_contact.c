@@ -5,6 +5,9 @@
 #include "records/Rec_D_800CFCB4.h"
 #include "shared/object_links.h"
 #include "town/scene/flags.h"
+#include "town/scene.h"
+#include "town/player.h"
+#include "town/player/position.h"
 
 typedef void (*Callback)(void *, void *, void *, s32);
 
@@ -16,10 +19,6 @@ typedef struct S_8009B6B4_2 {
     void * unk_50;
 } S_8009B6B4_2;   /* arg0 in update_motion_and_handle_terrain_contact */
 
-
-extern void add_hex_20000_s_signed_offset_hex_14(void *);
-extern void add_motion_deltas_to_position(void *);
-extern s16 get_smaller_query_result_capped_hex_80_writes_associated_output(void *, void *);
 extern s32 call_the_same_context_both_processing_routines(void *, void *);
 extern s32 read_map_cell_at_world_position(s16, s16);
 extern s32 check_masked_value_in_current_range(u16);

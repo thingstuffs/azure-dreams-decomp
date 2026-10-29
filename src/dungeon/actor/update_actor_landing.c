@@ -25,7 +25,6 @@ typedef struct S_800D991C_0 {
 
 void select_record_entry_and_value(void *state, void *entries, short index);        /* extern */
 void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);              /* extern */
-void on_actor_status_updated(void *actor);                      /* extern */
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);             /* extern */
                   /* extern */
 extern void *actor_action_frames[];

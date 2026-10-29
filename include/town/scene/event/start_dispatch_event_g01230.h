@@ -28,7 +28,6 @@ extern s32 find_first_enabled_paired_entry(void);
 extern s32 advance_to_next_enabled_entry(void);
 
 /* Shared import declarations; data casts preserve each measured view. */
-extern s16 *select_event_data_table(u8, u8);
 
 /* Functions defined in this translation unit. */
 s32 start_dispatch_event(s32 init_arg);

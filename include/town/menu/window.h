@@ -359,7 +359,6 @@ typedef struct TownWindowItemRecord { u8 pad_00[0x14]; u8 unk_14; u8 pad_15[0x37
 #define PP(p, off) (*(u8 **)((u8 *)(p) + (off)))
 #define TB(idx, off) (D_80010000[(idx) * 4 + (off)])
 
-void initialize_object_transform_and_state(s32 slot_id, void *object, s32 object_id);
 s32 *initialize_shared_script_data(void);
 void **scale_coordinates_and_append_pointers(s32 firstX, s32 firstY, s32 secondX, s32 secondY, func_8009F66C_CoordPair *coords);
 void create_entry_builder_controller(void);
@@ -381,8 +380,6 @@ void cleanup_or_dispatch_object(void *object, s32 source, s32 context);
 void invoke_entity_callback_and_follow_up(func_800A06C8_EntityLike *entity, s32 callback_id, s32 callback_data);
 void dispatch_object_or_switch_alternate_state(func_800A075C_S_func_8009DEBC_0 *object, s32 source, s32 context);
 void reset_object_handler_and_saved_byte(void *object, void *context);
-void *create_configured_object(void *object_data, void *source_position, s32 alternate_callback);
-s32 store_record_value_and_table_lookup(void);
 s32 store_selected_record_fields(void);
 s32 initialize_shared_state_from_table(void);
 s32 pass_shared_data_to_window_handler(void);
@@ -400,7 +397,6 @@ extern void register_node(s32, void *);
 extern void func_8004491C(s32, void *);
 void *initialize_scene_object_in_buffer();
 void update_map_world_extents(void);
-void dispatch_parameterized_or_default();
 void run_dual_context_callbacks(void);
 s32 test_resident_bitmap_bit(s32 bit_id);
 s32 check_four_vector_half_turn_gaps();
@@ -421,8 +417,6 @@ extern s32 update_state_when_active(s32 state);
 void register_node_if_unregistered(void *block_data, void *registration_id);
 void func_80033CD8(void *block_data, void *registration_id);
 extern s32 lookup_item_category_mapped_value(s32 type, s32 value);
-extern void configure_the_set_mode_n_4(void *object, void *part_a, void *table);
-extern void initialize_optional_object_state(void *object, void *part_a, void *part_b, void *callback);
 extern void initialize_object_and_maybe_play_sound(void *object, void *object_again, void *part_a, void *part_b);
 extern void del_t_item_w_ptr(void *object_data);
 s32 restore_actor_stats_from_snapshot();
@@ -432,9 +426,7 @@ extern void *create_item_view_for_entry(s32 first, void *data, s32 value);
 extern void *func_8004B854(s32 first, void *data, s32 value);
 void clear_global_80110_ec_0_global_80082_a_39(void);
 void * open_twin_souko(s32 option);
-extern void configure_the_set_mode_n_3();
 extern void initialize_entity_flags_transform_type_dependent_variant();
-extern s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41(void);
 u32 scale_random_to_unsigned_halfword_limit(s32 limit);
 
 extern u8 lit_mesh_renderer_address[];

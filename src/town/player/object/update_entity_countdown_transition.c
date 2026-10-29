@@ -8,8 +8,8 @@
 
 
 extern void dispatch_actor_interaction_actions(void *, void *, s32);
-extern void initialize_shared_scene_data(void *record, void *context, s32 update_arg);
-extern void run_the_three_update_routines_context(void *context);
+extern void initialize_shared_scene_data(void *record, void *context, s32 update_arg); /* Unprototyped: retail call passes more arguments than the callee reads */
+extern void run_the_three_update_routines_context(void *context); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /* Run follow-up updates if the record value is unchanged and flag 0x80 is set. */
 void update_entity_countdown_transition(void *record, void *context, s32 update_arg) {

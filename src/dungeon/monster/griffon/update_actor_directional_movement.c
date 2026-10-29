@@ -19,8 +19,6 @@ typedef struct S_80155234_0 {
 } S_80155234_0;   /* arg0 in update_actor_directional_movement */
 
 extern void select_sprite_entry(void *, s32, s32);
-extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
-extern void apply_clamped_actor_value_delta(void *);
 
 extern u8 D_80152E7C;
 extern u8 griffon_frame_set_8[];

@@ -14,11 +14,11 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/player/object.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 rand(void);
 extern void play_sound_if_enabled(s32);
-extern void *create_actor_spell_effect(void *actor, void *effect_record, s16 mode, void *context);
 extern void create_parent_return_effect(void *, s32, s32, s32, s32, s32, s32);
 extern void spawn_parent_offset_random_motion_effect(void *, s32, s32, s32, s32, s32, s32);
 

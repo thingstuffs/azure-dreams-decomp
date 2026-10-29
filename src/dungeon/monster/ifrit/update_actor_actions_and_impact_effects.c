@@ -86,7 +86,7 @@ extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 rand(void);
 extern void play_sound_if_enabled(s32);
-extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context);
+extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void create_two_row_object_group(void *payload, s16 value_scale);
 
 /* Updates actor action states, movement, and impact effects. */

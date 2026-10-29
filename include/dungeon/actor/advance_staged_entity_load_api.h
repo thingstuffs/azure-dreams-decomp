@@ -3,6 +3,4 @@
 
 #include "common.h"
 
-s32 advance_staged_entity_load(s32, u8 *);
-
 #endif

@@ -105,9 +105,8 @@ typedef struct S_8009F4C0_2 {
 
 extern s32 town_timed_state_address;
 extern M2C_UNK D_80093524[3];
-extern s32 add_motion_deltas_to_position(void *);
 extern s32 process_the_item_index_available_report_success();
-extern s32 dispatch_paired_table_values();
+extern s32 dispatch_paired_table_values(); /* Unprototyped: retail call passes more arguments than the callee reads */
 extern s32 D_800D09C8[];
 extern u8 D_8009EE9C[];
 /* arg1 in initialize_the_entity_s_action_copy_selected_state_hex_13 */

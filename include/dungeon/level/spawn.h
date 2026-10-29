@@ -100,7 +100,6 @@ typedef struct {
 } floor_spawns_isolated_8028BF0C_SpawnPosition;
 typedef MonsterFactory SpawnFunc;
 #define floor_spawns_isolated_8028BF0C_PAGE_8008 ((u8 *)0x80080000)
-extern s32 select_dungeon_spawn_tile(u8 *, u8 *);
 extern s16 count_matching_packed_entity_keys(s32, s32);
 extern s32 generate_random_value(void);
 extern s32 find_first_empty_floor_item_slot(void);
@@ -111,7 +110,6 @@ extern s16 floor_generation_state[3];
 extern s32 floor_loaded_content_flags[];
 extern s32 test_resident_bit(s32);
 extern s32 func_80033BC0(s32);
-extern s32 has_recorded_value_pair(s32, s32);
 extern s16 spawn_category_weight_totals[];
 extern s32 random_dungeon_range_16(s32, s32);
 extern u8 D_80010000[];

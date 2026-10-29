@@ -6,6 +6,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/level.h"
 
 typedef struct {
     u8 pad0[2];
@@ -14,8 +15,6 @@ typedef struct {
     s16 fieldA;
 } D_80083460_t;
 
-extern void process_unflagged_linked_entries_alt(s32);
-extern void process_unflagged_linked_entries(s32);
 extern void set_sprite_animation_frame(void *, u8, s16, s32);
 extern s16 measure_directional_stopping_distance(s16, void *, void *, s32);
 

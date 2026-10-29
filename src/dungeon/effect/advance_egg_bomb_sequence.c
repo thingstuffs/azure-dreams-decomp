@@ -27,7 +27,7 @@ extern void func_80042640(void *obj, s16 monsterId);
 u8 * find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type);
 void raise_entity_level(void *entity_data, s32 show_message); /* extern */
 s32 choose_usable_ability_or_attack();
-s32 choose_best_eligible_entry();
+s32 choose_best_eligible_entry(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 s32 display_text_with_fullwidth_adjustment(s8 *text); /* extern */
 #include "dungeon/actor/effect.h"
 s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);

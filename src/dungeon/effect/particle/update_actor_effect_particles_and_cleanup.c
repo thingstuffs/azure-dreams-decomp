@@ -12,6 +12,7 @@
 #include "shared/dir_step.h"
 #include "shared/slus_callbacks.h"
 #include "engine/graphics.h"
+#include "dungeon/actor.h"
 
 typedef struct DungeonState818D4800 {
     u8 pad0[0x8D0];
@@ -55,7 +56,6 @@ extern Packed12 actor_particle_images;
 extern u8 current_spell_effect_variant[16];
 extern void unlink_node(void *);
 extern s32 rand(void);
-extern s32 check_adjacent_tile_height_clearance(u16, u16, s16, void *);
 extern s32 try_trigger_target_record_effect(void *, s32, void *);
 extern s32 generate_random_value(void);
 extern void try_apply_threshold_effect_variant_b(void *entity, s16 chance, s16 effect_value);

@@ -48,8 +48,6 @@ extern u8 ghosh_frame_set_4[];
 #include "engine/graphics.h"
 extern u8 D_801746CC[];
 
-extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
-
 /* Updates timed movement, returns the entity to its tile, and restores its animation. */
 /* Applies Ghosh's pending HP change, animates damped recoil, then recenters it and updates its action
  * state. */

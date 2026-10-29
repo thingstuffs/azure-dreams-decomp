@@ -19,8 +19,6 @@ typedef struct S_8014F234_0 {
 } S_8014F234_0;   /* arg0 in update_directional_motion_and_center_variant */
 
 extern void select_sprite_entry(void *, s32, s32);
-extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
-extern void apply_clamped_actor_value_delta(void *);
 
 extern u8 griffon_slot_a_action_callback;
 extern u8 griffon_frame_set_7[];

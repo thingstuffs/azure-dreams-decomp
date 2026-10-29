@@ -15,7 +15,7 @@ typedef struct {
     s16 y;
 } Entity;
 
-extern void clear_entity_record_fields(s32 record);
+extern void clear_entity_record_fields(s32 record); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void call_the_handler_selects_nonzero_entry(void *entries, void *record,void *handler_param);
 
 extern Entity scene_object_payload_alias;

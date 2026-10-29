@@ -2,6 +2,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_800CFCB4.h"
 #include "records/Rec_func_80094268_arg0.h"
+#include "town/event/motion.h"
 
 extern void actor_surface_callback_address(void *actor, void *subject, void *motion, void *context);
 /*

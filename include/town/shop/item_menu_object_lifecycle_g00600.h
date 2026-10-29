@@ -32,9 +32,9 @@ extern void set_message_mode(s32 value);
 extern void runtime_call_selected_mode_handler(void);
 extern s32 func_800B0718(void);
 extern void *create_dual_buffer_object(void *setup_value, s32 x, s32 y);
-extern void reset_item_menu_object_state(s32 object);
+extern void reset_item_menu_object_state(s32 object); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void schedule_item_menu_child_release(s32 object);
-extern void set_object_data_pointer_2(s32 object);
+extern void set_object_data_pointer_2(s32 object); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void enqueue_script_message_command(void);
 extern void handle_selection_and_create_object(void);
 

@@ -14,6 +14,7 @@
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 #include "engine/graphics.h"
 #include "dungeon/system.h"
+#include "dungeon/actor.h"
 
 typedef u32 az_uptr;
 

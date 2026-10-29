@@ -7,6 +7,7 @@
 #include "records/Rec_D_800CFCB4.h"
 #include "slus.h"
 #include "town/person/object.h"
+#include "town/event/state.h"
 struct Dst;
 struct Elem;
 extern s32 D_800D0678[];

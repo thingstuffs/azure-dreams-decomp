@@ -2,6 +2,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D0608. */
 #include "town/player/target_motion_g00547.h"
 #include "town/player.h"
+#include "town/player/object.h"
 
 /* Move the object toward its target and advance the state when the timer expires. */
 void move_player_toward_target(void *state, void *object) {

@@ -1,9 +1,7 @@
 #include "common.h"
 #include "dungeon/actor/motion.h"
 #include "shared/dungeon_status.h"
-
-extern void process_unflagged_linked_entries(s32);
-extern void process_unflagged_linked_entries_alt(s32);
+#include "dungeon/level.h"
 
 // Processes the source object's value, sets global flags, and assigns the destination object's data.
 void process_actor_link_callback(void *destinationObject, void *unused1, void *unused2, void *sourceObject) {

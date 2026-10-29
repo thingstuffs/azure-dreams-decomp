@@ -22,6 +22,7 @@ void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosit
 extern u8 uboat_default_frames[];
 extern u8 u_boat_frame_set_1[];
 #include "dungeon/monster/u_boat.h"
+#include "dungeon/actor.h"
 
 typedef struct S_80173510_0 {
     u8 pad_00[0x8C];

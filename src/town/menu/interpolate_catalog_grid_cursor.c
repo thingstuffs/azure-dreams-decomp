@@ -1,6 +1,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/menu.h"
 
 
 typedef struct SpriteFields {
@@ -35,7 +36,6 @@ typedef struct TownObject {
     TownSlots *town;
 } TownObject;
 
-extern u8 is_catalog_entry_available(u8 value);
 extern void *catalog_normal_digits[10];
 extern s16 catalog_cursor_columns[8];
 extern u8 catalog_number_marker[16];

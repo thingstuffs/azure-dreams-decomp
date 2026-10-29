@@ -3,6 +3,7 @@
 #include "shared/entity.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/actor.h"
 
 s16 try_claim_dungeon_action_slot(ActorRecord *actor);                          /* extern */
 

@@ -11,7 +11,7 @@
 #include "slus.h"
 struct Dst;
 struct Elem;
-void load_indexed_state_value();      /* extern */
+void load_indexed_state_value(); /* Unprototyped: retail call passes more arguments than the callee reads */      /* extern */
 typedef struct S_800C8B8C_0 S_800C8B8C_0;
 void call_owner_callback(S_800C8B8C_0 *owner, void *motion, s32 context);
 #include "shared/sprite_source.h"

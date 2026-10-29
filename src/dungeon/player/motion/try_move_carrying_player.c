@@ -29,8 +29,6 @@ typedef struct S_8008C13C_2 {
 extern u8 player_carry_move_frames[8];
 extern u8 player_carry_frames[8];
 
-extern void process_unflagged_linked_entries(s32);
-extern void process_unflagged_linked_entries_alt(s32);
 extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
 extern s16 classify_adjacent_tile_height(s16, s32,struct SpriteFrameState *, s16, s32);
 

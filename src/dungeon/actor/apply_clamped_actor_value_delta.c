@@ -1,5 +1,6 @@
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "dungeon/actor.h"
 
 typedef struct {
     u8 pad28[0x28];

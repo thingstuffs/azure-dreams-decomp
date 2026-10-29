@@ -1,5 +1,6 @@
 #include "town/menu/catalog.h"
 #include "common.h"
+#include "town/menu.h"
 
 typedef struct HalfFields {
     u8 pad0[4];
@@ -30,7 +31,6 @@ typedef struct TownObject {
     Pool *pool;
 } TownObject;
 
-extern u8 is_catalog_entry_available(u8 value);
 extern u32 catalog_normal_digits[];
 extern u16 catalog_cursor_rows[];
 extern u16 catalog_cursor_columns;

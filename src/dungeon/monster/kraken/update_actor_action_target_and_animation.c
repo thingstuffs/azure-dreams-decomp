@@ -18,6 +18,7 @@
 #include "dungeon/system.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 
@@ -50,7 +51,6 @@ typedef struct S_801727C8_5 {
 } S_801727C8_5;
 
 extern void *D_80170838[];
-void *create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);
 void create_two_effect_groups();
 void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *status);
 extern u8 kraken_frame_set_1;

@@ -47,13 +47,13 @@ extern s32 camera_height_mode[3];
 extern u8 town_scene_record_handlers[];
 extern u8 D_800D0080[];
 extern u8 town_position_callback_address[];
-extern void draw_translucent_gradient_line_list(void);
 
 extern void initialize_town_context_action(void);
 extern void create_familiar_deployment_effect_with_owner_state(void);
 extern void apply_global_scene_value(void *);
 extern void initialize_scene_action_record(void *, void *, void *, ...);
 #include "town/shop/display_objects.h"
+#include "town/shop/object.h"
 
 
    /* object in update_betting_effect */

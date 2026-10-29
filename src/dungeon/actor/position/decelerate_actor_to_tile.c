@@ -3,6 +3,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "dungeon/player/object.h"
+#include "dungeon/actor.h"
 
 typedef struct {
     u8 pad_00[0x8C];
@@ -41,9 +42,6 @@ typedef struct {
 } CcaAnim;
 
 extern u8 D_800D20D8[];
-
-extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
-extern void apply_clamped_actor_value_delta(CcaAnim *);
 
 /* Decelerate motion, then align to the target tile and advance the state. */
 void decelerate_actor_to_tile(CcaState *state, CcaMotion *motion, CcaInfo *info, CcaAnim *anim) {

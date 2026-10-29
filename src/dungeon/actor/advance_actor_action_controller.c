@@ -24,13 +24,10 @@ extern s32 check_entity_relation(void *, void *);
 extern s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 extern s32 generate_random_value(void);
-extern void on_actor_status_updated(void *);
 extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-extern s32 advance_actor_pending_action(void *actor_state, void *action, void *status, void *actor);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern void install_actor_action_handler_after_floor_trap_check(void *, void *, void *, void *);
 
 extern u8 actor_action_frames[];
 

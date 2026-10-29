@@ -14,6 +14,7 @@ typedef struct S_80018094_1 {
 
 
 #include "m2c_compat.h"
+#include "town/player.h"
 
 /* Scales a tile target by 64, adds the grid origin and 32, then tests it against the current position. */
 static u32 apply_target_grid_rectangle(s32 target_x, s32 target_y)

@@ -27,6 +27,5 @@ extern TownEntry D_80019088[7];
 /* Functions defined in this translation unit. */
 s32 check_town_event_flags_clear(void);
 void reset_town_event_state(void);
-void advance_town_events_and_dispatch_entry(void);
 
 #endif

@@ -4,6 +4,7 @@
 #include "shared/dungeon_floor.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/actor.h"
 
 
 extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);

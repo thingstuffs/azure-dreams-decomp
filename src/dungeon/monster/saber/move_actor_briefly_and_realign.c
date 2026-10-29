@@ -17,10 +17,9 @@ typedef struct S_80173964_0 {
 } S_80173964_0;   /* arg0 in move_actor_briefly_and_realign */
 
 extern void select_sprite_entry(void *, s32, s32);
-extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
-extern void apply_clamped_actor_value_delta(void *);
 
 #include "dungeon/monster/saber.h"
+#include "dungeon/actor.h"
 
 extern u8 saber_frame_set_10[];
 extern u8 saber_frame_set[];

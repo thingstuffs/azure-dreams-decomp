@@ -4,6 +4,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "engine/graphics.h"
+#include "dungeon/effect/screen.h"
 
 typedef struct S_8016EF10_1 {
     u8 pad_00[0x2A];
@@ -21,7 +22,6 @@ typedef struct S_8016EF10_1 {
 } S_8016EF10_1;   /* actor in execute_actor_script_command */
 
 extern s32 update_actor_status_and_mp();
-extern void * create_five_point_effect();
 extern s32 func_8016A928();
 extern s32 advance_actor_path();
 

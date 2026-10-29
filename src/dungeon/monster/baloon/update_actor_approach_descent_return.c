@@ -84,7 +84,7 @@ extern void *write_text_byte_and_advance(s8 value, s8 *dest);
 extern u8 *append_entity_display_text(void *record, u8 *out);
 extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern void check_action_boundary_and_set_flag(void);
+extern s32 check_action_boundary_and_set_flag(void);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 extern void create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 direction, s16 effect_mode);
 

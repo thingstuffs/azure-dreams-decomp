@@ -5,6 +5,7 @@
 
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"
 #include "town/player/object/entity_record_fields.h"
+#include "town/player/object.h"
 extern s32 D_80098244;
 
 /*

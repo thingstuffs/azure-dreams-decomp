@@ -3,6 +3,7 @@
  */
 #include "town/menu/object/allocate_and_initialize_display_object_g01137.h"
 #include "shared/object_flags.h"
+#include "town/menu/object.h"
 
 #include "shared/object_node.h"/* Allocate an object and initialize its payload, display transform, and color. */
 void *allocate_and_initialize_display_object(s32 object_key, s32 payload_value, s32 payload_param, s32 payload_halfword, s32 object_param,

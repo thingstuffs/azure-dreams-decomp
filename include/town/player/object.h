@@ -87,4 +87,7 @@ void update_object_and_countdown(Rec_func_80094268_arg0 *state, EntityRec *objec
 /* update_threshold_bound_object.c */
 void update_threshold_bound_object(void *context, struct TownObject *object, void *update_arg);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+#include "shared/sprite_frame_state.h"
+
 #endif

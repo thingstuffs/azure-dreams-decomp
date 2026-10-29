@@ -11,6 +11,7 @@ struct ObjectPosition;
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
 
 typedef struct S_801717D0_0 {
     u8 pad_00[0x14];

@@ -4,6 +4,7 @@
 #include "shared/sprite_frame_state.h"
 #include "sdk/libc.h"
 #include "dungeon/effect/travel.h"
+#include "dungeon/actor.h"
 void (*const dungeon_18d6800_entry)(B28_818B7F38_S_80025738_0 *, B28_818B7F38_S_80025738_5 *, B28_818B7F38_S_80025738_2 *) = advance_movement_toward_reachable_tile;
 #include "dungeon/effect/travel/cycle_seven_color_fade.h"
 #include "common.h"

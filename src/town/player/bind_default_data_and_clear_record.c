@@ -2,6 +2,7 @@
 #include "town/player/object_initialization_g00546.h"
 #include "m2c_compat.h"
 #include "town/player.h"
+#include "town/player/object.h"
 
 #include "town/player/object/entity_record_fields.h"                     /* extern */
 

@@ -41,11 +41,11 @@ typedef struct S_80172870_7 {
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void play_sound_if_enabled(s32);
-extern void *create_actor_spell_effect(void *actor, void *effect_record, s16 mode, void *context);
 
 extern u8 dreamin_action_continuation_address[];
 #include "dungeon/monster/dreamin.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
 
 /* Advances actor motion, waits for completion, and resets the action state. */
 void advance_actor_motion_and_reset_action(ActorRecord *action_state, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {

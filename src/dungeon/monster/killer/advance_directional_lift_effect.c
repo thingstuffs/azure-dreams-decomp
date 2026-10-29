@@ -7,6 +7,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/actor/status.h"
 #include "engine/graphics.h"
+#include "dungeon/actor.h"
 
 typedef struct S_80173C20_0 {
     u8 pad_00[0x8C];

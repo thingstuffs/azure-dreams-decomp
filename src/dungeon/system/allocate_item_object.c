@@ -6,6 +6,7 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "dungeon/menu/state.h"
+#include "dungeon/system.h"
 
 extern void set_item_data_from_lookup();
 

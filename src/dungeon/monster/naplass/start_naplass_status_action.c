@@ -13,7 +13,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor/status.h"
-void advance_status_timers(void *record);                      /* extern */
+#include "dungeon/actor.h"
 extern u8 naplass_frame_set_4[8];
 
 

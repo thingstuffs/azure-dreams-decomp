@@ -27,11 +27,10 @@ typedef struct S_801738B8_1 {
 
 
 extern void select_sprite_entry(void *, s32, s32);
-extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
-extern void apply_clamped_actor_value_delta(void *);
 
 extern u8 barong_action_resume_address[];
 #include "dungeon/monster/barong.h"
+#include "dungeon/actor.h"
 extern u8 barong_frame_set_4[];
 extern u8 D_8017558C[];
 

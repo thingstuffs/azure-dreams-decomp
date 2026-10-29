@@ -5,6 +5,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/actor.h"
 
 typedef struct {
     unsigned char pad8c[0x8c];

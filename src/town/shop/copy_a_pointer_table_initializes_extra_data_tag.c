@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/shop/item_lookup.h"
+#include "town/shop.h"
 
 typedef struct {
     s32 words[0x15];

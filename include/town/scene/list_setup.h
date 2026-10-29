@@ -21,7 +21,5 @@ s32 append_scene_list_node(TownSceneListNode *node);
 void handle_insert_initialize_two_values_status_flags(void *record, void *position, void *bounds);
 void configure_the_set_mode_n_1(void *record, void *position, void *bounds);
 void configure_the_set_mode_n_2(void *record, void *position, void *bounds);
-void configure_the_set_mode_n_3(void *record, void *position, void *bounds);
-void configure_the_set_mode_n_4(void *record, void *position, void *bounds);
 
 #endif

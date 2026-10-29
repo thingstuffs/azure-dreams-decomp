@@ -10,6 +10,7 @@ struct ObjectPosition;
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "records/Rec_D_80083460.h"
+#include "dungeon/actor.h"
 
 s32 get_entity_effect_value(void *, s32);
 s32 can_entity_gain_level(void *);

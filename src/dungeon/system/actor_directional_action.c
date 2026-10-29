@@ -5,9 +5,9 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "engine/graphics.h"
+#include "dungeon/actor.h"
 /* extern */
 static void apply_actor_delta_and_cap_value(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern void apply_clamped_actor_value_delta(void *arg);
 
 /* Starts action 7 with directional frames when ready; otherwise applies the pending actor delta. */
 s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames) {

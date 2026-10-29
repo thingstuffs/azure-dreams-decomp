@@ -3,10 +3,6 @@
 #include "dungeon/actor.h"
 #include "shared/dungeon_status.h"
 
-
-
-void advance_status_timers();
-
 void spend_actor_mp();
 
 extern s32 beldo_action_dispatch_address;

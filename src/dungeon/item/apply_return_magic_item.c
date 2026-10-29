@@ -21,13 +21,13 @@ extern u8 D_800E13B7[];
 
 extern s32 test_resident_bit(s32);
 #include "dungeon/player/item.h"
+#include "dungeon/effect/screen.h"
 extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32);
 extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
 extern void display_formatted_context_message(void *);
 extern void place_actor_item(void *, struct DungeonItemEntry *);
 extern void display_actor_item_status_message(void *, struct DungeonItemEntry *);
 extern s32 feed_actor_restore_mp(void *, u16, struct DungeonItemEntry *);
-extern void * create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transform_data, s16 scale, s32 setup_word_5c, s32 setup_word_60);
 
 /* Apply an event to the target and update the event count on completion. */
 s32 apply_return_magic_item(u8 *entity, DungeonItemEntry *event, s16 target_type, s32 target_record) {

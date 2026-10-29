@@ -11,7 +11,6 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/item.h"
 
-extern void on_actor_status_updated(void *actor);
 extern void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
 

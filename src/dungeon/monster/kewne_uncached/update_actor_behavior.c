@@ -6,6 +6,7 @@
 #include "shared/dir_step.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/player/object.h"
+#include "dungeon/actor.h"
 #define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 

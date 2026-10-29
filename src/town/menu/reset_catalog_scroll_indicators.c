@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/menu.h"
 
 typedef struct {
     s32 unk00[12];

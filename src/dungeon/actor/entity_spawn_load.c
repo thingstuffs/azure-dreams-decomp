@@ -6,6 +6,7 @@
  */
 #include "dungeon/actor/entity_spawn_load.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
 
 /* Tries random free room tiles, then scans the floor, falling back to valid input coordinates or (1, 1). */
 s32 select_dungeon_spawn_tile(u8 *x_out, u8 *y_out)

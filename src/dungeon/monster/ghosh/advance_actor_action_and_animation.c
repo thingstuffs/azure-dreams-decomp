@@ -16,7 +16,6 @@ s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 s32 generate_random_value(void);
-void on_actor_status_updated(void *);
 void update_actor_status_and_mp(ActorRecord *entity);
 void begin_pushed_actor_move(void *,void *, void *, void *);
 s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
@@ -27,6 +26,7 @@ extern u8 ghosh_action_resume_address[];
 extern u8 ghosh_frame_set_12[];
 extern u8 D_801746AC[];
 #include "dungeon/monster/ghosh.h"
+#include "dungeon/actor.h"
 extern u8 resident_globals_page[];
 
 typedef struct S_8016D6F0_0 {

@@ -32,9 +32,6 @@ typedef struct S_80172AD8_0 {
 extern void select_sprite_entry(void *, s16, s16);
 extern s32 rsin(s32);
 
-extern void on_actor_status_updated(void *);
-
-
 extern u8 D_801760BC;
 extern u8 D_801760C4;
 

@@ -1,10 +1,10 @@
 #include "common.h"
 #include "town/scene/collision.h"
 #include "shared/object_node.h"
+#include "town/player/position.h"
 
 extern s32 rsin(s32 value_a);
 extern s32 rcos(s32 value_b);
-extern void add_motion_deltas_to_position(void *motion);
 extern s32 scene_object_payload_alias;
 extern void *D_8009BC44;
 

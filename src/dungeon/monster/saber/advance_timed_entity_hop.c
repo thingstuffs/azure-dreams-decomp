@@ -33,10 +33,6 @@ typedef struct S_80166BAC_0 {
 
 extern s32 rsin(s32);
 
-extern void on_actor_status_updated(void *);
-
-
-
 extern s32 D_80165728;
 extern u8 saber_frame_set_7[];
 extern u8 D_80168E0C[];

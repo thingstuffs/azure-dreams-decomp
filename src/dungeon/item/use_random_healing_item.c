@@ -33,6 +33,7 @@ extern u8 D_800E0E50[];
 
 extern void apply_entity_effects(DungeonObject *);
 #include "dungeon/player/item.h"
+#include "dungeon/actor.h"
 extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
@@ -42,7 +43,6 @@ extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void place_actor_item(DungeonObject *, struct DungeonItemEntry *);
 void display_item_status_message(void *entity, struct DungeonItemEntry *item, s32 message_kind);
 extern s32 generate_random_value(void);
-s32 cap_pending_actor_value_delta(void *entry);
 extern s32 feed_actor_restore_mp(DungeonObject *, u32, struct DungeonItemEntry *);
 
 /* Applies an item effect, selects its amount, and displays the result. */

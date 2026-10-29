@@ -9,6 +9,7 @@
 
 
 #include "town/person/object_setup.h"
+#include "town/person.h"
 /* Decrement the countdown and ease the current values toward their targets. */
 void tick_countdown_toward_target(Rec_func_80094268_arg0 *state, SignedPositionView *current, void *context) {
     u16 ticks_left;

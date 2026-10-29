@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/menu.h"
 
 extern s32 Krom2RawAdd(s32);
 

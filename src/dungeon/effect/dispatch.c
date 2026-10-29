@@ -640,7 +640,6 @@ void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 void refresh_packed_grid_nibbles(void);
 void * detach_record_and_update_slot_state(void *record);
 s32 display_text_with_fullwidth_adjustment(s8 *text);
-s32 check_action_boundary_and_set_flag(void);
 s32 generate_random_value(void);
 void remove_floor_items_at_tile(s16, s16);
 void process_active_slots_at_coordinates(s16, s16);
@@ -1966,7 +1965,6 @@ typedef struct CallbackEntry {
 
 extern CallbackEntry *D_800DF640[4];
 extern u8 D_800DF64C[9];
-extern void submit_indexed_entry_and_finalize(u32);
 
 /* Runs the selected callback list (after submitting its CD entry) with each entry's stored arguments. */
 void run_indexed_callback_list(s16 list_index) {

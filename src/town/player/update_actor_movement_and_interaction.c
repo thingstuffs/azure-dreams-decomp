@@ -12,6 +12,7 @@
 #include "town/event.h"
 #include "town/player/state.h"
 #include "town/shop.h"
+#include "town/player/object.h"
 
 void submit_object_resource_data();                         /* extern */
 struct Rec_func_80094268_arg0; void initialize_actor_position_interaction_action(struct Rec_func_80094268_arg0 *, s32, s32);     /* extern */

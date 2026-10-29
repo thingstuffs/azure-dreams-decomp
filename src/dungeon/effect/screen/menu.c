@@ -3021,7 +3021,6 @@ void draw_content_or_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, s3
 
 extern s32 rsin(s32, ...);
 extern s32 rcos(s32, ...);
-extern void * create_orbiting_color_particle(s16 x, s16 y, s16 z, s16 angle, s16 value_50, s16 value_58, s32 state_word, s16 value_48);
 
 typedef struct DungeonWork {
     u8 pad_00[0x30];

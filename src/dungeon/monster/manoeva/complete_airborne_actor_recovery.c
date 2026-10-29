@@ -31,10 +31,6 @@ typedef struct S_801722BC_0 {
 
 extern s32 rsin(s32);
 
-extern void on_actor_status_updated(void *);
-
-
-
 extern u8 manoeva_action_resume_address[];
 extern u8 D_801765F0[];
 extern u8 D_801765F8[];

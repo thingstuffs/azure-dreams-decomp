@@ -27,7 +27,6 @@ typedef struct S_80172540_0 {
     s32 unk_A0;
 } S_80172540_0;   /* arg0 in update_a_jump_toward_target_tile_restores_actor_finishes */
 
-extern void on_actor_status_updated(void *actor);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
 

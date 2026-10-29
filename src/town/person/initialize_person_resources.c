@@ -5,6 +5,7 @@
 
 #include "town/person/object/initialize_object_entries_api.h"
 #include "town/person.h"
+#include "town/event/state.h"
 
 extern s32 town_object_resource_table[];
 extern s32 D_800D11D0[];

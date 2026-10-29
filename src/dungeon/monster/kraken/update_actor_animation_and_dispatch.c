@@ -12,6 +12,7 @@
 #include "shared/entity.h"
 #include "engine/graphics.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
 
 typedef struct {
     s8 pad_00[0x8C];
@@ -57,11 +58,8 @@ s32 can_entity_gain_level(void *entity);
 void update_actor_status_and_mp(ActorRecord *entity);
 void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);
 s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-s32 advance_actor_pending_action(void *actor_state, void *action, void *status, void *actor);
 void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 s32 reset_actor_action_state();
-s32 process_selected_actor_record(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-void begin_actor_spell_action();
 extern void func_801716CC(void *motion, ObjectPosition *unused, SpriteFrameState *actor, void *path_state);
 extern void func_80171884(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject *position_data, ActorRecord *actor_data);
 s32 func_80171FCC(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);

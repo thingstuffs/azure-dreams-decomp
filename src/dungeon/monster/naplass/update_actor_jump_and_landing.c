@@ -29,7 +29,6 @@ typedef struct S_80172288_0 {
 
 struct SpriteFrameState;
 void select_sprite_entry(void *, s16, s16);
-void on_actor_status_updated(void *actor);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
 

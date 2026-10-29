@@ -2,6 +2,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
 #include "shared/object_links.h"
+#include "town/menu/object.h"
 void PushMatrix(void);                            /* extern */
 void PopMatrix(void);                            /* extern */
 void SetRotMatrix(void *);                      /* extern */

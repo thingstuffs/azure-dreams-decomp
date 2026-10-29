@@ -207,4 +207,25 @@ u8 *select_town_byte_array(void);
 
 void configure_the_set_mode_n_1(void *record, void *position, void *bounds);
 
+#include "shared/entity.h"
+s32 advance_counter_modulo_eight(void);
+void advance_town_events_and_dispatch_entry(void);
+void apply_record_value_when_enabled(Rec_func_800165F4_arg0 *record, s32 handler_context);
+s32 blit_default_rectangle(void);
+s32 call_helper_with_fixed_id_0x118a(void);
+void configure_the_set_mode_n_4(void *record, void *position, void *bounds);
+void dispatch_mode_two_by_state(s32 state_input);
+s32 find_eligible_entry(void *context);
+s32 get_helper_result(void);
+s32 get_smaller_query_result_capped_hex_80_writes_associated_output(EntityRec *source, s32 *out_detail);
+s32 low_12_values_within_511(s32 value_a, s32 value_b);
+void pass_2(s32 dispatch_context, s32 unused, s32 dispatch_arg);
+s32 process_request_and_notify(void *context, s32 request);
+char *select_address_based_input(void);
+void *select_data_for_condition_d_83(void);
+void *select_data_pointer_based_result(void);
+s32 *select_response_and_set_d_80(void);
+void set_up_town_resolves_record(void);
+void write_value_through_pointer(s32 *destination, s32 value);
+
 #endif

@@ -50,10 +50,8 @@ s32 check_entity_relation();
 s16 get_tile_chebyshev_distance();
 #include "dungeon/player/object/action_state.h"
 s32 generate_random_value(void);
-extern void on_actor_status_updated(void *actor);
 void update_actor_status_and_mp(ActorRecord *entity);
 s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-s32 advance_actor_pending_action(void *actor_state, void *action, void *status, void *actor);
 void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_80171F94(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
 void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, EntityRec *position,struct SpriteFrameState *actor, void *model);

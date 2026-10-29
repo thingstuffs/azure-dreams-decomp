@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "dungeon/actor/state.h"
+#include "dungeon/actor.h"
 extern u8 actor_default_action_address;
 
 typedef struct S_800D491C_0 {

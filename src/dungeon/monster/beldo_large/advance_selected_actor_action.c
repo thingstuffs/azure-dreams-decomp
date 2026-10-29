@@ -14,6 +14,7 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/player/object.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
 
 typedef struct S_8016C190_0 {
     u8 pad_00[0x8C];
@@ -38,7 +39,6 @@ typedef struct S_8016C190_5 {
 extern s32 abs(s32);
 extern void select_sprite_entry(void *, u8, s32);
 extern void play_sound_if_enabled(s32);
-extern void *create_actor_spell_effect(void *actor, void *effect_record, s16 mode, void *context);
 
 extern void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 extern u8 beldo_large_frame_set_2[];

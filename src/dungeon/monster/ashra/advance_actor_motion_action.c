@@ -13,6 +13,7 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/player/object.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
 
 typedef struct S_80172810_0 {
     u8 pad_00[0x8C];
@@ -41,7 +42,6 @@ typedef struct S_80172810_7 {
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void play_sound_if_enabled(s32);
-extern void *create_actor_spell_effect(void *actor, void *effect_record, s16 mode, void *context);
 extern void create_two_row_object_group(void *, s16);
 
 extern int abs(int);

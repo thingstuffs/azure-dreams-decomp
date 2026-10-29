@@ -46,7 +46,6 @@ void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 void * detach_record_and_update_slot_state(void *record);
 s32 display_text_with_fullwidth_adjustment(s8 *text);
-s32 release_entity_slot_and_update_flags(void *handle, s32 extra_cleanup);
 s32 generate_random_value(void);
 #include "dungeon/actor/effect.h"
 void * create_effect_or_fallback(u32 x, u32 y, s32 z, void *effect_data);

@@ -36,12 +36,6 @@ typedef struct {
     PathPoint point[8];
 } PathTable;
 
-
-
-extern void on_actor_status_updated(void *);
-
-
-
 extern u8 D_80170838[16];
 extern s32 ifrit_action_resume_address;
 #include "dungeon/monster/ifrit.h"

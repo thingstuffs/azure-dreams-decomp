@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01230 - CL:town/func_804688AC.
  */
 #include "town/scene/event/start_dispatch_event_g01230.h"
+#include "town/scene/event.h"
 
 /* Initializes the town event once, invokes its callback, and reports whether it ran. */
 s32 start_dispatch_event(s32 init_arg) {

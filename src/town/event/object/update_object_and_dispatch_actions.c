@@ -3,6 +3,7 @@
 #include "shared/town_action_flag.h"
 #include "shared/game_work.h"
 #include "town/player/coordinates.h"
+#include "town/event.h"
 struct TownObj;
 struct TownVec;
 
@@ -17,8 +18,6 @@ extern void initialize_actor_action_state(Obj800AD0E4 *, Obj800AD0E4 *, s32);
 extern void initialize_action_object(Obj800AD0E4 *, Obj800AD0E4 *, s32);
 extern void move_both_components_toward_zero_direction_dependent_steps_clamping_zero(Obj800AD0E4 *);
 extern void compute_and_clamps_vector_based_adjustment_updates_town(struct TownObj *obj, s32 base_value, struct TownVec **vec_ptr);
-extern void update_positions_from_origin(Obj800AD0E4 *);
-
 
 /* Update the object and dispatch actions based on its value, timer, and state flags. */
 void update_object_and_dispatch_actions(Obj800AD0E4 *timer_obj, Obj800AD0E4 *object, s32 action_arg) {

@@ -200,7 +200,6 @@ extern const B31_818C8FD0_OffsetTable interpolation_direction_offsets;
 extern s16 moving_particle_effect_updated;
 s32 try_apply_confusion_status(void *ptr, s32 threshold_input, s32 kind_input);        /* extern */
 extern s32 generate_random_value(void); /* extern */
-s16 check_adjacent_tile_height_clearance(u16 x, u16 y, s32 z, void *skip_check);           /* extern */
 s32 try_trigger_target_record_effect();            /* extern */
 extern void *get_sprite_attachment_vector(void *, void *, void *, s32);
 extern void *func_8003DF74(void *, void *, void *, s32);

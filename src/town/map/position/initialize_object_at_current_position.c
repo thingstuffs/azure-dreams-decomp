@@ -13,7 +13,7 @@
 struct S_8003FE78; void * initialize_scene_object_in_buffer(s32, struct S_8003FE78 *, s16);
 void initialize_circular_list_head(void);
 void initialize_pointer_table_self_links(void);
-struct Rec_D_800FE490; void initialize_the_store_two_values_set_state_flags(struct Rec_D_800FE490 *, s32, s32);
+struct Rec_D_800FE490; 
 
 extern struct S_800C01DC_1 map_runtime_state;
 typedef struct S_800C02C4_1 S_800C02C4_1;
@@ -23,6 +23,7 @@ extern u8 D_800D0420[];
 extern s32 town_scene_init_callback;
 #include "records/Rec_D_800FE490.h"
 #include "shared/dungeon_projectile_views.h"
+#include "town/scene.h"
 extern Rec_D_800FE490 town_motion_list;
 
 

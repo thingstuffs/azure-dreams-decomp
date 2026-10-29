@@ -21,7 +21,6 @@ void build_entity_slot_snapshot(S_800422DC_Self *snapshot, S_800422DC_Other *sou
 void reset_person_object_entries(void *);
 /* extern */
 extern s32 town_actor_scratch;
-extern u32 find_target_byte_index_in_list(void);
 extern void set_resident_bitmap_bit(s32 bit_id);
 extern s32 town_record_capacities[];
 extern s16 paired_scene_flag_ids[];

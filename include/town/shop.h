@@ -81,4 +81,17 @@ struct TownActor;
 void move_toward_target_check_completion_countdown_expires(struct TownActor *actor, s32 context, struct MotionVector *motion, s32 extra);
 void run_both_updates_decrement_countdown_check_completion(struct S_8009ECF0_0 *state, s32 update_ctx, s32 update_data, s32 finish_ctx);
 
+void advance_item_menu_object_animation(struct ItemMenuTransition *object);
+s8 *clear_bytes(s8 *buffer, s32 length);
+void copy_a_pointer_table_initializes_extra_data_tag_hex_13(s32 entry_index, void *source);
+void format_and_display_entity_stats(void *stats, void *panels);
+void initialize_storage_cursor(struct StorageOwner *object);
+void initialize_storage_display_links(struct StorageDisplayLinks *state, union StorageDisplayBlock *primary, union StorageVector *secondary);
+void *link_shop_nodes_in_configured_order(s32 node_table);
+void populate_display_rows(s32 source_id, void *display);
+s32 select_a_town_entry_writes_root_relative_coordinates_output(s32 entryIndex);
+void set_storage_entry_text(struct StorageEntry *entry, s32 text, s32 style, s16 x, s32 y);
+void store_table_index_and_entry_bytes(void *object, s32 index);
+void update_storage_display(struct StorageOwner *object);
+
 #endif

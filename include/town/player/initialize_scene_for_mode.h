@@ -134,9 +134,9 @@ extern void register_node(func_80092868_TownObject *object, void *data);
 extern void func_8004491C(func_80092868_TownObject *object, void *data);
 extern void initialize_circular_list_head(void);
 extern void initialize_pointer_table_self_links(void);
-extern void initialize_the_store_two_values_set_state_flags(void *record, func_80092868_ScenePos *scene, void *value_0c);
+extern void initialize_the_store_two_values_set_state_flags(void *record, func_80092868_ScenePos *scene, void *value_0c); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void initialize_six_global_pointers_corresponding_storage_blocks(void);
-extern void run_the_three_update_routines_context(void *owner);
+extern void run_the_three_update_routines_context(void *owner); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void copy_entity_record_fields(void *, void *);
 extern void create_person_object(void);
 extern void initialize_object_at_current_position(void);
@@ -144,19 +144,19 @@ void set_resident_bitmap_bit(s32 bit_id);
 s32 load_town_sprite_bundle(void);
 s32 load_alternate_town_sprite_bundle(void);
 void call_the_handler_selects_nonzero_entry();
-extern void initialize_record_and_select_active_data(void *owner, void *node_in, s32 mode);
+extern void initialize_record_and_select_active_data(void *owner, void *node_in, s32 mode); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 void initialize_record_with_handler_table();
 void initialize_player_object(void *object);
 extern s32 service_script_controller(void);
 extern s32 func_800352FC(void);
 extern void submit_object_resource_data(void *owner);
 extern s32 read_map_cell_at_world_position(s16 owner, s16 node_in);
-extern void add_motion_deltas_to_position(void *owner);
-extern void apply_the_enabled_movement_offsets_adding_z_offset_only_positive(void *owner);
+extern void add_motion_deltas_to_position(ObjectPosition *motion);
+extern void apply_the_enabled_movement_offsets_adding_z_offset_only_positive(IntVector3 *out);
 extern void store_position_and_compute_delta(void *owner);
 extern void update_the_s_field_10_using_callee_8008_fe_90(void *owner);
 extern s32 get_whether_has_attached_state_type_n_1_n_3(void *owner);
-extern void compute_and_clamps_vector_based_adjustment_updates_town(void *owner, s16 node_in, void *mode);
+extern void compute_and_clamps_vector_based_adjustment_updates_town(struct TownObj *obj, s32 base_value, struct TownVec **vec_ptr);
 extern void update_object_and_clear_status_fields(void *owner);
 extern void turn_entity_toward_target(void *owner, void *node_in, s32 mode);
 extern s32 check_masked_value_in_current_range(u16 owner);
@@ -164,8 +164,8 @@ extern s32 runtime_estimate_vector_length(s32, s32);
 #include "engine/texture.h"
 extern void step_actor_animation(void *,s32);
 extern void func_80048AC8(void *, s32);
-extern s16 step_angle_12_toward(s16, s16, s32);
-extern s32 view_relative_angle_sector(s16);
+extern s32 step_angle_12_toward(s32 angle_delta, s32 target_angle, s32 step);
+extern u32 view_relative_angle_sector(s32 angle);
 extern void clear_motion_along_blocked_directions_update_affected_axes(void *);
 #include "town/player/fallback_handler_position_g00541.h"
 

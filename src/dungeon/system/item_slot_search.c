@@ -2,6 +2,7 @@
 
 #include "common.h"
 #include "m2c_compat.h"
+#include "dungeon/system.h"
 
 
 

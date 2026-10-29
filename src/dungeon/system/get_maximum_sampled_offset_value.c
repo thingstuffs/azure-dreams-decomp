@@ -4,7 +4,7 @@
 s16 adjust_summed_vector_by_entry_component();
 
 /* Return the maximum sampled value across position offsets, with a minimum of zero. */
-s16 get_maximum_sampled_offset_value(s32 base_position, s32 offsets, s32 offset_count) {
+s32 get_maximum_sampled_offset_value(s32 base_position, s32 offsets, s32 offset_count) {
     s16 sample_value;
     s16 max_value;
     s32 offset_index;
@@ -20,5 +20,5 @@ s16 get_maximum_sampled_offset_value(s32 base_position, s32 offsets, s32 offset_
             offset_index += 1;
         } while (offset_index < offset_count);
     }
-    return max_value;
+    return (s16)max_value;
 }

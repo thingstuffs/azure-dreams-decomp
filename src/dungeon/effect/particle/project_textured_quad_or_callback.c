@@ -14,6 +14,7 @@ struct ObjectPosition;
 #include "sdk/libgte.h"
 #include "dungeon/item/message.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
 struct S_800259D8_2;
 void update_animated_effect_sprite(void *, void *, struct S_800259D8_2 *);
 void (*const dungeon_1894800_entry)(void *, void *, struct S_800259D8_2 *) = update_animated_effect_sprite;
@@ -1326,7 +1327,6 @@ extern Copy12 D_80026634;
 extern Copy12 D_80026640;
 extern Copy12 D_8002664C;
 
-extern s32 check_adjacent_tile_height_clearance(u16, u16, s16, void *);
 extern void create_terrain_seeking_point_effect(void *, s32, s32, s16, s16, s16, s16);
 
 /* Moves an effect toward its target, emits particles, changes target colors, and applies a timed status. */

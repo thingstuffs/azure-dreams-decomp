@@ -7,6 +7,7 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/player/object.h"
+#include "dungeon/actor.h"
 
 typedef struct S_80173354_1 {
     u8 pad_00[0x8C];
@@ -20,8 +21,6 @@ typedef struct S_80173354_1 {
 } S_80173354_1;   /* arg0 in complete_directional_hop_to_tile */
 
 extern void select_sprite_entry(void *, u8, s32);
-extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
-extern void apply_clamped_actor_value_delta(void *);
 
 extern u8 kid_action_resume_address[];
 extern u8 kid_alt_direction_frames[];

@@ -115,8 +115,6 @@ extern s32 D_800D0CC0[];
 /* extern */
 void process_scene_record_update(void *,struct ObjectPosition *, void *);
 /* extern */
-void add_motion_deltas_to_position(ObjectPosition *motion);
-void apply_the_enabled_movement_offsets_adding_z_offset_only_positive(struct IntVector3 *);
 /* extern */
 void store_position_and_compute_delta(s32 *);
 void update_the_s_field_10_using_callee_8008_fe_90(struct Rec_D_800FE490 *);
@@ -129,7 +127,6 @@ extern s16 town_scene_effect_flips[];
 extern u8 town_position_reference_state[];
 #include "engine/texture.h"
 extern void step_actor_animation(void *,s32);
-extern u32 view_relative_angle_sector(s32 angle);
 extern void clear_motion_along_blocked_directions_update_affected_axes(void *);
 extern void copy_entity_record_fields(void *, void *);
 /* arg0 in update_object_view_transition */
@@ -151,8 +148,6 @@ extern s32 map_view_transition_address;
 
 /* Shared import declarations; data casts preserve each measured view. */
 extern u8 D_800903FC[];
-extern s32 step_angle_12_toward(s32 angle_delta, s32 target_angle, s32 step);
-extern void add_hex_20000_s_signed_offset_hex_14(); /* Unprototyped: one or two arguments; retail reads only the first. */
 extern u8 town_blocked_directions[];
 extern u8 town_movement_speed[];
 

@@ -8,9 +8,6 @@
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
 
-
-extern void begin_actor_display_action();
-
 extern u8 killer_action_resume_address;
 extern s32 D_80174068;
 

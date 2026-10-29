@@ -3,6 +3,7 @@
 #include "town/scene/list_setup.h"
 #include "shared/sprite_frame_state.h"
 #include "town/event/object_setup.h"
+#include "town/event/state.h"
 
 
 extern s32 town_object_resource_table[];

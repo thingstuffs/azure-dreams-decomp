@@ -9,7 +9,7 @@ extern u8 D_8001B9E0[];
 extern u8 event_string_fallback[];
 extern u8 D_80020934[];
 
-extern void *select_address_based_input(s32, s32);
+extern void *select_address_based_input(s32, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
 
 
 extern void func_8001A554(s32);

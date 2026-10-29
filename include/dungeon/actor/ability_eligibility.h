@@ -197,20 +197,15 @@ extern void end_status_effect_message(void *entity, s16 effect_id);
 
 /* Functions defined in this translation unit. */
 s32 check_scaled_value_threshold(ActorRecord *state);
-s16 find_slot_by_definition_kind(u8 *slots, u8 kind);
 s32 get_definition_field_from_triple(ActorRecord *actor, s32 entry_index);
 s32 compare_three_bit_masks_cyclically(s32 left_mask, s32 right_mask);
 s32 get_definition_entry_byte_13(s16 entry_index);
 s32 choose_usable_ability_or_attack(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_ability);
-void *choose_best_eligible_entry(void *owner_arg, void *start, s32 score_limit);
-s16 select_highest_value_item(s32 records_addr, s32 item_kind);
-s32 find_type_13_slot_index(DungeonSlot *targetSlot);
 
 u8 *get_stored_or_fallback_data(void);
 s32 lookup_definition_pair_value(s16 firstKey, s16 secondKey);
 s16 check_layer_offset_height(u16 x, u16 y, s16 height, u32 flags);
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
-s16 check_adjacent_tile_height_clearance(u16 x, u16 y, s32 z, void *skip_check);
 
 s32 has_empty_status_slot(s32 record_addr);
 

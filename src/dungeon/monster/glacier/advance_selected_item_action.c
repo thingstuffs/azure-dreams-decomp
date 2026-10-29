@@ -54,7 +54,7 @@ typedef struct Copy48 {
 
 extern void select_sprite_entry(void *, u8, s32);
 extern void play_sound_if_enabled(s32);
-extern s32 create_actor_spell_effect(void *, u8 *, s32, void *);
+extern s32 create_actor_spell_effect(void *, u8 *, s32, void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 extern u8 D_801708D4;
 

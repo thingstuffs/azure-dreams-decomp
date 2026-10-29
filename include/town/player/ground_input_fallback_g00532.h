@@ -40,7 +40,6 @@ void store_the_valid_shared_angle_in_offset_hex_10();
 void move_both_components_toward_zero_direction_dependent_steps_clamping_zero(EntityRec *record);
 /* extern */
 /* extern */
-void compute_and_clamps_vector_based_adjustment_updates_town();
 /* extern */
 void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(EntityRec *position);
 extern void init_input_action_fallback(void *, void *, s32);

@@ -7,7 +7,7 @@ extern char D_8001B9E0[];
 extern char event_string_fallback[];
 extern char D_80020E44[];
 
-extern char *select_address_based_input(long long);
+extern char *select_address_based_input(long long); /* Unprototyped: retail call passes more arguments than the callee reads */
 
 
 

@@ -1,6 +1,7 @@
 /* State entry processing (G00562). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A2608, CL:town/func_800A265C, CL:town/func_800A2724. */
 #include "town/shop/state_entry_processing_g00562.h"
+#include "town/shop.h"
 
 /* Load a record into the shared buffer, process it, and write it back. */
 void load_a_shared_buffer_process_write_back(s32 record_ref) {

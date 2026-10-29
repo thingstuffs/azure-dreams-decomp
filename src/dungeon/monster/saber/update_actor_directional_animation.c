@@ -11,13 +11,13 @@
 extern void select_sprite_entry(void *, u8, s32);
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 #include "dungeon/player/object/action_state.h"
-extern void on_actor_status_updated(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *,void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void update_timed_effect_size_and_position(void *, s32, void *, void *);
 
 #include "dungeon/monster/saber.h"
+#include "dungeon/actor.h"
 
 extern u8 saber_action_direction_frames[];
 

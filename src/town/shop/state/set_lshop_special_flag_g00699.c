@@ -5,6 +5,7 @@
 #include "shared/item_ids.h"
 #include "town/player/script_flags.h"
 #include "town/shop/state.h"
+#include "town/shop/object.h"
 
 /* Set flag 0x11F8 when the record bytes are 2 and 0xD. */
 void set_lshop_special_flag(S_800191EC_0 *record) {

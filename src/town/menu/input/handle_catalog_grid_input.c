@@ -2,6 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "engine/scene.h"
+#include "town/menu.h"
 
 typedef struct {
     void *field_0;
@@ -27,7 +28,6 @@ extern u8 scene_mode_code;
 extern s8 animation_tick_scale;
 extern s8 catalog_display_node_slots;
 
-extern u8 is_catalog_entry_available(u8);
 extern void SD_Call(s32);
 extern void select_paired_value_tables(Object *);
 extern void release_null_terminated_entries(void *);

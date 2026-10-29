@@ -5,6 +5,7 @@
 #include "shared/dir_step.h"
 #include "shared/entity.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/actor.h"
 
 typedef struct S_80047784 S_80047784;
 

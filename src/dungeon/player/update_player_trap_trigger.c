@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/level.h"
 
 typedef struct {
     u8 pad0[0x9B];
@@ -25,7 +26,6 @@ extern void * write_status_prefix_bytes(void *);
 extern void clear_byte_and_advance(s8 *byte_ptr);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void reveal_triggered_trap(Actor *, s32, s32, s32);
-extern s32 call_slot_handler_and_update_status(s32 handler_id, void *object_ptr, s32 slot_id, s8 update_state);
 
 /* Advance the actor's entry action and clear pending state when it finishes. */
 void update_player_trap_trigger(Actor *actor, s32 context_a, s32 context_b, s32 target_arg) {

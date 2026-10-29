@@ -1,12 +1,12 @@
 #include "common.h"
 #include "shared/entity.h"
+#include "town/player/position.h"
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 resident_globals_page[];
 s32 call_the_same_context_both_processing_routines(s32, ObjectPosition *);             /* extern */
 s32 handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(s32, ObjectPosition *);             /* extern */
-s32 add_motion_deltas_to_position(ObjectPosition *);                      /* extern */
 s32 initialize_object_and_maybe_play_sound(void *, s32, ObjectPosition *, s32); /* extern */
 
 

@@ -9,6 +9,7 @@
 #include "shared/vector.h"
 #include "sdk/libc.h"
 #include "town/map/effect.h"
+#include "town/scene.h"
 
 #ifndef NULL
 #define NULL 0

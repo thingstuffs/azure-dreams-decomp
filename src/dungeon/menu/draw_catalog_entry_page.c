@@ -1,11 +1,11 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "dungeon/menu.h"
+#include "town/menu.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 DrawSync(s32);
 extern s32 ClearImage(s16 *, s32, s32, s32);
-s32 is_catalog_entry_available();
 extern M2C_UNK D_8011ACD8;
 extern s32 catalog_glyphs[];
 

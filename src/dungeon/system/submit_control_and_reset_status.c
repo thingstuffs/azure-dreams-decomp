@@ -1,5 +1,6 @@
 /* CD control command submission and spell-effect selector cache reset. */
 #include "dungeon/system/submit_control_and_reset_status.h"
+#include "dungeon/system.h"
 
 
 /* Submits D_800DF3DC as CD task 6 and invalidates spell_effect_selector_cache. */

@@ -2,6 +2,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B3A28, CL:town/func_800B3C30. */
 #include "town/shop/shop_window_layout_g00610.h"
 #include "town/shop.h"
+#include "town/shop/item.h"
 
 /* Initialize UI resources and position five rows of display elements. */
 void initialize_shop_window_layout(ShopWindow *ui) {

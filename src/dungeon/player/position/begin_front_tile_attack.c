@@ -7,6 +7,7 @@
 #include "dungeon/player/position.h"
 #include "dungeon/system.h"
 #include "dungeon/item.h"
+#include "dungeon/level.h"
 typedef struct Ent Ent;
 
 typedef long long s64;
@@ -14,7 +15,6 @@ typedef long long s64;
 #define NULL 0
 #endif
 
-void process_unflagged_linked_entries_alt(s32 firstNodeBase);
 s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 void * find_eligible_actor_at_tile_and_height();
 Ent *prepare_directional_attack();

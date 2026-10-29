@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/player/coordinates.h"
+#include "town/player.h"
 
 
 

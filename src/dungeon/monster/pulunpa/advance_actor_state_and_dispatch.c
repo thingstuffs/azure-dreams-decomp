@@ -20,7 +20,6 @@ typedef struct S_801733F0_0 {
 extern void select_sprite_entry(void *, u8, s32);
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 #include "dungeon/player/object/action_state.h"
-extern void on_actor_status_updated(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
@@ -30,6 +29,7 @@ extern void update_object_or_select_directional_data(void *, void *, void *, voi
 extern u8 pulunpa_action_resume_address[];
 extern u8 pulunpa_variant_action_address[];
 #include "dungeon/monster/pulunpa.h"
+#include "dungeon/actor.h"
 extern u8 D_80176308[];
 extern u8 pulunpa_frame_set_3[];
 extern u8 D_80176368[];

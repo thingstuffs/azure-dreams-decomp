@@ -9,9 +9,6 @@
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
 
-
-extern void begin_actor_display_action();
-
 extern s32 D_801748C0;
 
 /* Applies backward motion, then returns the actor to its tile center or starts the next action. */

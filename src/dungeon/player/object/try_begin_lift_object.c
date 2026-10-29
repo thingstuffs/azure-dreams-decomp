@@ -10,7 +10,7 @@
 extern u8 resident_globals_page[];
 
 void set_sprite_animation_frame(struct SpriteFrameState *obj, s16 frame_group, s16 frame_index, s32 slot_index);
-extern s32 spawn_object_at_target_position();
+extern s32 spawn_object_at_target_position(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 play_sound_if_enabled(s32 query_value);
 extern u8 player_lift_frames[];
 extern u8 D_800E0495[];

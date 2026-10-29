@@ -1,8 +1,7 @@
 #include "common.h"
 #include "engine/scene.h"
 #include "slus/data.h"
-
-extern s32 find_target_byte_index_in_list(void);
+#include "town/shop.h"
 
 /* Clears the first byte of each 0x54-byte entry using the selected entry count. */
 void clear_selected_scene_entry_flags(void) {

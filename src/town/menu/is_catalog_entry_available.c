@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/menu.h"
 
 extern u8 D_80127A40[];
 

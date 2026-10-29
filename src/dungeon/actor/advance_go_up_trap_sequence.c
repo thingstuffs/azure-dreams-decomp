@@ -7,6 +7,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/player/item.h"
 #include "engine/texture.h"
+#include "dungeon/system.h"
 struct EntityLinkNode;
 extern u8 resident_globals_page[];
 
@@ -67,7 +68,6 @@ void snapshot_inventory_and_familiars(void *input_state);           /* extern */
 void unlink_entity_node(struct EntityLinkNode *node);                      /* extern */
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
 void * detach_record_and_update_slot_state(void *record);                      /* extern */
-s32 check_action_boundary_and_set_flag(void);                            /* extern */
 extern s32 D_80010234;
 extern s16 floor_generation_state[3];
 extern u8 scene_mode_code;

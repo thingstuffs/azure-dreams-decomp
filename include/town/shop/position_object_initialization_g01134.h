@@ -90,7 +90,6 @@ struct TownLink {
     void *object;
 };
 
-void add_motion_deltas_to_position(ObjectPosition *motion);
 /* extern */
 extern void *D_8009BC44;
 void *allocate_list_node();
@@ -107,7 +106,6 @@ extern u8 D_800D076C[];
 extern TownRecord shop_record_queue[20];
 /* Complete existing census view; the sentinel next pointer is at +4. */
 extern Rec_D_800CFCB4 town_actor_control;
-extern s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41(void);
 
 /* Functions defined in this translation unit. */
 void initialize_the_active_flag_install_handler(S_800A022C_2 *object, S_800A022C_0 *state, ObjectPosition *record, void *unused_render);

@@ -10,6 +10,7 @@
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 #include "engine/graphics.h"
 #include "dungeon/system.h"
+#include "dungeon/actor.h"
 
 typedef struct S_8016E3C4_0 {
     u8 pad_00[0x8C];

@@ -1,5 +1,6 @@
 /* Refreshes catalog grid entries and positions the selection sprite using row and column indices. */
 #include "common.h"
+#include "town/menu.h"
 
 typedef struct SpriteFields {
     u32 pad0;
@@ -28,7 +29,6 @@ typedef struct TownObject {
     TownSlots *town;
 } TownObject;
 
-extern u8 is_catalog_entry_available(u32);
 extern void draw_catalog_entry_page(TownObject *);
 
 extern void *catalog_detail_pages[4];

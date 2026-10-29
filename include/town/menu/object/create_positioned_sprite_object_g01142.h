@@ -57,7 +57,6 @@ extern s32 D_800D0DF8[];
 extern void unlink_node_if_registered(void *);
 
 /* Shared import declarations; data casts preserve each measured view. */
-extern void add_hex_20000_s_signed_offset_hex_14(void *record);
 
 /* Functions defined in this translation unit. */
 ObjectNodeHeader *create_positioned_sprite_object(IntVector3 *position, s32 state_value, SpriteSourceEntry *graphic_id);

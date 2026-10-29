@@ -37,15 +37,12 @@ extern u8 item_menu_slot_handler_address[];
 extern void func_800B3558(void *);
 extern void func_800B474C(void *);
 extern void func_800B47BC(void *);
-extern void initialize_storage_cursor(void *);
 extern void func_800B4908(void *);
 extern void func_800B49A8(void *);
 extern void func_800B4A60(void *);
-extern void update_storage_display(void *);
 /* arg0 in set_record_value_and_data_pointer; pointer addresses record offset 0x10 */
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern M2C_UNK D_800B4C38;
-extern void initialize_storage_display_links();
 
 /* Functions defined in this translation unit. */
 void initialize_four_slot_object(Obj *obj);

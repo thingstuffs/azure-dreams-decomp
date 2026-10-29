@@ -9,9 +9,6 @@
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
 
-
-extern void begin_actor_display_action();
-
 extern s32 D_80175268;
 
 /* Updates directional motion, then recenters the entity on its tile and finishes the action. */

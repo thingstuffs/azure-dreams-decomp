@@ -13,7 +13,6 @@ extern s32 get_item_sell_money(void *entry);
 extern s8 town_query_item_types[];
 extern s32 town_query_sell_price_limits[];
 extern s32 find_sentinel_table_value_index(s32 target_value);
-extern s32 classify_item_check_result();
 extern u8 D_8006BC7A;
 extern s32 *D_800D1038[];
 

@@ -5,8 +5,6 @@
 
 s32 update_actor_movement_to_tile(void *move_state, void *motion, void *target_tile, ActorRecord *actor);
 
-void advance_status_timers(void *record);
-
 /* Update the actor after a successful action and reset the entity script on a positive result. */
 void finish_successful_actor_action(ActorRecord *action_entity, ObjectPosition *action, SpriteFrameState *source_actor, ActorRecord *target_actor) {
     ActorRecord *entity = action_entity;

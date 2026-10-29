@@ -10,7 +10,7 @@ extern char D_8001B9E0[];
 extern char D_800206CC[];
 extern char event_string_fallback[];
 
-extern void *select_address_based_input(s32, s32);
+extern void *select_address_based_input(s32, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
 
 
 extern s32 func_8001A64C(s32);

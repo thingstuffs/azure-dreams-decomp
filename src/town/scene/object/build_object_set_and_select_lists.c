@@ -60,7 +60,7 @@ typedef struct S_8001A044_9 {
 
 extern void *find_masked_record_and_initialize(void *, void *);
 extern void *populate_and_dispatch_entry_records(void *, void *, s32, s32);
-extern s32 find_eligible_entry(void *, s32);
+extern s32 find_eligible_entry(void *, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
 
 extern u8 D_80016094[];
 extern u8 D_800160A0[];

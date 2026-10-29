@@ -17,7 +17,7 @@ typedef struct DungeonOwner {
 
 
 extern s32 check_entity_relation(void *, void *);
-extern s16 select_creature_action_and_target(void *, u8 *, ActorRecord *, s16, s16, s8 *);
+extern s16 select_creature_action_and_target(void *, u8 *, ActorRecord *, s16, s16, s8 *); /* Unprototyped: retail call narrows its arguments to this declaration; no shared prototype keeps it */
 
 /* Process an entity and clear its high flag when relinking it into the active list. */
 s16 relink_entity_and_clear_high_flag(void *context, void *position, void *entity,

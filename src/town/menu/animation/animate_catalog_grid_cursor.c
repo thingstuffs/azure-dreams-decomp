@@ -1,5 +1,6 @@
 #include "town/menu/catalog.h"
 #include "common.h"
+#include "town/menu.h"
 
 typedef struct SpriteFields {
     u32 pad0;
@@ -32,7 +33,6 @@ typedef struct TownObject {
     TownSlots *town;
 } TownObject;
 
-extern u8 is_catalog_entry_available(u32);
 extern void *catalog_normal_digits[10];
 extern u16 catalog_cursor_rows[2];
 extern u16 catalog_cursor_columns[8];

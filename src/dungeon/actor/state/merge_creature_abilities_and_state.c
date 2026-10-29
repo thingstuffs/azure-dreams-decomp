@@ -13,7 +13,7 @@
 struct Entity;
 struct EntityLinkNode;
 
-s16 find_matching_initial_stat_slot();
+s16 find_matching_initial_stat_slot(); /* Unprototyped: retail call passes more arguments than the callee reads */
 void *select_object_by_flags_and_keys(void *, void *, u16 *);
 void zero_words();
 void apply_entity_effects(void *);

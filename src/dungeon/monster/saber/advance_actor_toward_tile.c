@@ -32,10 +32,6 @@ typedef struct S_80ADF3AC_0 {
 
 extern s32 rsin(s32);
 
-extern void on_actor_status_updated(void *);
-
-
-
 extern s32 D_80159728;
 extern u8 saber_frame_set_5[];
 extern u8 D_8015CE0C[];

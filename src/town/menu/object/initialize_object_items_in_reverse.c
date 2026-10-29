@@ -21,7 +21,7 @@ typedef struct TownObject {
     s16 field_7A;
 } TownObject;
 
-extern void *create_display_object_with_callbacks(TownObject *, s32, void *);
+extern void *create_display_object_with_callbacks(TownObject *, s32, void *); /* Unprototyped: retail call passes more arguments than the callee reads */
 
 /* Initializes the object's items in reverse order and sets its default fields. */
 s32 initialize_object_items_in_reverse(TownObject *object, void *item_data, s32 item_count) {

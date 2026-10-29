@@ -2,6 +2,7 @@
 #include "dungeon/actor/motion.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/player/object.h"
+#include "dungeon/actor.h"
 
 typedef struct ActorHopState {
     u8 pad0[0x92];

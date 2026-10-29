@@ -3,6 +3,7 @@
  */
 #include "town/shop/position/update_position_displacement_dispatch_active_entity_handler_g01131.h"
 #include "town/shop/position.h"
+#include "town/player/position.h"
 
 /* Update position and displacement, then dispatch the active entity handler. */
 void update_position_displacement_dispatch_active_entity_handler(Rec_func_8009EE9C_arg0 *entity, s32 entity_id, S_8009EE9C_0 *motion, s32 context) {

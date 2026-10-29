@@ -10,7 +10,7 @@ typedef struct Func8094D708Object {
     s16 field1A;
 } Func8094D708Object;
 
-extern void pass_2(s32, s16);
+extern void pass_2(s32, s16); /* Unprototyped: retail call passes a different argument count */
 /* Notify the object, then run its callbacks in order until one returns zero; return that index. */
 s32 run_callbacks_until_zero(Func8094D708Object *object) {
     s32 i;

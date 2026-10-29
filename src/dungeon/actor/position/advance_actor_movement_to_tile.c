@@ -7,6 +7,7 @@
 
 
 #include "dungeon/actor/state.h"
+#include "dungeon/actor.h"
 
 extern u8 actor_motion_resume_address;
 

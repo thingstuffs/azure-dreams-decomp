@@ -24,7 +24,6 @@ typedef struct Copy4 {
 } Copy4;
 
 extern u8 D_8001605C[];
-extern void clear_bytes(s8 *buffer, s32 length);
 
 /* Shared import declarations; data casts preserve each measured view. */
 extern u8 D_80016034[16];
@@ -34,7 +33,6 @@ void clear_shop_object_and_link(u8 *object_ref);
 void release_lshop_entry(s32 slotIndex);
 void compact_lshop_entry_list(void);
 void *find_unused_item_slot(void **slot_list);
-void append_town_item(const Copy4 *input);
 
 void func_80018BE4(s32 slot_index);
 void func_80018C58(void);

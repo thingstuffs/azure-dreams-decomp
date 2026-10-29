@@ -7,6 +7,7 @@
 #include "shared/entity.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/actor/state.h"
+#include "dungeon/actor.h"
 
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);             /* extern */
 

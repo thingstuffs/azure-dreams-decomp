@@ -24,8 +24,6 @@ void init_flagged_action_fallback(s32 **record, void *ptr, void *ptr2);
 void initialize_action_object(s32 **record, void *ptr, void *ptr2);
 void play_periodic_sound(s32 count, s32 interval);
 void store_the_valid_shared_angle_in_offset_hex_10(void *record);
-void call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58();
-void compute_and_clamps_vector_based_adjustment_updates_town();
 void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(EntityRec *position);
 void spawn_radial_effect_objects();
 extern u8 D_800D043C[];

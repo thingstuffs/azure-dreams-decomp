@@ -5,6 +5,7 @@ extern s32 func_80049004(s32 *a0, s32 a1, s32 a2);
 extern s32 texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(s32 a0, void *a1, s32 a2);
 extern s32 display_vector_defaults[];
 #include "shared/object_flags.h"
+#include "town/shop.h"
 /* object in create_item_menu_child_at_position */
 
 typedef struct S_800AEFD8_1 {
@@ -17,16 +18,15 @@ typedef struct S_800AEFD8_1 {
 extern void *allocate_list_node(s32 value, void *parent);
 extern void *func_8003FD64(s32 value, void *parent);
 static s32 load_item_menu_display_resource(void *payload, s32 value);
-extern void *link_item_menu_display_entries(void *value);
+extern void *link_item_menu_display_entries(void *value); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void initialize_item_menu_list_display(void *payload, void *parent, s32 resource_id, s32 resource_data,
-                          s32 x, s32 y, s32 context);
+                          s32 x, s32 y, s32 context); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void register_node(void *object, void *callback);
 extern void func_8004491C(void *object, void *callback);
 extern void release_null_terminated_entries(void *address);
 extern void func_8004B248(void *address);
 extern void draw_tinted_node_sprites_scratch(void);
 extern void func_8004CAA0(void);
-extern void advance_item_menu_object_animation(void);
 
 /* Allocates menu display entries, copies the default vector, and shares it among the entries on success. */
 static s32 load_item_menu_display_resource(void *object, s32 resource_id) {

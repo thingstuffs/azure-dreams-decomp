@@ -50,7 +50,7 @@ typedef struct S_8009B2C4_1 {
 } S_8009B2C4_1;
 
 extern void initialize_target_motion_state(TownObject *object, void *owner, void *context, void *extra_ptr);
-extern void initialize_target_motion(TownObject *object, void *owner, void *context, void *extra_ptr);
+extern void initialize_target_motion(TownObject *object, void *owner, void *context, void *extra_ptr); /* Unprototyped: retail call passes more arguments than the callee reads */
 extern s32 scene_object_payload_alias;
 extern u8 D_80091F64[];
 extern u8 D_800920F4[];
@@ -59,13 +59,12 @@ extern u8 D_80092698[];
 extern u8 tracked_actor_callback_address[];
 extern s32 D_800CFCCC;
 extern s32 D_800CFDD8[];
-extern s16 get_smaller_query_result_capped_hex_80_writes_associated_output(void *, void *);
 extern void call_the_same_context_both_processing_routines(void *, void *);
-extern void set_actor_drop_state(void *, void *, void *, void *);
+extern void set_actor_drop_state(void *, void *, void *, void *); /* Unprototyped: retail call passes more arguments than the callee reads */
 extern void actor_surface_callback_address(void *actor, void *subject, void *motion, void *context);
 extern void actor_output_update_address(void *state_owner, void *update_target, void *update_context, void *output);
 extern void actor_moving_target_address(struct Actor *actor, struct Subject *subject, struct Motion *motion, TownMovementOutput *context);
-extern void set_actor_motion_state(void *, void *, void *, void *);
+extern void set_actor_motion_state(void *, void *, void *, void *); /* Unprototyped: retail call passes more arguments than the callee reads */
 
 extern TownControl town_actor_control;
 

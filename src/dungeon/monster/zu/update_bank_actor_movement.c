@@ -375,11 +375,8 @@ extern s8 find_active_rect_containing_point(u8, u8);
 extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
-extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
-extern s32 process_selected_actor_record(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState *target, u8 *direction_table, void *next_state);
 extern u8 zu_frame_set[];
 extern u8 zu_frame_set_7[];
 extern u8 zu_action_direction_frames[];
@@ -1422,7 +1419,6 @@ extern int abs(int);
 
 extern void *scan_actor_along_heading(ActorRecord *source, s32 start_x, s32 start_y, s16 heading, s16 max_steps);
 extern void set_record_integer_tile_center(void *, u8, u8);
-extern void *create_actor_spell_effect(void *actor, void *effect_record, s16 mode, void *context);
 extern void create_source_positioned_object(ObjectPosition *source_pos, s16 initial_value);
 
 typedef struct S_80172A40_0 {
@@ -1647,9 +1643,6 @@ typedef struct S_80172F00_0 {
     u8 pad_9A[0x1];
     u8 unk_9B;
 } S_80172F00_0;   /* arg0 in restore_bank_actor_tile */
-
-extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
-extern void apply_clamped_actor_value_delta(void *entity);
 
 extern u8 zu_frame_set[];
 
@@ -1983,7 +1976,6 @@ void forward_bank_actor_callback_b(void *state, ObjectPosition *action, SpriteFr
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
-extern s32 update_actor_hop_and_grow();
 /* Restore the bank actor callback after the resident state check succeeds. */
 void restore_bank_actor_callback_a(ActorRecord *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target) {
     if (update_actor_hop_and_grow(state, action, source, target) != 0) {
@@ -2018,10 +2010,8 @@ extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 extern s32 get_tile_chebyshev_distance(void *, void *);
 
 extern s32 generate_random_value(void);
-extern void on_actor_status_updated(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
-extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern u8 zu_frame_set_1[];
 extern u8 D_80174B04[];
@@ -2169,8 +2159,6 @@ void handle_actor_action_effects(ActorRecord *controller, ObjectPosition *motion
 #include "shared/entity.h"
 #include "shared/position_views.h"
 
-
-extern void on_actor_status_updated(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
@@ -2343,8 +2331,6 @@ void update_bank_actor_sprite_state(ActorRecord *actor, ObjectPosition *action, 
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
-
-extern s32 update_thrown_actor_travel();
 /* Select the bank actor callback when the resident checks succeed. */
 void update_directional_sprite_state_and_signals(ActorRecord *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target) {
     if ((update_thrown_actor_travel(state, action, source, target) != 0) && ((check_actor_floor_trap(source, target) << 0x10) > 0)) {

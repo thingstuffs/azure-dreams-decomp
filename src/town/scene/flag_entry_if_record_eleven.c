@@ -1,15 +1,13 @@
 #include "town/scene.h"
 #include "town/scene/record_actions.h"
 #include "town/scene/flags.h"
+#include "town/scene/event.h"
+#include "town/scene/hooks.h"
 
 extern u8 D_8001C33C[];
 extern u8 D_8001E4E8[];
-extern void *get_event_data_pointer(SquareSceneEntry *, s32, s32);
 extern s32 func_8001822C(SquareSceneEntry *, s32);
-extern s32 forward_data_and_value(SquareSceneEntry *, s32);
 extern void *forward_values_to_fixed_data_handler(SquareSceneEntry *, s32, s32);
-extern void *get_shared_entry_buffer(SquareSceneEntry *, s32, s32);
-extern s32 return_zero_fn(SquareSceneEntry *, s32);
 extern s32 contains_record_value_in_byte_0(s32);
 s32 flag_entry_if_record_eleven(SquareSceneEntry *entry, s32 entry_index) {
     s32 result;

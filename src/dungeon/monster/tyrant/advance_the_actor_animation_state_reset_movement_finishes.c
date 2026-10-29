@@ -14,12 +14,12 @@
 #include "dungeon/system.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
 extern int abs(int);
 
 extern s32 tyrant_action_resume_address;
 extern u8 tyrant_direction_frames[8];
 
-extern void *create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);
 extern void create_two_row_object_group(void *payload, s16 value_scale);
 
 typedef struct S_801729D4_0 {

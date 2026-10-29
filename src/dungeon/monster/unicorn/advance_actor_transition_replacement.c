@@ -42,7 +42,7 @@ extern s32 lookup_masked_byte_table();
 extern s32 unlink_entity_node();
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
-extern void *advance_staged_entity_load();
+extern void *advance_staged_entity_load(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 create_status_linked_render_effect();
 extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 extern void create_angular_offset_effect();

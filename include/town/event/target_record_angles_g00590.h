@@ -32,6 +32,5 @@ extern void draw_random_colored_line(s32, s32);
 
 /* Functions defined in this translation unit. */
 void apply_two_records_to_target(s32 target, s32 setup_data);
-void update_positions_from_origin(IntVector3 *origin);
 
 #endif

@@ -85,11 +85,8 @@ extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
-extern s32 process_selected_actor_record(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState *target, u8 *direction_table, void *next_state);
 
 extern void func_80171910(void *controller, ObjectPosition *context, void *entity, void *path_state);
 extern void advance_actor_path_step(void *, void *, void *, void *);
@@ -103,6 +100,7 @@ extern u8 secondary_sprite[];
 extern u8 mandara_object_callback_2[];
 #include "dungeon/monster/mandara.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
 extern u8 D_80175260[];
 extern u8 D_80175290[];
 extern u8 mandara_frame_set_1[];

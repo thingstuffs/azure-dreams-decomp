@@ -12,6 +12,7 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/player/object.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
 extern int abs(int);
 
 typedef __SIZE_TYPE__ uptr;
@@ -66,7 +67,6 @@ extern u8 manoeva_frame_set_2[8];
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void play_sound_if_enabled(s32);
-extern void * create_actor_spell_effect(void *, void *, s32, void *);
 extern void create_actor_linked_effect(void *);
 
 /* Advances an actor's item action through source selection, animation, and cleanup. */

@@ -18,10 +18,7 @@ extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern s32 process_selected_actor_record(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState *target, u8 *direction_table, void *next_state);
 
 extern void func_80171388(void *, void *, void *, void *);
 extern void func_801715CC(void *, void *, void *, void *);
@@ -33,6 +30,7 @@ extern void func_80173478(void *, void *, void *, void *);
 extern u8 dreamin_action_continuation_address[];
 #include "dungeon/monster/dreamin.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
 extern u8 dreamin_frame_set_1[];
 extern u8 D_8017389C[];
 

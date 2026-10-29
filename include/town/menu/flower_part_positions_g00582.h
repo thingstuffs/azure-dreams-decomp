@@ -40,7 +40,6 @@ typedef struct {
 void register_node_if_unregistered(void *block_data, void *registration_id);
 /* extern */
 s32 lookup_item_category_mapped_value(s32, s32);
-void * create_town_effect_object(s32, struct IntVector3 *, s32, s32);
 extern s32 service_script_controller(void);
 extern void unlink_node_if_registered(void *);
 extern s32 rsin(s32);

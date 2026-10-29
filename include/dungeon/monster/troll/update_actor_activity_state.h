@@ -122,12 +122,10 @@ extern s32 check_entity_relation();
 extern s16 get_tile_chebyshev_distance();
 #include "dungeon/player/object/action_state.h"
 extern s32 generate_random_value(void);
-extern void on_actor_status_updated(void *actor);
 extern void func_800A9A04(void *actor);
 extern void update_actor_status_and_mp();
 extern void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);
 extern s32 begin_ready_actor_directional_action();
-extern s32 advance_actor_pending_action(void *actor_state, void *action, void *status, void *actor);
 extern void begin_actor_move_to_target_facing();
 extern void create_tracked_attachment_sprite();
 extern s32 update_actor_transform_from_parent(T_801759A0_Obj0 *, void *, void *, void *);

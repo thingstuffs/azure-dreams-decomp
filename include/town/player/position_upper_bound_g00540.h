@@ -26,7 +26,6 @@ struct EntityRec;
 extern s16 max_adjusted_z_query();
 extern s32 D_800D040C[];
 /* cfail-repair: tf7-phase1-cache-v3 */
-void clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2(EntityRec *);
 /* extern */
 extern s8 D_800CFCE8;
 

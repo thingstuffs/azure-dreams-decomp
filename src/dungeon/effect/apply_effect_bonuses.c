@@ -13,7 +13,7 @@ typedef struct S_800B3D10_6 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 get_clamped_adjusted_value();                          /* extern */
-s32 resolve_alternate_spell_id();                             /* extern */
+s32 resolve_alternate_spell_id(); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */                             /* extern */
 extern u8 current_spell_effect_variant;
 
 

@@ -42,9 +42,6 @@ typedef struct S_801733B4_1 {
 
 extern s32 rsin(s32);
 
-extern void on_actor_status_updated(void *);
-
-
 extern u8 baloon_default_frames[];
 extern u8 baloon_hop_frames[];
 extern u8 D_800E2370[];

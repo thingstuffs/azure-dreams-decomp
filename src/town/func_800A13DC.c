@@ -8,7 +8,7 @@
  * lui before the store), the "array/struct >8B" codegen shape noted in
  * w_800510DC.c rather than the two-independent-lui -G0 shape. */
 
-extern void copy_a_pointer_table_initializes_extra_data_tag_hex_13(void *a0, void *a1);
+extern void copy_a_pointer_table_initializes_extra_data_tag_hex_13(void *a0, void *a1); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void unlink_scene_list_node(void *a0);
 extern void unlink_node_if_registered(void *a0);
 

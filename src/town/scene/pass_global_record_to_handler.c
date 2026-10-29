@@ -1,6 +1,7 @@
 #include "town/shop/object/lshop_g00008.h"
 #include "common.h"
 #include "town/scene.h"
+#include "town/shop/object.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern Copy4 D_8001BE60;

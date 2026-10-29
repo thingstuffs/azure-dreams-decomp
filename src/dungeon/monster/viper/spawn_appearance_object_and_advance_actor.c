@@ -10,6 +10,7 @@
 #include "dungeon/system.h"
 #include "engine/node.h"
 #include "dungeon/actor/state.h"
+#include "dungeon/actor.h"
 
 typedef struct S_8017390C_0 {
     u8 pad_00[0x96];

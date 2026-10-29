@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
+#include "dungeon/actor.h"
 
 /* Tests the flag on this entity, or on either linked entity for aggregate records. */
 s32 is_linked_entity_flagged_80000(EntityRec *entity, void *unused_context)

@@ -10,6 +10,7 @@
 #include "dungeon/player/object.h"
 #include "dungeon/system.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/actor.h"
 
 void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);

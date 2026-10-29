@@ -16,6 +16,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
 
 
 #include "dungeon/monster/saber.h"
+#include "dungeon/actor.h"
 extern u8 D_80174E1C[];
 
 typedef struct S_80172FD8_0 {

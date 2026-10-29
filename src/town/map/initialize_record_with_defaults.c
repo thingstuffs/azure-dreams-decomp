@@ -5,6 +5,7 @@
 #include "shared/dungeon_effect_views.h"
 #include "town/map.h"
 #include "town/player/object.h"
+#include "town/scene.h"
 
 typedef struct S_800A9734_0 {
     void (*unk_00)(void *, void *, void *);

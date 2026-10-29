@@ -12,6 +12,7 @@
 #include "engine/graphics.h"
 #include "dungeon/actor/motion.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
 #define F(p, t, o) (*(t *)((u8 *)(p) + (o)))
 
 
@@ -31,11 +32,8 @@ extern s32 can_entity_gain_level(void *entity);
 extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-extern s32 advance_actor_pending_action(void *actor_state, void *action, void *status, void *actor);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
-extern s32 process_selected_actor_record();
-extern void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState *target, u8 *direction_table, void *next_state);
 extern s32 func_801716B4();
 extern s32 func_801718F8();
 void update_eligible_actor_action(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);

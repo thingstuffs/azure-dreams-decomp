@@ -1,8 +1,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
 #include "common.h"
-
-extern s32 update_actor_defeat_removal(ActorRecord *state, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *entity_data);
+#include "dungeon/actor.h"
 
 /* Forward all four effect callback arguments and the result. */
 s32 update_hikewne_defeat_removal(ActorRecord *state, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *entity_data) {

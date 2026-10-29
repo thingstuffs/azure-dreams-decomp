@@ -47,8 +47,6 @@ extern u8 active_actor_command_code[];
 #include "dungeon/player/motion.h"
 #include "dungeon/player/position.h"
 
-extern void process_unflagged_linked_entries(s32 firstEntryBase);
-extern void process_unflagged_linked_entries_alt(s32 firstNodeBase);
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s16 classify_adjacent_tile_height();
 

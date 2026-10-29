@@ -4,6 +4,7 @@
 #include "shared/dir_step.h"
 #include "shared/record_ptrs.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -43,8 +44,6 @@ typedef struct {
 extern void clear_slot_and_update_linked_state(void *);
 extern s32 generate_random_value(void);
 extern s32 find_floor_item_at_world_position(s32 input_x, s32 input_y, s32 input_z);
-extern s32 is_linked_entity_flagged_80000(void *, void *);
-
 
 extern s32 picket_slot_f_item_result[];
 

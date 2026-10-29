@@ -17,13 +17,6 @@ typedef struct T_80174C44_S_80174C44_0 {
     u8 phase;
 } T_80174C44_S_80174C44_0;   /* arg0 in func_80174C44 */
 
-
-
-
-
-
-extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
-extern void apply_clamped_actor_value_delta(void *);
 extern u8 troll_frame_set_5[];
 extern u8 troll_frame_set_6[];
 extern u8 troll_frame_set_7[];

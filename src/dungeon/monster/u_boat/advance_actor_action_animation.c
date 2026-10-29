@@ -23,7 +23,6 @@ typedef struct S_80174788_0 {
 
 extern s32 check_entity_relation();
 #include "dungeon/player/object/action_state.h"
-extern void on_actor_status_updated(void *actor);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
@@ -33,6 +32,7 @@ extern u8 uboat_action_frames[];
 extern u8 u_boat_motion_frames[];
 #include "dungeon/monster/u_boat.h"
 #include "engine/graphics.h"
+#include "dungeon/actor.h"
 
 /* Advance an actor action through animation completion and status checks. */
 void advance_actor_action_animation(ActorRecord *action, ObjectPosition *actor_index, SpriteFrameState *sprite, ActorRecord *actor) {

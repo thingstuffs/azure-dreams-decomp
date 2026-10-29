@@ -104,10 +104,8 @@ extern s32 D_800A23D0;
 
 /* Functions defined in this translation unit. */
 void *allocate_and_initialize_display_object(s32 object_key, s32 payload_value, s32 payload_param, s32 payload_halfword, s32 object_param, s32 object_value);
-s32 create_objects_descending_by_count(s32 object_key, s32 payload_value, s32 payload_param, s32 count);
 void update_menu_node_or_retire_on_zero_state(Func800A4A20Object *object, s32 context, void *output);
 void initialize_directional_object_state(void *object, S_800A21EC_1 *placement, S_800A21EC_0 *state);
 void copy_signed_inner_value_by_flag(Func800A4B70Object *object, s32 unused, Func800A4B70Output *out);
-void *create_object_with_shared_data(s32 input_first, s32 input_second, s32 input_third, s32 input_fourth);
 
 #endif

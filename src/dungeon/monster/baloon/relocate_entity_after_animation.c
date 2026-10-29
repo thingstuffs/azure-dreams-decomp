@@ -10,6 +10,7 @@
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 #include "engine/graphics.h"
 #include "dungeon/system.h"
+#include "dungeon/actor.h"
 
 typedef struct S_80175594_0 {
     u8 pad_00[0x8C];
@@ -60,7 +61,6 @@ extern u8 D_800E23C0[];
 
 extern s32 rand(void);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-s32 select_dungeon_spawn_tile(u8 *x_out, u8 *y_out);
 
 void refresh_actor_proximity_state(ActorRecord *context);
 

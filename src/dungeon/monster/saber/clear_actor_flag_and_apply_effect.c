@@ -6,6 +6,7 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "engine/graphics.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/actor.h"
 
 extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 extern s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);

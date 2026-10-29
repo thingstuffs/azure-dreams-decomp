@@ -3,6 +3,7 @@
 #include "dungeon/actor/state.h"
 #include "dungeon/player/object.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/actor.h"
 
 extern s32 trigger_actor_floor_trap(void *, void *);
 

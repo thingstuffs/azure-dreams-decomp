@@ -19,7 +19,7 @@ typedef struct S_800ADB30_0 {
 int get_item_name_with_shared_text_table(void *object);
 extern s32 advance_index_with_directional_clamp(s32 current_selection, s32 selection_step, s32 value);
 extern void SD_Call(s32 sound_id);
-extern void store_record_check_result(s32 *menu);
+extern void store_record_check_result(void *record);
 extern void handle_selected_entry(s32 *menu);
 extern void close_twin_shop(void *shop_ptr);
 extern void set_shop_subrecord_values(s32 menu_value, s32 row, s32 selection);

@@ -3,6 +3,7 @@
 #include "common.h"
 #include "dungeon/actor/state.h"
 #include "dungeon/monster/pulunpa.h"
+#include "dungeon/actor.h"
 extern u8 pulunpa_action_resume_address;
 extern u8 pulunpa_variant_action_address;
 

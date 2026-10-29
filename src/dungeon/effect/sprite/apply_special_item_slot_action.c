@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "dungeon/system.h"
 
-s16 release_entity_slot_and_update_flags(void *handle, s32 extra_cleanup);          /* extern */
 extern M2C_UNK D_80010248;
 
 typedef struct S_800F6514_0 {

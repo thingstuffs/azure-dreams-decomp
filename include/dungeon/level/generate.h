@@ -410,7 +410,6 @@ typedef struct {
     u8 pad[8];
 } floor_generate_isolated_8028AE2C_DungeonArea;
 extern u8 generation_region_cell_entries[];
-s32 select_dungeon_spawn_tile(u8 *x_out, u8 *y_out);
 extern s32 generate_random_value(void);
 extern s32 get_offset_map_cell_value_and_flags(s16, s16, s16, u16 *);
 extern s32 check_diagonal_side_height(u16, s16, s16, s16);

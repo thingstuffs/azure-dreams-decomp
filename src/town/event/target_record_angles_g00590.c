@@ -2,6 +2,7 @@
 /* inferred-strong G00590: target_record_angles_g00590; joins CL:town/func_800AC708,CL:town/func_800AC9AC,PD:town/engine:80100D18,PD:town/engine:80100D40,PD:town/engine:80100D42; no crossing cuts. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AC708, CL:town/func_800AC9AC, PD:town/engine:80100D18, PD:town/engine:80100D40, PD:town/engine:80100D42. */
 #include "town/event/target_record_angles_g00590.h"
+#include "town/event.h"
 
 /* Initialize and apply the two town records to the target. */
 void apply_two_records_to_target(s32 target, s32 setup_data)

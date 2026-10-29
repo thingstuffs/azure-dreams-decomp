@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor.h"
 
 /* Cap and return the adjustment so the base plus adjustment stays within the limit. */
 s32 cap_pending_actor_value_delta(void *entry) {

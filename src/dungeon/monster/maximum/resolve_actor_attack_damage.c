@@ -21,6 +21,7 @@
 #include "engine/graphics.h"
 #include "engine/node.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -70,7 +71,6 @@ typedef struct S_801728B4_11 {
     s32 unk_08;
 } S_801728B4_11;
 
-void *create_actor_spell_effect(void *, void *, s32, void *);
 extern void effect_update_tag();
 void dispatch_monster_move_attack_spell(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 extern u8 maximum_frame_set_4[];

@@ -31,7 +31,6 @@ typedef struct S_80172834_0 {
 
 struct SpriteFrameState;
 
-extern void on_actor_status_updated(void *actor);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
 extern u8 D_80175278[];

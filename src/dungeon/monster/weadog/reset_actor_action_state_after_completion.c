@@ -3,6 +3,7 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/actor.h"
 
 s16 try_claim_dungeon_action_slot(ActorRecord *actor);                          /* extern */
 s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value); /* extern */

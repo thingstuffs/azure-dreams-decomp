@@ -6,6 +6,7 @@
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/mesh.h"
+#include "dungeon/actor.h"
 void (*const dungeon_ovl_18d0850_entry)(ovl_18d0850_818B1664_State *state_arg, ovl_18d0850_818B1664_Motion *motion_arg, ovl_18d0850_818B1664_DrawInfo *draw_info) = update_movement_toward_child_terrain_target_animates_associated_effects;
 
 /* Adds a random actor value delta with an optional quarter bonus, clamps it, displays a popup, and

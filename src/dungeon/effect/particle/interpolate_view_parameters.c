@@ -11,6 +11,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "dungeon/effect/particle.h"
+#include "dungeon/actor.h"
 
 void (*const dungeon_18e8800_entry)(B31_818C8FD0_S_func_818C8FD0_1 *, B31_818C8FD0_S_func_818C8FD0_4 *, B31_818C8FD0_S_func_818C8FD0_5 *) = update_an_effect_through_attachment_motion_timed_cleanup;
 const B31_818C8FD0_OffsetTable interpolation_direction_offsets = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};

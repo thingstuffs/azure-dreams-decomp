@@ -41,12 +41,12 @@ typedef struct S_80172A04_7 {
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void play_sound_if_enabled(s32);
-extern void *create_actor_spell_effect(void *actor, void *effect_record, s16 mode, void *context);
 extern void create_two_row_object_group(void *, s16);
 
 extern u8 battnel_action_resume_address[];
 #include "dungeon/monster/battnel.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
 
 /* Advances an actor motion through setup, playback, and completion. */
 void advance_actor_motion_sequence(ActorRecord *state, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {

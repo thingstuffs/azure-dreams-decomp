@@ -4,6 +4,7 @@
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/manoeva.h"
+#include "dungeon/actor.h"
 
 /* Start the actor's directional action and record the adjacent tile result. */
 void start_directional_action_and_record_tile(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor) {

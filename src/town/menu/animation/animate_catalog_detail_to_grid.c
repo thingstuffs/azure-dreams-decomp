@@ -1,6 +1,7 @@
 #include "common.h"
 #include "records/Rec_func_801237A4_arg0.h"
 #include "shared/object_payload.h"
+#include "town/menu.h"
 
 
 typedef struct S_80125FB8_1 {
@@ -22,7 +23,6 @@ typedef struct TownInitialPosition {
 } TownInitialPosition;
 
 extern void layout_catalog_entry_grid(void);
-extern void refresh_catalog_entry_grid(void *);
 extern TownInitialPosition catalog_grid_layout[5];
 extern void *catalog_display_node_slots[];
 

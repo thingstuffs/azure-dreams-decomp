@@ -59,7 +59,7 @@ extern u16 D_80174FD4[];
 
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-extern s16 select_dungeon_spawn_tile(u8 *, u8 *);
+extern s16 select_dungeon_spawn_tile(u8 *, u8 *); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */
 
 void refresh_actor_proximity_state(ActorRecord *context);
 

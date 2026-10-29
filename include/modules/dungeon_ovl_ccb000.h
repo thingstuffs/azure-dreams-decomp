@@ -1111,37 +1111,24 @@ extern s32 has_pending_dungeon_activity(void *);
 extern s32 has_pending_actor_or_turn_action(void *);
 extern s32 check_entity_interaction_compatibility();
 extern void set_or_clear_actor_status_slot(void *, s32, s32);
-extern s32 advance_status_timers(void *);
-extern s32 advance_staged_entity_load();
 extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
-extern void * create_actor_spell_effect(void *, void *, s32, void *);
-extern void on_actor_status_updated(void *);
 extern void func_800A9A04(void *);
 extern void update_actor_status_and_mp(void *);
 extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern s32 refresh_actor_facing_and_lifecycle();
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
-extern s32 advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern s32 reset_actor_action_state(void *,void *, void *, u8 *);
-extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
-extern s32 process_selected_actor_record(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern void begin_actor_spell_action(void *,void *, void *, u8 *,void *);
 extern s32 update_actor_movement_to_tile(void *,void *,void *,void *);
 extern s32 update_linked_actor_motion(void *,void *,void *,void *);
-extern s32 resolve_actor_floor_trap_once(void *,void *,void *,void *);
 extern s32 update_actor_hop_and_shrink(void *,void *,struct SpriteFrameState *,void *);
 
-extern s32 update_actor_hop_and_grow(void *,void *,void *,void *);
-extern s32 update_thrown_actor_travel(void *,void *,struct SpriteFrameState *,void *);
 extern s32 interpolate_actor_to_terrain_tile(void *,void *,void *,void *);
 extern s32 update_spinning_actor_fall(void *,void *,void *,void *);
 extern s32 propagate_actor_action_flag(void *,void *,void *,void *);
 extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
 extern s32 update_actor_fade_in(void *,void *,void *);
-extern s32 update_actor_defeat_removal(void *,void *,void *,void *);
-extern void apply_clamped_actor_value_delta(void *);
 extern void spend_actor_mp(void *, s32);
 
 extern void * create_status_linked_render_effect(EntityRec *source_pos, s32 render_param, s16 initial_state, s8 *status);

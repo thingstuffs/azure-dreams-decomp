@@ -19,7 +19,7 @@ extern int abs(int);
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void play_sound_if_enabled(s32);
-extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context);
+extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void create_directional_template_effect(void *, void *, void *, void *);
 
 extern u8 hikewne_direction_frames[];

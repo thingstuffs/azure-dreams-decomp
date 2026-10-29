@@ -382,7 +382,6 @@ void select_record_entry_and_value(void *state, void *entries, short index);
 int abs(int);
 void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
-s16 check_adjacent_tile_height_clearance(u16 x, u16 y, s32 z, void *skip_check);
 void create_attached_effect();
 
 extern s32 D_80024670[];

@@ -28,7 +28,6 @@ typedef struct Node {
 
 /* Functions defined in this translation unit. */
 s32 handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(Box *box_a, ObjectPosition *offset_a, Box *box_b, ObjectPosition *offset_b);
-s32 low_12_values_within_511(s32 value_a, s32 value_b);
 Node *handle_finds_first_eligible_active_node_in_circular_list(Node *origin);
 
 #endif

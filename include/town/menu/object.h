@@ -68,4 +68,7 @@ void render_shaded_object_primitive(void *object, MovingPosition *coords, void *
 /* swap_paired_entry_values_and_node_halfwords.c */
 void swap_paired_entry_values_and_node_halfwords(u8 *state);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+#include "shared/sprite_frame_state.h"
+
 #endif

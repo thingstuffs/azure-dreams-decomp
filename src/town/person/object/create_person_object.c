@@ -8,10 +8,10 @@
 #define NULL 0
 #endif
 
-extern void *create_town_effect_object(s32 parent, s32 position, void *object_value, s32 state_value);
-extern s32 get_person_lookup_step(void *coordinates);
+extern void *create_town_effect_object(s32 parent, s32 position, void *object_value, s32 state_value); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void fill_person_records(void);
 #include "town/person/object/initialize_object_entries_api.h"
+#include "town/person.h"
 extern void register_node_if_unregistered(void *state, void *callback);
 
 extern s32 loaded_town_resource_attributes[];

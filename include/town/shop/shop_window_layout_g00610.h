@@ -72,7 +72,6 @@ void initialize_scaled_entry_cursor(struct S8004CBFC_a0 *, struct S8004CBFC_a1 *
 void process_shop_record_and_subrecord(s32);
 void position_shop_row_widgets(ShopWindow *menu);
 void position_shop_child_elements(ShopWindow *parentObject);
-void populate_shop_item_rows(ShopWindow *ctx);
 extern M2C_UNK D_800788E0;
 struct S8004CBFC_a1; extern struct S8004CBFC_a1 shop_cursor_template;
 extern M2C_UNK D_800D15F4;

@@ -16,6 +16,7 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/monster/troll.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
 
 typedef struct S_8017472C_0 {
     u8 pad_00[0x8C];
@@ -42,7 +43,6 @@ typedef struct S_8017472C_6 {
 
 
 extern int abs(int);
-extern void *create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);
 extern void spawn_random_color_burst_particle();
 
 

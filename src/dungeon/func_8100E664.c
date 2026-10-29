@@ -95,7 +95,7 @@ typedef struct SignedHeight {
 #include "engine/graphics/select_sprite_entry_api.h"
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 #include "dungeon/actor/state/advance_status_timers_api.h"
-s32 select_dungeon_spawn_tile(u8 *, u8 *);
+#include "dungeon/actor.h"
 struct S_800AD594_0; void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 extern s16 dungeon_room_count;
 extern s32 D_8016B058;

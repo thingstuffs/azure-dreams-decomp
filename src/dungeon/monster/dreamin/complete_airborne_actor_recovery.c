@@ -35,12 +35,6 @@ typedef struct S_801722BC_2 {
     u16 unk_46;
 } S_801722BC_2;   /* arg3 in complete_airborne_actor_recovery */
 
-
-
-extern void on_actor_status_updated(void *);
-
-
-
 extern u8 dreamin_action_continuation_address[];
 extern u8 D_80173884[];
 extern u8 D_8017388C[];

@@ -25,11 +25,6 @@ typedef struct S_80172290_0 {
     s32 unk_A0;
 } S_80172290_0;   /* arg0 in complete_actor_arc_movement */
 
-
-extern void on_actor_status_updated(void *);
-
-
-
 extern s32 battnel_action_resume_address;
 
 /* Advance arcing movement toward the destination tile and finalize the landing. */

@@ -89,12 +89,10 @@ s32 is_default_object_data(Rec_func_80094268_arg0 *);
 /* extern */
 extern void D_800CBAAC();
 extern M2C_UNK D_800D6A58;
-void * create_town_effect_object(s32, struct IntVector3 *, s32, s32);
 
 extern void *D_800D68B0[];
 
 /* Functions defined in this translation unit. */
-void * create_and_invoke_render_object(s32 initial_value, s32 resource_index);
 void update_entity_relative_position(Rec_D_80082D58 *entity, IntVector3 *out_pos);
 void invoke_object_handler(S_800CBAAC_0 *object, s32 callback_arg1, s32 callback_arg2);
 void allocate_variant_object(s32 variant, s32 x, s32 y);

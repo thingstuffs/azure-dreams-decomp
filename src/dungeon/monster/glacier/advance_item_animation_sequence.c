@@ -4,6 +4,7 @@
 #include "shared/game_work.h"
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/actor.h"
 extern u8 resident_globals_page[];
 
 typedef struct S_80172F04_0 {

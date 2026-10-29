@@ -12,6 +12,7 @@
 #include "town/player/position.h"
 #include "town/scene/object.h"
 #include "town/shop.h"
+#include "town/scene.h"
 
 typedef struct { s32 words[21]; } TownRecord;
 

@@ -6,6 +6,7 @@
 #include "shared/town_handler.h"
 
 #include "town/player/object/entity_record_fields.h"
+#include "town/player/object.h"
 extern s32 D_8009AD70;
 extern s32 D_800D0198;
 

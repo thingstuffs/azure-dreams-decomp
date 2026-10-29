@@ -8,6 +8,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
 #include "dungeon/level.h"
+#include "dungeon/actor.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 check_neighbor_tile_blocking();             /* extern */

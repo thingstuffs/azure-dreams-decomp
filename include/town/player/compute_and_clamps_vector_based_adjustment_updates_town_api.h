@@ -6,6 +6,4 @@
 struct TownObj;
 struct TownVec;
 
-void compute_and_clamps_vector_based_adjustment_updates_town(struct TownObj *, s32, struct TownVec * *);
-
 #endif

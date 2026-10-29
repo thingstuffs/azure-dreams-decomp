@@ -3,6 +3,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AA910. */
 #include "town/menu/flower_part_positions_g00582.h"
 #include "shared/object_flags.h"
+#include "town/event/state.h"
 
 #include "shared/object_node.h"/* present_flower_set: create a flower gift object and initialize its state and callback data. */
 /*

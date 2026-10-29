@@ -8,8 +8,6 @@
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
 
-extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
-
 extern u8 D_801760D4;
 
 typedef struct S_80173730_0 {

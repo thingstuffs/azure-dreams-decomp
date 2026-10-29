@@ -9,7 +9,6 @@
 #include "records/Rec_D_80082D58.h"
 #include "engine/graphics.h"
 
-s32 view_relative_angle_sector();
 extern u8 animation_tick_scale;
 
 /* Functions defined in this translation unit. */

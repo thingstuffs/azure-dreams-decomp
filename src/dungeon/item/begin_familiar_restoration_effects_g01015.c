@@ -7,6 +7,8 @@
 #include "dungeon/item/begin_familiar_restoration_effects_g01015.h"
 #include "shared/object_flags.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
+#include "dungeon/effect/screen.h"
 
 /* Processes the two object slots if has_enough_available_runtime_nodes(2) succeeds. */
 s32 begin_familiar_restoration_effects(void)

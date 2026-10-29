@@ -58,7 +58,7 @@ s32 try_move_actor_to_valid_position(void *action, void *context, void *position
 void apply_clamped_actor_value_delta(void *entity);
 
 /* dungeon/actor/process_selected_actor_record.c */
-s32 process_selected_actor_record(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
+s32 process_selected_actor_record(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *record);
 s32 check_scaled_value_threshold(ActorRecord *state);
 
 
@@ -69,5 +69,37 @@ s32 attempt_action_six_if_eligible(struct S_800C8DB0_0 *entity, s16 threshold, s
 s32 select_dungeon_spawn_tile(u8 *x_out, u8 *y_out);
 
 s32 lookup_definition_pair_value(s16 firstKey, s16 secondKey);
+
+struct DungeonSlot;
+struct CallbackOwner;
+struct ActorHopExtra;
+struct ActorHopMotion;
+struct ActorHopParams;
+struct ActorHopState;
+s32 advance_actor_pending_action(void *actor_state, void *action, void *status, void *actor);
+s32 advance_staged_entity_load(s32 unused, u8 *entity);
+void advance_status_timers(void *record);
+void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
+void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState *target, u8 *direction_table, void *next_state);
+s32 cap_pending_actor_value_delta(void *entry);
+s16 check_adjacent_tile_height_clearance(u16 x, u16 y, s32 z, void *skip_check);
+s32 check_entity_flag_20000000(u8 *entity);
+void *choose_best_eligible_entry(void *owner_arg, void *start, s32 score_limit);
+void *create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);
+s32 find_matching_initial_stat_slot(u8 *record);
+s32 find_slot_by_definition_kind(u8 *slots, u8 kind);
+s32 find_type_13_slot_index(struct DungeonSlot *targetSlot);
+void install_actor_action_handler_after_floor_trap_check(struct CallbackOwner *owner, ObjectPosition *position, void *tile, ActorRecord *actor);
+s32 is_linked_entity_flagged_10000000(EntityRec *entity);
+s32 is_linked_entity_flagged_2000000(EntityRec *entity);
+s32 is_linked_entity_flagged_80000(EntityRec *entity, void *unused_context);
+void on_actor_status_updated(void *actor);
+s32 resolve_actor_floor_trap_once(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
+s16 resolve_alternate_spell_id(s32 tile_index);
+s32 select_creature_action_and_target(void *unused, u8 *position, ActorRecord *creature, s32 lower_limit, u16 upper_limit, s8 *status_out_addr);
+s16 select_highest_value_item(s32 records_addr, s32 item_kind);
+s32 update_actor_defeat_removal(ActorRecord *state, ObjectPosition *position, struct SpriteFrameState *sprite, ActorRecord *entity_data);
+s32 update_actor_hop_and_grow(struct ActorHopState *state, struct ActorHopMotion *motion, struct ActorHopParams *params, struct ActorHopExtra *extra);
+s32 update_thrown_actor_travel(void *move_state, ObjectPosition *motion, SpriteFrameState *tile_pos, ActorRecord *actor);
 
 #endif

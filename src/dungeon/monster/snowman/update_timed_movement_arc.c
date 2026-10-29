@@ -32,10 +32,6 @@ typedef struct S_80154C54_0 {
 
 extern s32 rsin(s32);
 
-extern void on_actor_status_updated(void *);
-
-
-
 extern s32 D_801537F4;
 extern u8 snowman_frame_set_5[];
 extern u8 D_801579A8[];

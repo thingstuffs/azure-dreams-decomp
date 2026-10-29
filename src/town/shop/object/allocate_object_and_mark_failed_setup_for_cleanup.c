@@ -7,8 +7,7 @@
 #include "engine/item.h"
 #include "town/shop.h"
 #include "town/shop/object.h"
-
-void *link_monster_status_display_entries();                           /* extern */
+#include "town/shop/state.h"
 
 typedef struct S_800B6A0C_1 {
     u8 pad_00[0x94];

@@ -36,8 +36,8 @@ typedef union {
 /* cfail-repair: tf7-phase1-cache-v3 */
 void apply_random_actor_value_adjustment(struct Row_818FE800_Target *target, s32 level, void *record);          /* extern */
 #include "dungeon/effect/particle.h"
+#include "dungeon/actor.h"
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
-s16 check_adjacent_tile_height_clearance(u16 x, u16 y, s32 z, void *skip_check);           /* extern */
 void draw_transformed_sprite_with_clip_rect(); /* extern */
 extern Packed8 D_80024028;
 extern Packed32 D_80024038;

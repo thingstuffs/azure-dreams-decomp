@@ -5,6 +5,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/system.h"
+#include "dungeon/level.h"
 
 typedef struct {
     u8 pad0[0x1c];
@@ -25,8 +26,6 @@ typedef struct {
 } Object;
 
 extern s32 get_entity_effect_value(void *, s32);
-extern void process_unflagged_linked_entries(s32);
-extern void process_unflagged_linked_entries_alt(s32);
 
 /* Waits for status slot 1 to clear, processes linked actors, and updates pending-action and dungeon flags. */
 void update_timed_actor_action(Object *object, s32 unused1, s32 unused2, Resource *resource) {

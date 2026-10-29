@@ -6,11 +6,10 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/actor_action.h"
 #include "dungeon/player/object.h"
+#include "dungeon/actor.h"
 
    /* arg0 in advance_actor_timed_transition */
 
-extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
-extern void apply_clamped_actor_value_delta(void *);
 extern s32 weadog_action_resume_address;
 
 /* Advance a timed entity state transition, clearing motion and updating its handler. */

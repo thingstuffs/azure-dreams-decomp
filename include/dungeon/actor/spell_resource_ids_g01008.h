@@ -107,8 +107,6 @@ extern s32 D_800E58B0[];
 
 /* Functions defined in this translation unit. */
 s32 resolve_spell_effect_resource_id(s16 index);
-s16 resolve_alternate_spell_id(s32 tile_index);
-void *create_actor_spell_effect(void *actor, void *effect_record, s16 mode, void *context);
 s32 load_spell_effect_code(s32 selection_id, s32 alternate_table, s32 unused);
 
 #endif

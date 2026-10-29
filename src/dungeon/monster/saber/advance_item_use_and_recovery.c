@@ -25,14 +25,10 @@ typedef struct {
     u32 words[12];
 } Copy48;
 
-
-
-
-extern void *create_actor_spell_effect(void *actor, void *effect_record, s16 mode, void *context);
-
 extern u8 D_80171020[];
 #include "dungeon/monster/saber.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
 
 extern u8 D_80174E34[];
 

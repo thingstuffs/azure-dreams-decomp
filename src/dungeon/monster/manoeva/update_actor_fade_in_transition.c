@@ -16,6 +16,7 @@
 #include "engine/entity.h"
 #include "engine/node.h"
 #include "dungeon/monster/manoeva.h"
+#include "dungeon/actor.h"
 
 
 
@@ -28,7 +29,6 @@ extern s8 func_80042518(void *, s32);
 extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern void resolve_familiar_deployment_request(void *, void *, void *, s32);
 extern s32 find_entity_slot_by_field_ac(void *);
-extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
 
 extern u8 manoeva_action_resume_address[];
 extern u8 manoeva_frame_set[];

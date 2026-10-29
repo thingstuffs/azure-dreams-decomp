@@ -8,8 +8,8 @@ typedef struct S_800C8ABC_0 {
 
 
 #include "dungeon/actor/status.h"
+#include "dungeon/actor.h"
 extern s32 generate_random_value(void);
-extern s32 is_linked_entity_flagged_2000000(void *record);
 
 /* Roll a chance against the record's stride and, on a win, run the action action. */
 s32 roll_chance_and_run_action(void *record, s16 chance, s8 action)

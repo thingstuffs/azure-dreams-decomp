@@ -13,6 +13,7 @@ struct ObjectNodeHeader;
 #include "shared/dungeon_moving_views.h"
 #include "shared/object_links.h"
 #include "dungeon/actor/effect.h"
+#include "dungeon/actor.h"
 
 typedef struct S_800CB82C_2 {
     u8 pad_00[0x2];
@@ -53,7 +54,6 @@ typedef struct S_800CB82C_5 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);                      /* extern */
-void * create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context); /* extern */
 extern void D_800CB600(void *effect, ObjectPosition *position, SpriteFrameState *appearance);
 extern M2C_UNK D_800E03BC;
 extern u8 active_spell_parameters;

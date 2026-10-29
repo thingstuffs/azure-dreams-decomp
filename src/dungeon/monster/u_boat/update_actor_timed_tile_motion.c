@@ -38,8 +38,6 @@ typedef struct S_801730C4_2 {
 
 
 extern s32 rsin(s32);
-extern void on_actor_status_updated(void *);
-
 
 void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosition *source_position, SpriteFrameState *source_sprite);
 

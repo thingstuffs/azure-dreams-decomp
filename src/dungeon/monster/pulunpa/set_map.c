@@ -16,6 +16,7 @@ typedef s32 M2C_UNK;
 typedef struct S_800AA258_2 S_800AA258_2;
 #include "records/Rec_func_800AA258_arg2.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
 typedef struct S_8017405C_1 S_8017405C_1;
 
 typedef struct S_set_map_0 {
@@ -44,10 +45,8 @@ s32 can_entity_gain_level(void *creature);
 void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *state, void *unused,void *position,void *actor);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-extern s32 advance_actor_pending_action(void *actor_state, void *action, void *status, void *actor);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
-extern s32 process_selected_actor_record(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void update_object_or_select_directional_data(void *object_arg, void *context, void *source_arg, void *target_arg);
 extern void choose_heading_and_advance_actor(void *context, s32 action, S_8017405C_1 *actor, void *movement);
 void func_80174924(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);

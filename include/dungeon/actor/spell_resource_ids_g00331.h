@@ -16,6 +16,5 @@ extern u8 spell_resource_ids[9];
 
 /* Functions defined in this translation unit. */
 s32 resolve_spell_effect_resource_id(s16 index);
-s32 resolve_alternate_spell_id(s32 tile_index);
 
 #endif

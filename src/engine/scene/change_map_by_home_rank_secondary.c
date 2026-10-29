@@ -5,8 +5,8 @@
 #include "engine/object.h"
 #include "engine/scene.h"
 #include "slus/data.h"
+#include "town/shop.h"
 typedef struct InputRecord InputRecord;
-s32 get_player_homerank();                                /* extern */
 
 /* Changes to the map selected by the player home rank in home_rank_secondary_map_table. */
 void change_map_by_home_rank_secondary(void) {

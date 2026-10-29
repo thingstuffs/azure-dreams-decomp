@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/menu.h"
 
 /* extern */
 
@@ -12,8 +13,6 @@ typedef struct S_80124F20_0 {
     s8 unk_0B;
 } S_80124F20_0;   /* arg0 in finish_catalog_detail_opening */
 
-
-void reset_catalog_scroll_indicators(S_80124F20_0 *);
 /* Advance the counter and initialize state eight when the limit is reached. */
 void finish_catalog_detail_opening(S_80124F20_0 *controller) {
     u16 next_count;

@@ -7,6 +7,9 @@
 #include "town/event/state/spawn_and_flag_object_parts_g01128.h"
 #include "shared/object_flags.h"
 #include "town/person/position.h"
+#include "town/player.h"
+#include "town/event/state.h"
+#include "town/player/position.h"
 
 /* Process an object action and set the object and global 0x8000 flags. */
 void spawn_and_flag_object_parts(unsigned short *object, s32 unused, s32 action_id)

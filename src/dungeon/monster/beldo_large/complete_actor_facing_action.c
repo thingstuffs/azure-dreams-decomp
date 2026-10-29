@@ -3,6 +3,7 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/monster/beldo_large.h"
+#include "dungeon/actor.h"
 
 
 

@@ -32,10 +32,6 @@ typedef struct S_80172158_0 {
 
 extern s32 rsin(s32);
 
-extern void on_actor_status_updated(void *);
-
-
-
 extern u8 nyuel_action_resume_address[];
 extern u8 nyuel_frame_set_2[];
 

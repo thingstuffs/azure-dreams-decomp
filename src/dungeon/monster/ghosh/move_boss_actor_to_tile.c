@@ -17,7 +17,6 @@ typedef struct S_80047784 S_80047784;
 struct SpriteFrameState;
 #include "dungeon/player/object/set_record_integer_tile_center_api.h"
 #include "dungeon/actor/state/advance_status_timers_api.h"
-void on_actor_status_updated(void *actor);
 struct ActorRecord; struct Rec_D_80082E80; 
 
 typedef struct {

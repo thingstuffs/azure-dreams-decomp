@@ -475,8 +475,6 @@ void select_record_entry_and_value(void *state, void *entries, short index);
 extern u8 seven_color_sprite_data[];
 s32 draw_linked_sprites_clipped(u8 *first_data, s32 link_value, void *value_record);
 s32 func_80045C34(u8 *first_data, s32 link_value, void *value_record);
-extern s16 cap_pending_actor_value_delta(void *);
-extern void apply_clamped_actor_value_delta(void *);
 extern s32 get_random_scaled_value(s16 input_value);
 #include "dungeon/effect/screen.h"
 s32 rcos(s32);

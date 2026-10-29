@@ -1,6 +1,7 @@
 #include "common.h"
+#include "town/scene.h"
+#include "town/menu.h"
 
-extern void write_value_through_pointer(void *, s32);
 extern void initialize_menu_primitive_settings(void *, void *, void *);
 extern void initialize_menu_item_positions(void *);
 /*

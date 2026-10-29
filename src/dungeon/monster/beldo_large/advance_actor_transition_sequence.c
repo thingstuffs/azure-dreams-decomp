@@ -6,6 +6,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/actor.h"
 
 typedef struct S_8016BE20_0 {
     u8 pad_00[0x8C];

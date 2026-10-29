@@ -19,7 +19,6 @@ typedef struct {
     s16 field1A;
 } GlobalState;
 
-extern s32 find_target_byte_index_in_list(void);
 extern u16 fallback_sound_pairs[];
 extern s16 map_scene_selector_alias;
 extern u8 D_800D0004[];

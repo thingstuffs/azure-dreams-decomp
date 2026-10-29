@@ -8,6 +8,7 @@ struct ObjectPosition;
 #include "shared/dir_step.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/level.h"
 
 typedef struct S_800974DC_0 {
     u8 pad_00[0x8C];
@@ -34,7 +35,6 @@ typedef struct S_800974DC_6 {
 } S_800974DC_6;
 
 void select_record_entry_and_value(void *state, void *entries, short index);
-void process_unflagged_linked_entries(s32 firstEntryBase); /* extern */
 void * resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y); /* extern */
 s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value); /* extern */

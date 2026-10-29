@@ -15,6 +15,7 @@
 #include "dungeon/system.h"
 #include "dungeon/item/actor_target.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
 
 
 typedef s32 M2C_UNK;
@@ -23,7 +24,6 @@ typedef s32 M2C_UNK;
 
 extern void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);
 
-extern void *create_actor_spell_effect(void *actor, void *effect_record, s16 mode, void *context);
 extern void create_actor_linked_effect(void *);
 extern void * create_offset_actor_object(void *, ObjectPosition *, SpriteFrameState *);
 

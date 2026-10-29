@@ -41,10 +41,6 @@ typedef struct S_80174F24_3 {
 
 extern s32 rsin(s32);
 
-extern void on_actor_status_updated(void *);
-
-
-
 extern s32 pulunpa_variant_action_address;
 extern u8 D_80176338[];
 extern u8 D_80176340[];

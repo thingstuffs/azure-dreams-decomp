@@ -52,8 +52,6 @@ extern void clear_slots_of_type(void *object, s32 value);
 extern s8 D_800E0DF5[];
 extern D_800DF2A8_fn D_800DF2A8[];
 extern u8 trap_request_blocked[16];
-extern void process_unflagged_linked_entries_alt(s32);
-extern void process_unflagged_linked_entries(s32);
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 
 extern u8 floor_objects[16];
@@ -64,6 +62,5 @@ extern D_800E39C8_entry dungeon_floor_object_positions[];
 s32 select_and_initialize_entry_at_position(s16 x, s16 y, s16 z, s32 type_id, s32 entry_value);
 s32 process_target_with_action_seven(void *target);
 s32 handle_type_two_query_result(void *object);
-s32 call_slot_handler_and_update_status(s32 handler_id, void *object_ptr, s32 slot_id, s8 update_state);
 
 #endif

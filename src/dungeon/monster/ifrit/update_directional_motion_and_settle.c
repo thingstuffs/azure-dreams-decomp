@@ -17,8 +17,6 @@ typedef struct S_801730B8_1 {
     u8 unk_9B;
 } S_801730B8_1;   /* arg0 in update_directional_motion_and_settle */
 
-extern void begin_actor_display_action();
-
 extern s32 ifrit_action_resume_address;
 extern s32 D_80174838;
 

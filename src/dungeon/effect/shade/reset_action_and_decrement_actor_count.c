@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/actor.h"
 
 
 extern void clear_slots_of_type(void *, s32);

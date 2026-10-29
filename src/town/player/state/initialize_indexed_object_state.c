@@ -2,6 +2,7 @@
 #include "town/player/object_initialization_g00546.h"
 #include "shared/object_index_slots.h"
 #include "shared/town_handler.h"
+#include "town/player/object.h"
 
 typedef struct {
     /* 0x00 */ s8 unk0[4];

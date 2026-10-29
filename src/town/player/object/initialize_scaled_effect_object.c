@@ -5,6 +5,7 @@
 #include "town/player/object_setup.h"
 #include "town/menu.h"
 #include "town/player/object.h"
+#include "town/scene.h"
 
 typedef struct S_800A6DA0_0 {
     void (*unk_00)(void *, void *, void *);

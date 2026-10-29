@@ -62,13 +62,13 @@ typedef struct FuncArg {
 
 void refresh_paged_selection_state();
 /* extern */
-s32 allocate_paged_shop_item_list();
+s32 allocate_paged_shop_item_list(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 /* extern */
 s32 create_dual_buffer_object();
 /* extern */
 void advance_dispatch_when_countdown_expires(void *state_data);
 extern void set_shop_object_data_if_present(s32 object);
-extern void set_object_data_pointer_2(s32 object);
+extern void set_object_data_pointer_2(s32 object); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 D_80082AB4[];
 
 extern TownState runtime_script_state;

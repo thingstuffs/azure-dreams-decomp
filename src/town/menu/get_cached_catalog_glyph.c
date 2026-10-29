@@ -11,7 +11,7 @@ struct Entry {
 
 extern s32 Krom2RawAdd(s32);
 extern void DrawSync(s32);
-extern s16 *build_filtered_catalog_glyph(s32, s16 *);
+extern s16 *build_filtered_catalog_glyph(s32, s16 *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 extern s16 catalog_glyph_pixels[];
 extern Entry *catalog_cache_head;

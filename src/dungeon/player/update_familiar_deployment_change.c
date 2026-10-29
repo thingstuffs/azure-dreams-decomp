@@ -25,13 +25,12 @@ void * register_and_upload_sprite_resource();                     /* extern */
 s32 begin_sprite_resource_load_with_completion_flag();                   /* extern */
 void set_sprite_animation_frame(SpriteFrameState *obj, s16 frame_group, s16 frame_index, s32 slot_index); /* extern */
 void store_recalled_familiar(); /* extern */
-void process_unflagged_linked_entries(s32 firstEntryBase);                         /* extern */
-void process_unflagged_linked_entries_alt(s32 firstNodeBase);                         /* extern */
 void unlink_entity_node(struct EntityLinkNode *node);                      /* extern */
 u8 * find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type);                     /* extern */
 void decrement_monster_entry_count(s16 requested_id, s16 requested_type);                 /* extern */
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/item.h"
+#include "dungeon/level.h"
 struct Entity;
 struct EntityLinkNode;
 void mark_owned_linked_actor_actions(struct Entity *owner_entity);                      /* extern */

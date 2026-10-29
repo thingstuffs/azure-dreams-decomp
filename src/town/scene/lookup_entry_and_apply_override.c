@@ -2,7 +2,7 @@
 #include "common.h"
 
 extern s32 func_80016BC0(void *, void *, s32, s32);
-extern s32 advance_counter_modulo_eight(void *, s32, s32);
+extern s32 advance_counter_modulo_eight(void *, s32, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
 extern void func_80017674(s32);
 extern s32 func_800176F4(s32);
 

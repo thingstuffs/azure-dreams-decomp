@@ -17,4 +17,10 @@ s32 count_entries_with_flag_20(void *entries);
 s32 func_800B44F0(void *state, s32 input);
 void set_linked_flag(s32 bit_index);
 
+#include "shared/item_menu.h"
+#include "records/Rec_func_800B683C_arg0.h"
+void *link_monster_status_display_entries(void *target);
+s32 release_monster_status_request_handles(Rec_func_800B683C_arg0 *owner);
+void reset_item_menu_object_state(ItemMenuObjectNode *object);
+
 #endif

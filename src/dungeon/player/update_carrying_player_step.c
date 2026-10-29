@@ -5,9 +5,8 @@
 
 #include "engine/graphics.h"
 s32 collect_ground_item();
-void process_unflagged_linked_entries(s32 firstEntryBase);
-void process_unflagged_linked_entries_alt(s32 firstNodeBase);
 #include "dungeon/player/object.h"
+#include "dungeon/level.h"
 extern s32 player_action_tag;
 extern u8 player_height_step_frames[];
 extern u8 player_landing_frame_set[];

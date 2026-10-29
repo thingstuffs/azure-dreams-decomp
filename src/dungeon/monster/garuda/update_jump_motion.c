@@ -16,6 +16,7 @@ extern int abs(int);
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
 
 typedef struct S_80172834_0 {
     u8 pad_00[0x8C];
@@ -34,7 +35,6 @@ typedef struct S_80172834_3 {
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void play_sound_if_enabled(s32);
-extern void * create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);
 extern void create_two_row_object_group(void *payload, s16 value_scale);
 
 extern u8 garuda_frame_set_3[];

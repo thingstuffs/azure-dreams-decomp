@@ -24,7 +24,6 @@ typedef struct S_801741CC_0 {
 extern void select_sprite_entry(void *, s32, s32);
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 #include "dungeon/player/object/action_state.h"
-extern void on_actor_status_updated(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
@@ -32,6 +31,7 @@ extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition 
 extern void func_80174520(void *, void *, void *, void *);
 
 #include "dungeon/monster/cyclone.h"
+#include "dungeon/actor.h"
 extern u8 cyclone_frame_set_1[];
 
 /* Update the actor action state, directional animation, and entity flags. */

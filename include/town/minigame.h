@@ -19,7 +19,7 @@ void initialize_minigame_display(void *context);
 void update_bouncing_pickup(void *pickup, ObjectPosition *motion, SpriteFrameState *sprite);
 void update_bouncing_pickup_after_hit(void *object, ObjectPosition *motion, SpriteFrameState *sprite);
 void update_snowball_minigame_actor(TownCollectionActor *object, ObjectPosition *motion, SpriteFrameState *sprite);
-void update_minigame_approach_motion(void *motion_state, ObjectPosition *motion);
+void update_minigame_approach_motion(void *motion_state, void *motion);
 
 void count_entries_matching_search_path(TownCollectionSequence *scene);
 
@@ -60,5 +60,7 @@ void update_directional_record(struct KeimaPathActor *orientation, void *state_p
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void create_timed_sound(s16 value);
 void draw_scrolling_column(s16 column, s16 tile_index, s16 scroll_y);
+
+s32 draw_translucent_gradient_line_list(void *first_entry);
 
 #endif

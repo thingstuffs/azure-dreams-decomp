@@ -39,10 +39,6 @@ typedef struct S_801670E0_1 {
 
 extern s32 rsin(s32);
 
-extern void on_actor_status_updated(void *);
-
-
-
 extern s32 D_80165CE8;
 extern u8 D_80168EB8[];
 extern u8 D_80168ED0[];

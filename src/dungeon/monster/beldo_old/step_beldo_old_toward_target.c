@@ -33,7 +33,7 @@ extern s16 func_80099330(s32, s32, s32, s16);
 extern s16 func_8009EB6C(s32, s32, s32, s32);
 extern void find_active_rect_containing_point(void *, s8, void *, void *);
 extern s16 func_800996B0(s16, void *, void *, s32);
-extern void initialize_indexed_object_and_lookup_value(s32, s32, s32);
+extern void initialize_indexed_object_and_lookup_value(s32, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void func_8009900C(s32, s32, s32);
 extern s16 func_80098F70(void *, void *);
 extern s16 func_800BB784(s32, s32, s16);

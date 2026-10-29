@@ -195,18 +195,17 @@ s32 check_door_input_and_angle(Rec_func_800A0668_arg0 *object, void *test_value)
 extern void unlink_node_if_registered(void *);
 extern void func_80033D08(void *);
 extern s32 classify_object_against_bounds(void *, void *);
-extern void * create_object_with_shared_data(void *input_first, s32 input_second, s32 input_third, u8 input_fourth);
+extern void * create_object_with_shared_data(void *input_first, s32 input_second, s32 input_third, u8 input_fourth); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void initialize_player_entity_callbacks(s32 entity_id, s32 x, s32 y);
 extern void initialize_entity_handlers_and_position(s16 actor_value, s16 position_value_1, s16 position_value_2);
 extern void change_map(struct InputRecord *input);
-extern s32 find_target_byte_index_in_list(void);
-extern s16 create_objects_descending_by_count();
+extern s32 create_objects_descending_by_count(s32 object_key, s32 payload_value, s32 payload_param, s32 count);
 s32 count_consecutive_nonzero_entries_up_twenty(void);
 void set_player_block_value(s32 value);
 s32 service_script_controller(void);
 s32 func_800352FC(void);
 s16 initialize_object_items_in_reverse(void *ptr, s32 stateId, s16 currentState);
-void no_op_callback_a(void *ptr, s32 stateId, s32 stateArg);
+void no_op_callback_a(void *ptr, s32 stateId, s32 stateArg); /* Unprototyped: retail call passes more arguments than the callee reads */
 void sound_set_cd_cue_parameters(s32 value0, s32 value1, s32 value2, s32 value3);
 void SD_Call(s32 value);
 extern void clear_resident_bit_patterns(void);

@@ -160,9 +160,6 @@ s32 func_80042640(void *, s32);
 #include "engine/graphics.h"
 s32 strcpy(void *, s32);
 struct DungeonItemEntry;
-s16 find_table_value_index();
-void process_unflagged_linked_entries(s32 firstEntryBase);
-void process_unflagged_linked_entries_alt(s32 firstNodeBase);
 struct EntityLinkNode;
 void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
@@ -176,6 +173,8 @@ s32 play_sound_if_enabled(s32 query_value);
 s32 display_text_with_fullwidth_adjustment(s8 *text);
 s32 generate_random_value(void);
 #include "dungeon/actor/effect.h"
+#include "dungeon/system.h"
+#include "dungeon/level.h"
 #define D_80010000_PTR ((D_80010000_T *)0x80010000)
 extern s32 monster_species_table;
 

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "records/Rec_func_801237A4_arg0.h"
 #include "shared/object_payload.h"
+#include "town/menu.h"
 
 
 
@@ -12,7 +13,6 @@ typedef struct S_80125DDC_2 {
 
 
 extern void store_cached_value_at_pointer(void);
-extern void refresh_catalog_primary_detail(void *);
 extern s8 catalog_display_node_slots;
 
 /* Updates or clears table entries according to the request code. */

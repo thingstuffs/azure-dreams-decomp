@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "engine/entity.h"
+#include "dungeon/actor.h"
 
 /* Finds a record slot matching an initial-stat value group, or returns -1. */
 s32 find_matching_initial_stat_slot(u8 *record) {

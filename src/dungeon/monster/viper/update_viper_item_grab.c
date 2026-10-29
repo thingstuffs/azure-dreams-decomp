@@ -7,6 +7,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/actor.h"
 
 typedef struct {
     Fixed1616 x;

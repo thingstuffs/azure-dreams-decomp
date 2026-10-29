@@ -8,6 +8,7 @@ struct ObjectPosition;
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "dungeon/monster/golem.h"
+#include "dungeon/actor.h"
 
 typedef struct S_80172504_0 {
     u8 pad_00[0x2A];

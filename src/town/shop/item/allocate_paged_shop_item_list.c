@@ -24,7 +24,7 @@ typedef struct S_800B3D50_node {
 } S_800B3D50_node;
 
 extern void * copy_records_through_end(void *a0,void *a1);
-extern void *link_shop_nodes_in_configured_order(void *a0);
+extern void *link_shop_nodes_in_configured_order(void *a0); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void configure_shop_object_and_finalize(void *a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7);
 extern void draw_tinted_node_sprites_scratch(void);
 

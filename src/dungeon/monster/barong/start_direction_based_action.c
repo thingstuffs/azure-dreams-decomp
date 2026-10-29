@@ -3,6 +3,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/actor.h"
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void apply_scaled_entity_velocity(void *);

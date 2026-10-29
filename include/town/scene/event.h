@@ -20,4 +20,8 @@ void process_event_145_c_and_dispatch(void *dispatch_value, s32 unused, s32 disp
 void *select_event_data_and_fallback(void *object, s32 unused, s32 eventCode);
 void set_event_state_and_dispatch_a_2(void);
 
+s32 *clear_event_resource_state_and_get_buffer(void);
+void dispatch_event_63_a_through_193_e_0(void);
+u8 *get_event_data_pointer(void);
+
 #endif

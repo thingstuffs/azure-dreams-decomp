@@ -8,9 +8,6 @@
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
 
-
-extern void begin_actor_display_action();
-
 extern s32 nyuel_action_resume_address;
 extern s32 nyuel_frame_set;
 

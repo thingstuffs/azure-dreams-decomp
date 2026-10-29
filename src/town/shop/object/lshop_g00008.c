@@ -3,6 +3,7 @@
  */
 #include "town/shop/object/lshop_g00008.h"
 #include "town/shop/object.h"
+#include "town/shop.h"
 
 /* Clear a shop object and its linked state after asserting that the reference matches. */
 void clear_shop_object_and_link(u8 *object_ref)

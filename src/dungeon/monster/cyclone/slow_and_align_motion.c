@@ -7,10 +7,7 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/player/object.h"
-
-
-extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
-extern void apply_clamped_actor_value_delta(void *);
+#include "dungeon/actor.h"
 
 extern u8 D_801764B0;
 

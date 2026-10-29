@@ -33,10 +33,6 @@ typedef struct S_801730E0_0 {
 
 extern s32 rsin(s32);
 
-extern void on_actor_status_updated(void *);
-
-
-
 extern s32 weadog_action_resume_address;
 extern u8 weadog_frame_set_3[];
 extern u8 weadog_frame_set_7[];

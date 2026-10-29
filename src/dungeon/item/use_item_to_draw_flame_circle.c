@@ -10,6 +10,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/system.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/effect/screen.h"
 
 typedef struct S_800C13C8_0 {
     void * unk_00;
@@ -33,7 +34,6 @@ typedef struct S_800C13C8_1 {
 s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32);           /* extern */
 void clear_slot_and_update_linked_state(DungeonItemEntry *slot);                         /* extern */
 void display_formatted_context_message(void *context);                   /* extern */
-void * create_five_point_effect(); /* extern */
 extern s32 D_800C135C(void);
 extern u8 ribbon_sprite_entries[];
 extern u8 D_800E1482[];

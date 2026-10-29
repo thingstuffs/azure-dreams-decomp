@@ -9,6 +9,7 @@
 #include "engine/runtime.h"
 #include "town/person/effects.h"
 #include "town/minigame.h"
+#include "town/shop/object.h"
 extern int abs(int);
 
 /* The record behind a minigame object node (node + 0x20) and the base record D_800834B8 (the node's record half).

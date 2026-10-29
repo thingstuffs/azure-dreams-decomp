@@ -3,6 +3,4 @@
 
 #include "common.h"
 
-void clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2(s32 *);
-
 #endif

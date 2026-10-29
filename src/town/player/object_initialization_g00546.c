@@ -2,6 +2,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D01E0. */
 #include "town/player/object_initialization_g00546.h"
 #include "town/player.h"
+#include "town/player/object.h"
 
 /* Initialize the object and pass the setup value to the next initialization step. */
 void initialize_object_with_count_four(Rec_func_80094268_arg0 *object, s32 setupValue, void *ptr2) {

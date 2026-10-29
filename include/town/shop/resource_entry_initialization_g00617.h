@@ -26,7 +26,6 @@ typedef struct S_800B29D0_0 {
 s32 create_callback_pair_default();
 void get_zero_based_group_index(struct TownB4C60 *);
 /* extern */
-s32 get_mode_selected_value();
 
 /* Functions defined in this translation unit. */
 void collect_enabled_entry_pointers(s32 *entries, s32 entry_count);

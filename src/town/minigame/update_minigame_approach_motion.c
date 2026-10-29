@@ -2,6 +2,7 @@
 #include "shared/entity.h"
 #include "shared/object_flags.h"
 #include "sdk/libgte.h"
+#include "town/minigame.h"
 
 typedef struct S_800220A8_0 {
     s16 unk_00;

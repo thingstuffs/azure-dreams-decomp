@@ -16,16 +16,15 @@
 #include "slus.h"
 #include "sdk/libc.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
 struct ActorRecord; s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 s32 can_entity_gain_level(void *entity);
 void update_actor_status_and_mp(struct ActorRecord *);
 void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);
 s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-s32 advance_actor_pending_action(void *, void *, void *, void *);
 struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2; void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
-void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState *target, u8 *direction_table, void *next_state);
 void advance_multi_form_turn_path(ActorRecord *actor, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *movement);
 void advance_actor_movement_step(u8 *, ObjectPosition *, u8 *, u8 *);
 struct Rec_D_80082E80; struct Rec_func_800A9E70_arg0; s32 try_actor_attack(ActorRecord *action_state, ObjectPosition *action_id, SpriteFrameState *target, ActorRecord *actor);

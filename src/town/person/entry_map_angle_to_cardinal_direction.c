@@ -10,7 +10,7 @@ extern s32 runtime_script_state[];
 extern u8 message_motion_type_a[];
 extern u8 message_motion_type_b[];
 
-extern s32 map_angle_to_cardinal_direction(s32, void *);
+extern s32 map_angle_to_cardinal_direction(s32, void *); /* Unprototyped: retail call passes more arguments than the callee reads */
 
 /* anyone_now_ang_get: store the selected object's current angle in the script result. */
 void anyone_now_ang_get(s32 object_slot) {

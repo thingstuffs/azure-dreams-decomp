@@ -6,6 +6,7 @@
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/travel.h"
+#include "dungeon/actor.h"
 void (*const dungeon_ovl_18ca83c_entry)(void *effect, void *motion, void *appearance) = advance_target_travel_effect;
 
 /* Adds a random actor value delta with an optional eighth bonus, clamps it, displays a popup, and

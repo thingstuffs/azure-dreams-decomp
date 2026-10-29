@@ -17,8 +17,6 @@ typedef struct S_80172F98_0 {
     u8 unk_9B;
 } S_80172F98_0;   /* arg0 in update_directional_motion_and_target_tile */
 
-extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
-
 #include "dungeon/monster/stealth.h"
 extern u8 D_80173D60[];
 

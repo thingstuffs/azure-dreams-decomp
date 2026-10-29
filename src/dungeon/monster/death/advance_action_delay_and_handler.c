@@ -8,9 +8,6 @@
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
 
-
-extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
-
 extern s32 death_action_resume_address;
 
 /* Advance the action delay, reset motion, and select the next handler. */

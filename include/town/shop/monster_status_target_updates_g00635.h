@@ -63,7 +63,6 @@ typedef struct S_800B6C30_0 {
  * for the load and the store, matching this function's tail. */
 extern int D_800814A0;
 extern void release_null_terminated_entries(u16 **a0);
-extern void release_monster_status_request_handles(void *owner);
 void process_object_data_by_mode(void *);
 /* extern */
 s32 invalidate_cached_state_and_queue_read(void *);

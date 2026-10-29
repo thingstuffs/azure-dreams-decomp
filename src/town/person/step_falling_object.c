@@ -6,7 +6,7 @@
 #include "town/player.h"
 #include "town/scene.h"
 
-extern void load_indexed_state_value(void *, void *, s32);
+extern void load_indexed_state_value(void *, void *, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
 extern s32 D_800D636C[2];
 
 

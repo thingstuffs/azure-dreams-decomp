@@ -204,7 +204,5 @@ extern u8 entity_resource_read_complete[];
 extern u8 D_800E0000[];
 
 /* Functions defined in this translation unit. */
-s32 select_dungeon_spawn_tile(u8 *x_out, u8 *y_out);
-s32 advance_staged_entity_load(s32 unused, u8 *entity);
 
 #endif

@@ -22,6 +22,7 @@ extern u8 *clear_byte_and_advance(u8 *byte_ptr);
 extern u8 *append_entity_display_text(void *record, u8 *out);
 #include "dungeon/effect/screen.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 get_random_scaled_value(s16 input_value);
 
@@ -1601,8 +1602,6 @@ extern Copy12 D_80026934;
 extern u8 mesh_edge_payload_template[12];
 extern s16 point_cloud_update_flag[5];
 extern u8 D_8007CCD8[];
-extern s32 check_adjacent_tile_height_clearance(u16, u16, s16, void *);
-
 
 #define U8(p, o) (*(u8 *)((u8 *)(p) + (o)))
 #define S8(p, o) (*(s8 *)((u8 *)(p) + (o)))

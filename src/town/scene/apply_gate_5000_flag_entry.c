@@ -6,14 +6,12 @@
 
 extern u8 D_8001C33C[];
 extern u8 D_8001E6B4[];
-extern s32 apply_record_value_when_enabled(SquareSceneEntry *, s32);
 extern void *dispatch_through_table_bb_5_c(SquareSceneEntry *, s32, s32);
-extern s32 process_request_and_notify(SquareSceneEntry *, s32);
 extern void *dispatch_through_table_bb_64(SquareSceneEntry *, s32, s32);
 extern s32 apply_gate_5211_flag_entry(SquareSceneEntry *, s32);
 extern void *dispatch_through_table_bb_74(SquareSceneEntry *, s32, s32);
 extern void *dispatch_entry_or_return_override(SquareSceneEntry *, s32, s32);
-extern void *is_pair_result_valid_b(SquareSceneEntry *, s32, s32);
+extern void *is_pair_result_valid_b(SquareSceneEntry *, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void *func_8001793C(SquareSceneEntry *, s32, s32);
 extern void *dispatch_entry_or_process_fallback(SquareSceneEntry *, s32, s32);
 extern void *select_square_entry_or_fallback(SquareSceneEntry *, s32, s32);
@@ -25,8 +23,8 @@ extern s32 func_80017D74(SquareSceneEntry *, s32);
 extern void *invoke_handler_with_code_798(SquareSceneEntry *, s32, s32);
 extern s32 func_80017E34(SquareSceneEntry *, s32);
 extern void *dispatch_through_table_bbc_4(SquareSceneEntry *, s32, s32);
-extern void *get_shared_entry_buffer(SquareSceneEntry *, s32, s32);
-extern s32 return_zero_fn(SquareSceneEntry *, s32);
+extern s32 *get_shared_entry_buffer(void);
+extern s32 return_zero_fn(void);
 extern s32 process_checked_entry(void *, s32);
 
 s32 apply_gate_5000_flag_entry(SquareSceneEntry *entry, s32 entry_index) {

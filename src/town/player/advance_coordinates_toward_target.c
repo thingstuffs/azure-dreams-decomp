@@ -19,6 +19,7 @@ typedef struct S_80098544_1 {
 
 #include "town/player/object/entity_record_fields.h"
 #include "town/player.h"
+#include "town/player/object.h"
 
 /* Advance the fixed-point coordinates toward their targets and finish when the countdown expires. */
 void advance_coordinates_toward_target(S_80098544_0 *state, S_80098544_1 *position) {

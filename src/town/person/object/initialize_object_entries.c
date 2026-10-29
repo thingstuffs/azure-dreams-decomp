@@ -1,9 +1,9 @@
 #include "common.h"
 
 #include "town/system/person_idle_dispatch.h"
-extern s32 quantize_heading_to_sector(s32 referenceAngle, s16 sectorCount);
 
 #include "town/person/object/initialize_object_entries_api.h"
+#include "town/person.h"
 
 /* Store and count a zero-terminated entry list, then initialize the output with a selected entry. */
 void initialize_object_entries(Struct800C5724 *state, SpriteFrameState *output, s32 *entries) {

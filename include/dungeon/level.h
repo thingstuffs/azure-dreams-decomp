@@ -31,4 +31,9 @@ void process_unflagged_linked_entries_alt(s32 firstNodeBase);
 
 void func_800BCFBC(s32 selector);
 
+struct Source;
+s32 call_slot_handler_and_update_status(s32 handler_id, void *object_ptr, s32 slot_id, s8 update_state);
+void *spawn_object_at_target_position(struct Source *source, s16 target_x, s16 target_y);
+s32 update_object_coordinates_if_valid(SpriteFrameState *object, EntityRec *context);
+
 #endif

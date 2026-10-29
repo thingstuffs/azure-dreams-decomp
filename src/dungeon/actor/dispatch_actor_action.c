@@ -2,11 +2,9 @@
 #include "dungeon/actor/motion.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/actor.h"
 
 extern void update_actor_status_and_mp(void *);
-
-
-extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
 
 /* Updates the actor state, consumes completed counts, and dispatches its action. */
 void dispatch_actor_action_2(u8 *actor, void *action_arg, void *action_data, u8 *state) {

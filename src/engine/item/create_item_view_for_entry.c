@@ -2,13 +2,12 @@
 #include "engine/cd.h"
 #include "engine/item.h"
 #include "slus.h"
+#include "dungeon/system.h"
 
 typedef struct S_8004B854 {
     u8 a2;
     u8 code;
 } S_8004B854;
-
-extern void *create_item_view(int a0, int a1, int a2, S_8004B854 *a3, int a4);
 
 /* Sends a packet containing the entry byte and command code 0x13 to the target; returns the item view it opens. */
 void *create_item_view_for_entry(int target, int record_addr, int entry_value)

@@ -5,10 +5,8 @@
 #include "shared/entity.h"
 #include "records/Rec_func_800AD058_arg2.h"
 #include "dungeon/system.h"
+#include "dungeon/actor.h"
 
-
-
-extern s32 update_actor_defeat_removal();
 extern void create_and_initializes_display_source_position_appearance(void *source, Rec_func_800AD058_arg2 *record, void *appearance);
 
 

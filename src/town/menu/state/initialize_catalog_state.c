@@ -1,14 +1,12 @@
 #include "common.h"
 #include "records/Rec_func_801237A4_arg0.h"
 #include "town/menu/catalog.h"
+#include "town/menu.h"
 
-
-extern s32 is_catalog_entry_available(s32);
 extern void layout_catalog_entry_grid(void);
 extern void layout_catalog_frame(void);
 extern void initialize_catalog_slot_records(void);
 extern void select_paired_value_tables(void *);
-extern void refresh_catalog_entry_grid(void *);
 extern void initialize_catalog_view_records(void *, void *, void *);
 
 /* Initialize state defaults and run the associated setup routines. */

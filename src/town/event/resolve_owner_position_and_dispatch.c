@@ -6,6 +6,7 @@
 #include "records/Rec_D_80082D58.h"
 #include "engine/script.h"
 #include "shared/position_views.h"
+#include "town/scene.h"
 
 
 typedef struct {
@@ -55,10 +56,9 @@ extern s32 scene_deferred_dispatch_address;
 extern s32 scene_fallback_request_address;
 extern s32 town_input_motion_address;
 
-extern void get_smaller_query_result_capped_hex_80_writes_associated_output(void *, void *);
 extern void call_the_same_context_both_processing_routines(void *, void *);
 extern s32 check_object_type_and_data_tag(void *);
-extern void unlink_and_remove_scene_object(void *, void *, void *, s32);
+extern void unlink_and_remove_scene_object(void *, void *, void *, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
 extern void retry_sound_sequence_when_ready(void);
 
 /* Resolve the owner position and dispatch its handler for the current town state. */

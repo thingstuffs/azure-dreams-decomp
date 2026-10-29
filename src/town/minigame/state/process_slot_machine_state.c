@@ -8,6 +8,7 @@
 #include "shared/entity.h"
 #include "shared/vector.h"
 #include "town/person/position.h"
+#include "town/shop/object.h"
 
 #ifndef NULL
 #define NULL 0
@@ -41,7 +42,6 @@ extern s32 test_three_axis_box_overlap(void *box, void *offset);
 extern s16 SD_Call(s32 value);
 extern void *create_dual_buffer_object(s32 setup_value, s32 x, s32 y);
 extern void *create_familiar_deployment_effect_with_owner_state(void);
-extern void set_object_data_pointer_2(void *object);
 extern void register_node(void *entry, void *registration_id);
 extern void configure_the_set_mode_n_1(void *record, void *setup_value, void *setup_param);
 

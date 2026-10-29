@@ -40,10 +40,6 @@ typedef struct T_80173450_S_80173450_2 {
     u8 unk_25;
 } T_80173450_S_80173450_2;   /* arg2 in func_80173450 */
 
-
-
-
-extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
 extern void unlink_entity_node(void *);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern void distribute_experience_and_report_gains(void *);

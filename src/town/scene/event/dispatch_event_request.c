@@ -13,7 +13,7 @@ typedef struct S_8001B828_0 {
 } S_8001B828_0;   /* obj in dispatch_event_request */
 
 extern s32 check_event_value_in_list(s32);
-extern void *clear_event_resource_state_and_get_buffer(s32);
+extern void *clear_event_resource_state_and_get_buffer(s32); /* Unprototyped: retail call passes more arguments than the callee reads */
 #include "town/scene.h"
 extern void func_8001E5F0(s32);
 

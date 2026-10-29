@@ -13,6 +13,7 @@
 #include "dungeon/player/object.h"
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 #include "dungeon/system.h"
+#include "dungeon/actor.h"
 
 typedef struct S_80172D08_0 {
     u8 pad_00[0x8C];

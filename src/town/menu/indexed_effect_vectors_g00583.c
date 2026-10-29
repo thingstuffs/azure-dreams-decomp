@@ -3,6 +3,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AAAE8. */
 #include "town/menu/indexed_effect_vectors_g00583.h"
 #include "shared/object_flags.h"
+#include "town/event/state.h"
 
 #include "shared/object_node.h"/* Creates an object, selects its data, and initializes its state. */
 /*

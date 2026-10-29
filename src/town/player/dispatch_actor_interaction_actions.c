@@ -6,6 +6,7 @@
 #include "shared/entity.h"
 #include "records/Rec_func_8009431C_arg0.h"
 #include "town.h"
+#include "town/player.h"
 
 #include "engine/object/test_resident_bitmap_bit_api.h"                         /* extern */
 #include "town/player/coordinates.h"
@@ -21,7 +22,6 @@ s32 select_an_available_entry_matching_direction_returns_status(void *);        
 s32 select_an_eligible_source_entry_stores_pointer_in_destination(void *, void *);               /* extern */
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"      /* extern */
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"                      /* extern */
-void initialize_record_and_select_active_data(s32, s32, s32);     /* extern */
 extern s32 town_actor_control;
 
 

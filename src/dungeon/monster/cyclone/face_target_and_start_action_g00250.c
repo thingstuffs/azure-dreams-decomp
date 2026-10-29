@@ -8,6 +8,7 @@
 
 #include "shared/dungeon_status.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"/* Face the target and initialize the actor action when status checks allow it. */
 void face_target_and_start_action(ActorRecord *action_state, ObjectPosition *event_context, SpriteFrameState *sprite, ActorRecord *actor) {
     u16 distance;

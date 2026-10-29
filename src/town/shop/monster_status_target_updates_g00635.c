@@ -3,6 +3,7 @@
 #include "town/shop/monster_status_target_updates_g00635.h"
 #include "shared/object_flags.h"
 #include "town/shop.h"
+#include "town/shop/state.h"
 
 /* Processes 24 entries by type and clears the handle and type of handled entries. */
 void process_handled_entry_types(void **entries) {

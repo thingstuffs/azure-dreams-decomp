@@ -40,6 +40,7 @@ typedef struct S_func_801728C4_3 {
 
 extern void *actor_update_node_cursor;
 #include "dungeon/monster/stealth.h"
+#include "dungeon/actor.h"
 extern u8 D_80173D58[];
 
 void select_sprite_entry(void *, u8, s32);

@@ -6,12 +6,11 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/item.h"
+#include "dungeon/level.h"
 
    /* entity in update_player_jump */
 
 extern void set_sprite_animation_frame(void *a0, u8 a1, s32 a2, s32 a3);
-extern void process_unflagged_linked_entries(s32 a0);
-extern void process_unflagged_linked_entries_alt(s32 a0);
 extern s16 measure_directional_stopping_distance(s16 a0, void *a1, void *a2, s32 a3);
 extern void play_sound_if_enabled(s32 a0);
 

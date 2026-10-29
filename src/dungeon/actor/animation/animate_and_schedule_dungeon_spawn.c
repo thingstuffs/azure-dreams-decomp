@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
+#include "dungeon/actor.h"
 
 
 typedef struct {
@@ -17,7 +18,6 @@ typedef struct {
 
 s32 test_resident_bit(s32);
 void upload_vram_row_and_cache(void *, s32, s32, s32);
-s32 select_dungeon_spawn_tile(u8 *, u8 *);
 s32 get_item_category_value(void *item);
 s32 place_item_at_valid_floor_position(s32 x, s32 y, s32 z, s32 unused, s32 *object_data);
 s16 sample_terrain_surface_height(s32, s32, s16);

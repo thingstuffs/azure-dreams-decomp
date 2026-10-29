@@ -27,9 +27,6 @@ typedef struct S_80172998_0 {
 } S_80172998_0;   /* arg0 in advance_actor_hop_to_tile */
 
 extern s32 rsin(s32);
-extern void on_actor_status_updated(void *);
-
-
 
 extern void golem_action_continuation_address();
 

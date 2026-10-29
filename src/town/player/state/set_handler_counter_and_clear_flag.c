@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/player/state.h"
+#include "town/player/object.h"
 
 #include "town/player/object/entity_record_fields.h"                     /* extern */
 extern s8 town_action_reset_byte;

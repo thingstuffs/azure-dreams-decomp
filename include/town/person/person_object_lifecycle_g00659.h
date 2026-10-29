@@ -44,8 +44,6 @@ s32 classify_object_against_bounds(Rec_func_80094268_arg0 *, void *);
 void clear_object_slot_and_mark_removed(void *);
 void call_object_callback(S_800C3960_0 *object, void *context, void *motion);
 
-s32 quantize_heading_to_sector(s32, s16);
-s32 check_heading_past_half_sector(s32, s16);
 extern M2C_UNK D_800D5028;
 extern M2C_UNK D_800D5040;
 extern M2C_UNK D_800D5058;

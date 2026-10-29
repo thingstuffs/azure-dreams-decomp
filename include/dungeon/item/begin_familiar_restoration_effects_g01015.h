@@ -71,14 +71,10 @@ void begin_mode_selected_item_action(void *object,void *unused_1,void *unused_2,
 void display_actor_item_status_message(void *, struct DungeonItemEntry *);
 s32 feed_actor_restore_mp(void *, s32, struct DungeonItemEntry *);
 void place_actor_item(void *, struct DungeonItemEntry *);
-void * create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transform_data, s16 scale, s32 setup_word_5c, s32 setup_word_60);
 void display_formatted_context_message(void *);
 void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
 extern void clear_slots_of_type(void *obj, s8 index);
 extern void apply_entity_effects(void *obj);
-extern void cap_pending_actor_value_delta(void *obj);
-extern void create_orbiting_color_particle(s16 x, s16 y, s16 z, s16 angle,
-                          s16 height, s16 depth, s32 color, s16 offset);
 /* extern */
 /* extern */
 extern s32 clipped_sprite_renderer_address(u8 *first_data, s32 link_value, struct SpriteFrameState *value_record);

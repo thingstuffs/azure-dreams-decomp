@@ -71,11 +71,9 @@ typedef struct S_800B2BA0_1 {
 s32 create_callback_pair_default();
 void get_zero_based_group_index(struct TownB4C60 *);
 /* extern */
-s32 get_mode_selected_value(void);
 extern void flag_object_for_removal(void *items);
 s32 func_800B0718(void);
 /* extern */
-void store_table_index_and_entry_bytes(void *object, s32 index);
 /* extern */
 /* extern */
 /* extern */

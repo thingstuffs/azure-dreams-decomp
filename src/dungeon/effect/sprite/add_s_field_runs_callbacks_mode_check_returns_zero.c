@@ -7,8 +7,6 @@
 #include "dungeon/effect/screen.h"                 /* extern */
 #include "dungeon/actor.h"
 #include "dungeon/effect.h"
-s32 cap_pending_actor_value_delta(void *entry);                      /* extern */
-
 
 /* Adds 0x200 to the object's unk_64 and runs callbacks when its mode-2 check returns zero. */
 void add_hex_200_s_field_64_runs_callbacks_mode_n_2_check_returns_zero(EntityRec *object, s32 unused, void *record) {

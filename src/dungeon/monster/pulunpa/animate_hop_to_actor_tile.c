@@ -32,9 +32,6 @@ extern void select_sprite_entry(void *, s16, s16);
 extern s32 rsin(s32);
 
 extern void apply_capped_damage_and_hit_effect(void *, void *);
-extern void on_actor_status_updated(void *);
-
-
 
 extern u8 pulunpa_action_resume_address[];
 extern u8 D_801762D8[];

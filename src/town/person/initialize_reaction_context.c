@@ -7,6 +7,8 @@
 #include "records/Rec_D_80082E80.h"
 #include "engine/menu.h"
 #include "town/person.h"
+#include "town/scene.h"
+#include "town/event/state.h"
 
 extern s32 D_800D0678[];
 

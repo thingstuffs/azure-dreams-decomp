@@ -12,8 +12,6 @@ typedef struct ItemMenuInput {
     s32 repeat_ticks;
 } ItemMenuInput;
 
-void set_item_menu_data_pointer(ItemMenuStateNode *owner);
-void set_item_menu_secondary_handler(ItemMenuStateNode *owner);
 void release_item_menu_object(ItemMenuParameters *parameters);
 void run_item_menu_record_handlers(void *record_payload);
 /* Code-address alias installed by set_item_menu_secondary_handler. */

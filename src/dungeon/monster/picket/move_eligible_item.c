@@ -3,11 +3,11 @@
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
 
 extern void clear_slot_and_update_linked_state(void *, void *);
 extern s32 generate_random_value(void);
 extern s16 find_floor_item_at_world_position(s16, s16, s16);
-extern s32 is_linked_entity_flagged_80000(void *, void *);
 
 extern s32 dungeon_actor_ring_anchor[];
 extern s32 D_80162FE4[];

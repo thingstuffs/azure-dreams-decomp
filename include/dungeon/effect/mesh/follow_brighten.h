@@ -269,8 +269,6 @@ typedef struct ovl_18d0850_818B1664_LargeScalar {
 } ovl_18d0850_818B1664_LargeScalar;
 #include "dungeon/effect/screen.h"
 extern s32 get_random_scaled_value(s16 input_value);
-extern void apply_clamped_actor_value_delta(void *entity);
-extern void cap_pending_actor_value_delta(void *entry);
 extern void LoadImage();
 s32 DrawSync(s32);
 extern void advance_sprite_animation_and_textures(void *);

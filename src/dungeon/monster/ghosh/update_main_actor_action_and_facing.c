@@ -15,6 +15,7 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/entity.h"
 #include "dungeon/monster/ghosh.h"
+#include "dungeon/actor.h"
 
 typedef struct {
     u8 before_callback[0x8C];
@@ -47,7 +48,6 @@ extern void begin_pushed_actor_move(void *, void *, void *, void *);
 s32 begin_ready_actor_directional_action();
 struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2; void begin_actor_move_to_target_facing(struct Rec_func_800A9E70_arg0 *, void *, struct Rec_func_800AA258_arg2 *, struct ActorRecord *);
 s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
-void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState *target, u8 *direction_table, void *next_state);
 void advance_entity_along_path(void *, void *, SpriteFrameState *, void *);
 void advance_actor_path();
 struct Rec_func_800A9E70_arg0; void clear_actor_flag_and_advance_action(struct Rec_func_800A9E70_arg0 *, s32, void *, struct ActorRecord *);

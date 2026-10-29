@@ -2,6 +2,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "dungeon/player/object.h"
+#include "dungeon/actor.h"
 
 typedef struct {
     u8 pad_00_8c[0x8c];
@@ -42,9 +43,6 @@ typedef struct {
 
 extern u8 maximum_frame_set_3[];
 extern u8 maximum_action_continuation_address[];
-
-extern void begin_actor_display_action(void *,void *, S810AF65C_2 *, u8 *);
-extern void apply_clamped_actor_value_delta(S810AF65C_3 *);
 
 /* Updates directional movement, then returns the actor to its tile position. */
 void update_directional_motion_and_return_to_tile(S810AF65C_0 *animation, S810AF65C_1 *motion,

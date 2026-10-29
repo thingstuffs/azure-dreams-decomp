@@ -10,6 +10,7 @@
 #include "engine/graphics.h"
 #include "dungeon/system.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/actor.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 
@@ -111,7 +112,6 @@ typedef struct S_func_81008664_12 {
 } S_func_81008664_12;
 
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-s32 select_dungeon_spawn_tile(u8 *x_out, u8 *y_out);
 void refresh_actor_proximity_state();
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 extern s16 dungeon_room_count;

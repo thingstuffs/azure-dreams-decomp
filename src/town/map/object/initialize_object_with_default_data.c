@@ -8,6 +8,7 @@
 #include "engine/node.h"
 #include "slus.h"
 #include "town/map/object.h"
+#include "town/scene.h"
 
 typedef struct S_800BC8D0_1_pre {
     void * unk_00;

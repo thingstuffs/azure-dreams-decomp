@@ -22,7 +22,6 @@ void clear_resident_bitmap_bit(s32 flag_id);
 
 /* Functions defined in this translation unit. */
 s32 run_setup_and_get_object_handler(s32 context, s32 value, s32 options);
-void dispatch_paired_table_values(void);
 void process_paired_arrays_until_terminator(void);
 
 #endif

@@ -7,6 +7,7 @@ struct ObjectPosition;
 #include "dungeon/effect.h"
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 #include "shared/object_flags.h"
+#include "dungeon/actor.h"
 
 /*
  * Looks up the spell resource and, when the player-linked flag is set, substitutes 0x33, 0x3A, and

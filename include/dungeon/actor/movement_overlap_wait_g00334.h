@@ -11,7 +11,6 @@ struct SpriteFrameState;
 #include "shared/dungeon_status.h"
 
 #include "dungeon/player/object/action_state.h"
-extern s32 update_object_coordinates_if_valid(struct SpriteFrameState *object, void *context);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern void begin_actor_random_warp(void *entity, void *unused, void *position, void *entity_state);
 

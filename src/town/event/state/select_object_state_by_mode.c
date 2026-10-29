@@ -5,6 +5,8 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_800CFCB4.h"
 #include "shared/dungeon_effect_views.h"
+#include "town/scene.h"
+#include "town/event/state.h"
 
 extern M2C_UNK D_800D0690;
 

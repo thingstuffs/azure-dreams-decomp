@@ -20,6 +20,7 @@ s32 find_entity_slot_by_field_ac(void *target_value);
 
 extern void spend_actor_mp(void *, s32);
 #include "dungeon/monster/pulunpa.h"
+#include "dungeon/actor.h"
 
 extern u8 pulunpa_variant_action_address;
 

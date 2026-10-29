@@ -110,8 +110,6 @@ extern void run_the_follow_up_action_has_eligible_type_passes_check(s32 check_va
 extern void *allocate_list_node();
 extern s32 register_node(void *entry, void *registration_id);
 extern u8 D_8009C4E8[];
-extern s32 add_hex_20000_s_signed_offset_hex_14(); /* Unprototyped: one or two arguments; retail reads only the first. */
-extern void add_motion_deltas_to_position(ObjectPosition *motion);
 extern u8 D_8009C5D8[];
 extern s32 rand(void);
 extern u8 D_80088D78[8];
@@ -124,8 +122,6 @@ extern u8 D_800814A0[];
 
 /* Functions defined in this translation unit. */
 void spawn_and_flag_object_parts(unsigned short *object, s32 unused, s32 action_id);
-void unlink_and_remove_scene_object(void *object);
-void *create_town_effect_object(s32 parent, IntVector3 *position, s32 object_value, s32 state_value);
 void run_object_secondary_callback(S_8009C46C_0 *object, void *motion, void *context);
 void initialize_timed_fade_object(Struct8009ED34Arg0 *context, void *unused, Struct8009ED34Arg2 *state);
 void update_timed_object_to_height_limit(void *object, ObjectPosition *motion, S_8009C4E8_2 *appearance);

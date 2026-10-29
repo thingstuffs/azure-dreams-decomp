@@ -12,6 +12,7 @@ struct SpriteFrameState;
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/actor.h"
 
 typedef struct S_80172C98_0 {
     u8 pad_00[0x8C];

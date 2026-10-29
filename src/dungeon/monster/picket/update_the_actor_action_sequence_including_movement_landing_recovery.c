@@ -15,6 +15,7 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/player/object.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
 extern int abs(int);
 
 typedef struct S_80172C90_1 {
@@ -41,7 +42,6 @@ typedef struct S_80172C90_4 {
     u8 unk_25;
 } S_80172C90_4;   /* localLinked in update_the_actor_action_sequence_including_movement_landing_recovery */
 
-extern void *create_actor_spell_effect(void *actor, void *effect_record, s16 mode, void *context);
 extern void play_sound_if_enabled(s32);
 extern void create_two_effect_groups(void *, void *, void *, s32);
 extern void select_sprite_entry(void *, u8, s32);

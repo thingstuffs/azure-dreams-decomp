@@ -53,11 +53,11 @@ extern u8 * copy_selected_text_without_terminator(void *text_id, u8 *dest);
 extern void display_formatted_context_message(void *context);
 #include "dungeon/item/actor_target.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 find_slot_by_item_group(void *entry, s16 target);
 struct DungeonItemEntry;
 extern void place_actor_item(void *object_context, struct DungeonItemEntry *target);
-extern void * create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);
 
 extern u8 *item_category_tables[];
 extern u16 magic_ball_delay[];

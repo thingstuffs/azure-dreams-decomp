@@ -3,6 +3,7 @@
 #include "common.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/effect.h"
+#include "dungeon/actor.h"
 
 typedef struct Entity800B4194
 {
@@ -46,7 +47,6 @@ extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(u8 *);
 extern s32 generate_random_value(void);
 extern s32 random_dungeon_range_16(s32, s32);
-extern s16 resolve_alternate_spell_id(s32 tile_index);
 extern s32 roll_chance_and_apply_effect_four(Entity800B4194 *, s16, s16);
 extern s32 roll_threshold_effect_variant_b(Entity800B4194 *, s16, s16);
 /* Applies secondary spell and event-record effects, updating actor status, values, and displayed messages. */

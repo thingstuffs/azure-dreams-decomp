@@ -29,8 +29,6 @@ typedef struct S_800B1778_0 {
     s32 unk_10;
 } S_800B1778_0;
 
-void populate_shop_item_rows(struct S_800B0FD4_0 *);
-
 /* Functions defined in this translation unit. */
 void set_shop_change_indicator_color(S_800B173C_0 *record, s32 target_value);
 void set_shop_subrecord_values(s32 record_address, s32 value_10, s32 value_08);

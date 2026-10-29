@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "dungeon/actor.h"
 
 
 /* Checks the entity or its two linked objects for the 0x20000000 state flag. */

@@ -20,8 +20,6 @@ typedef struct S_8015B234_0 {
 
 
 extern void select_sprite_entry(void *, s32, s32);
-extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
-extern void apply_clamped_actor_value_delta(void *);
 
 extern u8 griffon_slot_c_action_callback;
 extern u8 griffon_frame_set_9[];

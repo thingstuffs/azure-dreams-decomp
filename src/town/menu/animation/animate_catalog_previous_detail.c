@@ -1,6 +1,7 @@
 #include "common.h"
 #include "records/Rec_func_801237A4_arg0.h"
 #include "shared/object_payload.h"
+#include "town/menu.h"
 
 
 typedef struct S_801260E8_1 {
@@ -33,7 +34,6 @@ extern void swap_paired_entry_values_and_node_halfwords(u8 *state);
 extern void backup_and_clear_linked_values(void *);
 extern void restore_linked_values_from_backup(void *);
 extern void refresh_catalog_secondary_detail(void *);
-extern void refresh_catalog_primary_detail(void *);
 extern TownInitialPosition catalog_grid_layout[5];
 extern void *catalog_display_node_slots[];
 

@@ -16,6 +16,7 @@
 #include "modules/dungeon_native_abi.h"
 #include "shared/dir_step.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/actor.h"
 
 void (*const dungeon_183a800_entry)(void *, void *, void *) = advance_projectile_burst_and_impact;
 const PathBlock textured_particle_direction_offsets = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,-32},{0,-32},{32,-32}}};
@@ -415,7 +416,6 @@ extern void initialize_timed_motion_step(s32, s32, void *);
 extern void unlink_node(void *);
 extern void func_80044A50(void *);
 extern void apply_attack_power_and_element_effects(void *, s32, u8, s32, s32, void *, s32);
-extern s32 check_adjacent_tile_height_clearance(u16, u16, s16, void *);
 
 extern u8 D_800258FC[];
 extern u8 D_8006CCD8[];

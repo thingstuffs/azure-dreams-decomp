@@ -45,7 +45,6 @@ void advance_sprite_animation_and_textures(void *entity);
 extern void D_800A38A8(void *object, void *unused_context, u8 *primitive);
 
 extern u32 scale_random_to_unsigned_halfword_limit(s32);
-extern void add_motion_deltas_to_position(ObjectPosition *);
 extern SpriteSourceEntry *D_800D0B20[];
 
 /* Functions defined in this translation unit. */

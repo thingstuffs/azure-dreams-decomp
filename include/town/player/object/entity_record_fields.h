@@ -5,6 +5,5 @@
 #include "shared/entity.h"
 
 /* Clear the entity record fields used by the town object lifecycle. */
-void clear_entity_record_fields(EntityRec *);
 
 #endif

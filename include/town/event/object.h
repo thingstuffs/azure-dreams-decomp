@@ -32,4 +32,7 @@ void initialize_timed_object_action(void *context, void *source, void *record);
 /* select_object_value_by_height_band.c */
 void select_object_value_by_height_band(Rec_func_80094268_arg0 *object, void *context, EntityRec *position, Rec_D_80082E80 *output);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+#include "shared/sprite_frame_state.h"
+
 #endif

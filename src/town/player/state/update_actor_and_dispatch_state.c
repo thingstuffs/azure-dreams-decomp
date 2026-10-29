@@ -5,7 +5,6 @@
 
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"                         /* extern */
 void handle_adjust_vector_toward_selected_angle_limit_magnitude();                      /* extern */
-void add_hex_20000_s_signed_offset_hex_14(EntityRec *record);                      /* extern */
 #include "town/player/clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2_api.h"                      /* extern */
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"                      /* extern */
 #include "town/player.h"

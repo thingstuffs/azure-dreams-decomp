@@ -18,6 +18,12 @@
 #include "shared/sprite_frame_state.h"
 #include "town/shop/item_lookup.h"
 #include "town/person/position.h"
+#include "town/scene.h"
+#include "town/shop.h"
+#include "town/player.h"
+#include "town/menu.h"
+#include "town/menu/object.h"
+#include "town/event/state.h"
 
 
 /* Initializes an object with default transform and global state values. */
@@ -1023,12 +1029,11 @@ extern void select_object_state_by_mode_2(void *, void *, SpriteFrameState *);
 extern void initialize_optional_scene_state_a(void *, void *, SpriteFrameState *);
 extern void initialize_optional_scene_state_b(void *, void *, SpriteFrameState *);
 extern void initialize_optional_scene_state_c(void *, void *, SpriteFrameState *);
-extern void initialize_timed_object_action(void *, void *, SpriteFrameState *);
+extern void initialize_timed_object_action(void *context, void *source, void *record);
 extern void initialize_flagged_actor_action_a(void *, void *, SpriteFrameState *);
 extern void initialize_flagged_actor_action_b(void *, void *, SpriteFrameState *);
 extern void initialize_flagged_actor_action_c(void *, void *, SpriteFrameState *);
 extern void initialize_flagged_actor_action_d(void *, void *, SpriteFrameState *);
-extern void initialize_timed_scale_object(void *, void *, SpriteFrameState *);
 extern void initialize_projected_sprite_chain_a(void *, void *, SpriteFrameState *);
 extern void initialize_projected_sprite_chain_b(void *, void *, SpriteFrameState *);
 extern void initialize_projected_sprite_chain_c(void *, void *, SpriteFrameState *);
