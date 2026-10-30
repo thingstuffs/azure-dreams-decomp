@@ -13,11 +13,10 @@
 #include "engine/graphics.h"
 #include "dungeon/system.h"
 #include "dungeon/actor.h"
+#include "dungeon/effect/screen.h"
 
 
 extern s32 rsin(s32);
-void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-
 
 extern void create_parent_attached_effect(void *, void *, void *);
 

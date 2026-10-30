@@ -40,4 +40,8 @@ void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameSt
 
 void advance_rising_fading_emitter(void *effect, ObjectPosition *motion, SpriteFrameState *primitive);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+#include "shared/dungeon_moving_views.h"
+void *create_effect_render_object(MovingPosition *source_pos, s16 effect_param, s16 size);
+
 #endif

@@ -72,13 +72,13 @@ void update_actor_movement_animation_states_completes_timed_action(ActorRecord *
         action->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         action->unk_9E.s = 5;
-        action->unk_A4 = 0;
+        action->unk_A4.value = 0;
         action->action_phase.u++;
     }
                         /* fall through */
     case 1:
         move_frames = action->unk_9E.s;
-        action->unk_90.value -= action->unk_A4;
+        action->unk_90.value -= action->unk_A4.value;
         if (move_frames != 0) {
             target_x = sprite->tile_x;
             world_x = motion->x.w.i;
@@ -92,12 +92,12 @@ void update_actor_movement_animation_states_completes_timed_action(ActorRecord *
                 (((sprite->tile_y << 6) - world_y) << 16) /
                 action->unk_9E.s;
 
-            action->unk_A4 =
+            action->unk_A4.value =
                 (-rsin(action->unk_9E.s * 0x199)) << 10;
         }
 
         height = action->unk_90.value;
-        height_offset = action->unk_A4;
+        height_offset = action->unk_A4.value;
         move_count = action->unk_9E.u;
         height += height_offset;
         move_count -= 1;

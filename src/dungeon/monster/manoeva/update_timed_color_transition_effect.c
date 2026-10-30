@@ -5,6 +5,7 @@
 #include "shared/object_flags.h"
 #include "slus.h"
 #include "engine/node.h"
+#include "dungeon/effect/screen.h"
 
 #define U8_AT(p, off)  (*(u8 *)((u8 *)(p) + (off)))
 #define S16_AT(p, off) (*(s16 *)((u8 *)(p) + (off)))
@@ -14,7 +15,6 @@
 extern s32 actor_fade_draw_address;
 
 s32 register_node(ObjectNodeHeader *entry, void *registration_id);
-extern void retire_tracked_effect_by_id();
 
 /* Advances the effect through color fades and animation changes, then marks it complete. */
 void update_timed_color_transition_effect(u8 *effect_state, s32 unused, SpriteFrameState *render_data) {

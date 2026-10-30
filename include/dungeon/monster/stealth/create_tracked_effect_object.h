@@ -61,7 +61,6 @@ extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
 extern void unlink_node(struct ObjectNodeHeader *node);
 extern void func_80044A50(struct ObjectNodeHeader *node);
-extern void retire_tracked_effect_by_id();
 
 void * create_tracked_effect_object(s16 mode, s16 value24, s16 value25, s16 value0A);
 #endif

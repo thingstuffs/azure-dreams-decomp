@@ -8,6 +8,7 @@
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/player.h"
 
 /* Writes opposing (x, y, x) and (-x, -y, -x) light vectors and clears the third vector. */
 static __inline__ void set_light_vectors(u8 *view_state, s16 x, s16 y)

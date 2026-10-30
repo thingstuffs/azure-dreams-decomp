@@ -16,14 +16,6 @@ void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 void * detach_record_and_update_slot_state(void *record);
 
 
-typedef struct S_80173724_0 {
-    u8 pad_00[0x96];
-    u16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-} S_80173724_0;   /* arg0 in advance_fading_directional_entity */
-
 typedef struct S_80173724_1_pre {
     u16 unk_00;
 } S_80173724_1_pre;   /* the 0x2 bytes before arg3 in advance_fading_directional_entity, addressed as arg3[-1] */
@@ -41,7 +33,7 @@ typedef struct S_80173724_1 {
 
 
 /* Advance an entity through directional motion, fading, and removal. */
-void advance_fading_directional_entity(void *anim_state, ObjectPosition *motion, SpriteFrameState *sprite, void *entity) {
+void advance_fading_directional_entity(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, void *entity) {
     s32 sound_flags;
     s32 direction_x;
     s32 direction_y;
@@ -53,7 +45,7 @@ void advance_fading_directional_entity(void *anim_state, ObjectPosition *motion,
     u32 sound_y;
     u8 brightness;
 
-    phase = ((S_80173724_0 *)anim_state)->unk_9B;
+    phase = body->action_phase.u;
     direction_offset = ((u16) ((S_80173724_1 *)entity)->unk_6A >> 8) & 0xE;
     direction_x = *(s16 *)((u8 *)((s8 *)dir_step_x) + direction_offset);
     direction_y = *(s16 *)((u8 *)((s8 *)dir_step_y) + direction_offset);
@@ -65,10 +57,10 @@ void advance_fading_directional_entity(void *anim_state, ObjectPosition *motion,
         u32 entity_flags;
         u16 anim_flags;
 
-        anim_flags = ((S_80173724_0 *)anim_state)->unk_98;
+        anim_flags = body->action_state_flags;
         clear_bit_18 = 0xFFFBFFFF;
         anim_flags |= 8;
-        ((S_80173724_0 *)anim_state)->unk_98 = anim_flags;
+        body->action_state_flags = anim_flags;
         entity_flags = ((S_80173724_1 *)entity)->unk_1C.u;
         entity_flags &= clear_bit_27;
         entity_flags &= clear_bit_18;
@@ -77,14 +69,14 @@ void advance_fading_directional_entity(void *anim_state, ObjectPosition *motion,
         motion->velocity_y = direction_y << 0x10;
         motion->velocity_z = 0xFFF40000;
         play_sound_if_enabled(0x805);
-        ((S_80173724_0 *)anim_state)->unk_9B = ((S_80173724_0 *)anim_state)->unk_9B + 1;
+        body->action_phase.u = body->action_phase.u + 1;
     }
     case 1:
         (motion->velocity_z) += 0x1C000;
         if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             return;
         }
-        ((S_80173724_0 *)anim_state)->unk_9B = ((S_80173724_0 *)anim_state)->unk_9B + 1;
+        body->action_phase.u = body->action_phase.u + 1;
     case 2:
         status_flags = ((S_80173724_1 *)entity)->unk_14;
         if (status_flags & 0x4000) {
@@ -94,24 +86,24 @@ void advance_fading_directional_entity(void *anim_state, ObjectPosition *motion,
         }
         sprite->tpage_abr = 0x60;
         sprite->flags |= 0xC;
-        ((S_80173724_0 *)anim_state)->unk_9B = ((S_80173724_0 *)anim_state)->unk_9B + 1;
+        body->action_phase.u = body->action_phase.u + 1;
     case 3:
         motion->velocity_z += 0x1C000;
         if (!(sprite->flags & 0x6000)) {
             return;
         }
-        ((S_80173724_0 *)anim_state)->unk_96 = 0x80U;
-        ((S_80173724_0 *)anim_state)->unk_9B = ((S_80173724_0 *)anim_state)->unk_9B + 1;
+        body->action_timer.u = 0x80U;
+        body->action_phase.u = body->action_phase.u + 1;
         return;
     case 4:
         ((S_80173724_1 *)entity)->unk_1C.s |= 0x10000000;
         motion->velocity_z += 0x20000;
-        brightness = (u8)((S_80173724_0 *)anim_state)->unk_96;
+        brightness = (u8)body->action_timer.u;
         sprite->color.c.b = brightness;
         sprite->color.c.g = brightness;
         sprite->color.c.r = brightness;
-        next_brightness = ((S_80173724_0 *)anim_state)->unk_96 - 0x18;
-        ((S_80173724_0 *)anim_state)->unk_96 = next_brightness;
+        next_brightness = body->action_timer.u - 0x18;
+        body->action_timer.u = next_brightness;
         if ((s16)next_brightness >= 0x18) {
             return;
         }

@@ -15,7 +15,7 @@ typedef struct S_8016BBC0_0 {
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/monster/beldo_large.h"
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern s16 relink_entity_and_clear_high_flag(void *context, void *position, void *entity, s16 near_range, s16 far_range, s32 state_out_addr);
+extern s16 relink_entity_and_clear_high_flag(void *context, void *position, void *entity, s16 near_range, s16 far_range, s32 state_out_addr); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /* Update the actor's action delay, dispatch movement, and clear completed action flags. */
 s32 resolve_actor_movement_action(Rec_func_800A9E70_arg0 *entity, ObjectPosition *action_ctx, s32 position, s32 force_move)

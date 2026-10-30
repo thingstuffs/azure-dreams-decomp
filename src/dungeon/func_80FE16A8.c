@@ -9,16 +9,16 @@
 #include "shared/entity.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "dungeon/actor/state.h"
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 check_entity_relation(void *, void *);
 extern s32 find_active_rect_containing_point(s32, s32);
 extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(void *);
-extern void begin_pushed_actor_move(void *, void *, void *, void *);
+extern void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
-extern s32 reset_actor_action_state(void *, void *, void *, void *);
 extern void func_8016B438(void *, void *, void *, void *);
 extern void func_8016B67C(void *, void *, void *, void *);
 extern s32 func_8016BE28(void *, void *, void *, void *);

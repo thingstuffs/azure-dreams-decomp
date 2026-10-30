@@ -25,6 +25,9 @@ typedef struct DirectionalEffectWork {
 #include "modules/dungeon_ovl_190681c.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/actor/effect.h"
+#include "dungeon/effect/motion.h"
+#include "dungeon/effect/screen.h"
 
 /* Two child callbacks share the parent word and phase offset. The moving
  * child reuses its callback's existing target/velocity record. */

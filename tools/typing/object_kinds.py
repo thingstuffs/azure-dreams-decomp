@@ -42,6 +42,12 @@ operand value and operand type) and returned values.
   readiness      ready = every callback and every creator file is outside --hold prefixes, no layout conflict, and at
                  least one generated view to absorb; evidence = chain/co-install edges and creator count.
 
+Same-named functions: a name defined in several files (dungeon/town copies, per-overlay copies) is keyed
+`name@file` when every reference to it can be attributed to one definition (the referring file's own, then the one
+in its physical TU, its folder, its area); such copies are separate callbacks and separate kinds.  A name some
+reference cannot attribute keeps the bare merged key (summary: duplicate_names_split / _kept_merged).
+tools/typing/param_retype.py callbacks accepts `name@file` symbols.
+
 `family` writes a tools/typing/layout_swap.py family file listing the kind's arg0 views, for a new folder-header type.
 """
 from __future__ import annotations
@@ -396,8 +402,9 @@ class Symbols:
     """Name -> function: a defined function, or a data-named address (names.tsv, D_/func_<addr>) that is a function
     in the same area (town / dungeon / ...) as the referring file."""
 
-    def __init__(self, root, defined):
+    def __init__(self, root, defined, resolve=None):
         self.defined = defined
+        self.resolve = resolve or (lambda name, file: name)
         self.addr = {}
         names = Path(root) / 'config/names.tsv'
         if names.exists():
@@ -421,7 +428,7 @@ class Symbols:
 
     def function(self, name, file):
         if name in self.defined:
-            return name
+            return self.resolve(name, file)
         a = self.addr.get(name)
         if a is None:
             m = HEX_NAME.match(name)
@@ -433,7 +440,7 @@ class Symbols:
             area = file.split('/')[1] if file.count('/') > 1 else ''
             same = [n for n in cands if any(f.split('/')[1:2] == [area] for f in self.defined[n])]
             cands = same or cands
-        return cands[0] if len(cands) == 1 else None
+        return self.resolve(cands[0], file) if len(cands) == 1 else None
 
 
 def load_facts(out):
@@ -453,14 +460,87 @@ class Linker:
         self.funcs = load_facts(out)
         meta = json.loads((Path(out) / 'extract.json').read_text())
         self.header_types = set(meta.get('header_types', []))
+        bare = collections.defaultdict(set)
+        self.tu_of = {}
+        for f in self.funcs:
+            bare[f['func']].add(f['file'])
+            self.tu_of.setdefault(f['file'], f.get('tu') or f['file'])
+        self.dup = {n for n, fs in bare.items() if len(fs) > 1}
+        self.dup_all = set(self.dup)
+        self.bare = bare
+        self.unresolved = collections.Counter()
+        self.merged_ambiguous = []
+        self.sym = Symbols(root, bare, self.resolve)
+        self.qualify_duplicates()
         self.defined = collections.defaultdict(set)
         for f in self.funcs:
             self.defined[f['func']].add(f['file'])
-        self.dup = {n for n, fs in self.defined.items() if len(fs) > 1}
-        self.sym = Symbols(root, self.defined)
         self.by_name = collections.defaultdict(list)
         for f in self.funcs:
             self.by_name[f['func']].append(f)
+
+    def resolve(self, name, file):
+        """Function key for `name` as referenced from `file`.  A name defined in one file is its own key; a name
+        defined in several files (same-named copies in different binaries or areas) is keyed `name@file` by the
+        definition the referring file sees: its own, the one in its physical TU, the one in its folder, then the
+        one in its area.  Anything else is `name@?` (never merged with either copy)."""
+        fs = self.bare.get(name)
+        if not fs or len(fs) == 1 or '@' in name or name not in self.dup:
+            return name
+        if file in fs:
+            return '%s@%s' % (name, file)
+        tu = self.tu_of.get(file, file)
+        for pick in ([g for g in fs if self.tu_of.get(g, g) == tu],
+                     [g for g in fs if os.path.dirname(g) == os.path.dirname(file)],
+                     [g for g in fs if g.split('/')[1:2] == file.split('/')[1:2]]):
+            if len(pick) == 1:
+                return '%s@%s' % (name, pick[0])
+        self.unresolved[name] += 1
+        return name + '@?'
+
+    def qualify_duplicates(self):
+        """Rewrite every fact so that same-named functions in different files are different functions: own
+        parameter roots (p:F:i), call results (c:<id>:F) and callees are keyed through resolve()."""
+        if not self.dup:
+            return
+        # A name some referring file cannot attribute to one copy keeps the old merged key (bare name): splitting
+        # it would drop that file's installs.  Only fully attributable copies are separated.
+        alt = '|'.join(sorted((re.escape(n) for n in self.dup), key=len, reverse=True))
+        any_re = re.compile(r'(?<![\w@])(%s)(?![\w@])' % alt)
+        ambiguous = set()
+        sym_re = re.compile(r'"(?:fn:|g:(?:[^"]*:)?)([A-Za-z_]\w*)"')
+        for f in self.funcs:
+            text = json.dumps(f)
+            for m in set(any_re.findall(text)):
+                if self.resolve(m, f['file']).endswith('@?'):
+                    ambiguous.add(m)
+            for m in set(sym_re.findall(text)):   # data-named function addresses (D_/func_<addr>, names.tsv)
+                r = self.sym.function(m, f['file'])
+                if r and r.endswith('@?'):
+                    ambiguous.add(r[:-2])
+        self.merged_ambiguous = sorted(ambiguous)
+        self.dup -= ambiguous
+        self.unresolved.clear()
+        if not self.dup:
+            return
+        alt = '|'.join(sorted((re.escape(n) for n in self.dup), key=len, reverse=True))
+        own_re = re.compile(r'(?<![\w@])p:(%s):(?=\d)' % alt)
+        call_re = re.compile(r'(c:\d+:)(%s)(?![\w@])' % alt)
+        for i, f in enumerate(self.funcs):
+            file = f['file']
+            text = json.dumps(f)
+            if not (own_re.search(text) or call_re.search(text) or f['func'] in self.dup):
+                continue
+            new = dict(f)
+            if f['func'] in self.dup:
+                new['func'] = self.resolve(f['func'], file)
+            for c in new.get('calls', ()):
+                if c.get('callee') in self.dup:
+                    c['callee'] = self.resolve(c['callee'], file)
+            text = json.dumps(new)
+            text = own_re.sub(lambda m: 'p:%s:' % (new['func'] if m.group(1) == f['func'] else m.group(1)), text)
+            text = call_re.sub(lambda m: m.group(1) + self.resolve(m.group(2), file), text)
+            self.funcs[i] = json.loads(text)
 
     def fsym(self, ref, file):
         """Function a value names (function designator, or a data symbol / &symbol at a function address)."""
@@ -964,7 +1044,10 @@ def cmd_report(args):
         'fold_body0': sum(k['fold_body0'] for k in kinds),
         'fold_body0_void': sum(k['fold_body0_void'] for k in kinds),
         'fold_position_sprite': sum(k['fold_position_sprite'] for k in kinds),
-        'ambiguous_function_names': len(L.dup),
+        'ambiguous_function_names': len(L.dup_all),
+        'unresolved_duplicate_references': sum(L.unresolved.values()),
+        'duplicate_names_split': len(L.dup),
+        'duplicate_names_kept_merged': len(L.merged_ambiguous),
         'draw_only_callbacks': draw_only,
     }
     summary['draw_groups'] = len(groups)

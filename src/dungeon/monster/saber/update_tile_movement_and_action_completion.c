@@ -65,13 +65,13 @@ void update_tile_movement_and_action_completion(ActorRecord *action, ObjectPosit
         action->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         action->unk_9E.s = 5;
-        action->unk_A4 = 0;
+        action->unk_A4.value = 0;
         action->action_phase.u++;
                         /* fall through */
 
     case 1:
         move_ticks = action->unk_9E.s;
-        action->unk_90.value -= action->unk_A4;
+        action->unk_90.value -= action->unk_A4.value;
         if (move_ticks != 0) {
             target_x = sprite->tile_x;
             pos_x = motion->x.w.i;
@@ -86,12 +86,12 @@ void update_tile_movement_and_action_completion(ActorRecord *action, ObjectPosit
                 (((sprite->tile_y << 6) - pos_y) << 16) /
                 action->unk_9E.s;
 
-            action->unk_A4 =
+            action->unk_A4.value =
                 (-rsin(action->unk_9E.s * 0x199)) << 10;
         }
 
         height_offset = action->unk_90.value;
-        height_step = action->unk_A4;
+        height_step = action->unk_A4.value;
         next_tick = action->unk_9E.u;
         height_offset += height_step;
         next_tick -= 1;

@@ -11,9 +11,9 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/player/state.h"
 #include "dungeon/actor.h"
+#include "dungeon/actor/effect.h"
 
 s32 play_sound_if_enabled(s32 query_value);
-s32 try_apply_effect_four_by_chance(void *actor, s32 chance, s32 action);
 extern u16 entity_action_selectors[];
 
 /* Handle item use on a target, deferring the player action or consuming the item. */

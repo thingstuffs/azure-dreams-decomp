@@ -9,6 +9,7 @@
 #include "dungeon/monster/garuda.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor.h"
+#include "dungeon/actor/motion.h"
 
 /* Updates actor state, animation, and callback according to entity status flags. */
 void update_actor_status_callback(void *actor_in, ObjectPosition *context_in, SpriteFrameState *sprite_in, void *entity_in) {

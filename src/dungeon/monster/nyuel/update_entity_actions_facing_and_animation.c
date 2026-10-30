@@ -10,6 +10,8 @@
 #include "engine/graphics.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "dungeon/actor/motion.h"
+#include "dungeon/actor/state.h"
 
 typedef s32 M2C_UNK;
 typedef struct {
@@ -41,10 +43,8 @@ s32 check_entity_relation();
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 s32 can_entity_gain_level(void *entity);
 void update_actor_status_and_mp(ActorRecord *entity);
-void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);
 s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-s32 reset_actor_action_state();
 extern void func_801737C4(Actor *actor, s32 action, Entity *entity, MapObject *map_object);
 s32 complete_timed_tile_movement(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg); /* Unprototyped: this consumer uses the return value, but the owner definition is void. */
 extern void func_801747D0(void *entity_data, ObjectPosition *unused_1, s32 unused_2, void *other_data);

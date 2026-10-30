@@ -135,8 +135,6 @@ typedef struct {
     u8 pad6[6];
 } PositionEntry;
 
-extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
-
 /* Finds an active entry at the given tile within 64 height units if the left tile has flag 0x800. */
 s32 find_floor_item_at_world_position(s32 input_x, s32 input_y, s32 input_z) {
     s32 held_x;
@@ -205,10 +203,6 @@ s32 find_first_empty_floor_item_slot(void) {
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-
-extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
-
-
 
 /* Finds a nearby unblocked position with a distance below 0x200. */
 s32 find_valid_floor_item_position(s16 x, s16 y, s16 z, s16 *out_x, s16 *out_y, s16 *out_distance) {

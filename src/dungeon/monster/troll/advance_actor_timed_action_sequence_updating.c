@@ -11,6 +11,7 @@
 #include "engine/graphics.h"
 #include "dungeon/system.h"
 #include "dungeon/actor.h"
+#include "dungeon/effect/screen.h"
 
 typedef struct S_8015C3C4_0 {
     u8 pad_00[0x8C];
@@ -22,11 +23,6 @@ typedef struct S_8015C3C4_0 {
     u8 pad_9C[0xE];
     s16 unk_AA;
 } S_8015C3C4_0;   /* arg0 in advance_actor_timed_action_sequence_updating */
-
-
-
-void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-
 
 extern void func_8015921C(void *, void *, void *, void *);
 extern void func_801594FC(void *, void *, void *, void *);

@@ -1,10 +1,10 @@
 #include "shared/entity.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/effect.h"
 
 s32 prepare_directional_attack(void *ptr, s32 value, s16 value_2, s32 value_3, s32 value_4);
 s16 try_claim_dungeon_action_slot(ActorRecord *actor);
-s32 apply_camera_offset_and_select_target(void *ptr,void *value, s32 value_2, s32 value_3);
 
 /* Clear the entity flag and advance its action when both checks pass. */
 void start_actor_attack(void *action_state, ObjectPosition *check_arg, s32 action_arg, void *entity) {

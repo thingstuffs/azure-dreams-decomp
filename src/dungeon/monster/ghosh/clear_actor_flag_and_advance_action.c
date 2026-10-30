@@ -5,6 +5,8 @@
 #include "dungeon/monster/ghosh.h"
 #include "shared/entity.h"
 #include "records/Rec_func_800A9E70_arg0.h"
+#include "dungeon/effect.h"
+
 typedef struct Ent Ent;
 
 /* cfail-repair: tf7-phase1-cache-v3 */

@@ -4,6 +4,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/effect.h"
 
 
 
@@ -15,7 +16,6 @@ extern s32 get_actor_height_difference(s32, void *);
 extern s32 probe_directional_neighbor(void *, u8, u8, s16); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 extern s32 check_entity_interaction_compatibility(void *, s32);
-extern void apply_camera_offset_and_select_target(void *,void *, s32, s32);
 
 /* Attempt an action toward the target and update actor state on success. */
 s32 attempt_target_action(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *target, ActorRecord *actor) {

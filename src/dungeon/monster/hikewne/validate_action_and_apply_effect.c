@@ -3,6 +3,7 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/effect.h"
 
 typedef struct S_8017237C_0 {
     u8 pad_00[0x2A];
@@ -33,7 +34,6 @@ extern s32 probe_directional_neighbor(void *, u8, u8, s16); /* Unprototyped: use
 struct ActorRecord;
 extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 extern s16 check_entity_interaction_compatibility(void *, s32);
-extern void apply_camera_offset_and_select_target(void *, void *, s32, s32);
 
 /* Validates an actor action, applies its effect, and updates the action state and remaining count. */
 /* Starts Hikewne's attack against a compatible neighbor within 64 height units; returns 1, 0 if

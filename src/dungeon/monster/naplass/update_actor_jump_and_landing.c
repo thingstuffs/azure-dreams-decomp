@@ -56,12 +56,12 @@ void update_actor_jump_and_landing(ActorRecord *jump, ObjectPosition *motion, Sp
         jump->action_state_flags |= 8;
         motion->velocity_z = 0xFFEE0000;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        jump->unk_A4 = 0;
+        jump->unk_A4.value = 0;
         jump->action_phase.u++;
 
     case 1:
         jump_ticks = jump->action_timer.s;
-        jump->unk_90.value -= jump->unk_A4;
+        jump->unk_90.value -= jump->unk_A4.value;
         if (jump_ticks != 0) {
             {
                 s32 target_x = map_entity->tile_x << 6;
@@ -76,10 +76,10 @@ void update_actor_jump_and_landing(ActorRecord *jump, ObjectPosition *motion, Sp
                 motion->velocity_y = ((target_y - current_y) << 16) /
                     jump->action_timer.s;
             }
-            jump->unk_A4 += motion->velocity_z;
+            jump->unk_A4.value += motion->velocity_z;
             motion->velocity_z += 0x40000;
         }
-        jump->unk_90.value += jump->unk_A4;
+        jump->unk_90.value += jump->unk_A4.value;
         if (jump->action_timer.s < 2) {
             jump->unk_90.value = 0;
             jump->action_state_flags &= 0xFFF7;

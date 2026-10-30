@@ -31,9 +31,9 @@ extern u8 D_80170A8C[];
 extern u8 stealth_frame_set[];
 extern u8 D_80173D78[];
 #include "dungeon/monster/stealth.h"
+#include "dungeon/effect/screen.h"
 
 extern s32 generate_random_value(void);
-extern void retire_tracked_effect_by_id();
 
 #define BODY_STORAGE
 #define BODY_ATTR

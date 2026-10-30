@@ -123,7 +123,6 @@ extern s32 find_eligible_entry_at_coordinates(u8 *entry, s16 x, s16 y);
 extern void prepare_directional_attack(void *, void *, s32, s32, s32);
 extern s32 get_actor_height_difference(s32, void *);
 extern s32 try_claim_dungeon_action_slot(void *);
-extern void apply_camera_offset_and_select_target(void *, void *, s32, s32);
 
 extern s16 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 

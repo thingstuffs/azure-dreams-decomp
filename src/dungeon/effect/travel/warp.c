@@ -6,6 +6,8 @@
 #include "modules/dungeon_ovl_19cc800.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "dungeon/effect.h"
+
 void (*const dungeon_19cc800_entry)(struct EventState *event) = run_warp_effect_sequence;
 #include "common.h"
 #include "shared/record_ptrs.h"

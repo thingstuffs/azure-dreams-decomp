@@ -26,9 +26,10 @@ s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor.h"
+#include "dungeon/actor/motion.h"
+
 s32 generate_random_value(void);
 void update_actor_status_and_mp(ActorRecord *entity);
-void begin_pushed_actor_move(void *,void *, void *, void *);
 s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void update_multi_form_actor_movement(ActorRecord *object, ObjectPosition *update_param, SpriteFrameState *state, ActorRecord *input);

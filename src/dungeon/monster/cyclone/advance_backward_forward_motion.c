@@ -13,6 +13,7 @@ struct SpriteFrameState;
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/actor.h"
+#include "dungeon/effect/screen.h"
 
 typedef struct S_80172C98_0 {
     u8 pad_00[0x8C];
@@ -27,9 +28,6 @@ typedef struct S_80172C98_0 {
 
 extern s32 rsin(s32);
 extern s32 rcos(s32);
-
-void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-
 
 extern void create_directional_effect(void *, void *,struct SpriteFrameState *);
 extern void create_offset_directional_effect(void *, void *,struct SpriteFrameState *);

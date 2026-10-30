@@ -15,6 +15,7 @@
 #include "engine/graphics.h"
 #include "dungeon/system.h"
 #include "dungeon/actor.h"
+#include "dungeon/effect/screen.h"
 
 typedef u32 az_uptr;
 
@@ -65,9 +66,6 @@ typedef struct S_80172790_3 {
 
 
 extern s32 rand(void);
-void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-
-
 
 extern u8 directional_effect_entries[];
 extern void *actor_update_node_cursor;

@@ -37,4 +37,8 @@ s32 try_apply_status_effect(void *target, s16 chance, s16 duration);
 struct Actor;
 s32 check_global_or_linked_flag_20000(struct Actor *actor);
 
+#include "shared/sprite_frame_state.h"
+s16 relink_entity_and_clear_high_flag(void *context, void *position, void *entity, s16 near_range, s16 far_range, s8 *state_out_addr);
+s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
+
 #endif

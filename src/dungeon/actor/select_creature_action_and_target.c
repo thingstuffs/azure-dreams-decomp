@@ -26,7 +26,6 @@ extern int abs(int);
 
 /* ---- ordinary callees ---- */
 #include "dungeon/player/state.h"
-extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern u8 *find_eligible_actor_at_tile_and_height();
 extern s32 get_tile_chebyshev_distance();
 extern s32 get_actor_height_difference();

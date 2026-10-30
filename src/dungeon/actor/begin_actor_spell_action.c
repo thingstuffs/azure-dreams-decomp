@@ -12,6 +12,7 @@ struct ObjectPosition;
 #include "engine/graphics.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "dungeon/effect.h"
 
 typedef struct S_800AAF00_0 {
     u8 pad_00[0x14];
@@ -50,7 +51,6 @@ typedef struct S_800AAF00_3 {
 struct ActorRecord;
 extern s16 try_claim_dungeon_action_slot(struct ActorRecord *actor);
 extern s32 generate_random_value(void);
-extern void select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 
 /* Updates the object action state and applies direction data to its target. */
 void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState *target, u8 *direction_table, void *next_state) {

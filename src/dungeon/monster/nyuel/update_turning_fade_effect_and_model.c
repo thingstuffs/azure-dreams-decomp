@@ -18,6 +18,7 @@ struct ObjectPosition;
 #include "shared/entity.h"
 #include "slus.h"
 #include "engine/graphics.h"
+#include "dungeon/effect.h"
 
 typedef struct S_801749A8_8 {
     u8 pad_00[0x8];
@@ -94,7 +95,6 @@ void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 void *advance_staged_entity_load(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 s32 create_status_linked_render_effect();
-s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 void create_cylindrical_effect(); /* Unprototyped: retail passes an unused sprite; dropping it changes bytes. */
 s32 lookup_masked_byte_table(void *, ...);
 extern u8 *actor_effect_color_targets[];

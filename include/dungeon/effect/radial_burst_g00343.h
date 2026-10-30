@@ -55,7 +55,6 @@ typedef struct S_800B6814_3 {
 extern s32 rsin(s32);
 extern s32 rcos(s32);
 extern s32 rand(void);
-extern void get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 /* param_width floor: keep this local s16 declaration; the owner prototype changes this call's argument setup. */
 extern void spawn_opposite_offset_effect(DungeonEffect *, s16);
 /* sub in spawn_randomized_radial_burst */

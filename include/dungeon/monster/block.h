@@ -981,7 +981,6 @@ extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s16 check_movement_clearance_and_height(s16,void *,void *,s32);
-void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void prepare_directional_attack(void *, void *, s16, s32, s32);
 extern s32 find_active_rect_containing_point(s32, s32);
 extern s16 get_tile_chebyshev_distance(void *, void *);
@@ -999,12 +998,11 @@ extern void func_800A9A04(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void initialize_actor_sprite_and_animation(void *entity, void *position, SpriteFrameState *sprite, s32 init_flags);
 extern s32 refresh_actor_facing_and_lifecycle();
-extern void begin_pushed_actor_move(void *, void *, void *, void *);
+extern void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
 extern s32 update_actor_movement_to_tile(void *move_state, void *motion, void *target_tile, ActorRecord *actor);
-extern s32 update_linked_actor_motion(void *,void *,void *,void *);
+extern s32 update_linked_actor_motion(void *state, void *transform, void *config, void *object);
 extern s32 update_actor_hop_and_shrink(void *,void *,struct SpriteFrameState *,void *);
 
 extern s32 interpolate_actor_to_terrain_tile(void *,void *,void *,void *);
@@ -1015,13 +1013,10 @@ extern s32 update_actor_fade_in(void *,void *,void *);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
 extern void * create_status_linked_render_effect(EntityRec *source_pos, s32 render_param, s16 initial_state, s8 *status);
-extern s32 relink_entity_and_clear_high_flag();
 extern void emit_scattered_effects_unless_blocked(void *);
 /* Retail banks use the signed-halfword height-query return view; this
  * is the existing certified fa7000 contract, not a per-function flag. */
 extern s16 sample_terrain_surface_height(s32,s32,s16);
-extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
-s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 extern s32 rand(void);
 
 void initialize_block_sprite_copy(CB_8017087C_Object *object, s32 field60_value, CB_8017087C_CopyFields *source_coords);

@@ -16,6 +16,7 @@
 #include "shared/entity.h"
 #include "dungeon/monster/ghosh.h"
 #include "dungeon/actor.h"
+#include "dungeon/actor/state.h"
 
 typedef struct {
     u8 before_callback[0x8C];
@@ -44,10 +45,9 @@ extern u8 ghosh_action_resume_address[];
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 s32 can_entity_gain_level(void *entity);
 struct ActorRecord; void update_actor_status_and_mp(struct ActorRecord *);
-extern void begin_pushed_actor_move(void *, void *, void *, void *);
+extern void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);
 s32 begin_ready_actor_directional_action();
 struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2; void begin_actor_move_to_target_facing(struct Rec_func_800A9E70_arg0 *, void *, struct Rec_func_800AA258_arg2 *, struct ActorRecord *);
-s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
 void advance_entity_along_path(void *, void *, SpriteFrameState *, void *);
 struct Rec_func_800A9E70_arg0; s32 dispatch_actor_action_phase(struct Rec_func_800A9E70_arg0 *, s32, s32, s32);
 extern void func_8016DAA4(CallbackOwner *owner, s32 unused, s32 first, s32 second);

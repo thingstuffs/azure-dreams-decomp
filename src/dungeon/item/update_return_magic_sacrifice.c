@@ -101,7 +101,7 @@ void *detach_record_and_update_slot_state(void *record);
 s32 play_sound_if_enabled(s32 query_value);
 void draw_transformed_sprite_with_clip_rect();
 void * create_five_point_effect(u8, u8, s16, void *, s32, s32, void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-void retire_tracked_effect_by_id();
+void retire_tracked_effect_by_id(s32 targetId);
 extern s32 return_magic_begin_address(void);
 extern s32 D_800C27F0(void);
 extern s32 linked_object_draw_address(void *initial_state, s32 value, void *data);

@@ -9,6 +9,8 @@ struct ObjectPosition;
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/level.h"
+#include "dungeon/effect.h"
+#include "dungeon/effect/screen.h"
 
 typedef struct S_800974DC_0 {
     u8 pad_00[0x8C];
@@ -35,9 +37,7 @@ typedef struct S_800974DC_6 {
 } S_800974DC_6;
 
 void select_record_entry_and_value(void *state, void *entries, short index);
-void * resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y); /* extern */
-s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value); /* extern */
 void handle_actor_commands_and_facing(void *actor, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor_data);
 extern void *actor_default_frames[];
 extern u8 actor_alternate_frames[8];

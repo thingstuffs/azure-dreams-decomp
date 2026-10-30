@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/level.h"
 
 typedef struct {
     u8 unk0;
@@ -18,7 +19,6 @@ typedef struct {
 
 extern Slot floor_objects[];
 extern Status dungeon_floor_object_positions[];
-extern s32 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 
 /* Finds an active floor object at the tile within 64 height units, or returns -1. */
 s16 find_entry_at_tile_coordinates(s16 x, s16 y, s16 z) {

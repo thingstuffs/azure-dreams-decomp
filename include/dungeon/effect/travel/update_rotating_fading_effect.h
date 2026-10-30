@@ -131,7 +131,6 @@ extern void func_800248D4(void);
 extern void func_80024DF0(void);
 extern void func_80024F30(void);
 extern void func_80024FB0(void);
-extern void create_effect_render_object(void);
 extern void func_800250E0(void);
 extern void func_80025118(void);
 #include "dungeon/effect/screen.h"

@@ -67,7 +67,6 @@ typedef struct {
     Work work;
 } Object;
 
-extern s32 get_offset_map_cell_value_and_flags(s16, s16, s16, u16 *);
 extern s32 *manoeva_knockback_callback_address;
 extern s8 D_801766F0[];
 extern u8 *find_or_retain_sprite_resource_slot(s32, s32);

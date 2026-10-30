@@ -47,13 +47,13 @@ typedef struct {
 } Arg2;
 
 #include "dungeon/monster/killer.h"
+#include "dungeon/effect.h"
 
 extern void prepare_directional_attack(void *, void *, s16, s32, s32);
 extern s32 get_actor_height_difference(s32, void *);
 extern s32 probe_directional_neighbor(void *, u8, u8, s16); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 try_claim_dungeon_action_slot(void *);
 extern s32 check_entity_interaction_compatibility(void *, s32);
-extern void apply_camera_offset_and_select_target(void *,void *, s32, s32);
 
 /* Validates the actor's direction and state, then initializes its action and animation. */
 s32 validate_direction_and_initialize_action(ActorRecord *action_state, ObjectPosition *action_id, SpriteFrameState *sprite, Arg3 *actor) {

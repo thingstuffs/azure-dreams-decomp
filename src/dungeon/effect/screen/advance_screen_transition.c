@@ -121,7 +121,7 @@ case 1:
         if (ctx->timer_1C >= 0xB) {
             break;
         }
-        (*(u16 *)((u8 *)&primary_actor_record->unk_A4 + 2))--;
+        (*(u16 *)((u8 *)&primary_actor_record->unk_A4.value + 2))--;
         play_sound_if_enabled(read_sound_mode_blocking_status(4) != 2 ? 0x300 : 0x4300);
         ctx->state++;
         break;

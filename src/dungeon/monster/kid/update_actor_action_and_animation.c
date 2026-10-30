@@ -20,7 +20,7 @@ extern s32 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/actor.h"
 extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(void *);
-extern void begin_pushed_actor_move(void *, void *, void *, void *);
+extern void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void func_80174218(void *, void *, void *, void *);
@@ -44,7 +44,7 @@ typedef struct S_80173A2C_0 {
 } S_80173A2C_0;   /* arg0 in update_actor_action_and_animation */
 
 /* Updates an actor's action state and animation before restoring its default callback. */
-void update_actor_action_and_animation(void *controller_in, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *actor) {
+void update_actor_action_and_animation(void *controller_in, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 actor_flags;
     u16 ticks_left;
     s32 state;
@@ -57,7 +57,7 @@ void update_actor_action_and_animation(void *controller_in, ObjectPosition *moti
             return;
         }
         sprite->frameTable = kid_alt_spawn_direction_frames;
-        actor = (EntityRec *)((u8 *)actor + 0x2A);
+        actor = (ActorRecord *)((u8 *)actor + 0x2A);
         select_sprite_entry(sprite,
             kid_alt_spawn_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)actor + 0x100) >> 9) & 7],
             0);
@@ -86,12 +86,12 @@ void update_actor_action_and_animation(void *controller_in, ObjectPosition *moti
             if (g_dungeon_status.flags & 0x1000) {
                 return;
             }
-            if (actor->unk_64 != 0) {
+            if (actor->hp_delta != 0) {
                 if (begin_ready_actor_directional_action(controller_in, motion, sprite, 0) != 0) {
                     return;
                 }
             }
-            if (actor->tileY == 0) {
+            if (actor->mp_value.parts.whole == 0) {
                 if (g_dungeon_status.flags & 0x2008) {
                     return;
                 }
@@ -112,7 +112,7 @@ void update_actor_action_and_animation(void *controller_in, ObjectPosition *moti
                 func_80174218(controller_in, motion, sprite, actor);
                 return;
             }
-            if (actor->unk_6D == 0) {
+            if (actor->pending_turn_updates == 0) {
                 return;
             }
             if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {

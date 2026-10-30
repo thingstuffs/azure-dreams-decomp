@@ -7,6 +7,7 @@
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/stealth/create_mode_configured_actor_object.h"
+#include "dungeon/effect/screen.h"
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 /* Creates Stealth with frames at D_8016DD30; a random display variant changes sprite flags and unlinks the

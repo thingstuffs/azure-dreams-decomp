@@ -1,8 +1,8 @@
 #include "dungeon/actor.h"
 #include "dungeon/player/object/action_state.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/actor/state.h"
 
-extern s16 relink_entity_and_clear_high_flag(void *, void *, void *, s16, s16, s8 *);
 extern void update_actor_status_and_mp(ActorRecord *);
 /* func_80171854 keeps its address: bank_9bf000 places the Hikewne direction
  * selector there, but bank_10a3000 rebinds this address into a Grineut helper. */

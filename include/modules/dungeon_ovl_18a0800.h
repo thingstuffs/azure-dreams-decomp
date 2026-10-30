@@ -18,7 +18,6 @@ extern u8 tinted_travel_sprite_data[];
 struct S_80045C34;
 s32 draw_linked_sprites_clipped(u8 *first_data, s32 link_value, SpriteFrameState *value_record);
 s32 func_80045C34(u8 *,s32,struct S_80045C34 *);
-s32 process_linked_mesh_states_mode_0(void *,s32,void *);
 void tint_effect_and_advance_motion(void *,void *);
 void *create_initialized_effect_object(s32,MovingPosition *,s16,s32);
 void advance_sprite_on_alternate_ticks_until_complete(void *,s32,void *);
@@ -26,7 +25,6 @@ void *create_radial_effect_node(MovingPosition *);
 
 void *spawn_ring_effects(void *,s16);
 void move_and_fade_effect(void *,void *,void *);
-void *create_effect_render_object(MovingPosition *,s16,s16);
 void update_spark_effect(void *,struct S_800250E8_0 *,void *);
 s32 queue_projected_point_primitives(void *,void *,void *);
 void allocate_jittered_effect_node(void *,s16,s16,s16);

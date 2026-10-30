@@ -9,17 +9,6 @@
 #include "dungeon/player/object.h"
 #include "dungeon/actor.h"
 
-typedef struct S_80173354_1 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    s32 unk_90;
-    u8 pad_94[0x2];
-    union { s16 s; u16 u; } unk_96;   /* accessed as both */
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-} S_80173354_1;   /* arg0 in complete_directional_hop_to_tile */
-
 extern void select_sprite_entry(void *, u8, s32);
 
 extern u8 kid_action_resume_address[];
@@ -27,7 +16,7 @@ extern u8 kid_alt_direction_frames[];
 extern u8 D_80175158[];
 
 /* Updates directional hop motion and returns the actor to its tile on landing. */
-void complete_directional_hop_to_tile(void *action, void *motion, void *sprite, void *actor)
+void complete_directional_hop_to_tile(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s16 flight_timer;
     s32 direction;
@@ -36,117 +25,117 @@ void complete_directional_hop_to_tile(void *action, void *motion, void *sprite, 
     s32 rounded_velocity_x;
     s32 rounded_velocity_y;
 
-    direction = (((EntityRec *)actor)->unk_6A >> 9) & 7;
+    direction = (actor->movement_facing >> 9) & 7;
 
-    switch (((S_80173354_1 *)action)->unk_9B) {
+    switch (body->action_phase.u) {
     case 0:
         apply_clamped_actor_value_delta(actor);
-        if (((EntityRec *)actor)->unk_28 == 0) {
-            ((EntityRec *)motion)->flags14 = 0;
-            ((EntityRec *)motion)->unk_10 = 0;
-            ((EntityRec *)motion)->unk_0C = 0;
-            begin_actor_display_action(action, motion, sprite, D_80175158);
+        if (actor->hp == 0) {
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
+            begin_actor_display_action(body, motion, sprite, D_80175158);
             return;
         }
 
-        if (((SpriteFrameState *)sprite)->flags & 0x8000) {
-            ((S_80173354_1 *)action)->unk_96.s = 0;
-            ((S_80173354_1 *)action)->unk_9B = 2;
+        if (sprite->flags & 0x8000) {
+            body->action_timer.s = 0;
+            body->action_phase.u = 2;
             return;
         }
 
-        ((EntityRec *)motion)->unk_0C = ((s16 *)((s8 *)dir_step_x))[direction] << 18;
-        ((EntityRec *)motion)->unk_10 = ((s16 *)((s8 *)dir_step_y))[direction] << 18;
-        ((EntityRec *)motion)->flags14 = 0x40000;
-        ((S_80173354_1 *)action)->unk_98 |= 8;
-        ((EntityRec *)actor)->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        ((EntityRec *)actor)->flags1C &= 0xFFFBFFFF;
-        ((S_80173354_1 *)action)->unk_9B++;
+        motion->velocity_x = ((s16 *)((s8 *)dir_step_x))[direction] << 18;
+        motion->velocity_y = ((s16 *)((s8 *)dir_step_y))[direction] << 18;
+        motion->velocity_z = 0x40000;
+        body->action_state_flags |= 8;
+        actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
+        actor->flags1C &= 0xFFFBFFFF;
+        body->action_phase.u++;
 
         flight_timer = -1;
-        if (((u32)((EntityRec *)actor)->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
+        if (((u32)actor->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             flight_timer = 8;
         }
-        ((S_80173354_1 *)action)->unk_96.s = flight_timer;
+        body->action_timer.s = flight_timer;
 
-        velocity_x = ((EntityRec *)motion)->unk_0C;
+        velocity_x = motion->velocity_x;
         rounded_velocity_x = velocity_x;
         if (velocity_x < 0) {
             rounded_velocity_x = velocity_x + 3;
         }
-        velocity_y = ((EntityRec *)motion)->unk_10;
-        ((EntityRec *)motion)->unk_0C = velocity_x - (rounded_velocity_x >> 2);
+        velocity_y = motion->velocity_y;
+        motion->velocity_x = velocity_x - (rounded_velocity_x >> 2);
         rounded_velocity_y = velocity_y;
-        ((EntityRec *)motion)->unk_10 = velocity_y - (rounded_velocity_y / 4);
+        motion->velocity_y = velocity_y - (rounded_velocity_y / 4);
         return;
 
     case 1:
-        ((EntityRec *)motion)->unk_0C -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
-        ((EntityRec *)motion)->unk_10 -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
+        motion->velocity_x -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
+        motion->velocity_y -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
 
-        if (((S_80173354_1 *)action)->unk_96.s > 0) {
-            ((S_80173354_1 *)action)->unk_96.u--;
-        } else if (((SpriteFrameState *)sprite)->flags & 0x6000) {
-            ((S_80173354_1 *)action)->unk_96.s = 0;
+        if (body->action_timer.s > 0) {
+            body->action_timer.u--;
+        } else if (sprite->flags & 0x6000) {
+            body->action_timer.s = 0;
         }
-        if (((S_80173354_1 *)action)->unk_96.s != 0) {
+        if (body->action_timer.s != 0) {
             return;
         }
-        if (((EntityRec *)actor)->unk_28 == 0) {
-            ((S_80173354_1 *)action)->unk_9B = 0;
-            ((EntityRec *)motion)->flags14 = 0;
-            ((EntityRec *)motion)->unk_10 = 0;
-            ((EntityRec *)motion)->unk_0C = 0;
-            begin_actor_display_action(action, motion, sprite, D_80175158);
+        if (actor->hp == 0) {
+            body->action_phase.u = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
+            begin_actor_display_action(body, motion, sprite, D_80175158);
             return;
         }
-        ((S_80173354_1 *)action)->unk_96.s = 8;
-        ((S_80173354_1 *)action)->unk_9B++;
+        body->action_timer.s = 8;
+        body->action_phase.u++;
         return;
 
     case 2:
-        ((EntityRec *)motion)->flags14 = 0xFFFE0000;
-        if (((S_80173354_1 *)action)->unk_96.s != 0) {
+        motion->velocity_z = 0xFFFE0000;
+        if (body->action_timer.s != 0) {
             s32 tile_delta;
             s32 position;
 
-            tile_delta = ((SpriteFrameState *)sprite)->tile_x << 6;
-            position = ((EntityRec *)motion)->x.w.i;
+            tile_delta = sprite->tile_x << 6;
+            position = motion->x.w.i;
             position -= 0x20;
             tile_delta -= position;
             tile_delta <<= 15;
-            ((EntityRec *)motion)->unk_0C = tile_delta >> 1;
-            tile_delta = ((SpriteFrameState *)sprite)->tile_y << 6;
-            position = ((EntityRec *)motion)->y.w.i;
+            motion->velocity_x = tile_delta >> 1;
+            tile_delta = sprite->tile_y << 6;
+            position = motion->y.w.i;
             position -= 0x20;
             tile_delta -= position;
             tile_delta <<= 15;
-            ((EntityRec *)motion)->unk_10 = tile_delta >> 1;
-            ((EntityRec *)motion)->unk_0C += ((EntityRec *)motion)->unk_0C >> 1;
-            ((EntityRec *)motion)->unk_10 += ((EntityRec *)motion)->unk_10 >> 1;
+            motion->velocity_y = tile_delta >> 1;
+            motion->velocity_x += motion->velocity_x >> 1;
+            motion->velocity_y += motion->velocity_y >> 1;
         }
 
         {
-            s16 landing_timer = (u16)((S_80173354_1 *)action)->unk_96.s - 1;
+            s16 landing_timer = (u16)body->action_timer.s - 1;
 
-            ((S_80173354_1 *)action)->unk_96.s = landing_timer;
+            body->action_timer.s = landing_timer;
             if (landing_timer > 0) {
                 return;
             }
         }
 
-        ((EntityRec *)motion)->flags14 = 0;
-        ((EntityRec *)motion)->unk_10 = 0;
-        ((EntityRec *)motion)->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->tile_x, ((SpriteFrameState *)sprite)->tile_y);
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
 
-        ((S_80173354_1 *)action)->unk_90 = 0;
-        ((S_80173354_1 *)action)->unk_98 &= 0xFFF7;
-        ((EntityRec *)actor)->flags1C |= ACTOR_GROUNDED;
-        ((EntityRec *)actor)->flags1C |= 0x00040000;
-        ((SpriteFrameState *)sprite)->frameTable = kid_alt_direction_frames;
+        body->unk_90.value = 0;
+        body->action_state_flags &= 0xFFF7;
+        actor->flags1C |= ACTOR_GROUNDED;
+        actor->flags1C |= 0x00040000;
+        sprite->frameTable = kid_alt_direction_frames;
         select_sprite_entry(sprite,
-            kid_alt_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            kid_alt_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
 
         {
@@ -156,7 +145,7 @@ void complete_directional_hop_to_tile(void *action, void *motion, void *sprite, 
                 (*(u32 *)&global_state->pending_display_owner) &= 0x7FFFFFFF;
             }
         }
-        ((S_80173354_1 *)action)->unk_8C = kid_action_resume_address;
+        body->unk_8C.address = kid_action_resume_address;
         return;
 
     default:

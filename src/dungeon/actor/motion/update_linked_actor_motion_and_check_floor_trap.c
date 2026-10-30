@@ -1,9 +1,8 @@
 #include "common.h"
 #include "dungeon/actor.h"
+#include "dungeon/actor/motion.h"
 
 /* Four word callback ABI; primary dispatch and individual return-boundary evidence accompany this draft. */
-extern s32 update_linked_actor_motion(void *, void *, void *, void *);
-
 
 /*
  * Updates linked actor motion and restores facing animation once motion succeeds and the

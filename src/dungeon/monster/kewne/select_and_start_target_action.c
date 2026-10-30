@@ -6,6 +6,7 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "engine/graphics.h"
 #include "dungeon/item.h"
+#include "dungeon/effect.h"
 
 typedef struct S_80171F9C_0 {
     u8 pad_00[0x24];
@@ -19,7 +20,6 @@ extern s32 prepare_directional_attack();
 extern s32 get_actor_height_difference();
 extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 extern s32 check_entity_interaction_compatibility();
-extern s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 extern u8 D_80175E50[];
 extern u8 kewne_frame_set_3[];
 extern u8 kewne_frame_set[];

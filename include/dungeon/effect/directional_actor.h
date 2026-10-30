@@ -171,9 +171,7 @@ s32 rand(void);
 void jitter_effect_position_and_fade(void *, s32); /* Unprototyped: retail call passes a different argument count */
 void initialize_timed_motion_step(s32, s32);
 s32 get_definition_entry_byte_13(s16 entry_index);
-s32 try_trigger_target_record_effect(void *, s32, void *);
 void play_sound_if_enabled(s32);
-void try_apply_effect_four_by_chance(void *, s32, s32);
 void advance_sprite_animation_and_textures(void *);
 s32 rsin(s32);
 s32 rand(void);

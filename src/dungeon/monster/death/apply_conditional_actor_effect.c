@@ -3,13 +3,11 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
+#include "dungeon/effect.h"
 
 typedef struct Ent Ent;
 Ent *prepare_directional_attack(); /* extern */
 s16 try_claim_dungeon_action_slot(ActorRecord *actor);                          /* extern */
-s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value); /* extern */
-
-
 
 /* Clears an actor flag, applies a conditional effect, and updates its action state. */
 void apply_conditional_actor_effect(ActorRecord *action_state, ObjectPosition *effect_context, SpriteFrameState *action_context, ActorRecord *actor) {

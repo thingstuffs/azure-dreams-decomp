@@ -13,8 +13,6 @@
 
 
 extern s32 rand(void);
-void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-
 
 extern void spawn_randomized_directional_effect(void *, s16, s32, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
 void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosition *source_position, SpriteFrameState *source_sprite);
@@ -23,6 +21,7 @@ extern u8 uboat_default_frames[];
 extern u8 u_boat_frame_set_1[];
 #include "dungeon/monster/u_boat.h"
 #include "dungeon/actor.h"
+#include "dungeon/effect/screen.h"
 
 typedef struct S_80173510_0 {
     u8 pad_00[0x8C];

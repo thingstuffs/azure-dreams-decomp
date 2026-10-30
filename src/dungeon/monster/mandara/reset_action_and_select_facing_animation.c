@@ -16,9 +16,9 @@ typedef struct S_80172514_1 {
 
 extern Ent *prepare_directional_attack();
 extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
-extern s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 #include "dungeon/monster/mandara.h"
 #include "engine/graphics.h"
+#include "dungeon/effect.h"
 
 /* Reset actor action state and select a facing-dependent animation when status checks pass. */
 void reset_action_and_select_facing_animation(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor) {

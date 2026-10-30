@@ -6,7 +6,6 @@
 #include "m2c_compat.h"
 #include "dungeon/level.h"
 
-s16 get_offset_map_cell_value_and_flags(s16, s16, s16, u16 *);          /* extern */
 s32 play_sound_if_enabled(s32);                     /* extern */
 extern s32 held_item_record;
 extern void *player_put_down_target;

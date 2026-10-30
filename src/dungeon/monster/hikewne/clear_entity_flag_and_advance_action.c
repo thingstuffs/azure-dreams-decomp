@@ -4,12 +4,11 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "records/Rec_func_800A9E70_arg0.h"
+#include "dungeon/effect.h"
 
 typedef struct Ent Ent;
 Ent *prepare_directional_attack(); /* extern */
 s16 try_claim_dungeon_action_slot(ActorRecord *actor);                          /* extern */
-s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value); /* extern */
-
 
 /* Clear the entity flag and advance its action state when the checks pass. */
 void clear_entity_flag_and_advance_action(ActorRecord *action_state, ObjectPosition *effect_context, SpriteFrameState *update_context, ActorRecord *entity) {

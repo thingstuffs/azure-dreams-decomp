@@ -411,7 +411,6 @@ typedef struct {
 } floor_generate_isolated_8028AE2C_DungeonArea;
 extern u8 generation_region_cell_entries[];
 extern s32 generate_random_value(void);
-extern s32 get_offset_map_cell_value_and_flags(s16, s16, s16, u16 *);
 extern s32 check_diagonal_side_height(u16, s16, s16, s16);
 extern void Control_CD(s32,void *, s32);
 extern void drain_cd_command_queue(void);

@@ -12,6 +12,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/actor/animation.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/effect/screen.h"
 
 typedef struct S_80F2D000_1 {
     u8 pad_00[0x13];
@@ -40,7 +41,6 @@ typedef struct S_80F2D000_4 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 generate_random_value(void);                          /* extern */
-void retire_tracked_effect_by_id();                      /* extern */
 extern M2C_UNK D_8014CA8C;
 extern M2C_UNK D_8014CF74;
 extern M2C_UNK D_8014FD30;

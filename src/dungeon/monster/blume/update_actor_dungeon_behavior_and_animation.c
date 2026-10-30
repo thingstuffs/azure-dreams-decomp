@@ -37,10 +37,8 @@ extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s8 find_active_rect_containing_point(u8, u8);
 extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
 
 extern void func_80172384(void *, void *, void *, void *);
 extern s32 advance_item_action_sequence(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor); /* Unprototyped: this consumer uses the return value, but the owner definition is void. */
@@ -53,6 +51,8 @@ void begin_actor_directional_target_action(ActorRecord *action_state, ObjectPosi
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/monster/glacier.h"
+#include "dungeon/actor/motion.h"
+#include "dungeon/actor/state.h"
 
 extern u8 D_801753C4[];
 extern u8 D_801753F4[];

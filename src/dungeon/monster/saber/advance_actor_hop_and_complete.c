@@ -67,12 +67,12 @@ void advance_actor_hop_and_complete(ActorRecord *action, ObjectPosition *motion,
         action->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         action->unk_9E.s = 5;
-        action->unk_A4 = 0;
+        action->unk_A4.value = 0;
         action->action_phase.u++;
 
     case 1:
         hop_ticks = action->unk_9E.s;
-        action->unk_90.value -= action->unk_A4;
+        action->unk_90.value -= action->unk_A4.value;
         if (hop_ticks != 0) {
             target_x = sprite->tile_x;
             pos_x = motion->x.w.i;
@@ -87,12 +87,12 @@ void advance_actor_hop_and_complete(ActorRecord *action, ObjectPosition *motion,
                 (((sprite->tile_y << 6) - pos_y) << 16) /
                 action->unk_9E.s;
 
-            action->unk_A4 =
+            action->unk_A4.value =
                 (-rsin(action->unk_9E.s * 0x199)) << 10;
         }
 
         height = action->unk_90.value;
-        hop_offset = action->unk_A4;
+        hop_offset = action->unk_A4.value;
         next_hop_ticks = action->unk_9E.u;
         height += hop_offset;
         next_hop_ticks -= 1;

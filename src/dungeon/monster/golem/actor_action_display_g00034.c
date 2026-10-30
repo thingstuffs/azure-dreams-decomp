@@ -5,6 +5,7 @@
 #include "dungeon/monster/golem/actor_action_display_g00034.h"
 #include "dungeon/monster/golem.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/effect.h"
 
 /* Attempts an actor action and initializes its output and directional display on success. */
 s32 attempt_actor_action_and_display(ActorRecord *action_out, ObjectPosition *action_param, SpriteFrameState *actor_info, ActorRecord *acting_actor) {

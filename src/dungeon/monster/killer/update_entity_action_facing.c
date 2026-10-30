@@ -15,10 +15,8 @@ extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s32 find_active_rect_containing_point(s32, s32);
 extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
 extern void func_80171438(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
 extern void func_8017167C(void *, void *, void *, void *);
 extern s32 validate_direction_and_initialize_action(ActorRecord *, ObjectPosition *, void *, void *);
@@ -30,6 +28,9 @@ extern u8 killer_action_resume_address;
 #include "dungeon/monster/killer.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "dungeon/actor/motion.h"
+#include "dungeon/actor/state.h"
+
 extern u8 D_80174040[];
 extern u8 D_80174070[];
 extern u8 killer_frame_set[];

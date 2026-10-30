@@ -5,6 +5,8 @@
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/actor.h"
+#include "dungeon/effect/screen.h"
+
 extern u8 resident_globals_page[];
 
 typedef struct S_80172F04_0 {
@@ -39,7 +41,6 @@ typedef struct S_80172F04_4 {
 } S_80172F04_4;   /* (u8 *)work in advance_item_animation_sequence */
 
 extern void select_sprite_entry(void *, u8, s32);
-extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 

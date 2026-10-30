@@ -7,6 +7,7 @@
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/stealth/create_tracked_effect_object.h"
+#include "dungeon/effect/screen.h"
 
 /* Creates a Stealth actor, initializes its status and tile, and optionally unlinks its translucent render
  * node. */

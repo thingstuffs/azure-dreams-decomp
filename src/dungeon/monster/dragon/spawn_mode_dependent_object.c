@@ -14,6 +14,8 @@
 #include "shared/tile_object.h"
 #include "dungeon/level/room_flags.h"
 #include "dungeon/item.h"
+#include "dungeon/effect.h"
+#include "dungeon/effect/screen.h"
 
 void * (*const resource03_slot0_entry0)(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a) = spawn_mode_dependent_112_object;
 void (*const resource03_slot0_entry1)(void *entity, R03_80170A28_S_80170A28_2 *motion, void *part) = update_entity_facing_motion_and_ground;
@@ -1228,7 +1230,7 @@ void finish_timed_actor_movement(void *action_state, void *transform, void *spri
         ((EntityRec *)transform)->unk_0C = 0;
         set_record_integer_tile_center(transform,(u8)((SpriteFrameState *)sprite)->tile_x,(u8)((SpriteFrameState *)sprite)->tile_y);
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)&primary_actor_record->unk_A4 + 2)) = (*(u16 *)((u8 *)primary_actor_record + 0xA6)) - 1;
+        (*(u16 *)((u8 *)&primary_actor_record->unk_A4.value + 2)) = (*(u16 *)((u8 *)primary_actor_record + 0xA6)) - 1;
         advance_status_timers(actor);
         actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
         ((R03_80172A24_S_80172A24_0 *)action_state)->unk_8C = ((u8 *)dispatch_monster_move_attack_spell);

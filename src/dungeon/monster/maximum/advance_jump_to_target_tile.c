@@ -33,12 +33,12 @@ void advance_jump_to_target_tile(ActorRecord *motion, ObjectPosition *position, 
         motion->action_state_flags |= 8;
         position->velocity_z = 0xFFEE0000;
         entity->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        motion->unk_A4 = 0;
+        motion->unk_A4.value = 0;
         motion->action_phase.u++;
                         /* fall through */
     case 1:
         frames_left = motion->action_timer.s;
-        motion->unk_90.value -= motion->unk_A4;
+        motion->unk_90.value -= motion->unk_A4.value;
         if (frames_left != 0) {
             s32 coord;
             s32 axis_origin;
@@ -51,10 +51,10 @@ void advance_jump_to_target_tile(ActorRecord *motion, ObjectPosition *position, 
             coord2 = target_tile->tile_y << 6;
             axis_origin2 = position->y.w.i - 0x20;
             position->velocity_y = ((coord2 - axis_origin2) << 16) / motion->action_timer.s;
-            motion->unk_A4 += position->velocity_z;
+            motion->unk_A4.value += position->velocity_z;
             position->velocity_z += 0x40000;
         }
-        motion->unk_90.value += motion->unk_A4;
+        motion->unk_90.value += motion->unk_A4.value;
         if (motion->action_timer.s < 3) {
             motion->unk_90.value = 0;
             motion->action_state_flags &= 0xFFF7;

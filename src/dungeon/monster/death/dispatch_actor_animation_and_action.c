@@ -9,16 +9,16 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "dungeon/actor/motion.h"
+#include "dungeon/actor/state.h"
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
 void advance_entity_path_state(ActorRecord *motion_state, ObjectPosition *unused, SpriteFrameState *entity, ActorRecord *path_state);
 extern void func_801721D8(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 s32 attempt_target_action(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *target, ActorRecord *actor);
@@ -137,7 +137,7 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
                             >> 9) & 7],
                         1);
                     entity_in->frame_ticks = 1;
-                    motion_value = motion_in->unk_A4;
+                    motion_value = motion_in->unk_A4.value;
                     ((S_801719DC_0 *)motion_in)->unk_A4.at02.v = 0;
                     ((S_801719DC_0 *)motion_in)->unk_B8 = 0;
                     ((S_801719DC_0 *)motion_in)->unk_AC = 0;
@@ -165,7 +165,7 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
             begin_actor_move_to_target_facing(motion_in, context_in, entity_in, actor_in);
             base_offset = motion_in->unk_90.parts.high.u;
             offset_delta = ((S_801719DC_0 *)motion_in)->unk_A4.at02u.v;
-            motion_value = motion_in->unk_A4;
+            motion_value = motion_in->unk_A4.value;
             ((S_801719DC_0 *)motion_in)->unk_A4.at02.v = 0;
             ((S_801719DC_0 *)motion_in)->unk_B8 = 0;
             ((S_801719DC_0 *)motion_in)->unk_AC = 0;
@@ -304,7 +304,7 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
                 ((u8 *)anim_table)[((g_game_work.view.camera_rotation.parts.viewAngle + actor_in->facing + 0x100) >> 9) & 7],
                 1);
             entity_in->frame_ticks = 1;
-            motion_value = motion_in->unk_A4;
+            motion_value = motion_in->unk_A4.value;
             ((S_801719DC_0 *)motion_in)->unk_A4.at02.v = 0;
             ((S_801719DC_0 *)motion_in)->unk_B8 = 0;
             ((S_801719DC_0 *)motion_in)->unk_AC = 0;

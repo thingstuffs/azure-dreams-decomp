@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+#include "dungeon/actor/motion.h"
 
 extern void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);
 

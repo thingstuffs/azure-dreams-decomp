@@ -13,6 +13,7 @@
 #include "engine/graphics.h"
 #include "dungeon/system.h"
 #include "dungeon/actor.h"
+#include "dungeon/effect/screen.h"
 
 typedef struct Node Node;
 
@@ -26,11 +27,6 @@ typedef struct S_80172908_1 {
     u8 pad_9A[0x1];
     u8 unk_9B;
 } S_80172908_1;   /* arg0 in update_movement_animation_settles_actor_target_tile */
-
-
-void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-
-
 
 extern Node *actor_update_node_cursor[];
 extern u8 picket_action_resume_address[];

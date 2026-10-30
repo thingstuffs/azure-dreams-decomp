@@ -4,6 +4,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "engine/graphics.h"
+#include "dungeon/effect.h"
 
 typedef struct S_809A0A34_1 {
     u8 pad_00[0x98];
@@ -15,7 +16,6 @@ typedef struct S_809A0A34_1 {
 typedef struct Ent Ent;
 Ent *prepare_directional_attack(); /* extern */
 s16 try_claim_dungeon_action_slot(ActorRecord *actor);                          /* extern */
-s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value); /* extern */
 extern u8 kewne_frame_set_3;
 
 /* Clears the actor flag and conditionally updates its state and directional animation. */

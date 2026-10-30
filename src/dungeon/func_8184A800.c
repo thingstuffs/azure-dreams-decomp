@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
+#include "dungeon/effect/mesh.h"
 
 extern void advance_sprite_animation_and_textures(void *target);
 extern s32 rand(void);
@@ -11,7 +12,6 @@ extern void func_80025058(void);
 extern void func_80025068(void);
 extern void func_80025078(void);
 extern void func_8002510C(void);
-extern void raise_entity_to_ground(void);
 extern void func_80025674(void);
 extern void func_80025730(void);
 extern void func_80025770(void);

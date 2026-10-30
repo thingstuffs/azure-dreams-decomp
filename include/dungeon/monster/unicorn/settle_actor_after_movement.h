@@ -56,9 +56,6 @@ typedef struct T_80172664_S_80172664_3 {
 
 void select_sprite_entry(void *object_data, s16 table_index, s16 entry_index);
 
-void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-
-
 extern void * actor_update_node_cursor;
 extern u8 unicorn_action_continuation_address;
 extern u8 D_80174D7C;

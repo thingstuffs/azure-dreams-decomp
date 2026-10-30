@@ -79,7 +79,7 @@ void update_actor_action_target_and_animation(ActorRecord *action, ObjectPositio
     void *target_owner;
 
     is_special = 0;
-    visual_base = action->unk_A4;
+    visual_base = action->unk_A4.value;
     state = action->action_phase.u;
     visual_flags = (S_801727C8_5 *)(visual_base + 0x20);
     effect_sprite = visual_base + 0x28;
@@ -189,7 +189,7 @@ void update_actor_action_target_and_animation(ActorRecord *action, ObjectPositio
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)&primary_actor_record->unk_A4 + 2)) = (u16) ((((D800814A8FieldView_80EB6FC8 *)primary_actor_record)->field_A6) - 1);
+        (*(u16 *)((u8 *)&primary_actor_record->unk_A4.value + 2)) = (u16) ((((D800814A8FieldView_80EB6FC8 *)primary_actor_record)->field_A6) - 1);
         advance_status_timers(actor);
         actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
         action->unk_8C.handler = &update_actor_animation_and_dispatch;

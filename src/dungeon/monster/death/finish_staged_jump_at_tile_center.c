@@ -12,11 +12,7 @@
 #include "engine/graphics.h"
 #include "dungeon/system.h"
 #include "dungeon/actor.h"
-
-
-void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-
-
+#include "dungeon/effect/screen.h"
 
 extern s32 death_action_resume_address;
 extern u8 D_8017464C[8];
@@ -57,7 +53,7 @@ void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *moti
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        if (action->unk_A4 != 0) {
+        if (action->unk_A4.value != 0) {
             return;
         }
         sprite->frameTable = D_8017464C;
@@ -93,7 +89,7 @@ void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *moti
         return;
 
     case 2:
-        action->unk_A4 += ((S_80172DB0_0 *)action)->unk_AC;
+        action->unk_A4.value += ((S_80172DB0_0 *)action)->unk_AC;
         ((S_80172DB0_0 *)action)->unk_AC += ((S_80172DB0_0 *)action)->unk_B0;
         if (action->action_timer.s < 2) {
             motion->velocity_x =
@@ -115,7 +111,7 @@ void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *moti
         return;
 
     case 3:
-        action->unk_A4 += ((S_80172DB0_0 *)action)->unk_AC;
+        action->unk_A4.value += ((S_80172DB0_0 *)action)->unk_AC;
         ((S_80172DB0_0 *)action)->unk_AC += ((S_80172DB0_0 *)action)->unk_B0;
         if (!(sprite->flags & 0xE000)) {
             return;
@@ -127,7 +123,7 @@ void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *moti
         action->action_phase.u++;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        action->unk_A4 = 0;
+        action->unk_A4.value = 0;
         return;
 
     case 4:
@@ -139,7 +135,7 @@ void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *moti
             death_frame_set_6[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         action->action_timer.u = 4;
-        action->unk_A4 = 0;
+        action->unk_A4.value = 0;
         action->action_phase.u++;
         {
             s32 target_x = sprite->tile_x << 6;

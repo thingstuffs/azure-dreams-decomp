@@ -149,7 +149,7 @@ void advance_actor_motion_action(ActorRecord *action_state, ObjectPosition *posi
         position->velocity_x = 0;
         set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)&primary_actor_record->unk_A4 + 2)) = (*(u16 *)((u8 *)primary_actor_record + 0xA6)) - 1;
+        (*(u16 *)((u8 *)&primary_actor_record->unk_A4.value + 2)) = (*(u16 *)((u8 *)primary_actor_record + 0xA6)) - 1;
         advance_status_timers(actor);
         actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
         action_state->unk_8C.address = ashra_action_continuation_address;

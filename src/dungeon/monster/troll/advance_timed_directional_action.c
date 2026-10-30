@@ -12,6 +12,7 @@
 #include "engine/graphics.h"
 #include "dungeon/system.h"
 #include "dungeon/actor.h"
+#include "dungeon/effect/screen.h"
 
 typedef struct S_801743C4_0 {
     u8 pad_00[0x8C];
@@ -23,10 +24,6 @@ typedef struct S_801743C4_0 {
     u8 pad_9C[0xE];
     s16 unk_AA;
 } S_801743C4_0;   /* arg0 in advance_timed_directional_action */
-
-
-void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-
 
 extern void create_targeted_motion_effect(void *, void *, void *, void *);
 void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *source_pos, SpriteFrameState *sprite_template, ActorRecord *actor);

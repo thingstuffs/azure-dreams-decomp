@@ -7,14 +7,14 @@
 
 
 
-void advance_stored_actor_path(void *motion, ObjectPosition *context, SpriteFrameState *sprite, void *move_state);
+void advance_stored_actor_path(ActorRecord *body, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
 
 void advance_entity_animation_actions(ActorRecord *action, ObjectPosition *context, SpriteFrameState *sprite, void *entity);
-void update_actor_action_and_animation(void *controller_in, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *actor);
+void update_actor_action_and_animation(void *controller_in, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 
 
-void advance_fading_directional_entity(void *anim_state, ObjectPosition *motion, SpriteFrameState *sprite, void *entity);
+void advance_fading_directional_entity(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, void *entity);
 void update_staged_actor_movement(void *action, ObjectPosition *motion, SpriteFrameState *tile, void *actor);
 
 /* Callback entry points. */
@@ -24,6 +24,6 @@ void initialize_counted_entity_action(void *entity_data, ObjectPosition *unused_
 void create_randomly_rotated_offset_effect(void *unused_ptr, ObjectPosition *source_pos, SpriteFrameState *unused_value, s16 scale);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
-void complete_directional_hop_to_tile(void *action, void *motion, void *sprite, void *actor);
+void complete_directional_hop_to_tile(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 #endif

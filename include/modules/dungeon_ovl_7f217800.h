@@ -61,7 +61,6 @@ extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argumen
 extern s16 set_or_clear_actor_status_slot();
 extern void unlink_node(struct ObjectNodeHeader *node);
 extern void func_80044A50(struct ObjectNodeHeader *node);
-extern void retire_tracked_effect_by_id();
 
 void * func_80158854(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);
 #endif

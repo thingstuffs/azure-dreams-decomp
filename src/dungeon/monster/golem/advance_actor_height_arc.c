@@ -14,6 +14,7 @@
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 #include "dungeon/system.h"
 #include "dungeon/actor.h"
+#include "dungeon/effect/screen.h"
 
 typedef struct S_80172D08_0 {
     u8 pad_00[0x8C];
@@ -41,7 +42,6 @@ typedef struct S_80172D08_4 {
 } S_80172D08_4;   /* owner in advance_actor_height_arc */
 
 extern s32 rsin(s32);
-extern void * resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 s16 check_layer_offset_height(u16 x, u16 y, s16 height, u32 flags);
 
 extern u8 golem_action_continuation_address;

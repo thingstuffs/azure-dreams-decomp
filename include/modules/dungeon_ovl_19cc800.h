@@ -73,5 +73,4 @@ void *update_object_movement_proximity_reactions(s16 x, s16 y, s16 z, s16 angle,
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 s32 rand(void);
 s32 draw_linked_model_chain(void *, s32, void *);
-s32 process_linked_mesh_states_mode_0(void *, s32, void *);
 #endif

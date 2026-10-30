@@ -1,6 +1,7 @@
 #include "common.h"
 #include "dungeon/monster/saber.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/effect/screen.h"
 
 typedef struct S_801745BC_0_pre {
     void * unk_00;
@@ -55,7 +56,6 @@ typedef struct S_801745BC_4 {
 
 extern void initialize_timed_motion_step(u16, u32);
 extern void spawn_radial_particle_burst(s16, s16, s16, s16, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
-extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void play_sound_if_enabled(s32);
 
 /* Process nodes at the target tile and height, triggering type-specific effects. */

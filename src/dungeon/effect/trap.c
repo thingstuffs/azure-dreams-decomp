@@ -22,6 +22,7 @@
 #include "dungeon/menu.h"
 #include "dungeon/player/object.h"
 #include "engine/graphics.h"
+#include "dungeon/level.h"
 
 struct Dst;
 struct Elem;
@@ -1524,9 +1525,6 @@ void advance_falling_trap_effect(void *effect, S_800CD474_1 *motion, S_800CD474_
 #include "modules/trap_effects_candidate.h"
 #include "common.h"
 
-extern s32 try_apply_effect_four_by_chance(void *actor, s32 chance, s32 action);            /* extern */
-
-
 /* Apply the global-mode mask to the target with a fixed value of 0x10. */
 void apply_mode_selected_trap_mask(void *target, s32 unused_mask)
 {
@@ -1769,7 +1767,7 @@ s32 run_action_ten_if_eligible(ActorRecord *entity, s8 action_arg) {
 
     initial_state = entity->species;
     if (initial_state != 0x2E) {
-        if (((initial_state != 0x1E) || ((entity->unk_A4 == 0) && (entity->unk_AA == 0)))
+        if (((initial_state != 0x1E) || ((entity->unk_A4.value == 0) && (entity->unk_AA == 0)))
             && ((get_entity_effect_value(entity, STATUS_FROG) << 0x10) == 0)) {
             prior_state = entity->species;
             if ((s16)set_or_clear_actor_status_slot(entity, STATUS_FROG, action_arg) >= 0) {
@@ -2667,7 +2665,6 @@ extern void initialize_timed_motion_step(u16 countdown, u32 amount);
 extern void func_80042640(void *, s32);
 extern void SD_Call(s32);
 extern void display_formatted_context_message(void *context);
-extern s32 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern u8 *find_or_retain_sprite_resource_slot(s32, s32);
 extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 generate_random_value(void);

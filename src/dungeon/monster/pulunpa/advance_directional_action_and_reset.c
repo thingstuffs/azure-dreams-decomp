@@ -10,6 +10,7 @@
 #include "engine/graphics.h"
 #include "dungeon/system.h"
 #include "dungeon/actor.h"
+#include "dungeon/effect/screen.h"
 
 typedef struct S_801725B8_0 {
     u8 pad_00[0x8C];
@@ -17,12 +18,6 @@ typedef struct S_801725B8_0 {
     u8 pad_90[0xB];
     u8 unk_9B;
 } S_801725B8_0;   /* arg0 in advance_directional_action_and_reset */
-
-
-
-void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-
-
 
 extern u8 pulunpa_action_resume_address;
 extern u8 pulunpa_attack_frames[];

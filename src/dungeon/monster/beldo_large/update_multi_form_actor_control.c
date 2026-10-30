@@ -18,15 +18,15 @@
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/monster/beldo_large.h"
+#include "dungeon/actor/motion.h"
+#include "dungeon/actor/state.h"
 
 struct ActorRecord; s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 s32 can_entity_gain_level(void *entity);
 void update_actor_status_and_mp(struct ActorRecord *);
-void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);
 s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2; void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
 void advance_multi_form_turn_path(ActorRecord *actor, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *movement);
 struct Rec_D_80082E80; struct Rec_func_800A9E70_arg0;
 void start_actor_attack(void *, ObjectPosition *, s32, void *);

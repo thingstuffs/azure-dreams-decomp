@@ -195,7 +195,7 @@ void resolve_actor_attack_damage(ActorRecord *actor, ObjectPosition *motion, Spr
             motion->velocity_x = 0;
             set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
             g_dungeon_status.active_actor = 0;
-            (*(u16 *)((u8 *)&primary_actor_record->unk_A4 + 2)) = (u16) ((((D800814A8FieldView_810AF0B4 *)primary_actor_record)->field_A6) - 1);
+            (*(u16 *)((u8 *)&primary_actor_record->unk_A4.value + 2)) = (u16) ((((D800814A8FieldView_810AF0B4 *)primary_actor_record)->field_A6) - 1);
             advance_status_timers(action);
             action->pending_turn_updates = (u8) (((u8)action->pending_turn_updates) - 1);
             actor->unk_8C.address = &dispatch_monster_move_attack_spell;

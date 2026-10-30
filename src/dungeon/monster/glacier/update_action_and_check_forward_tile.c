@@ -24,7 +24,6 @@ void select_record_entry_and_value(void *state_data, void *entry_data, short ind
 
 
 extern s32 rand(void);
-s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 
 

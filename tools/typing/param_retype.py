@@ -55,7 +55,13 @@ callbacks  (opt-in, writes sources like apply)
   "symbols": [callbacks of one object kind]}.  Each callback whose parameter is still a placeholder (void *,
   a byte pointer or a generated S_ view) is retyped with the same planner, typed declarations are respelled,
   and the change is proven with the same transaction (debt, closure identity, native check); any direct
-  caller must already pass a compatible value.
+  caller must already pass a compatible value.  Optional spec keys:
+    "replace": [names]   named partial views (e.g. "EntityRec") also accepted as the current parameter type,
+                         for views a census proved are the target object;
+    "sign_remap": true   a load may map to the same-width integer member of the other signedness (only
+                         remaps the complete-TU identity proof accepts survive; retry without on rollback);
+    "alias_cast": true   `V *a = p;` aliases keep their view through an explicit `(V *)` (kept only when the
+                         function's casts still fall).
 """
 from __future__ import annotations
 
@@ -90,6 +96,8 @@ PAD = re.compile(r'(?:^|\.)(?:pad|_pad|padding|unused_pad)\w*(?:\[|$|\.)', re.I)
 STATEMENT_PARENTS = {'CompoundStmt', 'IfStmt', 'ForStmt', 'WhileStmt', 'DoStmt', 'CaseStmt', 'DefaultStmt',
                      'LabelStmt', 'SwitchStmt'}
 SDK = 'SDK stand-in'
+ALIAS_CAST = False  # callbacks spec "alias_cast": `V *a = p;` aliases get an explicit cast (net debt guarded)
+SIGN_REMAP = False  # callbacks spec "sign_remap": same-width loads may change signedness (identity-proven)
 
 
 # ----------------------------------------------------------------------------------- type helpers
@@ -258,10 +266,18 @@ def map_member(unit, target, off, leaf_type, store, old_path=None):
     cands = [(p, t) for p, t, _ in tu.leaves_at(target.key, off) if not PAD.search(p)]
     if old_path and any(p == old_path and decay(tu.canon(t)) == want for p, t in cands):
         return old_path
+    # canon() folds every function pointer to 'fnptr*': prefer the member spelled exactly like the access
+    exact = spelled(str(leaf_type))
+    for p, t in cands:
+        if spelled(str(t)) == exact and tu.volatile(t) == vol:
+            return p
     for p, t in cands:
         if decay(tu.canon(t)) == want and tu.volatile(t) == vol:
             return p
-    if store and want in INT_SIZES:
+    if (store or SIGN_REMAP) and want in INT_SIZES:
+        # A plain store takes any same-width integer.  With a spec's "sign_remap", a load may also take the
+        # same-width integer of the other signedness: the transaction's complete-TU identity proof rejects
+        # every remap that changes an instruction, so only remaps the compiler cannot see survive.
         for p, t in cands:
             c = decay(tu.canon(t))
             if c in INT_SIZES and INT_SIZES[c] == INT_SIZES[want] and tu.volatile(t) == vol:
@@ -418,6 +434,16 @@ def plan_retype(unit, file, fn, decl, target, edit_decl=True):
                     continue
                 return refuse('arithmetic')
             if not assignable(dst, new_c):
+                # spec "alias_cast": a local alias of the parameter keeps its own view (`V *a = p;`): spell the
+                # conversion as an explicit cast; the per-function debt guard keeps it only when the retype
+                # removes more casts than it adds.
+                if ALIAS_CAST and dst.endswith('*') and (r or {}).get('kind') == 'VarDecl':
+                    vr = A.node_range(ref, text)
+                    if vr is None:
+                        return refuse('converted_in_macro')
+                    edits.append((vr[0], vr[0], '(%s)' % spelled(C.qtype(q))))
+                    uses['alias_cast'] += 1
+                    continue
                 return refuse('converted_to_' + dst)
             uses['converted'] += 1
             continue
@@ -1675,13 +1701,16 @@ def apply_decls(root, prover, units, scope, exclude, symbols, log):
     return rows
 
 
-def plan_callback(root, units, index, symbol, param, spelling, editable):
+def plan_callback(root, units, index, symbol, param, spelling, editable, replace=()):
     """Plan one indirect-dispatch parameter retype: `symbol`'s parameter `param` becomes `spelling` (the object
     body type of its object kind, tools/typing/object_kinds.py).  Callbacks have no direct callers to vote, so
     the type comes from the kind; any direct caller must already pass a compatible value.
 
     Returns (plan, '') like plan_family, or (None, reason)."""
-    ds = [d for d in index.definitions.get(symbol, []) if d.path.startswith('src/')]
+    # object_kinds keys same-named copies as `name@file`: select that definition
+    symbol, _, want_path = symbol.partition('@')
+    ds = [d for d in index.definitions.get(symbol, []) if d.path.startswith('src/')
+          and (not want_path or d.path == want_path)]
     if len(ds) != 1:
         return None, 'definitions:%d' % len(ds)
     dpath = ds[0].path
@@ -1705,7 +1734,8 @@ def plan_callback(root, units, index, symbol, param, spelling, editable):
         return None, 'nothing_to_change'
     if cur_c != 'void*' and not (cur_c.endswith('*') and cur_c[:-1] in A.BYTE_POINTEES):
         cur_key = dunit.record_of_pointer(C.qtype(pdecl))
-        if not (cur_key and GENERATED.match(cur_key)):
+        # spec "replace": named partial views the evidence proves are the same object as the target
+        if not (cur_key and (GENERATED.match(cur_key) or type_name(C.qtype(pdecl)) in replace)):
             return None, 'parameter_type_not_placeholder:' + cur_c
     callers = index.callers.get(symbol, set()) - {dpath} | ({dpath} if len(calls_in(dunit, dpath, symbol)) else set())
     per_param, arity = gather_calls(units, callers, symbol, len(params))
@@ -1749,9 +1779,13 @@ def apply_callbacks(root, out, spec, scope, exclude, workers, max_closure, log):
     index = Index(root)
     editable = lambda f: in_scope(f, scope, exclude)
     results, originals = [], {}
+    global SIGN_REMAP, ALIAS_CAST
+    SIGN_REMAP = bool(spec.get('sign_remap'))
+    ALIAS_CAST = bool(spec.get('alias_cast'))
     for n, symbol in enumerate(spec['symbols']):
         t1 = time.time()
-        plan, why = plan_callback(root, units, index, symbol, spec.get('param', 0), spec['type'], editable)
+        plan, why = plan_callback(root, units, index, symbol, spec.get('param', 0), spec['type'], editable,
+                                  tuple(spec.get('replace', ())))
         if plan is None:
             results.append(dict(symbol=symbol, verdict='refused', reason=why))
             log('[%d/%d] %s refused: %s' % (n + 1, len(spec['symbols']), symbol, why))

@@ -4,6 +4,7 @@
 #include "dungeon/effect.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
+#include "dungeon/level.h"
 
 /* Emits scattered effects at evenly spaced angles unless the tile to the left blocks them. */
 void emit_scattered_effects_unless_blocked(void *source)

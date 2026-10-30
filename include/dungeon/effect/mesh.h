@@ -75,4 +75,7 @@ void build_visible_tile_quads(u8 *tiles);
 void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias);
 void render_map_cell_mesh(void);
 
+#include "shared/dungeon_effect_views.h"
+void raise_entity_to_ground(PointRecord *state, ObjectPosition *position);
+
 #endif

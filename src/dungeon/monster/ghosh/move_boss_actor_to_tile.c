@@ -43,12 +43,12 @@ void move_boss_actor_to_tile(ActorRecord *action, ObjectPosition *motion, Sprite
         action->action_state_flags = (u16) (action->action_state_flags | 8);
         entity->flags1C = (s32) (entity->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
         action->unk_9E.s = 5;
-        action->unk_A4 = 0;
+        action->unk_A4.value = 0;
         action->action_phase.u = (u8) (action->action_phase.u + 1);
                         /* fall through */
     case 1:
         frames_left = action->unk_9E.s;
-        action->unk_90.value = (s32) (action->unk_90.value - action->unk_A4);
+        action->unk_90.value = (s32) (action->unk_90.value - action->unk_A4.value);
         if (frames_left != 0) {
             s32 x_offset;
             x_step = tile->tile_x;
@@ -61,10 +61,10 @@ void move_boss_actor_to_tile(ActorRecord *action, ObjectPosition *motion, Sprite
             y_offset = motion->y.w.i - 0x20;
             motion->velocity_x = x_step;
             motion->velocity_y = (s32) ((s32) (((tile->tile_y << 6) - y_offset) << 0x10) / (s16) action->unk_9E.s);
-            action->unk_A4 = (s32) ((0 - rsin(action->unk_9E.s * 0x199)) << 0xA);
+            action->unk_A4.value = (s32) ((0 - rsin(action->unk_9E.s * 0x199)) << 0xA);
         }
         height = action->unk_90.value;
-        height += action->unk_A4;
+        height += action->unk_A4.value;
         next_frame = action->unk_9E.u - 1;
 
         action->unk_9E.s = next_frame;

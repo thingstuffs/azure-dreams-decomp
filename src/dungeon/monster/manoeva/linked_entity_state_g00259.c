@@ -74,7 +74,7 @@ void transfer_linked_object_state(ActorRecord *owner, ObjectPosition *object_id,
         clear_entry_flag_and_link_owner(((u8 *)owner - 0x20));
         *(u32 *)(((u8 *)dest_state + 0x60)) = *(u32 *)(linked_state + 0x60);
         reset_linked_entity_state((S_80173D40_0 *)owner, object_id, (S_80173D40_1 *)dest_object, (EntityRec *)dest_state);
-        owner->unk_A4 = 0;
+        owner->unk_A4.value = 0;
         return;
     }
 

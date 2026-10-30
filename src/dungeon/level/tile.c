@@ -418,8 +418,6 @@ extern s16 direction_y_offsets[];
 extern s16 direction_x_offsets[];
 #include "common.h"
 
-extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
-
 /* Checks the sides of a diagonal direction for terrain above 0x200. */
 s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height)
 {
@@ -913,7 +911,6 @@ typedef struct {
     s16 height;
 } PositionHeightView;
 
-extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 struct Node;
 s32 is_map_coordinate_out_of_bounds(); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */                        /* extern */
 extern s8 D_800DD7DC;
@@ -1024,8 +1021,6 @@ typedef struct {
     u8 y;
 } Arg2;
 
-extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
-
 /* Checks the neighboring tile in the encoded direction for blocking flags and height. */
 s32 check_neighbor_tile_blocking(u32 direction_bits, Arg1 *state_in, Arg2 *position_in) {
     u16 tile_flags;
@@ -1070,8 +1065,6 @@ struct Node {
     s16 value;
 };
 
-extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
-
 /* Finds an eligible node at the target coordinates with a value difference below 64. */
 void *find_eligible_actor_at_tile_and_height(Node *node, s32 x, s32 y_in, s16 value) {
     s16 y;
@@ -1111,8 +1104,6 @@ void *find_eligible_actor_at_tile_and_height(Node *node, s32 x, s32 y_in, s16 va
 
 #include "common.h"
 #include "shared/record_ptrs.h"
-
-extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 
 /* Find an eligible object at the tile within 64 units of the target height. */
 void *find_object_near_tile_height(s16 tile_x, s16 tile_y, s16 target_height)
@@ -1158,7 +1149,6 @@ typedef struct Rec
     u8 *next;
 }
 Rec;
-extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 /* Finds an eligible entry at the requested coordinates after checking the tile to the left. */
 void *find_eligible_entry_at_coordinates(u8 *entry, s16 x, s16 y)
 {
@@ -1353,7 +1343,6 @@ s32 update_object_coordinates_if_valid(SpriteFrameState *object, EntityRec *cont
 
 extern void zero_words(void *, s32);
 extern s32 ratan2(s32, s32);
-extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
 extern s32 is_map_coordinate_out_of_bounds(s32, s32);
 

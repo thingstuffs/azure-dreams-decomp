@@ -61,7 +61,6 @@ typedef struct S_8017294C_1 {
     s8 unk_9B;
 } S_8017294C_1;
 
-extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 extern u8 cyclone_frame_set_2[];
 /* arg0 in search_ahead_and_start_action */
 extern s32 check_layer_offset_height(s32, s32, s16, s32);
@@ -72,7 +71,6 @@ extern s32 check_entity_interaction_compatibility(void *, void *);
 /* Shared import declarations; data casts preserve each measured view. */
 extern void select_sprite_entry(void *, u8, s32);
 extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
-extern void apply_camera_offset_and_select_target(void *, void *, s32, s32);
 
 /* Functions defined in this translation unit. */
 void face_target_and_start_action(ActorRecord *action_state, ObjectPosition *event_context, SpriteFrameState *sprite, ActorRecord *actor);

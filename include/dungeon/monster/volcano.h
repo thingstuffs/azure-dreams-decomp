@@ -641,7 +641,6 @@ void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s16 check_movement_clearance_and_height(s16,void *,void *,s32);
 extern s32 find_eligible_entry_at_coordinates();
-extern void * resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern E_80171E10_Ent * prepare_directional_attack();
 extern s32 find_active_rect_containing_point(s32, s32);
 extern s16 get_tile_chebyshev_distance(void *, void *);
@@ -664,12 +663,11 @@ extern void func_800A9A04(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void initialize_actor_sprite_and_animation(void *entity, void *position, SpriteFrameState *sprite, s32 init_flags);
 extern s32 refresh_actor_facing_and_lifecycle();
-extern void begin_pushed_actor_move(void *, void *, void *, void *);
+extern void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
 extern s32 update_actor_movement_to_tile(void *move_state, void *motion, void *target_tile, ActorRecord *actor);
-extern s32 update_linked_actor_motion(void *,void *,void *,void *);
+extern s32 update_linked_actor_motion(void *state, void *transform, void *config, void *object);
 extern s32 update_actor_hop_and_shrink(void *,void *,struct SpriteFrameState *,void *);
 
 extern s32 interpolate_actor_to_terrain_tile(void *,void *,void *,void *);
@@ -679,11 +677,8 @@ extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
 extern s32 update_actor_fade_in(void *,void *,void *,void *);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
-extern s32 relink_entity_and_clear_high_flag();
 extern void create_actor_linked_effect(void *);
 extern s16 sample_terrain_surface_height(s32,s32,s16);
-s32 select_nearby_target_and_initialize_slot(void *tracked_object, void *target_data, s32 target_id, s32 slot_value);
-extern s32 apply_camera_offset_and_select_target(void * object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 extern void *create_actor_with_tile_flags(s32, s16, s16, s16); /* Unprototyped: retail call narrows its arguments to this declaration; no shared prototype keeps it */
 
 void *spawn_mode_dependent_112_object(s16 flags,s16 attr_x,s16 attr_y,s16 attr_height);

@@ -6,6 +6,9 @@ struct ObjectPosition;
 #include "dungeon/monster/golem.h"
 #include "shared/object_flags.h"
 #include "shared/dir_step.h"
+#include "dungeon/effect.h"
+#include "dungeon/effect/screen.h"
+
 extern int abs(int);
 
 typedef struct Vec3Work {
@@ -101,8 +104,6 @@ extern void advance_sprite_animation_and_textures(void *);
 extern s32 rand(void);
 extern s32 rsin(s16);
 extern s32 rcos(s16);
-extern void resolve_attack_damage_and_effects(void *, void *, s16, s16);
-extern void select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s16 slot_value);
 extern void draw_randomized_shaded_polylines(Vec3Work *, Vec3Work *);
 
 

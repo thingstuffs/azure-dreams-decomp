@@ -26,7 +26,7 @@ void update_timed_actor_movement_and_scale(ActorRecord *state, ObjectPosition *m
         state->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         state->unk_9E.s = 5;
-        state->unk_A4 = 0;
+        state->unk_A4.value = 0;
         state->action_phase.u += 1;
     }
                     /* fall through */
@@ -39,7 +39,7 @@ void update_timed_actor_movement_and_scale(ActorRecord *state, ObjectPosition *m
         s16 scale_frame;
         u16 next_count;
 
-        state->unk_90.value -= state->unk_A4;
+        state->unk_90.value -= state->unk_A4.value;
         frames_left = state->unk_9E.s;
         if (frames_left != 0) {
             target_x = sprite->tile_x << 6;
@@ -49,10 +49,10 @@ void update_timed_actor_movement_and_scale(ActorRecord *state, ObjectPosition *m
             motion->velocity_y = (((sprite->tile_y << 6) - current_y) << 16) /
                                state->unk_9E.s;
             frames_left = state->unk_9E.s;
-            state->unk_A4 = (-rsin(frames_left * 0x199)) << 9;
+            state->unk_A4.value = (-rsin(frames_left * 0x199)) << 9;
         }
 
-        state->unk_90.value += state->unk_A4;
+        state->unk_90.value += state->unk_A4.value;
         scale_frame = state->unk_9E.s;
         switch (scale_frame) {
         case 5:

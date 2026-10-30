@@ -10,13 +10,10 @@
 #include "engine/graphics.h"
 #include "dungeon/system.h"
 
-
-void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-
-
-
 #include "dungeon/monster/saber.h"
 #include "dungeon/actor.h"
+#include "dungeon/effect/screen.h"
+
 extern u8 D_80174E1C[];
 
 typedef struct S_80172FD8_0 {

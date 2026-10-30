@@ -19,6 +19,8 @@
 #include "dungeon/level/room_flags.h"
 #include "dungeon/item.h"
 #include "engine/graphics.h"
+#include "dungeon/effect.h"
+#include "dungeon/effect/screen.h"
 
 void * (*const resource10_slot0_entry0)(s16 flags, s16 kind_id, s16 variant, s32 spawn_value) = create_actor_with_optional_status;
 void (*const resource10_slot0_entry1)(u8 *actor, u8 *motion, u8 *object) = update_actor_callbacks_animation_and_ground;
@@ -1160,12 +1162,12 @@ void hop_snowman_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFram
         action->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         action->unk_9E.s = 5;
-        action->unk_A4 = 0;
+        action->unk_A4.value = 0;
         action->action_phase.u++;
 
     case 1:
         move_ticks = action->unk_9E.s;
-        action->unk_90.value -= action->unk_A4;
+        action->unk_90.value -= action->unk_A4.value;
         if (move_ticks != 0) {
             target_x = sprite->tile_x;
             pos_x = motion->x.w.i;
@@ -1180,12 +1182,12 @@ void hop_snowman_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFram
                 (((sprite->tile_y << 6) - pos_y) << 16) /
                 action->unk_9E.s;
 
-            action->unk_A4 =
+            action->unk_A4.value =
                 (-rsin(action->unk_9E.s * 0x199)) << 10;
         }
 
         height_offset = action->unk_90.value;
-        height_step = action->unk_A4;
+        height_step = action->unk_A4.value;
         next_move_ticks = action->unk_9E.u;
         height_offset += height_step;
         next_move_ticks -= 1;

@@ -11,6 +11,9 @@
 #include "shared/actor_action_flags.h"
 #include "shared/object_flags.h"
 #include "dungeon/item.h"
+#include "dungeon/effect.h"
+#include "dungeon/effect/screen.h"
+
 void *(*const e0365c_spawn_entry)(s16,s16,s16,s16) = spawn_mode_dependent_112_object;
 #include "dungeon/monster/volcano.h"
 #include "shared/sprite_frame_state.h"

@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/actor/state.h"
 
 typedef struct {
     u16 unk0;

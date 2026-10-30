@@ -12,6 +12,7 @@ struct ObjectPosition;
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "dungeon/effect.h"
 
 typedef struct S_801717D0_0 {
     u8 pad_00[0x14];
@@ -51,7 +52,6 @@ typedef struct S_801717D0_5 {
 extern void select_sprite_entry(void *, u8, s32);
 extern s32 try_claim_dungeon_action_slot(void *);
 extern s32 generate_random_value(void);
-extern void select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s16 slot_value);
 
 /* Prepares an entity action, updates its directional animation, and advances the counter. */
 void prepare_actor_directional_action(u8 *entity, ObjectPosition *action_param, SpriteFrameState *action_sprite, u8 *frame_table, s32 fallback_state)
@@ -75,7 +75,7 @@ void prepare_actor_directional_action(u8 *entity, ObjectPosition *action_param, 
 
     if ((((S_801717D0_0 *)self)->unk_1C & ACTOR_PLAYER_SIDE) && ((((S_801717D0_0 *)self)->unk_46 & 0x3FFF) >= 5)) {
         special_action = 1;
-        if ((*(u16 *)((u8 *)&dungeon_actor_ring_anchor->unk_A4 + 2)) == 2) {
+        if ((*(u16 *)((u8 *)&dungeon_actor_ring_anchor->unk_A4.value + 2)) == 2) {
             counter = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
             counter--;
             g_dungeon_status.activity_counts.parts.pending_action_count = counter;

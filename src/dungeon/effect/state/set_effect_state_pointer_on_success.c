@@ -1,5 +1,7 @@
 #include "common.h"
 #include "dungeon/effect.h"
+#include "dungeon/actor/motion.h"
+
 /* extern */
 
 typedef struct S_800B2C68_0 {
@@ -7,8 +9,6 @@ typedef struct S_800B2C68_0 {
     void (*unk_8C)(u8 *, s32,  u8 *, u8 *);
 } S_800B2C68_0;   /* arg0 in set_effect_state_pointer_on_success */
 
-
-s32 update_linked_actor_motion(void *, void *, void *, void *);
 /* Set the state pointer to dispatch_target_action when update_linked_actor_motion succeeds. */
 void set_effect_state_pointer_on_success(S_800B2C68_0 *state, void *context, void *data, void *extra_data) {
     if (update_linked_actor_motion(state, context, data, extra_data) != 0) {

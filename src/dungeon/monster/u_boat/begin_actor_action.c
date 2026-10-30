@@ -3,10 +3,10 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/entity.h"
 #include "dungeon/player/object.h"
+#include "dungeon/effect.h"
 
 
 extern s32 prepare_directional_attack();
-extern s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 extern void begin_actor_exclusive_action();
 
 

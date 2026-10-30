@@ -5,10 +5,9 @@
 #include "dungeon/actor/status.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor.h"
+#include "dungeon/effect.h"
 
 s16 try_claim_dungeon_action_slot(ActorRecord *actor);                          /* extern */
-s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value); /* extern */
-
 
 typedef struct S_80175BE0_1 {
     u8 pad_00[0x8C];

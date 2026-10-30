@@ -16,7 +16,6 @@ extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s32 find_active_rect_containing_point(u8, u8);
 extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 
@@ -31,6 +30,8 @@ extern u8 dreamin_action_continuation_address[];
 #include "dungeon/monster/dreamin.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "dungeon/actor/motion.h"
+
 extern u8 dreamin_frame_set_1[];
 extern u8 D_8017389C[];
 

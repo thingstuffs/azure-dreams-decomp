@@ -10,6 +10,8 @@
 #include "dungeon/item.h"
 #include "sdk/libc.h"
 #include "sdk/libgte.h"
+#include "dungeon/effect.h"
+
 void (*const dungeon_18a0800_entry)(TrackingEffect *, ObjectPosition *, SpriteFrameState *) = follow_brighten;
 #include "modules/dungeon_ovl_18a0800.h"
 #include "dungeon/effect/travel.h"

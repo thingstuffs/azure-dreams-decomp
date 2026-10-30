@@ -3,6 +3,7 @@
 #include "dungeon/monster/tyrant/advance_a_timed_actor_animation_applies_completion_effects.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor.h"
+#include "dungeon/effect/screen.h"
 
 /* Advances a timed actor animation and applies its completion effects. */
 void advance_a_timed_actor_animation_applies_completion_effects(T_801727CC_Obj0 *action, ObjectPosition *context, SpriteFrameState *sprite, T_801727CC_Obj3 *actor) {

@@ -8,6 +8,8 @@
 struct ObjectPosition;
 #include "dungeon/effect/particle/impact.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/effect.h"
+
 void (*const dungeon_19de800_entry)(struct S_func_80026418_0 *effect) = advance_particle_fade_and_cleanup;
 typedef struct { s16 x, y; } BankDirections;
 const BankDirections impact_grid_offsets[9] = {{-1,-1},{0,-1},{1,-1},{-1,0},{0,0},{1,0},{-1,1},{0,1},{1,1}};
@@ -2045,7 +2047,6 @@ extern void clear_circular_list_flags(void);
 extern void upload_vram_row_and_cache(void *, s32, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 decode_and_upload_image(void *, void *);
 extern void drain_audio_commands_and_service_channels(void);
-extern void select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s16 slot_value);
 
 /* Advances a particle effect through its timed color fade and cleanup states. */
 void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)

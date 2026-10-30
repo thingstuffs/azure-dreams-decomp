@@ -743,7 +743,7 @@ extern u8 *find_or_retain_sprite_resource_slot(s32, s32);
 struct EntityLinkNode;
 extern void unlink_entity_node(struct EntityLinkNode *node);
 extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
-extern void retire_tracked_effect_by_id(void *);
+extern void retire_tracked_effect_by_id(void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 void set_message_mode(int value);                     /* extern */
 void runtime_call_selected_mode_handler(void);                            /* extern */
 void submit_script_with_registered_context(void *context);                   /* extern */

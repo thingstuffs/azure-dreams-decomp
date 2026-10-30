@@ -11,11 +11,7 @@
 #include "engine/graphics.h"
 #include "dungeon/system.h"
 #include "dungeon/actor.h"
-
-
-void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-
-
+#include "dungeon/effect/screen.h"
 
 extern s32 weadog_action_resume_address;
 extern u8 weadog_frame_set_2[];

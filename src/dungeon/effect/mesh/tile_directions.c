@@ -19,6 +19,7 @@
 
 #include "m2c_compat.h"
 #include "engine/effect.h"
+#include "dungeon/level.h"
 
 typedef struct S_800D13B8_1 {
     u8 pad_00[0xA4];
@@ -30,7 +31,6 @@ extern s16 func_800D0FBC(void);
 extern s16 func_800D10D0(void);
 extern void append_coordinate_record(s32 x, s32 y, s32 value, s32 store_value);
 extern s16 round_sampled_height_to_cell_boundary(s32 grid_x, s32 grid_y);
-extern s32 get_offset_map_cell_value_and_flags(s16, s16, s16, u16 *);
 extern s16 sound_idle_vsync_frame_alias[8];
 extern u8 shared_decode_staging_buffer[16400];
 extern u8 *tile_coordinate_records;

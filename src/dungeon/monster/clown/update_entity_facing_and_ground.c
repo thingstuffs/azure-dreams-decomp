@@ -19,6 +19,8 @@
 #include "dungeon/level/room_flags.h"
 #include "dungeon/item.h"
 #include "engine/graphics.h"
+#include "dungeon/effect.h"
+#include "dungeon/effect/screen.h"
 
 void * (*const resource16_slot0_entry0)(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c) = spawn_clown_actor;
 

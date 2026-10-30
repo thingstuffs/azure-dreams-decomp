@@ -6,6 +6,8 @@
 #include "sdk/libc.h"
 #include "dungeon/effect/sprite.h"
 #include "dungeon/actor.h"
+#include "dungeon/effect/screen.h"
+
 void (*const dungeon_18ee800_entry)(void *, void *, void *) = follow_entity_effect_and_cleanup;
 const B32_818CFB74_PackedOffsets sprite_route_direction_offsets = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
 #include "dungeon/effect/sprite/route.h"

@@ -14,7 +14,7 @@ typedef struct S_80170224_0 {
 } S_80170224_0;   /* base in update_boss_action_result */
 
 
-extern s16 relink_entity_and_clear_high_flag(void *context, void *position, void *entity, s16 near_range, s16 far_range, s32 state_out_addr);
+extern s16 relink_entity_and_clear_high_flag(void *context, void *position, void *entity, s16 near_range, s16 far_range, s32 state_out_addr); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void update_actor_status_and_mp(ActorRecord *entity);
 #include "dungeon/player/object/action_state.h"
 

@@ -6,6 +6,7 @@
 #include "shared/entity.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/actor.h"
+#include "dungeon/effect.h"
 
 typedef struct S_80047784 S_80047784;
 
@@ -27,7 +28,6 @@ struct SpriteFrameState;
 void select_sprite_entry(void *, s16, s16);
 void *find_eligible_actor_at_tile_and_height();
 s16 try_claim_dungeon_action_slot(ActorRecord *actor);
-s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 extern u8 D_80175414;
 
 /* Starts an actor action and selects its directional sprite and adjacent target. */

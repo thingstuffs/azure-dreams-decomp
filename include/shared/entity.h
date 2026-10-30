@@ -149,6 +149,13 @@ struct SpriteFrameState;
 typedef void (*ActorActionHandler)(struct ActorRecord *body, struct ObjectPosition *position,
                                    struct SpriteFrameState *sprite, struct ActorRecord *actor);
 
+/* Two halfwords of a 4-byte action-scratch slot (+0xA4/+0xAC/+0xB0/+0xB4); action handlers read either
+ * signedness, so each half keeps both views. */
+typedef struct ActorScratchHalves {
+    union { short s; unsigned short u; } low;
+    union { short s; unsigned short u; } high;
+} ActorScratchHalves;
+
 /* Live monster, familiar or player statistics and action state.
  * allocate_list_node owns pooled bodies; init_monster_from_stats seeds monster template bytes. */
 typedef struct ActorRecord {
@@ -162,7 +169,7 @@ typedef struct ActorRecord {
     /* 0x018 */ int experience; /* accumulated experience, compared with the next-level requirement */
     /* 0x01C */ int flags1C; /* current side, attachment, movement and active-status bits; see shared/actor_status_flags.h */
     /* 0x020 */ short unk_20; /* prepared attack power; attack preparation seeds it, damage resolution adjusts it before deriving the target HP delta */
-    /* 0x022 */ unsigned char pad_22[2];
+    /* 0x022 */ unsigned short unk_22; /* halfword copied with the actor snapshot (copy_entity_record) */
     /* 0x024 */ union {
         unsigned short whole; /* current 8.8 MP */
         struct { unsigned char fraction; unsigned char whole; } parts;
@@ -192,20 +199,23 @@ typedef struct ActorRecord {
     /* 0x060 */ void * target; /* borrowed actor-body target; while lifted, this is the carrier backlink rather than an attack target */
     /* 0x064 */ short hp_delta; /* signed pending HP delta; effective HP is hp + unk_64 before applying queued damage */
     /* 0x066 */ unsigned char max_mp; /* effective maximum MP; doubled template MP is capped at 255 */
-    /* 0x067 */ unsigned char pad_67[1];
+    /* 0x067 */ unsigned char unk_67;
     /* 0x068 */ unsigned char base_attack; /* effective baseline attack; doubled template attack is capped at 255 */
     /* 0x069 */ unsigned char base_defense; /* effective baseline defense; doubled template defense is capped at 255 */
     /* 0x06A */ unsigned short movement_facing; /* queued movement angle copied to facing; 0x1000 units per turn */
-    /* 0x06C */ unsigned char pad_6C[1];
+    /* 0x06C */ unsigned char unk_6C;
     /* 0x06D */ signed char pending_turn_updates; /* queued turn updates; update_actor_status_and_mp spends MP and advances status timers once per decrement */
-    /* 0x06E */ unsigned char pad_6E[3];
+    /* 0x06E */ short unk_6E; /* scaled by apply_entity_effects and apply_scaled_entity_velocity (observed 0x100..0x200) */
+    /* 0x070 */ unsigned char unk_70;
     /* 0x071 */ unsigned char movement_queue_state; /* queued-path state/count; update_actor_status_and_mp clears its high control bit before processing */
     /* 0x072 */ signed char target_tile_x; /* target map column, in tiles */
     /* 0x073 */ signed char target_tile_y; /* target map row, in tiles */
-    /* 0x074 */ unsigned char pad_74[16];
+    /* 0x074 */ unsigned char path_x[8]; /* queued path map columns; indexed by the path cursor the movement handlers keep at +0x8A */
+    /* 0x07C */ unsigned char path_y[8]; /* queued path map rows, parallel to path_x */
     /* 0x084 */ signed char unk_84; /* unsigned hit-roll baseline despite the signed leaf; attack preparation adds random multiples of 4 and compares with 0x80 */
     /* 0x085 */ signed char unk_85;
-    /* 0x086 */ unsigned char pad_86[2];
+    /* 0x086 */ unsigned char unk_86;
+    /* 0x087 */ unsigned char unk_87;
     /* 0x088 */ short ground_height; /* terrain height sampled beneath the actor, in world units */
     /* 0x08A */ short unk_8A;                     /* queued terrain height / throw travel steps (callback variants) */
     /* 0x08C */ union {
@@ -229,15 +239,20 @@ typedef struct ActorRecord {
         int value;
         struct { unsigned short low; unsigned short high; } parts;
     } unk_A0; /* callback scratch word with an unsigned high-half view */
-    /* 0x0A4 */ int unk_A4; /* callback scratch with word/halfword views; landing uses it for accumulated 16.16 vertical displacement */
+    /* 0x0A4 */ union {
+        int value; /* landing uses it for accumulated 16.16 vertical displacement */
+        ActorScratchHalves halves;
+        unsigned char bytes[4];
+    } unk_A4; /* callback scratch with word/halfword/byte views */
     /* 0x0A8 */ union { unsigned char byte; short s; unsigned short u; } unk_A8; /* saved species or callback scratch */
     /* 0x0AA */ short unk_AA;
-    /* 0x0AC */ union { void *address; unsigned char byte; signed char signed_byte; } unk_AC; /* familiar slot 0 or callback scratch */
-    /* 0x0B0 */ union { void *address; unsigned char bytes[4]; } unk_B0; /* familiar slot 1 or callback scratch, including byte +0xB3 */
-    /* 0x0B4 */ unsigned char pad_B4[4];
+    /* 0x0AC */ union { void *address; unsigned char byte; signed char signed_byte; ActorScratchHalves halves; unsigned char bytes[4]; } unk_AC; /* familiar slot 0 or callback scratch */
+    /* 0x0B0 */ union { void *address; unsigned char bytes[4]; ActorScratchHalves halves; } unk_B0; /* familiar slot 1 or callback scratch, including byte +0xB3 */
+    /* 0x0B4 */ union { int value; ActorScratchHalves halves; unsigned char bytes[4]; } unk_B4; /* callback scratch */
     /* 0x0B8 */ unsigned char unk_B8;
     /* 0x0B9 */ unsigned char unk_B9;
-    /* 0x0BA */ unsigned char pad_BA[2];
+    /* 0x0BA */ unsigned char unk_BA;
+    /* 0x0BB */ unsigned char unk_BB;
 } ActorRecord;                                    /* 0xBC: the pooled actor body */
 
 /* PlayerRecord: the dungeon player's body, 0x12C bytes after its static node header (initialize_dungeon_actor

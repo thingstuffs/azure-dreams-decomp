@@ -9,6 +9,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor.h"
+#include "dungeon/actor/motion.h"
 
 /* Advance the actor action state, handle status flags, and update directional animation. */
 void advance_actor_action_state_handle_status(void *action_in, ObjectPosition *context_in, SpriteFrameState *sprite_in, void *actor_in) {

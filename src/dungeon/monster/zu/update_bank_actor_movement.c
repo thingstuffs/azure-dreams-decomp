@@ -12,6 +12,9 @@
 #include "dungeon/monster/zu.h"
 #include "dungeon/actor/status.h"
 #include "engine/texture.h"
+#include "dungeon/actor/state.h"
+#include "dungeon/effect.h"
+#include "dungeon/effect/screen.h"
 
 struct EntityLinkNode;
 void *(*const dungeon_fa7000_entry)(s16,s16,s16,s16) = spawn_zu_actor;
@@ -375,9 +378,8 @@ typedef struct S_80171138_0 {
 extern s8 find_active_rect_containing_point(u8, u8);
 extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void begin_pushed_actor_move(void *, void *, void *, void *);
+extern void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
 extern u8 zu_frame_set[];
 extern u8 zu_frame_set_7[];
 extern u8 zu_action_direction_frames[];
@@ -1021,7 +1023,6 @@ void initialize_bank_actor_action(ActorRecord *action_state, ObjectPosition *mot
 
 #include "dungeon/player/object/action_state.h"
 void update_actor_status_and_mp(ActorRecord *entity);
-s32 relink_entity_and_clear_high_flag();
 /* Update entity state and flags according to the state query result. */
 /* Relinks Zu's state, updates movement or status as needed, and returns 1 only when dungeon activity
  * allows a new action. */
@@ -1097,7 +1098,7 @@ void select_bank_resident_callback(ActorRecord *state, ObjectPosition *motion, S
 #include "shared/sprite_frame_state.h"
 
 
-extern s32 update_linked_actor_motion();
+extern s32 update_linked_actor_motion(void *state, void *transform, void *config, void *object);
 /* Select the bank actor callback when the resident checks succeed. */
 void select_bank_actor_callback(ActorRecord *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target) {
     if ((update_linked_actor_motion(state, action, source, target) != 0) && ((check_actor_floor_trap(source, target) << 0x10) > 0)) {
@@ -1187,7 +1188,6 @@ typedef struct S_80172494_8 {
 } S_80172494_8;
 
 extern s32 rand(void);
-extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern u8 directional_effect_entries[];
 extern void *actor_update_node_cursor;
@@ -2012,7 +2012,6 @@ extern s32 get_tile_chebyshev_distance(void *, void *);
 
 extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern u8 zu_frame_set_1[];
 extern u8 D_80174B04[];
@@ -2161,7 +2160,6 @@ void handle_actor_action_effects(ActorRecord *controller, ObjectPosition *motion
 #include "shared/position_views.h"
 
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern u8 zu_action_direction_frames[];
 extern u8 zu_frame_set_1[];

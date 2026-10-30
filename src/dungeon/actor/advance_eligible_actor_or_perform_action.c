@@ -3,6 +3,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
 #include "dungeon/item.h"
+#include "dungeon/actor/effect.h"
 
 typedef struct S_800C8150_1 {
     u8 pad_00[0xAC];
@@ -20,7 +21,6 @@ typedef struct TablePage {
 } TablePage;
 
 extern s16 find_entity_slot_by_field_ac(void *);
-extern s32 try_apply_effect_four_by_chance(void *actor, s32 chance, s32 action);
 
 extern u8 D_800E18F5[];
 extern u8 D_800E195C[];

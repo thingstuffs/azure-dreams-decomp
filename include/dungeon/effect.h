@@ -46,4 +46,6 @@ void *create_effect_or_fallback(u32 x, u32 y, s32 z, void *effect_data);
 void *create_moving_fading_particle(ObjectPosition *origin, s16 angle, s16 radius, s16 height_offset, struct ObjectNodeHeader **allocation_head);
 void transform_mesh_and_append_draw_packets(u8 *params, u8 *record, void *mesh_data, s32 depth_offset);
 
+s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
+
 #endif

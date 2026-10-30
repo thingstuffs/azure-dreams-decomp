@@ -239,7 +239,7 @@ void update_directional_actor_effect(void *input, void *output)
 
     scene = primary_actor_record;
     ((S_FUNC_8197C800_BODY_0 *)input)->unk_50.s = 10;
-    ((u16 *)&scene->unk_A4)[1] -= 1;
+    ((u16 *)&scene->unk_A4.value)[1] -= 1;
     scene->unk_A8.byte = ((S_FUNC_8197C800_BODY_0 *)input)->unk_08;
     particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
     if (particle != 0) {

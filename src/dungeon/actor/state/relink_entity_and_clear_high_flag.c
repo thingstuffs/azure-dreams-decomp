@@ -2,6 +2,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/actor/state.h"
 
 typedef struct DungeonGateState {
     u16 unk0;

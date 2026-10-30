@@ -8,6 +8,7 @@
 #include "dungeon/actor/status.h"
 #include "engine/graphics.h"
 #include "dungeon/actor.h"
+#include "dungeon/effect/screen.h"
 
 typedef struct S_80173C20_0 {
     u8 pad_00[0x8C];
@@ -41,7 +42,6 @@ extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 u8 *clear_byte_and_advance(u8 *byte_ptr);
 extern u8 *append_entity_display_text(void *record, u8 *out);
-void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 s32 display_text_with_fullwidth_adjustment(s8 *text);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 

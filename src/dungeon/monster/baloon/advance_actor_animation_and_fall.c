@@ -12,11 +12,7 @@
 #include "engine/graphics.h"
 #include "dungeon/system.h"
 #include "dungeon/actor.h"
-
-
-void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-
-
+#include "dungeon/effect/screen.h"
 
 extern u8 D_800E2380[8];
 extern u8 baloon_fall_frames[8];

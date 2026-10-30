@@ -22,10 +22,8 @@ extern s32 find_active_rect_containing_point(s32, s32);
 
 extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
 extern void initialize_object_rendering_and_params(void *, void *, void *);
 extern void func_80171C3C(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
 extern void func_80171E80(void *, void *, void *, void *);
@@ -41,6 +39,9 @@ extern u8 D_80170A0C[];
 
 #include "dungeon/monster/glacier.h"
 #include "dungeon/actor.h"
+#include "dungeon/actor/motion.h"
+#include "dungeon/actor/state.h"
+
 extern u8 glacier_frame_set_1[];
 extern u8 D_801760AC[];
 extern u8 D_801760DC[];

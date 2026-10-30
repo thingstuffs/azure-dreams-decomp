@@ -348,5 +348,4 @@ s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern s32 try_apply_confusion_status(void *ptr, s32 threshold_input, s32 kind_input);
 extern void drain_audio_commands_and_service_channels(void);
 extern s32 generate_random_value(void);
-extern s32 try_trigger_target_record_effect();
 #endif

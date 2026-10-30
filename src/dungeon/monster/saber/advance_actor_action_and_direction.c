@@ -18,13 +18,13 @@ extern s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 extern s32 generate_random_value(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void update_timed_effect_size_and_position(void *, void *, void *, void *); /* Unprototyped: retail passes an extra argument; no owner header is available. */
 
 #include "dungeon/monster/saber.h"
 #include "dungeon/actor.h"
+#include "dungeon/actor/motion.h"
 
 extern u8 saber_action_direction_frames[];
 

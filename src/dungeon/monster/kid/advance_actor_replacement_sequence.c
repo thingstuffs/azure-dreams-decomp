@@ -22,6 +22,7 @@
 #include "slus.h"
 #include "engine/graphics.h"
 #include "engine/texture.h"
+#include "dungeon/effect.h"
 
 typedef struct S_80174B20_14 {
     u8 pad_00[0x60];

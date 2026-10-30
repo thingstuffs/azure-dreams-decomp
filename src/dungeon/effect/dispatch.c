@@ -1719,7 +1719,6 @@ s32 select_nearby_target_and_initialize_slot(void *tracked_object, void *target_
 #include "shared/entity_objects.h"
 
 extern u16 effect_saved_position[];
-extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 
 /* Sets up the object at the supplied position if both planar distances are at most 192. */
 void setup_object_within_planar_range(void *object, s32 x, s32 y, s32 height, s32 mode, s32 settings)
@@ -1774,7 +1773,6 @@ typedef struct S_800C7930_3 {
 } S_800C7930_3;   /* destination in apply_camera_offset_and_select_target */
 
 extern u16 effect_saved_position[];
-extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 
 /* Apply table offsets to a position near the camera and pass it to select_nearby_target_and_initialize_slot. */
 s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value)
@@ -1831,7 +1829,6 @@ s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s
 #include "shared/entity_objects.h"
 
 extern u16 effect_saved_position[];
-extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 
 /* Process the midpoint of two objects when it is near the reference position. */
 void process_nearby_object_midpoint(u8 *start_obj, u8 *end_obj, s16 start_height, s16 end_height, s16 call_param, s32 call_arg) {
@@ -1906,8 +1903,6 @@ typedef struct Sub {
 extern s16 camera_pitch_index;
 extern s16 camera_pitch_presets[];
 extern s16 camera_depth_target[5];
-
-extern s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 
 /* Blend toward the entity target, then dispatch the next state. */
 void blend_entity_toward_target_state(void *entity_data) {

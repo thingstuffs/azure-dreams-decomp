@@ -14,6 +14,7 @@
 #include "engine/graphics.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/effect.h"
+#include "dungeon/effect/screen.h"
 
 typedef struct DungeonState818D4800 {
     u8 pad0[0x8D0];
@@ -57,7 +58,6 @@ extern Packed12 actor_particle_images;
 extern u8 current_spell_effect_variant[16];
 extern void unlink_node(void *);
 extern s32 rand(void);
-extern s32 try_trigger_target_record_effect(void *, s32, void *);
 extern s32 generate_random_value(void);
 
 /* Projects linked points and queues visible square particles with color scaled by each point's intensity. */

@@ -51,7 +51,6 @@ struct Node;
 s32 lookup_definition_pair_value(s16 firstKey, s16 secondKey);                          /* extern */
 s32 play_sound_if_enabled(s32 query_value);                     /* extern */
 s32 generate_random_value(void);                                /* extern */
-s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);    /* extern */
 extern s8 scene_music_hold;
 extern s16 floor_generation_state[3];
 extern s16 dungeon_camera_targets[];

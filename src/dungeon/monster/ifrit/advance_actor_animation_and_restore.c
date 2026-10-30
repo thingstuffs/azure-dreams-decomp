@@ -11,6 +11,7 @@
 #include "engine/graphics.h"
 #include "dungeon/system.h"
 #include "dungeon/actor.h"
+#include "dungeon/effect/screen.h"
 
 typedef struct S_801726D4_0 {
     u8 pad_00[0x8C];
@@ -21,8 +22,6 @@ typedef struct S_801726D4_0 {
     u8 unk_9B;
 } S_801726D4_0;   /* arg0 in advance_actor_animation_and_restore */
 
-
-void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void set_record_integer_tile_center(ObjectPosition *, s32, s32);
 
 

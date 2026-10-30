@@ -64,11 +64,11 @@ void update_item_hop_animation(ActorRecord *action, ObjectPosition *motion, Spri
         action->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         action->unk_9E.s = 5;
-        action->unk_A4 = 0;
+        action->unk_A4.value = 0;
         action->action_phase.u++;
                         /* fallthrough */
     case 1:
-        action->unk_90.value -= action->unk_A4;
+        action->unk_90.value -= action->unk_A4.value;
         sprite->scale_x = 0xC00;
         sprite->scale_y = 0x1400;
         move_frames = action->unk_9E.s;
@@ -83,12 +83,12 @@ void update_item_hop_animation(ActorRecord *action, ObjectPosition *motion, Spri
             motion->velocity_y =
                 (((sprite->tile_y << 6) - position_component) << 16) /
                 action->unk_9E.s;
-            action->unk_A4 =
+            action->unk_A4.value =
                 (-rsin(action->unk_9E.s * 0x199)) << 9;
         }
 
         height = action->unk_90.value;
-        height_offset = action->unk_A4;
+        height_offset = action->unk_A4.value;
         frame_count = action->unk_9E.u;
         height += height_offset;
         frame_count -= 1;

@@ -5,7 +5,7 @@
 #include "engine/node.h"
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 
-extern void retire_tracked_effect_by_id(void *);
+extern void retire_tracked_effect_by_id(void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 
 #include "dungeon/monster/stealth.h"

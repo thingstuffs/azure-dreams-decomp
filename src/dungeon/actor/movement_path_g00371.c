@@ -8,6 +8,7 @@
 
 #include "shared/tile_object.h"
 #include "dungeon/item.h"
+#include "dungeon/actor/state.h"
 #include "shared/sprite_frame_state.h"/* Update entity callbacks, facing, movement, and floor contact. */
 void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D8728_1 *motion, SpriteFrameState *monster)
 {

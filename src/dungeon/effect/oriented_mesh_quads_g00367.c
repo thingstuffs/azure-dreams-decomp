@@ -3,6 +3,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800C9858. */
 #include "dungeon/effect/oriented_mesh_quads_g00367.h"
 #include "shared/game_work.h"
+#include "dungeon/effect.h"
 
 /* Process each linked state with draw_mesh_quads_with_orientation_mode in mode zero. */
 s32 process_linked_mesh_states_mode_0(void *initial_state, s32 value, void *data) {

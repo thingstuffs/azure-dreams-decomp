@@ -3,6 +3,7 @@
 #include "dungeon/monster/unicorn/settle_actor_after_movement.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor.h"
+#include "dungeon/effect/screen.h"
 
 /* Advance the actor movement animation and settle it onto its destination tile. */
 void settle_actor_after_movement(void *animation, void *motion, SpriteFrameState *sprite, void *actor)

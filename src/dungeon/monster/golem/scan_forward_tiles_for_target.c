@@ -9,6 +9,7 @@ struct ObjectPosition;
 #include "shared/dir_step.h"
 #include "dungeon/monster/golem.h"
 #include "dungeon/actor.h"
+#include "dungeon/effect.h"
 
 typedef struct S_80172504_0 {
     u8 pad_00[0x2A];
@@ -40,9 +41,6 @@ extern s32 find_eligible_entry_at_coordinates();
 extern void prepare_directional_attack();
 extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 extern s32 check_layer_offset_height(u16 x, u16 y, s16 height, u32 flags);
-extern void select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
-extern s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
-
 
 /* Scan up to eight tiles ahead for a valid target and update the entity action state. */
 s32 scan_forward_tiles_for_target(GolemActionWork *action_state, ObjectPosition *transfer_data, SpriteFrameState *origin, void *actor) {

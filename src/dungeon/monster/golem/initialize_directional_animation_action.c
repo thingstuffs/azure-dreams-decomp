@@ -6,9 +6,9 @@
 #include "dungeon/monster/golem.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/actor.h"
+#include "dungeon/effect.h"
 
 extern s32 try_claim_dungeon_action_slot(void *);
-extern void apply_camera_offset_and_select_target(void *,void *, s32, s32);
 extern void select_sprite_entry(void *, u8, s32);
 
 extern u8 D_80175F30[];

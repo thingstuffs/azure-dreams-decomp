@@ -9,6 +9,7 @@
 
 #include "common.h"
 #include "dungeon/actor/state.h"
+#include "dungeon/actor/motion.h"
 
 typedef void (*DungeonCallback)(void *, void *, void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
@@ -19,11 +20,9 @@ extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 en
 extern s32 can_entity_gain_level(void *);
 extern void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern s32 advance_actor_pending_action(void *actor_state, void *action, void *status, void *actor);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
 extern s32 process_selected_actor_record(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *record);
 extern void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState *target, u8 *direction_table, void *next_state);
 extern void func_801715F0(void *controller, ObjectPosition *context, void *entity, void *path_state);

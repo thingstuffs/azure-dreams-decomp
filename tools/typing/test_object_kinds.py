@@ -87,6 +87,27 @@ class LinkTests(unittest.TestCase):
         homes = [k for k in kinds.values() if any(x['func'] == 'int_user' for x in k['callbacks'])]
         self.assertFalse(any(x['func'] == 'pointer_user' for x in homes[0]['callbacks']))
 
+    def test_same_named_callbacks_in_different_files_are_separate_kinds(self):
+        motion, travel = 'src/dungeon/effect/motion/mark.c', 'src/dungeon/effect/travel/sprites.c'
+        m = fn('mark_owner', file=motion, sites=[site('p:mark_owner:0', 4, w=4, s='p')])
+        t = fn('mark_owner', file=travel, stores=[store('p:mark_owner:0', -0x10, ['fn:travel_next', 0])],
+               sites=[site('p:mark_owner:0', 4, w=4, s='s')])
+        nxt = fn('travel_next', file=travel, sites=[site('p:travel_next:0', 4, w=4, s='s')])
+        c1, c2 = 'c:6:allocate_list_node', 'c:7:allocate_list_node'
+        mk_m = fn('make_motion', file=motion, calls=[alloc(c1)], stores=[store(c1, 0x10, ['fn:mark_owner', 0])])
+        mk_t = fn('make_travel', file=travel, calls=[alloc(c2)], stores=[store(c2, 0x10, ['fn:mark_owner', 0])])
+        kinds, summary = self.run_report([m, t, nxt, mk_m, mk_t])
+        homes = {x['func']: k for k in kinds.values() for x in k['callbacks']}
+        self.assertIn('mark_owner@' + motion, homes)
+        self.assertIn('mark_owner@' + travel, homes)
+        self.assertIsNot(homes['mark_owner@' + motion], homes['mark_owner@' + travel])
+        # the travel copy's own-body chain still links its successor, and neither kind sees a conflict
+        self.assertIs(homes['travel_next'], homes['mark_owner@' + travel])
+        self.assertEqual(homes['mark_owner@' + motion]['conflicts'], [])
+        self.assertEqual(homes['mark_owner@' + travel]['conflicts'], [])
+        self.assertEqual([x['func'] for x in homes['mark_owner@' + motion]['creators']], ['make_motion'])
+        self.assertEqual(summary['unresolved_duplicate_references'], 0)
+
 
 if __name__ == '__main__':
     unittest.main()

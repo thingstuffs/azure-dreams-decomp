@@ -5,6 +5,4 @@
 struct ObjectPosition;
 #include "common.h"
 
-s32 select_nearby_target_and_initialize_slot(void *,void *, s32, s32);
-
 #endif

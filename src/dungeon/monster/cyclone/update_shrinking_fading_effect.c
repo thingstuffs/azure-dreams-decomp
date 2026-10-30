@@ -360,7 +360,7 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
 
             pool_flags = D_800814A0;
             ((S_80172FC0_0 *)anim)->unk_AC = 0;
-            anim->unk_A4 = 0;
+            anim->unk_A4.value = 0;
             anim->unk_90.value = 0;
             active_child = ((S_80172FC0_0 *)anim)->unk_A0;
             child_flags = ~active_child->flags;

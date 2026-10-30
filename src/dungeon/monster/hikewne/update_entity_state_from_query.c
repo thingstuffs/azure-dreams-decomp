@@ -4,8 +4,9 @@
 #include "dungeon/monster/hikewne.h"
 
 #include "dungeon/player/object/action_state.h"
+#include "dungeon/actor/state.h"
+
 void update_actor_status_and_mp();                      /* extern */
-s32 relink_entity_and_clear_high_flag(); /* extern */
 
 typedef struct S_80172628_0 {
     u8 pad_00[0x46];
