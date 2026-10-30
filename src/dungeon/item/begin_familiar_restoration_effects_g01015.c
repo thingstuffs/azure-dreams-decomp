@@ -10,6 +10,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
 #include "dungeon/system.h"
+#include "engine/scene.h"
 
 /* Processes the two object slots if has_enough_available_runtime_nodes(2) succeeds. */
 s32 begin_familiar_restoration_effects(void)

@@ -723,7 +723,6 @@ extern u8 last_frame_ticks[16];
 #include "engine/texture.h"
 struct Entry;
 struct ObjectNodeHeader;
-extern void step_actor_animation(void *,s32);
 extern void func_80048AC8(void *, s32);
 extern s16 selection_menu_closing;
 extern u8 player_camera_reset_frames[];
@@ -761,7 +760,6 @@ void SetTransMatrix(void *);
 #include "sdk/libgte.h"
 extern s32 func_800656C0();
 extern void func_80065034();
-extern void project_sprite_commands();
 extern void func_800453E0(void *context, void *position, struct Entry *entry, s16 depth_bias);
 extern void draw_sprite_clipped();
 extern void func_80045CC4();

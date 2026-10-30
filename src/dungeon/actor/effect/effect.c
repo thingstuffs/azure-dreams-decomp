@@ -18,6 +18,8 @@ struct ObjectNodeHeader;
 #include "common.h"
 #include "dungeon/effect.h"
 #include "dungeon/player.h"
+#include "engine/menu.h"
+#include "engine/runtime.h"
 
 extern int abs(int);
 
@@ -513,8 +515,6 @@ void * create_tile_centered_item_effect(s32 tile_x, s32 tile_y, s32 height, s32 
 }
 #include "common.h"
 extern u8 item_effect_descriptor[];
-
-extern s32 lookup_item_category_mapped_value(s32, s32);
 
 /* Resolve the item's description: kind 0x12 uses the fixed table, everything else is looked up. */
 s32 get_item_category_value(void *item_data)
@@ -1603,7 +1603,6 @@ void pack_item_flag_400_bitmap(void)
 struct EntityLinkNode;
 struct Node;
 
-extern s32 test_resident_bit(s32);
 extern s16 has_recorded_value_pair(s32 highByte, s32 lowByte);
 extern s32 generate_random_value(void);
 extern s32 random_dungeon_range_16(s32, s32);

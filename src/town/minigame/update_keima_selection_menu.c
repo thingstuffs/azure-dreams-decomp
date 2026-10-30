@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -160,15 +161,15 @@ void update_keima_selection_menu(TownEntity *menu)
     case 1:
         if (((input->pressed_buttons) & 0x1000) &&
             (entity->selection > 0)) {
-            SD_Call(0x502);
+            SD_Call(AUDIO_CURSOR_MOVE);
             entity->selection = (u16)entity->selection - 1;
         } else if (((input->pressed_buttons) & 0x4000) &&
                    (entity->selection < 5)) {
-            SD_Call(0x502);
+            SD_Call(AUDIO_CURSOR_MOVE);
             entity->selection = (u16)entity->selection + 1;
         }
         if ((input->pressed_buttons) & 0x20) {
-            SD_Call(0x515);
+            SD_Call(AUDIO_CANCEL);
             set_resident_bit(0x592);
             set_resident_bit(0x593);
             entity->state = 0x100;
@@ -177,7 +178,7 @@ void update_keima_selection_menu(TownEntity *menu)
         if ((input->pressed_buttons) & 0x40) {
             s32 *money = &town_money;
 
-            SD_Call(0x503);
+            SD_Call(AUDIO_MENU_CONFIRM);
             (*(s16 *)((u8 *)entity + 8)) = 1;
             *money -= 100;
             keima_selection_mask = option_ids.value[(*(s16 *)((u8 *)entity + 6))];
@@ -209,7 +210,7 @@ void update_keima_selection_menu(TownEntity *menu)
         if ((input->buttons & 0x2000) &&
             (entity->quantity < 10) &&
             ((u32)town_money >= 100U)) {
-            SD_Call(0x502);
+            SD_Call(AUDIO_CURSOR_MOVE);
             set_resident_bit(0x592);
             set_resident_bit(0x594);
             entity->quantity = (u16)entity->quantity + 1;
@@ -224,7 +225,7 @@ void update_keima_selection_menu(TownEntity *menu)
             (entity->quantity >= 2)) {
             s32 *money = &town_money;
 
-            SD_Call(0x502);
+            SD_Call(AUDIO_CURSOR_MOVE);
             set_resident_bit(0x592);
             set_resident_bit(0x595);
             entity->quantity = (u16)entity->quantity - 1;
@@ -239,7 +240,7 @@ void update_keima_selection_menu(TownEntity *menu)
             Pair04 *selected_pair;
 
             do {
-                SD_Call(0x503);
+                SD_Call(AUDIO_MENU_CONFIRM);
                 selected_pair = factor_pairs.pair;
             } while (0);
             prices = keima_payout_factors;
@@ -256,7 +257,7 @@ void update_keima_selection_menu(TownEntity *menu)
             entity->state = 0x100;
         }
         if ((input->pressed_buttons) & 0x20) {
-            SD_Call(0x515);
+            SD_Call(AUDIO_CANCEL);
             town_money += entity->quantity * 100;
             set_object_data_pointer_2(keima_panel_object[0]);
             set_resident_bit(0x592);

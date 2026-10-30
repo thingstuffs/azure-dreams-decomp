@@ -1,6 +1,8 @@
 /* Slot detail refresh; G00388; inferred-strong; CL/PD joins as listed below, no proven or weak cut crossed */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:main/func_800112D8, CL:main/func_80011390, CL:main/func_80011818, CL:main/func_800119B4, PD:main/image_25c800:800283EC. */
 #include "frontend/libcard/slot_detail_refresh_g00388.h"
+#include "engine/audio/sequence.h"
+#include "engine/town.h"
 
 /* Builds status text and assigns it to two or three display nodes. */
 void card_boot_format_empty_slot_guidance(void *context)

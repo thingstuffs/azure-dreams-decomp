@@ -45,7 +45,7 @@ extern u8 D_80028780[];
 extern s16 D_800287A0;
 extern u8 warp_attack_option;
 
-extern void upload_vram_row_and_cache(void *, s32, s32, s32);
+extern void upload_vram_row_and_cache(void *, s32, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void decode_and_upload_image(void *, void *);
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
@@ -1144,7 +1144,7 @@ typedef struct S_800255B8_3 {
 extern u8 warp_piece_slots[];
 extern u8 D_80027580[];
 
-extern s32 has_enough_available_runtime_nodes(s32);
+extern s32 has_enough_available_runtime_nodes(s32 limit);
 
 /* Reads the signed halfword at the supplied byte offset in the direction table. */
 static __inline__ s16 dir_step(s16 *table, u16 offset) {

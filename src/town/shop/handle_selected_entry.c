@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 #include "common.h"
 
 #include "slus.h"
@@ -18,7 +19,7 @@ void handle_selected_entry(s32 *state) {
     if (selected_entry[1] != 0x16) {
         if (!(selected_entry[3] & 0x80)) {
             if (check_entry_limit_or_combined_value(state) != 0) {
-                SD_Call(0x503);
+                SD_Call(AUDIO_MENU_CONFIRM);
                 toggle_selected_entry_flag(state);
                 process_shop_object_data(state[10]);
                 return;

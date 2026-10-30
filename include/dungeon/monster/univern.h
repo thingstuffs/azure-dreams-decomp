@@ -290,7 +290,6 @@ s32 generate_random_value(void);
 void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 
 void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots();
-void select_indirect_table_entry(void *state_data, s16 table_index, s16 entry_index);
 void advance_sprite_animation_and_textures(void *entity);
 s32 refresh_actor_facing_and_lifecycle();
 s16 sample_terrain_surface_height();

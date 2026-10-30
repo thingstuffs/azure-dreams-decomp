@@ -4,7 +4,7 @@
 extern s8 spell_effect_selector_cache;
 extern u8 D_800DF3DC[];
 extern u8 D_800DF3E4[];
-extern u8 D_800DF3EC[];
+extern u8 item_module_read_descriptors[];
 void submit_control_and_reset_status(void);
 void submit_control_command_six(void);
 #endif

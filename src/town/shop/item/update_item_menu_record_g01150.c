@@ -1,6 +1,7 @@
 /* Update item menu record g01150.
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01150 - CL:town/func_800B2100, CL:town/func_800B2150, CL:town/func_800B2264.
  */
+#include "shared/audio_commands.h"
 #include "town/shop/item/update_item_menu_record_g01150.h"
 #include "town/shop/item.h"
 
@@ -59,19 +60,19 @@ void update_item_menu_selection(ItemMenuObject *obj)
     }
     if (obj->menu->count == 0) {
         if ((g_game_work.pressed_buttons) & 0x20) {
-            SD_Call(0x515);
+            SD_Call(AUDIO_CANCEL);
             set_item_menu_data_pointer(obj->owner);
         }
         return;
     }
 
     if ((g_game_work.pressed_buttons) & 0x20) {
-        SD_Call(0x515);
+        SD_Call(AUDIO_CANCEL);
         set_item_menu_data_pointer(obj->owner);
         return;
     }
     if ((g_game_work.pressed_buttons) & 0x40) {
-        SD_Call(0x514);
+        SD_Call(AUDIO_ACCEPT);
         obj->menu->display_controller = place_selected_item_menu_entry(obj);
         if (obj->menu->display_controller != 0) {
             return;
@@ -80,7 +81,7 @@ void update_item_menu_selection(ItemMenuObject *obj)
         ITEM_MENU_OBJECT_NODE(obj)->header.update_callback = D_800AF96C;
         return;
     } else if ((g_game_work.pressed_buttons) & 0x10) {
-        SD_Call(0x503);
+        SD_Call(AUDIO_MENU_CONFIRM);
         sort_entries_by_category((void *)0x8001029C);
         update_item_menu_record(obj);
         action_inner = obj->menu;
@@ -128,7 +129,7 @@ void update_item_menu_selection(ItemMenuObject *obj)
     if (next_position == selection->position) {
         return;
     }
-    SD_Call(0x502);
+    SD_Call(AUDIO_CURSOR_MOVE);
     obj->menu->position = next_position;
     next_band = obj->menu->position / 10;
     set_item_menu_entry_coordinates(obj);

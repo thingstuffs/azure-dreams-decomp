@@ -86,7 +86,7 @@ void replay_actor_status_slots(ActorRecord *object);
 s32 func_80042640(void *, s32);
 void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 void runtime_map_type_16_entry_code();
-s32 queue_cd_resource();
+s32 queue_cd_resource(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 void runtime_no_op_callback(u32 unused_state);
 u8 * find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type);
 s32 play_sound_if_enabled(s32 query_value);
@@ -137,7 +137,7 @@ void update_familiar_summoning(u8 *actor, ObjectPosition *position, void *animat
         return;
         }
         loaded_entity_sprite_resource = queue_cd_resource(((S_80095A10_3 *)resource_info)->unk_00);
-        load_monster_resource_data(((S_80095A10_3 *)resource_info)->unk_00, load_resource, 0);
+        load_monster_code_module(((S_80095A10_3 *)resource_info)->unk_00, load_resource, 0);
         (*(s8 *)&entity_resource_read_complete) = 0;
         Control_CD(0xFF, set_byte_one, &entity_resource_read_complete);
         previous_state = ((S_80095A10_0 *)actor)->unk_9B;
@@ -157,7 +157,7 @@ void update_familiar_summoning(u8 *actor, ObjectPosition *position, void *animat
             return;
         }
         runtime_map_type_16_entry_code(((u8 *)reference_tile_object.selected_item));
-        object = load_monster_resource_data(((S_80095A10_3 *)resource_info)->unk_00, spawn_resource, 1)(6,
+        object = load_monster_code_module(((S_80095A10_3 *)resource_info)->unk_00, spawn_resource, 1)(6,
             ((S_80095A10_2 *)context)->unk_72, ((S_80095A10_2 *)context)->unk_73,
             (s16) (((S_80095A10_2 *)context)->unk_88 - 0x20));
         if (object != 0) {

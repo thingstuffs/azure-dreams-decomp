@@ -12,6 +12,7 @@
 #include "town/minigame.h"
 #include "town/scene.h"
 #include "town/minigame/position.h"
+#include "town/minigame/state.h"
 
 #ifndef NULL
 #define NULL 0
@@ -26,10 +27,6 @@ typedef struct S_800254A4_0 {
     void * unk_20;
 } S_800254A4_0;   /* obj in initialize_tako_minigame */
 
-typedef struct S_800254A4_1 {
-    u8 pad_00[0x18];
-    s16 unk_18;
-} S_800254A4_1;   /* root in initialize_tako_minigame */
 
 typedef struct S_800254A4_3 {
     u8 pad_00[0x4C];
@@ -50,17 +47,6 @@ typedef struct S_800254A4_5 {
     s16 unk_1A;
 } S_800254A4_5;   /* part2 in initialize_tako_minigame */
 
-typedef struct S_800254A4_6 {
-    u8 pad_00[0x4];
-    void * unk_04;
-    void * unk_08;
-    void * unk_0C;
-    s32 unk_10;
-    s16 unk_14;
-    s16 unk_16;
-    s16 unk_18;
-    s16 unk_1A;
-} S_800254A4_6;   /* part3 in initialize_tako_minigame */
 
 
 extern u8 D_8002012C[];
@@ -88,7 +74,7 @@ s32 initialize_tako_minigame(void)
     ObjectNodeHeader *object;
     S_800254A4_3 *child_state;
     S_800254A4_5 *left_state;
-    S_800254A4_6 *right_state;
+    TextEntryObject *right_state;
     SceneTileObject *final_state;
     SpriteFrameState *draw_state;
     ObjectPosition *packet;
@@ -116,7 +102,7 @@ s32 initialize_tako_minigame(void)
     if (object != NULL) {
         parent_state = (u8 *)object + 0x20;
         object->update_callback = D_80025BC8;
-        ((S_800254A4_1 *)parent_state)->unk_18 = rand() & 1;
+        ((TakoMinigameState *)parent_state)->table_y = rand() & 1;
     }
 
     index = 2;
@@ -197,17 +183,17 @@ next_right:
     if (object != NULL) {
         object->update_callback = callback;
         register_node(object, text_sprite_builder_address);
-        right_state->unk_14 = 0x50;
-        right_state->unk_18 = 3;
-        right_state->unk_1A = 0x7C80;
-        right_state->unk_16 = row_y;
-        right_state->unk_10 = 0x00808080;
-        right_state->unk_04 = right_data[index];
+        right_state->field_14 = 0x50;
+        right_state->field_18 = 3;
+        right_state->field_1A = 0x7C80;
+        right_state->field_16 = row_y;
+        right_state->field_10 = 0x00808080;
+        right_state->text = right_data[index];
         if (index != 0) {
             if (index == 1) {
                 goto link_second_value;
             }
-            right_state->unk_0C = parent_state;
+            right_state->configuration = parent_state;
             goto next_right_row;
         } else {
             value_ptr = parent_state + 0x12;
@@ -216,8 +202,8 @@ next_right:
 link_second_value:
         value_ptr = parent_state + 0x14;
 store_value_ptr:
-        right_state->unk_08 = value_ptr;
-        right_state->unk_0C = parent_state;
+        right_state->value = value_ptr;
+        right_state->configuration = parent_state;
     }
 next_right_row:
     index--;

@@ -107,7 +107,7 @@ extern s32 get_surface_height_at_coordinates(s32 xCoord, s32 yCoord);
 extern u8 floor_species_pool[];
 extern s16 floor_generation_state[3];
 extern s32 floor_loaded_content_flags[];
-extern s32 test_resident_bit(s32);
+extern s32 test_resident_bit(s16 value);
 extern s32 func_80033BC0(s32);
 extern s16 spawn_category_weight_totals[];
 extern s32 random_dungeon_range_16(s32, s32);

@@ -6,7 +6,7 @@ typedef struct S_800422DC_Self S_800422DC_Self;
 typedef struct S_800423C0_Obj S_800423C0_Obj;
 typedef struct S_800423C0_Src S_800423C0_Src;
 
-void *runtime_get_mode_indexed_value();        /* extern */
+void *runtime_get_mode_indexed_value(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */        /* extern */
 void build_entity_slot_snapshot(S_800422DC_Self *snapshot, S_800422DC_Other *source);
 void apply_actor_template_and_direction(S_800423C0_Obj *obj, s16 unused, S_800423C0_Src *source);
 void func_80042640(void *obj, s16 monsterId);

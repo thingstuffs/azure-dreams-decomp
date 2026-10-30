@@ -3,6 +3,7 @@
 #include "m2c_compat.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_func_80094268_arg0.h"
+#include "engine/node.h"
 
 
 typedef struct S_800A7E7C_0_pre {
@@ -10,11 +11,6 @@ typedef struct S_800A7E7C_0_pre {
     u8 pad_04[0xC];
 } S_800A7E7C_0_pre;   /* the 0x10 bytes before arg0 in initialize_indexed_resource_object, addressed as arg0[-1] */
 
-
-
-
-
-void register_node_if_unregistered(void *block_data, void *registration_id);
 extern s32 item_effect_descriptor;
 extern void D_800A7EC0();
 

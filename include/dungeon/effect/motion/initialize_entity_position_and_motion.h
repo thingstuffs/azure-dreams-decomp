@@ -587,7 +587,7 @@ extern u8 D_80026B2C[];
 extern u8 D_80026BBC[];
 extern u8 D_80080010[];
 extern void draw_linked_model_chain(void);
-extern s32 has_enough_available_runtime_nodes(s32);
+extern s32 has_enough_available_runtime_nodes(s32 limit);
 extern void *allocate_list_node(s32, void *);
 extern ovl_19a332c_81984754_Object *func_8003FD64(s32, void *);
 extern s16 get_tile_chebyshev_distance(void *, void *);

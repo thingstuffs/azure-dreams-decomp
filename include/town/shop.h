@@ -2,6 +2,8 @@
 #define TOWN_SHOP_H
 
 #include "common.h"
+
+#include "town/shop/grid_menu.h"
 #include "shared/item_menu.h"
 
 
@@ -51,7 +53,6 @@ s32 advance_shop_entry_index_107(s32 index);
 s32 count_free_item_slots(void);
 
 #include "shared/entity.h"
-struct S_800ADB30_0;
 struct S_800AE30C_0;
 struct S_800B2D00_0;
 struct S_800B61C0_1;
@@ -68,9 +69,9 @@ s32 find_target_byte_index_in_list(void);
 u32 find_unused_pool_slot(s32 *used_addrs, s32 pool_index, s32 slot_count);
 s32 get_first_free_four_byte_entry_index_n_1_none_available(void *entry, s32 entry_count);
 s32 get_mode_selected_value(void);
-void handle_grid_menu_input(s32 *menu);
+void handle_grid_menu_input(GridMenuObject *menu);
 void handle_twin_shop_input(s32 *menu);
-void pass_indexed_entry_address(struct S_800ADB30_0 *entry_table);
+void pass_indexed_entry_address(GridMenuObject *entry_table);
 void populate_display_row(struct S_800B61C0_1 *entry, s32 widgets_base, s32 row);
 void populate_display_row_with_icon(void *entry_data, s32 display_base, s32 row_index);
 void process_shop_embedded_data(ShopEmbeddedDataObject *record);

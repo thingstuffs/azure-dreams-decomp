@@ -16,7 +16,6 @@ extern u8 map_sound_settings[];
 extern u16 fallback_sound_pairs[];
 extern u16 town_saved_sound[];
 extern s32 find_sound_entry_or_terminator_index(s32 target_value);
-extern void select_sound_stream(s32 effect, s32 value);
 extern s16 SD_Call(s32);
 
 

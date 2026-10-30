@@ -14,7 +14,6 @@ typedef struct S_80094A60_0 {
     s16 unk_16;
 } S_80094A60_0;
 
-void set_sprite_animation_frame();
 extern u8 animation_tick_scale;
 
 /* Functions defined in this translation unit. */

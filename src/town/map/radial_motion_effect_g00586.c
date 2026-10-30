@@ -6,6 +6,7 @@
 #include "shared/object_node.h"
 #include "town/map.h"
 #include "town/map/motion.h"
+#include "engine/window.h"
 
 /* Creates an effect behind the source with randomized reverse motion and launch speed. */
 void *create_reverse_motion_effect(S_800A878C_2 *source_motion, u32 flags) {

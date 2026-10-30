@@ -20,7 +20,7 @@ typedef struct {
 } GlobalPage;
 
 extern s16 D_80175218[];
-extern void project_sprite_commands(void *, s32, Entry *, s16);
+extern void project_sprite_commands(void *, s32, Entry *, s16); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /* Projects visible entries in the linked sprite chain using the current transition depth adjustment. */
 s32 update_actor_state_after_map_check(void *initial_payload, s32 entry_data, Entry *entry, s32 unused)

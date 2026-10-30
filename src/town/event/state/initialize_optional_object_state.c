@@ -6,7 +6,8 @@
 #include "records/Rec_D_80082E80.h"
 #include "town/event/object.h"
 #include "town/event/state.h"
-void register_node_if_unregistered(void *block_data, void *registration_id);
+#include "engine/node.h"
+
 struct EntityRec; struct Rec_D_80082E80; struct Rec_func_80094268_arg0;
 void dispatch_object_event_or_retire(void *object, s32 event, s32 event_data);
 void noop_hook(void);

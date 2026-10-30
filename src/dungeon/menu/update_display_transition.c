@@ -171,7 +171,7 @@ void update_display_transition(S_800DC1F8_0 *transition, void *anim_data) {
                 ((S_800DC1F8_11 *)(transition->unk_3C))->unk_80 = 0;
                 transition->unk_10 = 0;
                 transition->unk_14 = 0;
-                pass_global_data_with_fixed_args();
+                copy_menu_vram_block();
                 transition->unk_20 = 0;
             }
         }

@@ -13,10 +13,9 @@ typedef struct S_800A7C98_0 {
     s32 unk_50;
 } S_800A7C98_0;   /* arg0 in initialize_resource_object */
 
-
-
-void register_node_if_unregistered(void *, void *);
 #include "town/system/clear_object_status_and_dispatch_target_api.h"
+#include "engine/node.h"
+
 void handle_object_bounds_and_cleanup(void *object, void *check_data, void *fallback_data);
 extern M2C_UNK D_800F8F68;
 

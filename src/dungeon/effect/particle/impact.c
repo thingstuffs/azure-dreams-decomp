@@ -2042,7 +2042,7 @@ extern u8 D_8006E8A0[];
 extern u8 particle_fade_pixels[];
 
 extern void clear_circular_list_flags(void);
-extern void upload_vram_row_and_cache(void *, s32, s32, s32);
+extern void upload_vram_row_and_cache(void *, s32, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 decode_and_upload_image(void *, void *);
 extern void drain_audio_commands_and_service_channels(void);
 extern void select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s16 slot_value);

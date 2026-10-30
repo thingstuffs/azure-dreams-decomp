@@ -202,7 +202,6 @@ extern void change_map(struct InputRecord *input);
 extern s32 create_objects_descending_by_count(s32 object_key, s32 payload_value, s32 payload_param, s32 count);
 s32 count_consecutive_nonzero_entries_up_twenty(void);
 void set_player_block_value(s32 value);
-s32 service_script_controller(void);
 s32 func_800352FC(void);
 s16 initialize_object_items_in_reverse(void *ptr, s32 stateId, s16 currentState);
 void no_op_callback_a(void *ptr, s32 stateId, s32 stateArg); /* Unprototyped: retail call passes more arguments than the callee reads */

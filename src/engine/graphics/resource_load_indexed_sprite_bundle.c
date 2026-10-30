@@ -40,6 +40,6 @@ void *resource_load_indexed_sprite_bundle(s32 resource_id) {
     relocate_sprite_metadata_pointers(resource);
     entry3 = &entry2->unk_04;
     texture_mark_unprocessed_type_n_2_node_sequences_set_low_six_bits_n_14(resource);
-    shared_sprite_resource_loaded = 0;
+    movie_overlay_loaded = 0;
     return entry3;
 }

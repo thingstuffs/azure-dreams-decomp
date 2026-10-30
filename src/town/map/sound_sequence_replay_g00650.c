@@ -3,6 +3,7 @@
 #include "town/map/sound_sequence_replay_g00650.h"
 #include "town/map.h"
 #include "town/shop.h"
+#include "engine/audio.h"
 
 /* town_sd_sq_callagain_sub: replay and record the town or fallback sequence with the supplied flags. */
 s32 town_sd_sq_callagain_sub(s32 sequence_flags) {

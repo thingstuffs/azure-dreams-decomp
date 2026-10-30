@@ -4,13 +4,13 @@
 #include "sdk/libc.h"
 #include "slus.h"
 
-extern u8 D_800E58A8[];
+extern u8 monster_module_read_descriptor[];
 extern u8 D_80164800[];
 extern u8 D_8016A800[];
 extern u8 D_80170800[];
 
-/* Loads or reuses entry resource data, optionally waiting for the CD read. */
-MonsterFactory load_monster_resource_data(s32 resource_id, void *resource_entry, s32 wait_for_read) {
+/* Load a monster's code module from disc (or reuse the cached one), optionally waiting for the read. */
+MonsterFactory load_monster_code_module(s32 resource_id, void *resource_entry, s32 wait_for_read) {
     MonsterResourceSlot *entry = resource_entry;
     s16 asset_id = resource_id;
     s32 wait_mode = wait_for_read;
@@ -62,7 +62,7 @@ MonsterFactory load_monster_resource_data(s32 resource_id, void *resource_entry,
             slot_part = slot * 12 + 0x4340;
             disc_offset = asset_offset + slot_part;
         }
-        cd_params = D_800E58A8;
+        cd_params = monster_module_read_descriptor;
         pack_tagged_resource_descriptor(read_size, data, cd_params, disc_offset);
         Control_CD(6, cd_params, 0);
 

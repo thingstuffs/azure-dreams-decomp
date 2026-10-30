@@ -16,7 +16,7 @@ typedef struct S_80175594_0 {
     s16 unk_2C;
     u8 pad_2E[0x2];
     s16 unk_30;
-} S_80175594_0;   /* arg0 in relocate_entity_after_animation */
+} S_80175594_0;   /* arg0 in project_depth_sorted_sprite_quads */
 
 typedef struct S_80175594_1 {
     u16 unk_00;
@@ -73,14 +73,14 @@ typedef struct S_80175594_1 {
     u8 pad_106[0x2];
     u16 unk_108;
     u16 unk_10A;
-} S_80175594_1;   /* scratch in relocate_entity_after_animation */
+} S_80175594_1;   /* scratch in project_depth_sorted_sprite_quads */
 
-   /* state in relocate_entity_after_animation */
+   /* state in project_depth_sorted_sprite_quads */
 
 typedef struct S_80175594_5 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_80175594_5;   /* matrix in relocate_entity_after_animation */
+} S_80175594_5;   /* matrix in project_depth_sorted_sprite_quads */
 
 typedef struct S_80175594_7 {
     u8 pad_00[0x4];
@@ -104,9 +104,9 @@ typedef struct S_80175594_7 {
         struct { u8 v; } at00u;
         struct { u8 pad[0x1]; u8 v; } at01;
     } unk_24;   /* overlapping accesses */
-} S_80175594_7;   /* packet in relocate_entity_after_animation */
+} S_80175594_7;   /* packet in project_depth_sorted_sprite_quads */
 
-   /* *global in relocate_entity_after_animation */
+   /* *global in project_depth_sorted_sprite_quads */
 
 extern void CompMatrix(void *, void *, void *);
 extern void PushMatrix(void);
@@ -156,7 +156,7 @@ typedef struct {
 } Texture;
 
 /* Projects textured sprite quads and queues visible packets for depth-sorted drawing. */
-void relocate_entity_after_animation(S_80175594_0 *sprite, Rec_func_800D6DC0_arg1 *position, Rec_func_800D6DC0_arg2 *render,
+void project_depth_sorted_sprite_quads(S_80175594_0 *sprite, Rec_func_800D6DC0_arg1 *position, Rec_func_800D6DC0_arg2 *render,
     s16 depth_bias)
 {
     GameWork *render_globals = &g_game_work;

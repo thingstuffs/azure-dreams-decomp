@@ -90,7 +90,7 @@ void *load_scene_record(void *data);
 void load_scene_resource_group(s16 entry_index);
 
 /* load_shared_resource_once.c */
-void load_shared_resource_once(void);
+void load_movie_overlay_once(void);
 
 /* mark_active_nodes_by_callback.c */
 void mark_active_nodes_by_callback(s32 target_id);

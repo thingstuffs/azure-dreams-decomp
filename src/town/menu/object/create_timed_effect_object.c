@@ -4,8 +4,9 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "town/event/state.h"
+#include "engine/node.h"
+#include "town/menu/object.h"
 
-void register_node_if_unregistered(void *block_data, void *registration_id);
 struct IntVector3;        /* extern */
 extern void D_800A7C0C(void *object, s32 check_value);
 
@@ -16,14 +17,9 @@ typedef struct S_800A7B98_2 {
     u16 unk_14;
 } S_800A7B98_2;   /* arg2 in create_timed_effect_object */
 
-typedef struct S_800A7B98_3 {
-    u8 pad_00[0x6C];
-    s16 unk_6C;
-} S_800A7B98_3;
-
 /* Creates an object, copies its source data fields, and initializes its state. */
 void create_timed_effect_object(s32 ownerDataAddress, s32 creationParam, S_800A7B98_2 *sourceData) {
-    S_800A7B98_3 *objectState;
+    BoundsExpiryObject *objectState;
     ObjectNodeHeader *createdObject;
     SpriteFrameState *objectData;
 
@@ -34,6 +30,6 @@ void create_timed_effect_object(s32 ownerDataAddress, s32 creationParam, S_800A7
         objectData->source = sourceData->unk_08;
         objectData->flags = (u16) sourceData->unk_14;
         register_node_if_unregistered(objectState, project_sprite_chain);
-        objectState->unk_6C = 5;
+        objectState->timer = 5;
     }
 }

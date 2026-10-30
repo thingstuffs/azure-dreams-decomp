@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 #include "script_symbols.h"
 #include "common.h"
 #include "engine/object.h"
@@ -14,7 +15,7 @@ s32 run_the_action_sequence_context_unless_flag_hex_a_5_set(s32 context) {
     if (test_resident_bitmap_bit(F_minigame_tyu) != 0) {
         return 0;
     }
-    SD_Call(0x514);
+    SD_Call(AUDIO_ACCEPT);
     clear_global_80110_ec_0_global_80082_a_39();
     return create_item_menu_object(context);
 }

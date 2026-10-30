@@ -56,7 +56,6 @@ extern s32 select_object_state_value(void);
 extern s32 D_800892C0[3];
 extern u8 D_8008933C[];
 extern char *func_8004E5A0(s32 value, u16 width, char *dst);
-extern u8 *remap_flagged_string_bytes(u8 *string);
 extern s32 monster_get_species_name_text(s32);
 extern void set_storage_entry_text(s32, const void *, s32, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void *format_object_value_marker(void *, void *);

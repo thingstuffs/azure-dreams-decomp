@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 #include "common.h"
 #include "records/Rec_func_80036210_arg0.h"
 
@@ -25,5 +26,5 @@ void confirm_menu_choice(S_80036434_0 *object) {
     object->unk_64 = 0x11;
     object->unk_68 = &runtime_decrement_countdown_and_reset;
     object->unk_4D = (u8) (object->unk_4D | 0x80);
-    SD_Call(0x503);
+    SD_Call(AUDIO_MENU_CONFIRM);
 }

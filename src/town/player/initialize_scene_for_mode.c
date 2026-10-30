@@ -10,6 +10,9 @@
 #include "town/map/object.h"
 #include "town/scene/motion.h"
 #include "town/player/motion.h"
+#include "engine/graphics.h"
+#include "engine/scene.h"
+#include "engine/script.h"
 
 /* Initialize the town scene and configure its object for the current mode. */
 void initialize_scene_for_mode(void)

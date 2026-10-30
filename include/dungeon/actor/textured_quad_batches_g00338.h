@@ -185,7 +185,6 @@ typedef struct S_800B0BE0_5 {
 
 extern s32 swap_int_values();
 extern void * multiply_rgb_tint_saturated();
-extern void *emit_gpu_packets();
 extern s32 PushMatrix();
 void PopMatrix(void);
 void * ScaleMatrix(void *, void *);

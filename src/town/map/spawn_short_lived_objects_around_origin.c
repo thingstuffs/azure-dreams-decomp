@@ -4,6 +4,7 @@
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/object_links.h"
+#include "town/map/animation.h"
 
 #ifndef NULL
 #define NULL 0
@@ -46,13 +47,6 @@ typedef struct {
     s16 lifetime;
 } Motion;
 
-typedef struct {
-    u8 pad00[0x48];
-    u16 timer;
-    s16 count;
-} Self;
-
-
 #include "engine/node.h"
 #include "sdk/libc.h"
 
@@ -60,7 +54,7 @@ extern u8 D_800BBA98[];
 extern Resource D_800F162C[];
 
 /* Spawn short-lived objects around the origin and set expiry flags when the timer ends. */
-void spawn_short_lived_objects_around_origin(Self *self, Copy24 *origin) {
+void spawn_short_lived_objects_around_origin(ShortLivedSpawnerObject *self, Copy24 *origin) {
     s32 remaining = self->count;
 
     if (remaining >= 0) {

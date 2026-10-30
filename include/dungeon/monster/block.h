@@ -947,7 +947,6 @@ extern s32 get_cd_command_queue_depth(void);
 extern void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
 extern void *allocate_list_node(s32 flags, ObjectNodeHeader **list_head);
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-extern void run_cd_image_commands(u32 *stream_ref, u8 *state, s32 execute);
 extern void func_80041588(u32 *stream_ref, u8 *state, s32 execute);
 void initialize_timed_motion_step(unsigned short countdown, unsigned int amount);
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);

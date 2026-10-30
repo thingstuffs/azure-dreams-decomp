@@ -46,7 +46,7 @@ s32 prepare_cached_menu_entries(MenuEntryState *state, s32 count);
 s32 link_cached_menu_entries(void **entries);
 void initialize_cached_menu_entry(MenuEntryState *state, s32 resource_id, s32 slot_index, s32 x, s32 y, s32 z);
 void invoke_cached_menu_callback(MenuEntryState *state, void *position, void *sprite, void *context);
-void draw_tinted_node_sprites_scratch(void *object, s32 unused, void *sprite);
+int draw_tinted_node_sprites_scratch(void *forwarded_ptr, int unused_arg, void *second_ptr);
 void register_node(MenuEntryObject *object, void (*draw)(void *, s32, void *));
 void release_null_terminated_entries(u16 **resources);
 MenuEntryObject *allocate_menu_entry_object(s32 resource_id, s32 slot_index, s32 x, s32 y, s32 z);
@@ -90,7 +90,6 @@ void advance_menu_panel_scale(void *record);
 
 extern MenuEntryCommon menu_entry_common_template;
 extern u8 menu_entry_link_table[];
-void *realloc_field_0_buffer(void *owner, s32 count, s32 entry_size);
 void set_entry_common_pointers(void **entries, MenuEntryCommon *common, s32 count);
 s32 build_reverse_indexed_chain(void **entries, void *table, s32 count);
 void initialize_menu_display_templates(void *owner, MenuEntryTemplate *display, MenuEntryCommon *common, s32 x, s32 y, s32 z);

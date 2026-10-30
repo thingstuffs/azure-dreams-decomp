@@ -18,12 +18,11 @@ typedef struct SaveImage {
 } SaveImage;
 
 extern s16 current_dungeon_floor;
-extern u8 D_800DF3CC[];
-s32 test_resident_bit(s16 value);
+extern u8 level_module_read_descriptor_a[];
 void request_scene_dispatch_state(s16 requested_state);
 extern s32 Control_CD(s32 event_code, void *event_data, s32 payload);
 extern void drain_cd_command_queue(void);
-extern char D_800DF3D4[];
+extern char level_module_read_descriptor_b[];
 extern void func_8003E4FC(s32, char *, s32);
 extern void func_8003F320(void);
 
@@ -31,7 +30,7 @@ extern u8 scene_mode_code;
 extern u8 sprite_bundle_loaded;
 
 /* Functions defined in this translation unit. */
-void invoke_action_21_or_default(void);
-void trigger_action_21_or_update_control(void);
+void request_scene_state_21_or_reload_level_module_a(void);
+void request_scene_state_21_or_reload_level_module_b(void);
 
 #endif

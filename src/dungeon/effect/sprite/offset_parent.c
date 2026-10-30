@@ -2,7 +2,7 @@
 
 
 /* Projects two vertical points per linked node and queues a textured quad using the node's tile index. */
-s32 handle_spawn_initialize_randomized_offset_parent(void *sprite_data, void *position)
+s32 project_linked_vertical_point_quads(void *sprite_data, void *position)
 {
     u16 world_pos[4];
     s16 screen_points[4];

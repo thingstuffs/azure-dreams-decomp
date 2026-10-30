@@ -129,7 +129,6 @@ void no_op_scene_callback_b(void);
 extern void clear_resident_bitmap_bit(s32 flag_id);
 extern s32 test_resident_bitmap_bit(s32 bit_id);
 extern void zero_words(void *ptr, s32 count);
-extern func_80092868_TownObject *initialize_scene_object_in_buffer(s32 flags, void *storage, s16 size);
 extern void register_node(func_80092868_TownObject *object, void *data);
 extern void func_8004491C(func_80092868_TownObject *object, void *data);
 extern void initialize_circular_list_head(void);
@@ -146,7 +145,6 @@ void call_the_handler_selects_nonzero_entry();
 extern void initialize_record_and_select_active_data(void *owner, void *node_in, s32 mode); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 void initialize_record_with_handler_table();
 void initialize_player_object(void *object);
-extern s32 service_script_controller(void);
 extern s32 func_800352FC(void);
 extern void submit_object_resource_data(void *owner);
 extern s32 read_map_cell_at_world_position(s16 owner, s16 node_in);
@@ -161,7 +159,6 @@ extern void turn_entity_toward_target(void *owner, void *node_in, s32 mode); /* 
 extern s32 check_masked_value_in_current_range(u16 owner);
 extern s32 runtime_estimate_vector_length(s32, s32);
 #include "engine/texture.h"
-extern void step_actor_animation(void *,s32);
 extern void func_80048AC8(void *, s32);
 extern s32 step_angle_12_toward(s32 angle_delta, s32 target_angle, s32 step);
 extern u32 view_relative_angle_sector(s32 angle);

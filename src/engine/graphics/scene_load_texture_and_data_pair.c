@@ -14,7 +14,7 @@
 extern u8 scene_texture_data_resource[];
 extern s32 gpu_scratch_write_pointer;
 
-/* Runs two callback sequences, resetting their shared status byte before each. */
+/* Reads a texture and uploads it to VRAM, then reads the town menu code module; the status byte is cleared before each read. */
 void scene_load_texture_and_data_pair(s8 *status) {
     *status = 0;
     Control_CD(6, scene_paired_texture_resource, NULL);

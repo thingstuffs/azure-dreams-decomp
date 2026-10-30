@@ -3,6 +3,7 @@
 #include "frontend/libcard/message_dialog_lifecycle_g00381.h"
 #include "shared/object_node.h"
 #include "frontend/libcard.h"
+#include "engine/scene.h"
 
 /* Record the maximum string length and last nonempty slot across five strings. */
 void card_boot_measure_five_line_message(CardMenuEntry *entry)

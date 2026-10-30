@@ -10,6 +10,6 @@
 
 /* Calls SD_Call with 0xB4 and installs update_message_window as the next handler. */
 void play_message_advance_sound(Rec_func_800384A8_arg0 *state) {
-    SD_Call(AUDIO_FADE_CD_FAST);
+    SD_Call(AUDIO_MESSAGE_ADVANCE);
     state->unk_10 = &update_message_window;
 }

@@ -1,7 +1,7 @@
 #include "common.h"
+#include "engine/audio.h"
 
 extern s32 check_object_type_and_data_tag(void *record);
-extern void select_sound_stream(s32 a0, s32 a1);
 extern short SD_Call(int a0);
 extern u8 town_owner_dispatch_address[];
 

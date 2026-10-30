@@ -63,7 +63,6 @@ typedef struct S_800C1A44_3 {
     s16 unk_4C;
 } S_800C1A44_3;
 
-extern s32 has_enough_available_runtime_nodes(u32);
 extern u8 D_800C152C[];
 extern u8 D_800DF514[];
 extern u8 D_800E14A6[];
@@ -74,7 +73,7 @@ void display_actor_item_status_message(void *, struct DungeonItemEntry *);
 void display_formatted_context_message(void *);
 void clear_slot_and_update_linked_state(DungeonItemEntry *slot);
 extern void clear_slots_of_type(void *obj, s8 index);
-extern void apply_entity_effects(void *obj);
+extern void apply_entity_effects(void *entity);
 /* extern */
 /* extern */
 extern s32 clipped_sprite_renderer_address(u8 *first_data, s32 link_value, struct SpriteFrameState *value_record);

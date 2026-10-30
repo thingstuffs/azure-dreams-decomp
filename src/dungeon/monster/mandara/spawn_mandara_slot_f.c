@@ -18,7 +18,7 @@ typedef struct  S_80FB7000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80FB7000_1;   /* work in create_actor_with_parts_and_flags */
+} S_80FB7000_1;   /* work in create_mandara_actor_with_parts */
 
 typedef struct S_80FB7000_4 {
     u8 pad_00[0x8C];
@@ -29,7 +29,7 @@ typedef struct S_80FB7000_4 {
     s8 unk_9C;
     u8 pad_9D[0x11];
     u16 unk_AE;
-} S_80FB7000_4;   /* pin_actor in create_actor_with_parts_and_flags */
+} S_80FB7000_4;   /* pin_actor in create_mandara_actor_with_parts */
 
 extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
@@ -41,14 +41,14 @@ extern u8 D_8016AF6C[];
 extern u8 D_8016F258[];
 extern u8 D_8016F298[];
 
-void *create_actor_with_parts_and_flags(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value)
+void *create_mandara_actor_with_parts(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value)
 
 ;
 
 /* Creates a dungeon actor and initializes its parts, flags, and image regions. */
 /* Creates Mandara with frames at D_8016F258, copies its palette row and four strips, and attempts tile
  * placement. */
-void *create_actor_with_parts_and_flags(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value)
+void *create_mandara_actor_with_parts(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value)
 {
     void *work;
     ObjectNodeHeader *obj;

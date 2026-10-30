@@ -147,8 +147,9 @@ extern void *create_and_link_six_offset_objects(s16, s16, s16, void *);
 extern void *create_six_offset_effects(void *, void *, void *, void *);
 #include "dungeon/effect/screen.h"
 #include "dungeon/actor/object.h"
+#include "engine/scene.h"
+
 extern void process_adjacent_objects_with_gray_nodes(void *, void *);
-extern s32 has_enough_available_runtime_nodes(s32);
 extern void *get_unused_text_buffer(void);
 extern void *write_text_byte_and_advance(s8 value, s8 *dest);
 extern u8 *append_entity_display_text(void *record, u8 *out);

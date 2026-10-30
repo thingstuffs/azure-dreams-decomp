@@ -36,6 +36,13 @@ typedef struct TownMapSpawnState {
     u16 count;
 } TownMapSpawnState;
 
+/* Body of the spawner that creates short-lived radial objects. */
+typedef struct ShortLivedSpawnerObject {
+    u8 pad_00[0x48];
+    u16 timer;
+    s16 count;
+} ShortLivedSpawnerObject;
+
 /* initialize_object_header_and_state installs the phase callback and
  * clears these fields; completion clears the linked activity byte. */
 typedef struct TownMapPhaseObject {

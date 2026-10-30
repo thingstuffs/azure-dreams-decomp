@@ -31,7 +31,7 @@ typedef struct S_800525D4_obj {
 
 extern u8 cd_cue_effect_visual_data[0x10];
 
-extern void update_scene_effect_controller(void);
+extern void update_scene_effect_controller(struct Controller *controller);
 extern void scene_initialize_arc_motion_sprite(void *a0, S_800525D4_sub *a1);
 extern void init_fade_in_out_effect(void *a0, S_800525D4_sub *a1);
 extern void init_color_fade_effect(void *a0, S_800525D4_sub *a1);

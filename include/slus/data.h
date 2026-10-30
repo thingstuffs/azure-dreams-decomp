@@ -215,8 +215,9 @@ extern s32 sequence_payload_slot_20[ ];
 extern s32 sequence_payload_slot_24[ ];
 extern u8 session_reset_default_block[ 10 ];
 extern u8 session_reset_default_pair[ 10 ];
-extern u32 shared_sprite_resource_descriptor[2];
-extern s8 shared_sprite_resource_loaded;
+/* Table of CD read descriptors; the first entry is the movie overlay. */
+extern u32 resource_read_descriptors[2];
+extern s8 movie_overlay_loaded;
 extern s32 sixteen_sprite_sequence_source[ 4 ];
 extern s32 sound_ram_reserved_sizes[ 9 ];
 extern s32 sound_stream_primary_marker_address[ 4 ];

@@ -63,6 +63,6 @@ s32 run_object_setup_and_finalize(s32 *value_ptr, s32 context) {
     set_attached_object_position(value_ptr, context);
     initialize_nine_entry_links(value_ptr, context);
     result = link_indexed_entry_chain(*value_ptr, context);
-    pass_global_data_with_fixed_args();
+    copy_menu_vram_block();
     return result;
 }

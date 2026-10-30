@@ -47,7 +47,5 @@ void SpuSetCommonAttr(SpuCommonAttr *attr);
 extern s32 spu_reverb_enabled;
 extern s32 spu_reverb_range_override;
 extern u32 spu_reverb_start_address;
-s32 _SpuIsInAllocateArea_(u32 value);
-s32 SpuSetReverb(s32 enable);
 
 #endif

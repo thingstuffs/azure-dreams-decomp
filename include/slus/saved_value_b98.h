@@ -3,7 +3,6 @@
 #include "common.h"
 extern s32 saved_value_output_enabled;
 extern s32 selection_menu_saved_value;
-extern void create_gauge_with_selection_menu(s32 value);
 struct S_8004FE78_a0;
 extern void destroy_animated_selection_menu(struct S_8004FE78_a0 *entity);
 #endif

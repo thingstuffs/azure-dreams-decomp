@@ -62,7 +62,7 @@ typedef struct TownServiceTable {
     /* 0x274 */ unsigned char pad_274[0x4];
     /* 0x278 */ int (*callback_278)();
     /* 0x27C */ int (*callback_27C)();
-    /* 0x280 */ int (*callback_280)();
+    /* 0x280 */ int (*play_sound)();
     /* 0x284 */ unsigned char pad_284[0x8];
     /* 0x28C */ int (*callback_28C)();
     /* 0x290 */ int (*callback_290)();

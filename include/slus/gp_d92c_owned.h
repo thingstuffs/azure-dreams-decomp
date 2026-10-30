@@ -19,7 +19,7 @@ extern u8 D_80080AA0;
 extern void drain_cd_command_queue(void);
 extern int read_sound_mode_blocking_status(int);
 extern void service_cd_command_queue(void);
-extern void update_vsync_frame_id(int);
+extern s32 update_vsync_frame_id(s32 id_mode);
 extern void func_80044618(int);
 extern short SD_Call(int a0);
 extern void request_scene_dispatch_state(int);
@@ -30,7 +30,6 @@ extern void reset_game_state_preserving_session_fields(void);
 
 /* Handles a held button combination and restores saved settings when it triggers. */
 
-int update_shoulder_button_angle(void);
 int func_8003D92C(void);
 
 #endif

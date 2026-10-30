@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -47,10 +48,10 @@ void handle_object_input(void *object)
     if (g_game_work.buttons != 0) {
         action_flags = (g_game_work.pressed_buttons);
         if (action_flags & 0x20) {
-            SD_Call(0x515);
+            SD_Call(AUDIO_CANCEL);
             begin_selection_menu_teardown_and_fade((char *)obj - 0x20);
         } else if (action_flags & 0x40) {
-            SD_Call(0x514);
+            SD_Call(AUDIO_ACCEPT);
             obj->unk20 = resolve_selected_menu_entry(obj->unk28);
             if (call_state_callback(obj) == 0) {
                 s32 prev_callback = *(s32 *)((char *)obj - 0x10);
@@ -86,7 +87,7 @@ void handle_object_input(void *object)
                 obj->unk0C = obj->unk0C + 1;
             }
             if (direction != 0) {
-                SD_Call(0x502);
+                SD_Call(AUDIO_CURSOR_MOVE);
                 obj->unk18 = obj->unk1C;
                 obj->unk14 = 0;
                 obj->unk1C = advance_index_with_single_wrap(obj->unk1C, direction, 6);

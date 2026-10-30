@@ -5,11 +5,11 @@
 #include "shared/game_work.h"
 #include "dungeon/player.h"
 #include "dungeon/actor/effect.h"
+#include "engine/graphics.h"
 #ifndef NULL
 #define NULL 0
 #endif
 
-extern void set_sprite_animation_frame(void *a0, s16 a1, s16 a2, s32 a3);
 extern void play_sound_if_enabled(s32 a0);
 
 extern u8 player_carry_frames[8];

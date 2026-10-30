@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 #include "common.h"
 
 #include "common.h"
@@ -9,7 +10,7 @@
 
 
 
-/* Opcode 0x06: Voice wait: when gated, rewind while the sound status is nonzero; otherwise hand over to advance_message_when_voice_idle once the status is 0x100, else send SD_Call(0xB4). */
+/* Opcode 0x06: Voice wait: when gated, rewind while the sound status is nonzero; otherwise hand over to advance_message_when_voice_idle once the status is 0x100, else send SD_Call(AUDIO_MESSAGE_ADVANCE). */
 void script_wait_voice_then_advance(MessageVoiceState *state) {
     s32 status;
 
@@ -24,6 +25,6 @@ void script_wait_voice_then_advance(MessageVoiceState *state) {
             state->action = &advance_message_when_voice_idle;
             return;
         }
-        SD_Call(0xB4);
+        SD_Call(AUDIO_MESSAGE_ADVANCE);
     }
 }

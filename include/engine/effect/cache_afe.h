@@ -12,7 +12,6 @@ extern u16 cached_vsync_frame_id;
 
 /* Updates the cached upper bits and calls func_800542BC when they change. */
 
-s32 update_vsync_frame_id(s32 id_mode);
 s32 func_80044618(s32 id_mode);
 
 #endif

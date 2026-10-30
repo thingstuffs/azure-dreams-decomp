@@ -1232,7 +1232,7 @@ s32 load_object_into_alternate_buffer(s16 object_index, s16 mode, s16 activate) 
         return 1;
     }
 
-    if ((load_generation_resource_slot(1) << 16) != 0) {
+    if ((load_dungeon_sound_effect_bank(1) << 16) != 0) {
         audio_load_sound_effect_bank(0xC);
     }
     {
@@ -1301,8 +1301,8 @@ s32 load_object_into_alternate_buffer(s16 object_index, s16 mode, s16 activate) 
     return 0;
 }
 
-/* Loads a sound bank when its slot is stale and waits for its channel to become available. */
-s32 load_generation_resource_slot(s16 resource_index) {
+/* Load the dungeon sound-effect bank (header and body reads) when its slot is stale, then wait for its channel. */
+s32 load_dungeon_sound_effect_bank(s16 resource_index) {
     s16 slot_index;
     s32 resource_id;
     u8 *loaded_id;

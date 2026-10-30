@@ -1,6 +1,7 @@
 /* CD-wait glyph animation, saved trail positions and video-field draw-buffer updates. */
 #include "engine/scene/gp_shared_slots.h"
 #include "engine/scene.h"
+#include "engine/text.h"
 
 
 

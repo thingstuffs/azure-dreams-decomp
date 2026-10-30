@@ -19,5 +19,5 @@ void queue_town_movie_and_load_resources(void) {
     file_load_com(town_movie_primary_resource);
     file_load_com(town_movie_secondary_resource);
     load_bin_nametwin();
-    load_shared_resource_once();
+    load_movie_overlay_once();
 }

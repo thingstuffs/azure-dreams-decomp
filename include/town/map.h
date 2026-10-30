@@ -282,7 +282,7 @@ void randomize_paired_object_motion(void *pair_in);
 s32 event_tori_in(void *source);
 
 /* process_enabled_entries.c */
-void process_enabled_entries(void);
+void load_and_apply_town_building_tiles(void);
 
 /* process_linked_record_values.c */
 s32 process_linked_record_values(void *object, s32 x, s32 initial_value);

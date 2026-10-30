@@ -9,7 +9,7 @@ typedef struct MenuResourceOwner {
     s32 buffer;
 } MenuResourceOwner;
 
-extern s32 realloc_field_0_buffer(s32 *, s32, s32);
+extern s32 realloc_field_0_buffer(s32 *, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(s32, void *, s32);
 extern DisplayPositionWords display_vector_defaults;
 

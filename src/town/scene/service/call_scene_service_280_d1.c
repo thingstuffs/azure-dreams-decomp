@@ -4,5 +4,5 @@
 #include "town/scene/service.h"
 
 void call_scene_service_280_d1(void) {
-    town_scene_root->services->callback_280(0xD1);
+    town_scene_root->services->play_sound(0xD1);
 }

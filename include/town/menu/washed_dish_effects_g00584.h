@@ -17,7 +17,6 @@ typedef struct {
     s32 pad[2];
 } D800D0E44;
 
-void register_node_if_unregistered(void *, void *);
 extern s32 project_sprite_chain(void *group_data, s32 context, struct SpriteFrameState *sprite, s32 unused);
 extern s32 classify_object_against_bounds(void *object, void *position_data);
 extern void unlink_node_if_registered(void *object);

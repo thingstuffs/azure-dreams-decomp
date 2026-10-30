@@ -15,6 +15,8 @@ typedef void (*Callback)(void *, void *, void *, void *);
 
 #include "engine/texture/select_indirect_table_entry_api.h"
 #include "slus.h"
+#include "engine/texture.h"
+
 struct ActorRecord; struct Rec_func_800A9E70_arg0; struct S_800A9E70_2; s32 refresh_actor_facing_and_lifecycle(struct Rec_func_800A9E70_arg0 *, s32, struct S_800A9E70_2 *, struct ActorRecord *);
 
 extern u8 D_800F8BBC[9];

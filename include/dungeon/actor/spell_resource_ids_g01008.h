@@ -102,7 +102,7 @@ extern s8 spell_effect_selector_cache;
 extern u8 spell_resource_load_state;
 extern s32 spell_audio_cues[];
 extern s32 D_800DDAB8[];
-extern s32 D_800E58B0[];
+extern s32 spell_effect_module_read_descriptor[];
 
 /* Functions defined in this translation unit. */
 s32 resolve_spell_effect_resource_id(s16 index);

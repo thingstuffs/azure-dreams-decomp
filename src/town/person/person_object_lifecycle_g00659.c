@@ -3,6 +3,7 @@
 #include "town/person/person_object_lifecycle_g00659.h"
 #include "town/person.h"
 #include "town/scene/object.h"
+#include "engine/node.h"
 
 /* Update the object motion or clear its state and clean it up when the position check fails. */
 void update_object_position_or_cleanup(Rec_func_80094268_arg0 *object, void *position, void *motion) {

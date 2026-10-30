@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 #include "town/shop/object.h"
 /* Call the object's first virtual method. */
-void invoke_object_first_callback(void *obj)
+void invoke_object_first_callback(ShopFirstCallbackObject *obj)
 {
-    (*((s32 (**)(void *)) obj))(obj);
+    obj->first_callback(obj);
 }

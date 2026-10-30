@@ -29,7 +29,7 @@ extern void reserve_tw_mon_load(s32 load_selector);
 extern void copy_record_tail_bytes(void);
 extern void process_state_entries_and_referenced_objects(void);
 extern void load_resource_data(void);
-extern void process_enabled_entries(void);
+extern void load_and_apply_town_building_tiles(void);
 extern void town_sd_se_load_init(void);
 
 extern u8 town_movie_callback_list[0x18];
@@ -106,6 +106,6 @@ void dispatch_town_transition(void)
     runtime_dispatch_state.flags16 &= 0x3FF9;
     process_state_entries_and_referenced_objects();
     load_resource_data();
-    process_enabled_entries();
+    load_and_apply_town_building_tiles();
     town_sd_se_load_init();
 }

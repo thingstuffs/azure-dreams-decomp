@@ -98,7 +98,7 @@ void draw_nearby_map_markers(void *ordering_table, s32 unused_mode) {
     colour.bytes[2] = 0;
     colour.bytes[1] = brightness;
     colour.bytes[0] = brightness;
-    append_adjusted_type_two_entry(player[0x24], player[0x25], firstColour, firstContext);
+    append_map_dot_tile(player[0x24], player[0x25], firstColour, firstContext);
 
     entry = ((u8 *)head->next_actor_header) + 0x20;
     colour.bytes[1] = 0;
@@ -141,7 +141,7 @@ void draw_nearby_map_markers(void *ordering_table, s32 unused_mode) {
                         colour.bytes[2] = brightness;
                         colour.bytes[0] = 0;
                     }
-                    append_adjusted_type_two_entry(object.value[0x24], object.value[0x25], colour.bytes, ordering_table);
+                    append_map_dot_tile(object.value[0x24], object.value[0x25], colour.bytes, ordering_table);
                     if (markerKind.value == 2) {
                         colour.bytes[2] = 0;
                         colour.bytes[0] = brightness;
@@ -160,7 +160,7 @@ void draw_nearby_map_markers(void *ordering_table, s32 unused_mode) {
             if ((dungeon_floor_flags & FLOOR_ITEMS_VISIBLE) ||
                 get_masked_grid_nibble(mapEntry[playerAndIndex].x,
                               mapEntry[playerAndIndex].y)) {
-                append_adjusted_type_two_entry(mapEntry[playerAndIndex].x,
+                append_map_dot_tile(mapEntry[playerAndIndex].x,
                               mapEntry[playerAndIndex].y, colour.bytes, ordering_table);
             }
         }
@@ -175,7 +175,7 @@ void draw_nearby_map_markers(void *ordering_table, s32 unused_mode) {
         if ((dungeon_floor_flags & FLOOR_ELEVATOR_VISIBLE) ||
             get_masked_grid_nibble(objectEntry[playerAndIndex].x,
                           objectEntry[playerAndIndex].y)) {
-            append_adjusted_type_two_entry((u16)objectEntry[playerAndIndex].x,
+            append_map_dot_tile((u16)objectEntry[playerAndIndex].x,
                           (u16)objectEntry[playerAndIndex].y, colour.bytes, ordering_table);
         }
     }
@@ -194,7 +194,7 @@ void draw_nearby_map_markers(void *ordering_table, s32 unused_mode) {
                 (!(info[playerAndIndex].flags & 0x80) &&
                  get_masked_grid_nibble(largeMapEntry[playerAndIndex].x,
                                largeMapEntry[playerAndIndex].y))) {
-                append_adjusted_type_two_entry(largeMapEntry[playerAndIndex].x,
+                append_map_dot_tile(largeMapEntry[playerAndIndex].x,
                               largeMapEntry[playerAndIndex].y, colour.bytes, ordering_table);
             }
         }

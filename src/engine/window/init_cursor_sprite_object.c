@@ -78,7 +78,7 @@ void init_cursor_sprite_object(void *node_addr, Rec_D_80081FDC *transform, s32 *
 
     node = initialize_runtime_node_storage(0x11, node_addr, 0x49, &window_node_list_storage);
     ((S_8003719C_0 *)node)->unk_10 = update_cursor_blink_colors;
-    register_node(node, &runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback);
+    register_node(node, &draw_linked_sprite_nodes);
     state = node + 0x20;
     render_data = ((S_8003719C_0 *)node)->unk_08;
     sprite = ((S_8003719C_0 *)node)->unk_0C;

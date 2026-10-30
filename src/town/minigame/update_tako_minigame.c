@@ -12,32 +12,12 @@
 #include "town/minigame/effect.h"
 #include "town/player/object.h"
 
-typedef struct TownObject {
-    u8 pad0[0x70];
-    s16 state;
-    s16 value72;
-    u8 pad74[2];
-    s16 random76;
-} TownObject;
-
-typedef struct TownState {
-    TownObject *objects[3];
-    s16 state;
-    s16 timer;
-    s16 table_x;
-    s16 field12;
-    s16 threshold;
-    u16 counter;
-    s16 table_y;
-    u16 flags;
-} TownState;
-
 extern u16 tako_best_score;
 extern u8 tako_target_timing_table[];
 extern s16 D_800834C8[1];
 
 /* Advances a three-object shuffle sequence and handles its effects and completion. */
-void update_tako_minigame(TownState *state)
+void update_tako_minigame(TakoMinigameState *state)
 {
     GameWork *scene_data;
     s32 phase;
@@ -62,8 +42,8 @@ void update_tako_minigame(TownState *state)
         /* Fall through to the camera phase. */
     case 1:
         {
-            TownState *init_state = state;
-            TownObject *first_object;
+            TakoMinigameState *init_state = state;
+            TakoMinigameObject *first_object;
             u16 round_delay;
 
             scene_data->view.view_offset.parts.view_offset_x +=
@@ -106,18 +86,18 @@ void update_tako_minigame(TownState *state)
     }
     state->flags |= 1;
     do {
-        TownObject **object_slot;
+        TakoMinigameObject **object_slot;
 
         loop_index = 2;
         object_slot = &state->objects[2];
         do {
-            (*object_slot)->random76 = rand() % 3;
+            (*object_slot)->random_76 = rand() % 3;
             object_slot--;
             loop_index--;
         } while (loop_index >= 0);
-    } while (state->objects[0]->random76 == state->objects[1]->random76 ||
-             state->objects[1]->random76 == state->objects[2]->random76 ||
-             state->objects[2]->random76 == state->objects[0]->random76);
+    } while (state->objects[0]->random_76 == state->objects[1]->random_76 ||
+             state->objects[1]->random_76 == state->objects[2]->random_76 ||
+             state->objects[2]->random_76 == state->objects[0]->random_76);
     break;
 
 case 3:
@@ -130,7 +110,7 @@ case 3:
     }
     SD_Call(0xB1);
     {
-        TownObject **object_slot;
+        TakoMinigameObject **object_slot;
         s32 object_state;
 
         loop_index = 2;

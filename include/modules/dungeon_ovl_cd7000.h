@@ -1053,7 +1053,6 @@ extern void select_record_entry_and_value(void *state_data, void *entry_data, sh
 extern void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
 extern void *allocate_list_node(s32, void *);
 extern void *func_8003FD64(s32, void *);
-extern void run_cd_image_commands(u32 *stream_ref, u8 *state, s32 execute);
 extern void func_80041588(u32 *stream_ref, u8 *state, s32 execute);
 extern void initialize_timed_motion_step(s32, s32);
 extern s32 get_entity_effect_value(void *, s32);

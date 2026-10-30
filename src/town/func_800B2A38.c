@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/item_menu.h"
+#include "engine/util.h"
 
-extern void *realloc_field_0_buffer(void *buffer_slot, s32 entry_count, s32 clear_words);
 extern void texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(ItemMenuPart **entries, DisplayPositionWords *value, s32 count);
 
 extern s32 display_vector_defaults[];

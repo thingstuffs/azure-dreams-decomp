@@ -2,6 +2,8 @@
 #include "common.h"
 #include "shared/dungeon_item_entries.h"
 #include "engine/resource.h"
+#include "engine/text.h"
+
 typedef struct {
     u8 pad[0x10];
     u8 kind;
@@ -10,8 +12,6 @@ typedef struct {
 extern ItemCategory item_category_groups[];
 extern s32 memset(void *, s32, s32);
 extern void func_8004E5A0(s32, s32, u8 *);
-extern u8 *remap_flagged_string_bytes(u8 *);
-extern void *build_positioned_text_glyphs(u8 *, u8 *, s32);
 /*
  * Builds text glyphs for an item's numeric value and flag marker, returning 0 for unsupported
  * categories.

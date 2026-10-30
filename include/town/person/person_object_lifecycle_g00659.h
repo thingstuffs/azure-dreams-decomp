@@ -49,7 +49,6 @@ extern M2C_UNK D_800D5040;
 extern M2C_UNK D_800D5058;
 extern s32 runtime_is_record_field_set(void *);
 #include "town/person/state_updates.h"
-void register_node_if_unregistered(void *block_data, void *registration_id);
 
 /* Functions defined in this translation unit. */
 void update_object_position_or_cleanup(Rec_func_80094268_arg0 *object, void *position, void *motion);

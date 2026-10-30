@@ -27,7 +27,7 @@ void equip_item_and_update_status(ActorRecord *context, DungeonItemEntry *item) 
             play_sound_if_enabled(0x506);
             result_value = get_unused_text_buffer();
             text_end = append_typed_formatted_value(selected_item, expand_text_control_codes(D_800E080A, append_entity_display_text(context, write_text_byte_and_advance(8, result_value))));
-            clear_byte_and_advance(expand_text_control_codes(D_80088B64, text_end));
+            clear_byte_and_advance(expand_text_control_codes(item_suffix_strings_crystal_bell_loupe, text_end));
             display_text_with_fullwidth_adjustment(result_value);
             return;
         }

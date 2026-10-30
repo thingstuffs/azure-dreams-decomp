@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "frontend/libcard/state.h"
@@ -45,7 +46,7 @@ void card_boot_update_card_chooser_input(void *menu)
         if (button_flags & 0x20) {
             s32 *object;
 
-            SD_Call(0x515);
+            SD_Call(AUDIO_CANCEL);
             card_boot_destroy_card_chooser(menu - 0x20);
             card_boot_close_events_and_resume_timer();
             if (scene_mode_code == 3) {
@@ -59,7 +60,7 @@ void card_boot_update_card_chooser_input(void *menu)
                 }
             }
         } else if (button_flags & 0x40) {
-            SD_Call(0x503);
+            SD_Call(AUDIO_MENU_CONFIRM);
             card_boot_select_channel_mode((*(s32 *)((u8 *)menu + 0xC)));
             (*(s32 *)((u8 *)menu + 0x34)) = 0;
             (*(void * *)((u8 *)menu + -0x10)) = card_boot_poll_card_chooser_status;
@@ -81,7 +82,7 @@ void card_boot_update_card_chooser_input(void *menu)
         }
 
         if (selection_changed != 0) {
-            SD_Call(0x502);
+            SD_Call(AUDIO_CURSOR_MOVE);
             card_boot_set_paired_choice_selection((*(s32 *)((u8 *)menu + 0x24)), (*(s32 *)((u8 *)menu + 0xC)));
         }
     }

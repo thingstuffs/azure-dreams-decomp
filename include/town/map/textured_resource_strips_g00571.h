@@ -10,6 +10,7 @@
 #include "shared/dungeon_effect_views.h"
 #include "engine/node.h"
 #include "shared/gpu_packets.h"
+#include "town/menu/motion.h"
 
 #ifndef NULL
 #define NULL 0
@@ -202,16 +203,6 @@ typedef struct S_800A47A8_1 {
     u8 unk_0D;
     u8 unk_0E;
 } S_800A47A8_1;
-
-typedef struct S_800A47A8_3 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x8];
-    s16 unk_0C;
-    u8 pad_0E[0x4];
-    s16 unk_12;
-    s16 unk_14;
-} S_800A47A8_3;
 
 extern s32 rsin(s32);
 extern s32 rcos(s32);

@@ -64,11 +64,11 @@ typedef struct S_80035888_6 {
 extern void register_node(void *, void *);
 extern void func_8004491C(void *, void *);
 extern void runtime_initialize_state_value(void *, s32);
-extern void copy_window_params(void *, void *);
+extern void copy_window_params(struct Container *container, struct Source *source);
 extern void func_800375C0(void *, void *);
 extern void prepend_embedded_object_node(void *, void *);
 
-extern void runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback(void);
+extern s32 draw_linked_sprite_nodes(u8 *first_node, u8 *first_transform, u8 *first_context);
 extern void dispatch_window_fade_and_update_extents(struct Func800359FCState *state, struct Func800359FCEvent *event, void *callback_data);
 extern void set_window_handler(Rec_func_80036210_arg0 *object);
 extern void func_80035AAC(void);

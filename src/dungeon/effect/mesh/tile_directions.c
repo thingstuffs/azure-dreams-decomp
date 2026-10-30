@@ -32,7 +32,7 @@ extern void append_coordinate_record(s32 x, s32 y, s32 value, s32 store_value);
 extern s16 round_sampled_height_to_cell_boundary(s32 grid_x, s32 grid_y);
 extern s32 get_offset_map_cell_value_and_flags(s16, s16, s16, u16 *);
 extern s16 sound_idle_vsync_frame_alias[8];
-extern u8 D_800E6000[16400];
+extern u8 shared_decode_staging_buffer[16400];
 extern u8 *tile_coordinate_records;
 
 /* Marks and processes up to ten eligible tiles in each perpendicular direction, returning the total. */
@@ -199,7 +199,7 @@ void clear_listed_tile_flags(void) {
     entry = tile_coordinate_records;
     if (*entry != 0) {
         do {
-            tile = &D_800E6000[0x4000 + (entry[0] + (entry[1] << map_config->shiftX)) * 6];
+            tile = &shared_decode_staging_buffer[0x4000 + (entry[0] + (entry[1] << map_config->shiftX)) * 6];
             tile_flags = *(u16 *)(tile + 4);
             entry += 4;
             *(s16 *)(tile + 4) = (s16)(tile_flags & 0xFF7F);

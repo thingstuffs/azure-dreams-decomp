@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 #include "common.h"
 #include "town/minigame.h"
 #include "shared/town_handler_entries.h"
@@ -230,13 +231,13 @@ void update_betting_effect(TownEffect *input)
         }
         if ((((controls->pressed_buttons) & 0x1000) != 0 || ((controls->buttons & 0x1000) != 0 && effect->timer <= 0))
             && effect->amount < 10000 && (u32)town_money[0] >= 100) {
-            SD_Call(0x502);
+            SD_Call(AUDIO_CURSOR_MOVE);
             town_money[0] -= 100;
             effect->amount = effect->amount + 100;
         } else {
             if (((controls->pressed_buttons) & 0x4000) != 0 || ((controls->buttons & 0x4000) != 0 && effect->timer <= 0)) {
                 if (effect->amount >= 100) {
-                    SD_Call(0x502);
+                    SD_Call(AUDIO_CURSOR_MOVE);
                     town_money[0] += 100;
                     effect->amount = effect->amount - 100;
                 }

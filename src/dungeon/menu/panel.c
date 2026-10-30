@@ -18,6 +18,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "engine/node.h"
 #include "dungeon/item.h"
+#include "engine/graphics.h"
 
 extern char * func_8004E5A0(int value, unsigned short width, char *buf);
 
@@ -988,8 +989,7 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
 #include "common.h"
 #include "m2c_compat.h"
 
-void upload_vram_row_and_cache(); /* extern */
-extern u8 D_800DF068[];
+extern u8 dungeon_palette_row_sources[];
 
 typedef struct S_800B1E80_0 {
     u16 unk_00;
@@ -1010,7 +1010,7 @@ void advance_cyclic_panel_entry(S_800B1E80_0 *state) {
         if ((s16) entry_index >= 0x60) {
             state->unk_02 = 0U;
         }
-        upload_vram_row_and_cache(((s16) state->unk_02 * 4) + D_800DF068, 0x7340, 1, 2);
+        upload_vram_row_and_cache(((s16) state->unk_02 * 4) + dungeon_palette_row_sources, 0x7340, 1, 2);
     }
 }
 #include "shared/object_node.h"

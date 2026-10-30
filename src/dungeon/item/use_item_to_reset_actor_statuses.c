@@ -9,7 +9,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
-extern void apply_entity_effects(void *);
+extern void apply_entity_effects(void *entity);
 extern void clear_slots_of_type(void *, s8);
 #include "dungeon/player/item.h"
 #include "dungeon/actor.h"

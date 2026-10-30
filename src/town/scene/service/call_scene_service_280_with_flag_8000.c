@@ -8,5 +8,5 @@
 
 /* Dispatches the supplied value with bit 0x8000 set. */
 void call_scene_service_280_with_flag_8000(s32 value) {
-    town_scene_root->services->callback_280(value | 0x8000);
+    town_scene_root->services->play_sound(value | 0x8000);
 }

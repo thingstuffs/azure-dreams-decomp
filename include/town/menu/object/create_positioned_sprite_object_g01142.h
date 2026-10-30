@@ -47,7 +47,6 @@ typedef struct S_800A7360_1 {
 
 typedef void (*S_800A9C80_Callback)(void *, void *, s32);
 
-void register_node_if_unregistered(void *block_data, void *registration_id);
 void select_record_entry_and_value(void *state,void *entries, short index);
 void * allocate_list_node(s32, struct ObjectNodeHeader * *);
 extern s32 D_800D0DF0;

@@ -16,6 +16,7 @@ struct ObjectPosition;
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "slus.h"
+#include "engine/graphics.h"
 
 #ifndef NULL
 #define NULL 0
@@ -36,7 +37,6 @@ extern void *D_80174E40[];
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 Control_CD();
 extern void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
-extern s32 run_cd_image_commands();
 extern s32 read_stream_cue_start_offset(void);
 s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 lookup_masked_byte_table();

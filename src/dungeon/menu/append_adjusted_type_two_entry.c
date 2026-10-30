@@ -18,8 +18,8 @@ typedef struct State {
 extern u8 upper_draw_context[16];
 extern void AddPrim(void *submission_target, void *entry);
 
-// Appends a type-2 entry with adjusted coordinates and submits it for processing.
-void append_adjusted_type_two_entry(s32 x, s32 y, void *color_data, void *submissionTarget)
+// Append a single-dot tile at the offset map position with the given color and submit it.
+void append_map_dot_tile(s32 x, s32 y, void *color_data, void *submissionTarget)
 {
     s32 *entryValue = color_data;
     s32 maskedY = y & 0xFFFF;

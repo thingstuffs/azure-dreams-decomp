@@ -4,6 +4,8 @@
 #include "town/menu/indexed_effect_vectors_g00583.h"
 #include "shared/object_flags.h"
 #include "town/event/state.h"
+#include "engine/menu.h"
+#include "engine/node.h"
 
 #include "shared/object_node.h"/* Creates an object, selects its data, and initializes its state. */
 /*
@@ -13,7 +15,7 @@
  */
 void create_indexed_effect_object(s32 index, s32 kind) {
     s32 object_id;
-    S_800A8184_1 *state;
+    IndexedEffectObject *state;
     SpriteFrameState *data;
     ObjectNodeHeader *object;
     s32 saved_kind = kind;
@@ -23,15 +25,15 @@ void create_indexed_effect_object(s32 index, s32 kind) {
     if (object != NULL) {
         object_id = *(s32 *)&object->position;
         data = object->sprite;
-        state->unk_4C = index;
-        state->unk_4D = saved_kind;
+        state->record_index = index;
+        state->category = saved_kind;
         {
             s32 dispatch_result;
 
             if ((saved_kind & 0xFF) == 0x12) {
                 dispatch_result = (s32)&item_effect_descriptor;
             } else {
-                dispatch_result = lookup_item_category_mapped_value(state->unk_4D, state->unk_4C);
+                dispatch_result = lookup_item_category_mapped_value(state->category, state->record_index);
             }
             data->source = dispatch_result;
         }
@@ -41,7 +43,7 @@ void create_indexed_effect_object(s32 index, s32 kind) {
 }
 
 /* Copy the adjusted vector when state references match; otherwise process and flag the object. */
-void copy_adjusted_vector_or_flag_object(void *object, s32 *out_vector, void *unused)
+void copy_adjusted_vector_or_flag_object(IndexedEffectObject *object, s32 *out_vector, void *unused)
 {
     s32 *state_refs = scene_object_payload_alias;
 

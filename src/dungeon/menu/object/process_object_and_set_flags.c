@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void flag_object_for_removal(s32 object);
+extern void flag_object_for_removal(s32 object); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 dungeon_menu_object[];
 
 /* Process the object handle, clear the global state, and set the high flag bits. */

@@ -8,6 +8,7 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/system.h"
 #include "dungeon/level.h"
+#include "engine/graphics.h"
 #ifndef NULL
 #define NULL 0
 #endif
@@ -28,7 +29,6 @@ extern void *D_8008B870;
 extern u8 player_sleep_frames;
 
 extern s32 get_entity_effect_value(void *entry, s32 effect_id);
-extern void set_sprite_animation_frame(void *obj, s32 frame_group, s32 frame_index, s32 slot_index);
 
 /* Advances actor animation states, periodic events, and handler transitions. */
 void update_player_sleep_action(Arg0Struct *controller, void *unused, SpriteAnimationTableView *animation, ActorRecord *actor) {

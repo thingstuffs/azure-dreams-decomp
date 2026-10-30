@@ -16,7 +16,7 @@ extern u16 tint_effect_update_count[];
 extern s16 tint_effect_phase_counts[];
 extern u8 tinted_travel_sprite_data[];
 struct S_80045C34;
-s32 draw_linked_sprites_clipped(u8 *,s32,struct S_80045C34 *);
+s32 draw_linked_sprites_clipped(u8 *first_data, s32 link_value, SpriteFrameState *value_record);
 s32 func_80045C34(u8 *,s32,struct S_80045C34 *);
 s32 process_linked_mesh_states_mode_0(void *,s32,void *);
 void tint_effect_and_advance_motion(void *,void *);

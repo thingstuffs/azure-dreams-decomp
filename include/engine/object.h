@@ -42,7 +42,7 @@ void initialize_attached_message_window_node(void *node_storage, void *attached_
 
 /* obj_cancel_sw_set.c */
 s32 obj_disp23_cancel_sw_set(s32 cancel_switch);
-s32 runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback(u8 *first_node, u8 *first_transform, u8 *first_context);
+s32 draw_linked_sprite_nodes(u8 *first_node, u8 *first_transform, u8 *first_context);
 
 /* runtime_clear_state_and_entry_range.c */
 void runtime_clear_state_and_entry_range(void);

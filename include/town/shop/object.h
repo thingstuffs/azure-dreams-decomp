@@ -13,6 +13,14 @@ struct S_800B1718_0;
 struct S_800B1730_0;
 struct S_800B2CE8_0;
 
+/* Body of the shop object that delegates its update to the first method. */
+typedef struct ShopFirstCallbackObject {
+    /* 0x00 */ s32 (*first_callback)(void *object);
+    /* 0x04 */ u8 pad_04[0x90];
+    /* 0x94 */ void *status_display_entries;
+    /* 0x98 */ s32 resource_id;
+} ShopFirstCallbackObject;
+
 /* allocate_object_and_mark_failed_setup_for_cleanup.c */
 void *allocate_object_and_mark_failed_setup_for_cleanup(s32 resource_id, s32 slot_index, s32 x, s32 y, s32 z);
 
@@ -36,7 +44,7 @@ void interpolate_paired_object_positions_and_shades(void **pair_state);
 void invoke_item_menu_node_callback(struct ItemMenuTransition *state);
 
 /* invoke_object_first_callback.c */
-void invoke_object_first_callback(void *obj);
+void invoke_object_first_callback(ShopFirstCallbackObject *obj);
 
 /* link_item_menu_object_entries.c */
 ItemMenuPart *link_item_menu_object_entries(ItemMenuPart **parts);

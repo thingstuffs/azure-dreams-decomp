@@ -27,15 +27,11 @@ typedef struct {
     } *unk4;
 } UnkTarget;
 
-extern void *build_positioned_text_glyphs(void *a0, void *a1, s32 a2);
 extern void func_8004E5A0(void *a0, s32 a1, void *a2);
-extern void remap_flagged_string_bytes(void *a0);
 extern u8 D_80078FD0[16];
 extern s16 D_80027F7C;
 extern s16 D_800282B0;
 extern void func_80023BE4(void *, s32, s32);
-
-extern void *decode_fullwidth_text(void *entries, u8 *text, s32 initial_octave);
 
 /* Functions defined in this translation unit. */
 void card_boot_format_occupied_slot_window(void *slot_owner);

@@ -4,6 +4,7 @@
 #include "town/menu/washed_dish_effects_g00584.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
+#include "engine/node.h"
 
 /* Initialize the object state, shared counter, context resource, and callback. */
 void initialize_timed_resource_object(void *object, void *unused, struct SpriteFrameState *context) {

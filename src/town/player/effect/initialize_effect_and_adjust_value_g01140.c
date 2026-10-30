@@ -10,6 +10,9 @@
 #include "town/map/object.h"
 #include "town/scene/motion.h"
 #include "town/player/motion.h"
+#include "engine/graphics.h"
+#include "engine/node.h"
+#include "engine/window.h"
 
 /* Initialize the object and adjust its record value before final setup. */
 void initialize_effect_and_adjust_value(void *object, EntityRec *record, s32 init_value) {

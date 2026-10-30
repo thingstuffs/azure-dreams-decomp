@@ -47,6 +47,12 @@ typedef struct PersonObject {
     u8 variant;
 } PersonObject;
 
+/* Pooled person effects whose first body word is their update handler. */
+typedef struct OwnerCallbackObject {
+    /* 0x00 */ u8 pad_00[0x50];
+    /* 0x50 */ s32 (*callback)(struct OwnerCallbackObject *, void *, s32);
+} OwnerCallbackObject;
+
 /* The callback's third context has a halfword at +0x12; its other fields
  * are not established by the recovered initializer. */
 typedef struct PersonOutput {
@@ -68,6 +74,7 @@ s32 get_clamped_transform_coordinate(ObjectPosition *position);
 /* Handlers the person callbacks install in PersonObject.handler. */
 void advance_actor_reaction_downward(void *context, struct ReactionAccumulators *accumulators, struct ReactionFlagState *flagState);
 void tick_countdown_toward_target(Rec_func_80094268_arg0 *state, SignedPositionView *current, void *context);
+void call_owner_callback(OwnerCallbackObject *owner, void *motion, s32 context);
 
 
 /* Zero-terminated entry list shared by the quarter-turn and timed-countdown

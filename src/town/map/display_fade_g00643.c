@@ -4,6 +4,7 @@
 #include "town/map/display_fade_g00643.h"
 #include "shared/object_flags.h"
 #include "town/map.h"
+#include "engine/audio/sequence.h"
 
 /* Advances a timed color fade and sets completion flags when it finishes. */
 void advance_color_fade_and_set_completion(void *fade_state, s32 unused, SpriteFrameState *visual)

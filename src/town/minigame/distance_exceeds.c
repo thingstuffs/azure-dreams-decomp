@@ -4,6 +4,7 @@
 #include "shared/entity_objects.h"
 #include "slus.h"
 #include "town/minigame.h"
+#include "town/minigame/object.h"
 #include "town/person.h"
 
 /* Returns whether the absolute signed distance exceeds the supplied limit. */
@@ -11,26 +12,19 @@ static __inline__ s16 distance_exceeds(s32 limit, s32 distance) {
     return limit < __builtin_abs(distance);
 }
 
-typedef struct S0 {
-    char pad0[0x68];
-    s16 f68;
-    char pad6A[2];
-    s16 f6C;
-} S0;
-
 typedef struct S1 {
     char pad0[0x1A];
     u16 f1A;
 } S1;
 
-extern s32 service_script_controller(s32, s32 *, S1 *);
+extern s32 service_script_controller(s32, s32 *, S1 *); /* Unprototyped: retail call passes more arguments than the callee reads */
 static s32 state;
 
 
 /* Updates the object state, position, and timed target adjustments. */
-void update_object_state_position(S0 *self, s32 *position, S1 *target) {
+void update_object_state_position(ObjectStatePositionObject *self, s32 *position, S1 *target) {
     register s32 phase;
-    S0 *object = self;
+    ObjectStatePositionObject *object = self;
     s32 y_limit;
     s32 next_value;
     s32 next_value_2;
@@ -39,11 +33,11 @@ void update_object_state_position(S0 *self, s32 *position, S1 *target) {
     {
         s32 countdown;
 
-        countdown = (u16)object->f6C;
+        countdown = (u16)object->countdown;
         base_y = position[1];
-        phase = object->f68;
+        phase = object->phase;
         countdown--;
-        object->f6C = countdown;
+        object->countdown = countdown;
     }
     next_value_2 = 0x800000;
     y_limit = base_y + next_value_2;
@@ -71,10 +65,10 @@ void update_object_state_position(S0 *self, s32 *position, S1 *target) {
             return;
         }
         SD_Call(0x50B);
-        next_value = (u16)object->f68;
+        next_value = (u16)object->phase;
         threshold = 32;
-        object->f6C = threshold;
-        object->f68 = next_value + 1;
+        object->countdown = threshold;
+        object->phase = next_value + 1;
         return;
     }
 
@@ -97,7 +91,7 @@ void update_object_state_position(S0 *self, s32 *position, S1 *target) {
                 return;
             }
         }
-        object->f68 = (object->f68 + 1) % 6;
+        object->phase = (object->phase + 1) % 6;
         return;
 
     case 4:
@@ -107,11 +101,11 @@ void update_object_state_position(S0 *self, s32 *position, S1 *target) {
         return;
     }
     target->f1A = next_value;
-    if (object->f6C > 0) {
+    if (object->countdown > 0) {
         return;
     }
-    next_value = (u16)object->f68;
-    object->f68 = next_value + 1;
+    next_value = (u16)object->phase;
+    object->phase = next_value + 1;
     return;
 }
 

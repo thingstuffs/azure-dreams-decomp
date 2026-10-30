@@ -10,6 +10,7 @@
 #include "engine/node.h"
 #include "town/scene/list_setup.h"
 #include "town/minigame.h"
+#include "town/minigame/object.h"
 
 typedef struct S_800BF9E4_0_pre {
     u8 * unk_00;
@@ -18,10 +19,6 @@ typedef struct S_800BF9E4_0_pre {
 
    /* arg1 in create_positioned_linked_visual_child */
 
-typedef struct S_800BF9E4_5 {
-    u8 pad_00[0xA0];
-    void * unk_A0;
-} S_800BF9E4_5;
 struct Dst;
 struct Elem;
 
@@ -38,7 +35,7 @@ extern u8 D_800F9F78[];
 void create_positioned_linked_visual_child(void *object, void *placement, SpriteFrameState *resource_context) {
     IntVector3 *position = placement;
     ObjectNodeHeader *child;
-    S_800BF9E4_5 *child_data;
+    BoundedMovementObject *child_data;
     SpriteFrameState *child_visual;
     ObjectPosition *child_position;
 
@@ -67,7 +64,7 @@ void create_positioned_linked_visual_child(void *object, void *placement, Sprite
         child_position->x.v = 0x0FA00000;
         child_position->y.v = 0x02300000;
         child_position->z.v = 0;
-        child_data->unk_A0 = object;
+        child_data->linked_object = object;
     }
 }
 

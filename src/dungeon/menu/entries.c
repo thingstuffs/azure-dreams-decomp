@@ -1,4 +1,5 @@
 /* Paged menu records, cursor input, widget setup, resource lifetime, and drawing packets. */
+#include "shared/audio_commands.h"
 #include "shared/object_node.h"
 #include "dungeon/menu.h"
 #include "dungeon/menu/entries.h"
@@ -366,18 +367,18 @@ void handle_menu_grid_input(ovl_1831cd8_818124F0_S_800274F0_Arg *menu) {
         return;
     pressed_buttons = (input->pressed_buttons);
     if (pressed_buttons & 0x20) {
-        SD_Call(0x515, input);
+        SD_Call(AUDIO_CANCEL, input);
         reset_menu_object_state_2(menu);
         return;
     }
     if (pressed_buttons & 0x10) {
-        SD_Call(0x503, input);
+        SD_Call(AUDIO_MENU_CONFIRM, input);
         reset_menu_object_state_2(menu);
         forward_stored_object_value(menu->unk44);
         return;
     }
     if (pressed_buttons & 0x40) {
-        SD_Call(0x503, input);
+        SD_Call(AUDIO_MENU_CONFIRM, input);
         dispatch_menu_state_update(&menu->unk38, menu->unk14,
                       (menu->unk8 / 72) * 72, menu->unk28);
         write_text_and_advance_selection(get_second_work_value(menu->unk44),
@@ -425,7 +426,7 @@ void handle_menu_grid_input(ovl_1831cd8_818124F0_S_800274F0_Arg *menu) {
 
     if (index_step == 0)
         return;
-    SD_Call(0x502, input);
+    SD_Call(AUDIO_CURSOR_MOVE, input);
     selected_index = menu->unk8;
     item_count = menu->unk3C;
     next_index = selected_index + index_step;
@@ -463,7 +464,7 @@ void handle_menu_button_input(void *menu) {
 
     buttons = (input->pressed_buttons);
     if (buttons & 0x20) {
-        SD_Call(0x515);
+        SD_Call(AUDIO_CANCEL);
         ((ovl_1831cd8_818127A8_S_800277A8_1_pre *)menu)[-1].unk_00 = (void *)tick_menu_countdown;
         ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_00 = ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_04;
         clear_menu_embedded_state((u8 *)menu - 0x20);
@@ -472,14 +473,14 @@ void handle_menu_button_input(void *menu) {
     }
 
     if (buttons & 0x10) {
-        SD_Call(0x503);
+        SD_Call(AUDIO_MENU_CONFIRM);
         reset_menu_object_state_2(menu);
         forward_stored_object_value(((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_44);
         return;
     }
 
     if (buttons & 0x40) {
-        SD_Call(0x503);
+        SD_Call(AUDIO_MENU_CONFIRM);
         dispatch_menu_state_update((u8 *)menu + 0x38, ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_14,
                       (((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_08 / 72) * 72,
                       ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_28);
@@ -518,7 +519,7 @@ void handle_menu_button_input(void *menu) {
         return;
     }
 
-    SD_Call(0x502);
+    SD_Call(AUDIO_CURSOR_MOVE);
     new_offset = ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_08 + cursor_step;
     row_count = ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_3C;
     rows_left = row_count - new_offset / 9;

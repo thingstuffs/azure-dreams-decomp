@@ -4,7 +4,7 @@
 
 /* Already-matched callee (defined elsewhere): returns &D_800FC000[a0]. */
 
-extern void queue_entity_resource_descriptor_pair(void *a0, void *a1, unsigned short a2);
+extern void queue_entity_resource_descriptor_pair(void *a0, void *a1, unsigned short a2); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 extern void *sprite_resource_base;
 

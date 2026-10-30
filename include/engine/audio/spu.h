@@ -20,7 +20,7 @@ s32 _SpuIsInAllocateArea_(u32 value);
 s32 _spu_FsetRXXa(s32 index, u32 value);
 
 /* clamp_and_submit_driver_parameter.c */
-s32 clamp_and_submit_driver_parameter(s32 voice, u32 rate);
+s32 write_spu_transfer_data(s32 data, u32 size);
 s32 SpuSetTransferStartAddr(s32 address);
 s32 SpuIsTransferCompleted(s32 wait_for_completion);
 

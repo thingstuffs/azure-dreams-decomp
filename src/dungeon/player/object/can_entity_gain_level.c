@@ -70,7 +70,7 @@ s32 can_entity_gain_level(void *entity) {
 #include "shared/sys_flags.h"
 #include "shared/dungeon_status.h"
 
-extern s32 apply_entity_effects(); /* Slot contract: loading images do not establish one callee contract. */
+extern void apply_entity_effects(void *entity); /* Slot contract: loading images do not establish one callee contract. */
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 
 extern u8 species_base_stats[];
@@ -429,7 +429,6 @@ loop_0:
 
 #include "m2c_compat.h"
 
-extern s32 apply_entity_effects(); /* Slot contract: loading images do not establish one callee contract. */
 extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 

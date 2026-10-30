@@ -5,6 +5,7 @@
 #include "shared/object_node.h"
 #include "town/person/object.h"
 #include "town/map/object.h"
+#include "engine/script.h"
 
 /* Initialize object resources and display state, then copy its position to shared state. */
 void initialize_object_resources_2(void *object, IntVector3 *position, S_800C4F6C_2 *display_state) {

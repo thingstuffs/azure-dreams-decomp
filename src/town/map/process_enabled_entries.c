@@ -30,8 +30,8 @@ typedef struct S_800B98B4_3 {
     u8 unk_33A4;
 } S_800B98B4_3;
 
-/* Processes enabled entries across 33 slots and handles entries of type 1. */
-void process_enabled_entries(void) {
+/* Read the town building data, then apply each slot's building tile entry and track type-1 entries. */
+void load_and_apply_town_building_tiles(void) {
     S_800B98B4_3 *state_base;
     u8 *slot_data;
     u8 *entry_table;

@@ -1,4 +1,5 @@
 /* Item menu request input and its file-private helper. */
+#include "shared/audio_commands.h"
 #include "common.h"
 #include "town/shop/item_menu_actions.h"
 #include "town/shop/item_menu_cursor_transition_g00601.h"
@@ -47,13 +48,13 @@ void handle_item_menu_input(ItemMenuInput *menu)
 
     pressed_buttons = (pad_state->pressed_buttons);
     if (pressed_buttons & 0x20) {
-        SD_Call(0x515);
+        SD_Call(AUDIO_CANCEL);
         set_item_menu_secondary_handler(menu->owner);
         return;
     }
 
     if (pressed_buttons & 0x40) {
-        SD_Call(0x503);
+        SD_Call(AUDIO_MENU_CONFIRM);
         dispatch_item_menu_request_result(menu);
         return;
     }
@@ -90,7 +91,7 @@ void handle_item_menu_input(ItemMenuInput *menu)
     if (direction == 0) {
         return;
     }
-    SD_Call(0x502, pad_state);
+    SD_Call(AUDIO_CURSOR_MOVE, pad_state);
     change_item_menu_selection(menu->object, direction, move_mode);
 
     return;

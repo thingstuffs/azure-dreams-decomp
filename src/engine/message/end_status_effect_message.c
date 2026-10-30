@@ -132,7 +132,7 @@ void end_status_effect_message(S_80042BDC *ent, s16 action) {
             }
             set_code_for_entity_mode(ent);
 
-            create_entity = load_monster_resource_data(ent->x13, spawn_result, 1);
+            create_entity = load_monster_code_module(ent->x13, spawn_result, 1);
             drain_cd_command_queue();
             spawn_result_2 = create_entity(is_registered, child->x24, child->x25, ent->x88);
 

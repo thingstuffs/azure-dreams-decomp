@@ -16,8 +16,8 @@ typedef struct {
 extern ItemCategory item_category_groups[];
 extern s32 memset(void *, s32, s32);
 extern void func_8004E5A0(s32, s32, u8 *);
-extern u8 *remap_flagged_string_bytes(u8 *);
-extern s32 build_positioned_text_glyphs(void *, u8 *, s32);
+extern u8 *remap_flagged_string_bytes(u8 *string);
+extern s32 build_positioned_text_glyphs(void *, u8 *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /* Format and output an item's value and flag marker for supported item categories. */
 s32 format_item_value_and_flag_marker(void *output, Item *item) {

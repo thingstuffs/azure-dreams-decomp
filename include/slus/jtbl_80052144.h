@@ -34,7 +34,7 @@ extern Shared83160 D_80083160;
 extern s32 D_800814A0;
 
 
-extern void reset_group_and_flag_children(void *);
+extern void reset_group_and_flag_children(struct Main *main);
 extern void func_800530C4(void *);
 extern s16 SD_Call(s32);
 extern s32 read_sound_mode_blocking_status(s32);
@@ -47,7 +47,7 @@ extern void request_scene_state_with_parameters(s32, s32, s32, s32, s32);
 
 /* Advances the timed child sequence and retires the controller when all children finish. */
 
-void update_scene_effect_controller(Controller *controller);
+void update_scene_effect_controller(struct Controller *controller);
 void func_80052144(Controller *controller);
 
 #endif

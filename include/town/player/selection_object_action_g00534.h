@@ -60,8 +60,8 @@ extern s32 get_first_free_four_byte_entry_index_n_1_none_available(void *ptr, s3
 extern s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41(s32 state_index); /* Unprototyped: retail call passes more arguments than the callee reads */
 extern s32 count_type_n_4_links_whose_state_not_n_1(void);
 extern s32 find_target_byte_index_in_list(void);
-extern u8 D_80088C0C[];
-extern u8 D_80088C48[];
+extern u8 item_suffix_strings_ball_fruit_seed[];
+extern u8 item_suffix_strings_herb[];
 extern u8 D_80088C8C[];
 extern u8 D_80088CCC[];
 extern u8 D_80088D04[];

@@ -23,7 +23,7 @@ typedef struct MonsterResourceSlot {
     MonsterFactory factory;
 } MonsterResourceSlot;
 
-MonsterFactory load_monster_resource_data(s32 resource_id, void *resource_entry, s32 wait_for_read);
+MonsterFactory load_monster_code_module(s32 resource_id, void *resource_entry, s32 wait_for_read);
 
 /* Functions defined in this translation unit. */
 s32 has_matching_six_slot_entry(s32 entry_id_word);

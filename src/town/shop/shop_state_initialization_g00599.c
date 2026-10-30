@@ -28,23 +28,23 @@ void initialize_state_from_source(Source *source) {
 /* open_shop: Allocate and initialize the shop and its resources, cleaning up if either resource fails. */
 void *open_shop(s32 unused, s32 primary_param, s32 secondary_param, s32 shared_param) {
     s32 second_resource;
-    S_800AE1AC_0 *shop_state;
+    GridMenuObject *shop_state;
     ObjectNodeHeader *shop;
 
     shop = allocate_flagged_object_node(0);
     if (shop != 0) {
         shop_state = ((void *)shop) + 0x20;
-        shop_state->unk_20 = shared_param;
-        shop_state->unk_18 = primary_param;
-        shop_state->unk_1C = secondary_param;
-        shop_state->unk_14 = 6;
+        shop_state->entry_base = shared_param;
+        shop_state->field_18 = primary_param;
+        shop_state->dispatch_mode = secondary_param;
+        shop_state->repeat_ticks = 6;
         refresh_paged_selection_state(shop_state);
         shop->update_callback = &advance_dispatch_when_countdown_expires;
-        shop_state->unk_28 = allocate_paged_shop_item_list(shop, shop_state->unk_04, shop_state->unk_08, shop_state->unk_0C,
-            shop_state->unk_10, shop_state->unk_20, primary_param);
+        shop_state->subrecord = allocate_paged_shop_item_list(shop, shop_state->selected_index, shop_state->entry_count, shop_state->selected_row,
+            shop_state->field_10, shop_state->entry_base, primary_param);
         second_resource = create_dual_buffer_object(shop, 0x48, -0xC);
-        shop_state->unk_2C = second_resource;
-        if ((shop_state->unk_28 == 0) || (second_resource == 0)) {
+        shop_state->field_2C = second_resource;
+        if ((shop_state->subrecord == 0) || (second_resource == 0)) {
             process_record_and_apply_flags((struct FuncArg *)(shop_state));
             shop = 0;
         }

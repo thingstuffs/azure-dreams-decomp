@@ -19,11 +19,11 @@ extern u8 D_800DF45C[];
 extern u8 D_800E1375[];
 extern u8 D_800E13B7[];
 
-extern s32 test_resident_bit(s32);
 #include "dungeon/player/item.h"
 #include "dungeon/effect/screen.h"
 #include "dungeon/actor.h"
 #include "dungeon/system.h"
+#include "engine/runtime.h"
 
 extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void clear_slot_and_update_linked_state(DungeonItemEntry *slot);

@@ -1,14 +1,8 @@
 #include "common.h"
 #include "records/Rec_func_80021E88_arg1.h"
 #include "town/menu.h"
+#include "town/minigame/object.h"
 
-typedef struct S_80021E88_0 {
-    s16 unk_00;
-    u8 pad_02[0x2];
-    void * unk_04;
-    u8 pad_08[0x4C];
-    union { s16 s; u16 u; } unk_54;   /* accessed as both */
-} S_80021E88_0;   /* arg0 in update_minigame_transition */
 
 typedef struct S_80021E88_1 {
     u8 pad_00[0x18];
@@ -36,27 +30,27 @@ extern s32 D_80024438[];
 extern s32 D_80024444[];
 
 /* Updates the object transition state, height, and display values. */
-void update_minigame_transition(S_80021E88_0 *controller, Rec_func_80021E88_arg1 *position, S_80021E88_2 *display) {
+void update_minigame_transition(MinigameTransitionObject *controller, Rec_func_80021E88_arg1 *position, S_80021E88_2 *display) {
     s16 state;
     s16 transition_pending;
     s32 transition;
     u16 flags;
     S_80021E88_1 *object;
 
-    object = controller->unk_04;
+    object = controller->object;
     transition = 0;
     if (object->unk_18 == 0) {
-        controller->unk_00 = 0;
+        controller->state = 0;
     }
     if (town_money >= 100U) {
         if (test_three_axis_box_overlap(D_800243F0, position) != 0) {
             transition = 1;
         } else {
-            display->unk_08 = D_80024438[controller->unk_54.s];
+            display->unk_08 = D_80024438[controller->mode.s];
         }
     }
 
-    state = controller->unk_00;
+    state = controller->state;
     switch (state) {
     case 0:
         position->unk_08 += 0xFFF80000;
@@ -65,26 +59,26 @@ void update_minigame_transition(S_80021E88_0 *controller, Rec_func_80021E88_arg1
         }
         position->unk_08 = 0;
         display->unk_0C = 0x808080;
-        controller->unk_00 = 1;
+        controller->state = 1;
         return;
 
     case 1:
         transition_pending = transition;
         if (transition_pending) {
-            if (((S_80021E88_4 *)(controller->unk_04))->unk_22 == 3) {
+            if (((S_80021E88_4 *)(controller->object))->unk_22 == 3) {
                 object->unk_20 |= 1;
-                display->unk_08 = D_80024444[controller->unk_54.s];
-                object->unk_22 = controller->unk_54.u;
+                display->unk_08 = D_80024444[controller->mode.s];
+                object->unk_22 = controller->mode.u;
             }
         }
         if (object->unk_22 == 3) {
             return;
         }
-        if (((S_80021E88_4 *)(controller->unk_04))->unk_22 == controller->unk_54.s) {
-            controller->unk_00 = 3;
+        if (((S_80021E88_4 *)(controller->object))->unk_22 == controller->mode.s) {
+            controller->state = 3;
             return;
         }
-        controller->unk_00 = 2;
+        controller->state = 2;
         return;
 
     case 2:
@@ -99,7 +93,7 @@ void update_minigame_transition(S_80021E88_0 *controller, Rec_func_80021E88_arg1
         flags = object->unk_20;
         if (flags & 1) {
             object->unk_20 = flags | 1;
-            display->unk_08 = D_80024444[controller->unk_54.s];
+            display->unk_08 = D_80024444[controller->mode.s];
         }
         return;
     default:

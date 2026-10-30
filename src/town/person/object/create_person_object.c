@@ -12,7 +12,7 @@ extern void *create_town_effect_object(s32 parent, s32 position, void *object_va
 extern void fill_person_records(void);
 #include "town/person/object/initialize_object_entries_api.h"
 #include "town/person.h"
-extern void register_node_if_unregistered(void *state, void *callback);
+#include "engine/node.h"
 
 extern s32 loaded_town_resource_attributes[];
 extern u8 person_object_update_address[];

@@ -44,7 +44,6 @@ extern s32 rand(void);
 
 /* Update the effect motion state and detach it from its parent when finished. */
 
-void update_sine_motion_effect( EffectState800517CC *effect, VecState800517CC *motion, SpriteFrameState *color);
 void func_800517CC( EffectState800517CC *effect, VecState800517CC *motion, SpriteFrameState *color);
 
 #endif

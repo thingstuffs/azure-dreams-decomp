@@ -98,7 +98,7 @@ void draw_glyph_row(s32 x, s32 y, s32 spacing_index, u8 *glyph_codes);
 s32 draw_linked_sprites(void *first_payload, struct ObjectPosition *first_coords, struct SpriteFrameState *first_record);
 
 /* draw_linked_sprites_clipped.c */
-s32 draw_linked_sprites_clipped(u8 *first_data, s32 link_value, struct SpriteFrameState *value_record);
+s32 draw_linked_sprites_clipped(u8 *first_data, s32 link_value, SpriteFrameState *value_record);
 s32 func_80045C34(u8 *first_data, s32 link_value, struct SpriteFrameState *value_record);
 
 /* draw_shaded_horizontal_line.c */
@@ -227,7 +227,7 @@ void set_color_components_and_scaled_fields(struct S_80050550_Outer *outputs, s3
 void advance_gauge_color_then_decay(struct S_800505BC *state, s32 unused_1, s32 unused_2);
 
 /* set_sprite_animation_frame.c */
-void set_sprite_animation_frame(struct SpriteFrameState *obj, s16 frame_group, s16 frame_index, s32 slot_index);
+void set_sprite_animation_frame(SpriteFrameState *obj, s16 frame_group, s16 frame_index, s32 slot_index);
 
 /* sprite_projection.c */
 s32 func_80045340(void *group_data, s32 context, struct SpriteFrameState *sprite, s32 unused);

@@ -4,6 +4,9 @@
 #include "town/menu/flower_part_positions_g00582.h"
 #include "shared/object_flags.h"
 #include "town/event/state.h"
+#include "engine/menu.h"
+#include "engine/node.h"
+#include "engine/script.h"
 
 #include "shared/object_node.h"/* present_flower_set: create a flower gift object and initialize its state and callback data. */
 /*

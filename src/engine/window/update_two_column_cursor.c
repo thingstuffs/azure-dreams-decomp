@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -69,7 +70,7 @@ void handle_two_column_menu_input(Object *menu, void *unused_1, void *unused_2) 
     }
 
     if (menu->unk4D != cursor) {
-        SD_Call(0x502);
+        SD_Call(AUDIO_CURSOR_MOVE);
         menu->unk4D = cursor;
     }
     if (((u32)input_state->pressed_buttons) & 0x40) {

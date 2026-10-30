@@ -7,14 +7,9 @@
 #include "records/Rec_func_800AD7F8_arg0.h"
 #include "m2c_compat.h"
 #include "shared/game_work.h"
+#include "town/shop/grid_menu.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-typedef struct S_800ADB30_0 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    u8 pad_08[0x18];
-    s32 unk_20;
-} S_800ADB30_0;
 
 int get_item_name_with_shared_text_table(void *object);
 extern s32 advance_index_with_directional_clamp(s32 current_selection, s32 selection_step, s32 value);
@@ -28,7 +23,7 @@ extern s32 script_status;
 
 /* Functions defined in this translation unit. */
 void pass_indexed_record_to_loader(Rec_func_800AD7F8_arg0 *record);
-void pass_indexed_entry_address(S_800ADB30_0 *entry_table);
+void pass_indexed_entry_address(GridMenuObject *entry_table);
 void handle_twin_shop_input(s32 *menu);
 
 #endif

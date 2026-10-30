@@ -8,8 +8,8 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/level.h"
 #include "dungeon/item.h"
+#include "engine/texture.h"
 
-void select_indirect_table_entry(void *, u8, s8);              /* extern */
 void select_sprite_entry(void *, u8, s32);             /* extern */
 void advance_sprite_animation_and_textures(void *);                       /* extern */
 s32 rsin(s32);                            /* extern */

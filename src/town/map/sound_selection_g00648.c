@@ -3,6 +3,7 @@
 #include "town/map/sound_selection_g00648.h"
 #include "town/map.h"
 #include "town/shop.h"
+#include "engine/audio.h"
 
 /* Copy the selected table pair into output halfwords 2 and 3. */
 void copy_selected_sound_pair(void *output) {

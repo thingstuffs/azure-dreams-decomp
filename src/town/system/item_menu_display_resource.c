@@ -25,7 +25,7 @@ extern void register_node(void *object, void *callback);
 extern void func_8004491C(void *object, void *callback);
 extern void release_null_terminated_entries(void *address);
 extern void func_8004B248(void *address);
-extern void draw_tinted_node_sprites_scratch(void);
+extern int draw_tinted_node_sprites_scratch(void *forwarded_ptr, int unused_arg, void *second_ptr);
 extern void func_8004CAA0(void);
 
 /* Allocates menu display entries, copies the default vector, and shares it among the entries on success. */

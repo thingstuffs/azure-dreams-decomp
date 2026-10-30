@@ -10,7 +10,7 @@ struct S_8005A778_Arg0;
 extern u32 audio_staging_spu_offsets[4];
 
 /* bind_sound_slot_owner.c */
-s16 bind_sound_slot_owner(s32 owner, s16 entry_id);
+s16 transfer_sound_slot_body_to_spu(s32 owner, s16 entry_id);
 
 /* copy_sound_slot_info.c */
 s16 copy_sound_slot_info(s16 idx, u8 *dst);

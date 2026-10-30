@@ -29,7 +29,6 @@ s32 register_node(void *entry, void *registration_id);
 s32 func_8004491C(void *entry, void *registration_id);
 void advance_sprite_animation_and_textures(void *animation);
 s32 check_transform_identifier_and_hook(s32 requested_id);
-s32 service_script_controller(void);
 s32 func_800352FC(void);
 s32 rcos(s32 angle);
 s32 rand(void);

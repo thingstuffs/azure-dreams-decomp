@@ -19,7 +19,7 @@ void *create_callback_pair_default(int value)
 extern u8 resource_queue_input_buffer[0x10];
 extern u8 D_80023000[0x10];
 
-extern void queue_entity_resource_descriptor_pair(void *a0, void *a1, u16 a2);
+extern void queue_entity_resource_descriptor_pair(void *a0, void *a1, u16 a2); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /* Registers callbacks for the fixed buffers and returns the result-pointer slot. */
 void *queue_cd_resource(s32 id)

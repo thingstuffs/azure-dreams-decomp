@@ -1801,7 +1801,7 @@ typedef struct D_80083780_t {
     u16 fA;
 } D_80083780_t;
 
-extern s32 has_enough_available_runtime_nodes(s32);
+extern s32 has_enough_available_runtime_nodes(s32 limit);
 
 extern void func_800BA2A0(void);
 extern void func_800BA308(void);

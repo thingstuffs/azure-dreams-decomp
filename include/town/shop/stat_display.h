@@ -64,13 +64,11 @@ extern Vec3s D_800892F0;
 extern char stat_text_format_separator[];
 extern char D_800892F8[];
 extern char D_800892FC[];
-extern u8 *remap_flagged_string_bytes(u8 *text);
 extern s32 D_80089308[2];
 extern u8 D_80089310[];
 extern u8 D_80089318[];
 extern u8 D_8008931C[];
 extern u8 D_80089324[];
-s32 lookup_item_category_mapped_value(s32, s32);
 #include "sdk/bzero.h"
 void set_display_entry_text_and_position(struct S_800B5264_0 *, s32, s32, s16, s32);
 

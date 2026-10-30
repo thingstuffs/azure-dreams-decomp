@@ -17,6 +17,7 @@ void *get_unused_text_buffer(); /* Unprototyped: this retail caller sets three i
 #include "engine/node/allocation.h"
 #include "dungeon/player/state.h"
 #include "engine/object.h"
+#include "engine/menu.h"
 
 extern s16 bounded_runtime_counter;
 
@@ -491,7 +492,6 @@ void apply_capped_damage_and_hit_effect(ActorRecord *entity, Rec_func_800A5DFC_a
 
 #include "shared/dungeon_item_entries.h"
 
-extern s32 lookup_item_category_mapped_value(u8, u8);
 extern s32 play_sound_if_enabled(s32);
 
 /* Processes a target using the linked object's position, then decrements the shared count. */
@@ -996,7 +996,7 @@ s32 check_action_boundary_and_set_flag(void) {
 extern s8 dungeon_event_pending_flag[];
 extern s8 restore_actor_script[];
 
-extern s32 call_script(void *arg);
+extern s32 call_script(void *arg); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void runtime_clear_state_and_entry_range(void);
 
 /* When unblocked, clears a set flag and decrements its counter before running updates. */

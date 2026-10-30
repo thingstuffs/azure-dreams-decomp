@@ -2,6 +2,7 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "engine/scene.h"
 
 
 typedef struct S_800262AC_3 {
@@ -18,7 +19,6 @@ typedef struct S_800262AC_3 {
     s16 unk_64;
 } S_800262AC_3;   /* state in create_effect_object_groups */
 
-extern s32 has_enough_available_runtime_nodes(s32);
 extern void register_node(void *, void *);
 
 extern s32 D_80025E48;

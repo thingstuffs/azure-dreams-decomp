@@ -13,6 +13,7 @@
 #include "dungeon/player/item.h"
 #include "sdk/libgte.h"
 #include "dungeon/system.h"
+#include "engine/texture.h"
 
 typedef struct S_80171D74_0 {
     s32 unk_00;

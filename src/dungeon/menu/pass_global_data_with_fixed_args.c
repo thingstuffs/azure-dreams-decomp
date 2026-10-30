@@ -8,8 +8,8 @@ typedef struct {
 extern u8 D_80089490[9];
 extern void MoveImage(void *, s32, s32);
 
-/* Passes a local copy of the global eight-byte data with fixed arguments. */
-void pass_global_data_with_fixed_args(void) {
+/* Copy a fixed block of menu graphics within video memory. */
+void copy_menu_vram_block(void) {
     Copy8 copy;
 
     copy = *(Copy8 *)D_80089490;

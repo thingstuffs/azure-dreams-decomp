@@ -72,9 +72,9 @@ void handle_selection_and_create_object(void) {
         switch (is_available) {
         case 0: {
             if (is_town_state_pair_accepted() != 0) {
-                write_resource_command(D_80088C0C, 0x11);
+                write_resource_command(item_suffix_strings_ball_fruit_seed, 0x11);
             } else if (count_type_n_4_links_whose_state_not_n_1() >= 0x12) {
-                write_resource_command(D_80088C48, 0x11);
+                write_resource_command(item_suffix_strings_herb, 0x11);
             } else if (work.bytes.unk1 == 0x13) {
                 write_resource_command(D_80088C8C, 0x11);
             } else {

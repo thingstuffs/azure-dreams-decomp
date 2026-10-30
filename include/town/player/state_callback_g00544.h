@@ -9,7 +9,6 @@
 
 typedef void (*Callback)(s32, void *, void *);
 
-extern s32 service_script_controller(void);
 extern s32 *D_800D0508[];
 extern s32 *town_player_action_callback[3];
 

@@ -129,7 +129,7 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
         }
         held_x = spawn_x;
         held_y = spawn_y;
-        monster = load_monster_resource_data(((S_800B7774_0 *)egg_bomb)->unk_00,
+        monster = load_monster_code_module(((S_800B7774_0 *)egg_bomb)->unk_00,
             find_or_retain_sprite_resource_slot(((S_800B7774_0 *)egg_bomb)->unk_00, 2), 1)(2, held_x, held_y, (s16) (coord_arg->z - 0x20));
         ((S_800B7774_0 *)egg_bomb)->unk_04 = monster;
         if (monster != NULL) {

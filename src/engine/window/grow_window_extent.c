@@ -19,28 +19,28 @@ typedef struct Func80035AF8State {
     void (*callback)(void *, void *);
     u8 pad6C[8];
     u8 *read_ptr;
-    u8 sound_id;
+    u8 speaker_id;
     s8 sound_arg;
 } Func80035AF8State;
 
-/* Display the requested sound and select its next state callback. */
-void display_sound_selection_and_prepare_playback(Func80035AF8State *state) {
-    u8 sound_id;
+/* Draw a speaker name onto the dialogue name plate and select the window's next state callback. */
+void display_speaker_name_plate(Func80035AF8State *state) {
+    u8 speaker_id;
     s32 display_value;
     u32 *sound_entry;
 
-    sound_id = state->read_ptr[1];
-    if (sound_id == 0) {
+    speaker_id = state->read_ptr[1];
+    if (speaker_id == 0) {
         return;
     }
-    state->sound_id = sound_id;
+    state->speaker_id = speaker_id;
     fill_vram_rect(state->x, state->y, 0x30, 0x10, 0, 0, 0);
-    display_value = (s32)select_resident_resource_table_value(state->sound_id);
+    display_value = (s32)select_resident_resource_table_value(state->speaker_id);
     draw_glyph_row(state->x, state->y, 1, display_value);
-    sound_entry = find_sound_table_entry(state->sound_id);
+    sound_entry = find_sound_table_entry(state->speaker_id);
     if (sound_entry != 0) {
         state->sound_arg = ((u8 *)sound_entry)[2];
-        if (has_table_entry(state->sound_id, state->sound_arg) != 0) {
+        if (has_table_entry(state->speaker_id, state->sound_arg) != 0) {
             ((u8 *)sound_entry)[2] = ((u8 *)sound_entry)[3];
             clear_fade_manager();
             state->counter = 1;

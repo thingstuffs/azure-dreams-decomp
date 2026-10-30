@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -28,7 +29,7 @@ void handle_wrapping_menu_cursor_input(CursorState *cursor, s32 unused_1, s32 un
     runtime = &g_game_work;
     flags_or_count = ((u32)runtime->pressed_buttons);
     if (flags_or_count & 0x4000) {
-        SD_Call(0x502);
+        SD_Call(AUDIO_CURSOR_MOVE);
         next_cursor = cursor->cursor_4D + 1;
         flags_or_count = (u32)cursor->info_74;
         cursor->cursor_4D = next_cursor;
@@ -37,7 +38,7 @@ void handle_wrapping_menu_cursor_input(CursorState *cursor, s32 unused_1, s32 un
         flags_or_count = next_cursor % flags_or_count;
         cursor->cursor_4D = flags_or_count;
     } else if (flags_or_count & 0x1000) {
-        SD_Call(0x502);
+        SD_Call(AUDIO_CURSOR_MOVE);
         flags_or_count = (u32)cursor->info_74;
         flags_or_count = *(u8 *)(flags_or_count + 0x26);
         next_cursor = cursor->cursor_4D + flags_or_count;

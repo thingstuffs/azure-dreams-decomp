@@ -5,6 +5,7 @@
 #include "town/map/randomized_position_effect_g00585.h"
 #include "shared/object_node.h"
 #include "town/map.h"
+#include "engine/window.h"
 
 /* Creates an effect at the supplied position and initializes its sprite and random state. */
 void *create_randomized_position_effect(MovingPosition *source_position) {

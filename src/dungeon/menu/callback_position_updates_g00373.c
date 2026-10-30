@@ -1,5 +1,6 @@
 /* Callback position updates (G00373). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800D6EF0, CL:dungeon/func_800D6FC4, CL:dungeon/func_800D70CC, PD:dungeon/engine:800E2934. */
+#include "shared/audio_commands.h"
 #include "dungeon/menu/callback_position_updates_g00373.h"
 #include "dungeon/menu.h"
 
@@ -54,7 +55,7 @@ void move_value_toward_target(u8 *object_data, s32 unused_coord, s32 unused_y) {
 }
 
 /* Move toward the indexed position, then apply the pending index once settled. */
-void move_indexed_position_and_apply(S_800DC724_0 *state)
+void slide_menu_cursor_to_index(S_800DC724_0 *state)
 {
     s32 coord;
     s32 next_index;
@@ -103,7 +104,7 @@ void move_indexed_position_and_apply(S_800DC724_0 *state)
         return;
     }
     if ((next_index ^ current_index) & 2) {
-        SD_Call(0x507);
+        SD_Call(AUDIO_CURSOR_SLIDE);
     }
     state->unk_50 = state->unk_54;
 }
@@ -159,7 +160,7 @@ void process_callback_slots_and_object(u8 *object) {
     for (slot = 1; slot < 8; slot++) {
         D_800E2934[slot](object, *(s32 *)(object + 0x3C) + slot * 0x10);
     }
-    move_indexed_position_and_apply(object);
+    slide_menu_cursor_to_index(object);
     final_callback = *(FinalFunc *)(object + 0x4C);
     if (final_callback != 0) {
         final_callback(object);

@@ -9,7 +9,7 @@ extern u32 audio_staging_spu_offsets[];
 extern void *audio_bank_owner_payloads[];
 
 extern s32 init_sound_slot_from_header(void *header, s16 requested_slot, u32 spu_addr);
-extern s32 bind_sound_slot_owner(void *a0, s32 a1); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern s32 transfer_sound_slot_body_to_spu(void *a0, s32 a1); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void release_enabled_sound_channel(s32 a0);
 extern s16 sound_check_or_wait_for_spu_transfer(s16 wait_for_completion);
 
@@ -21,7 +21,7 @@ void sound_load_pending_bank_slot(s16 entry_id) {
     if ((s16)init_sound_slot_from_header(audio_staging_destinations[index_or_error], index_or_error, audio_staging_spu_offsets[index_or_error]) == -1) {
         index_or_error = 0x01010000;
         identity_int(((entry_index << 8) & 0xFF00) | index_or_error);
-    } else if ((s16)bind_sound_slot_owner(audio_bank_owner_payloads[index_or_error], entry_index) == -1) {
+    } else if ((s16)transfer_sound_slot_body_to_spu(audio_bank_owner_payloads[index_or_error], entry_index) == -1) {
         release_enabled_sound_channel(index_or_error);
         index_or_error = 0x01020000;
         identity_int(((entry_index << 8) & 0xFF00) | index_or_error);

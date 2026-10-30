@@ -15,6 +15,5 @@ extern S_800799BC *spu_ram_block_records;
 
 s32 SpuInitMalloc(s32 count, S_800799BC *record);
 s32 _SpuIsInAllocateArea(u32 address);
-s32 _SpuIsInAllocateArea_(u32 value);
 
 #endif

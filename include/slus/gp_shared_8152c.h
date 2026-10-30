@@ -11,7 +11,7 @@ extern unsigned char D_80023000[0x10];
 /* <=8B global -> $gp small-data STORE, but its address-of must stay %hi/%lo. */
 extern void *runtime_texture_resource_handle;
 
-extern void queue_entity_resource_descriptor_pair(void *a0, void *a1, unsigned short a2);
+extern void queue_entity_resource_descriptor_pair(void *a0, void *a1, unsigned short a2); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void drain_cd_command_queue(void);
 extern void *func_80047AB0(void *a0, unsigned short a1, int a2, int a3, void *a4);
 
@@ -27,7 +27,7 @@ extern unsigned char D_80023000[0x10];
    in this TU, so the store to it is gp-relative). */
 extern void *runtime_texture_resource_handle;
 
-extern void *upload_image_tiles(void *a0, unsigned short a1, int a2, int a3, void *a4);
+extern void *upload_image_tiles(void *a0, unsigned short a1, int a2, int a3, void *a4); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /* Uploads image tiles from fixed global buffers and stores the result in D_8008152C. */
 
@@ -42,7 +42,7 @@ extern u8 resource_queue_input_buffer[0x10];
    a pointer value published by the sibling wrappers. */
 extern void *runtime_texture_resource_handle;
 
-extern void relocate_sprite_metadata_pointers(void *a0);
+extern s32 relocate_sprite_metadata_pointers(void *object_addr);
 extern void patch_sprite_packet_texture_and_palette_ids(void *a0, u16 a1, u16 a2, u16 a3);
 
 /* Advances the effect state, applies a fixed effect, and publishes the state pointer. */

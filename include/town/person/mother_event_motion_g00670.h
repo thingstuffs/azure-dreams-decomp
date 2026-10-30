@@ -26,7 +26,6 @@ extern void func_800C7C3C(void *object, void *position, s32 update_arg);
 extern void clear_mother_event_record_field(void *object, void *position, s32 update_arg);
 extern ColliderView town_actor_control;
 #include "town/person/object_setup.h"
-extern s32 scale_random_to_unsigned_halfword_limit(s32);
 extern u8 D_800C7604[];
 extern u8 D_800D5FC4[];
 extern s32 D_800C7674;

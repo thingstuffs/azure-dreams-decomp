@@ -83,7 +83,6 @@ extern M2C_UNK D_800D50F8;
 extern M2C_UNK D_800D5120;
 extern M2C_UNK D_800D5124;
 extern Rec_D_80100D98 town_position_reference_state;
-extern s32 service_script_controller(void);
 extern void tcame_chase_fix(s32 *chase_fix);
 extern s32 D_80113208[];
 extern u8 message_motion_type_b[];

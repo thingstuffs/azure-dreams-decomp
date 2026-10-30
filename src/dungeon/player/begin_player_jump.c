@@ -4,8 +4,8 @@
 #include "shared/game_work.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "records/Rec_D_80082E80.h"
+#include "engine/graphics.h"
 
-extern void set_sprite_animation_frame(void *, u8, s32, s32);
 extern void play_sound_if_enabled(u32);
 extern u8 actor_attack_frames[];
 

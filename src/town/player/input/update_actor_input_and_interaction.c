@@ -4,14 +4,10 @@
 #include "shared/game_work.h"
 #include "town/player/coordinates.h"
 
-typedef unsigned char u8;
-typedef signed char s8;
-typedef unsigned short u16;
-typedef short s16;
-typedef unsigned int u32;
-typedef int s32;
+#include "common.h"
+#include "engine/window.h"
+
 extern s32 test_resident_bitmap_bit(s32 value);
-extern s32 scale_random_to_unsigned_halfword_limit(s32 value);
 extern s32 runtime_estimate_vector_length(s32 value, s32 other_value);
 extern void submit_object_resource_data(s32 value);
 extern void initialize_scene_action_record(void *action_state, void *actor, s32 context);

@@ -14,7 +14,7 @@ extern void scene_save_previous_mode_and_reset_callbacks(void);
 extern s16 reserve_runtime_slot(s16, s16);
 extern void set_scene_phase_callback(s32);
 extern void render_scene_frame_with_timing(void);
-extern void update_shoulder_button_angle(void);
+extern int update_shoulder_button_angle(void);
 extern void func_8003D92C(void);
 void load_scene_dispatch_resources(void);
 void render_scene_until_runtime_slot_idle(void);

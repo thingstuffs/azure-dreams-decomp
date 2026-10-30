@@ -32,7 +32,7 @@ extern s32 sound_stream_primary_marker_address[4];
 extern void drain_audio_commands_and_service_channels(void);
 extern void wait_until_sound_idle(void);
 extern void func_80044698(void);
-extern s32 load_sound_set(s16 mode);
+extern s32 load_sound_set(s16 state_index);
 extern s32 func_8004450C(s16 mode);
 extern s32 Control_CD(s32 a0, void *a1, s32 a2);
 extern void drain_cd_command_queue(void);
@@ -69,7 +69,6 @@ extern s16 test_sound_channel_availability(s16 n);
 
 s32 select_sound_stream(s16 entry_index, s16 mode);
 s32 func_8004437C(s16 entry_index, s16 mode);
-s32 load_sound_set(s16 state_index);
 s32 func_8004450C(s16 state_index);
 
 #endif

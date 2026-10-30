@@ -66,9 +66,9 @@ typedef struct S_func_80035E58_5 {
 
 extern void runtime_initialize_state_value(void *, s32);
 extern void prepend_embedded_object_node(void *, void *);
-extern void copy_window_params(void *, void *);
+extern void copy_window_params(struct Container *container, struct Source *source);
 
-extern void runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback(void *);
+extern s32 draw_linked_sprite_nodes(u8 *first_node, u8 *first_transform, u8 *first_context);
 extern void update_window_state(struct RuntimeObject *object, s32 handler_arg1, s32 handler_arg2, s32 state);
 extern void scroll_window_y(void *);
 extern void draw_window_rects(void *);
@@ -85,7 +85,7 @@ void create_window_overlay_object(void *node_addr, void *display, u8 *image, s32
 
     node = initialize_runtime_node_storage(0x11, node_addr, 0x49, window_node_list_storage);
     node->unk_10 = update_window_state;
-    register_node(node, runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback);
+    register_node(node, draw_linked_sprite_nodes);
 
     node_data = (S_func_80035E58_1 *)((u8 *)node + 0x20);
     render_data = (S_func_80035E58_2 *)node->unk_0C;

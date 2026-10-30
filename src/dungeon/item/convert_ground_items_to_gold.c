@@ -13,11 +13,10 @@ typedef struct S_800C4030_1 {
     u16 unk_0A;
 } S_800C4030_1;   /* state in convert_ground_items_to_gold */
 
-
-extern s32 lookup_item_category_mapped_value(s32, s32);
 #include "dungeon/player/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/item.h"
+#include "engine/menu.h"
 
 extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void clear_slot_and_update_linked_state(DungeonItemEntry *slot);

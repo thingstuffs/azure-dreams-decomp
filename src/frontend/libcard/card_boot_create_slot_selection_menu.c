@@ -7,7 +7,9 @@
 #include "frontend/card.h"
 #include "frontend/libcard.h"
 #include "main/data.h"
-struct S_8003FE78; void * initialize_scene_object_in_buffer(s32, struct S_8003FE78 *, s16);   /* extern */
+#include "engine/scene.h"
+
+struct S_8003FE78;    /* extern */
 
 typedef struct S_80025C7C_0 {
     u8 pad_00[0x18];

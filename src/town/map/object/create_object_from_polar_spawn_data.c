@@ -5,6 +5,7 @@
 #include "sdk/libgte.h"
 #include "engine/node/allocation.h"
 #include "town/map/object.h"
+#include "town/map/animation.h"
 
 extern void D_800BB894();
 
@@ -18,11 +19,6 @@ typedef struct S_800BB798_0 {
     s32 unk_10;
 } S_800BB798_0;   /* arg0 in create_object_from_polar_spawn_data */
 
-typedef struct S_800BB798_3 {
-    u8 pad_00[0x48];
-    s16 unk_48;
-    s16 unk_4A;
-} S_800BB798_3;
 
 /* Converts polar spawn data to components and initializes a new object with it. */
 s32 create_object_from_polar_spawn_data(S_800BB798_0 *spawn_data, s16 state_48, s16 state_4a) {
@@ -32,7 +28,7 @@ s32 create_object_from_polar_spawn_data(S_800BB798_0 *spawn_data, s16 state_48, 
     s32 component;
     s32 trig_factor;
     ObjectNodeHeader *object;
-    S_800BB798_3 *object_state;
+    ShortLivedSpawnerObject *object_state;
     void *object_data;
 
     angle = spawn_data->unk_10 + g_game_work.view.camera_rotation.parts.viewAngle;
@@ -52,8 +48,8 @@ s32 create_object_from_polar_spawn_data(S_800BB798_0 *spawn_data, s16 state_48, 
         object->update_callback = &D_800BB894;
         *(Copy24 *)object_data = *(Copy24 *)spawn_data;
         object_state = ((void *)object) + 0x20;
-        object_state->unk_48 = state_48;
-        object_state->unk_4A = state_4a;
+        object_state->timer = state_48;
+        object_state->count = state_4a;
     }
     return 0;
 }

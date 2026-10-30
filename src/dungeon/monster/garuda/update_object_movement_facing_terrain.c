@@ -6,6 +6,7 @@
 #include "dungeon/monster/garuda.h"
 #include "dungeon/level.h"
 #include "dungeon/item.h"
+#include "engine/texture.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -44,7 +45,6 @@ typedef void (*Callback)(void *, void *, void *, void *);
 extern u8 garuda_walk_direction_frames[9];
 extern Callback garuda_callbacks[];
 
-extern void select_indirect_table_entry(void *, u8, s8);
 extern void advance_sprite_animation_and_textures(void *);
 extern s32 rsin(s32);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);

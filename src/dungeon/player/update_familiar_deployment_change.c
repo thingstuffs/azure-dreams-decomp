@@ -22,7 +22,7 @@ void replay_actor_status_slots(ActorRecord *object);                      /* ext
 void func_80042640();                  /* extern */
 void runtime_map_type_16_entry_code();                      /* extern */
 void * register_and_upload_sprite_resource();                     /* extern */
-s32 begin_sprite_resource_load_with_completion_flag();                   /* extern */
+s32 begin_sprite_resource_load_with_completion_flag(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */                   /* extern */
 void set_sprite_animation_frame(SpriteFrameState *obj, s16 frame_group, s16 frame_index, s32 slot_index); /* extern */
 void unlink_entity_node(struct EntityLinkNode *node);                      /* extern */
 u8 * find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type);                     /* extern */
@@ -257,7 +257,7 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, void *e
         load_id = find_or_retain_sprite_resource_slot(((S_8009345C_7 *)(*message_or_list.base))->unk_00, 3);
         if (load_id != 0) {
             loaded_entity_sprite_resource = begin_sprite_resource_load_with_completion_flag(((S_8009345C_7 *)(*message_or_list.base))->unk_00, &sprite_resource_completion_flag);
-            load_monster_resource_data(((S_8009345C_7 *)(*message_or_list.base))->unk_00, load_id, 0);
+            load_monster_code_module(((S_8009345C_7 *)(*message_or_list.base))->unk_00, load_id, 0);
             (*(s8 *)&entity_resource_read_complete) = 0;
             Control_CD(0xFF, set_byte_one, &entity_resource_read_complete);
         }
@@ -277,7 +277,7 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, void *e
         create_id = find_or_retain_sprite_resource_slot(((S_8009345C_7 *)(*message_or_list.base))->unk_00, 3);
         if (create_id != 0) {
             runtime_map_type_16_entry_code(*message_or_list.base);
-            new_object = load_monster_resource_data(((S_8009345C_7 *)(*message_or_list.base))->unk_00, create_id, 1)(1,
+            new_object = load_monster_code_module(((S_8009345C_7 *)(*message_or_list.base))->unk_00, create_id, 1)(1,
                 ((S_8009345C_2 *)context)->unk_72, ((S_8009345C_2 *)context)->unk_73,
                 (s16) (((S_8009345C_2 *)context)->unk_88 - 0x20));
             if (new_object != NULL) {

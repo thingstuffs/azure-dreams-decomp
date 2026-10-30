@@ -9,9 +9,8 @@
 #include "dungeon/player.h"
 #include "dungeon/level.h"
 #include "dungeon/player/item.h"
+#include "engine/graphics.h"
 
-
-void set_sprite_animation_frame(struct SpriteFrameState *obj, s16 frame_group, s16 frame_index, s32 slot_index); /* extern */
 void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);              /* extern */
 s32 play_sound_if_enabled(s32 query_value);                     /* extern */
 extern u8 player_height_step_frames[];

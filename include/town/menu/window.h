@@ -395,7 +395,7 @@ void initialize_entity_from_table_and_callback(void *entity, func_800A10FC_S_800
 
 extern void register_node(s32, void *);
 extern void func_8004491C(s32, void *);
-void *initialize_scene_object_in_buffer();
+void *initialize_scene_object_in_buffer(s32 flags_or_addr, void *buffer, s16 word_count);
 void update_map_world_extents(void);
 void run_dual_context_callbacks(void);
 s32 test_resident_bitmap_bit(s32 bit_id);
@@ -415,17 +415,15 @@ extern void set_state_bytes_from_flags(s32 flags, u8 *state);
 extern s32 update_state_when_active(s32 state);
 void register_node_if_unregistered(void *block_data, void *registration_id);
 void func_80033CD8(void *block_data, void *registration_id);
-extern s32 lookup_item_category_mapped_value(s32 type, s32 value);
 extern void initialize_object_and_maybe_play_sound(void *object, void *object_again, void *part_a, void *part_b);
 extern void del_t_item_w_ptr(void *object_data);
 s32 restore_actor_stats_from_snapshot();
-void *load_and_open_monster_status_display();
+void *load_and_open_monster_status_display(s32 first_arg, s32 second_arg, s32 third_arg, s32 fourth_arg, s32 fifth_arg);
 void process_object_pointer_array();
 extern void *create_item_view_for_entry(s32 first, void *data, s32 value);
 extern void *func_8004B854(s32 first, void *data, s32 value);
 void clear_global_80110_ec_0_global_80082_a_39(void);
 void * open_twin_souko(s32 option);
-u32 scale_random_to_unsigned_halfword_limit(s32 limit);
 
 extern u8 lit_mesh_renderer_address[];
 extern s32 *town_script_slot_cursor;

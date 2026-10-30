@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "engine/menu.h"
@@ -7,7 +8,7 @@
 void handle_animated_selection_menu_cancel(void *payload)
 {
     if ((g_game_work.pressed_buttons) & 0x20) {
-        SD_Call(0x515);
+        SD_Call(AUDIO_CANCEL);
         destroy_animated_selection_menu_owner(payload);
     }
 }

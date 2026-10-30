@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "engine/menu.h"
@@ -36,7 +37,7 @@ void card_boot_handle_message_dialog_input(S_80022524_0 *menu)
     if (pressed_buttons & 0x20) {
         s32 *exit_status;
 
-        SD_Call(0x515);
+        SD_Call(AUDIO_CANCEL);
         card_boot_close_message_dialog(1);
         exit_status = menu->unk_20;
         if (exit_status != 0) {
@@ -47,7 +48,7 @@ void card_boot_handle_message_dialog_input(S_80022524_0 *menu)
         s32 *updated_status;
         s32 exit_result;
 
-        SD_Call(0x514);
+        SD_Call(AUDIO_ACCEPT);
         exit_status = menu->unk_20;
         if (exit_status != 0) {
             exit_result = card_boot_close_message_dialog(1);
@@ -89,7 +90,7 @@ void card_boot_handle_message_dialog_input(S_80022524_0 *menu)
             card_menu_entry_values[menu->unk_08].choice_count);
         if (new_selection != menu->unk_00) {
             menu->unk_00 = new_selection;
-            SD_Call(0x502);
+            SD_Call(AUDIO_CURSOR_MOVE);
         }
         card_boot_update_message_choice_highlight(menu);
     }

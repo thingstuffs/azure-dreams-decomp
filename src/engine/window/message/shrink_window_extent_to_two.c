@@ -19,6 +19,6 @@ void shrink_window_extent_to_two(Rec_func_80036210_arg0 *state, S_80035ABC_0 *en
     entry->unk_02 = reduced_value;
     if ((s16) reduced_value < 2) {
         entry->unk_02 = 2U;
-        state->unk_68 = &display_sound_selection_and_prepare_playback;
+        state->unk_68 = &display_speaker_name_plate;
     }
 }

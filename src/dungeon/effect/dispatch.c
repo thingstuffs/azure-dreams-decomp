@@ -1970,7 +1970,7 @@ extern u8 D_800DF64C[9];
 void run_indexed_callback_list(s16 list_index) {
     CallbackEntry *entry;
 
-    submit_indexed_entry_and_finalize(D_800DF64C[list_index]);
+    load_indexed_item_module(D_800DF64C[list_index]);
     entry = D_800DF640[list_index];
     while (entry->callback != 0) {
         entry->callback(entry->stored_arg0, entry->stored_arg1, entry->stored_arg2, entry->stored_arg3);

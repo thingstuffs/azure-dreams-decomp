@@ -2,10 +2,6 @@
 #include "town/map.h"
 #include "town/minigame/object.h"
 
-typedef struct S_800BF72C_3 {
-    u8 pad_00[0xA0];
-    void * unk_A0;
-} S_800BF72C_3;   /* arg0 in advance_object_bounded_movement_phases */
 
 typedef struct S_800BF72C_4 {
     u8 pad_00[0x68];
@@ -14,10 +10,6 @@ typedef struct S_800BF72C_4 {
 
 /* The final state reset is coupled to the non-overflow path.  This is a
  * defined source-level guard whose natural branch leader is the epilogue. */
-typedef struct S_800BF72C_0 {
-    u8 pad_00[0x68];
-    s16 unk_68;
-} S_800BF72C_0;   /* arg0 in advance_object_bounded_movement_phases */
 
 typedef struct S_800BF72C_1 {
     s32 unk_00;
@@ -30,7 +22,7 @@ typedef struct S_800BF72C_2 {
 } S_800BF72C_2;   /* clock in advance_object_bounded_movement_phases */
 
 /* Advance the object through bounded movement phases and trigger a timed event. */
-void advance_object_bounded_movement_phases(S_800BF72C_0 *object, S_800BF72C_1 *position) {
+void advance_object_bounded_movement_phases(BoundedMovementObject *object, S_800BF72C_1 *position) {
     s32 event_pos[6];
     s16 move_state;
     s32 increased_x;
@@ -43,10 +35,10 @@ void advance_object_bounded_movement_phases(S_800BF72C_0 *object, S_800BF72C_1 *
     u32 *clock_base;
     u32 ticks;
 
-    linked_state = ((S_800BF72C_4 *)(((S_800BF72C_3 *)object)->unk_A0))->unk_68;
-    if ((linked_state & 1) && object->unk_68 == 0)
-        object->unk_68 = (s16)linked_state;
-    move_state = object->unk_68;
+    linked_state = ((S_800BF72C_4 *)(object->linked_object))->unk_68;
+    if ((linked_state & 1) && object->movement_state == 0)
+        object->movement_state = (s16)linked_state;
+    move_state = object->movement_state;
     state_index = move_state;
     switch (state_index) {
     case 1:
@@ -54,7 +46,7 @@ void advance_object_bounded_movement_phases(S_800BF72C_0 *object, S_800BF72C_1 *
         position->unk_04 = increased_y;
         if (increased_y > 0x023FFFFF) {
             position->unk_04 = 0x02400000;
-            object->unk_68 = (s16)((u16)object->unk_68 + 1);
+            object->movement_state = (s16)((u16)object->movement_state + 1);
             return;
         }
         return;
@@ -75,7 +67,7 @@ void advance_object_bounded_movement_phases(S_800BF72C_0 *object, S_800BF72C_1 *
         }
         if (position->unk_00 > 0x105FFFFF) {
             position->unk_00 = 0x10600000;
-            object->unk_68 = 0;
+            object->movement_state = 0;
             return;
         }
         return;
@@ -88,8 +80,8 @@ void advance_object_bounded_movement_phases(S_800BF72C_0 *object, S_800BF72C_1 *
         } else {
             return;
         }
-        object->unk_68 =
-            (s16)((u16)object->unk_68 + 1);
+        object->movement_state =
+            (s16)((u16)object->movement_state + 1);
         return;
 
     case 4:
@@ -98,7 +90,7 @@ void advance_object_bounded_movement_phases(S_800BF72C_0 *object, S_800BF72C_1 *
         if (decreased_y > 0x02300000)
             return;
         position->unk_04 = 0x02300000;
-        object->unk_68 = 0;
+        object->movement_state = 0;
         return;
     case 0:
         return;

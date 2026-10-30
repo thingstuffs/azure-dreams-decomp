@@ -4,22 +4,22 @@
 
 
 
-/* Applies and returns the rate capped at 0x7EFF0, clearing the flag when the queue is inactive. */
-s32 clamp_and_submit_driver_parameter(s32 voice, u32 rate)
+/* Write data to sound RAM at the current transfer address, capping the size at 0x7EFF0 and returning it. */
+s32 write_spu_transfer_data(s32 data, u32 size)
 {
-    u32 clamped_rate = rate;
+    u32 clamped_size = size;
 
-    if (clamped_rate > 0x7EFF0) {
-        clamped_rate = 0x7EFF0;
+    if (clamped_size > 0x7EFF0) {
+        clamped_size = 0x7EFF0;
     }
 
-    _spu_Fw(voice, clamped_rate);
+    _spu_Fw(data, clamped_size);
 
     if (spu_transfer_callback == 0) {
         spu_transfer_complete = 0;
     }
 
-    return clamped_rate;
+    return clamped_size;
 }
 
 /* Latches and shifts the value for an in-range address, or returns zero. */

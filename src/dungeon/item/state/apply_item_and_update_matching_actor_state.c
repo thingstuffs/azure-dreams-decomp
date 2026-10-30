@@ -15,10 +15,10 @@ extern u8 D_800E0F44[];
 extern u8 D_800E0F65[];
 extern u8 D_800E0F85[];
 
-extern void apply_entity_effects(void *);
 #include "dungeon/player/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/player/state.h"
+#include "engine/entity.h"
 
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);

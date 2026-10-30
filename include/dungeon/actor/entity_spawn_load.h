@@ -178,17 +178,16 @@ extern s16 floor_generation_state[3];
 /* the 0x30A2 bytes before D_800E0000 in advance_staged_entity_load, addressed as D_800E0000[-1] */
 extern s32 func_8003E188();
 extern s32 Control_CD();
-extern s32 has_enough_available_runtime_nodes(s32 limit);
 extern s32 apply_actor_template_and_class();
 extern s32 replay_actor_status_slots();
 extern s32 func_80042640();
 extern s32 copy_entity_record();
 #include "engine/node.h"
 extern void select_indirect_table_entry(void *state_data, s16 table_index, s16 entry_index);
-extern s32 queue_cd_resource();
+extern s32 queue_cd_resource(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 func_80047E30();
 extern s32 register_and_upload_sprite_resource();
-extern s32 begin_sprite_resource_load_with_completion_flag();
+extern s32 begin_sprite_resource_load_with_completion_flag(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 read_sound_mode_blocking_status(s32 mode);
 struct EntityLinkNode;
 void unlink_entity_node(struct EntityLinkNode *node);

@@ -11,11 +11,11 @@ typedef struct S_800A782C_0_pre {
 
    /* arg1 in initialize_timed_scale_object */
 
-
-void register_node_if_unregistered(void *block_data, void *registration_id);
 void initialize_randomized_scale_timer(); /* Unprototyped: retail call passes more arguments than the callee reads */
 #include "town/system/clear_object_status_and_dispatch_target_api.h"
 #include "town/menu/object.h"
+#include "engine/node.h"
+
 extern void D_800A78AC(void *record, s32 context, s32 update_data);
 extern M2C_UNK D_800F842C;
 

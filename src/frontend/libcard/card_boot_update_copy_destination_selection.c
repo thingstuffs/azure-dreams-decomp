@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -31,12 +32,12 @@ void card_boot_update_copy_destination_selection(u8 *menu)
     selection_delta = 0;
     if (g_game_work.buttons != 0) {
         if ((g_game_work.pressed_buttons) & 0x20) {
-            SD_Call(0x515);
+            SD_Call(AUDIO_CANCEL);
             ((S_80025584_0_pre *)menu)[-1].unk_00 = card_boot_resume_menu_after_slot_refresh;
         }
         buttons = (g_game_work.pressed_buttons);
         if (buttons & 0x40) {
-            SD_Call(0x503);
+            SD_Call(AUDIO_MENU_CONFIRM);
             card_boot_prepare_copy_destination_message(menu);
         } else if (g_game_work.buttons & 0x5000) {
             if (buttons & 0x5000) {
@@ -64,7 +65,7 @@ void card_boot_update_copy_destination_selection(u8 *menu)
         }
 
         if (selection_delta != 0) {
-            SD_Call(0x502);
+            SD_Call(AUDIO_CURSOR_MOVE);
             ((S_80025584_0 *)menu)->unk_28 =
                 advance_index_with_single_wrap(((S_80025584_0 *)menu)->unk_28, selection_delta, 5);
             update_spark_effect(menu);

@@ -6,12 +6,12 @@
 #include "slus.h"
 #include "slus/data.h"
 #include "engine/graphics.h"
+#include "engine/effect.h"
 
 /* Global >8-byte struct accessed via %hi/%lo (passed by address to func_8003DB94
  * as its `Elem`-shaped table argument). */
 
 /* callback/update-function pointers, assigned by address only */
-extern void update_sine_motion_effect(void);
 struct ObjectPosition;
 struct SpriteFrameState;
 

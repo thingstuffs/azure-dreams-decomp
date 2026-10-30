@@ -17,6 +17,7 @@
 #include "slus.h"
 #include "town/player.h"
 #include "town/minigame/position.h"
+#include "town/minigame/object.h"
 
 #ifndef NULL
 #define NULL 0
@@ -39,21 +40,6 @@ typedef struct S_80022F60_3 {
 } S_80022F60_3;   /* obj in update_gym_minigame */
 
 
-typedef struct S_80022F60_5 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    void * unk_08;
-    void * unk_0C;
-    s32 unk_10;
-    s16 unk_14;
-    s16 unk_16;
-    s16 unk_18;
-    s16 unk_1A;
-    u8 pad_1C[0x34];
-    s16 unk_50;
-    s16 unk_52;
-    s16 unk_54;
-} S_80022F60_5;   /* sprite in update_gym_minigame */
 
 extern u8 gym_object_state_address[];
 extern u8 D_80023994[];
@@ -87,7 +73,7 @@ void update_gym_minigame(GymState *state_obj) {
     u16 timer;
     s32 two;
     ObjectNodeHeader *obj;
-    S_80022F60_5 *sprite;
+    GymSpriteObject *sprite;
     s32 *position;
     SpriteFrameState *image;
 
@@ -211,20 +197,20 @@ loop_0:
                     obj = allocate_list_node(1, &scene_object_list_anchor.next);
                     if (obj != NULL) {
 
-                        sprite = (S_80022F60_5 *)((u8 *)obj + 0x20);
+                        sprite = (GymSpriteObject *)((u8 *)obj + 0x20);
 
                         obj->update_callback = loop_asset;
                         register_node(obj, text_sprite_builder_address);
-                        sprite->unk_14 = 0xCC;
-                        sprite->unk_18 = 3;
-                        sprite->unk_16 = (s32)main_state;
-                        sprite->unk_1A = 0x7C80;
-                        sprite->unk_10 = 0x808080;
-                        sprite->unk_0C = state_obj;
-                        sprite->unk_08 =
+                        sprite->field_14 = 0xCC;
+                        sprite->field_18 = 3;
+                        sprite->field_16 = (s32)main_state;
+                        sprite->field_1A = 0x7C80;
+                        sprite->field_10 = 0x808080;
+                        sprite->link.object = state_obj;
+                        sprite->field_08 =
                             (s32)secondary ? &state_obj->score
                         : (void *)0x800135C2;
-                        sprite->unk_04 = *table_cursor;
+                        sprite->field_04 = *table_cursor;
                     }
                     table_cursor--;
                     secondary = (u8 *)((s32)secondary - 1);
@@ -236,7 +222,7 @@ loop_0:
                 obj = allocate_flagged_object_node(0x136);
                 if (obj != NULL) {
 
-                    sprite = (S_80022F60_5 *)((u8 *)obj + 0x20);
+                    sprite = (GymSpriteObject *)((u8 *)obj + 0x20);
 
                     obj->update_callback = gym_score_update_address;
                     register_node(obj, project_sprite_chain);
@@ -252,8 +238,8 @@ loop_0:
                     position[1] = 0x03C00000;
                     position[2] = 0;
                     ((S_80022F60_3 *)obj)->unk_20 = state_obj;
-                    sprite->unk_50 = 0x20;
-                    sprite->unk_52 = 4;
+                    sprite->field_50 = 0x20;
+                    sprite->field_52 = 4;
                 }
                 apply_global_scene_value(counted_action_handler_table);
                 state_obj->state.u++;
@@ -302,9 +288,9 @@ loop_0:
 
             if (obj != NULL) {
                 s32 random;
-                S_80022F60_5 *child_sprite;
+                GymSpriteObject *child_sprite;
 
-                child_sprite = (S_80022F60_5 *)((u8 *)obj + 0x20);
+                child_sprite = (GymSpriteObject *)((u8 *)obj + 0x20);
                 obj->update_callback = gym_score_update_address;
                 register_node(obj, project_sprite_chain);
                 image = obj->sprite;
@@ -315,18 +301,18 @@ loop_0:
                 image->frame_ticks = 0;
                 image->color.word = 0x808080;
                 random = rand();
-                child_sprite->unk_54 = random % 3;
-                child_sprite->unk_52 = (rand() & 0x1F) + 0x20;
+                child_sprite->field_54 = random % 3;
+                child_sprite->field_52 = (rand() & 0x1F) + 0x20;
                 position = *(s32 * *)&obj->position;
                 position[0] = 0x02A00000;
                 position[1] = 0x03800000;
                 position[2] = 0xFFC00000;
                 position[3] =
-                    (((gym_lane_positions[child_sprite->unk_54] +
-                       child_sprite->unk_54 * 8) << 16) - position[0]) /
-                    child_sprite->unk_52;
+                    (((gym_lane_positions[child_sprite->field_54] +
+                       child_sprite->field_54 * 8) << 16) - position[0]) /
+                    child_sprite->field_52;
                 position[5] = 0xFFF40000;
-                position[4] = 0x180000 / child_sprite->unk_52;
+                position[4] = 0x180000 / child_sprite->field_52;
                 ((S_80022F60_3 *)obj)->unk_20 = state_obj;
             }
         }
@@ -356,7 +342,7 @@ loop_0:
             if (obj != NULL) {
                 s32 *child_position;
 
-                sprite = (S_80022F60_5 *)((u8 *)obj + 0x20);
+                sprite = (GymSpriteObject *)((u8 *)obj + 0x20);
                 obj->update_callback = gym_score_update_address;
                 register_node(obj, project_sprite_chain);
                 image = obj->sprite;
@@ -366,20 +352,20 @@ loop_0:
                 image->unk_04 = 0;
                 image->frame_ticks = 0;
                 image->color.word = 0x808080;
-                sprite->unk_54 = 1;
-                sprite->unk_52 = 0x20;
+                sprite->field_54 = 1;
+                sprite->field_52 = 0x20;
                 child_position = *(s32 * *)&obj->position;
                 child_position[0] = 0x02A00000;
                 child_position[1] = two;
                 child_position[2] = 0xFFC00000;
                 child_position[3] =
-                    (((gym_lane_positions[sprite->unk_54] +
-                       sprite->unk_54 * 8) << 16) - child_position[0]) /
-                    sprite->unk_52;
+                    (((gym_lane_positions[sprite->field_54] +
+                       sprite->field_54 * 8) << 16) - child_position[0]) /
+                    sprite->field_52;
                 child_position[5] = 0xFFF40000;
-                child_position[4] = 0x180000 / sprite->unk_52;
+                child_position[4] = 0x180000 / sprite->field_52;
                 ((S_80022F60_3 *)obj)->unk_20 = state_obj;
-                sprite->unk_50 = 0x40;
+                sprite->field_50 = 0x40;
             }
 
             obj = allocate_list_node(1, main_state - 0x20);
@@ -404,21 +390,21 @@ loop_0:
                 s32 color;
                 s32 base;
 
-                sprite = (S_80022F60_5 *)((u8 *)obj + 0x20);
+                sprite = (GymSpriteObject *)((u8 *)obj + 0x20);
 
                 obj->update_callback = D_80024070;
                 register_node(obj, text_sprite_builder_address);
                 first = ((SceneTileObject *)secondary)->x + 4;
-                sprite->unk_14 = first;
+                sprite->field_14 = first;
                 second = ((SceneTileObject *)secondary)->y + 4;
-                sprite->unk_18 = 3;
+                sprite->field_18 = 3;
                 base = D_80026F34;
-                sprite->unk_1A = 0x7C80;
+                sprite->field_1A = 0x7C80;
                 color = 0x808080;
-                sprite->unk_10 = color;
-                sprite->unk_0C = state_obj;
-                sprite->unk_04 = base;
-                sprite->unk_16 = second;
+                sprite->field_10 = color;
+                sprite->link.object = state_obj;
+                sprite->field_04 = base;
+                sprite->field_16 = second;
             }
             state_obj->state.u++;
         }

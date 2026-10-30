@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 #include "engine/sprite.h"
 /* Twin shop input (G00597). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B016C, CL:town/func_800B02BC, CL:town/func_800B03A4, CL:town/func_800B03D0. */
@@ -9,8 +10,8 @@ void pass_indexed_record_to_loader(Rec_func_800AD7F8_arg0 *record) {
 }
 
 /* Calls select_item_name_table_from_pair_check with entry_table->unk_20 +(entry_table->unk_04 * 4). */
-void pass_indexed_entry_address(S_800ADB30_0 *entry_table) {
-    select_item_name_table_from_pair_check(entry_table->unk_20 + (entry_table->unk_04 * 4));
+void pass_indexed_entry_address(GridMenuObject *entry_table) {
+    select_item_name_table_from_pair_check(entry_table->entry_base + (entry_table->selected_index * 4));
 }
 
 /* Handles twin shop input and updates the selected item and row. */
@@ -29,13 +30,13 @@ void handle_twin_shop_input(s32 *menu) {
     }
 
     if ((pad_state->pressed_buttons) & 0x10) {
-        SD_Call(0x514);
+        SD_Call(AUDIO_ACCEPT);
         store_record_check_result(menu);
         close_twin_shop((s8 *)menu - 0x20);
         return;
     }
     if ((pad_state->pressed_buttons) & 0x20) {
-        SD_Call(0x515);
+        SD_Call(AUDIO_CANCEL);
         script_status = 0;
         close_twin_shop((s8 *)menu - 0x20);
         return;
@@ -81,7 +82,7 @@ void handle_twin_shop_input(s32 *menu) {
         return;
     }
 
-    SD_Call(0x502);
+    SD_Call(AUDIO_CURSOR_MOVE);
     menu[1] = selection;
     if (row != menu[3]) {
         menu[3] = row;

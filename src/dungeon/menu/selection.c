@@ -1,8 +1,12 @@
 /* Selection menu input, widget descriptors, child allocation, and text-content checks. */
+#include "shared/audio_commands.h"
 #include "shared/object_node.h"
 #include "dungeon/menu.h"
 #include "dungeon/menu/selection.h"
 #include "shared/object_flags.h"
+#include "engine/graphics.h"
+#include "engine/resource.h"
+#include "engine/text.h"
 
 
 /* Sets the linked entry halfword at offset 8 to index times eight minus 0x18. */
@@ -60,7 +64,7 @@ void update_menu_selection_from_input(ovl_1831370_8181140C_MenuState *menu) {
         }
 
         if (direction != 0) {
-            SD_Call(0x502);
+            SD_Call(AUDIO_CURSOR_MOVE);
             selection = adjust_selection_by_item_count(direction, menu->field8, menu->field10);
             menu->field8 = selection;
             set_indexed_object_field(menu->field70, selection);

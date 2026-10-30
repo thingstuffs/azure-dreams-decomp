@@ -13,6 +13,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect.h"
 #include "engine/cd.h"
+#include "engine/graphics.h"
 
 void *(*const cc5000_spawn_entry)(s16,s16,s16,s32) = spawn_block_slot_d;
 void (*const cc5000_update_entry)(void *,CL_CC5000_80170C24_S_80170C24_2 *,void *) = update_block_motion_and_facing_slot_d;

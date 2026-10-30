@@ -28,7 +28,7 @@ extern struct S_8006CE44 scene_resource_group_records[];
 extern ResourceReadState scene_geometry[];
 extern u8 *gpu_scratch_buffer_base;
 extern s8 node_update_mode;
-extern u8 D_800E6000[];
+extern u8 shared_decode_staging_buffer[];
 /* Loads the entry's resource data and selects its working buffer. */
 void load_scene_resource_group(s16 entry_index)
 {
@@ -81,7 +81,7 @@ void load_scene_resource_group(s16 entry_index)
             }
         }
         else {
-            load_shared_resource_once();
+            load_movie_overlay_once();
             movie_start_sector = *entry->field8->f0;
             movie_frame_control = entry->field8->f1;
         }
@@ -91,7 +91,7 @@ void load_scene_resource_group(s16 entry_index)
         void *buffer_address;
         if (resource_type == 2) {
             buffer_size = 0x18800;
-            buffer_address = (&D_800E6000);
+            buffer_address = (&shared_decode_staging_buffer);
             gpu_scratch_buffer_base = buffer_address;
         }
         else {

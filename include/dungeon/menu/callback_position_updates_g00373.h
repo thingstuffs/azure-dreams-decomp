@@ -22,7 +22,7 @@ typedef struct S_800DC724_0 {
     s32 unk_58;
 } S_800DC724_0;
 
-/* arg0 in move_indexed_position_and_apply */
+/* arg0 in slide_menu_cursor_to_index */
 typedef struct S_800DC724_1 {
     u16 unk_00;
     u16 unk_02;
@@ -33,7 +33,7 @@ typedef struct S_800DC724_2 {
     void * unk_04;
 } S_800DC724_2;
 
-/* holder in move_indexed_position_and_apply */
+/* holder in slide_menu_cursor_to_index */
 typedef struct S_800DC724_3 {
     u8 pad_00[0x8];
     s16 unk_08;
@@ -66,7 +66,7 @@ extern GlobalState *dungeon_menu_object;
 
 /* Functions defined in this translation unit. */
 void move_value_toward_target(u8 *object_data, s32 unused_coord, s32 unused_y);
-void move_indexed_position_and_apply(S_800DC724_0 *state);
+void slide_menu_cursor_to_index(S_800DC724_0 *state);
 void update_state_activity_flags(S_800DC82C_0 *record);
 void process_callback_slots_and_object(u8 *object);
 

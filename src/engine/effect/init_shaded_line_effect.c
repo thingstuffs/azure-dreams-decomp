@@ -3,6 +3,7 @@
 #include "common.h"
 #include "engine/node.h"
 #include "engine/graphics.h"
+#include "engine/effect.h"
 
 typedef struct {
     u8 f0;
@@ -18,7 +19,6 @@ typedef struct {
 } S_80084478;
 
 extern S_80084478 shaded_line_render_templates[16];
-extern void update_shaded_line_effect(void);
 struct ObjectPosition;
 struct SpriteFrameState;
 

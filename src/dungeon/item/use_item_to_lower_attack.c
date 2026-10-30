@@ -16,9 +16,9 @@ extern u8 D_800E17A1[];
 #include "dungeon/player/item.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "engine/entity.h"
 
 extern s32 play_sound_if_enabled(s32 query_value);
-extern void apply_entity_effects(); /* Slot contract: loading images do not establish one callee contract. */
 
 /* Apply the level-down item effect to an entity and finish item use. */
 s32 use_item_to_lower_attack(void *entity, DungeonItemEntry *item, s16 action)

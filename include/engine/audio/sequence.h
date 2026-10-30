@@ -108,7 +108,7 @@ void close_timer_2_update_event(void);
 s32 compare_byte_span(u8 *p1, u8 *p2, s32 n);
 
 /* decode_note_text.c */
-void *decode_fullwidth_text(void *entries, u8 *text, s32 initial_octave);
+void *decode_fullwidth_text(void *entries, u8 *text, s32 initial_style);
 
 /* entry_compare_byte_span.c */
 s32 find_sequence_magic_after_offset(s32 start_index);

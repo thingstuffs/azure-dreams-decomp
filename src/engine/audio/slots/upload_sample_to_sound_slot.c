@@ -62,7 +62,7 @@ s32 upload_sample_to_sound_slot(s32 src_addr, s32 sound_addr, s32 size, s16 requ
         return -1;
     }
     sound_addr = SpuSetTransferStartAddr(reserved_addr);
-    size = clamp_and_submit_driver_parameter(src_addr, slot->unk14);
+    size = write_spu_transfer_data(src_addr, slot->unk14);
     if (size != slot->unk14) {
         return -1;
     }

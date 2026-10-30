@@ -19,7 +19,6 @@ typedef struct S_800917EC_2 {
     s32 unk_08;
 } S_800917EC_2;
 
-u32 scale_random_to_unsigned_halfword_limit(s32 limit);
 void init_flagged_action_fallback(s32 **record, void *ptr, void *ptr2);
 void initialize_action_object(s32 **record, void *ptr, void *ptr2);
 void play_periodic_sound(s32 count, s32 interval);

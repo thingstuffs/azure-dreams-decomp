@@ -65,7 +65,7 @@ s16 process_perpendicular_eligible_tiles(s16 direction, s16 origin_x, s16 origin
 void process_current_facing_directions(void);
 
 /* Base address view used by clear_listed_tile_flags; cells start at +0x4000. */
-extern u8 D_800E6000[16400];
+extern u8 shared_decode_staging_buffer[16400];
 
 /* Callback entry points. */
 s32 queue_projected_mesh_points_and_texture_packets(u8 *node_data, u16 *position);

@@ -119,9 +119,8 @@ void check_adjusted_input_indices();
 extern void D_800935BC();
 void unlink_node_if_registered(void *block_data);
 extern void D_8009F2A8();
-void register_node_if_unregistered(void *, void *);
 /* extern */
-void *runtime_get_mode_indexed_value();
+void *runtime_get_mode_indexed_value(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 /* extern */
 void func_8003E188(s32 field_index, s32 flag);
 void build_entity_slot_snapshot(S_800422DC_Self *snapshot, S_800422DC_Other *source);

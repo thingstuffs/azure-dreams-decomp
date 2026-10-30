@@ -72,7 +72,7 @@ extern void start_cd_read(u32 *, s32);
 extern void func_80053CFC(u32 *, s32);
 extern s32 func_8008AC84(s32);
 extern s32 town_resource_buffer[3];
-extern void call_script(void *);
+extern void call_script(void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void func_80035208(void *);
 void copy_words_backward_from_offset(s32 dest_addr, s32 src_addr, s32 byte_count);
 s32 sum_resource_bytes(s32 entry_count);

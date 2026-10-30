@@ -45,6 +45,35 @@ typedef struct MinigameImageAnimationObject {
     /* 0x5E */ u16 timer;
 } MinigameImageAnimationObject;
 
+/* Child object and owner state for the three-object tako shuffle minigame. */
+typedef struct TakoMinigameObject {
+    /* 0x00 */ u8 pad_00[0x70];
+    /* 0x70 */ s16 state;
+    /* 0x72 */ s16 value_72;
+    /* 0x74 */ u8 pad_74[2];
+    /* 0x76 */ s16 random_76;
+} TakoMinigameObject;
+
+typedef struct TakoMinigameState {
+    /* 0x00 */ TakoMinigameObject *objects[3];
+    /* 0x0C */ s16 state;
+    /* 0x0E */ s16 timer;
+    /* 0x10 */ s16 table_x;
+    /* 0x12 */ s16 field_12;
+    /* 0x14 */ s16 threshold;
+    /* 0x16 */ u16 counter;
+    /* 0x18 */ s16 table_y;
+    /* 0x1A */ u16 flags;
+} TakoMinigameState;
+
+/* Countdown and owner reference for the minigame value decrease. */
+typedef struct TimedValueDecreaseObject {
+    /* 0x00 */ void *owner;
+    /* 0x04 */ u8 pad_04[0x14];
+    /* 0x18 */ union { s16 s; u16 u; } state;
+    /* 0x1A */ u16 timer;
+} TimedValueDecreaseObject;
+
 /* Body of a betting-column object: update_betting_effect allocates the node (allocate_list_node(0x112, ...)),
  * stores the betting effect in `owner`, installs update_minigame_approach_motion and draws it with
  * project_sprite_chain.  The callback drops the column in, bobs it while `state` is 1/2 (0xF0 sways it by
@@ -79,6 +108,8 @@ void tick_summed_scene_value_text(void *entry);
 void tick_timed_sound(TimedSoundObject *object);
 void update_linked_four_column_number(void *entry);
 void update_minigame_image_animation(MinigameImageAnimationObject *anim);
+void update_tako_minigame(TakoMinigameState *state);
+void run_timed_value_decrease(TimedValueDecreaseObject *sequence, EntityRec *target);
 
 /* initialize_casino_minigame.c: the casino image (town +0x79D800) loads at 0x80020000. */
 s32 initialize_casino_minigame(void);

@@ -1,9 +1,10 @@
 /* Action control dispatch (G00352). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:dungeon/engine:800DCF4E. */
 #include "dungeon/actor/action_control_dispatch_g00352.h"
+#include "engine/runtime.h"
 
 /* Invokes action 0x21 once when its conditions hold, or runs the default action. */
-void invoke_action_21_or_default(void) {
+void request_scene_state_21_or_reload_level_module_a(void) {
     s32 *state_flags;
 
     if (scene_mode_code == 0x11) {
@@ -16,7 +17,7 @@ void invoke_action_21_or_default(void) {
             return;
         }
     }
-    Control_CD(6, &D_800DF3CC, 0);
+    Control_CD(6, &level_module_read_descriptor_a, 0);
     drain_cd_command_queue();
 }
 
@@ -24,7 +25,7 @@ void invoke_action_21_or_default(void) {
  * Requests scene state 0x21 on floor 0x28 in mode 0x11 when the save and resident-bit gates permit
  * it, marking the request pending. Otherwise submits and drains CD task 6.
  */
-void trigger_action_21_or_update_control(void) {
+void request_scene_state_21_or_reload_level_module_b(void) {
     if (scene_mode_code == 0x11) {
         SaveImage *save = (SaveImage *)0x80010000;
         if (save->active == 0 && current_dungeon_floor == 0x28 &&
@@ -35,6 +36,6 @@ void trigger_action_21_or_update_control(void) {
             return;
         }
     }
-    func_8003E4FC(6, D_800DF3D4, 0);
+    func_8003E4FC(6, level_module_read_descriptor_b, 0);
     func_8003F320();
 }

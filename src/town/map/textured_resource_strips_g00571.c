@@ -5,6 +5,7 @@
 #include "shared/object_node.h"
 #include "town/map.h"
 #include "shared/gpu_packets.h"
+#include "town/menu/motion.h"
 
 /* Process linked states until a nonzero signed 16-bit result or the end of the chain. */
 s32 process_linked_state_chain(void *initial_state, s32 carrier1, u8 *carrier2) {
@@ -504,7 +505,7 @@ void *project_visible_textured_strips(void *origin, void *render_flags, TownStri
 void create_resource_display_object(s16 resource_index) {
 
     ObjectNodeHeader *object;
-    S_800A47A8_3 *object_state;
+    MenuAnimationPhaseObject *object_state;
     S_800A47A8_1 *component;
     SpriteFrameState *scale;
 
@@ -529,9 +530,9 @@ void create_resource_display_object(s16 resource_index) {
         component = object->position;
         component->unk_0A = 0x4000;
         object_state = ((void *)object) + 0x20;
-        object_state->unk_0C = resource_index;
-        object_state->unk_02 = 0;
-        object_state->unk_12 = 0;
-        object_state->unk_14 = 0x80;
+        object_state->state = resource_index;
+        object_state->transition = 0;
+        object_state->step = 0;
+        object_state->target.s = 0x80;
     }
 }

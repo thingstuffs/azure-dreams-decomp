@@ -31,7 +31,7 @@ extern void display_text_with_fullwidth_adjustment(s8 *text);
 void clear_alternate_texture_regions(s16 use_alt_rect);
 void load_default_object_palette(short index);
 int load_equipment_palette_for_category_sixteen(short index);
-extern u8 D_80088B64[];
+extern u8 item_suffix_strings_crystal_bell_loupe[];
 extern u8 D_800DD2B4[];
 extern u8 D_800DD2C4[];
 extern u8 D_800DD2D4[];

@@ -3,6 +3,7 @@
  */
 #include "town/scene/resource/resource_install_g00520.h"
 #include "town/scene/resource.h"
+#include "engine/script.h"
 
 /* Look up a value by three packed key fields in the zero-value-terminated table. */
 u32 *find_packed_resource_descriptor(s32 flag_bit, s32 high_key, s32 low_key) {

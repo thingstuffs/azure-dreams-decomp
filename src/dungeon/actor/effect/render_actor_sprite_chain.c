@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/graphics.h"
 
 typedef struct Entry {
     u8 pad00[6];
@@ -13,8 +14,6 @@ typedef struct {
     u8 pad[0x13C];
     s32 flag;
 } Scratchpad;
-
-extern void project_sprite_commands(void *context, void *position, Entry *entry, s16 depth_bias);
 
 /* Walk linked entries, update the scratch flag, and process entries without bit 0x80 set. */
 s32 render_actor_sprite_chain(void *initial_state, void *context, Entry *entry)

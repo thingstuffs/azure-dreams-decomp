@@ -153,7 +153,6 @@ typedef struct MotionSource {
 } MotionSource;
 
 /* arg1 in update_randomized_actor_movement */
-extern s32 service_script_controller(void);
 extern s32 check_transform_identifier_and_hook(s32);
 extern s16 SD_Call(s32);
 extern void unlink_node_if_registered(void *);

@@ -21,6 +21,8 @@
 #include "dungeon/actor/effect.h"
 #include "dungeon/menu.h"
 #include "dungeon/player/object.h"
+#include "engine/graphics.h"
+
 struct Dst;
 struct Elem;
 
@@ -249,7 +251,6 @@ void advance_timed_z_transition(s16 *transition) {
 extern s32 D_800CBDB4;
 extern u8 D_800E1B5D;
 
-extern s32 has_enough_available_runtime_nodes(s32 a0);
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 #include "dungeon/actor/status.h"
 extern void initialize_timed_motion_step(u16 countdown, u32 amount);
@@ -1543,8 +1544,6 @@ void apply_mode_selected_trap_mask(void *target, s32 unused_mask)
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
-
-extern s32 has_enough_available_runtime_nodes(s32 limit);
 extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 generate_random_value(void);
 
@@ -1792,7 +1791,6 @@ s32 run_action_ten_if_eligible(ActorRecord *entity, s8 action_arg) {
 
 
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
-extern s32 has_enough_available_runtime_nodes(s32);
 extern void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound);
 extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 generate_random_value(void);
@@ -2665,8 +2663,6 @@ extern u32 level_experience_table[];
 extern u8 D_800E1C3A;
 extern s8 entity_spawn_variant_code;
 
-
-extern s32 has_enough_available_runtime_nodes(s32);
 extern void initialize_timed_motion_step(u16 countdown, u32 amount);
 extern void func_80042640(void *, s32);
 extern void SD_Call(s32);
@@ -2749,7 +2745,7 @@ void advance_monster_den_sequence(void *den_event) {
 
                             entity_spawn_variant_code = 1;
                             spawn_type = monster_type;
-                            monster = load_monster_resource_data(spawn_type, spawn_availability, 1)
+                            monster = load_monster_code_module(spawn_type, spawn_availability, 1)
                             (0, (u8)spawn_x, (u8)y, -0x400);
                             if (monster != 0) {
                                 retain_spawn_resource(spawn_type, 1);
@@ -2829,8 +2825,6 @@ struct State;
 
 extern u8 D_800CEA44[];
 
-
-extern s32 has_enough_available_runtime_nodes(s32 limit);
 extern void SD_Call(s32 flags);
 
 /* Clamp an indexed entry and create its node if processing succeeds. */

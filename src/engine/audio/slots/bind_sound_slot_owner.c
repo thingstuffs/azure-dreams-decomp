@@ -15,8 +15,8 @@ typedef struct {
 
 extern S_80086A40 audio_bank_slots[];
 
-/* Assigns an owner and updates the entry value when its marker matches and its transfer size is accepted. */
-s16 bind_sound_slot_owner(s32 owner, s16 entry_id)
+/* Upload a sound slot's body to sound RAM and record its owner when the marker matches and the whole body transfers. */
+s16 transfer_sound_slot_body_to_spu(s32 owner, s16 entry_id)
 {
     s32 updated_value;
     s16 marker;
@@ -28,7 +28,7 @@ s16 bind_sound_slot_owner(s32 owner, s16 entry_id)
     marker = entry->marker;
     if (marker == entry_id) {
         updated_value = SpuSetTransferStartAddr(entry->unk10);
-        if (clamp_and_submit_driver_parameter(owner, entry->unk14) == entry->unk14) {
+        if (write_spu_transfer_data(owner, entry->unk14) == entry->unk14) {
             entry->owner = owner;
             entry->unk10 = updated_value;
             return marker;

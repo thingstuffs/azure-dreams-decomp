@@ -12,7 +12,7 @@ static __inline__ s16 distance_exceeds(s32 limit, s32 distance) {
     return limit < __builtin_abs(distance);
 }
 
-s32 service_script_controller(s32, s32 *, s32, s32); /* extern */
+s32 service_script_controller(s32, s32 *, s32, s32); /* Unprototyped: retail call passes more arguments than the callee reads */ /* extern */
 
 /* Advance the actor state on nearby activation or release, playing the activation sound. */
 void advance_actor_state_nearby_activation(Rec_D_80082D58 *actor, s32 *position, s32 check_param, s32 check_mode) {

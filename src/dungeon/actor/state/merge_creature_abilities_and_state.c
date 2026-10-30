@@ -17,7 +17,6 @@ struct EntityLinkNode;
 
 s16 find_matching_initial_stat_slot(); /* Unprototyped: retail call passes more arguments than the callee reads */
 void zero_words();
-void apply_entity_effects(void *);
 void copy_entity_record();
 void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);

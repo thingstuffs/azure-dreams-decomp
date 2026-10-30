@@ -227,7 +227,6 @@ extern void register_node(ovl_1830850_81811168_DungeonObj81811168 *, void *);
 extern void func_8004491C(ovl_1830850_81811168_DungeonObj81811168 *, void *);
 extern void release_null_terminated_entries(void *);
 extern void func_8004B248(void *);
-extern int draw_tinted_node_sprites_scratch(void *object, int unused, void *data);
 extern int func_8004CAA0(void *object, int unused, void *data);
 void flag_optional_object_for_removal();
 void inventory_dispatch_indexed_handler(void *context, s32 handler_index);

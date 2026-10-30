@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "town/shop/item.h"
@@ -36,13 +37,13 @@ void handle_item_menu_input(S_800B0490_1 *menu)
 
     pressed_buttons = pad_state->pressed_buttons;
     if (pressed_buttons & 0x20) {
-        SD_Call(0x515, pad_state);
+        SD_Call(AUDIO_CANCEL, pad_state);
         set_item_menu_secondary_handler(menu->unk_08);
         return;
     }
 
     if (pressed_buttons & 0x40) {
-        SD_Call(0x503, pad_state);
+        SD_Call(AUDIO_MENU_CONFIRM, pad_state);
         dispatch_item_menu_request_result(menu);
         return;
     }
@@ -79,7 +80,7 @@ void handle_item_menu_input(S_800B0490_1 *menu)
     if (direction == 0) {
         return;
     }
-    SD_Call(0x502, pad_state);
+    SD_Call(AUDIO_CURSOR_MOVE, pad_state);
     change_item_menu_selection(menu->unk_04, direction, move_mode);
 
     return;

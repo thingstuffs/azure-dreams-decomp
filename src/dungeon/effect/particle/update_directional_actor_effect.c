@@ -176,7 +176,7 @@ void update_directional_actor_effect(DirectionalEffectWork *effect, ObjectPositi
                 }
                 {
                     u8 *effect_header = (u8 *)effect - 32;
-                    u8 *callback = handle_spawn_initialize_randomized_offset_parent;
+                    u8 *callback = project_linked_vertical_point_quads;
                     motion->x.v = actor_header->position->x.v + ((s32)offset.vx << 16);
                     motion->y.v = actor_header->position->y.v + ((s32)offset.vy << 16);
                     motion->z.v = actor_header->position->z.v + ((s32)offset.vz << 16);

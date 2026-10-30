@@ -4,6 +4,7 @@
 #include "shared/object_flags.h"
 #include "town/menu/catalog.h"
 #include "engine/node.h"
+#include "engine/graphics.h"
 
 #ifndef NULL
 #define NULL 0
@@ -15,7 +16,6 @@ short SD_Call(int flags);
 void SetGeomOffset(s32, s32);
 void SetGeomScreen(s32);
 void initialize_catalog_glyph_cache(void);
-int draw_tinted_node_sprites_scratch(void *forwarded_ptr, int unused_arg, void *second_ptr);
 extern s8 animation_tick_scale;
 extern s32 D_80126704;
 

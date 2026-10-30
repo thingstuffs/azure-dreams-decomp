@@ -15,10 +15,10 @@ void draw_filler_first_number(s32 first_number, s32 second_number, u16 width, s1
 void draw_vram_glyph_text(u8 *text, s16 x, s16 y);
 void initialize_menu_object_state(s32 object_addr, s32 initial_value);
 void offset_record_coordinates(u8 *record, s32 x_offset, s32 y_offset);
-void pass_global_data_with_fixed_args(void);
+void copy_menu_vram_block(void);
 void queue_black_draw_buffer_rectangle(s32 draw_param);
 void draw_nearby_map_markers(void *ordering_table, s32 unused_mode);
-void append_adjusted_type_two_entry(s32 x, s32 y, void *color_data, void *submissionTarget);
+void append_map_dot_tile(s32 x, s32 y, void *color_data, void *submissionTarget);
 void retire_menu_object(void *object);
 void select_paired_value_tables(Rec_func_801237A4_arg0 *record);
 void set_record_byte_flags_through_end(u8 *record, s32 flags);

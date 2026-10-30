@@ -2,14 +2,6 @@
 #include "shared/object_flags.h"
 #include "town/minigame/state.h"
 
-typedef struct S_80020488_0 {
-    union { s16 s; u16 u; } unk_00;   /* accessed as both */
-    u8 pad_02[0xA];
-    void * unk_0C;
-    u8 pad_10[0xC];
-    u16 unk_1C;
-} S_80020488_0;   /* arg0 in retire_scene_text_after_terminal_phase */
-
 typedef struct S_80020488_1 {
     u8 pad_00[0x2A];
     u16 unk_2A;
@@ -19,17 +11,17 @@ typedef struct S_80020488_1 {
 
 
 /* Advances the context state and sets completion flags in response to entity fields. */
-void retire_scene_text_after_terminal_phase(void *context) {
+void retire_scene_text_after_terminal_phase(TerminalSceneTextObject *context) {
     s16 state;
     S_80020488_1 *entity;
 
-    state = ((S_80020488_0 *)context)->unk_00.s;
-    entity = ((S_80020488_0 *)context)->unk_0C;
+    state = context->state.s;
+    entity = context->owner;
     switch (state) {
     case 0:
         if (entity->unk_36 == 0xFF) {
-            ((S_80020488_0 *)context)->unk_1C &= 0xFFFD;
-            ((S_80020488_0 *)context)->unk_00.u++;
+            context->flags &= 0xFFFD;
+            context->state.u++;
         }
         break;
     case 1:

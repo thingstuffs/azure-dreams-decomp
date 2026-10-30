@@ -28,6 +28,8 @@
 #include "town/map/object.h"
 #include "town/shop/position.h"
 #include "town/map/state.h"
+#include "engine/menu.h"
+#include "engine/window.h"
 
 
 /* Initializes an object with default transform and global state values. */

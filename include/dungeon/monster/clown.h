@@ -334,13 +334,11 @@ s32 interpolate_actor_to_terrain_tile(struct S_800AC480_0 *move_state, ObjectPos
 s32 update_spinning_actor_fall();
 s32 propagate_actor_action_flag(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 s32 update_actor_fade_in();
-void project_sprite_commands();
 void func_800453E0(void *context, void *position, struct Entry *entry, s16 depth_bias);
 void select_record_entry_and_value(void *state, void *entries, short index);
 void unlink_node();
 void func_80044A50(struct ObjectNodeHeader *node);
 void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
-void run_cd_image_commands();
 void func_80041588(u32 *stream_ref, u8 *state, s32 execute);
 int read_stream_cue_start_offset(void);
 s32 lookup_masked_byte_table();

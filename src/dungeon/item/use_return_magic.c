@@ -20,10 +20,10 @@ extern u8 D_80089384[];
 extern u8 D_800E15FE[];
 extern u8 D_800E1677[];
 
-s32 test_resident_bit(s32);
 #include "dungeon/player/item.h"
 #include "dungeon/item.h"
 #include "dungeon/player/state.h"
+#include "engine/runtime.h"
 
 void *get_unused_text_buffer(void);
 u8 *expand_text_control_codes(u8 *src, u8 *dst);

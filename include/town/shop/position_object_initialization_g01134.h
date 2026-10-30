@@ -94,7 +94,6 @@ struct TownLink {
 extern void *D_8009BC44;
 void *allocate_list_node();
 /* extern */
-s32 lookup_item_category_mapped_value(s32 category_index, s32 record_index);
 /* extern */
 /* extern */
 /* extern */

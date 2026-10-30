@@ -5,6 +5,8 @@
  * B2@0x8008929c; B2@0x80089ae8; partial span, complete TU edges unknown.
  */
 #include "town/shop/stat_display.h"
+#include "engine/menu.h"
+#include "engine/text.h"
 
 /* Builds a formatted marker string for the object's value, including an odd remainder. */
 void *format_object_value_marker(void *output, void *object)

@@ -42,8 +42,6 @@ void fade_timed_primitive(void *record_fields, void *unused, SpriteFrameState *p
 extern s32 radial_sprite_entries;
 extern s32 rand(void);
 
-u32 scale_random_to_unsigned_halfword_limit(s32 limit);
-
 /* Functions defined in this translation unit. */
 void *create_randomized_position_effect(MovingPosition *source_position);
 void build_randomized_offset_records(void *origin, void *spread, s32 count);

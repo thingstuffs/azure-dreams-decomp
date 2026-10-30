@@ -15,6 +15,8 @@
 #include "slus.h"
 #include "engine/audio.h"
 #include "engine/menu.h"
+#include "engine/resource.h"
+#include "engine/scene.h"
 
 extern int   card_server_initialized[3];
 extern short audio_voice_drain_suppressed[5];
@@ -200,7 +202,6 @@ short get_bounded_stride_index(unsigned int value, unsigned int base, unsigned s
 struct S_800423C0_Obj;
 struct S_800423C0_Src;
 extern void apply_actor_template_and_direction(struct S_800423C0_Obj *obj, s16 unused, struct S_800423C0_Src *source);
-extern void update_owner_class_bits(void *a0);
 
 /* Configure an entity with a signed halfword value and update its status. */
 void apply_actor_template_and_class(void *entity, int value, void *source)
@@ -752,8 +753,6 @@ void format_reversed_decimal_space_padded(int value, unsigned short width, char 
 void noop_release_notification(void) {
 }
 
-extern void flag_object_for_removal(void *a0);
-
 /* Update the object when its pointer is non-NULL. */
 void flag_optional_object_for_removal(void *object)
 {
@@ -761,8 +760,6 @@ void flag_optional_object_for_removal(void *object)
         flag_object_for_removal(object);
     }
 }
-
-extern void flag_object_for_removal(void *object);
 
 /* Update the object when its pointer is non-NULL. */
 void flag_optional_object_for_removal_b(void *object) {
@@ -925,7 +922,6 @@ void link_seventeen_indexed_entries(void *entries)
 
 extern int saved_value_output_enabled;
 extern int selection_menu_saved_value;
-extern void create_gauge_with_selection_menu(int a0);
 
 /* Pass the saved value when enabled, or zero otherwise. */
 void submit_enabled_saved_display_value(void) {
@@ -980,7 +976,7 @@ void mark_staged_motion_effect_complete(Struct_80051528 *object) {
     }
 }
 
-extern void update_sine_motion_effect(void);
+extern void update_sine_motion_effect(struct EffectState800517CC *effect, struct VecState800517CC *motion, SpriteFrameState *color);
 
 typedef struct {
     char pad_00[0x10];
@@ -1259,7 +1255,7 @@ void flush_pending_sound_voice_flags(void)
 }
 
 extern s32 SpuReserveReverbWorkArea(s32 enabled);
-extern void SpuSetReverb(int a0);
+extern s32 SpuSetReverb(s32 enable);
 
 /* Run both setup routines with mode one. */
 void enable_available_spu_reverb(void) {

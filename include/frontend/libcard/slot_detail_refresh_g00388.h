@@ -52,8 +52,6 @@ typedef struct S_800249B4_2 {
     s16 unk_08;
 } S_800249B4_2;
 
-
-extern void format_unsigned_double_byte_decimal(s32 value, void *out);
 extern void strcat(void *dest, void *src);
 extern void strcpy(void *dest, void *src);
 extern void *D_800283B8[];
@@ -61,7 +59,6 @@ extern u8 D_800283C4[];
 extern void *D_800283F4[];
 extern u8 D_800283FC[];
 
-extern void *decode_fullwidth_text(void *entries, u8 *text, s32 initial_octave);
 extern u8 *card_empty_slot_guidance_lines[];
 
 /* Functions defined in this translation unit. */

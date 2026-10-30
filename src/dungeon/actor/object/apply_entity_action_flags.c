@@ -8,6 +8,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/actor/animation.h"
 #include "dungeon/level.h"
+#include "engine/entity.h"
 
 typedef struct S_800A4B88_0_pre {
     s32 unk_00;
@@ -22,7 +23,6 @@ typedef struct S_800A4B88_0_pre {
 /* cfail-repair: tf7-phase1-cache-v3 */
 void select_record_entry_and_value(void *state, void *entries, short index);     /* extern */
 extern void func_8003E188(s32 field_index, s32 flag);            /* extern */
-void apply_entity_effects(); /* Slot contract: loading images do not establish one callee contract. */                      /* extern */
 void restore_player_control_callback(void *target, void *source);              /* extern */
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
  /* extern */

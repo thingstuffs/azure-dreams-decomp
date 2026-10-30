@@ -12,9 +12,10 @@
 #include "dungeon/item.h"
 #include "engine/object.h"
 #include "dungeon/player/object.h"
+#include "engine/texture.h"
+
 extern u8 resident_globals_page[];
 
-void select_indirect_table_entry(void *, u8, s8);              /* extern */
 void advance_sprite_animation_and_textures(void *);                      /* extern */
 s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);  /* extern */
 void try_move_actor_to_valid_position(void *, void *, void *, void *); /* extern */

@@ -415,7 +415,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, Objec
         spawn_item = action->unk_C0;
         entity_spawn_variant_code = 1;
         creature_variant = find_or_retain_sprite_resource_slot(*spawn_item, 2);
-        creature = load_monster_resource_data(*action->unk_C0, creature_variant, 1)(2, sprite->tile_x, sprite->tile_y,
+        creature = load_monster_code_module(*action->unk_C0, creature_variant, 1)(2, sprite->tile_x, sprite->tile_y,
             (s16) (actor->unk_88 - 0x20));
         if (creature == NULL) {
             return;

@@ -52,7 +52,7 @@ extern void func_80172F10(void);
 extern void func_80175258(void);
 extern void func_80175298(void);
 
-void *create_actor_grid_object(s16, s32, s16, s16);
+void *create_mandara_actor(s16, s32, s16, s16);
 
 typedef struct S_80FB1000_0 {
     u8 pad_00[0x13];
@@ -60,16 +60,16 @@ typedef struct S_80FB1000_0 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80FB1000_0;   /* work in create_actor_grid_object */
+} S_80FB1000_0;   /* work in create_mandara_actor */
 
 typedef struct S_80FB1000_2 {
     u8 pad_00[0x6];
     u16 unk_06;
-} S_80FB1000_2;   /* (*(u8 * *)((u8 *)monster + 8)) + (scale + i) * 4 in create_actor_grid_object */
+} S_80FB1000_2;   /* (*(u8 * *)((u8 *)monster + 8)) + (scale + i) * 4 in create_mandara_actor */
 
 /* Creates Mandara with frames at func_80175258, copies its palette row and four strips, and attempts tile
  * placement. */
-void *create_actor_grid_object(s16 mode, s32 value1, s16 value2, s16 value3)
+void *create_mandara_actor(s16 mode, s32 value1, s16 value2, s16 value3)
 {
     s16 mode_copy;
     s32 value1_saved;

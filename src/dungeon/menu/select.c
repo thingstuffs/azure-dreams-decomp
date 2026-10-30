@@ -31,6 +31,7 @@ enum SelectionShadeState {
 #include "shared/sprite_frame_state.h"
 #include "dungeon/menu/select.h"
 #include "dungeon/player/motion.h"
+#include "engine/graphics.h"
 
 /* Eases the selection sprite toward the selected entry, advances its animation, and toggles visibility
    while blinking. */
@@ -913,7 +914,7 @@ void initialize_children_or_shutdown(void *owner)
         shifted_kind = object_or_kind << 16;
         signed_kind = shifted_kind >> 16;
 
-        factory = load_monster_resource_data(signed_kind, find_or_retain_sprite_resource_slot(signed_kind, 3), 1);
+        factory = load_monster_code_module(signed_kind, find_or_retain_sprite_resource_slot(signed_kind, 3), 1);
         drain_cd_command_queue();
         entity = factory(1, 0, 0, ((S_80026190_10 *)source)->unk_88);
 

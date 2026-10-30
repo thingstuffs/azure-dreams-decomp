@@ -61,6 +61,7 @@ s32 dispatch_town_callback_or_fallback(void);
 void dispatch_town_callback_or_default(s32 value0, s32 value1);
 void initialize_context_entry_tables_variant_1(s32 unused_a, s32 unused_b);
 void initialize_context_entry_tables_variant_2(void);
+void play_town_sound_b1(void);
 void advance_floor_event_counter(void);
 void set_active_position_state_record(void);
 
@@ -72,7 +73,7 @@ void call_scene_service_280_1705(void);
 void func_80016328(void);
 void call_scene_service_280_1706(void);
 void func_80016360(void);
-void configure_active_object_two_16(void);
+void play_town_sound_1700(void);
 void select_table_result_with_override(void);
 void invoke_system_callback_29(void);
 void func_80016408(void);

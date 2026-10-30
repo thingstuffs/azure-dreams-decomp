@@ -1,18 +1,5 @@
 #include "common.h"
-
-typedef struct S_800A3918_0 {
-    u16 unk_00;
-    s16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    union { u16 s; s16 u; } unk_08;   /* accessed as both */
-    u8 pad_0A[0x2];
-    s16 unk_0C;
-    u8 pad_0E[0x4];
-    u16 unk_12;
-    union { s16 s; u16 u; } unk_14;   /* accessed as both */
-    s16 unk_16;
-} S_800A3918_0;   /* arg0 in advance_animation_phase_and_frame */
+#include "town/menu/motion.h"
 
 typedef struct S_800A3918_1 {
     u8 pad_00[0x74];
@@ -25,28 +12,28 @@ extern s32 D_800C5100;
 extern union { s16 s; u16 u; } town_display_offset;
 
 /* Advances the animation phase and frame index, applying the state-one offset transition. */
-void advance_animation_phase_and_frame(S_800A3918_0 *anim, s32 unused) {
+void advance_animation_phase_and_frame(MenuAnimationPhaseObject *anim, s32 unused) {
     s32 phase;
     s16 offset;
     u16 offset_bits;
 
-    offset = anim->unk_02;
+    offset = anim->transition;
     switch (offset) {
     case 0:
-        if (anim->unk_0C == 0) {
-            phase = (s16)(anim->unk_08.s + 0x1BC0);
-            anim->unk_06 += 2;
+        if (anim->state == 0) {
+            phase = (s16)(anim->offset.s + 0x1BC0);
+            anim->phase += 2;
             phase %= 0x1C00;
-            anim->unk_08.u = phase;
+            anim->offset.u = phase;
         } else {
-            phase = (s16)(anim->unk_08.s + 0x1B71);
-            anim->unk_06 += 1;
+            phase = (s16)(anim->offset.s + 0x1B71);
+            anim->phase += 1;
             phase %= 0x1C00;
-            anim->unk_08.u = phase;
+            anim->offset.u = phase;
         }
-        anim->unk_00++;
+        anim->frame++;
         if (((S_800A3918_1 *)D_8008274C)->unk_74 == &D_800C5100) {
-            anim->unk_02 = 1;
+            anim->transition = 1;
         }
         break;
     case 1:
@@ -55,31 +42,31 @@ void advance_animation_phase_and_frame(S_800A3918_0 *anim, s32 unused) {
         if (offset < -0x1FFF) {
             town_display_offset.s = -0x2000;
         } else {
-            anim->unk_12 -= 0x20;
-            offset = offset_bits + anim->unk_12;
+            anim->step -= 0x20;
+            offset = offset_bits + anim->step;
             town_display_offset.s = offset;
             if (offset < -0x1FFF) {
                 town_display_offset.s = -0x2000;
             }
         }
-        if (anim->unk_14.s < 0x200) {
-            anim->unk_14.s = anim->unk_14.u + 0x20;
+        if (anim->target.s < 0x200) {
+            anim->target.s = anim->target.u + 0x20;
         }
-        if (anim->unk_0C == 0) {
-            phase = (s16)(anim->unk_08.s + 0x1C00 - anim->unk_14.u);
-            anim->unk_06 += 2;
+        if (anim->state == 0) {
+            phase = (s16)(anim->offset.s + 0x1C00 - anim->target.u);
+            anim->phase += 2;
             phase %= 0x1C00;
-            anim->unk_08.u = phase;
+            anim->offset.u = phase;
         } else {
-            phase = (s16)(anim->unk_08.s + 0x1C00 - anim->unk_14.s * 2);
-            anim->unk_06 += 1;
+            phase = (s16)(anim->offset.s + 0x1C00 - anim->target.s * 2);
+            anim->phase += 1;
             phase %= 0x1C00;
-            anim->unk_08.u = phase;
+            anim->offset.u = phase;
         }
-        anim->unk_00++;
+        anim->frame++;
         break;
     }
 
 finish:
-    anim->unk_16 = anim->unk_08.u / 0x200 + 0x10;
+    anim->value = anim->offset.u / 0x200 + 0x10;
 }

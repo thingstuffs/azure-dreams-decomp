@@ -38,7 +38,6 @@ extern void MoveImage(S_52CE0_Rect *rect, s32 x, s32 y);
 
 /* Advance the entity animation, moving its position and copying image rows in VRAM. */
 
-void update_shaded_line_effect(S_52CE0 *anim, S_52CE0_Pos *position, S_52CE0_Ent *entity);
 void func_80052CE0(S_52CE0 *anim, S_52CE0_Pos *position, S_52CE0_Ent *entity);
 
 #endif

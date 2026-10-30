@@ -69,7 +69,7 @@ extern void prepend_embedded_object_node(void *configPtr, void *statePtr);
 extern s32 register_node(void *objectPtr, void (*callback)(void));
 extern s32 func_8004491C(void *objectPtr, void (*callback)(void));
 
-extern void runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback(void);
+extern s32 draw_linked_sprite_nodes(u8 *first_node, u8 *first_transform, u8 *first_context);
 extern void invoke_window_object_callback(void *callbackData);
 extern void init_window_object(void *callbackData);
 extern void func_80035614(void *callbackData);

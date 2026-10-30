@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/item_menu.h"
+#include "engine/graphics.h"
 
 /* Global 32-bit flags word D_800814A0 (same global touched by the
  * func_8004B530 / set_object_cleanup_flag / set_object_and_global_removal_flag family, see code9.c). Here
@@ -14,7 +15,6 @@ extern void initialize_item_menu_state(ItemMenuObject *object, ItemMenuStateNode
 extern void register_node(void *a0, void *a1);
 /* Same callback registered by func_80050EF8 via register_node in this
  * overlay -- a real code symbol, not the data global m2c guessed. */
-extern int draw_tinted_node_sprites_scratch(void *a0, int a1, void *a2);
 extern void release_null_terminated_entries(u16 **a0);
 
 /* Allocate and initialize an object, register its callback, and flag initialization failure. */

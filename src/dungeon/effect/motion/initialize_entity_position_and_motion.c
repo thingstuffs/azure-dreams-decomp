@@ -9,6 +9,8 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/motion.h"
+#include "engine/graphics.h"
+
 void (*const dungeon_ovl_19a332c_entry)(void *transition) = advance_image_tint_transition;
 
 /* Loads effect graphics, starts a paired object effect, dims and restores the scene tint, and waits

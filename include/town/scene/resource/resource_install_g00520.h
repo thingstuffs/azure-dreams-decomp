@@ -52,7 +52,6 @@ s32 find_resource_index_by_key(s32 targetField0, s32 targetField1, s32 targetFie
 /* extern */
 void move_resource_to_front(s32);
 extern TownState town_resource_context;
-extern void call_script(s32);
 
 /* Functions defined in this translation unit. */
 u32 *find_packed_resource_descriptor(s32 flag_bit, s32 high_key, s32 low_key);

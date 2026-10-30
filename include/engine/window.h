@@ -92,7 +92,7 @@ void create_window_cursor_and_install_reset(Rec_func_80036210_arg0 *object);
 void handle_wrapping_menu_cursor_input(struct CursorState *cursor, s32 unused_1, s32 unused_2);
 
 /* grow_window_extent.c */
-void display_sound_selection_and_prepare_playback(struct Func80035AF8State *state);
+void display_speaker_name_plate(struct Func80035AF8State *state);
 
 /* init_cursor_color_object.c */
 void init_cursor_color_object(void *object, void *model, s32 *data, s16 index, s16 table_index, void *list);

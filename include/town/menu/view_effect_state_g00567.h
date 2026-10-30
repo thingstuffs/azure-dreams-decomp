@@ -38,7 +38,6 @@ typedef struct S_800A25CC_1 {
 
 extern s32 rcos(s32);
 extern s16 ratan2(s32, s32);
-extern s32 scale_random_to_unsigned_halfword_limit(u32);
 extern u8 D_800A2690[9];
 
 /* Functions defined in this translation unit. */

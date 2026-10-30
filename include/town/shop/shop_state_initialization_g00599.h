@@ -6,6 +6,7 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
+#include "town/shop.h"
 
 typedef struct {
     s32 words[17];
@@ -37,20 +38,6 @@ typedef struct {
 /* extern */
 struct FuncArg;
 
-typedef struct S_800AE1AC_0 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-    s32 unk_18;
-    s32 unk_1C;
-    s32 unk_20;
-    u8 pad_24[0x4];
-    s32 unk_28;
-    s32 unk_2C;
-} S_800AE1AC_0;
 
 typedef struct FuncArg {
     u8 pad0[4];
@@ -66,7 +53,7 @@ s32 allocate_paged_shop_item_list(); /* Unprototyped: uses the value as a pointe
 /* extern */
 s32 create_dual_buffer_object();
 /* extern */
-void advance_dispatch_when_countdown_expires(void *state_data);
+void advance_dispatch_when_countdown_expires(GridMenuObject *state_data);
 extern void set_shop_object_data_if_present(s32 object);
 extern void set_object_data_pointer_2(s32 object); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 D_80082AB4[];

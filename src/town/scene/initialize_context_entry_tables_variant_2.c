@@ -3,7 +3,7 @@
 #include "shared/town_root.h"
 #include "town/scene.h"
 
-/* Run town service callback 0x280 with (0xB1). */
-void initialize_context_entry_tables_variant_2(void) {
-    town_scene_root->services->callback_280(0xB1);
+/* Request town sound 0xB1. */
+void play_town_sound_b1(void) {
+    town_scene_root->services->play_sound(0xB1);
 }

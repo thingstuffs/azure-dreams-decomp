@@ -7,15 +7,12 @@
 #include "engine/node.h"
 #include "town/minigame.h"
 #include "town/scene.h"
+#include "town/minigame/object.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-typedef struct S_800BF654_2 {
-    u8 pad_00[0x48];
-    s32 unk_48;
-} S_800BF654_2;   /* setup in spawn_effect_object_with_packet */
 
 extern u8 D_800BF4CC[];
 extern u8 D_800D2348[];
@@ -44,7 +41,7 @@ void spawn_effect_object_with_packet(void *caller_data, void *unused_position, s
         packet[0] = 0x05400000;
         packet[1] = 0x02300000;
         packet[2] = 0;
-        ((S_800BF654_2 *)setup)->unk_48 = D_800D2360;
+        ((ObjectStatePositionObject *)setup)->setup_value = D_800D2360;
         configure_the_set_mode_n_1(setup, packet, D_800D2348);
     }
     (*(u16 *)((u8 *)caller_data + -2)) |= NODE_REMOVE;

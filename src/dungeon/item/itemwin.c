@@ -1,9 +1,11 @@
 /* Inventory action menu input, item text editing, and widget allocation and layout. */
+#include "shared/audio_commands.h"
 #include "shared/object_node.h"
 #include "dungeon/item.h"
 #include "dungeon/item/itemwin.h"
 #include "shared/item_ids.h"
 #include "shared/object_flags.h"
+#include "engine/graphics.h"
 
 
 /*
@@ -86,7 +88,7 @@ void inventory_handle_menu_actions_and_repeat(ovl_1830850_81810A0C_DungeonArg *m
 
     if (input->buttons != 0 && menu->unk10 != 0) {
         if (input->pressed_buttons & 0x20) {
-            SD_Call(0x515);
+            SD_Call(AUDIO_CANCEL);
             set_object_data_pointer(menu->unk14);
             restore_item_text_before_edit(menu);
         } else if (input->pressed_buttons & 0x40) {
@@ -94,9 +96,9 @@ void inventory_handle_menu_actions_and_repeat(ovl_1830850_81810A0C_DungeonArg *m
                 SD_Call(0x506);
             } else {
                 if (menu->unk8 == 4) {
-                    SD_Call(0x503);
+                    SD_Call(AUDIO_MENU_CONFIRM);
                 } else {
-                    SD_Call(0x514);
+                    SD_Call(AUDIO_ACCEPT);
                 }
                 inventory_dispatch_indexed_handler(menu, menu->unk8);
             }
@@ -125,7 +127,7 @@ void inventory_handle_menu_actions_and_repeat(ovl_1830850_81810A0C_DungeonArg *m
                 }
             }
             if (selection_step != 0) {
-                SD_Call(0x502);
+                SD_Call(AUDIO_CURSOR_MOVE);
                 menu->unk8 = advance_index_with_single_wrap(selection_step, menu->unk8, 5);
                 inventory_set_paired_index_offset(menu->unk54, menu->unk8);
             }

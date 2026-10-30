@@ -355,7 +355,6 @@ typedef struct MapQuadScratch {
     union { u16 value; u8 low_byte; } uv_scroll;
 } MapQuadScratch;
 
-extern void build_screen_outline(void *, void *, s32);
 extern void SetFogFar(s32, s32);
 extern void SetLightMatrix(void *);
 extern void SetColorMatrix(void *);

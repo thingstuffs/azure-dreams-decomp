@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void project_sprite_commands(void *context, s32 position, void *entry, s32 depth_bias);
+extern void project_sprite_commands(void *context, s32 position, void *entry, s32 depth_bias); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /* Clears the scratchpad counter and processes each record in the linked chain. */
 s32 draw_linked_record_chain(u8 *record_data, s32 record_value, u8 *linked_data) {

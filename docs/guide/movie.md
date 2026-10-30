@@ -55,7 +55,7 @@ treating all movie buffers as one interchangeable layout.
 
 The type-4 branch of
 [`load_scene_resource_group`](../../src/engine/scene/load_scene_resource_group.c)
-calls [`load_shared_resource_once`](../../src/engine/scene/load_shared_resource_once.c)
+calls [`load_movie_overlay_once`](../../src/engine/scene/load_shared_resource_once.c)
 and selects movie sector/control data. The latter queues the shared descriptor
 once and marks it loaded after draining the CD queue. Inside playback,
 `start_movie_cd_stream_and_wait_ready` submits CD command 0x15 and waits for

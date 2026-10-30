@@ -4,6 +4,5 @@
 #include "common.h"
 
 void func_80041588(u32 *, u8 *, s32);
-void run_cd_image_commands(u32 *, u8 *, s32);
 
 #endif

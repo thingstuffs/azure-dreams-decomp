@@ -2,6 +2,7 @@
 /* Original-file evidence (G00670): inferred (adjacency/recipe/locality), inferred-strong - CL:town/engine@4A4DC, CL:town/func_800CA30C, CL:town/func_800CA364, CL:town/func_800CA490, PD:town/engine:80113220. */
 #include "town/person/mother_event_motion_g00670.h"
 #include "town/scene/collision.h"
+#include "engine/window.h"
 
 /* Applies a motion offset or interpolates the position toward the object coordinates. */
 void apply_mother_event_motion_offset(void *object, void *position, s32 update_arg) {

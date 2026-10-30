@@ -71,7 +71,7 @@ void create_blinking_cursor_object(void *node_addr, Rec_D_80081FDC *record, s32 
 
     node = initialize_runtime_node_storage(0x11, node_addr, 0x49, &window_node_list_storage);
     ((S_80036D4C_0 *)node)->unk_10 = &update_blinking_cursor_with_bright_idle;
-    register_node(node, &runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback);
+    register_node(node, &draw_linked_sprite_nodes);
     state = node + 0x20;
     display = ((S_80036D4C_0 *)node)->unk_0C;
     state->unk_44 = config;

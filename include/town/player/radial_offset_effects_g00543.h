@@ -61,7 +61,6 @@ extern s32 radial_sprite_entries;
 extern s32 rsin(s32 value);
 extern s32 rcos(s32 value);
 
-extern u32 scale_random_to_unsigned_halfword_limit(s32 limit);
 extern s32 rand(void);
 
 /* Functions defined in this translation unit. */

@@ -11,7 +11,7 @@ typedef struct S_80126890_0 {
     u8 pad_14[0xA];
     u16 unk_1E;
     void * unk_20;
-} S_80126890_0;   /* node in allocate_and_initialize_node_2 */
+} S_80126890_0;   /* node in create_catalog_display_node */
 
 extern void register_node(void *, void *);
 extern void release_null_terminated_entries(void *);
@@ -23,7 +23,7 @@ extern s8 animation_tick_scale;
 extern s32 D_80126704;
 
 /* Allocates and initializes a node for the supplied data, returning null on failure. */
-static void *allocate_and_initialize_node_2(void *data) {
+static void *create_catalog_display_node(void *data) {
     ObjectNodeHeader *node;
     void *payload;
 

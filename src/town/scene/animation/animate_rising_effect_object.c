@@ -11,14 +11,6 @@ struct SpawnSeed;
 #define NULL 0
 #endif
 
-typedef struct S_8052F2C8_0 {
-    void * unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    union { s16 s; u16 u; } unk_0C;   /* accessed as both */
-    s16 unk_0E;
-    u16 unk_10;
-} S_8052F2C8_0;   /* obj_held in animate_rising_effect_object */
 
 typedef struct S_8052F2C8_1 {
     void * unk_00;
@@ -87,8 +79,8 @@ extern u8 D_8028E188[];
 extern void D_8052F8C4();
 
 /* Per-frame step for the town scene object: dispatch its mode and update the sprite it draws. */
-void animate_rising_effect_object(void *obj, void *state_in, void *input) {
-    register S_8052F2C8_0 *obj_held = obj;
+void animate_rising_effect_object(RisingEffectObject *obj, void *state_in, void *input) {
+    register RisingEffectObject *obj_held = obj;
     register void *state_held = state_in;
     register S_8052F2C8_3 *work;
     s16 state;
@@ -119,14 +111,14 @@ void animate_rising_effect_object(void *obj, void *state_in, void *input) {
 
     /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: town/func_808146C8). */
     do {
-        root = obj_held->unk_00;
+        root = obj_held->root;
     } while (0);
     root->unk_58 |= 1;
     root_obj = root->unk_00;
     work = input;
 
     if (root->unk_54.s == 9) {
-        mode = obj_held->unk_0C.s;
+        mode = obj_held->mode.s;
         if (mode == 1 && ((IntVector3 *)state_held)->x <= 0x04DFFFFF) {
             state = root->unk_56;
             switch (state) {
@@ -155,39 +147,39 @@ void animate_rising_effect_object(void *obj, void *state_in, void *input) {
         }
     }
 
-    switch (obj_held->unk_0C.s) {
+    switch (obj_held->mode.s) {
     case 0:
-        if (obj_held->unk_0E == 0x10) {
+        if (obj_held->field_0E == 0x10) {
             root->unk_58 |= 4;
         } else {
             root->unk_58 &= 0xFFFB;
         }
-        timer0 = (u16)obj_held->unk_0E - 1;
-        obj_held->unk_0E = timer0;
+        timer0 = (u16)obj_held->field_0E - 1;
+        obj_held->field_0E = timer0;
         if ((timer0 << 16) > 0) {
             break;
         }
         func_80058F88(0x518);
         data0 = root->unk_00;
         data0->unk_12++;
-        obj_held->unk_0C.s = 1;
+        obj_held->mode.s = 1;
         work->unk_14 &= 0xFF7F;
         break;
 
     case 1:
-        step = obj_held->unk_04 + obj_held->unk_08;
-        obj_held->unk_04 = step;
-        sum = ((IntVector3 *)state_held)->x + obj_held->unk_04;
+        step = obj_held->field_04 + obj_held->field_08;
+        obj_held->field_04 = step;
+        sum = ((IntVector3 *)state_held)->x + obj_held->field_04;
         ((IntVector3 *)state_held)->x = sum;
         if (sum <= 0x0427FFFF) {
-            obj_held->unk_0E = 6;
+            obj_held->field_0E = 6;
             money = &D_80095AAC;
             if (*(u8 *)money >= 9U) {
                 *money += 0xFFF7F7F8;
             }
             work->unk_14 |= 0x80;
             func_80058F88(0x506);
-            obj_held->unk_0C.s = 2;
+            obj_held->mode.s = 2;
             break;
         }
         {
@@ -208,16 +200,16 @@ void animate_rising_effect_object(void *obj, void *state_in, void *input) {
         if (sum > 0x043FFFFF) {
             break;
         }
-        if (obj_held->unk_10 & 4) {
+        if (obj_held->field_10 & 4) {
             break;
         }
 
         kind = root_obj->unk_16 - 3;
         if (kind < 3U) {
             func_80058F88(0x513);
-            obj_held->unk_04 = 0x180000;
-            obj_held->unk_0C.s = 3;
-            obj_held->unk_10 |= 4;
+            obj_held->field_04 = 0x180000;
+            obj_held->mode.s = 3;
+            obj_held->field_10 |= 4;
             data1 = root->unk_00;
             root->unk_54.u++;
             data1->unk_14 += 2;
@@ -232,7 +224,7 @@ void animate_rising_effect_object(void *obj, void *state_in, void *input) {
         }
 
         func_80058F88(0x510);
-        obj_held->unk_10 |= 4;
+        obj_held->field_10 |= 4;
         spawn_data = root->unk_00;
         count = 1;
         spawn_data->unk_14++;
@@ -247,7 +239,7 @@ void animate_rising_effect_object(void *obj, void *state_in, void *input) {
                 position->x.v = ((IntVector3 *)state_held)->x;
                 position->y.v = ((IntVector3 *)state_held)->y;
                 position->z.v = ((IntVector3 *)state_held)->z;
-                work_value = obj_held->unk_04;
+                work_value = obj_held->field_04;
                 work->unk_20 = root;
                 work->unk_24 = work_value;
                 entity_data->unk_1E = scale;
@@ -265,7 +257,7 @@ void animate_rising_effect_object(void *obj, void *state_in, void *input) {
             }
             count--;
         } while (count >= 0);
-        obj_held->unk_0C.u = 0xFF;
+        obj_held->mode.u = 0xFF;
         break;
 
     case 2:
@@ -277,21 +269,21 @@ void animate_rising_effect_object(void *obj, void *state_in, void *input) {
             create_object_position_configures_color(0, x, ((IntVector3 *)state_held)->y + 0x80000,
                           ((rnd % 80) << 16) + 0xFFB00000);
         } while (count >= 0);
-        timer_end = (u16)obj_held->unk_0E - 1;
-        obj_held->unk_0E = timer_end;
+        timer_end = (u16)obj_held->field_0E - 1;
+        obj_held->field_0E = timer_end;
         if ((timer_end << 16) <= 0) {
-            obj_held->unk_0C.u = 0xFF;
+            obj_held->mode.u = 0xFF;
         }
         break;
 
     case 3:
         root->unk_58 |= 2;
-        sum3 = ((IntVector3 *)state_held)->x + obj_held->unk_04;
+        sum3 = ((IntVector3 *)state_held)->x + obj_held->field_04;
         ((IntVector3 *)state_held)->x = sum3;
         if (sum3 > 0x055FFFFF) {
-            obj_held->unk_0E = 5;
+            obj_held->field_0E = 5;
             func_80058F88(0x50C);
-            obj_held->unk_0C.s = 4;
+            obj_held->mode.s = 4;
         }
         break;
 
@@ -304,10 +296,10 @@ void animate_rising_effect_object(void *obj, void *state_in, void *input) {
         }
 
 
-        timer_end = (u16)obj_held->unk_0E - 1;
-        obj_held->unk_0E = timer_end;
+        timer_end = (u16)obj_held->field_0E - 1;
+        obj_held->field_0E = timer_end;
         if ((timer_end << 16) <= 0) {
-            obj_held->unk_0C.u = 0xFF;
+            obj_held->mode.u = 0xFF;
         }
         break;
 

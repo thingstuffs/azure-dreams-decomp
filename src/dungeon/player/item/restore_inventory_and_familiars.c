@@ -221,7 +221,7 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
                             place_x = (s16)rand_x;
                             place_y = (s16)rand_y;
                         }
-                        spawned = load_monster_resource_data(slot_ptr->unk_00, kind, 1)(
+                        spawned = load_monster_code_module(slot_ptr->unk_00, kind, 1)(
                             1, place_x, place_y,
                             actor->ground_height);
                         sign_shift = scratch << 16;

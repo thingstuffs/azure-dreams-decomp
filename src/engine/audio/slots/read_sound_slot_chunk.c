@@ -44,7 +44,7 @@ s32 read_sound_slot_chunk(s32 dest, u32 read_size, s16 entry_id)
         read_size = remaining;
     }
 
-    if (clamp_and_submit_driver_parameter(dest, read_size) != read_size) {
+    if (write_spu_transfer_data(dest, read_size) != read_size) {
         return -1;
     }
 

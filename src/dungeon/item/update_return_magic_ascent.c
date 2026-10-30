@@ -11,6 +11,7 @@
 #include "engine/scene.h"
 #include "slus.h"
 #include "sdk/libc.h"
+#include "engine/graphics.h"
 
 typedef struct {
     u8 pad0[0x8D0];
@@ -65,7 +66,6 @@ extern s16 transition_runtime_slot_index;
 void AddPrim(void *, void *);
 void SetLineF2(void *);
 extern void SetDrawArea();
-extern void set_sprite_animation_frame();
 extern void snapshot_inventory_and_familiars(void *input_state);
 extern void draw_transformed_sprite_with_clip_rect();
 

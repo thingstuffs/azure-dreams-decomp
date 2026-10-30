@@ -108,7 +108,6 @@ typedef struct S_800A5FDC_0 {
 } S_800A5FDC_0;
 
 /* the 0x10 bytes before arg0 in initialize_effect_and_adjust_value, addressed as arg0[-1] */
-extern void register_node_if_unregistered(void *object, void *setup_data);
 void initialize_actor_action_state(void *object, EntityRec *state, s32 initData);
 extern u8 player_motion_draw_address[];
 extern s32 D_800D0CC0[];
@@ -126,7 +125,6 @@ extern s32 D_800A5A98;
 extern s16 town_scene_effect_flips[];
 extern u8 town_position_reference_state[];
 #include "engine/texture.h"
-extern void step_actor_animation(void *,s32);
 /* arg0 in update_object_view_transition */
 s32 read_map_cell_at_world_position(s16, s16);
 /* extern */
@@ -134,7 +132,6 @@ s32 check_masked_value_in_current_range(s32);
 extern u8 D_800D0000[];
 extern int abs(int);
 extern u8 D_800A5DF8;
-extern u32 scale_random_to_unsigned_halfword_limit(s32 limit);
 s32 runtime_estimate_vector_length(s32, s32);
 extern short SD_Call(int flags);
 extern void add_a_directional_step_vector_scale_down_exceeds_length_limit();

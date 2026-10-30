@@ -473,7 +473,7 @@ s32 spawn_owned_random_spin_effect(void *owner, B28_818B7E14_DungeonSource *sour
 void advance_movement_toward_reachable_tile(void *state, void *motion_in, void *render);
 void select_record_entry_and_value(void *state, void *entries, short index);
 extern u8 seven_color_sprite_data[];
-s32 draw_linked_sprites_clipped(u8 *first_data, s32 link_value, void *value_record);
+s32 draw_linked_sprites_clipped(u8 *first_data, s32 link_value, SpriteFrameState *value_record);
 s32 func_80045C34(u8 *first_data, s32 link_value, void *value_record);
 extern s32 get_random_scaled_value(s16 input_value);
 #include "dungeon/effect/screen.h"

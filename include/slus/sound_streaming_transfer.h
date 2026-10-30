@@ -13,7 +13,6 @@ extern volatile s32 spu_transfer_complete[3];
 extern u8 spu_reverb_clear_buffer[];
 extern s32 spu_transfer_event_handle;
 
-extern s32 _SpuIsInAllocateArea_(u32 value);
 extern s32 _spu_t(s32 mode, ...);
 extern s32 WaitEvent(s32 event);
 

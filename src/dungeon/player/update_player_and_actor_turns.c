@@ -33,7 +33,6 @@ extern void request_scene_dispatch_state(s16 requested_state);                  
 s16 get_entity_effect_value();                 /* extern */ /* Unprototyped: return_width */
 extern void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 #include "engine/texture.h"
-extern void step_actor_animation(SpriteFrameState *entity, s32 slot_index);             /* extern */
 extern void set_camera_targets(void *target_position, void *target_rotation, s32 transition_param); /* extern */
 extern void queue_view_slot(int slot_selector);                     /* extern */
 extern short SD_Call(int flags);                     /* extern */
@@ -46,6 +45,8 @@ s32 can_entity_gain_level(void *entity);                      /* extern */
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/item.h"
 #include "slus.h"
+#include "engine/graphics.h"
+
 struct Node;
 s32 lookup_definition_pair_value(s16 firstKey, s16 secondKey);                          /* extern */
 s32 play_sound_if_enabled(s32 query_value);                     /* extern */

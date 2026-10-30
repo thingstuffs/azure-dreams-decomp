@@ -1,6 +1,7 @@
 /* Textured quad batches (G00338). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800AB480. */
 #include "dungeon/actor/textured_quad_batches_g00338.h"
+#include "engine/graphics.h"
 
 /* Transform and emit linked batches of quad primitives into the rendering buffer. */
 s32 transform_linked_quad_batches(u8 *initial_batch, s32 initial_dispatch_arg, u8 *initial_params)

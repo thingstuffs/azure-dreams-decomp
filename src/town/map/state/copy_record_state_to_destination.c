@@ -3,6 +3,7 @@
 #include "common.h"
 #include "shared/sprite_source.h"
 #include "town/map/state.h"
+#include "engine/script.h"
 
 typedef struct TownPropAnimationActor {
     char pad0[0x68];

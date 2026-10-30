@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -22,13 +23,13 @@ void build_install(u8 *object)
     if (held_buttons != 0) {
         pressed_buttons = (g_game_work.pressed_buttons);
         if (pressed_buttons & 0x20) {
-            SD_Call(0x515);
+            SD_Call(AUDIO_CANCEL);
             card_boot_destroy_slot_selection_menu(object - 0x20);
             init_card_boot_request_object(((CardSlotMenuState *)object)->request, 0);
             return;
         }
         if (pressed_buttons & 0x40) {
-            SD_Call(0x503);
+            SD_Call(AUDIO_MENU_CONFIRM);
             if (((CardSlotMenuState *)object)->unk_48 == 0) {
                 set_record_pair_to_one(object);
                 needs_refresh = 1;
@@ -68,7 +69,7 @@ void build_install(u8 *object)
         }
 
         if (selection_step != 0) {
-            SD_Call(0x502);
+            SD_Call(AUDIO_CURSOR_MOVE);
             if (((CardSlotMenuState *)object)->unk_48 == 1) {
                 ((CardSlotMenuState *)object)->unk_28 =
                     advance_index_with_single_wrap(((CardSlotMenuState *)object)->unk_28, selection_step, 5);

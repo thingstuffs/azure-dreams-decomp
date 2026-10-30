@@ -16,14 +16,13 @@ struct Container;
 
 struct Source;
 
-extern s32 runtime_find_unused_pool_slot(void);
-extern void runtime_clear_value(s32 *);
+extern s32 runtime_find_unused_pool_slot(void); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern void runtime_clear_value(s32 *value);
 extern void *allocate_flagged_object_node(s32);
-extern void unlink_active_node(s32);
+extern void unlink_active_node(s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void push_node_onto_free_list(struct ObjectNodeHeader *);
 extern s8 town_map_link_slots[11];
 void unlink_node_if_registered(void *block_data);
-void copy_window_params(struct Container *, struct Source *);
 void select_record_entry_and_value(void *, void *, s16);
 s32 register_node(struct ObjectNodeHeader *entry, void *registration_id);
 extern u8 town_map_tag;

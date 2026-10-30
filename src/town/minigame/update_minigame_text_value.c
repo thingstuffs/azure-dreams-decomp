@@ -1,21 +1,17 @@
 #include "common.h"
-
-typedef struct {
-    s32 unk0;
-    char *unk4;
-} UnkStruct800223E8;
+#include "town/minigame/object.h"
 
 extern s32 pickup_reward_total[];
 #include "sdk/libc.h"
 #include "engine/text.h"
 
 // Clamp the value to 999999 and format it into the text buffer.
-void update_minigame_text_value(UnkStruct800223E8 *textEntry)
+void update_minigame_text_value(MinigameTextValueObject *text_value)
 {
     if (pickup_reward_total[0] > 0xF423F) {
         pickup_reward_total[0] = 0xF423F;
     }
 
-    format_decimal_field_space_padded(pickup_reward_total[0], strlen(textEntry->unk4) - 1,
-                  textEntry->unk4);
+        format_decimal_field_space_padded(pickup_reward_total[0], strlen(text_value->text) - 1,
+                  text_value->text);
 }

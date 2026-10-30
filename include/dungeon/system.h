@@ -39,7 +39,7 @@ void *create_item_view(s32 context, s32 related_context, s32 mode, void *descrip
 s32 find_table_value_index(s32 target_value);
 s16 has_recorded_value_pair(s32 highByte, s32 lowByte);
 s32 release_entity_slot_and_update_flags(void *handle, s32 extra_cleanup);
-void submit_indexed_entry_and_finalize(s32 entry_index);
+void load_indexed_item_module(s32 entry_index);
 
 #include "shared/entity.h"
 #include "records/Rec_func_800A5DFC_arg1.h"

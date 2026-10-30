@@ -7,6 +7,7 @@
 #include "dungeon/actor/entity_spawn_load.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "engine/scene.h"
 
 /* Tries random free room tiles, then scans the floor, falling back to valid input coordinates or (1, 1). */
 s32 select_dungeon_spawn_tile(u8 *x_out, u8 *y_out)
@@ -128,7 +129,7 @@ s32 advance_staged_entity_load(s32 unused, u8 *entity)
         load_result = queue_cd_resource(((S_800A504C_1 *)entity)->unk_13);
         load_spawned = spawned;
         loaded_entity_sprite_resource = load_result;
-        load_monster_resource_data(((S_800A504C_1 *)entity)->unk_13, load_spawned, 0);
+        load_monster_code_module(((S_800A504C_1 *)entity)->unk_13, load_spawned, 0);
         entity_resource_read_complete[0] = 0;
         Control_CD(0xFF, set_byte_one, entity_resource_read_complete);
         mode_page[-1].unk_00 = (s16)((u16)mode_page[-1].unk_00 + 1);
@@ -148,7 +149,7 @@ case 2:
             return 0;
         }
         entity_data = ((S_800A504C_1_pre *)entity)[-1].unk_00;
-        spawn = load_monster_resource_data(((S_800A504C_1 *)entity)->unk_13, spawned, 1);
+        spawn = load_monster_code_module(((S_800A504C_1 *)entity)->unk_13, spawned, 1);
         spawned = spawn(6, entity_data[0x24], entity_data[0x25],
                         (s16)(((S_800A504C_1 *)entity)->unk_88 - 0x20));
         if (spawned == NULL) {
@@ -234,7 +235,7 @@ case 2:
             load_spawned = replacement;
 
             loaded_entity_sprite_resource = load_result;
-            load_monster_resource_data(((S_800A504C_1 *)entity)->unk_13, load_spawned, 0);
+            load_monster_code_module(((S_800A504C_1 *)entity)->unk_13, load_spawned, 0);
             entity_resource_read_complete[0] = 0;
             Control_CD(0xFF, set_byte_one, entity_resource_read_complete);
         }
@@ -258,7 +259,7 @@ case 2:
             return 0;
         }
         entity_data = ((S_800A504C_1_pre *)entity)[-1].unk_00;
-        spawn = load_monster_resource_data(((S_800A504C_1 *)entity)->unk_13, replacement, 1);
+        spawn = load_monster_code_module(((S_800A504C_1 *)entity)->unk_13, replacement, 1);
         replacement = spawn(1, entity_data[0x24], entity_data[0x25],
                         (s16)(((S_800A504C_1 *)entity)->unk_88 - 0x20));
         if (replacement != NULL) {

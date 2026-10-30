@@ -7,6 +7,7 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/item.h"
 #include "engine/object.h"
+#include "engine/texture.h"
 
 typedef s32 M2C_UNK;
 extern int abs(int);
@@ -18,7 +19,6 @@ typedef union {
     struct { s32 high; u32 low; } word;
 } DivProduct;
 
-extern void select_indirect_table_entry();
 extern void advance_sprite_animation_and_textures();
 extern s32 refresh_actor_facing_and_lifecycle();
 extern void try_move_actor_to_valid_position();

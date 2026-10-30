@@ -3,7 +3,7 @@
 #include "shared/town_root.h"
 #include "town/scene/service.h"
 
-/* Run town service callback 0x280 with the code plus flag 0x1000. */
+/* Request a town sound with the code plus flag 0x1000. */
 void call_scene_service_280_with_flag_1000(s32 code) {
-    town_scene_root->services->callback_280(code | 0x1000);
+    town_scene_root->services->play_sound(code | 0x1000);
 }

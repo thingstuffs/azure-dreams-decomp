@@ -4,6 +4,7 @@
 #include "engine/audio/sequence.h"
 #include "engine/node.h"
 #include "town/minigame.h"
+#include "town/minigame/object.h"
 
 #ifndef NULL
 #define NULL 0
@@ -20,16 +21,6 @@ typedef struct S_80022290_1 {
     s16 unk_16;
 } S_80022290_1;   /* data1 in initialize_minigame_display */
 
-typedef struct S_80022290_3 {
-    u8 pad_00[0x4];
-    void * unk_04;
-    u8 pad_08[0x8];
-    s32 unk_10;
-    s16 unk_14;
-    s16 unk_16;
-    s16 unk_18;
-    s16 unk_1A;
-} S_80022290_3;   /* data2 in initialize_minigame_display */
 
 typedef struct {
     s32 word[2];
@@ -54,7 +45,7 @@ void initialize_minigame_display(void *context)
     ObjectNodeHeader *rect_obj;
     S_80022290_1 *rect_data;
     ObjectNodeHeader *image_obj;
-    S_80022290_3 *image_data;
+    MinigameTextValueObject *image_data;
     void *image_resource;
 
     setup_words = D_8002021C;
@@ -80,12 +71,12 @@ void initialize_minigame_display(void *context)
         image_data = ((void *)image_obj) + 0x20;
         image_obj->update_callback = D_800223E8;
         register_node(image_obj, text_sprite_builder_address);
-        image_data->unk_14 = 0xF0;
-        image_data->unk_16 = 0x20;
-        image_data->unk_18 = 3;
+        image_data->x = 0xF0;
+        image_data->y = 0x20;
+        image_data->scale_y = 3;
         image_resource = D_80024468;
-        image_data->unk_1A = 0x7C80;
-        image_data->unk_10 = 0x808080;
-        image_data->unk_04 = image_resource;
+        image_data->scale_x = 0x7C80;
+        image_data->color = 0x808080;
+        image_data->text = image_resource;
     }
 }

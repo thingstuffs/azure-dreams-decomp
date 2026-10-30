@@ -94,16 +94,14 @@ typedef struct S_800B1BEC_0 {
 /* part in create_dual_buffer_object */
 
 /* ((S_800B19F8_5 *)(((S_800B19F8_1 *)arg0)->unk_50))->unk_04 in initialize_panel_content_and_positions */
-extern void *decode_fullwidth_text(void *a0, u8 *a1, s32 a2);
 extern void refresh_formatted_global_display(void *a0);
 extern void func_800B18F8(s32 a0);
 extern s32 D_80078D6C[4];
-extern u8 D_800D1560[16];
+extern u8 money_label_text[16];
 void initialize_templated_state_and_position(s32, s32, s32, s32, s32);
 extern s32 display_block_defaults[4];
 /* object in create_dual_buffer_object */
 extern void *create_callback_pair_default(s32);
-extern void flag_object_for_removal(void *);
 extern void *process_context_with_selector_4(void *);
 extern void register_node(void *, void *);
 extern void lower_value_toward_target(struct ObjectNodeHeader *object);

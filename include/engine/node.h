@@ -38,7 +38,7 @@ void run_node_callback_and_set_marker(void *entry, void *output, void *context);
 void table_set_bit_hex_8000_in_node_global_flags_node_exists(struct ObjectNodeHeader *node);
 
 /* unlink_active_node.c */
-void unlink_active_node(struct ObjectNodeHeader *node);
+void unlink_active_node(ObjectNodeHeader *node);
 
 /* unlink_node.c */
 void func_80044A50(struct ObjectNodeHeader *node);

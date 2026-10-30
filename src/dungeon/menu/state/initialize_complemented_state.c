@@ -29,7 +29,7 @@ typedef struct S_800DC988_2 {
 } S_800DC988_2;   /* data in initialize_complemented_state */
 
 
-extern s32 move_indexed_position_and_apply();
+extern s32 slide_menu_cursor_to_index();
 extern s32 update_state_activity_flags();
 extern s16 current_dungeon_floor[];
 
@@ -47,6 +47,6 @@ void initialize_complemented_state(void *context) {
     state->unk_30 = ~source_data->unk_11;
     update_state_activity_flags(state);
     do {
-        move_indexed_position_and_apply(state);
+        slide_menu_cursor_to_index(state);
     } while (state->unk_58 != 0);
 }

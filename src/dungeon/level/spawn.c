@@ -638,7 +638,7 @@ void restore_spawns_and_place_floor_traps(void) {
             existing_type = meta[slot].type;
             availability = find_or_retain_sprite_resource_slot(existing_type, 1);
             if (availability != 0) {
-                object = load_monster_resource_data(existing_type, availability, 1)
+                object = load_monster_code_module(existing_type, availability, 1)
                 (0, position[slot].x, position[slot].y, -0x400);
                 if (object != 0) {
                     retain_spawn_resource(existing_type, 1);

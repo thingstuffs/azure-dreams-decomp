@@ -4,6 +4,7 @@
 #include "engine/item.h"
 #include "engine/node.h"
 #include "town/shop/item.h"
+#include "engine/graphics.h"
 
 /* Sub-record living at offset 0x20 of the allocated node (same node type
  * allocated by func_8003FC64, size class 0x124 per src/w_8003FC64.c /
@@ -26,7 +27,6 @@ typedef struct S_800B3D50_node {
 extern void * copy_records_through_end(void *a0,void *a1);
 extern void *link_shop_nodes_in_configured_order(void *a0); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void configure_shop_object_and_finalize(void *a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7);
-extern void draw_tinted_node_sprites_scratch(void);
 
 /* Allocate and initialize a paged item-list node, returning null on failure. */
 void *allocate_paged_shop_item_list(s32 parent, s32 selected_index, s32 item_count, s32 page_index, s32 last_page, s32 item_base,

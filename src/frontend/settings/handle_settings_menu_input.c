@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "engine/effect/screen_fade.h"
@@ -87,16 +88,16 @@ void handle_settings_menu_input(Menu *menu)
     case 2:
         buttons = (pad->pressed_buttons);
         if (buttons & 0x1000) {
-            SD_Call(0x502);
+            SD_Call(AUDIO_CURSOR_MOVE);
             menu->row = (menu->row + 6) % 7;
         }
         else if (buttons & 0x4000) {
-            SD_Call(0x502);
+            SD_Call(AUDIO_CURSOR_MOVE);
             menu->row = (menu->row + 1) % 7;
         }
         else if (buttons & 0xA000) {
             if (menu->row == 0) {
-                SD_Call(0x502);
+                SD_Call(AUDIO_CURSOR_MOVE);
                 menu_flags = menu->flags;
                 if (menu_flags & 2) {
                     new_flags = menu_flags & 0xFFFD;

@@ -19,8 +19,8 @@ void add_byte_pair_and_copy_byte_pair(struct S_8004DA24_dst *destination, struct
 s32 *alloc_buffer_array(s32 *buffers, s32 buffer_count);
 
 /* alloc_object.c */
-void *alloc_object_100(char *text, s32 initial_octave);
-void *func_8004DC14(char *text, s32 initial_octave);
+void *create_label_glyph_entries(char *text, s32 glyph_style);
+void *func_8004DC14(char *text, s32 glyph_style);
 
 /* alloc_pointer_pool.c */
 void *alloc_pointer_pool(void **pool, s32 record_count);

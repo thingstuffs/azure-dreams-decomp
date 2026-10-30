@@ -8,13 +8,12 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
-
-extern void apply_entity_effects(void *);
 #include "dungeon/player/item.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/system.h"
 #include "dungeon/player/state.h"
+#include "engine/entity.h"
 
 extern void create_colored_effect_with_sound(void *source, s32 color, unsigned short sound_id);
 

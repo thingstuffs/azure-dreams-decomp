@@ -23,6 +23,14 @@ struct S_func_800A9F90;
 struct SpriteFrameState;
 struct TownObject;
 
+/* Body finalized when its bounds check or countdown expires. */
+typedef struct BoundsExpiryObject {
+    /* 0x00 */ u8 pad_00[0x6C];
+    /* 0x6C */ u16 timer;
+    /* 0x6E */ u8 pad_6E[0x2A];
+    /* 0x98 */ u8 *linked_flag;
+} BoundsExpiryObject;
+
 /* allocate_and_initialize_display_object_g01137.c */
 void *allocate_and_initialize_display_object(s32 object_key, s32 payload_value, s32 payload_param, s32 payload_halfword, s32 object_param, s32 object_value);
 s32 create_objects_descending_by_count(s32 object_key, s32 payload_value, s32 payload_param, s32 count);
@@ -51,7 +59,7 @@ void create_timed_effect_object(s32 ownerDataAddress, s32 creationParam, struct 
 void decrement_callback_object_timer(struct S_func_800A9F90 *self, s32 expiry_arg);
 
 /* finalize_object_after_check_or_expiry.c */
-void finalize_object_after_check_or_expiry(void *object, s32 check_value);
+void finalize_object_after_check_or_expiry(BoundsExpiryObject *object, s32 check_value);
 
 /* initialize_effect_object.c */
 void initialize_effect_object(void *object, void *unused, struct SpriteFrameState *context);

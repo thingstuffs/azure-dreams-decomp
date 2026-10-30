@@ -7,6 +7,7 @@
 #include "slus.h"
 #include "slus/data.h"
 #include "engine/window.h"
+#include "engine/object.h"
 
 typedef struct S_80036B10_0 {
     u8 pad_00[0xC];
@@ -61,7 +62,6 @@ typedef struct S_80036B10_8 {
 void runtime_initialize_state_value(Rec_D_80081FDC *state, s32 initialValue);
 void prepend_embedded_object_node(void *owner, void *object_data);
 extern u8 window_node_list_storage[];
-extern void runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback(void);
 
 /* Initializes and links a task, then sets up its source record, state, and rendering data. */
 void create_cursor_object(void *task_buffer, Rec_D_80081FDC *record, s32 *source, s16 state_value, void *setup_arg) {
@@ -72,7 +72,7 @@ void create_cursor_object(void *task_buffer, Rec_D_80081FDC *record, s32 *source
 
     task = initialize_runtime_node_storage(0x11, task_buffer, 0x49, &window_node_list_storage);
     ((S_80036B10_0 *)task)->unk_10 = update_cursor_callback;
-    register_node(task, &runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback);
+    register_node(task, &draw_linked_sprite_nodes);
     state = task + 0x20;
     render_data = ((S_80036B10_0 *)task)->unk_0C;
     state->unk_44 = source;

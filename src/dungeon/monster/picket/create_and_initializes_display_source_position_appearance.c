@@ -5,6 +5,7 @@
 #include "records/Rec_func_800AD058_arg2.h"
 #include "shared/dungeon_projectile_views.h"
 #include "engine/node.h"
+#include "engine/menu.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -21,7 +22,6 @@ typedef struct {
 #define NULL 0
 #endif
 
-extern s32 lookup_item_category_mapped_value(s32, s32);
 extern void create_tracked_effect(void *, s32, s32, s32);
 
 extern u8 item_effect_descriptor[9];

@@ -5,6 +5,4 @@
 
 struct S_80047738;
 
-void select_indirect_table_entry(void *, s16, s16);
-
 #endif

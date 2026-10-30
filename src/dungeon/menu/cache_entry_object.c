@@ -1,4 +1,5 @@
 #include "dungeon/menu_cache.h"
+#include "engine/util.h"
 
 /* The decoded bank uses 25 entries; the existing town constructor uses 24. */
 MenuEntryObject *allocate_menu_entry_object(s32 resource_id, s32 slot_index, s32 x, s32 y, s32 z)

@@ -3,6 +3,7 @@
 #include "shared/entity.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/effect.h"
+#include "engine/runtime.h"
 
 
 typedef struct {
@@ -17,8 +18,7 @@ typedef struct {
     u8 y;
 } CoordBuf;
 
-s32 test_resident_bit(s32);
-void upload_vram_row_and_cache(void *, s32, s32, s32);
+void upload_vram_row_and_cache(void *, s32, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 s16 sample_terrain_surface_height(s32, s32, s16);
 s32 has_saved_entry_key(s32, s32);
 s32 has_active_dungeon_cell_key(s32, s32);

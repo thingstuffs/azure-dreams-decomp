@@ -65,4 +65,7 @@ void set_the_flag_initializes_state(Rec_func_8008F2D4_arg0 *record, Rec_func_800
 void set_the_state_flag_initialize_s_fixed_point_clear_paired_field(Rec_D_800CFCB4 *state, EntityRec *object, s32 initial_value);
 s32 update_scene_action_flags(s32 object, s32 context);
 
+struct SpawnDisplayObject;
+void decrement_timer_and_set_completion_flag(struct SpawnDisplayObject *work);
+
 #endif

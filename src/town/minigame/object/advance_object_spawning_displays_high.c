@@ -41,28 +41,6 @@ typedef struct S_800243D8_1 {
     State8081A3D8 * unk_AC;
 } S_800243D8_1;   /* object_tail in advance_object_spawning_displays_high */
 
-typedef struct S_800243D8_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    union { struct { void * v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
-    s32 unk_08;
-    union {
-        struct { s32 v; } at00;
-        struct { s16 v; } at00u;
-        struct { u8 pad[0x2]; s16 v; } at02;
-    } unk_0C;   /* overlapping accesses */
-    union {
-        struct { s32 v; } at00;
-        struct { s16 v; } at00u;
-        struct { u8 pad[0x2]; s16 v; } at02;
-    } unk_10;   /* overlapping accesses */
-    s16 unk_14;
-    union { s16 s; u16 u; } unk_16;   /* accessed as both */
-    u8 pad_18[0x2];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800243D8_2;   /* inner in advance_object_spawning_displays_high */
 
    /* ((S_800243D8_0 *)object)->unk_08 in advance_object_spawning_displays_high */
 
@@ -70,7 +48,7 @@ typedef struct S_800243D8_2 {
 void advance_object_spawning_displays_high(State8081A3D8 *controller)
 {
     ObjectNodeHeader *object;
-    S_800243D8_2 *object_data;
+    SpawnDisplayObject *object_data;
     SpriteFrameState *inner_data;
     u8 *callback;
     s16 spawn_interval;
@@ -140,7 +118,7 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
 
         object = allocate_list_node(((s32)(1)), &scene_object_list_anchor.next);
         if (object != 0) {
-            object_data = (S_800243D8_2 *)(((u8 *)object) + 0x20);
+            object_data = (SpawnDisplayObject *)(((u8 *)object) + 0x20);
             object->update_callback = minigame_display_callback_a;
             register_node(object, text_sprite_builder_address);
             object_data->unk_14 = 0x7C;
@@ -148,12 +126,12 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
             object_data->unk_1A = 0x7C80;
             object_data->unk_10.at00.v = 0x00808080;
             object_data->unk_04.at00.v = callback;
-            object_data->unk_02 = 0x96;
+            object_data->timer = 0x96;
         }
 
         object = allocate_list_node(((s32)(1)), &scene_object_list_anchor.next);
         if (object != 0) {
-            object_data = (S_800243D8_2 *)(((u8 *)object) + 0x20);
+            object_data = (SpawnDisplayObject *)(((u8 *)object) + 0x20);
             object->update_callback = minigame_display_callback_b;
             register_node(object, build_menu_line_tile_packets);
             object_data->unk_0C.at00u.v = 0x74;
@@ -161,7 +139,7 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
             object_data->unk_10.at00u.v = 0x58;
             object_data->unk_10.at02.v = 0x10;
             object_data->unk_08 = 0x00101010;
-            object_data->unk_02 = 0x96;
+            object_data->timer = 0x96;
             object_data->unk_16.u |= 1;
         }
         controller->timer = 0x96;
@@ -171,7 +149,7 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
     case 2:
         object = allocate_list_node(((s32)(1)), &scene_object_list_anchor.next);
         if (object != 0) {
-            object_data = (S_800243D8_2 *)(((u8 *)object) + 0x20);
+            object_data = (SpawnDisplayObject *)(((u8 *)object) + 0x20);
             object->update_callback = minigame_display_callback_a;
             register_node(object, text_sprite_builder_address);
             object_data->unk_14 = 0x80;
@@ -179,12 +157,12 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
             object_data->unk_1A = 0x7C80;
             object_data->unk_04.at00.v = D_800200C0;
             object_data->unk_10.at00.v = 0x00808080;
-            object_data->unk_02 = 0x96;
+            object_data->timer = 0x96;
         }
 
         object = allocate_list_node(((s32)(1)), &scene_object_list_anchor.next);
         if (object != 0) {
-            object_data = (S_800243D8_2 *)(((u8 *)object) + 0x20);
+            object_data = (SpawnDisplayObject *)(((u8 *)object) + 0x20);
             object->update_callback = minigame_display_callback_b;
             register_node(object, build_menu_line_tile_packets);
             object_data->unk_0C.at00u.v = 0x78;
@@ -192,7 +170,7 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
             object_data->unk_10.at00u.v = 0x50;
             object_data->unk_10.at02.v = 0x10;
             object_data->unk_08 = 0x00101010;
-            object_data->unk_02 = 0x96;
+            object_data->timer = 0x96;
             object_data->unk_16.u |= 1;
         }
         controller->state = 4;

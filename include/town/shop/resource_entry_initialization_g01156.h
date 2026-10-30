@@ -74,7 +74,7 @@ typedef struct ItemMenuInputObject {
 s32 create_callback_pair_default();
 void get_zero_based_group_index(struct TownB4C60 *);
 /* extern */
-extern void flag_object_for_removal(void *items);
+extern void flag_object_for_removal(unsigned short *object);
 s32 func_800B0718(void);
 /* extern */
 /* extern */

@@ -4,6 +4,7 @@
 #include "town/map/shaded_tile_rendering_g00594.h"
 #include "shared/game_work.h"
 #include "town/map.h"
+#include "engine/graphics.h"
 
 /* Set texture coordinates, page, and palette for a 32-by-32 quad. */
 void set_texture_quad_32_uv(u16 texture_page, u16 palette, u8 texture_u, u8 texture_v) {

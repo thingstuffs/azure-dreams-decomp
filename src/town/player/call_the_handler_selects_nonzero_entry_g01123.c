@@ -3,6 +3,7 @@
  */
 #include "town/player/call_the_handler_selects_nonzero_entry_g01123.h"
 #include "town/player.h"
+#include "engine/graphics.h"
 
 /* Call the handler when the record selects a nonzero entry. */
 void call_the_handler_selects_nonzero_entry(s32 *entries, Rec_func_80094268_arg0 *record, void *ptr2) {

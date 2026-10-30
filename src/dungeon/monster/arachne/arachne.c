@@ -14,6 +14,7 @@
 #include "shared/actor_status.h"
 #include "dungeon/level/room_flags.h"
 #include "dungeon/item.h"
+#include "engine/graphics.h"
 
 void * (*const resource12_slot0_entry0)(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) = spawn_animated_monster;
 void (*const resource12_slot0_entry1)(void *entity, R12_80170A44_S_80170A28_2 *motion, void *part) = create_directional_template_effect;

@@ -40,7 +40,7 @@ s32 obj_disp23_cancel_sw_set(s32 cancel_switch)
  * texture-page, CLUT, and draw-flag overrides, invokes each node callback after saving the
  * primitive cursor, and restores the matrix stack.
  */
-s32 runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback(u8 *first_node, u8 *first_transform, u8 *first_context) {
+s32 draw_linked_sprite_nodes(u8 *first_node, u8 *first_transform, u8 *first_context) {
     ScratchPad *scratch;
     u8 *transform;
     u8 *context;

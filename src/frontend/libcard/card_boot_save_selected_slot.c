@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 #include "common.h"
 #include "frontend/libcard/message.h"
 #include "m2c_compat.h"
@@ -29,7 +30,7 @@ void *card_boot_save_selected_slot(void *context) {
             configure_shared_fade_primitive();
             *(u8 **)((s8 *)context - 0x10) = (u8 *)&inventory_copy_and_sign_extend_record_fields;
         } else {
-            SD_Call(0x503);
+            SD_Call(AUDIO_MENU_CONFIRM);
             *(u8 **)((s8 *)context - 0x10) = (u8 *)write_text_and_advance_selection;
         }
     }

@@ -5,6 +5,7 @@ struct ObjectNodeHeader;
  */
 #include "town/map/town_map_set_g01113.h"
 #include "town/map.h"
+#include "engine/window.h"
 
 /* Allocates and links eleven town map objects; returns 0 if allocation fails and 1 after setup. */
 s32 town_map_set(s32 value_7c, s32 value_78)

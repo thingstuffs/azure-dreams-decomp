@@ -3,6 +3,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D0B20. */
 #include "town/menu/randomized_effect_motion_g00570.h"
 #include "town/player/position.h"
+#include "engine/window.h"
 
 /* Initializes the object record and a randomized motion vector. */
 void initialize_randomized_motion_vector(u8 *obj, s32 *vec, SpriteFrameState *record)

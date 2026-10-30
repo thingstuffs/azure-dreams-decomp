@@ -73,5 +73,5 @@ extern u8 directional_particle_callback[];
 extern u8 D_800249DC[];
 extern u8 fading_sprite_entries[];
 extern u8 current_spell_effect_variant[];
-s32 handle_spawn_initialize_randomized_offset_parent(void *sprite_data, void *position);
+s32 project_linked_vertical_point_quads(void *sprite_data, void *position);
 #endif

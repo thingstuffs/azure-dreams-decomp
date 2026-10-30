@@ -1,4 +1,5 @@
 /* Secondary item menu input and its file-private helper. */
+#include "shared/audio_commands.h"
 #include "common.h"
 typedef struct S_800B25D8_0 {
     u8 pad_00[0x3C];
@@ -47,20 +48,20 @@ void handle_item_menu_input_2(u8 *menu) {
     if (held_buttons != 0) {
         pressed_buttons = (pad_state->pressed_buttons);
         if (pressed_buttons & 0x20) {
-            SD_Call(0x515);
+            SD_Call(AUDIO_CANCEL);
             set_object_data_pointer_if_present(menu - 0x20);
         } else if (pressed_buttons & 0x40) {
             select_result = move_item_to_list(menu);
             if (select_result == 0) {
-                SD_Call(0x503);
+                SD_Call(AUDIO_MENU_CONFIRM);
                 decrement_entry_and_notify_handlers(menu);
             } else if (select_result == 3) {
                 SD_Call(0x506);
             }
         } else if (pressed_buttons & 0x80) {
-            SD_Call(0x503);
+            SD_Call(AUDIO_MENU_CONFIRM);
         } else if (pressed_buttons & 0x10) {
-            SD_Call(0x503);
+            SD_Call(AUDIO_MENU_CONFIRM);
             sort_selected_record_entries(menu);
             decrement_entry_and_notify_handlers(menu);
         } else if (pressed_buttons & 4) {
@@ -101,7 +102,7 @@ void handle_item_menu_input_2(u8 *menu) {
                 }
             }
             if (cursor_step != 0) {
-                SD_Call(0x502);
+                SD_Call(AUDIO_CURSOR_MOVE);
                 update_active_entry_and_notify_handlers(menu, cursor_step);
             }
         }

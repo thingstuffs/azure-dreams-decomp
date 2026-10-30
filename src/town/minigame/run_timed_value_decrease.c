@@ -4,28 +4,21 @@
 #include "sdk/libc.h"
 #include "town/minigame.h"
 
-typedef struct S_80023158_0 {
-    void * unk_00;
-    u8 pad_04[0x14];
-    union { s16 s; u16 u; } unk_18;   /* accessed as both */
-    u16 unk_1A;
-} S_80023158_0;   /* arg0 in run_timed_value_decrease */
-
 typedef struct S_80023158_1 {
     u8 pad_00[0x2C];
     s16 unk_2C;
 } S_80023158_1;   /* obj in run_timed_value_decrease */
 
 /* Runs a 24-tick value decrease with random callbacks, then waits to reset. */
-void run_timed_value_decrease(S_80023158_0 *sequence, EntityRec *target)
+void run_timed_value_decrease(TimedValueDecreaseObject *sequence, EntityRec *target)
 {
     s16 state;
     s32 ticks_left;
     u16 next_state;
     S_80023158_1 *owner;
 
-    state = sequence->unk_18.s;
-    owner = sequence->unk_00;
+    state = sequence->state.s;
+    owner = sequence->owner;
 
     switch (state) {
     case 0:
@@ -35,9 +28,9 @@ void run_timed_value_decrease(S_80023158_0 *sequence, EntityRec *target)
             break;
         }
         state = 0x18;
-        next_state = sequence->unk_18.u;
-        sequence->unk_1A = state;
-        sequence->unk_18.u = next_state + 1;
+        next_state = sequence->state.u;
+        sequence->timer = state;
+        sequence->state.u = next_state + 1;
         break;
     }
 
@@ -46,19 +39,19 @@ void run_timed_value_decrease(S_80023158_0 *sequence, EntityRec *target)
         if (!(rand() & 7)) {
             spawn_person_radial_effects(target);
         }
-        ticks_left = sequence->unk_1A - 1;
-        sequence->unk_1A = ticks_left;
+        ticks_left = sequence->timer - 1;
+        sequence->timer = ticks_left;
         if ((ticks_left << 16) > 0) {
             break;
         }
-        next_state = sequence->unk_18.u;
+        next_state = sequence->state.u;
 
-        sequence->unk_18.u = next_state + 1;
+        sequence->state.u = next_state + 1;
         break;
 
     case 2:
         if (owner->unk_2C < 3) {
-            sequence->unk_18.s = 0;
+            sequence->state.s = 0;
             target->y.v += 0x01400000;
         }
         break;

@@ -30,7 +30,6 @@ typedef struct {
 extern void noop_release_notification(void *);
 extern u8 D_80111FB0[8];
 extern void register_node(void *entry, void *registration_id);
-extern void *decode_fullwidth_text(void *entries, void *text, s32 initial_octave);
 extern void noop_display_setup_hook(void);
 extern void create_positioned_callback_object(void *position, void *object_value, void *data_value);
 extern s32 display_registration_tag;

@@ -6,6 +6,7 @@
 #include "shared/object_node.h"
 #include "town/person/position.h"
 #include "town/player.h"
+#include "engine/node.h"
 
 /* Creates a positioned object and initializes its state and sprite. */
 ObjectNodeHeader *create_positioned_sprite_object(IntVector3 *position, s32 state_value, SpriteSourceEntry *graphic_id) {

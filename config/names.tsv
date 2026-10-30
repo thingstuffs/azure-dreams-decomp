@@ -24,7 +24,7 @@
 0x800497F4	func_800497F4	fade_color_to_gray	knowledge/func_800497F4.json: fades an object color toward neutral gray 0x808080 by -0x10 per channel per call
 0x80049D80	func_80049D80	init_sub_record_pair	knowledge/func_80049D80.json: wrapper initializing two consecutive sub-records in a caller struct via func_80049CF4 (medium)
 0x8004B42C	func_8004B42C	alloc_buffer_array	knowledge/func_8004B42C.json: fills an array of cnt s32 slots, each from func_8004B404(0x82); on any failure frees via func_8004B248 (medium)
-0x8004DC14	func_8004DC14	alloc_object_100	knowledge/func_8004DC14.json: allocates a fixed 0x100-byte object via func_8004B404, forwarding a1-a3 through (medium)
+0x8004DC14	func_8004DC14	create_label_glyph_entries	knowledge/func_8004DC14.json: allocates a fixed 0x100-byte object via func_8004B404, forwarding a1-a3 through (medium)
 0x8004E21C	func_8004E21C	decode_item_code	knowledge/func_8004E21C.json: decodes an item/equipment byte code (a1) into a 4-byte value written to the struct at a0 (medium)
 0x8004E21C	func_8004E21C	decode_glyph_rectangle	The code delegates to the same glyph decoder used by the complete positioned-text builder, then copies its four rectangle bytes. No item record or category is read and no caller establishes an item role. Keep the independently bound glyph-rectangle operation.
 0x8004E478	func_8004E478	reverse_bytes	knowledge/func_8004E478.json: in-place byte reversal of the first len bytes of buf, returns buf (classic strrev idiom)
@@ -399,7 +399,7 @@
 0x8005D730	func_8005D730	delay_multiply_loop	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
 0x8005D730	func_8005D730	_spu_Fw1ts	Psy-Q masked whole-object equality: LIBSPU.LIB/SPU.OBJ versions 400; object 0x8005cc04 +2860
 0x8005D798	func_8005D798	set_dma_channel_4_callback	knowledge/r121_n0prep_functions.tsv:235; (high) src/slus/code.c:1426: Calls the already-named SDK DMACallback with literal DMA channel four and the supplied callback.
-0x8005EC40	func_8005EC40	clamp_and_submit_driver_parameter	knowledge/r121_n0prep_functions.tsv:236; (high) src/slus/w_8005EC40.c:23: Clamps the unsigned second argument to 0x7EFF0, submits it through func_8005D460, conditionally clears the completion latch, and returns the clamped value.; ledger/evidence/knowledge/func_8005EC40.json
+0x8005EC40	func_8005EC40	write_spu_transfer_data	knowledge/r121_n0prep_functions.tsv:236; (high) src/slus/w_8005EC40.c:23: Clamps the unsigned second argument to 0x7EFF0, submits it through func_8005D460, conditionally clears the completion latch, and returns the clamped value.; ledger/evidence/knowledge/func_8005EC40.json
 0x8005ECA0	func_8005ECA0	lookup_and_scale_driver_address	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
 0x8005ECA0	func_8005ECA0	SpuSetTransferStartAddr	Psy-Q masked whole-object equality: LIBSPU.LIB/S_STSA.OBJ versions 370,400; object 0x8005eca0 +0
 0x8005ECF8	func_8005ECF8	poll_driver_completion_event	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
@@ -585,7 +585,7 @@
 0x800176EC	func_800176EC	compact_generation_regions	(high) knowledge/func_800176EC.json; src/dungeon/func_802846EC.c:16-47: Compacts 20-byte D_800E2970 entries whose halfword at +0xA is nonzero, clears the unused tail metadata and publishes the count in D_8008146E.; caller func_80019AF8 at src/dungeon/func_80286AF8.c:63
 0x800177A8	func_800177A8	clear_generation_region_entries	(high) knowledge/func_800177A8.json; src/dungeon/func_802847A8.c:6-14: Clears halfwords +0xA and +0xE and pointer +0x10 in all 36 D_800E2970 entries.; caller func_80018A70 at src/dungeon/func_80285A70.c:81
 0x800177D8	func_800177D8	append_generation_region_entry	(high) knowledge/func_800177D8.json; src/dungeon/func_802847D8.c:22-43: For an enabled D_800E2970 region, appends two bytes and one halfword in its 64-byte D_800E2C40 slice and increments the entry count.; caller func_8001AC4C at src/dungeon/func_80287C4C.c:41
-0x80019894	func_80019894	load_generation_resource_slot	(medium) knowledge/func_80019894.json; src/dungeon/func_80286894.c:27-57: Uses a 12-byte D_8006E61C resource record, caches index+1 in D_80080AF0, issues two Control_CD requests, drains the queue and waits for the selected sound slot to become ready.; caller func_80019684 at src/dungeon/func_80286684.c:23
+0x80019894	func_80019894	load_dungeon_sound_effect_bank	(medium) knowledge/func_80019894.json; src/dungeon/func_80286894.c:27-57: Uses a 12-byte D_8006E61C resource record, caches index+1 in D_80080AF0, issues two Control_CD requests, drains the queue and waits for the selected sound slot to become ready.; caller func_80019684 at src/dungeon/func_80286684.c:23
 0x80019A84	func_80019A84	fill_inactive_interior_cells	(high) knowledge/func_80019A84.json; src/dungeon/func_80286A84.c:13-38: Scans x and y from 1 through 62 in D_800EA000 and writes cell.value only when cell.active is zero.; caller func_80019AF8 at src/dungeon/func_80286AF8.c:63
 0x8001A710	func_8001A710	reset_generation_link_scratch	(medium) knowledge/func_8001A710.json; src/dungeon/func_80287710.c:9-21: Clears four D_8001F6A4 status bytes, restores the remaining count from D_8001F660 and clears two scratch arrays before generation in func_80019AF8.; caller func_80019AF8 at src/dungeon/func_80286AF8.c:63
 0x8001ABC8	func_8001ABC8	has_generation_link_within_pair	(high) knowledge/func_8001ABC8.json; src/dungeon/func_80287BC8.c:7-34: Scans D_8001F6A8 backward and succeeds if both bytes of any stored pair belong to the supplied two-value set; it does not require the values to differ.; caller func_8001A768 at src/dungeon/func_80287768.c:15
@@ -833,7 +833,7 @@
 0x80040F00	func_80040F00	count_null_terminated_pointers	(high) knowledge/func_80040F00.json; src/slus/code.c:157-169: Walks a null-terminated pointer array and returns its nonnull entry count.
 0x800410FC	func_800410FC	reset_scene_frame_callback_list	(high) knowledge/func_800410FC.json; src/slus/code2.c:56-59: Resets the frame-callback append cursor to the start of D_80083C68 and writes an empty-list terminator; the paired consumer invokes each stored callback and the remover compacts entries and decrements that cursor.; caller func_80041A10 at src/slus/w_80041A10.c:30; discriminator: Trace the cursor and null terminator through the append/remove/run helpers.; checked src/slus/w_80041134.c, src/slus/w_800411AC.c, src/slus/code.c
 0x80041110	func_80041110	append_terminated_runtime_word	(high) knowledge/func_80041110.json; src/slus/code.c:174-179: Appends value through D_800814E0, advances the global cursor by one word and writes a zero terminator.
-0x800418B4	func_800418B4	load_shared_resource_once	(medium) knowledge/func_800418B4.json; src/slus/w_800418B4.c:12-18: When D_80080A89 is zero queues D_80080C50 with Control_CD(6), drains the command queue and sets the initialized flag.; caller func_8003B35C at src/slus/konami_runtime_w_8003B35C.c:17
+0x800418B4	func_800418B4	load_movie_overlay_once	(medium) knowledge/func_800418B4.json; src/slus/w_800418B4.c:12-18: When D_80080A89 is zero queues D_80080C50 with Control_CD(6), drains the command queue and sets the initialized flag.; caller func_8003B35C at src/slus/konami_runtime_w_8003B35C.c:17
 0x80041CBC	func_80041CBC	render_scene_frame_with_timing	(high) knowledge/func_80041CBC.json; src/slus/w_80041CBC.c:32-80: Submits the current display/draw environment and ordering table, runs frame callbacks, swaps and clears the next buffer, rebuilds rendering, synchronizes drawing, records elapsed root-counter ticks, applies VSync policy and resets the timing counter.; caller func_80041B98 at src/slus/w_80041B98.c:4; discriminator: Read the full frame-buffer swap, callback execution and hardware-counter timing sequence.; checked src/slus/w_800411AC.c, src/slus/w_80043EB8.c
 0x80041E28	func_80041E28	restore_actor_stats_from_snapshot	(medium) knowledge/func_80041E28.json; src/slus/w_80041E28.c:17-22: Copies 0x13 words of actor snapshot data, restores the snapshot flag word at source+0x50 into actor+0x54 and recalculates the actor's derived stats and status flags.; callee func_8003DB6C at src/slus/code.c:28; discriminator: Read the word-copy helper, derived-stat recalculation and a monster-status caller to establish the copied record's role.; checked src/slus/code.c, src/slus/w_80041E70.c, src/town/func_800A0B60.c; secondary ledger/evidence/knowledge/func_80041E28.json
 0x800422A8	func_800422A8	get_bounded_stride_index	(high) knowledge/func_800422A8.json; src/slus/code.c:182-189: Computes unsigned (value-base)/stride and returns -1 if it reaches the limit, otherwise returns the index narrowed to a signed halfword.; caller func_800422DC at src/slus/w_800422DC.c:32
@@ -1675,7 +1675,7 @@
 0x80019EA8	func_80019EA8	process_town_records	(high) src/town/func_8032F6A8.c:16-42: Processes town records according to global and per-record conditions; caller func_80019F94 at src/town/func_8032F794.c:24
 0x8001A704	func_8001A704	set_selected_entry_position	(medium) src/town/func_8032FF04.c:24-51: Sets position coordinates from selected entry offsets plus scaled x and y; caller none recorded in image-local inventory
 0x8001976C	func_8001976C	populate_and_dispatch_entry_records	(high) src/town/func_8032EF6C.c:24-70: Populates records from entries, packs their flags and tag and invokes entry callbacks; caller func_8001A044 at src/town/func_8032F844.c:76
-0x800DBE98	func_800DBE98	pass_global_data_with_fixed_args	(high) src/dungeon/func_800D6738.c:11-16: Copies the global eight-byte data to a local record and passes it with fixed arguments; caller func_800DC1F8 at src/dungeon/func_800D6A98.c:98
+0x800DBE98	func_800DBE98	copy_menu_vram_block	(high) src/dungeon/func_800D6738.c:11-16: Copies the global eight-byte data to a local record and passes it with fixed arguments; caller func_800DC1F8 at src/dungeon/func_800D6A98.c:98
 0x800DBF38	func_800DBF38	clear_state_flag_bit	(high) src/dungeon/func_800D67D8.c:12-17: Clears bit zero in the current state record flags; caller func_80025198 at src/dungeon/func_81810198.c:65
 0x800DBF94	func_800DBF94	update_cached_global_value	(medium) src/dungeon/func_800D6834.c:7-12: Queues a change when the global value differs from the cached value and then updates the cache; caller none recorded in image-local inventory
 0x800DBF5C	func_800DBF5C	set_state_flag_when_clear	(high) src/dungeon/func_800D67FC.c:14-21: Sets the low state flag bit only when the state check field is zero; caller func_800253C0 at src/dungeon/func_818103C0.c:29
@@ -1701,7 +1701,7 @@
 0x800DBC20	func_800DBC20	draw_padded_first_number	(high) src/dungeon/func_800D64C0.c:15-59: Draws the first formatted number with mode-dependent padding glyphs; caller func_800DC1F8 at src/dungeon/func_800D6A98.c:98
 0x800DBD5C	func_800DBD5C	draw_filler_first_number	(high) src/dungeon/func_800D65FC.c:15-61: Draws the first formatted number with mode-dependent filler glyphs; caller func_800DBF94 at src/dungeon/func_800D6834.c:7
 0x800DC650	func_800DC650	move_value_toward_target	(high) src/dungeon/func_800D6EF0.c:16-62: Moves the current value toward its selected target and updates object state; caller func_800DC724 at src/dungeon/func_800D6FC4.c:34
-0x800DC724	func_800DC724	move_indexed_position_and_apply	(high) src/dungeon/func_800D6FC4.c:34-85: Moves toward the indexed position and applies the pending index once the position settles; caller func_800DC8F8 at src/dungeon/func_800D7198.c:10
+0x800DC724	func_800DC724	slide_menu_cursor_to_index	(high) src/dungeon/func_800D6FC4.c:34-85: Moves toward the indexed position and applies the pending index once the position settles; caller func_800DC8F8 at src/dungeon/func_800D7198.c:10
 0x800DC1F8	func_800DC1F8	update_display_transition	(medium) src/dungeon/func_800D6A98.c:98-229: Updates a display transition, synchronizes rotation and shading and refreshes its counters; caller none recorded in image-local inventory
 0x800A62E8	func_800A62E8	store_value_and_get_masked_offset	(medium) src/town/func_800A8B88.c:8-11: Stores a value and returns D_80082E88 minus twelve with its sign bit cleared; caller none recorded in image-local inventory
 0x800A630C	func_800A630C	read_and_clear_stored_value	(medium) src/town/func_800A8BAC.c:6-10: Reads and clears the stored value and returns its lower 31 bits; caller none recorded in image-local inventory
@@ -2612,7 +2612,7 @@
 0x80024B54	func_80024B54	update_three_way_target_effect	(high) src/dungeon/func_8194D354.c:134-370: Updates a three-way effect, selects its target, and animates target color; caller dungeonEffectDispatch at src/dungeon/func_8194D354.c:134
 0x800BCAD0	func_800BCAD0	get_surface_height_at_record	(high) src/dungeon/func_800B7370.c:16-21: Passes record coordinates to func_800BCB04; caller dungeonMapQuery at src/dungeon/func_800B7370.c:16
 0x800BCA68	func_800BCA68	get_surface_height_at_coordinates	(high) src/dungeon/func_800B7308.c:6-18: Returns the surface height at supplied coordinates; caller dungeonMapQuery at src/dungeon/func_800B7308.c:6
-0x800BCFC4	func_800BCFC4	invoke_action_21_or_default	(high) src/dungeon/func_800B7864.c:14-29: Invokes action 0x21 once when conditions hold or runs the default action; caller dungeonMapQuery at src/dungeon/func_800B7864.c:14
+0x800BCFC4	func_800BCFC4	request_scene_state_21_or_reload_level_module_a	(high) src/dungeon/func_800B7864.c:14-29: Invokes action 0x21 once when conditions hold or runs the default action; caller dungeonMapQuery at src/dungeon/func_800B7864.c:14
 0x800BC3E4	func_800BC3E4	traverse_nodes_and_render_unflagged	(high) src/dungeon/func_800B6C84.c:47-76: Traverses object nodes backward and processes unflagged primitives with computed depth; caller dungeonRenderDispatch at src/dungeon/func_800B6C84.c:47
 0x800BCE7C	func_800BCE7C	are_quad_corner_turns_within_half_revolution	(high) src/dungeon/func_800B771C.c:24-60: Returns true unless successive quad corner turns exceed half a revolution; caller dungeonRenderDispatch at src/dungeon/func_800B771C.c:24
 0x808B82AC	func_808B82AC	get_signed_indexed_adjustment	(high) src/town/func_808B82AC.c:9-11: Returns the base value plus the signed-index table adjustment; caller townEventDispatch at src/town/func_808B82AC.c:9
@@ -2702,7 +2702,7 @@
 0x8001AE50	func_8001AE50	invoke_callback_280_c_1	(high) src/town/func_80330650.c:8-10: Invokes callback offset 0x280 with command 0xC1; caller townEventDispatch at src/town/func_80330650.c:8
 0x800BD158	func_800BD158	submit_control_command_six	(high) src/dungeon/func_800B79F8.c:4-6: Passes D_800DF3E4 to Control_CD with selector six and zero final argument; caller dungeonControlDispatch at src/dungeon/func_800B79F8.c:4
 0x800BD124	func_800BD124	submit_control_and_reset_status	(high) src/dungeon/func_800B79C4.c:4-6: Submits D_800DF3DC and resets D_800DCF4D to -1; caller dungeonControlDispatch at src/dungeon/func_800B79C4.c:4
-0x800BD184	func_800BD184	submit_indexed_entry_and_finalize	(high) src/dungeon/func_800B7A24.c:4-8: Submits the indexed eight-byte entry and finalizes the operation; caller dungeonControlDispatch at src/dungeon/func_800B7A24.c:4
+0x800BD184	func_800BD184	load_indexed_item_module	(high) src/dungeon/func_800B7A24.c:4-8: Submits the indexed eight-byte entry and finalizes the operation; caller dungeonControlDispatch at src/dungeon/func_800B7A24.c:4
 0x80024E4C	func_80024E4C	update_randomized_intermediate_points	(high) src/dungeon/func_819A764C.c:51-99: Updates randomized intermediate points and advances effect state; caller dungeonEffectDispatch at src/dungeon/func_819A764C.c:51
 0x80024810	func_80024810	update_jittered_effect_points	(high) src/dungeon/func_819A7010.c:57-121: Updates effect jittered points between endpoints and advances animation; caller dungeonEffectDispatch at src/dungeon/func_819A7010.c:57
 0x800240F8	func_800240F8	create_randomly_rotated_sprite_object	(high) src/dungeon/func_818928F8.c:20-55: Creates an object with a randomly rotated sprite and initializes copied data; caller dungeonEffectDispatch at src/dungeon/func_818928F8.c:20
@@ -3007,7 +3007,7 @@
 0x800478E8	func_800478E8	texture_set_the_active_entries_matching_id_in_type_n_2_table_slots	(high) src/slus/w_800478E8.c:30-58: Set the value of active entries with the matching ID in type-2 table slots.; caller func_801708DC at src/dungeon/func_809F30DC.c:104
 0x80170CA0	func_80170CA0	clear_the_s_two_state_fields	(medium) src/dungeon/func_813294A0.c:14-20: Clear the current object's two state fields.; caller <none> at <none>:0
 0x800242D4	func_800242D4	update_source_relative_position_delays_movement_advances_arc_toward_target	(medium) src/dungeon/func_8199AAD4.c:125-270: Updates source-relative position, delays movement, and advances an arc toward the target.; caller <none> at <none>:0
-0x80033D54	func_80033D54	runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback	(medium) src/slus/konami_runtime_w_80033D54.c:30-346: Transform and submit textured sprite quads for each node, then invoke its callback.; caller <none> at <none>:0
+0x80033D54	func_80033D54	draw_linked_sprite_nodes	(medium) src/slus/konami_runtime_w_80033D54.c:30-346: Transform and submit textured sprite quads for each node, then invoke its callback.; caller <none> at <none>:0
 0x804072CC	func_804072CC	card_boot_update_or_clears_selected_slot_outputs_refreshes_state_any_selected	(high) src/main/func_800202CC.c:8-40: Updates or clears selected slot outputs, then refreshes the state if any were selected.; caller func_80020558 at src/main/func_80020558.c:13
 0x8015FFA4	func_8015FFA4	update_actor_animation_dispatches_action_state_adjusts_facing_toward_player	(medium) src/dungeon/func_812B87A4.c:74-272: Updates actor animation, dispatches its action state, and adjusts facing toward the player.; caller <none> at <none>:0
 0x80166B4C	func_80166B4C	update_tile_centering_motion_animation_restores_actor_timer_expires	(medium) src/dungeon/func_80E6F34C.c:39-180: Updates tile-centering motion and animation, then restores the actor when the timer expires.; caller <none> at <none>:0
@@ -3970,7 +3970,7 @@
 0x8009EEAC	func_8009EEAC	submit_activation_command	(medium) src/dungeon/func_8009974C.c:9-: Submits a fixed command and sets the global activation flag; caller none found in src/dungeon
 0x8009EF78	func_8009EF78	draw_purple_entry_markers	(medium) src/dungeon/func_80099818.c:24-: Creates purple markers at eligible entry positions; caller none found in src/dungeon
 0x8009F0B4	func_8009F0B4	draw_red_active_entry_markers	(medium) src/dungeon/func_80099954.c:9-: Creates red markers at owner positions of active list entries; caller none found in src/dungeon
-0x8009DA70	func_8009DA70	append_adjusted_type_two_entry	(high) src/dungeon/func_80098310.c:21-: Appends a type-two entry with adjusted coordinates and submits it for processing; caller func_8009DAD8 at src/dungeon/func_80098378.c:15
+0x8009DA70	func_8009DA70	append_map_dot_tile	(high) src/dungeon/func_80098310.c:21-: Appends a type-two entry with adjusted coordinates and submits it for processing; caller func_8009DAD8 at src/dungeon/func_80098378.c:15
 0x8009EE4C	func_8009EE4C	get_masked_grid_nibble	(high) src/dungeon/func_800996EC.c:7-: Returns the masked nibble at supplied grid coordinates; caller func_8009DAD8 at src/dungeon/func_80098378.c:16
 0x8009EF04	func_8009EF04	draw_green_type_two_markers	(high) src/dungeon/func_800997A4.c:8-: Creates green markers for up to four leading type-two entries; caller func_8009DAD8 at src/dungeon/func_80098378.c:18
 0x8009F020	func_8009F020	draw_blue_enabled_entry_markers	(high) src/dungeon/func_800998C0.c:20-: Creates blue markers at positions of enabled entries; caller func_8009DAD8 at src/dungeon/func_80098378.c:20
@@ -4102,7 +4102,7 @@
 0x80170F2C	func_80170F2C	spawn_parent_offset_random_motion_effect	(medium) src/dungeon/func_80BC172C.c:66-: Spawns an effect offset from its parent with randomized motion; caller none found in src/dungeon
 0x80170A64	func_80170A64	advance_effect_toward_target	(medium) src/dungeon/func_80BC1264.c:47-: Advances effect motion, fades color and flags it near its target or when faded out; caller none found in src/dungeon
 0x80170D28	func_80170D28	create_parent_return_effect	(medium) src/dungeon/func_80BC1528.c:62-: Creates an offset effect and initializes motion back toward its parent; caller none found in src/dungeon
-0x800C22A4	func_800C22A4	initialize_resource_selector_six	(medium) src/town/func_800C4B44.c:7-: Initializes D_800D4740 with selector six and runs follow-up setup; caller none found in src/town
+0x800C22A4	func_800C22A4	initialize_resource_selector_six	(medium) src/town/func_800C4B44.c:7-: Initializes minigame_module_read_descriptor with selector six and runs follow-up setup; caller none found in src/town
 0x800C23A8	func_800C23A8	finalize_keima_resource_operation	(medium) src/town/func_800C4C48.c:8-: Passes the keima resource to handler six and finalizes the operation; caller none found in src/town
 0x800C2444	func_800C2444	finalize_town_resource_operation	(medium) src/town/func_800C4CE4.c:8-: Passes the town resource to handler six and finalizes the operation; caller none found in src/town
 0x800C24FC	func_800C24FC	dispatch_conditional_table_pairs	(medium) src/town/func_800C4D9C.c:10-: Dispatches each table pair's second value according to a test of its first value; caller none found in src/town
@@ -4112,7 +4112,7 @@
 0x8014EFD8	func_8014EFD8	advance_action_sequence_variant_d	(medium) src/dungeon/func_80AEB7D8.c:32-: Advances an actor action sequence through movement, animation and effect completion; caller none found in src/dungeon
 0x8014D728	func_8014D728	update_creature_action_behavior_variant	(medium) src/dungeon/func_80AE9F28.c:52-: Updates creature action behavior through movement, animation, targeting and cleanup states; caller none found in src/dungeon
 0x8014F230	func_8014F230	advance_multi_slot_action_sequence	(medium) src/dungeon/func_80AEBA30.c:132-: Advances an action through its adjacent ability slots, animation, effect activation and cleanup; caller none found in src/dungeon
-0x8016A8A4	func_8016A8A4	create_actor_with_parts_and_flags	(medium) src/dungeon/func_80FB7000.c:71-: Creates a dungeon actor and initializes its parts, flags and image regions; caller none found in src/dungeon
+0x8016A8A4	func_8016A8A4	create_mandara_actor_with_parts	(medium) src/dungeon/func_80FB7000.c:71-: Creates a dungeon actor and initializes its parts, flags and image regions; caller none found in src/dungeon
 0x8016CDEC	func_8016CDEC	advance_action_and_restore_actor	(medium) src/dungeon/func_80FB95EC.c:78-: Advances entity action through movement, facing, animation and recovery; caller none found in src/dungeon
 0x8016AF6C	func_8016AF6C	update_complex_actor_action_state	(medium) src/dungeon/func_80FB776C.c:118-: Updates actor behavior through movement, targeting, directional animation and cleanup states; caller none found in src/dungeon
 0x80024488	func_80024488	spawn_parent_attached_effect	(medium) src/dungeon/func_8186EC88.c:11-: Spawns an effect object under the parent node at a parent-relative position; caller none found in src/dungeon
@@ -5051,7 +5051,7 @@
 0x80016388	func_80016388	check_scene_state_counter_threshold	(medium) src/town/func_80614B88.c:3
 0x80016388	func_80016388	bind_scene_pointer	Assigns the address of the declared byte array D_80017800 to the global pointer D_800178D0. It loads no word from that array, performs no comparison and returns no threshold predicate. The final name describes this pointer binding; the earlier copy_scene_word trial is withdrawn.
 0x80016390	func_80016390	dispatch_2_handler	(medium) src/town/func_8054FB90.c:11
-0x80016398	func_80016398	configure_active_object_two_16	(medium) src/town/func_8072A398.c:26
+0x80016398	func_80016398	play_town_sound_1700	(medium) src/town/func_8072A398.c:26
 0x800163A4	func_800163A4	check_query_0x11fa_zero	(medium) src/town/func_8051EBA4.c:6
 0x800163B8	func_800163B8	get_entry_masked_key_initializes	(medium) src/town/func_806D2BB8.c:23
 0x800163CC	func_800163CC	lookup_slot_record	(medium) src/town/func_806973CC.c:14
@@ -5483,7 +5483,7 @@
 0x800A03DC	func_800A03DC	clear_entry_table	(medium) src/town/func_800A2C7C.c:4 — Clears all 20 entries in D_80100AA0.
 0x800A0548	func_800A0548	is_map_coordinate_out_of_bounds	(medium) src/dungeon/func_8009ADE8.c:6-17: returns one when x or y lies outside the current map dimensions.
 0x800A0560	func_800A0560	process_unlinked_type_four_entries	(medium) src/town/func_800A2E00.c:19 — Process active type-4 town links that have no associated object.
-0x800A0B94	func_800A0B94	load_monster_resource_data	(medium) src/dungeon/func_8009B434.c:15-97: builds a resource CD request, optionally waits for it and returns the loaded resource word.
+0x800A0B94	func_800A0B94	load_monster_code_module	(medium) src/dungeon/func_8009B434.c:15-97: builds a resource CD request, optionally waits for it and returns the loaded resource word.
 0x800A1618	func_800A1618	find_or_retain_sprite_resource_slot	(medium) src/dungeon/func_8009BEB8.c:8-114: finds the slot matching a resource ID/type and retains its sprite resource when found.
 0x800A1BD0	func_800A1BD0	find_entity_slot_by_field_ac	(medium) src/dungeon/func_8009C470.c:5-24: scans four entity slots for the supplied value in field offset 0xAC.
 0x800A1C14	func_800A1C14	find_entity_slot_by_field_e4	(medium) src/dungeon/func_8009C4B4.c:11-30: scans four entity slots for the supplied value in field offset 0xE4.
@@ -5648,7 +5648,7 @@
 0x800B8FC8	func_800B8FC8	draw_transformed_sprite_with_clip_rect	(medium) src/dungeon/func_800B3868.c:30-87: sets a clip rectangle, draws transformed sprite parts and optionally clears the background rectangle.
 0x800B9830	func_800B9830	copy_record_tail_bytes	(medium) src/town/func_800BC0D0.c:7: Copy the final two bytes of 34 records and clear the four destination flags. (definition at line 8)
 0x800B9890	func_800B9890	load_resource_data	(medium) src/town/func_800BC130.c:7: Pass D_800D1B64 to file_load_com. (definition at line 8)
-0x800B98B4	func_800B98B4	process_enabled_entries	(medium) src/town/func_800BC154.c:36: Processes enabled entries across 33 slots and handles entries of type 1. (definition at line 37)
+0x800B98B4	func_800B98B4	load_and_apply_town_building_tiles	(medium) src/town/func_800BC154.c:36: Processes enabled entries across 33 slots and handles entries of type 1. (definition at line 37)
 0x800B9998	func_800B9998	deactivate_object_triggered	(medium) src/town/func_800BC238.c:30: Deactivate the object when triggered; otherwise update its spin from nearby motion and advance rotation. (definition at line 31)
 0x800B9B28	func_800B9B28	initialize_object_data_transform_color	(medium) src/town/func_800BC3C8.c:29: Initializes object data, transform, color, and rendering defaults. (definition at line 30)
 0x800B9CB8	func_800B9CB8	update_object_link_or_angle_state	(medium) src/town/func_800BC558.c:7: Clear the object's linked flag and mark completion, or advance its wrapped angle. (definition at line 8)
@@ -5668,7 +5668,7 @@
 0x800BB75C	func_800BB75C	set_handler_variant_b_with_counter_14	(medium) src/town/func_800BDFFC.c:7: Set the object handler table, initialize its state, and set its counter to 14. (definition at line 8)
 0x800BC4D4	func_800BC4D4	render_projected_sprite_with_depth_bias	(medium) src/dungeon/func_800B6D74.c:122-367: projects a sprite into screen space, clips it and submits its draw packet with depth bias.
 0x800BCB04	func_800BCB04	sample_terrain_surface_height	(medium) src/dungeon/func_800B73A4.c:56-179: locates the terrain quad beneath the point and interpolates its surface height.
-0x800BD074	func_800BD074	trigger_action_21_or_update_control	(medium) src/dungeon/func_800B7914.c:23-36: triggers action 0x21 when save conditions match, otherwise submits a control update and processes it.
+0x800BD074	func_800BD074	request_scene_state_21_or_reload_level_module_b	(medium) src/dungeon/func_800B7914.c:23-36: triggers action 0x21 when save conditions match, otherwise submits a control update and processes it.
 0x800BDC98	func_800BDC98	apply_item_and_update_matching_actor_state	(medium) src/dungeon/func_800B8538.c:29-92: applies an item and increments the actor counter when its paired state values match.
 0x800BEB30	func_800BEB30	dispatch_selected_item_action	(medium) src/dungeon/func_800B93D0.c:37-109: dispatches the selected item action across actor and item targets, including deferred player handling.
 0x800BEBA4	func_800BEBA4	update_motion_spawn_particles	(medium) src/town/func_800C1444.c:58: Update motion, spawn particles, and flash then restore the palette. (definition at line 59)
@@ -5848,7 +5848,7 @@
 0x801239B8	func_801239B8	draw_cached_catalog_text	(medium) src/dungeon/func_808CB520.c:14-35: draws catalog text from cached glyph data.
 0x80123A60	func_80123A60	draw_catalog_entry_page	(medium) src/dungeon/func_808CB5C8.c:19-68: renders a catalog page and its entry content.
 0x80125694	func_80125694	increase_shared_byte_by_four_and_enter_state_eight	(medium) src/town/func_8096D1FC.c:7
-0x80126890	func_80126890	allocate_and_initialize_node_2	(medium) src/town/func_8096E3F8.c:27
+0x80126890	func_80126890	create_catalog_display_node	(medium) src/town/func_8096E3F8.c:27
 0x8014C854	func_8014C854	spawn_effect_object	(medium) src/dungeon/func_80E07054.c:3: Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers.
 0x8014C874	func_8014C874	move_expand_and_fade_effect_sprite	(medium) src/dungeon/func_80D35000.c:66: Move, expand, and fade the effect sprite, marking it for removal when its timer expires.
 0x8014C884	func_8014C884	queue_linked_point_packets	(medium) src/dungeon/func_80C8D084.c:4: Builds point and draw-mode packets for a linked list and adds them to the ordering table.
@@ -6801,7 +6801,7 @@
 0x8005A608	func_8005A608	init_sound_slot	owner decisions 65+68; shard:slus_main; src/slus/w_8005A608.c
 0x8005A778	func_8005A778	init_sound_slot_from_header	owner decisions 65+68; shard:slus_main; src/slus/w_8005A778.c
 0x8005A90C	func_8005A90C	upload_sample_to_sound_slot	owner decisions 65+68; shard:slus_main; src/slus/w_8005A90C.c
-0x8005AAA8	func_8005AAA8	bind_sound_slot_owner	owner decisions 65+68; shard:slus_main; src/slus/w_8005AAA8.c
+0x8005AAA8	func_8005AAA8	transfer_sound_slot_body_to_spu	owner decisions 65+68; shard:slus_main; src/slus/w_8005AAA8.c
 0x8005AB50	func_8005AB50	read_sound_slot_chunk	owner decisions 65+68; shard:slus_main; src/slus/w_8005AB50.c
 0x8005AC68	func_8005AC68	free_sound_slot	owner decisions 65+68; shard:slus_main; src/slus/w_8005AC68.c
 0x8005B070	func_8005B070	suspend_sequence_slot	owner decisions 65+68; shard:slus_main; src/slus/w_8005B070.c
@@ -7317,7 +7317,7 @@
 0x800809BC	D_800809BC	attached_node_initial_word_18	src/engine/object/initialize_attached_render_node.c: separate initialized packed word copied to state +0x18
 0x800809C0	D_800809C0	message_window_state_data	src/engine/message/init_message_window.c: shared state-data pointer installed in message and runtime window tasks
 0x80080A85	D_80080A85	scene_skip_vsync	src/engine/scene/render_scene_frame_with_timing.c: zero enables VSync waiting; the alternate frame renderer reads the same flag
-0x80080A89	D_80080A89	shared_sprite_resource_loaded	src/engine/scene/load_shared_resource_once.c: zero permits shared resource loading then changes to one
+0x80080A89	D_80080A89	movie_overlay_loaded	src/engine/scene/load_shared_resource_once.c: zero permits shared resource loading then changes to one
 0x80080A8C	D_80080A8C	image_load_data_base	src/engine/graphics/run_image_load_commands.c: base added to image-load command offsets to form source addresses
 0x80080AA4	D_80080AA4	scene_sprite_wave_tick	src/engine/scene/shared_slot_state.c: increments each rendered field and drives sine/cosine animation phase
 0x80080AA6	D_80080AA6	scene_sprite_cached_mode	src/engine/scene/shared_slot_state.c: cached mode compared with the shared mode word before starting a fade
@@ -7374,7 +7374,7 @@
 0x80083E18	D_80083E18	message_conversion_buffer	src/slus/w_8004DF8C.c: character work buffer used as the conversion output and cursor base
 0x80084478	D_80084478	shaded_line_render_templates	src/engine/graphics/init_sixteen_packed_templates.c: 16 initialized render templates also selected by shaded-line effect initialization
 0x80084538	D_80084538	audio_staging_destinations	src/engine/audio/init_audio_staging_buffers.c: four buffer destinations initialized to offsets from the staging arena
-0x80084758	D_80084758	audio_bank_owner_payloads	src/engine/audio/sound_load_pending_bank_slot.c: indexed pointers passed to bind_sound_slot_owner for pending bank entries
+0x80084758	D_80084758	audio_bank_owner_payloads	src/engine/audio/sound_load_pending_bank_slot.c: indexed pointers passed to transfer_sound_slot_body_to_spu for pending bank entries
 0x800847C0	D_800847C0	audio_staging_spu_offsets	src/engine/audio/init_audio_staging_buffers.c: four SPU offsets paired with staging destinations
 0x80084850	D_80084850	audio_stream_request_count	src/engine/audio/audio_dispatch_stream_request_second.c: increments per dispatched request and is cleared by reset_audio_status
 0x80084878	D_80084878	audio_selection_record_pointers	src/engine/audio/build_record_pointer_table.c: pointer table populated here and indexed by selection and entry during playback
@@ -7532,7 +7532,7 @@
 0x80080C04	D_80080C04	scene_variant_texture_resource_6	src/engine/graphics/scene_load_variant_texture_set.c: seventh separately addressed variant resource descriptor
 0x80080C0C	D_80080C0C	scene_variant_texture_resource_7	src/engine/graphics/scene_load_variant_texture_set.c: eighth separately addressed variant resource descriptor
 0x80080C14	D_80080C14	scene_variant_texture_resource_8	src/engine/graphics/scene_load_variant_texture_set.c: ninth separately addressed variant resource descriptor
-0x80080C50	D_80080C50	shared_sprite_resource_descriptor	src/engine/scene/load_shared_resource_once.c: descriptor read only when the shared resource-loaded flag is clear
+0x80080C50	D_80080C50	resource_read_descriptors	src/engine/scene/load_shared_resource_once.c: first entry of a table of CD read descriptors: the movie overlay (read only while the loaded flag is clear) and several DUNGEON.BIN reads
 0x80080ED0	D_80080ED0	town_movie_primary_resource	src/engine/town/queue_town_movie_and_load_resources.c: first descriptor supplied to file_load_com after the movie is queued
 0x80080ED8	D_80080ED8	town_movie_secondary_resource	src/engine/town/queue_town_movie_and_load_resources.c: separate second descriptor loaded by the same operation
 0x80080F40	D_80080F40	town_initial_object_resource_0	src/engine/town/init_town_runtime_objects.c: first resource-directory key resolved while creating initial town objects
@@ -7798,7 +7798,7 @@
 0x80036154	func_80036154	select_menu_initializer_from_message_handler	(medium) src/engine/window/entry_copy_window_offset_rectangle.c:39: Maps the source message handler to the matching menu initializer, copies the window rectangle, and marks the source message record ready.
 0x80036210	func_80036210	create_window_cursor_and_install_reset	(medium) src/engine/window/entry_runtime_reset_state_on_trigger_bits.c:21: Creates the cursor using the object's resource pointer, clears the cursor state and installs runtime_reset_state_on_trigger_bits.
 0x80036350	func_80036350	handle_wrapping_menu_cursor_input	(high) src/engine/window/entry_sd_call.c:27: Handles up/down with modulo item count and navigation sound, then confirms the menu choice on button 0x40.
-0x80035AF8	func_80035AF8	display_sound_selection_and_prepare_playback	(medium) src/engine/window/grow_window_extent.c:29: Reads the selected sound ID, clears and draws its UI row, then uses the sound table and availability check to select delayed playback or window growth.
+0x80035AF8	func_80035AF8	display_speaker_name_plate	(medium) src/engine/window/grow_window_extent.c:29: Reads the selected sound ID, clears and draws its UI row, then uses the sound table and availability check to select delayed playback or window growth.
 0x800359FC	func_800359FC	dispatch_window_fade_and_update_extents	(medium) src/engine/window/shrink_window_and_signal_linked_record.c:32: When the cursor remains active, marker 0xFE begins fade-to-black and installs the shrink callback; dispatches the current callback and updates window extents.
 0x80035C80	func_80035C80	fade_and_shrink_window_on_value_change	(high) src/engine/window/shrink_window_extent.c:25: Compares the current and selected values; on change marks the indexed record, begins fade to black and installs the shrink callback.
 0x800366F4	func_800366F4	handle_two_column_menu_input	(high) src/engine/window/update_two_column_cursor.c:25: Toggles column, wraps rows using the child item count, plays the move sound on cursor change, and confirms on button 0x40.
@@ -8007,7 +8007,7 @@
 0x800E3544	D_800E3544	active_actor_command_code	src/dungeon/player/input/handle_player_input.c: byte receives command byte one &0xF8, selects command switch and is cleared afterwards; carrying input and movement share the command value
 0x800E262C	D_800E262C	actor_action_frames	src/dungeon/actor/advance_actor_action_count.c and motion/update_actor_facing_animation.c: installs this frameTable and selects pointers by view-relative facing &0x1C; preserve independent from movement table
 0x80081470	D_80081470	temporary_item_record	src/dungeon/actor/ability_eligibility.c: shared four-byte scratch item copied from map/ground entries or filled with lookup_code |0x1400, then returned; register_item_object_in_free_slot recognizes its separate address
-0x800E3DB0	D_800E3DB0	monster_resource_cache_slots	src/dungeon/item/find_or_retain_sprite_resource_slot.c: six eight-byte type/id cache records searched by resource selectors; matching/special ids choose slots, load_monster_resource_data updates associated ids; no extra allocation extent asserted
+0x800E3DB0	D_800E3DB0	monster_resource_cache_slots	src/dungeon/item/find_or_retain_sprite_resource_slot.c: six eight-byte type/id cache records searched by resource selectors; matching/special ids choose slots, load_monster_code_module updates associated ids; no extra allocation extent asserted
 0x800E3CD0	D_800E3CD0	dungeon_button_latch	src/dungeon/player/update_player_and_actor_turns.c: first nonzero pressed_buttons sets byte from zero to one; input and actor-death paths latch it too; reset_dungeon_runtime_state clears it
 0x80084118	D_80084118	card_slot_completion_flags	src/main/func_8000E0F0.c: two signed-word completion flags selected by card channel, tested before operation and set at terminal state; card_boot_init_server clears both
 0x800287E0	D_800287E0	card_event_backend_mode	src/main/func_8000E594.c: zero selects software-event polling and one selects hardware status, each dispatching its own callback set; state machine resets or assigns mode before polling; no new enumeration introduced
@@ -10046,7 +10046,7 @@
 0x8016A800	D_8016A800	garuda_slot_f_entry_pointer	The one-word overlay entry definition points to spawn_garuda_slot_f; scope is this monster and load slot. Sites: src/dungeon/monster/garuda/spawn_garuda_entry_slot_f.c: const u32 D_8016A800[1] __attribute__((aligned(4))) = {
 0x8016A800	D_8016A800	ifrit_slot_f_entry_pointer	The one-word overlay entry definition points to queue_projected_point_primitives_2; scope is this monster and load slot. Sites: src/dungeon/monster/ifrit/spawn_ifrit_entry_slot_f.c: const u32 D_8016A800[1] __attribute__((aligned(4))) = {
 0x8016A800	D_8016A800	killer_slot_f_entry_pointer	The one-word overlay entry definition points to spawn_killer_slot_f; scope is this monster and load slot. Sites: src/dungeon/monster/killer/spawn_killer_entry_slot_f.c: const u32 D_8016A800[1] __attribute__((aligned(4))) = {
-0x8016A800	D_8016A800	mandara_slot_f_entry_pointer	The one-word overlay entry definition points to create_actor_with_parts_and_flags; scope is this monster and load slot. Sites: src/dungeon/monster/mandara/spawn_mandara_entry_slot_f.c: const u32 D_8016A800[1] __attribute__((aligned(4))) = {
+0x8016A800	D_8016A800	mandara_slot_f_entry_pointer	The one-word overlay entry definition points to create_mandara_actor_with_parts; scope is this monster and load slot. Sites: src/dungeon/monster/mandara/spawn_mandara_entry_slot_f.c: const u32 D_8016A800[1] __attribute__((aligned(4))) = {
 0x8016A800	D_8016A800	zu_slot_f_entry_pointer	The one-word overlay entry definition points to spawn_zu_slot_f; scope is this monster and load slot. Sites: src/dungeon/monster/zu/spawn_zu_entry_slot_f.c: const u32 D_8016A800[1] __attribute__((aligned(4))) = {
 0x8016A808	D_8016A808	beldo_slot_f_behavior_targets	Initialized entries point to case labels within update_object_animation_and_facing_state; one physical dispatch table for monster beldo, load slot f. Sites: src/dungeon/monster/beldo/entry_update_object_animation_and_facing_state.c: const u32 D_8016A808[12] __attribute__((aligned(4))) = {
 0x8016A808	D_8016A808	dreamin_slot_f_behavior_targets	Initialized entries point to case labels within update_action_facing_animation; one physical dispatch table for monster dreamin, load slot f. Sites: src/dungeon/monster/dreamin/update_action_facing_animation_jump_table.c: const u32 D_8016A808[12] __attribute__((aligned(4))) = {
@@ -10064,7 +10064,7 @@
 0x80170800	D_80170800	blume_slot_g_entry_pointer	The one-word overlay entry definition points to spawn_dual_part_overlay_effect; scope is this monster and load slot. Sites: src/dungeon/monster/blume/spawn_dual_part_overlay_effect_entry.c: const u32 D_80170800[1] __attribute__((aligned(4))) = {
 0x80170800	D_80170800	ifrit_slot_g_entry_pointer	The one-word overlay entry definition points to build_projected_tile_packets; scope is this monster and load slot. Sites: src/dungeon/monster/ifrit/spawn_ifrit_entry_slot_g.c: const u32 D_80170800[1] __attribute__((aligned(4))) = {
 0x80170800	D_80170800	killer_slot_g_entry_pointer	The one-word overlay entry definition points to spawn_killer; scope is this monster and load slot. Sites: src/dungeon/monster/killer/spawn_killer_entry_slot_g.c: const u32 D_80170800[1] __attribute__((aligned(4))) = {
-0x80170800	D_80170800	mandara_slot_g_entry_pointer	The one-word overlay entry definition points to create_actor_grid_object; scope is this monster and load slot. Sites: src/dungeon/monster/mandara/create_actor_grid_object_entry.c: const u32 D_80170800[1] __attribute__((aligned(4))) = {
+0x80170800	D_80170800	mandara_slot_g_entry_pointer	The one-word overlay entry definition points to create_mandara_actor; scope is this monster and load slot. Sites: src/dungeon/monster/mandara/create_actor_grid_object_entry.c: const u32 D_80170800[1] __attribute__((aligned(4))) = {
 0x80170800	D_80170800	pulunpa_slot_g_entry_pointer	The one-word overlay entry definition points to create_actor_grid_object; scope is this monster and load slot. Sites: src/dungeon/monster/pulunpa/spawn_pulunpa_entry.c: const u32 D_80170800[1] __attribute__((aligned(4))) = {
 0x80170800	D_80170800	weadog_slot_g_entry_pointer	The one-word overlay entry definition points to create_overlay_effect_object; scope is this monster and load slot. Sites: src/dungeon/monster/weadog/create_overlay_effect_object_entry.c: const u32 D_80170800[1] __attribute__((aligned(4))) = {
 0x80170808	D_80170808	beldo_slot_g_behavior_targets	Initialized entries point to case labels within update_object_animation; one physical dispatch table for monster beldo, load slot g. Sites: src/dungeon/monster/beldo/entry_update_object_animation.c: const u32 D_80170808[12] __attribute__((aligned(4))) = {
@@ -10680,3 +10680,20 @@
 0x80020298	func_80020298	initialize_casino_minigame	Casino setup in the casino image (town +0x79DA98, loaded at 0x80020000); called by scr_func_sn_casino; complete reconstruction, docs/evidence/opus_nearmatch1.md
 0x8016C720	func_8016C720	begin_ghosh_front_attack	Ghosh front attack start in dungeon/bank_1343000 (+0x1344F20); called by advance_actor_path and update_main_actor_action_and_facing; complete reconstruction, docs/evidence/opus_nearmatch1.md
 0x8017086C	func_8017086C	draw_segmented_motion_lines	Resource-22 (troll family) segmented line renderer at dungeon/bank_d07000 +0xD0706C; identical placements at +0xD0D06C, +0xD1306C, +0xD1906C, +0xD1F06C, +0xD2506C, +0xD2B06C; called through each bank's process_linked_states_mode_zero copy; complete reconstruction, docs/evidence/opus_sp22.md
+0x800DF3CC	D_800DF3CC	level_module_read_descriptor_a	src/dungeon/actor/action_control_dispatch_g00352.c: CD read descriptor passed to Control_CD; runtime shows it loads the floor-generation code module
+0x800DF3D4	D_800DF3D4	level_module_read_descriptor_b	src/dungeon/actor/action_control_dispatch_g00352.c: CD read descriptor for the second floor-generation code module
+0x800DF3EC	D_800DF3EC	item_module_read_descriptors	src/dungeon/system/submit_control_and_reset_status.c: table of eight-byte CD read descriptors indexed by entry; loads item-effect code modules
+0x800E58A8	D_800E58A8	monster_module_read_descriptor	src/dungeon/item/load_monster_resource_data.c: CD read descriptor filled and read to load a monster code module
+0x800E58B0	D_800E58B0	spell_effect_module_read_descriptor	src/dungeon/actor/spell_resource_ids_g01008.c: CD read descriptor used to load a spell effect code module
+0x800D1560	D_800D1560	money_label_text	src/town/shop/floating_number_widget_g00612.c: label string decoded into glyph entries by decode_fullwidth_text
+0x80088C0C	D_80088C0C	item_suffix_strings_ball_fruit_seed	Item name suffix strings (ball, fruit, seed) appended by the item text code
+0x80088B64	D_80088B64	item_suffix_strings_crystal_bell_loupe	Item name suffix strings (crystal, bell, loupe) appended by the item text code
+0x80088C48	D_80088C48	item_suffix_strings_herb	Item name suffix string (herb) appended by the item text code
+0x800E4958	D_800E4958	battle_message_buffers	src/dungeon/item/message/get_unused_text_buffer.c: array of 0x138-byte message text buffers indexed by buffer number
+0x800DF068	D_800DF068	dungeon_palette_row_sources	src/dungeon/menu/panel.c: four-byte entries indexed by state; each is a palette row uploaded to VRAM
+0x800E6000	D_800E6000	shared_decode_staging_buffer	Staging buffer for decoded images and the dungeon tile table; reused by several loaders
+0x800D4740	D_800D4740	minigame_module_read_descriptor	src/town/minigame/dispatch.c: CD read descriptor for the minigame code module
+0x801708A4	func_801708A4	create_mandara_actor	src/dungeon/monster/mandara/create_actor_grid_object.c: creates Mandara, copies its palette rows and tile strips; the pulunpa and saber copies at this address keep the older name
+0x80175594	func_80175594	project_depth_sorted_sprite_quads	src/dungeon/monster/manoeva/relocate_entity_after_animation.c: projects sprite quads and queues packets for depth-sorted drawing; the baloon copy keeps relocate_entity_after_animation
+0x80024798	func_80024798	project_linked_vertical_point_quads	src/dungeon/effect/sprite/offset_parent.c: links semi-transparent quads between projected vertical points; the particle spawner keeps handle_spawn_initialize_randomized_offset_parent
+0x80016178	func_80016178	play_town_sound_b1	src/town/scene/initialize_context_entry_tables_variant_2.c: only requests town sound 0xB1; the variant_b copy keeps initialize_context_entry_tables_variant_2

@@ -210,7 +210,7 @@ s32 load_spell_effect_code(selection_id, alternate_table, unused)
             } else {
                 message_offset = ((selection_id - 1) * 0xC) + 0x607F;
             }
-            message_data = D_800E58B0;
+            message_data = spell_effect_module_read_descriptor;
             pack_tagged_resource_descriptor(0xC, resource_data, message_data, message_offset);
             Control_CD(6, message_data, 0);
             Control_CD(0xFF, set_byte_one, &spell_resource_load_state);

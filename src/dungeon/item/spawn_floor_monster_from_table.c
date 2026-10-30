@@ -101,7 +101,7 @@ void spawn_floor_monster_from_table(s32 spawn_mode) {
         }
 
         spawn_height = sample_terrain_surface_height((tile_x << 6) | 0x20, (tile_y << 6) | 0x20, -0x400);
-        spawn_monster = load_monster_resource_data(monster_type, monster, 1);
+        spawn_monster = load_monster_code_module(monster_type, monster, 1);
         monster = spawn_monster(0, tile_x, tile_y, (s16)spawn_height);
         if (monster == 0) {
             return;

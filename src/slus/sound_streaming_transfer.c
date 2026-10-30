@@ -1,5 +1,6 @@
 #include "slus/sound_streaming_transfer.h"
 #include "slus.h"
+#include "engine/audio/spu.h"
 
 
 /* Streams sample data to a voice in SPU chunks, preserving busy and pending queue state. */

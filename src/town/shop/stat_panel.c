@@ -6,6 +6,7 @@
  */
 #include "town/shop/stat_panel.h"
 #include "shared/monster_ids.h"
+#include "engine/text.h"
 
 /* Transfer pending texture and palette data, then clear the transfer state. */
 void complete_display_transfer(void *texture_state) {

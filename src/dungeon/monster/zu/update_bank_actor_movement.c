@@ -11,6 +11,8 @@
 #include "shared/monster_ids.h"
 #include "dungeon/monster/zu.h"
 #include "dungeon/actor/status.h"
+#include "engine/texture.h"
+
 struct EntityLinkNode;
 void *(*const dungeon_fa7000_entry)(s16,s16,s16,s16) = spawn_zu_actor;
 void (*const dungeon_fa7000_update)(void *,void *,void *) = update_bank_actor_movement;
@@ -114,7 +116,6 @@ void *spawn_zu_actor(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
-extern void select_indirect_table_entry(void *, u8, s8);
 extern void advance_sprite_animation_and_textures(void *);
 extern s32 rsin(s32);
 extern void apply_monster_koyaw_data(s32 flags, s8 *dst);

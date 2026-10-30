@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -33,13 +34,13 @@ void write_text_and_advance_selection(u8 *menu)
     if (held_buttons != 0) {
         pressed_buttons = (g_game_work.pressed_buttons);
         if (pressed_buttons & 0x20) {
-            SD_Call(0x515);
+            SD_Call(AUDIO_CANCEL);
             release_card_record_handles(menu - 0x20);
             init_card_boot_request_object(((S_800265B8_0 *)menu)->request, ((S_800265B8_0 *)menu)->unk_24);
             return;
         }
         if (pressed_buttons & 0x40) {
-            SD_Call(0x503);
+            SD_Call(AUDIO_MENU_CONFIRM);
             route_save_slot_validation(menu);
         } else {
             if (held_buttons & 0x5000) {
@@ -68,7 +69,7 @@ void write_text_and_advance_selection(u8 *menu)
             }
         }
         if (status != 0) {
-            SD_Call(0x502);
+            SD_Call(AUDIO_CURSOR_MOVE);
             ((S_800265B8_0 *)menu)->unk_2C =
                 advance_index_with_single_wrap(((S_800265B8_0 *)menu)->unk_2C, status, 5);
             card_boot_highlight_selected_load_slot(menu);

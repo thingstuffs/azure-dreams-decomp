@@ -156,7 +156,7 @@ typedef struct S_800BC4D4_6 {
 } S_800BC4D4_6;
 
 /* ((S_800BC3E4_4 *)state)->unk_00 in traverse_nodes_and_render_unflagged */
-extern s32 is_frame_packet_arena_overflowed(void *);
+extern s32 is_frame_packet_arena_overflowed(void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 /* texture + 4 in render_projected_sprite_with_depth_bias */
 /* *global in render_projected_sprite_with_depth_bias */
 extern void CompMatrix(void *, void *, void *);

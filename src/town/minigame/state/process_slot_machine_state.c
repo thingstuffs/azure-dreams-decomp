@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 #include "shared/object_node.h"
 #include "town/minigame.h"
 #include "shared/sprite_frame_state.h"
@@ -166,7 +167,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
             ((((u32)input->buttons) & 0x1000) != 0 &&
              (s16)state->timer.s <= 0)) {
             if (state->count < 3) {
-                SD_Call(0x502);
+                SD_Call(AUDIO_CURSOR_MOVE);
                 if ((u32)town_money[0] < 100U) {
                     return;
                 }
@@ -180,7 +181,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
             ((((u32)input->buttons) & 0x4000) != 0 &&
              (s16)state->timer.s <= 0)) {
             if (state->count >= 2) {
-                SD_Call(0x502);
+                SD_Call(AUDIO_CURSOR_MOVE);
                 town_money[0] += 100;
                 state->count--;
                 return;
@@ -197,7 +198,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
             state->count == 0) {
             return;
         }
-        SD_Call(0x526);
+        SD_Call(AUDIO_SLOT_START);
         state->timer.u = 20;
         state->mode.s = 4;
         return;
@@ -249,7 +250,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
     }
 
     case 6:
-        SD_Call(0x524);
+        SD_Call(AUDIO_SLOT_SPIN);
         {
             u16 timer = state->timer2.u;
             state->timer2.u = timer - 1;
@@ -259,7 +260,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
         if ((((u32)input->pressed_buttons) & 0x40) != 0 &&
             state->timer2.s == 0) {
             void *reel;
-            SD_Call(0x522);
+            SD_Call(AUDIO_SLOT_REEL_STOP);
             reel = state->slot[state->timer.s];
             ((SlotObject *)reel)->unk_24 = 4;
             state->timer2.u = 10;

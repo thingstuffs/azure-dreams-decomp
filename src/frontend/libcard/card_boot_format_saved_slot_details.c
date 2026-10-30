@@ -63,9 +63,7 @@ typedef struct S_80024390_4 {
     void * unk_B68;
 } S_80024390_4;   /* recordCursor in card_boot_format_saved_slot_details */
 
-void * build_positioned_text_glyphs(u8 *, u8 *, s32); /* extern */
 #include "engine/text.h"
-u8 * remap_flagged_string_bytes(u8 *); /* extern */
 extern u8 D_800200A4[0x100];
 extern s32 D_80027FD4[0x40];
 extern u8 D_800282D8[0x100];

@@ -69,7 +69,7 @@ typedef struct S_80E3C98C_7 {
 extern s32 func_80042640();
 extern s32 copy_entity_record();
 extern s32 set_code_for_entity_mode();
-extern void *(*load_monster_resource_data())(s32, u8, u8, s16);
+extern void *(*load_monster_code_module())(s32, u8, u8, s16);
 extern void *find_or_retain_sprite_resource_slot();
 extern s8 entity_spawn_variant_code;
 
@@ -115,7 +115,7 @@ void *spawn_manoeva_from_record(void *unused0, void *unused1, S_80E3C98C_1 *posi
             }
         }
         set_code_for_entity_mode(source_entity);
-        create_entity = load_monster_resource_data(((S_80E3C98C_3 *)source_entity)->unk_13, type_data, 1);
+        create_entity = load_monster_code_module(((S_80E3C98C_3 *)source_entity)->unk_13, type_data, 1);
         drain_cd_command_queue();
         spawn_mode = 4;
         if (spawn_data->unk_1C.at00_u32.v & 0x2000) {

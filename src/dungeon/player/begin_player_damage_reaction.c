@@ -5,11 +5,11 @@
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "shared/entity.h"
 #include "dungeon/player.h"
+#include "engine/graphics.h"
 
 
 
 void clear_slots_of_type(ActorRecord *owner, s8 match_type);             /* extern */
-void set_sprite_animation_frame(struct SpriteFrameState *obj, s16 frame_group, s16 frame_index, s32 slot_index); /* extern */
 s32 generate_random_value(void);                                /* extern */
 extern u8 player_damage_frames_2[];
 extern u8 player_damage_frames[];

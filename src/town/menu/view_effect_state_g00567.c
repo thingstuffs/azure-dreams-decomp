@@ -3,6 +3,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A4E6C. */
 #include "town/menu/view_effect_state_g00567.h"
 #include "shared/object_node.h"
+#include "engine/window.h"
 
 /*
  * Derives effect angle and intensity from the camera heading, copies camera X/Y, and spawns a

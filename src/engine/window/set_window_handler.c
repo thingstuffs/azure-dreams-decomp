@@ -8,5 +8,5 @@
 
 /* Set the object's function pointer to func_80035AF8. */
 void set_window_handler(Rec_func_80036210_arg0 *object) {
-    object->unk_68 = &display_sound_selection_and_prepare_playback;
+    object->unk_68 = &display_speaker_name_plate;
 }

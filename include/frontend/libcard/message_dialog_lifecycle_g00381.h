@@ -60,7 +60,6 @@ extern u8 D_800226A8[];
 extern struct S_800491F4 *card_boot_link_message_display_entries(void *ptr);
 extern void card_boot_initialize_dialog_draw_nodes(void *context, s32 value);
 extern s32 card_boot_close_message_dialog(s32 flagLinkedRecord);
-extern void *initialize_scene_object_in_buffer(s32 value0, void *ptr, s32 value2);
 extern void register_node(void *base, void *handler);
 extern s32 find_active_list_node(void *base);
 extern void bzero(void *ptr, s32 size);
