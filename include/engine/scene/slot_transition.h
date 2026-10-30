@@ -12,7 +12,7 @@ extern void update_controller_buttons_and_triggers(void);
 extern void upload_dispatch_entry_images(s32);
 extern void upload_dispatch_entry_vram_rows(s32);
 extern void load_dispatch_entry_files(s32);
-extern s32 run_dispatch_entry_callbacks(s32);
+extern s32 run_dispatch_entry_callbacks(u16 entry_id);
 extern void scene_save_previous_mode_and_reset_callbacks(void);
 extern s16 reserve_runtime_slot(s16, s16);
 extern void set_scene_phase_callback(s32);

@@ -39,7 +39,7 @@ extern u8 D_800E0BF3[];
 extern u8 D_800E0C09[];
 extern u8 D_800E0C1D[];
 extern volatile u8 *dungeon_actor_ring_anchor[];
-extern s16 get_entity_effect_value(Entity800B4194 *, s32);
+extern s16 get_entity_effect_value(Entity800B4194 *, s32); /* Unprototyped: return_width */
 extern u8 *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(const u8 *, u8 *);
 extern u8 *clear_byte_and_advance(u8 *);

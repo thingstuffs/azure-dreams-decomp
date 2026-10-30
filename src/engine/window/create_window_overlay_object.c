@@ -69,7 +69,7 @@ extern void prepend_embedded_object_node(void *, void *);
 extern void copy_window_params(void *, void *);
 
 extern void runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback(void *);
-extern void update_window_state(void *);
+extern void update_window_state(struct RuntimeObject *object, s32 handler_arg1, s32 handler_arg2, s32 state);
 extern void scroll_window_y(void *);
 extern void draw_window_rects(void *);
 

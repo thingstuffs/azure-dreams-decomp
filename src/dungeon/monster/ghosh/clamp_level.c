@@ -10,10 +10,10 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/item.h"
+#include "engine/object.h"
 #include "dungeon/player/object.h"
 extern u8 resident_globals_page[];
 
-void enqueue_runtime_pool_script(void *);                   /* extern */
 void select_indirect_table_entry(void *, u8, s8);              /* extern */
 void advance_sprite_animation_and_textures(void *);                      /* extern */
 s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);  /* extern */

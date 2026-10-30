@@ -4,7 +4,7 @@
 #include "sdk/libgpu.h"
 #include "slus.h"
 
-extern int mark_palette_colors_with_high_bit(u16 *entry, s32 groupCount, s32 contiguousMode);
+extern void mark_palette_colors_with_high_bit(u16 *entry, s32 groupCount, s32 contiguousMode);
 extern int relocate_sprite_metadata_pointers(void *a0);
 extern int patch_sprite_packet_texture_and_palette_ids(void *a0, u16 a1, u16 a2, u16 a3);
 

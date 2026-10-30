@@ -1,8 +1,8 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
+#include "engine/object.h"
 
-extern s32 enqueue_runtime_pool_script(void *input_data);                   /* extern */
 extern M2C_UNK beldo_effect_pool_script;
 
 typedef struct S_81254060_0 {

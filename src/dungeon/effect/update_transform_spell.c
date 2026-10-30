@@ -4,6 +4,7 @@
 #include "shared/record_ptrs.h"
 #include "dungeon/item.h"
 #include "engine/scene.h"
+#include "engine/entity.h"
 extern u16 D_8006CCD8[8],D_8006CCE8[8];
 extern u32 D_800814A0;
 extern SpriteFrameState D_80082E80;
@@ -17,7 +18,6 @@ s32 increment_bounded_counter(void);
 void play_sound_if_enabled(s32);
 s32 generate_random_value(void);
 void *create_actor_graphics_at_tile(); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */
-void init_monster_from_stats(void *,s32);
 
 void update_transform_spell(TransformSpellState *spell, ObjectPosition *motion, SpriteFrameState *sprite) {
     union { struct { ObjectPosition target; TransformHalf distances[3]; } fields; TransformHalf halves[15]; } travel;

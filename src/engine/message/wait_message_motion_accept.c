@@ -11,7 +11,7 @@ typedef struct {
     u8 state_89;
 } FuncState;
 
-extern int ms_mot_accpt_ow(u8 state_2f);
+extern int ms_mot_accpt_ow(u8 state_2f); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void update_message_window(void);
 
 /* ms_mot_accpt_ow: advance the state handler when the state check succeeds or the countdown expires. */

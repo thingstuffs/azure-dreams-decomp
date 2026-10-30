@@ -9,9 +9,9 @@ extern u32 audio_staging_spu_offsets[];
 extern void *audio_bank_owner_payloads[];
 
 extern s32 init_sound_slot_from_header(void *header, s16 requested_slot, u32 spu_addr);
-extern s32 bind_sound_slot_owner(void *a0, s32 a1);
+extern s32 bind_sound_slot_owner(void *a0, s32 a1); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void release_enabled_sound_channel(s32 a0);
-extern void sound_check_or_wait_for_spu_transfer(s32 a0);
+extern s16 sound_check_or_wait_for_spu_transfer(s16 wait_for_completion);
 
 /* Initializes an entry, marking it available on success or reporting an error on failure. */
 void sound_load_pending_bank_slot(s16 entry_id) {

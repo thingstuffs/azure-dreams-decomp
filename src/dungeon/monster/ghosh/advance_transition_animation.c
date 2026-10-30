@@ -6,6 +6,7 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/actor.h"
+#include "engine/object.h"
 
 typedef struct {
     unsigned char pad8c[0x8c];
@@ -51,7 +52,6 @@ extern u16 system_update_flags;
 extern u8 D_801746B4[];
 extern u8 D_800F93AA[];
 
-extern void enqueue_runtime_pool_script(void *);
 struct SpriteFrameState;
 extern void select_sprite_entry(void *, s16, s16);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);

@@ -2,6 +2,7 @@
 
 #include "common.h"
 #include "engine/resource.h"
+#include "engine/effect.h"
 
 typedef struct {
     u8 pad0[0x0C];
@@ -20,7 +21,6 @@ typedef struct {
 } Manager;
 
 extern Manager fade_manager_state;
-extern void fade_manager_step_black(void);
 
 /* Prepare the state when needed, set the manager callback, and process the state. */
 void begin_fade_to_black(void) {

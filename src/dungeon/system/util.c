@@ -15,6 +15,7 @@ void *get_unused_text_buffer(); /* Unprototyped: this retail caller sets three i
 #include "dungeon/menu.h"
 #include "dungeon/system.h"
 #include "engine/node/allocation.h"
+#include "engine/object.h"
 
 extern s16 bounded_runtime_counter;
 
@@ -54,8 +55,6 @@ s32 play_sound_if_enabled(s32 query_value) {
 }
 #include "common.h"
 #include "shared/sys_flags.h"
-
-extern s32 enqueue_runtime_pool_script(s8 *text);
 
 typedef struct S_800A5720_0 {
     u8 unk_00;

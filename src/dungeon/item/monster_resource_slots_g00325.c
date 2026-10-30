@@ -4,7 +4,7 @@
 #include "dungeon/item.h"
 
 /* BYTES: this caller passes the promoted key; a narrow prototype changes its register allocation. */
-extern void mark_sprite_resource_for_purge(s32 lookup_key);
+extern void mark_sprite_resource_for_purge(s32 lookup_key); /* Unprototyped: param_width */
 
 /* Return whether one of six entries matches the ID, treating 0x39 as 2. */
 s32 has_matching_six_slot_entry(entry_id)

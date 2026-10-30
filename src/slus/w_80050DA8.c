@@ -1,9 +1,9 @@
 #include "slus/saved_value_b98.h"
 #include "shared/object_node.h"
 #include "slus.h"
+#include "engine/effect.h"
 
 extern s32 D_800814A0_abs __attribute__((section(".data")));
-extern void fade_effect_parts(void);
 /* Starts the fade callback, releases the attachment, and sets global and child flags. */
 void begin_selection_menu_teardown_and_fade(u8 *object)
 {

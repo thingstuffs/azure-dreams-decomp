@@ -30,7 +30,7 @@ typedef s32 (*Callback4)(void *, void *, void *, void *);
 extern u8 destination_motion_resume_address[];
 extern void select_record_entry_and_value(void *state, void *entries, short index);             /* extern */
 extern void request_scene_dispatch_state(s16 requested_state);                     /* extern */
-s16 get_entity_effect_value();                 /* extern */
+s16 get_entity_effect_value();                 /* extern */ /* Unprototyped: return_width */
 extern void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 #include "engine/texture.h"
 extern void step_actor_animation(SpriteFrameState *entity, s32 slot_index);             /* extern */

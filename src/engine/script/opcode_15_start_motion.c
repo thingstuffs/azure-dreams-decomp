@@ -42,7 +42,7 @@ typedef struct State {
 } State;
 
 extern u8 message_motion_type_a[];
-extern ObjectBlock *ms_mot_accpt_ow(s32 entry_index);
+extern void *ms_mot_accpt_ow(u8 object_index);
 extern void wait_message_entry_ready(void);
 extern void wait_message_motion_accept(void);
 

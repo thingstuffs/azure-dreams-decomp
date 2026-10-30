@@ -11,6 +11,7 @@
 #include "shared/sound_volume.h"
 #include "shared/sprite_frame_state.h"
 #include "engine/entity.h"
+#include "engine/text.h"
 #include "slus.h"
 
 extern int   card_server_initialized[3];
@@ -745,8 +746,6 @@ unsigned char *read_decimal_digit_value(unsigned char *text, int *digit) {
     return text + 1;
 }
 
-extern void format_reversed_unsigned_decimal(int value, unsigned short width, char *buf, int pad);
-
 /* Format a value right-justified with space padding. */
 void format_reversed_decimal_space_padded(int value, unsigned short width, char *buf)
 {
@@ -1157,7 +1156,7 @@ void noop_midi_d0(void) {
 }
 
 extern int audio_sequence_active[4];
-extern void audio_tick_sequence_tracks(void);
+extern s32 audio_tick_sequence_tracks(void);
 
 /* Invoke audio_tick_sequence_tracks when the global flag is set. */
 void tick_enabled_sequence_tracks(void) {
