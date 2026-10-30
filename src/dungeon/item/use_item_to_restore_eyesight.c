@@ -16,6 +16,8 @@
 extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 #include "dungeon/player/item.h"
 #include "dungeon/player/state.h"
+#include "dungeon/actor.h"
+
 extern void *get_unused_text_buffer(void);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 

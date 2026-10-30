@@ -56,7 +56,7 @@ extern S_80079958 *spu_registers;
 extern s32 spu_reverb_start_addresses[];
 extern S_8005DA88_buf spu_reverb_parameter_tables[];
 extern s32 _SpuIsInAllocateArea_(s32 handle);
-extern void _spu_setReverbAttr(void *buf);
+extern void _spu_setReverbAttr(struct SoundReverbParameters *source);
 extern void func_8005D550(s32 a0, s32 handle, s32 a2);
 /* Return the reverb parameter buffer as bytes for copying. */
 inline u8 *inline_fn_8005DA88(S_8005DA88_buf *params)

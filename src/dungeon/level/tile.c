@@ -915,7 +915,7 @@ typedef struct {
 
 extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 struct Node;
-s32 is_map_coordinate_out_of_bounds();                        /* extern */
+s32 is_map_coordinate_out_of_bounds(); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */                        /* extern */
 extern s8 D_800DD7DC;
 
 typedef struct S_8009AF18_0 {

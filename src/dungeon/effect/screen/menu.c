@@ -297,9 +297,6 @@ typedef struct FuncInput {
     u16 unk2;
     u16 unk4;
 } FuncInput;
-extern void create_attenuating_moving_effect(ObjectNodeHeader **alloc_arg, s32 child_x, s32 child_y, s32 child_z,
-                   struct FuncInput *input, s32 meta_value, s16 step_count, s32 range_value, s16 object_tag);
-
 
 typedef struct S_800B8830_0_pre {
     u16 unk_00;
@@ -2329,7 +2326,7 @@ typedef struct S_800BA810_3 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern void update_pulsing_sprite_color(void *channel_config, void *unused, void *output);
-void mark_active_nodes_by_callback(s32 *);                  /* extern */
+void mark_active_nodes_by_callback(s32 *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */                  /* extern */
 typedef struct S_8006DE24_Entry {
     u8 pad[0x12];
     u8 type;

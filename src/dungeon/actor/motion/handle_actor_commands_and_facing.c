@@ -18,13 +18,13 @@ struct SpriteFrameState;
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void request_scene_dispatch_state(s32);
 #include "dungeon/player.h"
-extern s32 resolve_player_input_facing(s16 direction_offset, u16 *flags, u16 *angle);
-extern s32 has_action_input_without_modifier(void);
 extern s32 begin_actor_attack();
 #include "dungeon/item.h"
 
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor/state.h"
+#include "dungeon/player/motion.h"
+#include "dungeon/player/input.h"
 
 extern s32 lookup_definition_pair_value(s16 firstKey, s16 secondKey);
 extern s32 generate_random_value(void);

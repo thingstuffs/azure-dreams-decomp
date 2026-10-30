@@ -3,14 +3,14 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+#include "dungeon/actor.h"
+#include "dungeon/system.h"
+#include "dungeon/player/state.h"
 
 extern u8 D_800E1035[];
 
 extern void display_actor_item_status_message(void *actor, struct DungeonItemEntry *item);
 
-extern s32 feed_actor_restore_mp(ActorRecord *state, s32 mode, struct DungeonItemEntry *item);
-extern void place_actor_item(void *object_context, struct DungeonItemEntry *target);
-extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *slot);
 extern void display_formatted_context_message(void *context);
 
 /* Handle an item against a target using its type flags, decrementing the counter on fallback. */

@@ -5,13 +5,14 @@
 #include "shared/dir_step.h"
 #include "dungeon/actor.h"
 #include "dungeon/system.h"
+#include "dungeon/player/object.h"
+
 struct EntityLinkNode;
 
 
 
 void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-void distribute_experience_and_report_gains(EntityRec *entity);
 void * detach_record_and_update_slot_state(void *record);
 
 

@@ -31,7 +31,7 @@ extern void initialize_timed_motion_step(s32, s32, void *);
 extern void select_sprite_entry(void *, u8, s32);
 extern void play_sound_if_enabled(s32);
 extern void create_eight_part_textured_ribbon(void *, void *, void *, void *);
-extern void create_player_centered_sequence_effect(void *, void *, void *);
+extern void create_player_centered_sequence_effect(void *, void *, void *); /* Unprototyped: retail call passes more arguments than the callee reads */
 
 /* Advances a timed actor sequence, updating effects and directional animation before clearing completion flags. */
 void advance_timed_actor_effect_sequence(ActorRecord *sequence, ObjectPosition *transform, SpriteFrameState *sprite_arg, ActorRecord *actor_arg) {

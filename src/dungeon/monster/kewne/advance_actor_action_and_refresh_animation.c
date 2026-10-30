@@ -36,7 +36,6 @@ extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void update_actor_state_after_map_check(void *, ObjectPosition *, void *, ActorRecord *);
-extern void * create_randomized_motion_object(void *, void *);
 
 extern u8 kewne_action_resume_address[];
 extern u8 kewne_frame_set_1[];

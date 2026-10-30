@@ -34,16 +34,16 @@ extern u8 D_800E0E50[];
 extern void apply_entity_effects(DungeonObject *);
 #include "dungeon/player/item.h"
 #include "dungeon/actor.h"
-extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
+#include "dungeon/player/state.h"
+
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern u8 *clear_byte_and_advance(u8 *byte_ptr);
 extern u8 *append_entity_display_text(void *record, u8 *out);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern void place_actor_item(DungeonObject *, struct DungeonItemEntry *);
+extern void place_actor_item(void *object_context, struct DungeonItemEntry *target);
 void display_item_status_message(void *entity, struct DungeonItemEntry *item, s32 message_kind);
 extern s32 generate_random_value(void);
-extern s32 feed_actor_restore_mp(DungeonObject *, u32, struct DungeonItemEntry *);
 
 /* Applies an item effect, selects its amount, and displays the result. */
 s32 use_random_healing_item(DungeonObject *obj, DungeonItemEntry *payload, s16 effect_arg) {

@@ -14,11 +14,11 @@
 
 extern void clear_slots_of_type(void *entity, s32 value);
 #include "dungeon/player/item.h"
-extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *event);
+#include "dungeon/actor.h"
+#include "dungeon/system.h"
+#include "dungeon/player/state.h"
+
 extern void display_formatted_context_message(void *ptr);
-extern void place_actor_item(void *entity, struct DungeonItemEntry *event);
-extern void display_item_status_message(void *entity, struct DungeonItemEntry *event, s16 event_type);
-extern s32 feed_actor_restore_mp(void *entity, s32 value, struct DungeonItemEntry *value2);
 
 extern u8 D_800E0E9B[];
 

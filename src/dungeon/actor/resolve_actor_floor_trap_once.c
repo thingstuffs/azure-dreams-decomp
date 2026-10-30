@@ -5,8 +5,6 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/actor.h"
 
-extern s32 trigger_actor_floor_trap(void *, void *);
-
 /* Attempts a pending action and updates dungeon state on success. */
 s32 resolve_actor_floor_trap_once(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 result;

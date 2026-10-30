@@ -55,18 +55,21 @@ typedef struct S_800B2BA0_0_pre {
     u8 pad_04[0xC];
 } S_800B2BA0_0_pre;
 
-typedef struct S_800B2BA0_0 {
-    u8 pad_00[0x4];
-    StorageMenuNode *unk_04;
-    StorageMenuNode *unk_08;
-    u8 pad_0C[0x3C];
-    s32 unk_48;
-} S_800B2BA0_0;
 
 typedef struct S_800B2BA0_1 {
     u8 pad_00[0x20];
     ItemMenuObjectNode *unk_20;
 } S_800B2BA0_1;
+
+typedef struct ItemMenuInputObject {
+    ItemMenuObjectNode *item_menu_object;
+    StorageMenuNode *source_menu;
+    StorageMenuNode *destination_menu;
+    u8 pad_0C[0x4];
+    s32 input_repeat_ticks;
+    u8 pad_14[0x34];
+    s32 option;
+} ItemMenuInputObject;
 
 s32 create_callback_pair_default();
 void get_zero_based_group_index(struct TownB4C60 *);

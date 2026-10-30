@@ -37,4 +37,8 @@ void draw_textured_ellipse(void *parameters, GpuRect *rectangle, u16 fill_rect, 
 void *create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transform_data, s16 scale, s32 setup_word_5c, s32 setup_word_60);
 void *create_orbiting_color_particle(s16 x, s16 y, s16 z, s16 angle, s16 value_50, s16 value_58, s32 state_word, s16 value_48);
 
+#include "shared/object_node.h"
+struct FuncInput;
+void create_attenuating_moving_effect(ObjectNodeHeader **alloc_arg, s32 child_x, s32 child_y, s32 child_z, struct FuncInput *input, s32 meta_value, s16 step_count, s32 range_value, s16 object_tag);
+
 #endif

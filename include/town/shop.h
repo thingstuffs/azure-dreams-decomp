@@ -24,6 +24,24 @@ void item_menu_no_op(struct ItemMenuPart **parts, struct ItemMenuObject *object)
 
 #include "town/shop/storage_menu.h"
 
+typedef struct ShopEmbeddedDataObject {
+    u8 pad_00[0x1C];
+    s32 flags_1C;
+    u8 embedded_stream_storage[0xA0];
+    void *subrecord_data;
+    u8 pad_C4[0x8];
+    void *embedded_data;
+} ShopEmbeddedDataObject;
+
+typedef struct ShopRecordResetObject {
+    u8 pad_00[0x8];
+    s32 ramp_step;
+    u8 inline_state_storage[0x90];
+    void *step_resources;
+    u8 pad_A0[0x8];
+    void *record_resources;
+} ShopRecordResetObject;
+
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41(void);
 
@@ -55,7 +73,7 @@ void handle_twin_shop_input(s32 *menu);
 void pass_indexed_entry_address(struct S_800ADB30_0 *entry_table);
 void populate_display_row(struct S_800B61C0_1 *entry, s32 widgets_base, s32 row);
 void populate_display_row_with_icon(void *entry_data, s32 display_base, s32 row_index);
-void process_shop_embedded_data(void *record);
+void process_shop_embedded_data(ShopEmbeddedDataObject *record);
 s32 select_choice_from_input_flags(s32 *choice_values);
 void set_shop_slot_colors(struct TownObject *object, s32 index);
 void set_shop_subrecord_values(s32 record_address, s32 value_10, s32 value_08);

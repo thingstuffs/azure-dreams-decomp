@@ -14,6 +14,8 @@
 #include "engine/texture.h"
 #include "engine/resource.h"
 #include "slus.h"
+#include "dungeon/item/effect.h"
+
 extern u8 resident_globals_page[];
 
    /* ((Rec_D_800E3D7C *)arg0)->unk_C8 in update_floor_exit_transition */
@@ -63,7 +65,6 @@ s32 get_entity_class();
 void snapshot_inventory_and_familiars(void *input_state); /* extern */
 s32 play_sound_if_enabled(s32 query_value); /* extern */
 s32 create_map_position_object(s32 world_x, s32 world_z);
-void *create_orbiting_teleport_effect();
 extern s32 D_80010234;
 typedef struct {
     s32 unk0;

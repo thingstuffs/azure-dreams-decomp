@@ -11,6 +11,8 @@
 #include "dungeon/player.h"
 #include "dungeon/player/state.h"
 #include "dungeon/system.h"
+#include "dungeon/item.h"
+
 struct S_80098614_0;
 
 typedef struct S_80098CF8_0 {

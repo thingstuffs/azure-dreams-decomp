@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/level.h"
+#include "shared/dungeon_item_entries.h"
 
 typedef struct {
     u8 pad0[0x9B];
@@ -20,7 +21,7 @@ extern void * get_unused_text_buffer(); /* Unprototyped: zero, one or three argu
 extern u8 * expand_text_control_codes(u8 *src, u8 *dst);
 extern void * write_text_byte_and_advance(s8 value, s8 *dest);
 extern void * append_value_seven_suffix(u8 *dst);
-extern u8 * append_typed_formatted_value(void *,u8 *);
+extern u8 *append_typed_formatted_value(DungeonItemEntry *data, u8 *buffer);
 extern void *copy_fullwidth_vowel_bytes(void *dst, void *character);
 extern void * write_status_prefix_bytes(void *);
 extern void clear_byte_and_advance(s8 *byte_ptr);

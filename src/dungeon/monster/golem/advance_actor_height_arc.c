@@ -44,9 +44,6 @@ extern s32 rsin(s32);
 extern void * resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 s16 check_layer_offset_height(u16 x, u16 y, s16 height, u32 flags);
 
-
-extern void * create_primitive_state_object(void *, void *, void *);
-
 extern u8 golem_action_continuation_address;
 
 /* Advances the actor's movement state, height arc, and return to its tile. */

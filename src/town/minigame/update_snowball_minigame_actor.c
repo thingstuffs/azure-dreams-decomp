@@ -24,11 +24,6 @@
 
 
 
-typedef struct S_80020DF0_8 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    void * unk_04;
-} S_80020DF0_8;   /* link in update_snowball_minigame_actor */
 
 extern volatile u16 snowball_best_score;
 extern u8 D_80022B80[];
@@ -287,16 +282,16 @@ void update_snowball_minigame_actor(TownCollectionActor *object, ObjectPosition 
                     particle = allocate_list_node(0x136, &scene_object_list_anchor.next);
                     if (particle != NULL) {
                         SpriteFrameState *part;
-                        S_80020DF0_8 *link;
+                        SceneEffectCopyObject *link;
 
                         part = particle->sprite;
                         register_node(particle, project_sprite_chain);
-                        link = (S_80020DF0_8 *)((u8 *)particle + 0x20);
+                        link = (SceneEffectCopyObject *)((u8 *)particle + 0x20);
                         part->color.word = 0x00808080;
                         part->scale_y = scale;
                         part->scale_x = scale;
-                        link->unk_04 = motion;
-                        link->unk_02 = 0x78;
+                        link->source = motion;
+                        link->timer.s = 0x78;
                         particle->update_callback = particle_data;
                         select_record_entry_and_value(part, snowball_actor_sprites, (s16)(index * 4));
                     }

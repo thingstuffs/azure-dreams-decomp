@@ -18,6 +18,7 @@ struct ObjectPosition;
 #include "dungeon/item.h"
 #include "dungeon/player/item.h"
 #include "engine/texture.h"
+#include "dungeon/item/effect.h"
 #include "slus.h"
 
 typedef struct S_800C55F4_0 {
@@ -644,7 +645,6 @@ s32 display_text_with_fullwidth_adjustment(s8 *text);
 s32 generate_random_value(void);
 void remove_floor_items_at_tile(s16, s16);
 void process_active_slots_at_coordinates(s16, s16);
-void * create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 direction, s16 effect_mode);
 
 #define CELL(xx, yy) (cells + 6 * ((xx) + ((yy) << *(s16 *)(fld + 20))))
 

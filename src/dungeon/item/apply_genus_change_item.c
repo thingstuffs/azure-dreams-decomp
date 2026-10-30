@@ -15,7 +15,8 @@
 #include "dungeon/player/item.h"
 #include "dungeon/system.h"
 #include "dungeon/player/state.h"
-extern void place_actor_item(void *object_context, struct DungeonItemEntry *target);
+#include "dungeon/actor.h"
+
 extern void create_colored_effect_with_sound(void *source, s32 color, unsigned short sound_id);
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(const u8 *src, u8 *dst);

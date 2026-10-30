@@ -30,7 +30,7 @@ void update_actor_animation(ActorRecord *actor_arg, ObjectPosition *context_arg,
 /* Callback entry points. */
 void advance_eight_tick_animation(u16 *anim, u32 *motion, u16 *sprite);
 s32 request_random_slot_effect(ActorRecord *actor);
-void * create_randomized_motion_object(ActorRecord *owner, ObjectPosition *initial_state);
+void *create_randomized_motion_object(ActorRecord *owner, ObjectPosition *initial_state);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void advance_path_motion(void *motion, ObjectPosition *unused, SpriteFrameState *entity, void *path_state);

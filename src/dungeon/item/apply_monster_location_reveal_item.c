@@ -13,12 +13,13 @@
 extern u8 D_800E1279[];
 
 #include "dungeon/player/item.h"
-extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32);
-extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
+#include "dungeon/actor.h"
+#include "dungeon/system.h"
+
+extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern void clear_slot_and_update_linked_state(DungeonItemEntry *slot);
 extern void display_formatted_context_message(void *, s32, s16);
-extern void place_actor_item(void *, struct DungeonItemEntry *);
 extern void display_actor_item_status_message(void *, struct DungeonItemEntry *);
-extern s32 feed_actor_restore_mp(void *, s32, struct DungeonItemEntry *);
 
 /* Apply an item to its target and handle action completion. */
 s32 apply_monster_location_reveal_item(EntityRec *target, DungeonItemEntry *item, s16 action_type, s32 source)

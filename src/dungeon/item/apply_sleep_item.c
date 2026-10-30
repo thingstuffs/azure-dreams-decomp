@@ -12,6 +12,8 @@
 #include "dungeon/system.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/player/state.h"
+#include "dungeon/actor.h"
+
 s32 play_sound_if_enabled(s32 query_value);
 extern s32 try_apply_action_by_chance(void *actor, s32 chance, s32 action);
 

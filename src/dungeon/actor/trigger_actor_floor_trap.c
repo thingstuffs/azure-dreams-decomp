@@ -1,9 +1,5 @@
-typedef unsigned char u8;
-typedef signed char s8;
-typedef unsigned short u16;
-typedef short s16;
-typedef unsigned int u32;
-typedef int s32;
+#include "common.h"
+#include "dungeon/actor.h"
 
 typedef struct Ent {
     /* 0x00 */ u8 unk0;

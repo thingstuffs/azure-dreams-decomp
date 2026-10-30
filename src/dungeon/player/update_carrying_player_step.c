@@ -4,9 +4,10 @@
 #include "shared/dungeon_status.h"
 
 #include "engine/graphics.h"
-s32 collect_ground_item();
 #include "dungeon/player/object.h"
 #include "dungeon/level.h"
+#include "dungeon/player/item.h"
+
 extern s32 player_action_tag;
 extern u8 player_height_step_frames[];
 extern u8 player_landing_frame_set[];

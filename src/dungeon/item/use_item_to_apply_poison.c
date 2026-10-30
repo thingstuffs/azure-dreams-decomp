@@ -23,6 +23,8 @@
 #include "dungeon/system.h"
 #include "dungeon/player/state.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/actor.h"
+
 extern u8 D_800E1729[17];
 
 /* Handles an item action for an entity, including its effect and item cleanup. */

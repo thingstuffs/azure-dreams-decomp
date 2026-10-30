@@ -34,7 +34,7 @@ s32 scan_forward_tiles_for_target(GolemActionWork *action_state, ObjectPosition 
 void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *record, ActorRecord *actor);
 void advance_timed_target_flags(void *state, void *output, SpriteFrameState *target);
 
-void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *stats);
+void update_dungeon_actor_actions(struct GolemActionWork *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *stats);
 
 /* Directional frame entries; the full allocation extent is not inferred. */
 extern u8 golem_frame_set_1[];
@@ -42,9 +42,9 @@ s32 consume_pending_flag(struct GolemActionWork *object, ActorRecord *flag_recor
 void finish_successful_actor_action(ActorRecord *action_entity, ObjectPosition *action, SpriteFrameState *source_actor, ActorRecord *target_actor);
 void * create_offset_actor_object(void *unused, ObjectPosition *source_data, SpriteFrameState *source_state);
 
-
-
-
-
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+#include "records/Rec_D_80082E80.h"
+#include "records/Rec_func_80172D08_arg1.h"
+void *create_primitive_state_object(void *unused, Rec_func_80172D08_arg1 *src_state, Rec_D_80082E80 *source);
 
 #endif

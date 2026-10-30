@@ -57,7 +57,6 @@ extern void display_formatted_context_message(void *context);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 find_slot_by_item_group(void *entry, s16 target);
 struct DungeonItemEntry;
-extern void place_actor_item(void *object_context, struct DungeonItemEntry *target);
 
 extern u8 *item_category_tables[];
 extern u16 magic_ball_delay[];

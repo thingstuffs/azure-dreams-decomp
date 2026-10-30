@@ -27,7 +27,6 @@ extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_80174520(void *, void *, void *, void *);
-void *create_randomized_motion_object(ActorRecord *owner, ObjectPosition *initial_state);
 
 #include "dungeon/monster/cyclone.h"
 #include "dungeon/actor.h"

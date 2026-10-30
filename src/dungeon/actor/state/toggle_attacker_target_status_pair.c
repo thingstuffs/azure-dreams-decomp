@@ -2,6 +2,7 @@
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "dungeon/actor.h"
 
 extern void * get_unused_text_buffer(void);
 extern u8 * expand_text_control_codes(u8 *src, u8 *dst);
@@ -11,7 +12,6 @@ extern void adjust_source_value_and_finalize(void *context, const void *source);
 extern s32 set_or_clear_actor_status_slot(void *, s32, s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 generate_random_value(void);
-extern s32 is_linked_entity_flagged_100000(void *);
 extern s32 get_entity_effect_value(void *, s32);
 extern void clear_slots_of_type(void *, s32);
 extern s32 D_8008942C[];

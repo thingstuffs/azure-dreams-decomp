@@ -15,4 +15,8 @@ void update_movement_animation_settles_actor_target_tile(void *action, void *mot
 void update_a_timed_movement_animation_marks_completion(void *actor, ObjectPosition *motion, SpriteFrameState *visual);
 void update_movement_destination_selection_recovery_animation(void *state, ObjectPosition *motion, SpriteFrameState *actor, void *object);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+#include "records/Rec_func_800AD058_arg2.h"
+void create_and_initializes_display_source_position_appearance(void *source, Rec_func_800AD058_arg2 *record, void *appearance);
+
 #endif

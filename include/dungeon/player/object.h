@@ -27,4 +27,6 @@ s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 s32 has_low_actor_mp(ActorRecord *record);
 s32 raise_entity_level(void *entity_data, s32 show_message);
 
+void distribute_experience_and_report_gains(EntityRec *entity);
+
 #endif

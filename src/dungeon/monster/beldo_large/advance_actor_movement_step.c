@@ -33,6 +33,8 @@ typedef struct BeldoMoveState {
 struct ActorRecord; s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 void cycle_map_cell_flags(s16, s16, u16);
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+#include "dungeon/monster/beldo_large.h"
+
 s32 check_diagonal_side_height(s32, s16, s16, s16);
 extern s32 check_movement_clearance_and_height();
 s16 get_actor_height_difference(struct ActorRecord *, struct ActorRecord *);
@@ -40,7 +42,7 @@ s32 update_actor_proximity_flag(void *, void *, s32, s32, s8 *);
 extern s32 generate_random_value(void);
 void update_actor_status_and_mp(struct ActorRecord *);
 extern s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
-struct Rec_D_80082E80; struct Rec_func_800A9E70_arg0; s32 try_actor_attack(struct Rec_func_800A9E70_arg0 *, ObjectPosition *, struct Rec_D_80082E80 *, struct ActorRecord *);
+struct Rec_D_80082E80; struct Rec_func_800A9E70_arg0;
 
 extern s16 actor_turn_angle_offsets[];
 

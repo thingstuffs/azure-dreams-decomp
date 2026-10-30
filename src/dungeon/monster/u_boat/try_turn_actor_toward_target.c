@@ -4,6 +4,7 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "records/Rec_func_800A9E70_arg0.h"
+#include "dungeon/monster/u_boat.h"
 
 void prepare_directional_attack(void *, void *, s16, s32, s32);
 s32 get_actor_height_difference(s32, void *);

@@ -29,4 +29,8 @@ void choose_and_execute_actor_step(ActorRecord *work_data, ObjectPosition *actio
 void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosition *source_position, SpriteFrameState *source_sprite);
 void update_actor_turn_and_action(void *entity, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+#include "records/Rec_func_800A9E70_arg0.h"
+s32 try_turn_actor_toward_target(Rec_func_800A9E70_arg0 *action_state, ObjectPosition *action_context, SpriteFrameState *target, ActorRecord *actor);
+
 #endif

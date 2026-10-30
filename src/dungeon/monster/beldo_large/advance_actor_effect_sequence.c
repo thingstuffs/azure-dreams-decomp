@@ -4,6 +4,7 @@
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "dungeon/item.h"
+#include "records/Rec_func_800A9E70_arg0.h"
 
 #define SEQUENCE_INDEX_ADVANCE(index, base) ((index) += (s32)(base))
 #define SEQUENCE_INDEX_BYTE(index, base) (*(u8 *)(index))
@@ -45,9 +46,9 @@ struct SpriteFrameState;
 extern void select_sprite_entry(void *, s16, s16);
 extern void play_sound_if_enabled(s32);
 extern void update_actor_status_and_mp(Entity *);
-extern void advance_actor_movement_step(u8 *movement_in, ObjectPosition *action_ctx, u8 *position, u8 *actor);
-extern void complete_actor_facing_action(Entity *, ObjectPosition *, Aux *, Entity *);
-extern void start_actor_directional_action(Entity *, ObjectPosition *, SpriteFrameState *, Entity *);
+extern void advance_actor_movement_step(struct BeldoMoveState *movement_in, ObjectPosition *action_ctx, SpriteFrameState *position, ActorRecord *actor);
+extern void complete_actor_facing_action(Entity *, ObjectPosition *, Aux *, Entity *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern void start_actor_directional_action(Rec_func_800A9E70_arg0 *state, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *actor);
 extern void advance_multi_form_ring_phase(void);
 extern void advance_secondary_object_state(void);
 extern void func_80170838(void);

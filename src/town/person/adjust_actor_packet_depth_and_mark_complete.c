@@ -5,17 +5,13 @@
 #include "records/Rec_D_80082E80.h"
 #include "town/person.h"
 
-typedef struct EffectScaleState {
-    u8 pad_00[8];
-    s16 scale_enabled;
-} EffectScaleState;
 extern s32 D_800814A0;
 /* Fades the sprite, optionally enlarges it, and marks it for removal when the red channel reaches zero. */
-void fade_and_scale_sprite(void *actor, void *unused, SpriteFrameState *packet) {
+void fade_and_scale_sprite(EffectScaleState *actor, void *unused, SpriteFrameState *packet) {
     u16 depth;
     u16 *flags;
     packet->color.word += 0xFFEFEFF0U;
-    if (((EffectScaleState *)actor)->scale_enabled != 0) {
+    if (actor->scale_enabled != 0) {
         depth = (u16)(packet->scale_y + 0x120);
         depth -= packet->color.c.r >> 3;
         packet->scale_y = depth;

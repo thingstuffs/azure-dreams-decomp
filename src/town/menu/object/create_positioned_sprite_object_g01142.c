@@ -27,8 +27,8 @@ ObjectNodeHeader *create_positioned_sprite_object(IntVector3 *position, s32 stat
     transform->velocity_x = (s32) D_800D0DF0;
     transform->velocity_y = (s32) ((S_800A71F0_3 *)(&D_800D0DF0))->unk_04;
     object->update_callback = &invoke_emote_object_callback;
-    ((S_800A71F0_4 *)object_state)->unk_54 = state_value;
-    ((S_800A71F0_4 *)object_state)->unk_90 = 2;
+    ((EmoteCallbackObject *)object_state)->state_value = state_value;
+    ((EmoteCallbackObject *)object_state)->frame = 2;
     copy_indexed_motion_value_and_advance(object_state, transform, sprite);
     sprite->scale_y = 0x1000;
     sprite->scale_x = 0x1000;
@@ -45,8 +45,8 @@ void copy_indexed_motion_value_and_advance(Rec_D_80082D58 *object, EntityRec *ou
 }
 
 /* Invoke the object's callback. */
-void invoke_emote_object_callback(S_800A7338_0 *object, void *motion, s32 context) {
-    object->unk_50(object, motion, context);
+void invoke_emote_object_callback(EmoteCallbackObject *object, void *motion, s32 context) {
+    object->callback(object, motion, context);
 }
 
 /* Accumulate motion offsets and switch the object handler when the final offset is nonnegative. */

@@ -13,10 +13,7 @@ void sort_entries_by_category(S_8004AFE8 **entries);
 void func_8004B08C(S_8004AFE8 **entries);
 #include "shared/game_work.h"
 #include "town/shop.h"
-typedef struct S_800B260C_1 {
-    u8 pad_00[0x10];
-    union { s32 s; s32 u; } unk_10;   /* accessed as both */
-} S_800B260C_1;
+#include "town/shop/resource_entry_initialization_g01156.h"
 /* arg0 in handle_item_menu_input_2 */
 
 
@@ -72,7 +69,7 @@ void handle_item_menu_input_2(u8 *menu) {
             store_table_index_and_entry_bytes(menu, 1);
         } else if ((held_buttons & 0xF000) != 0) {
             if (pressed_buttons & 0xF000) {
-                ((S_800B260C_1 *)menu)->unk_10.s = 0;
+                ((ItemMenuInputObject *)menu)->input_repeat_ticks = 0;
                 pressed_buttons = (pad_state->pressed_buttons);
                 if (pressed_buttons & 0x8000) {
                     cursor_step = -5;
@@ -84,7 +81,7 @@ void handle_item_menu_input_2(u8 *menu) {
                     cursor_step = 1;
                 }
             } else {
-                repeat_ticks = ((S_800B260C_1 *)menu)->unk_10.s;
+                repeat_ticks = ((ItemMenuInputObject *)menu)->input_repeat_ticks;
                 if (repeat_ticks >= 5) {
                     if (held_buttons & 0x8000) {
                         cursor_step = -5;
@@ -98,9 +95,9 @@ void handle_item_menu_input_2(u8 *menu) {
                             cursor_step = 1;
                         }
                     }
-                    ((S_800B260C_1 *)menu)->unk_10.u--;
+                    ((ItemMenuInputObject *)menu)->input_repeat_ticks--;
                 } else {
-                    ((S_800B260C_1 *)menu)->unk_10.s = repeat_ticks + 1;
+                    ((ItemMenuInputObject *)menu)->input_repeat_ticks = repeat_ticks + 1;
                 }
             }
             if (cursor_step != 0) {

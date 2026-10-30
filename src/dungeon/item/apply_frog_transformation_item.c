@@ -18,6 +18,8 @@ struct ObjectNodeHeader;
 
 
 #include "dungeon/player/item.h"
+#include "dungeon/actor.h"
+
 struct Owner_800A48F0;
 s32 display_text_with_fullwidth_adjustment(s8 *text);
 void create_colored_effect_with_event(struct ObjectNodeHeader *source, s32 color, unsigned short event_id);

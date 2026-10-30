@@ -11,7 +11,7 @@ void create_familiar_deployment_effect_with_owner_state(void *owner_body, Object
 void enter_directional_state_17(void *state, void *unused, void *animation, void *orientation);
 
 
-void clear_slot_and_update_linked_state(struct DungeonItemEntry *slot);
-s32 process_record_and_update_linked_state(struct DungeonItemEntry *request, void *record_data);
+void clear_slot_and_update_linked_state(DungeonItemEntry *slot);
+s32 process_record_and_update_linked_state(DungeonItemEntry *request, void *record_data);
 
 #endif

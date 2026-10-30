@@ -102,4 +102,12 @@ s32 update_actor_defeat_removal(ActorRecord *state, ObjectPosition *position, st
 s32 update_actor_hop_and_grow(struct ActorHopState *state, struct ActorHopMotion *motion, struct ActorHopParams *params, struct ActorHopExtra *extra);
 s32 update_thrown_actor_travel(void *move_state, ObjectPosition *motion, SpriteFrameState *tile_pos, ActorRecord *actor);
 
+#include "shared/dungeon_item_entries.h"
+struct Actor;
+struct Ctx;
+s32 choose_usable_ability_or_attack(struct Actor *actor, struct Actor *target, u16 *out_angle, s32 prefer_ability);
+s32 feed_actor_restore_mp(ActorRecord *state, s32 mode, DungeonItemEntry *item);
+s32 is_linked_entity_flagged_100000(EntityRec *entity);
+s32 trigger_actor_floor_trap(struct Actor *actor, struct Ctx *ctx);
+
 #endif

@@ -91,8 +91,8 @@ s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern void play_sound_if_enabled(s32);
 extern void refresh_actor_proximity_state(void *);
 extern s16 sample_terrain_surface_height(u16, u16, s16);
-extern void spawn_directional_particle();
-extern void spawn_directional_effect();
+extern void spawn_directional_particle(); /* Unprototyped: retail call passes more arguments than the callee reads */
+extern void spawn_directional_effect(); /* Unprototyped: retail call passes more arguments than the callee reads */
 extern void *find_nearby_eligible_entry(u8 *current, s32 wanted_24, s32 wanted_25, s32 height_center);
 extern void * find_first_entry_matching_keys(void *node, u16 key_a, u16 key_b, s16 range_center);
 

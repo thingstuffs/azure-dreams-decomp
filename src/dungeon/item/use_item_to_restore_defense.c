@@ -14,6 +14,7 @@
 #include "dungeon/system.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/player/state.h"
+#include "dungeon/actor.h"
 
 extern u8 D_800E0F07[];
 

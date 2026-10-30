@@ -1,3 +1,5 @@
+#include "records/Rec_func_80036210_arg0.h"
+
 #ifndef SLUS_RENDER_WORDS_H
 #define SLUS_RENDER_WORDS_H
 
@@ -68,7 +70,7 @@ extern void prepend_embedded_object_node(void *, void *);
 
 extern void runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback(void);
 extern void dispatch_window_fade_and_update_extents(struct Func800359FCState *state, struct Func800359FCEvent *event, void *callback_data);
-extern void set_window_handler(void);
+extern void set_window_handler(Rec_func_80036210_arg0 *object);
 extern void func_80035AAC(void);
 extern void draw_window_rects(void);
 extern void func_80037714(void);

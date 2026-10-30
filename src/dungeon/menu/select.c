@@ -30,6 +30,7 @@ enum SelectionShadeState {
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/menu/select.h"
+#include "dungeon/player/motion.h"
 
 /* Eases the selection sprite toward the selected entry, advances its animation, and toggles visibility
    while blinking. */

@@ -186,7 +186,6 @@ extern u8 floor_objects[];
 s16 find_entry_at_tile_coordinates(s16 x, s16 y, s16 z);
 extern void clear_slots_of_type(void *, s8);
 extern void apply_entity_action_flags(void *, s32);
-extern void apply_capped_damage_and_hit_effect();
 
 /* Unified external declarations, checked against their definitions and callers. */
 extern s32 get_entity_effect_value(void *entity, s32 effect_id);
@@ -199,7 +198,6 @@ s32 check_scaled_value_threshold(ActorRecord *state);
 s32 get_definition_field_from_triple(ActorRecord *actor, s32 entry_index);
 s32 compare_three_bit_masks_cyclically(s32 left_mask, s32 right_mask);
 s32 get_definition_entry_byte_13(s16 entry_index);
-s32 choose_usable_ability_or_attack(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_ability);
 
 u8 *get_stored_or_fallback_data(void);
 s32 lookup_definition_pair_value(s16 firstKey, s16 secondKey);

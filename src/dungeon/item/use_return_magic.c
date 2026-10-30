@@ -22,17 +22,18 @@ extern u8 D_800E1677[];
 
 s32 test_resident_bit(s32);
 #include "dungeon/player/item.h"
-void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
+#include "dungeon/item.h"
+#include "dungeon/player/state.h"
+
 void *get_unused_text_buffer(void);
 u8 *expand_text_control_codes(u8 *src, u8 *dst);
 u8 *clear_byte_and_advance(u8 *byte_ptr);
-u8 * append_typed_formatted_value(struct DungeonItemEntry *,u8 *);
 u8 *append_entity_display_text(void *record, u8 *out);
 void display_formatted_context_message(void *);
 void display_text_with_fullwidth_adjustment(s8 *text);
-void place_actor_item(Entity *, struct DungeonItemEntry *);
+void place_actor_item(void *object_context, struct DungeonItemEntry *target);
 void display_item_status_message(void *entity, struct DungeonItemEntry *item, s32 message_kind);
-s32 create_return_magic_effect(Entity *);
+s32 create_return_magic_effect(Entity *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /* Handles an item's effect on an entity and updates the pending action count. */
 s32 use_return_magic(Entity *entity, DungeonItemEntry *item, s16 action_type) {

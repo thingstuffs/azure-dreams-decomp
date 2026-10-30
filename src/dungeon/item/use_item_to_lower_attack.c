@@ -15,6 +15,8 @@ extern u8 D_800E17A1[];
 
 #include "dungeon/player/item.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
+
 extern s32 play_sound_if_enabled(s32 query_value);
 extern void apply_entity_effects(); /* Slot contract: loading images do not establish one callee contract. */
 

@@ -40,4 +40,6 @@ s32 draw_concentric_effect_layers(void *effect, s32 position, s32 render_param);
 s32 draw_cylindrical(void *effect, s32 position, s32 render_param);
 void process_effect_modes_and_completion(void *state);
 
+void advance_linked_object_counter(void *entry, s32 unused, SpriteFrameState *target);
+
 #endif

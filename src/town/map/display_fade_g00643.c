@@ -6,20 +6,20 @@
 #include "town/map.h"
 
 /* Advances a timed color fade and sets completion flags when it finishes. */
-void advance_color_fade_and_set_completion(void *fade_state, s32 unused, void *visual)
+void advance_color_fade_and_set_completion(void *fade_state, s32 unused, SpriteFrameState *visual)
 {
     s32 ticks_left;
 
-    ticks_left = ((S_800BC290_0 *)fade_state)->unk_02.u - 1;
-    ((S_800BC290_0 *)fade_state)->unk_02.u = ticks_left;
+    ticks_left = ((TimedColorFadeObject *)fade_state)->timer.u - 1;
+    ((TimedColorFadeObject *)fade_state)->timer.u = ticks_left;
 
-    switch (((S_800BC290_0 *)fade_state)->unk_00.s) {
+    switch (((TimedColorFadeObject *)fade_state)->state.s) {
     case 0:
         if ((ticks_left << 16) <= 0) {
-            ((S_800BC290_1 *)visual)->unk_14 = 12;
-            ((S_800BC290_1 *)visual)->unk_0C.s32 = 0xC0C0C0;
-            ((S_800BC290_0 *)fade_state)->unk_02.u = 12;
-            ((S_800BC290_0 *)fade_state)->unk_00.u++;
+            visual->flags = 12;
+            visual->color.word = 0xC0C0C0;
+            ((TimedColorFadeObject *)fade_state)->timer.u = 12;
+            ((TimedColorFadeObject *)fade_state)->state.u++;
         }
         break;
 
@@ -28,15 +28,15 @@ void advance_color_fade_and_set_completion(void *fade_state, s32 unused, void *v
         s32 color;
         s32 color_step;
 
-        if (((S_800BC290_1 *)visual)->unk_0C.u8 >= 0x10U) {
-            color = ((S_800BC290_1 *)visual)->unk_0C.s32;
+        if (visual->color.c.r >= 0x10U) {
+            color = visual->color.word;
             color_step = 0xFFEFEFF0;
             color = color + color_step;
-            ((S_800BC290_1 *)visual)->unk_0C.s32 = color;
+            visual->color.word = color;
         }
-        if (((S_800BC290_0 *)fade_state)->unk_02.s <= 0) {
+        if (((TimedColorFadeObject *)fade_state)->timer.s <= 0) {
             noop_release_notification(D_80111FB0);
-            ((S_800BC290_0 *)fade_state)->unk_00.u++;
+            ((TimedColorFadeObject *)fade_state)->state.u++;
         }
         break;
     }

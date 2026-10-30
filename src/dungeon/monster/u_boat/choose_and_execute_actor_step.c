@@ -31,7 +31,6 @@ extern s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limi
 extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s16 sample_terrain_surface_height();
-extern s32 try_turn_actor_toward_target();
 
 extern u8 dir_step_x[16];
 extern u8 dir_step_y[16];

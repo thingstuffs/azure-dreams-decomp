@@ -17,6 +17,8 @@
 #include "sdk/libc.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "dungeon/monster/beldo_large.h"
+
 struct ActorRecord; s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 s32 can_entity_gain_level(void *entity);
@@ -26,13 +28,12 @@ s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *posi
 struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2; void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
 void advance_multi_form_turn_path(ActorRecord *actor, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *movement);
-void advance_actor_movement_step(u8 *, ObjectPosition *, u8 *, u8 *);
-struct Rec_D_80082E80; struct Rec_func_800A9E70_arg0; s32 try_actor_attack(ActorRecord *action_state, ObjectPosition *action_id, SpriteFrameState *target, ActorRecord *actor);
+struct Rec_D_80082E80; struct Rec_func_800A9E70_arg0;
 void start_actor_attack(void *, ObjectPosition *, s32, void *);
 struct Rec_func_800A9E70_arg0; s32 resolve_actor_movement_action(struct Rec_func_800A9E70_arg0 *, ObjectPosition *, s32, s32);
 void update_multi_form_actor_movement(ActorRecord *object, ObjectPosition *update_param, SpriteFrameState *state, ActorRecord *input);
-struct Rec_func_800A9E70_arg0; void complete_actor_facing_action(struct Rec_func_800A9E70_arg0 *, ObjectPosition *, s32, struct ActorRecord *);
-struct Rec_func_800A9E70_arg0; void start_actor_directional_action(struct Rec_func_800A9E70_arg0 *, ObjectPosition *, SpriteFrameState *, struct ActorRecord *);
+struct Rec_func_800A9E70_arg0;
+struct Rec_func_800A9E70_arg0;
 s32 advance_actor_effect_sequence_2();
 extern u8 beldo_large_frame_set_2;
 extern u8 beldo_large_frame_set_5;

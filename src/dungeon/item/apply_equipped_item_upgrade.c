@@ -13,10 +13,10 @@
 #include "dungeon/player/item.h"
 #include "dungeon/item/message.h"
 #include "dungeon/player.h"
+#include "dungeon/actor.h"
 
 extern u8 *expand_text_control_codes(const u8 *source, u8 *buffer);
 extern u8 *clear_byte_and_advance(u8 *byte_ptr);
-extern u8 *append_typed_formatted_value(DungeonItemEntry *data, u8 *buffer);
 struct DungeonItemEntry;
 extern void * copy_fullwidth_vowel_bytes(void *dst, void *character);
 extern void * append_value_seven_suffix(u8 *dst);

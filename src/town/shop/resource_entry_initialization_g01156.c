@@ -102,7 +102,7 @@ void * open_twin_souko(s32 option) {
     StorageMenuNode *resource_08;
     ItemMenuObjectNode *resource_00;
     StorageMenuNode *resource_04;
-    void *state;
+    ItemMenuInputObject *state;
     void *task;
 
     task = allocate_flagged_object_node(0);
@@ -112,18 +112,18 @@ void * open_twin_souko(s32 option) {
          acquire_resource_and_initialize_state(state) != 0 &&
          (store_table_index_and_entry_bytes(state, 0),
           resource_08 = create_storage_item_menu(task),
-          ((S_800B2BA0_0 *)state)->unk_08 = resource_08,
+          state->destination_menu = resource_08,
           resource_08 != 0) &&
          (resource_00 = func_800B3924(task),
           ((S_800B2BA0_1 *)task)->unk_20 = resource_00,
           resource_00 != 0) &&
          (resource_04 = create_storage_owner_menu(task),
-          ((S_800B2BA0_0 *)state)->unk_04 = resource_04,
+          state->source_menu = resource_04,
           resource_04 != 0))) {
         if (task != 0) {
             came_bright_set(5);
             obj_disp23_cancel_sw_set(1);
-            ((S_800B2BA0_0 *)state)->unk_48 = option;
+            state->option = option;
             ((ObjectNodeHeader *)((u8 *)state - 0x20))->update_callback = &handle_item_menu_input_2;
         }
         return task;

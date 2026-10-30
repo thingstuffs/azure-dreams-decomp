@@ -121,19 +121,20 @@ void build_entity_slot_snapshot();
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 s32 get_entity_class();
 struct DungeonItemEntry;
-void clear_slot_and_update_linked_state(struct DungeonItemEntry *slot);
 void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 s16 find_entity_slot_by_field_ac();
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/item.h"
+#include "dungeon/item/effect.h"
+#include "dungeon/player/state.h"
+
 struct Entity;
 struct EntityLinkNode;
 void mark_owned_linked_actor_actions(struct Entity *owner_entity);
 s32 display_text_with_fullwidth_adjustment(s8 *text);
 
-void *create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 direction, s16 effect_mode);
 extern s32 object_flag_block;
 extern s16 pending_marked_actor_count;
 extern s16 actor_event_values[];

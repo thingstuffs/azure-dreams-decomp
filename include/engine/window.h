@@ -166,7 +166,7 @@ void set_user_name_win(s32 window_value);
 
 /* set_window_handler.c */
 void func_80035AAC(struct Rec_func_80036210_arg0 *object);
-void set_window_handler(struct Rec_func_80036210_arg0 *object);
+void set_window_handler(Rec_func_80036210_arg0 *object);
 
 /* shrink_window_and_signal_linked_record.c */
 void dispatch_window_fade_and_update_extents(struct Func800359FCState *state, struct Func800359FCEvent *event, void *callback_data);

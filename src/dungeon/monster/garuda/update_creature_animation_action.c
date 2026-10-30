@@ -7,12 +7,8 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
-typedef unsigned char u8;
-typedef signed char s8;
-typedef unsigned short u16;
-typedef short s16;
-typedef unsigned int u32;
-typedef int s32;
+#include "common.h"
+#include "dungeon/actor/state.h"
 
 typedef void (*DungeonCallback)(void *, void *, void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
@@ -22,7 +18,6 @@ extern s16 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 
 extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern s32 can_entity_gain_level(void *);
 extern void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
-extern s32 check_global_or_linked_flag_20000(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);

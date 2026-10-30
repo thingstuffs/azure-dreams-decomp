@@ -25,6 +25,5 @@ void SpuStart(void);
 void _spu_FsetRXX(s32 index, u32 value, s32 apply_shift);
 
 void _SpuInit(s32 channel);
-s32 SpuReserveReverbWorkArea(s32 enabled);
 
 #endif

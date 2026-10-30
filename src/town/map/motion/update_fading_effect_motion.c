@@ -10,19 +10,14 @@
 
    /* the 0x2 bytes before arg0 in update_fading_effect_motion, addressed as arg0[-1] */
 
-typedef struct S_800A86BC_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    s32 unk_04;
-} S_800A86BC_1;   /* arg0 in update_fading_effect_motion */
 
 
 /* Update effect motion, fade its primitive, and flag expiration when its timer ends. */
-void update_fading_effect_motion(void *effect, ObjectPosition *motion, SpriteFrameState *primitive) {
+void update_fading_effect_motion(FadingEffectMotionObject *effect, ObjectPosition *motion, SpriteFrameState *primitive) {
     u8 shade;
     u16 ticks_left;
 
-    motion->velocity_z = motion->velocity_z + ((S_800A86BC_1 *)effect)->unk_04;
+    motion->velocity_z = motion->velocity_z + effect->velocity_z_acceleration;
     motion->x.v = motion->x.v + motion->velocity_x;
     motion->y.v = motion->y.v + motion->velocity_y;
     motion->z.v = motion->z.v + motion->velocity_z;
@@ -34,8 +29,8 @@ void update_fading_effect_motion(void *effect, ObjectPosition *motion, SpriteFra
         primitive->color.c.b = shade;
         primitive->color.c.g = shade;
     }
-    ticks_left = ((S_800A86BC_1 *)effect)->unk_02 - 1;
-    ((S_800A86BC_1 *)effect)->unk_02 = ticks_left;
+    ticks_left = effect->timer.remaining_ticks - 1;
+    effect->timer.remaining_ticks = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         ((ObjectRetirementFlags *)effect)[-1].flags = ((ObjectRetirementFlags *)effect)[-1].flags | 0x8000;
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;

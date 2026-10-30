@@ -17,6 +17,7 @@
 #include "engine/node/allocation.h"
 #include "shared/dungeon_moving_views.h"
 #include "engine/node.h"
+#include "dungeon/item.h"
 
 extern char * func_8004E5A0(int value, unsigned short width, char *buf);
 

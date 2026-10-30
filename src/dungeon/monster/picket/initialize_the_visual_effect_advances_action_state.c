@@ -6,9 +6,7 @@
 #include "records/Rec_func_800AD058_arg2.h"
 #include "dungeon/system.h"
 #include "dungeon/actor.h"
-
-extern void create_and_initializes_display_source_position_appearance(void *source, Rec_func_800AD058_arg2 *record, void *appearance);
-
+#include "dungeon/monster/picket.h"
 
 /*
  * Waits for pending actions, creates an optional display, applies the defeat tint/flags with a

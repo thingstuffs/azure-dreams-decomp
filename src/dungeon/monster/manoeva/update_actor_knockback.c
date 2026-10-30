@@ -11,11 +11,11 @@ struct ObjectPosition;
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/actor.h"
+#include "dungeon/monster/manoeva.h"
 
 
 extern s32 generate_random_value(void);
 extern void create_knockback_travel_object(ActorRecord *,struct ObjectPosition *, SpriteFrameState *, ActorRecord *);
-extern void spawn_manoeva_particle_burst(void *,struct SpriteFrameState *);
 
 extern u8 manoeva_action_resume_address[];
 extern u8 manoeva_frame_set[];

@@ -4,6 +4,7 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/effect/screen.h"
 
 typedef struct S_800B328C_0_pre {
     u16 unk_00;
@@ -26,9 +27,6 @@ typedef struct S_800B328C_4 {
     void * unk_08;
     void * unk_0C;
 } S_800B328C_4;   /* ((S_800B328C_0 *)arg0)->unk_00 in update_oriented_offset_effect_position */
-
-
-void create_attenuating_moving_effect(); /* extern */
 
 /* Update the position from a base and offset, and mark completion or timeout. */
 void update_oriented_offset_effect_position(void *state, MovingPosition *position) {

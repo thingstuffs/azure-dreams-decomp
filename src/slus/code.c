@@ -13,6 +13,8 @@
 #include "engine/entity.h"
 #include "engine/text.h"
 #include "slus.h"
+#include "engine/audio.h"
+#include "engine/menu.h"
 
 extern int   card_server_initialized[3];
 extern short audio_voice_drain_suppressed[5];
@@ -327,7 +329,7 @@ void select_sprite_entry_with_flag(SpriteFrameState *entity, short index, short 
     select_sprite_entry(entity, index, offset);
 }
 
-extern int load_resource_and_mirror_palette(short a0, int a1);
+extern s32 load_resource_and_mirror_palette(s32 elem_index, s32 array_index);
 
 /* Load the indexed entry from table zero. */
 void load_default_object_palette(short index)
@@ -335,15 +337,11 @@ void load_default_object_palette(short index)
     load_resource_and_mirror_palette(index, 0);
 }
 
-extern int load_resource_and_mirror_palette(short a0, int a1);
-
 /* Load the indexed entry from table one and return the result. */
 int load_equipment_palette_for_category_sixteen(short index)
 {
     return load_resource_and_mirror_palette(index, 1);
 }
-
-extern int load_resource_and_mirror_palette(short a0, int a1);
 
 /* Load the indexed entry from table two. */
 void load_equipment_change_palette(short index)
@@ -351,7 +349,7 @@ void load_equipment_change_palette(short index)
     load_resource_and_mirror_palette(index, 2);
 }
 
-extern int resource_load_indexed_sprite_bundle(int a0);
+extern int resource_load_indexed_sprite_bundle(int a0); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /* Return the result of query zero. */
 int load_dungeon_sprite_bundle(void)
@@ -496,8 +494,6 @@ int set_flag_and_return_success(int *flag)
     *flag = 1;
     return 1;
 }
-
-extern void init_paired_packet_records(void *packets, void *record);
 
 /* Calls init_paired_packet_records with packets, record. */
 void initialize_packet_pair_from_record(void *packets, void *record)
@@ -809,7 +805,7 @@ void *create_resource_transition_task(void *owner)
 
 extern void *init_object_header_a(void *cursor);
 extern void *init_object_header_c(void *cursor);
-extern void init_tpage_prims(void *a0);
+extern struct Prim12 *init_tpage_prims(struct Prim12 *prim);
 extern void layout_menu_backdrop_display_entries(void *a0);
 
 /* Initialize four embedded records and then the containing object. */
@@ -1262,7 +1258,7 @@ void flush_pending_sound_voice_flags(void)
     drain_ready_sound_voice_flags();
 }
 
-extern void SpuReserveReverbWorkArea(int a0);
+extern s32 SpuReserveReverbWorkArea(s32 enabled);
 extern void SpuSetReverb(int a0);
 
 /* Run both setup routines with mode one. */
@@ -1340,8 +1336,6 @@ void func_8005C998(void) {
 void func_8005C9A0(void) {
 }
 
-extern void sound_set_spu_master_volume(s16 left_volume, s16 right_volume);
-
 /* Forward two signed halfword values to sound_set_spu_master_volume. */
 void set_spu_master_volume_pair(s16 first, s16 second) {
     sound_set_spu_master_volume(first, second);
@@ -1362,8 +1356,6 @@ void submit_audio_driver_byte_command(s32 first, s32 second, s32 third)
 {
     submit_tagged_driver_byte(first, second, third);
 }
-
-extern void submit_scaled_driver_halfword_pair(unsigned char a0, short a1, short a2);
 
 /* Forward a byte code and two signed halfword values to submit_scaled_driver_halfword_pair. */
 void submit_audio_driver_scaled_pair(unsigned char code, short first, short second)

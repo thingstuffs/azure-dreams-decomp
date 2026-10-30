@@ -1,6 +1,9 @@
 /* Scene resource loading, confirmation waits and dispatch while a runtime slot remains active. */
 #include "engine/scene/slot_transition.h"
 #include "shared/runtime_dispatch.h"
+#include "engine/graphics.h"
+#include "engine/resource.h"
+#include "engine/scene.h"
 
 s16 transition_runtime_slot_index = 0;
 

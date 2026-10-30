@@ -12,12 +12,13 @@ extern u8 D_800E2082[];
 
 #include "dungeon/player/item.h"
 #include "dungeon/item.h"
-extern void display_item_status_message(void *, struct DungeonItemEntry *, s16);
-extern s32 feed_actor_restore_mp(void *, s32, struct DungeonItemEntry *);
-extern void place_actor_item(void *, struct DungeonItemEntry *);
+#include "dungeon/actor.h"
+#include "dungeon/player/state.h"
+
+extern void display_item_status_message(void *entity, struct DungeonItemEntry *item, s32 message_kind);
+extern void place_actor_item(void *object_context, struct DungeonItemEntry *target);
 extern void play_sound_if_enabled(u32);
 extern void apply_entity_effects(void *);
-extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
 
 /* Applies a stat-reducing item to a target and handles item consumption. */
 s32 use_item_to_lower_defense(void *target, DungeonItemEntry *item, s16 use_type) {

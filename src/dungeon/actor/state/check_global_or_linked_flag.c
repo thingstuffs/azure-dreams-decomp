@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/record_ptrs.h"
+#include "dungeon/actor/state.h"
 
 typedef struct Actor {
     u8 pad0[0x14];

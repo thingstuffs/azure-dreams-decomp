@@ -4,6 +4,7 @@
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor.h"
+#include "dungeon/monster/blume.h"
 
 /* Advance the action animation and spawn pairs of effects with randomized velocities. */
 /* Times Noise's attack, emits particle pairs on ticks 9-13, resolves damage at tick 11, and spends MP on

@@ -1,5 +1,5 @@
 #include "common.h"
-extern void update_actor_spell_action(void *,void *,void *,void *);
+#include "dungeon/monster/volcano.h"
 
 /* Logical switch allocation owned by update_actor_spell_action.
  * This ledger projection is not included in the native TU. The complete

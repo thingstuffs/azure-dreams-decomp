@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/effect/screen.h"
 
 typedef struct S_80099A1C_0 {
     u16 unk_00;
@@ -39,7 +40,6 @@ typedef struct S_80099A1C_4 {
 
 extern s32 rsin(s32);
 extern s32 RotTransPers(void *, void *, void *, void *);
-extern void queue_visible_rectangle_copy(void *, void *);
 
 /* Build scratch parameters and apply them to each object in a linked chain. */
 s32 apply_scratch_parameters_to_chain(void *object, MovingPosition *position, S_80099A1C_2 *offset_data)

@@ -11,6 +11,7 @@
 #include "dungeon/actor.h"
 #include "engine/node.h"
 #include "engine/node/allocation.h"
+#include "dungeon/player/object.h"
 
 typedef struct S_801733BC_0 {
     u8 pad_00[0xC];
@@ -86,7 +87,6 @@ extern void select_sprite_entry(void *, s16, s16);
 extern s32 rand(void);
 extern void unlink_entity_node(void *);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-extern void distribute_experience_and_report_gains(void *);
 extern void detach_record_and_update_slot_state(void *);
 extern void play_sound_if_enabled(s32);
 extern void draw_transformed_sprite_with_clip_rect(void *, Rect *, Point *, s32, s32);

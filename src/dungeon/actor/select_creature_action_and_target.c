@@ -39,11 +39,9 @@ s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 
 #include "dungeon/player/object.h"
 extern s32 check_entity_interaction_compatibility();
 extern s32 get_definition_field_from_triple(ActorRecord *actor, s32 entry_index);
-extern s32 choose_usable_ability_or_attack();
 extern s32 check_left_tile_and_center_height();
 extern s32 find_nearest_floor_item_in_room();
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern s32 check_global_or_linked_flag_20000();
 
 #define STEPVEC(neighbor_result)                                                            \
     {                                                                                    \

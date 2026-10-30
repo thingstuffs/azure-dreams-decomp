@@ -717,7 +717,6 @@ void select_record_entry_and_value(void *state, void *entries, short index);  /*
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry menu_effect_sprite_entries[];
 s32 rsin(s32);                        /* extern */
-s32 resolve_player_input_facing();               /* extern */
 void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s32 extra_byte);      /* extern */
 u32 get_rounded_facing_and_rounding_flag(); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */ /* extern */
 extern u8 last_frame_ticks[16];

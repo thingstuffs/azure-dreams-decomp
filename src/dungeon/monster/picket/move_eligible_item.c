@@ -6,7 +6,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/actor/effect.h"
 
-extern void clear_slot_and_update_linked_state(void *, void *);
+extern void clear_slot_and_update_linked_state(void *, void *); /* Unprototyped: retail call passes more arguments than the callee reads */
 extern s32 generate_random_value(void);
 
 extern s32 dungeon_actor_ring_anchor[];

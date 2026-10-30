@@ -89,7 +89,7 @@ extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition 
 extern s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
 
 extern void func_80171910(void *controller, ObjectPosition *context, void *entity, void *path_state);
-extern void advance_actor_path_step(void *, void *, void *, void *);
+extern void advance_actor_path_step(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
 s32 validate_transition_and_update_action(ActorRecord *state, ObjectPosition *transition_id, SpriteFrameState *sprite, ActorRecord *actor);
 void reset_action_and_select_facing_animation(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 extern s32 func_80172658(void *, void *, void *, s32);

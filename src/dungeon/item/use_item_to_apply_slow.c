@@ -12,10 +12,12 @@
 #include "dungeon/player/item.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/item.h"
-extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
+#include "dungeon/actor.h"
+#include "dungeon/player/state.h"
+
 extern void play_sound_if_enabled(s32);
-extern void place_actor_item(void *, struct DungeonItemEntry *);
-extern void display_item_status_message(void *, struct DungeonItemEntry *, s16);
+extern void place_actor_item(void *object_context, struct DungeonItemEntry *target);
+extern void display_item_status_message(void *entity, struct DungeonItemEntry *item, s32 message_kind);
 
 extern u8 D_800E1827[];
 

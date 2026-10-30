@@ -5,6 +5,7 @@
 #include "dungeon/effect.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/effect.h"
+#include "dungeon/effect/state.h"
 
 typedef struct Entity800B4194
 {

@@ -9,12 +9,6 @@
 #include "sdk/libc.h"
 #include "town/map.h"
 
-typedef struct S_800BBCA0_0 {
-    u8 pad_00[0x48];
-    u16 unk_48;
-    u8 pad_4A[0x2];
-    union { s16 s; u16 u; } unk_4C;   /* accessed as both */
-} S_800BBCA0_0;   /* self in spawn_burst_particles_around_origin */
 
 typedef struct S_800BBCA0_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -37,7 +31,7 @@ extern u8 D_800BC00C[];
 extern u8 D_800F1654[];
 
 /* Spawns particles around the origin, emits a burst, then marks the effect finished. */
-void spawn_burst_particles_around_origin(void *self, void *origin)
+void spawn_burst_particles_around_origin(BurstParticleSpawnerObject *self, ObjectPosition *origin)
 {
     register u16 next_state;
     s32 state;
@@ -50,9 +44,9 @@ void spawn_burst_particles_around_origin(void *self, void *origin)
     s32 *position;
     s32 *velocity;
 
-    timer = ((S_800BBCA0_0 *)self)->unk_48 - 1;
-    state = ((S_800BBCA0_0 *)self)->unk_4C.s;
-    ((S_800BBCA0_0 *)self)->unk_48 = timer;
+    timer = self->timer - 1;
+    state = self->state.s;
+    self->timer = timer;
     switch (state) {
     case 0:
         spawn_count = 7;
@@ -71,13 +65,13 @@ void spawn_burst_particles_around_origin(void *self, void *origin)
 
                 rand_value = rand();
                 position = *(s32 * *)&object->position;
-                position[0] = ((S_800BBCA0_2 *)origin)->unk_00.at00.v + (((rand_value & 0x1FF) - 0x100) << 13);
+                position[0] = origin->x.v + (((rand_value & 0x1FF) - 0x100) << 13);
                 rand_value = rand();
                 position = *(s32 * *)&object->position;
-                position[1] = ((S_800BBCA0_2 *)origin)->unk_04.at00.v + (((rand_value & 0x1FF) - 0x100) << 13);
+                position[1] = origin->y.v + (((rand_value & 0x1FF) - 0x100) << 13);
                 rand_value = rand();
                 position = *(s32 * *)&object->position;
-                position[2] = ((S_800BBCA0_2 *)origin)->unk_08.at00.v + (((rand_value & 0x1FF) - 0x100) << 13);
+                position[2] = origin->z.v + (((rand_value & 0x1FF) - 0x100) << 13);
 
                 motion->unk_0C = ((S_800BBCA0_2 *)origin)->unk_00.at02.v;
                 motion->unk_0E = ((S_800BBCA0_2 *)origin)->unk_04.at02.v;
@@ -96,8 +90,8 @@ void spawn_burst_particles_around_origin(void *self, void *origin)
             spawn_count--;
         } while (spawn_count >= 0);
         if (test_resident_bit(0x97) != 0) {
-            next_state = ((S_800BBCA0_0 *)self)->unk_4C.u + 1;
-            ((S_800BBCA0_0 *)self)->unk_4C.u = next_state;
+            next_state = self->state.u + 1;
+            self->state.u = next_state;
             return;
         }
         return;
@@ -120,13 +114,13 @@ void spawn_burst_particles_around_origin(void *self, void *origin)
 
                 rand_value = rand();
                 position = *(s32 * *)&object->position;
-                position[0] = ((S_800BBCA0_2 *)origin)->unk_00.at00.v + (((rand_value & 0x1FF) - 0x100) << 10);
+                position[0] = origin->x.v + (((rand_value & 0x1FF) - 0x100) << 10);
                 rand_value = rand();
                 position = *(s32 * *)&object->position;
-                position[1] = ((S_800BBCA0_2 *)origin)->unk_04.at00.v + (((rand_value & 0x1FF) - 0x100) << 10);
+                position[1] = origin->y.v + (((rand_value & 0x1FF) - 0x100) << 10);
                 rand_value = rand();
                 position = *(s32 * *)&object->position;
-                position[2] = ((S_800BBCA0_2 *)origin)->unk_08.at00.v + (((rand_value & 0x1FF) - 0x100) << 10);
+                position[2] = origin->z.v + (((rand_value & 0x1FF) - 0x100) << 10);
                 rand_value = rand();
                 velocity = *(s32 * *)&object->position;
                 velocity[3] = ((rand_value & 0x1FF) - 0x100) << 14;
@@ -151,9 +145,9 @@ void spawn_burst_particles_around_origin(void *self, void *origin)
             }
             spawn_count--;
         } while (spawn_count >= 0);
-        next_state = ((S_800BBCA0_0 *)self)->unk_4C.u + 1;
-        ((S_800BBCA0_0 *)self)->unk_48 = 0x10;
-        ((S_800BBCA0_0 *)self)->unk_4C.u = next_state;
+        next_state = self->state.u + 1;
+        self->timer = 0x10;
+        self->state.u = next_state;
         return;
 
     }

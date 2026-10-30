@@ -9,21 +9,11 @@
 #include "shared/vector.h"
 #include "town/person/position.h"
 #include "town/shop/object.h"
+#include "town/minigame/state.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
-
-typedef struct State8081FF68 {
-    u8 pad00[0x4C];
-    void *slot[3];
-    s32 work;
-    union { u16 u; s16 s; } mode;      /* accessed as both */
-    union { u16 u; s16 s; } timer;     /* accessed as both */
-    union { u16 u; s16 s; } timer2;    /* accessed as both */
-    u16 flags;
-    u16 count;
-} State8081FF68;
 
 extern u8 D_80020224[];
 extern s32 town_money[];

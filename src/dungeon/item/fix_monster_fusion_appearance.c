@@ -15,10 +15,11 @@ struct ObjectNodeHeader;
 #include "dungeon/player/item.h"
 #include "dungeon/system.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
+
 void *get_unused_text_buffer(void);
 s32 display_text_with_fullwidth_adjustment(s8 *text);
 struct DungeonItemEntry;
-void place_actor_item(void *object_context, struct DungeonItemEntry *target);
 void create_colored_effect_with_event(struct ObjectNodeHeader *source, s32 color, unsigned short event_id);
 
 extern u8 D_8008935C[];

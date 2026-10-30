@@ -30,4 +30,10 @@ void update_monster_appearance_motion(void *entity_arg, void *motion_arg, void *
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void advance_selected_item_action_2(void *action, ObjectPosition *position, SpriteFrameState *sprite, void *actor);
 
+#include "records/Rec_func_801744DC_arg0.h"
+#include "records/Rec_func_801744DC_arg1.h"
+void initialize_item_sprite_frame(void *object, void *unused, SpriteFrameState *sprite, void *orientationSource);
+void spawn_directional_effect(Rec_func_801744DC_arg0 *source, Rec_func_801744DC_arg1 *origin);
+void spawn_directional_particle(Rec_func_801744DC_arg0 *source, Rec_func_801744DC_arg1 *origin);
+
 #endif

@@ -15,6 +15,8 @@
 
 void apply_entity_effects(); /* Slot contract: loading images do not establish one callee contract. */                      /* extern */
 #include "dungeon/player/item.h"
+#include "dungeon/actor.h"
+
 extern u8 D_800E0EE1[38];
 
 

@@ -8,6 +8,7 @@
 #include "slus.h"
 #include "sdk/libgpu.h"
 #include "town/scene/list_setup.h"
+#include "town/minigame/state.h"
 
 #ifndef NULL
 #define NULL 0
@@ -30,15 +31,7 @@ typedef struct S_800224E0_0 {
 
    /* prim in create_minigame_display_objects */
 
-typedef struct S_800224E0_2 {
-    u8 pad_00[0x48];
-    void * unk_48;
-} S_800224E0_2;   /* parent in create_minigame_display_objects */
 
-typedef struct S_800224E0_3 {
-    u8 pad_00[0x4C];
-    void * unk_4C;
-} S_800224E0_3;   /* slot in create_minigame_display_objects */
 
 extern u8 D_80020224[];
 extern u8 D_80022768[];
@@ -85,7 +78,7 @@ void create_minigame_display_objects(void)
         ((ObjectNodeHeader *)obj)->update_callback = D_80022768;
         prim->x.v = 0x04600000;
         prim->y.v = 0x03600000;
-        ((S_800224E0_2 *)parent_state)->unk_48 = callback;
+        ((State8081FF68 *)parent_state)->parent = callback;
         configure_the_set_mode_n_3(parent_state, prim, D_80024470);
     }
 
@@ -94,7 +87,7 @@ void create_minigame_display_objects(void)
     child_slot = parent_state + 8;
     do {
         obj = allocate_flagged_object_node(2);
-        ((S_800224E0_3 *)child_slot)->unk_4C = obj;
+        ((State8081FF68 *)child_slot)->slot[0] = obj;
         if (obj != NULL) {
             ((ObjectNodeHeader *)obj)->update_callback = child_script;
             ((S_800224E0_0 *)obj)->unk_28 = child_index;

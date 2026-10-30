@@ -104,5 +104,4 @@ extern u8 noise_frame_set_1[];
 extern u8 D_80174EC0;
 void advance_action_and_spawn_random_effects(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void update_actor_behavior_and_direction(ActorRecord *motion, ObjectPosition *render_ctx, SpriteFrameState *map_entity, ActorRecord *actor);
-extern void project_sprite_entries_to_quads(void *effect, void *motion, SpriteFrameState *sprite);
 #endif

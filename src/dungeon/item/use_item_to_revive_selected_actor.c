@@ -14,6 +14,7 @@
 #include "dungeon/system.h"
 #include "dungeon/player/state.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
 
 void apply_entity_effects(void *);             /* extern */
 void display_formatted_context_message(void *context);                   /* extern */

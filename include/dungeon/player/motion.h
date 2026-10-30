@@ -8,5 +8,7 @@
 void set_linked_actor_octant_facing(s32 index, s32 value);
 void try_move_carrying_player(void *controller, s32 actor_id, SpriteFrameState *actor, EntityRec *actor_data);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+s32 resolve_player_input_facing(s16 direction_offset, u16 *flags, u16 *angle);
 
 #endif

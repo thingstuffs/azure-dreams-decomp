@@ -21,6 +21,8 @@ typedef struct {
 
 #include "dungeon/player/item.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
+
 extern u8 D_800E173A[28];
 
 /* Processes an entity's item interaction and consumes the item when finished. */

@@ -12,7 +12,6 @@ extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(const u8 *source, u8 *buffer);
 extern u8 *clear_byte_and_advance(u8 *byte_ptr);
 extern u8 *write_text_byte_and_advance(s8 value, u8 *dest);
-extern u8 *append_typed_formatted_value(DungeonItemEntry *data, u8 *buffer);
 extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
 extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);

@@ -5,12 +5,45 @@
 #include "town/scene/collection.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
+#include "shared/object_node.h"
 #include "town/scene.h"
 #include "records/Rec_func_80021E88_arg1.h"
 #include "town/minigame/pickup_data.h"
+#include "town/minigame/effect.h"
 struct S_80021E88_0;
 struct S_80021E88_2;
 struct SpinPhaseWork;
+
+/* Slot-payout pickup body received by update_bouncing_pickup_after_hit. */
+typedef struct BouncingPickupAfterHitObject {
+    /* 0x00 */ void *slot_state;
+    /* 0x04 */ union { s16 s; u16 u; } state;
+    /* 0x06 */ union { s16 s; u16 u; } timer;
+    /* 0x08 */ u8 pad_08[0x15];
+    /* 0x1D */ u8 unk_1D;
+    /* 0x1E */ u8 pad_1E[0x32];
+    /* 0x50 */ void *payout_callback;
+    /* 0x54 */ s16 denomination;
+} BouncingPickupAfterHitObject;
+
+/* Body of a timed-sound node. The creator's node view is TimedSoundNode below. */
+typedef struct TimedSoundObject {
+    /* 0x00 */ u8 pad_00[0x50];
+    /* 0x50 */ union { s16 s; u16 u; } state;
+    /* 0x52 */ u16 timer;
+} TimedSoundObject;
+
+typedef struct TimedSoundNode {
+    ObjectNodeHeader header;
+    TimedSoundObject body;
+} TimedSoundNode;
+
+/* State and countdown for the slot-machine image animation. */
+typedef struct MinigameImageAnimationObject {
+    /* 0x00 */ u8 pad_00[0x5C];
+    /* 0x5C */ union { s16 s; u16 u; } state;
+    /* 0x5E */ u16 timer;
+} MinigameImageAnimationObject;
 
 /* Body of a betting-column object: update_betting_effect allocates the node (allocate_list_node(0x112, ...)),
  * stores the betting effect in `owner`, installs update_minigame_approach_motion and draws it with
@@ -28,7 +61,7 @@ void initialize_minigame_display(void *context);
 
 /* Object-pool callbacks: motion is the separate node +8 position record. */
 void update_bouncing_pickup(minigame_pickup_source *pickup, ObjectPosition *motion, SpriteFrameState *sprite);
-void update_bouncing_pickup_after_hit(void *object, ObjectPosition *motion, SpriteFrameState *sprite);
+void update_bouncing_pickup_after_hit(BouncingPickupAfterHitObject *object, ObjectPosition *motion, SpriteFrameState *sprite);
 void update_snowball_minigame_actor(TownCollectionActor *object, ObjectPosition *motion, SpriteFrameState *sprite);
 void update_minigame_approach_motion(ApproachMotionObject *motion_state, ObjectPosition *motion);
 
@@ -43,14 +76,14 @@ void advance_fading_particle_until_animation_boundary(u8 *effect, u8 *motion, u8
 void rotate_gym_mesh_y(s32 unused_0, s32 unused_1, u8 *object);
 void tick_scene_value_text(void *message);
 void tick_summed_scene_value_text(void *entry);
-void tick_timed_sound(void *object);
+void tick_timed_sound(TimedSoundObject *object);
 void update_linked_four_column_number(void *entry);
-void update_minigame_image_animation(void *anim);
+void update_minigame_image_animation(MinigameImageAnimationObject *anim);
 
 /* initialize_casino_minigame.c: the casino image (town +0x79D800) loads at 0x80020000. */
 s32 initialize_casino_minigame(void);
 /* Update callbacks it installs; their definitions take file-local views. */
-void update_betting_effect();
+void update_betting_effect(TownEffect *effect);
 void update_effect_position_spin_phases(struct SpinPhaseWork *state_arg, ObjectPosition *target_arg, SpriteFrameState *effect_arg);
 void update_minigame_transition(struct S_80021E88_0 *controller, Rec_func_80021E88_arg1 *position, struct S_80021E88_2 *display);
 /* Mode-three record setup (town/scene/configure_set_mode_n_d.c) as the minigame constructors call it. */

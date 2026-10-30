@@ -9,7 +9,19 @@
 struct Arg1;
 struct Arg2;
 struct Obj;
-struct State8081FF68;
+
+/* Casino slot-machine state and its three reel objects. */
+typedef struct State8081FF68 {
+    /* 0x00 */ u8 pad_00[0x48];
+    /* 0x48 */ void *parent;
+    /* 0x4C */ void *slot[3];
+    /* 0x58 */ s32 work;
+    /* 0x5C */ union { u16 u; s16 s; } mode;
+    /* 0x5E */ union { u16 u; s16 s; } timer;
+    /* 0x60 */ union { u16 u; s16 s; } timer2;
+    /* 0x62 */ u16 flags;
+    /* 0x64 */ u16 count;
+} State8081FF68;
 
 /* advance_actor_state_nearby_activation.c */
 void advance_actor_state_nearby_activation(Rec_D_80082D58 *actor, s32 *position, s32 check_param, s32 check_mode);
@@ -18,7 +30,7 @@ void advance_actor_state_nearby_activation(Rec_D_80082D58 *actor, s32 *position,
 void advance_interaction_state_animating_cursor(struct Obj *self, struct Arg1 *position, struct Arg2 *cursor_data);
 
 /* process_slot_machine_state.c */
-void process_slot_machine_state(struct State8081FF68 *state, void *position);
+void process_slot_machine_state(State8081FF68 *state, void *position);
 
 /* propagate_linked_flag_if_clear.c */
 void propagate_linked_flag_if_clear(void *record);

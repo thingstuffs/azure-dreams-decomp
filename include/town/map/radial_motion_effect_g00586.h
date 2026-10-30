@@ -25,11 +25,6 @@ typedef struct S_800A878C_2 {
 } S_800A878C_2;
 
 /* arg0 in create_reverse_motion_effect */
-typedef struct S_800A878C_4 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    s32 unk_04;
-} S_800A878C_4;
 
 /* arg0 in spawn_radial_effect_objects */
 typedef struct S_800A895C_1 {
@@ -60,6 +55,7 @@ void select_record_entry_and_value(void *state,void *entries, short index);
 /* extern */
 extern void D_800A86BC();
 #include "shared/sprite_source.h"
+#include "town/map/motion.h"
 extern SpriteSourceEntry map_animation_sprite_entries[];
 extern s32 rsin(s32 value);
 extern s32 rcos(s32 value);

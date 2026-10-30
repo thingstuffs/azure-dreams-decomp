@@ -5,6 +5,7 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_800A9E70_arg0.h"
+#include "dungeon/monster/beldo_large.h"
 
 extern void prepare_directional_attack(void *, void *, s16, s32, s32);
 extern s32 get_actor_height_difference(s32, void *);

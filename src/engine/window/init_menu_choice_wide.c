@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80081FDC.h"
 
 
 typedef struct S_func_8003666C_0 {
@@ -24,7 +25,7 @@ extern u8 menu_choice_display_data[0x10];
 extern u8 menu_choice_cursor_storage[0x10];
 
 extern void handle_two_column_menu_input(void);
-extern void init_cursor_sprite_object(void *, void *, s32 *, s16, s32, void *);
+extern void init_cursor_sprite_object(void *node_addr, Rec_D_80081FDC *transform, s32 *script_data, s16 cursor_offset, s32 sprite_base, void *owner);
 
 /* Copies the marker, applies the position offset, and installs the next callback. */
 void init_menu_choice_wide(S_func_8003666C_0 *state) {

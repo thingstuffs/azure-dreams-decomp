@@ -31,5 +31,7 @@ void update_an_effect_s_lifetime_fades_color_advances_motion(void *effect, s32 *
 void create_terrain_scaled_actor_effect(ObjectNodeHeader *source, s16 *facing, u8 *action, u16 *flags);
 void create_knockback_travel_object(ActorRecord *owner_data, ObjectPosition *position_arg, SpriteFrameState *source_arg, ActorRecord *context_arg);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+void spawn_manoeva_particle_burst(MovingPosition *origin, SpriteFrameState *source_sprite);
 
 #endif

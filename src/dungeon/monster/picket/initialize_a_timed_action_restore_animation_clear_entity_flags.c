@@ -11,12 +11,7 @@
 #include "engine/graphics.h"
 #include "dungeon/system.h"
 #include "dungeon/actor.h"
-
-
-
-
-
-extern void create_and_initializes_display_source_position_appearance(void *, void *, void *);
+#include "dungeon/monster/picket.h"
 
 extern u8 picket_action_resume_address[];
 extern u8 picket_frame_set_1[];

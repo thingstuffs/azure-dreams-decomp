@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_item_entries.h"
 
 typedef struct {
     u8 index;
@@ -26,7 +27,7 @@ typedef struct {
 } ItemResult;
 
 extern ItemCategory itemCategoryTable[];
-extern s32 resolve_record_value(ItemId *item);
+extern int resolve_record_value(DungeonItemEntry *record);
 extern void *get_item_data_record(s32 category, s32 index);
 extern void *get_or_create_item_data(s32 category, s32 index);
 extern char *strncpy(char *dst, const char *src, u32 count);

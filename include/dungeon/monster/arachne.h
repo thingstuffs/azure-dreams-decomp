@@ -672,7 +672,6 @@ void * resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 d
 s32 get_cd_command_queue_depth(void);
 void create_two_row_object_group(void *payload, s16 value_scale);
 void unlink_entity_node();
-void distribute_experience_and_report_gains();
 void * detach_record_and_update_slot_state(void *record);
 s32 update_actor_hop_and_shrink(void *animation, void *motion, SpriteFrameState *scale, void *render);
 

@@ -10,6 +10,15 @@
 struct SpriteFrameState;
 struct TownCourseActor;
 
+typedef struct FadingEffectMotionObject {
+    u8 pad_00[0x2];
+    union {
+        s16 launch_speed;
+        u16 remaining_ticks;
+    } timer;
+    s32 velocity_z_acceleration;
+} FadingEffectMotionObject;
+
 /* initialize_object_motion_and_animation.c */
 void initialize_object_motion_and_animation(void *object_data, void *motion, struct SpriteFrameState *anim);
 
@@ -20,7 +29,7 @@ void update_effect_motion_and_fade(void *effect, void *motion_data, void *displa
 void update_effect_motion_size_and_brightness(void *effect_fields, SignedPositionView *position, SpriteFrameState *sprite);
 
 /* update_fading_effect_motion.c */
-void update_fading_effect_motion(void *effect, ObjectPosition *motion, SpriteFrameState *primitive);
+void update_fading_effect_motion(FadingEffectMotionObject *effect, ObjectPosition *motion, SpriteFrameState *primitive);
 
 /* update_player_minigame_motion.c */
 void update_player_minigame_motion(struct TownCourseActor *actor, ObjectPosition *motion, SpriteFrameState *sprite);

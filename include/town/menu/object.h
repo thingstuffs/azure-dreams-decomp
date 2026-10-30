@@ -16,7 +16,7 @@ struct Func800A4B70Object;
 struct Func800A4B70Output;
 struct S_800A21EC_0;
 struct S_800A21EC_1;
-struct S_800A7338_0;
+struct EmoteCallbackObject;
 struct S_800A7360_1;
 struct S_800A7B98_2;
 struct S_func_800A9F90;
@@ -37,7 +37,7 @@ void *create_display_object_with_callbacks(s32 payload_word, s32 payload_halfwor
 /* create_positioned_sprite_object_g01142.c */
 ObjectNodeHeader *create_positioned_sprite_object(IntVector3 *position, s32 state_value, SpriteSourceEntry *graphic_id);
 void copy_indexed_motion_value_and_advance(Rec_D_80082D58 *object, EntityRec *output, s32 unused);
-void invoke_emote_object_callback(struct S_800A7338_0 *object, void *motion, s32 context);
+void invoke_emote_object_callback(struct EmoteCallbackObject *object, void *motion, s32 context);
 void advance_emote_motion(struct S_800A7360_1 *object, EntityRec *motion);
 void advance_position_and_handle_ground_contact(void *entity, void *motion, s32 context);
 

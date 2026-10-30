@@ -34,4 +34,7 @@ s32 try_apply_confusion_status(void *ptr, s32 threshold_input, s32 kind_input);
 void *merge_creature_abilities_and_state(void *first, void *second, void *destination);
 s32 try_apply_status_effect(void *target, s16 chance, s16 duration);
 
+struct Actor;
+s32 check_global_or_linked_flag_20000(struct Actor *actor);
+
 #endif

@@ -592,7 +592,7 @@ s32 interpolate_actor_to_terrain_tile(struct S_800AC480_0 *move_state, ObjectPos
 s32 update_spinning_actor_fall();
 s32 update_actor_fade_in();
 void initialize_timed_motion_step(unsigned short countdown, unsigned int amount);
-void spawn_radial_particle_burst();
+void spawn_radial_particle_burst(); /* Unprototyped: retail call passes more arguments than the callee reads */
 void project_sprite_commands();
 void func_800453E0(void *context, void *position, struct Entry *entry, s16 depth_bias);
 s32 rcos(s32);

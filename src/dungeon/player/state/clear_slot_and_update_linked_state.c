@@ -3,10 +3,8 @@
 #include "shared/dungeon_item_entries.h"
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
-typedef unsigned char u8;
-typedef short s16;
-typedef int s32;
-typedef unsigned int u32;
+#include "common.h"
+#include "dungeon/player/state.h"
 
 typedef struct {
     u8 first;

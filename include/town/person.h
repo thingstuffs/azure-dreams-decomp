@@ -12,6 +12,11 @@
 struct ReactionAccumulators;
 struct ReactionFlagState;
 
+typedef struct EffectScaleState {
+    u8 pad_00[0x8];
+    s16 scale_enabled;
+} EffectScaleState;
+
 
 /* choose_reaction_action_and_heading.c */
 void choose_reaction_action_and_heading(Rec_func_800C9B44_arg0 *actor, EntityRec *motion, s32 context);

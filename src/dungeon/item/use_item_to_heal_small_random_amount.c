@@ -16,6 +16,8 @@
 #include "dungeon/player/state.h"
 #include "dungeon/item/message.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/actor.h"
+
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 generate_random_value(void);
 

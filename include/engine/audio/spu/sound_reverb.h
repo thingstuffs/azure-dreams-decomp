@@ -39,6 +39,4 @@ typedef struct SoundReverbParameters {
     u16 p42;
 } SoundReverbParameters;
 
-void _spu_setReverbAttr(SoundReverbParameters *source);
-
 #endif

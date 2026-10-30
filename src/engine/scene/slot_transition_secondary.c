@@ -1,6 +1,9 @@
 /* Alternate scene resource loading, confirmation waits and runtime-slot completion. */
 #include "engine/scene/slot_transition.h"
 #include "shared/runtime_dispatch.h"
+#include "engine/graphics.h"
+#include "engine/resource.h"
+#include "engine/scene.h"
 
 s16 secondary_transition_slot_index = 0;
 

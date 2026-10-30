@@ -11,13 +11,13 @@ struct ObjectPosition;
 #include "dungeon/effect.h"
 #include "dungeon/effect/object.h"
 #include "dungeon/level.h"
+#include "dungeon/effect/state.h"
 
 
 void set_sprite_animation_frame(struct SpriteFrameState *obj, s16 frame_group, s16 frame_index, s32 slot_index); /* extern */
 s32 resolve_attack_damage_and_effects();    /* extern */
 void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);              /* extern */
 s32 play_sound_if_enabled(s32 query_value);                     /* extern */
-s32 update_attached_effect_state();             /* extern */
 s32 select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value); /* extern */
 extern u8 actor_attack_frames[];
 extern u8 D_800DD068[];

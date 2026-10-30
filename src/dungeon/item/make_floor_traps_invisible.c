@@ -14,7 +14,8 @@
 
 
 #include "dungeon/player/state.h"
-extern void clear_slot_and_update_linked_state(DungeonItemEntry *slot);
+#include "dungeon/actor.h"
+
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 
 extern u8 D_800E1567[];

@@ -5,13 +5,8 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "town/minigame/keima.h"
+#include "town/person.h"
 
-typedef struct S_80956E6C_0 {
-    u8 pad_00[0x8];
-    union { void * p32; s16 s16; } unk_08;   /* accessed as both */
-    void * unk_0C;
-    void * unk_10;
-} S_80956E6C_0;   /* object in create_paletted_position_object */
 
 typedef struct S_80956E6C_4 {
     u8 pad_00[0x48];
@@ -73,7 +68,7 @@ void create_paletted_position_object(s32 signed_position, s32 palette_index, Kei
             value = -value;
         }
         primitive->angle_z = value;
-        ((S_80956E6C_0 *)object)->unk_08.s16 = field_28_value;
+        ((EffectScaleState *)object)->scale_enabled = field_28_value;
 
         palette_value = settings->unk_4A.s;
         tint_color = 0xC0C0C0;

@@ -5,6 +5,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_80172D08_arg1.h"
 #include "engine/node.h"
+#include "dungeon/monster/golem.h"
 
 typedef struct { s32 word[6]; } Copy24;
 

@@ -19,7 +19,6 @@
 #include "engine/graphics.h"
 
 extern s32 func_8002534C(void *, void *, void *, void *); /* extern */
-s32 resolve_player_input_facing(s16 direction_offset, u16 *flags, u16 *angle);             /* extern */
 s32 request_familiar_deployment_change(void *, void *, void *, s32, u32); /* extern */
 extern s16 dispatch_selected_item_use(Rec_func_8008ACDC_arg0 *actor, s16 item_id, s16 other_item_id);                /* extern */
 

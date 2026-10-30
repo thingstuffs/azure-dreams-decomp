@@ -5,6 +5,7 @@
 #include "shared/item_ids.h"
 #include "shared/dungeon_item_entries.h"
 #include "shared/entity.h"
+#include "dungeon/actor.h"
 
 
 extern void *get_unused_text_buffer(void);

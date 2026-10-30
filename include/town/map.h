@@ -129,7 +129,7 @@ void wait_then_process_record(struct S_800BC764_0 *context, void *unused, Sprite
 void initialize_record_resources(void *record, void *init_context, SpriteFrameState *resource_target);
 
 /* display_fade_g00643.c */
-void advance_color_fade_and_set_completion(void *fade_state, s32 unused, void *visual);
+void advance_color_fade_and_set_completion(void *fade_state, s32 unused, SpriteFrameState *visual);
 void advance_timed_state_and_set_completion(void *object);
 void build_two_display_entries(s32 data_id, s32 position_offset);
 
@@ -361,8 +361,16 @@ void tw_sd_sq_ld_call(void *effect_id, void *effect_flags);
 s32 town_sd_sq_callagain_sub(s32 sequence_flags);
 s32 town_sd_sq_callagain(void);
 
+/* State stored in the body of a burst-particle spawner node. */
+typedef struct BurstParticleSpawnerObject {
+    /* 0x00 */ u8 pad_00[0x48];
+    /* 0x48 */ u16 timer;
+    /* 0x4A */ u8 pad_4A[2];
+    /* 0x4C */ union { s16 s; u16 u; } state;
+} BurstParticleSpawnerObject;
+
 /* spawn_burst_particles_around_origin.c */
-void spawn_burst_particles_around_origin(void *self, void *origin);
+void spawn_burst_particles_around_origin(BurstParticleSpawnerObject *self, ObjectPosition *origin);
 
 /* spawn_randomized_timed_objects.c */
 void spawn_randomized_timed_objects(struct TownMapSpawnState *source);

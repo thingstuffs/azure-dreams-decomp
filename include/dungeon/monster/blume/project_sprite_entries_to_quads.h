@@ -195,5 +195,4 @@ extern s32 RotTransPers(void *vertex, s32 *screen, s32 *p, s32 *flag);
 extern s32 RotTransPers4(void *v0, void *v1, void *v2, void *v3, s32 *s0, s32 *s1, s32 *s2, s32 *s3, s32 *p, s32 *flag);
 extern void RotMatrix();
 extern s32 sprite_projection_matrix[];
-void project_sprite_entries_to_quads(T_80170874_S_80DB9000_1 *sprite_size, T_80170874_S_80DB9000_2 *position, T_80170874_S_80DB9000_3 *sprite, s16 depth_bias);
 #endif

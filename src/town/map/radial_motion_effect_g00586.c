@@ -5,6 +5,7 @@
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "town/map.h"
+#include "town/map/motion.h"
 
 /* Creates an effect behind the source with randomized reverse motion and launch speed. */
 void *create_reverse_motion_effect(S_800A878C_2 *source_motion, u32 flags) {
@@ -18,7 +19,7 @@ void *create_reverse_motion_effect(S_800A878C_2 *source_motion, u32 flags) {
     u32 direction;
     SpriteFrameState *sprite;
     ObjectPosition *motion;
-    S_800A878C_4 *launch;
+    FadingEffectMotionObject *launch;
     ObjectNodeHeader *effect;
 
     direction = (flags >> 9) & 7;
@@ -49,10 +50,10 @@ void *create_reverse_motion_effect(S_800A878C_2 *source_motion, u32 flags) {
         sprite->flags = (u16) (sprite->flags | 0xC);
         speed_roll = scale_random_to_unsigned_halfword_limit(7);
         launch_speed = speed_roll + scale_random_to_unsigned_halfword_limit(7);
-        launch->unk_02 = launch_speed;
+        launch->timer.launch_speed = launch_speed;
         motion->velocity_z = (s32) (0 - (launch_speed << 0x10));
-        stored_speed = launch->unk_02;
-        launch->unk_04 = (s32) ((s32) (stored_speed * stored_speed) / 2);
+        stored_speed = launch->timer.launch_speed;
+        launch->velocity_z_acceleration = (s32) ((s32) (stored_speed * stored_speed) / 2);
     }
     return effect;
 }

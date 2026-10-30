@@ -2,7 +2,7 @@
 #include "frontend/card.h"
 #include "frontend/libcard.h"
 
-extern void advance_linked_object_counter(void *object, s32 value);
+extern void advance_linked_object_counter(void *object, s32 value); /* Unprototyped: retail call passes a different argument count */
 
 /* Updates source and selected slot markers across five card entries, then refreshes the slot details. */
 void update_spark_effect(void *menu)

@@ -6,6 +6,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/actor.h"
+#include "dungeon/player/object.h"
 
 
 typedef struct {
@@ -24,7 +25,6 @@ extern s32 rsin(s32);
 extern s32 rcos(s32);
 extern void unlink_entity_node(void *);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-extern s32 distribute_experience_and_report_gains(void *);
 extern void * detach_record_and_update_slot_state(void *);
 extern s32 check_left_tile_and_center_height(u16, u16, s16);
 extern void play_sound_if_enabled(s32);

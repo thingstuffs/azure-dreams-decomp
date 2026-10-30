@@ -19,6 +19,8 @@
 
 extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);             /* extern */
 #include "dungeon/player/item.h"
+#include "dungeon/actor.h"
+
 void *get_unused_text_buffer(void);                          /* extern */
 s32 display_text_with_fullwidth_adjustment(s8 *text);                         /* extern */
 extern u8 poison_cure_text[25];

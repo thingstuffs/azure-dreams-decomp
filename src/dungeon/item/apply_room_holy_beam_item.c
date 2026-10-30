@@ -21,16 +21,17 @@ extern u8 D_800E12D6[];
 extern u8 D_800E1303[];
 
 #include "dungeon/player/item.h"
-extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32);
-extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
+#include "dungeon/actor.h"
+
+extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern void clear_slot_and_update_linked_state(DungeonItemEntry *slot);
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern u8 *clear_byte_and_advance(u8 *byte_ptr);
 extern void display_formatted_context_message(void *);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern void place_actor_item(void *, struct DungeonItemEntry *);
+extern void place_actor_item(void *object_context, struct DungeonItemEntry *target);
 extern void display_actor_item_status_message(void *, struct DungeonItemEntry *, s16);
-extern s32 feed_actor_restore_mp(void *, s32, struct DungeonItemEntry *);
 extern void * create_timed_region_flag_expiry(s32 unused0, s32 unused1, s32 unused2, s16 payloadValueA, s16 payloadValueC);
 
 

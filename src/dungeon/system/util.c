@@ -15,6 +15,7 @@ void *get_unused_text_buffer(); /* Unprototyped: this retail caller sets three i
 #include "dungeon/menu.h"
 #include "dungeon/system.h"
 #include "engine/node/allocation.h"
+#include "dungeon/player/state.h"
 #include "engine/object.h"
 
 extern s16 bounded_runtime_counter;
@@ -491,7 +492,6 @@ void apply_capped_damage_and_hit_effect(ActorRecord *entity, Rec_func_800A5DFC_a
 #include "shared/dungeon_item_entries.h"
 
 extern s32 lookup_item_category_mapped_value(u8, u8);
-extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
 extern s32 play_sound_if_enabled(s32);
 
 /* Processes a target using the linked object's position, then decrements the shared count. */
@@ -905,7 +905,6 @@ typedef struct S_800A6620_3 {
 
 extern void build_entity_slot_snapshot(void *ptr, void *object);
 extern s32 get_entity_effect_value(void *object, s32 value);
-extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *handle);
 extern void unlink_entity_node(void *object);
 extern void update_map_cell_flags_with_item_limit(u8 sound_x, u8 sound_y, s32 sound_mode);
 extern s16 find_entity_slot_by_field_ac(void *object);

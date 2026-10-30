@@ -6,23 +6,20 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 
 #define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
-typedef struct S_800BC290_0 {
-    union { s16 s; u16 u; } unk_00;   /* accessed as both */
-    union { u16 u; s16 s; } unk_02;   /* accessed as both */
-} S_800BC290_0;
+typedef struct TimedColorFadeObject {
+    /* 0x00 */ union { s16 s; u16 u; } state;
+    /* 0x02 */ union { u16 u; s16 s; } timer;
+} TimedColorFadeObject;
 
 /* arg0 in advance_color_fade_and_set_completion */
-typedef struct S_800BC290_1 {
-    u8 pad_00[0xC];
-    union { s32 s32; u8 u8; } unk_0C;   /* accessed as both */
-    u8 pad_10[0x4];
-    s16 unk_14;
-} S_800BC290_1;
+
+/* arg0 in advance_color_fade_and_set_completion */
 
 typedef struct {
     u32 word0;
@@ -43,7 +40,7 @@ extern u8 D_800BC290[8];
 extern u8 D_800BC390[8];
 
 /* Functions defined in this translation unit. */
-void advance_color_fade_and_set_completion(void *fade_state, s32 unused, void *visual);
+void advance_color_fade_and_set_completion(void *fade_state, s32 unused, SpriteFrameState *visual);
 void advance_timed_state_and_set_completion(void *object);
 void build_two_display_entries(s32 data_id, s32 position_offset);
 

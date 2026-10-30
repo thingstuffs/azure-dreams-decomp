@@ -9,19 +9,6 @@
 #include "shared/entity.h"
 #include "shared/dungeon_projectile_views.h"
 
-typedef struct {
-    u8 *child;
-    u8 pad04[0x10];
-    s32 amount;
-    s16 state;
-    s16 timer;
-    s16 count;
-    s16 ticks;
-    u16 flags;
-    s16 phase;
-    s16 phase2;
-} TownEffect;
-
 #include "town/minigame/pickup_data.h"
 #include "engine/node.h"
 #include "engine/script.h"
@@ -73,13 +60,6 @@ typedef struct S_800211A4_1 {
 } S_800211A4_1;   /* object_child in update_betting_effect */
 
 
-typedef struct S_800211A4_3 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-    s32 unk_14;
-    u8 pad_18[0x2];
-    s16 unk_1A;
-} S_800211A4_3;   /* arg0 in update_betting_effect */
 
 typedef struct S_800211A4_5 {
     void * unk_00;
@@ -219,7 +199,7 @@ void update_betting_effect(TownEffect *input)
         display_object = create_dual_buffer_object(0, -80, 64);
         payout_scale = 6 / (effect->phase + 1);
         betting_display_object = display_object;
-        ((S_800211A4_3 *)effect)->unk_10 = payout_scale;
+        effect->payout_scale = payout_scale;
         if (service_script_controller() == 0) {
             motion = &view_reference_entity;
             motion->velocity_z = 0;
@@ -577,7 +557,7 @@ void update_betting_effect(TownEffect *input)
             break;
         }
 
-        particle_index = (effect->amount * ((S_800211A4_3 *)effect)->unk_10) / 100;
+        particle_index = (effect->amount * effect->payout_scale) / 100;
         effect->timer = 0xF0;
         payout_tens = particle_index / 10;
         ones_digit = particle_index - payout_tens * 10;

@@ -13,6 +13,7 @@
 #include "dungeon/player/item.h"
 #include "engine/texture.h"
 #include "engine/resource.h"
+#include "dungeon/item/effect.h"
 
 typedef struct S_80175CD8_0 {
     u8 pad_00[0x8C];
@@ -86,7 +87,6 @@ extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 check_action_boundary_and_set_flag(void);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
-extern void create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 direction, s16 effect_mode);
 
 /* Updates the actor's approach, descent, and return sequence. */
 /* Spends MP to descend with the player, then saves party state for a scene change or returns with a

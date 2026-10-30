@@ -16,13 +16,13 @@
 
 
 #include "dungeon/player/state.h"
-extern void clear_slot_and_update_linked_state(DungeonItemEntry *slot);
+#include "dungeon/actor.h"
+
 extern u8 * expand_text_control_codes(const u8 *src, u8 *dst);
 extern u8 * clear_byte_and_advance(u8 *byte_ptr);
-extern u8 *append_typed_formatted_value(DungeonItemEntry *data, u8 *buffer);
 extern void * append_value_seven_suffix(u8 *dst);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
-extern s32 place_actor_item();
+extern void place_actor_item(void *object_context, struct DungeonItemEntry *target);
 extern s32 display_actor_item_status_message();
 
 extern u8 D_80089364[];

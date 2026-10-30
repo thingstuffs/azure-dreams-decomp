@@ -16,20 +16,21 @@ typedef struct S_800C4030_1 {
 
 extern s32 lookup_item_category_mapped_value(s32, s32);
 #include "dungeon/player/item.h"
-extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32);
-extern void clear_slot_and_update_linked_state(struct DungeonItemEntry *);
+#include "dungeon/actor.h"
+#include "dungeon/item.h"
+
+extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern void clear_slot_and_update_linked_state(DungeonItemEntry *slot);
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern u8 *clear_byte_and_advance(u8 *byte_ptr);
-extern u8 *append_typed_formatted_value(DungeonItemEntry *data, u8 *buffer);
 extern u8 *append_entity_display_text(void *record, u8 *out);
 extern void * write_status_prefix_bytes(void *);
 extern void create_type_212_object(s32 flag, s8 value);
 extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern void place_actor_item(void *, struct DungeonItemEntry *);
+extern void place_actor_item(void *object_context, struct DungeonItemEntry *target);
 extern s32 random_dungeon_range_16(u32 bound_a, u32 bound_b);
-extern s32 feed_actor_restore_mp(void *, s32, struct DungeonItemEntry *);
 
 extern u8 D_800893DC[];
 extern u8 D_800E187C[];

@@ -49,6 +49,7 @@ s32 display_text_with_fullwidth_adjustment(s8 *text);
 s32 generate_random_value(void);
 #include "dungeon/actor/effect.h"
 #include "dungeon/effect.h"
+#include "dungeon/item.h"
 
 extern u8 D_80089360[];
 extern u8 D_800E1095[0x1E];

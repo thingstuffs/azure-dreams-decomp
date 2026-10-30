@@ -13,6 +13,7 @@
 #include "dungeon/player/object.h"
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 #include "dungeon/item.h"
+#include "dungeon/system.h"
 
 typedef struct S_801721B0_0 {
     u8 pad_00[0x8C];
@@ -30,8 +31,6 @@ typedef struct S_801721B0_0 {
 
 extern void select_sprite_entry(void *, s16, s16);
 extern s32 rsin(s32);
-
-extern void apply_capped_damage_and_hit_effect(void *, void *);
 
 extern u8 pulunpa_action_resume_address[];
 extern u8 D_801762D8[];

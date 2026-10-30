@@ -14,6 +14,16 @@
 #include "records/Rec_D_80082D58.h"
 #include "town/person/position.h"
 
+struct EmoteCallbackObject;
+
+/* Body shared by the positioned-emote creator and callback dispatcher. */
+typedef struct EmoteCallbackObject {
+    /* 0x00 */ u8 pad_00[0x50];
+    /* 0x50 */ s32 (*callback)(struct EmoteCallbackObject *, void *, s32);
+    /* 0x54 */ s32 state_value;
+    /* 0x58 */ u8 pad_58[0x38];
+    /* 0x90 */ s16 frame;
+} EmoteCallbackObject;
 
 
 typedef struct S_800A71F0_3 {
@@ -21,12 +31,6 @@ typedef struct S_800A71F0_3 {
     s32 unk_04;
 } S_800A71F0_3;
 
-typedef struct S_800A71F0_4 {
-    u8 pad_00[0x54];
-    s32 unk_54;
-    u8 pad_58[0x38];
-    s16 unk_90;
-} S_800A71F0_4;
 
 struct Dst;
 
@@ -34,12 +38,7 @@ struct Elem;
 
 struct ObjectNodeHeader;
 
-struct S_800A7338_0;
 
-typedef struct S_800A7338_0 {
-    u8 pad_00[0x50];
-    s32 (*unk_50)(struct S_800A7338_0 *, void *, s32);
-} S_800A7338_0;
 
 typedef struct S_800A7360_1 {
     u8 pad_00[0x50];
@@ -62,7 +61,7 @@ extern void unlink_node_if_registered(void *);
 ObjectNodeHeader *create_positioned_sprite_object(IntVector3 *position, s32 state_value, SpriteSourceEntry *graphic_id);
 ObjectNodeHeader *create_preset_sprite_object(IntVector3 *position);
 void copy_indexed_motion_value_and_advance(Rec_D_80082D58 *object, EntityRec *output, s32 unused);
-void invoke_emote_object_callback(S_800A7338_0 *object, void *motion, s32 context);
+void invoke_emote_object_callback(EmoteCallbackObject *object, void *motion, s32 context);
 void advance_emote_motion(S_800A7360_1 *object, EntityRec *motion);
 void advance_position_and_handle_ground_contact(void *entity, void *motion, s32 context);
 

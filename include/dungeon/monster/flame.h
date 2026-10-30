@@ -732,7 +732,6 @@ s32 update_linked_actor_motion(void *state, void *transform, void *config, void 
 void * resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 s32 get_cd_command_queue_depth(void);
 void unlink_entity_node();
-void distribute_experience_and_report_gains(EntityRec *entity);
 void * detach_record_and_update_slot_state(void *record);
 
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);

@@ -42,4 +42,8 @@ void initialize_action_offset_and_notify(void *action, void *position);
 void update_multi_form_actor_control(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 void upload_encounter_texture(void);
 
+void complete_actor_facing_action(Rec_func_800A9E70_arg0 *entity, ObjectPosition *unused_1, s32 unused_2, ActorRecord *target);
+void create_player_centered_sequence_effect(void);
+s32 try_actor_attack(ActorRecord *action_state, ObjectPosition *action_id, SpriteFrameState *target, ActorRecord *actor);
+
 #endif
