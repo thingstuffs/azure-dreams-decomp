@@ -11,18 +11,14 @@ extern M2C_UNK D_8001605E;
 extern M2C_UNK D_800162A4;
 extern s32 *D_80017760;
 
-typedef struct S_8077DC0C_1 {
-    u8 pad_00[0x40];
-    s32 * unk_40;
-} S_8077DC0C_1;   /* dispatch_base in func_8077DC0C */
 
 /* Flip the current slot's toggle byte, point the dispatcher at the matching handler and raise two events. */
 void toggle_active_scene_event(void) {
     u8 *toggle;
     Rec_D_80016000 *state;
     s32 event;
-    S_8077DC0C_1 *dispatch_base;
-    S_8077DC0C_1 *dispatch_base_2;
+    TownPositionState *dispatch_base;
+    TownPositionState *dispatch_base_2;
 
     state = town_scene_root;
     D_80017760 = &D_800162A4;

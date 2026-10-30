@@ -609,11 +609,17 @@ def edited_from_git(root, rev):
 
 
 def prove(root, edited, base=None, *, workers=8, relink=True, rev='HEAD', keep=False, nice=10,
-          allow_authority=False, log=None, graph=None, compile_tasks=None, known=None):
+          allow_authority=False, log=None, graph=None, compile_tasks=None, known=None, reuse=None,
+          reuse_key=None):
     """Compile the affected set at production recipes and compare objects/images with the baseline.
 
     Returns a report: {verdict, scope, recipes: {id: {...}}, images: {image: {...}}, timing}.
-    verdict: PASS (every affected object and image identical), CHANGED, STALE_BASE or ERROR."""
+    verdict: PASS (every affected object and image identical), CHANGED, STALE_BASE or ERROR.
+
+    reuse / reuse_key (repeated proofs over one baseline, e.g. tools/typing/sig_batch.py bisection):
+    `reuse_key(recipe id)` names the recipe's inputs (None: always compile); a recipe whose key is in
+    the `reuse` dict was compiled byte-identical to its baseline object by an earlier proof and is PASS
+    without a compile (its baseline object stands in for any relink).  PASS keys are added to `reuse`."""
     log = log or (lambda msg: None)
     root = Path(root).resolve()
     base = Path(base).resolve() if base else root
@@ -644,8 +650,19 @@ def prove(root, edited, base=None, *, workers=8, relink=True, rev='HEAD', keep=F
     report['renders'] = sorted(renders)
     run = 'build/.affected/%s-%d' % (time.strftime('%Y%m%d-%H%M%S'), os.getpid())
     (root / run).mkdir(parents=True)
+    keys = {rid: reuse_key(rid) for rid in ids} if reuse is not None and reuse_key else {}
+    reused = [rid for rid in ids if keys.get(rid) is not None and keys[rid] in reuse]
+    for rid in reused:
+        spec = graph.recipes[rid]
+        rec = dict(source=spec.get('source') or spec.get('command'), family=spec['_family'], verdict='PASS',
+                   reused=True)
+        if spec.get('projection'):
+            rec['owner'] = spec['projection']['owner']
+        report['recipes'][rid] = rec
+    report['reused'] = len(reused)
+    reused = set(reused)
     tasks = [dict(op='compile', key=rid, id=rid, run=run, family=graph.recipes[rid]['_family'],
-                  spec=graph.recipes[rid]) for rid in ids]
+                  spec=graph.recipes[rid]) for rid in ids if rid not in reused]
     pool = None
     try:
         t0 = time.monotonic()
@@ -681,6 +698,8 @@ def prove(root, edited, base=None, *, workers=8, relink=True, rev='HEAD', keep=F
                 else:
                     diff = object_difference(before, after)
                     rec['verdict'] = 'PASS' if diff is None else 'CHANGED'
+                    if diff is None and before == after and keys.get(rid) is not None:
+                        reuse[keys[rid]] = True
                     if diff:
                         rec['difference'] = diff
                         changed_objects[rid] = res['object']

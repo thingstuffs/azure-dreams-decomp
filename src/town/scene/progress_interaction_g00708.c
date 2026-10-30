@@ -4,7 +4,7 @@
 #include "town/scene.h"
 
 void mark_progress_state_ready(void) {
-    ((TownProgressState *)town_scene_root->event_data)->unk_B0 = 1;
+    town_scene_root->event_data->unk_B0 = 1;
 }
 
 /* Installs an indexed interaction handler and data once, sets its flag, and marks the state ready. */

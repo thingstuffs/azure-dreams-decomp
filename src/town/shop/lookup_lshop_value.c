@@ -21,7 +21,7 @@ void lookup_lshop_value(s32 group_index, s32 entry_index) {
     Entry *entries;
 
     root = town_scene_root;
-    level = (TownResourceLinks *)root->unk_24;
+    level = root->unk_24;
     groups = level->gridRows;
     entries = groups[group_index].next;
     prepare_shared_text_buffer(entries[entry_index].value);

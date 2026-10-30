@@ -1,14 +1,11 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "town/scene/motion.h"
+#include "shared/town_root.h"
 
 
 typedef void (*Callback)(s32);
 
-typedef struct S_80019E7C_0 {
-    u8 pad_00[0x20];
-    void * unk_20;
-} S_80019E7C_0;   /* root in apply_position_offset_pair */
 
 typedef struct S_80019E7C_1 {
     u8 pad_00[0x8];
@@ -21,13 +18,13 @@ typedef struct S_80019E7C_1 {
 /* Invokes the root callback and adjusts two object fields using signed offsets. */
 void apply_position_offset_pair(void *offsets)
 {
-    S_80019E7C_0 *root;
+    Rec_D_80016000 *root;
     u8 *base;
     s32 *object;
     u16 second_offset;
 
     root = *(void **)((s8 *)(&town_scene_root));
-    (*(Callback *)((u8 *)(root->unk_20) + 0x258))(1);
+    (*(Callback *)((u8 *)(root->services) + 0x258))(1);
 
     base = *(u8 **)((s8 *)(&town_scene_root));
     object = ((S_80019E7C_1 *)base)->unk_1C.p;

@@ -9,15 +9,12 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_effect_views.h"
 #include "engine/node.h"
+#include "shared/gpu_packets.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-typedef struct S_800A3B80_0 {
-    u8 pad_00[0x8D0];
-    void * unk_8D0;
-} S_800A3B80_0;
 
 /* town in emit_bidirectional_angular_segments */
 typedef struct S_800A3B80_1 {
@@ -48,10 +45,6 @@ typedef struct S_800A3B80_4 {
 } S_800A3B80_4;
 
 /* global_base in emit_bidirectional_angular_segments */
-typedef struct S_800A3B80_5 {
-    u8 pad_00[0x8D0];
-    void * unk_8D0;
-} S_800A3B80_5;
 
 /* end_town in emit_bidirectional_angular_segments */
 typedef struct TownGlobals {

@@ -15,6 +15,6 @@ s32 check_event_state_range(void) {
 
     ((Callback)town_scene_root->services->callback_248)(0);
     stateCode =
-        ((TownPositionState *)town_scene_root->position)->x;
+        town_scene_root->position->x;
     return stateCode >= 0x3E0 ? stateCode < 0x3E5 : stateCode >= 0x3DC;
 }

@@ -21,7 +21,7 @@ void copy_current_record_components_3(void *output) {
     u16 *components;
 
     components = output;
-    source_record = ((ObjectPayloadView *)(((TownResourceLinks *)town_scene_root->unk_24)->unk_68))->unk_08;
+    source_record = ((ObjectPayloadView *)(town_scene_root->unk_24->unk_68))->unk_08;
     components[0] = (u16) source_record->x;
     components[1] = (u16) source_record->y;
     components[2] = (u16) source_record->z;

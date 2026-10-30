@@ -29,8 +29,8 @@ void advance_effect_and_reduce_scale(void *effect, ObjectPosition *motion, Sprit
     S_80814CC4_2 *object;
 
     object = ((S_80814CC4_0 *)effect)->unk_00;
-    ((ObjectPosition *)motion)->x.v = (s32) (((ObjectPosition *)motion)->x.v + ((S_80814CC4_0 *)effect)->unk_04);
-    ((ObjectPosition *)motion)->y.v = (s32) (((ObjectPosition *)motion)->y.v + ((ObjectPosition *)motion)->velocity_y);
+    motion->x.v = (s32) (motion->x.v + ((S_80814CC4_0 *)effect)->unk_04);
+    motion->y.v = (s32) (motion->y.v + motion->velocity_y);
     object->unk_58 = (u16) (object->unk_58 | 1);
     next_scale = ((SpriteFrameState *)scale)->scale_y - 0x100;
     ((SpriteFrameState *)scale)->scale_x = next_scale;

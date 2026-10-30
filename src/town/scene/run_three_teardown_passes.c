@@ -3,6 +3,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "town/scene/resource.h"
+#include "shared/town_root.h"
 
 
 extern void func_80019988(void); /* this scene's placed copy of set_current_entry_script_flag */
@@ -10,10 +11,6 @@ extern s32 func_8001991C(s32, s32);
 extern void func_8001A554(s32);
 extern void func_8001A7AC(void);
 
-typedef struct S_80017604_0 {
-    u8 pad_00[0x20];
-    void * unk_20;
-} S_80017604_0;   /* *(void **)D_80016000 in run_three_teardown_passes */
 
 typedef struct S_80017604_1 {
     u8 pad_00[0x2F8];
@@ -31,7 +28,7 @@ s32 run_three_teardown_passes(s32 kind, s32 value)
     func_80019988();
     if (func_8001991C(kind, value) == 0) {
         func_8001A7AC();
-        ((S_80017604_1 *)(((S_80017604_0 *)(*(void **)((s8 *)(&town_scene_root))))->unk_20))
+        ((S_80017604_1 *)(((Rec_D_80016000 *)(*(void **)((s8 *)(&town_scene_root))))->services))
         ->unk_2F8(0xE, 0x200);
         result = 0;
     } else {

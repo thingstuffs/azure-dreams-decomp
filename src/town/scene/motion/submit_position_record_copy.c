@@ -17,8 +17,8 @@ void submit_position_record_copy(void) {
     Rec_D_80016000 *state;
 
     state = town_scene_root;
-    record[0] = ((TownPositionState *)(state->position))->x;
-    record[1] = ((TownPositionState *)(state->position))->x;
+    record[0] = state->position->x;
+    record[1] = state->position->x;
     record[2] = 0;
     ((S_806F18F8_4 *)(state->services))->unk_208(0);
     ((s32 (*) (s32 *))town_scene_root->services->callback_228)(record);

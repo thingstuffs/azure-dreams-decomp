@@ -3,6 +3,6 @@
 #include "town/scene/motion.h"
 
 void set_player_fixed_position(void) {
-    ((TownPositionState *)town_scene_root->position)->x = 864;
-    ((TownPositionState *)town_scene_root->position)->y = 1056;
+    town_scene_root->position->x = 864;
+    town_scene_root->position->y = 1056;
 }

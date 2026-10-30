@@ -12,8 +12,8 @@ s32 run_scene_callbacks_with_value_shift(void)
 {
     town_scene_root->services->callback_248(1);
     town_scene_root->services->callback_244(1);
-    if (((TownPositionState *)town_scene_root->position)->unk_00 == 3) {
-        ((TownPositionState *)town_scene_root->position)->x -= 0x30;
+    if (town_scene_root->position->unk_00 == 3) {
+        town_scene_root->position->x -= 0x30;
         return 1;
     }
     return 0;

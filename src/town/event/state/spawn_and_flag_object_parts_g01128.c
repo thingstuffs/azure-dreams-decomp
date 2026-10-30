@@ -142,7 +142,7 @@ void spawn_randomized_effect_parts(u8 *source_data, s32 spawn_arg) {
     s32 velocity_bias;
     s32 *part_params;
     s32 part_index;
-    S_8009C648_4 *velocity;
+    ObjectPosition *velocity;
     S_8009C648_3 *part_data;
     ObjectNodeHeader *part_object;
     void *source_object;
@@ -165,8 +165,8 @@ void spawn_randomized_effect_parts(u8 *source_data, s32 spawn_arg) {
         part_object->sprite->source =
             ((s32 *)((S_8009C648_2 *)source_data)->unk_80)[part_indices[part_index]];
         part_data->unk_60 = part_index;
-        velocity->unk_0C = (s32)((rand() * 0x10) + velocity_bias);
-        velocity->unk_10 = (s32)((rand() * 0x10) + velocity_bias);
+        velocity->velocity_x = (s32)((rand() * 0x10) + velocity_bias);
+        velocity->velocity_y = (s32)((rand() * 0x10) + velocity_bias);
         random_z = rand();
         motion = velocity;
         part_params += 2;

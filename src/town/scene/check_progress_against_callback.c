@@ -13,6 +13,6 @@ s32 check_progress_against_callback(void) {
 
     queryArgs[1] = 0x17;
     queryArgs[0] = 5;
-    return (s32) ((u32)((TownProgressState *)town_scene_root->event_data)->unk_110)
+    return (s32) ((u32)town_scene_root->event_data->unk_110)
     >= ((u32 (*) (s8 *))town_scene_root->services->callback_050)(queryArgs);
 }

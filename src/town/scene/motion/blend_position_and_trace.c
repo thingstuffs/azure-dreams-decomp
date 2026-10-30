@@ -44,6 +44,6 @@ void blend_position_and_trace(s32 first_input, s32 second_input, s32 blend_weigh
         report(result_format, D_80016128, s.x);
     }
     root = town_scene_root;
-    ((TownPositionState *)root->position)->x = s.x;
-    ((TownPositionState *)root->position)->y = s.y;
+    root->position->x = s.x;
+    root->position->y = s.y;
 }

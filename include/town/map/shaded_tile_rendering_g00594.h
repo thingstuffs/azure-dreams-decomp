@@ -237,13 +237,6 @@ typedef struct Slot800AF9D8 {
     s32 phase;
 } Slot800AF9D8;
 
-typedef struct S_800AD138_0 {
-    u8 pad_00[0x14];
-    s16 unk_14;
-    s16 unk_16;
-    s16 unk_18;
-    s16 unk_1A;
-} S_800AD138_0;
 
 /* record in draw_empty_map_cell_quads */
 typedef struct S_800AD138_1 {

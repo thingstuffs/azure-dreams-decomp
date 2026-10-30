@@ -609,7 +609,7 @@ void draw_empty_map_cell_quads(u32 packet_limit)
 {
     MapQuadScratch *scratch;
     u8 *state;
-    S_800AD138_0 *map_bounds;
+    MapGrid *map_bounds;
     u8 *render_state;
     u8 *edge_buffer;
     u8 *packet_fields;
@@ -674,20 +674,20 @@ void draw_empty_map_cell_quads(u32 packet_limit)
     scratch->normal_z = -0x1000;
 
     state = ((u8 *)(&g_game_work));
-    map_bounds = (S_800AD138_0 *)(state + 0x1DC);
+    map_bounds = (MapGrid *)(state + 0x1DC);
     scratch->normal_x = 0;
     scratch->normal_y = 0;
     render_state = g_game_work.draw_buffer;
-    x_shift = map_bounds->unk_14;
+    x_shift = map_bounds->shiftX;
     initial_size = 0x01000100;
-    y_shift = map_bounds->unk_16;
+    y_shift = map_bounds->shiftY;
     chain_addr = (s32)(render_state + 0x8AC);
     scratch->chain_address = chain_addr;
     scratch->y_shift = y_shift;
     scratch->x_shift = x_shift;
     scratch->step_x = 0x40 << x_shift;
-    bound_x = map_bounds->unk_18;
-    bound_y = map_bounds->unk_1A;
+    bound_x = map_bounds->maskX;
+    bound_y = map_bounds->maskY;
     uv_scroll = (((S_800AD138_1 *)state)->unk_04 >> 1) & 0x3F;
     map_height = 0x40 << y_shift;
     scratch->step_y = map_height;

@@ -18,7 +18,7 @@ s32 run_events_935_936_set_data(void) {
     set_script_flag_94c();
     func_8001A5CC(F_sbs32_pad11);
     func_8001A5CC(F_sbs32_pad12);
-    ((TownPositionState *)town_scene_root->position)->unk_40 = &D_8001D9D4;
+    town_scene_root->position->unk_40 = &D_8001D9D4;
     town_scene_root->services->callback_2F8(0xE, 0x200);
     return 0;
 }

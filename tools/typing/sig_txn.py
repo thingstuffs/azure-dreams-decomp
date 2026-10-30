@@ -128,15 +128,21 @@ def mark_floor(text, start, end, reason, unprototyped=True):
 # ----------------------------------------------------------------------------------------- planning
 
 class Transaction:
-    def __init__(self, root, header, decisions, census=None, log=print, partial=True):
+    def __init__(self, root, header, decisions, census=None, log=print, partial=True, originals=None,
+                 repair=True):
         self.root = Path(root).resolve()
         self.header = header
         self.log = log
         self.partial = partial
         self.census = census or C.Census(self.root, log=log)
         self.decisions = {d['name']: d for d in decisions}
-        self.originals = {}
+        self.originals = {} if originals is None else originals   # shared by the transactions of a batch
         self.no_include = set()      # TUs whose #include of H the proof refused (conflicting declarations)
+        self.repair = repair         # visibility repairs (see plan_edits); the proof decides each one
+        self.no_repair = set()       # paths whose visibility repair the proof refused
+        self.no_type_include = set()  # type headers H may not gain (a consumer conflicts with them)
+        self.batch_names = set()     # every name a batch unifies (sig_batch.py): their declarations go too
+        self.batch_floor_tus = {}    # TU -> owning headers whose names keep a floor declaration there
 
     def text(self, rel):
         if rel not in self.originals:
@@ -194,20 +200,33 @@ class Transaction:
 
     def plan(self, chosen):
         """({path: new text}, report).  Names that cannot be written are returned in report['held']."""
+        ep = self.plan_edits(chosen)
+        texts, file_names = render([(self, ep)])
+        ep['report']['file_names'] = file_names
+        return texts, ep['report']
+
+    def plan_edits(self, chosen):
+        """Edit plan of this header's names, in original-text offsets (render() merges several):
+        {edits, need_include, extra_includes, drop_includes, def_rewrites, h_lines, report}."""
         H = self.header
         h_text = self.text(H)
-        report = dict(header=H, names={}, held={}, files={}, respelled=[], includes_added=[], floors=[])
+        report = dict(header=H, names={}, held={}, files={}, respelled=[], includes_added=[], floors=[],
+                      repairs=[])
+        ep = dict(edits={}, need_include={}, extra_includes={}, drop_includes={}, def_rewrites=[], h_lines=[],
+                  report=report)
         if h_text is None:
             report['held'] = {n: 'no_owner_header_file' for n in chosen}
-            return {}, report
+            return ep
         h_closure = set(self.census.corpus.closure(H))
         edits = defaultdict(list)            # path -> [(start, end, replacement)]
         need_include = defaultdict(set)      # TU -> names that need H
+        extra_includes = defaultdict(set)    # path -> other headers a visibility repair includes there
+        drop_includes = defaultdict(set)     # floor TU -> owner header include it never needed
         def_rewrites = []                    # (path, name, wide, narrow)
         h_append, h_inline = [], []
         file_names = defaultdict(set)        # path -> names whose edits touch it
         infos = {n: self.census.info(n) for n in chosen}
-        unified_names = set(chosen)
+        unified_names = set(chosen) | self.batch_names
         # names H declares after the transaction, with their keys (for the include-conflict check)
         h_decl = {}
         for it in self.census.corpus.scan(H).items:
@@ -232,7 +251,16 @@ class Transaction:
             for path, b in floor_paths.items():
                 local = [s for s in info.sites if s.path == path]
                 if H in self.census.corpus.closure(path):
-                    bad = 'floor_site_sees_owner_header:' + path
+                    if self._drop_unneeded_include(path, H, chosen):
+                        # visibility repair: the floor TU includes H directly but uses nothing H declares
+                        # besides its floored names; dropping that include keeps the floor declaration
+                        drop_includes[path].add(H)
+                        report['repairs'].append(dict(kind='drop_unneeded_owner_include', path=path, name=n))
+                    else:
+                        bad = 'floor_site_sees_owner_header:%s:%s' % (
+                            'direct' if H in self.census.corpus.includes(path) else 'transitive', path)
+                if bad:
+                    pass
                 elif not local:
                     closure = self.census.corpus.closure(path)
                     hs = [s for s in info.sites if s.in_header and s.path in closure]
@@ -311,11 +339,39 @@ class Transaction:
         # that newly includes it may not have the typedef in scope (e.g. DungeonItemEntry in item.h)
         if h_append or h_inline or edits.get(H):
             h_inline = self._self_contained(H, h_inline + h_append) + h_inline
+            # type includes the proof refused (a TU that includes H declares a name the type header declares
+            # differently): such a TU keeps compiling only without them
+            h_inline = [l for l in h_inline if not (l.startswith('#include "') and
+                                                     'include/' + l.split('"')[1] in self.no_type_include)]
+            report['header_includes'] = ['include/' + l.split('"')[1] for l in h_inline if l.startswith('#include "')]
         # include feasibility per TU (static checks; the proof is the final word)
         floor_tus = {f['path'] for f in report['floors']}
+        corpus = self.census.corpus
+        h_reach = set(corpus.closure(H))
         for path, names in sorted(need_include.items()):
+            # a TU that keeps a floor declaration of another header's name never gains a header reaching it
+            other_floor = [h for h in self.batch_floor_tus.get(path, ()) if h != H and h in h_reach]
             reason = 'proof_conflict' if path in self.no_include else 'floor_site' if path in floor_tus else \
+                'floor_site:' + other_floor[0] if other_floor else \
                 self._include_problem(path, H, h_decl, unified_names, infos)
+            if reason == 'tu_without_common_h' and self.repair and path not in self.no_repair:
+                # visibility repair: the TU spells its own base typedefs instead of including common.h;
+                # it includes common.h (identical local typedefs removed) and then H
+                fix = self._common_h_repair(path)
+                if fix is not None:
+                    reason = self._include_problem(path, H, h_decl, unified_names, infos,
+                                                   extra=('include/common.h',))
+                    if reason is None:
+                        # common.h takes the place of the first local base typedef (else the usual slot)
+                        if fix:
+                            fix = [(fix[0][0], fix[0][1], '#include "common.h"')] + fix[1:]
+                        else:
+                            extra_includes[path].add('include/common.h')
+                        edits[path].extend(fix)
+                        report['repairs'].append(dict(kind='include_common_h', path=path, names=sorted(names),
+                                                      typedefs_removed=len(fix)))
+                    else:
+                        reason = 'tu_without_common_h+' + reason
             if reason is None:
                 report['includes_added'].append(path)
                 continue
@@ -328,8 +384,15 @@ class Transaction:
                 local = [s for s in infos[n].sites if s.path == path]
                 seen = local or [s for s in infos[n].sites if s.in_header and s.path in closure and s.path != H]
                 if seen and not self._types_visible(self.canonical(chosen[n]), seen[0].path):
-                    report['held'][n] = 'respell_type_not_visible:' + seen[0].path
-                    continue
+                    homes = self._type_homes(self.canonical(chosen[n]), seen[0].path) \
+                        if self.repair and seen[0].path not in self.no_repair else None
+                    if not homes:
+                        report['held'][n] = 'respell_type_not_visible:' + seen[0].path
+                        continue
+                    # visibility repair: the respelled site includes each missing type's owning header
+                    extra_includes[seen[0].path] |= set(homes)
+                    report['repairs'].append(dict(kind='include_type_header', path=seen[0].path, name=n,
+                                                  headers=sorted(homes)))
                 if seen:
                     s0 = seen[0]
                     edits[s0.path] = [e for e in edits[s0.path]
@@ -344,49 +407,117 @@ class Transaction:
             fl = [f['path'] for f in report['floors'] if f['name'] == r['name']]
             if r['path'].endswith('.h') and any(r['path'] in self.census.corpus.closure(f) for f in fl):
                 report['held'][r['name']] = 'respelled_header_reaches_floor:' + r['path']
+        for r in report['repairs']:
+            file_names[r['path']].update([r['name']] if 'name' in r else r['names'])
         held = set(report['held'])
         if held:
             remaining = {n: d for n, d in chosen.items() if n not in held}
             if remaining and len(remaining) < len(chosen):
-                texts, sub = self.plan(remaining)
-                sub['held'] = dict(report['held'], **sub['held'])
-                return texts, sub
+                sub = self.plan_edits(remaining)
+                sub['report']['held'] = dict(report['held'], **sub['report']['held'])
+                return sub
             if not remaining:
-                return {}, report
-        # 4. render
-        texts = {}
-        paths = set(edits) | {p for p, ns in need_include.items() if ns} | {r[0] for r in def_rewrites}
-        if h_append or h_inline:
-            paths.add(H)
-        for path in sorted(paths):
-            text = self.text(path)
-            spans = [e for e in edits.get(path, []) if e[0] != 'floor']
-            new = apply_spans(text, spans) if spans else text
-            if need_include.get(path):
-                new = add_include(new, H)
-            for p_, n, wide, narrow in def_rewrites:
-                if p_ == path:
-                    new, added = S.retype_definition(new, n, wide, narrow)
-                    report.setdefault('narrowing_casts', 0)
-                    report['narrowing_casts'] += added
-            floors = [e for e in edits.get(path, []) if e[0] == 'floor']
-            for _, site, reason in floors:
-                # re-find the kept declaration in the new text by its exact text
-                at = new.find(site.text)
-                if at >= 0:
-                    new = mark_floor(new, at, at + len(site.text), FLOOR_TEXT.get(reason, reason))
-            if path == H and (h_append or h_inline):
-                new = append_to_header(new, h_inline + h_append)
-            if new != text:
-                texts[path] = new
-        report['file_names'] = {p: sorted(ns) for p, ns in file_names.items() if p in texts}
-        return texts, report
+                return ep
+        ep.update(edits=dict(edits), need_include={p: ns for p, ns in need_include.items() if ns},
+                  extra_includes={p: hs for p, hs in extra_includes.items() if hs},
+                  drop_includes={p: hs for p, hs in drop_includes.items() if hs}, def_rewrites=def_rewrites,
+                  h_lines=h_inline + h_append if (h_append or h_inline) else [], file_names=file_names)
+        return ep
+
+    def _drop_unneeded_include(self, path, H, chosen):
+        """True when floor TU `path` includes H directly, reaches H through nothing else, and uses no name,
+        type, tag or macro that H (or what only H brings) declares other than the names it floors."""
+        if not self.repair or path in self.no_repair or not path.endswith('.c'):
+            return False
+        corpus, tindex = self.census.corpus, self.census.tindex
+        direct = corpus.includes(path)
+        if H not in direct:
+            return False
+        rest = set()
+        for inc in direct:
+            if inc != H:
+                rest |= set(corpus.closure(inc))
+        if H in rest:
+            return False
+        only_h = [f for f in corpus.closure(H) if f not in rest]
+        provided = set(chosen)
+        for f in only_h:
+            sc = corpus.scan(f)
+            for it in sc.items:
+                for d in it.decls or ():
+                    if d.name:
+                        provided.add(d.name)
+            provided |= set(tindex.typedefs(f))
+            from model import file_tags
+            provided |= {t.split()[1] for t in file_tags(corpus, f)}
+            for d in sc.directives:
+                if d.kind == 'define':
+                    m = re.match(r'([A-Za-z_]\w*)', d.arg)
+                    if m:
+                        provided.add(m.group(1))
+            masked = sc.masked
+            for m in re.finditer(r'\benum\b[^{;]*\{([^}]*)\}', masked):
+                provided |= set(re.findall(r'([A-Za-z_]\w*)\s*(?:=[^,]*)?(?:,|$)', m.group(1)))
+        floored = {m for m, d in chosen.items() if path in {b['path'] for b in d.get('floors', [])}}
+        sc = corpus.scan(path)
+        used = set(cscan.IDENT.findall(sc.masked))
+        for d in sc.directives:
+            if d.kind != 'include':
+                used |= set(cscan.IDENT.findall(d.arg))
+        return not ((used & provided) - floored)
+
+    def _common_h_repair(self, path):
+        """Removal spans for the TU's own base typedefs that include/common.h defines identically, or None
+        when the TU defines one of common.h's typedef names differently (or is not a .c file)."""
+        if not path.endswith('.c'):
+            return None
+        corpus, tindex = self.census.corpus, self.census.tindex
+        common = {}
+        for f in corpus.closure('include/common.h'):
+            for n, ti in tindex.typedefs(f).items():
+                common.setdefault(n, ti)
+        spans = []
+        for it in corpus.scan(path).items:
+            if it.kind != 'decl' or 'typedef' not in it.storage or it.cond_depth:
+                continue
+            names = [d.name for d in it.decls if d.name]
+            if not any(n in common for n in names):
+                continue
+            if len(it.decls) != 1:
+                return None
+            d = it.decls[0]
+            ti = common[d.name]
+            if d.ptr != ti.ptr or d.suffix != ti.suffix or d.is_function or \
+                    base_spelling(it.spec) != base_spelling(ti.spec):
+                return None
+            spans.append((it.start, it.end, ''))
+        return spans
+
+    def _type_homes(self, proto, path):
+        """[header] defining each typedef the prototype spells that is not visible at `path` (one unambiguous
+        home per type; a header site takes only shared type headers), or None."""
+        tindex = self.census.tindex
+        vis = tindex.visible(path)
+        out = set()
+        for t in sorted(typedef_uses(proto)):
+            if t in vis or t not in tindex.global_defs:
+                continue
+            homes = [h for h in tindex.global_defs[t] if h != path and h != self.header]
+            ok = [h for h in homes if P.type_header_ok(h)]
+            if path.endswith('.h'):
+                homes = ok
+            elif ok:
+                homes = ok
+            if len(set(homes)) != 1:
+                return None
+            out.add(homes[0])
+        return sorted(out) or None
 
     def _types_visible(self, proto, path):
         """Every typedef name the prototype spells is in scope at `path` (a respelled declaration stays there)."""
         tindex = self.census.tindex
         vis = tindex.visible(path)
-        return all(t in vis for t in cscan.IDENT.findall(proto) if t in tindex.global_defs)
+        return all(t in vis for t in typedef_uses(proto) if t in tindex.global_defs)
 
     def _self_contained(self, H, new_lines):
         """`#include` lines for shared type headers whose typedefs H's declarations use but H's own include
@@ -395,7 +526,7 @@ class Transaction:
         vis = tindex.visible(H)
         masked = corpus.scan(H).masked + '\n' + '\n'.join(new_lines)
         out = []
-        for t in sorted(set(cscan.IDENT.findall(masked))):
+        for t in sorted(typedef_uses(masked)):
             if t in vis or t in cscan.BASE_TYPES or t in cscan.QUALIFIERS or t in cscan.STORAGE:
                 continue
             homes = [h for h in tindex.global_defs.get(t, ()) if P.type_header_ok(h) and h not in P.TYPE_ALWAYS]
@@ -405,9 +536,11 @@ class Transaction:
                     out.append(line)
         return out
 
-    def _include_problem(self, path, H, h_decl, unified, infos):
+    def _include_problem(self, path, H, h_decl, unified, infos, extra=()):
         corpus, tindex = self.census.corpus, self.census.tindex
-        closure = corpus.closure(path)
+        closure = list(corpus.closure(path))
+        for e in extra:                  # headers a visibility repair adds first (include/common.h)
+            closure += [f for f in corpus.closure(e) if f not in closure]
         if 'include/common.h' not in closure:
             return 'tu_without_common_h'
         own = P._file_level_names(corpus, path) | P._macros(corpus, path)
@@ -432,6 +565,8 @@ class Transaction:
         vis_files = {}
         for f in closure:
             for n in tindex.typedefs(f):
+                if f == path and extra and n in BASE_TYPEDEFS:
+                    continue             # removed by the common.h repair
                 vis_files.setdefault(n, f)
         for f in corpus.closure(H):
             if f in closure:
@@ -440,6 +575,87 @@ class Transaction:
                 if vis_files.get(n) not in (None, f):
                     return 'typedef_clash:' + n
         return None
+
+
+BASE_TYPEDEFS = {'u8', 's8', 'u16', 's16', 'u32', 's32'}
+TAGGED = re.compile(r'\b(?:(struct|union|enum)\s+)?([A-Za-z_]\w*)')
+
+
+def typedef_uses(text):
+    """Identifiers of a text that can name a typedef: a `struct X` / `union X` / `enum X` tag is not one
+    (a forward tag declaration satisfies it, no typedef header is needed)."""
+    return {m.group(2) for m in TAGGED.finditer(text) if not m.group(1)} - {'struct', 'union', 'enum'}
+
+
+def base_spelling(spec):
+    """Canonical spelling of an integer base type's specifier tokens ('signed short int' -> 'short')."""
+    toks = [t for t in spec if t not in ('const', 'volatile')]
+    if any(t not in ('signed', 'unsigned', 'char', 'short', 'int', 'long') for t in toks):
+        return ' '.join(toks)
+    sign = 'unsigned ' if 'unsigned' in toks else ''
+    if 'char' in toks:
+        return ('signed ' if 'signed' in toks else sign) + 'char'
+    if 'short' in toks:
+        return sign + 'short'
+    if 'long' in toks:
+        return sign + 'long' * min(toks.count('long'), 2)
+    return sign + 'int'
+
+
+def render(parts, text=None):
+    """({path: new text}, {path: [names]}) for the merged edit plans [(txn, plan_edits())] of one or
+    more owning-header transactions over the same baseline.  Spans from every plan are applied together
+    (identical spans once; overlapping spans raise ValueError), then the owner-header includes, the
+    width-rule definition rewrites, the floor markers and each owner header's appended block."""
+    text = text or parts[0][0].text
+    edits, adds, drops, rewrites, appends = defaultdict(list), defaultdict(set), defaultdict(set), \
+        defaultdict(list), {}
+    file_names = defaultdict(set)
+    for txn, ep in parts:
+        for path, es in ep['edits'].items():
+            edits[path].extend(es)
+        for path in ep['need_include']:
+            adds[path].add(txn.header)
+        for path, hs in ep['extra_includes'].items():
+            adds[path] |= hs
+        for path, hs in ep['drop_includes'].items():
+            drops[path] |= hs
+        for r in ep['def_rewrites']:
+            rewrites[r[0]].append((r, ep['report']))
+        if ep['h_lines']:
+            appends[txn.header] = ep['h_lines']
+        for path, ns in ep.get('file_names', {}).items():
+            file_names[path] |= set(ns)
+    texts = {}
+    for path in sorted(set(edits) | set(adds) | set(drops) | set(rewrites) | set(appends)):
+        old = text(path)
+        spans = sorted({e for e in edits.get(path, []) if e[0] != 'floor'})
+        new = apply_spans(old, spans) if spans else old
+        if adds.get(path) or drops.get(path):
+            new = R.edit_tu(new, {'add': sorted(adds.get(path, ())), 'remove': [],
+                                  'drop': sorted(drops.get(path, ()))})
+        # an include this writer placed (the common.h repair or edit_tu) is followed by a blank line or
+        # another directive, never directly by code
+        for h in sorted(adds.get(path, ())) + ['include/common.h']:
+            line = '#include "%s"\n' % P.include_token(h)
+            at = new.find(line)
+            if at >= 0 and line not in old:
+                nxt = at + len(line)
+                if nxt < len(new) and new[nxt] not in '\n#':
+                    new = new[:nxt] + '\n' + new[nxt:]
+        for (p_, n, wide, narrow), report in rewrites.get(path, ()):
+            new, added = S.retype_definition(new, n, wide, narrow)
+            report['narrowing_casts'] = report.get('narrowing_casts', 0) + added
+        for _, site, reason in [e for e in edits.get(path, []) if e[0] == 'floor']:
+            # re-find the kept declaration in the new text by its exact text
+            at = new.find(site.text)
+            if at >= 0:
+                new = mark_floor(new, at, at + len(site.text), FLOOR_TEXT.get(reason, reason))
+        if path in appends:
+            new = append_to_header(new, appends[path])
+        if new != old:
+            texts[path] = new
+    return texts, {p: sorted(ns) for p, ns in file_names.items() if p in texts}
 
 
 # -------------------------------------------------------------------------------------------- proof
@@ -501,6 +717,28 @@ def native_culprits(report, file_names, names):
 
 
 CONFLICT = re.compile(r"(?:previous declaration of|conflicting types for) `([A-Za-z_]\w*)'")
+ARITY = re.compile(r"too (?:many|few) arguments to function `([A-Za-z_]\w*)'")
+
+
+def failing_source(rec, root=None):
+    """The source file a proof recipe compiles: its placement-copy owner, its source, or (SLUS recipes,
+    whose report source is the compile command run in build_slus/) the first .c operand of the command,
+    resolved through the build_slus views to the tree file when `root` is given."""
+    own = rec.get('owner') or rec.get('source') or ''
+    if ' ' in own:
+        own = next((t for t in own.split() if t.endswith('.c')), own)
+        if root is not None:
+            return slus_path(root, own)
+    return own[len('build_slus/'):] if own.startswith('build_slus/') else own
+
+
+def slus_path(root, rel):
+    """Tree path of a path as a SLUS recipe names it (relative to build_slus/, whose src/ and include/
+    entries are symlink views of tree files)."""
+    import os
+    root = Path(root).resolve()
+    real = Path(os.path.realpath(root / 'build_slus' / rel))
+    return real.relative_to(root).as_posix() if real.is_relative_to(root) else rel
 
 
 def culprits(report, file_names, root, chosen=(), included=(), no_include=None):
@@ -512,10 +750,10 @@ def culprits(report, file_names, root, chosen=(), included=(), no_include=None):
     for rid, rec in report.get('recipes', {}).items():
         if rec.get('verdict') == 'PASS':
             continue
-        own = rec.get('owner') or rec.get('source') or ''
+        own = failing_source(rec, root)
         named = set(CONFLICT.findall(rec.get('error', '')))
-        if named & set(chosen):
-            drop |= named & set(chosen)
+        if (named | set(ARITY.findall(rec.get('error', '')))) & set(chosen):
+            drop |= (named | set(ARITY.findall(rec.get('error', '')))) & set(chosen)
             continue
         if named and own in included and no_include is not None:
             no_include.add(own)
@@ -555,6 +793,54 @@ def write(root, rel, text):
         p.write_bytes(text.encode('utf-8', 'surrogateescape'))
 
 
+def build_receipt(txn, report, written, proof, backoffs, rounds, tree, files=None):
+    """(txn.json receipt, patch text, debt yields, floor sites, local / empty / header declarations removed)
+    for one owning header; `files` limits the changed set (a batch receipt per header)."""
+    changed = sorted(written if files is None else [f for f in files if f in written])
+    patch = []
+    yields = defaultdict(int)
+    for rel in changed:
+        old, new = txn.originals[rel], written[rel]
+        patch.extend(difflib.unified_diff((old or '').splitlines(True), new.splitlines(True), 'a/' + rel, 'b/' + rel))
+        if not rel.endswith(('.c', '.h')):
+            continue
+        b, a = debt_counts(rel, old), debt_counts(rel, new)
+        for k in set(b) | set(a):
+            yields[k + '_delta'] += a.get(k, 0) - b.get(k, 0)
+    names = report.get('names', {}) if written else {}
+    removed_local = removed_empty = removed_header = 0
+    for n in names:
+        info = txn.census.info(n)
+        floors = set(names[n]['floors'])
+        for s in info.sites:
+            if s.path == txn.header or s.path in floors:
+                continue
+            if any(r['path'] == s.path and r['name'] == n for r in report.get('respelled', [])):
+                continue
+            if s.in_header:
+                removed_header += 1
+            else:
+                removed_local += 1
+                removed_empty += s.arity is None
+    floors = list(report.get('floors', [])) if written else []
+    receipt = dict(header=txn.header, tree=tree, rounds=rounds, verdict=(proof or {}).get('verdict'),
+                   names=names, unified=sum(1 for v in names.values() if v['status'] == 'unified'),
+                   partial=sum(1 for v in names.values() if v['status'] == 'partial'),
+                   local_declarations_removed=removed_local, empty_declarations_removed=removed_empty,
+                   header_declarations_removed=removed_header, respelled=report.get('respelled', []),
+                   includes_added=report.get('includes_added', []) if written else [],
+                   repairs=report.get('repairs', []) if written else [],
+                   narrowing_casts_added=report.get('narrowing_casts', 0) if written else 0,
+                   debt=dict(yields), files=changed, floor_sites=floors, backoffs=backoffs,
+                   proof=dict(verdict=(proof or {}).get('verdict'), counts=(proof or {}).get('counts'),
+                              natcheck=(proof or {}).get('natcheck'),
+                              scope={k: (len(v) if isinstance(v, list) else v)
+                                     for k, v in (proof or {}).get('scope', {}).items()
+                                     if k in ('recipes', 'slus_recipes', 'images', 'kinds')},
+                              seconds=(proof or {}).get('seconds')))
+    return receipt, ''.join(patch), dict(yields), floors, removed_local, removed_empty, removed_header
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--root', type=Path, default=HERE.parents[2])
@@ -564,6 +850,8 @@ def main(argv=None):
     ap.add_argument('--affected', type=Path, help='tools/build/affected.py (default: the root\'s own)')
     ap.add_argument('--natcheck', type=Path, help='port natcheck.py: run after a PASS byte proof, back off on failures')
     ap.add_argument('--no-partial', action='store_true')
+    ap.add_argument('--no-repair', action='store_true', help='no visibility repairs (common.h, type headers, '
+                    'unneeded owner include in a floor TU)')
     ap.add_argument('--dry-run', action='store_true', help='write, prove, then restore every file')
     ap.add_argument('--no-proof', action='store_true', help='write only (the caller proves)')
     ap.add_argument('--workers', type=int, default=8)
@@ -590,7 +878,8 @@ def main(argv=None):
         logf.write(line + '\n')
         logf.flush()
 
-    txn = Transaction(root, data['header'], data['decisions'], log=log, partial=not args.no_partial)
+    txn = Transaction(root, data['header'], data['decisions'], log=log, partial=not args.no_partial,
+                      repair=not args.no_repair)
     chosen = txn.candidates(set(args.names) if args.names else None)
     log('%s: %d candidate names (%d unified, %d partial)' % (data['header'], len(chosen),
         sum(d['status'] == 'unified' for d in chosen.values()), sum(d['status'] == 'partial' for d in chosen.values())))
@@ -684,51 +973,9 @@ def main(argv=None):
             written = {}
             log('no proven state: every file restored')
         # receipt
-        changed = sorted(written)
-        patch = []
-        yields = defaultdict(int)
-        for rel in changed:
-            old, new = txn.originals[rel], written[rel]
-            patch.extend(difflib.unified_diff((old or '').splitlines(True), new.splitlines(True), 'a/' + rel, 'b/' + rel))
-            if not rel.endswith(('.c', '.h')):
-                continue
-            b, a = debt_counts(rel, old), debt_counts(rel, new)
-            for k in set(b) | set(a):
-                yields[k + '_delta'] += a.get(k, 0) - b.get(k, 0)
-        (out / 'txn.patch').write_text(''.join(patch))
-        names = report.get('names', {}) if written else {}
-        removed_local = removed_empty = removed_header = 0
-        for n in names:
-            info = txn.census.info(n)
-            floors = set(names[n]['floors'])
-            for s in info.sites:
-                if s.path == txn.header or s.path in floors:
-                    continue
-                if any(r['path'] == s.path and r['name'] == n for r in report.get('respelled', [])):
-                    continue
-                if s.in_header:
-                    removed_header += 1
-                else:
-                    removed_local += 1
-                    removed_empty += s.arity is None
-        floors = []
-        for f in report.get('floors', []) if written else []:
-            d = txn.decisions[f['name']]
-            floors.append(f)
-        receipt = dict(header=txn.header, tree=data.get('tree'), rounds=rounds, verdict=(proof or {}).get('verdict'),
-                       names=names, unified=sum(1 for v in names.values() if v['status'] == 'unified'),
-                       partial=sum(1 for v in names.values() if v['status'] == 'partial'),
-                       local_declarations_removed=removed_local, empty_declarations_removed=removed_empty,
-                       header_declarations_removed=removed_header, respelled=report.get('respelled', []),
-                       includes_added=report.get('includes_added', []) if written else [],
-                       narrowing_casts_added=report.get('narrowing_casts', 0) if written else 0,
-                       debt=dict(yields), files=changed, floor_sites=floors, backoffs=backoffs,
-                       proof=dict(verdict=(proof or {}).get('verdict'), counts=(proof or {}).get('counts'),
-                                  natcheck=(proof or {}).get('natcheck'),
-                                  scope={k: (len(v) if isinstance(v, list) else v)
-                                         for k, v in (proof or {}).get('scope', {}).items()
-                                         if k in ('recipes', 'slus_recipes', 'images', 'kinds')},
-                                  seconds=(proof or {}).get('seconds')))
+        receipt, patch, yields, floors, removed_local, removed_empty, removed_header = build_receipt(
+            txn, report, written, proof, backoffs, rounds, data.get('tree'))
+        (out / 'txn.patch').write_text(patch)
         (out / 'txn.json').write_text(json.dumps(receipt, indent=1, default=str) + '\n')
         log('result: %s; %d unified + %d partial names, %d local / %d empty / %d header declarations removed, '
             '%d floor sites, debt %s' % (receipt['verdict'], receipt['unified'], receipt['partial'], removed_local,

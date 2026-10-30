@@ -14,10 +14,10 @@ void submit_player_position_record(void) {
     s32 second_value;
 
     D_800190C0[0] =
-        ((TownPositionState *)town_scene_root->position)->x
+        town_scene_root->position->x
     << 16;
     second_value =
-        ((TownPositionState *)town_scene_root->position)->y;
+        town_scene_root->position->y;
     fixed_values = D_800190C0;
     fixed_values[2] = 0;
     fixed_values[1] = second_value << 16;

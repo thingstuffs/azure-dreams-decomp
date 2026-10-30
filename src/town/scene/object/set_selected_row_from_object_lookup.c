@@ -13,5 +13,5 @@ extern s32 selected_scene_row_index;
 
 /* Set the selected record index from the current object's lookup entry. */
 void set_selected_row_from_object_lookup(void) {
-    selected_scene_row_index = (s32) *((((TownPositionState *)town_scene_root->position)->unk_34 * 4) + &D_80019B08);
+    selected_scene_row_index = (s32) *((town_scene_root->position->unk_34 * 4) + &D_80019B08);
 }

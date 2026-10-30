@@ -9,6 +9,6 @@
 
 /* Initialize both linked record values to 0x4E0. */
 void set_scene_record_base_offsets(void) {
-    ((TownPositionState *)town_scene_root->position)->x = 0x4E0;
-    ((TownPositionState *)town_scene_root->position)->y = 0x4E0;
+    town_scene_root->position->x = 0x4E0;
+    town_scene_root->position->y = 0x4E0;
 }

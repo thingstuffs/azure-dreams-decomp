@@ -9,5 +9,5 @@
 
 /* Clears the byte at offset 0x114 in the linked record. */
 void clear_referenced_object_active_flag(void) {
-    ((TownProgressState *)town_scene_root->event_data)->unk_114 = 0;
+    town_scene_root->event_data->unk_114 = 0;
 }

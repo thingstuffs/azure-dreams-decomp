@@ -9,6 +9,6 @@
 /* Invoke the context callback and check whether the stored value is below 0x3E0. */
 s32 check_inputs_only_prerequisite_least(void) {
     ((void (*) (s32))town_scene_root->services->callback_248)(0);
-    return ((TownPositionState *)town_scene_root->position)->x
+    return town_scene_root->position->x
     < 0x3E0;
 }

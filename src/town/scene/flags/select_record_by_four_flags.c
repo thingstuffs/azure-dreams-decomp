@@ -46,9 +46,9 @@ void select_record_by_four_flags(void)
 
             if (flag_index == 4) {
                 Rec_D_80016000 *root = *(void **)((s8 *)(&town_scene_root));
-                S_8001C7A0_1 *owner = root->position;
+                TownPositionState *owner = root->position;
 
-                owner->unk_10.s = record->next;
+                owner->unk_10 = record->next;
                 return;
             }
             ri++;
@@ -56,8 +56,8 @@ void select_record_by_four_flags(void)
     }
 
     {
-        void *root = *(void **)((s8 *)(&town_scene_root));
-        void *owner = ((Rec_D_80016000 *)root)->position;
+        Rec_D_80016000 *root = *(void **)((s8 *)(&town_scene_root));
+        void *owner = root->position;
 
         ((S_8001C7A0_1 *)owner)->unk_10.u = D_80018748;
     }

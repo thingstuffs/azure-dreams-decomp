@@ -38,6 +38,34 @@ Do not force a cast-free spelling when it changes the required bytes. Explain
 the remaining view and the measured difference. Do not infer a larger object or
 a false prototype solely to make a compiler emit a desired instruction.
 
+## Family consolidation tools
+
+Generated layouts (`S_<addr>...`, counted by `tools/lint/debt_check.py` as `generated_layouts`) are
+consolidated one family at a time: the views a census identifies as one real object are respelled through
+the shared type, their typedefs are deleted, and the casts the new types make redundant are folded.
+
+1. **Census.** `tools/typing/field_census.py` (flow identity of every access site),
+   `tools/typing/field_cast_census.py` (casts applied to untyped members of shared structs) and
+   `tools/typing/layout_census.py` (`inventory`, `assign`, `report`) produce `layouts_census.tsv`: one row
+   per family (`type:`, `field:`, `derived:`, `new:`, `singletons:`), with views, generated sites, casts,
+   the swap planner's readiness and identity evidence, ranked by removed debt per file touched.
+2. **Plan.** `tools/typing/layout_swap.py plan --family F.json` checks every use of every listed view
+   against the shared type (same offset, same access, sizes where a stride is used) and records identity
+   evidence: `anchored` (a typed value flows into the view), `conflict`/`mixed` (another record does), or
+   `shape` (layout fit only).  `"require_anchor": true` accepts anchored views only.
+3. **Apply.** `layout_swap.py apply` retypes listed struct members first (`"retype_fields"`), then swaps the
+   accepted views, folds redundant casts and retypes single-type locals.  It snapshots every touched file,
+   measures Clang pointer-conversion warnings per physical TU before and after (any rise restores the
+   whole batch) and restores any C file whose per-function debt rises.  `"hold"` prefixes are never
+   edited (other lanes' areas).
+4. **Prove.** `layout_swap.py prove` refreshes `ledger/layout_inline.jsonl`, runs
+   `tools/build/affected.py prove` over every edited file (rows, modules and placement copies), reverts
+   the files whose own recipes are not PASS, and repeats.  Commit, then `make -j8`.
+
+Batch many views into one family file before proving; tidy refusals afterwards.  A view used for two
+objects (a reused variable) is refused rather than renamed.  Raw-offset folds (`--raw-fold`) can change
+gcc 2.x alias decisions and are left to `cast_wave.py`, which proves them site by site.
+
 ## Historical experiments
 
 The [pilot design](evidence/type_consolidation_pilot_design.md) and

@@ -2,6 +2,7 @@
 /* inferred-strong G00591: mesh_quad_transform_g00591; joins CL:town/func_800AC7B4,CL:town/func_800AC8E4,CL:town/func_800AC908,CL:town/func_800AC9AC,PD:town/engine:80100D18,PD:town/engine:80100D1C,PD:town/engine:80100D40; no crossing cuts. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AC7B4, CL:town/func_800AC8E4, CL:town/func_800AC908, CL:town/func_800AC9AC, PD:town/engine:80100D18, PD:town/engine:80100D1C, PD:town/engine:80100D40. */
 #include "town/event/mesh_quad_transform_g00591.h"
+#include "shared/gpu_packets.h"
 
 /* Copies three spaced halfwords into contiguous fields. */
 void copy_even_halfwords_3(S_800AA044_0 *dst, S_800AA044_1 *src) {
@@ -36,7 +37,7 @@ void transform_and_queue_mesh_quads(S_func_800AC9AC_0 *mesh, void *transform)
     u8 *vertex_2;
     u8 *vertex_3;
     u8 *vertex_work;
-    S_func_800AC9AC_2 *render_state;
+    GpuContext *render_state;
     u8 **render_state_ptr;
     S_func_800AC9AC_3 *quad;
     u32 *draw_mode;
@@ -61,9 +62,9 @@ void transform_and_queue_mesh_quads(S_func_800AC9AC_0 *mesh, void *transform)
         address_mask = 0x00FFFFFF;
 
         do {
-            render_state = (S_func_800AC9AC_2 *)*render_state_ptr;
-            quad = render_state->unk_8D0;
-            render_state->unk_8D0 = (u8 *)quad + 0x28;
+            render_state = (GpuContext *)*render_state_ptr;
+            quad = render_state->packetCursor;
+            render_state->packetCursor = (u8 *)quad + 0x28;
 
             random_factor = rand();
             quad->unk_04 = (random_factor * rand()) & color_masks[0];
@@ -114,9 +115,9 @@ void transform_and_queue_mesh_quads(S_func_800AC9AC_0 *mesh, void *transform)
             if (scratch->unk_C4 < 0)
                 scratch->unk_C4 = 0;
 
-            render_state = (S_func_800AC9AC_2 *)*render_state_ptr;
-            draw_mode = render_state->unk_8D0;
-            render_state->unk_8D0 = (u8 *)draw_mode + 0xC;
+            render_state = (GpuContext *)*render_state_ptr;
+            draw_mode = render_state->packetCursor;
+            render_state->packetCursor = (u8 *)draw_mode + 0xC;
             SetDrawMode(draw_mode, 1, 0,
                           (u16)GetTPage(0, 0, 0x140, 0), 0);
 
@@ -126,9 +127,9 @@ void transform_and_queue_mesh_quads(S_func_800AC9AC_0 *mesh, void *transform)
             quad->unk_00 = (quad->unk_00 & length_mask) | (OTSLOT() & address_mask);
             OTSLOT() = (OTSLOT() & length_mask) | ((u32)quad & address_mask);
 
-            render_state = (S_func_800AC9AC_2 *)*render_state_ptr;
-            draw_mode = render_state->unk_8D0;
-            render_state->unk_8D0 = (u8 *)draw_mode + 0xC;
+            render_state = (GpuContext *)*render_state_ptr;
+            draw_mode = render_state->packetCursor;
+            render_state->packetCursor = (u8 *)draw_mode + 0xC;
             SetDrawMode(draw_mode, 1, 0,
                           (u16)GetTPage(0, 1, 0x140, 0), 0);
 

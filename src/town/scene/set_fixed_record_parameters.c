@@ -16,6 +16,6 @@ void set_negative_record_parameters(void) {
 
 /* Set the current record's linked state fields to 0x15 and 0x12. */
 void set_current_record_linked_states(void) {
-    ((TownPositionState *)town_scene_root->position)->x = 0x15;
-    ((TownPositionState *)town_scene_root->position)->y = 0x12;
+    town_scene_root->position->x = 0x15;
+    town_scene_root->position->y = 0x12;
 }

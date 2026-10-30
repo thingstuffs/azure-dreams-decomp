@@ -8,6 +8,6 @@
 
 /* Set the current record's two state values to 0x560 and 0x3E0. */
 void set_scene_record_state_offsets(void) {
-    ((TownPositionState *)town_scene_root->position)->x = 0x560;
-    ((TownPositionState *)town_scene_root->position)->y = 0x3E0;
+    town_scene_root->position->x = 0x560;
+    town_scene_root->position->y = 0x3E0;
 }

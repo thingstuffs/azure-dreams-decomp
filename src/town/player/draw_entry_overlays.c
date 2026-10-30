@@ -17,10 +17,6 @@
 
    /* &D_800D0504 in draw_entry_overlays */
 
-typedef struct S_800970FC_3 {
-    u8 pad_00[0x8D0];
-    void * unk_8D0;
-} S_800970FC_3;   /* CUR_PAGE in draw_entry_overlays */
 
 typedef struct S_800970FC_4 {
     u8 pad_00[0x4];
@@ -60,10 +56,6 @@ typedef struct S_800970FC_8 {
     u16 unk_06;
 } S_800970FC_8;   /* rect in draw_entry_overlays */
 
-typedef struct S_800970FC_9 {
-    u8 pad_00[0x8D0];
-    void * unk_8D0;
-} S_800970FC_9;   /* CUR_CTX in draw_entry_overlays */
 
 typedef struct S_800970FC_10 {
     u8 pad_00[0x4];
@@ -94,10 +86,6 @@ typedef struct S_800970FC_12 {
     u16 unk_14;
 } S_800970FC_12;   /* late_entry in draw_entry_overlays */
 
-typedef struct S_800970FC_13 {
-    u8 pad_00[0x8D0];
-    void * unk_8D0;
-} S_800970FC_13;   /* late_ctx in draw_entry_overlays */
 
 typedef struct S_800970FC_14 {
     u8 pad_00[0x4];
@@ -151,7 +139,7 @@ s32 draw_entry_overlays(void) {
     ObjectPosition *coord;
     S_800970FC_6 *texture_rect;
     TileObject *draw_entry;
-    S_800970FC_13 *draw_ctx;
+    GpuContext *draw_ctx;
     void **page_state;
     u32 *scratch_control;
     u16 *scratch_x;
@@ -185,12 +173,12 @@ s32 draw_entry_overlays(void) {
                 scratch_control = (u32 *)0x1F80013C;
                 *scratch_control = 0;
                 project_sprite_commands(scene_object_payload_alias, coord, entry, (s16) (rotation + ((AngleHalfView *)(&town_overlay_rotation_offset))->unk_00));
-                primitive = ((S_800970FC_3 *)CUR_PAGE)->unk_8D0;
-                ((S_800970FC_3 *)CUR_PAGE)->unk_8D0 = (void *) (primitive + 0xC);
+                primitive = ((GpuContext *)CUR_PAGE)->packetCursor;
+                ((GpuContext *)CUR_PAGE)->packetCursor = (void *) (primitive + 0xC);
                 SetDrawArea(primitive, CUR_PAGE);
                 AddPrim(CUR_PAGE + 0x830, primitive);
-                primitive = ((S_800970FC_3 *)CUR_PAGE)->unk_8D0;
-                ((S_800970FC_3 *)CUR_PAGE)->unk_8D0 = (void *) (primitive + 0x28);
+                primitive = ((GpuContext *)CUR_PAGE)->packetCursor;
+                ((GpuContext *)CUR_PAGE)->packetCursor = (void *) (primitive + 0x28);
                 color = 0x808080;
                 ((S_800970FC_4 *)primitive)->unk_04 = color;
                 SetPolyFT4(primitive);
@@ -248,8 +236,8 @@ s32 draw_entry_overlays(void) {
                     rect_height = rect->unk_06;
                     (*(s16 *)((u8 *)primitive + 0x22)) = (s16) (rect_y + rect_height);
                     AddPrim(CUR_CTX + 0x830, primitive);
-                    primitive = ((S_800970FC_9 *)CUR_CTX)->unk_8D0;
-                    ((S_800970FC_9 *)CUR_CTX)->unk_8D0 = (void *) (primitive + 0x18);
+                    primitive = ((GpuContext *)CUR_CTX)->packetCursor;
+                    ((GpuContext *)CUR_CTX)->packetCursor = (void *) (primitive + 0x18);
                     ((S_800970FC_10 *)primitive)->unk_04 = 0x40;
                     ((S_800970FC_10 *)primitive)->unk_05 = 0x40;
                     ((S_800970FC_10 *)primitive)->unk_06 = 0xC0;
@@ -274,8 +262,8 @@ s32 draw_entry_overlays(void) {
                     fill_height = rect->unk_06;
                     (*(s16 *)((u8 *)primitive + 0x16)) = (s16) (rect_y + fill_height);
                     AddPrim(CUR_CTX + 0x830, primitive);
-                    primitive = ((S_800970FC_9 *)CUR_CTX)->unk_8D0;
-                    ((S_800970FC_9 *)CUR_CTX)->unk_8D0 = (void *) (primitive + 0x18);
+                    primitive = ((GpuContext *)CUR_CTX)->packetCursor;
+                    ((GpuContext *)CUR_CTX)->packetCursor = (void *) (primitive + 0x18);
                     ((S_800970FC_11 *)primitive)->unk_06 = 0;
                     ((S_800970FC_11 *)primitive)->unk_05 = 0;
                     ((S_800970FC_11 *)primitive)->unk_04 = 0;
@@ -296,8 +284,8 @@ s32 draw_entry_overlays(void) {
                     rect_height = rect->unk_06;
                     (*(s16 *)((u8 *)primitive + 0x16)) = (s16) (rect_y + rect_height);
                     AddPrim(CUR_CTX + 0x830, primitive);
-                    primitive = ((S_800970FC_9 *)CUR_CTX)->unk_8D0;
-                    ((S_800970FC_9 *)CUR_CTX)->unk_8D0 = (void *) (primitive + 0xC);
+                    primitive = ((GpuContext *)CUR_CTX)->packetCursor;
+                    ((GpuContext *)CUR_CTX)->packetCursor = (void *) (primitive + 0xC);
                     SetDrawArea(primitive, rect);
                     AddPrim(CUR_CTX + 0x830, primitive);
                 }
@@ -332,12 +320,12 @@ s32 draw_entry_overlays(void) {
                 draw_ctx = CUR_CTX;
                 draw_entry->sprite_flags = saved_flags;
                 draw_entry->tpage_offset = saved_draw_param;
-                primitive = draw_ctx->unk_8D0;
-                draw_ctx->unk_8D0 = (void *) (primitive + 0xC);
+                primitive = draw_ctx->packetCursor;
+                draw_ctx->packetCursor = (void *) (primitive + 0xC);
                 func_80067EF4(primitive, 0, 0);
                 AddPrim(CUR_CTX + 0x830, primitive);
-                primitive = ((S_800970FC_9 *)CUR_CTX)->unk_8D0;
-                ((S_800970FC_9 *)CUR_CTX)->unk_8D0 = (void *) (primitive + 0x18);
+                primitive = ((GpuContext *)CUR_CTX)->packetCursor;
+                ((GpuContext *)CUR_CTX)->packetCursor = (void *) (primitive + 0x18);
                 ((S_800970FC_14 *)primitive)->unk_06 = 0xFF;
                 ((S_800970FC_14 *)primitive)->unk_05 = 0xFF;
                 ((S_800970FC_14 *)primitive)->unk_04 = 0xFF;
@@ -354,12 +342,12 @@ s32 draw_entry_overlays(void) {
                 bottom = texture_top + texture_rect->unk_06.u16;
                 (*(s16 *)((u8 *)primitive + 0x16)) = bottom;
                 AddPrim(CUR_CTX + 0x830, primitive);
-                primitive = ((S_800970FC_9 *)CUR_CTX)->unk_8D0;
-                ((S_800970FC_9 *)CUR_CTX)->unk_8D0 = (void *) (primitive + 0xC);
+                primitive = ((GpuContext *)CUR_CTX)->packetCursor;
+                ((GpuContext *)CUR_CTX)->packetCursor = (void *) (primitive + 0xC);
                 func_80067EF4(primitive, 0, 1);
                 AddPrim(CUR_CTX + 0x830, primitive);
-                primitive = ((S_800970FC_9 *)CUR_CTX)->unk_8D0;
-                ((S_800970FC_9 *)CUR_CTX)->unk_8D0 = (void *) (primitive + 0xC);
+                primitive = ((GpuContext *)CUR_CTX)->packetCursor;
+                ((GpuContext *)CUR_CTX)->packetCursor = (void *) (primitive + 0xC);
                 SetDrawArea(primitive, texture_rect);
                 AddPrim(CUR_CTX + 0x830, primitive);
                 return 0;

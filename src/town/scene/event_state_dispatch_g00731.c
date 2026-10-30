@@ -48,7 +48,7 @@ void advance_town_events_and_dispatch_entry(void)
     TownEventCursor *event_state;
     s32 checked_count;
 
-    event_state = &((TownProgressState *)town_scene_root->event_data)->eventCursor;
+    event_state = &town_scene_root->event_data->eventCursor;
     event_state->eventIndex += 1;
     event_state->eventIndex %= 7;
     reset_town_event_state();

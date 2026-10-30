@@ -13,5 +13,5 @@ s32 set_scene_substate_offsets(void) {
     queryPair[1] = 0x17;
     queryPair[0] = 5;
     return ((s32 (*) (s8 *))town_scene_root->services->callback_050)(queryPair)
-    - ((TownProgressState *)town_scene_root->event_data)->unk_110;
+    - town_scene_root->event_data->unk_110;
 }

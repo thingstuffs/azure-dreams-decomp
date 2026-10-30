@@ -6,15 +6,6 @@
 #include "sdk/libgpu.h"
 #include "town/map.h"
 
-typedef struct S_800B70EC_0 {
-    u8 pad_00[0x14];
-    s16 unk_14;
-    s16 unk_16;
-    s16 unk_18;
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800B70EC_0;   /* work in initialize_building_scene_assets */
 
 extern u8 town_map_variants[];
 extern u8 town_map_variant[];
@@ -45,7 +36,7 @@ void initialize_building_scene_assets(void) {
     u8 *scene_table;
     u8 *kind_table;
     u8 *state_base;
-    S_800B70EC_0 *asset_state;
+    MapGrid *asset_state;
     RuntimeDispatchState *shared_state;
     u16 *upload_rect;
     u8 *image_data;
@@ -53,16 +44,16 @@ void initialize_building_scene_assets(void) {
     upload_rect = building_upload_rect;
     image_data = building_texture_frame_zero;
     state_base = ((u8 *)(&g_game_work));
-    asset_state = (S_800B70EC_0 *)(state_base + 0x1DC);
+    asset_state = (MapGrid *)(state_base + 0x1DC);
     limit = 0x7F;
     size = 0x2000;
-    asset_state->unk_14 = 7;
-    asset_state->unk_18 = limit;
-    asset_state->unk_1C = size;
+    asset_state->shiftX = 7;
+    asset_state->maskX = limit;
+    asset_state->spanX = size;
     seven = 7;
-    asset_state->unk_16 = seven;
-    asset_state->unk_1A = limit;
-    asset_state->unk_1E = size;
+    asset_state->shiftY = seven;
+    asset_state->maskY = limit;
+    asset_state->spanY = size;
     shared_state = &runtime_dispatch_state;
     building_upload_rect[0] = 0x328;
     upload_rect[1] = 0x80;

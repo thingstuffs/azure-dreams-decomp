@@ -138,7 +138,7 @@ void count_entries_matching_search_path(TownCollectionSequence *scene)
 
     case 1:
     {
-        u8 *motion;
+        ObjectPosition *motion;
 
         global->unk_10.s = (global->unk_10.u + 0x200) & 0xFFF;
         value = scene->unk_28.u - 1;
@@ -148,16 +148,16 @@ void count_entries_matching_search_path(TownCollectionSequence *scene)
         }
         scene->unk_28.u = 0x10;
         scene->state.s = 2;
-        motion = ((u8 *)(&view_reference_entity));
-        ((ObjectPosition *)motion)->velocity_x =
+        motion = &view_reference_entity;
+        motion->velocity_x =
             ((0x420 - scene->saved_x.s) << 16) /
             scene->unk_28.s;
         {
             s32 n2 = (0x460 - scene->saved_y.s) << 16;
             s32 d2 = scene->unk_28.s;
 
-            ((ObjectPosition *)motion)->velocity_z = (s32)0xFFF40000;
-            ((ObjectPosition *)motion)->velocity_y = n2 / d2;
+            motion->velocity_z = (s32)0xFFF40000;
+            motion->velocity_y = n2 / d2;
         }
         break;
     }

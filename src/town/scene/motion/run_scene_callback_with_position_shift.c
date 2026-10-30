@@ -12,6 +12,6 @@ void run_scene_callback_with_position_shift(void)
 {
     town_scene_root->services->callback_248(1);
     town_scene_root->services->callback_244(1);
-    ((TownPositionState *)town_scene_root->position)->x += 0x20;
-    ((TownPositionState *)town_scene_root->position)->y -= 0x10;
+    town_scene_root->position->x += 0x20;
+    town_scene_root->position->y -= 0x10;
 }

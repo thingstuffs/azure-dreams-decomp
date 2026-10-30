@@ -9,5 +9,5 @@
 
 /* Return whether the referenced record's unk_38 field is nonzero. */
 s32 is_player_state_nonzero(void) {
-    return ((TownPositionState *)town_scene_root->position)->unk_38 != 0;
+    return town_scene_root->position->unk_38 != 0;
 }

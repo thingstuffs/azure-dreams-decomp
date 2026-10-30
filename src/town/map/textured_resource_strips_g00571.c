@@ -4,6 +4,7 @@
 #include "town/map/textured_resource_strips_g00571.h"
 #include "shared/object_node.h"
 #include "town/map.h"
+#include "shared/gpu_packets.h"
 
 /* Process linked states until a nonzero signed 16-bit result or the end of the chain. */
 s32 process_linked_state_chain(void *initial_state, s32 carrier1, u8 *carrier2) {
@@ -40,10 +41,10 @@ s32 emit_bidirectional_angular_segments(S_800A3B80_3 *object, s32 unused, void *
     s32 stepped;
     s32 view_angle;
     GameWork *global_base;
-    S_800A3B80_0 *town;
+    GpuContext *town;
     void *output;
     void *next_output;
-    S_800A3B80_5 *end_town;
+    GpuContext *end_town;
     S_800A3B80_1 *context_view;
     S_800A3B80_2 *context_data;
     u16 origin_y;
@@ -55,7 +56,7 @@ s32 emit_bidirectional_angular_segments(S_800A3B80_3 *object, s32 unused, void *
     scratch = (TownStripScratch *)0x1F800000;
     global_base = &g_game_work;
     town = g_game_work.draw_buffer;
-    output = town->unk_8D0;
+    output = town->packetCursor;
     scratch->unk_20.p = (u8 *)town + 0x8B0;
     origin_y = D_80100D88;
     origin_x = town_display_offset;
@@ -285,7 +286,7 @@ reverse_segment:
         }
     }
     end_town = global_base->draw_buffer;
-    end_town->unk_8D0 = output;
+    end_town->packetCursor = output;
     return 0;
 }
 

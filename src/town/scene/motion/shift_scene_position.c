@@ -11,6 +11,6 @@ typedef void (*Callback)(s32);
 void shift_scene_position(void)
 {
     town_scene_root->services->callback_248(1);
-    ((TownPositionState *)town_scene_root->position)->x += 0x40;
-    ((TownPositionState *)town_scene_root->position)->y += 0x40;
+    town_scene_root->position->x += 0x40;
+    town_scene_root->position->y += 0x40;
 }

@@ -15,8 +15,8 @@ void set_player_position_record(void) {
     s32 source_value2;
 
     context = town_scene_root;
-    town_player_fixed_position.x = ((TownPositionState *)context->position)->x << 16;
-    source_value2 = ((TownPositionState *)context->position)->y;
+    town_player_fixed_position.x = context->position->x << 16;
+    source_value2 = context->position->y;
     output = &town_player_fixed_position;
     output->z = 0;
     output->y = source_value2 << 16;

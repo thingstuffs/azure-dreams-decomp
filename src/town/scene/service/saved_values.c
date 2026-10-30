@@ -22,7 +22,7 @@ extern s32 D_800183D0;
 
 /* Save the state value in D_800183C8 and invoke the state callback with 0. */
 void save_player_value_and_run_service_44(void) {
-    scene_saved_player_value = ((TownPositionState *)town_scene_root->position)->unk_3C;
+    scene_saved_player_value = town_scene_root->position->unk_3C;
     town_scene_root->services->callback_044(0);
 }
 

@@ -11,7 +11,7 @@ void advance_town_countdown_and_invoke_handler(void) {
     u8 countdown;
     TownEventCursor *countdown_record;
 
-    countdown_record = &((TownProgressState *)town_scene_root->event_data)->eventCursor;
+    countdown_record = &town_scene_root->event_data->eventCursor;
     countdown = countdown_record->counter - 1;
     countdown_record->counter = countdown;
     if (!(countdown & 0xFF)) {

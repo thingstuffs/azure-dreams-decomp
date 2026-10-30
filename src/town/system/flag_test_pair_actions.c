@@ -3,6 +3,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "town/scene/flags.h"
+#include "town/system.h"
 
 typedef struct S_8001670C_0 {
     u8 pad_00[0x2];

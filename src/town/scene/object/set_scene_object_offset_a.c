@@ -7,6 +7,6 @@
 
 /* Set the referenced object's unk4 and unk8 fields to 800 and 736. */
 void set_scene_object_offset_a(void) {
-    ((TownPositionState *)town_scene_root->position)->x = 800;
-    ((TownPositionState *)town_scene_root->position)->y = 736;
+    town_scene_root->position->x = 800;
+    town_scene_root->position->y = 736;
 }

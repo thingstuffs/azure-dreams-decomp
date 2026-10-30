@@ -90,11 +90,6 @@ typedef struct S_8009C648_3 {
     s32 unk_60;
 } S_8009C648_3;
 
-typedef struct S_8009C648_4 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s32 unk_10;
-} S_8009C648_4;
 
 typedef struct S_8009C648_5 {
     s32 unk_00;

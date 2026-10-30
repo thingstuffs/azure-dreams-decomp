@@ -4,6 +4,7 @@
 #include "shared/record_ptrs.h"
 #include "town.h"
 #include "town/scene.h"
+#include "shared/town_root.h"
 
 typedef struct S_80016B0C_0 {
     u8 pad_00[0x8];
@@ -12,12 +13,6 @@ typedef struct S_80016B0C_0 {
     u8 * unk_40;
 } S_80016B0C_0;   /* state in process_current_cell_and_clear */
 
-typedef struct S_80016B0C_1 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x34];
-    u8 * unk_40;
-} S_80016B0C_1;   /* *(void **)D_80016000 in process_current_cell_and_clear */
 
 typedef struct S_80016B0C_2 {
     u8 pad_00[0x4];
@@ -55,8 +50,8 @@ s32 process_current_cell_and_clear(void *object, s32 entry_index) {
             func_80019458(F_sbs14_pad09);
         }
 
-        ((S_80016B0C_2 *)((u8 *)((S_80016B0C_1 *)(*(void **)((s8 *)(&town_scene_root))))->unk_40
-                + ((S_80016B0C_1 *)(*(void **)((s8 *)(&town_scene_root))))->unk_08 * 8))->unk_04 = 0;
+        ((S_80016B0C_2 *)((u8 *)((Rec_D_80016000 *)(*(void **)((s8 *)(&town_scene_root))))->event_data
+                + ((Rec_D_80016000 *)(*(void **)((s8 *)(&town_scene_root))))->entry_index * 8))->unk_04 = 0;
         scene_cell_dispatch_code = 0;
         set_scene_entry_flag_k();
     } else {

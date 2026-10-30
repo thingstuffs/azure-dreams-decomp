@@ -19,10 +19,10 @@ void initialize_scene_action(void) {
     D_8001917C = &D_80018FE0;
     if (func_80018B5C(F_sbs11_pad31) != 0) {
         if (func_80018B5C(F_sbs11_pad28) != 0) {
-            ((TownPositionState *)town_scene_root->position)->unk_40 =
+            town_scene_root->position->unk_40 =
                 &D_8001C328;
         } else {
-            ((TownPositionState *)town_scene_root->position)->unk_40 =
+            town_scene_root->position->unk_40 =
                 &D_8001C7C4;
         }
         func_80018ADC(F_sbs11_pad31);

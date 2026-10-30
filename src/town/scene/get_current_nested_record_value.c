@@ -14,5 +14,5 @@
 
 /* Return the signed value at offset 0x0A of the current nested record. */
 s32 get_current_nested_record_value(void) {
-    return ((TownNestedRecordValueView *)(((TownNestedPayloadView *)(((TownResourceLinks *)town_scene_root->unk_24)->unk_68))->unk_08))->unk_0A;
+    return ((TownNestedRecordValueView *)(((TownNestedPayloadView *)(town_scene_root->unk_24->unk_68))->unk_08))->unk_0A;
 }

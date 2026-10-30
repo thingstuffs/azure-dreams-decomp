@@ -36,10 +36,10 @@ void restore_pending_town_event(void) {
     reset_town_event_state();
     state = ((S_8059E540_0 *)D_80010000)->unk_6000;
     new_value = (s32 *)&D_80010000[0xD07C];
-    ((TownPositionState *)state->position)->unk_40 = new_value;
+    state->position->unk_40 = new_value;
     pending = *(s32 **)((s8 *)state->event_data + (state->entry_index * 8));
     if (pending != NULL) {
-        ((TownPositionState *)state->position)->unk_40 = pending;
+        state->position->unk_40 = pending;
         *(s32 **)((s8 *)state->event_data + (state->entry_index * 8)) = 0;
     }
     *(s32 **)&D_80019148[0] = &D_80018EE4;

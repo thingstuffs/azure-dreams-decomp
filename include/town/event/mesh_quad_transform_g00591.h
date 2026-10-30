@@ -6,6 +6,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/game_work.h"
+#include "shared/gpu_packets.h"
 
 #define OTSLOT() (*(u32 *)((u8 *)scratch->unk_24 + scratch->unk_C4 * 4))
 
@@ -52,10 +53,6 @@ typedef struct S_func_800AC9AC_1 {
     u16 unk_F6;
 } S_func_800AC9AC_1;
 
-typedef struct S_func_800AC9AC_2 {
-    u8 pad_00[0x8D0];
-    void *unk_8D0;
-} S_func_800AC9AC_2;
 
 typedef struct S_func_800AC9AC_3 {
     u32 unk_00;

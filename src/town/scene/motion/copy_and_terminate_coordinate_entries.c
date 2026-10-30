@@ -27,7 +27,7 @@ UA32 *copy_and_terminate_coordinate_entries(UA32 *buffer)
     result = buffer;
     global_page = (u8 *)0x80010000;
     state = town_scene_root;
-    grid_rows = ((TownResourceLinks *)state->unk_24)->gridRows;
+    grid_rows = state->unk_24->gridRows;
     header_page = 0x80020000;
     header = &D_8001C31C;
     *result = *header;

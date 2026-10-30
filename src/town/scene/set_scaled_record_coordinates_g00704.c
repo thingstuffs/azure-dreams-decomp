@@ -23,7 +23,7 @@ void set_scaled_pointer_value(s32 value)
 /* Set the position from coordinates scaled by 64 and the selected entry offsets. */
 void set_position_from_tile_and_entry_offsets(s32 unused, u32 x, u32 y)
 {
-    u8 *root = ((u8 *)town_scene_root);
+    void *root = town_scene_root;
     S_8001A678_1 *entry_table;
     TownPositionState *position;
     u32 entry_address;
@@ -59,8 +59,8 @@ void set_position_from_tile_and_entry_offsets(s32 unused, u32 x, u32 y)
 
 /* Stores two values scaled by 32 in the current record's auxiliary data. */
 void set_record_scaled_auxiliary_values(s32 unused, s32 value_04, s32 value_08) {
-    ((TownPositionState *)town_scene_root->position)->x = (s32) (value_04 << 5);
-    ((TownPositionState *)town_scene_root->position)->y = (s32) (value_08 << 5);
+    town_scene_root->position->x = (s32) (value_04 << 5);
+    town_scene_root->position->y = (s32) (value_08 << 5);
 }
 
 /* Set position coordinates to the selected entry's offsets plus scaled x and y. */
