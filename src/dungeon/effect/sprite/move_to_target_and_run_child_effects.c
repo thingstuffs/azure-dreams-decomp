@@ -82,7 +82,7 @@ typedef union WideProduct {
 } WideProduct;
 
 extern s32 check_layer_offset_height();
-extern void draw_animated_shaded_lines();
+extern void draw_animated_shaded_lines(); /* Unprototyped: retail call passes more arguments than the callee reads */
 extern Child *create_effect_indexed();
 extern void func_80024060();
 extern void advance_expanding_spiral(void);

@@ -11,6 +11,7 @@
 #include "town/map.h"
 #include "town/minigame.h"
 #include "town/scene.h"
+#include "town/minigame/position.h"
 
 #ifndef NULL
 #define NULL 0
@@ -61,17 +62,6 @@ typedef struct S_800254A4_6 {
     s16 unk_1A;
 } S_800254A4_6;   /* part3 in initialize_tako_minigame */
 
-typedef struct S_800254A4_7 {
-    u8 pad_00[0x4];
-    void * unk_04;
-    s32 unk_08;
-    s16 unk_0C;
-    s16 unk_0E;
-    s16 unk_10;
-    s16 unk_12;
-    s16 unk_14;
-    u16 unk_16;
-} S_800254A4_7;   /* final_part in initialize_tako_minigame */
 
 extern u8 D_8002012C[];
 extern u8 D_80020134[];
@@ -99,7 +89,7 @@ s32 initialize_tako_minigame(void)
     S_800254A4_3 *child_state;
     S_800254A4_5 *left_state;
     S_800254A4_6 *right_state;
-    S_800254A4_7 *final_state;
+    SceneTileObject *final_state;
     SpriteFrameState *draw_state;
     ObjectPosition *packet;
     void *value_ptr;
@@ -243,14 +233,14 @@ next_right_row:
         final_color = 0x00404040;
         final_state = (u8 *)object + 0x20;
         final_extent = 0x1C;
-        final_state->unk_0C = final_extent;
-        final_state->unk_0E = final_extent;
-        final_state->unk_10 = 0x48;
-        final_state->unk_12 = final_extent;
-        final_state->unk_14 = 2;
-        final_state->unk_16 |= 1;
-        final_state->unk_08 = final_color;
-        final_state->unk_04 = parent_state;
+        final_state->x = final_extent;
+        final_state->y = final_extent;
+        final_state->width = 0x48;
+        final_state->height = final_extent;
+        final_state->tpage_mode = 2;
+        final_state->flags |= 1;
+        final_state->color = final_color;
+        final_state->linked = parent_state;
     }
 
     return 0;

@@ -4,6 +4,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
 #include "engine/node.h"
+#include "dungeon/actor/object.h"
 
 
 

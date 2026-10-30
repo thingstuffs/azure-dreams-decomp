@@ -8,6 +8,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/system.h"
 #include "dungeon/actor/effect.h"
+#include "dungeon/player/object.h"
 
 /* Searches all 64 ground-item slots for a nonempty item at X/Y, excluding the supplied slot. */
 s32 is_floor_item_tile_occupied(s32 excluded_slot, s16 x, s16 y)

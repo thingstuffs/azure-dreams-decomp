@@ -5,13 +5,6 @@
 
    /* the 0x2 bytes before arg0 in show_delayed_scene_tile_until_complete, addressed as arg0[-1] */
 
-typedef struct S_80020360_0 {
-    union { s16 s; u16 u; } unk_00;   /* accessed as both */
-    u16 unk_02;
-    void * unk_04;
-    u8 pad_08[0xE];
-    u16 unk_16;
-} S_80020360_0;   /* arg0 in show_delayed_scene_tile_until_complete */
 
 typedef struct S_80020360_1 {
     u8 pad_00[0x2A];
@@ -25,7 +18,7 @@ typedef struct S_80020360_2 {
 
 
 /* Advances the countdown state, then sets object and global flags when the status bit is set. */
-void show_delayed_scene_tile_until_complete(void *object)
+void show_delayed_scene_tile_until_complete(SceneTileObject *object)
 {
     s16 state;
     S_80020360_1 *status_data;
@@ -34,21 +27,21 @@ void show_delayed_scene_tile_until_complete(void *object)
     u16 next_state;
     u32 page;
 
-    state = ((S_80020360_0 *)object)->unk_00.s;
-    status_data = ((S_80020360_0 *)object)->unk_04;
+    state = object->state.s;
+    status_data = object->linked;
     switch (state) {
     case 0:
-        ticks_left = ((S_80020360_0 *)object)->unk_02 - 1;
-        ((S_80020360_0 *)object)->unk_02 = ticks_left;
+        ticks_left = object->delay - 1;
+        object->delay = ticks_left;
         if ((ticks_left << 16) > 0) {
             return;
         }
-        flags = ((S_80020360_0 *)object)->unk_16;
-        next_state = ((S_80020360_0 *)object)->unk_00.u;
+        flags = object->flags;
+        next_state = object->state.u;
         flags &= 0xFFFD;
         next_state++;
-        ((S_80020360_0 *)object)->unk_16 = flags;
-        ((S_80020360_0 *)object)->unk_00.u = next_state;
+        object->flags = flags;
+        object->state.u = next_state;
         break;
     case 1:
         if (status_data->unk_2A & 1) {

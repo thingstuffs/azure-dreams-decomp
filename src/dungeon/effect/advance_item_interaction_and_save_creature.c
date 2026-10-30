@@ -168,7 +168,6 @@ void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 #include "slus.h"
 
 u8 * find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type);
-s32 raise_entity_level(void *entity_data, s32 show_message);
 s32 play_sound_if_enabled(s32 query_value);
 s32 display_text_with_fullwidth_adjustment(s8 *text);
 s32 generate_random_value(void);

@@ -24,6 +24,7 @@ void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile
 void advance_actor_status_turn_second(s32 actor, s32 action_context, s32 sprite, u8 *state);
 s32 process_actor_state_chain(void *state_base, void *entry_data, struct Entry *entry);
 #include "shared/sprite_source.h"
+#include "dungeon/actor/position.h"
 extern SpriteSourceEntry D_800DEF08[];
 
 typedef struct S_800D2CB4_0 {

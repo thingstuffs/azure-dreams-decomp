@@ -25,7 +25,7 @@ extern void *copy_fullwidth_vowel_bytes(void *dst, void *character);
 extern void * write_status_prefix_bytes(void *);
 extern void clear_byte_and_advance(s8 *byte_ptr);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern void reveal_triggered_trap(Actor *, s32, s32, s32);
+extern void reveal_triggered_trap(Actor *, s32, s32, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
 
 /* Advance the actor's entry action and clear pending state when it finishes. */
 void update_player_trap_trigger(Actor *actor, s32 context_a, s32 context_b, s32 target_arg) {

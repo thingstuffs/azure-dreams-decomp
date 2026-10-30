@@ -66,6 +66,35 @@ Batch many views into one family file before proving; tidy refusals afterwards. 
 objects (a reused variable) is refused rather than renamed.  Raw-offset folds (`--raw-fold`) can change
 gcc 2.x alias decisions and are left to `cast_wave.py`, which proves them site by site.
 
+## Object kinds (callback bodies)
+
+Most generated views with no shared type are object bodies that reach their functions as the `void *`
+first argument of an update or draw callback (`run_active_node_callbacks` and
+`dispatch_registered_draw_callbacks` call `callback(header + 1, header->position, header->sprite)`), so
+flow analysis cannot link them.  `tools/typing/object_kinds.py` builds that identity from the object
+system instead:
+
+1. `extract` parses every registered physical TU with clang (the `field_census.py` front end) and walks each
+   function in source order, rebinding pointer locals at each assignment, so one `object` variable used for
+   three allocations stays three objects.
+2. `report` finds header roots (allocator results and wrappers that return them, `ObjectNodeHeader *` values,
+   arg0 of a known callback at -0x20), callback installs (a function symbol stored at header + 0x10 in any
+   spelling, `register_node(header, draw)`, and creator wrappers whose parameter reaches such a store), then
+   joins update callbacks into kinds: a callback that installs another on its own body (arg0 - 0x10), or one
+   creation site installing several.  A join whose body layouts disagree is refused and the bridging callback
+   is reported as `shared`.  Draw callbacks never join kinds; `draw_groups.tsv` lists the kinds drawn by each
+   one (every body in a draw chain is read through the draw callback's view of the prefix).
+   Output: `kinds.json`, `kinds.tsv` (one row per kind: creators, callbacks, views, merged layout extent and
+   conflicts, casts that fold when arg0 / arg1 / arg2 are typed), `draw_groups.tsv`, `installs.json`.
+3. Per kind: write `typedef struct { ... } XxxObject;` (the body, without the header; a node type
+   `{ ObjectNodeHeader header; XxxObject body; }` only where creators want one) in the folder header that
+   declares the callbacks, run `layout_swap.py plan/apply` with the kind's views, then
+   `param_retype.py callbacks --spec SPEC.json` to retype each callback's parameter (`{"type": "XxxObject *",
+   "param": 0, "symbols": [...]}`; `param: 1` with `ObjectPosition *` and `param: 2` with
+   `SpriteFrameState *` for the dispatched position and sprite).  Callbacks have no direct callers to vote for
+   a type, so the kind supplies it; a direct caller must already pass a compatible value.  Prove with
+   `affected.py prove` and a full build as for any family.
+
 ## Historical experiments
 
 The [pilot design](evidence/type_consolidation_pilot_design.md) and

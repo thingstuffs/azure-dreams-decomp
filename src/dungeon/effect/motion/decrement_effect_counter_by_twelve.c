@@ -4,6 +4,7 @@
 #include "dungeon/effect/motion/decrement_effect_counter_by_twelve.h"
 #include "shared/object_flags.h"
 #include "dungeon/effect/motion.h"
+#include "dungeon/effect/sprite.h"
 
 
 /*

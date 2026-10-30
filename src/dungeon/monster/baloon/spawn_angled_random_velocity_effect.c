@@ -5,6 +5,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "sdk/libc.h"
 #include "engine/node/allocation.h"
+#include "dungeon/monster/baloon.h"
 
 #ifndef NULL
 #define NULL 0

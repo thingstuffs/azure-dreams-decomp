@@ -1,6 +1,7 @@
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "common.h"
+#include "dungeon/actor/object.h"
 
 
 /* Finds the first matching value in the four slots at offset 0xE4, or returns -1. */

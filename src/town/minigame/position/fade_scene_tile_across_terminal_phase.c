@@ -2,14 +2,6 @@
 #include "shared/object_flags.h"
 #include "town/minigame/position.h"
 
-typedef struct S_80020260_0 {
-    union { s16 s; u16 u; } unk_00;   /* accessed as both */
-    u8 pad_02[0x2];
-    void * unk_04;
-    s32 unk_08;
-    u8 pad_0C[0xA];
-    u16 unk_16;
-} S_80020260_0;   /* arg0 in fade_scene_tile_across_terminal_phase */
 
 typedef struct S_80020260_1 {
     u8 pad_00[0x2A];
@@ -20,36 +12,36 @@ typedef struct S_80020260_1 {
 
 
 /* Fades an effect in and out around an object event, then marks completion. */
-void fade_scene_tile_across_terminal_phase(void *effect) {
+void fade_scene_tile_across_terminal_phase(SceneTileObject *effect) {
     s16 state;
     s32 color;
     s32 faded_color;
     S_80020260_1 *object;
 
-    state = ((S_80020260_0 *)effect)->unk_00.s;
-    object = ((S_80020260_0 *)effect)->unk_04;
+    state = effect->state.s;
+    object = effect->linked;
 
     switch (state) {
     case 0:
         if (object->unk_36 != 0xFF) {
             break;
         }
-        ((S_80020260_0 *)effect)->unk_16 &= 0xFFFD;
-        ((S_80020260_0 *)effect)->unk_00.u++;
+        effect->flags &= 0xFFFD;
+        effect->state.u++;
         break;
     case 1:
-        color = ((S_80020260_0 *)effect)->unk_08;
+        color = effect->color;
         if (color <= 0x40403F) {
-            ((S_80020260_0 *)effect)->unk_08 = color + 0x80808;
+            effect->color = color + 0x80808;
         }
         if ((object->unk_2A & 1) == 0) {
             break;
         }
-        ((S_80020260_0 *)effect)->unk_00.u++;
+        effect->state.u++;
         break;
     case 2:
-        faded_color = ((S_80020260_0 *)effect)->unk_08 + (s32)0xFFF7F7F8;
-        ((S_80020260_0 *)effect)->unk_08 = faded_color;
+        faded_color = effect->color + (s32)0xFFF7F7F8;
+        effect->color = faded_color;
         if (faded_color <= 0x80808) {
             (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;

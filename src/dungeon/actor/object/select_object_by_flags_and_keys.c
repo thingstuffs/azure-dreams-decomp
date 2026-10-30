@@ -1,6 +1,7 @@
 #include "shared/actor_property_flags.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/actor/object.h"
 
 #ifndef NULL
 #define NULL 0

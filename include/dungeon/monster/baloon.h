@@ -38,4 +38,7 @@ typedef struct {
 void create_directional_template_effect(void *unused, BaloonTemplateAnchor *anchor,
     SpriteFrameState *object_template, BaloonTemplateFacing *facing_source);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+void spawn_angled_random_velocity_effect(EntityRec *source, u32 angle, s32 effect_param);
+
 #endif

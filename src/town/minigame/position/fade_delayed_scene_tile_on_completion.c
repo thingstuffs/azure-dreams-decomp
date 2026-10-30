@@ -6,14 +6,6 @@
 
    /* the 0x2 bytes before arg0 in fade_delayed_scene_tile_on_completion, addressed as arg0[-1] */
 
-typedef struct S_8002017C_0 {
-    union { s16 s; u16 u; } unk_00;   /* accessed as both */
-    u16 unk_02;
-    void * unk_04;
-    s32 unk_08;
-    u8 pad_0C[0xA];
-    u16 unk_16;
-} S_8002017C_0;   /* arg0 in fade_delayed_scene_tile_on_completion */
 
 typedef struct S_8002017C_1 {
     u8 pad_00[0x2A];
@@ -22,7 +14,7 @@ typedef struct S_8002017C_1 {
 
 
 /* Advance a delayed fade after the linked object signals, then flag completion. */
-void fade_delayed_scene_tile_on_completion(void *effect) {
+void fade_delayed_scene_tile_on_completion(SceneTileObject *effect) {
     s16 state;
     s32 fade_rgb;
     u16 delay;
@@ -30,31 +22,31 @@ void fade_delayed_scene_tile_on_completion(void *effect) {
     s16 next_state;
     u16 flags;
 
-    linked_object = ((S_8002017C_0 *)effect)->unk_04;
-    state = ((S_8002017C_0 *)effect)->unk_00.s;
+    linked_object = effect->linked;
+    state = effect->state.s;
     switch (state) {
     case 0:
-        delay = ((S_8002017C_0 *)effect)->unk_02 - 1;
-        ((S_8002017C_0 *)effect)->unk_02 = delay;
+        delay = effect->delay - 1;
+        effect->delay = delay;
         if ((delay << 0x10) <= 0) {
-            flags = ((S_8002017C_0 *)effect)->unk_16;
-            next_state = ((S_8002017C_0 *)effect)->unk_00.s;
+            flags = effect->flags;
+            next_state = effect->state.s;
             flags &= 0xFFFD;
             next_state = (s16) (next_state + 1);
-            ((S_8002017C_0 *)effect)->unk_16 = flags;
-            ((S_8002017C_0 *)effect)->unk_00.s = next_state;
+            effect->flags = flags;
+            effect->state.s = next_state;
             return;
         }
         return;
     case 1:
         if (linked_object->unk_2A & 1) {
-            ((S_8002017C_0 *)effect)->unk_00.s++;
+            effect->state.s++;
             return;
         }
         break;
     case 2:
-        fade_rgb = ((S_8002017C_0 *)effect)->unk_08 + 0xFFF7F7F8;
-        ((S_8002017C_0 *)effect)->unk_08 = fade_rgb;
+        fade_rgb = effect->color + 0xFFF7F7F8;
+        effect->color = fade_rgb;
         if (fade_rgb <= 0x80808) {
             (*(u16 *)((u8 *)effect + -2)) = (u16) (((ObjectStatusPrefix16 *)effect)[-1].flags | NODE_REMOVE);
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;

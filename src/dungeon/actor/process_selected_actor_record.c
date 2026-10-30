@@ -11,10 +11,10 @@ struct ObjectPosition;
 #include "shared/object_node.h"
 #include "records/Rec_D_80083460.h"
 #include "dungeon/actor.h"
+#include "dungeon/player/object.h"
 
 s32 get_entity_effect_value(void *, s32);
 s32 can_entity_gain_level(void *);
-void raise_entity_level(void *, s32);
 void play_sound_if_enabled(s32);
 s32 select_nearby_target_and_initialize_slot(void *tracked_object, void *target_data, s32 target_id, s32 slot_value);
 extern s32 monster_species_table;

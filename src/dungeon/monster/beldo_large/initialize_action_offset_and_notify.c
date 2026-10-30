@@ -3,8 +3,8 @@
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "dungeon/monster/beldo_large.h"
+#include "dungeon/player.h"
 
-extern void equip_item_and_update_status(void *, void *);
 extern s16 beldo_large_direction_offsets[];
 extern u8 *beldo_script_node;
 extern u8 D_80175DBC[];

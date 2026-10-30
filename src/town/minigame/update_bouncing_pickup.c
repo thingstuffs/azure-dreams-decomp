@@ -9,17 +9,8 @@
 #include "sdk/libc.h"
 #include "slus.h"
 #include "town/scene/object.h"
+#include "town/minigame/pickup_data.h"
 
-typedef struct S_800206D0_0 {
-    s16 unk_00;
-    union { u16 s; s16 u; } unk_02;   /* accessed as both */
-    void * unk_04;
-    u8 pad_08[0x15];
-    u8 unk_1D;
-    u8 pad_1E[0x36];
-    s16 unk_54;
-    s16 unk_56;
-} S_800206D0_0;   /* arg0 in update_bouncing_pickup */
 
 typedef struct S_800206D0_1 {
     u8 pad_00[0x1E];
@@ -36,19 +27,19 @@ extern s32 D_8007947C[];
 extern Box D_800D0420;
 
 /* Updates a bouncing pickup, awards its value on collection, and expires it. */
-void update_bouncing_pickup(void *pickup, ObjectPosition *motion, SpriteFrameState *sprite)
+void update_bouncing_pickup(minigame_pickup_source *pickup, ObjectPosition *motion, SpriteFrameState *sprite)
 {
-    S_800206D0_1 *source_object = ((S_800206D0_0 *)pickup)->unk_04;
+    S_800206D0_1 *source_object = pickup->owner;
     TownRewardValues reward_units = D_80020020;
     s32 timer;
     s32 reward = 1;
     u32 state;
 
     if (source_object->unk_20 & 8) {
-        ((S_800206D0_0 *)pickup)->unk_00 = 6;
+        pickup->kind = 6;
     }
 
-    state = (u32)((S_800206D0_0 *)pickup)->unk_00;
+    state = (u32)pickup->kind;
     switch (state) {
 
     case 0:
@@ -56,7 +47,7 @@ void update_bouncing_pickup(void *pickup, ObjectPosition *motion, SpriteFrameSta
         s32 denomination;
         s32 scaled_count;
 
-        denomination = ((S_800206D0_0 *)pickup)->unk_54;
+        denomination = pickup->x;
         switch (denomination) {
         case 1:
             reward = 10;
@@ -69,12 +60,12 @@ void update_bouncing_pickup(void *pickup, ObjectPosition *motion, SpriteFrameSta
         }
         scaled_count = source_object->unk_1E / reward;
         reward = scaled_count % 10;
-        if (((S_800206D0_0 *)pickup)->unk_56 < reward) {
+        if (pickup->y < reward) {
             sprite->flags &= 0xFF7F;
         } else {
             sprite->flags |= 0x80;
         }
-        ((S_800206D0_0 *)pickup)->unk_1D = 0;
+        pickup->unk_1D = 0;
         return;
     }
 
@@ -87,14 +78,14 @@ void update_bouncing_pickup(void *pickup, ObjectPosition *motion, SpriteFrameSta
         sprite->unk_04 = 0;
         sprite->frame_ticks = rand() & 3;
         sprite->flags &= 0xFF7F;
-        denomination = ((S_800206D0_0 *)pickup)->unk_54;
+        denomination = pickup->x;
         if (denomination == 0) {
             sprite->clut += 5;
         } else if (denomination == 1) {
             sprite->clut -= 5;
         }
-        ((S_800206D0_0 *)pickup)->unk_1D = 0;
-        ((S_800206D0_0 *)pickup)->unk_00 = 2;
+        pickup->unk_1D = 0;
+        pickup->kind = 2;
     }
 
     case 2:
@@ -103,15 +94,15 @@ void update_bouncing_pickup(void *pickup, ObjectPosition *motion, SpriteFrameSta
         motion->y.v += motion->velocity_y;
         motion->z.v += motion->velocity_z;
         motion->velocity_z += 0x30000;
-        timer = --((S_800206D0_0 *)pickup)->unk_02.s;
+        timer = --pickup->timer;
         if ((s16)timer > 0) {
             return;
         }
         SD_Call(0x501);
         motion->z.v = 0xFFC00000;
         motion->velocity_z = ((rand() & 0xFF) << 11) + 0xFFE80000;
-        ((S_800206D0_0 *)pickup)->unk_02.u = (rand() & 0xF) + 30;
-        ((S_800206D0_0 *)pickup)->unk_00 = 3;
+        pickup->timer = (rand() & 0xF) + 30;
+        pickup->kind = 3;
         return;
 
     case 3:
@@ -129,18 +120,18 @@ void update_bouncing_pickup(void *pickup, ObjectPosition *motion, SpriteFrameSta
         }
         if (handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(minigame_source_bounds, motion, &D_800D0420, &view_reference_entity) != 0) {
             SD_Call(0x516);
-            reward = ((s32 *)&reward_units)[((S_800206D0_0 *)pickup)->unk_54] * 100;
+            reward = ((s32 *)&reward_units)[pickup->x] * 100;
             town_money[0] += reward;
             pickup_reward_total[0] += reward;
-            ((S_800206D0_0 *)pickup)->unk_00 = 6;
+            pickup->kind = 6;
         }
-        timer = --((S_800206D0_0 *)pickup)->unk_02.s;
+        timer = --pickup->timer;
         if ((s16)timer > 0) {
             return;
         }
-        ((S_800206D0_0 *)pickup)->unk_02.u = 180;
-        ((S_800206D0_0 *)pickup)->unk_00 = 4;
-        idle_frame = minigame_pickup_sprite_sources[((S_800206D0_0 *)pickup)->unk_54];
+        pickup->timer = 180;
+        pickup->kind = 4;
+        idle_frame = minigame_pickup_sprite_sources[pickup->x];
         sprite->clut = 0;
         sprite->unk_04 = 0;
         sprite->frame_ticks = 0;
@@ -152,37 +143,37 @@ void update_bouncing_pickup(void *pickup, ObjectPosition *motion, SpriteFrameSta
     case 4:
         if (handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(minigame_source_bounds, motion, &D_800D0420, &view_reference_entity) != 0) {
             SD_Call(0x516);
-            reward = ((s32 *)&reward_units)[((S_800206D0_0 *)pickup)->unk_54] * 100;
+            reward = ((s32 *)&reward_units)[pickup->x] * 100;
             town_money[0] += reward;
             pickup_reward_total[0] += reward;
-            ((S_800206D0_0 *)pickup)->unk_00 = 6;
+            pickup->kind = 6;
         }
-        timer = --((S_800206D0_0 *)pickup)->unk_02.s;
+        timer = --pickup->timer;
         if ((s16)timer > 0) {
             return;
         }
-        ((S_800206D0_0 *)pickup)->unk_02.u = 31;
-        ((S_800206D0_0 *)pickup)->unk_00 = 5;
+        pickup->timer = 31;
+        pickup->kind = 5;
         return;
 
     case 5:
-        if ((((S_800206D0_0 *)pickup)->unk_02.s >> 2) & 1) {
+        if ((pickup->timer >> 2) & 1) {
             sprite->flags |= 0x80;
         } else {
             sprite->flags &= 0xFF7F;
         }
         if (handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(minigame_source_bounds, motion, &D_800D0420, &view_reference_entity) != 0) {
             SD_Call(0x516);
-            reward = ((s32 *)&reward_units)[((S_800206D0_0 *)pickup)->unk_54] * 100;
+            reward = ((s32 *)&reward_units)[pickup->x] * 100;
             town_money[0] += reward;
             pickup_reward_total[0] += reward;
-            ((S_800206D0_0 *)pickup)->unk_00 = 6;
+            pickup->kind = 6;
         }
-        timer = --((S_800206D0_0 *)pickup)->unk_02.s;
+        timer = --pickup->timer;
         if ((s16)timer > 0) {
             return;
         }
-        ((S_800206D0_0 *)pickup)->unk_00 = 6;
+        pickup->kind = 6;
         return;
 
     case 6:

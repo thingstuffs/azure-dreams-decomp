@@ -23,4 +23,8 @@ void update_throw_carried_object(u8 *actor, ObjectPosition *motion, u8 *animatio
 void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);
 s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+s32 has_low_actor_mp(ActorRecord *record);
+s32 raise_entity_level(void *entity_data, s32 show_message);
+
 #endif

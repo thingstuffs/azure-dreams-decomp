@@ -72,10 +72,6 @@ typedef struct S_800211A4_1 {
     u16 unk_1E;
 } S_800211A4_1;   /* object_child in update_betting_effect */
 
-typedef struct S_800211A4_2 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_800211A4_2;   /* object_link in update_betting_effect */
 
 typedef struct S_800211A4_3 {
     u8 pad_00[0x10];
@@ -205,7 +201,7 @@ void update_betting_effect(TownEffect *input)
                 object_child->unk_04 = 0;
                 object_child->unk_05 = 0;
                 object_child->unk_0C = 0x00808080;
-                ((S_800211A4_2 *)object_link)->unk_04 = effect;
+                ((ApproachMotionObject *)object_link)->owner = effect;
             }
         }
         break;
@@ -609,7 +605,7 @@ void update_betting_effect(TownEffect *input)
         message.kind = 1;
         message.owner = effect;
         ((S_800211A4_11 *)(&message))->unk_1D = 0;
-        message.unused = 8;
+        message.timer = 8;
         particle_index = 0;
         while (particle_index < digit_sum) {
             do {

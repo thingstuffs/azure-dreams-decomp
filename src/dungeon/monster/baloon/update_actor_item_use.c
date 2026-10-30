@@ -20,7 +20,6 @@
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void play_sound_if_enabled(s32);
-extern void spawn_angled_random_velocity_effect(void *, s32, s32);
 extern void spawn_directional_random_velocity_effect(void *, s32);
 
 extern u8 baloon_default_frames[];

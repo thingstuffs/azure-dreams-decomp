@@ -20,6 +20,7 @@
 #include "engine/scene.h"
 #include "dungeon/actor/effect.h"
 #include "dungeon/menu.h"
+#include "dungeon/player/object.h"
 struct Dst;
 struct Elem;
 
@@ -2672,7 +2673,6 @@ extern void SD_Call(s32);
 extern void display_formatted_context_message(void *context);
 extern s32 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern u8 *find_or_retain_sprite_resource_slot(s32, s32);
-extern void raise_entity_level(void *, s32);
 extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 generate_random_value(void);
 extern s32 random_dungeon_range_16(u32 bound_a, u32 bound_b);

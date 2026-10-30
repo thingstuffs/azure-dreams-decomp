@@ -24,7 +24,6 @@ void adjust_source_value_and_finalize(void *context, const void *source);
 s32 display_text_with_fullwidth_adjustment(void *text);
 s32 generate_random_value(void);
 void func_80024658(void);
-void randomize_counted_sprite_angle(void);
 void func_8002469C(void);
 void card_boot_refresh_five_slot_selection(void);
 void func_800250A4(void);

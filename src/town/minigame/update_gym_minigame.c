@@ -16,6 +16,7 @@
 #include "sdk/libc.h"
 #include "slus.h"
 #include "town/player.h"
+#include "town/minigame/position.h"
 
 #ifndef NULL
 #define NULL 0
@@ -37,17 +38,6 @@ typedef struct S_80022F60_3 {
     void * unk_20;
 } S_80022F60_3;   /* obj in update_gym_minigame */
 
-typedef struct S_80022F60_4 {
-    u8 pad_00[0x4];
-    void * unk_04;
-    s32 unk_08;
-    union { s16 s; u16 u; } unk_0C;   /* accessed as both */
-    union { s16 s; u16 u; } unk_0E;   /* accessed as both */
-    s16 unk_10;
-    s16 unk_12;
-    s16 unk_14;
-    s16 unk_16;
-} S_80022F60_4;   /* secondary in update_gym_minigame */
 
 typedef struct S_80022F60_5 {
     u8 pad_00[0x4];
@@ -201,14 +191,14 @@ void update_gym_minigame(GymState *state_obj) {
                     obj->update_callback = gym_object_callback;
                     register_node(obj, build_menu_line_tile_packets);
                     secondary = (u8 *)obj + 0x20;
-                    ((S_80022F60_4 *)secondary)->unk_0C.s = 0xC8;
-                    ((S_80022F60_4 *)secondary)->unk_0E.s = 0xA0;
-                    ((S_80022F60_4 *)secondary)->unk_10 = 0x60;
-                    ((S_80022F60_4 *)secondary)->unk_12 = 0x1C;
-                    ((S_80022F60_4 *)secondary)->unk_14 = 2;
-                    ((S_80022F60_4 *)secondary)->unk_16 = 1;
-                    ((S_80022F60_4 *)secondary)->unk_08 = 0x404040;
-                    ((S_80022F60_4 *)secondary)->unk_04 = state_obj;
+                    ((SceneTileObject *)secondary)->x = 0xC8;
+                    ((SceneTileObject *)secondary)->y = 0xA0;
+                    ((SceneTileObject *)secondary)->width = 0x60;
+                    ((SceneTileObject *)secondary)->height = 0x1C;
+                    ((SceneTileObject *)secondary)->tpage_mode = 2;
+                    ((SceneTileObject *)secondary)->flags = 1;
+                    ((SceneTileObject *)secondary)->color = 0x404040;
+                    ((SceneTileObject *)secondary)->linked = state_obj;
                 }
 
                 secondary = (u8 *)1;
@@ -397,14 +387,14 @@ loop_0:
                 obj->update_callback = gym_object_callback;
                 register_node(obj, build_menu_line_tile_packets);
                 secondary = (u8 *)obj + 0x20;
-                ((S_80022F60_4 *)secondary)->unk_0C.s = 0x78;
-                ((S_80022F60_4 *)secondary)->unk_0E.s = 0x72;
-                ((S_80022F60_4 *)secondary)->unk_10 = 0x50;
-                ((S_80022F60_4 *)secondary)->unk_12 = 0x10;
-                ((S_80022F60_4 *)secondary)->unk_14 = 2;
-                ((S_80022F60_4 *)secondary)->unk_16 = 1;
-                ((S_80022F60_4 *)secondary)->unk_08 = 0x404040;
-                ((S_80022F60_4 *)secondary)->unk_04 = state_obj;
+                ((SceneTileObject *)secondary)->x = 0x78;
+                ((SceneTileObject *)secondary)->y = 0x72;
+                ((SceneTileObject *)secondary)->width = 0x50;
+                ((SceneTileObject *)secondary)->height = 0x10;
+                ((SceneTileObject *)secondary)->tpage_mode = 2;
+                ((SceneTileObject *)secondary)->flags = 1;
+                ((SceneTileObject *)secondary)->color = 0x404040;
+                ((SceneTileObject *)secondary)->linked = state_obj;
             }
 
             obj = allocate_list_node(1, main_state - 0x20);
@@ -418,9 +408,9 @@ loop_0:
 
                 obj->update_callback = D_80024070;
                 register_node(obj, text_sprite_builder_address);
-                first = ((S_80022F60_4 *)secondary)->unk_0C.u + 4;
+                first = ((SceneTileObject *)secondary)->x + 4;
                 sprite->unk_14 = first;
-                second = ((S_80022F60_4 *)secondary)->unk_0E.u + 4;
+                second = ((SceneTileObject *)secondary)->y + 4;
                 sprite->unk_18 = 3;
                 base = D_80026F34;
                 sprite->unk_1A = 0x7C80;

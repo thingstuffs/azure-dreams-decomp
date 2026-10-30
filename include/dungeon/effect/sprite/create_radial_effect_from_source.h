@@ -19,7 +19,6 @@ typedef struct EffectColor {
 ObjectNodeHeader *handle_retail_n_818875_e_8_callee_80024_de_8_creates_fade_updated_each_frame_callee_80024_d_70_start(struct FadeEndpoints *, struct FadeSettings *);
 void *create_object_offset(MovingPosition *, s16, s16, s16, s32);
 void advance_the_effect_state_updates_motion_sets_display_color(void *, s32, struct S_80025160_1 *);
-s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(void *, void *, void *);
 void advance_and_fade_effect_flagging_expiration_timer_runs_out(struct Actor *, struct Motion *, SpriteFrameState *);
 struct RadialQuadWork;
 void handle_rotate_move_effect_quad_fade_colors_flag_lifetime_ends(struct RadialQuadWork *, ObjectPosition *, SpriteFrameState *);

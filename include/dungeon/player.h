@@ -6,6 +6,8 @@
 #include "records/Rec_func_8008D024_arg0.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
+#include "shared/dungeon_item_entries.h"
+#include "records/Rec_func_8008ACDC_arg0.h"
 /* Sparse view of the player's familiar-item address slots. Input and recall
  * paths form player_base + slot * 4 before reading +0xD0. Restore writes the
  * corresponding save-page item address, and detachment clears that word.
@@ -63,7 +65,7 @@ void begin_player_jump(struct Rec_func_8008ACDC_arg0 *state, void *unused, Sprit
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 struct DungeonItemEntry;
-void equip_item_and_update_status(ActorRecord *context, struct DungeonItemEntry *item);
+void equip_item_and_update_status(ActorRecord *context, DungeonItemEntry *item);
 
 struct S_80098614_0;
 void change_equipped_item_and_notify(struct S_80098614_0 *actor, struct DungeonItemEntry *requested_item);
@@ -71,5 +73,9 @@ void change_equipped_item_and_notify(struct S_80098614_0 *actor, struct DungeonI
 void restore_player_control_callback(void *target, void *source);
 
 s16 get_special_table_data_index(s32 dataAddress);
+
+void resolve_familiar_deployment_request(void *context_ptr, s32 unused_one, void *unused_two, void *selection_ptr);
+s32 reveal_triggered_trap(void *actor);
+void store_recalled_familiar(s32 slot_table, void *unused_arg1, void *unused_arg2, EntityRec *owner);
 
 #endif

@@ -54,7 +54,6 @@ struct DungeonItemEntry;
 extern u8 *append_typed_formatted_value(struct DungeonItemEntry *, u8 *);
 
 /* Functions defined in this translation unit. */
-void equip_item_and_update_status(ActorRecord *context, DungeonItemEntry *item);
 void change_equipped_item_and_notify(S_80098614_0 *actor, DungeonItemEntry *requested_item);
 
 #endif

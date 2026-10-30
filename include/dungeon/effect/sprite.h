@@ -46,4 +46,9 @@ void update_randomized_intermediate_points(void *self);
 
 s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(void *first_owner, void *first_vertices, void *first_line);
 
+struct Row_818A4E74_S_func_818A4E74_1;
+s32 draw_animated_shaded_lines(void *effect_data);
+s32 draw_linked_shaded_tiles(void *first_point, void *first_position);
+void randomize_counted_sprite_angle(void **object_ref, s32 unused, struct Row_818A4E74_S_func_818A4E74_1 *target);
+
 #endif

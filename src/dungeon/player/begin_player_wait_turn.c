@@ -10,7 +10,6 @@ typedef struct { u8 pad[0x3714]; u16 flags; } SysPage;
 #include "dungeon/item.h"
 #include "engine/graphics.h"
 
-typedef s32 M2C_UNK;
 
 
 typedef struct S_8008C7B4_0 {

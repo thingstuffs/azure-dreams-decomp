@@ -2,6 +2,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:dungeon/engine:800E07C0, PD:dungeon/engine:800E07D3. */
 #include "dungeon/player/equipment_status_g00319.h"
 #include "dungeon/player/object.h"
+#include "dungeon/player.h"
 
 /* Changes equipped items unless blocked, displays the result, and updates actor sprites and palettes. */
 void equip_item_and_update_status(ActorRecord *context, DungeonItemEntry *item) {

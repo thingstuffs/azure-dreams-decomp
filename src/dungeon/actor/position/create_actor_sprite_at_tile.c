@@ -13,6 +13,7 @@ struct ObjectNodeHeader;
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
+#include "dungeon/actor/position.h"
 
 typedef struct S_800D24A8_0 {
     u8 pad_00[0x13];

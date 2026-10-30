@@ -684,7 +684,7 @@ extern void create_actor_linked_effect(void *);
 extern s16 sample_terrain_surface_height(s32,s32,s16);
 s32 select_nearby_target_and_initialize_slot(void *tracked_object, void *target_data, s32 target_id, s32 slot_value);
 extern s32 apply_camera_offset_and_select_target(void * object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
-extern void *create_actor_with_tile_flags(s32, s16, s16, s16);
+extern void *create_actor_with_tile_flags(s32, s16, s16, s16); /* Unprototyped: retail call narrows its arguments to this declaration; no shared prototype keeps it */
 
 void *spawn_mode_dependent_112_object(s16 flags,s16 attr_x,s16 attr_y,s16 attr_height);
 void update_entity_facing_and_ground(void *entity, E_80170A58_S_80170A58_2 *motion, void *monster);

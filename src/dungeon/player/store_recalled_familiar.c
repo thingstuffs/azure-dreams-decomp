@@ -3,6 +3,7 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/player.h"
 
 typedef struct S_80093E74_7 {
     u8 pad_00[0xD0];

@@ -50,7 +50,6 @@ void *func_8003FD64(s32, void *);
 s32 rand(void);
 void register_node(void *, void *);
 void func_8004491C(void *, void *);
-void draw_linked_shaded_tiles(void);
 extern s16 D_800259AC;
 void decrement_effect_counter_by_twelve(void *object);
 void create_random_offset_effect_object(

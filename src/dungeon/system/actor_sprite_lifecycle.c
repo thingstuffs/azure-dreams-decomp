@@ -15,7 +15,7 @@ extern void select_record_entry_and_value(void *state, void *entries, short inde
 extern void select_indirect_table_entry(void *state, u8 table_index, s8 entry_index);
 extern void advance_sprite_animation_and_textures(void *entity);
 
-extern void initialize_actor_object_action(void *object_state, s32 unused_context, void *properties, void *status);
+extern void initialize_actor_object_action(void *object_state, s32 unused_context, void *properties, void *status); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s16 pending_marked_actor_count;
 /* arg2 in refresh_actor_facing_and_lifecycle */
 

@@ -2,6 +2,7 @@
 #include "dungeon/item.h"
 #include "dungeon/actor/effect.h"
 #include "dungeon/menu.h"
+#include "dungeon/actor/state.h"
 struct State;
 
 extern s32 D_800DCF1C[];

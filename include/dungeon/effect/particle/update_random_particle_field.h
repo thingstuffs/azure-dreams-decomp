@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_1954800_H
 #define DUNGEON_OVL_1954800_H
 #include "common.h"
+#include "m2c_compat.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -102,8 +103,6 @@ extern s32 D_80024740[];
 #ifndef NULL
 #define NULL 0
 #endif
-
-typedef s32 M2C_UNK;
 
 typedef struct S_81934C5C_0_pre {
     u16 unk_00;

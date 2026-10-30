@@ -5,12 +5,6 @@
 
    /* the 0x2 bytes before arg0 in fade_scene_tile_after_completion_flag, addressed as arg0[-1] */
 
-typedef struct S_80024A30_0 {
-    union { s16 s; u16 u; } unk_00;   /* accessed as both */
-    u8 pad_02[0x2];
-    void * unk_04;
-    s32 unk_08;
-} S_80024A30_0;   /* arg0 in fade_scene_tile_after_completion_flag */
 
 typedef struct S_80024A30_1 {
     u8 pad_00[0xC];
@@ -24,19 +18,19 @@ void fade_scene_tile_after_completion_flag(void *state) {
     s16 phase;
     s32 level;
 
-    trigger = ((S_80024A30_0 *)state)->unk_04;
-    phase = ((S_80024A30_0 *)state)->unk_00.s;
+    trigger = ((SceneTileObject *)state)->linked;
+    phase = ((SceneTileObject *)state)->state.s;
 
     switch (phase) {
     case 0:
         if (trigger->unk_0C & 2) {
-            ((S_80024A30_0 *)state)->unk_00.u++;
+            ((SceneTileObject *)state)->state.u++;
         }
         break;
 
     case 1:
-        level = ((S_80024A30_0 *)state)->unk_08 + 0xFFF7F7F8U;
-        ((S_80024A30_0 *)state)->unk_08 = level;
+        level = ((SceneTileObject *)state)->color + 0xFFF7F7F8U;
+        ((SceneTileObject *)state)->color = level;
         if (level <= 0x80808) {
             ((ObjectStatusPrefix16 *)state)[-1].flags |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;

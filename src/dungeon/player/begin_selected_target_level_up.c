@@ -7,6 +7,7 @@ struct ObjectPosition;
 #include "shared/dungeon_status.h"
 #include "dungeon/player.h"
 #include "engine/graphics.h"
+#include "dungeon/player/object.h"
 
 extern u8  return_magic_frames[];
 extern s8  D_80080AA0;
@@ -14,7 +15,6 @@ extern s8  scene_music_hold;
 
 extern void select_nearby_target_and_initialize_slot(void * slot_id,void *target, s32 target_id, s32 slot_value);
 extern s32 play_sound_if_enabled(s32 query_value);
-extern s32 raise_entity_level(void *entity_data, s32 show_message);
 
 /* Starts the selected target's action when ready and reports whether a target is active. */
 s32 begin_selected_target_level_up(void *actor_state, void *action_arg, void *sprite, void *target) {

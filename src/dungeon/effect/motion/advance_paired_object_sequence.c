@@ -146,6 +146,7 @@ extern void play_sound_if_enabled(s32);
 extern void *create_and_link_six_offset_objects(s16, s16, s16, void *);
 extern void *create_six_offset_effects(void *, void *, void *, void *);
 #include "dungeon/effect/screen.h"
+#include "dungeon/actor/object.h"
 extern void process_adjacent_objects_with_gray_nodes(void *, void *);
 extern s32 has_enough_available_runtime_nodes(s32);
 extern void *get_unused_text_buffer(void);
@@ -155,10 +156,9 @@ extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern u8 *clear_byte_and_advance(u8 *byte_ptr);
 extern void * write_status_prefix_bytes(void *);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern void *select_object_by_flags_and_keys(void *, void *, void *);
 extern void *create_linked_objects(void *, void *, s32, s16);
 extern void *create_positioned_graphic_object(s16 x, s16 y, s16 z, s16 graphic_index, s32 state_value);
-extern void *merge_creature_abilities_and_state(void *, void *, s32);
+extern void *merge_creature_abilities_and_state(void *, void *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void * build_status_effect_name_list(void *, void *);
 extern void *create_four_groups_of_angular_effects(s16, s16, s16, s32);
 

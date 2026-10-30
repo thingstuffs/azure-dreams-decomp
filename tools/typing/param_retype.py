@@ -4,6 +4,7 @@
     param_retype.py census --scope src/town src/dungeon/actor ... --out DIR [--symbols S...] [--exclude P...]
     param_retype.py apply  --scope ... --out DIR [--symbols S...] [--exclude P...] [--census DIR/census.tsv]
                            [--max-closure 400] [--workers 4] [--no-decls]
+    param_retype.py callbacks --spec SPEC.json --scope ... --out DIR [--exclude P...]
 
 A callee whose real prototype tools/proto cannot publish because a caller passes a value of another
 type ('u8 *' to 's32 *', 'int' to 'void *', 'u8 *' to 'Rec_D_80082E80 *', ...) usually carries a
@@ -47,6 +48,14 @@ apply  (opt-in; writes sources in --root, which must be a private lane root)
   declaration site is applied with the same closure identity + native check, one site at a time.
   Output: families.jsonl (verdict per family, with the edits kept), decls.tsv, receipt.jsonl
   (per proven TU), summary.json, changed_files.txt.  Nothing is staged or committed.
+
+callbacks  (opt-in, writes sources like apply)
+  Indirectly dispatched functions (object update/draw callbacks) have no callers to vote for a parameter type;
+  tools/typing/object_kinds.py supplies it instead.  SPEC is {"type": "SceneTileObject *", "param": 0,
+  "symbols": [callbacks of one object kind]}.  Each callback whose parameter is still a placeholder (void *,
+  a byte pointer or a generated S_ view) is retyped with the same planner, typed declarations are respelled,
+  and the change is proven with the same transaction (debt, closure identity, native check); any direct
+  caller must already pass a compatible value.
 """
 from __future__ import annotations
 
@@ -1666,6 +1675,104 @@ def apply_decls(root, prover, units, scope, exclude, symbols, log):
     return rows
 
 
+def plan_callback(root, units, index, symbol, param, spelling, editable):
+    """Plan one indirect-dispatch parameter retype: `symbol`'s parameter `param` becomes `spelling` (the object
+    body type of its object kind, tools/typing/object_kinds.py).  Callbacks have no direct callers to vote, so
+    the type comes from the kind; any direct caller must already pass a compatible value.
+
+    Returns (plan, '') like plan_family, or (None, reason)."""
+    ds = [d for d in index.definitions.get(symbol, []) if d.path.startswith('src/')]
+    if len(ds) != 1:
+        return None, 'definitions:%d' % len(ds)
+    dpath = ds[0].path
+    if not editable(dpath):
+        return None, 'definition_out_of_scope:' + dpath
+    dunit = units.get(dpath)
+    fn = find_function(dunit, dpath, symbol) if dunit else None
+    if fn is None:
+        return None, 'definition_unparsed'
+    params = params_of(fn)
+    if param >= len(params):
+        return None, 'no_parameter_%d' % param
+    pdecl = params[param]
+    tgt = Target(dunit, spelling)
+    if not tgt.canon or tgt.home is None:
+        return None, 'type_not_visible:' + spelling
+    if tgt.home.startswith('src/'):
+        return None, 'private_type_in_' + tgt.home
+    cur_c = decay(dunit.canon(C.qtype(pdecl)))
+    if cur_c == tgt.canon:
+        return None, 'nothing_to_change'
+    if cur_c != 'void*' and not (cur_c.endswith('*') and cur_c[:-1] in A.BYTE_POINTEES):
+        cur_key = dunit.record_of_pointer(C.qtype(pdecl))
+        if not (cur_key and GENERATED.match(cur_key)):
+            return None, 'parameter_type_not_placeholder:' + cur_c
+    callers = index.callers.get(symbol, set()) - {dpath} | ({dpath} if len(calls_in(dunit, dpath, symbol)) else set())
+    per_param, arity = gather_calls(units, callers, symbol, len(params))
+    if arity:
+        return None, arity[0]
+    bad = [x for x in per_param.get(param, []) if not assignable(tgt.canon, decay(x[1].canon(x[5])), x[6])]
+    if bad:
+        return None, 'direct_caller_incompatible:' + bad[0][0]
+    plan = plan_retype(dunit, dpath, fn, pdecl, target_in(dunit, tgt))
+    if plan.get('refused'):
+        return None, 'retype:' + plan['refused']
+    texts, touched, headers = {}, collections.defaultdict(set), collections.defaultdict(set)
+    try:
+        texts[dpath] = apply_text_edits(dunit.text(dpath), plan['edits'])
+    except ValueError:
+        return None, 'overlapping_edits:' + dpath
+    touched[dpath].add(symbol)
+    dt = target_in(dunit, tgt)
+    if getattr(dt, 'needs_header', False):
+        headers[dpath].add(tgt.home)
+    why = respell_all(root, index, texts, headers, [(symbol, param, tgt.spelling, tgt.home, dpath)], editable)
+    if why:
+        return None, why
+    for f, hs in headers.items():
+        base = texts.get(f, (Path(root) / f).read_text())
+        for h in sorted(hs):
+            if f.endswith('.h') and h in header_closure(root, f):
+                continue
+            base = ensure_include(base, h)
+        texts[f] = base
+    summary = dict(params=['%d:%s->%s' % (param, cur_c, tgt.spelling)], holders=0,
+                   casts_dropped=plan.get('removed', 0), renamed=plan.get('renamed', 0))
+    return dict(texts=texts, touched=touched, headers=headers, summary=summary), ''
+
+
+def apply_callbacks(root, out, spec, scope, exclude, workers, max_closure, log):
+    """callbacks mode: spec = {"type": "T *", "param": 0, "symbols": [...]} (one object kind)."""
+    root = Path(root).resolve()
+    units = Units(root)
+    prover = Prover(root, out, workers, max_closure, log)
+    index = Index(root)
+    editable = lambda f: in_scope(f, scope, exclude)
+    results, originals = [], {}
+    for n, symbol in enumerate(spec['symbols']):
+        t1 = time.time()
+        plan, why = plan_callback(root, units, index, symbol, spec.get('param', 0), spec['type'], editable)
+        if plan is None:
+            results.append(dict(symbol=symbol, verdict='refused', reason=why))
+            log('[%d/%d] %s refused: %s' % (n + 1, len(spec['symbols']), symbol, why))
+            continue
+        for f in plan['texts']:
+            originals.setdefault(f, (root / f).read_text())
+        verdict, info = transact(root, prover, units, 'callback:' + symbol, plan['texts'], plan['touched'],
+                                 plan['headers'])
+        rec = dict(symbol=symbol, plan=plan['summary'], tus=info.get('tus', 0))
+        if verdict:
+            rec.update(verdict='rolled_back', reason=verdict)
+        else:
+            rec.update(verdict='accepted', files=info['files'], casts_removed=info['casts_removed'],
+                       folds=info['folds'])
+        results.append(rec)
+        log('[%d/%d] %s %s (%d TUs, %.0fs) %s' % (n + 1, len(spec['symbols']), symbol, rec['verdict'],
+                                                info.get('tus', 0), time.time() - t1,
+                                                rec.get('reason', '') or 'casts -%d' % rec['casts_removed']))
+    return results, prover, originals
+
+
 def count_remaining(root, scope, exclude):
     r = subprocess.run([sys.executable, 'tools/proto/prototypes.py', '--check', '--max-remaining', '100000'],
                        cwd=root, capture_output=True, text=True)
@@ -1680,7 +1787,8 @@ def count_remaining(root, scope, exclude):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument('mode', choices=('census', 'apply'))
+    ap.add_argument('mode', choices=('census', 'apply', 'callbacks'))
+    ap.add_argument('--spec', type=Path, help='callbacks: {"type": "T *", "param": 0, "symbols": [...]}')
     ap.add_argument('--root', type=Path, default=ROOT)
     ap.add_argument('--scope', nargs='+', default=[], help='caller/declaration files (and editable files)')
     ap.add_argument('--def-scope', nargs='*', help='definitions that may be retyped (default: --scope)')
@@ -1710,6 +1818,24 @@ def main(argv=None):
         logf.write(line + '\n')
         logf.flush()
 
+    if args.mode == 'callbacks':
+        spec = json.loads(args.spec.read_text())
+        results, prover, originals = apply_callbacks(root, out, spec, args.scope, args.exclude, args.workers,
+                                                     args.max_closure, log)
+        with open(out / 'families.jsonl', 'w') as fh:
+            for r in results:
+                fh.write(json.dumps(r, sort_keys=True) + '\n')
+        changed = {f for f, t in originals.items() if (root / f).read_text() != t}
+        (out / 'changed_files.txt').write_text(''.join(f + '\n' for f in sorted(changed)))
+        with open(out / 'receipt.jsonl', 'w') as fh:
+            for r in prover.receipts:
+                fh.write(json.dumps(r, sort_keys=True) + '\n')
+        summ = dict(callbacks=dict(collections.Counter(r['verdict'] for r in results)),
+                    casts_removed=sum(r.get('casts_removed', 0) for r in results),
+                    tus_proven=len({r['source'] for r in prover.receipts}), changed_files=len(changed))
+        (out / 'summary.json').write_text(json.dumps(summ, indent=2, sort_keys=True) + '\n')
+        log('callbacks: ' + json.dumps(summ, sort_keys=True))
+        return 0
     def_scope = args.def_scope if args.def_scope is not None else args.scope
     def_ok = lambda f: in_scope(f, def_scope, args.exclude)
     cdir = out if args.mode == 'census' else (args.census or out / 'census')

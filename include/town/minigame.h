@@ -7,19 +7,30 @@
 #include "shared/entity.h"
 #include "town/scene.h"
 #include "records/Rec_func_80021E88_arg1.h"
+#include "town/minigame/pickup_data.h"
 struct S_80021E88_0;
 struct S_80021E88_2;
 struct SpinPhaseWork;
+
+/* Body of a betting-column object: update_betting_effect allocates the node (allocate_list_node(0x112, ...)),
+ * stores the betting effect in `owner`, installs update_minigame_approach_motion and draws it with
+ * project_sprite_chain.  The callback drops the column in, bobs it while `state` is 1/2 (0xF0 sways it by
+ * `phase`) and withdraws it once the owner's +0x18 state reaches 2. */
+typedef struct ApproachMotionObject {
+    /* 0x00 */ s16 state;
+    /* 0x02 */ u16 phase; /* sway phase for state 0xF0, 0..0x7F */
+    /* 0x04 */ void *owner; /* betting effect that spawned the column */
+} ApproachMotionObject;
 
 
 /* initialize_minigame_display.c */
 void initialize_minigame_display(void *context);
 
 /* Object-pool callbacks: motion is the separate node +8 position record. */
-void update_bouncing_pickup(void *pickup, ObjectPosition *motion, SpriteFrameState *sprite);
+void update_bouncing_pickup(minigame_pickup_source *pickup, ObjectPosition *motion, SpriteFrameState *sprite);
 void update_bouncing_pickup_after_hit(void *object, ObjectPosition *motion, SpriteFrameState *sprite);
 void update_snowball_minigame_actor(TownCollectionActor *object, ObjectPosition *motion, SpriteFrameState *sprite);
-void update_minigame_approach_motion(void *motion_state, void *motion);
+void update_minigame_approach_motion(ApproachMotionObject *motion_state, ObjectPosition *motion);
 
 void count_entries_matching_search_path(TownCollectionSequence *scene);
 

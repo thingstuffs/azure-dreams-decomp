@@ -11,6 +11,7 @@ struct ObjectNodeHeader;
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "dungeon/actor/position.h"
 
 #ifndef NULL
 #define NULL 0

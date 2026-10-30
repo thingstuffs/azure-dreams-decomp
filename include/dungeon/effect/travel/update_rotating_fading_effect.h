@@ -126,7 +126,6 @@ typedef struct {
     u8 pad18[0xC];
     GteOffset offset;
 } ovl_18ca83c_818AAE60_Func818AAE60Scratch;
-extern void draw_animated_shaded_lines(void);
 extern void func_8002488C(void);
 extern void func_800248D4(void);
 extern void func_80024DF0(void);

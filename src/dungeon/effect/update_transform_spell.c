@@ -16,7 +16,7 @@ s32 check_left_tile_and_center_height(u16,u16,s16);
 s32 increment_bounded_counter(void);
 void play_sound_if_enabled(s32);
 s32 generate_random_value(void);
-void *create_actor_graphics_at_tile();
+void *create_actor_graphics_at_tile(); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */
 void init_monster_from_stats(void *,s32);
 
 void update_transform_spell(TransformSpellState *spell, ObjectPosition *motion, SpriteFrameState *sprite) {

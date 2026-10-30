@@ -55,8 +55,6 @@ s32 resolve_player_input_facing(s16 direction_offset, u16 *flags, u16 *angle);  
 s32 request_familiar_deployment_change(); /* extern */
 #include "dungeon/player/input.h"
 s16 dispatch_selected_item_use(Rec_func_8008ACDC_arg0 *actor, s16 item_id, s16 other_item_id);                /* extern */
-void resolve_familiar_deployment_request(); /* extern */
-
 
 void *select_item_record_pointer(); /* Unprototyped: one or two arguments; the second register argument is ignored. */                      /* extern */
 s32 can_entity_gain_level(void *entity);                  /* extern */

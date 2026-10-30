@@ -24,7 +24,6 @@ void runtime_map_type_16_entry_code();                      /* extern */
 void * register_and_upload_sprite_resource();                     /* extern */
 s32 begin_sprite_resource_load_with_completion_flag();                   /* extern */
 void set_sprite_animation_frame(SpriteFrameState *obj, s16 frame_group, s16 frame_index, s32 slot_index); /* extern */
-void store_recalled_familiar(); /* extern */
 void unlink_entity_node(struct EntityLinkNode *node);                      /* extern */
 u8 * find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type);                     /* extern */
 void decrement_monster_entry_count(s16 requested_id, s16 requested_type);                 /* extern */

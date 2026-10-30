@@ -31,4 +31,7 @@ void refresh_actor_proximity_state(struct ActorRecord *context);
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 s32 try_apply_confusion_status(void *ptr, s32 threshold_input, s32 kind_input);
 
+void *merge_creature_abilities_and_state(void *first, void *second, void *destination);
+s32 try_apply_status_effect(void *target, s16 chance, s16 duration);
+
 #endif

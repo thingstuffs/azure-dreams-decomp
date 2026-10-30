@@ -12,7 +12,7 @@
 #include "dungeon/level.h"
 #include "dungeon/system.h"
 
-extern void store_recalled_familiar(void *, void *, void *, void *);
+extern void store_recalled_familiar(void *, void *, void *, void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void unlink_entity_node(void *);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern void decrement_monster_entry_count(s16 requested_id, s16 requested_type);

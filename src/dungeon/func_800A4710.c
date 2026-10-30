@@ -12,7 +12,7 @@ extern s32 uses_direct_actor_sprite_frames(void *record);
 extern void select_record_entry_and_value(void *state, s32 entries, s8 index);
 extern void advance_sprite_animation_and_textures(void *entity);
 
-extern void initialize_actor_object_action(void *object_state, s32 unused_context, void *properties, void *status);
+extern void initialize_actor_object_action(void *object_state, s32 unused_context, void *properties, void *status); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 extern s16 pending_marked_actor_count;
 

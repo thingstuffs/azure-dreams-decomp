@@ -36,7 +36,7 @@ s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 
 #include "dungeon/actor/state.h"
 #include "dungeon/item.h"
 #include "dungeon/actor/effect.h"
-extern s32 has_low_actor_mp();
+#include "dungeon/player/object.h"
 extern s32 check_entity_interaction_compatibility();
 extern s32 get_definition_field_from_triple(ActorRecord *actor, s32 entry_index);
 extern s32 choose_usable_ability_or_attack();

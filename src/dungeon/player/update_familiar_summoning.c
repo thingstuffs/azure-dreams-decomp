@@ -87,7 +87,6 @@ void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 void runtime_map_type_16_entry_code();
 s32 queue_cd_resource();
 void runtime_no_op_callback(u32 unused_state);
-void resolve_familiar_deployment_request();
 u8 * find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type);
 s32 play_sound_if_enabled(s32 query_value);
 extern s32 loaded_entity_sprite_resource;

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "dungeon/actor.h"
 #include "records/Rec_func_8008D024_arg0.h"
+#include "dungeon/player.h"
 
 
 extern void *familiar_record_slots[];
@@ -9,7 +10,7 @@ extern u8 D_800E0B2B[16];
 extern u8 D_800E202D[16];
 
 extern s16 find_entity_slot_by_field_ac(void *target_value);
-extern s32 find_entity_slot_by_field_e4(void *target_value);
+extern s32 find_entity_slot_by_field_e4(void *target_value); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(const u8 *source, u8 *buffer);
 extern u8 *clear_byte_and_advance(u8 *byte_ptr);

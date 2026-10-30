@@ -3,16 +3,22 @@
 
 #include "common.h"
 
-/* Input records prepared by update_betting_effect. The source x halfword
- * at +0x54 is signed. These input views do not describe ObjectNodeHeader
- * or the separate SpriteFrameState rendering subrecord. */
+/* Bouncing coin pickup body.  update_betting_effect fills one as a message and
+ * initialize_source_and_initial_data copies it whole into the payload of a 0x136
+ * node (after its ObjectNodeHeader), installs update_bouncing_pickup and draws it
+ * with project_sprite_chain; the callback then receives the same record as arg0.
+ * The source x halfword at +0x54 is signed.  This record does not describe the
+ * ObjectNodeHeader or the separate SpriteFrameState rendering subrecord. */
 typedef struct minigame_pickup_source {
-    s16 kind;
-    s16 unused;
-    void *owner;
-    u8 pad08[0x4C];
-    s16 x;
-    s16 y;
+    /* 0x00 */ s16 kind; /* update_bouncing_pickup state: 0 waits, 1 launches, 2-5 bounce, 6 retires */
+    /* 0x02 */ u16 timer; /* frames left in the current bounce/idle state */
+    /* 0x04 */ void *owner; /* betting effect that spawned the pickup; its flag 8 retires every pickup */
+    /* 0x08 */ u8 pad08[0x15]; /* scene collision record (configure_the_set_mode_n_1, unlink_scene_list_node) */
+    /* 0x1D */ u8 unk_1D;
+    /* 0x1E */ u8 pad1E[0x32];
+    /* 0x50 */ void *unk_50; /* sprite table stored by the creator */
+    /* 0x54 */ s16 x; /* grid column: also the coin denomination (0, 1, 2 = 1, 10, 100) */
+    /* 0x56 */ s16 y; /* grid row: the sprite shows while it is below the matching payout digit */
 } minigame_pickup_source;
 
 typedef struct minigame_pickup_initial {

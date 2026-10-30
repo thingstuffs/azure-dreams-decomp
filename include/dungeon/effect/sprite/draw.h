@@ -187,6 +187,5 @@ void SetDrawMode(void *, s32, s32, s32, s32);
 
 void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *position, Row_818F2800_S_BODY_1 *state, s32 depth_offset);
 s32 draw_linked_gap_effects(void *state, void *position, void *appearance);
-s32 draw_linked_shaded_tiles(void *first_point, void *first_position);
 s32 choose_random_sign(void);
 #endif

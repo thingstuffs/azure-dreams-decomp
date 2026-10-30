@@ -6,13 +6,13 @@
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/effect/screen.h"
 #include "dungeon/level.h"
+#include "dungeon/effect/shade.h"
 
 typedef struct {
     signed short x;
     signed short y;
 } DirectionDelta;
 
-extern signed short check_forward_collision_and_height(void *, void *);
 extern void play_sound_if_enabled(s32);
 
 extern DirectionDelta actor_direction_step_pairs[];

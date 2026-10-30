@@ -10,11 +10,12 @@
 #include "engine/entity.h"
 #include "dungeon/player/state.h"
 #include "dungeon/item/actor_target.h"
+#include "dungeon/actor/state.h"
+#include "dungeon/actor/object.h"
 struct Entity;
 struct EntityLinkNode;
 
 s16 find_matching_initial_stat_slot(); /* Unprototyped: retail call passes more arguments than the callee reads */
-void *select_object_by_flags_and_keys(void *, void *, u16 *);
 void zero_words();
 void apply_entity_effects(void *);
 void copy_entity_record();

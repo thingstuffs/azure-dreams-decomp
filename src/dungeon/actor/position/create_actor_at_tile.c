@@ -9,6 +9,7 @@ struct ObjectNodeHeader;
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "dungeon/actor/position.h"
 typedef struct S_800D1C70_0 {
     u8 pad_00[0x13];
     s8 unk_13;

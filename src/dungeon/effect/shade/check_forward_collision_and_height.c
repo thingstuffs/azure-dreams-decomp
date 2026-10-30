@@ -2,6 +2,7 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "dungeon/level.h"
+#include "dungeon/effect/shade.h"
 
 extern s8 actor_direction_step_pairs[];
 s32 check_left_tile_and_center_height(s32, s32, s16);

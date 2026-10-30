@@ -30,7 +30,7 @@ typedef struct Obj {
 } Obj;
 
 extern s16 get_surface_height_at_record(void *);
-extern void build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(Obj *);
+extern void build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(Obj *); /* Unprototyped: retail call passes a different argument count */
 extern u8 D_80025940[];
 extern void *effect_position_source;
 

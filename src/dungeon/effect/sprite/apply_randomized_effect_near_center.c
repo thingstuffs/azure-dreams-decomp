@@ -4,6 +4,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/actor.h"
+#include "dungeon/actor/state.h"
 
 typedef struct S_8185C860_0 {
     void * unk_00;
@@ -13,7 +14,6 @@ typedef struct S_8185C860_0 {
 
 s32 check_entity_interaction_compatibility();
 extern s32 generate_random_value(void);
-s32 try_apply_status_effect(void *target, s16 chance, s16 duration);
 extern u8 current_spell_effect_variant;
 
 /* Apply a randomized effect to eligible targets within two tiles of the center. */

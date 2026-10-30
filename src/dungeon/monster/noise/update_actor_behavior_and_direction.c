@@ -12,6 +12,7 @@
 #include "shared/entity.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "dungeon/monster/baloon.h"
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 rand(void);
@@ -24,7 +25,6 @@ extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPositio
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
 extern void func_80171CD8(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
-extern void update_actor_turn_behavior(void *, void *, void *, void *);
 extern s32 func_801726D0(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
 extern void func_80172894(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
 extern s32 func_801729AC(void *, void *, void *, s32);
