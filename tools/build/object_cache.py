@@ -281,9 +281,12 @@ def entry_sizes(directory):
     for entry in directory.iterdir():
         if not re.fullmatch('[0-9a-f]{64}', entry.name) or not entry.is_dir() or entry.is_symlink():
             continue
-        manifest = entry/'manifest.json'
-        size = sum(p.stat().st_size for p in entry.iterdir() if p.is_file())
-        result.append((manifest.stat().st_mtime_ns, entry, size))
+        try:  # unlocked callers race with prune and restore
+            mtime = (entry/'manifest.json').stat().st_mtime_ns
+            size = sum(p.stat().st_size for p in entry.iterdir() if p.is_file())
+        except FileNotFoundError:
+            continue
+        result.append((mtime, entry, size))
     return result
 
 
@@ -303,10 +306,12 @@ def publish(directory, key, inputs, root, outputs):
             target = directory/key
             if not target.exists():
                 counter = directory/'bytes'
-                total = int(counter.read_text()) if counter.exists() else sum(n for _, _, n in entry_sizes(directory))
                 added = sum(p.stat().st_size for p in temporary.iterdir())
                 temporary.rename(target)
-                content_cache.save(counter, total+added)
+                # Never walk the cache under the lock: a missing counter stays
+                # missing and the background prune rebuilds it.
+                if counter.exists():
+                    content_cache.save(counter, int(counter.read_text())+added)
             else:
                 current = json.loads((target/'manifest.json').read_text())
                 if any(current['outputs'].get(n) != d for n, d in values.items() if not n.endswith('.proof.json')):
@@ -319,31 +324,59 @@ def publish(directory, key, inputs, root, outputs):
 def prune(directory, max_bytes):
     if max_bytes < 0:
         raise ValueError('cache size cap must be nonnegative')
+    directory.mkdir(parents=True, exist_ok=True)
+    # One prune at a time: a second walk would only repeat the first one's work.
+    with (directory/'prune.lock').open('a+b') as stream:
+        try:
+            fcntl.flock(stream, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            return dict(skipped='busy', max_bytes=max_bytes)
+        return prune_locked(directory, max_bytes)
+
+
+def prune_locked(directory, max_bytes):
+    counter = directory/'bytes'
+    # The inventory of a full cache takes minutes, so it runs without the lock.
+    # Entries are only deleted under the lock, one at a time, and only if still
+    # unused since the inventory: restore touches manifest.json under that lock.
+    before = int(counter.read_text()) if counter.exists() else None
+    entries = entry_sizes(directory)
+    total = sum(size for _, _, size in entries)
     removed = 0
-    with locked(directory):
-        entries = entry_sizes(directory)
-        total = sum(size for _, _, size in entries)
-        for _, entry, size in sorted(entries):
-            if total <= max_bytes:
-                break
+    for mtime, entry, size in sorted(entries):
+        if total <= max_bytes:
+            break
+        with locked(directory):
+            try:
+                if (entry/'manifest.json').stat().st_mtime_ns != mtime:
+                    continue  # restored meanwhile
+            except FileNotFoundError:
+                total -= size  # already removed by someone else
+                continue
             shutil.rmtree(entry)
-            total -= size
-            removed += 1
-        content_cache.save(directory/'bytes', total)
-    return dict(bytes=total, removed=removed, max_bytes=max_bytes)
+        total -= size
+        removed += 1
+    with locked(directory):
+        # Entries published during the inventory are not in it; keep their bytes.
+        grown = max(0, int(counter.read_text()) - before) if before is not None and counter.exists() else 0
+        content_cache.save(counter, total + grown)
+    return dict(bytes=total + grown, removed=removed, max_bytes=max_bytes)
 
 
 def enforce_cap(directory, cap):
     # Publication accounts bytes under the same lock. Only an over-cap cache
-    # needs an LRU inventory; ordinary misses do constant-time metadata IO.
-    # The inventory walks every entry under the shared lock (minutes on a full
-    # lane cache), so prune to a low watermark: pruning exactly to the cap made
-    # every later miss walk again and serialised all lanes' compiles.
+    # needs an LRU inventory, which takes minutes to hours on a full lane
+    # cache, so it never runs inside a compile: a detached prune does it
+    # (one at a time, see prune) down to a low watermark so later misses do
+    # not start it again at once. A missing counter counts as over the cap.
     with locked(directory):
         counter = directory/'bytes'
         total = int(counter.read_text()) if counter.exists() else cap+1
     if total > cap:
-        prune(directory, cap*3//4)
+        subprocess.Popen([sys.executable, str(Path(__file__).resolve()), 'prune',
+                          '--directory', str(directory), '--max-bytes', str(cap*3//4)],
+                         stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
+                         stderr=subprocess.DEVNULL, start_new_session=True)
 
 
 def refresh_proof(root, recipe_path, spec):
@@ -400,7 +433,7 @@ def compile_recipe(root, recipe_path, build):
             raise ValueError('object cache verification differs: ' + key)
         if key and not hit:
             publish(directory, key, inputs, root, outputs)
-            enforce_cap(directory, int(os.environ.get('AZURE_OBJECT_CACHE_BYTES', str(8 * 1024**3))))
+            enforce_cap(directory, int(os.environ.get('AZURE_OBJECT_CACHE_BYTES', str(48 * 1024**3))))
     if hit:
         refresh_proof(root, recipe_path, spec)
         print('CACHE_VERIFY' if verify else 'CACHE_HIT', spec['output'], flush=True)
@@ -412,7 +445,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('command', choices=['prune'])
     parser.add_argument('--directory', type=Path, required=True)
-    parser.add_argument('--max-bytes', type=int, default=8 * 1024**3)
+    parser.add_argument('--max-bytes', type=int, default=48 * 1024**3)
     args = parser.parse_args()
     print(json.dumps(prune(args.directory, args.max_bytes), sort_keys=True))
 
