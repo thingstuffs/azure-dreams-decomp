@@ -100,9 +100,14 @@ refused repair falls back to the old hold:
   includes that conflicted with consumers).
 
 Not repaired here (type moves, listed for a typing task): `generated_layout_in_prototype` (an `S_<addr>`
-parameter needs a named type in its owning header first) and the includes they block (e.g. 27 `slus.h`
-names wait on `init_object_header_b(struct S_8004EFF4 *)` because `src/slus/code.c` cannot include `slus.h`
-until that declaration agrees).
+parameter needs a named type in its owning header first) and the includes they block.  Example: 27
+`slus.h` names waited on `init_object_header_b(struct S_8004EFF4 *)` because `src/slus/code.c` could not
+include `slus.h` until that declaration agreed.  After the record was typed (`include/slus/display_commands.h`,
+prototype `void *init_object_header_b(void *cursor)`) code.c includes `slus.h`; of the 26 code.c names that
+were candidates in the next solve, the batch applied 8 and none waits on code.c any more: 9 hold `out_of_scope_header` (their other declarations sit in
+dungeon/town/modules headers outside the slus scope), 6 back off on `proof` (callers use the value of a
+`void` definition, or pass arguments to a zero-argument one), 2 `floor_header_shared` and 1
+`cannot_include_owner` (a `src/slus/code2.c` floor site).
 
 ## Running one header
 

@@ -13,7 +13,7 @@ extern Entry catalog_cache_nodes[32];
 extern Entry *catalog_cache_head;
 extern s16 catalog_lookup_count;
 
-extern void append_terminated_runtime_word(void *);
+extern void append_terminated_runtime_word(void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /* Initializes the entry list with cleared states and values spaced by 48. */
 void initialize_catalog_glyph_cache(void) {

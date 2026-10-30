@@ -16,6 +16,7 @@ struct ObjectPosition;
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
+#include "slus.h"
 
 typedef struct S_801749A8_8 {
     u8 pad_00[0x8];

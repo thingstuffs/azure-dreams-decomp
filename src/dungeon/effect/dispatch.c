@@ -18,6 +18,7 @@ struct ObjectPosition;
 #include "dungeon/item.h"
 #include "dungeon/player/item.h"
 #include "engine/texture.h"
+#include "slus.h"
 
 typedef struct S_800C55F4_0 {
     u8 ** unk_00;
@@ -1510,7 +1511,6 @@ typedef struct {
     DungeonState state;
 } DungeonObject;
 
-extern void copy_words_forward(void *, void *, s32);
 extern void *allocate_list_node(s32, void *);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 rsin(s32);

@@ -1,43 +1,32 @@
 #include "common.h"
 #include "slus.h"
 #include "slus/data.h"
+#include "slus/display_commands.h"
 
-typedef struct S_8004EFF4 {
-    /* 0x00 */ u8 unk00;
-    /* 0x01 */ u8 unk01;
-    /* 0x02 */ u8 pad02[2];
-    /* 0x04 */ s32 unk04;
-    /* 0x08 */ s32 unk08;
-    /* 0x0C */ s32 unk0C;
-    /* 0x10 */ u8 pad10[8];
-} S_8004EFF4;
-
-typedef struct S_8004EFF4_sub {
-    /* 0x00 */ u8 unk18_00;
-    /* 0x01 */ u8 unk18_01;
-    /* 0x02 */ u8 pad02[2];
-    /* 0x04 */ s16 unk18_04;
-    /* 0x06 */ s16 unk18_06;
-} S_8004EFF4_sub;
-
-/* Initialize the header and embedded record with global defaults and flags, then return the next address. */
-void *init_object_header_b(S_8004EFF4 *record)
+/* Build one of the menu backdrop's two corner glows (update_menu_backdrop_variant shows this one or the
+ * mirrored list of init_object_header_c): a shaded quarter-ellipse fan, then the additive draw-mode
+ * command that ends the list.  Returns the next command slot. */
+void *init_object_header_b(void *cursor)
 {
-    s32 initial_word_4;
-    s32 initial_word_c;
+    EllipseGlowCommands *glow = cursor;
+    DrawModeCommand *draw_mode;
+    s32 center_color;
+    s32 edge_color;
 
-    record->unk01 = 0xB0;
-    record->unk08 = object_header_b_default_word_08[0];
-    initial_word_4 = object_header_b_default_word_04[0];
-    initial_word_c = object_header_b_default_word_0c[0];
-    record->unk01 = record->unk01 | 2;
-    record->unk00 = record->unk00 | 0x60;
-    record->unk04 = initial_word_4;
-    record->unk0C = initial_word_c;
-    record = (S_8004EFF4 *)((u8 *)record + 0x18);
-    ((S_8004EFF4_sub *)record)->unk18_01 = 0x81;
-    ((S_8004EFF4_sub *)record)->unk18_04 = 0x20;
-    ((S_8004EFF4_sub *)record)->unk18_06 = 1;
-    ((S_8004EFF4_sub *)record)->unk18_00 = ((S_8004EFF4_sub *)record)->unk18_00 | 0x80;
-    return &record->unk0C;
+    glow->fan.opcode = 0xB0;
+    glow->fan.extent = object_header_b_default_word_08[0];
+    center_color = object_header_b_default_word_04[0];
+    edge_color = object_header_b_default_word_0c[0];
+    glow->fan.opcode = glow->fan.opcode | 2;
+    glow->fan.flags = glow->fan.flags | 0x60;
+    glow->fan.center_color = center_color;
+    glow->fan.edge_color = edge_color;
+
+    cursor = &glow->draw_mode;
+    draw_mode = cursor;
+    draw_mode->opcode = 0x81;
+    draw_mode->tpage = 0x20;
+    draw_mode->dither = 1;
+    draw_mode->flags = draw_mode->flags | 0x80;
+    return draw_mode + 1;
 }

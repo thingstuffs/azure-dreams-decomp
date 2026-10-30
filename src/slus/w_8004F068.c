@@ -1,26 +1,6 @@
 #include "common.h"
 #include "slus.h"
-
-/* First sub-object header written at arg0+0x0 */
-typedef struct S_8004F068_a {
-    /*0x00*/ u8  unk00;
-    /*0x01*/ u8  unk01;
-    /*0x02*/ u8  pad02[2];
-    /*0x04*/ s32 unk04;
-    /*0x08*/ s32 unk08;
-    /*0x0C*/ s32 unk0C;
-    /*0x10*/ u8  pad10[8];
-} S_8004F068_a;
-
-/* Second sub-object header written at arg0+0x18 */
-typedef struct S_8004F068_b {
-    /*0x00*/ u8  unk00;
-    /*0x01*/ u8  unk01;
-    /*0x02*/ u8  pad02[2];
-    /*0x04*/ u16 unk04;
-    /*0x06*/ u16 unk06;
-    /*0x08*/ u8  pad08[4];
-} S_8004F068_b;
+#include "slus/display_commands.h"
 
 /* Each is a single hi/lo-addressed word; padded >8B so gcc doesn't use %gp_rel */
 typedef struct { s32 v; s32 pad[2]; } S_8004F068_word;
@@ -28,29 +8,30 @@ extern S_8004F068_word object_header_c_default_word_08;
 extern S_8004F068_word object_header_c_default_word_0c;
 extern S_8004F068_word object_header_c_default_word_04;
 
-/* Initializes two adjacent headers with flags and global values, then returns the next field. */
+/* Build the menu backdrop's other corner glow: init_object_header_b's quarter-ellipse fan mirrored in x
+ * (flag 1), then the additive draw-mode command that ends the list.  Returns the next command slot. */
 void *init_object_header_c(void *cursor)
 {
-    S_8004F068_a *first_header = (S_8004F068_a *)cursor;
-    S_8004F068_b *second_header;
-    s32 word_04, word_08, word_0c;
+    EllipseGlowCommands *glow = cursor;
+    DrawModeCommand *draw_mode;
+    s32 center_color, extent, edge_color;
 
-    first_header->unk01 = 0xB0;
-    word_08 = object_header_c_default_word_08.v;
-    first_header->unk08 = word_08;
-    word_04 = object_header_c_default_word_04.v;
-    word_0c = object_header_c_default_word_0c.v;
-    first_header->unk01 |= 2;
-    first_header->unk00 |= 0x61;
-    first_header->unk04 = word_04;
-    first_header->unk0C = word_0c;
+    glow->fan.opcode = 0xB0;
+    extent = object_header_c_default_word_08.v;
+    glow->fan.extent = extent;
+    center_color = object_header_c_default_word_04.v;
+    edge_color = object_header_c_default_word_0c.v;
+    glow->fan.opcode |= 2;
+    glow->fan.flags |= 0x61;
+    glow->fan.center_color = center_color;
+    glow->fan.edge_color = edge_color;
 
-    cursor = (u8 *)cursor + 0x18;
-    second_header = (S_8004F068_b *)cursor;
-    second_header->unk01 = 0x81;
-    second_header->unk04 = 0x20;
-    second_header->unk06 = 1;
-    second_header->unk00 |= 0x80;
+    cursor = &glow->draw_mode;
+    draw_mode = cursor;
+    draw_mode->opcode = 0x81;
+    draw_mode->tpage = 0x20;
+    draw_mode->dither = 1;
+    draw_mode->flags |= 0x80;
 
-    return (u8 *)second_header + 0xC;
+    return draw_mode + 1;
 }

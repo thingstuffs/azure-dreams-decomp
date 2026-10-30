@@ -30,6 +30,8 @@ void decrement_monster_entry_count(s16 requested_id, s16 requested_type);       
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/item.h"
 #include "dungeon/level.h"
+#include "slus.h"
+
 struct Entity;
 struct EntityLinkNode;
 void mark_owned_linked_actor_actions(struct Entity *owner_entity);                      /* extern */

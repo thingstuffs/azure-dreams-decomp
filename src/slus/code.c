@@ -11,6 +11,7 @@
 #include "shared/sound_volume.h"
 #include "shared/sprite_frame_state.h"
 #include "engine/entity.h"
+#include "slus.h"
 
 extern int   card_server_initialized[3];
 extern short audio_voice_drain_suppressed[5];
@@ -808,7 +809,6 @@ void *create_resource_transition_task(void *owner)
 }
 
 extern void *init_object_header_a(void *cursor);
-extern void init_object_header_b(void *a0);
 extern void *init_object_header_c(void *cursor);
 extern void init_tpage_prims(void *a0);
 extern void layout_menu_backdrop_display_entries(void *a0);

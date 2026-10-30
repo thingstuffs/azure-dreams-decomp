@@ -17,7 +17,7 @@ typedef struct {
 } StrPair;
 
 extern s32 record_has_type_twenty(Item *);
-extern s32 read_item_category_flag_ten(Item *);
+extern int read_item_category_flag_ten(void *item);
 extern s32 submit_script_with_registered_context(char *);
 extern char *rindex(char *, s32);
 

@@ -14,7 +14,6 @@ struct Elem;
 struct RuntimeContext;
 struct S8004CBFC_a0;
 struct S8004CBFC_a1;
-struct S_8004EFF4;
 struct S_80050E20;
 struct Struct_C_next;
 struct VtableObj;
@@ -269,7 +268,7 @@ void enqueue_script_message_command(void);
 void *init_object_header_a(void *cursor);
 
 /* w_8004EFF4.c */
-void *init_object_header_b(struct S_8004EFF4 *record);
+void *init_object_header_b(void *cursor);
 
 /* w_8004F068.c */
 void *init_object_header_c(void *cursor);

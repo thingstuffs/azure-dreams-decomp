@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "records/Rec_D_80083160.h"
+#include "slus.h"
 
    /* state in build_transformed_sprite_quads */
 
@@ -138,7 +139,6 @@ typedef struct S_8009E798_7 {
 
    /* ret_state in build_transformed_sprite_quads */
 
-extern void copy_words_forward(void *, void *, s32);
 extern void PushMatrix(void);
 extern void PopMatrix(void);
 extern void *ScaleMatrix(void *, void *);

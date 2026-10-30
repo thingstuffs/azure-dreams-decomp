@@ -357,7 +357,7 @@ typedef struct {
 
 extern StructADBC map_runtime_state;
 
-extern void submit_cd_command_six_and_drain(s32 a0);
+extern void submit_cd_command_six_and_drain(s32 a0); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /* Copies map_runtime_state.field4 into field0 and submits CD task 6 when that value is nonzero. */
 void resource_load_current_optional_descriptor(void) {

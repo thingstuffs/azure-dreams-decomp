@@ -28,7 +28,6 @@ struct Elem;
 
 typedef s32 (*Callback4)(void *, void *, void *, void *);
 extern u8 destination_motion_resume_address[];
-extern void copy_words_forward(int *dst, int *src, int count);   /* extern */
 extern void select_record_entry_and_value(void *state, void *entries, short index);             /* extern */
 extern void request_scene_dispatch_state(s16 requested_state);                     /* extern */
 s16 get_entity_effect_value();                 /* extern */

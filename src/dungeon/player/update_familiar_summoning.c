@@ -14,6 +14,7 @@
 #include "engine/graphics.h"
 #include "dungeon/player.h"
 #include "dungeon/level.h"
+#include "slus.h"
 
 typedef struct S_80095A10_0 {
     u8 pad_00[0x8C];
