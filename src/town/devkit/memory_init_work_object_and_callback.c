@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "frontend/card.h"
 
 
 extern u8 D_8040C5C0[];
@@ -14,7 +15,6 @@ extern void func_8007BFE0(void *state, s32 value);
 extern void func_8007C040(void *data, void *data_2, s32 value);
 extern void set_record_values(void *state, s32 init_value_a, s32 init_value_b);
 extern void memory_process_handles_and_mark_object(void *object);
-extern void card_dev_create_slot_screen_objects(void);
 
 /* Creates or resets the town object, initializes its state, and installs its callback. */
 void *memory_init_work_object_and_callback(s32 init_value_a, s32 init_value_b) {

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "frontend/card/service.h"
+#include "frontend/card/save.h"
 
 typedef struct S_func_804061C4_0 {
     u8 pad_00[4];
@@ -17,7 +18,6 @@ typedef struct S_func_804061C4_1 {
 
 extern void initialize_card_message_object_with_code_0x13(void *object);
 extern void func_80404688(s32 entry_object);
-extern void handle_object_menu_input(void);
 extern void func_80405A64(void);
 
 /*

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "frontend/card/service.h"
+#include "frontend/card/save.h"
 
 #define FIELD(expr, type_ptr, offset) (*(type_ptr)((u8 *)(expr) + (offset)))
 
@@ -17,7 +18,6 @@ typedef struct S_func_80405CB8_0 {
 extern void initialize_card_message_object_with_code_0xb(void *object_base);
 extern void func_80405C44(s32 value);
 extern void func_80400908(void);
-extern void handle_object_menu_input(void);
 extern void func_80405A3C(void);
 extern void set_object_state_and_select_action(void);
 

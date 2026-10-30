@@ -3,9 +3,7 @@
 #include "modules/main_server_ship_interfaces.h"
 #include "frontend/libcard/message.h"
 #include "frontend/libcard/resource.h"
-extern void card_boot_return_from_slot_menu(void);
-extern void card_boot_restore_saved_selection_callback(void);
-extern void card_boot_enter_slot_selection_input(void);
+#include "frontend/libcard.h"
 
 /* Processes the current slot and selects callbacks when unavailable or all five are done. */
 void update_inventory_menu(void *state_arg) {

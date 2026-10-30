@@ -17,6 +17,4 @@ extern s32 _SpuIsInAllocateArea_(u32 value);
 extern s32 _spu_t(s32 mode, ...);
 extern s32 WaitEvent(s32 event);
 
-s32 SpuClearReverbWorkArea(s32 voice);
-
 #endif

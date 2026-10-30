@@ -42,7 +42,7 @@ extern short SD_Call(int flags);
 extern void sound_set_cd_playback_volume_scale(short value);
 extern void sound_set_sequence_volume_scale(s16 new_value);
 extern void sound_set_voice_gain_scale(short value);
-extern void create_settings_controller();
+extern void create_settings_controller(void);
 /* Handles the options menu, adjusting audio levels and applying display settings. */
 void handle_settings_menu_input(Menu *menu)
 {

@@ -3,7 +3,7 @@
 
 
 
-s32 card_build_selected_slot_details(void);
+s32 card_build_selected_slot_details(void); /* Unprototyped: retail call passes a different argument count */
 extern u8 card_slot_header_cache[];
 
 typedef struct S_802EE4E8_0 {

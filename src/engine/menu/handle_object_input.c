@@ -29,7 +29,7 @@ typedef struct S_80050308 {
 typedef void (*StateFn_80050308)(void *);
 
 extern s16 SD_Call(s32 a0);
-extern void begin_selection_menu_teardown_and_fade(void *a0);
+extern void begin_selection_menu_teardown_and_fade(u8 *object);
 extern void release_selection_menu_and_preserve_pending_value(void *a0);
 extern s32 resolve_selected_menu_entry(void *a0);
 extern s32 call_state_callback(void *a0);

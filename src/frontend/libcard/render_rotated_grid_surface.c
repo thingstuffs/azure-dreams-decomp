@@ -16,7 +16,7 @@ typedef struct S_80024D58_1 {
 
 extern void func_80024EEC(void *object);
 extern void func_80024C70(void *work, s32 value);
-extern s32 update_effect_color_rotation_and_motion(void *target);
+extern s32 update_effect_color_rotation_and_motion(void *target); /* Unprototyped: compile_error */
 extern void func_80024D18(void *work, s32 parent);
 
 extern u8 menu_backdrop_tag[];

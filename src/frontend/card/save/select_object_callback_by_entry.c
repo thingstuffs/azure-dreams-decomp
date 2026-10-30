@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card/save.h"
 
 typedef struct S_func_8001F150_0 {
     u8 pad_00[0x10];
@@ -16,7 +17,6 @@ typedef struct S_func_8001F150_1 {
 } S_func_8001F150_1;
 
 extern void initialize_card_message_object_with_code_7(void *object);
-extern void handle_object_menu_input(void);
 extern void func_80405A64(void);
 extern void process_menu_input_and_cursor_state(void);
 extern s32 card_slot_header_cache[];

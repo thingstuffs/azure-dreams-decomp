@@ -51,7 +51,6 @@ extern void strcat(void *dest, void *source);
 #include "sdk/libapi.h"
 
 /* Complete member contracts, one prototype per line. */
-void card_boot_select_channel_mode(s32 mode_enabled, s32 *unused_repeat_counts);
 void card_boot_reset_operation_and_drain_events(void);
 s32 card_boot_latch_hardware_status_one(void);
 s32 card_boot_latch_hardware_status_two(void);
@@ -65,7 +64,6 @@ void card_boot_drain_software_events(void);
 s32 card_boot_take_hardware_status(void);
 void card_boot_drain_hardware_events(void);
 s32 card_boot_dispatch_event_callbacks(void);
-s32 *card_boot_debounce_card_presence(void);
 void func_80021904(void);
 s32 count_entries_matching_search_path(void);
 s32 card_boot_calc_remaining_8k_blocks(s32 entry_count);

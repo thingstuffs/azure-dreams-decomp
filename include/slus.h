@@ -124,7 +124,7 @@ void initialize_audio_ramp_defaults(SoundTask *state);
 void func_80055CEC(void);
 void func_80055E6C(void);
 void noop_voice_start_notification(void);
-void noop_channel_control_notification(void);
+void noop_channel_control_notification(s32 kind, s32 channel, s32 value);
 void func_80056D3C(void);
 void noop_midi_a0(void);
 void noop_midi_d0(void);

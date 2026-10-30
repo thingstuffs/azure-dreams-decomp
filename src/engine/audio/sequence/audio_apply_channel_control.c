@@ -1,5 +1,6 @@
 #include "slus/jtbl_80057D20.h"
 #include "common.h"
+#include "slus.h"
 
 
 

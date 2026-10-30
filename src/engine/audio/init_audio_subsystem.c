@@ -7,7 +7,7 @@
 extern void set_audio_timer_state(s32 value);
 extern void noop_audio_init_hook(void *a0, s32 a1, s32 a2);
 extern void set_sound_flag_update_suppression(s16 value);
-extern s32 SpuClearReverbWorkArea(s32 a0);
+extern s32 SpuClearReverbWorkArea(s32 voice);
 extern void enable_available_spu_reverb(void);
 extern s32 submit_shifted_stereo_sound_parameters(s16 a0, s16 a1);
 extern void clear_audio_command_queue(void);

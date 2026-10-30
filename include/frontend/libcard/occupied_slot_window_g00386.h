@@ -33,7 +33,6 @@ extern void remap_flagged_string_bytes(void *a0);
 extern u8 D_80078FD0[16];
 extern s16 D_80027F7C;
 extern s16 D_800282B0;
-extern void card_boot_layout_empty_slot_window(s32 *object);
 extern void func_80023BE4(void *, s32, s32);
 
 extern void *decode_fullwidth_text(void *entries, u8 *text, s32 initial_octave);

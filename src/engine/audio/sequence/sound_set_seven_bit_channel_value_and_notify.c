@@ -1,6 +1,7 @@
 #include "common.h"
 #include "engine/audio/sequence.h"
 #include "slus/utility_hooks.h"
+#include "slus.h"
 
 /* Element of the shared D_80084960 stat/entity table (stride 0x9C = 156 bytes);
  * only the field at offset 0x1C is touched here. */

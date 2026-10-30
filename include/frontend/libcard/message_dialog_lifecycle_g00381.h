@@ -53,13 +53,13 @@ typedef struct S_80022D60_2 {
 extern void card_boot_initialize_message_render_templates(s32 entity, s32 primary_data, s32 secondary_data);
 extern void card_boot_initialize_dialog_packets_and_display(s32 record);
 /* arg0 in card_boot_activate_message_dialog */
-extern void card_boot_build_message_window_packets(void *buffer, void *layout);
+extern void *card_boot_build_message_window_packets(void *buffer, void *layout);
 extern void card_boot_update_message_choice_highlight(void *object);
 extern u8 D_80022524[];
 extern u8 D_800226A8[];
 extern struct S_800491F4 *card_boot_link_message_display_entries(void *ptr);
 extern void card_boot_initialize_dialog_draw_nodes(void *context, s32 value);
-extern void card_boot_close_message_dialog(s32 condition);
+extern s32 card_boot_close_message_dialog(s32 flagLinkedRecord);
 extern void *initialize_scene_object_in_buffer(s32 value0, void *ptr, s32 value2);
 extern void register_node(void *base, void *handler);
 extern s32 find_active_list_node(void *base);

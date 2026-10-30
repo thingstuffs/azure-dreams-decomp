@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card/load.h"
 
 typedef struct S_func_80406AA8_0 {
     u8 pad_00[4];
@@ -27,7 +28,6 @@ extern void func_80404688(s32 object);
 extern void func_80400908(void);
 extern void func_804069FC(void);
 extern void set_global(void);
-extern void handle_menu_selection_input(void);
 extern s32 D_80010208;
 
 /* Updates the state and selects its next callback based on the current entry check. */

@@ -1,15 +1,11 @@
 #include "shared/game_work.h"
 
-typedef unsigned char u8;
-typedef signed char s8;
-typedef unsigned short u16;
-typedef short s16;
-typedef unsigned int u32;
-typedef int s32;
+#include "common.h"
+#include "slus.h"
+
 extern void play_movie_with_fixed_display_flag(s32 a0, s32 a1);
 extern void SetDispMask(s32 a0);
 extern void file_load_com(void *arg);
-extern void find_or_load_runtime_resource_key(void *arg);
 extern void reserve_twch_load(s32 a0);
 extern void town_seq_reserve(s16 sequence_effect, s16 sequence_id);
 extern u8 town_scene_resource_descriptor;

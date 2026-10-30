@@ -19,7 +19,5 @@ extern volatile s32 spu_register_dirty_flags;
 extern volatile u16 spu_keyon_shadow[];
 extern volatile u16 spu_keyoff_low_shadow;
 extern volatile u16 spu_keyoff_high_shadow;
-u32 modify_spu_register_bit_pair(s32 mode, u32 value, s32 low_index, s32 high_index);
-void SpuSetKey(s32 key_on, u32 voices);
 
 #endif

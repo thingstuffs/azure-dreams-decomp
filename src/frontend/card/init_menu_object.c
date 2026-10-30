@@ -4,7 +4,7 @@
 extern void card_boot_build_four_layout_command_groups(void *buffer, void *layout);
 extern void card_boot_position_four_display_items(u8 *state);
 extern void resolve_apply(void *object);
-extern void card_boot_handle_menu_actions_and_repeat(void);
+extern void card_boot_handle_menu_actions_and_repeat(void *menu);
 extern void call_handler_with_zero_if_field_is_zero(void);
 
 typedef struct {

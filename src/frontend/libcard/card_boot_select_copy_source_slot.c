@@ -4,7 +4,7 @@
 #include "main/data.h"
 
 extern void update_spark_effect(void *menu, s32 entry_id);
-extern void card_boot_show_no_saved_game_notice(void *object, s32 entry_id);
+extern void card_boot_show_no_saved_game_notice(void *object, s32 entry_id); /* Unprototyped: retail call passes more arguments than the callee reads */
 
 extern u8 D_8002593C[];
 extern u8 D_80024FAC[];

@@ -178,7 +178,7 @@ extern s32 audio_voice_count[4];
 extern s32 D_80073734_late[4] __asm__("D_80073734");  /* second view: retail hoists the base per voice loop */
 extern Req audio_voice_request;
 
-extern void SpuSetKey(s32 mode, s32 mask);
+extern void SpuSetKey(s32 key_on, u32 voices);
 extern void noop_voice_start_notification(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
 extern void audio_compute_voice_stereo_volumes(Voice *a0, Chan *a1);
 extern s32 audio_compute_pitch_bend_offset(Voice *a0, s32 a1);

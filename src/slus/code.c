@@ -807,9 +807,9 @@ void *create_resource_transition_task(void *owner)
     return scene_create_resource_transition(owner, (void *)2);
 }
 
-extern void init_object_header_a(void *a0);
+extern void *init_object_header_a(void *cursor);
 extern void init_object_header_b(void *a0);
-extern void init_object_header_c(void *a0);
+extern void *init_object_header_c(void *cursor);
 extern void init_tpage_prims(void *a0);
 extern void layout_menu_backdrop_display_entries(void *a0);
 
@@ -1435,7 +1435,7 @@ s32 is_tone_parameter_flag_set(void) {
     return 0;
 }
 
-extern s32 modify_spu_register_bit_pair(s32 a0, s32 a1, s32 a2, s32 a3);
+extern u32 modify_spu_register_bit_pair(s32 mode, u32 value, s32 low_index, s32 high_index);
 
 /* Forward two values with fixed trailing arguments 0xCC and 0xCD. */
 s32 update_spu_register_pair_cc_cd(s32 first, s32 second) {
@@ -1451,7 +1451,7 @@ s32 read_spu_register_pair_cc_cd(void)
 }
 
 extern void apply_spu_voice_attributes(void *a0);
-extern void SpuSetKey(int a0, int a1);
+extern void SpuSetKey(s32 key_on, u32 voices);
 
 /* Update an object and pass its first word to the mode-one handler. */
 void apply_voice_attributes_and_key_on(void *object)

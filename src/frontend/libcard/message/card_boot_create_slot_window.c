@@ -9,7 +9,7 @@
 
 extern void func_80024184(void *object);
 extern void func_80023EF4(void *runtime, s32 value);
-extern s32 card_boot_link_slot_window_entries(void *value);
+extern s32 card_boot_link_slot_window_entries(void *value); /* Unprototyped: compile_error */
 extern void card_boot_initialize_slot_window(void *record, s32 setup_value, s32 processing_value);
 
 /* Initialize the indexed object and its runtime state, then return the object. */

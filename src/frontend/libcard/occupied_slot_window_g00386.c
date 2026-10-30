@@ -2,6 +2,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:main/func_800105A0, CL:main/func_80010B18, CL:main/func_80010C44, CL:main/func_80010D64. */
 #include "frontend/libcard/occupied_slot_window_g00386.h"
 #include "frontend/libcard.h"
+#include "frontend/libcard/message.h"
 
 /* Initialize four message slots with their data and command parameters. */
 void card_boot_format_occupied_slot_window(void *slot_owner) {

@@ -1,11 +1,8 @@
 /* SPU reverb configuration, parameter-table copying and work-area checks. */
 
-typedef unsigned char u8;
-typedef signed char s8;
-typedef unsigned short u16;
-typedef signed short s16;
-typedef unsigned int u32;
-typedef signed int s32;
+#include "common.h"
+#include "slus.h"
+
 typedef struct
 {
     s32 unk00;
@@ -60,7 +57,6 @@ extern s32 spu_reverb_start_addresses[];
 extern S_8005DA88_buf spu_reverb_parameter_tables[];
 extern s32 _SpuIsInAllocateArea_(s32 handle);
 extern void _spu_setReverbAttr(void *buf);
-extern void SpuClearReverbWorkArea(s32 idx);
 extern void func_8005D550(s32 a0, s32 handle, s32 a2);
 /* Return the reverb parameter buffer as bytes for copying. */
 inline u8 *inline_fn_8005DA88(S_8005DA88_buf *params)

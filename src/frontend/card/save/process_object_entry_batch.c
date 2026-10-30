@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "frontend/card/service.h"
+#include "frontend/card/save.h"
 
 typedef struct S_8001EDE0_0 {
     u8 pad_00[0x2C];
@@ -18,7 +19,6 @@ extern void initialize_card_message_object_with_code_0x10(void *);
 extern void func_80404688(s32);
 extern void func_80405AB4(void *);
 extern void func_80405C44(s32);
-extern void handle_object_menu_input(void);
 extern void func_80405A3C(void);
 
 /* Runs two card checks and processes five object entries; installs menu and message callbacks on failure. */

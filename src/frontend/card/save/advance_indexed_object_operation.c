@@ -1,10 +1,10 @@
 #include "common.h"
+#include "frontend/card/save.h"
 
 extern s32 get_table_entry_by_flag(void *callPtr);
 extern void forward_value_initcardmessageobject_arguments(void *callPtr);
 extern void forward_target_initcardmessageobject(void *callPtr);
 extern void func_80405ED4(void *base);
-extern void handle_object_menu_input(void);
 extern void func_80405AB4(void);
 extern void func_80405A64(void);
 
