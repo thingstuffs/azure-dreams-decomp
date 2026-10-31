@@ -84,7 +84,7 @@ void layout_item_menu_lower_pair_columns(ItemMenuPart **parts);
 void layout_item_menu_upper_pair_columns(ItemMenuPart **parts);
 
 /* link_item_menu_display_entries.c */
-void *link_item_menu_display_entries(s32 entries);
+void *link_item_menu_display_entries(void *entries);
 
 /* populate_current_item_menu_page.c */
 void populate_current_item_menu_page(ItemMenuObject *state);

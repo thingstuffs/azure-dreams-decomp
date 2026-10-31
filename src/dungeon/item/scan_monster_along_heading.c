@@ -6,10 +6,6 @@
 #include "dungeon/item/position.h"
 #include "sdk/libc.h"
 
-typedef struct S_800A05A4_1 {
-    u8 pad_00[0x88];
-    s16 unk_88;
-} S_800A05A4_1;   /* found in scan_monster_along_heading */
 
 
 extern void *find_eligible_entry_at_coordinates(void *, u16, u16);
@@ -22,7 +18,7 @@ void *scan_actor_along_heading(ActorRecord *source, s32 start_x, s32 start_y, s1
     u16 x;
     u16 y;
     s16 height;
-    S_800A05A4_1 *found;
+    ActorRecord *found;
     s32 i;
 
     found = 0;
@@ -37,7 +33,7 @@ void *scan_actor_along_heading(ActorRecord *source, s32 start_x, s32 start_y, s1
     }
     for (i = 0; i < max_steps; i++) {
         found = find_eligible_entry_at_coordinates(source, x, y);
-        if (found != 0 && abs(found->unk_88 - source->ground_height) <= height) {
+        if (found != 0 && abs(found->ground_height - source->ground_height) <= height) {
             break;
         }
         if (is_map_coordinate_out_of_bounds(x + dir_step_x[dir], y + dir_step_y[dir]) != 0) {

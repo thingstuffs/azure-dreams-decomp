@@ -5,7 +5,7 @@
 #include "dungeon/actor.h"
 
 /* Tests the flag on this entity, or on either linked entity for aggregate records. */
-s32 is_linked_entity_flagged_2000000(EntityRec *entity)
+s32 is_linked_entity_flagged_2000000(ActorRecord *entity)
 {
     if (entity->flags14 & ACTOR_PARTY_MEMBER) {
         s32 index;
@@ -15,7 +15,7 @@ s32 is_linked_entity_flagged_2000000(EntityRec *entity)
                 return 1;
             }
         }
-    } else if (entity->unk_54 & 0x2000000) {
+    } else if (entity->status_flags & 0x2000000) {
         return 1;
     }
     return 0;

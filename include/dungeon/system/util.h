@@ -42,4 +42,11 @@ typedef struct PulsingEffectWork {
 
 void update_pulsing_effect_brightness(PulsingEffectWork *effect, s32 unused, SpriteFrameState *sprite);
 
+/* Tick counter stored in the body of each timed status node. */
+typedef struct TimedStatusObjectBody {
+    u16 tick_count;
+} TimedStatusObjectBody;
+
+void advance_timed_object_and_retire(TimedStatusObjectBody *counter);
+
 #endif

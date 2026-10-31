@@ -22,14 +22,14 @@ extern void place_actor_item(void *object_context, struct DungeonItemEntry *targ
 extern void display_actor_item_status_message(void *, struct DungeonItemEntry *, s16);
 
 /* Applies a value according to the target and mode, then updates bookkeeping. */
-s32 use_item_to_reveal_items(EntityRec *target, DungeonItemEntry *value, s16 mode, s32 context)
+s32 use_item_to_reveal_items(ActorRecord *target, DungeonItemEntry *value, s16 mode, s32 context)
 {
     if (mode == 13) {
         return process_record_and_update_linked_state(value, context);
     }
 
-    if (target == ((u8 *)dungeon_actor_ring_anchor)) {
-        target->unk_110 = value;
+    if (target == dungeon_actor_ring_anchor) {
+        ((PlayerRecord *)target)->pending_item_action = value;
         begin_mode_selected_item_action(target, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);
         return 0;
     }

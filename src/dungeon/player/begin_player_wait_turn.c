@@ -12,13 +12,6 @@ typedef struct { u8 pad[0x3714]; u16 flags; } SysPage;
 
 
 
-typedef struct S_8008C7B4_0 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0xA];
-    s8 unk_9A;
-    s8 unk_9B;
-} S_8008C7B4_0;   /* arg0 in begin_player_wait_turn */
 
 extern u8 player_carry_frames[8];
 
@@ -32,7 +25,7 @@ void begin_player_wait_turn(ActorRecord *state, void *mode, void *sprite, ActorR
     state->action_id.s = initial_state;
     flags = &g_game_work;
     state->action_phase.s = 0;
-    ((S_8008C7B4_0 *)state)->unk_8C = 0;
+    state->unk_8C.word = 0;
     if ((((SysPage *)0x80010000)->flags & 2) || ((flags->buttons & 0x20) && check_action_available_without_nearby_actor() != 0)) {
         g_dungeon_status.flags = (u16)(g_dungeon_status.flags | 0x80);
     }

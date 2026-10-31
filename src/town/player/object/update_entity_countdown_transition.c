@@ -3,11 +3,12 @@
 #include "records/Rec_func_80090C68_arg0.h"
 #include "town/player/object.h"
 #include "town/player/state.h"
+#include "shared/entity.h"
 
 
 
 
-extern void dispatch_actor_interaction_actions(void *, void *, s32);
+extern void dispatch_actor_interaction_actions(void *, EntityRec *, s32);
 extern void initialize_shared_scene_data(void *record, void *context, s32 update_arg); /* Unprototyped: retail call passes more arguments than the callee reads */
 extern void run_the_three_update_routines_context(void *context); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 

@@ -6,6 +6,19 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
+typedef struct {
+    s32 acceleration_x;
+    s32 acceleration_y;
+    s32 acceleration_z;
+    u8 pad_0C[2];
+    union { u16 remaining_frames; s16 radial_lifetime; } lifetime;
+    s16 acceleration_step;
+    u8 pad_12[2];
+    union { u8 decrement; s16 initial_value; } red;
+    union { u8 decrement; s16 initial_value; } green;
+    union { u8 decrement; s16 initial_value; } blue;
+} OppositeOffsetEffectBody;
+
 
 
 
@@ -13,7 +26,7 @@ void dispatch_actor_state_handler(Rec_func_8008ACDC_arg0 *actor, void *context, 
 
 
 
-void advance_effect_fade_and_flag(void *effect, ObjectPosition *motion, SpriteFrameState *primitive);
+void advance_effect_fade_and_flag(OppositeOffsetEffectBody *effect, ObjectPosition *motion, SpriteFrameState *primitive);
 
 s32 forward_actor_effect_state(void *state, void *context, SpriteFrameState *data, void *render);
 

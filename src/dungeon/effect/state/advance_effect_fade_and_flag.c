@@ -10,23 +10,9 @@ typedef struct S_800B63A8_1_pre {
     u16 unk_00;
 } S_800B63A8_1_pre;   /* the 0x2 bytes before arg0 in advance_effect_fade_and_flag, addressed as arg0[-1] */
 
-typedef struct S_800B63A8_1 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    u8 pad_0C[0x2];
-    u16 unk_0E;
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u8 unk_14;
-    u8 pad_15[0x1];
-    u8 unk_16;
-    u8 pad_17[0x1];
-    u8 unk_18;
-} S_800B63A8_1;   /* arg0 in advance_effect_fade_and_flag */
 
 /* Advance effect motion, fade its color, and flag it when its lifetime expires. */
-void advance_effect_fade_and_flag(void *effect, ObjectPosition *motion, SpriteFrameState *primitive) {
+void advance_effect_fade_and_flag(OppositeOffsetEffectBody *effect, ObjectPosition *motion, SpriteFrameState *primitive) {
     s32 velocity_y;
     s32 velocity_z;
     s32 accel_z_step;
@@ -38,11 +24,11 @@ void advance_effect_fade_and_flag(void *effect, ObjectPosition *motion, SpriteFr
     u8 green;
     u8 blue;
 
-    motion->velocity_x = (s32) (motion->velocity_x + ((S_800B63A8_1 *)effect)->unk_00);
-    motion->velocity_y = (s32) (motion->velocity_y + ((S_800B63A8_1 *)effect)->unk_04);
-    accel_z_step = ((S_800B63A8_1 *)effect)->unk_08 * ((S_800B63A8_1 *)effect)->unk_10;
+    motion->velocity_x = (s32) (motion->velocity_x + effect->acceleration_x);
+    motion->velocity_y = (s32) (motion->velocity_y + effect->acceleration_y);
+    accel_z_step = effect->acceleration_z * effect->acceleration_step;
     motion->velocity_z = (s32) (motion->velocity_z + accel_z_step);
-    ((S_800B63A8_1 *)effect)->unk_10 = (s16) ((u16) ((S_800B63A8_1 *)effect)->unk_10 + 1);
+    effect->acceleration_step = (s16) ((u16) effect->acceleration_step + 1);
     velocity_y = motion->velocity_y;
     velocity_z = motion->velocity_z;
     motion->x.v = (s32) (motion->x.v + motion->velocity_x);
@@ -51,7 +37,7 @@ void advance_effect_fade_and_flag(void *effect, ObjectPosition *motion, SpriteFr
     advance_sprite_animation_and_textures(primitive);
     red = primitive->color.c.r;
     if (red != 0) {
-        faded_red = red - ((S_800B63A8_1 *)effect)->unk_14;
+        faded_red = red - effect->red.decrement;
         primitive->color.c.r = faded_red;
         if ((u32) (faded_red & 0xFF) >= 0x81U) {
             primitive->color.c.r = 0x80U;
@@ -59,7 +45,7 @@ void advance_effect_fade_and_flag(void *effect, ObjectPosition *motion, SpriteFr
     }
     green = primitive->color.c.g;
     if (green != 0) {
-        faded_green = green - ((S_800B63A8_1 *)effect)->unk_16;
+        faded_green = green - effect->green.decrement;
         primitive->color.c.g = faded_green;
         if ((u32) (faded_green & 0xFF) >= 0x81U) {
             primitive->color.c.g = 0x80U;
@@ -67,14 +53,14 @@ void advance_effect_fade_and_flag(void *effect, ObjectPosition *motion, SpriteFr
     }
     blue = primitive->color.c.b;
     if (blue != 0) {
-        faded_blue = blue - ((S_800B63A8_1 *)effect)->unk_18;
+        faded_blue = blue - effect->blue.decrement;
         primitive->color.c.b = faded_blue;
         if ((u32) (faded_blue & 0xFF) >= 0x81U) {
             primitive->color.c.b = 0x80U;
         }
     }
-    life_left = ((S_800B63A8_1 *)effect)->unk_0E - 1;
-    ((S_800B63A8_1 *)effect)->unk_0E = life_left;
+    life_left = effect->lifetime.remaining_frames - 1;
+    effect->lifetime.remaining_frames = life_left;
     if ((life_left << 0x10) <= 0) {
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_800B63A8_1_pre *)effect)[-1].unk_00 | NODE_REMOVE);
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);

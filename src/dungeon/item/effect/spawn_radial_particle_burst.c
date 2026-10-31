@@ -6,6 +6,7 @@
 #include "m2c_compat.h"
 #include "shared/slus_callbacks.h"
 #include "dungeon/item/effect.h"
+#include "dungeon/item.h"
 #include "sdk/libgte.h"
 
 #ifndef NULL
@@ -19,14 +20,6 @@ extern s32 rising_sprite_entries[3];
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry moving_sprite_entries[];
 
-typedef struct S_80099C58_2 {
-    u8 pad_00[0xE];
-    s16 unk_0E;
-    s16 unk_10;
-    s16 unk_12;
-    s16 unk_14;
-    s16 unk_16;
-} S_80099C58_2;   /* s2 in spawn_radial_particle_burst */
 
 typedef struct S_80099C58_3 {
     u8 pad_00[0x4];
@@ -38,7 +31,7 @@ void spawn_radial_particle_burst(s16 x, s16 y, s16 z, s16 flags)
 {
     ObjectNodeHeader *particle;
     ObjectPosition *motion;
-    S_80099C58_2 *effect_state;
+    RadialParticleBurstBody *effect_state;
     SpriteFrameState *sprite;
     S_80099C58_3 *texture_data;
     void *texture;
@@ -52,12 +45,12 @@ void spawn_radial_particle_burst(s16 x, s16 y, s16 z, s16 flags)
         motion = particle->position;
         particle->update_callback = D_80099B18;
         motion->x.w.i = x;
-        effect_state->unk_12 = x;
+        effect_state->x = x;
         motion->y.w.i = y;
-        effect_state->unk_14 = y;
+        effect_state->y = y;
         motion->z.w.i = z;
-        effect_state->unk_16 = z;
-        effect_state->unk_10 = 0;
+        effect_state->z = z;
+        effect_state->tick_count.s = 0;
         sprite = particle->sprite;
         if (flags & 2) {
             texture = rising_sprite_entries;
@@ -90,16 +83,16 @@ void spawn_radial_particle_burst(s16 x, s16 y, s16 z, s16 flags)
             angle = spokes_left << 8;
             motion = particle->position;
             particle->update_callback = D_80099B18;
-            effect_state->unk_0E = 1;
+            effect_state->radial_mode = 1;
             motion->x.w.i = x;
-            effect_state->unk_12 = x;
+            effect_state->x = x;
             motion->y.w.i = y;
-            effect_state->unk_14 = y;
+            effect_state->y = y;
             motion->z.w.i = z;
-            effect_state->unk_16 = z;
+            effect_state->z = z;
             motion->velocity_z = rcos(angle) << 7;
             motion->velocity_x = rsin(angle) << 7;
-            effect_state->unk_10 = 0;
+            effect_state->tick_count.s = 0;
             sprite = particle->sprite;
             if (flags & 2) {
                 texture = rising_sprite_entries;

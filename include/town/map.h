@@ -133,7 +133,7 @@ struct TimedColorFadeObject;
 struct BuildTwoDisplayEntriesBody;
 void advance_color_fade_and_set_completion(struct TimedColorFadeObject *fade_state, s32 unused, SpriteFrameState *visual);
 void advance_timed_state_and_set_completion(struct BuildTwoDisplayEntriesBody *object);
-void build_two_display_entries(s32 data_id, s32 position_offset);
+void build_two_display_entries(void *data_id, s32 position_offset);
 
 /* door.c */
 s32 check_door_status_inverted(void *object);
@@ -253,7 +253,7 @@ void restart_or_update_midpoint_tracking(struct TownCameraState *state);
 void reset_or_advance_target_midpoint(struct TownCameraState *state);
 
 /* min_indexed_query.c */
-s16 min_indexed_query(s32 context, s32 data, s32 count);
+s16 min_indexed_query(s32 context, void *data, s32 count);
 
 /* no_op_building_callback.c */
 void no_op_building_callback(struct GameWork *work, s32 size, s32 limit);
@@ -357,7 +357,7 @@ void apply_sound_selections_and_update(void);
 
 /* sound_sequence_load_g00649.c */
 s32 tw_sd_sq_ld_call_sub(s32 sequence_id, s32 load_id, s32 load_flags);
-void tw_sd_sq_ld_call(void *effect_id, void *effect_flags);
+void tw_sd_sq_ld_call(s32 effect_id, s32 effect_flags);
 
 /* sound_sequence_replay_g00650.c */
 s32 town_sd_sq_callagain_sub(s32 sequence_flags);

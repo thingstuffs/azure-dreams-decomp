@@ -6,6 +6,6 @@
 void create_window_object(void *object_addr, S_func_80035484_4 *model, S_func_80035484_5 *config);   /* extern */
 
 /* Passes the fixed runtime data pair and supplied value to create_window_object. */
-void create_default_window_object(s32 value) {
+void create_default_window_object(void *value) {
     create_window_object(&default_window_node_storage, &default_window_model_storage, value);
 }

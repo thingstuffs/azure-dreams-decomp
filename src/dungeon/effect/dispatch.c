@@ -2001,25 +2001,18 @@ typedef struct Object {
     u16 value64;
 } Object;
 
-typedef struct Other {
-    u8 pad00[0x54];
-    u32 flags54;
-    u8 pad58[0xC];
-    u16 value64;
-} Other;
-
 extern DungeonGroup item_category_groups[];
 extern u8 pending_player_damage_kind;
 extern void create_textured_ellipse_effect(void *, Object *);
 
 /* Apply a mode-adjusted quarter-value change when the source and target item flags permit it. */
-s32 prepare_quarter_damage_return(Object *object, Other *source) {
+s32 prepare_quarter_damage_return(Object *object, ActorRecord *source) {
     u8 *target_item;
     s16 total_value;
     u8 mode;
     s16 adjustment;
 
-    if (source->flags54 & 0x8000) {
+    if (source->status_flags & 0x8000) {
         target_item = object->target4C;
         if (target_item != 0) {
             u8 category_index;
@@ -2042,7 +2035,7 @@ s32 prepare_quarter_damage_return(Object *object, Other *source) {
         if (total_value <= 0) {
             return 0;
         }
-        adjustment = (s16)source->value64 >> 2;
+        adjustment = (s16)source->hp_delta >> 2;
         if (adjustment == 0) {
             adjustment = -1;
         }

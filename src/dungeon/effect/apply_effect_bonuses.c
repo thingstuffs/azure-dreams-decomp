@@ -68,7 +68,7 @@ if (((S_800B3D10_6 *)(((ActorRecord *)record)->unk_4C))->unk_00 == (bonus_kind))
 return;
 
 /* Apply effect flags and value bonuses based on the effect and attached record data. */
-void apply_effect_bonuses(s16 effect_id, s32 unused_arg, ActorRecord *record) {
+void apply_effect_bonuses(s16 effect_id, ActorRecord *unused_arg, ActorRecord *record) {
     s32 effect_offset;
     s32 effect_index;
     s16 unused_value;

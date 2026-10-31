@@ -19,7 +19,7 @@ typedef struct EffectScaleState {
 
 
 /* choose_reaction_action_and_heading.c */
-void choose_reaction_action_and_heading(Rec_func_800C9B44_arg0 *actor, EntityRec *motion, s32 context);
+void choose_reaction_action_and_heading(Rec_func_800C9B44_arg0 *actor, EntityRec *motion, SpriteFrameState *context);
 
 /* Town script objects use a descriptor and callback at +0x80/+0x54.
  * These are separate from the pooled dungeon ActorRecord. */

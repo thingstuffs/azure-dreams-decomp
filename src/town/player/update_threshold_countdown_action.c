@@ -5,9 +5,10 @@
 #include "town.h"
 #include "town/player.h"
 #include "town/player/position.h"
+#include "shared/sprite_frame_state.h"
 
 /* Update the object, check its target value, and advance the countdown. */
-void update_threshold_countdown_action(void *state, void *object, s32 context) {
+void update_threshold_countdown_action(void *state, void *object, SpriteFrameState *context) {
     s16 target_value;
     u16 countdown;
 

@@ -5,6 +5,7 @@
 #include "records/Rec_D_80100B70.h"
 
 struct Obj800A5BC0;
+struct ObjectPosition;
 
 /* Body of the resource display object advanced by advance_animation_phase_and_frame. */
 typedef struct MenuAnimationPhaseObject {
@@ -23,7 +24,7 @@ typedef struct MenuAnimationPhaseObject {
 
 void invoke_menu_motion_handler(void *obj, void *position, void *sprite);
 void tick_menu_motion_fade(struct Obj800A5BC0 *obj, void *ctx);
-void advance_animation_phase_and_frame(MenuAnimationPhaseObject *anim, s32 unused);
+void advance_animation_phase_and_frame(MenuAnimationPhaseObject *anim, struct ObjectPosition *unused);
 
 void draw_textured_sprite_quad(void *sprite, s32 position);
 void decrease_value_and_advance_counter(Rec_D_80100B70 *record, s32 value, s32 unused_context);

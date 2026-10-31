@@ -15,6 +15,6 @@ s32 tw_sd_sq_ld_call_sub(s32 sequence_id, s32 load_id, s32 load_flags) {
 }
 
 /* tw_sd_sq_ld_call: apply town sequence effects without additional flags. */
-void tw_sd_sq_ld_call(void *effect_id, void *effect_flags) {
+void tw_sd_sq_ld_call(s32 effect_id, s32 effect_flags) {
     tw_sd_sq_ld_call_sub(effect_id, effect_flags, 0);
 }

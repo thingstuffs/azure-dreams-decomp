@@ -1,5 +1,6 @@
 #include "common.h"
 #include "engine/entity.h"
+#include "shared/entity.h"
 
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
@@ -8,7 +9,7 @@ extern u8 *append_entity_display_text(void *record, u8 *out);
 extern s32 play_sound_if_enabled(s32);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 generate_random_value(void);
-extern s32 check_entity_flag_4000(void *);
+extern s32 check_entity_flag_4000(ActorRecord *);
 
 extern char D_800E1A88[];
 extern char D_800E1A9D[];

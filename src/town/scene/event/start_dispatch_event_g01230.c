@@ -5,7 +5,7 @@
 #include "town/scene/event.h"
 
 /* Initializes the town event once, invokes its callback, and reports whether it ran. */
-s32 start_dispatch_event(s32 init_arg) {
+s32 start_dispatch_event(void *init_arg) {
     s16 *event;
     void *town;
     TownCallback callback;

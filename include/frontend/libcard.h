@@ -71,9 +71,10 @@ struct S_80026C94_0;
 struct S_80027A68_0;
 struct S_800491F4;
 struct UnkStruct1E;
+struct CardDisplayNode;
 
 /* advance_card_boot_stream_pair.c */
-void advance_card_boot_stream_pair(s32 record_addr);
+void advance_card_boot_stream_pair(u8 *record_addr);
 
 /* advance_timed_visual.c */
 void advance_timed_visual(s32 *dest, s32 value);
@@ -211,7 +212,7 @@ void card_boot_refresh_five_slot_selection(struct S_80025030_0 *state);
 void card_boot_refresh_paired_choice_labels(u8 *state);
 
 /* card_boot_render_panel_hierarchy.c */
-s16 card_boot_render_panel_hierarchy(s32 first_value, s32 second_value, s32 third_value);
+s16 card_boot_render_panel_hierarchy(s32 first_value, s32 second_value, struct CardDisplayNode *third_value);
 
 /* card_boot_reset_three_row_highlight.c */
 void card_boot_reset_three_row_highlight(void *object);
@@ -250,7 +251,7 @@ void card_boot_set_slot_details_selection(void *object_addr, s32 value_7c, s32 v
 void card_boot_set_slot_index_and_owner(struct S_80023F94_0 *pair, s32 second, s32 first);
 
 /* card_boot_set_slot_selection_marker.c */
-void card_boot_set_slot_selection_marker(s32 object_addr, s32 enable_table);
+void card_boot_set_slot_selection_marker(ObjectNodeHeader *object_addr, s32 enable_table);
 
 /* card_boot_show_copy_failure_notice.c */
 void card_boot_show_copy_failure_notice(s32 value);

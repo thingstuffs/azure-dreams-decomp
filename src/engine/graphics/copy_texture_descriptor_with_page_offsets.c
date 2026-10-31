@@ -1,5 +1,6 @@
 #include "common.h"
 #include "engine/window.h"
+#include "shared/entity.h"
 
 typedef struct {
     u8 pad_00[0x44];
@@ -28,7 +29,7 @@ extern u32 blinking_cursor_texture_descriptor_1[6];
 extern u32 blinking_cursor_texture_descriptor_2[6];
 
 /* Updates three data tables and selects an output value and flashing intensity. */
-void update_blinking_cursor_with_bright_idle(FuncInput *input, s32 unused, FuncOutput *output) {
+void update_blinking_cursor_with_bright_idle(FuncInput *input, ObjectPosition *unused, FuncOutput *output) {
     u8 flags;
     u32 *data;
 

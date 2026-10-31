@@ -17,7 +17,7 @@ typedef struct S_800C2664_0 {
 } S_800C2664_0;   /* arg0 in initialize_transform_object_values */
 
 /* Initialize the object values to 0x40, apply its indexed setup, and assign its table. */
-void initialize_transform_object_values(S_800C2664_0 *object, void *setup_context, s32 unused) {
+void initialize_transform_object_values(S_800C2664_0 *object, void *setup_context, SpriteFrameState *unused) {
     object->unk_8C = 0x40;
     object->unk_8E = 0x40;
     configure_the_set_mode_n_1(object, setup_context, *(object->unk_94 + person_transform_defaults));

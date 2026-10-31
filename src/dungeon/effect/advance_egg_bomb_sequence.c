@@ -30,15 +30,12 @@ s32 choose_best_eligible_entry(); /* Unprototyped: uses the value as a pointer w
 s32 display_text_with_fullwidth_adjustment(s8 *text); /* extern */
 #include "dungeon/actor/effect.h"
 #include "dungeon/player/object.h"
+#include "shared/object_node.h"
 s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern u8 D_800E0A42[];
 extern u8 D_800E0A56[20];
 extern u8 D_800E0A6A[12];
 
-
-typedef struct S_800B7774_0_pre {
-    u16 unk_00;
-} S_800B7774_0_pre;   /* the 0x2 bytes before arg0 in advance_egg_bomb_sequence, addressed as arg0[-1] */
 
 typedef struct S_800B7774_0 {
     u8 unk_00;
@@ -49,18 +46,6 @@ typedef struct S_800B7774_0 {
     u16 unk_0C;
     s16 unk_0E;
 } S_800B7774_0;   /* arg0 in advance_egg_bomb_sequence */
-
-typedef struct S_800B7774_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x6];
-    u16 unk_0A;
-} S_800B7774_1;   /* controls_base in advance_egg_bomb_sequence */
-
-typedef struct S_800B7774_2_pre {
-    s32 unk_00;
-    u8 pad_04[0x10];
-} S_800B7774_2_pre;   /* 0x14-byte header immediately before the payload. */
 
 typedef struct S_800B7774_2 {
     u8 pad_00[0x11];
@@ -85,15 +70,6 @@ typedef struct S_800B7774_4 {
     u8 pad_00[0x14];
     u16 unk_14;
 } S_800B7774_4;   /* arg2 in advance_egg_bomb_sequence */
-
-typedef struct S_800B7774_5 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-} S_800B7774_5;   /* state_base in advance_egg_bomb_sequence */
-
-typedef struct S_800B7774_6_pre {
-    u16 unk_00;
-} S_800B7774_6_pre;   /* 0x2-byte header immediately before the payload. */
 
 /* Spawns and levels the egg bomb monster, then advances its activation and cleanup. */
 void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
@@ -123,7 +99,7 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
                 g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
             }
             display_formatted_context_message(&D_800E0A42);
-            (*(u16 *)((u8 *)egg_bomb + (-2))) = (u16) (((S_800B7774_0_pre *)egg_bomb)[-1].unk_00 | NODE_REMOVE);
+            (((ObjectNodeHeader *)egg_bomb - 1)->flags) = (u16) (((ObjectNodeHeader *)egg_bomb - 1)->flags | NODE_REMOVE);
             object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
             return;
         }
@@ -204,7 +180,7 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
     case 2:
         monster = ((S_800B7774_0 *)egg_bomb)->unk_04;
         if (((S_800B7774_0 *)egg_bomb)->unk_0E == 0) {
-            ((S_800B7774_2 *)monster)->unk_60 = choose_best_eligible_entry(((S_800B7774_2_pre *)monster)[-1].unk_00, monster, 2);
+            ((S_800B7774_2 *)monster)->unk_60 = choose_best_eligible_entry(((ObjectNodeHeader *)monster - 1)->sprite, monster, 2);
             {
                 g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 2);
             }
@@ -223,12 +199,12 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
         {
             g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         }
-        (*(u16 *)((u8 *)egg_bomb + (-2))) = (u16) (((S_800B7774_0_pre *)egg_bomb)[-1].unk_00 | NODE_REMOVE);
+        (((ObjectNodeHeader *)egg_bomb - 1)->flags) = (u16) (((ObjectNodeHeader *)egg_bomb - 1)->flags | NODE_REMOVE);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         break;
     }
     tracked_monster = ((S_800B7774_0 *)egg_bomb)->unk_04;
-    if ((tracked_monster != NULL) && (((S_800B7774_6_pre *)tracked_monster)[-1].unk_00 & 0x8000)) {
+    if ((tracked_monster != NULL) && (((ObjectNodeHeader *)tracked_monster - 1)->flags & 0x8000)) {
         ((S_800B7774_0 *)egg_bomb)->unk_0E = 1;
     }
 }

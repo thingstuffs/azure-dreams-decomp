@@ -91,7 +91,7 @@ void update_actor_action_state(Rec_func_80094268_arg0 *state, EntityRec *motion,
 void update_actor_and_dispatch_state(void *actor, EntityRec *record, s32 context);
 
 /* update_actor_with_interaction_state.c */
-void update_actor_with_interaction_state(Rec_func_80094268_arg0 *controller, EntityRec *entity, s32 context);
+void update_actor_with_interaction_state(Rec_func_80094268_arg0 *controller, EntityRec *entity, SpriteFrameState *context);
 
 /* update_entity_and_dispatch_timed_state.c */
 void update_entity_and_dispatch_timed_state(void *state, void *entity, void *transition_arg);

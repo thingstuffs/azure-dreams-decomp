@@ -15,31 +15,7 @@
 #include "dungeon/level.h"
 #include "dungeon/system.h"
 #include "dungeon/effect.h"
-typedef struct ovl_18ca83c_818AABB8_S_800243B8_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-    u8 pad_14[0xC];
-    void * unk_20;
-} ovl_18ca83c_818AABB8_S_800243B8_0;
-typedef struct ovl_18ca83c_818AABB8_S_800243B8_1 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    u8 pad_10[0xC];
-    s32 unk_1C;
-    s32 unk_20;
-    s32 unk_24;
-    s32 unk_28;
-    s32 unk_2C;
-    s32 unk_30;
-    s16 unk_34;
-    s16 unk_36;
-    u8 pad_38[0x2];
-    u16 unk_3A;
-} ovl_18ca83c_818AABB8_S_800243B8_1;
+#include "dungeon/effect/travel/randomized_target_effect.h"
 typedef struct ovl_18ca83c_818AABB8_S_800243B8_3 {
     s32 unk_00;
     s32 unk_04;

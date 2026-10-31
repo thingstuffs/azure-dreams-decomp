@@ -19,7 +19,7 @@ void initialize_shop_window_layout(ShopWindow *ui) {
     header = ui->header_record;
     ui->widgets->record_widget->value.pointer = header;
     ui->widgets->record_widget->data->y.s = 0x2F;
-    process_shop_record_and_subrecord((s32)(header));
+    process_shop_record_and_subrecord(header);
     position_shop_row_widgets(ui);
     initialize_scaled_entry_cursor(ui->cursor_record, (struct S8004CBFC_a1 *)(&shop_cursor_template), (int *)ui->widgets->cursor);
     row = 4;

@@ -11,10 +11,10 @@
 #include "engine/object/test_resident_bitmap_bit_api.h"                         /* extern */
 #include "town/player/coordinates.h"
 void submit_object_resource_data();                         /* extern */
-struct Rec_func_80094268_arg0; void initialize_motion_action(struct Rec_func_80094268_arg0 *, s32, s32);     /* extern */
+struct Rec_func_80094268_arg0; void initialize_motion_action(struct Rec_func_80094268_arg0 *, void *, s32);     /* extern */
 #include "records/Rec_func_80094268_arg0.h"
 struct Rec_func_80094268_arg0; struct ObjectPosition; void initialize_actor_action_state(struct Rec_func_80094268_arg0 *, struct ObjectPosition *, s32);     /* extern */
-struct Rec_func_80094268_arg0; void init_movement_action(struct Rec_func_80094268_arg0 *, s32, s32);     /* extern */
+struct Rec_func_80094268_arg0; void init_movement_action(struct Rec_func_80094268_arg0 *, void *, s32);     /* extern */
 void initialize_actor_movement_interaction_action(s32 **record, void *ptr, void *ptr2);     /* extern */
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"                      /* extern */
 #include "town/player/move_both_components_toward_zero_direction_dependent_steps_clamping_zero_api.h"                      /* extern */
@@ -90,12 +90,12 @@ void dispatch_actor_interaction_actions(Rec_func_8009431C_arg0 *actor, EntityRec
                 submit_object_resource_data(shared_data->unk_10);
                 return;
             }
-            init_movement_action((struct Rec_func_80094268_arg0 *)(actor), (s32)(record), context);
+            init_movement_action((struct Rec_func_80094268_arg0 *)(actor), record, context);
             return;
         }
         page_base = (u8 *)(u32)(input_state->buttons & 0xF000);
         if (page_base != 0) {
-            initialize_motion_action((struct Rec_func_80094268_arg0 *)(actor), (s32)(record), context);
+            initialize_motion_action((struct Rec_func_80094268_arg0 *)(actor), record, context);
         }
     }
 }

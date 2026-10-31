@@ -39,7 +39,7 @@ typedef struct S_800C1B1C_2 {
 } S_800C1B1C_2;   /* ((S_800C1B1C_1 *)base)->unk_04 in use_item_to_increase_ball_charges */
 
 /* Apply a target action or update the current item and display its result message. */
-s32 use_item_to_increase_ball_charges(EntityRec *target, DungeonItemEntry *action, s16 action_type, s32 action_arg)
+s32 use_item_to_increase_ball_charges(ActorRecord *target, DungeonItemEntry *action, s16 action_type, s32 action_arg)
 {
     s32 *item_state;
     void *message;
@@ -49,8 +49,8 @@ s32 use_item_to_increase_ball_charges(EntityRec *target, DungeonItemEntry *actio
         return process_record_and_update_linked_state(action, action_arg);
     }
 
-    if (target == ((u8 *)dungeon_actor_ring_anchor)) {
-        target->unk_110 = action;
+    if (target == dungeon_actor_ring_anchor) {
+        ((PlayerRecord *)target)->pending_item_action = action;
         begin_mode_selected_item_action(target, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);
         return 0;
     }

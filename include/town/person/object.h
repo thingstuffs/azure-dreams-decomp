@@ -146,7 +146,7 @@ void initialize_reaction_object_type_4_f(void *object, void *unused, struct Spri
 void initialize_transform_object(void *object, void *unused_position, struct SpriteFrameState *unused_sprite);
 
 /* initialize_transform_object_values.c */
-void initialize_transform_object_values(struct S_800C2664_0 *object, void *setup_context, s32 unused);
+void initialize_transform_object_values(struct S_800C2664_0 *object, void *setup_context, SpriteFrameState *unused);
 
 /* initialize_variant_object.c */
 void initialize_variant_object(void *body, void *unused_position, struct SpriteFrameState *unused_sprite);

@@ -3660,7 +3660,7 @@ void *create_orbiting_color_particle(s16 x, s16 y, s16 z, s16 angle, s16 value_5
 extern void MoveImage();
 
 // Updates the wrapped scroll offset and copies its source rectangle to two destinations.
-void update_wrapped_texture_scroll(void *scrollState) {
+void update_wrapped_texture_scroll(WrappedTextureScrollBody *scroll_state) {
     s16 sourceRect[4];
 
     {
@@ -3670,33 +3670,32 @@ void update_wrapped_texture_scroll(void *scrollState) {
         s32 scrollStepOrSourceY;
 
         destinationX = 0x270;
-        offsetOrRectValue = *(u16 *)((unsigned char *)scrollState + 2);
-        scrollStepOrSourceY = *(u16 *)((unsigned char *)scrollState + 0xC);
+        offsetOrRectValue = scroll_state->scroll_offset;
+        scrollStepOrSourceY = scroll_state->scroll_step;
         destinationY = 0x100;
         offsetOrRectValue = (offsetOrRectValue - scrollStepOrSourceY) & 0x1F;
-        *(u16 *)((unsigned char *)scrollState + 2) = (u16)offsetOrRectValue;
+        scroll_state->scroll_offset = (u16)offsetOrRectValue;
         offsetOrRectValue = destinationX;
         sourceRect[0] = offsetOrRectValue;
-        scrollStepOrSourceY = *(u16 *)((unsigned char *)scrollState + 2);
+        scrollStepOrSourceY = scroll_state->scroll_offset;
         offsetOrRectValue = 0x10;
         sourceRect[2] = offsetOrRectValue;
         offsetOrRectValue = 0x20;
         sourceRect[3] = offsetOrRectValue;
         scrollStepOrSourceY = scrollStepOrSourceY + 0x140;
         sourceRect[1] = scrollStepOrSourceY;
-        MoveImage(sourceRect, destinationX, destinationY, scrollState);
+        MoveImage(sourceRect, destinationX, destinationY, scroll_state);
     }
     MoveImage(sourceRect, 0x270, 0x120);
 }
 #include "shared/object_node.h"
 #include "common.h"
-extern void update_wrapped_texture_scroll(void *scrollState);
 
 typedef struct S_800BC228_0 {
     u8 pad_00[0x10];
-    void (*unk_10)(void *);
-    u8 pad_14[0x18];
-    s16 unk_2C;
+    void (*unk_10)(WrappedTextureScrollBody *);
+    u8 pad_14[0xC];
+    WrappedTextureScrollBody body;
 } S_800BC228_0;
 
 /* Create an object with update_wrapped_texture_scroll as its data pointer and store the supplied value. */
@@ -3706,7 +3705,7 @@ void create_wrapped_texture_scroll(s16 value) {
     object = allocate_flagged_object_node(0);
     if (object != 0) {
         object->unk_10 = update_wrapped_texture_scroll;
-        object->unk_2C = value;
+        object->body.scroll_step = value;
     }
 }
 #include "common.h"

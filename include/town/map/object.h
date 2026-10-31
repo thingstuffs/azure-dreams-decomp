@@ -13,6 +13,7 @@ struct S_func_800BB508_0;
 struct TownCameraState;
 struct TownCourseActor;
 struct TownPropPosition;
+struct ObjectNodeHeader;
 
 /* allocate_first_object_variant.c */
 void allocate_first_object_variant(void);
@@ -57,7 +58,7 @@ void decrease_town_map_object_field_0a_and_transition(struct S_8008BA44_0 *obj);
 void initialize_object_rendering_resources(struct TownCourseActor *object_data, void *unused, SpriteFrameState *render_data);
 
 /* initialize_object_when_inactive.c */
-void initialize_object_when_inactive(struct S_800A54FC_0 *object, s32 value_1, s32 value_2, s32 value_3);
+void initialize_object_when_inactive(struct S_800A54FC_0 *object, struct ObjectNodeHeader *value_1, s32 value_2, s32 value_3);
 
 /* initialize_object_with_default_data.c */
 void initialize_object_with_default_data(void *object, void *init_arg, SpriteFrameState *state);

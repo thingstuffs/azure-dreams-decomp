@@ -20,7 +20,7 @@ extern u8 resident_globals_page[];
  * Checks a compatible neighbor within 64 height units, then starts U-Boat's normal attack or
  * exclusive action mode.
  */
-s32 try_turn_actor_toward_target(Rec_func_800A9E70_arg0 *action_state, ObjectPosition *action_context, SpriteFrameState *target, ActorRecord *actor) {
+s32 try_turn_actor_toward_target(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *target, ActorRecord *actor) {
     s32 target_angle;
     u16 result;
     u16 *global_flags;
@@ -59,14 +59,14 @@ s32 try_turn_actor_toward_target(Rec_func_800A9E70_arg0 *action_state, ObjectPos
             return -1;
         }
 
-        action_state->unk_9B.as_s8 = 0;
-        if (action_state->unk_B5 == 0) {
-            action_state->unk_9A.as_s8 = 0x11;
-            action_state->unk_8C = 0;
+        action_state->action_phase.s = 0;
+        if (action_state->unk_B4.bytes[1] == 0) {
+            action_state->action_id.s = 0x11;
+            action_state->unk_8C.word = 0;
             actor->unk_84 = 0x7C;
             actor->unk_85 = 0;
-            action_state->unk_98 =
-                (u16)(action_state->unk_98 | 8);
+            action_state->action_state_flags =
+                (u16)(action_state->action_state_flags | 8);
             prepare_directional_attack(actor, target, actor->facing, 1, 0);
             actor->pending_turn_updates--;
         } else {

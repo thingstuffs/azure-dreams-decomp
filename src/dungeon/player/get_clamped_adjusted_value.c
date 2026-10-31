@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 
 typedef struct {
     u8 pad0[0x4C];

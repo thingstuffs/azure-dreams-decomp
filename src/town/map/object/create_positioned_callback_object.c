@@ -39,7 +39,7 @@ struct ObjectPosition;
 struct SpriteFrameState;
 
 /* Create an object at the supplied position and initialize its callback and display data. */
-void create_positioned_callback_object(Input *position, s32 object_value, s32 data_value)
+void create_positioned_callback_object(Input *position, void *object_value, void *data_value)
 {
     ObjectNodeHeader *object;
     SpriteFrameState *field_base;

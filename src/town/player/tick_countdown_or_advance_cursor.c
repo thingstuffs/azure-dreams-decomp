@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/player.h"
+#include "shared/sprite_frame_state.h"
 
 typedef struct {
     u8 pad[0xA];
@@ -12,7 +13,7 @@ typedef struct {
 } Func8009AA20Arg1;
 
 /* Decrement the countdown, invoking its handler when exhausted or advancing the cursor by four. */
-void tick_countdown_or_advance_cursor(Func8009AA20Arg0 *countdown_state, Func8009AA20Arg1 *cursor_state, s32 context_value) {
+void tick_countdown_or_advance_cursor(Func8009AA20Arg0 *countdown_state, Func8009AA20Arg1 *cursor_state, SpriteFrameState *context_value) {
     u16 remaining_count;
 
     remaining_count = countdown_state->unkA - 1;

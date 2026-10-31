@@ -90,7 +90,7 @@ void advance_timed_state_and_set_completion(BuildTwoDisplayEntriesBody *object)
 }
 
 /* Builds two display entries and initializes a display object. */
-void build_two_display_entries(s32 data_id, s32 position_offset)
+void build_two_display_entries(void *data_id, s32 position_offset)
 {
     Copy8 layout;
     ObjectNodeHeader *display_obj;
@@ -100,7 +100,7 @@ void build_two_display_entries(s32 data_id, s32 position_offset)
     noop_display_setup_hook();
     *(u16 *)&layout.word0 += (s32)(position_offset << 16) >> 14;
     create_positioned_callback_object(&layout, D_800BC290,
-                  decode_fullwidth_text(D_80111FB0, (void *)data_id, 0));
+                  decode_fullwidth_text(D_80111FB0, data_id, 0));
     create_positioned_callback_object((u8 *)&layout + 4, D_800BC290, D_800782EC);
 
     display_obj = allocate_flagged_object_node(1);

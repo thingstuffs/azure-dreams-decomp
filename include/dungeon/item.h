@@ -5,6 +5,23 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
+typedef struct S_807B09A0_0 {
+    union { u16 u; s16 s; } origin_x;
+    union { u16 u; s16 s; } origin_y;
+    union { u16 u; s16 s; } height;
+    union { u16 u; s16 s; } unk_06;
+    union { u16 u16; u8 u8; } tick_count;
+} TerrainParticleEmitterBody;
+
+typedef struct RadialParticleBurstBody {
+    u8 pad_00[0xE];
+    s16 radial_mode;
+    union { s16 s; u16 u; } tick_count;
+    s16 x;
+    s16 y;
+    s16 z;
+} RadialParticleBurstBody;
+
 void *append_signed_value_bytes(s32 value, u8 *buffer);
 u8 *apply_type_based_entry_adjustments(void *entry, u8 *value);
 void create_view_color_flash(s32 payload, s16 trigger_event);

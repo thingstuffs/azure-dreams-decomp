@@ -115,7 +115,7 @@ void equip_item_and_update_status(ActorRecord *context, DungeonItemEntry *item) 
 }
 
 /* Changes the actor's equipped item and displays status messages. */
-void change_equipped_item_and_notify(S_80098614_0 *actor, DungeonItemEntry *requested_item)
+void change_equipped_item_and_notify(ActorRecord *actor, DungeonItemEntry *requested_item)
 {
     DungeonItemEntry *item;
     DungeonItemEntry *equipped_item;
@@ -136,7 +136,7 @@ void change_equipped_item_and_notify(S_80098614_0 *actor, DungeonItemEntry *requ
         }
     }
 
-    equipped_item = actor->unk_50.p;
+    equipped_item = actor->unk_50.item;
     if (equipped_item != 0) {
         item_flags = equipped_item->unk_03;
         if (item_flags & 0x40) {
@@ -168,7 +168,7 @@ void change_equipped_item_and_notify(S_80098614_0 *actor, DungeonItemEntry *requ
         display_text_with_fullwidth_adjustment(state);
 
         if (item->unk_03 & 0x40) {
-            actor->unk_1C |= 0x800;
+            actor->flags1C |= 0x800;
             play_sound_if_enabled(0x70A);
             state = get_unused_text_buffer();
             text_end = append_typed_formatted_value((struct DungeonItemEntry *)item, state);
@@ -183,7 +183,7 @@ void change_equipped_item_and_notify(S_80098614_0 *actor, DungeonItemEntry *requ
         if (had_equipped != 0) {
             state = get_unused_text_buffer();
             text_end = write_text_byte_and_advance(8, state);
-            text_end = append_typed_formatted_value((struct DungeonItemEntry *)actor->unk_50.p2, text_end);
+            text_end = append_typed_formatted_value((struct DungeonItemEntry *)actor->unk_50.address, text_end);
             text_end = expand_text_control_codes(D_800E08BA, text_end);
             clear_byte_and_advance(text_end);
             display_text_with_fullwidth_adjustment(state);
@@ -191,7 +191,7 @@ void change_equipped_item_and_notify(S_80098614_0 *actor, DungeonItemEntry *requ
 
     }
 
-    actor->unk_50.p = item;
+    actor->unk_50.item = item;
     play_sound_if_enabled(0x508);
     text_end = item_id;
     actor->unk_86 = D_800DD2EC[text_end];

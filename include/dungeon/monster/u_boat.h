@@ -31,6 +31,6 @@ void update_actor_turn_and_action(void *entity, ObjectPosition *context, SpriteF
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 #include "records/Rec_func_800A9E70_arg0.h"
-s32 try_turn_actor_toward_target(Rec_func_800A9E70_arg0 *action_state, ObjectPosition *action_context, SpriteFrameState *target, ActorRecord *actor);
+s32 try_turn_actor_toward_target(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *target, ActorRecord *actor);
 
 #endif

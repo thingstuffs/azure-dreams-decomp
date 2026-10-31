@@ -35,7 +35,7 @@ void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);           
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);                           /* extern */
 void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);              /* extern */
 
-extern void advance_actor_status_turn(s32 actor, s32 action_context, s32 sprite, u8 *state);
+extern void advance_actor_status_turn(ActorRecord *actor, ObjectPosition *action_context, SpriteFrameState *sprite, u8 *state);
 extern M2C_UNK D_800E221C;
 
 /* Create a dungeon object at the given tile and initialize its sprite and tile flags. */

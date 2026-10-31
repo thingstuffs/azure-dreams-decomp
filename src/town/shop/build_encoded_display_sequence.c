@@ -4,7 +4,7 @@
 #include "town/shop.h"
 
 /* Builds and processes a short encoded sequence in the output buffer. */
-void *build_encoded_display_sequence(void *source, u8 *outputBuffer) {
+void *build_encoded_display_sequence(s32 source, u8 *outputBuffer) {
     u8 *payload;
 
     payload = outputBuffer + 1;

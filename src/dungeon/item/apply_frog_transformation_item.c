@@ -30,11 +30,6 @@ extern u8 D_800E0FB9[];
 extern u8 D_800E0FD7[];
 
 
-typedef struct S_800BDEB8_0_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_800BDEB8_0_pre;   /* 0x14-byte header immediately before the payload. */
-
 typedef struct S_800BDEB8_1 {
     u8 pad_00[0x6];
     s16 unk_06;
@@ -96,7 +91,7 @@ s32 apply_frog_transformation_item(ActorRecord *entity, DungeonItemEntry *action
             flag_mask = 0x80000;
             original_id = entity->species;
             if (entity->flags1C & flag_mask) {
-                ((S_800BDEB8_1 *)(((S_800BDEB8_0_pre *)entity)[-1].unk_00))->unk_06 = 0;
+                ((S_800BDEB8_1 *)(((ObjectNodeHeader *)entity - 1)->sprite))->unk_06 = 0;
             }
             {
                 u8 *message; /* MATCH: Keep the merged message address in retail's argument register. */

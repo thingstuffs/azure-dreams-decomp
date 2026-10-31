@@ -73,7 +73,7 @@ s32 select_dungeon_spawn_tile(u8 *x_out, u8 *y_out)
 }
 
 /* Advances staged entity loading and replaces the entity while transferring its state. */
-s32 advance_staged_entity_load(s32 unused, u8 *entity)
+s32 advance_staged_entity_load(s32 unused, ActorRecord *entity)
 {
     S_800A504C_0 *base = (S_800A504C_0 *)((DungeonState *)&g_dungeon_status);
     s32 count = base->unk_0A.s;
@@ -116,21 +116,21 @@ s32 advance_staged_entity_load(s32 unused, u8 *entity)
     }
 
     mode_page = (S_800A504C_2_pre *)0x800E0000;
-    if (((S_800A504C_1 *)entity)->unk_14 & 0x4000) {
+    if (entity->flags14 & 0x4000) {
         switch (mode_page[-1].unk_00) {
         case 0:
 
         if (read_sound_mode_blocking_status(4) != 0) {
             return 0;
         }
-        spawned = (u8 *)find_or_retain_sprite_resource_slot(((S_800A504C_1 *)entity)->unk_13, 2);
+        spawned = (u8 *)find_or_retain_sprite_resource_slot(entity->species, 2);
         if (spawned == NULL) {
             return 0;
         }
-        load_result = queue_cd_resource(((S_800A504C_1 *)entity)->unk_13);
+        load_result = queue_cd_resource(entity->species);
         load_spawned = spawned;
         loaded_entity_sprite_resource = load_result;
-        load_monster_code_module(((S_800A504C_1 *)entity)->unk_13, load_spawned, 0);
+        load_monster_code_module(entity->species, load_spawned, 0);
         entity_resource_read_complete[0] = 0;
         Control_CD(0xFF, set_byte_one, entity_resource_read_complete);
         mode_page[-1].unk_00 = (s16)((u16)mode_page[-1].unk_00 + 1);
@@ -145,12 +145,12 @@ case 1:
         return 0;
 
 case 2:
-        spawned = (u8 *)find_or_retain_sprite_resource_slot(((S_800A504C_1 *)entity)->unk_13, 2);
+        spawned = (u8 *)find_or_retain_sprite_resource_slot(entity->species, 2);
         if (spawned == NULL) {
             return 0;
         }
         entity_data = ((S_800A504C_1_pre *)entity)[-1].unk_00;
-        spawn = load_monster_code_module(((S_800A504C_1 *)entity)->unk_13, spawned, 1);
+        spawn = load_monster_code_module(entity->species, spawned, 1);
         spawned = spawn(6, entity_data[0x24], entity_data[0x25],
                         (s16)(((S_800A504C_1 *)entity)->unk_88 - 0x20));
         if (spawned == NULL) {
@@ -161,8 +161,8 @@ case 2:
         saved_word_5c = ((S_800A504C_3 *)tail_dst)->unk_5C;
         saved_word_58 = ((S_800A504C_3 *)tail_dst)->unk_58;
         copy_dst = tail_dst;
-        copy_src = entity;
-        copy_end = entity + 0x80;
+        copy_src = (u8 *)entity;
+        copy_end = ((u8 *)entity) + 0x80;
         do {
             *(EntityCopyBlock *)copy_dst = *(EntityCopyBlock *)copy_src;
             copy_src += sizeof(EntityCopyBlock);
@@ -183,8 +183,8 @@ case 2:
         ((S_800A504C_2 *)entity_data)->unk_1C = scale;
         ((S_800A504C_4 *)spawned)->unk_14 &= -8;
         ((S_800A504C_4 *)spawned)->unk_1C &= -8;
-        ((S_800A504C_4 *)spawned)->unk_14 |= ((S_800A504C_1 *)entity)->unk_14 & 7;
-        ((S_800A504C_4 *)spawned)->unk_1C |= ((S_800A504C_1 *)entity)->unk_1C & 7;
+        ((S_800A504C_4 *)spawned)->unk_14 |= entity->flags14 & 7;
+        ((S_800A504C_4 *)spawned)->unk_1C |= entity->flags1C & 7;
         apply_actor_template_and_class(copy_call_entity, ((S_800A504C_4 *)spawned)->unk_10.at03.v,
                       copy_call_zero);
         copy_entity_record(spawned, entity);
@@ -226,17 +226,17 @@ case 2:
         case 0:
 
         load_kind = 3;
-        replacement = (u8 *)find_or_retain_sprite_resource_slot(((S_800A504C_1 *)entity)->unk_13 - 1,
+        replacement = (u8 *)find_or_retain_sprite_resource_slot(entity->species - 1,
                                       load_kind);
         if (replacement != NULL) {
-            ((S_800A504C_1 *)entity)->unk_13--;
-            func_8003E188(((S_800A504C_1 *)entity)->unk_13, 0);
+            entity->species--;
+            func_8003E188(entity->species, 0);
             sprite_resource_base = D_80023000;
-            load_result = begin_sprite_resource_load_with_completion_flag(((S_800A504C_1 *)entity)->unk_13, sprite_resource_completion_flag);
+            load_result = begin_sprite_resource_load_with_completion_flag(entity->species, sprite_resource_completion_flag);
             load_spawned = replacement;
 
             loaded_entity_sprite_resource = load_result;
-            load_monster_code_module(((S_800A504C_1 *)entity)->unk_13, load_spawned, 0);
+            load_monster_code_module(entity->species, load_spawned, 0);
             entity_resource_read_complete[0] = 0;
             Control_CD(0xFF, set_byte_one, entity_resource_read_complete);
         }
@@ -248,19 +248,19 @@ case 1:
             return 0;
         }
         if (loaded_entity_sprite_resource != 0) {
-            register_and_upload_sprite_resource(((S_800A504C_1 *)entity)->unk_13, loaded_entity_sprite_resource);
+            register_and_upload_sprite_resource(entity->species, loaded_entity_sprite_resource);
         }
 
         mode_page[-1].unk_00 = (s16)((u16)mode_page[-1].unk_00 + 1);
         break;
 
 case 2:
-        replacement = (u8 *)find_or_retain_sprite_resource_slot(((S_800A504C_1 *)entity)->unk_13, 3);
+        replacement = (u8 *)find_or_retain_sprite_resource_slot(entity->species, 3);
         if (replacement == NULL) {
             return 0;
         }
         entity_data = ((S_800A504C_1_pre *)entity)[-1].unk_00;
-        spawn = load_monster_code_module(((S_800A504C_1 *)entity)->unk_13, replacement, 1);
+        spawn = load_monster_code_module(entity->species, replacement, 1);
         replacement = spawn(1, entity_data[0x24], entity_data[0x25],
                         (s16)(((S_800A504C_1 *)entity)->unk_88 - 0x20));
         if (replacement != NULL) {
@@ -272,7 +272,7 @@ case 2:
             record = (S_800A504C_5 *)offset;
             record_data = record->unk_D0;
             record->unk_AC = replacement;
-            record_data[0] = ((S_800A504C_1 *)entity)->unk_13;
+            record_data[0] = entity->species;
             (*(u8 * *)((u8 *)familiar_record_slots + (record_data[3] & 0x1F) * 4)) = replacement;
 
             entity_data = ((S_800A504C_4_pre *)replacement)[-1].unk_00;
@@ -283,8 +283,8 @@ case 2:
             replace_call_zero = 0;
             ((S_800A504C_4 *)replacement)->unk_14 &= -8;
             ((S_800A504C_4 *)replacement)->unk_1C &= -8;
-            ((S_800A504C_4 *)replacement)->unk_14 |= ((S_800A504C_1 *)entity)->unk_14 & 7;
-            ((S_800A504C_4 *)replacement)->unk_1C |= ((S_800A504C_1 *)entity)->unk_1C & 7;
+            ((S_800A504C_4 *)replacement)->unk_14 |= entity->flags14 & 7;
+            ((S_800A504C_4 *)replacement)->unk_1C |= entity->flags1C & 7;
             apply_actor_template_and_class(copy_call_entity, ((S_800A504C_4 *)replacement)->unk_10.at03.v,
                           replace_call_zero);
             copy_entity_record(replacement, entity);
@@ -311,7 +311,7 @@ case 2:
             base->unk_0A.s = (s16)(remaining_count - 1);
             (*(u16 *)((u8 *)entity + -2)) |= 0x8000;
             global_flags = object_flag_block.flags;
-            ((S_800A504C_1 *)entity)->unk_90 = 0;
+            entity->unk_90.value = 0;
             object_flag_block.flags = global_flags | 0x8000;
         }
         break;

@@ -137,16 +137,16 @@ void forward_menu_object_to_selection_updater(ovl_1831370_8181140C_MenuState *me
  * Writes the current step scaled by 0x400 to the linked halfword, then advances it and switches to
  * selection updates after step four. Processes menu input each update.
  */
-void apply_step_and_reset_after_five(s32 *step) {
-    s32 step_value = *step << 10;
+void apply_step_and_reset_after_five(ovl_1831370_8181140C_MenuState *step) {
+    s32 step_value = step->unk0 << 10;
 
     *(s16 *) (*(s32 *) ((u8 *) step + 0x64) + 6) = step_value;
-    *step += 1;
-    if (*step >= 5) {
-        *step = 0;
+    step->unk0 += 1;
+    if (step->unk0 >= 5) {
+        step->unk0 = 0;
         *(void **) ((u8 *) step - 0x10) = (void *)forward_menu_object_to_selection_updater;
     }
-    update_menu_selection_from_input((ovl_1831370_8181140C_MenuState *)step);
+    update_menu_selection_from_input(step);
 }
 
 /* Initializes a selection sprite descriptor, choosing its width from the variant and setting its end bit. */

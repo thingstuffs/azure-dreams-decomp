@@ -47,7 +47,7 @@ typedef struct {
 } LargeMapEntry;
 
 /* Services pending redraw flags, then draws map markers for nearby monsters, dropped items, and large map entries. */
-void draw_nearby_map_markers(void *ordering_table, s32 unused_mode) {
+void draw_nearby_map_markers(void *ordering_table, InactiveTypeTwelveObjectBody *unused_object) {
     union { u32 word; u8 bytes[4]; } colour;
     ActorRecord *head;
     u8 *entry;

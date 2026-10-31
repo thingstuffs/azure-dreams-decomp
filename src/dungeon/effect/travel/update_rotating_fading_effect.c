@@ -131,27 +131,27 @@ void *create_randomized_target_effect(Rec_func_800243B8_arg0 *source, ovl_18ca83
     s32 angle_x;
     s32 angle_y;
     ObjectNodeHeader *obj;
-    ovl_18ca83c_818AABB8_S_800243B8_1 *data;
+    RandomizedTargetEffectBody *data;
     SpriteFrameState *sprite;
     ObjectPosition *position;
     register s32 start_z;
 
     obj = allocate_flagged_object_node(0x212);
     if (obj != NULL) {
-        data = (u8 *)obj + 0x20;
+        data = (RandomizedTargetEffectBody *)((u8 *)obj + 0x20);
         obj->update_callback = (void *)update_rotating_fading_effect;
-        ((ovl_18ca83c_818AABB8_S_800243B8_0 *)obj)->unk_20 = source;
-        data->unk_34 = 0;
-        data->unk_36 = 0;
-        data->unk_3A = source->unk_12.as_u16;
+        data->owner = source;
+        data->phase.u = 0;
+        data->elapsed_ticks.u = 0;
+        data->quarter_turn_ticks.u = source->unk_12.as_u16;
 
         amplitude = rand() % 48;
         angle_x = rand() % 0x1000;
         angle_y = rand() % 0x1000;
 
-        data->unk_04 = start->unk_00;
-        data->unk_08 = start->unk_04;
-        data->unk_0C = start->unk_08;
+        data->start_x = start->unk_00;
+        data->start_y = start->unk_04;
+        data->start_z = start->unk_08;
 
         {
             s32 trig_x, trig_y;
@@ -163,7 +163,7 @@ void *create_randomized_target_effect(Rec_func_800243B8_arg0 *source, ovl_18ca83
             trig_y = rsin(sample_angle);
             trig_x >>= 4;
             trig_y >>= 4;
-            data->unk_1C = center->unk_00 +
+            data->target_x = center->unk_00 +
                 (trig_x * trig_y * amplitude);
         }
 
@@ -177,20 +177,20 @@ void *create_randomized_target_effect(Rec_func_800243B8_arg0 *source, ovl_18ca83
             trig_y = rcos(sample_angle);
             trig_x >>= 4;
             trig_y >>= 4;
-            data->unk_20 = center->unk_04 +
+            data->target_y = center->unk_04 +
                 (trig_x * trig_y * amplitude);
         }
 
         {
             s32 trig_x;
             trig_x = rcos(angle_x);
-            data->unk_24 = center->unk_08 +
+            data->target_z = center->unk_08 +
                 (((trig_x >> 4) * amplitude) << 8);
         }
 
-        data->unk_28 = data->unk_1C - start->unk_00;
-        data->unk_2C = data->unk_20 - start->unk_04;
-        data->unk_30 = data->unk_24 - start->unk_08;
+        data->offset_x = data->target_x - start->unk_00;
+        data->offset_y = data->target_y - start->unk_04;
+        data->offset_z = data->target_z - start->unk_08;
 
         sprite = obj->sprite;
         sprite->color.c.b = 0xFF;

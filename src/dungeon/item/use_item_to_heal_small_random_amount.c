@@ -32,14 +32,14 @@ typedef struct S_800C4490_0_pre {
 
 
 /* Applies a capped random stat gain to the target and displays its effect message. */
-s32 use_item_to_heal_small_random_amount(void *target, DungeonItemEntry *source, s16 effect_mode) {
+s32 use_item_to_heal_small_random_amount(ActorRecord *target, DungeonItemEntry *source, s16 effect_mode) {
     s16 stat_gap;
     s16 feed_result;
     s32 stat_gain;
     void *effect_text;
     void *message_context;
 
-    if (target == ((s32)dungeon_actor_ring_anchor)) {
+    if (target == dungeon_actor_ring_anchor) {
         ((PlayerRecord *)target)->pending_item_action = source;
         begin_deferred_item_action(target, &view_reference_entity.x.v, &reference_tile_object.frame_entry, target);
         return 0;
@@ -62,13 +62,13 @@ s32 use_item_to_heal_small_random_amount(void *target, DungeonItemEntry *source,
         stat_gain = 0xFF;
     }
 
-    stat_gap = ((EntityRec *)target)->unk_29 - ((EntityRec *)target)->unk_28;
+    stat_gap = target->max_hp - target->hp;
     if (stat_gap < stat_gain) {
         stat_gain = stat_gap;
     }
-    ((EntityRec *)target)->unk_64 = stat_gain;
+    target->hp_delta = stat_gain;
 
-    if (((EntityRec *)target)->flags14 & ACTOR_PARTY_MEMBER) {
+    if (target->flags14 & ACTOR_PARTY_MEMBER) {
         effect_text = get_unused_text_buffer();
         {
             void *message_target;
@@ -81,7 +81,7 @@ s32 use_item_to_heal_small_random_amount(void *target, DungeonItemEntry *source,
         }
         clear_byte_and_advance(expand_text_control_codes(
             D_800893E0,
-            format_unsigned_double_byte_decimal(((EntityRec *)target)->unk_64,
+            format_unsigned_double_byte_decimal(target->hp_delta,
                           expand_text_control_codes(D_800E18A4, effect_text))));
         display_text_with_fullwidth_adjustment(message_context);
     }

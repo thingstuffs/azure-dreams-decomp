@@ -5,6 +5,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "shared/object_node.h"
 
 typedef struct {
     u8 pad[3];
@@ -18,10 +19,6 @@ extern s16 find_entry_at_tile_coordinates(u8, u8, s16);
 
 extern DungeonEntry floor_objects[];
 
-typedef struct S_800AD9B4_0_pre {
-    u16 unk_00;
-} S_800AD9B4_0_pre;   /* the 0x2 bytes before arg1 in check_actor_floor_trap, addressed as arg1[-1] */
-
 /* Process an eligible dungeon entry and apply its state updates. */
 s32 check_actor_floor_trap(SpriteFrameState *actor, ActorRecord *target)
 {
@@ -33,7 +30,7 @@ s32 check_actor_floor_trap(SpriteFrameState *actor, ActorRecord *target)
     s32 cost;
     s8 adjustment;
 
-    if (((S_800AD9B4_0_pre *)target)[-1].unk_00 & 0x8000) {
+    if (((ObjectNodeHeader *)target - 1)->flags & 0x8000) {
         return 1;
     }
     player = &reference_tile_object;

@@ -410,11 +410,11 @@ typedef struct {
 
 
 /* Advance the counter and mark completion at 16 ticks, decrementing the global count. */
-void advance_timed_object_and_retire(void *counter) {
+void advance_timed_object_and_retire(TimedStatusObjectBody *counter) {
     u16 tick_count;
 
-    tick_count = *(u16 *)counter + 1;
-    *(u16 *)counter = tick_count;
+    tick_count = counter->tick_count + 1;
+    counter->tick_count = tick_count;
     if ((s16)tick_count >= 0x10) {
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         *(u16 *)((u8 *)counter - 2) |= NODE_REMOVE;

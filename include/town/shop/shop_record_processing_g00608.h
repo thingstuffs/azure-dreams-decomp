@@ -32,11 +32,11 @@ typedef struct S_800B0870_1 {
     u8 unk_06;
 } S_800B0870_1;
 
-extern s32 texture_build_a_hex_48_byte_two_color_swapped_pattern_blocks_returns_base(s32, s32*); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern s32 texture_build_a_hex_48_byte_two_color_swapped_pattern_blocks_returns_base(void *, s32*); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 D_800D15C4;
 
 /* Functions defined in this translation unit. */
 void initialize_shop_display_records(void *destination, S_800B0870_1 *source);
-void process_shop_record_and_subrecord(s32 record_address);
+void process_shop_record_and_subrecord(u8 *record_address);
 
 #endif

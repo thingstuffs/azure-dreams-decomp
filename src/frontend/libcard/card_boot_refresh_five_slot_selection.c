@@ -37,7 +37,7 @@ void card_boot_refresh_five_slot_selection(S_80025030_0 *state) {
     }
     for (i = 0; i < 5; i++) {
         if (i == state->unk_28) {
-            card_boot_set_slot_selection_marker(((s32 *)state)[i + 1], highlight);
+            card_boot_set_slot_selection_marker(((ObjectNodeHeader **)state)[i + 1], highlight);
         } else {
             card_boot_clear_slot_selection_marker(((s32 *)state)[i + 1]);
         }

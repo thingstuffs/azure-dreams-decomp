@@ -9,6 +9,7 @@
 struct Arg1;
 struct Arg2;
 struct Obj;
+struct ObjectPosition;
 
 /* Casino slot-machine state and its three reel objects. */
 typedef struct State8081FF68 {
@@ -80,7 +81,7 @@ void retire_scene_text_after_terminal_phase(TerminalSceneTextObject *context);
 void submit_text_zero_state_entry(TextEntryObject *text_entry);
 
 /* toggle_gym_sprite_by_scene_phase.c */
-void toggle_gym_sprite_by_scene_phase(s16 **value_ptr, s32 unused, SpriteFlagsView *object);
+void toggle_gym_sprite_by_scene_phase(s16 **value_ptr, struct ObjectPosition *unused, SpriteFlagsView *object);
 
 /* update_derived_value_and_flag.c */
 void update_derived_value_and_flag(void *object);

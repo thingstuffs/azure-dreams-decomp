@@ -13,7 +13,7 @@ typedef struct {
 } Obj800AD0E4;
 
 extern void initialize_scene_action_record(Obj800AD0E4 *, Obj800AD0E4 *, s32);
-extern void initialize_motion_action(Obj800AD0E4 *, Obj800AD0E4 *, s32);
+extern void initialize_motion_action(Obj800AD0E4 *, void *, s32);
 extern void initialize_actor_action_state(Obj800AD0E4 *, Obj800AD0E4 *, s32);
 extern void initialize_action_object(Obj800AD0E4 *, Obj800AD0E4 *, s32);
 extern void move_both_components_toward_zero_direction_dependent_steps_clamping_zero(Obj800AD0E4 *);

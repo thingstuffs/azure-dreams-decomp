@@ -9,7 +9,7 @@ extern void SetDrawArea(void *, void *);
 
 
 /* Queues drawing commands and a black 64-by-64 rectangle in the active draw buffer. */
-void queue_black_draw_buffer_rectangle(s32 draw_param) {
+void queue_black_draw_buffer_rectangle(InactiveTypeTwelveObjectBody *object) {
     s32 draw_rect[2];
     s32 rect_y;
     s32 adjust_y;
@@ -27,7 +27,7 @@ void queue_black_draw_buffer_rectangle(s32 draw_param) {
     *(u8 **)(draw_buffer + 0x8D0) = area_packet + 0xC;
     SetDrawArea(area_packet, *(u8 * *)&g_game_work.draw_buffer);
     AddPrim(ordering_table, area_packet);
-    draw_nearby_map_markers(ordering_table, draw_param);
+    draw_nearby_map_markers(ordering_table, object);
 
     rect_packet = *(u8 **)(g_game_work.draw_buffer + 0x8D0);
     *(u8 **)(g_game_work.draw_buffer + 0x8D0) = rect_packet + 0x10;

@@ -22,14 +22,14 @@ extern void display_formatted_context_message(void *, s32, s16);
 extern void display_actor_item_status_message(void *, struct DungeonItemEntry *);
 
 /* Apply an item to its target and handle action completion. */
-s32 apply_monster_location_reveal_item(EntityRec *target, DungeonItemEntry *item, s16 action_type, s32 source)
+s32 apply_monster_location_reveal_item(ActorRecord *target, DungeonItemEntry *item, s16 action_type, s32 source)
 {
     if (action_type == 13) {
         return process_record_and_update_linked_state(item, source);
     }
 
-    if (target == ((u8 *)dungeon_actor_ring_anchor)) {
-        target->unk_110 = item;
+    if (target == dungeon_actor_ring_anchor) {
+        ((PlayerRecord *)target)->pending_item_action = item;
         begin_mode_selected_item_action(target, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);
         return 0;
     }

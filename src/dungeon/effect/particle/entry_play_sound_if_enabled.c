@@ -10,6 +10,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/system.h"
+#include "dungeon/effect/particle.h"
 
 typedef struct S_818154FC_0_pre {
     u16 unk_00;
@@ -74,23 +75,6 @@ typedef struct S_818154FC_5 {
     s32 unk_14;
 } S_818154FC_5;   /* arg1 in func_818154FC */
 
-typedef struct S_818154FC_7 {
-    u8 pad_00[0x2];
-    union { s16 s; u16 u; } unk_02;   /* accessed as both */
-    u8 pad_04[0x4];
-    s16 unk_08;
-    s16 unk_0A;
-    u8 pad_0C[0x9];
-    u8 unk_15;
-    u16 unk_16;
-    u8 pad_18[0x14];
-    void * unk_2C;
-    s32 unk_30;
-    u8 pad_34[0x24];
-    s32 unk_58;
-    s32 unk_5C;
-    s32 unk_60;
-} S_818154FC_7;   /* work in func_818154FC */
 
    /* map in func_818154FC */
 
@@ -213,11 +197,11 @@ void emit_attached_directional_particle_chain(void *effect, S_818154FC_5 *positi
 
             node = allocate_flagged_object_node(0x12);
             if (node != NULL) {
-                S_818154FC_7 *work;
+                EmitAttachedDirectionalParticleChainBody *work;
                 MovingTile *map;
                 s32 index;
 
-                work = (S_818154FC_7 *)(((u8 *)node) + 0x20);
+                work = (EmitAttachedDirectionalParticleChainBody *)(((u8 *)node) + 0x20);
                 {
                     s16 *entry;
 
@@ -232,9 +216,9 @@ void emit_attached_directional_particle_chain(void *effect, S_818154FC_5 *positi
                     entry = (u16 *)((u8 *)point_base + index * 4);
                     work->unk_5C = (s32)entry[1] << 16;
                 }
-                work->unk_2C = parent;
-                work->unk_30 = ((S_818154FC_3 *)parent)->unk_60.s;
-                work->unk_0A =
+                work->unk_2C.p = parent;
+                work->unk_30.s = ((S_818154FC_3 *)parent)->unk_60.s;
+                work->unk_0A.s =
                     (((S_818154FC_0 *)effect)->unk_84.u - 1) / 2;
                 work->unk_15 = ((S_818154FC_0 *)effect)->unk_09;
                 work->unk_16 = ((S_818154FC_0 *)effect)->unk_7E.u;

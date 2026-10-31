@@ -6,6 +6,7 @@
 
 struct Rec_func_80094268_arg0;
 struct S_800935BC_0;
+struct SpriteFrameState;
 void approach_target_tile_until_timeout(struct Rec_func_80094268_arg0 *target, struct S_800935BC_0 *position, void *transition_arg);
 
 /* get_linked_record_field.c */
@@ -59,12 +60,12 @@ void compute_and_clamps_vector_based_adjustment_updates_town(struct TownObj *obj
 void correct_fixed_point_value_at_boundaries(s32 *value);
 void dispatch_actor_interaction_actions(Rec_func_8009431C_arg0 *actor, EntityRec *record, s32 context);
 s32 get_status_active_entry_matching_direction(void *entries);
-void initialize_record_with_handler_and_countdown_800(Rec_func_80094268_arg0 *record, s32 setup_value, s32 init_context);
+void initialize_record_with_handler_and_countdown_800(Rec_func_80094268_arg0 *record, s32 setup_value, struct SpriteFrameState *init_context);
 void initialize_scene_action_record(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);
-void initialize_timed_scene_action(Rec_func_80094268_arg0 *record, s32 unused, s32 setup_value);
+void initialize_timed_scene_action(Rec_func_80094268_arg0 *record, s32 unused, struct SpriteFrameState *setup_value);
 void move_both_components_toward_zero_direction_dependent_steps_clamping_zero(EntityRec *record);
 void noop_player_scene_action(void);
-void run_the_three_update_routines_context(s32 context);
+void run_the_three_update_routines_context(void *context);
 s32 select_an_available_entry_matching_direction_returns_status(void *record);
 s32 select_an_eligible_source_entry_stores_pointer_in_destination(void *destination, void *source);
 void set_player_travel_timing(void *actor, void *motion, s32 context);

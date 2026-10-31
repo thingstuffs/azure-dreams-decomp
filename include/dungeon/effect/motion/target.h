@@ -8,6 +8,7 @@
 #include "shared/game_work.h"
 #include "sdk/libc.h"
 #include "sdk/libgpu.h"
+#include "dungeon/effect/particle.h"
 typedef struct Row_818E71DC_S_800249DC_0_pre {
     u16 unk_00;
 } Row_818E71DC_S_800249DC_0_pre;   /* the 0x2 bytes before arg0 in func_800249DC, addressed as arg0[-1] */
@@ -34,8 +35,6 @@ typedef struct Row_818E71DC_S_800249DC_3 {
 } Row_818E71DC_S_800249DC_3;   /* arg2 in func_800249DC */
 
 /* Advance the target, ease the position toward it, and update visual brightness and flags. */
-#define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
-#define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
 /* Advances the effect state and frame coordinates, setting flags when its timer expires. */
@@ -43,22 +42,6 @@ typedef struct Row_818E71DC_S_800249DC_3 {
 #define NULL 0
 #endif
 
-typedef struct Row_818E747C_S_80024C7C_0 {
-    u8 pad_00[0xC];
-    u16 unk_0C;
-    u16 unk_0E;
-    union { s16 s; u16 u; } unk_10;   /* accessed as both */
-    u8 pad_12[0x2E];
-    u8 unk_40;
-    u8 pad_41[0x1];
-    u8 unk_42;
-    u8 pad_43[0x1];
-    u8 unk_44;
-    u8 pad_45[0x1];
-    u8 unk_46;
-    u8 pad_47[0x3];
-    u16 unk_4A;
-} Row_818E747C_S_80024C7C_0;   /* node in func_80024C7C */
 
 typedef struct Row_818E747C_S_80024C7C_1 {
     void * unk_00;
@@ -140,7 +123,7 @@ typedef struct Row_818E786C_S_8002506C_2 {
 void advance_sprite_animation_and_textures(void *visual);
 void func_80065770();
 extern u8 target_sprite_scale_pairs[24];
-void move_effect_toward_target(void *motion, Row_818E71DC_S_800249DC_2 *position, SpriteFrameState *visual);
-void advance_effect_state_and_frame(void *effect);
-s32 render_linked_jittered_effect_strips(void *node_data);
+void move_effect_toward_target(Rec_func_800249DC_arg0 *motion, Row_818E71DC_S_800249DC_2 *position, SpriteFrameState *visual);
+void advance_effect_state_and_frame(UpdateDirectionalActorEffectBody *effect);
+s32 render_linked_jittered_effect_strips(UpdateDirectionalActorEffectBody *node_data);
 #endif

@@ -98,6 +98,14 @@ STATEMENT_PARENTS = {'CompoundStmt', 'IfStmt', 'ForStmt', 'WhileStmt', 'DoStmt',
 SDK = 'SDK stand-in'
 ALIAS_CAST = False  # callbacks spec "alias_cast": `V *a = p;` aliases get an explicit cast (net debt guarded)
 SIGN_REMAP = False  # callbacks spec "sign_remap": same-width loads may change signedness (identity-proven)
+# kit_v2 (opus_actorholds1) callbacks spec keys; all default off, every change still goes through the transaction
+TAIL_TYPE = ''  # "tail_type": "PlayerRecord *": an access past the target's size maps to ((TAIL *)p)->member ...
+TAIL_ANY = False  # ... only inside `if (p == <player global>)` unless the symbol is listed in "tail_symbols"
+PLAYER_GLOBALS = {'dungeon_actor_ring_anchor', 'primary_actor_record', 'D_800814A8', 'D_800E3D7C'}  # all the player body (record_ptrs.h)
+INT_PLACEHOLDER = False  # "int_placeholder": an int/u32 parameter holding the pointer is a placeholder too
+BYTE_ARITH = False  # "byte_arith": p+K / p-K / p[K] / *p on a byte or void * parameter keep a (u8 *) view
+COMPARE_UNCAST = False  # "compare_uncast": `p == (s32)q` drops the cast when q already has a pointer type
+BYTE_MACROS = False  # "byte_macros": a use as the pointer argument of U8_AT/S16_AT/PTR_AT... (they cast it to u8 *)
 
 
 # ----------------------------------------------------------------------------------- type helpers
@@ -271,6 +279,12 @@ def map_member(unit, target, off, leaf_type, store, old_path=None):
     for p, t in cands:
         if spelled(str(t)) == exact and tu.volatile(t) == vol:
             return p
+    if want == 'fnptr*':
+        # kit_v2: a function pointer maps only to the member with the same signature after typedef expansion
+        # (`Callback` = void (*)(void *, ...) -> unk_8C.run, never .handler); none -> unmapped (no native rollback)
+        sig = fn_signature(unit, leaf_type)
+        same = [p for p, t in cands if decay(tu.canon(t)) == want and fn_signature(tu, t) == sig]
+        return same[0] if same else None
     for p, t in cands:
         if decay(tu.canon(t)) == want and tu.volatile(t) == vol:
             return p
@@ -283,6 +297,81 @@ def map_member(unit, target, off, leaf_type, store, old_path=None):
             if c in INT_SIZES and INT_SIZES[c] == INT_SIZES[want] and tu.volatile(t) == vol:
                 return p
     return None
+
+
+def player_guarded(unit, parents, ref, did):
+    """Is `ref` inside the then-branch of `if (<param> == <player global>)` (either operand order)?"""
+    node = ref
+    p = parents.get(id(node))
+    while p is not None:
+        if p.get('kind') == 'IfStmt' and len(A.kids(p)) >= 2 and A.kids(p)[1] is node:
+            cond = A.kids(p)[0]
+            while cond.get('kind') in ('ParenExpr', 'ImplicitCastExpr', 'CStyleCastExpr'):
+                cond = A.kids(cond)[0]
+            if cond.get('kind') == 'BinaryOperator' and cond.get('opcode') == '==':
+                names = set()
+                for side in A.kids(cond):
+                    s = side
+                    while s.get('kind') in ('ParenExpr', 'ImplicitCastExpr', 'CStyleCastExpr'):
+                        s = A.kids(s)[0]
+                    if s.get('kind') == 'DeclRefExpr':
+                        rd = s.get('referencedDecl') or {}
+                        names.add('#self' if rd.get('id') == did else rd.get('name'))
+                if '#self' in names and names & PLAYER_GLOBALS:
+                    return True
+        node, p = p, parents.get(id(p))
+    return False
+
+
+def address_only_member(unit, target, off, leaf, parents):
+    """kit_v2 (with "byte_arith"): `(u8 *)&p->m + K` uses only the address of m - any named leaf of the target at
+    the same offset gives the same address (`&((EntityRec *)p)->unk_10` -> `&p->unk_10`, the u8 there).  Only when
+    the address is immediately converted by an explicit cast, so no typed pointer flows on."""
+    outer, holder = up(parents, leaf)
+    if (holder or {}).get('kind') != 'UnaryOperator' or holder.get('opcode') != '&':
+        return None
+    o2, h2 = up(parents, holder)
+    if (h2 or {}).get('kind') != 'CStyleCastExpr':
+        return None
+    for path, lt, _ in target.unit.leaves_at(target.key, off):
+        c = target.unit.canon(lt)
+        if not PAD.search(path) and not c.startswith('rec:') and '[' not in c:
+            return path
+    return None
+
+
+def tail_member(unit, target, off, leaf_type, store, parents, ref, did):
+    """(tail spelling, member path) for an access past the end of `target`, or None (kit_v2 "tail_type")."""
+    if not TAIL_TYPE or not target.key:
+        return None
+    size = (target.unit.layouts.get(target.key) or {}).get('size') or 0
+    if off < size:
+        return None
+    if not (TAIL_ANY or player_guarded(unit, parents, ref, did)):
+        return None
+    tail = Target(target.unit, TAIL_TYPE)
+    if not tail.key:
+        return None
+    path = map_member(unit, tail, off, leaf_type, store)
+    return (tail.spelling, path) if path else None
+
+
+def fn_signature(unit, t, depth=0):
+    """A function pointer type with typedef names expanded (top level and parameters), spacing normalised."""
+    s = re.sub(r'\s+', ' ', str(t or '')).strip()
+    for _ in range(12):
+        changed = False
+        for name in re.findall(r'\b[A-Za-z_]\w*\b', s):
+            if name in unit.T.typedefs and name not in ('void',):
+                rep = unit.T.typedefs[name]
+                if '(*' in rep and re.fullmatch(name, s):
+                    s, changed = rep, True
+                elif '(*' not in rep:
+                    s, changed = re.sub(r'\b%s\b' % re.escape(name), rep, s), True
+        if not changed:
+            break
+    s = re.sub(r'\b(struct|union)\s+', '', s)
+    return re.sub(r'\s*([*(),])\s*', r'\1', s)
 
 
 def member_path_text(unit, leaf, ref_node, text):
@@ -325,6 +414,7 @@ def plan_retype(unit, file, fn, decl, target, edit_decl=True):
     edits, removed, renamed = [], 0, 0
     did = decl.get('id')
     refs = [n for n in nodes if n.get('kind') == 'DeclRefExpr' and (n.get('referencedDecl') or {}).get('id') == did]
+    local_ids = {n.get('id') for n in nodes if n.get('kind') == 'VarDecl' and n.get('storageClass') not in ('static', 'extern')}
 
     def refuse(why):
         return {'refused': why, 'uses': uses}
@@ -337,6 +427,9 @@ def plan_retype(unit, file, fn, decl, target, edit_decl=True):
         removed += ok
     for ref in refs:
         if A.in_macro(ref):
+            if BYTE_MACROS and byte_macro_arg(ref, text):
+                uses['byte_macro'] += 1
+                continue
             return refuse('use_in_macro')
         node, p = up(parents, ref)
         k = (p or {}).get('kind')
@@ -376,7 +469,16 @@ def plan_retype(unit, file, fn, decl, target, edit_decl=True):
             if not target.key:
                 return refuse('member_access_needs_record')
             path = map_member(unit, target, off, lt, store, member_path_text(unit, leaf, ref, text))
+            if path is None and BYTE_ARITH:
+                path = address_only_member(unit, target, off, leaf, parents)
             if path is None:
+                tm = tail_member(unit, target, off, lt, store, parents, ref, did)
+                lr, vr = A.node_range(leaf, text), A.node_range(ref, text)
+                if tm and lr is not None and vr is not None:
+                    edits.append((lr[0], lr[1], '((%s)%s)->%s' % (tm[0], text[vr[0]:vr[1]], tm[1])))
+                    renamed += 1
+                    uses['tail_cast'] += 1
+                    continue
                 return refuse('member_unmapped@0x%X:%s' % (off, unit.canon(lt)))
             if path == member_path_text(unit, leaf, ref, text):
                 continue
@@ -411,6 +513,12 @@ def plan_retype(unit, file, fn, decl, target, edit_decl=True):
                         removed += 1
                         uses['view_cast_merged'] += 1
                         continue
+                    tm = tail_member(unit, target, off, lt, store, parents, ref, did) if path is None else None
+                    if tm and lr is not None and vr is not None:
+                        # ((V *)p)->m past the record: ((TAIL *)p)->member (one cast for one cast)
+                        edits.append((lr[0], lr[1], '((%s)%s)->%s' % (tm[0], text[vr[0]:vr[1]], tm[1])))
+                        uses['tail_cast'] += 1
+                        continue
             uses['explicit_cast'] += 1
             continue
         if qk == 'ImplicitCastExpr':
@@ -422,8 +530,20 @@ def plan_retype(unit, file, fn, decl, target, edit_decl=True):
             node3, r = up(parents, q)
             # a void * flowing into a comparison or condition stays fine
             if (r or {}).get('kind') == 'BinaryOperator' and r.get('opcode') in ('==', '!=', '<', '>', '<=', '>='):
+                e = compare_uncast_edit(unit, r, node3, new_c, text)
+                if e:
+                    edits.append(e)
+                    removed += 1
+                    uses['compare_uncast'] += 1
+                    continue
                 if comparison_ok(unit, r, node3, new_c):
                     uses['compare'] += 1
+                    continue
+                e = compare_uncast_edit(unit, r, node3, new_c, text)
+                if e:
+                    edits.append(e)
+                    removed += 1
+                    uses['compare_uncast'] += 1
                     continue
                 return refuse('compare_needs_cast')
             if (r or {}).get('kind') == 'BinaryOperator' and r.get('opcode') in ('+', '-', '*', '/', '&', '|', '^', '<<', '>>', '%'):
@@ -454,8 +574,20 @@ def plan_retype(unit, file, fn, decl, target, edit_decl=True):
             uses['truth'] += 1
             continue
         if qk == 'BinaryOperator' and q.get('opcode') in ('==', '!=', '<', '>', '<=', '>='):
+            e = compare_uncast_edit(unit, q, node, new_c, text)
+            if e:
+                edits.append(e)
+                removed += 1
+                uses['compare_uncast'] += 1
+                continue
             if comparison_ok(unit, q, node, new_c):
                 uses['compare'] += 1
+                continue
+            e = compare_uncast_edit(unit, q, node, new_c, text)
+            if e:
+                edits.append(e)
+                removed += 1
+                uses['compare_uncast'] += 1
                 continue
             return refuse('compare_needs_cast')
         if qk == 'CallExpr' and A.kids(q)[0] is not node:
@@ -470,13 +602,33 @@ def plan_retype(unit, file, fn, decl, target, edit_decl=True):
             if assignable(old_c, new_c):
                 uses['stored'] += 1
                 continue
+            # kit_v2: a local alias keeps the old view (`u8 *a = p;` -> `u8 *a = (u8 *)p;`), as alias_cast does
+            # for converted aliases; the per-function debt guard decides
+            if ALIAS_CAST and is_ptr(old_c) and (qk == 'VarDecl' or (
+                    qk == 'BinaryOperator' and A.kids(q)[1] is node and local_lhs(A.kids(q)[0], local_ids))):
+                vr = A.node_range(ref, text)
+                if vr is None:
+                    return refuse('stored_in_macro')
+                edits.append((vr[0], vr[0], '(%s)' % spelled(old)))
+                uses['alias_cast'] += 1
+                continue
             return refuse('stored_as_' + old_c)
         if qk == 'ArraySubscriptExpr' or (qk == 'UnaryOperator' and q.get('opcode') == '*'):
             if old_c == new_c:
                 continue
+            e = byte_view_edit(unit, q, node, ref, old_c, new_c, text, parents, target)
+            if e:
+                edits.append(e)
+                uses['byte_arith'] += 1
+                continue
             return refuse('dereference' if qk == 'UnaryOperator' else 'subscript')
         if qk == 'BinaryOperator' and q.get('opcode') in ('+', '-'):
             if old_c == new_c:
+                continue
+            e = byte_view_edit(unit, q, node, ref, old_c, new_c, text, parents, target)
+            if e:
+                edits.append(e)
+                uses['byte_arith'] += 1
                 continue
             return refuse('pointer_arithmetic')
         if qk == 'BinaryOperator' and q.get('opcode') == ',':
@@ -489,6 +641,115 @@ def plan_retype(unit, file, fn, decl, target, edit_decl=True):
             return refuse(e)
         edits.append(e)
     return {'edits': edits, 'removed': removed, 'renamed': renamed, 'uses': uses}
+
+
+BYTE_MACRO = re.compile(r'^(?:[US](?:8|16|32)|PTR|PTR32|FIELD_[US](?:8|16|32))(?:_AT)?\s*\(')
+
+
+def byte_macro_arg(ref, text):
+    """kit_v2 "byte_macros": `U8_AT(p, 0x71)`, `S16(p, 2)` and kin cast their pointer argument to `(u8 *)` themselves,
+    so the argument may have any object pointer type.  True when `ref` is spelled at the call site as the first
+    argument of such a macro (the innermost macro call before it, possibly nested inside another macro's
+    arguments); a macro defined in this file must spell `(u8 *)(<first parameter>)` in its body."""
+    rng = ref.get('range') or {}
+    b = rng.get('begin') or {}
+    exp, spell = b.get('expansionLoc') or {}, b.get('spellingLoc') or {}
+    name = (ref.get('referencedDecl') or {}).get('name') or ''
+    if 'offset' not in exp or 'offset' not in spell or not name or not text.isascii():
+        return False
+    e, s = exp['offset'], spell['offset']
+    if not (0 <= e < s <= len(text)) or text[s:s + len(name)] != name or re.match(r'\w', text[s + len(name):s + len(name) + 1]):
+        return False
+    m = re.search(r'(\w+)\s*\(\s*\(?\s*$', text[e:s])
+    if not m or not BYTE_MACRO.match(m.group(1) + '('):
+        return False
+    local = re.search(r'(?m)^\s*#\s*define\s+%s\s*\(\s*(\w+)\s*,[^)]*\)(.*)$' % re.escape(m.group(1)), text)
+    if local and not re.search(r'\(\s*u8\s*\*\s*\)\s*\(\s*%s\s*\)' % re.escape(local.group(1)), local.group(2)):
+        return False  # a file-local macro of that name that does not cast its pointer argument itself
+    return True
+
+
+def local_lhs(lhs, local_ids):
+    """Is an assignment target a plain local variable of this function (not a global, member or dereference)?"""
+    while lhs.get('kind') in ('ParenExpr', 'ImplicitCastExpr'):
+        lhs = A.kids(lhs)[0]
+    d = (lhs.get('referencedDecl') or {}) if lhs.get('kind') == 'DeclRefExpr' else {}
+    return d.get('id') in local_ids
+
+
+def compare_uncast_edit(unit, cmp, node, new_c, text):
+    """kit_v2 "compare_uncast": `p == (s32)q` / `p == (u8 *)q` -> `p == q` when q already converts to the new type."""
+    if not COMPARE_UNCAST or not is_ptr(new_c):
+        return None
+    other = [x for x in A.kids(cmp) if x is not node]
+    if not other:
+        return None
+    o = other[0]
+    while o.get('kind') in ('ParenExpr', 'ImplicitCastExpr'):
+        o = A.kids(o)[0]
+    if o.get('kind') != 'CStyleCastExpr':
+        return None
+    inner = A.strip_implicit(A.kids(o)[0])
+    ic = decay(unit.canon(C.qtype(inner)))
+    if not is_ptr(ic) or not assignable(new_c, ic):
+        return None
+    rng, ir = A.node_range(other[0], text), A.node_range(A.kids(o)[0], text)
+    if rng is None or ir is None:
+        return None
+    return (rng[0], rng[1], text[ir[0]:ir[1]].strip())
+
+
+def byte_view_edit(unit, q, node, ref, old_c, new_c, text, parents, target=None):
+    """kit_v2 "byte_arith": keep the byte view of a retyped byte/void * parameter where the body walks bytes.
+
+    `p - 0x20` (the node header) -> `((ObjectNodeHeader *)p - 1)` when the value flows into a void * or an
+    ObjectNodeHeader * (and that type is visible); every other `p + K`, `p - K`, `p[K]`, `*p` keeps the old
+    pointer type through one explicit cast (`(u8 *)p` / `(void *)p`), so the expression's type is unchanged.
+    Adds one cast per site; the per-function debt guard keeps the retype only when the folds it enables remove
+    more, and the TU identity proof decides the bytes."""
+    if not BYTE_ARITH or not is_ptr(new_c) or not (old_c == 'void*' or old_c[:-1] in A.BYTE_POINTEES):
+        return None
+    vr = A.node_range(ref, text)
+    if vr is None or A.in_macro(q):
+        return None
+    name = text[vr[0]:vr[1]]
+    k = q.get('kind')
+    if k == 'BinaryOperator' and A.kids(q)[0] is not node:
+        return None  # K + p / K - p: leave to a person
+    if k == 'BinaryOperator' and q.get('opcode') == '-' \
+            and C.int_value(A.strip_implicit(A.kids(q)[1])) == 0x20 and unit.record_of_pointer('ObjectNodeHeader *'):
+        outer, holder = up(parents, q)
+        dst = decay(unit.canon(C.qtype(holder))) if (holder or {}).get('kind') == 'ImplicitCastExpr' else ''
+        qr = A.node_range(q, text)
+        if qr is not None and (dst == 'void*' or unit.record_of_pointer(C.qtype(holder) if holder else '') ==
+                               unit.record_of_pointer('ObjectNodeHeader *')):
+            return (qr[0], qr[1], '((ObjectNodeHeader *)%s - 1)' % name)
+    if k == 'ArraySubscriptExpr' and A.kids(q)[0] is node and target is not None and target.key:
+        # p[K] with a constant K: the member at +K of the same type (p->species), else the byte view below
+        kidx = C.int_value(A.strip_implicit(A.kids(q)[1]))
+        qr = A.node_range(q, text)
+        if kidx is not None and kidx >= 0 and qr is not None:
+            outer, holder = up(parents, q)
+            store = ((holder or {}).get('kind') == 'BinaryOperator' and holder.get('opcode') == '='
+                     and A.kids(holder)[0] is outer and (parents.get(id(holder)) or {}).get('kind') in STATEMENT_PARENTS)
+            path = map_member(unit, target, kidx, C.qtype(q), store)
+            if path:
+                return (qr[0], qr[1], '%s->%s' % (name, path))
+    if k == 'BinaryOperator' and q.get('opcode') == '-' and old_c == 'void*' and \
+            C.int_value(A.strip_implicit(A.kids(q)[1])) == 0x20 and unit.record_of_pointer('ObjectNodeHeader *'):
+        # a void * header address used where no conversion happens (a void * argument or variable)
+        outer, holder = up(parents, q)
+        qr = A.node_range(q, text)
+        hk = (holder or {}).get('kind')
+        if qr is not None and (hk in ('CallExpr', 'VarDecl', 'ReturnStmt') or hk == 'BinaryOperator' and
+                               holder.get('opcode') in ('=', '==', '!=') and A.kids(holder)[0] is not outer):
+            return (qr[0], qr[1], '((ObjectNodeHeader *)%s - 1)' % name)
+    if old_c == 'void*' and k != 'BinaryOperator':
+        return None
+    spelling = 'void *' if old_c == 'void*' else spelled(C.qtype(A.strip_implicit(node) if node is not ref else ref))
+    if old_c != 'void*':
+        spelling = {'unsigned char*': 'u8 *', 'signed char*': 's8 *', 'char*': 'char *'}.get(old_c, 'u8 *')
+    return (vr[0], vr[1], '((%s)%s)' % (spelling, name))
 
 
 def comparison_ok(unit, cmp, node, new_c):
@@ -632,6 +893,13 @@ def native_keys(root, path, stdin_text=None, cwd_rel=None):
     for m in DIAG.finditer(r.stderr):
         out.append((m.group(1), int(m.group(2)), int(m.group(3)), m.group(4)))
     return r.returncode, out
+
+
+def native_kind(message):
+    """kit_v2: an error keyed without its spelled types.  A pre-existing incompatible-pointer error whose operand
+    type is the retyped function or parameter keeps its key (`assigning to 's32 *' from 'void (*)(s32, ...)'` and
+    `... from 'void (*)(ActorRecord *, ...)'` are one error); any new error still raises the per-file count."""
+    return re.sub(r"'[^']*'( \(aka '[^']*'\))?", "'T'", message)
 
 
 def line_map(old, new):
@@ -1137,7 +1405,7 @@ class Prover:
     def native(self, tus):
         def one(tu):
             rc, errs = native_keys(self.root, tu)
-            return tu, collections.Counter((f, m) for f, l, c, m in errs)
+            return tu, collections.Counter((f, native_kind(m)) for f, l, c, m in errs)
         with ThreadPoolExecutor(self.workers) as pool:
             return dict(pool.map(one, tus))
 
@@ -1732,7 +2000,9 @@ def plan_callback(root, units, index, symbol, param, spelling, editable, replace
     cur_c = decay(dunit.canon(C.qtype(pdecl)))
     if cur_c == tgt.canon:
         return None, 'nothing_to_change'
-    if cur_c != 'void*' and not (cur_c.endswith('*') and cur_c[:-1] in A.BYTE_POINTEES):
+    if INT_PLACEHOLDER and cur_c in ('int', 'unsigned int'):
+        pass  # kit_v2: an int holding the object pointer; every use is planned (no int arithmetic survives)
+    elif cur_c != 'void*' and not (cur_c.endswith('*') and cur_c[:-1] in A.BYTE_POINTEES):
         cur_key = dunit.record_of_pointer(C.qtype(pdecl))
         # spec "replace": named partial views the evidence proves are the same object as the target
         if not (cur_key and (GENERATED.match(cur_key) or type_name(C.qtype(pdecl)) in replace)):
@@ -1779,32 +2049,59 @@ def apply_callbacks(root, out, spec, scope, exclude, workers, max_closure, log):
     index = Index(root)
     editable = lambda f: in_scope(f, scope, exclude)
     results, originals = [], {}
-    global SIGN_REMAP, ALIAS_CAST
+    global SIGN_REMAP, ALIAS_CAST, TAIL_TYPE, TAIL_ANY, INT_PLACEHOLDER, BYTE_ARITH, COMPARE_UNCAST, BYTE_MACROS
     SIGN_REMAP = bool(spec.get('sign_remap'))
     ALIAS_CAST = bool(spec.get('alias_cast'))
-    for n, symbol in enumerate(spec['symbols']):
+    TAIL_TYPE = spec.get('tail_type', '')
+    INT_PLACEHOLDER = bool(spec.get('int_placeholder'))
+    BYTE_ARITH = bool(spec.get('byte_arith'))
+    COMPARE_UNCAST = bool(spec.get('compare_uncast'))
+    BYTE_MACROS = bool(spec.get('byte_macros'))
+    tail_any = set(spec.get('tail_symbols', ()))
+    order = list(spec['symbols'])
+    # kit_v2 "passes": re-plan refused symbols while a pass accepts any (a caller retyped in this spec frees its
+    # callee's direct_caller_incompatible refusal, a callee frees its caller's converted_to refusal)
+    for npass in range(max(1, int(spec.get('passes', 1)))):
+        results, done = run_callback_pass(root, units, index, prover, spec, order, editable, tail_any, results,
+                                          originals, log, npass)
+        order = [r['symbol'] for r in results if r['verdict'] == 'refused' and r.get('pass') == npass
+                 and re.match(r'(direct_caller_incompatible|retype:converted_to|retype:passed_as)', r['reason'])]
+        if not done or not order:
+            break
+    return results, prover, originals
+
+
+def run_callback_pass(root, units, index, prover, spec, symbols, editable, tail_any, results, originals, log, npass):
+    """One pass over `symbols`; a symbol's earlier refused record is replaced by this pass's verdict."""
+    global TAIL_ANY
+    done = 0
+    keep = [r for r in results if r['symbol'] not in set(symbols)]
+    results = keep
+    for n, symbol in enumerate(symbols):
+        TAIL_ANY = symbol in tail_any
         t1 = time.time()
         plan, why = plan_callback(root, units, index, symbol, spec.get('param', 0), spec['type'], editable,
                                   tuple(spec.get('replace', ())))
         if plan is None:
-            results.append(dict(symbol=symbol, verdict='refused', reason=why))
-            log('[%d/%d] %s refused: %s' % (n + 1, len(spec['symbols']), symbol, why))
+            results.append(dict(symbol=symbol, verdict='refused', reason=why, **{'pass': npass}))
+            log('[%d/%d] %s refused: %s' % (n + 1, len(symbols), symbol, why))
             continue
         for f in plan['texts']:
             originals.setdefault(f, (root / f).read_text())
         verdict, info = transact(root, prover, units, 'callback:' + symbol, plan['texts'], plan['touched'],
                                  plan['headers'])
-        rec = dict(symbol=symbol, plan=plan['summary'], tus=info.get('tus', 0))
+        rec = dict(symbol=symbol, plan=plan['summary'], tus=info.get('tus', 0), **{'pass': npass})
         if verdict:
             rec.update(verdict='rolled_back', reason=verdict)
         else:
             rec.update(verdict='accepted', files=info['files'], casts_removed=info['casts_removed'],
                        folds=info['folds'])
+            done += 1
         results.append(rec)
-        log('[%d/%d] %s %s (%d TUs, %.0fs) %s' % (n + 1, len(spec['symbols']), symbol, rec['verdict'],
+        log('[%d/%d] %s %s (%d TUs, %.0fs) %s' % (n + 1, len(symbols), symbol, rec['verdict'],
                                                 info.get('tus', 0), time.time() - t1,
                                                 rec.get('reason', '') or 'casts -%d' % rec['casts_removed']))
-    return results, prover, originals
+    return results, done
 
 
 def count_remaining(root, scope, exclude):

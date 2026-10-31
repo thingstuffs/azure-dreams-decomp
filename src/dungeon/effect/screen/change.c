@@ -1062,7 +1062,7 @@ s32 try_trigger_target_record_effect(void *entity_in, s32 flags, void *record_in
         }
         {
             if (record != NULL) {
-                value_ptr = (*(u8 **)&entity->unk_50);
+                value_ptr = entity->unk_50.address;
                 if (value_ptr != NULL) {
                     if ((*value_ptr == 3) && (record->unk_13 >= 0) && (generate_random_value() & 3)) {
                                                 /* Duplicate return node #22. Try simplifying control flow for better match */

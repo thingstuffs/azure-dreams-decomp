@@ -8,18 +8,6 @@
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/monster/beldo.h"
 
-typedef struct S_80170B50_1 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-    u8 pad_2C[0x68];
-    u16 unk_94;
-    u8 pad_96[0x16];
-    s32 unk_AC;
-    u16 unk_B0;
-    u16 unk_B2;
-    u16 unk_B4;
-    s16 unk_B6;
-} S_80170B50_1;
 
 typedef struct S_80170B50_2 {
     void * unk_00;
@@ -66,11 +54,11 @@ void create_attached_sprite_with_offset(void *owner_data, MovingPosition *base_p
     if (object != NULL) {
         object_data = ((void *)object) + 0x20;
         object->update_callback = beldo_object_callback;
-        ((S_80170B50_1 *)object_data)->unk_B6 = offset_id;
-        ((S_80170B50_1 *)object_data)->unk_AC = (s32) (owner_data - 0x20);
-        ((S_80170B50_1 *)object_data)->unk_94 = (u16) ((S_80170B50_2 *)((u8 *)owner_data - 0x14))->unk_3E;
+        ((AttachedSpriteWithOffsetBody *)object_data)->unk_B6 = offset_id;
+        ((AttachedSpriteWithOffsetBody *)object_data)->unk_AC.integer = (s32) (owner_data - 0x20);
+        ((AttachedSpriteWithOffsetBody *)object_data)->unk_94 = (u16) ((S_80170B50_2 *)((u8 *)owner_data - 0x14))->unk_3E;
         copy_src = sprite_template;
-        ((S_80170B50_1 *)object_data)->unk_2A = (u16) ((S_80170B50_2 *)((u8 *)owner_data - 0x14))->unk_3E;
+        ((AttachedSpriteWithOffsetBody *)object_data)->unk_2A = (u16) ((S_80170B50_2 *)((u8 *)owner_data - 0x14))->unk_3E;
         sprite = object->sprite;
         copy_dst = sprite;
         do {
@@ -92,9 +80,9 @@ void create_attached_sprite_with_offset(void *owner_data, MovingPosition *base_p
         position->z.w.i = (u16) base_position->z;
         owner_model = ((S_80170B50_2 *)((u8 *)owner_data - 0x14))->unk_00;
         if (resolve_record_orientation_or_fallback(owner_model->unk_08, owner_model, object_data + 0xB0, saved_offset_id) != 0) {
-            position->x.w.i = (u16) ((u16)position->x.w.i + ((S_80170B50_1 *)object_data)->unk_B0);
-            position->y.w.i = (u16) ((u16)position->y.w.i + ((S_80170B50_1 *)object_data)->unk_B2);
-            position->z.w.i = (u16) ((u16)position->z.w.i + ((S_80170B50_1 *)object_data)->unk_B4);
+            position->x.w.i = (u16) ((u16)position->x.w.i + ((AttachedSpriteWithOffsetBody *)object_data)->unk_B0.u);
+            position->y.w.i = (u16) ((u16)position->y.w.i + ((AttachedSpriteWithOffsetBody *)object_data)->unk_B2.u);
+            position->z.w.i = (u16) ((u16)position->z.w.i + ((AttachedSpriteWithOffsetBody *)object_data)->unk_B4.u);
         }
         sprite->scale_x = (u16) sprite_template->scale_x;
         sprite_height = (u16) sprite_template->scale_y;

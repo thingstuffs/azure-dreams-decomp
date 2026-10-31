@@ -1,11 +1,12 @@
 /* Target-following sprite motion, timed texture changes, and jittered strip rendering. */
 #include "dungeon/effect/motion/target.h"
+#include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "dungeon/effect/motion.h"
 
 
 #include "shared/sprite_frame_state.h"/* Eases a sprite toward its moving target, advances its animation, and removes it after brightening. */
-void move_effect_toward_target(void *motion, Row_818E71DC_S_800249DC_2 *position, SpriteFrameState *visual) {
+void move_effect_toward_target(Rec_func_800249DC_arg0 *motion, Row_818E71DC_S_800249DC_2 *position, SpriteFrameState *visual) {
     s32 current_x;
     s32 current_y;
     s32 current_z;
@@ -13,32 +14,29 @@ void move_effect_toward_target(void *motion, Row_818E71DC_S_800249DC_2 *position
     u16 ticks_left;
     Row_818E71DC_S_800249DC_1 *owner;
 
-    owner = ((Rec_func_800249DC_arg0 *)motion)->unk_00.at00_pv.v;
+    owner = motion->unk_00.at00_pv.v;
     owner->unk_10 =
         (s32)(owner->unk_10 | 0x8000);
 
-    ticks_left = ((Rec_func_800249DC_arg0 *)motion)->unk_48 - 1;
-    ((Rec_func_800249DC_arg0 *)motion)->unk_48 = ticks_left;
+    ticks_left = motion->unk_48 - 1;
+    motion->unk_48 = ticks_left;
     if ((ticks_left << 16) > 0) {
-        ((Rec_func_800249DC_arg0 *)motion)->unk_1C =
-            (s32)(((Rec_func_800249DC_arg0 *)motion)->unk_1C + ((Rec_func_800249DC_arg0 *)motion)->unk_34);
-        ((Rec_func_800249DC_arg0 *)motion)->unk_20 =
-            (s32)(((Rec_func_800249DC_arg0 *)motion)->unk_20 + ((Rec_func_800249DC_arg0 *)motion)->unk_38);
-        ((Rec_func_800249DC_arg0 *)motion)->unk_24 =
-            (s32)(((Rec_func_800249DC_arg0 *)motion)->unk_24 + ((Rec_func_800249DC_arg0 *)motion)->unk_3C);
+        motion->unk_1C = (s32)(motion->unk_1C + motion->unk_34);
+        motion->unk_20 = (s32)(motion->unk_20 + motion->unk_38);
+        motion->unk_24 = (s32)(motion->unk_24 + motion->unk_3C);
     }
 
-    delta = ((Rec_func_800249DC_arg0 *)motion)->unk_1C;
+    delta = motion->unk_1C;
     current_x = position->unk_00;
     delta -= current_x;
     position->unk_00 =
         (s32)(current_x + (delta / 5));
-    delta = ((Rec_func_800249DC_arg0 *)motion)->unk_20;
+    delta = motion->unk_20;
     current_y = position->unk_04;
     delta -= current_y;
     position->unk_04 =
         (s32)(current_y + (delta / 5));
-    delta = ((Rec_func_800249DC_arg0 *)motion)->unk_24;
+    delta = motion->unk_24;
     current_z = position->unk_08;
     delta -= current_z;
     position->unk_08 =
@@ -62,51 +60,51 @@ void move_effect_toward_target(void *motion, Row_818E71DC_S_800249DC_2 *position
 
 /* Grows a timed effect for four updates, cycles texture coordinates, and marks it for removal after 15
    ticks. */
-void advance_effect_state_and_frame(void *effect)
+void advance_effect_state_and_frame(UpdateDirectionalActorEffectBody *effect)
 {
     s32 state;
     u16 timer;
     u16 counter;
     void *object;
 
-    object = *(void **)effect;
+    object = effect->owner;
     S32_AT(object, 0x10) |= 0x8000;
 
-    state = S16_AT(effect, 0x4C);
-    timer = U16_AT(effect, 0x4E) + 1;
-    U16_AT(effect, 0x4E) = timer;
+    state = effect->state.s;
+    timer = effect->timer + 1;
+    effect->timer = timer;
 
     switch (state) {
     case 0:
-        U16_AT(effect, 0x4E) = 0;
-        U16_AT(effect, 0x48) = 0;
-        S16_AT(effect, 0x46) = 0x1F;
-        S16_AT(effect, 0x44) = 0x1F;
-        U16_AT(effect, 0x4C)++;
+        effect->timer = 0;
+        effect->frame = 0;
+        effect->texture_v_step.signed_halfword = 0x1F;
+        effect->texture_u_step.signed_halfword = 0x1F;
+        effect->state.u++;
                         /* fallthrough */
     case 1:
-        counter = U16_AT(effect, 0x48) + 1;
-        U16_AT(effect, 0x48) = counter;
-        S16_AT(effect, 0x4A) = (s16)counter * 0x30;
+        counter = effect->frame + 1;
+        effect->frame = counter;
+        effect->z_offset.s = (s16)counter * 0x30;
 
-        if (S16_AT(effect, 0x48) >= 4) {
-            U16_AT(effect, 0x4C)++;
+        if ((s16)effect->frame >= 4) {
+            effect->state.u++;
         }
         break;
     case 2:
         if ((s16)timer >= 0xF) {
-            U16_AT(effect, -2) |= NODE_REMOVE;
+            ((ObjectNodeHeader *)effect - 1)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }
 
-    S16_AT(effect, 0x40) = ((U16_AT(effect, 0x4E) & 3) << 5) + 0x80;
-    S16_AT(effect, 0x42) = ((s16)U16_AT(effect, 0x4E) >> 2) << 5;
+    effect->texture_u.signed_halfword = ((effect->timer & 3) << 5) + 0x80;
+    effect->texture_v.signed_halfword = ((s16)effect->timer >> 2) << 5;
 }
 
 /* Projects linked effects as four jittered strips of textured quads and queues them by depth. */
-s32 render_linked_jittered_effect_strips(void *node_data) {
+s32 render_linked_jittered_effect_strips(UpdateDirectionalActorEffectBody *node_data) {
     for (;;) {
         Row_818E747C_Point3 world_points[5];
         s16 depths[8];
@@ -120,7 +118,7 @@ s32 render_linked_jittered_effect_strips(void *node_data) {
         Row_818E747C_Point2 *jitter_corner;
         Row_818E747C_Point2 *jitter_point;
         Row_818E747C_Point2 *segment_start;
-        Row_818E747C_S_80024C7C_0 *node;
+        UpdateDirectionalActorEffectBody *node;
         GameWork *global_base;
         s32 corner_index;
         s32 segment_index;
@@ -138,16 +136,16 @@ s32 render_linked_jittered_effect_strips(void *node_data) {
         screen_base = screen_points;
         strip_base = strip_points;
 
-        world_points[4].x = (s16)(node->unk_0C + 0x20);
-        world_points[4].y = (s16)(node->unk_0E + 0x20);
-        world_points[4].z = node->unk_10.s;
+        world_points[4].x = (s16)(node->x.u + 0x20);
+        world_points[4].y = (s16)(node->y.u + 0x20);
+        world_points[4].z = node->z.s;
         for (corner_index = 3; corner_index >= 0; corner_index--) {
-            world_base[corner_index].x = (s16)(node->unk_0C +
+            world_base[corner_index].x = (s16)(node->x.u +
                                     ((corner_index >> 1) << 6));
-            world_base[corner_index].y = (s16)(node->unk_0E +
+            world_base[corner_index].y = (s16)(node->y.u +
                                     ((corner_index % 2) << 6));
-            world_base[corner_index].z = (s16)(node->unk_10.u +
-                                    node->unk_4A);
+        world_base[corner_index].z = (s16)(node->z.u +
+                                    node->z_offset.u);
         }
         func_80065770(world_points, screen_points, depths, scratch, projection_aux, 5);
 
@@ -239,16 +237,16 @@ s32 render_linked_jittered_effect_strips(void *node_data) {
                         primitive->unk_20 =
                             (s16)(primitive->unk_10 + step);
 
-                        tex_coord = node->unk_40;
+                        tex_coord = node->texture_u.byte;
                         primitive->unk_1C = (u8)tex_coord;
                         primitive->unk_0C = (u8)tex_coord;
-                        tex_coord = (s16)(tex_coord + node->unk_44);
+                        tex_coord = (s16)(tex_coord + node->texture_u_step.byte);
                         primitive->unk_24 = (s8)tex_coord;
                         primitive->unk_14 = (s8)tex_coord;
-                        tex_coord = node->unk_42;
+                        tex_coord = node->texture_v.byte;
                         primitive->unk_15 = (u8)tex_coord;
                         primitive->unk_0D = (u8)tex_coord;
-                        tex_coord = (s16)(tex_coord + node->unk_46);
+                        tex_coord = (s16)(tex_coord + node->texture_v_step.byte);
                         primitive->unk_25 = (s8)tex_coord;
                         primitive->unk_1D = (s8)tex_coord;
 

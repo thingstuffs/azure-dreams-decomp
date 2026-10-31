@@ -991,38 +991,30 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
 
 extern u8 dungeon_palette_row_sources[];
 
-typedef struct S_800B1E80_0 {
-    u16 unk_00;
-    u16 unk_02;
-} S_800B1E80_0;   /* arg0 in advance_cyclic_panel_entry */
-
 /* Advance the cyclic table index every four ticks and apply the selected entry. */
-void advance_cyclic_panel_entry(S_800B1E80_0 *state) {
+void advance_cyclic_panel_entry(EntityPanelObjectBody *state) {
     u16 ticks_left;
     u16 entry_index;
 
-    ticks_left = state->unk_00 - 1;
-    state->unk_00 = ticks_left;
+    ticks_left = state->ticks_remaining - 1;
+    state->ticks_remaining = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        state->unk_00 = 4U;
-        entry_index = state->unk_02 + 8;
-        state->unk_02 = entry_index;
+        state->ticks_remaining = 4U;
+        entry_index = state->palette_row_offset + 8;
+        state->palette_row_offset = entry_index;
         if ((s16) entry_index >= 0x60) {
-            state->unk_02 = 0U;
+            state->palette_row_offset = 0U;
         }
-        upload_vram_row_and_cache(((s16) state->unk_02 * 4) + dungeon_palette_row_sources, 0x7340, 1, 2);
+        upload_vram_row_and_cache(((s16) state->palette_row_offset * 4) + dungeon_palette_row_sources, 0x7340, 1, 2);
     }
 }
 #include "shared/object_node.h"
 #include "common.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-struct S_800B1E80_0;
-extern void advance_cyclic_panel_entry(struct S_800B1E80_0 *state);
-
 typedef struct S_800B1F00_0 {
     u8 pad_00[0x10];
-    void (*unk_10)(S_800B1E80_0 *);
+    void (*unk_10)(EntityPanelObjectBody *);
 } S_800B1F00_0;
 
 /* Create an object and assign advance_cyclic_panel_entry to its data pointer. */

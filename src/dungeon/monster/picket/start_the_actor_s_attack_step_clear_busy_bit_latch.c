@@ -13,14 +13,6 @@ typedef struct {
 } __attribute__((packed)) Packed4;
 
 /* owner in start_the_actor_s_attack_step_clear_hex_71_busy_bit_latch */
-typedef struct S_80174234_0 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0xA];
-    s8 unk_9A;
-    s8 unk_9B;
-} S_80174234_0;
-
 /* part in start_the_actor_s_attack_step_clear_hex_71_busy_bit_latch */
 typedef struct S_80174234_1 {
     u8 pad_00[0x2C];
@@ -72,7 +64,7 @@ extern u8 D_801708BC[];
 extern u8 picket_frame_set_8[];
 
 /* Start the actor's attack step: clear its 0x71 busy bit, latch the 0x400 link flag with a random facing nudge, run the animation chain for the sprite record it owns, then arm owner state 0x17 and point the part at the direction table. */
-void start_the_actor_s_attack_step_clear_hex_71_busy_bit_latch(S_80174234_0 *owner, ObjectPosition *unused, S_80174234_1 *part, S_80174234_2 *actor) {
+void start_the_actor_s_attack_step_clear_hex_71_busy_bit_latch(ActorRecord *owner, ObjectPosition *unused, S_80174234_1 *part, S_80174234_2 *actor) {
     void *session;
     void *anim;
     s32 link_flags;
@@ -104,9 +96,9 @@ void start_the_actor_s_attack_step_clear_hex_71_busy_bit_latch(S_80174234_0 *own
         }
         clear_byte_and_advance(anim);
         display_text_with_fullwidth_adjustment(session);
-        owner->unk_9A = 0x17;
-        owner->unk_8C = 0;
-        owner->unk_9B = 0;
+        owner->action_id.s = 0x17;
+        owner->unk_8C.word = 0;
+        owner->action_phase.s = 0;
         part->unk_2C = picket_frame_set_8;   /* the struct-member form `part->unk_2C = ...` is NOT byte-exact here: reorder-only 4 (same-multiset, one addiu+sw pair drifts) */
         select_sprite_entry(part, picket_frame_set_8[((g_game_work.view.camera_rotation.parts.viewAngle + (s16) actor->unk_2A + 0x100) >> 9) & 7], 0);
         actor->unk_6D = (u8) (actor->unk_6D - 1);

@@ -1,5 +1,6 @@
 #include "shared/gpu_packets.h"
 #include "common.h"
+#include "dungeon/menu.h"
 #include "shared/game_work.h"
 #include "records/Rec_D_80083160.h"
 #include "slus.h"
@@ -129,13 +130,6 @@ typedef struct S_8009E798_6 {
     u16 unk_24;
 } S_8009E798_6;   /* packet in build_transformed_sprite_quads */
 
-typedef struct S_8009E798_7 {
-    u8 pad_00[0x4];
-    u16 unk_04;
-    u16 unk_06;
-    u16 unk_08;
-    u16 unk_0A;
-} S_8009E798_7;
 
    /* ret_state in build_transformed_sprite_quads */
 
@@ -155,7 +149,7 @@ extern void SetDrawMode(void *, s32, s32, s32, s32);
 extern u8 upper_draw_context[16];
 
 /* Build and enqueue transformed sprite quads and restore the drawing area. */
-s32 build_transformed_sprite_quads(void *draw_area, void *placement, void *sprite)
+s32 build_transformed_sprite_quads(InactiveTypeTwelveObjectBody *draw_area, void *placement, void *sprite)
 {
     u8 **state_ptr = (u8 **)((u8 *)(&g_game_work));
     u8 *state = *state_ptr;
@@ -291,10 +285,10 @@ s32 build_transformed_sprite_quads(void *draw_area, void *placement, void *sprit
     AddPrim(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)placement)->unk_0A * 4,
                   prim);
 
-    rect[0] = ((S_8009E798_7 *)draw_area)->unk_04;
-    rect[1] = ((S_8009E798_7 *)draw_area)->unk_06;
-    rect[2] = ((S_8009E798_7 *)draw_area)->unk_08;
-    rect[3] = ((S_8009E798_7 *)draw_area)->unk_0A;
+    rect[0] = draw_area->unk_04.halves.low.u;
+    rect[1] = draw_area->unk_04.halves.high.u;
+    rect[2] = draw_area->unk_08.halves.low.u;
+    rect[3] = draw_area->unk_08.halves.high.u;
     prim = packet + 0x4C;
     if (lower_buffer) {
         rect[1] += 0xE0;

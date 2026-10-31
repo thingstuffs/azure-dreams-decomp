@@ -9,7 +9,7 @@ extern u8 scene_selector_one_mode_three_data[9];
 extern u8 scene_selector_one_default_data[9];
 
 /* Returns data selected by kind and the current global index. */
-void *select_data_by_kind_and_index(s32 unused_0, s32 unused_1, s32 data_kind) {
+void *select_data_by_kind_and_index(void *unused_0, s32 unused_1, s32 data_kind) {
     void *data = 0;
 
     if (data_kind == 8) {

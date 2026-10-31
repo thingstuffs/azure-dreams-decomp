@@ -7,13 +7,14 @@
 void initialize_scene_action_record(Rec_func_80094268_arg0 *record, void *unused, void *handler_context);
 
 void init_threshold_countdown_action(Rec_func_80094268_arg0 *record, void *unused, void *handler_context);
-void init_movement_action(Rec_func_80094268_arg0 *record, s32 unused, s32 setup_value);
+void init_movement_action(Rec_func_80094268_arg0 *record, void *unused, s32 setup_value);
 void init_sound_threshold_action(s32 **record, s32 unused, s32 setup_value);
 void set_item_selection_data_pointer(void *object, void *unused_position, void *unused_context);
 void select_next_item_state(void *object, void *position, void *context);
 void init_timed_dispatch_action(Rec_func_80094268_arg0 *record, void *unused, void *handler_context);
 void init_actor_action_state(Rec_func_80094268_arg0 *record, void *unused, void *handler_context);
-void init_record_target_approach(Rec_func_80094268_arg0 *record, s32 setup_value, s32 init_context);
+struct SpriteFrameState;
+void init_record_target_approach(Rec_func_80094268_arg0 *record, s32 setup_value, struct SpriteFrameState *init_context);
 void init_linked_position_action(Rec_func_80094268_arg0 *record, s32 unused, s32 setup_value);
 void init_ground_input_fallback(s32 **record, void *unused, void *handler_context);
 void init_button_transition_action(s32 **record, void *unused, void *handler_context);

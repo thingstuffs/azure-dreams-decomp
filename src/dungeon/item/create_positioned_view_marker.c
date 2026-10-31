@@ -1685,17 +1685,10 @@ typedef struct S_807B08F0_0 {
     u16 unk_20;
 } S_807B08F0_0;
 
-typedef struct S_807B08F0_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    s16 unk_04;
-    s16 unk_06;
-    s16 unk_08;
-} S_807B08F0_1;
 
 /* Allocate and initialize an object at the center of the specified tile. */
 void create_terrain_particle_emitter(s16 tile_x, s16 tile_y, s16 initial_value) {
-    S_807B08F0_1 *state;
+    TerrainParticleEmitterBody *state;
     ObjectNodeHeader *object;
 
     object = allocate_flagged_object_node(2);
@@ -1704,10 +1697,10 @@ void create_terrain_particle_emitter(s16 tile_x, s16 tile_y, s16 initial_value) 
         register_node(object, (void *)render_particle_effect_object);
         state = ((void *)object) + 0x20;
         ((S_807B08F0_0 *)object)->unk_20 = (u16) (tile_x * 0x40 + 0x20);
-        state->unk_02 = (u16) (tile_y * 0x40 + 0x20);
-        state->unk_04 = (s16)sample_terrain_surface_height(((S_807B08F0_0 *)object)->unk_20, state->unk_02, -0x400);
-        state->unk_06 = initial_value;
-        state->unk_08 = 0;
+        state->origin_y.u = (u16) (tile_y * 0x40 + 0x20);
+        state->height.s = (s16)sample_terrain_surface_height(((S_807B08F0_0 *)object)->unk_20, state->origin_y.u, -0x400);
+        state->unk_06.s = initial_value;
+        state->tick_count.u16 = 0;
     }
 }
 #include "modules/dungeon_ovl_7ce800.h"
@@ -1725,21 +1718,13 @@ s32 rand(void);
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry D_800DEED0;
 
-typedef struct S_807B09A0_0 {
-    u16 unk_00;
-    u16 unk_02;
-    u16 unk_04;
-    u8 pad_06[0x2];
-    u16 unk_08;
-} S_807B09A0_0;   /* arg0 in func_800F81A0 */
-
 typedef struct S_807B09A0_3 {
     u8 pad_00[0x4];
     s32 unk_04;
 } S_807B09A0_3;   /* &D_800DEED0 in func_800F81A0 */
 
 /* Spawn a particle near the emitter with randomized motion every other update. */
-void emit_scattered_animated_particles(S_807B09A0_0 *emitter) {
+void emit_scattered_animated_particles(TerrainParticleEmitterBody *emitter) {
     s32 spawn_x;
     s32 spawn_y;
     s32 sprite_config;
@@ -1747,19 +1732,19 @@ void emit_scattered_animated_particles(S_807B09A0_0 *emitter) {
     SpriteFrameState *sprite;
     ObjectNodeHeader *particle;
 
-    tick_count = emitter->unk_08 + 1;
-    emitter->unk_08 = tick_count;
+    tick_count = emitter->tick_count.u16 + 1;
+    emitter->tick_count.u16 = tick_count;
     if (tick_count & 1) {
         particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
         if (particle != NULL) {
             particle->update_callback = (void *)move_sprite_until_animation_finishes;
             register_node(particle, project_sprite_chain);
             sprite = particle->sprite;
-            spawn_x = (emitter->unk_00 + (rand() % 48)) - 0x18;
+            spawn_x = (emitter->origin_x.u + (rand() % 48)) - 0x18;
             particle->position->x.w.i = spawn_x;
-            spawn_y = (emitter->unk_02 + (rand() % 48)) - 0x18;
+            spawn_y = (emitter->origin_y.u + (rand() % 48)) - 0x18;
             particle->position->y.w.i = spawn_y;
-            particle->position->z.w.i = (u16) (emitter->unk_04 - (rand() & 7));
+            particle->position->z.w.i = (u16) (emitter->height.u - (rand() & 7));
             particle->position->velocity_x = (s32) (((rand() & 0xFF) - 0x7F) << 0xA);
             particle->position->velocity_y = (s32) (((rand() & 0xFF) - 0x7F) << 0xA);
             sprite->scale_y = 0xC00;
@@ -1785,18 +1770,7 @@ typedef struct S_807B0B3C_0_pre {
     u8 pad_04[0x4];
 } S_807B0B3C_0_pre;   /* the 0x8 bytes before initial in render_particle_effect_object, addressed as initial[-1] */
 
-typedef struct S_807B0B3C_0 {
-    u8 pad_00[0x6];
-    u16 unk_06;
-} S_807B0B3C_0;   /* initial in render_particle_effect_object */
 
-typedef struct S_807B0B3C_1 {
-    union { u16 u; s16 s; } unk_00;   /* accessed as both */
-    union { s16 s; u16 u; } unk_02;   /* accessed as both */
-    u16 unk_04;
-    s16 unk_06;
-    union { u16 u16; u8 u8; } unk_08;   /* accessed as both */
-} S_807B0B3C_1;   /* effect in render_particle_effect_object */
 
 typedef struct S_807B0B3C_2 {
     u16 unk_00;
@@ -1921,7 +1895,7 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
     u8 *scratch;
     u8 *colors;
     u8 *verts;
-    S_807B0B3C_1 *effect;
+    TerrainParticleEmitterBody *effect;
     s16 saved_a1 = caller_a1;
     void *saved_a2 = caller_a2;
     StackLocals stack;
@@ -1958,8 +1932,8 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
     verts = (u8 *)((u32)verts | 0x80);
     do {
         global_slot = (u8 **)(D_80083150 + 0x10);
-        effect = (S_807B0B3C_1 *)object;
-        if ((((S_807B0B3C_0 *)object)->unk_06 >> 10) & 1) {
+        effect = (TerrainParticleEmitterBody *)object;
+        if ((((TerrainParticleEmitterBody *)object)->unk_06.u >> 10) & 1) {
             u8 *vertex_pair;
             S_807B0B3C_3 *vertex_ptr;
             s32 coord_half;
@@ -1967,12 +1941,12 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
             for (vertex_index = 0; vertex_index < 2; vertex_index++) {
                 vertex_pair = scratch + vertex_index * 0x10;
                 bucket_ptr_m = (u8 *)(vertex_index * 2);
-                coord_half = effect->unk_00.u;
+                coord_half = effect->origin_x.u;
                 stack.projection_flag = (s32)bucket_ptr_m;
                 ((S_807B0B3C_2 *)vertex_pair)->unk_08 = coord_half;
                 ((S_807B0B3C_2 *)vertex_pair)->unk_00 = coord_half;
                 vertex_ptr = (S_807B0B3C_3 *)(vertex_pair + 8);
-                bucket_ptr_m = (u8 *)(effect->unk_02.s);
+                bucket_ptr_m = (u8 *)(effect->origin_y.s);
                 if (vertex_index < 2) {
                     coord_half = (s32)bucket_ptr_m - 0x20;
                     vertex_ptr->unk_02.v = coord_half;
@@ -1984,10 +1958,10 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
                 coord_half = vertex_ptr->unk_02.v;
                 pair_addr <<= 3;
                 ((S_807B0B3C_2 *)vertex_pair)->unk_02 = coord_half;
-                draw_value = (u32)(effect->unk_04);
+                draw_value = (u32)(effect->height.u);
                 pair_addr += (u32)scratch;
                 ((S_807B0B3C_4 *)((u8 *)pair_addr))->unk_0C = (s32)draw_value;
-                coord_half = effect->unk_08.u16;
+                coord_half = effect->tick_count.u16;
                 frame_remainder = (s16)coord_half;
                 frame_remainder %= 5;
                 draw_value += frame_remainder;
@@ -2003,7 +1977,7 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
             second_pair = (s32)scratch + 0x10;
             pairs_end = (s32)scratch + 0x20;
     build_x_pairs:
-            bucket_ptr_m = (u8 *)(effect->unk_00.s);
+            bucket_ptr_m = (u8 *)(effect->origin_x.s);
             vertex_ptr = (u8 *)pair_addr + 8;
             if (pair_addr < second_pair) {
                 caller_a1 = (s32)bucket_ptr_m - 0x20;
@@ -2014,13 +1988,13 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
             }
             caller_a1 = ((S_807B0B3C_3 *)vertex_ptr)->unk_00.v;
             ((S_807B0B3C_5 *)((u8 *)pair_addr))->unk_00 = caller_a1;
-            caller_a1 = effect->unk_02.u;
+            caller_a1 = effect->origin_y.u;
             bucket_ptr_m = (u8 *)((s32)((u32)8 + (u32)pair_addr));
             ((S_807B0B3C_6 *)((u8 *)(s32)bucket_ptr_m))->unk_02 = caller_a1;
             ((S_807B0B3C_5 *)((u8 *)pair_addr))->unk_02 = caller_a1;
-            draw_value = (u32)(effect->unk_04);
+            draw_value = (u32)(effect->height.u);
             ((S_807B0B3C_6 *)((u8 *)(s32)bucket_ptr_m))->unk_04 = (s32)draw_value;
-            caller_a1 = effect->unk_08.u16;
+            caller_a1 = effect->tick_count.u16;
             frame_remainder = (s16)caller_a1;
             frame_remainder %= 5;
             draw_value += frame_remainder;
@@ -2073,7 +2047,7 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
         ((S_807B0B3C_7 *)prim)->unk_20 = ((S_807B0B3C_8 *)verts)->unk_08;
         ((S_807B0B3C_7 *)prim)->unk_2C = ((S_807B0B3C_8 *)verts)->unk_0C;
 
-        draw_value = effect->unk_08.u16;
+        draw_value = effect->tick_count.u16;
         draw_value &= 7;
         tex_coord = (draw_value & 3) << 5;
         tex_left = tex_coord - 0x80;
@@ -2127,32 +2101,32 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
             for (vertex_index = 3; vertex_index >= 0; vertex_index--) {
                 vertex_ptr = scratch + vertex_index * 8;
                 color_ptr = (S_807B0B3C_11 *)(colors + vertex_index * 4);
-                coord = effect->unk_00.s;
+                coord = effect->origin_x.s;
                 if (vertex_index < 2) {
                     ((S_807B0B3C_3 *)vertex_ptr)->unk_00.n = coord - 0x20;
                 } else {
                     ((S_807B0B3C_3 *)vertex_ptr)->unk_00.n = coord + 0x20;
                 }
-                coord = effect->unk_02.s;
+                coord = effect->origin_y.s;
                 if (vertex_index & 1) {
                     ((S_807B0B3C_3 *)vertex_ptr)->unk_02.n = coord + 0x20;
                 } else {
                     ((S_807B0B3C_3 *)vertex_ptr)->unk_02.n = coord - 0x20;
                 }
-                ((S_807B0B3C_3 *)vertex_ptr)->unk_04 = effect->unk_04;
-                tex_coord = (effect->unk_08.u8 & 3) * 8;
+                ((S_807B0B3C_3 *)vertex_ptr)->unk_04 = effect->height.u;
+                tex_coord = (effect->tick_count.u8 & 3) * 8;
                 color_ptr->unk_02 = tex_coord;
                 color_ptr->unk_01 = tex_coord;
                 color_ptr->unk_00 = tex_coord;
             }
         }
 
-        coord = effect->unk_06;
+        coord = effect->unk_06.s;
         switch (coord) {
         case 0:
             ((S_807B0B3C_12 *)colors)->unk_08.u = 0x808080;
             ((S_807B0B3C_12 *)colors)->unk_00.u = 0x808080;
-            component = effect->unk_02.u;
+            component = effect->origin_y.u;
             {
                 u8 *vertex_ptr;
 
@@ -2162,7 +2136,7 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
             ((S_807B0B3C_14 *)scratch)->unk_02 = component;
             break;
         case 0x400:
-            component_2 = effect->unk_00.u;
+            component_2 = effect->origin_x.u;
             ((S_807B0B3C_12 *)colors)->unk_0C.u = 0x808080;
             ((S_807B0B3C_12 *)colors)->unk_08.u = 0x808080;
             ((S_807B0B3C_14 *)scratch)->unk_18 = component_2;
@@ -2171,7 +2145,7 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
         case 0x800:
             ((S_807B0B3C_12 *)colors)->unk_0C.u = 0x808080;
             ((S_807B0B3C_12 *)colors)->unk_04.u = 0x808080;
-            component_3 = effect->unk_02.u;
+            component_3 = effect->origin_y.u;
             {
                 u8 *vertex_ptr;
 
@@ -2181,7 +2155,7 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
             ((S_807B0B3C_14 *)scratch)->unk_0A = component_3;
             break;
         case 0xC00:
-            component_4 = effect->unk_00.u;
+            component_4 = effect->origin_x.u;
             ((S_807B0B3C_12 *)colors)->unk_04.u = 0x808080;
             ((S_807B0B3C_12 *)colors)->unk_00.u = 0x808080;
             ((S_807B0B3C_14 *)scratch)->unk_08 = component_4;

@@ -73,7 +73,7 @@ extern void set_display_entry_text_and_position(struct S_800B5264_0 *entry, s32 
 
 /* Functions defined in this translation unit. */
 void complete_display_transfer(void *texture_state);
-void initialize_three_display_entries(s32 source_value, Func800B8500Entry **entries, s32 entry_value);
+void initialize_three_display_entries(s32 source_value, Func800B8500Entry **entries, void *entry_value);
 s32 get_mode_specific_value(void *entry);
 void draw_formatted_monster_status_text(void *entry, void *display);
 s32 normalize_monster_status_species_code(s32 value);

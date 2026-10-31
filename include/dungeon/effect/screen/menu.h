@@ -48,7 +48,16 @@ typedef struct SpritePartQuad {
     } vertex[4];
 } SpritePartQuad;
 
+/* Wrapped VRAM scroll state stored after the object-node header. */
+typedef struct WrappedTextureScrollBody {
+    u8 pad_00[2];
+    u16 scroll_offset;
+    u8 pad_04[8];
+    u16 scroll_step;
+} WrappedTextureScrollBody;
+
 void update_familiar_selection_marker(FamiliarMarkerWork *state, ObjectPosition *position_arg, SpriteFrameState *marker_arg);
+void update_wrapped_texture_scroll(WrappedTextureScrollBody *scroll_state);
 
 void *allocate_flagged_object_node(int flags);
 #endif

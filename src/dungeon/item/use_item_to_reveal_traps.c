@@ -22,14 +22,14 @@ extern void place_actor_item(void *object_context, struct DungeonItemEntry *targ
 extern void display_actor_item_status_message(void *, struct DungeonItemEntry *, s16);
 
 /* Handles item use on a target and consumes the item when the action completes. */
-s32 use_item_to_reveal_traps(EntityRec *target, DungeonItemEntry *item, s16 use_type, s32 use_context)
+s32 use_item_to_reveal_traps(ActorRecord *target, DungeonItemEntry *item, s16 use_type, s32 use_context)
 {
     if (use_type == 13) {
         return process_record_and_update_linked_state(item, use_context);
     }
 
-    if (target == ((u8 *)dungeon_actor_ring_anchor)) {
-        target->unk_110 = item;
+    if (target == dungeon_actor_ring_anchor) {
+        ((PlayerRecord *)target)->pending_item_action = item;
         begin_mode_selected_item_action(target, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);
         return 0;
     }

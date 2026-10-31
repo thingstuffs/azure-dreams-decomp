@@ -209,7 +209,7 @@ void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *
         break;
     case 2:
         if (((S_80090C10_13 *)selected_item_record_alias.unk_00.as_pv)->unk_01 == ITEM_KIND_SHIELD) {
-            append_packed_action_record(actor, 0x48, get_special_table_data_index((*(void * *)&actor->unk_50)), 0);
+            append_packed_action_record(actor, 0x48, get_special_table_data_index(actor->unk_50.address), 0);
             change_equipped_item_and_notify(actor, NULL);
             selected_item_action_alias = 0;
             break;

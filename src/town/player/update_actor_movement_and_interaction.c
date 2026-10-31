@@ -74,13 +74,13 @@ void update_actor_movement_and_interaction(void *actor, EntityRec *position, s32
     }
     if ((input->pressed_buttons) & 0x80) {
         if ((town_target_record != NULL) && (((Rec_D_800CFCC4 *)town_target_record)->unk_14 == 4)) {
-            run_the_three_update_routines_context((s32)(position));
+            run_the_three_update_routines_context(position);
             init_timed_dispatch_action(actor, position, context);
             town_interaction_pending[0] = 1;
             return;
         }
         clear_entity_record_fields(position);
-        run_the_three_update_routines_context((s32)(position));
+        run_the_three_update_routines_context(position);
         if (run_the_action_sequence_context_unless_flag_hex_a_5_set((s32)(actor - 0x20)) != 0) {
             set_default_scene_data_pointer(actor, position, context);
             town_player_action_callback = &D_80093B00;

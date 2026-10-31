@@ -31,7 +31,7 @@ extern void display_formatted_context_message(void *);
 extern void display_actor_item_status_message(void *, struct DungeonItemEntry *);
 
 /* Apply an event to the target and update the event count on completion. */
-s32 apply_return_magic_item(u8 *entity, DungeonItemEntry *event, s16 target_type, s32 target_record) {
+s32 apply_return_magic_item(ActorRecord *entity, DungeonItemEntry *event, s16 target_type, s32 target_record) {
     u8 *entity_info;
 
     if (target_type == 0xD) {
@@ -44,7 +44,7 @@ s32 apply_return_magic_item(u8 *entity, DungeonItemEntry *event, s16 target_type
     }
     if ((u32)entity <= 0x9FFFFFFF) {
         display_actor_item_status_message(entity, event);
-        if (feed_actor_restore_mp(entity, entity_action_selectors[entity[0x13]] & 3, event) == 0) {
+        if (feed_actor_restore_mp(entity, entity_action_selectors[entity->species] & 3, event) == 0) {
             place_actor_item(entity, event);
             return 1;
         }
@@ -56,9 +56,9 @@ s32 apply_return_magic_item(u8 *entity, DungeonItemEntry *event, s16 target_type
             clear_slot_and_update_linked_state(event);
             return 1;
         }
-        entity_info = *(u8 **)(entity - 0x14);
+        entity_info = *(u8 **)(((u8 *)entity) - 0x14);
         if (create_five_point_effect(entity_info[0x24], entity_info[0x25],
-                          *(s16 *)(entity + 0x88), D_800DF45C,
+                          entity->ground_height, D_800DF45C,
                           0x2800, 0x208020, begin_return_magic_for_player_and_familiars) == 0) {
             return 0;
         }

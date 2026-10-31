@@ -25,23 +25,12 @@ typedef struct S_800B653C_1 {
 
 typedef struct {
     u8 pad0[8];
-    s32 unk8;
-    u8 padC[2];
-    s16 unkE;
-    u8 pad10[4];
-    s16 unk14;
-    s16 unk16;
-    s16 unk18;
-    u8 pad1A[6];
-} SubObject;
-
-typedef struct {
-    u8 pad0[8];
     void *unk8;
     void *unkC;
     void *unk10;
     u8 pad14[12];
-    SubObject sub20;
+    OppositeOffsetEffectBody sub20;
+    u8 pad_3C[4];
 } Object;
 
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
@@ -56,7 +45,7 @@ void spawn_opposite_offset_effect(void *source_data, u32 direction_bits) {
     u32 direction;
     SpriteFrameState *sprite;
     ObjectPosition *motion;
-    SubObject *effect_params;
+    OppositeOffsetEffectBody *effect_params;
     Object *effect;
 
     source = source_data;
@@ -90,10 +79,10 @@ void spawn_opposite_offset_effect(void *source_data, u32 direction_bits) {
         sprite->scale_x = 0x1000;
         sprite->tpage_abr = 0x60;
         sprite->flags |= 0xC;
-        effect_params->unk18 = 0x10;
-        effect_params->unk16 = 0x10;
-        effect_params->unk14 = 0x10;
-        effect_params->unkE = (rand() & 3) | 4;
-        effect_params->unk8 = 0x800;
+        effect_params->blue.initial_value = 0x10;
+        effect_params->green.initial_value = 0x10;
+        effect_params->red.initial_value = 0x10;
+        effect_params->lifetime.radial_lifetime = (rand() & 3) | 4;
+        effect_params->acceleration_z = 0x800;
     }
 }

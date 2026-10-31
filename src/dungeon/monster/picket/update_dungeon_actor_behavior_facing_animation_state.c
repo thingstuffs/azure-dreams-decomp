@@ -29,7 +29,7 @@ extern s32 func_80172088(ActorRecord *action_state, ObjectPosition *motion_param
 extern void func_8017224C(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
 extern s32 advance_actor_states(void *, void *, void *, s32);
 extern void func_80174060(void *, void *, void *, void *);
-extern void start_the_actor_s_attack_step_clear_hex_71_busy_bit_latch(void *, ObjectPosition *, void *, void *);
+extern void start_the_actor_s_attack_step_clear_hex_71_busy_bit_latch(ActorRecord *, ObjectPosition *, void *, void *);
 extern void clear_the_state_flag_allowed_resets_entity_selects_directional(ActorRecord *, ObjectPosition *, void *, void *);
 
 

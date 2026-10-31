@@ -6,7 +6,7 @@ extern void update_actor_status_and_mp(void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
 
 /* Processes active status, counts completed transitions, and dispatches follow-up work. */
-void advance_actor_status_turn(s32 actor, s32 action_context, s32 sprite, u8 *state) {
+void advance_actor_status_turn(ActorRecord *actor, ObjectPosition *action_context, SpriteFrameState *sprite, u8 *state) {
     s16 previous_status;
 
     if ((s8)state[0x6D] > 0) {

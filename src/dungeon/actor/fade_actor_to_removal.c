@@ -4,6 +4,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+#include "shared/object_node.h"
 
 typedef struct S_800D1A80_0 {
     u8 pad_00[0x96];
@@ -28,15 +29,6 @@ typedef struct S_800D1A80_1 {
     u8 unk_25;
 } S_800D1A80_1;   /* arg2 in fade_actor_to_removal */
 
-typedef struct S_800D1A80_2_pre {
-    u16 unk_00;
-} S_800D1A80_2_pre;   /* the 0x2 bytes before arg3 in fade_actor_to_removal, addressed as arg3[-1] */
-
-
-typedef struct S_800D1A80_3 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-} S_800D1A80_3;
 
 void unlink_entity_node(void *node);
 void update_map_cell_flags_with_item_limit(u8 x, u8 y, s32 flag_mask);
@@ -102,7 +94,7 @@ s32 fade_actor_to_removal(S_800D1A80_0 *state, void *unused, S_800D1A80_1 *visua
             update_map_cell_flags_with_item_limit(tile_x, tile_y, tile_flags);
         }
         unlink_entity_node(entity);
-        ((S_800D1A80_2_pre *)entity)[-1].unk_00 = (u16) (((S_800D1A80_2_pre *)entity)[-1].unk_00 | 0x8000);
+        ((ObjectNodeHeader *)entity - 1)->flags = (u16) (((ObjectNodeHeader *)entity - 1)->flags | 0x8000);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         return 1;
     }

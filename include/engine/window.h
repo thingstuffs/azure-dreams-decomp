@@ -69,7 +69,7 @@ void create_blinking_cursor_object(void *node_addr, Rec_D_80081FDC *record, s32 
 void create_cursor_object(void *task_buffer, Rec_D_80081FDC *record, s32 *source, s16 state_value, void *setup_arg);
 
 /* create_default_window_object.c */
-void create_default_window_object(s32 value);
+void create_default_window_object(void *value);
 void func_80034F58(s32 value);
 
 /* create_runtime_task.c */

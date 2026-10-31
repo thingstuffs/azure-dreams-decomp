@@ -19,8 +19,8 @@ s32 lookup_level_experience_threshold();                 /* extern */
 void create_colored_effect_with_sound(void *source, s32 color, unsigned short sound_id);    /* extern */
 
 /* Handles item use for an entity, updating its state and consuming the item. */
-s32 use_level_gain_item(void *entity, DungeonItemEntry *item, s16 action_id) {
-    if (entity == ((u8 *)dungeon_actor_ring_anchor)) {
+s32 use_level_gain_item(ActorRecord *entity, DungeonItemEntry *item, s16 action_id) {
+    if (entity == dungeon_actor_ring_anchor) {
         ((PlayerRecord *)entity)->pending_item_action = item;
         begin_deferred_item_action(entity, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), entity);
         return 0;
@@ -33,12 +33,12 @@ s32 use_level_gain_item(void *entity, DungeonItemEntry *item, s16 action_id) {
         }
     }
     if ((u8) (*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 1)) < 0x63U) {
-        ((EntityRec *)entity)->unk_18 = lookup_level_experience_threshold(entity, 0);
-        ((EntityRec *)entity)->unk_42 = 0;
-        ((EntityRec *)entity)->unk_41 = 0;
+        entity->experience = lookup_level_experience_threshold(entity, 0);
+        entity->pending_experience_low = 0;
+        entity->pending_experience_high = 0;
         dungeon_floor_flags |= 0x100000;
     }
-    create_colored_effect_with_sound(entity - 0x20, 0x20F0F0, 0x616);
+    create_colored_effect_with_sound(((ObjectNodeHeader *)entity - 1), 0x20F0F0, 0x616);
     clear_slot_and_update_linked_state(item);
     g_dungeon_status.activity_counts.parts.pending_action_count--;
     return 1;

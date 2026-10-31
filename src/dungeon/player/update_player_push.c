@@ -11,19 +11,6 @@
 #include "dungeon/level.h"
 #include "dungeon/player/motion.h"
 
-typedef struct S_80092018_0 {
-    u8 pad_00[0x8C];
-    void (*unk_8C)(void *, void *, void *, void *);
-    u8 pad_90[0x6];
-    union { u16 s; s16 u; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 unk_9B;
-    u8 pad_9C[0x2];
-    s16 unk_9E;
-    u8 pad_A0[0x84];
-    void * unk_124;
-} S_80092018_0;   /* arg0 in update_player_push */
-
 typedef struct S_80092018_3 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -52,7 +39,7 @@ extern u8 D_800DD020[];
 extern u8 player_push_loop_frames[];
 
 /* Updates actor movement and animation through the action states. */
-void update_player_push(void *actor, void *motion, SpriteFrameState *sprite, void *model) {
+void update_player_push(ActorRecord *actor, void *motion, SpriteFrameState *sprite, ActorRecord *model) {
     s16 settle_frames;
     s16 move_frames_left;
     s32 heading_or_coord;
@@ -63,55 +50,55 @@ void update_player_push(void *actor, void *motion, SpriteFrameState *sprite, voi
     ActorRecord *attachment;
     s32 *move_state;
 
-    action_state = ((S_80092018_0 *)actor)->unk_9B;
+    action_state = actor->action_phase.u;
     switch (action_state) {
     case 0:
         if (sprite->flags & 0xE000) {
             if (*(u8 * *)&sprite->frameTable != player_push_loop_frames) {
                 sprite->frameTable = player_push_loop_frames;
-                set_sprite_animation_frame(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)model)->facing + 0x100)
+                set_sprite_animation_frame(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + model->facing + 0x100)
                     >> 9) & 7) + player_push_loop_frames), 0, 1);
                 return;
             }
         } else {
-            heading_or_coord = resolve_player_input_facing(((S_80092018_0 *)actor)->unk_9E, actor + 0xA2, model + 0x2A) << 0x10;
+            heading_or_coord = resolve_player_input_facing(actor->unk_9E.s, ((void *)actor) + 0xA2, ((void *)model) + 0x2A) << 0x10;
             if ((heading_or_coord >> 0x10) == 0xFFF) {
                 return;
             }
-            if ((((u16) ((ActorRecord *)model)->facing >> 9) & 7) == ((heading_or_coord >> 0x19) & 7)) {
+            if ((((u16) model->facing >> 9) & 7) == ((heading_or_coord >> 0x19) & 7)) {
                 return;
             }
             if ((has_action_input_without_modifier(heading_or_coord) << 0x10) == 0) {
                 return;
             }
         }
-        ((S_80092018_0 *)actor)->unk_8C = handle_player_input;
+        actor->unk_8C.run = handle_player_input;
         return;
     case 16:
         ((S_80092018_3 *)motion)->unk_0C.at02.v = (s16) (*((s16 *)(((u8 *)dir_step_x)
-            + (((u16) ((ActorRecord *)model)->facing >> 8) & 0xE))) * 8);
+            + (((u16) model->facing >> 8) & 0xE))) * 8);
         ((S_80092018_3 *)motion)->unk_10.at02.v = (s16) (*((s16 *)(((u8 *)dir_step_y)
-            + (((u16) ((ActorRecord *)model)->facing >> 8) & 0xE))) * 8);
-        start_frames_left = ((S_80092018_0 *)actor)->unk_96.s - 1;
-        ((S_80092018_0 *)actor)->unk_96.s = start_frames_left;
+            + (((u16) model->facing >> 8) & 0xE))) * 8);
+        start_frames_left = actor->action_timer.u - 1;
+        actor->action_timer.u = start_frames_left;
         if ((start_frames_left << 0x10) > 0) {
             return;
         }
         sprite->frameTable = player_push_frames;
-        set_sprite_animation_frame(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)model)->facing + 0x100) >> 9) & 7)
+        set_sprite_animation_frame(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + model->facing + 0x100) >> 9) & 7)
             + player_push_frames), 0, 1);
-        attachment = ((S_80092018_0 *)actor)->unk_124;
+        attachment = ((PlayerRecord *)actor)->unk_124;
         attachment->flags1C = (s32) (attachment->flags1C | 0x100);
-        ((ActorRecord *)(((S_80092018_0 *)actor)->unk_124))->movement_facing = (u16) ((ActorRecord *)model)->facing;
-        ((ActorRecord *)(((S_80092018_0 *)actor)->unk_124))->target = model;
-        ((S_80092018_0 *)actor)->unk_9B = (u8) (((S_80092018_0 *)actor)->unk_9B + 1);
+        ((ActorRecord *)(((PlayerRecord *)actor)->unk_124))->movement_facing = (u16) model->facing;
+        ((ActorRecord *)(((PlayerRecord *)actor)->unk_124))->target = model;
+        actor->action_phase.u = (u8) (actor->action_phase.u + 1);
         return;
     case 17:
         if (sprite->flags & 0xE000) {
             sprite->frameTable = D_800DD020;
-            set_sprite_animation_frame(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)model)->facing + 0x100)
+            set_sprite_animation_frame(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + model->facing + 0x100)
                 >> 9) & 7) + D_800DD020), 0, 1);
-            ((S_80092018_0 *)actor)->unk_9B = (u8) (((S_80092018_0 *)actor)->unk_9B + 1);
+            actor->action_phase.u = (u8) (actor->action_phase.u + 1);
         }
     case 18:
         move_state = &g_dungeon_status.turn_scale;
@@ -121,7 +108,7 @@ void update_player_push(void *actor, void *motion, SpriteFrameState *sprite, voi
                 s32 delta;
                 s32 direction_offset;
                 delta = sprite->tile_x << 6;
-                direction_offset = *((s16 *)(((u8 *)dir_step_x) + (((u16) ((ActorRecord *)model)->facing
+                direction_offset = *((s16 *)(((u8 *)dir_step_x) + (((u16) model->facing
                     >> 8) & 0xE))) * 0x10;
                 direction_offset += 0x20;
                 delta += direction_offset;
@@ -134,7 +121,7 @@ void update_player_push(void *actor, void *motion, SpriteFrameState *sprite, voi
                 s32 delta;
                 s32 direction_offset;
                 delta = sprite->tile_y << 6;
-                direction_offset = *((s16 *)(((u8 *)dir_step_y) + (((u16) ((ActorRecord *)model)->facing
+                direction_offset = *((s16 *)(((u8 *)dir_step_y) + (((u16) model->facing
                     >> 8) & 0xE))) * 0x10;
                 direction_offset += 0x20;
                 delta += direction_offset;
@@ -144,7 +131,7 @@ void update_player_push(void *actor, void *motion, SpriteFrameState *sprite, voi
             }
         }
         if (!((u16) ((S_80092018_5 *)move_state)->unk_04 & 3)) {
-            spawn_opposite_offset_effect(motion, ((ActorRecord *)model)->facing);
+            spawn_opposite_offset_effect(motion, model->facing);
         }
         move_frames_left = (u16) ((S_80092018_5 *)move_state)->unk_04 - 1;
         ((S_80092018_5 *)move_state)->unk_04 = move_frames_left;
@@ -156,13 +143,13 @@ void update_player_push(void *actor, void *motion, SpriteFrameState *sprite, voi
         ((S_80092018_3 *)motion)->unk_10.at00.v = 0;
         ((S_80092018_3 *)motion)->unk_0C.at00.v = 0;
         sprite->frameTable = player_push_loop_frames;
-        set_sprite_animation_frame(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)model)->facing + 0x100) >> 9) & 7)
+        set_sprite_animation_frame(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + model->facing + 0x100) >> 9) & 7)
             + player_push_loop_frames), 0, 1);
-        ((S_80092018_0 *)actor)->unk_96.s = 2U;
-        ((S_80092018_0 *)actor)->unk_9B = 0x13U;
+        actor->action_timer.u = 2U;
+        actor->action_phase.u = 0x13U;
         return;
     case 19:
-        settle_frames = (s16) ((S_80092018_0 *)actor)->unk_96.s;
+        settle_frames = (s16) actor->action_timer.u;
         if (settle_frames != 0) {
             {
                 s32 delta;
@@ -181,11 +168,11 @@ void update_player_push(void *actor, void *motion, SpriteFrameState *sprite, voi
                 delta = sprite->tile_y << 6;
                 delta -= origin;
                 ((S_80092018_3 *)motion)->unk_10.at00.v = (s32) ((delta
-                    << 0x10) / (s16) ((S_80092018_0 *)actor)->unk_96.s);
+                    << 0x10) / (s16) actor->action_timer.u);
             }
-            if (((S_80092018_0 *)actor)->unk_96.u != 0) {
-                settle_frames_left = ((S_80092018_0 *)actor)->unk_96.s - 1;
-                ((S_80092018_0 *)actor)->unk_96.s = settle_frames_left;
+            if (actor->action_timer.s != 0) {
+                settle_frames_left = actor->action_timer.u - 1;
+                actor->action_timer.u = settle_frames_left;
                 if ((settle_frames_left << 0x10) == 0) {
                     ((S_80092018_3 *)motion)->unk_10.at00.v = 0;
                     ((S_80092018_3 *)motion)->unk_0C.at00.v = 0;
@@ -197,7 +184,7 @@ void update_player_push(void *actor, void *motion, SpriteFrameState *sprite, voi
             if (!(anim_flags & 0x6000)) {
                 return;
             }
-            if (((S_80092018_0 *)actor)->unk_96.u != 0) {
+            if (actor->action_timer.s != 0) {
                 return;
             }
         }
@@ -205,8 +192,8 @@ void update_player_push(void *actor, void *motion, SpriteFrameState *sprite, voi
         ((S_80092018_3 *)motion)->unk_10.at00.v = 0;
         ((S_80092018_3 *)motion)->unk_0C.at00.v = 0;
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
-        process_unflagged_linked_entries_alt(((ActorRecord *)model)->next_actor_header);
-        process_unflagged_linked_entries(((ActorRecord *)model)->next_actor_header);
+        process_unflagged_linked_entries_alt(model->next_actor_header);
+        process_unflagged_linked_entries(model->next_actor_header);
         {
             DungeonGlobalStatus *action_status = &g_dungeon_status;
             u16 action_flags;
@@ -214,7 +201,7 @@ void update_player_push(void *actor, void *motion, SpriteFrameState *sprite, voi
             action_flags = (u16) (action_flags | 0x812);
             action_status->flags = action_flags;
         }
-        ((S_80092018_0 *)actor)->unk_8C = handle_player_input;
+        actor->unk_8C.run = handle_player_input;
         return;
     default:
         return;

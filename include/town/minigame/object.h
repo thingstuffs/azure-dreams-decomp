@@ -111,7 +111,7 @@ void create_gym_mesh_object(void *source_words, s32 data_value_08, s32 object_va
 void create_scene_object_with_48_byte_payload(s32 init_value, void *init_data);
 
 /* create_scene_object_with_record_payload.c */
-void create_scene_object_with_record_payload(s32 object_value, void *record);
+void create_scene_object_with_record_payload(void *object_value, void *record);
 
 /* decrement_object_counter.c */
 void decrement_object_counter(void *entry);

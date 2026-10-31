@@ -41,7 +41,7 @@ typedef struct S_8009255C_7 {
 } S_8009255C_7;
 
 /* Turn the actor, spawn the action object and message, and handle completion. */
-void update_player_eating_action(void *controller, s32 action_id, SpriteFrameState *actor, ActorRecord *transform) {
+void update_player_eating_action(ActorRecord *controller, s32 action_id, SpriteFrameState *actor, ActorRecord *transform) {
     void *text_start;
     void *text_cursor;
     s32 state;
@@ -52,7 +52,7 @@ void update_player_eating_action(void *controller, s32 action_id, SpriteFrameSta
     u8 *animation_entry;
     u8 *animation_table;
 
-    state = ((Rec_func_8008ACDC_arg0 *)controller)->unk_9B.as_u8;
+    state = controller->action_phase.u;
     switch (state) {
     case 0:
         if ((((g_game_work.view.camera_rotation.parts.viewAngle +
@@ -69,7 +69,7 @@ void update_player_eating_action(void *controller, s32 action_id, SpriteFrameSta
                 *animation_entry,
                 0,
                 1);
-            ((Rec_func_8008ACDC_arg0 *)controller)->unk_9B.as_u8++;
+            controller->action_phase.u++;
             break;
         }
         transform->facing =
@@ -81,10 +81,10 @@ void update_player_eating_action(void *controller, s32 action_id, SpriteFrameSta
         }
         if (((Rec_func_8008ACDC_arg0 *)controller)->unk_110 == (s32)&held_item_record) {
             ((Rec_func_8008ACDC_arg0 *)controller)->unk_124 = 0;
-            ((Rec_func_8008ACDC_arg0 *)controller)->unk_1C &= 0xFFEFFFFF;
+            controller->flags1C &= 0xFFEFFFFF;
         }
         spawned = create_item_render_object(
-            controller - 0x20, ((Rec_func_8008ACDC_arg0 *)controller)->unk_110, 0, 0, 0);
+            ((ObjectNodeHeader *)controller - 1), ((Rec_func_8008ACDC_arg0 *)controller)->unk_110, 0, 0, 0);
         if (spawned != NULL) {
             spawned->update_callback = &player_item_render_update_address;
             position = spawned->position;
@@ -99,7 +99,7 @@ void update_player_eating_action(void *controller, s32 action_id, SpriteFrameSta
             spawned_state->unk_AA = 2;
             spawned_state->unk_90 = actor;
             spawned_state->unk_8C = action_id;
-            spawned_state->unk_9C = controller + 0x108;
+            spawned_state->unk_9C = ((void *)controller) + 0x108;
             text_cursor = get_unused_text_buffer();
             text_start = text_cursor;
             text_cursor = write_text_byte_and_advance(8, text_cursor);
@@ -115,7 +115,7 @@ void update_player_eating_action(void *controller, s32 action_id, SpriteFrameSta
             play_sound_if_enabled(0x509);
         }
 
-        ((Rec_func_8008ACDC_arg0 *)controller)->unk_9B.as_u8++;
+        controller->action_phase.u++;
         break;
     case 2:
         if ((actor->flags & 0xE000) == 0) {
@@ -125,7 +125,7 @@ void update_player_eating_action(void *controller, s32 action_id, SpriteFrameSta
             begin_deferred_player_item_effect(controller, action_id, actor, transform);
             return;
         }
-        ((Rec_func_8008ACDC_arg0 *)controller)->unk_8C.as_s32 = (s32)handle_player_input;
+        controller->unk_8C.word = (s32)handle_player_input;
         break;
     }
 }

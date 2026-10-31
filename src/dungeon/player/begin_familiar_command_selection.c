@@ -12,10 +12,6 @@
 extern u8 player_carry_frames[8];
 extern u8 player_wait_frames[8];
 
-typedef struct S_8008D024_0 {
-    u8 pad_00[0xAC];
-    void * unk_AC;
-} S_8008D024_0;
 
 /* Selects an eligible linked target and initializes the actor's action and directional display. */
 s32 begin_familiar_command_selection(Rec_func_8008D024_arg0 *actor, void *context, SpriteFrameState *display, s32 target_index, s32 action_mode) {
@@ -23,14 +19,14 @@ s32 begin_familiar_command_selection(Rec_func_8008D024_arg0 *actor, void *contex
     s32 slot_offset;
     ActorRecord *target;
     ActorRecord *actor_heading;
-    S_8008D024_0 *slot_base;
+    ActorRecord *slot_base;
     u8 *direction_frames;
     s16 saved_mode;
 
     slot_offset = (s32)(target_index << 0x10) >> 0xE;
-    slot_base = (S_8008D024_0 *)((s32)slot_offset + (long)actor);
+    slot_base = (ActorRecord *)((s32)slot_offset + (long)actor);
     actor_heading = actor;
-    target = slot_base->unk_AC;
+    target = slot_base->unk_AC.address;
     saved_mode = action_mode;
     if (target != 0) {
         target_flags = target->flags1C;

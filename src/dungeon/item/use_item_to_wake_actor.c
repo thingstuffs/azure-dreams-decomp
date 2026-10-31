@@ -17,16 +17,12 @@ extern void clear_slots_of_type(void *entity, s32 value);
 #include "dungeon/actor.h"
 #include "dungeon/system.h"
 #include "dungeon/player/state.h"
+#include "shared/object_node.h"
 
 extern void display_formatted_context_message(void *ptr);
 
 extern u8 D_800E0E9B[];
 
-
-typedef struct S_800BD72C_0_pre {
-    ObjectPosition *unk_00;
-    u8 pad_04[0x14];
-} S_800BD72C_0_pre;   /* the 0x18 bytes before arg0 in use_item_to_wake_actor, addressed as arg0[-1] */
 
 
 /* Processes an entity event, handling the player separately and completing other events. */
@@ -47,7 +43,7 @@ s32 use_item_to_wake_actor(ActorRecord *entity, DungeonItemEntry *event, s16 eve
         }
     }
 
-    create_timed_paired_particle_emitter(((S_800BD72C_0_pre *)entity)[-1].unk_00, 0xC0C0C0, entity);
+    create_timed_paired_particle_emitter(((ObjectNodeHeader *)entity - 1)->position, 0xC0C0C0, entity);
     if ((entity->flags14 & ACTOR_PARTY_MEMBER) &&
         !(entity->flags1C & ACTOR_ASLEEP)) {
         display_formatted_context_message(D_800E0E9B);

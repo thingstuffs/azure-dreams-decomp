@@ -22,6 +22,7 @@ extern u8 D_800E1303[];
 
 #include "dungeon/player/item.h"
 #include "dungeon/actor.h"
+#include "shared/object_node.h"
 
 extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void clear_slot_and_update_linked_state(DungeonItemEntry *slot);
@@ -34,11 +35,6 @@ extern void place_actor_item(void *object_context, struct DungeonItemEntry *targ
 extern void display_actor_item_status_message(void *, struct DungeonItemEntry *, s16);
 extern void * create_timed_region_flag_expiry(s32 unused0, s32 unused1, s32 unused2, s16 payloadValueA, s16 payloadValueC);
 
-
-typedef struct S_800BF7FC_0_pre {
-    u8 * unk_00;
-    u8 pad_04[0x10];
-} S_800BF7FC_0_pre;   /* the 0x14 bytes before arg0 in apply_room_holy_beam_item, addressed as arg0[-1] */
 
 
 typedef struct S_800BF7FC_1 {
@@ -76,7 +72,7 @@ s32 apply_room_holy_beam_item(ActorRecord *target, DungeonItemEntry *item, s16 a
             return 1;
         }
     } else {
-        record_obj = (S_800BF7FC_1 *)((S_800BF7FC_0_pre *)target)[-1].unk_00;
+        record_obj = (S_800BF7FC_1 *)((ObjectNodeHeader *)target - 1)->sprite;
         record_index = record_obj->unk_26;
         if (record_index >= 0 && !(dungeon_rooms[record_index].flags & ROOM_HOLY_BEAM)) {
             if (create_timed_region_flag_expiry(record_obj->unk_24,

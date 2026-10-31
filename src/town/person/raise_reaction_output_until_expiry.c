@@ -10,7 +10,7 @@ typedef struct {
 } TownObject;
 
 /* Raise output as the timer counts down, then set it to the base value plus 0x800. */
-void raise_reaction_output_until_expiry(TownObject *obj, s32 update_input_1, s32 update_input_2) {
+void raise_reaction_output_until_expiry(TownObject *obj, s32 update_input_1, SpriteFrameState *update_input_2) {
     u16 timer;
     u16 output_value;
 

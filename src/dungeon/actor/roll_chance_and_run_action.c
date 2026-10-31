@@ -1,10 +1,6 @@
 #include "shared/actor_status_ids.h"
 #include "common.h"
 
-typedef struct S_800C8ABC_0 {
-    u8 pad_00[0x3];
-    u8 unk_03;
-} S_800C8ABC_0;   /* held_arg0 in roll_chance_and_run_action */
 
 
 #include "dungeon/actor/status.h"
@@ -25,8 +21,8 @@ s32 roll_chance_and_run_action(void *record, s16 chance, s8 action)
     }
 
     value = generate_random_value() & 0xFFFF;
-    if (((u8)(((S_800C8ABC_0 *)(record))->unk_03)) != 0) {
-        divisor = ((u8)(((S_800C8ABC_0 *)(record))->unk_03));
+    if (((u8)(((ActorRecord *)(record))->unk_00[3])) != 0) {
+        divisor = ((u8)(((ActorRecord *)(record))->unk_00[3]));
         remainder = value % divisor;
     } else {
         remainder = 0;

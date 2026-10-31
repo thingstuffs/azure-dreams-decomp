@@ -5,6 +5,7 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
+#include "shared/object_node.h"
 
 typedef struct S_800B2FAC_0 {
     u8 pad_00[0x14];
@@ -13,10 +14,6 @@ typedef struct S_800B2FAC_0 {
     u8 unk_24;
     u8 unk_25;
 } S_800B2FAC_0;   /* arg2 in update_flagged_target_tile */
-
-typedef struct S_800B2FAC_1_pre {
-    u16 unk_00;
-} S_800B2FAC_1_pre;   /* the 0x2 bytes before arg3 in update_flagged_target_tile, addressed as arg3[-1] */
 
 struct EntityLinkNode;
 void unlink_entity_node(struct EntityLinkNode *node);
@@ -48,7 +45,7 @@ void update_flagged_target_tile(void *unused_0, void *unused_1, void *source, Ac
         }
         update_map_cell_flags_with_item_limit(tile_x, tile_y, update_mask);
         unlink_entity_node(target_body);
-        (*(u16 *)((u8 *)target + -2)) = (u16) (((S_800B2FAC_1_pre *)target)[-1].unk_00 | NODE_REMOVE);
+        (((ObjectNodeHeader *)target - 1)->flags) = (u16) (((ObjectNodeHeader *)target - 1)->flags | NODE_REMOVE);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }

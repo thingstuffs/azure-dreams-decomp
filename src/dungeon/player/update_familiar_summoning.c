@@ -54,14 +54,6 @@ typedef struct S_80095A10_5_pre {
     u8 pad_08[0x10];
 } S_80095A10_5_pre;   /* 0x18-byte header immediately before the payload. */
 
-typedef struct S_80095A10_5 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    u8 pad_14[0x8];
-    s32 unk_1C;
-    u8 pad_20[0x5];
-    u8 unk_25;
-} S_80095A10_5;
 
 typedef struct S_80095A10_6 {
     u8 pad_00[0x1C];
@@ -170,18 +162,18 @@ void update_familiar_summoning(u8 *actor, ObjectPosition *position, void *animat
             object_position->unk_02 = (u16) position->x.w.i;
             object_position->unk_06 = (u16) position->y.w.i;
             object_position->unk_0A = (s16) (position->z.w.i - 0x10);
-            func_80042640(object, ((S_80095A10_5 *)object)->unk_13);
-            apply_actor_template_and_class(object, ((S_80095A10_5 *)object)->unk_13, resource_info);
-            object_flags = ((S_80095A10_5 *)object)->unk_1C;
+            func_80042640(object, ((ActorRecord *)object)->species);
+            apply_actor_template_and_class(object, ((ActorRecord *)object)->species, resource_info);
+            object_flags = ((ActorRecord *)object)->flags1C;
             object_flags |= 0x02000000;
             object_flags |= 0x20000;
-            ((S_80095A10_5 *)object)->unk_1C = object_flags;
+            ((ActorRecord *)object)->flags1C = object_flags;
             replay_actor_status_slots(object);
             play_sound_if_enabled(0x704);
             clear_slots_of_type(object, STATUS_BLIND);
             clear_slots_of_type(object, STATUS_SLEEP);
-            if (((S_80095A10_5 *)object)->unk_25 == 0) {
-                ((S_80095A10_5 *)object)->unk_25 = 1U;
+            if (((ActorRecord *)object)->mp_value.parts.whole == 0) {
+                ((ActorRecord *)object)->mp_value.parts.whole = 1U;
             }
         }
         previous_state = ((S_80095A10_0 *)actor)->unk_9B;

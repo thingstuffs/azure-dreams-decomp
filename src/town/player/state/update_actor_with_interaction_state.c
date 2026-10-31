@@ -7,6 +7,7 @@
 #include "town/player/coordinates.h"
 #include "town/player.h"
 #include "town/player/position.h"
+#include "shared/sprite_frame_state.h"
 
 
 #ifndef NULL
@@ -25,7 +26,7 @@ typedef struct S_80092698_2 {
 } S_80092698_2;   /* D_800CFCC4[0] in update_actor_with_interaction_state */
 
 /* Update the entity and dispatch its next action from the sampled value, countdown, and global state. */
-void update_actor_with_interaction_state(Rec_func_80094268_arg0 *controller, EntityRec *entity, s32 context) {
+void update_actor_with_interaction_state(Rec_func_80094268_arg0 *controller, EntityRec *entity, SpriteFrameState *context) {
     s16 sampled_value;
     u16 countdown;
     GameWork *state = &g_game_work;

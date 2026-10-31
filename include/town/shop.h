@@ -58,7 +58,7 @@ struct S_800B2D00_0;
 struct S_800B61C0_1;
 struct TownObject;
 void advance_five_step_fixed_point_ramp(void *sub_object);
-void *build_encoded_display_sequence(void *source, u8 *outputBuffer);
+void *build_encoded_display_sequence(s32 source, u8 *outputBuffer);
 void close_twin_shop(struct S_800AE30C_0 *shop);
 void collect_selected_record_values(s32 *output, EntityRec *record);
 s32 count_nonzero_fixed_table_words(void);
@@ -106,7 +106,7 @@ void copy_a_pointer_table_initializes_extra_data_tag_hex_13(s32 entry_index, voi
 void format_and_display_entity_stats(void *stats, void *panels);
 void initialize_storage_cursor(struct StorageOwner *object);
 void initialize_storage_display_links(struct StorageDisplayLinks *state, union StorageDisplayBlock *primary, union StorageVector *secondary);
-void *link_shop_nodes_in_configured_order(s32 node_table);
+void *link_shop_nodes_in_configured_order(void *node_table);
 void populate_display_rows(s32 source_id, void *display);
 s32 select_a_town_entry_writes_root_relative_coordinates_output(s32 entryIndex);
 void set_storage_entry_text(struct StorageEntry *entry, s32 text, s32 style, s16 x, s32 y);

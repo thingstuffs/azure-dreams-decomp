@@ -1036,7 +1036,7 @@ void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position
     s32 shifted_timer;
     R12_80172654_S_80172654_3 *action_actor;
     void *effect;
-    R12_80172654_S_80172654_6 *effect_data;
+    AdvanceActionAndSpawnEffectBody *effect_data;
 
     state = body->action_phase.u;
     dir_offset = (((R12_80172654_S_80172654_1 *)actor)->unk_2A.s >> 8) & 0xE;
@@ -1095,11 +1095,11 @@ void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position
                 register_node(effect, ((u8 *)build_linked_curved_wireframe_grid));
                 ((R12_80172654_S_80172654_5 *)effect)->unk_10 = ((u8 *)dim_effect_after_delay);
                 ((R12_80172654_S_80172654_5 *)effect)->unk_20 = position->x.w.i + effect_offset[0];
-                effect_data = (R12_80172654_S_80172654_6 *)((u8 *)effect + 0x20);
-                effect_data->unk_02 = position->y.w.i + effect_offset[1];
-                effect_data->unk_04 = position->z.w.i + effect_offset[2];
-                effect_data->unk_08 = 0xC0C0C0;
-                effect_data->unk_0E = 8;
+                effect_data = (AdvanceActionAndSpawnEffectBody *)((u8 *)effect + 0x20);
+                effect_data->unk_00.values.unk_02 = position->y.w.i + effect_offset[1];
+                effect_data->unk_00.values.unk_04 = position->z.w.i + effect_offset[2];
+                effect_data->unk_08.s32 = 0xC0C0C0;
+                effect_data->unk_0E.u = 8;
                 effect_data->unk_12 =
                     sample_terrain_surface_height(((sprite->tile_x + dir_x) << 6) & 0xFFC0,
                                   ((sprite->tile_y + dir_y) << 6) & 0xFFC0,(s16)((s16)(position->z.w.i - 0x80))) -
@@ -1841,15 +1841,15 @@ void finish_actor_fade_in_then_select_target(ActorRecord *state, ObjectPosition 
 }
 
 /* Waits for the effect delay, then dims its color until it can be removed. */
-void dim_effect_after_delay(void *effect) {
+void dim_effect_after_delay(AdvanceActionAndSpawnEffectBody *effect) {
     s16 state;
     u16 timer;
 
     state = *(s16 *)((u8 *)effect + 0xC);
     switch (state) {
     case 0:
-        timer = *(u16 *)((u8 *)effect + 0xE) - 1;
-        *(u16 *)((u8 *)effect + 0xE) = timer;
+        timer = effect->unk_0E.u - 1;
+        effect->unk_0E.u = timer;
         if ((timer << 16) > 0) {
             return;
         }
@@ -1857,14 +1857,14 @@ void dim_effect_after_delay(void *effect) {
         return;
 
     case 1:
-        if (*(u8 *)((u8 *)effect + 8) < 0x11) {
+        if (effect->unk_08.u8 < 0x11) {
             ObjectFlagBlock *flags = &object_flag_block;
 
             *(u16 *)((u8 *)effect - 2) |= 0x8000;
             flags->flags |= 0x8000;
             return;
         } else {
-            *(s32 *)((u8 *)effect + 8) += 0xFFEFEFF0;
+            effect->unk_08.s32 += 0xFFEFEFF0;
             return;
         }
     }
@@ -1906,7 +1906,7 @@ s32 build_linked_curved_wireframe_grid(u8 *node, s32 next_node, s32 unused_2)
         (frame.desc).points0 = &(frame.points)[0][0];
         (frame.desc).points1 = &(frame.points)[0][0];
         (frame.desc).zero = 0;
-        (frame.desc).angle = ((R12_80173FDC_S_80173FDC_0 *)node)->unk_10 - 0x400;
+        (frame.desc).angle = ((AdvanceActionAndSpawnEffectBody *)node)->unk_10 - 0x400;
         effect = node;
         /* BYTES: The bytes fix the test's shape (a scratchpad word, then next_node), not its meaning; the arm reconstructs a conditional update of a local nothing reads (decision 45). */
         if (*(s32 *)screen_xy && next_node) {
@@ -1920,7 +1920,7 @@ s32 build_linked_curved_wireframe_grid(u8 *node, s32 next_node, s32 unused_2)
                loop-carried successor field the tail reloads. */
             row = 0;
         }
-        (frame.desc).value = ((s16)ratan2(((R12_80173FDC_S_80173FDC_0 *)node)->unk_12, 0x40));
+        (frame.desc).value = ((s16)ratan2(((AdvanceActionAndSpawnEffectBody *)node)->unk_12, 0x40));
         row = 0;
 grid_row:
         col = 7;
@@ -1930,7 +1930,7 @@ grid_loop:
             s32 angle;
             s32 point_offset;
 
-            next_node = row * ((8 - ((R12_80173FDC_S_80173FDC_1 *)effect)->unk_0E) << 4);
+            next_node = row * ((8 - ((AdvanceActionAndSpawnEffectBody *)effect)->unk_0E.s) << 4);
             point_base = &(frame.points)[0][0];
             point_offset = col << 3;
             point_offset += row << 6;
@@ -1988,8 +1988,8 @@ grid_loop:
 
                         SetDrawMode(tpage, 0, 0,(u16)(((u16)GetTPage(0, 1, 0, 0))), 0);
 
-                        line->color0 = ((R12_80173FDC_S_80173FDC_1 *)effect)->unk_08;
-                        line->color1 = ((R12_80173FDC_S_80173FDC_1 *)effect)->unk_08;
+                        line->color0 = ((AdvanceActionAndSpawnEffectBody *)effect)->unk_08.u32;
+                        line->color1 = ((AdvanceActionAndSpawnEffectBody *)effect)->unk_08.u32;
                         SetLineG2(line);
                         SetSemiTrans(line, 1);
 
@@ -2045,8 +2045,8 @@ grid_loop:
 
                         SetDrawMode(tpage, 0, 0,(u16)(((u16)GetTPage(0, 1, 0, 0))), 0);
 
-                        line->color0 = ((R12_80173FDC_S_80173FDC_1 *)effect)->unk_08;
-                        line->color1 = ((R12_80173FDC_S_80173FDC_1 *)effect)->unk_08;
+                        line->color0 = ((AdvanceActionAndSpawnEffectBody *)effect)->unk_08.u32;
+                        line->color1 = ((AdvanceActionAndSpawnEffectBody *)effect)->unk_08.u32;
                         SetLineG2(line);
                         SetSemiTrans(line, 1);
 

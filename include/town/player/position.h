@@ -10,6 +10,7 @@
 
 struct S_800935BC_0;
 struct TownObject;
+struct SpriteFrameState;
 
 /* add_motion_deltas_to_position.c */
 void add_motion_deltas_to_position(ObjectPosition *motion);
@@ -57,7 +58,7 @@ void refresh_object_position_and_initialize(void *context, void *object, s32 mod
 s16 select_the_smaller_position_query_result_capped_n_64_writes_associated(void *position_data, s32 *out_value);
 
 /* set_player_handler_and_position_value.c */
-void set_player_handler_and_position_value(void *object, s32 value_arg, s32 handler_param);
+void set_player_handler_and_position_value(void *object, s32 value_arg, struct SpriteFrameState *handler_param);
 
 /* store_position_and_compute_delta.c */
 void store_position_and_compute_delta(s32 *newValue);

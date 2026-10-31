@@ -5,7 +5,7 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
-void apply_effect_bonuses(s16 effect_id, s32 unused_arg, ActorRecord *record);
+void apply_effect_bonuses(s16 effect_id, ActorRecord *unused_arg, ActorRecord *record);
 void *create_mode_configured_object(s16 mode, s32 part_b_byte_24, s32 part_b_byte_25, s32 part_a_value, s32 part_b_value);
 void create_record_with_effect_callback(void);
 void *create_actor_value_popup(s32 flags, void *source_data, s16 value, u16 callback_mode);
@@ -19,7 +19,7 @@ void *spawn_randomized_particle_burst(s16 x, s16 y, s16 z, s32 sprite_data, u16 
 
 
 
-void advance_actor_attack_sequence(void *action_state, ObjectPosition *motion, void *animation, ActorRecord *actor);
+void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *motion, void *animation, ActorRecord *actor);
 void advance_effect_fade_and_remove(void *effect, ObjectPosition *motion, SpriteFrameState *primitive);
 
 struct PointRecord;
@@ -36,7 +36,7 @@ void update_oriented_offset_effect_position(void *state, MovingPosition *positio
 
 struct Object;
 struct Other;
-s32 prepare_quarter_damage_return(struct Object *object, struct Other *source);
+s32 prepare_quarter_damage_return(struct Object *object, ActorRecord *source);
 s32 process_linked_mesh_states_mode_0(void *initial_state, s32 value, void *data);
 s32 select_nearby_target_and_initialize_slot(void *tracked_object, void *target_data, s32 target_id, s32 slot_value);
 void setup_object_within_planar_range(void *object, s32 x, s32 y, s32 height, s32 mode, s32 settings);

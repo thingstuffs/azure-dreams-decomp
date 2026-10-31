@@ -5,6 +5,7 @@
 #include "town/shop/position.h"
 #include "town/player/position.h"
 #include "engine/node.h"
+#include "shared/sprite_frame_state.h"
 
 /* Update position and displacement, then dispatch the active entity handler. */
 void update_position_displacement_dispatch_active_entity_handler(Rec_func_8009EE9C_arg0 *entity, s32 entity_id, S_8009EE9C_0 *motion, s32 context) {
@@ -146,7 +147,7 @@ s32 get_target_itemp(void) {
  * matching active event and D_800935BC payload, processes input, allocates callbacks, plays sound
  * 0x513, and synchronizes town state.
  */
-void update_the_target_offset_advance_phase_handle_active_event(void *state, s32 event_id, DelayMotionZ *target, s32 context) {
+void update_the_target_offset_advance_phase_handle_active_event(void *state, s32 event_id, DelayMotionZ *target, SpriteFrameState *context) {
     s32 active_event;
 
     target->unk_08 = (s32) (((Rec_func_80094268_arg0 *)state)->unk_A0

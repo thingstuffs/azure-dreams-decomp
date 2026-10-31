@@ -10,13 +10,6 @@
 #include "dungeon/item/message.h"
 
 
-typedef struct S_801740F4_1 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0xA];
-    s8 unk_9A;
-    s8 unk_9B;
-} S_801740F4_1;   /* work in func_8016E0F4 */
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -41,7 +34,7 @@ void begin_actor_hit_reaction_slot_f(ActorRecord *body, ObjectPosition *position
 
     actor->unk_71 = (u8)(actor->unk_71 & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((has_pending_dungeon_activity(actor) << 0x10) == 0)) {
-        ((S_801740F4_1 *)body)->unk_8C = 0;
+        body->unk_8C.word = 0;
         body->action_id.s = 0x17;
         body->action_phase.s = 0;
         if (actor->flags1C & 0x400) {

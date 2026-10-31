@@ -2,19 +2,12 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/monster/beldo.h"
 
 typedef struct S_81257000_0_pre {
     u16 unk_00;
 } S_81257000_0_pre;   /* the 0x2 bytes before root in copy_part_state, addressed as root[-1] */
 
-typedef struct S_81257000_0 {
-    u8 pad_00[0xAC];
-    void * unk_AC;
-    s16 unk_B0;
-    s16 unk_B2;
-    s16 unk_B4;
-    s16 unk_B6;
-} S_81257000_0;   /* root in copy_part_state */
 
 typedef struct S_81257000_1 {
     u8 pad_00[0x8];
@@ -55,13 +48,10 @@ extern s32 resolve_record_orientation_or_fallback(s32, void *, s16 *, s16);
 extern void advance_sprite_animation_and_textures(void *);
 extern void play_sound_if_enabled(s32);
 
-void copy_part_state(void *root_arg, void *out_pos_arg, void *dst_part_arg)
-;
 /* Copies part state, applies averaged position offsets, and updates phase-based shading. */
-void copy_part_state(void *root_arg, void *out_pos_arg, void *dst_part_arg)
+void copy_part_state(AttachedSpriteWithOffsetBody *root, void *out_pos_arg, void *dst_part_arg)
 {
     s16 pos_offset[3];
-    void *root = root_arg;
     MovingPosition *out_pos = out_pos_arg;
     SpriteFrameState *dst_part= dst_part_arg;
     S_81257000_1 *owner;
@@ -69,7 +59,7 @@ void copy_part_state(void *root_arg, void *out_pos_arg, void *dst_part_arg)
     S_81257000_6 *motion_part;
     s8 phase;
 
-    owner = ((S_81257000_0 *)root)->unk_AC;
+    owner = root->unk_AC.pointer;
     out_pos_arg = owner->unk_0C;
     part_data = owner->unk_08;
 
@@ -83,16 +73,16 @@ void copy_part_state(void *root_arg, void *out_pos_arg, void *dst_part_arg)
 
     motion_part = owner->unk_0C;
     if (resolve_record_orientation_or_fallback(motion_part->unk_08, motion_part, pos_offset,
-                      ((S_81257000_0 *)root)->unk_B6) != 0) {
+                      root->unk_B6) != 0) {
         out_pos->x +=
-            (pos_offset[0] + ((S_81257000_0 *)root)->unk_B0) / 2;
+            (pos_offset[0] + root->unk_B0.s) / 2;
         out_pos->y +=
-            (pos_offset[1] + ((S_81257000_0 *)root)->unk_B2) / 2;
+            (pos_offset[1] + root->unk_B2.s) / 2;
         out_pos->z +=
-            (pos_offset[2] + ((S_81257000_0 *)root)->unk_B4) / 2;
-        ((S_81257000_0 *)root)->unk_B0 = pos_offset[0];
-        ((S_81257000_0 *)root)->unk_B2 = pos_offset[1];
-        ((S_81257000_0 *)root)->unk_B4 = pos_offset[2];
+            (pos_offset[2] + root->unk_B4.s) / 2;
+        root->unk_B0.s = pos_offset[0];
+        root->unk_B2.s = pos_offset[1];
+        root->unk_B4.s = pos_offset[2];
     }
 
     part_data = dst_part->source;
@@ -101,7 +91,7 @@ void copy_part_state(void *root_arg, void *out_pos_arg, void *dst_part_arg)
     dst_part->flags = ((S_81257000_2 *)out_pos_arg)->unk_14;
     part_data->unk_01 &= 0xFE;
 
-    if (((S_81257000_0 *)root)->unk_B6 == 1) {
+    if (root->unk_B6 == 1) {
         phase = ((S_81257000_2 *)out_pos_arg)->unk_04.s8;
         if (phase < 8) {
             s32 brightness = (phase * 14) + 0x20;
@@ -122,7 +112,7 @@ void copy_part_state(void *root_arg, void *out_pos_arg, void *dst_part_arg)
         }
     }
 
-    if (((S_81257000_0 *)root)->unk_B6 == 2) {
+    if (root->unk_B6 == 2) {
         phase = ((S_81257000_2 *)out_pos_arg)->unk_04.s8;
         if (phase < 8) {
             s32 brightness = ((7 - phase) * 14) + 0x20;

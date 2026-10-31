@@ -19,7 +19,7 @@ struct Rec_func_80094268_arg0; void init_periodic_effect_action(struct Rec_func_
 struct Rec_func_80094268_arg0; void init_threshold_countdown_action(struct Rec_func_80094268_arg0 *, void *, void *);
 struct Rec_func_80094268_arg0; struct ObjectPosition; void initialize_actor_action_state(struct Rec_func_80094268_arg0 *, struct ObjectPosition *, s32);
 void initialize_action_object(s32 * *, void *, void *);
-struct Rec_func_80094268_arg0; void init_movement_action(struct Rec_func_80094268_arg0 *, s32, s32);
+struct Rec_func_80094268_arg0; void init_movement_action(struct Rec_func_80094268_arg0 *, void *, s32);
 struct Rec_func_80094268_arg0; void initialize_action_object_with_counter(struct Rec_func_80094268_arg0 *, s32, s32);
 void initialize_actor_movement_interaction_action(s32 * *, void *, void *);
 void play_periodic_sound(s32, s32);
@@ -100,7 +100,7 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, EntityRec *position, s32 
             submit_object_resource_data(action_data[4]);
             return;
         } else {
-            init_movement_action((struct Rec_func_80094268_arg0 *)(actor), (s32)(position), context);
+            init_movement_action((struct Rec_func_80094268_arg0 *)(actor), position, context);
             return;
         }
         return;

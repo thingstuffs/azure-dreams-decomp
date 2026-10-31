@@ -114,7 +114,7 @@ s32 check_row_column_or_diagonal_alignment(MovingTile *source, MovingTile *targe
 }
 
 /* Checks whether the tile path from source to target is clear. */
-s32 check_tile_path_clear(void *source, void *target) {
+s32 check_tile_path_clear(ActorRecord *source, void *target) {
     s32 step_y;
     s32 step_x;
     MovingTile *source_pos;
@@ -317,7 +317,7 @@ s32 choose_usable_ability_or_attack(Actor *actor, Actor *target, u16 *out_angle,
 }
 
 /* Selects the best eligible list candidate, resolving ties with the global candidate. */
-void *choose_best_eligible_entry(void *owner_arg, void *start, s32 score_limit)
+void *choose_best_eligible_entry(void *owner_arg, ActorRecord *start, s32 score_limit)
 {
     void *candidate;
     S_800A3D18_4 *base;

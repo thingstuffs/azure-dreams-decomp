@@ -27,11 +27,6 @@ extern void display_formatted_context_message(void *);
 extern void place_actor_item(void *object_context, struct DungeonItemEntry *target);
 extern void display_actor_item_status_message(void *, struct DungeonItemEntry *, s16);
 
-typedef struct S_800BF9EC_2_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_800BF9EC_2_pre;   /* the 0x14 bytes before node in use_item_to_level_up_eligible_actors, addressed as node[-1] */
-
 typedef struct S_800BF9EC_2 {
     u8 pad_00[0x11];
     u8 unk_11;
@@ -49,7 +44,7 @@ typedef struct S_800BF9EC_3 {
 } S_800BF9EC_3;   /* ((S_800BF9EC_2_pre *)node)[-1].unk_00 in use_item_to_level_up_eligible_actors */
 
 /* Applies an action to the target or eligible list nodes and updates action state. */
-s32 use_item_to_level_up_eligible_actors(EntityRec *target, DungeonItemEntry *action_id, s16 action_type, s32 action_param)
+s32 use_item_to_level_up_eligible_actors(ActorRecord *target, DungeonItemEntry *action_id, s16 action_type, s32 action_param)
 {
     ActorRecord *head;
     void *node;
@@ -58,8 +53,8 @@ s32 use_item_to_level_up_eligible_actors(EntityRec *target, DungeonItemEntry *ac
         return process_record_and_update_linked_state(action_id, action_param);
     }
 
-    if (target == ((u8 *)dungeon_actor_ring_anchor)) {
-        target->unk_110 = action_id;
+    if (target == dungeon_actor_ring_anchor) {
+        ((PlayerRecord *)target)->pending_item_action = action_id;
         begin_mode_selected_item_action(target, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);
         return 0;
     }

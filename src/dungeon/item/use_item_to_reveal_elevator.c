@@ -22,14 +22,14 @@ extern void place_actor_item(void *object_context, struct DungeonItemEntry *targ
 extern void display_actor_item_status_message(void *, struct DungeonItemEntry *, s16);
 
 /* Dispatch an action by type and target, updating the shared action state. */
-s32 use_item_to_reveal_elevator(EntityRec *target, DungeonItemEntry *action_id, s16 action_type, s32 action_param)
+s32 use_item_to_reveal_elevator(ActorRecord *target, DungeonItemEntry *action_id, s16 action_type, s32 action_param)
 {
     if (action_type == 13) {
         return process_record_and_update_linked_state(action_id, action_param);
     }
 
-    if (target == ((u8 *)dungeon_actor_ring_anchor)) {
-        target->unk_110 = action_id;
+    if (target == dungeon_actor_ring_anchor) {
+        ((PlayerRecord *)target)->pending_item_action = action_id;
         begin_mode_selected_item_action(target, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);
         return 0;
     }

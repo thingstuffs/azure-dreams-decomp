@@ -11,6 +11,12 @@
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 
+/* Per-object countdown and selected palette-row offset for entity panels. */
+typedef struct EntityPanelObjectBody {
+    u16 ticks_remaining;
+    u16 palette_row_offset;
+} EntityPanelObjectBody;
+
 /* Retail allocator return and flag word; identical to the incoming shared declaration. */
 void *allocate_flagged_object_node(int flags);
 #endif

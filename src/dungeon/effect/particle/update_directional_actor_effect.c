@@ -5,6 +5,7 @@
 #include "shared/sprite_source.h"
 #include "shared/object_node.h"
 #include "records/Rec_func_800249DC_arg0.h"
+#include "dungeon/effect/particle.h"
 
 /* Callback body of the directional projectile; child callbacks mark activity
  * at +0x10 while the controller waits to retire. */
@@ -37,13 +38,7 @@ typedef union DirectionalChildWork {
         Rec_func_800249DC_arg0 motion;
         s16 state;
     } trail;
-    struct {
-        DirectionalEffectWork *owner;
-        u8 pad_04[8];
-        s16 x, y, z;
-        u8 pad_12[0x3A];
-        s16 state;
-    } impact;
+    UpdateDirectionalActorEffectBody impact;
 } DirectionalChildWork;
 
 typedef struct DirectionalChildNode {
@@ -269,13 +264,13 @@ void update_directional_actor_effect(DirectionalEffectWork *effect, ObjectPositi
                         {
                             s32 coordinate = actor->target_tile_x;
                             particle_data = &particle->work;
-                            particle_data->impact.x = coordinate << 6;
+                            particle_data->impact.x.s = coordinate << 6;
                             coordinate = actor->target_tile_y;
-                            particle_data->impact.y = coordinate << 6;
-                            particle_data->impact.z = (u16)motion->z.w.i;
+                            particle_data->impact.y.s = coordinate << 6;
+                            particle_data->impact.z.s = (u16)motion->z.w.i;
                         }
                         particle->work.owner = effect;
-                        particle_data->impact.state = 0;
+                        particle_data->impact.state.s = 0;
                     }
                 }
             }

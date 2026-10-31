@@ -27,31 +27,6 @@ typedef struct DungeonEffect {
     u16 flags;
 } DungeonEffect;
 
-typedef struct S_800B6814_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-    u8 pad_14[0xC];
-    s32 unk_20;
-} S_800B6814_0;
-
-/* node in spawn_randomized_radial_burst */
-
-/* part in spawn_randomized_radial_burst */
-/* arg0 in spawn_randomized_radial_burst */
-typedef struct S_800B6814_3 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    s32 unk_08;
-    u8 pad_0C[0x2];
-    s16 unk_0E;
-    u8 pad_10[0x4];
-    s16 unk_14;
-    s16 unk_16;
-    s16 unk_18;
-} S_800B6814_3;
-
 extern s32 rsin(s32);
 extern s32 rcos(s32);
 extern s32 rand(void);

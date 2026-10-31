@@ -6,7 +6,7 @@ extern void *person_transform_defaults[];
 extern s32 D_800C283C[];
 
 /* Initialize the object with its indexed resource and set its flag and data pointer. */
-void initialize_indexed_transform_resource(void *object, s32 setup_value, s32 unused) {
+void initialize_indexed_transform_resource(void *object, s32 setup_value, SpriteFrameState *unused) {
     u8 *obj = (u8 *)object;
 
     initialize_the_store_two_values_set_state_flags(object, setup_value, person_transform_defaults[obj[0x94]]);

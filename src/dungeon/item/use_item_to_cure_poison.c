@@ -20,16 +20,12 @@
 extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);             /* extern */
 #include "dungeon/player/item.h"
 #include "dungeon/actor.h"
+#include "shared/object_node.h"
 
 void *get_unused_text_buffer(void);                          /* extern */
 s32 display_text_with_fullwidth_adjustment(s8 *text);                         /* extern */
 extern u8 poison_cure_text[25];
 
-
-typedef struct S_800BD45C_0_pre {
-    ObjectPosition *unk_00;
-    u8 pad_04[0x14];
-} S_800BD45C_0_pre;   /* the 0x18 bytes before arg0 in use_item_to_cure_poison, addressed as arg0[-1] */
 
 
 
@@ -55,7 +51,7 @@ s32 use_item_to_cure_poison(ActorRecord *entity, DungeonItemEntry *item, s16 act
             return 1;
         }
     }
-    create_timed_paired_particle_emitter(((S_800BD45C_0_pre *)entity)[-1].unk_00, 0x802080, entity);
+    create_timed_paired_particle_emitter(((ObjectNodeHeader *)entity - 1)->position, 0x802080, entity);
     if ((entity->flags14 & ACTOR_PARTY_MEMBER) && !(entity->flags1C & ACTOR_POISONED)) {
         void *message_text;
         void *message_pos;

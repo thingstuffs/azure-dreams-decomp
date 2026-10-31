@@ -5,18 +5,6 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 
-typedef struct S_801721A4_1 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x6];
-    u16 unk_96;
-    u8 pad_98[0x2];
-    u8 unk_9A;
-    u8 unk_9B;
-    u8 pad_9C[0xA];
-    u16 unk_A6;
-} S_801721A4_1;   /* owner in start_actor_reaction_step */
-
 extern void select_sprite_entry(void *, s32, s32);
 #include "dungeon/player/object/action_state.h"
 extern void play_sound_if_enabled(s32);
@@ -25,7 +13,7 @@ extern s32 generate_random_value(void);
 extern u8 D_80173D88[9];
 
 /* Start the actor's reaction step: clear its 0x71 busy bit and, when the global 0x2000 mode is off and the ready query says 0, randomise its facing, arm state 0x17, cue 0x811 and point the part at the direction table. */
-void start_actor_reaction_step(S_801721A4_1 *owner, ObjectPosition *unused, SpriteFrameState *part, ActorRecord *actor) {
+void start_actor_reaction_step(ActorRecord *owner, ObjectPosition *unused, SpriteFrameState *part, ActorRecord *actor) {
 
     actor->movement_queue_state &= 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) &&
@@ -42,11 +30,11 @@ void start_actor_reaction_step(S_801721A4_1 *owner, ObjectPosition *unused, Spri
             }
         }
 
-        owner->unk_9A = 0x17;
-        owner->unk_8C = 0;
-        owner->unk_9B = 0;
-        owner->unk_A6 = 1;
-        owner->unk_96 = 0;
+        owner->action_id.u = 0x17;
+        owner->unk_8C.word = 0;
+        owner->action_phase.u = 0;
+        owner->unk_A4.halves.high.u = 1;
+        owner->action_timer.u = 0;
 
         part->flags |= 0xC;
         part->clut -= 0x80;

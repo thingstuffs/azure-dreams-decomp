@@ -32,7 +32,7 @@ extern u8 floor_trap_update_address[];
 #define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
 /* Apply a target effect and clear dungeon entities and tiles when requested. */
-s32 flatten_floor_terrain(void *target, DungeonItemEntry *effect_arg, s16 effect_id, void *context) {
+s32 flatten_floor_terrain(ActorRecord *target, DungeonItemEntry *effect_arg, s16 effect_id, void *context) {
     s32 *dungeon_state = ((s32 *)(&g_game_work));
     u8 *grid_info;
     s32 grid_base;

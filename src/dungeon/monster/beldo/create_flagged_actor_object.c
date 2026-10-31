@@ -4,19 +4,12 @@
 #include "shared/dungeon_moving_views.h"
 #include "engine/scene.h"
 #include "dungeon/system.h"
+#include "dungeon/monster/beldo.h"
 
 typedef struct S_81263000_0_pre {
     u16 unk_00;
 } S_81263000_0_pre;   /* the 0x2 bytes before root in create_flagged_actor_object_2, addressed as root[-1] */
 
-typedef struct S_81263000_0 {
-    u8 pad_00[0xAC];
-    void * unk_AC;
-    s16 unk_B0;
-    s16 unk_B2;
-    s16 unk_B4;
-    s16 unk_B6;
-} S_81263000_0;   /* root in create_flagged_actor_object_2 */
 
 typedef struct S_81263000_1 {
     u8 pad_00[0x8];
@@ -51,10 +44,8 @@ typedef struct S_81263000_5 {
 extern void advance_sprite_animation_and_textures(void *);
 
 
-void create_flagged_actor_object_2(void *root, void *output_pos, void *target_data)
-;
 /* Update part position, shading, and flags from its owner. */
-void create_flagged_actor_object_2(void *root, void *output_pos, void *target_data)
+void create_flagged_actor_object_2(AttachedSpriteWithOffsetBody *root, void *output_pos, void *target_data)
 {
     GteShortVector offset;
     S_81263000_2 *position_data;
@@ -66,7 +57,7 @@ void create_flagged_actor_object_2(void *root, void *output_pos, void *target_da
     s16 shade_a;
     s32 reverse_phase;
 
-    owner = ((S_81263000_0 *)root)->unk_AC;
+    owner = root->unk_AC.pointer;
     position_data = owner->unk_0C;
     pos_data = owner->unk_08;
 
@@ -80,16 +71,16 @@ void create_flagged_actor_object_2(void *root, void *output_pos, void *target_da
 
     motion_part = owner->unk_0C;
     if (resolve_record_orientation_or_fallback(motion_part->source, motion_part, &offset,
-                      ((S_81263000_0 *)root)->unk_B6) != 0) {
+                      root->unk_B6) != 0) {
         ((MovingPosition *)output_pos)->x +=
-            (offset.vx + ((S_81263000_0 *)root)->unk_B0) / 2;
+            (offset.vx + root->unk_B0.s) / 2;
         ((MovingPosition *)output_pos)->y +=
-            (offset.vy + ((S_81263000_0 *)root)->unk_B2) / 2;
+            (offset.vy + root->unk_B2.s) / 2;
         ((MovingPosition *)output_pos)->z +=
-            (offset.vz + ((S_81263000_0 *)root)->unk_B4) / 2;
-        ((S_81263000_0 *)root)->unk_B0 = offset.vx;
-        ((S_81263000_0 *)root)->unk_B2 = offset.vy;
-        ((S_81263000_0 *)root)->unk_B4 = offset.vz;
+            (offset.vz + root->unk_B4.s) / 2;
+        root->unk_B0.s = offset.vx;
+        root->unk_B2.s = offset.vy;
+        root->unk_B4.s = offset.vz;
     }
 
     pos_data = target_part->source;
@@ -98,7 +89,7 @@ void create_flagged_actor_object_2(void *root, void *output_pos, void *target_da
     target_part->flags = position_data->unk_14;
     pos_data->unk_01 &= 0xFE;
 
-    if (((S_81263000_0 *)root)->unk_B6 == 1) {
+    if (root->unk_B6 == 1) {
         phase = position_data->unk_04.s8;
         if (phase < 8) {
             shade_a = (phase * 14) + 0x20;
@@ -117,7 +108,7 @@ void create_flagged_actor_object_2(void *root, void *output_pos, void *target_da
         }
     }
 
-    if (((S_81263000_0 *)root)->unk_B6 == 2) {
+    if (root->unk_B6 == 2) {
         phase = position_data->unk_04.s8;
         if (phase < 8) {
             reverse_phase = 7;

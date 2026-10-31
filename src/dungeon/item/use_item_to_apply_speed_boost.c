@@ -23,7 +23,7 @@ extern u8 D_800E206A[24];
 
 
 /* Update entity state and counters, with special handling for the primary entity. */
-s32 use_item_to_apply_speed_boost(void *entity, DungeonItemEntry *event_id, s16 event_param) {
+s32 use_item_to_apply_speed_boost(ActorRecord *entity, DungeonItemEntry *event_id, s16 event_param) {
     u8 update_count;
 
     if (entity == dungeon_actor_ring_anchor) {
@@ -33,20 +33,20 @@ s32 use_item_to_apply_speed_boost(void *entity, DungeonItemEntry *event_id, s16 
     }
     if ((u32) entity <= 0x9FFFFFFFU) {
         display_item_status_message(entity, event_id, event_param);
-        if (feed_actor_restore_mp(entity, (entity_action_selectors[((ActorRecord *)entity)->species] >> 6) & 3, 0) == 0) {
+        if (feed_actor_restore_mp(entity, (entity_action_selectors[entity->species] >> 6) & 3, 0) == 0) {
             place_actor_item(entity, event_id);
             return 1;
         }
     }
-    update_count = (*(u8 *)((u8 *)&((ActorRecord *)entity)->unk_00 + 2));
+    update_count = (*(u8 *)((u8 *)&entity->unk_00 + 2));
     if (update_count < 0xFFU) {
-        (*(u8 *)((u8 *)&((ActorRecord *)entity)->unk_00 + 2)) = (u8) (update_count + 1);
+        (*(u8 *)((u8 *)&entity->unk_00 + 2)) = (u8) (update_count + 1);
     }
     set_or_clear_actor_status_slot(entity, STATUS_SPEED, 8);
-    if (((ActorRecord *)entity)->flags14 & ACTOR_PARTY_MEMBER) {
+    if (entity->flags14 & ACTOR_PARTY_MEMBER) {
         adjust_source_value_and_finalize(entity, D_800E206A);
     }
-    create_colored_effect_with_sound(entity - 0x20, 0xF02020, 0x616);
+    create_colored_effect_with_sound(((ObjectNodeHeader *)entity - 1), 0xF02020, 0x616);
     clear_slot_and_update_linked_state(event_id);
     g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
     return 1;

@@ -40,13 +40,6 @@ typedef struct S_800AAF00_2 {
     void * unk_11C;
 } S_800AAF00_2;   /* D_800E3D7C in begin_actor_spell_action */
 
-typedef struct S_800AAF00_3 {
-    u8 pad_00[0x8C];
-    void *unk_8C;
-    u8 pad_90[0xA];
-    u8 unk_9A;
-    u8 unk_9B;
-} S_800AAF00_3;   /* owner in begin_actor_spell_action */
 
 struct ActorRecord;
 extern s16 try_claim_dungeon_action_slot(struct ActorRecord *actor);
@@ -81,7 +74,7 @@ void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState 
             } else {
                 advance_status_timers(object);
                 ((S_800AAF00_0 *)object)->unk_6D--;
-                ((S_800AAF00_3 *)actor)->unk_8C = next_state;
+                ((ActorRecord *)actor)->unk_8C.address = next_state;
 
                 return;
             }
@@ -131,9 +124,9 @@ void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState 
             ((S_800AAF00_2 *)((u8 *)dungeon_actor_ring_anchor))->unk_11C = object;
         }
 
-        ((S_800AAF00_3 *)actor)->unk_9A = 0x12;
-        ((S_800AAF00_3 *)actor)->unk_9B = 0;
-        ((S_800AAF00_3 *)actor)->unk_8C = 0;
+        ((ActorRecord *)actor)->action_id.u = 0x12;
+        ((ActorRecord *)actor)->action_phase.u = 0;
+        ((ActorRecord *)actor)->unk_8C.address = 0;
         if (direction_table != 0) {
             (target->frameTable) = direction_table;
             select_sprite_entry(

@@ -233,5 +233,152 @@ class Fixture(unittest.TestCase):
         self.assertIn('private_target_type', ev['why'])
 
 
+V2_HEADER = """#ifndef V2_H
+#define V2_H
+typedef unsigned char u8;
+typedef short s16;
+typedef int s32;
+typedef struct ObjectNodeHeader { u8 pad_00[0x1E]; unsigned short flags; } ObjectNodeHeader;
+typedef struct Body { s32 x; u8 pad_04[0x9]; u8 species; s16 y; } Body;
+typedef struct Big { Body body; u8 pad_10[0x10]; void *pending; } Big;
+extern Body *dungeon_actor_ring_anchor;
+#define U8_AT(p, o) (*(u8 *)((u8 *)(p) + (o)))
+extern void take_void(void *);
+#endif
+"""
+
+V2_SRC = """#include "v2.h"
+
+typedef struct View { u8 pad[0x20]; void *unk_20; } View;
+
+s32 tail(View *p, void *item) {
+    if (p == dungeon_actor_ring_anchor) {
+        p->unk_20 = item;
+        return 0;
+    }
+    return 1;
+}
+
+s32 untail(View *p, void *item) {
+    p->unk_20 = item;
+    return 0;
+}
+
+s32 bytes(u8 *p) {
+    u8 *alias = p;
+    take_void(p - 0x20);
+    return p[0xD] + U8_AT(p, 0xD) + *alias;
+}
+
+s32 cmp(void *p) {
+    if (p == (s32)dungeon_actor_ring_anchor) {
+        return 1;
+    }
+    return ((Body *)p)->y;
+}
+
+s32 integer(s32 p) {
+    return ((Body *)p)->x;
+}
+"""
+
+
+@unittest.skipUnless(shutil.which('clang'), 'clang not installed')
+class KitV2(unittest.TestCase):
+    """kit_v2 spec keys: tail_type, byte_arith, byte_macros, alias stores, compare_uncast, int_placeholder."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        root = Path(self.tmp.name)
+        (root / 'include').mkdir()
+        (root / 'src').mkdir()
+        (root / 'include/v2.h').write_text(V2_HEADER)
+        (root / 'src/v2.c').write_text(V2_SRC)
+        self.units = R.Units(root)
+        self.saved = {k: getattr(R, k) for k in ('TAIL_TYPE', 'TAIL_ANY', 'BYTE_ARITH', 'BYTE_MACROS',
+                                                 'ALIAS_CAST', 'COMPARE_UNCAST', 'INT_PLACEHOLDER', 'SIGN_REMAP')}
+
+    def tearDown(self):
+        for k, v in self.saved.items():
+            setattr(R, k, v)
+        self.tmp.cleanup()
+
+    def plan(self, name, i=0):
+        unit = self.units.get('src/v2.c')
+        fn = R.find_function(unit, 'src/v2.c', name)
+        plan = R.plan_retype(unit, 'src/v2.c', fn, R.params_of(fn)[i], R.Target(unit, 'Body *'))
+        text = None if 'refused' in plan else R.apply_text_edits(unit.text('src/v2.c'), plan['edits'])
+        return plan, text
+
+    def test_tail_type_only_when_guarded(self):
+        plan, _ = self.plan('tail')
+        self.assertEqual(plan.get('refused'), 'member_unmapped@0x20:void*')
+        R.TAIL_TYPE = 'Big *'
+        plan, text = self.plan('tail')
+        self.assertNotIn('refused', plan, plan)
+        self.assertIn('((Big *)p)->pending = item;', text)
+        plan, _ = self.plan('untail')
+        self.assertIn('refused', plan)                      # unguarded: not the player
+        R.TAIL_ANY = True                                    # player-only symbol (spec "tail_symbols")
+        plan, text = self.plan('untail')
+        self.assertIn('((Big *)p)->pending = item;', text)
+
+    def test_byte_arith_macros_alias(self):
+        plan, _ = self.plan('bytes')
+        self.assertIn('refused', plan)
+        R.BYTE_ARITH = R.BYTE_MACROS = R.ALIAS_CAST = True
+        plan, text = self.plan('bytes')
+        self.assertNotIn('refused', plan, plan)
+        self.assertIn('s32 bytes(Body *p)', text)
+        self.assertIn('u8 *alias = (u8 *)p;', text)
+        self.assertIn('take_void(((ObjectNodeHeader *)p - 1));', text)
+        self.assertIn('return p->species + U8_AT(p, 0xD) + *alias;', text)
+
+    def test_compare_uncast(self):
+        plan, _ = self.plan('cmp')
+        self.assertEqual(plan.get('refused'), 'compare_needs_cast')
+        R.COMPARE_UNCAST = True
+        plan, text = self.plan('cmp')
+        self.assertIn('if (p == dungeon_actor_ring_anchor)', text)
+        self.assertIn('return p->y;', text)
+
+    def test_function_pointer_member_by_signature(self):
+        root = Path(self.tmp.name)
+        (root / 'src/fn.c').write_text(
+            'typedef struct A A;\ntypedef void (*H)(A *, void *);\ntypedef void (*Callback)(void *, void *);\n'
+            'typedef int (*IC)(void *, void *);\n'
+            'struct A { union { void *address; void (*run)(void *, void *); H handler; } u; };\n'
+            'int f(A *a) { return 0; }\n')
+        unit = R.Units(root).get('src/fn.c')
+        tgt = R.Target(unit, 'A *')
+        self.assertEqual(R.map_member(unit, tgt, 0, 'Callback', False), 'u.run')
+        self.assertEqual(R.map_member(unit, tgt, 0, 'H', False), 'u.handler')
+        self.assertIsNone(R.map_member(unit, tgt, 0, 'IC', False))   # int-returning view: no member, no rollback
+
+    def test_address_only_member_and_eager_uncast(self):
+        root = Path(self.tmp.name)
+        (root / 'src/addr.c').write_text(
+            '#include "v2.h"\ntypedef struct Wide { s16 lo; } Wide;\n'
+            's32 addr(Wide *p) {\n    if (p == (Wide *)dungeon_actor_ring_anchor) { return 0; }\n'
+            '    return *(u8 *)((u8 *)&p->lo + 1);\n}\n')
+        unit = R.Units(root).get('src/addr.c')
+        fn = R.find_function(unit, 'src/addr.c', 'addr')
+        plan = R.plan_retype(unit, 'src/addr.c', fn, R.params_of(fn)[0], R.Target(unit, 'Body *'))
+        self.assertIn('refused', plan)                      # s16 at +0: Body has an s32 there
+        R.BYTE_ARITH = R.COMPARE_UNCAST = True
+        plan = R.plan_retype(unit, 'src/addr.c', fn, R.params_of(fn)[0], R.Target(unit, 'Body *'))
+        self.assertNotIn('refused', plan, plan)
+        text = R.apply_text_edits(unit.text('src/addr.c'), plan['edits'])
+        self.assertIn('if (p == dungeon_actor_ring_anchor)', text)
+        self.assertIn('return *(u8 *)((u8 *)&p->x + 1);', text)   # only the address is used
+
+    def test_int_placeholder_plan(self):
+        R.INT_PLACEHOLDER = True
+        plan, text = self.plan('integer')
+        self.assertNotIn('refused', plan, plan)
+        self.assertIn('s32 integer(Body *p)', text)
+        self.assertIn('return p->x;', text)
+
+
 if __name__ == '__main__':
     unittest.main()

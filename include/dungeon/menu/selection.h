@@ -201,7 +201,7 @@ void update_menu_selection_from_input(ovl_1831370_8181140C_MenuState *menu);
 void update_embedded_state_from_table(s32 object_addr);
 void clear_object_buffer_and_state(s32 objectAddress);
 void write_text_and_advance_selection(s32 objectAddress, s32 updateValue);
-void apply_step_and_reset_after_five(s32 *step);
+void apply_step_and_reset_after_five(ovl_1831370_8181140C_MenuState *step);
 void *initialize_variant_packet(ovl_1831370_81811708_Packet *packet, s32 variant);
 void set_descriptor_fields_and_flag(void *descriptor);
 S_800491F4 *forward_value_to_shared_helper(S_800491F4 **value);

@@ -32,7 +32,7 @@ extern u8 D_80089380[];
 extern u8 genus_change_text[];
 
 /* Changes the target's element, updates its slots, and displays the result. */
-s32 apply_genus_change_item(u8 *target, DungeonItemEntry *event, s32 value)
+s32 apply_genus_change_item(ActorRecord *target, DungeonItemEntry *event, s32 value)
 {
     
     u8 *message;
@@ -40,7 +40,7 @@ s32 apply_genus_change_item(u8 *target, DungeonItemEntry *event, s32 value)
     s32 slot_index;
     u8 *slot;
 
-    if (target == ((u8 *)dungeon_actor_ring_anchor)) {
+    if (target == dungeon_actor_ring_anchor) {
         ((PlayerRecord *)target)->pending_item_action = event;
         begin_deferred_item_action(target, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);
         return 0;
@@ -54,8 +54,8 @@ s32 apply_genus_change_item(u8 *target, DungeonItemEntry *event, s32 value)
             place_actor_item(target, event);
             return 1;
         }
-        *(s32 *)(target + 0x14) &= ~ACTOR_ELEMENT_MASK;
-        *(s32 *)(target + 0x1C) &= ~ACTOR_ELEMENT_MASK;
+        target->flags14 &= ~ACTOR_ELEMENT_MASK;
+        target->flags1C &= ~ACTOR_ELEMENT_MASK;
         {
             u8 *effect_target;
             s32 color_mask;
@@ -64,35 +64,35 @@ s32 apply_genus_change_item(u8 *target, DungeonItemEntry *event, s32 value)
             event_type = event->unk_00;
             if (event_type == ITEM_LIGHT_SEED) {
                 message = D_800E13FB;
-                effect_target = target - 32;
+                effect_target = ((u8 *)target) - 32;
                 color_mask = 0xF0;
                 effect_code = 0x81C;
-                *(s32 *)(target + 0x14) |= ACTOR_ELEMENT_FIRE;
-                *(s32 *)(target + 0x1C) |= ACTOR_ELEMENT_FIRE;
+                target->flags14 |= ACTOR_ELEMENT_FIRE;
+                target->flags1C |= ACTOR_ELEMENT_FIRE;
             } else if (event_type == ITEM_SEA_SEED) {
                 message = D_800E1402;
-                effect_target = target - 32;
+                effect_target = ((u8 *)target) - 32;
                 color_mask = 0xF00000;
                 effect_code = 0x81C;
-                *(s32 *)(target + 0x14) |= ACTOR_ELEMENT_WATER;
-                *(s32 *)(target + 0x1C) |= ACTOR_ELEMENT_WATER;
+                target->flags14 |= ACTOR_ELEMENT_WATER;
+                target->flags1C |= ACTOR_ELEMENT_WATER;
             } else {
                 message = genus_change_text;
-                effect_target = target - 32;
+                effect_target = ((u8 *)target) - 32;
                 color_mask = 0xF000;
                 effect_code = 0x81C;
-                *(s32 *)(target + 0x14) |= ACTOR_ELEMENT_WIND;
-                *(s32 *)(target + 0x1C) |= ACTOR_ELEMENT_WIND;
+                target->flags14 |= ACTOR_ELEMENT_WIND;
+                target->flags1C |= ACTOR_ELEMENT_WIND;
             }
             create_colored_effect_with_sound(effect_target, color_mask, effect_code);
         }
         update_owner_class_bits(target);
 
-        slot = target + 8;
+        slot = ((u8 *)target) + 8;
         for (slot_index = 0; slot_index < 3; slot_index++, slot += 3) {
             if (slot[0] != 0) {
                 s32 item = slot[0];
-                s32 flags = *(s32 *)(target + 0x14);
+                s32 flags = target->flags14;
 
                 if (((item_action_definitions[item].unk_10 & ACTOR_ELEMENT_MASK) & flags) == 0) {
                     if (flags & ACTOR_ELEMENT_FIRE) {
@@ -106,7 +106,7 @@ s32 apply_genus_change_item(u8 *target, DungeonItemEntry *event, s32 value)
             }
         }
 
-        if (*(s32 *)(target + 0x14) & 0x4000) {
+        if (target->flags14 & 0x4000) {
             u8 *message_start;
             message_end = get_unused_text_buffer();
             message_start = message_end;

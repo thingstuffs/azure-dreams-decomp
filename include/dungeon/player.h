@@ -23,7 +23,7 @@ s32 begin_familiar_command_selection(Rec_func_8008D024_arg0 *actor, void *contex
 s32 begin_familiar_summoning(void *record, s32 input1, void *pointer_input, s32 value_input);
 void apply_pending_byte_increase(void *unused_0, void *unused_1, void *unused_2, ActorRecord *object);
 void begin_player_damage_reaction(void *action, void *unused, void *sprite, ActorRecord *actor);
-void begin_player_pickup_animation(u8 *actor, s32 effect_arg, u8 *target, u8 *source);
+void begin_player_pickup_animation(ActorRecord *actor, s32 effect_arg, u8 *target, ActorRecord *source);
 void begin_player_sleep_action(void *record, void *unused, void *object, ActorRecord *entity);
 void begin_player_wait_turn(ActorRecord *state, void *mode, void *sprite, ActorRecord *entity);
 s32 begin_selected_target_level_up(ActorRecord *actor_state, void *action_arg, void *sprite, ActorRecord *target);
@@ -46,7 +46,7 @@ void begin_player_push(struct Rec_func_8008ACDC_arg0 *action, s32 context, Sprit
     s16 move_state);
 void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *sprite, ActorRecord *actor);
 void update_actor_hop_and_return(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-void update_player_push(void *actor, void *motion, SpriteFrameState *sprite, void *model);
+void update_player_push(ActorRecord *actor, void *motion, SpriteFrameState *sprite, ActorRecord *model);
 
 void update_active_nodes_and_render_frame(void);
 void queue_framebuffer_strip_quads(void);
@@ -68,7 +68,7 @@ struct DungeonItemEntry;
 void equip_item_and_update_status(ActorRecord *context, DungeonItemEntry *item);
 
 struct S_80098614_0;
-void change_equipped_item_and_notify(struct S_80098614_0 *actor, struct DungeonItemEntry *requested_item);
+void change_equipped_item_and_notify(ActorRecord *actor, struct DungeonItemEntry *requested_item);
 
 void restore_player_control_callback(void *target, void *source);
 

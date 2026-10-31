@@ -6,7 +6,7 @@
 #include "town/menu/object.h"
 
 #include "shared/object_node.h"/* Allocate an object and initialize its payload, display transform, and color. */
-void *allocate_and_initialize_display_object(s32 object_key, s32 payload_value, s32 payload_param, s32 payload_halfword, s32 object_param,
+void *allocate_and_initialize_display_object(s32 object_key, s32 payload_value, s32 payload_param, s32 payload_halfword, void *object_param,
     s32 object_value) {
     ObjectNodeHeader *obj = allocate_list_node(0x136, object_key - 0x20);
     SpriteFrameState *display;

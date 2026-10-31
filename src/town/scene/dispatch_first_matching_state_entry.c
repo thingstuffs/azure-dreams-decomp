@@ -7,7 +7,7 @@ typedef unsigned int u32;
 typedef int s32;
 extern u32 map_runtime_state;
 extern s32 D_800D3824[];
-extern void build_two_display_entries(s32 data_id, s32 position_offset);
+extern void build_two_display_entries(void *data_id, s32 position_offset);
 /* Calls build_two_display_entries with the first table entry matching the state's ID. */
 void dispatch_first_matching_state_entry(void)
 {
@@ -19,7 +19,7 @@ void dispatch_first_matching_state_entry(void)
         state = (s8 *) (&map_runtime_state);
         table_entry = &D_800D3824[i * 3];
         if (*((s16 *) (state + 0x1A)) == (*table_entry)) {
-            build_two_display_entries(*((s32 *) (((s8 *) table_entry) + 4)), *((s16 *) (((s8 *) table_entry) + 8)));
+            build_two_display_entries(*((void **) (((s8 *) table_entry) + 4)), *((s16 *) (((s8 *) table_entry) + 8)));
             return;
         }
     }

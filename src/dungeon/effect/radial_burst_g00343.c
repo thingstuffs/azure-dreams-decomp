@@ -4,6 +4,7 @@
 #include "dungeon/effect.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
+#include "dungeon/effect/state.h"
 #include "dungeon/level.h"
 
 /* Emits scattered effects at evenly spaced angles unless the tile to the left blocks them. */
@@ -55,7 +56,7 @@ void spawn_randomized_radial_burst(MovingPosition *origin)
     ObjectPosition *motion;
     ObjectNodeHeader *particle;
     SpriteFrameState *sprite;
-    S_800B6814_3 *effect_state;
+    OppositeOffsetEffectBody *effect_state;
 
     particle_count = (rand() & 0xF) | 8;
     angle_step = 0x1000 / particle_count;
@@ -78,11 +79,11 @@ void spawn_randomized_radial_burst(MovingPosition *origin)
                 motion->velocity_x = rcos(angle) << 6;
                 motion->velocity_y = rsin(angle) << 6;
                 motion->velocity_z = 0xFFFD0000;
-                ((S_800B6814_0 *)particle)->unk_20 = -motion->velocity_x >> 6;
-                velocity_y = motion->velocity_y;
                 effect_state = (u8 *)particle + 0x20;
-                effect_state->unk_08 = 0x2000;
-                effect_state->unk_04 = -velocity_y >> 6;
+                effect_state->acceleration_x = -motion->velocity_x >> 6;
+                velocity_y = motion->velocity_y;
+                effect_state->acceleration_z = 0x2000;
+                effect_state->acceleration_y = -velocity_y >> 6;
                 select_record_entry_and_value(sprite, &directional_sprite_entries, 0);
                 sprite->color.word = 0x808080;
                 sprite->scale_y = 0x400;
@@ -90,10 +91,10 @@ void spawn_randomized_radial_burst(MovingPosition *origin)
                 sprite->tpage_abr = 0x60;
                 sprite->clut = 0x7E80;
                 sprite->flags |= 0x10C;
-                effect_state->unk_0E = (rand() & 3) | 0x10;
-                effect_state->unk_16 = 0x10;
-                effect_state->unk_14 = 0x10;
-                effect_state->unk_18 = 8;
+                effect_state->lifetime.radial_lifetime = (rand() & 3) | 0x10;
+                effect_state->green.initial_value = 0x10;
+                effect_state->red.initial_value = 0x10;
+                effect_state->blue.initial_value = 8;
             }
             particle_index++;
             angle += angle_step;

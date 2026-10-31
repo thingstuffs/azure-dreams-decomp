@@ -40,19 +40,6 @@ typedef struct S_8008C8BC_2 {
     u16 unk_3714;
 } S_8008C8BC_2;   /* r4 in begin_front_tile_attack */
 
-typedef struct S_8008C8BC_4 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x6];
-    s16 unk_96;
-    u16 unk_98;
-    s8 unk_9A;
-    s8 unk_9B;
-    u8 pad_9C[0xA];
-    s16 unk_A6;
-    u8 pad_A8[0x5A];
-    s8 unk_102;
-} S_8008C8BC_4;   /* held0 in begin_front_tile_attack */
 
    /* state in begin_front_tile_attack */
 
@@ -84,7 +71,7 @@ s32 begin_front_tile_attack(ActorRecord *body, void *unused, void *position_arg,
     }
     body->action_id.s = 0x11;
     body->action_phase.s = 0;
-    ((S_8008C8BC_4 *)body)->unk_8C = 0;
+    ((PlayerRecord *)body)->actor.unk_8C.word = 0;
     g_dungeon_status.active_actor = entity;
     body->unk_A4.halves.high.s = 0;
     body->action_state_flags = (u16) ((body->action_state_flags | 0x2000) & 0xEFFF);
@@ -95,6 +82,6 @@ s32 begin_front_tile_attack(ActorRecord *body, void *unused, void *position_arg,
         g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 0x80);
     }
     body->action_timer.s = 6;
-    ((S_8008C8BC_4 *)body)->unk_102 = 0;
+    ((PlayerRecord *)body)->unk_102 = 0;
     return 0;
 }

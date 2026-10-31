@@ -169,17 +169,6 @@ typedef struct R12_80172654_S_80172654_5 {
     u8 pad_14[0xC];
     u16 unk_20;
 } R12_80172654_S_80172654_5;
-typedef struct R12_80172654_S_80172654_6 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u16 unk_04;
-    u8 pad_06[0x2];
-    s32 unk_08;
-    u8 pad_0C[0x2];
-    u16 unk_0E;
-    u16 unk_10;
-    u16 unk_12;
-} R12_80172654_S_80172654_6;
 typedef struct R12_80172AF8_S_80172AF8_0 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -308,17 +297,22 @@ typedef struct R12_80173FDC_S_80173FDC_0_pre {
     u8 * unk_00;
     u8 pad_04[0x4];
 } R12_80173FDC_S_80173FDC_0_pre;
-typedef struct R12_80173FDC_S_80173FDC_0 {
-    u8 pad_00[0x10];
+typedef struct AdvanceActionAndSpawnEffectBody {
+    union {
+        R12_80173FDC_Header8 header;
+        struct {
+            u8 pad_00[0x2];
+            u16 unk_02;
+            u16 unk_04;
+            u8 pad_06[0x2];
+        } values;
+    } unk_00;
+    union { s32 s32; u32 u32; u8 u8; } unk_08;
+    u8 pad_0C[0x2];
+    union { u16 u; s16 s; } unk_0E;
     u16 unk_10;
     s16 unk_12;
-} R12_80173FDC_S_80173FDC_0;
-typedef struct R12_80173FDC_S_80173FDC_1 {
-    u8 pad_00[0x8];
-    u32 unk_08;
-    u8 pad_0C[0x2];
-    s16 unk_0E;
-} R12_80173FDC_S_80173FDC_1;
+} AdvanceActionAndSpawnEffectBody;
 typedef struct R12_80173FDC_S_80173FDC_2_pre {
     s16 unk_00;
     u8 pad_02[0xE];
@@ -755,7 +749,7 @@ void finish_thrown_actor_travel_and_floor_trap_then_select_target(ActorRecord *s
 void finish_actor_terrain_interpolation_then_select_target(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void finish_spinning_actor_fall_then_select_target(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void finish_actor_fade_in_then_select_target(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
-void dim_effect_after_delay(void *effect);
+void dim_effect_after_delay(AdvanceActionAndSpawnEffectBody *effect);
 s32 build_linked_curved_wireframe_grid(u8 *node, s32 next_node, s32 unused_2);
 s32 project_arachne_sprite_chain(void *initial_payload, s32 entry_data, R12_8017458C_Entry *entry, s32 unused);
 void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_80174618_S_80174618_1 *position, void *render_params, s16 depth_bias);

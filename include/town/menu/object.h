@@ -32,7 +32,7 @@ typedef struct BoundsExpiryObject {
 } BoundsExpiryObject;
 
 /* allocate_and_initialize_display_object_g01137.c */
-void *allocate_and_initialize_display_object(s32 object_key, s32 payload_value, s32 payload_param, s32 payload_halfword, s32 object_param, s32 object_value);
+void *allocate_and_initialize_display_object(s32 object_key, s32 payload_value, s32 payload_param, s32 payload_halfword, void *object_param, s32 object_value);
 s32 create_objects_descending_by_count(s32 object_key, s32 payload_value, s32 payload_param, s32 count);
 void update_menu_node_or_retire_on_zero_state(struct Func800A4A20Object *object, s32 context, void *output);
 void initialize_directional_object_state(void *object, struct S_800A21EC_1 *placement, struct S_800A21EC_0 *state);

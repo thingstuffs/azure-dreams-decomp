@@ -115,12 +115,6 @@ typedef struct S_8009345C_10_pre {
     u8 pad_08[0x10];
 } S_8009345C_10_pre;   /* 0x18-byte header immediately before the payload. */
 
-typedef struct S_8009345C_10 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    u8 pad_14[0x8];
-    s32 unk_1C;
-} S_8009345C_10;
 
 typedef struct S_8009345C_11 {
     u8 pad_00[0x1C];
@@ -290,11 +284,11 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, void *e
                 object_position->unk_02 = (u16) map->x.w.i;
                 object_position->unk_06 = (u16) map->y.w.i;
                 object_position->unk_0A = (s16) (map->z.w.i - 0x10);
-                func_80042640(new_object, ((S_8009345C_10 *)new_object)->unk_13);
-                apply_actor_template_and_class(new_object, ((S_8009345C_10 *)new_object)->unk_13, *message_or_list.base);
-                object_flags = ((S_8009345C_10 *)new_object)->unk_1C;
+                func_80042640(new_object, ((ActorRecord *)new_object)->species);
+                apply_actor_template_and_class(new_object, ((ActorRecord *)new_object)->species, *message_or_list.base);
+                object_flags = ((ActorRecord *)new_object)->flags1C;
                 object_slot = familiar_deployment_slots.slot.s;
-                ((S_8009345C_10 *)new_object)->unk_1C = object_flags | 0x02000000;
+                ((ActorRecord *)new_object)->flags1C = object_flags | 0x02000000;
                 ((S_8009345C_14 *)(((object_slot * 4) + actor)))->unk_D0 = selected_item_record_alias[0];
                 ((S_8009345C_9 *)(selected_item_record_alias[0]))->unk_03 = (u8) (((S_8009345C_9 *)(selected_item_record_alias[0]))->unk_03 | 0x20);
                 message_or_list.text = get_unused_text_buffer();

@@ -55,12 +55,6 @@ typedef struct S_800DA93C_1_pre {
     u8 pad_04[0x4];
 } S_800DA93C_1_pre;   /* the 0x8 bytes before walker in draw_linked_textured_quads, addressed as walker[-1] */
 
-typedef struct S_800DA93C_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u16 unk_04;
-    u16 unk_06;
-} S_800DA93C_1;   /* walker in draw_linked_textured_quads */
 
 typedef struct S_800DA93C_2 {
     u32 unk_00;
@@ -94,7 +88,7 @@ typedef struct S_800DA93C_4 {
 extern s32 RotTransPers(void *, s32 *, s32 *, s32 *);
 
 /* Build textured quad packets from a linked list and insert them into the ordering table. */
-s32 draw_linked_textured_quads(void *first_quad) {
+s32 draw_linked_textured_quads(TwoRowObjectGroupBody *first_quad) {
     void *quad_data;
     PolyFT4 *packet;
     GameWork *render_state;
@@ -131,15 +125,15 @@ s32 draw_linked_textured_quads(void *first_quad) {
         depth = (depth >> 2) - 8;
 
         if ((u32)depth < 0x1E0U) {
-            scratch = 0xFF - ((S_800DA93C_1 *)quad_data)->unk_02;
+            scratch = 0xFF - ((TwoRowObjectGroupBody *)quad_data)->unk_02.signed_value;
             ((S_800DA93C_2 *)packet)->unk_04 = (*(s32 *)((u8 *)quad_data + 0x10));
             SetPolyFT4(packet);
             SetSemiTrans(packet, 1);
 
-            ((S_800DA93C_2 *)packet)->unk_16 = ((S_800DA93C_1 *)quad_data)->unk_04;
-            ((S_800DA93C_2 *)packet)->unk_0E = ((S_800DA93C_1 *)quad_data)->unk_06;
+            ((S_800DA93C_2 *)packet)->unk_16 = ((TwoRowObjectGroupBody *)quad_data)->unk_04.u;
+            ((S_800DA93C_2 *)packet)->unk_0E = ((TwoRowObjectGroupBody *)quad_data)->unk_06;
 
-            tile_index = (s16)(((S_800DA93C_1 *)quad_data)->unk_02 % 8);
+            tile_index = (s16)(((TwoRowObjectGroupBody *)quad_data)->unk_02.signed_value % 8);
             scratch = tile_index;
 
             u_offset = (tile_index % 4) << 5;
@@ -185,28 +179,6 @@ typedef struct S_800DAB50_0_pre {
     u16 unk_00;
 } S_800DAB50_0_pre;
 
-typedef struct S_800DAB50_0 {
-    union { s16 s; u16 u; } unk_00;   /* accessed as both */
-    union { u16 s; u16 u; } unk_02;   /* accessed as both */
-    s16 unk_04;
-    u8 pad_06[0x2];
-    s16 unk_08;
-    union { u16 s; s16 u; } unk_0A;   /* accessed as both */
-    s32 unk_0C;
-    union { struct { s32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_10;   /* overlapping accesses */
-    u8 pad_14[0xC];
-    u16 unk_20;
-    u16 unk_22;
-    u16 unk_24;
-    u8 pad_26[0x2];
-    struct {
-        u16 unk_00;
-        u16 unk_02;
-        u16 unk_04;
-        u16 unk_06;
-    } points[4];
-} S_800DAB50_0;
-
 typedef struct WorkBlock {
     s16 *unk0;
     s16 *unk4;
@@ -230,7 +202,7 @@ typedef struct WorkBlock {
 s32 rsin(s32);
 
 /* Update the effect vertices, animate their color, and advance the rotation. */
-void update_rotating_effect_vertices(void *effect_data) {
+void update_rotating_effect_vertices(TwoRowObjectGroupBody *effect_data) {
     WorkBlock work;
     s32 index;
     s32 color_step;
@@ -242,109 +214,109 @@ void update_rotating_effect_vertices(void *effect_data) {
 
     work.unk28 = 0;
     work.unk20 = 0;
-    if (((S_800DAB50_0 *)effect_data)->unk_08 != 0) {
+    if (effect_data->unk_08 != 0) {
         work.unk22 = 0x30;
-        work.unk2A = ((S_800DAB50_0 *)effect_data)->unk_02.s + 0x30;
+        work.unk2A = effect_data->unk_02.s + 0x30;
     } else {
-        phase_value_2 = ((S_800DAB50_0 *)effect_data)->unk_02.s;
+        phase_value_2 = effect_data->unk_02.s;
         work.unk2A = 0x30;
         work.unk22 = (phase_value_2 * 2) + 0x40;
     }
-    work.unk24 = (s16)(rsin(((s16)((S_800DAB50_0 *)effect_data)->unk_02.s - 0x20) << 6) >> 6);
+    work.unk24 = (s16)(rsin(((s16)effect_data->unk_02.s - 0x20) << 6) >> 6);
     work.unk0 = &work.unk20;
     work.unk2C = 0;
     work.unk18 = 2;
-    phase_value = ((S_800DAB50_0 *)effect_data)->unk_0A.s;
+    phase_value = effect_data->unk_0A.s;
     work.unk8 = 0;
     work.unk14 = 0;
     work.unk10 = 0;
     work.unk1A = 0;
     work.unkC = phase_value;
     for (index = 0; index < 2; index++) {
-        work.unk4 = (s16 *)&((S_800DAB50_0 *)effect_data)->points[index * 2];
+        work.unk4 = (s16 *)&effect_data->points[index * 2];
         transform_rotated_vertices(&work);
         work.unkC += 0x200;
     }
 
     for (index = 3; index >= 0; index--) {
-        ((S_800DAB50_0 *)effect_data)->points[index].unk_00 += ((S_800DAB50_0 *)effect_data)->unk_20;
-        ((S_800DAB50_0 *)effect_data)->points[index].unk_02 += ((S_800DAB50_0 *)effect_data)->unk_22;
-        ((S_800DAB50_0 *)effect_data)->points[index].unk_04 += ((S_800DAB50_0 *)effect_data)->unk_24;
+        effect_data->points[index].unk_00 += effect_data->unk_20.motion.unk_20;
+        effect_data->points[index].unk_02 += effect_data->unk_20.motion.unk_22;
+        effect_data->points[index].unk_04 += effect_data->unk_20.motion.unk_24;
     }
 
-    state = ((S_800DAB50_0 *)effect_data)->unk_00.s;
+    state = effect_data->unk_00.s;
     switch (state) {
     case 0:
-        ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = 0;
-        ((S_800DAB50_0 *)effect_data)->unk_04 = GetTPage(0, 1, 0x2C0, 0x100);
-        ((S_800DAB50_0 *)effect_data)->unk_0C = 0x242424;
-        ((S_800DAB50_0 *)effect_data)->unk_00.s = (s16)((u16)((S_800DAB50_0 *)effect_data)->unk_00.s + 1);
+        effect_data->unk_10.at00.v = 0;
+        effect_data->unk_04.s = GetTPage(0, 1, 0x2C0, 0x100);
+        effect_data->unk_0C = 0x242424;
+        effect_data->unk_00.s = (s16)((u16)effect_data->unk_00.s + 1);
     case 1:
-        ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = ((S_800DAB50_0 *)effect_data)->unk_10.at00.v
-            + ((S_800DAB50_0 *)effect_data)->unk_0C;
+        effect_data->unk_10.at00.v = effect_data->unk_10.at00.v
+            + effect_data->unk_0C;
         color_step = 0;
-        if (((S_800DAB50_0 *)effect_data)->unk_10.at03.v != 0) {
+        if (effect_data->unk_10.at03.v != 0) {
             phase_value = GetTPage(0, 3, 0x2C0, 0x100);
             color_value = 0xFFFFFF;
             color_step = 0x101010;
-            state = ((S_800DAB50_0 *)effect_data)->unk_00.u;
-            ((S_800DAB50_0 *)effect_data)->unk_04 = phase_value;
-            ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = color_value;
+            state = effect_data->unk_00.u;
+            effect_data->unk_04.s = phase_value;
+            effect_data->unk_10.at00.v = color_value;
 
-            ((S_800DAB50_0 *)effect_data)->unk_0C = color_step;
+            effect_data->unk_0C = color_step;
             state += 1;
-            ((S_800DAB50_0 *)effect_data)->unk_00.s = state;
+            effect_data->unk_00.s = state;
         }
         break;
     case 2:
-        ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = ((S_800DAB50_0 *)effect_data)->unk_10.at00.v
-            - ((S_800DAB50_0 *)effect_data)->unk_0C;
+        effect_data->unk_10.at00.v = effect_data->unk_10.at00.v
+            - effect_data->unk_0C;
         color_step = 0;
-        if ((u8)((S_800DAB50_0 *)effect_data)->unk_10.at00.v == 0x7F) {
+        if ((u8)effect_data->unk_10.at00.v == 0x7F) {
             phase_value = GetTPage(0, 3, 0x2C0, 0x100);
             color_value = 0xA0A0A0;
             color_step = 0x101010;
-            state = ((S_800DAB50_0 *)effect_data)->unk_00.u;
-            ((S_800DAB50_0 *)effect_data)->unk_04 = phase_value;
-            ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = color_value;
+            state = effect_data->unk_00.u;
+            effect_data->unk_04.s = phase_value;
+            effect_data->unk_10.at00.v = color_value;
 
-            ((S_800DAB50_0 *)effect_data)->unk_0C = color_step;
+            effect_data->unk_0C = color_step;
             state += 1;
-            ((S_800DAB50_0 *)effect_data)->unk_00.s = state;
+            effect_data->unk_00.s = state;
         }
         break;
     case 3:
-        color_step = ((S_800DAB50_0 *)effect_data)->unk_0C;
-        updated_value = ((S_800DAB50_0 *)effect_data)->unk_10.at00.v - color_step;
-        ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = updated_value;
-        color_value = ((S_800DAB50_0 *)effect_data)->unk_0C;
+        color_step = effect_data->unk_0C;
+        updated_value = effect_data->unk_10.at00.v - color_step;
+        effect_data->unk_10.at00.v = updated_value;
+        color_value = effect_data->unk_0C;
         if (color_value > 0x80808) {
-            ((S_800DAB50_0 *)effect_data)->unk_0C = color_value + 0xFFFEFEFF;
+            effect_data->unk_0C = color_value + 0xFFFEFEFF;
         }
-        if (((S_800DAB50_0 *)effect_data)->unk_10.at00.v < 0) {
-            ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = 0;
+        if (effect_data->unk_10.at00.v < 0) {
+            effect_data->unk_10.at00.v = 0;
             ((S_800DAB50_0_pre *)effect_data)[-1].unk_00 = (u16)(((S_800DAB50_0_pre *)effect_data)[-1].unk_00 | 0x8000);
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }
 
-    phase_value = ((S_800DAB50_0 *)effect_data)->unk_02.u;
+    phase_value = effect_data->unk_02.u;
     phase_value <<= 0x10;
     updated_value = phase_value >> 0xE;
     phase_value >>= 0x11;
     index = updated_value + phase_value;
-    phase_value = ((S_800DAB50_0 *)effect_data)->unk_08;
-    updated_value = ((S_800DAB50_0 *)effect_data)->unk_0A.u;
+    phase_value = effect_data->unk_08;
+    updated_value = effect_data->unk_0A.u;
     if (phase_value == 0) {
         updated_value -= index;
     } else {
         updated_value += index;
 
     }
-    ((S_800DAB50_0 *)effect_data)->unk_0A.s = updated_value;
-    phase_value = ((S_800DAB50_0 *)effect_data)->unk_02.u;
-    ((S_800DAB50_0 *)effect_data)->unk_02.s = phase_value - 1;
+    effect_data->unk_0A.s = updated_value;
+    phase_value = effect_data->unk_02.u;
+    effect_data->unk_02.s = phase_value - 1;
 }
 #include "common.h"
 #include "shared/object_node.h"

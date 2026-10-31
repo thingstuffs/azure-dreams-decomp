@@ -1,5 +1,6 @@
 #include "shared/entity.h"
 #include "dungeon/effect/shade.h"
+#include "dungeon/effect/shade/emit_particles_until_expired.h"
 
 struct ObjectNodeHeader;
 #include "shared/object_node.h"
@@ -23,12 +24,6 @@ typedef struct S_800D4DE8_2 {
     u8 pad_00[0x8];
     void * unk_08;
 } S_800D4DE8_2;
-
-typedef struct S_800D4DE8_3 {
-    u8 pad_00[0x1E];
-    s16 unk_1E;
-    s16 unk_20;
-} S_800D4DE8_3;
 
 typedef struct S_800D4DE8_5 {
     u8 pad_00[0xA];
@@ -54,7 +49,7 @@ void emit_particles_until_expired(void *emitter, Rec_func_800D4BD4_arg2 *positio
     S_800D4DE8_2 *parent;
     ObjectPosition *particle_motion;
     ObjectNodeHeader *particle;
-    S_800D4DE8_3 *particle_state;
+    EmitParticlesUntilExpiredBody *particle_state;
 
     parent = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_24;
     position->unk_02.as_s16 =
@@ -74,9 +69,9 @@ void emit_particles_until_expired(void *emitter, Rec_func_800D4BD4_arg2 *positio
             particle = allocate_flagged_object_node(0x212);
             if (particle != NULL) {
                 initialize_effect_object_state(particle, emitter, position, init_param);
-                particle_state = (u8 *)particle + 0x20;
-                particle_state->unk_1E = 0xA;
-                particle_state->unk_20 = 0xA;
+                particle_state = (EmitParticlesUntilExpiredBody *)(particle + 1);
+                particle_state->remaining_ticks = 0xA;
+                particle_state->initial_ticks = 0xA;
                 particle->update_callback = advance_damped_effect_motion;
                 particle_motion = particle->position;
                 particle_motion->velocity_x =

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/menu/motion.h"
+#include "shared/entity.h"
 
 typedef struct S_800A3918_1 {
     u8 pad_00[0x74];
@@ -12,7 +13,7 @@ extern s32 D_800C5100;
 extern union { s16 s; u16 u; } town_display_offset;
 
 /* Advances the animation phase and frame index, applying the state-one offset transition. */
-void advance_animation_phase_and_frame(MenuAnimationPhaseObject *anim, s32 unused) {
+void advance_animation_phase_and_frame(MenuAnimationPhaseObject *anim, ObjectPosition *unused) {
     s32 phase;
     s16 offset;
     u16 offset_bits;

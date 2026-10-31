@@ -4,6 +4,40 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "records/Rec_func_801237A4_arg0.h"
+typedef struct InactiveTypeTwelveObjectBody {
+    u8 pad_00[0x4];
+    union {
+        s32 word;
+        struct { union { s16 s; u16 u; } low; union { s16 s; u16 u; } high; } halves;
+    } unk_04;
+    union {
+        s32 word;
+        struct { union { s16 s; u16 u; } low; union { s16 s; u16 u; } high; } halves;
+    } unk_08;
+    union {
+        s32 word;
+        struct { union { s16 s; u16 u; } low; union { s16 s; u16 u; } high; } halves;
+    } unk_0C;
+    union {
+        s32 word;
+        struct { union { s16 s; u16 u; } low; union { s16 s; u16 u; } high; } halves;
+    } unk_10;
+    union {
+        s32 word;
+        struct { union { s16 s; u16 u; } low; union { s16 s; u16 u; } high; } halves;
+    } unk_14;
+    union {
+        s32 word;
+        struct { union { s16 s; u16 u; } low; union { s16 s; u16 u; } high; } halves;
+    } unk_18;
+    union {
+        s32 word;
+        struct { union { s16 s; u16 u; } low; union { s16 s; u16 u; } high; } halves;
+    } unk_1C;
+    u8 pad_20[0xC];
+    u16 unk_2C;
+    u8 pad_2E[0x2];
+} InactiveTypeTwelveObjectBody;
 void hud_dispatch_no_op(void *object, s32 slot_data);
 void advance_wrapped_cycle_index(void);
 void apply_record_flags_through_end(void *record, s32 flag_mask);
@@ -16,8 +50,8 @@ void draw_vram_glyph_text(u8 *text, s16 x, s16 y);
 void initialize_menu_object_state(s32 object_addr, s32 initial_value);
 void offset_record_coordinates(u8 *record, s32 x_offset, s32 y_offset);
 void copy_menu_vram_block(void);
-void queue_black_draw_buffer_rectangle(s32 draw_param);
-void draw_nearby_map_markers(void *ordering_table, s32 unused_mode);
+void queue_black_draw_buffer_rectangle(InactiveTypeTwelveObjectBody *object);
+void draw_nearby_map_markers(void *ordering_table, InactiveTypeTwelveObjectBody *unused_object);
 void append_map_dot_tile(s32 x, s32 y, void *color_data, void *submissionTarget);
 void retire_menu_object(void *object);
 void select_paired_value_tables(Rec_func_801237A4_arg0 *record);
@@ -31,7 +65,7 @@ void follow_selection_and_blink_sprite(void *motion_state, ObjectPosition *posit
 void draw_padded_first_number(s32 first, s32 second, u16 width, s16 y, u16 x, s16 mode);
 
 /* Callback entry points. */
-s32 build_transformed_sprite_quads(void *draw_area, void *placement, void *sprite);
+s32 build_transformed_sprite_quads(InactiveTypeTwelveObjectBody *draw_area, void *placement, void *sprite);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact, u16 flags);

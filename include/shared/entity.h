@@ -191,8 +191,14 @@ typedef struct ActorRecord {
     /* 0x04A */ unsigned char unk_4A; /* third byte of the four-byte drop descriptor; payload meaning follows the item category */
     /* 0x04B */ unsigned char unk_4B; /* drop descriptor flags; bit 0x20 prevents the defeat drop, and fusion preserves descriptors carrying that bit */
     /* 0x04C */ void * unk_4C; /* player: equipped sword/wand record pointer; actor snapshots serialize it as an index in the 20-slot item table */
-    /* 0x050 */ unsigned short unk_50; /* player: shield record address spans +0x50..+0x53; actor snapshots serialize it as one item-table index */
-    /* 0x052 */ unsigned short unk_52; /* high half of the +0x50 equipment pointer in item/snapshot users; separate halfword access form is retained */
+    /* 0x050 */ union {
+        struct {
+            unsigned short low; /* actor snapshots serialize it as one item-table index */
+            unsigned short high; /* high half of the equipment pointer in item/snapshot users */
+        } halves;
+        void *address; /* player: shield record address spanning +0x50..+0x53 */
+        struct DungeonItemEntry *item; /* the same record, typed */
+    } unk_50; /* Step 0b: one word, read as two halfwords or as the player's shield record pointer */
     /* 0x054 */ int status_flags; /* derived-effect mask; bits 1..4 double HP/MP/attack/defense baselines, capped at 255 by apply_entity_effects */
     /* 0x058 */ void * previous_actor_header; /* previous live actor list entry, pointing to its ObjectNodeHeader */
     /* 0x05C */ int next_actor_header; /* next live actor list entry, stored as the address of its ObjectNodeHeader */
@@ -222,6 +228,9 @@ typedef struct ActorRecord {
         void *address; /* callback address; return contracts differ between actor handlers */
         void (*run)(void *, void *, void *, void *); /* Kewne calls this view and discards any result */
         ActorActionHandler handler; /* the current action handler */
+        int word; /* Step 0b width view: handlers clear the slot through an int store */
+        unsigned char *byte_ptr; /* Step 0b width view: a handler address stored through a byte-pointer view */
+        void **ptr_ptr; /* Step 0b width view: a handler address stored through a void ** view */
     } unk_8C;
     /* 0x090 */ union {
         int value;

@@ -7,21 +7,12 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "dungeon/effect/motion.h"
+#include "dungeon/effect/motion/variant_effect_with_random_motion.h"
 #include "sdk/libc.h"
 #include "sdk/libgte.h"
 #include "engine/node.h"
 #include "slus.h"
 
-
-typedef struct S_800B7D74_2 {
-    u8 pad_00[0x8];
-    s32 * unk_08;
-    u8 pad_0C[0x4];
-    s16 unk_10;
-    s16 unk_12;
-    s16 unk_14;
-    s16 unk_16;
-} S_800B7D74_2;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 struct S_80083178__jr {
@@ -50,7 +41,7 @@ void spawn_variant_effect_with_random_motion(s32 pos_x, s32 pos_y, s32 pos_z, u3
     s32 velocity_y;
     SpriteFrameState *sprite;
     ObjectPosition *motion;
-    S_800B7D74_2 *effect_data;
+    VariantEffectWithRandomMotionBody *effect_data;
     ObjectNodeHeader *effect;
 
     effect = allocate_flagged_object_node(0x212);
@@ -70,7 +61,7 @@ void spawn_variant_effect_with_random_motion(s32 pos_x, s32 pos_y, s32 pos_z, u3
         *((s16 *)&motion->velocity_x + 1) = (s16) ((rand() & 0x1F) - 0x10);
         *((s16 *)&motion->velocity_y + 1) = (s16) ((rand() & 0x1F) - 0x10);
         *((s16 *)&motion->velocity_z + 1) = (s16) (-8 - (rand() & 0x1F));
-        effect_data->unk_08 = &random_motion_sprite_data_c;
+        effect_data->sprite_entries = random_motion_sprite_data_c;
         select_record_entry_and_value(sprite, &random_motion_sprite_data_c, 0);
         break;
     case 1:
@@ -78,17 +69,17 @@ void spawn_variant_effect_with_random_motion(s32 pos_x, s32 pos_y, s32 pos_z, u3
         *((s16 *)&motion->velocity_z + 1) = (s16) (-0x10 - (rand() & 0xF));
         motion->velocity_x = (s32) (rcos(game_state->camera_rotation.parts.viewAngle - 0x300) << 7);
         motion->velocity_y = (s32) (rsin(game_state->camera_rotation.parts.viewAngle - 0x300) << 7);
-        effect_data->unk_12 = 1;
+        effect_data->fade_color = 1;
         break;
     case 2:
         sprite->source = &D_8006E258;
         *((s16 *)&motion->velocity_z + 1) = (s16) (-8 - (rand() & 0xF));
         motion->velocity_x = (s32) (rcos(game_state->camera_rotation.parts.viewAngle + 0x500) << 7);
         motion->velocity_y = (s32) (rsin(game_state->camera_rotation.parts.viewAngle + 0x500) << 7);
-        effect_data->unk_12 = 1;
+        effect_data->fade_color = 1;
         break;
     case 3:
-        effect_data->unk_08 = &random_motion_sprite_data_a;
+        effect_data->sprite_entries = random_motion_sprite_data_a;
         select_record_entry_and_value(sprite, &random_motion_sprite_data_a, 0);
         motion->velocity_x = (s32) (rcos(game_state->camera_rotation.parts.viewAngle) << 7);
         velocity_y = rsin(game_state->camera_rotation.parts.viewAngle) << 7;
@@ -96,7 +87,7 @@ void spawn_variant_effect_with_random_motion(s32 pos_x, s32 pos_y, s32 pos_z, u3
         *((s16 *)&motion->velocity_z + 1) = (s16) (-0xC - (rand() & 0xF));
         break;
     case 4:
-        effect_data->unk_08 = &random_motion_sprite_data_b;
+        effect_data->sprite_entries = random_motion_sprite_data_b;
         select_record_entry_and_value(sprite, &random_motion_sprite_data_b, 0);
         motion->velocity_x = (s32) ((0 - rcos(game_state->camera_rotation.parts.viewAngle)) << 7);
         velocity_y = (0 - rsin(game_state->camera_rotation.parts.viewAngle)) << 7;
@@ -108,8 +99,8 @@ void spawn_variant_effect_with_random_motion(s32 pos_x, s32 pos_y, s32 pos_z, u3
     sprite->color.c.r = 0x80;
     sprite->scale_y = 0x1000;
     sprite->scale_x = 0x1000;
-    effect_data->unk_14 = (s16) ((rand() & 0x1FF) - 0x100);
-    effect_data->unk_16 = (s16) ((rand() & 0x1FF) - 0x100);
-    effect_data->unk_10 = (s16) ((rand() & 0x1F) + 0x20);
+    effect_data->angle_x_step.s = (s16) ((rand() & 0x1FF) - 0x100);
+    effect_data->angle_y_step.s = (s16) ((rand() & 0x1FF) - 0x100);
+    effect_data->lifetime.s = (s16) ((rand() & 0x1F) + 0x20);
     return;
 }

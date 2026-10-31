@@ -76,7 +76,7 @@ void retire_object_on_check_or_callback(void *object, void *input, void *context
 void tick_countdown_and_initialize_object(UnsignedCountdownView *state, void *context, s32 mode);
 
 /* update_entity_and_handle_flagged_action.c */
-void update_entity_and_handle_flagged_action(void *record, s32 context, s32 update_arg);
+void update_entity_and_handle_flagged_action(void *record, void *context, s32 update_arg);
 
 /* update_entity_countdown_transition.c */
 void update_entity_countdown_transition(void *record, void *context, s32 update_arg);

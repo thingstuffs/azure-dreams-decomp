@@ -25,7 +25,7 @@ void *card_boot_save_selected_slot(void *context) {
     } else {
         card_boot_set_slot_details_selection(*(void **)((s8 *)context + 4), *(s32 *)((s8 *)context + 0x2C), 3);
         card_boot_refresh_five_slot_objects(context);
-        card_boot_set_slot_selection_marker(*(s32 *)((s8 *)context + *(s32 *)((s8 *)context + 0x2C) * 4 + 0xC), 1);
+        card_boot_set_slot_selection_marker(*(ObjectNodeHeader **)((s8 *)context + *(s32 *)((s8 *)context + 0x2C) * 4 + 0xC), 1);
         if (D_80010208[0] != 0) {
             configure_shared_fade_primitive();
             *(u8 **)((s8 *)context - 0x10) = (u8 *)&inventory_copy_and_sign_extend_record_fields;

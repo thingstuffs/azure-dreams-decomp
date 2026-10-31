@@ -10,16 +10,6 @@
 #include "dungeon/player.h"
 #include "dungeon/item/message.h"
 
-typedef struct S_800AB778_19 {
-    u8 pad_00[0x3D7C];
-    void * unk_3D7C;
-} S_800AB778_19;   /* page4 in advance_actor_removal */
-
-typedef struct S_800AB778_20 {
-    u8 pad_00[0x3D7C];
-    void * unk_3D7C;
-} S_800AB778_20;   /* page16 in advance_actor_removal */
-
 typedef struct S_800AB778_21 {
     u8 pad_00[0xAC];
     s32 unk_AC;
@@ -145,7 +135,7 @@ extern void *familiar_record_slots[];
 extern D_800E3E48_Entry familiar_record_storage[];
 
 /* Advance actor removal, updating its visual effects and clearing its references. */
-s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, SpriteFrameState *visual, void *actor) {
+s32 advance_actor_removal(S_800AB778_1 *state, ObjectPosition *unused_context, SpriteFrameState *visual, void *actor) {
     s32 effect_flags;
     s16 actor_slot16;
     s16 fade_ticks;

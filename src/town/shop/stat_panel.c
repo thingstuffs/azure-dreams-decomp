@@ -56,7 +56,7 @@ void complete_display_transfer(void *texture_state) {
 }
 
 /* Initializes three entries with offsets and fixed, supplied, and computed values. */
-void initialize_three_display_entries(s32 source_value, Func800B8500Entry **entries, s32 entry_value) {
+void initialize_three_display_entries(s32 source_value, Func800B8500Entry **entries, void *entry_value) {
     s32 entry_offset = 8;
 
     entries[0]->inner->field_8 = -0x38;

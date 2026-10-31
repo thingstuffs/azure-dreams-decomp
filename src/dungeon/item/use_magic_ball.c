@@ -19,21 +19,6 @@ typedef struct S_800C0E88_2_pre {
     u8 pad_04[0x10];
 } S_800C0E88_2_pre;   /* the 0x14 bytes before object in use_magic_ball, addressed as object[-1] */
 
-typedef struct S_800C0E88_2 {
-    u8 pad_00[0x8];
-    u8 unk_08;
-    u8 unk_09;
-    u8 pad_0A[0xA];
-    u32 unk_14;
-    u8 pad_18[0x12];
-    s16 unk_2A;
-    u8 pad_2C[0x34];
-    void * unk_60;
-    u8 pad_64[0xE];
-    s8 unk_72;
-    s8 unk_73;
-} S_800C0E88_2;   /* object in use_magic_ball */
-
 typedef struct S_800C0E88_3 {
     u8 pad_00[0x9];
     u8 unk_09;
@@ -66,7 +51,7 @@ extern u8 D_800E1456[];
 extern u8 D_800E146F[];
 
 /* Applies data to an object, updates its slots, and handles delayed consumption. */
-s32 use_magic_ball(u8 *object, DungeonItemEntry *data, s16 action, void *context)
+s32 use_magic_ball(ActorRecord *object, DungeonItemEntry *data, s16 action, void *context)
 {
     u8 *slot_scan;
     u8 *object_record;
@@ -111,10 +96,10 @@ s32 use_magic_ball(u8 *object, DungeonItemEntry *data, s16 action, void *context
                 tail_status = (u8 *)0x80080000;
             } else {
                 message_table = item_action_definitions;
-                slot_scan = object;
+                slot_scan = (u8 *)object;
 scan_next:
                 if (slot_scan[8] == 0) {
-                    flags = ((S_800C0E88_2 *)object)->unk_14;
+                    flags = object->flags14;
                     if (flags & ACTOR_ELEMENT_FIRE) {
                         scan_slot = ((data->unk_00 - 1) * 3) + 1;
                         slot_scan[8] = scan_slot;
@@ -131,7 +116,7 @@ scan_next:
                     ((S_800C0E88_3 *)slot_scan)->unk_0A = slot_count;
                     ((S_800C0E88_3 *)slot_scan)->unk_09 = slot_count;
 
-                    if (((S_800C0E88_2 *)object)->unk_14 & 0x4000) {
+                    if (object->flags14 & 0x4000) {
                         message_start = get_unused_text_buffer();
                         message_end = append_entity_display_text(object, message_start);
                         message_end = expand_text_control_codes(D_800E1440, message_end);
@@ -171,29 +156,29 @@ scan_next:
         ((S_800C0E88_4 *)tail_status)->unk_0A--;
     } else {
         current_object->action_state_flags &= 0xFF7F;
-        ((S_800C0E88_2 *)object)->unk_09 = 0xFF;
+        object->unk_00[9] = 0xFF;
 
         slot = (data->unk_00 - 1) * 3;
-        ((S_800C0E88_2 *)object)->unk_08 = slot + 1;
+        object->unk_00[8] = slot + 1;
         flags = *(u16 *)(item_category_tables[0] + (data->unk_00 * 20));
         if (flags & 2) {
-            ((S_800C0E88_2 *)object)->unk_08 = slot + 2;
+            object->unk_00[8] = slot + 2;
         } else if (flags & 4) {
-            ((S_800C0E88_2 *)object)->unk_08 = slot + 3;
+            object->unk_00[8] = slot + 3;
         }
 
         object_record = ((S_800C0E88_2_pre *)object)[-1].unk_00;
-        object = (u8 *)((u32)object & 0xDFFFFFFF);
+        object = (ActorRecord *)((u32)object & 0xDFFFFFFF);
         search_body = object;
         search_actor = search_body;
-        ((S_800C0E88_2 *)object)->unk_60 = scan_actor_along_heading(
-            search_actor, object_record[0x24], object_record[0x25], ((S_800C0E88_2 *)object)->unk_2A, 16);
+        object->target = scan_actor_along_heading(
+            search_actor, object_record[0x24], object_record[0x25], object->facing, 16);
 
-        ((S_800C0E88_2 *)object)->unk_72 = abs(((S_800C0E88_2 *)object)->unk_72);
-        ((S_800C0E88_2 *)object)->unk_73 = abs(((S_800C0E88_2 *)object)->unk_73);
+        object->target_tile_x = abs(object->target_tile_x);
+        object->target_tile_y = abs(object->target_tile_y);
 
         if (data->unk_03 & 0x20) {
-            if (create_actor_spell_effect(object, object + 8, 0,
+            if (create_actor_spell_effect(object, ((u8 *)object) + 8, 0,
                               ((u8 *)dungeon_actor_ring_anchor) + 0x98) == 0) {
                 return 0;
             }

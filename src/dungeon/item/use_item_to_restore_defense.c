@@ -15,14 +15,10 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/player/state.h"
 #include "dungeon/actor.h"
+#include "shared/object_node.h"
 
 extern u8 D_800E0F07[];
 
-
-typedef struct S_800BDB74_0_pre {
-    ObjectPosition *unk_00;
-    u8 pad_04[0x14];
-} S_800BDB74_0_pre;   /* the 0x18 bytes before arg0 in use_item_to_restore_defense, addressed as arg0[-1] */
 
 
 /* Apply an item effect to the entity and consume the item when handled. */
@@ -41,7 +37,7 @@ s32 use_item_to_restore_defense(ActorRecord *entity, DungeonItemEntry *item, s16
         }
     }
 
-    create_timed_paired_particle_emitter(((S_800BDB74_0_pre *)entity)[-1].unk_00, 0x40C040, entity);
+    create_timed_paired_particle_emitter(((ObjectNodeHeader *)entity - 1)->position, 0x40C040, entity);
     entity->current_defense = entity->base_defense;
     if (entity->flags14 & ACTOR_PARTY_MEMBER) {
         adjust_source_value_and_finalize(entity, D_800E0F07);

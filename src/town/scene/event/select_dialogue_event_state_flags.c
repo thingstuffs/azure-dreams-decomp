@@ -22,7 +22,7 @@ extern s32 func_8001A64C(s32);
 extern void func_8001A5CC(s32);
 
 /* Select dialogue from event state and update flags for the selected interaction. */
-char *select_dialogue_event_state_flags(s32 unused_0, s32 unused_1, s32 dialogue_id)
+char *select_dialogue_event_state_flags(void *unused_0, s32 unused_1, s32 dialogue_id)
 {
     s32 dialogue_selector = dialogue_id;
 

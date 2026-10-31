@@ -24,7 +24,7 @@ void initialize_shop_display_records(void *destination, S_800B0870_1 *source) {
 }
 
 /* Process the record and its subrecord at offset 0x48 using the shared data. */
-void process_shop_record_and_subrecord(s32 record_address) {
+void process_shop_record_and_subrecord(u8 *record_address) {
     texture_build_a_hex_48_byte_two_color_swapped_pattern_blocks_returns_base(record_address, &D_800D15C4);
     initialize_shop_display_records((void *)(record_address + 0x48), (S_800B0870_1 *)&D_800D15C4);
 }

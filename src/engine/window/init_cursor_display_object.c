@@ -2,6 +2,7 @@
 
 #include "common.h"
 #include "engine/window.h"
+#include "shared/entity.h"
 
 typedef struct S_80036ED4_0 {
     u8 pad_00[0x8];
@@ -9,7 +10,7 @@ typedef struct S_80036ED4_0 {
     void * unk_0C;
 } S_80036ED4_0;   /* arg0 in init_cursor_display_object */
 
-extern void update_blinking_cursor_with_bright_idle(void *input, void *unused, void *output);
+extern void update_blinking_cursor_with_bright_idle(void *input, ObjectPosition *unused, void *output);
 
 /* Initialize the display object and update its initial appearance. */
 void init_cursor_display_object(void *object, void *display, s32 *data, s16 data_index,

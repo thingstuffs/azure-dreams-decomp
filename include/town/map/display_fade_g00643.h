@@ -51,6 +51,6 @@ extern u8 D_800BC390[8];
 /* Functions defined in this translation unit. */
 void advance_color_fade_and_set_completion(TimedColorFadeObject *fade_state, s32 unused, SpriteFrameState *visual);
 void advance_timed_state_and_set_completion(BuildTwoDisplayEntriesBody *object);
-void build_two_display_entries(s32 data_id, s32 position_offset);
+void build_two_display_entries(void *data_id, s32 position_offset);
 
 #endif
