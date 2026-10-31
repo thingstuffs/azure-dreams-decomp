@@ -43,7 +43,7 @@ void update_entity_callbacks_directional_animation_movement_ground_contact(Actor
     call_entity = body;
     call_motion = motion;
     call_part = sprite;
-    previous_state_2 = (*(u8 *)((u8 *)body + 0x6D));
+    previous_state_2 = (*((u8 *)body + 0x6D));
     call_self = body;
     state_direction = (s8)previous_state_2;
     if (refresh_actor_facing_and_lifecycle(call_entity, call_motion, call_part, call_self) != 0) {

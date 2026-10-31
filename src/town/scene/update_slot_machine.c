@@ -94,7 +94,7 @@ typedef struct S_func_80811C54_7 {
 /* Updates slot machine bets, reels, winning lines, and payout effects. */
 void update_slot_machine(void *machine, void *position)
 {
-    S_func_80811C54_1 *self = (S_func_80811C54_1 *)machine;
+    S_func_80811C54_1 *self = machine;
     S_func_80811C54_2 *input;
     u8 *effect_config;
     register S_func_80811C54_7 *position_or_effect;
@@ -108,7 +108,7 @@ void update_slot_machine(void *machine, void *position)
 
     input = (S_func_80811C54_2 *)D_8012F130;
     state_or_buttons = self->unk_5C;
-    position_or_effect = (S_func_80811C54_7 *)position;
+    position_or_effect = position;
     effect_config = D_80526704;
     if ((u32)state_or_buttons >= 8U) {
         return;
@@ -432,7 +432,7 @@ matrix_outer:
         }
 
         if (self->unk_62 & 1) {
-            effect_obj = (S_func_80811C54_4 *)func_800373DC(0x100);
+            effect_obj = func_800373DC(0x100);
             if (effect_obj != 0) {
                 effect_obj->unk_10 = D_8052DC78;
             }
@@ -489,7 +489,7 @@ matrix_outer:
         }
     }
 
-        payout_digits = (s16 *)D_80530590;
+        payout_digits = D_80530590;
         {
             s32 hundreds_left = DIGIT2;
             if ((s32)payout_digits[0] + DIGIT1 + hundreds_left == 0) {
@@ -511,7 +511,7 @@ matrix_outer:
             s32 tint;
             s32 sprite_offset;
 
-            effect_obj = (S_func_80811C54_4 *)func_800373DC(0x136);
+            effect_obj = func_800373DC(0x136);
 
             if (effect_obj == 0) {
                 return;

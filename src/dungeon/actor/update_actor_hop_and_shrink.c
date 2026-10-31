@@ -39,8 +39,9 @@ extern u8 view_reference_entity[];
 extern s16 actor_hop_target_height;
 
 /* Move toward the target while shrinking, then mark the animation complete. */
-s32 update_actor_hop_and_shrink(void *animation, void *motion, SpriteFrameState *scale, void *render)
+s32 update_actor_hop_and_shrink(void *animation, void *motion, SpriteFrameState *scale, void *render_arg)
 {
+    S_800AB538_1 *render = render_arg;
     s32 move_frames;
     s16 frames_left;
     s32 height_offset;
@@ -52,13 +53,13 @@ s32 update_actor_hop_and_shrink(void *animation, void *motion, SpriteFrameState 
     switch (state) {
     case 0:
         ((S_800AB538_0 *)animation)->unk_96.s = 0x10;
-        ((S_800AB538_1 *)render)->unk_1C &= 0xFFFBFFFF;
+        render->unk_1C &= 0xFFFBFFFF;
         (*(u16 *)((u8 *)animation + 0x98)) |= 8;
         if (system_update_flags & 2) {
             ((S_800AB538_0 *)animation)->unk_9B = 2;
             break;
         }
-        ((S_800AB538_1 *)render)->unk_8A = 0x800 / ((S_800AB538_0 *)animation)->unk_96.s;
+        render->unk_8A = 0x800 / ((S_800AB538_0 *)animation)->unk_96.s;
         next_state = ((S_800AB538_0 *)animation)->unk_9B + 1;
         ((S_800AB538_0 *)animation)->unk_9B = next_state;
         break;
@@ -93,7 +94,7 @@ s32 update_actor_hop_and_shrink(void *animation, void *motion, SpriteFrameState 
             }
         }
 
-        scale_value = scale->scale_x - ((S_800AB538_1 *)render)->unk_8A;
+        scale_value = scale->scale_x - render->unk_8A;
         scale->scale_x = scale_value;
         scale->scale_y = scale_value;
 
@@ -101,7 +102,7 @@ s32 update_actor_hop_and_shrink(void *animation, void *motion, SpriteFrameState 
         ((S_800AB538_0 *)animation)->unk_96.s = frames_left;
         if (frames_left < 0) {
             (*(s32 *)((u8 *)motion + 0x14)) = 0;
-            ((S_800AB538_1 *)render)->unk_88 = (u16)actor_hop_target_height;
+            render->unk_88 = (u16)actor_hop_target_height;
             ((S_800AB538_3 *)motion)->unk_0A.u = (u16)actor_hop_target_height;
             ((S_800AB538_0 *)animation)->unk_92 = 0;
             next_state = ((S_800AB538_0 *)animation)->unk_9B + 1;
@@ -114,10 +115,10 @@ s32 update_actor_hop_and_shrink(void *animation, void *motion, SpriteFrameState 
         scale->scale_x = 0;
 
         {
-            s32 flags = ((S_800AB538_1 *)render)->unk_1C;
+            s32 flags = render->unk_1C;
 
             flags |= 0x800000;
-            ((S_800AB538_1 *)render)->unk_1C = flags;
+            render->unk_1C = flags;
         }
         break;
     }

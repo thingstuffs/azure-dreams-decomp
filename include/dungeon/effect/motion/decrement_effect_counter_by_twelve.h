@@ -4,6 +4,7 @@
 #include "m2c_compat.h"
 #include "shared/object_flags.h"
 #include "shared/entity.h"
+#include "dungeon/effect/sprite.h"
 /* Subtracts 12 from the object counter and sets flags when it reaches zero. */
 #ifndef NULL
 #define NULL 0
@@ -24,16 +25,6 @@ typedef struct Row_818F33BC_S_80024BBC_4 {
     s16 unk_0A;
 } Row_818F33BC_S_80024BBC_4;   /* dest3 in func_80024BBC */
 
-typedef struct Row_818F33BC_S_80024BBC_5 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0x8];
-    s16 unk_14;
-    u8 pad_16[0x1C];
-    s16 unk_32;
-    u8 pad_34[0x1C];
-    s32 unk_50;
-} Row_818F33BC_S_80024BBC_5;   /* base in func_80024BBC */
 
 typedef struct Row_818F33BC_S_80024BBC_6 {
     u8 pad_00[0x2];
@@ -51,7 +42,7 @@ s32 rand(void);
 void register_node(void *, void *);
 void func_8004491C(void *, void *);
 extern s16 D_800259AC;
-void decrement_effect_counter_by_twelve(void *object);
+void decrement_effect_counter_by_twelve(RandomOffsetEffectObjectBody *object);
 void create_random_offset_effect_object(
     EntityRec *source, s16 field_14_value, void *payload, s16 field_32_value,
     s16 x_offset, s16 y_offset, s16 z_offset);

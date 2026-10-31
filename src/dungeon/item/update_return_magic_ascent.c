@@ -87,7 +87,7 @@ void update_return_magic_ascent(DungeonObject *obj, MotionState *motion, EffectS
     draw_data.field1C = 0x00400040;
     render_state_slot = &g_game_work.draw_buffer;
     render_state = g_game_work.draw_buffer;
-    prim = (Primitive *)render_state->nextPrim;
+    prim = render_state->nextPrim;
     render_state->nextPrim = (u8 *)prim + 0xC;
     buffer_diff = (u32)render_state ^ (u32)upper_draw_context;
     prim_list = (u8 *)render_state + 0x8B0;
@@ -101,7 +101,7 @@ void update_return_magic_ascent(DungeonObject *obj, MotionState *motion, EffectS
         do {
             RenderState *streak_state;
             streak_state = *render_state_slot;
-            prim = (Primitive *)streak_state->nextPrim;
+            prim = streak_state->nextPrim;
             streak_state->nextPrim = (u8 *)prim + 0x10;
             prim->fieldC = (rand() & 0x3F) + 0x340;
             prim->field8 = prim->fieldC;
@@ -134,7 +134,7 @@ void update_return_magic_ascent(DungeonObject *obj, MotionState *motion, EffectS
     {
         RenderState *area_state;
         area_state = *render_state_slot;
-        prim = (Primitive *)area_state->nextPrim;
+        prim = area_state->nextPrim;
         area_state->nextPrim = (u8 *)prim + 0xC;
         SetDrawArea(prim, &draw_data.field18);
         AddPrim(prim_list, prim);

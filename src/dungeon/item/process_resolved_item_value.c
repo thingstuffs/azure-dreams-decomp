@@ -124,7 +124,8 @@ enum ResolvedEffectPhase {
 
 /* Creates and follows a directional sprite copy, sets target status slot 29, and displays its
    completion message. */
-void process_resolved_item_value(ObjectNodeHeader *effect_state, void *motion, void *sprite) {
+void process_resolved_item_value(ObjectNodeHeader *effect_state, void *motion, void *sprite_arg) {
+    ResolvedSprite *sprite = sprite_arg;
     DirectionTable directions;
     s16 phase;
     s32 done_flag;
@@ -153,9 +154,9 @@ void process_resolved_item_value(ObjectNodeHeader *effect_state, void *motion, v
     source_sprite = (owner_header->sprite);
     switch (phase) {
     case RESOLVED_EFFECT_INIT:
-        (((ResolvedSprite *)sprite)->color) = 0x808080;
-        (((ResolvedSprite *)sprite)->scale_y) = 0x1000;
-        (((ResolvedSprite *)sprite)->scale_x) = 0x1000;
+        (sprite->color) = 0x808080;
+        (sprite->scale_y) = 0x1000;
+        (sprite->scale_x) = 0x1000;
         select_record_entry_and_value(sprite, ((u32)directional_sprite_entries), 0);
         direction = (((ResolvedActor *)owner)->facing);
         shaded_effect_update_flag = 1;

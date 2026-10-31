@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
+#include "shared/entity.h"
 
 extern s32 select_sprite_entry();
 extern void update_actor_status_and_mp();
@@ -11,7 +12,7 @@ extern u8 *beldo_effect_stream;
 extern u16 beldo_command_ticks;
 
 /* Advance the repeated command stream and apply its direction and action to the actor. */
-s32 replay_actor_direction_commands(u8 *actor, s32 action_context, SpriteFrameState *sprite) {
+s32 replay_actor_direction_commands(u8 *actor, ObjectPosition *action_context, SpriteFrameState *sprite) {
     u8 *saved_actor;
     u8 *entry;
     s32 command;

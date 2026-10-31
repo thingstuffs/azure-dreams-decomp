@@ -23,37 +23,18 @@ typedef struct S_80E3C98C_2_pre {
     u8 pad_04[0x10];
 } S_80E3C98C_2_pre;
 
-typedef struct S_80E3C98C_2 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-    u8 pad_20[0x8];
-    u8 unk_28;
-} S_80E3C98C_2;
 
 typedef struct S_80E3C98C_3_pre {
     void * unk_00;
     u8 pad_04[0x10];
 } S_80E3C98C_3_pre;
 
-typedef struct S_80E3C98C_3 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-} S_80E3C98C_3;
 
 typedef struct S_80E3C98C_4 {
     u8 pad_00[0x1];
     u8 unk_01;
 } S_80E3C98C_4;
 
-typedef struct S_80E3C98C_5 {
-    u8 pad_00[0xAC];
-    void * unk_AC;
-    u8 pad_B0[0x34];
-    void * unk_E4;
-} S_80E3C98C_5;
 
 typedef struct S_80E3C98C_6 {
     u8 pad_00[0x12];
@@ -80,7 +61,7 @@ void *spawn_manoeva_from_record(ActorRecord *body, ObjectPosition *unused1, S_80
     u8 *table_base;
     void *(*create_entity)(s32, u8, u8, s16);
     s32 table_offset;
-    S_80E3C98C_5 *table_entry;
+    PlayerRecord *table_entry;
     void *previous_entity;
     void *source_entity;
     void *entity;
@@ -95,27 +76,27 @@ void *spawn_manoeva_from_record(ActorRecord *body, ObjectPosition *unused1, S_80
                                get_item_category_value(((s32)(((u16)spawn_data->unk_60.as_s32 - 1) << 0x10) >> 0xE)
                                    + ((u8 *)dungeon_ground_items)));
         if (entity != NULL) {
-            ((S_80E3C98C_2 *)entity)->unk_14 = 0;
-            ((S_80E3C98C_2 *)entity)->unk_1C = 0;
+            ((ActorRecord *)entity)->flags14 = 0;
+            ((ActorRecord *)entity)->flags1C = 0;
             copy_entity_record(entity, spawn_data);
-            ((S_80E3C98C_2 *)entity)->unk_14 |= 0x20000000;
-            ((S_80E3C98C_2 *)entity)->unk_1C =
-                (((S_80E3C98C_2 *)entity)->unk_1C | 0x02000200) & 0xFFFEFFFF;
+            ((ActorRecord *)entity)->flags14 |= 0x20000000;
+            ((ActorRecord *)entity)->flags1C =
+                (((ActorRecord *)entity)->flags1C | 0x02000200) & 0xFFFEFFFF;
         }
     } else {
         entity_spawn_variant_code = 1;
         source_entity = (void *)source_ref;
 
-        type_data = find_or_retain_sprite_resource_slot(((S_80E3C98C_3 *)source_entity)->unk_13, 1);
+        type_data = find_or_retain_sprite_resource_slot(((ActorRecord *)source_entity)->species, 1);
         if (!((type_data != NULL) && (type_data->unk_01 != 0))) {
-            type_data = find_or_retain_sprite_resource_slot(((S_80E3C98C_3 *)source_entity)->unk_13, 3);
+            type_data = find_or_retain_sprite_resource_slot(((ActorRecord *)source_entity)->species, 3);
             result = NULL;
             if (type_data == NULL) {
                 return result;
             }
         }
         set_code_for_entity_mode(source_entity);
-        create_entity = load_monster_code_module(((S_80E3C98C_3 *)source_entity)->unk_13, type_data, 1);
+        create_entity = load_monster_code_module(((ActorRecord *)source_entity)->species, type_data, 1);
         drain_cd_command_queue();
         spawn_mode = 4;
         if (spawn_data->unk_1C.at00_u32.v & 0x2000) {
@@ -123,16 +104,16 @@ void *spawn_manoeva_from_record(ActorRecord *body, ObjectPosition *unused1, S_80
         }
         entity = create_entity(spawn_mode, position->unk_24, position->unk_25, spawn_data->unk_88.as_s16);
         if (entity != NULL) {
-            func_80042640(entity, ((S_80E3C98C_2 *)entity)->unk_13);
-            ((S_80E3C98C_2 *)entity)->unk_14 = 0;
-            ((S_80E3C98C_2 *)entity)->unk_1C = 0;
+            func_80042640(entity, ((ActorRecord *)entity)->species);
+            ((ActorRecord *)entity)->flags14 = 0;
+            ((ActorRecord *)entity)->flags1C = 0;
             copy_entity_record(entity, spawn_data);
-            ((S_80E3C98C_2 *)entity)->unk_28++;
-            ((S_80E3C98C_2 *)entity)->unk_13 = ((S_80E3C98C_3 *)source_entity)->unk_13;
+            ((ActorRecord *)entity)->hp++;
+            ((ActorRecord *)entity)->species = ((ActorRecord *)source_entity)->species;
             ((S_80E3C98C_6 *)(((S_80E3C98C_2_pre *)entity)[-1].unk_00))->unk_12 =
                 ((S_80E3C98C_7 *)(((S_80E3C98C_3_pre *)source_entity)[-1].unk_00))->unk_12 & 3;
-            ((S_80E3C98C_2 *)entity)->unk_14 |= 0x20000000;
-            ((S_80E3C98C_2 *)entity)->unk_1C = (((S_80E3C98C_2 *)entity)->unk_1C | 0x02000000) & 0xFFFEFFFF;
+            ((ActorRecord *)entity)->flags14 |= 0x20000000;
+            ((ActorRecord *)entity)->flags1C = (((ActorRecord *)entity)->flags1C | 0x02000000) & 0xFFFEFFFF;
         }
     }
     if (spawn_data->unk_14.at00_s32.v & 0x4000) {
@@ -141,9 +122,9 @@ void *spawn_manoeva_from_record(ActorRecord *body, ObjectPosition *unused1, S_80
         table_entry = (void *)(((s32)(table_offset << 0x10) >> 0xE) +
                                (long)table_base);
 
-        previous_entity = table_entry->unk_AC;
-        table_entry->unk_AC = entity;
-        table_entry->unk_E4 = previous_entity;
+        previous_entity = table_entry->actor.unk_AC.address;
+        table_entry->actor.unk_AC.address = entity;
+        table_entry->menu_alternate[0] = previous_entity;
     }
     result = NULL;
     if (entity != NULL) {

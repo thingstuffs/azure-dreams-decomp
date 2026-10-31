@@ -281,14 +281,6 @@ typedef struct Row_81917894_S_80025094_0_pre {
     u16 unk_00;
 } Row_81917894_S_80025094_0_pre;   /* the 0x2 bytes before arg0 in func_80025094, addressed as arg0[-1] */
 
-typedef struct Row_81917894_S_80025094_0 {
-    void * unk_00;
-    union { s16 s; u16 u; } unk_04;   /* accessed as both */
-    union { u16 u; s16 s; } unk_06;   /* accessed as both */
-    s16 unk_08;
-    u16 unk_0A;
-    s16 unk_0C;
-} Row_81917894_S_80025094_0;   /* arg0 in func_80025094 */
 
 typedef struct Row_81917894_S_80025094_1 {
     u8 pad_00[0x14];
@@ -314,18 +306,21 @@ typedef struct Row_81917A70_S_80025270_0 {
     s32 unk_20;
 } Row_81917A70_S_80025270_0;   /* temp_v0 in func_80025270 */
 
-typedef struct Row_81917A70_S_80025270_1 {
-    u8 pad_00[0x4];
-    s16 unk_04;
-    s16 unk_06;
+
+/* State shared by the orbiting sprite and the directed effect it creates on expiry. */
+typedef struct AnAttachedEffectCopiedTransformDataRandomizedAngleBody {
+    void *unk_00;
+    union { s16 s; u16 u; } unk_04;
+    union { u16 u; s16 s; } unk_06;
     s16 unk_08;
-    s16 unk_0A;
+    u16 unk_0A;
     s16 unk_0C;
     u8 pad_0E[0x12];
     s32 unk_20;
     s32 unk_24;
     s32 unk_28;
-} Row_81917A70_S_80025270_1;   /* temp_a0_2 in func_80025270 */
+    u8 pad_2C[0xCA];
+} AnAttachedEffectCopiedTransformDataRandomizedAngleBody;
 
 /* Creates an attached effect with copied transform data and a randomized angle. */
 /* Payload of the action object. The entity and motion data are separate objects. */
@@ -401,8 +396,8 @@ void advance_the_counter_offset_position_using_two_angles(Row_81916F10_S_8002471
 void *create_radial_effect_from_source(void *source, Row_81917004_Copy24 *origin, s16 size_step);
 void initialize_the_s_visual_state_apply_random_spherical_position_offset(void *object, Rec_func_80024600_arg1 *position, struct SpriteFrameState *visual);
 void advance_radial_effect_state(void *motion, void *position,struct SpriteFrameState *effect);
-void *create_an_oriented_effect_between_position_owner(void *owner, Rec_func_80024E80_arg1 *start_pos);
-void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(void *effect, void *transform,struct SpriteFrameState *visual);
+void *create_an_oriented_effect_between_position_owner(AnAttachedEffectCopiedTransformDataRandomizedAngleBody *owner, Rec_func_80024E80_arg1 *start_pos);
+void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(AnAttachedEffectCopiedTransformDataRandomizedAngleBody *effect, void *transform,struct SpriteFrameState *visual);
 void * create_an_attached_effect_copied_transform_data_randomized_angle(void *object, Row_81917A70_Copy24 *src_transform, s16 effect_index);
 void build_inverted(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *motion, Row_81917C08_EffectVisual *visual);
 extern u8 camera_transition_timer[];

@@ -133,19 +133,19 @@ void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, Spri
     for (;;) {
         part_uv = part + 8;
         if (!(((S_800D07C8_4 *)part)->unk_00.u & 0x20)) {
-            ((S_800D07C8_0 *)scratch)->unk_08.s32 = (*(u8 *)((u8 *)part_uv + 0));
-            ((S_800D07C8_0 *)scratch)->unk_0C.s32 = (*(u8 *)((u8 *)part_uv + 1));
-            ((S_800D07C8_0 *)scratch)->unk_10.s32 = (*(u8 *)((u8 *)part_uv + 2));
-            ((S_800D07C8_0 *)scratch)->unk_14.s32 = (*(u8 *)((u8 *)part_uv + 3));
+            ((S_800D07C8_0 *)scratch)->unk_08.s32 = (*((u8 *)part_uv + 0));
+            ((S_800D07C8_0 *)scratch)->unk_0C.s32 = (*((u8 *)part_uv + 1));
+            ((S_800D07C8_0 *)scratch)->unk_10.s32 = (*((u8 *)part_uv + 2));
+            ((S_800D07C8_0 *)scratch)->unk_14.s32 = (*((u8 *)part_uv + 3));
             if ((((S_800D07C8_4 *)part)->unk_00.u ^ ((S_800D07C8_0 *)scratch)->unk_24) & 1) {
-                vertex_x = (0 - (s8)(*(u8 *)((u8 *)part_uv + -6))) - ((S_800D07C8_0 *)scratch)->unk_108;
+                vertex_x = (0 - (s8)(*((u8 *)part_uv + -6))) - ((S_800D07C8_0 *)scratch)->unk_108;
                 ((S_800D07C8_0 *)scratch)->unk_80 = vertex_x;
                 ((S_800D07C8_0 *)scratch)->unk_70 = vertex_x;
                 vertex_x -= ((S_800D07C8_0 *)scratch)->unk_10.u16;
                 ((S_800D07C8_0 *)scratch)->unk_88 = vertex_x;
                 ((S_800D07C8_0 *)scratch)->unk_78 = vertex_x;
             } else {
-                vertex_x = (s8)(*(u8 *)((u8 *)part_uv + -6)) - ((S_800D07C8_0 *)scratch)->unk_108;
+                vertex_x = (s8)(*((u8 *)part_uv + -6)) - ((S_800D07C8_0 *)scratch)->unk_108;
                 ((S_800D07C8_0 *)scratch)->unk_80 = vertex_x;
                 ((S_800D07C8_0 *)scratch)->unk_70 = vertex_x;
                 vertex_x = vertex_x + ((S_800D07C8_0 *)scratch)->unk_10.u16;
@@ -153,14 +153,14 @@ void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, Spri
                 ((S_800D07C8_0 *)scratch)->unk_78 = vertex_x;
             }
             if ((((S_800D07C8_4 *)part)->unk_00.u ^ ((S_800D07C8_0 *)scratch)->unk_24) & 2) {
-                vertex_y = (0 - (s8)(*(u8 *)((u8 *)part_uv + -5))) - ((S_800D07C8_0 *)scratch)->unk_10A;
+                vertex_y = (0 - (s8)(*((u8 *)part_uv + -5))) - ((S_800D07C8_0 *)scratch)->unk_10A;
                 ((S_800D07C8_0 *)scratch)->unk_7A = vertex_y;
                 ((S_800D07C8_0 *)scratch)->unk_72 = vertex_y;
                 vertex_y -= ((S_800D07C8_0 *)scratch)->unk_14.u16;
                 ((S_800D07C8_0 *)scratch)->unk_8A = vertex_y;
                 ((S_800D07C8_0 *)scratch)->unk_82 = vertex_y;
             } else {
-                vertex_y = (s8)(*(u8 *)((u8 *)part_uv + -5)) - ((S_800D07C8_0 *)scratch)->unk_10A;
+                vertex_y = (s8)(*((u8 *)part_uv + -5)) - ((S_800D07C8_0 *)scratch)->unk_10A;
                 ((S_800D07C8_0 *)scratch)->unk_7A = vertex_y;
                 ((S_800D07C8_0 *)scratch)->unk_72 = vertex_y;
                 vertex_y = vertex_y + ((S_800D07C8_0 *)scratch)->unk_14.u16;
@@ -218,7 +218,7 @@ void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, Spri
                     if (((S_800D07C8_0 *)scratch)->unk_24 & 0x100) {
                         (*(s16 *)(packet + 0xE)) = sprite->clut;
                     } else {
-                        (*(s16 *)(packet + 0xE)) = sprite->clut + (*(u16 *)((u8 *)part_uv
+                        (*(s16 *)(packet + 0xE)) = sprite->clut + (*(u16 *)(part_uv
                             + -2));
                     }
                     (*(s16 *)(packet + 0xC)) = ((S_800D07C8_0 *)scratch)->unk_0C.u16
@@ -229,9 +229,9 @@ void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, Spri
                         s32 tpage_base = sprite->tpage_abr;
                         s32 tpage;
                         if (tpage_base != 0) {
-                            tpage = tpage_base + ((*(u16 *)((u8 *)part_uv + -4)) & 0xFF9F);
+                            tpage = tpage_base + ((*(u16 *)(part_uv + -4)) & 0xFF9F);
                         } else {
-                            tpage = (*(u16 *)((u8 *)part_uv + -4));
+                            tpage = (*(u16 *)(part_uv + -4));
                         }
                         (*(u16 *)(packet + 0x1A)) = tpage;
                     }
@@ -253,7 +253,7 @@ void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, Spri
                     ((S_800D07C8_5_pre *)(packet + 3))->unk_00 = 0xC;
                     (*(s32 *)(packet + 0x10)) = color;
                     (*(s32 *)(packet + 0x4)) = color;
-                    part_command = (*(u8 *)((u8 *)part_uv + -7));
+                    part_command = (*((u8 *)part_uv + -7));
                     ((S_800D07C8_5 *)(packet + 7))->unk_00 = part_command;
                     sprite_flags = ((S_800D07C8_0 *)scratch)->unk_24;
                     if (sprite_flags & 8) {
@@ -271,7 +271,7 @@ void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, Spri
                                 }
             }
         } else {
-            callback = (*(Callback *)((u8 *)part_uv + 0));
+            callback = (*(Callback *)(part_uv + 0));
             if (callback != 0) {
                 callback(context, position, sprite, part);
             }

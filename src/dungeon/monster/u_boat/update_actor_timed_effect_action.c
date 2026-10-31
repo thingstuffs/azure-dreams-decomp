@@ -64,12 +64,12 @@ extern u8 uboat_aura_sprite_data[];
 #include "dungeon/monster/u_boat.h"
 struct S_80174C64_0;
 void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosition *source_position, SpriteFrameState *source_sprite);      /* extern */
-void update_actor_movement_history(struct S_80174C64_0 *motion, ObjectPosition *position, SpriteFrameState *record, void *object); /* extern */
+void update_actor_movement_history(ActorRecord *motion, ObjectPosition *position, SpriteFrameState *record, void *object); /* extern */
 
 /* Update the actor action sequence, including its effect, animations, and position restoration. */
 /* Starts U-Boat's terrain effect, runs its obstacle-following movement, restores its saved position, and
  * spends MP. */
-void update_actor_timed_effect_action(void *action, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
+void update_actor_timed_effect_action(ActorRecord *action, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
     s16 height_delta;
     s16 height;
     s16 view_dir;
@@ -91,7 +91,7 @@ void update_actor_timed_effect_action(void *action, ObjectPosition *position, Sp
 
     s32 global_flags;
 
-    phase = ((S_8017558C_0 *)action)->unk_9B;
+    phase = action->action_phase.u;
     switch (phase) {
     case 0:
         if (sprite->flags & 0x8000) {
@@ -100,9 +100,9 @@ void update_actor_timed_effect_action(void *action, ObjectPosition *position, Sp
                 pack_and_submit_cell_height_levels();
                 finish_phase = 5;
                 global_flags = dungeon_floor_flags;
-                ((S_8017558C_0 *)action)->unk_96 = finish_phase;
+                action->action_timer.u = finish_phase;
                 dungeon_floor_flags = global_flags | FLOOR_MAP_VIEW_HOLD;
-                ((S_8017558C_0 *)action)->unk_9B = finish_phase;
+                action->action_phase.u = finish_phase;
             }
             sprite->flags = (u16) (sprite->flags | 0x6000);
             return;
@@ -114,33 +114,33 @@ void update_actor_timed_effect_action(void *action, ObjectPosition *position, Sp
             - 0x20));
         height = ((u16)actor->ground_height);
         height_delta -= height;
-        if (((S_8017558C_0 *)action)->unk_92.s >= height_delta) {
-            ((S_8017558C_0 *)action)->unk_92.u = (u16) height_delta;
+        if (action->unk_90.parts.high.s >= height_delta) {
+            action->unk_90.parts.high.u = (u16) height_delta;
         } else {
-            ((S_8017558C_0 *)action)->unk_92.u = ((S_8017558C_0 *)action)->unk_92.u + 0xC;
-            if (height_delta < (s16) ((S_8017558C_0 *)action)->unk_92.u) {
-                ((S_8017558C_0 *)action)->unk_92.u = (u16) height_delta;
+            action->unk_90.parts.high.u = action->unk_90.parts.high.u + 0xC;
+            if (height_delta < (s16) action->unk_90.parts.high.u) {
+                action->unk_90.parts.high.u = (u16) height_delta;
             }
         }
-        if (((S_8017558C_0 *)action)->unk_92.s == 0) {
+        if (action->unk_90.parts.high.s == 0) {
             sprite->frameTable = uboat_aura_start_frames;
             select_sprite_entry(sprite, uboat_aura_start_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             play_sound_if_enabled(0x800);
-            ((S_8017558C_0 *)action)->unk_96 = 2U;
-            ((S_8017558C_0 *)action)->unk_9B = (u8) (((S_8017558C_0 *)action)->unk_9B + 1);
+            action->action_timer.u = 2U;
+            action->action_phase.u = (u8) (action->action_phase.u + 1);
             sprite->depth_bias = 6;
-            ((S_8017558C_0 *)action)->unk_A6 = (u16) actor->facing;
+            action->unk_A4.halves.high.u = (u16) actor->facing;
         }
-        effect_timer = ((S_8017558C_0 *)action)->unk_96 + 1;
-        ((S_8017558C_0 *)action)->unk_96 = effect_timer;
+        effect_timer = action->action_timer.u + 1;
+        action->action_timer.u = effect_timer;
         if ((s16) effect_timer != 1) {
             return;
         }
-        effect = allocate_list_node(0x12, action - 0x20);
+        effect = allocate_list_node(0x12, ((void *)action) - 0x20);
         if (effect == NULL) {
             return;
         }
-        ((S_8017558C_0 *)action)->unk_AC = effect;
+        action->unk_AC.address = effect;
         effect->update_callback = u_boat_timed_effect_update_address;
         register_node(effect, clipped_sprite_renderer_address);
         effect_state = ((void *)effect) + 0x20;
@@ -163,8 +163,8 @@ void update_actor_timed_effect_action(void *action, ObjectPosition *position, Sp
         effect_sprite->source = uboat_aura_sprite_data;
         return;
     case 1:
-        start_timer = ((S_8017558C_0 *)action)->unk_96 - 1;
-        ((S_8017558C_0 *)action)->unk_96 = start_timer;
+        start_timer = action->action_timer.u - 1;
+        action->action_timer.u = start_timer;
         if ((start_timer << 0x10) > 0) {
             if (!(sprite->flags & 0xE000)) {
                 return;
@@ -172,62 +172,62 @@ void update_actor_timed_effect_action(void *action, ObjectPosition *position, Sp
         }
         sprite->frameTable = uboat_aura_later_frames;
         select_sprite_entry(sprite, uboat_aura_later_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
-        ((S_8017558C_0 *)action)->unk_96 = 3U;
-        ((S_8017558C_0 *)action)->unk_9B = (u8) (((S_8017558C_0 *)action)->unk_9B + 1);
-        ((S_8017558C_0 *)action)->unk_B6 = (u16) ((u16)position->x.w.i);
+        action->action_timer.u = 3U;
+        action->action_phase.u = (u8) (action->action_phase.u + 1);
+        action->unk_B4.halves.high.u = (u16) ((u16)position->x.w.i);
         ((S_8017558C_0 *)action)->unk_B8 = (u16) ((u16)position->y.w.i);
         ((S_8017558C_0 *)action)->unk_BA = (u16) ((u16)actor->ground_height);
         return;
     case 2:
-        windup_timer = ((S_8017558C_0 *)action)->unk_96 - 1;
-        ((S_8017558C_0 *)action)->unk_96 = windup_timer;
+        windup_timer = action->action_timer.u - 1;
+        action->action_timer.u = windup_timer;
         if ((windup_timer << 0x10) > 0) {
             return;
         }
-        next_phase = ((S_8017558C_0 *)action)->unk_9B;
-        ((S_8017558C_0 *)action)->unk_96 = 0x1EU;
-        ((S_8017558C_0 *)action)->unk_A8 = 0;
-        ((S_8017558C_0 *)action)->unk_B1 = 0U;
-        ((S_8017558C_0 *)action)->unk_B2 = 0;
-        ((S_8017558C_0 *)action)->unk_B4 = 0;
-        ((S_8017558C_0 *)action)->unk_B3 = 0;
+        next_phase = action->action_phase.u;
+        action->action_timer.u = 0x1EU;
+        action->unk_A8.s = 0;
+        action->unk_B0.bytes[1] = 0U;
+        action->unk_B0.bytes[2] = 0;
+        action->unk_B4.bytes[0] = 0;
+        action->unk_B0.bytes[3] = 0;
         next_phase += 1;
-        ((S_8017558C_0 *)action)->unk_9B = next_phase;
+        action->action_phase.u = next_phase;
         return;
     case 3:
         update_actor_movement_history(action, position, sprite, actor);
         return;
     case 4:
-        restore_phase = ((S_8017558C_0 *)action)->unk_B1;
+        restore_phase = action->unk_B0.bytes[1];
         switch (restore_phase) {
         case 0:
-            restore_timer = ((S_8017558C_0 *)action)->unk_96 + 1;
-            ((S_8017558C_0 *)action)->unk_96 = restore_timer;
+            restore_timer = action->action_timer.u + 1;
+            action->action_timer.u = restore_timer;
             if ((s16) restore_timer == 1) {
-                position->x.w.i = (u16) ((S_8017558C_0 *)action)->unk_B6;
+                position->x.w.i = (u16) action->unk_B4.halves.high.u;
                 position->y.w.i = (u16) ((S_8017558C_0 *)action)->unk_B8;
                 actor->ground_height = (u16) ((S_8017558C_0 *)action)->unk_BA;
-                saved_angle = ((S_8017558C_0 *)action)->unk_A6;
+                saved_angle = action->unk_A4.halves.high.u;
                 actor->facing = (s16) saved_angle;
                 view_dir = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) saved_angle + 0x100) >> 9) & 7;
                 select_indirect_table_entry(sprite, (*(u8 * *)&sprite->frameTable)[view_dir], sprite->unk_04);
-                ((S_8017558C_0 *)action)->unk_94 = view_dir;
+                action->unk_94 = view_dir;
             }
-            if ((s16) ((S_8017558C_0 *)action)->unk_96 < 0x10) {
+            if ((s16) action->action_timer.u < 0x10) {
                 return;
             }
-            ((S_8017558C_0 *)action)->unk_96 = 0U;
-            ((S_8017558C_0 *)action)->unk_B1 = (u8) (((S_8017558C_0 *)action)->unk_B1 + 1);
+            action->action_timer.u = 0U;
+            action->unk_B0.bytes[1] = (u8) (action->unk_B0.bytes[1] + 1);
             sprite->flags = (u16) (sprite->flags & 0x9F7F);
             return;
         case 1:
-            pause_timer = ((S_8017558C_0 *)action)->unk_96;
-            ((S_8017558C_0 *)action)->unk_96 = (u16) (pause_timer + 1);
+            pause_timer = action->action_timer.u;
+            action->action_timer.u = (u16) (pause_timer + 1);
             if ((s16) pause_timer < 4) {
                 return;
             }
-            ((S_8017558C_0 *)action)->unk_96 = 0U;
-            ((S_8017558C_0 *)action)->unk_B1 = (u8) (((S_8017558C_0 *)action)->unk_B1 + 1);
+            action->action_timer.u = 0U;
+            action->unk_B0.bytes[1] = (u8) (action->unk_B0.bytes[1] + 1);
             sprite->frameTable = u_boat_aura_frames;
             select_sprite_entry(sprite, u_boat_aura_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             sprite->flags = (u16) (sprite->flags & 0x9F7F);
@@ -242,15 +242,15 @@ void update_actor_timed_effect_action(void *action, ObjectPosition *position, Sp
             position->velocity_x = 0;
             set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
             actor->flags1C = (s32) (actor->flags1C | 0x40000);
-            ((S_8017558C_0 *)action)->unk_98 = (u16) (((S_8017558C_0 *)action)->unk_98 | 8);
+            action->action_state_flags = (u16) (action->action_state_flags | 8);
             if (*(u8 * *)&sprite->frameTable == uboat_default_frames) {
                 return;
             }
             sprite->frameTable = uboat_default_frames;
             select_sprite_entry(sprite, uboat_default_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
-            ((S_8017558C_0 *)action)->unk_96 = 5U;
-            ((S_8017558C_0 *)action)->unk_9B = (u8) (((S_8017558C_0 *)action)->unk_9B + 1);
-            if (((S_8017558C_0 *)action)->unk_B0 != 0) {
+            action->action_timer.u = 5U;
+            action->action_phase.u = (u8) (action->action_phase.u + 1);
+            if (action->unk_B0.bytes[0] != 0) {
                 return;
             }
             create_owner_linked_directional_object(action, position, sprite);
@@ -258,14 +258,14 @@ void update_actor_timed_effect_action(void *action, ObjectPosition *position, Sp
         }
         return;
     case 5:
-        finish_timer = ((S_8017558C_0 *)action)->unk_96;
-        ((S_8017558C_0 *)action)->unk_96 = (u16) (finish_timer - 1);
+        finish_timer = action->action_timer.u;
+        action->action_timer.u = (u16) (finish_timer - 1);
         if ((finish_timer << 0x10) > 0) {
             return;
         }
         sprite->depth_bias = 0;
         spend_actor_mp(actor, 0x1000);
-        ((S_8017558C_0 *)action)->unk_8C = uboat_behavior_entry;
+        action->unk_8C.byte_ptr = uboat_behavior_entry;
         g_dungeon_status.active_actor = 0;
         actor->action_flags = (u16) (actor->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
         return;

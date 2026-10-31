@@ -34,7 +34,7 @@ s32 clamp_coordinates_to_bounds(s32 *x_ptr, s32 *y_ptr);
 void expand_bounds_to_inset_rectangle(s32 *bounds, s16 *rect);
 
 /* follow_linked_position_until_timeout.c */
-void follow_linked_position_until_timeout(UnsignedCountdownView *state, IntVector3 *out, s32 handler_arg);
+void follow_linked_position_until_timeout(UnsignedCountdownView *state, IntVector3 *out, struct SpriteFrameState *handler_arg);
 
 /* handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile.c */
 void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(EntityRec *position);

@@ -30,12 +30,6 @@ typedef struct S_80172504_0 {
 } S_80172504_0;   /* entity in scan_forward_tiles_for_target */
 
 
-typedef struct S_80172504_2 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80172504_2;   /* (void *)scratch in scan_forward_tiles_for_target */
-
 
 extern s32 find_eligible_entry_at_coordinates();
 extern void prepare_directional_attack();
@@ -43,7 +37,7 @@ extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 extern s32 check_layer_offset_height(u16 x, u16 y, s16 height, u32 flags);
 
 /* Scan up to eight tiles ahead for a valid target and update the entity action state. */
-s32 scan_forward_tiles_for_target(GolemActionWork *action_state, ObjectPosition *transfer_data, SpriteFrameState *origin, void *actor) {
+s32 scan_forward_tiles_for_target(GolemActionWork *action_state, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
     u32 dir_index;
     u16 initial_direction;
     s16 *delta_x;
@@ -62,27 +56,27 @@ s32 scan_forward_tiles_for_target(GolemActionWork *action_state, ObjectPosition 
     s16 next_height;
     u16 direction;
 
-    ((S_80172504_0 *)actor)->unk_71 &= 0x7F;
+    actor->movement_queue_state &= 0x7F;
     if (g_dungeon_status.flags & 0x2000) {
         return -1;
     }
-    if (!(((S_80172504_0 *)actor)->unk_46 & 0x8000) && (g_dungeon_status.flags & 8)) {
+    if (!(actor->action_flags & 0x8000) && (g_dungeon_status.flags & 8)) {
         return -1;
     }
     if ((try_claim_dungeon_action_slot(actor) << 16) != 0) {
         return -1;
     }
-    apply_camera_offset_and_select_target((u8 *)actor - 0x20, transfer_data, 8, 0x300);
+    apply_camera_offset_and_select_target((u8 *)actor - 0x20, position, 8, 0x300);
     check_result = try_claim_dungeon_action_slot(actor);
     step_count = 0;
     if ((check_result << 16) != 0) {
         return -1;
     }
 
-    dir_index = (((S_80172504_0 *)actor)->unk_2A.s >> 9) & 7;
+    dir_index = (actor->facing >> 9) & 7;
     direction_offset = dir_index * 2;
-    tile_x = origin->tile_x;
-    tile_y = origin->tile_y;
+    tile_x = sprite->tile_x;
+    tile_y = sprite->tile_y;
     delta_x = (s16 *)((u8 *)((s8 *)dir_step_x) + direction_offset);
     direction = dir_index;
     action_state->target_x = tile_x;
@@ -96,7 +90,7 @@ s32 scan_forward_tiles_for_target(GolemActionWork *action_state, ObjectPosition 
         world_y = (signed_y << 6) & 0xFFC0;
         if ((check_layer_offset_height(world_x,
                            world_y,
-                           ((S_80172504_0 *)actor)->unk_88.s, direction << 9) << 16) != 0) {
+                           actor->ground_height, direction << 9) << 16) != 0) {
             break;
         }
 
@@ -105,11 +99,11 @@ s32 scan_forward_tiles_for_target(GolemActionWork *action_state, ObjectPosition 
         next_height = sample_terrain_surface_height(
             next_world_x,
             (((signed_y + *delta_y) << 6) + 0x20) & 0xFFE0,
-            (s16)(((S_80172504_0 *)actor)->unk_88.u - 0x20));
+            (s16)(actor->ground_height - 0x20));
         if (next_height >= 0x201) {
             break;
         }
-        if ((u16)(next_height - ((S_80172504_0 *)actor)->unk_88.u + 0x3F) >= 0x7F) {
+        if ((u16)(next_height - actor->ground_height + 0x3F) >= 0x7F) {
             break;
         }
 
@@ -146,16 +140,16 @@ s32 scan_forward_tiles_for_target(GolemActionWork *action_state, ObjectPosition 
     action_state->phase = 0;
     action_state->callback.word = 0;
     action_state->duration = 8;
-    ((S_80172504_0 *)actor)->unk_84 = 0x7E;
-    ((S_80172504_0 *)actor)->unk_85 = 8;
+    actor->unk_84 = 0x7E;
+    actor->unk_85 = 8;
     advance_status_timers(actor);
-    ((S_80172504_0 *)actor)->unk_6D--;
+    actor->pending_turn_updates--;
     copy_dest = (u8 *)actor - 0x20;
     if (action_state->mode == 2) {
-        prepare_directional_attack(actor, origin, ((S_80172504_0 *)actor)->unk_2A.u,
+        prepare_directional_attack(actor, sprite, actor->facing,
                       (s16)(step_count + 1), ((S_80172504_0 *)actor)->unk_60);
     } else {
-        select_nearby_target_and_initialize_slot(copy_dest, transfer_data, 8, 0x300);
+        select_nearby_target_and_initialize_slot(copy_dest, position, 8, 0x300);
     }
     return 0;
 }

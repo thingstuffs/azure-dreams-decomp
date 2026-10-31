@@ -125,8 +125,8 @@ void update_directional_actor_effect(S_func_819B2800_0 *effect, S_func_819B2800_
     location = (S_func_819B2800_3 *) ((u8 *) object_data - 0x20);
     switch (phase_or_delay) {
     case 0:
-        ((S_func_819B2800_5 *) ((s32*)((int *)(&primary_actor_record)))[0])->unk_102 = 1;
-        ((S_func_819B2800_5 *) ((s32*)((int *)(&primary_actor_record)))[0])->unk_F4 = 0;
+        ((S_func_819B2800_5 *) (((int *)(&primary_actor_record)))[0])->unk_102 = 1;
+        ((S_func_819B2800_5 *) (((int *)(&primary_actor_record)))[0])->unk_F4 = 0;
         position->unk_00 = (s32) ((S_func_819B2800_1 *) location->unk_08)->unk_00;
         position->unk_04 = (s32) ((S_func_819B2800_1 *) location->unk_08)->unk_04;
         position->unk_08.unk_08 = (s32) ((S_func_819B2800_1 *) location->unk_08)->unk_08.unk_08;
@@ -135,7 +135,7 @@ void update_directional_actor_effect(S_func_819B2800_0 *effect, S_func_819B2800_
         if (!(*effect->unk_04 & 0x80)) {
             return;
         }
-        actor = (void *) ((s32*)((int *)(&primary_actor_record)))[0];
+        actor = (void *) (((int *)(&primary_actor_record)))[0];
         effect->unk_50 = 0xAU;
         actor->unk_A6 = (u16) (actor->unk_A6 - 1);
         actor->unk_A8 = (u8) effect->unk_08;
@@ -195,7 +195,7 @@ void update_directional_actor_effect(S_func_819B2800_0 *effect, S_func_819B2800_
             object_data->unk_10 = update_actor_movement_animation_collision;
             register_node(data_bytes, draw_fading_radial_effect_grid);
             data_bytes = ((u8 *)(&reference_tile_object));
-            direction = ((u16) ((S_func_819B2800_5 *) ((s32*)((int *)(&primary_actor_record)))[0])->unk_2A >> 9) & 7;
+            direction = ((u16) ((S_func_819B2800_5 *) (((int *)(&primary_actor_record)))[0])->unk_2A >> 9) & 7;
             offset.vx = direction;
             visual->unk_0C = (s16) (reference_tile_object.tile_position.parts.tile_x + dir_step_x[direction]);
             visual->unk_0E = (s16) (reference_tile_object.tile_position.parts.tile_y + dir_step_y[offset.vx]);
@@ -210,7 +210,7 @@ void update_directional_actor_effect(S_func_819B2800_0 *effect, S_func_819B2800_
         return;
     case 4:
         if ((s16) effect->unk_50 == 8) {
-            target = ((s32*)((int *)(&primary_actor_record)))[0];
+            target = (((int *)(&primary_actor_record)))[0];
             position = (void *) target;
             if (target != 0) {
                 location = (S_func_819B2800_3 *) ((u8 *)(&reference_tile_object));
@@ -353,7 +353,7 @@ s32 draw_linked_sprite_effect_quads(SpriteEffect *first_item) {
             u32 color_or_tag_mask = 0;
 
             packet_pool = render_state->draw_buffer;
-            packet = (SpriteQuad *)packet_pool->packetCursor;
+            packet = packet_pool->packetCursor;
             packet_pool->packetCursor = (u8 *)packet + 0x34;
             packet->color = 0xA0A0A0;
             SetPolyFT4(packet);
@@ -469,8 +469,9 @@ extern s32 rand(void);
 extern u8 secondary_sprite[];
 
 /* Update the animated effect, track its target, and spawn scattered particles. */
-void update_animated_target_effect(void *effect)
+void update_animated_target_effect(void *effect_arg)
 {
+    S_8002466C_0 *effect = effect_arg;
     GteShortVector target_pos;
     s16 state;
     s32 last_particle;
@@ -488,76 +489,76 @@ void update_animated_target_effect(void *effect)
     void *particle_data;
     void *display;
 
-    owner = ((S_8002466C_0 *)effect)->unk_00;
-    ((S_8002466C_0 *)effect)->unk_48.s = ((S_8002466C_0 *)effect)->unk_48.s + 1;
+    owner = effect->unk_00;
+    effect->unk_48.s = effect->unk_48.s + 1;
     ((S_8002466C_1 *)owner)->unk_52 |= 0x8000;
     last_particle = -1;
-    state = ((S_8002466C_0 *)effect)->unk_4C.s;
+    state = effect->unk_4C.s;
     switch (state) {
     case 0:
-        ((S_8002466C_0 *)effect)->unk_50 = GetTPage(0, 1, 0x2C0, 0x100);
-        ((S_8002466C_0 *)effect)->unk_52 = GetClut(0xC0, 0x1F7);
-        ((S_8002466C_0 *)effect)->unk_46 = 0x1F;
-        ((S_8002466C_0 *)effect)->unk_44 = 0x1F;
-        ((S_8002466C_0 *)effect)->unk_48.s = 0;
-        ((S_8002466C_0 *)effect)->unk_4E = 0x30;
-        ((S_8002466C_0 *)effect)->unk_4C.s = ((S_8002466C_0 *)effect)->unk_4C.u + 1;
+        effect->unk_50 = GetTPage(0, 1, 0x2C0, 0x100);
+        effect->unk_52 = GetClut(0xC0, 0x1F7);
+        effect->unk_46 = 0x1F;
+        effect->unk_44 = 0x1F;
+        effect->unk_48.s = 0;
+        effect->unk_4E = 0x30;
+        effect->unk_4C.s = effect->unk_4C.u + 1;
     case 1:
         last_particle = 0xE;
         approach_data = &reference_tile_object;
         approach_target = approach_data;
         if (resolve_record_orientation_or_fallback(approach_target->source, approach_target, &target_pos, 0) != 0) {
-            ((S_8002466C_0 *)effect)->unk_1C.at00.v +=
+            effect->unk_1C.at00.v +=
                 ((target_pos.vx + view_reference_entity.x.w.i) -
-                 ((S_8002466C_0 *)effect)->unk_1C.at02.v) << 14;
-            ((S_8002466C_0 *)effect)->unk_20.at00.v +=
+                 effect->unk_1C.at02.v) << 14;
+            effect->unk_20.at00.v +=
                 ((target_pos.vy + view_reference_entity.y.w.i) -
-                 ((S_8002466C_0 *)effect)->unk_20.at02.v) << 14;
-            ((S_8002466C_0 *)effect)->unk_24.at00.v +=
+                 effect->unk_20.at02.v) << 14;
+            effect->unk_24.at00.v +=
                 ((target_pos.vz + view_reference_entity.z.w.i) -
-                 ((S_8002466C_0 *)effect)->unk_24.at02.v) << 14;
-            ((S_8002466C_0 *)effect)->unk_24.at00.v -=
-                rsin((((S_8002466C_0 *)effect)->unk_48.u << 11) / 10) << 9;
+                 effect->unk_24.at02.v) << 14;
+            effect->unk_24.at00.v -=
+                rsin((effect->unk_48.u << 11) / 10) << 9;
         }
-        if (((S_8002466C_0 *)effect)->unk_48.u >= 0xA) {
-            ((S_8002466C_0 *)effect)->unk_4A = 0x10;
-            ((S_8002466C_0 *)effect)->unk_4C.s = ((S_8002466C_0 *)effect)->unk_4C.u + 1;
+        if (effect->unk_48.u >= 0xA) {
+            effect->unk_4A = 0x10;
+            effect->unk_4C.s = effect->unk_4C.u + 1;
         }
         break;
 
     case 2:
         last_particle = 9;
-        if (((S_8002466C_0 *)effect)->unk_48.u >= 0xB) {
+        if (effect->unk_48.u >= 0xB) {
             last_particle = 4;
         }
-        ((S_8002466C_0 *)effect)->unk_4E += 2;
+        effect->unk_4E += 2;
         follow_data = &reference_tile_object;
         follow_target = follow_data;
         if (resolve_record_orientation_or_fallback(follow_target->source, follow_target, &target_pos, 0) != 0) {
-            ((S_8002466C_0 *)effect)->unk_1C.at00.v +=
+            effect->unk_1C.at00.v +=
                 ((target_pos.vx + view_reference_entity.x.w.i) -
-                 ((S_8002466C_0 *)effect)->unk_1C.at02.v) << 15;
-            ((S_8002466C_0 *)effect)->unk_20.at00.v +=
+                 effect->unk_1C.at02.v) << 15;
+            effect->unk_20.at00.v +=
                 ((target_pos.vy + view_reference_entity.y.w.i) -
-                 ((S_8002466C_0 *)effect)->unk_20.at02.v) << 15;
-            ((S_8002466C_0 *)effect)->unk_24.at00.v +=
+                 effect->unk_20.at02.v) << 15;
+            effect->unk_24.at00.v +=
                 ((target_pos.vz + view_reference_entity.z.w.i) -
-                 ((S_8002466C_0 *)effect)->unk_24.at02.v) << 15;
+                 effect->unk_24.at02.v) << 15;
         }
-        if (((S_8002466C_0 *)effect)->unk_48.u >= 0xD) {
-            ((S_8002466C_0 *)effect)->unk_48.s = 8;
+        if (effect->unk_48.u >= 0xD) {
+            effect->unk_48.s = 8;
         }
-        frames_left = ((S_8002466C_0 *)effect)->unk_4A - 1;
-        ((S_8002466C_0 *)effect)->unk_4A = frames_left;
+        frames_left = effect->unk_4A - 1;
+        effect->unk_4A = frames_left;
         if (((s32)(frames_left << 16) <= 0) &&
-            (((S_8002466C_0 *)effect)->unk_48.u == 0xC)) {
-            ((S_8002466C_0 *)effect)->unk_4C.s = ((S_8002466C_0 *)effect)->unk_4C.u + 1;
+            (effect->unk_48.u == 0xC)) {
+            effect->unk_4C.s = effect->unk_4C.u + 1;
         }
         break;
 
     case 3:
         last_particle = 5;
-        if (((S_8002466C_0 *)effect)->unk_48.u == 0xF) {
+        if (effect->unk_48.u == 0xF) {
             (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
@@ -565,9 +566,9 @@ void update_animated_target_effect(void *effect)
     }
     particle_index = last_particle;
 
-    ((S_8002466C_0 *)effect)->unk_40 = ((((S_8002466C_0 *)effect)->unk_48.s & 3) << 5) + 0x80;
-    ((S_8002466C_0 *)effect)->unk_42 =
-        (((s32)(((S_8002466C_0 *)effect)->unk_48.s << 16) >> 18) << 5) + 0x80;
+    effect->unk_40 = ((effect->unk_48.s & 3) << 5) + 0x80;
+    effect->unk_42 =
+        (((s32)(effect->unk_48.s << 16) >> 18) << 5) + 0x80;
     if (particle_index >= 0) {
         particle_data = build_and_queue_interpolated_vertical_quads_around_five_perimeter_points;
         display = secondary_sprite;
@@ -579,13 +580,13 @@ void update_animated_target_effect(void *effect)
                 sprite = particle->sprite;
                 particle_state = (u8 *)particle + 0x20;
                 (particle->position)->x.v =
-                    ((S_8002466C_0 *)effect)->unk_1C.at00.v +
+                    effect->unk_1C.at00.v +
                     (((rand() & 0x3FF) - 0x1FF) << 12);
                 (particle->position)->y.v =
-                    ((S_8002466C_0 *)effect)->unk_20.at00.v +
+                    effect->unk_20.at00.v +
                     (((rand() & 0x3FF) - 0x1FF) << 12);
                 (particle->position)->z.v =
-                    ((S_8002466C_0 *)effect)->unk_24.at00.v +
+                    effect->unk_24.at00.v +
                     (((rand() & 0x3FF) - 0x1FF) << 11);
                 sprite->scale_y = 0x1000;
                 sprite->scale_x = 0x1000;
@@ -597,7 +598,7 @@ void update_animated_target_effect(void *effect)
                 sprite->frame_ticks = 0;
                 sprite->color.word = 0x808080;
                 sprite->source = display_link;
-                ((S_8002466C_6 *)particle)->unk_20 = ((S_8002466C_0 *)effect)->unk_00;
+                ((S_8002466C_6 *)particle)->unk_20 = effect->unk_00;
                 ((S_8002466C_9 *)particle_state)->unk_4C = 0;
             }
             particle_index -= 1;
@@ -680,32 +681,33 @@ typedef struct S_80024B48_2 {
 } S_80024B48_2;   /* ((S_80024B48_0 *)arg0)->unk_00 in update_actor_movement_animation_collision */
 
 /* Initialize object coordinates and set completion flags after 32 ticks. */
-void update_actor_movement_animation_collision(void *object) {
+void update_actor_movement_animation_collision(void *object_arg) {
+    S_80024B48_0 *object = object_arg;
     s32 tile_x;
     s32 tile_y;
     s32 offset_tile_x;
     s32 offset_tile_y;
 
-    ((S_80024B48_2 *)(((S_80024B48_0 *)object)->unk_00))->unk_52 =
-        (s16) (((S_80024B48_2 *)(((S_80024B48_0 *)object)->unk_00))->unk_52 | 0x8000);
-    ((S_80024B48_0 *)object)->unk_48 = (u16) (((S_80024B48_0 *)object)->unk_48 + 1);
-    if (((S_80024B48_0 *)object)->unk_4C != 0) {
-        if (((S_80024B48_0 *)object)->unk_4C != 1) {
+    ((S_80024B48_2 *)(object->unk_00))->unk_52 =
+        (s16) (((S_80024B48_2 *)(object->unk_00))->unk_52 | 0x8000);
+    object->unk_48 = (u16) (object->unk_48 + 1);
+    if (object->unk_4C != 0) {
+        if (object->unk_4C != 1) {
             return;
         }
     } else {
-        tile_x = (s16) ((S_80024B48_0 *)object)->unk_0C;
-        tile_y = (s16) ((S_80024B48_0 *)object)->unk_0E;
-        ((S_80024B48_0 *)object)->unk_48 = 0U;
-        ((S_80024B48_0 *)object)->unk_04 = (s16) ((tile_x << 6) + 0x20);
-        ((S_80024B48_0 *)object)->unk_06 = (s16) ((tile_y << 6) + 0x20);
-        offset_tile_x = (s16) ((S_80024B48_0 *)object)->unk_0C;
-        offset_tile_y = (s16) ((S_80024B48_0 *)object)->unk_0E;
-        ((S_80024B48_0 *)object)->unk_0C = (s16) ((offset_tile_x - 7) << 6);
-        ((S_80024B48_0 *)object)->unk_0E = (s16) ((offset_tile_y - 7) << 6);
-        ((S_80024B48_0 *)object)->unk_4C = (s16) ((u16) ((S_80024B48_0 *)object)->unk_4C + 1);
+        tile_x = (s16) object->unk_0C;
+        tile_y = (s16) object->unk_0E;
+        object->unk_48 = 0U;
+        object->unk_04 = (s16) ((tile_x << 6) + 0x20);
+        object->unk_06 = (s16) ((tile_y << 6) + 0x20);
+        offset_tile_x = (s16) object->unk_0C;
+        offset_tile_y = (s16) object->unk_0E;
+        object->unk_0C = (s16) ((offset_tile_x - 7) << 6);
+        object->unk_0E = (s16) ((offset_tile_y - 7) << 6);
+        object->unk_4C = (s16) ((u16) object->unk_4C + 1);
     }
-    if ((s16) ((S_80024B48_0 *)object)->unk_48 >= 0x20) {
+    if ((s16) object->unk_48 >= 0x20) {
         (*(u16 *)((u8 *)object + (-2))) = (u16) (((S_80024B48_0_pre *)object)[-1].unk_00 | NODE_REMOVE);
         (object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
@@ -745,7 +747,7 @@ s32 draw_fading_radial_effect_grid(void *effect_data) {
     s32 grid_last = 15;
 
     do {
-        effect = (u8 *)effect_data;
+        effect = effect_data;
 
         {
             s32 seed_index = 7;
@@ -846,7 +848,7 @@ s32 draw_fading_radial_effect_grid(void *effect_data) {
 
                             {
                                 u8 *packet_pool;
-                                packet_pool = (u8 *)gw->draw_buffer;
+                                packet_pool = gw->draw_buffer;
                                 quad = *(Quad **)(packet_pool + 0x8d0);
                                 *(Quad **)(packet_pool + 0x8d0) = quad + 1;
                             }
@@ -884,7 +886,7 @@ s32 draw_fading_radial_effect_grid(void *effect_data) {
 
             {
                 u8 *packet_pool;
-                packet_pool = (u8 *)gw->draw_buffer;
+                packet_pool = gw->draw_buffer;
                 draw_mode = *(u8 **)(packet_pool + 0x8d0);
                 *(u8 **)(packet_pool + 0x8d0) = draw_mode + 12;
             }

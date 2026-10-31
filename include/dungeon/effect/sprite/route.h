@@ -250,15 +250,19 @@ typedef struct B32_818CEDC8_S_818CEDC8_1 {
     s32 unk_5C;
     s32 unk_60;
 } B32_818CEDC8_S_818CEDC8_1;
-typedef struct B32_818CEB58_S_818CEB58_0 {
+
+/* Body for the jittered point and its linked shaded-point renderer. */
+typedef struct JitteredTerrainSeekingPointBody {
     u8 pad_00[0x8];
-    union { void * s; s32 u; } unk_08;   /* accessed as both */
+    union { void *s; s32 u; u32 word; } unk_08;
     u8 pad_0C[0x4];
     s32 unk_10;
     s16 unk_14;
     u8 pad_16[0x1C];
-    s16 unk_32;
-} B32_818CEB58_S_818CEB58_0;
+    union { s16 s; u16 u; } unk_32;
+    u8 pad_34[0xAC];
+} JitteredTerrainSeekingPointBody;
+
 typedef struct B32_818CEB58_S_818CEB58_1 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -310,19 +314,13 @@ typedef struct B32_818CE83C_S_8002403C_4_pre {
     void * unk_00;
     u8 pad_04[0x4];
 } B32_818CE83C_S_8002403C_4_pre;
-typedef struct B32_818CE83C_S_8002403C_4 {
-    u8 pad_00[0x8];
-    u32 unk_08;
-    u8 pad_0C[0x26];
-    s16 unk_32;
-} B32_818CE83C_S_8002403C_4;
 typedef struct B32_818CE83C_S_8002403C_5 {
     u8 pad_00[0x8];
     u8 * unk_08;
 } B32_818CE83C_S_8002403C_5;
 typedef struct { u32 addr:24; u32 length:8; } B32_818CE83C_PacketTag;
-s32 project_linked_shaded_points(void *start_node, void *start_coords);
-void advance_jittered_effect_toward_terrain(void *object_data, void *source_data);
+s32 project_linked_shaded_points(JitteredTerrainSeekingPointBody *start_node, void *start_coords);
+void advance_jittered_effect_toward_terrain(JitteredTerrainSeekingPointBody *object_data, void *source_data);
 void create_jittered_terrain_seeking_point( void *source, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);
 void move_and_grow_timed_sprite(void *state, void *position, SpriteFrameState *object);
 void update_actor_effect_sequence(void *record);

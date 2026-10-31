@@ -141,12 +141,6 @@ typedef struct Row_818F30EC_S_800248EC_3_pre {
     u8 pad_04[0x4];
 } Row_818F30EC_S_800248EC_3_pre;   /* the 0x8 bytes before cur in func_800248EC, addressed as cur[-1] */
 
-typedef struct Row_818F30EC_S_800248EC_3 {
-    u8 pad_00[0x8];
-    u32 unk_08;
-    u8 pad_0C[0x26];
-    s16 unk_32;
-} Row_818F30EC_S_800248EC_3;   /* cur in func_800248EC */
 
 typedef struct Row_818F30EC_S_800248EC_4 {
     u8 pad_00[0x8];
@@ -182,6 +176,7 @@ typedef struct {
 /* Projects linked points and queues shaded tiles with draw-mode packets. */
 
 #include "sdk/libgte.h"
+#include "dungeon/effect/sprite.h"
 s32 GetTPage(s32, s32, s32, s32);
 void SetDrawMode(void *, s32, s32, s32, s32);
 

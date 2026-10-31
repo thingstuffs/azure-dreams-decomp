@@ -16,21 +16,6 @@
 #include "dungeon/actor/status.h"
 
 
-typedef struct S_8100B000_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_8100B000_2;   /* part_a in spawn_garuda_slot_f */
-
-typedef struct S_8100B000_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x2];
-    s16 unk_92;
-    u8 pad_94[0x6];
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-} S_8100B000_4;   /* actor in spawn_garuda_slot_f */
 
 s32 generate_random_value(void);
 extern M2C_UNK D_8016AA78;
@@ -54,7 +39,7 @@ void *spawn_garuda_slot_f(s16 flags, s16 kind_id, s16 variant, s16 spawn_value) 
     ObjectNodeHeader *obj;
     ObjectPosition *part_a;
     SpriteFrameState *part_b;
-    S_8100B000_4 *actor;
+    ActorRecord *actor;
     s8 saved_kind_id;
     s16 saved_spawn;
     s8 saved_variant;
@@ -98,11 +83,11 @@ void *spawn_garuda_slot_f(s16 flags, s16 kind_id, s16 variant, s16 spawn_value) 
             }
         }
         initialize_actor_sprite_and_animation(obj, part_a, part_b, final_arg0);
-        actor->unk_9A = 0xFF;
+        actor->action_id.u = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &garuda_slot_f_action_callback;
+        actor->unk_8C.address = &garuda_slot_f_action_callback;
         work->flags1C |= 0x40000;
-        actor->unk_92 = -0x18;
+        actor->unk_90.parts.high.s = -0x18;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

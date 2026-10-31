@@ -50,7 +50,7 @@ typedef struct S_8008ACDC_9 {
 
 void func_8002534C(); /* extern */
 void try_move_player(); /* extern */
-s32 try_begin_lift_object(struct S_8008C5C4_2 *action, void *unused, SpriteAnimationTableView *position, EntityRec *actor);  /* extern */
+s32 try_begin_lift_object(struct S_8008C5C4_2 *action, void *unused, SpriteAnimationTableView *position, ActorRecord *actor);  /* extern */
 s32 request_familiar_deployment_change(); /* extern */
 #include "dungeon/player/input.h"
 s16 dispatch_selected_item_use(Rec_func_8008ACDC_arg0 *actor, s16 item_id, s16 other_item_id);                /* extern */
@@ -355,7 +355,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                 active_actor_command_code = 0;
                 if (input_flags & 4) {
                     if ((*(u8 *)dungeon_button_latch) == 0) {
-                        (*(s8 *)dungeon_button_latch) = 1;
+                        (*dungeon_button_latch) = 1;
                         request_scene_dispatch_state(3);
                         return;
                     }

@@ -13,9 +13,9 @@ void update_directional_movement_and_settle(ActorRecord *action, ObjectPosition 
 
 
 void update_actor_animation_timers_and_transitions(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
-void update_actor_movement_and_emit_particles(void *actor, ObjectPosition *motion, SpriteFrameState *sprite, void *entity);
+void update_actor_movement_and_emit_particles(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *sprite, void *entity);
 
 /* Callback entry points. */
-void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPosition *motion, void *sprite_arg);
+void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite_arg);
 
 #endif

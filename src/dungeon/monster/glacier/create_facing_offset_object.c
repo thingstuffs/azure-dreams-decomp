@@ -100,7 +100,7 @@ void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern void *find_nearby_eligible_entry(u8 *current, s32 wanted_24, s32 wanted_25, s32 height_center);
 
 /* Creates an object offset from the origin in the owner's facing direction and links its secondary object. */
-void create_facing_offset_object(Arg0Object *owner, Arg1Object *height_source, Arg2Object *origin) {
+void create_facing_offset_object(Arg0Object *owner, ObjectPosition *position, SpriteFrameState *sprite) {
     ObjectNodeHeader *allocated;
     BlockObject *block;
     ObjectPosition *payload;
@@ -123,9 +123,9 @@ void create_facing_offset_object(Arg0Object *owner, Arg1Object *height_source, A
         child = allocated->sprite;
         child->tpage_abr = 0x20;
         child->flags |= 0xc;
-        block->field4c = (s8)(origin->x24 + glacier_direction_offsets[(owner->angle >> 7) & 0x1c]);
+        block->field4c = (s8)(sprite->tile_x + glacier_direction_offsets[(owner->angle >> 7) & 0x1c]);
         {
-            u8 origin_y = origin->y25;
+            u8 origin_y = sprite->tile_y;
             u16 angle = owner->angle;
             u8 *direction_offset = glacier_direction_offsets + ((angle >> 7) & 0x1c);
             block->field4d = (s8)(origin_y + direction_offset[2]);
@@ -135,7 +135,7 @@ void create_facing_offset_object(Arg0Object *owner, Arg1Object *height_source, A
         payload->x.v = (((block->field4c << 6) + 0x20) << 0x10);
         payload->y.v = (((block->field4d << 6) + 0x20) << 0x10);
         payload->z.v = sample_terrain_surface_height(*(u16 *)((u8 *)payload + 2), *(u16 *)&payload->y.w.i,
-            (s16)(height_source->height - 0x20)) << 0x10;
+            (s16)(position->z.w.i - 0x20)) << 0x10;
         block->angle_copy = owner->angle;
         block->angle_index = (owner->angle >> 9) & 7;
         child = allocated->sprite;

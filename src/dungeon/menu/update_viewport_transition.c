@@ -116,7 +116,7 @@ void update_viewport_transition(InactiveTypeTwelveObjectBody *transition, S_func
     if (flags & FLOOR_MAP_VIEW_HOLD) {
         previous_state = transition->unk_18.halves.high.s;
         cleared_flags = flags & ~0x2000;
-        (*(s32 *)&dungeon_floor_flags) = cleared_flags;
+        (*&dungeon_floor_flags) = cleared_flags;
         if (previous_state >= 2) {
             transition->unk_18.halves.high.s = VIEWPORT_RESET;
             transition->unk_1C.halves.low.s = 8;
@@ -139,7 +139,7 @@ void update_viewport_transition(InactiveTypeTwelveObjectBody *transition, S_func
             idle_frames = transition->unk_2C + 1;
             transition->unk_2C = idle_frames;
             if ((s16) idle_frames == 0x1F) {
-                (*(s32 *)&dungeon_floor_flags) = (s32) (((S_func_8009E038_3 *)&dungeon_floor_flags)->unk_00 | 0x01000000);
+                (*&dungeon_floor_flags) = (s32) (((S_func_8009E038_3 *)&dungeon_floor_flags)->unk_00 | 0x01000000);
                 create_fullscreen_quad_updater(0);
             } else if ((s16) idle_frames >= 0x20) {
                 transition->unk_2C = 0x20U;

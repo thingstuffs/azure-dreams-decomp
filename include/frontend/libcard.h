@@ -63,6 +63,20 @@ void card_boot_refresh_slot_details(CardSlotDetails *object);
 struct Node8002BB08;
 struct Object13B18;
 struct Object_800128C8;
+typedef struct Object_800128C8 {
+    /* 0x00 */ u8 pad00[0x4];
+    /* 0x04 */ void *slot_details;
+    /* 0x08 */ u8 pad08[0x1C];
+    /* 0x24 */ s32 unk_24;
+    /* 0x28 */ u8 pad28[0x4];
+    /* 0x2C */ s32 unk_2C;
+    /* 0x30 */ s32 unk_30;
+    /* 0x34 */ s32 unk_34;
+    /* 0x38 */ s32 wait_notice_state;
+    /* 0x3C */ u8 pad3C[0x4];
+    /* 0x40 */ s32 unk_40;
+    /* 0x44 */ s32 callback_index;
+} Object_800128C8;
 struct S_80022524_0;
 struct S_80023258_0;
 struct S_80023F94_0;
@@ -230,7 +244,7 @@ void card_boot_return_from_save_menu(void *record_part);
 void card_boot_return_from_slot_menu(void *object_data);
 
 /* card_boot_save_selected_slot.c */
-void *card_boot_save_selected_slot(void *context);
+void *card_boot_save_selected_slot(Object_800128C8 *context);
 
 /* card_boot_select_copy_source_slot.c */
 void card_boot_select_copy_source_slot(void *state);
@@ -332,7 +346,7 @@ void card_boot_wait_before_copying_slot(void *record_data);
 void card_boot_wait_before_formatting_card(void *record_data);
 
 /* card_boot_wait_before_loading_slot.c */
-void card_boot_wait_before_loading_slot(void *record_data);
+void card_boot_wait_before_loading_slot(Object_800128C8 *record_data);
 
 /* card_boot_wait_before_saving_slot.c */
 void card_boot_wait_before_saving_slot(void *record_data);

@@ -38,9 +38,9 @@ s32 use_item_to_apply_speed_boost(ActorRecord *entity, DungeonItemEntry *event_i
             return 1;
         }
     }
-    update_count = (*(u8 *)((u8 *)&entity->unk_00 + 2));
+    update_count = (*((u8 *)&entity->unk_00 + 2));
     if (update_count < 0xFFU) {
-        (*(u8 *)((u8 *)&entity->unk_00 + 2)) = (u8) (update_count + 1);
+        (*((u8 *)&entity->unk_00 + 2)) = (u8) (update_count + 1);
     }
     set_or_clear_actor_status_slot(entity, STATUS_SPEED, 8);
     if (entity->flags14 & ACTOR_PARTY_MEMBER) {

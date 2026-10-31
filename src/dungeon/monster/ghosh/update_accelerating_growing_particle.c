@@ -29,25 +29,26 @@ typedef struct S_80172DFC_1 {
 } S_80172DFC_1;   /* arg1 in update_accelerating_growing_particle */
 
 /* Advance effect motion and animation, and flag completion when its lifetime ends. */
-void update_accelerating_growing_particle(void *effect, S_80172DFC_1 *position, SpriteFrameState *animation) {
+void update_accelerating_growing_particle(void *effect_arg, S_80172DFC_1 *position, SpriteFrameState *animation) {
+    S_80172DFC_0 *effect = effect_arg;
     u16 frame_count;
     u16 remaining_ticks;
 
-    ((S_80172DFC_0 *)effect)->unk_58 = ((S_80172DFC_0 *)effect)->unk_58 + ((S_80172DFC_0 *)effect)->unk_64;
-    ((S_80172DFC_0 *)effect)->unk_5C = ((S_80172DFC_0 *)effect)->unk_5C + ((S_80172DFC_0 *)effect)->unk_68;
-    ((S_80172DFC_0 *)effect)->unk_60 = ((S_80172DFC_0 *)effect)->unk_60 + ((S_80172DFC_0 *)effect)->unk_6C;
-    position->unk_00 = position->unk_00 + ((S_80172DFC_0 *)effect)->unk_58;
-    position->unk_04 = position->unk_04 + ((S_80172DFC_0 *)effect)->unk_5C;
-    position->unk_08 = position->unk_08 + ((S_80172DFC_0 *)effect)->unk_60;
-    frame_count = ((S_80172DFC_0 *)effect)->unk_18 + 1;
-    ((S_80172DFC_0 *)effect)->unk_18 = frame_count;
+    effect->unk_58 = effect->unk_58 + effect->unk_64;
+    effect->unk_5C = effect->unk_5C + effect->unk_68;
+    effect->unk_60 = effect->unk_60 + effect->unk_6C;
+    position->unk_00 = position->unk_00 + effect->unk_58;
+    position->unk_04 = position->unk_04 + effect->unk_5C;
+    position->unk_08 = position->unk_08 + effect->unk_60;
+    frame_count = effect->unk_18 + 1;
+    effect->unk_18 = frame_count;
     if (!(frame_count & 1)) {
         advance_sprite_animation_and_textures(animation);
     }
     animation->scale_x = animation->scale_x + 0x28;
     animation->scale_y = animation->scale_y + 0x28;
-    remaining_ticks = ((S_80172DFC_0 *)effect)->unk_16 - 1;
-    ((S_80172DFC_0 *)effect)->unk_16 = remaining_ticks;
+    remaining_ticks = effect->unk_16 - 1;
+    effect->unk_16 = remaining_ticks;
     if ((remaining_ticks << 0x10) <= 0) {
         ((S_80172DFC_0_pre *)effect)[-1].unk_00 = ((S_80172DFC_0_pre *)effect)[-1].unk_00 | 0x8000;
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;

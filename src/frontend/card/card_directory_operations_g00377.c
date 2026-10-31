@@ -140,5 +140,5 @@ void card_boot_build_slot_path(s32 dest, s32 suffix_index) {
     }
     strcpy(dest, *prefix_ptr);
     strcat(dest, &(*(s32 *)(&D_80027F20)));
-    strcat(dest, ((s32 *) &(*(s32 *)(&boot_card_slot_names)))[suffix_index]);
+    strcat(dest, (&(*(s32 *)(&boot_card_slot_names)))[suffix_index]);
 }

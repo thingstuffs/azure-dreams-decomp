@@ -196,7 +196,7 @@ void inventory_initialize_packet_and_set_flag(ovl_1830850_81810CD8_S_80025CD8_0 
 
     zero = 0;
     packet->unk_01 = 0x28;
-    payload = *(s32 *)&zero;
+    payload = *&zero;
     packet->unk_02 = -0x18;
     packet->unk_03 = 4;
     packet->unk_0A = 0x30;
@@ -213,7 +213,7 @@ void initialize_inventory_packet(Rec_func_80025D28_arg0 *packet) {
 
     initial_payload = 0xB8C8;
     packet->unk_01 = 0x28;
-    payload = *(s32 *)&initial_payload;
+    payload = *&initial_payload;
     flags = packet->unk_00;
     packet->unk_02 = 2;
     packet->unk_03 = 2;

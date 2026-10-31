@@ -165,8 +165,9 @@ typedef struct S_81874988_5 {
 } S_81874988_5;   /* packet in project_textured_quad_or_callback */
 
 /* Projects a textured quad and queues it for drawing, or invokes its texture callback. */
-void project_textured_quad_or_callback(void *quad, ObjectPosition *position, SpriteFrameState *material, s16 depth_bias)
+void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position, SpriteFrameState *material, s16 depth_bias)
 {
+    S_81874988_4 *quad = quad_arg;
     u8 *render_state = g_game_work.draw_buffer;
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet;
@@ -212,18 +213,18 @@ void project_textured_quad_or_callback(void *quad, ObjectPosition *position, Spr
         ((S_81874988_0 *)scratch)->unk_14 = texture[0xA];
         ((S_81874988_0 *)scratch)->unk_18 = texture[0xB];
 
-        ((S_81874988_0 *)scratch)->unk_B0 = ((S_81874988_4 *)quad)->unk_50;
-        ((S_81874988_0 *)scratch)->unk_B8 = ((S_81874988_4 *)quad)->unk_52;
-        ((S_81874988_0 *)scratch)->unk_C0 = ((S_81874988_4 *)quad)->unk_54;
-        ((S_81874988_0 *)scratch)->unk_C8 = ((S_81874988_4 *)quad)->unk_56;
-        ((S_81874988_0 *)scratch)->unk_B2 = ((S_81874988_4 *)quad)->unk_58;
-        ((S_81874988_0 *)scratch)->unk_BA = ((S_81874988_4 *)quad)->unk_5A;
-        ((S_81874988_0 *)scratch)->unk_C2 = ((S_81874988_4 *)quad)->unk_5C;
-        ((S_81874988_0 *)scratch)->unk_CA = ((S_81874988_4 *)quad)->unk_5E;
-        ((S_81874988_0 *)scratch)->unk_B4 = ((S_81874988_4 *)quad)->unk_60;
-        ((S_81874988_0 *)scratch)->unk_BC = ((S_81874988_4 *)quad)->unk_62;
-        ((S_81874988_0 *)scratch)->unk_C4 = ((S_81874988_4 *)quad)->unk_64;
-        ((S_81874988_0 *)scratch)->unk_CC = ((S_81874988_4 *)quad)->unk_66;
+        ((S_81874988_0 *)scratch)->unk_B0 = quad->unk_50;
+        ((S_81874988_0 *)scratch)->unk_B8 = quad->unk_52;
+        ((S_81874988_0 *)scratch)->unk_C0 = quad->unk_54;
+        ((S_81874988_0 *)scratch)->unk_C8 = quad->unk_56;
+        ((S_81874988_0 *)scratch)->unk_B2 = quad->unk_58;
+        ((S_81874988_0 *)scratch)->unk_BA = quad->unk_5A;
+        ((S_81874988_0 *)scratch)->unk_C2 = quad->unk_5C;
+        ((S_81874988_0 *)scratch)->unk_CA = quad->unk_5E;
+        ((S_81874988_0 *)scratch)->unk_B4 = quad->unk_60;
+        ((S_81874988_0 *)scratch)->unk_BC = quad->unk_62;
+        ((S_81874988_0 *)scratch)->unk_C4 = quad->unk_64;
+        ((S_81874988_0 *)scratch)->unk_CC = quad->unk_66;
 
         depth_index = RotAverage4(scratch + 0xB0, scratch + 0xB8,
                               scratch + 0xC0, scratch + 0xC8,
@@ -263,24 +264,24 @@ void project_textured_quad_or_callback(void *quad, ObjectPosition *position, Spr
                     if (((S_81874988_0 *)scratch)->unk_28 & 0x100) {
                         ((S_81874988_5 *)packet)->unk_0E = tex_adjust;
                     } else {
-                        tex_attr = tex_adjust + (*(u16 *)((u8 *)texture + 6));
-                        (*(u16 *)((u8 *)packet + 0xE)) = tex_attr;
+                        tex_attr = tex_adjust + (*(u16 *)(texture + 6));
+                        (*(u16 *)(packet + 0xE)) = tex_attr;
                     }
                 } else {
-                    (*(u16 *)((u8 *)packet + 0xE)) = (*(u16 *)((u8 *)texture + 6));
+                    (*(u16 *)(packet + 0xE)) = (*(u16 *)(texture + 6));
                 }
 
-                (*(u16 *)((u8 *)packet + 0xC)) = (*(u16 *)(scratch + 0x10)) +
+                (*(u16 *)(packet + 0xC)) = (*(u16 *)(scratch + 0x10)) +
                                           (*(u16 *)(scratch + 0xC));
                 ((S_81874988_5 *)packet)->unk_14.u16 = (*(u16 *)(scratch + 0x10)) +
                                            (*(u16 *)(scratch + 0x14));
 
                 tex_adjust = material->tpage_abr;
                 if (tex_adjust) {
-                    (*(u16 *)((u8 *)packet + 0x16)) = tex_adjust +
-                                   ((*(u16 *)((u8 *)texture + 4)) & 0xFF9F);
+                    (*(u16 *)(packet + 0x16)) = tex_adjust +
+                                   ((*(u16 *)(texture + 4)) & 0xFF9F);
                 } else {
-                    (*(u16 *)((u8 *)packet + 0x16)) = (*(u16 *)((u8 *)texture + 4));
+                    (*(u16 *)(packet + 0x16)) = (*(u16 *)(texture + 4));
                 }
 
                 ((S_81874988_5 *)packet)->unk_1C.at00.v = (*(u16 *)(scratch + 0x18)) +
@@ -316,7 +317,7 @@ void project_textured_quad_or_callback(void *quad, ObjectPosition *position, Spr
             }
         }
     } else {
-        callback = (*(Callback *)((u8 *)texture + 8));
+        callback = (*(Callback *)(texture + 8));
         if (callback != 0) {
             callback(quad, position, material, texture);
         }
@@ -424,11 +425,11 @@ void draw_textured_sphere_mesh(void *mesh, void *position, void *material, u16 d
     for (;;) {
         for (row = 0; row < *(s16 *)((u8 *)mesh + 0xC); row++) {
             for (column = 0; column < *(s16 *)((u8 *)mesh + 0xA); column++) {
-                *(s32 *)(scratch + 0x0C) = *(u8 *)(texture + 8);
-                *(s32 *)(scratch + 0x10) = *(u8 *)(texture + 9);
-                *(s32 *)(scratch + 0x14) = *(u8 *)(texture + 10);
+                *(s32 *)(scratch + 0x0C) = *(texture + 8);
+                *(s32 *)(scratch + 0x10) = *(texture + 9);
+                *(s32 *)(scratch + 0x14) = *(texture + 10);
                 page = *page_ptr;
-                *(s32 *)(scratch + 0x18) = *(u8 *)(texture + 11);
+                *(s32 *)(scratch + 0x18) = *(texture + 11);
                 quad = *(u8 **)(page + 0x8D0);
                 *(u8 **)(page + 0x8D0) = quad + 0x28;
                 column_count = *(s16 *)((u8 *)mesh + 0xA);
@@ -539,23 +540,23 @@ void draw_textured_sphere_mesh(void *mesh, void *position, void *material, u16 d
                         *(s16 *)(quad + 0x1C) = *(u16 *)(scratch + 0x18) + *(u16 *)(scratch + 0x0C);
                         *(s16 *)(quad + 0x24) = *(u16 *)(scratch + 0x18) + *(u16 *)(scratch + 0x14);
                         if (*(s16 *)(quad + 8) > *(s16 *)(quad + 0x20)) {
-                            *(u8 *)(quad + 0x14) = *(u8 *)(quad + 0x14) - 1;
-                            *(u8 *)(quad + 0x24) = *(u8 *)(quad + 0x24) - 1;
+                            *(quad + 0x14) = *(quad + 0x14) - 1;
+                            *(quad + 0x24) = *(quad + 0x24) - 1;
                         }
                         if (*(s16 *)(quad + 0xA) > *(s16 *)(quad + 0x22)) {
-                            *(u8 *)(quad + 0x1D) = *(u8 *)(quad + 0x1D) - 1;
-                            *(u8 *)(quad + 0x25) = *(u8 *)(quad + 0x25) - 1;
+                            *(quad + 0x1D) = *(quad + 0x1D) - 1;
+                            *(quad + 0x25) = *(quad + 0x25) - 1;
                         }
-                        texture_flags = *(u8 *)(texture + 1);
-                        *(u8 *)((u8 *)material + 0xF) = texture_flags;
+                        texture_flags = *(texture + 1);
+                        *((u8 *)material + 0xF) = texture_flags;
                         material_flags = *(u16 *)(scratch + 0x28);
                         if (material_flags & 8) {
                             if (material_flags & 4) {
                                 draw_flags = texture_flags | 2;
-                                *(u8 *)((u8 *)material + 0xF) = draw_flags;
+                                *((u8 *)material + 0xF) = draw_flags;
                             } else {
                                 draw_flags = texture_flags & 0xFD;
-                                *(u8 *)((u8 *)material + 0xF) = draw_flags;
+                                *((u8 *)material + 0xF) = draw_flags;
                             }
                         }
                         {
@@ -1369,7 +1370,7 @@ void update_animated_effect_sprite(void *effect, void *entity, S_800259D8_2 *spr
             u16 init_count;
             sprite->unk_08 = (u8 *)effect + 0xA2;
             init_value = (((S_800259D8_3 *)obj)->unk_2A >> 9) & 7;
-            ((s16 *)&sphere_particle_effect_updated)[0] = 1;
+            (&sphere_particle_effect_updated)[0] = 1;
             init_count = ((S_800259D8_0 *)effect)->unk_0A.u + 1;
             ((S_800259D8_0 *)effect)->unk_80 = init_value;
             ((S_800259D8_0 *)effect)->unk_0A.u = init_count;
@@ -1728,7 +1729,7 @@ L1_calc:
         }
         {
             s32 seen;
-            seen = ((s16 *)&sphere_particle_effect_updated)[0];
+            seen = (&sphere_particle_effect_updated)[0];
             ((S_800259D8_0 *)effect)->unk_84.u = old_count;
             if (seen == 0) {
                 g_dungeon_status.active_actor = 0;
@@ -1737,7 +1738,7 @@ L1_calc:
                 return;
             }
         }
-        ((s16 *)&sphere_particle_effect_updated)[0] = 0;
+        (&sphere_particle_effect_updated)[0] = 0;
         return;
     }
 

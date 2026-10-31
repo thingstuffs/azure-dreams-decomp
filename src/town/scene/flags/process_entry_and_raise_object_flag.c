@@ -21,15 +21,16 @@ s32 func_80071424(const char *);                             /* extern */
 extern s32 scene_object_flags;
 
 /* Process an entry in state zero and propagate its linked status flag. */
-void process_entry_and_raise_object_flag(void *entry) {
-    ObjectStatusPrefix16 *entry_view = entry;
+void process_entry_and_raise_object_flag(void *entry_arg) {
+    S_80810F00_0 *entry = entry_arg;
+    ObjectStatusPrefix16 *entry_view = entry_arg;
     u16 *flags;
     S_80810F00_1 *flag_data;
 
-    flag_data = ((S_80810F00_0 *)entry)->unk_0C;
-    if (((S_80810F00_0 *)entry)->unk_00 == 0) {
-        func_80058588(*((S_80810F00_0 *)entry)->unk_08, func_80071424(((S_80810F00_0 *)entry)->unk_04),
-            ((S_80810F00_0 *)entry)->unk_04);
+    flag_data = entry->unk_0C;
+    if (entry->unk_00 == 0) {
+        func_80058588(*entry->unk_08, func_80071424(entry->unk_04),
+            entry->unk_04);
         if (flag_data->unk_0C & 2) {
             flags = &entry_view[-1].flags;
             *flags = (u16) (entry_view[-1].flags | 0x8000);

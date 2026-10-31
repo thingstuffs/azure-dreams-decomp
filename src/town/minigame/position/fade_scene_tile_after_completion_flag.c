@@ -13,24 +13,25 @@ typedef struct S_80024A30_1 {
 
 
 /* Waits for a trigger flag, then decreases the level and sets completion flags. */
-void fade_scene_tile_after_completion_flag(void *state) {
+void fade_scene_tile_after_completion_flag(void *state_arg) {
+    SceneTileObject *state = state_arg;
     S_80024A30_1 *trigger;
     s16 phase;
     s32 level;
 
-    trigger = ((SceneTileObject *)state)->linked;
-    phase = ((SceneTileObject *)state)->state.s;
+    trigger = state->linked;
+    phase = state->state.s;
 
     switch (phase) {
     case 0:
         if (trigger->unk_0C & 2) {
-            ((SceneTileObject *)state)->state.u++;
+            state->state.u++;
         }
         break;
 
     case 1:
-        level = ((SceneTileObject *)state)->color + 0xFFF7F7F8U;
-        ((SceneTileObject *)state)->color = level;
+        level = state->color + 0xFFF7F7F8U;
+        state->color = level;
         if (level <= 0x80808) {
             ((ObjectStatusPrefix16 *)state)[-1].flags |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;

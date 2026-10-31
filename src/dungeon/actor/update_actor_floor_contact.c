@@ -46,7 +46,7 @@ void update_actor_floor_contact(void *object_arg, void *motion_arg, SpriteFrameS
     u16 global_flags = g_dungeon_status.flags;
 
     if (global_flags & 0x2000) {
-        (*(u8 *)((u8 *)object_base + (0x71))) &= 0x7F;
+        (*((u8 *)object_base + (0x71))) &= 0x7F;
         return;
     }
 
@@ -54,7 +54,7 @@ void update_actor_floor_contact(void *object_arg, void *motion_arg, SpriteFrameS
     if (callback != 0) {
         callback(object_base, motion, entity, object_base);
     }
-    floor_contact_callbacks[(*(u8 *)((u8 *)object_base + (0x9A)))](object_base, motion, entity, object_base);
+    floor_contact_callbacks[(*((u8 *)object_base + (0x9A)))](object_base, motion, entity, object_base);
 
     entity_flags = entity->flags;
     if (!(entity_flags & 0x8000)) {

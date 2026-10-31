@@ -348,8 +348,8 @@ void *merge_creature_abilities_and_state(void *first, void *second, void *destin
 
                     copy_src = result + (copy_src_index * 3);
 
-                    (*(u8 *)((u8 *)copy_dst + copy_dst_offset)) = (u8) copy_src->unk_08;
-                    (*(u8 *)((u8 *)copy_dst + copy_dst_offset + 2)) = (u8) copy_src->unk_0A;
+                    (*((u8 *)copy_dst + copy_dst_offset)) = (u8) copy_src->unk_08;
+                    (*((u8 *)copy_dst + copy_dst_offset + 2)) = (u8) copy_src->unk_0A;
                 }
             }
             ability_count += 1;

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "shared/entity.h"
 
 typedef struct S_func_800A9F90 S_func_800A9F90;
 
@@ -13,7 +14,7 @@ struct S_func_800A9F90 {
 extern void unlink_node_if_registered(S_func_800A9F90 *);
 
 /* Decrement the counter and handle expiry or invoke the callback. */
-void decrement_callback_object_timer(S_func_800A9F90 *self, s32 expiry_arg)
+void decrement_callback_object_timer(S_func_800A9F90 *self, ObjectPosition *expiry_arg)
 {
     void (*callback)(S_func_800A9F90 *self);
     u16 counter;

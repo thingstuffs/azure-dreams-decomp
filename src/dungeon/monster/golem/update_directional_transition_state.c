@@ -3,41 +3,30 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "engine/graphics.h"
+#include "shared/entity.h"
 
 
 extern u8 golem_action_continuation_address[];
 extern u8 golem_direction_frames[];
 extern u8 golem_alt_direction_frames[];
 
-typedef struct S_func_810870DC_0 {
-    u8 pad_00[0x8C];
-    void *unk_8C;
-    u8 pad_90[0xB];
-    u8 unk_9B;
-    u8 pad_9C[0xA];
-    s16 unk_A6;
-} S_func_810870DC_0;
 
-typedef struct S_func_810870DC_2 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-} S_func_810870DC_2;
 
 /* Updates directional animation and entity state when the transition flags allow. */
-void update_directional_transition_state(S_func_810870DC_0 *entity, void *unused, SpriteFrameState *animation,
-    S_func_810870DC_2 *orientation)
+void update_directional_transition_state(ActorRecord *entity, ObjectPosition *position, SpriteFrameState *sprite,
+    ActorRecord *actor)
 {
     GameWork *scene_data = &g_game_work;
-    u8 state = entity->unk_9B;
+    u8 state = entity->action_phase.u;
 
     switch (state) {
     case 0:
-        if (animation->flags & 0xE000) {
-            animation->frameTable = golem_alt_direction_frames;
-            select_sprite_entry(animation,
+        if (sprite->flags & 0xE000) {
+            sprite->frameTable = golem_alt_direction_frames;
+            select_sprite_entry(sprite,
                 golem_alt_direction_frames[((scene_data->view.camera_rotation.parts.viewAngle +
-                    orientation->unk_2A + 0x100) >> 9) & 7], 0);
-            entity->unk_9B++;
+                    actor->facing + 0x100) >> 9) & 7], 0);
+            entity->action_phase.u++;
         }
         break;
     case 1:
@@ -51,12 +40,12 @@ void update_directional_transition_state(S_func_810870DC_0 *entity, void *unused
          * enter its tile. Found and documented by the Azure Dreams community (adrando.com/guide/bugs.html).
          */
         if (!(scene_flags & 0x100) && (scene_flags & 0xFFFF)) {
-            animation->frameTable = golem_direction_frames;
-            select_sprite_entry(animation,
+            sprite->frameTable = golem_direction_frames;
+            select_sprite_entry(sprite,
                 golem_direction_frames[((scene_data->view.camera_rotation.parts.viewAngle +
-                    orientation->unk_2A + 0x100) >> 9) & 7], 0);
-            entity->unk_8C = golem_action_continuation_address;
-            entity->unk_A6 = 0;
+                    actor->facing + 0x100) >> 9) & 7], 0);
+            entity->unk_8C.address = golem_action_continuation_address;
+            entity->unk_A4.halves.high.s = 0;
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
     }

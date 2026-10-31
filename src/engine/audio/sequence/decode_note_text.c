@@ -7,13 +7,13 @@
 /* Decode fullwidth text into glyph entries and mark the final entry. */
 void *decode_fullwidth_text(void *entries, u8 *text, s32 initial_style)
 {
-    s8 *entry = (s8 *)entries;
+    s8 *entry = entries;
     u8 *cursor = text;
     s32 style = initial_style;
     s32 length = 0;
     s32 row = length;
     s32 spacing = length;
-    s8 *first_entry = (s8 *)entries;
+    s8 *first_entry = entries;
     u8 ch;
 
     if (cursor == 0) {

@@ -21,6 +21,6 @@ void script_return(S_80039640_0 *state) {
     void *cursor;
 
     cursor = state->unk_7C;
-    state->unk_7C = (void *) (cursor - 4);
+    state->unk_7C = (cursor - 4);
     state->unk_1C = (s32) ((S_80039640_1 *)((u8 *)cursor - 0x4))->unk_00;
 }

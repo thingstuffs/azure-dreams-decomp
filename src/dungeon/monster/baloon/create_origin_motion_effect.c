@@ -29,7 +29,7 @@ void select_record_entry_and_value(void *state, void *entries, short index);
 extern void update_effect_collision_and_lifetime(void);
 
 /* Creates an effect relative to the origin and initializes its motion and appearance. */
-void create_origin_motion_effect(s32 unused_0, void *origin_ptr_in, s32 unused_2, u16 offset_x, s16 offset_y, s16 offset_z) {
+void create_origin_motion_effect(ActorRecord *unused_0, ObjectPosition *origin_ptr_in, SpriteFrameState *unused_2, u16 offset_x, s16 offset_y, s16 offset_z) {
     void *origin_ptr;
     u16 render_flags;
     MovingPosition *origin;

@@ -66,7 +66,7 @@ void create_damped_directional_projectile(S_80921B2C_3 *position, s16 x_offset, 
         motion->x.w.i = (u16) (*(u16 *)&motion->x.w.i + x_offset);
         motion->y.w.i = (u16) (*(u16 *)&motion->y.w.i + y_offset);
         motion->z.w.i = (u16) (*(u16 *)&motion->z.w.i + z_offset);
-        motion->velocity_x = (s32) ((*(s16 *)((u8 *)directions + (((u16) direction_state->unk_2A
+        motion->velocity_x = (s32) ((*(s16 *)(directions + (((u16) direction_state->unk_2A
             >> 7) & 0x1C))) * 0x180000);
         motion->velocity_y = (s32) ((s16) ((S_80921B2C_6 *)((s8 *)directions
             + (((u16) direction_state->unk_2A >> 7) & 0x1C)))->unk_02 * 0x180000);

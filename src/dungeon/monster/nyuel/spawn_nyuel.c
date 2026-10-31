@@ -11,14 +11,6 @@
 #include "engine/node/allocation.h"
 
 
-typedef struct S_80170894_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xA];
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-} S_80170894_4;   /* actor in func_80170894 */
 
 extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
@@ -57,7 +49,7 @@ void *spawn_mode_configured_monster(s32 spawn_flags, s8 tile_x, s16 tile_y, s16 
     flags_copy = held_flags;
     if (obj != 0) {
         register SpriteFrameState *part_b;
-        S_80170894_4 *actor;
+        ActorRecord *actor;
 
         work = (u8 *)obj;
         work += 0x20;
@@ -111,7 +103,7 @@ void *spawn_mode_configured_monster(s32 spawn_flags, s8 tile_x, s16 tile_y, s16 
                     part_b->frameTable = func_80174F00;
                     callback_page = (u8 *)0x80170000;
                 }
-                actor->unk_8C = callback_page + 0xE9C;
+                actor->unk_8C.address = callback_page + 0xE9C;
                 part_b->frameTable = func_80174ED8;
                 goto callback_done;
             }
@@ -121,7 +113,7 @@ void *spawn_mode_configured_monster(s32 spawn_flags, s8 tile_x, s16 tile_y, s16 
 callback_done:
         obj->update_callback = update_monster_facing_and_contact;
         initialize_actor_sprite_and_animation(obj, part_a, part_b, flags_copy);
-        actor->unk_9A = 0xFF;
+        actor->action_id.u = 0xFF;
         actor->unk_9C = -1;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }

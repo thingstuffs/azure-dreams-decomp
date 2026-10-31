@@ -78,7 +78,7 @@ void build_screen_outline(
 
     world_to_local_position(
         (UVec4_80046884 *)screen_origin,
-        (SVec4_80046884 *)&geometry->vectors[5]);
+        &geometry->vectors[5]);
 
     for (corner_index = 3; corner_index >= 0; corner_index--) {
         world_to_local_position(&corners[corner_index], &transformed_corners[corner_index]);

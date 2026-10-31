@@ -12,7 +12,7 @@ void set_actor_action_state_eight(void *record_data, void *unused_position, void
 
 struct ObjectPosition;
 struct S_800D491C_0;
-void set_actor_data_pointer(struct S_800D491C_0 *object, s32 context, void *source, void *target);
+void set_actor_data_pointer(ActorRecord *body, ObjectPosition *position, void *source, ActorRecord *actor);
 
 s32 propagate_actor_action_flag(struct ActorRecord *body, struct ObjectPosition *position, struct SpriteFrameState *sprite, struct ActorRecord *actor);
 void install_trap_handler_after_action_flag_propagation(void *owner, s32 context, s32 sprite, s32 *record);

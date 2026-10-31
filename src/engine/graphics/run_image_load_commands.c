@@ -42,7 +42,7 @@ void run_image_load_commands(s32 data_base, void *scratch)
         palette_count = entry->u.t.y;
         src_addr = (void *)command->offset;
         flags = (s16)entry->u.t.w;
-        src = ((void *)((void *)(data_base + (long)src_addr)));
+        src = (((void *)(data_base + (long)src_addr)));
         goto call_tile;
         case 5:
         cmd_index = entry->u.t.w;
@@ -50,7 +50,7 @@ void run_image_load_commands(s32 data_base, void *scratch)
         palette_count = entry->u.t.y;
         src_addr = (void *)command->offset;
         cmd_index |= 2;
-        src = ((void *)((void *)(data_base + (long)src_addr)));
+        src = (((void *)(data_base + (long)src_addr)));
         goto sign_flags;
         case 6:
         src = (void *)(data_base + command->offset);
@@ -67,7 +67,7 @@ void run_image_load_commands(s32 data_base, void *scratch)
         goto sign_flags;
         case 7:
         src = (void *)(data_base + command->offset);
-        color = (u16 *)src;
+        color = src;
         item_count = entry->u.t.y;
         for (item_index = 0; item_index < item_count; item_index++) {
             color++;

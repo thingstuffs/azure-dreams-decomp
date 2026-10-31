@@ -71,7 +71,7 @@ void create_boss_child_effect(void *parent_data, MovingPosition *source_pos, voi
         effect_object->update_callback = &D_80172610;
         ((S_80172B00_0 *)effect_data)->unk_AC = parent_object;
         ((S_80172B00_0 *)effect_data)->unk_94 = (u16) ((S_80172B00_2 *)parent_data)->unk_2A.s;
-        copy_src = (CopyBlock *) sprite_template;
+        copy_src = sprite_template;
         ((S_80172B00_0 *)effect_data)->unk_2A = (u16) ((S_80172B00_2 *)parent_data)->unk_2A.s;
         sprite = effect_object->sprite;
         copy_dst = (CopyBlock *) sprite;

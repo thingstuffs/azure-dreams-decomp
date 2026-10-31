@@ -32,19 +32,19 @@ extern void select_sprite_entry(void *, s16, s16);
 extern u8 picket_frame_set_4[];
 
 /* Clears the state flag and, when allowed, resets the entity and selects a directional object value. */
-void clear_the_state_flag_allowed_resets_entity_selects_directional(ActorRecord *entity, ObjectPosition *unused, SpriteFrameState *object, State *state) {
+void clear_the_state_flag_allowed_resets_entity_selects_directional(ActorRecord *entity, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
     DungeonGlobalStatus *flags = &g_dungeon_status;
 
-    state->unk71 &= 0x7F;
-    if (!(flags->flags & 0x2000) && ((has_pending_dungeon_activity(state) << 16) == 0)) {
+    actor->movement_queue_state &= 0x7F;
+    if (!(flags->flags & 0x2000) && ((has_pending_dungeon_activity(actor) << 16) == 0)) {
         entity->action_id.s = 0x18;
         entity->unk_8C.run = 0;
         entity->action_phase.s = 0;
-        object->frameTable = picket_frame_set_4;
-        select_sprite_entry(object,
-                      picket_frame_set_4[((g_game_work.view.camera_rotation.parts.viewAngle + state->unk2A + 0x100) >> 9) & 7],
+        sprite->frameTable = picket_frame_set_4;
+        select_sprite_entry(sprite,
+                      picket_frame_set_4[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                       0);
-        state->unk6D--;
+        actor->pending_turn_updates--;
         flags->activity_counts.parts.pending_action_count++;
     }
 }

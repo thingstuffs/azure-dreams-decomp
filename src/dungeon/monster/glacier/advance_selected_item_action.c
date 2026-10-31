@@ -62,16 +62,6 @@ extern u8 D_801708D4;
 #include "dungeon/item.h"
 extern u8 D_801760FC[];
 
-typedef struct S_801730E4_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    u16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-} S_801730E4_0;   /* arg0 in advance_selected_item_action_2 */
-
 typedef struct S_801730E4_2 {
     u8 pad_00[0x24];
     u8 unk_24;
@@ -120,7 +110,7 @@ typedef struct S_801730E4_9 {
 /* Advances the selected item's action, visual effect, and cleanup states. */
 /* Starts a targeted spell with an attached copied sprite, waits for its animation, then recenters and
  * updates status. */
-void advance_selected_item_action_2(void *action, ObjectPosition *position, SpriteFrameState *sprite, void *actor)
+void advance_selected_item_action_2(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor)
 {
     u16 position_delta[3];
     s16 is_special;
@@ -133,12 +123,12 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, Spri
     u8 state;
 
     is_special = 0;
-    owner_object = (u8 *)action - 0x20;
-    state = ((S_801730E4_0 *)action)->unk_9B;
+    owner_object = (u8 *)body - 0x20;
+    state = body->action_phase.u;
     switch (state) {
     case 0:
-        if ((((ActorFieldView_810318E4 *)actor)->field_1C) & 0x2000) {
-            switch ((((ActorFieldView_810318E4 *)actor)->field_46) & 0x3FFF) {
+        if ((actor->flags1C) & 0x2000) {
+            switch ((actor->action_flags) & 0x3FFF) {
             case 7:
                 is_special = 1;
                 /* fallthrough */
@@ -162,7 +152,7 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, Spri
                 break;
             }
         } else {
-            switch ((((ActorFieldView_810318E4 *)actor)->field_46) & 0x3FFF) {
+            switch ((actor->action_flags) & 0x3FFF) {
             case 3:
                 selection = (u8 *)actor + 0xE;
                 break;
@@ -179,24 +169,24 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, Spri
         }
 
         if (*selection != 0) {
-            ((S_801730E4_0 *)action)->unk_98 &= 0xFF7F;
+            body->action_state_flags &= 0xFF7F;
             {
                 s32 use_special = is_special;
 
                 if (use_special != 0) {
                     active = primary_actor_record;
-                    (((ActorFieldView_810318E4 *)actor)->field_60) = active;
+                    (actor->target) = active;
                     linked = (u32)*(u8 * *)&((ObjectNodeHeader *)((u8 *)active - 0x20))->sprite;
-                    (((ActorFieldView_810318E4 *)actor)->field_72.u8) = ((S_801730E4_2 *)linked)->unk_24;
-                    (((ActorFieldView_810318E4 *)actor)->field_73.u8) = ((S_801730E4_2 *)linked)->unk_25;
+                    (actor->target_tile_x) = ((S_801730E4_2 *)linked)->unk_24;
+                    (actor->target_tile_y) = ((S_801730E4_2 *)linked)->unk_25;
                 } else {
                     linked = item_action_definitions[*selection].kind;
                     if (linked == 2) {
-                        active = (((ActorFieldView_810318E4 *)actor)->field_60);
+                        active = (actor->target);
                         if (active != 0) {
                             linked = (u32)*(u8 * *)&((ObjectNodeHeader *)((u8 *)active - 0x20))->sprite;
-                            (((ActorFieldView_810318E4 *)actor)->field_72.u8) = ((S_801730E4_2 *)linked)->unk_24;
-                            (((ActorFieldView_810318E4 *)actor)->field_73.u8) = ((S_801730E4_2 *)linked)->unk_25;
+                            (actor->target_tile_x) = ((S_801730E4_2 *)linked)->unk_24;
+                            (actor->target_tile_y) = ((S_801730E4_2 *)linked)->unk_25;
                         }
                     } else {
                         {
@@ -205,22 +195,22 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, Spri
 
                             target_x = (s32)scan_actor_along_heading(
                                 actor, sprite->tile_x, sprite->tile_y,
-                                (((ActorFieldView_810318E4 *)actor)->field_2A.s16), 0x10);
-                            (*(void * *)((u8 *)actor + 0x60)) = (void *)target_x;
-                            target_x = abs(((ActorFieldView_810318E4 *)actor)->field_72.s8);
-                            target_y = abs(((ActorFieldView_810318E4 *)actor)->field_73.s8);
-                            (((ActorFieldView_810318E4 *)actor)->field_72.u8) = target_x;
-                            (((ActorFieldView_810318E4 *)actor)->field_73.u8) = target_y;
+                                (actor->facing), 0x10);
+                            actor->target = (void *)target_x;
+                            target_x = abs(actor->target_tile_x);
+                            target_y = abs(actor->target_tile_y);
+                            (actor->target_tile_x) = target_x;
+                            (actor->target_tile_y) = target_y;
                         }
                     }
                 }
             }
 
-            if (create_actor_spell_effect(actor, selection, is_special, (u8 *)action + 0x98) == 0) {
+            if (create_actor_spell_effect(actor, selection, is_special, (u8 *)body + 0x98) == 0) {
                 return;
             }
-            ((S_801730E4_0 *)action)->unk_96 = 10;
-            ((S_801730E4_0 *)action)->unk_9B++;
+            body->action_timer.u = 10;
+            body->action_phase.u++;
             play_sound_if_enabled(0x703);
             return;
         }
@@ -236,11 +226,11 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, Spri
             (((ActiveFieldView_810318E4 *)inner_active_actor)->field_A6)--;
         }
         advance_status_timers(actor);
-        (((ActorFieldView_810318E4 *)actor)->field_6D)--;
-        ((S_801730E4_0 *)action)->unk_8C = update_actor_timed_effects;
-        (((ActorFieldView_810318E4 *)actor)->field_73.u8) = 0;
-        (((ActorFieldView_810318E4 *)actor)->field_72.u8) = 0;
-        (((ActorFieldView_810318E4 *)actor)->field_46) &= 0x7FFF;
+        (actor->pending_turn_updates)--;
+        body->unk_8C.address = update_actor_timed_effects;
+        (actor->target_tile_y) = 0;
+        (actor->target_tile_x) = 0;
+        (actor->action_flags) &= 0x7FFF;
         return;
 
     case 1:
@@ -249,8 +239,8 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, Spri
             return;
         }
         sprite->flags &= 0xF7FF;
-        ((S_801730E4_0 *)action)->unk_96 = 10;
-        ((S_801730E4_0 *)action)->unk_9B++;
+        body->action_timer.u = 10;
+        body->action_phase.u++;
         {
             ObjectNodeHeader *effect_object;
 
@@ -265,7 +255,7 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, Spri
                 effect_state->unk_96 = 0xF;
                 effect_object->update_callback = &D_801708D4;
                 effect_state->unk_A8 = position;
-                effect_state->unk_94 = (((ActorFieldView_810318E4 *)actor)->field_2A.u16);
+                effect_state->unk_94 = (actor->facing);
                 effect_data = *(u8 * *)&effect_object->sprite;
                 *(Copy48 *)effect_data = *(Copy48 *)sprite;
                 ((S_801730E4_7 *)effect_data)->unk_1E = 0x1000;
@@ -298,14 +288,14 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, Spri
         {
             u16 timer;
 
-            timer = ((S_801730E4_0 *)action)->unk_96 - 1;
-            ((S_801730E4_0 *)action)->unk_96 = timer;
+            timer = body->action_timer.u - 1;
+            body->action_timer.u = timer;
             if ((s16)timer > 0 && !(sprite->flags & 0xE000)) {
                 return;
             }
         }
-        ((S_801730E4_0 *)action)->unk_98 |= 0x80;
-        ((S_801730E4_0 *)action)->unk_9B++;
+        body->action_state_flags |= 0x80;
+        body->action_phase.u++;
         return;
 
     case 3:
@@ -313,18 +303,18 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, Spri
              (sprite->flags & 0x1000)) ||
             (sprite->flags & 0x8000)) {
             sprite->flags |= 0x800;
-            ((S_801730E4_0 *)action)->unk_96 = 0x14;
+            body->action_timer.u = 0x14;
         }
         {
             u16 timer;
 
             if ((g_dungeon_status.active_actor) == 0) {
-                ((S_801730E4_0 *)action)->unk_96 = 0;
+                body->action_timer.u = 0;
             }
-            timer = ((S_801730E4_0 *)action)->unk_96 - 1;
-            ((S_801730E4_0 *)action)->unk_96 = timer;
+            timer = body->action_timer.u - 1;
+            body->action_timer.u = timer;
             if ((s16)timer <= 0) {
-                ((S_801730E4_0 *)action)->unk_96 = 0;
+                body->action_timer.u = 0;
                 sprite->flags &= 0xF7FF;
             }
             if (!(sprite->flags & 0xE000)) {
@@ -339,7 +329,7 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, Spri
                 s32 direction_index;
 
                 sprite->frameTable = glacier_direction_frames;
-                direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + (((ActorFieldView_810318E4 *)actor)->field_2A.s16) + 0x100) >> 9) & 7;
+                direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + (actor->facing) + 0x100) >> 9) & 7;
                 select_sprite_entry(sprite, glacier_direction_frames[direction_index], 0);
                 sprite->flags &= 0xF7FF;
             }
@@ -348,12 +338,12 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, Spri
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
-        ((S_801730E4_0 *)action)->unk_8C = update_actor_timed_effects;
+        body->unk_8C.address = update_actor_timed_effects;
         advance_status_timers(actor);
-        (((ActorFieldView_810318E4 *)actor)->field_73.u8) = 0;
-        (((ActorFieldView_810318E4 *)actor)->field_72.u8) = 0;
-        (((ActorFieldView_810318E4 *)actor)->field_6D)--;
-        (((ActorFieldView_810318E4 *)actor)->field_46) &= 0x7FFF;
+        (actor->target_tile_y) = 0;
+        (actor->target_tile_x) = 0;
+        (actor->pending_turn_updates)--;
+        (actor->action_flags) &= 0x7FFF;
         play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         return;
     default:

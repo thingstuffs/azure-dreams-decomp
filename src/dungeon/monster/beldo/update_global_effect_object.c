@@ -32,7 +32,7 @@ void update_global_effect_object(void) {
         }
         update_map_cell_flags_with_item_limit(sound_x, sound_y, effect_id);
         unlink_entity_node(obj_state);
-        ((ObjectNodeHeader *)((u8 *)obj_state - 0x20))->flags |= NODE_REMOVE;
+        ((ObjectNodeHeader *)(obj_state - 0x20))->flags |= NODE_REMOVE;
         *active_slot = 0;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

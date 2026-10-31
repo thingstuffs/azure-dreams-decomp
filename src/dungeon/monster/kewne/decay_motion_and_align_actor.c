@@ -15,7 +15,7 @@ extern s32 kewne_action_resume_address[];
 extern u8 D_80175E90[];
 
 /* Decays motion, then aligns the actor with its grid position. */
-void decay_motion_and_align_actor(void *action, void *motion, void *actor, void *source) {
+void decay_motion_and_align_actor(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 state;
     s32 x_velocity;
     s32 z_velocity;
@@ -29,26 +29,26 @@ void decay_motion_and_align_actor(void *action, void *motion, void *actor, void 
 
     switch (FIELD_U8(action, 0x9B)) {
     case 0:
-        apply_clamped_actor_value_delta(source);
+        apply_clamped_actor_value_delta(actor);
         FIELD_U8(action, 0x9B) = FIELD_U8(action, 0x9B) + 1;
-        if (FIELD_U8(source, 0x28) == 0) {
+        if (FIELD_U8(actor, 0x28) == 0) {
             FIELD_S32(motion, 0x14) = 0;
             FIELD_S32(motion, 0x10) = 0;
             FIELD_S32(motion, 0xC) = 0;
-            begin_actor_display_action(action, motion, actor, D_80175E90);
+            begin_actor_display_action(action, motion, sprite, D_80175E90);
             return;
         }
-        if (FIELD_U16(actor, 0x14) & 0x8000) {
+        if (FIELD_U16(sprite, 0x14) & 0x8000) {
             FIELD_S16(action, 0x96) = 0;
             FIELD_U8(action, 0x9B) = 2;
             return;
         }
         FIELD_S32(motion, 0xC) =
-            (-*(s16 *)((u8 *)dir_step_x + ((FIELD_U16(source, 0x6A) >> 8) & 0xE))) << 15;
+            (-*(s16 *)((u8 *)dir_step_x + ((FIELD_U16(actor, 0x6A) >> 8) & 0xE))) << 15;
         FIELD_S32(motion, 0x10) =
-            (-*(s16 *)((u8 *)dir_step_y + ((FIELD_U16(source, 0x6A) >> 8) & 0xE))) << 15;
+            (-*(s16 *)((u8 *)dir_step_y + ((FIELD_U16(actor, 0x6A) >> 8) & 0xE))) << 15;
         motion_frames = -1;
-        if (FIELD_S32(source, 0x1C) & 0x228) {
+        if (FIELD_S32(actor, 0x1C) & 0x228) {
             motion_frames = 8;
         }
         FIELD_S16(action, 0x96) = motion_frames;
@@ -67,17 +67,17 @@ void decay_motion_and_align_actor(void *action, void *motion, void *actor, void 
         if (FIELD_S16(action, 0x96) > 0) {
             next_frames = FIELD_U16(action, 0x96) - 1;
             FIELD_S16(action, 0x96) = next_frames;
-        } else if (FIELD_U16(actor, 0x14) & 0x6000) {
+        } else if (FIELD_U16(sprite, 0x14) & 0x6000) {
             FIELD_S16(action, 0x96) = 0;
         }
         if (FIELD_S16(action, 0x96) != 0) {
             return;
         }
-        if (FIELD_U8(source, 0x28) == 0) {
+        if (FIELD_U8(actor, 0x28) == 0) {
             FIELD_S32(motion, 0x14) = 0;
             FIELD_S32(motion, 0x10) = 0;
             FIELD_S32(motion, 0xC) = 0;
-            begin_actor_display_action(action, motion, actor, D_80175E90);
+            begin_actor_display_action(action, motion, sprite, D_80175E90);
             return;
         }
         state = FIELD_U8(action, 0x9B);
@@ -89,14 +89,14 @@ void decay_motion_and_align_actor(void *action, void *motion, void *actor, void 
     case 2:
         align_frames = FIELD_S16(action, 0x96);
         if (align_frames != 0) {
-            tile_coord = FIELD_U8(actor, 0x24);
+            tile_coord = FIELD_U8(sprite, 0x24);
             tile_coord <<= 6;
             center_offset = FIELD_S16(motion, 2) - 0x20;
 
             FIELD_S32(motion, 0xC) = ((tile_coord - center_offset) << 15) /
                                    align_frames;
             center_offset = FIELD_S16(motion, 6) - 0x20;
-            FIELD_S32(motion, 0x10) = ((((FIELD_U8(actor, 0x25)) << 6) - center_offset) << 15) /
+            FIELD_S32(motion, 0x10) = ((((FIELD_U8(sprite, 0x25)) << 6) - center_offset) << 15) /
                                     FIELD_S16(action, 0x96);
         }
         next_frames = (u16)FIELD_S16(action, 0x96) - 1;
@@ -107,8 +107,8 @@ void decay_motion_and_align_actor(void *action, void *motion, void *actor, void 
         FIELD_S32(motion, 0x14) = 0;
         FIELD_S32(motion, 0x10) = 0;
         FIELD_S32(motion, 0xC) = 0;
-        set_record_integer_tile_center(motion, FIELD_U8(actor, 0x24), FIELD_U8(actor, 0x25));
-        if ((g_dungeon_status.pending_display_owner) == (u8 *)source - 0x20) {
+        set_record_integer_tile_center(motion, FIELD_U8(sprite, 0x24), FIELD_U8(sprite, 0x25));
+        if ((g_dungeon_status.pending_display_owner) == (u8 *)actor - 0x20) {
             *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
         }
         FIELD_PTR(action, 0x8C) = kewne_action_resume_address;

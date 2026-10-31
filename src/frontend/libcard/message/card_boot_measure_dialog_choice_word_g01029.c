@@ -114,11 +114,11 @@ void card_boot_position_dialog_selection_marker(void *context, s32 column, s32 m
     *(s16 *)((u8 *)*(void **)((u8 *)record + 4) + 8) = (s16)x;
     *(s16 *)((u8 *)*(void **)((u8 *)record + 4) + 0xA) =
         (s16)((row * 0x11) - (*(s32 *)((u8 *)state + 0x1C) / 2) + 0x7A);
-    saved_row_value = *(s32 *)&row_value;
+    saved_row_value = *&row_value;
     card_boot_build_slot_marker_packet((s32)state, (Struct_8000F300 *)position, mode);
     record[0] = (s32)(unsigned long)position;
     card_boot_highlight_dialog_text_range(
-        *(s32 *)*(s32 **)((u8 *)state + row * 4 + 0x8CC),
+        **(s32 **)((u8 *)state + row * 4 + 0x8CC),
         saved_row_value,
         mode);
 }

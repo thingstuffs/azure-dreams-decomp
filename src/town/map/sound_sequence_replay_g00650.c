@@ -48,7 +48,7 @@ s32 town_sd_sq_callagain_sub(s32 sequence_flags) {
         town_saved_sound[2] = fallback_effect;
         select_sound_stream((s16)fallback_effect, 0);
         fallback_sequence = fallback_entry[1];
-        ((u16 *)town_saved_sound)[3] = fallback_sequence;
+        town_saved_sound[3] = fallback_sequence;
         sequence = fallback_sequence | sequence_flags;
         sequence = (u16)sequence;
                 /* MATCH: Complete argument preparation before the shared call. */

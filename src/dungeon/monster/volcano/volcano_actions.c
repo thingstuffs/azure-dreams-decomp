@@ -96,7 +96,7 @@ void update_entity_facing_and_ground(void *entity, E_80170A58_S_80170A58_2 *moti
         if (early_callback == (E_80170A58_Callback)&update_actor_behavior_facing_and_animation_2) {
             early_callback(entity, motion, monster, entity);
         } else {
-            (*(u8 *)((u8 *)entity + 0x71)) &= 0x7F;
+            (*((u8 *)entity + 0x71)) &= 0x7F;
         }
         return;
     }
@@ -150,7 +150,7 @@ void update_entity_facing_and_ground(void *entity, E_80170A58_S_80170A58_2 *moti
         callback(entity, motion, monster, actor);
     }
 
-    volcano_callbacks[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, monster, actor);
+    volcano_callbacks[(*((u8 *)entity + 0x9A))](entity, motion, monster, actor);
 
     if (old_direction != actor->unk_6D) {
         try_move_actor_to_valid_position(entity, motion, monster, actor);
@@ -160,10 +160,10 @@ void update_entity_facing_and_ground(void *entity, E_80170A58_S_80170A58_2 *moti
     motion->unk_04.at00.v += motion->unk_10;
 
     if ((*(u16 *)((u8 *)entity + 0x98)) & 8) {
-        (*(u8 *)((u8 *)entity + 0x9D)) = 0;
+        (*((u8 *)entity + 0x9D)) = 0;
     } else {
         motion->unk_14 += (*(s8 *)((u8 *)entity + 0x9D)) * 0x14000;
-        (*(u8 *)((u8 *)entity + 0x9D))++;
+        (*((u8 *)entity + 0x9D))++;
     }
 
     (*(s32 *)((u8 *)entity + 0x90)) += motion->unk_14;
@@ -185,7 +185,7 @@ void update_entity_facing_and_ground(void *entity, E_80170A58_S_80170A58_2 *moti
 
                 motion->unk_14 = 0;
                 actor->unk_1C |= 0x08000000;
-                (*(u8 *)((u8 *)entity + 0x9D)) = 0;
+                (*((u8 *)entity + 0x9D)) = 0;
             }
             if (actor->unk_1C & 0x40000000) {
                 actor->unk_1C &= 0xBFFFFFFF;
@@ -467,8 +467,8 @@ void update_actor_targeting_and_movement(ActorRecord *object, ObjectPosition *en
             target_record = find_adjacent_actor(actor, tile->tile_x, tile->tile_y);
             if (target_record != 0) {
                 target_tile = *((void **) (((u8 *) target_record) + (-0x14)));
-                actor->facing = get_rounded_facing_and_rounding_flag(tile->tile_x, tile->tile_y, *(u8 *)(target_tile
-                    + 0x24), *(u8 *)(target_tile + 0x25), &object->action_state_flags);
+                actor->facing = get_rounded_facing_and_rounding_flag(tile->tile_x, tile->tile_y, *(target_tile
+                    + 0x24), *(target_tile + 0x25), &object->action_state_flags);
                 {
                     u8 path_length = actor->movement_queue_state & 0x7F;
                     actor->movement_queue_state = path_length;
@@ -501,7 +501,7 @@ void update_actor_targeting_and_movement(ActorRecord *object, ObjectPosition *en
             }
             else {
                 {
-                    s32 direction = *(u8 *)(((u8 *)actor + 0x45));
+                    s32 direction = *(((u8 *)actor + 0x45));
                     s32 player_angle = primary_actor_record->facing;
                     s32 direction_offset;
                     s32 target_x;
@@ -521,14 +521,14 @@ void update_actor_targeting_and_movement(ActorRecord *object, ObjectPosition *en
                         if ((check_movement_clearance_and_height((s16) next_angle, tile, actor, 0x20) << 16) <= 0) {
                             u8 *retry_goal = ((u8 *) (((s8 *)&reference_tile_object.tile_position.parts.tile_x))) - 0x24;
                             actor->facing = get_rounded_facing_and_rounding_flag(tile->tile_x, tile->tile_y,
-                                *(u8 *)(retry_goal + 0x24), *(u8 *)(retry_goal + 0x25), &object->action_state_flags);
+                                *(retry_goal + 0x24), *(retry_goal + 0x25), &object->action_state_flags);
                         }
                     }
                 }
                 {
                     u8 *check_goal = ((u8 *) (((s8 *)&reference_tile_object.tile_position.parts.tile_x))) - 0x24;
-                    if ((test_neighbor_position_relation(tile->tile_x, tile->tile_y, *(u8 *)(check_goal + 0x24),
-                        *(u8 *)(check_goal + 0x25)) << 16) != 0) {
+                    if ((test_neighbor_position_relation(tile->tile_x, tile->tile_y, *(check_goal + 0x24),
+                        *(check_goal + 0x25)) << 16) != 0) {
                         limit_turn = 1;
                     }
                 }
@@ -600,8 +600,8 @@ void update_actor_targeting_and_movement(ActorRecord *object, ObjectPosition *en
                     }
                 }
                 actor->facing = angle;
-                *((u8 *) (((u8 *) (((u8 *)actor)+ (actor->movement_queue_state & 0x7F))) + 0x74)) = tile->tile_x;
-                *((u8 *) (((u8 *) (((u8 *)actor)+ (actor->movement_queue_state & 0x7F))) + 0x7C)) = tile->tile_y;
+                *((((u8 *) (((u8 *)actor)+ (actor->movement_queue_state & 0x7F))) + 0x74)) = tile->tile_x;
+                *((((u8 *) (((u8 *)actor)+ (actor->movement_queue_state & 0x7F))) + 0x7C)) = tile->tile_y;
                 actor->movement_queue_state++;
                 update_map_cell_flags_with_item_limit(tile->tile_x, tile->tile_y, (actor->flags1C & 0x2000)
                     ? (0x300) : (0x3000));
@@ -610,7 +610,7 @@ void update_actor_targeting_and_movement(ActorRecord *object, ObjectPosition *en
                     u8 *step_x = (u8 *)dir_step_x;
                     step_x += direction;
                     tile->tile_x += *step_x;
-                    tile->tile_y += *((u8 *) (((u8 *) (((s8 *)dir_step_y))) + direction));
+                    tile->tile_y += *((((u8 *) (((s8 *)dir_step_y))) + direction));
                 }
                 cycle_map_cell_flags(tile->tile_x, tile->tile_y, (actor->flags1C & 0x2000)
                     ? (0x300) : (0x3000));

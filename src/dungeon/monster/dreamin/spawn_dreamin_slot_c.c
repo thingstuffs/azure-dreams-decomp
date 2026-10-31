@@ -16,19 +16,6 @@
 #include "dungeon/actor/status.h"
 
 
-typedef struct S_80DA7000_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80DA7000_2;
-
-typedef struct S_80DA7000_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xA];
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-} S_80DA7000_4;
 
 s32 generate_random_value(void);
 extern M2C_UNK D_80158A3C;
@@ -45,7 +32,7 @@ void *damp_effect_motion_and_fade_sprite(s16 init_flags, s16 value_24, s16 value
     SpriteFrameState *data_0c;
     ObjectPosition *data_08;
     ObjectNodeHeader *object;
-    S_80DA7000_4 *extended_state;
+    ActorRecord *extended_state;
     ActorRecord *state = NULL;
     void *body;
     s8 saved_value_24;
@@ -91,9 +78,9 @@ void *damp_effect_motion_and_fade_sprite(s16 init_flags, s16 value_24, s16 value
             }
         }
         initialize_actor_sprite_and_animation(object, data_08, data_0c, init_flags);
-        extended_state->unk_9A = 0xFF;
+        extended_state->action_id.u = 0xFF;
         extended_state->unk_9C = -1;
-        extended_state->unk_8C = &D_80158E68;
+        extended_state->unk_8C.address = &D_80158E68;
         try_move_actor_to_valid_position(extended_state, data_08, data_0c, state);
     }
     return state;

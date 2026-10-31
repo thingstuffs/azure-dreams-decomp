@@ -71,8 +71,8 @@ void *create_panel_effect_object(void *owner)
         register_node(panel, transform_linked_quad_batches);
         panel_data = ((void *)panel) + 0x20;
         *((void **) (((s8 *) panel_data) + 0x14)) = entity;
-        *((void **) (((s8 *) panel) + 0x20)) = (void *) (((void *)panel) + 0x70);
-        *((void **) (((s8 *) panel_data) + 4)) = (void *) (((void *)panel) + 0x58);
+        *((void **) (((s8 *) panel) + 0x20)) = (((void *)panel) + 0x70);
+        *((void **) (((s8 *) panel_data) + 4)) = (((void *)panel) + 0x58);
         *((s32 **) (((s8 *) panel) + 0x70)) = &D_80077FEC;
         *((s32 *) (((s8 *) panel) + 0x58)) = color_or_addr;
         prim = allocate_panel_offset_or_zero();
@@ -127,12 +127,12 @@ void *create_panel_effect_object(void *owner)
             *color_ptr = 0x808080;
             *((void **) (((s8 *) ((prim_index * 4) + panel_data)) + 0x50)) = prim;
             *((u8 *) (((s8 *) prim) + 1)) = 0x38U;
-            *((s8 *) (((s8 *) prim) + 2)) = -2;
-            *((s8 *) (((s8 *) prim) + 3)) = -2;
-            *((s8 *) (((s8 *) prim) + 9)) = 0;
-            *((s8 *) (((s8 *) prim) + 8)) = 0;
-            *((s8 *) (((s8 *) prim) + 0xB)) = 0x24;
-            *((s8 *) (((s8 *) prim) + 0xA)) = 0x24;
+            *((((s8 *) prim) + 2)) = -2;
+            *((((s8 *) prim) + 3)) = -2;
+            *((((s8 *) prim) + 9)) = 0;
+            *((((s8 *) prim) + 8)) = 0;
+            *((((s8 *) prim) + 0xB)) = 0x24;
+            *((((s8 *) prim) + 0xA)) = 0x24;
             prim_flags = 0xC0;
             *((u8 *) (((s8 *) prim) + 0)) = prim_flags;
             count_or_color = 0x202020;
@@ -663,9 +663,9 @@ void build_floating_number_widget(s16 icon, s32 value_a, s32 value_b, s32 style,
             }
             slot_x = (s32)buf;
             base_2 = (u8 *)D_800DF03C;
-            table_entry = (s32 *)((style_byte * 4) + (u8 *)base_2);
+            table_entry = (s32 *)((style_byte * 4) + base_2);
             hard_zero = 0;
-            *(void **)((u8 *)sub + 0x50 + count * 4) = (void *)build_positioned_text_glyphs((void *)slot_x, *table_entry, hard_zero);
+            *(void **)((u8 *)sub + 0x50 + count * 4) = build_positioned_text_glyphs((void *)slot_x, *table_entry, hard_zero);
             style_hold = strlen(*table_entry) * 8;
             count++;
             tmp = value_a << 2;
@@ -890,11 +890,11 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
         ((S_800B1B10_2 *)sub)->unk_24 = (s16) style_byte;
         ((S_800B1B10_2 *)sub)->unk_0A = a_held;
         ((S_800B1B10_2 *)sub)->unk_0C = b_held;
-        ((S_800B1B10_0 *)obj)->unk_20 = (void *) (obj + 0x70);
-        ((S_800B1B10_2 *)sub)->unk_04 = (void *) (obj + 0x58);
+        ((S_800B1B10_0 *)obj)->unk_20 = (obj + 0x70);
+        ((S_800B1B10_2 *)sub)->unk_04 = (obj + 0x58);
         if (has_enough_available_runtime_nodes(call_kind) != 0) {
             a_held = (s32) allocate_panel_offset_or_zero();
-            slots = (s32 *) (obj + 0x5C);
+            slots = (obj + 0x5C);
             ((S_800B1B10_2 *)sub)->unk_28 = a_held;
             b_held = a_held;
             ((S_800B1B10_0 *)obj)->unk_70 = b_held;

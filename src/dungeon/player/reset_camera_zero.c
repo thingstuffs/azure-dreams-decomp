@@ -19,7 +19,7 @@ void to_camera_zero_00(void *actor, void *context, void *animation, void *transf
     GameWork *camera = &g_game_work;
     s32 phase;
 
-    phase = *(u8 *)((u8 *)actor + 0x9B);
+    phase = *((u8 *)actor + 0x9B);
     switch (phase) {
     case 0:
         if (*(u16 *)((u8 *)animation + 0x14) & 0xE000) {
@@ -27,7 +27,7 @@ void to_camera_zero_00(void *actor, void *context, void *animation, void *transf
             set_sprite_animation_frame(animation,
                 player_camera_reset_frames[((camera->view.camera_rotation.parts.viewAngle +
                     *(s16 *)((u8 *)transform + 0x2A) + 0x100) >> 9) & 7], 0, 1);
-            *(u8 *)((u8 *)actor + 0x9B) += 1;
+            *((u8 *)actor + 0x9B) += 1;
         }
         break;
     case 1:
@@ -36,7 +36,7 @@ void to_camera_zero_00(void *actor, void *context, void *animation, void *transf
             set_sprite_animation_frame(animation,
                 D_800DD010[((camera->view.camera_rotation.parts.viewAngle +
                     *(s16 *)((u8 *)transform + 0x2A) + 0x100) >> 9) & 7], 0, 1);
-            *(u8 *)((u8 *)actor + 0x9B) += 1;
+            *((u8 *)actor + 0x9B) += 1;
 
             g_dungeon_status.flags &= 0xFEFF;
             if ((s16)has_action_input_without_modifier() != 0) {
@@ -44,8 +44,8 @@ void to_camera_zero_00(void *actor, void *context, void *animation, void *transf
                     g_dungeon_status.flags |= 4;
                 }
                 handle_player_input(actor, context, animation, transform);
-                if (*(u8 *)((u8 *)actor + 0x9A) != 0x17) {
-                    player_action_handlers[*(u8 *)((u8 *)actor + 0x9A)](actor, context, animation, transform);
+                if (*((u8 *)actor + 0x9A) != 0x17) {
+                    player_action_handlers[*((u8 *)actor + 0x9A)](actor, context, animation, transform);
                 }
             }
         }
@@ -56,14 +56,14 @@ void to_camera_zero_00(void *actor, void *context, void *animation, void *transf
                 g_dungeon_status.flags |= 4;
             }
             handle_player_input(actor, context, animation, transform);
-            if (*(u8 *)((u8 *)actor + 0x9A) != 0x17) {
-                player_action_handlers[*(u8 *)((u8 *)actor + 0x9A)](actor, context, animation, transform);
+            if (*((u8 *)actor + 0x9A) != 0x17) {
+                player_action_handlers[*((u8 *)actor + 0x9A)](actor, context, animation, transform);
                 return;
             }
         }
 
         if (*(u16 *)((u8 *)animation + 0x14) & 0xE000) {
-            *(u8 *)((u8 *)actor + 0x9A) = 0xE;
+            *((u8 *)actor + 0x9A) = 0xE;
             *(s16 *)((u8 *)actor + 0xA4) = 0;
             *(s32 *)((u8 *)actor + 0x8C) = (s32)handle_player_input;
         }

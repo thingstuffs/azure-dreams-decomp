@@ -75,9 +75,9 @@ void update_boss_actor_movement(void *entity, ObjectPosition *motion, SpriteFram
     if ((*(s32 *)((u8 *)entity + (0x14))) & 0x00800000) {
         (*(s32 *)((u8 *)entity + (0x14))) &= 0xFF7FFFFF;
         enqueue_runtime_pool_script(&D_800F8BBC);
-        (*(u8 *)((u8 *)entity + (0x6D))) = 0;
-        (*(u8 *)((u8 *)entity + (0x9B))) = 0;
-        (*(u8 *)((u8 *)entity + (0x71))) &= 0x7F;
+        (*((u8 *)entity + (0x6D))) = 0;
+        (*((u8 *)entity + (0x9B))) = 0;
+        (*((u8 *)entity + (0x71))) &= 0x7F;
     }
 
     if (system_update_flags & 8) {
@@ -115,7 +115,7 @@ void update_boss_actor_movement(void *entity, ObjectPosition *motion, SpriteFram
             update_callback(entity, motion, sprite, actor);
         }
     }
-    ghosh_action_handlers[(*(u8 *)((u8 *)entity + (0x9A)))](entity, motion, sprite, actor);
+    ghosh_action_handlers[(*((u8 *)entity + (0x9A)))](entity, motion, sprite, actor);
 
     if (old_direction != ((S_8016F2E0_3 *)actor)->unk_6D) {
         try_move_actor_to_valid_position(entity, motion, sprite, actor);
@@ -168,10 +168,10 @@ void update_boss_actor_movement(void *entity, ObjectPosition *motion, SpriteFram
     motion->y.v += motion->velocity_y;
 
     if ((*(u16 *)((u8 *)entity + (0x98))) & 8) {
-        (*(u8 *)((u8 *)entity + (0x9D))) = 0;
+        (*((u8 *)entity + (0x9D))) = 0;
     } else {
         motion->velocity_z += (*(s8 *)((u8 *)entity + (0x9D))) * 0x14000;
-        (*(u8 *)((u8 *)entity + (0x9D)))++;
+        (*((u8 *)entity + (0x9D)))++;
     }
     (*(s32 *)((u8 *)entity + (0x90))) += motion->velocity_z;
 
@@ -191,7 +191,7 @@ void update_boss_actor_movement(void *entity, ObjectPosition *motion, SpriteFram
                 }
                 motion->velocity_z = 0;
                 ((S_8016F2E0_3 *)actor)->unk_1C |= 0x08000000;
-                (*(u8 *)((u8 *)entity + (0x9D))) = 0;
+                (*((u8 *)entity + (0x9D))) = 0;
             }
 
             if (((S_8016F2E0_3 *)actor)->unk_1C & 0x40000000) {

@@ -21,16 +21,12 @@ typedef struct S_800C135C_1 {
 extern s32 func_80042640();
 extern void *create_player_tile_actor_at_coordinates();
 
-typedef struct S_800C135C_0 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-} S_800C135C_0;
 
 
 /* Looks up an entry, clears its linked state, and processes it if found. */
 s32 create_and_initialize_player_tile_actor(void) {
     s32 found;
-    S_800C135C_0 *entry;
+    ActorRecord *entry;
 
     entry = create_player_tile_actor_at_coordinates(
         reference_tile_object.tile_position.parts.tile_x,
@@ -38,7 +34,7 @@ s32 create_and_initialize_player_tile_actor(void) {
         dungeon_actor_ring_anchor->ground_height);
     if (entry != 0) {
         ((S_800C135C_1 *)(((S_800C135C_0_pre *)entry)[-1].unk_00))->unk_0C = 0;
-        func_80042640(entry, entry->unk_13);
+        func_80042640(entry, entry->species);
         found = 1;
     } else {
         found = 0;

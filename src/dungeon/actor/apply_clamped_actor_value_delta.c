@@ -14,7 +14,7 @@ extern s32 get_entity_effect_value(void *entry, s32 effect_id);
 
 /* Apply and clear the value delta, clamping the result to the byte range and state limit. */
 void apply_clamped_actor_value_delta(void *entity) {
-    FuncState *state = (FuncState *)entity;
+    FuncState *state = entity;
     s32 value;
 
     if ((state->delta < 0) && ((get_entity_effect_value(entity, STATUS_DAMAGE_GUARD) << 16) != 0)) {

@@ -18,15 +18,15 @@ extern u8 pulunpa_frame_set_3[];
 /* Updates object state or selects a source table entry from the target direction. */
 /* Updates Pulunpa's parent-relative motion and floor traps, then restores the idle frames for its normal
  * or alternate form. */
-void update_object_or_select_directional_data(void *object_arg, void *context, void *source_arg, void *target_arg) {
+void update_object_or_select_directional_data(void *object_arg, ObjectPosition *position, void *source_arg, ActorRecord *actor) {
     void *object = object_arg;
     SpriteFrameState *source= source_arg;
-    void *target = target_arg;
+    void *target = actor;
     void *state_table;
 
-    if (update_actor_transform_from_parent(object_arg, context, source_arg, target_arg) != 0) {
+    if (update_actor_transform_from_parent(object_arg, position, source_arg, actor) != 0) {
         if ((check_actor_floor_trap(source, target) << 0x10) > 0) {
-            if (*(u8 *)((u8 *)object + 0xA7) != 0) {
+            if (*((u8 *)object + 0xA7) != 0) {
                 *(void **)((u8 *)object + 0x8C) = pulunpa_variant_action_address;
             } else {
                 *(void **)((u8 *)object + 0x8C) = pulunpa_action_resume_address;

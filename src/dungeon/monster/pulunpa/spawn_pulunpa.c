@@ -21,22 +21,6 @@ typedef struct S_80CBD000_0 {
     void * unk_8C;
 } S_80CBD000_0;   /* work in create_actor_grid_object */
 
-typedef struct S_80CBD000_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80CBD000_2;   /* coord in create_actor_grid_object */
-
-typedef struct S_80CBD000_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xA];
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-    u8 pad_9D[0xA];
-    s8 unk_A7;
-    s8 unk_A8;
-} S_80CBD000_4;   /* actor in create_actor_grid_object */
 
 extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
@@ -66,7 +50,7 @@ void *create_actor_grid_object(s16 flags, s16 unused_kind_id, s16 variant, s16 u
     void *work;
     ObjectPosition *coord;
     SpriteFrameState *state;
-    S_80CBD000_4 *actor;
+    ActorRecord *actor;
 
     work = 0;
     alloc_id = 0x112;
@@ -107,11 +91,11 @@ void *create_actor_grid_object(s16 flags, s16 unused_kind_id, s16 variant, s16 u
                 }
             }
             if (entity_spawn_variant_code < 10) {
-                actor->unk_8C = pulunpa_action_resume_address;
+                actor->unk_8C.address = pulunpa_action_resume_address;
                 state->frameTable = pulunpa_frame_set_1;
             } else {
-                actor->unk_A7 = 1;
-                actor->unk_8C = pulunpa_variant_action_address;
+                actor->unk_A4.bytes[3] = 1;
+                actor->unk_8C.address = pulunpa_variant_action_address;
                 state->frameTable = pulunpa_frame_set_2;
             }
         } else {
@@ -121,9 +105,9 @@ void *create_actor_grid_object(s16 flags, s16 unused_kind_id, s16 variant, s16 u
 
         part->update_callback = D_80170AE0;
         initialize_actor_sprite_and_animation(part, coord, state, arg0_copy);
-        actor->unk_9A = 0xFF;
+        actor->action_id.u = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_A8 = 0;
+        actor->unk_A8.byte = 0;
         try_move_actor_to_valid_position(actor, coord, state, work);
     }
     return work;

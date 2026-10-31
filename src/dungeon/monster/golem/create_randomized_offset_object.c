@@ -6,6 +6,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "engine/scene.h"
 #include "engine/graphics.h"
+#include "shared/entity.h"
 
 #ifndef NULL
 #define NULL 0
@@ -39,7 +40,7 @@ typedef struct S_8017589C_1 {
    /* copy in create_randomized_offset_object */
 
 /* Creates an object with randomized initial state and source-derived offsets. */
-void *create_randomized_offset_object(s32 allocation_param, Copy24 *initial_data, Rec_D_80082E80 *source_node)
+void *create_randomized_offset_object(s32 allocation_param, Copy24 *initial_data, SpriteFrameState *sprite)
 {
     GteOffset delta;
     s32 random_value;
@@ -63,11 +64,11 @@ void *create_randomized_offset_object(s32 allocation_param, Copy24 *initial_data
 
         work->unk_40 = allocation_param;
         work->unk_44 = initial_data;
-        work->unk_48 = source_node;
+        work->unk_48 = sprite;
         work->unk_4C = allocation_param;
 
         node = object->sprite;
-        node->animation_resource = source_node->unk_28.at00_s32.v;
+        node->animation_resource = sprite->animation_resource;
         node->color.c.b = 0x80;
         node->color.c.g = 0x80;
         node->color.c.r = 0x80;

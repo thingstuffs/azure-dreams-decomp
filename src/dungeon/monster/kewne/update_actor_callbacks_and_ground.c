@@ -43,18 +43,18 @@ void update_actor_callbacks_and_ground(void *actor, ObjectPosition *position, Sp
             return;
         }
         else {
-            *((u8 *) (((u8 *) actor) + 0x71)) &= 0x7F;
+            *((((u8 *) actor) + 0x71)) &= 0x7F;
             return;
         }
     }
-    old_state = (s8) (*((u8 *) (((u8 *) actor) + 0x6D)));
+    old_state = (s8) (*((((u8 *) actor) + 0x6D)));
     if (refresh_actor_facing_and_lifecycle(actor, position, sprite, actor) != 0) {
         return;
     }
     if ((*((ActorCallback *) (((u8 *) actor) + 0x8C))) != 0) {
         (*((ActorCallback *) (((u8 *) actor) + 0x8C)))(actor, position, sprite, actor);
     }
-    kewne_callbacks[*((u8 *) (((u8 *) actor) + 0x9A))](actor, position, sprite, actor);
+    kewne_callbacks[*((((u8 *) actor) + 0x9A))](actor, position, sprite, actor);
     if (((s16) old_state) != (*((s8 *) (((u8 *) actor) + 0x6D)))) {
         try_move_actor_to_valid_position(actor, position, sprite, actor);
     }
@@ -62,10 +62,10 @@ void update_actor_callbacks_and_ground(void *actor, ObjectPosition *position, Sp
     position->y.v += position->velocity_y;
     if ((!((*((u32 *) (((u8 *) actor) + 0x1C))) & 0x40000)) && (!((*((u16 *) (((u8 *) actor) + 0x98))) & 8))) {
         position->velocity_z += (*((s8 *) (((u8 *) actor) + 0x9D))) * 0x14000;
-        (*((u8 *) (((u8 *) actor) + 0x9D)))++;
+        (*((((u8 *) actor) + 0x9D)))++;
     }
     else {
-        *((u8 *) (((u8 *) actor) + 0x9D)) = 0;
+        *((((u8 *) actor) + 0x9D)) = 0;
     }
     *((s32 *) (((u8 *) actor) + 0x90)) += position->velocity_z;
     view_direction = ((g_game_work.view.camera_rotation.parts.viewAngle + (*((s16 *) (((u8 *) actor_base) + 0x2A)))) + 0x100) >> 9;
@@ -153,7 +153,7 @@ void update_actor_callbacks_and_ground(void *actor, ObjectPosition *position, Sp
                 ground_offset = ground_height - (*((u16 *) (((u8 *) actor_base) + 0x88)));
                 if (((s16) ground_offset) < (*((s16 *) (((u8 *) actor) + 0x92)))) {
                     *((s16 *) (((u8 *) actor) + 0x92)) = ground_offset;
-                    *((u8 *) (((u8 *) actor) + 0x9D)) = 0;
+                    *((((u8 *) actor) + 0x9D)) = 0;
                     position->velocity_z = 0;
                     *((u32 *) (((u8 *) actor_base) + 0x1C)) |= 0x08000000;
                 }

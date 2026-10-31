@@ -324,7 +324,7 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
                     vertex_3_visible = (u16)(coord + 0x20) < 0x121U;
                 }
                 if (any_visible | vertex_3_visible) {
-                    *(u8 *)((u8 *)packet + 3) = 9;
+                    *((u8 *)packet + 3) = 9;
                     E16(entry, 0x14) &= 0x7FFF;
 
                     SP32(scratch, 0x10) += SP32(scratch, 0x08);
@@ -348,24 +348,24 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
                     P16(packet, 0x24) = SP16(scratch, 0x14) | SP16(scratch, 0x10);
 
                     if (SPS16(scratch, 0x50) >= 0x1800) {
-                        uv_edge = *(u8 *)((u8 *)packet + 0x24);
-                        *(u8 *)((u8 *)packet + 0x24) = uv_edge + 0xFF;
-                        *(u8 *)((u8 *)packet + 0x14) = uv_edge;
+                        uv_edge = *((u8 *)packet + 0x24);
+                        *((u8 *)packet + 0x24) = uv_edge + 0xFF;
+                        *((u8 *)packet + 0x14) = uv_edge;
                     }
                     if (SPS16(scratch, 0x58) >= 0x1800) {
-                        uv_edge = *(u8 *)((u8 *)packet + 0x25);
-                        *(u8 *)((u8 *)packet + 0x25) = uv_edge + 0xFF;
-                        *(u8 *)((u8 *)packet + 0x1D) = uv_edge;
+                        uv_edge = *((u8 *)packet + 0x25);
+                        *((u8 *)packet + 0x25) = uv_edge + 0xFF;
+                        *((u8 *)packet + 0x1D) = uv_edge;
                     }
                     if (PS16(packet, 8) > PS16(packet, 0x20)) {
-                        uv_edge = *(u8 *)((u8 *)packet + 0x24);
-                        *(u8 *)((u8 *)packet + 0x24) = uv_edge + 0xFF;
-                        *(u8 *)((u8 *)packet + 0x14) = uv_edge;
+                        uv_edge = *((u8 *)packet + 0x24);
+                        *((u8 *)packet + 0x24) = uv_edge + 0xFF;
+                        *((u8 *)packet + 0x14) = uv_edge;
                     }
                     if (PS16(packet, 0xA) > PS16(packet, 0x22)) {
-                        uv_edge = *(u8 *)((u8 *)packet + 0x25);
-                        *(u8 *)((u8 *)packet + 0x25) = uv_edge + 0xFF;
-                        *(u8 *)((u8 *)packet + 0x1D) = uv_edge;
+                        uv_edge = *((u8 *)packet + 0x25);
+                        *((u8 *)packet + 0x25) = uv_edge + 0xFF;
+                        *((u8 *)packet + 0x1D) = uv_edge;
                     }
 
                     {

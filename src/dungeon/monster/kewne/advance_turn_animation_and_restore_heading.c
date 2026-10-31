@@ -92,7 +92,7 @@ void advance_turn_animation_and_restore_heading(S_80172480_0 *actor, ObjectPosit
         if (animation->flags & 0xE000) {
             {
                 u8 *animation_table;
-                animation_table = (u8 *)D_80175ED0;
+                animation_table = D_80175ED0;
                 animation->frameTable = animation_table;
                 {
                     unsigned long animation_entry = (unsigned long)(((s32) (g_game_work.view.camera_rotation.parts.viewAngle

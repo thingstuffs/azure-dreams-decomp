@@ -60,7 +60,7 @@ void advance_action_phases_and_animation(ActorRecord *action, ObjectPosition *mo
         if (!(sprite->flags & 0xE000)) {
             return;
         }
-        sprite->frameTable = (u8 *)&nyuel_frame_set_9;
+        sprite->frameTable = &nyuel_frame_set_9;
         select_sprite_entry(sprite, *(u8 *)((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
             >> 9) & 7) + (u32)&nyuel_frame_set_9), 0);
         action->action_phase.u++;
@@ -72,7 +72,7 @@ void advance_action_phases_and_animation(ActorRecord *action, ObjectPosition *mo
             return;
         }
         play_sound_if_enabled(0x808);
-        sprite->frameTable = (u8 *)&nyuel_frame_set_10;
+        sprite->frameTable = &nyuel_frame_set_10;
         select_sprite_entry(sprite, *(u8 *)((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
             >> 9) & 7) + (u32)&nyuel_frame_set_10), 0);
         action->action_phase.u++;
@@ -121,7 +121,7 @@ void advance_action_phases_and_animation(ActorRecord *action, ObjectPosition *mo
         if (!(sprite->flags & 0xE000)) {
             return;
         }
-        sprite->frameTable = (u8 *)&nyuel_frame_set_4;
+        sprite->frameTable = &nyuel_frame_set_4;
         select_sprite_entry(sprite, *(u8 *)((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
             >> 9) & 7) + (u32)&nyuel_frame_set_4), 0);
         action->action_phase.u++;

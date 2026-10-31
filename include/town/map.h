@@ -11,6 +11,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/town_pointees.h"
 #include "shared/vector.h"
+#include "town/map/animation.h"
 
 struct Func800AB788Arg;
 struct Func800BFE50Object;
@@ -44,7 +45,7 @@ struct TownStripScratch;
 void adjust_record_fields(s32 unused, void *record);
 
 /* advance_building_texture_and_palette.c */
-void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload_arg);
+void advance_building_texture_and_palette(BuildingSelectionHandlerBody *state, s32 unused, s32 upload_arg);
 
 /* advance_town_map_countdown_callback.c */
 void advance_town_map_countdown_callback(struct S_8008BA00_0 *state, void *position, void *sprite);
@@ -212,7 +213,7 @@ void handle_town_map_input(u8 *object, void *transform, void *context);
 void increase_town_record_value(void **record_ref);
 
 /* init_line_colors.c */
-s32 draw_depth_sorted_gradient_lines(u8 *node);
+s32 draw_depth_sorted_gradient_lines(TownMapFallingObject *node);
 
 /* initialize_building_graphics.c */
 void initialize_building_graphics(void);

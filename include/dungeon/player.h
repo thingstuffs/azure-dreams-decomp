@@ -20,7 +20,7 @@ typedef struct FamiliarItemSlotView {
 
 void begin_actor_turn_toward_target(ActorRecord *body, void *unused, void *actor, ActorRecord *motion);
 s32 begin_familiar_command_selection(Rec_func_8008D024_arg0 *actor, void *context, SpriteFrameState *display, s32 target_index, s32 action_mode);
-s32 begin_familiar_summoning(void *record, s32 input1, void *pointer_input, s32 value_input);
+s32 begin_familiar_summoning(ActorRecord *record, s32 input1, void *pointer_input, s32 value_input);
 void apply_pending_byte_increase(void *unused_0, void *unused_1, void *unused_2, ActorRecord *object);
 void begin_player_damage_reaction(void *action, void *unused, void *sprite, ActorRecord *actor);
 void begin_player_pickup_animation(ActorRecord *actor, s32 effect_arg, u8 *target, ActorRecord *source);
@@ -28,7 +28,7 @@ void begin_player_sleep_action(void *record, void *unused, void *object, ActorRe
 void begin_player_wait_turn(ActorRecord *state, void *mode, void *sprite, ActorRecord *entity);
 s32 begin_selected_target_level_up(ActorRecord *actor_state, void *action_arg, void *sprite, ActorRecord *target);
 s32 begin_target_flagged_action(void *actor, s32 action_arg, s32 unused, ActorRecord *target);
-void begin_wake_nearby_monsters(u8 *state_ptr, void *value, u8 *target_ptr, u8 *angle_ptr);
+void begin_wake_nearby_monsters(ActorRecord *state_ptr, void *value, u8 *target_ptr, u8 *angle_ptr);
 void clear_player_linked_action_flags(void);
 s32 dispatch_dungeon_category_action(void *actor, void *action, s16 dispatch_mode, s32 handler_param);
 s32 reject_forbidden_familiar_recall(s32 entry_index);

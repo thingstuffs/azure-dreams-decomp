@@ -33,7 +33,7 @@ extern u8 D_80174F18[];
 
 
 /* Spawns a moving actor and advances the action through animation and recovery. */
-void spawn_moving_actor(void *action_work, void *position, SpriteFrameState *sprite, void *actor) {
+void spawn_moving_actor(ActorRecord *action_work, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
     Copy32 direction_vectors = weadog_slot_g_direction_steps;
     s32 state;
     u16 timer;

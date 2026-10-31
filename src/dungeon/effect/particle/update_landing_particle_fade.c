@@ -47,38 +47,41 @@ typedef struct S_80165AB8_2 {
 } S_80165AB8_2;   /* arg2 in update_landing_particle_fade */
 
 /* Updates object motion, landing, and fading before marking it finished. */
-void update_landing_particle_fade(u8 *object, u8 *motion, u8 *sprite)
+void update_landing_particle_fade(u8 *object_arg, u8 *motion_arg, u8 *sprite_arg)
 {
+    S_80165AB8_2 *sprite = sprite_arg;
+    S_80165AB8_1 *motion = motion_arg;
+    S_80165AB8_0 *object = object_arg;
     s32 height;
     u32 state;
     s32 counter_check;
     s32 next_tick;
 
-    state = ((S_80165AB8_0 *)object)->phase;
+    state = object->phase;
     switch (state) {
     case 0:
-        ((S_80165AB8_1 *)motion)->x.at00.v += ((S_80165AB8_1 *)motion)->velocity_x;
-        ((S_80165AB8_1 *)motion)->y.at00.v += ((S_80165AB8_1 *)motion)->velocity_y;
-        ((S_80165AB8_1 *)motion)->z.at00.v += ((S_80165AB8_1 *)motion)->velocity_z;
+        motion->x.at00.v += motion->velocity_x;
+        motion->y.at00.v += motion->velocity_y;
+        motion->z.at00.v += motion->velocity_z;
 
-        height = ((S_80165AB8_1 *)motion)->z.at02.v;
-        ((S_80165AB8_1 *)motion)->velocity_z += ((S_80165AB8_0 *)object)->gravity;
-        if ((sample_terrain_surface_height(((S_80165AB8_1 *)motion)->x.at02.v,
-                           ((S_80165AB8_1 *)motion)->y.at02.v,
-                           (s16)(((S_80165AB8_1 *)motion)->z.at02u.v - 4)) - 15) < height) {
-            ((S_80165AB8_0 *)object)->unk_54 = 0;
-            ((S_80165AB8_1 *)motion)->z.at02.v =
-                sample_terrain_surface_height(((S_80165AB8_1 *)motion)->x.at02.v,
-                              ((S_80165AB8_1 *)motion)->y.at02.v,
-                              (s16)(((S_80165AB8_1 *)motion)->z.at02u.v - 4)) - 2;
-            ((S_80165AB8_1 *)motion)->z.at00u.v = 0;
-            ((S_80165AB8_0 *)object)->ticks.s = 0;
-            ((S_80165AB8_0 *)object)->phase++;
+        height = motion->z.at02.v;
+        motion->velocity_z += object->gravity;
+        if ((sample_terrain_surface_height(motion->x.at02.v,
+                           motion->y.at02.v,
+                           (s16)(motion->z.at02u.v - 4)) - 15) < height) {
+            object->unk_54 = 0;
+            motion->z.at02.v =
+                sample_terrain_surface_height(motion->x.at02.v,
+                              motion->y.at02.v,
+                              (s16)(motion->z.at02u.v - 4)) - 2;
+            motion->z.at00u.v = 0;
+            object->ticks.s = 0;
+            object->phase++;
         }
-        counter_check = ((S_80165AB8_0 *)object)->ticks.u;
+        counter_check = object->ticks.u;
         next_tick = counter_check + 1;
         counter_check = (s16)counter_check < 60;
-        ((S_80165AB8_0 *)object)->ticks.u = next_tick;
+        object->ticks.u = next_tick;
         if (counter_check) {
             return;
         }
@@ -89,13 +92,13 @@ void update_landing_particle_fade(u8 *object, u8 *motion, u8 *sprite)
 
     case 1:
     {
-        s32 source_size = ((S_80165AB8_2 *)sprite)->scale_y;
+        s32 source_size = sprite->scale_y;
         next_tick = source_size << 1;
         next_tick += source_size;
-        ((S_80165AB8_2 *)sprite)->scale_y = next_tick;
-        ((S_80165AB8_2 *)sprite)->scale_x = next_tick;
-        ((S_80165AB8_0 *)object)->ticks.s = 0;
-        ((S_80165AB8_0 *)object)->phase++;
+        sprite->scale_y = next_tick;
+        sprite->scale_x = next_tick;
+        object->ticks.s = 0;
+        object->phase++;
         return;
     }
 
@@ -103,30 +106,30 @@ void update_landing_particle_fade(u8 *object, u8 *motion, u8 *sprite)
         if (encounter_blink_update_flag == 0) {
             return;
         }
-        ((S_80165AB8_0 *)object)->ticks.s = 0;
-        ((S_80165AB8_0 *)object)->phase++;
+        object->ticks.s = 0;
+        object->phase++;
         return;
 
     case 3:
-        if ((s16)((S_80165AB8_0 *)object)->ticks.u++ < 20) {
+        if ((s16)object->ticks.u++ < 20) {
             return;
         }
-        ((S_80165AB8_2 *)sprite)->unk_10 = 0;
-        ((S_80165AB8_2 *)sprite)->unk_14 |= 0xC;
+        sprite->unk_10 = 0;
+        sprite->unk_14 |= 0xC;
 
-        ((S_80165AB8_0 *)object)->ticks.s = 0;
-        ((S_80165AB8_0 *)object)->phase++;
+        object->ticks.s = 0;
+        object->phase++;
         return;
 
     case 4:
-        ((S_80165AB8_2 *)sprite)->red =
-            ((10 - ((S_80165AB8_0 *)object)->ticks.s) * 255) / 10;
-        ((S_80165AB8_2 *)sprite)->green = ((S_80165AB8_2 *)sprite)->blue =
-            ((10 - ((S_80165AB8_0 *)object)->ticks.s) * 32) / 10;
-        counter_check = ((S_80165AB8_0 *)object)->ticks.u;
+        sprite->red =
+            ((10 - object->ticks.s) * 255) / 10;
+        sprite->green = sprite->blue =
+            ((10 - object->ticks.s) * 32) / 10;
+        counter_check = object->ticks.u;
         next_tick = counter_check + 1;
         counter_check = (s16)counter_check < 10;
-        ((S_80165AB8_0 *)object)->ticks.u = next_tick;
+        object->ticks.u = next_tick;
         if (counter_check) {
             return;
         }

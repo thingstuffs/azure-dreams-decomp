@@ -50,7 +50,7 @@ void create_action_sprite_effect(S_80174690_2 *source) {
         sprite = effect->sprite;
         effect->update_callback = &copy_linked_position_and_check_status;
         effect_data = ((void *)effect) + 0x20;
-        effect_data->unk_18 = (void *) source->unk_0C;
+        effect_data->unk_18 = source->unk_0C;
         effect_data->unk_1C = (s32) source->unk_08;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;

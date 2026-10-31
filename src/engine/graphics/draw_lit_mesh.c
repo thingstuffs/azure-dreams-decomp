@@ -87,8 +87,9 @@ typedef struct RenderScratch {
 extern void NormalColorCol(void *a0, void *a1, void *a2);
 
 /* Transform, light, and queue visible textured mesh quads for rendering. */
-void draw_lit_mesh(void *unused, u8 *position, RenderObject *object, s16 depth_bias)
+void draw_lit_mesh(void *unused, u8 *position_arg, RenderObject *object, s16 depth_bias)
 {
+    Fixed1616 *position = position_arg;
     GteMatrix view_matrix;
     GameWork *render_globals;
     Vertex *vertex_table;
@@ -119,24 +120,24 @@ void draw_lit_mesh(void *unused, u8 *position, RenderObject *object, s16 depth_b
 
     PushMatrix();
 
-    vertex_word = *(u16 *)&object->scale[0];
+    vertex_word = *&object->scale[0];
     scratch = (u8 *)0x1F800000;
 
     ((RenderScratch *)scratch)->scale[0] = vertex_word;
     ((RenderScratch *)scratch)->scale[1] = object->scale[1];
     ((RenderScratch *)scratch)->scale[2] = object->scale[2];
-    ((RenderScratch *)scratch)->translation[0] = ((Fixed1616 *)position)[0].w.i;
-    ((RenderScratch *)scratch)->translation[1] = ((Fixed1616 *)position)[1].w.i;
-    ((RenderScratch *)scratch)->translation[2] = ((Fixed1616 *)position)[2].w.i;
+    ((RenderScratch *)scratch)->translation[0] = position[0].w.i;
+    ((RenderScratch *)scratch)->translation[1] = position[1].w.i;
+    ((RenderScratch *)scratch)->translation[2] = position[2].w.i;
 
     ReadRotMatrix(&view_matrix);
-    vertex_0 = (u8 *)scratch;
+    vertex_0 = scratch;
     vertex_0 = (void *)((unsigned long)vertex_0 | 0x50);
-    vertex_1 = (u8 *)scratch;
+    vertex_1 = scratch;
     vertex_1 = (void *)((unsigned long)vertex_1 | 0x40);
     TransMatrix(vertex_0, vertex_1);
     vertex_0 = &object->rotation[0];
-    vertex_1 = (u8 *)scratch;
+    vertex_1 = scratch;
     vertex_1 = (void *)((unsigned long)vertex_1 | 0x50);
     RotMatrix(vertex_0, vertex_1);
 
@@ -261,5 +262,5 @@ void draw_lit_mesh(void *unused, u8 *position, RenderObject *object, s16 depth_b
     }
 
     PopMatrix();
-    *(u8 **)((u8 *)((void *)render_globals->draw_buffer) + 0x8D0) = prim;
+    *(u8 **)((u8 *)render_globals->draw_buffer + 0x8D0) = prim;
 }

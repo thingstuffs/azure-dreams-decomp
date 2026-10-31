@@ -24,14 +24,15 @@ typedef struct S_800249A0_1 {
 
 
 /* Process the entry text when its state is zero and propagate the linked flags. */
-void decrement_object_counter(void *entry) {
-    ObjectStatusPrefix16 *entry_view = entry;
+void decrement_object_counter(void *entry_arg) {
+    S_800249A0_0 *entry = entry_arg;
+    ObjectStatusPrefix16 *entry_view = entry_arg;
     S_800249A0_1 *text_info;
 
-    text_info = ((S_800249A0_0 *)entry)->unk_0C;
-    if (((S_800249A0_0 *)entry)->unk_00 == 0) {
-        format_decimal_field_space_padded(*((S_800249A0_0 *)entry)->unk_08, strlen(((S_800249A0_0 *)entry)->unk_04),
-            ((S_800249A0_0 *)entry)->unk_04);
+    text_info = entry->unk_0C;
+    if (entry->unk_00 == 0) {
+        format_decimal_field_space_padded(*entry->unk_08, strlen(entry->unk_04),
+            entry->unk_04);
         if (text_info->unk_0C & 2) {
             entry_view[-1].flags = (u16) (entry_view[-1].flags | 0x8000);
             object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);

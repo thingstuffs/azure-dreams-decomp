@@ -973,7 +973,9 @@ def _generate():
                 env = {f'MASPSX_{kind}_FILE': str(gate.ROOT/'config'/f'{kind.lower()}_syms.{m["container"]}.txt') for kind in ('NORETURN','SIBCALL')}
             flags = M.module_cflags(m)
             if M.Z.enabled(m):
-                flags += ['-I' + str((gate.ROOT/a['source']).parent.resolve()) for a in m['members']]
+                # Root-relative (compiles run with cwd = ROOT): recipe keys, seeded objects and the shared object
+                # cache stay valid across scratch roots; genuine-ASPSX modules build through M.build anyway.
+                flags += ['-I' + rel((gate.ROOT/a['source']).parent.resolve()) for a in m['members']]
             base = E.load_noreturn_file(env['MASPSX_NORETURN_FILE']) if M.Z.enabled(m) else (E._gen_noreturn().scoped_census(m['container'], M.module_first(m)['foff'])['names'] if m['container'] in {'town','dungeon'} else E.load_noreturn_file(E.evidence_env(m['container']).get('MASPSX_NORETURN_FILE', E.DEFAULT_NORETURN_FILE)))
             capture['live'] = dict(base_names=sorted(base), include_own=not M.Z.enabled(m))
             record([gate.ROOT/'tools/cc.sh', source, 'unused', M.module_compiler(m), ' '.join(flags), ''], env=env)

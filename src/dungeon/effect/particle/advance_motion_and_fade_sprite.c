@@ -705,7 +705,7 @@ s32 project_linked_shape_quads(void *shape_data)
     s32 depth_sign;
 
     do {
-        shape = (DungeonShape *)shape_data;
+        shape = shape_data;
         depth_or_tag_mask = 0;
         point_index = 4;
         for (; point_index >= 0; point_index--) {
@@ -957,24 +957,25 @@ typedef struct S_80024F40_1 {
 
 
 /* Fades the object's packed color to zero, then sets completion flags. */
-void fade_packed_object_color_to_zero(void *object) {
+void fade_packed_object_color_to_zero(void *object_arg) {
+    S_80024F40_0 *object = object_arg;
     s16 fade_state;
     void *linked_object;
 
-    linked_object = ((S_80024F40_0 *)object)->unk_00;
+    linked_object = object->unk_00;
     ((S_80024F40_1 *)linked_object)->unk_52 =
         (u16)(((S_80024F40_1 *)linked_object)->unk_52 | 0x8000);
-    ((S_80024F40_0 *)object)->unk_42 =
+    object->unk_42 =
         GetClut((rand() & 0xF) * 0x10, 0x1F8);
-    fade_state = ((S_80024F40_0 *)object)->unk_4A.s;
+    fade_state = object->unk_4A.s;
     switch (fade_state) {
     case 0:
-        if ((u8)((S_80024F40_0 *)object)->unk_34.u8 < 0x31U) {
-            ((S_80024F40_0 *)object)->unk_34.s32 = 0;
-            ((S_80024F40_0 *)object)->unk_4A.u++;
+        if ((u8)object->unk_34.u8 < 0x31U) {
+            object->unk_34.s32 = 0;
+            object->unk_4A.u++;
             return;
         }
-        ((S_80024F40_0 *)object)->unk_34.s32 = ((S_80024F40_0 *)object)->unk_34.s32 - 0x303030;
+        object->unk_34.s32 = object->unk_34.s32 - 0x303030;
         break;
     case 1:
         (*(u16 *)((u8 *)object + -2)) =

@@ -81,7 +81,7 @@ extern s32 item_display_icon_words[256];
 extern DirectionVector barong_direction_vectors[];
 
 /* Creates a dungeon entity with the supplied position, direction, and object data. */
-void create_randomized_item_object(void *owner, SourcePosition *source_pos, void *unused,
+void create_randomized_item_object(ActorRecord *owner, ObjectPosition *source_pos, SpriteFrameState *unused,
                    DungeonObjectArg *object)
 {
     Entity *entity;
@@ -111,9 +111,9 @@ void create_randomized_item_object(void *owner, SourcePosition *source_pos, void
     object->arg.group = 0;
 
     position = entity->header.position;
-    position->x.w.i = source_pos->x;
-    position->y.w.i = source_pos->y;
-    position->z.w.i = source_pos->z - 0x20;
+    position->x.w.i = source_pos->x.w.i;
+    position->y.w.i = source_pos->y.w.i;
+    position->z.w.i = source_pos->z.w.i - 0x20;
 
     work->x = barong_direction_vectors[(object->mode >> 9) & 7].x << 18;
     work->y = barong_direction_vectors[(object->mode >> 9) & 7].y << 18;
@@ -126,9 +126,9 @@ void create_randomized_item_object(void *owner, SourcePosition *source_pos, void
     render->scale_x = 0x1000;
     render->depth_bias = barong_direction_vectors[(object->mode >> 9) & 7].y * 6;
 
-    *(u16 *)((u8 *)owner + 0xA2) = 0x4D;
-    work->x_cell = (s16)source_pos->x / 0x40;
-    work->y_cell = (s16)source_pos->y / 0x40;
+    owner->unk_A0.parts.high = 0x4D;
+    work->x_cell = (s16)source_pos->x.w.i / 0x40;
+    work->y_cell = (s16)source_pos->y.w.i / 0x40;
 
     results = item_display_icon_words;
     item_category_table = item_category_groups;

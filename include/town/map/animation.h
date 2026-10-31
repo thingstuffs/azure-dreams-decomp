@@ -7,6 +7,11 @@
 
 typedef union TownMapAnimHalf { s16 s; u16 u; } TownMapAnimHalf;
 
+typedef struct BuildingSelectionHandlerBody {
+    /* 0x00 */ TownMapAnimHalf animation_tick;
+    /* 0x02 */ s16 selection_kind;
+} BuildingSelectionHandlerBody;
+
 /* The randomized spawner seeds the three anchor halves at +0C and the
  * integer halves of the embedded motion at +1C. The animation callback
  * updates both representations before spawning the impact sprite. */
@@ -15,13 +20,31 @@ typedef struct TownMapEffectMotion {
     Fixed1616 velocity_x, velocity_y, velocity_z;
 } TownMapEffectMotion;
 
+typedef union TownMapFallingMotion {
+    TownMapEffectMotion fixed;
+    struct {
+        u16 x_fraction;
+        u16 x_integer;
+        u16 y_fraction;
+        u16 y_integer;
+        u16 z_fraction;
+        u16 z_integer;
+        u16 velocity_x_fraction;
+        u16 velocity_x_integer;
+        u16 velocity_y_fraction;
+        u16 velocity_y_integer;
+        u16 velocity_z_fraction;
+        u16 velocity_z_integer;
+    } halves;
+} TownMapFallingMotion;
+
 typedef struct TownMapFallingObject {
     u8 pad_00[0xC];
     TownMapAnimHalf unk_0C;
     s16 unk_0E;
     TownMapAnimHalf unk_10;
     u8 pad_12[0xA];
-    TownMapEffectMotion motion;
+    TownMapFallingMotion motion;
     u8 pad_34[0x14];
     TownMapAnimHalf timer;
     u8 pad_4A[2];
@@ -67,8 +90,8 @@ void spawn_randomized_timed_objects(TownMapSpawnState *source);
 void update_four_phase_animation(TownMapPhaseObject *entity, void *context);
 
 /* Callback entry points. */
-void advance_building_animation_frame(u16 *frame_tick);
-void advance_building_texture_frame(u16 *anim_tick);
+void advance_building_animation_frame(BuildingSelectionHandlerBody *state);
+void advance_building_texture_frame(BuildingSelectionHandlerBody *state);
 
 void copy_low_halfword_coordinates(u16 *destination, const u16 *source);
 

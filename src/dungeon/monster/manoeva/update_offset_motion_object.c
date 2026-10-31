@@ -20,8 +20,9 @@ typedef struct S_80175C60_2 {
 
 
 /* Advance motion and rotation, update facing, and flag the object when its timer expires. */
-void update_offset_motion_object(void *object, void *motion_data, void *rotation)
+void update_offset_motion_object(void *object_arg, void *motion_data, void *rotation_arg)
 {
+    S_80175C60_1 *object = object_arg;
     ObjectPosition *motion = motion_data;
     s32 facing;
     s32 accel_x;
@@ -29,6 +30,7 @@ void update_offset_motion_object(void *object, void *motion_data, void *rotation
     s32 next_velocity_y;
     s32 velocity_x;
     u16 ticks_left;
+    S_80175C60_2 *rotation = rotation_arg;
 
     motion->x.v += motion->velocity_x;
     motion->y.v += motion->velocity_y;
@@ -40,24 +42,24 @@ void update_offset_motion_object(void *object, void *motion_data, void *rotation
     motion->velocity_x = velocity_x + accel_x;
     next_velocity_y += next_velocity_y >> 5;
     motion->velocity_y = next_velocity_y;
-    ticks_left = ((S_80175C60_1 *)object)->unk_20 - 1;
-    ((S_80175C60_1 *)object)->unk_20 = ticks_left;
+    ticks_left = object->unk_20 - 1;
+    object->unk_20 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         (*(u16 *)((u8 *)object + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
-    ((S_80175C60_2 *)rotation)->unk_1C += 0x80;
-    ((S_80175C60_2 *)rotation)->unk_1E += 0x80;
-    ((S_80175C60_2 *)rotation)->unk_1A += 0x40;
+    rotation->unk_1C += 0x80;
+    rotation->unk_1E += 0x80;
+    rotation->unk_1A += 0x40;
     {
         u16 facing_test;
 
-        facing = ((((s32)(g_game_work.view.camera_rotation.parts.viewAngle + *((S_80175C60_1 *)object)->unk_00 + 0x100) >> 9) & 7) + 2) << 9;
+        facing = ((((s32)(g_game_work.view.camera_rotation.parts.viewAngle + *object->unk_00 + 0x100) >> 9) & 7) + 2) << 9;
         facing_test = facing;
-        ((S_80175C60_2 *)rotation)->unk_18 = facing;
+        rotation->unk_18 = facing;
         if ((facing_test == 0x400) || (facing_test == 0xC00)) {
-            ((S_80175C60_2 *)rotation)->unk_18 = facing + 0x100;
+            rotation->unk_18 = facing + 0x100;
         }
     }
 }

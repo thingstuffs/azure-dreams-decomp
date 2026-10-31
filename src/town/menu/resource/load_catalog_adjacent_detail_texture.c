@@ -42,32 +42,33 @@ extern u8 catalog_texture_request[];
 
 
 /* Loads an image and palette into VRAM, then updates the loading state. */
-void load_catalog_adjacent_detail_texture(void *context) {
+void load_catalog_adjacent_detail_texture(void *context_arg) {
+    S_801254D8_0 *context = context_arg;
     Rect image_rect;
     Rect palette_rect;
     void *compressed;
     void *pixels;
     u8 load_phase;
 
-    load_phase = ((S_801254D8_0 *)context)->unk_0B;
+    load_phase = context->unk_0B;
     if (load_phase != 0) {
         if (load_phase != 1) {
             return;
         }
     } else {
         pack_tagged_resource_descriptor(8, catalog_texture_buffer, catalog_texture_request,
-                      catalog_texture_resources[((S_801254D8_0 *)context)->unk_13][1]);
+                      catalog_texture_resources[context->unk_13][1]);
         Control_CD(6, catalog_texture_request, 0);
-        ((S_801254D8_0 *)context)->unk_0D = 0;
+        context->unk_0D = 0;
         Control_CD(0xFF, resource_completion_callback_address, (u8 *)context + 0xD);
-        ((S_801254D8_0 *)context)->unk_0B++;
+        context->unk_0B++;
     }
-    if (((S_801254D8_0 *)context)->unk_0D == 0) {
+    if (context->unk_0D == 0) {
         return;
     }
 
     palette_rect.x = 0;
-    palette_rect.y = ((S_801254D8_0 *)context)->unk_16 + 0x1CA;
+    palette_rect.y = context->unk_16 + 0x1CA;
     palette_rect.w = 0x100;
     palette_rect.h = 1;
     LoadImage(&palette_rect, catalog_texture_buffer);
@@ -76,27 +77,27 @@ void load_catalog_adjacent_detail_texture(void *context) {
     pixels = catalog_texture_pixels;
     decompress_lz(compressed, pixels);
 
-    image_rect.x = (((S_801254D8_0 *)context)->unk_16 << 6) + 0x240;
+    image_rect.x = (context->unk_16 << 6) + 0x240;
     image_rect.y = 0x80;
     image_rect.w = 0x40;
     image_rect.h = 0x80;
     LoadImage(&image_rect, catalog_texture_pixels);
 
-    ((S_801254D8_1 *)((u8 *)context + ((S_801254D8_0 *)context)->unk_16))->unk_17 =
-        ((S_801254D8_0 *)context)->unk_13;
+    ((S_801254D8_1 *)((u8 *)context + context->unk_16))->unk_17 =
+        context->unk_13;
 
     {
-        u32 state_value = ((S_801254D8_0 *)context)->unk_13;
-        u32 index_limit = ((S_801254D8_0 *)context)->unk_14;
+        u32 state_value = context->unk_13;
+        u32 index_limit = context->unk_14;
 
         state_value = state_value < index_limit;
         if (state_value == 0) {
-            ((S_801254D8_0 *)context)->unk_0A = 0xB;
+            context->unk_0A = 0xB;
         } else {
-            ((S_801254D8_0 *)context)->unk_0A = 0xA;
+            context->unk_0A = 0xA;
         }
-        ((S_801254D8_0 *)context)->unk_04 = 1;
+        context->unk_04 = 1;
     }
-    ((S_801254D8_0 *)context)->unk_0B = 0;
-    ((S_801254D8_0 *)context)->unk_06 = 0x19;
+    context->unk_0B = 0;
+    context->unk_06 = 0x19;
 }

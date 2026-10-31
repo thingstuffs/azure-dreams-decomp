@@ -10,7 +10,7 @@ s32 draw_concentric_effect_layers(void *effect, s32 position, s32 render_param) 
     s32 height;
     s32 outer_brightness;
 
-    outer_brightness = *(u8 *)((u8 *)effect + 0x10) * 0x10;
+    outer_brightness = *((u8 *)effect + 0x10) * 0x10;
     if (outer_brightness & 0xFF) {
         outer_brightness = 0xFF;
     }

@@ -198,7 +198,7 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, SpriteFrameState *s
             ((SpriteAnimationTableView *)turn_sprite)->frame_table = player_move_frames;
             set_sprite_animation_frame(
                 turn_sprite,
-                *(u8 *)(player_move_frames +
+                *(player_move_frames +
                         (((s32)(((S_8008B9FC_7_pre *)D_80083464)[-1].unk_00 +
                                 actor->facing + 0x100) >> 9) & 7)),
                 0, 1);

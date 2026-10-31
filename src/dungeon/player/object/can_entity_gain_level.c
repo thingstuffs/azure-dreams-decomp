@@ -129,7 +129,7 @@ s32 raise_entity_level(void *entity_data, s32 show_message) {
 
             level_product = level * stat_growth[5];
             curve_value = SquareRoot12(level_product << 0xB);
-            new_base = *(u8 *)(initial_stats + 5);
+            new_base = *(initial_stats + 5);
             new_linear = stat_growth[5] * level;
             if (new_linear < 0) {
                 new_linear += 0xF;
@@ -398,7 +398,7 @@ loop_0:
                 DefEntry *ability_table;
                 slot = 0;
                 ability_table = item_action_definitions;
-                ability_slot = ((u8 *)entity_data);
+                ability_slot = entity_data;
                 do {
                     if (ability_gained[slot] != 0) {
                         text_end = write_text_byte_and_advance(0xA, text_end);
@@ -488,7 +488,7 @@ s32 lower_entity_level(ActorRecord *body, s32 show_message) {
         s32 lower_hp_base;
         s32 stat_value;
         hp_curve = SquareRoot12((level_offset * stat_growth[5]) << 0xB);
-        base_hp = *(u8 *)(initial_stats + 5);
+        base_hp = *(initial_stats + 5);
         temp = stat_growth[5];
         lower_hp_growth = temp * level_offset;
         if (lower_hp_growth < 0) {
@@ -502,7 +502,7 @@ s32 lower_entity_level(ActorRecord *body, s32 show_message) {
         lower_stat = lower_hp_base + (lower_hp_curve >> 0xF);
 
         hp_curve = SquareRoot12((level * temp) << 0xB);
-        lower_hp_curve = *(u8 *)(initial_stats + 5);
+        lower_hp_curve = *(initial_stats + 5);
         upper_hp_growth = stat_growth[5] * level;
         if (upper_hp_growth < 0) {
             upper_hp_growth += 0xF;
@@ -863,22 +863,24 @@ typedef struct S_800A2CB8_1 {
 } S_800A2CB8_1;   /* arg1 in check_entity_interaction_compatibility */
 
 /* Checks entity status and shared flags against another entity. */
-u32 check_entity_interaction_compatibility(void *entity, S_800A2CB8_1 *other_entity) {
+u32 check_entity_interaction_compatibility(void *entity_arg, S_800A2CB8_1 *other_entity) {
+    ActorRecord *entity = entity_arg;
+
     if (other_entity == NULL) {
         return 0;
     }
-    if (((u32)((ActorRecord *)entity)->flags1C) & (ACTOR_BLIND | ACTOR_CONFUSED)) {
+    if (((u32)entity->flags1C) & (ACTOR_BLIND | ACTOR_CONFUSED)) {
         return 1;
     }
-    if (((ActorRecord *)entity)->species == MONSTER_TYRANT &&
-        (((ActorRecord *)entity)->action_state_flags & 0x8000)) {
+    if (entity->species == MONSTER_TYRANT &&
+        (entity->action_state_flags & 0x8000)) {
         return 1;
     }
     if ((other_entity->unk_14 & 0x4000) &&
-        (((u32)((ActorRecord *)entity)->flags14) & ACTOR_PARTY_MEMBER)) {
+        (((u32)entity->flags14) & ACTOR_PARTY_MEMBER)) {
         return ((u16)get_entity_effect_value(entity, STATUS_BRAINWASH) << 16) != 0;
     }
-    return (((((u32)((ActorRecord *)entity)->flags1C) ^
+    return (((((u32)entity->flags1C) ^
               other_entity->unk_1C) & 0x2000) << 16) >> 16;
 }
 #include "common.h"
@@ -930,12 +932,6 @@ typedef struct S_800A2DB8_2 {
     void * unk_AC;
 } S_800A2DB8_2;   /* slot in distribute_experience_awards */
 
-typedef struct S_800A2DB8_3 {
-    u8 pad_00[0x11];
-    u8 unk_11;
-    u8 pad_12[0x16];
-    u8 unk_28;
-} S_800A2DB8_3;   /* member in distribute_experience_awards */
 
 typedef struct S_800A2DB8_5 {
     u8 pad_00[0xAC];
@@ -961,7 +957,7 @@ s32 distribute_experience_awards(S_800A2DB8_0 *source)
     EntityRec *target;
     EntityRec *final_target;
     S_800A2DB8_7 *global_member;
-    S_800A2DB8_3 *member;
+    ActorRecord *member;
     u8 *member_slot;
     u8 *global_page;
     s32 recipient_count;
@@ -995,7 +991,7 @@ s32 distribute_experience_awards(S_800A2DB8_0 *source)
         member_slot = (u8 *)dungeon_actor_ring_anchor + 4;
         do {
             member = ((S_800A2DB8_2 *)member_slot)->unk_AC;
-            if ((member != NULL) && (member->unk_28 != 0)) {
+            if ((member != NULL) && (member->hp != 0)) {
                 recipient_count++;
             }
             member_index--;
@@ -1010,8 +1006,8 @@ s32 distribute_experience_awards(S_800A2DB8_0 *source)
             member_index = 1;
             do {
                 member = ((S_800A2DB8_5 *)((u8 *)dungeon_actor_ring_anchor + member_index * 4))->unk_AC;
-                if ((member != NULL) && (member->unk_28 != 0)) {
-                    level_delta = member->unk_11 - source->unk_11;
+                if ((member != NULL) && (member->hp != 0)) {
+                    level_delta = member->level - source->unk_11;
                     award = experience;
                     if (level_delta < 0) {
                         /*
@@ -1336,7 +1332,7 @@ scan_slots:
                 copy_src += 0x10;
                 copy_dst += 0x10;
             } while (copy_src != copy_end);
-            tail_src = (s32 *)copy_src;
+            tail_src = copy_src;
             tail_w0 = tail_src[0];
             tail_w4 = tail_src[1];
             tail_w8 = tail_src[2];
@@ -1369,7 +1365,7 @@ scan_slots:
         }
     }
     if (!(((EntityRec *)record)->flags14 & 0x20000000)) {
-        decrement_monster_entry_count((*(u8 *)((u8 *)&((EntityRec *)record)->unk_10 + 3)), update_mode);
+        decrement_monster_entry_count((*((u8 *)&((EntityRec *)record)->unk_10 + 3)), update_mode);
     }
     return entry;
 }

@@ -20,7 +20,7 @@ typedef struct {
 /* Sets record fields 0x8-0xB from a code using its table-selected encoding. */
 void *decode_glyph_fields(void *record_ptr, s32 code)
 {
-    S_8004E188 *record = (S_8004E188 *)record_ptr;
+    S_8004E188 *record = record_ptr;
     u8 code_index = (u8)code;
     u8 *flags_entry = glyph_code_flags + code_index;
     u8 flags = *flags_entry;

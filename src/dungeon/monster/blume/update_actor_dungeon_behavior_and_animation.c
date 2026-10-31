@@ -8,14 +8,6 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
-typedef struct S_80171E20_0 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x8];
-    u16 unk_98;
-    u8 unk_9A;
-    u8 unk_9B;
-} S_80171E20_0;   /* arg0 in update_actor_dungeon_behavior_and_animation */
 
 typedef struct S_80171E20_1 {
     u8 pad_00[0x1C];
@@ -98,7 +90,7 @@ void update_actor_dungeon_behavior_and_animation(ActorRecord *actor_in, ObjectPo
         if (*(u8 **)&sprite_in->frameTable == blume_direction_frames_2) {
             actor_in->action_id.u = 13;
             actor_in->action_phase.u = 1;
-            ((S_80171E20_0 *)actor_in)->unk_8C = 0;
+            actor_in->unk_8C.word = 0;
             ((S_80171E20_1 *)status_in)->unk_1C &= ~0x40000;
             return;
         }

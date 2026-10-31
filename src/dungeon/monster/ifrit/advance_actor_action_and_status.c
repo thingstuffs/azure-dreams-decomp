@@ -9,25 +9,6 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
-typedef struct S_8017388C_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xB];
-    u8 unk_9B;
-} S_8017388C_0;   /* arg0 in advance_actor_action_and_status */
-
-typedef struct S_8017388C_2 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x38];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} S_8017388C_2;   /* arg3 in advance_actor_action_and_status */
 
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
@@ -63,7 +44,7 @@ void advance_actor_action_and_status(ActorRecord *in_action, ObjectPosition *in_
             direction_frames = ifrit_frame_set;
             (in_sprite->frameTable) = direction_frames;
             select_sprite_entry(in_sprite,
-                direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017388C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
                 0);
             system_base = &g_dungeon_status;
             (*(u16 *)&system_base->activity_counts.parts.pending_action_count)--;
@@ -81,12 +62,12 @@ void advance_actor_action_and_status(ActorRecord *in_action, ObjectPosition *in_
                 return;
             }
 
-            if ((((S_8017388C_2 *)actor)->unk_64 != 0) &&
+            if ((((ActorRecord *)actor)->hp_delta != 0) &&
                 (begin_ready_actor_directional_action(in_action, context, in_sprite, 0) != 0)) {
                 return;
             }
 
-            if (((S_8017388C_2 *)actor)->unk_25 == 0) {
+            if (((ActorRecord *)actor)->mp_value.parts.whole == 0) {
                 if (system_base->flags & 0x2008) {
                     return;
                 }
@@ -98,7 +79,7 @@ void advance_actor_action_and_status(ActorRecord *in_action, ObjectPosition *in_
                 return;
             }
 
-            actor_flags = ((S_8017388C_2 *)actor)->unk_1C;
+            actor_flags = ((ActorRecord *)actor)->flags1C;
             if (actor_flags & 0x100) {
                 begin_pushed_actor_move(in_action, context, in_sprite, actor);
                 return;
@@ -110,7 +91,7 @@ void advance_actor_action_and_status(ActorRecord *in_action, ObjectPosition *in_
                 return;
             }
 
-            if (((S_8017388C_2 *)actor)->unk_6D == 0) {
+            if (((ActorRecord *)actor)->pending_turn_updates == 0) {
                 return;
             }
 
@@ -174,7 +155,7 @@ void advance_actor_action_and_status(ActorRecord *in_action, ObjectPosition *in_
     default:
         return;
     }
-    ((S_8017388C_2 *)actor)->unk_1C &= ~ACTOR_ASLEEP;
+    ((ActorRecord *)actor)->flags1C &= ~ACTOR_ASLEEP;
     in_action = (void *)&in_action->unk_8C.address; /* BYTES: retiring this parameter as the callback-slot cursor preserves the retail save order. */
     *(void **)in_action = ifrit_action_resume_address;
 }

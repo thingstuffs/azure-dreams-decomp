@@ -67,7 +67,7 @@ s32 dispatch_item_target_action(ActorRecord *target, DungeonItemEntry *item, s16
         }
         clear_slot_and_update_linked_state(item);
     } else {
-        display_formatted_context_message((u8 *)&D_800E101C, action_value, action_type);
+        display_formatted_context_message(&D_800E101C, action_value, action_type);
     }
     g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
     return 1;

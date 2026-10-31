@@ -42,9 +42,9 @@ void initialize_object_transform_and_state(s32 slot_id, void *object, s32 object
     *(s16 *)((u8 *)object + 0x12) = 0;
     *(s16 *)((u8 *)object + 0x14) = 0;
     *(s16 *)((u8 *)object + 0x10) = 0;
-    *(u8 *)((u8 *)object + 0xC) = g_game_work.view.tint.parts.tint_r;
-    *(u8 *)((u8 *)object + 0xD) = g_game_work.view.tint.parts.tint_g;
-    *(u8 *)((u8 *)object + 0xE) = g_game_work.view.tint.parts.tint_b;
+    *((u8 *)object + 0xC) = g_game_work.view.tint.parts.tint_r;
+    *((u8 *)object + 0xD) = g_game_work.view.tint.parts.tint_g;
+    *((u8 *)object + 0xE) = g_game_work.view.tint.parts.tint_b;
     *(s16 *)((u8 *)object + 0x14) = 0;
     *(s16 *)((u8 *)object + 0x1A) = 0;
     *(s16 *)((u8 *)object + 0x18) = 0;
@@ -461,7 +461,8 @@ void clear_record_20_status_bytes(s8 *records) {
 }
 
 /* Compute coordinate bounds for four points using the configured limits. */
-void compute_four_point_coordinate_bounds(void *points, func_800A00A8_S_8009D808_2 *max_point, func_800A00A8_S_8009D808_1 *min_point) {
+void compute_four_point_coordinate_bounds(void *points_arg, func_800A00A8_S_8009D808_2 *max_point, func_800A00A8_S_8009D808_1 *min_point) {
+    func_800A00A8_S_8009D808_0 *points = points_arg;
     s16 x_for_max;
     s16 x_for_min;
     s16 y_for_max;
@@ -475,10 +476,10 @@ void compute_four_point_coordinate_bounds(void *points, func_800A00A8_S_8009D808
     u8 *size_config;
     void *point;
 
-    first_x = ((func_800A00A8_S_8009D808_0 *)points)->unk_00;
+    first_x = points->unk_00;
     min_point->unk_00 = first_x;
     max_point->unk_00 = first_x;
-    first_y = ((func_800A00A8_S_8009D808_0 *)points)->unk_02;
+    first_y = points->unk_02;
     min_point->unk_02 = first_y;
     max_point->unk_02 = first_y;
     config_base = ((u8 *)(&g_game_work));
@@ -527,7 +528,7 @@ void compute_four_point_coordinate_bounds(void *points, func_800A00A8_S_8009D808
         } else {
             point += 8;
         }
-    } while ((s32) point < (s32) (points + 0x20));
+    } while ((s32) point < (s32) (points_arg + 0x20));
 }
 
 /* Collect rectangles overlapping the query bounds into a null-terminated list. */
@@ -855,7 +856,7 @@ s32 kewn_namewin_close_check(void) {
         if (matched_item != 0) {
             strcpy(
                    (void *)(0x80010324 +
-                            ((*(u8 *)((u8 *)matched_item + 3) & 0x1F) * 0x54)),
+                            ((*((u8 *)matched_item + 3) & 0x1F) * 0x54)),
                    (void *)0x80010AB4);
         }
     }

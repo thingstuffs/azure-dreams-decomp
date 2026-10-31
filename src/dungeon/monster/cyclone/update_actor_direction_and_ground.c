@@ -109,7 +109,7 @@ void update_actor_direction_and_ground(Actor *input_actor, Motion *input_motion,
     if (g_dungeon_status.flags & 0x2000) {
         special_callback = input_actor->callback;
         if (special_callback == update_actor_animation) {
-            special_callback(((Actor *)(input_actor)), input_motion, input_entity, ((Actor *)(input_actor)));
+            special_callback((input_actor), input_motion, input_entity, (input_actor));
             return;
         }
         input_actor->status71 &= 0x7F;

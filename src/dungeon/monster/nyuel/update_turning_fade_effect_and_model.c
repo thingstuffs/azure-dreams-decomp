@@ -229,7 +229,7 @@ void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition 
         return;
     case 7:
         model_addr = advance_staged_entity_load(actor, target);
-        target->target = (void *) model_addr;
+        target->target = model_addr;
         if (model_addr == 0) {
             return;
         }

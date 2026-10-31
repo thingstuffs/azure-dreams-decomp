@@ -95,7 +95,7 @@ void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *positio
                     if (half == 0) {
                         s32 texture_v;
                         DM_U32(0x08) = texture_u;
-                        texture_v = (*(u8 *)((u8 *)part + 9));
+                        texture_v = (*((u8 *)part + 9));
                         DM_U32(0x10) = 1;
                         DM_U32(0x0C) = texture_v;
                         {
@@ -419,9 +419,9 @@ s32 draw_linked_gap_effects(void *state, void *position, void *appearance) {
 }
 
 /* Projects linked points and queues visible square particles with color scaled by each point's intensity. */
-s32 draw_linked_shaded_tiles(void *first_point, void *first_position)
+s32 draw_linked_shaded_tiles(RandomOffsetEffectObjectBody *first_point, void *first_position)
 {
-    void *point = first_point;
+    RandomOffsetEffectObjectBody *point = first_point;
     Row_818F30EC_S_800248EC_1 *position = first_position;
     GameWork *render_state = &g_game_work;
     u32 addr_mask = 0x00FFFFFF;
@@ -451,21 +451,21 @@ s32 draw_linked_shaded_tiles(void *first_point, void *first_position)
                                        &scratch->xy, &scratch->depth);
 
         if (scratch->index < 0x1E0U) {
-            ((Row_818F30EC_S_800248EC_2 *)tile)->unk_04.at00.v = ((Row_818F30EC_S_800248EC_3 *)point)->unk_08;
+            ((Row_818F30EC_S_800248EC_2 *)tile)->unk_04.at00.v = point->unk_08.u;
 
-            color_value = (s32)tile->r * ((Row_818F30EC_S_800248EC_3 *)point)->unk_32;
+            color_value = (s32)tile->r * point->unk_32.s;
             if (color_value < 0) {
                 color_value += 0x7F;
             }
             tile->r = color_value >> 7;
 
-            color_value = (s32)tile->g * ((Row_818F30EC_S_800248EC_3 *)point)->unk_32;
+            color_value = (s32)tile->g * point->unk_32.s;
             if (color_value < 0) {
                 color_value += 0x7F;
             }
             tile->g = color_value >> 7;
 
-            color_value = (s32)tile->b * ((Row_818F30EC_S_800248EC_3 *)point)->unk_32;
+            color_value = (s32)tile->b * point->unk_32.s;
             tile->b = (color_value / 128);
 
             ((Row_818F30EC_S_800248EC_2 *)tile)->unk_03 = 2;
@@ -484,7 +484,7 @@ s32 draw_linked_shaded_tiles(void *first_point, void *first_position)
 
         next_node = ((Row_818F30EC_S_800248EC_3_pre *)point)[-1].unk_00;
         if (next_node != 0) {
-            point = (u8 *)next_node + 0x20;
+            point = (RandomOffsetEffectObjectBody *)((u8 *)next_node + 0x20);
             position = next_node->unk_08;
             continue;
         }

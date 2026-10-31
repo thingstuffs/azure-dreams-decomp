@@ -53,7 +53,8 @@ void create_offset_sprite_effect(ObjectNodeHeader *parent, s32 state_value, s16 
 }
 
 /* Updates effect size and offsets, emits a sequence, and flags expiration. */
-void update_expiring_sprite_effect(void *effect, S_800D6C18_2 *size_state) {
+void update_expiring_sprite_effect(void *effect_arg, S_800D6C18_2 *size_state) {
+    S_800D6C18_0 *effect = effect_arg;
     s16 display_size;
     s16 ticks_left;
     s32 index;
@@ -62,15 +63,15 @@ void update_expiring_sprite_effect(void *effect, S_800D6C18_2 *size_state) {
     S_800D6C18_1 *size_source;
     s32 *global_base;
 
-    size_source = ((S_800D6C18_0 *)effect)->unk_14;
-    if (((S_800D6C18_0 *)effect)->unk_0C >= 0xF) {
+    size_source = effect->unk_14;
+    if (effect->unk_0C >= 0xF) {
         size_step = size_source->unk_14;
         size_state->unk_14.at00.v = (s32) (size_state->unk_14.at00.v + ((s32) (size_step + (size_step >> 0x1F)) >> 1));
     }
     display_size = size_state->unk_14.at02.v + 0x10;
-    ((S_800D6C18_0 *)effect)->unk_56 = display_size;
-    ((S_800D6C18_0 *)effect)->unk_54 = display_size;
-    if ((((S_800D6C18_0 *)effect)->unk_0C < 0x13) && !((u16) ((S_800D6C18_0 *)effect)->unk_0C & 1)) {
+    effect->unk_56 = display_size;
+    effect->unk_54 = display_size;
+    if ((effect->unk_0C < 0x13) && !((u16) effect->unk_0C & 1)) {
         index = 0;
         do {
             if (((S_800D6C18_3 *)((u8 *)effect + index * 2))->unk_44 < 0) {
@@ -88,7 +89,7 @@ void update_expiring_sprite_effect(void *effect, S_800D6C18_2 *size_state) {
             index += 1;
         } while (index < 4);
     }
-    if ((((S_800D6C18_0 *)effect)->unk_0C == 0xF) && (((S_800D6C18_0 *)effect)->unk_10 == 0)) {
+    if ((effect->unk_0C == 0xF) && (effect->unk_10 == 0)) {
         index = 0;
         emit_offset = 0;
         do {
@@ -102,8 +103,8 @@ void update_expiring_sprite_effect(void *effect, S_800D6C18_2 *size_state) {
             index += 1;
         } while (index < 0x51);
     }
-    ticks_left = (u16) ((S_800D6C18_0 *)effect)->unk_0C - 1;
-    ((S_800D6C18_0 *)effect)->unk_0C = ticks_left;
+    ticks_left = (u16) effect->unk_0C - 1;
+    effect->unk_0C = ticks_left;
     global_base = (s32 *) 0x80080000;
     if ((ticks_left << 0x10) <= 0) {
         ((S_800D6C18_0_pre *)effect)[-1].unk_00 = (u16) (((S_800D6C18_0_pre *)effect)[-1].unk_00 | 0x8000);

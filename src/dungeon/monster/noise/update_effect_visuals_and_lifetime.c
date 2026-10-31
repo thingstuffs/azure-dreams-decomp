@@ -3,8 +3,9 @@
 #include "shared/object_flags.h"
 
 /* Update effect brightness, size and position, then decrement its lifetime. */
-void update_effect_visuals_and_lifetime(void *state, void *position, void *effect_arg)
+void update_effect_visuals_and_lifetime(void *state_arg, void *position, void *effect_arg)
 {
+    T_80170AD0_S_80170AD0_0 *state = state_arg;
     struct {
         u16 xyz[3];
         u16 pad;
@@ -26,7 +27,7 @@ void update_effect_visuals_and_lifetime(void *state, void *position, void *effec
 
     effect_coords = position;
 
-    ticks_left = ((T_80170AD0_S_80170AD0_0 *)state)->unk_96.s;
+    ticks_left = state->unk_96.s;
     effect = effect_arg;
     if (ticks_left < 0x15) {
         brightness = (ticks_left << 7) / 20;
@@ -34,7 +35,7 @@ void update_effect_visuals_and_lifetime(void *state, void *position, void *effec
             effect->unk_0E = brightness;
     }
 
-    ticks_left = ((T_80170AD0_S_80170AD0_0 *)state)->unk_96.s;
+    ticks_left = state->unk_96.s;
     if (ticks_left >= 0x2B) {
         effect_size = effect->unk_1E + 0x2BC;
         effect->unk_1E = effect_size;
@@ -70,25 +71,25 @@ void update_effect_visuals_and_lifetime(void *state, void *position, void *effec
     scaled_offset >>= 12;
     effect->unk_22 = ((s32)(-scaled_offset)) / 2;
 
-    if (((T_80170AD0_S_80170AD0_0 *)state)->unk_A2 == 0) {
+    if (state->unk_A2 == 0) {
         coord_work.xyz[0] = effect_coords->unk_02;
         coord_work.xyz[1] = effect_coords->unk_06;
         coord_work.xyz[2] = effect_coords->unk_0A;
         position_value = RotTransPers(coord_work.xyz, &coord_work.out18.value, &coord_work.out20, &coord_work.out24);
 
-        reference_coords = ((T_80170AD0_S_80170AD0_0 *)state)->unk_A8;
+        reference_coords = state->unk_A8;
         coord_work.xyz[0] = reference_coords->unk_02;
         coord_work.xyz[1] = reference_coords->unk_06;
         coord_work.xyz[2] = reference_coords->unk_0A;
         reference_value = RotTransPers(coord_work.xyz, &coord_work.out18.value, &coord_work.out20, &coord_work.out24);
         effect->unk_06 = position_value - reference_value -
-            (view_direction_depth_biases[((g_game_work.view.camera_rotation.parts.viewAngle + ((T_80170AD0_S_80170AD0_0 *)state)->unk_94 + 0x100) >> 9) & 7] * 2);
+            (view_direction_depth_biases[((g_game_work.view.camera_rotation.parts.viewAngle + state->unk_94 + 0x100) >> 9) & 7] * 2);
     } else {
         effect->unk_06 = 4;
     }
     advance_sprite_animation_and_textures(effect);
-    next_ticks = ((T_80170AD0_S_80170AD0_0 *)state)->unk_96.u - 1;
-    ((T_80170AD0_S_80170AD0_0 *)state)->unk_96.u = next_ticks;
+    next_ticks = state->unk_96.u - 1;
+    state->unk_96.u = next_ticks;
     if ((next_ticks << 16) <= 0) {
         (*(u16 *)((u8 *)state + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

@@ -22,10 +22,6 @@ typedef struct S_8016F79C_0 {
     s16 unk_2A;
 } S_8016F79C_0;   /* s0 in apply_script_direction_record */
 
-typedef struct S_8016F79C_1 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-} S_8016F79C_1;   /* s2 in apply_script_direction_record */
 
 /*
  * Faces the linked Beldo actor toward the record's octant, copies the player's facing when
@@ -33,14 +29,14 @@ typedef struct S_8016F79C_1 {
  */
 void apply_script_direction_record(void *unused_0, u8 *record, void *unused_2) {
     u8 *source_base = (u8 *)(&scene_object_list_anchor.next);
-    register S_8016F79C_1 *source_data = (S_8016F79C_1 *)(source_base + 0x20);
+    register ActorRecord *source_data = (ActorRecord *)(source_base + 0x20);
     u8 *target_base = beldo_actor_nodes[1];
     S_8016F79C_0 *target_data = (S_8016F79C_0 *)(target_base + 0x20);
     s16 raw_value = func_8016F428(record);
     s32 decoded_value = raw_value;
 
     if (decoded_value == 9) {
-        target_data->unk_2A = source_data->unk_2A;
+        target_data->unk_2A = source_data->facing;
     } else {
         target_data->unk_2A = (u16)(decoded_value << 9);
     }

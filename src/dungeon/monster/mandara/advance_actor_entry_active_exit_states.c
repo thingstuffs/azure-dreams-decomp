@@ -12,17 +12,6 @@
 #include "records/Rec_D_80082E80.h"
 #include "engine/node/allocation.h"
 
-typedef struct S_8017382C_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    u16 unk_96;
-    u8 pad_98[0x3];
-    u8 unk_9B;
-    u8 pad_9C[0x10];
-    union { u16 s; s16 u; } unk_AC;   /* accessed as both */
-    u16 unk_AE;
-} S_8017382C_0;   /* arg0 in advance_actor_entry_active_exit_states */
 
 typedef struct S_8017382C_2 {
     u8 unk_00;
@@ -90,7 +79,7 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
             return;
         }
 
-        ((S_8017382C_0 *)action)->unk_AE = sprite->clut;
+        action->unk_AC.halves.high.u = sprite->clut;
         record = *(u8 **)&sprite->source;
         while (1) {
             index_twice = record_index << 1;
@@ -103,7 +92,7 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
         word_offset = index_twice + record_index;
         facing_record = (S_8017382C_3 *)((unsigned long)(word_offset << 2) +
                        (unsigned long)*(u8 **)&sprite->source);
-        ((S_8017382C_0 *)action)->unk_AC.s =
+        action->unk_AC.halves.low.u =
             facing_record->unk_06 & 0xFFC0;
 
         direction_table = mandara_frame_set_1;
@@ -119,7 +108,7 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
         if (effect != 0) {
             effect->update_callback = mandara_object_callback;
             effect_state->unk_A0 = 0;
-            facing = ((S_8017382C_0 *)action)->unk_AC.s;
+            facing = action->unk_AC.halves.low.u;
             effect_state->unk_A4 = 0x100;
             effect_state->unk_A6 = 1;
             effect_state->unk_A8 = 8;
@@ -140,7 +129,7 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
         s32 angle_remainder;
         u16 timer;
 
-        angle_shifted = ((S_8017382C_0 *)action)->unk_AE << 16;
+        angle_shifted = action->unk_AC.halves.high.u << 16;
         signed_angle = angle_shifted >> 16;
         rounded_angle = signed_angle;
         if (rounded_angle < 0) {
@@ -151,7 +140,7 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
             GetClut(
                 ((((s32)(angle_remainder << 16) >> 18) << 6) + 0x340),
                 ((angle_shifted >> 19) + 0x100)) -
-            ((S_8017382C_0 *)action)->unk_AC.s;
+            action->unk_AC.halves.low.u;
 
         timer = action->action_timer.u - 1;
         action->action_timer.u = timer;
@@ -160,7 +149,7 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
                 return;
             }
         }
-        sprite->clut = ((S_8017382C_0 *)action)->unk_AE - 0x40;
+        sprite->clut = action->unk_AC.halves.high.u - 0x40;
         action->action_phase.u++;
         return;
     }
@@ -177,7 +166,7 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
         void *check_actor;
         u16 facing;
 
-        if (((S_8017382C_0 *)action)->unk_AC.u == 0) {
+        if (action->unk_AC.halves.low.s == 0) {
             record_index = 0;
             record = *(u8 **)&sprite->source;
             while (1) {
@@ -191,7 +180,7 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
             word_offset = index_twice + record_index;
             facing_record = (u8 *)((unsigned long)(word_offset << 2) +
                            (unsigned long)*(u8 **)&sprite->source);
-            ((S_8017382C_0 *)action)->unk_AC.s =
+            action->unk_AC.halves.low.u =
                 ((S_8017382C_3 *)facing_record)->unk_06 & 0xFFC0;
         }
 
@@ -208,7 +197,7 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
             if (effect != 0) {
                 effect->update_callback = mandara_object_callback;
                 effect_state->unk_A0 = 0;
-                facing = ((S_8017382C_0 *)action)->unk_AC.s;
+                facing = action->unk_AC.halves.low.u;
                 effect_state->unk_A4 = 0x100;
                 effect_state->unk_A6 = 1;
                 effect_state->unk_A8 = 8;
@@ -218,7 +207,7 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
                 effect_state->unk_9E = 1;
             }
 
-            ((S_8017382C_0 *)action)->unk_AE = sprite->clut + 0x40;
+            action->unk_AC.halves.high.u = sprite->clut + 0x40;
             g_dungeon_status.activity_counts.parts.pending_action_count++;
 
             action->action_phase.u++;
@@ -320,7 +309,7 @@ second_call:
             u16 angle;
             effect->update_callback = mandara_object_callback;
             effect_state->unk_A0 = 0;
-            angle = ((S_8017382C_0 *)action)->unk_AC.s;
+            angle = action->unk_AC.halves.low.u;
             effect_state->unk_A4 = 0x100;
             effect_state->unk_A6 = 1;
             effect_state->unk_A8 = 8;
@@ -331,7 +320,7 @@ second_call:
         }
         g_dungeon_status.activity_counts.parts.pending_action_count++;
         action->action_phase.u++;
-        ((S_8017382C_0 *)action)->unk_AE = sprite->clut + 0x40;
+        action->unk_AC.halves.high.u = sprite->clut + 0x40;
         return;
     }
 
@@ -343,7 +332,7 @@ second_call:
         s32 angle_remainder;
         u16 timer;
 
-        angle_shifted = ((S_8017382C_0 *)action)->unk_AE << 16;
+        angle_shifted = action->unk_AC.halves.high.u << 16;
         signed_angle = angle_shifted >> 16;
         rounded_angle = signed_angle;
         if (rounded_angle < 0) {
@@ -354,7 +343,7 @@ second_call:
             GetClut(
                 ((((s32)(angle_remainder << 16) >> 18) << 6) + 0x340),
                 ((angle_shifted >> 19) + 0x102)) -
-            ((S_8017382C_0 *)action)->unk_AC.s;
+            action->unk_AC.halves.low.u;
 
         if (!(sprite->flags & 0x8000)) {
             timer = action->action_timer.u - 1;
@@ -367,7 +356,7 @@ second_call:
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         actor->flags1C &= ~ACTOR_ASLEEP;
         action->unk_8C.address = mandara_action_resume_address;
-        sprite->clut = ((S_8017382C_0 *)action)->unk_AE;
+        sprite->clut = action->unk_AC.halves.high.u;
     }
     }
 

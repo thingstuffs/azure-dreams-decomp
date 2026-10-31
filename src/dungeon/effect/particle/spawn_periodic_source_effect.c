@@ -82,7 +82,7 @@ void spawn_periodic_source_effect(void *source, s32 spawn_arg1, s32 spawn_arg2) 
                 - (emitter_height_offsets[((S_7FFEA1CC_4 *)(((S_7FFEA1CC_0 *)source)->unk_00))->unk_13] >> 1));
             render_state = ((S_7FFEA1CC_1 *)effect)->unk_0C;
             memcpy((s8 *) effect + 0x62, &D_8010C984, 0xC);
-            render_state->unk_08 = (void *) (effect + 0x62);
+            render_state->unk_08 = (effect + 0x62);
             render_state->unk_1E = 0x32C8;
             render_state->unk_1C = 0x32C8;
             render_state->unk_06 = 0x64;

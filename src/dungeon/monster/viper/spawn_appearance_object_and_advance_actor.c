@@ -12,20 +12,6 @@
 #include "dungeon/actor/state.h"
 #include "dungeon/actor.h"
 
-typedef struct S_8017390C_0 {
-    u8 pad_00[0x96];
-    s16 unk_96;
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_8017390C_0;   /* arg0 in spawn_appearance_object_and_advance_actor */
-
-typedef struct S_8017390C_1 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x28];
-    u8 unk_48;
-    u8 unk_49;
-} S_8017390C_1;   /* saved_arg3 in spawn_appearance_object_and_advance_actor */
 
 typedef struct S_8017390C_3 {
     s32 unk_00;
@@ -68,7 +54,7 @@ void spawn_appearance_object_and_advance_actor(ActorRecord *actor, void *transfo
         }
         actor->action_phase.u = 1;
     case 1:
-        if (((S_8017390C_1 *)actor_data)->unk_49 != 0) {
+        if (((ActorRecord *)actor_data)->unk_49 != 0) {
             spawned_obj = allocate_flagged_object_node(0x12);
             if (spawned_obj != 0) {
                 init_obj = spawned_obj;
@@ -89,12 +75,12 @@ void spawn_appearance_object_and_advance_actor(ActorRecord *actor, void *transfo
                 spawned_data = (u8 *)spawned_obj + 0x20;
                 spawned_render->scale_x = angle;
                 work_data = spawned_data;
-                if (((S_8017390C_1 *)actor_data)->unk_49 == 0x12) {
+                if (((ActorRecord *)actor_data)->unk_49 == 0x12) {
                     render_asset = &item_effect_descriptor;
                     spawned_render->source = render_asset;
                 } else {
                     render_asset = (void *)lookup_item_category_mapped_value(
-                        ((S_8017390C_1 *)actor_data)->unk_49, ((S_8017390C_1 *)actor_data)->unk_48);
+                        ((ActorRecord *)actor_data)->unk_49, ((ActorRecord *)actor_data)->unk_48);
                     spawned_render->source = render_asset;
                 }
                 work_data->unk_A8 = render->tile_x;
@@ -104,14 +90,14 @@ void spawn_appearance_object_and_advance_actor(ActorRecord *actor, void *transfo
                 create_tracked_effect(spawned_obj, 0, 0, 0);
                 spawned_obj->update_callback = &func_80173770;
             }
-            ((S_8017390C_1 *)actor_data)->unk_48 = 0;
-            ((S_8017390C_1 *)actor_data)->unk_49 = 0;
+            ((ActorRecord *)actor_data)->unk_48 = 0;
+            ((ActorRecord *)actor_data)->unk_49 = 0;
         }
 
         render->tpage_abr = 0x20;
         render->clut -= 0x80;
         render->flags |= 0xC;
-        ((S_8017390C_1 *)actor_data)->unk_1C |= 0x10000000;
+        ((ActorRecord *)actor_data)->flags1C |= 0x10000000;
         render->color.word = 0x808080;
         actor->action_timer.s = 0x10;
         actor->action_phase.u++;

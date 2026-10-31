@@ -22,7 +22,8 @@ s32 distribute_experience_awards();                      /* extern */
 void * detach_record_and_update_slot_state(void *record);                      /* extern */
 
 /* Update a flagged target and its tile state, then mark it dirty. */
-void update_flagged_target_tile(void *unused_0, void *unused_1, void *source, ActorRecord *target) {
+void update_flagged_target_tile(void *unused_0, void *unused_1, void *source_arg, ActorRecord *target) {
+    S_800B2FAC_0 *source = source_arg;
     void *target_body;
     s32 update_mask;
     s32 target_flags;
@@ -30,15 +31,15 @@ void update_flagged_target_tile(void *unused_0, void *unused_1, void *source, Ac
     u8 tile_y;
 
     target_body = target;
-    if (((S_800B2FAC_0 *)source)->unk_14 & 0xE000) {
+    if (source->unk_14 & 0xE000) {
         if (((s32)g_dungeon_status.pending_display_owner) == (target_body - 0x20)) {
             g_dungeon_status.pending_display_owner = ((s32)g_dungeon_status.pending_display_owner) & 0x7FFFFFFF;
         }
         distribute_experience_awards(target);
         detach_record_and_update_slot_state(target);
         target_flags = target->flags1C;
-        tile_x = ((S_800B2FAC_0 *)source)->unk_24;
-        tile_y = ((S_800B2FAC_0 *)source)->unk_25;
+        tile_x = source->unk_24;
+        tile_y = source->unk_25;
         update_mask = 0x3000;
         if (target_flags & 0x2000) {
             update_mask = 0x300;

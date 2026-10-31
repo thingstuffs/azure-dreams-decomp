@@ -77,12 +77,12 @@ void follow_selection_and_blink_sprite(void *motion_state, ObjectPosition *posit
         }
     }
     advance_sprite_animation_and_textures(draw_state, target_y, target_pos, position);
-    blink_ticks = (*(s16 *)selection_blink_timer);
-    blink_remaining = *(u16 *)&(*(s16 *)selection_blink_timer);
+    blink_ticks = (*selection_blink_timer);
+    blink_remaining = *(u16 *)&(*selection_blink_timer);
     if (blink_ticks != 0) {
-        *(u16 *)&(*(s16 *)selection_blink_timer) = (u16) (blink_remaining - 1);
+        *(u16 *)&(*selection_blink_timer) = (u16) (blink_remaining - 1);
     }
-    if ((*(u16 *)&(*(s16 *)selection_blink_timer)) & 1) {
+    if ((*(u16 *)&(*selection_blink_timer)) & 1) {
         draw_state->flags = (u16) (draw_state->flags | 0x80);
     } else {
         draw_state->flags = (u16) (draw_state->flags & 0xFF7F);
@@ -310,7 +310,7 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, void *appea
                     world_node = (void *) (side_offset + (long)menu);
                     world_node = world_node->unk_0C;
                     side_offset += (s32)side_ptr;
-                    cell = (S_8002520C_6 *)(world_node->unk_0C);
+                    cell = (world_node->unk_0C);
                     actor = ((S_8002520C_11 *)((void *) side_offset))->unk_AC;
                     direction = (get_rounded_facing_and_rounding_flag(1, 1, cell->unk_24, cell->unk_25,
                         &target_y) >> 9) & 7;
@@ -446,7 +446,7 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, void *appea
                     }
                     side_count = 0;
                     side_data = side_ptr;
-                    side_ptr = (s32 *) menu;
+                    side_ptr = menu;
                     do {
                         object_or_flags = (s32) ((S_8002520C_17 *)side_ptr)->unk_0C;
                         if (object_or_flags != 0) {
@@ -710,7 +710,7 @@ void draw_and_restore_fading_object(void *object_arg, void *position_arg, void *
     position->unk_00.at02.v = (u16) (position->unk_00.at02.v + 0x100);
     position->unk_04.at02.v = (u16) (position->unk_04.at02.v + 0x100);
     if ((*(s16 *)selection_blink_target) == object->unk_6A) {
-        draw_scale = ((*(s16 *)selection_blink_timer) << 9) + 0x400;
+        draw_scale = ((*selection_blink_timer) << 9) + 0x400;
         object->unk_2A = draw_scale;
     } else {
         object->unk_2A = 0x400;
@@ -819,11 +819,11 @@ void initialize_children_or_shutdown(void *owner)
     state = ((S_80026190_0 *)owner)->unk_1C.s;
     stop_state = 2;
     if (state == stop_state) {
-        if ((*(s16 *)selection_animation_counters) == 0) {
+        if ((*selection_animation_counters) == 0) {
             (*(u16 *)((u8 *)owner + -2)) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
-        (*(s16 *)selection_animation_counters) = 0;
+        (*selection_animation_counters) = 0;
         return;
     }
 
@@ -839,7 +839,7 @@ void initialize_children_or_shutdown(void *owner)
         }
         selection_menu_closing = 1;
         ((S_80026190_0 *)owner)->unk_1C.s = stop_state;
-        (*(s16 *)selection_animation_counters) = 0;
+        (*selection_animation_counters) = 0;
         enqueue_script_message_command();
         return;
     }

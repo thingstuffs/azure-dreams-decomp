@@ -8,14 +8,6 @@
 
 void update_actor_status_and_mp();                      /* extern */
 
-typedef struct S_80172628_0 {
-    u8 pad_00[0x46];
-    u16 unk_46;
-    u8 pad_48[0x29];
-    u8 unk_71;
-    u8 pad_72[0x28];
-    s8 unk_9A;
-} S_80172628_0;   /* hold_arg0 in update_entity_state_from_query */
 
 /* Update entity state and flags according to the state query result. */
 s32 update_entity_state_from_query(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, s32 force_state_arg) {
@@ -32,7 +24,7 @@ s32 update_entity_state_from_query(ActorRecord *body, ObjectPosition *position, 
     }
     switch (state_type) {
     case 0:
-        ((S_80172628_0 *)entity)->unk_9A = 0xE;
+        ((ActorRecord *)entity)->action_id.s = 0xE;
         update_actor_status_and_mp(entity);
         result = 0;
         return result;
@@ -41,13 +33,13 @@ s32 update_entity_state_from_query(ActorRecord *body, ObjectPosition *position, 
         result = 0;
         return result;
     case 1:
-        ((S_80172628_0 *)entity)->unk_71 = (u8) (((S_80172628_0 *)entity)->unk_71 & 0x7F);
+        ((ActorRecord *)entity)->movement_queue_state = (u8) (((ActorRecord *)entity)->movement_queue_state & 0x7F);
         if ((has_pending_dungeon_activity(entity) << 0x10) != 0) {
             break;
         }
                                 /* fall through */
     default:
-        ((S_80172628_0 *)entity)->unk_71 = (u8) (((S_80172628_0 *)entity)->unk_71 & 0x7F);
+        ((ActorRecord *)entity)->movement_queue_state = (u8) (((ActorRecord *)entity)->movement_queue_state & 0x7F);
         if ((g_dungeon_status.flags & 8) == 0) {
             result = 1;
             return result;
@@ -55,6 +47,6 @@ s32 update_entity_state_from_query(ActorRecord *body, ObjectPosition *position, 
         break;
     }
     result = 0;
-    ((S_80172628_0 *)entity)->unk_46 = (u16) (((S_80172628_0 *)entity)->unk_46 & 0x7FFF);
+    ((ActorRecord *)entity)->action_flags = (u16) (((ActorRecord *)entity)->action_flags & 0x7FFF);
     return result;
 }

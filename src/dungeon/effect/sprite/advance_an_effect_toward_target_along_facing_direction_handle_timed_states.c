@@ -106,7 +106,7 @@ void advance_an_effect_toward_target_along_facing_direction_handle_timed_states(
     }
 
     source_motion = owner_meta->position;
-    table_x_entry = (Position16 *)source_motion;
+    table_x_entry = source_motion;
     motion->x.w.i = table_x_entry->x;
     motion->y.w.i = table_x_entry->y;
     source_z = table_x_entry->z;

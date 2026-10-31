@@ -9,8 +9,10 @@
 #include "dungeon/effect/particle.h"
 
 /* Transforms four colored vertices and queues a visible shaded quad with the requested depth bias. */
-void project_vertex_shaded_effect_quad(void *quad, void *position, void *render_state, s16 depth_bias)
+void project_vertex_shaded_effect_quad(void *quad, void *position_arg, void *render_state_arg, s16 depth_bias)
 {
+    Row_819A088C_S_819A088C_2 *render_state = render_state_arg;
+    Row_819A088C_S_819A088C_1 *position = position_arg;
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet;
     u8 *texture;
@@ -21,19 +23,19 @@ void project_vertex_shaded_effect_quad(void *quad, void *position, void *render_
     Row_819A088C_MATRIX base_matrix;
 
     ((Row_819A088C_S_819A088C_0 *)scratch)->unk_24.p = *(u8 **)&g_game_work.draw_buffer + 0xB0;
-    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_88 = ((Row_819A088C_S_819A088C_1 *)position)->unk_02;
-    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_8C = ((Row_819A088C_S_819A088C_1 *)position)->unk_06;
-    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_90 = ((Row_819A088C_S_819A088C_1 *)position)->unk_0A;
-    ((Row_819A088C_S_819A088C_2 *)render_state)->unk_14 |= 0x8000;
+    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_88 = position->unk_02;
+    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_8C = position->unk_06;
+    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_90 = position->unk_0A;
+    render_state->unk_14 |= 0x8000;
 
     PushMatrix();
 
     ((Row_819A088C_S_819A088C_0 *)scratch)->unk_3C = 0x2000;
     ((Row_819A088C_S_819A088C_0 *)scratch)->unk_38 = 0x2000;
     ((Row_819A088C_S_819A088C_0 *)scratch)->unk_34 = 0x2000;
-    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_A4 = ((Row_819A088C_S_819A088C_2 *)render_state)->unk_16;
-    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_A8 = ((Row_819A088C_S_819A088C_2 *)render_state)->unk_1A;
-    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_A6 = ((Row_819A088C_S_819A088C_2 *)render_state)->unk_18;
+    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_A4 = render_state->unk_16;
+    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_A8 = render_state->unk_1A;
+    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_A6 = render_state->unk_18;
     RotMatrix(scratch + 0xA4, scratch + 0x74);
     ReadRotMatrix(&base_matrix);
     CompMatrix(&base_matrix, scratch + 0x74, scratch + 0x54);
@@ -42,12 +44,12 @@ void project_vertex_shaded_effect_quad(void *quad, void *position, void *render_
     SetRotMatrix(scratch + 0x54);
 
     texture = (*(u8 **)((u8 *)render_state + 8));
-    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_28 = ((Row_819A088C_S_819A088C_2 *)render_state)->unk_14;
+    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_28 = render_state->unk_14;
 
     packet = ((Row_819A088C_S_819A088C_3 *)(g_game_work.draw_buffer))->unk_8D0;
     ((Row_819A088C_S_819A088C_3 *)(g_game_work.draw_buffer))->unk_8D0 = packet + 0xC;
     SetDrawMode(packet, 0, 1, GetTPage(0, 0, 0, 0) & 0xFFFF, 0);
-    (*(u32 *)((u8 *)packet + 0)) = (((Row_819A088C_S_819A088C_4 *)packet)->unk_00.at00.v & 0xFF000000) |
+    (*(u32 *)(packet + 0)) = (((Row_819A088C_S_819A088C_4 *)packet)->unk_00.at00.v & 0xFF000000) |
         (((Row_819A088C_S_819A088C_3 *)(g_game_work.draw_buffer))->unk_B0 & 0x00FFFFFF);
     (*(u32 *)((u8 *)(g_game_work.draw_buffer) + 0xB0)) =
         (((Row_819A088C_S_819A088C_3 *)(g_game_work.draw_buffer))->unk_B0 & 0xFF000000) |
@@ -90,12 +92,12 @@ void project_vertex_shaded_effect_quad(void *quad, void *position, void *render_
              ((u16)(((Row_819A088C_S_819A088C_4 *)packet)->unk_1A + 0x20) < 0x121)) |
             (((u16)(((Row_819A088C_S_819A088C_4 *)packet)->unk_20 + 0x20) < 0x181) &&
              ((u16)(((Row_819A088C_S_819A088C_4 *)packet)->unk_22 + 0x20) < 0x121))) {
-            ((Row_819A088C_S_819A088C_2 *)render_state)->unk_14 &= 0x7FFF;
+            render_state->unk_14 &= 0x7FFF;
             texture_flags = texture[1];
-            ((Row_819A088C_S_819A088C_2 *)render_state)->unk_0F = texture_flags;
+            render_state->unk_0F = texture_flags;
             render_flags = ((Row_819A088C_S_819A088C_0 *)scratch)->unk_28;
             if (render_flags & 8) {
-                ((Row_819A088C_S_819A088C_2 *)render_state)->unk_0F = (render_flags & 4) ?
+                render_state->unk_0F = (render_flags & 4) ?
                     (texture_flags | 2) : (texture_flags & 0xFD);
             }
 
@@ -354,7 +356,7 @@ void choose_random_sign(void *effect, s32 unused, void *primitive)
     *(s8 *)((u8 *)primitive + 0x0E) = intensity;
     *(s8 *)((u8 *)primitive + 0x0D) = intensity;
     *(s8 *)((u8 *)primitive + 0x0C) = intensity;
-    *(u8 *)((u8 *)effect + 0x8C) -= 1;
+    *((u8 *)effect + 0x8C) -= 1;
     *(u16 *)((u8 *)primitive + 0x1A) += *(u16 *)((u8 *)effect + 0x40);
     if (*(s16 *)((u8 *)effect + 0x3A) <= 0) {
         *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
@@ -461,7 +463,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
     Row_819A1654_World *hit_world;
     void (*particle_callback)(void);
 
-    *(Row_819A1654_PointTable *)&points = *(Row_819A1654_PointTable *)&linked_effect_octant_offsets;
+    *&points = *(Row_819A1654_PointTable *)&linked_effect_octant_offsets;
 
     entity->age++;
 

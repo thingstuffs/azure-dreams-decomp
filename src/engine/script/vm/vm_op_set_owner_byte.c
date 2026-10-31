@@ -21,5 +21,5 @@ void script_set_block_byte_3d(ScriptReader *script_ctx) {
 
     script_ptr = script_ctx->cursor;
     ((S_800399EC_2 *)(((S_800399EC_1 *)script_ctx)->unk_80))->unk_3D = (u8) *script_ptr;
-    script_ctx->cursor = (u8 *) (script_ptr + 1);
+    script_ctx->cursor = (script_ptr + 1);
 }

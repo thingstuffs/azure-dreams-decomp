@@ -14,15 +14,6 @@ typedef struct S_818BCFB0_0 {
     s32 unk_20;
 } S_818BCFB0_0;   /* obj in create_offset_color_effect */
 
-typedef struct S_818BCFB0_1 {
-    u8 pad_00[0x4];
-    s16 unk_04;
-    s16 unk_06;
-    s16 unk_08;
-    s16 unk_0A;
-    s16 unk_0C;
-    s8 unk_0E;
-} S_818BCFB0_1;   /* init_state in create_offset_color_effect */
 
 typedef struct S_818BCFB0_3 {
     u8 pad_00[0xA];
@@ -50,18 +41,18 @@ s32 create_offset_color_effect(s32 *initial_word, void *source_data, s16 offset)
         register_node(obj, D_800241CC);
 
         {
-            S_818BCFB0_1 *init_state;
+            OffsetColorEffectBody *init_state;
             s32 init_value;
 
             init_value = 0x7DCF;
             ((S_818BCFB0_0 *)obj)->unk_20 = *initial_word;
             init_state = (u8 *)obj + 0x20;
-            init_state->unk_04 = 0;
+            init_state->unk_04.s16 = 0;
             init_state->unk_06 = 0;
-            init_state->unk_08 = 0;
+            init_state->unk_08.s = 0;
             init_state->unk_0A = offset;
             init_state->unk_0C = init_value;
-            init_state->unk_0E = 0;
+            init_state->unk_0E.s = 0;
         }
 
         scale_state = obj->sprite;

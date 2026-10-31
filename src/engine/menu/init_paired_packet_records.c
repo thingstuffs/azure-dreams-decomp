@@ -4,7 +4,7 @@
 /* Initializes two 12-byte records from alternating source bytes and returns the end pointer. */
 void *init_paired_packet_records(void *record, void *source)
 {
-    u8 *src = (u8 *)source;
+    u8 *src = source;
 
     *(u32 *)((u8 *)record + 4) = 0x586868;
     *((u8 *)record + 1) = 0x48;

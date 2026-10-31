@@ -3,18 +3,12 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/effect/sprite.h"
 
 typedef struct S_818C3898_0_pre {
     u16 unk_00;
 } S_818C3898_0_pre;   /* the 0x2 bytes before arg0 in update_rotating_effect_lifetime, addressed as arg0[-1] */
 
-typedef struct S_818C3898_0 {
-    void * unk_00;
-    u8 pad_04[0xC];
-    u16 unk_10;
-    u8 pad_12[0x2];
-    s16 unk_14;
-} S_818C3898_0;   /* arg0 in update_rotating_effect_lifetime */
 
 typedef struct S_818C3898_1 {
     u8 pad_00[0xC];
@@ -33,7 +27,7 @@ typedef struct S_818C3898_3 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern void advance_sprite_animation_and_textures(void *sprite);
 /* Advance effect motion, color, rotation, and size, and flag lifetime expiration. */
-void update_rotating_effect_lifetime(void *effect, void *motion_data, SpriteFrameState *sprite) {
+void update_rotating_effect_lifetime(ScaledRotationEffectBody *effect, void *motion_data, SpriteFrameState *sprite) {
     s16 size;
     s32 color_step;
     s32 color_index;
@@ -44,13 +38,13 @@ void update_rotating_effect_lifetime(void *effect, void *motion_data, SpriteFram
     S_818C3898_3 *motion;
     ObjectFlagBlock *global_flags;
 
-    owner = ((S_818C3898_0 *)effect)->unk_00;
+    owner = effect->unk_00;
     motion = motion_data;
     owner->unk_0C = (u16) (owner->unk_0C + 1);
-    frame = ((S_818C3898_0 *)effect)->unk_10;
+    frame = effect->unk_10;
     frame = (u16) (frame + 1);
     color_step = (s16) frame;
-    ((S_818C3898_0 *)effect)->unk_10 = frame;
+    effect->unk_10 = frame;
     color_step = color_step % 7;
     color_step += 1;
     advance_sprite_animation_and_textures(sprite);
@@ -64,13 +58,13 @@ void update_rotating_effect_lifetime(void *effect, void *motion_data, SpriteFram
     sprite->color.c.r = (s8) ((quarter_bias >> 2) << 7);
     sprite->color.c.g = (s8) ((s32) (((s16) half_color - (((s32) ((s16) half_color + ((u32) (half_color << 0x10) >> 0x1F)) >> 1) * 2)) << 0x10) >> 9);
     sprite->color.c.b = (s8) ((s32) ((color_index - (half_color * 2)) << 0x10) >> 9);
-    size = (0x1400 / (s16) ((S_818C3898_0 *)effect)->unk_14) * (s16) ((S_818C3898_0 *)effect)->unk_10;
+    size = (0x1400 / (s16) effect->unk_14) * (s16) effect->unk_10;
     sprite->scale_y = size;
     sprite->scale_x = size;
     motion->unk_00 = (s32) (motion->unk_00 + motion->unk_0C);
     motion->unk_04 = (s32) (motion->unk_04 + motion->unk_10);
     motion->unk_08 = (s32) (motion->unk_08 + motion->unk_14);
-    if ((s16) ((S_818C3898_0 *)effect)->unk_10 > ((S_818C3898_0 *)effect)->unk_14) {
+    if ((s16) effect->unk_10 > effect->unk_14) {
         ((S_818C3898_0_pre *)effect)[-1].unk_00 = (u16) (((S_818C3898_0_pre *)effect)[-1].unk_00 | 0x8000);
         global_flags = &object_flag_block;
         global_flags->flags = (s32) (global_flags->flags | 0x8000);

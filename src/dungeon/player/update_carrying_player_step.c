@@ -26,7 +26,7 @@ void update_carrying_player_step(u8 *entity_in, ObjectPosition *motion_in, Sprit
     u8 *anim_table;
     u8 *next_handler;
 
-    phase = *(u8 *)(entity + 0x9B);
+    phase = *(entity + 0x9B);
     switch (phase) {
     case 0:
     case 8:
@@ -34,7 +34,7 @@ void update_carrying_player_step(u8 *entity_in, ObjectPosition *motion_in, Sprit
         if (!(sprite->flags & 0x6000)) {
             return;
         }
-        phase = *(u8 *)(entity + 0x9B);
+        phase = *(entity + 0x9B);
         vertical_speed = 8;
         if (phase == 0) {
             vertical_speed = 0xFFF00000;
@@ -55,10 +55,10 @@ void update_carrying_player_step(u8 *entity_in, ObjectPosition *motion_in, Sprit
         process_unflagged_linked_entries_alt(*(s32 *)((u8 *)actor + 0x5C));
         process_unflagged_linked_entries(*(s32 *)((u8 *)actor + 0x5C));
         g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 0x812);
-        *(u16 *)((u8 *)entity + 0x98) = (u16) (*(u16 *)((u8 *)entity + 0x98) & 0xFFF3);
+        *(u16 *)(entity + 0x98) = (u16) (*(u16 *)(entity + 0x98) & 0xFFF3);
         set_sprite_animation_frame(sprite, *(*(u8 **)((u8 *)sprite + 0x2C) + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((u8 *)actor
             + 0x2A) + 0x100) >> 9) & 7)), 0, 1);
-        *(u8 *)(entity + 0x9B) = (u8) (*(u8 *)(entity + 0x9B) + 1);
+        *(entity + 0x9B) = (u8) (*(entity + 0x9B) + 1);
         return;
     case 1:
     case 9:
@@ -89,15 +89,15 @@ void update_carrying_player_step(u8 *entity_in, ObjectPosition *motion_in, Sprit
                 return;
             }
             next_handler = (u8 *)&player_action_tag;
-            *(u8 **)((u8 *)entity + 0x8C) = next_handler;
+            *(u8 **)(entity + 0x8C) = next_handler;
             return;
         }
-        if ((u8) *(u8 *)(entity + 0x9B) < 0xAU) {
+        if ((u8) *(entity + 0x9B) < 0xAU) {
         if ((collect_ground_item(entity, motion, sprite, actor) << 0x10) <= 0) {
             return;
         }
         next_handler = (u8 *)handle_player_input;
-        *(u8 **)((u8 *)entity + 0x8C) = next_handler;
+        *(u8 **)(entity + 0x8C) = next_handler;
         return;
         }
         sprite->frameTable = player_landing_frame_set;
@@ -105,7 +105,7 @@ void update_carrying_player_step(u8 *entity_in, ObjectPosition *motion_in, Sprit
             + 0x2A) + 0x100) >> 9) & 7)), 0, 1);
         g_dungeon_status.movement_frames_left = 1;
 block_19:
-        *(u8 *)(entity + 0x9B) = (u8) (*(u8 *)(entity + 0x9B) + 1);
+        *(entity + 0x9B) = (u8) (*(entity + 0x9B) + 1);
         return;
     case 12:
         if (!(sprite->flags & 0x6000)) {
@@ -118,7 +118,7 @@ block_22:
         }
         next_handler = (u8 *)handle_player_input;
 block_24:
-        *(u8 **)((u8 *)entity + 0x8C) = next_handler;
+        *(u8 **)(entity + 0x8C) = next_handler;
         return;
     }
 }

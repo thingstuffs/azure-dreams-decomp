@@ -71,12 +71,12 @@ void *create_source_adjusted_motion_object(S_80175D04_0 *actor, Copy24 *start_po
     target_pos = *start_pos;
     direction_offset = (direction_bits >> 8) & 0xE;
 
-    axis_step = *(s16 *)((u8 *)((u8 *)dir_step_x) + direction_offset);
+    axis_step = *(s16 *)(((u8 *)dir_step_x) + direction_offset);
     ((S_80175D04_1 *)(&target_pos))->unk_02 +=
         (axis_step * actor->unk_B2 * 0x40) +
         (axis_step * 0x20);
 
-    axis_step = *(s16 *)((u8 *)((u8 *)dir_step_y) + direction_offset);
+    axis_step = *(s16 *)(((u8 *)dir_step_y) + direction_offset);
     ((S_80175D04_1 *)(&target_pos))->unk_06 +=
         (axis_step * actor->unk_B2 * 0x40) +
         (axis_step * 0x20);

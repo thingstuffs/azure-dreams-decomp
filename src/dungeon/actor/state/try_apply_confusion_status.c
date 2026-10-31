@@ -20,7 +20,7 @@ s32 try_apply_confusion_status(void *ptr, s32 threshold_input, s32 kind_input) {
     s32 rng_result;
 
     rng_result = generate_random_value();
-    value = *(u8 *)((u8 *)ptr + 3);
+    value = *((u8 *)ptr + 3);
     signed_threshold = rng_result & 0xFFFF;
     if (value != 0) {
         s32 divisor = (*(u32 *)ptr) >> 24;
@@ -33,7 +33,7 @@ s32 try_apply_confusion_status(void *ptr, s32 threshold_input, s32 kind_input) {
     if ((((s32)(roll < signed_threshold)) != 0) || (signed_threshold == 0xFF)) {
         if ((s16)set_or_clear_actor_status_slot(ptr, STATUS_CONFUSION, (s8)kind) >= 0) {
             adjust_source_value_and_finalize(ptr, D_800E1A55);
-            if (*(u8 *)((u8 *)ptr + 0x13) == 0) {
+            if (*((u8 *)ptr + 0x13) == 0) {
                 wrap_position_and_set_state_value(D_800DCF10[0]);
             }
             return 1;

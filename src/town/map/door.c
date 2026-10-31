@@ -75,7 +75,7 @@ void handle_door_check_result(S_func_800A0708_0 *object, void *callback_arg, s32
 /* Install the next object handler when the update call succeeds. */
 void install_next_door_handler(void *object, void *unused_context, void *update_context, s32 unused_data) {
     s32 linked_record = *(s32 *)((u8 *)object + 0x98);
-    u8 status_byte = *(u8 *)((u8 *)object + 0x94);
+    u8 status_byte = *((u8 *)object + 0x94);
 
     if (create_object_with_shared_data(object, linked_record, update_context, status_byte) != 0) {
         *(s32 *)((u8 *)object + 0x50) = (s32) &emit_door_position_effect;

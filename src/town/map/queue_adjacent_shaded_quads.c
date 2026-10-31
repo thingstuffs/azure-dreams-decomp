@@ -64,8 +64,8 @@ void queue_adjacent_shaded_quads(Func800AB788Arg *strip)
         GpuContext *poly_state;
         GpuContext *tpage_state;
 
-        poly_state = (GpuContext *)render_state_ptr->draw_buffer;
-        poly = (Func800AB788Poly *)poly_state->packetCursor;
+        poly_state = render_state_ptr->draw_buffer;
+        poly = poly_state->packetCursor;
         poly_state->packetCursor = (u8 *)poly + sizeof(*poly);
 
         poly->color0 = 0x383838;
@@ -90,7 +90,7 @@ void queue_adjacent_shaded_quads(Func800AB788Arg *strip)
         poly->x3 = strip->x3;
         poly->y3 = strip->y3;
 
-        tpage_state = (GpuContext *)render_state_ptr->draw_buffer;
+        tpage_state = render_state_ptr->draw_buffer;
         tpage = tpage_state->packetCursor;
         tpage_state->packetCursor = tpage + 0xC;
         SetDrawMode(tpage, 1, 0, GetTPage(0, 1, 0x140, 0), 0);
@@ -108,8 +108,8 @@ void queue_adjacent_shaded_quads(Func800AB788Arg *strip)
         GpuContext *poly_state;
         GpuContext *tpage_state;
 
-        poly_state = (GpuContext *)render_state_ptr->draw_buffer;
-        poly = (Func800AB788Poly *)poly_state->packetCursor;
+        poly_state = render_state_ptr->draw_buffer;
+        poly = poly_state->packetCursor;
         poly_state->packetCursor = (u8 *)poly + sizeof(*poly);
 
         poly->color0 = strip->color1;
@@ -134,7 +134,7 @@ void queue_adjacent_shaded_quads(Func800AB788Arg *strip)
         poly->x3 = strip->x5;
         poly->y3 = strip->y5;
 
-        tpage_state = (GpuContext *)render_state_ptr->draw_buffer;
+        tpage_state = render_state_ptr->draw_buffer;
         tpage = tpage_state->packetCursor;
         tpage_state->packetCursor = tpage + 0xC;
         SetDrawMode(tpage, 1, 0, GetTPage(0, 1, 0x140, 0), 0);

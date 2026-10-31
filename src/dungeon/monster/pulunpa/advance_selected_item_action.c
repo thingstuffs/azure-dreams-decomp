@@ -23,16 +23,6 @@ extern u8 pulunpa_action_resume_address[];
 extern u8 pulunpa_frame_set_1[];
 
 
-typedef struct S_80172798_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    u16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-} S_80172798_0;   /* arg0 in advance_selected_item_action */
-
 typedef struct S_80172798_1_pre {
     void * unk_00;
     u8 pad_04[0x10];
@@ -52,7 +42,7 @@ typedef struct S_80172798_5 {
 } S_80172798_5;   /* global in advance_selected_item_action */
 
 /* Advances the selected item action and resets movement when it ends. */
-void advance_selected_item_action(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor)
+void advance_selected_item_action(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s32 special;
     u8 *selection;
@@ -60,7 +50,7 @@ void advance_selected_item_action(void *action, ObjectPosition *motion, void *sp
     u8 *scratch_pointer;
 
     special = 0;
-    selection = (u8 *)(((S_80172798_0 *)action)->unk_9B);
+    selection = (u8 *)(body->action_phase.u);
     switch ((u8)selection) {
     case 0:
         if ((((u32)actor->flags1C)) & ACTOR_PLAYER_SIDE) {
@@ -105,7 +95,7 @@ void advance_selected_item_action(void *action, ObjectPosition *motion, void *sp
         }
 
         if (*selection != 0) {
-            ((S_80172798_0 *)action)->unk_98 &= 0xFF7F;
+            body->action_state_flags &= 0xFF7F;
             {
                 s16 special_test;
 
@@ -132,7 +122,7 @@ void advance_selected_item_action(void *action, ObjectPosition *motion, void *sp
 
 
                         (actor->target) = scan_actor_along_heading(
-                            actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
+                            actor, sprite->tile_x, sprite->tile_y,
                             (actor->facing), 0x10);
                         actor->target_tile_x = abs(actor->target_tile_x);
                         actor->target_tile_y = abs(actor->target_tile_y);
@@ -141,22 +131,22 @@ void advance_selected_item_action(void *action, ObjectPosition *motion, void *sp
             }
 
             if (create_actor_spell_effect(actor, selection, special,
-                              (u8 *)action + 0x98) == 0) {
+                              (u8 *)body + 0x98) == 0) {
                 return;
             }
             create_actor_linked_effect(actor);
-            ((S_80172798_0 *)action)->unk_9B++;
+            body->action_phase.u++;
             return;
         }
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+            set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
             g_dungeon_status.active_actor = 0;
-            (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
+            primary_actor_record->unk_A4.halves.high.u--;
             advance_status_timers(actor);
             actor->pending_turn_updates--;
-            ((S_80172798_0 *)action)->unk_8C = pulunpa_action_resume_address;
+            body->unk_8C.address = pulunpa_action_resume_address;
             actor->target_tile_y = 0;
             actor->target_tile_x = 0;
             (actor->action_flags) &= 0x7FFF;
@@ -164,43 +154,43 @@ void advance_selected_item_action(void *action, ObjectPosition *motion, void *sp
 
     case 1:
         if (get_cd_command_queue_depth()) {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
+            sprite->flags |= 0x800;
             return;
         }
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
-        ((S_80172798_0 *)action)->unk_9B++;
+        sprite->flags &= 0xF7FF;
+        body->action_phase.u++;
 
     case 2:
-        if ((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 7 &&
-             (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000)) ||
-            (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
-            ((S_80172798_0 *)action)->unk_96 = 1;
-            ((S_80172798_0 *)action)->unk_98 |= 0x80;
+        if ((sprite->unk_04 == 7 &&
+             (sprite->flags & 0x1000)) ||
+            (sprite->flags & 0xE000)) {
+            sprite->flags |= 0x800;
+            body->action_timer.u = 1;
+            body->action_state_flags |= 0x80;
         }
         {
             s16 timer;
 
-            timer = ((S_80172798_0 *)action)->unk_96 - 1;
-            ((S_80172798_0 *)action)->unk_96 = timer;
+            timer = body->action_timer.u - 1;
+            body->action_timer.u = timer;
             if (timer <= 0) {
-                ((S_80172798_0 *)action)->unk_96 = 0;
-                ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+                body->action_timer.u = 0;
+                sprite->flags &= 0xF7FF;
             }
         }
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != pulunpa_frame_set_1) {
             u8 *anim_table;
             s32 direction;
 
             anim_table = pulunpa_frame_set_1;
-            (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
+            sprite->frameTable = anim_table;
             direction = ((g_game_work.view.camera_rotation.parts.viewAngle + (actor->facing) + 0x100) >> 9) & 7;
             select_sprite_entry(sprite, anim_table[direction], 0);
         }
@@ -210,7 +200,7 @@ void advance_selected_item_action(void *action, ObjectPosition *motion, void *sp
                 return;
             }
             ((S_80172798_5 *)scratch_pointer)->unk_0A--;
-            ((S_80172798_0 *)action)->unk_8C = pulunpa_action_resume_address;
+            body->unk_8C.address = pulunpa_action_resume_address;
             advance_status_timers(actor);
             actor->target_tile_y = 0;
             actor->target_tile_x = 0;

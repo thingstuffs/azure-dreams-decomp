@@ -35,7 +35,9 @@ void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern DungeonSlot *familiar_record_slots[];
 
 /* Check the forward tile and selected slot, then clear the actor action flags on success. */
-s32 check_familiar_deployment_placement(void *actor, void *unused, void *position, s16 *out_x, s16 *out_y, void *target) {
+s32 check_familiar_deployment_placement(void *actor_arg, void *unused, void *position_arg, s16 *out_x, s16 *out_y, void *target) {
+    SpriteFrameState *position = position_arg;
+    S_8009402C_0 *actor = actor_arg;
     s32 shifted_result;
     s16 next_y;
     s16 saved_x;
@@ -49,19 +51,19 @@ s32 check_familiar_deployment_placement(void *actor, void *unused, void *positio
     S_8009402C_2 *status;
     ActorRecord *selected_slot;
 
-    actor_base = actor;
+    actor_base = actor_arg;
     x_coord = out_x;
     if (target != NULL) {
         blocked_result = 3;
-        if (familiar_record_slots[(*(u8 *)((u8 *)target + 3)) & 0x1F]->flags & 0x04000000) {
+        if (familiar_record_slots[(*((u8 *)target + 3)) & 0x1F]->flags & 0x04000000) {
             return blocked_result;
         }
-        direction_offset = ((u16) ((S_8009402C_0 *)actor)->unk_2A >> 8) & 0xE;
-        next_x = ((SpriteFrameState *)position)->tile_x + *(u16 *)(((s8 *)dir_step_x) + direction_offset);
-        next_y = ((SpriteFrameState *)position)->tile_y + *(u16 *)(((s8 *)dir_step_y) + direction_offset);
+        direction_offset = ((u16) actor->unk_2A >> 8) & 0xE;
+        next_x = position->tile_x + *(u16 *)(((s8 *)dir_step_x) + direction_offset);
+        next_y = position->tile_y + *(u16 *)(((s8 *)dir_step_y) + direction_offset);
         if (((shifted_result = find_valid_nearby_position(0, next_x, next_y, x_coord, out_y) << 0x10) == 0) ||
-            ((((S_8009402C_0 *)actor)->unk_1C & 0x100000) &&
-             (status = ((S_8009402C_0 *)actor)->unk_124, (status != NULL)) &&
+            ((actor->unk_1C & 0x100000) &&
+             (status = actor->unk_124, (status != NULL)) &&
              (status->unk_13 > 0) &&
              (saved_x = *x_coord, saved_y = *out_y,
               cycle_map_cell_flags(saved_x, saved_y, 0x8000),
@@ -71,7 +73,7 @@ s32 check_familiar_deployment_placement(void *actor, void *unused, void *positio
             return 1;
         }
     }
-    selected_slot = ((S_8009402C_5 *)(((actor_base->unk_8A * 4) + actor)))->unk_AC;
+    selected_slot = ((S_8009402C_5 *)(((actor_base->unk_8A * 4) + actor_arg)))->unk_AC;
     if ((selected_slot != NULL) && !(selected_slot->flags1C & 0x20000)) {
         return 2;
     }

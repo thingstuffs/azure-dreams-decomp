@@ -26,7 +26,7 @@ void deactivate_town_slot_and_apply_variant(void *town_object, void *passthru_1,
     child = *(void **)((u8 *)town_object + 0x98);
     slot = raw_variant & 3;
     if (child != 0) {
-        *(u8 *)((u8 *)child + 4) = slot;
+        *((u8 *)child + 4) = slot;
     }
     *(u16 *)((u8 *)town_object + 0x6E) = town_facing_angles[slot];
     install_object_handler_and_clear_slot_flag(town_object, passthru_1, passthru_2, child);

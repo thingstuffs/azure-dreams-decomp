@@ -186,7 +186,7 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
             + (scratch->h[92]));
         projected_y = scratch->h[127];
         screen_y = scratch->h[93];
-        *((s8 *) (((s8 *) packet) + 3)) = 9;
+        *((((s8 *) packet) + 3)) = 9;
         *((s16 *) (((s8 *) packet) + 0x22)) = (s16) (projected_y + screen_y);
         width_minus_one = (scratch->sw[4]) - 1;
         edge_value = width_minus_one + (scratch->sw[2]);
@@ -270,7 +270,7 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
         row_index = 0;
         wave_phase = *((s16 *) (((s8 *) effect) + 0x8C));
         do {
-            *((s8 *) (((s8 *) packet) + 0x3)) = 9;
+            *((((s8 *) packet) + 0x3)) = 9;
             {
                 Blk16 *packet_dst = (Blk16 *) packet;
                 Blk16 *packet_src = (Blk16 *) quad_copies;
@@ -301,8 +301,8 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
             *((u8 *) (((s8 *) packet) + 0xD)) = *((u8 *) (((s8 *) quad_copies) + 53));
             *((u8 *) (((s8 *) packet) + 0x15)) = *((u8 *) (((s8 *) quad_copies) + 53));
             row_index += 1;
-            *((s8 *) (((s8 *) packet) + 0x1D)) = (s8) ((*((u8 *) (((s8 *) quad_copies) + 53))) + 1);
-            *((s8 *) (((s8 *) packet) + 0x25)) = (s8) ((*((u8 *) (((s8 *) quad_copies) + 53))) + 1);
+            *((((s8 *) packet) + 0x1D)) = (s8) ((*((u8 *) (((s8 *) quad_copies) + 53))) + 1);
+            *((((s8 *) packet) + 0x25)) = (s8) ((*((u8 *) (((s8 *) quad_copies) + 53))) + 1);
             {
                 s32 link_lower;
                 s32 tag_high;

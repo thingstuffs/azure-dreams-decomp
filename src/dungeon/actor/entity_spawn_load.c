@@ -123,7 +123,7 @@ s32 advance_staged_entity_load(s32 unused, ActorRecord *entity)
         if (read_sound_mode_blocking_status(4) != 0) {
             return 0;
         }
-        spawned = (u8 *)find_or_retain_sprite_resource_slot(entity->species, 2);
+        spawned = find_or_retain_sprite_resource_slot(entity->species, 2);
         if (spawned == NULL) {
             return 0;
         }
@@ -145,7 +145,7 @@ case 1:
         return 0;
 
 case 2:
-        spawned = (u8 *)find_or_retain_sprite_resource_slot(entity->species, 2);
+        spawned = find_or_retain_sprite_resource_slot(entity->species, 2);
         if (spawned == NULL) {
             return 0;
         }
@@ -226,7 +226,7 @@ case 2:
         case 0:
 
         load_kind = 3;
-        replacement = (u8 *)find_or_retain_sprite_resource_slot(entity->species - 1,
+        replacement = find_or_retain_sprite_resource_slot(entity->species - 1,
                                       load_kind);
         if (replacement != NULL) {
             entity->species--;
@@ -255,7 +255,7 @@ case 1:
         break;
 
 case 2:
-        replacement = (u8 *)find_or_retain_sprite_resource_slot(entity->species, 3);
+        replacement = find_or_retain_sprite_resource_slot(entity->species, 3);
         if (replacement == NULL) {
             return 0;
         }
@@ -273,7 +273,7 @@ case 2:
             record_data = record->unk_D0;
             record->unk_AC = replacement;
             record_data[0] = entity->species;
-            (*(u8 * *)((u8 *)familiar_record_slots + (record_data[3] & 0x1F) * 4)) = replacement;
+            (*(u8 * *)(familiar_record_slots + (record_data[3] & 0x1F) * 4)) = replacement;
 
             entity_data = ((S_800A504C_4_pre *)replacement)[-1].unk_00;
             ((S_800A504C_2 *)entity_data)->unk_1E = 0x1000;
@@ -299,7 +299,7 @@ case 2:
             retain_spawn_resource(((S_800A504C_4 *)replacement)->unk_10.at03.v, 3);
             replay_actor_status_slots(replacement);
             angle = ((S_800A504C_1 *)entity)->unk_2A;
-            (*(u16 *)((u8 *)replacement + 0x2A)) = angle;
+            (*(u16 *)(replacement + 0x2A)) = angle;
             offset = ((g_game_work.view.camera_rotation.parts.viewAngle + (s16)angle + 0x100) >> 9) & 7;
             select_indirect_table_entry(entity_data, ((u8 *)((S_800A504C_2 *)entity_data)->unk_2C)[offset],
                           ((S_800A504C_2 *)entity_data)->unk_04);

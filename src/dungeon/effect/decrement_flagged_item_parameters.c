@@ -50,7 +50,7 @@ void decrement_flagged_item_parameters(void *action, void *saved_position)
         shared_data = primary_actor_record;
         *((u16 *) (((u8 *) action) + 0x50)) = 10;
         (*((u16 *) (((u8 *) shared_data) + 0xA6)))--;
-        shared_data->unk_A8.byte = *((u8 *) (((u8 *) action) + 8));
+        shared_data->unk_A8.byte = *((((u8 *) action) + 8));
         effect = allocate_list_node(0x312, &scene_object_list_anchor.next);
         if (effect != 0) {
             offset_part = owner->sprite;
@@ -79,11 +79,11 @@ void decrement_flagged_item_parameters(void *action, void *saved_position)
             effect_part->clut -= 0x80;
             effect_part->flags |= 0xC;
             position = owner->position;
-            *((s32 *) (((u8 *) effect_work) + 0x1C)) = (position->x.v) + (offsets[0] << 16);
+            *((s32 *) (effect_work + 0x1C)) = (position->x.v) + (offsets[0] << 16);
             position = owner->position;
-            *((s32 *) (((u8 *) effect_work) + 0x20)) = (position->y.v) + (offsets[1] << 16);
+            *((s32 *) (effect_work + 0x20)) = (position->y.v) + (offsets[1] << 16);
             position = owner->position;
-            *((s32 *) (((u8 *) effect_work) + 0x24)) = (position->z.v) + (offsets[2] << 16);
+            *((s32 *) (effect_work + 0x24)) = (position->z.v) + (offsets[2] << 16);
             {
                 ObjectPosition *owner_position;
                 ObjectPosition *effect_position;
@@ -91,17 +91,17 @@ void decrement_flagged_item_parameters(void *action, void *saved_position)
                 owner_position = owner->position;
                 effect_position = effect->position;
                 coord_integer = *(u16 *)&owner_position->x.w.i;
-                *((u16 *) (((u8 *) effect_work) + 0xC)) = coord_integer;
+                *((u16 *) (effect_work + 0xC)) = coord_integer;
                 effect_position->x.w.i = coord_integer;
                 owner_position = owner->position;
                 effect_position = effect->position;
                 coord_integer = *(u16 *)&owner_position->y.w.i;
-                *((u16 *) (((u8 *) effect_work) + 0xE)) = coord_integer;
+                *((u16 *) (effect_work + 0xE)) = coord_integer;
                 effect_position->y.w.i = coord_integer;
                 owner_position = owner->position;
                 effect_position = effect->position;
                 coord_integer = *(u16 *)&owner_position->z.w.i;
-                *((u16 *) (((u8 *) effect_work) + 0x10)) = coord_integer;
+                *((u16 *) (effect_work + 0x10)) = coord_integer;
                 effect_position->z.w.i = coord_integer;
             }
             if (read_sound_mode_blocking_status(4) != 2) {

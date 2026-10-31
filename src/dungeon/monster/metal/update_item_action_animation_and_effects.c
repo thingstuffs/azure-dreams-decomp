@@ -108,16 +108,16 @@ void update_item_action_animation_and_effects(void *action, ObjectPosition *move
                 target = primary_actor_record;
                 (*(void * *)((u8 *)actor + 0x60)) = target;
                 item_id = (S_80173078_2 *)((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
-                (*(u8 *)((u8 *)actor + 0x72)) = item_id->unk_24;
-                (*(u8 *)((u8 *)actor + 0x73)) = item_id->unk_25;
+                (*((u8 *)actor + 0x72)) = item_id->unk_24;
+                (*((u8 *)actor + 0x73)) = item_id->unk_25;
             } else {
                 item_id = (S_80173078_2 *)(*item_slot);
                 if (item_action_definitions[((u8)item_id)].kind == 2) {
                     target = (*(void * *)((u8 *)actor + 0x60));
                     if (target != 0) {
                         item_id = (S_80173078_2 *)((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
-                        (*(u8 *)((u8 *)actor + 0x72)) = item_id->unk_24;
-                        (*(u8 *)((u8 *)actor + 0x73)) = item_id->unk_25;
+                        (*((u8 *)actor + 0x72)) = item_id->unk_24;
+                        (*((u8 *)actor + 0x73)) = item_id->unk_25;
                     }
                 } else {
                     s32 dx;
@@ -129,8 +129,8 @@ void update_item_action_animation_and_effects(void *action, ObjectPosition *move
                     (*(void * *)((u8 *)actor + 0x60)) = (void *)dx;
                     dx = abs(*(s8 *)((u8 *)actor + 0x72));
                     dy = abs(*(s8 *)((u8 *)actor + 0x73));
-                    (*(u8 *)((u8 *)actor + 0x72)) = dx;
-                    (*(u8 *)((u8 *)actor + 0x73)) = dy;
+                    (*((u8 *)actor + 0x72)) = dx;
+                    (*((u8 *)actor + 0x73)) = dy;
                 }
             }
 
@@ -149,10 +149,10 @@ void update_item_action_animation_and_effects(void *action, ObjectPosition *move
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
-        (*(u8 *)((u8 *)actor + 0x6D))--;
+        (*((u8 *)actor + 0x6D))--;
         ((S_80173078_0 *)action)->unk_8C = metal_action_resume_address;
-        (*(u8 *)((u8 *)actor + 0x73)) = 0;
-        (*(u8 *)((u8 *)actor + 0x72)) = 0;
+        (*((u8 *)actor + 0x73)) = 0;
+        (*((u8 *)actor + 0x72)) = 0;
         (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
         return;
 
@@ -274,9 +274,9 @@ void update_item_action_animation_and_effects(void *action, ObjectPosition *move
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             ((S_80173078_0 *)action)->unk_8C = metal_action_resume_address;
             advance_status_timers(actor);
-            (*(u8 *)((u8 *)actor + 0x73)) = 0;
-            (*(u8 *)((u8 *)actor + 0x72)) = 0;
-            (*(u8 *)((u8 *)actor + 0x6D))--;
+            (*((u8 *)actor + 0x73)) = 0;
+            (*((u8 *)actor + 0x72)) = 0;
+            (*((u8 *)actor + 0x6D))--;
             (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
             play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         }

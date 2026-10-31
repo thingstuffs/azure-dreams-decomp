@@ -6,8 +6,8 @@ s32 queue_linked_point_packets(u8 *entry, u16 *position)
 {
     Scratch *scratch = (Scratch *)0x1F800000;
     void **render_globals = ((void * *)(&g_game_work));
-    GpuContext *render_state = (GpuContext *)render_globals[0];
-    Packet *first_packet = (Packet *)render_state->packetCursor;
+    GpuContext *render_state = render_globals[0];
+    Packet *first_packet = render_state->packetCursor;
     Packet *packet;
     s32 ot_index;
     u32 address_mask = 0x00FFFFFF;

@@ -17,9 +17,9 @@ void advance_object_script_when_ready(void *object, s32 unused_1, s32 unused_2, 
     u8 previous_count;
     u8 count;
 
-    previous_count = *(u8 *)((u8 *)object + 0x9B);
+    previous_count = *((u8 *)object + 0x9B);
     count = previous_count + 1;
-    *(u8 *)((u8 *)object + 0x9B) = count;
+    *((u8 *)object + 0x9B) = count;
 
     if (count == 1) {
         s32 state_code = ((s32)g_dungeon_status.pending_display_owner);
@@ -30,12 +30,12 @@ void advance_object_script_when_ready(void *object, s32 unused_1, s32 unused_2, 
         }
     } else if (count >= 5) {
 
-        *(u8 *)((u8 *)object + 0x9B) = previous_count;
+        *((u8 *)object + 0x9B) = previous_count;
         if (g_dungeon_status.activity_counts.parts.pending_action_count == 0) {
             allocate_type_12_object();
             *(s8 *)((u8 *)object + 0xB4) = 1;
             g_dungeon_status.activity_counts.parts.pending_action_count = (u16)g_dungeon_status.activity_counts.parts.pending_action_count + 1;
-            *(u8 *)((u8 *)object + 0x9B) = 0;
+            *((u8 *)object + 0x9B) = 0;
             *(u8 **)((u8 *)object + 0x8C) = ghosh_action_resume_address;
         }
     }

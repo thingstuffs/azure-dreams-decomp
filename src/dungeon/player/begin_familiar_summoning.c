@@ -34,7 +34,7 @@ void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);           /
 extern u8 familiar_summon_frames;
 
 /* Starts the summoning animation and finds a nearby tile, reserving space for an existing linked familiar. */
-s32 begin_familiar_summoning(void *record, s32 input1, void *pointer_input, s32 value_input) {
+s32 begin_familiar_summoning(ActorRecord *record, s32 input1, void *pointer_input, s32 value_input) {
     s16 candidate_x;
     s16 candidate_y;
     s16 checked_x;
@@ -49,10 +49,10 @@ s32 begin_familiar_summoning(void *record, s32 input1, void *pointer_input, s32 
     S_80095854_1 *child;
 
     status = 0;
-    child = ((S_80095854_0 *)record)->unk_124;
-    ((S_80095854_0 *)record)->unk_9A = 0x31;
-    ((S_80095854_0 *)record)->unk_9B = 0;
-    ((S_80095854_0 *)record)->unk_8C = 0;
+    child = ((PlayerRecord *)record)->unk_124;
+    record->action_id.s = 0x31;
+    record->action_phase.s = 0;
+    record->unk_8C.word = 0;
     if (child != 0) {
         value = child->unk_13;
         value = value > 0;
@@ -60,29 +60,29 @@ s32 begin_familiar_summoning(void *record, s32 input1, void *pointer_input, s32 
     }
     clear_player_linked_action_flags();
     (*(s32 **)((u8 *)pointer_data + 0x2C)) = &familiar_summon_frames;
-    set_sprite_animation_frame(pointer_data, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80095854_0 *)record)->unk_2A + 0x100) >> 9) & 7)
+    set_sprite_animation_frame(pointer_data, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + record->facing + 0x100) >> 9) & 7)
         + &familiar_summon_frames), 0, 1);
     reference_tile_object.selected_item = input_value;
-    direction_index = ((u16) (((S_80095854_0 *)record)->unk_2A) >> 8) & 0xE;
-    ((S_80095854_0 *)record)->unk_72 = (s8) (((MovingTile *)pointer_data)->tile_x + *(direction_index + ((s8 *)dir_step_x)));
+    direction_index = ((u16) (record->facing) >> 8) & 0xE;
+    record->target_tile_x = (s8) (((MovingTile *)pointer_data)->tile_x + *(direction_index + ((s8 *)dir_step_x)));
     next_y = ((MovingTile *)pointer_data)->tile_y + *(direction_index + ((s8 *)dir_step_y));
-    ((S_80095854_0 *)record)->unk_73 = next_y;
-    if ((find_valid_nearby_position(0, ((S_80095854_0 *)record)->unk_72, next_y, &candidate_x, &candidate_y) << 0x10) != 0) {
+    record->target_tile_y = next_y;
+    if ((find_valid_nearby_position(0, record->target_tile_x, next_y, &candidate_x, &candidate_y) << 0x10) != 0) {
         value = status << 0x10;
         if (value != 0) {
             cycle_map_cell_flags(candidate_x, candidate_y, 0x8000);
-            status = find_valid_nearby_position(0, ((S_80095854_0 *)record)->unk_72, ((S_80095854_0 *)record)->unk_73, &checked_x, &checked_y);
+            status = find_valid_nearby_position(0, record->target_tile_x, record->target_tile_y, &checked_x, &checked_y);
             update_map_cell_flags_with_item_limit(candidate_x, candidate_y, 0x8000);
             condition = status << 0x10;
             if (condition != 0) {
-                ((S_80095854_0 *)record)->unk_72 = (s8) (u8) checked_x;
-                ((S_80095854_0 *)record)->unk_73 = (s8) (u8) checked_y;
+                record->target_tile_x = (s8) (u8) checked_x;
+                record->target_tile_y = (s8) (u8) checked_y;
                 return 1;
             }
             return 0;
         }
-        ((S_80095854_0 *)record)->unk_72 = (s8) (u8) candidate_x;
-        ((S_80095854_0 *)record)->unk_73 = (s8) (u8) candidate_y;
+        record->target_tile_x = (s8) (u8) candidate_x;
+        record->target_tile_y = (s8) (u8) candidate_y;
         return 1;
     }
     return 0;

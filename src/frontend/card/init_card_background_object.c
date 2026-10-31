@@ -42,7 +42,7 @@ void * init_card_background_object(s32 init_value, s32 config_value) {
     obj = &base->obj;
 
     if (func_80047FD8(base) == 0) {
-        base = (Root *)func_8003C714(0, base, 0xC9);
+        base = func_8003C714(0, base, 0xC9);
         if (base == 0) {
             func_8007C040(D_8040062C, D_80400654, 0x17A);
             func_8007BEF0(1);

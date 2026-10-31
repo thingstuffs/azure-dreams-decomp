@@ -19,7 +19,7 @@ extern u8 player_damage_frames_2[8];
 
 
 /* Update death movement and animation, then select the next death state. */
-void update_actor_death_motion(ActorRecord *body, void *motion, void *sprite, void *actor) {
+void update_actor_death_motion(ActorRecord *body, void *motion, void *sprite, ActorRecord *actor) {
     s16 frames_left;
     s32 pos_y;
     s32 pos_x;
@@ -32,8 +32,8 @@ void update_actor_death_motion(ActorRecord *body, void *motion, void *sprite, vo
     if (body->action_phase.u == 0) {
         apply_clamped_actor_value_delta(actor);
         body->action_phase.u = (u8) (body->action_phase.u + 1);
-        ((EntityRec *)motion)->unk_0C = (u32) (rcos(((s16)((EntityRec *)actor)->unk_6A)) << 9);
-        ((EntityRec *)motion)->unk_10 = (s32) (rsin(((s16)((EntityRec *)actor)->unk_6A)) << 9);
+        ((EntityRec *)motion)->unk_0C = (u32) (rcos(((s16)actor->movement_facing)) << 9);
+        ((EntityRec *)motion)->unk_10 = (s32) (rsin(((s16)actor->movement_facing)) << 9);
         body->action_timer.u = 0xCU;
     }
     if (((Rec_func_8008ACDC_arg0 *)body)->unk_10C & 1) {
@@ -46,7 +46,7 @@ void update_actor_death_motion(ActorRecord *body, void *motion, void *sprite, vo
         body->action_timer.u = anim_frames;
         if ((anim_frames << 0x10) > 0) {
             set_sprite_animation_frame(sprite, ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8[((s32) (g_game_work.view.camera_rotation.parts.viewAngle
-                + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0, 1);
+                + actor->facing + 0x100) >> 9) & 7], 0, 1);
         }
     }
     frames_left = (s16) body->action_timer.u;
@@ -71,16 +71,16 @@ void update_actor_death_motion(ActorRecord *body, void *motion, void *sprite, vo
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
         anim_table = player_wait_frames;
         (*(u8 **)((u8 *)sprite + (0x2C))) = anim_table;
-        set_sprite_animation_frame(sprite, anim_table[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100)
+        set_sprite_animation_frame(sprite, anim_table[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
             >> 9) & 7], 0, 1);
-        if (((s32)g_dungeon_status.pending_display_owner) == (actor - 0x20)) {
+        if (((s32)g_dungeon_status.pending_display_owner) == (((ObjectNodeHeader *)actor - 1))) {
             g_dungeon_status.pending_display_owner = (s32) (((s32)g_dungeon_status.pending_display_owner) & 0x7FFFFFFF);
         }
-        if (((EntityRec *)actor)->unk_28 == 0) {
+        if (actor->hp == 0) {
             if (dungeon_floor_flags & 0x08000000) {
-                ((EntityRec *)actor)->unk_28 = 1U;
+                actor->hp = 1U;
             } else {
-                ((EntityRec *)actor)->unk_28 = 0U;
+                actor->hp = 0U;
                 reset_actor_motion_at_sprite_tile(body, motion, sprite, actor);
                 return;
             }

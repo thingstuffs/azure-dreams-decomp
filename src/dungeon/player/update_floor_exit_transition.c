@@ -157,7 +157,7 @@ void update_floor_exit_transition(PlayerRecord *state, s32 unused, MovingTile *t
         play_sound_if_enabled(0x514);
         ((S_800930F0_5 *)(&dungeon_menu_action_state))->unk_00.s = &D_80021268;
         reference_tile_object.unk_038 = 0;
-        (*(s32 *)&dungeon_floor_flags) = (s32) (((S_800930F0_6 *)(&dungeon_floor_flags))->unk_00 | 0x2000);
+        (*&dungeon_floor_flags) = (s32) (((S_800930F0_6 *)(&dungeon_floor_flags))->unk_00 | 0x2000);
         state->actor.action_phase.u = (u8) (state->actor.action_phase.u + 1);
         break;
     case 2:
@@ -221,6 +221,6 @@ void update_floor_exit_transition(PlayerRecord *state, s32 unused, MovingTile *t
     }
     g_game_work.view.slot[0].callback = 0;
     g_game_work.view.slot[2].callback = 0;
-    (*(s32 *)&dungeon_floor_flags) = (s32) (((S_800930F0_6 *)(&dungeon_floor_flags))->unk_00 | 0x40000);
+    (*&dungeon_floor_flags) = (s32) (((S_800930F0_6 *)(&dungeon_floor_flags))->unk_00 | 0x40000);
     return;
 }

@@ -57,7 +57,7 @@ void render_object_scene_frame(void)
     else {
         next_buffer = upper_draw_context;
     }
-    g_game_work[0] = (S_80083160_ctx *) next_buffer;
+    g_game_work[0] = next_buffer;
     ClearOTagR((s32 *) (((u8 *) next_buffer) + 0x70), 0x218);
     g_game_work[0]->cur = ((u8 *) g_game_work[0]) + 0x8D4;
     tick_screen_fade_slots();

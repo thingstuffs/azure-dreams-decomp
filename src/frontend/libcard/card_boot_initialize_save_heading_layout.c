@@ -54,16 +54,18 @@ void func_80027080(void *, s32, s32);       /* extern */
 
 
 /* Initializes the object and positions its four components. */
-void card_boot_initialize_save_heading_layout(void *object) {
-    format_save_heading_text(object);
-    func_80027080(object + 4, 0x36, 0x10);
+void card_boot_initialize_save_heading_layout(void *object_arg) {
+    Rec_func_80027018_arg0 *object = object_arg;
+
+    format_save_heading_text(object_arg);
+    func_80027080(object_arg + 4, 0x36, 0x10);
     card_boot_bind_save_heading_display_data(object);
-    ((S_800270E0_5 *)(((S_800270E0_1 *)(((Rec_func_80027018_arg0 *)object)->unk_FC.as_pv))->unk_04))->unk_08 = 0x8E;
-    ((S_800270E0_5 *)(((S_800270E0_1 *)(((Rec_func_80027018_arg0 *)object)->unk_FC.as_pv))->unk_04))->unk_0A = 0x82;
-    ((S_800270E0_6 *)(((S_800270E0_2 *)(((Rec_func_80027018_arg0 *)object)->unk_F0.as_pv))->unk_04))->unk_08 = 9;
-    ((S_800270E0_6 *)(((S_800270E0_2 *)(((Rec_func_80027018_arg0 *)object)->unk_F0.as_pv))->unk_04))->unk_0A = 0xA;
-    ((S_800270E0_7 *)(((S_800270E0_3 *)(((Rec_func_80027018_arg0 *)object)->unk_F4.as_pv))->unk_04))->unk_08 = 0x42;
-    ((S_800270E0_7 *)(((S_800270E0_3 *)(((Rec_func_80027018_arg0 *)object)->unk_F4.as_pv))->unk_04))->unk_0A = 0xA;
-    ((S_800270E0_8 *)(((S_800270E0_4 *)(((Rec_func_80027018_arg0 *)object)->unk_F8.as_pv))->unk_04))->unk_08 = 0x24;
-    ((S_800270E0_8 *)(((S_800270E0_4 *)(((Rec_func_80027018_arg0 *)object)->unk_F8.as_pv))->unk_04))->unk_0A = 0xA;
+    ((S_800270E0_5 *)(((S_800270E0_1 *)(object->unk_FC.as_pv))->unk_04))->unk_08 = 0x8E;
+    ((S_800270E0_5 *)(((S_800270E0_1 *)(object->unk_FC.as_pv))->unk_04))->unk_0A = 0x82;
+    ((S_800270E0_6 *)(((S_800270E0_2 *)(object->unk_F0.as_pv))->unk_04))->unk_08 = 9;
+    ((S_800270E0_6 *)(((S_800270E0_2 *)(object->unk_F0.as_pv))->unk_04))->unk_0A = 0xA;
+    ((S_800270E0_7 *)(((S_800270E0_3 *)(object->unk_F4.as_pv))->unk_04))->unk_08 = 0x42;
+    ((S_800270E0_7 *)(((S_800270E0_3 *)(object->unk_F4.as_pv))->unk_04))->unk_0A = 0xA;
+    ((S_800270E0_8 *)(((S_800270E0_4 *)(object->unk_F8.as_pv))->unk_04))->unk_08 = 0x24;
+    ((S_800270E0_8 *)(((S_800270E0_4 *)(object->unk_F8.as_pv))->unk_04))->unk_0A = 0xA;
 }

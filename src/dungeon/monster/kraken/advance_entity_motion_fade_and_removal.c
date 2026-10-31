@@ -17,13 +17,6 @@ void * detach_record_and_update_slot_state(void *record);
 s16 sample_terrain_surface_height();
 
 
-typedef struct S_801731FC_0 {
-    u8 pad_00[0x96];
-    u16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-} S_801731FC_0;   /* arg0 in advance_entity_motion_fade_and_removal */
 
    /* the 0x2 bytes before arg3 in advance_entity_motion_fade_and_removal, addressed as arg3[-1] */
 
@@ -48,23 +41,9 @@ typedef struct S_801731FC_2 {
     s32 unk_14;
 } S_801731FC_2;   /* arg1 in advance_entity_motion_fade_and_removal */
 
-typedef struct S_801731FC_3 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    u16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_801731FC_3;   /* arg2 in advance_entity_motion_fade_and_removal */
-
 
 /* Advance an entity through motion, fading, and removal. */
-void advance_entity_motion_fade_and_removal(S_801731FC_0 *state, S_801731FC_2 *motion, S_801731FC_3 *sprite, void *entity) {
+void advance_entity_motion_fade_and_removal(ActorRecord *state, S_801731FC_2 *motion, SpriteFrameState *sprite, void *entity) {
     s32 sound_flags;
     s32 velocity_x;
     s32 velocity_y;
@@ -76,7 +55,7 @@ void advance_entity_motion_fade_and_removal(S_801731FC_0 *state, S_801731FC_2 *m
     u32 sound_y;
     u8 brightness;
 
-    phase = state->unk_9B;
+    phase = state->action_phase.u;
     direction_offset = ((u16) ((S_801731FC_1 *)entity)->unk_6A >> 8) & 0xE;
     velocity_x = *(s16 *)((u8 *)((s8 *)dir_step_x) + direction_offset);
     velocity_y = *(s16 *)((u8 *)((s8 *)dir_step_y) + direction_offset);
@@ -88,10 +67,10 @@ void advance_entity_motion_fade_and_removal(S_801731FC_0 *state, S_801731FC_2 *m
         u32 entity_flags;
         u16 state_flags;
 
-        state_flags = state->unk_98;
+        state_flags = state->action_state_flags;
         clear_bit_18 = 0xFFFBFFFF;
         state_flags |= 8;
-        state->unk_98 = state_flags;
+        state->action_state_flags = state_flags;
         entity_flags = ((S_801731FC_1 *)entity)->unk_1C.u;
         entity_flags &= clear_bit_27;
         entity_flags &= clear_bit_18;
@@ -99,7 +78,7 @@ void advance_entity_motion_fade_and_removal(S_801731FC_0 *state, S_801731FC_2 *m
         motion->unk_0C = velocity_x << 0x10;
         motion->unk_10 = velocity_y << 0x10;
         motion->unk_14 = 0xFFF40000;
-        state->unk_9B = state->unk_9B + 1;
+        state->action_phase.u = state->action_phase.u + 1;
     }
     case 1:
         motion->unk_14 += 0x1C000;
@@ -111,7 +90,7 @@ void advance_entity_motion_fade_and_removal(S_801731FC_0 *state, S_801731FC_2 *m
         if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             return;
         }
-        state->unk_9B = state->unk_9B + 1;
+        state->action_phase.u = state->action_phase.u + 1;
     case 2:
         status_flags = ((S_801731FC_1 *)entity)->unk_14;
         if (status_flags & 0x4000) {
@@ -120,26 +99,26 @@ void advance_entity_motion_fade_and_removal(S_801731FC_0 *state, S_801731FC_2 *m
             }
         }
         play_sound_if_enabled(0x805);
-        sprite->unk_10 = 0x20;
-        sprite->unk_14 |= 0xC;
-        sprite->unk_12 -= 0x80;
-        state->unk_9B = state->unk_9B + 1;
+        sprite->tpage_abr = 0x20;
+        sprite->flags |= 0xC;
+        sprite->clut -= 0x80;
+        state->action_phase.u = state->action_phase.u + 1;
     case 3:
         motion->unk_14 += 0x1C000;
-        if (!(sprite->unk_14 & 0x6000)) {
+        if (!(sprite->flags & 0x6000)) {
             return;
         }
-        state->unk_96 = 0x80U;
-        state->unk_9B = state->unk_9B + 1;
+        state->action_timer.u = 0x80U;
+        state->action_phase.u = state->action_phase.u + 1;
         return;
     case 4:
         ((S_801731FC_1 *)entity)->unk_1C.s |= 0x10000000;
-        brightness = (u8)state->unk_96;
-        sprite->unk_0E = brightness;
-        sprite->unk_0D = brightness;
-        sprite->unk_0C = brightness;
-        next_brightness = state->unk_96 - 0x18;
-        state->unk_96 = next_brightness;
+        brightness = (u8)state->action_timer.u;
+        sprite->color.c.b = brightness;
+        sprite->color.c.g = brightness;
+        sprite->color.c.r = brightness;
+        next_brightness = state->action_timer.u - 0x18;
+        state->action_timer.u = next_brightness;
         if ((s16)next_brightness >= 0x18) {
             return;
         }
@@ -148,8 +127,8 @@ void advance_entity_motion_fade_and_removal(S_801731FC_0 *state, S_801731FC_2 *m
         }
         distribute_experience_and_report_gains(entity);
         detach_record_and_update_slot_state(entity);
-        sound_x = sprite->unk_24;
-        sound_y = sprite->unk_25;
+        sound_x = sprite->tile_x;
+        sound_y = sprite->tile_y;
         sound_flags = 0x3000;
         if (((S_801731FC_1 *)entity)->unk_1C.s & 0x2000) {
             sound_flags = 0x300;

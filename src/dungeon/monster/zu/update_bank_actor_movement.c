@@ -170,11 +170,11 @@ void update_bank_actor_movement(void *entity, void *motion_arg, void *sprite_arg
             paused_callback(entity, motion_arg, sprite_arg, entity);
             return;
         }
-        (*(u8 *)((u8 *)entity + (0x71))) &= 0x7F;
+        (*((u8 *)entity + (0x71))) &= 0x7F;
         return;
     }
 
-    state_or_facing = (s8)(*(u8 *)((u8 *)entity + (0x6D)));
+    state_or_facing = (s8)(*((u8 *)entity + (0x6D)));
     if (refresh_actor_facing_and_lifecycle(entity, motion_arg, sprite_arg, entity) != 0) {
         return;
     }
@@ -183,7 +183,7 @@ void update_bank_actor_movement(void *entity, void *motion_arg, void *sprite_arg
     if (update_callback != 0) {
         update_callback(entity, motion_arg, sprite_arg, entity);
     }
-    zu_callbacks[(*(u8 *)((u8 *)entity + (0x9A)))](entity, motion_arg, sprite_arg, entity);
+    zu_callbacks[(*((u8 *)entity + (0x9A)))](entity, motion_arg, sprite_arg, entity);
     if ((s16)state_or_facing != (*(s8 *)((u8 *)entity + (0x6D)))) {
         try_move_actor_to_valid_position(entity, motion_arg, sprite_arg, entity);
     }
@@ -194,9 +194,9 @@ void update_bank_actor_movement(void *entity, void *motion_arg, void *sprite_arg
     if (!((*(s32 *)((u8 *)entity + (0x1C))) & 0x40000) &&
         !((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
         ((TrailMotion *)motion_arg)->unk_14 += (*(s8 *)((u8 *)entity + (0x9D))) * 0x14000;
-        (*(u8 *)((u8 *)entity + (0x9D)))++;
+        (*((u8 *)entity + (0x9D)))++;
     } else {
-        (*(u8 *)((u8 *)entity + (0x9D))) = 0;
+        (*((u8 *)entity + (0x9D))) = 0;
     }
     (*(s32 *)((u8 *)entity + (0x90))) += ((TrailMotion *)motion_arg)->unk_14;
     sprite_flags = ((S_80170A70_1 *)sprite_arg)->unk_14;
@@ -220,7 +220,7 @@ void update_bank_actor_movement(void *entity, void *motion_arg, void *sprite_arg
             }
         }
 
-        if ((*(u8 *)((u8 *)entity + (0x9A))) != 8) {
+        if ((*((u8 *)entity + (0x9A))) != 8) {
             apply_monster_koyaw_data(object->unk_1C, (u8 *)sprite_arg + 0xC);
         }
 
@@ -239,7 +239,7 @@ void update_bank_actor_movement(void *entity, void *motion_arg, void *sprite_arg
                 {
                     s32 bob_wave = rsin(
                         ((*(s16 *)((u8 *)entity + (0xA0))) << 12) / 40);
-                    if ((*(u8 *)((u8 *)entity + (0x9A))) == 0x12) {
+                    if ((*((u8 *)entity + (0x9A))) == 0x12) {
                         bob_offset = bob_wave >> 10;
                     } else {
                         bob_offset = bob_wave >> 9;
@@ -271,7 +271,7 @@ void update_bank_actor_movement(void *entity, void *motion_arg, void *sprite_arg
                     (s16)(object->unk_88.u - 0x20)) - object->unk_88.s;
                 if ((*(s16 *)((u8 *)entity + (0x92))) > ground_delta) {
                     (*(s16 *)((u8 *)entity + (0x92))) = ground_delta;
-                    (*(u8 *)((u8 *)entity + (0x9D))) = 0;
+                    (*((u8 *)entity + (0x9D))) = 0;
                     ((TrailMotion *)motion_arg)->unk_14 = 0;
                     object->unk_1C |= 0x08000000;
                 }
@@ -296,7 +296,7 @@ void update_bank_actor_movement(void *entity, void *motion_arg, void *sprite_arg
                     (s16)(object->unk_88.u - 0x20)) - object->unk_88.s;
                 if ((*(s16 *)((u8 *)entity + (0x92))) > ground_delta) {
                     (*(s16 *)((u8 *)entity + (0x92))) = ground_delta;
-                    (*(u8 *)((u8 *)entity + (0x9D))) = 0;
+                    (*((u8 *)entity + (0x9D))) = 0;
                     ((TrailMotion *)motion_arg)->unk_14 = 0;
                     object->unk_1C |= 0x08000000;
                 }
@@ -306,7 +306,7 @@ void update_bank_actor_movement(void *entity, void *motion_arg, void *sprite_arg
                 {
                     s32 bob_wave = rsin(
                         ((*(s16 *)((u8 *)entity + (0xA0))) << 12) / 40);
-                    if ((*(u8 *)((u8 *)entity + (0x9A))) == 0x12) {
+                    if ((*((u8 *)entity + (0x9A))) == 0x12) {
                         bob_offset = bob_wave >> 10;
                     } else {
                         bob_offset = bob_wave >> 9;
@@ -421,7 +421,7 @@ void update_bank_actor_state(ActorRecord *actor, ObjectPosition *context, Sprite
         if (sprite->frameTable == zu_frame_set_1) {
             actor->action_id.u = 0xD;
             actor->action_phase.u = 1;
-            ((S_80171138_0 *)actor)->unk_8C = 0;
+            actor->unk_8C.word = 0;
             stats->flags1C &= ~0x40000;
             return;
         }
@@ -649,7 +649,7 @@ void advance_bank_actor_path(ActorRecord *body, ObjectPosition *position, Sprite
         (u8 *)body + 0x98);
     ((S_80171670_0 *)actor)->unk_1C.u |= 0x40000000;
     body->action_id.u = 0xF;
-    (*(s32 *)((u8 *)body + 0x8C)) = 0;
+    body->unk_8C.word = 0;
 
     if (g_dungeon_status.flags & 0x80) {
         body->action_timer.u = 0;
@@ -854,8 +854,8 @@ void select_bank_actor_movement(ActorRecord *move_data, ObjectPosition *context,
 
             actor_data->facing = trial_angle;
             /* remember the cell in the actor's trail of visited cells */
-            ((u8 *)((u8 *)actor_data + (actor_data->movement_queue_state & 0x7F)))[0x74] = position_data->tile_position.parts.tile_x;
-            ((u8 *)((u8 *)actor_data + (actor_data->movement_queue_state & 0x7F)))[0x7C] = position_data->tile_position.parts.tile_y;
+            (((u8 *)actor_data + (actor_data->movement_queue_state & 0x7F)))[0x74] = position_data->tile_position.parts.tile_x;
+            (((u8 *)actor_data + (actor_data->movement_queue_state & 0x7F)))[0x7C] = position_data->tile_position.parts.tile_y;
             actor_data->movement_queue_state++;
 
             update_map_cell_flags_with_item_limit(
@@ -1528,7 +1528,7 @@ void update_bank_actor_targeted_action(ActorRecord *owner_input, ObjectPosition 
         motion_input->velocity_x = 0;
         set_record_integer_tile_center(motion_input, actor_input->tile_x, actor_input->tile_y);
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
+        primary_actor_record->unk_A4.halves.high.u--;
         advance_status_timers(object);
         (*(u8 *)&object->pending_turn_updates)--;
         owner_input->unk_8C.address = update_bank_actor_state;
@@ -1762,7 +1762,7 @@ typedef struct S_80173294_0 {
 typedef struct S_80173294_1 {
     u8 pad_00[0xC];
     s32 unk_0C;
-    u8 pad_10[0x4];
+    s32 unk_10;
     s32 unk_14;
 } S_80173294_1;   /* p1 in slow_directional_motion */
 
@@ -1793,7 +1793,8 @@ extern void distribute_experience_and_report_gains(EntityRec *entity);
 extern void * detach_record_and_update_slot_state(void *record);
 
 /* Advance the object removal animation, fade its sprite, and release it when finished. */
-void slow_directional_motion(void *effect_data, void *motion_data, void *sprite_data, void *object_data) {
+void slow_directional_motion(void *effect_data, void *motion_data_arg, void *sprite_data, void *object_data) {
+    S_80173294_1 *motion_data = motion_data_arg;
     s32 direction_offset;
     s32 direction_x;
     u8 *direction_y_table;
@@ -1805,11 +1806,11 @@ void slow_directional_motion(void *effect_data, void *motion_data, void *sprite_
     s32 is_low_state;
 
     direction_offset = (((S_80173294_0 *)object_data)->unk_6A >> 8) & 0xE;
-    direction_x = *(s16 *)((u8 *)((u8 *)dir_step_x) + direction_offset);
-    direction_y = *(s16 *)((u8 *)((u8 *)dir_step_y) + direction_offset);
+    direction_x = *(s16 *)(((u8 *)dir_step_x) + direction_offset);
+    direction_y = *(s16 *)(((u8 *)dir_step_y) + direction_offset);
     motion_step = 0xC000;
-    motion_value = (((S_80173294_1 *)motion_data)->unk_14) + motion_step;
-    ((S_80173294_1 *)motion_data)->unk_14 = motion_value;
+    motion_value = (motion_data->unk_14) + motion_step;
+    motion_data->unk_14 = motion_value;
     state = ((S_80173294_2 *)effect_data)->unk_9B;
 
     switch (state) {
@@ -1817,10 +1818,10 @@ void slow_directional_motion(void *effect_data, void *motion_data, void *sprite_
         state = 0xFFFE0000;
         state |= 0x8000;
         motion_value = direction_x << 16;
-        ((S_80173294_1 *)motion_data)->unk_0C = motion_value;
+        motion_data->unk_0C = motion_value;
         motion_value = direction_y << 16;
-        (*(s32 *)((u8 *)motion_data + 0x10)) = motion_value;
-        (*(s32 *)((u8 *)motion_data + 0x14)) = state;
+        motion_data->unk_10 = motion_value;
+        motion_data->unk_14 = state;
         if (g_dungeon_status.activity_counts.parts.pending_action_count != 0)
             return;
         ((S_80173294_2 *)effect_data)->unk_9B++;
@@ -2463,7 +2464,7 @@ void start_bank_actor_hit_reaction(ActorRecord *work, ObjectPosition *part_a, Sp
 
     actor->movement_queue_state = (u8)(actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((has_pending_dungeon_activity(actor) << 0x10) == 0)) {
-        ((S_801740F4_1 *)work)->unk_8C = 0;
+        work->unk_8C.word = 0;
         work->action_id.s = 0x17;
         work->action_phase.s = 0;
         if (actor->flags1C & ACTOR_CONFUSED) {

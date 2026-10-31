@@ -136,14 +136,14 @@ void update_object_movement_facing_terrain(ActorRecord *body, ObjectPosition *mo
     (body->unk_90.value) += motion->velocity_z;
     part_flags = sprite->flags;
     if (!(part_flags & 0x8000)) {
-        value_bits = *(s16 *)((u8 *)((u8 *)(&g_dungeon_status)) - 0x238) +
+        value_bits = *(s16 *)(((u8 *)(&g_dungeon_status)) - 0x238) +
             state->unk_2A + 0x100;
         direction = ((s32)value_bits >> 9) & 7;
         mode_or_dir = (u16)direction;
         mode_or_dir = (s16)mode_or_dir;
         if ((body->unk_94) != mode_or_dir) {
             select_indirect_table_entry(sprite,
-                *(u8 *)(*(u8 **)&sprite->frameTable + mode_or_dir),
+                *(*(u8 **)&sprite->frameTable + mode_or_dir),
                 sprite->unk_04);
             (body->unk_94) = direction;
         }

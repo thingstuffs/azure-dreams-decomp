@@ -110,7 +110,7 @@ void draw_nearby_map_markers(void *ordering_table, InactiveTypeTwelveObjectBody 
             union { long value; } kind = {0};
             union { u8 * value; } object = {0};
             if (*(s8 *)(entry + 0x13) > 0) {
-                object.value = *(u8 * *)&((ObjectNodeHeader *)((u8 *)entry - 0x20))->sprite;
+                object.value = *(u8 * *)&((ObjectNodeHeader *)(entry - 0x20))->sprite;
                 if (!(dungeon_floor_flags & FLOOR_MONSTERS_VISIBLE)) {
                     if (*(s8 *)(object.value + 0x26) < 0 ||
                         *(s8 *)(object.value + 0x26) != reference_tile_object.room_index) {

@@ -4,14 +4,9 @@
 #include "dungeon/actor.h"
 extern u8 actor_default_action_address;
 
-typedef struct S_800D491C_0 {
-    u8 pad_00[0x8C];
-    void *unk_8C;
-} S_800D491C_0;   /* arg0 in set_actor_data_pointer */
-
 /* Sets the object data pointer when the status check is positive. */
-void set_actor_data_pointer(S_800D491C_0 *object, s32 context, void *source, void *target) {
-    if (resolve_actor_floor_trap_once(object, context, source, target) > 0) {
-        object->unk_8C = &actor_default_action_address;
+void set_actor_data_pointer(ActorRecord *body, ObjectPosition *position, void *source, ActorRecord *actor) {
+    if (resolve_actor_floor_trap_once(body, position, source, actor) > 0) {
+        body->unk_8C.address = &actor_default_action_address;
     }
 }

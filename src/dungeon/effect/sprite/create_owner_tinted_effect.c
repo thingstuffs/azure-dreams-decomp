@@ -23,12 +23,6 @@ typedef struct S_818BDD8C_0 {
     void * unk_20;
 } S_818BDD8C_0;
 
-typedef struct S_818BDD8C_1 {
-    u8 pad_00[0x10];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-} S_818BDD8C_1;
 
 typedef struct S_818BDD8C_2 {
     u8 pad_00[0x12];
@@ -64,7 +58,7 @@ void *create_owner_tinted_effect(S_818BDD8C_2 *owner, S_818BDD8C_4 *initial_data
     s16 render_flags;
     SpriteFrameState *render;
     ObjectNodeHeader *object;
-    S_818BDD8C_1 *state;
+    OwnerTintedEffectBody *state;
     S_818BDD8C_5 *object_data;
 
     object = allocate_flagged_object_node(0x212);
@@ -72,7 +66,7 @@ void *create_owner_tinted_effect(S_818BDD8C_2 *owner, S_818BDD8C_4 *initial_data
         state = ((void *)object) + 0x20;
         object->update_callback = &D_800254E0;
         ((S_818BDD8C_0 *)object)->unk_20 = owner;
-        state->unk_10 = 0;
+        state->unk_10.u = 0;
         state->unk_14 = (u16)owner->unk_12;
         render = object->sprite;
         render->color.c.b = 0x80;

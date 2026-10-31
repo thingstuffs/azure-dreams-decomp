@@ -23,14 +23,6 @@ typedef struct S_80FDB000_1 {
     u32 unk_1C;
 } S_80FDB000_1;   /* result in spawn_killer */
 
-typedef struct S_80FDB000_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xA];
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-} S_80FDB000_4;   /* actor in spawn_killer */
 
 extern s32 generate_random_value(void);
 
@@ -65,7 +57,7 @@ void *spawn_killer(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
     ObjectNodeHeader *created;
     ObjectPosition *position;
     SpriteFrameState *part_b;
-    S_80FDB000_4 *actor;
+    ActorRecord *actor;
     s32 left;
     s32 right;
     s16 saved_kind_id;
@@ -119,9 +111,9 @@ void *spawn_killer(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
 
         initialize_actor_sprite_and_animation(created, position, part_b,
             (s16)original_flags);
-        actor->unk_9A = 0xFF;
+        actor->action_id.u = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = killer_action_resume_address;
+        actor->unk_8C.address = killer_action_resume_address;
         try_move_actor_to_valid_position(actor, position,
             part_b, result);
     }

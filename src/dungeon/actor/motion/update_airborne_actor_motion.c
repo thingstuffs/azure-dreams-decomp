@@ -43,37 +43,37 @@ extern void *actor_default_frames[];
 extern u8 actor_alternate_frames[8];
 
 /* Updates airborne movement, landing animation, and alignment to the actor's tile. */
-void update_airborne_actor_motion(void *action, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *actor) {
+void update_airborne_actor_motion(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 dir_offset;
     u16 ticks_left;
     s32 dir_y;
     u8 phase;
     EntityRec *linked_object;
 
-    phase = ((S_800974DC_0 *)action)->unk_9B;
+    phase = body->action_phase.u;
     switch (phase) {
     case 0:
         select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, motion, 8, 0x300);
         sprite->frameTable = actor_alternate_frames;
-        select_record_entry_and_value(sprite, *(void **)((u8 *)actor_alternate_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
+        select_record_entry_and_value(sprite, *(void **)(actor_alternate_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
             >> 7) & 0x1C)), 0);
         dir_offset = ((u16) actor->facing >> 8) & 0xE;
         motion->velocity_x = (s32) (*(s16 *)((u8 *)dir_step_x + dir_offset) << 0x11);
         dir_y = *(s16 *)((u8 *)dir_step_y + dir_offset);
         motion->velocity_z = 0xFFEBC000;
         motion->velocity_y = (s32) (dir_y << 0x11);
-        ((S_800974DC_0 *)action)->unk_96.s = 3U;
-        ((S_800974DC_0 *)action)->unk_98 = (u16) (((S_800974DC_0 *)action)->unk_98 & 0xFFF7);
-        ((S_800974DC_0 *)action)->unk_9B = (u8) (((S_800974DC_0 *)action)->unk_9B + 1);
+        body->action_timer.u = 3U;
+        body->action_state_flags = (u16) (body->action_state_flags & 0xFFF7);
+        body->action_phase.u = (u8) (body->action_phase.u + 1);
         return;
     case 1:
         if (sprite->flags & 0x8000) {
-            ((S_800974DC_0 *)action)->unk_96.s = 0U;
+            body->action_timer.u = 0U;
         } else {
-            ((S_800974DC_0 *)action)->unk_96.s = (u16) (((S_800974DC_0 *)action)->unk_96.s - 1);
+            body->action_timer.u = (u16) (body->action_timer.u - 1);
         }
-        if (((S_800974DC_0 *)action)->unk_96.u == 0) {
-            if (((S_800974DC_0 *)action)->unk_102 == 0) {
+        if (body->action_timer.s == 0) {
+            if (((PlayerRecord *)body)->unk_102 == 0) {
                 actor->unk_20 = 1;
                 if (resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1) == 0) {
                     linked_object = actor->target;
@@ -85,28 +85,28 @@ void update_airborne_actor_motion(void *action, ObjectPosition *motion, SpriteFr
                 }
             }
         }
-        if ((s16) ((S_800974DC_0 *)action)->unk_96.s <= 0) {
+        if ((s16) body->action_timer.u <= 0) {
             if (sprite->flags & 0xE000) {
                 sprite->frameTable = actor_default_frames;
                 select_record_entry_and_value(sprite, *(void **)((u8 *)actor_default_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing
                     + 0x100) >> 7) & 0x1C)), 0);
-                ((S_800974DC_0 *)action)->unk_9B = (u8) (((S_800974DC_0 *)action)->unk_9B + 1);
+                body->action_phase.u = (u8) (body->action_phase.u + 1);
             }
         }
     case 2:
-        if (!(((S_800974DC_0 *)action)->unk_A2 & 0x10)) {
+        if (!(body->unk_A0.parts.high & 0x10)) {
             return;
         }
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        if ((s16) ((S_800974DC_0 *)action)->unk_96.s > 0) {
+        if ((s16) body->action_timer.u > 0) {
             return;
         }
         sprite->frameTable = actor_default_frames;
         select_record_entry_and_value(sprite, *(void **)((u8 *)actor_default_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
             >> 7) & 0x1C)), 0);
-        ((S_800974DC_0 *)action)->unk_9B = 3U;
+        body->action_phase.u = 3U;
         return;
     case 3:
     {
@@ -116,20 +116,20 @@ void update_airborne_actor_motion(void *action, ObjectPosition *motion, SpriteFr
             return;
         }
         motion->velocity_z = 0;
-        ((S_800974DC_0 *)action)->unk_96.s = 2U;
+        body->action_timer.u = 2U;
         delta = (u32)sprite->tile_x << 6;
         coord = motion->x.w.i - 0x20;
         delta -= (u32)coord;
-        motion->velocity_x = (s32)(delta * 0x10000U) / (s16) ((S_800974DC_0 *)action)->unk_96.s;
+        motion->velocity_x = (s32)(delta * 0x10000U) / (s16) body->action_timer.u;
         coord = motion->y.w.i - 0x20;
         delta = ((u32)sprite->tile_y << 6) - (u32)coord;
-        motion->velocity_y = (s32)(delta * 0x10000U) / (s16) ((S_800974DC_0 *)action)->unk_96.s;
-        ((S_800974DC_0 *)action)->unk_9B = (u8) (((S_800974DC_0 *)action)->unk_9B + 1);
+        motion->velocity_y = (s32)(delta * 0x10000U) / (s16) body->action_timer.u;
+        body->action_phase.u = (u8) (body->action_phase.u + 1);
         return;
     }
     case 4:
-        ticks_left = ((S_800974DC_0 *)action)->unk_96.s - 1;
-        ((S_800974DC_0 *)action)->unk_96.s = ticks_left;
+        ticks_left = body->action_timer.u - 1;
+        body->action_timer.u = ticks_left;
         if ((ticks_left << 0x10) > 0 && !(sprite->flags & 0x8000)) {
             return;
         }
@@ -137,11 +137,11 @@ void update_airborne_actor_motion(void *action, ObjectPosition *motion, SpriteFr
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
-        process_unflagged_linked_entries(actor->unk_5C);
+        process_unflagged_linked_entries(actor->next_actor_header);
         g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 0x412);
-        ((S_800974DC_0 *)action)->unk_8C = &handle_actor_commands_and_facing;
+        ((S_800974DC_0 *)body)->unk_8C = &handle_actor_commands_and_facing;
         g_dungeon_status.active_actor = 0;
-        ((S_800974DC_0 *)action)->unk_96.s = 0U;
+        body->action_timer.u = 0U;
         return;
     }
 }

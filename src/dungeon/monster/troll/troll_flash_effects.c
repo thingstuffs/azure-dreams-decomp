@@ -9,20 +9,21 @@
 #include "shared/sprite_frame_state.h"
 
 /* Fade the primitive color by one step and flag completion when the counter reaches zero. */
-void update_stepped_rgb_flash(void *fade_state, void *unused, T_80170D40_S_80170D40_1 *primitive)
+void update_stepped_rgb_flash(void *fade_state_arg, void *unused, T_80170D40_S_80170D40_1 *primitive)
 {
+    T_80170D40_S_80170D40_0 *fade_state = fade_state_arg;
     u16 steps_left;
     u8 red;
 
-    ((T_80170D40_S_80170D40_0 *)fade_state)->unk_02 = (u8)(((T_80170D40_S_80170D40_0 *)fade_state)->unk_02 - 0x40);
-    red = ((T_80170D40_S_80170D40_0 *)fade_state)->unk_00 - 0x40;
-    ((T_80170D40_S_80170D40_0 *)fade_state)->unk_00 = red;
-    ((T_80170D40_S_80170D40_0 *)fade_state)->unk_01 = (u8)(((T_80170D40_S_80170D40_0 *)fade_state)->unk_01 - 0x40);
+    fade_state->unk_02 = (u8)(fade_state->unk_02 - 0x40);
+    red = fade_state->unk_00 - 0x40;
+    fade_state->unk_00 = red;
+    fade_state->unk_01 = (u8)(fade_state->unk_01 - 0x40);
     primitive->unk_0C = red;
-    primitive->unk_0D = ((T_80170D40_S_80170D40_0 *)fade_state)->unk_01;
-    primitive->unk_0E = ((T_80170D40_S_80170D40_0 *)fade_state)->unk_02;
-    steps_left = ((T_80170D40_S_80170D40_0 *)fade_state)->unk_18 - 1;
-    ((T_80170D40_S_80170D40_0 *)fade_state)->unk_18 = steps_left;
+    primitive->unk_0D = fade_state->unk_01;
+    primitive->unk_0E = fade_state->unk_02;
+    steps_left = fade_state->unk_18 - 1;
+    fade_state->unk_18 = steps_left;
     if ((steps_left << 0x10) <= 0) {
         ((T_80170D40_S_80170D40_0_pre *)fade_state)[-1].unk_00 = (u16)(((T_80170D40_S_80170D40_0_pre *)fade_state)[-1].unk_00 | 0x8000);
         object_flag_block.flags = (s32)(object_flag_block.flags | OBJECT_REMOVE_PENDING);
@@ -169,7 +170,7 @@ void update_growing_bouncing_effect(void *effect, void *position, SpriteFrameSta
 /* Creates an effect and sets its movement toward a tracked target or grid position. */
 /* Creates a flashing Troll effect with position offsets toward a tracked actor or the stored target tile
  * coordinates. */
-void create_targeted_motion_effect(ActorRecord *body, ObjectPosition *position, s32 unused, EntityRec *target)
+void create_targeted_motion_effect(ActorRecord *body, ObjectPosition *position, SpriteFrameState *unused, EntityRec *target)
 {
     T_8017121C_Vec3u16 offset;
     ObjectNodeHeader *effect;
@@ -360,8 +361,8 @@ void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *sour
     effect_data = effect->sprite;
     template_data = sprite_template;
     {
-        Blk16 *src_block = (Blk16 *)template_data;
-        Blk16 *dst_block = (Blk16 *)effect_data;
+        Blk16 *src_block = template_data;
+        Blk16 *dst_block = effect_data;
         Blk16 *src_end = src_block + 3;
         do {
             *dst_block = *src_block;
@@ -382,12 +383,12 @@ void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *sour
         0);
     effect_data = effect->position;
     if ((actor->target) != 0 && (actor->flags14 & 0x04000000) == 0) {
-        u8 *direction_offsets = (u8 *)((u8 *)D_80175EBC);
+        u8 *direction_offsets = ((u8 *)D_80175EBC);
         linked_pos = ((T_801714FC_S_801714FC_8_pre *)(actor->target))[-1].unk_00;
         ((T_801714FC_S_801714FC_3 *)effect_data)->unk_02 = linked_pos->unk_02
-        - ((*(s16 *)((u8 *)direction_offsets + ((((u16)actor->facing) >> 7) & 0x1c))) * 0x10);
+        - ((*(s16 *)(direction_offsets + ((((u16)actor->facing) >> 7) & 0x1c))) * 0x10);
         ((T_801714FC_S_801714FC_3 *)effect_data)->unk_06 = linked_pos->unk_06
-        - ((*(s16 *)((u8 *)direction_offsets + (((((u16)actor->facing) >> 7) & 0x1c) + 2))) * 0x10);
+        - ((*(s16 *)(direction_offsets + (((((u16)actor->facing) >> 7) & 0x1c) + 2))) * 0x10);
         ((T_801714FC_S_801714FC_3 *)effect_data)->unk_0A = linked_pos->unk_0A
         - (entity_height_offsets[((T_801714FC_S_801714FC_8 *)(actor->target))->unk_13] >> 1);
         return;
@@ -481,7 +482,7 @@ void spawn_random_color_burst_particle(void *source, ObjectPosition *position) {
  * scheduler seams retain the random_byte_1 load-delay nop, while a split random_byte_2 live range
  * hoists its lbu.
  */
-void spawn_growing_rotating_flash(void *unused, ObjectPosition *position, SpriteFrameState *unused_sprite) {
+void spawn_growing_rotating_flash(ActorRecord *unused, ObjectPosition *position, SpriteFrameState *unused_sprite) {
     T_80171928_Object *object;
     T_80171928_Header *header;
     SpriteFrameState *child;

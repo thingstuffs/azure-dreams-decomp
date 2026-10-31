@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
@@ -11,7 +12,7 @@ extern u8 D_800E1F93[];
 extern u8 D_8017088C[];
 
 /* Processes the input, then dispatches or finalizes the result according to the mode. */
-void show_entity_message_with_prefix(s32 dispatch_mode, void *input) {
+void show_entity_message_with_prefix(s32 dispatch_mode, ActorRecord *input) {
     void *result;
 
     result = get_unused_text_buffer();

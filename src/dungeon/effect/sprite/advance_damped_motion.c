@@ -25,7 +25,7 @@ void advance_damped_motion(void *actor, Motion *motion) {
     motion->x += motion->xVelocity;
     motion->y += motion->yVelocity;
     x_velocity = motion->xVelocity;
-    y_velocity = *(s32 *)&motion->yVelocity;
+    y_velocity = *&motion->yVelocity;
     motion->z += motion->zVelocity;
     motion->xVelocity = x_velocity - ((x_velocity >> 3) + (x_velocity >> 4));
     motion->yVelocity = y_velocity - ((y_velocity >> 3) + (y_velocity >> 4));

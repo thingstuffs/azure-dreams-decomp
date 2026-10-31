@@ -2,6 +2,7 @@
 #include "shared/position_views.h"
 #include "shared/vector.h"
 #include "town/player/position.h"
+#include "shared/sprite_frame_state.h"
 
    /* arg0 in follow_linked_position_until_timeout */
 
@@ -24,10 +25,10 @@ typedef struct CopyGlobal {
 
 
 extern CopyGlobal town_actor_control;
-extern void init_target_tile_action(UnsignedCountdownView *, IntVector3 *, s32);
+extern void init_target_tile_action(UnsignedCountdownView *, IntVector3 *, void *);
 
 /* Copy source coordinates, decrement the counter, and call the handler when it becomes negative. */
-void follow_linked_position_until_timeout(UnsignedCountdownView *state, IntVector3 *out, s32 handler_arg) {
+void follow_linked_position_until_timeout(UnsignedCountdownView *state, IntVector3 *out, SpriteFrameState *handler_arg) {
     s16 remaining;
 
     out->x = town_actor_control.middle->source->x;

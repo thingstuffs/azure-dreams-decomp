@@ -24,7 +24,7 @@ void card_background_init_entry_tables(void *object, s32 entry_count) {
         data_offset = 0x294;
         do {
             entry_offset = 0x224 + entry_index * 0x10;
-            *((s32 *) *(s32 **) ((u8 *) object + 0x220) + entry_index) = (s32) ((u8 *) object + entry_offset);
+            *(*(s32 **) ((u8 *) object + 0x220) + entry_index) = (s32) ((u8 *) object + entry_offset);
             *(s32 *) ((u8 *) object + entry_index * 0x10 + 0x294) = defaults[0];
             entry_data = (u8 *) object + data_offset;
             *(s32 *) ((u8 *) object + entry_index * 0x10 + 0x298) = defaults[1];

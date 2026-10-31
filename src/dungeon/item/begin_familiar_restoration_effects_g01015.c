@@ -58,7 +58,7 @@ s32 use_item_to_draw_full_recovery_circle(ActorRecord *target, DungeonItemEntry 
         g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
     } else {
         target_data = *(void **)((u8 *)target - 0x14);
-        if (create_five_point_effect(*(u8 *)((u8 *)target_data + 0x24), *(u8 *)((u8 *)target_data + 0x25),
+        if (create_five_point_effect(*((u8 *)target_data + 0x24), *((u8 *)target_data + 0x25),
             target->ground_height, &D_800DF514, 0x2800, 0x802020, &D_800C152C) == 0) {
             return 0;
         }
@@ -102,8 +102,8 @@ void update_familiar_restoration_effect(DungeonState *state, RenderSource *rende
             if (object_entry != NULL) {
                 object = object_entry;
                 step_index = 1;
-                *(u8 *)(object + 0x26) = *(u8 *)(object + 0x68);
-                *(u8 *)(object + 0x27) = *(u8 *)(object + 0x69);
+                *(object + 0x26) = *(object + 0x68);
+                *(object + 0x27) = *(object + 0x69);
                 do {
                     clear_slots_of_type(object, (s8)step_index);
                     step_index += 1;
@@ -112,7 +112,7 @@ void update_familiar_restoration_effect(DungeonState *state, RenderSource *rende
                 *(s32 *)(object + 0x1c) &= 0xfbffe107;
                 cap_pending_actor_value_delta(object);
                 *(s8 *)(object + 0x24) = reset_marker;
-                *(u8 *)(object + 0x25) = *(u8 *)(object + 0x66);
+                *(object + 0x25) = *(object + 0x66);
                 apply_entity_effects(object);
             }
             object_index += 1;
@@ -145,12 +145,12 @@ void update_familiar_restoration_effect(DungeonState *state, RenderSource *rende
     case 2:
         state->field50 = (s16)((u16)state->field50 -
             (state->field50 / state->count));
-        *(u8 *)(effect_data + 0xc) = (u8)(*(u8 *)(effect_data + 0xc) -
-            (*(u8 *)(effect_data + 0xc) / state->count));
-        *(u8 *)(effect_data + 0xd) = (u8)(*(u8 *)(effect_data + 0xd) -
-            (*(u8 *)(effect_data + 0xd) / state->count));
-        *(u8 *)(effect_data + 0xe) = (u8)(*(u8 *)(effect_data + 0xe) -
-            (*(u8 *)(effect_data + 0xe) / state->count));
+        *(effect_data + 0xc) = (u8)(*(effect_data + 0xc) -
+            (*(effect_data + 0xc) / state->count));
+        *(effect_data + 0xd) = (u8)(*(effect_data + 0xd) -
+            (*(effect_data + 0xd) / state->count));
+        *(effect_data + 0xe) = (u8)(*(effect_data + 0xe) -
+            (*(effect_data + 0xe) / state->count));
         step_index = 0;
         do {
             fade_angle = state->field4e + 0x100;

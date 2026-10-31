@@ -7,7 +7,7 @@
 
 
 
-void update_actor_move_animation_and_recovery(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *actor);
+void update_actor_move_animation_and_recovery(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 void *spawn_unicorn(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height);
 

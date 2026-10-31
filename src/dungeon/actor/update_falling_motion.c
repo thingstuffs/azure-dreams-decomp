@@ -33,7 +33,7 @@ void update_falling_motion(void *owner, void *actor, void *motion, s32 callback_
     if (*(s16 *)((u8 *)motion + 0xA) >= ground_height_s32) {
         set_the_state_flag_initialize_s_fixed_point_clear_paired_field(actor, motion, ground_height_s32);
         ((Callback *)(*(void **)((u8 *)owner + 0x58)))[1](owner, actor, motion, callback_arg);
-    } else if (*(u8 *)((u8 *)actor + 0x3B) != 0) {
+    } else if (*((u8 *)actor + 0x3B) != 0) {
         *(s32 *)((u8 *)motion + 0xC) = 0;
         *(s32 *)((u8 *)motion + 0x10) = 0;
         *(s32 *)((u8 *)motion + 0x14) = 0;

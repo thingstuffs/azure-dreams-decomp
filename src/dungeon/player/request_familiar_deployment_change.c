@@ -43,7 +43,8 @@ typedef struct S_80094270_2 {
 } S_80094270_2;   /* item in request_familiar_deployment_change */
 
 /* Use or equip the item in the given slot: build the result message for the outcome, or fall through to the failure path. */
-s32 request_familiar_deployment_change(void *actor, s32 param_a, void *param_b, S_80094270_2 *item, s32 slot) {
+s32 request_familiar_deployment_change(void *actor_arg, s32 param_a, void *param_b, S_80094270_2 *item, s32 slot) {
+    Rec_func_8008ACDC_arg0 *actor = actor_arg;
     s16 out_a;
     s16 out_b;
     s16 kind;
@@ -55,19 +56,19 @@ s32 request_familiar_deployment_change(void *actor, s32 param_a, void *param_b, 
     void *hdr;
     Rec_func_8008ACDC_arg0 *hdr3;
 
-    ((Rec_func_8008ACDC_arg0 *)actor)->unk_8A = (s16) slot;
+    actor->unk_8A = (s16) slot;
     if (reject_forbidden_familiar_recall(0) == 0) {
-        if (((S_80094270_3 *)((actor + (s16) slot)))->unk_FA == 2) {
+        if (((S_80094270_3 *)((actor_arg + (s16) slot)))->unk_FA == 2) {
             display_formatted_context_message(&D_800E0633);
             return 1;
         }
-        entry = (void *) ((((Rec_func_8008ACDC_arg0 *)actor)->unk_8A * 4) + (u32) actor);
+        entry = (void *) ((actor->unk_8A * 4) + (u32) actor);
         if (entry->item_address == item) {
             if (!(((ActorRecord *)(((S_80094270_4 *)entry)->unk_AC))->flags1C & 0x20000)) {
                 /* Format the selected outcome, then terminate the message. */
                 msg = get_unused_text_buffer();
                 text = expand_text_control_codes(D_800E0726, msg);
-                if (((Rec_func_8008ACDC_arg0 *)actor)->unk_8A != 0) {
+                if (actor->unk_8A != 0) {
                     hdr = D_800E05F0;
                 } else {
                     hdr = D_800E05E1;
@@ -80,11 +81,11 @@ s32 request_familiar_deployment_change(void *actor, s32 param_a, void *param_b, 
                 clear_player_linked_action_flags();
                 reference_tile_object.selected_item = 0;
                 begin_familiar_deployment_change(actor, param_a, param_b, 0, 0);
-                ((Rec_func_8008ACDC_arg0 *)actor)->unk_60 = 0;
+                actor->unk_60 = 0;
             }
         } else {
             kind = check_familiar_deployment_placement(actor, param_a, param_b, &out_a, &out_b, item);
-            hdr3 = actor;
+            hdr3 = actor_arg;
             if (kind != 0) {
                 msg = get_unused_text_buffer();
                 if (kind == 1) {

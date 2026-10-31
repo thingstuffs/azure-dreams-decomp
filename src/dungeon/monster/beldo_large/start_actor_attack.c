@@ -13,8 +13,8 @@ void start_actor_attack(void *action_state, ObjectPosition *check_arg, s32 actio
         apply_camera_offset_and_select_target((s8 *)entity - 0x20, check_arg, 8, 0x300);
         if ((try_claim_dungeon_action_slot(entity) << 0x10) == 0) {
             *(s32 *)((s8 *)action_state + 0x8C) = 0;
-            *(s8 *)((s8 *)action_state + 0x9A) = 0x11;
-            *(s8 *)((s8 *)action_state + 0x9B) = 0;
+            *((s8 *)action_state + 0x9A) = 0x11;
+            *((s8 *)action_state + 0x9B) = 0;
             *(u8 *)((s8 *)entity + 0x6D) = *(u8 *)((s8 *)entity + 0x6D) - 1;
             prepare_directional_attack(entity, action_arg, *(s16 *)((s8 *)entity + 0x2A), 1, 0);
             *(u8 *)((s8 *)entity + 0x84) = 0x80;

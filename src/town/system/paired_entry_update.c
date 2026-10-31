@@ -14,19 +14,19 @@ static void set_paired_entry_brightness(void *object) {
         void *second_entry;
 
         dim_entry = *(void ***)((u8 *)object + 0x5C);
-        first_entry = *(void **)dim_entry;
-        second_entry = *((void **)dim_entry + 1);
+        first_entry = *dim_entry;
+        second_entry = *(dim_entry + 1);
         bright_entry = first_entry;
         dim_entry = second_entry;
     } else {
 
         dim_entry = *(void ***)((u8 *)object + 0x5C);
-        bright_entry = *((void **)dim_entry + 1);
-        dim_entry = *(void **)dim_entry;
+        bright_entry = *(dim_entry + 1);
+        dim_entry = *dim_entry;
     }
     {
-        bright_rgb = *((void **)bright_entry + 1);
-        dim_rgb = *((void **)dim_entry + 1);
+        bright_rgb = *(bright_entry + 1);
+        dim_rgb = *(dim_entry + 1);
         bright_rgb[0] = 0x80;
         bright_rgb[1] = 0x80;
         bright_rgb[2] = 0x80;

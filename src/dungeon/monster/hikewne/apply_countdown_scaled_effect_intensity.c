@@ -26,14 +26,15 @@ void apply_countdown_scaled_effect_intensity(void *record_data, void *unused, Sp
 }
 
 /* Follows the source position while growing and fading the sprite, then removes it when the timer expires. */
-void advance_and_fade_transformed_effect(void *effect, MovingPosition *transform, SpriteFrameState *render_state)
+void advance_and_fade_transformed_effect(void *effect_arg, MovingPosition *transform, SpriteFrameState *render_state)
 {
+    S_80975170_0 *effect = effect_arg;
     s16 ticks_left;
     s32 brightness;
     u16 render_offset;
     MovingPosition *source_transform;
 
-    source_transform = ((S_80975170_0 *)effect)->unk_B0;
+    source_transform = effect->unk_B0;
     transform->x = source_transform->x;
     transform->y = source_transform->y;
     transform->z = source_transform->z;
@@ -42,15 +43,15 @@ void advance_and_fade_transformed_effect(void *effect, MovingPosition *transform
     render_state->scale_y = render_offset;
     render_state->scale_x = render_offset;
 
-    ticks_left = ((S_80975170_0 *)effect)->unk_96.s - 1;
-    brightness = (s32)(ticks_left * 0x50) / (s16)((S_80975170_0 *)effect)->unk_AA;
-    ((S_80975170_0 *)effect)->unk_96.s = (u16)ticks_left;
+    ticks_left = effect->unk_96.s - 1;
+    brightness = (s32)(ticks_left * 0x50) / (s16)effect->unk_AA;
+    effect->unk_96.s = (u16)ticks_left;
     render_state->color.c.b = (s8)brightness;
     render_state->color.c.g = (s8)brightness;
     render_state->color.c.r = (s8)brightness;
     advance_sprite_animation_and_textures(render_state);
 
-    if (((S_80975170_0 *)effect)->unk_96.u <= 0) {
+    if (effect->unk_96.u <= 0) {
         ((ObjectRetirementFlags *)effect)[-1].flags = (u16)(((ObjectRetirementFlags *)effect)[-1].flags | 0x8000);
         object_flag_block.flags = (s32)(object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }

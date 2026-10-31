@@ -141,7 +141,7 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
         y_or_state.object = x_or_object.object + 0x20;
         if (object_type == 0xA) {
             display_data = *((void **) (x_or_object.object + 0xC));
-            *((s16 *) (((u8 *) display_data) + 6)) = 0x20;
+            *((s16 *) (display_data + 6)) = 0x20;
         }
         break;
 
@@ -167,9 +167,9 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
         *((s32 *) (y_or_state.object + 0xA4)) = D_800D216C[entry_index][1];
         if (object_type == 0x13) {
             display_data = *((void **) (x_or_object.object + 0xC));
-            display_flags = *((u16 *) (((u8 *) display_data) + 0x14));
-            *((s16 *) (((u8 *) display_data) + 0x10)) = 0;
-            *((u16 *) (((u8 *) display_data) + 0x14)) = display_flags | 0xC;
+            display_flags = *((u16 *) (display_data + 0x14));
+            *((s16 *) (display_data + 0x10)) = 0;
+            *((u16 *) (display_data + 0x14)) = display_flags | 0xC;
         }
         break;
 
@@ -187,9 +187,9 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
         *((s32 *) (y_or_state.object + 0xA8)) = town_item_layout_coordinates[entry_index][2];
         if (object_type == 0x17) {
             display_data = *((void **) (x_or_object.object + 0xC));
-            alt_display_flags = *((u16 *) (((u8 *) display_data) + 0x14));
-            *((s16 *) (((u8 *) display_data) + 0x10)) = 0x20;
-            *((u16 *) (((u8 *) display_data) + 0x14)) = alt_display_flags | 0xC;
+            alt_display_flags = *((u16 *) (display_data + 0x14));
+            *((s16 *) (display_data + 0x10)) = 0x20;
+            *((u16 *) (display_data + 0x14)) = alt_display_flags | 0xC;
         }
         break;
 
@@ -216,7 +216,7 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
     name_buffer[entry_index] = 0x11;
     entry_index++;
     name_buffer[entry_index] = 1;
-    *((void **) (((u8 *) y_or_state.object) + 0x48)) = name_buffer;
+    *((void **) (y_or_state.object + 0x48)) = name_buffer;
     object_state = (s32 *) y_or_state.object;
     configure_the_set_mode_n_1(object_state, *((void **) (x_or_object.object + 8)), D_800D225C + (D_800D2238[object_type] * 0x18));
 }

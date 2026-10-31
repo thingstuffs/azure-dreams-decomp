@@ -15,21 +15,22 @@ extern short func_80058F88(int flags);
 extern s32 scene_object_flags;
 
 /* Step the record's two-state timer, raising the finished bit when it runs out. */
-void play_timed_sound_sequence(void *record) {
+void play_timed_sound_sequence(void *record_arg) {
+    S_808152DC_0 *record = record_arg;
     s16 state;
     u16 timer;
 
-    state = ((S_808152DC_0 *)record)->unk_50;
+    state = record->unk_50;
     if (state != 0) {
         if (state != 1) {
             return;
         }
     } else {
         func_80058F88(0x603);
-        ((S_808152DC_0 *)record)->unk_50 = (u16)((u16)((S_808152DC_0 *)record)->unk_50 + 1);
+        record->unk_50 = (u16)((u16)record->unk_50 + 1);
     }
-    timer = ((S_808152DC_0 *)record)->unk_52 - 1;
-    ((S_808152DC_0 *)record)->unk_52 = timer;
+    timer = record->unk_52 - 1;
+    record->unk_52 = timer;
     if ((timer << 0x10) <= 0) {
         func_80058F88(0x1603);
         (*(u16 *)((u8 *)record + -2)) = ((ObjectStatusPrefix16 *)record)[-1].flags | 0x8000;

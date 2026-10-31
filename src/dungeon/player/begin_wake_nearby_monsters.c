@@ -10,16 +10,16 @@
 extern u8 D_800DCFF0[8];
 
 /* Starts action 0x24, clears linked action flags, doubles movement time, and selects its animation. */
-void begin_wake_nearby_monsters(u8 *state_ptr, void *value, u8 *target_ptr, u8 *angle_ptr) {
+void begin_wake_nearby_monsters(ActorRecord *state_ptr, void *value, u8 *target_ptr, u8 *angle_ptr) {
     u16 flags;
     s32 index;
     u8 *table;
 
-    flags = *(u16 *)(state_ptr + 0xA2);
-    *(s8 *)(state_ptr + 0x9A) = 0x24;
-    *(s8 *)(state_ptr + 0x9B) = 0;
-    *(void **)(state_ptr + 0x8C) = NULL;
-    *(u16 *)(state_ptr + 0xA2) = flags & 0xFEFF;
+    flags = state_ptr->unk_A0.parts.high;
+    state_ptr->action_id.s = 0x24;
+    state_ptr->action_phase.s = 0;
+    state_ptr->unk_8C.address = NULL;
+    state_ptr->unk_A0.parts.high = flags & 0xFEFF;
     clear_player_linked_action_flags();
 
     g_dungeon_status.movement_frames_left = g_dungeon_status.movement_frames_left * 2;

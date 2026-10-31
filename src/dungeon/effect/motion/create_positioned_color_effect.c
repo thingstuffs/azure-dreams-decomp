@@ -88,7 +88,7 @@ void create_positioned_color_sprite(S_7FFE83DC_3 *source, s32 color) {
         sprite->unk_0C.at02.v = 0x80;
         sprite->unk_0C.at01.v = 0x80;
         sprite->unk_0C.at00.v = 0x80;
-        color_value = *(s32 *)&color;
+        color_value = *&color;
         sprite->unk_1E = 0x1000;
         sprite->unk_1C = 0x1000;
         sprite->unk_0C.at00u.v = color_value;

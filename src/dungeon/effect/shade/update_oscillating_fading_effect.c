@@ -34,7 +34,7 @@ void update_oscillating_fading_effect(void *effect, Row_818F34E4_S_80024CE4_2 *p
         (*(Row_818F34E4_Block24 *)((u8 *)effect + 0x44)) = (*(Row_818F34E4_Block24 *)((u8 *)transform + 0));
         init_or_snapshot = effect + 0x44;
         if ((view_state->unk_20 == ((u8 *)(&view_reference_entity))) && ((*(void **)((u8 *)effect + 0x2C)) == ((int)primary_actor_record))) {
-            view_state->unk_20 = (u8 *) init_or_snapshot;
+            view_state->unk_20 = init_or_snapshot;
             (*(s16 *)((u8 *)effect + 0xA)) = 9;
         }
     }

@@ -170,7 +170,7 @@ extern u8 ribbon_sprite_entries[];
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry fading_sprite_entries[];
 extern u8 D_80025214[];
-void apply_small_random_value_gain(void *target, s32 effect_param, void *record);
+void apply_small_random_value_gain(ActorRecord *target, s32 effect_param, ActorRecord *record);
 void animate_randomly_rotated_sprite(Row_818A48C4_Func818A48C4Object **source_ref, s32 unused,
                    SpriteFrameState *target);
 void *create_coordinate_sprite_effect(s32 user_data, Row_818A4948_S_func_818A4948_2 *source_coords);

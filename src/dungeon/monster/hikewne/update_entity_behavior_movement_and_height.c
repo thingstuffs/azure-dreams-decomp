@@ -62,7 +62,7 @@ void update_entity_behavior_movement_and_height(ActorRecord *body, ObjectPositio
         return;
     }
 
-    old_state_id = (s8)(*(u8 *)((u8 *)body + 0x6D));
+    old_state_id = (s8)(*((u8 *)body + 0x6D));
     if (refresh_actor_facing_and_lifecycle(body, motion, sprite, body) != 0) {
         return;
     }
@@ -94,7 +94,7 @@ void update_entity_behavior_movement_and_height(ActorRecord *body, ObjectPositio
         sprite_direction = direction;
         if (body->unk_94 != sprite_direction) {
             select_indirect_table_entry(sprite,
-                (*(u8 *)((u8 *)(*(u8 **)&sprite->frameTable) + sprite_direction)),
+                (*((u8 *)(*(u8 **)&sprite->frameTable) + sprite_direction)),
                 sprite->unk_04);
             body->unk_94 = direction;
         }

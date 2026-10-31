@@ -12,10 +12,12 @@ typedef struct S_800AEEBC_0 {
 } S_800AEEBC_0;   /* arg0 in initialize_item_menu_record_fields */
 
 /* Set four record values and initialize its trailing data. */
-void initialize_item_menu_record_fields(void *record, s32 value_3c, s32 value_34, s32 value_28, s32 value_38) {
-    ((S_800AEEBC_0 *)record)->unk_3C = value_3c;
-    ((S_800AEEBC_0 *)record)->unk_34 = value_34;
-    ((S_800AEEBC_0 *)record)->unk_28 = value_28;
-    ((S_800AEEBC_0 *)record)->unk_38 = value_38;
-    dispatch_item_menu_data_update(record + 0x40);
+void initialize_item_menu_record_fields(void *record_arg, s32 value_3c, s32 value_34, s32 value_28, s32 value_38) {
+    S_800AEEBC_0 *record = record_arg;
+
+    record->unk_3C = value_3c;
+    record->unk_34 = value_34;
+    record->unk_28 = value_28;
+    record->unk_38 = value_38;
+    dispatch_item_menu_data_update(record_arg + 0x40);
 }

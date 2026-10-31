@@ -257,7 +257,7 @@ s32 select_creature_action_and_target(void *unused, u8 *position, ActorRecord *c
                 s32 result;
                 action_code = choose_usable_ability_or_attack(creature, move_target, &direction, 0);
                 action_or_flags = action_code;
-                (*(u16 *)&creature->facing) = *(u16 *)&direction;
+                (*(u16 *)&creature->facing) = *&direction;
                 case_code0 = action_code;
                 if ((case_code0 << 16) < 0) {
                     creature->action_flags = 0x800B;
@@ -343,7 +343,7 @@ s32 select_creature_action_and_target(void *unused, u8 *position, ActorRecord *c
                 s32 result;
                 action_code = choose_usable_ability_or_attack(creature, move_target, &direction, 0);
                 action_or_flags = action_code;
-                (*(u16 *)&creature->facing) = *(u16 *)&direction;
+                (*(u16 *)&creature->facing) = *&direction;
                 case_code1 = action_code;
                 if ((s16)case_code1 < 4) {
                     creature->action_flags = 0x800B;
@@ -623,7 +623,7 @@ s32 select_creature_action_and_target(void *unused, u8 *position, ActorRecord *c
     }
     scan_index = 0;
     do {
-        ally = *(void **)(((u8 *)((u8 *)dungeon_actor_ring_anchor) + scan_index * 4) + 0xAC);
+        ally = *(void **)((((u8 *)dungeon_actor_ring_anchor) + scan_index * 4) + 0xAC);
         if (ally != NULL) {
             if ((has_low_actor_mp(ally) << 16) != 0) {
                 creature->action_flags = 0x8009;
@@ -644,7 +644,7 @@ s32 select_creature_action_and_target(void *unused, u8 *position, ActorRecord *c
         break;
     }
     do {
-        target = *(u8 **)(((u8 *)((u8 *)dungeon_actor_ring_anchor) + scan_index * 4) + 0xAC);
+        target = *(u8 **)((((u8 *)dungeon_actor_ring_anchor) + scan_index * 4) + 0xAC);
         if (target != NULL) {
             s32 height_delta = (s16)get_actor_height_difference(creature, target);
             height_delta = abs(height_delta);
@@ -967,7 +967,7 @@ s32 select_creature_action_and_target(void *unused, u8 *position, ActorRecord *c
         break;
     }
     do {
-        target = *(u8 **)(((u8 *)((u8 *)dungeon_actor_ring_anchor) + scan_index * 4) + 0xAC);
+        target = *(u8 **)((((u8 *)dungeon_actor_ring_anchor) + scan_index * 4) + 0xAC);
         if (target != NULL) {
             s32 height_delta = (s16)get_actor_height_difference(creature, target);
             height_delta = abs(height_delta);
@@ -1112,7 +1112,7 @@ s32 select_creature_action_and_target(void *unused, u8 *position, ActorRecord *c
     if (move_target != NULL) {
         action_result = choose_usable_ability_or_attack(creature, move_target, &direction, 1);
         action_or_flags = action_result;
-        (*(u16 *)&creature->facing) = *(u16 *)&direction;
+        (*(u16 *)&creature->facing) = *&direction;
         if ((action_result << 16) < 0) {
             creature->action_flags = 0x800B;
             return 2;

@@ -25,7 +25,7 @@ s32 attempt_actor_transition(ActorRecord *state, ObjectPosition *action_id, Spri
     actor->movement_queue_state &= 0x7F;
     status = ((u16 *)(&g_dungeon_status));
     transitioned = 0;
-    if (((u16 *)status)[1] & 0x2000) {
+    if (status[1] & 0x2000) {
         return -1;
     }
     target = probe_directional_neighbor(actor, sprite->tile_x,

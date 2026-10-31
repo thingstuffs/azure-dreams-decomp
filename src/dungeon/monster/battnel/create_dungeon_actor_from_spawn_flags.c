@@ -14,21 +14,6 @@
 #include "engine/node.h"
 
 
-typedef struct S_80B73054_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80B73054_2;   /* part_a in create_dungeon_actor_from_spawn_flags */
-
-typedef struct S_80B73054_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xA];
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-    u8 pad_9D[0x7];
-    s16 unk_A4;
-} S_80B73054_4;   /* actor in create_dungeon_actor_from_spawn_flags */
 
 extern s32 generate_random_value(void);
 s16 set_or_clear_actor_status_slot(ActorRecord *owner, s8 id, s8 value);
@@ -48,7 +33,7 @@ void *create_dungeon_actor_from_spawn_flags(s16 spawn_flags, s16 tile_x, s16 til
     SpriteFrameState *part_b;
     ActorRecord *work;
     void *body;
-    S_80B73054_4 *actor;
+    ActorRecord *actor;
     s32 state_bits;
     s32 next_state_bits;
     s8 saved_x;
@@ -109,10 +94,10 @@ void *create_dungeon_actor_from_spawn_flags(s16 spawn_flags, s16 tile_x, s16 til
 
         } while (0);
         initialize_actor_sprite_and_animation(saved_part, part_a, part_b, spawn_flags);
-        actor->unk_9A = 0xFF;
+        actor->action_id.u = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &D_8016AE5C;
-        actor->unk_A4 = -1;
+        actor->unk_8C.address = &D_8016AE5C;
+        actor->unk_A4.halves.low.s = -1;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

@@ -1,9 +1,10 @@
+#include "shared/entity.h"
 
 struct ObjectPosition;
 struct SpriteFrameState;
 #include "common.h"
 
-extern void advance_item_visual_action(void *controller, struct ObjectPosition *motion,struct SpriteFrameState *actor, void *object);
+extern void advance_item_visual_action(ActorRecord *controller, struct ObjectPosition *motion,struct SpriteFrameState *actor, void *object);
 
 /* Exact jump_table span; dispatch consumer dungeon/func_80DBBFC8. */
 const void *const blume_slot_g_item_targets[7] __attribute__((aligned(4))) = {

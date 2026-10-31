@@ -17,14 +17,6 @@ extern int abs(int);
 
 typedef __SIZE_TYPE__ uptr;
 
-typedef struct S_801728E4_0 {
-    u8 pad_00[0x8C];
-    u8 * unk_8C;
-    u8 pad_90[0x8];
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-} S_801728E4_0;   /* arg0 in update_actor_item_use_animation */
 
 typedef struct S_801728E4_1 {
     u8 pad_00[0x1C];
@@ -79,7 +71,7 @@ void update_actor_item_use_animation(void *action, void *item, SpriteFrameState 
     s32 item_kind;
     ObjectNodeHeader *source_sprite;
 
-    state = ((S_801728E4_0 *)action)->unk_9B;
+    state = ((ActorRecord *)action)->action_phase.u;
     use_global_source = 0;
     switch (state) {
     case 0:
@@ -133,7 +125,7 @@ void update_actor_item_use_animation(void *action, void *item, SpriteFrameState 
             {
                 s16 global_source_test;
 
-                ((S_801728E4_0 *)action)->unk_98 &= 0xFF7F;
+                ((ActorRecord *)action)->action_state_flags &= 0xFF7F;
                 global_source_test = use_global_source;
                 if (global_source_test) {
                     source_entity = primary_actor_record;
@@ -165,7 +157,7 @@ void update_actor_item_use_animation(void *action, void *item, SpriteFrameState 
             return;
         }
         create_actor_linked_effect(act);
-        ((S_801728E4_0 *)action)->unk_9B++;
+        ((ActorRecord *)action)->action_phase.u++;
         return;
 
     case 1:
@@ -174,7 +166,7 @@ void update_actor_item_use_animation(void *action, void *item, SpriteFrameState 
             return;
         }
         sprite->flags &= 0xF7FF;
-        ((S_801728E4_0 *)action)->unk_9B++;
+        ((ActorRecord *)action)->action_phase.u++;
 
     case 2:
         if (!(sprite->flags & 0xE000)) {
@@ -185,16 +177,16 @@ void update_actor_item_use_animation(void *action, void *item, SpriteFrameState 
             *(u8 *)((uptr)(((g_game_work.view.camera_rotation.parts.viewAngle + act->unk_2A + 0x100) >> 9) & 7) +
                     (uptr)D_80176648),
             0);
-        ((S_801728E4_0 *)action)->unk_9B++;
+        ((ActorRecord *)action)->action_phase.u++;
         return;
 
     case 3:
         if (sprite->unk_04 == 6 && (sprite->flags & 0x1000)) {
-            ((S_801728E4_0 *)action)->unk_98 |= 0x80;
+            ((ActorRecord *)action)->action_state_flags |= 0x80;
         } else if (sprite->flags & 0xE000) {
-            ((S_801728E4_0 *)action)->unk_98 |= 0x80;
+            ((ActorRecord *)action)->action_state_flags |= 0x80;
         }
-        if (!(((S_801728E4_0 *)action)->unk_98 & 0x80)) {
+        if (!(((ActorRecord *)action)->action_state_flags & 0x80)) {
             return;
         }
         if (!(sprite->flags & 0xE000)) {
@@ -206,7 +198,7 @@ void update_actor_item_use_animation(void *action, void *item, SpriteFrameState 
             *(u8 *)((uptr)(((g_game_work.view.camera_rotation.parts.viewAngle + act->unk_2A + 0x100) >> 9) & 7) +
                     (uptr)manoeva_frame_set_2),
             0);
-        ((S_801728E4_0 *)action)->unk_9B++;
+        ((ActorRecord *)action)->action_phase.u++;
         return;
 
     case 4:
@@ -225,7 +217,7 @@ void update_actor_item_use_animation(void *action, void *item, SpriteFrameState 
             return;
         }
         ((S_801728E4_5 *)source_sprite)->unk_0A--;
-        ((S_801728E4_0 *)action)->unk_8C = manoeva_action_resume_address;
+        ((ActorRecord *)action)->unk_8C.byte_ptr = manoeva_action_resume_address;
         advance_status_timers(act);
         act->unk_73.s = 0;
         act->unk_72.s = 0;

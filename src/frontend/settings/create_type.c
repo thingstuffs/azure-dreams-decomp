@@ -12,7 +12,7 @@ typedef struct S_7FDD3A2C_0 {
     void * unk_0C;
     s32 unk_10;
     u8 pad_14[0xC];
-    s32 unk_20;
+    SettingsScreenBody *unk_20;
 } S_7FDD3A2C_0;
 
 typedef struct S_7FDD3A2C_1 {
@@ -21,7 +21,7 @@ typedef struct S_7FDD3A2C_1 {
 } S_7FDD3A2C_1;   /* arg0 in create_type */
 
 /* Creates a type 0x136 object and initializes its position and rendering state. */
-void *create_type(S_7FDD3A2C_1 *position, s32 object_value, s32 render_value, s32 extra_value) {
+void *create_type(S_7FDD3A2C_1 *position, s32 object_value, s32 render_value, SettingsScreenBody *extra_value) {
     S_7FDD3A2C_0 *object;
     SpriteFrameState *render_state;
 

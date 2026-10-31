@@ -24,14 +24,6 @@ typedef struct S_80170CEC_1 {
 
 
 
-typedef struct S_80170CEC_4 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-    u8 pad_18[0x82];
-    u8 unk_9A;
-    u8 pad_9B[0x1A];
-    u8 unk_B5;
-} S_80170CEC_4;   /* entity_saved in update_rotating_actor_aura */
 
 typedef struct S_80170CEC_5 {
     u8 pad_00[0x9A];
@@ -49,7 +41,8 @@ extern u8 uboat_ready_frames[];
 extern u8 D_800E2408[];
 
 /* Update the effect rotation, position, and fade, marking it finished when needed. */
-void update_rotating_actor_aura(void *effect, ObjectPosition *position, SpriteFrameState *visual) {
+void update_rotating_actor_aura(void *effect_arg, ObjectPosition *position, SpriteFrameState *visual) {
+    S_80170CEC_0 *effect = effect_arg;
     S_80170CEC_5 *entity;
     void *entity_saved;
     S_80170CEC_7 *source_position;
@@ -62,7 +55,7 @@ void update_rotating_actor_aura(void *effect, ObjectPosition *position, SpriteFr
     u16 state_bits;
     void *kind;
 
-    entity = ((S_80170CEC_0 *)effect)->unk_40;
+    entity = effect->unk_40;
     source_position = *(void **)((u8 *)effect + 0x44);
     old_angle = visual->angle_z;
     entity_base = (S_80170CEC_1 *)((u8 *)entity - 0x20);
@@ -76,53 +69,53 @@ void update_rotating_actor_aura(void *effect, ObjectPosition *position, SpriteFr
         visual->angle_z = old_angle - 0xE70;
     }
 
-    state = ((S_80170CEC_0 *)effect)->unk_2C.s;
-    state_bits = ((S_80170CEC_0 *)effect)->unk_2C.u;
+    state = effect->unk_2C.s;
+    state_bits = effect->unk_2C.u;
     switch (state) {
     case 0:
     {
         u16 fade_step;
         s32 intensity;
 
-        fade_step = ((S_80170CEC_0 *)effect)->unk_36.s + 1;
-        intensity = ((s32)(s16)fade_step << 7) / ((S_80170CEC_0 *)effect)->unk_38;
-        ((S_80170CEC_0 *)effect)->unk_36.s = fade_step;
+        fade_step = effect->unk_36.s + 1;
+        intensity = ((s32)(s16)fade_step << 7) / effect->unk_38;
+        effect->unk_36.s = fade_step;
         visual->color.c.r = intensity;
         visual->color.c.g = intensity;
         visual->color.c.b = intensity;
-        if (((S_80170CEC_0 *)effect)->unk_36.u >= 5) {
-            ((S_80170CEC_0 *)effect)->unk_2C.u++;
+        if (effect->unk_36.u >= 5) {
+            effect->unk_2C.u++;
         }
     }
         break;
     case 1:
-        if ((((S_80170CEC_4 *)entity_saved)->unk_9A == 0x19) ||
-            (((S_80170CEC_4 *)entity_saved)->unk_B5 == 0)) {
-            ((S_80170CEC_0 *)effect)->unk_2C.u = state_bits + 1;
-            ((S_80170CEC_0 *)effect)->unk_38 = 0x14;
-            ((S_80170CEC_0 *)effect)->unk_36.s = 0x14;
+        if ((((ActorRecord *)entity_saved)->action_id.u == 0x19) ||
+            (((ActorRecord *)entity_saved)->unk_B4.bytes[1] == 0)) {
+            effect->unk_2C.u = state_bits + 1;
+            effect->unk_38 = 0x14;
+            effect->unk_36.s = 0x14;
         }
         if (entity->unk_9A == 1) {
-            ((S_80170CEC_0 *)effect)->unk_2C.s = 3;
-            ((S_80170CEC_0 *)effect)->unk_38 = 0x14;
-            ((S_80170CEC_0 *)effect)->unk_36.s = 0x14;
+            effect->unk_2C.s = 3;
+            effect->unk_38 = 0x14;
+            effect->unk_36.s = 0x14;
         }
-        if ((((S_80170CEC_4 *)entity_saved)->unk_14 & 0x100000) &&
+        if ((((ActorRecord *)entity_saved)->flags14 & 0x100000) &&
             (dungeon_actor_ring_anchor->action_id.u != 0x28)) {
-            ((S_80170CEC_0 *)effect)->unk_2C.s = 3;
-            ((S_80170CEC_0 *)effect)->unk_38 = 0x14;
-            ((S_80170CEC_0 *)effect)->unk_36.s = 0x14;
+            effect->unk_2C.s = 3;
+            effect->unk_38 = 0x14;
+            effect->unk_36.s = 0x14;
         }
         if (entity_base->unk_1E & 0x8000) {
-            ((S_80170CEC_0 *)effect)->unk_2C.s = 3;
-            ((S_80170CEC_0 *)effect)->unk_38 = 0x14;
-            ((S_80170CEC_0 *)effect)->unk_36.s = 0x14;
+            effect->unk_2C.s = 3;
+            effect->unk_38 = 0x14;
+            effect->unk_36.s = 0x14;
         }
         kind = record->frameTable;
         if ((kind == uboat_ready_frames) || (kind == D_800E2408)) {
-            ((S_80170CEC_0 *)effect)->unk_2C.s = 3;
-            ((S_80170CEC_0 *)effect)->unk_38 = 0x14;
-            ((S_80170CEC_0 *)effect)->unk_36.s = 0x14;
+            effect->unk_2C.s = 3;
+            effect->unk_38 = 0x14;
+            effect->unk_36.s = 0x14;
         }
         position->x.v = source_position->unk_00;
         position->y.v = source_position->unk_04;
@@ -139,13 +132,13 @@ void update_rotating_actor_aura(void *effect, ObjectPosition *position, SpriteFr
         u16 fade_step;
         s32 intensity;
 
-        fade_step = ((S_80170CEC_0 *)effect)->unk_36.s - 1;
-        intensity = ((s32)(s16)fade_step << 7) / ((S_80170CEC_0 *)effect)->unk_38;
-        ((S_80170CEC_0 *)effect)->unk_36.s = fade_step;
+        fade_step = effect->unk_36.s - 1;
+        intensity = ((s32)(s16)fade_step << 7) / effect->unk_38;
+        effect->unk_36.s = fade_step;
         visual->color.c.r = intensity;
         visual->color.c.g = intensity;
         visual->color.c.b = intensity;
-        if (((S_80170CEC_0 *)effect)->unk_36.u <= 0) {
+        if (effect->unk_36.u <= 0) {
             (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;

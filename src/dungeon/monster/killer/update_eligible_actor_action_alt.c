@@ -30,8 +30,8 @@ void update_eligible_actor_action_alt(ActorRecord *action_state, ObjectPosition 
                 action_state->action_state_flags =
                     (u16) (action_state->action_state_flags & 0xBFFF);
             }
-            action_state->unk_AC.byte = (u8) (*(u8 *)((u8 *)&((EntityRec *)actor)->x + 3));
-            (*(u8 *)((u8 *)&((EntityRec *)actor)->x + 3)) = 0xFFU;
+            action_state->unk_AC.byte = (u8) (*((u8 *)&((EntityRec *)actor)->x + 3));
+            (*((u8 *)&((EntityRec *)actor)->x + 3)) = 0xFFU;
             actor->unk_84 = 0x7E;
             actor->unk_85 = 8;
         } else {

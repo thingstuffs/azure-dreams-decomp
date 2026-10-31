@@ -14,7 +14,7 @@ typedef struct {
 
 extern s16 get_tile_chebyshev_distance(void *, void *);
 extern void update_actor_status_and_mp(void *);
-extern void begin_actor_floor_trap_action(void *, void *);
+extern void begin_actor_floor_trap_action(void *, ActorRecord *);
 extern s16 find_entry_at_tile_coordinates(u8, u8, s16);
 
 extern DungeonEntry floor_objects[];

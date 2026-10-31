@@ -31,10 +31,10 @@ void reset_game_state_preserving_session_fields(void)
     u16 saved_2098;
 
 
-    saved_3186 = *(u8 *)(page + 0x3186);
+    saved_3186 = *(page + 0x3186);
     saved_3180 = *(u32 *)(page + 0x3180);
-    saved_3184 = *(u8 *)(page + 0x3184);
-    saved_2d6e = *(u8 *)(page + 0x2D6E);
+    saved_3184 = *(page + 0x3184);
+    saved_2d6e = *(page + 0x2D6E);
     saved_2094 = *(u16 *)(page + 0x2094);
     saved_2098 = *(u16 *)(page + 0x2098);
 
@@ -43,10 +43,10 @@ void reset_game_state_preserving_session_fields(void)
     *(Copy6 *)0x8001020C = *(Copy6 *)session_reset_default_pair;
     *(Copy10 *)0x80010238 = *(Copy10 *)session_reset_default_block;
 
-    *(u8 *)(page + 0x3186) = saved_3186;
+    *(page + 0x3186) = saved_3186;
     *(u32 *)(page + 0x3180) = saved_3180;
-    *(u8 *)(page + 0x3184) = saved_3184;
-    *(u8 *)(page + 0x2D6E) = saved_2d6e;
+    *(page + 0x3184) = saved_3184;
+    *(page + 0x2D6E) = saved_2d6e;
     *(u16 *)(page + 0x2094) = saved_2094;
     *(u16 *)(page + 0x2098) = saved_2098;
 }

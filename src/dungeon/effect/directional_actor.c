@@ -96,7 +96,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
         if (!(((Row_818E0800_S_818E0800_14 *)(((void *)effect_arg->y.v)))->unk_00 & 0x80)) {
             return;
         }
-        found_target = (Row_818E0800_S_818E0800_9_pre *)scan_actor_along_heading(
+        found_target = scan_actor_along_heading(
             actor, actor_data->unk_24, actor_data->unk_25,
             ((Row_818E0800_S_818E0800_1 *)actor)->unk_2A,
             (s16)get_definition_entry_byte_13(0x23));

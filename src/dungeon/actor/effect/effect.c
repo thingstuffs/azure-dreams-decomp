@@ -161,7 +161,7 @@ s32 find_floor_item_at_world_position(s32 input_x, s32 input_y, s32 input_z) {
     y = held_y;
     z = (s16)held_z;
     for (; entry_index < 0x40; entry_index++) {
-        active_entry = &((DungeonItemEntry *)dungeon_ground_items)[entry_index];
+        active_entry = &dungeon_ground_items[entry_index];
         position = &((PositionEntry *)dungeon_ground_item_positions)[entry_index];
         if ((active_entry->kind != ITEM_KIND_NONE) && (position->x == x) && (position->y == y)) {
             height_delta = z - position->value;
@@ -696,7 +696,7 @@ s32 render_floor_items(s32 unused0, s32 unused1, SpriteFrameState *render_params
     vertex2 = &scratch->vertices[2];
     render_state = &g_game_work;
     render_ctx = g_game_work.draw_buffer;
-    prim = (FloorItemQuad *)render_ctx->packetCursor;
+    prim = render_ctx->packetCursor;
     scratch->ordering_table = (u32)&render_ctx->orderTag;
     scratch->rotation.t[0] = 0;
     scratch->rotation.t[1] = 0;
@@ -1459,7 +1459,7 @@ void *create_indexed_floor_object(s32 object_key, DungeonCoords *source_coords, 
         data->field90 = *(s32 *)((u8 *)source_data - 0x14);
         init_value = *init_data;
         data->field9C = &data->field98;
-        *(u8 *)((u8 *)data + 0x13) = 0xFF;
+        *((u8 *)data + 0x13) = 0xFF;
         data->field98 = init_value;
         clear_entry_flag_and_link_owner(object);
         create_tracked_effect(object, 0, 0, 0);
@@ -1617,7 +1617,7 @@ s32 select_random_eligible_item_entry(void *actor)
     u8 kind;
 
     result = 0;
-    if (*(u8 *)((u8 *)actor + 0x13) == 0x20) {
+    if (*((u8 *)actor + 0x13) == 0x20) {
         if (pickup_event_latch == 0) {
             pickup_event_latch = 1;
             state = *(s32 *)0x80012090;
@@ -1640,7 +1640,7 @@ s32 select_random_eligible_item_entry(void *actor)
     if (*(u8 *)&random_pickup_enabled == 0) {
         return result;
     }
-    if (*(u8 *)((u8 *)actor + 0x49) != 0) {
+    if (*((u8 *)actor + 0x49) != 0) {
         return result;
     }
     if ((generate_random_value() & 3) != 0) {

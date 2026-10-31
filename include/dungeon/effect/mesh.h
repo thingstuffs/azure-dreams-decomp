@@ -30,6 +30,29 @@ typedef struct ProjectileEffect {
     u8 next_tile_y;
 } ProjectileEffect;
 
+/* State used by the expanding fade callback and its angle/height creator. */
+typedef struct AnRandomAngleHeightOffsetAroundReferencePositionBody {
+    u8 pad_00[0x4];
+    union { s16 s; u16 u; } unk_04;
+    union { s16 s; u16 u; } unk_06;
+    union { s16 s; u16 u; } unk_08;
+    u16 unk_0A;
+    u8 pad_0C[0xF8];
+} AnRandomAngleHeightOffsetAroundReferencePositionBody;
+
+/* Three 23-entry coordinate arrays followed by the point-cloud lifetime data. */
+typedef struct RandomRadialVectorEffectBody {
+    s32 unk_00;
+    u8 pad_04[0xC];
+    union { s16 s; u16 u; } unk_10;
+    s16 unk_12;
+    s16 unk_14;
+    s16 unk_16[23];
+    s16 unk_44[23];
+    s16 unk_72[23];
+    u16 unk_A0;
+} RandomRadialVectorEffectBody;
+
 void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosition *motion, SpriteFrameState *sprite);
 
 void create_random_radial_vector_effect(s32 radius, s32 initial_value, s16 extent, s32 x, s32 y, s32 z);
@@ -42,7 +65,7 @@ s32 count_flagged_tiles_along_direction_2(s16 scan_direction, s32 start_x, s32 s
 
 
 void follow_source_then_seek_target(void *effect, ObjectPosition *motion, void *visual);
-void update_expanding_fade_effect(void *effect, ObjectPosition *position, SpriteFrameState *sprite);
+void update_expanding_fade_effect(AnRandomAngleHeightOffsetAroundReferencePositionBody *effect, ObjectPosition *position, SpriteFrameState *sprite);
 
 /* Work passed to the target-tint sequence. The elapsed counter advances on
  * entry, phase selects the callback state and timer controls its two waits.

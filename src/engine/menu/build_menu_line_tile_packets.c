@@ -46,8 +46,8 @@ s32 build_menu_line_tile_packets(S_80053A88_Node *first_node)
     tag_mask = 0xFF000000;
     do {
         {
-            draw_base = ((GpuContext *)work->draw_buffer);
-            tile = (S_80053A88_TILE *)draw_base->packetCursor;
+            draw_base = work->draw_buffer;
+            tile = draw_base->packetCursor;
             draw_base->packetCursor = (void *)(((u8 *)tile) + 0x10);
             tile->x0 = node->unkC;
             tile->y0 = node->unkE;
@@ -64,8 +64,8 @@ s32 build_menu_line_tile_packets(S_80053A88_Node *first_node)
                 ((GpuContext *)next_link)->orderTag074 = (((GpuContext *)next_link)->orderTag074 & tag_mask)
                 | (((u32)tile) & addr_mask);
             }
-            draw_base = ((GpuContext *)work->draw_buffer);
-            draw_mode = (S_80053A88_DRTPAGE *)draw_base->packetCursor;
+            draw_base = work->draw_buffer;
+            draw_mode = draw_base->packetCursor;
             draw_base->packetCursor = (void *)(((u8 *)draw_mode) + 0xC);
             tpage = GetTPage(0, node->unk14, 0, 0);
             SetDrawMode(draw_mode, 0, 0, tpage & 0xFFFF, 0);

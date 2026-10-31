@@ -58,11 +58,11 @@ void update_entity_movement_and_ground(void *entity, ObjectPosition *motion, Spr
             pause_callback(entity, motion, sprite, entity);
             return;
         }
-        (*(u8 *)((u8 *)entity + (0x71))) &= 0x7F;
+        (*((u8 *)entity + (0x71))) &= 0x7F;
         return;
     }
 
-    previous_state = (s8)(*(u8 *)((u8 *)entity + (0x6D)));
+    previous_state = (s8)(*((u8 *)entity + (0x6D)));
     if (refresh_actor_facing_and_lifecycle(entity, motion, sprite, entity) != 0) {
         return;
     }
@@ -71,7 +71,7 @@ void update_entity_movement_and_ground(void *entity, ObjectPosition *motion, Spr
     if (update_callback != 0) {
         update_callback(entity, motion, sprite, entity);
     }
-    hikewne_behavior_handlers[(*(u8 *)((u8 *)entity + (0x9A)))](entity, motion, sprite, entity);
+    hikewne_behavior_handlers[(*((u8 *)entity + (0x9A)))](entity, motion, sprite, entity);
     if ((s16)previous_state != (*(s8 *)((u8 *)entity + (0x6D)))) {
         try_move_actor_to_valid_position(entity, motion, sprite, entity);
     }
@@ -82,9 +82,9 @@ void update_entity_movement_and_ground(void *entity, ObjectPosition *motion, Spr
     if (!((*(u32 *)((u8 *)entity + (0x1C))) & 0x40000) &&
         !((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
         motion->velocity_z += (*(s8 *)((u8 *)entity + (0x9D))) * 0x14000;
-        (*(u8 *)((u8 *)entity + (0x9D)))++;
+        (*((u8 *)entity + (0x9D)))++;
     } else {
-        (*(u8 *)((u8 *)entity + (0x9D))) = 0;
+        (*((u8 *)entity + (0x9D))) = 0;
     }
     (*(s32 *)((u8 *)entity + (0x90))) += motion->velocity_z;
     sprite_flags = sprite->flags;
@@ -94,7 +94,7 @@ void update_entity_movement_and_ground(void *entity, ObjectPosition *motion, Spr
         anim_direction = sprite_direction;
         if ((*(s16 *)((u8 *)entity + (0x94))) != anim_direction) {
             select_indirect_table_entry(sprite,
-                (*(u8 *)((u8 *)(*(u8 **)&sprite->frameTable) + (anim_direction))),
+                (*((u8 *)(*(u8 **)&sprite->frameTable) + (anim_direction))),
                 sprite->unk_04);
             (*(s16 *)((u8 *)entity + (0x94))) = sprite_direction;
         }
@@ -134,7 +134,7 @@ void update_entity_movement_and_ground(void *entity, ObjectPosition *motion, Spr
                     ground_delta = ground_height - entity_state->unk_88;
                     if (ground_delta < (*(s16 *)((u8 *)entity + (0x92)))) {
                         (*(s16 *)((u8 *)entity + (0x92))) = ground_delta;
-                        (*(u8 *)((u8 *)entity + (0x9D))) = 0;
+                        (*((u8 *)entity + (0x9D))) = 0;
                         motion->velocity_z = 0;
                         entity_state->unk_1C.u |= 0x08000000;
                     }
@@ -201,7 +201,7 @@ void update_entity_movement_and_ground(void *entity, ObjectPosition *motion, Spr
                 ground_delta = ground_height - entity_state->unk_88;
                 if (ground_delta < (*(s16 *)((u8 *)entity + (0x92)))) {
                     (*(s16 *)((u8 *)entity + (0x92))) = ground_delta;
-                    (*(u8 *)((u8 *)entity + (0x9D))) = 0;
+                    (*((u8 *)entity + (0x9D))) = 0;
                     motion->velocity_z = 0;
                     entity_state->unk_1C.u |= 0x08000000;
                 }

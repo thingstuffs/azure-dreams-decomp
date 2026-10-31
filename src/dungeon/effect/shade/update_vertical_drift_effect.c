@@ -25,12 +25,13 @@ typedef struct S_818C2F10_2 {
 extern void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 
 /* Increment linked counters, reduce the stored value, and propagate status flags. */
-void update_vertical_drift_effect(void *entry, S_818C2F10_2 *value_state, SpriteFrameState *status) {
+void update_vertical_drift_effect(void *entry_arg, S_818C2F10_2 *value_state, SpriteFrameState *status) {
+    S_818C2F10_0 *entry = entry_arg;
     S_818C2F10_1 *linked_counts;
 
-    linked_counts = ((S_818C2F10_0 *)entry)->unk_00;
+    linked_counts = entry->unk_00;
     linked_counts->unk_0C = (u16) (linked_counts->unk_0C + 1);
-    ((S_818C2F10_0 *)entry)->unk_04 = (u16) (((S_818C2F10_0 *)entry)->unk_04 + 1);
+    entry->unk_04 = (u16) (entry->unk_04 + 1);
     value_state->unk_08 = (s32) (value_state->unk_08 + 0xFFF60000);
     advance_sprite_animation_and_textures(status);
     if (status->flags & 0x6000) {

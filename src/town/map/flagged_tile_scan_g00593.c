@@ -124,7 +124,7 @@ s32 count_flagged_cells_in_opposite_directions(s32 dir, s16 start_x, s16 start_y
 
                     fwd_count += 1;
                     y_steps_addr = ((s8 *)dir_step_x) + 0x10;
-                    fwd_y_step = (u16 *)(fwd_step_offset + y_steps_addr);
+                    fwd_y_step = (fwd_step_offset + y_steps_addr);
                     fwd_x_step_ptr = fwd_x_step;
                     fwd_dy = *fwd_y_step;
                     fwd_dx = *fwd_x_step_ptr;
@@ -253,7 +253,7 @@ void clear_flagged_cells_and_reset_list(void) {
 
     gridDescriptor = &g_game_work.map;
     coordinateEntry = (u8 *)tile_coordinate_records[0];
-    gridBase = ((u8 *)gridDescriptor->cells);
+    gridBase = gridDescriptor->cells;
     if (*coordinateEntry != 0) {
         do {
             cell = (u16 *)(gridBase +

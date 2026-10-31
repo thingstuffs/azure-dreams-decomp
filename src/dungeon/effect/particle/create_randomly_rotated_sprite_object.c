@@ -156,15 +156,16 @@ void *create_vertical_acceleration_sprite(s32 state_value, B22_81892AF0_Copy24 *
 #include "m2c_compat.h"
 
    /* Increment both counters and set completion flags when the count reaches its limit. */
-void expire_counted_child_effect(void *counterState) {
+void expire_counted_child_effect(void *counterState_arg) {
+    B22_81892BF8_S_81892BF8_0 *counterState = counterState_arg;
     u16 incrementedCount;
     B22_81892BF8_S_81892BF8_1 *linkedCounter;
 
-    linkedCounter = ((B22_81892BF8_S_81892BF8_0 *)counterState)->unk_00;
+    linkedCounter = counterState->unk_00;
     linkedCounter->unk_14 = (u16) (linkedCounter->unk_14 + 1);
-    incrementedCount = ((B22_81892BF8_S_81892BF8_0 *)counterState)->unk_04 + 1;
-    ((B22_81892BF8_S_81892BF8_0 *)counterState)->unk_04 = incrementedCount;
-    if ((s16) incrementedCount >= ((B22_81892BF8_S_81892BF8_0 *)counterState)->unk_06) {
+    incrementedCount = counterState->unk_04 + 1;
+    counterState->unk_04 = incrementedCount;
+    if ((s16) incrementedCount >= counterState->unk_06) {
         ((B22_81892BF8_S_81892BF8_0_pre *)counterState)[-1].unk_00 = (u16) (((B22_81892BF8_S_81892BF8_0_pre *)counterState)[-1].unk_00 | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
@@ -334,7 +335,7 @@ void *create_timed_transform_copy_effect(s32 object_arg, void *source_data, s16 
     object = allocate_flagged_object_node(0x212);
 
     if (object != NULL) {
-        src = (B22_81893024_M2C_BLOCK *)source_data;
+        src = source_data;
         object->callback = expire_counted_child_effect;
         object_args = &object->params;
         object->params = object_arg;
@@ -353,19 +354,20 @@ void *create_timed_transform_copy_effect(s32 object_arg, void *source_data, s16 
 #include "common.h"
 #include "shared/object_flags.h"
    /* Advance the object counters, apply the initial frame offset, and flag completion. */
-void emit_animated_transform_copies(void *state, s32 draw_context, s32 update_context) {
+void emit_animated_transform_copies(void *state_arg, s32 draw_context, s32 update_context) {
+    B22_818930F8_S_818930F8_0 *state = state_arg;
     s16 frame;
     B22_818930F8_S_818930F8_1 *object;
 
-    object = ((B22_818930F8_S_818930F8_0 *)state)->unk_00;
+    object = state->unk_00;
     object->unk_14 = (u16) (object->unk_14 + 1);
-    ((B22_818930F8_S_818930F8_0 *)state)->unk_04 = (u16) (((B22_818930F8_S_818930F8_0 *)state)->unk_04 + 1);
+    state->unk_04 = (u16) (state->unk_04 + 1);
     advance_sprite_animation_and_textures(update_context);
-    frame = (s16) ((B22_818930F8_S_818930F8_0 *)state)->unk_04;
+    frame = (s16) state->unk_04;
     if (frame < 5) {
-        create_timed_transform_copy_effect(((B22_818930F8_S_818930F8_0 *)state)->unk_00, draw_context, 8, (s16) ((frame * 0x10) - 0x40));
+        create_timed_transform_copy_effect(state->unk_00, draw_context, 8, (s16) ((frame * 0x10) - 0x40));
     }
-    if ((s16) ((B22_818930F8_S_818930F8_0 *)state)->unk_04 > ((B22_818930F8_S_818930F8_0 *)state)->unk_06) {
+    if ((s16) state->unk_04 > state->unk_06) {
         ((B22_818930F8_S_818930F8_0_pre *)state)[-1].unk_00 = (u16) (((B22_818930F8_S_818930F8_0_pre *)state)[-1].unk_00 | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
@@ -380,7 +382,8 @@ void emit_animated_transform_copies(void *state, s32 draw_context, s32 update_co
  * Increment the linked counter, reduce the source value by four, and process and flag the target
  * status.
  */
-void step_sprite_height_and_animation(void *entry, B22_818931B8_S_818931B8_2 *source, SpriteFrameState *target) {
+void step_sprite_height_and_animation(void *entry_arg, B22_818931B8_S_818931B8_2 *source, SpriteFrameState *target) {
+    B22_818931B8_S_818931B8_0_pre *entry = entry_arg;
     B22_818931B8_S_818931B8_1 *counter_state;
 
     counter_state = ((B22_818931B8_S_818931B8_0 *)entry)->unk_00;
@@ -388,7 +391,7 @@ void step_sprite_height_and_animation(void *entry, B22_818931B8_S_818931B8_2 *so
     source->unk_0A = (u16) (source->unk_0A - 4);
     advance_sprite_animation_and_textures(target);
     if (target->flags & 0x6000) {
-        ((B22_818931B8_S_818931B8_0_pre *)entry)[-1].unk_00 = (u16) (((B22_818931B8_S_818931B8_0_pre *)entry)[-1].unk_00 | 0x8000);
+        entry[-1].unk_00 = (u16) (entry[-1].unk_00 | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }

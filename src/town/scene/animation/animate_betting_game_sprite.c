@@ -24,13 +24,14 @@ extern s32 func_8006A3A4(s32);
 extern s32 scene_object_flags;
 
 /* Moves the sprite into place, bobs it, and marks it for removal after it moves out. */
-void animate_betting_game_sprite(void *state_data, S_80810454_1 *motion_data) {
+void animate_betting_game_sprite(void *state_data_arg, S_80810454_1 *motion_data) {
+    S_80810454_0 *state_data = state_data_arg;
     s16 state;
 
-    if (((S_80810454_2 *)(((S_80810454_0 *)state_data)->unk_04))->unk_18 == 2) {
-        ((S_80810454_0 *)state_data)->unk_00 = 3;
+    if (((S_80810454_2 *)(state_data->unk_04))->unk_18 == 2) {
+        state_data->unk_00 = 3;
     }
-    state = ((S_80810454_0 *)state_data)->unk_00;
+    state = state_data->unk_00;
     switch (state) {
     case 0:
     {
@@ -40,9 +41,9 @@ void animate_betting_game_sprite(void *state_data, S_80810454_1 *motion_data) {
         position += 0x100000;
         motion_data->unk_08.s = position;
         if (position >= (s32)0xFF900000) {
-            ((S_80810454_0 *)state_data)->unk_02 = 0;
+            state_data->unk_02 = 0;
             motion_data->unk_14.s = -0x40000;
-            ((S_80810454_0 *)state_data)->unk_00 = 1;
+            state_data->unk_00 = 1;
             return;
         }
         return;
@@ -62,7 +63,7 @@ void animate_betting_game_sprite(void *state_data, S_80810454_1 *motion_data) {
         speed += 0x4000;
         motion_data->unk_14.s = speed;
         if (speed == 0x40000) {
-            ((S_80810454_0 *)state_data)->unk_00 = 2;
+            state_data->unk_00 = 2;
             return;
         }
         return;
@@ -79,7 +80,7 @@ void animate_betting_game_sprite(void *state_data, S_80810454_1 *motion_data) {
         motion_data->unk_08.s = position;
         motion_data->unk_14.s -= 0x8000;
         if (motion_data->unk_14.s == -0x40000) {
-            ((S_80810454_0 *)state_data)->unk_00 = 1;
+            state_data->unk_00 = 1;
             return;
         }
         return;
@@ -90,8 +91,8 @@ void animate_betting_game_sprite(void *state_data, S_80810454_1 *motion_data) {
         s32 result;
         u16 phase;
 
-        phase = (((S_80810454_0 *)state_data)->unk_02 + 1) & 0x7F;
-        ((S_80810454_0 *)state_data)->unk_02 = phase;
+        phase = (state_data->unk_02 + 1) & 0x7F;
+        state_data->unk_02 = phase;
         result = func_8006A3A4(phase << 6);
         motion_data->unk_08.s = (result << 7) + (s32)0xFF900000;
         return;

@@ -43,8 +43,8 @@ s32 queue_projected_mesh_points_and_texture_packets(u8 *node_data, u16 *position
 {
     Scratch *scratch = (Scratch *)0x1F800000;
     void **global_state = ((void * *)(&g_game_work));
-    GpuContext *render_state = (GpuContext *)global_state[0];
-    Packet *first_packet = (Packet *)render_state->packetCursor;
+    GpuContext *render_state = global_state[0];
+    Packet *first_packet = render_state->packetCursor;
     Packet *packet;
     Packet *mode_packet;
     s32 depth_index;

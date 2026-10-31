@@ -512,8 +512,9 @@ static __inline__ void set_v_width(s32 *rect, s32 v, s32 width)
 }
 
 /* Project a textured object quad onto the height grid and add it to the ordering table. */
-void project_height_grid_object_quad(void *unused, void *origin, u8 *object, s16 tile_x, s16 tile_y)
+void project_height_grid_object_quad(void *unused, void *origin_arg, u8 *object, s16 tile_x, s16 tile_y)
 {
+    S_8195F43C_1 *origin = origin_arg;
     u8 **render_state = (u8 **)((u8 *)(&g_game_work));
     u8 *scratch = (u8 *)0x1F800000;
     u8 *height_grid = ((u8 *)terrain_effect_height_grid);
@@ -542,9 +543,9 @@ void project_height_grid_object_quad(void *unused, void *origin, u8 *object, s16
     (void)unused;
     render_ctx = *render_state;
     ((S_8195F43C_0 *)scratch)->unk_20 = render_ctx + 0xB0;
-    ((S_8195F43C_0 *)scratch)->unk_E4 = ((S_8195F43C_1 *)origin)->unk_02 + ((tile_x - 3) << 6);
-    ((S_8195F43C_0 *)scratch)->unk_E8 = ((S_8195F43C_1 *)origin)->unk_06 + ((tile_y - 3) << 6);
-    ((S_8195F43C_0 *)scratch)->unk_EC = ((S_8195F43C_1 *)origin)->unk_0A;
+    ((S_8195F43C_0 *)scratch)->unk_E4 = origin->unk_02 + ((tile_x - 3) << 6);
+    ((S_8195F43C_0 *)scratch)->unk_E8 = origin->unk_06 + ((tile_y - 3) << 6);
+    ((S_8195F43C_0 *)scratch)->unk_EC = origin->unk_0A;
 
     height_row = (S_8195F43C_2 *)((u32)(tile_y * 2) +
         (unsigned long)(height_grid + tile_x * 0x10));
@@ -627,9 +628,9 @@ void project_height_grid_object_quad(void *unused, void *origin, u8 *object, s16
             ((S_8195F43C_7 *)packet)->unk_0E = ((S_8195F43C_5 *)object)->unk_12 + (*(u16 *)((u8 *)texture + 6));
             page_offset = ((S_8195F43C_5 *)object)->unk_10;
             if (page_offset != 0) {
-                (*(u16 *)((u8 *)packet + 0x16)) = page_offset + (texture->unk_04 & 0xFF9F);
+                (*(u16 *)(packet + 0x16)) = page_offset + (texture->unk_04 & 0xFF9F);
             } else {
-                (*(u16 *)((u8 *)packet + 0x16)) = texture->unk_04;
+                (*(u16 *)(packet + 0x16)) = texture->unk_04;
             }
 
             {
@@ -666,7 +667,7 @@ void project_height_grid_object_quad(void *unused, void *origin, u8 *object, s16
 
                         width = PFIELD(scratch, s32, 0x10);
                         edge_uv = PFIELD(scratch, s32, 8);
-                        v = *(s32 *)((u8 *)scratch + 0xC);
+                        v = *(s32 *)(scratch + 0xC);
                         width += edge_uv;
                         edge_uv = v;
                         set_v_width((s32 *)scratch, edge_uv, width);
@@ -681,13 +682,13 @@ void project_height_grid_object_quad(void *unused, void *origin, u8 *object, s16
                     }
                 }
                 VFIELD(scratch, s32, 0x14) = v_end;
-                packed_u = *(u16 *)((u8 *)scratch + 8);
+                packed_u = *(u16 *)(scratch + 8);
                 PFIELD(scratch, s32, 0x14) = v_end << 8;
-                (*(u16 *)((u8 *)packet + 0xC)) = uv_row + packed_u;
+                (*(u16 *)(packet + 0xC)) = uv_row + packed_u;
             }
-            (*(u16 *)((u8 *)packet + 0x14)) = PFIELD(scratch, u16, 0xC) + PFIELD(scratch, u16, 0x10);
-            (*(u16 *)((u8 *)packet + 0x1C)) = PFIELD(scratch, u16, 0x14) + PFIELD(scratch, u16, 8);
-            (*(u16 *)((u8 *)packet + 0x24)) = PFIELD(scratch, u16, 0x14) + PFIELD(scratch, u16, 0x10);
+            (*(u16 *)(packet + 0x14)) = PFIELD(scratch, u16, 0xC) + PFIELD(scratch, u16, 0x10);
+            (*(u16 *)(packet + 0x1C)) = PFIELD(scratch, u16, 0x14) + PFIELD(scratch, u16, 8);
+            (*(u16 *)(packet + 0x24)) = PFIELD(scratch, u16, 0x14) + PFIELD(scratch, u16, 0x10);
 
             if (((S_8195F43C_0 *)scratch)->unk_50 >= 0x1800) {
                 edge_uv = ((S_8195F43C_7 *)packet)->unk_24;
@@ -728,10 +729,10 @@ void project_height_grid_object_quad(void *unused, void *origin, u8 *object, s16
             address_mask = 0x00FFFFFF;
             tag_mask = 0xFF000000;
             ((S_8195F43C_7 *)packet)->unk_00.at00.v = (((S_8195F43C_7 *)packet)->unk_00.at00.v & tag_mask) |
-                ((*(u32 *)((u8 *)(((S_8195F43C_0 *)scratch)->unk_20)
+                ((*(u32 *)((((S_8195F43C_0 *)scratch)->unk_20)
                     + ((S_8195F43C_0 *)scratch)->unk_C0 * 4)) & address_mask);
-            (*(u32 *)((u8 *)(((S_8195F43C_0 *)scratch)->unk_20) + ((S_8195F43C_0 *)scratch)->unk_C0 * 4)) =
-                ((*(u32 *)((u8 *)(((S_8195F43C_0 *)scratch)->unk_20)
+            (*(u32 *)((((S_8195F43C_0 *)scratch)->unk_20) + ((S_8195F43C_0 *)scratch)->unk_C0 * 4)) =
+                ((*(u32 *)((((S_8195F43C_0 *)scratch)->unk_20)
                     + ((S_8195F43C_0 *)scratch)->unk_C0 * 4)) & tag_mask) |
                 ((u32)packet & address_mask);
             packet += 0x28;
@@ -763,17 +764,17 @@ s32 dispatch_seven_by_seven_tile_grid(void *tile_data, s32 draw_arg_1, s32 draw_
         column = 0;
         row_arg = (s16)row;
         do {
-            *(s8 *)((s8 *)tile_data + 8) = column * 0x10;
-            *(s8 *)((s8 *)tile_data + 9) = tile_y;
+            *((s8 *)tile_data + 8) = column * 0x10;
+            *((s8 *)tile_data + 9) = tile_y;
             if (column == last_tile) {
-                *(s8 *)((s8 *)tile_data + 0xA) = edge_size;
+                *((s8 *)tile_data + 0xA) = edge_size;
             } else {
-                *(s8 *)((s8 *)tile_data + 0xA) = tile_size;
+                *((s8 *)tile_data + 0xA) = tile_size;
             }
             if (row == last_tile) {
-                *(s8 *)((s8 *)tile_data + 0xB) = edge_size;
+                *((s8 *)tile_data + 0xB) = edge_size;
             } else {
-                *(s8 *)((s8 *)tile_data + 0xB) = tile_size;
+                *((s8 *)tile_data + 0xB) = tile_size;
             }
             project_height_grid_object_quad(tile_data, draw_arg_1, draw_arg_2, (s16)column, row_arg);
             column += 1;
@@ -1236,8 +1237,8 @@ void *select_containing_cell_surface(s32 world_x, s32 world_y, s16 min_height) {
     cell_index += ((u16)world_y >> 6) << map_data->shiftX;
     (*(s16 *)((u8 *)scratch + 0x150)) = cell_index;
     map_entry = (S_81960530_2 *)((long)cell_index * 6 + (unsigned long)*(u8 **)((u8 *)(&g_game_work.map)));
-    vertices = ((u8 *)map_data->vertices);
-    planes = ((u8 *)map_data->surface_planes);
+    vertices = map_data->vertices;
+    planes = map_data->surface_planes;
     best_polygon = 0;
     if (map_entry->unk_00 != 0) {
         scratch->unk_152.s = -map_entry->unk_02;
@@ -1413,7 +1414,7 @@ void build_shaded_textured_quad(s32 y_offset, Input *origin, Input *quad_data, s
     globals = &g_game_work;
     scratch = (Bank56_8196096C_Scratch *)0x1F800000;
     scratch->value = draw_depth;
-    vertex_table = ((struct TableEntry *)globals->map.vertices);
+    vertex_table = globals->map.vertices;
     PushMatrix();
     rotation = (void *)0x1F800028;
     matrix = (void *)0x1F800050;
@@ -1463,9 +1464,9 @@ void build_shaded_textured_quad(s32 y_offset, Input *origin, Input *quad_data, s
         record->f24.b[1] = texture_config->byte9 + texture_config->byteB;
         record->f1C.b[1] = record->f24.b[1];
         shade = ((u8)brightening_effect_fade_tick << 7) / 240;
-        *(u8 *)&record->f4.b[0] = shade;
-        *(u8 *)&record->f4.b[2] = shade;
-        *(u8 *)&record->f4.b[1] = shade;
+        *&record->f4.b[0] = shade;
+        *&record->f4.b[2] = shade;
+        *&record->f4.b[1] = shade;
         SetPolyFT4(record);
     }
     RotTransPers4((void *)((u32)scratch | 0x70),
@@ -1785,7 +1786,7 @@ void create_terrain_tile_quad(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
         output->x.w.i = local_x_or_height;
         output = (s16 *)output + 3;
         output->x.w.frac = local_y;
-        height_or_child = (TempChild *)object->fieldC;
+        height_or_child = object->fieldC;
         quad = (void *)&object->field20;
         height_or_child->field1E = 0x800;
         height_or_child->field1C = 0x800;

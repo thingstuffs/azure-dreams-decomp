@@ -5,18 +5,6 @@
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
 
-typedef struct S_func_818BC9CC_0 {
-    u8 pad_00[0x4];
-    s16 unk_04;
-    u8 pad_06[0x2];
-    union {
-        s16 as_s16;
-        u16 as_u16;
-    } unk_08;
-    u8 pad_0A[0x2];
-    u16 unk_0C;
-    u8 unk_0E;
-} S_func_818BC9CC_0;
 
 typedef struct S_func_818BC9CC_2 {
     u8 pad_00[0x18];
@@ -109,7 +97,7 @@ typedef struct { unsigned addr : 24; unsigned len : 8; } PacketTag;
 #define OT_ADDR(sc) ((u32 *)((((S_func_818BC9CC_2 *)(sc))->unk_B4 << 2) + (u32)(sc)->unk_18))
 
 /* Draw four shaded textured quads around the given position. */
-s32 draw_four_shaded_quads(S_func_818BC9CC_0 *effect, MovingPosition *position)
+s32 draw_four_shaded_quads(OffsetColorEffectBody *effect, MovingPosition *position)
 {
     S_func_818BC9CC_2 *scratch;
     S_func_818BC9CC_3 *packet;
@@ -140,9 +128,9 @@ s32 draw_four_shaded_quads(S_func_818BC9CC_0 *effect, MovingPosition *position)
     scratch = (S_func_818BC9CC_2 *)0x1F800000;
     angle = render_state->view.camera_rotation.parts.viewAngle;
     scratch->unk_18 = (u8 *)g_game_work.draw_buffer + 0xB0;
-    x_extent = (u32)((rcos(angle) >> 4) * effect->unk_08.as_s16) >> 8;
-    y_extent = (u32)((rsin(angle) >> 4) * effect->unk_08.as_s16) >> 8;
-    texture_v = (effect->unk_04 % 4) << 3;
+    x_extent = (u32)((rcos(angle) >> 4) * effect->unk_08.s) >> 8;
+    y_extent = (u32)((rsin(angle) >> 4) * effect->unk_08.s) >> 8;
+    texture_v = (effect->unk_04.s16 % 4) << 3;
 
     quad_index = 0;
 
@@ -163,9 +151,9 @@ s32 draw_four_shaded_quads(S_func_818BC9CC_0 *effect, MovingPosition *position)
         packet->unk_25 = texture_v + 0x3F;
         packet->unk_31 = texture_v + 0x3F;
         packet->unk_30 = 0;
-        packet->unk_04 = effect->unk_0E;
-        packet->unk_05 = effect->unk_0E;
-        intensity = effect->unk_0E;
+        packet->unk_04 = effect->unk_0E.u;
+        packet->unk_05 = effect->unk_0E.u;
+        intensity = effect->unk_0E.u;
         packet->unk_10 = 0;
         packet->unk_11 = 0;
         packet->unk_12 = 0;
@@ -195,7 +183,7 @@ s32 draw_four_shaded_quads(S_func_818BC9CC_0 *effect, MovingPosition *position)
             scratch->unk_70 = coord;
             scratch->unk_68 = coord;
             far_z = position->z;
-            z_extent = effect->unk_08.as_u16;
+            z_extent = effect->unk_08.u;
             far_z = far_z + z_extent;
             scratch->unk_80 = far_z;
             scratch->unk_78 = far_z;
@@ -217,7 +205,7 @@ s32 draw_four_shaded_quads(S_func_818BC9CC_0 *effect, MovingPosition *position)
             scratch->unk_70 = coord;
             scratch->unk_68 = coord;
             far_z = position->z;
-            far_z = far_z + effect->unk_08.as_u16;
+            far_z = far_z + effect->unk_08.u;
             scratch->unk_80 = far_z;
             scratch->unk_78 = far_z;
             break;
@@ -238,7 +226,7 @@ s32 draw_four_shaded_quads(S_func_818BC9CC_0 *effect, MovingPosition *position)
             scratch->unk_70 = coord;
             scratch->unk_68 = coord;
             far_z = position->z;
-            far_z -= effect->unk_08.as_u16;
+            far_z -= effect->unk_08.u;
             scratch->unk_80 = far_z;
             scratch->unk_78 = far_z;
             break;
@@ -259,7 +247,7 @@ s32 draw_four_shaded_quads(S_func_818BC9CC_0 *effect, MovingPosition *position)
             scratch->unk_70 = coord;
             scratch->unk_68 = coord;
             far_z = position->z;
-            far_z -= effect->unk_08.as_u16;
+            far_z -= effect->unk_08.u;
             scratch->unk_80 = far_z;
             scratch->unk_78 = far_z;
             break;

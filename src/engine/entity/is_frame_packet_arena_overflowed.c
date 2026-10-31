@@ -17,7 +17,7 @@ short enqueue_audio_command(int value)
     if (count >= 0x20)
         return -1;
     audio_command_queue[0] = count + 1;
-    audio_command_queue[*(unsigned short *)audio_command_queue] = value;
+    audio_command_queue[*audio_command_queue] = value;
     return 0;
 }
 

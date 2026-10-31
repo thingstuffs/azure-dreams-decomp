@@ -148,7 +148,8 @@ void save_and_clear_entity_flag_ten(Obj *obj, State *state, VecState *motion, vo
 }
 
 /* Updates the actor position and rounds its heading, or restores the fixed position and heading. */
-void update_actor_position_and_heading(void *actor, s32 update_context, void *position, void *setup_context) {
+void update_actor_position_and_heading(void *actor, s32 update_context, void *position_arg, void *setup_context) {
+    EntityRec *position = position_arg;
     u32 heading;
     ObjectNodeHeader *state;
     s32 *saved_position;
@@ -157,20 +158,20 @@ void update_actor_position_and_heading(void *actor, s32 update_context, void *po
     state = ((u8 *)(&scene_object_list_anchor));
     if (*(s32 *)&state->update_callback != &D_800A5638) {
         set_flagged_entry_values((u32 *)&D_800D0D54, 0);
-        *(s32 *)bike_saved_position = ((EntityRec *)position)->x.v;
+        *bike_saved_position = position->x.v;
         saved_position = (s32 *)&bike_saved_position;
-        ((EntityRec *)saved_position)->y.v = ((EntityRec *)position)->y.v;
-        ((DelayMotionZ *)saved_position)->unk_08 = (*(s32 *)((u8 *)position + 8));
+        ((EntityRec *)saved_position)->y.v = position->y.v;
+        ((DelayMotionZ *)saved_position)->unk_08 = position->z.v;
         initialize_object_entries((Struct800C5724 *)actor, setup_context, (s32 *)D_80100E24);
-        select_object_value_by_height_band(actor, update_context, position, setup_context);
+        select_object_value_by_height_band(actor, update_context, position_arg, setup_context);
         heading = ((Rec_func_80094268_arg0 *)actor)->unk_72.as_u16;
         heading += 0x200;
         heading &= 0xFC00;
     } else {
         fixed_position = &view_reference_entity;
-        ((EntityRec *)position)->x.v = view_reference_entity.x.v;
-        ((EntityRec *)position)->y.v = fixed_position->y.v;
-        ((EntityRec *)position)->z.v = fixed_position->z.v;
+        position->x.v = view_reference_entity.x.v;
+        position->y.v = fixed_position->y.v;
+        position->z.v = fixed_position->z.v;
         heading = ((S_800A6994_0 *)state)->unk_38;
     }
     ((Rec_func_80094268_arg0 *)actor)->unk_72.as_u16 = heading;

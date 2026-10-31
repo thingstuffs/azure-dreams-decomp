@@ -3,7 +3,7 @@
 #include "shared/sprite_frame_state.h"
 
 /* Updates the direction table and selected entry for entity kinds 13 through 15. */
-void update_direction_table_for_entity_kinds(Obj0 *owner, void *context, Obj2 *sprite_arg, Obj3 *entity_arg)
+void update_direction_table_for_entity_kinds(Obj0 *owner, ObjectPosition *context, SpriteFrameState *sprite_arg, Obj3 *entity_arg)
 {
     SpriteFrameState *sprite= sprite_arg;
     Obj3 *entity = entity_arg;

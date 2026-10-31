@@ -2,6 +2,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8009D728, PD:town/engine:800D0620. */
 #include "town/player/state_update_g00548.h"
 #include "town/player.h"
+#include "shared/sprite_frame_state.h"
 
 /* Update the entity state and handler from global flags and the signed counter. */
 void update_player_global_state(Entity *entity, void *ptr, void *ptr2) {
@@ -41,6 +42,6 @@ void advance_player_state_table(Struct8009D814 *state, s32 update_arg, s32 share
 }
 
 /* Forward the object and values to update_player_global_state. */
-void forward_player_state_update(void *object, s32 value_1, s32 value_2) {
+void forward_player_state_update(void *object, s32 value_1, SpriteFrameState *value_2) {
     update_player_global_state((Entity *)object, (void *)value_1, (void *)value_2);
 }

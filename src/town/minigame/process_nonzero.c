@@ -36,7 +36,7 @@ void process_nonzero(void *object, void *output, void *entity_data)
 {
     KeimaPathActor *caller_obj = object;
     Copy24 *output_bytes = output;
-    MinigameBody *state_base = (MinigameBody *)&scene_object_payload_alias;
+    MinigameBody *state_base = &scene_object_payload_alias;
     s32 state;
     s32 initial_magnitude;
     s32 magnitude;

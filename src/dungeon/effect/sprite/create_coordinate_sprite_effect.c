@@ -9,14 +9,14 @@
 
 /* Adds a random actor value delta with an optional half bonus, clamps it, displays a popup, and
    applies it. */
-void apply_small_random_value_gain(void *target, s32 effect_param, void *record) {
+void apply_small_random_value_gain(ActorRecord *target, s32 effect_param, ActorRecord *record) {
     s32 base_gain;
     register s32 stat_gain;
 
     if (try_trigger_target_record_effect(target, 1, record) == 0) {
         base_gain = get_random_scaled_value(effect_param & 0xFF) + 4;
         stat_gain = base_gain;
-        if (*(u8 *)((u8 *)target + 0x28) & 1) {
+        if (target->hp & 1) {
             stat_gain = base_gain + ((s32)(base_gain << 16) >> 17);
         }
         *(u16 *)((u8 *)target + 0x64) += stat_gain;

@@ -76,13 +76,6 @@ typedef struct S_80174CCC_9 {
     u16 unk_CA;
 } S_80174CCC_9;   /* parent in update_knockback_travel_object */
 
-typedef struct S_80174CCC_11 {
-    u8 pad_00[0x5];
-    u8 unk_05;
-    u8 pad_06[0x22];
-    u8 unk_28;
-    u8 unk_29;
-} S_80174CCC_11;   /* ((S_80174CCC_0 *)arg0)->unk_10 in update_knockback_travel_object */
 
 extern s8 entity_spawn_variant_code;
 extern u8 manoeva_frame_set_2[];
@@ -206,10 +199,10 @@ void update_knockback_travel_object(void *motion, S_80174CCC_1 *position, Sprite
                 ((S_80174CCC_6 *)created)->unk_1C = created_flags_1c;
 
                 ((S_80174CCC_6 *)created)->unk_05 =
-                    (((S_80174CCC_11 *)(((S_80174CCC_0 *)motion)->unk_10))->unk_05 + 1) >> 1;
+                    (((ActorRecord *)(((S_80174CCC_0 *)motion)->unk_10))->unk_00[5] + 1) >> 1;
                 ((S_80174CCC_6 *)created)->unk_29 =
-                    (((S_80174CCC_11 *)(((S_80174CCC_0 *)motion)->unk_10))->unk_29 + 1) >> 1;
-                source_value_28 = ((S_80174CCC_11 *)(((S_80174CCC_0 *)motion)->unk_10))->unk_28;
+                    (((ActorRecord *)(((S_80174CCC_0 *)motion)->unk_10))->max_hp + 1) >> 1;
+                source_value_28 = ((ActorRecord *)(((S_80174CCC_0 *)motion)->unk_10))->hp;
                 ((S_80174CCC_6 *)created)->unk_43 = 0xFD;
                 ((S_80174CCC_6 *)created)->unk_28 = (source_value_28 + 1) >> 1;
 

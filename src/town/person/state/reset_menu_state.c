@@ -20,7 +20,7 @@ void reset_menu_state(void *menu, void *update_arg, void *input) {
         *(void **)((u8 *)menu + 0x5C) = D_800D55D4;
         *(void **)((u8 *)menu + 0x7C) = D_800D55A0;
         *(void **)((u8 *)menu + 0x80) = D_800D55A8;
-        *(u8 *)((u8 *)menu + 0x70) = 0;
+        *((u8 *)menu + 0x70) = 0;
         apply_object_setup_and_update(menu, update_arg, input);
     }
 }

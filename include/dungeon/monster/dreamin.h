@@ -11,6 +11,6 @@ extern u8 dreamin_direction_frames[];
 
 
 s32 attempt_actor_transition(ActorRecord *state, ObjectPosition *action_id, SpriteFrameState *sprite, ActorRecord *actor);
-void advance_timed_directional_movement(void *action, void *motion, SpriteFrameState *sprite, void *entity);
+void advance_timed_directional_movement(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, void *entity);
 
 #endif

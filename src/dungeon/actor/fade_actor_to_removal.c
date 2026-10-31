@@ -5,13 +5,8 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 
-typedef struct S_800D1A80_0 {
-    u8 pad_00[0x96];
-    s16 unk_96;
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_800D1A80_0;   /* arg0 in fade_actor_to_removal */
 
 typedef struct S_800D1A80_1 {
     u8 pad_00[0xC];
@@ -37,7 +32,7 @@ void play_sound_if_enabled(s32 query_value);
 s32 get_entity_effect_value(void *entry, s32 effect_id);
 
 /* Fade the entity to dark gray, then remove it and update its tile flags. */
-s32 fade_actor_to_removal(S_800D1A80_0 *state, void *unused, S_800D1A80_1 *visual, void *entity) {
+s32 fade_actor_to_removal(ActorRecord *state, void *unused, S_800D1A80_1 *visual, void *entity) {
     s16 fade_frames;
     s32 tile_flags;
     s16 frames_left;
@@ -49,7 +44,7 @@ s32 fade_actor_to_removal(S_800D1A80_0 *state, void *unused, S_800D1A80_1 *visua
     u8 tile_x;
     u8 tile_y;
 
-    phase = state->unk_9B;
+    phase = state->action_phase.u;
     switch (phase) {
     case 0:
         if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
@@ -61,23 +56,23 @@ s32 fade_actor_to_removal(S_800D1A80_0 *state, void *unused, S_800D1A80_1 *visua
         ((ActorRecord *)entity)->flags1C = (s32) (((ActorRecord *)entity)->flags1C | 0x10000000);
         play_sound_if_enabled(0x805);
         visual->unk_0C.at00.v = 0x808080;
-        state->unk_96 = 0x10;
-        state->unk_9B = (u8) (state->unk_9B + 1);
+        state->action_timer.s = 0x10;
+        state->action_phase.u = (u8) (state->action_phase.u + 1);
     case 1:
         break;
     default:
         return 0;
     }
     red = visual->unk_0C.at00u.v;
-    fade_frames = state->unk_96;
+    fade_frames = state->action_timer.s;
     visual->unk_0C.at00u.v = (u8) (red + ((s32) (0x20 - red) / fade_frames));
     green = visual->unk_0C.at01.v;
     blue = visual->unk_0C.at02.v;
-    fade_frames = state->unk_96;
+    fade_frames = state->action_timer.s;
     visual->unk_0C.at01.v = (u8) (green + ((s32) (0x20 - green) / fade_frames));
-    visual->unk_0C.at02.v = (u8) (blue + ((s32) (0x20 - blue) / (s16) state->unk_96));
-    frames_left = (u16) state->unk_96 - 1;
-    state->unk_96 = frames_left;
+    visual->unk_0C.at02.v = (u8) (blue + ((s32) (0x20 - blue) / (s16) state->action_timer.s));
+    frames_left = (u16) state->action_timer.s - 1;
+    state->action_timer.s = frames_left;
     if (!(((frames_left << 0x10) > 0) && ((visual->unk_14 & 0x8000) == 0))) {
         entity_ref = ((s32)g_dungeon_status.pending_display_owner);
         if (entity_ref == (entity - 0x20)) {

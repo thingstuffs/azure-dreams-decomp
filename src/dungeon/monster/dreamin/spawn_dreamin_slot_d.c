@@ -20,19 +20,6 @@ typedef struct ActorActionView ActorActionView;
 typedef struct ActorSpriteView ActorSpriteView;
 
 
-typedef struct S_80DA1000_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80DA1000_2;
-
-typedef struct S_80DA1000_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xA];
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-} S_80DA1000_4;
 
 s32 generate_random_value(void);
 void func_8015EA3C(void *entity, R03_80170A28_S_80170A28_2 *motion, void *part);
@@ -51,7 +38,7 @@ void *move_and_fade_effect_sprite(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 t
     SpriteFrameState *placement;
     ObjectPosition *type_data;
     ObjectNodeHeader *object;
-    S_80DA1000_4 *entity_data;
+    ActorRecord *entity_data;
     ActorRecord *entity = NULL;
     void *body;
     s8 saved_x;
@@ -99,9 +86,9 @@ void *move_and_fade_effect_sprite(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 t
             }
         }
         initialize_actor_sprite_and_animation(object, type_data, placement, spawn_flags);
-        entity_data->unk_9A = 0xFF;
+        entity_data->action_id.u = 0xFF;
         entity_data->unk_9C = -1;
-        entity_data->unk_8C = &func_8015EE68;
+        entity_data->unk_8C.address = &func_8015EE68;
         try_move_actor_to_valid_position(entity_data, type_data, placement, entity);
     }
     return entity;

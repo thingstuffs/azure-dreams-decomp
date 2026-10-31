@@ -5,14 +5,6 @@
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/effect.h"
 
-typedef struct S_8017237C_0 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x29];
-    u8 unk_71;
-} S_8017237C_0;   /* p3 in validate_action_and_apply_effect */
 
    /* p2 in validate_action_and_apply_effect */
 
@@ -44,11 +36,11 @@ s32 validate_action_and_apply_effect(ActorRecord *action, ObjectPosition *effect
     s32 target_code;
     u8 actor_flags;
 
-    actor_flags = (*(u8 *)((u8 *)actor + 0x71));
+    actor_flags = (*((u8 *)actor + 0x71));
     {
 
         actor_flags = (u8)(actor_flags & 0x7F);
-        ((S_8017237C_0 *)actor)->unk_71 = actor_flags;
+        ((ActorRecord *)actor)->movement_queue_state = actor_flags;
         action_ready = 0;
 
         if (g_dungeon_status.flags & 0x2000) {
@@ -57,7 +49,7 @@ s32 validate_action_and_apply_effect(ActorRecord *action, ObjectPosition *effect
 
         target_code = probe_directional_neighbor(
             actor, target->tile_x, target->tile_y,
-            ((S_8017237C_0 *)actor)->unk_2A);
+            ((ActorRecord *)actor)->facing);
         {
             s32 result = 0;
 
@@ -67,7 +59,7 @@ s32 validate_action_and_apply_effect(ActorRecord *action, ObjectPosition *effect
             if (g_dungeon_status.flags & 0x2000) {
                 return -1;
             }
-            if ((((S_8017237C_0 *)actor)->unk_46 & 0x8000) == 0) {
+            if ((((ActorRecord *)actor)->action_flags & 0x8000) == 0) {
                 if (g_dungeon_status.flags & 8) {
                     return -1;
                 }
@@ -78,7 +70,7 @@ s32 validate_action_and_apply_effect(ActorRecord *action, ObjectPosition *effect
             }
 
             action_ready = 1;
-            if ((((S_8017237C_0 *)actor)->unk_46 & 0x8000) == 0) {
+            if ((((ActorRecord *)actor)->action_flags & 0x8000) == 0) {
                 if (g_dungeon_status.flags & 8) {
                     return -1;
                 }

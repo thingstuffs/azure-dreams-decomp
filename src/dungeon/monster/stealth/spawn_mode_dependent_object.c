@@ -15,17 +15,6 @@
 
 
 
-typedef struct S_80170854_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xA];
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-    u8 pad_9D[0x7];
-    s16 unk_A4;
-    s16 unk_A6;
-} S_80170854_4;   /* actor in spawn_mode_dependent_112_object */
 
 extern u8 D_80170A8C[];
 extern u8 stealth_frame_set[];
@@ -50,7 +39,7 @@ BODY_STORAGE void *spawn_mode_dependent_112_object(s16 flags, s16 kind_id, s16 v
     void *object_base;
     SpriteFrameState *part1;
     ObjectPosition *part0;
-    S_80170854_4 *actor;
+    ActorRecord *actor;
     ObjectNodeHeader *object;
     ActorRecord *result;
     void *body;
@@ -89,15 +78,15 @@ BODY_STORAGE void *spawn_mode_dependent_112_object(s16 flags, s16 kind_id, s16 v
             mode = generate_random_value() & 3;
         }
         initialize_actor_sprite_and_animation(object, part0, part1, flags);
-        actor->unk_9A = 0xFF;
+        actor->action_id.u = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = stealth_behavior_entry;
-        actor->unk_A4 = -1;
+        actor->unk_8C.address = stealth_behavior_entry;
+        actor->unk_A4.halves.low.s = -1;
         if (mode != 0) {
-            actor->unk_A6 = 0;
+            actor->unk_A4.halves.high.s = 0;
         } else {
             object_base = (u8 *)actor - 0x20;
-            actor->unk_A6 = 1;
+            actor->unk_A4.halves.high.s = 1;
             part1->tpage_abr = 0x60;
             part1->flags |= 0xC;
             part1->clut -= 0x80;

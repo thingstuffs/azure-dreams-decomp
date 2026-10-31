@@ -69,7 +69,8 @@ typedef struct S_80023600_12 {
 #include "frontend/libcard.h"
 
 /* Initialize the panel and position its elements in three rows. */
-void card_boot_layout_three_row_command_panel(void *panel) {
+void card_boot_layout_three_row_command_panel(void *panel_arg) {
+    Rec_func_800233D0_arg0 *panel = panel_arg;
     s32 lower_x;
     s32 left_x;
     s32 right_x;
@@ -78,10 +79,10 @@ void card_boot_layout_three_row_command_panel(void *panel) {
     s32 lower_y;
     s32 row_index;
 
-    ((Rec_func_800233D0_arg0 *)panel)->unk_80 = 1;
-    ((Rec_func_800233D0_arg0 *)panel)->unk_84 = 1;
-    card_boot_format_command_panel_labels(panel);
-    card_boot_set_centered_rectangle((s32)(panel + 4), 0x36, 0x10);
+    panel->unk_80 = 1;
+    panel->unk_84 = 1;
+    card_boot_format_command_panel_labels(panel_arg);
+    card_boot_set_centered_rectangle((s32)(panel_arg + 4), 0x36, 0x10);
     card_boot_bind_command_panel_resources(panel);
     row_index = 0;
     lower_x = 0x8E;
@@ -90,7 +91,7 @@ void card_boot_layout_three_row_command_panel(void *panel) {
     middle_x = 0x24;
     row_y = 0xA;
     lower_y = 0x82;
-    ((SignedWidgetYView *)(((S_80023600_3 *)(((Rec_func_800233D0_arg0 *)panel)->unk_1A0))->unk_04))->unk_0A = 0x1A;
+    ((SignedWidgetYView *)(((S_80023600_3 *)(panel->unk_1A0))->unk_04))->unk_0A = 0x1A;
     do {
         ((S_80023600_9 *)(((S_80023600_4 *)(((S_80023600_2 *)((u8 *)panel + row_index * 4))->unk_1D8))->unk_04))->unk_08 = lower_x;
         ((S_80023600_9 *)(((S_80023600_4 *)(((S_80023600_2 *)((u8 *)panel + row_index * 4))->unk_1D8))->unk_04))->unk_0A = lower_y;

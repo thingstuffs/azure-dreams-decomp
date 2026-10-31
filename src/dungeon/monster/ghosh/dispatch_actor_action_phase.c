@@ -4,14 +4,6 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/entity.h"
 
-typedef struct S_8016C98C_0 {
-    u8 pad_00[0x46];
-    u16 unk_46;
-    u8 pad_48[0x29];
-    u8 unk_71;
-    u8 pad_72[0x3C];
-    u16 unk_AE;
-} S_8016C98C_0;   /* base in dispatch_actor_action_phase */
 
 
 #include "dungeon/player/object/action_state.h"
@@ -25,7 +17,7 @@ s32 dispatch_actor_action_phase(Rec_func_800A9E70_arg0 *actor, s32 x, s32 y, s32
     s16 action_state;
     s32 result;
 
-    if (((S_8016C98C_0 *)base)->unk_AE != 0) {
+    if (((ActorRecord *)base)->unk_AC.halves.high.u != 0) {
         action_state = relink_entity_and_clear_high_flag(x, y, base, 3, 6,
                               (u8 *)base + 0x9C);
         if ((s16)action_state < 0) {
@@ -51,22 +43,22 @@ s32 dispatch_actor_action_phase(Rec_func_800A9E70_arg0 *actor, s32 x, s32 y, s32
         return 0;
 
     case 1:
-        ((S_8016C98C_0 *)base)->unk_71 &= 0x7F;
+        ((ActorRecord *)base)->movement_queue_state &= 0x7F;
         if ((has_pending_dungeon_activity(base) << 16) != 0) {
             result = 0;
-            ((S_8016C98C_0 *)base)->unk_46 &= 0x7FFF;
+            ((ActorRecord *)base)->action_flags &= 0x7FFF;
             return result;
         }
                         /* fall through */
 
     default:
-        ((S_8016C98C_0 *)base)->unk_71 &= 0x7F;
+        ((ActorRecord *)base)->movement_queue_state &= 0x7F;
         result = 1;
         if (!(g_dungeon_status.flags & 8)) {
             return result;
         }
         result = 0;
-        ((S_8016C98C_0 *)base)->unk_46 &= 0x7FFF;
+        ((ActorRecord *)base)->action_flags &= 0x7FFF;
         return result;
     }
 }

@@ -30,8 +30,8 @@ s32 draw_snowman_point_chain(u8 *node_data, u16 *position)
 {
     R10_8017092C_Scratch *scratch = (R10_8017092C_Scratch *)0x1F800000;
     void **global_state = ((void **)(&g_game_work));
-    GpuContext *render_state = (GpuContext *)global_state[0];
-    R10_8017092C_Packet *first_packet = (R10_8017092C_Packet *)render_state->packetCursor;
+    GpuContext *render_state = global_state[0];
+    R10_8017092C_Packet *first_packet = render_state->packetCursor;
     R10_8017092C_Packet *packet;
     R10_8017092C_Packet *mode_packet;
     s32 depth_index;
@@ -119,7 +119,7 @@ s32 draw_snowman_point_chain(u8 *node_data, u16 *position)
     if (distance_x < 0x10) {
         distance_y = __builtin_abs(actor->y - *(s16 *)((u8 *)vec + 6));
         if (distance_y < 0x10) {
-            *(u16 *)((u8 *)actor - 2) |= NODE_REMOVE;
+            ((ObjectNodeHeader *)actor - 1)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
@@ -138,7 +138,7 @@ s32 draw_snowman_point_chain(u8 *node_data, u16 *position)
     actor->scale = (u16)actor->scale - 8;
     advance_sprite_animation_and_textures(sprite);
     if (actor->scale <= 0) {
-        *(u16 *)((u8 *)actor - 2) |= NODE_REMOVE;
+        ((ObjectNodeHeader *)actor - 1)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -203,7 +203,7 @@ void create_converging_fading_sprite(
         sprite->flags = sprite_flags | 0xC;
         ((R10_80170CF8_S_80AC55DC_0 *)node)->unk_20 = effect_value;
         work->unk_08 = effect_value;
-        select_record_entry_and_value(sprite, ((u8 *)shared_sprite_entries), 0);
+        select_record_entry_and_value(sprite, shared_sprite_entries, 0);
     }
 }
 
@@ -234,7 +234,7 @@ void *create_actor_with_optional_status(s16 flags, s16 kind_id, s16 variant, s32
             void *handler;
 
             part0 = object->position;
-            handler = ((u8 *)snowman_direction_frames);
+            handler = snowman_direction_frames;
             part0->z.w.i = spawn_value;
             part1 = object->sprite;
             kind = flags & 3;
@@ -262,7 +262,7 @@ void *create_actor_with_optional_status(s16 flags, s16 kind_id, s16 variant, s32
                    (((ActorRecord *)result)->flags14 & ACTOR_RESIST_SLEEP) == 0 &&
                    (generate_random_value() & 1) != 0) {
             set_or_clear_actor_status_slot(result, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
-            part1->frameTable = ((u8 *)snowman_alt_direction_frames);
+            part1->frameTable = snowman_alt_direction_frames;
         }
 
         initialize_actor_sprite_and_animation(object, part0, part1,(s16)(flags));
@@ -300,99 +300,99 @@ void update_actor_callbacks_animation_and_ground(u8 *actor, u8 *motion, u8 *obje
         R10_80171104_ActorCallback early_callback;
         void *early_actor;
 
-        early_callback = (*(R10_80171104_ActorCallback *)((u8 *)actor + 0x8C));
+        early_callback = (*(R10_80171104_ActorCallback *)(actor + 0x8C));
         if (early_callback == (R10_80171104_ActorCallback)((void *)update_snowman_behavior)) {
             early_actor = actor;
             early_callback(early_actor, motion, object, early_actor);
             return;
         }
-        (*(u8 *)((u8 *)actor + 0x71)) &= 0x7F;
+        (*((u8 *)actor + 0x71)) &= 0x7F;
         return;
     }
 
-    old_direction = (*(s8 *)((u8 *)actor + 0x6D));
+    old_direction = (*(s8 *)(actor + 0x6D));
     if (refresh_actor_facing_and_lifecycle(actor, motion, object, actor) != 0) {
         return;
     }
 
-    callback = (*(R10_80171104_ActorCallback *)((u8 *)actor + 0x8C));
+    callback = (*(R10_80171104_ActorCallback *)(actor + 0x8C));
     if (callback != 0) {
         callback(actor, motion, object, actor);
     }
-    ((R10_80171104_ActorCallback *)D_80175A1C)[(*(u8 *)((u8 *)actor + 0x9A))](actor, motion, object, actor);
+    ((R10_80171104_ActorCallback *)D_80175A1C)[(*((u8 *)actor + 0x9A))](actor, motion, object, actor);
 
-    if ((*(u8 *)((u8 *)actor + 0x9A)) != 0xE ||
+    if ((*((u8 *)actor + 0x9A)) != 0xE ||
         (((SpriteAnimationTableView *)object)->flags & 0x40) ||
-        ((*(u32 *)((u8 *)actor + 0x1C)) & 0x20)) {
+        ((*(u32 *)(actor + 0x1C)) & 0x20)) {
         shifted_direction = (s32)old_direction << 16;
     } else {
-        if (((SpriteAnimationTableView *)object)->frame_table != ((u8 *)snowman_direction_frames) &&
-            ((SpriteAnimationTableView *)object)->frame_table != ((u8 *)snowman_frame_set_2) &&
-            ((SpriteAnimationTableView *)object)->frame_table != ((u8 *)snowman_frame_set) &&
-            ((SpriteAnimationTableView *)object)->frame_table != ((u8 *)snowman_frame_set_3)) {
-            (*(u8 **)((u8 *)object + 0x2C)) = ((u8 *)snowman_direction_frames);
+        if (((SpriteAnimationTableView *)object)->frame_table != snowman_direction_frames &&
+            ((SpriteAnimationTableView *)object)->frame_table != snowman_frame_set_2 &&
+            ((SpriteAnimationTableView *)object)->frame_table != snowman_frame_set &&
+            ((SpriteAnimationTableView *)object)->frame_table != snowman_frame_set_3) {
+            (*(u8 **)(object + 0x2C)) = snowman_direction_frames;
             select_sprite_entry(object,
-                ((u8 *)snowman_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7], 0);
-            (*(u16 *)((u8 *)actor + 0x9E)) = 0;
-            (*(s16 *)((u8 *)actor + 0xA0)) = 10;
+                snowman_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)(actor + 0x2A)) + 0x100) >> 9) & 7], 0);
+            (*(u16 *)(actor + 0x9E)) = 0;
+            (*(s16 *)(actor + 0xA0)) = 10;
         }
 
-        if (((SpriteAnimationTableView *)object)->frame_table == ((u8 *)snowman_direction_frames)) {
-            timer = (*(u16 *)((u8 *)actor + 0x9E));
-            (*(u16 *)((u8 *)actor + 0x9E)) = timer + 1;
-            if (timer >= (*(s16 *)((u8 *)actor + 0xA0))) {
-                (*(u8 **)((u8 *)object + 0x2C)) = ((u8 *)snowman_frame_set_2);
+        if (((SpriteAnimationTableView *)object)->frame_table == snowman_direction_frames) {
+            timer = (*(u16 *)(actor + 0x9E));
+            (*(u16 *)(actor + 0x9E)) = timer + 1;
+            if (timer >= (*(s16 *)(actor + 0xA0))) {
+                (*(u8 **)(object + 0x2C)) = snowman_frame_set_2;
                 select_sprite_entry(object,
-                    ((u8 *)snowman_frame_set_2)[((g_game_work.view.camera_rotation.parts.viewAngle + actor_copy->unk_2A + 0x100) >> 9) & 7], 0);
+                    snowman_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + actor_copy->unk_2A + 0x100) >> 9) & 7], 0);
                 advance_sprite_animation_and_textures(object);
-                (*(s16 *)((u8 *)actor + 0xA0)) = 3;
+                (*(s16 *)(actor + 0xA0)) = 3;
             }
         }
 
-        if (((SpriteAnimationTableView *)object)->frame_table == ((u8 *)snowman_frame_set_2)) {
-            timer = (*(u16 *)((u8 *)actor + 0xA0)) - 1;
-            (*(s16 *)((u8 *)actor + 0xA0)) = timer;
+        if (((SpriteAnimationTableView *)object)->frame_table == snowman_frame_set_2) {
+            timer = (*(u16 *)(actor + 0xA0)) - 1;
+            (*(s16 *)(actor + 0xA0)) = timer;
             if ((timer << 16) <= 0 &&
                 (((SpriteAnimationTableView *)object)->flags & 0xE000)) {
-                (*(u8 **)((u8 *)object + 0x2C)) = ((u8 *)snowman_frame_set);
+                (*(u8 **)(object + 0x2C)) = snowman_frame_set;
                 select_sprite_entry(object,
-                    ((u8 *)snowman_frame_set)[((g_game_work.view.camera_rotation.parts.viewAngle + actor_copy->unk_2A + 0x100) >> 9) & 7], 0);
+                    snowman_frame_set[((g_game_work.view.camera_rotation.parts.viewAngle + actor_copy->unk_2A + 0x100) >> 9) & 7], 0);
                 advance_sprite_animation_and_textures(object);
-                (*(s16 *)((u8 *)actor + 0xA0)) = 6;
-                (*(s32 *)((u8 *)actor + 0x90)) += 0xFFE00000;
+                (*(s16 *)(actor + 0xA0)) = 6;
+                (*(s32 *)(actor + 0x90)) += 0xFFE00000;
                 ((R10_80171104_S_80171104_2 *)motion)->unk_14 = 0;
-                (*(s8 *)((u8 *)actor + 0x9D)) = 0;
+                (*(s8 *)(actor + 0x9D)) = 0;
             }
         }
 
-        if (((SpriteAnimationTableView *)object)->frame_table == ((u8 *)snowman_frame_set)) {
-            timer = (*(u16 *)((u8 *)actor + 0xA0)) - 1;
-            (*(s16 *)((u8 *)actor + 0xA0)) = timer;
+        if (((SpriteAnimationTableView *)object)->frame_table == snowman_frame_set) {
+            timer = (*(u16 *)(actor + 0xA0)) - 1;
+            (*(s16 *)(actor + 0xA0)) = timer;
             if ((timer << 16) <= 0 &&
                 (((SpriteAnimationTableView *)object)->flags & 0xE000)) {
-                (*(u8 **)((u8 *)object + 0x2C)) = ((u8 *)snowman_frame_set_3);
+                (*(u8 **)(object + 0x2C)) = snowman_frame_set_3;
                 select_sprite_entry(object,
-                    ((u8 *)snowman_frame_set_3)[((g_game_work.view.camera_rotation.parts.viewAngle + actor_copy->unk_2A + 0x100) >> 9) & 7], 0);
+                    snowman_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + actor_copy->unk_2A + 0x100) >> 9) & 7], 0);
                 advance_sprite_animation_and_textures(object);
-                (*(s16 *)((u8 *)actor + 0xA0)) = 3;
+                (*(s16 *)(actor + 0xA0)) = 3;
             }
         }
 
-        if (((SpriteAnimationTableView *)object)->frame_table != ((u8 *)snowman_frame_set_3)) {
+        if (((SpriteAnimationTableView *)object)->frame_table != snowman_frame_set_3) {
             shifted_direction = (s32)old_direction << 16;
         } else {
-            timer = (*(u16 *)((u8 *)actor + 0xA0)) - 1;
-            (*(s16 *)((u8 *)actor + 0xA0)) = timer;
+            timer = (*(u16 *)(actor + 0xA0)) - 1;
+            (*(s16 *)(actor + 0xA0)) = timer;
             if ((timer << 16) > 0) {
                 shifted_direction = (s32)old_direction << 16;
             } else {
                 if (((SpriteAnimationTableView *)object)->flags & 0xE000) {
-                    (*(u8 **)((u8 *)object + 0x2C)) = ((u8 *)snowman_direction_frames);
+                    (*(u8 **)(object + 0x2C)) = snowman_direction_frames;
                     select_sprite_entry(object,
-                        ((u8 *)snowman_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + actor_copy->unk_2A + 0x100)
+                        snowman_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor_copy->unk_2A + 0x100)
                             >> 9) & 7], 0);
-                    (*(u16 *)((u8 *)actor + 0x9E)) = 0;
-                    (*(s16 *)((u8 *)actor + 0xA0)) = 20;
+                    (*(u16 *)(actor + 0x9E)) = 0;
+                    (*(s16 *)(actor + 0xA0)) = 20;
                 }
                 shifted_direction = (s32)old_direction << 16;
             }
@@ -411,12 +411,12 @@ void update_actor_callbacks_animation_and_ground(u8 *actor, u8 *motion, u8 *obje
         saved_direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor_copy->unk_2A + 0x100) >> 9) & 7;
         view_index = saved_direction;
         view_index_copy = saved_direction;
-        if ((*(s16 *)((u8 *)actor + 0x94)) != view_index) {
+        if ((*(s16 *)(actor + 0x94)) != view_index) {
             animation = ((SpriteAnimationTableView *)object)->frame_table;
             if (animation != 0) {
                 select_indirect_table_entry(object, animation[view_index], ((SpriteAnimationTableView *)object)->frame_index);
             }
-            (*(s16 *)((u8 *)actor + 0x94)) = saved_direction;
+            (*(s16 *)(actor + 0x94)) = saved_direction;
         }
 
         if (dir_sprite_flag[view_index_copy] != 0) {
@@ -441,37 +441,37 @@ void update_actor_callbacks_animation_and_ground(u8 *actor, u8 *motion, u8 *obje
     ((R10_80171104_S_80171104_2 *)motion)->unk_00.at00.v += ((R10_80171104_S_80171104_2 *)motion)->unk_0C;
     ((R10_80171104_S_80171104_2 *)motion)->unk_04.at00.v += ((R10_80171104_S_80171104_2 *)motion)->unk_10;
 
-    if ((*(u16 *)((u8 *)actor + 0x98)) & 8) {
-        (*(s8 *)((u8 *)actor + 0x9D)) = 0;
+    if ((*(u16 *)(actor + 0x98)) & 8) {
+        (*(s8 *)(actor + 0x9D)) = 0;
     } else {
-        ((R10_80171104_S_80171104_2 *)motion)->unk_14 += (*(s8 *)((u8 *)actor + 0x9D)) * 0x14000;
-        (*(u8 *)((u8 *)actor + 0x9D))++;
+        ((R10_80171104_S_80171104_2 *)motion)->unk_14 += (*(s8 *)(actor + 0x9D)) * 0x14000;
+        (*((u8 *)actor + 0x9D))++;
     }
-    (*(s32 *)((u8 *)actor + 0x90)) += ((R10_80171104_S_80171104_2 *)motion)->unk_14;
+    (*(s32 *)(actor + 0x90)) += ((R10_80171104_S_80171104_2 *)motion)->unk_14;
 
-    if (!((*(u16 *)((u8 *)actor + 0x98)) & 4)) {
+    if (!((*(u16 *)(actor + 0x98)) & 4)) {
         floor_height = ((s16)sample_terrain_surface_height(((R10_80171104_S_80171104_2 *)motion)->unk_00.at02.v, ((R10_80171104_S_80171104_2 *)motion)->unk_04.at02.v,(s16)((s16)(actor_copy->unk_88.u - 0x20))));
         if (floor_height < 0x200) {
             actor_height = actor_copy->unk_88.s;
-            if ((*(s16 *)((u8 *)actor + 0x92)) + actor_height < floor_height) {
+            if ((*(s16 *)(actor + 0x92)) + actor_height < floor_height) {
                 actor_copy->unk_1C.u &= 0xF7FFFFFF;
             } else {
                 if (floor_height >= actor_height) {
-                    (*(s32 *)((u8 *)actor + 0x90)) = 0;
+                    (*(s32 *)(actor + 0x90)) = 0;
                 } else {
                     height_delta = floor_height - actor_copy->unk_88.u;
-                    (*(s16 *)((u8 *)actor + 0x92)) = height_delta;
+                    (*(s16 *)(actor + 0x92)) = height_delta;
                 }
                 ((R10_80171104_S_80171104_2 *)motion)->unk_14 = 0;
                 actor_copy->unk_1C.u |= 0x08000000;
-                (*(s8 *)((u8 *)actor + 0x9D)) = 0;
+                (*(s8 *)(actor + 0x9D)) = 0;
             }
 
             if (actor_copy->unk_1C.u & 0x40000000) {
                 actor_copy->unk_1C.u &= 0xBFFFFFFF;
                 floor_height = ((s16)sample_terrain_surface_height((((SpriteAnimationTableView *)object)->tile_x << 6) | 0x20,
                                        (((SpriteAnimationTableView *)object)->tile_y << 6) | 0x20,(s16)((s16)(actor_copy->unk_88.u - 0x20))));
-                (*(s16 *)((u8 *)actor + 0x92)) += actor_copy->unk_88.u - floor_height;
+                (*(s16 *)(actor + 0x92)) += actor_copy->unk_88.u - floor_height;
                 actor_copy->unk_88.s = floor_height;
             }
         } else {
@@ -481,7 +481,7 @@ void update_actor_callbacks_animation_and_ground(u8 *actor, u8 *motion, u8 *obje
         actor_copy->unk_1C.u &= 0xF7FFFFFF;
     }
 
-    ((R10_80171104_S_80171104_2 *)motion)->unk_0A = actor_copy->unk_88.u + (*(s16 *)((u8 *)actor + 0x92));
+    ((R10_80171104_S_80171104_2 *)motion)->unk_0A = actor_copy->unk_88.u + (*(s16 *)(actor + 0x92));
     ((SpriteAnimationTableView *)object)->flags |= 0x40;
 
     return;
@@ -504,10 +504,10 @@ void update_snowman_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg
         u8 *animations;
 
         advance_actor_pending_action(actor_arg, context_arg, sprite_arg, entity_arg);
-        if (sprite_arg->frameTable == ((u8 *)snowman_alt_direction_frames)) {
+        if (sprite_arg->frameTable == snowman_alt_direction_frames) {
             return;
         }
-        animations = ((u8 *)D_801759E0);
+        animations = D_801759E0;
         sprite_arg->frameTable = animations;
         select_sprite_entry(sprite_arg,
             animations[((g_game_work.view.camera_rotation.parts.viewAngle + entity_arg->facing + 0x100) >> 9) & 7],
@@ -516,14 +516,14 @@ void update_snowman_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg
     }
 
     if (((u32)entity_arg->flags1C) & ACTOR_ASLEEP) {
-        if (sprite_arg->frameTable == ((u8 *)snowman_alt_direction_frames)) {
+        if (sprite_arg->frameTable == snowman_alt_direction_frames) {
             actor_arg->action_id.u = 0xD;
             actor_arg->action_phase.u = 1;
-            ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_8C = 0;
+            actor_arg->unk_8C.word = 0;
             entity_arg->flags1C &= 0xFFFBFFFF;
             return;
         }
-        if (reset_actor_action_state(actor_arg, context_arg, sprite_arg, ((u8 *)D_801759E0)) != 0) {
+        if (reset_actor_action_state(actor_arg, context_arg, sprite_arg, D_801759E0) != 0) {
             return;
         }
     }
@@ -540,7 +540,7 @@ void update_snowman_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg
 
             next_state = 0xE;
             if (current_state != next_state) {
-                u8 *animations = ((u8 *)snowman_direction_frames);
+                u8 *animations = snowman_direction_frames;
 
                 if (sprite_arg->frameTable != animations) {
                     sprite_arg->frameTable = animations;
@@ -557,7 +557,7 @@ void update_snowman_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg
         actor_arg->action_state_flags &= 0xFFF3;
 
         if (entity_arg->hp_delta != 0) {
-            if (begin_ready_actor_directional_action(actor_arg, context_arg, sprite_arg, ((u8 *)D_80175998)) != 0) {
+            if (begin_ready_actor_directional_action(actor_arg, context_arg, sprite_arg, D_80175998) != 0) {
                 return;
             }
         }
@@ -565,9 +565,9 @@ void update_snowman_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg
         if (((u32)entity_arg->flags1C) & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(actor_arg, context_arg, sprite_arg, entity_arg);
             update_snowman_parent_motion(actor_arg, context_arg, sprite_arg, entity_arg);
-            sprite_arg->frameTable = ((u8 *)snowman_direction_frames);
+            sprite_arg->frameTable = snowman_direction_frames;
             select_sprite_entry(sprite_arg,
-                ((u8 *)snowman_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + entity_arg->facing + 0x100) >> 9) & 7],
+                snowman_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity_arg->facing + 0x100) >> 9) & 7],
                 0);
             actor_arg->unk_90.value = 0;
             return;
@@ -633,7 +633,7 @@ void update_snowman_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg
                 player = primary_actor_record;
                 entity_arg->facing = direction;
                 if (player->action_id.u == 0x11) {
-                    begin_actor_spell_action(actor_arg, context_arg, sprite_arg, ((u8 *)D_801759D0), ((void *)update_snowman_behavior));
+                    begin_actor_spell_action(actor_arg, context_arg, sprite_arg, D_801759D0, ((void *)update_snowman_behavior));
                     return;
                 }
             }
@@ -644,7 +644,7 @@ void update_snowman_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg
         case 1:
         case 2:
         case 3:
-            begin_actor_spell_action(actor_arg, context_arg, sprite_arg, ((u8 *)D_801759D0), ((void *)update_snowman_behavior));
+            begin_actor_spell_action(actor_arg, context_arg, sprite_arg, D_801759D0, ((void *)update_snowman_behavior));
             return;
         default:
             choose_snowman_move(actor_arg, context_arg, sprite_arg, entity_arg);
@@ -672,8 +672,8 @@ void update_snowman_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg
 
 /* Advances one stored path step, updates occupied tiles and facing, and selects the movement animation and
  * delay. */
-void advance_snowman_stored_path(void *movement, void *motion, SpriteFrameState *entity, void *path_state) {
-    ActorRecord *path_actor = movement;
+void advance_snowman_stored_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, void *path_state) {
+    ActorRecord *path_actor = body;
     R10_80171D7C_S_80171CD4_0 *state = path_state;
     s32 move_flags;
     s16 heading;
@@ -685,26 +685,26 @@ void advance_snowman_stored_path(void *movement, void *motion, SpriteFrameState 
         return;
     }
 
-    if (((Rec_func_80171CD4_arg0 *)movement)->unk_9A.as_u8 != 0xF) {
-        ((Rec_func_80171CD4_arg0 *)movement)->unk_90 = 0;
-        ((Rec_func_80171CD4_arg1 *)motion)->unk_14 = 0;
-        ((Rec_func_80171CD4_arg0 *)movement)->unk_9D = 0;
+    if (body->action_id.u != 0xF) {
+        body->unk_90.value = 0;
+        motion->velocity_z = 0;
+        body->unk_9D.s = 0;
     }
 
     if (state->unk_71.u <= state->unk_8A.s) {
         return;
     }
 
-    if (*(u8 **)&entity->frameTable != ((u8 *)snowman_move_direction_frames)) {
-        entity->frameTable = ((u8 *)snowman_move_direction_frames);
+    if (*(u8 **)&sprite->frameTable != snowman_move_direction_frames) {
+        sprite->frameTable = snowman_move_direction_frames;
         select_sprite_entry(
-            entity,
-            ((u8 *)snowman_move_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + state->unk_2A + 0x100) >> 9) & 7],
+            sprite,
+            snowman_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + state->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 
-    x = entity->tile_x;
-    y = entity->tile_y;
+    x = sprite->tile_x;
+    y = sprite->tile_y;
     move_flags = 0x3000;
     if (state->unk_1C & 0x2000) {
         move_flags = 0x300;
@@ -717,18 +717,18 @@ void advance_snowman_stored_path(void *movement, void *motion, SpriteFrameState 
         ((R10_80171D7C_S_80171CD4_4 *)((u8 *)state + state->unk_8A.s))->unk_74,
         ((R10_80171D7C_S_80171CD4_4 *)((u8 *)state + state->unk_8A.s))->unk_7C,
         &path_actor->action_state_flags));
-    move_result = ((s16)check_movement_clearance_and_height(heading, entity, state, 0x20));
+    move_result = ((s16)check_movement_clearance_and_height(heading, sprite, state, 0x20));
 
-    entity->tile_x =
+    sprite->tile_x =
         ((R10_80171D7C_S_80171CD4_4 *)((u8 *)state + state->unk_8A.s))->unk_74;
     move_flags = 0x3000;
-    entity->tile_y =
+    sprite->tile_y =
         ((R10_80171D7C_S_80171CD4_4 *)((u8 *)state + state->unk_8A.s))->unk_7C;
     state->unk_8A.u++;
 
     {
-        s32 next_x = entity->tile_x;
-        s32 next_y = entity->tile_y;
+        s32 next_x = sprite->tile_x;
+        s32 next_y = sprite->tile_y;
 
         if (state->unk_1C & 0x2000) {
             move_flags = 0x300;
@@ -738,28 +738,28 @@ void advance_snowman_stored_path(void *movement, void *motion, SpriteFrameState 
 
     state->unk_2A = heading;
     if (move_result == 3) {
-        if (!(g_dungeon_status.flags & 0x80) && !(entity->flags & 0x8000)) {
-            begin_snowman_step_animation(movement, motion, entity, state);
-            ((Rec_func_80171CD4_arg0 *)movement)->unk_8C = 0;
+        if (!(g_dungeon_status.flags & 0x80) && !(sprite->flags & 0x8000)) {
+            begin_snowman_step_animation(body, motion, sprite, state);
+            body->unk_8C.word = 0;
         } else {
-            ((Rec_func_80171CD4_arg0 *)movement)->unk_9A.as_u8 = 0xF;
-            ((Rec_func_80171CD4_arg0 *)movement)->unk_8C = 0;
+            body->action_id.u = 0xF;
+            body->unk_8C.word = 0;
         }
     } else {
-        ((Rec_func_80171CD4_arg0 *)movement)->unk_9A.as_u8 = 0xF;
-        ((Rec_func_80171CD4_arg0 *)movement)->unk_8C = 0;
+        body->action_id.u = 0xF;
+        body->unk_8C.word = 0;
     }
     state->unk_1C |= 0x40000000;
     if (g_dungeon_status.flags & 0x80) {
-        ((Rec_func_80171CD4_arg0 *)movement)->unk_96 = 0;
+        body->action_timer.s = 0;
         return;
     }
 
-    ((Rec_func_80171CD4_arg0 *)movement)->unk_96 = 8;
+    body->action_timer.s = 8;
     {
         s32 step_count = state->unk_71.u;
         if (step_count > 0) {
-            ((Rec_func_80171CD4_arg0 *)movement)->unk_96 = 8 / step_count;
+            body->action_timer.s = 8 / step_count;
         }
     }
 }
@@ -988,15 +988,17 @@ void choose_snowman_move(ActorRecord *move_data, ObjectPosition *context, Sprite
  * Sets action state 0x10, selects camera-relative snowman step frames, and clears the action tick,
  * counter, substate, and linked action field.
  */
-void begin_snowman_step_animation(void *actor_state, void *action_state, SpriteFrameState *sprite, void *orientation) {
-    ((Rec_func_80171CD4_arg0 *)actor_state)->unk_9A.as_s8 = 0x10;
-    ((Rec_func_80171CD4_arg0 *)actor_state)->unk_9B = 0;
-    sprite->frameTable = ((u8 *)snowman_frame_set_2);
+void begin_snowman_step_animation(void *actor_state_arg, void *action_state, SpriteFrameState *sprite, void *orientation) {
+    Rec_func_80171CD4_arg0 *actor_state = actor_state_arg;
+
+    actor_state->unk_9A.as_s8 = 0x10;
+    actor_state->unk_9B = 0;
+    sprite->frameTable = snowman_frame_set_2;
     select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((R10_80172730_S_80172688_1 *)orientation)->unk_2A + 0x100)
-        >> 9) & 7) + ((u8 *)snowman_frame_set_2)), 0);
-    ((Rec_func_80171CD4_arg0 *)actor_state)->unk_90 = 0;
+        >> 9) & 7) + snowman_frame_set_2), 0);
+    actor_state->unk_90 = 0;
     ((Rec_func_80171CD4_arg1 *)action_state)->unk_14 = 0;
-    ((Rec_func_80171CD4_arg0 *)actor_state)->unk_9D = 0;
+    actor_state->unk_9D = 0;
 }
 
 /* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
@@ -1057,11 +1059,11 @@ void begin_snowman_attack(ActorRecord *action_state, ObjectPosition *action_cont
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
             action_state->action_id.s = 0x11;
-            (*(s32 *)((u8 *)action_state + 0x8C)) = 0;
+            action_state->unk_8C.word = 0;
             action_state->action_phase.s = 0;
-            sprite->frameTable = ((u8 *)snowman_direction_frames);
+            sprite->frameTable = snowman_direction_frames;
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
-                + ((u8 *)snowman_direction_frames)), 0);
+                + snowman_direction_frames), 0);
             actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
             prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
             actor->unk_84 = 0x7C;
@@ -1071,15 +1073,15 @@ void begin_snowman_attack(ActorRecord *action_state, ObjectPosition *action_cont
 }
 
 /* Relinks actor state, updates status or movement as needed, and reports whether a new action may start. */
-s32 relink_snowman_path(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
+s32 relink_snowman_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, s32 force_state_arg) {
     s16 state_type;
     s32 result;
-    void *entity = entity_arg;
+    void *entity = body;
 
-    state_type = (s16)relink_entity_and_clear_high_flag(primary_context_arg, secondary_context_arg, entity, 3, 6, entity + 0x9C);
+    state_type = (s16)relink_entity_and_clear_high_flag(motion, sprite, entity, 3, 6, entity + 0x9C);
     if (state_type < 0) return 0;
     if ((force_state_arg << 0x10) != 0) {
-        choose_snowman_move(entity, primary_context_arg, secondary_context_arg, entity);
+        choose_snowman_move(entity, motion, sprite, entity);
         result = 0;
         return result;
     }
@@ -1090,7 +1092,7 @@ s32 relink_snowman_path(void *entity_arg, void *primary_context_arg, void *secon
         result = 0;
         return result;
     case 2:
-        choose_snowman_move(entity, primary_context_arg, secondary_context_arg, entity);
+        choose_snowman_move(entity, motion, sprite, entity);
         result = 0;
         return result;
     case 1:
@@ -1116,15 +1118,15 @@ s32 relink_snowman_path(void *entity_arg, void *primary_context_arg, void *secon
  * On completed movement, spends MP and advances status timers, then resumes Snowman behavior and
  * clears its timer only after a positive signed floor-trap check. /
  */
-void move_snowman_to_tile(void *entity_arg, void *motion, void *check_arg, void *actor_arg) {
-    void *entity = entity_arg;
-    void *check_value = check_arg;
-    void *actor = actor_arg;
+void move_snowman_to_tile(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+    void *entity = body;
+    void *check_value = sprite;
+    void *actor_value = actor;
 
-    if (update_actor_movement_to_tile(entity, motion, check_value, actor) != 0) {
-        spend_actor_mp(actor, 4);
-        advance_status_timers(actor);
-        if ((check_actor_floor_trap(check_value, actor) << 16) > 0) {
+    if (update_actor_movement_to_tile(entity, motion, check_value, actor_value) != 0) {
+        spend_actor_mp(actor_value, 4);
+        advance_status_timers(actor_value);
+        if ((check_actor_floor_trap(check_value, actor_value) << 16) > 0) {
             do {
                 *(s32 **)((u8 *)entity + 0x8C) = ((void *)update_snowman_behavior);
             } while (0);
@@ -1154,10 +1156,10 @@ void hop_snowman_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFram
         if (!(sprite->flags & 0x6000)) {
             break;
         }
-        sprite->frameTable = ((u8 *)D_801759A8);
+        sprite->frameTable = D_801759A8;
         select_sprite_entry(
             sprite,
-            ((u8 *)D_801759A8)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_801759A8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         action->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
@@ -1206,23 +1208,23 @@ void hop_snowman_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFram
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
-            sprite->frameTable = ((u8 *)snowman_frame_set_3);
+            sprite->frameTable = snowman_frame_set_3;
             select_sprite_entry(
                 sprite,
-                ((u8 *)snowman_frame_set_3)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                snowman_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             action->action_phase.u++;
         }
         break;
 
     case 3:
-        if (*(u8 * *)&sprite->frameTable == ((u8 *)snowman_direction_frames)) {
+        if (*(u8 * *)&sprite->frameTable == snowman_direction_frames) {
             break;
         }
-        sprite->frameTable = ((u8 *)snowman_direction_frames);
+        sprite->frameTable = snowman_direction_frames;
         select_sprite_entry(
             sprite,
-            ((u8 *)snowman_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            snowman_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
     }
 
@@ -1298,7 +1300,7 @@ void advance_timed_attack_animation_and_damage(ActorRecord *action, ObjectPositi
         timer = action->action_timer.u + 1;
         action->action_timer.u = timer;
         if (((s16)timer == 4) || (sprite->flags & 0x8000)) {
-            u8 *direction_table = ((u8 *)snowman_attack_frames);
+            u8 *direction_table = snowman_attack_frames;
 
             sprite->frameTable = direction_table;
             select_sprite_entry(sprite,
@@ -1412,7 +1414,7 @@ use_kind:
 
             kind = *kind_data;
             kind_table = (u8 *)item_action_definitions;
-            kind_entry = (u8 *)((u32)(kind * 20) + (u8 *)kind_table);
+            kind_entry = ((u32)(kind * 20) + (u8 *)kind_table);
 
             if (kind_entry[0x12] == 2) {
                 target_obj = action->target;
@@ -1425,7 +1427,7 @@ use_kind:
                 s8 x;
                 s8 y;
 
-                action->target = (void *)scan_actor_along_heading(action, tile_arg->tile_x, tile_arg->tile_y,
+                action->target = scan_actor_along_heading(action, tile_arg->tile_x, tile_arg->tile_y,
                               action->facing, 0x10);
                 x = action->target_tile_x;
                 y = action->target_tile_y;
@@ -1517,8 +1519,8 @@ case 3:
     motion->velocity_y = 0;
     motion->velocity_x = 0;
     set_record_integer_tile_center(motion, tile_arg->tile_x, tile_arg->tile_y);
-    if (*(u8 **)&tile_arg->frameTable != ((u8 *)snowman_direction_frames)) {
-        u8 *frame_table = ((u8 *)snowman_direction_frames);
+    if (*(u8 **)&tile_arg->frameTable != snowman_direction_frames) {
+        u8 *frame_table = snowman_direction_frames;
         (tile_arg->frameTable) = frame_table;
         select_sprite_entry(tile_arg,
             frame_table[((g_game_work.view.camera_rotation.parts.viewAngle + action->facing + 0x100) >> 9) & 7],
@@ -1577,7 +1579,7 @@ void displace_actor_then_recenter(ActorRecord *action, ObjectPosition *motion, S
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, entity, ((u8 *)D_801759C8));
+            begin_actor_display_action(action, motion, entity, D_801759C8);
             return;
         }
         if (!(entity->flags & 0x8000)) {
@@ -1621,7 +1623,7 @@ void displace_actor_then_recenter(ActorRecord *action, ObjectPosition *motion, S
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, entity, ((u8 *)D_801759C8));
+            begin_actor_display_action(action, motion, entity, D_801759C8);
             return;
         }
         {
@@ -1655,10 +1657,10 @@ void displace_actor_then_recenter(ActorRecord *action, ObjectPosition *motion, S
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, entity->tile_x, entity->tile_y);
-        if (entity->frameTable == ((u8 *)D_80175998)) {
+        if (entity->frameTable == D_80175998) {
             u8 *direction_table;
 
-            direction_table = ((u8 *)snowman_direction_frames);
+            direction_table = snowman_direction_frames;
             entity->frameTable = direction_table;
             select_sprite_entry(entity,
                 direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -1678,9 +1680,9 @@ void displace_actor_then_recenter(ActorRecord *action, ObjectPosition *motion, S
 }
 
 /* Runs the shared actor defeat and removal sequence with the supplied callback arguments. */
-void remove_defeated_snowman(void *state, void *motion, void *position, void *actor)
+void remove_defeated_snowman(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
-    update_actor_defeat_removal(state, motion, position, actor);
+    update_actor_defeat_removal(body, motion, sprite, actor);
 }
 
 /* Runs the shared hop and shrink sequence for the actor with the supplied callback arguments. */
@@ -1714,9 +1716,9 @@ void advance_snowman_status_action(ActorRecord *action, ObjectPosition *context,
         if (!(sprite_in->flags & 0xE000)) {
             return;
         }
-        (sprite_in->frameTable) = ((u8 *)snowman_alt_direction_frames);
+        (sprite_in->frameTable) = snowman_alt_direction_frames;
         select_sprite_entry(sprite_in,
-            ((u8 *)snowman_alt_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + actor_in->facing + 0x100) >> 9) & 7],
+            snowman_alt_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor_in->facing + 0x100) >> 9) & 7],
             0);
         {
             DungeonGlobalStatus *counter_base;
@@ -1797,9 +1799,9 @@ void advance_snowman_status_action(ActorRecord *action, ObjectPosition *context,
                 return;
             }
 
-            (sprite_in->frameTable) = ((u8 *)snowman_frame_set_1);
+            (sprite_in->frameTable) = snowman_frame_set_1;
             select_sprite_entry(sprite_in,
-                ((u8 *)snowman_frame_set_1)[((g_game_work.view.camera_rotation.parts.viewAngle + actor_in->facing + 0x100) >> 9) & 7],
+                snowman_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor_in->facing + 0x100) >> 9) & 7],
                 0);
             if (sprite_in->flags & 0x8000) {
                 action->unk_8C.address = ((void *)update_snowman_behavior);
@@ -1810,9 +1812,9 @@ void advance_snowman_status_action(ActorRecord *action, ObjectPosition *context,
             action->action_phase.u++;
             return;
         }
-        (sprite_in->frameTable) = ((u8 *)snowman_frame_set_1);
+        (sprite_in->frameTable) = snowman_frame_set_1;
         select_sprite_entry(sprite_in,
-            ((u8 *)snowman_frame_set_1)[((g_game_work.view.camera_rotation.parts.viewAngle + actor_in->facing + 0x100) >> 9) & 7],
+            snowman_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor_in->facing + 0x100) >> 9) & 7],
             0);
         if (sprite_in->flags & 0x8000) {
             action->unk_8C.address = ((void *)update_snowman_behavior);
@@ -1854,9 +1856,9 @@ void advance_snowman_mp_action(ActorRecord *actor_in, ObjectPosition *actor_inde
         shared_counter = &g_dungeon_status;
         shared_counter->activity_counts.parts.pending_action_count--;
     }
-    (target->frameTable) = ((u8 *)snowman_alt_direction_frames);
+    (target->frameTable) = snowman_alt_direction_frames;
     direction = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
-    select_sprite_entry(target,(u8)(((u8 *)snowman_alt_direction_frames)[direction & 7]), 0);
+    select_sprite_entry(target,(u8)(snowman_alt_direction_frames[direction & 7]), 0);
     actor_in->action_phase.u++;
     return;
 
@@ -1864,9 +1866,9 @@ void advance_snowman_mp_action(ActorRecord *actor_in, ObjectPosition *actor_inde
     if (entity->mp_value.parts.whole != 0) {
         DungeonGlobalStatus *shared_counter;
 
-        (target->frameTable) = ((u8 *)snowman_frame_set_1);
+        (target->frameTable) = snowman_frame_set_1;
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
-        select_sprite_entry(target,(u8)(((u8 *)snowman_frame_set_1)[direction & 7]), 0);
+        select_sprite_entry(target,(u8)(snowman_frame_set_1[direction & 7]), 0);
         shared_counter = &g_dungeon_status;
         shared_counter->activity_counts.parts.pending_action_count++;
         actor_in->action_phase.u++;
@@ -1910,9 +1912,9 @@ void advance_snowman_mp_action(ActorRecord *actor_in, ObjectPosition *actor_inde
         if (entity->mp_value.parts.whole == 0) {
             return;
         }
-        (target->frameTable) = ((u8 *)snowman_frame_set_1);
+        (target->frameTable) = snowman_frame_set_1;
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
-        select_sprite_entry(target,(u8)(((u8 *)snowman_frame_set_1)[direction & 7]), 0);
+        select_sprite_entry(target,(u8)(snowman_frame_set_1[direction & 7]), 0);
         shared_state->activity_counts.parts.pending_action_count++;
     }
     actor_in->action_phase.u++;
@@ -1947,10 +1949,10 @@ void update_snowman_parent_motion(ActorRecord *actor, ObjectPosition *action, Sp
             actor->unk_8C.handler = ((u8 *)update_snowman_behavior);
             return;
         }
-    } else if (*(u8 **)&entity->frameTable == ((u8 *)snowman_alt_direction_frames) &&
+    } else if (*(u8 **)&entity->frameTable == snowman_alt_direction_frames &&
                !(map_object->flags1C & 0x208)) {
-        entity->frameTable = ((u8 *)snowman_move_direction_frames);
-        select_sprite_entry(entity,(s16)(((u8 *)snowman_move_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + map_object->facing + 0x100) >> 9) & 7]),(s16)(0));
+        entity->frameTable = snowman_move_direction_frames;
+        select_sprite_entry(entity,(s16)(snowman_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + map_object->facing + 0x100) >> 9) & 7]),(s16)(0));
     }
 }
 
@@ -2089,7 +2091,7 @@ void select_actor_target_and_advance_status(ActorRecord *action_state, ObjectPos
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, effect_arg, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
             action_state->action_id.s = 0x17;
-            ((Rec_func_800A9E70_arg0 *)action_state)->unk_8C = 0;
+            action_state->unk_8C.word = 0;
             action_state->action_phase.s = 0;
             anim_state->frameTable = ((s32 *)D_801759D8);
             select_sprite_entry(anim_state,
@@ -2180,8 +2182,8 @@ void advance_directional_attack_sequence(ActorRecord *action, ObjectPosition *po
             position->velocity_x = 0;
             set_record_integer_tile_center(position,
                 sprite->tile_x, sprite->tile_y);
-            if (*(u8 **)&sprite->frameTable != ((u8 *)snowman_direction_frames)) {
-                sprite->frameTable = ((u8 *)snowman_direction_frames);
+            if (*(u8 **)&sprite->frameTable != snowman_direction_frames) {
+                sprite->frameTable = snowman_direction_frames;
                 sprite->flags &= 0xF7FF;
                 select_sprite_entry(sprite,
                     (*(u8 **)&sprite->frameTable)[((g_game_work.view.camera_rotation.parts.viewAngle +
@@ -2294,7 +2296,7 @@ void update_effect_motion_and_brightness(void *effect, void *motion, void *rende
         break;
 
     case 26:
-        (*(u16 *)((u8 *)effect + (-2))) |= NODE_REMOVE;
+        (((ObjectNodeHeader *)effect - 1)->flags) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
@@ -2327,14 +2329,14 @@ void update_effect_motion_and_brightness(void *effect, void *motion, void *rende
         s32 heading_x = ((R10_80174C70_S_80174C70_0 *)effect)->unk_18;
         s32 radius = ((R10_80174C70_S_80174C70_0 *)effect)->unk_62;
 
-        direction.x = (*(u16 *)((u8 *)direction_ptr + (((heading_x - 0x400) >> 7) & 0x1C)));
+        direction.x = (*(u16 *)(direction_ptr + (((heading_x - 0x400) >> 7) & 0x1C)));
 
         {
             s32 cosine_product = radius * phase_offset;
             s32 heading_y = ((R10_80174C70_S_80174C70_0 *)effect)->unk_18;
 
             direction_ptr += ((heading_y - 0x400) >> 7) & 0x1C;
-            direction.y = (*(u16 *)((u8 *)direction_ptr + (2)));
+            direction.y = (*(u16 *)(direction_ptr + (2)));
 
             {
                 s32 height_step = cosine_product << 4;
@@ -2363,7 +2365,7 @@ void update_effect_motion_and_brightness(void *effect, void *motion, void *rende
 }
 
 /* Spawns a small gray oscillating sprite near the source, oriented relative to the camera. */
-void spawn_randomized_oscillating_effect(s32 unused, R10_80174F24_S_func_80AF3724_0 *origin, void *unused_record, void *unused_actor)
+void spawn_randomized_oscillating_effect(ActorRecord *body, R10_80174F24_S_func_80AF3724_0 *origin, SpriteFrameState *sprite, ActorRecord *actor)
 {
     R10_80174F24_LocalVector direction;
     R10_80174F24_LocalTable directions;
@@ -2438,7 +2440,7 @@ void spawn_randomized_oscillating_effect(s32 unused, R10_80174F24_S_func_80AF372
 
 /* Stops movement and waits for dungeon activity to finish, then clears the callback and counts the new
  * action. */
-void wait_for_snowman_action_slot(void *entity_data, s32 unused_1, s32 unused_2, void *other_data)
+void wait_for_snowman_action_slot(void *entity_data, ObjectPosition *motion, SpriteFrameState *sprite, void *other_data)
 {
     u8 *entity = entity_data;
     u8 *other_entity = other_data;
@@ -2505,7 +2507,7 @@ void advance_actor_transition_and_restore_facing(void *transition, void *positio
         return;
 
     case 1:
-        run_cd_image_commands(((u8 *)snowman_image_commands), ((u8 *)snowman_image_load_done), 0);
+        run_cd_image_commands(snowman_image_commands, snowman_image_load_done, 0);
         ((R10_80175398_S_80175398_0 *)transition)->unk_AC = 0;
         ((R10_80175398_S_80175398_0 *)transition)->phase++;
         ((R10_80175398_S_80175398_1 *)actor)->unk_8A = ((R10_80175398_S_80175398_1 *)actor)->unk_2A.u;
@@ -2517,18 +2519,18 @@ void advance_actor_transition_and_restore_facing(void *transition, void *positio
 
         direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((R10_80175398_S_80175398_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
         angle = ((R10_80175398_S_80175398_1 *)actor)->unk_2A.u;
-        if (((u8 *)snowman_image_load_done)[0] == 0 || direction != 2) {
+        if (snowman_image_load_done[0] == 0 || direction != 2) {
             if (direction == 2) {
                 return;
             }
             ((R10_80175398_S_80175398_1 *)actor)->unk_2A.u = angle + 0x200;
             return;
         }
-        run_cd_image_commands(((u8 *)snowman_image_commands), ((u8 *)snowman_image_load_done), 1);
+        run_cd_image_commands(snowman_image_commands, snowman_image_load_done, 1);
         sound_set_cd_cue_parameters(0, ((s32 *)cd_cue_base)[0], 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, read_stream_cue_start_offset(), 0);
-        (*(u8 *)snowman_effect_load_done) = 0;
-        Control_CD(0xFF, ((s32 *)resource_completion_callback_address), ((u8 *)snowman_effect_load_done));
+        (*snowman_effect_load_done) = 0;
+        Control_CD(0xFF, ((s32 *)resource_completion_callback_address), snowman_effect_load_done);
         select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, position, 8, 0x300);
         ((R10_80175398_S_80175398_0 *)transition)->timer.u = 0x10;
         ((R10_80175398_S_80175398_0 *)transition)->phase++;
@@ -2542,7 +2544,7 @@ void advance_actor_transition_and_restore_facing(void *transition, void *positio
 
         ((R10_80175398_S_80175398_0 *)transition)->timer.u = timer;
         if ((s32)(timer << 16) <= 0) {
-            u8 cd_finished = (*(u8 *)snowman_effect_load_done);
+            u8 cd_finished = (*snowman_effect_load_done);
             ((R10_80175398_S_80175398_0 *)transition)->timer.u = old_timer;
             if (cd_finished == 0) {
                 return;
@@ -2593,7 +2595,7 @@ void advance_actor_transition_and_restore_facing(void *transition, void *positio
 
                 resource_index = random_value % 3;
             }
-            select_record_entry_and_value(object_data, ((u8 *)dungeon_resource_buffer) + ((s32 *)D_80175A00)[resource_index], 0);
+            select_record_entry_and_value(object_data, dungeon_resource_buffer + ((s32 *)D_80175A00)[resource_index], 0);
         }
         record->flags |= 0x80;
         ((R10_80175398_S_80175398_0 *)transition)->timer.u = 0;
@@ -2623,7 +2625,7 @@ void advance_actor_transition_and_restore_facing(void *transition, void *positio
         if (((R10_80175398_S_80175398_0 *)transition)->phase != 6) {
             return;
         }
-        if (create_status_linked_render_effect(position, (*(void **)D_80175A84), (*(s16 *)D_80175A18), ((u8 *)staged_spawn_count)) == 0) {
+        if (create_status_linked_render_effect(position, (*(void **)D_80175A84), (*(s16 *)D_80175A18), staged_spawn_count) == 0) {
             return;
         }
         ((R10_80175398_S_80175398_0 *)transition)->timer.u = 0x10;

@@ -57,7 +57,7 @@ s32 draw_gradient_line_chain(u8 *node)
 
     town = &g_game_work;
     do {
-        line = (LineG2 *)((GpuContext *)town->draw_buffer)->packetCursor;
+        line = ((GpuContext *)town->draw_buffer)->packetCursor;
         ((GpuContext *)town->draw_buffer)->packetCursor = (u8 *)line + 0x14;
         init_line_colors(line, 0x202020, 0);
         SetLineG2(line);
@@ -71,7 +71,7 @@ s32 draw_gradient_line_chain(u8 *node)
         if ((u16)mean_depth < 0x1E0U) {
             ot_offset = (s16)mean_depth * 4;
             addPrim((u8 *)(ot_offset + (long)((GpuContext *)town->draw_buffer)) + 0xB0, line);
-            render = ((GpuContext *)town->draw_buffer);
+            render = town->draw_buffer;
             draw_mode = render->packetCursor;
             render->packetCursor = draw_mode + 0xC;
             SetDrawMode(draw_mode, 0, 0, GetTPage(zero, 1, zero, zero) & 0xFFFF, 0);

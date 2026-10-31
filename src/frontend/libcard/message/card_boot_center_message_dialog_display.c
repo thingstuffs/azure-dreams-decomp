@@ -26,5 +26,5 @@ void card_boot_center_message_dialog_display(void *object) {
     linked_state = ((Rec_func_8002290C_arg0 *)object)->unk_8E0;
     ((S_8002290C_3 *)(((S_8002290C_2 *)linked_state)->unk_04))->unk_08 = 0xA0;
     ((S_8002290C_3 *)(((S_8002290C_2 *)linked_state)->unk_04))->unk_0A = 0x78;
-    linked_state->unk_00 = (void *) (object + 0x24);
+    linked_state->unk_00 = (object + 0x24);
 }

@@ -64,7 +64,7 @@ void run_entity_callbacks_and_update_ground(ActorRecord *body, ObjectPosition *m
         return;
     }
 
-    state_byte = (*(u8 *)((u8 *)body + 0x6D));
+    state_byte = (*((u8 *)body + 0x6D));
     old_state = (s8)state_byte;
     if (refresh_actor_facing_and_lifecycle(body, motion, sprite, body) != 0) {
         return;
@@ -107,7 +107,7 @@ void run_entity_callbacks_and_update_ground(ActorRecord *body, ObjectPosition *m
         direction = ((g_game_work.view.camera_rotation.parts.viewAngle + entity_base->unk_2A + 0x100) >> 9) & 7;
         if (body->unk_94 != direction) {
             select_indirect_table_entry(sprite,
-                *(u8 *)(*(u8 * *)&sprite->frameTable + direction),
+                *(*(u8 * *)&sprite->frameTable + direction),
                 sprite->unk_04);
             body->unk_94 = direction;
         }

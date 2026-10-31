@@ -103,10 +103,10 @@ void initialize_effect_with_child_sprites(void *parent, ObjectPosition *position
             register_node(obj, draw_linked_lit_meshes);
             parent_value = ((S_800BA00C_0 *)parent)->unk_98;
             entity = obj + 0x20;
-            (*(void * *)((u8 *)entity + 0x9C)) = parent;
-            (*(s16 *)((u8 *)entity + 0x66)) = 0;
-            (*(s8 *)((u8 *)entity + 0x97)) = part_index;
-            (*(s32 *)((u8 *)entity + 0x98)) = parent_value;
+            (*(void * *)(entity + 0x9C)) = parent;
+            (*(s16 *)(entity + 0x66)) = 0;
+            (*(s8 *)(entity + 0x97)) = part_index;
+            (*(s32 *)(entity + 0x98)) = parent_value;
             sprite = ((S_800BA00C_1 *)obj)->unk_0C;
             sprite->scale_x = 0x1000;
             sprite->scale_y = 0x1000;
@@ -120,10 +120,10 @@ void initialize_effect_with_child_sprites(void *parent, ObjectPosition *position
             ((S_800BA00C_1 *)obj)->unk_00 = position->x.v;
             ((S_800BA00C_1 *)obj)->unk_04 = position->y.v;
             angle = (s8)quadrant;
-            if ((*(s8 *)((u8 *)entity + 0x97)) == angle) {
-                angle = ((S_800BA00C_5 *)((*(void * *)((u8 *)entity + 0x9C))))->unk_66;
+            if ((*(s8 *)(entity + 0x97)) == angle) {
+                angle = ((S_800BA00C_5 *)((*(void * *)(entity + 0x9C))))->unk_66;
                 ((S_800BA00C_1 *)obj)->unk_08.i = -((rsin(((angle % 0x200) << 16) >> 15) >> 4) * 0x1E00);
-                (*(s16 *)((u8 *)entity + 0x66)) = 0x1E;
+                (*(s16 *)(entity + 0x66)) = 0x1E;
             } else {
                 ((S_800BA00C_1 *)obj)->unk_08.i = 0;
             }
@@ -144,9 +144,9 @@ void initialize_effect_with_child_sprites(void *parent, ObjectPosition *position
             register_node(obj, draw_linked_sprites_clipped);
             parent_value = ((S_800BA00C_0 *)parent)->unk_98;
             entity = obj + 0x20;
-            (*(void * *)((u8 *)entity + 0x9C)) = parent;
-            (*(s8 *)((u8 *)entity + 0x97)) = part_index;
-            (*(s32 *)((u8 *)entity + 0x98)) = parent_value;
+            (*(void * *)(entity + 0x9C)) = parent;
+            (*(s8 *)(entity + 0x97)) = part_index;
+            (*(s32 *)(entity + 0x98)) = parent_value;
             sprite = ((S_800BA00C_1 *)obj)->unk_0C;
             sprite->source = sprite_texture;
             sprite->color.c.b = brightness;
@@ -181,8 +181,8 @@ void initialize_effect_with_child_sprites(void *parent, ObjectPosition *position
         register_node(obj, draw_linked_sprites_clipped);
         parent_value = ((S_800BA00C_0 *)parent)->unk_98;
         entity = obj + 0x20;
-        (*(void * *)((u8 *)entity + 0x9C)) = parent;
-        (*(s32 *)((u8 *)entity + 0x98)) = parent_value;
+        (*(void * *)(entity + 0x9C)) = parent;
+        (*(s32 *)(entity + 0x98)) = parent_value;
         sprite = ((S_800BA00C_1 *)obj)->unk_0C;
         sprite->source = map_particle_second_sprite_entries;
         sprite->color.c.b = 0x80;
@@ -212,8 +212,8 @@ void initialize_effect_with_child_sprites(void *parent, ObjectPosition *position
         register_node(obj, draw_linked_lit_meshes);
         parent_value = ((S_800BA00C_0 *)parent)->unk_98;
         entity = obj + 0x20;
-        (*(void * *)((u8 *)entity + 0x9C)) = parent;
-        (*(s32 *)((u8 *)entity + 0x98)) = parent_value;
+        (*(void * *)(entity + 0x9C)) = parent;
+        (*(s32 *)(entity + 0x98)) = parent_value;
         sprite = ((S_800BA00C_1 *)obj)->unk_0C;
         sprite->scale_x = 0x1000;
         sprite->scale_y = 0x1000;

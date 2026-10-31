@@ -62,14 +62,14 @@ void update_entity_motion_facing_and_ground(void *entity, ObjectPosition *motion
             entry_callback(entry_entity, motion, sprite, entry_entity);
             return;
         }
-        (*(u8 *)((u8 *)entity + 0x71)) &= 0x7F;
+        (*((u8 *)entity + 0x71)) &= 0x7F;
         return;
     }
 
     call_entity = entity;
     call_motion = motion;
     call_sprite = sprite;
-    old_state = (s8)((*(u8 *)((u8 *)entity + 0x6D)));
+    old_state = (s8)((*((u8 *)entity + 0x6D)));
     if (refresh_actor_facing_and_lifecycle(call_entity, call_motion, call_sprite, entity) != 0) {
         return;
     }
@@ -81,7 +81,7 @@ void update_entity_motion_facing_and_ground(void *entity, ObjectPosition *motion
             update_callback(entity, motion, sprite, entity);
         }
     }
-    D_801626A0[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, sprite, entity);
+    D_801626A0[(*((u8 *)entity + 0x9A))](entity, motion, sprite, entity);
     {
         state_check = (u32)(u16)old_state << 16;
         state_check >>= 16;
@@ -98,9 +98,9 @@ void update_entity_motion_facing_and_ground(void *entity, ObjectPosition *motion
     if (!((*(s32 *)((u8 *)entity + 0x1C)) & 0x40000) &&
         !((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
         motion->velocity_z += (*(s8 *)((u8 *)entity + 0x9D)) * 0x14000;
-        (*(u8 *)((u8 *)entity + 0x9D))++;
+        (*((u8 *)entity + 0x9D))++;
     } else {
-        (*(u8 *)((u8 *)entity + 0x9D)) = 0;
+        (*((u8 *)entity + 0x9D)) = 0;
     }
     (*(s32 *)((u8 *)entity + 0x90)) += motion->velocity_z;
     initial_flags = ((SpriteFrameState *)sprite)->flags;
@@ -109,7 +109,7 @@ void update_entity_motion_facing_and_ground(void *entity, ObjectPosition *motion
         direction = ((g_game_work.view.camera_rotation.parts.viewAngle + entity_base->unk_2A + 0x100) >> 9) & 7;
         if ((*(s16 *)((u8 *)entity + 0x94)) != direction) {
             select_indirect_table_entry(sprite,
-                *(u8 *)(*(u8 * *)&((SpriteFrameState *)sprite)->frameTable + direction),
+                *(*(u8 * *)&((SpriteFrameState *)sprite)->frameTable + direction),
                 ((SpriteFrameState *)sprite)->unk_04);
             (*(s16 *)((u8 *)entity + 0x94)) = direction;
         }
@@ -183,7 +183,7 @@ void update_entity_motion_facing_and_ground(void *entity, ObjectPosition *motion
                                 entity_base->unk_88;
                 if (ground_height < (*(s16 *)((u8 *)entity + 0x92))) {
                     (*(s16 *)((u8 *)entity + 0x92)) = ground_height;
-                    (*(u8 *)((u8 *)entity + 0x9D)) = 0;
+                    (*((u8 *)entity + 0x9D)) = 0;
                     motion->velocity_z = 0;
                     entity_base->unk_1C |= 0x08000000;
                 }
@@ -212,7 +212,7 @@ void update_entity_motion_facing_and_ground(void *entity, ObjectPosition *motion
                                 entity_base->unk_88;
                 if (ground_height < (*(s16 *)((u8 *)entity + 0x92))) {
                     (*(s16 *)((u8 *)entity + 0x92)) = ground_height;
-                    (*(u8 *)((u8 *)entity + 0x9D)) = 0;
+                    (*((u8 *)entity + 0x9D)) = 0;
                     motion->velocity_z = 0;
                     entity_base->unk_1C |= 0x08000000;
                 }

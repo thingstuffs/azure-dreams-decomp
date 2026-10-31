@@ -9,7 +9,7 @@ extern s32 D_8001C370[3];
 /* Play the sound id held at +0x18 of the current table entry. */
 void set_current_entry_script_flag(void)
 {
-    u8 *page = (u8 *)D_80020000;
+    u8 *page = D_80020000;
     s32 offset;
     s32 index;
 

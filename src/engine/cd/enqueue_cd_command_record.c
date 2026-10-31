@@ -24,7 +24,7 @@ S_80083968 *enqueue_cd_command_record(s16 entry_type, s32 entry_value, s32 paylo
     u8 *queue_index;
     u8 *wait_index;
     S_80083968 *entries;
-    queue_index = (u8 *) (&cd_command_write_index);
+    queue_index = (&cd_command_write_index);
     if (((cd_command_write_index + 1) & 0x1F) == queue_index[-1]) {
         wait_index = queue_index;
         do {

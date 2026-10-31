@@ -15,7 +15,7 @@ typedef struct S_80022E64_0 {
     void * unk_0C;
     s32 unk_10;
     u8 pad_14[0xC];
-    s32 unk_20;
+    struct GymState *unk_20;
 } S_80022E64_0;   /* obj in create_gym_mesh_object */
 
 typedef struct Copy24 {
@@ -23,7 +23,7 @@ typedef struct Copy24 {
 } Copy24;
 
 /* Allocates an object, copies six source words, and initializes its data. */
-void create_gym_mesh_object(void *source_words, s32 data_value_08, s32 object_value_10, s32 object_value_20) {
+void create_gym_mesh_object(void *source_words, s32 data_value_08, s32 object_value_10, struct GymState *object_value_20) {
     S_80022E64_0 *object;
     Copy24 *copy_dst;
     SpriteFrameState *object_data;

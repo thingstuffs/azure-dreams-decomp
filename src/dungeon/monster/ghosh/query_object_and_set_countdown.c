@@ -18,7 +18,7 @@ s32 query_object_and_set_countdown(void) {
         return 0;
     }
     flag = 1;
-    *(s8 *)((s8 *)status + 0xB0) = flag;
-    *(s8 *)((s8 *)status + 0xB1) = 60;
+    *((s8 *)status + 0xB0) = flag;
+    *((s8 *)status + 0xB1) = 60;
     return flag;
 }

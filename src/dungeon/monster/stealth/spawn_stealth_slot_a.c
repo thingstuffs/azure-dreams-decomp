@@ -14,30 +14,6 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/effect/screen.h"
 
-typedef struct S_80F2D000_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} S_80F2D000_1;   /* work in spawn_effect_object */
-
-typedef struct S_80F2D000_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80F2D000_2;   /* part_a in spawn_effect_object */
-
-typedef struct S_80F2D000_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xA];
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-    u8 pad_9D[0x7];
-    s16 unk_A4;
-    s16 unk_A6;
-} S_80F2D000_4;   /* work_copy in spawn_effect_object */
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 generate_random_value(void);                          /* extern */
@@ -95,15 +71,15 @@ void *spawn_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
             variant = generate_random_value() & 3;
         }
         initialize_actor_sprite_and_animation(object, part_a, part_b, spawn_flags);
-        ((S_80F2D000_4 *)work_copy)->unk_9A = 0xFF;
-        ((S_80F2D000_4 *)work_copy)->unk_9C = -1;
-        ((S_80F2D000_4 *)work_copy)->unk_8C = &D_8014CF74;
-        ((S_80F2D000_4 *)work_copy)->unk_A4 = -1;
+        ((ActorRecord *)work_copy)->action_id.u = 0xFF;
+        ((ActorRecord *)work_copy)->unk_9C = -1;
+        ((ActorRecord *)work_copy)->unk_8C.address = &D_8014CF74;
+        ((ActorRecord *)work_copy)->unk_A4.halves.low.s = -1;
         if (variant != 0) {
-            ((S_80F2D000_4 *)work_copy)->unk_A6 = 0;
+            ((ActorRecord *)work_copy)->unk_A4.halves.high.s = 0;
         } else {
             obj_alt = work_copy - 0x20;
-            ((S_80F2D000_4 *)work_copy)->unk_A6 = 1;
+            ((ActorRecord *)work_copy)->unk_A4.halves.high.s = 1;
             part_b->tpage_abr = 0x60;
             part_b->flags = (u16) (part_b->flags | 0xC);
             part_b->clut = (u16) (part_b->clut - 0x80);

@@ -216,7 +216,7 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
         path_start = ghosh_motion_path;
         path_step = path_start + actor->unk_B4.s * 2;
         start_direction = path_step[1] & 7;
-        start_vector = (InitPair *) &direction_vectors.pair[start_direction];
+        start_vector = &direction_vectors.pair[start_direction];
         motion->unk_0C.unk_0E.unk_0E = (s16) (start_vector->x * 0x10);
         motion->unk_10.unk_12.unk_12 = (s16) (start_vector->y * 0x10);
         beldo->unk_2A.s = (s16) (start_direction << 9);
@@ -226,7 +226,7 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
             path_table = ghosh_motion_path;
             actor->unk_96 = (u16) ((path_table[actor->unk_B4.s * 2] * 4) + 1);
             path_direction = path_table[actor->unk_B4.s * 2 + 1] & 7;
-            path_vector = (InitPair *) &direction_vectors.pair[path_direction];
+            path_vector = &direction_vectors.pair[path_direction];
             motion->unk_0C.unk_0E.unk_0E = (s16) (path_vector->x * 0x10);
             motion->unk_10.unk_12.unk_12 = (s16) (path_vector->y * 0x10);
             path_angle = path_direction << 9;

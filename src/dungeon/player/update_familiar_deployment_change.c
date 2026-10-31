@@ -194,7 +194,7 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, void *e
         ((S_8009345C_0 *)actor)->wait_ticks = 0x10U;
         selected_slot = ((S_8009345C_2 *)context)->unk_8A.s;
         slot_bits = ((S_8009345C_2 *)context)->unk_8A.u;
-        selected_object = (void *) ((S_8009345C_3 *)(((selected_slot * 4) + actor)))->unk_AC;
+        selected_object = ((S_8009345C_3 *)(((selected_slot * 4) + actor)))->unk_AC;
         familiar_deployment_slots.slot.u = slot_bits;
         ((S_8009345C_2 *)context)->unk_60 = selected_object;
         ((S_8009345C_0 *)actor)->phase++;
@@ -235,7 +235,7 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, void *e
         removed_object = ((S_8009345C_2 *)context)->unk_60;
         removed_object[-1].flags = (u16) (removed_object[-1].flags
             | 0x8000);
-        (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
+        (*&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         if (selected_item_record_alias[0] == NULL) {
             ((S_8009345C_0 *)actor)->wait_ticks = 0U;
             next_state = ((S_8009345C_0 *)actor)->phase + 4;
@@ -252,7 +252,7 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, void *e
         if (load_id != 0) {
             loaded_entity_sprite_resource = begin_sprite_resource_load_with_completion_flag(((S_8009345C_7 *)(*message_or_list.base))->unk_00, &sprite_resource_completion_flag);
             load_monster_code_module(((S_8009345C_7 *)(*message_or_list.base))->unk_00, load_id, 0);
-            (*(s8 *)&entity_resource_read_complete) = 0;
+            (*&entity_resource_read_complete) = 0;
             Control_CD(0xFF, set_byte_one, &entity_resource_read_complete);
         }
         ((S_8009345C_0 *)actor)->phase++;

@@ -127,20 +127,21 @@ void *create_randomized_grayscale_effect(s32 object_tag, Rec_func_80024264_arg1 
 }
 
 /* Advances sprite animation, creates a gray child at count 8, and removes the effect at count 16. */
-void advance_the_entry_counters_trigger_count_milestones_update_target(void *entry, s32 unused, void *target)
+void advance_the_entry_counters_trigger_count_milestones_update_target(void *entry_arg, s32 unused, void *target)
 {
+    ovl_18b8824_81898B70_S_80024370_0 *entry = entry_arg;
     ovl_18b8824_81898B70_S_80024370_1 *object;
     u16 count;
 
-    object = ((ovl_18b8824_81898B70_S_80024370_0 *)entry)->unk_00;
+    object = entry->unk_00;
     object->unk_14++;
 
-    count = ((ovl_18b8824_81898B70_S_80024370_0 *)entry)->unk_04 + 1;
-    ((ovl_18b8824_81898B70_S_80024370_0 *)entry)->unk_04 = count;
+    count = entry->unk_04 + 1;
+    entry->unk_04 = count;
 
     switch ((s16)count) {
     case 8:
-        create_randomized_grayscale_effect((s32)((ovl_18b8824_81898B70_S_80024370_0 *)entry)->unk_00, (Rec_func_80024264_arg1 *)unused);
+        create_randomized_grayscale_effect((s32)entry->unk_00, (Rec_func_80024264_arg1 *)unused);
         break;
     case 0x10:
     {

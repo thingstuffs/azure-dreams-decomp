@@ -47,7 +47,7 @@ void move_position_toward_target(void *work_data, void *position_data, void *com
             s32 current_y;
 
             current_y = pos->y;
-            *(s32 *)&pos->y = current_y +
+            *&pos->y = current_y +
                 ((work->target_y << 16) - current_y) / (s16)work->count;
         }
     }
@@ -55,7 +55,7 @@ void move_position_toward_target(void *work_data, void *position_data, void *com
     {
         u16 angle;
 
-        angle = *(u16 *)&pos->angle;
+        angle = *&pos->angle;
         pos->angle = angle - 0x40;
     }
     pos->angle = get_clamped_transform_coordinate(pos);

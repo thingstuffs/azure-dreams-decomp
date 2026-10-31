@@ -79,7 +79,7 @@ void draw_fullscreen_fade(void *effect, s32 unused, S_8009BE2C_2 *fade) {
 
     packet = ((S_8009BE2C_5 *)(g_game_work.draw_buffer))->unk_8D0;
     ((S_8009BE2C_5 *)(g_game_work.draw_buffer))->unk_8D0 =
-        (void *) (packet + 0x10);
+        (packet + 0x10);
     ((S_8009BE2C_1 *)packet)->unk_0C = 0x140;
     ((S_8009BE2C_1 *)packet)->unk_08 = 0;
     ((S_8009BE2C_1 *)packet)->unk_0A = 0;
@@ -98,7 +98,7 @@ void draw_fullscreen_fade(void *effect, s32 unused, S_8009BE2C_2 *fade) {
     ((S_8009BE2C_1 *)packet)->unk_04.at03.v = (u8) (((S_8009BE2C_1 *)packet)->unk_04.at03.v | 2);
     AddPrim(render_context->draw_buffer + 0xB0, packet);
     packet = ((S_8009BE2C_6 *)(render_context->draw_buffer))->unk_8D0;
-    ((S_8009BE2C_6 *)(render_context->draw_buffer))->unk_8D0 = (void *) (packet + 0xC);
+    ((S_8009BE2C_6 *)(render_context->draw_buffer))->unk_8D0 = (packet + 0xC);
     ((S_8009BE2C_1 *)packet)->unk_03 = 1;
     ((S_8009BE2C_1 *)packet)->unk_04.at00u.v = 0xE1000020;
     AddPrim(render_context->draw_buffer + 0xB0, packet);

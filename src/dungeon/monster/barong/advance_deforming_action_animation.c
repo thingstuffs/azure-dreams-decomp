@@ -2,15 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-
-typedef struct S_801750F8_0 {
-    u8 pad_00[0x8C];
-    u8 * unk_8C;
-    u8 pad_90[0x6];
-    union { u16 s; s16 u; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_801750F8_0;   /* arg0 in advance_deforming_action_animation */
+#include "shared/entity.h"
 
 typedef struct S_801750F8_1 {
     u8 pad_00[0x14];
@@ -25,7 +17,7 @@ extern s32 func_801744E0(void *);
 extern void select_sprite_entry(void *, s32, s32);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
-extern void create_randomized_item_object(void *, void *, void *, void *);
+extern void create_randomized_item_object(ActorRecord *, ObjectPosition *, SpriteFrameState *, void *);
 
 extern u8 barong_action_resume_address[];
 extern u8 barong_frame_set_1[];
@@ -34,14 +26,14 @@ extern u8 D_801755C4[];
 extern u8 barong_frame_set_3[];
 
 /* Advances a timed action animation, deforming the sprite and restoring it on completion. */
-void advance_deforming_action_animation(void *action_in, void *direction_data_in, void *sprite_in, void *actor_in)
+void advance_deforming_action_animation(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite_in, void *actor_in)
 {
-    void *direction_data = direction_data_in;
+    void *direction_data = position;
     SpriteFrameState *sprite= sprite_in;
     S_801750F8_1 *actor = actor_in;
     u8 state;
 
-    state = ((S_801750F8_0 *)action_in)->unk_9B;
+    state = body->action_phase.u;
     switch (state) {
     case 0:
     {
@@ -53,10 +45,10 @@ void advance_deforming_action_animation(void *action_in, void *direction_data_in
         facing_angle = (facing_angle << 16) >> 7;
         actor->unk_2A = facing_angle;
 
-        timer = ++((S_801750F8_0 *)action_in)->unk_96.s;
+        timer = ++body->action_timer.u;
         if (timer >= 0x78) {
-            ((S_801750F8_0 *)action_in)->unk_9B = 5;
-            ((S_801750F8_0 *)action_in)->unk_96.s = 0;
+            body->action_phase.u = 5;
+            body->action_timer.u = 0;
             return;
         }
 
@@ -65,8 +57,8 @@ void advance_deforming_action_animation(void *action_in, void *direction_data_in
             return;
         }
         actor->unk_14 = actor_flags & 0xFF7FFFFF;
-        ((S_801750F8_0 *)action_in)->unk_96.s = 0;
-        ((S_801750F8_0 *)action_in)->unk_9B++;
+        body->action_timer.u = 0;
+        body->action_phase.u++;
         (sprite->frameTable) = D_801755BC;
         select_sprite_entry(sprite,
             D_801755BC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
@@ -79,8 +71,8 @@ void advance_deforming_action_animation(void *action_in, void *direction_data_in
         if (!(sprite->flags & 0x6000)) {
             return;
         }
-        ((S_801750F8_0 *)action_in)->unk_96.s = 0;
-        ((S_801750F8_0 *)action_in)->unk_9B++;
+        body->action_timer.u = 0;
+        body->action_phase.u++;
         (sprite->frameTable) = barong_frame_set_3;
         select_sprite_entry(sprite,
             barong_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
@@ -92,12 +84,12 @@ void advance_deforming_action_animation(void *action_in, void *direction_data_in
     {
         s16 timer;
 
-        timer = ++((S_801750F8_0 *)action_in)->unk_96.s;
+        timer = ++body->action_timer.u;
         if (timer < 0xF) {
             return;
         }
-        ((S_801750F8_0 *)action_in)->unk_96.s = 0;
-        ((S_801750F8_0 *)action_in)->unk_9B++;
+        body->action_timer.u = 0;
+        body->action_phase.u++;
         sprite->flags &= 0xF7FF;
         return;
     }
@@ -108,7 +100,7 @@ void advance_deforming_action_animation(void *action_in, void *direction_data_in
         s32 scale_y;
         s16 timer;
 
-        timer = ++((S_801750F8_0 *)action_in)->unk_96.s;
+        timer = ++body->action_timer.u;
         if (timer < 3) {
             scale_x = sprite->scale_x - 0x258;
             scale_y = sprite->scale_y + 0x258;
@@ -144,11 +136,11 @@ void advance_deforming_action_animation(void *action_in, void *direction_data_in
             }
         }
 
-        if (((S_801750F8_0 *)action_in)->unk_96.u < 0x14) {
+        if (body->action_timer.s < 0x14) {
             return;
         }
-        ((S_801750F8_0 *)action_in)->unk_96.s = 0;
-        ((S_801750F8_0 *)action_in)->unk_9B++;
+        body->action_timer.u = 0;
+        body->action_phase.u++;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         (sprite->frameTable) = D_801755C4;
@@ -156,7 +148,7 @@ void advance_deforming_action_animation(void *action_in, void *direction_data_in
             D_801755C4[((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
             0);
         play_sound_if_enabled(0x509);
-        create_randomized_item_object(action_in, direction_data, sprite, actor);
+        create_randomized_item_object(body, direction_data, sprite, actor);
         return;
     }
 
@@ -164,12 +156,12 @@ void advance_deforming_action_animation(void *action_in, void *direction_data_in
     {
         s16 timer;
 
-        timer = ++((S_801750F8_0 *)action_in)->unk_96.s;
+        timer = ++body->action_timer.u;
         if (timer < 9) {
             return;
         }
-        ((S_801750F8_0 *)action_in)->unk_96.s = 0;
-        ((S_801750F8_0 *)action_in)->unk_9B++;
+        body->action_timer.u = 0;
+        body->action_phase.u++;
         return;
     }
 
@@ -182,7 +174,7 @@ void advance_deforming_action_animation(void *action_in, void *direction_data_in
             barong_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
             0);
         spend_actor_mp(actor, 0x1000);
-        ((S_801750F8_0 *)action_in)->unk_8C = barong_action_resume_address;
+        body->unk_8C.byte_ptr = barong_action_resume_address;
         g_dungeon_status.active_actor = 0;
         actor->unk_46 &= 0x7FFF;
     }

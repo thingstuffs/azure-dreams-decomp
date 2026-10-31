@@ -117,8 +117,8 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, SpriteFr
                     target = primary_actor_record;
                     (*(void * *)((u8 *)item + 0x60)) = target;
                     linked = (MovingTile *)((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
-                    (*(u8 *)((u8 *)item + 0x72)) = linked->tile_x;
-                    (*(u8 *)((u8 *)item + 0x73)) = linked->tile_y;
+                    (*((u8 *)item + 0x72)) = linked->tile_x;
+                    (*((u8 *)item + 0x73)) = linked->tile_y;
                 } else {
                     u8 effect_id;
 
@@ -127,8 +127,8 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, SpriteFr
                         target = (*(void **)((u8 *)item + 0x60));
                         if (target != 0) {
                             linked = (MovingTile *)((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
-                            (*(u8 *)((u8 *)item + 0x72)) = linked->tile_x;
-                            (*(u8 *)((u8 *)item + 0x73)) = linked->tile_y;
+                            (*((u8 *)item + 0x72)) = linked->tile_x;
+                            (*((u8 *)item + 0x73)) = linked->tile_y;
                         }
                     } else {
                         s32 dx;
@@ -140,8 +140,8 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, SpriteFr
                         (*(void **)((u8 *)item + 0x60)) = target;
                         dx = abs(*(s8 *)((u8 *)item + 0x72));
                         dy = abs(*(s8 *)((u8 *)item + 0x73));
-                        (*(u8 *)((u8 *)item + 0x72)) = dx;
-                        (*(u8 *)((u8 *)item + 0x73)) = dy;
+                        (*((u8 *)item + 0x72)) = dx;
+                        (*((u8 *)item + 0x73)) = dy;
                     }
                 }
             }
@@ -172,10 +172,10 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, SpriteFr
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(item);
-        (*(u8 *)((u8 *)item + 0x6D))--;
+        (*((u8 *)item + 0x6D))--;
         ((S_80172A48_0 *)action)->unk_8C = update_actor_behavior_animation_and_facing;
-        (*(u8 *)((u8 *)item + 0x73)) = 0;
-        (*(u8 *)((u8 *)item + 0x72)) = 0;
+        (*((u8 *)item + 0x73)) = 0;
+        (*((u8 *)item + 0x72)) = 0;
         (*(u16 *)((u8 *)item + 0x46)) &= 0x7FFF;
         return;
 
@@ -300,9 +300,9 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, SpriteFr
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         ((S_80172A48_0 *)action)->unk_8C = update_actor_behavior_animation_and_facing;
         advance_status_timers(item);
-        (*(u8 *)((u8 *)item + 0x73)) = 0;
-        (*(u8 *)((u8 *)item + 0x72)) = 0;
-        (*(u8 *)((u8 *)item + 0x6D))--;
+        (*((u8 *)item + 0x73)) = 0;
+        (*((u8 *)item + 0x72)) = 0;
+        (*((u8 *)item + 0x6D))--;
         (*(u16 *)((u8 *)item + 0x46)) &= 0x7FFF;
         play_sound_if_enabled(AUDIO_FADE_CD_FAST);
     }

@@ -35,7 +35,7 @@ extern u8 barong_frame_set_4[];
 extern u8 D_8017558C[];
 
 /* Updates timed movement, returns the actor to its tile, and resets its action state. */
-void reset_actor_after_timed_movement(void *object_arg, void *motion_arg, void *actor_arg, void *room_arg)
+void reset_actor_after_timed_movement(void *object_arg, ObjectPosition *motion_arg, SpriteFrameState *actor_arg, void *room_arg)
 {
     S_801738B8_0 *object = object_arg;
     ObjectPosition *motion = motion_arg;

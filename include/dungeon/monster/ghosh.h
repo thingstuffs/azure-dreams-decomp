@@ -51,7 +51,7 @@ void update_boss_actor_action(ActorRecord *actor, ObjectPosition *context, Sprit
 
 
 
-void update_actor_animation_movement_and_terrain(void *entity, ObjectPosition *motion, void *sprite);
+void update_actor_animation_movement_and_terrain(void *entity, ObjectPosition *motion, SpriteFrameState *sprite);
 void update_boss_actor_movement(void *entity, ObjectPosition *motion, SpriteFrameState *sprite);
 
 typedef union GhoshFadeColor {

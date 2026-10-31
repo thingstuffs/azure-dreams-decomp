@@ -638,19 +638,19 @@ void create_converging_fading_sprite(
 void *create_actor_with_optional_status(s16 flags, s16 kind_id, s16 variant, s32 spawn_value);
 void update_actor_callbacks_animation_and_ground(u8 *actor, u8 *motion, u8 *object);
 void update_snowman_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *sprite_arg, ActorRecord *entity_arg);
-void advance_snowman_stored_path(void *movement, void *motion, SpriteFrameState *entity, void *path_state);
+void advance_snowman_stored_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, void *path_state);
 void choose_snowman_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 void begin_snowman_step_animation(void *actor_state, void *action_state, SpriteFrameState *sprite, void *orientation);
 s32 try_snowman_attack(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor);
 void begin_snowman_attack(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
-s32 relink_snowman_path(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
-void move_snowman_to_tile(void *entity_arg, void *motion, void *check_arg, void *actor_arg);
+s32 relink_snowman_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, s32 force_state_arg);
+void move_snowman_to_tile(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void hop_snowman_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void update_snowman_linked_motion(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
 void advance_timed_attack_animation_and_damage(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_actor_spell_effect_sequence(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *tile_arg, ActorRecord *action);
 void displace_actor_then_recenter(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *entity, ActorRecord *actor);
-void remove_defeated_snowman(void *state, void *motion, void *position, void *actor);
+void remove_defeated_snowman(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void shrink_hopping_snowman(void *state, void *motion, void *position, void *actor);
 void advance_snowman_removal(void *state, void *motion, void *position, void *actor);
 void grow_hopping_snowman(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
@@ -667,12 +667,12 @@ void select_actor_target_and_advance_status(ActorRecord *action_state, ObjectPos
 void advance_directional_attack_sequence(ActorRecord *action, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *entity);
 s32 project_snowman_sprite_chain(void *initial_payload, s32 entry_data, R10_80174BE4_Entry *entry, s32 unused);
 void update_effect_motion_and_brightness(void *effect, void *motion, void *render);
-void spawn_randomized_oscillating_effect(s32 unused, R10_80174F24_S_func_80AF3724_0 *origin, void *unused_record, void *unused_actor);
-void wait_for_snowman_action_slot(void *entity_data, s32 unused_1, s32 unused_2, void *other_data);
+void spawn_randomized_oscillating_effect(ActorRecord *body, R10_80174F24_S_func_80AF3724_0 *origin, SpriteFrameState *sprite, ActorRecord *actor);
+void wait_for_snowman_action_slot(void *entity_data, ObjectPosition *motion, SpriteFrameState *sprite, void *other_data);
 void restore_snowman_scene_tint(u8 *task, void *context, struct SpriteFrameState *input);
 void advance_actor_transition_and_restore_facing(void *transition, void *position, struct SpriteFrameState *record, void *actor);
 void resolve_snowman_floor_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void propagate_snowman_action_flag(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
-void finish_snowman_tile_hop(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor);
+void finish_snowman_tile_hop(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 #endif

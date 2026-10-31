@@ -12,7 +12,7 @@ s32 *realloc_field_0_buffer(s32 *buffer_slot, s32 entry_count, s32 clear_words)
     s32 bank_bases[32];
 
     bzero((void *) buffer_slot[0], clear_words * 4);
-    entries = (s32 *) create_callback_pair_default(0x104);
+    entries = create_callback_pair_default(0x104);
     buffer_slot[0] = (s32) entries;
     buffer_slot += 1;
     if (entries != 0) {

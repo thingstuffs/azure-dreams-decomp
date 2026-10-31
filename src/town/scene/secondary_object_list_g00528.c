@@ -10,9 +10,9 @@
  */
 void append_secondary_list_node(void *node) {
     *(void **)node = town_motion_list;
-    *((void **)node + 1) = *((void **)town_motion_list + 1);
-    *((void **)*((void **)town_motion_list + 1)) = node;
-    *((void **)town_motion_list + 1) = node;
+    *((void **)node + 1) = *(town_motion_list + 1);
+    *((void **)*(town_motion_list + 1)) = node;
+    *(town_motion_list + 1) = node;
 }
 
 /* Inserts a node at the front of the doubly linked list. */

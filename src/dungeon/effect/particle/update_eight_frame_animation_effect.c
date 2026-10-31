@@ -36,19 +36,21 @@ typedef struct {
 extern s16 particle_update_flag[5];
 
 /* Advances an eight-frame animation and flags expiration when its countdown ends. */
-void update_eight_frame_animation_effect(void *anim_state, s32 unused_arg, void *render_state) {
+void update_eight_frame_animation_effect(void *anim_state_arg, s32 unused_arg, void *render_state_arg) {
+    S_818FEDEC_1 *render_state = render_state_arg;
+    S_818FEDEC_0 *anim_state = anim_state_arg;
     u16 ticks_left;
     s32 frame;
     s32 *page_base;
 
-    ticks_left = ((S_818FEDEC_0 *)anim_state)->unk_02;
+    ticks_left = anim_state->unk_02;
     *particle_update_flag = 1;
-    ((S_818FEDEC_0 *)anim_state)->unk_02 = (u16) (ticks_left - 1);
-    ((S_818FEDEC_1 *)render_state)->unk_1C = 0x2000;
-    ((S_818FEDEC_1 *)render_state)->unk_1E = 0x2000;
-    if (((S_818FEDEC_0 *)anim_state)->unk_1C == 0) {
-        frame = ((S_818FEDEC_0 *)anim_state)->unk_1E.s;
-        ((S_818FEDEC_0 *)anim_state)->unk_1C = 0;
+    anim_state->unk_02 = (u16) (ticks_left - 1);
+    render_state->unk_1C = 0x2000;
+    render_state->unk_1E = 0x2000;
+    if (anim_state->unk_1C == 0) {
+        frame = anim_state->unk_1E.s;
+        anim_state->unk_1C = 0;
         switch ((u32)frame) {
         case 0:
         case 1:
@@ -56,32 +58,32 @@ void update_eight_frame_animation_effect(void *anim_state, s32 unused_arg, void 
         case 4:
         case 5:
         case 6:
-            ((S_818FEDEC_0 *)anim_state)->unk_1E.s = (s16) ((u16) ((S_818FEDEC_0 *)anim_state)->unk_1E.s + 1);
-            ((S_818FEDEC_0 *)anim_state)->unk_28 = (u8) (((S_818FEDEC_0 *)anim_state)->unk_28 + 0x20);
+            anim_state->unk_1E.s = (s16) ((u16) anim_state->unk_1E.s + 1);
+            anim_state->unk_28 = (u8) (anim_state->unk_28 + 0x20);
             break;
         case 3:
-            ((S_818FEDEC_0 *)anim_state)->unk_1E.u += 1;
-            ((S_818FEDEC_0 *)anim_state)->unk_28 -= 0x60;
-            ((S_818FEDEC_0 *)anim_state)->unk_29 += 0x20;
+            anim_state->unk_1E.u += 1;
+            anim_state->unk_28 -= 0x60;
+            anim_state->unk_29 += 0x20;
             break;
         case 7:
             {
                 u16 tex_u;
                 s32 tex_v;
-                tex_u = ((S_818FEDEC_0 *)anim_state)->unk_28;
-                tex_v = ((S_818FEDEC_0 *)anim_state)->unk_29;
-                ((S_818FEDEC_0 *)anim_state)->unk_1E.s = 0;
+                tex_u = anim_state->unk_28;
+                tex_v = anim_state->unk_29;
+                anim_state->unk_1E.s = 0;
                 tex_u = tex_u - 0x60;
                 tex_v = tex_v - 0x20;
-                ((S_818FEDEC_0 *)anim_state)->unk_28 = tex_u;
-                ((S_818FEDEC_0 *)anim_state)->unk_29 = tex_v;
+                anim_state->unk_28 = tex_u;
+                anim_state->unk_29 = tex_v;
             }
             break;
         }
     } else {
-        ((S_818FEDEC_0 *)anim_state)->unk_1C = (s16) ((u16) ((S_818FEDEC_0 *)anim_state)->unk_1C + 1);
+        anim_state->unk_1C = (s16) ((u16) anim_state->unk_1C + 1);
     }
-    if ((s16) ((S_818FEDEC_0 *)anim_state)->unk_02 > 0) {
+    if ((s16) anim_state->unk_02 > 0) {
         return;
     }
     (*(u16 *)((u8 *)anim_state + -2)) = (u16) (((S_818FEDEC_0_pre *)anim_state)[-1].unk_00 | NODE_REMOVE);

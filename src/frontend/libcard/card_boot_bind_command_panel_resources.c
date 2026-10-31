@@ -46,8 +46,9 @@ extern u8 D_80077EFC[];
 
 
 /* Initialize the object's shared references and three data block references. */
-void card_boot_bind_command_panel_resources(void *object)
+void card_boot_bind_command_panel_resources(void *object_arg)
 {
+    Rec_func_800233D0_arg0 *object = object_arg;
     S_800233D0_1 *slot_cursor;
     void *shared_data;
     void *primary_table;
@@ -62,8 +63,8 @@ void card_boot_bind_command_panel_resources(void *object)
     secondary_table = D_80077EFC;
     shared_data = (u8 *)object + 4;
     block_offset = 0x90;
-    ((S_800233D0_2 *)(((Rec_func_800233D0_arg0 *)object)->unk_1A0))->unk_00 = kind_value;
-    ((S_800233D0_3 *)(((Rec_func_800233D0_arg0 *)object)->unk_1A4))->unk_00 = menu_leaf_template_6;
+    ((S_800233D0_2 *)(object->unk_1A0))->unk_00 = kind_value;
+    ((S_800233D0_3 *)(object->unk_1A4))->unk_00 = menu_leaf_template_6;
     do {
         slot_cursor = (S_800233D0_1 *)((u8 *)object + slot_index * 4);
         ((S_800233D0_4 *)(slot_cursor->unk_1A8))->unk_00 = primary_table;

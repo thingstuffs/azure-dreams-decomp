@@ -47,12 +47,12 @@ void clear_monster_status_texture(void *texture) {
     bzero(clear_data, 0x200);
     DrawSync(0);
 
-    rect[0] = (*(u8 *)((u8 *)texture + 8) >> 2)
+    rect[0] = (*((u8 *)texture + 8) >> 2)
     + ((*(u16 *)((u8 *)texture + 4) << 6) & 0x3C0);
     rect[1] = ((*(u16 *)((u8 *)texture + 4) << 4) & 0x100)
-    + *(u8 *)((u8 *)texture + 9);
-    rect[2] = *(u8 *)((u8 *)texture + 10) >> 2;
-    rect[3] = *(u8 *)((u8 *)texture + 11);
+    + *((u8 *)texture + 9);
+    rect[2] = *((u8 *)texture + 10) >> 2;
+    rect[3] = *((u8 *)texture + 11);
 
     LoadImage(rect, clear_data);
     DrawSync(0);

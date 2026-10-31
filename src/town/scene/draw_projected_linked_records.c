@@ -84,7 +84,7 @@ s32 draw_projected_linked_records(void *first_record) {
         func_8006BFA0(record + 8, screen_coords, depths, transform_scratch, transform_scratch, 2);
         primitive_cursor = 0;
         primitive = ((S_8080DAB8_0 *)(*render_root))->unk_8D0;
-        primitive_base = (u8 *)*render_root;
+        primitive_base = *render_root;
         if (primitive != 0) {
             primitive_end = primitive + 0x14;
             buffer_limit_2 = 0x108D4;
@@ -101,7 +101,7 @@ s32 draw_projected_linked_records(void *first_record) {
             mode_cursor = mode_end & (0 - ((u32)(depth1_shifted + buffer_limit) >= mode_end));
         }
         ((S_8080DAB8_0 *)(*render_root))->unk_8D0 = mode_cursor;
-        func_8006F49C((s32 *)draw_mode, 0, 0, func_8006D9DC(0, 0, 0, 0) & 0xFFFF, 0);
+        func_8006F49C(draw_mode, 0, 0, func_8006D9DC(0, 0, 0, 0) & 0xFFFF, 0);
         ((S_8080DAB8_1 *)primitive)->unk_04 = (s32)((S_8080DAB8_2 *)((u8 *)record - 0x8))->unk_20;
         ((S_8080DAB8_1 *)primitive)->unk_0C = (s32)((S_8080DAB8_2 *)((u8 *)record - 0x8))->unk_24;
         func_8006DD4C((s32 *)primitive);
@@ -127,7 +127,7 @@ s32 draw_projected_linked_records(void *first_record) {
         }
         {
             u32 tag_word;
-            ot_entry = (void *)&((u8 *)(*render_root))[ot_slot];
+            ot_entry = (void *)&((*render_root))[ot_slot];
             tag_word = ot_entry->unk_B0;
             setaddr((u8 *)ot_entry + 0xB0, primitive);
         }
@@ -136,7 +136,7 @@ s32 draw_projected_linked_records(void *first_record) {
         }
         {
             u32 tag_word;
-            ot_slot = ot_slot + (u8 *)*render_root;
+            ot_slot = ot_slot + *render_root;
             packet_addr = (u32)draw_mode & 0xFFFFFF;
             tag_word = ((S_8080DAB8_4 *)((u8 *)ot_slot))->unk_B0;
             setaddr((u8 *)ot_slot + 0xB0, packet_addr);

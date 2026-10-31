@@ -33,19 +33,20 @@ typedef struct S_801654F0_1 {
 
 
 /* Advance effect motion, copy its color, and flag expiration when its lifetime ends. */
-void tick_colored_linear_effect(void *effect, S_801654F0_0 *motion)
+void tick_colored_linear_effect(void *effect_arg, S_801654F0_0 *motion)
 {
+    S_801654F0_1 *effect = effect_arg;
     u16 life_left;
 
     motion->unk_00 = motion->unk_00 + motion->unk_0C;
     motion->unk_04 = motion->unk_04 + motion->unk_10;
     motion->unk_08 = motion->unk_08 + motion->unk_14;
-    ((S_801654F0_1 *)effect)->unk_04.at00.v = ((S_801654F0_1 *)effect)->unk_00;
-    ((S_801654F0_1 *)effect)->unk_04.at01.v = ((S_801654F0_1 *)effect)->unk_01;
-    ((S_801654F0_1 *)effect)->unk_04.at02.v = ((S_801654F0_1 *)effect)->unk_02;
-    life_left = ((S_801654F0_1 *)effect)->unk_32 - 1;
-    ((S_801654F0_1 *)effect)->unk_32 = life_left;
-    ((S_801654F0_1 *)effect)->unk_08 = ((S_801654F0_1 *)effect)->unk_04.at00u.v;
+    effect->unk_04.at00.v = effect->unk_00;
+    effect->unk_04.at01.v = effect->unk_01;
+    effect->unk_04.at02.v = effect->unk_02;
+    life_left = effect->unk_32 - 1;
+    effect->unk_32 = life_left;
+    effect->unk_08 = effect->unk_04.at00u.v;
     if ((life_left << 0x10) <= 0) {
         ((S_801654F0_1_pre *)effect)[-1].unk_00 |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

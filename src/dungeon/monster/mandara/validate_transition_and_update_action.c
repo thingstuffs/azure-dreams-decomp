@@ -7,14 +7,6 @@
 #include "records/Rec_D_80082E80.h"
 
 
-typedef struct S_80172314_2 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x8];
-    u16 unk_98;
-    u8 unk_9A;
-    u8 unk_9B;
-} S_80172314_2;   /* arg0 in validate_transition_and_update_action */
 
 extern s32 prepare_directional_attack();
 extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
@@ -63,7 +55,7 @@ s32 validate_transition_and_update_action(ActorRecord *state, ObjectPosition *tr
 
         state_flags = state->action_state_flags;
         state->action_phase.u = 0;
-        ((S_80172314_2 *)state)->unk_8C = 0;
+        state->unk_8C.word = 0;
         if (state_flags & 0x8000) {
             state->action_id.u = 0x17;
             actor->unk_84 = 0x28;

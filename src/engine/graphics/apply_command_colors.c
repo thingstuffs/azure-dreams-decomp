@@ -40,8 +40,10 @@ extern void SetTexWindow(void *packet, s16 *values);
 
 /* Apply command colors or draw settings to a GPU packet and return the next record. */
 void *apply_command_colors(void *tint0, void *tint1,
-                    u8 *packet, void *record, u8 *command, s32 *count)
+                    u8 *packet_arg, void *record, u8 *command_arg, s32 *count)
 {
+    S_8004C080_0 *command = command_arg;
+    S_8004C080_1 *packet = packet_arg;
     u8 opcode;
     s32 primitive_type;
     s32 length_or_code;
@@ -49,50 +51,50 @@ void *apply_command_colors(void *tint0, void *tint1,
     u8 *packet_color;
     s16 tex_window[4];
 
-    opcode = ((S_8004C080_0 *)command)->unk_01;
+    opcode = command->unk_01;
     primitive_type = opcode & 0xFC;
 
     if (primitive_type == 0x28) {
-        packet_color = packet + 4;
-        ((S_8004C080_1 *)packet)->unk_04.at00.v = ((S_8004C080_0 *)command)->unk_04.at00.v;
+        packet_color = packet_arg + 4;
+        packet->unk_04.at00.v = command->unk_04.at00.v;
         multiply_rgb_tint_saturated(packet_color, tint0);
         multiply_rgb_tint_saturated(packet_color, tint1);
-        ((S_8004C080_1 *)packet)->unk_03 = 5;
-        ((S_8004C080_1 *)packet)->unk_0C = ((S_8004C080_1 *)packet)->unk_10;
-        ((S_8004C080_1 *)packet)->unk_10 = ((S_8004C080_1 *)packet)->unk_18;
-        ((S_8004C080_1 *)packet)->unk_14 = ((S_8004C080_1 *)packet)->unk_20;
-        ((S_8004C080_1 *)packet)->unk_04.at03.v = ((S_8004C080_0 *)command)->unk_01;
+        packet->unk_03 = 5;
+        packet->unk_0C = packet->unk_10;
+        packet->unk_10 = packet->unk_18;
+        packet->unk_14 = packet->unk_20;
+        packet->unk_04.at03.v = command->unk_01;
     } else if (primitive_type == 0x48) {
-        packet_color = packet + 4;
-        ((S_8004C080_1 *)packet)->unk_04.at00.v = ((S_8004C080_0 *)command)->unk_04.at00.v;
+        packet_color = packet_arg + 4;
+        packet->unk_04.at00.v = command->unk_04.at00.v;
         multiply_rgb_tint_saturated(packet_color, tint0);
         multiply_rgb_tint_saturated(packet_color, tint1);
-        ((S_8004C080_1 *)packet)->unk_03 = 5;
-        ((S_8004C080_1 *)packet)->unk_14 = 0x55555555;
-        ((S_8004C080_1 *)packet)->unk_04.at03.v = ((S_8004C080_0 *)command)->unk_01;
-        ((S_8004C080_1 *)packet)->unk_08 = ((S_8004C080_1 *)packet)->unk_10;
-        ((S_8004C080_1 *)packet)->unk_0C = ((S_8004C080_1 *)packet)->unk_20;
-        ((S_8004C080_1 *)packet)->unk_10 = ((S_8004C080_1 *)packet)->unk_18;
+        packet->unk_03 = 5;
+        packet->unk_14 = 0x55555555;
+        packet->unk_04.at03.v = command->unk_01;
+        packet->unk_08 = packet->unk_10;
+        packet->unk_0C = packet->unk_20;
+        packet->unk_10 = packet->unk_18;
     } else if (primitive_type == 0x38) {
-        packet_color = packet + 4;
-        ((S_8004C080_1 *)packet)->unk_04.at00.v = ((S_8004C080_0 *)command)->unk_04.at00.v;
+        packet_color = packet_arg + 4;
+        packet->unk_04.at00.v = command->unk_04.at00.v;
         multiply_rgb_tint_saturated(packet_color, tint0);
         multiply_rgb_tint_saturated(packet_color, tint1);
         record = (u8 *)record + 0xC;
         length_or_code = 8;
-        packet_color = packet + 0xC;
-        ((S_8004C080_1 *)packet)->unk_03 = length_or_code;
-        ((S_8004C080_1 *)packet)->unk_04.at03.v = primitive_type;
-        ((S_8004C080_1 *)packet)->unk_04.at03.v = ((S_8004C080_0 *)command)->unk_01;
-        ((S_8004C080_1 *)packet)->unk_0C = ((PacketColorWords *)record)->unk_00;
+        packet_color = packet_arg + 0xC;
+        packet->unk_03 = length_or_code;
+        packet->unk_04.at03.v = primitive_type;
+        packet->unk_04.at03.v = command->unk_01;
+        packet->unk_0C = ((PacketColorWords *)record)->unk_00;
         multiply_rgb_tint_saturated(packet_color, tint0);
         multiply_rgb_tint_saturated(packet_color, tint1);
-        packet_color = packet + 0x14;
-        ((S_8004C080_1 *)packet)->unk_14 = ((PacketColorWords *)record)->unk_04;
+        packet_color = packet_arg + 0x14;
+        packet->unk_14 = ((PacketColorWords *)record)->unk_04;
         multiply_rgb_tint_saturated(packet_color, tint0);
         multiply_rgb_tint_saturated(packet_color, tint1);
-        packet_color = packet + 0x1C;
-        ((S_8004C080_1 *)packet)->unk_1C = ((PacketColorWords *)record)->unk_08;
+        packet_color = packet_arg + 0x1C;
+        packet->unk_1C = ((PacketColorWords *)record)->unk_08;
         multiply_rgb_tint_saturated(packet_color, tint0);
         multiply_rgb_tint_saturated(packet_color, tint1);
         return record;
@@ -103,16 +105,16 @@ void *apply_command_colors(void *tint0, void *tint1,
     } else {
         length_or_code = opcode & 0x7F;
         if (length_or_code == 0) {
-            tex_window[0] = ((S_8004C080_0 *)command)->unk_08;
-            tex_window[1] = ((S_8004C080_0 *)command)->unk_09;
-            tex_window[2] = ((S_8004C080_0 *)command)->unk_0A + 1;
-            tex_window[3] = ((S_8004C080_0 *)command)->unk_0B + 1;
+            tex_window[0] = command->unk_08;
+            tex_window[1] = command->unk_09;
+            tex_window[2] = command->unk_0A + 1;
+            tex_window[3] = command->unk_0B + 1;
             SetTexWindow(packet, tex_window);
         } else {
             extended_type = length_or_code & 0x7C;
             if (length_or_code == 1) {
-                SetDrawMode(packet, 1, ((S_8004C080_0 *)command)->unk_04.at02.v,
-                            ((S_8004C080_0 *)command)->unk_04.at00u.v, 0);
+                SetDrawMode(packet, 1, command->unk_04.at02.v,
+                            command->unk_04.at00u.v, 0);
             } else if (extended_type == 0x30) {
                 record = build_elliptical_triangle_fan(tint0, tint1, packet, record, command, count, 1);
             } else if (extended_type == 0x20) {

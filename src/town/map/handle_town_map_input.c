@@ -79,7 +79,7 @@ void handle_town_map_input(u8 *object, void *transform, void *context) {
             send_resource_command_23(entries[*(s32 *)(object + 0x74)]);
         }
         entry_index = *(s32 *)(object + 0x74);
-        positions = (u8 *)&town_building_slot_rectangles;
+        positions = &town_building_slot_rectangles;
         entry_id = entries[entry_index];
         *(s32 *)(*(u8 **)object + 0x30) = positions[entry_id * 8] - 0x18;
 

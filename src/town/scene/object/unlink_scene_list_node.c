@@ -15,7 +15,7 @@ void unlink_scene_list_node(Rec_func_80094268_arg0 *node) {
 
     prev_node = node->unk_00.as_pv;
     if (prev_node != NULL) {
-        prev_node->unk_04 = (void **) node->unk_04.as_ppv;
+        prev_node->unk_04 = node->unk_04.as_ppv;
         *node->unk_04.as_ppv = node->unk_00.as_pv;
         node->unk_00.as_pv = NULL;
         node->unk_04.as_ppv = NULL;

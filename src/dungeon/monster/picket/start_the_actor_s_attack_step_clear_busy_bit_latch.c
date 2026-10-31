@@ -54,6 +54,7 @@ void *write_text_byte_and_advance(s8 value, s8 *dest);                    /* ext
 u8 *append_typed_formatted_value(DungeonItemEntry *data, u8 *buffer);                 /* extern */
 u8 *append_entity_display_text(void *record, u8 *out);                     /* extern */
 #include "dungeon/player/object/action_state.h"
+#include "shared/sprite_frame_state.h"
 s32 display_text_with_fullwidth_adjustment(s8 *text);                         /* extern */
 s32 generate_random_value(void);                                /* extern */
 void *func_80170908(); /* Slot contract: loading images do not establish one callee contract. */                /* extern */

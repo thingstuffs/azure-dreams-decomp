@@ -11,8 +11,8 @@ s32 build_projected_tile_packets(u8 *point_data, u16 *position)
 {
     Scratch *scratch = (Scratch *)0x1F800000;
     void **globals = ((void * *)(&g_game_work));
-    GpuContext *render_state = (GpuContext *)globals[0];
-    Packet *first_packet = (Packet *)render_state->packetCursor;
+    GpuContext *render_state = globals[0];
+    Packet *first_packet = render_state->packetCursor;
     Packet *packet;
     Packet *mode_packet;
     s32 depth;
@@ -251,8 +251,9 @@ void spawn_parent_offset_random_motion_effect(void *parent_arg, register s16 eff
 
 /* Shrinks and rotates the effect, updates its color and projected depth, and removes it when its timer
  * expires. */
-void spawn_configured_overlay_object_b(void *effect, MovingPosition *position, S_80BC1880_0 *render_state)
+void spawn_configured_overlay_object_b(void *effect_arg, MovingPosition *position, S_80BC1880_0 *render_state)
 {
+    S_80BC1880_1 *effect = effect_arg;
     StackWork projection;
     s16 ticks_left;
 
@@ -261,17 +262,17 @@ void spawn_configured_overlay_object_b(void *effect, MovingPosition *position, S
     render_state->unk_1A += 400;
 
     render_state->unk_0C =
-        ((S_80BC1880_1 *)effect)->unk_02 *
-        (((S_80BC1880_1 *)effect)->unk_1C - ((S_80BC1880_1 *)effect)->unk_1A.s) /
-        ((S_80BC1880_1 *)effect)->unk_1C;
+        effect->unk_02 *
+        (effect->unk_1C - effect->unk_1A.s) /
+        effect->unk_1C;
     render_state->unk_0D =
-        ((S_80BC1880_1 *)effect)->unk_03 *
-        (((S_80BC1880_1 *)effect)->unk_1C - ((S_80BC1880_1 *)effect)->unk_1A.s) /
-        ((S_80BC1880_1 *)effect)->unk_1C;
+        effect->unk_03 *
+        (effect->unk_1C - effect->unk_1A.s) /
+        effect->unk_1C;
     render_state->unk_0E =
-        ((S_80BC1880_1 *)effect)->unk_04 *
-        (((S_80BC1880_1 *)effect)->unk_1C - ((S_80BC1880_1 *)effect)->unk_1A.s) /
-        ((S_80BC1880_1 *)effect)->unk_1C;
+        effect->unk_04 *
+        (effect->unk_1C - effect->unk_1A.s) /
+        effect->unk_1C;
 
     projection.xyz[0] = position->x;
     projection.xyz[1] = position->y;
@@ -279,8 +280,8 @@ void spawn_configured_overlay_object_b(void *effect, MovingPosition *position, S
     render_state->unk_06 =
         RotTransPers(projection.xyz, &projection.out18, &projection.out20, &projection.out24) - 8;
 
-    ticks_left = ((S_80BC1880_1 *)effect)->unk_1A.u - 1;
-    ((S_80BC1880_1 *)effect)->unk_1A.u = ticks_left;
+    ticks_left = effect->unk_1A.u - 1;
+    effect->unk_1A.u = ticks_left;
     if ((ticks_left << 16) <= 0) {
         ((ObjectRetirementFlags *)effect)[-1].flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

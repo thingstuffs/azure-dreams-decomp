@@ -39,7 +39,7 @@ void update_actor_landing(void *motion_state, ObjectPosition *transform, SpriteF
 
 
 
-void dispatch_actor_actions_and_integrate_gravity(void *object, ObjectPosition *motion, void *entity);
+void dispatch_actor_actions_and_integrate_gravity(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite);
 void update_actor_gravity(ActorRecord *object, ObjectPosition *motion, void *entity);
 
 s32 resolve_monster_move_choice(ActorRecord *initial, ObjectPosition *position, SpriteFrameState *sprite, s32 force_move);
@@ -108,6 +108,6 @@ struct Ctx;
 s32 choose_usable_ability_or_attack(struct Actor *actor, struct Actor *target, u16 *out_angle, s32 prefer_ability);
 s32 feed_actor_restore_mp(ActorRecord *state, s32 mode, DungeonItemEntry *item);
 s32 is_linked_entity_flagged_100000(EntityRec *entity);
-s32 trigger_actor_floor_trap(struct Actor *actor, struct Ctx *ctx);
+s32 trigger_actor_floor_trap(struct Actor *actor, ActorRecord *ctx);
 
 #endif

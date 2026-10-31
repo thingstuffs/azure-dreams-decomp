@@ -243,8 +243,9 @@ typedef struct S_81952B4C_2 {
 } S_81952B4C_2;   /* arg2 in update_spiraling_effect_growth_and_fade */
 
 /* Updates a spiraling effect's growth, motion, and fade-out. */
-void update_spiraling_effect_growth_and_fade(void *effect, void *position, void *sprite)
+void update_spiraling_effect_growth_and_fade(void *effect, void *position, void *sprite_arg)
 {
+    S_81952B4C_2 *sprite = sprite_arg;
     s16 state;
     s16 radius;
     s16 frames_left;
@@ -273,21 +274,21 @@ void update_spiraling_effect_growth_and_fade(void *effect, void *position, void 
     state = ((S_81952B4C_0 *)effect)->unk_24.s;
     switch (state) {
     case 0:
-        scale = ((S_81952B4C_2 *)sprite)->unk_1E;
+        scale = sprite->unk_1E;
         scale += (0x1000 - scale) / ((S_81952B4C_0 *)effect)->unk_2C;
-        ((S_81952B4C_2 *)sprite)->unk_1E = scale;
-        ((S_81952B4C_2 *)sprite)->unk_1C = scale;
+        sprite->unk_1E = scale;
+        sprite->unk_1C = scale;
         if (scale >= 0x801) {
-            ((S_81952B4C_2 *)sprite)->unk_1E = 0x800;
-            ((S_81952B4C_2 *)sprite)->unk_1C = 0x800;
+            sprite->unk_1E = 0x800;
+            sprite->unk_1C = 0x800;
         }
 
-        brightness = ((S_81952B4C_2 *)sprite)->unk_0C.at02.v + 2;
-        ((S_81952B4C_2 *)sprite)->unk_0C.at02.v = brightness;
-        ((S_81952B4C_2 *)sprite)->unk_0C.at01.v = brightness;
-        ((S_81952B4C_2 *)sprite)->unk_0C.at00.v = brightness;
+        brightness = sprite->unk_0C.at02.v + 2;
+        sprite->unk_0C.at02.v = brightness;
+        sprite->unk_0C.at01.v = brightness;
+        sprite->unk_0C.at00.v = brightness;
         if (brightness >= 0x81) {
-            ((S_81952B4C_2 *)sprite)->unk_0C.at00u.v = 0x00808080;
+            sprite->unk_0C.at00u.v = 0x00808080;
         }
 
         ((S_81952B4C_1 *)position)->unk_00.at00.v =
@@ -323,10 +324,10 @@ void update_spiraling_effect_growth_and_fade(void *effect, void *position, void 
         ((S_81952B4C_0 *)effect)->unk_04 = velocity_y + (velocity_y >> 1);
         ((S_81952B4C_0 *)effect)->unk_08 += 0x10000;
 
-        brightness = ((S_81952B4C_2 *)sprite)->unk_0C.at02.v - 4;
-        ((S_81952B4C_2 *)sprite)->unk_0C.at02.v = brightness;
-        ((S_81952B4C_2 *)sprite)->unk_0C.at01.v = brightness;
-        ((S_81952B4C_2 *)sprite)->unk_0C.at00.v = brightness;
+        brightness = sprite->unk_0C.at02.v - 4;
+        sprite->unk_0C.at02.v = brightness;
+        sprite->unk_0C.at01.v = brightness;
+        sprite->unk_0C.at00.v = brightness;
         if ((s8)brightness <= 0) {
             (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
             global_flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;

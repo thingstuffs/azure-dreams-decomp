@@ -27,14 +27,15 @@ extern void *encounter_object_slots[];
 extern void *encounter_overlay_object[];
 
 /* Advances a timed transition, updates its target, and marks completion. */
-void animate_encounter_overlay_slide(void *transition, S_8016F99C_1 *target)
+void animate_encounter_overlay_slide(void *transition_arg, S_8016F99C_1 *target)
 {
+    S_8016F99C_0 *transition = transition_arg;
     s32 state;
     u16 timer;
     u32 next_state;
     u32 next_timer;
 
-    state = ((S_8016F99C_0 *)transition)->unk_12.s;
+    state = transition->unk_12.s;
     switch (state) {
     case 0:
     default:
@@ -45,35 +46,35 @@ void animate_encounter_overlay_slide(void *transition, S_8016F99C_1 *target)
         return;
 
     case 2:
-        next_state = ((S_8016F99C_0 *)transition)->unk_12.u;
+        next_state = transition->unk_12.u;
         next_timer = 0x11;
-        ((S_8016F99C_0 *)transition)->unk_18 = next_timer;
-        ((S_8016F99C_0 *)transition)->unk_12.u = next_state + 1;
+        transition->unk_18 = next_timer;
+        transition->unk_12.u = next_state + 1;
         return;
 
     case 3:
         target->unk_06 = target->unk_06 - 8;
-        timer = ((S_8016F99C_0 *)transition)->unk_18 - 1;
-        ((S_8016F99C_0 *)transition)->unk_18 = timer;
+        timer = transition->unk_18 - 1;
+        transition->unk_18 = timer;
         if ((timer << 16) > 0) {
             return;
         }
-        ((S_8016F99C_0 *)transition)->unk_18 = 0x11;
-        ((S_8016F99C_0 *)transition)->unk_12.u = ((S_8016F99C_0 *)transition)->unk_12.u + 1;
+        transition->unk_18 = 0x11;
+        transition->unk_12.u = transition->unk_12.u + 1;
         target->unk_0A = 3;
         return;
 
     case 4:
         target->unk_06 = target->unk_06 + 8;
-        timer = ((S_8016F99C_0 *)transition)->unk_18 - 1;
-        ((S_8016F99C_0 *)transition)->unk_18 = timer;
+        timer = transition->unk_18 - 1;
+        transition->unk_18 = timer;
         if ((timer << 16) > 0) {
             return;
         }
-        if (((S_8016F99C_0 *)transition)->unk_1C == 0) {
-            *(void **)encounter_object_slots = 0;
+        if (transition->unk_1C == 0) {
+            *encounter_object_slots = 0;
         } else {
-            *(void **)encounter_overlay_object = 0;
+            *encounter_overlay_object = 0;
         }
         ((S_8016F99C_0_pre *)transition)[-1].unk_00 |= 0x8000;
         next_timer = 0x80080000;
@@ -81,23 +82,23 @@ void animate_encounter_overlay_slide(void *transition, S_8016F99C_1 *target)
         return;
 
     case 10:
-        next_state = ((S_8016F99C_0 *)transition)->unk_12.u;
+        next_state = transition->unk_12.u;
         next_timer = 0x14;
-        ((S_8016F99C_0 *)transition)->unk_18 = next_timer;
-        ((S_8016F99C_0 *)transition)->unk_12.u = next_state + 1;
+        transition->unk_18 = next_timer;
+        transition->unk_12.u = next_state + 1;
         return;
 
     case 11:
         target->unk_06 = target->unk_06 - 8;
-        timer = ((S_8016F99C_0 *)transition)->unk_18 - 1;
-        ((S_8016F99C_0 *)transition)->unk_18 = timer;
+        timer = transition->unk_18 - 1;
+        transition->unk_18 = timer;
         if ((timer << 16) > 0) {
             return;
         }
-        if (((S_8016F99C_0 *)transition)->unk_1C == 0) {
-            *(void **)encounter_object_slots = 0;
+        if (transition->unk_1C == 0) {
+            *encounter_object_slots = 0;
         } else {
-            *(void **)encounter_overlay_object = 0;
+            *encounter_overlay_object = 0;
         }
         ((S_8016F99C_0_pre *)transition)[-1].unk_00 |= 0x8000;
         next_timer = 0x80080000;

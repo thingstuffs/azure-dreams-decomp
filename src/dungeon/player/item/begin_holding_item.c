@@ -107,7 +107,7 @@ print_message:
         return 0;
     }
 
-    if ((*(u8 *)((u8 *)item + 3)) & 0x20) {
+    if ((*((u8 *)item + 3)) & 0x20) {
         message_id = get_unused_text_buffer();
         text_cursor = write_text_byte_and_advance(8, message_id);
         if (((S_80098CF8_1 *)item)->unk_00.at03.v & 0x40) {

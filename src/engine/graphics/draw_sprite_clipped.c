@@ -219,7 +219,7 @@ void draw_sprite_clipped(void *context, s32 position, S_80045CC4_Arg2 *sprite, s
 
             if (any_visible | visible_3) {
                 ((u8 *)packet)[3] = 9;
-                *(u16 *)&sprite->unk14 &= 0x7FFF;
+                *&sprite->unk14 &= 0x7FFF;
 
                 SP_S32(0x10) += SP_S32(0x08);
                 SP_S32(0x14) += SP_S32(0x0C);

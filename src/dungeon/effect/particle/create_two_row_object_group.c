@@ -389,8 +389,9 @@ extern s32 register_node(); /* Unprototyped: two, three or four arguments; retai
 extern s32 secondary_sprite;
 
 /* Spawns up to 13 scattered objects and marks the owner finished when its timer expires. */
-void spawn_scattered_timed_objects(void *source_owner, void *spawn_params)
+void spawn_scattered_timed_objects(void *source_owner, void *spawn_params_arg)
 {
+    S_800DAEF4_2 *spawn_params = spawn_params_arg;
     s32 remaining;
     u8 *link;
     ObjectNodeHeader *object;
@@ -424,19 +425,19 @@ void spawn_scattered_timed_objects(void *source_owner, void *spawn_params)
                 part = object->position;
                 offset_sum = offset_roll_a % 64 + offset_roll_b % 64 - 64;
                 part->x.w.i =
-                    ((S_800DAEF4_2 *)spawn_params)->unk_02 + offset_sum / 2;
+                    spawn_params->unk_02 + offset_sum / 2;
             }
 
             spread_roll_a = rand();
             spread_roll_b = rand();
             object->position->y.w.i =
-                ((S_800DAEF4_2 *)spawn_params)->unk_06 + (spread_roll_a % 64 + spread_roll_b % 64 - 64) / 2;
+                spawn_params->unk_06 + (spread_roll_a % 64 + spread_roll_b % 64 - 64) / 2;
 
             object->position->z.w.i = ((S_800DAEF4_3 *)source_owner)->unk_10.s;
-            ((S_800DAEF4_4 *)work)->unk_10 = ((S_800DAEF4_2 *)spawn_params)->unk_08.at02.v;
+            ((S_800DAEF4_4 *)work)->unk_10 = spawn_params->unk_08.at02.v;
 
             divisor = (rand() & 3) + 4;
-            height_delta = ((S_800DAEF4_2 *)spawn_params)->unk_08.at00.v;
+            height_delta = spawn_params->unk_08.at00.v;
             height_delta -= ((S_800DAEF4_3 *)source_owner)->unk_10.u << 16;
             object->position->velocity_z = height_delta / divisor;
 
@@ -453,7 +454,7 @@ void spawn_scattered_timed_objects(void *source_owner, void *spawn_params)
             node->unk_04 = 0;
             node->frame_ticks = 0;
             node->source = link_value;
-            target_height = ((S_800DAEF4_2 *)spawn_params)->unk_08.at02.v;
+            target_height = spawn_params->unk_08.at02.v;
             ((S_800DAEF4_4 *)work)->unk_48 = 4;
             ((S_800DAEF4_4 *)work)->unk_10 = target_height;
         }

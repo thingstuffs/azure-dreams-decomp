@@ -66,7 +66,7 @@ s32 apply_room_holy_beam_item(ActorRecord *target, DungeonItemEntry *item, s16 a
     if ((u32)target <= 0x9FFFFFFF) {
         display_actor_item_status_message(target, item, action);
         if (feed_actor_restore_mp(target,
-                          entity_action_selectors[(*(u8 *)((u8 *)&((EntityRec *)target)->unk_10 + 3))] & 3,
+                          entity_action_selectors[(*((u8 *)&((EntityRec *)target)->unk_10 + 3))] & 3,
                           item) == 0) {
             place_actor_item(target, item);
             return 1;

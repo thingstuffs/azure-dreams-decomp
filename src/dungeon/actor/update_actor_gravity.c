@@ -36,7 +36,7 @@ void update_actor_gravity(ActorRecord *object, ObjectPosition *motion, void *ent
     s32 base_height_u;
 
     if (g_dungeon_status.flags & 0x2000) {
-        (*(u8 *)((u8 *)update_obj + (0x71))) &= 0x7F;
+        (*((u8 *)update_obj + (0x71))) &= 0x7F;
         return;
     }
 
@@ -45,7 +45,7 @@ void update_actor_gravity(ActorRecord *object, ObjectPosition *motion, void *ent
     if (callback != 0) {
         callback(update_obj, motion, ent, update_obj);
     }
-    actor_gravity_callbacks[(*(u8 *)((u8 *)update_obj + (0x9A)))](update_obj, motion, ent, update_obj);
+    actor_gravity_callbacks[(*((u8 *)update_obj + (0x9A)))](update_obj, motion, ent, update_obj);
 
     x = motion->x.v;
     dx = motion->velocity_x;
@@ -55,10 +55,10 @@ void update_actor_gravity(ActorRecord *object, ObjectPosition *motion, void *ent
     motion->y.v = y + dy;
 
     if ((*(u16 *)((u8 *)update_obj + (0x98))) & 8) {
-        (*(u8 *)((u8 *)update_obj + (0x9D))) = 0;
+        (*((u8 *)update_obj + (0x9D))) = 0;
     } else {
         motion->velocity_z += (*(s8 *)((u8 *)update_obj + (0x9D))) * 0x14000;
-        (*(u8 *)((u8 *)update_obj + (0x9D)))++;
+        (*((u8 *)update_obj + (0x9D)))++;
     }
     fall_offset = object->unk_90.value;
     fall_speed = motion->velocity_z;

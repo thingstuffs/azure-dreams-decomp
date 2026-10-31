@@ -3,6 +3,7 @@
 #include "shared/game_work.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dir_step.h"
+#include "shared/entity.h"
 
 typedef unsigned char u8;
 typedef signed char s8;
@@ -27,7 +28,7 @@ extern void select_sprite_entry(void *object, s32 kind, s32 value);
 extern void *resolve_record_orientation_or_fallback(void *ptr, void *ptr1, Vec3u16 *out, s16 value3);
 extern u8 cyclone_spawn_update_address;
 /* Create a render object and initialize its position and motion toward a directional target. */
-void *create_directional_target_object(void *emitter, Copy24 *position, void *source)
+void *create_directional_target_object(void *emitter, Copy24 *position, SpriteFrameState *sprite)
 {
     void *emitter_copy;
     Copy24 target_position;
@@ -41,14 +42,14 @@ void *create_directional_target_object(void *emitter, Copy24 *position, void *so
     SpriteFrameState *render;
     void *result;
     position_data = position;
-    source_copy = source;
+    source_copy = sprite;
     direction_flags = *((u16 *) (((u8 *) emitter) + 0x2A));
     emitter_copy = emitter;
     target_position = *position_data;
     direction_offset = (direction_flags >> 8) & 0xE;
-    *((u16 *) (((u8 *) (&target_position)) + 2)) += ((*((s16 *) (((u8 *) (((u8 *)dir_step_x)))
+    *((u16 *) (((u8 *) (&target_position)) + 2)) += ((*((s16 *) (((((u8 *)dir_step_x)))
         + direction_offset))) * (*((s16 *) (((u8 *) emitter) + 0xB2)))) * 0x40;
-    *((u16 *) (((u8 *) (&target_position)) + 6)) += ((*((s16 *) (((u8 *) (((u8 *)dir_step_y)))
+    *((u16 *) (((u8 *) (&target_position)) + 6)) += ((*((s16 *) (((((u8 *)dir_step_y)))
         + direction_offset))) * (*((s16 *) (((u8 *) emitter_copy) + 0xB2)))) * 0x40;
     object = allocate_flagged_object_node(0x312);
     if (object != 0) {
@@ -83,7 +84,7 @@ void *create_directional_target_object(void *emitter, Copy24 *position, void *so
         result = object;
         return result;
     }
-    if (position_data || source) {
+    if (position_data || sprite) {
         return 0;
     }
     else {

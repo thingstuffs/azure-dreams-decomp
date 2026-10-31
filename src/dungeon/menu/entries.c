@@ -446,7 +446,8 @@ void handle_menu_grid_input(ovl_1831cd8_818124F0_S_800274F0_Arg *menu) {
 }
 
 /* Handles vertical menu movement with button repeat, text selection, and close or cancel actions. */
-void handle_menu_button_input(void *menu) {
+void handle_menu_button_input(void *menu_arg) {
+    ovl_1831cd8_818127A8_S_800277A8_1 *menu = menu_arg;
     GameWork *input = &g_game_work;
     s32 held_buttons;
     s32 buttons;
@@ -466,33 +467,33 @@ void handle_menu_button_input(void *menu) {
     if (buttons & 0x20) {
         SD_Call(AUDIO_CANCEL);
         ((ovl_1831cd8_818127A8_S_800277A8_1_pre *)menu)[-1].unk_00 = (void *)tick_menu_countdown;
-        ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_00 = ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_04;
+        menu->unk_00 = menu->unk_04;
         clear_menu_embedded_state((u8 *)menu - 0x20);
-        reset_object_to_default_data(((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_44);
+        reset_object_to_default_data(menu->unk_44);
         return;
     }
 
     if (buttons & 0x10) {
         SD_Call(AUDIO_MENU_CONFIRM);
         reset_menu_object_state_2(menu);
-        forward_stored_object_value(((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_44);
+        forward_stored_object_value(menu->unk_44);
         return;
     }
 
     if (buttons & 0x40) {
         SD_Call(AUDIO_MENU_CONFIRM);
-        dispatch_menu_state_update((u8 *)menu + 0x38, ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_14,
-                      (((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_08 / 72) * 72,
-                      ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_28);
-        copy_string_to_object_buffer(get_second_work_value(((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_44),
-                      ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_40 +
-                      (((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_08 % 72) * 2);
+        dispatch_menu_state_update((u8 *)menu + 0x38, menu->unk_14,
+                      (menu->unk_08 / 72) * 72,
+                      menu->unk_28);
+        copy_string_to_object_buffer(get_second_work_value(menu->unk_44),
+                      menu->unk_40 +
+                      (menu->unk_08 % 72) * 2);
         return;
     }
 
     if (held_buttons & 0x5000) {
         if (buttons & 0x5000) {
-            ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_0C = 0;
+            menu->unk_0C = 0;
             buttons = (input->pressed_buttons);
             if (buttons & 0x1000) {
                 cursor_step = -9;
@@ -500,9 +501,9 @@ void handle_menu_button_input(void *menu) {
                 cursor_step = 9;
             }
         } else {
-            repeat_count = ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_0C;
+            repeat_count = menu->unk_0C;
             if (repeat_count >= 9) {
-                ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_0C = repeat_count - 1;
+                menu->unk_0C = repeat_count - 1;
                 buttons = input->buttons;
                 if (buttons & 0x1000) {
                     cursor_step = -9;
@@ -510,7 +511,7 @@ void handle_menu_button_input(void *menu) {
                     cursor_step = 9;
                 }
             } else {
-                ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_0C = repeat_count + 1;
+                menu->unk_0C = repeat_count + 1;
             }
         }
     }
@@ -520,23 +521,23 @@ void handle_menu_button_input(void *menu) {
     }
 
     SD_Call(AUDIO_CURSOR_MOVE);
-    new_offset = ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_08 + cursor_step;
-    row_count = ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_3C;
+    new_offset = menu->unk_08 + cursor_step;
+    row_count = menu->unk_3C;
     rows_left = row_count - new_offset / 9;
     if (rows_left <= 0 || row_count < rows_left) {
         return;
     }
 
     old_offset = new_offset - cursor_step;
-    ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_08 = new_offset;
+    menu->unk_08 = new_offset;
     if (new_offset / 72 != old_offset / 72) {
-        clear_menu_state_values(((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_88);
+        clear_menu_state_values(menu->unk_88);
         ((ovl_1831cd8_818127A8_S_800277A8_1_pre *)menu)[-1].unk_00 = (void *)run_menu_countdown_callback;
-        ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_00 = ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_04;
+        menu->unk_00 = menu->unk_04;
         return;
     }
 
-    position_menu_grid_entries(((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_88, new_offset);
+    position_menu_grid_entries(menu->unk_88, new_offset);
 }
 
 /* Calls the indexed menu_enabled_callbacks entry only when record word 8 is nonzero. */
@@ -644,12 +645,14 @@ void refresh_menu_entry_resources(void *entry_table, void *resource_names)
  * Updates the scaled ratio, progress bar, entry positions, and named resources from the object
  * values, then advances its tagged stream.
  */
-void update_menu_object_data(void *object) {
-    store_scaled_menu_ratio(((ovl_1831cd8_81812C94_S_80027C94_0 *)object)->unk_88, ((ovl_1831cd8_81812C94_S_80027C94_0 *)object)->unk_00, ((ovl_1831cd8_81812C94_S_80027C94_0 *)object)->unk_04);
-    draw_menu_progress_bar(object, ((ovl_1831cd8_81812C94_S_80027C94_0 *)object)->unk_00, ((ovl_1831cd8_81812C94_S_80027C94_0 *)object)->unk_04);
-    position_scaled_entries(((ovl_1831cd8_81812C94_S_80027C94_0 *)object)->unk_88, ((ovl_1831cd8_81812C94_S_80027C94_0 *)object)->unk_00, ((ovl_1831cd8_81812C94_S_80027C94_0 *)object)->unk_04);
-    refresh_menu_entry_resources(((ovl_1831cd8_81812C94_S_80027C94_0 *)object)->unk_88, ((ovl_1831cd8_81812C94_S_80027C94_0 *)object)->unk_40);
-    advance_timed_tagged_stream(object + 0x2C);
+void update_menu_object_data(void *object_arg) {
+    ovl_1831cd8_81812C94_S_80027C94_0 *object = object_arg;
+
+    store_scaled_menu_ratio(object->unk_88, object->unk_00, object->unk_04);
+    draw_menu_progress_bar(object, object->unk_00, object->unk_04);
+    position_scaled_entries(object->unk_88, object->unk_00, object->unk_04);
+    refresh_menu_entry_resources(object->unk_88, object->unk_40);
+    advance_timed_tagged_stream(object_arg + 0x2C);
 }
 
 /*
@@ -784,25 +787,26 @@ void initialize_menu_header_records(void *unused, ovl_1831cd8_81813050_Header *h
 }
 
 /* Assigns panel widgets, initializes the progress bar, and positions eight text rows. */
-void initialize_menu_panel_rows(void *panel, void *widgets) {
+void initialize_menu_panel_rows(void *panel, void *widgets_arg) {
+    ovl_1831cd8_818130FC_S_800280FC_0 *widgets = widgets_arg;
     s16 row_y;
     s16 row_x;
     s32 slot_index;
     void **widget_slot;
     ovl_1831cd8_818130FC_S_800280FC_3 *widget_data;
 
-    *((ovl_1831cd8_818130FC_S_800280FC_0 *)widgets)->unk_00 = &D_80078AB4;
-    *((ovl_1831cd8_818130FC_S_800280FC_0 *)widgets)->unk_04 = &D_80078AD8;
-    initialize_scaled_entry_cursor(panel + 0x2C, &D_80079324, ((ovl_1831cd8_818130FC_S_800280FC_0 *)widgets)->unk_08);
-    *((ovl_1831cd8_818130FC_S_800280FC_0 *)widgets)->unk_0C = 0;
+    *widgets->unk_00 = &D_80078AB4;
+    *widgets->unk_04 = &D_80078AD8;
+    initialize_scaled_entry_cursor(panel + 0x2C, &D_80079324, widgets->unk_08);
+    *widgets->unk_0C = 0;
     ((ovl_1831cd8_818130FC_S_800280FC_6 *)(((ovl_1831cd8_818130FC_S_800280FC_4 *)widgets)->unk_10))->unk_00 = 0;
     ((ovl_1831cd8_818130FC_S_800280FC_9 *)(((ovl_1831cd8_818130FC_S_800280FC_6 *)(((ovl_1831cd8_818130FC_S_800280FC_4 *)widgets)->unk_10))->unk_04))->unk_08 = 0x58;
-    *((ovl_1831cd8_818130FC_S_800280FC_0 *)widgets)->unk_14 = ((ovl_1831cd8_818130FC_S_800280FC_1 *)panel)->unk_4C + 0x18;
+    *widgets->unk_14 = ((ovl_1831cd8_818130FC_S_800280FC_1 *)panel)->unk_4C + 0x18;
     draw_menu_progress_bar(panel, 0, 1);
     slot_index = 6;
     row_x = 0x58;
     row_y = 0x90;
-    widget_slot = widgets + 0x18;
+    widget_slot = widgets_arg + 0x18;
     do {
         ((ovl_1831cd8_818130FC_S_800280FC_2 *)(*widget_slot))->unk_00 = 0;
         ((ovl_1831cd8_818130FC_S_800280FC_7 *)(((ovl_1831cd8_818130FC_S_800280FC_5 *)(*widget_slot))->unk_04))->unk_08 = row_x;
@@ -976,7 +980,7 @@ void mark_menu_object_ready(ovl_1831cd8_81813648_ReadyState *state) { state->rea
 /* Writes four 12-byte packets from two templates and the supplied coordinates, including offset copies. */
 void *build_menu_draw_packets(void *packet, void *coords) {
     u32 packet_type;
-    u8 *coord_bytes = (u8 *)coords;
+    u8 *coord_bytes = coords;
 
     *(u32 *)((u8 *)packet + 4) = D_8002954C;
     *((u8 *)packet + 1) = 0x48;

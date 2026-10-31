@@ -28,16 +28,18 @@ typedef struct S_800C5C70_1 {
 } S_800C5C70_1;   /* arg0 in reset_indexed_flag_install_handlers */
 
 /* Reset the indexed flag, install handlers, and update the object on input flags 0x6000. */
-void reset_indexed_flag_install_handlers(void *object, void *context, void *input) {
+void reset_indexed_flag_install_handlers(void *object_arg, void *context, void *input) {
+    S_800C5C70_1 *object = object_arg;
+
     if (((SpriteFrameState *)input)->flags & 0x6000) {
-        initialize_object_entries(object, input, person_menu_object_entries);
-        object_index_slots[((S_800C5C70_1 *)object)->unk_60].unk_00 = 0;
-        ((S_800C5C70_1 *)object)->unk_58 = &D_800D5654;
-        ((S_800C5C70_1 *)object)->unk_5C = &D_800D5658;
-        ((S_800C5C70_1 *)object)->unk_7C = &D_800D5624;
-        ((S_800C5C70_1 *)object)->unk_80 = &D_800D562C;
-        ((S_800C5C70_1 *)object)->unk_70 = 1;
-        ((S_800C5C70_1 *)object)->unk_71 = (u8) (((S_800C5C70_1 *)object)->unk_71 | 1);
+        initialize_object_entries(object_arg, input, person_menu_object_entries);
+        object_index_slots[object->unk_60].unk_00 = 0;
+        object->unk_58 = &D_800D5654;
+        object->unk_5C = &D_800D5658;
+        object->unk_7C = &D_800D5624;
+        object->unk_80 = &D_800D562C;
+        object->unk_70 = 1;
+        object->unk_71 = (u8) (object->unk_71 | 1);
         apply_object_setup_and_update(object, context, input);
     }
 }

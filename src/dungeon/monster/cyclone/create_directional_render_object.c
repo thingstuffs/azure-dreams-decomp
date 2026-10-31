@@ -5,6 +5,7 @@
 #include "shared/game_work.h"
 #include "engine/node.h"
 #include "engine/graphics.h"
+#include "shared/entity.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {

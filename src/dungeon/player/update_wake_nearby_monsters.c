@@ -50,7 +50,7 @@ typedef struct S_80092E90_9 {
 } S_80092E90_9;   /* ((S_80092E90_7_pre *)node)[-1].unk_00 in update_wake_nearby_monsters */
 
 /* Move toward the target tile, process matching list entries, and advance the effect state. */
-void update_wake_nearby_monsters(void *controller, ObjectPosition *motion, void *actor, void *entry)
+void update_wake_nearby_monsters(ActorRecord *controller, ObjectPosition *motion, void *actor, ActorRecord *entry)
 {
     s32 found_match;
     s32 tile_origin;
@@ -85,7 +85,7 @@ void update_wake_nearby_monsters(void *controller, ObjectPosition *motion, void 
         count_state->unk_04.n2 = frame_count - 1;
     }
 
-    state = ((ActorActionStateView *)controller)->phase;
+    state = controller->action_phase.u;
     switch (state) {
     case 0:
         if (!(((SpriteFrameState *)actor)->flags & 0xE000)) {
@@ -95,10 +95,10 @@ void update_wake_nearby_monsters(void *controller, ObjectPosition *motion, void 
         (*(void * *)((u8 *)actor + (0x2C))) = D_800DCFF8;
         set_sprite_animation_frame(
             actor,
-            D_800DCFF8[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80092E90_5 *)entry)->unk_2A + 0x100) >> 9) & 7],
+            D_800DCFF8[((g_game_work.view.camera_rotation.parts.viewAngle + entry->facing + 0x100) >> 9) & 7],
             0,
             1);
-        ((ActorActionStateView *)controller)->phase++;
+        controller->action_phase.u++;
         return;
 
     case 1:
@@ -135,7 +135,7 @@ void update_wake_nearby_monsters(void *controller, ObjectPosition *motion, void 
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)actor)->tile_x, ((SpriteFrameState *)actor)->tile_y);
-        ((ActorActionStateView *)controller)->next_action = handle_player_input;
+        controller->unk_8C.address = handle_player_input;
         g_dungeon_status.activity_counts.parts.pending_action_count--;
     default:
         return;

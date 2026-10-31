@@ -129,7 +129,7 @@ void update_orbiting_effect_particle(S_800D81D4_0 *effect, S_800D81D4_1 *motion,
         break;
     case 6:
         ((S_800D81D4_0_pre *)effect)[-1].unk_00 = (u16) (((S_800D81D4_0_pre *)effect)[-1].unk_00 | 0x8000);
-        (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
+        (*&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
     motion->unk_02 = (s16) (effect->unk_0C + ((s32) (rsin((s16) effect->unk_18) * effect->unk_1C.at02.v)
         >> 0xC));

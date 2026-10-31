@@ -58,8 +58,8 @@ void update_actor_movement_and_tile_position(ActorRecord *object, ObjectPosition
             target_record = find_adjacent_actor(actor, tile->tile_x, tile->tile_y);
             if (target_record != 0) {
                 target_tile = *((void **) (((u8 *) target_record) + (-0x14)));
-                actor->facing = get_rounded_facing_and_rounding_flag(tile->tile_x, tile->tile_y, *(u8 *)(target_tile
-                    + 0x24), *(u8 *)(target_tile + 0x25), &object->action_state_flags);
+                actor->facing = get_rounded_facing_and_rounding_flag(tile->tile_x, tile->tile_y, *(target_tile
+                    + 0x24), *(target_tile + 0x25), &object->action_state_flags);
                 {
                     u8 path_length = actor->movement_queue_state & 0x7F;
                     actor->movement_queue_state = path_length;
@@ -92,7 +92,7 @@ void update_actor_movement_and_tile_position(ActorRecord *object, ObjectPosition
             }
             else {
                 {
-                    s32 direction = *(u8 *)(((u8 *)actor + 0x45));
+                    s32 direction = *(((u8 *)actor + 0x45));
                     s32 player_angle = primary_actor_record->facing;
                     s32 direction_offset;
                     s32 target_x;
@@ -112,14 +112,14 @@ void update_actor_movement_and_tile_position(ActorRecord *object, ObjectPosition
                         if ((check_movement_clearance_and_height((s16) next_angle, tile, actor, 0x20) << 16) <= 0) {
                             u8 *retry_goal = ((u8 *) (((s8 *)&reference_tile_object.tile_position.parts.tile_x))) - 0x24;
                             actor->facing = get_rounded_facing_and_rounding_flag(tile->tile_x, tile->tile_y,
-                                *(u8 *)(retry_goal + 0x24), *(u8 *)(retry_goal + 0x25), &object->action_state_flags);
+                                *(retry_goal + 0x24), *(retry_goal + 0x25), &object->action_state_flags);
                         }
                     }
                 }
                 {
                     u8 *check_goal = ((u8 *) (((s8 *)&reference_tile_object.tile_position.parts.tile_x))) - 0x24;
-                    if ((test_neighbor_position_relation(tile->tile_x, tile->tile_y, *(u8 *)(check_goal + 0x24),
-                        *(u8 *)(check_goal + 0x25)) << 16) != 0) {
+                    if ((test_neighbor_position_relation(tile->tile_x, tile->tile_y, *(check_goal + 0x24),
+                        *(check_goal + 0x25)) << 16) != 0) {
                         limit_turn = 1;
                     }
                 }
@@ -191,8 +191,8 @@ void update_actor_movement_and_tile_position(ActorRecord *object, ObjectPosition
                     }
                 }
                 actor->facing = angle;
-                *((u8 *) (((u8 *) (((u8 *)actor)+ (actor->movement_queue_state & 0x7F))) + 0x74)) = tile->tile_x;
-                *((u8 *) (((u8 *) (((u8 *)actor)+ (actor->movement_queue_state & 0x7F))) + 0x7C)) = tile->tile_y;
+                *((((u8 *) (((u8 *)actor)+ (actor->movement_queue_state & 0x7F))) + 0x74)) = tile->tile_x;
+                *((((u8 *) (((u8 *)actor)+ (actor->movement_queue_state & 0x7F))) + 0x7C)) = tile->tile_y;
                 actor->movement_queue_state++;
                 update_map_cell_flags_with_item_limit(tile->tile_x, tile->tile_y, (actor->flags1C & 0x2000)
                     ? (0x300) : (0x3000));
@@ -201,7 +201,7 @@ void update_actor_movement_and_tile_position(ActorRecord *object, ObjectPosition
                     u8 *step_x = (u8 *)dir_step_x;
                     step_x += direction;
                     tile->tile_x += *step_x;
-                    tile->tile_y += *((u8 *) (((u8 *) (((s8 *)dir_step_y))) + direction));
+                    tile->tile_y += *((((u8 *) (((s8 *)dir_step_y))) + direction));
                 }
                 cycle_map_cell_flags(tile->tile_x, tile->tile_y, (actor->flags1C & 0x2000)
                     ? (0x300) : (0x3000));

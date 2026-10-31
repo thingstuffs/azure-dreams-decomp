@@ -29,7 +29,8 @@ extern s32 shop_target_position[];
 extern s32 D_80100B68;
 
 /* Move toward the target and finalize the object when its countdown expires. */
-void move_toward_target_finalize_countdown_expires(void *object, s32 context, ObjectPosition *motion) {
+void move_toward_target_finalize_countdown_expires(void *object_arg, s32 context, ObjectPosition *motion) {
+    Rec_D_80082D58 *object = object_arg;
     s32 *target_pos;
     s32 *global_flags;
     u16 ticks_or_flags;
@@ -41,11 +42,11 @@ void move_toward_target_finalize_countdown_expires(void *object, s32 context, Ob
     add_motion_deltas_to_position(motion);
     call_the_same_context_both_processing_routines(context, motion);
     handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(context, motion);
-    ticks_or_flags = ((Rec_D_80082D58 *)object)->unk_6C.as_u16 - 1;
-    ((Rec_D_80082D58 *)object)->unk_6C.as_u16 = ticks_or_flags;
+    ticks_or_flags = object->unk_6C.as_u16 - 1;
+    object->unk_6C.as_u16 = ticks_or_flags;
     if ((ticks_or_flags << 0x10) <= 0) {
-        itm_mon_koyaw_set(D_80100B68, object + 0x4C, &town_slot_snapshot, 0);
-        unlink_scene_list_node(object);
+        itm_mon_koyaw_set(D_80100B68, object_arg + 0x4C, &town_slot_snapshot, 0);
+        unlink_scene_list_node(object_arg);
         unlink_node_if_registered(object);
         ticks_or_flags = ((ObjectRetirementFlags *)object)[-1].flags;
         global_flags = ((s32 *)(&object_flag_block));

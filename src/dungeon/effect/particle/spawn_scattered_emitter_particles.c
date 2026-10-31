@@ -57,7 +57,8 @@ typedef struct S_7FFE9150_4 {
 
 
 /* Update the emitter position, spawn scattered particles, and retire it when its lifetime expires. */
-void spawn_scattered_emitter_particles(void *emitter, ObjectPosition *position, M2C_UNK spawn_context) {
+void spawn_scattered_emitter_particles(void *emitter_arg, ObjectPosition *position, M2C_UNK spawn_context) {
+    S_7FFE9150_0 *emitter = emitter_arg;
     u16 age;
     u16 life_left;
     S_7FFE9150_2 *parent;
@@ -65,15 +66,15 @@ void spawn_scattered_emitter_particles(void *emitter, ObjectPosition *position, 
     void *particle;
     S_7FFE9150_4 *particle_render;
 
-    parent = ((S_7FFE9150_0 *)emitter)->unk_24;
+    parent = emitter->unk_24;
     position->x.w.i = (s16)(((MovingPosition *)(parent->unk_08))->x
-        + ((S_7FFE9150_0 *)emitter)->unk_3C);
+        + emitter->unk_3C);
     position->y.w.i = (s16)(((MovingPosition *)(parent->unk_08))->y
-        + ((S_7FFE9150_0 *)emitter)->unk_3E);
+        + emitter->unk_3E);
     position->z.w.i = (s16)(((MovingPosition *)(parent->unk_08))->z
-        + ((S_7FFE9150_0 *)emitter)->unk_40);
-    age = ((S_7FFE9150_0 *)emitter)->unk_16 + 1;
-    ((S_7FFE9150_0 *)emitter)->unk_16 = age;
+        + emitter->unk_40);
+    age = emitter->unk_16 + 1;
+    emitter->unk_16 = age;
     if ((s16)age < 0x14) {
         particle = func_7003CF18(0x212);
         if (particle != 0) {
@@ -92,8 +93,8 @@ void spawn_scattered_emitter_particles(void *emitter, ObjectPosition *position, 
             particle_render->unk_1C = 0x400;
         }
     }
-    life_left = ((S_7FFE9150_0 *)emitter)->unk_1E - 1;
-    ((S_7FFE9150_0 *)emitter)->unk_1E = life_left;
+    life_left = emitter->unk_1E - 1;
+    emitter->unk_1E = life_left;
     if ((life_left << 0x10) <= 0) {
         u16 *global_count = &emitted_effect_counter;
         u16 next_global_count;

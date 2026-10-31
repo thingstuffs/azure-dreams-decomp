@@ -8,7 +8,7 @@ void reset_state_defaults(void)
 {
     u8 *globals_base = (u8 *)0x80010000;
 
-    *(u8 *)(globals_base + 0x3185) = 1;
+    *(globals_base + 0x3185) = 1;
     *(s32 *)(globals_base + 0x2D5C) = 0;
     *(s32 *)(globals_base + 0x2D68) = 0;
     *(s32 *)(globals_base + 0x2D58) = 0;

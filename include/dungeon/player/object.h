@@ -7,17 +7,17 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 void accumulate_experience_award(u8 *record, u16 amount);
-void begin_throw_carried_object(Rec_func_8008ACDC_arg0 *object, s32 unusedArg1, s32 unusedArg2, s32 handlerContext);
+void begin_throw_carried_object(ActorRecord *object, s32 unusedArg1, s32 unusedArg2, ActorRecord *handlerContext);
 s32 find_first_unused_entity_entry(void);
 s32 is_dungeon_action_enabled(void);
 s32 lower_entity_level(ActorRecord *body, s32 show_message);
 void *register_item_object_in_free_slot(void *target, void *ptr1, void *ptr2, s16 flag);
-void try_begin_put_down_carried_object(void *state, EntityRec *target, SpriteFrameState *sprite, u32 actor_or_can);
+void try_begin_put_down_carried_object(ActorRecord *state, EntityRec *target, SpriteFrameState *sprite, u32 actor_or_can);
 
 
 
 
-void update_throw_carried_object(u8 *actor, ObjectPosition *motion, u8 *animation, u8 *entity);
+void update_throw_carried_object(ActorRecord *actor, ObjectPosition *motion, u8 *animation, ActorRecord *entity);
 
 /* dungeon/player/object/can_entity_gain_level.c */
 void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);

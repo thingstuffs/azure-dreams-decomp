@@ -42,7 +42,7 @@ char *load_entry_value_and_handle_follow_up(long long lookup, s32 text_selector)
         }
         func_8001A554(F_sbs32_pad25);
         if (func_8001A64C(F_sbs32_pad23) != 0 && func_80019880(13, 6) == 0) {
-            (*(TownCallback *)((u8 *)((void **)*(void **)((void * *)(&town_scene_root)))[8] + 0x220))
+            (*(TownCallback *)((u8 *)((void **)*((void * *)(&town_scene_root)))[8] + 0x220))
             (6, 13, 0, 0);
         }
         return D_80020E44;

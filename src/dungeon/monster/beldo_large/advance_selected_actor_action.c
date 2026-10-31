@@ -117,7 +117,7 @@ void advance_selected_actor_action(ActorRecord *action, ObjectPosition *transfor
             if (mode_copy != 0) {
                 action_value = (s32)primary_actor_record;
                 actor->target = (void *)action_value;
-                action_control = (u8 *)((SpriteLinkPrefixView *)action_value)[-1].sprite;
+                action_control = ((SpriteLinkPrefixView *)action_value)[-1].sprite;
                 actor->target_tile_x = action_control[0x24];
                 actor->target_tile_y = action_control[0x25];
             } else {
@@ -126,7 +126,7 @@ void advance_selected_actor_action(ActorRecord *action, ObjectPosition *transfor
                 if (((u8 *)action_value)[0x12] == 2) {
                     action_value = (s32)actor->target;
                     if (action_value != 0) {
-                        action_control = (u8 *)((SpriteLinkPrefixView *)action_value)[-1].sprite;
+                        action_control = ((SpriteLinkPrefixView *)action_value)[-1].sprite;
                         actor->target_tile_x = action_control[0x24];
                         actor->target_tile_y = action_control[0x25];
                     }

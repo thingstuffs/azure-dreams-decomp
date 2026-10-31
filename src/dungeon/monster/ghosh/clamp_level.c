@@ -13,6 +13,7 @@
 #include "engine/object.h"
 #include "dungeon/player/object.h"
 #include "engine/texture.h"
+#include "shared/object_node.h"
 
 extern u8 resident_globals_page[];
 
@@ -95,11 +96,6 @@ typedef struct S_8016B0E8_8 {
     void * unk_AC;
 } S_8016B0E8_8;
 
-typedef struct S_8016B0E8_9_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_8016B0E8_9_pre;
-
 typedef struct S_8016B0E8_10 {
     u8 pad_00[0x14];
     u16 unk_14;
@@ -146,7 +142,7 @@ static __inline__ u16 clamp_level(u32 level)
  * Initializes Ghosh's experience and scripted events, then runs callbacks, updates facing, and
  * resolves movement and ground height.
  */
-void update_actor_animation_movement_and_terrain(void *entity, ObjectPosition *motion, void *sprite) {
+void update_actor_animation_movement_and_terrain(void *entity, ObjectPosition *motion, SpriteFrameState *sprite) {
     register s32 (*update_callback)(void *, void *, void *, void *);
     register s32 (*paused_callback)(void *, void *, void *, void *);
     register s16 base_height;
@@ -259,7 +255,7 @@ void update_actor_animation_movement_and_terrain(void *entity, ObjectPosition *m
         do {
             linked_entry = ((S_8016B0E8_8 *)slot_cursor)->unk_AC;
             if (linked_entry != 0) {
-                linked_sprite = ((S_8016B0E8_9_pre *)linked_entry)[-1].unk_00;
+                linked_sprite = ((ObjectNodeHeader *)linked_entry - 1)->sprite;
                 ((S_8016B0E8_10 *)linked_sprite)->unk_14 = (u16) (((S_8016B0E8_10 *)linked_sprite)->unk_14 & 0xFFBF);
             }
             actor_index -= 1;
@@ -297,7 +293,7 @@ void update_actor_animation_movement_and_terrain(void *entity, ObjectPosition *m
         if ((s16) prior_state != (s8) ((S_8016B0E8_2 *)actor)->unk_6D) {
             try_move_actor_to_valid_position(entity, motion, sprite, actor);
         }
-        sprite_flags = ((S_8016B0E8_14 *)sprite)->unk_14;
+        sprite_flags = sprite->flags;
         mode_bits = sprite_flags & 0x8000;
         if (!mode_bits) {
             view_direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016B0E8_2 *)actor)->unk_2A + 0x100) >> 9) & 7;
@@ -307,24 +303,24 @@ void update_actor_animation_movement_and_terrain(void *entity, ObjectPosition *m
                 direction_animations = ((S_8016B0E8_14 *)sprite)->unk_2C;
                 if (direction_animations != 0) {
                     animation_id = *(direction_animations + direction_index);
-                    select_indirect_table_entry(sprite, animation_id, ((S_8016B0E8_14 *)sprite)->unk_04);
+                    select_indirect_table_entry(sprite, animation_id, sprite->unk_04);
                 }
                 ((S_8016B0E8_0 *)entity)->unk_94 = view_direction;
             }
             facing_flip = dir_sprite_flag[direction_index];
             if (facing_flip != 0) {
-                ((S_8016B0E8_14 *)sprite)->unk_14 |= 1;
+                sprite->flags |= 1;
             } else {
-                ((S_8016B0E8_14 *)sprite)->unk_14 &= 0xFFFE;
+                sprite->flags &= 0xFFFE;
             }
             if (!(((S_8016B0E8_2 *)actor)->unk_1C & 0x20)) {
-                if (!(((S_8016B0E8_14 *)sprite)->unk_14 & 0x40)) {
+                if (!(sprite->flags & 0x40)) {
                     advance_sprite_animation_and_textures(sprite);
                 }
             } else {
-                ((S_8016B0E8_14 *)sprite)->unk_14 = (u16) (((S_8016B0E8_14 *)sprite)->unk_14 | 0x7000);
+                sprite->flags = (u16) (sprite->flags | 0x7000);
             }
-            apply_monster_koyaw_data(((S_8016B0E8_2 *)actor)->unk_1C, sprite + 0xC);
+            apply_monster_koyaw_data(((S_8016B0E8_2 *)actor)->unk_1C, ((void *)sprite) + 0xC);
         } else {
             mode_bits = sprite_flags & 0x800;
             if (mode_bits) {
@@ -332,7 +328,7 @@ void update_actor_animation_movement_and_terrain(void *entity, ObjectPosition *m
             } else {
                 display_flags = sprite_flags | 0x7000;
             }
-            ((S_8016B0E8_14 *)sprite)->unk_14 = display_flags;
+            sprite->flags = display_flags;
         }
         motion->x.v = (s32) (motion->x.v
             + motion->velocity_x);
@@ -373,8 +369,8 @@ void update_actor_animation_movement_and_terrain(void *entity, ObjectPosition *m
                 actor_flags = ((S_8016B0E8_2 *)actor)->unk_1C;
                 if (actor_flags & 0x40000000) {
                     ((S_8016B0E8_2 *)actor)->unk_1C = (s32) (actor_flags & 0xBFFFFFFF);
-                    floor_height = sample_terrain_surface_height((((S_8016B0E8_14 *)sprite)->unk_24 << 6) | 0x20,
-                        (((S_8016B0E8_14 *)sprite)->unk_25 << 6) | 0x20,
+                    floor_height = sample_terrain_surface_height((sprite->tile_x << 6) | 0x20,
+                        (sprite->tile_y << 6) | 0x20,
                         (s16) (((S_8016B0E8_2 *)actor)->unk_88.u - 0x20));
                     ((S_8016B0E8_0 *)entity)->unk_90.at02.v = (s16) ((u16) ((S_8016B0E8_0 *)entity)->unk_90.at02.v
                         + (((S_8016B0E8_2 *)actor)->unk_88.u - floor_height));
@@ -382,14 +378,14 @@ void update_actor_animation_movement_and_terrain(void *entity, ObjectPosition *m
                 }
                 motion->z.w.i = (s16) (((S_8016B0E8_2 *)actor)->unk_88.u
                     + (u16) ((S_8016B0E8_0 *)entity)->unk_90.at02.v);
-                ((S_8016B0E8_14 *)sprite)->unk_14 = (u16) (((S_8016B0E8_14 *)sprite)->unk_14 | 0x40);
+                sprite->flags = (u16) (sprite->flags | 0x40);
                 return;
             }
         }
         ((S_8016B0E8_2 *)actor)->unk_1C = (s32) (((S_8016B0E8_2 *)actor)->unk_1C & 0xF7FFFFFF);
         motion->z.w.i = (s16) (((S_8016B0E8_2 *)actor)->unk_88.u
             + (u16) ((S_8016B0E8_0 *)entity)->unk_90.at02.v);
-        ((S_8016B0E8_14 *)sprite)->unk_14 = (u16) (((S_8016B0E8_14 *)sprite)->unk_14 | 0x40);
+        sprite->flags = (u16) (sprite->flags | 0x40);
     }
     return;
 }

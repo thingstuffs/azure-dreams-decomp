@@ -17,7 +17,7 @@ extern u8 held_item_kind_alias;
 extern u8 player_put_down_frames[];
 
 /* Updates actor state and animation when the position checks succeed. */
-void try_begin_put_down_carried_object(void *state, EntityRec *target, SpriteFrameState *sprite, u32 actor_or_can) {
+void try_begin_put_down_carried_object(ActorRecord *state, EntityRec *target, SpriteFrameState *sprite, u32 actor_or_can) {
     EntityRec *actor = (void *)actor_or_can;
     s16 probe_a;
     s16 probe_b;
@@ -38,9 +38,9 @@ void try_begin_put_down_carried_object(void *state, EntityRec *target, SpriteFra
         }
     }
     if (actor_or_can != 0) {
-        ((Rec_func_8008ACDC_arg0 *)state)->unk_9A.as_s8 = 0x1F;
-        ((Rec_func_8008ACDC_arg0 *)state)->unk_9B.as_s8 = 0;
-        ((Rec_func_8008ACDC_arg0 *)state)->unk_8C.as_s32 = 0;
+        state->action_id.s = 0x1F;
+        state->action_phase.s = 0;
+        state->unk_8C.word = 0;
         sprite->frameTable = player_put_down_frames;
         set_sprite_animation_frame(sprite, player_put_down_frames[(((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)) >> 9) & 7], 0, 1);
         g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1;

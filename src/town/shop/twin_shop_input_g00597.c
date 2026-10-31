@@ -69,7 +69,7 @@ void handle_twin_shop_input(s32 *menu) {
                 selection_step = -1;
             else if (held_buttons & 0x4000)
                 selection_step = 1;
-            menu[5] = *(s32 *)&menu[5] - 1;
+            menu[5] = *&menu[5] - 1;
         } else {
             menu[5]++;
             return;

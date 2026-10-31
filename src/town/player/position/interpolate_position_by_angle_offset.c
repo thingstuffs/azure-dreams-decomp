@@ -20,24 +20,25 @@ typedef struct S_80098764_0 {
 
 
 /* Interpolate the position toward an angle-based offset until the countdown expires. */
-void interpolate_position_by_angle_offset(void *motion, EntityRec *position) {
+void interpolate_position_by_angle_offset(void *motion_arg, EntityRec *position) {
+    S_80098764_0 *motion = motion_arg;
     u16 ticks_left;
     s32 old_y;
 
-    ticks_left = ((S_80098764_0 *)motion)->unk_0A - 1;
-    ((S_80098764_0 *)motion)->unk_0A = ticks_left;
+    ticks_left = motion->unk_0A - 1;
+    motion->unk_0A = ticks_left;
     if ((ticks_left << 0x10) > 0) {
         position->x.v =
-            ((rsin(((S_80098764_0 *)motion)->unk_10) << 9)
-             + (((S_80098764_0 *)motion)->unk_30 << 0x10)
+            ((rsin(motion->unk_10) << 9)
+             + (motion->unk_30 << 0x10)
              + position->x.v) / 2;
         position->y.v =
-            ((rcos(((S_80098764_0 *)motion)->unk_10) << 9)
-             + (((S_80098764_0 *)motion)->unk_32 << 0x10)
+            ((rcos(motion->unk_10) << 9)
+             + (motion->unk_32 << 0x10)
              + (old_y = position->y.v)) / 2;
         return;
     }
     clear_entity_record_fields(position);
-    ((S_80098764_0 *)motion)->unk_0A = 7;
-    ((S_80098764_0 *)motion)->unk_04 = &D_80098690;
+    motion->unk_0A = 7;
+    motion->unk_04 = &D_80098690;
 }

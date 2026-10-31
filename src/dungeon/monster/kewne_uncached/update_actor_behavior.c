@@ -80,10 +80,10 @@ void update_actor_behavior_2(ActorRecord *action, ObjectPosition *motion, Sprite
         action->action_timer.u = next_tick;
         direction_off = ((u16)actor->facing >> 8) & 0xE;
         anim_table = (u32)anim_table < 8U;
-        direction_base = (u8 *)(direction_off + (u8 *)direction_base);
+        direction_base = (direction_off + (u8 *)direction_base);
         delta_x = *(s16 *)direction_base;
         direction_base_2 = (u8 *)&dir_step_y;
-        signed_value = *(s16 *)((u8 *)(direction_off + (u8 *)direction_base_2));
+        signed_value = *(s16 *)((direction_off + (u8 *)direction_base_2));
         delta_x = -delta_x;
         delta_x <<= 16;
         signed_value = -signed_value;
@@ -120,7 +120,7 @@ void update_actor_behavior_2(ActorRecord *action, ObjectPosition *motion, Sprite
                 return;
             }
             anim_table += 0x5CA8;
-            facing_ptr = (u8 *)resident_globals_page;
+            facing_ptr = resident_globals_page;
             PTR(object, 0x2C) = (void *)anim_table;
             facing_idx = (*(s16 *)(facing_ptr + 0x3228) + S16(actor, 0x2A) + 0x100) >> 9;
             facing_idx &= 7;

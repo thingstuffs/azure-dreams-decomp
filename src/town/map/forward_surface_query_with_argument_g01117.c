@@ -412,7 +412,7 @@ s16 find_smallest_surface_x_across_tiles(s32 query_x, s32 query_y, s32 query_z)
     query_x &= 0x3F;
     scratch->saved_y = query_y & 0x3F;
     scratch->height_data = grid->height_data;
-    occupancy = ((u16 *)grid_data->map.cells);
+    occupancy = grid_data->map.cells;
     vertices = grid->vertices;
     if (query_x >= 0x20) {
         scratch->x_step = 0x40;
@@ -829,21 +829,21 @@ u16 world_z;
                             u32 vertex_index;
 
                             vertex_index = record->vertex4;
-                            scratch->quad[0] = ((s16)(vertices[vertex_index].x)) - *(s16 *)&scratch->x;
+                            scratch->quad[0] = ((s16)(vertices[vertex_index].x)) - *&scratch->x;
                             vertex_index = record->vertex4;
-                            scratch->quad[1] = ((s16)(vertices[vertex_index].z)) - *(s16 *)&scratch->z;
+                            scratch->quad[1] = ((s16)(vertices[vertex_index].z)) - *&scratch->z;
                             vertex_index = record->vertex6;
-                            scratch->quad[2] = ((s16)(vertices[vertex_index].x)) - *(s16 *)&scratch->x;
+                            scratch->quad[2] = ((s16)(vertices[vertex_index].x)) - *&scratch->x;
                             vertex_index = record->vertex6;
-                            scratch->quad[3] = ((s16)(vertices[vertex_index].z)) - *(s16 *)&scratch->z;
+                            scratch->quad[3] = ((s16)(vertices[vertex_index].z)) - *&scratch->z;
                             vertex_index = record->vertex2;
-                            scratch->quad[4] = ((s16)(vertices[vertex_index].x)) - *(s16 *)&scratch->x;
+                            scratch->quad[4] = ((s16)(vertices[vertex_index].x)) - *&scratch->x;
                             vertex_index = record->vertex2;
-                            scratch->quad[5] = ((s16)(vertices[vertex_index].z)) - *(s16 *)&scratch->z;
+                            scratch->quad[5] = ((s16)(vertices[vertex_index].z)) - *&scratch->z;
                             vertex_index = record->vertex0;
-                            scratch->quad[6] = ((s16)(vertices[vertex_index].x)) - *(s16 *)&scratch->x;
+                            scratch->quad[6] = ((s16)(vertices[vertex_index].x)) - *&scratch->x;
                             vertex_index = record->vertex0;
-                            scratch->quad[7] = ((s16)(vertices[vertex_index].z)) - *(s16 *)&scratch->z;
+                            scratch->quad[7] = ((s16)(vertices[vertex_index].z)) - *&scratch->z;
 
                             if (check_scratch_quad_half_turn_gaps(scratch) != 0) {
                                 {

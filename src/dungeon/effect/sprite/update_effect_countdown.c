@@ -23,17 +23,18 @@ typedef struct S_800D6FEC_0 {
 
 
 /* Copy stored values, run the update, and flag completion when the count reaches zero. */
-void update_effect_countdown(void *object, MovingPosition *output, void *update_arg) {
+void update_effect_countdown(void *object_arg, MovingPosition *output, void *update_arg) {
+    S_800D6FEC_0 *object = object_arg;
     u16 remaining;
     MovingPosition *source;
 
-    source = ((S_800D6FEC_0 *)object)->unk_B0;
+    source = object->unk_B0;
     output->x = (u16) source->x;
     output->y = (u16) source->y;
     output->z = (u16) source->z;
     advance_sprite_animation_and_textures(update_arg);
-    remaining = ((S_800D6FEC_0 *)object)->unk_96 - 1;
-    ((S_800D6FEC_0 *)object)->unk_96 = remaining;
+    remaining = object->unk_96 - 1;
+    object->unk_96 = remaining;
     if ((remaining << 0x10) <= 0) {
         ((S_800D6FEC_0_pre *)object)[-1].unk_00 = (u16) (((S_800D6FEC_0_pre *)object)[-1].unk_00 | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);

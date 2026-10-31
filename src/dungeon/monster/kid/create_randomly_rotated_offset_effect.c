@@ -82,7 +82,7 @@ void create_randomly_rotated_offset_effect(void *unused_ptr, ObjectPosition *sou
         data->color.c.g = 0;
         data->color.c.r = 0;
         data->angle_z = rand() & 0xFFF;
-        (*(Copy12 *)((u8 *)node + 0x48)) = (*(Copy12 *)((u8 *)D_8017520C + 0));
+        (*(Copy12 *)((u8 *)node + 0x48)) = (*(Copy12 *)(D_8017520C + 0));
         data->source = (u8 *)node + 0x48;
     }
 }

@@ -25,7 +25,7 @@ void script_call(S_800395F0_0 *script) {
 
     *script->unk_7C = script->unk_1C + 4;
     target_bytes = script->unk_1C;
-    script->unk_7C = (s32 *) (script->unk_7C + 1);
+    script->unk_7C = (script->unk_7C + 1);
     script->unk_1C = (void *) (target_bytes->unk_00 + (target_bytes->unk_01 << 8) + (target_bytes->unk_02 << 0x10)
         + (target_bytes->unk_03 << 0x18));
 }

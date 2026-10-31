@@ -357,7 +357,8 @@ typedef struct S_81880F28_3_pre {
 } S_81880F28_3_pre;   /* the 0x14 bytes before ((S_81880F28_0 *)arg0)->unk_00 in tint_effect_and_advance_motion, addressed as ((S_81880F28_0 *)arg0)->unk_00[-1] */
 
 /* Tint the object red, restore its color, and advance its motion. */
-void tint_effect_and_advance_motion(void *effect, void *motion_data) {
+void tint_effect_and_advance_motion(void *effect_arg, void *motion_data) {
+    S_81880F28_0 *effect = effect_arg;
     ObjectPosition *motion = motion_data;
     void *object;
     EffectColor *color;
@@ -365,16 +366,16 @@ void tint_effect_and_advance_motion(void *effect, void *motion_data) {
     s32 channel_value;
 
     tint_effect_update_count[0]++;
-    state = ((S_81880F28_0 *)effect)->unk_0A.s;
+    state = effect->unk_0A.s;
 
     switch (state) {
     case 0:
-        object = ((S_81880F28_0 *)effect)->unk_00;
+        object = effect->unk_00;
         ((S_81880F28_1 *)object)->unk_1C |= 0x10000000;
-        ((S_81880F28_0 *)effect)->unk_0A.u++;
+        effect->unk_0A.u++;
 
     case 1:
-        color = ((S_81880F28_3_pre *)(((S_81880F28_0 *)effect)->unk_00))[-1].unk_00;
+        color = ((S_81880F28_3_pre *)(effect->unk_00))[-1].unk_00;
 
         channel_value = color->red + 1;
         color->red = channel_value;
@@ -395,11 +396,11 @@ void tint_effect_and_advance_motion(void *effect, void *motion_data) {
         }
 
         if (tint_effect_phase_counts[0] < 14) {
-            ((S_81880F28_0 *)effect)->unk_0A.u++;
+            effect->unk_0A.u++;
         }
         break;
     case 2:
-        color = ((S_81880F28_3_pre *)(((S_81880F28_0 *)effect)->unk_00))[-1].unk_00;
+        color = ((S_81880F28_3_pre *)(effect->unk_00))[-1].unk_00;
 
         channel_value = color->red - 4;
         color->red = channel_value;
@@ -420,7 +421,7 @@ void tint_effect_and_advance_motion(void *effect, void *motion_data) {
         }
 
         if (tint_effect_phase_counts[0] == 0) {
-            ((S_81880F28_1 *)((S_81880F28_0 *)effect)->unk_00)->unk_1C &= ~0x10000000;
+            ((S_81880F28_1 *)effect->unk_00)->unk_1C &= ~0x10000000;
             (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
@@ -430,7 +431,7 @@ void tint_effect_and_advance_motion(void *effect, void *motion_data) {
     motion->z.v += motion->velocity_z;
     motion->velocity_z += -0x80000;
     create_radial_effect_node(motion);
-    ((S_81880F28_0 *)effect)->unk_1C++;
+    effect->unk_1C++;
 }
 #include "modules/dungeon_ovl_18a0800.h"
 #include "dungeon/effect/travel.h"
@@ -705,9 +706,9 @@ void move_and_fade_effect(void *effect_data, void *position_data, void *visual_d
     u8 brightness;
     s32 angle;
 
-    visual = (Func818816E0Arg2 *)visual_data;
-    effect = (Func818816E0Arg0 *)effect_data;
-    position = (Func818816E0Arg1 *)position_data;
+    visual = visual_data;
+    effect = effect_data;
+    position = position_data;
     angle = effect->field24 << 8;
     tint_effect_update_count[0] = tint_effect_update_count[0] + 1;
     position->field0 = position->field0 + (rcos(angle) * 8);
@@ -953,7 +954,7 @@ s32 queue_projected_point_primitives(void *node_data, void *position_data, void 
     union { s32 * pointer; u32 value; } ot_entry;
 
     {
-        void *render_state = (*(void **)((u8 *)resident_globals_page + 0x3160));
+        void *render_state = (*(void **)(resident_globals_page + 0x3160));
         void *packet_cursor = ((S_800252E0_0 *)render_state)->unk_8D0;
         ((S_800252E0_1 *)scratch)->unk_20 = (u8 *)render_state + 0xB0;
         ((S_800252E0_1 *)scratch)->unk_18 = packet_cursor;

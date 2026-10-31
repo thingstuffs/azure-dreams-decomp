@@ -29,14 +29,14 @@ s32 use_item_to_increase_luck(ActorRecord *entity, DungeonItemEntry *event, s16 
     }
     if ((u32) entity <= 0x9FFFFFFFU) {
         display_item_status_message(entity, event, event_type);
-        if (feed_actor_restore_mp(entity, (entity_action_selectors[(*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3))] >> 6) & 3, 0) == 0) {
+        if (feed_actor_restore_mp(entity, (entity_action_selectors[(*((u8 *)&((EntityRec *)entity)->unk_10 + 3))] >> 6) & 3, 0) == 0) {
             place_actor_item(entity, event);
             return 1;
         }
     }
-    entity_count = (*(u8 *)((u8 *)&((EntityRec *)entity)->x + 3));
+    entity_count = (*((u8 *)&((EntityRec *)entity)->x + 3));
     if (entity_count < 0xFFU) {
-        (*(u8 *)((u8 *)&((EntityRec *)entity)->x + 3)) = (u8) (entity_count + 1);
+        (*((u8 *)&((EntityRec *)entity)->x + 3)) = (u8) (entity_count + 1);
         if (entity->flags14 & ACTOR_PARTY_MEMBER) {
             adjust_source_value_and_finalize(entity, D_800E1843);
         }

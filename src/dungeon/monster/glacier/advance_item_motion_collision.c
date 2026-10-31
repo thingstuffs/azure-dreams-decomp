@@ -30,42 +30,44 @@ extern s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern s16 sample_terrain_surface_height();
 
 /* Advance motion, resolve collisions, and flag expired movement. */
-void advance_item_motion_collision(void *motion, void *position, void *update_arg) {
+void advance_item_motion_collision(void *motion_arg, void *position_arg, void *update_arg) {
+    S_80174300_1 *position = position_arg;
+    S_80174300_0 *motion = motion_arg;
     s32 height;
 
-    ((S_80174300_0 *)motion)->unk_1E = ((S_80174300_0 *)motion)->unk_1E - 1;
+    motion->unk_1E = motion->unk_1E - 1;
     advance_sprite_animation_and_textures(update_arg);
-    ((S_80174300_1 *)position)->unk_00.at00.v += ((S_80174300_0 *)motion)->unk_50;
-    ((S_80174300_0 *)motion)->unk_50 += ((S_80174300_0 *)motion)->unk_5C;
-    if ((check_left_tile_and_center_height(((S_80174300_1 *)position)->unk_00.at02.v, ((S_80174300_1 *)position)->unk_04.at02.v,
-        ((S_80174300_1 *)position)->unk_08.at02.v) << 16) != 0) {
-        ((S_80174300_1 *)position)->unk_00.at00.v -= ((S_80174300_0 *)motion)->unk_50;
-        ((S_80174300_0 *)motion)->unk_50 = 0;
-        ((S_80174300_0 *)motion)->unk_5C = 0;
+    position->unk_00.at00.v += motion->unk_50;
+    motion->unk_50 += motion->unk_5C;
+    if ((check_left_tile_and_center_height(position->unk_00.at02.v, position->unk_04.at02.v,
+        position->unk_08.at02.v) << 16) != 0) {
+        position->unk_00.at00.v -= motion->unk_50;
+        motion->unk_50 = 0;
+        motion->unk_5C = 0;
     }
-    ((S_80174300_1 *)position)->unk_04.at00.v += ((S_80174300_0 *)motion)->unk_54;
-    ((S_80174300_0 *)motion)->unk_54 += ((S_80174300_0 *)motion)->unk_60;
-    if ((check_left_tile_and_center_height(((S_80174300_1 *)position)->unk_00.at02.v, ((S_80174300_1 *)position)->unk_04.at02.v,
-        ((S_80174300_1 *)position)->unk_08.at02.v) << 16) != 0) {
-        ((S_80174300_1 *)position)->unk_04.at00.v -= ((S_80174300_0 *)motion)->unk_54;
-        ((S_80174300_0 *)motion)->unk_54 = 0;
-        ((S_80174300_0 *)motion)->unk_60 = 0;
+    position->unk_04.at00.v += motion->unk_54;
+    motion->unk_54 += motion->unk_60;
+    if ((check_left_tile_and_center_height(position->unk_00.at02.v, position->unk_04.at02.v,
+        position->unk_08.at02.v) << 16) != 0) {
+        position->unk_04.at00.v -= motion->unk_54;
+        motion->unk_54 = 0;
+        motion->unk_60 = 0;
     }
-    ((S_80174300_1 *)position)->unk_08.at00.v += ((S_80174300_0 *)motion)->unk_58;
-    ((S_80174300_0 *)motion)->unk_58 += ((S_80174300_0 *)motion)->unk_64;
-    height = ((S_80174300_1 *)position)->unk_08.at02.v;
-    if ((sample_terrain_surface_height(((S_80174300_1 *)position)->unk_00.at02.v, ((S_80174300_1 *)position)->unk_04.at02.v,
-                       (s16)((u16)((S_80174300_1 *)position)->unk_08.at02u.v - 4)) - 0x10) < height) {
-        ((S_80174300_0 *)motion)->unk_58 = 0;
-        ((S_80174300_0 *)motion)->unk_54 = 0;
-        ((S_80174300_0 *)motion)->unk_50 = 0;
-        ((S_80174300_1 *)position)->unk_08.at02.v = sample_terrain_surface_height(((S_80174300_1 *)position)->unk_00.at02.v,
-            ((S_80174300_1 *)position)->unk_04.at02.v,
-                                               (s16)((u16)((S_80174300_1 *)position)->unk_08.at02.v - 4)) - 0x11;
-        ((S_80174300_1 *)position)->unk_08.at00u.v = 0;
-        ((S_80174300_0 *)motion)->unk_1E = 0;
+    position->unk_08.at00.v += motion->unk_58;
+    motion->unk_58 += motion->unk_64;
+    height = position->unk_08.at02.v;
+    if ((sample_terrain_surface_height(position->unk_00.at02.v, position->unk_04.at02.v,
+                       (s16)((u16)position->unk_08.at02u.v - 4)) - 0x10) < height) {
+        motion->unk_58 = 0;
+        motion->unk_54 = 0;
+        motion->unk_50 = 0;
+        position->unk_08.at02.v = sample_terrain_surface_height(position->unk_00.at02.v,
+            position->unk_04.at02.v,
+                                               (s16)((u16)position->unk_08.at02.v - 4)) - 0x11;
+        position->unk_08.at00u.v = 0;
+        motion->unk_1E = 0;
     }
-    if ((s16)((S_80174300_0 *)motion)->unk_1E <= 0) {
+    if ((s16)motion->unk_1E <= 0) {
         (*(u16 *)((u8 *)motion + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

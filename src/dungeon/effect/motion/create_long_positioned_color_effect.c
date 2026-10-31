@@ -89,7 +89,7 @@ void create_long_positioned_color_effect(S_7FFE93E8_3 *source, s32 color) {
         sprite->unk_0C.at02.v = 0x80;
         sprite->unk_0C.at01.v = 0x80;
         sprite->unk_0C.at00.v = 0x80;
-        packed_color = *(s32 *)&color;
+        packed_color = *&color;
         sprite->unk_1E = 0x1000;
         sprite->unk_1C = 0x1000;
         sprite->unk_0C.at00u.v = packed_color;

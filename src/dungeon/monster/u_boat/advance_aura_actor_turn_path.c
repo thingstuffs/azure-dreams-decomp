@@ -27,18 +27,6 @@ typedef struct S_80172144_0 {
     s16 unk_8A;
 } S_80172144_0;   /* state in advance_aura_actor_turn_path */
 
-typedef struct S_80172144_1 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x6];
-    s16 unk_96;
-    u8 pad_98[0x2];
-    s8 unk_9A;
-    u8 pad_9B[0x15];
-    u8 unk_B0;
-    u8 pad_B1[0x4];
-    u8 unk_B5;
-} S_80172144_1;   /* arg0 in advance_aura_actor_turn_path */
 
 typedef struct S_80172144_3 {
     u8 pad_00[0x74];
@@ -47,12 +35,6 @@ typedef struct S_80172144_3 {
     u8 unk_7C;
 } S_80172144_3;   /* temp_v0_2 in advance_aura_actor_turn_path */
 
-typedef struct S_80172144_4 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} S_80172144_4;   /* (u8 *)state + ((S_80172144_0 *)state)->unk_8A in advance_aura_actor_turn_path */
 
 /* Advance the entity along its path and update its movement state. */
 void advance_aura_actor_turn_path(ActorRecord *actor, ObjectPosition *actor_slot, SpriteFrameState *entity_arg, ActorRecord *state_arg) {
@@ -70,7 +52,7 @@ void advance_aura_actor_turn_path(ActorRecord *actor, ObjectPosition *actor_slot
 
     if ((((S_80172144_0 *)state)->unk_71.s > 0) &&
         ((s32)((S_80172144_0 *)state)->unk_71.u > ((S_80172144_0 *)state)->unk_8A)) {
-        if ((((S_80172144_1 *)actor)->unk_B5 == 0) &&
+        if ((actor->unk_B4.bytes[1] == 0) &&
             (*(u8 ***)&entity->frameTable != uboat_default_frames)) {
             entity->frameTable = uboat_default_frames;
             select_sprite_entry(entity,
@@ -104,8 +86,8 @@ void advance_aura_actor_turn_path(ActorRecord *actor, ObjectPosition *actor_slot
             path_step->unk_74, path_step->unk_7C,
             (u8 *)actor + 0x98);
         move_result = check_movement_clearance_and_height(direction, entity, state, 0x20);
-        entity->tile_x = ((S_80172144_4 *)((u8 *)state + ((S_80172144_0 *)state)->unk_8A))->unk_74;
-        entity->tile_y = ((S_80172144_4 *)((u8 *)state + ((S_80172144_0 *)state)->unk_8A))->unk_7C;
+        entity->tile_x = ((ActorRecord *)((u8 *)state + ((S_80172144_0 *)state)->unk_8A))->path_x[0];
+        entity->tile_y = ((ActorRecord *)((u8 *)state + ((S_80172144_0 *)state)->unk_8A))->path_y[0];
         ((S_80172144_0 *)state)->unk_8A = (u16)((S_80172144_0 *)state)->unk_8A + 1;
         if ((effect_status << 0x10) == 0) {
             s32 new_x;
@@ -120,14 +102,14 @@ void advance_aura_actor_turn_path(ActorRecord *actor, ObjectPosition *actor_slot
             cycle_map_cell_flags(new_x, new_y, tile_flags);
         }
         ((S_80172144_0 *)state)->unk_2A = direction;
-        if (move_result == 3 && (((S_80172144_1 *)actor)->unk_B5 == 0) && !(g_dungeon_status.flags & 0x80) &&
+        if (move_result == 3 && (actor->unk_B4.bytes[1] == 0) && !(g_dungeon_status.flags & 0x80) &&
             !(entity->flags & 0x8000)) {
             advance_arcing_actor_move(actor, actor_slot, entity, state);
-            ((S_80172144_1 *)actor)->unk_8C = 0;
+            actor->unk_8C.word = 0;
             ((S_80172144_0 *)state)->unk_1C |= ACTOR_REFRESH_GROUND;
         } else {
             actor->action_id.s = 0xF;
-            ((S_80172144_1 *)actor)->unk_8C = 0;
+            actor->unk_8C.word = 0;
             ((S_80172144_0 *)state)->unk_1C |= ACTOR_REFRESH_GROUND;
         }
         if (g_dungeon_status.flags & 0x80) {

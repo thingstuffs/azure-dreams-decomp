@@ -7,14 +7,6 @@ typedef struct S_801748FC_0_pre {
     u8 pad_04[0x10];
 } S_801748FC_0_pre;   /* the 0x14 bytes before current in find_nearby_eligible_entry, addressed as current[-1] */
 
-typedef struct S_801748FC_0 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    u8 pad_14[0x48];
-    s32 unk_5C;
-    u8 pad_60[0x28];
-    s16 unk_88;
-} S_801748FC_0;   /* current in find_nearby_eligible_entry */
 
 typedef struct S_801748FC_1 {
     u8 pad_00[0x24];
@@ -39,7 +31,7 @@ void *find_nearby_eligible_entry(u8 *current, s32 wanted_24, s32 wanted_25, s32 
     S_801748FC_1 *object;
     s16 height;
 
-    scratch = ((S_801748FC_0 *)current)->unk_5C;
+    scratch = ((ActorRecord *)current)->next_actor_header;
     sentinel = current;
     filter_24 = wanted_24;
     filter_25 = wanted_25;
@@ -53,17 +45,17 @@ void *find_nearby_eligible_entry(u8 *current, s32 wanted_24, s32 wanted_25, s32 
             entry = current - 0x20;
             if ((object->unk_24 == (filter_24 & 0xFFFF)) &&
                 (object->unk_25 == (filter_25 & 0xFFFF)) &&
-                (height = ((S_801748FC_0 *)current)->unk_88,
+                (height = ((ActorRecord *)current)->ground_height,
                  height <= target_height + 0x20) &&
                 (height >= min_height) &&
-                ((u32)(((S_801748FC_0 *)current)->unk_13 - MONSTER_WALL_OF_FIRE) >= 4U)) {
+                ((u32)(((ActorRecord *)current)->species - MONSTER_WALL_OF_FIRE) >= 4U)) {
                 scratch = check_entity_eligibility(current);
                 scratch <<= 0x10;
                 if (scratch != 0) {
                     return entry;
                 }
             }
-            scratch = ((S_801748FC_0 *)current)->unk_5C;
+            scratch = ((ActorRecord *)current)->next_actor_header;
             current = (u8 *)scratch + 0x20;
         } while (current != sentinel);
     }

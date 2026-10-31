@@ -16,13 +16,6 @@
 
    /* obj in update_actor_action_controller */
 
-typedef struct S_8017086C_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} S_8017086C_1;   /* work in update_actor_action_controller */
 
    /* part_a in update_actor_action_controller */
 
@@ -37,21 +30,6 @@ typedef struct S_8017086C_3 {
     void * unk_2C;
 } S_8017086C_3;   /* part_b in update_actor_action_controller */
 
-typedef struct S_8017086C_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x2];
-    s16 unk_92;
-    u8 pad_94[0x4];
-    u16 unk_98;
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-    u8 pad_9D[0x1];
-    s16 unk_9E;
-    u8 pad_A0[0x8];
-    u16 unk_A8;
-} S_8017086C_4;   /* actor in update_actor_action_controller */
 
 typedef struct S_8017086C_5 {
     u8 pad_00[0xA4];
@@ -94,7 +72,7 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
     void *obj;
     SignedHeightView *part_a;
     S_8017086C_3 *part_b;
-    S_8017086C_4 *actor;
+    ActorRecord *actor;
     s32 left;
     s32 right;
     s16 saved_mode;
@@ -117,7 +95,7 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((ProjectileObject *)obj)->update_callback = update_actor_callbacks_movement_and_terrain;
-        ((S_8017086C_1 *)work)->unk_13 = MONSTER_KRAKEN;
+        ((ActorRecord *)work)->species = MONSTER_KRAKEN;
         register_node(obj, project_sprite_chain);
         actor = work;
 
@@ -130,21 +108,21 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
         part_b->unk_25 = saved_value_25;
 
         if (kind == 1) {
-            left = ((S_8017086C_1 *)work)->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            right = ((S_8017086C_1 *)work)->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-            ((S_8017086C_1 *)work)->unk_14 = left;
-            ((S_8017086C_1 *)work)->unk_1C = right;
+            left = ((ActorRecord *)work)->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            right = ((ActorRecord *)work)->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            ((ActorRecord *)work)->flags14 = left;
+            ((ActorRecord *)work)->flags1C = right;
         } else if (kind >= 2) {
-            left = ((S_8017086C_1 *)work)->unk_14 | ACTOR_CLASS_ENABLED;
-            right = ((S_8017086C_1 *)work)->unk_1C | ACTOR_PLAYER_SIDE;
-            ((S_8017086C_1 *)work)->unk_14 = left;
-            ((S_8017086C_1 *)work)->unk_1C = right;
+            left = ((ActorRecord *)work)->flags14 | ACTOR_CLASS_ENABLED;
+            right = ((ActorRecord *)work)->flags1C | ACTOR_PLAYER_SIDE;
+            ((ActorRecord *)work)->flags14 = left;
+            ((ActorRecord *)work)->flags1C = right;
         } else {
             if (((mode & ~3) << 16) == 0) {
-                if (!(((S_8017086C_1 *)work)->unk_14 & ACTOR_RESIST_SLEEP)) {
+                if (!(((ActorRecord *)work)->flags14 & ACTOR_RESIST_SLEEP)) {
                     left = generate_random_value();
                     if (left & 1) {
-                        ((S_8017086C_1 *)work)->unk_1C |= ACTOR_ASLEEP;
+                        ((ActorRecord *)work)->flags1C |= ACTOR_ASLEEP;
                         right = generate_random_value();
                         set_or_clear_actor_status_slot(work, STATUS_SLEEP, (right & 0x3F) | 0x20);
                         part_b->unk_2C = kraken_frame_set_2;
@@ -155,15 +133,15 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
 
         initialize_actor_sprite_and_animation(obj, part_a, part_b, saved_mode);
 
-        actor->unk_9A = 0xFF;
+        actor->action_id.u = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = kraken_action_resume_address;
-        ((S_8017086C_1 *)work)->unk_1C |= 0x00040000;
-        actor->unk_92 = -16;
-        flags = actor->unk_98;
-        actor->unk_A8 = 0;
-        actor->unk_9E = 1;
-        actor->unk_98 = flags | 0x4000;
+        actor->unk_8C.address = kraken_action_resume_address;
+        ((ActorRecord *)work)->flags1C |= 0x00040000;
+        actor->unk_90.parts.high.s = -16;
+        flags = actor->action_state_flags;
+        actor->unk_A8.u = 0;
+        actor->unk_9E.s = 1;
+        actor->action_state_flags = flags | 0x4000;
 
         current = actor;
         count = 0;
@@ -203,7 +181,7 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
             }
             current = (u8 *)current + 4;
             count++;
-        } while (count < actor->unk_9E);
+        } while (count < actor->unk_9E.s);
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

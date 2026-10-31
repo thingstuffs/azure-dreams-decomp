@@ -118,9 +118,9 @@ void synchronize_mode_and_pending_callback(void) {
     u8 *handler_state = (u8 *)&scene_object_payload_alias;
     void (*callback)();
 
-    if (*(s32 *)&((ObjectNodeHeader *)((u8 *)handler_state - 0x20))->update_callback != familiar_deploy_update_address) {
+    if (*(s32 *)&((ObjectNodeHeader *)(handler_state - 0x20))->update_callback != familiar_deploy_update_address) {
         if (test_resident_bitmap_bit(F_player_mizugi) == 0) {
-            ((func_80092AB0_S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_26 = 0;
+            ((func_80092AB0_S_80090210_0 *)(handler_state - 0x10))->unk_26 = 0;
             disabled_flag = test_resident_bitmap_bit(F_player_mizugi);
             if (disabled_flag != test_resident_bitmap_bit(F_player_mizugi_old)) {
                 mode_result = load_town_sprite_bundle();
@@ -128,7 +128,7 @@ void synchronize_mode_and_pending_callback(void) {
                 update_state->render_attributes = mode_result;
             }
         } else {
-            ((func_80092AB0_S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_26 = 1;
+            ((func_80092AB0_S_80090210_0 *)(handler_state - 0x10))->unk_26 = 1;
             enabled_flag = test_resident_bitmap_bit(F_player_mizugi);
             if (enabled_flag != test_resident_bitmap_bit(F_player_mizugi_old)) {
                 s32 selected_mode;
@@ -147,8 +147,8 @@ void synchronize_mode_and_pending_callback(void) {
         initialize_record_and_select_active_data(handler_state, work_state, update_state);
         initialize_record_with_handler_table(handler_state, work_state, update_state);
         callback = (void (*)())town_scene_init_callback;
-        ((func_80092AB0_S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_14 = (s32 *)&D_80097D54;
-        ((func_80092AB0_S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_1A = 0x10;
+        ((func_80092AB0_S_80090210_0 *)(handler_state - 0x10))->unk_14 = &D_80097D54;
+        ((func_80092AB0_S_80090210_0 *)(handler_state - 0x10))->unk_1A = 0x10;
         if (callback != NULL) {
             callback();
             town_scene_init_callback = 0;
@@ -214,7 +214,7 @@ void rebuild_menu_node_list(void *owner, ObjectPosition *node_in, s32 mode) {
         submit_object_resource_data(((func_80092C9C_S_800903FC_1 *)work)->unk_10);
 
         object = window_node_list_storage;
-        (*(func_80092C9C_ObjectCallback *)((u8 *)object + (0x10)))(object + 0x20, 0, 0);
+        (*(func_80092C9C_ObjectCallback *)(object + (0x10)))(object + 0x20, 0, 0);
 
         if (service_script_controller() != 0) {
             base = (u8 *)&town_actor_control;
@@ -322,7 +322,7 @@ void process_scene_record_update(void *context, ObjectPosition *input, void *rec
     index = view_relative_angle_sector(*(s16 *)((u8 *)context + 0x18));
     if (*(s16 *)((u8 *)context + 0x12) != index) {
         texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(record,
-                      *(u8 *)(*(u8 **)((u8 *)context + 0x1C) + index),
+                      *(*(u8 **)((u8 *)context + 0x1C) + index),
                       *(s8 *)((u8 *)record + 4), 0);
         *(s16 *)((u8 *)context + 0x12) = index;
     }

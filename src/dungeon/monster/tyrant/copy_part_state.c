@@ -96,7 +96,7 @@ void *copy_part_state(s16 spawn_flags, s16 param_a, s16 param_b, s32 param_c)
         initialize_actor_sprite_and_animation(object, motion, (void *)part_data, spawn_flags);
 
         tail_actor = state_data;
-        (*(u8 *)((u8 *)tail_actor + 0x9A)) = 0xFF;
+        (*((u8 *)tail_actor + 0x9A)) = 0xFF;
         (*(s8 *)((u8 *)tail_actor + 0x9C)) = -1;
         (*(Callback *)((u8 *)tail_actor + 0x8C)) = tyrant_slot_f_action_callback;
         tail_flags = part_data->flags;

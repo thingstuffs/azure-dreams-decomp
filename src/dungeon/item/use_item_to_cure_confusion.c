@@ -49,7 +49,7 @@ s32 use_item_to_cure_confusion(ActorRecord *entity, DungeonItemEntry *update_val
     if ((u32) entity <= 0x9FFFFFFFU) {
         display_item_status_message(entity, update_value, mode);
         call_arg = entity;
-        type_index = (*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3));
+        type_index = (*((u8 *)&((EntityRec *)entity)->unk_10 + 3));
         type_flags = (u16 *)&entity_action_selectors;
         if (feed_actor_restore_mp(call_arg, (type_flags[type_index] >> 6) & 3, 0) == 0) {
             place_actor_item(entity, update_value);

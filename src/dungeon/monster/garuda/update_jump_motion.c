@@ -18,14 +18,6 @@ extern int abs(int);
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 
-typedef struct S_80172834_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x8];
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-} S_80172834_0;   /* arg0 in update_jump_motion_2 */
 
 typedef struct S_80172834_3 {
     u8 pad_00[0x24];
@@ -50,7 +42,7 @@ void update_jump_motion_2(void *action_state, ObjectPosition *motion, SpriteFram
     s32 y;
     u16 position[3];
 
-    phase = ((S_80172834_0 *)action_state)->unk_9B;
+    phase = ((ActorRecord *)action_state)->action_phase.u;
     is_special = 0;
     switch (phase) {
     case 0:
@@ -92,9 +84,9 @@ void update_jump_motion_2(void *action_state, ObjectPosition *motion, SpriteFram
             }
         }
         if (*action_data != 0) {
-            x = ((S_80172834_0 *)action_state)->unk_98;
+            x = ((ActorRecord *)action_state)->action_state_flags;
             x &= 0xFF7F;
-            ((S_80172834_0 *)action_state)->unk_98 = x;
+            ((ActorRecord *)action_state)->action_state_flags = x;
             x = is_special;
             if (x != 0) {
                 target = primary_actor_record;
@@ -133,7 +125,7 @@ void update_jump_motion_2(void *action_state, ObjectPosition *motion, SpriteFram
             sprite->flags &= 0xF7FF;
             create_two_row_object_group(position, (s16)(((s32)*action_data - 1) % 3));
             play_sound_if_enabled(0x703);
-            ((S_80172834_0 *)action_state)->unk_9B++;
+            ((ActorRecord *)action_state)->action_phase.u++;
             return;
         }
 
@@ -145,7 +137,7 @@ void update_jump_motion_2(void *action_state, ObjectPosition *motion, SpriteFram
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
         (*(u8 *)&actor->pending_turn_updates)--;
-        ((S_80172834_0 *)action_state)->unk_8C = update_creature_animation_action;
+        ((ActorRecord *)action_state)->unk_8C.address = update_creature_animation_action;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -157,7 +149,7 @@ void update_jump_motion_2(void *action_state, ObjectPosition *motion, SpriteFram
             return;
         }
         sprite->flags &= 0xF7FF;
-        ((S_80172834_0 *)action_state)->unk_9B++;
+        ((ActorRecord *)action_state)->action_phase.u++;
 
     case 2:
         if (!((sprite->unk_04 == 3) &&
@@ -165,7 +157,7 @@ void update_jump_motion_2(void *action_state, ObjectPosition *motion, SpriteFram
             !(sprite->flags & 0xE000)) {
             return;
         }
-        ((S_80172834_0 *)action_state)->unk_98 |= 0x80;
+        ((ActorRecord *)action_state)->action_state_flags |= 0x80;
         if (!(sprite->flags & 0xE000)) {
             return;
         }
@@ -188,7 +180,7 @@ void update_jump_motion_2(void *action_state, ObjectPosition *motion, SpriteFram
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         sprite->flags &= 0xF7FF;
-        ((S_80172834_0 *)action_state)->unk_8C = update_creature_animation_action;
+        ((ActorRecord *)action_state)->unk_8C.address = update_creature_animation_action;
         advance_status_timers(actor);
         if (actor->pending_turn_updates > 0) {
             (*(u8 *)&actor->pending_turn_updates)--;

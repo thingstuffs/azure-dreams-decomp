@@ -15,7 +15,8 @@ void (*const dungeon_ovl_19a332c_entry)(void *transition) = advance_image_tint_t
 
 /* Loads effect graphics, starts a paired object effect, dims and restores the scene tint, and waits
    for cleanup. */
-void advance_image_tint_transition(void *transition) {
+void advance_image_tint_transition(void *transition_arg) {
+    ovl_19a332c_81982864_S_80024064_0 *transition = transition_arg;
     ovl_19a332c_81982864_StackPair setup_args;
     s16 restore_frames;
     s16 restore_left;
@@ -29,7 +30,7 @@ void advance_image_tint_transition(void *transition) {
     void *source_data;
 
     levels = &g_game_work;
-    state_or_frames = ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_0A.s;
+    state_or_frames = transition->unk_0A.s;
     switch (state_or_frames) {
     case 0:
         setup_args.first = 0x010003A0;
@@ -37,57 +38,57 @@ void advance_image_tint_transition(void *transition) {
         decode_and_upload_image(&tint_transition_image, &setup_args);
         upload_vram_row_and_cache(&tint_transition_vram_row, 0x7AC0, 1, 2);
         tint_transition_image_pending = 1;
-        transition_kind = ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_09;
+        transition_kind = transition->unk_09;
         active_state = (*(void **)&((EntityRec *)((int *)(&primary_actor_record)))->x);
         D_800269D0 = 0;
         tint_transition_kind = transition_kind;
         source_data = (*(void **)((u8 *)transition + 0));
         active_state->unk_F4 = 0;
         tint_transition_source = source_data;
-        active_state->unk_A8 = (u8) ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_08;
+        active_state->unk_A8 = (u8) transition->unk_08;
         inventory_clear_circular_list_flag_2000(active_state);
         ((ovl_19a332c_81982864_S_80024064_6 *)((*(void **)((u8 *)((int *)(&primary_actor_record)) + 0))))->unk_96 = 0x14;
         ((ovl_19a332c_81982864_S_80024064_7 *)((*(void **)&((EntityRec *)((int *)(&primary_actor_record)))->x)))->unk_102 = 1;
-        ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_0A.s = (s16) ((u16) ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_0A.s + 1);
+        transition->unk_0A.s = (s16) ((u16) transition->unk_0A.s + 1);
     case 1:
-        if (!(*((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_04 & 0x80)) {
+        if (!(*transition->unk_04 & 0x80)) {
             break;
         }
-        transition_data = ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_00;
+        transition_data = transition->unk_00;
         result_or_state = allocate_two_part_object(((ovl_19a332c_81982864_S_80024064_3_pre *)transition_data)[-1].unk_00, transition_data);
-        ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_0C = result_or_state;
+        transition->unk_0C = result_or_state;
         if (result_or_state == 0) {
             break;
         }
-        ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_20 = -1;
-        ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_22 = 0x20;
+        transition->unk_20 = -1;
+        transition->unk_22 = 0x20;
         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
-        result_or_state = ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_0A.p;
-        ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_0A.p = result_or_state + 1;
+        result_or_state = transition->unk_0A.p;
+        transition->unk_0A.p = result_or_state + 1;
         break;
     case 2:
         state_or_frames = 0x10;
         if (tint_transition_image_pending != 0) {
             break;
         }
-        ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_1A = (s16) state_or_frames;
-        result_or_state = ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_0A.p;
-        ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_0A.p = result_or_state + 1;
+        transition->unk_1A = (s16) state_or_frames;
+        result_or_state = transition->unk_0A.p;
+        transition->unk_0A.p = result_or_state + 1;
         break;
     case 3:
         levels->view.tint.parts.tint_g = (u8) (levels->view.tint.parts.tint_g + ((s32) (0x80
-            - levels->view.tint.parts.tint_g) / (s16) ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_1A));
-        restore_frames = ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_1A;
+            - levels->view.tint.parts.tint_g) / (s16) transition->unk_1A));
+        restore_frames = transition->unk_1A;
         levels->view.tint.parts.tint_r = (u8) (levels->view.tint.parts.tint_r + ((s32) (0x80 - levels->view.tint.parts.tint_r) / restore_frames));
-        restore_left = (u16) ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_1A - 1;
-        ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_1A = restore_left;
+        restore_left = (u16) transition->unk_1A - 1;
+        transition->unk_1A = restore_left;
         if ((restore_left << 0x10) > 0) {
             break;
         }
         levels->view.tint.parts.tint_g = 0x80U;
         levels->view.tint.parts.tint_r = 0x80U;
-        result_or_state = ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_0A.p;
-        ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_0A.p = result_or_state + 1;
+        result_or_state = transition->unk_0A.p;
+        transition->unk_0A.p = result_or_state + 1;
         break;
     case 4:
         if (*(s16 *)&image_tint_update_count != 0) {
@@ -101,15 +102,15 @@ void advance_image_tint_transition(void *transition) {
         break;
     }
 update_dimming:
-    if (((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_20 < 0) {
+    if (transition->unk_20 < 0) {
         levels->view.tint.parts.tint_g = (u8) (levels->view.tint.parts.tint_g + ((s32) (0x20
-            - levels->view.tint.parts.tint_g) / (s16) ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_22));
+            - levels->view.tint.parts.tint_g) / (s16) transition->unk_22));
         levels->view.tint.parts.tint_r = (u8) (levels->view.tint.parts.tint_r + ((s32) (0x20
-            - levels->view.tint.parts.tint_r) / (s16) ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_22));
-        dim_left = (u16) ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_22 - 1;
-        ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_22 = dim_left;
+            - levels->view.tint.parts.tint_r) / (s16) transition->unk_22));
+        dim_left = (u16) transition->unk_22 - 1;
+        transition->unk_22 = dim_left;
         if ((dim_left << 0x10) <= 0) {
-            ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_20 = 0;
+            transition->unk_20 = 0;
         }
     }
     image_tint_update_count = 0;
@@ -214,7 +215,7 @@ void move_fade_and_expand_effect(void *effect_data, void *motion_data, void *spr
 {
     SpriteFrameState *sprite= (ovl_19a332c_81982DF8_Arg2 *) sprite_data;
     void *effect = effect_data;
-    ovl_19a332c_81982DF8_Arg1 *motion = (ovl_19a332c_81982DF8_Arg1 *) motion_data;
+    ovl_19a332c_81982DF8_Arg1 *motion = motion_data;
     s16 frames_left;
     s32 next_x;
     u16 scale;
@@ -1066,7 +1067,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             do {
                 ((ovl_19a332c_819835AC_S_819835AC_8 *) ((u8 *) effect - 0x20))->unk_1E = (u16) (((ovl_19a332c_819835AC_S_819835AC_8 *) ((u8 *) effect - 0x20))->unk_1E
                     | 0x8000);
-                (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | 0x8000);
+                (*&object_flag_block.flags) = (s32) (object_flag_block.flags | 0x8000);
                 return;
             } while (0);
         }
@@ -1115,7 +1116,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
 
         ((ovl_19a332c_819835AC_S_819835AC_8 *) ((u8 *) effect - 0x20))->unk_1E = (u16) (((ovl_19a332c_819835AC_S_819835AC_8 *) ((u8 *) effect - 0x20))->unk_1E
             | 0x8000);
-        (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
+        (*&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         return;
     }
     actor_data = ((ovl_19a332c_819835AC_S_819835AC_8 *) owner_ptr)->unk_0C;

@@ -419,10 +419,10 @@ void update_normalized_gray_fade(void *countdownState, s32 unused, T_80170DC4_S_
 void update_saved_rgb_fade(T_80170E2C_FadeState *fade, s32 unused, T_80170E2C_FadeOutput *output);
 void update_growing_rotating_flash(void *effect, s32 unused, void *visual);
 void update_growing_bouncing_effect(void *effect, void *position,struct SpriteFrameState *sprite);
-void create_targeted_motion_effect(ActorRecord *source_handle, ObjectPosition *origin, s32 unused, EntityRec *target);
+void create_targeted_motion_effect(ActorRecord *source_handle, ObjectPosition *origin, SpriteFrameState *unused, EntityRec *target);
 void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *source_pos, SpriteFrameState *sprite_template, ActorRecord *actor);
 void spawn_random_color_burst_particle(void *source, ObjectPosition *position);
-void spawn_growing_rotating_flash(void *unused, ObjectPosition *position, SpriteFrameState *unused_sprite);
+void spawn_growing_rotating_flash(ActorRecord *unused, ObjectPosition *position, SpriteFrameState *unused_sprite);
 void update_tracked_attachment_sprite(void *object, T_80171A38_S_80171A38_4 *position, T_80171A38_S_80171A38_3 *part_state);
 void create_tracked_attachment_sprite(ActorRecord *attachment, T_80171BEC_S_80171BEC_3 *base_position);
 void * create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_height);

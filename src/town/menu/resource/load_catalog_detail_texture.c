@@ -40,8 +40,9 @@ extern u32 catalog_texture_pixels[];
 extern u8 catalog_texture_request[];
 
 /* Load a texture and its palette, then advance the loader after upload. */
-void load_catalog_detail_texture(void *loader)
+void load_catalog_detail_texture(void *loader_arg)
 {
+    S_80124DB0_0 *loader = loader_arg;
     Rect texture_rect;
     Rect palette_rect;
     Rect *upload_rect;
@@ -52,25 +53,25 @@ void load_catalog_detail_texture(void *loader)
     s32 palette_rows;
     u8 load_state;
 
-    load_state = ((S_80124DB0_0 *)loader)->unk_0B;
+    load_state = loader->unk_0B;
     if (load_state != 0) {
         if (load_state != 1) {
             return;
         }
     } else {
         pack_tagged_resource_descriptor(8, catalog_texture_buffer, catalog_texture_request,
-                      catalog_texture_resources[((S_80124DB0_0 *)loader)->unk_13][1]);
+                      catalog_texture_resources[loader->unk_13][1]);
         Control_CD(6, catalog_texture_request, 0);
-        ((S_80124DB0_0 *)loader)->unk_0D = 0;
+        loader->unk_0D = 0;
         Control_CD(0xFF, resource_completion_callback_address, (u8 *)loader + 0xD);
-        ((S_80124DB0_0 *)loader)->unk_0B++;
+        loader->unk_0B++;
     }
-    if (((S_80124DB0_0 *)loader)->unk_0D == 0) {
+    if (loader->unk_0D == 0) {
         return;
     }
 
     palette_rect.x = 0;
-    palette_rect.y = ((S_80124DB0_0 *)loader)->unk_16 + 0x1CA;
+    palette_rect.y = loader->unk_16 + 0x1CA;
     palette_rect.w = 0x100;
     palette_rows = 1;
     palette_rect.h = palette_rows;
@@ -83,17 +84,17 @@ void load_catalog_detail_texture(void *loader)
     upload_rect = &texture_rect;
     texture_pixels = catalog_texture_pixels;
     texture_height = 0x80;
-    texture_rect.x = (((S_80124DB0_0 *)loader)->unk_16 << 6) + 0x240;
+    texture_rect.x = (loader->unk_16 << 6) + 0x240;
     texture_rect.y = texture_height;
     texture_rect.w = 0x40;
     texture_rect.h = texture_height;
     LoadImage(upload_rect, texture_pixels);
 
-    ((S_80124DB0_1 *)((u8 *)loader + ((S_80124DB0_0 *)loader)->unk_16))->unk_17 =
-        ((S_80124DB0_0 *)loader)->unk_13;
-    ((S_80124DB0_0 *)loader)->unk_0A = 6;
-    ((S_80124DB0_0 *)loader)->unk_0B = 0;
-    ((S_80124DB0_0 *)loader)->unk_04 = palette_rows;
-    ((S_80124DB0_0 *)loader)->unk_06 = 0x19;
+    ((S_80124DB0_1 *)((u8 *)loader + loader->unk_16))->unk_17 =
+        loader->unk_13;
+    loader->unk_0A = 6;
+    loader->unk_0B = 0;
+    loader->unk_04 = palette_rows;
+    loader->unk_06 = 0x19;
 }
 

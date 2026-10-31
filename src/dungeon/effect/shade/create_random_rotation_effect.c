@@ -73,7 +73,7 @@ s32 create_random_rotation_effect(void *data_addr, Copy24 *position_addr, s32 di
     if (effect != NULL) {
 
         ((S_818C2FAC_0 *)((void *)effect))->unk_10 = D_80024710;
-        ((S_818C2FAC_0 *)((void *)effect))->unk_20 = (*(s32 *)((u8 *)((void *)data_addr) + 0));
+        ((S_818C2FAC_0 *)((void *)effect))->unk_20 = (*(s32 *)((u8 *)data_addr + 0));
         effect_state = (u8 *)effect + 0x20;
         effect_state->unk_04 = 0;
         effect_state->unk_06 = 0;
@@ -86,7 +86,7 @@ s32 create_random_rotation_effect(void *data_addr, Copy24 *position_addr, s32 di
         ((SpriteFrameState *)render_or_radius)->tpage_abr |= 0x60;
         ((SpriteFrameState *)render_or_radius)->flags |= 0x100;
 
-        variant_seed = (*(s16 *)((u8 *)((void *)data_addr) + 0x12));
+        variant_seed = (*(s16 *)((u8 *)data_addr + 0x12));
         biased_seed = variant_seed;
         variant = variant_seed - ((biased_seed / 4) * 4);
 
@@ -134,14 +134,14 @@ s32 create_random_rotation_effect(void *data_addr, Copy24 *position_addr, s32 di
             s32 x_offset;
             scaled_radius = y_factor * (s32)radius;
             x_offset = scaled_radius << 8;
-            (*(s32 *)((u8 *)((void *)data_addr) + 0)) += x_offset;
+            (*(s32 *)((u8 *)data_addr + 0)) += x_offset;
         }
         {
             y_factor = rcos(offset_angle) >> 4;
             scaled_radius = y_factor * (s32)radius;
             y_offset = scaled_radius << 8;
-            new_y = (*(s32 *)((u8 *)((void *)data_addr) + 4)) + y_offset;
-            (*(s32 *)((u8 *)((void *)data_addr) + 4)) = new_y;
+            new_y = (*(s32 *)((u8 *)data_addr + 4)) + y_offset;
+            (*(s32 *)((u8 *)data_addr + 4)) = new_y;
             return (s32)effect;
         }
 

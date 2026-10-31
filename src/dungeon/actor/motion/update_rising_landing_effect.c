@@ -322,7 +322,7 @@ void update_directional_actor_effect(void *input, void *output)
                 sprite = particle->sprite;
                 particle_data = (u8 *)particle + 0x20;
                 random_value = rand();
-                angle = ((ActorRecord *)(primary_actor_record))->facing;
+                angle = (primary_actor_record)->facing;
                 step = angle;
                 step <<= 16;
                 step >>= 25;
@@ -340,7 +340,7 @@ void update_directional_actor_effect(void *input, void *output)
                     position->x.w.i = result;
                 }
                 random_value = rand();
-                angle = ((ActorRecord *)(primary_actor_record))->facing;
+                angle = (primary_actor_record)->facing;
                 step = angle;
                 step <<= 16;
                 step >>= 25;
@@ -397,7 +397,7 @@ void update_directional_actor_effect(void *input, void *output)
                 sprite = particle->sprite;
                 particle_data = (u8 *)particle + 0x20;
                 random_value = rand();
-                angle = ((ActorRecord *)(primary_actor_record))->facing;
+                angle = (primary_actor_record)->facing;
                 step = angle;
                 step <<= 16;
                 step >>= 25;
@@ -415,7 +415,7 @@ void update_directional_actor_effect(void *input, void *output)
                     position->x.w.i = result;
                 }
                 random_value = rand();
-                angle = ((ActorRecord *)(primary_actor_record))->facing;
+                angle = (primary_actor_record)->facing;
                 step = angle;
                 step <<= 16;
                 step >>= 25;
@@ -484,7 +484,7 @@ store_state:
         ((S_FUNC_8197C800_BODY_0 *)input)->unk_52.u &= 0x7FFF;
         return;
     }
-    apply_attack_power_and_element_effects(((ActorRecord *)(primary_actor_record))->target, 8,
+    apply_attack_power_and_element_effects((primary_actor_record)->target, 8,
                   ((S_FUNC_8197C800_BODY_0 *)input)->unk_09, 10,
                   ((EntityRec *)owner_data)->facing, owner_data, 2);
     g_dungeon_status.active_actor = 0;
@@ -629,7 +629,7 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
         s32 early_frames;
         u16 frame;
         early_frames = (s16)actor->counter < 8;
-        frame = *(u16 *)&actor->counter;
+        frame = *&actor->counter;
         if (early_frames) {
             sprite = (Sprite *)4;
         } else if ((u32)(frame - 8) < 5U) {
@@ -675,7 +675,7 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
                     if (coord_magnitude == 0) {
                         spawn->position->y.word = target->y.word;
                     } else {
-                        ((Vec3 *)spawn->position)->y.half.coord =
+                        spawn->position->y.half.coord =
                             (s16)(start_y_bits + ((target_y - start_y) * x_offset) / coord_magnitude);
                     }
                     spawn->position->x.word += (((rand() & 0x3FF) - 0x1FF) << 10);
@@ -830,7 +830,7 @@ void update_rising_landing_effect(void *effect, ObjectPosition *motion, SpriteFr
         }
         if (motion->velocity_z > 0) {
             sprite->unk_00 = &landing_sprite_entries;
-            sprite_frames = (void *) ((S_8197D468_4 *)(&landing_sprite_entries))->unk_04;
+            sprite_frames = ((S_8197D468_4 *)(&landing_sprite_entries))->unk_04;
             sprite_flags = sprite->flags;
             sprite->unk_04 = 0;
             sprite->frame_ticks = 0;
@@ -858,7 +858,7 @@ void update_rising_landing_effect(void *effect, ObjectPosition *motion, SpriteFr
     case 2:
         if (sprite->flags & 0x6000) {
             sprite->unk_00 = &landing_sprite_entries;
-            effect_data = (void *) ((S_8197D468_4 *)(&landing_sprite_entries))->unk_04;
+            effect_data = ((S_8197D468_4 *)(&landing_sprite_entries))->unk_04;
             sprite->unk_04 = 0;
             sprite->frame_ticks = 0;
             sprite->source = effect_data;

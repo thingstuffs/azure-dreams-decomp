@@ -1,5 +1,6 @@
 #include "common.h"
 #include "records/Rec_func_80174800_arg0.h"
+#include "shared/entity.h"
 
 typedef struct S_80174800_0_pre {
     void * unk_00;

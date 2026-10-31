@@ -26,16 +26,6 @@ typedef struct S_80171FC8_2 {
     u8 unk_7C;
 } S_80171FC8_2;   /* tile in advance_entity_path_state */
 
-typedef struct S_80171FC8_3 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x2];
-    u16 unk_92;
-    u8 pad_94[0x2];
-    u16 unk_96;
-    u8 pad_98[0x2];
-    s8 unk_9A;
-} S_80171FC8_3;   /* arg0 in advance_entity_path_state */
 
 typedef struct S_80171FC8_4 {
     u8 pad_00[0x74];
@@ -109,7 +99,7 @@ void advance_entity_path_state(ActorRecord *motion_state, ObjectPosition *unused
     }
 
     motion_state->action_id.s = 0xF;
-    ((S_80171FC8_3 *)motion_state)->unk_8C = 0;
+    motion_state->unk_8C.word = 0;
     path_state->flags1C |= 0x40000000;
 
     if (g_dungeon_status.flags & 0x80) {

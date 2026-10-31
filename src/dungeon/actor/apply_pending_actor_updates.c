@@ -38,7 +38,7 @@ void apply_pending_actor_updates(void *controller, ObjectPosition *move_state, S
         return;
     }
 
-    if (*(u8 *)((u8 *)controller + 0x9A) != 0x3A &&
+    if (*((u8 *)controller + 0x9A) != 0x3A &&
         (actor->flags1C & 0x200)) {
         entity->flags &= 0xF7FF;
         finish_paralyzed_actor_action(controller, move_state, entity, actor);

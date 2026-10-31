@@ -15,7 +15,7 @@ extern int D_800D01B8[];
 void initialize_object_from_motion_data(void *object, void *initializationData, void *ptr2) {
     unsigned short secondaryValue;
 
-    call_the_handler_selects_nonzero_entry((s32 *) D_800D01B8, object, ptr2);
+    call_the_handler_selects_nonzero_entry(D_800D01B8, object, ptr2);
     town_action_reset_byte = 0;
     *(unsigned short *)((unsigned char *)object + 0x30) =
         *(unsigned short *)((unsigned char *)initializationData + 2);

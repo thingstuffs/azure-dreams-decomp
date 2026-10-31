@@ -7,6 +7,6 @@
 
 
 
-void advance_move_action_particles(void *action, ObjectPosition *position, SpriteFrameState *sprite, void *actor);
+void advance_move_action_particles(ActorRecord *action, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 
 #endif

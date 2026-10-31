@@ -114,13 +114,13 @@ void advance_actor_transition_state(void *owner_data, ObjectPosition *unused, Sp
             *(u32 *)(map + 0xAC + owner[0xA9] * 4) = 0;
             *(u32 *)(map + 0xD0 + owner[0xA9] * 4) = 0;
             decrement_monster_entry_count(actor[0x13], 3);
-            tile = *(u8 **)&((ObjectNodeHeader *)((u8 *)actor - 0x20))->sprite;
+            tile = *(u8 **)&((ObjectNodeHeader *)(actor - 0x20))->sprite;
             x = tile[0x24];
             y = tile[0x25];
             tile_mask = (((S_80176028_4 *)actor)->unk_1C & 0x2000) ? 0x300 : 0x3000;
             update_map_cell_flags_with_item_limit(x, y, tile_mask);
             unlink_entity_node(actor);
-            (((ObjectNodeHeader *)((u8 *)actor -0x20))->flags) |= NODE_REMOVE;
+            (((ObjectNodeHeader *)(actor -0x20))->flags) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             {
                 u8 *actor_slot;

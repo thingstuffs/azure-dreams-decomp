@@ -21,15 +21,16 @@ s32 func_80071424(const char *);                             /* extern */
 extern s32 scene_object_flags;
 
 /* Processes a state-zero record and sets record/global flags if its linked record has bit 3 set. */
-void process_state_zero_record(void *record) {
-    ObjectStatusPrefix16 *record_view = record;
+void process_state_zero_record(void *record_arg) {
+    S_80815160_0 *record = record_arg;
+    ObjectStatusPrefix16 *record_view = record_arg;
     u16 *flags;
     S_80815160_1 *linked_record;
 
-    linked_record = ((S_80815160_0 *)record)->unk_0C;
-    if (((S_80815160_0 *)record)->unk_00 == 0) {
-        func_80058588(*((S_80815160_0 *)record)->unk_08, func_80071424(((S_80815160_0 *)record)->unk_04),
-            ((S_80815160_0 *)record)->unk_04);
+    linked_record = record->unk_0C;
+    if (record->unk_00 == 0) {
+        func_80058588(*record->unk_08, func_80071424(record->unk_04),
+            record->unk_04);
         if (linked_record->unk_1A & 8) {
             flags = &record_view[-1].flags;
             *flags = (u16) (record_view[-1].flags | 0x8000);

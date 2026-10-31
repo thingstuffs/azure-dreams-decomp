@@ -128,14 +128,14 @@ void create_directional_template_effect(void *entity, R12_80170A44_S_80170A28_2 
             }
             return;
         }
-        (*(u8 *)((u8 *)entity + 0x71)) &= 0x7F;
+        (*((u8 *)entity + 0x71)) &= 0x7F;
         return;
     }
 
     call_entity = entity;
     call_motion = motion;
     call_part = part;
-    old_state = (s8)(*(u8 *)((u8 *)entity + 0x6D));
+    old_state = (s8)(*((u8 *)entity + 0x6D));
     call_self = entity;
     if (refresh_actor_facing_and_lifecycle(call_entity, call_motion, call_part, call_self) != 0) {
         return;
@@ -148,7 +148,7 @@ void create_directional_template_effect(void *entity, R12_80170A44_S_80170A28_2 
             update_callback(entity, motion, part, entity);
         }
     }
-    ((R12_80170A44_EntityCallback *)D_80175AAC)[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, part, entity);
+    ((R12_80170A44_EntityCallback *)D_80175AAC)[(*((u8 *)entity + 0x9A))](entity, motion, part, entity);
 
     if ((s16)old_state != (*(s8 *)((u8 *)entity + 0x6D))) {
         try_move_actor_to_valid_position(entity, motion, part, entity);
@@ -270,11 +270,11 @@ void update_actor_state_and_select_target(ActorRecord *entity, ObjectPosition *c
 
     if (actor->mp_value.parts.whole == 0) {
         advance_actor_pending_action(entity, context, sprite, actor);
-        if (sprite->frameTable == ((u8 *)arachne_alt_direction_frames)) {
+        if (sprite->frameTable == arachne_alt_direction_frames) {
             return;
         }
         {
-            u8 *effects = ((u8 *)arachne_reset_frames);
+            u8 *effects = arachne_reset_frames;
             sprite->frameTable = effects;
             select_sprite_entry(
                 sprite,(u8)(effects[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7]),
@@ -284,14 +284,14 @@ void update_actor_state_and_select_target(ActorRecord *entity, ObjectPosition *c
     }
 
     if (((R12_80170E70_S_80170E70_1 *)actor)->unk_1C & 0x200) {
-        if (sprite->frameTable == ((u8 *)arachne_alt_direction_frames)) {
+        if (sprite->frameTable == arachne_alt_direction_frames) {
             entity->action_id.u = 13;
             entity->action_phase.u = 1;
-            ((R12_80170E70_S_80170E70_0 *)entity)->unk_8C = 0;
+            entity->unk_8C.word = 0;
             ((R12_80170E70_S_80170E70_1 *)actor)->unk_1C &= ~0x40000;
             return;
         }
-        if (reset_actor_action_state(entity, context, sprite, ((u8 *)arachne_reset_frames)) != 0) {
+        if (reset_actor_action_state(entity, context, sprite, arachne_reset_frames) != 0) {
             return;
         }
     }
@@ -305,7 +305,7 @@ void update_actor_state_and_select_target(ActorRecord *entity, ObjectPosition *c
         current_state = entity->action_id.u;
         next_state = 14;
         if (current_state != next_state) {
-            u8 *effect = ((u8 *)arachne_direction_frames);
+            u8 *effect = arachne_direction_frames;
 
             if (sprite->frameTable != effect) {
                 sprite->frameTable = effect;
@@ -318,7 +318,7 @@ void update_actor_state_and_select_target(ActorRecord *entity, ObjectPosition *c
 
         entity->action_state_flags &= 0xFFF3;
         if (actor->hp_delta != 0) {
-            if (begin_ready_actor_directional_action(entity, context, sprite, ((u8 *)D_80175A5C)) != 0) {
+            if (begin_ready_actor_directional_action(entity, context, sprite, D_80175A5C) != 0) {
                 return;
             }
         }
@@ -387,7 +387,7 @@ void update_actor_state_and_select_target(ActorRecord *entity, ObjectPosition *c
             owner = primary_actor_record;
             actor->facing = target_angle;
             if (owner->action_id.u == 0x11) {
-                begin_actor_spell_action(entity, context, sprite, ((u8 *)arachne_frame_set), ((u8 *)update_actor_state_and_select_target));
+                begin_actor_spell_action(entity, context, sprite, arachne_frame_set, ((u8 *)update_actor_state_and_select_target));
                 return;
             }
 
@@ -398,7 +398,7 @@ void update_actor_state_and_select_target(ActorRecord *entity, ObjectPosition *c
         case 0:
         case 1:
         case 2:
-            begin_actor_spell_action(entity, context, sprite, ((u8 *)arachne_frame_set), ((u8 *)update_actor_state_and_select_target));
+            begin_actor_spell_action(entity, context, sprite, arachne_frame_set, ((u8 *)update_actor_state_and_select_target));
             return;
 
         default:
@@ -427,7 +427,7 @@ void update_actor_state_and_select_target(ActorRecord *entity, ObjectPosition *c
     if (sprite->flags & 0x40) {
         return;
     }
-    effect_table = ((u8 *)arachne_direction_frames);
+    effect_table = arachne_direction_frames;
     if (sprite->frameTable == effect_table) {
         return;
     }
@@ -461,11 +461,11 @@ void advance_actor_path_script_step(void *controller, ObjectPosition *context, v
         return;
     }
 
-    if (*(u8 * *)&((SpriteFrameState *)entity)->frameTable != ((u8 *)arachne_move_direction_frames)) {
-        ((SpriteFrameState *)entity)->frameTable = ((u8 *)arachne_move_direction_frames);
+    if (*(u8 * *)&((SpriteFrameState *)entity)->frameTable != arachne_move_direction_frames) {
+        ((SpriteFrameState *)entity)->frameTable = arachne_move_direction_frames;
         select_sprite_entry(
             entity,
-            ((u8 *)arachne_move_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + state->unk_2A + 0x100) >> 9) & 7],
+            arachne_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + state->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 
@@ -761,7 +761,7 @@ void advance_linked_actor_motion_script(void *object, ObjectPosition *unused, vo
 
     *((s8 *)object + 0x9A) = 0x10;
     *((s8 *)object + 0x9B) = 0;
-    directionTable = ((u8 *)D_80175A64);
+    directionTable = D_80175A64;
     *(void **)((u8 *)display + 0x2C) = directionTable;
     directionIndex = ((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((u8 *)orientation + 0x2A) + 0x100) >> 9) & 7;
     select_sprite_entry(display, directionTable[directionIndex], 0);
@@ -827,9 +827,9 @@ void select_and_start_target_action(ActorRecord *action_state, ObjectPosition *a
             action_state->action_id.s = 0x11;
             action_state->unk_8C.run = 0;
             action_state->action_phase.s = 0;
-            (*(s32 **)((u8 *)sprite + 0x2C)) = ((u8 *)arachne_direction_frames);
+            (*(s32 **)((u8 *)sprite + 0x2C)) = arachne_direction_frames;
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
-                + ((u8 *)arachne_direction_frames)), 0);
+                + arachne_direction_frames), 0);
             actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
             prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
             actor->unk_84 = 0x7C;
@@ -914,10 +914,10 @@ void complete_actor_arc_movement(void *action, void *motion, void *map_actor, vo
         if (!(((SpriteFrameState *)map_actor)->flags & 0x6000)) {
             break;
         }
-        ((SpriteFrameState *)map_actor)->frameTable = ((u8 *)D_80175A6C);
+        ((SpriteFrameState *)map_actor)->frameTable = D_80175A6C;
         select_sprite_entry(
             map_actor,
-            ((u8 *)D_80175A6C)[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
+            D_80175A6C[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((R12_80172290_S_80172290_0 *)action)->unk_98 |= 8;
         ((ObjectPosition *)motion)->velocity_z = 0xFFF00000;
@@ -960,10 +960,10 @@ void complete_actor_arc_movement(void *action, void *motion, void *map_actor, vo
             ((ObjectPosition *)motion)->velocity_y = 0;
             ((ObjectPosition *)motion)->velocity_x = 0;
             set_record_integer_tile_center(motion, ((SpriteFrameState *)map_actor)->tile_x, ((SpriteFrameState *)map_actor)->tile_y);
-            ((SpriteFrameState *)map_actor)->frameTable = ((u8 *)D_80175A74);
+            ((SpriteFrameState *)map_actor)->frameTable = D_80175A74;
             select_sprite_entry(
                 map_actor,
-                ((u8 *)D_80175A74)[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
+                D_80175A74[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
                 0);
             ((R12_80172290_S_80172290_0 *)action)->unk_9B++;
         }
@@ -1057,8 +1057,8 @@ void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position
         position->velocity_x = (-dir_x) << 17;
         position->velocity_y = (-dir_y) << 17;
         position->velocity_z = 0;
-        sprite->frameTable = ((u8 *)arachne_move_direction_frames);
-        select_sprite_entry(sprite,(u8)(((u8 *)arachne_move_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
+        sprite->frameTable = arachne_move_direction_frames;
+        select_sprite_entry(sprite,(u8)(arachne_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
             0);
         next_state = body->action_phase.u;
         timer = 8;
@@ -1072,8 +1072,8 @@ void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position
             return;
         position->velocity_y = 0;
         position->velocity_x = 0;
-        sprite->frameTable = ((u8 *)arachne_frame_set);
-        select_sprite_entry(sprite,(u8)(((u8 *)arachne_frame_set)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
+        sprite->frameTable = arachne_frame_set;
+        select_sprite_entry(sprite,(u8)(arachne_frame_set[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
             0);
         next_state = body->action_phase.u;
         next_state += 1;
@@ -1128,8 +1128,8 @@ void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position
     case 4:
         if ((timer << 16) > 0)
             return;
-        sprite->frameTable = ((u8 *)arachne_move_direction_frames);
-        select_sprite_entry(sprite,(u8)(((u8 *)arachne_move_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
+        sprite->frameTable = arachne_move_direction_frames;
+        select_sprite_entry(sprite,(u8)(arachne_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
             0);
         body->action_timer.u = state;
         body->action_phase.u = 0xFF;
@@ -1244,7 +1244,7 @@ void advance_actor_motion_and_wait(void *action, void *transform, void *sprite, 
             saved_pos[0] = ((u16)((EntityRec *)transform)->x.w.i);
             saved_pos[1] = ((u16)((EntityRec *)transform)->y.w.i);
             saved_pos[2] = ((u16)((EntityRec *)transform)->z.w.i);
-            transform = (void *)create_actor_spell_effect(actor, motion,(s16)(special_motion), (u8 *)action + 0x98);
+            transform = create_actor_spell_effect(actor, motion,(s16)(special_motion), (u8 *)action + 0x98);
             if (transform == 0) {
                 return;
             }
@@ -1260,7 +1260,7 @@ void advance_actor_motion_and_wait(void *action, void *transform, void *sprite, 
         ((EntityRec *)transform)->unk_0C = 0;
         set_record_integer_tile_center(transform,(u8)(((SpriteAnimationTableView *)sprite)->tile_x),(u8)(((SpriteAnimationTableView *)sprite)->tile_y));
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)&primary_actor_record->unk_A4.value + 2)) = (*(u16 *)((u8 *)primary_actor_record + 0xA6)) - 1;
+        (*(u16 *)((u8 *)&primary_actor_record->unk_A4.value + 2)) = primary_actor_record->unk_A4.halves.high.u - 1;
         advance_status_timers(actor);
         actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
         ((R12_80172AF8_S_80172AF8_0 *)action)->unk_8C = ((u8 *)update_actor_state_and_select_target);
@@ -1298,7 +1298,7 @@ void advance_actor_motion_and_wait(void *action, void *transform, void *sprite, 
         ((EntityRec *)transform)->unk_0C = 0;
         set_record_integer_tile_center(transform,(u8)(((SpriteAnimationTableView *)sprite)->tile_x),(u8)(((SpriteAnimationTableView *)sprite)->tile_y));
         {
-            u8 *idle_frames = ((u8 *)arachne_direction_frames);
+            u8 *idle_frames = arachne_direction_frames;
 
             if (((SpriteAnimationTableView *)sprite)->frame_table != idle_frames) {
                 (*(u8 * *)((u8 *)sprite + 0x2C)) = idle_frames;
@@ -1470,7 +1470,7 @@ void advance_entity_fade_effect(ActorRecord *body, ObjectPosition *position, R12
             return;
         }
         object->flags |= 0x10000000;
-        entity->table = ((u8 *)D_80175AA4);
+        entity->table = D_80175AA4;
         body->unk_A4.halves.low.u = 0x80;
         body->action_timer.u = 0;
         direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + object->angle + 0x100) >> 9) & 7;
@@ -1557,7 +1557,7 @@ void advance_arachne_status_action(void *in_controller, ObjectPosition *in_conte
             u8 *direction_anims;
             DungeonGlobalStatus *system_base;
 
-            direction_anims = ((u8 *)arachne_alt_direction_frames);
+            direction_anims = arachne_alt_direction_frames;
             (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
             select_sprite_entry(sprite,
                 direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_8017368C_S_80173358_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
@@ -1643,7 +1643,7 @@ void advance_arachne_status_action(void *in_controller, ObjectPosition *in_conte
         {
             u8 *direction_anims;
 
-            direction_anims = ((u8 *)D_80175AA4);
+            direction_anims = D_80175AA4;
             (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
             select_sprite_entry(sprite,
                 direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_8017368C_S_80173358_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
@@ -1693,7 +1693,7 @@ void resume_actor_target_selection_after_status_animation(ActorRecord *controlle
         }
 
         g_dungeon_status.activity_counts.parts.pending_action_count--;
-        direction_anims = ((u8 *)arachne_alt_direction_frames);
+        direction_anims = arachne_alt_direction_frames;
         sprite->frameTable = direction_anims;
         select_sprite_entry(sprite,
             direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
@@ -1707,9 +1707,9 @@ void resume_actor_target_selection_after_status_animation(ActorRecord *controlle
 
         if (entity->mp_value.parts.whole != 0) {
 
-            sprite->frameTable = ((u8 *)arachne_reset_frames);
+            sprite->frameTable = arachne_reset_frames;
             select_sprite_entry(sprite,
-                ((u8 *)arachne_reset_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                arachne_reset_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             entity->flags1C |= 0x40000;
             g_dungeon_status.activity_counts.parts.pending_action_count++;
@@ -1759,9 +1759,9 @@ void resume_actor_target_selection_after_status_animation(ActorRecord *controlle
             return;
         }
 
-        sprite->frameTable = ((u8 *)arachne_reset_frames);
+        sprite->frameTable = arachne_reset_frames;
         select_sprite_entry(sprite,
-            ((u8 *)arachne_reset_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            arachne_reset_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         entity->flags1C |= 0x40000;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
@@ -1791,10 +1791,10 @@ void update_arachne_parent_motion(ActorRecord *actor, ObjectPosition *action, Sp
             actor->unk_8C.handler = ((u8 *)update_actor_state_and_select_target);
             return;
         }
-    } else if (entity->frameTable == ((u8 *)arachne_alt_direction_frames) &&
+    } else if (entity->frameTable == arachne_alt_direction_frames &&
                !(map_object->flags1C & 0x208)) {
-        entity->frameTable = ((u8 *)arachne_move_direction_frames);
-        select_sprite_entry(entity,(s16)(((u8 *)arachne_move_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + map_object->facing + 0x100) >> 9) & 7]),(s16)(0));
+        entity->frameTable = arachne_move_direction_frames;
+        select_sprite_entry(entity,(s16)(arachne_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + map_object->facing + 0x100) >> 9) & 7]),(s16)(0));
     }
 }
 
@@ -1978,11 +1978,11 @@ grid_loop:
                     ot_index = ((s16)((R12_80173FDC_S_80173FDC_2 *)vertex_depth)->unk_00 +
                         (s16)((R12_80173FDC_S_80173FDC_2_pre *)vertex_depth)[-1].unk_00) >> 3;
                     if ((u32)ot_index < 0x1E0) {
-                        display = (R12_80173FDC_S_80173FDC_3 *)(*(u8 * *)display_root);
+                        display = (R12_80173FDC_S_80173FDC_3 *)(*display_root);
                         line = display->unk_8D0.p;
                         display->unk_8D0.p2 = (u8 *)line + 0x14;
 
-                        display = (R12_80173FDC_S_80173FDC_3 *)(*(u8 * *)display_root);
+                        display = (R12_80173FDC_S_80173FDC_3 *)(*display_root);
                         tpage = display->unk_8D0.p2;
                         display->unk_8D0.p2 = tpage + 0x0C;
 
@@ -1997,15 +1997,15 @@ grid_loop:
                         line->xy1 = ((R12_80173FDC_S_80173FDC_4_pre *)xy)[-1].unk_00;
 
                         line->tag = (line->tag & 0xFF000000) |
-                            ((*(u32 *)((u8 *)(((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) & addr_mask);
-                        (*(u32 *)((u8 *)(((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) =
-                            ((*(u32 *)((u8 *)(((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) & 0xFF000000) |
+                            ((*(u32 *)((((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) & addr_mask);
+                        (*(u32 *)((((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) =
+                            ((*(u32 *)((((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) & 0xFF000000) |
                             ((u32)line & addr_mask);
 
                         ((R12_80173FDC_S_80173FDC_5 *)tpage)->unk_00 = (((R12_80173FDC_S_80173FDC_5 *)tpage)->unk_00 & 0xFF000000) |
-                            ((*(u32 *)((u8 *)(((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) & addr_mask);
-                        (*(u32 *)((u8 *)(((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) =
-                            ((*(u32 *)((u8 *)(((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) & 0xFF000000) |
+                            ((*(u32 *)((((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) & addr_mask);
+                        (*(u32 *)((((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) =
+                            ((*(u32 *)((((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) & 0xFF000000) |
                             ((u32)tpage & addr_mask);
                     }
                     xy -= 4;
@@ -2033,13 +2033,13 @@ grid_loop:
                 while (col >= 0) {
                     s32 next_col = (col + 1) & 7;
                     ot_index = ((s16)((R12_80173FDC_S_80173FDC_6 *)ring_depth)->unk_00 +
-                        (*(s16 *)((u8 *)depth_base + next_col * 2))) >> 3;
+                        (*(s16 *)(depth_base + next_col * 2))) >> 3;
                     if ((u32)ot_index < 0x1E0) {
-                        display = (R12_80173FDC_S_80173FDC_3 *)(*(u8 * *)display_root);
+                        display = (R12_80173FDC_S_80173FDC_3 *)(*display_root);
                         line = display->unk_8D0.p;
                         display->unk_8D0.p2 = (u8 *)line + 0x14;
 
-                        display = (R12_80173FDC_S_80173FDC_3 *)(*(u8 * *)display_root);
+                        display = (R12_80173FDC_S_80173FDC_3 *)(*display_root);
                         tpage = display->unk_8D0.p2;
                         display->unk_8D0.p2 = tpage + 0x0C;
 
@@ -2051,18 +2051,18 @@ grid_loop:
                         SetSemiTrans(line, 1);
 
                         line->xy0 = ((R12_80173FDC_S_80173FDC_7 *)ring_xy)->unk_00;
-                        line->xy1 = (*(u32 *)((u8 *)xy_base + next_col * 4));
+                        line->xy1 = (*(u32 *)(xy_base + next_col * 4));
 
                         line->tag = (line->tag & 0xFF000000) |
-                            ((*(u32 *)((u8 *)(((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) & addr_mask);
-                        (*(u32 *)((u8 *)(((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) =
-                            ((*(u32 *)((u8 *)(((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) & 0xFF000000) |
+                            ((*(u32 *)((((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) & addr_mask);
+                        (*(u32 *)((((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) =
+                            ((*(u32 *)((((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) & 0xFF000000) |
                             ((u32)line & addr_mask);
 
                         ((R12_80173FDC_S_80173FDC_5 *)tpage)->unk_00 = (((R12_80173FDC_S_80173FDC_5 *)tpage)->unk_00 & 0xFF000000) |
-                            ((*(u32 *)((u8 *)(((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) & addr_mask);
-                        (*(u32 *)((u8 *)(((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) =
-                            ((*(u32 *)((u8 *)(((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) & 0xFF000000) |
+                            ((*(u32 *)((((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) & addr_mask);
+                        (*(u32 *)((((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) =
+                            ((*(u32 *)((((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) & 0xFF000000) |
                             ((u32)tpage & addr_mask);
                     }
                     ring_xy -= 4;
@@ -2118,8 +2118,9 @@ s32 project_arachne_sprite_chain(void *initial_payload, s32 entry_data, R12_8017
  *
  * MECHANISM: Typed page and scratch fields preserve the signed lh/sw widths and offsets.
  */
-void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_80174618_S_80174618_1 *position, void *render_params, s16 depth_bias)
+void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_80174618_S_80174618_1 *position, void *render_params_arg, s16 depth_bias)
 {
+    R12_80174618_S_80174618_2 *render_params = render_params_arg;
     u8 *line_packet;
     u8 *scratch = (u8 *)0x1F800000;
     u8 *draw_packet;
@@ -2143,16 +2144,16 @@ void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_
     ((R12_80174618_S_80174618_0 *)scratch)->unk_88 = position->unk_02;
     ((R12_80174618_S_80174618_0 *)scratch)->unk_8C = position->unk_06;
     ((R12_80174618_S_80174618_0 *)scratch)->unk_90 = position->unk_0A;
-    ((R12_80174618_S_80174618_2 *)render_params)->unk_14 |= 0x8000;
+    render_params->unk_14 |= 0x8000;
 
     PushMatrix();
 
     ((R12_80174618_S_80174618_0 *)scratch)->unk_3C = 0x2000;
     ((R12_80174618_S_80174618_0 *)scratch)->unk_38 = 0x2000;
     ((R12_80174618_S_80174618_0 *)scratch)->unk_34 = 0x2000;
-    ((R12_80174618_S_80174618_0 *)scratch)->unk_A4 = ((R12_80174618_S_80174618_2 *)render_params)->unk_16;
-    ((R12_80174618_S_80174618_0 *)scratch)->unk_A8 = ((R12_80174618_S_80174618_2 *)render_params)->unk_1A;
-    ((R12_80174618_S_80174618_0 *)scratch)->unk_A6 = ((R12_80174618_S_80174618_2 *)render_params)->unk_18;
+    ((R12_80174618_S_80174618_0 *)scratch)->unk_A4 = render_params->unk_16;
+    ((R12_80174618_S_80174618_0 *)scratch)->unk_A8 = render_params->unk_1A;
+    ((R12_80174618_S_80174618_0 *)scratch)->unk_A6 = render_params->unk_18;
     RotMatrix(scratch + 0xA4, scratch + 0x74);
     ReadRotMatrix(&matrix);
     CompMatrix(&matrix, scratch + 0x74, scratch + 0x54);
@@ -2164,7 +2165,7 @@ void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_
     transform_flags = scratch + 0xD4;
     start_vertex = scratch + 0xB0;
 
-    field_value = ((R12_80174618_S_80174618_2 *)render_params)->unk_14;
+    field_value = render_params->unk_14;
     context = (GpuContext *)(*(u8 **)context);
     ((R12_80174618_S_80174618_0 *)scratch)->unk_28 = field_value;
     line_packet = context->packetCursor;
@@ -2204,14 +2205,14 @@ void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_
     if (flags & 8) {
         u8 color_code;
         if (flags & 4) {
-            color_code = ((R12_80174618_S_80174618_2 *)render_params)->unk_0C.at03.v | 2;
+            color_code = render_params->unk_0C.at03.v | 2;
         } else {
-            color_code = ((R12_80174618_S_80174618_2 *)render_params)->unk_0C.at03.v & 0xFD;
+            color_code = render_params->unk_0C.at03.v & 0xFD;
         }
-        ((R12_80174618_S_80174618_2 *)render_params)->unk_0C.at03.v = color_code;
+        render_params->unk_0C.at03.v = color_code;
     }
 
-    color_word = ((R12_80174618_S_80174618_2 *)render_params)->unk_0C.at00.v;
+    color_word = render_params->unk_0C.at00.v;
     ((R12_80174618_S_80174618_5 *)line_packet)->unk_00.at03.v = 3;
     ((R12_80174618_S_80174618_5 *)line_packet)->unk_04.at00.v = color_word;
     ((R12_80174618_S_80174618_5 *)line_packet)->unk_04.at03.v = 0x40;
@@ -2658,7 +2659,7 @@ void advance_effect_sequence_and_restore_actor(void *sequence, void *position, S
         return;
 
     case 1:
-        run_cd_image_commands(((u8 *)arachne_image_commands), ((u8 *)arachne_image_load_done), 0);
+        run_cd_image_commands(arachne_image_commands, arachne_image_load_done, 0);
         ((R12_80175470_S_80175470_0 *)sequence)->unk_AC = 0;
         ((R12_80175470_S_80175470_0 *)sequence)->phase.n++;
         ((R12_80175470_S_80175470_1 *)actor)->unk_8A = ((R12_80175470_S_80175470_1 *)actor)->unk_2A.u;
@@ -2666,7 +2667,7 @@ void advance_effect_sequence_and_restore_actor(void *sequence, void *position, S
 
     case 2:
         direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_80175470_S_80175470_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
-        if ((*(u8 *)arachne_image_load_done) == 0 || direction != 2) {
+        if ((*arachne_image_load_done) == 0 || direction != 2) {
             if (direction == 2) {
                 return;
             }
@@ -2674,11 +2675,11 @@ void advance_effect_sequence_and_restore_actor(void *sequence, void *position, S
             return;
         }
 
-        run_cd_image_commands(((u8 *)arachne_image_commands), ((u8 *)arachne_image_load_done), 1);
+        run_cd_image_commands(arachne_image_commands, arachne_image_load_done, 1);
         sound_set_cd_cue_parameters(0, ((s32 *)cd_cue_base)[0], 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, read_stream_cue_start_offset(), 0);
-        (*(u8 *)arachne_effect_load_done) = 0;
-        Control_CD(0xFF, ((s32 *)resource_completion_callback_address), ((u8 *)arachne_effect_load_done));
+        (*arachne_effect_load_done) = 0;
+        Control_CD(0xFF, ((s32 *)resource_completion_callback_address), arachne_effect_load_done);
         select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, position, 8, 0x300);
         ((R12_80175470_S_80175470_0 *)sequence)->timer.u = 0x10;
         ((R12_80175470_S_80175470_0 *)sequence)->phase.n++;
@@ -2689,7 +2690,7 @@ void advance_effect_sequence_and_restore_actor(void *sequence, void *position, S
         next_timer = timer - 1;
         ((R12_80175470_S_80175470_0 *)sequence)->timer.u = next_timer;
         if ((s16)next_timer <= 0) {
-            cd_ready = (*(u8 *)arachne_effect_load_done);
+            cd_ready = (*arachne_effect_load_done);
             ((R12_80175470_S_80175470_0 *)sequence)->timer.u = timer;
             if (cd_ready == 0) {
                 return;
@@ -2732,7 +2733,7 @@ void advance_effect_sequence_and_restore_actor(void *sequence, void *position, S
         if ((s16)effect_choice < 0) {
             effect_index = rand() % 3;
         }
-        select_record_entry_and_value(model, ((u8 *)dungeon_resource_buffer) + ((s32 *)D_80175B14)[(s16)effect_index], 0);
+        select_record_entry_and_value(model, dungeon_resource_buffer + ((s32 *)D_80175B14)[(s16)effect_index], 0);
         record->flags |= 0x80;
         ((R12_80175470_S_80175470_0 *)sequence)->timer.u = 0;
         next_state = ((R12_80175470_S_80175470_0 *)sequence)->phase.n + 1;

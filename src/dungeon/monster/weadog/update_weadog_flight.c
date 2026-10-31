@@ -89,10 +89,6 @@ typedef struct S_func_80EDF000_2 {
     u16 unk_1E;
 } S_func_80EDF000_2;
 
-typedef struct S_func_80EDF000_3 {
-    u8 pad_00[0xA4];
-    s16 unk_A4;
-} S_func_80EDF000_3;
 
 
 
@@ -214,7 +210,7 @@ interpolate:
             command[3] = 0;
             place_item_at_valid_floor_position(position->unk_0E, position->unk_12,
                           position->unk_16, render->unk_08, command);
-            ((S_func_80EDF000_3 *)motion->unk_40)->unk_A4 = 0;
+            ((ActorRecord *)motion->unk_40)->unk_A4.halves.low.s = 0;
             ((ObjectRetirementFlags *)((u8 *)motion - 2))->flags |= 0x8000;
             D_800814A0.value |= OBJECT_REMOVE_PENDING;
             return;
@@ -239,7 +235,7 @@ fall:
                 (motion->unk_5D << 6) & 0xFFC0,
                 (s16)((u16)position->unk_08.parts.unk_0A - 0x20));
             position->unk_08.parts.unk_08 = 0;
-            ((S_func_80EDF000_3 *)motion->unk_40)->unk_A4 = 0;
+            ((ActorRecord *)motion->unk_40)->unk_A4.halves.low.s = 0;
             ((ObjectRetirementFlags *)((u8 *)motion - 2))->flags |= 0x8000;
             D_800814A0.value |= OBJECT_REMOVE_PENDING;
             return;

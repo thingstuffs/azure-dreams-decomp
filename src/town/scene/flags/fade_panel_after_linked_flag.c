@@ -23,7 +23,8 @@ typedef struct S_805267E0_1 {
 extern s32 scene_object_flags;
 
 /* Advances a delayed fade and sets completion flags when the color reaches its threshold. */
-void fade_panel_after_linked_flag(void *effect) {
+void fade_panel_after_linked_flag(void *effect_arg) {
+    S_805267E0_0 *effect = effect_arg;
     s16 state;
     s32 color;
     u16 timer;
@@ -31,31 +32,31 @@ void fade_panel_after_linked_flag(void *effect) {
     s16 next_state;
     u16 flags;
 
-    state = ((S_805267E0_0 *)effect)->unk_00;
-    linked_obj = ((S_805267E0_0 *)effect)->unk_04;
+    state = effect->unk_00;
+    linked_obj = effect->unk_04;
     switch (state) {
     case 0:
-        timer = ((S_805267E0_0 *)effect)->unk_02 - 1;
-        ((S_805267E0_0 *)effect)->unk_02 = timer;
+        timer = effect->unk_02 - 1;
+        effect->unk_02 = timer;
         if ((timer << 0x10) <= 0) {
-            next_state = ((S_805267E0_0 *)effect)->unk_00;
-            flags = ((S_805267E0_0 *)effect)->unk_16;
+            next_state = effect->unk_00;
+            flags = effect->unk_16;
             next_state = (s16) (next_state + 1);
             flags &= 0xFFFD;
-            ((S_805267E0_0 *)effect)->unk_16 = flags;
-            ((S_805267E0_0 *)effect)->unk_00 = next_state;
+            effect->unk_16 = flags;
+            effect->unk_00 = next_state;
             return;
         }
         return;
     case 1:
         if (linked_obj->unk_2A & 1) {
-            ((S_805267E0_0 *)effect)->unk_00 = (s16) (state + 1);
+            effect->unk_00 = (s16) (state + 1);
             return;
         }
         break;
     case 2:
-        color = ((S_805267E0_0 *)effect)->unk_08 + 0xFFF7F7F8;
-        ((S_805267E0_0 *)effect)->unk_08 = color;
+        color = effect->unk_08 + 0xFFF7F7F8;
+        effect->unk_08 = color;
         if (color <= 0x80808) {
             (*(u16 *)((u8 *)effect + -2)) = (u16) (((ObjectStatusPrefix16 *)effect)[-1].flags | 0x8000);
             scene_object_flags |= 0x8000;

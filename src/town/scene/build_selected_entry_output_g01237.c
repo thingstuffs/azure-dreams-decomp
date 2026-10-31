@@ -74,7 +74,7 @@ void *build_entry_list(s32 entry_index) {
 void *build_selected_record_buffer(s32 entry_index) {
     u8 *buffer = D_80017E54;
 
-    *(s32 *)(buffer + 0xC) = *(s32 *)(((u8 *)town_selection_records) + (entry_index * 0xC));
+    *(s32 *)(buffer + 0xC) = *(s32 *)(town_selection_records + (entry_index * 0xC));
     dispatch_records_by_kind(buffer, &D_80017AD0);
     copy_callback_value_to_destination(buffer + 0x14, &D_80017B0C);
     copy_callback_value_to_destination(buffer + 0x28, &D_80017B18);

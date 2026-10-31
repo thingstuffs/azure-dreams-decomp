@@ -111,7 +111,7 @@ void update_betting_effect(TownEffect *input)
 #define digits frame.digits
 
     controls = &g_game_work;
-    child = (S_800211A4_6 *)((u8 *)effect->child + 0x20);
+    child = (S_800211A4_6 *)(effect->child + 0x20);
     state = effect->state;
     primitive = (S_800211A4_5 *)scene_object_payload_alias;
     switch (state) {

@@ -98,7 +98,7 @@ void scatter_landing_sparks_on_grid(S_8016604C_0 *source) {
                     sprite->scale_y = (s16) jitter_or_scale;
                     sprite->scale_x = (s16) jitter_or_scale;
                     (*(Packed12 *)((u8 *)particle + 0x56)) = particle_sprite_template;
-                    sprite->source = (void *) (((void *)particle) + 0x56);
+                    sprite->source = (((void *)particle) + 0x56);
                 }
             }
             grid_y += 1;

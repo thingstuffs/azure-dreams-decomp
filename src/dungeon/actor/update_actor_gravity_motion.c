@@ -11,23 +11,10 @@ extern s16 sample_terrain_surface_height(u16, u16, s16);
 extern void advance_sprite_animation_and_textures(void *);
 
 
-typedef struct S_800D2E9C_1 {
-    u8 pad_00[0x90];
-    union {
-        struct { s32 v; } at00;
-        struct { u8 pad[0x2]; s16 v; } at02;
-        struct { u8 pad[0x2]; u16 v; } at02u;
-    } unk_90;   /* overlapping accesses */
-    u8 pad_94[0x4];
-    u16 unk_98;
-    u8 pad_9A[0x3];
-    u8 unk_9D;
-} S_800D2E9C_1;   /* obj in func_800D2E9C */
-
 /* Runs object callbacks, applies movement and gravity, and updates ground height. */
-void dispatch_actor_actions_and_integrate_gravity(void *object, ObjectPosition *motion, void *entity) {
-    SpriteFrameState *ent= entity;
-    void *update_obj = object;
+void dispatch_actor_actions_and_integrate_gravity(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite) {
+    SpriteFrameState *ent= sprite;
+    void *update_obj = body;
     DungeonCallback callback;
     s32 x;
     s32 y;
@@ -41,7 +28,7 @@ void dispatch_actor_actions_and_integrate_gravity(void *object, ObjectPosition *
     s32 base_height_u;
 
     if (g_dungeon_status.flags & 0x2000) {
-        (*(u8 *)((u8 *)update_obj + (0x71))) &= 0x7F;
+        (*((u8 *)update_obj + (0x71))) &= 0x7F;
         return;
     }
 
@@ -49,7 +36,7 @@ void dispatch_actor_actions_and_integrate_gravity(void *object, ObjectPosition *
     if (callback != 0) {
         callback(update_obj, motion, ent, update_obj);
     }
-    gravity_motion_callbacks[(*(u8 *)((u8 *)update_obj + (0x9A)))](update_obj, motion, ent, update_obj);
+    gravity_motion_callbacks[(*((u8 *)update_obj + (0x9A)))](update_obj, motion, ent, update_obj);
 
     {
         u16 render_flags = ent->flags;
@@ -67,16 +54,16 @@ void dispatch_actor_actions_and_integrate_gravity(void *object, ObjectPosition *
     motion->x.v = x + dx;
     motion->y.v = y + dy;
 
-    if ((*(u16 *)((u8 *)object + (0x98))) & 8) {
-        (*(u8 *)((u8 *)object + (0x9D))) = 0;
+    if (body->action_state_flags & 8) {
+        body->unk_9D.u = 0;
     } else {
-        motion->velocity_z += (*(s8 *)((u8 *)object + (0x9D))) * 0x14000;
-        (*(u8 *)((u8 *)object + (0x9D)))++;
+        motion->velocity_z += body->unk_9D.s * 0x14000;
+        body->unk_9D.u++;
     }
-    fall_offset = ((S_800D2E9C_1 *)object)->unk_90.at00.v;
+    fall_offset = body->unk_90.value;
     fall_speed = motion->velocity_z;
-    fall_flags = ((S_800D2E9C_1 *)object)->unk_98;
-    ((S_800D2E9C_1 *)object)->unk_90.at00.v = fall_offset + fall_speed;
+    fall_flags = body->action_state_flags;
+    body->unk_90.value = fall_offset + fall_speed;
 
     if (!(fall_flags & 4) && (ground_height = sample_terrain_surface_height(
             ((u16) motion->x.w.i),
@@ -84,18 +71,18 @@ void dispatch_actor_actions_and_integrate_gravity(void *object, ObjectPosition *
             (s16)((*(u16 *)((u8 *)update_obj + (0x88))) - 0x20))) < 0x200) {
             base_height_u = (*(u16 *)((u8 *)update_obj + (0x88)));
             base_height = (*(s16 *)((u8 *)update_obj + (0x88)));
-            if (((S_800D2E9C_1 *)object)->unk_90.at02.v + base_height < ground_height) {
-                u16 object_flags = ((S_800D2E9C_1 *)object)->unk_98;
-                ((S_800D2E9C_1 *)object)->unk_98 = object_flags;
+            if (body->unk_90.parts.high.s + base_height < ground_height) {
+                u16 object_flags = body->action_state_flags;
+                body->action_state_flags = object_flags;
             } else {
                 if (ground_height >= base_height) {
-                    ((S_800D2E9C_1 *)object)->unk_90.at00.v = 0;
+                    body->unk_90.value = 0;
                 } else {
-                    ((S_800D2E9C_1 *)object)->unk_90.at02.v = ground_height - base_height_u;
+                    body->unk_90.parts.high.s = ground_height - base_height_u;
                 }
                 motion->velocity_z = 0;
                 (*(u32 *)((u8 *)update_obj + (0x1C))) |= 0x08000000;
-                ((S_800D2E9C_1 *)object)->unk_9D = 0;
+                body->unk_9D.u = 0;
             }
 
             if ((*(u32 *)((u8 *)update_obj + (0x1C))) & 0x40000000) {
@@ -106,14 +93,14 @@ void dispatch_actor_actions_and_integrate_gravity(void *object, ObjectPosition *
                 tile_y = (ent->tile_y << 6) | 0x20;
                 ground_height = sample_terrain_surface_height(
                     tile_x, tile_y, (s16)((*(u16 *)((u8 *)update_obj + (0x88))) - 0x20));
-                ((S_800D2E9C_1 *)object)->unk_90.at02.v += (*(u16 *)((u8 *)update_obj + (0x88))) - ground_height;
+                body->unk_90.parts.high.s += (*(u16 *)((u8 *)update_obj + (0x88))) - ground_height;
                 (*(s16 *)((u8 *)update_obj + (0x88))) = ground_height;
             }
     } else {
         (*(u32 *)((u8 *)update_obj + (0x1C))) &= ~0x08000000;
     }
 
-    motion->z.w.i = (*(u16 *)((u8 *)update_obj + (0x88))) + ((S_800D2E9C_1 *)object)->unk_90.at02u.v;
+    motion->z.w.i = (*(u16 *)((u8 *)update_obj + (0x88))) + body->unk_90.parts.high.u;
     ent->flags |= 0x40;
     (*(u32 *)((u8 *)update_obj + (0x1C))) |= 0x200;
 }

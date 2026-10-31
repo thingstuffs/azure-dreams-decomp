@@ -23,8 +23,9 @@ extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
 extern void detach_record_and_update_slot_state(void *);
 
 /* Fades the actor to black, then triggers an effect and marks it for removal. */
-void fade_out_and_remove_actor(void *actor_data, s32 unused, SpriteFrameState *visual, void *current_actor)
+void fade_out_and_remove_actor(void *actor_data_arg, s32 unused, SpriteFrameState *visual, void *current_actor)
 {
+    S_800ACBE4_0 *actor_data = actor_data_arg;
     s32 actor_status;
     s32 actor_flags;
     s32 effect_size;
@@ -34,7 +35,7 @@ void fade_out_and_remove_actor(void *actor_data, s32 unused, SpriteFrameState *v
     u8 effect_y;
     S_800ACBE4_2 *actor;
 
-    state = ((S_800ACBE4_0 *)actor_data)->unk_9B;
+    state = actor_data->unk_9B;
     actor = current_actor;
     switch (state) {
     case 0:
@@ -44,7 +45,7 @@ void fade_out_and_remove_actor(void *actor_data, s32 unused, SpriteFrameState *v
         visual->flags |= 0xC;
         register_node(actor, process_linked_states_mode_zero);
         visual->color.c.code = 0;
-        ((S_800ACBE4_0 *)actor_data)->unk_9B++;
+        actor_data->unk_9B++;
         return;
     case 1:
         break;

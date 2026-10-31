@@ -64,7 +64,7 @@ void initialize_randomized_motion_vector(u8 *obj, s32 *vec, SpriteFrameState *re
     vec[4] *= scale;
     vec[5] *= scale;
 
-    (*(s32 *)((u8 *)obj + 0x2C)) = vec[3] / 23;
+    (*(s32 *)(obj + 0x2C)) = vec[3] / 23;
     ((S_800A3508_1 *)obj)->unk_30 = vec[4] / 23;
     ((S_800A3508_1 *)obj)->unk_34 = vec[5] / 23;
     ((S_800A3508_1 *)obj)->unk_24 = 0x18;

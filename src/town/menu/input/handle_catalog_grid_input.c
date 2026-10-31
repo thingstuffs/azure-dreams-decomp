@@ -146,7 +146,7 @@ void handle_catalog_grid_input(Object *object)
             s32 masked;
 
             selection_value = 1;
-            (*(s16 *)&object->field_4) = selection_value;
+            (*&object->field_4) = selection_value;
             selection_value = object->field_11;
             previous_selection = selection_value;
             selection_value += 7;
@@ -155,7 +155,7 @@ void handle_catalog_grid_input(Object *object)
             masked = object->field_11;
             object->field_11 = masked & 7;
             object->field_12 = previous_selection;
-            if ((*(u8 *)&object->field_11) != 7) {
+            if ((*&object->field_11) != 7) {
                 object->field_A = 2;
                 return;
             }
@@ -183,7 +183,7 @@ void handle_catalog_grid_input(Object *object)
             object->field_11 = masked & 7;
             object->field_12 = previous_selection;
             object->field_6 = 4;
-            if ((*(u8 *)&object->field_11) == 0) {
+            if ((*&object->field_11) == 0) {
                 side_value = object->field_10;
                 object->field_A = 3;
                 object->field_10 = side_value ^ 1;

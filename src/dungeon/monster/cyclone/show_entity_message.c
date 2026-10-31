@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
@@ -10,7 +11,7 @@ extern u8 D_800E1F65[9];
 extern u8 D_800E1FB9[9];
 
 /* Format an entity message or dispatch its alternate message. */
-void show_entity_message(s32 alternate_message, s32 entity)
+void show_entity_message(s32 alternate_message, ActorRecord *entity)
 {
     void *text_ctx;
 

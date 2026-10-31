@@ -62,7 +62,7 @@ void interpolate_selection_menu_entry_coordinates(S_8004F684 *state)
         target_value = start_value * 30;
         offset2 = offset + 0x200;
         target_value = target_value + offset2;
-        ((S_8004F684_Target *)obj->target)->field_C = (s16)target_value;
+        obj->target->field_C = (s16)target_value;
 
         scaled_weight = settings->multiplier * 12;
         offset2 = (value_delta * scaled_weight) / settings->divisor;

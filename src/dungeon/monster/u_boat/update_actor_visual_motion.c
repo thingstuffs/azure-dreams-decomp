@@ -70,7 +70,7 @@ void update_actor_visual_motion(ActorRecord *body, ObjectPosition *motion_arg, S
     check_obj = body;
     check_motion = motion_arg;
     check_part = sprite;
-    update_value_2 = (*(u8 *)((u8 *)body + (0x6D)));
+    update_value_2 = (*((u8 *)body + (0x6D)));
     check_context = body;
     state_or_dir = (s8)update_value_2;
     if (refresh_actor_facing_and_lifecycle(check_obj, check_motion, check_part, check_context) != 0) {
@@ -110,7 +110,7 @@ void update_actor_visual_motion(ActorRecord *body, ObjectPosition *motion_arg, S
         state_or_dir = direction;
         if (body->unk_94 != state_or_dir) {
             select_indirect_table_entry(sprite,
-                (*(u8 *)((u8 *)(*(unsigned char **)&sprite->frameTable) + (state_or_dir))),
+                (*((u8 *)(*(unsigned char **)&sprite->frameTable) + (state_or_dir))),
                 sprite->unk_04);
             body->unk_94 = direction;
         }

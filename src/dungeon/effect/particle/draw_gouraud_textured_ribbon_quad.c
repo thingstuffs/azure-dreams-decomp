@@ -161,7 +161,7 @@ void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, voi
     ((S_801663AC_0 *)scratch)->unk_28 = ((S_801663AC_2 *)render_state)->unk_14;
     ((S_801663AC_0 *)scratch)->unk_0C.s32 = texture[8];
     ((S_801663AC_0 *)scratch)->unk_10.s32 = texture[9];
-    (*(s32 *)((u8 *)scratch + 0x14)) = texture[0xA];
+    (*(s32 *)(scratch + 0x14)) = texture[0xA];
     ((S_801663AC_0 *)scratch)->unk_18.s32 = texture[0xB];
     packet = ((GpuContext *)(*(u8 **)&g_game_work.draw_buffer))->packetCursor;
     ((GpuContext *)(*(u8 **)&g_game_work.draw_buffer))->packetCursor = packet + 0x34;

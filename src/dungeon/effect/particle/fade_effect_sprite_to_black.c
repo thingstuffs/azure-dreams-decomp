@@ -190,7 +190,7 @@ void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
                 object = target - 0x20;
                 sprite_work = (s32)object->sprite;
                 if ((((SpriteFrameState *)sprite_work)->flags & 0x8000) && (((S_8182C800_6 *)sprite_or_step_x)->unk_14 & 0x8000)) {
-                    apply_attack_power_and_element_effects(((S_8182C800_1 *)owner)->unk_60, 8, (*(u8 *)((u8 *)&((EntityRec *)effect)->z + 1)), 2,
+                    apply_attack_power_and_element_effects(((S_8182C800_1 *)owner)->unk_60, 8, (*((u8 *)&((EntityRec *)effect)->z + 1)), 2,
                         (s32) ((S_8182C800_1 *)owner)->unk_2A.u, owner, 2);
                     ((EntityRec *)effect)->z.w.i = 4;
                     return;
@@ -407,7 +407,7 @@ spawn_trail:
         advance_sprite_animation_and_textures((void *) sprite_or_step_x);
         if (((S_8182C800_6 *)sprite_or_step_x)->unk_14 & 0x6000) {
             if (((S_8182C800_1 *)owner)->unk_60 != 0) {
-                apply_attack_power_and_element_effects(((S_8182C800_1 *)owner)->unk_60, 0xA, (*(u8 *)((u8 *)&((EntityRec *)effect)->z + 1)), 2,
+                apply_attack_power_and_element_effects(((S_8182C800_1 *)owner)->unk_60, 0xA, (*((u8 *)&((EntityRec *)effect)->z + 1)), 2,
                     (s32) ((S_8182C800_1 *)owner)->unk_2A.u, owner, 2);
                 distance_x = 0x50;
                 do {
@@ -475,8 +475,9 @@ spawn_trail:
 }
 
 /* Move the effect, count down its timer, then fade its sprite to black. */
-void move_the_effect_count_down_timer_fade_sprite_black(void *effect, S_8182D544_2 *motion, SpriteFrameState *sprite)
+void move_the_effect_count_down_timer_fade_sprite_black(void *effect_arg, S_8182D544_2 *motion, SpriteFrameState *sprite)
 {
+    S_8182D544_0 *effect = effect_arg;
     s16 state;
     s32 delta_y;
     s32 delta_z;
@@ -485,7 +486,7 @@ void move_the_effect_count_down_timer_fade_sprite_black(void *effect, S_8182D544
     u8 brightness;
     S_8182D544_1 *object;
 
-    object = ((S_8182D544_0 *)effect)->unk_00;
+    object = effect->unk_00;
     object->unk_0C |= 0x8000;
 
     delta_y = motion->unk_10;
@@ -494,14 +495,14 @@ void move_the_effect_count_down_timer_fade_sprite_black(void *effect, S_8182D544
     motion->unk_04 += delta_y;
     motion->unk_08 += delta_z;
 
-    state = ((S_8182D544_0 *)effect)->unk_4C.s;
+    state = effect->unk_4C.s;
     switch (state) {
     case 0:
-        timer = ((S_8182D544_0 *)effect)->unk_48 - 1;
-        ((S_8182D544_0 *)effect)->unk_48 = timer;
+        timer = effect->unk_48 - 1;
+        effect->unk_48 = timer;
         if ((timer << 16) <= 0) {
             register_node((u8 *)effect - 0x20, project_sprite_chain);
-            ((S_8182D544_0 *)effect)->unk_4C.u++;
+            effect->unk_4C.u++;
         }
         break;
 

@@ -80,10 +80,10 @@ void create_color_cycling_pulse(S_8016738C_3 *origin)
         control->depth_bias = 0;
         control->flags = control->flags | 0x80;
 
-        (*(PackedCopy12 *)((u8 *)object + 0x48)) = (*(PackedCopy12 *)((u8 *)D_80173B58 + 0));
-        (*(PackedCopy12 *)((u8 *)object + 0x54)) = (*(PackedCopy12 *)((u8 *)D_80173B58 + 0xC));
-        (*(PackedCopy12 *)((u8 *)object + 0x60)) = (*(PackedCopy12 *)((u8 *)D_80173B58 + 0x18));
-        (*(PackedCopy12 *)((u8 *)object + 0x6C)) = (*(PackedCopy12 *)((u8 *)D_80173B58 + 0x24));
+        (*(PackedCopy12 *)((u8 *)object + 0x48)) = (*(PackedCopy12 *)(D_80173B58 + 0));
+        (*(PackedCopy12 *)((u8 *)object + 0x54)) = (*(PackedCopy12 *)(D_80173B58 + 0xC));
+        (*(PackedCopy12 *)((u8 *)object + 0x60)) = (*(PackedCopy12 *)(D_80173B58 + 0x18));
+        (*(PackedCopy12 *)((u8 *)object + 0x6C)) = (*(PackedCopy12 *)(D_80173B58 + 0x24));
         control->source = (u8 *)object + 0x48;
     }
 }

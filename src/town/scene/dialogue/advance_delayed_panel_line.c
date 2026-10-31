@@ -19,26 +19,27 @@ typedef struct S_8080BCD4_1 {
 extern s32 scene_object_flags;
 
 /* Clears panel flag 2 after a delay, then marks the panel for removal when the linked flag is set. */
-void advance_delayed_panel_line(void *ptr) {
+void advance_delayed_panel_line(void *ptr_arg) {
+    S_8080BCD4_0 *ptr = ptr_arg;
     s16 state;
     u16 remaining;
     u16 next_state;
     u16 flags;
     S_8080BCD4_1 *context;
 
-    state = ((S_8080BCD4_0 *)ptr)->unk_00.s;
-    context = ((S_8080BCD4_0 *)ptr)->unk_04;
+    state = ptr->unk_00.s;
+    context = ptr->unk_04;
     switch (state) {
     case 0:
-        remaining = ((S_8080BCD4_0 *)ptr)->unk_02 - 1;
-        ((S_8080BCD4_0 *)ptr)->unk_02 = remaining;
+        remaining = ptr->unk_02 - 1;
+        ptr->unk_02 = remaining;
         if ((remaining << 0x10) <= 0) {
-            next_state = ((S_8080BCD4_0 *)ptr)->unk_00.u;
-            flags = ((S_8080BCD4_0 *)ptr)->unk_16;
+            next_state = ptr->unk_00.u;
+            flags = ptr->unk_16;
             next_state++;
             flags &= 0xFFFD;
-            ((S_8080BCD4_0 *)ptr)->unk_16 = flags;
-            ((S_8080BCD4_0 *)ptr)->unk_00.u = next_state;
+            ptr->unk_16 = flags;
+            ptr->unk_00.u = next_state;
             return;
         }
         return;

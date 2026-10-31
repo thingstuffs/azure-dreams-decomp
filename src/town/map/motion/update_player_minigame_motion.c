@@ -311,5 +311,5 @@ void update_player_minigame_motion(TownCourseActor *actor, ObjectPosition *motio
     }
     step_actor_animation(sprite, 0);
     copy_entity_record_fields((struct ObjectPosition *)(&town_position_reference_state), motion);
-    ((Rec_D_80100D98 *)(&town_position_reference_state))->unk_08 = 0;
+    ((&town_position_reference_state))->unk_08 = 0;
 }

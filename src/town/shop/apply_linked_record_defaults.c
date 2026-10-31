@@ -19,7 +19,9 @@ struct S8004CBFC_a1; extern struct S8004CBFC_a1 shop_cursor_template;
 
 
 /* Apply D_800792DC using the linked value and set the linked target to D_80071244. */
-void apply_linked_record_defaults(void *record) {
-    initialize_scaled_entry_cursor(record + 0x1C, &shop_cursor_template, ((S_800B2F38_1 *)(((S_800B2F38_0 *)record)->unk_A8))->unk_10);
-    *((S_800B2F38_1 *)(((S_800B2F38_0 *)record)->unk_A8))->unk_14 = &D_80071244;
+void apply_linked_record_defaults(void *record_arg) {
+    S_800B2F38_0 *record = record_arg;
+
+    initialize_scaled_entry_cursor(record_arg + 0x1C, &shop_cursor_template, ((S_800B2F38_1 *)(record->unk_A8))->unk_10);
+    *((S_800B2F38_1 *)(record->unk_A8))->unk_14 = &D_80071244;
 }

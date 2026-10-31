@@ -6,8 +6,8 @@ s32 build_projected_tile_packets(u8 *node_data, u16 *position)
 {
     Scratch *scratch = (Scratch *)0x1F800000;
     void **globals = ((void * *)(&g_game_work));
-    GpuContext *render_state = (GpuContext *)globals[0];
-    Packet *first_packet = (Packet *)render_state->packetCursor;
+    GpuContext *render_state = globals[0];
+    Packet *first_packet = render_state->packetCursor;
     Packet *packet;
     s32 depth_index;
     u32 address_mask = 0x00FFFFFF;

@@ -65,16 +65,18 @@ void update_menu_node_or_retire_on_zero_state(Func800A4A20Object *object, s32 co
 }
 
 /* Initialize object state and placement with a direction-dependent offset. */
-void initialize_directional_object_state(void *object, S_800A21EC_1 *placement, S_800A21EC_0 *state) {
+void initialize_directional_object_state(void *object_arg, S_800A21EC_1 *placement, S_800A21EC_0 *state) {
+    S_800A21EC_2 *object = object_arg;
+
     state->unk_00 = 0;
     state->unk_04 = 0;
     state->unk_05 = 0;
-    register_node(object - 0x20, &lit_mesh_renderer_address);
-    placement->unk_00.at00.v = (s32) ((IntVector3 *)(((S_800A21EC_2 *)object)->unk_14))->x;
-    placement->unk_04 = (s32) ((IntVector3 *)(((S_800A21EC_2 *)object)->unk_14))->y;
-    placement->unk_08 = (s32) ((IntVector3 *)(((S_800A21EC_2 *)object)->unk_14))->z;
-    ((S_800A21EC_2 *)object)->unk_00 = &copy_signed_inner_value_by_flag;
-    if (((S_800A21EC_2 *)object)->unk_20 == 0) {
+    register_node(object_arg - 0x20, &lit_mesh_renderer_address);
+    placement->unk_00.at00.v = (s32) ((IntVector3 *)(object->unk_14))->x;
+    placement->unk_04 = (s32) ((IntVector3 *)(object->unk_14))->y;
+    placement->unk_08 = (s32) ((IntVector3 *)(object->unk_14))->z;
+    object->unk_00 = &copy_signed_inner_value_by_flag;
+    if (object->unk_20 == 0) {
         s32 heading;
         heading = 1;
         state->unk_08 = heading;

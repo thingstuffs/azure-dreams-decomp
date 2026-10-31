@@ -68,12 +68,12 @@ void create_configured_effect_actor(ObjectState *obj, MotionVector *pos, ByteSta
     accel_z = obj->ddz;
     /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: dungeon/func_81339BB0). */
     do {
-        *(s32 *)& obj->dx = velocity_x + accel_x;
+        *& obj->dx = velocity_x + accel_x;
     } while (0);
     velocity_y = obj->dy;
     velocity_z = obj->dz;
-    *(s32 *)&obj->dy = velocity_y + accel_y;
-    *(s32 *)&obj->dz = velocity_z + accel_z;
+    *&obj->dy = velocity_y + accel_y;
+    *&obj->dz = velocity_z + accel_z;
 
     distance = obj->x - (pos_coord = pos->x.part.hi);
     if (distance < 0) {

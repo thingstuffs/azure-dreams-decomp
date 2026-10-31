@@ -21,7 +21,7 @@ typedef struct S_8004EDA8_node {
 /* Clears the owner flag and allocates and initializes a callback node with its context. */
 void *scene_create_resource_transition(void *owner_arg, void *context_arg)
 {
-    ObjectNodeHeader *owner = (ObjectNodeHeader *)owner_arg;
+    ObjectNodeHeader *owner = owner_arg;
     void *context = context_arg;
     S_8004EDA8_node *node;
     u8 *node_fields;
@@ -33,7 +33,7 @@ void *scene_create_resource_transition(void *owner_arg, void *context_arg)
         *(void **)(node_fields + 4) = context;
         node->owner_0x20 = owner;
         SD_Call(0xD1);
-        ((ObjectNodeHeader *)((u8 *)node_fields - 0x20))->update_callback = schedule_deferred_resource_transition;
+        ((ObjectNodeHeader *)(node_fields - 0x20))->update_callback = schedule_deferred_resource_transition;
         scene_begin_transition_texture_read((u8 *)node + 0x28);
     }
     return node;

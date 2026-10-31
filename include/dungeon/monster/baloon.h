@@ -8,7 +8,7 @@
 
 
 
-void advance_actor_hop_animation(void *motion, ObjectPosition *position, SpriteFrameState *sprite, void *actor);
+void advance_actor_hop_animation(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 
 
 
@@ -16,7 +16,7 @@ void advance_actor_animation_and_fall(ActorRecord *action, ObjectPosition *motio
 void update_actor_approach_descent_return(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *actor);
 void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor_ptr);
 
-void update_actor_turn_behavior(ActorRecord *motion_arg, ObjectPosition *actor_index_arg, SpriteFrameState *actor_arg, ActorRecord *move_data_arg);
+void update_actor_turn_behavior(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 
 typedef struct {
     u8 pad_00[2];

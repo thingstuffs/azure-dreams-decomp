@@ -333,8 +333,9 @@ typedef struct S_8190AEB4_2 {
  * and 44 row indices to clear its VRAM area over 44 updates. Signals the linked state and flags
  * removal when the clearing sequence finishes.
  */
-void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s32 *position, void *transform)
+void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s32 *position, void *transform_arg)
 {
+    S_8190AEB4_1 *transform = transform_arg;
     Rect rect;
     Rect draw_rect;
     Point center;
@@ -369,8 +370,8 @@ void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s3
         position[1] = source_position[1];
         position[2] = source_position[2];
 
-        ((S_8190AEB4_1 *)transform)->unk_1C -= 0x20;
-        ((S_8190AEB4_1 *)transform)->unk_1E += 0x80;
+        transform->unk_1C -= 0x20;
+        transform->unk_1E += 0x80;
         timer = ((S_8190AEB4_0 *)effect)->unk_02.s + 1;
         ((S_8190AEB4_0 *)effect)->unk_02.s = timer;
         if (timer < 0x28) {
@@ -383,9 +384,9 @@ void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s3
         return;
 
     case 1:
-        ((S_8190AEB4_1 *)transform)->unk_1C += 0x140;
+        transform->unk_1C += 0x140;
         position[2] -= 0x140000;
-        ((S_8190AEB4_1 *)transform)->unk_1E -= 0x500;
+        transform->unk_1E -= 0x500;
         timer = ((S_8190AEB4_0 *)effect)->unk_02.s + 1;
         ((S_8190AEB4_0 *)effect)->unk_02.s = timer;
         if (timer < 4) {
@@ -399,10 +400,10 @@ void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s3
 
     case 2:
         position[2] -= 0x100000;
-        next_y = ((S_8190AEB4_1 *)transform)->unk_1E - 0x200;
-        next_x = ((S_8190AEB4_1 *)transform)->unk_1C + 0x200;
-        ((S_8190AEB4_1 *)transform)->unk_1E = next_y;
-        ((S_8190AEB4_1 *)transform)->unk_1C = next_x;
+        next_y = transform->unk_1E - 0x200;
+        next_x = transform->unk_1C + 0x200;
+        transform->unk_1E = next_y;
+        transform->unk_1C = next_x;
         next_state = ((S_8190AEB4_0 *)effect)->unk_00.u;
         next_state++;
         ((S_8190AEB4_0 *)effect)->unk_00.p = next_state;
@@ -410,10 +411,10 @@ void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s3
 
     case 3:
         position[2] += 0x180000;
-        next_y = ((S_8190AEB4_1 *)transform)->unk_1E + 0x300;
-        next_x = ((S_8190AEB4_1 *)transform)->unk_1C - 0x300;
-        ((S_8190AEB4_1 *)transform)->unk_1E = next_y;
-        ((S_8190AEB4_1 *)transform)->unk_1C = next_x;
+        next_y = transform->unk_1E + 0x300;
+        next_x = transform->unk_1C - 0x300;
+        transform->unk_1E = next_y;
+        transform->unk_1C = next_x;
         next_state = ((S_8190AEB4_0 *)effect)->unk_00.u;
         next_state++;
         ((S_8190AEB4_0 *)effect)->unk_00.p = next_state;
@@ -421,10 +422,10 @@ void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s3
 
     case 4:
         position[2] -= 0x80000;
-        next_y = ((S_8190AEB4_1 *)transform)->unk_1E - 0x100;
-        next_x = ((S_8190AEB4_1 *)transform)->unk_1C + 0x100;
-        ((S_8190AEB4_1 *)transform)->unk_1E = next_y;
-        ((S_8190AEB4_1 *)transform)->unk_1C = next_x;
+        next_y = transform->unk_1E - 0x100;
+        next_x = transform->unk_1C + 0x100;
+        transform->unk_1E = next_y;
+        transform->unk_1C = next_x;
         next_state = ((S_8190AEB4_0 *)effect)->unk_00.u;
         next_state++;
         ((S_8190AEB4_0 *)effect)->unk_00.p = next_state;

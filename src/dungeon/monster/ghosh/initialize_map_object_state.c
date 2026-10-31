@@ -10,7 +10,7 @@ void initialize_map_object_state(void) {
     state = ghosh_actor_node;
     if (state != 0) {
         state = (s8 *)state + 0x20;
-        *(s8 *)((s8 *)state + 0xB2) = 1;
+        *((s8 *)state + 0xB2) = 1;
         *(s16 *)((s8 *)state + 0xAE) = 1;
         ghosh_script_cursor = D_80174928;
         ghosh_script_repeat_count = 0;

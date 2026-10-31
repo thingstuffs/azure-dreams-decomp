@@ -86,12 +86,13 @@ void initialize_timed_fade_object(Struct8009ED34Arg0 *context, void *unused, Str
 }
 
 /* Updates a timed object, expiring it or stopping its motion at the height limit. */
-void update_timed_object_to_height_limit(void *object, ObjectPosition *motion, S_8009C4E8_2 *appearance) {
+void update_timed_object_to_height_limit(void *object_arg, ObjectPosition *motion, S_8009C4E8_2 *appearance) {
+    S_8009C4E8_0 *object = object_arg;
     s16 height_limit;
     u16 timer;
 
-    timer = ((S_8009C4E8_0 *)object)->unk_6C - 1;
-    ((S_8009C4E8_0 *)object)->unk_6C = timer;
+    timer = object->unk_6C - 1;
+    object->unk_6C = timer;
     if ((s16)(timer) < 0) {
         unlink_node_if_registered(object);
         ((ObjectRetirementFlags *)object)[-1].flags |= 0x8000;
@@ -112,7 +113,7 @@ void update_timed_object_to_height_limit(void *object, ObjectPosition *motion, S
         appearance->unk_0C = 0x40;
         appearance->unk_10 = 0x20;
         appearance->unk_14 |= 0x1C;
-        ((S_8009C4E8_0 *)object)->unk_50 = D_8009C5D8;
+        object->unk_50 = D_8009C5D8;
     }
 }
 
@@ -154,7 +155,7 @@ void spawn_randomized_effect_parts(u8 *source_data, s32 spawn_arg) {
     velocity_bias = 0xFFFC0000;
     part_params = D_800D06C8;
     do {
-        source_object = (u8 *)source_data - 0x20;
+        source_object = source_data - 0x20;
         part_object = create_town_effect_object(source_object, spawn_arg, ((S_8009C648_0 *)part_params)->unk_00,
             ((S_8009C648_0 *)part_params)->unk_04);
         if (part_object == NULL) {

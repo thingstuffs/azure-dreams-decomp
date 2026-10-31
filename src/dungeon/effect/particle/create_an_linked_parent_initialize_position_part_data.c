@@ -38,22 +38,24 @@ typedef struct S_81994800_2 {
 
 extern s16 parent_effect_update_flag;
 /* Advance the effect countdown, update its parameters, and flag completion. */
-void fade_linked_display_sprite(void *effect, void *unused_context, void *effect_params) {
+void fade_linked_display_sprite(void *effect_arg, void *unused_context, void *effect_params_arg) {
+    S_81994800_1 *effect_params = effect_params_arg;
+    EntityRec *effect = effect_arg;
     s32 scale;
     u16 ticks_left;
 
-    ticks_left = ((u16)((EntityRec *)effect)->facing) - 1;
-    scale = (s32)((s32)(ticks_left << 0x10) >> 9) / (s16)((EntityRec *)effect)->unk_2C;
+    ticks_left = ((u16)effect->facing) - 1;
+    scale = (s32)((s32)(ticks_left << 0x10) >> 9) / (s16)effect->unk_2C;
     parent_effect_update_flag = 1;
-    ((EntityRec *)effect)->facing = ticks_left;
-    ((S_81994800_1 *)effect_params)->unk_0D = (u8)(((S_81994800_1 *)effect_params)->unk_0D - 4);
-    ((S_81994800_1 *)effect_params)->unk_0E = (s8)scale;
-    ((S_81994800_1 *)effect_params)->unk_0C = (s8)scale;
-    if (((S_81994800_1 *)effect_params)->unk_06 >= -6) {
-        ((S_81994800_1 *)effect_params)->unk_06 = (s16)((u16)((S_81994800_1 *)effect_params)->unk_06 - 2);
+    effect->facing = ticks_left;
+    effect_params->unk_0D = (u8)(effect_params->unk_0D - 4);
+    effect_params->unk_0E = (s8)scale;
+    effect_params->unk_0C = (s8)scale;
+    if (effect_params->unk_06 >= -6) {
+        effect_params->unk_06 = (s16)((u16)effect_params->unk_06 - 2);
     }
-    if ((s16)((u16)((EntityRec *)effect)->facing) <= 0) {
-        ((S_81994800_2 *)(((((EntityRec *)effect)->unk_32 * 2) + ((u8 *)((EntityRec *)effect)->target))))->unk_46 = 0;
+    if ((s16)((u16)effect->facing) <= 0) {
+        ((S_81994800_2 *)(((effect->unk_32 * 2) + ((u8 *)effect->target))))->unk_46 = 0;
         (*(u16 *)((u8 *)effect + -2)) = (u16)(((S_81994800_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
@@ -267,7 +269,7 @@ void create_an_linked_parent_initialize_position_part_data(void *parent, void *u
         part->color.c.g = 0;
         part->color.c.r = 0;
         (*(Copy12 *)((u8 *)object + 0x92)) = *(Copy12 *)&D_8002533C;
-        part->source = (void *) (((void *)object) + 0x92);
+        part->source = (((void *)object) + 0x92);
     }
 }
 #include "dungeon/effect/particle/create_an_linked_parent_initialize_position_part_data.h"
@@ -455,7 +457,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
         if (*state->flags & 0x80) {
             actor = primary_actor_record;
             state->countdown = 0x14;
-            *(u16 *)((u8 *)actor + 0xA6) -= 1; /* halfword counter at +0xA6 (high half of unk_A4) */
+            actor->unk_A4.halves.high.u -= 1; /* halfword counter at +0xA6 (high half of unk_A4) */
             actor->unk_A8.byte = (u8) state->event_id;
             actor_facing = (u16)primary_actor_record->facing;
             state->phase++;

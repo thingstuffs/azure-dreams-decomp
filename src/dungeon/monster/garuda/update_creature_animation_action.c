@@ -178,7 +178,7 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
                 func_80171848(actor, context, sprite, creature);
                 return;
             }
-            if ((*((u8 *) (((u8 *) (*((void **) (((u8 *) actor) + 0xA8)))) + 0x13))) < 0x33) {
+            if ((*((((u8 *) (*((void **) (((u8 *) actor) + 0xA8)))) + 0x13))) < 0x33) {
                 advance_actor_walk_animation(actor, context, sprite, creature);
                 return;
             }
@@ -202,7 +202,7 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
                 player_pos->tile_position.parts.tile_x, player_pos->tile_position.parts.tile_y, &direction_aux);
             player = primary_actor_record;
             creature->facing = facing_angle;
-            if ((*((u8 *) (((u8 *) player) + 0x9A))) == 0x11) {
+            if ((*((((u8 *) player) + 0x9A))) == 0x11) {
                 begin_actor_spell_action(actor, context, sprite, &garuda_frame_set, update_creature_animation_action);
                 return;
             }

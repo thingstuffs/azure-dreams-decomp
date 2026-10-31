@@ -5,6 +5,7 @@
 #include "sdk/libc.h"
 #include "slus.h"
 #include "engine/node.h"
+#include "dungeon/effect/sprite.h"
 
 
 extern u8 D_80025098[9];
@@ -19,12 +20,6 @@ typedef struct S_818C3A3C_0 {
     void * unk_20;
 } S_818C3A3C_0;
 
-typedef struct S_818C3A3C_1 {
-    u8 pad_00[0x10];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    s16 unk_14;
-} S_818C3A3C_1;
 
 typedef struct S_818C3A3C_2 {
     u8 pad_00[0x14];
@@ -69,7 +64,7 @@ s32 create_scaled_rotation_effect(S_818C3A3C_2 *owner, S_818C3A3C_4 *initial_dat
         effect_name = random_variant_sprite_entries;
         effect->update_callback = handler;
         ((S_818C3A3C_0 *)effect)->unk_20 = owner;
-        ((S_818C3A3C_1 *)effect_state)->unk_10 = 0;
+        ((ScaledRotationEffectBody *)effect_state)->unk_10 = 0;
         call_zero = 0;
         *(u16 *)((u8 *)effect_state + 0x14) = owner->unk_14;
 
@@ -90,7 +85,7 @@ s32 create_scaled_rotation_effect(S_818C3A3C_2 *owner, S_818C3A3C_4 *initial_dat
         }
         sprite->angle_z = (random_value % 4096);
 
-        scale = 0x1400 / ((S_818C3A3C_1 *)effect_state)->unk_14;
+        scale = 0x1400 / ((ScaledRotationEffectBody *)effect_state)->unk_14;
         sprite->scale_y = scale;
         sprite->scale_x = scale;
         register_node(effect, draw_linked_sprites_clipped);

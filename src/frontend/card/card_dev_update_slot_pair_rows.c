@@ -34,7 +34,7 @@ void card_dev_update_slot_pair_rows(u8 *object) {
         map_index = *(s32 *)(object + 0x24);
         mapped_slot = slot_map[map_index][slot];
         value_dst = *(s32 * *)((u8 *)slot_entries[2] + 4);
-        mapped_value = *(s32 *)&values[mapped_slot];
+        mapped_value = *&values[mapped_slot];
         *value_dst = mapped_value;
         slot++;
     } while (slot < 2);

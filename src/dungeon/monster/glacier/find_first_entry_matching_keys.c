@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 
 #ifndef NULL
 #define NULL 0
@@ -9,14 +10,6 @@ typedef struct S_80174A00_0_pre {
     u8 pad_04[0x10];
 } S_80174A00_0_pre;   /* the 0x14 bytes before arg0 in find_first_entry_matching_keys, addressed as arg0[-1] */
 
-typedef struct S_80174A00_0 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    u8 pad_14[0x48];
-    s32 unk_5C;
-    u8 pad_60[0x28];
-    s16 unk_88;
-} S_80174A00_0;   /* arg0 in find_first_entry_matching_keys */
 
 typedef struct S_80174A00_1 {
     u8 pad_00[0x24];
@@ -26,23 +19,23 @@ typedef struct S_80174A00_1 {
 
 
 /* Finds the first entry matching both keys, the value range, and the type filter. */
-void *find_first_entry_matching_keys(void *node, u16 key_a, u16 key_b, s16 range_center) {
-    void *head = node;
+void *find_first_entry_matching_keys(ActorRecord *body, u16 key_a, u16 key_b, s16 range_center) {
+    void *head = body;
 
-    node = (void *)(((S_80174A00_0 *)node)->unk_5C + 0x20);
-    while (node != head) {
-        S_80174A00_1 *node_data = ((S_80174A00_0_pre *)node)[-1].unk_00;
-        void *entry = node - 0x20;
+    body = (ActorRecord *)(body->next_actor_header + 0x20);
+    while (body != head) {
+        S_80174A00_1 *node_data = ((S_80174A00_0_pre *)body)[-1].unk_00;
+        void *entry = ((void *)body) - 0x20;
         s16 node_value;
 
         if ((node_data->unk_24 == key_a) &&
             (node_data->unk_25 == key_b) &&
-            (node_value = ((S_80174A00_0 *)node)->unk_88, node_value <= range_center + 0x20) &&
+            (node_value = body->ground_height, node_value <= range_center + 0x20) &&
             (node_value >= range_center - 0x20) &&
-            ((u32)(((S_80174A00_0 *)node)->unk_13 - 0x33) < 4)) {
+            ((u32)(body->species - 0x33) < 4)) {
             return entry;
         }
-        node = (void *)(((S_80174A00_0 *)node)->unk_5C + 0x20);
+        body = (ActorRecord *)(body->next_actor_header + 0x20);
     }
     return NULL;
 }

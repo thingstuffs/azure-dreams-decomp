@@ -89,7 +89,8 @@ struct S_800A1330_0; struct S_800A1330_1; void copy_menu_vector_halfwords(struct
 extern s16 D_800D0A40;
 
 /* Project and enqueue a textured sprite quad with a translucent overlay. */
-void draw_textured_sprite_quad(void *sprite, s32 position) {
+void draw_textured_sprite_quad(void *sprite_arg, s32 position) {
+    S_800A17CC_2 *sprite = sprite_arg;
     s16 texture_window[4];
     s32 texture_page;
     s32 texture_y;
@@ -132,7 +133,7 @@ void draw_textured_sprite_quad(void *sprite, s32 position) {
     SetPolyFT4(quad_packet);
 
     texture_page = GetTPage(1, 0,
-        ((S_800A17CC_2 *)sprite)->unk_6C & 0xFF80, ((S_800A17CC_2 *)sprite)->unk_6E);
+        sprite->unk_6C & 0xFF80, sprite->unk_6E);
     ((S_800A17CC_1 *)textured_quad)->unk_16 = texture_page;
     ((S_800A17CC_1 *)textured_quad)->unk_0E = GetClut(0, 0x1EF);
 
@@ -140,7 +141,7 @@ void draw_textured_sprite_quad(void *sprite, s32 position) {
         s32 texture_x;
         s32 left_u;
 
-        texture_x = ((S_800A17CC_2 *)sprite)->unk_6C;
+        texture_x = sprite->unk_6C;
         scratch = (TownQuadWork *)0x1F800000;
         left_u = (s16)(texture_x % 0x80);
         left_u /= 2;
@@ -152,9 +153,9 @@ void draw_textured_sprite_quad(void *sprite, s32 position) {
         s16 page_x;
         s32 right_u;
 
-        texture_x = ((S_800A17CC_2 *)sprite)->unk_6C;
+        texture_x = sprite->unk_6C;
         page_x = texture_x % 0x80;
-        right_u = (page_x / 2) + ((S_800A17CC_2 *)sprite)->unk_70;
+        right_u = (page_x / 2) + sprite->unk_70;
         ((S_800A17CC_1 *)textured_quad)->unk_24 = right_u;
         ((S_800A17CC_1 *)textured_quad)->unk_14 = right_u;
     }
@@ -162,17 +163,17 @@ void draw_textured_sprite_quad(void *sprite, s32 position) {
         s32 source_y;
         s32 top_v;
 
-        source_y = ((S_800A17CC_2 *)sprite)->unk_6E;
+        source_y = sprite->unk_6E;
         top_v = source_y % 0x100;
         ((S_800A17CC_1 *)textured_quad)->unk_15 = top_v;
         ((S_800A17CC_1 *)textured_quad)->unk_0D = top_v;
     }
 
-    texture_y = ((S_800A17CC_2 *)sprite)->unk_6E;
+    texture_y = sprite->unk_6E;
     {
         s32 bottom_v;
 
-        bottom_v = (texture_y % 0x100) + ((S_800A17CC_2 *)sprite)->unk_72;
+        bottom_v = (texture_y % 0x100) + sprite->unk_72;
         ((S_800A17CC_1 *)textured_quad)->unk_25 = bottom_v;
         ((S_800A17CC_1 *)textured_quad)->unk_1D = bottom_v;
     }
@@ -202,19 +203,19 @@ void draw_textured_sprite_quad(void *sprite, s32 position) {
     {
         s32 left_x;
 
-        left_x = scratch->corners[0].x - ((S_800A17CC_2 *)sprite)->unk_78;
+        left_x = scratch->corners[0].x - sprite->unk_78;
         scratch->corners[0].x = left_x;
         scratch->corners[2].x = left_x;
     }
     {
         s32 right_x;
 
-        right_x = scratch->corners[1].x + ((S_800A17CC_2 *)sprite)->unk_78;
+        right_x = scratch->corners[1].x + sprite->unk_78;
         vertex3 = &scratch->corners[3];
         scratch->corners[1].x = right_x;
         scratch->corners[3].x = right_x;
     }
-    height = ((S_800A17CC_2 *)sprite)->unk_7A;
+    height = sprite->unk_7A;
     scratch->ordering_depth = RotTransPers4(
         (void *)&scratch->corners[0], (void *)&scratch->corners[1],
         vertex2, vertex3,
@@ -231,14 +232,14 @@ void draw_textured_sprite_quad(void *sprite, s32 position) {
     ((S_800A17CC_1 *)textured_quad)->unk_18 = scratch->screen[2].x;
     ((S_800A17CC_1 *)textured_quad)->unk_1A = scratch->screen[2].y;
     ((S_800A17CC_1 *)textured_quad)->unk_20 = scratch->screen[3].x;
-    (*(u16 *)((u8 *)textured_quad + 0x22)) = scratch->screen[3].y;
+    (*(u16 *)(textured_quad + 0x22)) = scratch->screen[3].y;
 
     render_state = g_game_work.draw_buffer;
     overlay_quad = ((GpuContext *)render_state)->packetCursor;
     ((GpuContext *)render_state)->packetCursor = overlay_quad + 0x18;
-    ((S_800A17CC_3 *)overlay_quad)->unk_04 = ((S_800A17CC_2 *)sprite)->unk_12;
-    ((S_800A17CC_3 *)overlay_quad)->unk_05 = ((S_800A17CC_2 *)sprite)->unk_12;
-    ((S_800A17CC_3 *)overlay_quad)->unk_06 = ((S_800A17CC_2 *)sprite)->unk_12;
+    ((S_800A17CC_3 *)overlay_quad)->unk_04 = sprite->unk_12;
+    ((S_800A17CC_3 *)overlay_quad)->unk_05 = sprite->unk_12;
+    ((S_800A17CC_3 *)overlay_quad)->unk_06 = sprite->unk_12;
     SetPolyF4(overlay_quad);
     SetSemiTrans(overlay_quad, 1);
     ((S_800A17CC_3 *)overlay_quad)->unk_08 = scratch->screen[0].x;
@@ -248,7 +249,7 @@ void draw_textured_sprite_quad(void *sprite, s32 position) {
     ((S_800A17CC_3 *)overlay_quad)->unk_10 = scratch->screen[2].x;
     ((S_800A17CC_3 *)overlay_quad)->unk_12 = scratch->screen[2].y;
     ((S_800A17CC_3 *)overlay_quad)->unk_14 = scratch->screen[3].x;
-    (*(u16 *)((u8 *)overlay_quad + 0x16)) = scratch->screen[3].y;
+    (*(u16 *)(overlay_quad + 0x16)) = scratch->screen[3].y;
 
     render_state = g_game_work.draw_buffer;
     scratch->ordering_table = (s32)(render_state + 0xB0);

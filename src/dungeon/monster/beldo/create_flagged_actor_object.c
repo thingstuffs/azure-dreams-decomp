@@ -45,8 +45,9 @@ extern void advance_sprite_animation_and_textures(void *);
 
 
 /* Update part position, shading, and flags from its owner. */
-void create_flagged_actor_object_2(AttachedSpriteWithOffsetBody *root, void *output_pos, void *target_data)
+void create_flagged_actor_object_2(AttachedSpriteWithOffsetBody *root, void *output_pos_arg, void *target_data)
 {
+    MovingPosition *output_pos = output_pos_arg;
     GteShortVector offset;
     S_81263000_2 *position_data;
     SpriteFrameState *target_part= target_data;
@@ -65,18 +66,18 @@ void create_flagged_actor_object_2(AttachedSpriteWithOffsetBody *root, void *out
         target_part->flags &= 0xFF7F;
     }
 
-    ((MovingPosition *)output_pos)->x = pos_data->unk_02;
-    ((MovingPosition *)output_pos)->y = pos_data->unk_06;
-    ((MovingPosition *)output_pos)->z = pos_data->unk_0A;
+    output_pos->x = pos_data->unk_02;
+    output_pos->y = pos_data->unk_06;
+    output_pos->z = pos_data->unk_0A;
 
     motion_part = owner->unk_0C;
     if (resolve_record_orientation_or_fallback(motion_part->source, motion_part, &offset,
                       root->unk_B6) != 0) {
-        ((MovingPosition *)output_pos)->x +=
+        output_pos->x +=
             (offset.vx + root->unk_B0.s) / 2;
-        ((MovingPosition *)output_pos)->y +=
+        output_pos->y +=
             (offset.vy + root->unk_B2.s) / 2;
-        ((MovingPosition *)output_pos)->z +=
+        output_pos->z +=
             (offset.vz + root->unk_B4.s) / 2;
         root->unk_B0.s = offset.vx;
         root->unk_B2.s = offset.vy;

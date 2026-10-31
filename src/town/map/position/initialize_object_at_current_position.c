@@ -54,7 +54,7 @@ void initialize_object_at_current_position(void) {
         S_800C01DC_1 *position_data;
         u16 *position_entry;
 
-        position_data = (S_800C01DC_1 *) &map_runtime_state;
+        position_data = &map_runtime_state;
         position_entry = position_data->unk_10;
         view_reference_entity.x.w.i = (s16) (position_data->unk_14 + position_entry[0]);
         view_reference_entity.y.w.i = (s16) (position_data->unk_16 + position_entry[1]);

@@ -124,8 +124,9 @@ extern u8 D_800E1AE6[];
 
 
 /* Checks an entity's flags and random roll before attempting its parent-based action. */
-s32 check_entity_chance_and_trigger_parent_action(void *entity, s32 input_a, s32 input_b, s32 input_c)
+s32 check_entity_chance_and_trigger_parent_action(void *entity_arg, s32 input_a, s32 input_b, s32 input_c)
 {
+    EntityRec *entity = entity_arg;
     S_800CBCA0_1 *parent;
     s32 action_result;
     s32 roll;
@@ -133,16 +134,16 @@ s32 check_entity_chance_and_trigger_parent_action(void *entity, s32 input_a, s32
     s32 random_value;
     void *rng_entity = entity;
 
-    if ((*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3)) != 0) {
-        if (((EntityRec *)entity)->flags14 & ACTOR_PARTY_MEMBER) {
+    if ((*((u8 *)&entity->unk_10 + 3)) != 0) {
+        if (entity->flags14 & ACTOR_PARTY_MEMBER) {
             roll = 1;
             return roll;
         }
     }
     if (trap_request_blocked == 0) {
         random_value = (u16)generate_random_value();
-        if ((*(u8 *)((u8 *)&((EntityRec *)entity)->x + 3)) != 0) {
-            divisor = random_value % (*(u8 *)((u8 *)&((EntityRec *)entity)->x + 3));
+        if ((*((u8 *)&entity->x + 3)) != 0) {
+            divisor = random_value % (*((u8 *)&entity->x + 3));
             goto value_ready2;
         }
     }
@@ -156,15 +157,15 @@ value_ready:
         parent = ((S_800CBCA0_0_pre *)entity)[-1].unk_00;
         action_result = create_owned_tile_center_effect(parent->unk_24,
                                parent->unk_25,
-                               ((EntityRec *)entity)->unk_88, entity);
+                               entity->unk_88, entity);
         if (action_result != 0) {
-            if ((*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3)) == 0) {
+            if ((*((u8 *)&entity->unk_10 + 3)) == 0) {
                 clear_player_linked_action_flags();
                 adjust_source_value_and_finalize(entity, D_800E1AE6);
             }
         }
     } else {
-        if ((*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3)) == 0) {
+        if ((*((u8 *)&entity->unk_10 + 3)) == 0) {
             display_fixed_item_action_message();
         }
         return 1;
@@ -437,7 +438,7 @@ s32 attempt_trap_request_ten_slots(void *object) {
         amount = 0x400;
     }
     if (try_apply_confusion_status(object, amount, 0x10) == 0) {
-        if (*(u8 *)((u8 *)object + 0x13) == 0) {
+        if (*((u8 *)object + 0x13) == 0) {
             display_fixed_item_action_message();
             return 1;
         }
@@ -646,7 +647,7 @@ void *create_tile_center_quad_effect(s16 tile_x, s16 tile_y, s16 z, s16 tail_val
         tail_vertex = (DungeonVertex *) (((s8 *) obj) + 0x20);
         *((s16 *) (((s8 *) tail_vertex) + 4)) = tail_value;
         tail_vertex->field2 = 8;
-        *((u16 *) (((s8 *) tail_vertex) + 6)) = tail_config;
+        tail_vertex->field6 = tail_config;
     }
     return obj;
 }
@@ -772,8 +773,8 @@ ObjectBlock *create_grid_effect_object(s16 grid_x, s16 grid_y, s16 z, s16 value,
 void tick_byte_timed_trap_effect(void *record) {
     u8 countdown;
 
-    countdown = *(u8 *)((u8 *)record + 7) - 1;
-    *(u8 *)((u8 *)record + 7) = countdown;
+    countdown = *((u8 *)record + 7) - 1;
+    *((u8 *)record + 7) = countdown;
     if (!(countdown & 0xFF)) {
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         *(u16 *)((u8 *)record - 2) =
@@ -840,7 +841,7 @@ void create_five_part_target_effect(u16 x, u16 y, s16 z) {
     S_800CCA14_0 *effect;
     S_800CCA14_2 *part;
 
-    effect = initialize_scene_object_in_buffer(0, (trap_resource_slot * 0xC8) + (u8 *)&dungeon_resource_buffer, 0xA);
+    effect = initialize_scene_object_in_buffer(0, (trap_resource_slot * 0xC8) + &dungeon_resource_buffer, 0xA);
     effect->unk_10 = &D_800CC9BC;
     effect->unk_20 = x;
     effect->unk_22 = y;
@@ -849,7 +850,7 @@ void create_five_part_target_effect(u16 x, u16 y, s16 z) {
     g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
     part_index = 3;
     do {
-        part = initialize_scene_object_in_buffer(0, (((trap_resource_slot * 5) + part_index) * 0x28) + ((u8 *)&dungeon_resource_buffer + 0x28), 0xA);
+        part = initialize_scene_object_in_buffer(0, (((trap_resource_slot * 5) + part_index) * 0x28) + (&dungeon_resource_buffer + 0x28), 0xA);
         part->unk_10 = &D_800CC370;
         part_x = (u16) effect->unk_20;
         direction = part_index * 2;
@@ -1037,7 +1038,7 @@ void update_bouncing_trap_effect(void *effect, void *motion, void *sprite)
 
         if (((S_800CCDA0_0 *)effect)->unk_0A < ((S_800CCDA0_1 *)motion)->unk_08.at02.v) {
             apply_attack_power_and_element_effects(((S_800CCDA0_0 *)effect)->unk_00, 10,
-                          ((u8 *)dungeon_actor_ring_anchor)[0x11], 8,
+                          dungeon_actor_ring_anchor->level, 8,
                           (((S_800CCDA0_0 *)effect)->unk_08 << 25) >> 16, 0, 2);
 
             ((S_800CCDA0_1 *)motion)->unk_14 = -((S_800CCDA0_1 *)motion)->unk_14;
@@ -1285,14 +1286,14 @@ s32 roll_trap_hit_and_raise_event_520(void *actor) {
         chance = 0x400;
     }
     if (roll_chance_and_run_action(actor, chance, 0x10) == 0) {
-        if ((*(u8 *)((u8 *)&((EntityRec *)actor)->unk_10 + 3)) == 0) {
+        if ((*((u8 *)&((EntityRec *)actor)->unk_10 + 3)) == 0) {
             display_fixed_item_action_message();
             return 1;
         }
         return 1;
     }
     adjust_source_value_and_finalize(actor, &D_800E1BF3);
-    if ((*(u8 *)((u8 *)&((EntityRec *)actor)->unk_10 + 3)) == 0) {
+    if ((*((u8 *)&((EntityRec *)actor)->unk_10 + 3)) == 0) {
         wrap_position_and_set_state_value(D_800DCF0C);
     }
     owner = ((S_800CD1A4_0_pre *)actor)[-1].unk_00;
@@ -1402,7 +1403,7 @@ s32 attempt_trap_request_eight_slots(void *object) {
         return 1;
     }
     adjust_source_value_and_finalize(object, D_800E1C14);
-    if ((*(u8 *)((u8 *)&((EntityRec *)object)->unk_10 + 3)) == 0) {
+    if ((*((u8 *)&((EntityRec *)object)->unk_10 + 3)) == 0) {
         wrap_position_and_set_state_value(D_800DCF1C);
     }
     entry = ((S_800CD384_0_pre *)object)[-1].unk_00;
@@ -1817,8 +1818,8 @@ s32 trigger_step_trap_effect(void *object) {
         }
         if (trap_request_blocked == 0) {
             seed = generate_random_value() & 0xFFFF;
-            if (*(u8 *)((u8 *)object + 3) != 0) {
-                index = seed % *(u8 *)((u8 *)object + 3);
+            if (*((u8 *)object + 3) != 0) {
+                index = seed % *((u8 *)object + 3);
             } else {
                 index = 0;
             }
@@ -1838,8 +1839,8 @@ s32 trigger_step_trap_effect(void *object) {
                 *(void **)((u8 *)effect + 0x20) = object;
                 *(s16 *)((u8 *)effect + 0x26) = 0xC;
                 spawn_vertical_particle_burst(
-                    ((*(u8 *)((u8 *)entry + 0x24)) << 6) | 0x20,
-                    ((*(u8 *)((u8 *)entry + 0x25)) << 6) | 0x20,
+                    ((*((u8 *)entry + 0x24)) << 6) | 0x20,
+                    ((*((u8 *)entry + 0x25)) << 6) | 0x20,
                     *(s16 *)((u8 *)object + 0x88), D_800DF820, 0);
                 play_sound_if_enabled(0x613);
                 {
@@ -1849,7 +1850,7 @@ s32 trigger_step_trap_effect(void *object) {
             }
             return result;
         }
-        if (*(u8 *)((u8 *)object + 0x13) == 0) {
+        if (*((u8 *)object + 0x13) == 0) {
             display_fixed_item_action_message();
         }
         return result;
@@ -1875,12 +1876,12 @@ s32 roll_trap_trigger_chance(void *ptr, s32 unused1, s32 unused2, s32 unused3)
     s32 remainder_value;
     s16 value;
 
-    if (*(u8 *)((u8 *)ptr + 0x13) == 0) {
+    if (*((u8 *)ptr + 0x13) == 0) {
         value = 0;
         if (trap_request_blocked == 0) {
             source_value = generate_random_value() & 0xFFFF;
-            if (((u8)(*(u8 *)((u8 *)ptr + 3))) != 0) {
-                remainder_value = source_value % ((s16)((s32)((u8)(*(u8 *)((u8 *)ptr + 3)))));
+            if (((u8)(*((u8 *)ptr + 3))) != 0) {
+                remainder_value = source_value % ((s16)((s32)((u8)(*((u8 *)ptr + 3)))));
                 value = remainder_value;
             }
         }
@@ -1890,9 +1891,9 @@ s32 roll_trap_trigger_chance(void *ptr, s32 unused1, s32 unused2, s32 unused3)
         }
 
         if (value < 0x30) {
-            *(u16 *)(((u8 *)dungeon_actor_ring_anchor) + 0xA2) |= 0x100;
+            dungeon_actor_ring_anchor->unk_A0.parts.high |= 0x100;
             g_dungeon_status.activity_counts.parts.pending_action_count += 1;
-        } else if (*(u8 *)((u8 *)ptr + 0x13) == 0) {
+        } else if (*((u8 *)ptr + 0x13) == 0) {
                         /* garbage-passthru: a3 is 10 left by get_entity_effect_value, not a caller-held C value. */
             display_fixed_item_action_message();
         }
@@ -1921,9 +1922,9 @@ s32 apply_chance_based_trap_effect(void *state, s32 unused_1, s32 unused_2, s32 
 
     if (!trap_request_blocked &&
         (random_value = generate_random_value() & 0xffff,
-         *(u8 *)((u8 *)state + 3))) {
+         *((u8 *)state + 3))) {
         s32 remainder;
-        remainder = random_value % *(u8 *)((u8 *)state + 3);
+        remainder = random_value % *((u8 *)state + 3);
         roll = remainder;
     } else {
         roll = 0;
@@ -1946,7 +1947,7 @@ s32 apply_chance_based_trap_effect(void *state, s32 unused_1, s32 unused_2, s32 
         return 1;
     }
 
-    if (*(u8 *)((u8 *)state + 0x13) == 0) {
+    if (*((u8 *)state + 0x13) == 0) {
         display_fixed_item_action_message();
     }
     return 1;
@@ -2151,7 +2152,7 @@ void update_long_lived_trap_effect(DungeonEffect *effect) {
     state = effect->state;
     if (state == 0) {
         grid = &g_game_work.map;
-        tiles = ((DungeonTile *)grid->cells);
+        tiles = grid->cells;
         target_row = 0;
         target_row_base = effect;
         do {
@@ -2224,7 +2225,7 @@ snap_target_tile:
         }
     } else {
         grid = &g_game_work.map;
-        tiles = ((DungeonTile *)grid->cells);
+        tiles = grid->cells;
         restore_row = 0;
         initial_row_base = effect;
         do {
@@ -2442,8 +2443,8 @@ s32 check_linked_entity_or_global_override(void *entity) {
     }
     position_record = *(void **)((u8 *)entity - 0x14);
     return create_dual_grid_trap_effect(
-        *(u8 *)((u8 *)position_record + 0x24),
-        *(u8 *)((u8 *)position_record + 0x25),
+        *((u8 *)position_record + 0x24),
+        *((u8 *)position_record + 0x25),
         *(s16 *)((u8 *)entity + 0x88),
         entity,
         1) != 0;
@@ -2841,9 +2842,9 @@ unsigned int clamp_entry_and_create_effect_node(void *object, s16 entry_index)
     } else {
         state = &g_dungeon_status;
         entries = (u8 *)floor_objects;
-        entry = (((s32)(entry_index << 0x10) >> 0xE) + (u8 *)entries);
+        entry = (((s32)(entry_index << 0x10) >> 0xE) + entries);
         if ((s16)(((u16)state->monster_count) + *(s8 *)(entry + 2)) >= 0x21) {
-            *(u8 *)(entry + 2) = 0x20 - *(u8 *)((u16 *)&state->monster_count);
+            *(entry + 2) = 0x20 - *(u8 *)((u16 *)&state->monster_count);
         }
 
         result = has_enough_available_runtime_nodes(*(s8 *)(entry + 2) + 1);

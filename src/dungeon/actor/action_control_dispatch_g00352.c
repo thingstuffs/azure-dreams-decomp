@@ -13,7 +13,7 @@ void request_scene_state_21_or_reload_level_module_a(void) {
             test_resident_bit(0xa2) == 0 && state_flags[0x823] == 0) {
             state_flags[0x823] = 1;
             request_scene_dispatch_state(0x21);
-            ((u8 *)&sprite_bundle_loaded)[0] = 0;
+            (&sprite_bundle_loaded)[0] = 0;
             return;
         }
     }

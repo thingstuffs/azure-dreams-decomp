@@ -8,6 +8,7 @@
 #include "shared/sprite_frame_state.h"
 
 struct GymScoreObject;
+struct GymState;
 struct IndicatorChild;
 struct S_800BF72C_1;
 struct State8081A3D8;
@@ -105,7 +106,7 @@ void advance_object_spawning_displays_high(struct State8081A3D8 *controller);
 void apply_minigame_object_tint(struct IndicatorChild *state, MovingPosition *selected_values, SpriteFrameState *render_state);
 
 /* create_gym_mesh_object.c */
-void create_gym_mesh_object(void *source_words, s32 data_value_08, s32 object_value_10, s32 object_value_20);
+void create_gym_mesh_object(void *source_words, s32 data_value_08, s32 object_value_10, struct GymState *object_value_20);
 
 /* create_scene_object_with_byte_payload.c */
 void create_scene_object_with_48_byte_payload(s32 init_value, void *init_data);

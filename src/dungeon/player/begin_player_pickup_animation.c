@@ -52,7 +52,7 @@ void begin_player_pickup_animation(ActorRecord *actor, s32 effect_arg, u8 *targe
         *(u8 **)(effect_state + 0x9C) = ((u8 *)effect) + 0xB8;
 
         sound_id = 0x505;
-        if (*(u8 *)(*(u8 **)(((u8 *)actor) + 0xBC) + 1) == 0xE) {
+        if (*(*(u8 **)(((u8 *)actor) + 0xBC) + 1) == 0xE) {
             sound_id = 0x516;
         }
         play_sound_if_enabled(sound_id);

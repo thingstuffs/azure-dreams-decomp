@@ -36,8 +36,9 @@ void update_directional_actor_effect(s16 start_x, s16 start_y, s16 start_z, s16 
 
 /* Follows the source sprite until released, arcs toward the actor, then expands and brightens before
    removal. */
-void update_homing_arc_and_brighten_effect(void *effect, void *motion, void *sprite)
+void update_homing_arc_and_brighten_effect(void *effect, void *motion, void *sprite_arg)
 {
+    Row_8194C8F0_S_800240F0_4 *sprite = sprite_arg;
     u16 offset[3];
     s32 state;
 
@@ -88,9 +89,9 @@ void update_homing_arc_and_brighten_effect(void *effect, void *motion, void *spr
     case 2:
     {
         u16 scale;
-        scale = ((Row_8194C8F0_S_800240F0_4 *)sprite)->unk_1E + 0x200;
-        ((Row_8194C8F0_S_800240F0_4 *)sprite)->unk_1E = scale;
-        ((Row_8194C8F0_S_800240F0_4 *)sprite)->unk_1C = scale;
+        scale = sprite->unk_1E + 0x200;
+        sprite->unk_1E = scale;
+        sprite->unk_1C = scale;
     }
         {
             void *position;
@@ -141,13 +142,13 @@ void update_homing_arc_and_brighten_effect(void *effect, void *motion, void *spr
     {
         u16 scale;
         u8 brightness;
-        scale = ((Row_8194C8F0_S_800240F0_4 *)sprite)->unk_1E + 0x200;
-        brightness = ((Row_8194C8F0_S_800240F0_4 *)sprite)->unk_0E + 8;
-        ((Row_8194C8F0_S_800240F0_4 *)sprite)->unk_1E = scale;
-        ((Row_8194C8F0_S_800240F0_4 *)sprite)->unk_1C = scale;
-        ((Row_8194C8F0_S_800240F0_4 *)sprite)->unk_0E = brightness;
-        ((Row_8194C8F0_S_800240F0_4 *)sprite)->unk_0D = brightness;
-        ((Row_8194C8F0_S_800240F0_4 *)sprite)->unk_0C = brightness;
+        scale = sprite->unk_1E + 0x200;
+        brightness = sprite->unk_0E + 8;
+        sprite->unk_1E = scale;
+        sprite->unk_1C = scale;
+        sprite->unk_0E = brightness;
+        sprite->unk_0D = brightness;
+        sprite->unk_0C = brightness;
     }
         {
             u16 frames_left;
@@ -470,7 +471,7 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
     case 1:
         if (*((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_04 & 0x80) {
             ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_18 = 0xAU;
-            ((Row_8194D354_S_80024B54_1 *)primary_actor_record)->unk_A6--;
+            primary_actor_record->unk_A4.halves.high.u--;
             primary_actor_record->unk_A8.byte = ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_08;
             next_state_c1 = ((u16)primary_actor_record->facing);
             ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_0A.s++;
@@ -648,7 +649,7 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
         (*(s32 *)((u8 *)effect_pool + 0xC)) = 0;
         ((Row_8194D354_S_80024B54_11 *)effect_pool)->unk_0A = (u16)(((Row_8194D354_S_80024B54_11 *)effect_pool)->unk_0A - 1);
         (*(u16 *)((u8 *)effect_arg + -2)) = (u16)(((Row_8194D354_S_80024B54_0_pre *)effect_arg)[-1].unk_00 | 0x8000);
-        (*(s32 *)&object_flag_block.flags) = (s32)((*(s32 *)((u8 *)(&object_flag_block.flags) + 0)) | 0x8000);
+        (*&object_flag_block.flags) = (s32)((*(s32 *)((u8 *)(&object_flag_block.flags) + 0)) | 0x8000);
         return;
     default:
         break;

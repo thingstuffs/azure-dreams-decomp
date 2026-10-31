@@ -6,15 +6,6 @@ typedef struct S_818BC888_0_pre {
     u16 unk_00;
 } S_818BC888_0_pre;   /* the 0x2 bytes before arg0 in update_ramping_color_effect, addressed as arg0[-1] */
 
-typedef struct S_818BC888_0 {
-    void * unk_00;
-    union { u16 u16; s16 s16; u8 u8; } unk_04;   /* accessed as both */
-    u8 pad_06[0x2];
-    s16 unk_08;
-    s16 unk_0A;
-    s16 unk_0C;
-    u8 unk_0E;
-} S_818BC888_0;   /* arg0 in update_ramping_color_effect */
 
 typedef struct S_818BC888_1 {
     u8 pad_00[0x14];
@@ -25,7 +16,7 @@ typedef struct S_818BC888_1 {
 
 
 /* Advances the effect timer and updates its interpolated and cycling values. */
-void update_ramping_color_effect(void *effect) {
+void update_ramping_color_effect(OffsetColorEffectBody *effect) {
     s16 phase;
     s32 cycle_value;
     s32 scaled_step;
@@ -35,12 +26,12 @@ void update_ramping_color_effect(void *effect) {
     u32 product;
     S_818BC888_1 *owner;
 
-    owner = ((S_818BC888_0 *)effect)->unk_00;
+    owner = effect->unk_00;
     owner->unk_14 = owner->unk_14 + 1;
-    tick = ((S_818BC888_0 *)effect)->unk_04.u16 + 1;
-    ((S_818BC888_0 *)effect)->unk_04.u16 = tick;
+    tick = effect->unk_04.u16 + 1;
+    effect->unk_04.u16 = tick;
     ticks = (s16)tick;
-    scaled_step = ((S_818BC888_0 *)effect)->unk_0A << 0xB;
+    scaled_step = effect->unk_0A << 0xB;
     if (ticks >= 0x20) {
         product = (0x40 - ticks) * scaled_step;
         scaled_value = product >> 0x10;
@@ -49,22 +40,22 @@ void update_ramping_color_effect(void *effect) {
         scaled_value = product >> 0x10;
     }
 
-    ((S_818BC888_0 *)effect)->unk_08 = scaled_value;
-    phase = ((S_818BC888_0 *)effect)->unk_04.s16;
+    effect->unk_08.s = scaled_value;
+    phase = effect->unk_04.s16;
     if (phase >= 0x40) {
         ((S_818BC888_0_pre *)effect)[-1].unk_00 |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
     if (phase < 0x10) {
-        ((S_818BC888_0 *)effect)->unk_0E = ((S_818BC888_0 *)effect)->unk_04.u8 << 3;
+        effect->unk_0E.u = effect->unk_04.u8 << 3;
     } else if (phase < 0x30) {
-        ((S_818BC888_0 *)effect)->unk_0E = 0x80;
+        effect->unk_0E.u = 0x80;
     } else {
-        ((S_818BC888_0 *)effect)->unk_0E = -0x80 - ((phase - 0x30) * 8);
+        effect->unk_0E.u = -0x80 - ((phase - 0x30) * 8);
     }
 
-    phase = ((S_818BC888_0 *)effect)->unk_04.s16 % 4;
+    phase = effect->unk_04.s16 % 4;
     switch (phase) {
     case 0:
         cycle_value = 0x7DCF;
@@ -81,5 +72,5 @@ void update_ramping_color_effect(void *effect) {
     default:
         return;
     }
-    ((S_818BC888_0 *)effect)->unk_0C = cycle_value;
+    effect->unk_0C = cycle_value;
 }

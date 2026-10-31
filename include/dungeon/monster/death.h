@@ -22,7 +22,7 @@ void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *moti
 void advance_actor_states_and_entity_flags(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *entity);
 
 struct S_80173C40_0;
-void initialize_object_and_clear_state(struct S_80173C40_0 *object, void *init_data, SpriteFrameState *init_context, void *render);
+void initialize_object_and_clear_state(struct S_80173C40_0 *object, ObjectPosition *position, SpriteFrameState *init_context, ActorRecord *actor);
 
 /* Directional frame entries; the full allocation extent is not inferred. */
 extern u8 death_frame_set[];

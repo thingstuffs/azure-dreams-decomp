@@ -144,14 +144,14 @@ void advance_actor_action_and_target(void *action, void *motion, SpriteFrameStat
                 if (use_player_target) {
                     target_link = primary_actor_record;
                     ((S_8017256C_1 *)actor)->unk_60.p = target_link;
-                    kind = (s32)*(u8 * *)&((ObjectNodeHeader *)((u8 *)target_link - 0x20))->sprite;
+                    kind = (s32)*(u8 * *)&((ObjectNodeHeader *)(target_link - 0x20))->sprite;
 
                     ((S_8017256C_1 *)actor)->unk_72.u = ((S_8017256C_3 *)kind)->unk_24;
                     ((S_8017256C_1 *)actor)->unk_73.u = ((S_8017256C_3 *)kind)->unk_25;
                 } else if (item_action_definitions[*action_entry].kind == 2) {
                     target_link = ((S_8017256C_1 *)actor)->unk_60.p2;
                     if (target_link != 0) {
-                        kind = (s32)*(u8 * *)&((ObjectNodeHeader *)((u8 *)target_link - 0x20))->sprite;
+                        kind = (s32)*(u8 * *)&((ObjectNodeHeader *)(target_link - 0x20))->sprite;
 
                         ((S_8017256C_1 *)actor)->unk_72.u = ((S_8017256C_3 *)kind)->unk_24;
                         ((S_8017256C_1 *)actor)->unk_73.u = ((S_8017256C_3 *)kind)->unk_25;

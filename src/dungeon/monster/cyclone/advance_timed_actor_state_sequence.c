@@ -49,11 +49,11 @@ extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(D3 *, s32);
 struct SpriteFrameState;
 extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
-extern void create_directional_target_object(D0 *, void *, D2 *);
+extern void create_directional_target_object(D0 *, void *, SpriteFrameState *);
 extern void format_entity_message(s32, D3 *);
 
 /* Advances a timed actor state sequence and updates its sprite direction. */
-void advance_timed_actor_state_sequence(D0 *action, void *context, SpriteFrameState *sprite, D3 *actor) {
+void advance_timed_actor_state_sequence(D0 *action, ObjectPosition *position, SpriteFrameState *sprite, D3 *actor) {
     u16 sprite_flags;
     u16 ticks_left;
 
@@ -68,7 +68,7 @@ void advance_timed_actor_state_sequence(D0 *action, void *context, SpriteFrameSt
         if (!(sprite->unk_04 == 1 && (sprite_flags & 0x1000)) && (sprite_flags & 0x6000) == 0) {
             break;
         }
-        create_directional_target_object(action, context, sprite);
+        create_directional_target_object(action, position, sprite);
         if (actor->flags & 0x4000) {
             format_entity_message(1, actor);
         } else if (((D3Nested *) actor->field_60)->flags & 0x4000) {
@@ -100,7 +100,7 @@ void advance_timed_actor_state_sequence(D0 *action, void *context, SpriteFrameSt
             }
         }
         spend_actor_mp(actor, 0x400);
-        set_record_integer_tile_center(context, sprite->tile_x, sprite->tile_y);
+        set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
         action->field_8C = update_actor_animation;
         g_dungeon_status.active_actor = 0;
         actor->value_46 &= 0x7FFF;

@@ -233,7 +233,7 @@ void draw_red(void *effect) {
         impact_effect = allocate_list_node(0x312, &scene_object_list_anchor.next);
         if (impact_effect != 0) {
             impact_effect->unk_10 = &D_80024928;
-            impact_effect->unk_20 = (void *) ((S_81934C5C_0 *)effect)->unk_00;
+            impact_effect->unk_20 = ((S_81934C5C_0 *)effect)->unk_00;
             register_node(impact_effect, project_sprite_chain);
             impact_sprite = impact_effect->unk_0C;
             (((ObjectPosition *)impact_effect->unk_08))->x.v = (s32) ((S_81934C5C_0 *)effect)->unk_1C.at00.v;

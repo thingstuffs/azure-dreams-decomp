@@ -45,13 +45,6 @@ typedef struct S_801711A4_2 {
     void * unk_2C;
 } S_801711A4_2;   /* arg2 in update_actor_animation_and_dispatch */
 
-typedef struct S_801711A4_3 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0xA];
-    u8 unk_9A;
-    s8 unk_9B;
-} S_801711A4_3;   /* saved0 in update_actor_animation_and_dispatch */
 
 
 s32 check_entity_relation();
@@ -107,13 +100,13 @@ void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *con
             void *action_actor = actor;
             if (sprite->frameTable == &kraken_frame_set_2) {
                 {
-                    S_801711A4_3 *reset_actor = (S_801711A4_3 *)actor;
+                    ActorRecord *reset_actor = actor;
                     ActorRecord *reset_status = status;
                     s32 clear_mask = (s32)0xFFFB0000;
                     s32 flags;
-                    reset_actor->unk_9A = 0xDU;
-                    reset_actor->unk_9B = 1;
-                    reset_actor->unk_8C = 0;
+                    reset_actor->action_id.u = 0xDU;
+                    reset_actor->action_phase.s = 1;
+                    reset_actor->unk_8C.word = 0;
                     flags = reset_status->flags1C;
                     clear_mask |= 0xFFFF;
                     flags &= clear_mask;

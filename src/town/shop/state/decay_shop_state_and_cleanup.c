@@ -25,21 +25,22 @@ typedef struct S_800B1664_4 {
 } S_800B1664_4;   /* ((Rec_func_800B15B8_arg0 *)arg0)->unk_C0 in decay_shop_state_and_cleanup */
 
 /* Halve a state value, decrement another, and trigger cleanup below the threshold. */
-void decay_shop_state_and_cleanup(void *object) {
+void decay_shop_state_and_cleanup(void *object_arg) {
+    Rec_func_800B15B8_arg0 *object = object_arg;
     u16 decay_value;
     s32 decay_shifted;
     S_800B1664_1 *decay_state;
     S_800B1664_2 *counter_state;
 
-    decay_state = ((Rec_func_800B15B8_arg0 *)object)->unk_C0;
+    decay_state = object->unk_C0;
     decay_value = decay_state->unk_06;
     decay_shifted = decay_value << 0x10;
     decay_state->unk_06 = (u16) (decay_value - ((s32) ((decay_shifted >> 0x10) + ((u32) decay_shifted >> 0x1F)) >> 1));
-    counter_state = ((Rec_func_800B15B8_arg0 *)object)->unk_C0;
+    counter_state = object->unk_C0;
     counter_state->unk_04 = (u16) (counter_state->unk_04 - 0x100);
-    if ((s16) ((S_800B1664_4 *)(((Rec_func_800B15B8_arg0 *)object)->unk_C0))->unk_06 < 0x11) {
-        release_null_terminated_entries(object + 0xD0);
-        reset_five_shop_slots(object);
+    if ((s16) ((S_800B1664_4 *)(object->unk_C0))->unk_06 < 0x11) {
+        release_null_terminated_entries(object_arg + 0xD0);
+        reset_five_shop_slots(object_arg);
         ((ObjectRetirementFlags *)object)[-1].flags = (u16) (((ObjectRetirementFlags *)object)[-1].flags | 0x8000);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

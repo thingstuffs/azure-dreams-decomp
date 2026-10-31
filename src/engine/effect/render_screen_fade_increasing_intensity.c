@@ -54,11 +54,11 @@ s16 render_screen_fade_increasing_intensity(TransitionSlot *fade)
     s32 elapsed;
     s16 duration;
     s32 scaled_elapsed;
-    tpage = (S_80053604_TPage *) g_game_work.renderState->nextPrim;
+    tpage = g_game_work.renderState->nextPrim;
     g_game_work.renderState->nextPrim = (void *) (((u8 *) tpage) + (sizeof(S_80053604_TPage)));
     done = 0;
     main_state = &g_game_work;
-    poly = (S_80053604_PolyF4 *) g_game_work.renderState->nextPrim;
+    poly = g_game_work.renderState->nextPrim;
     g_game_work.renderState->nextPrim = (void *) (((u8 *) poly) + (sizeof(S_80053604_PolyF4)));
     blend_mode = 1;
     if (fade->unk_6 == 0) {

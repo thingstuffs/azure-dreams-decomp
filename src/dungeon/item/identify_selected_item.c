@@ -63,7 +63,7 @@ s32 identify_selected_item(ActorRecord *entity, DungeonItemEntry *action_id, s16
         }
     } else {
         message_pos = get_unused_text_buffer();
-        entity_state = ((s32 *)(&reference_tile_object.selected_item));
+        entity_state = ((&reference_tile_object.selected_item));
         saved_message_pos = message_pos;
         message_pos = expand_text_control_codes(D_800E11F5, append_typed_formatted_value(((S_800BF074_1 *)entity_state)->unk_04, message_pos));
         ((S_800BF074_2 *)(((S_800BF074_1 *)entity_state)->unk_04))->unk_03 &= 0x7F;

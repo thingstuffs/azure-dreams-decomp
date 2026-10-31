@@ -81,7 +81,8 @@ typedef struct S_8001C8C8_0 {
 } S_8001C8C8_0;   /* arg0 in card_dev_init_row_panel */
 
 /* Initialize the panel and position four rows of display elements. */
-void card_dev_init_row_panel(void *panel) {
+void card_dev_init_row_panel(void *panel_arg) {
+    S_8001C8C8_0 *panel = panel_arg;
     s32 lower_x;
     s32 left_x;
     s32 right_x;
@@ -91,10 +92,10 @@ void card_dev_init_row_panel(void *panel) {
     s32 row;
     S_8001C8C8_2 *row_cursor;
 
-    ((S_8001C8C8_0 *)panel)->unk_80 = 1;
-    ((S_8001C8C8_0 *)panel)->unk_84 = 1;
+    panel->unk_80 = 1;
+    panel->unk_84 = 1;
     func_804037F4(panel);
-    func_80403868(panel + 4, 0x36, 0x10);
+    func_80403868(panel_arg + 4, 0x36, 0x10);
     func_80403698(panel);
     row = 0;
     lower_x = 0x8E;

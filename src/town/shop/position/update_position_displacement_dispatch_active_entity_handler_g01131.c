@@ -8,20 +8,20 @@
 #include "shared/sprite_frame_state.h"
 
 /* Update position and displacement, then dispatch the active entity handler. */
-void update_position_displacement_dispatch_active_entity_handler(Rec_func_8009EE9C_arg0 *entity, s32 entity_id, S_8009EE9C_0 *motion, s32 context) {
+void update_position_displacement_dispatch_active_entity_handler(Rec_func_8009EE9C_arg0 *entity, s32 entity_id, S_8009EE9C_0 *motion, SpriteFrameState *context) {
     s32 previous_pos;
 
     previous_pos = motion->unk_08;
     motion->unk_08 = (u32) (entity->unk_A0 + (rsin(entity->unk_6C) << 6) + 0xFFFC0000);
     entity->unk_6C = (s16) ((u16) entity->unk_6C + 0x40);
     motion->unk_14 = (s32) (motion->unk_08 - previous_pos);
-    if (((s32 *)town_target_record)[0] == entity_id) {
-        if (((s32 *)scene_object_payload_alias)[0] == &town_timed_state_address) {
-            initialize_the_entity_s_action_copy_selected_state_hex_13(entity, ((s32 *)town_target_record)[0], motion, context);
+    if (town_target_record[0] == entity_id) {
+        if (scene_object_payload_alias[0] == &town_timed_state_address) {
+            initialize_the_entity_s_action_copy_selected_state_hex_13(entity, town_target_record[0], motion, context);
             return;
         }
-        if (((s32 *)scene_object_payload_alias)[0] == D_80093524) {
-            call_callee_80033_d_08_set_handler(entity, ((s32 *)town_target_record)[0], motion, context);
+        if (scene_object_payload_alias[0] == D_80093524) {
+            call_callee_80033_d_08_set_handler(entity, town_target_record[0], motion, context);
         }
     }
 }
@@ -31,7 +31,8 @@ void update_position_displacement_dispatch_active_entity_handler(Rec_func_8009EE
  * countdown expiry. On success updates slot/type flags and clears the linked signal; otherwise
  * restores saved X/Y and initializes the type-dependent motion state.
  */
-void update_motion_toward_target_resolves_entity_countdown_expires(void *entity, s32 context, ObjectPosition *motion, s32 mode) {
+void update_motion_toward_target_resolves_entity_countdown_expires(void *entity_arg, s32 context, ObjectPosition *motion, s32 mode) {
+    Rec_D_800CFCB4 *entity = entity_arg;
     s32 result[5];
     s8 *linked_flag;
     s8 *clear_flag;
@@ -46,16 +47,16 @@ void update_motion_toward_target_resolves_entity_countdown_expires(void *entity,
     offset_z = motion->z.v + 0x200000;
     motion->velocity_z = (s32)((s32)(view_reference_entity.z.v - offset_z) / 2);
     add_motion_deltas_to_position(motion);
-    ticks_left = ((Rec_D_800CFCB4 *)entity)->unk_6C.as_u16 - 1;
-    ((Rec_D_800CFCB4 *)entity)->unk_6C.as_u16 = ticks_left;
+    ticks_left = entity->unk_6C.as_u16 - 1;
+    entity->unk_6C.as_u16 = ticks_left;
     if ((ticks_left << 16) <= 0) {
-        slot = ((Rec_D_800CFCB4 *)entity)->unk_95;
+        slot = entity->unk_95;
         if (process_the_item_index_available_report_success(entity, context, motion, mode, result) != 0) {
-            if (((Rec_D_800CFCB4 *)entity)->unk_4D.as_u8 == 0x13) {
+            if (entity->unk_4D.as_u8 == 0x13) {
                 u8 *state_table = (u8 *)0x80010000;
                 s32 record_index = state_table[slot * 4 + 0x983] & 0x3F;
                 state_table[record_index * 0x54 + 0xAC4] = 1;
-                linked_flag = ((Rec_D_800CFCB4 *)entity)->unk_98;
+                linked_flag = entity->unk_98;
                 if (linked_flag != NULL) {
                     *linked_flag = 0;
                 }
@@ -63,7 +64,7 @@ void update_motion_toward_target_resolves_entity_countdown_expires(void *entity,
                 clear_flag = linked_flag;
             } else {
                 (*(s32 *)((u8 *)((slot * 4)) + (0x80010980))) = 0;
-                clear_flag = ((Rec_D_800CFCB4 *)entity)->unk_98;
+                clear_flag = entity->unk_98;
                 if (clear_flag != NULL) {
                     *clear_flag = 0;
                 }
@@ -73,8 +74,8 @@ void update_motion_toward_target_resolves_entity_countdown_expires(void *entity,
         }
         motion->x.v = 0;
         motion->y.v = 0;
-        motion->x.w.i = ((Rec_D_800CFCB4 *)entity)->unk_84;
-        motion->y.w.i = ((Rec_D_800CFCB4 *)entity)->unk_86;
+        motion->x.w.i = entity->unk_84;
+        motion->y.w.i = entity->unk_86;
         initialize_entity_flags_transform_type_dependent_variant(entity, context, motion, mode);
     }
 }
@@ -97,7 +98,7 @@ void initialize_entity_flags_transform_type_dependent_variant(void *entity, void
     *((u8 **) (entity_bytes + 0x50)) = D_8009EE9C;
     *((s16 *) (entity_bytes + 0x6C)) = scale_random_to_unsigned_halfword_limit(0x1000);
     variant_id = 0x12;
-    if ((*((u8 *) (entity_bytes + 0x4D))) != variant_id) {
+    if ((*((entity_bytes + 0x4D))) != variant_id) {
         *((s32 *) (entity + 0x60)) = 0x59;
     }
     else {
@@ -106,7 +107,7 @@ void initialize_entity_flags_transform_type_dependent_variant(void *entity, void
 }
 
 /* Initialize the entity's action and copy its selected record for state 0x13. */
-void initialize_the_entity_s_action_copy_selected_state_hex_13(Rec_func_8009EE9C_arg0 *entity, S_8009F1C0_0 *action, void *unused_motion, s32 unused_context)
+void initialize_the_entity_s_action_copy_selected_state_hex_13(Rec_func_8009EE9C_arg0 *entity, S_8009F1C0_0 *action, void *unused_motion, SpriteFrameState *unused_context)
 {
     u8 state;
     void *callback;
@@ -129,7 +130,7 @@ void initialize_the_entity_s_action_copy_selected_state_hex_13(Rec_func_8009EE9C
 
 /* get_target_itemp: Prepares the target item and returns its item data pointer, or zero. */
 s32 get_target_itemp(void) {
-    u8 *target_object = (u8 *)((void * *)town_target_record)[0];
+    u8 *target_object = ((void * *)town_target_record)[0];
 
     if (target_object != 0) {
         s32 item_type = 4;
@@ -147,18 +148,19 @@ s32 get_target_itemp(void) {
  * matching active event and D_800935BC payload, processes input, allocates callbacks, plays sound
  * 0x513, and synchronizes town state.
  */
-void update_the_target_offset_advance_phase_handle_active_event(void *state, s32 event_id, DelayMotionZ *target, SpriteFrameState *context) {
+void update_the_target_offset_advance_phase_handle_active_event(void *state_arg, s32 event_id, DelayMotionZ *target, SpriteFrameState *context) {
+    Rec_func_80094268_arg0 *state = state_arg;
     s32 active_event;
 
-    target->unk_08 = (s32) (((Rec_func_80094268_arg0 *)state)->unk_A0
-        + (rsin(((Rec_func_80094268_arg0 *)state)->unk_6C.as_s16) << 7));
-    (*(s16 *)((u8 *)state + 0x6C)) = (s16) ((u16) ((Rec_func_80094268_arg0 *)state)->unk_6C.as_s16 + 0x40);
-    active_event = (*((s32 *)town_target_record));
-    if ((active_event == event_id) && ((*((s32 *)scene_object_payload_alias)) == &D_800935BC)) {
+    target->unk_08 = (s32) (state->unk_A0
+        + (rsin(state->unk_6C.as_s16) << 7));
+    state->unk_6C.as_s16 = (s16) ((u16) state->unk_6C.as_s16 + 0x40);
+    active_event = (*town_target_record);
+    if ((active_event == event_id) && ((*scene_object_payload_alias) == &D_800935BC)) {
         check_adjusted_input_indices(target);
         allocate_object_with_callbacks(target);
         SD_Call(0x513);
-        initialize_the_town_entity_synchronize_slot_state(state, active_event, (s32)(target), (void *)(context));
+        initialize_the_town_entity_synchronize_slot_state(state_arg, active_event, (s32)(target), (void *)(context));
     }
 }
 
@@ -187,7 +189,7 @@ void handle_jitter_position_pulse_scale_until_countdown_expires(Rec_D_800CFCB4 *
 }
 
 /* Call unlink_node_if_registered and set the record handler. */
-void call_callee_80033_d_08_set_handler(Rec_func_8009EE9C_arg0 *record, s32 value, void *unused_motion, s32 unused_context) {
+void call_callee_80033_d_08_set_handler(Rec_func_8009EE9C_arg0 *record, s32 value, void *unused_motion, SpriteFrameState *unused_context) {
     unlink_node_if_registered(record);
     record->unk_50.as_pm = &D_8009F2A8;
 }

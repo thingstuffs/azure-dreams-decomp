@@ -142,9 +142,9 @@ void update_interpolated_ribbon(S_func_81331914_0 *state, s32 *position, S_func_
             do {
                 axis = 0;
                 do {
-                    ((ObjectPayload *)payload)->out1[vertex_index][axis] =
+                    payload->out1[vertex_index][axis] =
                         ribbon_vertices[state->unk_1C][segment_index][vertex_index][axis];
-                    ((ObjectPayload *)payload)->out2[vertex_index][axis] =
+                    payload->out2[vertex_index][axis] =
                         ribbon_vertices[state->unk_1C][segment_index + 1][vertex_index][axis];
                     axis++;
                 } while (axis < 3);

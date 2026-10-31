@@ -9,15 +9,16 @@
 void initialize_save_description(void *owner, s32 value) { card_boot_build_save_description(owner, value); initialize_text_editor_context(owner, value); }
 
 /* Process five context entries if checks pass, or schedule the fallback callback. */
-void process_five_context_entries_or_fallback(void *context) {
+void process_five_context_entries_or_fallback(void *context_arg) {
+    S_80025398_0 *context = context_arg;
     s32 entry_value;
     s32 entry_count;
     void *owner;
     void *entry_cursor;
 
-    if (card_boot_load_save_and_clear_marker(((S_80025398_0 *)context)->unk_2C, 0x80010000, 0) != 0) {
-        initialize_save_description((void *)0x80010000, ((S_80025398_0 *)context)->unk_28);
-        if (card_boot_write_save_via_temporary_path(((S_80025398_0 *)context)->unk_28, 0x80010000) != 0) {
+    if (card_boot_load_save_and_clear_marker(context->unk_2C, 0x80010000, 0) != 0) {
+        initialize_save_description((void *)0x80010000, context->unk_28);
+        if (card_boot_write_save_via_temporary_path(context->unk_28, 0x80010000) != 0) {
             no_op_card_hook(0x80010000);
             entry_count = 0;
             card_boot_refresh_directory_summary();
@@ -30,7 +31,7 @@ void process_five_context_entries_or_fallback(void *context) {
             } while (entry_count < 5);
             card_boot_resume_menu_after_slot_refresh(context);
             card_boot_recheck_selected_channel();
-            ((S_80025398_0 *)context)->unk_40 = 0;
+            context->unk_40 = 0;
             return;
         }
     }
@@ -39,5 +40,5 @@ void process_five_context_entries_or_fallback(void *context) {
     card_boot_show_copy_failure_notice(owner);
     *(void **)((u8 *)context - 0x10) = (void *)D_80024F7C;
     card_boot_recheck_selected_channel();
-    ((S_80025398_0 *)context)->unk_40 = 0;
+    context->unk_40 = 0;
 }

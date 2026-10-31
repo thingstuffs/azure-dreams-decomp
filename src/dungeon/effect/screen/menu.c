@@ -71,7 +71,7 @@ void draw_textured_ellipse(void *draw_value, GpuRect *rect, u16 fill_rect, u16 d
 
     if ((fill_rect & 0xFFFF) != 0) {
         active_state = g_game_work.draw_buffer;
-        fill_packet = (DungeonPacket *)active_state->packetCursor;
+        fill_packet = active_state->packetCursor;
         active_state->packetCursor = (u8 *)fill_packet + 0x10;
         fill_packet->command = 0x60000000;
         fill_packet->type = 3;
@@ -181,20 +181,20 @@ loop_0:
             scratchpad->prev.xy = scratchpad->cur.xy;
             center_u = (u8)scratchpad->tex_u
                 + (scratchpad->tex_w >> 1);
-            *((u8 *) (((u8 *) packet_code) + 17)) = center_u;
-            *((u8 *) (((u8 *) packet_code) + 5)) = center_u;
+            *((((u8 *) packet_code) + 17)) = center_u;
+            *((((u8 *) packet_code) + 5)) = center_u;
             center_v = (u8)scratchpad->tex_v
                 + (scratchpad->tex_h >> 1);
-            *((u8 *) (((u8 *) packet_code) + 18)) = center_v;
-            *((u8 *) (((u8 *) packet_code) + 6)) = center_v;
+            *((((u8 *) packet_code) + 18)) = center_v;
+            *((((u8 *) packet_code) + 6)) = center_v;
             trig_value = rcos(angle_step / parameters->count);
             segment += 1;
             {
                 offset = scratchpad->tex_w;
                 scratch = offset * trig_value;
                 offset = scratch >> 13;
-                *((u8 *) (((u8 *) packet_code) + 41)) =
-                    (*((u8 *) (((u8 *) packet_code) + 5))) + offset;
+                *((((u8 *) packet_code) + 41)) =
+                    (*((((u8 *) packet_code) + 5))) + offset;
             }
             trig_value = rsin(angle_step / parameters->count);
             angle_step += 0x1000;
@@ -202,8 +202,8 @@ loop_0:
                 offset = scratchpad->tex_h;
                 scratch = offset * trig_value;
                 offset = scratch >> 13;
-                *((u8 *) (((u8 *) packet_code) + 42)) =
-                    (*((u8 *) (((u8 *) packet_code) + 6))) + offset;
+                *((((u8 *) packet_code) + 42)) =
+                    (*((((u8 *) packet_code) + 6))) + offset;
             }
             trig_value = rcos(angle_step / parameters->count);
             {
@@ -220,41 +220,41 @@ loop_0:
                 scratchpad->cur.v.y = position->y + offset;
             }
             center_xy = *((s32 *) (((u8 *) position) + 0));
-            *((s32 *) (((u8 *) packet_code) + 13)) = center_xy;
-            *((s32 *) (((u8 *) packet_code) + 1)) = center_xy;
-            *((s32 *) (((u8 *) packet_code) + 25)) =
+            *((s32 *) (packet_code + 13)) = center_xy;
+            *((s32 *) (packet_code + 1)) = center_xy;
+            *((s32 *) (packet_code + 25)) =
                 scratchpad->cur.xy;
-            *((s32 *) (((u8 *) packet_code) + 37)) = scratchpad->prev.xy;
+            *((s32 *) (packet_code + 37)) = scratchpad->prev.xy;
             trig_value = rcos(angle_step / parameters->count);
             {
                 offset = scratchpad->tex_w;
                 scratch = offset * trig_value;
                 offset = scratch >> 13;
-                *((u8 *) (((u8 *) packet_code) + 29)) = (*((u8 *) (((u8 *) packet_code) + 5))) + offset;
+                *((((u8 *) packet_code) + 29)) = (*((((u8 *) packet_code) + 5))) + offset;
             }
             trig_value = rsin(angle_step / parameters->count);
             {
                 offset = scratchpad->tex_h;
                 scratch = offset * trig_value;
                 offset = scratch >> 13;
-                *((u8 *) (((u8 *) packet_code) + 30)) = (*((u8 *) (((u8 *) packet_code) + 6))) + offset;
+                *((((u8 *) packet_code) + 30)) = (*((((u8 *) packet_code) + 6))) + offset;
             }
-            *((u16 *) (((u8 *) packet_code) + 7)) = parameters->texture;
+            *((u16 *) (packet_code + 7)) = parameters->texture;
             texture_page = parameters->flags;
-            *((u16 *) (((u8 *) packet_code) + 19)) = texture_page;
+            *((u16 *) (packet_code + 19)) = texture_page;
             if (blend_setting != 0) {
-                *((u16 *) (((u8 *) packet_code) + 19)) = (texture_page & 0xFF9F) | ((blend_setting - 1) << 5);
+                *((u16 *) (packet_code + 19)) = (texture_page & 0xFF9F) | ((blend_setting - 1) << 5);
             }
-            *((s32 *) (((u8 *) (packet_code - 3)) + 0)) = parameters->value0;
-            *((s32 *) (((u8 *) packet_code) + 9)) = parameters->value0;
+            *((s32 *) (((packet_code - 3)) + 0)) = parameters->value0;
+            *((s32 *) (packet_code + 9)) = parameters->value0;
             outer_color2 = parameters->value1;
-            *((s32 *) (((u8 *) packet_code) + 21)) = outer_color2;
+            *((s32 *) (packet_code + 21)) = outer_color2;
             quad_packet = cursor;
             outer_color3 = parameters->value1;
-            *((s32 *) (((u8 *) packet_code) + 33)) = outer_color3;
+            *((s32 *) (packet_code + 33)) = outer_color3;
             SetPolyGT4(quad_packet);
             if (blend_setting != 0) {
-                *((u8 *) (((u8 *) packet_code) + 0)) |= 2;
+                *((((u8 *) packet_code) + 0)) |= 2;
                 packet_order = draw_order;
             } else {
                 packet_order = draw_order;
@@ -475,7 +475,7 @@ void update_arcing_effect(void *motion, S_800B8830_3 *coords, S_800B8830_1 *rend
         current_pos.unk0 = coords->unk_00.at02.v;
         current_pos.unk2 = coords->unk_04.at02.v;
         current_pos.unk4 = coords->unk_08.at02.v;
-        owner_node = (void *)motion - 0x20;
+        owner_node = motion - 0x20;
         create_attenuating_moving_effect(&owner_node->next, start_x, start_y, start_z, &current_pos,
                       ((S_800B8830_0 *)motion)->unk_0C, 4, 0x1000, one);
 
@@ -617,11 +617,13 @@ typedef struct S_800B8CF0_1 {
 
 
 /* Count down the effect, alternating its shade until marking it finished. */
-void update_blinking_sprite_flash(void *state, s32 unused, void *primitive) {
+void update_blinking_sprite_flash(void *state_arg, s32 unused, void *primitive_arg) {
+    S_800B8CF0_0 *state = state_arg;
     s32 ticks_left;
+    S_800B8CF0_1 *primitive = primitive_arg;
 
-    ticks_left = ((S_800B8CF0_0 *)state)->unk_02 - 1;
-    ((S_800B8CF0_0 *)state)->unk_02 = (u16) ticks_left;
+    ticks_left = state->unk_02 - 1;
+    state->unk_02 = (u16) ticks_left;
     if (((ticks_left << 16) >> 16) <= 0) {
         (*(u16 *)((u8 *)state + -2)) = (u16) (((S_800B8CF0_0_pre *)state)[-1].unk_00 | NODE_REMOVE);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -629,12 +631,12 @@ void update_blinking_sprite_flash(void *state, s32 unused, void *primitive) {
     }
     if (ticks_left & 1) {
         s8 shade = (s8) ((((ticks_left << 16) >> 16) << 3) | 0x20);
-        ((S_800B8CF0_1 *)primitive)->unk_0C.at00.v = shade;
-        ((S_800B8CF0_1 *)primitive)->unk_0C.at02.v = shade;
-        ((S_800B8CF0_1 *)primitive)->unk_0C.at01.v = shade;
+        primitive->unk_0C.at00.v = shade;
+        primitive->unk_0C.at02.v = shade;
+        primitive->unk_0C.at01.v = shade;
         return;
     }
-    ((S_800B8CF0_1 *)primitive)->unk_0C.at00u.v = 0x00101010;
+    primitive->unk_0C.at00u.v = 0x00101010;
 }
 #include "shared/object_node.h"
 #include "common.h"
@@ -854,7 +856,7 @@ void draw_transformed_sprite_with_clip_rect(s32 sprite, Position *clip_rect, Pos
     s16 shift_y;
     s32 y;
 
-    context = (DrawContext *)g_game_work.draw_buffer;
+    context = g_game_work.draw_buffer;
     saved_clear_bg = clear_bg;
     shift_y = context != (DrawContext *)upper_draw_context;
     area_packet = context->next_packet;
@@ -981,7 +983,7 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
     scratch->corners[2].z = 0;
     scratch->corners[1].z = 0;
     scratch->corners[0].z = 0;
-    packet = (SpritePartQuad *)root->packetCursor;
+    packet = root->packetCursor;
     mode_bits = draw_mode << 16;
     scratch->ordering_table = depth;
     scratch->unk_C0 = 0;
@@ -1562,7 +1564,7 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
                 Node *height_base;
                 s32 current_height;
                 trig_value = rsin(work->timer << 8);
-                height_base = (Node *)work->node;
+                height_base = work->node;
                 current_height = work->y.whole;
                 entity = height_base->entity;
                 entity = (Entity *)(u32)entity->kind;
@@ -1588,7 +1590,7 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
                 entity = ((Node *)height_base)->entity;
                 height_addr = (u8 *)(u32)entity->kind;
                 target_height = entity->height;
-                height_addr += (u32)((u8 *)entity_height_offsets);
+                height_addr += (u32)entity_height_offsets;
                 height_base = (u8 *)(u32)*height_addr;
                 target_height -= (s32)(u32)height_base;
                 if (entity->flags & 0x40000) {
@@ -1612,12 +1614,12 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
                 s32 new_timer;
                 GlobalObj *object;
                 Entity *left;
-                left = (*(GlobalObj **)((GlobalObj * *)(&dungeon_actor_ring_anchor)))->left;
+                left = (*((GlobalObj * *)(&dungeon_actor_ring_anchor)))->left;
                 if (is_selectable_menu_target(left)) {
                     status_page = resident_globals_page;
                     if ((*(GlobalObj **)(status_page + 0x14A8))->left != work->node->entity) {
                         new_timer = 8;
-                        object = *(GlobalObj **)((GlobalObj * *)(&dungeon_actor_ring_anchor));
+                        object = *((GlobalObj * *)(&dungeon_actor_ring_anchor));
                         work->timer = new_timer;
                         work->node = (Node *)&object->left;
                         if (work->mode == 2) {
@@ -1631,12 +1633,12 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
                 s32 new_timer;
                 GlobalObj *object;
                 Entity *right;
-                right = (*(GlobalObj **)((GlobalObj * *)(&dungeon_actor_ring_anchor)))->right;
+                right = (*((GlobalObj * *)(&dungeon_actor_ring_anchor)))->right;
                 if (is_selectable_menu_target(right)) {
                     status_page = resident_globals_page;
                     if ((*(GlobalObj **)(status_page + 0x14A8))->right != work->node->entity) {
                         new_timer = 8;
-                        object = *(GlobalObj **)((GlobalObj * *)(&dungeon_actor_ring_anchor));
+                        object = *((GlobalObj * *)(&dungeon_actor_ring_anchor));
                         work->timer = new_timer;
                         work->node = (Node *)&object->right;
                         if (work->mode == 2) {
@@ -1673,14 +1675,14 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
                     action = 0x48;
                     result = (s32)((u32)result << 16);
                     amount = result >> 16;
-                    object = *(GlobalObj **)((GlobalObj * *)(&dungeon_actor_ring_anchor));
+                    object = *((GlobalObj * *)(&dungeon_actor_ring_anchor));
                     append_packed_action_record(object, action, amount, 0);
                 } else {
                     s32 amount;
                     GlobalObj *object;
                     result = get_special_table_data_index((work->handle));
                     amount = (s16)result;
-                    object = *(GlobalObj **)((GlobalObj * *)(&dungeon_actor_ring_anchor));
+                    object = *((GlobalObj * *)(&dungeon_actor_ring_anchor));
                     append_packed_action_record(object, 0x50,
                                   work->node->entity == object->right, amount);
                 }
@@ -1694,7 +1696,7 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
             s32 *target_pos;
             count = 8;
             state_node = work->node;
-            counter_base_2 = (u8 *)D_800E0000;
+            counter_base_2 = D_800E0000;
             target_entity = state_node->entity;
             target_pos = *(s32 **)((u8 *)target_entity - 0x18);
             select_nearby_target_and_initialize_slot((u8 *)target_entity - 0x20, target_pos, count,
@@ -2810,7 +2812,7 @@ S_800BB14C_TARGET;
 void update_pulsing_color_fade(void *effect_data, register S_800BB14C *effect, S_800BB14C_TARGET *target)
 {
     s16 state;
-    effect = (S_800BB14C *) effect_data;
+    effect = effect_data;
     state = effect->state;
     switch (state) {
     case 0:

@@ -189,7 +189,7 @@ void project_depth_sorted_sprite_quads(S_80175594_0 *sprite, Rec_func_800D6DC0_a
     ((S_80175594_1 *)scratch)->unk_00 = position->unk_02;
     ((S_80175594_1 *)scratch)->unk_02 = position->unk_06;
     ((S_80175594_1 *)scratch)->unk_04 = position->unk_0A;
-    packet = (Packet *)((GpuContext *)state)->packetCursor;
+    packet = ((GpuContext *)state)->packetCursor;
     ((S_80175594_1 *)scratch)->unk_C0 = RotTransPers(
         scratch, scratch + 0xB8, scratch + 0x90, scratch + 0x94);
 

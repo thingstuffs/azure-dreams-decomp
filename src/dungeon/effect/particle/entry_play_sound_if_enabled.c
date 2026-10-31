@@ -129,7 +129,7 @@ void emit_attached_directional_particle_chain(void *effect, S_818154FC_5 *positi
     SpriteFrameState *spawn_sprite;
 
     parent = ((S_818154FC_0 *)effect)->unk_00;
-    point_table = (LocalPoints *)&attached_particle_points;
+    point_table = &attached_particle_points;
     points = *point_table;
     point_base = (LocalPoint *)&points;
     state = ((S_818154FC_0 *)effect)->unk_0A.s;

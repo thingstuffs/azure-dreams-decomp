@@ -40,11 +40,6 @@ typedef struct S_80D653B8_2 {
     void * unk_2C;
 } S_80D653B8_2;   /* object_data in create_anchored_directional_object */
 
-typedef struct S_80D653B8_3 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-} S_80D653B8_3;   /* arg3 in create_anchored_directional_object */
-
    /* position in create_anchored_directional_object */
 
 typedef struct S_80D653B8_5 {
@@ -66,7 +61,7 @@ extern u8 baloon_anchored_frames[];
 /* Copies a sprite template into a timed Baloon effect, selects anchored directional frames, and links it
  * to the origin. */
 void create_anchored_directional_object(void *unused, S_80D653B8_5 *anchor, S_80D653B8_2 *object_template,
-                   S_80D653B8_3 *facing_source, s32 initial_value)
+                   ActorRecord *facing_source, s32 initial_value)
 {
     ObjectNodeHeader *object;
     SpriteFrameState *object_data;
@@ -100,7 +95,7 @@ void create_anchored_directional_object(void *unused, S_80D653B8_5 *anchor, S_80
 
             object_data->frameTable = direction_table;
             select_sprite_entry(object_data,
-                direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7],
+                direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + facing_source->facing + 0x100) >> 9) & 7],
                 0);
         }
 

@@ -45,7 +45,7 @@ void update_effect_motion_and_fade(void *effect, void *motion_data, void *displa
     register SpriteFrameState *display;
 
     effect_data = effect;
-    motion = (State *)motion_data;
+    motion = motion_data;
     display = display_data;
     phase_value = ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_4E.s;
     switch (phase_value) {

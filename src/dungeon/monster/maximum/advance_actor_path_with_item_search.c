@@ -286,7 +286,7 @@ loop_setup:
                 position_arg->tile_x += *x_step;
             }
             position_arg->tile_y +=
-                *(u8 *)((u8 *)((s8 *)dir_step_y) + table_offset);
+                *((u8 *)((s8 *)dir_step_y) + table_offset);
 
             cycle_map_cell_flags(position_arg->tile_x, position_arg->tile_y,
                           (actor_arg->flags1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);

@@ -34,7 +34,7 @@ void update_state_limits(Input *source) {
         state->unk24 = 0x0F500000;
         state->unk30 = 0x10B00000;
     } else {
-        state_page = (State *)&player_blocking_rects;
+        state_page = &player_blocking_rects;
         state_page->unk24 = 0x13500000 - input_value;
         state_page->unk30 = input->unk4 + 0x0CB00000;
     }

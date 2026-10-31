@@ -31,7 +31,7 @@ void create_person_object(void) {
     if (object != NULL) {
         position = object->position;
         render_data = object->sprite;
-        *(s8 *)(state + 0x93) = 1;
+        *(state + 0x93) = 1;
         render_data->animation_resource = loaded_town_resource_attributes[0];
         initialize_object_entries(state, render_data, D_800D1200);
         register_node_if_unregistered(state, project_sprite_chain);

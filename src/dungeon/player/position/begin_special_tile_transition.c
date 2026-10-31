@@ -18,13 +18,13 @@ extern s16 get_entity_effect_value(void *, s32); /* Unprototyped: return_width *
 extern s16 reserve_runtime_slot(s16 slot_id, s16 slot_value);
 
 /* Initializes action state and animation, then handles the current tile type. */
-void begin_special_tile_transition(Rec_func_8008D024_arg0 *state, s32 unused, SpriteFrameState *entity, ActorRecord *actor) {
+void begin_special_tile_transition(ActorRecord *state, s32 unused, SpriteFrameState *entity, ActorRecord *actor) {
     s16 tile_type;
     s16 slot_index;
 
-    state->unk_9A = 0x25;
-    state->unk_9B.as_s8 = 0;
-    state->unk_8C = 0;
+    state->action_id.s = 0x25;
+    state->action_phase.s = 0;
+    state->unk_8C.word = 0;
     clear_player_linked_action_flags();
     if (get_entity_effect_value(actor, STATUS_FROG) == 0) {
         entity->frameTable = player_wait_frames;
@@ -35,7 +35,7 @@ void begin_special_tile_transition(Rec_func_8008D024_arg0 *state, s32 unused, Sp
         slot_index = reserve_runtime_slot(6, 0x20);
         transition_runtime_slot_index = slot_index;
         runtime_transition_slots[slot_index].unk_6 = 1;
-        state->unk_9B.as_s8 = 0x10;
+        state->action_phase.s = 0x10;
         return;
     }
     if (tile_type == 4) {

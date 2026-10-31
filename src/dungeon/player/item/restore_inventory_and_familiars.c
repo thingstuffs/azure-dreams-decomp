@@ -90,14 +90,6 @@ typedef struct S_80094988_12 {
     DungeonItemEntry * unk_D0;
 } S_80094988_12;   /* slot_rec in restore_inventory_and_familiars */
 
-typedef struct S_80094988_13 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    u8 pad_14[0x8];
-    s32 unk_1C;
-    u8 pad_20[0x5];
-    u8 unk_25;
-} S_80094988_13;   /* spawned in restore_inventory_and_familiars */
 
 typedef struct S_80094988_15 {
     u8 pad_00[0x3714];
@@ -121,7 +113,7 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
     s32 i;
     DungeonItemEntry *slot_ptr;
     S_80094988_12 *slot_rec;
-    S_80094988_13 *spawned;
+    ActorRecord *spawned;
     void *cursor;
     u8 *cursor_ptr;
     s16 entry_idx;
@@ -232,17 +224,17 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
                         slot_rec->unk_AC = spawned;
                         if (spawned != 0) {
                             func_80042640(spawned,
-                                          spawned->unk_13);
+                                          spawned->species);
                             apply_actor_template_and_class(spawned,
-                                          spawned->unk_13,
+                                          spawned->species,
                                           slot_ptr);
                             slot_rec->unk_D0 = slot_ptr;
                             ((S_80094988_9 *)slot_flags)->unk_00 =
                                 (u8)(((S_80094988_9 *)slot_flags)->unk_00 | 0x20);
-                            ((s32 *)&familiar_turn_counters_alias)[slot_index] = 0;
-                            if (spawned->unk_25 == 0) {
-                                spawned->unk_1C =
-                                    (s32)(spawned->unk_1C | ACTOR_MP_EMPTY);
+                            (&familiar_turn_counters_alias)[slot_index] = 0;
+                            if (spawned->mp_value.parts.whole == 0) {
+                                spawned->flags1C =
+                                    (s32)(spawned->flags1C | ACTOR_MP_EMPTY);
                             }
                             familiar_record_slots[((S_80094988_9 *)slot_flags)->unk_00 & 0x1F] =
                                 (s32)spawned;

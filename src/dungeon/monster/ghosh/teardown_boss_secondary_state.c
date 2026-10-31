@@ -16,7 +16,7 @@ void teardown_boss_secondary_state(void) {
     s32 i;
     void *object;
     u8 *ptr;
-    u16 *flags = ((u16 *)&system_update_flags);
+    u16 *flags = (&system_update_flags);
 
     ptr = (u8 *)(ghosh_boss_node + 1);
     /*

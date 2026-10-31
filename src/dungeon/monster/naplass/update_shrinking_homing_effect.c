@@ -27,29 +27,30 @@ typedef struct S_80F606C0_1 {
 } S_80F606C0_1;   /* arg1 in update_shrinking_homing_effect */
 
 /* Moves the effect toward its target, shrinks it, and marks completion after the countdown. */
-void update_shrinking_homing_effect(void *effect, S_80F606C0_1 *position, SpriteFrameState *transform) {
+void update_shrinking_homing_effect(void *effect_arg, S_80F606C0_1 *position, SpriteFrameState *transform) {
+    S_80F606C0_0 *effect = effect_arg;
     s16 phase;
     s32 x_delta;
     u16 scale;
     u16 frames_left;
 
-    x_delta = ((S_80F606C0_0 *)effect)->unk_0C - position->unk_00.at02.v;
+    x_delta = effect->unk_0C - position->unk_00.at02.v;
     position->unk_00.at00.v = (s32) (position->unk_00.at00.v + ((x_delta / 4) << 0x10));
-    position->unk_04.at00.v = (s32) (position->unk_04.at00.v + (((s32) (((S_80F606C0_0 *)effect)->unk_0E
+    position->unk_04.at00.v = (s32) (position->unk_04.at00.v + (((s32) (effect->unk_0E
         - position->unk_04.at02.v) / 4) << 0x10));
-    position->unk_08.at00.v = (s32) (position->unk_08.at00.v + (((s32) (((S_80F606C0_0 *)effect)->unk_10
+    position->unk_08.at00.v = (s32) (position->unk_08.at00.v + (((s32) (effect->unk_10
         - position->unk_08.at02.v) / 4) << 0x10));
     advance_sprite_animation_and_textures(transform);
-    phase = ((S_80F606C0_0 *)effect)->unk_4C;
+    phase = effect->unk_4C;
     switch (phase) {                              /* irregular */
     case 0:
         scale = transform->scale_y - 0x80;
         transform->scale_y = scale;
         transform->scale_x = scale;
-        frames_left = ((S_80F606C0_0 *)effect)->unk_48 - 1;
-        ((S_80F606C0_0 *)effect)->unk_48 = frames_left;
+        frames_left = effect->unk_48 - 1;
+        effect->unk_48 = frames_left;
         if ((frames_left << 0x10) <= 0) {
-            ((S_80F606C0_0 *)effect)->unk_4C = (s16) ((u16) ((S_80F606C0_0 *)effect)->unk_4C + 1);
+            effect->unk_4C = (s16) ((u16) effect->unk_4C + 1);
             return;
         }
         return;

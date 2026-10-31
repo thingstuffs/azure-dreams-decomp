@@ -11,17 +11,16 @@
  * Sets D_800259AC, subtracts twelve from the signed 16-bit counter at offset 0x32, and flags
  * removal at zero or below.
  */
-void decrement_effect_counter_by_twelve(void *object)
+void decrement_effect_counter_by_twelve(RandomOffsetEffectObjectBody *object)
 {
-    u8 *object_bytes = object;
     u16 counter;
 
-    counter = *(u16 *)(object_bytes + 50);
+    counter = object->unk_32.u;
     D_800259AC = 1;
     counter -= 12;
-    *(u16 *)(object_bytes + 50) = counter;
+    object->unk_32.u = counter;
     if ((counter << 16) <= 0) {
-        *(u16 *)(object_bytes - 2) |= NODE_REMOVE;
+        ((u16 *)object)[-1] |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -36,7 +35,7 @@ void create_random_offset_effect_object(
     s16 held_y_offset = y_offset;
     s16 held_z_offset = z_offset;
     ObjectNodeHeader *object;
-    Row_818F33BC_S_80024BBC_5 *state;
+    RandomOffsetEffectObjectBody *state;
 
     object = allocate_list_node(0x211, source);
     if (object != NULL) {
@@ -70,10 +69,10 @@ void create_random_offset_effect_object(
         z_pos += z_jitter;
         z_dest->z.w.i = (s16)z_pos + (s16)(held_z_offset - 0x10);
         state->unk_14 = field_14_value;
-        state->unk_32 = field_32_value;
+        state->unk_32.s = field_32_value;
         register_node(object, draw_linked_shaded_tiles);
         state->unk_50 = -0x2000;
-        state->unk_08 = payload;
+        state->unk_08.p = payload;
     }
 }
 

@@ -41,7 +41,7 @@ extern void animate_six_entry_selection_cursor(s32 a0, void *a1);
 /* Handles object state changes and directional index updates from global input flags. */
 void handle_object_input(void *object)
 {
-    S_80050308 *obj = (S_80050308 *)object;
+    S_80050308 *obj = object;
     s32 action_flags;
     s32 direction;
 

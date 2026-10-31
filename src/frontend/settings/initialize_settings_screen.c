@@ -178,7 +178,7 @@ void initialize_settings_screen(void) {
     label_x = 0x20;
     do {
         label_y = index * 0xC + 0x20;
-        top_text = ((s32 *)&D_8008B2B4)[index];
+        top_text = (&D_8008B2B4)[index];
         label_text = top_text;
         initialize_and_submit_record((u8 *)&D_8008B030, &label_flags);
         index += 1;
@@ -189,7 +189,7 @@ void initialize_settings_screen(void) {
         label_value = 0;
         label_index = item_index;
         label_x = item_index * 0x40 + 0xBE;
-        choice_text = ((s32 *)&D_8008B2BC)[item_index];
+        choice_text = (&D_8008B2BC)[item_index];
         label_text = choice_text;
         initialize_and_submit_record((u8 *)update_settings_effect_color, &label_flags);
         item_index += 1;
@@ -215,7 +215,7 @@ void initialize_settings_screen(void) {
     item_index = 0;
     do {
         label_y = item_index * 0xC + 0x78;
-        bottom_text = ((s32 *)&D_8008B2DC)[item_index];
+        bottom_text = (&D_8008B2DC)[item_index];
         label_text = bottom_text;
         initialize_and_submit_record((u8 *)&D_8008B030, &label_flags);
         item_index += 1;

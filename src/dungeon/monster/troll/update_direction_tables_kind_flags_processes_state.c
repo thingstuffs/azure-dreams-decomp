@@ -3,7 +3,7 @@
 #include "shared/sprite_frame_state.h"
 
 /* Updates direction tables by kind and flags, then processes the object state. */
-void update_direction_tables_kind_flags_processes_state(Obj0 *owner, void *context, Obj2 *display_arg, Obj3 *state_arg)
+void update_direction_tables_kind_flags_processes_state(Obj0 *owner, ObjectPosition *context, SpriteFrameState *display_arg, Obj3 *state_arg)
 {
     SpriteFrameState *display= display_arg;
     Obj3 *state = state_arg;

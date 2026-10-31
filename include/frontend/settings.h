@@ -3,6 +3,7 @@
 /* Prototypes of the functions defined in src/frontend/settings/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
+#include "shared/transition_slots.h"
 
 typedef struct SettingsEffectBlock {
     s32 w0;
@@ -58,6 +59,35 @@ typedef struct SettingsVisualEffectBody {
     /* 0x0E */ union { s16 s; u16 u; } angle;
 } SettingsVisualEffectBody;
 
+/* Settings screen body created by initialize_settings_screen and read by its callbacks. */
+typedef struct Menu {
+    /* 0x00 */ TransitionSlot fade;
+    /* 0x08 */ s16 state;
+    /* 0x0A */ s16 timer;
+    /* 0x0C */ s16 row;
+    /* 0x0E */ s16 red;
+    /* 0x10 */ s16 green;
+    /* 0x12 */ s16 blue;
+    /* 0x14 */ u16 shade;
+    /* 0x16 */ u16 flags;
+} SettingsScreenBody;
+
+typedef struct SettingsColorEffectOwnerBody {
+    u8 pad_00[0x16];
+    s16 flags;
+} SettingsColorEffectOwnerBody;
+
+/* Timed color effect body copied into a settings callback node. */
+typedef struct ColorEffect {
+    /* 0x00 */ s16 state;
+    /* 0x02 */ u16 timer;
+    /* 0x04 */ u8 pad_04[8];
+    /* 0x0C */ SettingsColorEffectOwnerBody *owner;
+    /* 0x10 */ u32 color;
+    /* 0x14 */ u8 pad_14[8];
+    /* 0x1C */ u16 flags;
+} ColorEffect;
+
 /* Display entry body shared by the settings table callbacks.  The allocator copies
  * a 40-byte payload; the callbacks use its source, packed value, result and index. */
 typedef struct MainTitleValueEntry {
@@ -73,10 +103,8 @@ typedef struct MainTitleValueEntry {
     /* 0x1C */ u8 pad_1C[0xC];
 } MainTitleValueEntry;
 
-struct ColorEffect;
 struct ColorRampEffect;
 struct MainTitleValueEntry;
-struct Menu;
 struct Motion;
 struct Obj;
 struct S_7FDD3A2C_1;
@@ -89,10 +117,10 @@ s32 build_settings_sprite_tiles(void *node_data, void *scroll_state);
 void create_settings_controller(void);
 
 /* create_type.c */
-void *create_type(struct S_7FDD3A2C_1 *position, s32 object_value, s32 render_value, s32 extra_value);
+void *create_type(struct S_7FDD3A2C_1 *position, s32 object_value, s32 render_value, SettingsScreenBody *extra_value);
 
 /* handle_settings_menu_input.c */
-void handle_settings_menu_input(struct Menu *menu);
+void handle_settings_menu_input(SettingsScreenBody *menu);
 
 /* initialize_and_submit_record.c */
 void initialize_and_submit_record(s32 value, void *data);
@@ -140,6 +168,6 @@ void update_settings_phase_motion(struct State *state, struct Motion *motion, vo
 
 /* Remove a callback object when its linked owner is marked. */
 void remove_record_with_marked_owner(void *body);
-void remove_effect_with_marked_owner(void *body);
+void remove_effect_with_marked_owner(ColorEffect *body);
 
 #endif

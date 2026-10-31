@@ -338,7 +338,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                             *((s32 *) (((s8 *) quad) + 4)) = (s32) (*((s32 *) (((s8 *) render_params) + 0xC)));
                             SetPolyFT4(quad);
                             *((u8 *) (((s8 *) quad) + 7)) = (u8) ((*((u8 *) (((s8 *) quad) + 7))) | 2);
-                            AddPrim(((u8 *) (scr->unk_020))
+                            AddPrim((scr->unk_020)
                                 + (((s32) (scr->unk_0C0)) * 4), quad);
                         }
                     }
@@ -441,7 +441,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                         sprite_fourth_visible = visibility_y < 0x121U;
                     }
                     if ((sprite_triple_visible | sprite_fourth_visible) != 0) {
-                        *((s8 *) (((s8 *) quad) + 3)) = 9;
+                        *((((s8 *) quad) + 3)) = 9;
                         texture_extent = ((s32) (scr->unk_010.s32)) - 1;
                         texture_right = texture_extent + ((s32) (scr->unk_008.s32));
                         scr->unk_010.s32 = texture_right;
@@ -480,7 +480,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                         if ((dungeon_floor_flags[0] & FLOOR_TRAPS_VISIBLE) && (((DebugEntry *)floor_objects)[entry_index].b3 & 0x80)) {
                             *((u8 *) (((s8 *) quad) + 7)) = 0x2EU;
                         }
-                        AddPrim(((u8 *) (scr->unk_020))
+                        AddPrim((scr->unk_020)
                             + (((s32) (scr->unk_0C0)) * 4), quad);
                         if (!((*((u8 *) (((s8 *) quad) + 7))) & 2)) {
                             SetTransMatrix(&saved_matrix);
@@ -549,7 +549,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                                 (u16) (((s32) (scr->unk_0FC)) + ((s32) (scr->screen.half.x)));
                             *((u16 *) (((s8 *) quad) + 0x22)) =
                                 (u16) (((s32) (scr->unk_0FE)) + ((s32) (scr->screen.half.y)));
-                            *((s8 *) (((s8 *) quad) + 3)) = 9;
+                            *((((s8 *) quad) + 3)) = 9;
                             *((s32 *) (((s8 *) quad) + 0xC)) =
                                 (((s32) (scr->unk_00C.s32)) + ((s32) (scr->unk_008.s32)))
                             + 0x7FC00000;
@@ -579,7 +579,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                             *((s32 *) (((s8 *) quad) + 4)) =
                                 (s32) (*((s32 *) (((s8 *) render_params) + 0xC)));
                             *((u8 *) (((s8 *) quad) + 7)) = 0x2CU;
-                            AddPrim(((u8 *) (scr->unk_020))
+                            AddPrim((scr->unk_020)
                                 + (((s32) (scr->unk_0C0)) * 4), quad);
                         }
                     }

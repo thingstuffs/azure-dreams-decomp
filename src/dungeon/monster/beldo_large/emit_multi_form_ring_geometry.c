@@ -205,7 +205,7 @@ void emit_multi_form_ring_geometry(void *animation, s32 *origin, void *color)
             memcpy(part + 0x28, &D_80173B4C, 12);
 
             vertex_index = 0;
-            src_vertices = (u8 *)animation;
+            src_vertices = animation;
             dst_vertices = part;
             texture = part + 0x28;
             effect->unk_08.s = texture;

@@ -49,7 +49,7 @@ s32 build_text_glyph_sprites(S_80053858_rec *first_text)
                 u8 glyph_rect[4];
                 S_80053858_prim *sprite;
                 func_8004E21C(glyph_rect, text->unk4[char_index]);
-                sprite = (S_80053858_prim *) ((GpuContext *)render_state->draw_buffer)->packetCursor;
+                sprite = ((GpuContext *)render_state->draw_buffer)->packetCursor;
                 ((GpuContext *)render_state->draw_buffer)->packetCursor = ((u8 *) sprite) + 0x14;
                 sprite->unk8 = cursor_x;
                 sprite->unkA = text->unk16;
@@ -73,7 +73,7 @@ s32 build_text_glyph_sprites(S_80053858_rec *first_text)
             while (text->unk4[char_index] != 0);
         }
         {
-            S_80053858_prim *draw_mode = (S_80053858_prim *) ((GpuContext *)render_state->draw_buffer)->packetCursor;
+            S_80053858_prim *draw_mode = ((GpuContext *)render_state->draw_buffer)->packetCursor;
             ((GpuContext *)render_state->draw_buffer)->packetCursor = ((u8 *) draw_mode) + 0xC;
             SetDrawMode(draw_mode, 0, 0, texture_page = GetTPage(0, text->unk18, 0x3C0, 0) & 0xFFFF, 0);
             ((GpuLinkTag *) draw_mode)->addr = ((GpuLinkTag *) (&((GpuContext *)render_state->draw_buffer)->orderTag070))->addr;

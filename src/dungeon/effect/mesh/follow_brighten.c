@@ -128,7 +128,8 @@ void advance_height_offset_and_placement(ovl_18d0850_818B0AE0_S_800242E0_0 *stat
 }
 
 /* Creates a black sprite at a random radial offset, saving its origin and a randomized vertical step. */
-s32 create_radial_height_offset_effect(s32 owner, void *origin, s16 motion, s16 frame) {
+s32 create_radial_height_offset_effect(s32 owner, void *origin_arg, s16 motion, s16 frame) {
+    ovl_18d0850_818B0C3C_S_8002443C_2 *origin = origin_arg;
     s32 *node_type;
     u16 position_z;
     s32 angle;
@@ -147,9 +148,9 @@ s32 create_radial_height_offset_effect(s32 owner, void *origin, s16 motion, s16 
         node->update_callback = node_type;
         ((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_04 = motion;
         ((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_06 = (s16) (-6 - (rand() % 5));
-        ((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_08 = (u16) ((ovl_18d0850_818B0C3C_S_8002443C_2 *)origin)->unk_02.s;
-        ((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_0A = (u16) ((ovl_18d0850_818B0C3C_S_8002443C_2 *)origin)->unk_06.s;
-        node_type = (s32 *)(((ovl_18d0850_818B0C3C_S_8002443C_2 *)origin)->unk_0A.s);
+        ((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_08 = (u16) origin->unk_02.s;
+        ((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_0A = (u16) origin->unk_06.s;
+        node_type = (s32 *)(origin->unk_0A.s);
         sprite_mode = 0x7E09;
         ((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_0C = (u16)node_type;
         sprite = node->sprite;
@@ -192,8 +193,8 @@ s32 draw_n_16_shaded_line_segments_link_them_ordering_table_depth(void *unused_0
   s32 depth;
   initial_ctx = *((GpuContext **) (globals_page + 0x3160));
   scratch = (ScratchPad *) 0x1F800000;
-  ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_70 = (u16) initial_z;
-  ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_68 = (u16) initial_z;
+  scratch->h[56] = (u16) initial_z;
+  scratch->h[52] = (u16) initial_z;
   ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->ot = (u32 *) (((u8 *) initial_ctx) + 0xB0);
   do
   {
@@ -211,7 +212,7 @@ s32 draw_n_16_shaded_line_segments_link_them_ordering_table_depth(void *unused_0
     globals_page = (u8 *)(intensity << 16);
     div255_multiplier = (s32) 0x80808081U;
     wide_product.both = (s64) (s32)globals_page * div255_multiplier;
-    ctx = ((GpuContext *)render_state->draw_buffer);
+    ctx = render_state->draw_buffer;
     line_prim = ctx->packetCursor;
     ctx->packetCursor = line_prim + 0x14;
     line_prim[3] = 4;
@@ -223,7 +224,7 @@ s32 draw_n_16_shaded_line_segments_link_them_ordering_table_depth(void *unused_0
     {
       s32 shade_scale = (s32)globals_page;
       s32 saved_shade_scale = shade_scale;
-      globals_page = (u8 *)((s32)globals_page * (*((u8 *) (((u8 *) (&D_8002588C)) + (color_index % 16)))));
+      globals_page = (u8 *)((s32)globals_page * (*((((u8 *) (&D_8002588C)) + (color_index % 16)))));
       phase_offset = (s32)globals_page >> 18;
       globals_page = (u8 *)saved_shade_scale;
       initial_z = color_index + 1;
@@ -235,32 +236,32 @@ s32 draw_n_16_shaded_line_segments_link_them_ordering_table_depth(void *unused_0
       {
         biased_index_2 = color_index + 16;
       }
-      globals_page = (u8 *)((s32)globals_page * (*((u8 *) (((u8 *) (&D_8002588C)) + (initial_z - ((biased_index_2 >> 4) << 4))))));
+      globals_page = (u8 *)((s32)globals_page * (*((((u8 *) (&D_8002588C)) + (initial_z - ((biased_index_2 >> 4) << 4))))));
       line_prim[0xD] = intensity;
       phase_offset = (s32)globals_page >> 18;
       line_prim[0xC] = (s8) phase_offset;
       line_prim[0xE] = (s8) phase_offset;
     }
     {
-      u8 *origin_bytes = (u8 *) origin;
+      u8 *origin_bytes = origin;
       s32 point_component;
       s32 coord_offset;
       point_component = point_base[segment];
       coord_offset = point_component * (s16) point_scale;
       coord_offset >>= 8;
-      ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_64 = (*((u16 *) (origin_bytes + 2))) + coord_offset;
+      scratch->h[50] = (*((u16 *) (origin_bytes + 2))) + coord_offset;
       point_component = point_base[segment + 1];
       coord_offset = point_component * (s16) point_scale;
       coord_offset >>= 8;
-      ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_6C = (*((u16 *) (origin_bytes + 2))) + coord_offset;
+      scratch->h[54] = (*((u16 *) (origin_bytes + 2))) + coord_offset;
       point_component = point_base[segment + 0x11];
       coord_offset = point_component * (s16) point_scale;
       coord_offset >>= 8;
-      ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_66 = (*((u16 *) (origin_bytes + 6))) + coord_offset;
+      scratch->h[51] = (*((u16 *) (origin_bytes + 6))) + coord_offset;
       point_component = point_base[segment + 0x12];
       coord_offset = point_component * (s16) point_scale;
       coord_offset >>= 8;
-      ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_6E = (*((u16 *) (origin_bytes + 6))) + coord_offset;
+      scratch->h[55] = (*((u16 *) (origin_bytes + 6))) + coord_offset;
     }
     {
       u8 *start_vertex = &scratch->b[0x64];
@@ -269,20 +270,20 @@ s32 draw_n_16_shaded_line_segments_link_them_ordering_table_depth(void *unused_0
       s32 *end_screen = &scratch->sw[55];
       s32 *projection_aux = &scratch->sw[33];
       s32 *projection_flags = &scratch->sw[34];
-      ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_F4 = RotTransPers(start_vertex, start_screen, projection_aux, projection_flags);
-      ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_F8 = RotTransPers(end_vertex, end_screen, projection_aux, projection_flags);
+      scratch->sw[61] = RotTransPers(start_vertex, start_screen, projection_aux, projection_flags);
+      scratch->sw[62] = RotTransPers(end_vertex, end_screen, projection_aux, projection_flags);
     }
-    *((u16 *) (line_prim + 8)) = ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_D8;
-    *((u16 *) (line_prim + 0xA)) = ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_DA;
-    *((u16 *) (line_prim + 0x10)) = ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_DC;
-    *((u16 *) (line_prim + 0x12)) = ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_DE;
+    *((u16 *) (line_prim + 8)) = scratch->h[108];
+    *((u16 *) (line_prim + 0xA)) = scratch->h[109];
+    *((u16 *) (line_prim + 0x10)) = scratch->h[110];
+    *((u16 *) (line_prim + 0x12)) = scratch->h[111];
     {
       s32 depth_sum;
-      depth_sum = ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_F4;
-      depth_sum += ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_F8;
+      depth_sum = scratch->sw[61];
+      depth_sum += scratch->sw[62];
       depth = depth_sum / 2;
     }
-    ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_B4 = depth;
+    scratch->sw[45] = depth;
     if (((u32) depth) < 0x1E0U)
     {
       u8 *draw_mode_prim;

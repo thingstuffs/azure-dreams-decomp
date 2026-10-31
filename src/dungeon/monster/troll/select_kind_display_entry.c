@@ -42,7 +42,7 @@ extern s32 update_actor_transform_from_parent(Obj0 *, void *, void *, void *);
 
 
 /* Updates the kind-specific display table and selects its direction entry. */
-void select_kind_display_entry(Obj0 *owner, void *context, Obj2 *display_arg, Obj3 *state_arg)
+void select_kind_display_entry(Obj0 *owner, ObjectPosition *context, SpriteFrameState *display_arg, Obj3 *state_arg)
 {
     SpriteFrameState *display= display_arg;
     Obj3 *state = state_arg;

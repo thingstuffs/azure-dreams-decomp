@@ -30,7 +30,7 @@ void apply_randomized_effect_near_center(s16 center_x, s16 center_y, s32 source,
     base_value = (s16)(((u32)(power & 0xFF) >> 2) + 0x10);
     do {
         if ((check_entity_interaction_compatibility(source, target) << 0x10) != 0) {
-            position = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
+            position = ((ObjectNodeHeader *)(target - 0x20))->sprite;
             distance_x = position->tile_x - center_x;
             if (distance_x < 0) {
                 distance_x = 0 - distance_x;
@@ -52,7 +52,7 @@ void apply_randomized_effect_near_center(s16 center_x, s16 center_y, s32 source,
                 }
             }
         }
-        target = ((S_8185C860_0 *)((u8 *)target - 0x14))->unk_70 + 0x20;
+        target = ((S_8185C860_0 *)(target - 0x14))->unk_70 + 0x20;
     } while (target != ((u8 *)dungeon_actor_ring_anchor));
 }
 

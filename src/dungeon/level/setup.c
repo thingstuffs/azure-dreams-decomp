@@ -141,7 +141,7 @@ void reset_dungeon_runtime_state(void) {
         }
     }
     init_flag_page = (u8 *)0x800E0000;
-    if (((dungeon_setup_8028325C_S_8001625C_3 *)((u8 *)init_flag_page - 0x30B2))->unk_00 == 0) {
+    if (((dungeon_setup_8028325C_S_8001625C_3 *)(init_flag_page - 0x30B2))->unk_00 == 0) {
         file_load_com(&D_80080AE0);
         file_load_com(&D_80080AE8);
         file_load_com(&D_80080E18);
@@ -149,7 +149,7 @@ void reset_dungeon_runtime_state(void) {
         file_load_com(&D_80080EE8);
         file_load_com(&D_80080E30);
         loaded_sprite_bundle_attributes = load_dungeon_sprite_bundle();
-        ((dungeon_setup_8028325C_S_8001625C_3 *)((u8 *)init_flag_page - 0x30B2))->unk_00 = 1;
+        ((dungeon_setup_8028325C_S_8001625C_3 *)(init_flag_page - 0x30B2))->unk_00 = 1;
     }
 }
 
@@ -351,7 +351,7 @@ retry_position:
     actor_y = pos_y;
     actor->z.w.i = height;
     ((dungeon_setup_802835B8_S_800165B8_5 *)entity)->unk_88 = height;
-    (*(s16 *)((u8 *)entity + 0x8A)) = height;
+    (*(s16 *)(entity + 0x8A)) = height;
     delta_page = (u8 *)(((dungeon_setup_802835B8_S_800165B8_1 *)obj)->unk_A2);
     ((dungeon_setup_802835B8_S_800165B8_3 *)state)->unk_0C = 0x2C808080;
     ((dungeon_setup_802835B8_S_800165B8_1 *)obj)->unk_A2 = (s32)delta_page | 0x10;
@@ -377,10 +377,10 @@ retry_position:
     actor_direction_sprites = unequipped_actor_sprite_sources;
 
     if ((get_entity_effect_value(entity, STATUS_FROG) << 16) != 0) {
-        (*(void **)((u8 *)state + 0x2C)) = actor_default_frames;
+        (*(void **)(state + 0x2C)) = actor_default_frames;
         select_record_entry_and_value(state,
             *(void **)((u8 *)actor_default_frames +
-                (((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100) >> 7) & 0x1C)),
+                (((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)(entity + 0x2A)) + 0x100) >> 7) & 0x1C)),
             0);
     } else {
         texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(state, 0xB0, 0, 1);
@@ -388,8 +388,8 @@ retry_position:
     }
     bind_count = 1;
     bind_angle = obj + 0x2A;
-    (*(s16 *)((u8 *)obj + 0x94)) = -1;
-    (*(s16 *)((u8 *)obj + 0x118)) = 0;
+    (*(s16 *)(obj + 0x94)) = -1;
+    (*(s16 *)(obj + 0x118)) = 0;
     ((dungeon_setup_802835B8_S_800165B8_5 *)entity)->unk_2A = 0x400 - (((u16)g_game_work.view.camera_rotation.parts.viewAngle + 0x100) & 0xE00);
     create_tracked_effect((u8 *)&scene_object_list_anchor, bind_count, state + 0x2C, bind_angle);
     {
@@ -434,7 +434,7 @@ retry_position:
         display_index = *(u16 *)((u8 *)entry_index + 0x20A2);
         tile_y = ((dungeon_setup_802835B8_S_800165B8_3 *)state)->unk_25;
         display_setting = *(u16 *)((u8 *)display_table + (s16)display_index * 2);
-        bind_state = (DungeonGlobalStatus *)&g_dungeon_status;
+        bind_state = &g_dungeon_status;
         table_base->view.camera_rotation.parts.camera_rotation_x = display_setting;
         height_index = *(u16 *)((u8 *)entry_index + 0x20A0);
         *(u16 *)dungeon_camera_targets = display_setting;
@@ -497,7 +497,7 @@ void apply_tile_flags_to_rectangle(s16 start_x, s16 start_y, s16 width, s16 heig
     flag_table = map->unk_10;
     if (flag_table != 0) {
         row = 0;
-        tiles_base = (u8 *)state->map.cells;
+        tiles_base = state->map.cells;
         tile_flags = flag_table;
         if ((height << 0x10) > 0) {
             do {
@@ -596,11 +596,11 @@ void initialize_dungeon_record_kinds(void)
         next_type1_count = type1_count + 1;
         type1_count = next_type1_count;
         *record = record_kind;
-        *((s8 *) (((u8 *) type1_payload) + (-1))) = record_index;
+        *((s8 *) (type1_payload + (-1))) = record_index;
         record_index += 1;
-        *((s8 *) (((u8 *) type1_payload) + (-3))) = 0;
-        *((s8 *) (((u8 *) type1_payload) + (-2))) = 0;
-        *((s32 *) (((u8 *) type1_payload) + 0)) = 0;
+        *((s8 *) (type1_payload + (-3))) = 0;
+        *((s8 *) (type1_payload + (-2))) = 0;
+        *((s32 *) (type1_payload + 0)) = 0;
         record += 8;
     }
     while (next_type1_count < 4);
@@ -611,19 +611,19 @@ void initialize_dungeon_record_kinds(void)
         next_type3_count = type3_count + 1;
         type3_count = next_type3_count;
         *record = record_kind;
-        *((s8 *) (((u8 *) type3_payload) + (-1))) = record_index;
+        *((s8 *) (type3_payload + (-1))) = record_index;
         record_index += 1;
-        *((s8 *) (((u8 *) type3_payload) + (-3))) = 0;
-        *((s8 *) (((u8 *) type3_payload) + (-2))) = 0;
-        *((s32 *) (((u8 *) type3_payload) + 0)) = 0;
+        *((s8 *) (type3_payload + (-3))) = 0;
+        *((s8 *) (type3_payload + (-2))) = 0;
+        *((s32 *) (type3_payload + 0)) = 0;
         record += 8;
     }
     while (next_type3_count < 2);
-    *((s8 *) (((u8 *) record) + 0)) = 2;
-    *((s8 *) (((u8 *) record) + 1)) = 0;
-    *((s8 *) (((u8 *) record) + 2)) = 0;
+    *((s8 *) (record + 0)) = 2;
+    *((s8 *) (record + 1)) = 0;
+    *((s8 *) (record + 2)) = 0;
     type2_payload = record + 4;
-    *((s8 *) (((u8 *) record) + 3)) = record_index;
+    *((s8 *) (record + 3)) = record_index;
     *((s32 *) type2_payload) = 0;
 }
 
@@ -830,7 +830,7 @@ void initialize_random_effect_position(ObjectPosition *source, s16 base_offset) 
             rotation_step = 0x800;
         }
         state->camera_rotation.parts.viewAngle = rotation_step;
-        ((dungeon_setup_802842A0_S_800172A0_3 *)effect)->unk_00 = (void *) (effect + 4);
+        ((dungeon_setup_802842A0_S_800172A0_3 *)effect)->unk_00 = (effect + 4);
         ((dungeon_setup_802842A0_S_800172A0_3 *)effect)->unk_14 = 1;
         ((dungeon_setup_802842A0_S_800172A0_3 *)effect)->unk_24 = 0x40;
         ((dungeon_setup_802842A0_S_800172A0_3 *)effect)->unk_0C = source;

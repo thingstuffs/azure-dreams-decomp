@@ -35,16 +35,17 @@ typedef struct S_80026CF0_0 {
 } S_80026CF0_0;   /* arg0 in set_entry_destination_and_value */
 
 /* Position and initialize the left and right items. */
-void set_entry_destination_and_value(void *state) {
+void set_entry_destination_and_value(void *state_arg) {
+    S_80026CF0_0 *state = state_arg;
     S_80026CF0_1 *left_item;
     S_80026CF0_2 *right_item;
 
-    left_item = ((S_80026CF0_0 *)state)->unk_68;
+    left_item = state->unk_68;
     ((S_80026CF0_3 *)(left_item->unk_04))->unk_08 = 0x40;
     ((S_80026CF0_3 *)(left_item->unk_04))->unk_0A = 0x20;
-    initialize_scaled_entry_cursor(state + 4, &card_choice_cursor_data, left_item);
-    right_item = ((S_80026CF0_0 *)state)->unk_6C;
+    initialize_scaled_entry_cursor(state_arg + 4, &card_choice_cursor_data, left_item);
+    right_item = state->unk_6C;
     ((S_80026CF0_4 *)(right_item->unk_04))->unk_08 = 0xC0;
     ((S_80026CF0_4 *)(right_item->unk_04))->unk_0A = 0x20;
-    initialize_scaled_entry_cursor(state + 0x10, &card_choice_cursor_data, right_item);
+    initialize_scaled_entry_cursor(state_arg + 0x10, &card_choice_cursor_data, right_item);
 }

@@ -27,37 +27,38 @@ typedef struct S_8182718C_1 {
 } S_8182718C_1;
 
 /* Advance a timed two-state action and propagate target status flags. */
-void advance_two_state_action(void *state_data, void *unused, SpriteFrameState *target) {
+void advance_two_state_action(void *state_data_arg, void *unused, SpriteFrameState *target) {
+    S_8182718C_0 *state_data = state_data_arg;
     s16 state;
     u16 timer;
     u16 ticks_left;
     S_8182718C_1 *linked_data;
 
-    linked_data = ((S_8182718C_0 *)state_data)->unk_00;
+    linked_data = state_data->unk_00;
     linked_data->unk_52 = (s16) (linked_data->unk_52 | 0x8000);
-    state = ((S_8182718C_0 *)state_data)->unk_4C.s;
+    state = state_data->unk_4C.s;
     switch (state) {
     case 0: {
         u16 old_state;
         u16 interval;
 
-        ticks_left = ((S_8182718C_0 *)state_data)->unk_48 - 1;
-        ((S_8182718C_0 *)state_data)->unk_48 = ticks_left;
+        ticks_left = state_data->unk_48 - 1;
+        state_data->unk_48 = ticks_left;
         if ((ticks_left << 0x10) <= 0) {
-            register_node(state_data - 0x20, project_sprite_chain);
-            old_state = ((S_8182718C_0 *)state_data)->unk_4C.u;
-            interval = ((S_8182718C_0 *)state_data)->unk_4E;
-            ((S_8182718C_0 *)state_data)->unk_48 = interval;
-            ((S_8182718C_0 *)state_data)->unk_4C.u = (u16) (old_state + 1);
+            register_node(state_data_arg - 0x20, project_sprite_chain);
+            old_state = state_data->unk_4C.u;
+            interval = state_data->unk_4E;
+            state_data->unk_48 = interval;
+            state_data->unk_4C.u = (u16) (old_state + 1);
         }
         break;
     }
     case 1: {
-        timer = ((S_8182718C_0 *)state_data)->unk_48;
-        ((S_8182718C_0 *)state_data)->unk_48 = (u16) (timer - 1);
+        timer = state_data->unk_48;
+        state_data->unk_48 = (u16) (timer - 1);
         if ((timer << 0x10) <= 0) {
             advance_sprite_animation_and_textures(target);
-            ((S_8182718C_0 *)state_data)->unk_48 = (u16) ((S_8182718C_0 *)state_data)->unk_4E;
+            state_data->unk_48 = (u16) state_data->unk_4E;
         }
         if (target->flags & 0x6000) {
             ((S_8182718C_0_pre *)state_data)[-1].unk_00 = (u16) (((S_8182718C_0_pre *)state_data)[-1].unk_00 | 0x8000);

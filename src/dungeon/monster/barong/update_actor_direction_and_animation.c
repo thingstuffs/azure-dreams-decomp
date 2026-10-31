@@ -26,7 +26,7 @@ extern s32 func_801726B0(ActorRecord *action_state, ObjectPosition *motion_param
 void func_80172874(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
 extern s32 func_8017298C(void *, void *, void *, s32);
 extern void func_8017430C(void *, void *, void *, void *);
-extern void start_direction_based_action(void *action_state, void *unused, SpriteFrameState *animation, void *object);
+extern void start_direction_based_action(ActorRecord *action_state, ObjectPosition *unused, SpriteFrameState *animation, ActorRecord *object);
 
 extern u8 barong_action_resume_address[];
 #include "dungeon/monster/barong.h"
@@ -42,27 +42,27 @@ extern u8 barong_frame_set_5[];
 extern u8 barong_frame_set_2[];
 
 /* Updates a dungeon actor's behavior, facing, and directional animation. */
-void update_actor_direction_and_animation(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *sprite, ActorRecord *entity_arg) {
+void update_actor_direction_and_animation(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
     u8 *anim_table;
     s32 room_id;
     u16 distance;
     u32 initial_flags = g_dungeon_status.flags;
 
     if (initial_flags & 0x1000) {
-        actor_arg->action_id.u = 0xE;
-        func_80171CA8(actor_arg, context_arg, sprite, entity_arg);
+        body->action_id.u = 0xE;
+        func_80171CA8(body, position, sprite, actor);
         return;
     }
 
-    if (entity_arg->mp_value.parts.whole == 0) {
-        advance_actor_pending_action(actor_arg, context_arg, sprite, entity_arg);
+    if (actor->mp_value.parts.whole == 0) {
+        advance_actor_pending_action(body, position, sprite, actor);
         {
         void *current_anim = sprite->frameTable;
         sprite->frameTable = current_anim;
         if (current_anim != barong_frame_set_2) {
             (sprite->frameTable) = barong_frame_set_5;
             {
-                s32 direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + entity_arg->facing + 0x100) >> 9) & 7;
+                s32 direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
                 select_sprite_entry(sprite, barong_frame_set_5[direction_index], 0);
             }
         }
@@ -70,85 +70,85 @@ void update_actor_direction_and_animation(ActorRecord *actor_arg, ObjectPosition
         return;
     }
 
-    if (((u32)entity_arg->flags1C) & ACTOR_ASLEEP) {
+    if (((u32)actor->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == barong_frame_set_2) {
-            actor_arg->action_id.u = 0xD;
-            actor_arg->action_phase.u = 1;
-            ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_8C = 0;
-            entity_arg->flags1C &= ~0x40000;
+            body->action_id.u = 0xD;
+            body->action_phase.u = 1;
+            ((Rec_func_800A9E70_arg0 *)body)->unk_8C = 0;
+            actor->flags1C &= ~0x40000;
             return;
         }
-        if (reset_actor_action_state(actor_arg, context_arg, sprite, barong_frame_set_5)) {
+        if (reset_actor_action_state(body, position, sprite, barong_frame_set_5)) {
             return;
         }
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (((u32)entity_arg->flags1C) & ACTOR_PUSH_PENDING) {
-            begin_pushed_actor_move(actor_arg, context_arg, sprite, entity_arg);
+        if (((u32)actor->flags1C) & ACTOR_PUSH_PENDING) {
+            begin_pushed_actor_move(body, position, sprite, actor);
             return;
         }
 
-        if (actor_arg->action_id.u != 0xE) {
+        if (body->action_id.u != 0xE) {
             u8 idle_state = 0xE;
 
             anim_table = barong_direction_frames;
             if (sprite->frameTable != anim_table) {
                 (sprite->frameTable) = anim_table;
                 select_sprite_entry(sprite,
-                    anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + entity_arg->facing + 0x100) >> 9) & 7],
+                    anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                     0);
             }
-            actor_arg->unk_9E.s = 0;
-            actor_arg->unk_A0.parts.low = (rand() & 0x1F) + 0xF;
-            actor_arg->action_id.u = idle_state;
+            body->unk_9E.s = 0;
+            body->unk_A0.parts.low = (rand() & 0x1F) + 0xF;
+            body->action_id.u = idle_state;
         }
 
-        actor_arg->action_state_flags &= 0xFFF3;
-        if (entity_arg->hp_delta != 0) {
-            if (begin_ready_actor_directional_action(actor_arg, context_arg, sprite, barong_frame_set_4)) {
+        body->action_state_flags &= 0xFFF3;
+        if (actor->hp_delta != 0) {
+            if (begin_ready_actor_directional_action(body, position, sprite, barong_frame_set_4)) {
                 return;
             }
         }
 
-        if (((u32)entity_arg->flags1C) & ACTOR_LIFTED) {
+        if (((u32)actor->flags1C) & ACTOR_LIFTED) {
             u8 *event_table;
             u8 *anim_entry;
             void *anim_sprite;
             s32 direction_index;
 
-            begin_actor_move_to_target_facing(actor_arg, context_arg, sprite, entity_arg);
-            func_8017430C(actor_arg, context_arg, sprite, entity_arg);
+            begin_actor_move_to_target_facing(body, position, sprite, actor);
+            func_8017430C(body, position, sprite, actor);
             event_table = barong_frame_set_1;
             (sprite->frameTable) = event_table;
-            direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + entity_arg->facing + 0x100) >> 9) & 7;
+            direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
             anim_sprite = sprite;
             anim_entry = event_table + direction_index;
             select_sprite_entry(anim_sprite, anim_entry[0], 0);
-            actor_arg->unk_90.value = 0;
+            body->unk_90.value = 0;
             return;
         }
 
-        if ((can_entity_gain_level(entity_arg) << 16) != 0) {
-            process_selected_actor_record(actor_arg, context_arg, sprite, entity_arg);
+        if ((can_entity_gain_level(actor) << 16) != 0) {
+            process_selected_actor_record(body, position, sprite, actor);
         }
     }
 
     room_id = find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
     sprite->room_index = room_id;
 
-    if (entity_arg->pending_turn_updates > 0) {
+    if (actor->pending_turn_updates > 0) {
         u16 action_flags;
 
-        if (((u32)entity_arg->flags1C) & ACTOR_PARALYZED) {
-            update_actor_status_and_mp(entity_arg);
+        if (((u32)actor->flags1C) & ACTOR_PARALYZED) {
+            update_actor_status_and_mp(actor);
             return;
         }
         if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
-            func_80171EEC(actor_arg, context_arg, sprite, entity_arg);
+            func_80171EEC(body, position, sprite, actor);
             return;
         }
-        if (!(entity_arg->action_flags & ACTOR_ACTION_PENDING)) {
+        if (!(actor->action_flags & ACTOR_ACTION_PENDING)) {
             if (g_dungeon_status.flags & 0x2000) {
                 {
                     ObjectNodeHeader *previous_node;
@@ -158,34 +158,34 @@ void update_actor_direction_and_animation(ActorRecord *actor_arg, ObjectPosition
                     previous_node = primary_actor_record->previous_actor_header;
                     previous_body = previous_node + 1;
                     previous_actor = previous_body;
-                    if ((check_entity_relation(entity_arg,
+                    if ((check_entity_relation(actor,
                             previous_actor) << 16) != 0) {
                         return;
                     }
                 }
             }
-            if ((func_8017298C(actor_arg, context_arg, sprite, 0) << 16) == 0) {
+            if ((func_8017298C(body, position, sprite, 0) << 16) == 0) {
                 return;
             }
-            action_flags = entity_arg->action_flags | 0x4000;
-            entity_arg->action_flags = action_flags;
+            action_flags = actor->action_flags | 0x4000;
+            actor->action_flags = action_flags;
             if (!(action_flags & 0x8000)) {
-                func_80171EEC(actor_arg, context_arg, sprite, entity_arg);
+                func_80171EEC(body, position, sprite, actor);
                 return;
             }
         }
 
-        action_flags = entity_arg->action_flags & ACTOR_ACTION_CODE_MASK;
+        action_flags = actor->action_flags & ACTOR_ACTION_CODE_MASK;
         switch (action_flags) {
         case 8:
-            if ((func_801726B0(actor_arg, context_arg, sprite, entity_arg) << 16) != 0) {
+            if ((func_801726B0(body, position, sprite, actor) << 16) != 0) {
                 return;
             }
-            func_80172874(actor_arg, context_arg, sprite, entity_arg);
+            func_80172874(body, position, sprite, actor);
             return;
 
         case 9:
-            start_direction_based_action(actor_arg, context_arg, sprite, entity_arg);
+            start_direction_based_action(body, position, sprite, actor);
             return;
 
         case 5:
@@ -200,38 +200,38 @@ void update_actor_direction_and_animation(ActorRecord *actor_arg, ObjectPosition
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                 &distance);
             player = primary_actor_record;
-            entity_arg->facing = heading;
+            actor->facing = heading;
             if (player->action_id.u == 0x11) {
-                begin_actor_spell_action(actor_arg, context_arg, sprite, barong_frame_set, barong_action_resume_address);
+                begin_actor_spell_action(body, position, sprite, barong_frame_set, barong_action_resume_address);
                 return;
             }
         }
 
         case 12:
-            update_actor_status_and_mp(entity_arg);
+            update_actor_status_and_mp(actor);
             return;
 
         case 1:
         case 2:
         case 3:
-            begin_actor_spell_action(actor_arg, context_arg, sprite, barong_frame_set, barong_action_resume_address);
+            begin_actor_spell_action(body, position, sprite, barong_frame_set, barong_action_resume_address);
             return;
 
         default:
-            func_80171EEC(actor_arg, context_arg, sprite, entity_arg);
+            func_80171EEC(body, position, sprite, actor);
             return;
         }
-    } else if (!(((u32)entity_arg->flags1C) & ACTOR_PLAYER_SIDE)) {
+    } else if (!(((u32)actor->flags1C) & ACTOR_PLAYER_SIDE)) {
         s32 room_index = (s8)room_id;
 
         if ((room_index < 0) ||
             !(dungeon_rooms[room_index].flags & 2)) {
-            if (!(((u32)entity_arg->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
+            if (!(((u32)actor->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
                 if ((test_neighbor_position_relation(
                         sprite->tile_x, sprite->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
-                    entity_arg->facing = get_rounded_facing_and_rounding_flag(
+                    actor->facing = get_rounded_facing_and_rounding_flag(
                         sprite->tile_x, sprite->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &distance);
@@ -252,7 +252,7 @@ void update_actor_direction_and_animation(ActorRecord *actor_arg, ObjectPosition
     }
     (sprite->frameTable) = anim_table;
     {
-        s32 direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + entity_arg->facing + 0x100) >> 9) & 7;
+        s32 direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
         select_sprite_entry(sprite, anim_table[direction_index], 0);
     }
 }

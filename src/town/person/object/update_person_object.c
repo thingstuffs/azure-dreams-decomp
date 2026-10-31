@@ -17,13 +17,14 @@ struct func_8009F880_S_8009CFE0_0; s32 classify_object_against_bounds(struct fun
    /* the 0x2 bytes before arg0 in update_person_object, addressed as arg0[-1] */
 
 /* Updates an object and its display state, or removes it when requested. */
-void update_person_object(void *object, s32 update_ctx, SpriteFrameState *display) {
+void update_person_object(void *object_arg, s32 update_ctx, SpriteFrameState *display) {
+    Rec_D_80082D58 *object = object_arg;
     s32 frame_index;
     s8 *active_flag;
 
-    if (classify_object_against_bounds(object, (void *)(update_ctx)) != 0) {
-        unlink_scene_list_node(object);
-        active_flag = ((Rec_D_80082D58 *)object)->unk_98.as_ps8;
+    if (classify_object_against_bounds(object_arg, (void *)(update_ctx)) != 0) {
+        unlink_scene_list_node(object_arg);
+        active_flag = object->unk_98.as_ps8;
         if (active_flag != 0) {
             *active_flag = 0;
         }
@@ -33,17 +34,17 @@ void update_person_object(void *object, s32 update_ctx, SpriteFrameState *displa
         return;
     }
     update_state_when_active(update_ctx);
-    ((Rec_D_80082D58 *)object)->unk_50.as_xcdccad(object, object, update_ctx, display);
+    object->unk_50.as_xcdccad(object, object, update_ctx, display);
     if (!(((ObjectRetirementFlags *)object)[-1].flags & 0x8000)) {
-        frame_index = quantize_heading_to_sector(((Rec_D_80082D58 *)object)->unk_72, ((Rec_D_80082D58 *)object)->unk_64);
-        if (((Rec_D_80082D58 *)object)->unk_74 != frame_index) {
-            select_record_entry_and_value(display, ((Rec_D_80082D58 *)object)->unk_78[frame_index], display->unk_04);
-            ((Rec_D_80082D58 *)object)->unk_74 = frame_index;
+        frame_index = quantize_heading_to_sector(object->unk_72, object->unk_64);
+        if (object->unk_74 != frame_index) {
+            select_record_entry_and_value(display, object->unk_78[frame_index], display->unk_04);
+            object->unk_74 = frame_index;
         }
         {
             s32 display_flags;
 
-            if ((check_heading_past_half_sector(((Rec_D_80082D58 *)object)->unk_72, ((Rec_D_80082D58 *)object)->unk_64) << 0x10) != 0) {
+            if ((check_heading_past_half_sector(object->unk_72, object->unk_64) << 0x10) != 0) {
                 display_flags = display->flags | 1;
             } else {
                 display_flags = display->flags & 0xFFFE;

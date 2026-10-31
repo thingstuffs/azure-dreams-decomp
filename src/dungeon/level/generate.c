@@ -257,7 +257,7 @@ retry:
             u8 *position;
 
             slot_index = 0;
-            position = ((u8 *)dungeon_ground_item_positions);
+            position = dungeon_ground_item_positions;
             meta = meta_base;
 
             do {
@@ -277,8 +277,8 @@ retry:
             u8 *position;
 
             slot_index = 0;
-            position = ((u8 *)dungeon_floor_object_positions);
-            meta = (u8 *)((u8 *)floor_objects);
+            position = dungeon_floor_object_positions;
+            meta = ((u8 *)floor_objects);
 
             do {
                 position_page = (meta + slot_index * 4)[1];
@@ -503,7 +503,7 @@ s16 find_highest_eligible_sample(s16 rect_index, s16 *out_x, s16 *out_y, s16 che
     rows_left = dungeon_rooms[rect_index].h;
     tile_y = dungeon_rooms[rect_index].y;
     state = &g_game_work.map;
-    cells = ((floor_generate_isolated_80284F88_DungeonCell *)state->cells);
+    cells = state->cells;
     if (rows_left > 0) {
         do {
             cols_left = dungeon_rooms[rect_index].w;
@@ -659,7 +659,7 @@ void load_dungeon_layout(s16 layout_number)
     (*(u8 **)gpu_scratch_write_pointer) = data_2;
     layout_id = floor_layout_resource_descriptors[layout_index];
     cfg = &g_game_work.map;
-    map = ((floor_generate_isolated_80285464_MapCell *)cfg->cells);
+    map = cfg->cells;
     Control_CD(6, layout_id, 0);
     drain_cd_command_queue();
     entry_index = 0;
@@ -986,10 +986,10 @@ s32 setup_dungeon_floor_encounters(void)
             } else if (((s16 *)current_dungeon_floor)[0] == 0x1F && test_resident_bit(0x1389) == 0) {
                 dungeon_floor_object_positions[6] = 1;
                 dungeon_floor_object_positions[7] = 1;
-                ((u8 *)floor_objects)[0] = MONSTER_BELDO;
-                ((u8 *)floor_objects)[1] = 0x13;
-                ((u8 *)floor_objects)[3] = 0;
-                ((u8 *)floor_objects)[2] = 0x63;
+                floor_objects[0] = MONSTER_BELDO;
+                floor_objects[1] = 0x13;
+                floor_objects[3] = 0;
+                floor_objects[2] = 0x63;
                 dungeon_floor_flags |= 0x10000000;
             }
 
@@ -1038,7 +1038,7 @@ s32 setup_dungeon_floor_encounters(void)
                     load_object_into_alternate_buffer(0, 1, 0);
                 }
 
-                floor_data = (s16 *)((u8 *)floor_generation_state);
+                floor_data = (s16 *)floor_generation_state;
                 if (floor_data[2] == 1) {
                     s32 i;
                     {
@@ -1095,8 +1095,8 @@ s32 setup_dungeon_floor_encounters(void)
                         } while (i < 4);
                     }
                 } else {
-                    *(floor_generate_isolated_80285E80_Packed16_80285E80 *)*(unsigned char **)&g_dungeon_status.monster_spawn_table =
-                        *(floor_generate_isolated_80285E80_Packed16_80285E80 *)(*(unsigned char **)&g_dungeon_status.monster_spawn_table + 0x10);
+                    *(floor_generate_isolated_80285E80_Packed16_80285E80 *)*&g_dungeon_status.monster_spawn_table =
+                        *(floor_generate_isolated_80285E80_Packed16_80285E80 *)(*&g_dungeon_status.monster_spawn_table + 0x10);
                     *(floor_generate_isolated_80285E80_Packed16_80285E80 *)((u8 (*)[8])floor_species_pool)[0] =
                         *(floor_generate_isolated_80285E80_Packed16_80285E80 *)((u8 (*)[8])floor_species_pool)[2];
                 }
@@ -1174,7 +1174,7 @@ void load_floor_spawn_tables(s16 resource_index)
     pack_tagged_resource_descriptor(1, resource_data, &load_result, resource_index + 0x3F5E);
     Control_CD(6, &load_result, 0);
     drain_cd_command_queue();
-    *(floor_generate_isolated_802864C4_Copy32 *)*(unsigned char **)&g_dungeon_status.monster_spawn_table = dungeon_resource_buffer;
+    *(floor_generate_isolated_802864C4_Copy32 *)*&g_dungeon_status.monster_spawn_table = dungeon_resource_buffer;
     (*(floor_generate_isolated_802864C4_Copy32 *)floor_species_pool) = *(floor_generate_isolated_802864C4_Copy32 *)(resource_data + 0x20);
     floor_generation_track_variant = resource_data[0x40];
 }
@@ -1679,11 +1679,11 @@ s32 generate_floor_layout(void)
 void reset_generation_link_scratch(void) {
     s32 entry_index;
 
-    ((u8 *)generation_blocked_direction_marks)[0] = ((u8 *)generation_blocked_direction_marks)[1] = ((u8 *)generation_blocked_direction_marks)[2] = ((u8 *)generation_blocked_direction_marks)[3] = 0;
+    generation_blocked_direction_marks[0] = generation_blocked_direction_marks[1] = generation_blocked_direction_marks[2] = generation_blocked_direction_marks[3] = 0;
     generation_search_forward_limit = generation_room_columns;
 
     for (entry_index = generation_room_columns - 1; entry_index >= 0; entry_index--) {
-        u8* entry = &((u8 *)generation_search_side_marks_alias)[entry_index];
+        u8* entry = &generation_search_side_marks_alias[entry_index];
 
         entry[0] = 0;
         entry[4] = 0;
@@ -1845,7 +1845,7 @@ s32 has_generation_link_within_pair(s16 value_a, s16 value_b)
     if (pair_index >= 0) {
         first = value_a;
         second = value_b;
-        pairs = ((u8 *)generation_room_link_pairs);
+        pairs = generation_room_link_pairs;
         pair = pairs + pair_index * 2;
         do {
             value = pair[0];
@@ -2570,18 +2570,18 @@ void initialize_random_room_slot(void *room, s32 unused)
         }
         slot_index = 0;
         for (; slot_index < 0x20; slot_index++) {
-            slot_info = (u8 *)((u32 *)((u8 *)floor_objects) + slot_index);
-            slot_data = (u8 *)((u8 *)dungeon_floor_object_positions) + slot_index * 0x18;
+            slot_info = (u8 *)((u32 *)floor_objects + slot_index);
+            slot_data = ((u8 *)dungeon_floor_object_positions) + slot_index * 0x18;
             if ((*((u8 *) (((s8 *) slot_info) + 1))) == 0) {
                 x_offset = random_dungeon_range_16(0, ((*((u16 *) (((s8 *) room) + 4))) - 1) & 0xFFFF) & 0xFFFF;
                 y_roll = random_dungeon_range_16(0, ((*((u16 *) (((s8 *) room) + 6))) - 1) & 0xFFFF);
                 y_offset = y_roll & 0xFFFF;
-                *((s8 *) (((s8 *) slot_data) + 6)) = (s8) ((*((u8 *) (((s8 *) room) + 0))) + x_offset);
-                *((s8 *) (((s8 *) slot_data) + 7)) = (s8) ((*((u8 *) (((s8 *) room) + 2))) + y_offset);
+                *((((s8 *) slot_data) + 6)) = (s8) ((*((u8 *) (((s8 *) room) + 0))) + x_offset);
+                *((((s8 *) slot_data) + 7)) = (s8) ((*((u8 *) (((s8 *) room) + 2))) + y_offset);
                 *((u8 *) (((s8 *) slot_info) + 0)) = 0x13;
                 *((u8 *) (((s8 *) slot_info) + 1)) = 0x15U;
                 *((u8 *) (((s8 *) slot_info) + 3)) = (u8) 0xC0;
-                *((s8 *) (((s8 *) slot_info) + 2)) = (s8) size;
+                *((((s8 *) slot_info) + 2)) = (s8) size;
                 *((s32 *) (((s8 *) slot_data) + 8)) = 0;
                 return;
             }
@@ -2683,7 +2683,7 @@ void mark_random_eligible_region_tiles(floor_generate_isolated_8028A328_S_8001D3
         state_prefix = state_offset + prefix_base;
         state = state_offset + state_base;
         do {
-            coords = (floor_generate_isolated_8028A328_S_8001D328_1 *)((u8 *)dungeon_ground_item_positions + entry_index * 0xC);
+            coords = (floor_generate_isolated_8028A328_S_8001D328_1 *)(dungeon_ground_item_positions + entry_index * 0xC);
             x_offset = random_dungeon_range_16(0, (region->unk_04 - 1) & 0xFFFF) & 0xFFFF;
             y_offset = random_dungeon_range_16(0, (region->unk_06 - 1) & 0xFFFF) & 0xFFFF;
             coords->unk_00 = region->unk_00 + x_offset;

@@ -5,15 +5,6 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 
-typedef struct S_801720D8_1 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x6];
-    s16 unk_96;
-    u8 pad_98[0x2];
-    s8 unk_9A;
-    s8 unk_9B;
-} S_801720D8_1;   /* work in start_actor_hit_reaction */
 
 extern void select_sprite_entry(void *, u8, s32);
 #include "dungeon/player/object/action_state.h"
@@ -26,7 +17,7 @@ void start_actor_hit_reaction(ActorRecord *work, ObjectPosition *part_a, SpriteF
 
     actor->movement_queue_state = (u8)(actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((has_pending_dungeon_activity(actor) << 16) == 0)) {
-        ((S_801720D8_1 *)work)->unk_8C = 0;
+        work->unk_8C.word = 0;
         work->action_id.s = 0x17;
         work->action_phase.s = 0;
         if (actor->flags1C & ACTOR_CONFUSED) {

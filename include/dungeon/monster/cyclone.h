@@ -18,7 +18,7 @@ void attempt_actor_directional_action(ActorRecord *action_state, ObjectPosition 
 
 
 
-void fade_reshape_and_remove_entity(void *fade_state, ObjectPosition *position, SpriteFrameState *sprite, void *entity);
+void fade_reshape_and_remove_entity(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, void *entity);
 
 
 
@@ -33,7 +33,7 @@ s32 request_random_slot_effect(ActorRecord *actor);
 void *create_randomized_motion_object(ActorRecord *owner, ObjectPosition *initial_state);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
-void advance_path_motion(void *motion, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
+void advance_path_motion(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 
 void update_radial_motion_or_complete(u16 *motion, s32 *position, SpriteFrameState *object);
 

@@ -18,7 +18,7 @@ u8 * dispatch_event_d_8_a(u8 *entries) {
     u8 *tail_base;
     u8 *tail;
 
-    copy_source = (PackedWord *)&D_80018880;
+    copy_source = &D_80018880;
     *(PackedWord *)entries = *copy_source;
     index = 1;
     marker = 0x18;

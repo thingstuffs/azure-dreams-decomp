@@ -33,22 +33,24 @@ extern u8 effect_sprite_sources[];
 
 /* Fades a red-tinted sprite, adjusts its offset, and clears the owner's indexed slot when the
    countdown ends. */
-void fade_tinted_display_sprite(void *effect, void *unused, void *primitive) {
+void fade_tinted_display_sprite(void *effect_arg, void *unused, void *primitive_arg) {
+    S_81940800_1 *primitive = primitive_arg;
+    EntityRec *effect = effect_arg;
     s32 shade;
     u16 frames_left;
 
-    frames_left = ((u16)((EntityRec *)effect)->facing) - 1;
-    shade = (s32)((s32)(frames_left << 0x10) >> 9) / (s16)((EntityRec *)effect)->unk_2C;
+    frames_left = ((u16)effect->facing) - 1;
+    shade = (s32)((s32)(frames_left << 0x10) >> 9) / (s16)effect->unk_2C;
     tint_particle_effect_updated = 1;
-    ((EntityRec *)effect)->facing = frames_left;
-    ((S_81940800_1 *)primitive)->unk_0E = (s8)shade;
-    ((S_81940800_1 *)primitive)->unk_0D = (s8)shade;
-    ((S_81940800_1 *)primitive)->unk_0C = (s8)(shade + 0x10);
-    if (((S_81940800_1 *)primitive)->unk_06 >= -6) {
-        ((S_81940800_1 *)primitive)->unk_06 = (s16)((u16)((S_81940800_1 *)primitive)->unk_06 - 2);
+    effect->facing = frames_left;
+    primitive->unk_0E = (s8)shade;
+    primitive->unk_0D = (s8)shade;
+    primitive->unk_0C = (s8)(shade + 0x10);
+    if (primitive->unk_06 >= -6) {
+        primitive->unk_06 = (s16)((u16)primitive->unk_06 - 2);
     }
-    if ((s16)((u16)((EntityRec *)effect)->facing) <= 0) {
-        ((S_81940800_2 *)(((((EntityRec *)effect)->unk_32 * 2) + ((u8 *)((EntityRec *)effect)->target))))->unk_46 = 0;
+    if ((s16)((u16)effect->facing) <= 0) {
+        ((S_81940800_2 *)(((effect->unk_32 * 2) + ((u8 *)effect->target))))->unk_46 = 0;
         (*(u16 *)((u8 *)effect + -2)) = (u16)(((S_81940800_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
@@ -178,7 +180,7 @@ void advance_object_spawning_displays_high(void *source, void *unused_position, 
         part->color.c.g = 0;
         part->color.c.r = 0;
         (*(Copy12 *)((u8 *)object + 0x92)) = *(Copy12 *)&tint_particle_sprite_data;
-        part->source = (void *) (((void *)object) + 0x92);
+        part->source = (((void *)object) + 0x92);
     }
 }
 
@@ -192,7 +194,7 @@ s32 draw_brightness_scaled_point_chain(PointRecord *first_point, ObjectPosition 
     PointRecord *point = first_point;
     ObjectPosition *position = first_position;
     GameWork *render_state = &g_game_work;
-    GpuContext *render_ctx = (GpuContext *)render_state->draw_buffer;
+    GpuContext *render_ctx = render_state->draw_buffer;
     u8 *packet_start;
     Scratch800244E4 *scratch =
         (Scratch800244E4 *)0x1F800000;
@@ -401,7 +403,7 @@ void *create_packed_sprite_effect(void *source, void *unused_1, void *unused_2, 
         render_state->color.c.g = 0x80;
         render_state->color.c.r = (s8) render_mode;
         (*(Packed12 *)((u8 *)object + 0x92)) = *(Packed12 *)packed_data;
-        render_state->source = (void *) (((void *)object) + 0x92);
+        render_state->source = (((void *)object) + 0x92);
         return state;
     } else {
         return NULL;

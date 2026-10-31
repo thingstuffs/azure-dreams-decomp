@@ -35,46 +35,47 @@ s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern s16 sample_terrain_surface_height(u16 x, u16 y, s16 min_height);
 
 /* Update motion with collision checks, grow the sprite, and flag expired objects. */
-void update_motion_and_grow_sprite(void *motion, void *position, SpriteFrameState *sprite)
+void update_motion_and_grow_sprite(void *motion, void *position_arg, SpriteFrameState *sprite)
 {
+    S_80170D58_0 *position = position_arg;
     s32 height;
     u16 frame_count;
     u16 scale_x;
     u16 scale_y;
     u16 life_ticks;
 
-    ((S_80170D58_0 *)position)->unk_00.at00.v += ((S_80170D58_1 *)motion)->unk_54;
+    position->unk_00.at00.v += ((S_80170D58_1 *)motion)->unk_54;
     ((S_80170D58_1 *)motion)->unk_54 += ((S_80170D58_1 *)motion)->unk_60;
-    if ((sample_terrain_surface_height(((S_80170D58_0 *)position)->unk_00.at02.v, ((S_80170D58_0 *)position)->unk_04.at02.v,
-                       ((S_80170D58_0 *)position)->unk_08.at02.v) < 0x200) &&
-        ((s16)check_left_tile_and_center_height(((S_80170D58_0 *)position)->unk_00.at02.v, ((S_80170D58_0 *)position)->unk_04.at02.v,
-                            ((S_80170D58_0 *)position)->unk_08.at02.v) != 0)) {
-        ((S_80170D58_0 *)position)->unk_00.at00.v -= ((S_80170D58_1 *)motion)->unk_54;
+    if ((sample_terrain_surface_height(position->unk_00.at02.v, position->unk_04.at02.v,
+                       position->unk_08.at02.v) < 0x200) &&
+        ((s16)check_left_tile_and_center_height(position->unk_00.at02.v, position->unk_04.at02.v,
+                            position->unk_08.at02.v) != 0)) {
+        position->unk_00.at00.v -= ((S_80170D58_1 *)motion)->unk_54;
         ((S_80170D58_1 *)motion)->unk_54 = 0;
         ((S_80170D58_1 *)motion)->unk_60 = 0;
     }
 
-    ((S_80170D58_0 *)position)->unk_04.at00.v += ((S_80170D58_1 *)motion)->unk_58;
+    position->unk_04.at00.v += ((S_80170D58_1 *)motion)->unk_58;
     ((S_80170D58_1 *)motion)->unk_58 += ((S_80170D58_1 *)motion)->unk_64;
-    if ((sample_terrain_surface_height(((S_80170D58_0 *)position)->unk_00.at02.v, ((S_80170D58_0 *)position)->unk_04.at02.v,
-                       ((S_80170D58_0 *)position)->unk_08.at02.v) < 0x200) &&
-        ((s16)check_left_tile_and_center_height(((S_80170D58_0 *)position)->unk_00.at02.v, ((S_80170D58_0 *)position)->unk_04.at02.v,
-                            ((S_80170D58_0 *)position)->unk_08.at02.v) != 0)) {
-        ((S_80170D58_0 *)position)->unk_04.at00.v -= ((S_80170D58_1 *)motion)->unk_58;
+    if ((sample_terrain_surface_height(position->unk_00.at02.v, position->unk_04.at02.v,
+                       position->unk_08.at02.v) < 0x200) &&
+        ((s16)check_left_tile_and_center_height(position->unk_00.at02.v, position->unk_04.at02.v,
+                            position->unk_08.at02.v) != 0)) {
+        position->unk_04.at00.v -= ((S_80170D58_1 *)motion)->unk_58;
         ((S_80170D58_1 *)motion)->unk_58 = 0;
         ((S_80170D58_1 *)motion)->unk_64 = 0;
     }
 
-    ((S_80170D58_0 *)position)->unk_08.at00.v += ((S_80170D58_1 *)motion)->unk_5C;
+    position->unk_08.at00.v += ((S_80170D58_1 *)motion)->unk_5C;
     ((S_80170D58_1 *)motion)->unk_5C += ((S_80170D58_1 *)motion)->unk_68;
-    height = ((S_80170D58_0 *)position)->unk_08.at02.v;
-    if (sample_terrain_surface_height(((S_80170D58_0 *)position)->unk_00.at02.v, ((S_80170D58_0 *)position)->unk_04.at02.v,
-                      (s16)(((S_80170D58_0 *)position)->unk_08.at02u.v - 4)) - 0x10 < height) {
+    height = position->unk_08.at02.v;
+    if (sample_terrain_surface_height(position->unk_00.at02.v, position->unk_04.at02.v,
+                      (s16)(position->unk_08.at02u.v - 4)) - 0x10 < height) {
         ((S_80170D58_1 *)motion)->unk_5C = 0;
-        ((S_80170D58_0 *)position)->unk_08.at02.v =
-            sample_terrain_surface_height(((S_80170D58_0 *)position)->unk_00.at02.v, ((S_80170D58_0 *)position)->unk_04.at02.v,
-                          (s16)(((S_80170D58_0 *)position)->unk_08.at02u.v - 4)) - 0x11;
-        ((S_80170D58_0 *)position)->unk_08.at00u.v = 0;
+        position->unk_08.at02.v =
+            sample_terrain_surface_height(position->unk_00.at02.v, position->unk_04.at02.v,
+                          (s16)(position->unk_08.at02u.v - 4)) - 0x11;
+        position->unk_08.at00u.v = 0;
         if (((S_80170D58_1 *)motion)->unk_1A == 0) {
             ((S_80170D58_1 *)motion)->unk_1A = 1;
             ((S_80170D58_1 *)motion)->unk_26.s = 0;

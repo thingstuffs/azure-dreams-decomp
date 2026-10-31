@@ -14,7 +14,7 @@ typedef struct {
 void clear_image_rect_with_scratch_buffer(S_800404F8 *rect) {
     s32 *image_buffer;
 
-    image_buffer = (s32 *)alloc_gpu_scratch_ring((((s16)rect->unk4) >> 1) * rect->unk6);
+    image_buffer = alloc_gpu_scratch_ring((((s16)rect->unk4) >> 1) * rect->unk6);
     zero_words(image_buffer, (((s16)rect->unk4) >> 1) * rect->unk6);
     LoadImage(rect, image_buffer);
 }

@@ -23,28 +23,29 @@ typedef struct S_80026E3C_1 {
 
 
 /* Alternate the effect shade, decay its intensity, and flag expiration. */
-void alternate_effect_shade_and_decay(void *effect, s32 ticks_left, S_80026E3C_1 *color)
+void alternate_effect_shade_and_decay(void *effect_arg, s32 ticks_left, S_80026E3C_1 *color)
 {
+    S_80026E3C_0 *effect = effect_arg;
     u16 frame;
     u16 intensity;
     u32 shade;
     s32 decay;
 
-    frame = ((S_80026E3C_0 *)effect)->unk_68 + 1;
-    ((S_80026E3C_0 *)effect)->unk_68 = frame;
+    frame = effect->unk_68 + 1;
+    effect->unk_68 = frame;
     if (frame & 1) {
-        shade = ((S_80026E3C_0 *)effect)->unk_6A.u8;
+        shade = effect->unk_6A.u8;
     } else {
-        shade = ((S_80026E3C_0 *)effect)->unk_6A.u16 >> 3;
+        shade = effect->unk_6A.u16 >> 3;
     }
     color->unk_0E = (s8) shade;
     color->unk_0D = (s8) shade;
     color->unk_0C = (s8) shade;
-    intensity = ((S_80026E3C_0 *)effect)->unk_6A.u16;
+    intensity = effect->unk_6A.u16;
     decay = (s16)intensity >> 4;
-    ((S_80026E3C_0 *)effect)->unk_6A.u16 = intensity - decay;
-    ticks_left = ((S_80026E3C_0 *)effect)->unk_66 - 1;
-    ((S_80026E3C_0 *)effect)->unk_66 = ticks_left;
+    effect->unk_6A.u16 = intensity - decay;
+    ticks_left = effect->unk_66 - 1;
+    effect->unk_66 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         ((S_80026E3C_0_pre *)effect)[-1].unk_00 =
             (u16)(((S_80026E3C_0_pre *)effect)[-1].unk_00 | 0x8000);

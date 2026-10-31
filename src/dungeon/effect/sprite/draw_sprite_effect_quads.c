@@ -62,12 +62,12 @@ void *draw_sprite_effect_quads(u8 *sprite_list, s32 count_hint, s32 render_state
     scratch = (Scratch800D1A48 *) 0x1F800000;
     {
         s16 sprite_count;
-        sprite_count = *((s16 *) (((u8 *) sprite_list) + 0x9E));
+        sprite_count = *((s16 *) (sprite_list + 0x9E));
         for (; index < sprite_count; index++) {
-            u8 *sprite_entry = *((u8 **) (((u8 *) sprite_list) + 0xA4));
+            u8 *sprite_entry = *((u8 **) (sprite_list + 0xA4));
             if (sprite_entry != 0) {
                 sprite = sprite_entry + 0x20;
-                if ((*((u16 *) (((u8 *) placement) + 6))) == (*((u16 *) (((u8 *) sprite) + 6)))) {
+                if ((*((u16 *) (placement + 6))) == (*((u16 *) (sprite + 6)))) {
                     break;
                 }
             }
@@ -75,13 +75,13 @@ void *draw_sprite_effect_quads(u8 *sprite_list, s32 count_hint, s32 render_state
         }
     }
     index = 0;
-    if ((*((s16 *) (((u8 *) sprite) + 2))) > 0) {
+    if ((*((s16 *) (sprite + 2))) > 0) {
         do {
             s32 part_offset;
             part_offset = (index * 3) << 4;
             part_offset += 8;
             part = sprite + part_offset;
-            quad = *((u8 **) (((u8 *) part) + 8));
+            quad = *((u8 **) (part + 8));
             for (;;) {
                 if (!(quad[0] & 0x20)) {
                     scratch->data08 = quad[8];
@@ -115,7 +115,7 @@ void *draw_sprite_effect_quads(u8 *sprite_list, s32 count_hint, s32 render_state
                     }
                     {
                         s16 x;
-                        if ((placement[0] ^ (*((u16 *) (((u8 *) ((u8 *) render_state_addr)) + 0x14)))) & 1) {
+                        if ((placement[0] ^ (*((u16 *) ((((u8 *) render_state_addr)) + 0x14)))) & 1) {
                             x = scratch->data80 - (s8)placement[2];
                             scratch->data80 = x;
                             scratch->data70 = x;
@@ -159,7 +159,7 @@ void *draw_sprite_effect_quads(u8 *sprite_list, s32 count_hint, s32 render_state
                     }
                     {
                         s16 y;
-                        if ((placement[0] ^ (*((u16 *) (((u8 *) ((u8 *) render_state_addr)) + 0x14)))) & 2) {
+                        if ((placement[0] ^ (*((u16 *) ((((u8 *) render_state_addr)) + 0x14)))) & 2) {
                             y = scratch->data7A - (s8)placement[3];
                             scratch->data7A = y;
                             scratch->data72 = y;
@@ -229,14 +229,14 @@ void *draw_sprite_effect_quads(u8 *sprite_list, s32 count_hint, s32 render_state
                             scratch->data14 <<= 8;
                             scratch->data0C <<= 8;
                             *((s32 *) (packet + 0xC)) = (scratch->data0C + scratch->data08)
-                                + (((*((u16 *) (((u8 *) ((u8 *) render_state_addr)) + 0x12)))
+                                + (((*((u16 *) ((((u8 *) render_state_addr)) + 0x12)))
                                 + (*((u16 *) (quad + 0x6)))) << 16);
                             *((s16 *) (packet + 0x14)) =
                                 (*((u16 *) (((u8 *) scratch) + 0x0C))) + (*((u16 *) (((u8 *) scratch) + 0x10)));
                             {
                                 u16 blend_mode;
                                 u16 tpage;
-                                blend_mode = *((u16 *) (((u8 *) ((u8 *) render_state_addr)) + 0x10));
+                                blend_mode = *((u16 *) ((((u8 *) render_state_addr)) + 0x10));
                                 if (blend_mode != 0) {
                                     tpage = blend_mode + ((*((u16 *) (quad + 0x4))) & 0xFF9F);
                                 }
@@ -257,20 +257,20 @@ void *draw_sprite_effect_quads(u8 *sprite_list, s32 count_hint, s32 render_state
                                 count_or_x = *((s16 *) (packet + 0x8));
                                 right_x = *((s16 *) (packet + 0x20));
                                 if (right_x < count_or_x) {
-                                    *((u8 *) (packet + 0x14)) -= 1;
-                                    *((u8 *) (packet + 0x24)) -= 1;
+                                    *((packet + 0x14)) -= 1;
+                                    *((packet + 0x24)) -= 1;
                                 }
                             }
                             if ((*((s16 *) (packet + 0xA))) > (*((s16 *) (packet + 0x22)))) {
-                                *((u8 *) (packet + 0x1D)) -= 1;
-                                *((u8 *) (packet + 0x25)) -= 1;
+                                *((packet + 0x1D)) -= 1;
+                                *((packet + 0x25)) -= 1;
                             }
                             {
                                 u16 part_flags;
                                 u8 flags;
-                                part_flags = *((u16 *) (((u8 *) part) + 0x14));
+                                part_flags = *((u16 *) (part + 0x14));
                                 flags = quad[1];
-                                *((u8 *) (((u8 *) part) + 0xF)) = flags;
+                                *((((u8 *) part) + 0xF)) = flags;
                                 if (part_flags & 8) {
                                     u8 draw_flags;
                                     if (part_flags & 4) {
@@ -279,21 +279,21 @@ void *draw_sprite_effect_quads(u8 *sprite_list, s32 count_hint, s32 render_state
                                     else {
                                         draw_flags = flags & 0xFD;
                                     }
-                                    *((u8 *) (((u8 *) part) + 0xF)) = draw_flags;
+                                    *((((u8 *) part) + 0xF)) = draw_flags;
                                 }
                             }
                             {
                                 u8 flags;
-                                if ((*((u16 *) (((u8 *) part) + 0x14))) & 0x10) {
-                                    flags = (*((u8 *) (((u8 *) part) + 0xF))) | 1;
+                                if ((*((u16 *) (part + 0x14))) & 0x10) {
+                                    flags = (*((((u8 *) part) + 0xF))) | 1;
                                 }
                                 else {
-                                    flags = (*((u8 *) (((u8 *) part) + 0xF))) & 0xFE;
+                                    flags = (*((((u8 *) part) + 0xF))) & 0xFE;
                                 }
-                                *((u8 *) (((u8 *) part) + 0xF)) = flags;
+                                *((((u8 *) part) + 0xF)) = flags;
                             }
-                            *((s32 *) (packet + 0x4)) = *((s32 *) (((u8 *) part) + 0xC));
-                            if (!((*((u16 *) (((u8 *) sprite) + 4))) & 0x8000)) {
+                            *((s32 *) (packet + 0x4)) = *((s32 *) (part + 0xC));
+                            if (!((*((u16 *) (sprite + 4))) & 0x8000)) {
                                 ((OrderingTag *)packet)->addr = ((OrderingTag *)((scratch->dataC0 << 2) + (u32)scratch->data20))->addr;
                                 ((OrderingTag *)((scratch->dataC0 << 2) + (u32)scratch->data20))->addr = (u32)packet;
                             }
@@ -307,7 +307,7 @@ void *draw_sprite_effect_quads(u8 *sprite_list, s32 count_hint, s32 render_state
                 quad += 0xC;
             }
             index += 1;
-        } while (index < (*((s16 *) (((u8 *) sprite) + 2))));
+        } while (index < (*((s16 *) (sprite + 2))));
 
     }
     return packet;

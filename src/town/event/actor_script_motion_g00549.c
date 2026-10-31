@@ -7,7 +7,8 @@
 #include "town/scene/motion.h"
 
 /* Dispatches town object actions for the active script and owner state. */
-s32 dispatch_active_town_object_script(TownObject *object, void *owner, void *context, void *extra_ptr) {
+s32 dispatch_active_town_object_script(TownObject *object, void *owner_arg, void *context, void *extra_ptr) {
+    Rec_D_800CFCB4 *owner = owner_arg;
     TownControl *control;
     TownControl *control_page;
     TownControl *owner_control;
@@ -19,7 +20,7 @@ s32 dispatch_active_town_object_script(TownObject *object, void *owner, void *co
     if (control->field_10 == owner) {
         s32 index = control->index;
         if (((S_8009B2C4_0 *)((u8 *)owner + D_800CFDD8[index]))->unk_3A != 0) {
-            entry = (u8 *)(index + (u8 *)control);
+            entry = (index + (u8 *)control);
             if (((S_8009B2C4_1 *)entry)->unk_3A == 1) {
                 if (scene_object_payload_alias == (s32)&D_800924EC) {
                     object->vtable->func0(object, owner, context, extra_ptr);
@@ -43,8 +44,8 @@ s32 dispatch_active_town_object_script(TownObject *object, void *owner, void *co
     }
     owner_control = (TownControl *)((u8 *)control_page - 0x34C);
     if (((owner_control->state != 0) && (owner_control->owner == owner)) ||
-        ((((Rec_D_800CFCB4 *)owner)->unk_3B != 0) &&
-         (((Rec_D_800CFCB4 *)owner)->unk_20 == owner_control))) {
+        ((owner->unk_3B != 0) &&
+         (owner->unk_20 == owner_control))) {
         active_script = scene_object_payload_alias;
         if ((active_script == (s32)&D_80091F64) ||
             (active_script == (s32)&D_800920F4) ||
@@ -64,7 +65,7 @@ void update_actor_surface_motion(void *actor, void *subject, void *motion, void 
     surface_height = get_smaller_query_result_capped_hex_80_writes_associated_output(motion, ((u8 *)&position_query_scratch));
     call_the_same_context_both_processing_routines(subject, motion);
     handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(subject, motion);
-    if (*(u8 *)((u8 *)subject + 0x3B) == 0) {
+    if (*((u8 *)subject + 0x3B) == 0) {
         if (surface_height - *(s16 *)((u8 *)motion + 0xA) >= 4) {
             set_actor_drop_state(actor, subject, motion, context);
         } else {
@@ -98,7 +99,7 @@ void update_actor_slots_and_output(void *state_owner, void *update_target, void 
         }
     }
     if (slot < 6) {
-        if (*(u8 *)((u8 *)update_target + 0x3B) == 0) {
+        if (*((u8 *)update_target + 0x3B) == 0) {
             set_actor_motion_state(state_owner, update_target, update_context, output);
         }
         handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(update_target, update_context);

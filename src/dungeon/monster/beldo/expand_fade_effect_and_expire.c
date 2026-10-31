@@ -24,14 +24,15 @@ typedef struct S_80170D44_0 {
 extern void advance_sprite_animation_and_textures(void *primitive);
 
 /* Copy the effect position, expand and fade its primitive, and flag expiration. */
-void expand_fade_effect_and_expire(void *effect, MovingPosition *position, SpriteFrameState *primitive)
+void expand_fade_effect_and_expire(void *effect_arg, MovingPosition *position, SpriteFrameState *primitive)
 {
+    S_80170D44_0 *effect = effect_arg;
     s16 ticks_left;
     s32 shade;
     u16 extent;
     MovingPosition *source_position;
 
-    source_position = ((S_80170D44_0 *)effect)->unk_AC;
+    source_position = effect->unk_AC;
     position->x = source_position->x;
     position->y = source_position->y;
     position->z = source_position->z;
@@ -40,15 +41,15 @@ void expand_fade_effect_and_expire(void *effect, MovingPosition *position, Sprit
     primitive->scale_y = extent;
     primitive->scale_x = extent;
 
-    ticks_left = ((S_80170D44_0 *)effect)->unk_96.s - 1;
-    shade = (s32)(ticks_left * 0x50) / (s16)((S_80170D44_0 *)effect)->unk_A8;
-    ((S_80170D44_0 *)effect)->unk_96.s = (u16)ticks_left;
+    ticks_left = effect->unk_96.s - 1;
+    shade = (s32)(ticks_left * 0x50) / (s16)effect->unk_A8;
+    effect->unk_96.s = (u16)ticks_left;
     primitive->color.c.b = (s8)shade;
     primitive->color.c.g = (s8)shade;
     primitive->color.c.r = (s8)shade;
     advance_sprite_animation_and_textures(primitive);
 
-    if (((S_80170D44_0 *)effect)->unk_96.u <= 0) {
+    if (effect->unk_96.u <= 0) {
         ((S_80170D44_0_pre *)effect)[-1].unk_00 = (u16)(((S_80170D44_0_pre *)effect)[-1].unk_00 | 0x8000);
         object_flag_block.flags = (s32)(object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }

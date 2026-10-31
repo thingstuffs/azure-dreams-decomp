@@ -464,10 +464,10 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
     if (owner->unk_60 != 0) {
         if (effect->unk_58 == 0) {
             s32 target_distance = set_item_w0(
-                ((S_func_81886800_1 *)(effect))->unk_1C.parts.unk_1E.parts.unk_1E.u8,
-                ((S_func_81886800_1 *)(effect))->unk_1C.parts.unk_1E.parts.unk_1F.u8,
-                ((S_func_81886800_8 *)(owner))->unk_70.parts.unk_72.u8,
-                ((S_func_81886800_8 *)(owner))->unk_70.parts.unk_73.u8);
+                (effect)->unk_1C.parts.unk_1E.parts.unk_1E.u8,
+                (effect)->unk_1C.parts.unk_1E.parts.unk_1F.u8,
+                (owner)->unk_70.parts.unk_72.u8,
+                (owner)->unk_70.parts.unk_73.u8);
             target_distance = (s16)target_distance;
             if (target_distance < 5) {
                 effect->unk_58 = 1;
@@ -476,8 +476,8 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
         }
     }
     if (owner->unk_60 != 0) {
-        if ((((S_func_81886800_8 *)(owner))->unk_70.u32 & 0xFFFF0000) ==
-            (((S_func_81886800_1 *)(effect))->unk_1C.u32 & 0xFFFF0000)) {
+        if (((owner)->unk_70.u32 & 0xFFFF0000) ==
+            ((effect)->unk_1C.u32 & 0xFFFF0000)) {
             S_func_81886800_11 *snapped_motion;
 
             snapped_motion = motion;
@@ -1263,18 +1263,18 @@ s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(void *f
             *(s32 *)(scratch + 0xC0) = avg_depth;
             if (((u32) avg_depth) < 0x1E0U) {
                 packet = line_packet;
-                *(u8 *)(packet + 3) = (color_word = *(s32 *)((u8 *) line_data + 0xC), 4);
+                *(packet + 3) = (color_word = *(s32 *)((u8 *) line_data + 0xC), 4);
                 *(s32 *)(packet + 4) = color_word;
-                red_blue = *(u8 *)(packet + 4);
-                *(u8 *)(packet + 7) = 0x52;
-                green = *(u8 *)(packet + 5);
+                red_blue = *(packet + 4);
+                *(packet + 7) = 0x52;
+                green = *(packet + 5);
                 red_blue >>= 1;
-                *(u8 *)(packet + 0xC) = red_blue;
-                red_blue = *(u8 *)(packet + 6);
+                *(packet + 0xC) = red_blue;
+                red_blue = *(packet + 6);
                 green >>= 1;
-                *(u8 *)(packet + 0xD) = green;
+                *(packet + 0xD) = green;
                 red_blue >>= 1;
-                *(u8 *)(packet + 0xE) = red_blue;
+                *(packet + 0xE) = red_blue;
                 AddPrim((*(u8 **)(scratch + 0x20)) + ((*(s32 *)(scratch + 0xC0)) * 4), packet);
                 vertex_data = *(u8 **)(scratch + 0x18);
                 *(u8 **)(scratch + 0x18) = ((u8 *) vertex_data) + 0xC;
@@ -1686,7 +1686,7 @@ s32 handle_project_linked_quads_queue_shaded_primitives_draw_modes_depth(void *q
     GlobalState *render_state;
 
     render_state = render_states[0];
-    (*(void **)((u8 *)scratch + 0x20)) = (u8 *)render_state + 0xB0;
+    (*(void **)(scratch + 0x20)) = (u8 *)render_state + 0xB0;
     ((S_80025E4C_0 *)scratch)->unk_18 = render_state->next;
     do {
         packet = ((S_80025E4C_0 *)scratch)->unk_18;
@@ -1743,18 +1743,6 @@ s32 handle_project_linked_quads_queue_shaded_primitives_draw_modes_depth(void *q
 #ifndef NULL
 #define NULL 0
 #endif
-
-typedef struct S_func_81888810_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_func_81888810_1;
 
 typedef struct S_func_81888810_3 {
     u8 pad_00[0x1A];
@@ -1882,7 +1870,7 @@ extern u8 D_800E1D01[9];
  * by four plus four. Applies D_800E1D01 when the returned slot is nonzero, including the existing
  * -1/slot-zero success-test bug.
  */
-void check_the_target_using_scaled_low_byte_conditionally_applies_global_800_e_1_d_01(void *target, s32 value, void *record) {
+void check_the_target_using_scaled_low_byte_conditionally_applies_global_800_e_1_d_01(ActorRecord *target, s32 value, void *record) {
     u8 pinnedValue = value;
     if (try_trigger_target_record_effect(target, 2, record) == 0) {
         u32 scaledLowByte = pinnedValue;

@@ -34,41 +34,42 @@ s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern s16 sample_terrain_surface_height(u16 x, u16 y, s16 min_height);
 
 /* Applies damped motion and height limits, updates the object, and checks its lifetime. */
-void update_damped_height_effect(void *state, void *position, SpriteFrameState *object)
+void update_damped_height_effect(void *state, void *position_arg, SpriteFrameState *object)
 {
+    S_80171040_0 *position = position_arg;
     s32 height;
     u16 ticks_left;
 
-    ((S_80171040_0 *)position)->unk_00.at00.v += ((S_80171040_1 *)state)->unk_A4;
+    position->unk_00.at00.v += ((S_80171040_1 *)state)->unk_A4;
     ((S_80171040_1 *)state)->unk_A4 = (((S_80171040_1 *)state)->unk_A4 * 2) / 3;
-    if ((s16)check_left_tile_and_center_height(((S_80171040_0 *)position)->unk_00.at02.v,
-                           ((S_80171040_0 *)position)->unk_04.at02.v,
-                           ((S_80171040_0 *)position)->unk_08.at02.v) != 0) {
-        ((S_80171040_0 *)position)->unk_00.at00.v -= ((S_80171040_1 *)state)->unk_A4;
+    if ((s16)check_left_tile_and_center_height(position->unk_00.at02.v,
+                           position->unk_04.at02.v,
+                           position->unk_08.at02.v) != 0) {
+        position->unk_00.at00.v -= ((S_80171040_1 *)state)->unk_A4;
         ((S_80171040_1 *)state)->unk_A4 = 0;
     }
 
-    ((S_80171040_0 *)position)->unk_04.at00.v += ((S_80171040_1 *)state)->unk_A8;
+    position->unk_04.at00.v += ((S_80171040_1 *)state)->unk_A8;
     ((S_80171040_1 *)state)->unk_A8 = (((S_80171040_1 *)state)->unk_A8 * 2) / 3;
-    if ((s16)check_left_tile_and_center_height(((S_80171040_0 *)position)->unk_00.at02.v,
-                           ((S_80171040_0 *)position)->unk_04.at02.v,
-                           ((S_80171040_0 *)position)->unk_08.at02.v) != 0) {
-        ((S_80171040_0 *)position)->unk_04.at00.v -= ((S_80171040_1 *)state)->unk_A8;
+    if ((s16)check_left_tile_and_center_height(position->unk_00.at02.v,
+                           position->unk_04.at02.v,
+                           position->unk_08.at02.v) != 0) {
+        position->unk_04.at00.v -= ((S_80171040_1 *)state)->unk_A8;
         ((S_80171040_1 *)state)->unk_A8 = 0;
     }
 
-    ((S_80171040_0 *)position)->unk_08.at00.v += ((S_80171040_1 *)state)->unk_AC;
+    position->unk_08.at00.v += ((S_80171040_1 *)state)->unk_AC;
     ((S_80171040_1 *)state)->unk_AC += ((S_80171040_1 *)state)->unk_B0;
 
-    height = ((S_80171040_0 *)position)->unk_08.at02.v;
-    if (sample_terrain_surface_height(((S_80171040_0 *)position)->unk_00.at02.v,
-                      ((S_80171040_0 *)position)->unk_04.at02.v,
-                      (s16)(((S_80171040_0 *)position)->unk_08.at02u.v - 4)) - 0x10 < height) {
+    height = position->unk_08.at02.v;
+    if (sample_terrain_surface_height(position->unk_00.at02.v,
+                      position->unk_04.at02.v,
+                      (s16)(position->unk_08.at02u.v - 4)) - 0x10 < height) {
         ((S_80171040_1 *)state)->unk_AC = 0;
-        ((S_80171040_0 *)position)->unk_08.at02.v = sample_terrain_surface_height(
-            ((S_80171040_0 *)position)->unk_00.at02.v, ((S_80171040_0 *)position)->unk_04.at02.v,
-            (s16)(((S_80171040_0 *)position)->unk_08.at02p.v - 4)) - 0x11;
-        ((S_80171040_0 *)position)->unk_08.at00u.v = 0;
+        position->unk_08.at02.v = sample_terrain_surface_height(
+            position->unk_00.at02.v, position->unk_04.at02.v,
+            (s16)(position->unk_08.at02p.v - 4)) - 0x11;
+        position->unk_08.at00u.v = 0;
         if (((S_80171040_1 *)state)->unk_98 == 0) {
             ((S_80171040_1 *)state)->unk_98 = 1;
             ((S_80171040_1 *)state)->unk_96 = 0;

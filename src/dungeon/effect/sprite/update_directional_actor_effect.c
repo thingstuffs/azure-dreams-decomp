@@ -35,19 +35,7 @@ typedef struct S_81988800_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
 } S_81988800_2;   /* out in update_directional_actor_effect */
 
-typedef struct S_81988800_3 {
-    void * unk_00;
-    s16 unk_04;
-    s16 unk_06;
-    union { void * p32; u16 u16; } unk_08;   /* accessed as both */
-    void * unk_0C;
-    struct {
-        s16 unk_00;
-        s16 unk_02;
-        s16 unk_04;
-    } entries[8];
-    s16 unk_40;
-} S_81988800_3;   /* work in update_directional_actor_effect */
+typedef DirectionalGridEffectBody S_81988800_3;
 
 typedef struct S_81988800_4 {
     u8 pad_00[0xA6];
@@ -139,8 +127,8 @@ void update_directional_actor_effect(void *state_data, void *position_data)
 
             object = allocate_list_node(0x302, &scene_object_list_anchor.next);
             if (object != 0) {
-                if (resolve_record_orientation_or_fallback(((S_81988800_12 *)(((S_81988800_3 *)work)->unk_0C))->unk_08,
-                                  ((S_81988800_3 *)work)->unk_0C, offset, 0) == 0) {
+                if (resolve_record_orientation_or_fallback(((S_81988800_12 *)(((S_81988800_3 *)work)->unk_0C.p))->unk_08,
+                                  ((S_81988800_3 *)work)->unk_0C.p, offset, 0) == 0) {
                     offset[2] = 0;
                     offset[1] = 0;
                     offset[0] = 0;
@@ -204,7 +192,7 @@ void update_directional_actor_effect(void *state_data, void *position_data)
                     ((S_81988800_3 *)work)->entries[entry_index].unk_00 = 0;
                 }
                 ((S_81988800_3 *)work)->unk_00 = state_data;
-                ((S_81988800_3 *)work)->unk_40 = 0;
+                ((S_81988800_3 *)work)->unk_40.s = 0;
             }
             ((S_81988800_0 *)state_data)->unk_50.u = 0x3D;
             ((S_81988800_0 *)state_data)->unk_0A.u++;
@@ -219,7 +207,7 @@ void update_directional_actor_effect(void *state_data, void *position_data)
             if (object != 0) {
 
                 list_head = object;
-                work = (u8 *)((u8 *)(&reference_tile_object));
+                work = ((u8 *)(&reference_tile_object));
 loop:
                 object = find_eligible_nearby_entry(work[0x24], work[0x25], list_head, object);
                 if (object != 0) {
@@ -652,15 +640,6 @@ typedef struct S_80024B20_2_pre {
     u16 unk_00;
 } S_80024B20_2_pre;   /* the 0x2 bytes before arg0 in update_segment, addressed as arg0[-1] */
 
-typedef struct S_80024B20_2 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u8 pad_10[0x2A];
-    s16 unk_3A;
-    u8 pad_3C[0x4];
-    union { s16 s; u16 u; } unk_40;   /* accessed as both */
-    union { u16 u; s16 s; } unk_42;   /* accessed as both */
-} S_80024B20_2;   /* arg0 in update_segment */
 
 typedef struct S_80024B20_3 {
     u8 pad_00[0x12];
@@ -680,7 +659,7 @@ typedef struct S_80024B20_5 {
 
 
 /* Updates an eight-segment effect's samples, motion, color, and lifetime. */
-void update_segment(void *effect) {
+void update_segment(DirectionalGridEffectBody *effect) {
     s32 segment_index;
     u16 state;
     s32 base_speed;
@@ -714,23 +693,23 @@ void update_segment(void *effect) {
         }
     }
 
-    ((S_80024B20_2 *)effect)->unk_42.u--;
-    switch (((S_80024B20_2 *)effect)->unk_40.s) {
+    effect->unk_42.u--;
+    switch (effect->unk_40.s) {
     case 0:
-        ((S_80024B20_2 *)effect)->unk_42.u = 0;
-        ((S_80024B20_2 *)effect)->unk_0C = 0;
-        ((S_80024B20_2 *)effect)->unk_40.s = ((S_80024B20_2 *)effect)->unk_40.u + 1;
+        effect->unk_42.u = 0;
+        effect->unk_0C.word = 0;
+        effect->unk_40.s = effect->unk_40.u + 1;
                         /* fallthrough */
     case 1:
     {
-        s32 color = ((S_80024B20_2 *)effect)->unk_0C;
-        s32 phase = ((S_80024B20_2 *)effect)->unk_42.s;
+        s32 color = effect->unk_0C.word;
+        s32 phase = effect->unk_42.s;
         color += 0xC0C0C;
-        ((S_80024B20_2 *)effect)->unk_0C = color;
-        ((S_80024B20_2 *)effect)->unk_3A = rsin(phase << 9) >> 7;
-        if (((S_80024B20_2 *)effect)->unk_0C > 0x60605F) {
-            ((S_80024B20_2 *)effect)->unk_42.u = 0x38;
-            ((S_80024B20_2 *)effect)->unk_40.u++;
+        effect->unk_0C.word = color;
+        effect->entries[7].unk_00 = rsin(phase << 9) >> 7;
+        if (effect->unk_0C.word > 0x60605F) {
+            effect->unk_42.u = 0x38;
+            effect->unk_40.u++;
             return;
         }
         return;
@@ -744,7 +723,7 @@ void update_segment(void *effect) {
             s32 index_squared = segment_index * segment_index;
             s32 speed_bias;
             segment_index--;
-            speed_bias = base_speed - ((S_80024B20_2 *)effect)->unk_42.u;
+            speed_bias = base_speed - effect->unk_42.u;
             base_speed -= 0x18;
             ((S_80024B20_3 *)segment)->unk_14 = speed_bias + ((index_squared >> 2) * 0x14);
             segment -= 6;
@@ -768,13 +747,13 @@ void update_segment(void *effect) {
                 segment_index--;
             }
         }
-        if (((S_80024B20_2 *)effect)->unk_42.s < 8) {
-            ((S_80024B20_2 *)effect)->unk_0C += (s32)0xFFF3F3F4;
+        if (effect->unk_42.s < 8) {
+            effect->unk_0C.word += (s32)0xFFF3F3F4;
         }
-        if (((S_80024B20_2 *)effect)->unk_42.s <= 0) {
-            state = ((S_80024B20_2 *)effect)->unk_40.u;
+        if (effect->unk_42.s <= 0) {
+            state = effect->unk_40.u;
             state++;
-            ((S_80024B20_2 *)effect)->unk_40.u = state;
+            effect->unk_40.u = state;
             return;
         }
         return;

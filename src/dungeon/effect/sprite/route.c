@@ -28,7 +28,7 @@ const B32_818CFB74_PackedOffsets sprite_route_direction_offsets = {{{32,0},{32,3
 #include "shared/game_work.h"
 
    /* Project linked nodes and enqueue shaded point primitives with their draw modes. */
-s32 project_linked_shaded_points(void *start_node, void *start_coords)
+s32 project_linked_shaded_points(JitteredTerrainSeekingPointBody *start_node, void *start_coords)
 {
     u8 **state_ptr;
     u8 *scratch;
@@ -36,7 +36,7 @@ s32 project_linked_shaded_points(void *start_node, void *start_coords)
     u8 *final_state;
     u8 *packet_end;
     u8 *packet;
-    u8 *node;
+    JitteredTerrainSeekingPointBody *node;
     u8 *coords;
     void *prev_entry;
     u32 depth_index;
@@ -71,20 +71,20 @@ s32 project_linked_shaded_points(void *start_node, void *start_coords)
             s32 opcode;
             u8 *mode_packet;
 
-            ((B32_818CE83C_S_8002403C_3 *)packet)->unk_04.at00.v = ((B32_818CE83C_S_8002403C_4 *)node)->unk_08;
-            color_or_tpage = ((B32_818CE83C_S_8002403C_3 *)packet)->unk_04.at00u.v * ((B32_818CE83C_S_8002403C_4 *)node)->unk_32;
+            ((B32_818CE83C_S_8002403C_3 *)packet)->unk_04.at00.v = node->unk_08.word;
+            color_or_tpage = ((B32_818CE83C_S_8002403C_3 *)packet)->unk_04.at00u.v * node->unk_32.s;
             if (color_or_tpage < 0) {
                 color_or_tpage += 0xFF;
             }
             ((B32_818CE83C_S_8002403C_3 *)packet)->unk_04.at00u.v = color_or_tpage >> 8;
 
-            color_or_tpage = ((B32_818CE83C_S_8002403C_3 *)packet)->unk_04.at01.v * ((B32_818CE83C_S_8002403C_4 *)node)->unk_32;
+            color_or_tpage = ((B32_818CE83C_S_8002403C_3 *)packet)->unk_04.at01.v * node->unk_32.s;
             if (color_or_tpage < 0) {
                 color_or_tpage += 0xFF;
             }
             ((B32_818CE83C_S_8002403C_3 *)packet)->unk_04.at01.v = color_or_tpage >> 8;
 
-            color_or_tpage = ((B32_818CE83C_S_8002403C_3 *)packet)->unk_04.at02.v * ((B32_818CE83C_S_8002403C_4 *)node)->unk_32;
+            color_or_tpage = ((B32_818CE83C_S_8002403C_3 *)packet)->unk_04.at02.v * node->unk_32.s;
             if (color_or_tpage < 0) {
                 color_or_tpage += 0xFF;
                 texture_depth = 0;
@@ -126,7 +126,7 @@ s32 project_linked_shaded_points(void *start_node, void *start_coords)
         }
 
         prev_entry = ((B32_818CE83C_S_8002403C_4_pre *)node)[-1].unk_00;
-        node = (u8 *)prev_entry + 0x20;
+        node = (JitteredTerrainSeekingPointBody *)((u8 *)prev_entry + 0x20);
         if (prev_entry == 0) {
             break;
         }
@@ -144,9 +144,9 @@ s32 project_linked_shaded_points(void *start_node, void *start_coords)
 
 
 /* Raises the source toward its height limit and flags the object when its counter expires. */
-void advance_jittered_effect_toward_terrain(void *object_data, void *source_data)
+void advance_jittered_effect_toward_terrain(JitteredTerrainSeekingPointBody *object_data, void *source_data)
 {
-    u8 *object = object_data;
+    JitteredTerrainSeekingPointBody *object = object_data;
     u8 *source = source_data;
     u16 x;
     u16 y;
@@ -166,9 +166,9 @@ void advance_jittered_effect_toward_terrain(void *object_data, void *source_data
         *(u32 *)(source + 8) += 0x20000 + (random_value & 0xFFF);
     }
 
-    *(s16 *)(object + 0x32) -= 8;
-    if (*(s16 *)(object + 0x32) <= 0) {
-        *(u16 *)(object - 2) |= NODE_REMOVE;
+    object->unk_32.s -= 8;
+    if (object->unk_32.s <= 0) {
+        ((u16 *)object)[-1] |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -206,7 +206,7 @@ void create_jittered_terrain_seeking_point(
     u32 saved_field_28 = field_28;
     s16 saved_field_52 = field_52;
     ObjectNodeHeader *object_cursor;
-    B32_818CEB58_S_818CEB58_0 *fields;
+    JitteredTerrainSeekingPointBody *fields;
     s32 jitter_x;
     s32 jitter_y;
     s32 jitter_z;
@@ -244,14 +244,14 @@ void create_jittered_terrain_seeking_point(
         init_data = project_linked_shaded_points;
         jitter_z &= 0x1F;
         position_z = ((B32_818CEB58_S_818CEB58_6 *)(((B32_818CEB58_S_818CEB58_1 *)source_obj)->unk_08))->unk_0A;
-        fields = (B32_818CEB58_S_818CEB58_0 *)((u8 *)object_cursor + 0x20);
+        fields = (JitteredTerrainSeekingPointBody *)((u8 *)object_cursor + 0x20);
         dest_z = object_cursor->position;
         position_z += jitter_z;
         bias_z = offset_z - 0x10;
         position_z += bias_z;
         dest_z->unk_0A = (s16)position_z;
         fields->unk_14 = field_34;
-        fields->unk_32 = saved_field_52;
+        fields->unk_32.s = saved_field_52;
         register_node(object_cursor, init_data);
         fields->unk_08.u = saved_field_28;
     }

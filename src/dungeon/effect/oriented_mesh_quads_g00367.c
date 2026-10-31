@@ -41,7 +41,8 @@ s32 process_linked_mesh_states_mode_1(void *initial_state, s32 value, void *data
 }
 
 /* Projects sprite parts between two endpoints and queues visible textured quads. */
-void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints, void *sprite, s16 depth_bias, s16 orient_mode) {
+void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints_arg, void *sprite, s16 depth_bias, s16 orient_mode) {
+    S_800CEFB8_2 *endpoints = endpoints_arg;
     s32 camera_rot_x;
     s32 camera_rot_z;
     s32 camera_rot_y;
@@ -92,17 +93,17 @@ void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints, void *
     scratch->unk_020 = global_base + 0xB0;
     packet_next = ((S_800CEFB8_0 *)global_base)->unk_8D0;
     ((S_800CEFB8_1 *)sprite)->unk_14 = (u16) (((S_800CEFB8_1 *)sprite)->unk_14 | 0x8000);
-    scratch->unk_000 = (u16) ((S_800CEFB8_2 *)endpoints)->unk_02;
-    scratch->unk_002 = (u16) ((S_800CEFB8_2 *)endpoints)->unk_06;
+    scratch->unk_000 = (u16) endpoints->unk_02;
+    scratch->unk_002 = (u16) endpoints->unk_06;
     render_state = &g_game_work;
-    scratch->unk_004 = (u16) ((S_800CEFB8_2 *)endpoints)->unk_0A;
+    scratch->unk_004 = (u16) endpoints->unk_0A;
     start_depth = RotTransPers((void *)0x1F800000, (void *)0x1F8000B8, (void *)0x1F800090, (void *)0x1F800094);
     scratch->unk_0C0 = start_depth;
-    second_coord = ((S_800CEFB8_2 *)endpoints)->unk_0E;
+    second_coord = endpoints->unk_0E;
     scratch->unk_000 = second_coord;
-    second_coord = ((S_800CEFB8_2 *)endpoints)->unk_12;
+    second_coord = endpoints->unk_12;
     scratch->unk_002 = second_coord;
-    second_coord = ((S_800CEFB8_2 *)endpoints)->unk_16;
+    second_coord = endpoints->unk_16;
     scratch->unk_004 = second_coord;
     otz2 = RotTransPers((void *)scratch, (void *)0x1F8000F0, (void *)0x1F800090, (void *)0x1F800094);
     end_y = scratch->unk_0F2;

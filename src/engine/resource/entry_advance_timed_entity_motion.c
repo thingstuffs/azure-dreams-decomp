@@ -9,7 +9,7 @@ extern void advance_timed_entity_motion(GteMatrix *m);
 /* Build and install the combined rotation and translation from global transform state. */
 void compose_and_install_camera_transform(void)
 {
-    GameView *transform = (GameView *)(&g_game_work.view);
+    GameView *transform = (&g_game_work.view);
     GteTranslationVector rotated_pos;
     GteMatrix base_mat;
     GteMatrix combined_mat;

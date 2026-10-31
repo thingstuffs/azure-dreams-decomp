@@ -82,7 +82,7 @@ void snapshot_inventory_and_familiars(void *input_state) {
 
         slot_index = 1;
         index_cursor = (u8 *)0x80010000;
-        saved_source = (u8 *)state;
+        saved_source = state;
         saved_source += 4;
         do {
             index_cursor[slot_index + 0x2D52] = get_bounded_stride_index(*(s32 *)(saved_source + 0xD0), (void *)0x80010248, 4, 0x14);

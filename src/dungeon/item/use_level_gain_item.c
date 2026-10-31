@@ -27,12 +27,12 @@ s32 use_level_gain_item(ActorRecord *entity, DungeonItemEntry *item, s16 action_
     }
     if ((u32) entity <= 0x9FFFFFFFU) {
         display_item_status_message(entity, item, action_id);
-        if (feed_actor_restore_mp(entity, (entity_action_selectors[(*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3))] >> 6) & 3, 0) == 0) {
+        if (feed_actor_restore_mp(entity, (entity_action_selectors[(*((u8 *)&((EntityRec *)entity)->unk_10 + 3))] >> 6) & 3, 0) == 0) {
             place_actor_item(entity, item);
             return 1;
         }
     }
-    if ((u8) (*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 1)) < 0x63U) {
+    if ((u8) (*((u8 *)&((EntityRec *)entity)->unk_10 + 1)) < 0x63U) {
         entity->experience = lookup_level_experience_threshold(entity, 0);
         entity->pending_experience_low = 0;
         entity->pending_experience_high = 0;

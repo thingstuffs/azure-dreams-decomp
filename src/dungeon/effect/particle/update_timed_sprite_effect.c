@@ -137,7 +137,7 @@ void run_timed_sprite_projectile(ProjectileState *effect, ProjectileMotion *moti
         register_node((u8 *)effect - 0x20, draw_animated_projectile_quads);
         range = (s16)get_definition_entry_byte_13(7);
         offset_y = caster_sprite->unk_24;
-        target = (void *)scan_actor_along_heading(caster, offset_y,
+        target = scan_actor_along_heading(caster, offset_y,
                                        caster_sprite->unk_25,
                                        caster->unk_2A.s, range);
         caster->unk_60.p = target;
@@ -380,7 +380,9 @@ next_record:
 
 
 /* Updates effect motion and advances its timed sprite animation. */
-void update_timed_sprite_effect(void *effect, void *motion, void *sprite) {
+void update_timed_sprite_effect(void *effect, void *motion_arg, void *sprite_arg) {
+    ProjectileSprite *sprite = sprite_arg;
+    ProjectileMotion *motion = motion_arg;
     s32 state;
     s32 rounded_x;
     s32 rounded_y;
@@ -396,22 +398,22 @@ void update_timed_sprite_effect(void *effect, void *motion, void *sprite) {
     u8 green_blue;
     ProjectileOwnerFlags *owner;
 
-    pos_x = ((ProjectileMotion *)motion)->x.s;
-    vel_x = ((ProjectileMotion *)motion)->velocity_x;
-    vel_y = ((ProjectileMotion *)motion)->velocity_y;
-    vel_z = ((ProjectileMotion *)motion)->velocity_z;
-    ((ProjectileMotion *)motion)->x.s = pos_x + vel_x;
-    ((ProjectileMotion *)motion)->y.s = (s32) (((ProjectileMotion *)motion)->y.s + vel_y);
-    ((ProjectileMotion *)motion)->z.s = (s32) (((ProjectileMotion *)motion)->z.s + vel_z);
+    pos_x = motion->x.s;
+    vel_x = motion->velocity_x;
+    vel_y = motion->velocity_y;
+    vel_z = motion->velocity_z;
+    motion->x.s = pos_x + vel_x;
+    motion->y.s = (s32) (motion->y.s + vel_y);
+    motion->z.s = (s32) (motion->z.s + vel_z);
     owner = ((ProjectileParticle *)effect)->unk_00;
     owner->unk_10 = (s32) (owner->unk_10 | 0x8000);
-    rounded_x = ((ProjectileMotion *)motion)->x.h.unk_02;
+    rounded_x = motion->x.h.unk_02;
     if ((rounded_x / 64) == ((ProjectileParticle *)effect)->unk_04) {
-        rounded_y = ((ProjectileMotion *)motion)->y.h.unk_06;
+        rounded_y = motion->y.h.unk_06;
         if ((rounded_y / 64) == ((ProjectileParticle *)effect)->unk_06) {
-            ((ProjectileMotion *)motion)->velocity_z = 0;
-            ((ProjectileMotion *)motion)->velocity_y = 0;
-            ((ProjectileMotion *)motion)->velocity_x = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
         }
     }
     state = ((ProjectileParticle *)effect)->unk_4C.s;
@@ -428,43 +430,43 @@ void update_timed_sprite_effect(void *effect, void *motion, void *sprite) {
         return;
     case 1:
         advance_sprite_animation_and_textures(sprite);
-        if (((ProjectileSprite *)sprite)->unk_14 & 0x6000) {
-            ((ProjectileSprite *)sprite)->unk_04 = 0;
-            ((ProjectileSprite *)sprite)->unk_05 = 0;
+        if (sprite->unk_14 & 0x6000) {
+            sprite->unk_04 = 0;
+            sprite->unk_05 = 0;
         }
-        if (((ProjectileSprite *)sprite)->unk_0C.at00.v <= ((ProjectileParticle *)effect)->unk_4A) {
-            ((ProjectileMotion *)motion)->velocity_x = (s32) (((ProjectileMotion *)motion)->velocity_x * 5);
-            ((ProjectileMotion *)motion)->velocity_y = (s32) (((ProjectileMotion *)motion)->velocity_y * 5);
-            ((ProjectileMotion *)motion)->velocity_z = (s32) (((ProjectileMotion *)motion)->velocity_z * 8);
-            ((ProjectileSprite *)sprite)->unk_1E = 0xC00U;
-            ((ProjectileSprite *)sprite)->unk_1C = 0xC00U;
-            ((ProjectileSprite *)sprite)->unk_0C.at00u.v = ((ProjectileSprite *)sprite)->unk_0C.at00u.v * 4;
+        if (sprite->unk_0C.at00.v <= ((ProjectileParticle *)effect)->unk_4A) {
+            motion->velocity_x = (s32) (motion->velocity_x * 5);
+            motion->velocity_y = (s32) (motion->velocity_y * 5);
+            motion->velocity_z = (s32) (motion->velocity_z * 8);
+            sprite->unk_1E = 0xC00U;
+            sprite->unk_1C = 0xC00U;
+            sprite->unk_0C.at00u.v = sprite->unk_0C.at00u.v * 4;
             if (((ProjectileParticle *)effect)->unk_48 & 1) {
-                ((ProjectileSprite *)sprite)->unk_00 = shared_sprite_entries;
+                sprite->unk_00 = shared_sprite_entries;
                 sprite_word = ((SpriteSourceEntry *)shared_sprite_entries)->source;
             } else {
-                ((ProjectileSprite *)sprite)->unk_00 = &timed_projectile_sprite_entries;
+                sprite->unk_00 = &timed_projectile_sprite_entries;
                 sprite_word = timed_projectile_sprite_entries.source;
             }
-            ((ProjectileSprite *)sprite)->unk_04 = 0;
-            ((ProjectileSprite *)sprite)->unk_05 = 0;
-            ((ProjectileSprite *)sprite)->unk_08 = sprite_word;
+            sprite->unk_04 = 0;
+            sprite->unk_05 = 0;
+            sprite->unk_08 = sprite_word;
             ((ProjectileParticle *)effect)->unk_4C.u = ((ProjectileParticle *)effect)->unk_4C.u + 1;
         } else {
-            sprite_scale = ((ProjectileSprite *)sprite)->unk_1E - 0x200;
-            ((ProjectileSprite *)sprite)->unk_1E = sprite_scale;
-            ((ProjectileSprite *)sprite)->unk_1C = sprite_scale;
-            ((ProjectileSprite *)sprite)->unk_0C.at00.v = (u8) (((ProjectileSprite *)sprite)->unk_0C.at00.v
+            sprite_scale = sprite->unk_1E - 0x200;
+            sprite->unk_1E = sprite_scale;
+            sprite->unk_1C = sprite_scale;
+            sprite->unk_0C.at00.v = (u8) (sprite->unk_0C.at00.v
                 - (u8) ((ProjectileParticle *)effect)->unk_4A);
-            green_blue = ((ProjectileSprite *)sprite)->unk_0C.at02.v - ((s32) ((u16) ((ProjectileParticle *)effect)->unk_4A
+            green_blue = sprite->unk_0C.at02.v - ((s32) ((u16) ((ProjectileParticle *)effect)->unk_4A
                 << 0x10) >> 0x12);
-            ((ProjectileSprite *)sprite)->unk_0C.at02.v = green_blue;
-            ((ProjectileSprite *)sprite)->unk_0C.at01.v = green_blue;
+            sprite->unk_0C.at02.v = green_blue;
+            sprite->unk_0C.at01.v = green_blue;
         }
                         /* fall through */
     case 2:
         advance_sprite_animation_and_textures(sprite);
-        if (((ProjectileSprite *)sprite)->unk_14 & 0x6000) {
+        if (sprite->unk_14 & 0x6000) {
             (*(u16 *)((u8 *)effect + -2)) = (u16) (((EffectStatusPrefix *)effect)[-1].unk_00 | NODE_REMOVE);
             object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         }

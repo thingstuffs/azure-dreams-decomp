@@ -16,7 +16,7 @@ typedef struct S_80043B4C_entry {
 void set_scaled_cell_flags_8000(void)
 {
     MapGrid *table = &g_game_work.map;
-    u8 *entries = ((u8 *)table->cells);
+    u8 *entries = table->cells;
     s32 slot;
 
     for (slot = 10; slot < 12; slot++) {

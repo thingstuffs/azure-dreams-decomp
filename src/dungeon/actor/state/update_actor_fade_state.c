@@ -6,6 +6,7 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "dungeon/system.h"
+#include "shared/object_node.h"
 struct EntityLinkNode;
 
 typedef struct S_800D34CC_0 {
@@ -14,10 +15,6 @@ typedef struct S_800D34CC_0 {
     u8 pad_98[0x3];
     u8 unk_9B;
 } S_800D34CC_0;   /* state in update_actor_fade_state */
-
-typedef struct S_800D34CC_1_pre {
-    u16 unk_00;
-} S_800D34CC_1_pre;   /* the 0x2 bytes before entity in update_actor_fade_state, addressed as entity[-1] */
 
 
 typedef struct S_800D34CC_2 {
@@ -38,11 +35,6 @@ typedef struct S_800D34CC_2 {
     u8 unk_24;
     u8 unk_25;
 } S_800D34CC_2;   /* data in update_actor_fade_state */
-
-typedef struct S_800D34CC_3 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-} S_800D34CC_3;
 
 
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);                 /* extern */
@@ -112,7 +104,7 @@ void update_actor_fade_state(void *state, void *unused, void *data, void *entity
                 update_map_cell_flags_with_item_limit(value24, value25, selectedValue);
             }
             unlink_entity_node(entity);
-            (*(u16 *)((u8 *)entity + -2)) = (u16) (((S_800D34CC_1_pre *)entity)[-1].unk_00 | NODE_REMOVE);
+            (((ObjectNodeHeader *)entity - 1)->flags) = (u16) (((ObjectNodeHeader *)entity - 1)->flags | NODE_REMOVE);
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             decrement_bounded_counter();
         }

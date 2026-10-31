@@ -23,7 +23,7 @@ s32 process_circular_segments(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *s
     s32 offset_x;
     s32 offset_y;
 
-    state = ((State_80083160 *)gw->draw_buffer);
+    state = gw->draw_buffer;
     last_result = state->value;
     ((ScratchHeader_800AFBFC *)scratch)->state_data = (u8 *)state + 0x8b0;
     segment_data = segment->temp;
@@ -171,7 +171,7 @@ s32 process_circular_segments(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *s
     }
     {
         State_80083160 *final_state;
-        final_state = ((State_80083160 *)gw->draw_buffer);
+        final_state = gw->draw_buffer;
         result = 0;
         final_state->value = last_result;
     }

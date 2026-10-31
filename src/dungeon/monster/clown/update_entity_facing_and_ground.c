@@ -59,7 +59,7 @@ void *spawn_clown_actor(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
         kind = spawn_flags & 3;
         part_b->tile_y = held_b;
         actor = result;
-        part_b->frameTable = ((u8 *)clown_direction_frames);
+        part_b->frameTable = clown_direction_frames;
         part_b->tile_x = held_a;
 
         if (kind == 1) {
@@ -76,7 +76,7 @@ void *spawn_clown_actor(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
                     if (generate_random_value() & 1) {
                         set_or_clear_actor_status_slot(result, STATUS_SLEEP,
                             (generate_random_value() & 0x3F) | 0x20);
-                        part_b->frameTable = ((u8 *)clown_alt_direction_frames);
+                        part_b->frameTable = clown_alt_direction_frames;
                     }
                 }
             }
@@ -115,12 +115,12 @@ void update_entity_facing_and_ground(void *entity, ObjectPosition *motion, Sprit
         if (gated_callback == (R16_80170A58_Callback)((u8 *)update_actor_state_and_dispatch_transition)) {
             gated_callback(entity, motion, sprite, entity);
         } else {
-            (*(u8 *)((u8 *)entity + 0x71)) &= 0x7F;
+            (*((u8 *)entity + 0x71)) &= 0x7F;
         }
         return;
     }
 
-    previous_state = (s8)(*(u8 *)((u8 *)entity + 0x6D));
+    previous_state = (s8)(*((u8 *)entity + 0x6D));
     if (refresh_actor_facing_and_lifecycle(entity, motion, sprite, entity) != 0) {
         return;
     }
@@ -129,7 +129,7 @@ void update_entity_facing_and_ground(void *entity, ObjectPosition *motion, Sprit
     if (update_callback != 0) {
         update_callback(entity, motion, sprite, entity);
     }
-    ((R16_80170A58_Callback *)D_8017426C)[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, sprite, entity);
+    ((R16_80170A58_Callback *)D_8017426C)[(*((u8 *)entity + 0x9A))](entity, motion, sprite, entity);
     if (previous_state != (*(s8 *)((u8 *)entity + 0x6D))) {
         try_move_actor_to_valid_position(entity, motion, sprite, entity);
     }
@@ -139,9 +139,9 @@ void update_entity_facing_and_ground(void *entity, ObjectPosition *motion, Sprit
 
     if (!((*(s32 *)((u8 *)entity + 0x1C)) & 0x40000) && !((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
         motion->velocity_z += (*(s8 *)((u8 *)entity + 0x9D)) * 0x14000;
-        (*(u8 *)((u8 *)entity + 0x9D)) = (*(u8 *)((u8 *)entity + 0x9D)) + 1;
+        (*((u8 *)entity + 0x9D)) = (*((u8 *)entity + 0x9D)) + 1;
     } else {
-        (*(u8 *)((u8 *)entity + 0x9D)) = 0;
+        (*((u8 *)entity + 0x9D)) = 0;
     }
     (*(s32 *)((u8 *)entity + 0x90)) += motion->velocity_z;
 
@@ -174,7 +174,7 @@ void update_entity_facing_and_ground(void *entity, ObjectPosition *motion, Sprit
         entity_flags &= 0x40000;
         if (entity_flags != 0) {
             if (!(sprite->flags & 0x40)) {
-                if (*(u8 * *)&sprite->frameTable == ((u8 *)clown_direction_frames)) {
+                if (*(u8 * *)&sprite->frameTable == clown_direction_frames) {
                     u16 bob_tick = (*(u16 *)((u8 *)entity + 0x9E));
                     (*(u16 *)((u8 *)entity + 0x9E)) = bob_tick + 1;
                     (*(s32 *)((u8 *)entity + 0xA0)) += rsin((s16)bob_tick * 0xAA) << 5;
@@ -201,7 +201,7 @@ void update_entity_facing_and_ground(void *entity, ObjectPosition *motion, Sprit
                         state->unk_88;
                 if (ground_delta < (*(s16 *)((u8 *)entity + 0x92))) {
                     (*(s16 *)((u8 *)entity + 0x92)) = ground_delta;
-                    (*(u8 *)((u8 *)entity + 0x9D)) = 0;
+                    (*((u8 *)entity + 0x9D)) = 0;
                     motion->velocity_z = 0;
                     state->unk_1C |= 0x8000000;
                 }
@@ -228,14 +228,14 @@ void update_entity_facing_and_ground(void *entity, ObjectPosition *motion, Sprit
                         state->unk_88;
                 if (ground_delta < (*(s16 *)((u8 *)entity + 0x92))) {
                     (*(s16 *)((u8 *)entity + 0x92)) = ground_delta;
-                    (*(u8 *)((u8 *)entity + 0x9D)) = 0;
+                    (*((u8 *)entity + 0x9D)) = 0;
                     motion->velocity_z = 0;
                     state->unk_1C |= 0x8000000;
                 }
             }
         } else {
             if (!(sprite->flags & 0x40)) {
-                if (*(u8 * *)&sprite->frameTable == ((u8 *)clown_direction_frames)) {
+                if (*(u8 * *)&sprite->frameTable == clown_direction_frames) {
                     u16 bob_tick = (*(u16 *)((u8 *)entity + 0x9E));
                     (*(u16 *)((u8 *)entity + 0x9E)) = bob_tick + 1;
                     (*(s32 *)((u8 *)entity + 0xA0)) += rsin((s16)bob_tick * 0xAA) << 5;
@@ -287,10 +287,10 @@ void update_actor_state_and_dispatch_transition(ActorRecord *actor, ObjectPositi
         void *animation_table;
 
         advance_actor_pending_action(actor, actor_context, map_object, creature);
-        if (map_object->frameTable == ((u8 *)clown_alt_direction_frames)) {
+        if (map_object->frameTable == clown_alt_direction_frames) {
             return;
         }
-        animation_table = ((u8 *)D_80174254);
+        animation_table = D_80174254;
         (map_object->frameTable) = animation_table;
         select_sprite_entry(map_object,
             ((u8 *)animation_table)[((g_game_work.view.camera_rotation.parts.viewAngle + creature->facing + 0x100) >> 9) & 7],
@@ -299,14 +299,14 @@ void update_actor_state_and_dispatch_transition(ActorRecord *actor, ObjectPositi
     }
 
     if (((u32)creature->flags1C) & ACTOR_ASLEEP) {
-        if (map_object->frameTable == ((u8 *)clown_alt_direction_frames)) {
+        if (map_object->frameTable == clown_alt_direction_frames) {
             actor->action_id.u = 0xD;
             actor->action_phase.u = 1;
-            ((R16_80171014_S_80171014_0 *)actor)->unk_8C = 0;
+            actor->unk_8C.word = 0;
             creature->flags1C &= 0xFFFBFFFF;
             return;
         }
-        if (reset_actor_action_state(actor, actor_context, map_object, ((u8 *)D_80174254)) != 0) {
+        if (reset_actor_action_state(actor, actor_context, map_object, D_80174254) != 0) {
             return;
         }
     }
@@ -327,7 +327,7 @@ void update_actor_state_and_dispatch_transition(ActorRecord *actor, ObjectPositi
                 actor->action_id.u = next_state;
             }
             current_animation = map_object->frameTable;
-            animation_table = ((u8 *)clown_direction_frames);
+            animation_table = clown_direction_frames;
             if (current_animation != animation_table) {
                 (map_object->frameTable) = animation_table;
                 select_sprite_entry(map_object,
@@ -343,7 +343,7 @@ void update_actor_state_and_dispatch_transition(ActorRecord *actor, ObjectPositi
         actor->action_state_flags &= 0xFFF7;
 
         if (creature->hp_delta != 0) {
-            if (begin_ready_actor_directional_action(actor, actor_context, map_object, ((u8 *)D_8017421C)) != 0) {
+            if (begin_ready_actor_directional_action(actor, actor_context, map_object, D_8017421C) != 0) {
                 return;
             }
         }
@@ -415,7 +415,7 @@ void update_actor_state_and_dispatch_transition(ActorRecord *actor, ObjectPositi
                         player = primary_actor_record;
                         creature->facing = facing_angle;
                         if (player->action_id.u == 0x11) {
-                            begin_actor_spell_action(actor, actor_context, map_object, ((u8 *)D_8017424C), ((u8 *)update_actor_state_and_dispatch_transition));
+                            begin_actor_spell_action(actor, actor_context, map_object, D_8017424C, ((u8 *)update_actor_state_and_dispatch_transition));
                             return;
                         }
                     }
@@ -427,7 +427,7 @@ void update_actor_state_and_dispatch_transition(ActorRecord *actor, ObjectPositi
                 case 0:
                 case 1:
                 case 2:
-                    begin_actor_spell_action(actor, actor_context, map_object, ((u8 *)D_8017424C), ((u8 *)update_actor_state_and_dispatch_transition));
+                    begin_actor_spell_action(actor, actor_context, map_object, D_8017424C, ((u8 *)update_actor_state_and_dispatch_transition));
                     return;
 
                 case 3:
@@ -480,10 +480,10 @@ void advance_actor_path_step_and_update_counters(ActorRecord *motion_state, Obje
         return;
     }
 
-    if (*(u8 **)&entity->frameTable != ((u8 *)clown_direction_frames)) {
-        (entity->frameTable) = ((u8 *)clown_direction_frames);
+    if (*(u8 **)&entity->frameTable != clown_direction_frames) {
+        (entity->frameTable) = clown_direction_frames;
         select_sprite_entry(entity,
-                      ((u8 *)clown_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + path_state->facing + 0x100) >> 9) & 7],
+                      clown_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + path_state->facing + 0x100) >> 9) & 7],
                       0);
     }
 
@@ -522,7 +522,7 @@ void advance_actor_path_step_and_update_counters(ActorRecord *motion_state, Obje
     }
 
     motion_state->action_id.s = 0xF;
-    ((R16_80171574_S_80171FC8_3 *)motion_state)->unk_8C = 0;
+    motion_state->unk_8C.word = 0;
     path_state->flags1C |= 0x40000000;
 
     if (g_dungeon_status.flags & 0x80) {
@@ -789,13 +789,13 @@ s32 initialize_transition_action(ActorRecord *action_state, ObjectPosition *acti
     if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
         action_state->action_id.u = 0x11;
         action_state->action_phase.u = 0;
-        ((Rec_func_800A9E70_arg0 *)action_state)->unk_8C = 0;
+        action_state->unk_8C.word = 0;
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;
-        source_obj->frameTable = ((u8 *)D_80174214);
+        source_obj->frameTable = D_80174214;
         select_sprite_entry(
             source_obj,
-            ((u8 *)D_80174214)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_80174214[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         prepare_directional_attack(actor, source_obj, actor->facing, 1, 0);
         actor->pending_turn_updates--;
@@ -820,8 +820,8 @@ void begin_eligible_actor_action(ActorRecord *action_state, ObjectPosition *cont
             action_state->action_id.u = 0x11;
             action_state->unk_8C.handler = 0;
             action_state->action_phase.u = 0;
-            animation->frameTable = ((u8 *)clown_frame_set);
-            select_sprite_entry(animation, ((u8 *)clown_frame_set)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+            animation->frameTable = clown_frame_set;
+            select_sprite_entry(animation, clown_frame_set[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
             action_state->action_state_flags = (u16) (action_state->action_state_flags | 8);
             prepare_directional_attack(actor, animation, actor->facing, 1, 0);
@@ -924,8 +924,8 @@ void finish_actor_action_animation(ActorRecord *action, ObjectPosition *motion, 
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        anim->frameTable = ((u8 *)clown_frame_set);
-        select_sprite_entry(anim,(u8)(((u8 *)clown_frame_set)[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7]),
+        anim->frameTable = clown_frame_set;
+        select_sprite_entry(anim,(u8)(clown_frame_set[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7]),
             0);
         action->action_timer.u = 0;
         action->action_phase.u++;
@@ -1099,7 +1099,7 @@ void update_overlay_object_action(ActorRecord *body, ObjectPosition *position, S
         set_record_integer_tile_center(position,(u8)(sprite->tile_x),(u8)(sprite->tile_y));
 
         {
-            u8 *direction_table = ((u8 *)clown_direction_frames);
+            u8 *direction_table = clown_direction_frames;
             if (*(unsigned char **)&sprite->frameTable != direction_table) {
                 (sprite->frameTable) = direction_table;
                 select_sprite_entry(
@@ -1152,7 +1152,7 @@ void damp_actor_motion_then_recenter(R16_801729D8_S_80173294_0 *motion_state, Ob
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(motion_state, motion, tile_state, ((u8 *)D_80174244));
+            begin_actor_display_action(motion_state, motion, tile_state, D_80174244);
             return;
         }
         if (tile_state->flags & 0x8000) {
@@ -1192,7 +1192,7 @@ void damp_actor_motion_then_recenter(R16_801729D8_S_80173294_0 *motion_state, Ob
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(motion_state, motion, tile_state, ((u8 *)D_80174244));
+            begin_actor_display_action(motion_state, motion, tile_state, D_80174244);
             return;
         }
         motion_state->timer.s = 8;
@@ -1284,8 +1284,8 @@ void advance_clown_status_action(ActorRecord *actor, ObjectPosition *context, Sp
         if (!(render_record->flags & 0xE000)) {
             return;
         }
-        render_record->frameTable = ((u8 *)clown_alt_direction_frames);
-        select_sprite_entry(render_record,(u8)(((u8 *)clown_alt_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + actor_state->facing + 0x100) >> 9) & 7]),
+        render_record->frameTable = clown_alt_direction_frames;
+        select_sprite_entry(render_record,(u8)(clown_alt_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor_state->facing + 0x100) >> 9) & 7]),
             0);
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         do {
@@ -1357,8 +1357,8 @@ void advance_clown_status_action(ActorRecord *actor, ObjectPosition *context, Sp
                 return;
             }
         }
-        render_record->frameTable = ((u8 *)clown_frame_set_1);
-        select_sprite_entry(render_record,(u8)(((u8 *)clown_frame_set_1)[((g_game_work.view.camera_rotation.parts.viewAngle + actor_state->facing + 0x100) >> 9) & 7]),
+        render_record->frameTable = clown_frame_set_1;
+        select_sprite_entry(render_record,(u8)(clown_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor_state->facing + 0x100) >> 9) & 7]),
             0);
         (*(u32 *)&actor_state->flags1C) |= 0x40000;
         if (render_record->flags & 0x8000) {
@@ -1395,7 +1395,7 @@ void advance_clown_mp_action(ActorRecord *actor, ObjectPosition *context, Sprite
         }
 
         g_dungeon_status.activity_counts.parts.pending_action_count--;
-        direction_anims = ((u8 *)clown_alt_direction_frames);
+        direction_anims = clown_alt_direction_frames;
         (animation->frameTable) = direction_anims;
         select_sprite_entry(animation,
             direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
@@ -1409,9 +1409,9 @@ void advance_clown_mp_action(ActorRecord *actor, ObjectPosition *context, Sprite
 
         if (entity->mp_value.parts.whole != 0) {
 
-            (animation->frameTable) = ((u8 *)clown_frame_set_1);
+            (animation->frameTable) = clown_frame_set_1;
             select_sprite_entry(animation,
-                ((u8 *)clown_frame_set_1)[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                clown_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             entity->flags1C |= 0x40000;
             g_dungeon_status.activity_counts.parts.pending_action_count++;
@@ -1469,9 +1469,9 @@ void advance_clown_mp_action(ActorRecord *actor, ObjectPosition *context, Sprite
             return;
         }
 
-        (animation->frameTable) = ((u8 *)clown_frame_set_1);
+        (animation->frameTable) = clown_frame_set_1;
         select_sprite_entry(animation,
-            ((u8 *)clown_frame_set_1)[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            clown_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         entity->flags1C |= 0x40000;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
@@ -1501,10 +1501,10 @@ void update_clown_parent_motion(ActorRecord *actor, ObjectPosition *action, Spri
             actor->unk_8C.handler = ((u8 *)update_actor_state_and_dispatch_transition);
             return;
         }
-    } else if (*(u8 **)&entity->frameTable == ((u8 *)clown_alt_direction_frames) &&
+    } else if (*(u8 **)&entity->frameTable == clown_alt_direction_frames &&
                !(map_object->flags1C & 0x208)) {
-        entity->frameTable = ((u8 *)clown_direction_frames);
-        select_sprite_entry(entity,(s16)(((u8 *)clown_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + map_object->facing + 0x100) >> 9) & 7]),(s16)(0));
+        entity->frameTable = clown_direction_frames;
+        select_sprite_entry(entity,(s16)(clown_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + map_object->facing + 0x100) >> 9) & 7]),(s16)(0));
     }
 }
 
@@ -1600,7 +1600,8 @@ s32 project_clown_sprite_chain(void *initial_payload, s32 entry_data, R16_801736
  *
  * MECHANISM: Typed page and scratch fields preserve the signed lh/sw widths and offsets.
  */
-void update_expanding_spiral_effect(void *effect, R16_80173738_FuncArg1 *position, SpriteFrameState *primitive) {
+void update_expanding_spiral_effect(void *effect_arg, R16_80173738_FuncArg1 *position, SpriteFrameState *primitive) {
+    R16_80173738_S_80173738_0 *effect = effect_arg;
     s16 life;
     s16 next_life;
     s32 y_offset;
@@ -1608,28 +1609,28 @@ void update_expanding_spiral_effect(void *effect, R16_80173738_FuncArg1 *positio
     s32 z_step;
     void *primitive_dst;
 
-    ((R16_80173738_S_80173738_0 *)effect)->unk_1E = (u16) (((R16_80173738_S_80173738_0 *)effect)->unk_1E - 0x12C);
-    ((R16_80173738_S_80173738_0 *)effect)->unk_20 = (u16) (((R16_80173738_S_80173738_0 *)effect)->unk_20 + 2);
-    position->unk00 = (s32) (((R16_80173738_S_80173738_0 *)effect)->unk_40
-        + ((s16) ((R16_80173738_S_80173738_0 *)effect)->unk_20 * rcos((s16) ((R16_80173738_S_80173738_0 *)effect)->unk_1E) * 0x10));
-    y_offset = (s16) ((R16_80173738_S_80173738_0 *)effect)->unk_20 * rsin((s16) ((R16_80173738_S_80173738_0 *)effect)->unk_1E);
+    effect->unk_1E = (u16) (effect->unk_1E - 0x12C);
+    effect->unk_20 = (u16) (effect->unk_20 + 2);
+    position->unk00 = (s32) (effect->unk_40
+        + ((s16) effect->unk_20 * rcos((s16) effect->unk_1E) * 0x10));
+    y_offset = (s16) effect->unk_20 * rsin((s16) effect->unk_1E);
     primitive_dst = primitive;
     z_step = 0xFFF40000U;
-    base_y = ((R16_80173738_S_80173738_0 *)effect)->unk_44;
+    base_y = effect->unk_44;
     position->unk08 = (s32) (position->unk08 + z_step);
     position->unk04 = (s32) (base_y + (y_offset * 0x10));
     advance_sprite_animation_and_textures(primitive_dst);
     if (primitive->flags & 0x4000) {
         select_record_entry_and_value(primitive, ((s32 *)shared_sprite_entries), 0);
     }
-    life = ((R16_80173738_S_80173738_0 *)effect)->unk_1A;
+    life = effect->unk_1A;
     if (life < 0xA) {
-        primitive->color.c.r = (s8) ((((R16_80173738_S_80173738_0 *)effect)->unk_00 * life) / 9);
-        primitive->color.c.g = (s8) ((((R16_80173738_S_80173738_0 *)effect)->unk_01 * ((R16_80173738_S_80173738_0 *)effect)->unk_1A) / 9);
-        primitive->color.c.b = (s8) ((((R16_80173738_S_80173738_0 *)effect)->unk_02 * ((R16_80173738_S_80173738_0 *)effect)->unk_1A) / 9);
+        primitive->color.c.r = (s8) ((effect->unk_00 * life) / 9);
+        primitive->color.c.g = (s8) ((effect->unk_01 * effect->unk_1A) / 9);
+        primitive->color.c.b = (s8) ((effect->unk_02 * effect->unk_1A) / 9);
     }
-    next_life = (u16) ((R16_80173738_S_80173738_0 *)effect)->unk_1A - 1;
-    ((R16_80173738_S_80173738_0 *)effect)->unk_1A = next_life;
+    next_life = (u16) effect->unk_1A - 1;
+    effect->unk_1A = next_life;
     if ((next_life << 0x10) <= 0) {
         ((R16_80173738_S_80173738_0_pre *)effect)[-1].unk_00 = (u16) (((R16_80173738_S_80173738_0_pre *)effect)[-1].unk_00 | 0x8000);
         object_flag_block.flags =
@@ -1684,7 +1685,7 @@ void create_angled_source_effect(
         state->unk_00 = display->color.c.r;
         state->unk_01 = display->color.c.g;
         state->unk_02 = display->color.c.b;
-        select_record_entry_and_value(display, ((u8 *)shared_sprite_entries), 0);
+        select_record_entry_and_value(display, shared_sprite_entries, 0);
         display->clut = 0x7DCF;
         display->flags |= 0x100;
     }

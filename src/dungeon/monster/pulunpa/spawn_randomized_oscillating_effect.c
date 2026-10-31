@@ -46,26 +46,26 @@ extern u8 D_80176338[];
 extern u8 D_80176340[];
 
 /* Updates the actor's movement animation and finishes the timed action. */
-void spawn_randomized_oscillating_effect(void *action, void *motion_arg, SpriteFrameState *unit, void *actor)
+void spawn_randomized_oscillating_effect(ActorRecord *body, void *motion_arg, SpriteFrameState *sprite, ActorRecord *actor)
 {
     u16 direction_aux;
     u8 move_state;
 
-    move_state = ((S_80174F24_0 *)action)->unk_9B;
+    move_state = body->action_phase.u;
     switch (move_state) {
     case 0:
-        if (unit->flags & 0x6000) {
+        if (sprite->flags & 0x6000) {
             u8 *direction_table = D_80176338;
 
-            (unit->frameTable) = direction_table;
-            select_sprite_entry(unit,
-                direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
+            (sprite->frameTable) = direction_table;
+            select_sprite_entry(sprite,
+                direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            ((S_80174F24_0 *)action)->unk_98 |= 8;
-            ((ActorRecord *)actor)->flags1C &= ~ACTOR_GROUNDED;
-            ((S_80174F24_0 *)action)->unk_9E.s = 5;
-            ((S_80174F24_0 *)action)->unk_A0 = 0;
-            ((S_80174F24_0 *)action)->unk_9B++;
+            body->action_state_flags |= 8;
+            actor->flags1C &= ~ACTOR_GROUNDED;
+            body->unk_9E.s = 5;
+            body->unk_A0.value = 0;
+            body->action_phase.u++;
         } else {
             break;
         }
@@ -78,10 +78,10 @@ void spawn_randomized_oscillating_effect(void *action, void *motion_arg, SpriteF
         s32 axis_pos;
         s32 x_velocity;
 
-        ((S_80174F24_0 *)action)->unk_90 -= ((S_80174F24_0 *)action)->unk_A0;
-        move_ticks = ((S_80174F24_0 *)action)->unk_9E.s;
+        body->unk_90.value -= body->unk_A0.value;
+        move_ticks = body->unk_9E.s;
         if (move_ticks != 0) {
-            target_delta = unit->tile_x << 6;
+            target_delta = sprite->tile_x << 6;
             axis_pos = ((S_80174F24_3 *)motion_arg)->unk_02 - 0x20;
             target_delta -= axis_pos;
             x_velocity = (target_delta << 16) / move_ticks;
@@ -89,43 +89,43 @@ void spawn_randomized_oscillating_effect(void *action, void *motion_arg, SpriteF
             axis_pos = ((S_80174F24_3 *)motion_arg)->unk_06;
             ((S_80174F24_3 *)motion_arg)->unk_0C = x_velocity;
             axis_pos -= 0x20;
-            target_delta = unit->tile_y << 6;
+            target_delta = sprite->tile_y << 6;
             target_delta -= axis_pos;
             ((S_80174F24_3 *)motion_arg)->unk_10 =
-                (target_delta << 16) / ((S_80174F24_0 *)action)->unk_9E.s;
+                (target_delta << 16) / body->unk_9E.s;
 
-            ((S_80174F24_0 *)action)->unk_A0 =
-                (-rsin(((S_80174F24_0 *)action)->unk_9E.s * 409)) << 9;
+            body->unk_A0.value =
+                (-rsin(body->unk_9E.s * 409)) << 9;
         }
 
-        ((S_80174F24_0 *)action)->unk_90 += ((S_80174F24_0 *)action)->unk_A0;
-        move_ticks = ((S_80174F24_0 *)action)->unk_9E.u - 1;
-        ((S_80174F24_0 *)action)->unk_9E.s = move_ticks;
+        body->unk_90.value += body->unk_A0.value;
+        move_ticks = body->unk_9E.u - 1;
+        body->unk_9E.s = move_ticks;
         if (move_ticks < 0) {
-            ((S_80174F24_0 *)action)->unk_90 = 0;
-            ((S_80174F24_0 *)action)->unk_98 &= 0xFFF7;
-            ((ActorRecord *)actor)->flags1C |= ACTOR_GROUNDED;
-            ((S_80174F24_0 *)action)->unk_9B++;
+            body->unk_90.value = 0;
+            body->action_state_flags &= 0xFFF7;
+            actor->flags1C |= ACTOR_GROUNDED;
+            body->action_phase.u++;
         }
     }
                         /* fall through */
 
     case 2:
-        if (((u32)((ActorRecord *)actor)->flags1C) & ACTOR_GROUNDED) {
+        if (((u32)actor->flags1C) & ACTOR_GROUNDED) {
             u8 *direction_table;
 
-            ((S_80174F24_0 *)action)->unk_98 &= 0xFFF7;
+            body->action_state_flags &= 0xFFF7;
             ((S_80174F24_3 *)motion_arg)->unk_14 = 0;
             ((S_80174F24_3 *)motion_arg)->unk_10 = 0;
             ((S_80174F24_3 *)motion_arg)->unk_0C = 0;
             set_record_integer_tile_center(motion_arg,
-                unit->tile_x, unit->tile_y);
+                sprite->tile_x, sprite->tile_y);
             direction_table = D_80176340;
-            (unit->frameTable) = direction_table;
-            select_sprite_entry(unit,
-                direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
+            (sprite->frameTable) = direction_table;
+            select_sprite_entry(sprite,
+                direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            ((S_80174F24_0 *)action)->unk_9B++;
+            body->action_phase.u++;
         }
         break;
 
@@ -137,8 +137,8 @@ void spawn_randomized_oscillating_effect(void *action, void *motion_arg, SpriteF
         s16 action_ticks;
         u32 actor_flags;
 
-        action_ticks = ((S_80174F24_0 *)action)->unk_96.s - 1;
-        ((S_80174F24_0 *)action)->unk_96.u = action_ticks;
+        action_ticks = body->action_timer.u - 1;
+        body->action_timer.s = action_ticks;
         if (action_ticks > 0) {
             return;
         }
@@ -147,7 +147,7 @@ void spawn_randomized_oscillating_effect(void *action, void *motion_arg, SpriteF
         ((S_80174F24_3 *)motion_arg)->unk_10 = 0;
         ((S_80174F24_3 *)motion_arg)->unk_0C = 0;
         set_record_integer_tile_center(motion_arg,
-            unit->tile_x, unit->tile_y);
+            sprite->tile_x, sprite->tile_y);
         spend_actor_mp(actor, 4);
         advance_status_timers(actor);
 
@@ -155,21 +155,21 @@ void spawn_randomized_oscillating_effect(void *action, void *motion_arg, SpriteF
             g_dungeon_status.activity_counts.parts.pending_movement_count--;
         }
 
-        actor_flags = ((u32)((ActorRecord *)actor)->flags1C);
+        actor_flags = ((u32)actor->flags1C);
         if (actor_flags & 0x2000) {
-            if (((ActorRecord *)actor)->action_flags & ACTOR_ACTION_PENDING) {
-                ((ActorRecord *)actor)->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
+            if (actor->action_flags & ACTOR_ACTION_PENDING) {
+                actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
             }
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
-                ((ActorRecord *)actor)->facing = get_rounded_facing_and_rounding_flag(
-                    unit->tile_x, unit->tile_y,
+                actor->facing = get_rounded_facing_and_rounding_flag(
+                    sprite->tile_x, sprite->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
             }
         }
 
-        if ((check_actor_floor_trap(unit, actor) << 16) > 0) {
-            ((S_80174F24_0 *)action)->unk_8C = &pulunpa_variant_action_address;
+        if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
+            body->unk_8C.address = &pulunpa_variant_action_address;
             on_actor_status_updated(actor);
         }
     }

@@ -102,7 +102,8 @@ extern u16 D_8001371A;
 extern s32 cd_cue_base;
 
 /* Dispatch the CD-audio fade state machine, then step the actor's shake counter and raise the finished flag. */
-void advance_dungeon_tile_action_state(u8 *state, u8 *actor, u8 *target) {
+void advance_dungeon_tile_action_state(u8 *state, u8 *actor, u8 *target_arg) {
+    S_807AE960_2 *target = target_arg;
     s16 steps;
     s32 dispatch_index;
     s16 remaining;
@@ -133,14 +134,14 @@ void advance_dungeon_tile_action_state(u8 *state, u8 *actor, u8 *target) {
         break;
     case 17:
         ((S_807AE960_1 *)state)->unk_0A = 0x400;
-        ((S_807AE960_2 *)target)->unk_1A = (s16) (u16) ((S_807AE960_1 *)state)->unk_0A;
+        target->unk_1A = (s16) (u16) ((S_807AE960_1 *)state)->unk_0A;
         ((S_807AE960_1 *)state)->unk_00.u = 0;
         break;
     case 3:
         steps = ((S_807AE960_1 *)state)->unk_04.s;
         if (steps > 0) {
-            ((S_807AE960_2 *)target)->unk_1A = (s16) ((u16) ((S_807AE960_2 *)target)->unk_1A
-                + ((s32) (((S_807AE960_1 *)state)->unk_0A - ((S_807AE960_2 *)target)->unk_1A) / steps));
+            target->unk_1A = (s16) ((u16) target->unk_1A
+                + ((s32) (((S_807AE960_1 *)state)->unk_0A - target->unk_1A) / steps));
         }
         remaining = (u16) ((S_807AE960_1 *)state)->unk_04.s - 1;
         ((S_807AE960_1 *)state)->unk_04.u = remaining;
@@ -167,7 +168,7 @@ void advance_dungeon_tile_action_state(u8 *state, u8 *actor, u8 *target) {
                 g_dungeon_status.activity_counts.parts.pending_action_count = 0;
             }
         }
-        ((S_807AE960_2 *)target)->unk_1A = (s16) (u16) ((S_807AE960_1 *)state)->unk_0A;
+        target->unk_1A = (s16) (u16) ((S_807AE960_1 *)state)->unk_0A;
         ((S_807AE960_1 *)state)->unk_00.u = 0;
         break;
     case 4:
@@ -611,7 +612,7 @@ void mark_scripted_map_boundary(void)
     s32 coord;
 
     dungeon = &g_game_work.map;
-    cells = ((u8 *)dungeon->cells);
+    cells = dungeon->cells;
 
     coord = 0x10;
     do {
@@ -698,7 +699,7 @@ void *find_linked_entity_of_type_21(void *entity)
         s32 target_type = 0x15;
         do {
             entity_base = (u8 *) entity - 0x20;
-            if ((*((u8 *) (((u8 *) entity) - -0x13))) == target_type) {
+            if ((*((((u8 *) entity) - -0x13))) == target_type) {
                 return entity_base;
             }
             entity = (*((void **) (((u8 *) entity) + 0x5C))) + 0x20;
@@ -1932,7 +1933,7 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
     verts = (u8 *)((u32)verts | 0x80);
     do {
         global_slot = (u8 **)(D_80083150 + 0x10);
-        effect = (TerrainParticleEmitterBody *)object;
+        effect = object;
         if ((((TerrainParticleEmitterBody *)object)->unk_06.u >> 10) & 1) {
             u8 *vertex_pair;
             S_807B0B3C_3 *vertex_ptr;
@@ -2150,7 +2151,7 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
                 u8 *vertex_ptr;
 
                 vertex_ptr = scratch + 0x18;
-                (*(u16 *)((u8 *)vertex_ptr + 2)) = component_3;
+                (*(u16 *)(vertex_ptr + 2)) = component_3;
             }
             ((S_807B0B3C_14 *)scratch)->unk_0A = component_3;
             break;

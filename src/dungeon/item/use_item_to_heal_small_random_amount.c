@@ -49,7 +49,7 @@ s32 use_item_to_heal_small_random_amount(ActorRecord *target, DungeonItemEntry *
         display_item_status_message(target, source, effect_mode);
         feed_result = feed_actor_restore_mp(target,
                           (*(u16 *)(((u8 *)entity_action_selectors) +
-                                    (*(u8 *)((u8 *)&((EntityRec *)target)->unk_10 + 3)) * 2) >> 6) & 3,
+                                    (*((u8 *)&((EntityRec *)target)->unk_10 + 3)) * 2) >> 6) & 3,
                           source);
         if (feed_result == 0) {
             place_actor_item(target, source);

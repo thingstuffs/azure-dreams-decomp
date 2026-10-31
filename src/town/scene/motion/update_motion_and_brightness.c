@@ -18,23 +18,25 @@ void func_8003EA54(void *);                 /* extern */
 extern s32 scene_object_flags;
 
 /* Updates motion and brightness, processes the visual, and marks flagged objects. */
-void update_motion_and_brightness(void *object, void *motion, void *visual) {
+void update_motion_and_brightness(void *object, void *motion_arg, void *visual_arg) {
+    ObjectPosition *motion = motion_arg;
     s32 velocity;
     u8 brightness;
     __typeof__(((ObjectPosition *)motion)->z.v) hoisted_1;
+    S_80814610_1 *visual = visual_arg;
 
-    velocity = ((ObjectPosition *)motion)->velocity_z;
+    velocity = motion->velocity_z;
     if (velocity != 0) {
-        hoisted_1 = ((ObjectPosition *)motion)->z.v;
-        ((ObjectPosition *)motion)->z.v = (s32) (hoisted_1 + velocity);
-        ((ObjectPosition *)motion)->velocity_z = (s32) (((ObjectPosition *)motion)->velocity_z + 0x18000);
-        brightness = ((S_80814610_1 *)visual)->unk_0E - 0x20;
-        ((S_80814610_1 *)visual)->unk_0E = brightness;
-        ((S_80814610_1 *)visual)->unk_0D = brightness;
-        ((S_80814610_1 *)visual)->unk_0C = brightness;
+        hoisted_1 = motion->z.v;
+        motion->z.v = (s32) (hoisted_1 + velocity);
+        motion->velocity_z = (s32) (motion->velocity_z + 0x18000);
+        brightness = visual->unk_0E - 0x20;
+        visual->unk_0E = brightness;
+        visual->unk_0D = brightness;
+        visual->unk_0C = brightness;
     }
     func_8003EA54(visual);
-    if (((S_80814610_1 *)visual)->unk_14 & 0x6000) {
+    if (visual->unk_14 & 0x6000) {
         (*(u16 *)((u8 *)object + -2)) = (u16) (((ObjectStatusPrefix16 *)object)[-1].flags | 0x8000);
         scene_object_flags |= 0x8000;
     }

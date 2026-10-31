@@ -149,8 +149,10 @@ extern void SetDrawMode(void *, s32, s32, s32, s32);
 extern u8 upper_draw_context[16];
 
 /* Build and enqueue transformed sprite quads and restore the drawing area. */
-s32 build_transformed_sprite_quads(InactiveTypeTwelveObjectBody *draw_area, void *placement, void *sprite)
+s32 build_transformed_sprite_quads(InactiveTypeTwelveObjectBody *draw_area, void *placement_arg, void *sprite_arg)
 {
+    S_8009E798_3 *sprite = sprite_arg;
+    S_8009E798_2 *placement = placement_arg;
     u8 **state_ptr = (u8 **)((u8 *)(&g_game_work));
     u8 *state = *state_ptr;
     u8 *scratch = (u8 *)0x1F800000;
@@ -168,15 +170,15 @@ s32 build_transformed_sprite_quads(InactiveTypeTwelveObjectBody *draw_area, void
     ((S_8009E798_1 *)scratch)->unk_48 = 0;
 
     SetDrawArea(packet, state);
-    AddPrim(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)placement)->unk_0A * 4,
+    AddPrim(((S_8009E798_1 *)scratch)->unk_20 + placement->unk_0A * 4,
                   packet);
 
-    ((S_8009E798_1 *)scratch)->unk_30 = ((S_8009E798_3 *)sprite)->unk_1C.at00.v;
-    ((S_8009E798_1 *)scratch)->unk_34 = ((S_8009E798_3 *)sprite)->unk_1E;
-    ((S_8009E798_1 *)scratch)->unk_00.u = ((S_8009E798_2 *)placement)->unk_02;
-    ((S_8009E798_1 *)scratch)->unk_02 = ((S_8009E798_2 *)placement)->unk_06;
-    frame = (S_8009E798_5 *)((S_8009E798_3 *)sprite)->unk_08;
-    ((S_8009E798_1 *)scratch)->unk_24 = ((S_8009E798_3 *)sprite)->unk_14.at00.v;
+    ((S_8009E798_1 *)scratch)->unk_30 = sprite->unk_1C.at00.v;
+    ((S_8009E798_1 *)scratch)->unk_34 = sprite->unk_1E;
+    ((S_8009E798_1 *)scratch)->unk_00.u = placement->unk_02;
+    ((S_8009E798_1 *)scratch)->unk_02 = placement->unk_06;
+    frame = (S_8009E798_5 *)sprite->unk_08;
+    ((S_8009E798_1 *)scratch)->unk_24 = sprite->unk_14.at00.v;
     PushMatrix();
 
     ((S_8009E798_1 *)scratch)->unk_98 = 0;
@@ -191,8 +193,8 @@ s32 build_transformed_sprite_quads(InactiveTypeTwelveObjectBody *draw_area, void
     SetRotMatrix(scratch + 0xD0);
     SetTransMatrix(scratch + 0xD0);
 
-    ((S_8009E798_1 *)scratch)->unk_28 = 0x20 - ((S_8009E798_3 *)sprite)->unk_20;
-    ((S_8009E798_1 *)scratch)->unk_2A = 0x20 - ((S_8009E798_3 *)sprite)->unk_22;
+    ((S_8009E798_1 *)scratch)->unk_28 = 0x20 - sprite->unk_20;
+    ((S_8009E798_1 *)scratch)->unk_2A = 0x20 - sprite->unk_22;
     ((S_8009E798_1 *)scratch)->unk_2C = 0;
     func_80065320(scratch + 0x28, scratch + 0x100, scratch + 0x94);
 
@@ -228,13 +230,13 @@ s32 build_transformed_sprite_quads(InactiveTypeTwelveObjectBody *draw_area, void
     func_80065320(scratch + 0x80, packet + 0x18, scratch + 0x94);
     func_80065320(scratch + 0x88, packet + 0x20, scratch + 0x94);
 
-    (*(u16 *)((u8 *)packet + 8)) += ((S_8009E798_1 *)scratch)->unk_100;
-    (*(u16 *)((u8 *)packet + 0x10)) += ((S_8009E798_1 *)scratch)->unk_100;
-    (*(u16 *)((u8 *)packet + 0x18)) += ((S_8009E798_1 *)scratch)->unk_100;
-    (*(u16 *)((u8 *)packet + 0x20)) += ((S_8009E798_1 *)scratch)->unk_100;
-    (*(u16 *)((u8 *)packet + 0xA)) += ((S_8009E798_1 *)scratch)->unk_102;
-    (*(u16 *)((u8 *)packet + 0x12)) += ((S_8009E798_1 *)scratch)->unk_102;
-    (*(u16 *)((u8 *)packet + 0x1A)) += ((S_8009E798_1 *)scratch)->unk_102;
+    (*(u16 *)(packet + 8)) += ((S_8009E798_1 *)scratch)->unk_100;
+    (*(u16 *)(packet + 0x10)) += ((S_8009E798_1 *)scratch)->unk_100;
+    (*(u16 *)(packet + 0x18)) += ((S_8009E798_1 *)scratch)->unk_100;
+    (*(u16 *)(packet + 0x20)) += ((S_8009E798_1 *)scratch)->unk_100;
+    (*(u16 *)(packet + 0xA)) += ((S_8009E798_1 *)scratch)->unk_102;
+    (*(u16 *)(packet + 0x12)) += ((S_8009E798_1 *)scratch)->unk_102;
+    (*(u16 *)(packet + 0x1A)) += ((S_8009E798_1 *)scratch)->unk_102;
     ((S_8009E798_6 *)packet)->unk_22 += ((S_8009E798_1 *)scratch)->unk_102;
 
     ((S_8009E798_1 *)scratch)->unk_10 += ((S_8009E798_1 *)scratch)->unk_08;
@@ -242,15 +244,15 @@ s32 build_transformed_sprite_quads(InactiveTypeTwelveObjectBody *draw_area, void
         (((S_8009E798_1 *)scratch)->unk_14 + ((S_8009E798_1 *)scratch)->unk_0C) << 8;
     ((S_8009E798_1 *)scratch)->unk_0C <<= 8;
 
-    ((S_8009E798_6 *)packet)->unk_0E = ((S_8009E798_3 *)sprite)->unk_12
+    ((S_8009E798_6 *)packet)->unk_0E = sprite->unk_12
         + frame->unk_04.at02.v;
     ((S_8009E798_6 *)packet)->unk_0C = ((S_8009E798_1 *)scratch)->unk_0C + ((S_8009E798_1 *)scratch)->unk_08;
-    (*(s32 *)((u8 *)packet + 0x14)) = ((S_8009E798_1 *)scratch)->unk_0C +
+    (*(s32 *)(packet + 0x14)) = ((S_8009E798_1 *)scratch)->unk_0C +
         ((S_8009E798_1 *)scratch)->unk_10 +
-        ((((S_8009E798_3 *)sprite)->unk_10 | frame->unk_04.at00.v) << 16);
-    (*(u16 *)((u8 *)packet + 0x1C)) = ((S_8009E798_1 *)scratch)->unk_14 + ((S_8009E798_1 *)scratch)->unk_08;
+        ((sprite->unk_10 | frame->unk_04.at00.v) << 16);
+    (*(u16 *)(packet + 0x1C)) = ((S_8009E798_1 *)scratch)->unk_14 + ((S_8009E798_1 *)scratch)->unk_08;
     ((S_8009E798_6 *)packet)->unk_24 = ((S_8009E798_1 *)scratch)->unk_14 + ((S_8009E798_1 *)scratch)->unk_10;
-    ((S_8009E798_6 *)packet)->unk_04.at00.v = ((S_8009E798_3 *)sprite)->unk_0C.at00.v;
+    ((S_8009E798_6 *)packet)->unk_04.at00.v = sprite->unk_0C.at00.v;
     SetPolyFT4(packet);
 
     copy = packet + 0x28;
@@ -262,9 +264,9 @@ s32 build_transformed_sprite_quads(InactiveTypeTwelveObjectBody *draw_area, void
     ((S_8009E798_3 *)packet)->unk_1C.at01.v = (((S_8009E798_3 *)packet)->unk_25 += 0x40);
     ((S_8009E798_3 *)packet)->unk_16 |= 0x100;
 
-    AddPrim(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)placement)->unk_0A * 4,
+    AddPrim(((S_8009E798_1 *)scratch)->unk_20 + placement->unk_0A * 4,
                   packet);
-    AddPrim(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)placement)->unk_0A * 4,
+    AddPrim(((S_8009E798_1 *)scratch)->unk_20 + placement->unk_0A * 4,
                   packet - 0x28);
 
     ((S_8009E798_5 *)prim)->unk_04.at00u.v = 0x00606060;
@@ -278,11 +280,11 @@ s32 build_transformed_sprite_quads(InactiveTypeTwelveObjectBody *draw_area, void
     SetPolyF4(prim);
     ((S_8009E798_5 *)prim)->unk_04.at03.v |= 2;
 
-    AddPrim(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)placement)->unk_0A * 4,
+    AddPrim(((S_8009E798_1 *)scratch)->unk_20 + placement->unk_0A * 4,
                   prim);
     prim = packet + 0x40;
     SetDrawMode(prim, 0, 0, 0x40, 0);
-    AddPrim(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)placement)->unk_0A * 4,
+    AddPrim(((S_8009E798_1 *)scratch)->unk_20 + placement->unk_0A * 4,
                   prim);
 
     rect[0] = draw_area->unk_04.halves.low.u;
@@ -295,7 +297,7 @@ s32 build_transformed_sprite_quads(InactiveTypeTwelveObjectBody *draw_area, void
     }
 
     SetDrawArea(prim, rect);
-    AddPrim(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)placement)->unk_0A * 4,
+    AddPrim(((S_8009E798_1 *)scratch)->unk_20 + placement->unk_0A * 4,
                   prim);
     prim = packet + 0x58;
     PopMatrix();

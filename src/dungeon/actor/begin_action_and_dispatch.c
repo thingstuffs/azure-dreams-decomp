@@ -15,13 +15,14 @@ typedef struct ActionDispatchState {
 } ActionDispatchState;
 
 /* Sets the object action to 0x33, conditionally sets a global flag, and dispatches the target. */
-void begin_action_33_and_dispatch(void *object, void *unused_1, void *unused_2, void *target) {
+void begin_action_33_and_dispatch(void *object_arg, void *unused_1, void *unused_2, void *target) {
+    ActionDispatchState *object = object_arg;
     s32 action = 0x33;
     void *saved_target;
 
-    ((ActionDispatchState *)object)->action = action;
-    ((ActionDispatchState *)object)->phase = 0;
-    ((ActionDispatchState *)object)->callback = 0;
+    object->action = action;
+    object->phase = 0;
+    object->callback = 0;
     /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: dungeon/func_80091258). */
     do {
         saved_target = target;

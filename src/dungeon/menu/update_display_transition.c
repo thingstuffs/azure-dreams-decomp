@@ -81,15 +81,7 @@ typedef struct S_800DC1F8_11 {
     u16 * unk_88;
 } S_800DC1F8_11;   /* ((S_800DC1F8_0 *)arg0)->unk_3C in update_display_transition */
 
-typedef struct S_800DC1F8_12 {
-    u8 pad_00[0x28];
-    u8 unk_28;
-} S_800DC1F8_12;   /* ((S_800DC1F8_10 *)page_base)->unk_14A8.i in update_display_transition */
 
-typedef struct S_800DC1F8_13 {
-    u8 pad_00[0x29];
-    u8 unk_29;
-} S_800DC1F8_13;   /* ((S_800DC1F8_10 *)page_base)->unk_14A8.p in update_display_transition */
 
 /* extern */
 
@@ -222,11 +214,11 @@ void update_display_transition(S_800DC1F8_0 *transition, void *anim_data) {
     }
     if (transition->unk_24 == 0) {
         page_base = (S_800DC1F8_10 *)0x80080000;
-        first_counter = ((S_800DC1F8_12 *)(page_base->unk_14A8.i))->unk_28;
+        first_counter = ((ActorRecord *)(page_base->unk_14A8.i))->hp;
         if (first_counter != transition->unk_10) {
             draw_filler_first_number(first_counter, transition->unk_10, 3, 0x1CA, 0x19C, 1);
         }
-        second_counter = ((S_800DC1F8_13 *)(page_base->unk_14A8.p))->unk_29;
+        second_counter = ((ActorRecord *)(page_base->unk_14A8.p))->max_hp;
         if (second_counter != transition->unk_14) {
             draw_padded_first_number(second_counter, transition->unk_14, 3, 0x1DA, 0x1A4, 1);
         }

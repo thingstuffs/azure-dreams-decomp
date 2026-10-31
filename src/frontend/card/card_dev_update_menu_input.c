@@ -57,7 +57,7 @@ void card_dev_update_menu_input(u8 *root)
             if (flags5000 & 0x5000) {
                 side = flags10 & 0x5000;
                 if (side != 0) {
-                    (*(s32 *)((u8 *)root + 0x30)) = 0;
+                    (*(s32 *)(root + 0x30)) = 0;
                     flags10 = boot_pressed_buttons;
                     if (flags10 & 0x1000) {
                         action = -1;
@@ -68,7 +68,7 @@ void card_dev_update_menu_input(u8 *root)
                     value = ((S_8001EFC4_0 *)root)->unk_30;
                     if (value >= 13) {
                         side = value - 2;
-                        (*(s32 *)((u8 *)root + 0x30)) = side;
+                        (*(s32 *)(root + 0x30)) = side;
                         flags8 = boot_pad_state;
                         if (flags8 & 0x1000) {
                             action = -1;

@@ -73,13 +73,13 @@ void create_encounter_overlay(s32 variant)
 
             copy_src = D_80173B1C;
             (*(PackedVec3 *)((u8 *)obj + 0x48)) =
-                (*(PackedVec3 *)((u8 *)copy_src + 0));
+                (*(PackedVec3 *)(copy_src + 0));
             ((S_8016FAFC_3 *)encounter_overlay_work)->unk_5D58 = obj;
         } else {
 
             copy_src = D_80173B28;
             (*(PackedVec3 *)((u8 *)obj + 0x48)) =
-                (*(PackedVec3 *)((u8 *)copy_src + 0));
+                (*(PackedVec3 *)(copy_src + 0));
             ((S_8016FAFC_3 *)encounter_overlay_work)->unk_5D5C = obj;
         }
         sprite_vector = part + 0x28;

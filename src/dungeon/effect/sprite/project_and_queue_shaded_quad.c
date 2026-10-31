@@ -11,8 +11,10 @@
 #include "dungeon/actor.h"
 
 /* Transforms four colored vertices and queues a visible shaded quad with the requested depth bias. */
-void project_and_queue_shaded_quad(void *quad, void *position, void *render_state, s16 depth_bias)
+void project_and_queue_shaded_quad(void *quad, void *position_arg, void *render_state_arg, s16 depth_bias)
 {
+    Row_81922998_S_80024198_2 *render_state = render_state_arg;
+    Row_81922998_S_80024198_1 *position = position_arg;
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet;
     u8 *texture;
@@ -23,19 +25,19 @@ void project_and_queue_shaded_quad(void *quad, void *position, void *render_stat
     Row_81922998_MATRIX current_matrix;
 
     ((Row_81922998_S_80024198_0 *)scratch)->unk_24.p = *(u8 **)&g_game_work.draw_buffer + 0xB0;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_88 = ((Row_81922998_S_80024198_1 *)position)->unk_02;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_8C = ((Row_81922998_S_80024198_1 *)position)->unk_06;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_90 = ((Row_81922998_S_80024198_1 *)position)->unk_0A;
-    ((Row_81922998_S_80024198_2 *)render_state)->unk_14 |= 0x8000;
+    ((Row_81922998_S_80024198_0 *)scratch)->unk_88 = position->unk_02;
+    ((Row_81922998_S_80024198_0 *)scratch)->unk_8C = position->unk_06;
+    ((Row_81922998_S_80024198_0 *)scratch)->unk_90 = position->unk_0A;
+    render_state->unk_14 |= 0x8000;
 
     PushMatrix();
 
     ((Row_81922998_S_80024198_0 *)scratch)->unk_3C = 0x2000;
     ((Row_81922998_S_80024198_0 *)scratch)->unk_38 = 0x2000;
     ((Row_81922998_S_80024198_0 *)scratch)->unk_34 = 0x2000;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_A4 = ((Row_81922998_S_80024198_2 *)render_state)->unk_16;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_A8 = ((Row_81922998_S_80024198_2 *)render_state)->unk_1A;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_A6 = ((Row_81922998_S_80024198_2 *)render_state)->unk_18;
+    ((Row_81922998_S_80024198_0 *)scratch)->unk_A4 = render_state->unk_16;
+    ((Row_81922998_S_80024198_0 *)scratch)->unk_A8 = render_state->unk_1A;
+    ((Row_81922998_S_80024198_0 *)scratch)->unk_A6 = render_state->unk_18;
     RotMatrix(scratch + 0xA4, scratch + 0x74);
     ReadRotMatrix(&current_matrix);
     CompMatrix(&current_matrix, scratch + 0x74, scratch + 0x54);
@@ -44,12 +46,12 @@ void project_and_queue_shaded_quad(void *quad, void *position, void *render_stat
     SetRotMatrix(scratch + 0x54);
 
     texture = (*(u8 **)((u8 *)render_state + 8));
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_28 = ((Row_81922998_S_80024198_2 *)render_state)->unk_14;
+    ((Row_81922998_S_80024198_0 *)scratch)->unk_28 = render_state->unk_14;
 
     packet = ((Row_81922998_S_80024198_3 *)(g_game_work.draw_buffer))->unk_8D0;
     ((Row_81922998_S_80024198_3 *)(g_game_work.draw_buffer))->unk_8D0 = packet + 0xC;
     SetDrawMode(packet, 0, 1, GetTPage(0, 0, 0, 0) & 0xFFFF, 0);
-    (*(u32 *)((u8 *)packet + 0)) = (((Row_81922998_S_80024198_4 *)packet)->unk_00.at00.v & 0xFF000000) |
+    (*(u32 *)(packet + 0)) = (((Row_81922998_S_80024198_4 *)packet)->unk_00.at00.v & 0xFF000000) |
         (((Row_81922998_S_80024198_3 *)(g_game_work.draw_buffer))->unk_B0 & 0x00FFFFFF);
     (*(u32 *)((u8 *)(g_game_work.draw_buffer) + 0xB0)) =
         (((Row_81922998_S_80024198_3 *)(g_game_work.draw_buffer))->unk_B0 & 0xFF000000) |
@@ -92,12 +94,12 @@ void project_and_queue_shaded_quad(void *quad, void *position, void *render_stat
              ((u16)(((Row_81922998_S_80024198_4 *)packet)->unk_1A + 0x20) < 0x121)) |
             (((u16)(((Row_81922998_S_80024198_4 *)packet)->unk_20 + 0x20) < 0x181) &&
              ((u16)(((Row_81922998_S_80024198_4 *)packet)->unk_22 + 0x20) < 0x121))) {
-            ((Row_81922998_S_80024198_2 *)render_state)->unk_14 &= 0x7FFF;
+            render_state->unk_14 &= 0x7FFF;
             texture_flags = texture[1];
-            ((Row_81922998_S_80024198_2 *)render_state)->unk_0F = texture_flags;
+            render_state->unk_0F = texture_flags;
             render_flags = ((Row_81922998_S_80024198_0 *)scratch)->unk_28;
             if (render_flags & 8) {
-                ((Row_81922998_S_80024198_2 *)render_state)->unk_0F = (render_flags & 4) ?
+                render_state->unk_0F = (render_flags & 4) ?
                     (texture_flags | 2) : (texture_flags & 0xFD);
             }
 
@@ -313,7 +315,7 @@ void create_positioned_render_effect(Row_819232EC_S_80024AEC_1 *source, Rec_func
         render_state->scale_y = 0;
         render_state->scale_x = 0;
         *(Row_819232EC_U12 *)((u8 *)effect + 0x96) = *(Row_819232EC_U12 *)&D_80025B48;
-        render_state->source = (void *) (((void *)effect) + 0x96);
+        render_state->source = (((void *)effect) + 0x96);
     }
 }
 

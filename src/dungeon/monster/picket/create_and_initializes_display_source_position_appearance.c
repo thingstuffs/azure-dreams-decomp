@@ -56,7 +56,7 @@ typedef struct S_80174D48_3 {
 /* Creates and initializes a display object from the source position and appearance. */
 /* Creates a moving display for the held item, selecting its texture by item category and preserving its
  * item data. */
-void create_and_initializes_display_source_position_appearance(void *source, Rec_func_800AD058_arg2 *record, void *appearance)
+void create_and_initializes_display_source_position_appearance(void *source, Rec_func_800AD058_arg2 *record, ActorRecord *appearance)
 {
     s32 coord_z;
     s32 record_byte;
@@ -73,7 +73,7 @@ void create_and_initializes_display_source_position_appearance(void *source, Rec
     ProjectileObject *object;
     S_80174D48_2 *transform;
 
-    if (((((AppearanceFieldView_80E8F548 *)appearance)->field_49) != 0) &&
+    if (((appearance->unk_49) != 0) &&
         (object = allocate_flagged_object_node(0x12), object != NULL)) {
         init_object = object;
         transform = object->position;
@@ -94,13 +94,13 @@ void create_and_initializes_display_source_position_appearance(void *source, Rec
         sprite->unk_1E = sprite_size;
         sprite->unk_1C = sprite_size;
         data_base = object_data;
-        if ((((AppearanceFieldView_80E8F548 *)appearance)->field_49) == 0x12) {
+        if ((appearance->unk_49) == 0x12) {
             texture = item_effect_descriptor;
             sprite->unk_08 = (s32)texture;
             record_byte = record->unk_24;
         } else {
-            texture = (void *)lookup_item_category_mapped_value((((AppearanceFieldView_80E8F548 *)appearance)->field_49),
-                          (((AppearanceFieldView_80E8F548 *)appearance)->field_48));
+            texture = (void *)lookup_item_category_mapped_value((appearance->unk_49),
+                          (appearance->unk_48));
             sprite->unk_08 = (s32)texture;
             record_byte = record->unk_24;
         }

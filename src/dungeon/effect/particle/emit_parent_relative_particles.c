@@ -68,7 +68,8 @@ extern u16 emitted_effect_counter;
 extern M2C_UNK D_8010B4EC;
 
 /* Emit particles at the parent-relative position and retire the emitter when its lifetime expires. */
-void emit_parent_relative_particles(void *emitter, ObjectPosition *position, M2C_UNK spawn_context) {
+void emit_parent_relative_particles(void *emitter_arg, ObjectPosition *position, M2C_UNK spawn_context) {
+    S_7FFE89B0_0 *emitter = emitter_arg;
     s32 spawn_index;
     u16 age;
     u16 lifetime;
@@ -76,15 +77,15 @@ void emit_parent_relative_particles(void *emitter, ObjectPosition *position, M2C
     S_7FFE89B0_4 *particle_state;
     S_7FFE89B0_3 *particle;
 
-    parent = ((S_7FFE89B0_0 *)emitter)->unk_24;
+    parent = emitter->unk_24;
     position->x.w.i = (s16) (((MovingPosition *)(parent->unk_08))->x
-        + ((S_7FFE89B0_0 *)emitter)->unk_3C);
+        + emitter->unk_3C);
     position->y.w.i = (s16) (((MovingPosition *)(parent->unk_08))->y
-        + ((S_7FFE89B0_0 *)emitter)->unk_3E);
+        + emitter->unk_3E);
     position->z.w.i = (s16) (((MovingPosition *)(parent->unk_08))->z
-        + ((S_7FFE89B0_0 *)emitter)->unk_40);
-    age = ((S_7FFE89B0_0 *)emitter)->unk_16 + 1;
-    ((S_7FFE89B0_0 *)emitter)->unk_16 = age;
+        + emitter->unk_40);
+    age = emitter->unk_16 + 1;
+    emitter->unk_16 = age;
     if ((s16) age < 0x14) {
         spawn_index = 0;
         do {
@@ -100,12 +101,12 @@ void emit_parent_relative_particles(void *emitter, ObjectPosition *position, M2C
                 particle_state->unk_10 = (s32) (((func_700750E0() & 0x7FFF) - 0x4000) << 7);
                 particle_state->unk_14 = (s32) (((func_700750E0() & 0x7FFF) - 0x4000) << 7);
                 particle_state->unk_0A = (u16) (particle_state->unk_0A
-                    - (emitter_height_offsets[((S_7FFE89B0_6 *)(((S_7FFE89B0_0 *)emitter)->unk_00))->unk_13] >> 1));
+                    - (emitter_height_offsets[((S_7FFE89B0_6 *)(emitter->unk_00))->unk_13] >> 1));
             }
         } while (spawn_index < 4);
     }
-    lifetime = ((S_7FFE89B0_0 *)emitter)->unk_1E - 1;
-    ((S_7FFE89B0_0 *)emitter)->unk_1E = lifetime;
+    lifetime = emitter->unk_1E - 1;
+    emitter->unk_1E = lifetime;
     if ((lifetime << 0x10) <= 0) {
         u16 *active_count = &emitted_effect_counter;
         u16 next_active_count;

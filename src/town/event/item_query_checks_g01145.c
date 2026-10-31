@@ -132,7 +132,7 @@ s32 get_group_record_table_entry(s32 group_id, void *record) {
                 if (test_resident_bitmap_bit(F_takoyaki_morau) != 0) {
                     u8 *special_result;
 
-                    special_result = (u8 *)&D_8006BC7A;
+                    special_result = &D_8006BC7A;
                     return (s32)special_result;
                 }
                 return 0;
@@ -225,8 +225,8 @@ void *select_response_for_source_and_target(void *source, void *target) {
     void *data_base;
 
     if ((source != 0) && (target != 0)) {
-        if (((*(u8 *)((u8 *)target + 0x14) == 4) ||
-             (*(u8 *)((u8 *)target + 0x4D) != 0)) &&
+        if (((*((u8 *)target + 0x14) == 4) ||
+             (*((u8 *)target + 0x4D) != 0)) &&
             ((data_base = *(void **)((u8 *)source - 0x10),
               (data_base == message_motion_type_a)) ||
              (data_base == message_motion_type_b) ||

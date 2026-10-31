@@ -13,7 +13,7 @@ typedef struct S_80099CE0_2 {
 
 
 void init_quarter_turn_motion_action(Rec_func_80094268_arg0 *object, void *unused, void *handler_context) {
-    call_the_handler_selects_nonzero_entry((s32 *) ((S_80099CE0_2 *)(((Rec_func_80094268_arg0 *)object)->unk_44))->unk_08, object, handler_context);
+    call_the_handler_selects_nonzero_entry((s32 *) ((S_80099CE0_2 *)(object->unk_44))->unk_08, object, handler_context);
     object_index_slots[object->unk_40].unk_00 = 0;
     object->unk_04.as_pm = &player_slot_state_address;
     object->unk_10.as_s16 = 0x400;

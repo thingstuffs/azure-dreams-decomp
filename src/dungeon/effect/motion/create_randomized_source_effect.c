@@ -10,19 +10,20 @@
 
 /* Moves an animated sprite outward along its saved angle with a fixed vertical step and removes it
    when animation ends. */
-void move_sprite_in_radial_direction(void *motion, Row_8191C848_S_8191C848_3 *position, SpriteFrameState *status) {
+void move_sprite_in_radial_direction(void *motion_arg, Row_8191C848_S_8191C848_3 *position, SpriteFrameState *status) {
+    Row_8191C848_S_8191C848_0 *motion = motion_arg;
     s32 y_step_scaled;
     Row_8191C848_S_8191C848_1 *counter_state;
-    counter_state = ((Row_8191C848_S_8191C848_0 *)motion)->unk_00;
+    counter_state = motion->unk_00;
     counter_state->unk_14 = (u16) (counter_state->unk_14 + 1);
     advance_sprite_animation_and_textures(status);
     if (status->flags & 0x6000) {
         ((Row_8191C848_S_8191C848_0_pre *)motion)[-1].unk_00 = (u16) (((Row_8191C848_S_8191C848_0_pre *)motion)[-1].unk_00 | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
-    position->unk_02 = (u16) (position->unk_02 + ((s32) ((rsin(((Row_8191C848_S_8191C848_0 *)motion)->unk_08)
-        >> 4) * ((Row_8191C848_S_8191C848_0 *)motion)->unk_0A) >> 8));
-    y_step_scaled = (rcos(((Row_8191C848_S_8191C848_0 *)motion)->unk_08) >> 4) * ((Row_8191C848_S_8191C848_0 *)motion)->unk_0A;
+    position->unk_02 = (u16) (position->unk_02 + ((s32) ((rsin(motion->unk_08)
+        >> 4) * motion->unk_0A) >> 8));
+    y_step_scaled = (rcos(motion->unk_08) >> 4) * motion->unk_0A;
     position->unk_0A = (u16) (position->unk_0A - 4);
     position->unk_06 = (u16) (position->unk_06 + (y_step_scaled >> 8));
 }
@@ -74,7 +75,8 @@ void *create_randomized_source_effect(Row_8191C938_S_8191C938_3 *source)
 }
 
 /* Rotates a sprite through timed movement, a pause, and accelerating vertical motion before removal. */
-void advance_timed_effect_motion(void *object, Row_8191CA88_S_8191CA88_3 *motion, Row_8191CA88_S_8191CA88_2 *effect) {
+void advance_timed_effect_motion(void *object_arg, Row_8191CA88_S_8191CA88_3 *motion, Row_8191CA88_S_8191CA88_2 *effect) {
+    Row_8191CA88_S_8191CA88_0 *object = object_arg;
     s32 state;
     u16 state_unsigned;
     s32 timer;
@@ -94,15 +96,15 @@ void advance_timed_effect_motion(void *object, Row_8191CA88_S_8191CA88_3 *motion
     u16 phase;
     Row_8191CA88_S_8191CA88_1 *inner;
 
-    inner = ((Row_8191CA88_S_8191CA88_0 *)object)->unk_00;
+    inner = object->unk_00;
     inner->unk_14 = inner->unk_14 + 1;
     phase = effect->unk_1A;
     effect->unk_1A = phase + 0x300;
-    old_timer = ((Row_8191CA88_S_8191CA88_0 *)object)->unk_10.s;
-    state = ((Row_8191CA88_S_8191CA88_0 *)object)->unk_0E.s;
-    state_unsigned = ((Row_8191CA88_S_8191CA88_0 *)object)->unk_0E.u;
+    old_timer = object->unk_10.s;
+    state = object->unk_0E.s;
+    state_unsigned = object->unk_0E.u;
     timer = old_timer + 1;
-    ((Row_8191CA88_S_8191CA88_0 *)object)->unk_10.u = timer;
+    object->unk_10.u = timer;
 
     switch (state) {
     case 0:
@@ -113,35 +115,35 @@ void advance_timed_effect_motion(void *object, Row_8191CA88_S_8191CA88_3 *motion
         motion->unk_00 = x_position + x_velocity;
         motion->unk_04 += y_velocity;
         motion->unk_08 += z_velocity;
-        move_timer = ((Row_8191CA88_S_8191CA88_0 *)object)->unk_10.p;
-        move_duration = ((Row_8191CA88_S_8191CA88_0 *)object)->unk_14;
+        move_timer = object->unk_10.p;
+        move_duration = object->unk_14;
         if (move_timer < move_duration)
             return;
-        next_state = ((Row_8191CA88_S_8191CA88_0 *)object)->unk_0E.p + 1;
-        ((Row_8191CA88_S_8191CA88_0 *)object)->unk_10.u = 0;
-        ((Row_8191CA88_S_8191CA88_0 *)object)->unk_0E.p = next_state;
+        next_state = object->unk_0E.p + 1;
+        object->unk_10.u = 0;
+        object->unk_0E.p = next_state;
         return;
 
     case 1:
         signed_timer = timer << 16;
-        wait_duration = ((Row_8191CA88_S_8191CA88_0 *)object)->unk_16;
+        wait_duration = object->unk_16;
         signed_timer >>= 16;
         waiting = signed_timer < wait_duration;
         if (waiting != 0) {
             return;
         }
-        ((Row_8191CA88_S_8191CA88_0 *)object)->unk_0E.s = state_unsigned + 1;
-        ((Row_8191CA88_S_8191CA88_0 *)object)->unk_10.u = 0;
+        object->unk_0E.s = state_unsigned + 1;
+        object->unk_10.u = 0;
         return;
 
     case 2:
         motion->unk_08 -= timer << 16;
-        if (((Row_8191CA88_S_8191CA88_0 *)object)->unk_10.p < 0x18) {
+        if (object->unk_10.p < 0x18) {
             return;
         }
-        next_state = ((Row_8191CA88_S_8191CA88_0 *)object)->unk_0E.p + 1;
-        ((Row_8191CA88_S_8191CA88_0 *)object)->unk_10.u = 0;
-        ((Row_8191CA88_S_8191CA88_0 *)object)->unk_0E.p = next_state;
+        next_state = object->unk_0E.p + 1;
+        object->unk_10.u = 0;
+        object->unk_0E.p = next_state;
         return;
 
     case 3:

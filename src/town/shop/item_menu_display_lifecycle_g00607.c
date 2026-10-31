@@ -34,11 +34,12 @@ void *create_item_menu_display_controller(s32 owner, s32 display_config, s32 x, 
 }
 
 /* Set the record and global high flags, then process the stored record value. */
-void finish_item_menu_child_and_release_list(void *record) {
+void finish_item_menu_child_and_release_list(void *record_arg) {
+    ObjectRetirementFlags *record = record_arg;
     s32 record_value;
     s32 global_flags;
 
-    ((ObjectRetirementFlags *)record)[-1].flags = (u16) (((ObjectRetirementFlags *)record)[-1].flags | 0x8000);
+    record[-1].flags = (u16) (record[-1].flags | 0x8000);
     global_flags = object_flag_block.v | 0x8000;
     record_value = ((S_800B06C4_0 *)record)->child;
     object_flag_block.v = global_flags;

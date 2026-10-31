@@ -77,7 +77,7 @@ void run_event_opcode_script(s32 setup_arg0, s32 setup_arg1, s32 setup_arg2, s32
         func_8001E5F0(F_sbs01_pad21);
         state_page_addr = (u8 *)0x80020000;
     }
-    state_page = (u8 *)state_page_addr;
+    state_page = state_page_addr;
     opcode_handlers = D_800178E8;
     *(u8 **)(state_page - 0x16B0) = ((S_80019560_0 *)(*(void **)((s8 *)(&town_scene_root))))->unk_40 + 8;
     do {

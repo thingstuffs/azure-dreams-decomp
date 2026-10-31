@@ -7,10 +7,10 @@
 extern s32 ghosh_action_resume_address;
 
 /* Initializes the state fields when the availability and value checks pass. */
-void advance_actor_movement_and_trap_check(ActorRecord *body, s32 unused, s32 checkInput, s32 setupInput) {
-    if (update_actor_movement_to_tile(body, unused, checkInput, setupInput) != 0) {
-        advance_status_timers(setupInput);
-        if ((check_actor_floor_trap(checkInput, setupInput) << 16) > 0) {
+void advance_actor_movement_and_trap_check(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
+    if (update_actor_movement_to_tile(body, position, sprite, actor) != 0) {
+        advance_status_timers(actor);
+        if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
             body->unk_8C.address = &ghosh_action_resume_address;
             body->unk_90.value = 0;
         }

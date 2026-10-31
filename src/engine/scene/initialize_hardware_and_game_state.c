@@ -84,13 +84,13 @@ void initialize_hardware_and_game_state(void)
         *(u32 *)(config_base + 0x3180) = config_word; /* D_80013180 */
         *(u32 *)0x80081494 = config_word;
         config_byte4 = 0x20;
-        *(u8 *)(config_base + 0x3184) = config_byte4; /* D_80013184 */
+        *(config_base + 0x3184) = config_byte4; /* D_80013184 */
         *(u8 *)0x800814AC = config_byte4;
         config_byte6 = 3;
-        *(u8 *)(config_base + 0x3186) = config_byte6; /* D_80013186 */
+        *(config_base + 0x3186) = config_byte6; /* D_80013186 */
         *(u8 *)0x800814A4 = config_byte6;
         *(s16 *)(config_base + 0x2094) = 5;   /* D_80012094 */
-        *(u8 *)(config_base + 0x2D6E) = 0;    /* D_80012D6E */
+        *(config_base + 0x2D6E) = 0;    /* D_80012D6E */
         *(s16 *)(config_base + 0x2098) = 2;   /* D_80012098 */
     }
     build_cubic_cumulative_table();

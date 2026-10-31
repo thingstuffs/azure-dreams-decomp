@@ -255,59 +255,60 @@ typedef struct S_800A5AF0_2 {
 } S_800A5AF0_2;   /* arg2 in update_effect_position_and_scale_transition */
 
 /* Interpolate effect values, hold briefly, then fade the colors and mark completion. */
-void update_effect_position_and_scale_transition(void *transition, S_800A5AF0_1 *output, S_800A5AF0_2 *appearance) {
+void update_effect_position_and_scale_transition(void *transition_arg, S_800A5AF0_1 *output, S_800A5AF0_2 *appearance) {
+    S_800A5AF0_0 *transition = transition_arg;
     s16 divisor;
     s16 timer;
     s16 state;
     u16 level;
     u16 next_state; /* MATCH: Both arms merge the updated state in retail's $v0. */
 
-    state = ((S_800A5AF0_0 *)transition)->unk_04.s;
+    state = transition->unk_04.s;
     if (state == 0) {
         output->unk_02 = (s16)(
             (u16)output->unk_02 +
-            ((s32)(((S_800A5AF0_0 *)transition)->unk_08 - output->unk_02) /
-             (s16)((S_800A5AF0_0 *)transition)->unk_06));
+            ((s32)(transition->unk_08 - output->unk_02) /
+             (s16)transition->unk_06));
 
         level = appearance->unk_1C;
-        divisor = ((S_800A5AF0_0 *)transition)->unk_06;
+        divisor = transition->unk_06;
         appearance->unk_1C =
             (u16)(level + ((s32)(0x1000 - level) / divisor));
 
-        timer = (u16)((S_800A5AF0_0 *)transition)->unk_06 - 1;
-        ((S_800A5AF0_0 *)transition)->unk_06 = timer;
+        timer = (u16)transition->unk_06 - 1;
+        transition->unk_06 = timer;
         if ((timer << 16) <= 0) {
-            ((S_800A5AF0_0 *)transition)->unk_06 = 0x30;
+            transition->unk_06 = 0x30;
             appearance->unk_1C = 0x1000;
-            ((S_800A5AF0_0 *)transition)->unk_04.u = ((S_800A5AF0_0 *)transition)->unk_04.u + 1;
+            transition->unk_04.u = transition->unk_04.u + 1;
         }
     } else if (state == 1) {
         if ((g_game_work.pressed_buttons) != 0) {
-            ((S_800A5AF0_0 *)transition)->unk_06 = 0;
+            transition->unk_06 = 0;
         }
 
-        timer = (u16)((S_800A5AF0_0 *)transition)->unk_06 - 1;
-        ((S_800A5AF0_0 *)transition)->unk_06 = timer;
+        timer = (u16)transition->unk_06 - 1;
+        transition->unk_06 = timer;
         if ((timer << 16) <= 0) {
-            next_state = ((S_800A5AF0_0 *)transition)->unk_04.u;
+            next_state = transition->unk_04.u;
 
-            ((S_800A5AF0_0 *)transition)->unk_06 = 0x20;
+            transition->unk_06 = 0x20;
             next_state = next_state + 1;
-            ((S_800A5AF0_0 *)transition)->unk_04.u = next_state;
+            transition->unk_04.u = next_state;
         }
     } else {
         appearance->unk_0E = (u8)(
             appearance->unk_0E -
-            ((s32)appearance->unk_0E / (s16)((S_800A5AF0_0 *)transition)->unk_06));
+            ((s32)appearance->unk_0E / (s16)transition->unk_06));
         appearance->unk_0D = (u8)(
             appearance->unk_0D -
-            ((s32)appearance->unk_0D / (s16)((S_800A5AF0_0 *)transition)->unk_06));
+            ((s32)appearance->unk_0D / (s16)transition->unk_06));
         appearance->unk_0C = (u8)(
             appearance->unk_0C -
-            ((s32)appearance->unk_0C / (s16)((S_800A5AF0_0 *)transition)->unk_06));
+            ((s32)appearance->unk_0C / (s16)transition->unk_06));
 
-        timer = (u16)((S_800A5AF0_0 *)transition)->unk_06 - 1;
-        ((S_800A5AF0_0 *)transition)->unk_06 = timer;
+        timer = (u16)transition->unk_06 - 1;
+        transition->unk_06 = timer;
         if ((timer << 16) <= 0) {
             ((S_800A5AF0_0_pre *)transition)[-1].unk_00 |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -564,10 +565,10 @@ s32 draw_expanding_screen_rectangle(S_800A5FC0_2 *state) {
 
     render_ctx = g_game_work.draw_buffer;
     draw_mode = render_ctx->unk_8D0;
-    render_ctx->unk_8D0 = (void *) (draw_mode + 0xC);
-    quad = ((S_800A5FC0_5 *)(((Rec_D_80083160 *)(((void * *)(&g_game_work))))->unk_00.as_pv))->unk_8D0;
-    ((S_800A5FC0_5 *)(((Rec_D_80083160 *)(((void * *)(&g_game_work))))->unk_00.as_pv))->unk_8D0 = (void *) (quad + 0x18);
-    render_ctx_ref = (void **)((void * *)(&g_game_work));
+    render_ctx->unk_8D0 = (draw_mode + 0xC);
+    quad = ((S_800A5FC0_5 *)g_game_work.draw_buffer)->unk_8D0;
+    ((S_800A5FC0_5 *)g_game_work.draw_buffer)->unk_8D0 = (quad + 0x18);
+    render_ctx_ref = ((void * *)(&g_game_work));
     SetDrawMode(draw_mode, 0, 0, state->unk_04, 0);
     ((S_800A5FC0_3 *)quad)->unk_04 = (s32) state->unk_00;
     SetPolyF4(quad);
@@ -712,11 +713,11 @@ s32 draw_fullscreen_grayscale_quad(Input *input) {
     Work *quad;
     s16 color;
 
-    arena = (GpuContext *)g_game_work.draw_buffer;
+    arena = g_game_work.draw_buffer;
     draw_mode = arena->packetCursor;
     arena->packetCursor = draw_mode + 0xC;
-    arena = (GpuContext *)g_game_work.draw_buffer;
-    quad = (Work *)arena->packetCursor;
+    arena = g_game_work.draw_buffer;
+    quad = arena->packetCursor;
     arena->packetCursor = (u8 *)quad + 0x18;
 
     SetDrawMode(draw_mode, 0, 0, 0x40, 0);
@@ -841,8 +842,8 @@ s32 select_object_state_value(void *object) {
     s32 special_index;
     s32 selected_value;
 
-    if (*(u8 *)((u8 *)object + 0x13) != 0) {
-        if (*(u8 *)((u8 *)object + 0x25) == 0) {
+    if (*((u8 *)object + 0x13) != 0) {
+        if (*((u8 *)object + 0x25) == 0) {
             selected_value = D_800DCF44;
             return selected_value;
         }
@@ -1355,8 +1356,8 @@ void *create_pulsing_effect_object(void) {
         ((S_800A6C00_0 *)object)->unk_10 = &D_800A6B70;
         register_node(object, &D_800B06F0);
         sprite = object + 0x30;
-        ((S_800A6C00_0 *)object)->unk_20 = (void *)(object + 0xF0);
-        render_state->unk_04 = (void *)(object + 0xC0);
+        ((S_800A6C00_0 *)object)->unk_20 = (object + 0xF0);
+        render_state->unk_04 = (object + 0xC0);
         glyph_end.pointer = decode_fullwidth_text(sprite, D_80089074, 0);
         ((S_800A6C00_0 *)object)->unk_F0 = glyph_end.bits & 0x7FFFFFFF;
         offset_record_coordinates(sprite, 0xA8, (s16)((0 - (s8)sprite->unk_03) + 8));

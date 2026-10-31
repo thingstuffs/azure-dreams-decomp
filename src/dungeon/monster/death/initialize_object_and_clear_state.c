@@ -16,10 +16,10 @@ typedef struct S_80173C40_0 {
 
 
 /* Initialize the object, save its A4 value, and clear its trailing state. */
-void initialize_object_and_clear_state(S_80173C40_0 *object, void *init_data, SpriteFrameState *init_context, void *render) {
+void initialize_object_and_clear_state(S_80173C40_0 *object, ObjectPosition *position, SpriteFrameState *init_context, ActorRecord *actor) {
     s32 saved_a4;
 
-    update_actor_hop_and_shrink(object, init_data, init_context, render);
+    update_actor_hop_and_shrink(object, position, init_context, actor);
     saved_a4 = object->unk_A4.at00.v;
     object->unk_A4.at02.v = 0;
     object->unk_AC = 0;

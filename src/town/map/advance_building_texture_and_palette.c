@@ -18,20 +18,20 @@ extern u8 D_80111F28[];
 extern void LoadImage();
 
 /* Advance the animation tick and upload the current texture and palette frames. */
-void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload_arg) {
+void advance_building_texture_and_palette(BuildingSelectionHandlerBody *state, s32 unused, s32 upload_arg) {
     u16 next_tick;
     s16 phase;
     s32 dispatch_index;
     s16 *rect;
     s32 tile_width;
 
-    next_tick = *anim_tick + 1;
-    *anim_tick = next_tick;
+    next_tick = state->animation_tick.u + 1;
+    state->animation_tick.u = next_tick;
     if ((s16)next_tick >= 48) {
-        *anim_tick = 0;
+        state->animation_tick.u = 0;
     }
 
-    phase = *(s16 *)anim_tick % 24;
+    phase = state->animation_tick.s % 24;
     dispatch_index = phase;
     switch (dispatch_index) {
     case 0:
@@ -77,13 +77,13 @@ void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload
         break;
     }
 
-    phase = *(s16 *)anim_tick % 16;
+    phase = state->animation_tick.s % 16;
     switch (phase) {
     case 0:
         rect = (s16 *)building_upload_rect;
         *(s16 *)building_upload_rect = 0x330;
-        ((s16 *)rect)[1] = 0x80;
-        ((s16 *)rect)[2] = 8;
+        rect[1] = 0x80;
+        rect[2] = 8;
         rect[3] = 0x20;
         LoadImage(rect, building_texture_backup);
         break;
@@ -126,7 +126,7 @@ void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload
         }
     }
 
-    phase = *(s16 *)anim_tick % 8;
+    phase = state->animation_tick.s % 8;
     switch (phase) {
     case 0:
         rect = (s16 *)building_upload_rect;

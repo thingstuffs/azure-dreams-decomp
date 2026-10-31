@@ -37,7 +37,9 @@ typedef struct {
 } Func818C3448State;
 
 /* Update the effect's color, rotation, growth, motion, and phase transitions. */
-void animate_color_cycling_sprite_burst(void *effect, void *motion, SpriteFrameState *visual) {
+void animate_color_cycling_sprite_burst(void *effect_arg, void *motion_arg, SpriteFrameState *visual) {
+    Func818C3448State *motion = motion_arg;
+    S_818C3448_0 *effect = effect_arg;
     s16 scale;
     s32 color_bits;
     s16 color_cycle;
@@ -61,12 +63,12 @@ void animate_color_cycling_sprite_burst(void *effect, void *motion, SpriteFrameS
     u16 wait_phase;
     S_818C3448_1 *owner;
 
-    owner = ((S_818C3448_0 *)effect)->unk_00;
+    owner = effect->unk_00;
     owner->unk_0C = (u16) (owner->unk_0C + 1);
-    next_tick = (s16) (((S_818C3448_0 *)effect)->unk_12 + 1);
+    next_tick = (s16) (effect->unk_12 + 1);
     color_cycle = next_tick;
-    ((S_818C3448_0 *)effect)->unk_10.s = (u16) (((S_818C3448_0 *)effect)->unk_10.s + 1);
-    ((S_818C3448_0 *)effect)->unk_12 = (u16) next_tick;
+    effect->unk_10.s = (u16) (effect->unk_10.s + 1);
+    effect->unk_12 = (u16) next_tick;
     color_cycle = (color_cycle % 7) + 1;
     advance_sprite_animation_and_textures(visual);
     color_bits = (s16) color_cycle;
@@ -79,36 +81,36 @@ void animate_color_cycling_sprite_burst(void *effect, void *motion, SpriteFrameS
     visual->color.c.r = (s8) ((color_bias >> 2) << 7);
     visual->color.c.g = (s8) ((s32) (((s16) half_color - (((s32) ((s16) half_color + ((u32) (half_color << 0x10) >> 0x1F)) >> 1) * 2)) << 0x10) >> 9);
     visual->color.c.b = (s8) ((s32) ((color_bits - (half_color * 2)) << 0x10) >> 9);
-    phase = ((S_818C3448_0 *)effect)->unk_0E.s;
-    wait_phase = (u16) ((S_818C3448_0 *)effect)->unk_0E.s;
+    phase = effect->unk_0E.s;
+    wait_phase = (u16) effect->unk_0E.s;
     switch (phase) {
     case 0:
         full_scale = 0x1400;
-        scale = (full_scale / (s16) ((S_818C3448_0 *)effect)->unk_14) * (s16) ((S_818C3448_0 *)effect)->unk_10.s;
+        scale = (full_scale / (s16) effect->unk_14) * (s16) effect->unk_10.s;
         visual->scale_y = scale;
         visual->scale_x = scale;
-        position_x = ((Func818C3448State *)motion)->f0;
-        velocity_x = ((Func818C3448State *)motion)->fC;
-        velocity_y = ((Func818C3448State *)motion)->f10;
-        velocity_z = ((Func818C3448State *)motion)->f14;
-        ((Func818C3448State *)motion)->f0 = position_x + velocity_x;
-        ((Func818C3448State *)motion)->f4 = (s32) (((Func818C3448State *)motion)->f4 + velocity_y);
-        ((Func818C3448State *)motion)->f8 = (s32) (((Func818C3448State *)motion)->f8 + velocity_z);
-        elapsed = ((S_818C3448_0 *)effect)->unk_10.u;
-        duration = ((S_818C3448_0 *)effect)->unk_14;
+        position_x = motion->f0;
+        velocity_x = motion->fC;
+        velocity_y = motion->f10;
+        velocity_z = motion->f14;
+        motion->f0 = position_x + velocity_x;
+        motion->f4 = (s32) (motion->f4 + velocity_y);
+        motion->f8 = (s32) (motion->f8 + velocity_z);
+        elapsed = effect->unk_10.u;
+        duration = effect->unk_14;
         if (elapsed < duration) {
             return;
         }
-        burst_phase = ((S_818C3448_0 *)effect)->unk_0E.u;
-        ((S_818C3448_0 *)effect)->unk_10.s = 0U;
-        ((S_818C3448_0 *)effect)->unk_0E.u = (u16) (burst_phase + 1);
+        burst_phase = effect->unk_0E.u;
+        effect->unk_10.s = 0U;
+        effect->unk_0E.u = (u16) (burst_phase + 1);
         return;
     case 1:
-        if ((s16) ((S_818C3448_0 *)effect)->unk_10.s < 0xC) {
+        if ((s16) effect->unk_10.s < 0xC) {
             return;
         }
-        ((S_818C3448_0 *)effect)->unk_0E.s = (s16) (wait_phase + 1);
-        ((S_818C3448_0 *)effect)->unk_10.u = 0;
+        effect->unk_0E.s = (s16) (wait_phase + 1);
+        effect->unk_10.u = 0;
         return;
     case 2:
         func_80024AF4(effect, motion, visual);
@@ -122,12 +124,12 @@ void animate_color_cycling_sprite_burst(void *effect, void *motion, SpriteFrameS
             opposite_bias = angle + 0x17FF;
         }
         advance_object_and_global_counters(effect, motion, (s16) (opposite_angle - ((opposite_bias >> 0xC) << 0xC)));
-        if ((s16) ((S_818C3448_0 *)effect)->unk_10.s < 0x21) {
+        if ((s16) effect->unk_10.s < 0x21) {
             return;
         }
-        burst_phase = ((S_818C3448_0 *)effect)->unk_0E.u;
-        ((S_818C3448_0 *)effect)->unk_10.s = 0U;
-        ((S_818C3448_0 *)effect)->unk_0E.u = (u16) (burst_phase + 1);
+        burst_phase = effect->unk_0E.u;
+        effect->unk_10.s = 0U;
+        effect->unk_0E.u = (u16) (burst_phase + 1);
         return;
     case 3:
         if (visual->flags & 0x6000) {

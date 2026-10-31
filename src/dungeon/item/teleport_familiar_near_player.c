@@ -11,10 +11,6 @@
 #define NULL 0
 #endif
 
-typedef struct S_800C1F28_1 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} S_800C1F28_1;
 
 typedef struct {
     u8 pad[0x24];
@@ -48,7 +44,7 @@ void *teleport_familiar_near_player(void *object, s16 action_arg) {
     u16 target_height;
     u16 source_height;
     u8 source_y;
-    S_800C1F28_1 *task_object;
+    ActorRecord *task_object;
     u8 *position;
     u8 *task_data;
     ObjectNodeHeader *task;
@@ -97,7 +93,7 @@ void *teleport_familiar_near_player(void *object, s16 action_arg) {
         task_object = *(void **)(task_data + 0xC);
         *(s16 *)(task_data + 6) = position[0x25];
         cycle_map_cell_flags(position[0x24], position[0x25],
-                      (task_object->unk_1C & 0x2000) ? 0x300 : 0x3000);
+                      (task_object->flags1C & 0x2000) ? 0x300 : 0x3000);
     }
     return task;
 }

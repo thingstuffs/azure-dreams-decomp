@@ -26,7 +26,8 @@ typedef struct S_8016A9FC_1 {
 } S_8016A9FC_1;   /* counter_base in animate_timed_fade_effect */
 
 /* Handles a timed fade-out and fade-in, then marks the effect complete. */
-void animate_timed_fade_effect(void *effect) {
+void animate_timed_fade_effect(void *effect_arg) {
+    S_8016A9FC_0 *effect = effect_arg;
     s32 state;
     s32 state_arg;
     u16 frames;
@@ -37,8 +38,8 @@ void animate_timed_fade_effect(void *effect) {
     void *first_result;
     u8 cur;
 
-    state = ((S_8016A9FC_0 *)effect)->unk_12.s;
-    state_arg = ((S_8016A9FC_0 *)effect)->unk_12.u;
+    state = effect->unk_12.s;
+    state_arg = effect->unk_12.u;
     fade_colors = &g_game_work;
 
     switch (state) {
@@ -51,8 +52,8 @@ void animate_timed_fade_effect(void *effect) {
             fade_colors->view.tint.parts.tint_b = fade_blue;
             return;
         }
-        ((S_8016A9FC_0 *)effect)->unk_12.u = state_arg + 1;
-        ((S_8016A9FC_0 *)effect)->unk_1A = 0;
+        effect->unk_12.u = state_arg + 1;
+        effect->unk_1A = 0;
         result = get_unused_text_buffer(state_arg, fade_colors, effect);
         first_result = result;
         result = write_text_byte_and_advance(0xA, result);
@@ -67,13 +68,13 @@ void animate_timed_fade_effect(void *effect) {
         return;
 
     case 1:
-        frames = ((S_8016A9FC_0 *)effect)->unk_1A;
-        ((S_8016A9FC_0 *)effect)->unk_1A = frames + 1;
+        frames = effect->unk_1A;
+        effect->unk_1A = frames + 1;
         if ((s16)frames < 0x3C) {
             return;
         }
-        ((S_8016A9FC_0 *)effect)->unk_1A = 0;
-        ((S_8016A9FC_0 *)effect)->unk_12.u++;
+        effect->unk_1A = 0;
+        effect->unk_12.u++;
         return;
 
     case 2:

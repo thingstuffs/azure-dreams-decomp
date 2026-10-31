@@ -386,7 +386,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, Objec
             void *callback = handle_player_input;
             event_flags = ((S_func_800B1364_15 *)&dungeon_floor_flags)->unk_00 & 0xFFDFFFFF;
             action->unk_8C = callback;
-            (*(s32 *)&dungeon_floor_flags) = event_flags;
+            (*&dungeon_floor_flags) = event_flags;
         }
         return;
     case 5:
@@ -405,7 +405,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, Objec
         if (resolve_record_orientation_or_fallback(sprite->source, sprite, &spawn_offset, 0) == 0) {
             spawn_offset.vy = 0;
             spawn_offset.vx = 0;
-            spawn_offset.vz = 0 - (*((u8 *)entity_height_offsets));
+            spawn_offset.vz = 0 - (*entity_height_offsets);
         }
         spawn_directed_and_scattered_particles(position->x.w.i + spawn_offset.vx, position->y.w.i + spawn_offset.vy,
             position->z.w.i + spawn_offset.vz);
@@ -427,7 +427,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, Objec
         if (resolve_record_orientation_or_fallback(sprite->source, sprite, &spawn_offset, 0) == 0) {
             spawn_offset.vy = 0;
             spawn_offset.vx = 0;
-            spawn_offset.vz = 0 - (*((u8 *)entity_height_offsets));
+            spawn_offset.vz = 0 - (*entity_height_offsets);
         }
         creature_pos = ((S_func_800B1364_18 *)((u8 *)creature - 0x18))->unk_00;
         creature_pos->unk_02 = (s16) ((u16) position->x.w.i + (u16) spawn_offset.vx);
@@ -469,14 +469,14 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, Objec
         message_end = expand_text_control_codes(D_800E0A33, append_entity_display_text(creature, expand_text_control_codes(D_800E0A2A,
             expand_text_control_codes(((S_func_800B1364_17 *)((creature->unk_13 * 0x14) + monster_species_table))->unk_04,
             write_text_byte_and_advance(8, message_start)))));
-        if (!((*(u16 *)(&system_update_flags)) & 1)) {
+        if (!((*(&system_update_flags)) & 1)) {
             message_end = copy_four_text_bytes(familiar_defeat_text, write_text_byte_and_advance(0x4C, write_text_byte_and_advance(0x11, message_end)));
         }
         clear_byte_and_advance(message_end);
         display_text_with_fullwidth_adjustment(message_start);
         *(u16 *)((u8 *)action + 0x96) = 0x20U;
         action->unk_9B = (u8) (action->unk_9B + 1);
-        if (!((*(u16 *)(&system_update_flags)) & 1)) {
+        if (!((*(&system_update_flags)) & 1)) {
             summon_state = &g_dungeon_status;
             if ((s16) ((u16)summon_state->activity_counts.parts.pending_action_count) < 2) {
                 return;

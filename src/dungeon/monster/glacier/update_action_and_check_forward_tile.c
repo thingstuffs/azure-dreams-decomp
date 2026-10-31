@@ -27,8 +27,8 @@ extern s32 rand(void);
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 
 
-extern void * find_first_entry_matching_keys(void *node, u16 key_a, u16 key_b, s16 range_center);
-extern void create_facing_offset_object(void *, void *, void *);
+extern void * find_first_entry_matching_keys(ActorRecord *node, u16 key_a, u16 key_b, s16 range_center);
+extern void create_facing_offset_object(void *, ObjectPosition *, SpriteFrameState *);
 
 extern u8 D_80170B48[];
 

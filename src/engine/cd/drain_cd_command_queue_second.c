@@ -14,7 +14,7 @@ extern UA32 D_80080B50[];
 void finish_cd_load_and_initialize_target(void *target)
 {
     UA32 local_copy;
-    *(UA32 *)&local_copy = *(UA32 *)D_80080B50;
+    *&local_copy = *D_80080B50;
     submit_global_cd_command_six();
     drain_cd_command_queue();
     allocate_item_without_data_override(target, 0, 0, &local_copy);

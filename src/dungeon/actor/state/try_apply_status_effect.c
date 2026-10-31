@@ -13,7 +13,7 @@ extern u8 D_800E19D3[];
 s32 try_apply_status_effect(void *target, s16 chance, s16 duration) {
     if (roll_threshold_effect_variant_a(target, chance, duration) != 0) {
         adjust_source_value_and_finalize(target, D_800E19C2);
-        if (*(u8 *)((u8 *)target + 0x13) == 0) {
+        if (*((u8 *)target + 0x13) == 0) {
             wrap_position_and_set_state_value(D_800DCF1C[0]);
         }
         return 1;

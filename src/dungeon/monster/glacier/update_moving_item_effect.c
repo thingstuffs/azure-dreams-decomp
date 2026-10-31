@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "shared/entity.h"
 
 typedef struct S_func_810332A4_1 {
     u8 pad_00[0x16];
@@ -41,14 +42,6 @@ typedef struct S_func_810332A4_3 {
     u16 unk_14;
 } S_func_810332A4_3;
 
-typedef struct S_func_810332A4_4 {
-    u8 pad_00[0x11];
-    u8 unk_11;
-    u8 pad_12[0x18];
-    s16 unk_2A;
-    u8 pad_2C[0x80];
-    u8 unk_AC;
-} S_func_810332A4_4;
 
 typedef struct S_func_810332A4_5 {
     u8 pad_00[8];
@@ -94,7 +87,7 @@ extern s16 sample_terrain_surface_height(u16, u16, s16);
 extern void spawn_directional_particle(); /* Unprototyped: retail call passes more arguments than the callee reads */
 extern void spawn_directional_effect(); /* Unprototyped: retail call passes more arguments than the callee reads */
 extern void *find_nearby_eligible_entry(u8 *current, s32 wanted_24, s32 wanted_25, s32 height_center);
-extern void * find_first_entry_matching_keys(void *node, u16 key_a, u16 key_b, s16 range_center);
+extern void * find_first_entry_matching_keys(ActorRecord *node, u16 key_a, u16 key_b, s16 range_center);
 
 extern Pair16 glacier_direction_offsets[];
 
@@ -104,7 +97,7 @@ extern Pair16 glacier_direction_offsets[];
 void update_moving_item_effect(S_func_810332A4_1 *effect, S_func_810332A4_2 *motion, S_func_810332A4_3 *sprite)
 {
     u16 collision_flags;
-    S_func_810332A4_4 *owner;
+    ActorRecord *owner;
     S_func_810332A4_5 *object;
     S_func_810332A4_5 *new_object;
     S_func_810332A4_6 *display;
@@ -134,7 +127,7 @@ void update_moving_item_effect(S_func_810332A4_1 *effect, S_func_810332A4_2 *mot
     s32 fade_value;
     s32 delay_pending;
     u16 timer;
-    S_func_810332A4_4 *effect_owner;
+    ActorRecord *effect_owner;
 
 
     effect_owner = effect->unk_28;
@@ -320,8 +313,8 @@ void update_moving_item_effect(S_func_810332A4_1 *effect, S_func_810332A4_2 *mot
                         effect->unk_1E.s = 0;
                         motion->unk_10 = 0;
                         motion->unk_0C = 0;
-                        apply_attack_power_and_element_effects(object_data, 7, owner->unk_11, 10,
-                                      owner->unk_2A, (u32)owner | 0xA0000000, 2);
+                        apply_attack_power_and_element_effects(object_data, 7, owner->level, 10,
+                                      owner->facing, (u32)owner | 0xA0000000, 2);
 
                         new_object = effect->unk_30;
                         if (new_object == 0) {
@@ -436,7 +429,7 @@ secondary_object:
         return;
 
     case 12:
-        effect_owner->unk_AC = 0x4D;
+        effect_owner->unk_AC.byte = 0x4D;
         *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 

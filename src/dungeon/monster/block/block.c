@@ -49,48 +49,50 @@ void initialize_block_sprite_copy(CB_8017087C_Object *object, s32 field60_value,
 
 
 /* Expands and brightens the rotating effect, then shrinks and fades it until its timer expires. */
-void expand_then_shrink_effect(void *effect, void *unused, void *visual)
+void expand_then_shrink_effect(void *effect_arg, void *unused, void *visual_arg)
 {
+    CB_80170920_S_80170920_1 *visual = visual_arg;
+    CB_80170920_S_80170920_0 *effect = effect_arg;
     s16 state;
     s32 fade_brightness;
     u8 brightness;
 
-    state = ((CB_80170920_S_80170920_0 *)effect)->unk_1C.s;
+    state = effect->unk_1C.s;
     switch (state) {
     case 0:
-        ((CB_80170920_S_80170920_1 *)visual)->unk_1C += 0x258;
-        ((CB_80170920_S_80170920_1 *)visual)->unk_1E += 0x258;
-        brightness = ((CB_80170920_S_80170920_1 *)visual)->unk_0E + 0xC;
-        ((CB_80170920_S_80170920_1 *)visual)->unk_0E = brightness;
-        ((CB_80170920_S_80170920_1 *)visual)->unk_0D = brightness;
-        ((CB_80170920_S_80170920_1 *)visual)->unk_0C = brightness;
-        if (((CB_80170920_S_80170920_1 *)visual)->unk_1C < 0x1770) {
+        visual->unk_1C += 0x258;
+        visual->unk_1E += 0x258;
+        brightness = visual->unk_0E + 0xC;
+        visual->unk_0E = brightness;
+        visual->unk_0D = brightness;
+        visual->unk_0C = brightness;
+        if (visual->unk_1C < 0x1770) {
             break;
         }
-        ((CB_80170920_S_80170920_0 *)effect)->unk_1C.u++;
+        effect->unk_1C.u++;
         break;
     case 1:
-        ((CB_80170920_S_80170920_1 *)visual)->unk_10 = 0x20;
-        ((CB_80170920_S_80170920_1 *)visual)->unk_0E = 0x50;
-        ((CB_80170920_S_80170920_1 *)visual)->unk_0D = 0x50;
-        ((CB_80170920_S_80170920_1 *)visual)->unk_0C = 0x50;
-        ((CB_80170920_S_80170920_0 *)effect)->unk_1C.u++;
+        visual->unk_10 = 0x20;
+        visual->unk_0E = 0x50;
+        visual->unk_0D = 0x50;
+        visual->unk_0C = 0x50;
+        effect->unk_1C.u++;
         break;
     case 2:
-        ((CB_80170920_S_80170920_1 *)visual)->unk_10 = 0x60;
-        ((CB_80170920_S_80170920_0 *)effect)->unk_24.s--;
-        ((CB_80170920_S_80170920_1 *)visual)->unk_1C -= 0x190;
-        ((CB_80170920_S_80170920_1 *)visual)->unk_1E -= 0x190;
-        fade_brightness = (((CB_80170920_S_80170920_0 *)effect)->unk_24.u << 7) /
-                   ((CB_80170920_S_80170920_0 *)effect)->unk_26;
-        ((CB_80170920_S_80170920_1 *)visual)->unk_0E = fade_brightness;
-        ((CB_80170920_S_80170920_1 *)visual)->unk_0D = fade_brightness;
-        ((CB_80170920_S_80170920_1 *)visual)->unk_0C = fade_brightness;
+        visual->unk_10 = 0x60;
+        effect->unk_24.s--;
+        visual->unk_1C -= 0x190;
+        visual->unk_1E -= 0x190;
+        fade_brightness = (effect->unk_24.u << 7) /
+                   effect->unk_26;
+        visual->unk_0E = fade_brightness;
+        visual->unk_0D = fade_brightness;
+        visual->unk_0C = fade_brightness;
         break;
     }
 
-    ((CB_80170920_S_80170920_1 *)visual)->unk_1A += 0x190;
-    if (((CB_80170920_S_80170920_0 *)effect)->unk_24.u <= 0) {
+    visual->unk_1A += 0x190;
+    if (effect->unk_24.u <= 0) {
         (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -190,13 +192,13 @@ void set_boss_effect_flag(void *entity, CB_80170C24_S_80170C24_2 *motion, void *
         if (early_callback == dispatch_actor_turn_and_motion) {
             early_callback(entity, motion, monster, entity);
         } else {
-            (*(u8 *)((u8 *)entity + 0x71)) &= 0x7F;
+            (*((u8 *)entity + 0x71)) &= 0x7F;
         }
         return;
     }
 
 
-    old_direction = (s8)(*(u8 *)((u8 *)entity + 0x6D));
+    old_direction = (s8)(*((u8 *)entity + 0x6D));
     if (refresh_actor_facing_and_lifecycle(entity, motion, monster, entity) != 0) {
         return;
     }
@@ -206,7 +208,7 @@ void set_boss_effect_flag(void *entity, CB_80170C24_S_80170C24_2 *motion, void *
         callback(entity, motion, monster, entity);
     }
 
-    block_callbacks[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, monster, entity);
+    block_callbacks[(*((u8 *)entity + 0x9A))](entity, motion, monster, entity);
 
     if ((s16)old_direction != (*(s8 *)((u8 *)entity + 0x6D))) {
         try_move_actor_to_valid_position(entity, motion, monster, entity);
@@ -254,10 +256,10 @@ void set_boss_effect_flag(void *entity, CB_80170C24_S_80170C24_2 *motion, void *
     motion->unk_04.at00.v += motion->unk_10;
 
     if ((*(u16 *)((u8 *)entity + 0x98)) & 8) {
-        (*(u8 *)((u8 *)entity + 0x9D)) = 0;
+        (*((u8 *)entity + 0x9D)) = 0;
     } else {
         motion->unk_14 += (*(s8 *)((u8 *)entity + 0x9D)) * 0x14000;
-        (*(u8 *)((u8 *)entity + 0x9D))++;
+        (*((u8 *)entity + 0x9D))++;
     }
 
     (*(s32 *)((u8 *)entity + 0x90)) += motion->unk_14;
@@ -279,7 +281,7 @@ void set_boss_effect_flag(void *entity, CB_80170C24_S_80170C24_2 *motion, void *
 
                 motion->unk_14 = 0;
                 actor->unk_1C |= 0x08000000;
-                (*(u8 *)((u8 *)entity + 0x9D)) = 0;
+                (*((u8 *)entity + 0x9D)) = 0;
             }
             if (actor->unk_1C & 0x40000000) {
                 actor->unk_1C &= 0xBFFFFFFF;
@@ -483,7 +485,7 @@ void advance_actor_stored_path(ActorRecord *motion, ObjectPosition *update_param
         if (!(g_dungeon_status.flags & 0x80)) {
             if (!(entity->flags & 0x8000)) {
                 begin_directional_actor_animation(motion, update_param, entity, state);
-                ((CB_80171590_S_80171590_2 *)motion)->unk_A4 = stored_result;
+                motion->unk_A4.halves.low.s = stored_result;
             } else {
                 motion->action_id.s = 15;
             }
@@ -493,13 +495,13 @@ void advance_actor_stored_path(ActorRecord *motion, ObjectPosition *update_param
     } else {
         if (result_code == 3 && !(g_dungeon_status.flags & 0x80) && !(entity->flags & 0x8000)) {
             begin_directional_actor_animation(motion, update_param, entity, state);
-            ((CB_80171590_S_80171590_2 *)motion)->unk_A4 = stored_result;
+            motion->unk_A4.halves.low.s = stored_result;
         } else {
             motion->action_id.s = 15;
         }
     }
 
-    ((CB_80171590_S_80171590_2 *)motion)->unk_8C = 0;
+    motion->unk_8C.word = 0;
     (*(u32 *)&state->flags1C) |= 0x40000000;
     if (g_dungeon_status.flags & 0x80) {
         motion->action_timer.s = 0;
@@ -682,8 +684,8 @@ void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context,
 
             actor_data->facing = trial_angle;
             /* remember the cell in the actor's trail of visited cells */
-            ((u8 *)((u8 *)actor_data + (actor_data->movement_queue_state & 0x7F)))[0x74] = position_data->tile_position.parts.tile_x;
-            ((u8 *)((u8 *)actor_data + (actor_data->movement_queue_state & 0x7F)))[0x7C] = position_data->tile_position.parts.tile_y;
+            (((u8 *)actor_data + (actor_data->movement_queue_state & 0x7F)))[0x74] = position_data->tile_position.parts.tile_x;
+            (((u8 *)actor_data + (actor_data->movement_queue_state & 0x7F)))[0x7C] = position_data->tile_position.parts.tile_y;
             actor_data->movement_queue_state++;
 
             update_map_cell_flags_with_item_limit(
@@ -920,7 +922,7 @@ void update_tile_movement_and_height(ActorRecord *action, ObjectPosition *motion
         action->unk_9E.s = 5;
         action->unk_A0.value = 0;
         action->action_phase.u = (u8) (action->action_phase.u + 1);
-        ((CB_80172458_S_80172458_0 *)action)->unk_A6 = sample_terrain_surface_height((map_entry->tile_x << 6) | 0x20,
+        action->unk_A4.halves.high.s = sample_terrain_surface_height((map_entry->tile_x << 6) | 0x20,
             (map_entry->tile_y << 6) | 0x20, (s16) (((u16)actor->ground_height) - 0x20));
         action->unk_A8.u = (u16) ((u16)motion->z.w.i);
                         /* fall through */
@@ -942,7 +944,7 @@ void update_tile_movement_and_height(ActorRecord *action, ObjectPosition *motion
             move_operand = action->unk_9E.s;
             move_value = (move_value << 0x10) / move_operand;
             motion->velocity_y = move_value;
-            if (((CB_80172458_S_80172458_0 *)action)->unk_A4 == 3) {
+            if (action->unk_A4.halves.low.s == 3) {
                 action->unk_A0.value = (s32) ((0 - rsin(action->unk_9E.s * 0x155))
                     << 9);
                 action->unk_90.value += action->unk_A0.value;
@@ -952,26 +954,26 @@ void update_tile_movement_and_height(ActorRecord *action, ObjectPosition *motion
                 switch (height_frame) {
                 case 6:
                     flags_mask = 0xF7FF0000;
-                    action->unk_90.value = (s32) (0xFFFE0000 - ((((CB_80172458_S_80172458_0 *)action)->unk_A6
+                    action->unk_90.value = (s32) (0xFFFE0000 - ((action->unk_A4.halves.high.s
                         - (s16) action->unk_A8.u) << 0x10));
                     flags_mask |= 0xFFFF;
                     actor->flags1C = (s32) (actor->flags1C & flags_mask);
                     break;
                 case 5:
                     flags_mask = 0xF7FF0000;
-                    action->unk_90.value = (s32) (0 - ((((CB_80172458_S_80172458_0 *)action)->unk_A6
+                    action->unk_90.value = (s32) (0 - ((action->unk_A4.halves.high.s
                         - (s16) action->unk_A8.u) << 0x10));
                     flags_mask |= 0xFFFF;
                     actor->flags1C = (s32) (actor->flags1C & flags_mask);
                     break;
                 case 4:
-                    scaled_height_delta = (((CB_80172458_S_80172458_0 *)action)->unk_A6
+                    scaled_height_delta = (action->unk_A4.halves.high.s
                         - (s16) action->unk_A8.u) * 3;
                     action->unk_90.value = (s32) (0 - ((scaled_height_delta / 4) << 0x10));
                     actor->flags1C = (s32) (actor->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
                     break;
                 case 3:
-                    action->unk_90.value = (s32) (0 - ((((((CB_80172458_S_80172458_0 *)action)->unk_A6
+                    action->unk_90.value = (s32) (0 - ((((action->unk_A4.halves.high.s
                         - (s16) action->unk_A8.u) * 2) / 5) << 0x10));
                     break;
                 default:
@@ -1714,11 +1716,11 @@ void fade_timed_primitive_effect(void *effect, s32 unused, void *primitive)
 
     *(u16 *)((u8 *)primitive + 0x1A) += 0x320;
     *(s8 *)((u8 *)primitive + 0x0C) =
-        (*(u8 *)((u8 *)effect + 0) * *(s16 *)((u8 *)effect + 0x24)) / 5;
+        (*((u8 *)effect + 0) * *(s16 *)((u8 *)effect + 0x24)) / 5;
     *(s8 *)((u8 *)primitive + 0x0D) =
-        (*(u8 *)((u8 *)effect + 1) * *(s16 *)((u8 *)effect + 0x24)) / 5;
+        (*((u8 *)effect + 1) * *(s16 *)((u8 *)effect + 0x24)) / 5;
     *(s8 *)((u8 *)primitive + 0x0E) =
-        (*(u8 *)((u8 *)effect + 2) * *(s16 *)((u8 *)effect + 0x24)) / 5;
+        (*((u8 *)effect + 2) * *(s16 *)((u8 *)effect + 0x24)) / 5;
 
     ticks_left = *(u16 *)((u8 *)effect + 0x24) - 1;
     *(s16 *)((u8 *)effect + 0x24) = ticks_left;
@@ -1763,7 +1765,7 @@ void create_randomized_rotated_effect(void *unused_context, Rec_func_80173CFC_ar
         effect_data->color.c.g = 0x30;
         effect_data->color.c.r = 0x30;
         effect_data->angle_z = rand() & 0xFFF;
-        (*(CB_80173CFC_Copy12 *)((u8 *)effect + 0x9A)) = (*(CB_80173CFC_Copy12 *)((u8 *)D_80175324 + 0));
+        (*(CB_80173CFC_Copy12 *)((u8 *)effect + 0x9A)) = (*(CB_80173CFC_Copy12 *)(D_80175324 + 0));
         effect_data->source = (u8 *)effect + 0x9A;
     }
 }
@@ -1815,7 +1817,7 @@ void project_visible_effect_quad(void *quad, void *position, void *render_info, 
     texture_page = GetTPage(0, 0, 0, 0);
     SetDrawMode(packet, 0, 0, texture_page, 0);
 
-    (*(u32 *)((u8 *)packet + 0)) = (((CB_80173E40_S_80173E40_4 *)packet)->unk_00 & 0xFF000000) |
+    (*(u32 *)(packet + 0)) = (((CB_80173E40_S_80173E40_4 *)packet)->unk_00 & 0xFF000000) |
         (((CB_80173E40_S_80173E40_3 *)(g_game_work.draw_buffer))->unk_B0 & 0x00FFFFFF);
     (*(u32 *)((u8 *)(g_game_work.draw_buffer) + 0xB0)) =
         (((CB_80173E40_S_80173E40_3 *)(g_game_work.draw_buffer))->unk_B0 & 0xFF000000) |
@@ -2322,7 +2324,7 @@ void replace_actor_with_faded_effect(void *state, EntityRec *position, SpriteFra
     case 2:
         direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v + 0x100)
             >> 9) & 7;
-        if ((*(u8 *)&block_image_load_done) == 0 || direction != 2) {
+        if ((*&block_image_load_done) == 0 || direction != 2) {
             if (direction == 2) {
                 return;
             }
@@ -2438,7 +2440,7 @@ void replace_actor_with_faded_effect(void *state, EntityRec *position, SpriteFra
         }
         ((CB_80174D14_S_80C97514_15 *)(((Rec_D_80082E80 *)actor)->unk_60.as_pv))->unk_2A = (u16) ((Rec_D_80082E80 *)actor)->unk_8A;
         ((CB_80174D14_S_80C97514_0_pre *)state)[-1].unk_00 = (u16) (((CB_80174D14_S_80C97514_0_pre *)state)[-1].unk_00 | 0x8000);
-        (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
+        (*&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         ((Rec_D_80082E80 *)actor)->unk_6D = 0;
         return;

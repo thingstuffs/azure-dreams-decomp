@@ -45,14 +45,14 @@ s32 handle_event_or_fallback(s32 fallback_first, s32 fallback_second) {
         second_or_base = 0x80010000;
         page = (void *)second_or_base;
         (*(UseValue *)((u8 *)(((Rec_D_80016000 *)(((S_8001BD20_0 *)page)->unk_6000))->services) + 0x2EC))(
-            (*(s16 *)((u8 *)(indexed_values.value)
+            (*(s16 *)((indexed_values.value)
                 + (*(GetIndex *)((u8 *)(((Rec_D_80016000 *)(((S_8001BD20_0 *)page)->unk_6000))->services)
                 + 0x2D4))(0) * 2)),
             0x100);
 
         (*(CallPair *)((u8 *)(((Rec_D_80016000 *)(((S_8001BD20_0 *)page)->unk_6000))->services) + 0x2F8))(0x27, 0x200);
 
-        ((TownPositionState *)(((Rec_D_80016000 *)((*(void * *)((u8 *)page + 0x6000))))->position))->unk_40 = D_8001F2D4;
+        (((Rec_D_80016000 *)((*(void * *)((u8 *)page + 0x6000))))->position)->unk_40 = D_8001F2D4;
 
         if ((*(GetIndex *)((u8 *)(((Rec_D_80016000 *)(((S_8001BD20_0 *)page)->unk_6000))->services) + 0x2D4))(0) == 2) {
             *(*(GetHalfword *)((u8 *)(((Rec_D_80016000 *)(((S_8001BD20_0 *)page)->unk_6000))->services) + 0x314))(0xC20,

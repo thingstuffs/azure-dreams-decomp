@@ -76,7 +76,7 @@ void spawn_odd_tick_emitter_effects(void *emitter, s32 spawn_param_1, s32 spawn_
                 (emitter_height_offsets[(u8)((S_7FFE99BC_3 *)(((S_7FFE99BC_0 *)emitter)->unk_00))->unk_13] >> 1));
             effect_config = (*(void **)((u8 *)effect + 0xC));
             (*(Packed12 *)((u8 *)effect + 0x62)) = D_8010C450;
-            effect_config->unk_08 = (void *)(effect + 0x62);
+            effect_config->unk_08 = (effect + 0x62);
             effect_config->unk_1E = 0x3E8;
             effect_config->unk_1C = 0x3E8;
             effect_config->unk_06 = 0x64;

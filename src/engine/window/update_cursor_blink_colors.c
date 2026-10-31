@@ -41,7 +41,8 @@ extern u8 cursor_texture_descriptor_2[];
 extern u8 cursor_texture_descriptor_3[];
 
 /* Updates the current entry's output value and applies its blink color. */
-void update_cursor_blink_colors(void *state, s32 mode, void *output) {
+void update_cursor_blink_colors(void *state, s32 mode, void *output_arg) {
+    S_80037394_2 *output = output_arg;
     u8 entry_flags;
     s8 *entry_data;
     s16 entry_offset;
@@ -65,14 +66,14 @@ void update_cursor_blink_colors(void *state, s32 mode, void *output) {
         ((S_80037394_0 *)state)->unk_64 = ((S_80037394_0 *)state)->unk_64 + 1;
         t = ((S_80037394_0 *)state)->unk_64;
         if (t & 1) {
-            ((S_80037394_2 *)output)->unk_0C = 0xC0C0C0;
+            output->unk_0C = 0xC0C0C0;
         } else {
-            ((S_80037394_2 *)output)->unk_0C = 0;
+            output->unk_0C = 0;
         }
     } else {
-        ((S_80037394_2 *)output)->unk_0C = 0xC0C0C0;
+        output->unk_0C = 0xC0C0C0;
     }
 
-    ((S_80037394_2 *)output)->unk_08 =
+    output->unk_08 =
         cursor_blink_variant_values[(entry_flags & 0x7F) + ((S_80037394_0 *)state)->unk_66];
 }

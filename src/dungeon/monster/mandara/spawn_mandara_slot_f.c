@@ -12,24 +12,7 @@ typedef struct { u8 pad[6]; u16 count; } CountView;
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
-typedef struct  S_80FB7000_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} S_80FB7000_1;   /* work in create_mandara_actor_with_parts */
 
-typedef struct S_80FB7000_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xA];
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-    u8 pad_9D[0x11];
-    u16 unk_AE;
-} S_80FB7000_4;   /* pin_actor in create_mandara_actor_with_parts */
 
 extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
@@ -68,7 +51,7 @@ void *create_mandara_actor_with_parts(s32 spawn_flags, s16 pos_x, s16 pos_y, s16
     u8 *entry;
     s16 saved_part_value;
     ObjectPosition *pin_part_a;
-    S_80FB7000_4 *pin_actor;
+    ActorRecord *pin_actor;
 
     work = 0;
     object_type = 0x112;
@@ -79,7 +62,7 @@ void *create_mandara_actor_with_parts(s32 spawn_flags, s16 pos_x, s16 pos_y, s16
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         obj->update_callback = D_8016AB40;
-        ((S_80FB7000_1 *)work)->unk_13 = MONSTER_MANDARA;
+        ((ActorRecord *)work)->species = MONSTER_MANDARA;
         register_node(obj, project_sprite_chain);
 
         pin_part_a = obj->position;
@@ -92,23 +75,23 @@ void *create_mandara_actor_with_parts(s32 spawn_flags, s16 pos_x, s16 pos_y, s16
         part_b->tile_x = pos_x;
 
         if (kind == 1) {
-            primary_flags = ((S_80FB7000_1 *)work)->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            secondary_flags = ((S_80FB7000_1 *)work)->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-            ((S_80FB7000_1 *)work)->unk_14 = primary_flags;
-            ((S_80FB7000_1 *)work)->unk_1C = secondary_flags;
+            primary_flags = ((ActorRecord *)work)->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            secondary_flags = ((ActorRecord *)work)->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            ((ActorRecord *)work)->flags14 = primary_flags;
+            ((ActorRecord *)work)->flags1C = secondary_flags;
         } else if (kind >= 2) {
-            primary_flags = ((S_80FB7000_1 *)work)->unk_14 | ACTOR_CLASS_ENABLED;
-            secondary_flags = ((S_80FB7000_1 *)work)->unk_1C | ACTOR_PLAYER_SIDE;
-            ((S_80FB7000_1 *)work)->unk_14 = primary_flags;
-            ((S_80FB7000_1 *)work)->unk_1C = secondary_flags;
+            primary_flags = ((ActorRecord *)work)->flags14 | ACTOR_CLASS_ENABLED;
+            secondary_flags = ((ActorRecord *)work)->flags1C | ACTOR_PLAYER_SIDE;
+            ((ActorRecord *)work)->flags14 = primary_flags;
+            ((ActorRecord *)work)->flags1C = secondary_flags;
         } else {
             {
                 s32 non_kind_mask;
                 non_kind_mask = -4;
                 if (((spawn_flags = (s16)(spawn_flags & non_kind_mask)) << 16) == 0) {
-                    if (!(((S_80FB7000_1 *)work)->unk_14 & ACTOR_RESIST_SLEEP)) {
+                    if (!(((ActorRecord *)work)->flags14 & ACTOR_RESIST_SLEEP)) {
                         if (generate_random_value() & 1) {
-                            ((S_80FB7000_1 *)work)->unk_1C |= ACTOR_ASLEEP;
+                            ((ActorRecord *)work)->flags1C |= ACTOR_ASLEEP;
                             set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                           (generate_random_value() & 0x3F) |
                                           0x20);
@@ -123,10 +106,10 @@ void *create_mandara_actor_with_parts(s32 spawn_flags, s16 pos_x, s16 pos_y, s16
 
         entry_index = 0;
         actor_value = part_b->clut;
-        pin_actor->unk_9A = 0xFF;
+        pin_actor->action_id.u = 0xFF;
         pin_actor->unk_9C = -1;
-        pin_actor->unk_8C = D_8016AF6C;
-        pin_actor->unk_AE = actor_value;
+        pin_actor->unk_8C.address = D_8016AF6C;
+        pin_actor->unk_AC.halves.high.u = actor_value;
 
         entry = *(u8 * *)&part_b->source;
         while (1) {

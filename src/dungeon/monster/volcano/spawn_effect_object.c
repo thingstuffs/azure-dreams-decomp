@@ -28,7 +28,7 @@ void *spawn_effect_object(s32 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
     flags_s16 = spawn_flags;
     if (object != 0) {
         work = ((u8 *)object) + 0x20;
-        *(u8 *)(work + 0x13) = 0x1C;
+        *(work + 0x13) = 0x1C;
         register_node(object, project_sprite_chain);
 
         part_a = object->position;
@@ -71,7 +71,7 @@ void *spawn_effect_object(s32 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
         object->update_callback = func_8014CA58;
         initialize_actor_sprite_and_animation(object, part_a, (u8 *)part_b, (s16)flags_s16);
 
-        *(u8 *)((u8 *)work_copy + 0x9A) = 0xFF;
+        *((u8 *)work_copy + 0x9A) = 0xFF;
         *(s8 *)((u8 *)work_copy + 0x9C) = -1;
         try_move_actor_to_valid_position((u8 *)work_copy, part_a, (u8 *)part_b, work);
     }

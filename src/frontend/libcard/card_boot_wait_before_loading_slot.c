@@ -4,7 +4,7 @@
 #include "frontend/libcard/resource.h"
 
 /* Decrement the record's countdown and set its pointer when the countdown becomes negative. */
-void card_boot_wait_before_loading_slot(void *record_data) {
+void card_boot_wait_before_loading_slot(Object_800128C8 *record_data) {
     s32 countdown;
 
     countdown = ((CardCallbackState *)((u8 *)record_data - 0x10))->countdown - 1;

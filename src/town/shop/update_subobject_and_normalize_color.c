@@ -11,13 +11,13 @@
 /* Update the sub-object, clamp its color channels to neutral, and switch callbacks at the threshold. */
 void update_subobject_and_normalize_color(void *sub_object)
 {
-    u8 *sub_object_bytes = (u8 *)sub_object;
+    u8 *sub_object_bytes = sub_object;
 
     ease_rgb_to_neutral_gray(sub_object);
-    if (*(u8 *)(sub_object_bytes + 0x24) >= 0x7D) {
-        *(u8 *)(sub_object_bytes + 0x24) = 0x80;
-        *(u8 *)(sub_object_bytes + 0x25) = 0x80;
-        *(u8 *)(sub_object_bytes + 0x26) = 0x80;
+    if (*(sub_object_bytes + 0x24) >= 0x7D) {
+        *(sub_object_bytes + 0x24) = 0x80;
+        *(sub_object_bytes + 0x25) = 0x80;
+        *(sub_object_bytes + 0x26) = 0x80;
         *(void (**)(void *))(sub_object_bytes - 0x10) = run_entry_update_steps;
     }
     run_entry_update_steps(sub_object);

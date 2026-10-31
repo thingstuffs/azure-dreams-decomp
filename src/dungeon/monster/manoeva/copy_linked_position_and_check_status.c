@@ -21,10 +21,12 @@ typedef struct S_801745F0_2 {
 
 
 /* Copy three object fields and set object and global flags from the processed status. */
-void copy_linked_position_and_check_status(void *object, MovingPosition *dest, SpriteFrameState *status) {
-    dest->x = (u16) ((MovingPosition *)(((S_801745F0_3 *)object)->unk_1C))->x;
-    dest->y = (u16) ((MovingPosition *)(((S_801745F0_3 *)object)->unk_1C))->y;
-    dest->z = (u16) ((MovingPosition *)(((S_801745F0_3 *)object)->unk_1C))->z;
+void copy_linked_position_and_check_status(void *object_arg, MovingPosition *dest, SpriteFrameState *status) {
+    S_801745F0_3 *object = object_arg;
+
+    dest->x = (u16) ((MovingPosition *)(object->unk_1C))->x;
+    dest->y = (u16) ((MovingPosition *)(object->unk_1C))->y;
+    dest->z = (u16) ((MovingPosition *)(object->unk_1C))->z;
     advance_sprite_animation_and_textures(status);
     if (status->flags & 0x6000) {
         ((S_801745F0_2 *)((u8 *)object - 0x2))->unk_00 = (u16) (((S_801745F0_2 *)((u8 *)object - 0x2))->unk_00

@@ -312,38 +312,39 @@ void spawn_scattered_point_particle(ObjectNodeHeader *parent, s16 field_34, s32 
 }
 
 /* Advances the object cycle and position, flagging expiry or a flagged source. */
-void cycle_moving_effect_phase(void *object, S_8181B078_1 *position, S_8181B078_2 *source)
+void cycle_moving_effect_phase(void *object_arg, S_8181B078_1 *position, S_8181B078_2 *source)
 {
+    S_8181B078_0 *object = object_arg;
     s32 one;
     s16 phase;
 
     textured_effect_update_flag = 1;
-    ((S_8181B078_0 *)object)->unk_02.s--;
+    object->unk_02.s--;
 
-    if (++((S_8181B078_0 *)object)->unk_1C >= 2) {
-        ((S_8181B078_0 *)object)->unk_1C = 0;
-        phase = ((S_8181B078_0 *)object)->unk_1E;
+    if (++object->unk_1C >= 2) {
+        object->unk_1C = 0;
+        phase = object->unk_1E;
         one = 1;
 
         switch (phase) {
         case 0:
-            ((S_8181B078_0 *)object)->unk_1E = one;
-            ((S_8181B078_0 *)object)->unk_28 += 8;
+            object->unk_1E = one;
+            object->unk_28 += 8;
             break;
         case 1:
-            ((S_8181B078_0 *)object)->unk_1E = 2;
-            ((S_8181B078_0 *)object)->unk_28 += 8;
+            object->unk_1E = 2;
+            object->unk_28 += 8;
             break;
         case 2:
-            ((S_8181B078_0 *)object)->unk_1E = 0;
-            ((S_8181B078_0 *)object)->unk_28 -= 16;
+            object->unk_1E = 0;
+            object->unk_28 -= 16;
             break;
         }
     }
 
-    position->unk_08 += ((S_8181B078_0 *)object)->unk_60;
+    position->unk_08 += object->unk_60;
 
-    if (((S_8181B078_0 *)object)->unk_02.u <= 0) {
+    if (object->unk_02.u <= 0) {
         ((S_8181B078_0_pre *)object)[-1].unk_00 |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -383,7 +384,7 @@ void decrement_object_counter(void *source, s32 offset_x, s32 offset_y, s32 offs
         render->color.c.g = 0x80;
         render->color.c.r = 0x80;
         memcpy((u8 *) effect + 0x40, &D_80025908, 12);
-        render->source = (void *) (effect + 0x40);
+        render->source = (effect + 0x40);
     }
 }
 
@@ -508,7 +509,7 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
                     target_graphics = ((S_80024BE8_3_pre *)source)[-1].unk_00;
                     direction = *(u8 *)direction;
                     direction_table = (u8 *)(u32)((S_80024BE8_8 *)target_graphics)->unk_24;
-                    direction_table = (u8 *)((u8 *)direction_table + direction);
+                    direction_table = ((u8 *)direction_table + direction);
                     ((S_80024BE8_0 *)effect)->unk_A2 = (s32)direction_table;
                     direction = ((S_80024BE8_0 *)effect)->unk_7E.s;
                     direction_table = D_8006CCE8;
@@ -516,7 +517,7 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
                     direction += (s32)direction_table;
                     direction_table = (u8 *)(u32)((S_80024BE8_8 *)target_graphics)->unk_25;
                     direction = *(u8 *)direction;
-                    direction_table = (u8 *)((u8 *)direction_table + direction);
+                    direction_table = ((u8 *)direction_table + direction);
                     ((S_80024BE8_0 *)effect)->unk_A3 = (s32)direction_table;
                     tile_distance = ((S_80024BE8_3 *)source)->unk_72;
                     source_coord = ((S_80024BE8_8 *)target_graphics)->unk_24;
@@ -592,7 +593,7 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
                 motion->x.w.i = ((S_80024BE8_9 *)target_position)->unk_02;
                 motion->y.w.i = ((S_80024BE8_9 *)target_position)->unk_06;
                 motion->z.w.i = ((S_80024BE8_0 *)effect)->unk_78.u;
-                source_sprite = (S_80024BE8_4 *)((S_80024BE8_3 *)source)->unk_60;
+                source_sprite = ((S_80024BE8_3 *)source)->unk_60;
                 ((S_80024BE8_23 *)source_sprite)->unk_1C |= 0x10000000;
                 target_graphics = ((S_80024BE8_23_pre *)(((S_80024BE8_3 *)source)->unk_60))[-1].unk_04;
                 random_intensity = 0x80;

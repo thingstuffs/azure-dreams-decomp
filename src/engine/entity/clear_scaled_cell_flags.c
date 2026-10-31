@@ -12,7 +12,7 @@ typedef struct S_80043A68_entry {
 void clear_scaled_cell_flags_8000(void)
 {
     MapGrid *table = &g_game_work.map;
-    u8 *base = ((u8 *)table->cells);
+    u8 *base = table->cells;
     s32 index;
 
     for (index = 10; index < 12; index++) {

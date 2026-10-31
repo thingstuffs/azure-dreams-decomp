@@ -54,13 +54,6 @@ extern void func_80175298(void);
 
 void *create_mandara_actor(s16, s32, s16, s16);
 
-typedef struct S_80FB1000_0 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} S_80FB1000_0;   /* work in create_mandara_actor */
 
 typedef struct S_80FB1000_2 {
     u8 pad_00[0x6];
@@ -100,7 +93,7 @@ void *create_mandara_actor(s16 mode, s32 value1, s16 value2, s16 value3)
 
         work = (u8 *)created + 0x20;
         (created ->update_callback) = func_80170B40;
-        ((S_80FB1000_0 *)work)->unk_13 = MONSTER_MANDARA;
+        ((ActorRecord *)work)->species = MONSTER_MANDARA;
         register_node(created, project_sprite_chain);
 
         position = created ->position;
@@ -113,21 +106,21 @@ void *create_mandara_actor(s16 mode, s32 value1, s16 value2, s16 value3)
 
         kind = (s32)mode & 3;
         if (kind == 1) {
-            flags0 = ((S_80FB1000_0 *)work)->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            flags1 = ((S_80FB1000_0 *)work)->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-            ((S_80FB1000_0 *)work)->unk_14 = flags0;
-            ((S_80FB1000_0 *)work)->unk_1C = flags1;
+            flags0 = ((ActorRecord *)work)->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            flags1 = ((ActorRecord *)work)->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            ((ActorRecord *)work)->flags14 = flags0;
+            ((ActorRecord *)work)->flags1C = flags1;
         } else if (kind >= 2) {
-            flags0 = ((S_80FB1000_0 *)work)->unk_14 | ACTOR_CLASS_ENABLED;
-            flags1 = ((S_80FB1000_0 *)work)->unk_1C | ACTOR_PLAYER_SIDE;
-            ((S_80FB1000_0 *)work)->unk_14 = flags0;
-            ((S_80FB1000_0 *)work)->unk_1C = flags1;
+            flags0 = ((ActorRecord *)work)->flags14 | ACTOR_CLASS_ENABLED;
+            flags1 = ((ActorRecord *)work)->flags1C | ACTOR_PLAYER_SIDE;
+            ((ActorRecord *)work)->flags14 = flags0;
+            ((ActorRecord *)work)->flags1C = flags1;
         } else {
             if ((s16)((s32)mode & -4) == 0 &&
-                !(((S_80FB1000_0 *)work)->unk_14 & ACTOR_RESIST_SLEEP)) {
+                !(((ActorRecord *)work)->flags14 & ACTOR_RESIST_SLEEP)) {
                 value = generate_random_value();
                 if (value & 1) {
-                    ((S_80FB1000_0 *)work)->unk_1C |= ACTOR_ASLEEP;
+                    ((ActorRecord *)work)->flags1C |= ACTOR_ASLEEP;
                     value = generate_random_value();
                     set_or_clear_actor_status_slot(work, STATUS_SLEEP, (value & 0x3F) | 0x20);
                     monster->frameTable = func_80175298;
@@ -139,10 +132,10 @@ void *create_mandara_actor(s16 mode, s32 value1, s16 value2, s16 value3)
         initialize_actor_sprite_and_animation(init_object, position, monster, (s16)mode_copy);
         i = 0;
         value = monster->clut;
-        (*(u8 *)((u8 *)actor + 0x9A)) = 0xFF;
-        (*(s8 *)((u8 *)actor + 0x9C)) = -1;
-        (*(ActorActionHandler *)((u8 *)actor + 0x8C)) = update_long_actor_action;
-        (*(s16 *)((u8 *)actor + 0xAE)) = value;
+        (*((u8 *)actor + 0x9A)) = 0xFF;
+        (*(s8 *)(actor + 0x9C)) = -1;
+        (*(ActorActionHandler *)(actor + 0x8C)) = update_long_actor_action;
+        (*(s16 *)(actor + 0xAE)) = value;
 
         entry = *(u8 * *)&monster->source;
         while (1) {

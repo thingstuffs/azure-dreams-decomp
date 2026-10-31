@@ -92,7 +92,7 @@ void card_boot_update_card_chooser_input(void *menu)
     state_changed[1] = state->second != (*(s32 *)((u8 *)menu + 0x1C));
     display_state = state;
     (*(StatePair *)((u8 *)menu + 0x18)) = *state;
-    card_boot_update_paired_choice_animations((*(s32 *)((u8 *)menu + 0x24)), display_state, state_changed);
+    card_boot_update_paired_choice_animations((*(ObjectNodeHeader **)((u8 *)menu + 0x24)), display_state, state_changed);
     no_op_card_stub();
 
     return;

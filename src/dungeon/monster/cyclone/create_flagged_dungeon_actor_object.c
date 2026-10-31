@@ -12,26 +12,7 @@
 #include "engine/node.h"
 #include "engine/node/allocation.h"
 
-typedef struct S_80170890_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} S_80170890_1;   /* work in create_flagged_dungeon_actor_object */
 
-typedef struct S_80170890_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x2];
-    s16 unk_92;
-    u8 pad_94[0x6];
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-    u8 pad_9D[0x13];
-    s16 unk_B0;
-} S_80170890_4;   /* actor in create_flagged_dungeon_actor_object */
 
 typedef struct S_80170890_5 {
     u16 unk_00;
@@ -56,7 +37,7 @@ void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s
     void *work = 0;
     ObjectPosition *part_a;
     SpriteFrameState *part_b;
-    S_80170890_4 *actor;
+    ActorRecord *actor;
     s32 kind;
     s32 left;
     s32 right;
@@ -68,7 +49,7 @@ void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         obj->update_callback = D_80170AE8;
-        ((S_80170890_1 *)work)->unk_13 = MONSTER_CYCLONE;
+        ((ActorRecord *)work)->species = MONSTER_CYCLONE;
         register_node(obj, project_sprite_chain);
 
         part_a = obj->position;
@@ -81,18 +62,18 @@ void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s
         part_b->frameTable = cyclone_move_direction_frames;
 
         if (kind == 1) {
-            left = ((S_80170890_1 *)work)->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            right = ((S_80170890_1 *)work)->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-            ((S_80170890_1 *)work)->unk_14 = left;
-            ((S_80170890_1 *)work)->unk_1C = right;
+            left = ((ActorRecord *)work)->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            right = ((ActorRecord *)work)->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            ((ActorRecord *)work)->flags14 = left;
+            ((ActorRecord *)work)->flags1C = right;
         } else if (kind >= 2) {
-            left = ((S_80170890_1 *)work)->unk_14 | ACTOR_CLASS_ENABLED;
-            right = ((S_80170890_1 *)work)->unk_1C | ACTOR_PLAYER_SIDE;
-            ((S_80170890_1 *)work)->unk_14 = left;
-            ((S_80170890_1 *)work)->unk_1C = right;
+            left = ((ActorRecord *)work)->flags14 | ACTOR_CLASS_ENABLED;
+            right = ((ActorRecord *)work)->flags1C | ACTOR_PLAYER_SIDE;
+            ((ActorRecord *)work)->flags14 = left;
+            ((ActorRecord *)work)->flags1C = right;
         } else {
             if (((flags & ~3) << 16) == 0) {
-                if (!(((S_80170890_1 *)work)->unk_14 & ACTOR_RESIST_SLEEP)) {
+                if (!(((ActorRecord *)work)->flags14 & ACTOR_RESIST_SLEEP)) {
                     if (generate_random_value() & 1) {
                         set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                       (generate_random_value() & 0x3F) | 0x20);
@@ -103,11 +84,11 @@ void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s
         }
 
         initialize_actor_sprite_and_animation(obj, part_a, part_b, (s16)flags);
-        actor->unk_9A = 0xFF;
+        actor->action_id.u = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = update_actor_animation;
-        ((S_80170890_1 *)work)->unk_1C |= 0x00040000;
-        actor->unk_92 = -32;
+        actor->unk_8C.address = update_actor_animation;
+        ((ActorRecord *)work)->flags1C |= 0x00040000;
+        actor->unk_90.parts.high.s = -32;
 
         {
             u8 *cursor = (part_b->source);
@@ -128,7 +109,7 @@ void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s
             table = (part_b->source);
             value = (((S_80170890_5 *)((u8 *)(((index + count) << 2) + (u32)table) + 6))->unk_00 >> 6) - 1;
             packet[1] = value;
-            actor->unk_B0 = value << 6;
+            actor->unk_B0.halves.low.s = value << 6;
             packet[2] = 256;
             packet[0] = 0;
             packet[3] = 1;

@@ -81,8 +81,9 @@ extern s16 sample_terrain_surface_height(s32, s32, s16);
 /* Update motion and terrain collisions, then settle at a target or finish falling. */
 /* Moves an item through terrain checks, settles it using four saved item bytes, or shrinks its falling
  * sprite. */
-void update_motion_and_terrain_collision(void *motion, void *position, void *object)
+void update_motion_and_terrain_collision(void *motion, void *position, void *object_arg)
 {
+    S_801747F0_2 *object = object_arg;
     u8 colors[4];
     s32 move_frames;
     s32 fall_height;
@@ -167,12 +168,12 @@ settle:
             colors[2] = ((S_801747F0_0 *)motion)->unk_2E;
             colors[3] = ((S_801747F0_0 *)motion)->unk_2F;
             place_item_at_valid_floor_position(((S_801747F0_1 *)position)->unk_0E, ((S_801747F0_1 *)position)->unk_12,
-                          ((S_801747F0_1 *)position)->unk_16, ((S_801747F0_2 *)object)->unk_08, colors);
+                          ((S_801747F0_1 *)position)->unk_16, object->unk_08, colors);
             (((MotionFieldView_80E64FF0Prefix *)motion)[-1].flags) |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
-        if (((S_801747F0_2 *)object)->unk_14 & 0x8000) {
+        if (object->unk_14 & 0x8000) {
             goto settle;
         }
     }
@@ -180,9 +181,9 @@ fall:
     if (((S_801747F0_0 *)motion)->unk_1C.s == 2) {
         ((S_801747F0_1 *)position)->unk_08.at00.v += ((S_801747F0_0 *)motion)->unk_5C;
         ((S_801747F0_0 *)motion)->unk_5C += ((S_801747F0_0 *)motion)->unk_68;
-        next_scale = ((S_801747F0_2 *)object)->unk_1E - 0xC8;
-        ((S_801747F0_2 *)object)->unk_1E = next_scale;
-        ((S_801747F0_2 *)object)->unk_1C = next_scale;
+        next_scale = object->unk_1E - 0xC8;
+        object->unk_1E = next_scale;
+        object->unk_1C = next_scale;
         {
             s32 fall_cell_x;
             s32 fall_cell_y;
@@ -203,7 +204,7 @@ fall:
                 return;
             }
         }
-        if (((S_801747F0_2 *)object)->unk_14 & 0x8000) {
+        if (object->unk_14 & 0x8000) {
             goto fall;
         }
     }
@@ -244,11 +245,11 @@ fall:
                     ((S_801747F0_0 *)motion)->unk_58 = 0;
                     ((S_801747F0_0 *)motion)->unk_64 = 0;
                 } else {
-                    ((S_801747F0_0 *)motion)->unk_50.u += *(u8 *)((((S_801747F0_0 *)motion)->unk_24 * 4) + directions);
-                    ((S_801747F0_0 *)motion)->unk_51.u += *(u8 *)((((S_801747F0_0 *)motion)->unk_24 * 4) + directions
+                    ((S_801747F0_0 *)motion)->unk_50.u += *((((S_801747F0_0 *)motion)->unk_24 * 4) + directions);
+                    ((S_801747F0_0 *)motion)->unk_51.u += *((((S_801747F0_0 *)motion)->unk_24 * 4) + directions
                         + 2);
                 }
-                ((S_801747F0_2 *)object)->unk_06 = 0;
+                object->unk_06 = 0;
             }
         }
         ((S_801747F0_1 *)position)->unk_08.at00.v += ((S_801747F0_0 *)motion)->unk_5C;
@@ -277,5 +278,5 @@ fall:
                 ((S_801747F0_0 *)motion)->unk_5C = 0xFFF80000;
             }
         }
-    } while (((S_801747F0_2 *)object)->unk_14 & 0x8000);
+    } while (object->unk_14 & 0x8000);
 }

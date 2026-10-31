@@ -60,17 +60,18 @@ void card_boot_initialize_message_dialog_layout(s32 record, s32 value_14, s32 en
 }
 
 /* Initialize the object from its table entry and select its callback. */
-void card_boot_activate_message_dialog(void *object)
+void card_boot_activate_message_dialog(void *object_arg)
 {
+    S_80022CD8_0 *object = object_arg;
     void *callback;
     s32 entry_index;
 
     card_boot_build_message_window_packets((u8 *)object + 0x24, object);
     card_boot_layout_five_entry_list(object);
-    entry_index = ((S_80022CD8_0 *)object)->unk_08;
-    ((S_80022CD8_0 *)object)->unk_00 = card_menu_entry_values[entry_index].default_choice;
+    entry_index = object->unk_08;
+    object->unk_00 = card_menu_entry_values[entry_index].default_choice;
     card_boot_update_message_choice_highlight(object);
-    if (((S_80022CD8_0 *)object)->unk_0C == 2) {
+    if (object->unk_0C == 2) {
         callback = D_800226A8;
     } else {
         callback = D_80022524;

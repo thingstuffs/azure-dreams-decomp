@@ -161,7 +161,7 @@ void *create_actor_value_popup(s32 flags, void *source_data, s16 value, u16 call
                 break;
             case 0x80:
                 func_8004E634(number, text_cursor);
-                text_cursor = (s8 *) text_cursor + strlen(text_cursor);
+                text_cursor = text_cursor + strlen(text_cursor);
                 *text_cursor++ = 0x45;
                 *text_cursor++ = 0x58;
                 *text_cursor++ = flags;

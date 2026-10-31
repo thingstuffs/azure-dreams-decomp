@@ -21,12 +21,13 @@ typedef struct S_80021028_1 {
 
 
 /* Updates the object's derived value and propagates the linked data's 0x8000 flag. */
-void update_derived_value_and_flag(void *object) {
-    ObjectStatusPrefix16 *object_view = object;
+void update_derived_value_and_flag(void *object_arg) {
+    S_80021028_0 *object = object_arg;
+    ObjectStatusPrefix16 *object_view = object_arg;
     S_80021028_1 *objectData;
 
-    objectData = ((S_80021028_0 *)object)->unk_04;
-    ((S_80021028_0 *)object)->unk_0E = (s16) ((objectData->unk_06 * 0xC) + 0x1E);
+    objectData = object->unk_04;
+    object->unk_0E = (s16) ((objectData->unk_06 * 0xC) + 0x1E);
     if (objectData->unk_04 & 0x8000) {
         object_view[-1].flags = (u16) (object_view[-1].flags | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);

@@ -51,7 +51,7 @@ enum FamiliarCommandPhase {
 };
 
 /* Updates the selection, handles dungeon input, and restores the actor callback on exit. */
-void update_familiar_command_selection(void *state, s32 context_a, void *context_b, void *actor_ptr) {
+void update_familiar_command_selection(ActorRecord *state, s32 context_a, void *context_b, ActorRecord *actor_ptr) {
     ActorRecord *actor = actor_ptr;
     GameWork *dungeon_state = &g_game_work;
     s16 action_id;
@@ -68,10 +68,10 @@ void update_familiar_command_selection(void *state, s32 context_a, void *context
     void *selection_data;
     ActorRecord *selection;
 
-    phase = (*(u8 *)((u8 *)state + 0x9B));
+    phase = state->action_phase.u;
     switch (phase) {
     case FAMILIAR_COMMAND_OPEN:
-        selection_ready = create_familiar_selection_marker(state + 0x104);
+        selection_ready = create_familiar_selection_marker(((void *)state) + 0x104);
         (*(void **)((u8 *)state + 0xC8)) = selection_ready;
         if (selection_ready == 0) {
             return;
@@ -87,9 +87,9 @@ void update_familiar_command_selection(void *state, s32 context_a, void *context
         } else {
             submit_script_with_registered_context(&D_80088970);
         }
-        (*(u8 *)((u8 *)state + 0x9B)) = (u8) ((*(u8 *)((u8 *)state + 0x9B)) + 1);
+        state->action_phase.u = (u8) (state->action_phase.u + 1);
     case FAMILIAR_COMMAND_INPUT:
-        selection_result = resolve_player_input_facing((*(s16 *)((u8 *)state + 0x9E)), state + 0xA2, (*(void **)((u8 *)state
+        selection_result = resolve_player_input_facing(state->unk_9E.s, ((void *)state) + 0xA2, (*(void **)((u8 *)state
             + 0x104)) + 0x2A);
         selection_code = (s16) selection_result;
         if (selection_code != 0xFFF) {
@@ -164,9 +164,9 @@ void update_familiar_command_selection(void *state, s32 context_a, void *context
                     ? !(dungeon_state->buttons & 2)
                     : ((selection != (*(s32 *)((u8 *)state + 0xB0))) || !(dungeon_state->buttons & 1))) {
                     if (dungeon_state->buttons & 3) {
-                        candidate_slot = state + 0xAC;
+                        candidate_slot = ((void *)state) + 0xAC;
                         if (!(dungeon_state->buttons & 2)) {
-                            candidate_slot = state + 0xB0;
+                            candidate_slot = ((void *)state) + 0xB0;
                         }
                         candidate = *candidate_slot;
                         if ((candidate != NULL) && ((*(void **)((u8 *)state + 0x104)) != candidate)) {
@@ -181,7 +181,7 @@ void update_familiar_command_selection(void *state, s32 context_a, void *context
                         }
                     } else {
                         (*(void **)((u8 *)state + 0x104)) = NULL;
-                        (*(u8 *)((u8 *)state + 0x9B)) = (u8) ((*(u8 *)((u8 *)state + 0x9B)) + 1);
+                        state->action_phase.u = (u8) (state->action_phase.u + 1);
                         return;
                     }
                 }
@@ -207,7 +207,7 @@ void update_familiar_command_selection(void *state, s32 context_a, void *context
                     } else {
                         callback =handle_player_input;
                     }
-                    (*(void **)((u8 *)state + 0x8C)) = callback;
+                    state->unk_8C.address = callback;
                 }
                 update_selection_tile_markers(NULL, 0U);
                 return;
@@ -225,7 +225,7 @@ void update_familiar_command_selection(void *state, s32 context_a, void *context
             } else {
                 callback =handle_player_input;
             }
-            (*(void **)((u8 *)state + 0x8C)) = callback;
+            state->unk_8C.address = callback;
         }
         return;
     default:

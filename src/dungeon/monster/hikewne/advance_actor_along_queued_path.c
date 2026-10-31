@@ -20,16 +20,6 @@ typedef struct S_80171A18_0 {
 
    /* cell in advance_actor_along_queued_path */
 
-typedef struct S_80171A18_3 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x2];
-    u16 unk_92;
-    u8 pad_94[0x2];
-    u16 unk_96;
-    u8 pad_98[0x2];
-    u8 unk_9A;
-} S_80171A18_3;   /* arg0 in advance_actor_along_queued_path */
 
    /* (u8 *)arg3 + ((S_80171A18_0 *)arg3)->unk_8A.s in advance_actor_along_queued_path */
 
@@ -104,7 +94,7 @@ void advance_actor_along_queued_path(ActorRecord *motion, ObjectPosition *unused
             &motion->action_state_flags);
     }
     motion->action_id.u = 0xF;
-    ((S_80171A18_3 *)motion)->unk_8C = 0;
+    motion->unk_8C.word = 0;
     (*(u32 *)((u8 *)move_state + 0x1C)) |= 0x40000000;
 
     if (g_dungeon_status.flags & 0x80) {

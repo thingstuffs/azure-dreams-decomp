@@ -4,7 +4,7 @@
 /* Function contracts owned by src/dungeon/actor/animation/ (decision 74; maintained by tools/headers). */
 #include "common.h"
 #include "dungeon/actor/motion.h"
-void *reset_actor_animation_state(void *entity);
+void *reset_actor_animation_state(ActorRecord *body);
 void finish_paralyzed_actor_action(ActorRecord *entity, void *unused_1, SpriteFrameState *unused_2, ActorRecord *context);
 
 

@@ -21,13 +21,14 @@ typedef struct S_80026748_2 {
 
 
 /* Advance effect motion and shrink its scale, marking completion at the threshold. */
-void update_record_and_install_next_table(void *effect, ObjectPosition *motion, SpriteFrameState *transform) {
-    ObjectStatusPrefix16 *effect_view = effect;
+void update_record_and_install_next_table(void *effect_arg, ObjectPosition *motion, SpriteFrameState *transform) {
+    S_80026748_0 *effect = effect_arg;
+    ObjectStatusPrefix16 *effect_view = effect_arg;
     u16 scale;
     S_80026748_2 *render_state;
 
-    render_state = ((S_80026748_0 *)effect)->unk_00;
-    motion->x.v = (s32) (motion->x.v + ((S_80026748_0 *)effect)->unk_04);
+    render_state = effect->unk_00;
+    motion->x.v = (s32) (motion->x.v + effect->unk_04);
     motion->y.v = (s32) (motion->y.v + motion->velocity_y);
     render_state->unk_58 = (u16) (render_state->unk_58 | 1);
     scale = transform->scale_y - 0x100;

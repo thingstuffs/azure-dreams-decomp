@@ -17,14 +17,14 @@ void card_boot_format_occupied_slot_window(void *slot_owner) {
     slot->data = &D_80078FD0;
 
     slot = *(Slot80010C44 **) ((u8 *) slot_owner + 0x260);
-    slot->data = (void *) decode_fullwidth_text((u8 *) slot_owner + 8, card_slot_payload + (*(s32 *) slot_owner << 7), 1);
+    slot->data = decode_fullwidth_text((u8 *) slot_owner + 8, card_slot_payload + (*(s32 *) slot_owner << 7), 1);
     slot->msg->cmd = 0xF0;
     slot->msg->arg = 0x91;
 
     slot = *(Slot80010C44 **) ((u8 *) slot_owner + 0x26C);
     func_8004E5A0((void *) *(s32 *) (card_slot_payload + (*(s32 *) slot_owner << 7) + 0x20), 4, data_buffer);
     remap_flagged_string_bytes(data_buffer);
-    slot->data = (void *) build_positioned_text_glyphs((u8 *) slot_owner + 0x104, data_buffer, 1);
+    slot->data = build_positioned_text_glyphs((u8 *) slot_owner + 0x104, data_buffer, 1);
     slot->msg->cmd = 0x147;
     slot->msg->arg = 0x91;
 
@@ -44,7 +44,7 @@ void card_boot_layout_alternate_slot_window(void *context) {
     target->unk0 = &D_80027F7C;
 
     target = *(UnkTarget **)((u8 *)context + 0x268);
-    target->unk0 = (void *) decode_fullwidth_text((u8 *)context + 0xA4, (u8 *)&D_800282B0, 1);
+    target->unk0 = decode_fullwidth_text((u8 *)context + 0xA4, (u8 *)&D_800282B0, 1);
     target->unk4->unk8 = 0x178;
     target->unk4->unkA = 0x90;
 

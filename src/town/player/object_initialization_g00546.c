@@ -6,7 +6,7 @@
 
 /* Initialize the object and pass the setup value to the next initialization step. */
 void initialize_object_with_count_four(Rec_func_80094268_arg0 *object, s32 setupValue, void *ptr2) {
-    call_the_handler_selects_nonzero_entry((s32 *) D_800D01E0, object, ptr2);
+    call_the_handler_selects_nonzero_entry(D_800D01E0, object, ptr2);
     town_action_reset_byte = 0;
     object->unk_04.as_pm = &tick_countdown_and_initialize_target;
     object->unk_10.as_s16 = 0;
@@ -16,7 +16,7 @@ void initialize_object_with_count_four(Rec_func_80094268_arg0 *object, s32 setup
 
 /* Initialize the object's state and run the follow-up setup. */
 void initialize_object_with_value_800(Rec_func_80094268_arg0 *object, s32 setupContext, void *ptr2) {
-    call_the_handler_selects_nonzero_entry((s32 *) D_800D01E0, object, ptr2);
+    call_the_handler_selects_nonzero_entry(D_800D01E0, object, ptr2);
     town_action_reset_byte = 0;
     object->unk_10.as_s16 = 0x800;
     object->unk_04.as_pm = &target_action_update_address;

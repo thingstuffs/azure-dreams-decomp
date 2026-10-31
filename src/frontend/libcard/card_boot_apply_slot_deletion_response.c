@@ -25,30 +25,31 @@ typedef struct S_80025788_1 {
 #include "frontend/libcard.h"
 
 /* Updates object pointers and processes five entries when its status check succeeds. */
-void card_boot_apply_slot_deletion_response(void *object) {
+void card_boot_apply_slot_deletion_response(void *object_arg) {
+    S_80025788_0 *object = object_arg;
     u8 *entry_cursor;
     s32 entry_index;
 
-    if (((S_80025788_0 *)object)->unk_38 != 0) {
+    if (object->unk_38 != 0) {
         ((S_80025788_0_pre *)object)[-1].unk_00 = build_install;
         return;
     }
 
-    if (card_boot_erase_slot_file(((S_80025788_0 *)object)->unk_28) != 0) {
+    if (card_boot_erase_slot_file(object->unk_28) != 0) {
         ((S_80025788_0_pre *)object)[-1].unk_00 = build_install;
         entry_index = 0;
-        entry_cursor = object;
+        entry_cursor = object_arg;
         do {
             card_boot_refresh_slot_window(((S_80025788_1 *)entry_cursor)->unk_04);
             entry_cursor += 4;
             entry_index++;
         } while (entry_index < 5);
     } else {
-        ((S_80025788_0 *)object)->unk_34 = build_install;
+        object->unk_34 = build_install;
         card_boot_show_delete_failure_notice((u8 *)object - 0x20);
         ((S_80025788_0_pre *)object)[-1].unk_00 = card_boot_restore_saved_selection_callback;
     }
 
     card_boot_recheck_selected_channel();
-    ((S_80025788_0 *)object)->unk_40 = 0;
+    object->unk_40 = 0;
 }

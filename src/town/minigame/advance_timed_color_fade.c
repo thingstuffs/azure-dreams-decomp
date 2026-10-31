@@ -11,32 +11,33 @@ typedef struct S_80022514_0 {
 
 
 /* Advances a timed color fade and sets completion flags at the final threshold. */
-void advance_timed_color_fade(void *effect) {
+void advance_timed_color_fade(void *effect_arg) {
+    S_80022514_0 *effect = effect_arg;
     s32 phase;
     s32 frames_left;
     u16 phase_value;
     s32 color;
 
-    phase = ((S_80022514_0 *)effect)->unk_00.s;
-    phase_value = ((S_80022514_0 *)effect)->unk_00.u;
-    frames_left = ((S_80022514_0 *)effect)->unk_02.s - 1;
-    ((S_80022514_0 *)effect)->unk_02.s = frames_left;
+    phase = effect->unk_00.s;
+    phase_value = effect->unk_00.u;
+    frames_left = effect->unk_02.s - 1;
+    effect->unk_02.s = frames_left;
     switch (phase) {
     case 0:
-        ((S_80022514_0 *)effect)->unk_08 += 0x40404;
-        if (((S_80022514_0 *)effect)->unk_02.u < 0) {
-            ((S_80022514_0 *)effect)->unk_02.s = 0x10E;
-            ((S_80022514_0 *)effect)->unk_00.u++;
+        effect->unk_08 += 0x40404;
+        if (effect->unk_02.u < 0) {
+            effect->unk_02.s = 0x10E;
+            effect->unk_00.u++;
         }
         break;
     case 1:
         if ((s16)frames_left < 0) {
-            ((S_80022514_0 *)effect)->unk_00.u = phase_value + 1;
+            effect->unk_00.u = phase_value + 1;
         }
         break;
     case 2:
-        color = ((S_80022514_0 *)effect)->unk_08 + 0xFFF7F7F8;
-        ((S_80022514_0 *)effect)->unk_08 = color;
+        color = effect->unk_08 + 0xFFF7F7F8;
+        effect->unk_08 = color;
         if (color <= 0x80808) {
             (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;

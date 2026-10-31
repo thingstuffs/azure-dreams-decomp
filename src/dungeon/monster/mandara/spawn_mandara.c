@@ -10,24 +10,7 @@ typedef struct { u8 pad[6]; u16 count; } CountView;
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
-typedef struct  S_80FC9000_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} S_80FC9000_1;   /* work in func_801588A4 */
 
-typedef struct S_80FC9000_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xA];
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-    u8 pad_9D[0x11];
-    u16 unk_AE;
-} S_80FC9000_4;   /* pin_actor in func_801588A4 */
 
 extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern void MoveImage(s16 *, s32, s32);
@@ -64,7 +47,7 @@ void *spawn_mandara_in_slot_c(s32 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn
     s16 saved_tile_x;
     s16 saved_height;
     ObjectPosition *pin_part_a;
-    S_80FC9000_4 *pin_actor;
+    ActorRecord *pin_actor;
 
     work = 0;
     call_id = 0x112;
@@ -76,7 +59,7 @@ void *spawn_mandara_in_slot_c(s32 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         obj->update_callback = D_80158B40;
-        ((S_80FC9000_1 *)work)->unk_13 = MONSTER_MANDARA;
+        ((ActorRecord *)work)->species = MONSTER_MANDARA;
         register_node(obj, project_sprite_chain);
 
         pin_part_a = obj->position;
@@ -88,20 +71,20 @@ void *spawn_mandara_in_slot_c(s32 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn
         part_b->frameTable = D_8015D258;
         part_b->tile_x = saved_tile_x;
         if (kind == 1) {
-            left = ((S_80FC9000_1 *)work)->unk_14 | 0x6000;
-            right = ((S_80FC9000_1 *)work)->unk_1C | 0x6000;
-            ((S_80FC9000_1 *)work)->unk_14 = left;
-            ((S_80FC9000_1 *)work)->unk_1C = right;
+            left = ((ActorRecord *)work)->flags14 | 0x6000;
+            right = ((ActorRecord *)work)->flags1C | 0x6000;
+            ((ActorRecord *)work)->flags14 = left;
+            ((ActorRecord *)work)->flags1C = right;
         } else if (kind >= 2) {
-            left = ((S_80FC9000_1 *)work)->unk_14 | 0x2000;
-            right = ((S_80FC9000_1 *)work)->unk_1C | 0x2000;
-            ((S_80FC9000_1 *)work)->unk_14 = left;
-            ((S_80FC9000_1 *)work)->unk_1C = right;
+            left = ((ActorRecord *)work)->flags14 | 0x2000;
+            right = ((ActorRecord *)work)->flags1C | 0x2000;
+            ((ActorRecord *)work)->flags14 = left;
+            ((ActorRecord *)work)->flags1C = right;
         } else {
             if (((spawn_flags = (s16)(spawn_flags & ~3)) << 16) == 0) {
-                if (!(((S_80FC9000_1 *)work)->unk_14 & 0x200)) {
+                if (!(((ActorRecord *)work)->flags14 & 0x200)) {
                     if (generate_random_value() & 1) {
-                        ((S_80FC9000_1 *)work)->unk_1C |= 0x200;
+                        ((ActorRecord *)work)->flags1C |= 0x200;
                         set_or_clear_actor_status_slot(work, 1,
                                       (generate_random_value() & 0x3F) |
                                       0x20);
@@ -113,10 +96,10 @@ void *spawn_mandara_in_slot_c(s32 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn
         initialize_actor_sprite_and_animation(obj, pin_part_a, part_b, saved_spawn_flags);
         index = 0;
         actor_value = part_b->clut;
-        pin_actor->unk_9A = 0xFF;
+        pin_actor->action_id.u = 0xFF;
         pin_actor->unk_9C = -1;
-        pin_actor->unk_8C = D_80158F6C;
-        pin_actor->unk_AE = actor_value;
+        pin_actor->unk_8C.address = D_80158F6C;
+        pin_actor->unk_AC.halves.high.u = actor_value;
 
         entry = *(u8 * *)&part_b->source;
         do {

@@ -74,9 +74,9 @@ void refresh_catalog_entry_grid(TownObject *menu)
     if (obj->digit == 3) {
         sprite_slot = 33;
         entry_index = 0;
-        selected_digits = (void **)catalog_selected_digits;
+        selected_digits = catalog_selected_digits;
         digit_base = obj->digit << 4;
-        normal_digits = (void **)catalog_normal_digits;
+        normal_digits = catalog_normal_digits;
         entry_id = digit_base;
         entry_number = digit_base | 1;
         do {
@@ -115,9 +115,9 @@ void refresh_catalog_entry_grid(TownObject *menu)
     } else {
         sprite_slot = 33;
         entry_index = 0;
-        selected_digits = (void **)catalog_selected_digits;
+        selected_digits = catalog_selected_digits;
         digit_base = obj->digit << 4;
-        normal_digits = (void **)catalog_normal_digits;
+        normal_digits = catalog_normal_digits;
         entry_id = digit_base;
         entry_number = digit_base | 1;
         do {

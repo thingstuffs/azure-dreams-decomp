@@ -230,7 +230,7 @@ void update_effect_position_spin_phases(SpinPhaseWork *state_arg, ObjectPosition
             point.x = 122 + dx * 16;
             point.y = 6;
             icon_frame = (state_arg->phase_value.s >> 1) + dx;
-            LoadImage(&point, (void *)((icon_frame % 3) * 32 + (u8 *)D_800245DC));
+            LoadImage(&point, (void *)((icon_frame % 3) * 32 + D_800245DC));
         }
         value_draw = state_arg->phase_value.u;
         state_arg->phase_value.u = value_draw + 1;

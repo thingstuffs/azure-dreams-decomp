@@ -45,7 +45,7 @@ s32 use_item_to_cure_poison(ActorRecord *entity, DungeonItemEntry *item, s16 act
 
         display_item_status_message(entity, item, action);
         call_entity = entity;
-        type_id = (*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3));
+        type_id = (*((u8 *)&((EntityRec *)entity)->unk_10 + 3));
         if (feed_actor_restore_mp(call_entity, (entity_action_selectors[type_id] >> 6) & 3, 0) == 0) {
             place_actor_item(entity, item);
             return 1;

@@ -21,7 +21,7 @@ extern s16 town_motion_y_step;
 void initialize_object_state_and_position(void **object, IntVector3 *start_position, void *ptr2) {
         s32 *position;
 
-    call_the_handler_selects_nonzero_entry((s32 *) D_800D0130, (Rec_func_80094268_arg0 *) object, ptr2);
+    call_the_handler_selects_nonzero_entry(D_800D0130, (Rec_func_80094268_arg0 *) object, ptr2);
     *object = town_input_motion_address;
     town_orbit_radius = 0;
     town_motion_x_step = 8;

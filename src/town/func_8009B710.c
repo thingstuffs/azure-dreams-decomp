@@ -12,7 +12,7 @@ extern s8 town_action_reset_byte;
  * with count 0x15.
  */
 void init_twenty_one_tick_target_action(Rec_func_80094268_arg0 *record, void *unused, void *handler_context) {
-    call_the_handler_selects_nonzero_entry((s32 *) D_800D0170, record, handler_context);
+    call_the_handler_selects_nonzero_entry(D_800D0170, record, handler_context);
     town_action_reset_byte = 0;
     record->unk_04.as_pm = &target_action_update_address;
     record->unk_0A.as_s16 = 0x15;

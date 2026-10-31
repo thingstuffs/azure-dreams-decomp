@@ -35,14 +35,6 @@ extern u8 D_80176650[];
 extern u8 D_80176660[];
 extern u8 manoeva_frame_set_3[];
 
-typedef struct S_80170EE4_0 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x8];
-    u16 unk_98;
-    u8 unk_9A;
-    u8 unk_9B;
-} S_80170EE4_0;   /* arg0 in update_actor_controller */
 
 typedef struct S_80170EE4_1 {
     u8 pad_00[0x14];
@@ -95,7 +87,7 @@ void update_actor_controller(ActorRecord *actor_state_in, ObjectPosition *update
         if (*(u8 **)&map_object->frameTable == D_80176650) {
             actor_state_in->action_id.u = 13;
             actor_state_in->action_phase.u = 1;
-            ((S_80170EE4_0 *)actor_state_in)->unk_8C = 0;
+            actor_state_in->unk_8C.word = 0;
             ((S_80170EE4_1 *)actor_data)->unk_1C &= ~0x40000;
             return;
         }

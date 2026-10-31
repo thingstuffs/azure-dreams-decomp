@@ -67,7 +67,7 @@ void update_monster_facing_and_ground(ActorRecord *body, S_80170AE0_2 *motion, S
         return;
     }
 
-    old_direction = (s8)(*(u8 *)((u8 *)body + 0x6D));
+    old_direction = (s8)(*((u8 *)body + 0x6D));
     if (refresh_actor_facing_and_lifecycle(body, motion, sprite, body) != 0) {
         return;
     }

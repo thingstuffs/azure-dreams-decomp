@@ -108,7 +108,7 @@ void advance_go_up_trap_sequence(void *trap_state_in, void *motion_state_in, voi
                 snapshot_inventory_and_familiars(actor);
                 snapshot_inventory_familiar_records();
                 check_action_boundary_and_set_flag();
-                transition_page = (u8 *)resident_globals_page;
+                transition_page = resident_globals_page;
                 trap_counts = floor_generation_state;
                 transition_id = transition_page[0x2E6B];
                 floors_ascended = next_motion->unk_234 + 1;

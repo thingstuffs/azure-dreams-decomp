@@ -51,7 +51,7 @@ void project_sprite_entries_to_quads(T_80170874_S_80DB9000_1 *sprite_size, T_801
     register T_80170874_S_80DB9000_4 *scratch_page;
     scratch_page = (T_80170874_S_80DB9000_4 *)0x1F800000;
 
-    state = (T_80170874_S_80DB9000_6 *)g_game_work.draw_buffer;
+    state = g_game_work.draw_buffer;
     scratch_page->unk_90 = 0;
     scratch_page->unk_CC = 0;
     scratch_page->unk_C4 = 0;

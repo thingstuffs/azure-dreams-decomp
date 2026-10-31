@@ -91,10 +91,12 @@ void fill_item_value_buffer(S_800B52D8 *table) {
 }
 
 /* Initialize the record table pointer, stored value, and group index. */
-void initialize_record_table_and_group(void *record) {
-    ((S_800B2B60_0 *)record)->unk_3C = (u32 *)0x8001029C;
-    ((S_800B2B60_0 *)record)->unk_28 = func_800B0718();
-    get_zero_based_group_index(record + 0x1C);
+void initialize_record_table_and_group(void *record_arg) {
+    S_800B2B60_0 *record = record_arg;
+
+    record->unk_3C = (u32 *)0x8001029C;
+    record->unk_28 = func_800B0718();
+    get_zero_based_group_index(record_arg + 0x1C);
 }
 
 /* Initializes the task and resources for open_twin_souko. */

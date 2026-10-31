@@ -70,42 +70,45 @@ void dispatch_actor_behavior_state(ActorRecord *actor_state, s32 context, S_800C
 }
 
 /* Advances to the next stored path tile, updates facing, and sets the movement animation duration. */
-static void advance_actor_along_path_points(void *motion, s32 unused, void *position, void *path)
+static void advance_actor_along_path_points(void *motion_arg, s32 unused, void *position_arg, void *path_arg)
 {
+    MovingTile *position = position_arg;
+    Rec_func_800C9F34_arg0 *motion = motion_arg;
     s32 step_count;
     s32 old_x;
     s32 old_y;
+    S_800CA0DC_0 *path = path_arg;
 
-    if (((S_800CA0DC_0 *)path)->unk_71.s <= 0) {
+    if (path->unk_71.s <= 0) {
         return;
     }
-    if (((S_800CA0DC_0 *)path)->unk_71.u <= ((S_800CA0DC_0 *)path)->unk_8A.s) {
+    if (path->unk_71.u <= path->unk_8A.s) {
         return;
     }
 
-    old_x = ((MovingTile *)position)->tile_x;
-    old_y = ((MovingTile *)position)->tile_y;
-    ((MovingTile *)position)->tile_x =
-        ((ActorStatusBytesView *)((u8 *)path + ((S_800CA0DC_0 *)path)->unk_8A.s))->path_x;
-    ((MovingTile *)position)->tile_y =
-        ((ActorStatusBytesView *)((u8 *)path + ((S_800CA0DC_0 *)path)->unk_8A.s))->path_y;
-    ((S_800CA0DC_0 *)path)->unk_8A.u++;
+    old_x = position->tile_x;
+    old_y = position->tile_y;
+    position->tile_x =
+        ((ActorStatusBytesView *)((u8 *)path + path->unk_8A.s))->path_x;
+    position->tile_y =
+        ((ActorStatusBytesView *)((u8 *)path + path->unk_8A.s))->path_y;
+    path->unk_8A.u++;
 
-    ((S_800CA0DC_0 *)path)->unk_2A =
-        get_rounded_facing_and_rounding_flag(old_x, old_y, ((MovingTile *)position)->tile_x,
-                      ((MovingTile *)position)->tile_y, (u8 *)motion + 0x98);
-    ((S_800CA0DC_0 *)path)->unk_1C |= 0x40000000;
-    ((Rec_func_800C9F34_arg0 *)motion)->unk_9A.as_u8 = 0xF;
-    (*(s32 *)((u8 *)motion + (0x8C))) = 0;
+    path->unk_2A =
+        get_rounded_facing_and_rounding_flag(old_x, old_y, position->tile_x,
+                      position->tile_y, (u8 *)motion + 0x98);
+    path->unk_1C |= 0x40000000;
+    motion->unk_9A.as_u8 = 0xF;
+    motion->unk_8C = 0;
 
     if (g_dungeon_status.flags & 0x80) {
-        ((Rec_func_800C9F34_arg0 *)motion)->unk_96 = 0;
+        motion->unk_96 = 0;
         return;
     }
 
-    ((Rec_func_800C9F34_arg0 *)motion)->unk_96 = 8;
-    step_count = ((S_800CA0DC_0 *)path)->unk_71.u;
+    motion->unk_96 = 8;
+    step_count = path->unk_71.u;
     if (step_count > 0) {
-        ((Rec_func_800C9F34_arg0 *)motion)->unk_96 = 8 / step_count;
+        motion->unk_96 = 8 / step_count;
     }
 }

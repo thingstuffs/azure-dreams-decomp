@@ -33,7 +33,7 @@ void set_player_travel_timing(void *actor, void *motion, s32 context)
     movement_state = (s8 *) (((*((s32 *) (((s8 *) actor) + 0x40))) * 8) + ((u8 *)object_index_slots));
     base_ticks = distance >> 0x11;
     *((s16 *) (((s8 *) actor) + 0xA)) = (s16) base_ticks;
-    speed_modifier = *((s8 *) (movement_state + 2));
+    speed_modifier = *((movement_state + 2));
     if (speed_modifier == (-0x80)) {
         *((s32 *) (((s8 *) motion) + 0)) = (s32) ((*((s16 *) (((s8 *) actor) + 0x36))) << 0x10);
         *((s32 *) (((s8 *) motion) + 4)) = (s32) ((*((s16 *) (((s8 *) actor) + 0x38))) << 0x10);

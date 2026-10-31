@@ -37,10 +37,6 @@ typedef struct S_8016BE20_2 {
     u8 unk_6D;
 } S_8016BE20_2;   /* ctx in advance_actor_transition_sequence */
 
-typedef struct S_8016BE20_4 {
-    u8 pad_00[0x28];
-    u8 unk_28;
-} S_8016BE20_4;   /* world in advance_actor_transition_sequence */
 
 typedef struct S_8016BE20_6 {
     u8 pad_00[0x10];
@@ -61,11 +57,11 @@ extern u8 D_80175DC0;
 extern u8 encounter_recovery_flag;
 
 /* Advances the actor sequence, then resets its state and updates world objects. */
-void advance_actor_transition_sequence(void *state_arg, void *work_arg, void *actor_arg, void *ctx_arg)
+void advance_actor_transition_sequence(void *state_arg, void *work_arg, SpriteFrameState *sprite, void *ctx_arg)
 {
     S_8016BE20_0 *state = state_arg;
     S_8016BE20_1 *work = work_arg;
-    SpriteFrameState *actor= actor_arg;
+    SpriteFrameState *actor= sprite;
     S_8016BE20_2 *ctx = ctx_arg;
     u8 *world;
     u8 *anim_table;
@@ -159,7 +155,7 @@ void advance_actor_transition_sequence(void *state_arg, void *work_arg, void *ac
 
     case 5:
         world = *(u8 **)((u8 *)(&dungeon_actor_ring_anchor));
-        if (((S_8016BE20_4 *)world)->unk_28 < 2) {
+        if (((ActorRecord *)world)->hp < 2) {
             if (ctx->unk_60 == world) {
                 setup_data = encounter_transition_pool_script;
                 state->unk_8C = beldo_large_action_resume_address;
@@ -175,10 +171,10 @@ void advance_actor_transition_sequence(void *state_arg, void *work_arg, void *ac
                 state->unk_9B.n = 0;
 
                 for (object_index = 0; object_index < 2; object_index++) {
-                    object = (*(void **)((u8 *)(*(u8 **)((u8 *)(&dungeon_actor_ring_anchor))) + 0xAC + object_index * 4));
+                    object = (*(void **)((*(u8 **)((u8 *)(&dungeon_actor_ring_anchor))) + 0xAC + object_index * 4));
                     if (object != 0) {
                         func_80164BA4(object);
-                        object_header = (u8 *)(*(void **)((u8 *)(*(u8 **)((u8 *)(&dungeon_actor_ring_anchor))) + 0xAC
+                        object_header = (u8 *)(*(void **)((*(u8 **)((u8 *)(&dungeon_actor_ring_anchor))) + 0xAC
                             + object_index * 4)) - 0x20;
                         ((S_8016BE20_6 *)object_header)->unk_10 |= 0x80000000;
                     }

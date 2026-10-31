@@ -15,7 +15,7 @@ extern s32 D_800D01F0;
  * record_action_update_address with count 16.
  */
 void init_sixteen_tick_record_action(Rec_func_80094268_arg0 *object, s32 motion_context, void *handler_context) {
-    call_the_handler_selects_nonzero_entry((s32 *) &D_800D01F0, object, handler_context);
+    call_the_handler_selects_nonzero_entry(&D_800D01F0, object, handler_context);
     town_action_reset_byte = 0;
     object->unk_04.as_pm = &record_action_update_address;
     object->unk_0A.as_s16 = 0x10;

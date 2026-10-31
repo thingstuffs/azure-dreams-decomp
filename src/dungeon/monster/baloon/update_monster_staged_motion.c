@@ -183,10 +183,10 @@ void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, Spr
             scaled_speed = body->unk_AC.halves.high.s * trig_value;
             {
                 u8 *direction_entry = (u8 *)&direction_table;
-                direction.x = (*(u16 *)((u8 *)direction_entry + (((((S_8017450C_3 *)actor)->unk_2A - 0x400) >> 7) & 0x1C)));
+                direction.x = (*(u16 *)(direction_entry + (((((S_8017450C_3 *)actor)->unk_2A - 0x400) >> 7) & 0x1C)));
                 direction_entry +=
                     ((((S_8017450C_3 *)actor)->unk_2A - 0x400) >> 7) & 0x1C;
-                direction.y = (*(u16 *)((u8 *)direction_entry + (2)));
+                direction.y = (*(u16 *)(direction_entry + (2)));
 
                 body->unk_90.value += scaled_speed << 4;
                 motion->velocity_x = (direction.x * radial_speed) >> 4;

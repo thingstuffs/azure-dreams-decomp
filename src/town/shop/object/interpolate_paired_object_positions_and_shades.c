@@ -50,17 +50,17 @@ void interpolate_paired_object_positions_and_shades(void **pair_state)
             + 0xC));
         visual_data = *((void **) (((u8 *) visual_holder) + 4));
         preset_index = (preset_table + ((*((s32 *) (((u8 *) pair_state) + 0xC))) * 2))[item_index];
-        old_shade = *((u8 *) (((u8 *) visual_data) + 0));
+        old_shade = *((((u8 *) visual_data) + 0));
         delta = shade_table[preset_index * 4] - old_shade;
         if (preset_index == 0) {
             delta++;
         }
-        *((u8 *) (((u8 *) visual_data) + 0)) = old_shade + (delta >> 1);
+        *((((u8 *) visual_data) + 0)) = old_shade + (delta >> 1);
         coord_offset += 4;
-        *((u8 *) (((u8 *) (*((void **) (((u8 *) visual_holder) + 4)))) + second_index)) =
-            *((u8 *) (((u8 *) (*((void **) (((u8 *) visual_holder) + 4)))) + 0));
+        *((((u8 *) (*((void **) (((u8 *) visual_holder) + 4)))) + second_index)) =
+            *((((u8 *) (*((void **) (((u8 *) visual_holder) + 4)))) + 0));
         shade_data = *((void **) (((u8 *) visual_holder) + 4));
-        *((u8 *) (((u8 *) shade_data) + 2)) = *((u8 *) (((u8 *) shade_data) + 0));
+        *((((u8 *) shade_data) + 2)) = *((((u8 *) shade_data) + 0));
         item_entry = (void **) (((u8 *) item_entry) + 4);
         item_index++;
     } while (item_index < 2);

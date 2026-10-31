@@ -197,7 +197,7 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
         case 7:
             target_angle = get_rounded_facing_and_rounding_flag(map_actor->tile_x, map_actor->tile_y, reference_tile_object.tile_position.parts.tile_x,
                 reference_tile_object.tile_position.parts.tile_y, &target_distance);
-            active_actor = (ActorRecord *)primary_actor_record;
+            active_actor = primary_actor_record;
             entity->facing = target_angle;
             if (active_actor->action_id.u != 0x11) {
                 update_actor_status_and_mp(entity);

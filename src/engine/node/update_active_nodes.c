@@ -19,7 +19,7 @@ extern void render_shaded_map_tiles(void);
 /* Runs node callbacks, removes flagged nodes, and updates movement and drawing state. */
 void update_active_nodes(void)
 {
-    GameWork *state = ((GameWork *)&g_game_work);
+    GameWork *state = (&g_game_work);
     s32 mode;
     if ((node_update_mode == 0) && (state->map.cells != 0)) {
         build_screen_outline(&state->view, &state->view.outline_0_x, 0);

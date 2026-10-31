@@ -20,7 +20,7 @@ typedef struct {
 extern u8 golem_object_callback[9];
 
 /* Creates and initializes an object, copies its data, and applies queried offsets. */
-void * create_offset_actor_object(void *unused, ObjectPosition *source_data, SpriteFrameState *source_state)
+void * create_offset_actor_object(ActorRecord *unused, ObjectPosition *position, SpriteFrameState *sprite)
 {
     GteOffset offsets;
     ObjectNodeHeader *object;
@@ -33,7 +33,7 @@ void * create_offset_actor_object(void *unused, ObjectPosition *source_data, Spr
         register_node(object, project_sprite_chain);
 
         primitive = object->sprite;
-        primitive->animation_resource = source_state->animation_resource;
+        primitive->animation_resource = sprite->animation_resource;
         primitive->color.c.b = 0x80;
         primitive->color.c.g = 0x80;
         primitive->color.c.r = 0x80;
@@ -45,12 +45,12 @@ void * create_offset_actor_object(void *unused, ObjectPosition *source_data, Spr
         select_sprite_entry(primitive, 0x37, 0);
 
         object_data = object->position;
-        *(Block24 *)object_data = *(Block24 *)source_data;
+        *(Block24 *)object_data = *(Block24 *)position;
 
         offsets.distance[2] = 0;
         offsets.distance[1] = 0;
         offsets.distance[0] = 0;
-        if (resolve_record_orientation_or_fallback(source_state->source, source_state, &offsets.orientation, 0) != 0) {
+        if (resolve_record_orientation_or_fallback(sprite->source, sprite, &offsets.orientation, 0) != 0) {
             object_data->x.w.i = (u16)object_data->x.w.i + (offsets.distance[0]);
             object_data->y.w.i = (u16)object_data->y.w.i + (offsets.distance[1]);
             object_data->z.w.i = (u16)object_data->z.w.i + (offsets.distance[2]);

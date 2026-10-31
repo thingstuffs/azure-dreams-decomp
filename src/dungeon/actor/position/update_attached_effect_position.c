@@ -69,7 +69,9 @@ typedef struct S_800B0D34_6_pre {
    /* source in update_attached_effect_position */
 
 /* Updates status colors and exit animation, releases finished objects, and copies their position. */
-void update_attached_effect_position(void *object, MovingPosition *position, void *anim_state) {
+void update_attached_effect_position(void *object_arg, MovingPosition *position, void *anim_state_arg) {
+    S_800B0D34_3 *anim_state = anim_state_arg;
+    S_800B0D34_0 *object = object_arg;
     u16 frame_count;
     s32 base_phase;
     s16 phase;
@@ -78,9 +80,9 @@ void update_attached_effect_position(void *object, MovingPosition *position, voi
     void *info;
     s32 mode;
 
-    frame_count = ((S_800B0D34_0 *)object)->unk_12;
-    color = ((S_800B0D34_0 *)object)->unk_04;
-    info = ((S_800B0D34_0 *)object)->unk_14;
+    frame_count = object->unk_12;
+    color = object->unk_04;
+    info = object->unk_14;
     base_phase = frame_count & 0x1F;
     phase = base_phase;
     if (frame_count & 0x10) {
@@ -107,31 +109,31 @@ void update_attached_effect_position(void *object, MovingPosition *position, voi
         color->unk_01 = 0x10;
     }
 
-    mode = ((S_800B0D34_0 *)object)->unk_10.s;
-    ((S_800B0D34_0 *)object)->unk_12++;
+    mode = object->unk_10.s;
+    object->unk_12++;
     switch (mode) {
     case 0:
     {
-        u16 anim_offset = ((S_800B0D34_3 *)anim_state)->unk_18.u;
+        u16 anim_offset = anim_state->unk_18.u;
         if (anim_offset != 0) {
-            ((S_800B0D34_3 *)anim_state)->unk_18.u = anim_offset + 0x80;
+            anim_state->unk_18.u = anim_offset + 0x80;
         }
         if (((S_800B0D34_4 *)(((u8 *)dungeon_actor_ring_anchor)))->unk_104 !=
-            ((S_800B0D34_0 *)object)->unk_14) {
-            ((S_800B0D34_0 *)object)->unk_10.u++;
+            object->unk_14) {
+            object->unk_10.u++;
         }
-        ((S_800B0D34_3 *)anim_state)->unk_04 = 0;
+        anim_state->unk_04 = 0;
     }
         break;
     case 1:
     {
-        s16 signed_offset = ((S_800B0D34_3 *)anim_state)->unk_18.s;
-        u16 anim_offset = ((S_800B0D34_3 *)anim_state)->unk_18.u;
+        s16 signed_offset = anim_state->unk_18.s;
+        u16 anim_offset = anim_state->unk_18.u;
         if (signed_offset >= -0x3FF) {
-            ((S_800B0D34_3 *)anim_state)->unk_18.u = anim_offset - 0x100;
-            ((S_800B0D34_3 *)anim_state)->unk_04 = 0;
+            anim_state->unk_18.u = anim_offset - 0x100;
+            anim_state->unk_04 = 0;
         } else {
-            func_8004E994(((S_800B0D34_0 *)object)->unk_5C);
+            func_8004E994(object->unk_5C);
             {
                 s32 entry_index = 0;
                 s32 *flags_base = (s32 *)0x80080000;
@@ -153,7 +155,7 @@ void update_attached_effect_position(void *object, MovingPosition *position, voi
     }
         break;
     default:
-        ((S_800B0D34_3 *)anim_state)->unk_04 = 0;
+        anim_state->unk_04 = 0;
     }
     {
         MovingPosition *source = ((S_800B0D34_1_pre *)info)[-1].unk_00;

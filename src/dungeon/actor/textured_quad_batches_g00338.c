@@ -80,16 +80,16 @@ s32 transform_linked_quad_batches(u8 *initial_batch, s32 initial_dispatch_arg, u
                 ((S_800B06F0_0 *)scratch)->unk_80 = vertex_x;
                 ((S_800B06F0_0 *)scratch)->unk_70 = vertex_x;
                 vertex_x -= primitive[0xA];
-                (*(s16 *)((u8 *)scratch + 0x88)) = vertex_x;
-                (*(s16 *)((u8 *)scratch + 0x78)) = vertex_x;
+                (*(s16 *)(scratch + 0x88)) = vertex_x;
+                (*(s16 *)(scratch + 0x78)) = vertex_x;
             } else {
                 vertex_x = (s8)primitive[2] - ((S_800B06F0_3 *)params)->unk_20;
                 ((S_800B06F0_0 *)scratch)->unk_80 = vertex_x;
                 ((S_800B06F0_0 *)scratch)->unk_70 = vertex_x;
                 quad_extent = primitive[0xA];
                 vertex_x = vertex_x + quad_extent;
-                (*(s16 *)((u8 *)scratch + 0x88)) = vertex_x;
-                (*(s16 *)((u8 *)scratch + 0x78)) = vertex_x;
+                (*(s16 *)(scratch + 0x88)) = vertex_x;
+                (*(s16 *)(scratch + 0x78)) = vertex_x;
             }
 
             if ((primitive[0] ^ ((S_800B06F0_3 *)params)->unk_14) & 2) {

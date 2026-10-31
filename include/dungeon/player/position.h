@@ -7,7 +7,7 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 s32 begin_front_tile_attack(ActorRecord *body, void *unused, void *position_arg, void *entity_arg);
-void begin_special_tile_transition(Rec_func_8008D024_arg0 *state, s32 unused, SpriteFrameState *entity, ActorRecord *actor);
+void begin_special_tile_transition(ActorRecord *state, s32 unused, SpriteFrameState *entity, ActorRecord *actor);
 void reset_actor_motion_at_sprite_tile(void *actor_state, void *map_entry, void *sprite, void *entity);
 
 

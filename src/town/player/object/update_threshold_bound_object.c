@@ -28,11 +28,11 @@ void update_threshold_bound_object(void *context, TownObject *object, void *upda
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(object);
     store_the_valid_shared_angle_in_offset_hex_10(context);
     handle_adjust_vector_toward_selected_angle_limit_magnitude(object);
-    table_value = select_the_smaller_position_query_result_capped_n_64_writes_associated(object, ((s32 *)&position_query_scratch));
+    table_value = select_the_smaller_position_query_result_capped_n_64_writes_associated(object, (&position_query_scratch));
 
     if (object->limit >= table_value) {
         select_sound_command_from_mode();
-        compute_and_clamps_vector_based_adjustment_updates_town(object, table_value, ((s32 *)&position_query_scratch));
+        compute_and_clamps_vector_based_adjustment_updates_town(object, table_value, (&position_query_scratch));
         spawn_person_radial_effects(object);
         initialize_scene_action_record(context, object, update_arg);
     } else if (town_action_state_flag != 0) {

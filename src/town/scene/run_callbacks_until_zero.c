@@ -24,7 +24,7 @@ s32 run_callbacks_until_zero(Func8094D708Object *object) {
         call_arg = object;
         base = object->callbacks;
         address = (u8 *)(i << 4);
-        callback = *(Func8094D708Callback *)((u8 *)((u8 *)((s32)address + (s32)base)));
+        callback = *(Func8094D708Callback *)(((u8 *)((s32)address + (s32)base)));
         if (callback(call_arg, i) == 0) {
             return i;
         }

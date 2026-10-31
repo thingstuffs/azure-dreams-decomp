@@ -13,7 +13,7 @@ extern u8 uboat_behavior_entry[];
 void advance_actor_action(ActorRecord *action, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 
 void leave_actor_aura_mode(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity);
-void update_actor_timed_tile_motion(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *actor);
+void update_actor_timed_tile_motion(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 
 

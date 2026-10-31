@@ -53,7 +53,8 @@ extern void create_colored(void *, void *, s16, s32);
 extern void func_80024D2C(void *, void *, s16, s16);
 
 /* Animate a moving effect through color cycling, shrinking, and radial emission. */
-void update_color_cycling_shrink_effect(void *effect_arg, S_func_818BD74C_1 *motion, void *sprite) {
+void update_color_cycling_shrink_effect(void *effect_arg, S_func_818BD74C_1 *motion, void *sprite_arg) {
+    S_func_818BD74C_3 *sprite = sprite_arg;
     s16 color_step;
     s32 random_value;
     s16 state;
@@ -97,12 +98,12 @@ void update_color_cycling_shrink_effect(void *effect_arg, S_func_818BD74C_1 *mot
             color_quarter_bias += 3;
         }
         color_half = (s32)(color_bits + (color_shifted >> 0x1F)) >> 1;
-        ((S_func_818BD74C_3 *)sprite)->unk_0C = (s8)(((color_quarter_bias >> 2) << 7) + 0x40);
-        ((S_func_818BD74C_3 *)sprite)->unk_0D = (s8)(((s32)(((s16)color_half - (((s32)((s16)color_half
+        sprite->unk_0C = (s8)(((color_quarter_bias >> 2) << 7) + 0x40);
+        sprite->unk_0D = (s8)(((s32)(((s16)color_half - (((s32)((s16)color_half
             + ((u32)(color_half << 0x10) >> 0x1F)) >> 1) * 2)) << 0x10) >> 9) + 0x40);
-        ((S_func_818BD74C_3 *)sprite)->unk_0E = (s8)(((s32)((color_bits - (color_half * 2)) << 0x10) >> 9) + 0x40);
+        sprite->unk_0E = (s8)(((s32)((color_bits - (color_half * 2)) << 0x10) >> 9) + 0x40);
     }
-    ((S_func_818BD74C_3 *)sprite)->unk_1A = (u16)(((S_func_818BD74C_3 *)sprite)->unk_1A + 0x300);
+    sprite->unk_1A = (u16)(sprite->unk_1A + 0x300);
     state = effect->unk_0E.s;
     switch (state) {
     case 0:
@@ -123,11 +124,11 @@ void update_color_cycling_shrink_effect(void *effect_arg, S_func_818BD74C_1 *mot
         return;
 
     case 1:
-        ((S_func_818BD74C_3 *)sprite)->unk_12 = 0;
-        ((S_func_818BD74C_3 *)sprite)->unk_14 = (u16)(((S_func_818BD74C_3 *)sprite)->unk_14 & 0xFEFF);
+        sprite->unk_12 = 0;
+        sprite->unk_14 = (u16)(sprite->unk_14 & 0xFEFF);
         state_or_scale = (0x19 - effect->unk_10.s) << 8;
-        ((S_func_818BD74C_3 *)sprite)->unk_1E = state_or_scale;
-        ((S_func_818BD74C_3 *)sprite)->unk_1C = state_or_scale;
+        sprite->unk_1E = state_or_scale;
+        sprite->unk_1C = state_or_scale;
         if (effect->unk_10.s < 0x10) {
             return;
         }

@@ -18,7 +18,7 @@ void apply_large_random_value_gain(void *target, s32 amount_input, void *owner) 
     if (try_trigger_target_record_effect(target, 2, owner) == 0) {
         base_amount = get_random_scaled_value(amount_input & 0xFF) + 16;
         adjusted_amount = base_amount;
-        if (*(u8 *)((u8 *)target + 0x28) & 2) {
+        if (*((u8 *)target + 0x28) & 2) {
             adjusted_amount = base_amount + ((s32)(base_amount << 16) >> 19);
         }
         *(u16 *)((u8 *)target + 0x64) += adjusted_amount;
@@ -418,7 +418,7 @@ void advance_target_travel_effect(void *effect, void *motion, void *appearance) 
         }
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | NODE_REMOVE);
-        (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
+        (*&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         break;
     case 2:
         ((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_00.at00.v = (s32) (((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_00.at00.v

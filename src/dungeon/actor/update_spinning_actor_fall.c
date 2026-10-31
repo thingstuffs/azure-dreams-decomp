@@ -19,15 +19,6 @@ extern void unlink_entity_node(struct EntityLinkNode *node);
 extern void * detach_record_and_update_slot_state(void *record);
 
 
-typedef struct S_800AC5C8_0 {
-    u8 pad_00[0x90];
-    s32 unk_90;
-    u8 pad_94[0x2];
-    u16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-} S_800AC5C8_0;   /* arg0 in update_spinning_actor_fall */
 
 typedef struct S_800AC5C8_1_pre {
     u16 unk_00;
@@ -37,32 +28,32 @@ typedef struct S_800AC5C8_1_pre {
    /* arg2 in update_spinning_actor_fall */
 
 /* Advance the object's timed animation and perform its final cleanup. */
-s32 update_spinning_actor_fall(S_800AC5C8_0 *animation, ObjectPosition *position, MovingTile *tile, void *object) {
+s32 update_spinning_actor_fall(ActorRecord *animation, ObjectPosition *position, MovingTile *tile, void *object) {
     s32 force;
     u16 ticks_left;
     s32 state;
     u8 tile_x;
     u8 tile_y;
 
-    state = animation->unk_9B;
+    state = animation->action_phase.u;
     switch (state) {
     case 0:
         ((Rec_D_80082E80 *)object)->unk_6A = ((Rec_D_80082E80 *)object)->unk_28.at02_u16.v & 0xFFF;
-        animation->unk_9B++;
+        animation->action_phase.u++;
                 /* fall through */
     case 1:
         ((Rec_D_80082E80 *)object)->unk_28.at02_u16.v += 0x200;
         position->velocity_z -= 0x10000;
 
-        ticks_left = animation->unk_96 - 1;
-        animation->unk_96 = ticks_left;
+        ticks_left = animation->action_timer.u - 1;
+        animation->action_timer.u = ticks_left;
         if ((s16)ticks_left > 0) {
             return 0;
         }
 
         position->velocity_z = 0;
         set_record_integer_tile_center(position, tile->tile_x, tile->tile_y);
-        animation->unk_96 = 0x10;
+        animation->action_timer.u = 0x10;
 
         if (!(((Rec_D_80082E80 *)object)->unk_14.at00_s32.v & 0x4000)) {
             g_dungeon_status.activity_counts.parts.pending_action_count--;
@@ -75,21 +66,21 @@ s32 update_spinning_actor_fall(S_800AC5C8_0 *animation, ObjectPosition *position
                 (tile->tile_x << 6) | 0x20,
                 (tile->tile_y << 6) | 0x20,
                 -0x400);
-            animation->unk_98 &= 0xFFF7;
+            animation->action_state_flags &= 0xFFF7;
             ((Rec_D_80082E80 *)object)->unk_1C.at00_s32.v &= 0xFFFEFFFF;
-            animation->unk_96 = 0x10;
-            animation->unk_9B++;
+            animation->action_timer.u = 0x10;
+            animation->action_phase.u++;
         }
         break;
     case 2:
         ((Rec_D_80082E80 *)object)->unk_28.at02_u16.v += 0x200;
-        ticks_left = animation->unk_96 - 1;
-        animation->unk_96 = ticks_left;
+        ticks_left = animation->action_timer.u - 1;
+        animation->action_timer.u = ticks_left;
         if ((s16)ticks_left > 0) {
             return 0;
         }
 
-        animation->unk_90 = 0;
+        animation->unk_90.value = 0;
         tile_x = tile->tile_x;
         tile_y = tile->tile_y;
         if (((Rec_D_80082E80 *)object)->unk_1C.at00_s32.v & 0x2000) {

@@ -88,7 +88,7 @@ void turn_entity_toward_target(void *entity, void *transform, void *sprite) {
     direction = view_relative_angle_sector(*(s16 *)((u8 *)entity + 0x18));
     if (*(s16 *)((u8 *)entity + 0x12) != direction) {
         texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(sprite,
-                      *(u8 *)(*(u8 **)((u8 *)entity + 0x1C) + direction),
+                      *(*(u8 **)((u8 *)entity + 0x1C) + direction),
                       *(s8 *)((u8 *)sprite + 4), 0);
         *(s16 *)((u8 *)entity + 0x12) = direction;
     }
@@ -136,7 +136,7 @@ void update_object_view_transition(S_800A58CC_2 *state_arg, void *object) {
     ObjectPosition *coords;
 
          /* MATCH: Order the s2 parameter copy before the s0 copy. */
-    object_ref = (u8 *)object;
+    object_ref = object;
     town = &g_game_work;
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile((void *) object_ref);
     threshold = select_the_smaller_position_query_result_capped_n_64_writes_associated((void *) object_ref, &position_query_scratch);
@@ -224,7 +224,7 @@ void update_actor_movement_and_actions(State *state, Actor *actor) {
     height_limit = select_the_smaller_position_query_result_capped_n_64_writes_associated(actor, &position_query_scratch);
     if (actor->height >= height_limit) {
         compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(actor), height_limit, (struct TownVec **)(&position_query_scratch));
-    } else if ((&(*((u8 *)town_blocked_directions)))[1] != 0) {
+    } else if ((&(*town_blocked_directions))[1] != 0) {
         actor->value = 0;
         clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2((s32 *)(actor));
     } else {
@@ -291,7 +291,7 @@ void update_actor_movement_and_actions(State *state, Actor *actor) {
         spawn_directional_effects(actor, (u16)scale_random_to_unsigned_halfword_limit(1));
     }
 
-    if ((((u32)input->pressed_buttons) & 0x10) && ((*((u8 *)town_blocked_directions)) == 0)) {
+    if ((((u32)input->pressed_buttons) & 0x10) && ((*town_blocked_directions) == 0)) {
         state->callback = &D_800A5DF8;
         state->timer = 8;
         state->mode = 1;
@@ -415,7 +415,7 @@ void update_town_movement_and_actions(u8 *state, EntityRec *table, void *action_
     ground_height = select_the_smaller_position_query_result_capped_n_64_writes_associated(table, &position_query_scratch);
     if (table->z.w.i >= ground_height) {
         compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(table), ground_height, (struct TownVec **)(&position_query_scratch));
-    } else if (((u8 *)town_blocked_directions)[1] != 0) {
+    } else if (town_blocked_directions[1] != 0) {
         table->flags14 = 0;
         clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2((s32 *)(table));
     } else {
@@ -453,7 +453,7 @@ void update_town_movement_and_actions(u8 *state, EntityRec *table, void *action_
     }
 
     if (((globals->pressed_buttons) & 0x10) &&
-        (((u8 *)town_blocked_directions)[0] == 0)) {
+        (town_blocked_directions[0] == 0)) {
         initialize_effect_and_adjust_value(state, table, (s32)(context));
         return;
     }

@@ -159,7 +159,7 @@ void update_actor_approach_descent_return(void *action, ObjectPosition *motion, 
             (*(s16 *)((u8 *)actor + 0x2A)) = direction << 9;
 
             if ((dungeon_mode_state != 0) || (current_dungeon_floor != 0x28)) {
-                if ((*(u8 *)((u8 *)&((EntityRec *)actor)->unk_10 + 1)) >= current_dungeon_floor) {
+                if ((*((u8 *)&((EntityRec *)actor)->unk_10 + 1)) >= current_dungeon_floor) {
                     slot = 0;
                     do {
                         companion = *(u8 **)(((u8 *)dungeon_actor_ring_anchor) + 0xAC + slot * 4);
@@ -266,7 +266,7 @@ void update_actor_approach_descent_return(void *action, ObjectPosition *motion, 
 
             if ((((WorldStatePage *)0x80010000)->actionMode == 0) && (current_dungeon_floor == 0x28)) {
                 ((S_80175CD8_0 *)action)->unk_9B = 7;
-            } else if ((*(u8 *)((u8 *)&((EntityRec *)actor)->unk_10 + 1)) >= current_dungeon_floor) {
+            } else if ((*((u8 *)&((EntityRec *)actor)->unk_10 + 1)) >= current_dungeon_floor) {
                 ((S_80175CD8_0 *)action)->unk_9B++;
             } else {
                 ((S_80175CD8_0 *)action)->unk_9B = 7;

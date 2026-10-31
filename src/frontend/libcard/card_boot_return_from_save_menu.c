@@ -10,7 +10,9 @@ typedef struct S_80026784_0 {
 } S_80026784_0;   /* arg0 in card_boot_return_from_save_menu */
 
 /* Update the base record and pass its paired fields to the next helper. */
-void card_boot_return_from_save_menu(void *record_part) {
-    release_card_record_handles(record_part - 0x20);
-    init_card_boot_request_object(((S_80026784_0 *)record_part)->request, ((S_80026784_0 *)record_part)->unk_24);
+void card_boot_return_from_save_menu(void *record_part_arg) {
+    S_80026784_0 *record_part = record_part_arg;
+
+    release_card_record_handles(record_part_arg - 0x20);
+    init_card_boot_request_object(record_part->request, record_part->unk_24);
 }

@@ -80,10 +80,6 @@ typedef struct S_800C4F20_7 {
     u16 unk_1E;
 } S_800C4F20_7;   /* temp_a1_4 in update_orbiting_teleport_effect */
 
-typedef struct S_800C4F20_8 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-} S_800C4F20_8;   /* temp_a0_7 in update_orbiting_teleport_effect */
 
 
 s32 rsin();
@@ -116,7 +112,7 @@ void update_orbiting_teleport_effect(void *anim, S_800C4F20_5 *position, S_800C4
     u16 stretch_height;
     u16 end_scale;
     u16 final_scale;
-    S_800C4F20_8 *owner;
+    ActorRecord *owner;
     S_800C4F20_2 *grow_target;
     S_800C4F20_7 *shrink_target;
     ObjectPosition *orbit_center;
@@ -257,9 +253,9 @@ void update_orbiting_teleport_effect(void *anim, S_800C4F20_5 *position, S_800C4
             break;
         }
         owner = ((S_800C4F20_0 *)anim)->unk_24;
-        owner->unk_14 = (s32) (owner->unk_14 & 0xFFEFFFFF);
+        owner->flags14 = (s32) (owner->flags14 & 0xFFEFFFFF);
         ((S_800C4F20_0_pre *)anim)[-1].unk_00 = (u16) (((S_800C4F20_0_pre *)anim)[-1].unk_00 | 0x8000);
-        (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
+        (*&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         return;
     case 17:
         rise_ticks = ((S_800C4F20_0 *)anim)->unk_2A;
@@ -272,9 +268,9 @@ void update_orbiting_teleport_effect(void *anim, S_800C4F20_5 *position, S_800C4
             break;
         }
         owner = ((S_800C4F20_0 *)anim)->unk_24;
-        owner->unk_14 = (s32) (owner->unk_14 & 0xFFEFFFFF);
+        owner->flags14 = (s32) (owner->flags14 & 0xFFEFFFFF);
         ((S_800C4F20_0_pre *)anim)[-1].unk_00 = (u16) (((S_800C4F20_0_pre *)anim)[-1].unk_00 | 0x8000);
-        (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
+        (*&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         return;
     }
     if (((S_800C4F20_11 *)(((S_800C4F20_10 *)anim)->unk_24))->unk_14 & 0x100000) {

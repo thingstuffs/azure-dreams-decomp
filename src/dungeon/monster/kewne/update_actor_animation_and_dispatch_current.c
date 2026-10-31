@@ -16,22 +16,6 @@
 #include "dungeon/actor/motion.h"
 #include "dungeon/actor/state.h"
 
-typedef struct S_8015F0EC_0 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x2];
-    union { u16 u; s16 s; } unk_92;   /* accessed as both */
-    u8 pad_94[0x4];
-    u16 unk_98;
-    u8 unk_9A;
-    u8 unk_9B;
-    u8 pad_9C[0x2];
-    s16 unk_9E;
-    u8 pad_A0[0x2];
-    union { s16 s; u16 u; } unk_A2;   /* accessed as both */
-    u8 pad_A4[0xE];
-    s16 unk_B2;
-} S_8015F0EC_0;   /* arg0 in update_actor_animation_and_dispatch_current */
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
@@ -86,7 +70,7 @@ void update_actor_animation_and_dispatch_current(ActorRecord *actor, ObjectPosit
         if (sprite->frameTable == D_80163EA0) {
             actor->action_id.u = 0xD;
             actor->action_phase.u = 1;
-            ((S_8015F0EC_0 *)actor)->unk_8C = 0;
+            actor->unk_8C.word = 0;
             entity->flags1C &= ~0x40000;
             return;
         }
@@ -107,7 +91,7 @@ void update_actor_animation_and_dispatch_current(ActorRecord *actor, ObjectPosit
 
             if (actor->action_id.u != 0xE) {
                 actor->action_id.u = 0xE;
-                ((S_8015F0EC_0 *)actor)->unk_B2 = 0;
+                actor->unk_B0.halves.high.s = 0;
             }
 
             current_anims = sprite->frameTable;

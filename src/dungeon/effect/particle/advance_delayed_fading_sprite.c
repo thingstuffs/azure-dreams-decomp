@@ -379,7 +379,7 @@ void brighten_accelerate_and_fade_effect(void *effect_arg, DelayMotion *motion, 
                     particle_state->timer = (s16) (rand() & 3);
                     particle_state->fade_step = 0xC;
                     particle_state->phase = 0;
-                    ((DelayObject *)particle)->owner = (void *) ((DelayParticle *)effect_arg)->owner;
+                    ((DelayObject *)particle)->owner = ((DelayParticle *)effect_arg)->owner;
                 }
                 count_or_step -= 1;
             } while (count_or_step >= 0);

@@ -45,8 +45,8 @@ void advance_aura_actor_turn_path(ActorRecord *actor, ObjectPosition *actor_slot
 #include "dungeon/monster/u_boat.h"
 extern void begin_actor_action(void *, ObjectPosition *, void *, void *);
 extern s32 func_80172EA8(void *, void *, void *, s32);
-extern void update_actor_action_transition(void *state, ObjectPosition *update_mode, SpriteFrameState *sprite, void *entity);
-void complete_actor_action(ActorRecord *actor, ObjectPosition *unused_1, SpriteFrameState *unused_2, void *entity);
+extern void update_actor_action_transition(ActorRecord *state, ObjectPosition *update_mode, SpriteFrameState *sprite, ActorRecord *entity);
+void complete_actor_action(ActorRecord *actor, ObjectPosition *unused_1, SpriteFrameState *unused_2, ActorRecord *entity);
 extern void begin_actor_exclusive_action(void *, ObjectPosition *, void *, s32, s32);
 
 extern u8 uboat_default_frames[];
@@ -255,7 +255,7 @@ void update_actor_turn_and_action(void *entity, ObjectPosition *context, SpriteF
                 }
             }
             {
-                ActorRecord *leader = (ActorRecord *)dungeon_actor_ring_anchor;
+                ActorRecord *leader = dungeon_actor_ring_anchor;
 
                 if (leader->unk_A4.halves.high.u != 0) {
                     choose_and_execute_actor_step(entity, context, sprite, actor);

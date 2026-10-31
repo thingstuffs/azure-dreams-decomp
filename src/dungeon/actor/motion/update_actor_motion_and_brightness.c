@@ -31,13 +31,13 @@ void update_actor_motion_and_brightness(ActorRecord *body, S_800D4158_1 *motion,
     s32 brightness;
 
     if (g_dungeon_status.flags & 0x2000) {
-        (*(u8 *)((u8 *)entity_ref + 0x71)) = (*(u8 *)((u8 *)entity_ref + 0x71)) & 0x7f;
+        (*((u8 *)entity_ref + 0x71)) = (*((u8 *)entity_ref + 0x71)) & 0x7f;
         return;
     }
     if ((*(Func4 *)((u8 *)entity_ref + 0x8c)) != NULL) {
         ((Func4)(*(Func4 *)((u8 *)entity_ref + 0x8c)))(entity_ref, motion, sprite, entity_ref);
     }
-    actor_brightness_callbacks[(*(u8 *)((u8 *)entity_ref + 0x9a))](entity_ref, motion, sprite, entity_ref);
+    actor_brightness_callbacks[(*((u8 *)entity_ref + 0x9a))](entity_ref, motion, sprite, entity_ref);
     if (!(sprite->flags & 0x8000)) {
         if (!(sprite->flags & 0x40)) {
             advance_sprite_animation_and_textures(sprite);

@@ -179,10 +179,11 @@ void update_actor_status_callback(ActorRecord *body, ObjectPosition *position, S
 }
 
 /* Advance the entity state, updating directional sprites and handling actor events. */
-void advance_entity_directional_events(void *entity, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor) {
+void advance_entity_directional_events(void *entity_arg, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor) {
+    S_801734E0_0 *entity = entity_arg;
     s32 state;
 
-    state = ((S_801734E0_0 *)entity)->unk_9B;
+    state = entity->unk_9B;
     switch (state) {
     case 0:
     {
@@ -198,7 +199,7 @@ void advance_entity_directional_events(void *entity, ObjectPosition *context, Sp
         select_sprite_entry(sprite,
             direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        ((S_801734E0_0 *)entity)->unk_9B++;
+        entity->unk_9B++;
         return;
     }
 
@@ -214,7 +215,7 @@ void advance_entity_directional_events(void *entity, ObjectPosition *context, Sp
                 0);
             actor->flags1C |= 0x40000;
             g_dungeon_status.activity_counts.parts.pending_action_count++;
-            ((S_801734E0_0 *)entity)->unk_9B++;
+            entity->unk_9B++;
             return;
         }
 
@@ -223,7 +224,7 @@ void advance_entity_directional_events(void *entity, ObjectPosition *context, Sp
         }
 
         if (actor->hp_delta != 0) {
-            if (begin_ready_actor_directional_action(entity, context, sprite, 0) != 0) {
+            if (begin_ready_actor_directional_action(entity_arg, context, sprite, 0) != 0) {
                 return;
             }
         }
@@ -242,12 +243,12 @@ void advance_entity_directional_events(void *entity, ObjectPosition *context, Sp
             u16 previous_total;
             u16 pending_decrease;
 
-            begin_actor_move_to_target_facing(entity, context, sprite, actor);
-            previous_total = ((S_801734E0_0 *)entity)->unk_92;
-            pending_decrease = ((S_801734E0_0 *)entity)->unk_A6;
-            ((S_801734E0_0 *)entity)->unk_A6 = 0;
-            ((S_801734E0_0 *)entity)->unk_B2 = 0;
-            ((S_801734E0_0 *)entity)->unk_92 = previous_total - pending_decrease;
+            begin_actor_move_to_target_facing(entity_arg, context, sprite, actor);
+            previous_total = entity->unk_92;
+            pending_decrease = entity->unk_A6;
+            entity->unk_A6 = 0;
+            entity->unk_B2 = 0;
+            entity->unk_92 = previous_total - pending_decrease;
             func_80173834(entity, context, sprite, actor);
             return;
         }
@@ -285,14 +286,14 @@ void advance_entity_directional_events(void *entity, ObjectPosition *context, Sp
         g_dungeon_status.activity_counts.parts.pending_action_count++;
     }
 
-        ((S_801734E0_0 *)entity)->unk_9B++;
+        entity->unk_9B++;
         return;
     case 2:
         if (sprite->flags & 0xE000) {
 
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             actor->flags1C &= ~(ACTOR_MP_EMPTY | ACTOR_ASLEEP);
-            ((S_801734E0_0 *)entity)->unk_8C = &garuda_action_resume_address;
+            entity->unk_8C = &garuda_action_resume_address;
         }
 
         return;

@@ -18,7 +18,9 @@ typedef struct S_800C7CF0_2 {
 } S_800C7CF0_2;   /* out in move_mother_event_output_to_target */
 
 /* Move the output toward the target position until the object countdown expires. */
-void move_mother_event_output_to_target(void *object, void *out, void *setup_context) {
+void move_mother_event_output_to_target(void *object_arg, void *out_arg, void *setup_context) {
+    S_800C7CF0_2 *out = out_arg;
+    Rec_func_80094268_arg0 *object = object_arg;
     s16 signed_frames;
     u16 target_x;
     u16 target_y;
@@ -26,23 +28,23 @@ void move_mother_event_output_to_target(void *object, void *out, void *setup_con
 
     target_x = ((MovingPosition *)D_800834A0)->x;
     target_y = ((MovingPosition *)D_800834A0)->y - 0x42;
-    frames = ((Rec_func_80094268_arg0 *)object)->unk_6C.as_u16 - 1;
-    ((Rec_func_80094268_arg0 *)object)->unk_6C.as_u16 = frames;
+    frames = object->unk_6C.as_u16 - 1;
+    object->unk_6C.as_u16 = frames;
     signed_frames = (s32)((u32)frames << 16) >> 16;
 
     if (signed_frames <= 0) {
         apply_object_setup_and_update(object, out, setup_context);
-        ((S_800C7CF0_2 *)out)->unk_02 = target_x;
-        ((S_800C7CF0_2 *)out)->unk_06 = target_y;
+        out->unk_02 = target_x;
+        out->unk_06 = target_y;
         return;
     }
 
-    ((S_800C7CF0_2 *)out)->unk_02 =
-        (u16)(((S_800C7CF0_2 *)out)->unk_02 +
-              ((s16)target_x - (s16)((S_800C7CF0_2 *)out)->unk_02) /
+    out->unk_02 =
+        (u16)(out->unk_02 +
+              ((s16)target_x - (s16)out->unk_02) /
               signed_frames);
-    ((S_800C7CF0_2 *)out)->unk_06 =
-        (s16)((u16)((S_800C7CF0_2 *)out)->unk_06 +
-              ((s16)target_y - ((S_800C7CF0_2 *)out)->unk_06) /
-              (s16)((Rec_func_80094268_arg0 *)object)->unk_6C.as_u16);
+    out->unk_06 =
+        (s16)((u16)out->unk_06 +
+              ((s16)target_y - out->unk_06) /
+              (s16)object->unk_6C.as_u16);
 }

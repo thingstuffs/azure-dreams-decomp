@@ -14,18 +14,18 @@ void configure_shared_fade_primitive(void);
 extern s16 D_80010208[];
 
 /* Processes the current selection and stores the next state. */
-void *card_boot_save_selected_slot(void *context) {
+void *card_boot_save_selected_slot(Object_800128C8 *context) {
     void *result;
 
-    card_boot_prepare_save_buffer(0x80010000, *(s32 *)((s8 *)context + 0x2C), *(s32 *)((s8 *)context + 0x24));
-    if (card_boot_write_save_via_temporary_path(*(s32 *)((s8 *)context + 0x2C), 0x80010000) == 0) {
+    card_boot_prepare_save_buffer(0x80010000, context->unk_2C, context->unk_24);
+    if (card_boot_write_save_via_temporary_path(context->unk_2C, 0x80010000) == 0) {
         *(u8 **)((s8 *)context + 0x34) = (u8 *)write_text_and_advance_selection;
         card_boot_show_overwrite_failure_notice((u8 *)context - 0x20);
         *(u8 **)((s8 *)context - 0x10) = (u8 *)&D_800261C0;
     } else {
-        card_boot_set_slot_details_selection(*(void **)((s8 *)context + 4), *(s32 *)((s8 *)context + 0x2C), 3);
+        card_boot_set_slot_details_selection(context->slot_details, context->unk_2C, 3);
         card_boot_refresh_five_slot_objects(context);
-        card_boot_set_slot_selection_marker(*(ObjectNodeHeader **)((s8 *)context + *(s32 *)((s8 *)context + 0x2C) * 4 + 0xC), 1);
+        card_boot_set_slot_selection_marker(*(ObjectNodeHeader **)((s8 *)context + context->unk_2C * 4 + 0xC), 1);
         if (D_80010208[0] != 0) {
             configure_shared_fade_primitive();
             *(u8 **)((s8 *)context - 0x10) = (u8 *)&inventory_copy_and_sign_extend_record_fields;
@@ -35,6 +35,6 @@ void *card_boot_save_selected_slot(void *context) {
         }
     }
     result = card_boot_recheck_selected_channel();
-    *(s32 *)((s8 *)context + 0x40) = 0;
+    context->unk_40 = 0;
     return result;
 }

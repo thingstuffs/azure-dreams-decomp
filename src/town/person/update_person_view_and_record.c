@@ -53,7 +53,7 @@ void update_person_view_and_record(void *ptr, void *value, SpriteFrameState *rec
         (*(s16 *)((u8 *)ptr + (0x74))) = index;
     }
 
-    if (((*(u8 *)((u8 *)ptr + (0x71))) & 1) == 0) {
+    if (((*((u8 *)ptr + (0x71))) & 1) == 0) {
         if ((s16)check_heading_past_half_sector((*(s16 *)((u8 *)ptr + (0x72))),
                                (*(s16 *)((u8 *)ptr + (0x64)))) == 0) {
             flag_value = record->flags;

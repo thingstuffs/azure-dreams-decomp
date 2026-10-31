@@ -198,7 +198,7 @@ void advance_paired_object_sequence(void *sequence, void *position, void *actor,
             return;
         }
         {
-            void *sound_data = *(void **)&cd_cue_base[0];
+            void *sound_data = *&cd_cue_base[0];
             sound_set_cd_cue_parameters(0, sound_data, 0, 0x1000530);
         }
         {
@@ -406,7 +406,7 @@ case 4:
             return;
         }
         object_index_m = 0;
-        page_cursor = (u8 *)sequence;
+        page_cursor = sequence;
         do {
             void *call_position = position;
             void *call_actor = actor;

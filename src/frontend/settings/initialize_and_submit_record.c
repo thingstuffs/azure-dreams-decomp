@@ -23,7 +23,7 @@ void initialize_and_submit_record(s32 value, void *data) {
     record = allocate_flagged_object_node(1);
     dst = (Blk16 *)(record + 8); /* +0x20 bytes */
     if (record != 0) {
-        src = (Blk16 *)data;
+        src = data;
         end = src + 3; /* 0x30 bytes */
         do {
             *dst = *src;

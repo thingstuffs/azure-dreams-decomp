@@ -31,5 +31,5 @@ void center_view_on_object(void *object) {
     linked_state = ((S_8001BBB8_0 *)object)->unk_69C;
     ((S_8001BBB8_3 *)(((S_8001BBB8_2 *)linked_state)->unk_04))->unk_08 = 0xA0;
     ((S_8001BBB8_3 *)(((S_8001BBB8_2 *)linked_state)->unk_04))->unk_0A = 0x78;
-    linked_state->unk_00 = (void *) (object + 0x24);
+    linked_state->unk_00 = (object + 0x24);
 }

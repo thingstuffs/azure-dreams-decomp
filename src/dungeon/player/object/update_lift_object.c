@@ -58,14 +58,15 @@ typedef struct S_8008F428_4 {
    /* ((S_8008F428_0 *)arg0)->unk_124 in update_lift_object */
 
 /* Updates the timed effect state, entity flags, and directional animation. */
-void update_lift_object(void *effect_state, void *saved_effect_id, void *animation, void *owner) {
+void update_lift_object(void *effect_state, void *saved_effect_id, void *animation_arg, void *owner) {
+    SpriteFrameState *animation = animation_arg;
     u8 *effect_result;
     u16 ticks_left;
     u8 state;
     void *target;
 
     if (((S_8008F428_0 *)effect_state)->unk_124 != 0) {
-        if (!(((SpriteFrameState *)animation)->flags & 0x6000)) {
+        if (!(animation->flags & 0x6000)) {
             return;
         }
 
@@ -149,10 +150,10 @@ void update_lift_object(void *effect_state, void *saved_effect_id, void *animati
 
     state = ((S_8008F428_0 *)effect_state)->unk_9B;
     if (state == 0) {
-        if (((SpriteFrameState *)animation)->unk_04 < 2) {
+        if (animation->unk_04 < 2) {
             return;
         }
-        ((SpriteFrameState *)animation)->flags |= 0x800;
+        animation->flags |= 0x800;
         ((S_8008F428_0 *)effect_state)->unk_96 = 0x10;
         ((S_8008F428_0 *)effect_state)->unk_9B = ((S_8008F428_0 *)effect_state)->unk_9B + 1;
         return;
@@ -163,7 +164,7 @@ void update_lift_object(void *effect_state, void *saved_effect_id, void *animati
     if ((s16)ticks_left > 0) {
         return;
     }
-    ((SpriteFrameState *)animation)->flags &= 0xF7FF;
+    animation->flags &= 0xF7FF;
     play_sound_if_enabled(0x506);
     {
         void *effect_id;

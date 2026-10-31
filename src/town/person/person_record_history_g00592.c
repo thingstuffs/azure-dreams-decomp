@@ -38,7 +38,7 @@ void shift_history_and_store_current_values(void)
         destination->field_0 = source->field_0;
         destination->field_2 = source->field_2;
         destination->field_4 = source->field_4;
-        ((TownRecord *)destination)->field_6 = source->field_6;
+        destination->field_6 = source->field_6;
         record_index--;
     }
 

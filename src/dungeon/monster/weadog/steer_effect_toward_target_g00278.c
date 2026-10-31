@@ -136,9 +136,10 @@ void initialize_shared_state_active_entries(SteeringEffectWork *effect, ObjectPo
 
 /* Creates an offset effect, advances it ten steps, and assigns a random color. */
 void create_random_color_offset_effect(
-    void *parent, s16 initial_14, s32 unused, s16 initial_32,
+    void *parent_arg, s16 initial_14, s32 unused, s16 initial_32,
     s16 offset_x, s16 offset_y, s16 offset_z)
 {
+    S_80171498_1 *parent = parent_arg;
     s16 held_offset_x = offset_x;
     s16 held_offset_y = offset_y;
     s16 held_offset_z = offset_z;
@@ -150,18 +151,18 @@ void create_random_color_offset_effect(
     void *effect;
     SteeringEffectWork *effect_data;
 
-    effect = allocate_list_node(0x211, parent);
+    effect = allocate_list_node(0x211, parent_arg);
     if (effect != NULL) {
         ((ProjectileObject *)effect)->update_callback = D_801712C4;
 
         ((SignedPositionView *)(((ProjectileObject *)effect)->position))->x =
-            ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->x + held_offset_x;
+            ((MovingPosition *)(parent->unk_08))->x + held_offset_x;
         ((SignedPositionView *)(((ProjectileObject *)effect)->position))->y =
-            ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->y + held_offset_y;
+            ((MovingPosition *)(parent->unk_08))->y + held_offset_y;
         ((SignedPositionView *)(((ProjectileObject *)effect)->position))->z =
-            ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->z + held_offset_z;
+            ((MovingPosition *)(parent->unk_08))->z + held_offset_z;
 
-        source_data = ((S_80171498_1 *)parent)->unk_0C;
+        source_data = parent->unk_0C;
         if (resolve_record_orientation_or_fallback(source_data->unk_08, source_data, &source_offset, 0) != 0) {
             ((SignedPositionView *)(((ProjectileObject *)effect)->position))->x += source_offset.x;
             ((SignedPositionView *)(((ProjectileObject *)effect)->position))->y += source_offset.y;
@@ -169,20 +170,20 @@ void create_random_color_offset_effect(
         }
 
         effect_data = (u8 *)effect + 0x20;
-        effect_data->target_x.w.i = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->x;
-        effect_data->target_y.w.i = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->y;
-        effect_data->target_z.w.i = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->z;
+        effect_data->target_x.w.i = ((MovingPosition *)(parent->unk_08))->x;
+        effect_data->target_y.w.i = ((MovingPosition *)(parent->unk_08))->y;
+        effect_data->target_z.w.i = ((MovingPosition *)(parent->unk_08))->z;
 
-        source_data = ((S_80171498_1 *)parent)->unk_0C;
+        source_data = parent->unk_0C;
         if (resolve_record_orientation_or_fallback(source_data->unk_08, source_data, &source_offset, 0) != 0) {
             effect_data->target_x.w.i += source_offset.x;
             effect_data->target_y.w.i += source_offset.y;
             effect_data->target_z.w.i += source_offset.z;
         }
 
-        effect_data->origin_x = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->x;
-        effect_data->origin_y = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->y;
-        effect_data->origin_z = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->z;
+        effect_data->origin_x = ((MovingPosition *)(parent->unk_08))->x;
+        effect_data->origin_y = ((MovingPosition *)(parent->unk_08))->y;
+        effect_data->origin_z = ((MovingPosition *)(parent->unk_08))->z;
 
         step = 0;
         do {

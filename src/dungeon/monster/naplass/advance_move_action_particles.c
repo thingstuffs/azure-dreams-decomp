@@ -34,36 +34,6 @@ typedef struct S_80172840_0 {
     union { u8 s; s8 u; } unk_73;   /* accessed as both */
 } S_80172840_0;   /* arg3 in advance_move_action_particles */
 
-typedef struct S_80172840_1 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    u16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0xC];
-    union { s16 s; u16 u; } unk_A8;   /* accessed as both */
-} S_80172840_1;   /* arg0 in advance_move_action_particles */
-
-typedef struct S_80172840_3 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80172840_3;   /* record in advance_move_action_particles */
-
-
-typedef struct S_80172840_6 {
-    u8 pad_00[0xA6];
-    u16 unk_A6;
-} S_80172840_6;   /* D_800814A8[0] in advance_move_action_particles */
-
-typedef struct S_80172840_7 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80172840_7;   /* spawn in advance_move_action_particles */
 
 typedef struct S_80172840_8 {
     u8 pad_00[0xC];
@@ -81,14 +51,6 @@ typedef struct S_80172840_10 {
     s32 unk_04;
 } S_80172840_10;   /* base in advance_move_action_particles */
 
-typedef struct S_80172840_12 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    s32 unk_08;
-} S_80172840_12;   /* ((S_80172840_7 *)spawn)->unk_08 in advance_move_action_particles */
-
 extern int abs(int);
 extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
 extern void select_sprite_entry(void *, s32, s32);
@@ -103,7 +65,7 @@ extern u8 naplass_frame_set_1[0x10];
 /* Updates a move action, spawning particles and resetting state when it ends. */
 /* Starts a targeted spell, emits batches of ten particles ahead during casting, then restores movement and
  * status. */
-void advance_move_action_particles(void *action, ObjectPosition *position, SpriteFrameState *sprite, void *actor)
+void advance_move_action_particles(ActorRecord *action, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor)
 {
     void *particle_callback = D_80173EC0;
     s32 direction_offset;
@@ -137,7 +99,7 @@ void advance_move_action_particles(void *action, ObjectPosition *position, Sprit
     direction_offset = counter & 0xE;
     direction_x_ptr += direction_offset;
     direction_x = *(s16 *)direction_x_ptr;
-    phase = ((S_80172840_1 *)action)->unk_9B;
+    phase = action->action_phase.u;
     direction_y = *(s16 *)((u8 *)dir_step_y + direction_offset);
 
     switch (phase) {
@@ -148,7 +110,7 @@ void advance_move_action_particles(void *action, ObjectPosition *position, Sprit
         s16 special_flag;
 
         if (((S_80172840_0 *)actor)->unk_1C & ACTOR_PLAYER_SIDE) {
-            switch (((S_80172840_0 *)actor)->unk_46 & 0x3FFF) {
+            switch (actor->action_flags & 0x3FFF) {
             case 7:
                 is_special = 1;
             case 3:
@@ -168,7 +130,7 @@ void advance_move_action_particles(void *action, ObjectPosition *position, Sprit
                 move_slot = 0;
             }
         } else {
-            move_kind = ((S_80172840_0 *)actor)->unk_46 & 0x3FFF;
+            move_kind = actor->action_flags & 0x3FFF;
             switch (move_kind) {
             case 3:
                 move_slot = (u8 *)actor + 0x0E;
@@ -184,32 +146,32 @@ void advance_move_action_particles(void *action, ObjectPosition *position, Sprit
             }
         }
         if (*move_slot != 0) {
-            ((S_80172840_1 *)action)->unk_98 &= 0xFF7F;
+            action->action_state_flags &= 0xFF7F;
             special_flag = is_special;
             if (special_flag != 0) {
                 move_object = ((u8 *)primary_actor_record);
-                ((S_80172840_0 *)actor)->unk_60 = move_object;
+                actor->target = move_object;
                 record = ((ObjectNodeHeader *)((u8 *)move_object - 0x20))->sprite;
-                ((S_80172840_0 *)actor)->unk_72.s = record->tile_x;
-                ((S_80172840_0 *)actor)->unk_73.s = record->tile_y;
+                actor->target_tile_x = record->tile_x;
+                actor->target_tile_y = record->tile_y;
             } else if (item_action_definitions[*move_slot].kind == 2) {
-                move_object = ((S_80172840_0 *)actor)->unk_60;
+                move_object = actor->target;
                 if (move_object != 0) {
                     record = ((ObjectNodeHeader *)((u8 *)move_object - 0x20))->sprite;
-                    ((S_80172840_0 *)actor)->unk_72.s = record->tile_x;
-                    ((S_80172840_0 *)actor)->unk_73.s = record->tile_y;
+                    actor->target_tile_x = record->tile_x;
+                    actor->target_tile_y = record->tile_y;
                 }
             } else {
-                ((S_80172840_0 *)actor)->unk_60 = scan_actor_along_heading(
+                actor->target = scan_actor_along_heading(
                     actor,
                     sprite->tile_x,
                     sprite->tile_y,
-                    ((S_80172840_0 *)actor)->unk_2A.u,
+                    actor->facing,
                     0x10);
-                abs_x = abs(((S_80172840_0 *)actor)->unk_72.u);
-                abs_y = abs(((S_80172840_0 *)actor)->unk_73.u);
-                ((S_80172840_0 *)actor)->unk_72.s = abs_x;
-                ((S_80172840_0 *)actor)->unk_73.s = abs_y;
+                abs_x = abs(actor->target_tile_x);
+                abs_y = abs(actor->target_tile_y);
+                actor->target_tile_x = abs_x;
+                actor->target_tile_y = abs_y;
             }
             coords[0] = ((u16) position->x.w.i);
             coords[1] = ((u16) position->y.w.i);
@@ -220,8 +182,8 @@ void advance_move_action_particles(void *action, ObjectPosition *position, Sprit
             }
             sprite->flags &= 0xF7FF;
             play_sound_if_enabled(0x703);
-            ((S_80172840_1 *)action)->unk_A8.s = -1;
-            ((S_80172840_1 *)action)->unk_9B++;
+            action->unk_A8.s = -1;
+            action->action_phase.u++;
             return;
         }
 
@@ -230,13 +192,13 @@ void advance_move_action_particles(void *action, ObjectPosition *position, Sprit
         position->velocity_x = 0;
         set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
-        ((S_80172840_6 *)(((u8 *)primary_actor_record)))->unk_A6--;
+        primary_actor_record->unk_A4.halves.high.u--;
         advance_status_timers(actor);
         ((S_80172840_0 *)actor)->unk_6D.s--;
-        ((S_80172840_1 *)action)->unk_8C = naplass_action_continuation_address;
-        ((S_80172840_0 *)actor)->unk_73.s = 0;
-        ((S_80172840_0 *)actor)->unk_72.s = 0;
-        ((S_80172840_0 *)actor)->unk_46 &= 0x7FFF;
+        action->unk_8C.address = naplass_action_continuation_address;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->action_flags &= 0x7FFF;
         return;
     }
     case 1:
@@ -245,11 +207,11 @@ void advance_move_action_particles(void *action, ObjectPosition *position, Sprit
             return;
         }
         sprite->flags &= 0xF7FF;
-        ((S_80172840_1 *)action)->unk_9B++;
+        action->action_phase.u++;
     case 2:
         if (sprite->unk_04 == 1 &&
             (sprite->flags & 0x1000)) {
-            ((S_80172840_1 *)action)->unk_A8.u = 4;
+            action->unk_A8.u = 4;
         }
         if ((u32)(*(u8 *)&sprite->unk_04 - 1) < 2U &&
             sprite->frameTable != naplass_frame_set_1) {
@@ -259,8 +221,8 @@ void advance_move_action_particles(void *action, ObjectPosition *position, Sprit
                 coords[5] = 0;
                 coords[4] = 0;
             }
-            ((S_80172840_1 *)action)->unk_A8.u--;
-            if ((s16)((S_80172840_1 *)action)->unk_A8.u >= 0) {
+            action->unk_A8.u--;
+            if ((s16)action->unk_A8.u >= 0) {
                 counter = 9;
                 effect_base = secondary_sprite;
                 for (; counter >= 0; counter--) {
@@ -327,12 +289,12 @@ void advance_move_action_particles(void *action, ObjectPosition *position, Sprit
              (sprite->flags & 0x1000)) ||
             (sprite->flags & 0xE000)) {
             sprite->flags |= 0x800;
-            ((S_80172840_1 *)action)->unk_96 = 3;
-            ((S_80172840_1 *)action)->unk_98 |= 0x80;
+            action->action_timer.u = 3;
+            action->action_state_flags |= 0x80;
         }
-        ((S_80172840_1 *)action)->unk_96--;
-        if ((s16)((S_80172840_1 *)action)->unk_96 <= 0) {
-            ((S_80172840_1 *)action)->unk_96 = 0;
+        action->action_timer.u--;
+        if ((s16)action->action_timer.u <= 0) {
+            action->action_timer.u = 0;
             sprite->flags &= 0xF7FF;
         }
         if ((sprite->flags & 0xE000) == 0) {
@@ -346,7 +308,7 @@ void advance_move_action_particles(void *action, ObjectPosition *position, Sprit
             sprite->frameTable = naplass_frame_set_1;
             select_sprite_entry(
                 sprite,
-                naplass_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172840_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
+                naplass_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
         }
         if ((g_dungeon_status.active_actor) != 0) {
@@ -354,14 +316,14 @@ void advance_move_action_particles(void *action, ObjectPosition *position, Sprit
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         sprite->flags &= 0xF7FF;
-        ((S_80172840_1 *)action)->unk_8C = naplass_action_continuation_address;
+        action->unk_8C.address = naplass_action_continuation_address;
         advance_status_timers(actor);
-        if (((S_80172840_0 *)actor)->unk_6D.u > 0) {
+        if (actor->pending_turn_updates > 0) {
             ((S_80172840_0 *)actor)->unk_6D.s--;
         }
-        ((S_80172840_0 *)actor)->unk_73.s = 0;
-        ((S_80172840_0 *)actor)->unk_72.s = 0;
-        ((S_80172840_0 *)actor)->unk_46 &= 0x7FFF;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->action_flags &= 0x7FFF;
         play_sound_if_enabled(AUDIO_FADE_CD_FAST);
 
         return;

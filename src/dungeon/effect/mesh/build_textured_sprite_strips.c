@@ -147,7 +147,7 @@ void build_textured_sprite_strips(void *screen_pos, void *sprite, s32 *ordering_
     scratch->unk_84 = 0;
     scratch->unk_7C = 0;
     scratch->unk_74 = 0;
-    packet = (S_func_81904990_7 *)render_state->packetCursor;
+    packet = render_state->packetCursor;
     scratch->unk_20 = ordering_table;
     scratch->unk_C0 = NULL;
     scratch->unk_B8 = (s16) (setup_arg->unk_00 - 0xA0);
@@ -539,7 +539,7 @@ void decrement_effect_counter_by_twelve(s32 draw_data, ScreenRect *clip_rect, vo
         FillPacket *fill_packet;
 
         packet_page = g_game_work.draw_buffer;
-        fill_packet = (FillPacket *)packet_page->packetCursor;
+        fill_packet = packet_page->packetCursor;
         packet_page->packetCursor = (u8 *)fill_packet + 0x10;
         fill_packet->command = 0x60000000;
         ((GpuLinkTag *)&fill_packet->tag)->len = 3;
@@ -750,8 +750,9 @@ void get_half_byte_length(ObjectNodeHeader *parent, s16 field_34, s32 field_28, 
 #include "dungeon/effect/mesh/build_textured_sprite_strips.h"
 
    /* Update eight animation slots and mark completion when the countdown expires. */
-void update_effect_animation_slots(void *anim_state)
+void update_effect_animation_slots(void *anim_state_arg)
 {
+    S_800251A0_0 *anim_state = anim_state_arg;
     s16 next_phase;
     s32 slot_index;
     u16 ticks_left;
@@ -761,9 +762,9 @@ void update_effect_animation_slots(void *anim_state)
     DungeonAnimSlot *setup_slot;
     DungeonAnimSlot *slot;
 
-    ticks_left = ((S_800251A0_0 *)anim_state)->unk_02;
+    ticks_left = anim_state->unk_02;
     traveling_strip_effect_updated[0] = 1;
-    ((S_800251A0_0 *)anim_state)->unk_02 = ticks_left - 1;
+    anim_state->unk_02 = ticks_left - 1;
     for (slot_index = 1, setup_slot = (DungeonAnimSlot *)((u8 *)anim_state + 2); slot_index < 9; slot_index++) {
         setup_slot->field_62 = slot_index * 0x10;
         setup_slot = (DungeonAnimSlot *)((u8 *)setup_slot + 2);
@@ -788,7 +789,7 @@ void update_effect_animation_slots(void *anim_state)
         slot_index += 1;
     }
 
-    if ((s16)((S_800251A0_0 *)anim_state)->unk_02 <= 0) {
+    if ((s16)anim_state->unk_02 <= 0) {
         ((S_800251A0_0_pre *)anim_state)[-1].unk_00 =
             (u16)(((S_800251A0_0_pre *)anim_state)[-1].unk_00 | 0x8000);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
@@ -884,7 +885,7 @@ void build_inverted(void *context, void *unused, void *effect_data) {
     u8 *pixel_page;
     Box *rect_template;
 
-    rect_template = (Box *)(void *)&strip_texture_rect;
+    rect_template = (void *)&strip_texture_rect;
     image_rect = *rect_template;
     rect_template = (Box *)((u8 *)&strip_small_texture_rect);
     mask_rect = *rect_template;
@@ -970,7 +971,7 @@ void build_inverted(void *context, void *unused, void *effect_data) {
         break;
     }
 
-    if ((u32)(*(u8 *)(*(u8 **)((u8 *)context + 0x3c) + 0x13) - 0x33) < 4U) {
+    if ((u32)(*(*(u8 **)((u8 *)context + 0x3c) + 0x13) - 0x33) < 4U) {
         *(u16 *)((u8 *)effect_data + 0x14) |= 0x80;
     }
     return;

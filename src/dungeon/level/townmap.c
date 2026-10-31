@@ -185,7 +185,7 @@ void initialize_town_map_object_state(s32 mode, s32 *list, u8 *init_context, u8 
     }
     if (mode == 10) {
         *(u32 *)(record + 0x74) = 0;
-        town_map_selection = *(u8 *)(*(u8 **)(record + 0x7C));
+        town_map_selection = *(*(u8 **)(record + 0x7C));
     }
     *(Callback *)(record + 0x68) = advance_town_map_countdown_callback;
     *(s16 *)(record + 0x64) = (s16)(s8)D_800CFC38[mode];

@@ -71,7 +71,8 @@ extern u16 emitted_effect_counter;
 extern M2C_UNK D_8010AA44;
 
 /* Update the emitter position, spawn particles, and mark it for removal when its lifetime expires. */
-void update_emitter_and_spawn_particles(void *emitter, MovingPosition *position, M2C_UNK init_arg) {
+void update_emitter_and_spawn_particles(void *emitter_arg, MovingPosition *position, M2C_UNK init_arg) {
+    S_7FFE79F4_0 *emitter = emitter_arg;
     s32 product;
     s32 coordinate;
     s32 spawn_count;
@@ -81,15 +82,15 @@ void update_emitter_and_spawn_particles(void *emitter, MovingPosition *position,
     S_7FFE79F4_4 *particle_pos;
     S_7FFE79F4_3 *particle;
 
-    parent = ((S_7FFE79F4_0 *)emitter)->unk_24;
+    parent = emitter->unk_24;
     position->x = (u16) (((MovingPosition *)(parent->unk_08))->x
-        + ((S_7FFE79F4_0 *)emitter)->unk_3C);
+        + emitter->unk_3C);
     position->y = (u16) (((MovingPosition *)(parent->unk_08))->y
-        + ((S_7FFE79F4_0 *)emitter)->unk_3E);
+        + emitter->unk_3E);
     position->z = (u16) (((MovingPosition *)(parent->unk_08))->z
-        + ((S_7FFE79F4_0 *)emitter)->unk_40);
-    age = ((S_7FFE79F4_0 *)emitter)->unk_16 + 1;
-    ((S_7FFE79F4_0 *)emitter)->unk_16 = age;
+        + emitter->unk_40);
+    age = emitter->unk_16 + 1;
+    emitter->unk_16 = age;
     if ((s16) age < 0x14) {
         spawn_count = 0;
         do {
@@ -121,8 +122,8 @@ void update_emitter_and_spawn_particles(void *emitter, MovingPosition *position,
             }
         } while (spawn_count < 4);
     }
-    life_left = ((S_7FFE79F4_0 *)emitter)->unk_1E - 1;
-    ((S_7FFE79F4_0 *)emitter)->unk_1E = life_left;
+    life_left = emitter->unk_1E - 1;
+    emitter->unk_1E = life_left;
     if ((life_left << 0x10) <= 0) {
         u16 *counter = &emitted_effect_counter;
         u16 next_counter;

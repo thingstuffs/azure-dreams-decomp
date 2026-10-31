@@ -36,14 +36,6 @@ extern u8 D_80174070[];
 extern u8 killer_frame_set[];
 extern u8 killer_frame_set_2[];
 
-typedef struct S_80170EA8_0 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x8];
-    union { u16 n; u16 v; } unk_98;   /* accessed as both */
-    u8 unk_9A;
-    u8 unk_9B;
-} S_80170EA8_0;   /* arg0 in update_entity_action_facing */
 
 /* Updates the entity action, facing direction, and animation from dungeon state. */
 /* Selects Killer's movement, two attack modes, spells, and turn processing, then restores its directional
@@ -75,7 +67,7 @@ void update_entity_action_facing(ActorRecord *actor, ObjectPosition *context, Sp
         if (sprite->frameTable == killer_frame_set_2) {
             actor->action_id.u = 0xD;
             actor->action_phase.u = 1;
-            ((S_80170EA8_0 *)actor)->unk_8C = 0;
+            actor->unk_8C.word = 0;
             entity->flags1C &= ~0x40000;
             return;
         }

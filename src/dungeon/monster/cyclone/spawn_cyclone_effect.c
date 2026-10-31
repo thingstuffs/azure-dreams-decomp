@@ -16,11 +16,6 @@ typedef struct {
 
 extern s32 cyclone_spawn_update_address;
 
-typedef struct S_80E122F4_0 {
-    u8 pad_00[0x60];
-    void * unk_60;
-} S_80E122F4_0;   /* owner in func_80E122F4 */
-
 typedef struct S_80E122F4_3 {
     u8 pad_00[0x4];
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
@@ -50,7 +45,7 @@ typedef struct S_80E122F4_6 {
 } S_80E122F4_6;   /* ((S_80E122F4_0 *)owner)->unk_60 in func_80E122F4 */
 
 /* Spawn a 0x312 effect object at the source's position, offset into the owner's room and depth-sorted against the camera. */
-void *create_source_to_owner_sprite(S_80E122F4_0 *owner, void *transform, void *source)
+void *create_source_to_owner_sprite(ActorRecord *owner, ObjectPosition *position, SpriteFrameState *sprite)
 {
     GteOffset offset;
     S_80E122F4_5 *reference;
@@ -61,8 +56,8 @@ void *create_source_to_owner_sprite(S_80E122F4_0 *owner, void *transform, void *
     S_80E122F4_3 *part;
     s32 delta;
 
-    source_obj = source;
-    reference = ((S_80E122F4_6_pre *)(owner->unk_60))[-1].unk_00;
+    source_obj = sprite;
+    reference = ((S_80E122F4_6_pre *)(owner->target))[-1].unk_00;
     obj = allocate_flagged_object_node(0x312);
     if (obj != 0) {
         (obj->update_callback) = &cyclone_spawn_update_address;
@@ -78,7 +73,7 @@ void *create_source_to_owner_sprite(S_80E122F4_0 *owner, void *transform, void *
         select_sprite_entry(child, 0x47, 0);
 
         coords = obj->position;
-        (*(Copy24 *)((u8 *)obj + 0x24)) = *(Copy24 *)transform;
+        (*(Copy24 *)((u8 *)obj + 0x24)) = *(Copy24 *)position;
 
         offset.distance[2] = 0;
         offset.distance[1] = 0;
@@ -106,7 +101,7 @@ void *create_source_to_owner_sprite(S_80E122F4_0 *owner, void *transform, void *
         delta >>= 5;
         part->unk_14 = delta;
         delta = (reference->unk_08 -
-                 ((s32)entity_height_offsets[((S_80E122F4_6 *)(owner->unk_60))->unk_13] << 15) -
+                 ((s32)entity_height_offsets[((S_80E122F4_6 *)(owner->target))->unk_13] << 15) -
                  part->unk_0C.at00.v) / 32;
         part->unk_18 = delta;
         return obj;

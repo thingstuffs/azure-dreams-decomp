@@ -124,8 +124,9 @@ static __inline__ s32 narrow_depth(s32 value)
 }
 
 /* Transform mesh triangles, shade visible vertices, and append draw packets to the ordering table. */
-void transform_mesh_and_append_draw_packets(u8 *params, u8 *record, void *mesh_data, s32 depth_offset)
+void transform_mesh_and_append_draw_packets(u8 *params, u8 *record_arg, void *mesh_data, s32 depth_offset)
 {
+    S_800C55F4_3 *record = record_arg;
     u8 saved_matrix[0x20];
     s16 depth_bias = depth_offset;
     u8 *scratch;
@@ -178,13 +179,13 @@ void transform_mesh_and_append_draw_packets(u8 *params, u8 *record, void *mesh_d
     {
         s32 translation_coord;
 
-        translation_coord = ((S_800C55F4_3 *)record)->unk_02;
+        translation_coord = record->unk_02;
         ((S_800C55F4_1 *)scratch)->unk_64 = translation_coord;
         ((S_800C55F4_1 *)scratch)->unk_28 = translation_coord;
-        translation_coord = ((S_800C55F4_3 *)record)->unk_06;
+        translation_coord = record->unk_06;
         ((S_800C55F4_1 *)scratch)->unk_68 = translation_coord;
         ((S_800C55F4_1 *)scratch)->unk_2A = translation_coord;
-        translation_coord = ((S_800C55F4_3 *)record)->unk_0A;
+        translation_coord = record->unk_0A;
         ((S_800C55F4_1 *)scratch)->unk_6C = translation_coord;
         ((S_800C55F4_1 *)scratch)->unk_2C = translation_coord;
     }
@@ -200,7 +201,7 @@ void transform_mesh_and_append_draw_packets(u8 *params, u8 *record, void *mesh_d
     SetTransMatrix(scratch + 0xD0);
     SetRotMatrix(scratch + 0xD0);
 
-    render_state = ((u8 *)global_base->draw_buffer);
+    render_state = global_base->draw_buffer;
     ((S_800C55F4_1 *)scratch)->unk_20 = render_state + 0xB0;
     prim = ((GpuContext *)render_state)->packetCursor;
     packet_code = prim + 7;
@@ -240,9 +241,9 @@ void transform_mesh_and_append_draw_packets(u8 *params, u8 *record, void *mesh_d
             ((S_800C55F4_1 *)scratch)->unk_C8.s = depth;
         }
 
-        result = NormalClip((*(s32 *)((u8 *)packet_code + 1)),
-                               (*(s32 *)((u8 *)packet_code + 9)),
-                               (*(s32 *)((u8 *)packet_code + 0x11)));
+        result = NormalClip((*(s32 *)(packet_code + 1)),
+                               (*(s32 *)(packet_code + 9)),
+                               (*(s32 *)(packet_code + 0x11)));
         ((S_800C55F4_1 *)scratch)->unk_114 = result;
 
         if (result > 0) {
@@ -687,7 +688,7 @@ void dispatch_action_callback_by_opcode(u8 *w) {
 
     ctx = &g_game_work;
     phase0 = *(s16 *)w;
-    cells = ((u8 *)ctx->map.cells);
+    cells = ctx->map.cells;
     fld = (u8 *)ctx + 0x1DC;
     if (phase0 == 0) {
         st = (s32) ((u8 *)(&g_dungeon_status));
@@ -858,19 +859,19 @@ L_zero:
         e = ((u8 *)dungeon_actor_ring_anchor);
         *(s16 *)(w + 18) = 0;
         do {
-            ep = *(u8 * *)&((ObjectNodeHeader *)((u8 *)e - 0x20))->sprite;
-            if (phase == (s16)find_padded_rectangle(*(u8 *)(ep + 36), *(u8 *)(ep + 37))) {
-                if (*(u8 *)(e + 19) == 0) {
+            ep = *(u8 * *)&((ObjectNodeHeader *)(e - 0x20))->sprite;
+            if (phase == (s16)find_padded_rectangle(*(ep + 36), *(ep + 37))) {
+                if (*(e + 19) == 0) {
                     dungeon_floor_flags |= 0x2000;
                     create_orbiting_teleport_effect(e, tbl[get_entity_class(e)], 0, 0);
                     p = dungeon_actor_ring_anchor;
-                    q = ((u8 *)p->unk_AC.address);
+                    q = p->unk_AC.address;
                     if (q != 0) {
                         create_orbiting_teleport_effect(q, tbl[get_entity_class(q)], 0, 0);
                     }
                     {
                         ActorRecord *p2 = dungeon_actor_ring_anchor;
-                        q = ((u8 *)p2->unk_B0.address);
+                        q = p2->unk_B0.address;
                     }
                     if (q != 0) {
                         create_orbiting_teleport_effect(q, tbl[get_entity_class(q)], 1, 0);
@@ -885,8 +886,8 @@ L_zero:
                         *(s16 *)(e + 108) = 0;
                     }
                     o = e;
-                    ea = *(u8 *)(ep + 36);
-                    eb = *(u8 *)(ep + 37);
+                    ea = *(ep + 36);
+                    eb = *(ep + 37);
                     mode = 0x3000;
                     e = *(u8 **)(o + 88) + 32;
                     if (*(u32 *)(o + 28) & 0x2000) {
@@ -1261,7 +1262,7 @@ void draw_sprite_parts_as_quad_grid(s32 context, ObjectPosition *position, void 
                 *(u32 *)(scratch->b + 0x010) = (s32)((S_800C6B40_1 *)part)->unk_08.at02.v;
                 *(u32 *)(scratch->b + 0x014) = (s32)((S_800C6B40_1 *)part)->unk_08.at03.v;
                 if ((((S_800C6B40_1 *)part)->unk_00 ^ (u32)*(u16 *)(scratch->b + 0x024)) & 1) {
-                    local_x = (0 - (s8)(*(u8 *)((u8 *)part + 2))) - (s32)(u32)*(u16 *)(scratch->b + 0x108);
+                    local_x = (0 - (s8)(*((u8 *)part + 2))) - (s32)(u32)*(u16 *)(scratch->b + 0x108);
                     flipped_width = *(u16 *)(scratch->b + 0x010);
                     *(u16 *)(scratch->b + 0x080) = local_x;
                     *(u16 *)(scratch->b + 0x070) = local_x;
@@ -1269,7 +1270,7 @@ void draw_sprite_parts_as_quad_grid(s32 context, ObjectPosition *position, void 
                     *(u16 *)(scratch->b + 0x088) = local_x;
                     *(u16 *)(scratch->b + 0x078) = local_x;
                 } else {
-                    local_x = (s8)(*(u8 *)((u8 *)part + 2)) - (s32)(u32)*(u16 *)(scratch->b + 0x108);
+                    local_x = (s8)(*((u8 *)part + 2)) - (s32)(u32)*(u16 *)(scratch->b + 0x108);
                     normal_width = *(u16 *)(scratch->b + 0x010);
                     *(u16 *)(scratch->b + 0x080) = local_x;
                     *(u16 *)(scratch->b + 0x070) = local_x;
@@ -1278,7 +1279,7 @@ void draw_sprite_parts_as_quad_grid(s32 context, ObjectPosition *position, void 
                     *(u16 *)(scratch->b + 0x078) = local_x;
                 }
                 if ((((S_800C6B40_1 *)part)->unk_00 ^ (u32)*(u16 *)(scratch->b + 0x024)) & 2) {
-                    local_y = (0 - (s8)(*(u8 *)((u8 *)part + 3))) - (s32)(u32)*(u16 *)(scratch->b + 0x10A);
+                    local_y = (0 - (s8)(*((u8 *)part + 3))) - (s32)(u32)*(u16 *)(scratch->b + 0x10A);
                     flipped_height = *(u16 *)(scratch->b + 0x014);
                     *(u16 *)(scratch->b + 0x07A) = local_y;
                     *(u16 *)(scratch->b + 0x072) = local_y;
@@ -1286,7 +1287,7 @@ void draw_sprite_parts_as_quad_grid(s32 context, ObjectPosition *position, void 
                     *(u16 *)(scratch->b + 0x08A) = local_y;
                     *(u16 *)(scratch->b + 0x082) = local_y;
                 } else {
-                    local_y = (s8)(*(u8 *)((u8 *)part + 3)) - (s32)(u32)*(u16 *)(scratch->b + 0x10A);
+                    local_y = (s8)(*((u8 *)part + 3)) - (s32)(u32)*(u16 *)(scratch->b + 0x10A);
                     normal_height = *(u16 *)(scratch->b + 0x014);
                     *(u16 *)(scratch->b + 0x07A) = local_y;
                     *(u16 *)(scratch->b + 0x072) = local_y;
@@ -2050,7 +2051,7 @@ s32 prepare_quarter_damage_return(Object *object, ActorRecord *source) {
                 return 0;
             }
         }
-        *(u16 *)&object->value64 = adjustment;
+        *&object->value64 = adjustment;
         g_dungeon_status.pending_display_owner = (u8 *)object - 0x20;
         object->value60 = 0;
         create_textured_ellipse_effect(((ObjectNodeHeader *)((u8 *)object - 0x20))->position, object);

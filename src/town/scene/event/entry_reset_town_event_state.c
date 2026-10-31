@@ -30,8 +30,8 @@ void restore_pending_town_event(void) {
 
     if (func_80018964(Fp_pool_open) == 0) {
         S_8059E540_2 *page = (S_8059E540_2 *)0x80010000;
-        ((s32 (*)(s32))((TownServiceTable *)(((Rec_D_80016000 *)(page->unk_6000))->services))->callback_27C)(0);
-        ((s32 (*)(s32, s32))((TownServiceTable *)(((Rec_D_80016000 *)(page->unk_6000))->services))->callback_2F4)(-1, -5);
+        ((s32 (*)(s32))(((Rec_D_80016000 *)(page->unk_6000))->services)->callback_27C)(0);
+        ((s32 (*)(s32, s32))(((Rec_D_80016000 *)(page->unk_6000))->services)->callback_2F4)(-1, -5);
     }
     reset_town_event_state();
     state = ((S_8059E540_0 *)D_80010000)->unk_6000;

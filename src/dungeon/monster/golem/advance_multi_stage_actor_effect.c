@@ -17,7 +17,7 @@ extern void select_sprite_entry(void *, s32, s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
-extern s32 create_randomized_offset_object(void *, void *, void *);
+extern s32 create_randomized_offset_object(void *, void *, SpriteFrameState *);
 
 extern u8 golem_direction_frames[8];
 extern u8 golem_frame_set_4[8];
@@ -42,12 +42,12 @@ typedef struct S_801735BC_1 {
     u16 unk_46;
 } S_801735BC_1;   /* actor in advance_multi_stage_actor_effect */
 
-void advance_multi_stage_actor_effect(void *incoming_state_work, void *incoming_entity, void *incoming_object, void *incoming_actor)
+void advance_multi_stage_actor_effect(ActorRecord *body, void *incoming_entity, SpriteFrameState *sprite, void *incoming_actor)
 {
         /* MATCH: the local state join must retain state_work in retail's s2. */
-    void *state_work = incoming_state_work;
+    void *state_work = body;
     EntityRec *entity = incoming_entity;
-    SpriteFrameState *object = incoming_object;
+    SpriteFrameState *object = sprite;
     S_801735BC_1 *actor = incoming_actor;
     u8 state;
     u16 flags;

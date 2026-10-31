@@ -73,8 +73,9 @@ typedef struct Vec16 {
 extern u8 *actor_direction_sprites;
 
 /* Follow the source, then brighten and move to the target over ten frames. */
-void follow_source_then_seek_target(void *effect, ObjectPosition *motion, void *visual)
+void follow_source_then_seek_target(void *effect, ObjectPosition *motion, void *visual_arg)
 {
+    S_81976850_4 *visual = visual_arg;
     Vec16 delta;
     void *source;
     MovingPosition *source_pos;
@@ -122,10 +123,10 @@ void follow_source_then_seek_target(void *effect, ObjectPosition *motion, void *
         break;
 
     case 2:
-        brightness = ((S_81976850_4 *)visual)->unk_0E + 8;
-        ((S_81976850_4 *)visual)->unk_0E = brightness;
-        ((S_81976850_4 *)visual)->unk_0D = brightness;
-        ((S_81976850_4 *)visual)->unk_0C = brightness;
+        brightness = visual->unk_0E + 8;
+        visual->unk_0E = brightness;
+        visual->unk_0D = brightness;
+        visual->unk_0C = brightness;
 
         target_pos = ((S_81976850_10 *)(((S_81976850_0 *)effect)->unk_04))->unk_08;
         motion->velocity_x = target_pos->unk_00;
@@ -176,5 +177,5 @@ void follow_source_then_seek_target(void *effect, ObjectPosition *motion, void *
         break;
     }
     ((S_81976850_0 *)effect)->unk_10++;
-    ((S_81976850_4 *)visual)->unk_1A += 0x300;
+    visual->unk_1A += 0x300;
 }

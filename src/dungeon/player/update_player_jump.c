@@ -78,8 +78,8 @@ void update_player_jump(u8 *action, u8 *motion, u8 *sprite, u8 *entity) {
                     *(s32 *)(child + 0x1C) |= 0x200000;
                     *(s32 *)(entity + 0x1C) |= 0x200000;
                     *(s16 *)(*(u8 **)(action + 0x124) + 0x8A) = effect_id;
-                    *(u8 *)(*(u8 **)(action + 0x124) + 0x84) = 0x78;
-                    *(u8 *)(*(u8 **)(action + 0x124) + 0x85) = 2;
+                    *(*(u8 **)(action + 0x124) + 0x84) = 0x78;
+                    *(*(u8 **)(action + 0x124) + 0x85) = 2;
                     append_packed_action_record(entity, 0x30, *(s16 *)(action + 0x96), 0);
 
                     {

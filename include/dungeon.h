@@ -42,7 +42,7 @@ void begin_actor_hit_reaction_slot_f(ActorRecord *body, ObjectPosition *position
 void update_actor_timed_visual_slot_f(ActorRecord *state_input, ObjectPosition *motion_input, SpriteFrameState *animation_input, ActorRecord *actor_input);
 
 /* func_80FE16A8.c */
-void update_dungeon_entity_action_and_facing(struct ActionState *actor, void *context, SpriteFrameState *sprite, ActorRecord *entity);
+void update_dungeon_entity_action_and_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 
 /* func_8100E664.c */
 void restore_bank_actor_callback(struct PairAction *actor, struct ActorMotion *motion, SpriteFrameState *sprite, void *entity);

@@ -3,9 +3,9 @@
 
 
 /* Projects a rotated 16-by-16 vertex grid and queues its textured quads for each linked object. */
-s32 render_rotated_grid_surface(void *node) {
+s32 render_rotated_grid_surface(DirectionalGridEffectBody *node) {
     Row_81989558_Frame frame;
-    Row_81989558_S_80024D58_Obj *object;
+    DirectionalGridEffectBody *object;
     u8 *source_points;
     u8 *grid_row;
     s32 ring_x;
@@ -185,7 +185,7 @@ s32 render_rotated_grid_surface(void *node) {
                         Row_81989558_S_80024D58_Pair *dst_pair;
                         s32 row_offset;
                         context->packetCursor = quad + 0x28;
-                        ((PolyFT4 *)quad)->colorCode = object->unk_0C;
+                        ((PolyFT4 *)quad)->colorCode = object->unk_0C.word;
                         SetPolyFT4(quad);
                         SetSemiTrans(quad, 1);
                         ((PolyFT4 *)quad)->tpage = GetTPage(0, 3, 0x300, 0x100);
@@ -226,7 +226,7 @@ s32 render_rotated_grid_surface(void *node) {
         {
             void *next_node = ((Row_81989558_S_80024D58_11_pre *)node)[-1].unk_00;
             if (next_node != 0) {
-                node = (u8 *) next_node + 0x20;
+                node = (next_node + 0x20);
                 continue;
             }
         }

@@ -36,7 +36,7 @@ void update_wrapping_indices_and_input(void) {
     }
     buttons = D_800D185D;
     buttons -= buttons / 67 * 67;
-    *(u8 *) &D_800D185D = buttons;
+    *&D_800D185D = buttons;
     buttons = input_state->buttons;
     masked_buttons = buttons & 0x500000;
     if (masked_buttons == 0x500000) {

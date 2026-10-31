@@ -37,10 +37,10 @@ void initialize_threshold_interaction_action(void *record, void *unused_entity, 
 /* Callback entry points. */
 s32 draw_entry_overlays(void);
 s32 read_and_clear_stored_value(void);
-s32 store_value_and_get_masked_offset(s32 unused_0, s32 unused_1, s32 unused_2, s32 stored_value);
+s32 store_value_and_get_masked_offset(s32 unused_0, s32 unused_1, struct SpriteFrameState *unused_2, s32 stored_value);
 void dispatch_deferred_callback(s32 callback_first_value, s32 callback_second_value, s32 callback_third_value, s32 unused_value);
 void dispatch_state_callback_by_mode(s32 value, void *ptr, void *ptr2, s32 unused);
-void forward_player_state_update(void *object, s32 value_1, s32 value_2);
+void forward_player_state_update(void *object, s32 value_1, struct SpriteFrameState *value_2);
 void forward_value_context_data_mode(s32 value, void *context, void *data, s32 mode);
 void no_op_scene_callback_b(void);
 

@@ -12,7 +12,7 @@ extern u8 D_800E1A44[];
 s32 try_apply_threshold_effect_variant_b(void *entity, s16 chance, s16 effect_value) {
     if (roll_threshold_effect_variant_b(entity, chance, effect_value) != 0) {
         adjust_source_value_and_finalize(entity, D_800E1A44);
-        if (*(u8 *)((u8 *)entity + 0x13) == 0) {
+        if (*((u8 *)entity + 0x13) == 0) {
             wrap_position_and_set_state_value(D_800DCF14);
         }
         return 1;

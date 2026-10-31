@@ -18,7 +18,7 @@ extern u8 triggered_cursor_node_storage[];
 /* Initialize the object's runtime state and set its next handler. */
 void create_window_cursor_and_install_reset(Rec_func_80036210_arg0 *object) {
     create_cursor_object(&triggered_cursor_node_storage, &triggered_cursor_record_storage, object, 0,
-        ((S_80036210_2 *)(((Rec_func_80036210_arg0 *)object)->unk_74.as_pv))->unk_80);
+        ((S_80036210_2 *)(object->unk_74.as_pv))->unk_80);
     object->unk_4C = 0;
     object->unk_68 = &runtime_reset_state_on_trigger_bits;
 }

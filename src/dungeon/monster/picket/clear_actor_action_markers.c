@@ -56,8 +56,8 @@ extern s32 picket_slot_f_item_result[];
  */
 s32 clear_actor_action_markers(void *origin, void *actor)
 {
-    OriginBytesFieldView_80E91000 *origin_bytes = (OriginBytesFieldView_80E91000 *)origin;
-    ActorBytesFieldView_80E91000 *actor_bytes = (ActorBytesFieldView_80E91000 *)actor;
+    OriginBytesFieldView_80E91000 *origin_bytes = origin;
+    ActorBytesFieldView_80E91000 *actor_bytes = actor;
     s32 direction_offset;
     s16 ground_index;
     ActorRecord *target;

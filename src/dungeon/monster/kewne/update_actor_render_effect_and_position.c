@@ -286,11 +286,11 @@ void emit_concentric_ellipse_quads(u16 radius_a_x, u16 radius_a_y, u16 radius_b_
             cos_angle = cos_angle >> 4;
 
             color_b = *color_b_ptr;
-            (*(u32 *)((u8 *)vertex_data + -0x0A)) = color_b;
-            (*(u32 *)((u8 *)vertex_data + -0x16)) = color_b;
+            (*(u32 *)(vertex_data + -0x0A)) = color_b;
+            (*(u32 *)(vertex_data + -0x16)) = color_b;
             color_a = *color_a_ptr;
-            (*(u32 *)((u8 *)vertex_data + 0x0E)) = color_a;
-            (*(u32 *)((u8 *)vertex_data + 0x02)) = color_a;
+            (*(u32 *)(vertex_data + 0x0E)) = color_a;
+            (*(u32 *)(vertex_data + 0x02)) = color_a;
             SetPolyGT4(prim);
 
             ((ovl_9c32d4_809A38E4_S_801750E4_0 *)vertex_data)->unk_0A = 1;

@@ -97,7 +97,7 @@ void advance_actor_path(ActorRecord *motion, ObjectPosition *context, SpriteFram
             update_actor_status_and_mp(actor);
             return;
         }
-        active_actor = (u8 *)g_dungeon_status.active_actor;
+        active_actor = g_dungeon_status.active_actor;
         if ((void *)active_actor == actor) {
             path_status = 0xC008;
             actor->action_flags = path_status;

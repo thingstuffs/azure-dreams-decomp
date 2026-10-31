@@ -94,7 +94,7 @@ void run_cd_image_commands(u32 *stream_ref, u8 *state, s32 execute)
             tile_count = cmd->y;
             source_offset = words[1];
             flags = cmd->flags;
-            src_addr = (s32)((void *)((void *)(base + source_offset)));
+            src_addr = (s32)(((void *)(base + source_offset)));
             upload_vram_row_and_cache(src_addr, vram_offset, tile_count, flags);
             DrawSync(0);
             break;

@@ -54,13 +54,6 @@ typedef struct S_8016AEDC_5 {
     u16 unk_14;
 } S_8016AEDC_5;   /* a2_copy in initialize_actor_and_companion */
 
-typedef struct S_8016AEDC_6 {
-    u8 pad_00[0x12];
-    s8 unk_12;
-    u8 unk_13;
-    u8 pad_14[0x2F];
-    u8 unk_43;
-} S_8016AEDC_6;   /* spawned in initialize_actor_and_companion */
 
 
 struct ObjectNodeHeader; void * allocate_list_node(s32, struct ObjectNodeHeader * *);
@@ -88,7 +81,7 @@ void *initialize_actor_and_companion(s16 mode_flags, s32 config_24, s32 config_2
     void *part_a;
     void *part_b;
     u8 *callback;
-    S_8016AEDC_6 *spawned;
+    ActorRecord *spawned;
     s32 mode_kind;
     u16 saved_config_0a;
 
@@ -152,8 +145,8 @@ void *initialize_actor_and_companion(s16 mode_flags, s32 config_24, s32 config_2
         spawn_config_25 = config_25 >> 16;
         spawned = allocate_boss_actor(spawn_mode, spawn_config_24, spawn_config_25, (s16)spawn_config_0a);
     }
-    retain_spawn_resource(spawned->unk_13, 1);
-    func_80042640(spawned, spawned->unk_13);
+    retain_spawn_resource(spawned->species, 1);
+    func_80042640(spawned, spawned->species);
     spawned->unk_43 = 0xFF;
     spawned->unk_12 = 0;
     return work;

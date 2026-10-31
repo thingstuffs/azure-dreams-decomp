@@ -129,7 +129,7 @@ void advance_actor_motion_sequence(ActorRecord *state, ObjectPosition *position,
             effect_pos[0] = ((u16)position->x.w.i);
             effect_pos[1] = ((u16)position->y.w.i);
             effect_pos[2] = ((u16)position->z.w.i);
-            position = (void *)create_actor_spell_effect(actor, motion, special_motion, (u8 *)state + 0x98);
+            position = create_actor_spell_effect(actor, motion, special_motion, (u8 *)state + 0x98);
             if (position == 0) {
                 return;
             }

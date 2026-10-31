@@ -63,7 +63,7 @@ void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_
                                 arg3_part->frameTable = D_8016E538;
                             }
                         }
-                        ((S_8016A800_4 *)((void *)arg2_work))->unk_8C = func_8016AE5C;
+                        ((S_8016A800_4 *)arg2_work)->unk_8C = func_8016AE5C;
                         arg3_part->frameTable = volcano_frame_set_5;
                     } else {
                         ((S_8016A800_0 *)result)->unk_8C = func_8016AE5C;
@@ -74,8 +74,8 @@ void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_
             }
             root->update_callback = func_8016AA58;
             initialize_actor_sprite_and_animation(root, position, arg3_part, (s16)held_flags);
-            ((S_8016A800_4 *)((void *)arg2_work))->unk_9A = 0xFF;
-            ((S_8016A800_4 *)((void *)arg2_work))->unk_9C = -1;
+            ((S_8016A800_4 *)arg2_work)->unk_9A = 0xFF;
+            ((S_8016A800_4 *)arg2_work)->unk_9C = -1;
             try_move_actor_to_valid_position(arg2_work, position, arg3_part, result);
         }
     }

@@ -56,7 +56,7 @@ ObjectNodeHeader *create_preset_sprite_object(IntVector3 *position);
 void create_timed_effect_object(s32 ownerDataAddress, s32 creationParam, struct S_800A7B98_2 *sourceData);
 
 /* decrement_callback_object_timer.c */
-void decrement_callback_object_timer(struct S_func_800A9F90 *self, s32 expiry_arg);
+void decrement_callback_object_timer(struct S_func_800A9F90 *self, ObjectPosition *expiry_arg);
 
 /* finalize_object_after_check_or_expiry.c */
 void finalize_object_after_check_or_expiry(BoundsExpiryObject *object, s32 check_value);

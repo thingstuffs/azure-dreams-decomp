@@ -263,14 +263,14 @@ void choose_grineut_move(ActorRecord *move_data, ObjectPosition *context, Sprite
 void initialize_opposite_facing_effect(ActorRecord *effect, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *source);
 s32 try_grineut_attack(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor);
 void begin_grineut_attack(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
-s32 relink_grineut_path(void *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
+s32 relink_grineut_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, s32 force_state_arg);
 void move_grineut_to_tile(ActorRecord *state, ObjectPosition *context, SpriteFrameState *source, ActorRecord *target);
-void advance_target_hop(void *action, void *motion, void *sprite, void *actor);
+void advance_target_hop(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void update_grineut_linked_motion(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
 void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_actor_stored_path_2(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
-void settle_directional_motion_at_tile(void *motion_state, void *motion, void *sprite, void *entity);
-void remove_defeated_grineut(void *state, void *motion, void *position, void *actor);
+void settle_directional_motion_at_tile(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, void *entity);
+void remove_defeated_grineut(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void shrink_hopping_grineut(void *state, void *motion, void *position, void *actor);
 void advance_grineut_removal(void *state, void *motion, void *position, void *actor);
 void grow_hopping_grineut(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
@@ -295,8 +295,8 @@ void update_directional_movement_and_center(ActorRecord *action, ObjectPosition 
 
 
 void decelerate_directional_motion_and_center(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, void *entity);
-void settle_directional_actor_motion(void *motion_state, ObjectPosition *motion, SpriteFrameState *map_actor, void *actor);
-void settle_entity_after_directional_motion(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *entity);
+void settle_directional_actor_motion(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, void *actor);
+void settle_entity_after_directional_motion(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, void *entity);
 void update_directional_motion_and_tile_alignment(void *action, ObjectPosition *motion, SpriteFrameState *actor, void *entity);
 
 void *spawn_grineut(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height);

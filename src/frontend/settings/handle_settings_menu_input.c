@@ -2,13 +2,8 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "engine/effect/screen_fade.h"
+#include "frontend/settings.h"
 
-typedef unsigned char u8;
-typedef signed char s8;
-typedef unsigned short u16;
-typedef short s16;
-typedef unsigned int u32;
-typedef int s32;
 typedef struct Gfx
 {
     u8 pad0[0x3180];
@@ -19,19 +14,6 @@ typedef struct Gfx
     u8 pad7;
 }
 Gfx;
-typedef struct Menu
-{
-    TransitionSlot fade;
-    s16 state;
-    s16 timer;
-    s16 row;
-    s16 red;
-    s16 green;
-    s16 blue;
-    u16 shade;
-    u16 flags;
-}
-Menu;
 extern u8 animation_tick_scale;
 extern u8 runtime_state_restore_requested;
 extern s32 saved_cd_playback_volume_scale;
@@ -45,7 +27,7 @@ extern void sound_set_sequence_volume_scale(s16 new_value);
 extern void sound_set_voice_gain_scale(short value);
 extern void create_settings_controller(void);
 /* Handles the options menu, adjusting audio levels and applying display settings. */
-void handle_settings_menu_input(Menu *menu)
+void handle_settings_menu_input(SettingsScreenBody *menu)
 {
     GameWork *pad;
     s32 buttons;

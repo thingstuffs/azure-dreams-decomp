@@ -14,7 +14,7 @@ typedef struct Obj {
 extern s32 get_random_scaled_value(s16 input_value);
 
 /* Applies a flag-adjusted value increase and updates the target. */
-void apply_random_value_gain(Obj *target, s32 amount_param, void *record)
+void apply_random_value_gain(ActorRecord *target, s32 amount_param, ActorRecord *record)
 {
     s32 base_amount;
     register s32 adjusted_amount;
@@ -22,13 +22,13 @@ void apply_random_value_gain(Obj *target, s32 amount_param, void *record)
     if (try_trigger_target_record_effect(target, 4, record) == 0) {
         base_amount = get_random_scaled_value(amount_param & 0xFF) + 0x10;
         adjusted_amount = base_amount;
-        if (target->flags & 1) {
+        if (target->hp & 1) {
             adjusted_amount = base_amount + ((s16)base_amount >> 1);
         }
-        target->value64 += adjusted_amount;
+        target->hp_delta += adjusted_amount;
         cap_pending_actor_value_delta(target);
         base_amount = 0x8004;
-        create_actor_value_popup(base_amount, target, (s16)target->value64, 1);
+        create_actor_value_popup(base_amount, target, (s16)target->hp_delta, 1);
         apply_clamped_actor_value_delta(target);
     }
 }

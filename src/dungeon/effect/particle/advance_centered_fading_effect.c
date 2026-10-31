@@ -37,48 +37,50 @@ typedef struct S_7FFE7804_2 {
 } S_7FFE7804_2;   /* arg2 in advance_centered_fading_effect */
 
 /* Advance the effect around its center, fade its color, and flag it when its lifetime ends. */
-void advance_centered_fading_effect(void *effect, ObjectPosition *position, void *color) {
+void advance_centered_fading_effect(void *effect_arg, ObjectPosition *position, void *color_arg) {
+    S_7FFE7804_2 *color = color_arg;
+    S_7FFE7804_0 *effect = effect_arg;
     s32 life_left;
     s32 arithmetic;
     s32 product;
     u16 next_angle;
     u16 angle;
 
-    angle = ((S_7FFE7804_0 *)effect)->unk_28;
+    angle = effect->unk_28;
     next_angle = angle + 0xC8;
-    ((S_7FFE7804_0 *)effect)->unk_28 = next_angle;
+    effect->unk_28 = next_angle;
     if ((s16) next_angle >= 0x1001) {
-        ((S_7FFE7804_0 *)effect)->unk_28 = (u16) (angle - 0xF38);
+        effect->unk_28 = (u16) (angle - 0xF38);
     }
     {
-        product = ((S_7FFE7804_0 *)effect)->unk_2A * func_7006DD28((s16)((S_7FFE7804_0 *)effect)->unk_28);
-        arithmetic = ((S_7FFE7804_0 *)effect)->unk_38;
+        product = effect->unk_2A * func_7006DD28((s16)effect->unk_28);
+        arithmetic = effect->unk_38;
         arithmetic += product >> 12;
         position->x.w.i = arithmetic;
     }
     {
-        product = ((S_7FFE7804_0 *)effect)->unk_2A * func_7006DC5C((s16)((S_7FFE7804_0 *)effect)->unk_28);
-        arithmetic = ((S_7FFE7804_0 *)effect)->unk_3A;
+        product = effect->unk_2A * func_7006DC5C((s16)effect->unk_28);
+        arithmetic = effect->unk_3A;
         arithmetic += product >> 12;
         position->y.w.i = arithmetic;
     }
     {
-        product = ((S_7FFE7804_0 *)effect)->unk_0C * ((S_7FFE7804_0 *)effect)->unk_1E.s;
-        arithmetic = ((S_7FFE7804_0 *)effect)->unk_20;
-        ((S_7FFE7804_2 *)color)->unk_0C = product / arithmetic;
+        product = effect->unk_0C * effect->unk_1E.s;
+        arithmetic = effect->unk_20;
+        color->unk_0C = product / arithmetic;
     }
     {
-        product = ((S_7FFE7804_0 *)effect)->unk_0D * ((S_7FFE7804_0 *)effect)->unk_1E.s;
-        arithmetic = ((S_7FFE7804_0 *)effect)->unk_20;
-        ((S_7FFE7804_2 *)color)->unk_0D = product / arithmetic;
+        product = effect->unk_0D * effect->unk_1E.s;
+        arithmetic = effect->unk_20;
+        color->unk_0D = product / arithmetic;
     }
     {
-        product = ((S_7FFE7804_0 *)effect)->unk_0E * ((S_7FFE7804_0 *)effect)->unk_1E.s;
-        arithmetic = ((S_7FFE7804_0 *)effect)->unk_20;
-        ((S_7FFE7804_2 *)color)->unk_0E = product / arithmetic;
+        product = effect->unk_0E * effect->unk_1E.s;
+        arithmetic = effect->unk_20;
+        color->unk_0E = product / arithmetic;
     }
-    life_left = ((S_7FFE7804_0 *)effect)->unk_1E.u - 1;
-    ((S_7FFE7804_0 *)effect)->unk_1E.s = life_left;
+    life_left = effect->unk_1E.u - 1;
+    effect->unk_1E.s = life_left;
     if ((life_left << 0x10) <= 0) {
         (*(u16 *)((u8 *)effect + (-2))) = (u16) (((S_7FFE7804_0_pre *)effect)[-1].unk_00 | 0x8000);
         particle_object_flags |= 0x8000;

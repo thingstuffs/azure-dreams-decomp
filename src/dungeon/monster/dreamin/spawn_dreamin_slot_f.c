@@ -15,19 +15,6 @@
 #include "dungeon/actor/status.h"
 
 
-typedef struct S_80D95000_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80D95000_2;
-
-typedef struct S_80D95000_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xA];
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-} S_80D95000_4;
 
 s32 generate_random_value(void);
 extern u8 dreamin_object_callback[];
@@ -44,7 +31,7 @@ void *damp_and_fade_effect_sprite(s16 init_flags, s16 x, s16 y, s16 initial_valu
     SpriteFrameState *placement;
     ObjectPosition *object_data;
     ObjectNodeHeader *object;
-    S_80D95000_4 *extended_state;
+    ActorRecord *extended_state;
     ActorRecord *state = 0;
     void *body;
     s8 saved_x;
@@ -92,9 +79,9 @@ void *damp_and_fade_effect_sprite(s16 init_flags, s16 x, s16 y, s16 initial_valu
             }
         }
         initialize_actor_sprite_and_animation(object, object_data, placement, init_flags);
-        extended_state->unk_9A = 0xFF;
+        extended_state->action_id.u = 0xFF;
         extended_state->unk_9C = -1;
-        extended_state->unk_8C = &dreamin_slot_f_action_callback;
+        extended_state->unk_8C.address = &dreamin_slot_f_action_callback;
         try_move_actor_to_valid_position(extended_state, object_data, placement, state);
     }
     return state;

@@ -9,18 +9,18 @@ extern u8 building_texture_frame_two[];
 extern u8 building_texture_frame_three[];
 
 /* Advance the animation tick and upload the selected frame to VRAM. */
-void advance_building_animation_frame(u16 *frame_tick) {
+void advance_building_animation_frame(BuildingSelectionHandlerBody *state) {
     u16 next_tick;
     s32 tick_index;
     void *rect;
 
-    next_tick = *frame_tick + 1;
-    *frame_tick = next_tick;
+    next_tick = state->animation_tick.u + 1;
+    state->animation_tick.u = next_tick;
     if ((s16)next_tick >= 24) {
-        *frame_tick = 0;
+        state->animation_tick.u = 0;
     }
 
-    tick_index = (s16)*frame_tick % 24;
+    tick_index = state->animation_tick.s % 24;
     switch (tick_index) {
     case 0:
         rect = (void *)building_upload_rect;

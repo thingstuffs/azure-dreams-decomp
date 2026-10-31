@@ -83,8 +83,8 @@ void create_three_linked_palette_objects(S_80174910_2 *source, s32 effect_param)
         object_data = ((void *)object) + 0x20;
         if (object != NULL) {
             object->update_callback = object_callback;
-            object_data->unk_18 = (void *) source->unk_0C;
-            object_data->unk_1C = (void *) source->unk_08;
+            object_data->unk_18 = source->unk_0C;
+            object_data->unk_1C = source->unk_08;
             first_component = ((MovingPosition *)source->unk_08)->x;
             object_data->unk_24 = first_component;
             object_data->unk_22 = first_component;

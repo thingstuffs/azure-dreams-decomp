@@ -15,7 +15,7 @@
 void copy_indexed_entry_data(void *entity) {
     void *entry_data;
 
-    entry_data = ((S_800A34BC_0 *)(((*(u8 *)((u8 *)entity + 0x13)) * 0x14) + (s8 *)monster_species_table[0]))->unk_04;
+    entry_data = ((S_800A34BC_0 *)(((*((u8 *)entity + 0x13)) * 0x14) + (s8 *)monster_species_table[0]))->unk_04;
     (*(Copy12 *)((u8 *)entity + 0x34)) = (*(Copy12 *)((u8 *)entry_data + 0));
     (*(s8 *)((u8 *)entity + 0x3C)) = 0;
 }
@@ -556,11 +556,11 @@ s32 check_entity_eligibility(void *entity) {
     void *linked_entity;
     s32 check_result;
 
-    if ((*(u8 *)((u8 *)entity + 0x28) + *(s16 *)((u8 *)entity + 0x64)) > 0) {
+    if ((*((u8 *)entity + 0x28) + *(s16 *)((u8 *)entity + 0x64)) > 0) {
         if (*(s32 *)((u8 *)entity + 0x1C) & ACTOR_PLAYER_SIDE) {
             linked_entity = *(void **)((u8 *)entity - 0x14);
-            get_offset_map_cell_value_and_flags(*(u8 *)((u8 *)linked_entity + 0x24) - 1,
-                          *(u8 *)((u8 *)linked_entity + 0x25), 0, &tile_flags);
+            get_offset_map_cell_value_and_flags(*((u8 *)linked_entity + 0x24) - 1,
+                          *((u8 *)linked_entity + 0x25), 0, &tile_flags);
             if (tile_flags & 2) {
                 return 0;
             }
@@ -720,7 +720,7 @@ s16 check_layer_offset_height(u16 x, u16 y, s16 height, u32 flags)
     x_offsets = (u16 *)((s8 *)dir_step_x);
     layer_offset = layer * 2;
     layer_x_offset = (u16 *)((s8 *)x_offsets + layer_offset);
-    layer_y_offset = (u16 *)((s8 *)((s8 *)dir_step_y) + layer_offset);
+    layer_y_offset = (u16 *)(((s8 *)dir_step_y) + layer_offset);
     offset_cell_x = *layer_x_offset + cell_x;
     offset_cell_y = *layer_y_offset + cell_y;
     offset_height = sample_terrain_surface_height(

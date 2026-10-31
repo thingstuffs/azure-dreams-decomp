@@ -6,7 +6,7 @@
 void propagate_linked_removal_request(void *link_field)
 {
     ObjectNodeHeader *self = (ObjectNodeHeader *)((u8 *)link_field - 0x20);
-    u16 **linked_entity = (u16 **)link_field;
+    u16 **linked_entity = link_field;
 
     if (self->flags & 0x2000) {
         self->flags &= 0xDFFF;

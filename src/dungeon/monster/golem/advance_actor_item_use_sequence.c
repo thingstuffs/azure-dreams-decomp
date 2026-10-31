@@ -25,20 +25,10 @@ typedef s32 M2C_UNK;
 extern void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);
 
 extern void create_actor_linked_effect(void *);
-extern void * create_offset_actor_object(void *, ObjectPosition *, SpriteFrameState *);
+extern void * create_offset_actor_object(ActorRecord *, ObjectPosition *, SpriteFrameState *);
 
 extern void golem_action_continuation_address(void *, void *, void *, void *);
 extern u8 golem_direction_frames[8];
-
-typedef struct S_801738B4_0 {
-    u8 pad_00[0x8C];
-    ActorCallback action_callback; /* 0x8C */
-    u8 pad_90[0x6];
-    u16 wait_ticks; /* 0x96 */
-    u16 action_flags; /* 0x98 */
-    u8 pad_9A[0x1];
-    u8 phase; /* 0x9B */
-} S_801738B4_0;   /* arg0 in advance_actor_item_use_sequence */
 
    /* entity in advance_actor_item_use_sequence */
 
@@ -49,7 +39,7 @@ typedef struct S_801738B4_4 {
 } S_801738B4_4;   /* global in advance_actor_item_use_sequence */
 
 /* Advances an actor's item-use sequence and resets its state when the action ends. */
-void advance_actor_item_use_sequence(void *action_ctx, ObjectPosition *scene_object, SpriteFrameState *entity, void *actor)
+void advance_actor_item_use_sequence(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor)
 {
     u8 *item;
     s32 special_mode;
@@ -64,11 +54,11 @@ void advance_actor_item_use_sequence(void *action_ctx, ObjectPosition *scene_obj
     s32 use_shared_object;
 
     special_mode = 0;
-    action_state = ((S_801738B4_0 *)action_ctx)->phase;
+    action_state = body->action_phase.u;
     switch (action_state) {
     case 0:
         if ((*(u32 *)((u8 *)actor + 0x1C)) & ACTOR_PLAYER_SIDE) {
-            item_selector = ((*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF) - 1;
+            item_selector = (actor->action_flags & 0x3FFF) - 1;
             switch (item_selector) {
             case 6:
                 special_mode = 1;
@@ -94,7 +84,7 @@ void advance_actor_item_use_sequence(void *action_ctx, ObjectPosition *scene_obj
                 break;
             }
         } else {
-            item_selector = (*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF;
+            item_selector = actor->action_flags & 0x3FFF;
             switch (item_selector) {
             case 3:
                 item = (u8 *)actor + 0x0E;
@@ -113,97 +103,97 @@ void advance_actor_item_use_sequence(void *action_ctx, ObjectPosition *scene_obj
 
         if (*item != 0) {
 
-            ((S_801738B4_0 *)action_ctx)->action_flags &= 0xFF7F;
+            body->action_state_flags &= 0xFF7F;
             use_shared_object = (special_mode == 1);
             if (use_shared_object) {
                 copy_object = primary_actor_record;
-                (*(void **)((u8 *)actor + 0x60)) = copy_object;
+                actor->target = copy_object;
                 action_status = *(u8 * *)&((ObjectNodeHeader *)((u8 *)copy_object - 0x20))->sprite;
-                (*(u8 *)((u8 *)actor + 0x72)) = action_status[0x24];
-                (*(u8 *)((u8 *)actor + 0x73)) = action_status[0x25];
+                actor->target_tile_x = action_status[0x24];
+                actor->target_tile_y = action_status[0x25];
             } else if (item_action_definitions[*item].kind == 2) {
-                copy_object = (*(void **)((u8 *)actor + 0x60));
+                copy_object = actor->target;
                 if (copy_object != 0) {
                     action_status = *(u8 * *)&((ObjectNodeHeader *)((u8 *)copy_object - 0x20))->sprite;
-                    (*(u8 *)((u8 *)actor + 0x72)) = action_status[0x24];
-                    (*(u8 *)((u8 *)actor + 0x73)) = action_status[0x25];
+                    actor->target_tile_x = action_status[0x24];
+                    actor->target_tile_y = action_status[0x25];
                 }
             } else {
                 target_x = (s32)scan_actor_along_heading(actor,
-                    entity->tile_x,
-                    entity->tile_y,
-                    (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
-                (*(void **)((u8 *)actor + 0x60)) = (void *)target_x;
-                target_x = __builtin_abs(*(s8 *)((u8 *)actor + 0x72));
-                target_y = __builtin_abs(*(s8 *)((u8 *)actor + 0x73));
-                (*(s8 *)((u8 *)actor + 0x72)) = target_x;
-                (*(s8 *)((u8 *)actor + 0x73)) = target_y;
+                    sprite->tile_x,
+                    sprite->tile_y,
+                    actor->facing, 0x10);
+                actor->target = (void *)target_x;
+                target_x = __builtin_abs(actor->target_tile_x);
+                target_y = __builtin_abs(actor->target_tile_y);
+                actor->target_tile_x = target_x;
+                actor->target_tile_y = target_y;
             }
-            if (create_actor_spell_effect(actor, item, special_mode, &((S_801738B4_0 *)action_ctx)->action_flags)) {
+            if (create_actor_spell_effect(actor, item, special_mode, &body->action_state_flags)) {
                 create_actor_linked_effect(actor);
-                ((S_801738B4_0 *)action_ctx)->phase++;
+                body->action_phase.u++;
             }
             break;
         } else {
-            scene_object->velocity_z = 0;
-            scene_object->velocity_y = 0;
-            scene_object->velocity_x = 0;
-            set_record_integer_tile_center(scene_object, entity->tile_x, entity->tile_y);
+            position->velocity_z = 0;
+            position->velocity_y = 0;
+            position->velocity_x = 0;
+            set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
             active_object = primary_actor_record;
             g_dungeon_status.active_actor = 0;
             (*(u16 *)((u8 *)active_object + 0xA6))--;
             advance_status_timers(actor);
-            (*(u8 *)((u8 *)actor + 0x6D))--;
-            ((S_801738B4_0 *)action_ctx)->action_callback = &golem_action_continuation_address;
-            (*(u8 *)((u8 *)actor + 0x73)) = 0;
-            (*(u8 *)((u8 *)actor + 0x72)) = 0;
-            (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
+            (*((u8 *)actor + 0x6D))--;
+            body->unk_8C.run = &golem_action_continuation_address;
+            actor->target_tile_y = 0;
+            actor->target_tile_x = 0;
+            actor->action_flags &= 0x7FFF;
             break;
         }
 
     case 1:
         if (get_cd_command_queue_depth()) {
-            entity->flags |= 0x0800;
+            sprite->flags |= 0x0800;
             break;
         }
-        entity->flags &= 0xF7FF;
-        ((S_801738B4_0 *)action_ctx)->phase++;
+        sprite->flags &= 0xF7FF;
+        body->action_phase.u++;
 
     case 2:
-        if ((entity->unk_04 == 3 &&
-             (entity->flags & 0x1000)) ||
-            (entity->flags & 0xE000)) {
-            create_offset_actor_object(action_ctx, scene_object, entity);
-            ((S_801738B4_0 *)action_ctx)->phase++;
+        if ((sprite->unk_04 == 3 &&
+             (sprite->flags & 0x1000)) ||
+            (sprite->flags & 0xE000)) {
+            create_offset_actor_object(body, position, sprite);
+            body->action_phase.u++;
         }
 
     case 3:
-        if ((entity->unk_04 == 4 &&
-             (entity->flags & 0x1000)) ||
-            (entity->flags & 0xE000)) {
-            entity->flags |= 0x0800;
-            ((S_801738B4_0 *)action_ctx)->wait_ticks = 1;
-            ((S_801738B4_0 *)action_ctx)->action_flags |= 0x0080;
+        if ((sprite->unk_04 == 4 &&
+             (sprite->flags & 0x1000)) ||
+            (sprite->flags & 0xE000)) {
+            sprite->flags |= 0x0800;
+            body->action_timer.u = 1;
+            body->action_state_flags |= 0x0080;
         }
 
-        remaining_ticks = ((S_801738B4_0 *)action_ctx)->wait_ticks - 1;
-        ((S_801738B4_0 *)action_ctx)->wait_ticks = remaining_ticks;
+        remaining_ticks = body->action_timer.u - 1;
+        body->action_timer.u = remaining_ticks;
         if ((s16)remaining_ticks <= 0) {
-            ((S_801738B4_0 *)action_ctx)->wait_ticks = 0;
-            entity->flags &= 0xF7FF;
+            body->action_timer.u = 0;
+            sprite->flags &= 0xF7FF;
         }
-        if (!(entity->flags & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             break;
         }
 
-        scene_object->velocity_z = 0;
-        scene_object->velocity_y = 0;
-        scene_object->velocity_x = 0;
-        set_record_integer_tile_center(scene_object, entity->tile_x, entity->tile_y);
-        if (*(unsigned char **)&entity->frameTable != golem_direction_frames) {
-            (entity->frameTable) = golem_direction_frames;
-            select_sprite_entry(entity,
-                golem_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],
+        position->velocity_z = 0;
+        position->velocity_y = 0;
+        position->velocity_x = 0;
+        set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
+        if (*(unsigned char **)&sprite->frameTable != golem_direction_frames) {
+            (sprite->frameTable) = golem_direction_frames;
+            select_sprite_entry(sprite,
+                golem_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
         }
 
@@ -212,12 +202,12 @@ void advance_actor_item_use_sequence(void *action_ctx, ObjectPosition *scene_obj
             break;
         }
         ((S_801738B4_4 *)action_status)->unk_0A--;
-        ((S_801738B4_0 *)action_ctx)->action_callback = &golem_action_continuation_address;
+        body->unk_8C.run = &golem_action_continuation_address;
         advance_status_timers(actor);
-        (*(u8 *)((u8 *)actor + 0x73)) = 0;
-        (*(u8 *)((u8 *)actor + 0x72)) = 0;
-        (*(u8 *)((u8 *)actor + 0x6D))--;
-        (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        (*((u8 *)actor + 0x6D))--;
+        actor->action_flags &= 0x7FFF;
         play_sound_if_enabled(AUDIO_FADE_CD_FAST);
 
     }

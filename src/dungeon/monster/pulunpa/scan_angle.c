@@ -9,11 +9,6 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
-typedef struct S_80175E6C_2 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-} S_80175E6C_2;
-
 typedef struct S_80175E6C_5 {
     u8 pad_00[0x24];
     u8 unk_24;
@@ -29,7 +24,7 @@ void select_sprite_entry(void *, u8, s32);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/item.h"
 void update_actor_status_and_mp(ActorRecord *entity);
-void build_and_display_encoded_message(void *);
+void build_and_display_encoded_message(ActorRecord *);
 extern u8 D_80176348[];
 
 /*

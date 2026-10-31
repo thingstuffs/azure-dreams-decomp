@@ -23,7 +23,8 @@ typedef struct S_8001C698_1 {
 } S_8001C698_1;
 
 /* Initializes an object's value and four sets of shared and per-entry pointers. */
-void card_dev_init_row_tables(void *object) {
+void card_dev_init_row_tables(void *object_arg) {
+    S_8001C698_0 *object = object_arg;
     s32 entry_offset;
     s32 slot_index;
     void *shared_data_a;
@@ -31,19 +32,19 @@ void card_dev_init_row_tables(void *object) {
     void *object_data;
     S_8001C698_1 *slot_cursor;
 
-    *((S_8001C698_0 *)object)->unk_1B8 = func_80056F14(4);
-    *((S_8001C698_0 *)object)->unk_1BC = &D_80082FF4;
+    *object->unk_1B8 = func_80056F14(4);
+    *object->unk_1BC = &D_80082FF4;
     slot_index = 0;
     shared_data_a = &D_80083060;
     shared_data_b = &D_8008306C;
-    object_data = object + 4;
+    object_data = object_arg + 4;
     entry_offset = 0x90;
     for (; slot_index < 4; slot_index++) {
         slot_cursor = (S_8001C698_1 *)((u32 *)object + slot_index);
         *slot_cursor->unk_1C0 = shared_data_a;
         *slot_cursor->unk_1D0 = shared_data_b;
         *slot_cursor->unk_1E0 = object_data;
-        *slot_cursor->unk_1F0 = object + entry_offset;
+        *slot_cursor->unk_1F0 = object_arg + entry_offset;
         entry_offset += 0x3C;
     }
 }

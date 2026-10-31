@@ -5,17 +5,12 @@
 #include "common.h"
 #include "engine/menu.h"
 
-typedef struct S_8004F5F4_sub {
-    u8 pad0[0x4];
-    void *result;
-} S_8004F5F4_sub;
-
 typedef struct S_8004F5F4_node {
     u8 pad0[0x10];
-    void (*callback)(void *self);
+    void (*callback)(AnimatedSelectionMenuOwnerBody *self);
     u8 pad14[0x1E - 0x14];
     u16 flags;
-    S_8004F5F4_sub sub;
+    AnimatedSelectionMenuOwnerBody body;
 } S_8004F5F4_node;
 
 /* Creates a callback node and initializes its result, marking failure if initialization fails. */
@@ -23,14 +18,14 @@ void *create_animated_selection_menu_owner(void *unused, void *source)
 {
     S_8004F5F4_node *node = allocate_flagged_object_node(0);
     void *result;
-    S_8004F5F4_sub *sub;
+    AnimatedSelectionMenuOwnerBody *body;
     s32 global_flags;
     u8 *global_page;
 
     if (node != 0) {
         node->callback = handle_animated_selection_menu_cancel;
-        sub = &node->sub;
-        result = (sub->result = create_animated_selection_menu(source));
+        body = &node->body;
+        result = (body->result = create_animated_selection_menu(source));
         if (result == 0) {
             do {
                 node->flags |= 0x8000;

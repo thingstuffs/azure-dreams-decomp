@@ -56,10 +56,6 @@ typedef struct S_800AB778_6 {
     s32 unk_D0;
 } S_800AB778_6;
 
-typedef struct S_800AB778_7 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-} S_800AB778_7;
 
 typedef struct S_800AB778_8 {
     u8 pad_00[0x3D7C];
@@ -82,10 +78,6 @@ typedef struct S_800AB778_12 {
     s32 unk_D0;
 } S_800AB778_12;
 
-typedef struct S_800AB778_13 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-} S_800AB778_13;
 
 typedef struct S_800AB778_14 {
     u8 pad_00[0x3D7C];
@@ -281,7 +273,7 @@ s32 advance_actor_removal(S_800AB778_1 *state, ObjectPosition *unused_context, S
             object_id4 =
                 ((S_800AB778_24 *)(((S_800AB778_22 *)globals_page4->unk_3D7C)->unk_110))->unk_03 & 0x1F;
             object_slot4 = &familiar_record_slots[object_id4];
-            ((S_800AB778_7 *)(*object_slot4))->unk_13 = 0;
+            ((ActorRecord *)(*object_slot4))->species = 0;
             familiar_record_storage[object_id4].field13 = 0;
             globals4 = globals_page4->unk_3D7C;
             *object_slot4 = NULL;
@@ -348,7 +340,7 @@ s32 advance_actor_removal(S_800AB778_1 *state, ObjectPosition *unused_context, S
         object_id16 =
             ((S_800AB778_25 *)(((S_800AB778_23 *)globals_page16->unk_3D7C)->unk_110))->unk_03 & 0x1F;
         object_slot16 = &familiar_record_slots[object_id16];
-        ((S_800AB778_13 *)(*object_slot16))->unk_13 = 0;
+        ((ActorRecord *)(*object_slot16))->species = 0;
         familiar_record_storage[object_id16].field13 = 0;
         globals16 = globals_page16->unk_3D7C;
         *object_slot16 = NULL;
@@ -370,7 +362,7 @@ s32 advance_actor_removal(S_800AB778_1 *state, ObjectPosition *unused_context, S
             update_map_cell_flags_with_item_limit(effect_x, effect_y, effect_flags);
         }
         unlink_entity_node(actor);
-        update_flags = (s32 *)&object_flag_block;
+        update_flags = &object_flag_block;
         ((S_800AB778_0_pre *)actor)[-1].unk_00 |= 0x8000;
         ((S_800AB778_16 *)update_flags)->unk_00 |= 0x8000;
         state16_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);

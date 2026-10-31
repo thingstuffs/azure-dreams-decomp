@@ -21,7 +21,7 @@ void initialize_shop_window_layout(ShopWindow *ui) {
     ui->widgets->record_widget->data->y.s = 0x2F;
     process_shop_record_and_subrecord(header);
     position_shop_row_widgets(ui);
-    initialize_scaled_entry_cursor(ui->cursor_record, (struct S8004CBFC_a1 *)(&shop_cursor_template), (int *)ui->widgets->cursor);
+    initialize_scaled_entry_cursor(ui->cursor_record, (&shop_cursor_template), (int *)ui->widgets->cursor);
     row = 4;
     lower_y = 0xC8;
     right_y = 0x55;

@@ -24,31 +24,32 @@ s32 func_80058588(s32, s32, s32);
 extern s32 scene_object_flags;
 
 /* Passes the linked value times 1000 to func_80058588, then moves field +0x16 until removal. */
-void animate_linked_value_threshold(void *record_ptr) {
+void animate_linked_value_threshold(void *record_ptr_arg) {
+    S_808127A4_0 *record_ptr = record_ptr_arg;
     u16 *flags;
     s16 state;
     u16 threshold_value;
     S_808127A4_1 *related_record;
 
-    state = ((S_808127A4_0 *)record_ptr)->unk_00.s;
-    related_record = ((S_808127A4_0 *)record_ptr)->unk_0C;
+    state = record_ptr->unk_00.s;
+    related_record = record_ptr->unk_0C;
     switch (state) {
     case 0:
-        func_80058588(*((S_808127A4_0 *)record_ptr)->unk_08 * 0x3E8, 5, ((S_808127A4_0 *)record_ptr)->unk_04 + 4);
+        func_80058588(*record_ptr->unk_08 * 0x3E8, 5, record_ptr->unk_04 + 4);
         if (related_record->unk_5C != 3) {
             break;
         }
-        if (((S_808127A4_0 *)record_ptr)->unk_16.s >= 0x78) {
-            ((S_808127A4_0 *)record_ptr)->unk_02.s = 8;
+        if (record_ptr->unk_16.s >= 0x78) {
+            record_ptr->unk_02.s = 8;
         } else {
-            ((S_808127A4_0 *)record_ptr)->unk_02.s = -8;
+            record_ptr->unk_02.s = -8;
         }
-        ((S_808127A4_0 *)record_ptr)->unk_00.u++;
+        record_ptr->unk_00.u++;
         break;
     case 1:
-        ((S_808127A4_0 *)record_ptr)->unk_16.u += ((S_808127A4_0 *)record_ptr)->unk_02.u;
-        ((S_808127A4_0 *)record_ptr)->unk_16.u += ((S_808127A4_0 *)record_ptr)->unk_02.s >> 2;
-        threshold_value = (((S_808127A4_0 *)record_ptr)->unk_16.u + 8) & 0xFFFF;
+        record_ptr->unk_16.u += record_ptr->unk_02.u;
+        record_ptr->unk_16.u += record_ptr->unk_02.s >> 2;
+        threshold_value = (record_ptr->unk_16.u + 8) & 0xFFFF;
         if (threshold_value >= 0xF9U) {
             flags = &((ObjectStatusPrefix16 *)record_ptr)[-1].flags;
             *flags = (u16) (((ObjectStatusPrefix16 *)record_ptr)[-1].flags | 0x8000);

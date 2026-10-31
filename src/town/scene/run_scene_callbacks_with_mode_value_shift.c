@@ -41,9 +41,9 @@ s32 run_scene_callbacks_with_mode_value_shift(void) {
         context = *context_ptr;
         /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: town/func_804B8B48). */
         do {
-            calls = *(u8 * *)&context->calls;
+            calls = *&context->calls;
         } while (0);
-        state = *(TownState * *)&context->state;
+        state = *&context->state;
         previous_value = state->value;
         (*(TownCall2 *)(calls + 0x248))(1, state);
     }

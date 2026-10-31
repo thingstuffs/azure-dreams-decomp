@@ -18,16 +18,16 @@ void script_store_table_word(ScriptReader *state) {
     cursor = state->cursor;
     src_index = *(u8 *)cursor;
     cursor++;
-    state->cursor = (u8 *)cursor;
+    state->cursor = cursor;
     dst_offset = *(u8 *)cursor;
-    addr_bytes = (u8 *)(cursor + 1);
+    addr_bytes = (cursor + 1);
     state->cursor = addr_bytes;
 
     addr_byte0 = *(u8 *)(cursor + 1);
     addr_byte1 = addr_bytes[1];
     addr_byte2 = addr_bytes[2];
     addr_byte3 = addr_bytes[3];
-    state->cursor = (u8 *)(cursor + 5);
+    state->cursor = (cursor + 5);
 
     dst_offset *= 4;
     dst = (u8 *)(addr_byte0 + (addr_byte1 << 8) +

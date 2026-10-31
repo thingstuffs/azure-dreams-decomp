@@ -18,7 +18,7 @@ void apply_status_to_nearby_actors(s32 x, s32 y, void *kind, s32 flags) {
     flags = ((u8)flags >> 2) + 0x10;
     do {
         if ((s16)check_entity_interaction_compatibility(kind, actor) != 0) {
-            u8 *header = *(u8 * *)&((ObjectNodeHeader *)((u8 *)actor - 0x20))->sprite;
+            u8 *header = *(u8 * *)&((ObjectNodeHeader *)(actor - 0x20))->sprite;
             if (abs(header[0x24] - x) < 3 && abs(header[0x25] - y) < 3 && (s16)check_entity_eligibility(actor) != 0) {
                 s32 amount = flags + (generate_random_value() & 3);
                 s32 mode = 0x10;
@@ -71,11 +71,11 @@ void spawn_jittered_type_212_effect(s32 owner, void *source)
         *((s32 *) (((s8 *) obj) + 0x20)) = owner;
         obj->update_callback = (void *)advance_fading_effect;
         render = obj->sprite;
-        *((s8 *) (((s8 *) obj) + 0x24)) = 0;
+        *((((s8 *) obj) + 0x24)) = 0;
         white = 0x80;
-        *((s8 *) (((s8 *) render) + 0xE)) = white;
-        *((s8 *) (((s8 *) render) + 0xD)) = white;
-        *((s8 *) (((s8 *) render) + 0xC)) = white;
+        *((((s8 *) render) + 0xE)) = white;
+        *((((s8 *) render) + 0xD)) = white;
+        *((((s8 *) render) + 0xC)) = white;
         select_record_entry_and_value(render, rising_sprite_entries, 0);
         *((s16 *) (((s8 *) render) + 0x1E)) = 0x1000;
         *((s16 *) (((s8 *) render) + 0x1C)) = 0x1000;
@@ -94,17 +94,18 @@ void spawn_jittered_type_212_effect(s32 owner, void *source)
 
 /* Advances sprite animation, spawns a child at update 10, and removes the effect when its animation
    finishes. */
-void advance_counter_and_propagate_target_flags(void *state, s32 context, SpriteFrameState *target) {
+void advance_counter_and_propagate_target_flags(void *state_arg, s32 context, SpriteFrameState *target) {
+    ovl_188298c_81862B74_S_81862B74_0 *state = state_arg;
     u16 update_count;
     ovl_188298c_81862B74_S_81862B74_1 *linked_object;
 
-    linked_object = ((ovl_188298c_81862B74_S_81862B74_0 *)state)->unk_00;
+    linked_object = state->unk_00;
     linked_object->unk_14 = (u16) (linked_object->unk_14 + 1);
     advance_sprite_animation_and_textures(target);
-    update_count = ((ovl_188298c_81862B74_S_81862B74_0 *)state)->unk_04 + 1;
-    ((ovl_188298c_81862B74_S_81862B74_0 *)state)->unk_04 = update_count;
+    update_count = state->unk_04 + 1;
+    state->unk_04 = update_count;
     if ((s16) update_count == 0xA) {
-        spawn_jittered_type_212_effect(((ovl_188298c_81862B74_S_81862B74_0 *)state)->unk_00, context);
+        spawn_jittered_type_212_effect(state->unk_00, context);
     }
     if (target->flags & 0x6000) {
         ((ovl_188298c_81862B74_S_81862B74_0_pre *)state)[-1].unk_00 = (u16) (((ovl_188298c_81862B74_S_81862B74_0_pre *)state)[-1].unk_00 | 0x8000);

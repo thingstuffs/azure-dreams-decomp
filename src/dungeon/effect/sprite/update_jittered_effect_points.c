@@ -119,8 +119,9 @@ void (*const dungeon_19c6800_entry)(void *, void *) = run_jittered_point_sequenc
 #define SELF ((S_func_819A6800_1 *)sequence)
 
 /* Runs a timed object creation sequence with visual effects and final cleanup. */
-void run_jittered_point_sequence(void *sequence, void *out_position)
+void run_jittered_point_sequence(void *sequence, void *out_position_arg)
 {
+    S_func_819A6800_5 *out_position = out_position_arg;
     S_func_819A6800_3 *owner = SELF->unk_00;
     S_func_819A6800_2 *record = ((S_func_819A6800_2 *)((u8 *)owner - 0x20))->unk_0C;
     S_func_819A6800_2 *owner_object = (S_func_819A6800_2 *)((u8 *)owner - 0x20);
@@ -146,9 +147,9 @@ void run_jittered_point_sequence(void *sequence, void *out_position)
         reloaded_object = *(void **)global_slot;
         reloaded_object->unk_F4 = 0;
 
-        ((S_func_819A6800_5 *)(out_position))->unk_00.u = ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_00.u;
-        ((S_func_819A6800_5 *)(out_position))->unk_04.u = ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_04.u;
-        ((S_func_819A6800_5 *)(out_position))->unk_08.u = ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_08.u;
+        out_position->unk_00.u = ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_00.u;
+        out_position->unk_04.u = ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_04.u;
+        out_position->unk_08.u = ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_08.u;
 
         new_object = scan_actor_along_heading(&reloaded_object->actor,
                                    reference_tile_object.tile_position.parts.tile_x,
@@ -423,7 +424,7 @@ void advance_target_chasing_emitter(void *object, S_800244BC_2 *position, s32 co
                     effect_data->unk_24 = (u16) position->unk_00.at02.v;
                     effect_data->unk_26 = (u16) position->unk_04.at02.v;
                     effect_data->unk_28 = (u16) position->unk_08.at02.v;
-                    ((S_800244BC_3 *)effect)->unk_20 = (void *) ((S_800244BC_0 *)object)->unk_00;
+                    ((S_800244BC_3 *)effect)->unk_20 = ((S_800244BC_0 *)object)->unk_00;
                 }
                 effects_left -= 1;
             } while (effects_left >= 0);

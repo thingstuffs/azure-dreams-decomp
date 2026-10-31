@@ -33,7 +33,8 @@ typedef struct { u16 flags; } JitterHeader;
 
 /* Jitters the sprite around its base coordinates, cycles its packets, and shrinks and fades it until
    removal. */
-void jitter_effect_position_and_fade(void *effect, void *position, void *sprite) {
+void jitter_effect_position_and_fade(void *effect, void *position_arg, void *sprite) {
+    JitterMotion *position = position_arg;
     s32 axes_left;
     u16 *base_coord;
     s32 jitter;
@@ -48,11 +49,11 @@ void jitter_effect_position_and_fade(void *effect, void *position, void *sprite)
     anchor = (((JitterEffect *)effect)->anchor);
     D_80024A70 += 1;
     if (anchor != NULL) {
-        (((JitterMotion *)(position))->axes[3].whole.bits) = (u16) (anchor->axes[0].whole.bits);
-        (((JitterMotion *)(position))->axes[4].whole.bits) = (u16) (((JitterMotion *)((((JitterEffect *)effect)->anchor)))->axes[1].whole.bits);
-        (((JitterMotion *)(position))->axes[5].whole.bits) = (u16) (((JitterMotion *)((((JitterEffect *)effect)->anchor)))->axes[2].whole.bits);
+        (position->axes[3].whole.bits) = (u16) (anchor->axes[0].whole.bits);
+        (position->axes[4].whole.bits) = (u16) (((JitterMotion *)((((JitterEffect *)effect)->anchor)))->axes[1].whole.bits);
+        (position->axes[5].whole.bits) = (u16) (((JitterMotion *)((((JitterEffect *)effect)->anchor)))->axes[2].whole.bits);
     }
-    motion_axis = position;
+    motion_axis = position_arg;
     base_coord = ((JitterEffect *)effect)->base_position;
     axes_left = 3;
     do {

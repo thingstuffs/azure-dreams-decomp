@@ -5,19 +5,12 @@
 
 extern int D_800814A0;
 
-/* Sub-object struct: a 16-bit flags field lives 0x2 bytes before arg0, and a
- * generic data pointer field lives 0x4 bytes after arg0. */
-typedef struct {
-    void *field_04;          /* offset 0x0 == arg0 + 0x4 */
-} S_8004F558;
-
 /* Recycles the object's data and sets bit 0x8000 in its flags and the global flags. */
-void destroy_animated_selection_menu_owner(void *object)
+void destroy_animated_selection_menu_owner(AnimatedSelectionMenuOwnerBody *object)
 {
-    S_8004F558 *data_slot = (S_8004F558 *)((unsigned char *)object + 0x4);
     unsigned short *flags = (unsigned short *)((unsigned char *)object - 0x2);
 
-    destroy_animated_selection_menu(data_slot->field_04);
+    destroy_animated_selection_menu(object->result);
     *flags |= 0x8000;
     D_800814A0 |= OBJECT_REMOVE_PENDING;
 }

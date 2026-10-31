@@ -51,10 +51,6 @@ typedef struct S_80173D78_2 {
     s16 unk_88;
 } S_80173D78_2;   /* arg3 in update_actor_target_effect_action */
 
-typedef struct S_80173D78_3 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-} S_80173D78_3;   /* found in update_actor_target_effect_action */
 
 
 typedef struct S_80173D78_5 {
@@ -80,7 +76,7 @@ void *spawn_manoeva_from_record();
  * transfers state. */
 void update_actor_target_effect_action(ActorRecord *body, void *context, S_80173D78_1 *sprite, S_80173D78_2 *actor)
 {
-    S_80173D78_3 *target;
+    ActorRecord *target;
     void *effect;
     ObjectNodeHeader *object;
     S_80173D78_5 *callback_flags;
@@ -135,8 +131,8 @@ void update_actor_target_effect_action(ActorRecord *body, void *context, S_80173
         }
 
         direction_offset = ((u16)actor->unk_2A >> 8) & 0xE;
-        target_x = sprite->unk_24 + *(u16 *)((s8 *)((s8 *)dir_step_x) + direction_offset);
-        target_y = sprite->unk_25 + *(u16 *)((s8 *)((s8 *)dir_step_y) + direction_offset);
+        target_x = sprite->unk_24 + *(u16 *)(((s8 *)dir_step_x) + direction_offset);
+        target_y = sprite->unk_25 + *(u16 *)(((s8 *)dir_step_y) + direction_offset);
         actor->unk_60.i = 0;
 
         if (body->unk_AC.byte == 0) {
@@ -144,7 +140,7 @@ void update_actor_target_effect_action(ActorRecord *body, void *context, S_80173
                                    actor->unk_88);
             actor->unk_60.p = target;
             if (target != 0) {
-                state = target->unk_13;
+                state = target->species;
                 if (((u32)(state - 1) >= 0x2DU) || (state == 0x1E)) {
                     text_end = get_unused_text_buffer();
                     text_buffer = text_end;

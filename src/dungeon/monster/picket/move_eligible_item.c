@@ -5,6 +5,7 @@
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/effect.h"
+#include "shared/entity.h"
 
 extern void clear_slot_and_update_linked_state(void *, void *); /* Unprototyped: retail call passes more arguments than the callee reads */
 extern s32 generate_random_value(void);
@@ -15,10 +16,10 @@ extern s32 D_80162FE4[];
 typedef struct { s32 value; } ItemWord;
 
 
- void * move_eligible_item(void *, void *) ;
+ void * move_eligible_item(void *, ActorRecord *) ;
 /* Moves an eligible item from a nearby slot or target into the shared item slot. */
- void * move_eligible_item(void *origin, void *actor) {
-    u8 *origin_bytes = (u8 *)origin;
+ void * move_eligible_item(void *origin, ActorRecord *actor) {
+    u8 *origin_bytes = origin;
     u8 *actor_bytes = (u8 *)actor;
     s32 direction_offset;
     s16 tile_slot;
@@ -27,8 +28,8 @@ typedef struct { s32 value; } ItemWord;
 
     direction_offset = (*(u16 *)(actor_bytes + 0x2A) >> 8) & 0xE;
     tile_slot = find_floor_item_at_world_position(
-        (s16)(*(u8 *)(origin_bytes + 0x24) + *(u16 *)(((u8 *)dir_step_x) + direction_offset)),
-        (s16)(*(u8 *)(origin_bytes + 0x25) + *(u16 *)(((u8 *)dir_step_y) + direction_offset)),
+        (s16)(*(origin_bytes + 0x24) + *(u16 *)(((u8 *)dir_step_x) + direction_offset)),
+        (s16)(*(origin_bytes + 0x25) + *(u16 *)(((u8 *)dir_step_y) + direction_offset)),
         *(s16 *)(actor_bytes + 0x88));
     if (tile_slot >= 0) {
         s32 *shared_base;
@@ -40,7 +41,7 @@ typedef struct { s32 value; } ItemWord;
         return shared_slot;
     }
 
-    target = probe_directional_neighbor(actor, *(u8 *)(origin_bytes + 0x24), *(u8 *)(origin_bytes + 0x25),
+    target = probe_directional_neighbor(actor, *(origin_bytes + 0x24), *(origin_bytes + 0x25),
                            *(s16 *)(actor_bytes + 0x2A));
     if (target != NULL) {
         if (target == (void *)dungeon_actor_ring_anchor[0]) {
@@ -92,10 +93,10 @@ typedef struct { s32 value; } ItemWord;
                 }
             }
         }
-        if (*(u8 *)((u8 *)target + 0x49) == 0) {
+        if (*((u8 *)target + 0x49) == 0) {
             return 0;
         }
-        if (*(u8 *)((u8 *)target + 0x4B) & 0x20) {
+        if (*((u8 *)target + 0x4B) & 0x20) {
             return 0;
         }
         {

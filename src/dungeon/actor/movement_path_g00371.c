@@ -306,9 +306,9 @@ void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite,
 }
 
 /* Advance the actor along its queued path and update movement timing. */
-void advance_actor_queued_path(void *action, s32 action_id, void *actor, void *move_state)
+void advance_actor_queued_path(ActorRecord *body, s32 action_id, SpriteFrameState *sprite, ActorRecord *actor)
 {
-    void *state = move_state;
+    void *state = actor;
     void *anim_table;
     s32 tile_mask;
     s16 direction;
@@ -320,24 +320,24 @@ void advance_actor_queued_path(void *action, s32 action_id, void *actor, void *m
 
     if ((((S_800D904C_0 *)state)->unk_71.s > 0) &&
         ((s32)((S_800D904C_0 *)state)->unk_71.u > ((S_800D904C_0 *)state)->unk_8A)) {
-        anim_table = ((Rec_D_80082E80 *)actor)->unk_2C.as_pv;
+        anim_table = sprite->frameTable;
         if (anim_table != actor_movement_frames) {
             void *anim_slot;
 
-            (*(void **)((u8 *)actor + (0x2C))) = actor_movement_frames;
+            sprite->frameTable = actor_movement_frames;
             anim_slot = actor_movement_frames +
                 (((g_game_work.view.camera_rotation.parts.viewAngle + ((S_800D904C_0 *)state)->unk_2A + 0x100) >> 7) & 0x1C);
-            select_record_entry_and_value(actor, *(void **)anim_slot, 0);
-        } else if (((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x6000) {
+            select_record_entry_and_value(sprite, *(void **)anim_slot, 0);
+        } else if (sprite->flags & 0x6000) {
             select_record_entry_and_value(
-                actor,
+                sprite,
                 *(void **)(actor_movement_frames +
                     (((g_game_work.view.camera_rotation.parts.viewAngle + ((S_800D904C_0 *)state)->unk_2A + 0x100) >> 7) & 0x1C)),
                 0);
         }
 
-        old_x = ((Rec_D_80082E80 *)actor)->unk_24;
-        old_y = ((Rec_D_80082E80 *)actor)->unk_25;
+        old_x = sprite->tile_x;
+        old_y = sprite->tile_y;
         tile_mask = 0x3000;
         if (((S_800D904C_0 *)state)->unk_1C & 0x2000) {
             tile_mask = 0x300;
@@ -348,19 +348,19 @@ void advance_actor_queued_path(void *action, s32 action_id, void *actor, void *m
         direction = (s16)get_rounded_facing_and_rounding_flag(old_x, old_y,
                                   ((ActorStatusBytesView *)step)->path_x,
                                   ((ActorStatusBytesView *)step)->path_y,
-                                  (u8 *)action + 0x98);
-        move_result = (s16)check_movement_clearance_and_height(direction, actor, state, 0x20);
+                                  (u8 *)body + 0x98);
+        move_result = (s16)check_movement_clearance_and_height(direction, sprite, state, 0x20);
 
-        ((Rec_D_80082E80 *)actor)->unk_24 =
+        sprite->tile_x =
             ((ActorStatusBytesView *)((u8 *)state + ((S_800D904C_0 *)state)->unk_8A))->path_x;
         tile_mask = 0x3000;
-        ((Rec_D_80082E80 *)actor)->unk_25 =
+        sprite->tile_y =
             ((ActorStatusBytesView *)((u8 *)state + ((S_800D904C_0 *)state)->unk_8A))->path_y;
         ((S_800D904C_0 *)state)->unk_8A = (u16)((S_800D904C_0 *)state)->unk_8A + 1;
 
         {
-            s32 new_x = ((Rec_D_80082E80 *)actor)->unk_24;
-            s32 new_y = ((Rec_D_80082E80 *)actor)->unk_25;
+            s32 new_x = sprite->tile_x;
+            s32 new_y = sprite->tile_y;
             if (((S_800D904C_0 *)state)->unk_1C & 0x2000) {
                 tile_mask = 0x300;
             }
@@ -369,28 +369,28 @@ void advance_actor_queued_path(void *action, s32 action_id, void *actor, void *m
 
         ((S_800D904C_0 *)state)->unk_2A = direction;
         if ((move_result == 3) &&
-            ((g_dungeon_status.flags & 0x80) || (((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x8000))) {
-            ((S_800D904C_3 *)action)->unk_9A = 0xF;
+            ((g_dungeon_status.flags & 0x80) || (sprite->flags & 0x8000))) {
+            body->action_id.u = 0xF;
         } else {
-            initialize_actor_direction_table(action, action_id, actor, state);
+            initialize_actor_direction_table(body, action_id, sprite, state);
         }
-        ((S_800D904C_3 *)action)->unk_8C = 0;
+        body->unk_8C.word = 0;
         (*(s32 *)((u8 *)state + (0x1C))) |= 0x40000000;
         if (g_dungeon_status.flags & 0x80) {
-            ((S_800D904C_3 *)action)->unk_96 = 0;
+            body->action_timer.s = 0;
             return;
         }
 
-        ((S_800D904C_3 *)action)->unk_96 = 8;
+        body->action_timer.s = 8;
         step_count = ((S_800D904C_0 *)state)->unk_71.u;
         if (step_count > 0) {
-            ((S_800D904C_3 *)action)->unk_96 = 8 / step_count;
+            body->action_timer.s = 8 / step_count;
         }
     }
 }
 
 /* Advances an actor along a traversable heading and updates its movement state. */
-void advance_actor_traversable_heading(void *move_state, void *context, S_800D92C0_2 *position, void *actor) {
+void advance_actor_traversable_heading(ActorRecord *body, void *context, S_800D92C0_2 *position, void *actor) {
     s32 tile_mask;
     s32 target_y;
     s32 target_x;
@@ -416,7 +416,7 @@ void advance_actor_traversable_heading(void *move_state, void *context, S_800D92
         return;
     }
     if (g_dungeon_status.flags & 0x2000) {
-        room_cache = move_state + 0x9C;
+        room_cache = ((void *)body) + 0x9C;
         update_actor_proximity_flag(position, actor, 3, 6, room_cache);
         flags_or_heading = ((S_800D92C0_0 *)actor)->unk_1C;
         movement_bits = flags_or_heading & 0x410;
@@ -447,7 +447,7 @@ void advance_actor_traversable_heading(void *move_state, void *context, S_800D92
                     }
                     if ((position->unk_24.at00.v != (target_x & 0xFFFF))
                         || (position->unk_24.at01.v != (target_y & 0xFFFF))) {
-                        turn_flags = move_state + 0x98;
+                        turn_flags = ((void *)body) + 0x98;
                         target_heading = get_rounded_facing_and_rounding_flag(position->unk_24.at00u.v & 0xFF, position->unk_24.at01.v, (s16)target_x,
                             (s16)target_y, turn_flags);
                         ((S_800D92C0_0 *)actor)->unk_2A.u = (u16) target_heading;
@@ -477,14 +477,14 @@ void advance_actor_traversable_heading(void *move_state, void *context, S_800D92
                     }
                 }
             }
-            select_actor_route_target(position, ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_s8, actor, move_state + 0x98);
+            select_actor_route_target(position, body->unk_9C, actor, ((void *)body) + 0x98);
 init_loop:
             turn_index = 0;
 loop_entry:
             turn_offsets = (u8 *)actor_turn_angle_offsets;
 try_heading:
             flags_or_heading = ((S_800D92C0_0 *)actor)->unk_2A.s;
-            if (((Rec_func_800A9E70_arg0 *)move_state)->unk_98 & 2) {
+            if (body->action_state_flags & 2) {
                 heading_delta = ((s16 *)turn_offsets)[turn_index];
                 candidate_heading = flags_or_heading - heading_delta;
             } else {
@@ -553,7 +553,7 @@ post_loop:
                     return;
                 }
             }
-            ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_s8 = (s8) (u8) position->unk_26;
+            body->unk_9C = (s8) (u8) position->unk_26;
             ((S_800D92C0_0 *)actor)->unk_6D.u = (u8) (((S_800D92C0_0 *)actor)->unk_6D.u - 1);
             {
                 g_dungeon_status.activity_counts.parts.pending_movement_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_movement_count) + 1);

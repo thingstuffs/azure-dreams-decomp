@@ -29,16 +29,6 @@ typedef struct S_801708B4_1 {
 } S_801708B4_1;   /* inner in create_grid_position_entity */
 
 
-typedef struct S_801708B4_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x2];
-    s16 unk_92;
-    u8 pad_94[0x6];
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-} S_801708B4_4;   /* result in create_grid_position_entity */
 
 /* Create an entity at the given grid position and initialize its behavior and spawn flags. */
 /* Creates Kewne with default frames at D_80175E40, applies spawn flags, and attempts valid tile placement. */
@@ -47,7 +37,7 @@ void *create_grid_position_entity(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 h
     ObjectNodeHeader *entity;
     ObjectPosition *position;
     SpriteFrameState *placement;
-    S_801708B4_4 *actor;
+    ActorRecord *actor;
     s32 spawn_mode;
     s16 saved_flags;
     u8 *entity_data;
@@ -100,11 +90,11 @@ void *create_grid_position_entity(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 h
         }
 
         initialize_actor_sprite_and_animation(entity, position, placement, saved_flags);
-        actor->unk_9A = 0xFF;
+        actor->action_id.u = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = update_actor_animation_and_behavior;
+        actor->unk_8C.address = update_actor_animation_and_behavior;
         ((S_801708B4_1 *)entity_data)->unk_1C |= 0x40000;
-        actor->unk_92 = -0x20;
+        actor->unk_90.parts.high.s = -0x20;
         try_move_actor_to_valid_position(actor, position, placement, entity_data);
     }
     return entity_data;

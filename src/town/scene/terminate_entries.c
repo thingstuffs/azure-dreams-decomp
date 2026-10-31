@@ -44,7 +44,7 @@ S_func_8065C05C_0 *collect_enabled_tagged_entries(register S_func_8065C05C_0 *en
     globals_page = (S_func_8065C05C_1 *)0x80010000;
     entry_tag = 0x17;
     do {
-        if (((s32 (*)(s32))((TownServiceTable *)((Rec_D_80016000 *)globals_page->unk_6000)->services)->callback_070)(entry_id) != 0) {
+        if (((s32 (*)(s32))((Rec_D_80016000 *)globals_page->unk_6000)->services->callback_070)(entry_id) != 0) {
             entries_base[entry_count].unk_00 = entry_id;
             entries_base[entry_count].unk_01 = entry_tag;
             entries_base[entry_count].unk_03 = 0;

@@ -203,7 +203,7 @@ zone_found:
             s32 collision_delta;
             s32 actor_y;
             Zone *zone_data;
-            zone_data = (Zone *)D_80024020;
+            zone_data = D_80024020;
             height_or_box_y = *zone_id;
             actor_role_y = actor->x;
             actor_y = actor->y;

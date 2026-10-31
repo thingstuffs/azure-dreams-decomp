@@ -24,5 +24,5 @@ void script_clear_variable(S_80039F28_0 *vm) {
 
     script = vm->unk_1C;
     ((S_80039F28_1 *)(((*script * 4) + vm->unk_80)))->unk_48 = 0;
-    vm->unk_1C = (u8 *) (script + 1);
+    vm->unk_1C = (script + 1);
 }

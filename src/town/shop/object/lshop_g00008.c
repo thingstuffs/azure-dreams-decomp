@@ -32,11 +32,11 @@ void clear_shop_object_and_link(u8 *object_ref)
 
     if (object_ref[0] != object_table[slot * 0x54 + 0x13]) {
         object_flags = (u8 *)context->services;
-        callback_168 = (*(TownCall3 *)((u8 *)object_flags + 0x168));
+        callback_168 = (*(TownCall3 *)(object_flags + 0x168));
         callback_168(D_80016034, D_8001605C, 0x41);
         updated_context = ((S_80018D14_0 *)global_page)->unk_6000;
         updated_callbacks = (u8 *)updated_context->services;
-        callback_174 = (*(TownCall1 *)((u8 *)updated_callbacks + 0x174));
+        callback_174 = (*(TownCall1 *)(updated_callbacks + 0x174));
         callback_174(1);
     }
 

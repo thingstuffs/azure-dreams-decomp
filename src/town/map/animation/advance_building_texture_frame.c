@@ -12,7 +12,7 @@ extern u16 D_80111F68[];
 extern u16 D_80111F88[];
 
 /* Advance the animation tick and upload the selected texture and palette frames. */
-void advance_building_texture_frame(u16 *anim_tick)
+void advance_building_texture_frame(BuildingSelectionHandlerBody *state)
 {
     void *rect;
     void *upload_data;
@@ -20,13 +20,13 @@ void advance_building_texture_frame(u16 *anim_tick)
     s32 next_tick;
     s32 texture_phase;
 
-    next_tick = *anim_tick + 1;
-    *anim_tick = next_tick;
+    next_tick = state->animation_tick.u + 1;
+    state->animation_tick.u = next_tick;
     if ((s16)next_tick >= 24) {
-        *anim_tick = 0;
+        state->animation_tick.u = 0;
     }
 
-    texture_phase = (s16)*anim_tick % 24;
+    texture_phase = state->animation_tick.s % 24;
     switch (texture_phase) {
     case 0:
         rect = (void *)building_upload_rect;
@@ -67,7 +67,7 @@ void advance_building_texture_frame(u16 *anim_tick)
         LoadImage(rect, upload_data);
     }
 
-    palette_phase = (s16)*anim_tick % 6;
+    palette_phase = state->animation_tick.s % 6;
     switch (palette_phase) {
     case 0:
         rect = (void *)building_upload_rect;

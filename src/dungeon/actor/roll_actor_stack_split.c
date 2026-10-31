@@ -31,8 +31,8 @@ s32 roll_actor_stack_split(void *actor, s32 chance)
 
     {
         signed_arg = generate_random_value() & 0xFFFF;
-        if (*(u8 *)((u8 *)actor + 3) != 0) {
-            mod = signed_arg % *(u8 *)((u8 *)actor + 3);
+        if (*((u8 *)actor + 3) != 0) {
+            mod = signed_arg % *((u8 *)actor + 3);
         } else {
             mod = 0;
         }
@@ -52,7 +52,7 @@ s32 roll_actor_stack_split(void *actor, s32 chance)
         }
     }
 
-    count = *(u8 *)((u8 *)actor + 0x26);
+    count = *((u8 *)actor + 0x26);
     if (count < 2) {
         return 0;
     }
@@ -63,7 +63,7 @@ s32 roll_actor_stack_split(void *actor, s32 chance)
 
         object = actor;
         decremented = count - 1;
-        *(u8 *)((u8 *)actor + 0x26) = decremented;
+        *((u8 *)actor + 0x26) = decremented;
         apply_entity_effects(object);
     }
     handle = get_unused_text_buffer();

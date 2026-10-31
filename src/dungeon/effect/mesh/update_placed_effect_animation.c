@@ -12,13 +12,6 @@ typedef struct S_81978428_1 {
     u16 unk_00;
 } S_81978428_1;   /* self->part4 in update_placed_effect_animation */
 
-typedef struct S_81978428_2 {
-    u8 pad_00[0x96];
-    u16 unk_96;
-    u8 pad_98[0xE];
-    u16 unk_A6;
-    u8 unk_A8;
-} S_81978428_2;   /* case0_global in update_placed_effect_animation */
 
 typedef struct S_81978428_3 {
     u8 pad_00[0x2A];
@@ -131,18 +124,18 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
     case 1:
         {
             u8 *player_page;
-            S_81978428_2 *player_state;
+            ActorRecord *player_state;
             u8 *facing_player;
 
             if ((((S_81978428_1 *)(self->part4))->unk_00 & 0x80) == 0) {
                 break;
             }
             player_page = (u8 *)0x80080000;
-            player_state = (S_81978428_2 *)(*(u8 **)(player_page + 0x14A8));
+            player_state = (ActorRecord *)(*(u8 **)(player_page + 0x14A8));
             self->timer = 10;
-            player_state->unk_96 = 8;
-            player_state->unk_A6--;
-            player_state->unk_A8 = self->kind;
+            player_state->action_timer.u = 8;
+            player_state->unk_A4.halves.high.u--;
+            player_state->unk_A8.byte = self->kind;
             facing_player = *(u8 **)(player_page + 0x14A8);
             self->angle = ((S_81978428_3 *)facing_player)->unk_2A;
             self->state++;

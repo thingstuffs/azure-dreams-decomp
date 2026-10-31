@@ -105,13 +105,13 @@ void update_multi_form_actor_control(ActorRecord *actor, ObjectPosition *context
             if (*(s32 **)&sprite->frameTable == (s32 *)((u8 *)&beldo_large_frame_set_13 + 8)) {
                 return;
             }
-            (sprite->frameTable) = (s32 *)((u8 *)&beldo_large_frame_set_9 + 0x68);
+            (sprite->frameTable) = (s32 *)(&beldo_large_frame_set_9 + 0x68);
             table_index = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
-            table_index += (unsigned long)(s32 *)((u8 *)&beldo_large_frame_set_9 + 0x68);
+            table_index += (unsigned long)(s32 *)(&beldo_large_frame_set_9 + 0x68);
             select_sprite_entry(sprite, *(u8 *)table_index, 0);
             return;
         case 0xE:
-            if (*(s32 **)&sprite->frameTable == (s32 *)((u8 *)&beldo_large_frame_set_9 + 0x70)) {
+            if (*(s32 **)&sprite->frameTable == (s32 *)(&beldo_large_frame_set_9 + 0x70)) {
                 return;
             }
             (sprite->frameTable) = &beldo_large_frame_set_13;

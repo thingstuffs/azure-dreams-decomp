@@ -22,17 +22,17 @@ extern u8 dreamin_action_continuation_address;
 extern u8 D_80173894[];
 
 /* Advances an actor action through animation setup, a delay, and completion. */
-void advance_action_setup_delay(void *action, void *motion, SpriteFrameState *sprite, void *actor)
+void advance_action_setup_delay(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s32 phase;
     s32 loaded_phase;
     u16 delay_ticks;
 
-    phase = U8(action, 0x9B);
+    phase = U8(body, 0x9B);
     switch (phase) {
     case 0:
         if (sprite->flags & 0x8000) {
-            U8(action, 0x9B) = 2;
+            U8(body, 0x9B) = 2;
             sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, S16(actor, 0x2A), 1);
             return;
@@ -45,22 +45,22 @@ void advance_action_setup_delay(void *action, void *motion, SpriteFrameState *sp
         select_sprite_entry(sprite,
             D_80173894[((g_game_work.view.camera_rotation.parts.viewAngle + S16(actor, 0x2A) + 0x100) >> 9) & 7],
             0);
-        loaded_phase = U8(action, 0x9B);
-        U16(action, 0x96) = 0;
-        U8(action, 0x9B) = loaded_phase + 1;
+        loaded_phase = U8(body, 0x9B);
+        U16(body, 0x96) = 0;
+        U8(body, 0x9B) = loaded_phase + 1;
         return;
 
     case 1:
-        delay_ticks = U16(action, 0x96) + 1;
-        U16(action, 0x96) = delay_ticks;
+        delay_ticks = U16(body, 0x96) + 1;
+        U16(body, 0x96) = delay_ticks;
         if ((s16)delay_ticks != 10) {
             return;
         }
         play_sound_if_enabled(0x808);
         resolve_attack_damage_and_effects(actor, sprite, S16(actor, 0x2A), 1);
-        loaded_phase = U8(action, 0x9B);
+        loaded_phase = U8(body, 0x9B);
 
-        U8(action, 0x9B) = loaded_phase + 1;
+        U8(body, 0x9B) = loaded_phase + 1;
         return;
 
     case 2:
@@ -69,7 +69,7 @@ void advance_action_setup_delay(void *action, void *motion, SpriteFrameState *sp
         }
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         spend_actor_mp(actor, 0x100);
-        PTR(action, 0x8C) = &dreamin_action_continuation_address;
+        PTR(body, 0x8C) = &dreamin_action_continuation_address;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         if (S8(actor, 0x6D) == 0) {

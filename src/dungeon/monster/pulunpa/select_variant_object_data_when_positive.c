@@ -8,15 +8,15 @@ extern u8 pulunpa_action_resume_address;
 extern u8 pulunpa_variant_action_address;
 
 /* Selects object data from its variant flag when the query returns positive. */
-void select_variant_object_data_when_positive(void *object, ObjectPosition *unused, SpriteFrameState *source, ActorRecord *target) {
+void select_variant_object_data_when_positive(ActorRecord *object, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
     u8 *selected_data;
 
-    if (resolve_actor_floor_trap_once(object, unused, source, target) > 0) {
-        if (*(u8 *)((u8 *)object + 0xA7) != 0) {
+    if (resolve_actor_floor_trap_once(object, position, sprite, actor) > 0) {
+        if (object->unk_A4.bytes[3] != 0) {
             selected_data = &pulunpa_variant_action_address;
         } else {
             selected_data = &pulunpa_action_resume_address;
         }
-        *(u8 **)((u8 *)object + 0x8C) = selected_data;
+        object->unk_8C.byte_ptr = selected_data;
     }
 }

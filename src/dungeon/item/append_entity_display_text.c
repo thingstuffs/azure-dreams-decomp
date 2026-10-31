@@ -21,8 +21,9 @@ typedef struct S_80099734_3 {
 extern s32 D_800DD728;
 
 /* Copies the selected record text without its terminator and returns the output end. */
-u8 *append_entity_display_text(void *record, u8 *out)
+u8 *append_entity_display_text(void *record_arg, u8 *out)
 {
+    EntityRec *record = record_arg;
     u8 *src;
     s32 text_index;
     s32 word_offset;
@@ -31,14 +32,14 @@ u8 *append_entity_display_text(void *record, u8 *out)
     do {
 
         if ((dungeon_actor_ring_anchor->flags1C & ACTOR_BLIND) &&
-            ((*(u8 *)((u8 *)&((EntityRec *)record)->unk_10 + 3)) != 0)) {
+            ((*((u8 *)&record->unk_10 + 3)) != 0)) {
             src = (u8 *)D_800DD728;
-        } else if (((EntityRec *)record)->flags14 & ACTOR_PARTY_MEMBER) {
+        } else if (record->flags14 & ACTOR_PARTY_MEMBER) {
             src = (u8 *)record + 0x34;
         } else {
-            text_index = (*(u8 *)((u8 *)&((EntityRec *)record)->unk_10 + 3));
+            text_index = (*((u8 *)&record->unk_10 + 3));
             if (text_index == MONSTER_STEALTH) {
-                if ((*(s16 *)((u8 *)&((EntityRec *)record)->unk_A4 + 2)) != 0) {
+                if ((*(s16 *)((u8 *)&record->unk_A4 + 2)) != 0) {
                     src = (u8 *)D_800DD728;
                     break;
                 }

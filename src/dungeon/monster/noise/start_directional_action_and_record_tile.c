@@ -120,7 +120,7 @@ void advance_timed_actor_visual_effect(ActorRecord *effect_state, ObjectPosition
             call_value = noise_frame_set_2[0];
             effect_mesh->frameTable = noise_frame_set_2;
             select_sprite_entry(effect_mesh, call_value, 0);
-            object_or_height = (u8 *)((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_08.at00.v;
+            object_or_height = ((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_08.at00.v;
             ((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_02 = *(u16 *)&anchor_pos->x.w.i;
             ((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_06 = *(u16 *)&anchor_pos->y.w.i;
             anchor_z = *(u16 *)&anchor_pos->z.w.i;

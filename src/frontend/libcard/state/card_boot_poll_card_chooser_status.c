@@ -7,13 +7,13 @@
 #include "main/data.h"
 
 /* Updates the selected callback or triggers a one-time action when no callback is selected. */
-void card_boot_poll_card_chooser_status(void *state) {
+void card_boot_poll_card_chooser_status(Object_800128C8 *state) {
     s32 callback_index;
     void *callback;
 
     if ((g_game_work.buttons != 0) && ((g_game_work.pressed_buttons) & 0x20)) {
         card_boot_toggle_channel();
-        *(s32 *)((u8 *)state + 0x38) = 0;
+        state->wait_notice_state = 0;
         *(void **)((u8 *)state - 0x10) = D_8002789C;
         return;
     }
@@ -21,16 +21,16 @@ void card_boot_poll_card_chooser_status(void *state) {
     callback_index = card_boot_debounce_card_status_events();
     no_op_card_stub();
     if (callback_index != 0) {
-        *(s32 *)((u8 *)state + 0x38) = 0;
-        *(s32 *)((u8 *)state + 0x30) = callback_index;
+        state->wait_notice_state = 0;
+        state->unk_30 = callback_index;
         callback = D_8002809C[callback_index];
-        *(s32 *)((u8 *)state + 0x34) = callback_index;
+        state->unk_34 = callback_index;
         *(void **)((u8 *)state - 0x10) = callback;
         return;
     }
 
-    if ((card_boot_get_operation_state() == 3) && (*(s32 *)((u8 *)state + 0x38) == 0)) {
+    if ((card_boot_get_operation_state() == 3) && (state->wait_notice_state == 0)) {
         card_boot_show_please_wait_notice((u8 *)state - 0x20, (u8 *)state + 0x38);
-        *(s32 *)((u8 *)state + 0x38) = 1;
+        state->wait_notice_state = 1;
     }
 }

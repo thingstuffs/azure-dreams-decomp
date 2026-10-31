@@ -23,8 +23,9 @@ typedef struct S_80406DA0_0 {
 } S_80406DA0_0;   /* object in handle_menu_selection_input */
 
 /* Handles menu selection, held-button repeats, and menu exit. */
-void handle_menu_selection_input(void *object)
+void handle_menu_selection_input(void *object_arg)
 {
+    S_80406DA0_0 *object = object_arg;
     s32 held_buttons;
     s32 pressed_buttons;
     s32 direction;
@@ -41,7 +42,7 @@ void handle_menu_selection_input(void *object)
         if (pressed_buttons & 0x40) {
             func_80063FF8(0x515);
             func_804070C4((u8 *)object - 0x20);
-            allocate_or_reuse_effect_and_install_callback(((S_80406DA0_0 *)object)->unk_20, ((S_80406DA0_0 *)object)->unk_24);
+            allocate_or_reuse_effect_and_install_callback(object->unk_20, object->unk_24);
             return;
         }
         if (pressed_buttons & 0x20) {
@@ -59,7 +60,7 @@ void handle_menu_selection_input(void *object)
                     direction = 1;
                 }
             } else {
-                repeat_ticks = ((S_80406DA0_0 *)object)->unk_30;
+                repeat_ticks = object->unk_30;
                 if (repeat_ticks >= 13) {
                     (*(s32 *)((u8 *)object + (0x30))) = repeat_ticks - 4;
                     buttons = &boot_pad_state;
@@ -70,14 +71,14 @@ void handle_menu_selection_input(void *object)
                         direction = 1;
                     }
                 } else {
-                    ((S_80406DA0_0 *)object)->unk_30 = repeat_ticks + 1;
+                    object->unk_30 = repeat_ticks + 1;
                 }
             }
         }
         if (direction != 0) {
             func_80063FF8(0x502);
-            ((S_80406DA0_0 *)object)->unk_2C =
-                func_80058FF0(((S_80406DA0_0 *)object)->unk_2C, direction, 5);
+            object->unk_2C =
+                func_80058FF0(object->unk_2C, direction, 5);
             card_devkit_highlight_selected_load_slot(object);
         }
     }
@@ -91,5 +92,5 @@ void handle_menu_selection_input(void *object)
         return;
     }
     func_804070C4((u8 *)object - 0x20);
-    allocate_or_reuse_effect_and_install_callback(((S_80406DA0_0 *)object)->unk_20, ((S_80406DA0_0 *)object)->unk_24);
+    allocate_or_reuse_effect_and_install_callback(object->unk_20, object->unk_24);
 }

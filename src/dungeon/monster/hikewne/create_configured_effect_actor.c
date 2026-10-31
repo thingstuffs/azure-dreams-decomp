@@ -12,31 +12,7 @@
 #include "engine/node.h"
 #include "engine/node/allocation.h"
 
-typedef struct S_80170BB0_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-    u8 pad_20[0x7E];
-    s16 unk_9E;
-} S_80170BB0_1;   /* actor in create_configured_effect_actor */
 
-typedef struct S_80170BB0_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80170BB0_2;   /* part_a in create_configured_effect_actor */
-
-typedef struct S_80170BB0_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x2];
-    s16 unk_92;
-    u8 pad_94[0x6];
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-} S_80170BB0_4;   /* actor2 in create_configured_effect_actor */
 
 extern s32 generate_random_value(void);
 extern void set_or_clear_actor_status_slot(void *, s32, s32);
@@ -56,16 +32,16 @@ void *create_configured_effect_actor(s16 mask, s16 value_at_24, s16 value_at_25,
     ObjectPosition *part_a;
     SpriteFrameState *part_b;
     void *handler;
-    S_80170BB0_1 *actor;
-    S_80170BB0_4 *actor2;
+    ActorRecord *actor;
+    ActorRecord *actor2;
 
     actor = 0;
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != 0) {
         actor = object;
-        actor = (S_80170BB0_1 *)((u8 *)actor + 0x20);
+        actor = (ActorRecord *)((u8 *)actor + 0x20);
         object->update_callback = update_entity_movement_and_ground;
-        actor->unk_13 = MONSTER_HIKEWNE;
+        actor->species = MONSTER_HIKEWNE;
         register_node(object, project_sprite_chain);
 
         part_a = object->position;
@@ -77,29 +53,29 @@ void *create_configured_effect_actor(s16 mask, s16 value_at_24, s16 value_at_25,
         actor2 = actor;
         part_b->frameTable = handler;
         part_b->tile_x = value_at_24;
-        actor->unk_9E = 0;
+        actor->unk_9E.s = 0;
 
         if (kind == 1) {
-            flags14 = actor->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            flags1c = actor->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-            actor->unk_14 = flags14;
-            actor->unk_1C = flags1c;
+            flags14 = actor->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            flags1c = actor->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            actor->flags14 = flags14;
+            actor->flags1C = flags1c;
         } else if (kind >= 2) {
-            flags14 = actor->unk_14 | ACTOR_CLASS_ENABLED;
-            flags1c = actor->unk_1C | ACTOR_PLAYER_SIDE;
-            actor->unk_14 = flags14;
-            actor->unk_1C = flags1c;
-        } else if (((mask & ~3) << 16) == 0 && !(actor->unk_14 & ACTOR_RESIST_SLEEP) && (generate_random_value() & 1)) {
+            flags14 = actor->flags14 | ACTOR_CLASS_ENABLED;
+            flags1c = actor->flags1C | ACTOR_PLAYER_SIDE;
+            actor->flags14 = flags14;
+            actor->flags1C = flags1c;
+        } else if (((mask & ~3) << 16) == 0 && !(actor->flags14 & ACTOR_RESIST_SLEEP) && (generate_random_value() & 1)) {
             set_or_clear_actor_status_slot(actor, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
             part_b->frameTable = hikewne_frame_set_2;
         }
 
         initialize_actor_sprite_and_animation(object, part_a, part_b, mask);
-        actor2->unk_9A = 0xFF;
+        actor2->action_id.u = 0xFF;
         actor2->unk_9C = -1;
-        actor2->unk_8C = update_actor_behavior_animation_and_facing;
-        actor->unk_1C |= 0x40000;
-        actor2->unk_92 = -0x20;
+        actor2->unk_8C.address = update_actor_behavior_animation_and_facing;
+        actor->flags1C |= 0x40000;
+        actor2->unk_90.parts.high.s = -0x20;
         part_b->tpage_abr = 0x20;
         part_b->flags |= 0xC;
         try_move_actor_to_valid_position(actor2, part_a, part_b, actor);

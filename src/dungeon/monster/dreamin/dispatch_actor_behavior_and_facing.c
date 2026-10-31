@@ -166,7 +166,7 @@ void dispatch_actor_behavior_and_facing(ActorRecord *actor, ObjectPosition *cont
             case 7:
                 result = get_rounded_facing_and_rounding_flag(
                     sprite->tile_x, sprite->tile_y,
-                    reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, (s16 *)&distance);
+                    reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
                 player = primary_actor_record;
                 state->facing = result;
                 if (player->action_id.u == 0x11) {
@@ -208,7 +208,7 @@ void dispatch_actor_behavior_and_facing(ActorRecord *actor, ObjectPosition *cont
                             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
                         result = get_rounded_facing_and_rounding_flag(
                             sprite->tile_x, sprite->tile_y,
-                            reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, (s16 *)&distance);
+                            reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
                         state->facing = result;
                     }
                 }

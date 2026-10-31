@@ -15,8 +15,8 @@ typedef struct { s32 value; } ItemWord;
  void * pick_up_adjacent_item(void *, void *) ;
 /* Removes a nearby or carried item and passes it to the item handler. */
  void * pick_up_adjacent_item(void *origin, void *actor) {
-    u8 *origin_bytes = (u8 *)origin;
-    u8 *actor_bytes = (u8 *)actor;
+    u8 *origin_bytes = origin;
+    u8 *actor_bytes = actor;
     s32 direction_offset;
     s16 ground_slot;
     void *target;
@@ -24,8 +24,8 @@ typedef struct { s32 value; } ItemWord;
 
     direction_offset = (*(u16 *)(actor_bytes + 0x2A) >> 8) & 0xE;
     ground_slot = find_floor_item_at_world_position(
-        (s16)(*(u8 *)(origin_bytes + 0x24) + *(u16 *)(((u8 *)dir_step_x) + direction_offset)),
-        (s16)(*(u8 *)(origin_bytes + 0x25) + *(u16 *)(((u8 *)dir_step_y) + direction_offset)),
+        (s16)(*(origin_bytes + 0x24) + *(u16 *)(((u8 *)dir_step_x) + direction_offset)),
+        (s16)(*(origin_bytes + 0x25) + *(u16 *)(((u8 *)dir_step_y) + direction_offset)),
         *(s16 *)(actor_bytes + 0x88));
     if (ground_slot >= 0) {
         s32 *item_dest;
@@ -37,7 +37,7 @@ typedef struct { s32 value; } ItemWord;
         return item_slot;
     }
 
-    target = probe_directional_neighbor(actor, *(u8 *)(origin_bytes + 0x24), *(u8 *)(origin_bytes + 0x25),
+    target = probe_directional_neighbor(actor, *(origin_bytes + 0x24), *(origin_bytes + 0x25),
                            *(s16 *)(actor_bytes + 0x2A));
     if (target != 0) {
         if (target == (void *)dungeon_actor_ring_anchor[0]) {
@@ -88,10 +88,10 @@ typedef struct { s32 value; } ItemWord;
                 }
             }
         }
-        if (*(u8 *)((u8 *)target + 0x49) == 0) {
+        if (*((u8 *)target + 0x49) == 0) {
             return 0;
         }
-        if (*(u8 *)((u8 *)target + 0x4B) & 0x20) {
+        if (*((u8 *)target + 0x4B) & 0x20) {
             return 0;
         }
         {

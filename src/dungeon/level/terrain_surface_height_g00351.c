@@ -19,9 +19,9 @@ s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height) {
     work->limit = min_height;
     work->index = cell_x;
     tables = &g_game_work.map;
-    vertices = ((Vertex *)tables->vertices);
-    cells = ((Cell *)tables->cells);
-    normals = ((Vertex *)tables->surface_planes);
+    vertices = tables->vertices;
+    cells = tables->cells;
+    normals = tables->surface_planes;
     if (cell_x < 0) {
         work->index = 0;
         cell_y = y & 0xFFFF;
@@ -48,7 +48,7 @@ s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height) {
         if (cell->first != 0) {
             work->offset = -cell->value;
             primitive = ((Primitive **)tables->cell_faces)[
-                cells[(s16)*(u16 *)&work->index].first];
+                cells[(s16)*&work->index].first];
             while (normals[primitive->next].z < -2047) {
                 if (!(primitive->flags & 1)) {
                     u16 local_x;
@@ -57,9 +57,9 @@ s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height) {
                     u16 p3_x;
                     u16 p3_y;
 
-                    vertex_index = *(u16 *)&primitive->v0;
-                    local_x = *(u16 *)&work->x;
-                    local_y = *(u16 *)&work->y;
+                    vertex_index = *&primitive->v0;
+                    local_x = *&work->x;
+                    local_y = *&work->y;
                     work->p0.word = *(u32 *)&vertices[vertex_index];
                     work->p0.half.x -= local_x;
                     work->p0.half.y -= local_y;
@@ -74,15 +74,15 @@ s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height) {
                     p3_y = work->p3.half.y - local_y;
                     work->p3.half.x = p3_x;
                     work->p3.half.y = p3_y;
-                    if (are_quad_corner_turns_within_half_revolution((Work *)work) != 0) {
+                    if (are_quad_corner_turns_within_half_revolution(work) != 0) {
                         Vertex *normal = (Vertex *)(
                             (unsigned long)(primitive->next * sizeof(Vertex)) +
                             (unsigned long)normals);
                         Vertex *vertex = (Vertex *)(
                             (unsigned long)(primitive->v0 * sizeof(Vertex)) +
                             (unsigned long)vertices);
-                        s32 delta_x = (s16)vertex->x - (s16)*(u16 *)&work->x;
-                        s32 delta_y = (s16)vertex->y - (s16)*(u16 *)&work->y;
+                        s32 delta_x = (s16)vertex->x - (s16)*&work->x;
+                        s32 delta_y = (s16)vertex->y - (s16)*&work->y;
                         s32 x_term = (s16)normal->x * delta_x;
                         s32 y_term = (s16)normal->y * delta_y;
                         s32 z_term = (s16)normal->z * (s16)vertex->z;

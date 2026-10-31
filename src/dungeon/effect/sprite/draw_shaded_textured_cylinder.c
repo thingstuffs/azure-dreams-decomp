@@ -199,7 +199,7 @@ s32 draw_shaded_textured_cylinder(void *unused_data, MovingPosition *center, s32
                 u32 ot_entry_addr = depth_or_mask * 4;
                 ot_entry_addr += (u32)((S_80024930_0 *)scratch)->unk_18.p2;
                 ((TagWord *)prim)->addr = ((S_80024930_4 *)(void *)ot_entry_addr)->unk_00;
-                ((TagWord *)((u8 *)((S_80024930_0 *)scratch)->unk_18.p2 +
+                ((TagWord *)(((S_80024930_0 *)scratch)->unk_18.p2 +
                     ((S_80024930_0 *)scratch)->unk_B4 * 4))->addr = (u32)prim;
             }
         }

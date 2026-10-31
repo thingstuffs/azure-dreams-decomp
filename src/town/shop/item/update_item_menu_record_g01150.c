@@ -112,7 +112,7 @@ void update_item_menu_selection(ItemMenuObject *obj)
                 move_step = -1;
             else if (held_buttons & 0x4000)
                 move_step = 1;
-            obj->repeat_delay = *(s32 *)&obj->repeat_delay - 1;
+            obj->repeat_delay = *&obj->repeat_delay - 1;
         } else {
             obj->repeat_delay++;
             return;

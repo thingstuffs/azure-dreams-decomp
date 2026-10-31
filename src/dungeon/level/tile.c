@@ -218,10 +218,6 @@ void process_flagged_nodes_and_clear_global_bit(void) {
 #include "common.h"
 #include "shared/entity.h"
 
-typedef struct S_8009A180_2 {
-    u8 pad_00[0x58];
-    void * unk_58;
-} S_8009A180_2;
 
 /* Marks an actor processed and moves it beside the anchor in the actor ring unless already marked. */
 s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor) {
@@ -230,7 +226,7 @@ s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor) {
     s32 state_flags;
     s32 anchor_flags;
     s32 prev_link;
-    S_8009A180_2 *prev_node;
+    ActorRecord *prev_node;
 
     if (entry == anchor) {
         anchor_flags = anchor->flags1C;
@@ -252,10 +248,10 @@ s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor) {
     prev_link = anchor->next_actor_header;
     entry->next_actor_header = prev_link;
     prev_node = (void *)(prev_link + 0x20);
-    link_bits = (u8 *)prev_node->unk_58;
+    link_bits = prev_node->previous_actor_header;
     entry->previous_actor_header = (void *)link_bits;
     link_bits = ((u8 *)entry - 0x20);
-    prev_node->unk_58 = (void *)link_bits;
+    prev_node->previous_actor_header = (void *)link_bits;
     anchor->next_actor_header = (void *)link_bits;
     return 1;
 }
@@ -382,7 +378,7 @@ void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags)
     DungeonCell *cells;
     MapGrid *map;
 
-    cells = (DungeonCell *)g_game_work.map.cells;
+    cells = g_game_work.map.cells;
     map = &g_game_work.map;
     if (flags & 0x8832) {
         if (flags & TILE_HAS_ITEM) {
@@ -609,7 +605,7 @@ s32 check_directional_move_and_terrain(u32 move_flags, FuncArg1 *actor, FuncArg2
     direction = (s16)direction_bits;
     x_steps = (u8 *)dir_step_x;
     step_offset = direction * 2;
-    x_step = (u16 *)((s32)step_offset + (u8 *)x_steps);
+    x_step = (u16 *)((s32)step_offset + x_steps);
     coord_or_height = actor_or_height->x;
     offset_work = *x_step;
     direction_or_x = direction_arg;
@@ -832,11 +828,6 @@ typedef struct S_8009ADB8_0 {
     u16 unk_2A;
 } S_8009ADB8_0;   /* arg0 in can_push_adjacent_actor */
 
-typedef struct S_8009ADB8_1 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-} S_8009ADB8_1;   /* arg1 in can_push_adjacent_actor */
-
 typedef struct S_8009ADB8_2 {
     u8 pad_00[0x14];
     s16 unk_14;
@@ -850,7 +841,7 @@ typedef struct {
 
 
 /* Checks the facing cell for valid terrain flags and an acceptable height. */
-s32 can_push_adjacent_actor(S_8009ADB8_0 *facing_state, S_8009ADB8_1 *attributes, s16 tile_x, s16 tile_y,
+s32 can_push_adjacent_actor(S_8009ADB8_0 *facing_state, ActorRecord *actor, s16 tile_x, s16 tile_y,
     s16 initial_height)
 {
     FacingMapCell *map;
@@ -863,10 +854,10 @@ s32 can_push_adjacent_actor(S_8009ADB8_0 *facing_state, S_8009ADB8_1 *attributes
     s16 next_y;
     FacingMapCell *next_cell;
 
-    map = ((FacingMapCell *)g_game_work.map.cells);
+    map = g_game_work.map.cells;
     map_state = (S_8009ADB8_2 *)((FacingMapCell **)&g_game_work.map.cells);
     direction = (facing_state->unk_2A >> 9) & 7;
-    if (!(attributes->unk_14 & 0x100) ||
+    if (!(actor->flags14 & 0x100) ||
         (height = sample_terrain_surface_height(
              (((tile_x << 16) >> 10) + 0x20) & 0xFFE0,
              (((tile_y << 16) >> 10) + 0x20) & 0xFFE0,
@@ -1125,8 +1116,8 @@ void *find_object_near_tile_height(s16 tile_x, s16 tile_y, s16 target_height)
     first_object = object;
     do {
         tile = ((ObjectNodeHeader *)((u8 *)object - 0x20))->sprite;
-        if (*(u8 *)((u8 *)tile + 0x24) == (u16)tile_x &&
-            *(u8 *)((u8 *)tile + 0x25) == (u16)tile_y) {
+        if (*((u8 *)tile + 0x24) == (u16)tile_x &&
+            *((u8 *)tile + 0x25) == (u16)tile_y) {
             height_delta = *(s16 *)((u8 *)object + 0x88) - target_height;
             if (height_delta < 0) {
                 height_delta = -height_delta;
@@ -1164,7 +1155,7 @@ void *find_eligible_entry_at_coordinates(u8 *entry, s16 x, s16 y)
         if (entry != list_head) {
             do {
                 u8 *entry_data = *((u8 **) (entry - 0x14));
-                if ((((*((u8 *) (entry_data + 0x24))) == tile_x) && ((*((u8 *) (entry_data + 0x25))) == tile_y))
+                if ((((*((entry_data + 0x24))) == tile_x) && ((*((entry_data + 0x25))) == tile_y))
                     && ((check_entity_eligibility(entry) << 0x10) != 0)) {
                     return entry;
                 }
@@ -1219,7 +1210,7 @@ typedef struct Context {
 } Context;
 
 /* Spawns an object at the target position and updates the active source state. */
-void *spawn_object_at_target_position(Source *source, s16 target_x, s16 target_y) {
+void *spawn_object_at_target_position(ActorRecord *source, s16 target_x, s16 target_y) {
     Source **active_source;
     Spawned *spawned;
     u8 *entry;
@@ -1235,12 +1226,12 @@ void *spawn_object_at_target_position(Source *source, s16 target_x, s16 target_y
     u16 spawn_x;
     u16 spawn_y;
 
-    direction = (source->index_field >> 9) & 7;
+    direction = (source->facing >> 9) & 7;
 
     probe_result = check_diagonal_side_height(direction,
                                  (s16)(target_x - dir_step_x[direction]),
                                  (s16)(target_y - dir_step_y[direction]),
-                                 (s16)(source->height - 0x20));
+                                 (s16)(source->ground_height - 0x20));
     spawn_x = (u16)target_x;
     spawn_y = (u16)target_y;
     probe_result <<= 0x10;
@@ -1250,7 +1241,7 @@ void *spawn_object_at_target_position(Source *source, s16 target_x, s16 target_y
     }
 
     spawned = tile_finder_words(source, spawn_x, spawn_y,
-                            source->height);
+                            source->ground_height);
     if (spawned != (void *)0) {
         if ((spawned->flags & 0x80000) && source == *active_source) {
             held_item_record[0] = spawned->kind;
@@ -1270,7 +1261,7 @@ void *spawn_object_at_target_position(Source *source, s16 target_x, s16 target_y
 
     x = (s16)target_x;
     y = (s16)target_y;
-    flags3c = (s16)find_floor_item_at_world_position(x, y, source->height);
+    flags3c = (s16)find_floor_item_at_world_position(x, y, source->ground_height);
     if (flags3c >= 0) {
         entry = &((u8 *)dungeon_ground_items)[flags3c * 4];
         spawned = create_indexed_floor_object(source,
@@ -1402,9 +1393,9 @@ s32 find_valid_nearby_position(u8 *entry, s16 target_x, s16 target_y, s16 *out_x
     zero_words(occupied, 7);
     entry = *(u8 **)(entry + 92) + 32;
     while (entry != actor || (wrap_check = wrap_pending) != 0) {
-        object = *(u8 * *)&((ObjectNodeHeader *)((u8 *)entry - 0x20))->sprite;
-        object_x = *(u8 *)(object + 36);
-        object_y = *(u8 *)(object + 37);
+        object = *(u8 * *)&((ObjectNodeHeader *)(entry - 0x20))->sprite;
+        object_x = *(object + 36);
+        object_y = *(object + 37);
         delta_x = (s16)target_x - object_x;
         tile_distance = __builtin_abs(delta_x);
         delta_y = (s16)target_y - object_y;

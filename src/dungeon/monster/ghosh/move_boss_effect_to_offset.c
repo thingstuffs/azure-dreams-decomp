@@ -10,16 +10,6 @@ typedef struct {
 extern u8 D_8016A87C[];
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 
-typedef struct S_80171168_0 {
-    u8 pad_00[0x8];
-    ObjectPosition *position;
-    void * unk_0C;
-} S_80171168_0;   /* *D_80174CD8 in move_boss_effect_to_offset */
-
-typedef struct S_80171168_2 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} S_80171168_2;
 
 /* Move the entity to a selected offset from the origin and update its cell flags. */
 void move_boss_effect_to_offset(s32 offset_index) {
@@ -36,7 +26,7 @@ void move_boss_effect_to_offset(s32 offset_index) {
     register s16 *offset_pair;
     ObjectPosition *position;
     SpriteFrameState *entity;
-    S_80171168_2 *entity_state;
+    ActorRecord *entity_state;
 
 
     offset_table = (const Config24 *)D_8016A87C;
@@ -49,7 +39,7 @@ void move_boss_effect_to_offset(s32 offset_index) {
     entity->flags = (u16) (entity->flags & 0xFF7F);
     old_x = entity->tile_x;
     old_y = entity->tile_y;
-    if (entity_state->unk_1C & 0x2000) {
+    if (entity_state->flags1C & 0x2000) {
         old_cell_mask = 0x300;
     }
     update_map_cell_flags_with_item_limit(old_x, old_y, old_cell_mask);
@@ -62,7 +52,7 @@ void move_boss_effect_to_offset(s32 offset_index) {
     new_x = entity->tile_x;
     new_y = entity->tile_y;
     new_cell_mask = 0x3000;
-    if (entity_state->unk_1C & 0x2000) {
+    if (entity_state->flags1C & 0x2000) {
         new_cell_mask = 0x300;
     }
     cycle_map_cell_flags(new_x, new_y, new_cell_mask);

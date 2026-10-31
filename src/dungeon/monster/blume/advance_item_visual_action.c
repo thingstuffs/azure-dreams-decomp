@@ -34,16 +34,6 @@ extern u8 blume_action_resume_address[];
 #include "dungeon/actor.h"
 extern u8 D_80175424[12];
 
-typedef struct S_801737C8_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    u16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-} S_801737C8_0;   /* arg0 in advance_item_visual_action */
-
 typedef struct S_801737C8_2 {
     u8 pad_00[0x24];
     u8 unk_24;
@@ -55,7 +45,7 @@ typedef struct S_801737C8_2 {
 /* Process item use, spawn its visual effect, and finish the action when ready. */
 /* Starts a targeted spell, emits randomly colored sprite particles during casting, then restores movement
  * and status. */
-void advance_item_visual_action(void *controller, ObjectPosition *motion, SpriteFrameState *actor, void *object)
+void advance_item_visual_action(ActorRecord *controller, ObjectPosition *motion, SpriteFrameState *actor, void *object)
 {
     u8 *item_slot;
     s16 use_player;
@@ -63,7 +53,7 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, Sprite
     void *target;
 
     use_player = 0;
-    state = ((S_801737C8_0 *)controller)->unk_9B;
+    state = controller->action_phase.u;
     switch (state) {
     case 0:
         if ((*(u32 *)((u8 *)object + 0x1C)) & ACTOR_PLAYER_SIDE) {
@@ -108,7 +98,7 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, Sprite
         }
 
         if (*item_slot != 0) {
-            ((S_801737C8_0 *)controller)->unk_98 &= 0xFF7F;
+            controller->action_state_flags &= 0xFF7F;
             {
                 s32 target_player;
 
@@ -119,8 +109,8 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, Sprite
                     target = primary_actor_record;
                     (*(void * *)((u8 *)object + 0x60)) = target;
                     item_data = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
-                    (*(u8 *)((u8 *)object + 0x72)) = item_data->tile_x;
-                    (*(u8 *)((u8 *)object + 0x73)) = item_data->tile_y;
+                    (*((u8 *)object + 0x72)) = item_data->tile_x;
+                    (*((u8 *)object + 0x73)) = item_data->tile_y;
                 } else {
                     u8 *item_table;
                     u8 item_id;
@@ -133,8 +123,8 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, Sprite
                         target = (*(void * *)((u8 *)object + 0x60));
                         if (target != 0) {
                             item_data = (u32)((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
-                            (*(u8 *)((u8 *)object + 0x72)) = ((S_801737C8_2 *)item_data)->unk_24;
-                            (*(u8 *)((u8 *)object + 0x73)) = ((S_801737C8_2 *)item_data)->unk_25;
+                            (*((u8 *)object + 0x72)) = ((S_801737C8_2 *)item_data)->unk_24;
+                            (*((u8 *)object + 0x73)) = ((S_801737C8_2 *)item_data)->unk_25;
                         }
                     } else {
                         s32 dx;
@@ -146,8 +136,8 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, Sprite
                         (*(void * *)((u8 *)object + 0x60)) = (void *)dx;
                         dx = abs(*(s8 *)((u8 *)object + 0x72));
                         dy = abs(*(s8 *)((u8 *)object + 0x73));
-                        (*(u8 *)((u8 *)object + 0x72)) = dx;
-                        (*(u8 *)((u8 *)object + 0x73)) = dy;
+                        (*((u8 *)object + 0x72)) = dx;
+                        (*((u8 *)object + 0x73)) = dy;
                     }
                 }
             }
@@ -155,7 +145,7 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, Sprite
             if (create_actor_spell_effect(object, item_slot, use_player, (u8 *)controller + 0x98) == 0) {
                 return;
             }
-            ((S_801737C8_0 *)controller)->unk_9B = ((S_801737C8_0 *)controller)->unk_9B + 1;
+            controller->action_phase.u = controller->action_phase.u + 1;
             return;
         }
 
@@ -164,12 +154,12 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, Sprite
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
+        primary_actor_record->unk_A4.halves.high.u--;
         advance_status_timers(object);
-        (*(u8 *)((u8 *)object + 0x6D))--;
-        ((S_801737C8_0 *)controller)->unk_8C = blume_action_resume_address;
-        (*(u8 *)((u8 *)object + 0x73)) = 0;
-        (*(u8 *)((u8 *)object + 0x72)) = 0;
+        (*((u8 *)object + 0x6D))--;
+        controller->unk_8C.address = blume_action_resume_address;
+        (*((u8 *)object + 0x73)) = 0;
+        (*((u8 *)object + 0x72)) = 0;
         (*(u16 *)((u8 *)object + 0x46)) &= 0x7FFF;
         return;
 
@@ -179,7 +169,7 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, Sprite
             return;
         }
         actor->flags &= 0xF7FF;
-        ((S_801737C8_0 *)controller)->unk_9B++;
+        controller->action_phase.u++;
         play_sound_if_enabled(0x703);
 
     case 2:
@@ -200,7 +190,7 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, Sprite
                     s32 color_bits;
 
                     effect_data = (u8 *)object + 0x20;
-                    (*(u16 *)((u8 *)effect_data + 0x24)) = 0x13;
+                    (*(u16 *)(effect_data + 0x24)) = 0x13;
                     (*(u16 *)((u8 *)object + 0x20)) = 0;
                     (*(void * *)((u8 *)object + 0x10)) = update_fading_motion_effect;
                     register_node(object, D_80170FD8);
@@ -236,15 +226,15 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, Sprite
                     } else {
                         sprite->color.c.b = dim_channel;
                     }
-                    (*(u8 *)((u8 *)effect_data + 2)) = sprite->color.c.r;
-                    (*(u8 *)((u8 *)effect_data + 3)) = sprite->color.c.g;
-                    (*(u8 *)((u8 *)effect_data + 4)) = sprite->color.c.b;
+                    (*((u8 *)effect_data + 2)) = sprite->color.c.r;
+                    (*((u8 *)effect_data + 3)) = sprite->color.c.g;
+                    (*((u8 *)effect_data + 4)) = sprite->color.c.b;
                     sprite->clut = 0x7DCF;
                     sprite->flags |= 0x100;
-                    (*(Copy12 *)((u8 *)effect_data + 0x34)) = *(Copy12 *)D_80175424;
+                    (*(Copy12 *)(effect_data + 0x34)) = *(Copy12 *)D_80175424;
                     sprite->source = effect_data + 0x34;
-                    (*(u16 *)((u8 *)effect_data + 0x50)) = 8;
-                    (*(u16 *)((u8 *)effect_data + 0x4E)) = 4;
+                    (*(u16 *)(effect_data + 0x50)) = 8;
+                    (*(u16 *)(effect_data + 0x4E)) = 4;
                 }
             }
         }
@@ -252,14 +242,14 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, Sprite
         if ((actor->unk_04 == 6 &&
              (actor->flags & 0x1000)) ||
             (actor->flags & 0xE000)) {
-            ((S_801737C8_0 *)controller)->unk_98 |= 0x80;
+            controller->action_state_flags |= 0x80;
         }
         if ((actor->unk_04 == 9 &&
              (actor->flags & 0x1000)) ||
             (actor->flags & 0xE000)) {
             actor->flags |= 0x800;
-            ((S_801737C8_0 *)controller)->unk_96 = 0x14;
-            ((S_801737C8_0 *)controller)->unk_9B = ((S_801737C8_0 *)controller)->unk_9B + 1;
+            controller->action_timer.u = 0x14;
+            controller->action_phase.u = controller->action_phase.u + 1;
             return;
         }
         return;
@@ -269,12 +259,12 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, Sprite
             s16 timer;
 
             if ((g_dungeon_status.active_actor) == 0) {
-                ((S_801737C8_0 *)controller)->unk_96 = 0;
+                controller->action_timer.u = 0;
             }
-            timer = ((S_801737C8_0 *)controller)->unk_96 - 1;
-            ((S_801737C8_0 *)controller)->unk_96 = timer;
+            timer = controller->action_timer.u - 1;
+            controller->action_timer.u = timer;
             if (timer <= 0) {
-                ((S_801737C8_0 *)controller)->unk_96 = 0;
+                controller->action_timer.u = 0;
                 actor->flags &= 0xF7FF;
             }
             if (!(actor->flags & 0xE000)) {
@@ -298,11 +288,11 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, Sprite
                 return;
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;
-            ((S_801737C8_0 *)controller)->unk_8C = blume_action_resume_address;
+            controller->unk_8C.address = blume_action_resume_address;
             advance_status_timers(object);
-            (*(u8 *)((u8 *)object + 0x73)) = 0;
-            (*(u8 *)((u8 *)object + 0x72)) = 0;
-            (*(u8 *)((u8 *)object + 0x6D))--;
+            (*((u8 *)object + 0x73)) = 0;
+            (*((u8 *)object + 0x72)) = 0;
+            (*((u8 *)object + 0x6D))--;
             (*(u16 *)((u8 *)object + 0x46)) &= 0x7FFF;
             play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         }

@@ -276,8 +276,9 @@ void advance_the_counter_offset_position_using_two_angles(Row_81916F10_S_8002471
 
 /* Creates a randomly rotated sprite behind the source along its radial direction, with size and color
    set by step. */
-void *create_radial_effect_from_source(void *source, Row_81917004_Copy24 *origin, s16 size_step)
+void *create_radial_effect_from_source(void *source_arg, Row_81917004_Copy24 *origin, s16 size_step)
 {
+    Row_81917004_S_80024804_1 *source = source_arg;
     s16 saved_step = size_step;
     ObjectNodeHeader *effect;
     SpriteFrameState *part;
@@ -298,7 +299,7 @@ void *create_radial_effect_from_source(void *source, Row_81917004_Copy24 *origin
     effect = allocate_list_node(alloc_kind, alloc_source);
     if (effect != NULL) {
         effect->update_callback = &D_80024710;
-        ((Row_81917004_S_80024804_0 *)effect)->unk_20 = ((Row_81917004_S_80024804_1 *)source)->unk_00;
+        ((Row_81917004_S_80024804_0 *)effect)->unk_20 = source->unk_00;
 
         step_word = (s32)saved_step << 16;
         part = effect->sprite;
@@ -324,8 +325,8 @@ void *create_radial_effect_from_source(void *source, Row_81917004_Copy24 *origin
         position = *(Row_81917004_Copy24 * *)&effect->position;
         *position = *origin;
 
-        effect_state->unk_0E.u = ((Row_81917004_S_80024804_1 *)source)->unk_0E;
-        effect_state->unk_10.u = ((Row_81917004_S_80024804_1 *)source)->unk_10;
+        effect_state->unk_0E.u = source->unk_0E;
+        effect_state->unk_10.u = source->unk_10;
 
         direction_factor = rsin(effect_state->unk_0E.s);
         position->word[0] -= (scaled_factor = direction_factor >> 4) *
@@ -363,7 +364,7 @@ void initialize_the_s_visual_state_apply_random_spherical_position_offset(void *
 
     node_index = 0;
     flags_base = (s32 *)(u32)0x80080000;
-    node_slot = (void **)object;
+    node_slot = object;
     do {
         if ((node = node_slot[5]) != NULL) {
             u32 node_flags;
@@ -490,7 +491,7 @@ void advance_radial_effect_state(void *motion, void *position, SpriteFrameState 
 
 /* Creates a sprite aimed from the supplied position toward the owner's saved coordinates and adds
    three trail sprites. */
-void *create_an_oriented_effect_between_position_owner(void *owner, Rec_func_80024E80_arg1 *start_pos) {
+void *create_an_oriented_effect_between_position_owner(AnAttachedEffectCopiedTransformDataRandomizedAngleBody *owner, Rec_func_80024E80_arg1 *start_pos) {
     ObjectNodeHeader *owner_node;
     ObjectNodeHeader *effect;
     Row_81917680_S_80024E80_2 *state;
@@ -528,13 +529,13 @@ void *create_an_oriented_effect_between_position_owner(void *owner, Rec_func_800
 
         endpoints = effect->position;
         *(Row_81917680_SixWords *)endpoints = *(Row_81917680_SixWords *)start_pos;
-        endpoints->unk_0C = ((Row_81917680_S_80024E80_1 *)owner)->unk_20;
-        endpoints->unk_10 = ((Row_81917680_S_80024E80_1 *)owner)->unk_24;
-        endpoints->unk_14 = ((Row_81917680_S_80024E80_1 *)owner)->unk_28;
+        endpoints->unk_0C = owner->unk_20;
+        endpoints->unk_10 = owner->unk_24;
+        endpoints->unk_14 = owner->unk_28;
 
-        dx = ((Row_81917680_S_80024E80_1 *)owner)->unk_20 - start_pos->unk_00.at00_s32.v;
-        dy = ((Row_81917680_S_80024E80_1 *)owner)->unk_24 - start_pos->unk_04.at00_s32.v;
-        dz = ((Row_81917680_S_80024E80_1 *)owner)->unk_28 - start_pos->unk_08.at00_s32.v;
+        dx = owner->unk_20 - start_pos->unk_00.at00_s32.v;
+        dy = owner->unk_24 - start_pos->unk_04.at00_s32.v;
+        dz = owner->unk_28 - start_pos->unk_08.at00_s32.v;
 
         state->unk_0E = ratan2(
             SquareRoot12((((dx >> 12) * (dx >> 12)) +
@@ -561,50 +562,50 @@ void *create_an_oriented_effect_between_position_owner(void *owner, Rec_func_800
 
 /* Grows and brightens an orbiting sprite, waits for its indexed delay, then replaces it with a
    directed effect. */
-void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(void *effect, void *transform, SpriteFrameState *visual) {
+void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(AnAttachedEffectCopiedTransformDataRandomizedAngleBody *effect, void *transform, SpriteFrameState *visual) {
     s32 scale;
     s16 phase;
     u8 brightness;
     Row_81917894_S_80025094_1 *owner;
 
-    owner = ((Row_81917894_S_80025094_0 *)effect)->unk_00;
+    owner = effect->unk_00;
     owner->unk_14 = (u16) (owner->unk_14 + 1);
     advance_sprite_animation_and_textures(visual);
-    ((Row_81917894_S_80025094_0 *)effect)->unk_06.u = (u16) (((Row_81917894_S_80025094_0 *)effect)->unk_06.u + 1);
+    effect->unk_06.u = (u16) (effect->unk_06.u + 1);
     visual->angle_z = (u16) (visual->angle_z + 0x200);
-    phase = ((Row_81917894_S_80025094_0 *)effect)->unk_04.s;
+    phase = effect->unk_04.s;
 
     switch (phase) {
     case 0:
     {
         u16 radius;
 
-        if (((Row_81917894_S_80025094_0 *)effect)->unk_06.u & 1) {
-            radius = ((Row_81917894_S_80025094_0 *)effect)->unk_0A + 2;
+        if (effect->unk_06.u & 1) {
+            radius = effect->unk_0A + 2;
         } else {
-            radius = ((Row_81917894_S_80025094_0 *)effect)->unk_0A + 1;
+            radius = effect->unk_0A + 1;
         }
-        ((Row_81917894_S_80025094_0 *)effect)->unk_0A = radius;
+        effect->unk_0A = radius;
     }
         brightness = visual->color.c.b + 3;
         visual->color.c.b = brightness;
         visual->color.c.g = brightness;
         visual->color.c.r = brightness;
-        scale = ((Row_81917894_S_80025094_0 *)effect)->unk_06.s << 5;
+        scale = effect->unk_06.s << 5;
         visual->scale_y = scale;
         visual->scale_x = scale;
         ((Rec_func_80024E80_arg1 *)transform)->unk_08.at02_u16.v =
             (u16) (((Rec_func_80024E80_arg1 *)transform)->unk_08.at02_u16.v - 2);
     case 1:
-        if ((s16) ((Row_81917894_S_80025094_0 *)effect)->unk_06.u >= 0x20) {
-            ((Row_81917894_S_80025094_0 *)effect)->unk_06.u = 0U;
-            ((Row_81917894_S_80025094_0 *)effect)->unk_04.u =
-                (u16) (((Row_81917894_S_80025094_0 *)effect)->unk_04.u + 1);
+        if ((s16) effect->unk_06.u >= 0x20) {
+            effect->unk_06.u = 0U;
+            effect->unk_04.u =
+                (u16) (effect->unk_04.u + 1);
         }
         break;
     case 2:
-        if ((s16) ((Row_81917894_S_80025094_0 *)effect)->unk_06.u >=
-            ((Row_81917894_S_80025094_0 *)effect)->unk_08) {
+        if ((s16) effect->unk_06.u >=
+            effect->unk_08) {
             create_an_oriented_effect_between_position_owner(effect, transform);
             (*(u16 *)((u8 *)effect + (-2))) =
                 (u16) (((Row_81917894_S_80025094_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
@@ -615,10 +616,10 @@ void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(void
     }
 
     ((Rec_func_80024E80_arg1 *)transform)->unk_00.at02_s16.v = (s16) (((Rec_func_80024E80_arg1 *)transform)->unk_0E
-        + ((s32) ((rcos(((Row_81917894_S_80025094_0 *)effect)->unk_0C) >> 4) * (s16) ((Row_81917894_S_80025094_0 *)effect)->unk_0A)
+        + ((s32) ((rcos(effect->unk_0C) >> 4) * (s16) effect->unk_0A)
            >> 8));
     ((Rec_func_80024E80_arg1 *)transform)->unk_04.at02_s16.v = (s16) (((Rec_func_80024E80_arg1 *)transform)->unk_12
-        + ((s32) ((rsin(((Row_81917894_S_80025094_0 *)effect)->unk_0C) >> 4) * (s16) ((Row_81917894_S_80025094_0 *)effect)->unk_0A)
+        + ((s32) ((rsin(effect->unk_0C) >> 4) * (s16) effect->unk_0A)
            >> 8));
 }
 
@@ -630,11 +631,11 @@ void * create_an_attached_effect_copied_transform_data_randomized_angle(void *ob
     s32 second_word;
     s32 random_value;
     s32 adjusted_random;
-    Row_81917A70_S_80025270_1 *state;
+    AnAttachedEffectCopiedTransformDataRandomizedAngleBody *state;
     ObjectPosition *transform;
     ObjectNodeHeader *effect;
     s16 saved_index;
-    owner_node = (void *)object - 0x20;
+    owner_node = object - 0x20;
     effect = allocate_list_node(0x212, &owner_node->next);
     if (effect != NULL) {
         saved_index = effect_index;
@@ -642,8 +643,8 @@ void * create_an_attached_effect_copied_transform_data_randomized_angle(void *ob
         effect->update_callback = &D_80025094;
         ((Row_81917A70_S_80025270_0 *)effect)->unk_20 = (s32)object;
         state->unk_08 = (s16) (saved_index * 7);
-        state->unk_04 = 0;
-        state->unk_06 = 0;
+        state->unk_04.s = 0;
+        state->unk_06.s = 0;
         state->unk_0A = 0;
         state->unk_0C = (s16) (saved_index * 0x600);
         state->unk_20 = src_transform->wordC;

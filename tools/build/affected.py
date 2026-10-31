@@ -9,7 +9,9 @@ The universe is the generated build graph itself, not an include-closure list of
 
   * every `build/.state/recipes/*.json` and `build/.state/slus-recipes/*.json` whose `dependencies`
     (the production cpp closure written by `make configure`) or own `source` contains an edited file,
-    compared after resolving symlinks on both sides (build_slus/src and build_slus/include are views);
+    compared after resolving the configure manifest's symlinks (rebased to this root) and live
+    symlinks. Views need not exist for `set`; `prove` checks their bindings before
+    compiling, so a missing or foreign view cannot silently prove another root's source;
     placement copies (`build/.state/enumerate/*.member/*.c`) are reached through their projection
     owner, which every projection recipe lists as a dependency;
   * every edited file's own recipe(s) (source or projection owner) are always in the set;
@@ -32,6 +34,25 @@ new `#include` is still caught (the edited file's own recipes are always compile
 reached only through that include is not in the closure until the next configure; edits outside
 src/ and include/ (tools, config, ledgers) change the graph itself and are reported as `authority`
 (prove refuses them unless --allow-authority).
+
+Edit classes outside src/ and include/ (lane cadence, 2026-10-31):
+
+  * authority  - configure inputs that can change the graph or a recipe (config/, ledger/ files the build reads,
+                 tools/build, tools/gate, tools/link, tools/fidelity, ...): ERROR unless --allow-authority.
+  * derived    - ledger/layout_inline.jsonl: refresh_layout_inline.py output.  Accepted when every changed record's
+                 merged TU (tu_new) is itself an edited file: its placement copies are then in the scope (own
+                 recipes) and the worker re-projects them from the current ledger, as make does.  A record of an
+                 unedited TU is authority.
+  * non-build  - files the build never reads (tools/typing, tools/lint, docs, work, ledger/prototype_floors.jsonl,
+                 ledger/fields.jsonl): reported, not refused.
+  * A .c file outside the graph is ERROR when it is new (needs configure) or a decoded-image source (needs
+    `make decoded-images`); an existing unlinked file is reported as unconsumed.
+
+Baseline promotion (--adopt): after a PASS in a root that is its own baseline, every affected recipe whose object
+was rebuilt byte-identical gets its .proof.json input digests refreshed to the current text (exactly what the object
+cache does on a hit), and every object that differs only outside its placed bytes is installed with its proof and
+name witness.  The next batch's prove then has a fresh baseline without a make; make itself is untouched (objects
+keep their mtimes, so the next full make still recompiles every edited TU as its independent check).
 
 Baseline freshness: before an object is trusted as the baseline its `.proof.json` must name the same
 object sha, and every src/include input it records must equal the base text (`--base` root files, or
@@ -104,6 +125,10 @@ class Graph:
             for unit in spec['units']:
                 self.recipe_rows.setdefault(unit['recipe'], set()).update(unit.get('rows') or ())
         self.slus_image = 'slus/slus_bin' if 'slus/slus_bin' in self.registered else None
+        self.links = self._configured_links(state)
+        self._live_links = {}
+        self._physical = {}
+        self._dependencies = {}
         self._real = {}
         self._by_dep = None
         self._own = None
@@ -138,16 +163,72 @@ class Graph:
                     groups[target] = group
         return groups, targets
 
-    # Paths are compared physically: build_slus/{src,include} are symlink views of src/ and include/.
+    def _configured_links(self, state):
+        """The graph's source views, including links absent from a seeded checkout.
+
+        configure.json records both directory and per-file links, and the root in which they
+        were generated. Rebase only targets inside that root; external toolchains stay external.
+        This covers layout_flat, moved wrapper TUs and include views without duplicating the
+        layout ledger's row/placement rules or requiring a bootstrap during read-only `set`.
+        """
+        path = state / 'configure.json'
+        if not path.is_file():
+            return {}
+        configured = _read_json(path)
+        origin = Path(configured.get('root', self.root))
+        links = {}
+        for name, target in configured.get('links', {}).items():
+            dest = Path(target)
+            if dest.is_absolute() and dest.is_relative_to(origin):
+                dest = self.root / dest.relative_to(origin)
+            links[name] = str(dest)
+        return links
+
+    def _view_path(self, name):
+        """Resolve graph links component by component, preserving symlink/.. semantics."""
+        path = Path(name)
+        if path.is_absolute():
+            if not path.is_relative_to(self.root):
+                return path
+            path = path.relative_to(self.root)
+        pending, parts, hops = list(path.parts), [], 0
+        while pending:
+            part = pending.pop(0)
+            if part == '..':
+                if not parts:
+                    return Path(os.path.realpath(self.root.joinpath('..', *pending)))
+                parts.pop()
+                continue
+            parts.append(part)
+            key = '/'.join(parts)
+            target = self.links.get(key)
+            if target is None:
+                if key not in self._live_links:
+                    live = self.root / key
+                    self._live_links[key] = os.readlink(live) if live.is_symlink() else None
+                target = self._live_links[key]
+            if target is None:
+                continue
+            hops += 1
+            if hops > 40:
+                raise ValueError('cyclic source view: ' + name)
+            dest = Path(target)
+            if not dest.is_absolute():
+                dest = self.root.joinpath(*parts[:-1], dest)
+            if not dest.is_relative_to(self.root):
+                return Path(os.path.realpath(dest.joinpath(*pending)))
+            pending = list(dest.relative_to(self.root).parts) + pending
+            parts = []
+        return self.root.joinpath(*parts)
+
+    # Source identities come from the generated graph, independently of disposable live views.
     def real(self, name):
         hit = self._real.get(name)
         if hit is None and name.startswith(SOURCE_PREFIXES) and '..' not in name and '//' not in name:
             # src/ and include/ hold no symlinks (checked by the tests); skip the stat walk.
             self._real[name] = hit = name
         if hit is None:
-            path = Path(name)
-            path = path if path.is_absolute() else self.root / path
-            resolved = Path(os.path.realpath(path))
+            resolved = self._view_path(name)
             hit = resolved.relative_to(self.root).as_posix() if resolved.is_relative_to(self.root) \
                 else resolved.as_posix()
             self._real[name] = hit
@@ -161,44 +242,119 @@ class Graph:
             raise ValueError('path outside root: ' + str(name))
         return path.relative_to(self.root).as_posix()
 
+    def identities(self, name):
+        """Both configured and live identities: a retargeted view must still enter the scope.
+
+        The proof then refuses the inconsistent binding. Looking only at the configured target
+        would miss an edit to the live target; looking only at live links loses absent views.
+        """
+        canonical = self.real(name)
+        if name.startswith(SOURCE_PREFIXES) and '..' not in name and '//' not in name:
+            return {canonical}
+        if name not in self._physical:
+            path = Path(os.path.realpath(self.root / name))
+            self._physical[name] = path.relative_to(self.root).as_posix() if path.is_relative_to(self.root) \
+                else path.as_posix()
+        return {canonical, self._physical[name]}
+
+    def producer(self, name):
+        if name.startswith(('build/.state/', 'toolchain/')):
+            return None
+        return self.generated.get(name) or self.generated.get(self.real(name))
+
+    def dependency_names(self, spec):
+        """Logical dependencies, compile source, projection owner and transitive producer inputs."""
+        rid = spec['_id']
+        if rid not in self._dependencies:
+            names = set(spec.get('dependencies', ()))
+            source = self.compile_source(spec)
+            if source:
+                names.add(source)
+            if spec.get('projection'):
+                names.add(spec['projection']['owner'])
+            pending = list(names)
+            while pending:
+                group = self.producer(pending.pop())
+                if group:
+                    added = set(group['inputs']) - names
+                    names.update(added)
+                    pending.extend(added)
+            self._dependencies[rid] = names
+        return self._dependencies[rid]
+
+    def render_groups(self, recipes):
+        """Selected generated-source producers in dependency order, once per grouped rule."""
+        ordered, done, active = [], set(), set()
+
+        def visit(name):
+            group = self.producer(name)
+            if group is None:
+                return
+            key = tuple(group['targets'])
+            if key in active:
+                raise ValueError('cyclic generated source: ' + name)
+            if key in done:
+                return
+            active.add(key)
+            for dep in group['inputs']:
+                visit(dep)
+            active.remove(key)
+            done.add(key)
+            ordered.append(group)
+
+        for rid in recipes:
+            for name in sorted(self.dependency_names(self.recipes[rid])):
+                visit(name)
+        return ordered
+
     def by_dep(self):
         """{physical path: {recipe ids}} over dependencies, sources and projection owners."""
         if self._by_dep is None:
             index = {}
             for rid, spec in self.recipes.items():
-                names = set(spec.get('dependencies', ()))
-                if spec.get('source'):
-                    names.add(spec['source'])
-                if spec.get('projection'):
-                    names.add(spec['projection']['owner'])
-                for name in list(names):
-                    if name in self.generated:
-                        names.update(self.generated[name]['inputs'])
-                for name in names:
+                for name in self.dependency_names(spec):
                     if name.startswith('build/.state/') or name.startswith('toolchain/'):
                         continue   # generated witnesses / compilers: graph authority, not source edits
-                    index.setdefault(self.real(name), set()).add(rid)
+                    for identity in self.identities(name):
+                        index.setdefault(identity, set()).add(rid)
             self._by_dep = index
         return self._by_dep
 
-    def own_source(self, spec):
-        """Physical path of the file a recipe compiles (placement copies: their owner TU)."""
-        if spec.get('projection'):
-            return self.real(spec['projection']['owner'])
+    def view_problem(self, spec):
+        """A selected recipe must compile this root's text, not a stale absolute view link."""
+        for name in sorted(self.dependency_names(spec)):
+            canonical = self.real(name)
+            if canonical.startswith(SOURCE_PREFIXES) and (
+                    not (self.root / name).is_file() or
+                    Path(os.path.realpath(self.root / name)) != self.root / canonical):
+                return 'source view missing or bound to another source: %s -> %s; run make configure' % (
+                    name, canonical)
+        return None
+
+    def compile_source(self, spec):
+        """The compile input in root coordinates (SLUS commands run in build_slus)."""
         if spec.get('source'):
-            return self.real(spec['source'])
+            return spec['source']
         if spec['_family'] == 'slus':
             argv = shlex.split(spec.get('command', ''))
             if len(argv) > 1:
-                return self.real('build_slus/' + argv[1])
+                return 'build_slus/' + argv[1]
         return None
+
+    def own_source(self, spec):
+        """Physical path of the file a recipe compiles (placement copies: their owner TU)."""
+        source = spec['projection']['owner'] if spec.get('projection') else self.compile_source(spec)
+        return self.real(source) if source else None
 
     def own_recipes(self, path):
         """Recipes whose own source (or placement-copy owner) is this file."""
         if self._own is None:
             own = {}
             for rid, spec in self.recipes.items():
-                own.setdefault(self.own_source(spec), set()).add(rid)
+                source = spec['projection']['owner'] if spec.get('projection') else self.compile_source(spec)
+                if source:
+                    for identity in self.identities(source):
+                        own.setdefault(identity, set()).add(rid)
             self._own = own
         return set(self._own.get(self.real(path), ()))
 
@@ -217,17 +373,90 @@ class Graph:
         return out
 
 
+# Graph authority: what `make configure` / bootstrap / compiles read outside src/ and include/.
+AUTHORITY_PREFIXES = ('config/', 'ledger/', 'tools/build/', 'tools/gate/', 'tools/link/', 'tools/fidelity/',
+                      'tools/learnings/', 'link/', 'toolchain/', 'build_ovl/', 'build_slus/', 'baserom/', 'work/disc/')
+AUTHORITY_FILES = {'Makefile', 'tools/common.py', 'tools/source_layout.py', 'tools/row_db.py',
+                   'tools/overlay_module_evidence.py', 'tools/decoded_images.py', 'tools/cc.sh'}
+# Ledgers no build producer reads (tests/test_affected_cadence.py keeps this true against the build tools).
+NON_BUILD_LEDGERS = {'ledger/prototype_floors.jsonl', 'ledger/fields.jsonl'}
+DERIVED_LEDGER = 'ledger/layout_inline.jsonl'
+DECODED_MANIFEST = 'config/decoded/menu_cache.json'
+
+
+def classify(root, name, configured=None):
+    """'source' | 'authority' | 'derived' | 'non-build' for one root-relative path."""
+    if name.startswith(SOURCE_PREFIXES):
+        return 'source'
+    if name == DERIVED_LEDGER:
+        return 'derived'
+    if name in NON_BUILD_LEDGERS:
+        return 'non-build'
+    if name.startswith(AUTHORITY_PREFIXES) or name in AUTHORITY_FILES:
+        return 'authority'
+    if configured is None:
+        configured = configured_inputs(root)
+    return 'authority' if name in configured else 'non-build'
+
+
+def configured_inputs(root):
+    """Every file the last configure/bootstrap hashed or observed, plus the compile tool closure."""
+    state = Path(root) / 'build/.state'
+    names = set()
+    for marker in ('configure.json', 'bootstrap.json'):
+        try:
+            data = _read_json(state / marker)
+        except (OSError, ValueError):
+            continue
+        names.update(data.get('inputs', {}))
+        names.update(data.get('observed', {}))
+    try:
+        names.update(_read_json(state / 'compiletools.list'))
+    except (OSError, ValueError):
+        pass
+    return names
+
+
+def layout_inline_owners(root, rev):
+    """Merged TUs (tu_new) of every layout_inline record that differs from `rev` (added, removed or changed)."""
+    def records(blob):
+        out = {}
+        for line in blob.splitlines():
+            if line.strip():
+                r = json.loads(line)
+                out[(r.get('member_id'), r.get('tu_new'))] = line.strip()
+        return out
+    res = subprocess.run(['git', '-C', str(root), 'show', rev + ':' + DERIVED_LEDGER], capture_output=True)
+    if res.returncode:
+        raise ValueError('no %s at %s' % (DERIVED_LEDGER, rev))
+    old = records(res.stdout.decode())
+    new = records((Path(root) / DERIVED_LEDGER).read_text())
+    return sorted({key[1] for key in set(old) | set(new) if old.get(key) != new.get(key)})
+
+
+def new_files(root, rev):
+    """src/include files absent at `rev` (git), i.e. new translation units or headers."""
+    res = subprocess.run(['git', '-C', str(root), 'ls-tree', '-r', '--name-only', rev, '--', 'src', 'include'],
+                         capture_output=True, text=True)
+    return None if res.returncode else set(res.stdout.split())
+
+
 def affected_set(root, edited, graph=None):
     """Every recipe whose production closure or own source contains an edited file, and its images.
 
     Returns {files, recipes, slus_recipes, images, own, unconsumed, authority, kinds}."""
     graph = graph or Graph(root)
     files = sorted({graph.logical(p) for p in edited})
-    authority = [f for f in files if not f.startswith(SOURCE_PREFIXES)]
+    outside = [f for f in files if not f.startswith(SOURCE_PREFIXES)]
+    configured = configured_inputs(root) if outside else set()
+    classes = {f: classify(root, f, configured) for f in outside}
+    authority = [f for f in outside if classes[f] == 'authority']
+    derived = [f for f in outside if classes[f] == 'derived']
+    non_build = [f for f in outside if classes[f] == 'non-build']
     by_dep = graph.by_dep()
     selected, own, unconsumed = set(), {}, []
     for name in files:
-        if name in authority:
+        if name in outside:
             continue
         hits = set(by_dep.get(graph.real(name), ()))
         mine = graph.own_recipes(name) if name.endswith('.c') else set()
@@ -246,7 +475,7 @@ def affected_set(root, edited, graph=None):
                 recipes=sorted(r for r in selected if graph.recipes[r]['_family'] == 'overlay'),
                 slus_recipes=sorted(r for r in selected if graph.recipes[r]['_family'] == 'slus'),
                 images=sorted(graph.images_of(selected)), own=own, unconsumed=unconsumed,
-                authority=authority, kinds=kinds)
+                authority=authority, derived=derived, non_build=non_build, kinds=kinds)
 
 
 # ------------------------------------------------------------------------------------- object compare
@@ -610,7 +839,7 @@ def edited_from_git(root, rev):
 
 def prove(root, edited, base=None, *, workers=8, relink=True, rev='HEAD', keep=False, nice=10,
           allow_authority=False, log=None, graph=None, compile_tasks=None, known=None, reuse=None,
-          reuse_key=None):
+          reuse_key=None, ledger_rev=None, adopt=False):
     """Compile the affected set at production recipes and compare objects/images with the baseline.
 
     Returns a report: {verdict, scope, recipes: {id: {...}}, images: {image: {...}}, timing}.
@@ -633,21 +862,52 @@ def prove(root, edited, base=None, *, workers=8, relink=True, rev='HEAD', keep=F
         report.update(verdict='ERROR', error='graph-authority edits need make configure + a full build: '
                       + ', '.join(scope['authority']))
         return report
+    ledger_rev = ledger_rev or rev
+    if scope.get('derived') and not allow_authority:
+        try:
+            owners = layout_inline_owners(root, ledger_rev)
+        except ValueError as exc:
+            report.update(verdict='ERROR', error=str(exc))
+            return report
+        foreign = [t for t in owners if t not in set(scope['files'])]
+        report['layout_inline_owners'] = owners
+        if foreign:
+            report.update(verdict='ERROR', error='layout_inline records changed for TUs that are not edited (graph '
+                          'authority; run make configure + a full build): ' + ', '.join(foreign[:8]))
+            return report
+    if scope['unconsumed'] and not allow_authority:
+        known = new_files(root, ledger_rev)
+        try:
+            decoded = {u['source'] for u in _read_json(root / DECODED_MANIFEST)['units']}
+        except (OSError, ValueError, KeyError):
+            decoded = set()
+        blocking = [f for f in scope['unconsumed'] if f.endswith('.c') and (
+            f in decoded or (known is not None and f not in known))]
+        if blocking:
+            report.update(verdict='ERROR', error='C files outside the build graph (new TU: make configure + a full '
+                          'build; decoded-image source: make decoded-images): ' + ', '.join(blocking[:8]))
+            return report
     baseline = Baseline(root, base, scope['files'], rev, known)
     ids = scope['recipes'] + scope['slus_recipes']
+    for rid in ids:
+        problem = graph.view_problem(graph.recipes[rid])
+        if problem:
+            report.update(verdict='ERROR', error=rid + ': ' + problem)
+            return report
     # Generated SLUS sources (partition bodies) are re-rendered from the edited parents, as make does.
-    renders = {}
-    for rid in scope['slus_recipes']:
-        for dep in graph.recipes[rid].get('dependencies', ()):
-            if dep in graph.generated:
-                renders[graph.generated[dep]['command']] = graph.generated[dep]
-    for command in sorted(renders):
+    try:
+        renders = graph.render_groups(scope['slus_recipes'])
+    except ValueError as exc:
+        report.update(verdict='ERROR', error=str(exc))
+        return report
+    for group in renders:
+        command = group['command']
         if compile_tasks is None:
             res = subprocess.run(['bash', '-c', command], cwd=root, capture_output=True, text=True)
             if res.returncode:
                 report.update(verdict='ERROR', error='render failed: ' + command + '\n' + res.stderr[-800:])
                 return report
-    report['renders'] = sorted(renders)
+    report['renders'] = [group['command'] for group in renders]
     run = 'build/.affected/%s-%d' % (time.strftime('%Y%m%d-%H%M%S'), os.getpid())
     (root / run).mkdir(parents=True)
     keys = {rid: reuse_key(rid) for rid in ids} if reuse is not None and reuse_key else {}
@@ -664,6 +924,7 @@ def prove(root, edited, base=None, *, workers=8, relink=True, rev='HEAD', keep=F
     tasks = [dict(op='compile', key=rid, id=rid, run=run, family=graph.recipes[rid]['_family'],
                   spec=graph.recipes[rid]) for rid in ids if rid not in reused]
     pool = None
+    pending_adopt = False
     try:
         t0 = time.monotonic()
         if compile_tasks is not None:          # tests inject a compiler
@@ -749,10 +1010,11 @@ def prove(root, edited, base=None, *, workers=8, relink=True, rev='HEAD', keep=F
     finally:
         if pool:
             pool.close()
-        if not keep:
+        report['run_dir'] = run
+        if adopt:
+            pending_adopt = True
+        elif not keep:
             shutil.rmtree(root / run, ignore_errors=True)
-        else:
-            report['run_dir'] = run
     report['baseline_unverified_edits'] = sorted(baseline.unverified)
     verdicts = [r['verdict'] for r in report['recipes'].values()] + \
                [i['verdict'] for i in report['images'].values()]
@@ -764,8 +1026,78 @@ def prove(root, edited, base=None, *, workers=8, relink=True, rev='HEAD', keep=F
     # containing it was relinked and compared, so the build output is unchanged.
     report['objects_changed_not_placed'] = sorted(
         r for r, rec in report['recipes'].items() if rec['verdict'] == 'CHANGED' and report['verdict'] == 'PASS')
+    if adopt:
+        if report['verdict'] == 'PASS' and base == root:
+            report['adopted'] = adopt_baseline(root, graph, report, run)
+        else:
+            report['adopted'] = dict(skipped='verdict %s%s' % (report['verdict'],
+                                     '' if base == root else '; baseline is another root'))
+        if pending_adopt and not keep:
+            shutil.rmtree(root / run, ignore_errors=True)
+            report.pop('run_dir', None)
+    elif not keep:
+        report.pop('run_dir', None)
     report['seconds'] = round(time.monotonic() - started, 1)
     return report
+
+
+def _hashes(root, names):
+    out = {}
+    for name in sorted(set(names)):
+        try:
+            out[name] = sha256((root / name).read_bytes())
+        except FileNotFoundError:
+            out[name] = None
+    return out
+
+
+def _atomic_write(path, blob):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_name('.%s.%d.adopt' % (path.name, os.getpid()))
+    tmp.write_bytes(blob)
+    os.replace(tmp, path)
+
+
+def adopt_baseline(root, graph, report, run):
+    """Promote a PASS into the root's own baseline: refresh receipts of byte-identical objects, install objects that
+    differ only outside their placed bytes.  Object mtimes are kept (make still recompiles edited TUs)."""
+    refreshed, installed, skipped = 0, 0, []
+    for rid, rec in report['recipes'].items():
+        spec = graph.recipes[rid]
+        target = root / spec['output']
+        proof_path = target.with_suffix('.proof.json')
+        recipe_path = root / ('build/.state/%s/%s.json' % ('slus-recipes' if spec['_family'] == 'slus' else 'recipes', rid))
+        deps = [d for d in spec.get('dependencies', ()) if (root / d).resolve() != recipe_path.resolve()]
+        try:
+            proof = _read_json(proof_path)
+        except (OSError, ValueError):
+            skipped.append(rid)
+            continue
+        produced = root / run / 'obj' / (rid + '.o')
+        if rec['verdict'] == 'PASS' and not rec.get('reused'):
+            if not produced.is_file() or produced.read_bytes() != target.read_bytes():
+                skipped.append(rid)
+                continue
+        elif rec['verdict'] == 'CHANGED' and rid in report.get('objects_changed_not_placed', ()):
+            if not produced.is_file():
+                skipped.append(rid)
+                continue
+            if spec['_family'] == 'slus':
+                skipped.append(rid)         # SLUS post-processing artifacts are make's, never installed here
+                continue
+            _atomic_write(target, produced.read_bytes())   # newer: the next full make relinks its images
+            installed += 1
+        else:
+            continue
+        witness = root / run / 'names' / (rid + '.json')
+        if spec.get('name_input') and witness.is_file():
+            _atomic_write(root / spec['name_input'], witness.read_bytes())
+        proof.update(object_sha256=sha256(target.read_bytes()), inputs=_hashes(root, deps))
+        stat = proof_path.stat()
+        _atomic_write(proof_path, (json.dumps(proof, sort_keys=True, indent=2) + '\n').encode())   # mkbuild.put format
+        os.utime(proof_path, ns=(stat.st_atime_ns, stat.st_mtime_ns))
+        refreshed += rec['verdict'] == 'PASS'
+    return dict(refreshed=refreshed, installed=installed, skipped=sorted(skipped))
 
 
 def link_failure(error, image):
@@ -799,6 +1131,13 @@ def summary(report, limit=20):
                      % len(report['objects_changed_not_placed']))
     if report.get('error'):
         lines.append('  error: ' + report['error'])
+    if s.get('derived'):
+        lines.append('  derived ledger accepted: %s (records of %d edited TUs)' % (
+            ', '.join(s['derived']), len(report.get('layout_inline_owners', ()))))
+    if s.get('non_build'):
+        lines.append('  non-build edits (not in the build graph): %d file(s)' % len(s['non_build']))
+    if report.get('adopted'):
+        lines.append('  baseline adopt: %s' % json.dumps(report['adopted'], sort_keys=True)[:200])
     bad = [(rid, r) for rid, r in sorted(report['recipes'].items()) if r['verdict'] != 'PASS']
     for rid, r in bad[:limit]:
         d = r.get('difference', {})
@@ -857,6 +1196,8 @@ def main(argv=None):
     pp.add_argument('--no-relink', action='store_true')
     pp.add_argument('--keep', action='store_true', help='keep build/.affected/<run> objects and links')
     pp.add_argument('--allow-authority', action='store_true')
+    pp.add_argument('--adopt', action='store_true',
+                    help='on PASS, promote the proven objects into this root\'s baseline (next batch needs no make)')
     args = ap.parse_args(argv)
     root = args.root.resolve()
     if args.mode == 'relink-check':
@@ -879,7 +1220,8 @@ def main(argv=None):
         ap.error('between 1 and 8 workers on this host')
     report = prove(root, files, args.base, workers=args.workers, relink=not args.no_relink, rev=args.rev,
                    keep=args.keep, nice=args.nice, allow_authority=args.allow_authority,
-                   log=lambda m: print(m, file=sys.stderr, flush=True))
+                   log=lambda m: print(m, file=sys.stderr, flush=True),
+                   ledger_rev=args.edited_from_git, adopt=args.adopt)
     if args.json:
         args.json.parent.mkdir(parents=True, exist_ok=True)
         args.json.write_text(json.dumps(report, indent=1, sort_keys=True) + '\n')

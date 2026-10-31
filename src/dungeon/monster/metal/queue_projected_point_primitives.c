@@ -6,8 +6,8 @@ s32 queue_projected_point_primitives_2(u8 *object_data, u16 *point_data)
 {
     Scratch *scratch = (Scratch *)0x1F800000;
     void **global_state = ((void * *)(&g_game_work));
-    GpuContext *render_state = (GpuContext *)global_state[0];
-    Packet *first_packet = (Packet *)render_state->packetCursor;
+    GpuContext *render_state = global_state[0];
+    Packet *first_packet = render_state->packetCursor;
     Packet *packet;
     s32 depth_index;
     u32 address_mask = 0x00FFFFFF;

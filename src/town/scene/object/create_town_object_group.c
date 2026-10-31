@@ -170,7 +170,7 @@ void create_town_object_group(void)
             render_part->unk_1E = unit_scale;
             render_part->unk_20 = unit_scale;
             render_part->unk_0C = 0x808080;
-            render_part->unk_08 = *(s32 *)((u8 *)D_805300C4 + 0x54 +
+            render_part->unk_08 = *(s32 *)(D_805300C4 + 0x54 +
                 (object->unk_74.s16 << 2));
             object_state->x.v = (child_index << 23) + 0x04600000;
             object_state->y.v = 0x03600000;

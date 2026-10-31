@@ -20,7 +20,8 @@ typedef struct S_80027584_0 {
 #include "main/data.h"
 
 /* Polls status with bounded retries and dispatches the corresponding context update. */
-void card_boot_format_card_with_retry(void *state) {
+void card_boot_format_card_with_retry(void *state_arg) {
+    S_80027584_0 *state = state_arg;
     s32 retry_status;
     s32 status;
     s32 retry_count;
@@ -29,27 +30,27 @@ void card_boot_format_card_with_retry(void *state) {
     retry_count = 0;
     retry_status = 5;
     do {
-        status = card_boot_format_card_and_wait(((S_80027584_0 *)state)->unk_0C);
+        status = card_boot_format_card_and_wait(state->unk_0C);
         if (status != retry_status) {
             break;
         }
     } while (retry_count++ < 6);
 
-    ((S_80027584_0 *)state)->unk_38 = 0;
+    state->unk_38 = 0;
     card_boot_recheck_selected_channel();
     if (status == 1) {
         context = (u8 *)state - 0x20;
-        ((S_80027584_0 *)state)->unk_2C = D_8002789C;
+        state->unk_2C = D_8002789C;
         card_boot_show_format_success_notice(context);
         ((S_80027584_0_pre *)state)[-1].unk_00 = D_800274D8;
     } else if (status == 4) {
         context = (u8 *)state - 0x20;
-        ((S_80027584_0 *)state)->unk_2C = D_8002789C;
+        state->unk_2C = D_8002789C;
         card_boot_show_no_memory_card_notice(context);
         ((S_80027584_0_pre *)state)[-1].unk_00 = reset_menu_object_state_2;
     } else {
         context = (u8 *)state - 0x20;
-        ((S_80027584_0 *)state)->unk_2C = D_8002789C;
+        state->unk_2C = D_8002789C;
         card_boot_show_format_failure_notice(context);
         ((S_80027584_0_pre *)state)[-1].unk_00 = D_800274D8;
     }

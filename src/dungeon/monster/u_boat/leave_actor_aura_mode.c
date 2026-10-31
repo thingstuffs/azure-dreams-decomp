@@ -42,7 +42,7 @@ void leave_actor_aura_mode(ActorRecord *state, ObjectPosition *motion, SpriteFra
                     state->unk_B0.bytes[1] = active_step;
                 } while (0);
                 state->action_timer.u = 4U;
-                sprite->frameTable = (u8 *)u_boat_aura_frames;
+                sprite->frameTable = u_boat_aura_frames;
                 select_sprite_entry(sprite, u_boat_aura_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                     0);
                 if (!((sprite->flags & 0x8000)
@@ -58,9 +58,9 @@ void leave_actor_aura_mode(ActorRecord *state, ObjectPosition *motion, SpriteFra
                 motion->velocity_x = 0;
                 set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
                 entity->flags1C |= 0x40000;
-                ((ActorRecord *)state)->unk_B4.bytes[1] = 0;
+                state->unk_B4.bytes[1] = 0;
                 state->action_state_flags |= 8;
-                sprite->frameTable = (u8 *)uboat_default_frames;
+                sprite->frameTable = uboat_default_frames;
                 select_sprite_entry(sprite, uboat_default_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                     0);
                 state->action_timer.u = 5U;
@@ -79,9 +79,9 @@ void leave_actor_aura_mode(ActorRecord *state, ObjectPosition *motion, SpriteFra
     state->action_timer.u = (u16)(finish_ticks - 1);
     if (((finish_ticks << 0x10) <= 0) || (sprite->flags & 0xE000)) {
         sprite->depth_bias = 0;
-        state->unk_8C.address = (u8 *)uboat_behavior_entry;
+        state->unk_8C.address = uboat_behavior_entry;
         clear_slots_of_type(entity, STATUS_NO_TILE_OCCUPANCY);
-        if (((ActorRecord *)state)->unk_B4.bytes[0] == 0) {
+        if (state->unk_B4.bytes[0] == 0) {
             g_dungeon_status.active_actor = 0;
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             entity->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;

@@ -35,7 +35,7 @@ void init_menu_choice_wide(S_func_8003666C_0 *state) {
     s32 position;
     s16 doubled_position;
 
-    layout = (S_func_8003666C_1 *) state->unk_74;
+    layout = state->unk_74;
     marker = layout->unk_27;
     position = layout->unk_22;
     center_offset = ((layout->unk_26 + 1) >> 1) - 1;

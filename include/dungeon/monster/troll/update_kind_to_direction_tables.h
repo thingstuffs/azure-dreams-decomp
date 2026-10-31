@@ -41,5 +41,5 @@ extern void func_80047784(void *, u8, s32);
 extern s32 update_actor_transform_from_parent(Obj0 *, void *, void *, void *);
 
 
-void update_kind_13_to_15_direction_tables(Obj0 *owner, void *context, Obj2 *display_arg, Obj3 *state_arg);
+void update_kind_13_to_15_direction_tables(Obj0 *owner, ObjectPosition *context, SpriteFrameState *display_arg, Obj3 *state_arg);
 #endif

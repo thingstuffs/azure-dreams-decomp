@@ -125,13 +125,13 @@ void update_boss_actor_direction_state(void *actor_data, void *output_data, void
     if (old_angle != new_angle) {
         actor->unk_2A = new_angle_bits;
         facing_index = ((g_game_work.view.camera_rotation.parts.viewAngle + new_angle + 0x100) >> 9) & 7;
-        select_sprite_entry(context, (*(u8 *)((u8 *)(((S_80172610_4 *)context)->unk_2C) + facing_index)), 0);
+        select_sprite_entry(context, (*((u8 *)(((S_80172610_4 *)context)->unk_2C) + facing_index)), 0);
     }
 
     direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7;
     direction_short = direction_index;
     if (actor->unk_94.s != direction_short) {
-        select_sprite_entry(context, (*(u8 *)((u8 *)(((S_80172610_4 *)context)->unk_2C) + direction_short)), 0);
+        select_sprite_entry(context, (*((u8 *)(((S_80172610_4 *)context)->unk_2C) + direction_short)), 0);
         actor->unk_94.u = direction_index;
     }
 

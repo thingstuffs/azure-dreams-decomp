@@ -82,7 +82,7 @@ s32 build_sorted_effect_quads(void *quad_entry) {
     GlobalState *render_state;
 
     render_state = state_table[0];
-    (*(void * *)((u8 *)scratch + 0x20)) = (u8 *)render_state + 0xB0;
+    (*(void * *)(scratch + 0x20)) = (u8 *)render_state + 0xB0;
     ((S_800259DC_0 *)scratch)->unk_18 = render_state->next;
     do {
         packet = ((S_800259DC_0 *)scratch)->unk_18;

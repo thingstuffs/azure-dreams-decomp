@@ -178,7 +178,7 @@ void project_and_queue_visible_shaded_quad(S_func_81970800_4 *quad, S_func_81970
     {
         S_func_81970800_6 *render_context;
 
-        render_context = (S_func_81970800_6 *)g_game_work.draw_buffer;
+        render_context = g_game_work.draw_buffer;
         packet = (S_func_81970800_5 *)render_context->unk_8D0;
         render_context->unk_8D0 = (u8 *)packet + 0x24;
     }
@@ -492,28 +492,29 @@ typedef struct S_819711E0_1 {
    /* src in func_800249E0 */
 
 /* Decrement the timer, update scale and position, and flag completion at zero. */
-void follow_origin_and_fade_sprite(void *state, MovingPosition *position, S_819711E0_1 *scale) {
+void follow_origin_and_fade_sprite(void *state_arg, MovingPosition *position, S_819711E0_1 *scale) {
+    S_819711E0_0 *state = state_arg;
     s32 scale_factor;
     u16 ticks_left;
     MovingPosition *base_position;
 
-    ticks_left = ((S_819711E0_0 *)state)->unk_38.s - 1;
-    scale_factor = (s32) ((s32) (ticks_left << 16) >> 9) / (s16) ((S_819711E0_0 *)state)->unk_3A;
+    ticks_left = state->unk_38.s - 1;
+    scale_factor = (s32) ((s32) (ticks_left << 16) >> 9) / (s16) state->unk_3A;
     fading_quad_effect_updated = 1;
-    ((S_819711E0_0 *)state)->unk_38.s = ticks_left;
+    state->unk_38.s = ticks_left;
     scale->unk_0E = (s8) scale_factor;
     scale->unk_0D = (s8) scale_factor;
     scale->unk_0C = (s8) scale_factor;
 
-    base_position = ((S_819711E0_0 *)state)->unk_40;
-    position->x = ((S_819711E0_0 *)state)->unk_44;
-    position->y = ((S_819711E0_0 *)state)->unk_46;
-    position->z = ((S_819711E0_0 *)state)->unk_48;
+    base_position = state->unk_40;
+    position->x = state->unk_44;
+    position->y = state->unk_46;
+    position->z = state->unk_48;
     position->x = (u16) (position->x + base_position->x);
     position->y = (u16) (position->y + base_position->y);
     position->z = (u16) (position->z + base_position->z);
 
-    if (((S_819711E0_0 *)state)->unk_38.u <= 0) {
+    if (state->unk_38.u <= 0) {
         ((S_819711E0_0_pre *)state)[-1].unk_00 |= 0x8000;
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
@@ -637,7 +638,7 @@ void render_linked_jittered_effect_strips(void *effect, s32 unused, void *packet
     *(s8 *)((u8 *)packet + 0x0E) = intensity;
     *(s8 *)((u8 *)packet + 0x0D) = intensity;
     *(s8 *)((u8 *)packet + 0x0C) = intensity;
-    *(u8 *)((u8 *)effect + 0x84) -= 1;
+    *((u8 *)effect + 0x84) -= 1;
     *(u16 *)((u8 *)packet + 0x1A) += *(u16 *)((u8 *)effect + 0x44);
     if (*(s16 *)((u8 *)effect + 0x38) <= 0) {
         *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
@@ -663,8 +664,8 @@ void advance_timed_visual(void *effect, s32 unused, void *visual)
     u8 *flags_page;
     u16 field_value;
 
-    effect_bytes = (u8 *)effect;
-    visual_bytes = (u8 *)visual;
+    effect_bytes = effect;
+    visual_bytes = visual;
     status_page = (u8 *)&fading_quad_effect_updated - 0x5FF4;
     countdown = U16_AT(effect_bytes, 0x38);
     *(s16 *)(status_page + 0x5FF4) = 1;
@@ -902,7 +903,7 @@ void create_origin_following_fade_sprite(void *unused_0, void *origin_data, s32 
         render_data->color.c.g = 0x80;
         render_data->color.c.r = 0x80;
         memcpy((u8 *) effect + 0xA2, (u8 *) &D_80025FE8, 12);
-        render_data->source = (void *) (((void *)effect) + 0xA2);
+        render_data->source = (((void *)effect) + 0xA2);
     }
 }
 

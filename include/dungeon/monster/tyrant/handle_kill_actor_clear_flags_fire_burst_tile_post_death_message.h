@@ -50,5 +50,5 @@ extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern u8 D_80170854[];
 extern u8 tyrant_frame_set_1[];
-void handle_kill_actor_clear_flags_fire_burst_tile_post_death_message(void *work_in, ObjectPosition *part_a, void *part_b_in, void *actor);
+void handle_kill_actor_clear_flags_fire_burst_tile_post_death_message(void *work_in, ObjectPosition *part_a, SpriteFrameState *part_b_in, ActorRecord *actor);
 #endif

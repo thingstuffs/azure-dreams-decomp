@@ -22,6 +22,12 @@ struct S_800506BC_Ctx;
 struct S_800506BC_Obj;
 struct S_80053A88_Node;
 
+/* Callback payload stored immediately after the animated selection owner node header. */
+typedef struct AnimatedSelectionMenuOwnerBody {
+    /* 0x00 */ u8 pad_00[4];
+    /* 0x04 */ void *result;
+} AnimatedSelectionMenuOwnerBody;
+
 typedef struct SevenEntryMenuBackdropDisplayBlock {
     s32 words[4];
 } SevenEntryMenuBackdropDisplayBlock;
@@ -112,7 +118,7 @@ void *D_8004F5F4(void *unused, void *source);
 void *create_or_reset_seven_entry_menu_backdrop(s32 owner, s32 state);
 
 /* destroy_animated_selection_menu_owner.c */
-void destroy_animated_selection_menu_owner(void *object);
+void destroy_animated_selection_menu_owner(AnimatedSelectionMenuOwnerBody *object);
 
 /* find_resolved_selection_menu_index.c */
 s32 find_resolved_selection_menu_index(void *id_list_data, void *object);
@@ -121,7 +127,7 @@ s32 find_resolved_selection_menu_index(void *id_list_data, void *object);
 void flag_object_and_release_inner(struct ObjA464 *obj, s32 unused);
 
 /* handle_animated_selection_menu_cancel.c */
-void handle_animated_selection_menu_cancel(void *payload);
+void handle_animated_selection_menu_cancel(AnimatedSelectionMenuOwnerBody *payload);
 
 /* handle_animated_selection_menu_input.c */
 void handle_animated_selection_menu_input(struct S_8004FAA4_1 *menu);

@@ -32,16 +32,6 @@ extern void create_actor_linked_effect(void *sourceData);
 extern void create_linked_source_object(void *source);
 extern void create_linked_child_object(void *parent);
 
-typedef struct S_80173560_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    union { s16 s; u16 u; } unk_96;   /* accessed as both */
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    union { u8 n; u8 v; } unk_9B;   /* accessed as both */
-} S_80173560_0;   /* arg0 in advance_item_action_and_cleanup */
-
 typedef struct S_80173560_1 {
     u8 pad_00[0x13];
     u8 unk_13;
@@ -68,7 +58,7 @@ typedef struct S_80173560_3 {
 /* Advance an item action through targeting, audio playback, and animation cleanup. */
 /* Starts Kewne's targeted spell and linked effects, times optional CD audio playback, then restores
  * movement and status. */
-void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *actor_arg) {
+void advance_item_action_and_cleanup(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor_arg) {
     void *actor = actor_arg;
     s32 state;
     s32 action_value;
@@ -86,7 +76,7 @@ void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, Sprit
     void *resource;
     void *target;
 
-    state = ((S_80173560_0 *)action)->unk_9B.n;
+    state = body->action_phase.u;
     item_or_audio_base = 0;
     if ((u32)state >= 5) {
         return;
@@ -116,9 +106,9 @@ void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, Sprit
         item_addr = 0;
         break;
     }
-    action_value = ((S_80173560_0 *)action)->unk_98;
+    action_value = body->action_state_flags;
     has_item = item_or_audio_base;
-    ((S_80173560_0 *)action)->unk_98 = action_value & 0xFF7F;
+    body->action_state_flags = action_value & 0xFF7F;
     state = *item_addr;
     if (has_item != 0) {
         state |= 0x80;
@@ -145,7 +135,7 @@ void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, Sprit
         ((S_80173560_1 *)actor)->unk_73.u = abs(((S_80173560_1 *)actor)->unk_73.s);
     }
 
-    if (create_actor_spell_effect(actor, (void *)item_addr, item_or_audio_base, (u8 *)action + 0x98) == 0) {
+    if (create_actor_spell_effect(actor, (void *)item_addr, item_or_audio_base, (u8 *)body + 0x98) == 0) {
         return;
     }
     if (item_or_audio_base != 0) {
@@ -158,12 +148,12 @@ void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, Sprit
     if (item_or_audio_base != 0 && !(((S_80173560_1 *)actor)->unk_13 & 0x80)) {
         create_linked_source_object(actor);
         create_linked_child_object(actor);
-        ((S_80173560_0 *)action)->unk_9B.n++;
+        body->action_phase.u++;
     } else {
         ((S_80173560_1 *)actor)->unk_13 &= 0x7F;
         D_80175F6E &= 0xFF7F;
         create_actor_linked_effect(actor);
-        ((S_80173560_0 *)action)->unk_9B.n++;
+        body->action_phase.u++;
     }
     case 1:
     item_addr = (u8 *)(&D_80175F6E);
@@ -176,22 +166,22 @@ void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, Sprit
             s32 slot;
 
             slot = (s16)resolve_alternate_spell_id(*(u16 *)item_addr & 0x7F);
-            ((S_80173560_0 *)action)->unk_96.s = D_80175F40[slot] - 0x10;
+            body->action_timer.s = D_80175F40[slot] - 0x10;
         }
-        ((S_80173560_0 *)action)->unk_9B.n++;
+        body->action_phase.u++;
         return;
     }
-    action_value = ((S_80173560_0 *)action)->unk_9B.v;
+    action_value = body->action_phase.u;
     action_value += 2;
-    ((S_80173560_0 *)action)->unk_9B.n = action_value;
+    body->action_phase.u = action_value;
     return;
 
     case 2:
-    ((S_80173560_0 *)action)->unk_96.u -= animation_tick_scale;
-    if (((S_80173560_0 *)action)->unk_96.s < 3) {
+    body->action_timer.u -= animation_tick_scale;
+    if (body->action_timer.s < 3) {
         sprite->flags &= 0xF7FF;
     }
-    if (((S_80173560_0 *)action)->unk_96.s > 0) {
+    if (body->action_timer.s > 0) {
         return;
     }
     item_id = D_80175F6E & 0x7F;
@@ -204,7 +194,7 @@ void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, Sprit
                   ((s32 *)(((audio_index << 17) >> 14) + audio_base))[1]);
     cd_param = read_stream_cue_start_offset();
     Control_CD(0x15, cd_param, 0);
-    ((S_80173560_0 *)action)->unk_9B.n++;
+    body->action_phase.u++;
 
     case 3:
     if (get_cd_command_queue_depth() != 0) {
@@ -212,10 +202,10 @@ void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, Sprit
         return;
     }
     sprite->flags &= 0xF7FF;
-    ((S_80173560_0 *)action)->unk_9B.n++;
+    body->action_phase.u++;
 
     case 4:
-    if (!(((S_80173560_0 *)action)->unk_98 & 0x80)) {
+    if (!(body->action_state_flags & 0x80)) {
         sprite->frame_ticks--;
     }
 
@@ -223,7 +213,7 @@ void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, Sprit
           (sprite->flags & 0xE000))) {
         return;
     }
-    ((S_80173560_0 *)action)->unk_98 |= 0x80;
+    body->action_state_flags |= 0x80;
     if (!(sprite->flags & 0xE000)) {
         return;
     }
@@ -243,11 +233,11 @@ void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, Sprit
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
     }
-    ((S_80173560_0 *)action)->unk_8C = kewne_action_resume_address;
+    body->unk_8C.address = kewne_action_resume_address;
     advance_status_timers(actor);
     ((S_80173560_1 *)actor)->unk_6D--;
     ((S_80173560_1 *)actor)->unk_46 &= 0x7FFF;
-    ((S_80173560_0 *)action)->unk_98 &= 0xFFBF;
+    body->action_state_flags &= 0xFFBF;
     ((S_80173560_1 *)actor)->unk_73.u = 0;
     ((S_80173560_1 *)actor)->unk_72.u = 0;
     play_sound_if_enabled(AUDIO_FADE_CD_FAST);

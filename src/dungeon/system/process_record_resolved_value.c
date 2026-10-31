@@ -13,8 +13,10 @@ typedef struct S_800257C0_0 {
 } S_800257C0_0;   /* arg0 in process_record_resolved_value */
 
 /* Processes the record header and its resolved value, then returns success. */
-s32 process_record_resolved_value(void *record) {
-    inventory_clear_object_field_and_entry(record - 0x20);
-    initialize_menu_object_state(get_work_value(((S_800257C0_0 *)record)->unk_14), ((S_800257C0_0 *)record)->unk_08);
+s32 process_record_resolved_value(void *record_arg) {
+    S_800257C0_0 *record = record_arg;
+
+    inventory_clear_object_field_and_entry(record_arg - 0x20);
+    initialize_menu_object_state(get_work_value(record->unk_14), record->unk_08);
     return 1;
 }

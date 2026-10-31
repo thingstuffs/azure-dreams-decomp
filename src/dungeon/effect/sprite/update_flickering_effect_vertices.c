@@ -428,7 +428,7 @@ s32 draw_jittered_triangle_trails(void *first_item)
                 (*(u32 *)((u8 *)ot_entry_base + 0xB0)) = (ot_tag & length_mask) |
                     ((u32)triangle & addr_mask);
 
-                (*(u32 *)((u8 *)draw_mode + 0)) =
+                (*(u32 *)(draw_mode + 0)) =
                     (((TrailDrawMode *)draw_mode)->tag & length_mask) |
                     (((u32 *)(render_context->draw_buffer + 0xB0))[depth_index] & addr_mask);
                 ((u32 *)(render_context->draw_buffer + 0xB0))[depth_index] =

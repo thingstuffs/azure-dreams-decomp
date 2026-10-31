@@ -50,13 +50,14 @@ typedef struct S_800D4954_5 {
 extern s32 get_entity_effect_value(void *, s32);
 
 /* Updates an attached effect's position, color, growth, and removal flags. */
-void update_attached_effect(void *effect, S_800D4954_2 *position, S_800D4954_4 *appearance) {
+void update_attached_effect(void *effect_arg, S_800D4954_2 *position, S_800D4954_4 *appearance) {
+    S_800D4954_0 *effect = effect_arg;
     u16 next_scale;
     void *source;
     S_800D4954_5 *source_header;
     MovingPosition *source_position;
 
-    source = ((S_800D4954_0 *)effect)->unk_88;
+    source = effect->unk_88;
     source_position = ((S_800D4954_1_pre *)source)[-1].unk_00;
     source_header = source - 0x20;
     position->unk_02 = source_position->x;
@@ -66,13 +67,13 @@ void update_attached_effect(void *effect, S_800D4954_2 *position, S_800D4954_4 *
     appearance->unk_0D = 0x28;
     appearance->unk_0C = 0x28;
     appearance->unk_1A = appearance->unk_1A + 0x190;
-    if (((S_800D4954_0 *)effect)->unk_5A & 1) {
+    if (effect->unk_5A & 1) {
         appearance->unk_0C = 0x64;
     }
-    if (((S_800D4954_0 *)effect)->unk_5A & 2) {
+    if (effect->unk_5A & 2) {
         appearance->unk_0D = 0x64;
     }
-    if (((S_800D4954_0 *)effect)->unk_5A & 4) {
+    if (effect->unk_5A & 4) {
         appearance->unk_0E = 0x64;
     }
     if (appearance->unk_1C < 0x1800U) {

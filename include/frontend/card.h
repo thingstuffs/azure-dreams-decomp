@@ -40,6 +40,7 @@ struct S_80020458_2;
 struct S_80020D0C_0;
 struct S_80021394_0;
 struct S_80026720_0;
+struct ObjectNodeHeader;
 
 /* bind_dialog_template.c */
 void bind_dialog_template(s32 target);
@@ -91,7 +92,7 @@ void card_build_selected_slot_details(void *panel);
 
 /* card_choice_state.c */
 void card_boot_set_paired_choice_selection(s32 object_addr, s32 value);
-void card_boot_update_paired_choice_animations(s32 base_addr, s32 *enable_flags, s32 *active_flags);
+void card_boot_update_paired_choice_animations(struct ObjectNodeHeader *base_addr, s32 *enable_flags, s32 *active_flags);
 
 /* card_dev_advance_boot_step.c */
 s32 card_dev_advance_boot_step(void);

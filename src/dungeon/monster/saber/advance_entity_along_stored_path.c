@@ -27,17 +27,11 @@ typedef struct S_80171CD4_0 {
     union { s16 s; u16 u; } unk_8A;   /* accessed as both */
 } S_80171CD4_0;   /* state in advance_entity_along_stored_path */
 
-typedef struct S_80171CD4_4 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} S_80171CD4_4;   /* (u8 *)state + ((S_80171CD4_0 *)state)->unk_8A.s in advance_entity_along_stored_path */
 
 /* Advance the entity along its stored path and update movement timing. */
-void advance_entity_along_stored_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, void *path_state) {
+void advance_entity_along_stored_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     ActorRecord *path_actor = body;
-    S_80171CD4_0 *state = path_state;
+    S_80171CD4_0 *state = (S_80171CD4_0 *)actor;
     s32 move_flags;
     s16 heading;
     s16 move_result;
@@ -77,16 +71,16 @@ void advance_entity_along_stored_path(ActorRecord *body, ObjectPosition *motion,
     heading = get_rounded_facing_and_rounding_flag(
         x,
         y,
-        ((S_80171CD4_4 *)((u8 *)state + state->unk_8A.s))->unk_74,
-        ((S_80171CD4_4 *)((u8 *)state + state->unk_8A.s))->unk_7C,
+        ((ActorRecord *)((u8 *)state + state->unk_8A.s))->path_x[0],
+        ((ActorRecord *)((u8 *)state + state->unk_8A.s))->path_y[0],
         &path_actor->action_state_flags);
     move_result = check_movement_clearance_and_height(heading, sprite, state, 0x20);
 
     sprite->tile_x =
-        ((S_80171CD4_4 *)((u8 *)state + state->unk_8A.s))->unk_74;
+        ((ActorRecord *)((u8 *)state + state->unk_8A.s))->path_x[0];
     move_flags = 0x3000;
     sprite->tile_y =
-        ((S_80171CD4_4 *)((u8 *)state + state->unk_8A.s))->unk_7C;
+        ((ActorRecord *)((u8 *)state + state->unk_8A.s))->path_y[0];
     state->unk_8A.u++;
 
     {
@@ -103,14 +97,14 @@ void advance_entity_along_stored_path(ActorRecord *body, ObjectPosition *motion,
     if (move_result == 3) {
         if (!(g_dungeon_status.flags & 0x80) && !(sprite->flags & 0x8000)) {
             initialize_actor_facing_sprite(body, motion, sprite, state);
-            ((Rec_func_80171CD4_arg0 *)body)->unk_8C = 0;
+            body->unk_8C.word = 0;
         } else {
             body->action_id.u = 0xF;
-            ((Rec_func_80171CD4_arg0 *)body)->unk_8C = 0;
+            body->unk_8C.word = 0;
         }
     } else {
         body->action_id.u = 0xF;
-        ((Rec_func_80171CD4_arg0 *)body)->unk_8C = 0;
+        body->unk_8C.word = 0;
     }
     state->unk_1C |= 0x40000000;
     if (g_dungeon_status.flags & 0x80) {

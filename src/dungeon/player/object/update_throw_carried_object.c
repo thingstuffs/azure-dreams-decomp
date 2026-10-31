@@ -76,7 +76,7 @@ typedef struct S_8008FA7C_7 {
    /* state2_call_arg in update_throw_carried_object */
 
 /* Advances an actor's action state, updating linked-object flags and directional animation. */
-void update_throw_carried_object(u8 *actor, ObjectPosition *motion, u8 *animation, u8 *entity) {
+void update_throw_carried_object(ActorRecord *actor, ObjectPosition *motion, u8 *animation, ActorRecord *entity) {
     s16 countdown;
     s32 direction;
     s16 state;
@@ -86,7 +86,7 @@ void update_throw_carried_object(u8 *actor, ObjectPosition *motion, u8 *animatio
     u32 object_or_base;
     u8 *init_anim;
 
-    state = actor[0x9B];
+    state = actor->action_phase.u;
     switch (state) {
     case 0:
         init_anim = animation;
@@ -96,27 +96,27 @@ void update_throw_carried_object(u8 *actor, ObjectPosition *motion, u8 *animatio
             s32 init_entry;
             u8 init_frame;
 
-            init_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
+            init_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
             init_entry += (u32)player_throw_frame_set;
             {
                 init_frame = *(u8 *)init_entry;
             }
             /* MATCH: Keep the zero argument in the shared-call jump delay slot. */
             set_sprite_animation_frame(init_anim, init_frame, 0, 1);
-            actor[0x9B]++;
+            actor->action_phase.u++;
         }
         return;
 
     case 1:
-        countdown = ((S_8008FA7C_3 *)actor)->unk_96 - 1;
-        ((S_8008FA7C_3 *)actor)->unk_96 = countdown;
+        countdown = actor->action_timer.u - 1;
+        actor->action_timer.u = countdown;
         if (countdown > 0) {
             return;
         }
 
-        action_result = measure_directional_stopping_distance(((S_8008FA7C_2 *)entity)->unk_2A, motion, animation, 8);
+        action_result = measure_directional_stopping_distance(entity->facing, motion, animation, 8);
         if (action_result == 0) {
-            actor[0x9B]++;
+            actor->action_phase.u++;
             return;
         }
         {
@@ -146,20 +146,20 @@ void update_throw_carried_object(u8 *actor, ObjectPosition *motion, u8 *animatio
             ((S_8008FA7C_6 *)((u8 *)object_or_base))->unk_84 = effect_duration;
             object_or_base = ((S_8008FA7C_3 *)actor)->unk_124.i;
             ((S_8008FA7C_6 *)((u8 *)object_or_base))->unk_85 = 2;
-            entity_flags = ((S_8008FA7C_2 *)entity)->unk_1C;
+            entity_flags = entity->flags1C;
             entity_flags &= mask_or_base;
             mask_or_base = 0x80080000;
             saved_value = ((S_8008FA7C_7 *)((u8 *)mask_or_base))->unk_1484;
             object_or_base = (u32)((D_80083460_t *)&g_dungeon_status);
             ((S_8008FA7C_7 *)((u8 *)mask_or_base))->unk_1484 = 0;
             active_table = player_jump_frame_set;
-            ((S_8008FA7C_2 *)entity)->unk_1C = entity_flags;
+            entity->flags1C = entity_flags;
             countdown = ((S_8008FA7C_6 *)((u8 *)object_or_base))->unk_0A;
             countdown++;
             ((S_8008FA7C_6 *)((u8 *)object_or_base))->unk_0A = countdown;
             ((SpriteAnimationTableView *)active_anim)->frame_table = active_table;
             active_entry = g_game_work.view.camera_rotation.parts.viewAngle;
-            entity_angle = ((S_8008FA7C_2 *)entity)->unk_2A;
+            entity_angle = entity->facing;
             saved_held_item_word[0] = saved_value;
             active_entry += entity_angle;
             active_entry += 0x100;
@@ -167,7 +167,7 @@ void update_throw_carried_object(u8 *actor, ObjectPosition *motion, u8 *animatio
             active_entry &= 7;
             active_entry += (s32)active_table;
             set_sprite_animation_frame(active_anim, *(u8 *)active_entry, 5, 1);
-            actor[0x9B]++;
+            actor->action_phase.u++;
         }
         return;
 
@@ -175,23 +175,23 @@ void update_throw_carried_object(u8 *actor, ObjectPosition *motion, u8 *animatio
         {
             u8 *next_anim;
 
-            if (!(((S_8008FA7C_3 *)actor)->unk_A2 & 0x10)) {
+            if (!(actor->unk_A0.parts.high & 0x10)) {
                 return;
             }
             motion->velocity_z = 0;
             next_anim = animation;
-            if (((S_8008FA7C_2 *)entity)->unk_1C & 0x100000) {
-                actor[0x9B]++;
+            if (entity->flags1C & 0x100000) {
+                actor->action_phase.u++;
             return;
             }
             ((SpriteAnimationTableView *)next_anim)->frame_table = player_throw_followup_frames;
             {
                 s32 next_entry;
 
-                next_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
+                next_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
                 next_entry += (u32)player_throw_followup_frames;
                 set_sprite_animation_frame(next_anim, *(u8 *)next_entry, 0, 1);
-                actor[0x9B]++;
+                actor->action_phase.u++;
             }
             return;
         }
@@ -201,17 +201,17 @@ void update_throw_carried_object(u8 *actor, ObjectPosition *motion, u8 *animatio
             return;
         }
         g_dungeon_status.flags |= 0x412;
-        process_unflagged_linked_entries_alt(((S_8008FA7C_2 *)entity)->unk_5C);
-        process_unflagged_linked_entries(((S_8008FA7C_2 *)entity)->unk_5C);
-        if (((S_8008FA7C_2 *)entity)->unk_1C & 0x100000) {
-            ((S_8008FA7C_3 *)actor)->unk_8C.p = handle_carrying_player_input;
-            (*(u8 * *)((u8 *)animation + (0x2C))) = player_carry_frames;
+        process_unflagged_linked_entries_alt(entity->next_actor_header);
+        process_unflagged_linked_entries(entity->next_actor_header);
+        if (entity->flags1C & 0x100000) {
+            actor->unk_8C.byte_ptr = handle_carrying_player_input;
+            (*(u8 * *)(animation + (0x2C))) = player_carry_frames;
         } else {
-            ((S_8008FA7C_3 *)actor)->unk_8C.p2 = handle_player_input;
-            (*(u8 * *)((u8 *)animation + (0x2C))) = player_wait_frames;
+            actor->unk_8C.address = handle_player_input;
+            (*(u8 * *)(animation + (0x2C))) = player_wait_frames;
         }
-        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
-        set_sprite_animation_frame(animation, (*(u8 * *)((u8 *)animation + (0x2C)))[direction], 0, 1);
-        actor[0x9B]++;
+        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
+        set_sprite_animation_frame(animation, (*(u8 * *)(animation + (0x2C)))[direction], 0, 1);
+        actor->action_phase.u++;
     }
 }

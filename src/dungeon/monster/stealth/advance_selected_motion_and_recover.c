@@ -14,16 +14,6 @@
 #include "dungeon/player/object.h"
 extern int abs(int);
 
-typedef struct S_80172AA8_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    u16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-} S_80172AA8_0;   /* arg0 in advance_selected_motion_and_recover */
-
 typedef struct S_80172AA8_3 {
     u8 pad_00[0x24];
     u8 unk_24;
@@ -49,7 +39,7 @@ extern void create_two_row_object_group(void *, s16);
 extern u8 stealth_frame_set[];
 
 /* Advances the actor's selected motion and handles completion and recovery. */
-void advance_selected_motion_and_recover(void *motion_state, void *transform, SpriteFrameState *sprite, ActorRecord *actor)
+void advance_selected_motion_and_recover(ActorRecord *motion_state, ObjectPosition *transform, SpriteFrameState *sprite, ActorRecord *actor)
 {
     u16 saved_position[4];
     u8 *motion;
@@ -59,7 +49,7 @@ void advance_selected_motion_and_recover(void *motion_state, void *transform, Sp
     ObjectNodeHeader *action_state;
 
     use_player_target = 0;
-    switch (((S_80172AA8_0 *)motion_state)->unk_9B) {
+    switch (motion_state->action_phase.u) {
     case 0:
         if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
             switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
@@ -103,7 +93,7 @@ void advance_selected_motion_and_recover(void *motion_state, void *transform, Sp
         }
 
         if (*motion != 0) {
-            ((S_80172AA8_0 *)motion_state)->unk_98 &= 0xFF7F;
+            motion_state->action_state_flags &= 0xFF7F;
             {
                 s16 player_target = use_player_target;
 
@@ -128,29 +118,29 @@ void advance_selected_motion_and_recover(void *motion_state, void *transform, Sp
                     actor->target_tile_y = abs(actor->target_tile_y);
                 }
             }
-            saved_position[0] = ((u16)((EntityRec *)transform)->x.w.i);
-            saved_position[1] = ((u16)((EntityRec *)transform)->y.w.i);
-            saved_position[2] = ((u16)((EntityRec *)transform)->z.w.i);
-            transform = (void *)create_actor_spell_effect(actor, motion, use_player_target, (u8 *)motion_state + 0x98);
+            saved_position[0] = ((u16)transform->x.w.i);
+            saved_position[1] = ((u16)transform->y.w.i);
+            saved_position[2] = ((u16)transform->z.w.i);
+            transform = create_actor_spell_effect(actor, motion, use_player_target, (u8 *)motion_state + 0x98);
             if (transform == 0) {
                 return;
             }
             sprite->flags &= 0xF7FF;
             play_sound_if_enabled(0x703);
             create_two_row_object_group(saved_position, (*motion - 1) % 3);
-            ((S_80172AA8_0 *)motion_state)->unk_9B = ((S_80172AA8_0 *)motion_state)->unk_9B + 1;
+            motion_state->action_phase.u = motion_state->action_phase.u + 1;
             return;
         }
 
-        ((EntityRec *)transform)->flags14 = 0;
-        ((EntityRec *)transform)->unk_10 = 0;
-        ((EntityRec *)transform)->unk_0C = 0;
+        transform->velocity_z = 0;
+        transform->velocity_y = 0;
+        transform->velocity_x = 0;
         set_record_integer_tile_center(transform, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)&primary_actor_record->unk_A4.value + 2)) = (*(u16 *)((u8 *)primary_actor_record + 0xA6)) - 1;
+        (*(u16 *)((u8 *)&primary_actor_record->unk_A4.value + 2)) = primary_actor_record->unk_A4.halves.high.u - 1;
         advance_status_timers(actor);
         actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
-        ((S_80172AA8_0 *)motion_state)->unk_8C = stealth_behavior_entry;
+        motion_state->unk_8C.address = stealth_behavior_entry;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -162,27 +152,27 @@ void advance_selected_motion_and_recover(void *motion_state, void *transform, Sp
             return;
         }
         sprite->flags &= 0xF7FF;
-        ((S_80172AA8_0 *)motion_state)->unk_9B = ((S_80172AA8_0 *)motion_state)->unk_9B + 1;
+        motion_state->action_phase.u = motion_state->action_phase.u + 1;
                         /* fallthrough */
     case 2:
         if ((sprite->unk_04 == 5 && (sprite->flags & 0x1000)) ||
             (sprite->flags & 0xE000)) {
             sprite->flags |= 0x800;
-            ((S_80172AA8_0 *)motion_state)->unk_96 = 0x20;
-            ((S_80172AA8_0 *)motion_state)->unk_98 |= 0x80;
+            motion_state->action_timer.u = 0x20;
+            motion_state->action_state_flags |= 0x80;
         }
-        recovery_ticks = ((S_80172AA8_0 *)motion_state)->unk_96 - 1;
-        ((S_80172AA8_0 *)motion_state)->unk_96 = recovery_ticks;
+        recovery_ticks = motion_state->action_timer.u - 1;
+        motion_state->action_timer.u = recovery_ticks;
         if ((s16)recovery_ticks <= 0) {
-            ((S_80172AA8_0 *)motion_state)->unk_96 = 0;
+            motion_state->action_timer.u = 0;
             sprite->flags &= 0xF7FF;
         }
         if ((sprite->flags & 0xE000) == 0) {
             return;
         }
-        ((EntityRec *)transform)->flags14 = 0;
-        ((EntityRec *)transform)->unk_10 = 0;
-        ((EntityRec *)transform)->unk_0C = 0;
+        transform->velocity_z = 0;
+        transform->velocity_y = 0;
+        transform->velocity_x = 0;
         set_record_integer_tile_center(transform, sprite->tile_x, sprite->tile_y);
         {
             u8 *direction_frames = stealth_frame_set;
@@ -200,7 +190,7 @@ void advance_selected_motion_and_recover(void *motion_state, void *transform, Sp
         }
         ((S_80172AA8_7 *)action_state)->unk_0A = ((S_80172AA8_7 *)action_state)->unk_0A - 1;
         sprite->flags &= 0xF7FF;
-        ((S_80172AA8_0 *)motion_state)->unk_8C = stealth_behavior_entry;
+        motion_state->unk_8C.address = stealth_behavior_entry;
         advance_status_timers(actor);
         if (actor->pending_turn_updates > 0) {
             actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;

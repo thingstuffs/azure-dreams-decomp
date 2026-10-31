@@ -18,7 +18,7 @@ void apply_status_to_nearby_actors(s32 x, s32 y, void *kind, s32 flags) {
     flags = ((u8)flags >> 2) + 0x10;
     do {
         if ((s16)check_entity_interaction_compatibility(kind, actor) != 0) {
-            u8 *header = *(u8 * *)&((ObjectNodeHeader *)((u8 *)actor - 0x20))->sprite;
+            u8 *header = *(u8 * *)&((ObjectNodeHeader *)(actor - 0x20))->sprite;
             if (abs(header[0x24] - x) < 3 && abs(header[0x25] - y) < 3 && (s16)check_entity_eligibility(actor) != 0) {
                 s32 amount = flags + (generate_random_value() & 3);
                 s32 mode = 0x10;
@@ -40,14 +40,14 @@ void advance_fading_effect(void *effect, void *position, void *render_data)
 
     *(u16 *)(effect_state + 0x14) = *(u16 *)(effect_state + 0x14) + 1;
     coordinate = *(u16 *)((u8 *)render_data + 0x1E);
-    intensity = *(u8 *)((u8 *)render_data + 0xE);
+    intensity = *((u8 *)render_data + 0xE);
     coordinate += 0x400;
     intensity -= 4;
     *(u16 *)((u8 *)render_data + 0x1E) = coordinate;
     *(u16 *)((u8 *)render_data + 0x1C) = coordinate;
-    *(u8 *)((u8 *)render_data + 0xE) = intensity;
-    *(u8 *)((u8 *)render_data + 0xD) = intensity;
-    *(u8 *)((u8 *)render_data + 0xC) = intensity;
+    *((u8 *)render_data + 0xE) = intensity;
+    *((u8 *)render_data + 0xD) = intensity;
+    *((u8 *)render_data + 0xC) = intensity;
     if (intensity == 0) {
         *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -91,7 +91,8 @@ void create_randomized_grayscale_effect(s32 user_data, ovl_188898c_81868A64_S_81
 
 /* Emits grayscale particles along three expanding spirals, fades the emission color, and signals
    completion. */
-void animate_spiral_grayscale_effect(void *effect, void *position) {
+void animate_spiral_grayscale_effect(void *effect_arg, void *position) {
+    ovl_188898c_81868B84_S_81868B84_0 *effect = effect_arg;
     s32 radial_product;
     s32 fade_angle;
     s32 grow_angle;
@@ -102,100 +103,100 @@ void animate_spiral_grayscale_effect(void *effect, void *position) {
     ovl_188898c_81868B84_S_81868B84_1 *effect_data;
     s16 state;
 
-    effect_data = ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_0C;
+    effect_data = effect->unk_0C;
     effect_data->unk_14 = (u16) (effect_data->unk_14 + 1);
-    ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_02.s = (u16) (((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_02.s + 1);
+    effect->unk_02.s = (u16) (effect->unk_02.s + 1);
     state = *(s16 *)effect;
     switch (state) {
     case 0:
         ((Rec_func_80024264_arg1 *)position)->unk_08.at02_u16.v =
             (u16) (((Rec_func_80024264_arg1 *)position)->unk_08.at02_u16.v - 4);
-        create_randomized_grayscale_effect(((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_0C, position, ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_10);
-        if (((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_02.u < 8) {
+        create_randomized_grayscale_effect(effect->unk_0C, position, effect->unk_10);
+        if (effect->unk_02.u < 8) {
             return;
         }
         {
             s32 next_state;
-            next_state = ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_00 + 1;
-            ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_02.s = 0U;
+            next_state = effect->unk_00 + 1;
+            effect->unk_02.s = 0U;
 
-            ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_00 = next_state;
+            effect->unk_00 = next_state;
         }
         return;
     case 1:
         grow_point = 0;
         grow_angle_fixed = grow_point;
-        ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_06 = (u16) (((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_06 + 6);
-        angular_speed = ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_0A + 0x10;
-        ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_0A = angular_speed;
-        ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_08 = (u16) (((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_08 + angular_speed);
+        effect->unk_06 = (u16) (effect->unk_06 + 6);
+        angular_speed = effect->unk_0A + 0x10;
+        effect->unk_0A = angular_speed;
+        effect->unk_08 = (u16) (effect->unk_08 + angular_speed);
         do {
             grow_angle = grow_angle_fixed >> 0x10;
-            radial_product = (rsin((s16) ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_08 + grow_angle)
-                >> 4) * (s16) ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_06;
+            radial_product = (rsin((s16) effect->unk_08 + grow_angle)
+                >> 4) * (s16) effect->unk_06;
             ((Rec_func_80024264_arg1 *)position)->unk_00.at02_u16.v =
                 (u16) (((Rec_func_80024264_arg1 *)position)->unk_0C.at02_u16.v + (radial_product >> 8));
-            radial_product = (rcos((s16) ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_08 + grow_angle)
-                >> 4) * (s16) ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_06;
+            radial_product = (rcos((s16) effect->unk_08 + grow_angle)
+                >> 4) * (s16) effect->unk_06;
             ((Rec_func_80024264_arg1 *)position)->unk_04.at02_u16.v =
                 (u16) (((Rec_func_80024264_arg1 *)position)->unk_10.at02_u16.v + (radial_product >> 8));
             if ((check_left_tile_and_center_height(((Rec_func_80024264_arg1 *)position)->unk_00.at02_u16.v,
                 ((Rec_func_80024264_arg1 *)position)->unk_04.at02_u16.v,
                 (s16) ((Rec_func_80024264_arg1 *)position)->unk_08.at02_u16.v) << 0x10) == 0) {
-                create_randomized_grayscale_effect(((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_0C, position, ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_10);
+                create_randomized_grayscale_effect(effect->unk_0C, position, effect->unk_10);
             }
             grow_angle_fixed += 0x05550000;
             grow_point += 1;
         } while (grow_point < 3);
-        if (((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_02.u < 0x20) {
+        if (effect->unk_02.u < 0x20) {
             return;
         }
         {
             s32 next_state;
-            next_state = ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_00 + 1;
-            ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_02.s = 0U;
+            next_state = effect->unk_00 + 1;
+            effect->unk_02.s = 0U;
 
-            ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_00 = next_state;
+            effect->unk_00 = next_state;
         }
         return;
     case 2:
         grow_point = 0;
         fade_angle_fixed = grow_point;
-        ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_06 = (u16) (((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_06 + 6);
-        ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_08 = (u16) (((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_08 + ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_0A);
+        effect->unk_06 = (u16) (effect->unk_06 + 6);
+        effect->unk_08 = (u16) (effect->unk_08 + effect->unk_0A);
         do {
             fade_angle = fade_angle_fixed >> 0x10;
-            radial_product = (rsin((s16) ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_08 + fade_angle)
-                >> 4) * (s16) ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_06;
+            radial_product = (rsin((s16) effect->unk_08 + fade_angle)
+                >> 4) * (s16) effect->unk_06;
             ((Rec_func_80024264_arg1 *)position)->unk_00.at02_u16.v =
                 (u16) (((Rec_func_80024264_arg1 *)position)->unk_0C.at02_u16.v + (radial_product >> 8));
-            radial_product = (rcos((s16) ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_08 + fade_angle)
-                >> 4) * (s16) ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_06;
+            radial_product = (rcos((s16) effect->unk_08 + fade_angle)
+                >> 4) * (s16) effect->unk_06;
             ((Rec_func_80024264_arg1 *)position)->unk_04.at02_u16.v =
                 (u16) (((Rec_func_80024264_arg1 *)position)->unk_10.at02_u16.v + (radial_product >> 8));
             if ((check_left_tile_and_center_height(((Rec_func_80024264_arg1 *)position)->unk_00.at02_u16.v,
                 ((Rec_func_80024264_arg1 *)position)->unk_04.at02_u16.v,
                 (s16) ((Rec_func_80024264_arg1 *)position)->unk_08.at02_u16.v) << 0x10) == 0) {
-                create_randomized_grayscale_effect(((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_0C, position, ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_10);
+                create_randomized_grayscale_effect(effect->unk_0C, position, effect->unk_10);
             }
             fade_angle_fixed += 0x05550000;
             grow_point += 1;
         } while (grow_point < 3);
-        ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_10 = (u8) (((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_10 - 8);
-        if (((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_02.u < 8) {
+        effect->unk_10 = (u8) (effect->unk_10 - 8);
+        if (effect->unk_02.u < 8) {
             return;
         }
         {
             s32 next_state;
-            next_state = ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_00 + 1;
-            ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_02.s = 0U;
+            next_state = effect->unk_00 + 1;
+            effect->unk_02.s = 0U;
 
-            ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_00 = next_state;
+            effect->unk_00 = next_state;
         }
         return;
     case 3:
 
-        ((ovl_188898c_81868B84_S_81868B84_3 *)(((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_0C))->unk_16 = 1;
+        ((ovl_188898c_81868B84_S_81868B84_3 *)(effect->unk_0C))->unk_16 = 1;
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((ovl_188898c_81868B84_S_81868B84_0_pre *)effect)[-1].unk_00 | 0x8000);
         {
             ObjectFlagBlock *global_flags;
@@ -204,7 +205,7 @@ void animate_spiral_grayscale_effect(void *effect, void *position) {
         }
         return;
     default:
-        ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_00 = 3;
+        effect->unk_00 = 3;
     }
 }
 

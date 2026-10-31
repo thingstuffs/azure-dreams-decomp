@@ -133,7 +133,7 @@ void advance_actor_motion_action(ActorRecord *action_state, ObjectPosition *posi
             saved_position[0] = ((u16)position->x.w.i);
             saved_position[1] = ((u16)position->y.w.i);
             saved_position[2] = ((u16)position->z.w.i);
-            position = (void *)create_actor_spell_effect(actor, motion, use_player, (u8 *)action_state + 0x98);
+            position = create_actor_spell_effect(actor, motion, use_player, (u8 *)action_state + 0x98);
             if (position == 0) {
                 return;
             }

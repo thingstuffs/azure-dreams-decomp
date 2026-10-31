@@ -56,7 +56,7 @@ void lower_entity_in_timed_stages(Entity *entity, Position *pos)
             void *node_data = D_80174CC8;
             u8 *active_context = node_data;
             active_context += 0x20;
-            ((ObjectNodeHeader *)((u8 *)active_context - 0x20))->flags |= NODE_REMOVE;
+            ((ObjectNodeHeader *)(active_context - 0x20))->flags |= NODE_REMOVE;
             D_80174CC8 = 0;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }

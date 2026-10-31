@@ -13,11 +13,13 @@ typedef struct S_8001B5B8_0 {
 } S_8001B5B8_0;   /* arg1 in init_menu_row_entry */
 
 /* Set entry fields for the given row and return the next entry address. */
-void *init_menu_row_entry(void *context, void *entry, s32 row_index) {
-    ((S_8001B5B8_0 *)entry)->unk_01 = 0x28;
-    ((S_8001B5B8_0 *)entry)->unk_0A = (s8) ((row_index * 0xC) + 4);
-    ((S_8001B5B8_0 *)entry)->unk_0B = 0x15;
-    ((S_8001B5B8_0 *)entry)->unk_04 = 0x800000;
-    ((S_8001B5B8_0 *)entry)->unk_00 = (u8) (((S_8001B5B8_0 *)entry)->unk_00 | 0x80);
-    return entry + 0xC;
+void *init_menu_row_entry(void *context, void *entry_arg, s32 row_index) {
+    S_8001B5B8_0 *entry = entry_arg;
+
+    entry->unk_01 = 0x28;
+    entry->unk_0A = (s8) ((row_index * 0xC) + 4);
+    entry->unk_0B = 0x15;
+    entry->unk_04 = 0x800000;
+    entry->unk_00 = (u8) (entry->unk_00 | 0x80);
+    return entry_arg + 0xC;
 }

@@ -5,6 +5,7 @@
 #include "shared/entity.h"
 #include "engine/node.h"
 #include "dungeon/actor/object.h"
+#include "shared/sprite_frame_state.h"
 
 
 
@@ -12,15 +13,16 @@ extern s32 actor_fade_draw_address;
 
 
 /* Resets object state, runs object setup, and updates property and status flags. */
-void initialize_actor_object_action(void *object_state, void *unused_context, Rec_D_80082E80 *properties, EntityRec *status) {
+void initialize_actor_object_action(void *object_state_arg, void *unused_context, Rec_D_80082E80 *properties, EntityRec *status) {
+    Rec_func_800A9E70_arg0 *object_state = object_state_arg;
     void *object;
 
-    ((Rec_func_800A9E70_arg0 *)object_state)->unk_9A.as_s8 = 0x13;
-    ((Rec_func_800A9E70_arg0 *)object_state)->unk_9B.as_s8 = 0;
-    ((Rec_func_800A9E70_arg0 *)object_state)->unk_8C = 0;
+    object_state->unk_9A.as_s8 = 0x13;
+    object_state->unk_9B.as_s8 = 0;
+    object_state->unk_8C = 0;
     properties->unk_14.at00_u16.v = (u16)(properties->unk_14.at00_u16.v & 0xF7FF);
-    ((Rec_func_800A9E70_arg0 *)object_state)->unk_96.as_s16 = 0;
-    object = object_state - 0x20;
+    object_state->unk_96.as_s16 = 0;
+    object = object_state_arg - 0x20;
     g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
     unlink_node(object);
     register_node(object, &actor_fade_draw_address);

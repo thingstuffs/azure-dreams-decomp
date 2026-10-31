@@ -97,7 +97,7 @@ void tick_paired_particle_emitter(FuncArg *source) {
             register_node(effect_item, project_sprite_chain);
             effect_state->field12 = (random_values[0] & 0xF) + 0x10;
             effect_state->field16 = random_values[1];
-            source_pos = (FuncData *)source->data;
+            source_pos = source->data;
             effect_pos = effect_item->position;
             x = source_pos->x;
             effect_pos->x.w.i = x;
@@ -105,7 +105,7 @@ void tick_paired_particle_emitter(FuncArg *source) {
             y = ((FuncData *)source->data)->y;
             effect_pos->y.w.i = y;
             effect_state->fieldE = y;
-            source_meta = (FuncMeta *)source->meta;
+            source_meta = source->meta;
             effect_pos->z.w.i = ((FuncData *)source->data)->z - *(u8 *)(source_meta->index + (s32)height_offsets)
                 - (random_values[2] & 0xF);
             effect_state->field1C = source->data;

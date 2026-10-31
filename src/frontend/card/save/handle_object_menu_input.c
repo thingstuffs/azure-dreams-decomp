@@ -27,8 +27,9 @@ extern void propagate_object_high_bit_flags(void *object);
 extern void allocate_or_reuse_effect_and_install_callback(void *value0,void *value1);
 
 /* Handles menu navigation, button actions, and display refreshes. */
-void handle_object_menu_input(void *menu)
+void handle_object_menu_input(void *menu_arg)
 {
+    S_80406368_0 *menu = menu_arg;
     s32 held_buttons;
     s32 pressed_buttons;
     s32 nav_result;
@@ -45,11 +46,11 @@ void handle_object_menu_input(void *menu)
         if (pressed_buttons & 0x40) {
             func_80063FF8(0x515);
             propagate_object_high_bit_flags((u8 *) menu - 0x20);
-            allocate_or_reuse_effect_and_install_callback(((S_80406368_0 *)menu)->unk_20, 0);
+            allocate_or_reuse_effect_and_install_callback(menu->unk_20, 0);
             return;
         } else if (pressed_buttons & 0x20) {
             func_80063FF8(0x514);
-            if (((S_80406368_0 *)menu)->unk_48 == 0) {
+            if (menu->unk_48 == 0) {
                 func_80406358(menu);
                 needs_refresh = 1;
             } else {
@@ -57,40 +58,40 @@ void handle_object_menu_input(void *menu)
             }
         } else if (held_buttons & 0x5000) {
             if (pressed_buttons & 0x5000) {
-                (*(s32 *)((u8 *)menu + 0x30)) = 0;
+                menu->unk_30 = 0;
                 if (*press_p & 0x1000) {
                     nav_result = -1;
                 } else if (*press_p & 0x4000) {
                     nav_result = 1;
                 }
             } else {
-                repeat_ticks = ((S_80406368_0 *)menu)->unk_30;
+                repeat_ticks = menu->unk_30;
                 if (repeat_ticks >= 13) {
-                    (*(s32 *)((u8 *)menu + 0x30)) = repeat_ticks - 4;
+                    menu->unk_30 = repeat_ticks - 4;
                     if (*held_p & 0x1000) {
                         nav_result = -1;
                     } else if (*held_p & 0x4000) {
                         nav_result = 1;
                     }
                 } else {
-                    ((S_80406368_0 *)menu)->unk_30 = repeat_ticks + 1;
+                    menu->unk_30 = repeat_ticks + 1;
                 }
             }
         } else if (held_buttons & 0xA000) {
             if (held_buttons & 0x2000) {
-                ((S_80406368_0 *)menu)->unk_48 = 1;
+                menu->unk_48 = 1;
             } else {
-                ((S_80406368_0 *)menu)->unk_48 = 0;
+                menu->unk_48 = 0;
             }
             needs_refresh = 1;
         }
 
         if (nav_result != 0) {
             func_80063FF8(0x502);
-            if (((S_80406368_0 *)menu)->unk_48 == 1) {
-                ((S_80406368_0 *)menu)->unk_28 = func_80058FF0(((S_80406368_0 *)menu)->unk_28, nav_result, 5);
+            if (menu->unk_48 == 1) {
+                menu->unk_28 = func_80058FF0(menu->unk_28, nav_result, 5);
             } else {
-                ((S_80406368_0 *)menu)->unk_44 = func_80058FF0(((S_80406368_0 *)menu)->unk_44, nav_result, 4);
+                menu->unk_44 = func_80058FF0(menu->unk_44, nav_result, 4);
             }
             card_devkit_refresh_save_slot_selection(menu);
         }
@@ -101,7 +102,7 @@ void handle_object_menu_input(void *menu)
     if (nav_result != 0) {
         if (nav_result != 1) {
             propagate_object_high_bit_flags((u8 *) menu - 0x20);
-            allocate_or_reuse_effect_and_install_callback(((S_80406368_0 *)menu)->unk_20, 0);
+            allocate_or_reuse_effect_and_install_callback(menu->unk_20, 0);
         }
     }
     if (needs_refresh != 0) {

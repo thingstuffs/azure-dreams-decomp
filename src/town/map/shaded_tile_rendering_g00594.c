@@ -908,8 +908,8 @@ void draw_empty_map_cell_quads(u32 packet_limit)
                             ((S_800AD138_2 *)packet_fields)->unk_0E = uv_top;
                             ((S_800AD138_2 *)packet_fields)->unk_06 = uv_top;
                             v_scroll = scratch->uv_scroll.low_byte;
-                            ((MapQuadTextureWords *)((u8 *)packet_fields - 7))->texture_page = 0x2D;
-                            ((MapQuadTextureWords *)((u8 *)packet_fields - 7))->palette = 0x75C1;
+                            ((MapQuadTextureWords *)(packet_fields - 7))->texture_page = 0x2D;
+                            ((MapQuadTextureWords *)(packet_fields - 7))->palette = 0x75C1;
                             ((S_800AD138_2_pre *)packet_fields)[-1].unk_01 = red >> 1;
                             ((S_800AD138_2_pre *)packet_fields)[-1].unk_02 >>= 1;
                             uv_bottom = 0x3F - v_scroll;

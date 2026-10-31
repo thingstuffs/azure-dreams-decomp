@@ -28,7 +28,7 @@ extern u8 resident_globals_page[];
 
 /* Applies a direction-indexed table entry in state 2 and sets record and global flags. */
 void apply_boss_direction_table_state(void *record_data) {
-    S_80170A54_1 *active_object = (S_80170A54_1 *)primary_actor_record[0];
+    S_80170A54_1 *active_object = primary_actor_record[0];
     TileObject *state_data = &reference_tile_object;
 
 

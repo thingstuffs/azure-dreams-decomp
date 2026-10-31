@@ -35,18 +35,19 @@ extern void D_800A24A8();
 extern M2C_UNK D_800D0A48;
 
 /* Initialize object state and copy its position with an offset. */
-void initialize_object_position_state(void *object, S_800A23D0_1 *position, S_800A23D0_0 *state) {
+void initialize_object_position_state(void *object_arg, S_800A23D0_1 *position, S_800A23D0_0 *state) {
+    S_800A23D0_2 *object = object_arg;
     s32 *value_table;
     state->unk_00 = 0;
     state->unk_04 = 0;
     state->unk_05 = 0;
-    register_node(object - 0x20, &lit_mesh_renderer_address);
-    position->unk_00.at00.v = (s32) ((IntVector3 *)(((S_800A23D0_2 *)object)->unk_14))->x;
-    position->unk_04.at00.v = (s32) ((IntVector3 *)(((S_800A23D0_2 *)object)->unk_14))->y;
-    position->unk_08 = (s32) ((IntVector3 *)(((S_800A23D0_2 *)object)->unk_14))->z;
-    ((S_800A23D0_2 *)object)->unk_00 = &D_800A24A8;
+    register_node(object_arg - 0x20, &lit_mesh_renderer_address);
+    position->unk_00.at00.v = (s32) ((IntVector3 *)(object->unk_14))->x;
+    position->unk_04.at00.v = (s32) ((IntVector3 *)(object->unk_14))->y;
+    position->unk_08 = (s32) ((IntVector3 *)(object->unk_14))->z;
+    object->unk_00 = &D_800A24A8;
     value_table = &D_800D0A48;
-    state->unk_08 = (s32) value_table[((S_800A23D0_2 *)object)->unk_20];
+    state->unk_08 = (s32) value_table[object->unk_20];
     position->unk_00.at02.v = (u16) (position->unk_00.at02.v + 0x28);
     position->unk_04.at02.v = (u16) (position->unk_04.at02.v - 8);
     state->unk_1A = 0;

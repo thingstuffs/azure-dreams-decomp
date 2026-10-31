@@ -21,19 +21,6 @@ typedef struct ActorActionView ActorActionView;
 typedef struct ActorSpriteView ActorSpriteView;
 
 
-typedef struct S_80DAD000_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80DAD000_2;
-
-typedef struct S_80DAD000_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xA];
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-} S_80DAD000_4;
 
 s32 generate_random_value(void);
 void func_80152A3C(void *entity, R03_80170A28_S_80170A28_2 *motion, void *part);
@@ -50,7 +37,7 @@ void *spawn_dreamin_slot_b(s16 spawn_flags, s16 spawn_x, s16 spawn_y, s16 initia
     SpriteFrameState *placement;
     ObjectPosition *base_data;
     ObjectNodeHeader *object;
-    S_80DAD000_4 *extended_state;
+    ActorRecord *extended_state;
     ActorRecord *state = NULL;
     void *body;
     s8 saved_x;
@@ -100,9 +87,9 @@ void *spawn_dreamin_slot_b(s16 spawn_flags, s16 spawn_x, s16 spawn_y, s16 initia
             }
         }
         initialize_actor_sprite_and_animation(object, base_data, placement, spawn_flags);
-        extended_state->unk_9A = 0xFF;
+        extended_state->action_id.u = 0xFF;
         extended_state->unk_9C = -1;
-        extended_state->unk_8C = &func_80152E68;
+        extended_state->unk_8C.address = &func_80152E68;
         try_move_actor_to_valid_position(extended_state, base_data, placement, state);
     }
     return state;

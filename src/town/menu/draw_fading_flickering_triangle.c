@@ -142,7 +142,7 @@ void draw_fading_flickering_triangle(void *effect)
         ((S_800A2690_3 *)triangle)->unk_12 = 0;
         ((S_800A2690_3 *)triangle)->unk_18 =
             center_x - (((S_800A2690_0 *)effect)->unk_10 * rsin((s16)angle)) / 4096;
-        (*(s16 *)((u8 *)triangle + 0x1A)) =
+        (*(s16 *)(triangle + 0x1A)) =
             (((S_800A2690_0 *)effect)->unk_10 * rcos((s16)angle)) / 4096;
 
         render_state = (GpuContext *)(*(u8 **)&g_game_work.draw_buffer);

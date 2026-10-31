@@ -16,34 +16,36 @@ typedef struct S_80026FB0_1 {
 
 
 /* Waits, then fades the color channels toward 0x80 and flags completion. */
-void fade_color_toward_half_and_complete(void *effect, s32 unused, void *color)
+void fade_color_toward_half_and_complete(void *effect_arg, s32 unused, void *color_arg)
 {
+    S_80026FB0_1 *color = color_arg;
+    S_80026FB0_0 *effect = effect_arg;
     s16 phase;
     s32 frames_left;
     s32 intensity;
 
-    phase = ((S_80026FB0_0 *)effect)->unk_64.s;
+    phase = effect->unk_64.s;
     switch (phase) {
     default:
         return;
 
     case 0:
-        frames_left = (u16)((S_80026FB0_0 *)effect)->unk_66 - 1;
-        ((S_80026FB0_0 *)effect)->unk_66 = frames_left;
+        frames_left = (u16)effect->unk_66 - 1;
+        effect->unk_66 = frames_left;
         if ((frames_left << 16) <= 0) {
-            ((S_80026FB0_0 *)effect)->unk_66 = 0x10;
-            ((S_80026FB0_0 *)effect)->unk_64.u += 1;
+            effect->unk_66 = 0x10;
+            effect->unk_64.u += 1;
         }
         break;
 
     case 1:
-        intensity = ((S_80026FB0_1 *)color)->unk_0C;
-        intensity = intensity + ((0x80 - intensity) / ((S_80026FB0_0 *)effect)->unk_66);
-        ((S_80026FB0_1 *)color)->unk_0C = intensity;
-        ((S_80026FB0_1 *)color)->unk_0E = intensity;
-        ((S_80026FB0_1 *)color)->unk_0D = intensity;
-        frames_left = (u16)((S_80026FB0_0 *)effect)->unk_66 - 1;
-        ((S_80026FB0_0 *)effect)->unk_66 = frames_left;
+        intensity = color->unk_0C;
+        intensity = intensity + ((0x80 - intensity) / effect->unk_66);
+        color->unk_0C = intensity;
+        color->unk_0E = intensity;
+        color->unk_0D = intensity;
+        frames_left = (u16)effect->unk_66 - 1;
+        effect->unk_66 = frames_left;
         if ((frames_left << 16) <= 0) {
             (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;

@@ -233,7 +233,7 @@ void render_projected_sprite_with_depth_bias(ObjectPosition *position, void *spr
                     s32 left_x;
 
                     uv_left = ((S_800BC4D4_1 *)scratch)->unk_14.u16;
-                    u_left = (*(u16 *)((u8 *)scratch + 8));
+                    u_left = (*(u16 *)(scratch + 8));
                     left_x = (*(s16 *)(packet + 8));
                     uv_left += u_left;
                     (*(s16 *)(packet + 28)) = uv_left;

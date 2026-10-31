@@ -173,7 +173,7 @@ void set_descriptor_fields_and_flag(void *descriptor)
 
     saved_settings = 0x8040F0;
     *(s8 *)((u8 *)descriptor + 1) = 0x28;
-    settings = *(s32 *)&saved_settings;
+    settings = *&saved_settings;
     *(s8 *)((u8 *)descriptor + 3) = 0x18;
     *(s8 *)((u8 *)descriptor + 0xA) = 7;
     *(s8 *)((u8 *)descriptor + 2) = 0;

@@ -62,12 +62,12 @@ void update_actor_object_motion(void *object_arg, void *motion_arg, SpriteFrameS
             }
             return;
         }
-        (*(u8 *)((u8 *)object_arg + (0x71))) &= 0x7F;
+        (*((u8 *)object_arg + (0x71))) &= 0x7F;
         return;
     }
 
     {
-        s16 old_state = (s8)(*(u8 *)((u8 *)object_arg + (0x6D)));
+        s16 old_state = (s8)(*((u8 *)object_arg + (0x6D)));
 
         if (refresh_actor_facing_and_lifecycle(object_arg, motion_arg, part_arg, object_arg) != 0) {
             return;
@@ -76,8 +76,8 @@ void update_actor_object_motion(void *object_arg, void *motion_arg, SpriteFrameS
         if (dispatch_callback != 0) {
             dispatch_callback(object_arg, motion_arg, part_arg, object_arg);
         }
-        baloon_callbacks[(*(u8 *)((u8 *)object_arg + (0x9A)))](object_arg, motion_arg, part_arg, object_arg);
-        if ((s16)old_state != (s8)(*(u8 *)((u8 *)object_arg + (0x6D)))) {
+        baloon_callbacks[(*((u8 *)object_arg + (0x9A)))](object_arg, motion_arg, part_arg, object_arg);
+        if ((s16)old_state != (s8)(*((u8 *)object_arg + (0x6D)))) {
             try_move_actor_to_valid_position(object_arg, motion_arg, part_arg, object_arg);
         }
     }
@@ -88,9 +88,9 @@ void update_actor_object_motion(void *object_arg, void *motion_arg, SpriteFrameS
     if (!((*(u32 *)((u8 *)object_arg + (0x1C))) & 0x40000) &&
         !((*(u16 *)((u8 *)object_arg + (0x98))) & 8)) {
         ((S_80171964_0 *)motion_arg)->unk_14 += (*(s8 *)((u8 *)object_arg + (0x9D))) * 0x14000;
-        (*(u8 *)((u8 *)object_arg + (0x9D)))++;
+        (*((u8 *)object_arg + (0x9D)))++;
     } else {
-        (*(u8 *)((u8 *)object_arg + (0x9D))) = 0;
+        (*((u8 *)object_arg + (0x9D))) = 0;
     }
 
     (*(s32 *)((u8 *)object_arg + (0x90))) += ((S_80171964_0 *)motion_arg)->unk_14;
@@ -107,7 +107,7 @@ void update_actor_object_motion(void *object_arg, void *motion_arg, SpriteFrameS
         page_index = direction_index;
         if ((*(s16 *)((u8 *)object_arg + (0x94))) != (s16)page_index) {
             select_indirect_table_entry(part_arg,
-                (*(u8 *)((u8 *)(*(u8 **)&part_arg->frameTable) + (page_index))),
+                (*((u8 *)(*(u8 **)&part_arg->frameTable) + (page_index))),
                 part_arg->unk_04);
             (*(s16 *)((u8 *)object_arg + (0x94))) = direction_index;
         }
@@ -146,7 +146,7 @@ void update_actor_object_motion(void *object_arg, void *motion_arg, SpriteFrameS
                         base->unk_88;
                 if (landing_delta < (*(s16 *)((u8 *)object_arg + (0x92)))) {
                     (*(s16 *)((u8 *)object_arg + (0x92))) = landing_delta;
-                    (*(u8 *)((u8 *)object_arg + (0x9D))) = 0;
+                    (*((u8 *)object_arg + (0x9D))) = 0;
                     ((S_80171964_0 *)motion_arg)->unk_14 = 0;
                     base->unk_1C.u |= 0x08000000;
                 }
@@ -203,7 +203,7 @@ void update_actor_object_motion(void *object_arg, void *motion_arg, SpriteFrameS
                         base->unk_88;
                 if (ground_height < (*(s16 *)((u8 *)object_arg + (0x92)))) {
                     (*(s16 *)((u8 *)object_arg + (0x92))) = ground_height;
-                    (*(u8 *)((u8 *)object_arg + (0x9D))) = 0;
+                    (*((u8 *)object_arg + (0x9D))) = 0;
                     ((S_80171964_0 *)motion_arg)->unk_14 = 0;
                     base->unk_1C.u |= 0x08000000;
                 }
@@ -251,7 +251,7 @@ void update_actor_object_motion(void *object_arg, void *motion_arg, SpriteFrameS
             base->unk_88 = ground_height;
         }
     }
-    if ((*(u8 *)((u8 *)object_arg + (0x9A))) != 0x18) {
+    if ((*((u8 *)object_arg + (0x9A))) != 0x18) {
         ((S_80171964_0 *)motion_arg)->unk_0A =
             base->unk_88 + (*(u16 *)((u8 *)object_arg + (0x92))) -
             (*(u16 *)((u8 *)object_arg + (0xA2)));

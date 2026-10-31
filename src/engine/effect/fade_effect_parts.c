@@ -25,26 +25,28 @@ typedef struct S_80050CDC_1 {
 extern s32 D_800814A0;
 
 /* Update and fade the effect parts, then signal completion when the timer expires. */
-void fade_effect_parts(void *effect, void *unused, void *parts)
+void fade_effect_parts(void *effect_arg, void *unused, void *parts_arg)
 {
+    S_80050CDC_0 *parts = parts_arg;
+    EffectCountdownView *effect = effect_arg;
     s32 ticks_left;
     u8 color;
     S_80050CDC_1 *part;
 
-    part = ((S_80050CDC_0 *)parts)->unk_08;
+    part = parts->unk_08;
     part->unk_02.u16 -= 0x40;
-    part = ((S_80050CDC_0 *)parts)->unk_04;
+    part = parts->unk_04;
     part->unk_0C += 0x20;
-    part = ((S_80050CDC_0 *)parts)->unk_04;
+    part = parts->unk_04;
     part->unk_08 -= 0x40;
-    part = ((S_80050CDC_0 *)parts)->unk_04;
+    part = parts->unk_04;
     color = part->unk_02.u8 - 0x20;
     part->unk_02.u8 = color;
     part->unk_01 = color;
     part->unk_00 = color;
 
-    ticks_left = ((EffectCountdownView *)effect)->unk_08 - 1;
-    ((EffectCountdownView *)effect)->unk_08 = ticks_left;
+    ticks_left = effect->unk_08 - 1;
+    effect->unk_08 = ticks_left;
     if (ticks_left == -1) {
         release_null_terminated_entries((u8 *)effect + 0x6C);
         (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;

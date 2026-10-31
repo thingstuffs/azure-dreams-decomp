@@ -43,12 +43,12 @@ void update_effect_fade_and_history(void *effect, MovingPosition *position, S_80
     primitive->unk_14 =
         ((S_801747B8_3 *)((*(void * *)((u8 *)effect + 0x18))))->unk_14 | 0xC;
 
-    if ((*(u8 *)((u8 *)effect + 0x17)) == 0) {
+    if ((*((u8 *)effect + 0x17)) == 0) {
         trail_length = (*(s16 *)((u8 *)effect + 0x34));
         if (primitive->unk_0C.u8 < (0x80 >> trail_length)) {
             primitive->unk_0C.s32 += 0x101010;
         } else {
-            (*(u8 *)((u8 *)effect + 0x17))++;
+            (*((u8 *)effect + 0x17))++;
         }
     } else if (primitive->unk_0C.u8 != 0) {
         primitive->unk_0C.s32 += -0x80808;

@@ -19,7 +19,7 @@ typedef struct {
  * byte fields and the per-id word from D_8006D6D8 at obj+0x54, then runs apply_entity_effects. */
 void init_monster_from_stats(void *obj, s16 monsterId)
 {
-    u8 *dst = (u8 *)obj;
+    u8 *dst = obj;
     u8 *rec = (u8 *)initialStatsTable + (s32)monsterId * 24;
     s32 *d6d8 = &D_8006D6D8[monsterId];
     u32 oldFlags, recFlags;

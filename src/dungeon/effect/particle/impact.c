@@ -134,11 +134,11 @@ void *find_impact_surface_polygon(s32 world_x, s32 world_y, s16 min_height) {
     ((S_func_80024064_0 *)scratch)->unk_150 = cell_index;
     map_data = &g_game_work.map;
     cell_index += ((u16)world_y >> 6) << map_data->shiftX;
-    (*(s16 *)((u8 *)scratch + 0x150)) = cell_index;
+    (*(s16 *)(scratch + 0x150)) = cell_index;
     map_entry = (u8 *)((long)cell_index * 6 +
                        (unsigned long)*(u8 **)((u8 *)(&g_game_work.map)));
-    vertices = ((u8 *)map_data->vertices);
-    planes = ((u8 *)map_data->surface_planes);
+    vertices = map_data->vertices;
+    planes = map_data->surface_planes;
     best_polygon = 0;
     if (((S_func_80024064_2 *)map_entry)->unk_00 != 0) {
         ((S_func_80024064_0 *)scratch)->unk_152.s = -((S_func_80024064_2 *)map_entry)->unk_02;
@@ -266,8 +266,9 @@ typedef struct S_80024398_2 {
 } S_80024398_2;   /* node in scale_effect_by_phase */
 
 /* Adjusts node scale by countdown phase, restoring unity and setting completion flags at the end. */
-void scale_effect_by_phase(void *effect)
+void scale_effect_by_phase(void *effect_arg)
 {
+    S_80024398_0 *effect = effect_arg;
     u32 scale_x;
     u32 scale_y;
     s32 ticks_left;
@@ -276,13 +277,13 @@ void scale_effect_by_phase(void *effect)
     u16 new_scale;
     S_80024398_2 *node;
 
-    ticks_left = ((S_80024398_0 *)effect)->unk_28.s;
+    ticks_left = effect->unk_28.s;
     impact_effect_update_flag = 1;
 
     {
         S_80024398_1 *parent;
 
-        parent = ((S_80024398_0 *)effect)->unk_20;
+        parent = effect->unk_20;
         node = parent->unk_0C;
     }
 
@@ -328,8 +329,8 @@ void scale_effect_by_phase(void *effect)
         }
     }
 
-    next_ticks = ((S_80024398_0 *)effect)->unk_28.u - 1;
-    ((S_80024398_0 *)effect)->unk_28.s = next_ticks;
+    next_ticks = effect->unk_28.u - 1;
+    effect->unk_28.s = next_ticks;
     if ((next_ticks << 16) <= 0) {
         node->unk_1E = 0x1000U;
         node->unk_1C = 0x1000U;
@@ -1331,7 +1332,7 @@ void process_entries_at_coordinates(void *list_head, s32 x, s32 y, s16 upper_bou
     if (list_link != head) {
         upper_limit = (s16)upper_bound;
         lower_limit = lower_bound;
-        entry = (void *)list_head - 0x20;
+        entry = list_head - 0x20;
         do {
             void *next_entry;
             position_data = ((S_func_80025710_0 *)((u8 *)list_link - 0x20))->unk_0C;
@@ -1670,7 +1671,7 @@ u16 angle;
     s32 predecessor_test;
     u8 *alloc_page;
 
-    *(Copy32 *)&direction_offsets = *(Copy32 *)&D_80024028;
+    *&direction_offsets = *(Copy32 *)&D_80024028;
     object_index = 0;
     do {
         if (((u32)(u16)object_index << 16) != 0) {

@@ -18,7 +18,7 @@ void *allocate_object_and_mark_failed_setup_for_cleanup(s32 resource_id, s32 slo
     state = ((void *)object) + 0x20;
     if (object != 0) {
         if (load_storage_display_resource(state, 0x18) != 0) {
-            object->sprite = (void *) (((void *)object) + 0xA8);
+            object->sprite = (((void *)object) + 0xA8);
             state->status_display_entries = link_monster_status_display_entries(state->resource_id);
             initialize_entry_object(state, resource_id, slot_index, x, y, z);
             object->update_callback = &invoke_object_first_callback;

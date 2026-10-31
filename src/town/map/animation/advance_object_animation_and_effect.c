@@ -21,13 +21,13 @@ void advance_object_animation_and_effect(TownMapFallingObject *object)
     switch (state) {
     case 0:
         object->timer.u = 3;
-        object->motion.velocity_x.w.i = -4;
-        object->motion.velocity_z.w.i = 0x14;
+        object->motion.fixed.velocity_x.w.i = -4;
+        object->motion.fixed.velocity_z.w.i = 0x14;
         object->state.u = (u16) ((object->state.u) + 1);
 
     case 1:
-        object->motion.x.v += object->motion.velocity_x.v;
-        object->motion.z.v += object->motion.velocity_z.v;
+        object->motion.fixed.x.v += object->motion.fixed.velocity_x.v;
+        object->motion.fixed.z.v += object->motion.fixed.velocity_z.v;
         if ((object->timer.s) > 0) {
             return;
         }
@@ -37,23 +37,23 @@ void advance_object_animation_and_effect(TownMapFallingObject *object)
 
     case 2:
         object->unk_0C.u = (u16) ((object->unk_0C.u)
-            + (((object->motion.velocity_x.w.i) * 3) >> 2));
+            + (((object->motion.fixed.velocity_x.w.i) * 3) >> 2));
         object->unk_10.u = (u16) ((object->unk_10.u)
-            + (((object->motion.velocity_z.w.i) * 3) >> 2));
-        object->motion.z.v += object->motion.velocity_z.v;
-        object->motion.x.v += object->motion.velocity_x.v;
-        if ((object->motion.z.w.i) <= 0) {
+            + (((object->motion.fixed.velocity_z.w.i) * 3) >> 2));
+        object->motion.fixed.z.v += object->motion.fixed.velocity_z.v;
+        object->motion.fixed.x.v += object->motion.fixed.velocity_x.v;
+        if ((object->motion.fixed.z.w.i) <= 0) {
             return;
         }
-        object->motion.z.w.i = 0;
+        object->motion.fixed.z.w.i = 0;
         effect = allocate_list_node(0x312, &scene_object_list_anchor.next);
         if (effect != 0) {
             effect->update_callback = D_800BFF7C;
             register_node(effect, project_sprite_chain);
             effect_sprite = effect->sprite;
-            effect->position->x.v = object->motion.x.v;
-            effect->position->y.v = object->motion.y.v;
-            effect->position->z.v = object->motion.z.v;
+            effect->position->x.v = object->motion.fixed.x.v;
+            effect->position->y.v = object->motion.fixed.y.v;
+            effect->position->z.v = object->motion.fixed.z.v;
             *((s16 *) (((u8 *) effect_sprite) + 0x1E)) = 0xC00;
             *((s16 *) (((u8 *) effect_sprite) + 0x1C)) = 0xC00;
             *((s16 *) (((u8 *) effect_sprite) + 0x10)) = 0x60;
@@ -71,9 +71,9 @@ void advance_object_animation_and_effect(TownMapFallingObject *object)
 
     case 3:
         object->unk_0C.u = (u16) ((object->unk_0C.u)
-            + (((object->motion.velocity_x.w.i) * 3) >> 2));
+            + (((object->motion.fixed.velocity_x.w.i) * 3) >> 2));
         object->unk_10.u = (u16) ((object->unk_10.u)
-            + (((object->motion.velocity_z.w.i) * 3) >> 2));
+            + (((object->motion.fixed.velocity_z.w.i) * 3) >> 2));
         if ((object->timer.s) > 0) {
             return;
         }

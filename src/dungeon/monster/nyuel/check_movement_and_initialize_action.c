@@ -11,13 +11,6 @@
 #include "dungeon/item.h"
 #include "dungeon/effect.h"
 
-typedef struct S_80171E00_3 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0xA];
-    s8 unk_9A;
-    s8 unk_9B;
-} S_80171E00_3;   /* arg0 in check_movement_and_initialize_action */
 
 typedef struct Ent Ent;
 Ent *prepare_directional_attack(); /* extern */
@@ -63,7 +56,7 @@ s32 check_movement_and_initialize_action(ActorRecord *action_state, ObjectPositi
     if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
         action_state->action_id.s = 0x11;
         action_state->action_phase.s = 0;
-        ((S_80171E00_3 *)action_state)->unk_8C = 0;
+        action_state->unk_8C.word = 0;
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;
         direction_table = &nyuel_frame_set_8;

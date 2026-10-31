@@ -24,7 +24,8 @@ extern s32 scene_object_flags;
 extern s16 D_80530000[];
 
 /* Waits for a delay, passes the eight-entry sum to func_80058588, and handles a linked cleanup flag. */
-void update_panel_aggregate_value(void *entry) {
+void update_panel_aggregate_value(void *entry_arg) {
+    S_8080BE0C_0 *entry = entry_arg;
     s16 *value_ptr;
     s16 current_state;
     s32 remaining;
@@ -37,29 +38,29 @@ void update_panel_aggregate_value(void *entry) {
     total = 0;
     remaining = 7;
     value_ptr = &D_80530000[0x333];
-    data_ptr = ((S_8080BE0C_0 *)entry)->unk_0C;
+    data_ptr = entry->unk_0C;
     do {
         total += *value_ptr;
         value_ptr -= 1;
         remaining -= 1;
     } while (remaining >= 0);
-    current_state = ((S_8080BE0C_0 *)entry)->unk_00.s;
+    current_state = entry->unk_00.s;
     switch (current_state) {
     case 0:
-        countdown = ((S_8080BE0C_0 *)entry)->unk_02 - 1;
-        ((S_8080BE0C_0 *)entry)->unk_02 = countdown;
+        countdown = entry->unk_02 - 1;
+        entry->unk_02 = countdown;
         if ((countdown << 0x10) > 0) {
             return;
         }
-        next_state = ((S_8080BE0C_0 *)entry)->unk_00.u;
-        flags = ((S_8080BE0C_0 *)entry)->unk_1C;
+        next_state = entry->unk_00.u;
+        flags = entry->unk_1C;
         next_state += 1;
         flags &= 0xFFFD;
-        ((S_8080BE0C_0 *)entry)->unk_1C = flags;
-        ((S_8080BE0C_0 *)entry)->unk_00.u = next_state;
+        entry->unk_1C = flags;
+        entry->unk_00.u = next_state;
         return;
     case 1:
-        func_80058588(total, func_80071424(((S_8080BE0C_0 *)entry)->unk_04), ((S_8080BE0C_0 *)entry)->unk_04);
+        func_80058588(total, func_80071424(entry->unk_04), entry->unk_04);
         if (data_ptr->unk_2A & 1) {
             (*(u16 *)((u8 *)entry + -2)) = (u16) (((ObjectStatusPrefix16 *)entry)[-1].flags | 0x8000);
             scene_object_flags |= 0x8000;

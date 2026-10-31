@@ -182,7 +182,7 @@ void update_settings_menu_animation(Obj *obj, s32 *position) {
             phase_value = 2;
             func_8003d468();
             *(s16 *) (globals_base + 0x2094) = mode_value;
-            *(u8 *) (globals_base + 0x2D6E) = 0;
+            *(globals_base + 0x2D6E) = 0;
             *(s16 *) (globals_base + 0x2098) = phase_value;
             func_80040aa0(6);
             next_state = 255;

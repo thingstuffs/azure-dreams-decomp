@@ -11,7 +11,8 @@ void (*const dungeon_ovl_1930844_entry)(void *state, void *motion, void *appeara
 
 /* Moves a rotating, shrinking sprite along its velocity with a sinusoidal height offset until its
    duration ends. */
-void advance_shrinking_arc_effect(void *state, ovl_1930844_81910844_S_81910844_2 *motion, ovl_1930844_81910844_S_81910844_3 *visual) {
+void advance_shrinking_arc_effect(void *state_arg, ovl_1930844_81910844_S_81910844_2 *motion, ovl_1930844_81910844_S_81910844_3 *visual) {
+    ovl_1930844_81910844_S_81910844_0 *state = state_arg;
     s32 pos_x;
     s32 pos_y;
     s32 velocity_x;
@@ -23,32 +24,32 @@ void advance_shrinking_arc_effect(void *state, ovl_1930844_81910844_S_81910844_2
     s16 duration;
     ovl_1930844_81910844_S_81910844_1 *owner;
 
-    owner = ((ovl_1930844_81910844_S_81910844_0 *)state)->unk_00;
+    owner = state->unk_00;
     owner->unk_14 =
         (u16) (owner->unk_14 + 1);
-    ((ovl_1930844_81910844_S_81910844_0 *)state)->unk_06.s =
-        (u16) (((ovl_1930844_81910844_S_81910844_0 *)state)->unk_06.s + 1);
+    state->unk_06.s =
+        (u16) (state->unk_06.s + 1);
     pos_x = motion->unk_00;
     velocity_x = motion->unk_0C;
     pos_y = motion->unk_04;
     velocity_y = motion->unk_10;
     motion->unk_00 = pos_x + velocity_x;
     motion->unk_04 = pos_y + velocity_y;
-    ((ovl_1930844_81910844_S_81910844_0 *)state)->unk_0C =
-        ((ovl_1930844_81910844_S_81910844_0 *)state)->unk_0C + motion->unk_14;
+    state->unk_0C =
+        state->unk_0C + motion->unk_14;
     motion->unk_08 =
-        ((ovl_1930844_81910844_S_81910844_0 *)state)->unk_0C -
-        ((rsin((0x800 / (s16) ((ovl_1930844_81910844_S_81910844_0 *)state)->unk_08) *
-                        (s16) ((ovl_1930844_81910844_S_81910844_0 *)state)->unk_06.s) >> 4) << 0xE);
-    scale_step = 0x200 / (s16) ((ovl_1930844_81910844_S_81910844_0 *)state)->unk_08;
+        state->unk_0C -
+        ((rsin((0x800 / (s16) state->unk_08) *
+                        (s16) state->unk_06.s) >> 4) << 0xE);
+    scale_step = 0x200 / (s16) state->unk_08;
     angle = visual->unk_1A;
     scale = visual->unk_1E;
     visual->unk_1A = angle + 0x300;
     scale = scale - scale_step;
     visual->unk_1E = scale;
     visual->unk_1C = scale;
-    elapsed = ((ovl_1930844_81910844_S_81910844_0 *)state)->unk_06.u;
-    duration = ((ovl_1930844_81910844_S_81910844_0 *)state)->unk_08;
+    elapsed = state->unk_06.u;
+    duration = state->unk_08;
     if (elapsed > duration) {
         ((ovl_1930844_81910844_S_81910844_0_pre *)state)[-1].unk_00 =
             ((ovl_1930844_81910844_S_81910844_0_pre *)state)[-1].unk_00 | 0x8000;
@@ -127,7 +128,7 @@ void build_and_depth_sorts_five_radial_line_segments_effect(void *effect_data, v
     addr_mask = 0x00FFFFFF;
     angle = 0;
     scratch = (u8 *) 0x1F800000;
-    *((void **) (((u8 *) scratch) + 0x18)) = (*(u8 **)&g_game_work.draw_buffer) + 0xB0;
+    *((void **) (scratch + 0x18)) = (*(u8 **)&g_game_work.draw_buffer) + 0xB0;
     do {
         void **render_ptr = (void **) render_global;
         void *render_ctx = *render_ptr;
@@ -140,29 +141,29 @@ void build_and_depth_sorts_five_radial_line_segments_effect(void *effect_data, v
         u16 origin_coord;
         line_packet = *((u8 **) (((u8 *) render_ctx) + 0x8D0));
         *((u8 **) (((u8 *) render_ctx) + 0x8D0)) = line_packet + 0x14;
-        *((u8 *) (((u8 *) line_packet) + 3)) = 4;
-        *((u8 *) (((u8 *) line_packet) + 7)) = 0x52;
-        *((u8 *) (((u8 *) line_packet) + 4)) = *((u8 *) (((u8 *) effect_data) + 0x40));
-        *((u8 *) (((u8 *) line_packet) + 5)) = *((u8 *) (((u8 *) effect_data) + 0x41));
-        *((u8 *) (((u8 *) line_packet) + 6)) = *((u8 *) (((u8 *) effect_data) + 0x42));
-        *((u8 *) (((u8 *) line_packet) + 0xC)) = *((u8 *) (((u8 *) effect_data) + 0x40));
-        *((u8 *) (((u8 *) line_packet) + 0xD)) = *((u8 *) (((u8 *) effect_data) + 0x41));
-        *((u8 *) (((u8 *) line_packet) + 0xE)) = *((u8 *) (((u8 *) effect_data) + 0x42));
+        *((((u8 *) line_packet) + 3)) = 4;
+        *((((u8 *) line_packet) + 7)) = 0x52;
+        *((((u8 *) line_packet) + 4)) = *((((u8 *) effect_data) + 0x40));
+        *((((u8 *) line_packet) + 5)) = *((((u8 *) effect_data) + 0x41));
+        *((((u8 *) line_packet) + 6)) = *((((u8 *) effect_data) + 0x42));
+        *((((u8 *) line_packet) + 0xC)) = *((((u8 *) effect_data) + 0x40));
+        *((((u8 *) line_packet) + 0xD)) = *((((u8 *) effect_data) + 0x41));
+        *((((u8 *) line_packet) + 0xE)) = *((((u8 *) effect_data) + 0x42));
         origin_ptr = origin;
         origin_coord = *((u16 *) (((u8 *) origin_ptr) + 2));
-        *((u16 *) (((u8 *) scratch) + 0x6C)) = origin_coord;
-        *((u16 *) (((u8 *) scratch) + 0x64)) = origin_coord;
+        *((u16 *) (scratch + 0x6C)) = origin_coord;
+        *((u16 *) (scratch + 0x64)) = origin_coord;
         radial_x = ((rsin(angle + (*((s16 *) (((u8 *) effect_data) + 0xA))))
             >> 4) * (*((s16 *) (((u8 *) effect_data) + 0xE)))) << 8;
         start_step_offset = radial_x / scale;
-        *((s32 *) (((u8 *) scratch) + 0x108)) = radial_x;
-        *((u16 *) (((u8 *) scratch) + 0x64)) += (start_step_offset * prev_step) >> 16;
-        end_step_offset = (*((s32 *) (((u8 *) scratch) + 0x108))) / scale;
-        *((u16 *) (((u8 *) scratch) + 0x6C)) += (end_step_offset * step) >> 16;
+        *((s32 *) (scratch + 0x108)) = radial_x;
+        *((u16 *) (scratch + 0x64)) += (start_step_offset * prev_step) >> 16;
+        end_step_offset = (*((s32 *) (scratch + 0x108))) / scale;
+        *((u16 *) (scratch + 0x6C)) += (end_step_offset * step) >> 16;
         origin_ptr = origin;
         origin_coord = *((u16 *) (((u8 *) origin_ptr) + 6));
-        *((u16 *) (((u8 *) scratch) + 0x6E)) = origin_coord;
-        *((u16 *) (((u8 *) scratch) + 0x66)) = origin_coord;
+        *((u16 *) (scratch + 0x6E)) = origin_coord;
+        *((u16 *) (scratch + 0x66)) = origin_coord;
         start_vertex = scratch + 0x64;
         start_screen = scratch + 0xD8;
         end_vertex = scratch + 0x6C;
@@ -170,36 +171,36 @@ void build_and_depth_sorts_five_radial_line_segments_effect(void *effect_data, v
         radial_y = ((rcos(angle + (*((s16 *) (((u8 *) effect_data) + 0xA))))
             >> 4) * (*((s16 *) (((u8 *) effect_data) + 0xE)))) << 8;
         start_step_offset = radial_y / scale;
-        *((s32 *) (((u8 *) scratch) + 0x10C)) = radial_y;
-        *((u16 *) (((u8 *) scratch) + 0x66)) += (start_step_offset * prev_step) >> 16;
-        end_step_offset = (*((s32 *) (((u8 *) scratch) + 0x10C))) / scale;
+        *((s32 *) (scratch + 0x10C)) = radial_y;
+        *((u16 *) (scratch + 0x66)) += (start_step_offset * prev_step) >> 16;
+        end_step_offset = (*((s32 *) (scratch + 0x10C))) / scale;
         render_ptr = (void **)(scratch + 0x84);
-        *((u16 *) (((u8 *) scratch) + 0x6E)) += (end_step_offset * step) >> 16;
+        *((u16 *) (scratch + 0x6E)) += (end_step_offset * step) >> 16;
         origin_ptr = origin;
         origin_coord = *((u16 *) (((u8 *) origin_ptr) + 0xA));
-        *((u16 *) (((u8 *) scratch) + 0x70)) = origin_coord;
-        *((u16 *) (((u8 *) scratch) + 0x68)) = origin_coord;
+        *((u16 *) (scratch + 0x70)) = origin_coord;
+        *((u16 *) (scratch + 0x68)) = origin_coord;
         z_delta = (((s32) (*((s16 *) (((u8 *) effect_data) + 0x14)))) << 16) - (*((s32 *) (((u8 *) origin_ptr) + 8)));
-        *((s32 *) (((u8 *) scratch) + 0x110)) = z_delta;
+        *((s32 *) (scratch + 0x110)) = z_delta;
         z_step = z_delta >> scale;
-        *((u16 *) (((u8 *) scratch) + 0x68)) += (z_step << prev_step) >> 16;
-        *((u16 *) (((u8 *) scratch) + 0x70)) += (((*((s32 *) (scratch + 0x110))) >> scale) << step) >> 16;
+        *((u16 *) (scratch + 0x68)) += (z_step << prev_step) >> 16;
+        *((u16 *) (scratch + 0x70)) += (((*((s32 *) (scratch + 0x110))) >> scale) << step) >> 16;
         origin_ptr = scratch + 0x88;
-        *((s32 *) (((u8 *) scratch) + 0xF4)) = RotTransPers(start_vertex, start_screen, render_ptr, origin_ptr);
-        *((s32 *) (((u8 *) scratch) + 0xF8)) = RotTransPers(end_vertex, end_screen, render_ptr,
+        *((s32 *) (scratch + 0xF4)) = RotTransPers(start_vertex, start_screen, render_ptr, origin_ptr);
+        *((s32 *) (scratch + 0xF8)) = RotTransPers(end_vertex, end_screen, render_ptr,
             origin_ptr);
-        *((u16 *) (((u8 *) line_packet) + 8)) = *((u16 *) (((u8 *) scratch) + 0xD8));
-        *((u16 *) (((u8 *) line_packet) + 0xA)) = *((u16 *) (((u8 *) scratch) + 0xDA));
-        *((u16 *) (((u8 *) line_packet) + 0x10)) = *((u16 *) (((u8 *) scratch) + 0xDC));
-        *((u16 *) (((u8 *) line_packet) + 0x12)) = *((u16 *) (((u8 *) scratch) + 0xDE));
-        avg_depth = ((*((s32 *) (((u8 *) scratch) + 0xF4))) + (*((s32 *) (((u8 *) scratch) + 0xF8)))) / 2;
-        *((s32 *) (((u8 *) scratch) + 0xB4)) = avg_depth;
+        *((u16 *) (line_packet + 8)) = *((u16 *) (scratch + 0xD8));
+        *((u16 *) (line_packet + 0xA)) = *((u16 *) (scratch + 0xDA));
+        *((u16 *) (line_packet + 0x10)) = *((u16 *) (scratch + 0xDC));
+        *((u16 *) (line_packet + 0x12)) = *((u16 *) (scratch + 0xDE));
+        avg_depth = ((*((s32 *) (scratch + 0xF4))) + (*((s32 *) (scratch + 0xF8)))) / 2;
+        *((s32 *) (scratch + 0xB4)) = avg_depth;
         if (((u32) avg_depth) < 0x1E0U) {
             OT_SETADDR(line_packet, OT_GETADDR((*((u32 **) (((u8 *) scratch) + 0x18))) + avg_depth, addr_mask),
                 0xFF000000, addr_mask);
-            *((u32 *) (((u8 *) ((*((u32 **) (((u8 *) scratch) + 0x18))) + (*((s32 *) (((u8 *) scratch) + 0xB4)))))
-                + 0)) = ((*((u32 *) (((u8 *) ((*((u32 **) (((u8 *) scratch) + 0x18)))
-                + (*((s32 *) (((u8 *) scratch) + 0xB4))))) + 0))) & 0xFF000000) | (((u32) line_packet) & addr_mask);
+            *((u32 *) (((u8 *) ((*((u32 **) (scratch + 0x18))) + (*((s32 *) (scratch + 0xB4)))))
+                + 0)) = ((*((u32 *) (((u8 *) ((*((u32 **) (scratch + 0x18)))
+                + (*((s32 *) (scratch + 0xB4))))) + 0))) & 0xFF000000) | (((u32) line_packet) & addr_mask);
             render_ptr = (void **) render_global;
             render_ctx = *render_ptr;
             draw_mode_packet = *((u8 **) (((u8 *) render_ctx) + 0x8D0));
@@ -208,9 +209,9 @@ void build_and_depth_sorts_five_radial_line_segments_effect(void *effect_data, v
                 0) & 0xFFFF, 0);
             OT_SETADDR(draw_mode_packet, OT_GETADDR((*((u32 **) (((u8 *) scratch) + 0x18)))
                 + (*((s32 *) (((u8 *) scratch) + 0xB4))), addr_mask), 0xFF000000, addr_mask);
-            *((u32 *) (((u8 *) ((*((u32 **) (((u8 *) scratch) + 0x18))) + (*((s32 *) (((u8 *) scratch) + 0xB4)))))
-                + 0)) = ((*((u32 *) (((u8 *) ((*((u32 **) (((u8 *) scratch) + 0x18)))
-                + (*((s32 *) (((u8 *) scratch) + 0xB4))))) + 0))) & 0xFF000000) | (((u32) draw_mode_packet) & addr_mask);
+            *((u32 *) (((u8 *) ((*((u32 **) (scratch + 0x18))) + (*((s32 *) (scratch + 0xB4)))))
+                + 0)) = ((*((u32 *) (((u8 *) ((*((u32 **) (scratch + 0x18)))
+                + (*((s32 *) (scratch + 0xB4))))) + 0))) & 0xFF000000) | (((u32) draw_mode_packet) & addr_mask);
         }
         angle += 0x333;
         ray_index++;
@@ -620,7 +621,7 @@ void draw_a_full_screen_color_overlay_mark_effect_complete_countdown_ends(void *
     effect_state->unk_14 = (u16) (effect_state->unk_14 + 1);
     overlay = ((ovl_1930844_81911A8C_S_81911A8C_5 *)(g_game_work.draw_buffer))->unk_8D0;
     ((ovl_1930844_81911A8C_S_81911A8C_5 *)(g_game_work.draw_buffer))->unk_8D0 =
-        (void *) (overlay + 0x10);
+        (overlay + 0x10);
     ((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_0C = 0x140;
     ((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_0E = 0xE0;
     ((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_08 = 0;
@@ -1066,7 +1067,7 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
         if (((Rec_func_80024170_arg0 *)state)->unk_14 == 0) {
             g_dungeon_status.active_actor = 0;
             (*(u16 *)((u8 *)state + -2)) = (u16) ((*(u16 *)((u8 *)state + -2)) | NODE_REMOVE);
-            (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
+            (*&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         }
         break;
     case 6:

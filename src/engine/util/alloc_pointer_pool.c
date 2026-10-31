@@ -12,7 +12,7 @@ void *alloc_pointer_pool(void **pool, s32 record_count)
     void *next_record;
     s32 record_index;
 
-    pool = (void **)(*pool = create_callback_pair_default(0x104));
+    pool = (*pool = create_callback_pair_default(0x104));
     if (pool != 0) {
         next_record = (void *)&pool[record_count];
         for (record_index = 0; record_index < record_count; record_index++) {

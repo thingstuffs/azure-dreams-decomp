@@ -44,27 +44,27 @@ typedef struct {
 extern u8 D_800D20D8[];
 
 /* Decelerate motion, then align to the target tile and advance the state. */
-void decelerate_actor_to_tile(CcaState *state, CcaMotion *motion, CcaInfo *info, CcaAnim *anim) {
+void decelerate_actor_to_tile(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *info, ActorRecord *anim) {
     s32 phase;
 
-    phase = state->status;
+    phase = state->action_phase.u;
     switch (phase) {
     case 0:
         apply_clamped_actor_value_delta(anim);
-        motion->dx = (s32)(*(s16 *)((u8 *)dir_step_x + ((anim->code >> 8) & 0xE)) << 15);
-        motion->dy = (s32)(*(s16 *)((u8 *)dir_step_y + ((anim->code >> 8) & 0xE)) << 15);
-        state->status = state->status + 1;
-        if (anim->active != 0) {
+        motion->velocity_x = (s32)(*(s16 *)((u8 *)dir_step_x + ((anim->movement_facing >> 8) & 0xE)) << 15);
+        motion->velocity_y = (s32)(*(s16 *)((u8 *)dir_step_y + ((anim->movement_facing >> 8) & 0xE)) << 15);
+        state->action_phase.u = state->action_phase.u + 1;
+        if (anim->hp != 0) {
             if (info->flags & 0x8000) {
-                state->count = 0;
-                state->status = 2;
+                state->action_timer.s = 0;
+                state->action_phase.u = 2;
                 return;
             }
-            state->count = 8;
+            state->action_timer.s = 8;
         } else {
-            motion->dz = 0;
-            motion->dy = 0;
-            motion->dx = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(state, motion, info, 0);
             return;
         }
@@ -77,26 +77,26 @@ void decelerate_actor_to_tile(CcaState *state, CcaMotion *motion, CcaInfo *info,
         s32 biased_dy;
         u16 frames_left;
 
-        velocity_x = motion->dx;
+        velocity_x = motion->velocity_x;
         biased_dx = velocity_x;
-        motion->dx = velocity_x - (biased_dx / 4);
-        velocity_y = motion->dy;
+        motion->velocity_x = velocity_x - (biased_dx / 4);
+        velocity_y = motion->velocity_y;
         biased_dy = velocity_y;
-        motion->dy = velocity_y - (biased_dy / 4);
-        frames_left = state->count - 1;
-        state->count = frames_left;
+        motion->velocity_y = velocity_y - (biased_dy / 4);
+        frames_left = state->action_timer.s - 1;
+        state->action_timer.s = frames_left;
         if ((s32)(frames_left << 16) > 0) {
             return;
         }
-        if (anim->active == 0) {
-            motion->dz = 0;
-            motion->dy = 0;
-            motion->dx = 0;
+        if (anim->hp == 0) {
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(state, motion, info, 0);
             return;
         }
-        state->count = 8;
-        state->status = state->status + 1;
+        state->action_timer.s = 8;
+        state->action_phase.u = state->action_phase.u + 1;
         return;
     }
 
@@ -105,29 +105,29 @@ void decelerate_actor_to_tile(CcaState *state, CcaMotion *motion, CcaInfo *info,
         s16 frames_left;
         u16 next_frames;
 
-        frames_left = state->count;
+        frames_left = state->action_timer.s;
         if (frames_left != 0) {
             s32 origin_x;
             s32 origin_y;
 
-            motion->dx = (s32)(((((s32)info->x << 6) - (origin_x = motion->x - 0x20)) << 15) / frames_left);
-            origin_y = motion->y - 0x20;
-            motion->dy = (s32)(((((s32)info->y << 6) - origin_y) << 15) / state->count);
+            motion->velocity_x = (s32)(((((s32)info->tile_x << 6) - (origin_x = motion->x.w.i - 0x20)) << 15) / frames_left);
+            origin_y = motion->y.w.i - 0x20;
+            motion->velocity_y = (s32)(((((s32)info->tile_y << 6) - origin_y) << 15) / state->action_timer.s);
         }
-        next_frames = state->count - 1;
-        state->count = next_frames;
+        next_frames = state->action_timer.s - 1;
+        state->action_timer.s = next_frames;
         if ((s32)(next_frames << 16) > 0) {
             return;
         }
-        motion->dz = 0;
-        motion->dy = 0;
-        motion->dx = 0;
-        set_record_integer_tile_center(motion, info->x, info->y);
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
+        set_record_integer_tile_center(motion, info->tile_x, info->tile_y);
         if ((g_dungeon_status.pending_display_owner) == (u8 *)anim - 0x20) {
             *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
         }
-        state->next = D_800D20D8;
-        state->kind = 0xE;
+        state->unk_8C.address = D_800D20D8;
+        state->action_id.s = 0xE;
     }
     }
 

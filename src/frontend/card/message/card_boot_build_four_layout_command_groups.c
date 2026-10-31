@@ -53,7 +53,7 @@ void *card_boot_build_four_layout_command_groups(void *buffer, S_80402A1C_0 *lay
     u8 *write_ptr;
     u8 * stack_end;
 
-    write_ptr = (u8 *)buffer;
+    write_ptr = buffer;
     memcpy(&command_ids, D_80400000 + 0x544, 4);
     do {
         opcode = 0x48;

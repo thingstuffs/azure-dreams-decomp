@@ -25,8 +25,8 @@ void initialize_indexed_render_state(void *object, ObjectPosition *unused, void 
     s32 halfword_offset;
     variant_offset = *((s16 *) (((s8 *) object) + 0x20));
     *((s32 *) (((s8 *) render_state) + 0)) = 0;
-    *((s8 *) (((s8 *) render_state) + 4)) = 0;
-    *((s8 *) (((s8 *) render_state) + 5)) = 0;
+    *((((s8 *) render_state) + 4)) = 0;
+    *((((s8 *) render_state) + 5)) = 0;
     *((u8 **) (((s8 *) render_state) + 8)) = D_800F148C;
     register_node(object - 0x20, runtime_render_linked_textured_sprites);
     angle_table = (u8 *) D_800D0A10;

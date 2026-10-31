@@ -73,7 +73,7 @@ typedef struct S_80170B64_3 {
 } S_80170B64_3;   /* work in update_actor_callbacks_movement_and_terrain */
 
 /* Update actor callbacks, movement, sprite direction, and terrain-relative height. */
-void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPosition *motion, void *sprite_arg)
+void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite_arg)
 {
     S_80170B64_3 *actor_base = (S_80170B64_3 *)body;
     ActorActionHandler update_callback;
@@ -126,33 +126,33 @@ void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPositi
 
         body->unk_90.value = body->unk_90.value +
             motion->velocity_z;
-        sprite_flags = ((S_80170B64_2 *)sprite_arg)->unk_14;
+        sprite_flags = sprite_arg->flags;
         if (!(sprite_flags & 0x8000)) {
             view_direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor_base->unk_2A + 0x100) >> 9) & 7;
             if (body->unk_94 != view_direction) {
                 select_indirect_table_entry(sprite_arg,
-                    *(((u8 *)((S_80170B64_2 *)sprite_arg)->unk_2C.p) + view_direction),
-                    ((S_80170B64_2 *)sprite_arg)->unk_04.s8);
+                    *(((u8 *)sprite_arg->frameTable) + view_direction),
+                    sprite_arg->unk_04);
                 body->unk_94 = view_direction;
             }
             if (dir_sprite_flag[view_direction] != 0) {
-                ((S_80170B64_2 *)sprite_arg)->unk_14 |= 1;
+                sprite_arg->flags |= 1;
             } else {
-                ((S_80170B64_2 *)sprite_arg)->unk_14 &= 0xFFFE;
+                sprite_arg->flags &= 0xFFFE;
             }
-            apply_monster_koyaw_data(actor_base->unk_1C.s, sprite_arg + 0xC);
+            apply_monster_koyaw_data(actor_base->unk_1C.s, ((void *)sprite_arg) + 0xC);
             if (!(actor_base->unk_1C.s & 0x20)) {
-                if (!(((S_80170B64_2 *)sprite_arg)->unk_14 & 0x40)) {
+                if (!(sprite_arg->flags & 0x40)) {
                     advance_sprite_animation_and_textures(sprite_arg);
                 }
             } else {
-                ((S_80170B64_2 *)sprite_arg)->unk_14 |= 0x7000;
+                sprite_arg->flags |= 0x7000;
                 actor_base->unk_1C.s &= 0xFFFBFFFF;
             }
             animated_flags = actor_base->unk_1C.s & 0xF7FFFFFF;
             actor_base->unk_1C.s = animated_flags;
             if (animated_flags & 0x40000) {
-                if (!(((S_80170B64_2 *)sprite_arg)->unk_14 & 0x40)) {
+                if (!(sprite_arg->flags & 0x40)) {
                     animation_table = ((S_80170B64_2 *)sprite_arg)->unk_2C.i;
                     if (animation_table == (s32)&kraken_frame_set_1) {
                         ((S_80170B64_0 *)body)->unk_AC.at00.v = 0;
@@ -203,9 +203,9 @@ void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPositi
             }
         } else {
             if (sprite_flags & 0x800) {
-                ((S_80170B64_2 *)sprite_arg)->unk_14 = sprite_flags & 0x8FFF;
+                sprite_arg->flags = sprite_flags & 0x8FFF;
             } else {
-                ((S_80170B64_2 *)sprite_arg)->unk_14 = sprite_flags | 0x7000;
+                sprite_arg->flags = sprite_flags | 0x7000;
             }
             static_flags = actor_base->unk_1C.s & 0xF7FFFFFF;
             actor_base->unk_1C.s = static_flags;
@@ -228,7 +228,7 @@ void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPositi
                     }
                 }
             } else {
-                if (!(((S_80170B64_2 *)sprite_arg)->unk_14 & 0x40)) {
+                if (!(sprite_arg->flags & 0x40)) {
                     static_animation_table = ((S_80170B64_2 *)sprite_arg)->unk_2C.i;
                     if (static_animation_table == (s32)&kraken_frame_set_1) {
                         ((S_80170B64_0 *)body)->unk_AC.at00.v = 0;
@@ -264,8 +264,8 @@ void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPositi
         if (actor_flags & 0x40000000) {
             actor_base->unk_1C.s = actor_flags & 0xBFFFFFFF;
             tile_height = sample_terrain_surface_height(
-                (((S_80170B64_2 *)sprite_arg)->unk_24 << 6) | 0x20,
-                (((S_80170B64_2 *)sprite_arg)->unk_25 << 6) | 0x20,
+                (sprite_arg->tile_x << 6) | 0x20,
+                (sprite_arg->tile_y << 6) | 0x20,
                 (s16)(actor_base->unk_88 - 0x20));
             if (tile_height < 0x200) {
                 body->unk_90.parts.high.s = (u16)body->unk_90.parts.high.s +
@@ -275,7 +275,7 @@ void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPositi
         }
         motion->z.w.i = body->unk_AC.halves.high.u +
             (actor_base->unk_88 + (u16)body->unk_90.parts.high.s);
-        ((S_80170B64_2 *)sprite_arg)->unk_14 |= 0x40;
+        sprite_arg->flags |= 0x40;
     }
 
 }

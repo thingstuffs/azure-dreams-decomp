@@ -69,7 +69,7 @@ s32 apply_monster_equipment_item(u8 *entity, DungeonItemEntry *target, s16 actio
     S_800C08A4_1 *position;
 
     if (action == 0xD) {
-        if ((((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_2B != MONSTER_TROLL) || ((generate_random_value() & 1) != 0)) {
+        if ((((S_800C08A4_0 *)(entity - 0x18))->unk_2B != MONSTER_TROLL) || ((generate_random_value() & 1) != 0)) {
             return process_record_and_update_linked_state(target, context);
         }
     }
@@ -81,7 +81,7 @@ s32 apply_monster_equipment_item(u8 *entity, DungeonItemEntry *target, s16 actio
     }
     compare_ptr = (u8 *) 0x9FFFFFFF;
     if ((u32) entity <= (u32) compare_ptr) {
-        if (((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_2B != MONSTER_TROLL) {
+        if (((S_800C08A4_0 *)(entity - 0x18))->unk_2B != MONSTER_TROLL) {
             void *body = entity;
             ActorRecord *actor = body;
 
@@ -95,13 +95,13 @@ s32 apply_monster_equipment_item(u8 *entity, DungeonItemEntry *target, s16 actio
             return 1;
 
         }
-        position = ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_00;
-        ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_63 = (u8) (((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_63 & 0xDF);
+        position = ((S_800C08A4_0 *)(entity - 0x18))->unk_00;
+        ((S_800C08A4_0 *)(entity - 0x18))->unk_63 = (u8) (((S_800C08A4_0 *)(entity - 0x18))->unk_63 & 0xDF);
         place_item_at_valid_floor_position((u16) position->unk_02 >> 6, (u16) position->unk_06 >> 6, position->unk_0A,
-            lookup_item_category_mapped_value(((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_61,
-            ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_60), entity + 0x48);
-        ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_60 = (u8) target->unk_00;
-        ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_63 = (u8) (((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_63 | 0x20);
+            lookup_item_category_mapped_value(((S_800C08A4_0 *)(entity - 0x18))->unk_61,
+            ((S_800C08A4_0 *)(entity - 0x18))->unk_60), entity + 0x48);
+        ((S_800C08A4_0 *)(entity - 0x18))->unk_60 = (u8) target->unk_00;
+        ((S_800C08A4_0 *)(entity - 0x18))->unk_63 = (u8) (((S_800C08A4_0 *)(entity - 0x18))->unk_63 | 0x20);
         script = get_unused_text_buffer();
         entity_value = append_entity_display_text(entity, script);
         event_value = expand_text_control_codes(D_800E13DA, entity_value);

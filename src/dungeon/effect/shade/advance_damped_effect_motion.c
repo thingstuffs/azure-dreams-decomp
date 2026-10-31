@@ -17,7 +17,8 @@ typedef struct S_800D4CB0_2_pre {
 } S_800D4CB0_2_pre;   /* the 0x2 bytes before arg0 in advance_damped_effect_motion, addressed as arg0[-1] */
 
 /* Advance and damp motion, fade the effect color, and flag expiration. */
-void advance_damped_effect_motion(void *effect, ObjectPosition *motion, void *color) {
+void advance_damped_effect_motion(void *effect, ObjectPosition *motion, void *color_arg) {
+    S_800D4CB0_1 *color = color_arg;
     s16 ticks_left;
     EmitParticlesUntilExpiredBody *effect_state;
 
@@ -28,11 +29,11 @@ void advance_damped_effect_motion(void *effect, ObjectPosition *motion, void *co
     motion->velocity_x /= 2;
     motion->velocity_y /= 2;
     motion->velocity_z /= 2;
-    ((S_800D4CB0_1 *)color)->unk_0C =
+    color->unk_0C =
         (s8) ((s32) (effect_state->red * effect_state->remaining_ticks) / effect_state->initial_ticks);
-    ((S_800D4CB0_1 *)color)->unk_0D =
+    color->unk_0D =
         (s8) ((s32) (effect_state->green * effect_state->remaining_ticks) / effect_state->initial_ticks);
-    ((S_800D4CB0_1 *)color)->unk_0E =
+    color->unk_0E =
         (s8) ((s32) (effect_state->blue * effect_state->remaining_ticks) / effect_state->initial_ticks);
     ticks_left = (u16) effect_state->remaining_ticks - 1;
     effect_state->remaining_ticks = ticks_left;

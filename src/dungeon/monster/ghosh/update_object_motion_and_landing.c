@@ -76,7 +76,8 @@ typedef struct S_8016E528_4 {
 /* Updates object motion, landing interpolation, and removal. */
 /* Waits before moving Ghosh's item, checks terrain, then places it using saved item bytes or shrinks its
  * falling sprite. */
-void update_object_motion_and_landing(void *motion, void *position, void *object) {
+void update_object_motion_and_landing(void *motion, void *position, void *object_arg) {
+    S_8016E528_1 *object = object_arg;
     u8 item_data[4];
     s32 fall_height;
     s16 move_height;
@@ -101,7 +102,7 @@ void update_object_motion_and_landing(void *motion, void *position, void *object
         ((S_8016E528_0 *)motion)->unk_1A = (u16) (delay_ticks + 1);
         if ((s16) delay_ticks >= 0x38) {
             ((S_8016E528_0 *)motion)->unk_12 = 0;
-            ((S_8016E528_1 *)object)->unk_14 = (u16) (((S_8016E528_1 *)object)->unk_14 & 0xFF7F);
+            object->unk_14 = (u16) (object->unk_14 & 0xFF7F);
             ((S_8016E528_0 *)motion)->unk_1A = 0U;
             ((S_8016E528_0 *)motion)->unk_60 = 0x14900;
         }
@@ -172,10 +173,10 @@ repeat_settling:
         item_data[2] = ((S_8016E528_0 *)motion)->unk_46;
         item_data[3] = ((S_8016E528_0 *)motion)->unk_47;
         place_item_at_valid_floor_position(((S_8016E528_2 *)position)->unk_0E, ((S_8016E528_2 *)position)->unk_12,
-            ((S_8016E528_2 *)position)->unk_16, ((S_8016E528_1 *)object)->unk_08, item_data);
+            ((S_8016E528_2 *)position)->unk_16, object->unk_08, item_data);
         goto mark_removed;
     }
-    if (((S_8016E528_1 *)object)->unk_14 & 0x8000) {
+    if (object->unk_14 & 0x8000) {
         goto repeat_settling;
     }
     do {
@@ -186,9 +187,9 @@ check_falling:
         ((S_8016E528_2 *)position)->unk_08.at00.v = (s32) (((S_8016E528_2 *)position)->unk_08.at00.v
             + ((S_8016E528_0 *)motion)->unk_54);
         ((S_8016E528_0 *)motion)->unk_54 = (s32) (((S_8016E528_0 *)motion)->unk_54 + ((S_8016E528_0 *)motion)->unk_60);
-        scale = ((S_8016E528_1 *)object)->unk_1E - 0xC8;
-        ((S_8016E528_1 *)object)->unk_1E = scale;
-        ((S_8016E528_1 *)object)->unk_1C = scale;
+        scale = object->unk_1E - 0xC8;
+        object->unk_1E = scale;
+        object->unk_1C = scale;
         probe_height = ((S_8016E528_2 *)position)->unk_08.at02u.v;
         fall_height = ((S_8016E528_2 *)position)->unk_08.at02.v;
         if ((sample_terrain_surface_height((((S_8016E528_0 *)motion)->unk_48 << 6) & 0xFFC0,
@@ -203,7 +204,7 @@ mark_removed:
         ((S_8016E528_0_pre *)motion)[-1].unk_00 = (u16) (((S_8016E528_0_pre *)motion)[-1].unk_00 | 0x8000);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
-    } while (((S_8016E528_1 *)object)->unk_14 & 0x8000);
+    } while (object->unk_14 & 0x8000);
     do {
             if (((S_8016E528_0 *)motion)->unk_12 != 0) {
                 return;
@@ -243,7 +244,7 @@ mark_removed:
                         ((S_8016E528_0 *)motion)->unk_49 = (s8) ((u8) ((S_8016E528_0 *)motion)->unk_49
                             + ((S_8016E528_4 *)(((((S_8016E528_0 *)motion)->unk_18 * 4) + direction_table)))->unk_02);
                     }
-                    ((S_8016E528_1 *)object)->unk_06 = 0;
+                    object->unk_06 = 0;
                 }
             }
             ((S_8016E528_2 *)position)->unk_08.at00.v = (s32) (((S_8016E528_2 *)position)->unk_08.at00.v
@@ -268,6 +269,6 @@ mark_removed:
                     ((S_8016E528_0 *)motion)->unk_54 = 0xFFF80000;
                 }
             }
-    } while (((S_8016E528_1 *)object)->unk_14 & 0x8000);
+    } while (object->unk_14 & 0x8000);
     return;
 }

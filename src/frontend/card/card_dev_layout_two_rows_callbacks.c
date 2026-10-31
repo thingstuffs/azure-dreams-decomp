@@ -49,8 +49,8 @@ void card_dev_layout_two_rows_callbacks(S_80020458_2 *owner) {
     ((S_80020458_6 *)(((S_80020458_3 *)firstChild)->unk_04))->unk_08 = 0x40;
     ((S_80020458_6 *)(((S_80020458_3 *)firstChild)->unk_04))->unk_0A = 0x20;
     firstChild->callback = &D_80409110;
-    firstChild = (CardCallbackState *)(((S_80020458_5 *)(owner->unk_60))->unk_04);
-    ((S_80020458_7 *)(((S_80020458_4 *)(CardCallbackState *)firstChild)->unk_04))->unk_08 = 0xC0;
-    ((S_80020458_7 *)(((S_80020458_4 *)(CardCallbackState *)firstChild)->unk_04))->unk_0A = 0x20;
+    firstChild = (((S_80020458_5 *)(owner->unk_60))->unk_04);
+    ((S_80020458_7 *)(((S_80020458_4 *)firstChild)->unk_04))->unk_08 = 0xC0;
+    ((S_80020458_7 *)(((S_80020458_4 *)firstChild)->unk_04))->unk_0A = 0x20;
     firstChild->callback = &D_80409128;
 }

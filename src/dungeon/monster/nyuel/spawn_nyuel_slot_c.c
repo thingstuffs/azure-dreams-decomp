@@ -39,7 +39,7 @@ void *spawn_mode_configured_monster_slot_c(s16 flags, s16 tile_x, s32 variant, s
         part_ptr = created->sprite;
         (part_ptr)->tile_x = tile_x;
         (part_ptr)->tile_y = saved_tile_y;
-        actor_ptr = (u8 *)result;
+        actor_ptr = result;
 
         if (variant == 1) {
             ((S_80158894_0 *)result)->unk_8C = nyuel_slot_c_action_callback;

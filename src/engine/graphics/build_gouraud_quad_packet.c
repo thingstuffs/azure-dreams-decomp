@@ -57,7 +57,9 @@ typedef struct S_8004BDDC_1 {
 } S_8004BDDC_1;   /* arg4 in build_gouraud_quad_packet */
 
    /* Build a textured Gouraud quad packet with tinted vertex colors and adjusted UV bounds. */
-void *build_gouraud_quad_packet(void *tint_a, void *tint_b, void *packet, void *record, void *command) {
+void *build_gouraud_quad_packet(void *tint_a, void *tint_b, void *packet_arg, void *record, void *command_arg) {
+    S_8004BDDC_1 *command = command_arg;
+    S_8004BDDC_0 *packet = packet_arg;
     PacketColorWords *color_record;
     s8 u_end;
     s8 v_end;
@@ -66,56 +68,56 @@ void *build_gouraud_quad_packet(void *tint_a, void *tint_b, void *packet, void *
     void *color_3;
     void *color_0;
 
-    ((S_8004BDDC_0 *)packet)->unk_2C = (s32) ((S_8004BDDC_0 *)packet)->unk_20.at00.v;
-    ((S_8004BDDC_0 *)packet)->unk_20.at00.v = (s32) ((S_8004BDDC_0 *)packet)->unk_18.at00.v;
-    ((S_8004BDDC_0 *)packet)->unk_14.at00.v = (s32) ((S_8004BDDC_0 *)packet)->unk_10.at00.v;
+    packet->unk_2C = (s32) packet->unk_20.at00.v;
+    packet->unk_20.at00.v = (s32) packet->unk_18.at00.v;
+    packet->unk_14.at00.v = (s32) packet->unk_10.at00.v;
     color_record = record;
-    if ((((S_8004BDDC_1 *)command)->unk_08 + ((S_8004BDDC_1 *)command)->unk_0A) >= 0x100) {
-        ((S_8004BDDC_1 *)command)->unk_0A--;
+    if ((command->unk_08 + command->unk_0A) >= 0x100) {
+        command->unk_0A--;
     }
-    if ((((S_8004BDDC_1 *)command)->unk_09 + ((S_8004BDDC_1 *)command)->unk_0B) >= 0x100) {
-        ((S_8004BDDC_1 *)command)->unk_0B--;
+    if ((command->unk_09 + command->unk_0B) >= 0x100) {
+        command->unk_0B--;
     }
     color_record = (void *) ((u8 *) color_record + 0xC);
-    color_1 = packet + 0x10;
-    ((S_8004BDDC_0 *)packet)->unk_10.at00.v = (s32) color_record->unk_00;
-    ((S_8004BDDC_0 *)packet)->unk_04 = (u8) ((S_8004BDDC_0 *)packet)->unk_10.at03.v;
+    color_1 = packet_arg + 0x10;
+    packet->unk_10.at00.v = (s32) color_record->unk_00;
+    packet->unk_04 = (u8) packet->unk_10.at03.v;
     multiply_rgb_tint_saturated(color_1, tint_a);
     multiply_rgb_tint_saturated(color_1, tint_b);
-    color_2 = packet + 0x1C;
-    ((S_8004BDDC_0 *)packet)->unk_1C.at00.v = (s32) color_record->unk_04;
-    ((S_8004BDDC_0 *)packet)->unk_05 = (u8) ((S_8004BDDC_0 *)packet)->unk_1C.at03.v;
+    color_2 = packet_arg + 0x1C;
+    packet->unk_1C.at00.v = (s32) color_record->unk_04;
+    packet->unk_05 = (u8) packet->unk_1C.at03.v;
     multiply_rgb_tint_saturated(color_2, tint_a);
     multiply_rgb_tint_saturated(color_2, tint_b);
-    color_3 = packet + 0x28;
-    ((S_8004BDDC_0 *)packet)->unk_28.at00.v = (s32) color_record->unk_08;
-    ((S_8004BDDC_0 *)packet)->unk_06 = (u8) ((S_8004BDDC_0 *)packet)->unk_28.at03.v;
+    color_3 = packet_arg + 0x28;
+    packet->unk_28.at00.v = (s32) color_record->unk_08;
+    packet->unk_06 = (u8) packet->unk_28.at03.v;
     multiply_rgb_tint_saturated(color_3, tint_a);
     multiply_rgb_tint_saturated(color_3, tint_b);
-    color_0 = packet + 4;
+    color_0 = packet_arg + 4;
     multiply_rgb_tint_saturated(color_0, tint_a);
     multiply_rgb_tint_saturated(color_0, tint_b);
-    ((S_8004BDDC_0 *)packet)->unk_03 = 0xC;
-    ((S_8004BDDC_0 *)packet)->unk_07 = (u8) ((S_8004BDDC_1 *)command)->unk_01;
-    ((S_8004BDDC_0 *)packet)->unk_0C = (u8) ((S_8004BDDC_1 *)command)->unk_08;
-    ((S_8004BDDC_0 *)packet)->unk_0E = (u16) ((S_8004BDDC_1 *)command)->unk_06;
-    ((S_8004BDDC_0 *)packet)->unk_0D = (u8) ((S_8004BDDC_1 *)command)->unk_09;
-    if ((((S_8004BDDC_0 *)packet)->unk_14.at00u.v < ((S_8004BDDC_0 *)packet)->unk_08) ||
-        (((S_8004BDDC_0 *)packet)->unk_08 != ((S_8004BDDC_0 *)packet)->unk_20.at00u.v)) {
-        ((S_8004BDDC_1 *)command)->unk_0A = (u8) (((S_8004BDDC_1 *)command)->unk_0A - 1);
+    packet->unk_03 = 0xC;
+    packet->unk_07 = (u8) command->unk_01;
+    packet->unk_0C = (u8) command->unk_08;
+    packet->unk_0E = (u16) command->unk_06;
+    packet->unk_0D = (u8) command->unk_09;
+    if ((packet->unk_14.at00u.v < packet->unk_08) ||
+        (packet->unk_08 != packet->unk_20.at00u.v)) {
+        command->unk_0A = (u8) (command->unk_0A - 1);
     }
-    u_end = ((S_8004BDDC_1 *)command)->unk_08 + ((S_8004BDDC_1 *)command)->unk_0A;
-    ((S_8004BDDC_0 *)packet)->unk_30 = u_end;
-    ((S_8004BDDC_0 *)packet)->unk_18.at00u.v = u_end;
-    ((S_8004BDDC_0 *)packet)->unk_18.at01.v = (u8) ((S_8004BDDC_1 *)command)->unk_09;
-    ((S_8004BDDC_0 *)packet)->unk_18.at02.v = (u16) ((S_8004BDDC_1 *)command)->unk_04;
-    ((S_8004BDDC_0 *)packet)->unk_24 = (u8) ((S_8004BDDC_1 *)command)->unk_08;
-    if ((((S_8004BDDC_0 *)packet)->unk_20.at02.v < ((S_8004BDDC_0 *)packet)->unk_0A) ||
-        (((S_8004BDDC_0 *)packet)->unk_0A != ((S_8004BDDC_0 *)packet)->unk_14.at02.v)) {
-        ((S_8004BDDC_1 *)command)->unk_0B = (u8) (((S_8004BDDC_1 *)command)->unk_0B - 1);
+    u_end = command->unk_08 + command->unk_0A;
+    packet->unk_30 = u_end;
+    packet->unk_18.at00u.v = u_end;
+    packet->unk_18.at01.v = (u8) command->unk_09;
+    packet->unk_18.at02.v = (u16) command->unk_04;
+    packet->unk_24 = (u8) command->unk_08;
+    if ((packet->unk_20.at02.v < packet->unk_0A) ||
+        (packet->unk_0A != packet->unk_14.at02.v)) {
+        command->unk_0B = (u8) (command->unk_0B - 1);
     }
-    v_end = ((S_8004BDDC_1 *)command)->unk_09 + ((S_8004BDDC_1 *)command)->unk_0B;
-    ((S_8004BDDC_0 *)packet)->unk_31 = v_end;
-    ((S_8004BDDC_0 *)packet)->unk_25 = v_end;
+    v_end = command->unk_09 + command->unk_0B;
+    packet->unk_31 = v_end;
+    packet->unk_25 = v_end;
     return color_record;
 }

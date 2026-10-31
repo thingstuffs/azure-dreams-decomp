@@ -17,8 +17,8 @@ enum DeploymentOverlayState {
 
 /* Updates an object's scale and brightness through its transition modes. */
 void update_familiar_deployment_overlay(void *object_data, void *unused, void *state_data) {
-    u8 *obj = (u8 *)object_data;
-    u8 *state = (u8 *)state_data;
+    u8 *obj = object_data;
+    u8 *state = state_data;
     s16 mode;
     u16 grow_ticks;
     u16 shrink_ticks;
@@ -50,12 +50,12 @@ void update_familiar_deployment_overlay(void *object_data, void *unused, void *s
         return;
     case DEPLOY_OVERLAY_WAIT_SAVE:
         if (*(s16 *)(obj + 8) == 0) {
-            brightness = *(u8 *)(state + 0xC);
+            brightness = *(state + 0xC);
             if (brightness >= 0x81U) {
                 dimmed_brightness = brightness - 8;
-                *(u8 *)(state + 0xC) = dimmed_brightness;
-                *(u8 *)(state + 0xE) = dimmed_brightness;
-                *(u8 *)(state + 0xD) = dimmed_brightness;
+                *(state + 0xC) = dimmed_brightness;
+                *(state + 0xE) = dimmed_brightness;
+                *(state + 0xD) = dimmed_brightness;
             }
         }
         if (*(s32 *)(*(u8 **)obj + 0x2C) != (s32)&familiar_save_frames) {

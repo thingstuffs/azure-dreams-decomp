@@ -3,6 +3,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/actor/state.h"
+#include "shared/entity.h"
 
 typedef struct {
     u16 unk0;
@@ -17,7 +18,7 @@ extern void select_sprite_entry(void *, s32, s32);
 s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames)
 {
 
-    *(u8 *)((u8 *)actor + 0x71) &= 0x7F;
+    *((u8 *)actor + 0x71) &= 0x7F;
     if (g_dungeon_status.flags & 0x2008) {
         *(s8 *)((u8 *)actor + 0x9A) = 0xE;
         return 1;

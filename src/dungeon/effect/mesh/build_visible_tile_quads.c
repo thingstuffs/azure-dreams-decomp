@@ -70,7 +70,7 @@ void build_visible_tile_quads(u8 *tiles)
     u16 z;
 
     ((S_800D1824_0 *)scratch)->unk_28 = 0;
-    render_state = ((u8 *)globals->draw_buffer);
+    render_state = globals->draw_buffer;
     style = (S_800D1824_4 *)((S_800D1824_5 *)(((u8 *)globals->map.cell_faces)))->unk_10;
     prim = ((GpuContext *)render_state)->packetCursor;
     ((S_800D1824_0 *)scratch)->unk_2C = -0x1000;

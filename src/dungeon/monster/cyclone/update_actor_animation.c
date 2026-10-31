@@ -8,20 +8,6 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
-typedef struct S_80171094_0 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x2];
-    u16 unk_92;
-    u8 pad_94[0x4];
-    u16 unk_98;
-    u8 unk_9A;
-    u8 unk_9B;
-    u8 pad_9C[0xA];
-    union { s16 s; u16 u; } unk_A6;   /* accessed as both */
-    u8 pad_A8[0x4];
-    union { s16 s; u16 u; } unk_AC;   /* accessed as both */
-} S_80171094_0;   /* arg0 in update_actor_animation */
 
 typedef struct S_80171094_1 {
     u8 pad_00[0x14];
@@ -49,7 +35,7 @@ extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 
-extern void advance_path_motion(void *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
+extern void advance_path_motion(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 extern void func_801718B4(void *, void *, void *, void *);
 extern s32 func_80171FFC(ActorRecord *action_state, ObjectPosition *action_ctx, SpriteFrameState *sprite, ActorRecord *actor);
 void finish_actor_tile_move_and_check_trap(ActorRecord *action_state, ObjectPosition *action_ctx, SpriteFrameState *sprite, ActorRecord *actor);
@@ -103,7 +89,7 @@ void update_actor_animation(ActorRecord *actor_arg, ObjectPosition *context_arg,
         if (*(u8 **)&sprite_arg->frameTable == cyclone_direction_frames) {
             actor_arg->action_id.u = 13;
             actor_arg->action_phase.u = 1;
-            ((S_80171094_0 *)actor_arg)->unk_8C = 0;
+            actor_arg->unk_8C.word = 0;
             ((S_80171094_1 *)stats)->unk_1C &= ~0x40000;
             return;
         }
@@ -130,8 +116,8 @@ void update_actor_animation(ActorRecord *actor_arg, ObjectPosition *context_arg,
                 animations[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80171094_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
                 0);
             sprite_arg->frame_ticks = 1;
-            ((S_80171094_0 *)actor_arg)->unk_A6.s = 0;
-            ((S_80171094_0 *)actor_arg)->unk_AC.s = 0;
+            actor_arg->unk_A4.halves.high.s = 0;
+            actor_arg->unk_AC.halves.low.s = 0;
         }
 
         {
@@ -156,9 +142,9 @@ void update_actor_animation(ActorRecord *actor_arg, ObjectPosition *context_arg,
 
         if (((S_80171094_1 *)stats)->unk_1C & 0x80000) {
             begin_actor_move_to_target_facing(actor_arg, context_arg, sprite_arg, stats);
-            actor_arg->unk_90.parts.high.u -= ((S_80171094_0 *)actor_arg)->unk_A6.u;
-            ((S_80171094_0 *)actor_arg)->unk_A6.u = 0;
-            ((S_80171094_0 *)actor_arg)->unk_AC.u = 0;
+            actor_arg->unk_90.parts.high.u -= actor_arg->unk_A4.halves.high.u;
+            actor_arg->unk_A4.halves.high.u = 0;
+            actor_arg->unk_AC.halves.low.u = 0;
             func_80174520(actor_arg, context_arg, sprite_arg, stats);
             return;
         }

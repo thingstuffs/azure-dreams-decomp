@@ -121,8 +121,10 @@ typedef struct {
 extern void func_80065034(void *, void *, void *);
 
 /* Transform, shade, and enqueue visible textured quads for the model. */
-void transform_shade_and_queue_model_quads(void *parent_matrix, void *translation, void *model, s16 depth_bias)
+void transform_shade_and_queue_model_quads(void *parent_matrix, void *translation_arg, void *model_arg, s16 depth_bias)
 {
+    S_800C9088_0 *model = model_arg;
+    S_800C9088_2 *translation = translation_arg;
     u8 *scratch;
     u8 *indices;
     u8 *positions;
@@ -156,14 +158,14 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
 
     PushMatrix();
 
-    scale_x = ((S_800C9088_0 *)model)->unk_1C;
+    scale_x = model->unk_1C;
     scratch = (u8 *)0x1F800000;
     ((S_800C9088_1 *)scratch)->unk_30 = scale_x;
-    ((S_800C9088_1 *)scratch)->unk_34 = ((S_800C9088_0 *)model)->unk_1E;
-    ((S_800C9088_1 *)scratch)->unk_38 = ((S_800C9088_0 *)model)->unk_20;
-    ((S_800C9088_1 *)scratch)->unk_40 = ((S_800C9088_2 *)translation)->unk_02;
-    ((S_800C9088_1 *)scratch)->unk_44 = ((S_800C9088_2 *)translation)->unk_06;
-    ((S_800C9088_1 *)scratch)->unk_48 = ((S_800C9088_2 *)translation)->unk_0A;
+    ((S_800C9088_1 *)scratch)->unk_34 = model->unk_1E;
+    ((S_800C9088_1 *)scratch)->unk_38 = model->unk_20;
+    ((S_800C9088_1 *)scratch)->unk_40 = translation->unk_02;
+    ((S_800C9088_1 *)scratch)->unk_44 = translation->unk_06;
+    ((S_800C9088_1 *)scratch)->unk_48 = translation->unk_0A;
 
     ReadRotMatrix(&saved_transform);
 
@@ -177,14 +179,14 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
     ((S_800C9088_1 *)scratch)->unk_54 = 0;
     ((S_800C9088_1 *)scratch)->unk_52 = 0;
 
-    RotMatrixX(((S_800C9088_0 *)model)->unk_16, scratch + 0x50);
-    RotMatrixZ(((S_800C9088_0 *)model)->unk_1A, scratch + 0x50);
-    RotMatrixY(((S_800C9088_0 *)model)->unk_18, scratch + 0x50);
+    RotMatrixX(model->unk_16, scratch + 0x50);
+    RotMatrixZ(model->unk_1A, scratch + 0x50);
+    RotMatrixY(model->unk_18, scratch + 0x50);
 
-    if (((S_800C9088_0 *)model)->unk_14 & 1) {
+    if (model->unk_14 & 1) {
         ((S_800C9088_1 *)scratch)->unk_30 = -((S_800C9088_1 *)scratch)->unk_30;
     }
-    if (((S_800C9088_0 *)model)->unk_14 & 2) {
+    if (model->unk_14 & 2) {
         ((S_800C9088_1 *)scratch)->unk_34 = -((S_800C9088_1 *)scratch)->unk_34;
     }
 
@@ -199,21 +201,21 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
     base_color = (u8 *)model + 0xC;
     ((S_800C9088_1 *)scratch)->unk_20.s = state + 0xB0;
     packet = ((GpuContext *)state)->packetCursor;
-    ((S_800C9088_0 *)model)->unk_14 |= 0x8000;
+    model->unk_14 |= 0x8000;
 
-    descriptor = (S_800C9088_4 *)((S_800C9088_0 *)model)->unk_08;
+    descriptor = (S_800C9088_4 *)model->unk_08;
     indices = descriptor->unk_00;
     positions = descriptor->unk_04;
     normals = descriptor->unk_08;
 
     for (;;) {
     vertex_xy = ((S_800C9088_12 *)(positions + ((u16 *)indices)[0] * 8))->unk_00;
-    vertex_index = (*(u16 *)((u8 *)indices + 2));
+    vertex_index = (*(u16 *)(indices + 2));
     ((S_800C9088_1 *)scratch)->unk_70 = vertex_xy;
     vertex_xy = ((S_800C9088_6 *)(positions + vertex_index * 8))->unk_00;
-    vertex2_pos = (S_800C9088_7 *)((*(u16 *)((u8 *)indices + 4)) * 8 + (u32)positions);
+    vertex2_pos = (S_800C9088_7 *)((*(u16 *)(indices + 4)) * 8 + (u32)positions);
     ((S_800C9088_1 *)scratch)->unk_78 = vertex_xy;
-    last_index = (*(u16 *)((u8 *)indices + 6));
+    last_index = (*(u16 *)(indices + 6));
     vertex2_xy = vertex2_pos->unk_00;
     vertex3_pos = (S_800C9088_8 *)(last_index * 8 + (unsigned long)positions);
     ((S_800C9088_1 *)scratch)->unk_80 = vertex2_xy;
@@ -223,17 +225,17 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
     vertex_z = ((S_800C9088_9 *)(positions + z_index * 8))->unk_04;
     ((S_800C9088_1 *)scratch)->unk_74 = vertex_z;
 
-    vertex_z = ((S_800C9088_13 *)(positions + (*(u16 *)((u8 *)indices + 2)) * 8))->unk_04;
+    vertex_z = ((S_800C9088_13 *)(positions + (*(u16 *)(indices + 2)) * 8))->unk_04;
     vertex0 = scratch + 0x70;
     ((S_800C9088_1 *)scratch)->unk_7C = vertex_z;
 
-    z_index = (*(u16 *)((u8 *)indices + 4));
+    z_index = (*(u16 *)(indices + 4));
     vertex1 = scratch + 0x78;
     vertex_z = ((S_800C9088_9 *)(positions + z_index * 8))->unk_04;
     vertex2 = scratch + 0x80;
     ((S_800C9088_1 *)scratch)->unk_84 = vertex_z;
 
-    z_index = (*(u16 *)((u8 *)indices + 6));
+    z_index = (*(u16 *)(indices + 6));
     vertex3 = scratch + 0x88;
     ((S_800C9088_1 *)scratch)->unk_88 = vertex3_xy;
     vertex3_z = ((S_800C9088_9 *)(positions + z_index * 8))->unk_04;
@@ -246,27 +248,27 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
                           scratch + 0x90, scratch + 0x94);
     ((S_800C9088_1 *)scratch)->unk_C0 = depth;
 
-    flags = ((S_800C9088_0 *)model)->unk_14 & 3;
+    flags = model->unk_14 & 3;
     switch (flags) {
     case 0:
-        screen_xy0 = (*(s32 *)((u8 *)packet + 8));
-        screen_xy1 = (*(s32 *)((u8 *)packet + 0x14));
-        screen_xy2 = (*(s32 *)((u8 *)packet + 0x20));
+        screen_xy0 = (*(s32 *)(packet + 8));
+        screen_xy1 = (*(s32 *)(packet + 0x14));
+        screen_xy2 = (*(s32 *)(packet + 0x20));
         break;
     case 1:
-        screen_xy0 = (*(s32 *)((u8 *)packet + 0x14));
-        screen_xy1 = (*(s32 *)((u8 *)packet + 8));
-        screen_xy2 = (*(s32 *)((u8 *)packet + 0x20));
+        screen_xy0 = (*(s32 *)(packet + 0x14));
+        screen_xy1 = (*(s32 *)(packet + 8));
+        screen_xy2 = (*(s32 *)(packet + 0x20));
         break;
     case 2:
-        screen_xy0 = (*(s32 *)((u8 *)packet + 0x20));
-        screen_xy1 = (*(s32 *)((u8 *)packet + 0x14));
-        screen_xy2 = (*(s32 *)((u8 *)packet + 8));
+        screen_xy0 = (*(s32 *)(packet + 0x20));
+        screen_xy1 = (*(s32 *)(packet + 0x14));
+        screen_xy2 = (*(s32 *)(packet + 8));
         break;
     default:
-        screen_xy0 = (*(s32 *)((u8 *)packet + 0x20));
-        screen_xy1 = (*(s32 *)((u8 *)packet + 8));
-        screen_xy2 = (*(s32 *)((u8 *)packet + 0x14));
+        screen_xy0 = (*(s32 *)(packet + 0x20));
+        screen_xy1 = (*(s32 *)(packet + 8));
+        screen_xy2 = (*(s32 *)(packet + 0x14));
         break;
     }
     winding = NormalClip(screen_xy0, screen_xy1, screen_xy2);
@@ -274,28 +276,28 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
     if (((S_800C9088_1 *)scratch)->unk_114 > 0) {
         ((S_800C9088_1 *)scratch)->unk_C0 -= depth_bias;
         if ((u32)((S_800C9088_1 *)scratch)->unk_C0 < 0x1E0) {
-            func_80065034(normals + (*(u16 *)((u8 *)indices + 0x10)) * 8,
+            func_80065034(normals + (*(u16 *)(indices + 0x10)) * 8,
                           base_color, packet + 4);
-            func_80065034(normals + (*(u16 *)((u8 *)indices + 0x12)) * 8,
+            func_80065034(normals + (*(u16 *)(indices + 0x12)) * 8,
                           base_color, packet + 0x10);
-            func_80065034(normals + (*(u16 *)((u8 *)indices + 0x14)) * 8,
+            func_80065034(normals + (*(u16 *)(indices + 0x14)) * 8,
                           base_color, packet + 0x1C);
-            func_80065034(normals + (*(u16 *)((u8 *)indices + 0x16)) * 8,
+            func_80065034(normals + (*(u16 *)(indices + 0x16)) * 8,
                           base_color, packet + 0x28);
 
-            (*(s32 *)((u8 *)packet + 0xC)) = (*(s32 *)((u8 *)indices + 8));
-            (*(u16 *)((u8 *)packet + 0xE)) += ((S_800C9088_0 *)model)->unk_12;
-            (*(s32 *)((u8 *)packet + 0x18)) = (*(s32 *)((u8 *)indices + 0xC));
-            if (((S_800C9088_0 *)model)->unk_10 != 0) {
-                (*(u16 *)((u8 *)packet + 0x1A)) =
-                    ((*(u16 *)((u8 *)packet + 0x1A)) & 0xFF9F) +
-                    ((S_800C9088_0 *)model)->unk_10;
+            (*(s32 *)(packet + 0xC)) = (*(s32 *)(indices + 8));
+            (*(u16 *)(packet + 0xE)) += model->unk_12;
+            (*(s32 *)(packet + 0x18)) = (*(s32 *)(indices + 0xC));
+            if (model->unk_10 != 0) {
+                (*(u16 *)(packet + 0x1A)) =
+                    ((*(u16 *)(packet + 0x1A)) & 0xFF9F) +
+                    model->unk_10;
             }
-            (*(u16 *)((u8 *)packet + 0x24)) = (*(u16 *)((u8 *)indices + 0x1A));
-            (*(u16 *)((u8 *)packet + 0x30)) = (*(u16 *)((u8 *)indices + 0x1C));
+            (*(u16 *)(packet + 0x24)) = (*(u16 *)(indices + 0x1A));
+            (*(u16 *)(packet + 0x30)) = (*(u16 *)(indices + 0x1C));
 
             SetPolyGT4(packet);
-            flags = ((S_800C9088_0 *)model)->unk_14;
+            flags = model->unk_14;
             if (flags & 8) {
                 if (flags & 4) {
                     packet[7] |= 2;
@@ -305,7 +307,7 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
                           ((S_800C9088_1 *)scratch)->unk_C0 * 4,
                           packet);
             packet += 0x34;
-            ((S_800C9088_0 *)model)->unk_14 &= 0x7FFF;
+            model->unk_14 &= 0x7FFF;
         }
     }
 

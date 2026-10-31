@@ -34,16 +34,16 @@ void initialize_actor_sprite_and_animation(void *entity, void *position, SpriteF
     if (mode == 2) {
         if ((extra_flags << 16) == 0) {
             sprite->animation_resource =
-                load_and_publish_texture_resource_pair(*(u8 *)(entity_data + 0x13));
+                load_and_publish_texture_resource_pair(*(entity_data + 0x13));
         } else {
             sprite->animation_resource = loaded_entity_sprite_resource[0];
         }
         spell_effect_selector_cache[0] = -1;
     } else {
-        if (*(u8 *)(entity_data + 0x13) != 0x38) {
-            load_and_upload_sprite_resource(*(u8 *)(entity_data + 0x13));
+        if (*(entity_data + 0x13) != 0x38) {
+            load_and_upload_sprite_resource(*(entity_data + 0x13));
         }
-        entity_kind = *(u8 *)(entity_data + 0x13);
+        entity_kind = *(entity_data + 0x13);
         bind_sprite_resource_slot_record(entity, entity_kind);
     }
 

@@ -3,21 +3,6 @@
 #include "shared/object_flags.h"
 #include "frontend/settings.h"
 
-typedef struct EffectOwner {
-    u8 pad0[0x16];
-    s16 flags;
-} EffectOwner;
-
-typedef struct ColorEffect {
-    s16 state;
-    u16 timer;
-    u8 pad4[8];
-    EffectOwner *owner;
-    u32 color;
-    u8 pad14[8];
-    u16 flags;
-} ColorEffect;
-
 typedef struct SignedStateView {
     s16 value;
 } SignedStateView;
@@ -38,7 +23,7 @@ void update_settings_color_cycle(ColorEffect *effect)
     s32 initial_state;
     s32 timer;
     u16 old_timer;
-    EffectOwner *owner;
+    SettingsColorEffectOwnerBody *owner;
 
     old_timer = effect->timer;
     owner = effect->owner;

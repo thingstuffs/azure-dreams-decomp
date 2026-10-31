@@ -18,9 +18,11 @@ typedef struct S_800CB5DC_0 {
 } S_800CB5DC_0;   /* arg0 in initialize_object_with_ten_tick_counter */
 
 /* Initialize the object's state, clear its slot flag, and set its counter to ten. */
-void initialize_object_with_ten_tick_counter(void *object, s32 unused, s8 *context) {
+void initialize_object_with_ten_tick_counter(void *object_arg, s32 unused, s8 *context) {
+    S_800CB5DC_0 *object = object_arg;
+
     initialize_object_entries(object, context, D_800D694C);
-    object_index_slots[((S_800CB5DC_0 *)object)->unk_60].unk_00 = 0;
-    ((S_800CB5DC_0 *)object)->unk_54 = &func_800CB570;
-    ((S_800CB5DC_0 *)object)->unk_6C = 0xA;
+    object_index_slots[object->unk_60].unk_00 = 0;
+    object->unk_54 = &func_800CB570;
+    object->unk_6C = 0xA;
 }

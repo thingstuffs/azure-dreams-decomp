@@ -195,8 +195,8 @@ void advance_linked_actor_motion_script(ActorRecord *state_in, ObjectPosition *m
     S_80171D74_21 *tile_se;
     s32 angle_tmp;
 
-    offset_table = *((Table32 *)(&D_8016482C));
-    direction_table = *((Table32 *)(&D_80164AC0));
+    offset_table = *((&D_8016482C));
+    direction_table = *((&D_80164AC0));
     map_info = &g_game_work.map;
     map_tiles = ((S_80171D74_0 *)((s32 *)(&g_game_work.map)))->unk_00;
     owner_state = beldo_script_node[0] + 0x20;
@@ -276,7 +276,7 @@ void advance_linked_actor_motion_script(ActorRecord *state_in, ObjectPosition *m
         break;
     case 6:
         sprite_in->frameTable = &D_80173DAC;
-        select_sprite_entry(sprite_in, D_80173DAC[((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
+        select_sprite_entry(sprite_in, D_80173DAC[((s32) (((S_80171D74_6 *)((&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
             + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 3);
         state_in->action_timer.u = 0U;
         state_in->action_id.u = (u8) (state_in->action_id.u + 1);
@@ -333,7 +333,7 @@ void advance_linked_actor_motion_script(ActorRecord *state_in, ObjectPosition *m
             owner_state->unk_2A.n = angle_input_m;
             state_in->unk_94 = 1;
             sprite_in->frameTable = &beldo_large_frame_set_14;
-            select_sprite_entry(sprite_in, beldo_large_frame_set_14[((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
+            select_sprite_entry(sprite_in, beldo_large_frame_set_14[((s32) (((S_80171D74_6 *)((&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
                 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
             direction_base = (u8 *)&direction_table;
             motion_in->velocity_x = (s32) (0 - (SP2_X_AT(direction_base, owner_state->unk_2A.n) << 0x10));
@@ -390,7 +390,7 @@ void advance_linked_actor_motion_script(ActorRecord *state_in, ObjectPosition *m
             state_in->action_id.u = (u8) (state_in->action_id.u + 1);
             ((S_80171D74_10 *)(encounter_offset_object))->unk_32 = 3;
             sprite_in->frameTable = &beldo_large_frame_set_8;
-            select_sprite_entry(sprite_in, beldo_large_frame_set_8[((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
+            select_sprite_entry(sprite_in, beldo_large_frame_set_8[((s32) (((S_80171D74_6 *)((&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
                 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
             angle_input_m = owner_state->unk_2A.n;
             angle_tmp = angle_input_m + 0x200;
@@ -552,7 +552,7 @@ void advance_linked_actor_motion_script(ActorRecord *state_in, ObjectPosition *m
             state_in->action_id.u = (u8) (state_in->action_id.u + 1);
             sprite_in->frameTable = &beldo_large_frame_set_8;
             sprite_in->flags = (u16) (sprite_in->flags & 0xF7FF);
-            select_sprite_entry(sprite_in, beldo_large_frame_set_8[((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
+            select_sprite_entry(sprite_in, beldo_large_frame_set_8[((s32) (((S_80171D74_6 *)((&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
                 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
             direction_base = (u8 *)&direction_table;
             motion_in->velocity_x = (s32) (SP2_X_AT(direction_base, owner_state->unk_2A.n) << 0x14);
@@ -633,7 +633,7 @@ void advance_linked_actor_motion_script(ActorRecord *state_in, ObjectPosition *m
         if (turn_value == 0x1A) {
             sprite_in->frameTable = &beldo_large_frame_set_8;
             sprite_in->flags = (u16) (sprite_in->flags & 0xF7FF);
-            select_sprite_entry(sprite_in, beldo_large_frame_set_8[((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
+            select_sprite_entry(sprite_in, beldo_large_frame_set_8[((s32) (((S_80171D74_6 *)((&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
                 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
         }
         if ((s16) state_in->action_timer.u >= 0x1E) {
@@ -666,7 +666,7 @@ void advance_linked_actor_motion_script(ActorRecord *state_in, ObjectPosition *m
             }
             owner_state->unk_2A.n = (u16) facing_angle;
             select_sprite_entry(sprite_in, *(*(u8 **)&sprite_in->frameTable
-                + (((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00 + facing_angle + 0x100)
+                + (((s32) (((S_80171D74_6 *)((&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00 + facing_angle + 0x100)
                     >> 9) & 7)), 0);
         }
         break;
@@ -771,7 +771,7 @@ shared_tail:
             break;
     }
     if (beldo_script_node[0] != 0) {
-        sprite_dir = ((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
+        sprite_dir = ((s32) (((S_80171D74_6 *)((&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
             + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7;
         if (state_in->unk_94 != sprite_dir) {
             select_indirect_table_entry(sprite_in, *(*(u8 **)&sprite_in->frameTable + sprite_dir),
@@ -780,7 +780,7 @@ shared_tail:
         }
         {
             u16 sprite_flags;
-            if ((*(u8 *)((u8 *)dir_sprite_flag + sprite_dir)) != 0) {
+            if ((*((u8 *)dir_sprite_flag + sprite_dir)) != 0) {
                 sprite_flags = sprite_in->flags | 1;
             } else {
                 sprite_flags = sprite_in->flags & 0xFFFE;

@@ -65,7 +65,7 @@ s32 call_slot_handler_and_update_status(s32 handler_id, void *object_ptr, s32 sl
     u8 *state = trap_request_blocked;
     s32 result;
     StatusEntry *status;
-    Arg1Struct *object = (Arg1Struct *) object_ptr;
+    Arg1Struct *object = object_ptr;
     u8 *slot_base;
     s16 slot_index = slot_id;
 

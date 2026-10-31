@@ -283,7 +283,7 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
     if ((*(s32 *)&status_base->activity_counts.word == D_800E4948[0]) && (*(s32 *)&status_base->active_actor == ((S_80089AA0_4 *)previous_input)->unk_04)
         && (*(s32 *)&status_base->pending_display_owner == ((S_80089AA0_4 *)previous_input)->unk_08)
         && (status_base->trap_counts.parts.pending_trap_count == ((S_80089AA0_4 *)previous_input)->unk_0C) && !(system_update_flags & 8)
-        && ((action_id = (*(u8 *)((u8 *)linked_actor + 0x9A))) != 0x17) && (action_id != 0x27) && (action_id != 0x29)
+        && ((action_id = (*((u8 *)linked_actor + 0x9A))) != 0x17) && (action_id != 0x27) && (action_id != 0x29)
         && (dungeon_event_pending_flag == 0) && ((status_base->active_actor != 0) || (status_base->pending_display_owner != 0) || (status_base->trap_counts.parts.pending_trap_count != 0)
         || (*(s32 *)&status_base->activity_counts.word != 0))) {
         player_idle_turn_count += 1;
@@ -319,9 +319,9 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
                 }
                 if (!(system_update_flags & 8)) {
                     g_dungeon_status.turn_counter = (u16) (g_dungeon_status.turn_counter + 1);
-                    actor_fraction = ((S_80089AA0_9 *)(&player_turn_fraction))->unk_00 + (*(u8 *)((u8 *)actor + 0x29));
+                    actor_fraction = ((S_80089AA0_9 *)(&player_turn_fraction))->unk_00 + (*((u8 *)actor + 0x29));
                     player_turn_fraction = (s32)actor_fraction;
-                    turn_sign = (*(u8 *)((u8 *)actor + 0x28));
+                    turn_sign = (*((u8 *)actor + 0x28));
                     if (actor_fraction >= 0x101U) {
                         do {
                             actor_remainder = (u32)player_turn_fraction - 0x100;
@@ -329,11 +329,11 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
                             turn_sign += 1;
                         } while (actor_remainder >= 0x101U);
                     }
-                    actor_limit = (*(u8 *)((u8 *)actor + 0x29));
+                    actor_limit = (*((u8 *)actor + 0x29));
                     if ((s32) actor_limit < (s32) turn_sign) {
                         turn_sign = actor_limit;
                     }
-                    (*(u8 *)((u8 *)actor + 0x28)) = turn_sign;
+                    (*((u8 *)actor + 0x28)) = turn_sign;
                     companion_index = 1;
                     companion_counters = &familiar_turn_counters_alias;
                     companion_fraction = (u32 *)((u8 *)companion_counters + 4);
@@ -404,7 +404,7 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
         g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 4);
     }
     if (!(system_update_flags & 8)) {
-        if (((*(u8 *)((u8 *)linked_actor + 0x9A)) != 0x17) && (dungeon_event_pending_flag == 0)
+        if (((*((u8 *)linked_actor + 0x9A)) != 0x17) && (dungeon_event_pending_flag == 0)
             && ((u32) ((S_80089AA0_13 *)(&player_idle_turn_count))->unk_00 >= 0x385U)) {
             reset_actor = dungeon_actor_ring_anchor;
             player_idle_turn_count = 0;
@@ -425,7 +425,7 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
             }
         }
         if (!((*(u16 *)0x80013714) & 8) && (!(g_dungeon_status.flags & 4)
-            || (((S_80089AA0_6 *)(&dungeon_floor_flags))->unk_00 & 0x40) || ((*(u8 *)((u8 *)linked_actor + 0x9A)) == 0x17))) {
+            || (((S_80089AA0_6 *)(&dungeon_floor_flags))->unk_00 & 0x40) || ((*((u8 *)linked_actor + 0x9A)) == 0x17))) {
             dungeon_floor_flags = (s32)(dungeon_floor_flags & ~0x40);
             if ((select_nearby_target_and_initialize_slot(actor - 0x20, in_motion, 8, dungeon_camera_targets[3]) << 0x10) != 0) {
                 g_game_work.view.slot[2].callback = 0;
@@ -449,7 +449,7 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
     if (update_callback != 0) {
         update_callback(linked_actor, in_motion, sprite_or_root, actor);
     }
-    player_action_handlers[(*(u8 *)((u8 *)linked_actor + 0x9A))](linked_actor, in_motion, sprite_or_root, actor);
+    player_action_handlers[(*((u8 *)linked_actor + 0x9A))](linked_actor, in_motion, sprite_or_root, actor);
     facing = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
     /*
      * BUG: egg heating clears the mirror bit while updating the cached direction. After canceling, walking in
@@ -466,7 +466,7 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
                 ((S_80089AA0_16 *)sprite_or_root)->unk_04, 1);
         }
         (*(s16 *)((u8 *)linked_actor + 0x94)) = facing;
-        if (((*(u8 *)((u8 *)linked_actor + 0x9A)) != 0x22) && (dir_sprite_flag[facing] != 0)) {
+        if (((*((u8 *)linked_actor + 0x9A)) != 0x22) && (dir_sprite_flag[facing] != 0)) {
             ((S_80089AA0_16 *)sprite_or_root)->unk_14 = (u16)(((S_80089AA0_16 *)sprite_or_root)->unk_14 | 1);
         } else {
             ((S_80089AA0_16 *)sprite_or_root)->unk_14 = (u16) (((S_80089AA0_16 *)sprite_or_root)->unk_14 & 0xFFFE);
@@ -689,10 +689,10 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
         if ((dungeon_floor_flags & 0x100000) && ((has_pending_actor_or_turn_action(0) << 0x10) == 0)) {
             actor = (void *)dungeon_actor_ring_anchor;
 apply_pending_points:
-            pending_high = (*(u8 *)((u8 *)actor + 0x41));
-            pending_low = (*(u8 *)((u8 *)actor + 0x42));
-            (*(u8 *)((u8 *)actor + 0x42)) = 0U;
-            (*(u8 *)((u8 *)actor + 0x41)) = 0U;
+            pending_high = (*((u8 *)actor + 0x41));
+            pending_low = (*((u8 *)actor + 0x42));
+            (*((u8 *)actor + 0x42)) = 0U;
+            (*((u8 *)actor + 0x41)) = 0U;
             (*(s32 *)((u8 *)actor + 0x18)) = (s32) ((*(s32 *)((u8 *)actor + 0x18)) + ((pending_high << 8) | pending_low));
             if ((can_entity_gain_level(actor) << 0x10) != 0) {
                 goto store_pending_actor;

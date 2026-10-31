@@ -17,6 +17,6 @@ void update_movement_destination_selection_recovery_animation(void *state, Objec
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 #include "records/Rec_func_800AD058_arg2.h"
-void create_and_initializes_display_source_position_appearance(void *source, Rec_func_800AD058_arg2 *record, void *appearance);
+void create_and_initializes_display_source_position_appearance(void *source, Rec_func_800AD058_arg2 *record, ActorRecord *appearance);
 
 #endif

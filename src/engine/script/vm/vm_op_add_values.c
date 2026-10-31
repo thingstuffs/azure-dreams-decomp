@@ -23,10 +23,10 @@ void script_add(RuntimeState *state)
     script_cursor = state->read_ptr;
     dest_index = *(u8 *)script_cursor;
     script_cursor++;
-    state->read_ptr = (u8 *)script_cursor;
+    state->read_ptr = script_cursor;
     source_index = *(u8 *)script_cursor;
     script_cursor++;
-    state->read_ptr = (u8 *)script_cursor;
+    state->read_ptr = script_cursor;
 
     state->table->values[dest_index] += state->table->values[source_index];
 }

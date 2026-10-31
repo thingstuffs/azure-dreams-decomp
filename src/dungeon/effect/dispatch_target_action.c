@@ -23,7 +23,7 @@ void dispatch_target_action(u8 *actor, s32 action_context, u8 *destination, u8 *
 
 
     if (!(flags->flags & 0x1000)) {
-        if (*(u8 *)(target + 0x25) == 0) {
+        if (*(target + 0x25) == 0) {
             *(s8 *)(actor + 0xAD) = 0;
             begin_actor_flagged_action(idle_actor, action_context, destination, target);
             return;
@@ -36,8 +36,8 @@ void dispatch_target_action(u8 *actor, s32 action_context, u8 *destination, u8 *
                     return;
                 }
 
-                if (*(u8 *)(actor + 0x9A) != 0xE) {
-                    *(u8 *)(actor + 0x9A) = 0xE;
+                if (*(actor + 0x9A) != 0xE) {
+                    *(actor + 0x9A) = 0xE;
                 }
                 *(u16 *)(actor + 0x98) &= 0xFFF3;
 
@@ -59,8 +59,8 @@ void dispatch_target_action(u8 *actor, s32 action_context, u8 *destination, u8 *
                 }
             }
 
-            *(s8 *)(destination + 0x26) = find_active_rect_containing_point(*(u8 *)(destination + 0x24),
-                                                     *(u8 *)(destination + 0x25));
+            *(s8 *)(destination + 0x26) = find_active_rect_containing_point(*(destination + 0x24),
+                                                     *(destination + 0x25));
             if (*(s8 *)(target + 0x6D) <= 0) {
                 return;
             }
@@ -70,8 +70,8 @@ void dispatch_target_action(u8 *actor, s32 action_context, u8 *destination, u8 *
             if ((has_pending_actor_or_turn_action(0) << 16) != 0) {
                 return;
             }
-            if (find_monster_neighbor_candidate(target, *(u8 *)(destination + 0x24),
-                              *(u8 *)(destination + 0x25)) != 0) {
+            if (find_monster_neighbor_candidate(target, *(destination + 0x24),
+                              *(destination + 0x25)) != 0) {
                 *(s8 *)(actor + 0xAD) = 0;
                 begin_actor_flagged_action(actor, action_context, destination, target);
                 return;

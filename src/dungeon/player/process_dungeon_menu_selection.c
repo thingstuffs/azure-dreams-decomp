@@ -56,12 +56,6 @@ typedef struct S_80090C10_9 {
     void * unk_AC;
 } S_80090C10_9;   /* (((s32) (*(void **)&D_80082EB0) * 4) + arg0) in process_dungeon_menu_selection */
 
-typedef struct S_80090C10_10 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    u8 pad_14[0x32];
-    u16 unk_46;
-} S_80090C10_10;
 
 typedef struct S_80090C10_11 {
     void * unk_00;
@@ -145,7 +139,7 @@ void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *
     s32 companion_value;
     void *menu;
     S_80090C10_4 *selection;
-    S_80090C10_10 *companion;
+    ActorRecord *companion;
 
     phase = ((Rec_func_8008D024_arg0 *)state)->unk_9B.as_u8;
     switch (phase) {
@@ -191,7 +185,7 @@ void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *
         update_selection_tile_markers(0, 0);
         ui_flags = ((S_80090C10_5 *)(&dungeon_floor_flags))->unk_00;
         ((Rec_func_8008D024_arg0 *)state)->unk_C8 = NULL;
-        (*(s32 *)&dungeon_floor_flags) = ui_flags & ~0x2000;
+        (*&dungeon_floor_flags) = ui_flags & ~0x2000;
     }
     if (((Rec_func_8008D024_arg0 *)state)->unk_C8 != NULL) {
         return;
@@ -302,13 +296,13 @@ void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *
             break;
         }
         companion = ((S_80090C10_9 *)((((s32) selected_item_record_alias.unk_00.as_pv * 4) + state)))->unk_AC;
-        companion_value = companion->unk_46 & 0x3FFF;
+        companion_value = companion->action_flags & 0x3FFF;
         if ((u32) (companion_value - 5) < 3U) {
             selected_item_action_alias = 0;
             break;
         }
         if ((u32) (companion_value - 9) < 2U) {
-            companion_flags = species_growth_table[companion->unk_13].flags;
+            companion_flags = species_growth_table[companion->species].flags;
             if (companion_value != 9) {
                 state_allowed = companion_flags & 2;
             } else {
@@ -325,7 +319,7 @@ void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *
         selected_item_action_alias = 0;
         break;
     case 16:
-        ((Rec_func_8008D024_arg0 *)state)->unk_BC = (void *) selected_item_record_alias.unk_00.as_pv;
+        ((Rec_func_8008D024_arg0 *)state)->unk_BC = selected_item_record_alias.unk_00.as_pv;
         if (begin_target_flagged_action(state, context, sprite, actor) != 0) {
             return;
         }

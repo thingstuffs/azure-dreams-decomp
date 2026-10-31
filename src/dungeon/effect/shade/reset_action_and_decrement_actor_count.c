@@ -11,7 +11,7 @@ extern s16 try_claim_dungeon_action_slot(struct ActorRecord *actor);
 
 /* Reset action state and decrement the actor counter when the checks pass. */
 void reset_action_and_decrement_actor_count(void *action_state, void *unused_1, void *unused_2, void *actor) {
-    *(u8 *) ((u8 *) actor + 0x71) &= 0x7F;
+    *((u8 *) actor + 0x71) &= 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) && (try_claim_dungeon_action_slot(actor) << 0x10) == 0 &&
         (try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
         if ((set_or_clear_actor_status_slot(actor, STATUS_NO_TILE_OCCUPANCY, 0) << 0x10) < 0) {

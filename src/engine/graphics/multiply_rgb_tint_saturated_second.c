@@ -31,7 +31,7 @@ void *build_elliptical_triangle_fan(void *tint_a, void *tint_b, void *primitives
     u32 copied_word;
 
     first_segment = 1;
-    template = (u8 *)primitives;
+    template = primitives;
     shaded_tri = template;
     flat_tri = template;
     radius_x = S16_AT(flat_tri, 0x10) - S16_AT(flat_tri, 0x08);

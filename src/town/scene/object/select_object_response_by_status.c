@@ -15,7 +15,7 @@ s32 select_object_response_by_status(void *object, s32 check_mode, s32 context) 
         }
     }
 
-    data_table = (s32 *)&D_8001A98C;
+    data_table = &D_8001A98C;
     result = func_80019ABC(data_table, &scene_override_context, object, context);
     if (func_80019A04(data_table, object, context) != 0) {
         status_or_base = func_8001A510(*(s16 *)((s8 *)object + 0x18));

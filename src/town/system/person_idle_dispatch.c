@@ -20,7 +20,7 @@ void dispatch_object_when_idle(Rec_func_80094268_arg0 *object, void *callback_ar
 
 /* Clear the object status byte and dispatch the target update using its mode byte. */
 void clear_object_status_and_dispatch_target(void *object, void *target, int value, s16 flags) {
-    *(s8 *)((s8 *)object + 0x92) = 0;
+    *((s8 *)object + 0x92) = 0;
     if (*(u8 *)((s8 *)object + 0x93) == 0) {
         select_record_entry_and_value(target, value, flags);
         return;

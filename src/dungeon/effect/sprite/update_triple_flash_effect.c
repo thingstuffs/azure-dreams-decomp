@@ -23,19 +23,20 @@ typedef struct S_818BD0C0_1 {
 extern u8 flash_sprite_entries[];
 
 /* Update state counters and cycle the primitive color for up to three flagged updates. */
-void update_triple_flash_effect(void *state, s32 unused, SpriteFrameState *primitive)
+void update_triple_flash_effect(void *state_arg, s32 unused, SpriteFrameState *primitive)
 {
+    S_818BD0C0_0 *state = state_arg;
     S_818BD0C0_1 *shared_state;
     u16 cycle_count;
 
-    shared_state = ((S_818BD0C0_0 *)state)->unk_00;
+    shared_state = state->unk_00;
     shared_state->unk_14++;
-    ((S_818BD0C0_0 *)state)->unk_06++;
+    state->unk_06++;
     advance_sprite_animation_and_textures(primitive);
 
     if (primitive->flags & 0x6000) {
-        cycle_count = ((S_818BD0C0_0 *)state)->unk_04 + 1;
-        ((S_818BD0C0_0 *)state)->unk_04 = cycle_count;
+        cycle_count = state->unk_04 + 1;
+        state->unk_04 = cycle_count;
         if ((s16)cycle_count >= 3) {
             ((S_818BD0C0_0_pre *)state)[-1].unk_00 |= 0x8000;
             object_flag_block.flags = (u32)(object_flag_block.flags | OBJECT_REMOVE_PENDING);

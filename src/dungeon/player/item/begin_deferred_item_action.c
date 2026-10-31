@@ -2,6 +2,7 @@
 #include "dungeon/player/item.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_8008D024_arg0.h"
+#include "shared/entity.h"
 
 
 /* Set the record's state to 0x21 and clear its associated fields. */

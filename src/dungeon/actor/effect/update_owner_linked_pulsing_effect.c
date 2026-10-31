@@ -43,7 +43,8 @@ typedef struct S_800CB600_3 {
 } S_800CB600_3;
 
 /* Updates a pulsing effect through growth, activation, and shrinkage before marking it for removal. */
-void update_owner_linked_pulsing_effect(void *effect, ObjectPosition *position, SpriteFrameState *appearance) {
+void update_owner_linked_pulsing_effect(void *effect_arg, ObjectPosition *position, SpriteFrameState *appearance) {
+    S_800CB600_0 *effect = effect_arg;
     u16 next_brightness;
     u16 height_offset;
     u16 frames_left;
@@ -58,44 +59,44 @@ void update_owner_linked_pulsing_effect(void *effect, ObjectPosition *position, 
     u16 shrunk_scale;
     S_800CB600_3 *owner;
 
-    next_brightness = ((S_800CB600_0 *)effect)->unk_94.u + 1;
-    ((S_800CB600_0 *)effect)->unk_94.u = next_brightness;
+    next_brightness = effect->unk_94.u + 1;
+    effect->unk_94.u = next_brightness;
     if ((s16)next_brightness >= 0x41) {
-        ((S_800CB600_0 *)effect)->unk_94.u = 0x40;
+        effect->unk_94.u = 0x40;
     }
 
-    pulse_boost = ((S_800CB600_0 *)effect)->unk_94.s * 2;
-    pulse_boost *= ((S_800CB600_0 *)effect)->unk_9D & 1;
-    brightness = (u8)((S_800CB600_0 *)effect)->unk_94.u + pulse_boost;
+    pulse_boost = effect->unk_94.s * 2;
+    pulse_boost *= effect->unk_9D & 1;
+    brightness = (u8)effect->unk_94.u + pulse_boost;
     appearance->color.c.r = brightness;
     appearance->color.c.b = brightness;
     appearance->color.c.g = brightness;
 
-    phase = ((S_800CB600_0 *)effect)->unk_9A;
-    ((S_800CB600_0 *)effect)->unk_9D = ((S_800CB600_0 *)effect)->unk_9D + 1;
+    phase = effect->unk_9A;
+    effect->unk_9D = effect->unk_9D + 1;
     if (phase == 0) {
-        height_offset = ((S_800CB600_0 *)effect)->unk_8A.u - 8;
-        ((S_800CB600_0 *)effect)->unk_8A.u = height_offset;
+        height_offset = effect->unk_8A.u - 8;
+        effect->unk_8A.u = height_offset;
         if ((s16)height_offset < -0x80) {
-            ((S_800CB600_0 *)effect)->unk_8A.s = -0x80;
+            effect->unk_8A.s = -0x80;
         }
 
         position->z.w.i =
-            (s16)(((S_800CB600_0 *)effect)->unk_92 + ((S_800CB600_0 *)effect)->unk_8A.u);
+            (s16)(effect->unk_92 + effect->unk_8A.u);
 
         old_scale = appearance->scale_x;
-        grow_frames = ((S_800CB600_0 *)effect)->unk_96.s;
+        grow_frames = effect->unk_96.s;
         grown_scale = old_scale + ((0x1000 - old_scale) / grow_frames);
         appearance->scale_x = grown_scale;
         appearance->scale_y = grown_scale;
 
-        frames_left = ((S_800CB600_0 *)effect)->unk_96.u - 1;
-        ((S_800CB600_0 *)effect)->unk_96.u = frames_left;
+        frames_left = effect->unk_96.u - 1;
+        effect->unk_96.u = frames_left;
         if ((s16)frames_left > 0) {
             return;
         }
 
-        ((S_800CB600_0 *)effect)->unk_96.u = 0;
+        effect->unk_96.u = 0;
         if (g_dungeon_status.active_actor != 0) {
             return;
         }
@@ -107,8 +108,8 @@ void update_owner_linked_pulsing_effect(void *effect, ObjectPosition *position, 
         }
 
         g_dungeon_status.active_actor = effect;
-        ((S_800CB600_0 *)effect)->unk_98 |= 0x80;
-        ((S_800CB600_0 *)effect)->unk_9A++;
+        effect->unk_98 |= 0x80;
+        effect->unk_9A++;
         return;
     }
 
@@ -120,20 +121,20 @@ void update_owner_linked_pulsing_effect(void *effect, ObjectPosition *position, 
         unlink_entity_node(effect);
         owner = (u8 *)effect - 0x20;
         owner->unk_10 |= 0x80000000;
-        ((S_800CB600_0 *)effect)->unk_96.u = 0x10;
-        ((S_800CB600_0 *)effect)->unk_9A++;
+        effect->unk_96.u = 0x10;
+        effect->unk_9A++;
         return;
     }
 
     shrunk_scale = appearance->scale_x;
-    shrink_frames = ((S_800CB600_0 *)effect)->unk_96.s;
+    shrink_frames = effect->unk_96.s;
     scale_step = shrunk_scale / shrink_frames;
     shrunk_scale -= scale_step;
     appearance->scale_x = shrunk_scale;
     appearance->scale_y = shrunk_scale;
 
-    frames_left = ((S_800CB600_0 *)effect)->unk_96.u - 1;
-    ((S_800CB600_0 *)effect)->unk_96.u = frames_left;
+    frames_left = effect->unk_96.u - 1;
+    effect->unk_96.u = frames_left;
     if ((s16)frames_left > 0) {
         return;
     }

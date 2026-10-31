@@ -39,7 +39,7 @@ void apply_item_and_update_matching_actor_state(s16 start_x, s16 start_y, s16 mo
     memcpy(value_pairs, D_80089660, 0x10);
     state = &g_game_work;
     buffer_info = (S_800BDC98_1 *)((u8 *)state + 0x1DC);
-    buffer = ((s8 *)state->map.cells);
+    buffer = state->map.cells;
     height = 1;
     if ((mode == 2) || (selected_pair = 3, pair_test = saved_pair << 0x10, (pair_test == 0))) {
         x = start_x;

@@ -500,22 +500,24 @@ typedef struct S_818330F0_3 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 /* Ease the position toward its target, brighten the primitive, and flag completion. */
-void update_homing_brightening_effect(void *effect, void *position, SpriteFrameState *primitive) {
+void update_homing_brightening_effect(void *effect_arg, void *position_arg, SpriteFrameState *primitive) {
+    SignedPositionView *position = position_arg;
+    S_818330F0_1 *effect = effect_arg;
     s16 target_z;
     s16 current_z;
     S_818330F0_3 *owner;
 
-    ((SignedPositionView *)position)->x = (s16) ((u16) ((SignedPositionView *)position)->x
-        + ((((S_818330F0_1 *)effect)->unk_0C - ((SignedPositionView *)position)->x) / 12));
-    ((SignedPositionView *)position)->y = (s16) ((u16) ((SignedPositionView *)position)->y
-        + ((((S_818330F0_1 *)effect)->unk_0E - ((SignedPositionView *)position)->y) / 12));
-    target_z = ((S_818330F0_1 *)effect)->unk_10;
-    current_z = ((SignedPositionView *)position)->z;
-    ((SignedPositionView *)position)->z = (s16) ((u16) ((SignedPositionView *)position)->z + ((target_z
+    position->x = (s16) ((u16) position->x
+        + ((effect->unk_0C - position->x) / 12));
+    position->y = (s16) ((u16) position->y
+        + ((effect->unk_0E - position->y) / 12));
+    target_z = effect->unk_10;
+    current_z = position->z;
+    position->z = (s16) ((u16) position->z + ((target_z
         - current_z) / 10));
     primitive->color.word = (s32) (primitive->color.word
         + 0xC0C0C);
-    owner = ((S_818330F0_1 *)effect)->unk_00;
+    owner = effect->unk_00;
     owner->unk_52 = (u16) (owner->unk_52 | 0x8000);
     advance_sprite_animation_and_textures(primitive);
     if ((u8) primitive->color.word >= 0x91U) {

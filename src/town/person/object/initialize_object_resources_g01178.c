@@ -32,7 +32,7 @@ void initialize_object_resources_2(void *object, IntVector3 *position, S_800C4F6
 }
 
 /* Set camera chase data and the object handler when the request succeeds. */
-void set_camera_chase_data(void *object, void *chase_data, s32 request_param, s32 check_param) {
+void set_camera_chase_data(void *object, void *chase_data, SpriteFrameState *request_param, s32 check_param) {
     s32 *chase_fix;
     s32 second_value;
 

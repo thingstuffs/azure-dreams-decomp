@@ -10,13 +10,6 @@
 #include "dungeon/effect.h"
 #include "dungeon/player/object.h"
 
-typedef struct S_80173A3C_0 {
-    u8 pad_00[0x96];
-    union { s16 s; u16 u; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_80173A3C_0;   /* arg0 in fade_reshape_and_remove_entity */
-
 
 
 
@@ -28,43 +21,43 @@ extern void unlink_entity_node(void *);
 
 
 /* Fades and reshapes the sprite, then removes the entity when the effect ends. */
-void fade_reshape_and_remove_entity(void *fade_state, ObjectPosition *position, SpriteFrameState *sprite, void *entity)
+void fade_reshape_and_remove_entity(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, void *entity)
 {
     u8 fade_phase;
     u16 frames_left;
 
-    fade_phase = ((S_80173A3C_0 *)fade_state)->unk_9B;
+    fade_phase = body->action_phase.u;
     switch (fade_phase) {
     case 0:
         if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             return;
         }
 
-        ((S_80173A3C_0 *)fade_state)->unk_9B = 1;
+        body->action_phase.u = 1;
         sprite->tpage_abr = 0x20;
         sprite->clut -= 0x80;
         sprite->flags |= 0xC;
         ((ActorRecord *)entity)->flags1C |= 0x10000000;
         play_sound_if_enabled(0x805);
         sprite->color.word = 0x00808080;
-        ((S_80173A3C_0 *)fade_state)->unk_96.s = 0xC;
+        body->action_timer.s = 0xC;
     case 1:
         break;
     default:
         return;
     }
 
-    sprite->color.c.r -= sprite->color.c.r / ((S_80173A3C_0 *)fade_state)->unk_96.s;
-    sprite->color.c.g -= sprite->color.c.g / ((S_80173A3C_0 *)fade_state)->unk_96.s;
-    sprite->color.c.b -= sprite->color.c.b / ((S_80173A3C_0 *)fade_state)->unk_96.s;
+    sprite->color.c.r -= sprite->color.c.r / body->action_timer.s;
+    sprite->color.c.g -= sprite->color.c.g / body->action_timer.s;
+    sprite->color.c.b -= sprite->color.c.b / body->action_timer.s;
 
     sprite->scale_x >>= 2;
     sprite->scale_y >>= 1;
     sprite->scale_x *= 3;
     sprite->scale_y *= 3;
 
-    frames_left = ((S_80173A3C_0 *)fade_state)->unk_96.u - 1;
-    ((S_80173A3C_0 *)fade_state)->unk_96.u = frames_left;
+    frames_left = body->action_timer.u - 1;
+    body->action_timer.u = frames_left;
     if (((s32)frames_left << 16) > 0) {
         if ((sprite->flags & 0x8000) == 0) {
             return;

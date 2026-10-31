@@ -1,5 +1,6 @@
 #include "common.h"
 #include "dungeon/player/item.h"
+#include "shared/entity.h"
 
 
 /* Clear object fields and set its state to 0x2D when mode is zero, otherwise 0x2C. */

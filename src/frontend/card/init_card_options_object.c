@@ -44,10 +44,10 @@ void * init_card_options_object(s32 option_param) {
         func_8007BFE0(subobject, 0x440);
     }
     func_80403AC8(subobject, 0x12);
-    (*(void * *)((u8 *)object + (0xC))) = subobject + 0x1A8;
+    (*(void * *)(object + (0xC))) = subobject + 0x1A8;
     ((S_8001CBC4_0 *)subobject)->unk_1B4 = func_80403AA0(subobject + 0x1B8);
     func_80403B84(subobject, option_param);
-    (*(Callback *)((u8 *)object + (0x10))) = card_animate_selection_marker_rows;
+    (*(Callback *)(object + (0x10))) = card_animate_selection_marker_rows;
     card_animate_selection_marker_rows(subobject);
     return object;
 }

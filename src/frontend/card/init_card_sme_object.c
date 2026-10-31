@@ -38,7 +38,7 @@ void * init_card_sme_object(s32 init_option) {
     s32 state_value;
 
     if (func_80047FD8(obj) == 0) {
-        obj = (Obj *)func_8003C714(0, obj, 0x68);
+        obj = func_8003C714(0, obj, 0x68);
         if (obj == 0) {
             func_8007C040(D_804007D8, D_80400800, 0xEE);
             func_8007BEF0(1);

@@ -83,7 +83,7 @@ s16 dispatch_selected_item_use(Rec_func_8008ACDC_arg0 *actor, s16 item_id, s16 o
         result = dispatch_dungeon_category_action(actor_base, ((S_80095538_1 *)(&reference_tile_object.selected_item))->unk_00.u, 3, 0);
         break;
     case ITEM_KIND_EGG:
-        actor->unk_BC = (void *) ((S_80095538_1 *)(&reference_tile_object.selected_item))->unk_00.u;
+        actor->unk_BC = ((S_80095538_1 *)(&reference_tile_object.selected_item))->unk_00.u;
         begin_target_flagged_action(actor, saved_x, saved_y, actor_base);
         break;
     case ITEM_KIND_FAMILIAR:

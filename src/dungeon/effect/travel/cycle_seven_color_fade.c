@@ -36,12 +36,13 @@ void interpolate_view_parameters(EntityRec *target, s32 gain_param, void *record
 #include "records/Rec_D_80082E80.h"
 
    /* Increment counters, reduce the stored value, and propagate status flags. */
-void lower_animated_sprite(void *counter_state, B28_818B68B8_S_818B68B8_2 *value_state, SpriteFrameState *status) {
+void lower_animated_sprite(void *counter_state_arg, B28_818B68B8_S_818B68B8_2 *value_state, SpriteFrameState *status) {
+    B28_818B68B8_S_818B68B8_0 *counter_state = counter_state_arg;
     B28_818B68B8_S_818B68B8_1 *linked_counter;
 
-    linked_counter = ((B28_818B68B8_S_818B68B8_0 *)counter_state)->unk_00;
+    linked_counter = counter_state->unk_00;
     linked_counter->unk_14 = (u16) (linked_counter->unk_14 + 1);
-    ((B28_818B68B8_S_818B68B8_0 *)counter_state)->unk_04 = (u16) (((B28_818B68B8_S_818B68B8_0 *)counter_state)->unk_04 + 1);
+    counter_state->unk_04 = (u16) (counter_state->unk_04 + 1);
     value_state->unk_08 = (s32) (value_state->unk_08 + 0xFFF60000);
     advance_sprite_animation_and_textures(status);
     if (status->flags & 0x6000) {
@@ -335,12 +336,12 @@ s32 draw_indexed_shaded_quad(s32 texture_index, u8 *color_source)
         screen_xy0, screen_xy1, screen_xy2, screen_xy3,
         depth_cue, transform_flags);
 
-    (*(u16 *)((u8 *)packet + (0x08))) = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_70;
-    (*(u16 *)((u8 *)packet + (0x0A))) = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_72;
-    (*(u16 *)((u8 *)packet + (0x14))) = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_74;
-    (*(u16 *)((u8 *)packet + (0x16))) = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_76;
-    (*(u16 *)((u8 *)packet + (0x20))) = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_78;
-    (*(u16 *)((u8 *)packet + (0x22))) = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_7A;
+    (*(u16 *)(packet + (0x08))) = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_70;
+    (*(u16 *)(packet + (0x0A))) = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_72;
+    (*(u16 *)(packet + (0x14))) = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_74;
+    (*(u16 *)(packet + (0x16))) = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_76;
+    (*(u16 *)(packet + (0x20))) = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_78;
+    (*(u16 *)(packet + (0x22))) = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_7A;
     ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_2C = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_7C;
     ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_2E = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_7E;
 
@@ -1069,7 +1070,7 @@ advance_phase:
         }
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)state + -2)) = (u16) ((*(u16 *)((u8 *)state + -2)) | NODE_REMOVE);
-        (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
+        (*&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         break;
     case 6:
         ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at00.v = (s32) (((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at00.v

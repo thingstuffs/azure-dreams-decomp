@@ -6,6 +6,7 @@
 #include "shared/gpu_packets.h"
 #include "shared/game_work.h"
 #include "sdk/libgpu.h"
+#include "dungeon/effect/sprite.h"
 typedef struct Row_81989558_S_80024D58_Point {
     s16 unk_00;
     s16 unk_02;
@@ -13,12 +14,6 @@ typedef struct Row_81989558_S_80024D58_Point {
     u8 pad_06[0x2];
 } Row_81989558_S_80024D58_Point;   /* source_points / rotated_points entry (8 bytes) in func_80024D58 */
 
-typedef struct Row_81989558_S_80024D58_Obj {
-    u8 pad_00[0x4];
-    s16 unk_04;
-    u8 pad_06[0x6];
-    s32 unk_0C;
-} Row_81989558_S_80024D58_Obj;   /* obj in func_80024D58 */
 
 typedef struct Row_81989558_S_80024D58_RingParam {
     u8 pad_00[0x10];
@@ -73,5 +68,5 @@ static __inline__ u8 *grid_cell(u8 *grid, s32 row, s32 col)
 void transform_rotated_vertices(void *transform_data);
 
 
-s32 render_rotated_grid_surface(void *node);
+s32 render_rotated_grid_surface(DirectionalGridEffectBody *node);
 #endif

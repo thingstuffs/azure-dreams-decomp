@@ -35,7 +35,7 @@ s32 use_item_to_restore_attack(ActorRecord *target, DungeonItemEntry *item, s16 
     }
     if ((u32) target <= 0x9FFFFFFFU) {
         display_item_status_message(target, item, use_type);
-        if (feed_actor_restore_mp(target, (entity_action_selectors[(*(u8 *)((u8 *)&((EntityRec *)target)->unk_10 + 3))] >> 6) & 3, 0) == 0) {
+        if (feed_actor_restore_mp(target, (entity_action_selectors[(*((u8 *)&((EntityRec *)target)->unk_10 + 3))] >> 6) & 3, 0) == 0) {
             place_actor_item(target, item);
             return 1;
         }

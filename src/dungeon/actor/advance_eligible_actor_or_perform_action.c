@@ -68,16 +68,16 @@ u32 advance_eligible_actor_or_perform_action(EntityRec *actor, s16 action_arg_1,
     }
 
     if (((u32)actor->flags14) & ACTOR_PARTY_MEMBER) {
-        state_index = (*(u8 *)((u8 *)&actor->unk_10 + 2));
-        if ((state_index != 4) && ((*(u8 *)((u8 *)&actor->unk_10 + 3)) != 0)) {
-            (*(u8 *)((u8 *)&actor->unk_10 + 2)) = state_index + 1;
+        state_index = (*((u8 *)&actor->unk_10 + 2));
+        if ((state_index != 4) && ((*((u8 *)&actor->unk_10 + 3)) != 0)) {
+            (*((u8 *)&actor->unk_10 + 2)) = state_index + 1;
             raw_state_index = find_entity_slot_by_field_ac(actor);
             shifted_index = raw_state_index << 16;
             state_index = shifted_index >> 16;
             if (state_index >= 0) {
                 table_page = (TablePage *)0x80010000;
                 state_offset = state_index * 2;
-                next_state = (*(u8 *)((u8 *)&actor->unk_10 + 2));
+                next_state = (*((u8 *)&actor->unk_10 + 2));
                 table_page->entries[state_index] = next_state;
             }
             adjust_source_value_and_finalize(actor, D_800E195C);

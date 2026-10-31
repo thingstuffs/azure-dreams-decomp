@@ -3,7 +3,7 @@
 #include "shared/sprite_frame_state.h"
 
 /* Updates directional tables for kinds 13 through 15 and processes object state. */
-void update_kind_directional_tables(Obj0 *owner, void *context, Obj2 *display_arg, Obj3 *state_arg)
+void update_kind_directional_tables(Obj0 *owner, ObjectPosition *context, SpriteFrameState *display_arg, Obj3 *state_arg)
 {
     SpriteFrameState *display= display_arg;
     Obj3 *state = state_arg;

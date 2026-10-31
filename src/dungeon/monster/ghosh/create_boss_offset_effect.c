@@ -38,9 +38,9 @@ void create_boss_offset_effect(void) {
         sprite = *(u8 * *)&effect->sprite;
         *(s16 *)(sprite + 0x1E) = 0x400;
         *(s16 *)(sprite + 0x1C) = 0x400;
-        *(u8 *)(sprite + 0xD) = 0x80;
-        *(u8 *)(sprite + 0xC) = 0x80;
-        *(u8 *)(sprite + 0xE) = 0;
+        *(sprite + 0xD) = 0x80;
+        *(sprite + 0xC) = 0x80;
+        *(sprite + 0xE) = 0;
         *(Blob12 *)(((u8 *)effect) + 0x48) = D_80174AC8;
         *(void **)(sprite + 8) = ((u8 *)effect) + 0x48;
     }

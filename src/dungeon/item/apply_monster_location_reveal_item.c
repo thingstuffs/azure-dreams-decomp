@@ -37,7 +37,7 @@ s32 apply_monster_location_reveal_item(ActorRecord *target, DungeonItemEntry *it
     if ((u32)target <= 0x9FFFFFFF) {
         display_actor_item_status_message(target, item);
         if (feed_actor_restore_mp(target,
-                          entity_action_selectors[(*(u8 *)((u8 *)&target->unk_10 + 3))] & 3,
+                          entity_action_selectors[(*((u8 *)&target->unk_10 + 3))] & 3,
                           item) == 0) {
             place_actor_item(target, item);
             return 1;

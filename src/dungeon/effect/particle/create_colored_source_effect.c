@@ -88,7 +88,7 @@ void create_colored_source_effect(S_7FFE7CBC_3 *source, s32 color) {
         render_data->unk_0C.at02.v = 0x80;
         render_data->unk_0C.at01.v = 0x80;
         render_data->unk_0C.at00.v = 0x80;
-        effect_color = *(s32 *)&color;
+        effect_color = *&color;
         render_data->unk_1E = 0x1000;
         render_data->unk_1C = 0x1000;
         render_data->unk_0C.at00u.v = effect_color;

@@ -36,7 +36,7 @@ typedef struct S_8008C5C4_4 {
    /* ((S_8008C5C4_2 *)arg0)->unk_124 in try_begin_lift_object */
 
 /* Find a target ahead of the actor and initialize the interaction state. */
-s32 try_begin_lift_object(S_8008C5C4_2 *action, void *unused, SpriteAnimationTableView *position, EntityRec *actor) {
+s32 try_begin_lift_object(S_8008C5C4_2 *action, void *unused, SpriteAnimationTableView *position, ActorRecord *actor) {
     ActorRecord *target;
     s32 target_result;
     s32 direction_offset;

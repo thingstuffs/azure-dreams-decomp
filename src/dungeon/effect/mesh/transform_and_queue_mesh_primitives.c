@@ -11,11 +11,6 @@
 #include "dungeon/actor/status.h"
 #include "engine/graphics.h"
 
-typedef struct S_func_8187A800_0 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-} S_func_8187A800_0;
-
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern u8 *clear_byte_and_advance(u8 *byte_ptr);
@@ -31,10 +26,10 @@ const u8 no_effect_target_prefix[48] = {0x82,0x73,0x82,0x88,0x82,0x85,0x82,0x92,
 const u8 D_80024034[4] = {0x81,0x44,0x0,0x0};
 extern s32 D_800E1CB0;
 
-void try_apply_wind_protection(S_func_8187A800_0 *target, s32 effect_arg, SpriteFrameState *unused);
+void try_apply_wind_protection(ActorRecord *target, s32 effect_arg, SpriteFrameState *unused);
 
 /* Attempts to apply an effect and reports the outcome for flagged targets. */
-void try_apply_wind_protection(S_func_8187A800_0 *target, s32 effect_arg, SpriteFrameState *unused)
+void try_apply_wind_protection(ActorRecord *target, s32 effect_arg, SpriteFrameState *unused)
 {
     void *message;
     void *message_start;
@@ -48,11 +43,11 @@ void try_apply_wind_protection(S_func_8187A800_0 *target, s32 effect_arg, Sprite
          */
         if ((set_or_clear_actor_status_slot(target, STATUS_WIND_PROTECT,
                            (s8)(get_random_scaled_value(effect_arg & 0xFF) + 2)) << 16) != 0) {
-            if (target->unk_14 & ACTOR_PARTY_MEMBER) {
+            if (target->flags14 & ACTOR_PARTY_MEMBER) {
                 adjust_source_value_and_finalize(target, &D_800E1CB0);
                 return;
             }
-        } else if (target->unk_14 & ACTOR_PARTY_MEMBER) {
+        } else if (target->flags14 & ACTOR_PARTY_MEMBER) {
             message = get_unused_text_buffer();
             message_start = message;
             message = expand_text_control_codes(no_effect_target_prefix, message);
@@ -546,13 +541,6 @@ typedef struct S_8187B1F4_3_pre {
     u8 pad_04[0x4];
 } S_8187B1F4_3_pre;   /* the 0x8 bytes before arg0 in project_shaded_points_to_ordering_table, addressed as arg0[-1] */
 
-typedef struct S_8187B1F4_3 {
-    s32 unk_00;
-    u8 pad_04[0xC];
-    s16 unk_10;
-    s16 unk_12;
-    s16 unk_14;
-} S_8187B1F4_3;   /* arg0 in project_shaded_points_to_ordering_table */
 
 typedef struct S_8187B1F4_4 {
     union { struct { u32 v; } at00; struct { u8 pad[0x3]; s8 v; } at03; } unk_00;   /* overlapping accesses */
@@ -653,7 +641,7 @@ s32 project_shaded_points_to_ordering_table(u8 *points, u8 *position, u8 *orient
         VFIELD(scratch, void *, 0x24) = ordering_table;
         VFIELD(scratch, void *, 0x1C) = state;
         point_index = 0;
-        if (((S_8187B1F4_3 *)points)->unk_14 > 0) {
+        if (((RandomRadialVectorEffectBody *)points)->unk_14 > 0) {
             point_coords = (u16 *)points;
             do {
                 VFIELD(scratch, u16, 4) = point_coords[point_index + 0xB];
@@ -670,16 +658,16 @@ s32 project_shaded_points_to_ordering_table(u8 *points, u8 *position, u8 *orient
                                       depth_cue, projection_flags);
                 VFIELD(scratch, u32, 0x100) = depth;
                 if (depth < 0x1E0U) {
-                    ((S_8187B1F4_4 *)point_packet)->unk_04.at00.v = ((S_8187B1F4_3 *)points)->unk_00;
+                    ((S_8187B1F4_4 *)point_packet)->unk_04.at00.v = ((RandomRadialVectorEffectBody *)points)->unk_00;
                     ((S_8187B1F4_4 *)point_packet)->unk_04.at00u.v =
                         (s8)((((S_8187B1F4_4 *)point_packet)->unk_04.at00p.v *
-                        ((S_8187B1F4_3 *)points)->unk_10) / ((S_8187B1F4_3 *)points)->unk_12);
+                        ((RandomRadialVectorEffectBody *)points)->unk_10.s) / ((RandomRadialVectorEffectBody *)points)->unk_12);
                     ((S_8187B1F4_4 *)point_packet)->unk_04.at01.v =
                         (u8)((((S_8187B1F4_4 *)point_packet)->unk_04.at01.v *
-                        ((S_8187B1F4_3 *)points)->unk_10) / ((S_8187B1F4_3 *)points)->unk_12);
+                        ((RandomRadialVectorEffectBody *)points)->unk_10.s) / ((RandomRadialVectorEffectBody *)points)->unk_12);
                     ((S_8187B1F4_4 *)point_packet)->unk_04.at02.v =
                         (u8)((((S_8187B1F4_4 *)point_packet)->unk_04.at02.v *
-                        ((S_8187B1F4_3 *)points)->unk_10) / ((S_8187B1F4_3 *)points)->unk_12);
+                        ((RandomRadialVectorEffectBody *)points)->unk_10.s) / ((RandomRadialVectorEffectBody *)points)->unk_12);
                     ((S_8187B1F4_4 *)point_packet)->unk_00.at03.v = 2;
                     ((S_8187B1F4_4 *)point_packet)->unk_04.at03.v = 0x6A;
                     ((PrimitiveTag *)point_packet)->addr =
@@ -699,9 +687,9 @@ s32 project_shaded_points_to_ordering_table(u8 *points, u8 *position, u8 *orient
                     tag_state = (GlobalState *)((u8 *)tag_state +
                                                 (u32)VFIELD(scratch, void *, 0x24));
                     ((PrimitiveTag *)tag_state)->addr = (u32)draw_mode_packet;
-                    point_count = ((S_8187B1F4_3 *)points)->unk_14;
+                    point_count = ((RandomRadialVectorEffectBody *)points)->unk_14;
                 } else {
-                    point_count = ((S_8187B1F4_3 *)points)->unk_14;
+                    point_count = ((RandomRadialVectorEffectBody *)points)->unk_14;
                 }
                 point_index += 1;
             } while (point_index < point_count);
@@ -713,7 +701,7 @@ s32 project_shaded_points_to_ordering_table(u8 *points, u8 *position, u8 *orient
             break;
         }
         point_packet = ((S_8187B1F4_6 *)tail_2)->unk_0C;
-        position = ((u8 *)(((S_8187B1F4_6 *)tail_2)->unk_08));
+        position = (((S_8187B1F4_6 *)tail_2)->unk_08);
         orientation = point_packet;
     } while (1);
     return hard_zero;
@@ -726,25 +714,19 @@ typedef struct S_8187B540_0 {
     u16 unk_1A;
 } S_8187B540_0;   /* arg2 in func_80024D40 */
 
-typedef struct S_8187B540_1 {
-    u8 pad_00[0x10];
-    u16 unk_10;
-    u8 pad_12[0x8E];
-    u16 unk_A0;
-} S_8187B540_1;   /* obj in func_80024D40 */
 
 extern s16 point_cloud_update_flag[5];
 
 /* Add the object increment to the target and flag completion when its countdown expires. */
 void rotate_point_cloud_until_expired(void *object, s32 unused, void *target) {
-    u8 *object_data = object;
+    RandomRadialVectorEffectBody *object_data = object;
     u8 *global_base = (u8 *)&point_cloud_update_flag - 0x694C;
     u16 remaining;
 
-    ((S_8187B540_0 *)target)->unk_1A += ((S_8187B540_1 *)object_data)->unk_A0;
-    remaining = ((S_8187B540_1 *)object_data)->unk_10 - 0x20;
+    ((S_8187B540_0 *)target)->unk_1A += object_data->unk_A0;
+    remaining = object_data->unk_10.u - 0x20;
     *(s16 *)(global_base + 0x694C) = 1;
-    ((S_8187B540_1 *)object_data)->unk_10 = remaining;
+    object_data->unk_10.u = remaining;
     if ((s16)remaining <= 0) {
         (*(u16 *)((u8 *)object_data + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -856,7 +838,7 @@ void advance_colored_point_toward_terrain(void *object, s16 *position)
     u16 query_x = (u16)position[1];
     u16 query_y = (u16)position[3];
 
-    *(s16 *)point_cloud_update_flag = 1;
+    *point_cloud_update_flag = 1;
     if (position[5] < (s16)sample_terrain_surface_height(query_x, query_y, minimum_height)) {
         ((s32 *)position)[2] += *(s32 *)((u8 *)object + 0xB4);
     }
@@ -991,15 +973,6 @@ typedef struct S_8187B9E8_3 {
     s16 unk_1E;
 } S_8187B9E8_3;   /* r1 in func_800251E8 */
 
-typedef struct S_8187B9E8_4 {
-    s32 unk_00;
-    u8 pad_04[0xC];
-    s16 unk_10;
-    s16 unk_12;
-    s16 unk_14;
-    u8 pad_16[0x8A];
-    s16 unk_A0;
-} S_8187B9E8_4;   /* q in func_800251E8 */
 
 s32 rsin(s32);
 s32 rcos(s32);
@@ -1017,7 +990,7 @@ void create_random_radial_vector_effect(s32 radius, s32 initial_value, s16 exten
     u32 component;
     MovingPosition *position;
     ProjectileObject *effect;
-    S_8187B9E8_4 *state;
+    RandomRadialVectorEffectBody *state;
     S_8187B9E8_3 *scale;
 
     effect = allocate_flagged_object_node(0x212);
@@ -1046,7 +1019,7 @@ void create_random_radial_vector_effect(s32 radius, s32 initial_value, s16 exten
         state->unk_14 = 0x17;
         effect->update_callback = rotate_point_cloud_until_expired;
         state->unk_A0 = (rand() & 0x3F) + 0x3C;
-        state->unk_10 = extent;
+        state->unk_10.s = extent;
         state->unk_12 = extent;
         register_node(effect, project_shaded_points_to_ordering_table);
         state->unk_00 = initial_value;

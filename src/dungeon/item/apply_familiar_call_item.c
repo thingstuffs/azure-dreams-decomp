@@ -53,14 +53,14 @@ s32 apply_familiar_call_item(ActorRecord *target, DungeonItemEntry *action, s16 
     } else {
         message_start = get_unused_text_buffer();
         message_end = message_start;
-        if ((*(s32 *)((u8 *)*(u8 **)(global_page + 0x3D7C) + 0xAC) != 0) ||
-            (*(s32 *)((u8 *)*(u8 **)(global_page + 0x3D7C) + 0xB0) != 0)) {
+        if ((*(s32 *)(*(u8 **)(global_page + 0x3D7C) + 0xAC) != 0) ||
+            (*(s32 *)(*(u8 **)(global_page + 0x3D7C) + 0xB0) != 0)) {
             if (has_enough_available_runtime_nodes(4) == 0) {
                 return 0;
             }
             slot = 0;
             do {
-                slot_entry = *(s32 *)((u8 *)*(u8 **)(global_page + 0x3D7C) + 0xAC + slot * 4);
+                slot_entry = *(s32 *)(*(u8 **)(global_page + 0x3D7C) + 0xAC + slot * 4);
                 if (slot_entry != 0) {
                     teleport_familiar_near_player(slot_entry, (s16)slot);
                 }

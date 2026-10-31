@@ -22,7 +22,8 @@ typedef struct S_800B9998_3 {
 } S_800B9998_3;   /* p2 in deactivate_object_triggered */
 
 /* Deactivate the object when triggered; otherwise update its spin from nearby motion and advance rotation. */
-void deactivate_object_triggered(void *object, void *position, void *rotation) {
+void deactivate_object_triggered(void *object_arg, void *position, void *rotation) {
+    S_800B9998_0 *object = object_arg;
     SignedPositionView *position_data = position;
     S_800B9998_3 *rotation_data = rotation;
     s8 *active_flag;
@@ -36,8 +37,8 @@ void deactivate_object_triggered(void *object, void *position, void *rotation) {
     s32 angle_step;
     s32 t;
 
-    if (classify_object_against_bounds(object, position) != 0) {
-        active_flag = ((S_800B9998_0 *)object)->unk_98;
+    if (classify_object_against_bounds(object_arg, position) != 0) {
+        active_flag = object->unk_98;
         if (active_flag != 0) {
             *active_flag = 0;
         }
@@ -47,15 +48,15 @@ void deactivate_object_triggered(void *object, void *position, void *rotation) {
         return;
     }
 
-    raw_speed = ((S_800B9998_0 *)object)->unk_66.s;
-    position_y = ((S_800B9998_0 *)object)->unk_66.u;
+    raw_speed = object->unk_66.s;
+    position_y = object->unk_66.u;
     if (position_y >= 0x100) {
-        ((S_800B9998_0 *)object)->unk_66.s = raw_speed - 0x20;
+        object->unk_66.s = raw_speed - 0x20;
     } else {
         if (position_y >= 0x10) {
-            ((S_800B9998_0 *)object)->unk_66.s = raw_speed - 0x10;
+            object->unk_66.s = raw_speed - 0x10;
         } else {
-            ((S_800B9998_0 *)object)->unk_66.s = 0;
+            object->unk_66.s = 0;
         }
     }
     town_state = &view_reference_entity;
@@ -73,16 +74,16 @@ void deactivate_object_triggered(void *object, void *position, void *rotation) {
     if (near_x && ((s16)dy < 0x81)) {
         speed_sq = (((Fixed1616 *)&town_state->velocity_x)->w.i * ((Fixed1616 *)&town_state->velocity_x)->w.i) +
               (((Fixed1616 *)&town_state->velocity_y)->w.i * ((Fixed1616 *)&town_state->velocity_y)->w.i);
-        ((S_800B9998_0 *)object)->unk_66.s =
-            ((S_800B9998_0 *)object)->unk_66.s +
+        object->unk_66.s =
+            object->unk_66.s +
             ((s32)(speed_sq + ((u32)speed_sq >> 31)) >> 1);
     }
 
-    if (((S_800B9998_0 *)object)->unk_66.u >= 0x601) {
-        ((S_800B9998_0 *)object)->unk_66.s = 0x600;
+    if (object->unk_66.u >= 0x601) {
+        object->unk_66.s = 0x600;
     }
 
-    angle_step = ((S_800B9998_0 *)object)->unk_66.s + 0x80;
+    angle_step = object->unk_66.s + 0x80;
     rotation_data->unk_1A.s = rotation_data->unk_1A.s + angle_step;
     t = rotation_data->unk_1A.u;
     rotation_data->unk_1A.u = t & 0xFFF;

@@ -17,46 +17,47 @@ typedef struct S_80174600_1 {
 
 
 /* Animate primitive colors and mark the effect finished when its timer expires. */
-void animate_effect_colors(void *effect_state, s32 unused, void *primitive)
+void animate_effect_colors(void *effect_state, s32 unused, void *primitive_arg)
 {
     u8 *state = effect_state;
     s16 frames_left;
     s32 scaled_color;
     s32 color_step;
     u8 color;
+    S_80174600_0 *primitive = primitive_arg;
 
-    ((S_80174600_0 *)primitive)->unk_1A += 0x320;
+    primitive->unk_1A += 0x320;
 
     if (((S_80174600_1 *)state)->unk_1A.s >= 0x33) {
-        ((S_80174600_0 *)primitive)->unk_0C = (state[0] * (0x41 - ((S_80174600_1 *)state)->unk_1A.s)) / 14;
-        ((S_80174600_0 *)primitive)->unk_0D = (state[1] * (0x41 - ((S_80174600_1 *)state)->unk_1A.s)) / 14;
-        ((S_80174600_0 *)primitive)->unk_0E = (state[2] * (0x41 - ((S_80174600_1 *)state)->unk_1A.s)) / 14;
+        primitive->unk_0C = (state[0] * (0x41 - ((S_80174600_1 *)state)->unk_1A.s)) / 14;
+        primitive->unk_0D = (state[1] * (0x41 - ((S_80174600_1 *)state)->unk_1A.s)) / 14;
+        primitive->unk_0E = (state[2] * (0x41 - ((S_80174600_1 *)state)->unk_1A.s)) / 14;
     } else if (((S_80174600_1 *)state)->unk_1A.s < 0x1A) {
         if (((S_80174600_1 *)state)->unk_1A.s >= 0x10) {
             color_step = (state[0] - state[1]) / (((S_80174600_1 *)state)->unk_1A.s - 0xF);
             color = state[1] + color_step;
             state[1] = color;
-            ((S_80174600_0 *)primitive)->unk_0D = color;
+            primitive->unk_0D = color;
 
             color_step = (state[0] - state[2]) / (((S_80174600_1 *)state)->unk_1A.s - 0xF);
             color = state[2] + color_step;
             state[2] = color;
-            ((S_80174600_0 *)primitive)->unk_0E = color;
+            primitive->unk_0E = color;
         } else if (((S_80174600_1 *)state)->unk_1A.s >= 8) {
             scaled_color = state[0] * (((S_80174600_1 *)state)->unk_1A.s - 8);
             if (scaled_color < 0) {
                 scaled_color += 7;
             }
-            ((S_80174600_0 *)primitive)->unk_0C = scaled_color >> 3;
+            primitive->unk_0C = scaled_color >> 3;
 
             scaled_color = state[1] * (((S_80174600_1 *)state)->unk_1A.s - 8);
             if (scaled_color < 0) {
                 scaled_color += 7;
             }
-            ((S_80174600_0 *)primitive)->unk_0D = scaled_color >> 3;
+            primitive->unk_0D = scaled_color >> 3;
 
             scaled_color = state[2] * (((S_80174600_1 *)state)->unk_1A.s - 8);
-            ((S_80174600_0 *)primitive)->unk_0E = scaled_color / 8;
+            primitive->unk_0E = scaled_color / 8;
         } else {
             ((S_80174600_1 *)state)->unk_1A.s = 0;
         }
@@ -65,7 +66,7 @@ void animate_effect_colors(void *effect_state, s32 unused, void *primitive)
     frames_left = ((S_80174600_1 *)state)->unk_1A.u - 1;
     ((S_80174600_1 *)state)->unk_1A.s = frames_left;
     if ((frames_left << 16) <= 0) {
-        (*(u16 *)((u8 *)state + -2)) |= NODE_REMOVE;
+        (*(u16 *)(state + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

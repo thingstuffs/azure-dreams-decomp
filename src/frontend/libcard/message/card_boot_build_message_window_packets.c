@@ -18,8 +18,9 @@ typedef struct S_80022774_0 {
 } S_80022774_0;   /* arg1 in card_boot_build_message_window_packets */
 
 /* Builds four groups of display records and stores the padded layout dimensions. */
-void *card_boot_build_message_window_packets(void *buffer, void *layout)
+void *card_boot_build_message_window_packets(void *buffer, void *layout_arg)
 {
+    S_80022774_0 *layout = layout_arg;
     Bytes4 record_flags;
     s32 group_index;
     u32 row_count;
@@ -43,14 +44,14 @@ void *card_boot_build_message_window_packets(void *buffer, void *layout)
     record_tag = 0x48;
     texture_data = 0x104058;
     table_base = card_menu_entry_values;
-    entry_index = ((S_80022774_0 *)layout)->unk_08;
+    entry_index = layout->unk_08;
     entry = table_base + entry_index;
     row_count = entry->line_count;
     width = entry->max_chars * 4;
     height = row_count * 0x11 + row_count - row_count;
     outer_width = width + 10;
-    ((S_80022774_0 *)layout)->unk_18 = width + 8;
-    ((S_80022774_0 *)layout)->unk_1C = height + 8;
+    layout->unk_18 = width + 8;
+    layout->unk_1C = height + 8;
     dimensions = record;
     dimensions += height;
     dimensions -= height;
@@ -60,7 +61,7 @@ void *card_boot_build_message_window_packets(void *buffer, void *layout)
         dimensions[10] = (width + 8) >> 1;
         dimensions[11] = (height + 8) >> 1;
         dimensions[1] = record_tag;
-        (*(u32 *)((u8 *)dimensions + (4))) = texture_data;
+        (*(u32 *)(dimensions + (4))) = texture_data;
         dimensions += 12;
         fill_color = 0x90D0E0;
         flags = &record_flags.bytes[group_index];
@@ -72,15 +73,15 @@ void *card_boot_build_message_window_packets(void *buffer, void *layout)
         outer_height &= 0xFFFF;
         dimensions[11] = outer_height >> 1;
         dimensions[1] = record_tag;
-        (*(u32 *)((u8 *)dimensions + (4))) = texture_data;
+        (*(u32 *)(dimensions + (4))) = texture_data;
         dimensions += 12;
         record[0] = *flags;
         record += 12;
         *(Bytes24 *)record = *(Bytes24 *)D_80027F48;
-        (*(u32 *)((u8 *)dimensions + (4))) = fill_color;
-        (*(u32 *)((u8 *)dimensions + (12))) = fill_color;
-        (*(u32 *)((u8 *)dimensions + (16))) = fill_color;
-        (*(u32 *)((u8 *)dimensions + (20))) = fill_color;
+        (*(u32 *)(dimensions + (4))) = fill_color;
+        (*(u32 *)(dimensions + (12))) = fill_color;
+        (*(u32 *)(dimensions + (16))) = fill_color;
+        (*(u32 *)(dimensions + (20))) = fill_color;
         dimensions[10] = (width + 8) >> 1;
         dimensions[11] = (height + 8) >> 1;
         record[0] = *flags;

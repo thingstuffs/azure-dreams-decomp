@@ -617,7 +617,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
             first_sprite->color.c.g = 0x80;
             first_sprite->color.c.r = 0x80;
             (*(Packed12 *)((u8 *)first_object + 0x40)) = D_80025E34;
-            first_sprite->source = (void *) (((void *)first_object) + 0x40);
+            first_sprite->source = (((void *)first_object) + 0x40);
             ((S_818FF710_32 *)(first_sprite->source))->unk_04 = GetTPage(2, 2, 0x340, 0x154);
         }
         second_object = allocate_flagged_object_node(0x212);
@@ -649,7 +649,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
             second_sprite->color.c.g = 0x80;
             second_sprite->color.c.r = 0x80;
             (*(Packed12 *)((u8 *)second_object + 0x40)) = D_80025E40;
-            second_sprite->source = (void *) (((void *)second_object) + 0x40);
+            second_sprite->source = (((void *)second_object) + 0x40);
             ((S_818FF710_33 *)(second_sprite->source))->unk_04 = GetTPage(2, 1, 0x340, 0x1A8);
         }
         third_object = allocate_flagged_object_node(0x212);
@@ -681,7 +681,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
             ((S_818FF710_21 *)((void *)second_sprite))->unk_1E = 0;
             ((S_818FF710_21 *)((void *)second_sprite))->unk_1C = 0;
             (*(Packed12 *)((u8 *)third_object + 0x40)) = D_80025E58;
-            ((S_818FF710_21 *)((void *)second_sprite))->unk_08 = (void *) (((void *)third_object) + 0x40);
+            ((S_818FF710_21 *)((void *)second_sprite))->unk_08 = (((void *)third_object) + 0x40);
         }
         fourth_object = allocate_flagged_object_node(0x212);
         child_effect = ((void *)fourth_object) + 0x20;
@@ -689,7 +689,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
             particle_owner = fourth_object;
             sprite_resource = (void *) project_sprite_chain;
             child_effect->unk_2C = parent;
-            fourth_position = (void *) ((S_818FF710_2 *)parent)->unk_60;
+            fourth_position = ((S_818FF710_2 *)parent)->unk_60;
             child_effect->unk_30 = (void *) fourth_position;
             child_effect->unk_34 = effect;
             child_effect->unk_38 = ((void *)first_object) + 0x20;
@@ -720,7 +720,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
             ((S_818FF710_24 *)((void *)second_sprite))->unk_0D = 0x80;
             ((S_818FF710_24 *)((void *)second_sprite))->unk_0C = 0x80;
             (*(Packed12 *)((u8 *)fourth_object + 0x40)) = D_80025E28;
-            ((S_818FF710_24 *)((void *)second_sprite))->unk_08 = (void *) (((void *)fourth_object) + 0x40);
+            ((S_818FF710_24 *)((void *)second_sprite))->unk_08 = (((void *)fourth_object) + 0x40);
         }
         spawn_tick = (s16) effect->timer;
         if (spawn_tick != impact_tick) {
@@ -802,7 +802,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
         if (effect_active == 0) {
             g_dungeon_status.active_actor = 0;
             ((MovingEffectState_pre *)effect)[-1].unk_00 = (u16) (((MovingEffectState_pre *)effect)[-1].unk_00 | NODE_REMOVE);
-            (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
+            (*&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
             return;
         }
         particle_update_flag = 0;

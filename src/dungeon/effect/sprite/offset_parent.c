@@ -64,7 +64,7 @@ loop:
         primitive->y0 = primitive->y2 = screen_points[1];
         primitive->y1 = primitive->y3 = screen_points[3];
 
-        uv = *(u8 *)(uv_source + 0x52);
+        uv = *(uv_source + 0x52);
         table_offset = ordering_index << 2;
         uv = (uv & 3) << 5;
         uv_low = uv - 0x80;

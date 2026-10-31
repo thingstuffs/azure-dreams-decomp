@@ -218,7 +218,7 @@ void draw_wave_distorted_sprite(void *screen_pos, u8 *wave, void *context, s32 *
                 + (*((u16 *) (((u8 *) scratch) + 0xB8))));
             projected_y = *((u16 *) (((u8 *) scratch) + 0xFE));
             screen_y = *((u16 *) (((u8 *) scratch) + 0xBA));
-            *((s8 *) (((s8 *) packet) + 3)) = 9;
+            *((((s8 *) packet) + 3)) = 9;
             *((s16 *) (((s8 *) packet) + 0x22)) = (s16) (projected_y + screen_y);
             texture_right = (*((s32 *) (((u8 *) scratch) + 0x10))) + ((*((s32 *) (((u8 *) scratch) + 0x08))) - 1);
             *((s32 *) (((u8 *) scratch) + 0x10)) = texture_right;
@@ -290,7 +290,7 @@ void draw_wave_distorted_sprite(void *screen_pos, u8 *wave, void *context, s32 *
             wave_index = 0;
             if ((*((s16 *) (((s8 *) wave) + 0x9C))) == 0) {
                 do {
-                    *((s8 *) (((s8 *) packet) + 0x3)) = 9;
+                    *((((s8 *) packet) + 0x3)) = 9;
                     *((Quad40 *) packet) = base_quad;
                     *((u16 *) (((s8 *) packet) + 0x8)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x8)))
                         + (((s32) (rsin(phase) * (*((u8 *) (((s8 *) (row_wave = wave + wave_index))
@@ -315,8 +315,8 @@ void draw_wave_distorted_sprite(void *screen_pos, u8 *wave, void *context, s32 *
                     *((s16 *) (((s8 *) packet) + 0x22)) = (s16) ((strip_quad.h10) + 1);
                     *((u8 *) (((s8 *) packet) + 0xD)) = strip_quad.b13;
                     *((u8 *) (((s8 *) packet) + 0x15)) = strip_quad.b13;
-                    *((s8 *) (((s8 *) packet) + 0x1D)) = (s8) ((strip_quad.b13) + 1);
-                    *((s8 *) (((s8 *) packet) + 0x25)) = (s8) ((strip_quad.b13) + 1);
+                    *((((s8 *) packet) + 0x1D)) = (s8) ((strip_quad.b13) + 1);
+                    *((((s8 *) packet) + 0x25)) = (s8) ((strip_quad.b13) + 1);
                     *packet = ((*packet) & 0xFF000000)
                     | ((*((s32 *) (*((s32 *) (((u8 *) scratch) + 0x20))))) & 0xFFFFFF);
                     row_link = (s32 *) (*((s32 *) (((u8 *) scratch) + 0x20)));
@@ -335,7 +335,7 @@ void draw_wave_distorted_sprite(void *screen_pos, u8 *wave, void *context, s32 *
             }
             else {
                 do {
-                    *((s8 *) (((s8 *) packet) + 0x3)) = 9;
+                    *((((s8 *) packet) + 0x3)) = 9;
                     *((Quad40 *) packet) = base_quad;
                     *((u16 *) (((s8 *) packet) + 0xA)) = (u16) ((*((u16 *) (((s8 *) packet) + 0xA)))
                         + (((s32) (rsin(phase) * (*((u8 *) (((s8 *) (column_wave = wave + wave_index))
@@ -373,8 +373,8 @@ void draw_wave_distorted_sprite(void *screen_pos, u8 *wave, void *context, s32 *
                                 *((s16 *) (((s8 *) packet) + 0x20)) = (s16) ((strip_quad.h8) + 1);
                                 *((u8 *) (((s8 *) packet) + 0xC)) = strip_quad.b12;
                                 *((u8 *) (((s8 *) packet) + 0x1C)) = strip_quad.b12;
-                                *((s8 *) (((s8 *) packet) + 0x14)) = (s8) ((strip_quad.b12) + 1);
-                                *((s8 *) (((s8 *) packet) + 0x24)) = (s8) ((strip_quad.b12) + 1);
+                                *((((s8 *) packet) + 0x14)) = (s8) ((strip_quad.b12) + 1);
+                                *((((s8 *) packet) + 0x24)) = (s8) ((strip_quad.b12) + 1);
                                 *packet = ((*packet) & 0xFF000000)
                                 | ((*((s32 *) (*((s32 *) (((u8 *) scratch) + 0x20))))) & 0xFFFFFF);
                                 column_link = (s32 *) (*((s32 *) (((u8 *) scratch) + 0x20)));
@@ -1035,7 +1035,8 @@ typedef struct EffectState {
 } EffectState;
 
 /* Update a timed visual effect using its owner's appearance and position. */
-void update_timed(void *state, void *position_out, void *effect_arg) {
+void update_timed(void *state, void *position_out, void *effect_arg_arg) {
+    S_818F9E48_1 *effect_arg = effect_arg_arg;
     PackedVector origin;
     Pair16 anchor;
     s32 level_index;
@@ -1073,14 +1074,14 @@ void update_timed(void *state, void *position_out, void *effect_arg) {
     frame_or_phase = ((S_818F9E48_0 *)state)->unk_02.s;
     if (frame_or_phase < 0x15) {
         intensity = (frame_or_phase * 6) - 0x79;
-        ((S_818F9E48_1 *)effect_arg)->unk_0E = intensity;
-        ((S_818F9E48_1 *)effect_arg)->unk_0D = intensity;
-        ((S_818F9E48_1 *)effect_arg)->unk_0C = intensity;
+        effect_arg->unk_0E = intensity;
+        effect_arg->unk_0D = intensity;
+        effect_arg->unk_0C = intensity;
     } else if (frame_or_phase >= 0x50) {
         intensity = ((0x64 - frame_or_phase) * 6) - 0x80;
-        ((S_818F9E48_1 *)effect_arg)->unk_0E = intensity;
-        ((S_818F9E48_1 *)effect_arg)->unk_0D = intensity;
-        ((S_818F9E48_1 *)effect_arg)->unk_0C = intensity;
+        effect_arg->unk_0E = intensity;
+        effect_arg->unk_0D = intensity;
+        effect_arg->unk_0C = intensity;
     }
 
     ((S_818F9E48_0 *)state)->unk_9A += 4;
@@ -1094,13 +1095,13 @@ void update_timed(void *state, void *position_out, void *effect_arg) {
     switch (((S_818F9E48_0 *)state)->unk_00.s) {
     case 0:
     ((S_818F9E48_0 *)state)->unk_00.u++;
-    effect_flags = ((S_818F9E48_1 *)effect_arg)->unk_14 & 0xFF7F;
-    ((S_818F9E48_1 *)effect_arg)->unk_14 = effect_flags;
-    ((S_818F9E48_1 *)effect_arg)->unk_14 = effect_flags | (motion->unk_14 & 0xC);
-    ((S_818F9E48_1 *)effect_arg)->unk_10 = motion->unk_10;
-    ((S_818F9E48_1 *)effect_arg)->unk_0C = motion->unk_0C;
-    ((S_818F9E48_1 *)effect_arg)->unk_0D = motion->unk_0D;
-    ((S_818F9E48_1 *)effect_arg)->unk_0E = motion->unk_0E;
+    effect_flags = effect_arg->unk_14 & 0xFF7F;
+    effect_arg->unk_14 = effect_flags;
+    effect_arg->unk_14 = effect_flags | (motion->unk_14 & 0xC);
+    effect_arg->unk_10 = motion->unk_10;
+    effect_arg->unk_0C = motion->unk_0C;
+    effect_arg->unk_0D = motion->unk_0D;
+    effect_arg->unk_0E = motion->unk_0E;
     motion->unk_14 |= 0x80;
         break;
     case 1:
@@ -1113,8 +1114,8 @@ void update_timed(void *state, void *position_out, void *effect_arg) {
     anchor.y = origin.y + 0x48;
     saved_scale_x = motion->unk_1C;
     saved_scale_y = motion->unk_1E;
-    ((S_818F9E48_1 *)effect_arg)->unk_1C = saved_scale_x;
-    ((S_818F9E48_1 *)effect_arg)->unk_1E = motion->unk_1E;
+    effect_arg->unk_1C = saved_scale_x;
+    effect_arg->unk_1E = motion->unk_1E;
     motion->unk_1E = 0x1000;
     motion->unk_1C = 0x1000;
     move_linked_effect_along_path(state, ((S_818F9E48_0 *)state)->unk_2C, &origin, &anchor, one, one);

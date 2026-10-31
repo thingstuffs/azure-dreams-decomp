@@ -52,7 +52,7 @@ void reposition_object_by_indexed_offset(s32 offset_index) {
     object->tile_x = origin->tile_position.parts.tile_x + ((u8 *)xy_offset)[0];
     object->tile_y = origin->tile_position.parts.tile_y + ((u8 *)xy_offset)[1];
     set_record_integer_tile_center(position, object->tile_x, object->tile_y);
-    status_flags = *(s32 *)&status->flags;
+    status_flags = *&status->flags;
     x = object->tile_x;
     updated_y = object->tile_y;
     if (status_flags & 0x2000) {

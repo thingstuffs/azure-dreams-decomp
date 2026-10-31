@@ -10,7 +10,7 @@ extern void func_8016E264(void);
 /* Leave the map screen: clear the three display flags and tear the screen down. */
 void leave_map_screen_and_clear_flags(void) {
     u8 *ptr;
-    u16 *h = ((u16 *)&system_update_flags);
+    u16 *h = (&system_update_flags);
 
     ptr = (u8 *)(ghosh_actor_node + 1);
     *(u16 *)(ptr + 0x46) &= 0x7FFF;
